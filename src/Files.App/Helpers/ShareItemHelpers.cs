@@ -48,70 +48,59 @@ namespace Files.App.Helpers
 
 			async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
 			{
-				DataRequestDeferral? dataRequestDeferral = null;
-				try
+				DataRequestDeferral dataRequestDeferral = args.Request.GetDeferral();
+				List<IStorageItem> items = [];
+				DataRequest dataRequest = args.Request;
+
+				foreach (ListedItem item in itemsToShare)
 				{
-					dataRequestDeferral = args.Request.GetDeferral();
-					List<IStorageItem> items = [];
-					DataRequest dataRequest = args.Request;
-
-					foreach (ListedItem item in itemsToShare)
+					if (item is IShortcutItem shItem)
 					{
-						if (item is IShortcutItem shItem)
+						if (shItem.IsLinkItem && !string.IsNullOrEmpty(shItem.TargetPath))
 						{
-							if (shItem.IsLinkItem && !string.IsNullOrEmpty(shItem.TargetPath))
-							{
-								dataRequest.Data.Properties.Title = string.Format(Strings.ShareDialogTitle.GetLocalizedResource(), item.Name);
-								dataRequest.Data.Properties.Description = Strings.ShareDialogSingleItemDescription.GetLocalizedResource();
-								dataRequest.Data.SetWebLink(new Uri(shItem.TargetPath));
+							dataRequest.Data.Properties.Title = string.Format(Strings.ShareDialogTitle.GetLocalizedResource(), item.Name);
+							dataRequest.Data.Properties.Description = Strings.ShareDialogSingleItemDescription.GetLocalizedResource();
+							dataRequest.Data.SetWebLink(new Uri(shItem.TargetPath));
+							dataRequestDeferral.Complete();
 
-								return;
-							}
-						}
-						else if (item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsArchive)
-						{
-							if (await StorageHelpers.ToStorageItem<BaseStorageFolder>(item.ItemPath) is BaseStorageFolder folder)
-								items.Add(folder);
-						}
-						else
-						{
-							if (await StorageHelpers.ToStorageItem<BaseStorageFile>(item.ItemPath) is BaseStorageFile file)
-								items.Add(file);
+							return;
 						}
 					}
-
-					if (items.Count == 1)
+					else if (item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsArchive)
 					{
-						dataRequest.Data.Properties.Title = string.Format(Strings.ShareDialogTitle.GetLocalizedResource(), items.First().Name);
-						dataRequest.Data.Properties.Description = Strings.ShareDialogSingleItemDescription.GetLocalizedResource();
-					}
-					else if (items.Count == 0)
-					{
-						dataRequest.FailWithDisplayText(Strings.ShareDialogFailMessage.GetLocalizedResource());
-
-						return;
+						if (await StorageHelpers.ToStorageItem<BaseStorageFolder>(item.ItemPath) is BaseStorageFolder folder)
+							items.Add(folder);
 					}
 					else
 					{
-						dataRequest.Data.Properties.Title = string.Format(
-							Strings.ShareDialogTitleMultipleItems.GetLocalizedResource(),
-							items.Count,
-							"ItemsCount.Text".GetLocalizedResource());
-						dataRequest.Data.Properties.Description = Strings.ShareDialogMultipleItemsDescription.GetLocalizedResource();
+						if (await StorageHelpers.ToStorageItem<BaseStorageFile>(item.ItemPath) is BaseStorageFile file)
+							items.Add(file);
 					}
+				}
 
-					dataRequest.Data.SetStorageItems(items, false);
-				}
-				// args.Request / its Data can be released between request and callback (window closed, share canceled), NRE-ing while populating properties
-				catch (Exception ex)
+				if (items.Count == 1)
 				{
-					App.Logger?.LogInformation(ex, ex.Message);
+					dataRequest.Data.Properties.Title = string.Format(Strings.ShareDialogTitle.GetLocalizedResource(), items.First().Name);
+					dataRequest.Data.Properties.Description = Strings.ShareDialogSingleItemDescription.GetLocalizedResource();
 				}
-				finally
+				else if (items.Count == 0)
 				{
-					if (dataRequestDeferral is not null)
-						SafetyExtensions.IgnoreExceptions(() => dataRequestDeferral.Complete(), App.Logger);
+					dataRequest.FailWithDisplayText(Strings.ShareDialogFailMessage.GetLocalizedResource());
+					dataRequestDeferral.Complete();
+
+					return;
 				}
+				else
+				{
+					dataRequest.Data.Properties.Title = string.Format(
+						Strings.ShareDialogTitleMultipleItems.GetLocalizedResource(),
+						items.Count,
+						"ItemsCount.Text".GetLocalizedResource());
+					dataRequest.Data.Properties.Description = Strings.ShareDialogMultipleItemsDescription.GetLocalizedResource();
+				}
+
+				dataRequest.Data.SetStorageItems(items, false);
+				dataRequestDeferral.Complete();
 			}
 		}
 	}
