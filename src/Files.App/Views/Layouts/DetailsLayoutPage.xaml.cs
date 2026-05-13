@@ -362,9 +362,20 @@ namespace Files.App.Views.Layouts
 
 		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+			if (e is null && SelectedItems?.Count == 0)
+				return;
 
-			if (e != null)
+			if (e is not null && e.AddedItems.Count == 0 && e.RemovedItems.Count == 0)
+				return;
+
+			var selectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+
+			if (SelectedItems is not null && SelectedItems.SequenceEqual(selectedItems))
+				return;
+
+			SelectedItems = selectedItems;
+
+			if (e is not null)
 			{
 				foreach (var item in e.AddedItems)
 					SetCheckboxSelectionState(item);
