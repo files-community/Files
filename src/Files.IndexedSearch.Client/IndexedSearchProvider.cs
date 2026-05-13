@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.IO.Pipes;
 using System.Runtime.CompilerServices;
 using Files.Search.V1;
 using Files.SearchAbstraction;
@@ -10,37 +11,31 @@ using Grpc.Net.Client;
 namespace Files.IndexedSearch.Client;
 
 /// <summary>
-/// <see cref="ISearchProvider"/> backed by the Rust
-/// <c>files-search-service</c> over gRPC. Currently TCP on
-/// <c>127.0.0.1:50080</c>; will swap to a named pipe channel once the
-/// service exposes one. Override the address with
-/// <c>FILES_SEARCH_SERVICE_URL</c> for tests / dev.
+/// <see cref="ISearchProvider"/> backed by the <c>files-search-service</c>
+/// over gRPC on a named pipe (<c>\\.\pipe\files-search</c>).
+/// Set <c>FILES_SEARCH_SERVICE_URL</c> to override with a TCP address for
+/// dev / integration tests.
 /// </summary>
 /// <remarks>
-/// <para>The channel is constructed lazily and reused for the lifetime
-/// of the provider — gRPC channels multiplex concurrent calls over a
-/// single HTTP/2 connection so there's no benefit to per-call
-/// channels, and the connection setup is what we want to amortize.</para>
-///
-/// <para>Health checks swallow transport errors and return
-/// <c>IsAvailable=false</c> so callers (the routing layer, the bench
-/// warm-up) can branch without try/catch. Search calls let exceptions
-/// propagate — the caller decides whether to fall back to the legacy
-/// provider or surface the error.</para>
+/// The channel is constructed lazily and reused for the provider's lifetime —
+/// gRPC channels multiplex concurrent calls over a single HTTP/2 connection.
+/// Health checks swallow transport errors and return <c>IsAvailable=false</c>
+/// so the routing layer can fall back to legacy without try/catch.
 /// </remarks>
 public sealed class IndexedSearchProvider : ISearchProvider, IDisposable
 {
-	private const string DefaultUrl = "http://127.0.0.1:50080";
+	private static string PipeName =>
+		Environment.GetEnvironmentVariable("FILES_SEARCH_PIPE") ?? "files-search";
 
 	private readonly GrpcChannel _channel;
 	private readonly FilesSearch.FilesSearchClient _client;
 
-	public IndexedSearchProvider() : this(ResolveAddress()) { }
+	public IndexedSearchProvider() : this(CreateChannel()) { }
 
-	public IndexedSearchProvider(string address)
+	public IndexedSearchProvider(GrpcChannel channel)
 	{
-		_channel = GrpcChannel.ForAddress(address);
-		_client = new FilesSearch.FilesSearchClient(_channel);
+		_channel = channel;
+		_client  = new FilesSearch.FilesSearchClient(_channel);
 	}
 
 	public string Name => "Indexed";
@@ -51,7 +46,7 @@ public sealed class IndexedSearchProvider : ISearchProvider, IDisposable
 	{
 		var request = new SearchRequest
 		{
-			Query = query.Text,
+			Query      = query.Text,
 			MaxResults = (uint)Math.Clamp(query.MaxResults ?? 0, 0, uint.MaxValue),
 		};
 		foreach (var scope in query.ScopePaths)
@@ -59,49 +54,87 @@ public sealed class IndexedSearchProvider : ISearchProvider, IDisposable
 
 		using var call = _client.Search(request, cancellationToken: cancellationToken);
 		await foreach (var hit in call.ResponseStream.ReadAllAsync(cancellationToken))
-		{
 			yield return ToResult(hit);
-		}
 	}
 
 	public async Task<HealthStatus> GetHealthAsync(CancellationToken cancellationToken = default)
 	{
+		using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+		cts.CancelAfter(TimeSpan.FromSeconds(3));
 		try
 		{
-			var resp = await _client.HealthAsync(new HealthRequest(), cancellationToken: cancellationToken);
+			var resp = await _client.HealthAsync(new HealthRequest(), cancellationToken: cts.Token);
 			return new HealthStatus(
-				ProviderName: Name,
-				Version: resp.Version,
+				ProviderName:     Name,
+				Version:          resp.Version,
 				IndexedFileCount: (long)resp.IndexedFileCount,
-				IsIndexing: resp.Indexing,
-				IsAvailable: true);
+				IsIndexing:       resp.Indexing,
+				IsAvailable:      true);
 		}
-		catch (RpcException) when (!cancellationToken.IsCancellationRequested)
+		catch (Exception) when (!cancellationToken.IsCancellationRequested)
 		{
-			// Service is down / unreachable. Surface as "unavailable"
-			// rather than throwing so the routing layer can fall back
-			// to legacy without a try/catch around every health probe.
 			return new HealthStatus(
-				ProviderName: Name,
-				Version: string.Empty,
+				ProviderName:     Name,
+				Version:          string.Empty,
 				IndexedFileCount: 0,
-				IsIndexing: false,
-				IsAvailable: false);
+				IsIndexing:       false,
+				IsAvailable:      false);
 		}
 	}
 
 	public void Dispose() => _channel.Dispose();
 
-	private static SearchResult ToResult(SearchHit hit) => new(
-		Path: hit.Path,
-		FileName: hit.Filename,
-		// u64 → long: indexed file sizes >= 8 EiB don't exist in
-		// practice; if one ever does, the cast wraps and is wrong by
-		// a sign. Worth a comment, not a runtime check.
-		SizeBytes: unchecked((long)hit.SizeBytes),
-		ModifiedUtc: DateTimeOffset.FromUnixTimeMilliseconds(hit.ModifiedUnixMs),
-		Score: hit.Score);
+	// ---- channel factory ---------------------------------------------------
 
-	private static string ResolveAddress() =>
-		Environment.GetEnvironmentVariable("FILES_SEARCH_SERVICE_URL") ?? DefaultUrl;
+	private static GrpcChannel CreateChannel()
+	{
+		// Dev / CI override: if a URL is set, use raw TCP (matches the old default).
+		var envUrl = Environment.GetEnvironmentVariable("FILES_SEARCH_SERVICE_URL");
+		if (envUrl is not null)
+			return GrpcChannel.ForAddress(envUrl);
+
+		return CreateNamedPipeChannel();
+	}
+
+	private static GrpcChannel CreateNamedPipeChannel()
+	{
+		var handler = new SocketsHttpHandler
+		{
+			ConnectCallback = async (_, cancellationToken) =>
+			{
+				var pipe = new NamedPipeClientStream(
+					serverName:  ".",
+					pipeName:    PipeName,
+					direction:   PipeDirection.InOut,
+					options:     PipeOptions.Asynchronous);
+				try
+				{
+					await pipe.ConnectAsync(cancellationToken);
+					return pipe;
+				}
+				catch
+				{
+					await pipe.DisposeAsync();
+					throw;
+				}
+			},
+		};
+
+		// "http://localhost" is a dummy address — the transport is the named
+		// pipe above, not a TCP socket. Cleartext HTTP/2 is fine for local IPC.
+		return GrpcChannel.ForAddress("http://localhost", new GrpcChannelOptions
+		{
+			HttpHandler = handler,
+		});
+	}
+
+	// ---- mapping -----------------------------------------------------------
+
+	private static SearchResult ToResult(SearchHit hit) => new(
+		Path:        hit.Path,
+		FileName:    hit.Filename,
+		// u64 → long: file sizes ≥ 8 EiB don't exist; sign wrap is benign.
+		SizeBytes:   unchecked((long)hit.SizeBytes),
+		ModifiedUtc: DateTimeOffset.FromUnixTimeMilliseconds(hit.ModifiedUnixMs),
+		Score:       hit.Score);
 }

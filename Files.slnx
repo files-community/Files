@@ -17,11 +17,8 @@
       <Platform Solution="*|x86" Project="x86" />
     </Project>
     <Project Path="src/Files.IndexedSearch.Client/Files.IndexedSearch.Client.csproj" />
-    <Project Path="src/Files.LegacySearch/Files.LegacySearch.csproj">
-      <Platform Solution="*|arm64" Project="arm64" />
-      <Platform Solution="*|x64" Project="x64" />
-      <Platform Solution="*|x86" Project="x86" />
-    </Project>
+    <Project Path="src/Files.LegacySearch/Files.LegacySearch.csproj" />
+    <Project Path="src/Files.SearchService/Files.SearchService.csproj" />
     <Project Path="src/Files.SearchAbstraction/Files.SearchAbstraction.csproj" />
     <Project Path="src/Files.Shared/Files.Shared.csproj">
       <Platform Solution="*|arm64" Project="arm64" />
@@ -92,5 +89,7 @@
     </Project>
     <Project Path="tests/corpora/Files.Search.Corpora.csproj" />
     <Project Path="tests/Files.Search.Bench/Files.Search.Bench.csproj" />
+    <Project Path="tests/Files.Search.Correctness/Files.Search.Correctness.csproj" />
+    <Project Path="tests/Files.Search.Probe/Files.Search.Probe.csproj" />
   </Folder>
 </Solution>

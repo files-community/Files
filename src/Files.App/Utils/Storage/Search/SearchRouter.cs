@@ -1,6 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Data.Contracts;
 using Files.IndexedSearch.Client;
 using Files.SearchAbstraction;
 using System.IO;
@@ -21,12 +23,20 @@ namespace Files.App.Utils.Storage;
 ///
 /// <para>The routing rules below intentionally lean toward "fall back to
 /// legacy on anything ambiguous" — the goal is correctness parity, not
-/// maximum coverage of the indexed provider. As Tantivy gains content
-/// search, n-grams, etc., we relax the predicates here without
-/// touching call sites.</para>
+/// maximum coverage of the indexed provider. As the indexed service
+/// gains content search, n-grams, etc., we relax the predicates here
+/// without touching call sites.</para>
 /// </remarks>
 public sealed class SearchRouter
 {
+	// Shared across all SearchRouter instances — gRPC channels are expensive to create
+	// and safe to reuse across concurrent calls (HTTP/2 multiplexes over one connection).
+	private static readonly IndexedSearchProvider _sharedProvider = new();
+
+	// Cached availability flag. We probe once, then assume the service stays up.
+	// Reset to null when a search fails so the next search re-probes.
+	private static bool? _serviceAvailable = null;
+
 	public string? Query { get; set; }
 	public string? Folder { get; set; }
 	public uint MaxItemCount { get; set; } = 0;
@@ -61,10 +71,15 @@ public sealed class SearchRouter
 
 	private bool UseIndexed()
 	{
-		if (!string.Equals(
-			Environment.GetEnvironmentVariable("FILES_SEARCH_PROVIDER"),
-			"Indexed",
-			StringComparison.OrdinalIgnoreCase))
+		// Setting (UI toggle) takes precedence; env var kept as a dev/CI override.
+		var settings = Ioc.Default.GetService<IUserSettingsService>();
+		bool enabled = settings?.GeneralSettingsService.UseIndexedSearch ?? false;
+		if (!enabled)
+			enabled = string.Equals(
+				Environment.GetEnvironmentVariable("FILES_SEARCH_PROVIDER"),
+				"Indexed",
+				StringComparison.OrdinalIgnoreCase);
+		if (!enabled)
 			return false;
 
 		if (string.IsNullOrEmpty(Query))
@@ -80,45 +95,77 @@ public sealed class SearchRouter
 		if (Query.Contains(':'))
 			return false;
 
-		// Library and Home scopes need fan-out logic the indexed
-		// provider doesn't have yet. Real on-disk paths route to indexed.
-		if (string.IsNullOrEmpty(Folder) || Folder == "Home")
-			return false;
-		if (App.LibraryManager.TryGetLibrary(Folder, out _))
-			return false;
-
+		// All scopes (Home, libraries, specific folders) route to indexed.
+		// SearchIndexedAsync decides whether to apply a scope filter or
+		// search the whole index — legacy fallback for Home/Libraries was
+		// the main source of multi-minute searches that pinned CPU.
 		return true;
+	}
+
+	/// <summary>
+	/// Resolves the runtime Folder value into a set of scope paths for the
+	/// indexed query. Returns an empty array for Home / Libraries / empty
+	/// Folder, which the service interprets as "no scope filter" — i.e.,
+	/// search the entire index.
+	/// </summary>
+	private string[] ResolveScopePaths()
+	{
+		if (string.IsNullOrEmpty(Folder) || Folder == "Home")
+			return Array.Empty<string>();
+
+		// Libraries: expand to their underlying folder paths so each one
+		// participates in the path-prefix filter. If we can't resolve, fall
+		// back to "search everything" — better than crashing or missing hits.
+		if (App.LibraryManager.TryGetLibrary(Folder, out var library))
+			return library.Folders?.ToArray() ?? Array.Empty<string>();
+
+		return new[] { Folder! };
 	}
 
 	private async Task SearchIndexedAsync(IList<ListedItem> results, CancellationToken token)
 	{
-		using var provider = new IndexedSearchProvider();
-
-		// Health probe: if the service isn't running, fall back to
-		// legacy rather than failing the search. Users who opt in via
-		// env var still get *a* result.
-		var health = await provider.GetHealthAsync(token);
-		if (!health.IsAvailable)
+		// First search (or after a failure): probe once to confirm the service is up
+		// and has indexed files. After that we skip the health check entirely —
+		// the 10-120ms round trip on every query is the main source of perceived latency.
+		if (_serviceAvailable is null)
 		{
-			await new FolderSearch { Query = Query, Folder = Folder, MaxItemCount = MaxItemCount }
-				.SearchAsync(results, token);
-			return;
+			HealthStatus health;
+			try { health = await _sharedProvider.GetHealthAsync(token); }
+			catch { health = new HealthStatus("Indexed", string.Empty, 0, false, false); }
+
+			if (!health.IsAvailable || (health.IsIndexing && health.IndexedFileCount == 0))
+			{
+				await new FolderSearch { Query = Query, Folder = Folder, MaxItemCount = MaxItemCount }
+					.SearchAsync(results, token);
+				return;
+			}
+
+			_serviceAvailable = true;
 		}
 
 		var sq = new SearchQuery(
 			Text: Query!,
-			ScopePaths: new[] { Folder! },
+			ScopePaths: ResolveScopePaths(),
 			MaxResults: MaxItemCount > 0 ? (int)MaxItemCount : null);
 
-		await foreach (var hit in provider.SearchAsync(sq, token))
+		try
 		{
-			token.ThrowIfCancellationRequested();
-			results.Add(ToListedItem(hit));
+			await foreach (var hit in _sharedProvider.SearchAsync(sq, token))
+			{
+				token.ThrowIfCancellationRequested();
+				results.Add(ToListedItem(hit));
 
-			// Mirror FolderSearch's batched-render cadence so the UI
-			// updates feel the same regardless of provider.
-			if (results.Count == 32 || results.Count % 300 == 0)
-				SearchTick?.Invoke(this, EventArgs.Empty);
+				if (results.Count == 32 || results.Count % 300 == 0)
+					SearchTick?.Invoke(this, EventArgs.Empty);
+			}
+		}
+		catch (Exception) when (!token.IsCancellationRequested)
+		{
+			// Service went away — reset so next search re-probes, then fall back.
+			_serviceAvailable = null;
+			results.Clear();
+			await new FolderSearch { Query = Query, Folder = Folder, MaxItemCount = MaxItemCount }
+				.SearchAsync(results, token);
 		}
 	}
 

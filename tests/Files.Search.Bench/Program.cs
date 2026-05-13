@@ -32,8 +32,8 @@ internal static class Program
             };
 
             // Warm-up: run one throwaway query so JIT, gRPC channel
-            // setup, Tantivy mmap pages, and any first-call penalty
-            // don't get baked into the first measured timing.
+            // setup, and any first-call penalty don't get baked into
+            // the first measured timing.
             if (queries.Count > 0)
             {
                 Console.Write("  warm-up...");
@@ -143,7 +143,7 @@ internal sealed class CliOptions
                 Providers:
                   naive-scan  — top-down filesystem walk (strawman baseline).
                   legacy      — Windows.Storage.Search / AQS (the upstream path).
-                  indexed     — Rust files-search-service over gRPC. Requires the
+                  indexed     — files-search-service over gRPC. Requires the
                                 service to be running and indexing the corpus root
                                 (set FILES_SEARCH_ROOT before launching it).
                 """);

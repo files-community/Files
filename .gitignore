@@ -411,8 +411,11 @@ FodyWeavers.xsd
 src/Files.App/Assets/FilesOpenDialog/Files.App.Launcher.exe.sha256
 
 # Search bench corpora and run outputs (generated, large, deterministic).
+# baseline.json is checked in as the pinned reference for gate comparisons.
 .bench/
-bench-results/
+bench-results/*
+!bench-results/baseline.json
+.smoke/
 
 # Claude Code local settings (per-user, not for the repo).
 .claude/

@@ -12,8 +12,8 @@ namespace Files.SearchAbstraction;
 /// <param name="ProviderName">Echoes <see cref="ISearchProvider.Name"/>.</param>
 /// <param name="Version">
 /// Provider-defined version string. For the indexed provider this is
-/// the Rust service's package version; for the legacy provider it's the
-/// Files.App build version.
+/// the search service's assembly version; for the legacy provider it's
+/// the Files.App build version.
 /// </param>
 /// <param name="IndexedFileCount">
 /// Files currently in the backing index. <c>0</c> when the provider has

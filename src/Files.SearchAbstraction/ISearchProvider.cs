@@ -5,8 +5,8 @@ namespace Files.SearchAbstraction;
 
 /// <summary>
 /// The single seam between the Files UI and any search backend. Every
-/// search request — legacy Windows Search, the indexed Rust service, or
-/// anything we ship later — flows through this interface.
+/// search request — legacy Windows Search, the indexed sidecar service,
+/// or anything we ship later — flows through this interface.
 /// </summary>
 /// <remarks>
 /// Intentionally minimal: <see cref="SearchAsync"/> streams results so

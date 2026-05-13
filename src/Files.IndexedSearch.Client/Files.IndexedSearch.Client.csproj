@@ -24,11 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!--  Generates the C# client stubs from the same .proto the Rust
+    <!--  Generates the C# client stubs from the same .proto the search
           service consumes. Single source of truth for the wire format.  -->
-    <Protobuf Include="..\search-service\proto\files_search.proto"
+    <Protobuf Include="..\Files.SearchService\proto\files_search.proto"
               GrpcServices="Client"
-              ProtoRoot="..\search-service\proto" />
+              ProtoRoot="..\Files.SearchService\proto" />
   </ItemGroup>
 
 </Project>

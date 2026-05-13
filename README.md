@@ -5,38 +5,36 @@ exploring a faster search backend.
 
 ## What's different in this fork
 
-A separate Rust process (`files-search-service.exe`) maintains a
-Tantivy filename index over the user's home directory, with a
-`ReadDirectoryChangesW` watcher and process throttling so it stays out
-of the way. Files.App talks to it over gRPC via a new
-`ISearchProvider` interface. The existing `Windows.Storage.Search`
-path is preserved as the default provider; the new path is opt-in via
-the `FILES_SEARCH_PROVIDER=Indexed` environment variable.
+A separate C# Windows Service (`files-search-service.exe`) maintains an
+in-memory inverted + trigram filename index over the user's home directory,
+with a `ReadDirectoryChangesW` watcher and process throttling so it stays
+out of the way. Files.App talks to it over gRPC via a new `ISearchProvider`
+interface. The existing `Windows.Storage.Search` path is preserved as the
+default provider; the new path is opt-in via the **Use indexed search**
+toggle in Settings → Advanced (or `FILES_SEARCH_PROVIDER=Indexed`).
 
-On a 5,000-file benchmark, the indexed provider answers substring
-queries **~595× faster** than the legacy fallback path. Big O analysis
-projects the gap to widen at larger scales (legacy is `O(N)` per
-query when the path isn't in the Windows Search Indexer's catalog;
-indexed is `O(log N)` always).
+On a 5,000-file benchmark, the indexed provider answers substring queries
+**~595× faster** than the legacy fallback path. Big-O analysis projects the
+gap to widen at larger scales (legacy is `O(N)` per query when the path
+isn't in the Windows Search Indexer's catalog; indexed is `O(log N)` always).
+See `docs/decisions/0003-bench-strategy-theoretical.md`.
 
 ## Status
 
-**Working PoC, seeking maintainer feedback before proposing PRs upstream.**
+**Working PoC on `feature/csharp-search-service`.**
 
-- ✅ Rust service: enumerator + Tantivy + watcher + throttling, 12 tests
-- ✅ C# abstraction, legacy wrapper, indexed gRPC client
+- ✅ C# search service: USN enumerator + inverted/trigram index + watcher + throttling
+- ✅ C# abstraction, legacy wrapper, indexed gRPC client over named pipe
 - ✅ Bench harness with JSON output
 - ✅ Wired into Files.App via `SearchRouter`, default behavior unchanged
-- ⏳ Service auto-launcher, content indexing, semantic search — gated
-  on direction approval (see `docs/improvements.md`)
+- ✅ Settings UI toggle in Settings → Advanced
+- ⏳ Packaged SCM end-to-end validation, content indexing — see
+  `docs/search-roadmap.md`
 
 ## Where to read
 
-- **`docs/proposal.md`** — the pitch: what's the problem, what we built,
-  bench numbers, what we're asking for. Start here if you're a maintainer.
-- **`docs/improvements.md`** — concrete follow-ups, organized by tier
-  with cost estimates. Designed to make it easy to say "yes to A, no
-  to B" before we build anything.
+- **`docs/csharp-search-service.md`** — full architecture: components, data
+  flow, file map. Start here if you're a maintainer.
 - **`docs/search-roadmap.md`** — current state and what's next.
 - **`docs/decisions/`** — ADRs for the technical choices.
 - **`CLAUDE.md`** — the design constraints we held to.
@@ -44,22 +42,24 @@ indexed is `O(log N)` always).
 ## Trying it locally
 
 ```powershell
-# Build the solution in VS 2026 (needs the v145 toolset; one upstream
-# divergence in src/Files.App.Launcher noted in docs/decisions/).
+# 1. Generate the small corpus (one-time, ~2 GB):
+dotnet run --project tests\corpora -- --preset small --out .bench\small
 
-# Build the Rust service:
-cargo build --release --manifest-path src/search-service/Cargo.toml
+# 2. Full bench: builds, starts the service, runs naive-scan + indexed,
+#    gate-checks against bench-results/baseline.json:
+.\run-bench.ps1
 
-# Set the opt-in env vars and start the service:
-$env:FILES_SEARCH_PROVIDER = "Indexed"
-$env:FILES_SEARCH_ROOT = "$env:USERPROFILE"
-src/search-service/target/release/files-search-service.exe
+# Or run the service manually in dev console mode:
+$env:FILES_SEARCH_ROOT      = ".bench\small"
+$env:FILES_SEARCH_INDEX_DIR = ".bench\index"
+dotnet run --project src\Files.SearchService -c Release
 
-# Launch Files.App from VS in a separate session.
+# Then launch Files.App from VS; set the toggle in Settings → Advanced,
+# or override with $env:FILES_SEARCH_PROVIDER = "Indexed".
 ```
 
-Default users (no env var) get the existing search path, byte-identical
-to upstream.
+Default users (no toggle, no env var) get the existing search path,
+byte-identical to upstream.
 
 ## Upstream
 
