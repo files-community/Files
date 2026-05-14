@@ -185,23 +185,11 @@ namespace Files.App.UserControls
 			{
 				var item = args.Item as NavigationBarSuggestionItem;
 
-				// Try invoking built-in command
-				foreach (var command in Commands)
-				{
-					if (command == Commands.None)
-						continue;
-
-					if (!string.Equals(command.Description, item?.Text, StringComparison.OrdinalIgnoreCase) &&
-						!string.Equals(command.Description, args.Text, StringComparison.OrdinalIgnoreCase))
-						continue;
-
+				if (item?.Command is { } command)
 					await command.ExecuteAsync();
-					ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
-					return;
-				}
-
-				await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidCommand.GetLocalizedResource(),
-					string.Format(Strings.InvalidCommandContent.GetLocalizedResource(), args.Text));
+				else
+					await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidCommand.GetLocalizedResource(),
+						string.Format(Strings.InvalidCommandContent.GetLocalizedResource(), args.Text));
 
 				ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
 				return;

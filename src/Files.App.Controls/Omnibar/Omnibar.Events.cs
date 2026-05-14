@@ -134,13 +134,13 @@ namespace Files.App.Controls
 			if (string.Compare(_textBox.Text, CurrentSelectedMode!.Text, StringComparison.OrdinalIgnoreCase) is not 0)
 				CurrentSelectedMode!.Text = _textBox.Text;
 
-			// UpdateSuggestionListView();
-
 			if (_textChangeReason is OmnibarTextChangeReason.ProgrammaticChange)
 				_textBox.SelectAll();
 			else
 			{
 				_userInput = _textBox.Text;
+				if (_userInput.Length == 0)
+					_textChangeReason = OmnibarTextChangeReason.UserInput;
 			}
 
 			TextChanged?.Invoke(this, new(CurrentSelectedMode, _textChangeReason));
