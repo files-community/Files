@@ -183,9 +183,20 @@ namespace Files.App.UserControls
 			// Command palette mode
 			else if (mode == OmnibarCommandPaletteMode)
 			{
-				var item = args.Item as NavigationBarSuggestionItem;
+				IRichCommand? command = null;
 
-				if (item?.Command is { } command)
+				if (args.Item is NavigationBarSuggestionItem item)
+					command = item.Command;
+				else
+					// Maybe the user typed the full command description without selecting a suggestion, so search for it
+					foreach (var c in Commands)
+						if (c != Commands.None && string.Equals(c.Description, args.Text, StringComparison.OrdinalIgnoreCase))
+						{
+							command = c;
+							break;
+						}
+
+				if (command is not null)
 					await command.ExecuteAsync();
 				else
 					await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidCommand.GetLocalizedResource(),
