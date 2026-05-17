@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #include "OpenInFolder.h"
+#include <strsafe.h>
 
 OpenInFolder::OpenInFolder() : m_hwnd(NULL)
 {
@@ -26,7 +27,7 @@ void OpenInFolder::OnCreate()
 	}
 	else
 	{
-		wsprintf(openDirectory, L"%s", szArglist[1]);
+		StringCchCopy(openDirectory, MAX_PATH, szArglist[1]);
 	}
 
 	LocalFree(szArglist);
