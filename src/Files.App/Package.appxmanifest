@@ -144,7 +144,7 @@
                      Runs as LocalSystem so it can read the NTFS USN Change Journal
                      for fast whole-drive indexing without a UAC prompt at runtime.
                      Admin is only required at install time, which MSIX already handles. -->
-                <desktop6:Extension Category="windows.service" Executable="SearchService\files-search-service.exe" EntryPoint="windows.FullTrustApplication">
+                <desktop6:Extension Category="windows.service" Executable="SearchService\files-search-service.exe" EntryPoint="Windows.FullTrustApplication">
                     <desktop6:Service Name="FilesSearchService" StartupType="auto" StartAccount="localSystem" />
                 </desktop6:Extension>
 
