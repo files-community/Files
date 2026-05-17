@@ -1182,6 +1182,8 @@ namespace Files.App.ViewModels
 					{
 						item.NeedsDelayedThumbnailLoad = true;
 
+						// Some writers never emit a FILE_ACTION_MODIFIED event after finalizing the file, so the normal event-driven retry never fires.
+						// Schedule a 2s timer as a fallback; the FILE_ACTION_MODIFIED handler cancels it if the event arrives first.
 						if (scheduleTimerRetry)
 						{
 							var retryCts = new CancellationTokenSource();
