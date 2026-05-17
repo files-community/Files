@@ -775,11 +775,11 @@ namespace Files.App.Views.Shells
 			if (userSettingsService.GeneralSettingsService.DateTimeFormat != _lastDateTimeFormats)
 			{
 				_lastDateTimeFormats = userSettingsService.GeneralSettingsService.DateTimeFormat;
-				ShellViewModel?.UpdateDateDisplay(true);
+				ShellViewModel?.UpdateDateDisplay();
 			}
 			else if (userSettingsService.GeneralSettingsService.DateTimeFormat == DateTimeFormats.Application)
 			{
-				ShellViewModel?.UpdateDateDisplay(false);
+				ShellViewModel?.UpdateDateDisplay();
 			}
 		}
 
