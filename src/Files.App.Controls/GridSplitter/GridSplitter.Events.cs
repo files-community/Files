@@ -160,6 +160,29 @@ namespace Files.App.Controls
 		}
 
 		/// <inheritdoc />
+		protected override void OnPointerEntered(PointerRoutedEventArgs e)
+		{
+			if (_resizeDirection == GridResizeDirection.Auto)
+				_resizeDirection = GetResizeDirection();
+
+			if (PreviousCursor is null)
+				PreviousCursor = ProtectedCursor;
+
+			ProtectedCursor = _resizeDirection == GridResizeDirection.Rows
+				? RowSplitterCursor
+				: ColumnsSplitterCursor;
+
+			base.OnPointerEntered(e);
+		}
+
+		/// <inheritdoc />
+		protected override void OnPointerExited(PointerRoutedEventArgs e)
+		{
+			ProtectedCursor = PreviousCursor;
+			base.OnPointerExited(e);
+		}
+
+		/// <inheritdoc />
 		protected override void OnManipulationDelta(ManipulationDeltaRoutedEventArgs e)
 		{
 			var horizontalChange = e.Delta.Translation.X;
