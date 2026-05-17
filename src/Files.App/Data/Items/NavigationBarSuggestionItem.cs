@@ -3,97 +3,60 @@
 
 using Files.App.Controls;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Data.Items
 {
 	[Obsolete("Remove once Omnibar goes out of experimental.")]
-	public sealed partial class NavigationBarSuggestionItem : ObservableObject, IOmnibarTextMemberPathProvider
+	public sealed partial class NavigationBarSuggestionItem : IOmnibarTextMemberPathProvider
 	{
-		private ImageSource? _ActionIconSource;
-		public ImageSource? ActionIconSource { get => _ActionIconSource; set => SetProperty(ref _ActionIconSource, value); }
+		public IRichCommand? Command { get; }
 
-		private Style? _ThemedIconStyle;
-		public Style? ThemedIconStyle { get => _ThemedIconStyle; set => SetProperty(ref _ThemedIconStyle, value); }
+		public Style? ThemedIconStyle { get; }
 
-		private string? _Glyph;
-		public string? Glyph { get => _Glyph; set => SetProperty(ref _Glyph, value); }
+		public string? Glyph { get; }
 
-		private string? _Text;
-		public string? Text { get => _Text; set => SetProperty(ref _Text, value); }
+		public string Text { get; }
 
-		private string? _PrimaryDisplay;
-		public string? PrimaryDisplay
+		public string? PrimaryDisplayPreMatched { get; }
+
+		public string? PrimaryDisplayMatched { get; }
+
+		public string? PrimaryDisplayPostMatched { get; }
+
+		public HotKeyCollection HotKeys { get; }
+
+		public NavigationBarSuggestionItem(string? searchText, IRichCommand? command)
 		{
-			get => _PrimaryDisplay;
-			set
+			Command = command;
+
+			if (command is null)
 			{
-				if (SetProperty(ref _PrimaryDisplay, value))
-					UpdatePrimaryDisplay();
-			}
-		}
-
-		private string? _SearchText;
-		public string? SearchText
-		{
-			get => _SearchText;
-			set
-			{
-				if (SetProperty(ref _SearchText, value))
-					UpdatePrimaryDisplay();
-			}
-		}
-
-		private string? _PrimaryDisplayPreMatched;
-		public string? PrimaryDisplayPreMatched
-		{
-			get => _PrimaryDisplayPreMatched;
-			private set => SetProperty(ref _PrimaryDisplayPreMatched, value);
-		}
-
-		private string? _PrimaryDisplayMatched;
-		public string? PrimaryDisplayMatched
-		{
-			get => _PrimaryDisplayMatched;
-			private set => SetProperty(ref _PrimaryDisplayMatched, value);
-		}
-
-		private string? _PrimaryDisplayPostMatched;
-		public string? PrimaryDisplayPostMatched
-		{
-			get => _PrimaryDisplayPostMatched;
-			private set => SetProperty(ref _PrimaryDisplayPostMatched, value);
-		}
-
-		private HotKeyCollection _HotKeys = new();
-		public HotKeyCollection HotKeys
-		{
-			get => _HotKeys;
-			set => SetProperty(ref _HotKeys, value);
-		}
-
-		private void UpdatePrimaryDisplay()
-		{
-			if (SearchText is null || PrimaryDisplay is null)
-			{
-				PrimaryDisplayPreMatched = null;
-				PrimaryDisplayMatched = PrimaryDisplay;
-				PrimaryDisplayPostMatched = null;
+				Text = string.Format(Strings.NoCommandsFound.GetLocalizedResource(), searchText);
 			}
 			else
 			{
-				var index = PrimaryDisplay.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase);
+				ThemedIconStyle = command.ThemedIconStyle;
+				Glyph = command.Glyph.BaseGlyph;
+				Text = command.Description;
+				HotKeys = command.HotKeys;
+			}
+
+			if (searchText is null)
+			{
+				PrimaryDisplayMatched = Text;
+			}
+			else
+			{
+				var index = Text.IndexOf(searchText, StringComparison.OrdinalIgnoreCase);
 				if (index < 0)
 				{
-					PrimaryDisplayPreMatched = PrimaryDisplay;
-					PrimaryDisplayMatched = null;
-					PrimaryDisplayPostMatched = null;
+					PrimaryDisplayPreMatched = Text;
 				}
 				else
 				{
-					PrimaryDisplayPreMatched = PrimaryDisplay.Substring(0, index);
-					PrimaryDisplayMatched = PrimaryDisplay.Substring(index, SearchText.Length);
-					PrimaryDisplayPostMatched = PrimaryDisplay.Substring(index + SearchText.Length);
+					PrimaryDisplayPreMatched = Text.Substring(0, index);
+					PrimaryDisplayMatched = Text.Substring(index, searchText.Length);
+					PrimaryDisplayPostMatched = Text.Substring(index + searchText.Length);
 				}
 			}
 		}
@@ -103,8 +66,6 @@ namespace Files.App.Data.Items
 			return textMemberPath switch
 			{
 				nameof(Text) => Text,
-				nameof(PrimaryDisplay) => PrimaryDisplay,
-				nameof(SearchText) => SearchText,
 				_ => string.Empty
 			};
 		}
