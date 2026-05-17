@@ -52,7 +52,7 @@ namespace Files.App.Utils
 		private async void Win32_OnDeviceAdded(object? sender, DeviceEventArgs e)
 		{
 			var driveAdded = new DriveInfo(e.DeviceId);
-			if (!driveAdded.IsReady)
+			if (!driveAdded.IsReady && !IsUnauthorizedDrive(driveAdded))
 				return;
 
 			var rootAdded = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(e.DeviceId).AsTask());
@@ -101,7 +101,7 @@ namespace Files.App.Utils
 			{
 				// Check if this drive is associated with a drive letter
 				var driveAdded = new DriveInfo(root.Path);
-				if (!driveAdded.IsReady)
+				if (!driveAdded.IsReady && !IsUnauthorizedDrive(driveAdded))
 					return;
 
 				type = DriveHelpers.GetDriveType(driveAdded);
@@ -138,6 +138,29 @@ namespace Files.App.Utils
 			DeviceManager.Default.DeviceRemoved -= Win32_OnDeviceRemoved;
 			DeviceManager.Default.DeviceInserted -= Win32_OnDeviceEjectedOrInserted;
 			DeviceManager.Default.DeviceEjected -= Win32_OnDeviceEjectedOrInserted;
+		}
+
+		private bool IsUnauthorizedDrive(DriveInfo driveInfo)
+		{
+			try
+			{
+				_ = Directory.EnumerateFileSystemEntries(driveInfo.Name).FirstOrDefault();
+				return false;
+			}
+			catch (UnauthorizedAccessException)
+			{
+				// probably BitLocker locked drive.
+				return true;
+			}
+			catch (IOException ex) when (ex.HResult == unchecked((int)0x80310000)) // FVE_E_LOCKED_VOLUME
+			{
+				// BitLocker locked drive.
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
 		}
 	}
 }
