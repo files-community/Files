@@ -16,6 +16,8 @@ using Vanara.PInvoke;
 using Windows.System;
 using Windows.Win32;
 using Windows.Win32.Storage.FileSystem;
+using Windows.Win32.System.LibraryLoader;
+using Windows.Win32.UI.WindowsAndMessaging;
 using COMPRESSION_FORMAT = Windows.Win32.Storage.FileSystem.COMPRESSION_FORMAT;
 using HRESULT = Vanara.PInvoke.HRESULT;
 using HWND = Vanara.PInvoke.HWND;
@@ -40,13 +42,12 @@ namespace Files.App.Helpers
 
 		public static string ExtractStringFromDLL(string file, int number)
 		{
-			var lib = Kernel32.LoadLibrary(file);
-			StringBuilder result = new StringBuilder(2048);
+			using var lib = PInvoke.LoadLibrary(file);
+			Span<char> result = stackalloc char[2048];
 
-			_ = User32.LoadString(lib, number, result, result.Capacity);
-			Kernel32.FreeLibrary(lib);
+			int length = PInvoke.LoadString(lib, (uint)number, result, result.Length);
 
-			return result.ToString();
+			return result[..length].ToString();
 		}
 
 		public static string?[] CommandLineToArgs(string commandLine)

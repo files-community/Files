@@ -5,6 +5,9 @@ using System.IO;
 using System.Runtime.InteropServices;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.UI.Shell;
 
 namespace Files.App.Helpers
 {
@@ -78,12 +81,12 @@ namespace Files.App.Helpers
 			}, App.Logger);
 		}
 
-		public static string GetFolderFromKnownFolderGUID(Guid guid)
+		public static unsafe string GetFolderFromKnownFolderGUID(Guid guid)
 		{
-			nint pszPath;
-			Win32PInvoke.SHGetKnownFolderPath(guid, 0, nint.Zero, out pszPath);
-			string path = Marshal.PtrToStringUni(pszPath);
-			Marshal.FreeCoTaskMem(pszPath);
+			PWSTR pszPath;
+			PInvoke.SHGetKnownFolderPath(ref guid, (KNOWN_FOLDER_FLAG)0, null, out pszPath);
+			string path = pszPath.ToString();
+			Marshal.FreeCoTaskMem((nint)pszPath.Value);
 
 			return path;
 		}
