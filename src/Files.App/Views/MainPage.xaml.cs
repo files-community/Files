@@ -342,31 +342,25 @@ namespace Files.App.Views
 			SidebarAdaptiveViewModel.UpdateTabControlMargin();
 		}
 
-		public object? GetEffectiveMenuItemsSource(bool showTreeViewSidebar)
-		{
-			// When the experimental TreeView sidebar is enabled, the original menu items must be hidden so the TreeView (overlaid in SidebarContent) is the only thing visible in the pane.
-			return showTreeViewSidebar ? null : SidebarAdaptiveViewModel.SidebarItems;
-		}
-
 		// Width threshold below which the experimental TreeView yields the pane back to the original sidebar's compact (icons-only) mode.
 		public const double TreeViewSidebarMinWidth = 200d;
 
-		public Visibility GetTreeViewSidebarVisibility(Files.App.Controls.SidebarDisplayMode displayMode, bool isPaneOpen, double sidebarWidth)
+		public Visibility GetTreeViewSidebarVisibility(SidebarDisplayMode displayMode, bool isPaneOpen, double sidebarWidth)
 		{
 			return displayMode switch
 			{
 				// Window is small → SidebarView is in flyout mode. TreeView only shows when the user opens the pane via hamburger.
-				Files.App.Controls.SidebarDisplayMode.Minimal => isPaneOpen ? Visibility.Visible : Visibility.Collapsed,
+				SidebarDisplayMode.Minimal => isPaneOpen ? Visibility.Visible : Visibility.Collapsed,
 				// Pane was resized narrow → SidebarView falls back to its compact icons-only mode; hide the TreeView entirely.
-				Files.App.Controls.SidebarDisplayMode.Compact => Visibility.Collapsed,
+				SidebarDisplayMode.Compact => Visibility.Collapsed,
 				// Expanded mode: only show TreeView while the pane is wider than the readable threshold.
-				Files.App.Controls.SidebarDisplayMode.Expanded => sidebarWidth >= TreeViewSidebarMinWidth ? Visibility.Visible : Visibility.Collapsed,
+				SidebarDisplayMode.Expanded => sidebarWidth >= TreeViewSidebarMinWidth ? Visibility.Visible : Visibility.Collapsed,
 				_ => Visibility.Collapsed,
 			};
 		}
 
 		// When the experimental TreeView is enabled and the pane is wide enough, hide the original SidebarView's menu items so they don't double up. In all other cases keep the SidebarView's items visible (compact icons / flyout / etc).
-		public object? GetEffectiveMenuItemsSourceResponsive(bool showTreeViewSidebar, Files.App.Controls.SidebarDisplayMode displayMode, bool isPaneOpen, double sidebarWidth)
+		public object? GetEffectiveMenuItemsSourceResponsive(bool showTreeViewSidebar, SidebarDisplayMode displayMode, bool isPaneOpen, double sidebarWidth)
 		{
 			if (!showTreeViewSidebar)
 				return SidebarAdaptiveViewModel.SidebarItems;
@@ -382,12 +376,12 @@ namespace Files.App.Views
 			if (!DevToolsSettingsService.ShowTreeViewSidebar)
 				return;
 			// Window-driven Minimal state is owned by the VisualStateManager — don't fight it.
-			if (SidebarAdaptiveViewModel.SidebarDisplayMode == Files.App.Controls.SidebarDisplayMode.Minimal)
+			if (SidebarAdaptiveViewModel.SidebarDisplayMode == SidebarDisplayMode.Minimal)
 				return;
 			var width = UserSettingsService.AppearanceSettingsService.SidebarWidth;
 			var desired = width < TreeViewSidebarMinWidth
-				? Files.App.Controls.SidebarDisplayMode.Compact
-				: Files.App.Controls.SidebarDisplayMode.Expanded;
+				? SidebarDisplayMode.Compact
+				: SidebarDisplayMode.Expanded;
 			if (SidebarAdaptiveViewModel.SidebarDisplayMode != desired)
 				SidebarAdaptiveViewModel.SidebarDisplayMode = desired;
 		}
