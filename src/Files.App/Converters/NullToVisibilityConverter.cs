@@ -4,9 +4,9 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 
-namespace Files.App.UserControls
+namespace Files.App.Converters
 {
-	public sealed partial class NullToVisibilityConverter : IValueConverter
+	internal sealed partial class NullToVisibilityConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 			=> value is null ? Visibility.Collapsed : Visibility.Visible;
