@@ -54,6 +54,7 @@ namespace Files.App.UserControls
 					_mainPageViewModel.Value.PropertyChanged += OnMainPageViewModelPropertyChanged;
 					if (_sidebarViewModel.Value.SidebarItems is INotifyCollectionChanged inc)
 						inc.CollectionChanged += OnSidebarItemsChanged;
+					MainPageViewModel.AppInstances.CollectionChanged += OnAppInstancesChanged;
 					_currentTab = _mainPageViewModel.Value.SelectedTabItem;
 					RebuildAndApply();
 				}
@@ -73,6 +74,7 @@ namespace Files.App.UserControls
 					_mainPageViewModel.Value.PropertyChanged -= OnMainPageViewModelPropertyChanged;
 				if (_sidebarViewModel.IsValueCreated && _sidebarViewModel.Value.SidebarItems is INotifyCollectionChanged inc)
 					inc.CollectionChanged -= OnSidebarItemsChanged;
+				MainPageViewModel.AppInstances.CollectionChanged -= OnAppInstancesChanged;
 				DetachAllNodeHandlers();
 			}
 			// Cleanup must never throw; the page is being torn down
@@ -127,12 +129,12 @@ namespace Files.App.UserControls
 							DriveItem drv => drv.Icon,
 							_ => null,
 						};
-						var hasRootedPath = (child is LocationItem loc2 && System.IO.Path.IsPathRooted(loc2.Path)) || child is DriveItem;
+						var hasRootedPath = (child is LocationItem loc2 && Path.IsPathRooted(loc2.Path)) || child is DriveItem;
 						var isExpandable = hasRootedPath && header.Section != SectionType.Pinned;
 						var kind = isExpandable ? FolderNodeKind.Folder : FolderNodeKind.Leaf;
 						var node = new FolderNode(path, name, kind, icon);
 						if (isExpandable)
-							node.HasUnrealizedChildren = SafeHasSubdirectories(path);
+							_ = ProbeHasChildrenAsync(node);
 						node.PropertyChanged += OnNodePropertyChanged;
 						section.Children.Add(node);
 					}
@@ -222,6 +224,19 @@ namespace Files.App.UserControls
 				DispatcherQueue.TryEnqueue(RebuildAndApply);
 		}
 
+		private void OnAppInstancesChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		{
+			if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems is not null)
+			{
+				foreach (var item in e.OldItems.OfType<TabBarItem>())
+					_tabExpansionState.Remove(item);
+			}
+			else if (e.Action == NotifyCollectionChangedAction.Reset)
+			{
+				_tabExpansionState.Clear();
+			}
+		}
+
 		private void OnMainPageViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName != nameof(MainPageViewModel.SelectedTabItem))
@@ -250,13 +265,13 @@ namespace Files.App.UserControls
 			}
 		}
 
-		private void Tree_Expanding(TreeView sender, TreeViewExpandingEventArgs args)
+		private async void Tree_Expanding(TreeView sender, TreeViewExpandingEventArgs args)
 		{
 			try
 			{
 				if (args.Node.Content is not FolderNode fn)
 					return;
-				LoadChildrenSync(fn);
+				await LoadChildrenAsync(fn);
 			}
 			catch (Exception ex)
 			{
@@ -264,7 +279,45 @@ namespace Files.App.UserControls
 			}
 		}
 
-		// Synchronous lazy load. Called from Tree_Expanding (user click) and ApplyExpansionRecursive (state restore).
+		private async Task LoadChildrenAsync(FolderNode parent)
+		{
+			if (parent.Kind != FolderNodeKind.Folder || !parent.HasUnrealizedChildren)
+				return;
+
+			// Mark before awaiting so a stray re-entry doesn't double-load
+			parent.HasUnrealizedChildren = false;
+
+			var parentPath = parent.Path;
+			var loaded = await Task.Run(() =>
+			{
+				var results = new List<(string Sub, string Name, bool HasGrandchildren)>();
+				foreach (var sub in SafeEnumerateSubdirectories(parentPath))
+				{
+					var subName = Path.GetFileName(sub);
+					if (string.IsNullOrEmpty(subName))
+						continue;
+					results.Add((sub, subName, SafeHasSubdirectories(sub)));
+				}
+				return results;
+			});
+
+			if (_isUnloaded)
+				return;
+
+			foreach (var (sub, subName, hasGrandchildren) in loaded)
+			{
+				var kind = hasGrandchildren ? FolderNodeKind.Folder : FolderNodeKind.Leaf;
+				var child = new FolderNode(sub, subName, kind, icon: null)
+				{
+					HasUnrealizedChildren = hasGrandchildren,
+				};
+				child.PropertyChanged += OnNodePropertyChanged;
+				_ = LoadIconAsync(child);
+				parent.Children.Add(child);
+			}
+		}
+
+		// Synchronous lazy load. Called from ApplyExpansionRecursive (state restore) to keep tab-switch restoration synchronous.
 		private void LoadChildrenSync(FolderNode parent)
 		{
 			if (parent.Kind != FolderNodeKind.Folder || !parent.HasUnrealizedChildren)
@@ -308,6 +361,15 @@ namespace Files.App.UserControls
 			}
 		}
 
+		private async Task ProbeHasChildrenAsync(FolderNode node)
+		{
+			var path = node.Path;
+			var hasChildren = await Task.Run(() => SafeHasSubdirectories(path));
+			if (_isUnloaded)
+				return;
+			node.HasUnrealizedChildren = hasChildren;
+		}
+
 		private void Tree_ItemInvoked(TreeView sender, TreeViewItemInvokedEventArgs args)
 		{
 			if (args.InvokedItem is not FolderNode fn)
@@ -328,15 +390,15 @@ namespace Files.App.UserControls
 
 			var flyout = new MenuFlyout();
 
-			var open = new MenuFlyoutItem { Text = "Open" };
+			var open = new MenuFlyoutItem { Text = Strings.Open.GetLocalizedResource() };
 			open.Click += (_, _) => _contentPageContext.Value.ShellPage?.NavigateToPath(fn.Path);
 			flyout.Items.Add(open);
 
-			var openNewTab = new MenuFlyoutItem { Text = "Open in new tab" };
+			var openNewTab = new MenuFlyoutItem { Text = Strings.OpenInNewTab.GetLocalizedResource() };
 			openNewTab.Click += async (_, _) => await NavigationHelpers.OpenPathInNewTab(fn.Path, true);
 			flyout.Items.Add(openNewTab);
 
-			var copyPath = new MenuFlyoutItem { Text = "Copy path" };
+			var copyPath = new MenuFlyoutItem { Text = Strings.CopyPath.GetLocalizedResource() };
 			copyPath.Click += (_, _) =>
 			{
 				var dp = new DataPackage();
@@ -353,6 +415,8 @@ namespace Files.App.UserControls
 				// Win32Exception from Process.Start when the shell launch fails (invalid path or denied access)
 				try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = fn.Path, UseShellExecute = true }); }
 				catch (System.ComponentModel.Win32Exception) { }
+				catch (InvalidOperationException) { }
+				catch (FileNotFoundException) { }
 			};
 			flyout.Items.Add(openExplorer);
 
