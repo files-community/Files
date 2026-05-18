@@ -44,7 +44,7 @@ namespace Files.App.Utils.Git
 		/// <returns>
 		/// A task producing an array of branches; returns an empty array when the repository is invalid or unavailable.
 		/// </returns>
-		Task<BranchItem[]> GetBranchesNames(string? path);
+		Task<BranchItem[]> GetBranchNames(string? path);
 
 		/// <summary>
 		/// Gets the current repository HEAD reference.
