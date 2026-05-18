@@ -395,6 +395,17 @@
 			Orientation="Horizontal"
 			Spacing="4">
 
+			<!--  ZIP Encoding Selector  -->
+			<ComboBox
+				x:Name="ZipEncodingSelector"
+				Width="140"
+				Height="32"
+				VerticalAlignment="Center"
+				ItemsSource="{x:Bind ViewModel.ZipEncodingOptions, Mode=OneWay}"
+				SelectedItem="{x:Bind ViewModel.SelectedZipEncoding, Mode=TwoWay}"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=Encoding}"
+				Visibility="{x:Bind ViewModel.IsZipEncodingSelectorVisible, Mode=OneWay}" />
+
 			<!--  Shelf Pane  -->
 			<ToggleButton
 				x:Name="ShelfPaneToggleButton"

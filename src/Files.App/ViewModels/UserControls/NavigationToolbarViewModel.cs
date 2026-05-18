@@ -3,6 +3,9 @@
 
 using CommunityToolkit.WinUI;
 using Files.App.Controls;
+using Files.App.Data.Contracts;
+using Files.App.Data.Items;
+using Files.App.Utils.Storage;
 using Files.App.ViewModels.Settings;
 using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
@@ -11,6 +14,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System.IO;
+using System.Text;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 
@@ -35,6 +39,7 @@ namespace Files.App.ViewModels.UserControls
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private readonly StatusCenterViewModel OngoingTasksViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
+		private readonly IStorageArchiveService StorageArchiveService = Ioc.Default.GetRequiredService<IStorageArchiveService>();
 
 		// Fields
 
@@ -180,6 +185,26 @@ namespace Files.App.ViewModels.UserControls
 		private bool _CanRefresh;
 		public bool CanRefresh { get => _CanRefresh; set => SetProperty(ref _CanRefresh, value); }
 
+		private bool _IsZipEncodingSelectorVisible;
+		public bool IsZipEncodingSelectorVisible
+		{
+			get => _IsZipEncodingSelectorVisible;
+			set => SetProperty(ref _IsZipEncodingSelectorVisible, value);
+		}
+
+		public EncodingItem[] ZipEncodingOptions { get; } = EncodingItem.Defaults;
+
+		private EncodingItem? _SelectedZipEncoding;
+		public EncodingItem? SelectedZipEncoding
+		{
+			get => _SelectedZipEncoding;
+			set
+			{
+				if (SetProperty(ref _SelectedZipEncoding, value) && value is not null)
+					_ = OnZipEncodingChangedAsync(value);
+			}
+		}
+
 		private string _PathControlDisplayText;
 		[Obsolete("Superseded by Omnibar.")]
 		public string PathControlDisplayText { get => _PathControlDisplayText; set => SetProperty(ref _PathControlDisplayText, value); }
@@ -252,6 +277,10 @@ namespace Files.App.ViewModels.UserControls
 				// Suggestion source differs between settings and file search — drop stale items.
 				OmnibarSearchModeSuggestionItems.Clear();
 				OmnibarSearchModeText = string.Empty;
+			}
+			else if (e.PropertyName is nameof(CurrentInstanceViewModel.IsPageTypeZipFolder))
+			{
+				_ = UpdateZipEncodingStateAsync();
 			}
 		}
 
@@ -338,6 +367,72 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		// Methods
+
+		private async Task UpdateZipEncodingStateAsync()
+		{
+			if (InstanceViewModel is null)
+				return;
+
+			if (!InstanceViewModel.IsPageTypeZipFolder)
+			{
+				IsZipEncodingSelectorVisible = false;
+				ZipStorageFolder.CurrentEncoding = null;
+				return;
+			}
+
+			var workingDir = ContentPageContext.ShellPage?.ShellViewModel.WorkingDirectory;
+			if (string.IsNullOrEmpty(workingDir) || !ZipStorageFolder.IsZipPath(workingDir))
+				return;
+
+			try
+			{
+				var isUndetermined = await StorageArchiveService.IsEncodingUndeterminedAsync(workingDir);
+				InstanceViewModel.IsZipEncodingUndetermined = isUndetermined;
+
+				if (!isUndetermined)
+				{
+					IsZipEncodingSelectorVisible = false;
+					return;
+				}
+
+				// Auto-detect encoding
+				var detected = await StorageArchiveService.DetectEncodingAsync(workingDir);
+				if (detected is not null)
+				{
+					InstanceViewModel.ZipEncodingName = detected.WebName;
+					SelectedZipEncoding = ZipEncodingOptions.FirstOrDefault(e =>
+						e.Encoding?.WebName.Equals(detected.WebName, StringComparison.OrdinalIgnoreCase) == true);
+				}
+				else
+				{
+					InstanceViewModel.ZipEncodingName = null;
+					SelectedZipEncoding = ZipEncodingOptions.FirstOrDefault(e => e.Encoding is null);
+				}
+
+				IsZipEncodingSelectorVisible = true;
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogError(ex, "Error checking zip encoding.");
+				IsZipEncodingSelectorVisible = false;
+			}
+		}
+
+		private async Task OnZipEncodingChangedAsync(EncodingItem encodingItem)
+		{
+			if (ContentPageContext.ShellPage is null)
+				return;
+
+			var workingDir = ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
+			if (string.IsNullOrEmpty(workingDir))
+				return;
+
+			// Update the static encoding on ZipStorageFolder
+			ZipStorageFolder.CurrentEncoding = encodingItem.Encoding;
+
+			// Refresh the folder to re-read with new encoding
+			ContentPageContext.ShellPage.ShellViewModel.RefreshItems(null);
+		}
 
 		private void UpdateService_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{

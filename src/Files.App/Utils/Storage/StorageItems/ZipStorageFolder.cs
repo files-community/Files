@@ -2,10 +2,12 @@
 // Licensed under the MIT License.
 
 using Files.Shared.Helpers;
+using ICSharpCode.SharpZipLib.Zip;
 using SevenZip;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Storage;
@@ -20,6 +22,12 @@ namespace Files.App.Utils.Storage
 	{
 		private readonly string containerPath;
 		private BaseStorageFile backingFile;
+
+		/// <summary>
+		/// Gets or sets the encoding to use when browsing ZIP files.
+		/// When set, SharpZipLib is used instead of SevenZipSharp.
+		/// </summary>
+		internal static Encoding? CurrentEncoding { get; set; }
 
 		public override string Path { get; }
 		public override string Name { get; }
@@ -170,6 +178,9 @@ namespace Files.App.Utils.Storage
 
 		public override IAsyncOperation<IStorageItem> GetItemAsync(string name)
 		{
+			if (CurrentEncoding is not null)
+				return GetItemWithEncodingAsync(name);
+
 			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IStorageItem>(async () =>
 			{
 				using SevenZipExtractor zipFile = await OpenZipFileAsync();
@@ -200,6 +211,44 @@ namespace Files.App.Utils.Storage
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
+		private IAsyncOperation<IStorageItem> GetItemWithEncodingAsync(string name)
+		{
+			return AsyncInfo.Run((cancellationToken) =>
+			{
+				return Task.Run<IStorageItem>(() =>
+				{
+					using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(CurrentEncoding!));
+
+					if (!string.IsNullOrEmpty(Credentials.Password))
+						zipFile.Password = Credentials.Password;
+
+					var targetPath = System.IO.Path.Combine(Path, name);
+
+					foreach (ZipEntry entry in zipFile)
+					{
+						var entryPath = System.IO.Path.Combine(System.IO.Path.GetFullPath(containerPath), entry.Name);
+						if (entryPath == targetPath)
+						{
+							if (entry.IsDirectory)
+							{
+								var folder = new ZipStorageFolder(targetPath, containerPath, backingFile);
+								((IPasswordProtectedItem)folder).CopyFrom(this);
+								return folder;
+							}
+							else
+							{
+								var file = new ZipStorageFile(targetPath, containerPath, backingFile);
+								((IPasswordProtectedItem)file).CopyFrom(this);
+								return file;
+							}
+						}
+					}
+
+					return null;
+				});
+			});
+		}
+
 		public override IAsyncOperation<IStorageItem> TryGetItemAsync(string name)
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
@@ -216,6 +265,9 @@ namespace Files.App.Utils.Storage
 		}
 		public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync()
 		{
+			if (CurrentEncoding is not null)
+				return GetItemsWithEncodingAsync();
+
 			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IReadOnlyList<IStorageItem>>(async () =>
 			{
 				using SevenZipExtractor zipFile = await OpenZipFileAsync();
@@ -254,6 +306,62 @@ namespace Files.App.Utils.Storage
 				}
 				return items;
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
+		}
+
+		private IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsWithEncodingAsync()
+		{
+			return AsyncInfo.Run((cancellationToken) =>
+			{
+				return Task.Run<IReadOnlyList<IStorageItem>>(() =>
+				{
+					using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(CurrentEncoding!));
+
+					if (!string.IsNullOrEmpty(Credentials.Password))
+						zipFile.Password = Credentials.Password;
+
+					var items = new List<IStorageItem>();
+					var dirPaths = new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase);
+					var addedDirs = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+					foreach (ZipEntry entry in zipFile)
+					{
+						string winPath = System.IO.Path.Combine(System.IO.Path.GetFullPath(containerPath), entry.Name);
+						if (!winPath.StartsWith(Path.WithEnding("\\"), StringComparison.Ordinal))
+							continue;
+
+						var relativePath = winPath.Substring(Path.Length).Trim('\\');
+						var parts = relativePath.Split('\\', StringSplitOptions.RemoveEmptyEntries);
+
+						if (parts.Length == 0)
+							continue;
+
+						if (parts.Length > 1 || entry.IsDirectory)
+						{
+							dirPaths[parts[0]] = entry.IsDirectory;
+						}
+
+						if (parts.Length == 1 && !entry.IsDirectory)
+						{
+							var file = new ZipStorageFile(winPath, containerPath, backingFile);
+							((IPasswordProtectedItem)file).CopyFrom(this);
+							items.Add(file);
+						}
+					}
+
+					foreach (var (dirName, _) in dirPaths)
+					{
+						var itemPath = System.IO.Path.Combine(Path, dirName);
+						if (addedDirs.Add(itemPath))
+						{
+							var folder = new ZipStorageFolder(itemPath, containerPath, backingFile);
+							((IPasswordProtectedItem)folder).CopyFrom(this);
+							items.Add(folder);
+						}
+					}
+
+					return items;
+				});
+			});
 		}
 		public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve)
 			=> AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken)

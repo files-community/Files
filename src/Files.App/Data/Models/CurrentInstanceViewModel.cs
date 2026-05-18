@@ -146,6 +146,20 @@ namespace Files.App.Data.Models
 			}
 		}
 
+		private string? zipEncodingName;
+		public string? ZipEncodingName
+		{
+			get => zipEncodingName;
+			set => SetProperty(ref zipEncodingName, value);
+		}
+
+		private bool isZipEncodingUndetermined;
+		public bool IsZipEncodingUndetermined
+		{
+			get => isZipEncodingUndetermined;
+			set => SetProperty(ref isZipEncodingUndetermined, value);
+		}
+
 		public bool CanCopyPathInPage
 		{
 			get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults && !IsPageTypeReleaseNotes && !IsPageTypeSettings;
