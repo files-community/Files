@@ -35,6 +35,8 @@ public sealed class SearchRouter
 
 	// Cached availability flag. We probe once, then assume the service stays up.
 	// Reset to null when a search fails so the next search re-probes.
+	// Racing reads/writes here are intentionally unsynchronized: the worst case is
+	// two concurrent first-searches each issue a health probe, which is idempotent.
 	private static bool? _serviceAvailable = null;
 
 	public string? Query { get; set; }

@@ -96,8 +96,9 @@ internal static class SearchServiceManager
 	private static void LaunchIfNotRunning(string exePath)
 	{
 		// Kill any stale instances first — in dev mode the HKCU\Run entry or a
-		// previous debug session may have left a process holding the named pipe,
-		// which causes AddressInUseException on the next start.
+		// previous debug session may have left a process bound to the TCP
+		// loopback port (FILES_SEARCH_SERVICE_URL), which causes
+		// AddressInUseException on the next start.
 		foreach (var stale in Process.GetProcessesByName(ProcessName))
 		{
 			try { stale.Kill(entireProcessTree: true); stale.WaitForExit(2000); }
