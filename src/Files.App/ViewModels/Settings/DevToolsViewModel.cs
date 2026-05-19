@@ -122,19 +122,6 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public bool ShowTreeViewSidebar
-		{
-			get => DevToolsSettingsService.ShowTreeViewSidebar;
-			set
-			{
-				if (value != DevToolsSettingsService.ShowTreeViewSidebar)
-				{
-					DevToolsSettingsService.ShowTreeViewSidebar = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
 		public void DoRemoveCredentials()
 		{
 			GitHelpers.RemoveSavedCredentials();

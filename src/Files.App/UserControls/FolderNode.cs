@@ -49,5 +49,12 @@ namespace Files.App.UserControls
 			get => _HasUnrealizedChildren;
 			set => SetProperty(ref _HasUnrealizedChildren, value);
 		}
+
+		private double _Opacity = 1.0;
+		public double Opacity
+		{
+			get => _Opacity;
+			set => SetProperty(ref _Opacity, value);
+		}
 	}
 }

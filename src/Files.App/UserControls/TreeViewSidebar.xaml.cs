@@ -19,6 +19,7 @@ namespace Files.App.UserControls
 		private readonly Lazy<IIconCacheService> _iconCacheService = new(() => Ioc.Default.GetRequiredService<IIconCacheService>());
 		private readonly Lazy<IContentPageContext> _contentPageContext = new(() => Ioc.Default.GetRequiredService<IContentPageContext>());
 		private readonly Lazy<MainPageViewModel> _mainPageViewModel = new(() => Ioc.Default.GetRequiredService<MainPageViewModel>());
+		private readonly Lazy<IUserSettingsService> _userSettingsService = new(() => Ioc.Default.GetRequiredService<IUserSettingsService>());
 
 		public ObservableCollection<FolderNode> RootFolders { get; } = new();
 
@@ -108,8 +109,16 @@ namespace Files.App.UserControls
 
 			foreach (var item in headers)
 			{
-				if (item is not LocationItem header || !header.IsHeader || header.Section == SectionType.Home)
+				if (item is not LocationItem header || !header.IsHeader)
 					continue;
+
+				if (header.Section == SectionType.Home)
+				{
+					var homeNode = new FolderNode(header.Path, header.Text, FolderNodeKind.Leaf, header.Icon);
+					homeNode.PropertyChanged += OnNodePropertyChanged;
+					RootFolders.Add(homeNode);
+					continue;
+				}
 
 				var section = new FolderNode($"section:{header.Section}", header.Text, FolderNodeKind.Section, icon: null);
 
@@ -290,13 +299,13 @@ namespace Files.App.UserControls
 			var parentPath = parent.Path;
 			var loaded = await Task.Run(() =>
 			{
-				var results = new List<(string Sub, string Name, bool HasGrandchildren)>();
+				var results = new List<(string Sub, string Name, bool HasGrandchildren, bool IsHidden)>();
 				foreach (var sub in SafeEnumerateSubdirectories(parentPath))
 				{
 					var subName = Path.GetFileName(sub);
 					if (string.IsNullOrEmpty(subName))
 						continue;
-					results.Add((sub, subName, SafeHasSubdirectories(sub)));
+					results.Add((sub, subName, SafeHasSubdirectories(sub), GetIsHidden(sub)));
 				}
 				return results;
 			});
@@ -304,12 +313,13 @@ namespace Files.App.UserControls
 			if (_isUnloaded)
 				return;
 
-			foreach (var (sub, subName, hasGrandchildren) in loaded)
+			foreach (var (sub, subName, hasGrandchildren, isHidden) in loaded)
 			{
 				var kind = hasGrandchildren ? FolderNodeKind.Folder : FolderNodeKind.Leaf;
 				var child = new FolderNode(sub, subName, kind, icon: null)
 				{
 					HasUnrealizedChildren = hasGrandchildren,
+					Opacity = isHidden ? Constants.UI.DimItemOpacity : 1.0,
 				};
 				child.PropertyChanged += OnNodePropertyChanged;
 				_ = LoadIconAsync(child);
@@ -336,6 +346,7 @@ namespace Files.App.UserControls
 				var child = new FolderNode(sub, subName, kind, icon: null)
 				{
 					HasUnrealizedChildren = hasGrandchildren,
+					Opacity = GetIsHidden(sub) ? Constants.UI.DimItemOpacity : 1.0,
 				};
 				child.PropertyChanged += OnNodePropertyChanged;
 				_ = LoadIconAsync(child);
@@ -379,8 +390,24 @@ namespace Files.App.UserControls
 				fn.IsExpanded = !fn.IsExpanded;
 				return;
 			}
-			if (_contentPageContext.Value.ShellPage is { } page)
+			if (_contentPageContext.Value.ShellPage is not { } page)
+				return;
+			if (string.Equals(fn.Path, "Home", StringComparison.OrdinalIgnoreCase))
+				page.NavigateHome();
+			else
 				page.NavigateToPath(fn.Path);
+		}
+
+		private async void Item_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		{
+			if (sender is not FrameworkElement el || el.Tag is not FolderNode fn)
+				return;
+			if (fn.Kind != FolderNodeKind.Folder)
+				return;
+			if (!fn.IsExpanded && fn.HasUnrealizedChildren)
+				await LoadChildrenAsync(fn);
+			fn.IsExpanded = !fn.IsExpanded;
+			e.Handled = true;
 		}
 
 		private void Item_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -424,13 +451,18 @@ namespace Files.App.UserControls
 			e.Handled = true;
 		}
 
-		private static IEnumerable<string> SafeEnumerateSubdirectories(string path)
+		private IEnumerable<string> SafeEnumerateSubdirectories(string path)
 		{
 			// UnauthorizedAccessException for protected folders; IOException for unavailable drives (empty optical drive, disconnected network)
 			IEnumerable<string>? results = null;
 			try
 			{
+				var folders = _userSettingsService.Value.FoldersSettingsService;
+				var showHidden = folders.ShowHiddenItems;
+				var showProtected = folders.ShowProtectedSystemFiles;
+				var showDot = folders.ShowDotFiles;
 				results = Directory.EnumerateDirectories(path)
+					.Where(p => IsVisible(p, showHidden, showProtected, showDot))
 					.OrderBy(p => Path.GetFileName(p), StringComparer.OrdinalIgnoreCase)
 					.Take(1000)
 					.ToList();
@@ -440,12 +472,43 @@ namespace Files.App.UserControls
 			return results ?? Enumerable.Empty<string>();
 		}
 
-		private static bool SafeHasSubdirectories(string path)
+		private bool SafeHasSubdirectories(string path)
 		{
 			// Same exception conditions as SafeEnumerateSubdirectories — we just need yes/no for the disclosure indicator
-			try { return Directory.EnumerateDirectories(path).Any(); }
+			try
+			{
+				var folders = _userSettingsService.Value.FoldersSettingsService;
+				var showHidden = folders.ShowHiddenItems;
+				var showProtected = folders.ShowProtectedSystemFiles;
+				var showDot = folders.ShowDotFiles;
+				return Directory.EnumerateDirectories(path).Any(p => IsVisible(p, showHidden, showProtected, showDot));
+			}
 			catch (UnauthorizedAccessException) { return false; }
 			catch (IOException) { return false; }
+		}
+
+		private static bool GetIsHidden(string path)
+		{
+			try { return (File.GetAttributes(path) & FileAttributes.Hidden) == FileAttributes.Hidden; }
+			catch (UnauthorizedAccessException) { return false; }
+			catch (IOException) { return false; }
+		}
+
+		private static bool IsVisible(string path, bool showHidden, bool showProtected, bool showDot)
+		{
+			if (!showDot && Path.GetFileName(path) is string name && name.StartsWith('.'))
+				return false;
+			FileAttributes attr;
+			try { attr = File.GetAttributes(path); }
+			catch (UnauthorizedAccessException) { return false; }
+			catch (IOException) { return false; }
+			var isHidden = (attr & FileAttributes.Hidden) == FileAttributes.Hidden;
+			var isSystem = (attr & FileAttributes.System) == FileAttributes.System;
+			if (isHidden && !showHidden)
+				return false;
+			if (isHidden && isSystem && !showProtected)
+				return false;
+			return true;
 		}
 	}
 }
