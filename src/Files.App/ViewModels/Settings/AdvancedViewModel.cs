@@ -19,6 +19,7 @@ namespace Files.App.ViewModels.Settings
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
+		private IDevToolsSettingsService DevToolsSettingsService { get; } = Ioc.Default.GetRequiredService<IDevToolsSettingsService>();
 		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
@@ -340,6 +341,19 @@ namespace Files.App.ViewModels.Settings
 				{
 					UserSettingsService.GeneralSettingsService.ShowSystemTrayIcon = value;
 
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowTreeViewSidebar
+		{
+			get => DevToolsSettingsService.ShowTreeViewSidebar;
+			set
+			{
+				if (value != DevToolsSettingsService.ShowTreeViewSidebar)
+				{
+					DevToolsSettingsService.ShowTreeViewSidebar = value;
 					OnPropertyChanged();
 				}
 			}

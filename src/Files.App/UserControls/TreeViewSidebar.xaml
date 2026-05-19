@@ -34,6 +34,8 @@
 					ItemsSource="{x:Bind Children}">
 					<StackPanel
 						Padding="0,2"
+						DoubleTapped="Item_DoubleTapped"
+						Opacity="{x:Bind Opacity, Mode=OneWay}"
 						Orientation="Horizontal"
 						RightTapped="Item_RightTapped"
 						Spacing="6"
