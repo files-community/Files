@@ -37,7 +37,6 @@ See `docs/decisions/0003-bench-strategy-theoretical.md`.
   flow, file map. Start here if you're a maintainer.
 - **`docs/search-roadmap.md`** — current state and what's next.
 - **`docs/decisions/`** — ADRs for the technical choices.
-- **`CLAUDE.md`** — the design constraints we held to.
 
 ## Trying it locally
 
