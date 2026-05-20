@@ -360,29 +360,13 @@ namespace Files.App.Views.Layouts
 
 		}
 
-		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected override void OnSelectionChanged(SelectionChangedEventArgs e)
 		{
-			if (e is null && SelectedItems?.Count == 0)
-				return;
+			foreach (var item in e.AddedItems)
+				SetCheckboxSelectionState(item);
 
-			if (e is not null && e.AddedItems.Count == 0 && e.RemovedItems.Count == 0)
-				return;
-
-			var selectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
-
-			if (SelectedItems is not null && SelectedItems.SequenceEqual(selectedItems))
-				return;
-
-			SelectedItems = selectedItems;
-
-			if (e is not null)
-			{
-				foreach (var item in e.AddedItems)
-					SetCheckboxSelectionState(item);
-
-				foreach (var item in e.RemovedItems)
-					SetCheckboxSelectionState(item);
-			}
+			foreach (var item in e.RemovedItems)
+				SetCheckboxSelectionState(item);
 		}
 
 		override public void StartRenameItem()
