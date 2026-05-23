@@ -1,0 +1,4 @@
+interface:
+  display_name: "Files Native Interop"
+  short_description: "Win32 interop guidance for Files"
+  default_prompt: "Use $native-interop to migrate a Files WinUI native interop call to CsWin32."
