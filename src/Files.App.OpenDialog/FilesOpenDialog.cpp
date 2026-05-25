@@ -272,8 +272,17 @@ STDAPICALL CFilesOpenDialog::Advise(IFileDialogEvents* pfde, DWORD* pdwCookie)
 #ifdef SYSTEMDIALOG
 	return _systemDialog->Advise(pfde, pdwCookie);
 #endif
+	if (_dialogEvents)
+	{
+		_dialogEvents->Release();
+		_dialogEvents = NULL;
+	}
 	_dialogEvents = pfde;
-	*pdwCookie = 0;
+	if (_dialogEvents)
+	{
+		_dialogEvents->AddRef();
+	}
+	*pdwCookie = 1;
 	return S_OK;
 }
 
@@ -283,7 +292,11 @@ STDAPICALL CFilesOpenDialog::Unadvise(DWORD dwCookie)
 #ifdef SYSTEMDIALOG
 	return _systemDialog->Unadvise(dwCookie);
 #endif
-	_dialogEvents = NULL;
+	if (_dialogEvents)
+	{
+		_dialogEvents->Release();
+		_dialogEvents = NULL;
+	}
 	return S_OK;
 }
 
