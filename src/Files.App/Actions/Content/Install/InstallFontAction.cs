@@ -20,6 +20,9 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Actions.FontInstall");
 
+		public ActionCategory Category
+			=> ActionCategory.Install;
+
 		public bool IsExecutable =>
 			context.SelectedItems.Any() &&
 			context.SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) &&

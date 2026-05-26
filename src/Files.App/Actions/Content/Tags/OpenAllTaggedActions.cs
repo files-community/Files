@@ -16,6 +16,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.OpenAllTaggedItemsDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Open;
+
 		public RichGlyph Glyph
 			=> new("\uE71D");
 

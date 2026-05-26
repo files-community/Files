@@ -15,6 +15,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.ToggleDualPaneDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.DualPane;
+
 		public HotKey HotKey
 		=> new(Keys.S, KeyModifiers.CtrlShift);
 

@@ -25,6 +25,8 @@ namespace Files.App.Data.Commands
 			: _allKeyBindings.TryGetValue(hotKey with { IsVisible = false }, out command) ? command
 			: None;
 
+		public CommandGroups Groups { get; } = new();
+
 		public CommandManager()
 		{
 			_commands = CreateCommands();

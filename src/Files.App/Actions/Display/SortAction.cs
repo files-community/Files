@@ -109,6 +109,9 @@ namespace Files.App.Actions
 		public override string Description
 			=> Strings.SortByPathDescription.GetLocalizedResource();
 
+		public override string ExtendedLabel
+			=> Label;
+
 		protected override bool GetIsExecutable(ContentPageTypes pageType)
 			=> pageType is ContentPageTypes.SearchResults;
 	}
@@ -156,6 +159,12 @@ namespace Files.App.Actions
 		public abstract string Label { get; }
 
 		public abstract string Description { get; }
+
+		public virtual ActionCategory Category
+			=> ActionCategory.Sorting;
+
+		public virtual string ExtendedLabel
+			=> Description;
 
 		public bool IsOn
 			=> displayContext.SortOption == SortOption;
@@ -206,6 +215,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.SortAscendingDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Sorting;
+
 		public bool IsOn
 			=> context.SortDirection is SortDirection.Ascending;
 
@@ -242,6 +254,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.SortDescendingDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Sorting;
+
 		public bool IsOn
 			=> context.SortDirection is SortDirection.Descending;
 
@@ -277,6 +292,9 @@ namespace Files.App.Actions
 
 		public string Description
 			=> Strings.ToggleSortDirectionDescription.GetLocalizedResource();
+
+		public ActionCategory Category
+			=> ActionCategory.Sorting;
 
 		public ToggleSortDirectionAction()
 		{

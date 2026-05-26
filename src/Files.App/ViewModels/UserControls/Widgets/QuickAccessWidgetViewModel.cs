@@ -34,7 +34,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		// Fields
 
 		// TODO: Replace with IMutableFolder.GetWatcherAsync() once it gets implemented in IWindowsStorable
-		private readonly SystemIO.FileSystemWatcher _quickAccessFolderWatcher;
+		private readonly SystemIO.FileSystemWatcher? _quickAccessFolderWatcher;
 
 		// Constructor
 
@@ -46,9 +46,13 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			PinToSidebarCommand = new AsyncRelayCommand<WidgetFolderCardItem>(ExecutePinToSidebarCommand);
 			UnpinFromSidebarCommand = new AsyncRelayCommand<WidgetFolderCardItem>(ExecuteUnpinFromSidebarCommand);
 
+			var automaticDestinationsPath = SystemIO.Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Recent", "AutomaticDestinations");
+			if (!SystemIO.Directory.Exists(automaticDestinationsPath))
+				return;
+
 			_quickAccessFolderWatcher = new()
 			{
-				Path = SystemIO.Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Recent", "AutomaticDestinations"),
+				Path = automaticDestinationsPath,
 				Filter = "f01b4d95cf55d32a.automaticDestinations-ms",
 				NotifyFilter = SystemIO.NotifyFilters.LastAccess | SystemIO.NotifyFilters.LastWrite | SystemIO.NotifyFilters.FileName
 			};

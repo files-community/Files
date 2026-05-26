@@ -7,7 +7,7 @@ using System.ComponentModel;
 namespace Files.App.Utils.Git
 {
 	/// <summary>
-	/// Defines a version control abstraction
+	/// Defines a version control abstraction.
 	/// </summary>
 	/// <remarks>
 	/// This interface is intended to decouple the app from a specific backend implementation (e.g. a library such as LibGit2Sharp, or a command-line implementation backed by the <c>git.exe</c> executable).
@@ -44,7 +44,7 @@ namespace Files.App.Utils.Git
 		/// <returns>
 		/// A task producing an array of branches; returns an empty array when the repository is invalid or unavailable.
 		/// </returns>
-		Task<BranchItem[]> GetBranchesNames(string? path);
+		Task<BranchItem[]> GetBranchNames(string? path);
 
 		/// <summary>
 		/// Gets the current repository HEAD reference.

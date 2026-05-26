@@ -10,8 +10,8 @@ namespace Files.App.Controls
 	{
 		private readonly GridResizeDirection _gridSplitterDirection;
 
-		private InputCursor _splitterPreviousPointer;
-		private InputCursor _previousCursor;
+		private InputCursor? _splitterPreviousPointer;
+		private InputCursor? _previousCursor;
 		private GripperCursorType _gripperCursor;
 		private int _gripperCustomCursorResource;
 		private bool _isDragging;

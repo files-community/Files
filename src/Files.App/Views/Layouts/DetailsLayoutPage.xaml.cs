@@ -473,7 +473,7 @@ namespace Files.App.Views.Layouts
 						NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, selectedFolders.First());
 					}
 				}
-				else if (!ctrlPressed && !shiftPressed && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+				else if (!ctrlPressed && !shiftPressed)
 				{
 					if (SelectedItems?.Any() ?? false)
 					{
@@ -593,8 +593,8 @@ namespace Files.App.Views.Layouts
 			}
 
 			// Check if the setting to open items with a single click is turned on
-			if ((item.PrimaryItemAttribute is StorageItemTypes.File && UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick) ||
-				(item.PrimaryItemAttribute is StorageItemTypes.Folder && UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick is OpenFoldersWithOneClickEnum.Always))
+			if ((item.PrimaryItemAttribute is StorageItemTypes.File && UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType)) ||
+				(item.PrimaryItemAttribute is StorageItemTypes.Folder && UserSettingsService.FoldersSettingsService.OpenFoldersWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType)))
 			{
 				ResetRenameDoubleClick();
 				await Commands.OpenItem.ExecuteAsync();
@@ -643,9 +643,9 @@ namespace Files.App.Views.Layouts
 			if (item == null && sender is ListView listView && listView.SelectedItem is ListedItem selectedItem)
 				item = selectedItem;
 
-			if (item != null && item.PrimaryItemAttribute == StorageItemTypes.File && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			if (item != null && item.PrimaryItemAttribute == StorageItemTypes.File && !UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))
 				await OpenItem(item);
-			else if (item != null && item.PrimaryItemAttribute == StorageItemTypes.Folder && UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick is not OpenFoldersWithOneClickEnum.Always)
+			else if (item != null && item.PrimaryItemAttribute == StorageItemTypes.Folder && !UserSettingsService.FoldersSettingsService.OpenFoldersWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))
 				await OpenItem(item);
 			else if (item == null && UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 				await Commands.NavigateUp.ExecuteAsync();
@@ -911,6 +911,20 @@ namespace Files.App.Views.Layouts
 		private void FileList_Loaded(object sender, RoutedEventArgs e)
 		{
 			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
+			const double OffsetCorrection = 88; // HeaderGrid (40) + ListViewHeaderItem (44 + 4 margin)
+
+			RootGridZoom.ViewChangeStarted += (_, args) =>
+			{
+				var scroller = ContentScroller;
+				if (args.IsSourceZoomedInView || scroller is null)
+					return;
+				void OnZoomScrolled(object? s, ScrollViewerViewChangedEventArgs ve)
+				{
+					scroller.ViewChanged -= OnZoomScrolled; 
+					scroller.ChangeView(0, Math.Max(0, scroller.VerticalOffset - OffsetCorrection), null, true);
+				}
+				scroller.ViewChanged += OnZoomScrolled;
+			};
 		}
 
 		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)

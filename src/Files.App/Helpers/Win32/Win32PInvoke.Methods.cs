@@ -158,17 +158,6 @@ namespace Files.App.Helpers
 			out uint lpBytesReturned,
 			IntPtr lpOverlapped);
 
-		[DllImport("user32.dll", CharSet = CharSet.Auto)]
-		public static extern int ToUnicodeEx(
-			uint virtualKeyCode,
-			uint scanCode,
-			byte[] keyboardState,
-			[Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder receivingBuffer,
-			int bufferSize,
-			uint flags,
-			IntPtr keyboardLayout
-		);
-
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		public static extern IntPtr CreateFileFromApp(
 			string lpFileName,

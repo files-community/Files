@@ -23,6 +23,8 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <Platforms>x86;x64;arm64</Platforms>
         <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+        <SelfContained>false</SelfContained>
+        <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
         <UseWinUI>true</UseWinUI>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -106,6 +108,12 @@
         <PackageReference Include="Microsoft.Management.Infrastructure" />
         <PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" />
         <PackageReference Include="Microsoft.Windows.CsWinRT" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Update="Microsoft.WindowsAppSDK.AI" ExcludeAssets="all" />
+        <PackageReference Update="Microsoft.WindowsAppSDK.ML" ExcludeAssets="all" />
+        <PackageReference Update="Microsoft.WindowsAppSDK.Widgets" ExcludeAssets="all" />
     </ItemGroup>
 
     <ItemGroup>

@@ -32,6 +32,8 @@ namespace Files.App.Utils
 
 		public byte[]? PreloadedIconData { get; set; }
 
+		public bool NeedsDelayedThumbnailLoad { get; set; }
+
 		private volatile int itemPropertiesInitialized = 0;
 		public bool ItemPropertiesInitialized
 		{
@@ -51,6 +53,8 @@ namespace Files.App.Utils
 					tooltipBuilder.Append($"{Environment.NewLine}{Strings.SizeLabel.GetLocalizedResource()} {FileSize}");
 				if (!string.IsNullOrWhiteSpace(ImageDimensions))
 					tooltipBuilder.Append($"{Environment.NewLine}{Strings.PropertyDimensionsColon.GetLocalizedResource()} {ImageDimensions}");
+				if (!string.IsNullOrWhiteSpace(MediaDuration))
+					tooltipBuilder.Append($"{Environment.NewLine}{Strings.PropertyDuration.GetLocalizedResource()}: {MediaDuration}");
 				if (SyncStatusUI.LoadSyncStatus)
 					tooltipBuilder.Append($"{Environment.NewLine}{Strings.StatusWithColon.GetLocalizedResource()} {syncStatusUI.SyncStatusString}");
 

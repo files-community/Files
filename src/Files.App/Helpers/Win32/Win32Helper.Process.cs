@@ -15,12 +15,10 @@ namespace Files.App.Helpers
 
 		public static async Task<bool> InvokeWin32ComponentsAsync(IEnumerable<string> applicationPaths, IShellPage associatedInstance, string arguments = null, bool runAsAdmin = false, string workingDirectory = null)
 		{
-			if (string.IsNullOrEmpty(workingDirectory))
-				workingDirectory = associatedInstance.ShellViewModel.WorkingDirectory;
-
 			var application = applicationPaths.FirstOrDefault();
-			if (string.IsNullOrEmpty(workingDirectory))
-				workingDirectory = associatedInstance?.ShellViewModel?.WorkingDirectory;
+
+			if (string.IsNullOrEmpty(workingDirectory) && associatedInstance?.ShellViewModel != null && !associatedInstance.ShellViewModel.IsSearchResults)
+				workingDirectory = associatedInstance.ShellViewModel.WorkingDirectory;
 
 			if (runAsAdmin)
 			{

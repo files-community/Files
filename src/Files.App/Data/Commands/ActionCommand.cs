@@ -25,6 +25,10 @@ namespace Files.App.Data.Commands
 			=> Action.Label;
 
 		/// <inheritdoc/>
+		public string ExtendedLabel
+			=> Action.ExtendedLabel;
+
+		/// <inheritdoc/>
 		public string LabelWithHotKey
 			=> HotKeyText is null ? Label : $"{Label} ({HotKeyText})";
 
@@ -69,6 +73,10 @@ namespace Files.App.Data.Commands
 			}
 		}
 
+		/// <inheritdoc/>
+		public string AccessKey
+			=> Action.AccessKey;
+
 		private HotKeyCollection hotKeys;
 		/// <inheritdoc/>
 		public HotKeyCollection HotKeys
@@ -110,6 +118,10 @@ namespace Files.App.Data.Commands
 		/// <inheritdoc/>
 		public bool IsAccessibleGlobally
 			=> Action.IsAccessibleGlobally;
+
+		/// <inheritdoc/>
+		public string AutomationId
+			=> Action.AutomationId;
 
 		public ActionCommand(CommandCodes code, IAction action)
 		{
@@ -182,6 +194,13 @@ namespace Files.App.Data.Commands
 					OnPropertyChanging(nameof(Label));
 					OnPropertyChanging(nameof(LabelWithHotKey));
 					OnPropertyChanging(nameof(AutomationName));
+					OnPropertyChanging(nameof(ExtendedLabel));
+					break;
+				case nameof(IAction.ExtendedLabel):
+					OnPropertyChanging(nameof(ExtendedLabel));
+					break;
+				case nameof(IAction.AccessKey):
+					OnPropertyChanging(nameof(AccessKey));
 					break;
 				case nameof(IToggleAction.IsOn) when IsToggle:
 					OnPropertyChanging(nameof(IsOn));
@@ -200,6 +219,13 @@ namespace Files.App.Data.Commands
 					OnPropertyChanged(nameof(Label));
 					OnPropertyChanged(nameof(LabelWithHotKey));
 					OnPropertyChanged(nameof(AutomationName));
+					OnPropertyChanged(nameof(ExtendedLabel));
+					break;
+				case nameof(IAction.ExtendedLabel):
+					OnPropertyChanged(nameof(ExtendedLabel));
+					break;
+				case nameof(IAction.AccessKey):
+					OnPropertyChanged(nameof(AccessKey));
 					break;
 				case nameof(IToggleAction.IsOn) when IsToggle:
 					OnPropertyChanged(nameof(IsOn));

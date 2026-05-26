@@ -280,6 +280,30 @@ namespace Files.App.Data.Items
 		{
 			try
 			{
+				// For cloud drives, try to get quota from the sync root provider first
+				if (Type == DriveType.CloudDrive)
+				{
+					try
+					{
+						var syncRootStatus = await SyncRootHelpers.GetSyncRootQuotaAsync(Path);
+						if (syncRootStatus.Success)
+						{
+							MaxSpace = ByteSize.FromBytes(syncRootStatus.Capacity);
+							SpaceUsed = ByteSize.FromBytes(syncRootStatus.Used);
+							FreeSpace = MaxSpace - SpaceUsed;
+
+							SpaceText = GetSizeString();
+
+							if (MaxSpace.Bytes > 0)
+								PercentageUsed = 100.0f - (float)(FreeSpace.Bytes / MaxSpace.Bytes) * 100.0f;
+
+							OnPropertyChanged(nameof(ShowDriveDetails));
+							return;
+						}
+					}
+					catch { }
+				}
+
 				var properties = await Root.Properties.RetrievePropertiesAsync(["System.FreeSpace", "System.Capacity", "System.Volume.FileSystem"])
 					.AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
 

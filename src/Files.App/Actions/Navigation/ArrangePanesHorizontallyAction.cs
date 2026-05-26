@@ -15,6 +15,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.ArrangePanesHorizontallyDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.DualPane;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Panes.Horizontal");
 

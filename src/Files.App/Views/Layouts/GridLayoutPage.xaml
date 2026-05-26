@@ -8,6 +8,7 @@
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:datamodels="using:Files.App.Data.Models"
+	xmlns:ext="using:Files.App.Extensions"
 	xmlns:filesystem="using:Files.App.Utils"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
@@ -99,8 +100,7 @@
 					tui:FrameworkElementExtensions.EnableActualSizeBinding="True"
 					Background="Transparent"
 					IsRightTapEnabled="True"
-					Loaded="Grid_Loaded"
-					PointerEntered="Grid_PointerEntered">
+					Loaded="Grid_Loaded">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="*" />
@@ -281,8 +281,7 @@
 					VerticalAlignment="Center"
 					CornerRadius="{StaticResource ControlCornerRadius}"
 					IsRightTapEnabled="True"
-					Loaded="Grid_Loaded"
-					PointerEntered="Grid_PointerEntered">
+					Loaded="Grid_Loaded">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition Width="*" />
@@ -441,8 +440,7 @@
 					BorderThickness="1"
 					CornerRadius="8"
 					IsRightTapEnabled="True"
-					Loaded="Grid_Loaded"
-					PointerEntered="Grid_PointerEntered">
+					Loaded="Grid_Loaded">
 					<StackPanel Orientation="{Binding ElementName=PageRoot, Path=CardsViewOrientation, Mode=OneWay}">
 
 						<!--  Preview  -->
@@ -1010,6 +1008,7 @@
 					x:Name="FileList"
 					Padding="8"
 					VerticalContentAlignment="Stretch"
+					ext:ScrollViewerMiddleClickExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					wctanimations:ItemsReorderAnimation.Duration="0:0:0.350"
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"

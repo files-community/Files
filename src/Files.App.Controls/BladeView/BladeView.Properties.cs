@@ -53,6 +53,11 @@ namespace Files.App.Controls
 					foreach (var item in bladeView.Items)
 					{
 						var bladeItem = bladeView.GetBladeItem(item);
+						if (bladeItem is null)
+						{
+							continue;
+						}
+
 						bladeView._cachedBladeItemSizes.Add(bladeItem, new Size(bladeItem.Width, bladeItem.Height));
 					}
 				}

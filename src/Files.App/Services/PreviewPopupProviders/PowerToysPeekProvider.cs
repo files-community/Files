@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.IO;
+using Microsoft.Win32;
 
 namespace Files.App.Services.PreviewPopupProviders
 {
@@ -48,28 +49,59 @@ namespace Files.App.Services.PreviewPopupProviders
 		public async Task<bool> DetectAvailability()
 		{
 			var exeName = "PowerToys.Peek.UI.exe";
-			var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-			var perUserPath = Path.Combine(localAppData, "PowerToys", "WinUI3Apps", exeName);
-
-			// User path
-			if (File.Exists(perUserPath))
+			if (FindPeekPathFromRegistry(exeName) is { } registryPath && File.Exists(registryPath))
 			{
-				_peekExecutablePath = perUserPath;
-				return true;
-			}
-
-			// Machine-wide path
-			string programFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-			string machinePath = Path.Combine(programFiles, "PowerToys", "WinUI3Apps", exeName);
-
-			if (File.Exists(machinePath))
-			{
-				_peekExecutablePath = machinePath;
+				_peekExecutablePath = registryPath;
 				return true;
 			}
 
 			// Not found
 			return false;
+		}
+
+		private static string? FindPeekPathFromRegistry(string exeName)
+		{
+			string[] uninstallRegistryPaths =
+			[
+				@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall",
+				@"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall",
+			];
+
+			foreach (var hive in new[] { RegistryHive.CurrentUser, RegistryHive.LocalMachine })
+			{
+				foreach (var uninstallPath in uninstallRegistryPaths)
+				{
+					try
+					{
+						using var baseKey = RegistryKey.OpenBaseKey(hive, RegistryView.Default);
+						using var uninstallKey = baseKey.OpenSubKey(uninstallPath);
+						if (uninstallKey is null)
+							continue;
+
+						foreach (var subKeyName in uninstallKey.GetSubKeyNames())
+						{
+							using var appKey = uninstallKey.OpenSubKey(subKeyName);
+							if (appKey is null)
+								continue;
+
+							var displayName = appKey.GetValue("DisplayName") as string;
+							if (string.IsNullOrWhiteSpace(displayName)
+								|| displayName.IndexOf("PowerToys", StringComparison.OrdinalIgnoreCase) < 0)
+								continue;
+
+							var installLocation = appKey.GetValue("InstallLocation") as string;
+							if (!string.IsNullOrWhiteSpace(installLocation))
+								return Path.Combine(installLocation, "WinUI3Apps", exeName);
+						}
+					}
+					catch
+					{
+						// Ignore registry access issues and continue fallback resolution.
+					}
+				}
+			}
+
+			return null;
 		}
 	}
 }

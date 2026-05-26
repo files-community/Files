@@ -223,9 +223,7 @@ _SICHINTF
 RoGetAgileReference
 IQueryInfo
 QITIPF_FLAGS
-GetKeyboardState
 MapVirtualKey
-GetKeyboardLayout
 S_FALSE
 IExecuteCommand
 IObjectWithSelection

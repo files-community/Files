@@ -45,6 +45,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public object SidebarItems => sidebarItems;
 		public BulkConcurrentObservableCollection<INavigationControlItem> sidebarItems { get; init; }
+		public LocationItem SettingsSidebarItem { get; }
 		public PinnedFoldersManager SidebarPinnedModel => App.QuickAccessManager.Model;
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
@@ -116,6 +117,9 @@ namespace Files.App.ViewModels.UserControls
 
 			if (item is null && value == "Home")
 				item = filteredItems.FirstOrDefault(x => x.Path.Equals("Home"));
+
+			if (item is null && value == "Settings")
+				item = SettingsSidebarItem;
 
 			if (SidebarSelectedItem != item)
 				SidebarSelectedItem = item;
@@ -247,6 +251,15 @@ namespace Files.App.ViewModels.UserControls
 			dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
 			fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
 
+			SettingsSidebarItem = new LocationItem()
+			{
+				Text = Strings.Settings.GetLocalizedResource(),
+				Path = "Settings",
+				Section = SectionType.Library,
+				MenuOptions = new ContextMenuOptions() { IsLocationItem = true },
+				SelectsOnInvoked = true,
+				ChildItems = null
+			};
 			sidebarItems = [];
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			CreateItemHomeAsync();
@@ -843,6 +856,19 @@ namespace Files.App.ViewModels.UserControls
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var middleClickPressed = pointerUpdateKind == PointerUpdateKind.MiddleButtonReleased;
+			if (string.Equals(navigationControlItem.Path, "Settings", StringComparison.OrdinalIgnoreCase))
+			{
+				if (ctrlPressed || middleClickPressed)
+				{
+					_ = NavigationHelpers.OpenPathInNewTab("Settings");
+					return;
+				}
+
+				if (PaneHolder?.ActivePane is IShellPage settingsShellPage)
+					settingsShellPage.NavigateToSettings();
+				return;
+			}
+
 			if ((ctrlPressed ||
 				middleClickPressed) &&
 				navigationControlItem.Path is not null)
@@ -1009,6 +1035,7 @@ namespace Files.App.ViewModels.UserControls
 		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, CommandBarFlyout menu)
 		{
 			var options = item.MenuOptions;
+			var isSettingsItem = string.Equals(item.Path, "Settings", StringComparison.OrdinalIgnoreCase);
 
 			var pinnedFolderModel = App.QuickAccessManager.Model;
 			var pinnedFolderIndex = pinnedFolderModel.IndexOfItem(item);
@@ -1061,6 +1088,10 @@ namespace Files.App.ViewModels.UserControls
 				{
 					IsPrimary = true,
 					IsVisible = Commands.CopyItemFromSidebar.IsExecutable
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenSettingsFile)
+				{
+					IsVisible = isSettingsItem
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{

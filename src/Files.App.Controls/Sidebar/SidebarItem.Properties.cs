@@ -103,7 +103,7 @@ namespace Files.App.Controls
 			return (FrameworkElement)target.GetValue(TemplateRootProperty);
 		}
 		public static readonly DependencyProperty TemplateRootProperty =
-			DependencyProperty.Register("TemplateRoot", typeof(FrameworkElement), typeof(FrameworkElement), new PropertyMetadata(null));
+			DependencyProperty.Register("TemplateRoot", typeof(FrameworkElement), typeof(SidebarItem), new PropertyMetadata(null));
 
 		public static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{

@@ -47,6 +47,7 @@ namespace Files.App.UITests
 				{
 					nameof(ThemedIconPage) => typeof(ThemedIconPage),
 					nameof(ToolbarPage) => typeof(ToolbarPage),
+					nameof(ThemedIconGalleryPage) => typeof(ThemedIconGalleryPage),
 					nameof(StorageControlsPage) => typeof(StorageControlsPage),
 					nameof(SidebarViewPage) => typeof(SidebarViewPage),
 					nameof(OmnibarPage) => typeof(OmnibarPage),

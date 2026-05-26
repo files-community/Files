@@ -22,6 +22,9 @@ namespace Files.App.Actions
 		public override string Description
 			=> Strings.DecompressArchiveDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
+		public string AccessKey
+			=> "E";
+
 		public override HotKey HotKey
 			=> new(Keys.E, KeyModifiers.Ctrl);
 

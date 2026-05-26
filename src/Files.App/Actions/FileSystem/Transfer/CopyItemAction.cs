@@ -14,8 +14,17 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.CopyItemDescription.GetLocalizedFormatResource(ContentPageContext.SelectedItems.Count);
 
+		public ActionCategory Category
+			=> ActionCategory.FileSystem;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Copy");
+
+		public string AutomationId
+			=> "InnerNavigationToolbarCopyButton";
+
+		public string AccessKey
+			=> "C";
 
 		public HotKey HotKey
 			=> new(Keys.C, KeyModifiers.Ctrl);

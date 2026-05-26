@@ -4,12 +4,14 @@
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
+using System.Drawing.Text;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels.Settings
 {
 	public sealed partial class AppearanceViewModel : ObservableObject
 	{
+		private ICommandManager CommandManager { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
 		private readonly IUserSettingsService UserSettingsService;
@@ -26,10 +28,13 @@ namespace Files.App.ViewModels.Settings
 
 		public Dictionary<StatusCenterVisibility, string> StatusCenterVisibilityOptions { get; private set; } = [];
 
+		public Dictionary<string, string> AppThemeFontFamilyOptions { get; private set; } = [];
+
 		public ObservableCollection<AppThemeResourceItem> AppThemeResources { get; }
 
 		public ICommand SelectImageCommand { get; }
 		public ICommand RemoveImageCommand { get; }
+		public ICommand CustomizeToolbarCommand { get; }
 
 		public AppearanceViewModel(IUserSettingsService userSettingsService, IResourcesService resourcesService)
 		{
@@ -83,8 +88,11 @@ namespace Files.App.ViewModels.Settings
 			StatusCenterVisibilityOptions.Add(StatusCenterVisibility.DuringOngoingFileOperations, Strings.DuringOngoingFileOperations.GetLocalizedResource());
 			SelectedStatusCenterVisibilityOption = StatusCenterVisibilityOptions[UserSettingsService.AppearanceSettingsService.StatusCenterVisibility];
 
+			LoadAppThemeFontFamilyOptions();
+
 			SelectImageCommand = new RelayCommand(SelectBackgroundImage);
 			RemoveImageCommand = new RelayCommand(RemoveBackgroundImage);
+			CustomizeToolbarCommand = new AsyncRelayCommand(() => CommandManager.CustomizeToolbar.ExecuteAsync());
 		}
 
 		/// <summary>
@@ -115,6 +123,33 @@ namespace Files.App.ViewModels.Settings
 		private void RemoveBackgroundImage()
 		{
 			AppThemeBackgroundImageSource = string.Empty;
+		}
+
+		private void LoadAppThemeFontFamilyOptions()
+		{
+			AppThemeFontFamilyOptions.Clear();
+			AppThemeFontFamilyOptions.Add(Constants.Appearance.StandardFont, Strings.Default.GetLocalizedResource());
+
+			try
+			{
+				var installedFontFamilies = new InstalledFontCollection()
+					.Families
+					.Select(fontFamily => fontFamily.Name)
+					.Where(name => !string.IsNullOrWhiteSpace(name))
+					.Distinct(StringComparer.OrdinalIgnoreCase)
+					.OrderBy(name => name, StringComparer.CurrentCultureIgnoreCase);
+
+				foreach (var fontFamily in installedFontFamilies)
+				{
+					if (!AppThemeFontFamilyOptions.ContainsKey(fontFamily))
+						AppThemeFontFamilyOptions.Add(fontFamily, fontFamily);
+				}
+			}
+			catch { }
+
+			var selectedFontFamily = UserSettingsService.AppearanceSettingsService.AppThemeFontFamily;
+			if (!string.IsNullOrWhiteSpace(selectedFontFamily) && !AppThemeFontFamilyOptions.ContainsKey(selectedFontFamily))
+				AppThemeFontFamilyOptions.Add(selectedFontFamily, selectedFontFamily);
 		}
 
 		/// <summary>
@@ -212,6 +247,35 @@ namespace Files.App.ViewModels.Settings
 				{
 					UserSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial = BackdropMaterialTypes.First(e => e.Value == value).Key;
 				}
+			}
+		}
+
+		public string AppThemeFontFamily
+		{
+			get => UserSettingsService.AppearanceSettingsService.AppThemeFontFamily;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.AppThemeFontFamily)
+				{
+					UserSettingsService.AppearanceSettingsService.AppThemeFontFamily = value;
+					ResourcesService.SetAppThemeFontFamily(value);
+					ResourcesService.ApplyResources();
+					OnPropertyChanged();
+					OnPropertyChanged(nameof(SelectedAppThemeFontFamilyOption));
+				}
+			}
+		}
+
+		public string SelectedAppThemeFontFamilyOption
+		{
+			get => AppThemeFontFamilyOptions.TryGetValue(AppThemeFontFamily, out var label)
+				? label
+				: AppThemeFontFamilyOptions[Constants.Appearance.StandardFont];
+			set
+			{
+				var key = AppThemeFontFamilyOptions.FirstOrDefault(e => e.Value == value).Key;
+				if (key is not null)
+					AppThemeFontFamily = key;
 			}
 		}
 

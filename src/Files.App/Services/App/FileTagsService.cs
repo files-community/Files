@@ -66,5 +66,28 @@ namespace Files.App.Services
 
 			await Task.CompletedTask;
 		}
+
+		/// <inheritdoc/>
+		public async Task<ILookup<string, TaggedItemModel>> GetAllItemsGroupedByTagAsync(CancellationToken cancellationToken = default)
+		{
+			var allDbItems = FileTagsHelper.GetDbInstance().GetAll().ToList();
+			var result = new List<(string TagUid, TaggedItemModel Model)>();
+
+			foreach (var dbItem in allDbItems)
+			{
+				if (StorageTrashBinService.IsUnderTrashBin(dbItem.FilePath))
+					continue;
+
+				var storable = await StorageService.TryGetStorableAsync(dbItem.FilePath, cancellationToken);
+				if (storable is null)
+					continue;
+
+				var model = new TaggedItemModel(dbItem.Tags, storable);
+				foreach (var tagUid in dbItem.Tags)
+					result.Add((tagUid, model));
+			}
+
+			return result.ToLookup(x => x.TagUid, x => x.Model);
+		}
 	}
 }

@@ -15,6 +15,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.ToggleDetailsPaneDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Show;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.PanelRight");
 

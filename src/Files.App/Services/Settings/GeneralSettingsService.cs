@@ -381,6 +381,18 @@ namespace Files.App.Services.Settings
 			set => Set((long)value);
 		}
 
+		public ArchiveDictionarySizes ArchiveDictionarySizesOption
+		{
+			get => (ArchiveDictionarySizes)Get((long)ArchiveDictionarySizes.Auto);
+			set => Set((long)value);
+		}
+
+		public ArchiveWordSizes ArchiveWordSizesOption
+		{
+			get => (ArchiveWordSizes)Get((long)ArchiveWordSizes.Auto);
+			set => Set((long)value);
+		}
+
 		public Dictionary<string, bool> ShowHashesDictionary
 		{
 			get => Get<Dictionary<string, bool>>(null);
@@ -411,10 +423,21 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		/// <inheritdoc/>
+		public bool EnableThumbnailCache
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		public bool EnableSmoothScrolling
 		{
 			get => Get(true);
+			set => Set(value);
+		}
+
+		public double ThumbnailCacheSizeLimit
+		{
+			get => Get(512d);
 			set => Set(value);
 		}
 

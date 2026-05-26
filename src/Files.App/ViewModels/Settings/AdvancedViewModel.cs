@@ -28,6 +28,7 @@ namespace Files.App.ViewModels.Settings
 		public ICommand ExportSettingsCommand { get; }
 		public ICommand ImportSettingsCommand { get; }
 		public AsyncRelayCommand OpenFilesOnWindowsStartupCommand { get; }
+		public ICommand ClearThumbnailCacheCommand { get; }
 
 
 		public AdvancedViewModel()
@@ -40,8 +41,10 @@ namespace Files.App.ViewModels.Settings
 			ExportSettingsCommand = new AsyncRelayCommand(ExportSettingsAsync);
 			ImportSettingsCommand = new AsyncRelayCommand(ImportSettingsAsync);
 			OpenFilesOnWindowsStartupCommand = new AsyncRelayCommand(OpenFilesOnWindowsStartupAsync);
+			ClearThumbnailCacheCommand = new AsyncRelayCommand(ClearThumbnailCacheAsync);
 
 			_ = DetectOpenFilesAtStartupAsync();
+			_ = UpdateCacheSizeAsync();
 		}
 
 		private async Task SetAsDefaultExplorerAsync()
@@ -354,6 +357,56 @@ namespace Files.App.ViewModels.Settings
 				UserSettingsService.GeneralSettingsService.ShowFlattenOptions = value;
 				OnPropertyChanged();
 			}
+		}
+
+		public bool EnableThumbnailCache
+		{
+			get => UserSettingsService.GeneralSettingsService.EnableThumbnailCache;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.EnableThumbnailCache)
+				{
+					UserSettingsService.GeneralSettingsService.EnableThumbnailCache = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public double ThumbnailCacheSizeLimit
+		{
+			get => UserSettingsService.GeneralSettingsService.ThumbnailCacheSizeLimit;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ThumbnailCacheSizeLimit)
+				{
+					UserSettingsService.GeneralSettingsService.ThumbnailCacheSizeLimit = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private string cacheSizeText = string.Empty;
+		public string CacheSizeText
+		{
+			get => cacheSizeText;
+			set => SetProperty(ref cacheSizeText, value);
+		}
+
+		private bool isClearCacheButtonEnabled;
+		public bool IsClearCacheButtonEnabled
+		{
+			get => isClearCacheButtonEnabled;
+			set => SetProperty(ref isClearCacheButtonEnabled, value);
+		}
+
+		private async Task ClearThumbnailCacheAsync()
+		{
+			//TODO: Clear thumbnail cache.
+		}
+
+		private async Task UpdateCacheSizeAsync()
+		{
+			//TODO: Get thumbnail cache size and update CacheSizeText and IsClearCacheButtonEnabled accordingly.
 		}
 
 		public async Task OpenFilesOnWindowsStartupAsync()

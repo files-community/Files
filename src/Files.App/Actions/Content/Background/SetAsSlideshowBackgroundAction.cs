@@ -7,13 +7,16 @@ namespace Files.App.Actions
 	internal sealed partial class SetAsSlideshowBackgroundAction : BaseSetAsAction
 	{
 		public override string Label
+			=> Strings.Slideshow.GetLocalizedResource();
+
+		public override string ExtendedLabel
 			=> Strings.SetAsSlideshow.GetLocalizedResource();
 
 		public override string Description
 			=> Strings.SetAsSlideshowBackgroundDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new("\uE91B");
+			=> new(themedIconStyle: "App.ThemedIcons.SetSlideshow.16");
 
 		public override bool IsExecutable =>
 			base.IsExecutable &&

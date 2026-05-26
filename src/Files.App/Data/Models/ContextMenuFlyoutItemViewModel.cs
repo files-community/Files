@@ -63,6 +63,6 @@ namespace Files.App.Data.Models
 
 		public bool IsHidden { get; set; }
 
-		public string AccessKey { get; set; }
+		public string AccessKey { get; set; } = string.Empty;
 	}
 }

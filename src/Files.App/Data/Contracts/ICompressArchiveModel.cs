@@ -49,6 +49,16 @@ namespace Files.App.Data.Contracts
 		ArchiveSplittingSizes SplittingSize { get; }
 
 		/// <summary>
+		/// 7zip archive dictionary size.
+		/// </summary>
+		ArchiveDictionarySizes DictionarySize { get; }
+
+		/// <summary>
+		/// 7zip archive word size (fast bytes).
+		/// </summary>
+		ArchiveWordSizes WordSize { get; }
+
+		/// <summary>
 		/// Number of CPU Threads to use.
 		/// </summary>
 		int CPUThreads { get; }

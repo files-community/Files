@@ -77,7 +77,7 @@ namespace Files.Shared.Helpers
 		/// <returns><c>true</c> if the fileExtensionToCheck is an audio file; otherwise, <c>false</c>.</returns>
 		public static bool IsAudioFile(string? fileExtensionToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".mp3", ".m4a", ".wav", ".wma", ".aac", ".adt", ".adts", ".cda", ".flac");
+			return HasExtension(fileExtensionToCheck, ".mp3", ".m4a", ".ogg", ".oga", ".wav", ".wma", ".aac", ".adt", ".adts", ".cda", ".flac");
 		}
 
 		/// <summary>
@@ -87,7 +87,7 @@ namespace Files.Shared.Helpers
 		/// <returns><c>true</c> if the fileExtensionToCheck is a video file; otherwise, <c>false</c>.</returns>
 		public static bool IsVideoFile(string? fileExtensionToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".mp4", ".webm", ".ogg", ".mov", ".qt", ".m4v", ".mp4v", ".3g2", ".3gp2", ".3gp", ".3gpp", ".mkv");
+			return HasExtension(fileExtensionToCheck, ".avi", ".mp4", ".webm", ".ogg", ".mov", ".qt", ".m4v", ".mp4v", ".3g2", ".3gp2", ".3gp", ".3gpp", ".mkv");
 		}
 
 		/// <summary>

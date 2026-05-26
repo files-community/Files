@@ -35,6 +35,7 @@ namespace Files.App.ViewModels
 		private readonly SemaphoreSlim getFileOrFolderSemaphore;
 		private readonly SemaphoreSlim bulkOperationSemaphore;
 		private readonly SemaphoreSlim loadThumbnailSemaphore;
+		private readonly ConcurrentDictionary<string, CancellationTokenSource> thumbnailRetryDebounce;
 		private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
 		private readonly ConcurrentQueue<uint> gitChangesQueue;
 		private readonly ConcurrentDictionary<string, bool> itemLoadQueue;
@@ -561,6 +562,7 @@ namespace Files.App.ViewModels
 			operationQueue = new ConcurrentQueue<(uint Action, string FileName)>();
 			gitChangesQueue = new ConcurrentQueue<uint>();
 			itemLoadQueue = new ConcurrentDictionary<string, bool>();
+			thumbnailRetryDebounce = new ConcurrentDictionary<string, CancellationTokenSource>();
 			addFilesCTS = new CancellationTokenSource();
 			semaphoreCTS = new CancellationTokenSource();
 			loadPropsCTS = new CancellationTokenSource();
@@ -733,6 +735,12 @@ namespace Files.App.ViewModels
 				addFilesCTS = new CancellationTokenSource();
 			}
 			CancelExtendedPropertiesLoading();
+			foreach (var cts in thumbnailRetryDebounce.Values)
+			{
+				cts.Cancel();
+				cts.Dispose();
+			}
+			thumbnailRetryDebounce.Clear();
 			filesAndFolders.Clear();
 			FilesAndFolders.Clear();
 			CancelSearch();
@@ -1069,7 +1077,7 @@ namespace Files.App.ViewModels
 			return shieldIcon;
 		}
 
-		private async Task LoadThumbnailAsync(ListedItem item, CancellationToken cancellationToken)
+		private async Task LoadThumbnailAsync(ListedItem item, CancellationToken cancellationToken, bool scheduleTimerRetry = true)
 		{
 			var loadNonCachedThumbnail = false;
 			var thumbnailSize = LayoutSizeKindHelper.GetIconSize(folderSettings.LayoutMode);
@@ -1093,7 +1101,7 @@ namespace Files.App.ViewModels
 							IconOptions.ReturnThumbnailOnly | IconOptions.ReturnOnlyIfCached | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
 
 					cancellationToken.ThrowIfCancellationRequested();
-					loadNonCachedThumbnail = result is null;
+					loadNonCachedThumbnail = true;
 				}
 
 				if (result is null)
@@ -1170,7 +1178,45 @@ namespace Files.App.ViewModels
 
 					cancellationToken.ThrowIfCancellationRequested();
 
-					if (result is not null)
+					if (result is null)
+					{
+						item.NeedsDelayedThumbnailLoad = true;
+
+						// Some writers never emit a FILE_ACTION_MODIFIED event after finalizing the file, so the normal event-driven retry never fires.
+						// Schedule a 2s timer as a fallback; the FILE_ACTION_MODIFIED handler cancels it if the event arrives first.
+						if (scheduleTimerRetry)
+						{
+							var retryCts = new CancellationTokenSource();
+							if (thumbnailRetryDebounce.TryAdd(item.ItemPath, retryCts))
+							{
+								App.Logger.LogWarning("Thumbnail load failed [{Id}] '{Extension}'; scheduling 2s timer retry.", item.ItemPath.GetHashCode(), Path.GetExtension(item.ItemPath));
+
+								var retryToken = retryCts.Token;
+								_ = Task.Delay(2000, retryToken)
+									.ContinueWith(_ =>
+									{
+										if (thumbnailRetryDebounce.TryRemove(item.ItemPath, out var cts))
+											cts.Dispose();
+
+										App.Logger.LogInformation("Timer-based thumbnail retry firing [{Id}] '{Extension}'.", item.ItemPath.GetHashCode(), Path.GetExtension(item.ItemPath));
+
+										item.NeedsDelayedThumbnailLoad = false;
+										return LoadThumbnailAsync(item, retryToken, scheduleTimerRetry: false);
+									}, retryToken, TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.Default)
+									.Unwrap();
+							}
+							else
+							{
+								App.Logger.LogWarning("Thumbnail load failed [{Id}] '{Extension}'; mod-retry already pending, skipping timer.", item.ItemPath.GetHashCode(), Path.GetExtension(item.ItemPath));
+								retryCts.Dispose();
+							}
+						}
+						else
+						{
+							App.Logger.LogWarning("Thumbnail load failed [{Id}] '{Extension}' on timer retry; awaiting next FILE_ACTION_MODIFIED.", item.ItemPath.GetHashCode(), Path.GetExtension(item.ItemPath));
+						}
+					}
+					else
 					{
 						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 						{
@@ -2650,6 +2696,36 @@ namespace Files.App.ViewModels
 
 		private async Task UpdateFilesOrFoldersAsync(IEnumerable<string> paths, bool hasSyncStatus)
 		{
+			foreach (var path in paths)
+			{
+				var item = filesAndFolders.ToList().FirstOrDefault(x => x.ItemPath.Equals(path, StringComparison.OrdinalIgnoreCase));
+				if (item is not null && item.NeedsDelayedThumbnailLoad)
+				{
+					App.Logger.LogInformation("FILE_ACTION_MODIFIED thumbnail retry triggered [{Id}] '{Extension}'.", path.GetHashCode(), Path.GetExtension(path));
+
+					if (thumbnailRetryDebounce.TryGetValue(path, out var existingCts))
+					{
+						existingCts.Cancel();
+						existingCts.Dispose();
+					}
+
+					var debounceCts = new CancellationTokenSource();
+					thumbnailRetryDebounce[path] = debounceCts;
+					var debounceToken = debounceCts.Token;
+
+					_ = Task.Delay(500, debounceToken)
+						.ContinueWith(_ =>
+						{
+							if (thumbnailRetryDebounce.TryRemove(path, out var cts))
+								cts.Dispose();
+
+							item.NeedsDelayedThumbnailLoad = false;
+							return LoadThumbnailAsync(item, debounceToken);
+						}, debounceToken, TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.Default)
+						.Unwrap();
+				}
+			}
+
 			try
 			{
 				await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
@@ -2711,6 +2787,12 @@ namespace Files.App.ViewModels
 				if (matchingItem is not null)
 				{
 					filesAndFolders.Remove(matchingItem);
+
+					if (thumbnailRetryDebounce.TryRemove(matchingItem.ItemPath, out var debounceCts))
+					{
+						debounceCts.Cancel();
+						debounceCts.Dispose();
+					}
 
 					if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
 					{

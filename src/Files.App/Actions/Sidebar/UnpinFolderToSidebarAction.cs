@@ -15,6 +15,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.UnpinFolderFromSidebarDescription.GetLocalizedFormatResource(context.HasSelection ? context.SelectedItems.Count : 1);
 
+		public ActionCategory Category
+			=> ActionCategory.FileSystem;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.FavoritePinRemove");
 

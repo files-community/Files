@@ -3,8 +3,6 @@
 
 using Files.App.ViewModels.Previews;
 using Files.Shared.Helpers;
-using Windows.Storage;
-using static Files.App.Constants.AdaptiveLayout;
 
 namespace Files.App.Helpers
 {
@@ -67,34 +65,17 @@ namespace Files.App.Helpers
 			if (filesAndFolders.Count is 0)
 				return Layouts.None;
 
-			float folderPercentage = 100f * filesAndFolders.Count(IsFolder) / itemCount;
-			float imagePercentage = 100f * filesAndFolders.Count(IsImage) / itemCount;
 			float mediaPercentage = 100f * filesAndFolders.Count(IsMedia) / itemCount;
-			float miscPercentage = 100f - (folderPercentage + imagePercentage + mediaPercentage);
 
-			if (folderPercentage + miscPercentage > LargeThreshold)
-				return Layouts.Detail;
-			if (imagePercentage > ExtraLargeThreshold)
+			if (mediaPercentage > 60f)
 				return Layouts.Grid;
-			if (imagePercentage <= MediumThreshold)
-				return Layouts.Detail;
-			if (100f - imagePercentage <= SmallThreshold)
-				return Layouts.Detail;
-			if (folderPercentage + miscPercentage <= ExtraSmallThreshold)
-				return Layouts.Detail;
-			return Layouts.Grid;
-
-			static bool IsFolder(ListedItem item)
-				=> item.PrimaryItemAttribute is StorageItemTypes.Folder;
-
-			static bool IsImage(ListedItem item)
-				=> !string.IsNullOrEmpty(item.FileExtension)
-				&& ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant());
+			return Layouts.Detail;
 
 			static bool IsMedia(ListedItem item)
 				=> !string.IsNullOrEmpty(item.FileExtension)
 				&& (FileExtensionHelpers.IsAudioFile(item.FileExtension)
-				|| FileExtensionHelpers.IsVideoFile(item.FileExtension));
+				|| FileExtensionHelpers.IsVideoFile(item.FileExtension)
+				|| FileExtensionHelpers.IsImageFile(item.FileExtension));
 		}
 
 		private enum Layouts

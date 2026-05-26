@@ -10,86 +10,81 @@ namespace Files.App.Extensions
 	{
 		public static Task EnqueueOrInvokeAsync(this DispatcherQueue? dispatcher, Func<Task> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
 		{
-			return SafetyExtensions.IgnoreExceptions(() =>
+			return SafetyExtensions.IgnoreExceptions(async () =>
 			{
 				if (dispatcher is not null)
 				{
 					try
 					{
-						return dispatcher.EnqueueAsync(function, priority);
+						await dispatcher.EnqueueAsync(function, priority);
 					}
-					catch (InvalidOperationException ex)
+					catch (InvalidOperationException ex) when (ex.Message is "Failed to enqueue the operation")
 					{
-						if (ex.Message is not "Failed to enqueue the operation")
-							throw;
 					}
+					return;
 				}
 
-				return function();
+				await function();
 			}, App.Logger, typeof(COMException));
 		}
 
 		public static Task<T?> EnqueueOrInvokeAsync<T>(this DispatcherQueue? dispatcher, Func<Task<T>> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
 		{
-			return SafetyExtensions.IgnoreExceptions(() =>
+			return SafetyExtensions.IgnoreExceptions(async () =>
 			{
 				if (dispatcher is not null)
 				{
 					try
 					{
-						return dispatcher.EnqueueAsync(function, priority);
+						return await dispatcher.EnqueueAsync(function, priority);
 					}
-					catch (InvalidOperationException ex)
+					catch (InvalidOperationException ex) when (ex.Message is "Failed to enqueue the operation")
 					{
-						if (ex.Message is not "Failed to enqueue the operation")
-							throw;
+						return default;
 					}
 				}
 
-				return function();
+				return await function();
 			}, App.Logger, typeof(COMException));
 		}
 
 		public static Task EnqueueOrInvokeAsync(this DispatcherQueue? dispatcher, Action function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
 		{
-			return SafetyExtensions.IgnoreExceptions(() =>
+			return SafetyExtensions.IgnoreExceptions(async () =>
 			{
 				if (dispatcher is not null)
 				{
 					try
 					{
-						return dispatcher.EnqueueAsync(function, priority);
+						await dispatcher.EnqueueAsync(function, priority);
 					}
-					catch (InvalidOperationException ex)
+					catch (InvalidOperationException ex) when (ex.Message is "Failed to enqueue the operation")
 					{
-						if (ex.Message is not "Failed to enqueue the operation")
-							throw;
 					}
+					return;
 				}
 
 				function();
-				return Task.CompletedTask;
 			}, App.Logger, typeof(COMException));
 		}
 
 		public static Task<T?> EnqueueOrInvokeAsync<T>(this DispatcherQueue? dispatcher, Func<T> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
 		{
-			return SafetyExtensions.IgnoreExceptions(() =>
+			return SafetyExtensions.IgnoreExceptions(async () =>
 			{
 				if (dispatcher is not null)
 				{
 					try
 					{
-						return dispatcher.EnqueueAsync(function, priority);
+						return await dispatcher.EnqueueAsync(function, priority);
 					}
-					catch (InvalidOperationException ex)
+					catch (InvalidOperationException ex) when (ex.Message is "Failed to enqueue the operation")
 					{
-						if (ex.Message is not "Failed to enqueue the operation")
-							throw;
+						return default;
 					}
 				}
 
-				return Task.FromResult(function());
+				return function();
 			}, App.Logger, typeof(COMException));
 		}
 

@@ -122,5 +122,17 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating when to display the Status Center button.
 		/// </summary>
 		StatusCenterVisibility StatusCenterVisibility { get; set; }
+
+		/// <summary>
+		/// Gets or sets the toolbar items grouped by customization context.
+		/// A null value means the default toolbar layout is used.
+		/// </summary>
+		Dictionary<string, List<ToolbarItemSettingsEntry>>? CustomToolbarItems { get; set; }
+
+		/// <summary>
+		/// Gets or sets the known default toolbar identifiers grouped by context.
+		/// This is used to inject only newly introduced default actions for existing user configs.
+		/// </summary>
+		Dictionary<string, List<string>>? LastKnownToolbarDefaults { get; set; }
 	}
 }

@@ -16,6 +16,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.PlayAllDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Media;
+
 		public RichGlyph Glyph
 			=> new("\uE768");
 

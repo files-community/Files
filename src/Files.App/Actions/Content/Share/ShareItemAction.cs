@@ -19,6 +19,12 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Share");
 
+		public ActionCategory Category
+			=> ActionCategory.FileSystem;
+
+		public string AccessKey
+			=> "H";
+
 		public bool IsExecutable =>
 			IsContextPageTypeAdaptedToCommand() &&
 			DataTransferManager.IsSupported() &&

@@ -140,11 +140,10 @@ namespace Files.App.Utils.Storage
 			{
 				if (item.Path == "Home")
 					item.Title = Strings.Home.GetLocalizedResource();
-				if (item.Path == "ReleaseNotes")
+				else if (item.Path == "ReleaseNotes")
 					item.Title = Strings.ReleaseNotes.GetLocalizedResource();
-				// TODO add settings page
-				//if (item.Path == "Settings")
-				//	item.Title = Strings.Settings.GetLocalizedResource();
+				else if (item.Path == "Settings")
+					item.Title = Strings.Settings.GetLocalizedResource();
 				else
 				{
 					BaseStorageFolder folder = await FilesystemTasks.Wrap(() => DangerousGetFolderFromPathAsync(item.Path));

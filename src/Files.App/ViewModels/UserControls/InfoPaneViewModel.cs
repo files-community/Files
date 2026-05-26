@@ -7,6 +7,8 @@ using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System.Collections.Specialized;
+using System.Runtime.InteropServices;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.UserControls
@@ -18,6 +20,7 @@ namespace Files.App.ViewModels.UserControls
 		private DrivesViewModel drivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		private CancellationTokenSource loadCancellationTokenSource;
+		private Files.App.UserControls.Menus.FileTagsContextMenu? cachedTagsContextMenu;
 
 		/// <summary>
 		/// Value indicating if the info pane is on/off
@@ -142,8 +145,25 @@ namespace Files.App.ViewModels.UserControls
 		{
 			infoPaneSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
 			contentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
+			CloudDrivesManager.DataChanged += CloudDrivesManager_DataChanged;
 
 			IsEnabled = infoPaneSettingsService.IsInfoPaneEnabled;
+		}
+
+		private void CloudDrivesManager_DataChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		{
+			_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+			{
+				if (SelectedItem is null)
+					return;
+
+				SetDriveItem();
+
+				if (PreviewPaneState is PreviewPaneStates.PreviewAndDetailsAvailable && SelectedDriveItem is not null)
+					PreviewPaneState = PreviewPaneStates.DriveStorageDetailsAvailable;
+				else if (PreviewPaneState is PreviewPaneStates.DriveStorageDetailsAvailable && SelectedDriveItem is null)
+					PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
+			});
 		}
 
 		private async void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -204,7 +224,7 @@ namespace Files.App.ViewModels.UserControls
 			if (control is not null)
 			{
 				PreviewPaneContent = control;
-				PreviewPaneState = SelectedItem.IsDriveRoot ? PreviewPaneStates.DriveStorageDetailsAvailable : PreviewPaneStates.PreviewAndDetailsAvailable;
+				PreviewPaneState = SelectedDriveItem is not null ? PreviewPaneStates.DriveStorageDetailsAvailable : PreviewPaneStates.PreviewAndDetailsAvailable;
 				return;
 			}
 
@@ -217,7 +237,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 
 			PreviewPaneContent = control;
-			PreviewPaneState = SelectedItem.IsDriveRoot ? PreviewPaneStates.DriveStorageDetailsAvailable : PreviewPaneStates.PreviewAndDetailsAvailable;
+			PreviewPaneState = SelectedDriveItem is not null ? PreviewPaneStates.DriveStorageDetailsAvailable : PreviewPaneStates.PreviewAndDetailsAvailable;
 		}
 
 		private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item, bool downloadItem)
@@ -482,7 +502,7 @@ namespace Files.App.ViewModels.UserControls
 				await basicModel.LoadAsync();
 
 				PreviewPaneContent = new BasicPreview(basicModel);
-				PreviewPaneState = SelectedItem.IsDriveRoot ? PreviewPaneStates.DriveStorageDetailsAvailable : PreviewPaneStates.PreviewAndDetailsAvailable;
+				PreviewPaneState = SelectedDriveItem is not null ? PreviewPaneStates.DriveStorageDetailsAvailable : PreviewPaneStates.PreviewAndDetailsAvailable;
 			}
 			catch (Exception ex)
 			{
@@ -500,43 +520,62 @@ namespace Files.App.ViewModels.UserControls
 
 		private void UpdateTagsItems()
 		{
-			Items.Clear();
-
-			SelectedItem?.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
-
-			var contextMenu = new Files.App.UserControls.Menus.FileTagsContextMenu(new List<ListedItem>() { SelectedItem });
-			contextMenu.Closed += HandleClosed;
-			contextMenu.TagsChanged += RequireTagGroupsUpdate;
-
-			Items.Add(new FlyoutItem(contextMenu));
-
-			async void RequireTagGroupsUpdate(object? sender, EventArgs e)
+			try
 			{
-				if (contentPageContext.ShellPage is not null)
-					await contentPageContext.ShellPage.ShellViewModel.RefreshTagGroups();
+				Items.Clear();
+
+				SelectedItem?.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
+
+				// Create menu once and reuse it for subsequent selections
+				if (cachedTagsContextMenu is null)
+				{
+					cachedTagsContextMenu = new Files.App.UserControls.Menus.FileTagsContextMenu(new List<ListedItem>() { SelectedItem });
+					cachedTagsContextMenu.TagsChanged += async (s, e) =>
+					{
+						if (contentPageContext.ShellPage is not null)
+							await contentPageContext.ShellPage.ShellViewModel.RefreshTagGroups();
+					};
+				}
+				else
+				{
+					// Reset menu for new selection
+					cachedTagsContextMenu.ResetForItems(new List<ListedItem>() { SelectedItem });
+				}
+
+				Items.Add(new FlyoutItem(cachedTagsContextMenu));
 			}
-
-			void HandleClosed(object? sender, object e)
+			catch (COMException ex)
 			{
-				contextMenu.TagsChanged -= RequireTagGroupsUpdate;
-				contextMenu.Closed -= HandleClosed;
+				// MenuFlyout construction fails (0x8001010E: RPC_E_DISCONNECTED) when UI is being torn down
+				App.Logger.LogInformation($"InfoPaneViewModel.UpdateTagsItems: Suppressed COMException during UI teardown: {ex.HResult}");
+				Items.Clear(); // Clean up partial state
 			}
 		}
 
 		private void SetDriveItem()
 		{
-			if (!(selectedItem?.IsDriveRoot ?? false))
+			if (selectedItem is null)
 			{
 				selectedDriveItem = null;
 				return;
 			}
 
-			SelectedDriveItem = drivesViewModel.Drives.FirstOrDefault(drive => drive.Id == selectedItem.ItemPath) as DriveItem;
+			var normalizedPath = PathNormalization.NormalizePath(selectedItem.ItemPath);
+
+			SelectedDriveItem = drivesViewModel.Drives
+				.OfType<DriveItem>()
+				.Concat(CloudDrivesManager.Drives)
+				.FirstOrDefault(d => !string.IsNullOrWhiteSpace(d.Path) &&
+					normalizedPath.Equals(PathNormalization.NormalizePath(d.Path), StringComparison.OrdinalIgnoreCase));
 		}
 
 		public void Dispose()
 		{
-
+			loadCancellationTokenSource?.Cancel();
+			infoPaneSettingsService.PropertyChanged -= PreviewSettingsService_OnPropertyChangedEvent;
+			contentPageContext.PropertyChanged -= ContentPageContext_PropertyChanged;
+			CloudDrivesManager.DataChanged -= CloudDrivesManager_DataChanged;
+			cachedTagsContextMenu = null;
 		}
 	}
 }

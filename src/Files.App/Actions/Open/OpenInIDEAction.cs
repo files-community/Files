@@ -20,6 +20,9 @@ namespace Files.App.Actions
 				Strings.OpenInIDEDescription.GetLocalizedResource(),
 				_devToolsSettingsService.IDEName);
 
+		public ActionCategory Category
+			=> ActionCategory.Open;
+
 		public bool IsExecutable =>
 			_context.Folder is not null &&
 			!string.IsNullOrWhiteSpace(_devToolsSettingsService.IDEPath);

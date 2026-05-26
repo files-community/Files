@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.SortFilesAndFoldersTogetherDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Sorting;
+
 		public bool IsOn
 			=> context.SortDirectoriesAlongsideFiles;
 

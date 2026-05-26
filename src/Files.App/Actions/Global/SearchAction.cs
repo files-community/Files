@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.SearchDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Open;
+
 		public HotKey HotKey
 			=> new(Keys.F, KeyModifiers.Ctrl);
 

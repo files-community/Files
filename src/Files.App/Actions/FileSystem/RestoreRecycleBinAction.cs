@@ -18,6 +18,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.RestoreRecycleBinDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
+		public ActionCategory Category
+			=> ActionCategory.FileSystem;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.RestoreDeleted");
 

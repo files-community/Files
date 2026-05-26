@@ -34,6 +34,13 @@ namespace Files.App.Services
 			private set => SetProperty(ref _isUpdating, value);
 		}
 
+		private int _updateProgress;
+		public int UpdateProgress
+		{
+			get => _updateProgress;
+			private set => SetProperty(ref _updateProgress, value);
+		}
+
 		public bool IsAppUpdated
 		{
 			get => AppLifecycleHelper.IsAppUpdated;
@@ -53,12 +60,10 @@ namespace Files.App.Services
 
 		public async Task DownloadUpdatesAsync()
 		{
-			OnUpdateInProgress();
-
 			if (!HasUpdates())
-			{
 				return;
-			}
+
+			OnUpdateInProgress();
 
 			// double check for Mandatory
 			if (IsMandatory)
@@ -81,16 +86,29 @@ namespace Files.App.Services
 		{
 			// Prompt the user to download if the package list
 			// contains mandatory updates.
-			if (IsMandatory && HasUpdates())
+			if (!IsMandatory || !HasUpdates())
+				return;
+
+			// CheckAppUpdate runs inside Task.Run, so the consent dialog and the Store
+			// download API must be marshalled to the UI thread to avoid hard crashes.
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				if (await ShowDialogAsync())
+				try
 				{
+					if (!await ShowDialogAsync())
+						return;
+
 					App.Logger.LogInformation("STORE: Downloading updates...");
 					OnUpdateInProgress();
 					await DownloadAndInstallAsync();
 					OnUpdateCompleted();
 				}
-			}
+				catch (Exception ex)
+				{
+					App.Logger.LogWarning(ex, "STORE: Mandatory update flow failed.");
+					OnUpdateCancelled();
+				}
+			});
 		}
 
 		public async Task CheckForUpdatesAsync()
@@ -133,11 +151,37 @@ namespace Files.App.Services
 
 			App.AppModel.ForceProcessTermination = true;
 
-			var downloadOperation = _storeContext?.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
-			var result = await downloadOperation.AsTask();
+			StorePackageUpdateResult? result = null;
 
-			if (result.OverallState == StorePackageUpdateState.Canceled)
-				App.AppModel.ForceProcessTermination = false;
+			try
+			{
+				var downloadOperation = _storeContext?.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
+
+				if (downloadOperation is null)
+					return;
+
+				downloadOperation.Progress = (op, status) =>
+				{
+					MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+					{
+						UpdateProgress = (int)(status.TotalDownloadProgress * 100);
+					});
+				};
+
+				result = await downloadOperation.AsTask();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "STORE: Update download failed.");
+			}
+			finally
+			{
+				// Only keep ForceProcessTermination set when the Store actually completed
+				// the install — otherwise the app would hard-exit on next close instead of
+				// going to background.
+				if (result is null || result.OverallState != StorePackageUpdateState.Completed)
+					App.AppModel.ForceProcessTermination = false;
+			}
 		}
 
 		private async Task GetUpdatePackagesAsync()
@@ -230,6 +274,7 @@ namespace Files.App.Services
 		{
 			IsUpdating = false;
 			IsUpdateAvailable = false;
+			UpdateProgress = 0;
 
 			_updatePackages?.Clear();
 		}
@@ -237,6 +282,7 @@ namespace Files.App.Services
 		private void OnUpdateCancelled()
 		{
 			IsUpdating = false;
+			UpdateProgress = 0;
 		}
 	}
 }

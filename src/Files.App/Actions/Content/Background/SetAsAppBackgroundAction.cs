@@ -9,10 +9,16 @@ namespace Files.App.Actions
 		private readonly IAppearanceSettingsService AppearanceSettingsService = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
 
 		public override string Label
+			=> Strings.Application.GetLocalizedResource();
+
+		public override string ExtendedLabel
 			=> Strings.SetAsAppBackground.GetLocalizedResource();
 
 		public override string Description
 			=> Strings.SetAsAppBackgroundDescription.GetLocalizedResource();
+
+		public string AccessKey
+			=> "A";
 
 		public override RichGlyph Glyph
 			=> new("\uE91B");

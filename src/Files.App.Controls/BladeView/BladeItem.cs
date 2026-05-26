@@ -19,8 +19,8 @@ namespace Files.App.Controls
 		private const double MINIMUM_WIDTH = 150;
 		private const double DEFAULT_WIDTH = 200; // Default width for the blade item
 
-		private Button _closeButton;
-		private Border _bladeResizer;
+		private Button? _closeButton;
+		private Border? _bladeResizer;
 		private bool _draggingSidebarResizer;
 		private double _preManipulationSidebarWidth = 0;
 

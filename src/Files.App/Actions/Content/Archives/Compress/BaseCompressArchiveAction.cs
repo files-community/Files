@@ -12,6 +12,12 @@ namespace Files.App.Actions
 
 		public abstract string Description { get; }
 
+		public virtual string ExtendedLabel
+			=> Label;
+
+		public virtual ActionCategory Category
+			=> ActionCategory.Archive;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Zip");
 

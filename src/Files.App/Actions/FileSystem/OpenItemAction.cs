@@ -17,6 +17,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.OpenItemDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
+		public ActionCategory Category
+			=> ActionCategory.Open;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.OpenFile");
 
@@ -63,6 +66,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.OpenItemWithApplicationPickerDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
+		public ActionCategory Category
+			=> ActionCategory.Open;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.OpenWith");
 
@@ -105,6 +111,9 @@ namespace Files.App.Actions
 
 		public string Description
 			=> Strings.OpenParentFolderDescription.GetLocalizedResource();
+
+		public ActionCategory Category
+			=> ActionCategory.Open;
 
 		public RichGlyph Glyph
 			=> new(baseGlyph: "\uE197");

@@ -16,6 +16,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.LaunchPreviewPopupDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Show;
+
 		public HotKey HotKey
 			=> new(Keys.Space);
 

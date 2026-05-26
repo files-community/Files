@@ -9,7 +9,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using Windows.AI.Actions.Hosting;
 using Windows.System;
 using Windows.UI.Core;
 
@@ -201,23 +200,6 @@ namespace Files.App.UserControls
 					return;
 				}
 
-				// Try invoking Windows app action
-				if (ActionManager.Instance.ActionRuntime is not null && item?.ActionInstance is ActionInstance actionInstance)
-				{
-					// Workaround for https://github.com/microsoft/App-Actions-On-Windows-Samples/issues/7
-					var action = ActionManager.Instance.ActionRuntime.ActionCatalog.GetAllActions()
-						.FirstOrDefault(a => a.Id == actionInstance.Context.ActionId);
-
-					if (action is not null)
-					{
-						var overload = action.GetOverloads().FirstOrDefault();
-						await overload?.InvokeAsync(actionInstance.Context);
-					}
-
-					ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
-					return;
-				}
-
 				await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidCommand.GetLocalizedResource(),
 					string.Format(Strings.InvalidCommandContent.GetLocalizedResource(), args.Text));
 
@@ -229,6 +211,26 @@ namespace Files.App.UserControls
 			else if (mode == OmnibarSearchMode)
 			{
 				var shellPage = ContentPageContext.ShellPage;
+
+				// Settings search: jump to the matching card, or apply the query in-page.
+				if (ViewModel.InstanceViewModel?.IsPageTypeSettings == true)
+				{
+					var settingsPage = (MainWindow.Instance.Content as FrameworkElement)?.FindDescendant<Files.App.Views.SettingsPage>();
+
+					if (args.Item is SuggestionModel { SettingsResult: { } settingsResult } && settingsPage is not null)
+					{
+						await settingsPage.JumpToSearchResultAsync(settingsResult);
+					}
+					else
+					{
+						settingsPage?.ApplySearchQuery(args.Text);
+					}
+
+					ViewModel.OmnibarSearchModeText = string.Empty;
+					Omnibar.IsFocused = false;
+					shellPage?.PaneHolder.FocusActivePane();
+					return;
+				}
 
 				if (args.Item is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath) && shellPage is not null)
 					await NavigationHelpers.OpenPath(item.ItemPath, shellPage);

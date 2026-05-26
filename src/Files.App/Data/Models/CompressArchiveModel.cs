@@ -107,6 +107,12 @@ namespace Files.App.Data.Models
 		public ArchiveSplittingSizes SplittingSize { get; init; }
 
 		/// <inheritdoc/>
+		public ArchiveDictionarySizes DictionarySize { get; init; }
+
+		/// <inheritdoc/>
+		public ArchiveWordSizes WordSize { get; init; }
+
+		/// <inheritdoc/>
 		public CancellationToken CancellationToken { get; set; }
 
 		/// <inheritdoc/>
@@ -120,7 +126,9 @@ namespace Files.App.Data.Models
 			string? password = null,
 			ArchiveFormats fileFormat = ArchiveFormats.Zip,
 			ArchiveCompressionLevels compressionLevel = ArchiveCompressionLevels.Normal,
-			ArchiveSplittingSizes splittingSize = ArchiveSplittingSizes.None)
+			ArchiveSplittingSizes splittingSize = ArchiveSplittingSizes.None,
+			ArchiveDictionarySizes dictionarySize = ArchiveDictionarySizes.Auto,
+			ArchiveWordSizes wordSize = ArchiveWordSizes.Auto)
 		{
 			_Progress = new Progress<StatusCenterItemProgressModel>();
 
@@ -132,6 +140,8 @@ namespace Files.App.Data.Models
 			FileFormat = fileFormat;
 			CompressionLevel = compressionLevel;
 			SplittingSize = splittingSize;
+			DictionarySize = dictionarySize;
+			WordSize = wordSize;
 			CPUThreads = cpuThreads;
 		}
 
@@ -164,6 +174,17 @@ namespace Files.App.Data.Models
 			// Don't add "cu" parameter for 7zip files, see https://github.com/files-community/Files/issues/17257
 			if (FileFormat != ArchiveFormats.SevenZip)
 				compressor.CustomParameters.Add("cu", "on");
+
+			if (FileFormat is ArchiveFormats.SevenZip)
+			{
+				var dictParam = GetDictionarySizeParam();
+				if (dictParam is not null)
+					compressor.CustomParameters.Add("d", dictParam);
+
+				var wordParam = GetWordSizeParam();
+				if (wordParam is not null)
+					compressor.CustomParameters.Add("fb", wordParam);
+			}
 
 			compressor.Compressing += Compressor_Compressing;
 			compressor.FileCompressionStarted += Compressor_FileCompressionStarted;
@@ -268,5 +289,37 @@ namespace Files.App.Data.Models
 			if (_fileSystemProgress.TotalSize > 0)
 				_fileSystemProgress.Report((_fileSystemProgress.ProcessedSize + e.PercentDelta / 100.0 * e.BytesCount) / _fileSystemProgress.TotalSize * 100);
 		}
+
+		private string? GetDictionarySizeParam() => DictionarySize switch
+		{
+			ArchiveDictionarySizes.Auto => null,
+			ArchiveDictionarySizes.Kb64 => "64k",
+			ArchiveDictionarySizes.Kb256 => "256k",
+			ArchiveDictionarySizes.Mb1 => "1m",
+			ArchiveDictionarySizes.Mb2 => "2m",
+			ArchiveDictionarySizes.Mb4 => "4m",
+			ArchiveDictionarySizes.Mb8 => "8m",
+			ArchiveDictionarySizes.Mb16 => "16m",
+			ArchiveDictionarySizes.Mb32 => "32m",
+			ArchiveDictionarySizes.Mb64 => "64m",
+			ArchiveDictionarySizes.Mb128 => "128m",
+			ArchiveDictionarySizes.Mb256 => "256m",
+			ArchiveDictionarySizes.Mb512 => "512m",
+			ArchiveDictionarySizes.Mb1024 => "1024m",
+			_ => null,
+		};
+
+		private string? GetWordSizeParam() => WordSize switch
+		{
+			ArchiveWordSizes.Auto => null,
+			ArchiveWordSizes.Fb8 => "8",
+			ArchiveWordSizes.Fb16 => "16",
+			ArchiveWordSizes.Fb32 => "32",
+			ArchiveWordSizes.Fb64 => "64",
+			ArchiveWordSizes.Fb128 => "128",
+			ArchiveWordSizes.Fb256 => "256",
+			ArchiveWordSizes.Fb273 => "273",
+			_ => null,
+		};
 	}
 }

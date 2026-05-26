@@ -147,6 +147,9 @@ namespace Files.App.Helpers
 			bool isFolder,
 			IconOptions iconOptions)
 		{
+			if (string.IsNullOrWhiteSpace(path))
+				return null;
+
 			byte[]? iconData = null;
 
 			try

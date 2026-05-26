@@ -26,14 +26,19 @@ namespace Files.App.Data.Contracts
 		bool ShowDotFiles { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether or not items should open with one click.
+		/// Gets or sets a value indicating when files should open with a single click.
 		/// </summary>
-		bool OpenItemsWithOneClick { get; set; }
+		SingleClickOpenMode OpenFilesWithSingleClick { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether or not folders should open with a single click.
+		/// Gets or sets a value indicating when folders should open with a single click in layouts other than Columns View.
 		/// </summary>
-		OpenFoldersWithOneClickEnum OpenFoldersWithOneClick { get; set; }
+		SingleClickOpenMode OpenFoldersWithSingleClick { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating when folders in Columns View should open with a single click.
+		/// </summary>
+		SingleClickOpenMode OpenFoldersInColumnsViewWithSingleClick { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to open folders in new tab.

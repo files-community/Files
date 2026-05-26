@@ -401,11 +401,12 @@ namespace Files.App.Views
 			{
 				var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
 				var isReleaseNotesPage = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeReleaseNotes ?? false;
+				var isSettingsPage = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeSettings ?? false;
 				var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
 				var isBigEnough = !App.AppModel.IsMainWindowClosed &&
 					(MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360);
 
-				ViewModel.ShouldPreviewPaneBeDisplayed = ((!isHomePage && !isReleaseNotesPage) || isMultiPane) && isBigEnough;
+				ViewModel.ShouldPreviewPaneBeDisplayed = ((!isHomePage && !isReleaseNotesPage && !isSettingsPage) || isMultiPane) && isBigEnough;
 				ViewModel.ShouldPreviewPaneBeActive = UserSettingsService.InfoPaneSettingsService.IsInfoPaneEnabled && ViewModel.ShouldPreviewPaneBeDisplayed;
 				ViewModel.ShouldViewControlBeDisplayed = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
 
@@ -476,26 +477,30 @@ namespace Files.App.Views
 
 		private async void SidebarControl_ItemDragOver(object sender, ItemDragOverEventArgs e)
 		{
-			var deferral = e.RawEvent.GetDeferral();
+			// GetDeferral()/Complete() can throw COMException if the underlying drag operation has already been released (e.g. canceled by the system or window closed)
+			var deferral = SafetyExtensions.IgnoreExceptions(() => e.RawEvent.GetDeferral(), App.Logger);
 
 			await SafetyExtensions.IgnoreExceptions(async () =>
 			{
 				await SidebarAdaptiveViewModel.HandleItemDragOverAsync(e);
 			}, App.Logger);
 
-			deferral.Complete();
+			if (deferral is not null)
+				SafetyExtensions.IgnoreExceptions(() => deferral.Complete(), App.Logger);
 		}
 
 		private async void SidebarControl_ItemDropped(object sender, ItemDroppedEventArgs e)
 		{
-			var deferral = e.RawEvent.GetDeferral();
+			// GetDeferral()/Complete() can throw COMException if the underlying drag operation has already been released (e.g. canceled by the system or window closed)
+			var deferral = SafetyExtensions.IgnoreExceptions(() => e.RawEvent.GetDeferral(), App.Logger);
 
 			await SafetyExtensions.IgnoreExceptions(async () =>
 			{
 				await SidebarAdaptiveViewModel.HandleItemDroppedAsync(e);
 			}, App.Logger);
 
-			deferral.Complete();
+			if (deferral is not null)
+				SafetyExtensions.IgnoreExceptions(() => deferral.Complete(), App.Logger);
 		}
 
 		private void SidebarControl_ItemInvoked(object sender, ItemInvokedEventArgs e)
@@ -503,7 +508,18 @@ namespace Files.App.Views
 			if (sender is not SidebarItem { Item: ISidebarItemModel item })
 				return;
 
+			if (item is INavigationControlItem navItem &&
+				string.Equals(navItem.Path, "Settings", StringComparison.OrdinalIgnoreCase))
+				_ = AnimateSettingsIconAsync();
+
 			SidebarAdaptiveViewModel.HandleItemInvokedAsync(item, e.PointerUpdateKind);
+		}
+
+		private async Task AnimateSettingsIconAsync()
+		{
+			AnimatedIcon.SetState(SettingAnimatedIcon, "Pressed");
+			await Task.Delay(140);
+			AnimatedIcon.SetState(SettingAnimatedIcon, "Normal");
 		}
 	}
 }
