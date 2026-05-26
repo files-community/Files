@@ -17,7 +17,7 @@
         <GenerateTestArtifacts>False</GenerateTestArtifacts>
         <AppxBundle>Always</AppxBundle>
         <DisableXbfLineInfo>False</DisableXbfLineInfo>
-        <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
+        <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
         <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
         <Nullable>Enable</Nullable>
         <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -45,8 +45,6 @@
 
     <PropertyGroup>
         <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-        <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-        <PackageCertificateThumbprint>E4E9B3B381A8CA7392F519B9408E563869E57285</PackageCertificateThumbprint>
     </PropertyGroup>
 
     <!-- Debug builds use a manifest without the desktop6:Service extension so VS
@@ -188,7 +186,9 @@
     <!-- Files.App.Server is an out-of-process COM server, not a project reference.
          Build it before we resolve assemblies so its .winmd is available for CsWinRT. -->
     <Target Name="BuildFilesAppServer" BeforeTargets="ResolveAssemblyReferences">
-        <MSBuild Projects="..\Files.App.Server\Files.App.Server.csproj" Targets="Build" Properties="Configuration=$(Configuration);Platform=$(Platform)" />
+        <MSBuild Projects="..\Files.App.Server\Files.App.Server.csproj"
+                 Targets="Build"
+                 Properties="Configuration=$(Configuration);Platform=$(Platform)" />
     </Target>
 
     <Import Project="..\Satori.targets" Condition=" '$(Platform)' != 'x86' " />
