@@ -77,6 +77,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public List<string> RecentFoldersList
+		{
+			get => Get<List<string>>(null);
+			set => Set(value);
+		}
+
 		public DateTimeFormats DateTimeFormat
 		{
 			get => Get(DateTimeFormats.Application);
@@ -162,6 +168,12 @@ namespace Files.App.Services.Settings
 		}
 
 		public bool IsPinnedSectionExpanded
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool IsRecentFoldersSectionExpanded
 		{
 			get => Get(true);
 			set => Set(value);

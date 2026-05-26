@@ -61,6 +61,11 @@ namespace Files.App.Data.Contracts
 		List<string> PreviousArchiveExtractionLocations { get; set; }
 
 		/// <summary>
+		/// A list containing recently visited folders.
+		/// </summary>
+		List<string> RecentFoldersList { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating which date and time format to use.
 		/// </summary>
 		DateTimeFormats DateTimeFormat { get; set; }
@@ -134,6 +139,11 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating if the favorites section should be expanded.
 		/// </summary>
 		bool IsPinnedSectionExpanded { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the recent folders section should be expanded.
+		/// </summary>
+		bool IsRecentFoldersSectionExpanded { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating if the library section should be visible.

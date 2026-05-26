@@ -30,6 +30,7 @@ namespace Files.App.Data.Contracts
 	{
 		Home,
 		Pinned,
+		RecentFolders,
 		Library,
 		Drives,
 		CloudDrives,

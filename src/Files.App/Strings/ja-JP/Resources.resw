@@ -4363,4 +4363,8 @@
   <data name="ShowPinToStart" xml:space="preserve">
     <value>[スタートメニューにピン留め] オプションを表示する</value>
   </data>
-</root>
+  <data name="RecentFolders" xml:space="preserve">
+    <value>Recent folders</value>
+  </data></root>
+
+

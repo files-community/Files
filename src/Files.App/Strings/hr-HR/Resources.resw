@@ -4362,4 +4362,8 @@
   <data name="ShowPinToStart" xml:space="preserve">
     <value>Prikaži opciju Prikvači na izbornik Start</value>
   </data>
-</root>
+  <data name="RecentFolders" xml:space="preserve">
+    <value>Recent folders</value>
+  </data></root>
+
+

@@ -4362,4 +4362,8 @@
   <data name="ShowPinToStart" xml:space="preserve">
     <value>Afficher l'option pour épingler au menu Démarrer</value>
   </data>
-</root>
+  <data name="RecentFolders" xml:space="preserve">
+    <value>Recent folders</value>
+  </data></root>
+
+

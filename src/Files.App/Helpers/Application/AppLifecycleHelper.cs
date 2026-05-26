@@ -102,10 +102,12 @@ namespace Files.App.Helpers
 			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 			var generalSettingsService = userSettingsService.GeneralSettingsService;
 			var jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
+			var recentFoldersManager = Ioc.Default.GetRequiredService<RecentFoldersManager>();
 
 			// Start off a list of tasks we need to run before we can continue startup
 			await Task.WhenAll(
-				App.QuickAccessManager.InitializeAsync()
+				App.QuickAccessManager.InitializeAsync(),
+				recentFoldersManager.LoadAsync()
 			);
 
 			// Start non-critical tasks without waiting for them to complete
@@ -281,6 +283,7 @@ namespace Files.App.Helpers
 					.AddSingleton<ReleaseNotesViewModel>()
 					// Utilities
 					.AddSingleton<QuickAccessManager>()
+					.AddSingleton<RecentFoldersManager>()
 					.AddSingleton<StorageHistoryWrapper>()
 					.AddSingleton<FileTagsManager>()
 					.AddSingleton<LibraryManager>()

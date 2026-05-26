@@ -1904,6 +1904,9 @@
   <data name="RecentFiles" xml:space="preserve">
     <value>Recent files</value>
   </data>
+  <data name="RecentFolders" xml:space="preserve">
+    <value>Recent folders</value>
+  </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>Open Files on Windows startup</value>
   </data>

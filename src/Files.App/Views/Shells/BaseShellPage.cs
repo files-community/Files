@@ -41,6 +41,7 @@ namespace Files.App.Views.Shells
 		protected readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
 		protected readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		protected readonly RecentFoldersManager recentFoldersManager = Ioc.Default.GetRequiredService<RecentFoldersManager>();
 
 		protected readonly IUpdateService updateSettingsService = Ioc.Default.GetRequiredService<IUpdateService>();
 
@@ -591,6 +592,8 @@ namespace Files.App.Views.Shells
 					break;
 				case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete:
 					SetLoadingIndicatorForTabs(false);
+					if (!string.IsNullOrWhiteSpace(e.Path))
+						_ = recentFoldersManager.RecordPathAsync(e.Path);
 
 					if (ContentPage is not null)
 						ContentPage.ItemManipulationModel.ScrollToTop();

@@ -4362,4 +4362,8 @@
   <data name="ShowPinToStart" xml:space="preserve">
     <value>Mostrar opción Anclar en el menú Inicio</value>
   </data>
-</root>
+  <data name="RecentFolders" xml:space="preserve">
+    <value>Recent folders</value>
+  </data></root>
+
+

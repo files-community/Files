@@ -24,6 +24,7 @@ namespace Files.App.ViewModels.UserControls
 		private INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		private RecentFoldersManager RecentFoldersManager { get; } = Ioc.Default.GetRequiredService<RecentFoldersManager>();
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private readonly IFileTagsService fileTagsService;
 
@@ -74,6 +75,7 @@ namespace Files.App.ViewModels.UserControls
 			[
 				SectionType.Home,
 				SectionType.Pinned,
+				SectionType.RecentFolders,
 				SectionType.Library,
 				SectionType.Drives,
 				SectionType.CloudDrives,
@@ -136,6 +138,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public bool AreSectionsHidden =>
 			!ShowPinnedFoldersSection &&
+			!HasRecentFoldersSection &&
 			!ShowLibrarySection &&
 			!ShowDrivesSection &&
 			!ShowCloudDrivesSection &&
@@ -143,6 +146,9 @@ namespace Files.App.ViewModels.UserControls
 			(!ShowWslSection || WSLDistroManager.Distros.Any() == false) &&
 			!ShowFileTagsSection &&
 			SidebarDisplayMode is not SidebarDisplayMode.Compact;
+
+		public bool HasRecentFoldersSection
+			=> RecentFoldersManager.RecentFolderItems.Any();
 
 		public bool ShowPinnedFoldersSection
 		{
@@ -246,6 +252,7 @@ namespace Files.App.ViewModels.UserControls
 			CreateItemHomeAsync();
 
 			Manager_DataChanged(SectionType.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			Manager_DataChanged(SectionType.RecentFolders, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Manager_DataChanged(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Manager_DataChanged(SectionType.Drives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Manager_DataChanged(SectionType.CloudDrives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
@@ -254,6 +261,7 @@ namespace Files.App.ViewModels.UserControls
 			Manager_DataChanged(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
 			App.QuickAccessManager.Model.DataChanged += Manager_DataChanged;
+			RecentFoldersManager.DataChanged += Manager_DataChanged;
 			App.LibraryManager.DataChanged += Manager_DataChanged;
 			drivesViewModel.Drives.CollectionChanged += Manager_DataChangedForDrives;
 			CloudDrivesManager.DataChanged += Manager_DataChanged;
@@ -283,10 +291,19 @@ namespace Files.App.ViewModels.UserControls
 			await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
 				var sectionType = (SectionType)sender;
+				if (sectionType is SectionType.RecentFolders && !RecentFoldersManager.RecentFolderItems.Any())
+				{
+					sidebarItems.Remove(GetSection(sectionType));
+					OnPropertyChanged(nameof(HasRecentFoldersSection));
+					OnPropertyChanged(nameof(AreSectionsHidden));
+					return;
+				}
+
 				var section = await GetOrCreateSectionAsync(sectionType);
 				Func<IReadOnlyList<INavigationControlItem>> getElements = () => sectionType switch
 				{
 					SectionType.Pinned => App.QuickAccessManager.Model.PinnedFolderItems,
+					SectionType.RecentFolders => RecentFoldersManager.RecentFolderItems,
 					SectionType.CloudDrives => CloudDrivesManager.Drives,
 					SectionType.Drives => drivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
 					SectionType.Network => NetworkService.Computers.Cast<DriveItem>().ToList().AsReadOnly(),
@@ -296,6 +313,8 @@ namespace Files.App.ViewModels.UserControls
 					_ => null
 				};
 				await SyncSidebarItemsAsync(section, getElements, e);
+				OnPropertyChanged(nameof(HasRecentFoldersSection));
+				OnPropertyChanged(nameof(AreSectionsHidden));
 			});
 		}
 
@@ -342,13 +361,26 @@ namespace Files.App.ViewModels.UserControls
 
 				case NotifyCollectionChangedAction.Reset:
 					{
-						foreach (INavigationControlItem elem in getElements())
+						var elements = getElements();
+
+						if (section.Section == SectionType.RecentFolders)
+						{
+							section.ChildItems.Clear();
+							foreach (INavigationControlItem elem in elements)
+							{
+								await AddElementToSectionAsync(elem, section);
+							}
+
+							break;
+						}
+
+						foreach (INavigationControlItem elem in elements)
 						{
 							await AddElementToSectionAsync(elem, section);
 						}
 						foreach (INavigationControlItem elem in section.ChildItems.ToList())
 						{
-							if (!getElements().Any(x => x.Path == elem.Path))
+							if (!elements.Any(x => x.Path == elem.Path))
 							{
 								section.ChildItems.Remove(elem);
 							}
@@ -420,6 +452,9 @@ namespace Files.App.ViewModels.UserControls
 					case var text when text == Strings.Pinned.GetLocalizedResource():
 						UserSettingsService.GeneralSettingsService.IsPinnedSectionExpanded = section.IsExpanded;
 						break;
+					case var text when text == Strings.RecentFolders.GetLocalizedResource():
+						UserSettingsService.GeneralSettingsService.IsRecentFoldersSectionExpanded = section.IsExpanded;
+						break;
 					case var text when text == Strings.SidebarLibraries.GetLocalizedResource():
 						UserSettingsService.GeneralSettingsService.IsLibrarySectionExpanded = section.IsExpanded;
 						break;
@@ -482,6 +517,21 @@ namespace Files.App.ViewModels.UserControls
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.StarIcon));
 						section.IsHeader = true;
 						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsPinnedSectionExpanded;
+
+						break;
+					}
+
+				case SectionType.RecentFolders:
+					{
+						if (!RecentFoldersManager.RecentFolderItems.Any())
+						{
+							break;
+						}
+
+						section = BuildSection(Strings.RecentFolders.GetLocalizedResource(), sectionType, new ContextMenuOptions(), false);
+						iconIdex = Constants.ImageRes.Folder;
+						section.IsHeader = true;
+						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsRecentFoldersSectionExpanded;
 
 						break;
 					}
@@ -688,6 +738,7 @@ namespace Files.App.ViewModels.UserControls
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 
 			App.QuickAccessManager.Model.DataChanged -= Manager_DataChanged;
+			RecentFoldersManager.DataChanged -= Manager_DataChanged;
 			App.LibraryManager.DataChanged -= Manager_DataChanged;
 			drivesViewModel.Drives.CollectionChanged -= Manager_DataChangedForDrives;
 			CloudDrivesManager.DataChanged -= Manager_DataChanged;

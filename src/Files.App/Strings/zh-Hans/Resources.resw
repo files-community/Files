@@ -4362,4 +4362,8 @@
   <data name="ShowPinToStart" xml:space="preserve">
     <value>显示固定选项到“开始菜单”</value>
   </data>
-</root>
+  <data name="RecentFolders" xml:space="preserve">
+    <value>Recent folders</value>
+  </data></root>
+
+

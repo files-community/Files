@@ -4362,4 +4362,8 @@
   <data name="ShowPinToStart" xml:space="preserve">
     <value>Afișați opțiunea de fixare în Meniul Start</value>
   </data>
-</root>
+  <data name="RecentFolders" xml:space="preserve">
+    <value>Recent folders</value>
+  </data></root>
+
+

@@ -4362,4 +4362,7 @@
   <data name="ShowPinToStart" xml:space="preserve">
     <value>Mostrar a opção de Fixar no Menu Iniciar</value>
   </data>
+  <data name="RecentFolders" xml:space="preserve">
+    <value>Pastas recentes</value>
+  </data>
 </root>

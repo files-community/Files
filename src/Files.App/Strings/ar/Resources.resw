@@ -4363,4 +4363,8 @@
   <data name="ShowPinToStart" xml:space="preserve">
     <value>إظهار خيار التثبيت إلى قائمة البدء</value>
   </data>
-</root>
+  <data name="RecentFolders" xml:space="preserve">
+    <value>Recent folders</value>
+  </data></root>
+
+
