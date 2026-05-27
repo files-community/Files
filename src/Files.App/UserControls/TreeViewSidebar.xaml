@@ -24,7 +24,7 @@
 		CanReorderItems="False"
 		Expanding="Tree_Expanding"
 		ItemInvoked="Tree_ItemInvoked"
-		ItemsSource="{x:Bind RootFolders, Mode=OneWay}"
+		ItemsSource="{x:Bind ViewModel.RootFolders, Mode=OneWay}"
 		SelectionMode="Single">
 		<controls:TreeView.ItemTemplate>
 			<DataTemplate x:DataType="local:FolderNode">
@@ -32,7 +32,9 @@
 					HasUnrealizedChildren="{x:Bind HasUnrealizedChildren, Mode=OneWay}"
 					IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
 					IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
-					ItemsSource="{x:Bind Children}">
+					ItemsSource="{x:Bind Children}"
+					RightTapped="Item_RightTapped"
+					Tag="{x:Bind}">
 					<StackPanel
 						Padding="0,2"
 						DoubleTapped="Item_DoubleTapped"
@@ -48,6 +50,11 @@
 							Source="{x:Bind Icon, Mode=OneWay}"
 							Stretch="Uniform"
 							Visibility="{x:Bind Icon, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
+						<controls:IconSourceElement
+							Width="16"
+							Height="16"
+							IconSource="{x:Bind TagIconSource, Mode=OneWay}"
+							Visibility="{x:Bind TagIconSource, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
 						<TextBlock
 							VerticalAlignment="Center"
 							Text="{x:Bind Name}"

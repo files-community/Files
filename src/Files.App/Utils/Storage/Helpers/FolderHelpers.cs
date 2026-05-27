@@ -5,6 +5,8 @@ using System.IO;
 
 namespace Files.App.Utils.Storage
 {
+	public readonly record struct SubfolderEntry(string Path, string Name, bool HasSubfolders, bool IsHidden);
+
 	public static class FolderHelpers
 	{
 		public static bool CheckFolderAccessWithWin32(string path)
@@ -47,6 +49,89 @@ namespace Files.App.Utils.Storage
 			var result = Win32PInvoke.FindNextFile(hFile, out _);
 			Win32PInvoke.FindClose(hFile);
 			return result;
+		}
+
+		public static List<SubfolderEntry> EnumerateSubfolders(string path, bool showHidden, bool showProtected, bool showDot, int limit = 1000)
+		{
+			var results = new List<SubfolderEntry>();
+
+			IntPtr hFind = Win32PInvoke.FindFirstFileExFromApp(
+				path + "\\*.*",
+				Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic,
+				out Win32PInvoke.WIN32_FIND_DATA findData,
+				Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+				IntPtr.Zero,
+				Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH);
+
+			if (hFind.ToInt64() == -1)
+				return results;
+
+			try
+			{
+				do
+				{
+					if (findData.cFileName == "." || findData.cFileName == "..")
+						continue;
+
+					if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
+						continue;
+
+					var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+					var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
+
+					if (!showDot && findData.cFileName.StartsWith('.'))
+						continue;
+					if (isHidden && !showHidden)
+						continue;
+					if (isHidden && isSystem && !showProtected)
+						continue;
+
+					var subPath = Path.Combine(path, findData.cFileName);
+					results.Add(new SubfolderEntry(subPath, findData.cFileName, HasSubfolders(subPath), isHidden));
+
+					if (results.Count == limit)
+						break;
+				}
+				while (Win32PInvoke.FindNextFile(hFind, out findData));
+			}
+			finally
+			{
+				Win32PInvoke.FindClose(hFind);
+			}
+
+			results.Sort((a, b) => StringComparer.OrdinalIgnoreCase.Compare(a.Name, b.Name));
+			return results;
+		}
+
+		public static bool HasSubfolders(string path)
+		{
+			IntPtr hFind = Win32PInvoke.FindFirstFileExFromApp(
+				path + "\\*.*",
+				Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic,
+				out Win32PInvoke.WIN32_FIND_DATA findData,
+				Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+				IntPtr.Zero,
+				Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH);
+
+			if (hFind.ToInt64() == -1)
+				return false;
+
+			try
+			{
+				do
+				{
+					if (findData.cFileName == "." || findData.cFileName == "..")
+						continue;
+					if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+						return true;
+				}
+				while (Win32PInvoke.FindNextFile(hFind, out findData));
+				return false;
+			}
+			finally
+			{
+				Win32PInvoke.FindClose(hFind);
+			}
 		}
 	}
 }
