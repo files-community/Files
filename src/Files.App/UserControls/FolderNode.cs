@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Media;
@@ -55,6 +55,14 @@ namespace Files.App.UserControls
 		{
 			get => _Opacity;
 			set => SetProperty(ref _Opacity, value);
+		}
+
+		// Custom selection flag driving the DataTemplate's overlay Border. Set by the path-mirror code in TreeViewSidebar — we deliberately do NOT go through TreeView.SelectedItem, since assigning that to a data node whose TreeViewItem container isn't realized crashes WinUI's native selection machinery (ExecutionEngineException).
+		private bool _IsSelected;
+		public bool IsSelected
+		{
+			get => _IsSelected;
+			set => SetProperty(ref _IsSelected, value);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
@@ -36,6 +36,9 @@ namespace Files.App.UserControls
 		private bool _isUnloaded;
 		private bool _applyingState;
 
+		// Currently-selected node per the path mirror — kept so we can clear its IsSelected before flipping the new one without walking the whole tree.
+		private FolderNode? _selectedNode;
+
 		public TreeViewSidebar()
 		{
 			InitializeComponent();
@@ -53,11 +56,13 @@ namespace Files.App.UserControls
 					if (_isUnloaded)
 						return;
 					_mainPageViewModel.Value.PropertyChanged += OnMainPageViewModelPropertyChanged;
+					_sidebarViewModel.Value.PropertyChanged += OnSidebarViewModelPropertyChanged;
 					if (_sidebarViewModel.Value.SidebarItems is INotifyCollectionChanged inc)
 						inc.CollectionChanged += OnSidebarItemsChanged;
 					MainPageViewModel.AppInstances.CollectionChanged += OnAppInstancesChanged;
 					_currentTab = _mainPageViewModel.Value.SelectedTabItem;
 					RebuildAndApply();
+					UpdateSelectionFromCurrentPath();
 				}
 				catch (Exception ex)
 				{
@@ -73,8 +78,12 @@ namespace Files.App.UserControls
 			{
 				if (_mainPageViewModel.IsValueCreated)
 					_mainPageViewModel.Value.PropertyChanged -= OnMainPageViewModelPropertyChanged;
-				if (_sidebarViewModel.IsValueCreated && _sidebarViewModel.Value.SidebarItems is INotifyCollectionChanged inc)
-					inc.CollectionChanged -= OnSidebarItemsChanged;
+				if (_sidebarViewModel.IsValueCreated)
+				{
+					_sidebarViewModel.Value.PropertyChanged -= OnSidebarViewModelPropertyChanged;
+					if (_sidebarViewModel.Value.SidebarItems is INotifyCollectionChanged inc)
+						inc.CollectionChanged -= OnSidebarItemsChanged;
+				}
 				MainPageViewModel.AppInstances.CollectionChanged -= OnAppInstancesChanged;
 				DetachAllNodeHandlers();
 			}
@@ -102,6 +111,8 @@ namespace Files.App.UserControls
 		private void Rebuild()
 		{
 			DetachAllNodeHandlers();
+			// The old _selectedNode is about to be replaced by fresh FolderNode instances — drop it so UpdateSelectionFromCurrentPath re-finds the match against the new tree.
+			_selectedNode = null;
 			RootFolders.Clear();
 
 			if (_sidebarViewModel.Value.SidebarItems is not IEnumerable<INavigationControlItem> headers)
@@ -195,11 +206,70 @@ namespace Files.App.UserControls
 			{
 				Rebuild();
 				ApplyTabState();
+				// Re-evaluate the selection against the fresh tree — drives plugged in, cloud sync arriving, tab change, etc.
+				UpdateSelectionFromCurrentPath();
 			}
 			catch (Exception ex)
 			{
 				App.Logger?.LogWarning(ex, "TreeViewSidebar: rebuild failed");
 			}
+		}
+
+		// CurrentPath updates whenever the user navigates (via address bar, breadcrumbs, sidebar click, etc.). Mirror it onto the tree so the deepest already-loaded ancestor highlights.
+		private void OnSidebarViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName != nameof(SidebarViewModel.CurrentPath))
+				return;
+			if (DispatcherQueue.HasThreadAccess)
+				UpdateSelectionFromCurrentPath();
+			else
+				DispatcherQueue.TryEnqueue(UpdateSelectionFromCurrentPath);
+		}
+
+		// Walks the tree finding the deepest already-realized ancestor of CurrentPath and flips IsSelected on it (clearing the previous selection). The DataTemplate's overlay Border paints the visual — we never touch TreeView.SelectedItem, since assigning that to a data node with an unrealized container AVs WinUI's native selection code.
+		private void UpdateSelectionFromCurrentPath()
+		{
+			if (_isUnloaded)
+				return;
+			var target = _sidebarViewModel.Value.CurrentPath;
+			var match = string.IsNullOrEmpty(target) ? null : FindDeepestAncestor(RootFolders, target);
+			if (ReferenceEquals(match, _selectedNode))
+				return;
+			if (_selectedNode is not null)
+				_selectedNode.IsSelected = false;
+			_selectedNode = match;
+			if (_selectedNode is not null)
+				_selectedNode.IsSelected = true;
+		}
+
+		private static FolderNode? FindDeepestAncestor(IEnumerable<FolderNode> nodes, string targetPath)
+		{
+			FolderNode? best = null;
+			foreach (var node in nodes)
+			{
+				// Section nodes use a "section:..." pseudo-path that never matches a real folder — recurse into children instead.
+				if (node.IsSection)
+				{
+					var deeperInSection = FindDeepestAncestor(node.Children, targetPath);
+					if (deeperInSection is not null && (best is null || deeperInSection.Path.Length > best.Path.Length))
+						best = deeperInSection;
+					continue;
+				}
+				if (string.IsNullOrEmpty(node.Path))
+					continue;
+				if (targetPath.Equals(node.Path, StringComparison.OrdinalIgnoreCase))
+					return node;
+				// Treat drive-style paths ending without a separator ("C:") as ancestors of "C:\..." by appending the separator before comparing.
+				var withSeparator = node.Path.EndsWith(Path.DirectorySeparatorChar) ? node.Path : node.Path + Path.DirectorySeparatorChar;
+				if (targetPath.StartsWith(withSeparator, StringComparison.OrdinalIgnoreCase))
+				{
+					var deeper = FindDeepestAncestor(node.Children, targetPath);
+					var candidate = deeper ?? node;
+					if (best is null || candidate.Path.Length > best.Path.Length)
+						best = candidate;
+				}
+			}
+			return best;
 		}
 
 		private HashSet<string> GetOrInitState(TabBarItem tab)
@@ -281,6 +351,8 @@ namespace Files.App.UserControls
 				if (args.Node.Content is not FolderNode fn)
 					return;
 				await LoadChildrenAsync(fn);
+				// The just-loaded children may contain a deeper ancestor of CurrentPath — let the highlight descend.
+				UpdateSelectionFromCurrentPath();
 			}
 			catch (Exception ex)
 			{
