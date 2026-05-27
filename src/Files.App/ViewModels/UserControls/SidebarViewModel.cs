@@ -93,9 +93,18 @@ namespace Files.App.ViewModels.UserControls
 			OnPropertyChanged(nameof(SidebarSelectedItem));
 		}
 
+		// Current absolute navigation path. Mirrored to the TreeViewSidebar so the embedded tree highlights the deepest ancestor of this path.
+		private string? currentPath;
+		public string? CurrentPath
+		{
+			get => currentPath;
+			private set => SetProperty(ref currentPath, value);
+		}
+
 		public void UpdateSidebarSelectedItemFromArgs(string? arg)
 		{
 			var value = arg;
+			CurrentPath = value;
 
 			INavigationControlItem? item = null;
 			var filteredItems = sidebarItems

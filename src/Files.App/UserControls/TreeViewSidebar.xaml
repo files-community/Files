@@ -1,4 +1,4 @@
-<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <UserControl
 	x:Class="Files.App.UserControls.TreeViewSidebar"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -31,9 +31,12 @@
 				<controls:TreeViewItem
 					HasUnrealizedChildren="{x:Bind HasUnrealizedChildren, Mode=OneWay}"
 					IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
+					IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
 					ItemsSource="{x:Bind Children}">
 					<StackPanel
 						Padding="0,2"
+						HorizontalAlignment="Stretch"
+						Background="Transparent"
 						DoubleTapped="Item_DoubleTapped"
 						Opacity="{x:Bind Opacity, Mode=OneWay}"
 						Orientation="Horizontal"
