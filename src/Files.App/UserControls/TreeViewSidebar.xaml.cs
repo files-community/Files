@@ -7,10 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using System.IO;
-using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.UserControls
 {
@@ -131,49 +128,9 @@ namespace Files.App.UserControls
 
 		private void Item_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			if (sender is not FrameworkElement el || el.Tag is not FolderNode fn || fn.IsSection)
+			if (sender is not FrameworkElement el || el.Tag is not FolderNode fn || fn.IsSection || fn.SourceItem is null)
 				return;
-
-			if (fn.SourceItem is not null)
-			{
-				ViewModel?.HandleItemContextInvoked(el, new ItemContextInvokedArgs(fn.SourceItem, e.GetPosition(el)));
-				e.Handled = true;
-				return;
-			}
-
-			var flyout = new MenuFlyout();
-
-			var open = new MenuFlyoutItem { Text = Strings.Open.GetLocalizedResource() };
-			open.Click += (_, _) => ViewModel?.NavigateToPath(fn.Path);
-			flyout.Items.Add(open);
-
-			var openNewTab = new MenuFlyoutItem { Text = Strings.OpenInNewTab.GetLocalizedResource() };
-			openNewTab.Click += async (_, _) => await NavigationHelpers.OpenPathInNewTab(fn.Path, true);
-			flyout.Items.Add(openNewTab);
-
-			var copyPath = new MenuFlyoutItem { Text = Strings.CopyPath.GetLocalizedResource() };
-			copyPath.Click += (_, _) =>
-			{
-				var dp = new DataPackage();
-				dp.SetText(fn.Path);
-				Clipboard.SetContent(dp);
-			};
-			flyout.Items.Add(copyPath);
-
-			flyout.Items.Add(new MenuFlyoutSeparator());
-
-			var openExplorer = new MenuFlyoutItem { Text = "Open in File Explorer" };
-			openExplorer.Click += (_, _) =>
-			{
-				// Win32Exception from Process.Start when the shell launch fails (invalid path or denied access)
-				try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = fn.Path, UseShellExecute = true }); }
-				catch (System.ComponentModel.Win32Exception) { }
-				catch (InvalidOperationException) { }
-				catch (FileNotFoundException) { }
-			};
-			flyout.Items.Add(openExplorer);
-
-			flyout.ShowAt(el, new FlyoutShowOptions { Position = e.GetPosition(el) });
+			ViewModel?.HandleItemContextInvoked(el, new ItemContextInvokedArgs(fn.SourceItem, e.GetPosition(el)));
 			e.Handled = true;
 		}
 	}

@@ -466,7 +466,7 @@ namespace Files.App.ViewModels.UserControls
 			foreach (var entry in entries)
 			{
 				var kind = entry.HasSubfolders ? FolderNodeKind.Folder : FolderNodeKind.Leaf;
-				var child = new FolderNode(entry.Path, entry.Name, kind, icon: null)
+				var child = new FolderNode(entry.Path, entry.Name, kind, icon: null, CreateSubfolderLocationItem(entry.Path, entry.Name))
 				{
 					HasUnrealizedChildren = entry.HasSubfolders,
 					Opacity = entry.IsHidden ? Constants.UI.DimItemOpacity : 1.0,
@@ -492,7 +492,7 @@ namespace Files.App.ViewModels.UserControls
 			foreach (var entry in entries)
 			{
 				var kind = entry.HasSubfolders ? FolderNodeKind.Folder : FolderNodeKind.Leaf;
-				var child = new FolderNode(entry.Path, entry.Name, kind, icon: null)
+				var child = new FolderNode(entry.Path, entry.Name, kind, icon: null, CreateSubfolderLocationItem(entry.Path, entry.Name))
 				{
 					HasUnrealizedChildren = entry.HasSubfolders,
 					Opacity = entry.IsHidden ? Constants.UI.DimItemOpacity : 1.0,
@@ -501,6 +501,21 @@ namespace Files.App.ViewModels.UserControls
 				_ = LoadIconAsync(child);
 				parent.Children.Add(child);
 			}
+		}
+
+		private static LocationItem CreateSubfolderLocationItem(string path, string name)
+		{
+			return new LocationItem
+			{
+				Path = path,
+				Text = name,
+				MenuOptions = new ContextMenuOptions
+				{
+					IsLocationItem = true,
+					ShowProperties = true,
+					ShowShellItems = true,
+				},
+			};
 		}
 
 		private async Task LoadIconAsync(FolderNode node)
@@ -600,13 +615,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 			if (fn.SourceItem is not null)
-			{
 				SidebarViewModel.HandleItemInvokedAsync(fn.SourceItem, PointerUpdateKind.Other);
-				return;
-			}
-			if (ContentPageContext.ShellPage is not { } page)
-				return;
-			page.NavigateToPath(fn.Path);
 		}
 
 		public void HandleItemContextInvoked(FrameworkElement element, ItemContextInvokedArgs args)
