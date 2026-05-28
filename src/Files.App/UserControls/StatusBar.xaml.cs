@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Data.Commands;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -20,7 +21,7 @@ namespace Files.App.UserControls
 		public static readonly DependencyProperty StatusBarViewModelProperty =
 			DependencyProperty.Register(nameof(StatusBarViewModel), typeof(StatusBarViewModel), typeof(StatusBar), new PropertyMetadata(null));
 
-		public SelectedItemsPropertiesViewModel? SelectedItemsPropertiesViewModel
+public SelectedItemsPropertiesViewModel? SelectedItemsPropertiesViewModel
 		{
 			get => (SelectedItemsPropertiesViewModel)GetValue(SelectedItemsPropertiesViewModelProperty);
 			set => SetValue(SelectedItemsPropertiesViewModelProperty, value);
@@ -76,5 +77,6 @@ namespace Files.App.UserControls
 			BranchesFlyout.Hide();
 			await StatusBarViewModel.ExecuteDeleteBranch(((BranchItem)((Button)sender).DataContext).Name);
 		}
+
 	}
 }

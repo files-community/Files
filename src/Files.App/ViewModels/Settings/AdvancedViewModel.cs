@@ -409,6 +409,20 @@ namespace Files.App.ViewModels.Settings
 			//TODO: Get thumbnail cache size and update CacheSizeText and IsClearCacheButtonEnabled accordingly.
 		}
 
+		public bool IsTerminalIntegrationEnabled
+		{
+			get => UserSettingsService.GeneralSettingsService.IsTerminalIntegrationEnabled;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.IsTerminalIntegrationEnabled)
+				{
+					UserSettingsService.GeneralSettingsService.IsTerminalIntegrationEnabled = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public async Task OpenFilesOnWindowsStartupAsync()
 		{
 			var stateMode = await ReadState();
