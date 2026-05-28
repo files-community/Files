@@ -27,6 +27,9 @@ namespace Files.App.UserControls
 		public FolderNodeKind Kind { get; }
 		public bool IsSection => Kind == FolderNodeKind.Section;
 
+		// The INavigationControlItem this node was built from (or a synthetic LocationItem for lazy-loaded subfolders). Carried so right-click can dispatch to SidebarViewModel.HandleItemContextInvokedAsync, which expects an INavigationControlItem.
+		public INavigationControlItem? SourceItem { get; set; }
+
 		public ObservableCollection<FolderNode> Children { get; } = new();
 
 		private ImageSource? _Icon;

@@ -1,14 +1,13 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Controls;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using System.Collections.Specialized;
 using System.IO;
-using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.UserControls
 {
@@ -35,6 +34,9 @@ namespace Files.App.UserControls
 		private TabBarItem? _currentTab;
 		private bool _isUnloaded;
 		private bool _applyingState;
+
+		// Section.ChildItems collections we've subscribed to so dynamic sections (libraries, cloud drives, file tags) refresh when their async population completes. Tracked so we can detach before a rebuild without leaking handlers.
+		private readonly List<INotifyCollectionChanged> _subscribedChildCollections = new();
 
 		// Currently-selected node per the path mirror — kept so we can clear its IsSelected before flipping the new one without walking the whole tree.
 		private FolderNode? _selectedNode;
@@ -86,6 +88,7 @@ namespace Files.App.UserControls
 				}
 				MainPageViewModel.AppInstances.CollectionChanged -= OnAppInstancesChanged;
 				DetachAllNodeHandlers();
+				DetachChildCollectionHandlers();
 			}
 			// Cleanup must never throw; the page is being torn down
 			catch (Exception ex)
@@ -111,6 +114,7 @@ namespace Files.App.UserControls
 		private void Rebuild()
 		{
 			DetachAllNodeHandlers();
+			DetachChildCollectionHandlers();
 			// The old _selectedNode is about to be replaced by fresh FolderNode instances — drop it so UpdateSelectionFromCurrentPath re-finds the match against the new tree.
 			_selectedNode = null;
 			RootFolders.Clear();
@@ -125,13 +129,20 @@ namespace Files.App.UserControls
 
 				if (header.Section == SectionType.Home)
 				{
-					var homeNode = new FolderNode(header.Path, header.Text, FolderNodeKind.Leaf, header.Icon);
+					var homeNode = new FolderNode(header.Path, header.Text, FolderNodeKind.Leaf, header.Icon) { SourceItem = header };
 					homeNode.PropertyChanged += OnNodePropertyChanged;
 					RootFolders.Add(homeNode);
 					continue;
 				}
 
-				var section = new FolderNode($"section:{header.Section}", header.Text, FolderNodeKind.Section, icon: null);
+				var section = new FolderNode($"section:{header.Section}", header.Text, FolderNodeKind.Section, icon: null) { SourceItem = header };
+
+				// Libraries, cloud drives, and file tags populate async — their ChildItems collection emits its own change events that SidebarItems doesn't propagate.
+				if (header.ChildItems is INotifyCollectionChanged childIncc)
+				{
+					childIncc.CollectionChanged += OnSectionChildItemsChanged;
+					_subscribedChildCollections.Add(childIncc);
+				}
 
 				if (header.ChildItems is not null)
 				{
@@ -152,7 +163,7 @@ namespace Files.App.UserControls
 						var hasRootedPath = (child is LocationItem loc2 && Path.IsPathRooted(loc2.Path)) || child is DriveItem;
 						var isExpandable = hasRootedPath && header.Section != SectionType.Pinned;
 						var kind = isExpandable ? FolderNodeKind.Folder : FolderNodeKind.Leaf;
-						var node = new FolderNode(path, name, kind, icon);
+						var node = new FolderNode(path, name, kind, icon) { SourceItem = child };
 						if (isExpandable)
 							_ = ProbeHasChildrenAsync(node);
 						node.PropertyChanged += OnNodePropertyChanged;
@@ -303,6 +314,21 @@ namespace Files.App.UserControls
 				DispatcherQueue.TryEnqueue(RebuildAndApply);
 		}
 
+		private void OnSectionChildItemsChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		{
+			if (DispatcherQueue.HasThreadAccess)
+				RebuildAndApply();
+			else
+				DispatcherQueue.TryEnqueue(RebuildAndApply);
+		}
+
+		private void DetachChildCollectionHandlers()
+		{
+			foreach (var c in _subscribedChildCollections)
+				c.CollectionChanged -= OnSectionChildItemsChanged;
+			_subscribedChildCollections.Clear();
+		}
+
 		private void OnAppInstancesChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems is not null)
@@ -392,6 +418,7 @@ namespace Files.App.UserControls
 				{
 					HasUnrealizedChildren = hasGrandchildren,
 					Opacity = isHidden ? Constants.UI.DimItemOpacity : 1.0,
+					SourceItem = CreateSubfolderLocationItem(sub, subName),
 				};
 				child.PropertyChanged += OnNodePropertyChanged;
 				_ = LoadIconAsync(child);
@@ -419,11 +446,28 @@ namespace Files.App.UserControls
 				{
 					HasUnrealizedChildren = hasGrandchildren,
 					Opacity = GetIsHidden(sub) ? Constants.UI.DimItemOpacity : 1.0,
+					SourceItem = CreateSubfolderLocationItem(sub, subName),
 				};
 				child.PropertyChanged += OnNodePropertyChanged;
 				_ = LoadIconAsync(child);
 				parent.Children.Add(child);
 			}
+		}
+
+		// Lazy-loaded subfolders aren't part of SidebarViewModel.SidebarItems, so synthesize a LocationItem to feed HandleItemContextInvokedAsync. Mirrors the menu options used for pinned folders, minus pin/unpin (these aren't pinned).
+		private static LocationItem CreateSubfolderLocationItem(string path, string name)
+		{
+			return new LocationItem
+			{
+				Path = path,
+				Text = name,
+				MenuOptions = new ContextMenuOptions
+				{
+					IsLocationItem = true,
+					ShowProperties = true,
+					ShowShellItems = true,
+				},
+			};
 		}
 
 		private async Task LoadIconAsync(FolderNode node)
@@ -484,42 +528,10 @@ namespace Files.App.UserControls
 
 		private void Item_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			if (sender is not FrameworkElement el || el.Tag is not FolderNode fn || fn.IsSection)
+			if (sender is not FrameworkElement el || el.Tag is not FolderNode fn || fn.SourceItem is null)
 				return;
 
-			var flyout = new MenuFlyout();
-
-			var open = new MenuFlyoutItem { Text = Strings.Open.GetLocalizedResource() };
-			open.Click += (_, _) => _contentPageContext.Value.ShellPage?.NavigateToPath(fn.Path);
-			flyout.Items.Add(open);
-
-			var openNewTab = new MenuFlyoutItem { Text = Strings.OpenInNewTab.GetLocalizedResource() };
-			openNewTab.Click += async (_, _) => await NavigationHelpers.OpenPathInNewTab(fn.Path, true);
-			flyout.Items.Add(openNewTab);
-
-			var copyPath = new MenuFlyoutItem { Text = Strings.CopyPath.GetLocalizedResource() };
-			copyPath.Click += (_, _) =>
-			{
-				var dp = new DataPackage();
-				dp.SetText(fn.Path);
-				Clipboard.SetContent(dp);
-			};
-			flyout.Items.Add(copyPath);
-
-			flyout.Items.Add(new MenuFlyoutSeparator());
-
-			var openExplorer = new MenuFlyoutItem { Text = "Open in File Explorer" };
-			openExplorer.Click += (_, _) =>
-			{
-				// Win32Exception from Process.Start when the shell launch fails (invalid path or denied access)
-				try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = fn.Path, UseShellExecute = true }); }
-				catch (System.ComponentModel.Win32Exception) { }
-				catch (InvalidOperationException) { }
-				catch (FileNotFoundException) { }
-			};
-			flyout.Items.Add(openExplorer);
-
-			flyout.ShowAt(el, new FlyoutShowOptions { Position = e.GetPosition(el) });
+			_sidebarViewModel.Value.HandleItemContextInvokedAsync(el, new ItemContextInvokedArgs(fn.SourceItem, e.GetPosition(el)));
 			e.Handled = true;
 		}
 
