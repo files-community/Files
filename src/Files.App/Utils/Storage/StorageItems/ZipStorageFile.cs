@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Files.Shared.Helpers;
+using ICSharpCode.SharpZipLib.Zip;
 using SevenZip;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -95,6 +96,9 @@ namespace Files.App.Utils.Storage
 
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode)
 		{
+			if (ZipStorageFolder.CurrentEncoding is not null && Path != containerPath)
+				return OpenWithEncodingAsync(accessMode);
+
 			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IRandomAccessStream>(async () =>
 			{
 				bool rw = accessMode is FileAccessMode.ReadWrite;
@@ -136,11 +140,53 @@ namespace Files.App.Utils.Storage
 				throw new NotSupportedException("Can't open zip file as RW");
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
+		private IAsyncOperation<IRandomAccessStream> OpenWithEncodingAsync(FileAccessMode accessMode)
+		{
+			return AsyncInfo.Run((cancellationToken) =>
+			{
+				return Task.Run<IRandomAccessStream>(() =>
+				{
+					bool rw = accessMode is FileAccessMode.ReadWrite;
+					if (rw)
+						throw new NotSupportedException("Can't open zip file as RW");
+
+					using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(ZipStorageFolder.CurrentEncoding!));
+
+					if (!string.IsNullOrEmpty(Credentials.Password))
+						zipFile.Password = Credentials.Password;
+
+					var targetName = GetEntryRelativePath();
+
+					foreach (ZipEntry entry in zipFile)
+					{
+						if (!entry.IsFile)
+							continue;
+
+						if (string.Equals(entry.Name.Replace('\\', '/'), targetName, StringComparison.OrdinalIgnoreCase))
+						{
+							var ms = new MemoryStream();
+							using (var zipStream = zipFile.GetInputStream(entry))
+							{
+								zipStream.CopyTo(ms);
+							}
+							ms.Position = 0;
+							return new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size);
+						}
+					}
+
+					return null;
+				});
+			});
+		}
+
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options)
 			=> OpenAsync(accessMode);
 
 		public override IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadAsync()
 		{
+			if (ZipStorageFolder.CurrentEncoding is not null && Path != containerPath)
+				return OpenReadWithEncodingAsync();
+
 			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IRandomAccessStreamWithContentType>(async () =>
 			{
 				if (Path == containerPath)
@@ -178,8 +224,47 @@ namespace Files.App.Utils.Storage
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
+		private IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadWithEncodingAsync()
+		{
+			return AsyncInfo.Run((cancellationToken) =>
+			{
+				return Task.Run<IRandomAccessStreamWithContentType>(() =>
+				{
+					using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(ZipStorageFolder.CurrentEncoding!));
+
+					if (!string.IsNullOrEmpty(Credentials.Password))
+						zipFile.Password = Credentials.Password;
+
+					var targetName = GetEntryRelativePath();
+
+					foreach (ZipEntry entry in zipFile)
+					{
+						if (!entry.IsFile)
+							continue;
+
+						if (string.Equals(entry.Name.Replace('\\', '/'), targetName, StringComparison.OrdinalIgnoreCase))
+						{
+							var ms = new MemoryStream();
+							using (var zipStream = zipFile.GetInputStream(entry))
+							{
+								zipStream.CopyTo(ms);
+							}
+							ms.Position = 0;
+							var nsStream = new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size);
+							return new StreamWithContentType(nsStream);
+						}
+					}
+
+					return null;
+				});
+			});
+		}
+
 		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync()
 		{
+			if (ZipStorageFolder.CurrentEncoding is not null && Path != containerPath)
+				return OpenSequentialReadWithEncodingAsync();
+
 			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IInputStream>(async () =>
 			{
 				if (Path == containerPath)
@@ -215,6 +300,41 @@ namespace Files.App.Utils.Storage
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
+		private IAsyncOperation<IInputStream> OpenSequentialReadWithEncodingAsync()
+		{
+			return AsyncInfo.Run((cancellationToken) =>
+			{
+				return Task.Run<IInputStream>(() =>
+				{
+					using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(ZipStorageFolder.CurrentEncoding!));
+
+					if (!string.IsNullOrEmpty(Credentials.Password))
+						zipFile.Password = Credentials.Password;
+
+					var targetName = GetEntryRelativePath();
+
+					foreach (ZipEntry entry in zipFile)
+					{
+						if (!entry.IsFile)
+							continue;
+
+						if (string.Equals(entry.Name.Replace('\\', '/'), targetName, StringComparison.OrdinalIgnoreCase))
+						{
+							var ms = new MemoryStream();
+							using (var zipStream = zipFile.GetInputStream(entry))
+							{
+								zipStream.CopyTo(ms);
+							}
+							ms.Position = 0;
+							return new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size);
+						}
+					}
+
+					return null;
+				});
+			});
+		}
+
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync()
 			=> throw new NotSupportedException();
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync(StorageOpenOptions options)
@@ -226,6 +346,9 @@ namespace Files.App.Utils.Storage
 			=> CopyAsync(destinationFolder, desiredNewName, NameCollisionOption.FailIfExists);
 		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
 		{
+			if (ZipStorageFolder.CurrentEncoding is not null && Path != containerPath)
+				return CopyWithEncodingAsync(destinationFolder, desiredNewName, option);
+
 			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<BaseStorageFile>(async () =>
 			{
 				using SevenZipExtractor zipFile = await OpenZipFileAsync();
@@ -264,8 +387,57 @@ namespace Files.App.Utils.Storage
 				}
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
+
+		private IAsyncOperation<BaseStorageFile> CopyWithEncodingAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
+		{
+			return AsyncInfo.Run(async (cancellationToken) =>
+			{
+				using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(ZipStorageFolder.CurrentEncoding!));
+
+				if (!string.IsNullOrEmpty(Credentials.Password))
+					zipFile.Password = Credentials.Password;
+
+				var targetName = GetEntryRelativePath();
+
+				foreach (ZipEntry entry in zipFile)
+				{
+					if (!entry.IsFile)
+						continue;
+
+					if (string.Equals(entry.Name.Replace('\\', '/'), targetName, StringComparison.OrdinalIgnoreCase))
+					{
+						var ms = new MemoryStream();
+						using (var zipStream = zipFile.GetInputStream(entry))
+						{
+							zipStream.CopyTo(ms);
+						}
+						ms.Position = 0;
+
+						var destFolder = destinationFolder.AsBaseStorageFolder();
+						if (destFolder is ICreateFileWithStream cwsf)
+						{
+							using var inStream = new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size);
+							return await cwsf.CreateFileAsync(inStream.AsStreamForRead(), desiredNewName, option.Convert());
+						}
+						else
+						{
+							var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
+							await using var outStream = await destFile.OpenStreamForWriteAsync();
+							ms.Position = 0;
+							ms.CopyTo(outStream);
+							return destFile;
+						}
+					}
+				}
+
+				return null;
+			});
+		}
 		public override IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace)
 		{
+			if (ZipStorageFolder.CurrentEncoding is not null && Path != containerPath)
+				return CopyAndReplaceWithEncodingAsync(fileToReplace);
+
 			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.WrapAsync(async () =>
 			{
 				using SevenZipExtractor zipFile = await OpenZipFileAsync();
@@ -286,6 +458,36 @@ namespace Files.App.Utils.Storage
 					await zipFile.ExtractFileAsync(entry.Index, outStream);
 				}
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
+		}
+
+		private IAsyncAction CopyAndReplaceWithEncodingAsync(IStorageFile fileToReplace)
+		{
+			return AsyncInfo.Run(async (cancellationToken) =>
+			{
+				using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(ZipStorageFolder.CurrentEncoding!));
+
+				if (!string.IsNullOrEmpty(Credentials.Password))
+					zipFile.Password = Credentials.Password;
+
+				var targetName = GetEntryRelativePath();
+
+				foreach (ZipEntry entry in zipFile)
+				{
+					if (!entry.IsFile)
+						continue;
+
+					if (string.Equals(entry.Name.Replace('\\', '/'), targetName, StringComparison.OrdinalIgnoreCase))
+					{
+						using var hDestFile = fileToReplace.CreateSafeFileHandle(FileAccess.ReadWrite);
+						await using (var outStream = new FileStream(hDestFile, FileAccess.Write))
+						using (var zipStream = zipFile.GetInputStream(entry))
+						{
+							zipStream.CopyTo(outStream);
+						}
+						return;
+					}
+				}
+			});
 		}
 
 		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder)
@@ -398,6 +600,12 @@ namespace Files.App.Utils.Storage
 			=> Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
 			=> Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
+
+		private string GetEntryRelativePath()
+		{
+			var relative = Path.Substring(containerPath.Length).Trim('\\', '/');
+			return relative.Replace('\\', '/');
+		}
 
 		private static bool CheckAccess(string path)
 		{
