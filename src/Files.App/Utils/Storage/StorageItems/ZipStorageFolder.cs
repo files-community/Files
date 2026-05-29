@@ -223,11 +223,15 @@ namespace Files.App.Utils.Storage
 						zipFile.Password = Credentials.Password;
 
 					var targetPath = System.IO.Path.Combine(Path, name);
+					var normalizedTarget = targetPath.TrimEnd('\\', '/');
+					bool foundChild = false;
 
 					foreach (ZipEntry entry in zipFile)
 					{
-						var entryPath = System.IO.Path.Combine(System.IO.Path.GetFullPath(containerPath), entry.Name);
-						if (entryPath == targetPath)
+						var entryPath = System.IO.Path.Combine(System.IO.Path.GetFullPath(containerPath), entry.Name.Replace("/", "\\"));
+						var normalizedEntry = entryPath.TrimEnd('\\', '/');
+
+						if (normalizedEntry == normalizedTarget)
 						{
 							if (entry.IsDirectory)
 							{
@@ -242,6 +246,17 @@ namespace Files.App.Utils.Storage
 								return file;
 							}
 						}
+
+						if (!foundChild && normalizedEntry.StartsWith(normalizedTarget + "\\", StringComparison.OrdinalIgnoreCase))
+							foundChild = true;
+					}
+
+					// No exact match found; check if target is an implicit directory
+					if (foundChild)
+					{
+						var folder = new ZipStorageFolder(targetPath, containerPath, backingFile);
+						((IPasswordProtectedItem)folder).CopyFrom(this);
+						return folder;
 					}
 
 					return null;
@@ -321,44 +336,36 @@ namespace Files.App.Utils.Storage
 
 					var items = new List<IStorageItem>();
 					var dirPaths = new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase);
-					var addedDirs = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+					var dirPrefix = Path.WithEnding("\\");
 
 					foreach (ZipEntry entry in zipFile)
 					{
-						string winPath = System.IO.Path.Combine(System.IO.Path.GetFullPath(containerPath), entry.Name);
-						if (!winPath.StartsWith(Path.WithEnding("\\"), StringComparison.Ordinal))
+						string winPath = System.IO.Path.Combine(System.IO.Path.GetFullPath(containerPath), entry.Name.Replace("/", "\\"));
+						if (!winPath.StartsWith(dirPrefix, StringComparison.Ordinal))
 							continue;
 
-						var relativePath = winPath.Substring(Path.Length).Trim('\\');
-						var parts = relativePath.Split('\\', StringSplitOptions.RemoveEmptyEntries);
-
-						if (parts.Length == 0)
+						var split = winPath.Substring(Path.Length).Split('\\', StringSplitOptions.RemoveEmptyEntries);
+						if (split.Length <= 0)
 							continue;
 
-						if (parts.Length > 1 || entry.IsDirectory)
+						if (entry.IsDirectory || split.Length > 1) // Not all folders have a ZipEntry
 						{
-							dirPaths[parts[0]] = entry.IsDirectory;
+							var itemPath = System.IO.Path.Combine(Path, split[0]);
+							if (!items.Any(x => x.Path == itemPath))
+							{
+								var folder = new ZipStorageFolder(itemPath, containerPath, backingFile);
+								((IPasswordProtectedItem)folder).CopyFrom(this);
+								items.Add(folder);
+							}
 						}
-
-						if (parts.Length == 1 && !entry.IsDirectory)
+						else
 						{
 							var file = new ZipStorageFile(winPath, containerPath, backingFile);
 							((IPasswordProtectedItem)file).CopyFrom(this);
 							items.Add(file);
 						}
+						
 					}
-
-					foreach (var (dirName, _) in dirPaths)
-					{
-						var itemPath = System.IO.Path.Combine(Path, dirName);
-						if (addedDirs.Add(itemPath))
-						{
-							var folder = new ZipStorageFolder(itemPath, containerPath, backingFile);
-							((IPasswordProtectedItem)folder).CopyFrom(this);
-							items.Add(folder);
-						}
-					}
-
 					return items;
 				});
 			});
