@@ -22,6 +22,12 @@ namespace Files.App.Utils.Git
 		/// <inheritdoc cref="IVersionControl.GetOriginRepositoryName(string?)"/>
 		public static string GetOriginRepositoryName(string? path) => _implementation.GetOriginRepositoryName(path);
 
+		/// <inheritdoc cref="IVersionControl.GetBranchNames(string?)"/>
+		public static Task<BranchItem[]> GetBranchNames(string? path) => _implementation.GetBranchNames(path);
+
+		/// <inheritdoc cref="IVersionControl.GetRepositoryHead(string?)"/>
+		public static Task<BranchItem?> GetRepositoryHead(string? path) => _implementation.GetRepositoryHead(path);
+
 		#region Legacy implementation
 
 		// Property already moved into abstraction
@@ -87,70 +93,6 @@ namespace Files.App.Utils.Git
 
 		// Event handler already moved into abstraction
 		public static event EventHandler? GitFetchCompleted;
-
-		public static async Task<BranchItem[]> GetBranchesNames(string? path)
-		{
-			if (string.IsNullOrWhiteSpace(path) || !IsRepoValid(path))
-				return [];
-
-			var (result, returnValue) = await DoGitOperationAsync<(GitOperationResult, BranchItem[])>(() =>
-			{
-				var branches = Array.Empty<BranchItem>();
-				var result = GitOperationResult.Success;
-				try
-				{
-					using var repository = new Repository(path);
-
-					branches = GetValidBranches(repository.Branches)
-						.OrderByDescending(b => b.Tip?.Committer.When)
-						.GroupBy(b => b.IsRemote)
-						.SelectMany(g => g.Take(MAX_NUMBER_OF_BRANCHES))
-						.OrderByDescending(b => b.IsCurrentRepositoryHead)
-						.Select(b => new BranchItem(b.FriendlyName, b.IsCurrentRepositoryHead, b.IsRemote, TryGetTrackingDetails(b)?.AheadBy ?? 0, TryGetTrackingDetails(b)?.BehindBy ?? 0))
-						.ToArray();
-				}
-				catch (Exception)
-				{
-					result = GitOperationResult.GenericError;
-				}
-
-				return (result, branches);
-			});
-
-			return returnValue;
-		}
-
-		public static async Task<BranchItem?> GetRepositoryHead(string? path)
-		{
-			if (string.IsNullOrWhiteSpace(path) || !IsRepoValid(path))
-				return null;
-
-			var (_, returnValue) = await DoGitOperationAsync<(GitOperationResult, BranchItem?)>(() =>
-			{
-				BranchItem? head = null;
-				try
-				{
-					using var repository = new Repository(path);
-					var branch = GetValidBranches(repository.Branches).FirstOrDefault(b => b.IsCurrentRepositoryHead);
-					if (branch is not null)
-						head = new BranchItem(
-							branch.FriendlyName,
-							branch.IsCurrentRepositoryHead,
-							branch.IsRemote,
-							TryGetTrackingDetails(branch)?.AheadBy ?? 0,
-							TryGetTrackingDetails(branch)?.BehindBy ?? 0
-						);
-				}
-				catch
-				{
-					return (GitOperationResult.GenericError, head);
-				}
-
-				return (GitOperationResult.Success, head);
-			}, true);
-
-			return returnValue;
-		}
 
 		public static async Task<bool> Checkout(string? repositoryPath, string? branch)
 		{

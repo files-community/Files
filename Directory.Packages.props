@@ -35,7 +35,7 @@
     <PackageVersion Include="SevenZipSharp" Version="1.0.2" />
     <PackageVersion Include="SharpZipLib" Version="1.4.2" />
     <PackageVersion Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="2.0.1" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="2.1.3" />
     <PackageVersion Include="Microsoft.Graphics.Win2D" Version="1.3.2" />
     <PackageVersion Include="TagLibSharp" Version="2.3.0" />
     <PackageVersion Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
@@ -50,7 +50,7 @@
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="4.14.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="5.0.0" />
-    <PackageVersion Include="PolySharp" Version="1.15.0" />
+    <PackageVersion Include="PolySharp" Version="1.16.0" />
     <PackageVersion Include="System.Text.Json" Version="10.0.8" />
     <PackageVersion Include="System.IO.Hashing" Version="10.0.2" />
     <PackageVersion Include="Appium.WebDriver" Version="4.4.5" />

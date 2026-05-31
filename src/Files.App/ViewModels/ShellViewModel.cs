@@ -18,6 +18,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
+using Windows.Win32;
 using Windows.Win32.System.SystemServices;
 using static Files.App.Helpers.Win32PInvoke;
 using ByteSize = ByteSizeLib.ByteSize;
@@ -1077,7 +1078,7 @@ namespace Files.App.ViewModels
 			return shieldIcon;
 		}
 
-		private async Task LoadThumbnailAsync(ListedItem item, CancellationToken cancellationToken)
+		private async Task LoadThumbnailAsync(ListedItem item, CancellationToken cancellationToken, bool scheduleTimerRetry = true)
 		{
 			var loadNonCachedThumbnail = false;
 			var thumbnailSize = LayoutSizeKindHelper.GetIconSize(folderSettings.LayoutMode);
@@ -1181,6 +1182,40 @@ namespace Files.App.ViewModels
 					if (result is null)
 					{
 						item.NeedsDelayedThumbnailLoad = true;
+
+						// Some writers never emit a FILE_ACTION_MODIFIED event after finalizing the file, so the normal event-driven retry never fires.
+						// Schedule a 2s timer as a fallback; the FILE_ACTION_MODIFIED handler cancels it if the event arrives first.
+						if (scheduleTimerRetry)
+						{
+							var retryCts = new CancellationTokenSource();
+							if (thumbnailRetryDebounce.TryAdd(item.ItemPath, retryCts))
+							{
+								App.Logger.LogWarning("Thumbnail load failed [{Id}] '{Extension}'; scheduling 2s timer retry.", item.ItemPath.GetHashCode(), Path.GetExtension(item.ItemPath));
+
+								var retryToken = retryCts.Token;
+								_ = Task.Delay(2000, retryToken)
+									.ContinueWith(_ =>
+									{
+										if (thumbnailRetryDebounce.TryRemove(item.ItemPath, out var cts))
+											cts.Dispose();
+
+										App.Logger.LogInformation("Timer-based thumbnail retry firing [{Id}] '{Extension}'.", item.ItemPath.GetHashCode(), Path.GetExtension(item.ItemPath));
+
+										item.NeedsDelayedThumbnailLoad = false;
+										return LoadThumbnailAsync(item, retryToken, scheduleTimerRetry: false);
+									}, retryToken, TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.Default)
+									.Unwrap();
+							}
+							else
+							{
+								App.Logger.LogWarning("Thumbnail load failed [{Id}] '{Extension}'; mod-retry already pending, skipping timer.", item.ItemPath.GetHashCode(), Path.GetExtension(item.ItemPath));
+								retryCts.Dispose();
+							}
+						}
+						else
+						{
+							App.Logger.LogWarning("Thumbnail load failed [{Id}] '{Extension}' on timer retry; awaiting next FILE_ACTION_MODIFIED.", item.ItemPath.GetHashCode(), Path.GetExtension(item.ItemPath));
+						}
 					}
 					else
 					{
@@ -2233,7 +2268,8 @@ namespace Files.App.ViewModels
 					notifyFilters |= FILE_NOTIFY_CHANGE_ATTRIBUTES;
 
 				var overlapped = new OVERLAPPED();
-				overlapped.hEvent = CreateEvent(IntPtr.Zero, false, false, null);
+				using var eventHandle = PInvoke.CreateEvent(null, false, false, null);
+				overlapped.hEvent = eventHandle.DangerousGetHandle();
 				const uint INFINITE = 0xFFFFFFFF;
 
 				while (x.Status != AsyncStatus.Canceled)
@@ -2297,7 +2333,6 @@ namespace Files.App.ViewModels
 					}
 				}
 
-				CloseHandle(overlapped.hEvent);
 				operationQueue.Clear();
 
 				Debug.WriteLine("aWatcherAction done: {0}", rand);
@@ -2344,7 +2379,8 @@ namespace Files.App.ViewModels
 				var notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE_CREATION;
 
 				var overlapped = new OVERLAPPED();
-				overlapped.hEvent = CreateEvent(IntPtr.Zero, false, false, null);
+				using var eventHandle = PInvoke.CreateEvent(null, false, false, null);
+				overlapped.hEvent = eventHandle.DangerousGetHandle();
 				const uint INFINITE = 0xFFFFFFFF;
 
 				while (x.Status != AsyncStatus.Canceled)
@@ -2389,7 +2425,6 @@ namespace Files.App.ViewModels
 					}
 				}
 
-				CloseHandle(overlapped.hEvent);
 				gitChangesQueue.Clear();
 			});
 
@@ -2667,6 +2702,8 @@ namespace Files.App.ViewModels
 				var item = filesAndFolders.ToList().FirstOrDefault(x => x.ItemPath.Equals(path, StringComparison.OrdinalIgnoreCase));
 				if (item is not null && item.NeedsDelayedThumbnailLoad)
 				{
+					App.Logger.LogInformation("FILE_ACTION_MODIFIED thumbnail retry triggered [{Id}] '{Extension}'.", path.GetHashCode(), Path.GetExtension(path));
+
 					if (thumbnailRetryDebounce.TryGetValue(path, out var existingCts))
 					{
 						existingCts.Cancel();

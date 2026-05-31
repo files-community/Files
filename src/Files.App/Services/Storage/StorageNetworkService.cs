@@ -1,7 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.Runtime.InteropServices;
 using System.Text;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -221,17 +220,14 @@ namespace Files.App.Services
 				{
 					//  Special handling for network drives
 					//  This part will change path from "y:\Download" to "\\192.168.0.1\nfs\Download"
-					[DllImport("mpr.dll", CharSet = CharSet.Auto)]
-					static extern int WNetGetConnection(string lpLocalName, StringBuilder lpRemoteName, ref int lpnLength);
-
-					StringBuilder remoteName = new StringBuilder(300);
-					int length = remoteName.Capacity;
+					Span<char> remoteName = stackalloc char[300];
+					uint length = (uint)remoteName.Length;
 					string lpLocalName = path.Substring(0, 2);
 
-					int ret = WNetGetConnection(lpLocalName, remoteName, ref length);
+					WIN32_ERROR ret = PInvoke.WNetGetConnection(lpLocalName, remoteName, ref length);
 
-					if (ret == 0)
-						path = path.Replace(lpLocalName, remoteName.ToString());
+					if (ret == WIN32_ERROR.NO_ERROR)
+						path = path.Replace(lpLocalName, remoteName[..(int)length].TrimEnd('\0').ToString());
 
 				}
 
