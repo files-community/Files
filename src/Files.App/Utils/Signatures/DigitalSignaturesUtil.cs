@@ -663,7 +663,7 @@ namespace Files.App.Utils.Signatures
 				return string.Empty;
 
 			var st = new Windows.Win32.Foundation.SYSTEMTIME();
-			var buffer = new ReadOnlySpan<byte>(pbOctetString + positionFound, 18);
+			var buffer = new ReadOnlySpan<byte>(pbOctetString + positionFound, (int)lengthFound);
 
 			_ = ushort.TryParse(buffer.Slice(0, 4), out st.wYear);
 			_ = ushort.TryParse(buffer.Slice(4, 2), out st.wMonth);
@@ -672,7 +672,7 @@ namespace Files.App.Utils.Signatures
 			_ = ushort.TryParse(buffer.Slice(10, 2), out st.wMinute);
 			_ = ushort.TryParse(buffer.Slice(12, 2), out st.wSecond);
 
-			if (buffer[14] == '.')
+			if (buffer.Length >= 18 && buffer[14] == '.')
 				_ = ushort.TryParse(buffer.Slice(15, 3), out st.wMilliseconds);
 
 			PInvoke.SystemTimeToFileTime(st, out var fft);
