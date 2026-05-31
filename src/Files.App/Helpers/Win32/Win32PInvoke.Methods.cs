@@ -23,62 +23,6 @@ namespace Files.App.Helpers
 			ref NativeOverlapped lpOverlapped
 		);
 
-		[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
-		public static extern int RmRegisterResources(
-			uint pSessionHandle,
-			uint nFiles,
-			string[] rgsFilenames,
-			uint nApplications,
-			[In] RM_UNIQUE_PROCESS[] rgApplications,
-			uint nServices,
-			string[] rgsServiceNames
-		);
-
-		[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
-		public static extern int RmStartSession(
-			out uint pSessionHandle,
-			int dwSessionFlags,
-			string strSessionKey
-		);
-
-		[DllImport("rstrtmgr.dll")]
-		public static extern int RmEndSession(
-			uint pSessionHandle
-		);
-
-		[DllImport("rstrtmgr.dll")]
-		public static extern int RmGetList(
-			uint dwSessionHandle,
-			out uint pnProcInfoNeeded,
-			ref uint pnProcInfo,
-			[In, Out] RM_PROCESS_INFO[] rgAffectedApps,
-			ref uint lpdwRebootReasons
-		);
-
-		[DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
-		public static extern IntPtr CreateEvent(
-			IntPtr lpEventAttributes,
-			bool bManualReset,
-			bool bInitialState,
-			string lpName
-		);
-
-		[DllImport("kernel32.dll")]
-		public static extern bool SetEvent(
-			IntPtr hEvent
-		);
-
-		[DllImport("shell32.dll")]
-		public static extern IntPtr SHBrowseForFolder(
-			ref BROWSEINFO lpbi
-		);
-
-		[DllImport("shell32.dll", CharSet = CharSet.Unicode)]
-		public static extern bool SHGetPathFromIDList(
-			IntPtr pidl,
-			[MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszPath
-		);
-
 		[DllImport("api-ms-win-core-handle-l1-1-0.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool CloseHandle(
@@ -285,47 +229,6 @@ namespace Files.App.Helpers
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static partial bool IsElevationRequired(
 			[MarshalAs(UnmanagedType.LPWStr)] string pszPath);
-
-		[DllImport("shlwapi.dll", CallingConvention = CallingConvention.StdCall, PreserveSig = true, CharSet = CharSet.Unicode)]
-		public static extern HRESULT SHCreateStreamOnFileEx(
-			string pszFile,
-			STGM grfMode,
-			uint dwAttributes,
-			uint fCreate,
-			IntPtr pstmTemplate,
-			out IntPtr ppstm
-		);
-
-		[DllImport("shell32.dll", CallingConvention = CallingConvention.StdCall, PreserveSig = true, CharSet = CharSet.Unicode)]
-		public static extern HRESULT SHCreateItemFromParsingName(
-			string pszPath,
-			IntPtr pbc,
-			ref Guid riid,
-			out IntPtr ppv
-		);
-
-		[DllImport("ole32.dll", CallingConvention = CallingConvention.StdCall)]
-		public static extern HRESULT CoCreateInstance(
-			ref Guid rclsid,
-			IntPtr pUnkOuter,
-			ClassContext dwClsContext,
-			ref Guid riid,
-			out IntPtr ppv
-		);
-
-		[DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
-		public static extern uint RegisterApplicationRestart(
-			string pwzCommandLine,
-			int dwFlags
-		);
-
-		[DllImport("shell32.dll")]
-		public static extern int SHGetKnownFolderPath(
-			[MarshalAs(UnmanagedType.LPStruct)] Guid rfid,
-			uint dwFlags,
-			IntPtr hToken,
-			out IntPtr pszPath
-		);
 
 		// cryptui.dll
 		[DllImport("cryptui.dll", SetLastError = true, CharSet = CharSet.Auto)]
