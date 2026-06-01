@@ -498,7 +498,8 @@ namespace Files.App.Utils
 		}
 
 		private string itemDateDeleted;
-		public string ItemDateDeleted {
+		public string ItemDateDeleted
+		{
 			get => itemDateDeleted;
 			private set
 			{
