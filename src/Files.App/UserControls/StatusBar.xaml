@@ -30,6 +30,7 @@
 			<ColumnDefinition />
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 
 		<!--  Folder and selection info  -->
@@ -193,10 +194,24 @@
 				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 		</StackPanel>
 
+		<!--  ZIP Encoding Selector  -->
+		<ComboBox
+			x:Name="ZipEncodingSelector"
+			Grid.Column="2"
+			Width="140"
+			Height="24"
+			VerticalAlignment="Center"
+			Margin="0,0,0,0"
+			Padding="4,0,0,0"
+			ItemsSource="{x:Bind StatusBarViewModel.ZipEncodingOptions, Mode=OneWay}"
+			SelectedItem="{x:Bind StatusBarViewModel.SelectedZipEncoding, Mode=TwoWay}"
+			ToolTipService.ToolTip="{helpers:ResourceString Name=Encoding}"
+			Visibility="{x:Bind StatusBarViewModel.IsZipEncodingSelectorVisible, Mode=OneWay}" />
+
 		<!--  Use visibility because it causes a crash to use a TwoWay x:Bind on an element that is inside an element with x:Load (#12589, #12599)  -->
 		<Button
 			x:Name="GitBranch"
-			Grid.Column="2"
+			Grid.Column="3"
 			Height="24"
 			Margin="4,0,0,0"
 			Padding="8,0,8,0"

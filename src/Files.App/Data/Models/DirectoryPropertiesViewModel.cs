@@ -1,6 +1,11 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Data.Items;
+using Files.App.Utils.Storage;
+using Microsoft.Extensions.Logging;
+using System.ComponentModel;
+using System.Text;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels.UserControls
@@ -9,6 +14,8 @@ namespace Files.App.ViewModels.UserControls
 	{
 		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private IDevToolsSettingsService DevToolsSettingsService = Ioc.Default.GetRequiredService<IDevToolsSettingsService>();
+		private readonly IStorageArchiveService StorageArchiveService = Ioc.Default.GetRequiredService<IStorageArchiveService>();
+		private CurrentInstanceViewModel? InstanceViewModel => ContentPageContext.ShellPage?.InstanceViewModel;
 
 		// The first branch will always be the active one.
 		public const int ACTIVE_BRANCH_INDEX = 0;
@@ -81,6 +88,26 @@ namespace Files.App.ViewModels.UserControls
 			set => SetProperty(ref _ExtendedStatusInfo, value);
 		}
 
+		private bool _IsZipEncodingSelectorVisible;
+		public bool IsZipEncodingSelectorVisible
+		{
+			get => _IsZipEncodingSelectorVisible;
+			set => SetProperty(ref _IsZipEncodingSelectorVisible, value);
+		}
+
+		public EncodingItem[] ZipEncodingOptions { get; } = EncodingItem.Defaults;
+
+		private EncodingItem? _SelectedZipEncoding;
+		public EncodingItem? SelectedZipEncoding
+		{
+			get => _SelectedZipEncoding;
+			set
+			{
+				if (SetProperty(ref _SelectedZipEncoding, value) && value is not null)
+					_ = OnZipEncodingChangedAsync(value);
+			}
+		}
+
 		public bool ShowOpenInIDEButton
 		{
 			get
@@ -112,6 +139,24 @@ namespace Files.App.ViewModels.UserControls
 						break;
 				}
 			};
+
+			SubscribeToShellPage();
+			ContentPageContext.PropertyChanged += OnContentPageContextPropertyChanged;
+		}
+
+		private void OnContentPageContextPropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(ContentPageContext.ShellPage))
+			{
+				UnsubscribeFromInstanceViewModel();
+				SubscribeToShellPage();
+			}
+		}
+
+		private void SubscribeToShellPage()
+		{
+			SubscribeToInstanceViewModel();
+			_ = UpdateZipEncodingStateAsync();
 		}
 
 		public void UpdateGitInfo(bool isGitRepository, string? repositoryPath, BranchItem? head)
@@ -163,6 +208,92 @@ namespace Files.App.ViewModels.UserControls
 		public Task ExecuteDeleteBranch(string? branchName)
 		{
 			return GitHelpers.DeleteBranchAsync(_gitRepositoryPath, GitBranchDisplayName, branchName);
+		}
+
+		public async Task UpdateZipEncodingStateAsync()
+		{
+			var instanceVM = InstanceViewModel;
+			if (instanceVM is null)
+				return;
+
+			if (!instanceVM.IsPageTypeZipFolder)
+			{
+				IsZipEncodingSelectorVisible = false;
+				ZipStorageFolder.CurrentEncoding = null;
+				return;
+			}
+
+			var workingDir = ContentPageContext.ShellPage?.ShellViewModel.WorkingDirectory;
+			if (string.IsNullOrEmpty(workingDir) || !ZipStorageFolder.IsZipPath(workingDir))
+				return;
+
+			try
+			{
+				var isUndetermined = await StorageArchiveService.IsEncodingUndeterminedAsync(workingDir);
+				instanceVM.IsZipEncodingUndetermined = isUndetermined;
+
+				if (!isUndetermined)
+				{
+					IsZipEncodingSelectorVisible = false;
+					return;
+				}
+
+				var detected = await StorageArchiveService.DetectEncodingAsync(workingDir);
+				if (detected is not null)
+				{
+					instanceVM.ZipEncodingName = detected.WebName;
+					SelectedZipEncoding = ZipEncodingOptions.FirstOrDefault(e =>
+						e.Encoding?.WebName.Equals(detected.WebName, StringComparison.OrdinalIgnoreCase) == true);
+				}
+				else
+				{
+					instanceVM.ZipEncodingName = null;
+					SelectedZipEncoding = ZipEncodingOptions.FirstOrDefault(e => e.Encoding is null);
+				}
+
+				IsZipEncodingSelectorVisible = true;
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogError(ex, "Error checking zip encoding.");
+				IsZipEncodingSelectorVisible = false;
+			}
+		}
+
+		private async Task OnZipEncodingChangedAsync(EncodingItem encodingItem)
+		{
+			if (ContentPageContext.ShellPage is null)
+				return;
+
+			var workingDir = ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
+			if (string.IsNullOrEmpty(workingDir))
+				return;
+
+			ZipStorageFolder.CurrentEncoding = encodingItem.Encoding;
+
+			ContentPageContext.ShellPage.ShellViewModel.RefreshItems(null);
+		}
+
+		internal void SubscribeToInstanceViewModel()
+		{
+			var instanceVM = InstanceViewModel;
+			if (instanceVM is not null)
+				instanceVM.PropertyChanged += OnInstanceViewModelPropertyChanged;
+		}
+
+		internal void UnsubscribeFromInstanceViewModel()
+		{
+			var instanceVM = InstanceViewModel;
+			if (instanceVM is not null)
+				instanceVM.PropertyChanged -= OnInstanceViewModelPropertyChanged;
+		}
+
+		private void OnInstanceViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(CurrentInstanceViewModel.IsPageTypeZipFolder))
+			{
+				_ = UpdateZipEncodingStateAsync();
+			}
 		}
 	}
 }
