@@ -3,6 +3,7 @@
 
 using Files.App.Controls;
 using Files.App.Helpers.ContextFlyouts;
+using System.Runtime.InteropServices;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -284,7 +285,7 @@ namespace Files.App.ViewModels.UserControls
 
 			await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				try
+				await SafetyExtensions.IgnoreExceptions(async () =>
 				{
 					var sectionType = (SectionType)sender;
 					var section = await GetOrCreateSectionAsync(sectionType);
@@ -300,11 +301,7 @@ namespace Files.App.ViewModels.UserControls
 						_ => null
 					};
 					await SyncSidebarItemsAsync(section, getElements, e);
-				}
-				catch (Exception ex)
-				{
-					App.Logger.LogWarning(ex, "Error syncing sidebar items");
-				}
+				}, App.Logger, typeof(COMException));
 			});
 		}
 
@@ -1143,18 +1140,13 @@ namespace Files.App.ViewModels.UserControls
 
 		private static async Task<string?> TryGetDraggedTextAsync(DataPackageView droppedItem)
 		{
-			try
+			return await SafetyExtensions.IgnoreExceptions(async () =>
 			{
 				if (!droppedItem.Contains(StandardDataFormats.Text))
 					return null;
 
 				return await droppedItem.GetTextAsync();
-			}
-			catch (Exception ex)
-			{
-				App.Logger.LogInformation(ex, "Drag text payload became unavailable while processing a sidebar drag operation");
-				return null;
-			}
+			}, App.Logger, typeof(COMException));
 		}
 
 		private async Task HandleLocationItemDragOverAsync(LocationItem locationItem, ItemDragOverEventArgs args)

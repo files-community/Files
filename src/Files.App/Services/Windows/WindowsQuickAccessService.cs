@@ -189,16 +189,11 @@ namespace Files.App.Services
 			if (shellItem is null)
 				return false;
 
-			try
+			return Files.Shared.Extensions.SafetyExtensions.IgnoreExceptions(() =>
 			{
 				shellItem.GetType().InvokeMember("InvokeVerb", System.Reflection.BindingFlags.InvokeMethod, null, shellItem, [verb]);
 				return true;
-			}
-			catch (Exception ex)
-			{
-				App.Logger.LogDebug(ex, "Failed to invoke shell verb {Verb} for {Path}", verb, path);
-				return false;
-			}
+			}, App.Logger, typeof(Exception));
 		}
 
 		private static string[] NormalizeAndDeduplicatePaths(IEnumerable<string>? paths)

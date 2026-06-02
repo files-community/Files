@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.Runtime.InteropServices;
 using Microsoft.Extensions.Logging;
 using System.Collections.Specialized;
 using System.IO;
@@ -350,7 +351,7 @@ namespace Files.App.Data.Models
 
 		public async void LoadAsync(object? sender, FileSystemEventArgs e)
 		{
-			try
+			await SafetyExtensions.IgnoreExceptions(async () =>
 			{
 				await LoadAsync();
 				var pinnedFolders = await QuickAccessService.GetPinnedFoldersAsync();
@@ -358,11 +359,7 @@ namespace Files.App.Data.Models
 				{
 					Reset = true
 				});
-			}
-			catch (Exception ex)
-			{
-				App.Logger.LogWarning(ex, "Error loading pinned folders from watcher");
-			}
+			}, App.Logger, typeof(COMException));
 		}
 
 		public async Task LoadAsync()

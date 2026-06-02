@@ -3,10 +3,15 @@
 
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
+using System.Collections;
 using System.Collections.Specialized;
 using System.IO;
+using System.Runtime.InteropServices;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 
@@ -156,13 +161,13 @@ namespace Files.App.Controls
 			if (Item is not IDraggableSidebarItemModel draggableItem || draggableItem.DropPath is not string dragPath || !IsValidDropPath(dragPath))
 				return;
 
-			try
+			SafetyExtensions.IgnoreExceptions(() =>
 			{
 				args.Data.SetData(StandardDataFormats.Text, dragPath);
 				args.Data.RequestedOperation = DataPackageOperation.Move | DataPackageOperation.Copy | DataPackageOperation.Link;
 				args.Data.SetDataProvider(StandardDataFormats.StorageItems, async request =>
 				{
-					var deferral = request.GetDeferral();
+					var deferral = SafetyExtensions.IgnoreExceptions(() => request.GetDeferral(), null, typeof(COMException));
 					try
 					{
 						if (Directory.Exists(dragPath))
@@ -171,28 +176,13 @@ namespace Files.App.Controls
 							request.SetData(new IStorageItem[] { folder });
 						}
 					}
-					catch (Exception ex) when (DragDropExceptionHelper.IsExpectedStaleDragData(ex))
-					{
-						DragDropExceptionHelper.LogStaleDrag(ex, "Stale external drag payload while resolving StorageFolder in data provider.");
-					}
 					finally
 					{
-						try
-						{
-							deferral.Complete();
-						}
-						catch (Exception ex) when (DragDropExceptionHelper.IsExpectedStaleDragData(ex))
-						{
-							DragDropExceptionHelper.LogStaleDrag(ex, "Stale OLE deferral during drag data provider completion.");
-						}
+						if (deferral is not null)
+							SafetyExtensions.IgnoreExceptions(() => deferral.Complete(), null, typeof(COMException));
 					}
 				});
-			}
-			catch (Exception ex) when (DragDropExceptionHelper.IsExpectedStaleDragData(ex))
-			{
-				DragDropExceptionHelper.LogStaleDrag(ex, "Stale OLE drag payload on DragStarting, cancelling drag.");
-				args.Cancel = true;
-			}
+			}, null, typeof(COMException));
 		}
 
 		private void SetFlyoutOpen(bool isOpen = true)
@@ -423,17 +413,8 @@ namespace Files.App.Controls
 				IsExpanded = true;
 			}
 
-			DragOperationDeferral? deferral = null;
-			try
-			{
-				deferral = e.GetDeferral();
-			}
-			catch (Exception ex) when (DragDropExceptionHelper.IsExpectedStaleDragData(ex))
-			{
-				DragDropExceptionHelper.LogStaleDrag(ex, "Stale OLE drag payload on GetDeferral during DragOver.");
-				VisualStateManager.GoToState(this, "Normal", true);
-				return;
-			}
+			// Expected to fail with COMException if the OLE drag payload is stale
+			var deferral = SafetyExtensions.IgnoreExceptions(() => e.GetDeferral(), null, typeof(COMException));
 
 			try
 			{
@@ -442,7 +423,16 @@ namespace Files.App.Controls
 				if (Owner is not null)
 					Owner.RaiseItemDragOver(this, dropPosition, e);
 
-				if (!e.Handled || e.AcceptedOperation == DataPackageOperation.None)
+				bool isHandled = false;
+				DataPackageOperation acceptedOperation = DataPackageOperation.None;
+
+				var propertiesRead = SafetyExtensions.IgnoreExceptions(() =>
+				{
+					isHandled = e.Handled;
+					acceptedOperation = e.AcceptedOperation;
+				}, null, typeof(COMException));
+
+				if (!propertiesRead || !isHandled || acceptedOperation == DataPackageOperation.None)
 				{
 					VisualStateManager.GoToState(this, "Normal", true);
 					return;
@@ -461,22 +451,10 @@ namespace Files.App.Controls
 					VisualStateManager.GoToState(this, "DragInsertBelow", true);
 				}
 			}
-			catch (Exception ex) when (DragDropExceptionHelper.IsExpectedStaleDragData(ex))
-			{
-				DragDropExceptionHelper.LogStaleDrag(ex, "Stale external drag payload during sidebar DragOver processing.");
-				e.AcceptedOperation = DataPackageOperation.None;
-				VisualStateManager.GoToState(this, "Normal", true);
-			}
 			finally
 			{
-				try
-				{
-					deferral?.Complete();
-				}
-				catch (Exception ex) when (DragDropExceptionHelper.IsExpectedStaleDragData(ex))
-				{
-					DragDropExceptionHelper.LogStaleDrag(ex, "Stale OLE deferral on DragOver completion.");
-				}
+				if (deferral is not null)
+					SafetyExtensions.IgnoreExceptions(() => deferral.Complete(), null, typeof(COMException));
 			}
 		}
 
@@ -494,16 +472,7 @@ namespace Files.App.Controls
 		private void ItemBorder_Drop(object sender, DragEventArgs e)
 		{
 			UpdatePointerState();
-			try
-			{
-				Owner?.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
-			}
-			catch (Exception ex) when (DragDropExceptionHelper.IsExpectedStaleDragData(ex))
-			{
-				DragDropExceptionHelper.LogStaleDrag(ex, "Stale external drag payload during sidebar Drop, drop discarded.");
-				e.AcceptedOperation = DataPackageOperation.None;
-				e.Handled = true;
-			}
+			Owner?.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
 		}
 
 		private SidebarItemDropPosition DetermineDropTargetPosition(DragEventArgs args)

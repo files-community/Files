@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Markup;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.System;
+using System.Runtime.InteropServices;
 using Windows.UI.Core;
 
 namespace Files.App.Controls
@@ -55,30 +56,23 @@ namespace Files.App.Controls
 		{
 			if (sideBarItem.Item is null) return;
 
-			try
-			{
-				ItemDropped?.Invoke(this, new(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
-			}
-			catch (Exception ex) when (DragDropExceptionHelper.IsExpectedStaleDragData(ex))
-			{
-				DragDropExceptionHelper.LogStaleDrag(ex, "Stale OLE drag payload reading DataView in RaiseItemDropped.");
-				return;
-			}
+			// Expected to fail with COMException if the OLE drag payload is stale
+			var dataView = SafetyExtensions.IgnoreExceptions(() => rawEvent.DataView, null, typeof(COMException));
+			if (dataView is null) return;
+
+			ItemDropped?.Invoke(this, new(sideBarItem.Item, dataView, dropPosition, rawEvent));
 		}
 
 		internal void RaiseItemDragOver(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
 		{
 			if (sideBarItem.Item is null) return;
 
-			try
-			{
-				var args = new ItemDragOverEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent);
-				ItemDragOver?.Invoke(this, args);
-			}
-			catch (Exception ex) when (DragDropExceptionHelper.IsExpectedStaleDragData(ex))
-			{
-				DragDropExceptionHelper.LogStaleDrag(ex, "Stale OLE drag payload reading DataView in RaiseItemDragOver.");
-			}
+			// Expected to fail with COMException if the OLE drag payload is stale
+			var dataView = SafetyExtensions.IgnoreExceptions(() => rawEvent.DataView, null, typeof(COMException));
+			if (dataView is null) return;
+
+			var args = new ItemDragOverEventArgs(sideBarItem.Item, dataView, dropPosition, rawEvent);
+			ItemDragOver?.Invoke(this, args);
 		}
 
 		private void UpdateMinimalMode()

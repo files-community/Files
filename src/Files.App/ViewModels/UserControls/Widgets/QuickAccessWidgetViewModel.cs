@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.Runtime.InteropServices;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
@@ -57,14 +58,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			_quickAccessFolderWatcher.Changed += async (s, e) =>
 			{
-				try
-				{
-					await RefreshWidgetAsync();
-				}
-				catch (Exception ex)
-				{
-					App.Logger.LogWarning(ex, "Error refreshing quick access widget on file system change");
-				}
+				await SafetyExtensions.IgnoreExceptions(RefreshWidgetAsync, App.Logger, typeof(COMException));
 			};
 
 			_quickAccessFolderWatcher.EnableRaisingEvents = true;
@@ -73,14 +67,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				if (e.Reorder)
 				{
-					try
-					{
-						await RefreshWidgetAsync(bypassSuspend: true);
-					}
-					catch (Exception ex)
-					{
-						App.Logger.LogWarning(ex, "Error refreshing quick access widget on reorder");
-					}
+					await SafetyExtensions.IgnoreExceptions(() => RefreshWidgetAsync(bypassSuspend: true), App.Logger, typeof(COMException));
 				}
 			};
 			App.QuickAccessManager.UpdateQuickAccessWidget += _quickAccessWidgetUpdatedHandler;

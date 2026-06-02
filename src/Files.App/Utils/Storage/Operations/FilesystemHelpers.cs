@@ -6,6 +6,7 @@ using Microsoft.Win32;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
+using Files.App.Controls;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel.DataTransfer;
@@ -276,14 +277,7 @@ namespace Files.App.Utils.Storage
 			}
 			finally
 			{
-				try
-				{
-					packageView.ReportOperationCompleted(packageView.RequestedOperation);
-				}
-				catch (Exception ex)
-				{
-					App.Logger.LogInformation(ex, "Drag data package became unavailable while reporting the completed operation");
-				}
+				SafetyExtensions.IgnoreExceptions(() => packageView.ReportOperationCompleted(packageView.RequestedOperation), App.Logger, typeof(System.Runtime.InteropServices.COMException));
 			}
 		}
 
