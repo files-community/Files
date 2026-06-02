@@ -20,6 +20,8 @@ namespace Files.App.Utils.Storage
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 		private readonly ILogger logger = Ioc.Default.GetRequiredService<ILogger<FolderSearch>>();
 
+		private static readonly string folderTypeTextLocalized = Strings.Folder.GetLocalizedResource();
+
 		private const uint defaultStepSize = 500;
 
 		public string? Query { get; set; }
@@ -69,29 +71,30 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		public Task SearchAsync(IList<ListedItem> results, CancellationToken token)
+		public async Task SearchAsync(IList<ListedItem> results, CancellationToken token)
 		{
 			try
 			{
 				if (App.LibraryManager.TryGetLibrary(Folder, out var library))
 				{
-					return AddItemsForLibraryAsync(library, results, token);
+					await AddItemsForLibraryAsync(library, results, token);
 				}
 				else if (Folder == "Home")
 				{
-					return AddItemsForHomeAsync(results, token);
+					await AddItemsForHomeAsync(results, token);
 				}
 				else
 				{
-					return AddItemsAsync(Folder, results, token);
+					await AddItemsAsync(Folder, results, token);
 				}
+			}
+			catch (OperationCanceledException)
+			{
 			}
 			catch (Exception e)
 			{
 				App.Logger.LogWarning(e, "Search failure");
 			}
-
-			return Task.CompletedTask;
 		}
 
 		private async Task AddItemsForHomeAsync(IList<ListedItem> results, CancellationToken token)
@@ -489,6 +492,7 @@ namespace Files.App.Utils.Storage
 						ItemDateCreatedReal = systemCreatedTimeOutput.ToDateTime(),
 						IsHiddenItem = isHidden,
 						LoadFileIcon = false,
+						ItemType = folderTypeTextLocalized,
 						Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
 					};
 				}
@@ -534,6 +538,7 @@ namespace Files.App.Utils.Storage
 						ItemPath = folder.Path,
 						ItemDateModifiedReal = props.DateModified,
 						ItemDateCreatedReal = folder.DateCreated,
+						ItemType = folderTypeTextLocalized,
 						NeedsPlaceholderGlyph = false,
 						Opacity = 1,
 						FileSize = props.Size.ToSizeString(),
@@ -551,6 +556,7 @@ namespace Files.App.Utils.Storage
 						ItemPath = folder.Path,
 						ItemDateModifiedReal = props.DateModified,
 						ItemDateCreatedReal = folder.DateCreated,
+						ItemType = folderTypeTextLocalized,
 						NeedsPlaceholderGlyph = false,
 						Opacity = 1
 					};

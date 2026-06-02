@@ -41,8 +41,7 @@
 			<!--  Title  -->
 			<TextBlock
 				Padding="0,0,0,12"
-				FontSize="24"
-				FontWeight="Medium"
+				Style="{StaticResource App.Theme.SubtitleTextBlockStyle}"
 				Text="{helpers:ResourceString Name=DevTools}" />
 
 			<!--  Display Open IDE status bar button  -->

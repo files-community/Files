@@ -25,6 +25,7 @@ namespace Files.App.Data.Enums
 		Sorting,
 		Start,
 		Window,
+		Theme,
 		DualPane,
 	}
 }

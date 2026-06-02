@@ -20,9 +20,28 @@ namespace Files.App.UserControls.Menus
 		/// </summary>
 		public event EventHandler? TagsChanged;
 
-		public IEnumerable<ListedItem> SelectedItems { get; }
+		private IEnumerable<ListedItem> selectedItems = [];
+		public IEnumerable<ListedItem> SelectedItems => selectedItems;
+		private Func<IEnumerable<ListedItem>>? selectedItemsProvider;
 
 		public FileTagsContextMenu(IEnumerable<ListedItem> selectedItems)
+		{
+			this.selectedItems = selectedItems;
+			Init();
+		}
+
+		/// <summary>
+		/// Creates a menu with items provided dynamically via a delegate.
+		/// Useful for reusing the menu instance across different selections.
+		/// </summary>
+		public FileTagsContextMenu(Func<IEnumerable<ListedItem>> selectedItemsProvider)
+		{
+			this.selectedItemsProvider = selectedItemsProvider;
+			selectedItems = selectedItemsProvider?.Invoke() ?? [];
+			Init();
+		}
+
+		private void Init()
 		{
 			SetValue(MenuFlyoutHelper.ItemsSourceProperty, FileTagsSettingsService.FileTagList
 				.Select(tag => new MenuFlyoutFactoryItemViewModel(() =>
@@ -41,9 +60,18 @@ namespace Files.App.UserControls.Menus
 					return tagItem;
 				})));
 
-			SelectedItems = selectedItems;
-
 			Opening += Item_Opening;
+		}
+
+		/// <summary>
+		/// Resets the flyout for a new selection so it can be reused across multiple opens.
+		/// Clears all checked states and re-registers the opening handler.
+		/// </summary>
+		public void ResetForItems(IEnumerable<ListedItem> selectedItems)
+		{
+			this.selectedItems = selectedItems;
+			foreach (var item in Items.OfType<ToggleMenuFlyoutItem>())
+				item.IsChecked = false;
 		}
 
 		private void TagItem_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -61,10 +89,15 @@ namespace Files.App.UserControls.Menus
 
 		private void Item_Opening(object? sender, object e)
 		{
-			Opening -= Item_Opening;
+			// Update SelectedItems if using dynamic provider
+			if (selectedItemsProvider is not null)
+				selectedItems = selectedItemsProvider.Invoke();
 
 			if (SelectedItems is null)
 				return;
+
+			foreach (var item in Items.OfType<ToggleMenuFlyoutItem>())
+				item.IsChecked = false;
 
 			// go through each tag and find the common one for all files
 			var commonFileTags = SelectedItems

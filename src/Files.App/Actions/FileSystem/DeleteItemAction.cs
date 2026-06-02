@@ -21,6 +21,9 @@ namespace Files.App.Actions
 		public string AutomationId
 			=> "InnerNavigationToolbarDeleteButton";
 
+		public string AccessKey
+			=> "D";
+
 		public HotKey HotKey
 			=> new(Keys.Delete);
 

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Files.Shared.Utils;
+using Microsoft.Extensions.Logging;
 using Windows.Storage.FileProperties;
 
 namespace Files.App.Data.Contracts
@@ -26,8 +27,15 @@ namespace Files.App.Data.Contracts
 
 		public async Task<IImage?> GetImageModelFromPathAsync(string filePath, uint thumbnailSize = 64)
 		{
-			if (await FileThumbnailHelper.LoadIconFromPathAsync(filePath, thumbnailSize, ThumbnailMode.ListView, ThumbnailOptions.ResizeThumbnail) is byte[] imageBuffer)
-				return await GetImageModelFromDataAsync(imageBuffer);
+			try
+			{
+				if (await FileThumbnailHelper.LoadIconFromPathAsync(filePath, thumbnailSize, ThumbnailMode.ListView, ThumbnailOptions.ResizeThumbnail) is byte[] imageBuffer)
+					return await GetImageModelFromDataAsync(imageBuffer);
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogDebug(ex, "Failed to load image model from path.");
+			}
 
 			return null;
 		}

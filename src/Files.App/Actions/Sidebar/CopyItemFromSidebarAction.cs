@@ -119,6 +119,7 @@ namespace Files.App.Actions
 
 			return item.Path.StartsWith("tag:", StringComparison.OrdinalIgnoreCase) ||
 				string.Equals(item.Path, "Home", StringComparison.OrdinalIgnoreCase) ||
+				string.Equals(item.Path, "Settings", StringComparison.OrdinalIgnoreCase) ||
 				string.Equals(normalizedPath, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
 				string.Equals(normalizedPath, Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase) ||
 				string.Equals(normalizedPath, Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase);

@@ -199,6 +199,7 @@
 					ItemContainerTransitions="{x:Null}"
 					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
 					Loaded="FileList_Loaded"
+					PointerPressed="FileList_PointerPressed"
 					PreviewKeyDown="FileList_PreviewKeyDown"
 					RightTapped="FileList_RightTapped"
 					SelectionChanged="FileList_SelectionChanged"
@@ -216,8 +217,7 @@
 								VerticalAlignment="Center"
 								CornerRadius="{StaticResource ControlCornerRadius}"
 								IsRightTapEnabled="True"
-								Loaded="Grid_Loaded"
-								PointerEntered="Grid_PointerEntered">
+								Loaded="Grid_Loaded">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="Auto" />
 									<ColumnDefinition Width="*" />

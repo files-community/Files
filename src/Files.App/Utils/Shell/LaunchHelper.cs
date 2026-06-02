@@ -64,6 +64,8 @@ namespace Files.App.Utils.Shell
 				return await Win32Helper.MountVhdDisk(application);
 			}
 
+			var resolvedWorkingDirectory = string.IsNullOrEmpty(workingDirectory) ? PathNormalization.GetParentDir(application) : workingDirectory;
+
 			try
 			{
 				using Process process = new Process();
@@ -71,7 +73,7 @@ namespace Files.App.Utils.Shell
 				process.StartInfo.FileName = application;
 
 				// Show window if workingDirectory (opening terminal)
-				process.StartInfo.CreateNoWindow = string.IsNullOrEmpty(workingDirectory);
+				process.StartInfo.CreateNoWindow = string.IsNullOrEmpty(resolvedWorkingDirectory);
 
 				if (arguments == "RunAs")
 				{
@@ -119,7 +121,7 @@ namespace Files.App.Utils.Shell
 						Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User));
 				}
 
-				process.StartInfo.WorkingDirectory = string.IsNullOrEmpty(workingDirectory) ? PathNormalization.GetParentDir(application) : workingDirectory;
+				process.StartInfo.WorkingDirectory = resolvedWorkingDirectory;
 				process.Start();
 
 				Win32Helper.BringToForeground(currentWindows);
@@ -133,7 +135,7 @@ namespace Files.App.Utils.Shell
 				process.StartInfo.FileName = application;
 				process.StartInfo.CreateNoWindow = true;
 				process.StartInfo.Arguments = arguments;
-				process.StartInfo.WorkingDirectory = string.IsNullOrEmpty(workingDirectory) ? PathNormalization.GetParentDir(application) : workingDirectory;
+				process.StartInfo.WorkingDirectory = resolvedWorkingDirectory;
 
 				try
 				{

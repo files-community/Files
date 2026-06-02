@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Sentry;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using Windows.ApplicationModel;
@@ -297,15 +298,32 @@ namespace Files.App.Utils.Taskbar
 
 		private void OnQuitClicked()
 		{
-			Hide();
+			try
+			{
+				Hide();
 
-			App.AppModel.ForceProcessTermination = true;
+				App.AppModel.ForceProcessTermination = true;
 
-			var pool = new Semaphore(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance", out var isNew);
-			if (!isNew)
-				pool.Release();
-			else
-				App.Current.Exit();
+				var pool = new Semaphore(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance", out var isNew);
+				if (!isNew)
+					pool.Release();
+				else
+					App.Current.Exit();
+			}
+			catch (Exception ex)
+			{
+				SentrySdk.CaptureException(ex, scope =>
+				{
+					scope.Level = SentryLevel.Fatal;
+					scope.SetTag("location", "SystemTrayIcon.OnQuitClicked");
+					scope.SetExtra("AppModelIsNull", App.AppModel is null);
+					scope.SetExtra("AppCurrentIsNull", App.Current is null);
+					scope.SetExtra("ProgramPoolIsNull", Program.Pool is null);
+				});
+
+				// The user requested quit; force termination as a last resort
+				Environment.Exit(0);
+			}
 		}
 
 		internal LRESULT WindowProc(HWND hWnd, uint uMsg, WPARAM wParam, LPARAM lParam)

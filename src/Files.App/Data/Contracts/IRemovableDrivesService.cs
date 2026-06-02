@@ -11,8 +11,8 @@ namespace Files.App.Data.Contracts
 		/// <summary>
 		/// Gets the primary system drive. This item is typically excluded when enumerating removable drives
 		/// </summary>
-		/// <returns>The location of the drive which the operating system is installed to.</returns>
-		Task<IFolder> GetPrimaryDriveAsync();
+		/// <returns>The location of the drive which the operating system is installed to, or <see langword="null"/> if it cannot be accessed.</returns>
+		Task<IFolder?> GetPrimaryDriveAsync();
 
 		/// <summary>
 		/// Creates a watcher for storage devices

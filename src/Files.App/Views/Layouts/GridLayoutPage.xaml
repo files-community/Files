@@ -100,8 +100,7 @@
 					tui:FrameworkElementExtensions.EnableActualSizeBinding="True"
 					Background="Transparent"
 					IsRightTapEnabled="True"
-					Loaded="Grid_Loaded"
-					PointerEntered="Grid_PointerEntered">
+					Loaded="Grid_Loaded">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="*" />
@@ -282,8 +281,7 @@
 					VerticalAlignment="Center"
 					CornerRadius="{StaticResource ControlCornerRadius}"
 					IsRightTapEnabled="True"
-					Loaded="Grid_Loaded"
-					PointerEntered="Grid_PointerEntered">
+					Loaded="Grid_Loaded">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition Width="*" />
@@ -442,8 +440,7 @@
 					BorderThickness="1"
 					CornerRadius="8"
 					IsRightTapEnabled="True"
-					Loaded="Grid_Loaded"
-					PointerEntered="Grid_PointerEntered">
+					Loaded="Grid_Loaded">
 					<StackPanel Orientation="{Binding ElementName=PageRoot, Path=CardsViewOrientation, Mode=OneWay}">
 
 						<!--  Preview  -->

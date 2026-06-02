@@ -3,18 +3,16 @@
 
 using CommunityToolkit.WinUI;
 using Files.App.Controls;
+using Files.App.ViewModels.Settings;
 using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using System.Windows.Input;
-using Windows.AI.Actions;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.UI.Text;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -59,8 +57,6 @@ namespace Files.App.ViewModels.UserControls
 		public event EventHandler? RefreshWidgetsRequested;
 
 		// Properties
-
-		internal static ActionRuntime? ActionRuntime { get; private set; }
 
 		public ObservableCollection<PathBoxItem> PathComponents { get; } = [];
 
@@ -148,6 +144,21 @@ namespace Files.App.ViewModels.UserControls
 		private bool _IsUpdating;
 		public bool IsUpdating { get => _IsUpdating; set => SetProperty(ref _IsUpdating, value); }
 
+		private int _UpdateProgress;
+		public int UpdateProgress
+		{
+			get => _UpdateProgress;
+			set
+			{
+				if (SetProperty(ref _UpdateProgress, value))
+					OnPropertyChanged(nameof(IsUpdateProgressIndeterminate));
+			}
+		}
+
+		// AddPackageByAppInstallerFileAsync often reports 0% for most of the deployment,
+		// so fall back to an indeterminate ring until a real percentage arrives.
+		public bool IsUpdateProgressIndeterminate => _UpdateProgress == 0;
+
 		private bool _IsUpdateAvailable;
 		public bool IsUpdateAvailable { get => _IsUpdateAvailable; set => SetProperty(ref _IsUpdateAvailable, value); }
 
@@ -201,6 +212,12 @@ namespace Files.App.ViewModels.UserControls
 		private string? _OmnibarSearchModeText;
 		public string? OmnibarSearchModeText { get => _OmnibarSearchModeText; set => SetProperty(ref _OmnibarSearchModeText, value); }
 
+		public string OmnibarSearchModePlaceholder => InstanceViewModel?.IsPageTypeSettings == true
+			? Strings.SearchSettings.GetLocalizedResource()
+			: Strings.OmnibarSearchModeTextPlaceholder.GetLocalizedResource();
+
+		private List<SettingsSearchResult>? _settingsSearchIndex;
+
 		private string _OmnibarCurrentSelectedModeName = OmnibarPathModeName;
 		public string OmnibarCurrentSelectedModeName { get => _OmnibarCurrentSelectedModeName; set => SetProperty(ref _OmnibarCurrentSelectedModeName, value); }
 
@@ -213,11 +230,28 @@ namespace Files.App.ViewModels.UserControls
 				if (_InstanceViewModel?.FolderSettings is not null)
 					_InstanceViewModel.FolderSettings.PropertyChanged -= FolderSettings_PropertyChanged;
 
+				if (_InstanceViewModel is not null)
+					_InstanceViewModel.PropertyChanged -= InstanceViewModel_PropertyChanged;
+
 				if (SetProperty(ref _InstanceViewModel, value) && _InstanceViewModel?.FolderSettings is not null)
 				{
 					FolderSettings_PropertyChanged(this, new PropertyChangedEventArgs(nameof(LayoutPreferencesManager.LayoutMode)));
 					_InstanceViewModel.FolderSettings.PropertyChanged += FolderSettings_PropertyChanged;
+					_InstanceViewModel.PropertyChanged += InstanceViewModel_PropertyChanged;
+					OnPropertyChanged(nameof(OmnibarSearchModePlaceholder));
 				}
+			}
+		}
+
+		private void InstanceViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(CurrentInstanceViewModel.IsPageTypeSettings))
+			{
+				OnPropertyChanged(nameof(OmnibarSearchModePlaceholder));
+
+				// Suggestion source differs between settings and file search — drop stale items.
+				OmnibarSearchModeSuggestionItems.Clear();
+				OmnibarSearchModeText = string.Empty;
 			}
 		}
 
@@ -309,6 +343,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			IsUpdateAvailable = UpdateService.IsUpdateAvailable;
 			IsUpdating = UpdateService.IsUpdating;
+			UpdateProgress = UpdateService.UpdateProgress;
 		}
 
 		private void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
@@ -529,8 +564,8 @@ namespace Files.App.ViewModels.UserControls
 			else if (normalizedInput.Equals("Settings", StringComparison.OrdinalIgnoreCase) ||
 				normalizedInput.Equals(Strings.Settings.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 			{
-				//SavePathToHistory("Settings");
-				//ContentPageContext.ShellPage.NavigateToSettings();
+				SavePathToHistory("Settings");
+				ContentPageContext.ShellPage.NavigateToSettings();
 			}
 			else
 			{
@@ -634,7 +669,6 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem)
 		{
-			var nextPathItemTitle = PathComponents[PathComponents.IndexOf(pathItem) + 1].Title;
 			var childFolders = GetSubfolders(pathItem.Path);
 
 			// Fall back to StorageFolder API for non-filesystem paths (e.g. FTP)
@@ -663,9 +697,6 @@ namespace Files.App.ViewModels.UserControls
 
 				return;
 			}
-
-			var boldFontWeight = new FontWeight { Weight = 800 };
-			var normalFontWeight = new FontWeight { Weight = 400 };
 
 			var workingPath =
 				PathComponents[PathComponents.Count - 1].Path?.TrimEnd(Path.DirectorySeparatorChar);
@@ -804,12 +835,11 @@ namespace Files.App.ViewModels.UserControls
 					SavePathToHistory("ReleaseNotes");
 					shellPage.NavigateToReleaseNotes();
 				}
-				// TODO add settings page
-				//else if (normalizedInput.Equals("Settings", StringComparison.OrdinalIgnoreCase) || normalizedInput.Equals(Strings.Settings.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
-				//{
-				//	SavePathToHistory("Settings");
-				//	shellPage.NavigateToReleaseNotes();
-				//}
+				else if (normalizedInput.Equals("Settings", StringComparison.OrdinalIgnoreCase) || normalizedInput.Equals(Strings.Settings.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
+				{
+					SavePathToHistory("Settings");
+					shellPage.NavigateToSettings();
+				}
 				else
 				{
 					normalizedInput = StorageFileExtensions.GetResolvedPath(normalizedInput, isFtp);
@@ -1018,43 +1048,6 @@ namespace Files.App.ViewModels.UserControls
 			{
 				var suggestions = new List<NavigationBarSuggestionItem>();
 
-				if (ContentPageContext.SelectedItems.Count == 1 && ContentPageContext.SelectedItem is not null && !ContentPageContext.SelectedItem.IsFolder)
-				{
-					try
-					{
-						var selectedItemPath = ContentPageContext.SelectedItem.ItemPath;
-						var fileActionEntity = ActionManager.Instance.EntityFactory.CreateFileEntity(selectedItemPath);
-						var actions = ActionManager.Instance.ActionRuntime.ActionCatalog.GetActionsForInputs(new[] { fileActionEntity });
-
-						foreach (var action in actions.Where(a => a.Definition.Description.Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)))
-						{
-							var newItem = new NavigationBarSuggestionItem
-							{
-								PrimaryDisplay = action.Definition.Description,
-								SearchText = OmnibarCommandPaletteModeText,
-								ActionInstance = action
-							};
-
-							if (Uri.TryCreate(action.Definition.IconFullPath, UriKind.RelativeOrAbsolute, out Uri? validUri))
-							{
-								try
-								{
-									newItem.ActionIconSource = new BitmapImage(validUri);
-								}
-								catch (Exception)
-								{
-								}
-							}
-
-							suggestions.Add(newItem);
-						}
-					}
-					catch (Exception ex)
-					{
-						App.Logger.LogWarning(ex, ex.Message);
-					}
-				}
-
 				var commandsData = Commands
 					.Where(command => command.IsAccessibleGlobally
 						&& (command.Description.Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)
@@ -1149,6 +1142,12 @@ namespace Files.App.ViewModels.UserControls
 			if (ContentPageContext.ShellPage is null)
 				return;
 
+			if (InstanceViewModel?.IsPageTypeSettings == true)
+			{
+				PopulateOmnibarSuggestionsForSettingsSearch();
+				return;
+			}
+
 			List<SuggestionModel> newSuggestions = [];
 
 			if (string.IsNullOrWhiteSpace(OmnibarSearchModeText))
@@ -1184,6 +1183,26 @@ namespace Files.App.ViewModels.UserControls
 
 			foreach (var item in toAdd)
 				OmnibarSearchModeSuggestionItems.Add(item);
+		}
+
+		private void PopulateOmnibarSuggestionsForSettingsSearch()
+		{
+			OmnibarSearchModeSuggestionItems.Clear();
+
+			if (string.IsNullOrWhiteSpace(OmnibarSearchModeText))
+				return;
+
+			_settingsSearchIndex ??= SettingsSearchIndexer.BuildIndex();
+			var terms = OmnibarSearchModeText.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+			foreach (var entry in _settingsSearchIndex)
+			{
+				if (terms.All(term => entry.Haystack.Contains(term, StringComparison.CurrentCultureIgnoreCase)))
+					OmnibarSearchModeSuggestionItems.Add(new SuggestionModel(entry));
+
+				if (OmnibarSearchModeSuggestionItems.Count >= MaxSuggestionsCount)
+					break;
+			}
 		}
 
 		private void FolderSettings_PropertyChanged(object? sender, PropertyChangedEventArgs e)

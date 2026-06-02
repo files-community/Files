@@ -1,6 +1,8 @@
 ﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Project>
   <PropertyGroup>
+
+    <!--  Generic properties  -->
     <TargetFrameworkVersion>net10.0</TargetFrameworkVersion>
     <TargetWindowsVersion>10.0.26100.0</TargetWindowsVersion>
     <MinimalWindowsVersion>10.0.19041.0</MinimalWindowsVersion>
@@ -8,6 +10,11 @@
     <WindowsTargetFramework>$(TargetFrameworkVersion)-windows$(TargetWindowsVersion)</WindowsTargetFramework>
     <LangVersion>preview</LangVersion>
 
+    <!--  Use Microsoft.Testing.Platform  -->
     <EnableMSTestRunner>true</EnableMSTestRunner>
+
+    <!--  Use strict Roslyn compilation mode  -->
+    <Features>strict</Features>
+
   </PropertyGroup>
 </Project>

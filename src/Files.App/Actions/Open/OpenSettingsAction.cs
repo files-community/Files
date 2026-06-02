@@ -1,16 +1,12 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Dialogs;
-
 namespace Files.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed partial class OpenSettingsAction : BaseUIAction, IAction
 	{
-		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-
-		private readonly SettingsDialogViewModel viewModel = new();
+		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> Strings.Settings.GetLocalizedResource();
@@ -29,11 +25,17 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			var dialog = dialogService.GetDialog(viewModel);
-			if (parameter is not null && parameter is SettingsNavigationParams navParams)
-				((SettingsDialog)dialog).NavigateTo(navParams);
+			var settingsPage = (parameter as SettingsNavigationParams)?.PageKind.ToString();
 
-			return dialog.TryShowAsync();
+			return settingsPage is not null
+				? NavigationHelpers.AddNewTabByParamAsync(
+					typeof(ShellPanesPage),
+					new PaneNavigationArguments()
+					{
+						LeftPaneNavPathParam = "Settings",
+						LeftPaneSelectItemParam = settingsPage,
+					})
+				: NavigationHelpers.OpenPathInNewTab("Settings", true);
 		}
 	}
 }

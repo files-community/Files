@@ -7,19 +7,6 @@ namespace Files.App
 {
 	public static class Constants
 	{
-		public static class AdaptiveLayout
-		{
-			public const float ExtraLargeThreshold = 85.0f;
-
-			public const float LargeThreshold = 80.0f;
-
-			public const float MediumThreshold = 60.0f;
-
-			public const float SmallThreshold = 25.0f;
-
-			public const float ExtraSmallThreshold = 15.0f;
-		}
-
 		// The following constants will be replaced with actual values by the Files CI workflow
 		public static class AutomatedWorkflowInjectionKeys
 		{
@@ -121,7 +108,14 @@ namespace Files.App
 
 		public static class Appearance
 		{
-			public const string StandardFont = "Segoe UI Variable";
+			/// <summary>
+			/// The system default font family. Returns "Segoe UI Variable" on Windows 11+
+			/// and "Segoe UI" on Windows 10, matching the WinUI ContentControlThemeFontFamily default.
+			/// </summary>
+			public static string StandardFont =>
+				OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000)
+					? "Segoe UI Variable"
+					: "Segoe UI";
 		}
 
 		// Default icon sizes that are available for files and folders

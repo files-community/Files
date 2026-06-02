@@ -27,13 +27,14 @@ namespace Files.App.Helpers.ContextFlyouts
 					// Add a placeholder
 					menuItem.Visibility = Visibility.Collapsed;
 
-					var placeolder = new MenuFlyoutItem()
+					var placeholder = new MenuFlyoutItem()
 					{
 						Text = menuFlyoutSubItem.Text,
 						Tag = menuFlyoutSubItem.Tag,
 						Icon = menuFlyoutSubItem.Icon,
+						AccessKey = i.AccessKey,
 					};
-					flyout.Add(placeolder);
+					flyout.Add(placeholder);
 				}
 			});
 			return flyout;
@@ -84,6 +85,7 @@ namespace Files.App.Helpers.ContextFlyouts
 				{
 					Text = item.Text,
 					Tag = item.Tag,
+					AccessKey = item.AccessKey,
 				};
 
 				if (item.BitmapIcon is not null)
@@ -122,6 +124,7 @@ namespace Files.App.Helpers.ContextFlyouts
 					Tag = i.Tag,
 					Command = i.Command,
 					CommandParameter = i.CommandParameter,
+					AccessKey = i.AccessKey,
 				};
 				try
 				{
@@ -144,6 +147,7 @@ namespace Files.App.Helpers.ContextFlyouts
 					Command = i.Command,
 					CommandParameter = i.CommandParameter,
 					IsChecked = i.IsChecked,
+					AccessKey = i.AccessKey,
 				};
 				if (!string.IsNullOrEmpty(i.Glyph))
 				{
@@ -170,6 +174,7 @@ namespace Files.App.Helpers.ContextFlyouts
 					Command = i.Command,
 					CommandParameter = i.CommandParameter,
 					Icon = icon,
+					AccessKey = i.AccessKey,
 				};
 			}
 

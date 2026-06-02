@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
+using System.Runtime.InteropServices;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.UserControls
@@ -19,6 +20,7 @@ namespace Files.App.ViewModels.UserControls
 		private DrivesViewModel drivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		private CancellationTokenSource loadCancellationTokenSource;
+		private Files.App.UserControls.Menus.FileTagsContextMenu? cachedTagsContextMenu;
 
 		/// <summary>
 		/// Value indicating if the info pane is on/off
@@ -518,26 +520,35 @@ namespace Files.App.ViewModels.UserControls
 
 		private void UpdateTagsItems()
 		{
-			Items.Clear();
-
-			SelectedItem?.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
-
-			var contextMenu = new Files.App.UserControls.Menus.FileTagsContextMenu(new List<ListedItem>() { SelectedItem });
-			contextMenu.Closed += HandleClosed;
-			contextMenu.TagsChanged += RequireTagGroupsUpdate;
-
-			Items.Add(new FlyoutItem(contextMenu));
-
-			async void RequireTagGroupsUpdate(object? sender, EventArgs e)
+			try
 			{
-				if (contentPageContext.ShellPage is not null)
-					await contentPageContext.ShellPage.ShellViewModel.RefreshTagGroups();
+				Items.Clear();
+
+				SelectedItem?.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
+
+				// Create menu once and reuse it for subsequent selections
+				if (cachedTagsContextMenu is null)
+				{
+					cachedTagsContextMenu = new Files.App.UserControls.Menus.FileTagsContextMenu(new List<ListedItem>() { SelectedItem });
+					cachedTagsContextMenu.TagsChanged += async (s, e) =>
+					{
+						if (contentPageContext.ShellPage is not null)
+							await contentPageContext.ShellPage.ShellViewModel.RefreshTagGroups();
+					};
+				}
+				else
+				{
+					// Reset menu for new selection
+					cachedTagsContextMenu.ResetForItems(new List<ListedItem>() { SelectedItem });
+				}
+
+				Items.Add(new FlyoutItem(cachedTagsContextMenu));
 			}
-
-			void HandleClosed(object? sender, object e)
+			catch (COMException ex)
 			{
-				contextMenu.TagsChanged -= RequireTagGroupsUpdate;
-				contextMenu.Closed -= HandleClosed;
+				// MenuFlyout construction fails (0x8001010E: RPC_E_DISCONNECTED) when UI is being torn down
+				App.Logger.LogInformation($"InfoPaneViewModel.UpdateTagsItems: Suppressed COMException during UI teardown: {ex.HResult}");
+				Items.Clear(); // Clean up partial state
 			}
 		}
 
@@ -564,6 +575,7 @@ namespace Files.App.ViewModels.UserControls
 			infoPaneSettingsService.PropertyChanged -= PreviewSettingsService_OnPropertyChangedEvent;
 			contentPageContext.PropertyChanged -= ContentPageContext_PropertyChanged;
 			CloudDrivesManager.DataChanged -= CloudDrivesManager_DataChanged;
+			cachedTagsContextMenu = null;
 		}
 	}
 }

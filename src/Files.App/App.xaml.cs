@@ -3,9 +3,11 @@
 
 using Files.App.Helpers.Application;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
+using Windows.Win32;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -40,7 +42,7 @@ namespace Files.App
 		public static FileTagsManager FileTagsManager { get; private set; } = null!;
 		public static LibraryManager LibraryManager { get; private set; } = null!;
 		public static AppModel AppModel { get; private set; } = null!;
-		public static ILogger Logger { get; private set; } = null!;
+		public static ILogger Logger { get; private set; } = NullLogger.Instance;
 
 		/// <summary>
 		/// Initializes an instance of <see cref="App"/>.
@@ -161,9 +163,7 @@ namespace Files.App
 		{
 			var activatedEventArgsData = activatedEventArgs.Data;
 
-			// Logger may not be initialized yet due to race condition during startup
-			if (Logger is not null)
-				Logger.LogInformation($"The app is being activated. Activation type: {activatedEventArgsData.GetType().Name}");
+			Logger.LogInformation($"The app is being activated. Activation type: {activatedEventArgsData?.GetType().Name ?? "Unknown"}");
 
 			// InitializeApplication accesses UI, needs to be called on UI thread
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()
@@ -228,9 +228,8 @@ namespace Files.App
 				var results = items.Select(x => x.ItemPath).ToList();
 				System.IO.File.WriteAllLines(OutputPath, results);
 
-				IntPtr eventHandle = Win32PInvoke.CreateEvent(IntPtr.Zero, false, false, "FILEDIALOG");
-				Win32PInvoke.SetEvent(eventHandle);
-				Win32PInvoke.CloseHandle(eventHandle);
+				using var eventHandle = PInvoke.CreateEvent(null, false, false, "FILEDIALOG");
+				PInvoke.SetEvent(eventHandle);
 			}
 
 			// Continue running the app on the background
@@ -284,6 +283,11 @@ namespace Files.App
 					}
 				}
 			}
+
+			// Stop the tray icon's hidden window before continuing teardown so a late "Quit"
+			// click can't dispatch into OnQuitClicked once Application.Current is null.
+			SystemTrayIcon?.Dispose();
+			SystemTrayIcon = null;
 
 			// Method can take a long time, make sure the window is hidden
 			await Task.Yield();

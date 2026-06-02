@@ -433,8 +433,11 @@ namespace Files.App.Utils.Storage
 				source,
 				destination);
 
-			banner.ProgressEventSource.ProgressChanged += (s, e)
-				=> returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
+			banner.ProgressEventSource.ProgressChanged += (s, e) =>
+			{
+				var newStatus = e.Status!.Value.ToStatus();
+				returnStatus = newStatus == ReturnResult.Success || returnStatus < ReturnResult.Failed ? newStatus : returnStatus;
+			};
 
 			var token = banner.CancellationToken;
 
@@ -451,7 +454,8 @@ namespace Files.App.Utils.Storage
 
 			IStorageHistory history = await filesystemOperations.MoveItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.ProgressEventSource, token);
 
-			banner.Progress.ReportStatus(FileSystemStatusCode.Success);
+			if (returnStatus == ReturnResult.InProgress || returnStatus == ReturnResult.Success)
+				banner.Progress.ReportStatus(FileSystemStatusCode.Success);
 
 			await Task.Yield();
 

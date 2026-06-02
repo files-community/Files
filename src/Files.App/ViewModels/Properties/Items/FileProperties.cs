@@ -46,8 +46,9 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.LoadFileIcon = Item.LoadFileIcon;
 			ViewModel.IsDownloadedFile = Win32Helper.ReadStringFromFile($"{Item.ItemPath}:Zone.Identifier") is not null;
 			ViewModel.IsEditAlbumCoverVisible =
+				Item.FileExtension is not ".avi" && (
 				FileExtensionHelpers.IsVideoFile(Item.FileExtension) ||
-				FileExtensionHelpers.IsAudioFile(Item.FileExtension);
+				FileExtensionHelpers.IsAudioFile(Item.FileExtension));
 
 			if (!Item.IsShortcut)
 				return;

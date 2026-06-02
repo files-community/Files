@@ -27,6 +27,7 @@ namespace Files.App.Converters
 				ActionCategory.Sorting => Strings.SortBy.GetLocalizedResource(),
 				ActionCategory.Start => Strings.Start.GetLocalizedResource(),
 				ActionCategory.Window => Strings.Window.GetLocalizedResource(),
+				ActionCategory.Theme => Strings.SettingsAppearanceTheme.GetLocalizedResource(),
 				ActionCategory.DualPane => Strings.DualPaneCategory.GetLocalizedResource(),
 				_ => Strings.General.GetLocalizedResource(),
 			};

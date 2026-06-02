@@ -20,6 +20,11 @@ namespace Files.App.Controls
 		/// Indicates whether the children should have an indentation or not.
 		/// </summary>
 		bool PaddedItem { get; }
+
+		/// <summary>
+		/// Optional path associated with this sidebar item for drag/drop scenarios.
+		/// </summary>
+		string? Path { get; }
 	}
 
 	public interface IDraggableSidebarItemModel : ISidebarItemModel

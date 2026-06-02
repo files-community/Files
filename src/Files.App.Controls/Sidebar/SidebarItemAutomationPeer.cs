@@ -93,11 +93,19 @@ namespace Files.App.Controls
 
 		protected override int GetSizeOfSetCore()
 		{
+			var baseValue = base.GetSizeOfSetCore();
+			if (baseValue != -1)
+				return baseValue;
+
 			return GetOwnerCollection().Count;
 		}
 
 		protected override int GetPositionInSetCore()
 		{
+			var baseValue = base.GetPositionInSetCore();
+			if (baseValue != -1)
+				return baseValue;
+
 			return GetOwnerCollection().IndexOf(Owner.DataContext) + 1;
 		}
 

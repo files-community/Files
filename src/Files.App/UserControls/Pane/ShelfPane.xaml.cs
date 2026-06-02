@@ -7,16 +7,21 @@ using System.Windows.Input;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel.DataTransfer;
+using Microsoft.UI.Xaml.Input;
 using WinRT;
 using DragEventArgs = Microsoft.UI.Xaml.DragEventArgs;
+using Visibility = Microsoft.UI.Xaml.Visibility;
 
 namespace Files.App.UserControls
 {
 	public sealed partial class ShelfPane : UserControl
 	{
+		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+
 		public ShelfPane()
 		{
 			InitializeComponent();
+			Unloaded += ShelfPane_Unloaded;
 		}
 
 		private void Shelf_DragOver(object sender, DragEventArgs e)
@@ -88,18 +93,55 @@ namespace Files.App.UserControls
 
 		private void ShelfItemsList_RightTapped(object sender, Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs e)
 		{
-			if (e.OriginalSource is not Microsoft.UI.Xaml.FrameworkElement widgetCardItem ||
-				widgetCardItem.DataContext is not ShelfItem item ||
-				item.Path is null)
+			if (e.OriginalSource is not Microsoft.UI.Xaml.FrameworkElement { DataContext: ShelfItem item } widgetCardItem || item.Path is null)
 				return;
 
-			var menuFlyout = new MenuFlyout();
+			// If the right-clicked item isn't already part of the selection, select just it
+			if (!ShelfItemsList.SelectedItems.Contains(item))
+				ShelfItemsList.SelectedItem = item;
 
+			var menuFlyout = new MenuFlyout
+			{
+				Placement = Microsoft.UI.Xaml.Controls.Primitives.FlyoutPlacementMode.Bottom
+			};
+
+			// Batch actions (operate on the current shelf selection via IShelfContext)
+			menuFlyout.Items.Add(new MenuFlyoutItemWithThemedIcon
+			{
+				Text = Commands.CopyItemFromShelf.Label,
+				Command = Commands.CopyItemFromShelf,
+				ThemedIconStyle = Commands.CopyItemFromShelf.ThemedIconStyle
+			});
+			menuFlyout.Items.Add(new MenuFlyoutItemWithThemedIcon
+			{
+				Text = Commands.CutItemFromShelf.Label,
+				Command = Commands.CutItemFromShelf,
+				ThemedIconStyle = Commands.CutItemFromShelf.ThemedIconStyle
+			});
+			menuFlyout.Items.Add(new MenuFlyoutItemWithThemedIcon
+			{
+				Text = Commands.DeleteItemFromShelf.Label,
+				Command = Commands.DeleteItemFromShelf,
+				ThemedIconStyle = Commands.DeleteItemFromShelf.ThemedIconStyle
+			});
+
+			menuFlyout.Items.Add(new MenuFlyoutSeparator());
+
+			// Per-item actions
+			if (ShelfItemsList.SelectedItems.Count is 1)
+			{
+				menuFlyout.Items.Add(new MenuFlyoutItem
+				{
+					Text = Strings.BaseLayoutItemContextFlyoutOpenParentFolder_Text.GetLocalizedResource(),
+					Icon = new FontIcon() { Glyph = "\uE838" },
+					Command = item.ViewInFolderCommand
+				});
+			}
 			menuFlyout.Items.Add(new MenuFlyoutItem
 			{
 				Text = Strings.RemoveFromShelf.GetLocalizedResource(),
 				Icon = new FontIcon { Glyph = "\uE738" },
-				Command = new RelayCommand(item.Remove)
+				Command = item.RemoveCommand
 			});
 
 			menuFlyout.ShowAt(widgetCardItem);
@@ -108,8 +150,33 @@ namespace Files.App.UserControls
 
 		private void ShelfItemsList_GotFocus(object sender, RoutedEventArgs e)
 		{
-			if (ItemFocusedCommand is not null)
-				ItemFocusedCommand.Execute(null);
+			ItemFocusedCommand?.Execute(null);
+		}
+
+		private void HyperlinkBatch_Click(object sender, RoutedEventArgs e)
+		{
+			if (sender is not FrameworkElement element)
+				return;
+
+			BatchFlyout.ShowAt(element);
+		}
+
+		private void ShelfItemsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			var selected = ShelfItemsList.SelectedItems.OfType<ShelfItem>().ToArray();
+			BatchActionsButton.Visibility = selected.Length is 0 ? Visibility.Collapsed : Visibility.Visible;
+			ShelfViewModel.RaiseSelectedItemsChanged(selected);
+		}
+
+		private void Pane_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			ShelfItemsList.SelectedItems.Clear();
+		}
+
+		private void ShelfPane_Unloaded(object sender, RoutedEventArgs e)
+		{
+			// Drop the shelf context's selection so actions don't operate on stale items
+			ShelfViewModel.RaiseSelectedItemsChanged([]);
 		}
 
 		public ObservableCollection<ShelfItem>? ItemsSource
@@ -135,6 +202,5 @@ namespace Files.App.UserControls
 		}
 		public static readonly DependencyProperty ItemFocusedCommandProperty =
 			DependencyProperty.Register(nameof(ItemFocusedCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
-
 	}
 }

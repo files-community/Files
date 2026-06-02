@@ -31,6 +31,8 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			context.PageType is not ContentPageTypes.Home &&
+			context.PageType is not ContentPageTypes.ReleaseNotes &&
+			context.PageType is not ContentPageTypes.Settings &&
 			!(context.PageType is ContentPageTypes.SearchResults &&
 			!context.HasSelection);
 

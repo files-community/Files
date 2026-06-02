@@ -9,6 +9,8 @@ using System.Xml.Serialization;
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;
 using Windows.Storage;
+using Windows.Win32;
+using Windows.Win32.System.Recovery;
 
 namespace Files.App.Services
 {
@@ -25,8 +27,6 @@ namespace Files.App.Services
 			{ "FilesPreview", SIDELOAD_PREVIEW }
 		};
 
-		private const string TEMPORARY_UPDATE_PACKAGE_NAME = "UpdatePackage.msix";
-
 		private ILogger? Logger { get; } = Ioc.Default.GetRequiredService<ILogger<App>>();
 
 		private string PackageName { get; } = Package.Current.Id.Name;
@@ -36,8 +36,6 @@ namespace Files.App.Services
 			Package.Current.Id.Version.Minor,
 			Package.Current.Id.Version.Build,
 			Package.Current.Id.Version.Revision);
-
-		private Uri? DownloadUri { get; set; }
 
 		private bool _isUpdateAvailable;
 		public bool IsUpdateAvailable
@@ -51,6 +49,13 @@ namespace Files.App.Services
 		{
 			get => _isUpdating;
 			private set => SetProperty(ref _isUpdating, value);
+		}
+
+		private int _updateProgress;
+		public int UpdateProgress
+		{
+			get => _updateProgress;
+			private set => SetProperty(ref _updateProgress, value);
 		}
 
 		public bool IsAppUpdated
@@ -101,9 +106,10 @@ namespace Files.App.Services
 				if (appInstaller.MainBundle.Name.Equals(PackageName) && remoteVersion.CompareTo(PackageVersion) > 0)
 				{
 					Logger?.LogInformation("SIDELOAD: Update found.");
-					Logger?.LogInformation("SIDELOAD: Starting background download.");
-					DownloadUri = new Uri(appInstaller.MainBundle.Uri);
-					await StartBackgroundDownloadAsync();
+					MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+					{
+						IsUpdateAvailable = true;
+					});
 				}
 				else
 				{
@@ -182,38 +188,6 @@ namespace Files.App.Services
 			}
 		}
 
-		private async Task StartBackgroundDownloadAsync()
-		{
-			try
-			{
-				var tempDownloadPath = ApplicationData.Current.LocalFolder.Path + "\\" + TEMPORARY_UPDATE_PACKAGE_NAME;
-
-				Stopwatch timer = Stopwatch.StartNew();
-
-				await using (var stream = await _client.GetStreamAsync(DownloadUri))
-				await using (var fileStream = new FileStream(tempDownloadPath, FileMode.Create))
-					await stream.CopyToAsync(fileStream);
-
-				timer.Stop();
-				var timespan = timer.Elapsed;
-
-				Logger?.LogInformation($"Download time taken: {timespan.Hours:00}:{timespan.Minutes:00}:{timespan.Seconds:00}");
-
-				MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
-				{
-					IsUpdateAvailable = true;
-				});
-			}
-			catch (IOException ex)
-			{
-				Logger?.LogDebug(ex, ex.Message);
-			}
-			catch (Exception ex)
-			{
-				Logger?.LogError(ex, ex.Message);
-			}
-		}
-
 		private async Task ApplyPackageUpdateAsync()
 		{
 			if (!IsUpdateAvailable)
@@ -227,22 +201,27 @@ namespace Files.App.Services
 			{
 				PackageManager packageManager = new PackageManager();
 
-				var restartStatus = Win32PInvoke.RegisterApplicationRestart(null, 0);
+				var restartStatus = PInvoke.RegisterApplicationRestart(null, (REGISTER_APPLICATION_RESTART_FLAGS)0);
 				App.AppModel.ForceProcessTermination = true;
 
 				Logger?.LogInformation($"Register for restart: {restartStatus}");
 
 				await Task.Run(async () =>
 				{
-					var bundlePath = new Uri(ApplicationData.Current.LocalFolder.Path + "\\" + TEMPORARY_UPDATE_PACKAGE_NAME);
+					var appInstallerUri = new Uri(_sideloadVersion[PackageName]);
 
-					var deployment = packageManager.RequestAddPackageAsync(
-						bundlePath,
-						null,
-						DeploymentOptions.ForceApplicationShutdown,
-						packageManager.GetDefaultPackageVolume(),
-						null,
-						null);
+					var deployment = packageManager.AddPackageByAppInstallerFileAsync(
+						appInstallerUri,
+						AddPackageByAppInstallerOptions.ForceTargetAppShutdown,
+						packageManager.GetDefaultPackageVolume());
+
+					deployment.Progress = (op, progress) =>
+					{
+						MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+						{
+							UpdateProgress = (int)progress.percentage;
+						});
+					};
 
 					result = await deployment;
 				});
@@ -259,7 +238,7 @@ namespace Files.App.Services
 				// Reset fields
 				IsUpdating = false;
 				IsUpdateAvailable = false;
-				DownloadUri = null;
+				UpdateProgress = 0;
 			}
 		}
 

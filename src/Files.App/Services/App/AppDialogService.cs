@@ -23,7 +23,6 @@ namespace Files.App.Services
 				{ typeof(ElevateConfirmDialogViewModel), () => new ElevateConfirmDialog() },
 				{ typeof(FileSystemDialogViewModel), () => new FilesystemOperationDialog() },
 				{ typeof(DecompressArchiveDialogViewModel), () => new DecompressArchiveDialog() },
-				{ typeof(SettingsDialogViewModel), () => new SettingsDialog() },
 				{ typeof(CreateShortcutDialogViewModel), () => new CreateShortcutDialog() },
 				{ typeof(AddBranchDialogViewModel), () => new AddBranchDialog() },
 				{ typeof(GitHubLoginDialogViewModel), () => new GitHubLoginDialog() },

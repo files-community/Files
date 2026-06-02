@@ -35,6 +35,20 @@ namespace Files.App.Data.Items
 		}
 
 		[RelayCommand]
+		public async Task ViewInFolderAsync(CancellationToken cancellationToken)
+		{
+			var context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			if (context.ShellPage is not { } shellPage)
+				return;
+
+			var parent = await Inner.GetParentAsync(cancellationToken);
+			if (parent is null)
+				return;
+
+			await NavigationHelpers.OpenPath(parent.Id, shellPage);
+		}
+
+		[RelayCommand]
 		public void Remove()
 		{
 			_sourceCollection.Remove(this);
