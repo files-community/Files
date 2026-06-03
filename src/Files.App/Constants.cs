@@ -39,7 +39,6 @@ namespace Files.App
 			public const int Network = 25;
 			public const int RecycleBin = 55;
 			public const int CloudDrives = 1040;
-			public const int OneDrive = 1043;
 			public const int Libraries = 1023;
 			public const int Folder = 3;
 			public const int ShieldIcon = 78;
