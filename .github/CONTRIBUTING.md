@@ -25,7 +25,7 @@ improvements which address the top issues reported by Files users. Some general 
    pull request.
 * **DO** write a good description for your pull request. More detail is better. Describe *why* the change is being 
    made and *why* you have chosen a particular solution. Describe any manual testing you performed to validate your change.
-* **DO NOT** submit a PR unless it the connected issue is marked as ready to build or approved indirectly by an org member. 
+* **DO NOT** submit a PR unless the connected issue is marked as ready to build or approved by an org member.
    This enables us to have a discussion on the idea before anyone invests time on the implementation.
 * **DO NOT** merge multiple changes into one PR unless they have the same root cause.
 
@@ -51,6 +51,6 @@ After submitting a pull request, members of the Files team will review your code
 participate in the review, but at least one member of the Files team will ultimately approve
 the request.
 
-Often, multiple iterations will be needed to responding to feedback from reviewers. Try looking at
+Often, multiple iterations will be needed to respond to feedback from reviewers. Try looking at
 [past pull requests](https://github.com/files-community/Files/pulls?q=is%3Apr+is%3Aclosed) to see
 what the experience might be like.
