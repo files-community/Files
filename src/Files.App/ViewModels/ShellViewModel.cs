@@ -18,6 +18,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
+using Windows.Win32;
 using Windows.Win32.System.SystemServices;
 using static Files.App.Helpers.Win32PInvoke;
 using ByteSize = ByteSizeLib.ByteSize;
@@ -2267,7 +2268,8 @@ namespace Files.App.ViewModels
 					notifyFilters |= FILE_NOTIFY_CHANGE_ATTRIBUTES;
 
 				var overlapped = new OVERLAPPED();
-				overlapped.hEvent = CreateEvent(IntPtr.Zero, false, false, null);
+				using var eventHandle = PInvoke.CreateEvent(null, false, false, null);
+				overlapped.hEvent = eventHandle.DangerousGetHandle();
 				const uint INFINITE = 0xFFFFFFFF;
 
 				while (x.Status != AsyncStatus.Canceled)
@@ -2331,7 +2333,6 @@ namespace Files.App.ViewModels
 					}
 				}
 
-				CloseHandle(overlapped.hEvent);
 				operationQueue.Clear();
 
 				Debug.WriteLine("aWatcherAction done: {0}", rand);
@@ -2378,7 +2379,8 @@ namespace Files.App.ViewModels
 				var notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE_CREATION;
 
 				var overlapped = new OVERLAPPED();
-				overlapped.hEvent = CreateEvent(IntPtr.Zero, false, false, null);
+				using var eventHandle = PInvoke.CreateEvent(null, false, false, null);
+				overlapped.hEvent = eventHandle.DangerousGetHandle();
 				const uint INFINITE = 0xFFFFFFFF;
 
 				while (x.Status != AsyncStatus.Canceled)
@@ -2423,7 +2425,6 @@ namespace Files.App.ViewModels
 					}
 				}
 
-				CloseHandle(overlapped.hEvent);
 				gitChangesQueue.Clear();
 			});
 
