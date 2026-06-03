@@ -157,36 +157,24 @@
 								<VisualState x:Name="Safe" />
 
 								<VisualState x:Name="Caution">
-									<Storyboard>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ValueRingShape" Storyboard.TargetProperty="Stroke">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource StorageRingValueCautionBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_TrackRingShape" Storyboard.TargetProperty="Stroke">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource StorageRingTrackCautionBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-									</Storyboard>
+									<VisualState.Setters>
+										<Setter Target="PART_ValueRingShape.Stroke" Value="{ThemeResource StorageRingValueCautionBrush}" />
+										<Setter Target="PART_TrackRingShape.Stroke" Value="{ThemeResource StorageRingTrackCautionBrush}" />
+									</VisualState.Setters>
 								</VisualState>
 
 								<VisualState x:Name="Critical">
-									<Storyboard>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ValueRingShape" Storyboard.TargetProperty="Stroke">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource StorageRingValueCriticalBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_TrackRingShape" Storyboard.TargetProperty="Stroke">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource StorageRingTrackCriticalBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-									</Storyboard>
+									<VisualState.Setters>
+										<Setter Target="PART_ValueRingShape.Stroke" Value="{ThemeResource StorageRingValueCriticalBrush}" />
+										<Setter Target="PART_TrackRingShape.Stroke" Value="{ThemeResource StorageRingTrackCriticalBrush}" />
+									</VisualState.Setters>
 								</VisualState>
 
 								<VisualState x:Name="Disabled">
-									<Storyboard>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ValueRingShape" Storyboard.TargetProperty="Stroke">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ControlStrongStrokeColorDisabledBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_TrackRingShape" Storyboard.TargetProperty="Stroke">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ControlStrongStrokeColorDisabledBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-									</Storyboard>
+									<VisualState.Setters>
+										<Setter Target="PART_ValueRingShape.Stroke" Value="{ThemeResource ControlStrongStrokeColorDisabledBrush}" />
+										<Setter Target="PART_TrackRingShape.Stroke" Value="{ThemeResource ControlStrongStrokeColorDisabledBrush}" />
+									</VisualState.Setters>
 								</VisualState>
 
 							</VisualStateGroup>
