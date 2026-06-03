@@ -338,18 +338,13 @@ namespace Files.App.Views.Layouts
 			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
 		}
 
-		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected override void OnSelectionChanged(SelectionChangedEventArgs e)
 		{
-			base.FileList_SelectionChanged(sender, e);
+			foreach (var item in e.AddedItems)
+				SetCheckboxSelectionState(item);
 
-			if (e != null)
-			{
-				foreach (var item in e.AddedItems)
-					SetCheckboxSelectionState(item);
-
-				foreach (var item in e.RemovedItems)
-					SetCheckboxSelectionState(item);
-			}
+			foreach (var item in e.RemovedItems)
+				SetCheckboxSelectionState(item);
 		}
 
 		override public void StartRenameItem()

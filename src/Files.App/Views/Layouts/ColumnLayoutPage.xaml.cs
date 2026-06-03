@@ -326,12 +326,8 @@ namespace Files.App.Views.Layouts
 			columnsOwner = null;
 		}
 
-		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected override void OnSelectionChanged(SelectionChangedEventArgs e)
 		{
-			base.FileList_SelectionChanged(sender, e);
-			if (e is null)
-				return;
-
 			if (e.AddedItems.Count > 0)
 				columnsOwner?.HandleSelectionChange(this);
 
@@ -353,8 +349,8 @@ namespace Files.App.Views.Layouts
 					return;
 
 				// Open the selected folder if selected through tap
-				if (UserSettingsService.FoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick.ShouldOpenWithSingleClick(lastPointerDeviceType) &&
-					!isDraggingSelectionRectangle) ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is IShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+				if (UserSettingsService.FoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick.ShouldOpenWithSingleClick(lastPointerDeviceType))
+					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is IShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 				else
 					CloseFolder();
 			}
