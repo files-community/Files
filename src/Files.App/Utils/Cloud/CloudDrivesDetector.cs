@@ -165,7 +165,7 @@ namespace Files.App.Utils.Cloud
 					{
 						Name = accountName,
 						SyncFolder = userFolder,
-						IconData = UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.OneDrive).IconData,
+						IconData = GetIconData($"Environment.GetEnvironmentVariable(\"ProgramFiles\")\\Microsoft OneDrive\\OneDrive.exe"),
 					});
 				}
 			}
