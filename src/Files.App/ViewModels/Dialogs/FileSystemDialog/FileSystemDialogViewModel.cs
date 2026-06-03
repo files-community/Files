@@ -216,7 +216,7 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 			return viewModel;
 		}
 
-		public static FileSystemDialogViewModel GetDialogViewModel(List<BaseFileSystemDialogItemViewModel> nonConflictingItems, string titleText, string descriptionText, string primaryButtonText, string secondaryButtonText)
+		public static FileSystemDialogViewModel GetDialogViewModel(List<BaseFileSystemDialogItemViewModel> nonConflictingItems, string titleText, string descriptionText, string primaryButtonText, string secondaryButtonText, string closeButtonText = null)
 		{
 			var viewModel = new FileSystemDialogViewModel(
 				new()
@@ -230,6 +230,7 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 				Description = descriptionText,
 				PrimaryButtonText = primaryButtonText,
 				SecondaryButtonText = secondaryButtonText,
+				CloseButtonText = closeButtonText,
 				DeletePermanently = false,
 				IsDeletePermanentlyEnabled = false
 			};

@@ -22,6 +22,7 @@
 	RequestedTheme="{x:Bind RootAppElement.RequestedTheme, Mode=OneWay}"
 	SecondaryButtonCommand="{x:Bind ViewModel.SecondaryButtonClickCommand, Mode=OneWay}"
 	SecondaryButtonText="{x:Bind ViewModel.SecondaryButtonText, Mode=OneWay}"
+	CloseButtonText="{x:Bind ViewModel.CloseButtonText, Mode=OneWay}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 
