@@ -913,7 +913,7 @@ namespace Files.App.ViewModels.UserControls
 			pathHistoryList.Insert(0, path);
 
 			if (pathHistoryList.Count > MaxSuggestionsCount)
-				UserSettingsService.GeneralSettingsService.PathHistoryList = pathHistoryList.RemoveFrom(MaxSuggestionsCount + 1);
+				UserSettingsService.GeneralSettingsService.PathHistoryList = pathHistoryList.RemoveFrom(MaxSuggestionsCount);
 			else
 				UserSettingsService.GeneralSettingsService.PathHistoryList = pathHistoryList;
 		}
@@ -925,7 +925,7 @@ namespace Files.App.ViewModels.UserControls
 			previousSearchQueriesList.Insert(0, searchQuery);
 
 			if (previousSearchQueriesList.Count > MaxSuggestionsCount)
-				UserSettingsService.GeneralSettingsService.PreviousSearchQueriesList = previousSearchQueriesList.RemoveFrom(MaxSuggestionsCount + 1);
+				UserSettingsService.GeneralSettingsService.PreviousSearchQueriesList = previousSearchQueriesList.RemoveFrom(MaxSuggestionsCount);
 			else
 				UserSettingsService.GeneralSettingsService.PreviousSearchQueriesList = previousSearchQueriesList;
 		}

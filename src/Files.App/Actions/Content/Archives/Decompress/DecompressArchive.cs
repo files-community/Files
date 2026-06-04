@@ -135,7 +135,7 @@ namespace Files.App.Actions
 			previousArchiveExtractionLocations.Insert(0, path);
 
 			if (previousArchiveExtractionLocations.Count > 10)
-				UserSettingsService.GeneralSettingsService.PreviousArchiveExtractionLocations = previousArchiveExtractionLocations.RemoveFrom(11);
+				UserSettingsService.GeneralSettingsService.PreviousArchiveExtractionLocations = previousArchiveExtractionLocations.RemoveFrom(10);
 			else
 				UserSettingsService.GeneralSettingsService.PreviousArchiveExtractionLocations = previousArchiveExtractionLocations;
 		}

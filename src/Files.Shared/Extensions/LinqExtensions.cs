@@ -171,7 +171,7 @@ namespace Files.Shared.Extensions
 
 			return index <= 0
 				? []
-				: list.Take(index - 1).ToList();
+				: list.Take(index).ToList();
 		}
 	}
 }
