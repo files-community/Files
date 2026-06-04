@@ -12,6 +12,10 @@ namespace Files.App.Services
 		private const string JumpListRecentGroupHeader = "ms-resource:///Resources/JumpListRecentGroupHeader";
 		private const string JumpListPinnedGroupHeader = "ms-resource:///Resources/JumpListPinnedGroupHeader";
 
+		// JumpList is a shared app resource and can throw sharing violations if
+		// multiple navigation-triggered updates save it at the same time.
+		private readonly SemaphoreSlim jumpListSemaphore = new(1, 1);
+
 		public async Task InitializeAsync()
 		{
 			try
@@ -29,73 +33,68 @@ namespace Files.App.Services
 
 		public async Task AddFolderAsync(string path)
 		{
+			await jumpListSemaphore.WaitAsync();
+
 			try
 			{
-				if (JumpList.IsSupported())
-				{
-					var instance = await JumpList.LoadCurrentAsync();
-					// Disable automatic jumplist. It doesn't work.
-					instance.SystemGroupKind = JumpListSystemGroupKind.None;
+				var instance = await LoadCurrentJumpListAsync();
 
-					// Saving to jumplist may fail randomly with error: ERROR_UNABLE_TO_REMOVE_REPLACED
-					// In that case app should just catch the error and proceed as usual
-					if (instance is not null)
-					{
-						AddFolder(path, JumpListRecentGroupHeader, instance);
-						await instance.SaveAsync();
-					}
+				// Saving to jumplist may fail randomly with error: ERROR_UNABLE_TO_REMOVE_REPLACED
+				// In that case app should just catch the error and proceed as usual
+				if (instance is not null)
+				{
+					AddFolder(path, JumpListRecentGroupHeader, instance);
+					await instance.SaveAsync();
 				}
 			}
 			catch (Exception ex)
 			{
 				App.Logger.LogWarning(ex, ex.Message);
 			}
+			finally
+			{
+				jumpListSemaphore.Release();
+			}
 		}
 
 		public async Task<IEnumerable<string>> GetFoldersAsync()
 		{
-			if (JumpList.IsSupported())
-			{
-				try
-				{
-					var instance = await JumpList.LoadCurrentAsync();
-					// Disable automatic jumplist. It doesn't work.
-					instance.SystemGroupKind = JumpListSystemGroupKind.None;
+			await jumpListSemaphore.WaitAsync();
 
-					return instance.Items.Select(item => item.Arguments).ToList();
-				}
-				catch
-				{
-					return [];
-				}
+			try
+			{
+				var instance = await LoadCurrentJumpListAsync();
+
+				return instance?.Items.Select(item => item.Arguments).ToList() ?? [];
 			}
-			else
+			catch
 			{
 				return [];
+			}
+			finally
+			{
+				jumpListSemaphore.Release();
 			}
 		}
 
 		public async Task RefreshPinnedFoldersAsync()
 		{
+			await jumpListSemaphore.WaitAsync();
+
 			try
 			{
 				if (App.QuickAccessManager.PinnedItemsWatcher is not null)
 					App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
 
-				if (JumpList.IsSupported())
-				{
-					var instance = await JumpList.LoadCurrentAsync();
-					// Disable automatic jumplist. It doesn't work with Files UWP.
-					instance.SystemGroupKind = JumpListSystemGroupKind.None;
+				var instance = await LoadCurrentJumpListAsync();
 
-					if (instance is null)
-						return;
+				if (instance is null)
+					return;
 
-					var itemsToRemove = instance.Items.Where(x => string.Equals(x.GroupName, JumpListPinnedGroupHeader, StringComparison.OrdinalIgnoreCase)).ToList();
-					itemsToRemove.ForEach(x => instance.Items.Remove(x));
-					App.QuickAccessManager.Model.PinnedFolders.ForEach(x => AddFolder(x, JumpListPinnedGroupHeader, instance));
-					await instance.SaveAsync();
-				}
+				var itemsToRemove = instance.Items.Where(x => string.Equals(x.GroupName, JumpListPinnedGroupHeader, StringComparison.OrdinalIgnoreCase)).ToList();
+				itemsToRemove.ForEach(x => instance.Items.Remove(x));
+				App.QuickAccessManager.Model.PinnedFolders.ForEach(x => AddFolder(x, JumpListPinnedGroupHeader, instance));
+				await instance.SaveAsync();
 			}
 			catch
 			{
@@ -104,24 +103,32 @@ namespace Files.App.Services
 			{
 				if (App.QuickAccessManager.PinnedItemsWatcher is not null)
 					SafetyExtensions.IgnoreExceptions(() => App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true);
+
+				jumpListSemaphore.Release();
 			}
 		}
 
 		public async Task RemoveFolderAsync(string path)
 		{
-			if (JumpList.IsSupported())
-			{
-				try
-				{
-					var instance = await JumpList.LoadCurrentAsync();
-					// Disable automatic jumplist. It doesn't work.
-					instance.SystemGroupKind = JumpListSystemGroupKind.None;
+			await jumpListSemaphore.WaitAsync();
 
-					var itemToRemove = instance.Items.Where(x => x.Arguments == path).Select(x => x).FirstOrDefault();
+			try
+			{
+				var instance = await LoadCurrentJumpListAsync();
+
+				if (instance is null)
+					return;
+
+				var itemToRemove = instance.Items.Where(x => x.Arguments == path).Select(x => x).FirstOrDefault();
+				if (itemToRemove is not null)
 					instance.Items.Remove(itemToRemove);
-					await instance.SaveAsync();
-				}
-				catch { }
+
+				await instance.SaveAsync();
+			}
+			catch { }
+			finally
+			{
+				jumpListSemaphore.Release();
 			}
 		}
 
@@ -180,7 +187,10 @@ namespace Files.App.Services
 				if (string.Equals(group, JumpListRecentGroupHeader, StringComparison.OrdinalIgnoreCase))
 				{
 					// Keep newer items at the top.
-					instance.Items.Remove(instance.Items.FirstOrDefault(x => x.Arguments.Equals(path, StringComparison.OrdinalIgnoreCase)));
+					var existingItem = instance.Items.FirstOrDefault(x => string.Equals(x.Arguments, path, StringComparison.OrdinalIgnoreCase));
+					if (existingItem is not null)
+						instance.Items.Remove(existingItem);
+
 					instance.Items.Insert(0, jumplistItem);
 				}
 				else
@@ -194,6 +204,19 @@ namespace Files.App.Services
 		private async void UpdateQuickAccessWidget_Invoked(object? sender, ModifyQuickAccessEventArgs e)
 		{
 			await RefreshPinnedFoldersAsync();
+		}
+
+		private static async Task<JumpList?> LoadCurrentJumpListAsync()
+		{
+			if (!JumpList.IsSupported())
+				return null;
+
+			var instance = await JumpList.LoadCurrentAsync();
+
+			// Disable automatic jumplist. It doesn't work.
+			instance.SystemGroupKind = JumpListSystemGroupKind.None;
+
+			return instance;
 		}
 	}
 }
