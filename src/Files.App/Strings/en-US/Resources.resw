@@ -4554,4 +4554,13 @@
   <data name="EditTagsGroupDescription" xml:space="preserve">
     <value>Add or remove file tags</value>
   </data>
+  <data name="RemoveTags" xml:space="preserve">
+    <value>Remove tags</value>
+  </data>
+  <data name="RemoveTagsDescription" xml:space="preserve">
+    <value>Remove tags from the selected items</value>
+  </data>
+  <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
+    <value>Are you sure you want to remove tags from the selected items?</value>
+  </data>
 </root>
