@@ -2412,7 +2412,10 @@
     <value>Er du sikker på at du vil slette denne taggen?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Spill av</value>
+    <value>Play All</value>
+  </data>
+  <data name="Play" xml:space="preserve">
+    <value>Play</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>Høyde</value>
