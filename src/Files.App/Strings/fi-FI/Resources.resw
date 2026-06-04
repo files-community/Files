@@ -2412,6 +2412,9 @@
     <value>Haluatko varmasti poistaa tämän tunnisteen?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
+    <value>Toista kaikki</value>
+  </data>
+  <data name="Play" xml:space="preserve">
     <value>Toista</value>
   </data>
   <data name="Height" xml:space="preserve">

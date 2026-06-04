@@ -2412,6 +2412,9 @@
     <value>Sei sicuro/a di voler eliminare questo tag?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
+    <value>Riproduci tutto</value>
+  </data>
+  <data name="Play" xml:space="preserve">
     <value>Riproduci</value>
   </data>
   <data name="Height" xml:space="preserve">

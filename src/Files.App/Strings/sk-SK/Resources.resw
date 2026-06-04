@@ -2414,7 +2414,10 @@
     <value>Ste si istý, že chcete vymazať túto značku?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Prehrať</value>
+    <value>Play All</value>
+  </data>
+  <data name="Play" xml:space="preserve">
+    <value>Play</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>Výška</value>

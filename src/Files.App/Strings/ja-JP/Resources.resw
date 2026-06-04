@@ -190,7 +190,7 @@
     <value>検索</value>
   </data>
   <data name="SearchSettings" xml:space="preserve">
-    <value>Search settings...</value>
+    <value>検索設定…</value>
   </data>
   <data name="NoSearchResults" xml:space="preserve">
     <value>No settings match your search.</value>
@@ -2412,7 +2412,10 @@
     <value>このタグを削除しますか？</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>再生</value>
+    <value>Play All</value>
+  </data>
+  <data name="Play" xml:space="preserve">
+    <value>Play</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>高さ</value>

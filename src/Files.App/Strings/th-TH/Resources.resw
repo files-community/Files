@@ -2412,6 +2412,9 @@
     <value>คุณแน่ใจแล้วใช่ไหมที่จะลบแท็กนี้?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
+    <value>Play All</value>
+  </data>
+  <data name="Play" xml:space="preserve">
     <value>Play</value>
   </data>
   <data name="Height" xml:space="preserve">

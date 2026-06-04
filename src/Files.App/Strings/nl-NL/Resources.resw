@@ -2412,7 +2412,10 @@
     <value>Weet je zeker dat je dit label wilt verwijderen?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Afspelen</value>
+    <value>Play All</value>
+  </data>
+  <data name="Play" xml:space="preserve">
+    <value>Play</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>Hoogte</value>
