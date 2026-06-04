@@ -2412,6 +2412,9 @@
     <value>Ви впевнені, що хочете видалити цю мітку?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
+    <value>Відтворити все</value>
+  </data>
+  <data name="Play" xml:space="preserve">
     <value>Відтворити</value>
   </data>
   <data name="Height" xml:space="preserve">
