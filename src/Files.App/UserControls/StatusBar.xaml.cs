@@ -60,6 +60,11 @@ namespace Files.App.UserControls
 			BranchesFlyout.Hide();
 		}
 
+		private void ZipEncodingList_ItemClick(object sender, ItemClickEventArgs e)
+		{
+			ZipEncodingFlyout.Hide();
+		}
+
 		private void BranchesFlyout_Closing(object _, object e)
 		{
 			if (StatusBarViewModel is null)
