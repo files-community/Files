@@ -2412,6 +2412,9 @@
     <value>Bạn có chắc chắn muốn xóa nhãn này không?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
+    <value>Phát tất cả</value>
+  </data>
+  <data name="Play" xml:space="preserve">
     <value>Phát</value>
   </data>
   <data name="Height" xml:space="preserve">
@@ -4262,7 +4265,7 @@
     <value>Loại bỏ tất cả</value>
   </data>
   <data name="BatchAction" xml:space="preserve">
-    <value>Batch action</value>
+    <value>Thao tác hàng loạt</value>
   </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>Loại bỏ khỏi ngăn tạm</value>
