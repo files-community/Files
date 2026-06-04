@@ -2412,6 +2412,9 @@
     <value>Êtes-vous sûr de vouloir supprimer cette étiquette ?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
+    <value>Tout lire</value>
+  </data>
+  <data name="Play" xml:space="preserve">
     <value>Lire</value>
   </data>
   <data name="Height" xml:space="preserve">
