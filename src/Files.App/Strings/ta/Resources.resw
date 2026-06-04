@@ -2412,6 +2412,9 @@
     <value>இந்த குறிய நிச்சயமா நீக்க வேண்டுமா?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
+    <value>Play All</value>
+  </data>
+  <data name="Play" xml:space="preserve">
     <value>Play</value>
   </data>
   <data name="Height" xml:space="preserve">
