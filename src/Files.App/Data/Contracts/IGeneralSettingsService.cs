@@ -196,6 +196,16 @@ namespace Files.App.Data.Contracts
 		bool IsFileTagsSectionExpanded { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating if the user folders section should be visible.
+		/// </summary>
+		bool ShowUserFoldersSection { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the user folders section should be expanded.
+		/// </summary>
+		bool IsUserFoldersSectionExpanded { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating whether or not to move shell extensions into a sub menu.
 		/// </summary>
 		bool MoveShellExtensionsToSubMenu { get; set; }

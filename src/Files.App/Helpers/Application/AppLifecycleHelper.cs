@@ -112,6 +112,7 @@ namespace Files.App.Helpers
 			_ = Task.Run(async () =>
 			{
 				await Task.WhenAll(
+					OptionalTaskAsync(UserFoldersManager.UpdateUserFoldersAsync(), generalSettingsService.ShowUserFoldersSection),
 					OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
 					App.LibraryManager.UpdateLibrariesAsync(),
 					OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),

@@ -239,6 +239,18 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public bool ShowUserFoldersSection
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
+		public bool IsUserFoldersSectionExpanded
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		public bool MoveShellExtensionsToSubMenu
 		{
 			get => Get(true);

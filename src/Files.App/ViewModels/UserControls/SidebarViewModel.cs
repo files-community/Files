@@ -74,6 +74,7 @@ namespace Files.App.ViewModels.UserControls
 		private readonly SectionType[] SectionOrder =
 			[
 				SectionType.Home,
+				SectionType.UserFolders,
 				SectionType.Pinned,
 				SectionType.Library,
 				SectionType.Drives,
@@ -139,6 +140,7 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		public bool AreSectionsHidden =>
+			!ShowUserFoldersSection &&
 			!ShowPinnedFoldersSection &&
 			!ShowLibrarySection &&
 			!ShowDrivesSection &&
@@ -147,6 +149,18 @@ namespace Files.App.ViewModels.UserControls
 			(!ShowWslSection || WSLDistroManager.Distros.Any() == false) &&
 			!ShowFileTagsSection &&
 			SidebarDisplayMode is not SidebarDisplayMode.Compact;
+
+		public bool ShowUserFoldersSection
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowUserFoldersSection;
+			set
+			{
+				if (value == UserSettingsService.GeneralSettingsService.ShowUserFoldersSection)
+					return;
+
+				UserSettingsService.GeneralSettingsService.ShowUserFoldersSection = value;
+			}
+		}
 
 		public bool ShowPinnedFoldersSection
 		{
@@ -258,6 +272,7 @@ namespace Files.App.ViewModels.UserControls
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			CreateItemHomeAsync();
 
+			Manager_DataChanged(SectionType.UserFolders, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Manager_DataChanged(SectionType.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Manager_DataChanged(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Manager_DataChanged(SectionType.Drives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
@@ -266,6 +281,7 @@ namespace Files.App.ViewModels.UserControls
 			Manager_DataChanged(SectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Manager_DataChanged(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
+			UserFoldersManager.DataChanged += Manager_DataChanged;
 			App.QuickAccessManager.Model.DataChanged += Manager_DataChanged;
 			App.LibraryManager.DataChanged += Manager_DataChanged;
 			drivesViewModel.Drives.CollectionChanged += Manager_DataChangedForDrives;
@@ -299,6 +315,7 @@ namespace Files.App.ViewModels.UserControls
 				var section = await GetOrCreateSectionAsync(sectionType);
 				Func<IReadOnlyList<INavigationControlItem>> getElements = () => sectionType switch
 				{
+					SectionType.UserFolders => UserFoldersManager.UserFolderItems,
 					SectionType.Pinned => App.QuickAccessManager.Model.PinnedFolderItems,
 					SectionType.CloudDrives => CloudDrivesManager.Drives,
 					SectionType.Drives => drivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
@@ -430,6 +447,9 @@ namespace Files.App.ViewModels.UserControls
 			{
 				switch (section.Text)
 				{
+					case var text when text == Strings.UserFolders.GetLocalizedResource():
+						UserSettingsService.GeneralSettingsService.IsUserFoldersSectionExpanded = section.IsExpanded;
+						break;
 					case var text when text == Strings.Pinned.GetLocalizedResource():
 						UserSettingsService.GeneralSettingsService.IsPinnedSectionExpanded = section.IsExpanded;
 						break;
@@ -480,6 +500,21 @@ namespace Files.App.ViewModels.UserControls
 						section.Path = "Home";
 						section.Icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
 						section.IsHeader = true;
+
+						break;
+					}
+
+				case SectionType.UserFolders:
+					{
+						if (ShowUserFoldersSection == false)
+						{
+							break;
+						}
+
+						section = BuildSection(Strings.UserFolders.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						iconIdex = Constants.ImageRes.QuickAccess;
+						section.IsHeader = true;
+						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsUserFoldersSectionExpanded;
 
 						break;
 					}
@@ -628,6 +663,7 @@ namespace Files.App.ViewModels.UserControls
 
 				Func<Task> action = sectionType switch
 				{
+					SectionType.UserFolders when generalSettingsService.ShowUserFoldersSection => UserFoldersManager.UpdateUserFoldersAsync,
 					SectionType.CloudDrives when generalSettingsService.ShowCloudDrivesSection => CloudDrivesManager.UpdateDrivesAsync,
 					SectionType.Drives => drivesViewModel.UpdateDrivesAsync,
 					SectionType.Network when generalSettingsService.ShowNetworkSection => NetworkService.UpdateComputersAsync,
@@ -657,6 +693,11 @@ namespace Files.App.ViewModels.UserControls
 					{
 						OnPropertyChanged(nameof(IsSidebarOpen));
 					}
+					break;
+				case nameof(UserSettingsService.GeneralSettingsService.ShowUserFoldersSection):
+					await UpdateSectionVisibilityAsync(SectionType.UserFolders, ShowUserFoldersSection);
+					OnPropertyChanged(nameof(ShowUserFoldersSection));
+					OnPropertyChanged(nameof(AreSectionsHidden));
 					break;
 				case nameof(UserSettingsService.GeneralSettingsService.ShowPinnedSection):
 					await UpdateSectionVisibilityAsync(SectionType.Pinned, ShowPinnedFoldersSection);
@@ -700,6 +741,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 
+			UserFoldersManager.DataChanged -= Manager_DataChanged;
 			App.QuickAccessManager.Model.DataChanged -= Manager_DataChanged;
 			App.LibraryManager.DataChanged -= Manager_DataChanged;
 			drivesViewModel.Drives.CollectionChanged -= Manager_DataChangedForDrives;
@@ -909,6 +951,9 @@ namespace Files.App.ViewModels.UserControls
 		{
 			switch (rightClickedItem.Section)
 			{
+				case SectionType.UserFolders:
+					UserSettingsService.GeneralSettingsService.ShowUserFoldersSection = false;
+					break;
 				case SectionType.Pinned:
 					UserSettingsService.GeneralSettingsService.ShowPinnedSection = false;
 					break;

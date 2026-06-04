@@ -1244,6 +1244,9 @@
   <data name="Pinned" xml:space="preserve">
     <value>Pinned</value>
   </data>
+  <data name="UserFolders" xml:space="preserve">
+    <value>User Folders</value>
+  </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Libraries</value>
   </data>
