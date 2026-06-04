@@ -190,10 +190,10 @@
     <value>Ara</value>
   </data>
   <data name="SearchSettings" xml:space="preserve">
-    <value>Search settings...</value>
+    <value>Ayarlarda ara...</value>
   </data>
   <data name="NoSearchResults" xml:space="preserve">
-    <value>No settings match your search.</value>
+    <value>Aramanızla eşleşen ayar yok.</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Daha önce eriştiğiniz dosya ve dizinler burada görüntülenir</value>
@@ -684,7 +684,7 @@
     <value>Dosya</value>
   </data>
   <data name="Files" xml:space="preserve">
-    <value>Files</value>
+    <value>Dosyalar</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Boş bir dosya oluşturur</value>
@@ -693,7 +693,7 @@
     <value>Klasör</value>
   </data>
   <data name="Folders" xml:space="preserve">
-    <value>Folders</value>
+    <value>Klasörler</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Boş bir klasör oluşturur</value>
@@ -1815,7 +1815,7 @@
     <value>Dosya etiketi</value>
   </data>
   <data name="OpenFilesWithOneClick" xml:space="preserve">
-    <value>Open files with a single click</value>
+    <value>Dosyaları tek tıklamayla aç</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Klasör yolu</value>
@@ -2121,13 +2121,13 @@
     <value>Klasörleri tek tıklamayla açın</value>
   </data>
   <data name="OpenFolderWithOneClickInColumnsView" xml:space="preserve">
-    <value>Open folders with a single click in Columns View</value>
+    <value>Sütun görünümündeyken dosyaları tek tıklamayla aç</value>
   </data>
   <data name="SingleClickToOpen" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>Öğeleri tek tıklamayla aç</value>
   </data>
   <data name="SingleClickFoldersInColumnsViewHeader" xml:space="preserve">
-    <value>Folders in Columns View</value>
+    <value>Sütun görünümündeki Klasörler</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Açılış öğeleri</value>
@@ -2412,7 +2412,10 @@
     <value>Bu etiketi silmek istediğinize emin misiniz?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Oynat</value>
+    <value>Play All</value>
+  </data>
+  <data name="Play" xml:space="preserve">
+    <value>Play</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>Boy</value>
@@ -4262,7 +4265,7 @@
     <value>Öğeleri Sil</value>
   </data>
   <data name="BatchAction" xml:space="preserve">
-    <value>Batch action</value>
+    <value>Toplu işlemler</value>
   </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>Raftan kaldır</value>
@@ -4429,10 +4432,10 @@
     <value>Durum çubuğunu göster</value>
   </data>
   <data name="OnlyForTouch" xml:space="preserve">
-    <value>When using touch</value>
+    <value>Dokunmatik kullanırken</value>
   </data>
   <data name="OnlyForMouse" xml:space="preserve">
-    <value>When using mouse</value>
+    <value>Fare kullanırken</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>Yeni '{0}'</value>
