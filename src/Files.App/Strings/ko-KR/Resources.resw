@@ -2412,7 +2412,10 @@
     <value>정말 이 태그를 삭제 하시겠습니까?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>재생</value>
+    <value>Play All</value>
+  </data>
+  <data name="Play" xml:space="preserve">
+    <value>Play</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>높이</value>
