@@ -372,6 +372,8 @@ namespace Files.App.Views.Layouts
 
 				if (layoutType != ParentShellPageInstance.CurrentPageType)
 				{
+					FolderSettings!.PendingLayoutSwitchSelection = SelectedItems?.Select(item => item.ItemNameRaw).ToList();
+
 					ParentShellPageInstance.NavigateWithArguments(layoutType, new NavigationArguments()
 					{
 						NavPathParam = navigationArguments!.NavPathParam,
@@ -516,13 +518,27 @@ namespace Files.App.Views.Layouts
 		{
 			try
 			{
+				// Consume synchronously so a concurrent navigation can't capture the pending value
+				IEnumerable<string>? layoutSwitchSelection = null;
+				if (navigationArguments is not null && navigationArguments.IsLayoutSwitch && FolderSettings is not null)
+				{
+					layoutSwitchSelection = FolderSettings.PendingLayoutSwitchSelection;
+					FolderSettings.PendingLayoutSwitchSelection = null;
+				}
+
+				// Delay to ensure the new layout is loaded
+				if (navigationArguments is not null && navigationArguments.IsLayoutSwitch)
+					await Task.Delay(100);
+
+				var itemsToSelect = layoutSwitchSelection ?? navigationArguments?.SelectItems;
+
 				if (navigationArguments is not null &&
-					navigationArguments.SelectItems is not null &&
-					navigationArguments.SelectItems.Any())
+					itemsToSelect is not null &&
+					itemsToSelect.Any())
 				{
 					List<ListedItem> listedItemsToSelect =
 					[
-						.. ParentShellPageInstance!.ShellViewModel.FilesAndFolders.ToList().Where((li) => navigationArguments.SelectItems.Contains(li.ItemNameRaw)),
+						.. ParentShellPageInstance!.ShellViewModel.FilesAndFolders.ToList().Where((li) => itemsToSelect.Contains(li.ItemNameRaw)),
 					];
 
 					ItemManipulationModel.SetSelectedItems(listedItemsToSelect);
@@ -530,10 +546,6 @@ namespace Files.App.Views.Layouts
 				}
 				else if (navigationArguments is not null && ParentShellPageInstance!.InstanceViewModel.FolderSettings.LayoutMode is not FolderLayoutModes.ColumnView)
 				{
-					// Delay to ensure the new layout is loaded
-					if (navigationArguments.IsLayoutSwitch)
-						await Task.Delay(100);
-
 					// Focus on the active pane in case it was lost during navigation
 					ParentShellPageInstance!.PaneHolder.FocusActivePane();
 				}

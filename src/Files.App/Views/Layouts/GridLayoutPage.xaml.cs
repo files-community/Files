@@ -262,10 +262,24 @@ namespace Files.App.Views.Layouts
 				|| FolderSettings.LayoutMode == FolderLayoutModes.CardsView
 				|| FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
+				// SetItemTemplate clears FileList.ItemsSource on style swap, which drops the selection
+				var preservedSelection = SelectedItems?.ToList();
+
 				// Set ItemTemplate
 				SetItemTemplate();
 				SetItemContainerStyle();
 				FolderSettings_IconSizeChanged();
+
+				if (preservedSelection is { Count: > 0 })
+				{
+					_ = DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+					{
+						// Wait for the new template's containers to be realized
+						await Task.Delay(100);
+						ItemManipulationModel.SetSelectedItems(preservedSelection);
+						ItemManipulationModel.FocusSelectedItems();
+					});
+				}
 			}
 		}
 
