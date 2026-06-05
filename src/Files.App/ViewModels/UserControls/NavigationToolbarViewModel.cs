@@ -3,10 +3,9 @@
 
 using CommunityToolkit.WinUI;
 using Files.App.Controls;
-using Files.App.Data.Items;
-using Files.App.Utils.Storage;
 using Files.App.ViewModels.Settings;
 using Files.Shared.Helpers;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
