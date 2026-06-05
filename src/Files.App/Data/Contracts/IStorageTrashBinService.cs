@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 namespace Files.App.Data.Contracts
@@ -63,5 +63,10 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		/// <returns>True if succeeded; otherwise, false</returns>
 		Task<bool> RestoreAllTrashesAsync();
+
+		/// <summary>
+		/// Refreshes the desktop Recycle Bin icon to reflect the current bin state.
+		/// </summary>
+		void UpdateDesktopRecycleBinIcon();
 	}
 }

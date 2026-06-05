@@ -550,6 +550,8 @@ namespace Files.App.Utils.Storage
 
 				if (!permanently)
 				{
+					StorageTrashBinService.UpdateDesktopRecycleBinIcon();
+
 					// Enumerate Recycle Bin
 					IEnumerable<ShellFileItem> nameMatchItems, items = await StorageTrashBinService.GetAllRecycleBinFoldersAsync();
 
@@ -564,6 +566,9 @@ namespace Files.App.Utils.Storage
 
 					return new StorageHistory(FileOperationType.Recycle, source, StorageHelpers.FromPathAndType(item?.RecyclePath, source.ItemType));
 				}
+
+				if (deleteFromRecycleBin)
+					StorageTrashBinService.UpdateDesktopRecycleBinIcon();
 
 				return new StorageHistory(FileOperationType.Delete, source, null);
 			}
@@ -784,6 +789,8 @@ namespace Files.App.Utils.Storage
 
 				await _associatedInstance.ShellViewModel.GetFileFromPathAsync(iFilePath, cancellationToken)
 					.OnSuccess(iFile => iFile.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
+
+				StorageTrashBinService.UpdateDesktopRecycleBinIcon();
 			}
 
 			fsProgress.ReportStatus(fsResult);
