@@ -151,6 +151,10 @@
 	</local:BaseGroupableLayoutPage.Resources>
 
 	<Grid x:Name="RootGrid" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
+		<Border
+			x:Name="OpenedFolderBackgroundResource"
+			Background="{ThemeResource ListViewItemBackgroundSelected}"
+			Visibility="Collapsed" />
 
 		<!--  Empty Indicator  -->
 		<uc:FolderEmptyIndicator

@@ -78,6 +78,7 @@ namespace Files.App.Views.Layouts
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 			ItemInvoked += ColumnViewBase_ItemInvoked;
 			GotFocus += ColumnViewBase_GotFocus;
+			ActualThemeChanged += ColumnLayoutPage_ActualThemeChanged;
 
 			doubleClickTimer = DispatcherQueue.CreateTimer();
 		}
@@ -190,7 +191,7 @@ namespace Files.App.Views.Layouts
 			if (args.Item is ListedItem item && columnsOwner?.OwnerPath is string ownerPath
 				&& (ownerPath == item.ItemPath || (ownerPath.Length > item.ItemPath.Length && ownerPath.StartsWith(item.ItemPath) && ownerPath[item.ItemPath.Length] is '/' or '\\')))
 			{
-				SetFolderBackground(args.ItemContainer as ListViewItem, this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush);
+				SetFolderBackground(args.ItemContainer as ListViewItem, GetOpenedFolderBackgroundBrush());
 
 				openedFolderPresenter = FileList.ContainerFromItem(item) as ListViewItem;
 				FileList.ContainerContentChanging -= HighlightPathDirectory;
@@ -323,6 +324,7 @@ namespace Files.App.Views.Layouts
 		public override void Dispose()
 		{
 			base.Dispose();
+			ActualThemeChanged -= ColumnLayoutPage_ActualThemeChanged;
 			columnsOwner = null;
 		}
 
@@ -333,7 +335,7 @@ namespace Files.App.Views.Layouts
 
 			if (e.RemovedItems.Count > 0 && openedFolderPresenter != null)
 			{
-				SetFolderBackground(openedFolderPresenter, this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush);
+				SetFolderBackground(openedFolderPresenter, GetOpenedFolderBackgroundBrush());
 			}
 
 			if (SelectedItems?.Count == 1 && SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder)
@@ -635,7 +637,17 @@ namespace Files.App.Views.Layouts
 			LockPreviewPaneContent = false;
 		}
 
-		private static void SetFolderBackground(ListViewItem? lvi, SolidColorBrush? backgroundColor)
+		private void ColumnLayoutPage_ActualThemeChanged(FrameworkElement sender, object args)
+		{
+			SetFolderBackground(openedFolderPresenter, GetOpenedFolderBackgroundBrush());
+		}
+
+		private Brush? GetOpenedFolderBackgroundBrush()
+		{
+			return OpenedFolderBackgroundResource.Background;
+		}
+
+		private static void SetFolderBackground(ListViewItem? lvi, Brush? backgroundColor)
 		{
 			if (lvi == null || backgroundColor == null) return;
 
