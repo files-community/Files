@@ -416,6 +416,3 @@ src/Files.App/Assets/FilesOpenDialog/Files.App.Launcher.exe.sha256
 bench-results/*
 !bench-results/baseline.json
 .smoke/
-
-# Claude Code local settings (per-user, not for the repo).
-.claude/

@@ -278,8 +278,8 @@ size_t strifind(const std::wstring& strHaystack, const std::wstring& strNeedle)
 
 bool comparei(std::wstring stringA, std::wstring stringB)
 {
-	std::transform(stringA.begin(), stringA.end(), stringA.begin(), ::towupper);
-	std::transform(stringB.begin(), stringB.end(), stringB.begin(), ::towupper);
+	transform(stringA.begin(), stringA.end(), stringA.begin(), std::toupper);
+	transform(stringB.begin(), stringB.end(), stringB.begin(), std::toupper);
 
 	return (stringA == stringB);
 }
