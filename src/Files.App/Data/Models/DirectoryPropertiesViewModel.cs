@@ -95,7 +95,7 @@ namespace Files.App.ViewModels.UserControls
 			set => SetProperty(ref _IsZipEncodingSelectorVisible, value);
 		}
 
-		public EncodingItem[] ZipEncodingOptions { get; } = EncodingItem.Defaults;
+		public List<EncodingItem> ZipEncodingOptions { get; } = EncodingItem.Defaults.ToList();
 
 		private EncodingItem? _SelectedZipEncoding;
 		public EncodingItem? SelectedZipEncoding
@@ -242,8 +242,14 @@ namespace Files.App.ViewModels.UserControls
 				if (detected is not null)
 				{
 					instanceVM.ZipEncodingName = detected.WebName;
-					SelectedZipEncoding = ZipEncodingOptions.FirstOrDefault(e =>
+					EncodingItem? ZipEncodingItem = ZipEncodingOptions.FirstOrDefault(e =>
 						e.Encoding?.WebName.Equals(detected.WebName, StringComparison.OrdinalIgnoreCase) == true);
+					if(ZipEncodingItem == null)
+					{
+						ZipEncodingItem = new EncodingItem(detected, detected.EncodingName);
+					}
+				    ZipEncodingOptions.Add(ZipEncodingItem);
+					SelectedZipEncoding = ZipEncodingItem;
 				}
 				else
 				{
