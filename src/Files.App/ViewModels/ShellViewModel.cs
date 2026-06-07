@@ -310,6 +310,13 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref emptyTextType, value);
 		}
 
+		private bool isNetworkDiscoveryInfoBarOpen;
+		public bool IsNetworkDiscoveryInfoBarOpen
+		{
+			get => isNetworkDiscoveryInfoBarOpen;
+			set => SetProperty(ref isNetworkDiscoveryInfoBarOpen, value);
+		}
+
 		public async Task UpdateFolderThumbnailImageSource()
 		{
 			FolderThumbnailImageSource = await NavigationHelpers.GetIconForPathAsync(WorkingDirectory);
@@ -729,6 +736,7 @@ namespace Files.App.ViewModels
 		{
 			Debug.WriteLine("CancelLoadAndClearFiles");
 			CloseWatcher();
+			IsNetworkDiscoveryInfoBarOpen = false;
 			if (IsLoadingItems)
 			{
 				IsLoadingCancelled = true;
@@ -781,7 +789,14 @@ namespace Files.App.ViewModels
 
 		public void UpdateEmptyTextType()
 		{
-			EmptyTextType = FilesAndFolders.Count == 0 ? (IsSearchResults ? EmptyTextType.NoSearchResultsFound : EmptyTextType.FolderEmpty) : EmptyTextType.None;
+			var isFolderEmpty = FilesAndFolders.Count == 0;
+
+			IsNetworkDiscoveryInfoBarOpen =
+				isFolderEmpty &&
+				!IsSearchResults &&
+				string.Equals(WorkingDirectory, Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase);
+
+			EmptyTextType = isFolderEmpty ? (IsSearchResults ? EmptyTextType.NoSearchResultsFound : EmptyTextType.FolderEmpty) : EmptyTextType.None;
 		}
 
 		private string? _filesAndFoldersFilter;
