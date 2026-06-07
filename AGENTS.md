@@ -4,35 +4,37 @@ This project is a C#/.NET WinUI 3 desktop app; an alternative to File Explorer.
 
 ## Behavior
 
-- Protect context usage. Any command with unknown or potentially large output must be byte-capped.
-    Default pattern:
-    ```bash
-    COMMAND 2>&1 | head -c 4000
+- Protect context usage. Any command with unknown or potentially large output must be capped.
+    Prefer targeted commands such as `rg`, `Get-Content -TotalCount`, `Select-Object -First`, or focused `git diff -- <path>`.
+    PowerShell pattern:
+    ```powershell
+    COMMAND 2>&1 | Select-Object -First 200
     ```
-- Never read entire generated files (in the `bin`/`obj` directories) unless necessary; for example, unless needing to read the source-generated sources in the `obj` directory.
+    If a line cap is still too noisy, narrow the query instead of dumping full output.
+- Never read entire generated files in `bin` or `obj` unless the generated source is directly needed.
 - Prefer targeted search over full file reads.
-- Touch only what you must. Clean up only your own mess.
+- Touch only what you must. Clean up only files you created or changed for the task.
 
 ## Codebase Structure
 
-```cmd
-/src
-  /Files.App                    Main WinUI app
-  /Files.App.Controls           Shared app controls
-  /Files.App.Storage            App storage abstractions and implementations
-  /Files.App.CsWin32            Generated/native Win32 interop project
-  /Files.App.BackgroundTasks    Background task project
-  /Files.App.Server             App service/server project
-  /Files.Core.SourceGenerator   Roslyn source generators and analyzers
-  /Files.Core.Storage           Core storage abstractions
-  /Files.Shared                 Shared attributes, extensions, and common code
+```text
+src
+├── Files.App                    Main WinUI app
+├── Files.App.Controls           Shared app controls
+├── Files.App.Storage            App storage abstractions and implementations
+├── Files.App.CsWin32            Generated/native Win32 interop project
+├── Files.App.BackgroundTasks    Background task project
+├── Files.App.Server             App service/server project
+├── Files.Core.SourceGenerator   Roslyn source generators and analyzers
+├── Files.Core.Storage           Core storage abstractions
+└── Files.Shared                 Shared attributes, extensions, and common code
 ```
 
-```cmd
-/tests
-  /Files.App.UITests
-  /Files.App.UnitTests
-  /Files.InteractionTests
+```text
+tests
+├── Files.App.UITests
+├── Files.App.UnitTests
+└── Files.InteractionTests
 ```
 
 ## Code Style
