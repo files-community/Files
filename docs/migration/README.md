@@ -6,7 +6,7 @@ the staged steps, and the verification needed at each step.
 
 ## Existing docs
 
-- [Converting Marshaled Interop to CsWin32 Unmarshaled Interop](interop-unmarshaled-conversion.md)
+_None yet_
 
 ## Suggested migration-doc shape
 

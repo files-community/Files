@@ -13,4 +13,4 @@ pull request history.
 
 ## Records
 
-- [0001: Organize developer docs by purpose](0001-organize-developer-docs-by-purpose.md)
+_None yet_
