@@ -2,23 +2,27 @@
 
 This project is a C#/.NET WinUI 3 desktop app; an alternative to File Explorer.
 
-## Behavior
-
-- Protect context usage. Any command with unknown or potentially large output must be capped.
-    Prefer targeted commands such as `rg`, `Get-Content -TotalCount`, `Select-Object -First`, or focused `git diff -- <path>`.
-    PowerShell pattern:
-    ```powershell
-    COMMAND 2>&1 | Select-Object -First 200
-    ```
-    If a line cap is still too noisy, narrow the query instead of dumping full output.
+- Protect context usage. Any command with unknown or potentially large output must be capped. Prefer targeted commands such as `rg`, `Get-Content -TotalCount`, `Select-Object -First`, or focused `git diff -- <path>`; for example, `COMMAND 2>&1 | Select-Object -First 200`. If a line cap is still too noisy, narrow the query instead of dumping full output.
+- Always follow `.editorconfig`
+- Keep changed text files in CRLF line endings
+- Keep comments concise and useful. Do not add comments that restate obvious code.
 - Never read entire generated files in `bin` or `obj` unless the generated source is directly needed.
 - Prefer targeted search over full file reads.
 - Touch only what you must. Clean up only files you created or changed for the task.
+- Treat file operations, shell integration, drag/drop, preview handlers, archive actions, settings persistence, and localization as high-risk areas.
+- For Win32, COM, Shell, clipboard, hotkey, and file operation interop, prefer `src/Files.App.CsWin32`, `NativeMethods.txt`, and existing wrappers/helpers.
+- Avoid ad hoc P/Invoke declarations when CsWin32 or existing interop code can cover the API.
+- Do not edit generated CsWin32 output directly. Update source declarations, wrappers, or generator inputs instead.
+- For UI work, use existing XAML resources, controls, converters, commands, and localization patterns. Avoid one-off styles or hard-coded user-visible strings.
+- Start by identifying the smallest relevant project, feature area, and files for the task.
+- Read nearby code before adding new abstractions. Prefer existing WinUI, MVVM, service, command, and storage patterns.
+- Keep implementation scoped to the requested behavior. Avoid opportunistic refactors, formatting churn, dependency updates, and generated file edits.
+- Treat tool output as evidence. When behavior changes, run the focused build that can prove it and report anything left unverified.
 
 ## Codebase Structure
 
 ```text
-src
+/src
 ├── Files.App                    Main WinUI app
 ├── Files.App.Controls           Shared app controls
 ├── Files.App.Storage            App storage abstractions and implementations
@@ -31,16 +35,11 @@ src
 ```
 
 ```text
-tests
+/tests
 ├── Files.App.UITests
 ├── Files.App.UnitTests
 └── Files.InteractionTests
 ```
-
-## Code Style
-
-- Always follow `.editorconfig`
-- Keep changed text files in CRLF line endings
 
 ## Build
 
@@ -86,9 +85,9 @@ When asked to open a PR, use a short PR title that names the behavior, not the i
 
 - "Fix": use this prefix when the linked issue is a bug
 - "Feature": use this prefix when the linked issue is a feature request
-- "Code Quality": Anything else
+- "Code Quality": anything else
 
-The repository maintainer draft release notes based on these PR types: only fixes and feature requests are listed.
+The repository maintainers draft release notes based on these PR types: only fixes and feature requests are listed.
 
 Good examples:
 
