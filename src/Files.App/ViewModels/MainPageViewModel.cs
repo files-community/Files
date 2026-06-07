@@ -161,6 +161,7 @@ namespace Files.App.ViewModels
 		public ICommand DismissReviewPromptCommand { get; }
 		public ICommand SponsorCommand { get; }
 		public ICommand DismissSponsorPromptCommand { get; }
+		public ICommand OpenNetworkSharingSettingsCommand { get; }
 
 		// Constructor
 
@@ -171,6 +172,7 @@ namespace Files.App.ViewModels
 			DismissReviewPromptCommand = new RelayCommand(ExecuteDismissReviewPromptCommand);
 			SponsorCommand = new RelayCommand(ExecuteSponsorCommand);
 			DismissSponsorPromptCommand = new RelayCommand(ExecuteDismissSponsorPromptCommand);
+			OpenNetworkSharingSettingsCommand = new AsyncRelayCommand(ExecuteOpenNetworkSharingSettingsCommand);
 
 			AppearanceSettingsService.PropertyChanged += (s, e) =>
 			{
@@ -368,6 +370,11 @@ namespace Files.App.ViewModels
 		private void ExecuteDismissSponsorPromptCommand()
 		{
 			UserSettingsService.ApplicationSettingsService.HasClickedSponsorPrompt = true;
+		}
+
+		private async Task ExecuteOpenNetworkSharingSettingsCommand()
+		{
+			await NetworkService.OpenNetworkSharingSettingsAsync();
 		}
 
 		private async void ExecuteNavigateToNumberedTabKeyboardAcceleratorCommand(KeyboardAcceleratorInvokedEventArgs? e)

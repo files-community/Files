@@ -28,6 +28,7 @@ namespace Files.App.Views
 		public IUserSettingsService UserSettingsService { get; }
 		private readonly IWindowContext WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
+		private readonly INetworkService NetworkService = Ioc.Default.GetRequiredService<INetworkService>();
 		public SidebarViewModel SidebarAdaptiveViewModel { get; }
 		public MainPageViewModel ViewModel { get; }
 

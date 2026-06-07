@@ -199,6 +199,7 @@
 					SizeChanged="RootGrid_SizeChanged">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
 						<RowDefinition
 							x:Name="ContentRow"
 							Height="*"
@@ -230,10 +231,38 @@
 						TabIndex="2"
 						Visibility="{x:Bind ViewModel.ShowToolbar, Mode=OneWay}" />
 
+					<InfoBar
+						x:Name="NetworkDiscoveryInfoBar"
+						Grid.Row="1"
+						Grid.ColumnSpan="3"
+						Margin="0,0,0,4"
+						x:Load="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.ShellViewModel.IsNetworkDiscoveryInfoBarOpen, Mode=OneWay}"
+						CornerRadius="8"
+						IsClosable="True"
+						IsIconVisible="True"
+						IsOpen="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.ShellViewModel.IsNetworkDiscoveryInfoBarOpen, Mode=TwoWay}"
+						Severity="Warning">
+						<Grid ColumnSpacing="8">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+							<TextBlock
+								VerticalAlignment="Center"
+								MaxLines="1"
+								Text="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.ShellViewModel.NetworkDiscoveryInfoBarMessage, Mode=OneWay}"
+								TextWrapping="Wrap" />
+							<Button
+								Grid.Column="1"
+								Command="{x:Bind ViewModel.OpenNetworkSharingSettingsCommand}"
+								Content="{helpers:ResourceString Name=OpenSettings}" />
+						</Grid>
+					</InfoBar>
+
 					<!--  Page Content  -->
 					<ContentPresenter
 						x:Name="PageContent"
-						Grid.Row="1"
+						Grid.Row="2"
 						Grid.Column="0"
 						HorizontalContentAlignment="Stretch"
 						Content="{x:Bind ViewModel.SelectedTabItem.ContentFrame, Mode=OneWay}" />
@@ -241,7 +270,7 @@
 					<!--  Info Pane Splitter  -->
 					<controls:GridSplitter
 						x:Name="InfoPaneSizer"
-						Grid.Row="1"
+						Grid.Row="2"
 						Grid.Column="1"
 						x:Load="{x:Bind ViewModel.ShouldPreviewPaneBeActive, Mode=OneWay}"
 						ManipulationCompleted="PaneSplitter_ManipulationCompleted"
@@ -253,7 +282,7 @@
 					<!--  Info Pane  -->
 					<uc:InfoPane
 						x:Name="InfoPane"
-						Grid.Row="1"
+						Grid.Row="2"
 						Grid.Column="2"
 						HorizontalContentAlignment="Stretch"
 						x:Load="{x:Bind ViewModel.ShouldPreviewPaneBeActive, Mode=OneWay}"
@@ -263,7 +292,7 @@
 					<!--  Status Bar  -->
 					<uc:StatusBar
 						x:Name="StatusBar"
-						Grid.Row="4"
+						Grid.Row="5"
 						Grid.ColumnSpan="3"
 						x:Load="False"
 						ShowInfoText="{x:Bind ViewModel.ShowStatusBar, Mode=OneWay}"
@@ -273,7 +302,7 @@
 					<uc:ShelfPane
 						x:Name="ShelfPane"
 						Grid.Row="0"
-						Grid.RowSpan="5"
+						Grid.RowSpan="6"
 						Grid.Column="3"
 						Margin="4,0,0,8"
 						x:Load="{x:Bind ViewModel.ShowShelfPane, Mode=OneWay}"
@@ -441,9 +470,9 @@
 				</VisualState>
 				<VisualState x:Name="InfoPanePositionRight">
 					<VisualState.Setters>
-						<Setter Target="InfoPane.(Grid.Row)" Value="1" />
+						<Setter Target="InfoPane.(Grid.Row)" Value="2" />
 						<Setter Target="InfoPane.(Grid.Column)" Value="2" />
-						<Setter Target="InfoPaneSizer.(Grid.Row)" Value="1" />
+						<Setter Target="InfoPaneSizer.(Grid.Row)" Value="2" />
 						<Setter Target="InfoPaneSizer.(Grid.Column)" Value="1" />
 						<Setter Target="InfoPaneSizer.Width" Value="2" />
 						<Setter Target="InfoPaneSizer.GripperCursor" Value="SizeWestEast" />
@@ -454,9 +483,9 @@
 				</VisualState>
 				<VisualState x:Name="InfoPanePositionBottom">
 					<VisualState.Setters>
-						<Setter Target="InfoPane.(Grid.Row)" Value="3" />
+						<Setter Target="InfoPane.(Grid.Row)" Value="4" />
 						<Setter Target="InfoPane.(Grid.Column)" Value="0" />
-						<Setter Target="InfoPaneSizer.(Grid.Row)" Value="2" />
+						<Setter Target="InfoPaneSizer.(Grid.Row)" Value="3" />
 						<Setter Target="InfoPaneSizer.(Grid.Column)" Value="0" />
 						<Setter Target="InfoPaneSizer.Height" Value="2" />
 						<Setter Target="InfoPaneSizer.GripperCursor" Value="SizeNorthSouth" />
