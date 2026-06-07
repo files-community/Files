@@ -27,7 +27,7 @@ namespace Files.App.Utils.Storage
 		/// Gets or sets the encoding to use when browsing ZIP files.
 		/// When set, SharpZipLib is used instead of SevenZipSharp.
 		/// </summary>
-		internal static Encoding? CurrentEncoding { get; set; }
+		internal Encoding? CurrentEncoding { get; set; }
 
 		public override string Path { get; }
 		public override string Name { get; }
