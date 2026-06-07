@@ -1,0 +1,68 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Files.Linux.UI.Views.MainWindow"
+        Title="Files - Linux"
+        Width="1024"
+        Height="768">
+    <DockPanel>
+        <!-- Top menu bar -->
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="Open" />
+                <MenuItem Header="-" />
+                <MenuItem Header="Exit" />
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Cut" />
+                <MenuItem Header="Copy" />
+                <MenuItem Header="Paste" />
+            </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem Header="Refresh" />
+                <MenuItem Header="Details View" />
+                <MenuItem Header="Icon View" />
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="About Files" />
+            </MenuItem>
+        </Menu>
+
+        <!-- Main content area -->
+        <Grid RowDefinitions="Auto,*">
+            <!-- Toolbar -->
+            <StackPanel Orientation="Horizontal" Margin="8" Spacing="8">
+                <Button Content="Back" Width="80" />
+                <Button Content="Forward" Width="80" />
+                <Button Content="Up" Width="80" />
+                <TextBox PlaceholderText="Enter path..." MinWidth="300" />
+            </StackPanel>
+
+            <!-- File browser area -->
+            <Grid Grid.Row="1" ColumnDefinitions="200,*">
+                <!-- Sidebar -->
+                <ListBox Items="{Binding SidebarItems}" 
+                         Margin="8"
+                         SelectedItem="{Binding SelectedPath}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <!-- File list -->
+                <DataGrid Grid.Column="1"
+                          Items="{Binding Files}"
+                          Margin="8"
+                          AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+                        <DataGridTextColumn Header="Size" Binding="{Binding Size}" Width="100" />
+                        <DataGridTextColumn Header="Modified" Binding="{Binding Modified}" Width="150" />
+                        <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="80" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</Window>
