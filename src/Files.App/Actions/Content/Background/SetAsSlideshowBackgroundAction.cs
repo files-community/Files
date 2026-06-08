@@ -6,16 +6,17 @@ namespace Files.App.Actions
 	[GeneratedRichCommand]
 	internal sealed partial class SetAsSlideshowBackgroundAction : BaseSetAsAction
 	{
-		private readonly IWindowsWallpaperService WindowsWallpaperService = Ioc.Default.GetRequiredService<IWindowsWallpaperService>();
-
 		public override string Label
+			=> Strings.Slideshow.GetLocalizedResource();
+
+		public override string ExtendedLabel
 			=> Strings.SetAsSlideshow.GetLocalizedResource();
 
 		public override string Description
 			=> Strings.SetAsSlideshowBackgroundDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new("\uE91B");
+			=> new(themedIconStyle: "App.ThemedIcons.SetSlideshow.16");
 
 		public override bool IsExecutable =>
 			base.IsExecutable &&

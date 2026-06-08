@@ -442,6 +442,32 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool ShowPinToSideBar
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowPinToSideBar;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowPinToSideBar)
+				{
+					UserSettingsService.GeneralSettingsService.ShowPinToSideBar = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowPinToStart
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowPinToStart;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowPinToStart)
+				{
+					UserSettingsService.GeneralSettingsService.ShowPinToStart = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+		
 		public bool ShowEditTagsMenu
 		{
 			get => UserSettingsService.GeneralSettingsService.ShowEditTagsMenu;
@@ -543,6 +569,20 @@ namespace Files.App.ViewModels.Settings
 				if (SetProperty(ref selectedShellPaneArrangementType, value))
 				{
 					UserSettingsService.GeneralSettingsService.ShellPaneArrangementOption = ShellPaneArrangementTypes.First(e => e.Value == value).Key;
+				}
+			}
+		}
+
+		public bool EnableSmoothScrolling
+		{
+			get => UserSettingsService.GeneralSettingsService.EnableSmoothScrolling;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.EnableSmoothScrolling)
+				{
+					UserSettingsService.GeneralSettingsService.EnableSmoothScrolling = value;
+
+					OnPropertyChanged();
 				}
 			}
 		}

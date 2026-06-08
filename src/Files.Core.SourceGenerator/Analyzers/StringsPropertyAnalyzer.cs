@@ -13,11 +13,6 @@ namespace Files.Core.SourceGenerator.Analyzers
 	internal sealed class StringsPropertyAnalyzer : DiagnosticAnalyzer
 	{
 		/// <summary>
-		/// Represents a collection of constant string names and their corresponding values.
-		/// </summary>
-		internal static FrozenDictionary<string, string?>? StringsConstants { get; private set; } = null;
-
-		/// <summary>
 		/// Gets the supported diagnostics for this analyzer.
 		/// </summary>
 		public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [FSG1002];
@@ -30,16 +25,40 @@ namespace Files.Core.SourceGenerator.Analyzers
 		{
 			context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
 			context.EnableConcurrentExecution();
-			context.RegisterSyntaxNodeAction(AnalyzeNode, SyntaxKind.StringLiteralExpression, SyntaxKind.InterpolatedStringText);
+
+			context.RegisterCompilationStartAction(ctx =>
+			{
+				var stringsTypeSymbol = ctx.Compilation.GetTypeByMetadataName(StringsMetadataName);
+
+				if (stringsTypeSymbol == null || ctx.CancellationToken.IsCancellationRequested)
+					return;
+
+				// Extract constants from the Strings class.
+				// Constant values aren't guaranteed to be unique (even though they most likely are).
+				var members = stringsTypeSymbol.GetMembers();
+				var dictionary = new Dictionary<string, string>(members.Length);
+				foreach (var member in members)
+				{
+					if (member is IFieldSymbol { IsConst: true, ConstantValue: string value } field)
+						dictionary[value] = field.Name;
+				}
+
+				if (ctx.CancellationToken.IsCancellationRequested)
+					return;
+
+				var stringsConstants = dictionary.ToFrozenDictionary();
+
+				ctx.RegisterSyntaxNodeAction(c => AnalyzeNode(c, stringsConstants), SyntaxKind.StringLiteralExpression, SyntaxKind.InterpolatedStringText);
+			});
 		}
 
 		/// <summary>
 		/// Analyzes the syntax node to detect if a string literal can be replaced with a constant from the Strings class.
 		/// </summary>
 		/// <param name="context">The syntax node analysis context.</param>
-		private void AnalyzeNode(SyntaxNodeAnalysisContext context)
+		private static void AnalyzeNode(in SyntaxNodeAnalysisContext context, FrozenDictionary<string, string> stringsConstants)
 		{
-			var literalValue = string.Empty;
+			string literalValue = default!;
 			Location locationValue = default!;
 			SyntaxNode? parent = null;
 
@@ -49,8 +68,7 @@ namespace Files.Core.SourceGenerator.Analyzers
 				locationValue = interpolatedStringText.GetLocation();
 				parent = interpolatedStringText.Parent?.Parent;
 			}
-
-			if (context.Node is LiteralExpressionSyntax literalExpression)
+			else if (context.Node is LiteralExpressionSyntax literalExpression)
 			{
 				literalValue = literalExpression.Token.ValueText;
 				locationValue = literalExpression.GetLocation();
@@ -62,35 +80,14 @@ namespace Files.Core.SourceGenerator.Analyzers
 				!LocalizedMethodNames.Contains(memberAccessExpression.Name.Identifier.Text))
 				return;
 
-			if (StringsConstants is null)
-			{
-				var semanticModel = context.SemanticModel;
-				var compilation = semanticModel.Compilation;
-
-				// Get the type symbol for the Strings class
-				var stringsTypeSymbol = compilation.GetTypeByMetadataName(StringsMetadataName);
-
-				if (stringsTypeSymbol == null)
-					return;
-
-				// Extract constants from the Strings class
-				StringsConstants = stringsTypeSymbol.GetMembers()
-					.OfType<IFieldSymbol>()
-					.Where(f => f.IsConst)
-					.ToDictionary(f => f.Name, f => f.ConstantValue?.ToString())
-					.ToFrozenDictionary();
-			}
-
 			// Check if the literal value matches any of the constants
-			var match = StringsConstants.FirstOrDefault(pair => pair.Value == literalValue);
-
-			if (!match.Equals(default(KeyValuePair<string, string>)))
+			if (stringsConstants.TryGetValue(literalValue, out string? name))
 			{
 				var properties = ImmutableDictionary<string, string>
 					.Empty
-					.Add(ConstantNameProperty, match.Key);
+					.Add(ConstantNameProperty, name);
 
-				var diagnostic = Diagnostic.Create(FSG1002, locationValue, properties!, literalValue, match.Key);
+				var diagnostic = Diagnostic.Create(FSG1002, locationValue, properties!, literalValue, name);
 				context.ReportDiagnostic(diagnostic);
 			}
 		}

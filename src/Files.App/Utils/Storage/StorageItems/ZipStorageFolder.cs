@@ -103,13 +103,13 @@ namespace Files.App.Utils.Storage
 				{
 					return Constants.Distributions.KnownAppNames.Any(x => assoc.StartsWith(x, StringComparison.OrdinalIgnoreCase))
 						|| assoc == Package.Current.Id.FamilyName
-						|| assoc.EndsWith("Files.App\\Files.exe", StringComparison.OrdinalIgnoreCase)
+						|| assoc.EndsWith("Files.exe", StringComparison.OrdinalIgnoreCase)
 						|| assoc.Equals(IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe"), StringComparison.OrdinalIgnoreCase);
 				}
 				return true;
 			};
 			var ext = IO.Path.GetExtension(filePath)?.ToLowerInvariant();
-			return await defaultAppDict.GetAsync(ext, queryFileAssoc);
+			return await defaultAppDict.GetAsync(ext ?? "", queryFileAssoc);
 		}
 
 		public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)

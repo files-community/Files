@@ -21,6 +21,9 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.FavoritePin");
 
+		public ActionCategory Category
+			=> ActionCategory.Start;
+
 		public bool IsExecutable =>
 			context.ShellPage is not null;
 

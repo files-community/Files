@@ -20,6 +20,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.EmptyRecycleBinDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.FileSystem;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Delete");
 

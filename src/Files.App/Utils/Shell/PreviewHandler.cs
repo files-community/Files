@@ -1,7 +1,9 @@
 ﻿using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
-using Vanara.PInvoke;
 using Windows.UI;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.System.Com;
 
 namespace Files.App.Utils.Shell
 {
@@ -157,9 +159,9 @@ namespace Files.App.Utils.Shell
 
 		static readonly Guid IPreviewHandlerIid = Guid.ParseExact("8895b1c6-b41f-4c1c-a562-0d564250836f", "d");
 
-		void SetupHandler(Guid clsid)
+		unsafe void SetupHandler(Guid clsid)
 		{
-			IntPtr pph;
+			void* pphRaw;
 			var iid = IPreviewHandlerIid;
 			var cannotCreate = "Cannot create class " + clsid.ToString() + " as IPreviewHandler.";
 			var cannotCast = "Cannot cast class " + clsid.ToString() + " as IObjectWithSite.";
@@ -168,16 +170,20 @@ namespace Files.App.Utils.Shell
 			// If we use Activator.CreateInstance(Type.GetTypeFromCLSID(...)),
 			// CLR will allow in-process server, which defeats isolation and
 			// creates strange bugs.
-			int hr = Win32PInvoke.CoCreateInstance(ref clsid, IntPtr.Zero, Win32PInvoke.ClassContext.LocalServer, ref iid, out pph);
+			HRESULT hr = PInvoke.CoCreateInstance(&clsid, null, CLSCTX.CLSCTX_LOCAL_SERVER, &iid, &pphRaw);
+			IntPtr pph = (IntPtr)pphRaw;
 			// See https://blogs.msdn.microsoft.com/adioltean/2005/06/24/when-cocreateinstance-returns-0x80080005-co_e_server_exec_failure/
 			// CO_E_SERVER_EXEC_FAILURE also tends to happen when debugging in Visual Studio.
 			// Moreover, to create the instance in a server at low integrity level, we need
 			// to use another thread with low mandatory label. We keep it simple by creating
 			// a same-integrity object.
-			if (hr == E_SERVER_EXEC_FAILURE)
-				hr = Win32PInvoke.CoCreateInstance(ref clsid, IntPtr.Zero, Win32PInvoke.ClassContext.LocalServer, ref iid, out pph);
-			if (hr < 0)
-				throw new COMException(cannotCreate, hr);
+			if (hr.Value == E_SERVER_EXEC_FAILURE)
+			{
+				hr = PInvoke.CoCreateInstance(&clsid, null, CLSCTX.CLSCTX_LOCAL_SERVER, &iid, &pphRaw);
+				pph = (IntPtr)pphRaw;
+			}
+			if (hr.Failed)
+				throw new COMException(cannotCreate, hr.Value);
 			var previewHandlerObject = comWrappers.GetOrCreateObjectForComInstance(pph, CreateObjectFlags.UniqueInstance);
 			previewHandler = previewHandlerObject as IPreviewHandler;
 
@@ -188,13 +194,14 @@ namespace Files.App.Utils.Shell
 			var objectWithSite = previewHandlerObject as IObjectWithSite;
 			if (objectWithSite == null)
 				throw new COMException(cannotCast);
-			hr = objectWithSite.SetSite(comWrappers.GetOrCreateComInterfaceForObject(comSite, CreateComInterfaceFlags.None));
-			if (hr < 0)
-				throw new COMException(cannotSetSite, hr);
+			int setSiteHr = objectWithSite.SetSite(comWrappers.GetOrCreateComInterfaceForObject(comSite, CreateComInterfaceFlags.None));
+			if (setSiteHr < 0)
+				throw new COMException(cannotSetSite, setSiteHr);
 			visuals = previewHandlerObject as IPreviewHandlerVisuals;
 		}
 
 		#region Initialization interfaces
+
 		[GeneratedComInterface, Guid("0000000c-0000-0000-C000-000000000046"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 		public partial interface IStream
 		{
@@ -264,7 +271,7 @@ namespace Files.App.Utils.Shell
 			if (iws == null)
 				return false;
 			var hr = iws.Initialize(stream, mode);
-			if (hr == HRESULT.E_NOTIMPL)
+			if (hr == (int)HRESULT.E_NOTIMPL)
 				return false;
 			if (hr < 0)
 				throw new COMException("IInitializeWithStream.Initialize failed.", hr);
@@ -290,7 +297,7 @@ namespace Files.App.Utils.Shell
 			if (iws == null)
 				return false;
 			var hr = iws.Initialize(pStream, mode);
-			if (hr == HRESULT.E_NOTIMPL)
+			if (hr == (int)HRESULT.E_NOTIMPL)
 				return false;
 			if (hr < 0)
 				throw new COMException("IInitializeWithStream.Initialize failed.", hr);
@@ -316,7 +323,7 @@ namespace Files.App.Utils.Shell
 			if (iwi == null)
 				return false;
 			var hr = iwi.Initialize(psi, mode);
-			if (hr == HRESULT.E_NOTIMPL)
+			if (hr == (int)HRESULT.E_NOTIMPL)
 				return false;
 			if (hr < 0)
 				throw new COMException("IInitializeWithItem.Initialize failed.", hr);
@@ -342,7 +349,7 @@ namespace Files.App.Utils.Shell
 			if (iwf == null)
 				return false;
 			var hr = iwf.Initialize(path, mode);
-			if (hr == HRESULT.E_NOTIMPL)
+			if (hr == (int)HRESULT.E_NOTIMPL)
 				return false;
 			if (hr < 0)
 				throw new COMException("IInitializeWithFile.Initialize failed.", hr);

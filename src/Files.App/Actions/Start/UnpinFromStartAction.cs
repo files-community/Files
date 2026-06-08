@@ -21,6 +21,9 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.FavoritePinRemove");
 
+		public ActionCategory Category
+			=> ActionCategory.Start;
+
 		public UnpinFromStartAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();

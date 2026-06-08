@@ -214,15 +214,17 @@ namespace Files.App.Utils.Signatures
 			signChain.Clear();
 
 			var cert_store_prov_system = (PCSTR)(byte*)10;
-			var root = "Root";
-			var pRoot = &root;
-			var hSystemStore = PInvoke.CertOpenStore(
-				cert_store_prov_system,
-				ENCODING,
-				HCRYPTPROV_LEGACY.Null,
-				(CERT_OPEN_STORE_FLAGS)CERT_SYSTEM_STORE_CURRENT_USER,
-				pRoot
-			); 
+			HCERTSTORE hSystemStore;
+			fixed (char* pRoot = "Root")
+			{
+				hSystemStore = PInvoke.CertOpenStore(
+					cert_store_prov_system,
+					ENCODING,
+					HCRYPTPROV_LEGACY.Null,
+					(CERT_OPEN_STORE_FLAGS)CERT_SYSTEM_STORE_CURRENT_USER,
+					(void*)pRoot
+				);
+			}
 			if (hSystemStore == IntPtr.Zero)
 				return false;
 
@@ -233,7 +235,7 @@ namespace Files.App.Utils.Signatures
 				out authSignData.hCertStoreHandle,
 				out authSignData.pSignerInfo,
 				out authSignData.dwObjSize
-			);
+				);
 
 			if (hAuthCryptMsg is not null)
 			{
@@ -384,7 +386,7 @@ namespace Files.App.Utils.Signatures
 
 			HCERTSTORE hCertStoreTmp = HCERTSTORE.Null;
 			void* hMsgTmp = null;
-			
+
 			fixed (char* pFileName = fileName)
 			{
 				result = PInvoke.CryptQueryObject(
@@ -661,15 +663,17 @@ namespace Files.App.Utils.Signatures
 				return string.Empty;
 
 			var st = new Windows.Win32.Foundation.SYSTEMTIME();
-			var buffer = new string((sbyte*)(pbOctetString + positionFound));
+			var buffer = new ReadOnlySpan<byte>(pbOctetString + positionFound, (int)lengthFound);
 
-			_ = ushort.TryParse(buffer.AsSpan(0, 4), out st.wYear);
-			_ = ushort.TryParse(buffer.AsSpan(4, 2), out st.wMonth);
-			_ = ushort.TryParse(buffer.AsSpan(6, 2), out st.wDay);
-			_ = ushort.TryParse(buffer.AsSpan(8, 2), out st.wHour);
-			_ = ushort.TryParse(buffer.AsSpan(10, 2), out st.wMinute);
-			_ = ushort.TryParse(buffer.AsSpan(12, 2), out st.wSecond);
-			_ = ushort.TryParse(buffer.AsSpan(15, 3), out st.wMilliseconds);
+			_ = ushort.TryParse(buffer.Slice(0, 4), out st.wYear);
+			_ = ushort.TryParse(buffer.Slice(4, 2), out st.wMonth);
+			_ = ushort.TryParse(buffer.Slice(6, 2), out st.wDay);
+			_ = ushort.TryParse(buffer.Slice(8, 2), out st.wHour);
+			_ = ushort.TryParse(buffer.Slice(10, 2), out st.wMinute);
+			_ = ushort.TryParse(buffer.Slice(12, 2), out st.wSecond);
+
+			if (buffer.Length >= 18 && buffer[14] == '.')
+				_ = ushort.TryParse(buffer.Slice(15, 3), out st.wMilliseconds);
 
 			PInvoke.SystemTimeToFileTime(st, out var fft);
 			PInvoke.FileTimeToLocalFileTime(fft, out var lft);
@@ -837,7 +841,7 @@ namespace Files.App.Utils.Signatures
 				paramType,
 				index,
 				null,
-				ref size
+				&size
 			);
 			if (!result)
 				return false;
@@ -851,7 +855,7 @@ namespace Files.App.Utils.Signatures
 				paramType,
 				index,
 				pParam,
-				ref size
+				&size
 			);
 			if (!result)
 				return false;

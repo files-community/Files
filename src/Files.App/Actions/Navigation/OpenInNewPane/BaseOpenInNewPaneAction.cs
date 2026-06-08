@@ -16,6 +16,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.OpenDirectoryInNewPaneDescription.GetLocalizedResource();
 
+		public virtual ActionCategory Category
+			=> ActionCategory.DualPane;
+
 		public virtual bool IsExecutable =>
 			ContentPageContext.PageType != ContentPageTypes.RecycleBin &&
 			ContentPageContext.SelectedItem is not null &&

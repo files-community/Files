@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.ToggleShelfPaneDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Show;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Shelf");
 

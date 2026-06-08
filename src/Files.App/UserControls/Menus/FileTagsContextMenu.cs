@@ -20,12 +20,33 @@ namespace Files.App.UserControls.Menus
 		/// </summary>
 		public event EventHandler? TagsChanged;
 
-		public IEnumerable<ListedItem> SelectedItems { get; }
+		private IEnumerable<ListedItem> selectedItems = [];
+		public IEnumerable<ListedItem> SelectedItems => selectedItems;
+		private Func<IEnumerable<ListedItem>>? selectedItemsProvider;
+
+		private const string RemoveTagsItemTag = "RemoveTags";
 
 		public FileTagsContextMenu(IEnumerable<ListedItem> selectedItems)
 		{
-			SetValue(MenuFlyoutHelper.ItemsSourceProperty, FileTagsSettingsService.FileTagList
-				.Select(tag => new MenuFlyoutFactoryItemViewModel(() =>
+			this.selectedItems = selectedItems;
+			Init();
+		}
+
+		/// <summary>
+		/// Creates a menu with items provided dynamically via a delegate.
+		/// Useful for reusing the menu instance across different selections.
+		/// </summary>
+		public FileTagsContextMenu(Func<IEnumerable<ListedItem>> selectedItemsProvider)
+		{
+			this.selectedItemsProvider = selectedItemsProvider;
+			selectedItems = selectedItemsProvider?.Invoke() ?? [];
+			Init();
+		}
+
+		private void Init()
+		{
+			IEnumerable<IMenuFlyoutItemViewModel> tagItems = FileTagsSettingsService.FileTagList
+				.Select(tag => (IMenuFlyoutItemViewModel)new MenuFlyoutFactoryItemViewModel(() =>
 				{
 					var tagItem = new ToggleMenuFlyoutItem()
 					{
@@ -39,11 +60,35 @@ namespace Files.App.UserControls.Menus
 					};
 					tagItem.Click += TagItem_Click;
 					return tagItem;
-				})));
+				}));
 
-			SelectedItems = selectedItems;
+			var removeTagsViewModel = new MenuFlyoutFactoryItemViewModel(() =>
+			{
+				var removeItem = new MenuFlyoutItem()
+				{
+					Text = Strings.RemoveTags.GetLocalizedResource(),
+					Tag = RemoveTagsItemTag,
+				};
+				removeItem.Click += RemoveTagsItem_Click;
+				return removeItem;
+			});
+
+			SetValue(MenuFlyoutHelper.ItemsSourceProperty, tagItems
+				.Append(new MenuFlyoutSeparatorViewModel())
+				.Append(removeTagsViewModel));
 
 			Opening += Item_Opening;
+		}
+
+		/// <summary>
+		/// Resets the flyout for a new selection so it can be reused across multiple opens.
+		/// Clears all checked states and re-registers the opening handler.
+		/// </summary>
+		public void ResetForItems(IEnumerable<ListedItem> selectedItems)
+		{
+			this.selectedItems = selectedItems;
+			foreach (var item in Items.OfType<ToggleMenuFlyoutItem>())
+				item.IsChecked = false;
 		}
 
 		private void TagItem_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -61,19 +106,31 @@ namespace Files.App.UserControls.Menus
 
 		private void Item_Opening(object? sender, object e)
 		{
-			Opening -= Item_Opening;
+			// Update SelectedItems if using dynamic provider
+			if (selectedItemsProvider is not null)
+				selectedItems = selectedItemsProvider.Invoke();
 
 			if (SelectedItems is null)
 				return;
+
+			foreach (var item in Items.OfType<ToggleMenuFlyoutItem>())
+				item.IsChecked = false;
 
 			// go through each tag and find the common one for all files
 			var commonFileTags = SelectedItems
 				.Select(x => x?.FileTags ?? Enumerable.Empty<string>())
 				.DefaultIfEmpty(Enumerable.Empty<string>())
 				.Aggregate((x, y) => x.Intersect(y))
-				.Select(x => Items.FirstOrDefault(y => x == ((TagViewModel)y.Tag)?.Uid));
+				.Select(x => Items.FirstOrDefault(y => x == (y.Tag as TagViewModel)?.Uid));
 
 			commonFileTags.OfType<ToggleMenuFlyoutItem>().ForEach(x => x.IsChecked = true);
+
+			// Enable "Remove tags" only when at least one selected item has tags
+			var removeItem = Items
+				.OfType<MenuFlyoutItem>()
+				.FirstOrDefault(i => i is not ToggleMenuFlyoutItem && (i.Tag as string) == RemoveTagsItemTag);
+			if (removeItem is not null)
+				removeItem.IsEnabled = SelectedItems.Any(item => item?.FileTags is { Length: > 0 });
 		}
 
 		private void RemoveFileTag(IEnumerable<ListedItem> selectedListedItems, TagViewModel removed)
@@ -101,6 +158,12 @@ namespace Files.App.UserControls.Menus
 				}
 			}
 			TagsChanged?.Invoke(this, EventArgs.Empty);
+		}
+
+		private async void RemoveTagsItem_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+		{
+			if (await FileTagsHelper.RemoveTagsAsync(SelectedItems))
+				TagsChanged?.Invoke(this, EventArgs.Empty);
 		}
 	}
 }

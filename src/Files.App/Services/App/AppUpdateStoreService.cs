@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;
 using System.Net.Http;
+using System.Text;
 using Windows.Foundation.Metadata;
 using Windows.Services.Store;
 using Windows.Storage;
@@ -33,6 +34,13 @@ namespace Files.App.Services
 			private set => SetProperty(ref _isUpdating, value);
 		}
 
+		private int _updateProgress;
+		public int UpdateProgress
+		{
+			get => _updateProgress;
+			private set => SetProperty(ref _updateProgress, value);
+		}
+
 		public bool IsAppUpdated
 		{
 			get => AppLifecycleHelper.IsAppUpdated;
@@ -52,12 +60,10 @@ namespace Files.App.Services
 
 		public async Task DownloadUpdatesAsync()
 		{
-			OnUpdateInProgress();
-
 			if (!HasUpdates())
-			{
 				return;
-			}
+
+			OnUpdateInProgress();
 
 			// double check for Mandatory
 			if (IsMandatory)
@@ -80,16 +86,29 @@ namespace Files.App.Services
 		{
 			// Prompt the user to download if the package list
 			// contains mandatory updates.
-			if (IsMandatory && HasUpdates())
+			if (!IsMandatory || !HasUpdates())
+				return;
+
+			// CheckAppUpdate runs inside Task.Run, so the consent dialog and the Store
+			// download API must be marshalled to the UI thread to avoid hard crashes.
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				if (await ShowDialogAsync())
+				try
 				{
+					if (!await ShowDialogAsync())
+						return;
+
 					App.Logger.LogInformation("STORE: Downloading updates...");
 					OnUpdateInProgress();
 					await DownloadAndInstallAsync();
 					OnUpdateCompleted();
 				}
-			}
+				catch (Exception ex)
+				{
+					App.Logger.LogWarning(ex, "STORE: Mandatory update flow failed.");
+					OnUpdateCancelled();
+				}
+			});
 		}
 
 		public async Task CheckForUpdatesAsync()
@@ -132,11 +151,37 @@ namespace Files.App.Services
 
 			App.AppModel.ForceProcessTermination = true;
 
-			var downloadOperation = _storeContext?.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
-			var result = await downloadOperation.AsTask();
+			StorePackageUpdateResult? result = null;
 
-			if (result.OverallState == StorePackageUpdateState.Canceled)
-				App.AppModel.ForceProcessTermination = false;
+			try
+			{
+				var downloadOperation = _storeContext?.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
+
+				if (downloadOperation is null)
+					return;
+
+				downloadOperation.Progress = (op, status) =>
+				{
+					MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+					{
+						UpdateProgress = (int)(status.TotalDownloadProgress * 100);
+					});
+				};
+
+				result = await downloadOperation.AsTask();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "STORE: Update download failed.");
+			}
+			finally
+			{
+				// Only keep ForceProcessTermination set when the Store actually completed
+				// the install — otherwise the app would hard-exit on next close instead of
+				// going to background.
+				if (result is null || result.OverallState != StorePackageUpdateState.Completed)
+					App.AppModel.ForceProcessTermination = false;
+			}
 		}
 
 		private async Task GetUpdatePackagesAsync()
@@ -180,43 +225,39 @@ namespace Files.App.Services
 		{
 			var destFolderPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, "Files");
 			var destExeFilePath = Path.Combine(destFolderPath, "Files.App.Launcher.exe");
+			var branchFilePath = Path.Combine(destFolderPath, "Branch.txt");
 
-			if (Path.Exists(destExeFilePath))
+			// If Files.App.Launcher.exe doesn't exist, no need to update it.
+			if (!File.Exists(destExeFilePath))
+				return;
+
+			// Check if the launcher file is associated with the current branch of the app.
+			if (File.Exists(branchFilePath))
 			{
-				var hashEqual = false;
-				var srcHashFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/Files.App.Launcher.exe.sha256"));
-				var destHashFilePath = Path.Combine(destFolderPath, "Files.App.Launcher.exe.sha256");
-
-				if (Path.Exists(destHashFilePath))
+				try
 				{
-					await using var srcStream = (await srcHashFile.OpenReadAsync()).AsStream();
-					await using var destStream = File.OpenRead(destHashFilePath);
-
-					hashEqual = HashEqual(srcStream, destStream);
+					var branch = await File.ReadAllTextAsync(branchFilePath, Encoding.UTF8);
+					if (!string.Equals(branch.Trim(), "files-dev", StringComparison.OrdinalIgnoreCase))
+						return;
 				}
-
-				if (!hashEqual)
+				catch { }
+			}
+			else
+			{
+				try
 				{
-					var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/Files.App.Launcher.exe"));
-					var destFolder = await StorageFolder.GetFolderFromPathAsync(destFolderPath);
-
-					await srcExeFile.CopyAsync(destFolder, "Files.App.Launcher.exe", NameCollisionOption.ReplaceExisting);
-					await srcHashFile.CopyAsync(destFolder, "Files.App.Launcher.exe.sha256", NameCollisionOption.ReplaceExisting);
-
-					App.Logger.LogInformation("Files.App.Launcher updated.");
+					// Create branch file for users updating from versions earlier than v4.0.20.
+					await File.WriteAllTextAsync(branchFilePath, "files-dev", Encoding.UTF8);
 				}
+				catch { }
 			}
 
-			bool HashEqual(Stream a, Stream b)
-			{
-				Span<byte> bufferA = stackalloc byte[64];
-				Span<byte> bufferB = stackalloc byte[64];
+			var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/Files.App.Launcher.exe"));
+			var destFolder = await StorageFolder.GetFolderFromPathAsync(destFolderPath);
 
-				a.Read(bufferA);
-				b.Read(bufferB);
+			await srcExeFile.CopyAsync(destFolder, "Files.App.Launcher.exe", NameCollisionOption.ReplaceExisting);
 
-				return bufferA.SequenceEqual(bufferB);
-			}
+			App.Logger.LogInformation("Files.App.Launcher updated.");
 		}
 
 		private bool HasUpdates()
@@ -233,6 +274,7 @@ namespace Files.App.Services
 		{
 			IsUpdating = false;
 			IsUpdateAvailable = false;
+			UpdateProgress = 0;
 
 			_updatePackages?.Clear();
 		}
@@ -240,6 +282,7 @@ namespace Files.App.Services
 		private void OnUpdateCancelled()
 		{
 			IsUpdating = false;
+			UpdateProgress = 0;
 		}
 	}
 }

@@ -85,7 +85,7 @@ namespace Files.App.Services.Settings
 		/// <inheritdoc/>
 		public String AppThemeFontFamily
 		{
-			get => Get("Segoe UI Variable");
+			get => Get(Constants.Appearance.StandardFont);
 			set => Set(value);
 		}
 
@@ -163,6 +163,20 @@ namespace Files.App.Services.Settings
 		public StatusCenterVisibility StatusCenterVisibility
 		{
 			get => Get(StatusCenterVisibility.Always);
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public Dictionary<string, List<ToolbarItemSettingsEntry>>? CustomToolbarItems
+		{
+			get => Get<Dictionary<string, List<ToolbarItemSettingsEntry>>?>(null);
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public Dictionary<string, List<string>>? LastKnownToolbarDefaults
+		{
+			get => Get<Dictionary<string, List<string>>?>(null);
 			set => Set(value);
 		}
 

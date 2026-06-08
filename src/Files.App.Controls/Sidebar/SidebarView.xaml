@@ -25,7 +25,7 @@
 			x:Name="PaneBackground"
 			Grid.Row="1"
 			Grid.ColumnSpan="3"
-			Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}" />
+			Background="{x:Bind PaneBackgroundBrush, Mode=OneWay}" />
 
 		<!--  Pane Dismiss Layer  -->
 		<Grid
@@ -50,6 +50,7 @@
 			Canvas.ZIndex="10"
 			XYFocusKeyboardNavigation="Enabled">
 			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
@@ -59,15 +60,27 @@
 
 			<!--  Content  -->
 			<ContentPresenter
-				Grid.RowSpan="2"
+				Grid.RowSpan="3"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Stretch"
 				HorizontalContentAlignment="Stretch"
 				VerticalContentAlignment="Stretch"
 				Content="{x:Bind SidebarContent, Mode=OneWay}" />
 
+			<!--  Header  -->
+			<ContentPresenter
+				Grid.Row="0"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				HorizontalContentAlignment="Stretch"
+				VerticalContentAlignment="Stretch"
+				Content="{x:Bind Header, Mode=OneWay}" />
+
 			<!--  Menu Items  -->
-			<ItemsRepeaterScrollHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+			<ItemsRepeaterScrollHost
+				Grid.Row="1"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch">
 				<ScrollViewer
 					x:Name="MenuItemHostScrollViewer"
 					Padding="0,8,0,0"
@@ -91,7 +104,7 @@
 
 			<!--  Footer Items  -->
 			<ContentPresenter
-				Grid.Row="1"
+				Grid.Row="2"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Stretch"
 				HorizontalContentAlignment="Stretch"

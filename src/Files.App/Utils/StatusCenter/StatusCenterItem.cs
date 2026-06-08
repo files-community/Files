@@ -301,19 +301,17 @@ namespace Files.App.Utils.StatusCenter
 						Operation == FileOperationType.Compressed ||
 						Operation == FileOperationType.GitClone)
 					{
-						Message =
-							$"{string.Format(
-								Strings.StatusCenter_ProcessedItems_Header.GetLocalizedFormatResource(value.ProcessedItemsCount, value.ItemsCount),
-								value.ProcessedItemsCount,
-								value.ItemsCount)}";
+						Message = string.Format(
+							Strings.StatusCenter_ProcessedItems_Header.GetLocalizedFormatResource(value.ProcessedItemsCount, value.ItemsCount),
+							value.ProcessedItemsCount,
+							value.ItemsCount);
 					}
 					else
 					{
-						Message =
-							$"{string.Format(
-								Strings.StatusCenter_ProcessedSize_Header.GetLocalizedResource(),
-								value.ProcessedSize.ToSizeString(),
-								value.TotalSize.ToSizeString())}";
+						Message = string.Format(
+							Strings.StatusCenter_ProcessedSize_Header.GetLocalizedResource(),
+							value.ProcessedSize.ToSizeString(),
+							value.TotalSize.ToSizeString());
 					}
 				}
 

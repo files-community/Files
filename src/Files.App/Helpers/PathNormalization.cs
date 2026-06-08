@@ -16,7 +16,7 @@ namespace Files.App.Helpers
 			string rootPath = string.Empty;
 			try
 			{
-				var pathAsUri = new Uri(path.Replace("\\", "/", StringComparison.Ordinal));
+				var pathAsUri = new Uri(path.Replace('\\', '/'));
 				rootPath = pathAsUri.GetLeftPart(UriPartial.Authority);
 				if (pathAsUri.IsFile && !string.IsNullOrEmpty(rootPath))
 					rootPath = new Uri(rootPath).LocalPath;
@@ -68,7 +68,7 @@ namespace Files.App.Helpers
 			if (string.IsNullOrEmpty(path))
 				return string.Empty;
 
-			var index = path.Contains('/', StringComparison.Ordinal) ? path.LastIndexOf("/", StringComparison.Ordinal) : path.LastIndexOf("\\", StringComparison.Ordinal);
+			var index = path.Contains('/', StringComparison.Ordinal) ? path.LastIndexOf('/') : path.LastIndexOf('\\');
 			return path.Substring(0, index != -1 ? index : path.Length);
 		}
 
@@ -77,7 +77,16 @@ namespace Files.App.Helpers
 			if (string.IsNullOrEmpty(folder))
 				return name;
 
-			return folder.Contains('/', StringComparison.Ordinal) ? Path.Combine(folder, name).Replace("\\", "/", StringComparison.Ordinal) : Path.Combine(folder, name);
+			// Handle case where name is a rooted path (e.g., "E:\")
+			if (Path.IsPathRooted(name))
+			{
+				var root = Path.GetPathRoot(name);
+				if (!string.IsNullOrEmpty(root) && name.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) == root.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar))
+					// Just use the drive letter
+					name = root.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar, ':');
+			}
+
+			return folder.Contains('/', StringComparison.Ordinal) ? Path.Combine(folder, name).Replace('\\', '/') : Path.Combine(folder, name);
 		}
 	}
 }

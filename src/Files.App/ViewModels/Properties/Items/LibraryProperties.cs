@@ -27,7 +27,7 @@ namespace Files.App.ViewModels.Properties
 		{
 			Library = library;
 			GetBaseProperties();
-			GetSpecialPropertiesAsync();
+			_ = GetSpecialPropertiesAsync();
 		}
 
 		public override void GetBaseProperties()
@@ -46,8 +46,9 @@ namespace Files.App.ViewModels.Properties
 
 		public async override Task GetSpecialPropertiesAsync()
 		{
-			ViewModel.IsReadOnly = Win32Helper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
-			ViewModel.IsHidden = Win32Helper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
+			var fileAttributes = Win32Helper.GetFileAttributes(Library.ItemPath);
+			ViewModel.IsReadOnly = fileAttributes.HasFlag(System.IO.FileAttributes.ReadOnly);
+			ViewModel.IsHidden = fileAttributes.HasFlag(System.IO.FileAttributes.Hidden);
 			ViewModel.CanCompressContent = false;
 
 			var result = await FileThumbnailHelper.GetIconAsync(
@@ -69,7 +70,7 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.ItemCreatedTimestampReal = libraryFile.DateCreated;
 				if (libraryFile.Properties is not null)
 				{
-					GetOtherPropertiesAsync(libraryFile.Properties);
+					await GetOtherPropertiesAsync(libraryFile.Properties);
 				}
 			}
 
@@ -97,7 +98,7 @@ namespace Files.App.ViewModels.Properties
 			{
 				ViewModel.ContainsFilesOrFolders = true;
 				ViewModel.LocationsCount = storageFolders.Count;
-				GetLibrarySizeAsync(storageFolders, TokenSource.Token);
+				await GetLibrarySizeAsync(storageFolders, TokenSource.Token);
 			}
 			else
 			{

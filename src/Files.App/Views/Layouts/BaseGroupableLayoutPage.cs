@@ -225,10 +225,29 @@ namespace Files.App.Views.Layouts
 			RootZoom.IsZoomedInViewActive = true;
 		}
 
-		protected virtual void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected virtual void FileList_SelectionChanged(object sender, SelectionChangedEventArgs? e)
 		{
-			SelectedItems = ListViewBase.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+
+			if (e is null && SelectedItems?.Count == 0)
+				return;
+
+			if (e is not null && e.AddedItems.Count == 0 && e.RemovedItems.Count == 0)
+				return;
+
+			var selectedItems = ListViewBase.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+
+			if (SelectedItems is not null && SelectedItems.SequenceEqual(selectedItems))
+				return;
+
+			SelectedItems = selectedItems;
+
+			if (e is null)
+				return;
+
+			OnSelectionChanged(e);
 		}
+
+		protected abstract void OnSelectionChanged(SelectionChangedEventArgs e);
 
 		protected virtual void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
 		{

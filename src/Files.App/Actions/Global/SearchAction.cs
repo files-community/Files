@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.SearchDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Open;
+
 		public HotKey HotKey
 			=> new(Keys.F, KeyModifiers.Ctrl);
 
@@ -39,7 +42,7 @@ namespace Files.App.Actions
 			if (context.ShellPage is null)
 				return Task.CompletedTask;
 
-			context.ShellPage.ToolbarViewModel.SwitchToSearchMode();
+			_ = context.ShellPage.ToolbarViewModel.SwitchToSearchMode();
 
 			return Task.CompletedTask;
 		}

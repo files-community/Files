@@ -21,6 +21,9 @@ namespace Files.App.Services
 			var pCloudDrivePath = App.AppModel.PCloudDrivePath;
 			foreach (var drive in list)
 			{
+				if (!drive.IsReady)
+					continue;
+
 				var driveLabel = DriveHelpers.GetExtendedDriveLabel(drive);
 				// Filter out cloud drives
 				// We don't want cloud drives to appear in the plain "Drives" sections.
@@ -52,10 +55,16 @@ namespace Files.App.Services
 			}
 		}
 
-		public async Task<IFolder> GetPrimaryDriveAsync()
+		public Task<IFolder?> GetPrimaryDriveAsync()
 		{
 			var cDrivePath = $@"{Constants.UserEnvironmentPaths.SystemDrivePath}\";
-			return new SystemFolder(cDrivePath);
+			if (!Directory.Exists(cDrivePath))
+			{
+				App.Logger.LogWarning($"Primary system drive '{cDrivePath}' could not be found.");
+				return Task.FromResult<IFolder?>(null);
+			}
+
+			return Task.FromResult<IFolder?>(new SystemFolder(cDrivePath));
 		}
 
 		public async Task UpdateDrivePropertiesAsync(IFolder drive)

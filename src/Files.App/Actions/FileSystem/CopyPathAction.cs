@@ -16,6 +16,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.CopyPathDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.FileSystem;
+
 		public RichGlyph Glyph
 			=> new RichGlyph(themedIconStyle: "App.ThemedIcons.CopyAsPath");
 
@@ -37,7 +40,7 @@ namespace Files.App.Actions
 				var path = context.ShellPage.ShellViewModel.WorkingDirectory;
 
 				if (FtpHelpers.IsFtpPath(path))
-					path = path.Replace("\\", "/", StringComparison.Ordinal);
+					path = path.Replace('\\', '/');
 
 				SafetyExtensions.IgnoreExceptions(() =>
 				{

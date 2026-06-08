@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.CreateFolderWithSelectionDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
+		public ActionCategory Category
+			=> ActionCategory.Create;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.New.Folder");
 

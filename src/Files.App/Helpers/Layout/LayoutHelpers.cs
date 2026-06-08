@@ -35,7 +35,7 @@ namespace Files.App.Helpers
 							continue;
 
 						// Check if we need to update preferences for this pane
-						if ((isNotCurrentTab || pane != shPage.ActivePane) &&
+						if ((isNotCurrentTab || !ReferenceEquals(pane, shPage.ActivePane)) &&
 							(layoutSettingsService.SyncFolderPreferencesAcrossDirectories ||
 							 path.Equals(activePath, StringComparison.OrdinalIgnoreCase)))
 							if (pane.SlimContentPage is BaseLayoutPage page)

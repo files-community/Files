@@ -16,11 +16,15 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.RunWithPowershellDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Run;
+
 		public RichGlyph Glyph
 			=> new("\uE756");
 
 		public bool IsExecutable =>
 			context.SelectedItem is not null &&
+			context.PageType != ContentPageTypes.RecycleBin &&
 			FileExtensionHelpers.IsPowerShellFile(context.SelectedItem.FileExtension);
 
 		public RunWithPowershellAction()

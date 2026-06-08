@@ -31,14 +31,18 @@ namespace Files.App.Utils.Storage
 
 					if (!extension.Equals(".fon", StringComparison.OrdinalIgnoreCase))
 					{
-						var fontThumbnail = await Win32Helper.StartSTATask(() => FontFileHelper.GenerateFontThumbnail(path, (int)size));
+						var fontThumbnail = await STATask.Run(() => FontFileHelper.GenerateFontThumbnail(path, (int)size), App.Logger);
 						if (fontThumbnail is not null)
 							return fontThumbnail;
 					}
 				}
 			}
 
-			return await Win32Helper.StartSTATask(() => Win32Helper.GetIcon(path, (int)size, isFolder, iconOptions));
+			var resolvedPath = path is not null && path.StartsWith(@"\\?\", StringComparison.Ordinal)
+				? MtpHelpers.ResolveMtpShellPath(path) ?? path
+				: path;
+
+			return await STATask.Run(() => Win32Helper.GetIcon(resolvedPath, (int)size, isFolder, iconOptions), App.Logger);
 		}
 
 		/// <summary>
@@ -48,7 +52,7 @@ namespace Files.App.Utils.Storage
 		/// <param name="isFolder"></param>
 		/// <returns></returns>
 		public static async Task<byte[]?> GetIconOverlayAsync(string path, bool isFolder)
-			=> await Win32Helper.StartSTATask(() => Win32Helper.GetIconOverlay(path, isFolder));
+			=> await STATask.Run(() => Win32Helper.GetIconOverlay(path, isFolder), App.Logger);
 
 		[Obsolete]
 		public static async Task<byte[]?> LoadIconFromPathAsync(string filePath, uint thumbnailSize, ThumbnailMode thumbnailMode, ThumbnailOptions thumbnailOptions, bool isFolder = false)

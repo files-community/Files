@@ -105,9 +105,11 @@
 												Grid.Column="1"
 												HorizontalAlignment="Stretch"
 												x:Load="{x:Bind IsReadOnly, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+												AcceptsReturn="{x:Bind IsMultiLine, Mode=OneWay}"
 												PlaceholderText="{x:Bind PlaceholderText, Mode=OneWay}"
 												Style="{StaticResource PropertyValueTextBox}"
-												Text="{x:Bind ValueText, Mode=TwoWay}" />
+												Text="{x:Bind ValueText, Mode=TwoWay}"
+												TextWrapping="Wrap" />
 
 										</Grid>
 									</DataTemplate>

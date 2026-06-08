@@ -153,6 +153,9 @@ namespace Files.App.Helpers
 			set => SetProperty(ref _IsLayoutModeChanging, value);
 		}
 
+		// One-shot selection carried across a layout-mode change; kept off NavigationArguments so the back stack can't replay it
+		public List<string>? PendingLayoutSwitchSelection { get; set; }
+
 		private LayoutPreferencesItem? _LayoutPreferencesItem;
 		public LayoutPreferencesItem LayoutPreferencesItem
 		{
@@ -486,6 +489,10 @@ namespace Files.App.Helpers
 
 		private static LayoutPreferencesItem? GetLayoutPreferencesForPath(string path)
 		{
+			// Guard against null
+			if (path is null)
+				return null;
+
 			//Recycle Bin does not support Column View due to navigation conflicts with hierarchical display
 			//Fall back to Details View when Column View is configured
 			if (path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))

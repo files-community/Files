@@ -6,7 +6,9 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
+using Windows.Win32.UI.WindowsAndMessaging;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 
@@ -101,7 +103,23 @@ namespace Files.App
 			//Server.AppInstanceMonitor.StartMonitor(Environment.ProcessId);
 
 			var OpenTabInExistingInstance = ApplicationData.Current.LocalSettings.Values.Get("OpenTabInExistingInstance", true);
-			var activatedArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
+
+			AppActivationArguments activatedArgs;
+			try
+			{
+				activatedArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
+			}
+			catch (COMException ex) when (ex.HResult == unchecked((int)0x80040154))
+			{
+				Windows.Win32.PInvoke.MessageBox(
+					default,
+					Constants.Startup.MissingRuntimeMessage,
+					Constants.Startup.MissingRuntimeTitle,
+					MESSAGEBOX_STYLE.MB_ICONERROR);
+
+				throw new InvalidOperationException(Constants.Startup.MissingRuntimeMessage, ex);
+			}
+
 			var commandLineArgs = GetCommandLineArgs(activatedArgs);
 
 			if (commandLineArgs is not null)

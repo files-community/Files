@@ -6,7 +6,9 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 using System.Collections.Specialized;
+using System.IO;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
 
 namespace Files.App.Controls
 {
@@ -90,9 +92,7 @@ namespace Files.App.Controls
 			HookupItemChangeListener(null, Item);
 			UpdateExpansionState();
 			ReevaluateSelection();
-
-			if (Item is not null)
-				Decorator = Item.ItemDecorator;
+			CanDrag = Item?.Path is string path && Path.IsPathRooted(path);
 		}
 
 		private void HookupOwners()
@@ -121,30 +121,49 @@ namespace Files.App.Controls
 		{
 			if (lastSubscriber != null)
 			{
-				lastSubscriber.PropertyChanged -= ItemPropertyChangedHandler;
 				if (lastSubscriber.Children is INotifyCollectionChanged observableCollection)
 					observableCollection.CollectionChanged -= ChildItems_CollectionChanged;
 			}
 
 			if (oldItem != null)
 			{
-				oldItem.PropertyChanged -= ItemPropertyChangedHandler;
 				if (oldItem.Children is INotifyCollectionChanged observableCollection)
 					observableCollection.CollectionChanged -= ChildItems_CollectionChanged;
 			}
 			if (newItem != null)
 			{
-				newItem.PropertyChanged += ItemPropertyChangedHandler;
 				lastSubscriber = newItem;
 				if (newItem.Children is INotifyCollectionChanged observableCollection)
 					observableCollection.CollectionChanged += ChildItems_CollectionChanged;
 			}
-			UpdateIcon();
 		}
 
 		private void SidebarItem_DragStarting(UIElement sender, DragStartingEventArgs args)
 		{
-			args.Data.SetData(StandardDataFormats.Text, Item!.Text.ToString());
+			if (Item?.Path is not string dragPath || !Path.IsPathRooted(dragPath))
+				return;
+
+			args.Data.SetData(StandardDataFormats.Text, dragPath);
+			args.Data.RequestedOperation = DataPackageOperation.Move | DataPackageOperation.Copy | DataPackageOperation.Link;
+			args.Data.SetDataProvider(StandardDataFormats.StorageItems, async request =>
+			{
+				var deferral = request.GetDeferral();
+				try
+				{
+					if (Directory.Exists(dragPath))
+					{
+						var folder = await StorageFolder.GetFolderFromPathAsync(dragPath);
+						request.SetData(new IStorageItem[] { folder });
+					}
+				}
+				catch
+				{
+				}
+				finally
+				{
+					deferral.Complete();
+				}
+			});
 		}
 
 		private void SetFlyoutOpen(bool isOpen = true)
@@ -169,14 +188,6 @@ namespace Files.App.Controls
 			if (DisplayMode == SidebarDisplayMode.Compact && !HasChildren)
 			{
 				SetFlyoutOpen(false);
-			}
-		}
-
-		void ItemPropertyChangedHandler(object? sender, PropertyChangedEventArgs args)
-		{
-			if (args.PropertyName == nameof(ISidebarItemModel.IconSource))
-			{
-				UpdateIcon();
 			}
 		}
 
@@ -275,13 +286,6 @@ namespace Files.App.Controls
 		{
 			VisualStateManager.GoToState(this, ShouldShowSelectionIndicator() ? "Selected" : "Unselected", true);
 			UpdatePointerState();
-		}
-
-		private void UpdateIcon()
-		{
-			Icon = Item?.IconSource?.CreateIconElement();
-			if (Icon is not null)
-				AutomationProperties.SetAccessibilityView(Icon, AccessibilityView.Raw);
 		}
 
 		private bool ShouldShowSelectionIndicator()
@@ -404,12 +408,7 @@ namespace Files.App.Controls
 				VisualStateManager.GoToState(this, "DragInsertBelow", true);
 			}
 
-			if (Owner is not null)
-			{
-				var deferral = e.GetDeferral();
-				await Owner.RaiseItemDragOver(this, insertsAbove, e);
-				deferral.Complete();
-			}
+			Owner?.RaiseItemDragOver(this, insertsAbove, e);
 		}
 
 		private void ItemBorder_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
@@ -423,11 +422,10 @@ namespace Files.App.Controls
 			UpdatePointerState();
 		}
 
-		private async void ItemBorder_Drop(object sender, DragEventArgs e)
+		private void ItemBorder_Drop(object sender, DragEventArgs e)
 		{
 			UpdatePointerState();
-			if (Owner is not null)
-				await Owner.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
+			Owner?.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
 		}
 
 		private SidebarItemDropPosition DetermineDropTargetPosition(DragEventArgs args)

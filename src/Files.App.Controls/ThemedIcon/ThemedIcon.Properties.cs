@@ -9,13 +9,13 @@ namespace Files.App.Controls
 	public partial class ThemedIcon : Control
 	{
 		[GeneratedDependencyProperty]
-		public partial string FilledIconData { get; set; }
+		public partial string? FilledIconData { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial string OutlineIconData { get; set; }
+		public partial string? OutlineIconData { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial Brush Color { get; set; }
+		public partial Brush? Color { get; set; }
 
 		[GeneratedDependencyProperty(DefaultValue = ThemedIconTypes.Layered)]
 		public partial ThemedIconTypes IconType { get; set; }
@@ -36,22 +36,22 @@ namespace Files.App.Controls
 		public partial bool IsHighContrast { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial object Layers { get; set; }
+		public partial object? Layers { get; set; }
 
 		[GeneratedDependencyProperty(DefaultValue = ToggleBehaviors.Auto)]
 		public partial ToggleBehaviors ToggleBehavior { get; set; }
 
-		partial void OnFilledIconDataChanged(string newValue)
+		partial void OnFilledIconDataChanged(string? newValue)
 		{
 			OnFilledIconChanged();
 		}
 
-		partial void OnOutlineIconDataChanged(string newValue)
+		partial void OnOutlineIconDataChanged(string? newValue)
 		{
 			OnOutlineIconChanged();
 		}
 
-		partial void OnColorChanged(Brush newValue)
+		partial void OnColorChanged(Brush? newValue)
 		{
 			OnIconTypeChanged();
 			OnIconColorChanged();
@@ -88,7 +88,7 @@ namespace Files.App.Controls
 			UpdateVisualStates();
 		}
 
-		partial void OnLayersChanged(object newValue)
+		partial void OnLayersChanged(object? newValue)
 		{
 			UpdateVisualStates();
 		}

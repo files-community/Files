@@ -40,17 +40,20 @@ namespace Files.App.Utils.FileTags
 				var result = Win32Helper.WriteStringToFile($"{filePath}:files", string.Join(',', tag));
 				if (result == false)
 				{
-					ContentDialog dialog = new()
+					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
-						Title = Strings.ErrorApplyingTagTitle.GetLocalizedResource(),
-						Content = Strings.ErrorApplyingTagContent.GetLocalizedResource(),
-						PrimaryButtonText = "Ok".GetLocalizedResource()
-					};
+						ContentDialog dialog = new()
+						{
+							Title = Strings.ErrorApplyingTagTitle.GetLocalizedResource(),
+							Content = Strings.ErrorApplyingTagContent.GetLocalizedResource(),
+							PrimaryButtonText = "Ok".GetLocalizedResource()
+						};
 
-					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-						dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+						if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+							dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
-					await dialog.TryShowAsync();
+						await dialog.TryShowAsync();
+					});
 				}
 			}
 			if (isReadOnly) // Restore read-only attribute (#7534)
@@ -104,6 +107,31 @@ namespace Files.App.Utils.FileTags
 					}
 				}
 			}
+		}
+
+		/// <summary>
+		/// Prompts the user for confirmation, then removes all tags from the given items that have tags.
+		/// </summary>
+		/// <returns>True if the user confirmed and tags were removed; otherwise false.</returns>
+		public static async Task<bool> RemoveTagsAsync(IEnumerable<ListedItem> items)
+		{
+			var itemsWithTags = items.Where(item => item.FileTags is { Length: > 0 }).ToList();
+			if (itemsWithTags.Count == 0)
+				return false;
+
+			var confirmed = await DialogDisplayHelper.ShowDialogAsync(
+				Strings.RemoveTags.GetLocalizedResource(),
+				Strings.ConfirmRemoveTagsDialogContent.GetLocalizedResource(),
+				Strings.Yes.GetLocalizedResource(),
+				Strings.Cancel.GetLocalizedResource());
+
+			if (!confirmed)
+				return false;
+
+			foreach (var item in itemsWithTags)
+				item.FileTags = [];
+
+			return true;
 		}
 
 		public static ulong? GetFileFRN(string filePath) => Win32Helper.GetFileFRN(filePath);

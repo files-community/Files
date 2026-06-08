@@ -40,6 +40,7 @@ namespace Files.App.Data.Items
 		/// </summary>
 		public int MinHeight { get; }
 
+		/// <summary>
 		private bool _IsMaximizable = true;
 		/// <summary>
 		/// Gets or sets a value that indicates whether this <see cref="Window"/> can be maximizable.

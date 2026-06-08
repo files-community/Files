@@ -30,6 +30,10 @@ namespace Files.App.Utils
 
 		public StorageItemTypes PrimaryItemAttribute { get; set; }
 
+		public byte[]? PreloadedIconData { get; set; }
+
+		public bool NeedsDelayedThumbnailLoad { get; set; }
+
 		private volatile int itemPropertiesInitialized = 0;
 		public bool ItemPropertiesInitialized
 		{
@@ -49,6 +53,8 @@ namespace Files.App.Utils
 					tooltipBuilder.Append($"{Environment.NewLine}{Strings.SizeLabel.GetLocalizedResource()} {FileSize}");
 				if (!string.IsNullOrWhiteSpace(ImageDimensions))
 					tooltipBuilder.Append($"{Environment.NewLine}{Strings.PropertyDimensionsColon.GetLocalizedResource()} {ImageDimensions}");
+				if (!string.IsNullOrWhiteSpace(MediaDuration))
+					tooltipBuilder.Append($"{Environment.NewLine}{Strings.PropertyDuration.GetLocalizedResource()}: {MediaDuration}");
 				if (SyncStatusUI.LoadSyncStatus)
 					tooltipBuilder.Append($"{Environment.NewLine}{Strings.StatusWithColon.GetLocalizedResource()} {syncStatusUI.SyncStatusString}");
 
@@ -281,11 +287,26 @@ namespace Files.App.Utils
 
 		public long FileSizeBytes { get; set; }
 
-		public string ItemDateModified { get; private set; }
+		private string itemDateModified;
+		public string ItemDateModified
+		{
+			get => itemDateModified;
+			private set => SetProperty(ref itemDateModified, value);
+		}
 
-		public string ItemDateCreated { get; private set; }
+		private string itemDateCreated;
+		public string ItemDateCreated
+		{
+			get => itemDateCreated;
+			private set => SetProperty(ref itemDateCreated, value);
+		}
 
-		public string ItemDateAccessed { get; private set; }
+		private string itemDateAccessed;
+		public string ItemDateAccessed
+		{
+			get => itemDateAccessed;
+			private set => SetProperty(ref itemDateAccessed, value);
+		}
 
 		private DateTimeOffset itemDateModifiedReal;
 		public DateTimeOffset ItemDateModifiedReal
@@ -295,7 +316,6 @@ namespace Files.App.Utils
 			{
 				ItemDateModified = dateTimeFormatter.ToShortLabel(value);
 				itemDateModifiedReal = value;
-				OnPropertyChanged(nameof(ItemDateModified));
 			}
 		}
 
@@ -307,7 +327,6 @@ namespace Files.App.Utils
 			{
 				ItemDateCreated = dateTimeFormatter.ToShortLabel(value);
 				itemDateCreatedReal = value;
-				OnPropertyChanged(nameof(ItemDateCreated));
 			}
 		}
 
@@ -319,7 +338,6 @@ namespace Files.App.Utils
 			{
 				ItemDateAccessed = dateTimeFormatter.ToShortLabel(value);
 				itemDateAccessedReal = value;
-				OnPropertyChanged(nameof(ItemDateAccessed));
 			}
 		}
 
@@ -452,6 +470,17 @@ namespace Files.App.Utils
 
 		public string Key { get; set; }
 
+		public virtual bool IsRealChanges =>  ItemDateAccessed != dateTimeFormatter.ToShortLabel(ItemDateAccessedReal)
+			|| ItemDateCreated != dateTimeFormatter.ToShortLabel(ItemDateCreatedReal)
+			|| ItemDateModified != dateTimeFormatter.ToShortLabel(ItemDateModifiedReal);
+
+		public virtual void UpdateReal()
+		{
+			ItemDateAccessed = dateTimeFormatter.ToShortLabel(ItemDateAccessedReal);
+			ItemDateCreated = dateTimeFormatter.ToShortLabel(ItemDateCreatedReal);
+			ItemDateModified = dateTimeFormatter.ToShortLabel(ItemDateModifiedReal);
+		}
+
 		/// <summary>
 		/// Manually check if a folder path contains child items,
 		/// updating the ContainsFilesOrFolders property from its default value of true
@@ -468,7 +497,15 @@ namespace Files.App.Utils
 		{
 		}
 
-		public string ItemDateDeleted { get; private set; }
+		private string itemDateDeleted;
+		public string ItemDateDeleted
+		{
+			get => itemDateDeleted;
+			private set
+			{
+				SetProperty(ref itemDateDeleted, value);
+			}
+		}
 
 		public DateTimeOffset ItemDateDeletedReal
 		{
@@ -478,6 +515,17 @@ namespace Files.App.Utils
 				ItemDateDeleted = dateTimeFormatter.ToShortLabel(value);
 				itemDateDeletedReal = value;
 			}
+		}
+
+
+		public override bool IsRealChanges => base.IsRealChanges
+			|| ItemDateDeleted != dateTimeFormatter.ToShortLabel(ItemDateDeletedReal);
+
+		public override void UpdateReal()
+		{
+			base.UpdateReal();
+
+			ItemDateDeleted = dateTimeFormatter.ToShortLabel(ItemDateDeletedReal);
 		}
 
 		private DateTimeOffset itemDateDeletedReal;
@@ -661,8 +709,24 @@ namespace Files.App.Utils
 			set
 			{
 				SetProperty(ref _GitLastCommitDate, value);
-				GitLastCommitDateHumanized = value is DateTimeOffset dto ? dateTimeFormatter.ToShortLabel(dto) : "";
+				GitLastCommitDateHumanized = CreateGitLastCommitDateHumanized(value);
 			}
+		}
+
+
+		public override bool IsRealChanges => base.IsRealChanges
+			|| GitLastCommitDateHumanized != CreateGitLastCommitDateHumanized(GitLastCommitDate);
+
+		public override void UpdateReal()
+		{
+			base.UpdateReal();
+
+			GitLastCommitDateHumanized = CreateGitLastCommitDateHumanized(GitLastCommitDate);
+		}
+
+		private string CreateGitLastCommitDateHumanized(DateTimeOffset? dateTimeOffset)
+		{
+			return dateTimeOffset is DateTimeOffset dto ? dateTimeFormatter.ToShortLabel(dto) : "";
 		}
 
 		private string? _GitLastCommitDateHumanized;
@@ -702,80 +766,6 @@ namespace Files.App.Utils
 	}
 	public sealed partial class GitShortcutItem : GitItem, IShortcutItem
 	{
-		private volatile int statusPropertiesInitialized = 0;
-		public bool StatusPropertiesInitialized
-		{
-			get => statusPropertiesInitialized == 1;
-			set => Interlocked.Exchange(ref statusPropertiesInitialized, value ? 1 : 0);
-		}
-
-		private volatile int commitPropertiesInitialized = 0;
-		public bool CommitPropertiesInitialized
-		{
-			get => commitPropertiesInitialized == 1;
-			set => Interlocked.Exchange(ref commitPropertiesInitialized, value ? 1 : 0);
-		}
-
-		private Style? _UnmergedGitStatusIcon;
-		public Style? UnmergedGitStatusIcon
-		{
-			get => _UnmergedGitStatusIcon;
-			set => SetProperty(ref _UnmergedGitStatusIcon, value);
-		}
-
-		private string? _UnmergedGitStatusName;
-		public string? UnmergedGitStatusName
-		{
-			get => _UnmergedGitStatusName;
-			set => SetProperty(ref _UnmergedGitStatusName, value);
-		}
-
-		private DateTimeOffset? _GitLastCommitDate;
-		public DateTimeOffset? GitLastCommitDate
-		{
-			get => _GitLastCommitDate;
-			set
-			{
-				SetProperty(ref _GitLastCommitDate, value);
-				GitLastCommitDateHumanized = value is DateTimeOffset dto ? dateTimeFormatter.ToShortLabel(dto) : "";
-			}
-		}
-
-		private string? _GitLastCommitDateHumanized;
-		public string? GitLastCommitDateHumanized
-		{
-			get => _GitLastCommitDateHumanized;
-			set => SetProperty(ref _GitLastCommitDateHumanized, value);
-		}
-
-		private string? _GitLastCommitMessage;
-		public string? GitLastCommitMessage
-		{
-			get => _GitLastCommitMessage;
-			set => SetProperty(ref _GitLastCommitMessage, value);
-		}
-
-		private string? _GitCommitAuthor;
-		public string? GitLastCommitAuthor
-		{
-			get => _GitCommitAuthor;
-			set => SetProperty(ref _GitCommitAuthor, value);
-		}
-
-		private string? _GitLastCommitSha;
-		public string? GitLastCommitSha
-		{
-			get => _GitLastCommitSha;
-			set => SetProperty(ref _GitLastCommitSha, value);
-		}
-
-		private string? _GitLastCommitFullSha;
-		public string? GitLastCommitFullSha
-		{
-			get => _GitLastCommitFullSha;
-			set => SetProperty(ref _GitLastCommitFullSha, value);
-		}
-
 		public string TargetPath { get; set; }
 
 		public override string Name
@@ -810,23 +800,15 @@ namespace Files.App.Utils
 		public string? GitLastCommitSha { get; set; }
 
 		public string? GitLastCommitFullSha { get; set; }
-
-		public string ItemPath
-		{
-			get;
-			set;
-		}
 	}
 	public interface IShortcutItem : IListedItem
 	{
 		public string TargetPath { get; set; }
-		public string Name { get; }
 		public string Arguments { get; set; }
 		public string WorkingDirectory { get; set; }
 		public bool RunAsAdmin { get; set; }
 		public SHOW_WINDOW_CMD ShowWindowCommand { get; set; }
 		public bool IsUrl { get; set; }
 		public bool IsSymLink { get; set; }
-		public bool IsExecutable { get; }
 	}
 }

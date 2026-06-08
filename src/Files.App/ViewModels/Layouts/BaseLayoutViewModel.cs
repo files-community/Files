@@ -20,7 +20,7 @@ namespace Files.App.ViewModels.Layouts
 	/// </summary>
 	public sealed partial class BaseLayoutViewModel : IDisposable
 	{
-		protected ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		private ILogger? Logger { get; } = Ioc.Default.GetRequiredService<ILogger<App>>();
 
 		private readonly IShellPage _associatedInstance;
@@ -51,7 +51,7 @@ namespace Files.App.ViewModels.Layouts
 
 		private void CreateNewFile(ShellNewEntry f)
 		{
-			UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.File, f, _associatedInstance);
+			_ = UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.File, f, _associatedInstance);
 		}
 
 		private async Task ItemPointerPressedAsync(PointerRoutedEventArgs e)
@@ -205,6 +205,15 @@ namespace Files.App.ViewModels.Layouts
 
 		public async Task DropAsync(DragEventArgs e)
 		{
+			if (e is null)
+				return;
+
+			if (e.DataView is null)
+			{
+				e.AcceptedOperation = DataPackageOperation.None;
+				return;
+			}
+
 			e.Handled = true;
 			if (e.DataView.Contains(StandardDataFormats.Uri) && await e.DataView.GetUriAsync() is { } uri)
 			{
@@ -242,7 +251,9 @@ namespace Files.App.ViewModels.Layouts
 							new MenuFlyoutItem() { Text = string.Format(Strings.CopyToFolderCaptionText.GetLocalizedResource(), folderName), Command = new AsyncRelayCommand(async ct =>
 								await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Copy, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true)) },
 							new MenuFlyoutItem() { Text = string.Format(Strings.MoveToFolderCaptionText.GetLocalizedResource(), folderName), Command = new AsyncRelayCommand(async ct =>
-								await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Move, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true)) }
+								await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Move, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true)) },
+							new MenuFlyoutItem() { Text = string.Format(Strings.LinkToFolderCaptionText.GetLocalizedResource(), folderName), Command = new AsyncRelayCommand(async ct =>
+								await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Link, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true)) }
 						}
 					};
 

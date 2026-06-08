@@ -19,7 +19,7 @@ using Windows.UI.Core;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public sealed partial class SidebarViewModel : ObservableObject, IDisposable, ISidebarViewModel
+	public sealed partial class SidebarViewModel : ObservableObject, IDisposable
 	{
 		private INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
@@ -44,6 +44,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public object SidebarItems => sidebarItems;
 		public BulkConcurrentObservableCollection<INavigationControlItem> sidebarItems { get; init; }
+		public LocationItem SettingsSidebarItem { get; }
 		public PinnedFoldersManager SidebarPinnedModel => App.QuickAccessManager.Model;
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
@@ -114,6 +115,9 @@ namespace Files.App.ViewModels.UserControls
 
 			if (item is null && value == "Home")
 				item = filteredItems.FirstOrDefault(x => x.Path.Equals("Home"));
+
+			if (item is null && value == "Settings")
+				item = SettingsSidebarItem;
 
 			if (SidebarSelectedItem != item)
 				SidebarSelectedItem = item;
@@ -241,6 +245,15 @@ namespace Files.App.ViewModels.UserControls
 			dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
 			fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
 
+			SettingsSidebarItem = new LocationItem()
+			{
+				Text = Strings.Settings.GetLocalizedResource(),
+				Path = "Settings",
+				Section = SectionType.Library,
+				MenuOptions = new ContextMenuOptions() { IsLocationItem = true },
+				SelectsOnInvoked = true,
+				ChildItems = null
+			};
 			sidebarItems = [];
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			CreateItemHomeAsync();
@@ -277,6 +290,9 @@ namespace Files.App.ViewModels.UserControls
 
 		private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
+			if (dispatcherQueue is null)
+				return;
+
 			await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
 				var sectionType = (SectionType)sender;
@@ -691,6 +707,8 @@ namespace Files.App.ViewModels.UserControls
 			NetworkService.Computers.CollectionChanged -= Manager_DataChangedForNetworkComputers;
 			WSLDistroManager.DataChanged -= Manager_DataChanged;
 			App.FileTagsManager.DataChanged -= Manager_DataChanged;
+
+			dispatcherQueue = null;
 		}
 
 		public void UpdateTabControlMargin()
@@ -736,13 +754,25 @@ namespace Files.App.ViewModels.UserControls
 
 			var itemContextMenuFlyout = new CommandBarFlyout()
 			{
-				Placement = FlyoutPlacementMode.Full
+				Placement = FlyoutPlacementMode.Right,
+				AlwaysExpanded = true
 			};
 
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 
 			var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
-			var (_, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
+			var (primaryElements, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
+
+			// Workaround for WinUI (#5508) - AppBarButtons don't auto-close CommandBarFlyout
+			var closeHandler = new RoutedEventHandler((s, e) => itemContextMenuFlyout.Hide());
+			primaryElements
+				.OfType<AppBarButton>()
+				.ForEach(button => button.Click += closeHandler);
+			primaryElements
+				.OfType<AppBarToggleButton>()
+				.ForEach(button => button.Click += closeHandler);
+
+			primaryElements.ForEach(itemContextMenuFlyout.PrimaryCommands.Add);
 
 			secondaryElements
 				.OfType<FrameworkElement>()
@@ -775,6 +805,19 @@ namespace Files.App.ViewModels.UserControls
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var middleClickPressed = pointerUpdateKind == PointerUpdateKind.MiddleButtonReleased;
+			if (string.Equals(navigationControlItem.Path, "Settings", StringComparison.OrdinalIgnoreCase))
+			{
+				if (ctrlPressed || middleClickPressed)
+				{
+					_ = NavigationHelpers.OpenPathInNewTab("Settings");
+					return;
+				}
+
+				if (PaneHolder?.ActivePane is IShellPage settingsShellPage)
+					settingsShellPage.NavigateToSettings();
+				return;
+			}
+
 			if ((ctrlPressed ||
 				middleClickPressed) &&
 				navigationControlItem.Path is not null)
@@ -941,6 +984,7 @@ namespace Files.App.ViewModels.UserControls
 		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, CommandBarFlyout menu)
 		{
 			var options = item.MenuOptions;
+			var isSettingsItem = string.Equals(item.Path, "Settings", StringComparison.OrdinalIgnoreCase);
 
 			var pinnedFolderModel = App.QuickAccessManager.Model;
 			var pinnedFolderIndex = pinnedFolderModel.IndexOfItem(item);
@@ -989,6 +1033,27 @@ namespace Files.App.ViewModels.UserControls
 				{
 					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && Commands.OpenInNewPaneFromSidebar.IsExecutable
 				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.CopyItemFromSidebar)
+				{
+					IsPrimary = true,
+					IsVisible = Commands.CopyItemFromSidebar.IsExecutable
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenSettingsFile)
+				{
+					IsVisible = isSettingsItem
+				}.Build(),
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = Strings.Properties.GetLocalizedResource(),
+					ThemedIconModel = new ThemedIconModel()
+					{
+						ThemedIconStyle = "App.ThemedIcons.Properties",
+					},
+					Command = OpenPropertiesCommand,
+					CommandParameter = menu,
+					IsPrimary = true,
+					ShowItem = options.ShowProperties
+				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = Strings.PinFolderToSidebar.GetLocalizedResource(),
@@ -1028,17 +1093,6 @@ namespace Files.App.ViewModels.UserControls
 					Text = Strings.Eject.GetLocalizedResource(),
 					Command = EjectDeviceCommand,
 					ShowItem = options.ShowEjectDevice
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = Strings.Properties.GetLocalizedResource(),
-					ThemedIconModel = new ThemedIconModel()
-					{
-						ThemedIconStyle = "App.ThemedIcons.Properties",
-					},
-					Command = OpenPropertiesCommand,
-					CommandParameter = menu,
-					ShowItem = options.ShowProperties
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{

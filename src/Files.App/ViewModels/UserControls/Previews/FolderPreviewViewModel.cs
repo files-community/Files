@@ -9,6 +9,7 @@ namespace Files.App.ViewModels.Previews
 {
 	public sealed class FolderPreviewViewModel
 	{
+		private readonly InfoPaneViewModel infoPaneViewModel = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
 		public ListedItem Item { get; }
 
 		public BitmapImage Thumbnail { get; set; } = new();
@@ -36,17 +37,17 @@ namespace Files.App.ViewModels.Previews
 			if (result is not null)
 				Thumbnail = await result.ToBitmapAsync();
 
-			// If the selected item is the root of a drive (e.g. "C:\")
+			// If the selected item is the root of a drive (e.g. "C:\") or a cloud drive,
 			// we do not need to load the properties below, since they will not be shown.
 			// Drive properties will be obtained through the DrivesViewModel service.
-			if (Item.IsDriveRoot)
+			if (Item.IsDriveRoot || infoPaneViewModel?.SelectedDriveItem is not null)
 				return;
 
 			var info = await Folder.GetBasicPropertiesAsync();
 
 			Item.FileDetails =
 			[
-				GetFileProperty("PropertyItemCount", items.Count),
+				GetFileProperty("PropertyItemCount", infoPaneViewModel?.DirectoryItemCount),
 				GetFileProperty("PropertyDateModified", info.DateModified),
 				GetFileProperty("PropertyDateCreated", info.DateCreated),
 				GetFileProperty("PropertyParsingPath", Folder.Path),

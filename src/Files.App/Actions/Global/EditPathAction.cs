@@ -15,6 +15,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.EditPathDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Open;
+
 		public HotKey HotKey
 			=> new(Keys.L, KeyModifiers.Ctrl);
 
@@ -32,7 +35,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.ShellPage is not null)
-				context.ShellPage!.ToolbarViewModel.SwitchToPathMode();
+				_ = context.ShellPage!.ToolbarViewModel.SwitchToPathMode();
 
 			return Task.CompletedTask;
 		}

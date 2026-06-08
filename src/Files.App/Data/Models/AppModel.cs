@@ -36,10 +36,10 @@ namespace Files.App.Data.Models
 			get => _TabStripSelectedIndex;
 			set
 			{
-				SetProperty(ref _TabStripSelectedIndex, value);
-
 				try
 				{
+					SetProperty(ref _TabStripSelectedIndex, value);
+
 					if (value >= 0 && value < MainPageViewModel.AppInstances.Count)
 					{
 						if (MainWindow.Instance.Content is Frame rootFrame && rootFrame.Content is MainPage mainView)

@@ -29,7 +29,7 @@ namespace Files.App.Views.Shells
 			DependencyProperty.Register(
 				"NavParams",
 				typeof(NavigationParams),
-				typeof(ModernShellPage),
+				typeof(BaseShellPage),
 				new PropertyMetadata(null));
 
 		public StorageHistoryHelpers StorageHistoryHelpers { get; }
@@ -154,7 +154,7 @@ namespace Files.App.Views.Shells
 
 		public virtual Task WhenIsCurrent() => _IsCurrentInstanceTCS.Task;
 
-		public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		public event EventHandler<TabBarItemParameter> ContentChanged;
 
@@ -170,7 +170,7 @@ namespace Files.App.Views.Shells
 
 			InitToolbarCommands();
 
-			DisplayFilesystemConsentDialogAsync();
+			_ = DisplayFilesystemConsentDialogAsync();
 
 			if (AppLanguageHelper.IsPreferredLanguageRtl)
 				FlowDirection = FlowDirection.RightToLeft;
@@ -266,6 +266,7 @@ namespace Files.App.Views.Shells
 			}
 
 			contentPage.StatusBarViewModel.DirectoryItemCount = $"{ShellViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
+			contentPage.InfoPaneViewModel.DirectoryItemCount = $"{ShellViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
 			contentPage.UpdateSelectionSize();
 		}
 
@@ -391,6 +392,9 @@ namespace Files.App.Views.Shells
 		// the updated, most-current path and add them to the UI.
 		public async Task UpdatePathUIToWorkingDirectoryAsync(string newWorkingDir, string singleItemOverride = null)
 		{
+			if (ToolbarViewModel?.PathComponents is null)
+				return;
+
 			if (string.IsNullOrWhiteSpace(singleItemOverride))
 			{
 				cts = new CancellationTokenSource();
@@ -401,24 +405,38 @@ namespace Files.App.Views.Shells
 				if (cts.IsCancellationRequested)
 					return;
 
-				ToolbarViewModel.PathComponents.Clear();
-				foreach (var component in components)
-					ToolbarViewModel.PathComponents.Add(component);
+				// Guard against a rare race where a native CollectionChanged subscriber (e.g. the
+				// bound BreadcrumbBar) is in a torn-down state during navigation and throws NRE.
+				try
+				{
+					ToolbarViewModel.PathComponents.Clear();
+					foreach (var component in components)
+						ToolbarViewModel.PathComponents.Add(component);
+				}
+				catch (NullReferenceException)
+				{
+				}
 			}
 			else
 			{
 				cts?.Cancel();
 
-				// Clear the path UI
-				ToolbarViewModel.PathComponents.Clear();
-				ToolbarViewModel.IsSingleItemOverride = true;
-				ToolbarViewModel.PathComponents.Add(
-					new()
-					{
-						Path = null,
-						Title = singleItemOverride,
-						ChevronToolTip = string.Format(Strings.BreadcrumbBarChevronButtonToolTip.GetLocalizedResource(), singleItemOverride),
-					});
+				try
+				{
+					// Clear the path UI
+					ToolbarViewModel.PathComponents.Clear();
+					ToolbarViewModel.IsSingleItemOverride = true;
+					ToolbarViewModel.PathComponents.Add(
+						new()
+						{
+							Path = null,
+							Title = singleItemOverride,
+							ChevronToolTip = string.Format(Strings.BreadcrumbBarChevronButtonToolTip.GetLocalizedResource(), singleItemOverride),
+						});
+				}
+				catch (NullReferenceException)
+				{
+				}
 			}
 		}
 
@@ -603,7 +621,7 @@ namespace Files.App.Views.Shells
 						// Remove the WorkingDir from previous dir
 						e.PreviousDirectory = e.PreviousDirectory.Replace(e.Path, string.Empty, StringComparison.Ordinal);
 
-						var isNetwork = e.Path.StartsWith("\\\\");
+						var isNetwork = e.Path.StartsWith("\\\\", StringComparison.Ordinal);
 						var isFtp = FtpHelpers.IsFtpPath(e.Path);
 						var separator = isFtp ? "/" : "\\";
 
@@ -664,7 +682,7 @@ namespace Files.App.Views.Shells
 		protected void InitToolbarCommands()
 		{
 			ToolbarViewModel.OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelpers.LaunchNewWindowAsync);
-			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.File, x, this));
+			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => _ = UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.File, x, this));
 			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdatesAsync());
 		}
 
@@ -745,6 +763,8 @@ namespace Files.App.Views.Shells
 
 		public abstract void NavigateToReleaseNotes();
 
+		public abstract void NavigateToSettings(string? selectItem = null);
+
 		public abstract void NavigateToPath(string? navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null);
 
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)
@@ -755,11 +775,11 @@ namespace Files.App.Views.Shells
 			if (userSettingsService.GeneralSettingsService.DateTimeFormat != _lastDateTimeFormats)
 			{
 				_lastDateTimeFormats = userSettingsService.GeneralSettingsService.DateTimeFormat;
-				ShellViewModel?.UpdateDateDisplay(true);
+				ShellViewModel?.UpdateDateDisplay();
 			}
 			else if (userSettingsService.GeneralSettingsService.DateTimeFormat == DateTimeFormats.Application)
 			{
-				ShellViewModel?.UpdateDateDisplay(false);
+				ShellViewModel?.UpdateDateDisplay();
 			}
 		}
 

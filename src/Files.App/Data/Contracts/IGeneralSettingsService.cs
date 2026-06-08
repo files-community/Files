@@ -206,6 +206,16 @@ namespace Files.App.Data.Contracts
 		bool ShowEditTagsMenu { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to pin to the sidebar.
+		/// </summary>
+		bool ShowPinToSideBar { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to pin to the start menu.
+		/// </summary>
+		bool ShowPinToStart { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating whether or not to show the option to open folders in a new tab.
 		/// </summary>
 		bool ShowOpenInNewTab { get; set; }
@@ -291,6 +301,16 @@ namespace Files.App.Data.Contracts
 		ArchiveSplittingSizes ArchiveSplittingSizesOption { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating the default archive dictionary size for 7z.
+		/// </summary>
+		ArchiveDictionarySizes ArchiveDictionarySizesOption { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating the default archive word size for 7z.
+		/// </summary>
+		ArchiveWordSizes ArchiveWordSizesOption { get; set; }
+
+		/// <summary>
 		/// A dictionary to determine which hashes should be shown.
 		/// </summary>
 		Dictionary<string, bool> ShowHashesDictionary { get; set; }
@@ -314,5 +334,19 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value whether the filter header should be displayed.
 		/// </summary>
 		bool ShowFilterHeader { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether thumbnail cache should be enabled.
+		/// </summary>
+		bool EnableThumbnailCache { get; set; }
+
+		/// <summary>
+		/// Gets or sets the thumbnail cache size limit in MB.
+		/// </summary>
+		double ThumbnailCacheSizeLimit { get; set; }
+    
+		/// Gets or sets a value indicating whether smooth scrolling is enabled.
+		/// </summary>
+		bool EnableSmoothScrolling { get; set; }
 	}
 }

@@ -18,7 +18,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
     environment: Deployments
     strategy:
       fail-fast: false
@@ -32,23 +32,22 @@ jobs:
       APPX_BUNDLE_PLATFORMS:      'x64|arm64'
       WORKING_DIR:                '${{ github.workspace }}' # D:\a\Files\Files\
       ARTIFACTS_STAGING_DIR:      '${{ github.workspace }}\artifacts'
-      APPX_PACKAGE_DIR:           '${{ github.workspace }}\artifacts\AppxPackages'
-      PACKAGE_PROJECT_DIR:        'src\Files.App (Package)'
-      PACKAGE_PROJECT_PATH:       'src\Files.App (Package)\Files.Package.wapproj'
-      PACKAGE_MANIFEST_PATH:      'src\Files.App (Package)\Package.appxmanifest'
+      APPX_PACKAGE_DIR:           '${{ github.workspace }}\artifacts\AppxPackages\'
+      APP_PROJECT_PATH:           'src\Files.App\Files.App.csproj'
+      PACKAGE_MANIFEST_PATH:      'src\Files.App\Package.appxmanifest'
       LAUNCHER_PROJECT_PATH:      'src\Files.App.Launcher\Files.App.Launcher.vcxproj'
       TEST_PROJECT_PATH:          'tests\Files.InteractionTests\Files.InteractionTests.csproj'
       APP_INSTALLER_SIDELOAD_URL: 'https://cdn.files.community/files/stable/'
 
     steps:
     - name: Checkout the repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v2
+      uses: microsoft/setup-msbuild@v3
     - name: Setup NuGet
-      uses: NuGet/setup-nuget@v2
+      uses: NuGet/setup-nuget@v3
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         global-json-file: global.json
 
@@ -68,11 +67,6 @@ jobs:
         SECRET_BINGMAPS_KEY: ${{ secrets.BING_MAPS_SECRET }}
         SECRET_SENTRY: ${{ secrets.SENTRY_SECRET }}
         SECRET_GITHUB_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
-  
-    - name: Use Windows SDK Preview
-      shell: cmd
-      run: |
-        for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
 
     - name: Restore Files
       shell: pwsh
@@ -90,7 +84,7 @@ jobs:
         nuget restore "$env:LAUNCHER_PROJECT_PATH" `
           -SolutionDirectory "$env:WORKING_DIR" `
           -Verbosity detailed
-    
+
     - name: Build launcher project
       shell: pwsh
       run: |
@@ -100,42 +94,74 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -v:quiet
 
-    - name: Build & package Files
+    - name: Hide NuGet.Config from signing action
       shell: pwsh
-      run: |
-        msbuild "$env:PACKAGE_PROJECT_PATH" `
-        -t:Build `
-        -t:_GenerateAppxPackage `
-        -p:Platform=$env:PLATFORM `
-        -p:Configuration=$env:CONFIGURATION `
-        -p:AppxBundlePlatforms=$env:APPX_BUNDLE_PLATFORMS `
-        -p:AppxPackageDir="$env:APPX_PACKAGE_DIR" `
-        -p:AppxBundle=Always `
-        -p:UapAppxPackageBuildMode=Sideload `
-        -p:GenerateAppInstallerFile=True `
-        -p:AppInstallerUri=$env:APP_INSTALLER_SIDELOAD_URL `
-        -v:quiet
+      run: Move-Item NuGet.Config NuGet.Config.bak
 
-    - name: Remove empty files from the packages
-      shell: bash
-      run: find $ARTIFACTS_STAGING_DIR -empty -delete
-
-    - name: Update appinstaller schema
-      run: |
-        $newSchema = "http://schemas.microsoft.com/appx/appinstaller/2018"
-        $localFilePath = "${{ env.APPX_PACKAGE_DIR }}/Files.Package.appinstaller"
-        $fileContent = Get-Content $localFilePath
-        $fileContent = $fileContent.Replace("http://schemas.microsoft.com/appx/appinstaller/2017/2", $newSchema)
-        $fileContent | Set-Content $localFilePath
-
-    - name: Sign Files with Azure Trusted Signing
-      uses: azure/trusted-signing-action@v0.4.0
+    - name: Sign launcher EXE with Azure Trusted Signing
+      uses: Azure/artifact-signing-action@v1
       with:
         azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
         azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
         endpoint: https://eus.codesigning.azure.net/
-        trusted-signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
+        signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
+        certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
+        files-folder: ${{ github.workspace }}\src\Files.App\Assets\FilesOpenDialog
+        files-folder-filter: "*.exe"
+        files-folder-recurse: false
+        file-digest: SHA256
+        timestamp-rfc3161: http://timestamp.acs.microsoft.com
+        timestamp-digest: SHA256
+
+    - name: Restore NuGet.Config
+      if: always()
+      shell: pwsh
+      run: Move-Item NuGet.Config.bak NuGet.Config
+
+    - name: Build & package Files
+      shell: pwsh
+      run: |
+        $platforms = "$env:APPX_BUNDLE_PLATFORMS" -split '\|'
+        foreach ($plat in $platforms) {
+          Write-Host "Building for $plat..."
+          msbuild "$env:APP_PROJECT_PATH" `
+            -t:Build `
+            -p:Platform=$plat `
+            -p:Configuration=$env:CONFIGURATION `
+            -p:AppxPackageDir="$env:APPX_PACKAGE_DIR" `
+            -p:AppxBundle=Never `
+            -p:GenerateAppxPackageOnBuild=true `
+            -p:UapAppxPackageBuildMode=Sideload `
+            -v:quiet
+        }
+
+    - name: Create msixbundle and appinstaller
+      shell: pwsh
+      run: |
+        . './.github/scripts/Create-MsixBundle.ps1' `
+          -AppxPackageDir "$env:APPX_PACKAGE_DIR" `
+          -BundleName "Files.Package" `
+          -PackageManifestPath "$env:PACKAGE_MANIFEST_PATH" `
+          -AppInstallerUri "$env:APP_INSTALLER_SIDELOAD_URL" `
+          -BuildMode "Sideload"
+
+    - name: Remove empty files from the packages
+      shell: bash
+      run: find $ARTIFACTS_STAGING_DIR -empty -delete
+
+    - name: Hide NuGet.Config from signing action
+      shell: pwsh
+      run: Move-Item NuGet.Config NuGet.Config.bak
+
+    - name: Sign Files with Azure Trusted Signing
+      uses: Azure/artifact-signing-action@v1
+      with:
+        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+        endpoint: https://eus.codesigning.azure.net/
+        signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
         certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
         files-folder: ${{ env.APPX_PACKAGE_DIR }}
         files-folder-filter: msixbundle
@@ -144,6 +170,11 @@ jobs:
         file-digest: SHA256
         timestamp-rfc3161: http://timestamp.acs.microsoft.com
         timestamp-digest: SHA256
+
+    - name: Restore NuGet.Config
+      if: always()
+      shell: pwsh
+      run: Move-Item NuGet.Config.bak NuGet.Config
 
     - name: Upload packages to Cloudflare
       uses: ryand56/r2-upload-action@latest
@@ -154,9 +185,9 @@ jobs:
         r2-bucket: ${{ secrets.R2_BUCKET }}
         source-dir: ${{ env.APPX_PACKAGE_DIR }}
         destination-dir: ./files/stable
-          
+
     - name: Upload the packages to GitHub Actions
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}

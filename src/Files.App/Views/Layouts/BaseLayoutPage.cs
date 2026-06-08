@@ -372,6 +372,8 @@ namespace Files.App.Views.Layouts
 
 				if (layoutType != ParentShellPageInstance.CurrentPageType)
 				{
+					FolderSettings!.PendingLayoutSwitchSelection = SelectedItems?.Select(item => item.ItemNameRaw).ToList();
+
 					ParentShellPageInstance.NavigateWithArguments(layoutType, new NavigationArguments()
 					{
 						NavPathParam = navigationArguments!.NavPathParam,
@@ -516,13 +518,27 @@ namespace Files.App.Views.Layouts
 		{
 			try
 			{
+				// Consume synchronously so a concurrent navigation can't capture the pending value
+				IEnumerable<string>? layoutSwitchSelection = null;
+				if (navigationArguments is not null && navigationArguments.IsLayoutSwitch && FolderSettings is not null)
+				{
+					layoutSwitchSelection = FolderSettings.PendingLayoutSwitchSelection;
+					FolderSettings.PendingLayoutSwitchSelection = null;
+				}
+
+				// Delay to ensure the new layout is loaded
+				if (navigationArguments is not null && navigationArguments.IsLayoutSwitch)
+					await Task.Delay(100);
+
+				var itemsToSelect = layoutSwitchSelection ?? navigationArguments?.SelectItems;
+
 				if (navigationArguments is not null &&
-					navigationArguments.SelectItems is not null &&
-					navigationArguments.SelectItems.Any())
+					itemsToSelect is not null &&
+					itemsToSelect.Any())
 				{
 					List<ListedItem> listedItemsToSelect =
 					[
-						.. ParentShellPageInstance!.ShellViewModel.FilesAndFolders.ToList().Where((li) => navigationArguments.SelectItems.Contains(li.ItemNameRaw)),
+						.. ParentShellPageInstance!.ShellViewModel.FilesAndFolders.ToList().Where((li) => itemsToSelect.Contains(li.ItemNameRaw)),
 					];
 
 					ItemManipulationModel.SetSelectedItems(listedItemsToSelect);
@@ -530,10 +546,6 @@ namespace Files.App.Views.Layouts
 				}
 				else if (navigationArguments is not null && ParentShellPageInstance!.InstanceViewModel.FolderSettings.LayoutMode is not FolderLayoutModes.ColumnView)
 				{
-					// Delay to ensure the new layout is loaded
-					if (navigationArguments.IsLayoutSwitch)
-						await Task.Delay(100);
-
 					// Focus on the active pane in case it was lost during navigation
 					ParentShellPageInstance!.PaneHolder.FocusActivePane();
 				}
@@ -1206,6 +1218,7 @@ namespace Files.App.Views.Layouts
 
 		private void RefreshContainer(SelectorItem container, bool inRecycleQueue)
 		{
+			container.Loaded -= FileListItem_Loaded;
 			container.PointerPressed -= FileListItem_PointerPressed;
 			container.PointerEntered -= FileListItem_PointerEntered;
 			container.PointerExited -= FileListItem_PointerExited;
@@ -1219,6 +1232,7 @@ namespace Files.App.Views.Layouts
 			}
 			else
 			{
+				container.Loaded += FileListItem_Loaded;
 				container.PointerPressed += FileListItem_PointerPressed;
 				container.PointerEntered += FileListItem_PointerEntered;
 				container.PointerExited += FileListItem_PointerExited;
@@ -1235,11 +1249,16 @@ namespace Files.App.Views.Layouts
 
 			if (inRecycleQueue)
 			{
+				UpdateItemToolTip(container, null);
 				ParentShellPageInstance!.ShellViewModel.CancelExtendedPropertiesLoadingForItem(listedItem);
 			}
 			else
 			{
+				UpdateItemToolTip(container, listedItem.ItemTooltipText);
 				InitializeDrag(container, listedItem);
+
+				if (listedItem.PreloadedIconData is not null && listedItem.FileImage is null)
+					_ = ApplyPreloadedIconAsync(listedItem);
 
 				if (!listedItem.ItemPropertiesInitialized)
 				{
@@ -1252,6 +1271,39 @@ namespace Files.App.Views.Layouts
 					});
 				}
 			}
+		}
+
+		private static void UpdateItemToolTip(SelectorItem container, string? tooltipText)
+		{
+			// Apply the tooltip to both the container and the realized template root so every layout
+			// gets the same behavior, even when the DataTemplate is wrapped in a UserControl.
+			UpdateItemToolTip(container as FrameworkElement, tooltipText);
+
+			if (container.ContentTemplateRoot is FrameworkElement contentTemplateRoot)
+				UpdateItemToolTip(contentTemplateRoot, tooltipText);
+		}
+
+		private static void UpdateItemToolTip(FrameworkElement? target, string? tooltipText)
+		{
+			if (target is null)
+				return;
+
+			ToolTipService.SetToolTip(target, tooltipText);
+			target.SetValue(ToolTipService.PlacementProperty, PlacementMode.Mouse);
+		}
+
+		private void FileListItem_Loaded(object sender, RoutedEventArgs e)
+		{
+			// Set the initial tooltip before hover starts so WinUI doesn't miss the first dwell.
+			if (sender is SelectorItem container && container.Content is ListedItem listedItem)
+				UpdateItemToolTip(container, listedItem.ItemTooltipText);
+		}
+
+		private static async Task ApplyPreloadedIconAsync(ListedItem item)
+		{
+			var image = await item.PreloadedIconData.ToBitmapAsync();
+			if (image is not null)
+				item.FileImage = image;
 		}
 
 		protected internal void FileListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -1288,6 +1340,9 @@ namespace Files.App.Views.Layouts
 			// Set can window to front (#13255)
 			if (sender is SelectorItem selectorItem && selectorItem.IsSelected)
 				MainWindow.Instance.SetCanWindowToFront(false);
+
+			if (sender is SelectorItem tooltipContainer && tooltipContainer.Content is ListedItem listedItem)
+				UpdateItemToolTip(tooltipContainer, listedItem.ItemTooltipText);
 
 			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				return;
@@ -1399,7 +1454,6 @@ namespace Files.App.Views.Layouts
 
 		public virtual void Dispose()
 		{
-			InfoPaneViewModel?.Dispose();
 			UnhookBaseEvents();
 		}
 

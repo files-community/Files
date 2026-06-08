@@ -15,6 +15,9 @@ namespace Files.App.Actions
 		public virtual string Description
 			=> Strings.OpenStorageSenseDescription.GetLocalizedResource();
 
+		public virtual ActionCategory Category
+			=> ActionCategory.Open;
+
 		public virtual bool IsExecutable =>
 			context.HasItem &&
 			!context.HasSelection &&

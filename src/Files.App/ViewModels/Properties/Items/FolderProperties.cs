@@ -74,9 +74,10 @@ namespace Files.App.ViewModels.Properties
 
 		public async override Task GetSpecialPropertiesAsync()
 		{
-			ViewModel.IsHidden = Win32Helper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+			var fileAttributes = Win32Helper.GetFileAttributes(Item.ItemPath);
+			ViewModel.IsHidden = fileAttributes.HasFlag(FileAttributes.Hidden);
 			ViewModel.CanCompressContent = Win32Helper.CanCompressContent(Item.ItemPath);
-			ViewModel.IsContentCompressed = Win32Helper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.Compressed);
+			ViewModel.IsContentCompressed = fileAttributes.HasFlag(FileAttributes.Compressed);
 
 			var result = await FileThumbnailHelper.GetIconAsync(
 				Item.ItemPath,
@@ -117,13 +118,13 @@ namespace Files.App.ViewModels.Properties
 			{
 				ViewModel.ItemCreatedTimestampReal = storageFolder.DateCreated;
 				if (storageFolder.Properties is not null)
-					GetOtherPropertiesAsync(storageFolder.Properties);
+					_ = GetOtherPropertiesAsync(storageFolder.Properties);
 
 				// Only load the size for items on the device
 				if (Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not
 					CloudDriveSyncStatus.FolderOnline and not
 					CloudDriveSyncStatus.FolderOfflinePartial)
-					GetFolderSizeAsync(storageFolder.Path, TokenSource.Token);
+					_ = GetFolderSizeAsync(storageFolder.Path, TokenSource.Token);
 			}
 			else if (Item.ItemPath.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
@@ -157,7 +158,7 @@ namespace Files.App.ViewModels.Properties
 			}
 			else
 			{
-				GetFolderSizeAsync(folderPath, TokenSource.Token);
+				_ = GetFolderSizeAsync(folderPath, TokenSource.Token);
 			}
 		}
 

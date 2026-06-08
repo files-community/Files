@@ -103,6 +103,11 @@ namespace Files.App.ViewModels.Properties
 		public string ID { get; set; }
 
 		/// <summary>
+		/// True if the property accepts multiple lines of text (e.g., System.Comment)
+		/// </summary>
+		public bool IsMultiLine { get; set; }
+
+		/// <summary>
 		/// True if the property value has been modified by the user
 		/// </summary>
 		public bool Modified { get; private set; }

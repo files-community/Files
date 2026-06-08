@@ -37,7 +37,7 @@
   <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\..\artifacts\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</OutDir>
@@ -57,7 +57,7 @@
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -66,8 +66,7 @@
     </Link>
     <PostBuildEvent>
       <Command>
-        xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\src\Files.App\Assets\FilesOpenDialog"
-        certutil -hashfile "$(ProjectDir)..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName)" SHA256|findstr /R /V "^SHA256 ^CertUtil"&gt;"$(ProjectDir)..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName).sha256"</Command>
+        xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

@@ -5,6 +5,9 @@ using System.IO;
 using System.Runtime.InteropServices;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.UI.Shell;
 
 namespace Files.App.Helpers
 {
@@ -13,10 +16,6 @@ namespace Files.App.Helpers
 	/// </summary>
 	public static partial class Win32Helper
 	{
-		private readonly static ShellFolder _controlPanel = new(Shell32.KNOWNFOLDERID.FOLDERID_ControlPanelFolder);
-
-		private readonly static ShellFolder _controlPanelCategoryView = new("::{26EE0668-A00A-44D7-9371-BEB064C98683}");
-
 		public static async Task<(ShellFileItem Folder, List<ShellFileItem> Enumerate)> GetShellFolderAsync(string path, bool getFolder, bool getEnumerate, int from, int count, params string[] properties)
 		{
 			if (path.StartsWith("::{", StringComparison.Ordinal))
@@ -24,7 +23,7 @@ namespace Files.App.Helpers
 				path = $"shell:{path}";
 			}
 
-			return await Win32Helper.StartSTATask(() =>
+			return await STATask.Run(() =>
 			{
 				var flc = new List<ShellFileItem>();
 				var folder = (ShellFileItem)null;
@@ -32,6 +31,8 @@ namespace Files.App.Helpers
 				try
 				{
 					using var shellFolder = ShellFolderExtensions.GetShellItemFromPathOrPIDL(path) as ShellFolder;
+					using ShellFolder _controlPanel = new(Shell32.KNOWNFOLDERID.FOLDERID_ControlPanelFolder);
+					using ShellFolder _controlPanelCategoryView = new("::{26EE0668-A00A-44D7-9371-BEB064C98683}");
 
 					if (shellFolder is null ||
 						(_controlPanel.PIDL.IsParentOf(shellFolder.PIDL, false) ||
@@ -77,15 +78,15 @@ namespace Files.App.Helpers
 				}
 
 				return (folder, flc);
-			});
+			}, App.Logger);
 		}
 
-		public static string GetFolderFromKnownFolderGUID(Guid guid)
+		public static unsafe string GetFolderFromKnownFolderGUID(Guid guid)
 		{
-			nint pszPath;
-			Win32PInvoke.SHGetKnownFolderPath(guid, 0, nint.Zero, out pszPath);
-			string path = Marshal.PtrToStringUni(pszPath);
-			Marshal.FreeCoTaskMem(pszPath);
+			PWSTR pszPath;
+			PInvoke.SHGetKnownFolderPath(ref guid, (KNOWN_FOLDER_FLAG)0, null, out pszPath);
+			string path = pszPath.ToString();
+			Marshal.FreeCoTaskMem((nint)pszPath.Value);
 
 			return path;
 		}

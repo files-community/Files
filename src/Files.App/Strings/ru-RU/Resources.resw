@@ -189,6 +189,12 @@
   <data name="Search" xml:space="preserve">
     <value>Поиск</value>
   </data>
+  <data name="SearchSettings" xml:space="preserve">
+    <value>Search settings...</value>
+  </data>
+  <data name="NoSearchResults" xml:space="preserve">
+    <value>No settings match your search.</value>
+  </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Файлы, с которыми Вы ранее взаимодействовали, будут отображаться здесь</value>
   </data>
@@ -210,6 +216,9 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Тема оформления</value>
   </data>
+  <data name="Font" xml:space="preserve">
+    <value>Шрифт</value>
+  </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Показывать расширения для известных типов файлов</value>
   </data>
@@ -227,6 +236,24 @@
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Расширенные</value>
+  </data>
+  <data name="CacheThumbnails" xml:space="preserve">
+    <value>Кэшировать миниатюры</value>
+  </data>
+  <data name="CacheSizeLimitDescription" xml:space="preserve">
+    <value>Максимальный объем дискового пространства для кэша миниатюр (100-5000 МиБ).</value>
+  </data>
+  <data name="CacheSizeLimit" xml:space="preserve">
+    <value>Ограничение размера кэша</value>
+  </data>
+  <data name="ClearCachedThumbnails" xml:space="preserve">
+    <value>Очистите кэш миниатюр, чтобы освободить место</value>
+  </data>
+  <data name="CurrentCacheSize" xml:space="preserve">
+    <value>Текущий размер кеша: </value>
+  </data>
+  <data name="ClearCache" xml:space="preserve">
+    <value>Очистить кэш</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Продолжить, где Вы остановились</value>
@@ -308,6 +335,9 @@
   </data>
   <data name="DarkTheme" xml:space="preserve">
     <value>Темная</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>Системная тема</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Как в системе</value>
@@ -653,11 +683,17 @@
   <data name="File" xml:space="preserve">
     <value>Файл</value>
   </data>
+  <data name="Files" xml:space="preserve">
+    <value>Файлы</value>
+  </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Создает пустой файл</value>
   </data>
   <data name="Folder" xml:space="preserve">
     <value>Папка</value>
+  </data>
+  <data name="Folders" xml:space="preserve">
+    <value>Папки</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Создает пустую папку</value>
@@ -1118,6 +1154,9 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>Имя</value>
   </data>
+  <data name="Unpin" xml:space="preserve">
+    <value>Открепить</value>
+  </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Убрать из боковой панели</value>
   </data>
@@ -1321,6 +1360,9 @@
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Создать папку из выделенных элементов</value>
+  </data>
+  <data name="CreateShortcutWithSelection" xml:space="preserve">
+    <value>Create shortcuts with selection</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>Тип:</value>
@@ -1772,8 +1814,8 @@
   <data name="Tag" xml:space="preserve">
     <value>Метка</value>
   </data>
-  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Открывать файлы и папки одним нажатием</value>
+  <data name="OpenFilesWithOneClick" xml:space="preserve">
+    <value>Open files with a single click</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Путь к папке</value>
@@ -2006,6 +2048,9 @@
   <data name="Custom" xml:space="preserve">
     <value>Пользовательский</value>
   </data>
+  <data name="Slideshow" xml:space="preserve">
+    <value>Slideshow</value>
+  </data>
   <data name="SetAsSlideshow" xml:space="preserve">
     <value>Установить как слайд-шоу рабочего стола</value>
   </data>
@@ -2032,7 +2077,7 @@
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>Нравится Files? Пожалуйста, оцените приложение в Microsoft Store.</value>
-  </data>  
+  </data>
   <data name="SponsorSubtitle" xml:space="preserve">
     <value>Вам нравится Files? Пожалуйста, подумайте о поддержке проекта на GitHub.</value>
   </data>
@@ -2072,8 +2117,17 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>Экран блокировки</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Открывать папки одним кликом в макете Столбцы</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Открывать папки одним кликом</value>
+  </data>
+  <data name="OpenFolderWithOneClickInColumnsView" xml:space="preserve">
+    <value>Open folders with a single click in Columns View</value>
+  </data>
+  <data name="SingleClickToOpen" xml:space="preserve">
+    <value>Open items with a single click</value>
+  </data>
+  <data name="SingleClickFoldersInColumnsViewHeader" xml:space="preserve">
+    <value>Folders in Columns View</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Открытие объектов</value>
@@ -2144,6 +2198,12 @@
   <data name="CreateArchive" xml:space="preserve">
     <value>Создать архив</value>
   </data>
+  <data name="CompressIntoZip" xml:space="preserve">
+    <value>Create zip archive</value>
+  </data>
+  <data name="CompressIntoSevenZip" xml:space="preserve">
+    <value>Create 7z archive</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Создать</value>
   </data>
@@ -2179,6 +2239,21 @@
   </data>
   <data name="DoNotSplit" xml:space="preserve">
     <value>Не разбивать</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Авто</value>
+  </data>
+  <data name="DictionarySize" xml:space="preserve">
+    <value>Размер словаря</value>
+  </data>
+  <data name="WordSize" xml:space="preserve">
+    <value>Размер слова</value>
+  </data>
+  <data name="EstimatedMemoryUsage" xml:space="preserve">
+    <value>Ориентировочное использование памяти: {0}</value>
+  </data>
+  <data name="AvailableMemory" xml:space="preserve">
+    <value>Доступно памяти: {0}</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2337,7 +2412,10 @@
     <value>Вы уверены, что хотите удалить эту метку?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Воспроизвести</value>
+    <value>Play All</value>
+  </data>
+  <data name="Play" xml:space="preserve">
+    <value>Play</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>Высота</value>
@@ -2428,6 +2506,21 @@
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
     <value>Включить компактный режим</value>
+  </data>
+  <data name="ToggleTheme" xml:space="preserve">
+    <value>Toggle Theme</value>
+  </data>
+  <data name="ToggleThemeDescription" xml:space="preserve">
+    <value>Toggle the app theme</value>
+  </data>
+  <data name="SwitchToLightThemeDescription" xml:space="preserve">
+    <value>Switch to Light Theme</value>
+  </data>
+  <data name="SwitchToDarkThemeDescription" xml:space="preserve">
+    <value>Switch to Dark Theme</value>
+  </data>
+  <data name="SwitchToDefaultThemeDescription" xml:space="preserve">
+    <value>Switch to System Theme</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>Начать поиск в OmniBar</value>
@@ -2738,26 +2831,14 @@
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Перейти на одну папку назад</value>
   </data>
-  <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>Дублировать текущую вкладку</value>
-  </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
     <value>Дублировать выбранные вкладки</value>
-  </data>
-  <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Закрыть вкладки слева от текущей вкладки</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
     <value>Закрыть вкладки слева от выбранной вкладки</value>
   </data>
-  <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>Закрыть вкладки справа от текущей вкладки</value>
-  </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
     <value>Закрыть вкладки справа от выбранной вкладки</value>
-  </data>
-  <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>Закрыть все вкладки кроме текущей</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Закрыть все вкладки кроме выбранной</value>
@@ -3131,6 +3212,15 @@
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
     <value>У вас есть незакоммиченные изменения в этой ветке. Что вы хотите с ними сделать?</value>
+  </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>У вас есть текущее слияние с неразрешенными конфликтами. Пожалуйста, устраните конфликты или прервите слияние для переключения ветвей.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Прервать слияние и переключиться на '{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Оставайтесь на '{0}' и разрешите конфликты</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Сменить ветку</value>
@@ -3906,6 +3996,9 @@
   <data name="Actions" xml:space="preserve">
     <value>Действия</value>
   </data>
+  <data name="Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
   <data name="Commands" xml:space="preserve">
     <value>Команды</value>
   </data>
@@ -4107,8 +4200,8 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>Перейти на главную страницу</value>
   </data>
-  <data name="Toolbars" xml:space="preserve">
-    <value>Панели инструментов</value>
+  <data name="AddressBar" xml:space="preserve">
+    <value>Address bar</value>
   </data>
   <data name="UserID" xml:space="preserve">
     <value>ID пользователя</value>
@@ -4170,6 +4263,9 @@
   </data>
   <data name="ClearItems" xml:space="preserve">
     <value>Очистить элементы</value>
+  </data>
+  <data name="BatchAction" xml:space="preserve">
+    <value>Batch action</value>
   </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>Убрать из полки</value>
@@ -4298,7 +4394,7 @@
   </data>
   <data name="Signatures" xml:space="preserve">
     <value>Подписи</value>
-   </data>
+  </data>
   <data name="SignatureList" xml:space="preserve">
     <value>Список подписей</value>
   </data>
@@ -4333,6 +4429,129 @@
     <value>Не удалось открыть файл журнала</value>
   </data>
   <data name="ShowStatusBar" xml:space="preserve">
-    <value>Show status bar</value>
+    <value>Показать строку состояния</value>
+  </data>
+  <data name="OnlyForTouch" xml:space="preserve">
+    <value>When using touch</value>
+  </data>
+  <data name="OnlyForMouse" xml:space="preserve">
+    <value>When using mouse</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>Новый {0}</value>
+  </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Включить плавное пролистывание</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Пролистывание</value>
+  </data>
+  <data name="ShowPinToSideBar" xml:space="preserve">
+    <value>Показывать параметр закрепления в боковой панели</value>
+  </data>
+  <data name="ShowPinToStart" xml:space="preserve">
+    <value>Показывать параметр закрепления в меню «Пуск»</value>
+  </data>
+  <data name="Toolbar" xml:space="preserve">
+    <value>Toolbar</value>
+  </data>
+  <data name="CustomizeToolbar" xml:space="preserve">
+    <value>Customize toolbar</value>
+  </data>
+  <data name="CustomizeToolbarDescription" xml:space="preserve">
+    <value>Customize toolbar buttons</value>
+  </data>
+  <data name="ChooseToolbarModeToCustomize" xml:space="preserve">
+    <value>Choose toolbar mode to customize</value>
+  </data>
+  <data name="AlwaysVisible" xml:space="preserve">
+    <value>Always visible</value>
+  </data>
+  <data name="ArchiveFiles" xml:space="preserve">
+    <value>Archive files</value>
+  </data>
+  <data name="BatchFiles" xml:space="preserve">
+    <value>Бат Файлы</value>
+  </data>
+  <data name="PowerShellFiles" xml:space="preserve">
+    <value>PowerShell files</value>
+  </data>
+  <data name="MediaFiles" xml:space="preserve">
+    <value>Media files</value>
+  </data>
+  <data name="FontFiles" xml:space="preserve">
+    <value>Font files</value>
+  </data>
+  <data name="DriverFiles" xml:space="preserve">
+    <value>Driver files</value>
+  </data>
+  <data name="CertificateFiles" xml:space="preserve">
+    <value>Certificate files</value>
+  </data>
+  <data name="OtherContexts" xml:space="preserve">
+    <value>Other contexts</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Archive</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Selection" xml:space="preserve">
+    <value>Selection</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Navigation</value>
+  </data>
+  <data name="FileSystem" xml:space="preserve">
+    <value>File system</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>Window</value>
+  </data>
+  <data name="DualPaneCategory" xml:space="preserve">
+    <value>Dual Pane</value>
+  </data>
+  <data name="ResetDefaults" xml:space="preserve">
+    <value>Reset defaults</value>
+  </data>
+  <data name="Separator" xml:space="preserve">
+    <value>Separator</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>Icon</value>
+  </data>
+  <data name="Label" xml:space="preserve">
+    <value>Label</value>
+  </data>
+  <data name="ShowToolbarLabels" xml:space="preserve">
+    <value>Show label</value>
+  </data>
+  <data name="ShowToolbarIconOnly" xml:space="preserve">
+    <value>Show icon</value>
+  </data>
+  <data name="AvailableToolbarItems" xml:space="preserve">
+    <value>Available items</value>
+  </data>
+  <data name="AddedToolbarItems" xml:space="preserve">
+    <value>Added items</value>
+  </data>
+  <data name="ExtractGroupDescription" xml:space="preserve">
+    <value>Extract compressed archives</value>
+  </data>
+  <data name="SetAsGroupDescription" xml:space="preserve">
+    <value>Set image as wallpaper or background</value>
+  </data>
+  <data name="NewItemGroupDescription" xml:space="preserve">
+    <value>Создать новые Файлы или Папки</value>
+  </data>
+  <data name="EditTagsGroupDescription" xml:space="preserve">
+    <value>Add or remove file tags</value>
   </data>
 </root>

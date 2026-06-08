@@ -76,6 +76,19 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.CopyItemFromHome)
+				{
+					IsPrimary = true,
+					IsVisible = CommandManager.CopyItemFromHome.IsExecutable
+				}.Build(),
+				new()
+				{
+					Text = Strings.Properties.GetLocalizedResource(),
+					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.Properties" },
+					Command = OpenPropertiesCommand,
+					CommandParameter = item,
+					IsPrimary = true
+				},
 				new()
 				{
 					Text = Strings.OpenWith.GetLocalizedResource(),
@@ -107,13 +120,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					Text = Strings.SendTo.GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowSendToMenu
-				},
-				new()
-				{
-					Text = Strings.Properties.GetLocalizedResource(),
-					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.Properties" },
-					Command = OpenPropertiesCommand,
-					CommandParameter = item
 				},
 				new()
 				{

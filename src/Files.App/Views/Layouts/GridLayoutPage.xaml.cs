@@ -211,7 +211,7 @@ namespace Files.App.Views.Layouts
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
-				ReloadItemIconsAsync();
+				_ = ReloadItemIconsAsync();
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -262,10 +262,24 @@ namespace Files.App.Views.Layouts
 				|| FolderSettings.LayoutMode == FolderLayoutModes.CardsView
 				|| FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
+				// SetItemTemplate clears FileList.ItemsSource on style swap, which drops the selection
+				var preservedSelection = SelectedItems?.ToList();
+
 				// Set ItemTemplate
 				SetItemTemplate();
 				SetItemContainerStyle();
 				FolderSettings_IconSizeChanged();
+
+				if (preservedSelection is { Count: > 0 })
+				{
+					_ = DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+					{
+						// Wait for the new template's containers to be realized
+						await Task.Delay(100);
+						ItemManipulationModel.SetSelectedItems(preservedSelection);
+						ItemManipulationModel.FocusSelectedItems();
+					});
+				}
 			}
 		}
 
@@ -338,18 +352,13 @@ namespace Files.App.Views.Layouts
 			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
 		}
 
-		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected override void OnSelectionChanged(SelectionChangedEventArgs e)
 		{
-			base.FileList_SelectionChanged(sender, e);
+			foreach (var item in e.AddedItems)
+				SetCheckboxSelectionState(item);
 
-			if (e != null)
-			{
-				foreach (var item in e.AddedItems)
-					SetCheckboxSelectionState(item);
-
-				foreach (var item in e.RemovedItems)
-					SetCheckboxSelectionState(item);
-			}
+			foreach (var item in e.RemovedItems)
+				SetCheckboxSelectionState(item);
 		}
 
 		override public void StartRenameItem()
@@ -437,7 +446,7 @@ namespace Files.App.Views.Layouts
 			if (!IsRenamingItem)
 				return;
 
-			ValidateItemNameInputTextAsync(textBox, args, (showError) =>
+			_ = ValidateItemNameInputTextAsync(textBox, args, (showError) =>
 			{
 				FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
 				FileNameTeachingTip.IsOpen = showError;
@@ -621,7 +630,8 @@ namespace Files.App.Views.Layouts
 			}
 
 			// Check if the setting to open items with a single click is turned on
-			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			if ((item.PrimaryItemAttribute is StorageItemTypes.File && UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType)) ||
+				(item.PrimaryItemAttribute is StorageItemTypes.Folder && UserSettingsService.FoldersSettingsService.OpenFoldersWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType)))
 			{
 				ResetRenameDoubleClick();
 				await Commands.OpenItem.ExecuteAsync();
@@ -659,7 +669,9 @@ namespace Files.App.Views.Layouts
 		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item &&
+				((item.PrimaryItemAttribute == StorageItemTypes.File && !UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType)) ||
+				 (item.PrimaryItemAttribute == StorageItemTypes.Folder && !UserSettingsService.FoldersSettingsService.OpenFoldersWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))))
 				await Commands.OpenItem.ExecuteAsync();
 			else if ((e.OriginalSource as FrameworkElement)?.DataContext is not ListedItem && UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 				await Commands.NavigateUp.ExecuteAsync();
@@ -751,13 +763,6 @@ namespace Files.App.Views.Layouts
 				else
 					ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Enabled);
 			}
-		}
-
-		private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
-		{
-			if (sender is FrameworkElement element && element.DataContext is ListedItem item)
-				// Reassign values to update date display
-				ToolTipService.SetToolTip(element, item.ItemTooltipText);
 		}
 
 		private void SelectionCheckbox_PointerEntered(object sender, PointerRoutedEventArgs e)

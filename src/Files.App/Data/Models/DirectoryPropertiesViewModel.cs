@@ -144,7 +144,7 @@ namespace Files.App.ViewModels.UserControls
 			if (string.IsNullOrEmpty(_gitRepositoryPath))
 				return;
 
-			var branches = await GitHelpers.GetBranchesNames(_gitRepositoryPath);
+			var branches = await GitHelpers.GetBranchNames(_gitRepositoryPath);
 
 			_localBranches.Clear();
 			_remoteBranches.Clear();

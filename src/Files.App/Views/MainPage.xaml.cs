@@ -11,8 +11,10 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using System.Runtime.InteropServices;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
+using Windows.UI.Input;
 using WinUIEx;
 using GridSplitter = Files.App.Controls.GridSplitter;
 using VirtualKey = Windows.System.VirtualKey;
@@ -203,7 +205,7 @@ namespace Files.App.Views
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			ViewModel.OnNavigatedToAsync(e);
+			_ = ViewModel.OnNavigatedToAsync(e);
 		}
 
 		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e) => await OnPreviewKeyDownAsync(e);
@@ -313,6 +315,8 @@ namespace Files.App.Views
 		{
 			if (!App.AppModel.IsMainWindowClosed)
 				InfoPane?.ViewModel.UpdateDateDisplay();
+			else
+				App.Logger.LogWarning("UpdateDateDisplayTimer_Tick: Timer firing after window closed!");
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -396,11 +400,13 @@ namespace Files.App.Views
 			try
 			{
 				var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
+				var isReleaseNotesPage = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeReleaseNotes ?? false;
+				var isSettingsPage = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeSettings ?? false;
 				var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
 				var isBigEnough = !App.AppModel.IsMainWindowClosed &&
 					(MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360);
 
-				ViewModel.ShouldPreviewPaneBeDisplayed = (!isHomePage || isMultiPane) && isBigEnough;
+				ViewModel.ShouldPreviewPaneBeDisplayed = ((!isHomePage && !isReleaseNotesPage && !isSettingsPage) || isMultiPane) && isBigEnough;
 				ViewModel.ShouldPreviewPaneBeActive = UserSettingsService.InfoPaneSettingsService.IsInfoPaneEnabled && ViewModel.ShouldPreviewPaneBeDisplayed;
 				ViewModel.ShouldViewControlBeDisplayed = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
 
@@ -462,6 +468,58 @@ namespace Files.App.Views
 			// Workaround for issue where clicking an empty area in the window (toolbar, title bar etc) prevents keyboard
 			// shortcuts from working properly, see https://github.com/microsoft/microsoft-ui-xaml/issues/6467
 			DispatcherQueue.TryEnqueue(() => ContentPageContext.ShellPage?.PaneHolder.FocusActivePane());
+		}
+
+		private void SidebarControl_ItemContextInvoked(object sender, ItemContextInvokedArgs e)
+		{
+			SidebarAdaptiveViewModel.HandleItemContextInvokedAsync(sender, e);
+		}
+
+		private async void SidebarControl_ItemDragOver(object sender, ItemDragOverEventArgs e)
+		{
+			// GetDeferral()/Complete() can throw COMException if the underlying drag operation has already been released (e.g. canceled by the system or window closed)
+			var deferral = SafetyExtensions.IgnoreExceptions(() => e.RawEvent.GetDeferral(), App.Logger);
+
+			await SafetyExtensions.IgnoreExceptions(async () =>
+			{
+				await SidebarAdaptiveViewModel.HandleItemDragOverAsync(e);
+			}, App.Logger);
+
+			if (deferral is not null)
+				SafetyExtensions.IgnoreExceptions(() => deferral.Complete(), App.Logger);
+		}
+
+		private async void SidebarControl_ItemDropped(object sender, ItemDroppedEventArgs e)
+		{
+			// GetDeferral()/Complete() can throw COMException if the underlying drag operation has already been released (e.g. canceled by the system or window closed)
+			var deferral = SafetyExtensions.IgnoreExceptions(() => e.RawEvent.GetDeferral(), App.Logger);
+
+			await SafetyExtensions.IgnoreExceptions(async () =>
+			{
+				await SidebarAdaptiveViewModel.HandleItemDroppedAsync(e);
+			}, App.Logger);
+
+			if (deferral is not null)
+				SafetyExtensions.IgnoreExceptions(() => deferral.Complete(), App.Logger);
+		}
+
+		private void SidebarControl_ItemInvoked(object sender, ItemInvokedEventArgs e)
+		{
+			if (sender is not SidebarItem { Item: ISidebarItemModel item })
+				return;
+
+			if (item is INavigationControlItem navItem &&
+				string.Equals(navItem.Path, "Settings", StringComparison.OrdinalIgnoreCase))
+				_ = AnimateSettingsIconAsync();
+
+			SidebarAdaptiveViewModel.HandleItemInvokedAsync(item, e.PointerUpdateKind);
+		}
+
+		private async Task AnimateSettingsIconAsync()
+		{
+			AnimatedIcon.SetState(SettingAnimatedIcon, "Pressed");
+			await Task.Delay(140);
+			AnimatedIcon.SetState(SettingAnimatedIcon, "Normal");
 		}
 	}
 }

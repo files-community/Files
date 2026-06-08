@@ -18,6 +18,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.OpenInNewWindowDescription.GetLocalizedResource();
 
+		public virtual ActionCategory Category
+			=> ActionCategory.Navigation;
+
 		public virtual HotKey HotKey
 			=> new(Keys.Enter, KeyModifiers.CtrlAlt);
 

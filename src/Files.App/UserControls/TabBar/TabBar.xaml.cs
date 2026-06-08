@@ -218,8 +218,7 @@ namespace Files.App.UserControls.TabBar
 			else
 				HorizontalTabView.SelectedItem = args.Tab;
 
-			if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier))
-				ApplicationData.Current.LocalSettings.Values.Remove(TabDropHandledIdentifier);
+			ApplicationData.Current.LocalSettings.Values.Remove(TabDropHandledIdentifier);
 		}
 
 		private async void TabView_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
@@ -262,14 +261,14 @@ namespace Files.App.UserControls.TabBar
 			if (delta > 0)
 			{
 				// Scroll up, select the next tab
-				if (HorizontalTabView.SelectedIndex < HorizontalTabView.TabItems.Count - 1)
-					HorizontalTabView.SelectedIndex++;
+				if (App.AppModel.TabStripSelectedIndex < Items.Count - 1)
+					App.AppModel.TabStripSelectedIndex++;
 			}
 			else
 			{
 				// Scroll down, select the previous tab
-				if (HorizontalTabView.SelectedIndex > 0)
-					HorizontalTabView.SelectedIndex--;
+				if (App.AppModel.TabStripSelectedIndex > 0)
+					App.AppModel.TabStripSelectedIndex--;
 			}
 
 			e.Handled = true;
@@ -349,11 +348,11 @@ namespace Files.App.UserControls.TabBar
 		{
 			if (sender is TabViewItem tvi && tvi.FindDescendant("IconControl") is ContentControl control)
 			{
-				control.Content = (tvi.IconSource as ImageIconSource)?.CreateIconElement();
+				control.Content = tvi.IconSource?.CreateIconElement();
 				tvi.RegisterPropertyChangedCallback(TabViewItem.IconSourceProperty, (s, args) =>
 				{
 					if (s is TabViewItem tabViewItem && tabViewItem.FindDescendant("IconControl") is ContentControl iconControl)
-						iconControl.Content = (tabViewItem.IconSource as ImageIconSource)?.CreateIconElement();
+						iconControl.Content = tabViewItem.IconSource?.CreateIconElement();
 				});
 			}
 		}

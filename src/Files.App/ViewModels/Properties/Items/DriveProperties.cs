@@ -32,7 +32,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.OriginalItemName = Drive.Text;
 
 			// NOTE: If DriveType enum changes, the corresponding resource keys should change too
-			ViewModel.ItemType = string.Format("DriveType{0}", Drive.Type).GetLocalizedResource();
+			ViewModel.ItemType = $"DriveType{Drive.Type}".GetLocalizedResource();
 		}
 
 		public async override Task GetSpecialPropertiesAsync()
