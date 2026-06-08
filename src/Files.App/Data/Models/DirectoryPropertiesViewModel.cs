@@ -3,6 +3,7 @@
 
 using Files.App.Data.Items;
 using Files.App.Utils.Storage;
+using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel;
 using System.Text;
@@ -219,7 +220,6 @@ namespace Files.App.ViewModels.UserControls
 			if (!instanceVM.IsPageTypeZipFolder)
 			{
 				IsZipEncodingSelectorVisible = false;
-				ZipStorageFolder.CurrentEncoding = null;
 				return;
 			}
 
@@ -275,7 +275,15 @@ namespace Files.App.ViewModels.UserControls
 			if (string.IsNullOrEmpty(workingDir))
 				return;
 
-			ZipStorageFolder.CurrentEncoding = encodingItem.Encoding;
+			if (FileExtensionHelpers.IsBrowsableZipFile(workingDir, out var ext))
+			{
+				var marker = workingDir.IndexOf(ext, StringComparison.OrdinalIgnoreCase);
+				if (marker is not -1)
+				{
+					var containerPath = workingDir.Substring(0, marker + ext.Length);
+					ZipStorageFolder.SetEncodingForContainerPath(containerPath, encodingItem.Encoding);
+				}
+			}
 
 			ContentPageContext.ShellPage.ShellViewModel.RefreshItems(null);
 		}

@@ -23,11 +23,36 @@ namespace Files.App.Utils.Storage
 		private readonly string containerPath;
 		private BaseStorageFile backingFile;
 
+		private Encoding? _currentEncoding;
+		private static readonly ConcurrentDictionary<string, Encoding?> _encodingByContainerPath = new(StringComparer.OrdinalIgnoreCase);
+
 		/// <summary>
-		/// Gets or sets the encoding to use when browsing ZIP files.
+		/// Gets or sets the encoding to use when browsing this ZIP file.
 		/// When set, SharpZipLib is used instead of SevenZipSharp.
 		/// </summary>
-		internal Encoding? CurrentEncoding { get; set; }
+		internal Encoding? CurrentEncoding
+		{
+			get => _currentEncoding;
+			set
+			{
+				_currentEncoding = value;
+				if (value is not null)
+					_encodingByContainerPath[containerPath] = value;
+				else
+					_encodingByContainerPath.TryRemove(containerPath, out _);
+			}
+		}
+
+		internal static bool TryGetEncodingForContainerPath(string containerPath, out Encoding? encoding)
+			=> _encodingByContainerPath.TryGetValue(containerPath, out encoding);
+
+		internal static void SetEncodingForContainerPath(string containerPath, Encoding? encoding)
+		{
+			if (encoding is not null)
+				_encodingByContainerPath[containerPath] = encoding;
+			else
+				_encodingByContainerPath.TryRemove(containerPath, out _);
+		}
 
 		public override string Path { get; }
 		public override string Name { get; }
@@ -48,6 +73,7 @@ namespace Files.App.Utils.Storage
 			Name = IO.Path.GetFileName(path.TrimEnd('\\', '/'));
 			Path = path;
 			this.containerPath = containerPath;
+			_encodingByContainerPath.TryGetValue(containerPath, out _currentEncoding);
 		}
 		public ZipStorageFolder(string path, string containerPath, BaseStorageFile backingFile) : this(path, containerPath)
 			=> this.backingFile = backingFile;
@@ -60,6 +86,7 @@ namespace Files.App.Utils.Storage
 			Path = backingFile.Path;
 			this.containerPath = backingFile.Path;
 			this.backingFile = backingFile;
+			_encodingByContainerPath.TryGetValue(containerPath, out _currentEncoding);
 		}
 		public ZipStorageFolder(string path, string containerPath, ArchiveFileInfo entry, BaseStorageFile backingFile) : this(path, containerPath, entry)
 			=> this.backingFile = backingFile;
@@ -207,6 +234,7 @@ namespace Files.App.Utils.Storage
 
 				var file = new ZipStorageFile(filePath, containerPath, entry, backingFile);
 				((IPasswordProtectedItem)file).CopyFrom(this);
+				file.CurrentEncoding = CurrentEncoding;
 				return file;
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
@@ -243,6 +271,7 @@ namespace Files.App.Utils.Storage
 							{
 								var file = new ZipStorageFile(targetPath, containerPath, backingFile);
 								((IPasswordProtectedItem)file).CopyFrom(this);
+								file.CurrentEncoding = CurrentEncoding;
 								return file;
 							}
 						}
@@ -314,6 +343,7 @@ namespace Files.App.Utils.Storage
 							{
 								var file = new ZipStorageFile(winPath, containerPath, entry, backingFile);
 								((IPasswordProtectedItem)file).CopyFrom(this);
+								file.CurrentEncoding = CurrentEncoding;
 								items.Add(file);
 							}
 						}
@@ -362,6 +392,7 @@ namespace Files.App.Utils.Storage
 						{
 							var file = new ZipStorageFile(winPath, containerPath, backingFile);
 							((IPasswordProtectedItem)file).CopyFrom(this);
+							file.CurrentEncoding = CurrentEncoding;
 							items.Add(file);
 						}
 						
@@ -760,6 +791,7 @@ namespace Files.App.Utils.Storage
 
 				var file = new ZipStorageFile(zipDesiredName, containerPath, backingFile);
 				((IPasswordProtectedItem)file).CopyFrom(this);
+				file.CurrentEncoding = CurrentEncoding;
 				return file;
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}

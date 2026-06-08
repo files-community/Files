@@ -5,6 +5,7 @@ using Files.Shared.Helpers;
 using ICSharpCode.SharpZipLib.Zip;
 using SevenZip;
 using System.IO;
+using System.Text;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Storage;
@@ -48,6 +49,8 @@ namespace Files.App.Utils.Storage
 
 		public StorageCredential Credentials { get; set; } = new();
 
+		internal Encoding? CurrentEncoding { get; set; }
+
 		public Func<IPasswordProtectedItem, Task<StorageCredential>> PasswordRequestedCallback { get; set; }
 
 		public ZipStorageFile(string path, string containerPath)
@@ -82,7 +85,10 @@ namespace Files.App.Utils.Storage
 				}
 				if (CheckAccess(containerPath))
 				{
-					return Task.FromResult<BaseStorageFile>(new ZipStorageFile(path, containerPath)).AsAsyncOperation();
+					var file = new ZipStorageFile(path, containerPath);
+					if (ZipStorageFolder.TryGetEncodingForContainerPath(containerPath, out var encoding))
+						file.CurrentEncoding = encoding;
+					return Task.FromResult<BaseStorageFile>(file).AsAsyncOperation();
 				}
 			}
 			return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
@@ -96,7 +102,7 @@ namespace Files.App.Utils.Storage
 
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode)
 		{
-			if (ZipStorageFolder.CurrentEncoding is not null && Path != containerPath)
+			if (CurrentEncoding is not null && Path != containerPath)
 				return OpenWithEncodingAsync(accessMode);
 
 			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IRandomAccessStream>(async () =>
@@ -150,7 +156,7 @@ namespace Files.App.Utils.Storage
 					if (rw)
 						throw new NotSupportedException("Can't open zip file as RW");
 
-					using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(ZipStorageFolder.CurrentEncoding!));
+					using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(CurrentEncoding!));
 
 					if (!string.IsNullOrEmpty(Credentials.Password))
 						zipFile.Password = Credentials.Password;
@@ -184,7 +190,7 @@ namespace Files.App.Utils.Storage
 
 		public override IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadAsync()
 		{
-			if (ZipStorageFolder.CurrentEncoding is not null && Path != containerPath)
+			if (CurrentEncoding is not null && Path != containerPath)
 				return OpenReadWithEncodingAsync();
 
 			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IRandomAccessStreamWithContentType>(async () =>
@@ -230,7 +236,7 @@ namespace Files.App.Utils.Storage
 			{
 				return Task.Run<IRandomAccessStreamWithContentType>(() =>
 				{
-					using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(ZipStorageFolder.CurrentEncoding!));
+					using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(CurrentEncoding!));
 
 					if (!string.IsNullOrEmpty(Credentials.Password))
 						zipFile.Password = Credentials.Password;
@@ -262,7 +268,7 @@ namespace Files.App.Utils.Storage
 
 		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync()
 		{
-			if (ZipStorageFolder.CurrentEncoding is not null && Path != containerPath)
+			if (CurrentEncoding is not null && Path != containerPath)
 				return OpenSequentialReadWithEncodingAsync();
 
 			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IInputStream>(async () =>
@@ -306,7 +312,7 @@ namespace Files.App.Utils.Storage
 			{
 				return Task.Run<IInputStream>(() =>
 				{
-					using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(ZipStorageFolder.CurrentEncoding!));
+					using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(CurrentEncoding!));
 
 					if (!string.IsNullOrEmpty(Credentials.Password))
 						zipFile.Password = Credentials.Password;
@@ -346,7 +352,7 @@ namespace Files.App.Utils.Storage
 			=> CopyAsync(destinationFolder, desiredNewName, NameCollisionOption.FailIfExists);
 		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
 		{
-			if (ZipStorageFolder.CurrentEncoding is not null && Path != containerPath)
+			if (CurrentEncoding is not null && Path != containerPath)
 				return CopyWithEncodingAsync(destinationFolder, desiredNewName, option);
 
 			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<BaseStorageFile>(async () =>
@@ -392,7 +398,7 @@ namespace Files.App.Utils.Storage
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
 			{
-				using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(ZipStorageFolder.CurrentEncoding!));
+				using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(CurrentEncoding!));
 
 				if (!string.IsNullOrEmpty(Credentials.Password))
 					zipFile.Password = Credentials.Password;
@@ -435,7 +441,7 @@ namespace Files.App.Utils.Storage
 		}
 		public override IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace)
 		{
-			if (ZipStorageFolder.CurrentEncoding is not null && Path != containerPath)
+			if (CurrentEncoding is not null && Path != containerPath)
 				return CopyAndReplaceWithEncodingAsync(fileToReplace);
 
 			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.WrapAsync(async () =>
@@ -464,7 +470,7 @@ namespace Files.App.Utils.Storage
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
 			{
-				using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(ZipStorageFolder.CurrentEncoding!));
+				using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(CurrentEncoding!));
 
 				if (!string.IsNullOrEmpty(Credentials.Password))
 					zipFile.Password = Credentials.Password;
