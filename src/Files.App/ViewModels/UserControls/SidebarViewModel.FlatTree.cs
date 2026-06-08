@@ -323,14 +323,20 @@ namespace Files.App.ViewModels.UserControls
 				FlatSidebarItems.InsertRange(insertAt, batch);
 				return;
 			}
+			var currentInsertAt = insertAt;
 			for (int i = 0; i < batch.Count; i += FlatTreeInsertChunkSize)
 			{
 				var chunkEnd = Math.Min(i + FlatTreeInsertChunkSize, batch.Count);
 				var chunk = batch.GetRange(i, chunkEnd - i);
 				RegisterNodes(chunk);
-				FlatSidebarItems.InsertRange(insertAt + i, chunk);
+				FlatSidebarItems.InsertRange(currentInsertAt, chunk);
 				if (chunkEnd < batch.Count)
+				{
 					await Task.Delay(1);
+					currentInsertAt = FlatSidebarItems.IndexOf(batch[chunkEnd - 1]) + 1;
+					if (currentInsertAt <= 0)
+						return;
+				}
 			}
 		}
 
