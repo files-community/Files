@@ -359,7 +359,7 @@ namespace Files.App.ViewModels.UserControls
 				return new RichTextPreview(model);
 			}
 
-			if (FileExtensionHelpers.IsCodeFile(ext))
+			if (CodePreviewViewModel.IsCodeFile(ext))
 			{
 				var model = new CodePreviewViewModel(item);
 				await model.LoadAsync();

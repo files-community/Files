@@ -1,7 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using ColorCode;
 using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
@@ -15,45 +14,6 @@ namespace Files.Shared.Helpers
 	/// </summary>
 	public static class FileExtensionHelpers
 	{
-		public static readonly FrozenDictionary<string, ILanguage> CodeFileExtensions = CodeFileExtensions_GetDictionary();
-
-		private static readonly string[] CodeFileExtensionKeys = [.. CodeFileExtensions.Keys];
-
-		private static FrozenDictionary<string, ILanguage> CodeFileExtensions_GetDictionary()
-		{
-			var items = new Dictionary<ILanguage, string>
-			{
-				[Languages.Aspx] = "aspx",
-				[Languages.AspxCs] = "acsx",
-				[Languages.Cpp] = "cpp,c++,cc,cp,cxx,h,h++,hh,hpp,hxx,inc,inl,ino,ipp,re,tcc,tpp",
-				[Languages.CSharp] = "cs,cake,csx,linq",
-				[Languages.Css] = "css,scss",
-				[Languages.FSharp] = "fs,fsi,fsx",
-				[Languages.Haskell] = "hs",
-				[Languages.Html] = "razor,cshtml,vbhtml,svelte",
-				[Languages.Java] = "java",
-				[Languages.JavaScript] = "js,jsx",
-				[Languages.Php] = "php",
-				[Languages.PowerShell] = "pwsh,ps1,psd1,psm1",
-				[Languages.Typescript] = "ts,tsx",
-				[Languages.VbDotNet] = "vb,vbs",
-				[Languages.Xml] = "xml,axml,xaml,xsd,xsl,xslt,xlf",
-			};
-
-			var dictionary = new Dictionary<string, ILanguage>();
-
-			foreach (var item in items)
-			{
-				var extensions = item.Value.Split(',').Select(ext => $".{ext}");
-				foreach (var extension in extensions)
-				{
-					dictionary.Add(extension, item.Key);
-				}
-			}
-
-			return dictionary.ToFrozenDictionary();
-		}
-
 		private static readonly FrozenSet<string> _signableTypes = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 		{
 			".aab", ".apk", ".application", ".appx", ".appxbundle", ".arx", ".cab", ".cat", ".cbx",
@@ -377,16 +337,6 @@ namespace Files.Shared.Helpers
 		public static bool IsRichTextFile(string? fileExtensionToCheck)
 		{
 			return HasExtension(fileExtensionToCheck, ".rtf");
-		}
-
-		/// <summary>
-		/// Check if the file extension matches a recognised code file extension.
-		/// </summary>
-		/// <param name="fileExtensionToCheck"></param>
-		/// <returns><c>true</c> if the fileExtensionToCheck is a code file; otherwise, <c>false</c>.</returns>
-		public static bool IsCodeFile(string? fileExtensionToCheck)
-		{
-			return HasExtension(fileExtensionToCheck, CodeFileExtensionKeys);
 		}
 
 		/// <summary>
