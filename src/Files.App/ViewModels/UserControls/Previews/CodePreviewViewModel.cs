@@ -30,7 +30,7 @@ namespace Files.App.ViewModels.Previews
 		{
 		}
 
-		public static bool ContainsExtension(string extension)
+		public static bool IsCodeFile(string extension)
 			=> extensions.ContainsKey(extension);
 
 		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
