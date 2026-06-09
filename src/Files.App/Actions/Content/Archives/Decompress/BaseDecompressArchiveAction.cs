@@ -97,25 +97,44 @@ namespace Files.App.Actions
 					if (zipFile is null)
 						return true;
 
-					static string? GetFirstMeaningfulSegment(string? fileName)
+					static ReadOnlySpan<char> GetFirstMeaningfulSegment(ReadOnlySpan<char> path)
 					{
-						if (string.IsNullOrEmpty(fileName))
-							return null;
+						while (!path.IsEmpty)
+						{
+							while (!path.IsEmpty && (path[0] == '/' || path[0] == '\\'))
+								path = path[1..];
 
-						var parts = fileName.Split(['/', '\\'], StringSplitOptions.RemoveEmptyEntries);
-						foreach (var part in parts.Where(part => part is not "." and not ".."))
-							return part;
+							if (path.IsEmpty)
+								break;
 
-						return null;
+							int sep = path.IndexOfAny('/', '\\');
+							ReadOnlySpan<char> seg = sep < 0 ? path : path[..sep];
+
+							path = sep < 0 ? ReadOnlySpan<char>.Empty : path[(sep + 1)..];
+
+							if (seg.SequenceEqual(".") || seg.SequenceEqual(".."))
+								continue;
+
+							return seg;
+						}
+
+						return default;
 					}
 
-					var topLevelEntries = zipFile.ArchiveFileData
-						.Select(file => GetFirstMeaningfulSegment(file.FileName))
-						.Where(x => !string.IsNullOrEmpty(x))
-						.Distinct()
-						.Count();
+					string? firstTopLevel = null;
+					foreach (var file in zipFile.ArchiveFileData)
+					{
+						var segment = GetFirstMeaningfulSegment(file.FileName);
+						if (segment.IsEmpty)
+							continue;
 
-					return topLevelEntries > 1;
+						if (firstTopLevel is null)
+							firstTopLevel = segment.ToString();
+						else if (!segment.SequenceEqual(firstTopLevel))
+							return true;
+					}
+
+					return false;
 				});
 
 				if (smart && currentFolder is not null && isMultipleItems)
