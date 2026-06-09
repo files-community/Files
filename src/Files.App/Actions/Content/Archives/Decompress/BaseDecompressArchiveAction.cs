@@ -97,15 +97,44 @@ namespace Files.App.Actions
 					if (zipFile is null)
 						return true;
 
-					return zipFile.ArchiveFileData.Select(file =>
+					static ReadOnlySpan<char> GetFirstMeaningfulSegment(ReadOnlySpan<char> path)
 					{
-						var pathCharIndex = file.FileName.IndexOfAny(['/', '\\']);
-						if (pathCharIndex == -1)
-							return file.FileName;
-						else
-							return file.FileName.Substring(0, pathCharIndex);
-					})
-					.Distinct().Count() > 1;
+						while (!path.IsEmpty)
+						{
+							while (!path.IsEmpty && (path[0] == '/' || path[0] == '\\'))
+								path = path[1..];
+
+							if (path.IsEmpty)
+								break;
+
+							int sep = path.IndexOfAny('/', '\\');
+							ReadOnlySpan<char> seg = sep < 0 ? path : path[..sep];
+
+							path = sep < 0 ? ReadOnlySpan<char>.Empty : path[(sep + 1)..];
+
+							if (seg.SequenceEqual(".") || seg.SequenceEqual(".."))
+								continue;
+
+							return seg;
+						}
+
+						return default;
+					}
+
+					string? firstTopLevel = null;
+					foreach (var file in zipFile.ArchiveFileData)
+					{
+						var segment = GetFirstMeaningfulSegment(file.FileName);
+						if (segment.IsEmpty)
+							continue;
+
+						if (firstTopLevel is null)
+							firstTopLevel = segment.ToString();
+						else if (!segment.SequenceEqual(firstTopLevel))
+							return true;
+					}
+
+					return false;
 				});
 
 				if (smart && currentFolder is not null && isMultipleItems)
