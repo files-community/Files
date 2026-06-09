@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using ColorCode;
 using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
@@ -14,6 +15,45 @@ namespace Files.Shared.Helpers
 	/// </summary>
 	public static class FileExtensionHelpers
 	{
+		public static readonly FrozenDictionary<string, ILanguage> CodeFileExtensions = CodeFileExtensions_GetDictionary();
+
+		private static readonly string[] CodeFileExtensionKeys = [.. CodeFileExtensions.Keys];
+
+		private static FrozenDictionary<string, ILanguage> CodeFileExtensions_GetDictionary()
+		{
+			var items = new Dictionary<ILanguage, string>
+			{
+				[Languages.Aspx] = "aspx",
+				[Languages.AspxCs] = "acsx",
+				[Languages.Cpp] = "cpp,c++,cc,cp,cxx,h,h++,hh,hpp,hxx,inc,inl,ino,ipp,re,tcc,tpp",
+				[Languages.CSharp] = "cs,cake,csx,linq",
+				[Languages.Css] = "css,scss",
+				[Languages.FSharp] = "fs,fsi,fsx",
+				[Languages.Haskell] = "hs",
+				[Languages.Html] = "razor,cshtml,vbhtml,svelte",
+				[Languages.Java] = "java",
+				[Languages.JavaScript] = "js,jsx",
+				[Languages.Php] = "php",
+				[Languages.PowerShell] = "pwsh,ps1,psd1,psm1",
+				[Languages.Typescript] = "ts,tsx",
+				[Languages.VbDotNet] = "vb,vbs",
+				[Languages.Xml] = "xml,axml,xaml,xsd,xsl,xslt,xlf",
+			};
+
+			var dictionary = new Dictionary<string, ILanguage>();
+
+			foreach (var item in items)
+			{
+				var extensions = item.Value.Split(',').Select(ext => $".{ext}");
+				foreach (var extension in extensions)
+				{
+					dictionary.Add(extension, item.Key);
+				}
+			}
+
+			return dictionary.ToFrozenDictionary();
+		}
+
 		private static readonly FrozenSet<string> _signableTypes = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 		{
 			".aab", ".apk", ".application", ".appx", ".appxbundle", ".arx", ".cab", ".cat", ".cbx",
@@ -337,6 +377,46 @@ namespace Files.Shared.Helpers
 		public static bool IsRichTextFile(string? fileExtensionToCheck)
 		{
 			return HasExtension(fileExtensionToCheck, ".rtf");
+		}
+
+		/// <summary>
+		/// Check if the file extension matches a recognised code file extension.
+		/// </summary>
+		/// <param name="fileExtensionToCheck"></param>
+		/// <returns><c>true</c> if the fileExtensionToCheck is a code file; otherwise, <c>false</c>.</returns>
+		public static bool IsCodeFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, CodeFileExtensionKeys);
+		}
+
+		/// <summary>
+		/// Check if the file extension is a PDF file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck"></param>
+		/// <returns><c>true</c> if the fileExtensionToCheck is a PDF file; otherwise, <c>false</c>.</returns>
+		public static bool IsPdfFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".pdf");
+		}
+
+		/// <summary>
+		/// Check if the file extension is an HTML file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck"></param>
+		/// <returns><c>true</c> if the fileExtensionToCheck is an HTML file; otherwise, <c>false</c>.</returns>
+		public static bool IsHtmlFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".htm", ".html", ".svg");
+		}
+
+		/// <summary>
+		/// Check if the file extension is supported by the image preview pane.
+		/// </summary>
+		/// <param name="fileExtensionToCheck"></param>
+		/// <returns><c>true</c> if the fileExtensionToCheck can be image-previewed; otherwise, <c>false</c>.</returns>
+		public static bool IsImagePreviewFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tiff", ".ico", ".webp", ".jxr");
 		}
 	}
 }

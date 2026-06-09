@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
@@ -16,6 +16,7 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Logging" />
         <PackageReference Include="System.IO.Hashing" />
+        <PackageReference Include="ColorCode.Core" />
     </ItemGroup>
 
 </Project>

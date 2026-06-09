@@ -319,7 +319,7 @@ namespace Files.App.ViewModels.UserControls
 				return new MarkdownPreview(model);
 			}
 
-			if (ImagePreviewViewModel.ContainsExtension(ext))
+			if (FileExtensionHelpers.IsImagePreviewFile(ext))
 			{
 				var model = new ImagePreviewViewModel(item);
 				await model.LoadAsync();
@@ -335,7 +335,7 @@ namespace Files.App.ViewModels.UserControls
 				return new TextPreview(model);
 			}
 
-			/*if (PDFPreviewViewModel.ContainsExtension(ext))
+			/*if (FileExtensionHelpers.IsPdfFile(ext))
 			{
 				var model = new PDFPreviewViewModel(item);
 				await model.LoadAsync();
@@ -343,7 +343,7 @@ namespace Files.App.ViewModels.UserControls
 				return new PDFPreview(model);
 			}*/
 
-			/*if (HtmlPreviewViewModel.ContainsExtension(ext))
+			/*if (FileExtensionHelpers.IsHtmlFile(ext))
 			{
 				var model = new HtmlPreviewViewModel(item);
 				await model.LoadAsync();
@@ -359,7 +359,7 @@ namespace Files.App.ViewModels.UserControls
 				return new RichTextPreview(model);
 			}
 
-			if (CodePreviewViewModel.ContainsExtension(ext))
+			if (FileExtensionHelpers.IsCodeFile(ext))
 			{
 				var model = new CodePreviewViewModel(item);
 				await model.LoadAsync();
