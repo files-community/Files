@@ -654,12 +654,18 @@ namespace Files.App.ViewModels
 						if (e.ValueState is SizeChangedValueState.None)
 						{
 							matchingItem.FileSizeBytes = 0;
-							matchingItem.FileSize = Strings.ItemSizeNotCalculated.GetLocalizedResource();
+							matchingItem.IsCalculatingSize = true;
+							matchingItem.ShowCalculatingText = true;
 						}
 						else if (e.ValueState is SizeChangedValueState.Final || (long)e.NewSize > matchingItem.FileSizeBytes)
 						{
 							matchingItem.FileSizeBytes = (long)e.NewSize;
 							matchingItem.FileSize = e.NewSize.ToSizeString();
+							if (e.ValueState is SizeChangedValueState.Final)
+							{
+								matchingItem.ShowCalculatingText = false;
+								matchingItem.IsCalculatingSize = false;
+							}
 						}
 
 						DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);

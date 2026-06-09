@@ -23,14 +23,8 @@ namespace Files.App.Services.SizeProvider
 		public async Task UpdateAsync(string path, CancellationToken cancellationToken)
 		{
 			await Task.Yield();
-			if (sizes.TryGetValue(path, out ulong cachedSize))
-			{
-				RaiseSizeChanged(path, cachedSize, SizeChangedValueState.Final);
-			}
-			else
-			{
+			if (!sizes.ContainsKey(path))
 				RaiseSizeChanged(path, 0, SizeChangedValueState.None);
-			}
 
 			var stopwatch = Stopwatch.StartNew();
 			ulong size = await Calculate(path);
