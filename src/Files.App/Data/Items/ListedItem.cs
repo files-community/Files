@@ -280,10 +280,38 @@ namespace Files.App.Utils
 			{
 				SetProperty(ref fileSize, value);
 				OnPropertyChanged(nameof(FileSizeDisplay));
+				OnPropertyChanged(nameof(ShowViewSizeButton));
+				OnPropertyChanged(nameof(SizeText));
 			}
 		}
 
 		public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? Strings.ItemSizeNotCalculated.GetLocalizedResource() : FileSize;
+
+		public bool ShowViewSizeButton => !IsCalculatingSize && string.IsNullOrEmpty(FileSize) && PrimaryItemAttribute == StorageItemTypes.Folder;
+
+		public string SizeText => ShowCalculatingText ? Strings.Calculating.GetLocalizedResource() : FileSize;
+
+		private bool isCalculatingSize;
+		public bool IsCalculatingSize
+		{
+			get => isCalculatingSize;
+			set
+			{
+				SetProperty(ref isCalculatingSize, value);
+				OnPropertyChanged(nameof(ShowViewSizeButton));
+			}
+		}
+
+		private bool showCalculatingText;
+		public bool ShowCalculatingText
+		{
+			get => showCalculatingText;
+			set
+			{
+				SetProperty(ref showCalculatingText, value);
+				OnPropertyChanged(nameof(SizeText));
+			}
+		}
 
 		public long FileSizeBytes { get; set; }
 

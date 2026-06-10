@@ -41,7 +41,7 @@ namespace Files.App.Services
 		}
 
 		private ISizeProvider GetProvider()
-			=> folderPreferences.CalculateFolderSizes ? new DrivesSizeProvider() : new NoSizeProvider();
+			=> new DrivesSizeProvider();
 
 		private async void FolderPreferences_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{

@@ -1075,6 +1075,28 @@ namespace Files.App.Views.Layouts
 			ToolTipService.SetToolTip(textBlock, textBlock.IsTextTrimmed ? textBlock.Text : null);
 		}
 
+		private async void ViewSizeButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (sender is not FrameworkElement { DataContext: ListedItem item })
+				return;
+
+			item.IsCalculatingSize = true;
+			var sizeProvider = Ioc.Default.GetRequiredService<Services.SizeProvider.ISizeProvider>();
+			var updateTask = Task.Run(() => sizeProvider.UpdateAsync(item.ItemPath, default));
+
+			try
+			{
+				if (await Task.WhenAny(updateTask, Task.Delay(300)) != updateTask)
+					item.ShowCalculatingText = true;
+				await updateTask;
+			}
+			finally
+			{
+				item.ShowCalculatingText = false;
+				item.IsCalculatingSize = false;
+			}
+		}
+
 		private void FileList_LosingFocus(UIElement sender, LosingFocusEventArgs args)
 		{
 			// Fixes an issue where clicking an empty space would scroll to the top of the file list
