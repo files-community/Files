@@ -393,6 +393,8 @@ namespace Files.App.Utils.Storage
 				var recycledSources = deleteResult.Items.Where(x => x.Succeeded && x.Destination is not null && x.Source != x.Destination);
 				if (recycledSources.Any())
 				{
+					StorageTrashBinService.UpdateDesktopRecycleBinIcon();
+
 					var sourceMatch = await recycledSources.Select(x => source.DistinctBy(x => x.Path)
 						.SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
 
@@ -402,6 +404,9 @@ namespace Files.App.Utils.Storage
 						await recycledSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
 							.Select(item => StorageHelpers.FromPathAndType(item.rSrc.Destination, item.oSrc.ItemType)).ToListAsync());
 				}
+
+				if (deleteFromRecycleBin)
+					StorageTrashBinService.UpdateDesktopRecycleBinIcon();
 
 				return new StorageHistory(FileOperationType.Delete, source, null);
 			}
@@ -780,6 +785,8 @@ namespace Files.App.Utils.Storage
 						.Select(src => StorageHelpers.FromPathAndType(
 							Path.Combine(Path.GetDirectoryName(src.rSrc.Source), Path.GetFileName(src.rSrc.Source).Replace("$R", "$I", StringComparison.Ordinal)),
 							src.oSrc.ItemType)).ToListAsync(), null, true, cancellationToken);
+
+					StorageTrashBinService.UpdateDesktopRecycleBinIcon();
 
 					return new StorageHistory(FileOperationType.Restore,
 						sourceMatch,

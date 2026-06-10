@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
@@ -106,6 +107,9 @@ namespace Files.App.Services
 				0x00000001 | 0x00000002 /* SHERB_NOCONFIRMATION | SHERB_NOPROGRESSUI */)
 			.Succeeded;
 
+			if (fRes)
+				UpdateDesktopRecycleBinIcon();
+
 			return fRes;
 		}
 
@@ -163,10 +167,23 @@ namespace Files.App.Services
 			// Perform
 			hr = pFileOperation.Get()->PerformOperations();
 
-			// Reset the icon
-			PInvoke.SHUpdateRecycleBinIcon();
+			if (hr == HRESULT.S_OK)
+				UpdateDesktopRecycleBinIcon();
 
-			return true;
+			return hr == HRESULT.S_OK;
+		}
+
+		/// <inheritdoc/>
+		public void UpdateDesktopRecycleBinIcon()
+		{
+			try
+			{
+				PInvoke.SHUpdateRecycleBinIcon();
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.LogWarning(ex, "Failed to update the Recycle Bin desktop icon.");
+			}
 		}
 	}
 }
