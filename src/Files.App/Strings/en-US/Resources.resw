@@ -4304,6 +4304,12 @@
   <data name="OpenSettings" xml:space="preserve">
     <value>Open settings</value>
   </data>
+  <data name="NetworkDiscoveryInfoBarTitle" xml:space="preserve">
+    <value>Network discovery might be turned off</value>
+  </data>
+  <data name="NetworkDiscoveryInfoBarMessage" xml:space="preserve">
+    <value>Network devices may not appear when network discovery is turned off. Open Windows Settings to enable it.</value>
+  </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
   </data>

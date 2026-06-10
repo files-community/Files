@@ -203,6 +203,11 @@ namespace Files.App.Views
 				InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
 		}
 
+		private async void OpenNetworkAdvancedSettingsButton_Click(object sender, RoutedEventArgs e)
+		{
+			await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-settings:network-advancedsettings"));
+		}
+
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			_ = ViewModel.OnNavigatedToAsync(e);
