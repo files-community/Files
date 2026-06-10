@@ -19,6 +19,10 @@ namespace Files.App.UserControls.Selection
 		private ScrollViewer scrollViewer;
 		private SelectionChangedEventHandler selectionChanged;
 		private DispatcherQueueTimer timer;
+		private DispatcherQueueTimer selectionUpdateTimer;
+		private List<object>? pendingSelectedItems;
+		private List<object>? pendingRemovedItems;
+		private bool isSelectionUpdatePending;
 		private Point originDragPoint;
 		private Dictionary<object, System.Drawing.Rectangle> itemsPosition;
 		private List<object> prevSelectedItems;
@@ -32,7 +36,21 @@ namespace Files.App.UserControls.Selection
 			this.selectionChanged = selectionChanged;
 			itemsPosition = [];
 			timer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+			selectionUpdateTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+			selectionUpdateTimer.Interval = TimeSpan.FromMilliseconds(8);
+			selectionUpdateTimer.Tick += SelectionUpdateTimer_Tick;
 			InitEvents(null, null);
+		}
+
+		private void SelectionUpdateTimer_Tick(object? sender, object e)
+		{
+			selectionUpdateTimer.Stop();
+			if (isSelectionUpdatePending && pendingSelectedItems is not null && selectionChanged is not null)
+			{
+				selectionChanged(this, new SelectionChangedEventArgs(pendingRemovedItems ?? [], pendingSelectedItems));
+				isSelectionUpdatePending = false;
+				pendingRemovedItems = null;
+			}
 		}
 
 		private void RectangleSelection_PointerMoved(object sender, PointerRoutedEventArgs e)
@@ -102,9 +120,14 @@ namespace Files.App.UserControls.Selection
 					var currentSelectedItemsDrag = uiElement.SelectedItems.Cast<object>().ToList();
 					if (prevSelectedItemsDrag is null || !prevSelectedItemsDrag.SequenceEqual(currentSelectedItemsDrag))
 					{
-						// Trigger SelectionChanged event if the selection has changed
 						var removedItems = selectedItemsBeforeChange.Except(currentSelectedItemsDrag).ToList();
-						selectionChanged(sender, new SelectionChangedEventArgs(removedItems, currentSelectedItemsDrag));
+						pendingSelectedItems = currentSelectedItemsDrag;
+						pendingRemovedItems = pendingRemovedItems is null 
+							? removedItems 
+							: pendingRemovedItems.Union(removedItems).ToList();
+						isSelectionUpdatePending = true;
+						selectionUpdateTimer.Stop();
+						selectionUpdateTimer.Start();
 						prevSelectedItemsDrag = currentSelectedItemsDrag;
 					}
 				}
@@ -192,6 +215,17 @@ namespace Files.App.UserControls.Selection
 
 			scrollViewer.ViewChanged -= ScrollViewer_ViewChanged;
 			uiElement.ReleasePointerCapture(e.Pointer);
+
+			if (selectionUpdateTimer.IsRunning)
+			{
+				selectionUpdateTimer.Stop();
+				if (isSelectionUpdatePending && pendingSelectedItems is not null && selectionChanged is not null)
+				{
+					selectionChanged(this, new SelectionChangedEventArgs(pendingRemovedItems ?? [], pendingSelectedItems));
+					isSelectionUpdatePending = false;
+				}
+			}
+
 			if (selectionChanged is not null)
 			{
 				// Restore and trigger SelectionChanged event
