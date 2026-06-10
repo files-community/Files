@@ -185,10 +185,11 @@
 			ItemDropped="SidebarControl_ItemDropped"
 			ItemInvoked="SidebarControl_ItemInvoked"
 			Loaded="SidebarControl_Loaded"
-			MenuItemsSource="{x:Bind SidebarAdaptiveViewModel.SidebarItems, Mode=OneWay}"
+			MenuItemsSource="{x:Bind SidebarAdaptiveViewModel.FlatSidebarItems, Mode=OneWay}"
 			OpenPaneLength="{x:Bind UserSettingsService.AppearanceSettingsService.SidebarWidth, Mode=TwoWay}"
 			PaneBackgroundBrush="{ThemeResource App.Theme.Sidebar.BackgroundBrush}"
-			SelectedItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}">
+			SelectedItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
+			SupportsExpansion="True">
 
 			<!--  Inner Content  -->
 			<controls:SidebarView.InnerContent>
@@ -303,7 +304,6 @@
 						Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
 						Text="{helpers:ResourceString Name=SectionsHiddenMessage}"
 						TextAlignment="Center" />
-
 				</StackPanel>
 			</controls:SidebarView.SidebarContent>
 
