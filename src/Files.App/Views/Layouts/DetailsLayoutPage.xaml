@@ -1268,8 +1268,6 @@
 											FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 											FontSize="{StaticResource CaptionTextBlockFontSize}"
 											FontWeight="Normal"
-											Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-											Opacity="0.6"
 											Visibility="{x:Bind ShowViewSizeButton, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 									</Grid>
 
