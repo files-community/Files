@@ -165,6 +165,9 @@
   <data name="Skip" xml:space="preserve">
     <value>Skip</value>
   </data>
+    <data name="SkipAll" xml:space="preserve">
+    <value>Skip all</value>
+</data>
   <data name="SelectAll" xml:space="preserve">
     <value>Select all</value>
   </data>
