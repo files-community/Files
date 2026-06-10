@@ -467,7 +467,7 @@ namespace Files.App.ViewModels.Settings
 				}
 			}
 		}
-		
+
 		public bool ShowEditTagsMenu
 		{
 			get => UserSettingsService.GeneralSettingsService.ShowEditTagsMenu;

@@ -147,9 +147,9 @@ namespace Files.App.Helpers
 				SubtitleText = lockingProcess.IsEmpty() ? Strings.FileInUseDialog_Text.GetLocalizedResource() :
 					string.Format(Strings.FileInUseByDialog_Text.GetLocalizedResource(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})"))),
 				PrimaryButtonText = Strings.Retry.GetLocalizedResource(),
-        		SecondaryButtonText = Strings.Skip.GetLocalizedResource(),
-        		CloseButtonText = Strings.SkipAll.GetLocalizedResource(),
-        		DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary | DynamicDialogButtons.Cancel
+				SecondaryButtonText = Strings.Skip.GetLocalizedResource(),
+				CloseButtonText = Strings.SkipAll.GetLocalizedResource(),
+				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary | DynamicDialogButtons.Cancel
 			});
 			return dialog;
 		}

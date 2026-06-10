@@ -110,7 +110,7 @@ namespace Files.App.Data.Factories
 				var detailsItemEnabled = !(isFolder && !listedItem.IsArchive) && !isLibrary && !listedItem.IsRecycleBinItem;
 				var customizationItemEnabled = !isLibrary && (isFolder && !listedItem.IsArchive || isShortcut);
 				var compatibilityItemEnabled = FileExtensionHelpers.IsExecutableFile(listedItem is IShortcutItem sht ? sht.TargetPath : fileExt, true);
-				var signaturesItemEnabled = 
+				var signaturesItemEnabled =
 					!isFolder &&
 					!isLibrary &&
 					!listedItem.IsRecycleBinItem &&

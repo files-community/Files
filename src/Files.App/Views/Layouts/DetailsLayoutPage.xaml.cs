@@ -920,7 +920,7 @@ namespace Files.App.Views.Layouts
 					return;
 				void OnZoomScrolled(object? s, ScrollViewerViewChangedEventArgs ve)
 				{
-					scroller.ViewChanged -= OnZoomScrolled; 
+					scroller.ViewChanged -= OnZoomScrolled;
 					scroller.ChangeView(0, Math.Max(0, scroller.VerticalOffset - OffsetCorrection), null, true);
 				}
 				scroller.ViewChanged += OnZoomScrolled;

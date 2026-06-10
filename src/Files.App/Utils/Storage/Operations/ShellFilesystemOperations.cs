@@ -857,10 +857,15 @@ namespace Files.App.Utils.Storage
 				? Strings.FileInUseDialog_Text.GetLocalizedResource()
 				: string.Format(Strings.FileInUseByDialog_Text.GetLocalizedResource(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})")));
 
-			return GetFileListDialog(source, titleText, subtitleText,
+			var sourceCount = source.Count();
+
+			return GetFileListDialog(
+				source,
+				titleText,
+				subtitleText,
 				Strings.Retry.GetLocalizedResource(),
-				Strings.Skip.GetLocalizedResource(),
-				Strings.SkipAll.GetLocalizedResource());
+				sourceCount > 1 ? Strings.Skip.GetLocalizedResource() : Strings.Cancel.GetLocalizedResource(),
+				sourceCount > 1 ? Strings.SkipAll.GetLocalizedResource() : null);
 		}
 
 		private async Task<DialogResult> GetFileListDialog(IEnumerable<string> source, string titleText, string descriptionText = null, string primaryButtonText = null, string secondaryButtonText = null, string closeButtonText = null)

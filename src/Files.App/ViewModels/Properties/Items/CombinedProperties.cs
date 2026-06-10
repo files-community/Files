@@ -67,7 +67,7 @@ namespace Files.App.ViewModels.Properties
 				allNotCompressed &= !isCompressed;
 				anyCanCompress |= Win32Helper.CanCompressContent(x.ItemPath);
 			}
-			
+
 			if (allFiles)
 			{
 				if (allReadOnly)

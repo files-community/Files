@@ -224,7 +224,7 @@ namespace Files.App.Utils.Signatures
 					HCRYPTPROV_LEGACY.Null,
 					(CERT_OPEN_STORE_FLAGS)CERT_SYSTEM_STORE_CURRENT_USER,
 					(void*)pRoot
-				); 
+				);
 			}
 			if (hSystemStore == IntPtr.Zero)
 				return false;
@@ -387,7 +387,7 @@ namespace Files.App.Utils.Signatures
 
 			HCERTSTORE hCertStoreTmp = HCERTSTORE.Null;
 			void* hMsgTmp = null;
-			
+
 			fixed (char* pFileName = fileName)
 			{
 				result = PInvoke.CryptQueryObject(
