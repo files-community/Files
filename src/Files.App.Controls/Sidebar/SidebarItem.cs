@@ -3,10 +3,15 @@
 
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
+using System.Collections;
 using System.Collections.Specialized;
 using System.IO;
+using System.Runtime.InteropServices;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 
@@ -92,7 +97,17 @@ namespace Files.App.Controls
 			HookupItemChangeListener(null, Item);
 			UpdateExpansionState();
 			ReevaluateSelection();
-			CanDrag = Item?.Path is string path && Path.IsPathRooted(path);
+
+			if (Item is IDraggableSidebarItemModel draggableItem)
+			{
+				CanDrag = IsValidDropPath(draggableItem.DropPath);
+				UseReorderDrop = !IsGroupHeader && CanDrag && draggableItem.IsReorderDropItem;
+			}
+			else
+			{
+				CanDrag = false;
+				UseReorderDrop = false;
+			}
 		}
 
 		private void HookupOwners()
@@ -138,32 +153,36 @@ namespace Files.App.Controls
 			}
 		}
 
+		private static bool IsValidDropPath(string? path)
+			=> path is not null && (System.IO.Path.IsPathRooted(path) || path.StartsWith("Shell:", StringComparison.OrdinalIgnoreCase));
+
 		private void SidebarItem_DragStarting(UIElement sender, DragStartingEventArgs args)
 		{
-			if (Item?.Path is not string dragPath || !Path.IsPathRooted(dragPath))
+			if (Item is not IDraggableSidebarItemModel draggableItem || draggableItem.DropPath is not string dragPath || !IsValidDropPath(dragPath))
 				return;
 
-			args.Data.SetData(StandardDataFormats.Text, dragPath);
-			args.Data.RequestedOperation = DataPackageOperation.Move | DataPackageOperation.Copy | DataPackageOperation.Link;
-			args.Data.SetDataProvider(StandardDataFormats.StorageItems, async request =>
+			SafetyExtensions.IgnoreExceptions(() =>
 			{
-				var deferral = request.GetDeferral();
-				try
+				args.Data.SetData(StandardDataFormats.Text, dragPath);
+				args.Data.RequestedOperation = DataPackageOperation.Move | DataPackageOperation.Copy | DataPackageOperation.Link;
+				args.Data.SetDataProvider(StandardDataFormats.StorageItems, async request =>
 				{
-					if (Directory.Exists(dragPath))
+					var deferral = SafetyExtensions.IgnoreExceptions(() => request.GetDeferral(), null, typeof(COMException));
+					try
 					{
-						var folder = await StorageFolder.GetFolderFromPathAsync(dragPath);
-						request.SetData(new IStorageItem[] { folder });
+						if (Directory.Exists(dragPath))
+						{
+							var folder = await StorageFolder.GetFolderFromPathAsync(dragPath);
+							request.SetData(new IStorageItem[] { folder });
+						}
 					}
-				}
-				catch
-				{
-				}
-				finally
-				{
-					deferral.Complete();
-				}
-			});
+					finally
+					{
+						if (deferral is not null)
+							SafetyExtensions.IgnoreExceptions(() => deferral.Complete(), null, typeof(COMException));
+					}
+				});
+			}, null, typeof(COMException));
 		}
 
 		private void SetFlyoutOpen(bool isOpen = true)
@@ -394,21 +413,49 @@ namespace Files.App.Controls
 				IsExpanded = true;
 			}
 
-			var insertsAbove = DetermineDropTargetPosition(e);
-			if (insertsAbove == SidebarItemDropPosition.Center)
-			{
-				VisualStateManager.GoToState(this, "DragOnTop", true);
-			}
-			else if (insertsAbove == SidebarItemDropPosition.Top)
-			{
-				VisualStateManager.GoToState(this, "DragInsertAbove", true);
-			}
-			else if (insertsAbove == SidebarItemDropPosition.Bottom)
-			{
-				VisualStateManager.GoToState(this, "DragInsertBelow", true);
-			}
+			// Expected to fail with COMException if the OLE drag payload is stale
+			var deferral = SafetyExtensions.IgnoreExceptions(() => e.GetDeferral(), null, typeof(COMException));
 
-			Owner?.RaiseItemDragOver(this, insertsAbove, e);
+			try
+			{
+				var dropPosition = DetermineDropTargetPosition(e);
+
+				if (Owner is not null)
+					Owner.RaiseItemDragOver(this, dropPosition, e);
+
+				bool isHandled = false;
+				DataPackageOperation acceptedOperation = DataPackageOperation.None;
+
+				var propertiesRead = SafetyExtensions.IgnoreExceptions(() =>
+				{
+					isHandled = e.Handled;
+					acceptedOperation = e.AcceptedOperation;
+				}, null, typeof(COMException));
+
+				if (!propertiesRead || !isHandled || acceptedOperation == DataPackageOperation.None)
+				{
+					VisualStateManager.GoToState(this, "Normal", true);
+					return;
+				}
+
+				if (dropPosition == SidebarItemDropPosition.Center)
+				{
+					VisualStateManager.GoToState(this, "DragOnTop", true);
+				}
+				else if (dropPosition == SidebarItemDropPosition.Top)
+				{
+					VisualStateManager.GoToState(this, "DragInsertAbove", true);
+				}
+				else if (dropPosition == SidebarItemDropPosition.Bottom)
+				{
+					VisualStateManager.GoToState(this, "DragInsertBelow", true);
+				}
+			}
+			finally
+			{
+				if (deferral is not null)
+					SafetyExtensions.IgnoreExceptions(() => deferral.Complete(), null, typeof(COMException));
+			}
 		}
 
 		private void ItemBorder_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)

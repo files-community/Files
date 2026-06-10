@@ -5,11 +5,15 @@ using Files.App.Controls;
 
 namespace Files.App.Data.Contracts
 {
-	public interface INavigationControlItem : IComparable<INavigationControlItem>, INotifyPropertyChanged, ISidebarItemModel
+	public interface INavigationControlItem : IComparable<INavigationControlItem>, INotifyPropertyChanged, IDraggableSidebarItemModel
 	{
 		public new string Text { get; }
 
 		public string Path { get; }
+
+		string? IDraggableSidebarItemModel.DropPath => Path;
+
+		bool IDraggableSidebarItemModel.IsReorderDropItem => Section == SectionType.Pinned;
 
 		public SectionType Section { get; }
 
