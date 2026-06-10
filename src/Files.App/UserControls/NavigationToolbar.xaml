@@ -309,11 +309,10 @@
 								<Viewbox
 									Width="16"
 									Height="16"
-									Visibility="{x:Bind Glyph, Converter={StaticResource NullToVisibilityCollapsedConverter}, Mode=OneWay}">
-									<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="{x:Bind Glyph, Mode=OneWay}" />
+									Visibility="{x:Bind Glyph, Converter={StaticResource NullToVisibilityCollapsedConverter}, Mode=OneTime}">
+									<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="{x:Bind Glyph, Mode=OneTime}" />
 								</Viewbox>
-								<controls:ThemedIcon Style="{x:Bind ThemedIconStyle, Mode=OneWay}" Visibility="{x:Bind ThemedIconStyle, Converter={StaticResource NullToVisibilityCollapsedConverter}, Mode=OneWay}" />
-								<Image Source="{x:Bind ActionIconSource, Mode=OneWay}" />
+								<controls:ThemedIcon Style="{x:Bind ThemedIconStyle, Mode=OneTime}" Visibility="{x:Bind ThemedIconStyle, Converter={StaticResource NullToVisibilityCollapsedConverter}, Mode=OneTime}" />
 							</Grid>
 
 							<!--  Primary Title  -->
@@ -324,7 +323,7 @@
 								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap">
-								<Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPreMatched, Mode=OneWay}" /><Run FontWeight="Bold" Text="{x:Bind PrimaryDisplayMatched, Mode=OneWay}" /><Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPostMatched, Mode=OneWay}" />
+								<Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPreMatched, Mode=OneTime}" /><Run FontWeight="Bold" Text="{x:Bind PrimaryDisplayMatched, Mode=OneTime}" /><Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPostMatched, Mode=OneTime}" />
 							</TextBlock>
 
 							<!--  Keyboard Shortcuts  -->
@@ -332,7 +331,7 @@
 								x:Name="RightAlignedKeyboardShortcut"
 								Grid.Column="2"
 								VerticalAlignment="Center"
-								HotKeys="{x:Bind HotKeys, Mode=OneWay}" />
+								HotKeys="{x:Bind HotKeys, Mode=OneTime}" />
 						</Grid>
 					</DataTemplate>
 				</controls:OmnibarMode.ItemTemplate>

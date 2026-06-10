@@ -183,25 +183,24 @@ namespace Files.App.UserControls
 			// Command palette mode
 			else if (mode == OmnibarCommandPaletteMode)
 			{
-				var item = args.Item as NavigationBarSuggestionItem;
+				IRichCommand? command = null;
 
-				// Try invoking built-in command
-				foreach (var command in Commands)
-				{
-					if (command == Commands.None)
-						continue;
+				if (args.Item is NavigationBarSuggestionItem item)
+					command = item.Command;
+				else
+					// Maybe the user typed the full command description without selecting a suggestion, so search for it
+					foreach (var c in Commands)
+						if (c != Commands.None && string.Equals(c.Description, args.Text, StringComparison.OrdinalIgnoreCase))
+						{
+							command = c;
+							break;
+						}
 
-					if (!string.Equals(command.Description, item?.Text, StringComparison.OrdinalIgnoreCase) &&
-						!string.Equals(command.Description, args.Text, StringComparison.OrdinalIgnoreCase))
-						continue;
-
+				if (command is not null)
 					await command.ExecuteAsync();
-					ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
-					return;
-				}
-
-				await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidCommand.GetLocalizedResource(),
-					string.Format(Strings.InvalidCommandContent.GetLocalizedResource(), args.Text));
+				else
+					await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidCommand.GetLocalizedResource(),
+						string.Format(Strings.InvalidCommandContent.GetLocalizedResource(), args.Text));
 
 				ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
 				return;

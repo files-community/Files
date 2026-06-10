@@ -5,7 +5,6 @@ using CommunityToolkit.WinUI;
 using Files.App.Controls;
 using Files.App.ViewModels.Settings;
 using Files.Shared.Helpers;
-using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -1030,12 +1029,12 @@ namespace Files.App.ViewModels.UserControls
 			void AddNoResultsItem()
 			{
 				PathModeSuggestionItems.Clear();
-				
+
 				// Use null-safe access to avoid NullReferenceException during app lifecycle transitions
 				var workingDirectory = string.IsNullOrEmpty(ContentPageContext.ShellPage?.ShellViewModel?.WorkingDirectory)
 					? Constants.UserEnvironmentPaths.HomePath
 					: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
-				
+
 				PathModeSuggestionItems.Add(new(
 					workingDirectory,
 					Strings.NavigationToolbarVisiblePathNoResults.GetLocalizedResource()));
@@ -1044,97 +1043,54 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task PopulateOmnibarSuggestionsForCommandPaletteMode()
 		{
-			var (suggestionsToProcess, commandsToProcess) = await Task.Run(() =>
+			string? omnibarCommandPaletteModeText = OmnibarCommandPaletteModeText;
+
+			var commandsToProcess = await Task.Run(() =>
 			{
-				var suggestions = new List<NavigationBarSuggestionItem>();
-
-				var commandsData = Commands
-					.Where(command => command.IsAccessibleGlobally
-						&& (command.Description.Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)
-							|| command.Code.ToString().Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)))
-					.Where(command => command.Description != Commands.OpenCommandPalette.Description.ToString())
-					.ToList();
-
-				return (suggestions, commandsData);
+				if (string.IsNullOrEmpty(OmnibarCommandPaletteModeText))
+					return Commands.Where(static command => command.IsAccessibleGlobally && command.Code != CommandCodes.OpenCommandPalette).ToList();
+				else
+					return Commands
+						.Where(command => command.IsAccessibleGlobally
+							&& (command.Description.Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)
+								|| command.Code.ToString().Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase))
+							&& command.Code != CommandCodes.OpenCommandPalette)
+						.ToList();
 			});
 
-			var newSuggestions = new List<NavigationBarSuggestionItem>(suggestionsToProcess);
-			int processedCount = 0;
+			if (OmnibarCommandPaletteModeText != omnibarCommandPaletteModeText)
+				// We're still processing old input, user has typed in the mean time.
+				return;
+
+			int count = 0;
 
 			foreach (var command in commandsToProcess)
-			{				
-				if (!command.IsExecutable)
-				{
-					processedCount++;
-					// To allow UI updates
-					if (processedCount % 3 == 0)
-						await Task.Yield();
-					continue;
-				}
-
-				var newItem = new NavigationBarSuggestionItem
-				{
-					ThemedIconStyle = command.Glyph.ToThemedIconStyle(),
-					Glyph = command.Glyph.BaseGlyph,
-					Text = command.Description,
-					PrimaryDisplay = command.Description,
-					HotKeys = command.HotKeys,
-					SearchText = OmnibarCommandPaletteModeText,
-				};
-
-				newSuggestions.Add(newItem);
-				processedCount++;
-
-				// To allow UI updates
-				if (processedCount % 3 == 0)
-					await Task.Yield();
-			}
-
-			UpdateCommandPaletteSuggestions(newSuggestions);
-		}
-
-		private void UpdateCommandPaletteSuggestions(List<NavigationBarSuggestionItem> newSuggestions)
-		{
-			if (newSuggestions.Count == 0)
 			{
-				newSuggestions.Add(new NavigationBarSuggestionItem()
+				if (command.IsExecutable)
 				{
-					PrimaryDisplay = string.Format(Strings.NoCommandsFound.GetLocalizedResource(), OmnibarCommandPaletteModeText),
-					SearchText = OmnibarCommandPaletteModeText,
-				});
-			}
+					var newSuggestion = new NavigationBarSuggestionItem(OmnibarCommandPaletteModeText, command);
 
-			if (!OmnibarCommandPaletteModeSuggestionItems.IntersectBy(newSuggestions, x => x.PrimaryDisplay).Any())
-			{
-				for (int index = 0; index < newSuggestions.Count; index++)
-				{
-					if (index < OmnibarCommandPaletteModeSuggestionItems.Count)
-						OmnibarCommandPaletteModeSuggestionItems[index] = newSuggestions[index];
+					if (count < OmnibarCommandPaletteModeSuggestionItems.Count)
+						OmnibarCommandPaletteModeSuggestionItems[count] = newSuggestion;
 					else
-						OmnibarCommandPaletteModeSuggestionItems.Add(newSuggestions[index]);
-				}
+						OmnibarCommandPaletteModeSuggestionItems.Add(newSuggestion);
 
-				while (OmnibarCommandPaletteModeSuggestionItems.Count > newSuggestions.Count)
-					OmnibarCommandPaletteModeSuggestionItems.RemoveAt(OmnibarCommandPaletteModeSuggestionItems.Count - 1);
+					count++;
+
+					// To allow UI updates
+					if (count % 4 == 0)
+						await Task.Yield();
+				}
+			}
+
+			if (count == 0)
+			{
+				OmnibarCommandPaletteModeSuggestionItems.Clear();
+				OmnibarCommandPaletteModeSuggestionItems.Add(new NavigationBarSuggestionItem(OmnibarCommandPaletteModeText, null));
 			}
 			else
-			{
-				foreach (var s in OmnibarCommandPaletteModeSuggestionItems.ExceptBy(newSuggestions, x => x.PrimaryDisplay).ToList())
-					OmnibarCommandPaletteModeSuggestionItems.Remove(s);
-
-				for (int index = 0; index < newSuggestions.Count; index++)
-				{
-					if (OmnibarCommandPaletteModeSuggestionItems.Count > index
-						&& OmnibarCommandPaletteModeSuggestionItems[index].PrimaryDisplay == newSuggestions[index].PrimaryDisplay)
-					{
-						OmnibarCommandPaletteModeSuggestionItems[index] = newSuggestions[index];
-					}
-					else
-					{
-						OmnibarCommandPaletteModeSuggestionItems.Insert(index, newSuggestions[index]);
-					}
-				}
-			}
+				while (OmnibarCommandPaletteModeSuggestionItems.Count > count)
+					OmnibarCommandPaletteModeSuggestionItems.RemoveAt(OmnibarCommandPaletteModeSuggestionItems.Count - 1);
 		}
 
 		public async Task PopulateOmnibarSuggestionsForSearchMode()
