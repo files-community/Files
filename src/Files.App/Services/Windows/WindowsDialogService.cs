@@ -24,7 +24,7 @@ namespace Files.App.Services
 			{
 				using ComPtr<IFileOpenDialog> pDialog = default;
 				HRESULT hr = pDialog.CoCreateInstance(CLSID.CLSID_FileOpenDialog, null, CLSCTX.CLSCTX_INPROC_SERVER);
-
+				
 				// Handle COM creation failure gracefully
 				if (hr.Failed)
 				{
@@ -60,7 +60,7 @@ namespace Files.App.Services
 						null,
 						IID.IID_IShellItem,
 						(void**)pDefaultFolderShellItem.GetAddressOf());
-
+					
 					// Handle shell item creation failure gracefully
 					if (hr.Failed)
 					{
@@ -123,7 +123,7 @@ namespace Files.App.Services
 			{
 				using ComPtr<IFileSaveDialog> pDialog = default;
 				HRESULT hr = pDialog.CoCreateInstance(CLSID.CLSID_FileSaveDialog, null, CLSCTX.CLSCTX_INPROC_SERVER);
-
+				
 				// Handle COM creation failure gracefully
 				if (hr.Failed)
 				{
@@ -159,7 +159,7 @@ namespace Files.App.Services
 						null,
 						IID.IID_IShellItem,
 						(void**)pDefaultFolderShellItem.GetAddressOf());
-
+					
 					// Handle shell item creation failure gracefully
 					if (hr.Failed)
 					{

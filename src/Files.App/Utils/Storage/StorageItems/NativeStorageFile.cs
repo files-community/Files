@@ -55,7 +55,7 @@ namespace Files.App.Utils.Storage
 			{
 				SHFILEINFOW shfi = default;
 				var flags = SHGFI_FLAGS.SHGFI_TYPENAME | SHGFI_FLAGS.SHGFI_USEFILEATTRIBUTES;
-
+				
 				fixed (char* pExtension = extension)
 				{
 					var result = PInvoke.SHGetFileInfo(
@@ -64,7 +64,7 @@ namespace Files.App.Utils.Storage
 						&shfi,
 						(uint)sizeof(SHFILEINFOW),
 						flags);
-
+					
 					if (result != 0 && shfi.szTypeName.Value[0] != '\0')
 					{
 						var typeName = shfi.szTypeName.ToString();
@@ -78,7 +78,7 @@ namespace Files.App.Utils.Storage
 			var itemType = Strings.File.GetLocalizedResource();
 			if (Name.Contains('.', StringComparison.Ordinal))
 				itemType = extension?.Trim('.') + " " + itemType;
-
+			
 			return itemType;
 		}
 

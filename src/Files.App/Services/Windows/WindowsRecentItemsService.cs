@@ -61,7 +61,7 @@ namespace Files.App.Services
 		public WindowsRecentItemsService()
 		{
 			var automaticDestinationsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Recent), "AutomaticDestinations");
-
+			
 			// Only create the file system watcher if the AutomaticDestinations directory exists
 			if (Directory.Exists(automaticDestinationsPath))
 			{

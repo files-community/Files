@@ -817,7 +817,7 @@ namespace Files.App.Utils.Storage
 				filePath = filePath.Replace("'", "''");
 				iconFile = iconFile.Replace("'", "''");
 
-				if (ext == ".url")
+				if(ext == ".url")
 				{
 					psScript = $@"
 						$path = '{filePath}'
@@ -901,10 +901,10 @@ namespace Files.App.Utils.Storage
 
 			int index = 0;
 			int insertedIndex = 0;
-			foreach (var line in lines)
+			foreach(var line in lines)
 			{
 				var isInternetShortcutHeader = line.Trim().Equals("[InternetShortcut]", StringComparison.OrdinalIgnoreCase);
-				if (isInternetShortcutHeader)
+				if(isInternetShortcutHeader)
 				{
 					insertedIndex = index + 1;
 					break;
