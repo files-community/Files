@@ -5,7 +5,6 @@ using CommunityToolkit.WinUI;
 using Files.App.Controls;
 using Files.App.ViewModels.Settings;
 using Files.Shared.Helpers;
-using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -1030,12 +1029,12 @@ namespace Files.App.ViewModels.UserControls
 			void AddNoResultsItem()
 			{
 				PathModeSuggestionItems.Clear();
-				
+
 				// Use null-safe access to avoid NullReferenceException during app lifecycle transitions
 				var workingDirectory = string.IsNullOrEmpty(ContentPageContext.ShellPage?.ShellViewModel?.WorkingDirectory)
 					? Constants.UserEnvironmentPaths.HomePath
 					: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
-				
+
 				PathModeSuggestionItems.Add(new(
 					workingDirectory,
 					Strings.NavigationToolbarVisiblePathNoResults.GetLocalizedResource()));
@@ -1062,7 +1061,7 @@ namespace Files.App.ViewModels.UserControls
 			int processedCount = 0;
 
 			foreach (var command in commandsToProcess)
-			{				
+			{
 				if (!command.IsExecutable)
 				{
 					processedCount++;
@@ -1104,37 +1103,16 @@ namespace Files.App.ViewModels.UserControls
 				});
 			}
 
-			if (!OmnibarCommandPaletteModeSuggestionItems.IntersectBy(newSuggestions, x => x.PrimaryDisplay).Any())
+			for (int index = 0; index < newSuggestions.Count; index++)
 			{
-				for (int index = 0; index < newSuggestions.Count; index++)
-				{
-					if (index < OmnibarCommandPaletteModeSuggestionItems.Count)
-						OmnibarCommandPaletteModeSuggestionItems[index] = newSuggestions[index];
-					else
-						OmnibarCommandPaletteModeSuggestionItems.Add(newSuggestions[index]);
-				}
-
-				while (OmnibarCommandPaletteModeSuggestionItems.Count > newSuggestions.Count)
-					OmnibarCommandPaletteModeSuggestionItems.RemoveAt(OmnibarCommandPaletteModeSuggestionItems.Count - 1);
+				if (index < OmnibarCommandPaletteModeSuggestionItems.Count)
+					OmnibarCommandPaletteModeSuggestionItems[index] = newSuggestions[index];
+				else
+					OmnibarCommandPaletteModeSuggestionItems.Add(newSuggestions[index]);
 			}
-			else
-			{
-				foreach (var s in OmnibarCommandPaletteModeSuggestionItems.ExceptBy(newSuggestions, x => x.PrimaryDisplay).ToList())
-					OmnibarCommandPaletteModeSuggestionItems.Remove(s);
 
-				for (int index = 0; index < newSuggestions.Count; index++)
-				{
-					if (OmnibarCommandPaletteModeSuggestionItems.Count > index
-						&& OmnibarCommandPaletteModeSuggestionItems[index].PrimaryDisplay == newSuggestions[index].PrimaryDisplay)
-					{
-						OmnibarCommandPaletteModeSuggestionItems[index] = newSuggestions[index];
-					}
-					else
-					{
-						OmnibarCommandPaletteModeSuggestionItems.Insert(index, newSuggestions[index]);
-					}
-				}
-			}
+			while (OmnibarCommandPaletteModeSuggestionItems.Count > newSuggestions.Count)
+				OmnibarCommandPaletteModeSuggestionItems.RemoveAt(OmnibarCommandPaletteModeSuggestionItems.Count - 1);
 		}
 
 		public async Task PopulateOmnibarSuggestionsForSearchMode()
