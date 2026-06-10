@@ -30,6 +30,7 @@
 			<ColumnDefinition />
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 
 		<!--  Folder and selection info  -->
@@ -193,10 +194,57 @@
 				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 		</StackPanel>
 
+		<!--  ZIP Encoding Selector  -->
+		<Button
+			x:Name="ZipEncodingSelector"
+			Grid.Column="2"
+			Height="24"
+			Padding="8,0,8,0"
+			Background="Transparent"
+			BorderBrush="Transparent"
+			ToolTipService.ToolTip="{helpers:ResourceString Name=Encoding}"
+			Visibility="{x:Bind StatusBarViewModel.IsZipEncodingSelectorVisible, Mode=OneWay}">
+
+			<!--  Encoding Name  -->
+			<TextBlock Text="{x:Bind StatusBarViewModel.SelectedZipEncoding.Name, Mode=OneWay, FallbackValue='', TargetNullValue=''}" />
+
+			<Button.Flyout>
+				<Flyout x:Name="ZipEncodingFlyout">
+					<Grid
+						Width="240"
+						Height="300"
+						Margin="-16">
+
+						<!--  Encodings List  -->
+						<ListView
+							x:Name="ZipEncodingList"
+							Padding="4"
+							Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+							IsItemClickEnabled="True"
+							ItemClick="ZipEncodingList_ItemClick"
+							ItemsSource="{x:Bind StatusBarViewModel.ZipEncodingOptions, Mode=OneWay}"
+							SelectedItem="{x:Bind StatusBarViewModel.SelectedZipEncoding, Mode=TwoWay}"
+							SelectionMode="Single">
+
+							<ListView.ItemTemplate>
+								<DataTemplate x:DataType="data:EncodingItem">
+									<TextBlock
+										VerticalAlignment="Center"
+										Text="{x:Bind Name}"
+										TextTrimming="CharacterEllipsis" />
+								</DataTemplate>
+							</ListView.ItemTemplate>
+
+						</ListView>
+					</Grid>
+				</Flyout>
+			</Button.Flyout>
+		</Button>
+
 		<!--  Use visibility because it causes a crash to use a TwoWay x:Bind on an element that is inside an element with x:Load (#12589, #12599)  -->
 		<Button
 			x:Name="GitBranch"
-			Grid.Column="2"
+			Grid.Column="3"
 			Height="24"
 			Margin="4,0,0,0"
 			Padding="8,0,8,0"
