@@ -199,6 +199,18 @@
 				</wctcontrols:SettingsExpander.Items>
 			</wctcontrols:SettingsExpander>
 
+			<!--  Indexed Search  -->
+			<wctcontrols:SettingsCard
+				Description="{helpers:ResourceString Name=SettingsUseIndexedSearchDescription}"
+				Header="{helpers:ResourceString Name=SettingsUseIndexedSearch}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE721;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=SettingsUseIndexedSearch}"
+					IsOn="{x:Bind ViewModel.UseIndexedSearch, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
+
 			<!--  Flatten options  -->
 			<wctcontrols:SettingsCard Description="{helpers:ResourceString Name=ShowFlattenOptionsDescription}" Header="{helpers:ResourceString Name=ShowFlattenOptions}">
 				<wctcontrols:SettingsCard.HeaderIcon>

@@ -498,7 +498,7 @@ namespace Files.App.Views.Shells
 			if (InstanceViewModel.IsPageTypeSearchResults)
 			{
 				ToolbarViewModel.CanRefresh = false;
-				var searchInstance = new FolderSearch
+				var searchInstance = new SearchRouter
 				{
 					Query = InstanceViewModel.CurrentSearchQuery ?? (string)TabBarItemParameter.NavigationParameter,
 					Folder = ShellViewModel.WorkingDirectory,

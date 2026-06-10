@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>$(TargetFrameworkVersion)</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Files.SearchAbstraction</RootNamespace>
+    <AssemblyName>Files.SearchAbstraction</AssemblyName>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+</Project>

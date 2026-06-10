@@ -348,5 +348,10 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating whether smooth scrolling is enabled.
 		/// </summary>
 		bool EnableSmoothScrolling { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether the indexed search service is used instead of Windows Search.
+		/// </summary>
+		bool UseIndexedSearch { get; set; }
 	}
 }

@@ -32,6 +32,7 @@
     <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.1" />
     <PackageVersion Include="OwlCore.Storage" Version="0.14.0.999" />
     <PackageVersion Include="Sentry" Version="6.0.0" />
+    <PackageVersion Include="System.ServiceProcess.ServiceController" Version="8.0.0" />
     <PackageVersion Include="SevenZipSharp" Version="1.0.2" />
     <PackageVersion Include="SharpZipLib" Version="1.4.2" />
     <PackageVersion Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />

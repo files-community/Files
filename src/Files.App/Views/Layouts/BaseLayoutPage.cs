@@ -491,7 +491,7 @@ namespace Files.App.Views.Layouts
 				{
 					var displayName = App.LibraryManager.TryGetLibrary(navigationArguments.SearchPathParam, out var lib) ? lib.Text : navigationArguments.SearchPathParam;
 					await ParentShellPageInstance.UpdatePathUIToWorkingDirectoryAsync(null, string.Format(Strings.SearchPagePathBoxOverrideText.GetLocalizedResource(), navigationArguments.SearchQuery, displayName));
-					var searchInstance = new Utils.Storage.FolderSearch
+					var searchInstance = new Utils.Storage.SearchRouter
 					{
 						Query = navigationArguments.SearchQuery,
 						Folder = navigationArguments.SearchPathParam,
@@ -629,7 +629,7 @@ namespace Files.App.Views.Layouts
 					SelectedItemsPropertiesViewModel.CheckAllFileExtensions(SelectedItems!.Select(selectedItem => selectedItem?.FileExtension).ToList()!);
 
 					shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-					var items = ContentPageContextFlyoutFactory.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: null);
+					var items = ContentPageContextFlyoutFactory.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: SelectedItems!.Where(x => x is not null).ToList(), selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: null);
 
 					ItemContextMenuFlyout.PrimaryCommands.Clear();
 					ItemContextMenuFlyout.SecondaryCommands.Clear();

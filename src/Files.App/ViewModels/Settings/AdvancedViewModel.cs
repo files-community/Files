@@ -385,6 +385,19 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool UseIndexedSearch
+		{
+			get => UserSettingsService.GeneralSettingsService.UseIndexedSearch;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.UseIndexedSearch)
+				{
+					UserSettingsService.GeneralSettingsService.UseIndexedSearch = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		private string cacheSizeText = string.Empty;
 		public string CacheSizeText
 		{

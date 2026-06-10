@@ -3476,6 +3476,12 @@
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Leave app running in the background when the window is closed</value>
   </data>
+  <data name="SettingsUseIndexedSearch" xml:space="preserve">
+    <value>Use indexed search engine</value>
+  </data>
+  <data name="SettingsUseIndexedSearchDescription" xml:space="preserve">
+    <value>Use the Files search service for faster results. Requires the service to be installed and running.</value>
+  </data>
   <data name="Blue" xml:space="preserve">
     <value>Blue</value>
     <comment>One of the custom color themes</comment>

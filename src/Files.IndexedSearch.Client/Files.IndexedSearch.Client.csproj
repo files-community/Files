@@ -1,0 +1,34 @@
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>$(TargetFrameworkVersion)</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Files.IndexedSearch.Client</RootNamespace>
+    <AssemblyName>Files.IndexedSearch.Client</AssemblyName>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Files.SearchAbstraction\Files.SearchAbstraction.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.28.3" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.66.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.67.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--  Generates the C# client stubs from the same .proto the search
+          service consumes. Single source of truth for the wire format.  -->
+    <Protobuf Include="..\Files.SearchService\proto\files_search.proto"
+              GrpcServices="Client"
+              ProtoRoot="..\Files.SearchService\proto" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,18 @@
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>$(WindowsTargetFramework)</TargetFramework>
+    <TargetPlatformMinVersion>$(MinimalWindowsVersion)</TargetPlatformMinVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Files.LegacySearch</RootNamespace>
+    <AssemblyName>Files.LegacySearch</AssemblyName>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Files.SearchAbstraction\Files.SearchAbstraction.csproj" />
+  </ItemGroup>
+
+</Project>
