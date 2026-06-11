@@ -18,7 +18,7 @@ namespace Files.App.Utils.Storage
 			// Ensure size is at least 1 to prevent layout errors
 			size = Math.Max(1, size);
 
-			if (!isFolder && !iconOptions.HasFlag(IconOptions.ReturnIconOnly))
+			if (!isFolder && !iconOptions.HasFlag(IconOptions.ReturnIconOnly) && !iconOptions.HasFlag(IconOptions.ReturnOnlyIfCached))
 			{
 				var extension = Path.GetExtension(path);
 

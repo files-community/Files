@@ -66,7 +66,7 @@ namespace Files.Shared.Helpers
 			try
 			{
 				var fullPath = Path.GetFullPath(path);
-				var windowsFontsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts");
+				var windowsFontsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts") + Path.DirectorySeparatorChar;
 
 				return fullPath.StartsWith(windowsFontsPath, StringComparison.OrdinalIgnoreCase);
 			}
