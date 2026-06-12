@@ -89,6 +89,31 @@ internal sealed class NewItemCommandGroup : CommandGroup
 	];
 }
 
+internal sealed class OpenWithCommandGroup : CommandGroup
+{
+	public override string Name => "OpenWith";
+
+	public override string DisplayName
+		=> Strings.OpenWith.GetLocalizedResource();
+
+	public override string Description
+		=> Strings.OpenItemWithApplicationPickerDescription.GetLocalizedFormatResource(1);
+
+	public override RichGlyph Glyph
+		=> new(themedIconStyle: "App.ThemedIcons.OpenWith");
+
+	public override string AccessKey
+		=> "O";
+
+	public override ActionCategory Category
+		=> ActionCategory.Open;
+
+	public override IReadOnlyList<CommandCodes> Commands =>
+	[
+		CommandCodes.OpenItemWithApplicationPicker,
+	];
+}
+
 internal sealed class EditTagsCommandGroup : CommandGroup
 {
 	public override string Name => "EditTags";

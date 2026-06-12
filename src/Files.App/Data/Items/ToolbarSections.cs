@@ -26,6 +26,7 @@ namespace Files.App.Data.Items
 				[AlwaysVisibleContextId] =
 				[
 					new(commandGroup: nameof(CommandGroups.NewItem), showLabel: true),
+					new(commandGroup: nameof(CommandGroups.OpenWith), showLabel: true),
 					new(commandCode: ToolbarItemDescriptor.SeparatorCommandCode, showIcon: false),
 					new(commandCode: nameof(CommandCodes.CutItem)),
 					new(commandCode: nameof(CommandCodes.CopyItem)),
