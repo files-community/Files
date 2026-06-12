@@ -26,6 +26,7 @@ namespace Files.App.UserControls
 		private readonly IContentPageContext PageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private UserControls.Menus.FileTagsContextMenu? editTagsMenu;
 		private OpenWithMenu? openWithMenu;
+		private int openWithFlyoutRequestId;
 
 		[GeneratedDependencyProperty]
 		public partial NavigationToolbarViewModel? ViewModel { get; set; }
@@ -209,7 +210,17 @@ namespace Files.App.UserControls
 						: FlyoutPlacementMode.Bottom
 					};
 
-					((MenuFlyout)btn.Flyout).Opening += (s, _) => PopulateGroupFlyout((MenuFlyout)s, group);
+					((MenuFlyout)btn.Flyout).Opening += async (s, _) =>
+					{
+						try
+						{
+							await PopulateGroupFlyoutAsync((MenuFlyout)s, group);
+						}
+						catch (Exception ex)
+						{
+							Debug.WriteLine(ex);
+						}
+					};
 
 					btn.IsEnabled = group.Commands.Any(c => c is not CommandCodes.None && Commands[c].IsExecutable);
 				}
@@ -373,7 +384,7 @@ namespace Files.App.UserControls
 			}
 		}
 
-		private async void PopulateGroupFlyout(MenuFlyout flyout, CommandGroup group)
+		private async Task PopulateGroupFlyoutAsync(MenuFlyout flyout, CommandGroup group)
 		{
 			flyout.Items.Clear();
 
@@ -394,7 +405,7 @@ namespace Files.App.UserControls
 				var fmt = $"D{entries.Count.ToString().Length}";
 				for (int i = 0; i < entries.Count; i++)
 				{
-					var item = CreateShellNewEntryMenuItem(entries[i]);
+					var item = await CreateShellNewEntryMenuItemAsync(entries[i]);
 					item.AccessKey = (i + 1).ToString(fmt);
 					item.Command = ViewModel!.CreateNewFileCommand;
 					item.CommandParameter = entries[i];
@@ -405,6 +416,8 @@ namespace Files.App.UserControls
 
 		private async Task PopulateOpenWithFlyoutAsync(MenuFlyout flyout)
 		{
+			var requestId = ++openWithFlyoutRequestId;
+
 			flyout.Items.Add(new MenuFlyoutItem
 			{
 				Text = Strings.Loading.GetLocalizedResource(),
@@ -414,26 +427,35 @@ namespace Files.App.UserControls
 			openWithMenu?.Dispose();
 			openWithMenu = null;
 
+			OpenWithMenu? loadedOpenWithMenu = null;
 			if (PageContext.SelectedItems.Count is 1 && PageContext.SelectedItem?.ItemPath is string path)
-				openWithMenu = await OpenWithMenu.GetForFileAsync(path);
+				loadedOpenWithMenu = await OpenWithMenu.GetForFileAsync(path);
+
+			if (requestId != openWithFlyoutRequestId)
+			{
+				loadedOpenWithMenu?.Dispose();
+				return;
+			}
+
+			openWithMenu = loadedOpenWithMenu;
 
 			flyout.Items.Clear();
 
 			if (openWithMenu is not null)
 			{
 				foreach (var item in openWithMenu.Items.Where(x => x.Type is MENU_ITEM_TYPE.MFT_STRING && !string.IsNullOrWhiteSpace(x.Label)))
-					flyout.Items.Add(CreateOpenWithMenuItem(openWithMenu, item));
+					flyout.Items.Add(await CreateOpenWithMenuItemAsync(openWithMenu, item));
 			}
 		}
 
-		private static MenuFlyoutItem CreateOpenWithMenuItem(OpenWithMenu menu, Win32ContextMenuItem entry)
+		private static async Task<MenuFlyoutItem> CreateOpenWithMenuItemAsync(OpenWithMenu menu, Win32ContextMenuItem entry)
 		{
 			MenuFlyoutItem item;
 			if (entry.Icon is { Length: > 0 })
 			{
 				using var ms = new MemoryStream(entry.Icon);
 				var image = new BitmapImage();
-				_ = image.SetSourceAsync(ms.AsRandomAccessStream());
+				await image.SetSourceAsync(ms.AsRandomAccessStream());
 				item = new MenuFlyoutItemWithImage { BitmapIcon = image };
 			}
 			else
@@ -447,13 +469,13 @@ namespace Files.App.UserControls
 			return item;
 		}
 
-		private static MenuFlyoutItem CreateShellNewEntryMenuItem(ShellNewEntry entry)
+		private static async Task<MenuFlyoutItem> CreateShellNewEntryMenuItemAsync(ShellNewEntry entry)
 		{
 			if (!string.IsNullOrEmpty(entry.IconBase64))
 			{
 				using var ms = new MemoryStream(Convert.FromBase64String(entry.IconBase64));
 				var image = new BitmapImage();
-				_ = image.SetSourceAsync(ms.AsRandomAccessStream());
+				await image.SetSourceAsync(ms.AsRandomAccessStream());
 				return new MenuFlyoutItemWithImage { Text = entry.Name, BitmapIcon = image };
 			}
 			return new MenuFlyoutItem { Text = entry.Name, Icon = new FontIcon { Glyph = "\xE7C3" } };
