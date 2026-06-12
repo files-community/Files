@@ -16,6 +16,8 @@ namespace Files.App.Utils.Shell
 {
 	internal sealed class OpenWithMenu : IDisposable
 	{
+		private static readonly ImageConverter IconConverter = new();
+
 		private readonly ThreadWithMessageQueue owningThread;
 		private unsafe IContextMenu* contextMenu;
 		private HMENU menu;
@@ -88,7 +90,7 @@ namespace Files.App.Utils.Shell
 			var commandInfo = new CMINVOKECOMMANDINFO
 			{
 				cbSize = (uint)sizeof(CMINVOKECOMMANDINFO),
-				lpVerb = (PCSTR)(byte*)itemId,
+				lpVerb = (PCSTR)(byte*)(nuint)(uint)itemId,
 				nShow = (int)SHOW_WINDOW_CMD.SW_SHOWNORMAL,
 			};
 
@@ -207,7 +209,7 @@ namespace Files.App.Utils.Shell
 						if (bitmap is not null)
 						{
 							bitmap.MakeTransparent();
-							menuItem.Icon = (byte[])new ImageConverter().ConvertTo(bitmap, typeof(byte[]));
+							menuItem.Icon = (byte[])IconConverter.ConvertTo(bitmap, typeof(byte[]));
 						}
 					}
 
