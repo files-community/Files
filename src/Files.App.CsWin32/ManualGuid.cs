@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using System;
@@ -62,6 +62,9 @@ namespace Windows.Win32
 
 		[GuidRVAGen.Guid("000214F4-0000-0000-C000-000000000046")]
 		public static partial Guid* IID_IContextMenu2 { get; }
+
+		[GuidRVAGen.Guid("0000010E-0000-0000-C000-000000000046")]
+		public static partial Guid* IID_IDataObject { get; }
 	}
 
 	public static unsafe partial class CLSID
@@ -89,6 +92,9 @@ namespace Windows.Win32
 
 		[GuidRVAGen.Guid("D969A300-E7FF-11d0-A93B-00A0C90F2719")]
 		public static partial Guid* CLSID_NewMenu { get; }
+
+		[GuidRVAGen.Guid("09799AFB-AD67-11D1-ABCD-00C04FC30936")]
+		public static partial Guid* CLSID_OpenWithMenu { get; }
 	}
 
 	public static unsafe partial class BHID
@@ -98,6 +104,9 @@ namespace Windows.Win32
 
 		[GuidRVAGen.Guid("94F60519-2850-4924-AA5A-D15E84868039")]
 		public static partial Guid* BHID_EnumItems { get; }
+
+		[GuidRVAGen.Guid("B8C0BD9F-ED24-455C-83E6-D5390C4FE8C4")]
+		public static partial Guid* BHID_DataObject { get; }
 	}
 
 	public static unsafe partial class FOLDERID
