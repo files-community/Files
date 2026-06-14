@@ -12,7 +12,7 @@ using ByteSize = ByteSizeLib.ByteSize;
 
 namespace Files.App.Data.Items
 {
-	public sealed partial class DriveItem : ObservableObject, INavigationControlItem, IFolder
+	public sealed partial class DriveItem : ExpandableSidebarItemBase, INavigationControlItem, IFolder, IExpandableSidebarFolder
 	{
 		private BitmapImage icon;
 		public BitmapImage Icon
@@ -178,7 +178,12 @@ namespace Files.App.Data.Items
 
 		public string Id => Path;
 		public string Name => Root.DisplayName;
-		public object? Children => null;
+
+		public object? Children => IsExpandableFolder ? (childItems ??= []) : null;
+		private BulkConcurrentObservableCollection<INavigationControlItem>? childItems;
+
+		protected override string ExpansionPath => path;
+		protected override BulkConcurrentObservableCollection<INavigationControlItem> EnsureChildItems() => childItems ??= [];
 
 		private object toolTip = "";
 		public object ToolTip
@@ -189,8 +194,6 @@ namespace Files.App.Data.Items
 				SetProperty(ref toolTip, value);
 			}
 		}
-
-		public bool IsExpanded { get => false; set { } }
 
 		public IconElement? IconElement
 		{
@@ -226,8 +229,6 @@ namespace Files.App.Data.Items
 				return itemDecorator;
 			}
 		}
-
-		public bool PaddedItem => false;
 
 		private void ItemDecorator_Click(object sender, RoutedEventArgs e)
 		{
