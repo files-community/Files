@@ -2498,7 +2498,7 @@ namespace Files.App.ViewModels
 				await OrderFilesAndFoldersAsync();
 				await ApplyFilesAndFoldersChangesAsync();
 
-				if (lastItemAdded is not null && !lastItemAdded.IsArchive)
+				if (lastItemAdded is not null)
 				{
 					await RequestSelectionAsync([lastItemAdded]);
 					lastItemAdded = null;
