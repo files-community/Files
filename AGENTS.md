@@ -45,4 +45,4 @@ msbuild -restore src\Files.App\Files.App.csproj /p:Configuration=Debug /p:Platfo
 
 ## When Packaging the App
 
-Use `.github/workflows/ci.yml` as the source of truth for packaging. Adjust `Configuration`, `Platform`, and `AppxBundlePlatforms` as needed.
+Use `.github/workflows/ci.yml` as the source of truth for packaging. Adjust `Configuration`, `Platform`, and `AppxBundlePlatforms` as needed!.
