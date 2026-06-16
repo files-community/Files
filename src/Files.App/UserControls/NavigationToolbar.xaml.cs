@@ -507,24 +507,23 @@ namespace Files.App.UserControls
 				var openInNewPaneSubItem = new MenuFlyoutSubItem
 				{
 					Text = Strings.OpenInNewPane.GetLocalizedResource(),
+					IsEnabled = ContentPageContext.IsMultiPaneAvailable && !ContentPageContext.IsMultiPaneActive,
 				};
 
-				var splitVerticallyItem = new MenuFlyoutItemWithThemedIcon
+				MenuFlyoutItemWithThemedIcon CreateOpenInPaneItem(string text, string iconStyle, ShellPaneArrangement arrangement)
 				{
-					Text = Strings.SplitPaneVertically.GetLocalizedResource(),
-					ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.OpenInPaneVertical"],
-				};
-				splitVerticallyItem.Click += (_, _) => paneHolder.OpenSecondaryPane(path, ShellPaneArrangement.Vertical);
+					var item = new MenuFlyoutItemWithThemedIcon
+					{
+						Text = text,
+						ThemedIconStyle = (Style)Application.Current.Resources[iconStyle],
+						CommandParameter = arrangement,
+					};
+					item.Click += (s, _) => paneHolder.OpenSecondaryPane(path, (ShellPaneArrangement)((MenuFlyoutItem)s).CommandParameter);
+					return item;
+				}
 
-				var splitHorizontallyItem = new MenuFlyoutItemWithThemedIcon
-				{
-					Text = Strings.SplitPaneHorizontally.GetLocalizedResource(),
-					ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.OpenInPaneHorizontal"],
-				};
-				splitHorizontallyItem.Click += (_, _) => paneHolder.OpenSecondaryPane(path, ShellPaneArrangement.Horizontal);
-
-				openInNewPaneSubItem.Items.Add(splitVerticallyItem);
-				openInNewPaneSubItem.Items.Add(splitHorizontallyItem);
+				openInNewPaneSubItem.Items.Add(CreateOpenInPaneItem(Strings.SplitPaneVertically.GetLocalizedResource(), "App.ThemedIcons.OpenInPaneVertical", ShellPaneArrangement.Vertical));
+				openInNewPaneSubItem.Items.Add(CreateOpenInPaneItem(Strings.SplitPaneHorizontally.GetLocalizedResource(), "App.ThemedIcons.OpenInPaneHorizontal", ShellPaneArrangement.Horizontal));
 				flyout.Items.Add(openInNewPaneSubItem);
 			}
 

@@ -9,7 +9,9 @@ namespace Files.App.Actions
 		public override bool IsExecutable =>
 			SidebarContext.IsItemRightClicked &&
 			SidebarContext.RightClickedItem is not null &&
-			SidebarContext.RightClickedItem.MenuOptions.IsLocationItem;
+			SidebarContext.RightClickedItem.MenuOptions.IsLocationItem &&
+			ContentPageContext.IsMultiPaneAvailable &&
+			!ContentPageContext.IsMultiPaneActive;
 
 		public override bool IsAccessibleGlobally
 			=> false;
@@ -22,7 +24,7 @@ namespace Files.App.Actions
 			if (await DriveHelpers.CheckEmptyDrive(SidebarContext.RightClickedItem!.Path))
 				return;
 
-			ContentPageContext.ShellPage!.PaneHolder?.OpenSecondaryPane(SidebarContext.RightClickedItem!.Path ?? string.Empty);
+			ContentPageContext.ShellPage!.PaneHolder?.OpenSecondaryPane(SidebarContext.RightClickedItem!.Path ?? string.Empty, parameter as ShellPaneArrangement? ?? ShellPaneArrangement.None);
 		}
 
 		protected override void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

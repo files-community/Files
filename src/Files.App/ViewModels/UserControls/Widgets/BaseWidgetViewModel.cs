@@ -90,6 +90,21 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				.OfType<AppBarToggleButton>()
 				.ForEach(button => button.Click += closeHandler);
 
+			var subMenuItems = secondaryElements
+				.OfType<AppBarButton>()
+				.Select(item => item.Flyout)
+				.OfType<MenuFlyout>()
+				.SelectMany(menu => menu.Items);
+			AddCloseHandlerRecursive(subMenuItems);
+
+			void AddCloseHandlerRecursive(IEnumerable<MenuFlyoutItemBase> menuFlyoutItems)
+			{
+				menuFlyoutItems.OfType<MenuFlyoutItem>()
+					.ForEach(button => button.Click += closeHandler);
+				menuFlyoutItems.OfType<MenuFlyoutSubItem>()
+					.ForEach(menu => AddCloseHandlerRecursive(menu.Items));
+			}
+
 			// Add menu items to the primary flyout
 			primaryElements.ForEach(itemContextMenuFlyout.PrimaryCommands.Add);
 
