@@ -67,7 +67,7 @@ namespace Files.App.Controls
 		public static readonly DependencyProperty GripperCursorProperty =
 			DependencyProperty.RegisterAttached(
 				nameof(GripperCursor),
-				typeof(InputSystemCursorShape?),
+				typeof(GripperCursorType),
 				typeof(GridSplitter),
 				new PropertyMetadata(GripperCursorType.Default, OnGripperCursorPropertyChanged));
 

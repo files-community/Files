@@ -189,7 +189,7 @@ namespace Files.App.ViewModels.Settings
 
 		public string GetAppVersion()
 		{
-			return string.Format($"{AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}");
+			return $"{AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}";
 		}
 
 		public string GetWindowsVersion()

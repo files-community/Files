@@ -97,8 +97,8 @@ namespace Files.App.Utils.Storage
 									{
 										var lowercaseExtension = fileEntry.FileExtension.ToLowerInvariant();
 
-										if (defaultIconPairs.ContainsKey(lowercaseExtension))
-											fileEntry.FileImage = defaultIconPairs[lowercaseExtension];
+										if (defaultIconPairs.TryGetValue(lowercaseExtension, out BitmapImage? image))
+											fileEntry.FileImage = image;
 									}
 								}
 
@@ -339,8 +339,6 @@ namespace Files.App.Utils.Storage
 					};
 				}
 			}
-
-			return null;
 		}
 	}
 }

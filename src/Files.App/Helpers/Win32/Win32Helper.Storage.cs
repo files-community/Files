@@ -27,143 +27,6 @@ namespace Files.App.Helpers
 	/// </summary>
 	public static partial class Win32Helper
 	{
-		public static Task StartSTATask(Func<Task> func)
-		{
-			var taskCompletionSource = new TaskCompletionSource();
-			Thread thread = new Thread(async () =>
-			{
-				Ole32.OleInitialize();
-
-				try
-				{
-					await func();
-					taskCompletionSource.SetResult();
-				}
-				catch (Exception ex)
-				{
-					taskCompletionSource.SetResult();
-					App.Logger.LogWarning(ex, ex.Message);
-				}
-				finally
-				{
-					Ole32.OleUninitialize();
-				}
-			})
-
-			{
-				IsBackground = true,
-				Priority = ThreadPriority.Normal
-			};
-
-			thread.SetApartmentState(ApartmentState.STA);
-			thread.Start();
-
-			return taskCompletionSource.Task;
-		}
-
-		public static Task StartSTATask(Action action)
-		{
-			var taskCompletionSource = new TaskCompletionSource();
-			Thread thread = new Thread(() =>
-			{
-				Ole32.OleInitialize();
-
-				try
-				{
-					action();
-					taskCompletionSource.SetResult();
-				}
-				catch (Exception ex)
-				{
-					taskCompletionSource.SetResult();
-					App.Logger.LogWarning(ex, ex.Message);
-				}
-				finally
-				{
-					Ole32.OleUninitialize();
-				}
-			})
-
-			{
-				IsBackground = true,
-				Priority = ThreadPriority.Normal
-			};
-
-			thread.SetApartmentState(ApartmentState.STA);
-			thread.Start();
-
-			return taskCompletionSource.Task;
-		}
-
-		public static Task<T?> StartSTATask<T>(Func<T> func)
-		{
-			var taskCompletionSource = new TaskCompletionSource<T?>();
-
-			Thread thread = new Thread(() =>
-			{
-				Ole32.OleInitialize();
-
-				try
-				{
-					taskCompletionSource.SetResult(func());
-				}
-				catch (Exception ex)
-				{
-					taskCompletionSource.SetResult(default);
-					App.Logger.LogWarning(ex, ex.Message);
-					//tcs.SetException(e);
-				}
-				finally
-				{
-					Ole32.OleUninitialize();
-				}
-			})
-
-			{
-				IsBackground = true,
-				Priority = ThreadPriority.Normal
-			};
-
-			thread.SetApartmentState(ApartmentState.STA);
-			thread.Start();
-
-			return taskCompletionSource.Task;
-		}
-
-		public static Task<T?> StartSTATask<T>(Func<Task<T>> func)
-		{
-			var taskCompletionSource = new TaskCompletionSource<T?>();
-
-			Thread thread = new Thread(async () =>
-			{
-				Ole32.OleInitialize();
-				try
-				{
-					taskCompletionSource.SetResult(await func());
-				}
-				catch (Exception ex)
-				{
-					taskCompletionSource.SetResult(default);
-					App.Logger.LogInformation(ex, ex.Message);
-					//tcs.SetException(e);
-				}
-				finally
-				{
-					Ole32.OleUninitialize();
-				}
-			})
-
-			{
-				IsBackground = true,
-				Priority = ThreadPriority.Normal
-			};
-
-			thread.SetApartmentState(ApartmentState.STA);
-			thread.Start();
-
-			return taskCompletionSource.Task;
-		}
-
 		public static async Task<string?> GetDefaultFileAssociationAsync(string filename, bool checkDesktopFirst = true)
 		{
 			// check if there exists an user choice first
@@ -625,7 +488,7 @@ namespace Files.App.Helpers
 					Color pixelColor = Color.FromArgb(
 						Marshal.ReadInt32(bmpData.Scan0, (bmpData.Stride * y) + (4 * x)));
 
-					if (pixelColor.A > 0 & pixelColor.A < 255)
+					if (pixelColor.A < 255)
 						return true;
 				}
 			}
@@ -843,14 +706,14 @@ namespace Files.App.Helpers
 				if (psCommand.Length + appendCommand.Length > 32766)
 				{
 					// The command is too long to run at once, so run the command once up to this point.
-					await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
+					await RunPowershellCommandAsync(psCommand.Append('"').ToString(), PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
 					psCommand.Clear().Append("-command \"");
 				}
 
 				psCommand.Append(appendCommand);
 			}
 
-			await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
+			await RunPowershellCommandAsync(psCommand.Append('"').ToString(), PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
 		}
 
 		private static Process CreatePowershellProcess(string command, PowerShellExecutionOptions options, string? workingDirectory = null)
@@ -902,14 +765,21 @@ namespace Files.App.Helpers
 			return Win32PInvoke.SetFileTime(hFile.DangerousGetHandle(), new(), new(), dateModified);
 		}
 
-		public static bool HasFileAttribute(string lpFileName, FileAttributes dwAttrs)
+		public static FileAttributes GetFileAttributes(string lpFileName)
 		{
 			if (Win32PInvoke.GetFileAttributesExFromApp(
 				lpFileName, Win32PInvoke.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo))
 			{
-				return (lpFileInfo.dwFileAttributes & dwAttrs) == dwAttrs;
+				return lpFileInfo.dwFileAttributes;
 			}
-			return false;
+			return FileAttributes.None;
+		}
+
+		public static bool HasFileAttribute(string lpFileName, FileAttributes dwAttrs)
+		{
+			Debug.Assert(dwAttrs != FileAttributes.None);
+
+			return GetFileAttributes(lpFileName).HasFlag(dwAttrs);
 		}
 
 		public static bool SetFileAttribute(string lpFileName, FileAttributes dwAttrs)
@@ -940,9 +810,9 @@ namespace Files.App.Helpers
 			var success = PInvoke.GetVolumeInformation(
 				path,
 				[],
-				null,
-				null,
-				&dwFileSystemFlags,
+				out _,
+				out _,
+				out dwFileSystemFlags,
 				[]);
 
 			if (!success)

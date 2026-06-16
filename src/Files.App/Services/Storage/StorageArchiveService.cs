@@ -4,6 +4,7 @@
 using Files.Shared.Helpers;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
+using Microsoft.Extensions.Logging;
 using SevenZip;
 using System.IO;
 using System.Text;
@@ -128,44 +129,6 @@ namespace Files.App.Services
 			fsProgress.TotalSize = zipFile.ArchiveFileData.Select(x => (long)x.Size).Sum();
 			fsProgress.Report();
 
-			bool isSuccess = false;
-
-			try
-			{
-				// TODO: Get this method return result
-				await zipFile.ExtractArchiveAsync(destinationFolderPath);
-
-				isSuccess = true;
-			}
-			catch
-			{
-				isSuccess = false;
-			}
-			finally
-			{
-				// Remove the in-progress status card
-				StatusCenterViewModel.RemoveItem(statusCard);
-
-				if (isSuccess)
-				{
-					// Successful
-					StatusCenterHelper.AddCard_Decompress(
-						archiveFilePath.CreateEnumerable(),
-						destinationFolderPath.CreateEnumerable(),
-						ReturnResult.Success);
-				}
-				else
-				{
-					// Error
-					StatusCenterHelper.AddCard_Decompress(
-						archiveFilePath.CreateEnumerable(),
-						destinationFolderPath.CreateEnumerable(),
-						statusCard.CancellationToken.IsCancellationRequested
-							? ReturnResult.Cancelled
-							: ReturnResult.Failed);
-				}
-			}
-
 			zipFile.Extracting += (s, e) =>
 			{
 				if (fsProgress.TotalSize > 0)
@@ -195,6 +158,46 @@ namespace Files.App.Services
 					fsProgress.Report();
 				}
 			};
+
+			bool isSuccess = false;
+
+			try
+			{
+				// TODO: Get this method return result
+				await zipFile.ExtractArchiveAsync(destinationFolderPath);
+
+				isSuccess = true;
+			}
+			catch (Exception ex)
+			{
+				isSuccess = false;
+				App.Logger.LogError(ex, "SevenZipLib error extracting archive file.");
+			}
+			finally
+			{
+				// Remove the in-progress status card
+				StatusCenterViewModel.RemoveItem(statusCard);
+
+				if (isSuccess)
+				{
+					// Successful
+					StatusCenterHelper.AddCard_Decompress(
+						archiveFilePath.CreateEnumerable(),
+						destinationFolderPath.CreateEnumerable(),
+						ReturnResult.Success);
+				}
+				else
+				{
+					// Error
+					StatusCenterHelper.AddCard_Decompress(
+						archiveFilePath.CreateEnumerable(),
+						destinationFolderPath.CreateEnumerable(),
+						statusCard.CancellationToken.IsCancellationRequested
+							? ReturnResult.Cancelled
+							: ReturnResult.Failed);
+				}
+			}
+
 			return isSuccess;
 		}
 
@@ -288,7 +291,7 @@ namespace Files.App.Services
 			catch (Exception ex)
 			{
 				isSuccess = false;
-				Console.WriteLine($"Error during decompression: {ex.Message}");
+				App.Logger.LogError(ex, "SharpZipLib error during decompression.");
 			}
 			finally
 			{
@@ -362,7 +365,7 @@ namespace Files.App.Services
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"SharpZipLib error: {ex.Message}");
+				App.Logger.LogError(ex, "SharpZipLib error.");
 				return true;
 			}
 		}
@@ -398,7 +401,7 @@ namespace Files.App.Services
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"SharpZipLib error: {ex.Message}");
+				App.Logger.LogError(ex, "SharpZipLib error detecting encoding.");
 				return null;
 			}
 		}
@@ -409,8 +412,9 @@ namespace Files.App.Services
 			return await FilesystemTasks.Wrap(async () =>
 			{
 				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(archiveFilePath);
-
-				var extractor = new SevenZipExtractor(await archive.OpenStreamForReadAsync(), password);
+				var extractor = string.IsNullOrEmpty(password)
+					? new SevenZipExtractor(archive.Path)
+					: new SevenZipExtractor(archive.Path, password);
 
 				// Force to load archive (1665013614u)
 				return extractor?.ArchiveFileData is null ? null : extractor;

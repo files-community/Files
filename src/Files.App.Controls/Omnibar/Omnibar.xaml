@@ -89,7 +89,11 @@
 								Background="{ThemeResource AutoSuggestBoxSuggestionsListBackground}"
 								BorderBrush="{ThemeResource AutoSuggestBoxSuggestionsListBorderBrush}"
 								BorderThickness="{ThemeResource AutoSuggestListBorderThemeThickness}"
-								CornerRadius="{ThemeResource OverlayCornerRadius}">
+								CornerRadius="{ThemeResource OverlayCornerRadius}"
+								Translation="0,0,32">
+								<Border.Shadow>
+									<ThemeShadow />
+								</Border.Shadow>
 								<ListView
 									x:Name="PART_SuggestionsListView"
 									MaxHeight="{ThemeResource AutoSuggestListMaxHeight}"

@@ -1773,7 +1773,7 @@
     <value>Метка</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Открывать файлы и папки одним нажатием</value>
+    <value>Открывать файлы одним щелчком</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Путь к папке</value>
@@ -2032,7 +2032,7 @@
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>Нравится Files? Пожалуйста, оцените приложение в Microsoft Store.</value>
-  </data>  
+  </data>
   <data name="SponsorSubtitle" xml:space="preserve">
     <value>Вам нравится Files? Пожалуйста, подумайте о поддержке проекта на GitHub.</value>
   </data>
@@ -2072,8 +2072,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>Экран блокировки</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Открывать папки одним кликом в макете Столбцы</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Открывать папки одним кликом</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Открытие объектов</value>
@@ -3132,6 +3132,15 @@
   <data name="UncommittedChanges" xml:space="preserve">
     <value>У вас есть незакоммиченные изменения в этой ветке. Что вы хотите с ними сделать?</value>
   </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>У вас есть текущее слияние с неразрешенными конфликтами. Пожалуйста, устраните конфликты или прервите слияние для переключения ветвей.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Прервать слияние и переключиться на '{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Оставайтесь на '{0}' и разрешите конфликты</value>
+  </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Сменить ветку</value>
   </data>
@@ -3487,6 +3496,9 @@
   <data name="ProcessingItems" xml:space="preserve">
     <value>Обработка элементов...</value>
   </data>
+  <data name="DiscoveringItems" xml:space="preserve">
+    <value>Поиск элементов...</value>
+  </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Скорость:</value>
   </data>
@@ -3617,6 +3629,10 @@
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
     <value>Копирование {0, plural, one {# предмета} few {# предметов} many {# предметов} other {# предметов}} от "{1}" до "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
+    <value>Обнаружен {0, plural, one {# предмет} other {# предметы}}</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
     <value>Извлечение "{0}" в "{1}" отменено</value>
@@ -4291,7 +4307,7 @@
   </data>
   <data name="Signatures" xml:space="preserve">
     <value>Подписи</value>
-   </data>
+  </data>
   <data name="SignatureList" xml:space="preserve">
     <value>Список подписей</value>
   </data>
@@ -4324,5 +4340,26 @@
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
     <value>Не удалось открыть файл журнала</value>
+  </data>
+  <data name="ShowStatusBar" xml:space="preserve">
+    <value>Показать строку состояния</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>Только в виде столбцов</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>New {0}</value>
+  </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Enable smooth scrolling</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Scrolling</value>
+  </data>
+  <data name="ShowPinToSideBar" xml:space="preserve">
+    <value>Show option to Pin to Sidebar</value>
+  </data>
+  <data name="ShowPinToStart" xml:space="preserve">
+    <value>Show option to Pin to the Start Menu</value>
   </data>
 </root>

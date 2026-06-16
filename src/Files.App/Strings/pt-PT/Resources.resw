@@ -1773,7 +1773,7 @@
     <value>Etiqueta</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Abrir itens com um clique</value>
+    <value>Abrir ficheiros com um clique</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Caminho da pasta</value>
@@ -2032,7 +2032,7 @@
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>Está a gostar do Files? Considere deixar uma classificação na Microsoft Store.</value>
-  </data>  
+  </data>
   <data name="SponsorSubtitle" xml:space="preserve">
     <value>Está a gostar do Files? Considere apoiar o projeto no GitHub.</value>
   </data>
@@ -2072,8 +2072,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>Ecrã de bloqueio</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Abrir pastas com um clique no esquema Colunas</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Abrir pastas com um clique</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Abrir itens</value>
@@ -3132,6 +3132,15 @@
   <data name="UncommittedChanges" xml:space="preserve">
     <value>Existem alterações por submeter neste 'branch'. O que pretende fazer?</value>
   </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>Existe um combinação em curso com conflitos por resolver. Resolva os conflitos ou cancele a operação para trocar de 'branch'.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Cancelar combinação e trocar para '{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Ficar em '{0}' e resolver conflitos</value>
+  </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Trocar 'branch'</value>
   </data>
@@ -3487,6 +3496,9 @@
   <data name="ProcessingItems" xml:space="preserve">
     <value>A processar itens...</value>
   </data>
+  <data name="DiscoveringItems" xml:space="preserve">
+    <value>A procurar itens...</value>
+  </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Velocidade:</value>
   </data>
@@ -3617,6 +3629,10 @@
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
     <value>A copiar {0, plural, one {# item} other {# itens}} de "{1}" para "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
+    <value>{0, plural, one {# item encontrado} other {# itens encontrados}}</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
     <value>Cancelou a extração de "{0}" para "{1}"</value>
@@ -4012,7 +4028,7 @@
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
   <data name="ImageFiles" xml:space="preserve">
-    <value>Imagens</value>
+    <value>Ficheiros de imagem</value>
     <comment>This is the friendly name for image files.</comment>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
@@ -4291,7 +4307,7 @@
   </data>
   <data name="Signatures" xml:space="preserve">
     <value>Assinaturas</value>
-   </data>
+  </data>
   <data name="SignatureList" xml:space="preserve">
     <value>Lista de assinaturas</value>
   </data>
@@ -4317,12 +4333,33 @@
     <value>Abrir ficheiro de registos</value>
   </data>
   <data name="OpenLogFileDescription" xml:space="preserve">
-    <value>Abrir ficheiro de registos no editor padrão</value>
+    <value>Abre o ficheiro de registos no editor predefinido</value>
   </data>
   <data name="OpenLogFileLocationDescription" xml:space="preserve">
-    <value>Abrir pasta do ficheiro de registos no gestor de ficheiros padrão</value>
+    <value>Abre a pasta do ficheiro de registos no gestor de ficheiros predefinido</value>
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
     <value>Não foi possível abrir o ficheiro de registos</value>
+  </data>
+  <data name="ShowStatusBar" xml:space="preserve">
+    <value>Mostrar barra de estado</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>Apenas na visualização em Colunas</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>Novo {0}</value>
+  </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Ativar deslocamento suave</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Deslocamento</value>
+  </data>
+  <data name="ShowPinToSideBar" xml:space="preserve">
+    <value>Mostrar opção para Afixar em Acesso rápido</value>
+  </data>
+  <data name="ShowPinToStart" xml:space="preserve">
+    <value>Mostrar opção para Afixar em Iniciar</value>
   </data>
 </root>

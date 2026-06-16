@@ -104,13 +104,13 @@ namespace Files.App.Data.Models
 			{
 				locationItem.IsInvalid = false;
 				if (res.Result is not null)
-					_ = LoadIconForLocationItemAsync(locationItem, res.Result.Path);
+					await LoadIconForLocationItemAsync(locationItem, res.Result.Path);
 			}
 			else
 			{
 				locationItem.IsInvalid = true;
 				Debug.WriteLine($"Pinned item was invalid {res?.ErrorCode}, item: {path}");
-				_ = LoadDefaultIconForLocationItemAsync(locationItem);
+				await LoadDefaultIconForLocationItemAsync(locationItem);
 			}
 
 			return locationItem;

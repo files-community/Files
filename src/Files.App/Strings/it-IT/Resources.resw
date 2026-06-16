@@ -1773,7 +1773,7 @@
     <value>Etichetta</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Apri gli elementi con un solo click</value>
+    <value>Apri i file con un solo click</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Percorso cartella</value>
@@ -2032,7 +2032,7 @@
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>Ti piace Files? Considera di valutarci sul Microsoft Store.</value>
-  </data>  
+  </data>
   <data name="SponsorSubtitle" xml:space="preserve">
     <value>Ti piace Files? Considera di sostenere il progetto su GitHub.</value>
   </data>
@@ -2072,8 +2072,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>Schermata di blocco</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Apri cartelle con un singolo clic nel Layout Colonne</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Apri le cartelle con un solo click</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Apertura elementi</value>
@@ -3132,6 +3132,15 @@
   <data name="UncommittedChanges" xml:space="preserve">
     <value>Hai dei cambiamenti non commitati su questo branch. Cosa vorresti farci?</value>
   </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>Hai una fusione in corso con conflitti non risolti. Si prega di risolvere i conflitti o interrompere la fusione per cambiare ramo.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Interrompi la fusione e passa a '{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Rimani su '{0}' e risolvi i conflitti</value>
+  </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Cambia branch</value>
   </data>
@@ -3487,6 +3496,9 @@
   <data name="ProcessingItems" xml:space="preserve">
     <value>Elaborazione degli elementi...</value>
   </data>
+  <data name="DiscoveringItems" xml:space="preserve">
+    <value>Trovare gli elementi...</value>
+  </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Velocità:</value>
   </data>
@@ -3617,6 +3629,10 @@
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
     <value>Copiando {0, plural, one {# elemento} other {# elementi}} da "{1}" in "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
+    <value>Trovat{0, plural, one {o # elemento} other {i # elementi}}</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
     <value>Annullata estrazione di "{0}" in "{1}"</value>
@@ -4291,7 +4307,7 @@
   </data>
   <data name="Signatures" xml:space="preserve">
     <value>Firme</value>
-   </data>
+  </data>
   <data name="SignatureList" xml:space="preserve">
     <value>Elenco firme</value>
   </data>
@@ -4324,5 +4340,26 @@
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
     <value>Impossibile aprire il file di registro</value>
+  </data>
+  <data name="ShowStatusBar" xml:space="preserve">
+    <value>Mostra la barra di stato</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>Solo nella vista a colonne</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>Nuovo {0}</value>
+  </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Abilita scorrimento fluido</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Scorrimento</value>
+  </data>
+  <data name="ShowPinToSideBar" xml:space="preserve">
+    <value>Show option to Pin to Sidebar</value>
+  </data>
+  <data name="ShowPinToStart" xml:space="preserve">
+    <value>Show option to Pin to the Start Menu</value>
   </data>
 </root>

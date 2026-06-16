@@ -68,7 +68,7 @@ namespace Files.App.Data.Items
 
 		private Task<bool> ViewMore()
 		{
-			return NavigationHelpers.OpenPath($"tag:{Name}", ContentPageContext.ShellPage!);
+			return NavigationHelpers.OpenPath(FolderSearch.FormatTagQuery(Name!), ContentPageContext.ShellPage!);
 		}
 
 		private Task OpenAll()

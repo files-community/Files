@@ -90,7 +90,7 @@ namespace Files.App.UserControls
 			if (tagName is null)
 				return;
 
-			contentPageContext.ShellPage?.SubmitSearch($"tag:{tagName}");
+			contentPageContext.ShellPage?.SubmitSearch(FolderSearch.FormatTagQuery(tagName));
 		}
 	}
 }

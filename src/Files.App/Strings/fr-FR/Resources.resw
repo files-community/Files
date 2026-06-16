@@ -127,10 +127,10 @@
     <value>Copier le chemin de l'élément</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
-    <value>Copier le chemin entre guillemets</value>
+    <value>Copier le chemin avec des guillemets</value>
   </data>
   <data name="CopyItemPathWithQuotes" xml:space="preserve">
-    <value>Copier le chemin de l'élément sélectionné entre guillemets</value>
+    <value>Copier le chemin de l'élément sélectionné avec des guillemets</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Parcourir</value>
@@ -1773,7 +1773,7 @@
     <value>Étiquette</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Ouvrir les éléments d'un seul clic</value>
+    <value>Ouvrir les fichiers d'un seul clic</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Chemin du dossier</value>
@@ -2032,7 +2032,7 @@
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>Vous appréciez Files ? Pensez à laisser un avis dans le Microsoft Store.</value>
-  </data>  
+  </data>
   <data name="SponsorSubtitle" xml:space="preserve">
     <value>Vous appréciez Files ? Pensez à soutenir le projet sur GitHub.</value>
   </data>
@@ -2072,8 +2072,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>Écran de verrouillage</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Ouvrir les dossiers d'un seul clic dans la disposition colonnes</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Ouvrir les dossiers d'un seul clic</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Ouverture des éléments</value>
@@ -2806,7 +2806,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Enter" xml:space="preserve">
-    <value>Entrer</value>
+    <value>Entrée</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
@@ -3131,6 +3131,15 @@
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
     <value>Vous avez des modifications non validées sur cette branche. Que souhaitez-vous faire d'elles ?</value>
+  </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>Vous avez une fusion en cours avec des conflits non résolus. Veuillez résoudre les conflits ou annuler la fusion pour changer de branche.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Annuler la fusion et basculer vers '{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Rester sur ‘{0}’ et résoudre les conflits</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Changer de branche</value>
@@ -3487,6 +3496,9 @@
   <data name="ProcessingItems" xml:space="preserve">
     <value>Traitement des éléments...</value>
   </data>
+  <data name="DiscoveringItems" xml:space="preserve">
+    <value>Préparation des éléments...</value>
+  </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Vitesse :</value>
   </data>
@@ -3617,6 +3629,10 @@
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
     <value>Copie de {0, plural, one {# élément} other {# éléments}} depuis « {1} » vers « {2} »</value>
     <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
+    <value>{0, plural, one {# élément préparé} other {# éléments préparés}}</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
     <value>Extraction annulée de « {0} » vers « {1} »</value>
@@ -4291,7 +4307,7 @@
   </data>
   <data name="Signatures" xml:space="preserve">
     <value>Signatures</value>
-   </data>
+  </data>
   <data name="SignatureList" xml:space="preserve">
     <value>Liste des signatures</value>
   </data>
@@ -4324,5 +4340,26 @@
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
     <value>Impossible d'ouvrir le fichier journal</value>
+  </data>
+  <data name="ShowStatusBar" xml:space="preserve">
+    <value>Afficher la barre de statut</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>Seulement en vue colonnes</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>Nouveau {0}</value>
+  </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Activer le défilement fluide</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Défiler</value>
+  </data>
+  <data name="ShowPinToSideBar" xml:space="preserve">
+    <value>Show option to Pin to Sidebar</value>
+  </data>
+  <data name="ShowPinToStart" xml:space="preserve">
+    <value>Show option to Pin to the Start Menu</value>
   </data>
 </root>

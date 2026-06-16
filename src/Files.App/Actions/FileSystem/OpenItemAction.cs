@@ -27,7 +27,8 @@ namespace Files.App.Actions
 		public bool IsExecutable =>
 			context.HasSelection &&
 			!(context.ShellPage is ColumnShellPage &&
-			context.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder);
+			context.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder) &&
+			context.PageType != ContentPageTypes.RecycleBin;
 
 		public OpenItemAction()
 		{
@@ -67,8 +68,9 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			context.HasSelection &&
+			context.PageType != ContentPageTypes.RecycleBin &&
 			context.SelectedItems.All(i =>
-				(i.PrimaryItemAttribute == StorageItemTypes.File && !i.IsShortcut && !i.IsExecutable) ||
+				(i.PrimaryItemAttribute == StorageItemTypes.File && !i.IsShortcut && (!i.IsExecutable || i.IsScriptFile)) ||
 				(i.PrimaryItemAttribute == StorageItemTypes.Folder && i.IsArchive));
 
 		public OpenItemWithApplicationPickerAction()

@@ -194,7 +194,24 @@ namespace Files.App.Utils.Git
 
 			IsExecutingGitAction = true;
 
-			if (repository.RetrieveStatus().IsDirty)
+			if (repository.Index.Conflicts.Any())
+			{
+				var dialog = DynamicDialogFactory.GetFor_GitMergeConflicts(checkoutBranch.FriendlyName, repository.Head.FriendlyName);
+				await dialog.ShowAsync();
+
+				var resolveConflictOption = (GitCheckoutOptions)dialog.ViewModel.AdditionalData;
+
+				switch (resolveConflictOption)
+				{
+					case GitCheckoutOptions.None:
+						IsExecutingGitAction = false;
+						return false;
+					case GitCheckoutOptions.AbortMerge:
+						repository.Reset(ResetMode.Hard);
+						break;
+				}
+			}
+			else if (repository.RetrieveStatus().IsDirty)
 			{
 				var dialog = DynamicDialogFactory.GetFor_GitCheckoutConflicts(checkoutBranch.FriendlyName, repository.Head.FriendlyName);
 				await dialog.ShowAsync();
@@ -204,6 +221,7 @@ namespace Files.App.Utils.Git
 				switch (resolveConflictOption)
 				{
 					case GitCheckoutOptions.None:
+						IsExecutingGitAction = false;
 						return false;
 					case GitCheckoutOptions.DiscardChanges:
 						options.CheckoutModifiers = CheckoutModifiers.Force;
@@ -212,7 +230,10 @@ namespace Files.App.Utils.Git
 					case GitCheckoutOptions.StashChanges:
 						var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
 						if (signature is null)
+						{
+							IsExecutingGitAction = false;
 							return false;
+						}
 
 						repository.Stashes.Add(signature);
 

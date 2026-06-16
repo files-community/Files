@@ -123,8 +123,8 @@ namespace Files.App.Data.Commands
 		private static ImmutableArray<HotKey> Standardize(IEnumerable<HotKey> hotKeys)
 		{
 			return hotKeys
-				.Distinct()
 				.Where(hotKey => !hotKey.IsNone)
+				.Distinct()
 				.GroupBy(hotKey => hotKey with { IsVisible = true })
 				.Select(group => group.OrderBy(hotKey => hotKey.IsVisible).Last())
 				.ToImmutableArray();

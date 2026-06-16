@@ -26,7 +26,7 @@ namespace Files.App.Utils.Storage
 
 		public static Task SetClipboard(string[] filesToCopy, DataPackageOperation operation)
 		{
-			return Win32Helper.StartSTATask(() =>
+			return STATask.Run(() =>
 			{
 				System.Windows.Forms.Clipboard.Clear();
 				var fileList = new System.Collections.Specialized.StringCollection();
@@ -37,12 +37,12 @@ namespace Files.App.Utils.Storage
 				data.SetFileDropList(fileList);
 				data.SetData("Preferred DropEffect", dropEffect);
 				System.Windows.Forms.Clipboard.SetDataObject(data, true);
-			});
+			}, App.Logger);
 		}
 
 		public static Task<(bool, ShellOperationResult)> CreateItemAsync(string filePath, string fileOp, long ownerHwnd, bool asAdmin, string template = "", byte[]? dataBytes = null)
 		{
-			return Win32Helper.StartSTATask(async () =>
+			return STATask.Run(async () =>
 			{
 				using var op = new ShellFileOperations2();
 
@@ -106,12 +106,12 @@ namespace Files.App.Utils.Storage
 				}
 
 				return (await createTcs.Task, shellOperationResult);
-			});
+			}, App.Logger);
 		}
 
 		public static Task<(bool, ShellOperationResult)> TestRecycleAsync(string[] fileToDeletePath)
 		{
-			return Win32Helper.StartSTATask(async () =>
+			return STATask.Run(async () =>
 			{
 				using var op = new ShellFileOperations2();
 
@@ -194,7 +194,7 @@ namespace Files.App.Utils.Storage
 				}
 
 				return (await deleteTcs.Task, shellOperationResult);
-			});
+			}, App.Logger);
 		}
 
 		public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string[] fileToDeletePath, bool permanently, long ownerHwnd, bool asAdmin, IProgress<StatusCenterItemProgressModel> progress, string operationID = "")
@@ -208,6 +208,14 @@ namespace Files.App.Utils.Storage
 
 			var cts = new CancellationTokenSource();
 			var sizeCalculator = new FileSizeCalculator(fileToDeletePath);
+
+			// Track the count and update the progress
+			sizeCalculator.ItemsCountChanged += (newCount) =>
+			{
+				fsProgress.ItemsCount = newCount;
+				fsProgress.Report();
+			};
+
 			var sizeTask = sizeCalculator.ComputeSizeAsync(cts.Token);
 			sizeTask.ContinueWith(_ =>
 			{
@@ -220,7 +228,7 @@ namespace Files.App.Utils.Storage
 			fsProgress.Report();
 			progressHandler ??= new();
 
-			return Win32Helper.StartSTATask(async () =>
+			return STATask.Run(async () =>
 			{
 				using var op = new ShellFileOperations2();
 
@@ -325,7 +333,7 @@ namespace Files.App.Utils.Storage
 				cts.Cancel();
 
 				return (await deleteTcs.Task, shellOperationResult);
-			});
+			}, App.Logger);
 		}
 
 		public static Task<(bool, ShellOperationResult)> RenameItemAsync(string fileToRenamePath, string newName, bool overwriteOnRename, long ownerHwnd, bool asAdmin, string operationID = "")
@@ -334,7 +342,7 @@ namespace Files.App.Utils.Storage
 
 			progressHandler ??= new();
 
-			return Win32Helper.StartSTATask(async () =>
+			return STATask.Run(async () =>
 			{
 				using var op = new ShellFileOperations2();
 				var shellOperationResult = new ShellOperationResult();
@@ -392,7 +400,7 @@ namespace Files.App.Utils.Storage
 				progressHandler.RemoveOperation(operationID);
 
 				return (await renameTcs.Task, shellOperationResult);
-			});
+			}, App.Logger);
 		}
 
 		public static Task<(bool, ShellOperationResult)> MoveItemAsync(string[] fileToMovePath, string[] moveDestination, bool overwriteOnMove, long ownerHwnd, bool asAdmin, IProgress<StatusCenterItemProgressModel> progress, string operationID = "")
@@ -406,6 +414,14 @@ namespace Files.App.Utils.Storage
 
 			var cts = new CancellationTokenSource();
 			var sizeCalculator = new FileSizeCalculator(fileToMovePath);
+
+			// Track the count and update the progress
+			sizeCalculator.ItemsCountChanged += (newCount) =>
+			{
+				fsProgress.ItemsCount = newCount;
+				fsProgress.Report();
+			};
+
 			var sizeTask = sizeCalculator.ComputeSizeAsync(cts.Token);
 			sizeTask.ContinueWith(_ =>
 			{
@@ -418,7 +434,7 @@ namespace Files.App.Utils.Storage
 			fsProgress.Report();
 			progressHandler ??= new();
 
-			return Win32Helper.StartSTATask(async () =>
+			return STATask.Run(async () =>
 			{
 				using var op = new ShellFileOperations2();
 				var shellOperationResult = new ShellOperationResult();
@@ -520,7 +536,7 @@ namespace Files.App.Utils.Storage
 				cts.Cancel();
 
 				return (await moveTcs.Task, shellOperationResult);
-			});
+			}, App.Logger);
 		}
 
 		public static Task<(bool, ShellOperationResult)> CopyItemAsync(string[] fileToCopyPath, string[] copyDestination, bool overwriteOnCopy, long ownerHwnd, bool asAdmin, IProgress<StatusCenterItemProgressModel> progress, string operationID = "")
@@ -534,6 +550,14 @@ namespace Files.App.Utils.Storage
 
 			var cts = new CancellationTokenSource();
 			var sizeCalculator = new FileSizeCalculator(fileToCopyPath);
+
+			// Track the count and update the progress
+			sizeCalculator.ItemsCountChanged += (newCount) =>
+			{
+				fsProgress.ItemsCount = newCount;
+				fsProgress.Report();
+			};
+
 			var sizeTask = sizeCalculator.ComputeSizeAsync(cts.Token);
 			sizeTask.ContinueWith(_ =>
 			{
@@ -546,7 +570,7 @@ namespace Files.App.Utils.Storage
 			fsProgress.Report();
 			progressHandler ??= new();
 
-			return Win32Helper.StartSTATask(async () =>
+			return STATask.Run(async () =>
 			{
 				using var op = new ShellFileOperations2();
 
@@ -651,7 +675,7 @@ namespace Files.App.Utils.Storage
 				cts.Cancel();
 
 				return (await copyTcs.Task, shellOperationResult);
-			});
+			}, App.Logger);
 		}
 
 		public static Task<(bool, ShellOperationResult)> CopyItemWithRobocopyAsync(string[] fileToCopyPath, string[] copyDestination, bool overwriteOnCopy, long ownerHwnd, bool asAdmin, IProgress<StatusCenterItemProgressModel> progress, string operationID = "", IShellPage? shellPage = null)
@@ -1379,13 +1403,13 @@ namespace Files.App.Utils.Storage
 				}
 				else if (FileExtensionHelpers.IsWebLinkFile(linkPath))
 				{
-					targetPath = await Win32Helper.StartSTATask(() =>
+					targetPath = await STATask.Run(() =>
 					{
 						var ipf = new Url.IUniformResourceLocator();
 						(ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Load(linkPath, 0);
 						ipf.GetUrl(out var retVal);
 						return retVal;
-					});
+					}, App.Logger);
 					return string.IsNullOrEmpty(targetPath) ?
 						new ShellLinkItem
 						{
@@ -1434,13 +1458,13 @@ namespace Files.App.Utils.Storage
 				}
 				else if (FileExtensionHelpers.IsWebLinkFile(linkSavePath))
 				{
-					return Win32Helper.StartSTATask(() =>
+					return STATask.Run(() =>
 					{
 						var ipf = new Url.IUniformResourceLocator();
 						ipf.SetUrl(targetPath, Url.IURL_SETURL_FLAGS.IURL_SETURL_FL_GUESS_PROTOCOL);
 						(ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Save(linkSavePath, false); // Overwrite if exists
 						return true;
-					});
+					}, App.Logger);
 				}
 			}
 			catch (UnauthorizedAccessException ex)
@@ -1459,25 +1483,56 @@ namespace Files.App.Utils.Storage
 
 		public static bool SetLinkIcon(string filePath, string iconFile, int iconIndex)
 		{
+			var ext = Path.GetExtension(filePath).ToLowerInvariant();
+
 			try
 			{
-				using var link = new ShellLink(filePath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
-				link.IconLocation = new IconLocation(iconFile, iconIndex);
-				link.SaveAs(filePath); // Overwrite if exists
-				return true;
+				return ext switch
+				{
+					".lnk" => TrySetLnkShortcutIcon(filePath, iconFile, iconIndex),
+					".url" => TrySetUrlShortcutIcon(filePath, iconFile, iconIndex),
+					_ => false,
+				};
 			}
 			catch (UnauthorizedAccessException)
 			{
-				string psScript = $@"
-					$FilePath = '{filePath}'
-					$IconFile = '{iconFile}'
-					$IconIndex = '{iconIndex}'
+				string psScript;
+				filePath = filePath.Replace("'", "''");
+				iconFile = iconFile.Replace("'", "''");
 
-					$Shell = New-Object -ComObject WScript.Shell
-					$Shortcut = $Shell.CreateShortcut($FilePath)
-					$Shortcut.IconLocation = ""$IconFile, $IconIndex""
-					$Shortcut.Save()
-				";
+				if(ext == ".url")
+				{
+					psScript = $@"
+						$path = '{filePath}'
+						$iconFile = '{iconFile}'
+						$iconIndex = '{iconIndex}'
+						$content = Get-Content -LiteralPath $path
+                
+						$content = $content | Where-Object {{ $_ -notmatch '^IconFile=' -and $_ -notmatch '^IconIndex=' }}
+                
+						$newContent = foreach ($line in $content) {{
+							$line
+							if ($line -eq '[InternetShortcut]') {{
+								""IconFile=$iconFile""
+								""IconIndex=$iconIndex""
+							}}
+						}}
+						$newContent | Set-Content -LiteralPath $path -Encoding UTF8
+					";
+				}
+				else
+				{
+					psScript = $@"
+						$FilePath = '{filePath}'
+						$IconFile = '{iconFile}'
+						$IconIndex = '{iconIndex}'
+
+						$Shell = New-Object -ComObject WScript.Shell
+						$Shortcut = $Shell.CreateShortcut($FilePath)
+						$Shortcut.IconLocation = ""$IconFile, $IconIndex""
+						$Shortcut.Save()
+					";
+				}
 
 				var base64EncodedScript = Convert.ToBase64String(System.Text.Encoding.Unicode.GetBytes(psScript));
 
@@ -1507,9 +1562,70 @@ namespace Files.App.Utils.Storage
 			return false;
 		}
 
+		private static bool TrySetUrlShortcutIcon(string filePath, string iconFile, int iconIndex)
+		{
+			var fileExist = File.Exists(filePath);
+			if (!fileExist)
+			{
+				return false;
+			}
+
+			var lines = File.ReadAllLines(filePath).ToList();
+			var hasInternetShortcutHeader = lines.Any(l => l.Trim().Equals("[InternetShortcut]", StringComparison.OrdinalIgnoreCase));
+
+			if (!hasInternetShortcutHeader)
+			{
+				return false;
+			}
+
+			lines.RemoveAll(l =>
+				l.StartsWith("IconFile=", StringComparison.OrdinalIgnoreCase) ||
+				l.StartsWith("IconIndex=", StringComparison.OrdinalIgnoreCase));
+
+			int index = 0;
+			int insertedIndex = 0;
+			foreach(var line in lines)
+			{
+				var isInternetShortcutHeader = line.Trim().Equals("[InternetShortcut]", StringComparison.OrdinalIgnoreCase);
+				if(isInternetShortcutHeader)
+				{
+					insertedIndex = index + 1;
+					break;
+				}
+
+				index++;
+			}
+
+			if(insertedIndex > 0)
+			{
+				lines.Insert(insertedIndex, $"IconFile={iconFile}");
+				lines.Insert(insertedIndex + 1, $"IconIndex={iconIndex}");
+			}
+
+			File.WriteAllLines(filePath, lines);
+
+			return true;
+		}
+
+		private static bool TrySetLnkShortcutIcon(string filePath, string iconFile, int iconIndex)
+		{
+			using var link = new ShellLink(filePath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
+			if (string.IsNullOrWhiteSpace(iconFile))
+			{
+				link.IconLocation = new IconLocation(string.Empty, 0);
+			}
+			else
+			{
+				link.IconLocation = new IconLocation(iconFile, iconIndex);
+			}
+			link.SaveAs(filePath); // Overwrite if exists
+
+			return true;
+		}
+
 		public static Task<string?> OpenObjectPickerAsync(long hWnd)
 		{
-			return Win32Helper.StartSTATask(() =>
+			return STATask.Run(() =>
 			{
 				var picker = new DirectoryObjectPickerDialog()
 				{
@@ -1538,7 +1654,7 @@ namespace Files.App.Utils.Storage
 				}
 
 				return null;
-			});
+			}, App.Logger);
 		}
 
 		private static ShellItem? GetFirstFile(ShellItem shi)
@@ -1755,7 +1871,7 @@ namespace Files.App.Utils.Storage
 			var index = 2;
 			var filePath = filePathToCheck;
 			if (Path.HasExtension(filePathToCheck))
-				filePath = filePathToCheck.Substring(0, filePathToCheck.LastIndexOf("."));
+				filePath = filePathToCheck.Substring(0, filePathToCheck.LastIndexOf('.'));
 
 			Func<int, string> genFilePath = x => string.Concat([filePath, " (", x.ToString(), ")", Path.GetExtension(filePathToCheck)]);
 

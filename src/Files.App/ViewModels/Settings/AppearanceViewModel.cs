@@ -296,6 +296,20 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool ShowStatusBar
+		{
+			get => UserSettingsService.AppearanceSettingsService.ShowStatusBar;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.ShowStatusBar)
+				{
+					UserSettingsService.AppearanceSettingsService.ShowStatusBar = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public bool ShowTabActions
 		{
 			get => UserSettingsService.AppearanceSettingsService.ShowTabActions;

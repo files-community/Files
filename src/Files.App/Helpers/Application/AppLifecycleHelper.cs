@@ -169,7 +169,9 @@ namespace Files.App.Helpers
 
 			await updateService.CheckForUpdatesAsync();
 			await updateService.DownloadMandatoryUpdatesAsync();
-			await updateService.CheckAndUpdateFilesLauncherAsync();
+
+			if (IsAppUpdated)
+				await updateService.CheckAndUpdateFilesLauncherAsync();
 		}
 
 		/// <summary>
@@ -258,6 +260,7 @@ namespace Files.App.Helpers
 					.AddSingleton<INetworkService, NetworkService>()
 					.AddSingleton<IStartMenuService, StartMenuService>()
 					.AddSingleton<IStorageCacheService, StorageCacheService>()
+					.AddSingleton<IIconCacheService, IconCacheService>()
 					.AddSingleton<IStorageArchiveService, StorageArchiveService>()
 					.AddSingleton<IStorageSecurityService, StorageSecurityService>()
 					.AddSingleton<IWindowsCompatibilityService, WindowsCompatibilityService>()

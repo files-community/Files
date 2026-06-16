@@ -1,9 +1,25 @@
 ﻿<Project>
+  <PropertyGroup>
+    <SatoriDownloadDate>$([System.DateTime]::UtcNow.ToString('yyyyMMdd'))</SatoriDownloadDate>
+    <SatoriArchiveName>windows_$(Platform).zip</SatoriArchiveName>
+    <SatoriArchivePath>$(IntermediateOutputPath)SatoriPackage\$(SatoriDownloadDate)\$(SatoriArchiveName)</SatoriArchivePath>
+    <SatoriDownloadedThisRun>false</SatoriDownloadedThisRun>
+  </PropertyGroup>
   <Target Name="FetchSatori" AfterTargets="ResolveRuntimePackAssets">
+    <!-- Skip download if the archive already exists -->
+    <ItemGroup Condition="Exists('$(SatoriArchivePath)')">
+      <SatoriArchive Include="$(SatoriArchivePath)" />
+    </ItemGroup>
+
+    <!-- Download if the archive does not exist -->
+    <PropertyGroup Condition="!Exists('$(SatoriArchivePath)')">
+      <SatoriDownloadedThisRun>true</SatoriDownloadedThisRun>
+    </PropertyGroup>
     <DownloadFile
-        SourceUrl="https://github.com/files-community/Satori/releases/latest/download/windows_$(Platform).zip"
-        DestinationFolder="$(IntermediateOutputPath)$([System.Guid]::NewGuid().ToString('N'))"
-        Retries="3">
+        SourceUrl="https://github.com/files-community/Satori/releases/latest/download/$(SatoriArchiveName)"
+        DestinationFolder="$(IntermediateOutputPath)SatoriPackage\$(SatoriDownloadDate)"
+        Retries="3"
+        Condition="!Exists('$(SatoriArchivePath)')">
       <Output TaskParameter="DownloadedFile" ItemName="SatoriArchive" />
     </DownloadFile>
   </Target>
@@ -14,7 +30,7 @@
         DestinationFolder="$(IntermediateOutputPath)Satori"
         OverwriteReadOnlyFiles="true"
     />
-    <Delete Files="@(SatoriArchive)" />
+    <Delete Files="@(SatoriArchive)" Condition="'$(SatoriDownloadedThisRun)' == 'true'" />
   </Target>
 
   <Target Name="IncludeSatoriInRuntimePackAssets" AfterTargets="ExtractSatori" DependsOnTargets="ExtractSatori">

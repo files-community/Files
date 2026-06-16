@@ -65,7 +65,7 @@ namespace Files.App.UserControls.FilePreviews
 
 		private void PreviewHost_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
-			ViewModel.PointerEntered(sender == contentPresenter);
+			ViewModel.PointerEntered(ReferenceEquals(sender, contentPresenter));
 		}
 	}
 }

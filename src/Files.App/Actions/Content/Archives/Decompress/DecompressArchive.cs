@@ -14,6 +14,8 @@ namespace Files.App.Actions
 	[GeneratedRichCommand]
 	internal sealed partial class DecompressArchiveAction : BaseDecompressArchiveAction
 	{
+		private readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 		public override string Label
 			=> Strings.ExtractFiles.GetLocalizedResource();
 
@@ -81,6 +83,9 @@ namespace Files.App.Actions
 			BaseStorageFolder destinationFolder = decompressArchiveViewModel.DestinationFolder;
 			string destinationFolderPath = decompressArchiveViewModel.DestinationFolderPath;
 
+			// Save extraction location for future use
+			SaveExtractionLocation(destinationFolderPath);
+
 			if (destinationFolder is null)
 			{
 				BaseStorageFolder parentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(Path.GetDirectoryName(archive.Path) ?? string.Empty);
@@ -118,6 +123,18 @@ namespace Files.App.Actions
 				return context.Folder?.ItemPath;
 
 			return null;
+		}
+
+		private void SaveExtractionLocation(string path)
+		{
+			var previousArchiveExtractionLocations = UserSettingsService.GeneralSettingsService.PreviousArchiveExtractionLocations?.ToList() ?? [];
+			previousArchiveExtractionLocations.Remove(path);
+			previousArchiveExtractionLocations.Insert(0, path);
+
+			if (previousArchiveExtractionLocations.Count > 10)
+				UserSettingsService.GeneralSettingsService.PreviousArchiveExtractionLocations = previousArchiveExtractionLocations.RemoveFrom(11);
+			else
+				UserSettingsService.GeneralSettingsService.PreviousArchiveExtractionLocations = previousArchiveExtractionLocations;
 		}
 	}
 }

@@ -20,7 +20,7 @@ namespace Files.App.ViewModels.Layouts
 	/// </summary>
 	public sealed partial class BaseLayoutViewModel : IDisposable
 	{
-		protected ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		private ILogger? Logger { get; } = Ioc.Default.GetRequiredService<ILogger<App>>();
 
 		private readonly IShellPage _associatedInstance;
@@ -51,7 +51,7 @@ namespace Files.App.ViewModels.Layouts
 
 		private void CreateNewFile(ShellNewEntry f)
 		{
-			UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.File, f, _associatedInstance);
+			_ = UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.File, f, _associatedInstance);
 		}
 
 		private async Task ItemPointerPressedAsync(PointerRoutedEventArgs e)

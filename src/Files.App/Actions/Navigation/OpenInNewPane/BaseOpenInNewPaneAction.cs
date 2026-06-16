@@ -17,6 +17,7 @@ namespace Files.App.Actions
 			=> Strings.OpenDirectoryInNewPaneDescription.GetLocalizedResource();
 
 		public virtual bool IsExecutable =>
+			ContentPageContext.PageType != ContentPageTypes.RecycleBin &&
 			ContentPageContext.SelectedItem is not null &&
 			ContentPageContext.SelectedItem.IsFolder;
 

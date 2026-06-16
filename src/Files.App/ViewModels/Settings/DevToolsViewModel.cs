@@ -8,8 +8,8 @@ namespace Files.App.ViewModels.Settings
 {
 	public sealed partial class DevToolsViewModel : ObservableObject
 	{
-		protected readonly IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
-		protected readonly IDevToolsSettingsService DevToolsSettingsService = Ioc.Default.GetRequiredService<IDevToolsSettingsService>();
+		private readonly IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		private readonly IDevToolsSettingsService DevToolsSettingsService = Ioc.Default.GetRequiredService<IDevToolsSettingsService>();
 		private readonly ICommonDialogService CommonDialogService = Ioc.Default.GetRequiredService<ICommonDialogService>();
 
 		public Dictionary<OpenInIDEOption, string> OpenInIDEOptions { get; private set; } = [];

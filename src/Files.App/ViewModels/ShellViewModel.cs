@@ -169,6 +169,7 @@ namespace Files.App.ViewModels
 		private CancellationTokenSource watcherCTS;
 		private CancellationTokenSource searchCTS;
 		private CancellationTokenSource updateTagGroupCTS;
+		private CancellationTokenSource? filterDebounceCS;
 
 		public event EventHandler FocusFilterHeader;
 
@@ -789,7 +790,20 @@ namespace Files.App.ViewModels
 
 		private void FilesAndFolderFilterUpdated()
 		{
-			_ = ApplyFilesAndFoldersChangesAsync();
+			if (filterDebounceCS is not null)
+			{
+				filterDebounceCS.Cancel();
+				filterDebounceCS.Dispose();
+			}
+
+			filterDebounceCS = new CancellationTokenSource();
+			var token = filterDebounceCS.Token;
+
+			_ = Task.Delay(250, token)
+				.ContinueWith(_ => ApplyFilesAndFoldersChangesAsync(), token,
+					TaskContinuationOptions.OnlyOnRanToCompletion,
+					TaskScheduler.Default)
+				.Unwrap();
 		}
 
 
@@ -1079,7 +1093,7 @@ namespace Files.App.ViewModels
 							IconOptions.ReturnThumbnailOnly | IconOptions.ReturnOnlyIfCached | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
 
 					cancellationToken.ThrowIfCancellationRequested();
-					loadNonCachedThumbnail = true;
+					loadNonCachedThumbnail = result is null;
 				}
 
 				if (result is null)
@@ -1215,7 +1229,7 @@ namespace Files.App.ViewModels
 					cts.Token.ThrowIfCancellationRequested();
 					if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 					{
-						if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
+						if (!item.IsShortcut && !FtpHelpers.IsFtpPath(item.ItemPath))
 						{
 							matchingStorageFile = await GetFileFromPathAsync(item.ItemPath, cts.Token);
 							if (matchingStorageFile is not null)
@@ -1558,7 +1572,7 @@ namespace Files.App.ViewModels
 
 		public void RefreshItems(string? previousDir, Action postLoadCallback = null)
 		{
-			RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir, postLoadCallback);
+			_ = RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir, postLoadCallback);
 		}
 
 		private async Task RapidAddItemsToCollectionAsync(string path, string? previousDir, Action postLoadCallback)
@@ -1665,7 +1679,7 @@ namespace Files.App.ViewModels
 					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false, IsTypeRecycleBin = isRecycleBin });
 					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
 					if (!HasNoWatcher)
-						WatchForStorageFolderChangesAsync(currentStorageFolder?.Item);
+						_ = WatchForStorageFolderChangesAsync(currentStorageFolder?.Item);
 					break;
 
 				// Watch for changes using Win32 in Box Drive folder (#7428) and network drives (#5869)
@@ -1694,6 +1708,8 @@ namespace Files.App.ViewModels
 
 		public void CloseWatcher()
 		{
+			App.Logger.LogInformation($"CloseWatcher: aProcessQueueAction={aProcessQueueAction?.Status.ToString()}, gitProcessQueueAction={gitProcessQueueAction?.Status.ToString()}");
+
 			watcher?.Dispose();
 			watcher = null;
 
@@ -2771,6 +2787,8 @@ namespace Files.App.ViewModels
 
 		public void UpdateDateDisplay(bool isFormatChange)
 		{
+			App.Logger.LogDebug($"UpdateDateDisplay: isFormatChange={isFormatChange}, itemCount={filesAndFolders?.Count}");
+
 			filesAndFolders.ToList().AsParallel().ForAll(async item =>
 			{
 				// Reassign values to update date display
@@ -2792,6 +2810,10 @@ namespace Files.App.ViewModels
 		public void Dispose()
 		{
 			CancelLoadAndClearFiles();
+			filterDebounceCS?.Cancel();
+			filterDebounceCS?.Dispose();
+			App.Logger.LogInformation($"ShellViewModel.Dispose: CurrentFolder={LogPathHelper.GetPathIdentifier(CurrentFolder?.ItemPath)}");
+
 			StorageTrashBinService.Watcher.ItemAdded -= RecycleBinItemCreatedAsync;
 			StorageTrashBinService.Watcher.ItemDeleted -= RecycleBinItemDeletedAsync;
 			StorageTrashBinService.Watcher.RefreshRequested -= RecycleBinRefreshRequestedAsync;

@@ -12,6 +12,7 @@
 	CornerRadius="{StaticResource OverlayCornerRadius}"
 	DefaultButton="Primary"
 	HighContrastAdjustment="None"
+	IsPrimaryButtonEnabled="{x:Bind ViewModel.IsDestinationPathValid, Mode=OneWay}"
 	PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
 	PrimaryButtonText="{helpers:ResourceString Name=Extract}"
 	RequestedTheme="{x:Bind RootAppElement.RequestedTheme, Mode=OneWay}"
@@ -44,13 +45,14 @@
 					Text="{helpers:ResourceString Name=ExtractToPath}" />
 
 				<!--  Path Box  -->
-				<TextBox
+				<AutoSuggestBox
 					x:Name="DestinationFolderPath"
 					Grid.Row="1"
 					Grid.Column="0"
 					HorizontalAlignment="Stretch"
-					IsReadOnly="True"
-					Text="{x:Bind ViewModel.DestinationFolderPath, Mode=OneWay}" />
+					ItemsSource="{x:Bind ViewModel.PreviousExtractionLocations, Mode=OneWay}"
+					Text="{x:Bind ViewModel.DestinationFolderPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+					TextChanged="DestinationFolderPath_TextChanged" />
 
 				<Button
 					x:Name="SelectDestination"

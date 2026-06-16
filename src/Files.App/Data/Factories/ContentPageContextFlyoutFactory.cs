@@ -518,20 +518,20 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenParentFolder).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.PinFolderToSidebar)
 				{
-					IsVisible = Commands.PinFolderToSidebar.IsExecutable && UserSettingsService.GeneralSettingsService.ShowPinnedSection,
+					IsVisible = Commands.PinFolderToSidebar.IsExecutable && UserSettingsService.GeneralSettingsService.ShowPinnedSection && UserSettingsService.GeneralSettingsService.ShowPinToSideBar,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.UnpinFolderFromSidebar)
 				{
-					IsVisible = Commands.UnpinFolderFromSidebar.IsExecutable && UserSettingsService.GeneralSettingsService.ShowPinnedSection,
+					IsVisible = Commands.UnpinFolderFromSidebar.IsExecutable && UserSettingsService.GeneralSettingsService.ShowPinnedSection && UserSettingsService.GeneralSettingsService.ShowPinToSideBar,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.PinToStart)
 				{
-					IsVisible = selectedItems.All(x => (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable || (x is IShortcutItem shortcutItem && FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath))) && !x.IsArchive && !x.IsItemPinnedToStart),
+					IsVisible = selectedItems.All(x => (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable || (x is IShortcutItem shortcutItem && FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath))) && !x.IsArchive && !x.IsItemPinnedToStart) && UserSettingsService.GeneralSettingsService.ShowPinToStart,
 					ShowOnShift = true,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.UnpinFromStart)
 				{
-					IsVisible = selectedItems.All(x => (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable|| (x is IShortcutItem shortcutItem && FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath))) && !x.IsArchive && x.IsItemPinnedToStart),
+					IsVisible = selectedItems.All(x => (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable|| (x is IShortcutItem shortcutItem && FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath))) && !x.IsArchive && x.IsItemPinnedToStart) && UserSettingsService.GeneralSettingsService.ShowPinToStart,
 					ShowOnShift = true,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel

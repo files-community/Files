@@ -71,6 +71,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public List<string> PreviousArchiveExtractionLocations
+		{
+			get => Get<List<string>>(null);
+			set => Set(value);
+		}
+
 		public DateTimeFormats DateTimeFormat
 		{
 			get => Get(DateTimeFormats.Application);
@@ -239,6 +245,18 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public bool ShowPinToSideBar
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowPinToStart
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		public bool ShowEditTagsMenu
 		{
 			get => Get(true);
@@ -378,6 +396,13 @@ namespace Files.App.Services.Settings
 		public bool ShowFilterHeader
 		{
 			get => Get(false);
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public bool EnableSmoothScrolling
+		{
+			get => Get(true);
 			set => Set(value);
 		}
 

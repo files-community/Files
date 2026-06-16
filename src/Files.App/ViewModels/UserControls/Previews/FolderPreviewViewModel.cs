@@ -9,6 +9,7 @@ namespace Files.App.ViewModels.Previews
 {
 	public sealed class FolderPreviewViewModel
 	{
+		private readonly InfoPaneViewModel infoPaneViewModel = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
 		public ListedItem Item { get; }
 
 		public BitmapImage Thumbnail { get; set; } = new();
@@ -46,7 +47,7 @@ namespace Files.App.ViewModels.Previews
 
 			Item.FileDetails =
 			[
-				GetFileProperty("PropertyItemCount", items.Count),
+				GetFileProperty("PropertyItemCount", infoPaneViewModel?.DirectoryItemCount),
 				GetFileProperty("PropertyDateModified", info.DateModified),
 				GetFileProperty("PropertyDateCreated", info.DateCreated),
 				GetFileProperty("PropertyParsingPath", Folder.Path),

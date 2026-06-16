@@ -108,13 +108,26 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				{
 					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && CommandManager.OpenInNewPaneFromHome.IsExecutable
 				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.CopyItemFromHome)
+				{
+					IsPrimary = true,
+					IsVisible = CommandManager.CopyItemFromHome.IsExecutable
+				}.Build(),
+				new()
+				{
+					Text = Strings.Properties.GetLocalizedResource(),
+					ThemedIconModel = new ThemedIconModel() { ThemedIconStyle = "App.ThemedIcons.Properties" },
+					Command = OpenPropertiesCommand,
+					CommandParameter = item,
+					IsPrimary = true
+				},
 				new()
 				{
 					Text = Strings.PinFolderToSidebar.GetLocalizedResource(),
 					ThemedIconModel = new ThemedIconModel() { ThemedIconStyle = "App.ThemedIcons.FavoritePin" },
 					Command = PinToSidebarCommand,
 					CommandParameter = item,
-					ShowItem = !isPinned
+					ShowItem = !isPinned && UserSettingsService.GeneralSettingsService.ShowPinToSideBar
 				},
 				new()
 				{
@@ -130,13 +143,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					Command = EjectDeviceCommand,
 					CommandParameter = item,
 					ShowItem = options?.ShowEjectDevice ?? false
-				},
-				new()
-				{
-					Text = Strings.Properties.GetLocalizedResource(),
-					ThemedIconModel = new ThemedIconModel() { ThemedIconStyle = "App.ThemedIcons.Properties" },
-					Command = OpenPropertiesCommand,
-					CommandParameter = item
 				},
 				new()
 				{

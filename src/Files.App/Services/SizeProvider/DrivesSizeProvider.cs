@@ -47,12 +47,11 @@ namespace Files.App.Services.SizeProvider
 		public bool TryGetSize(string path, out ulong size)
 		{
 			string driveName = GetDriveName(path);
-			if (!providers.ContainsKey(driveName))
+			if (!providers.TryGetValue(driveName, out ISizeProvider? provider))
 			{
 				size = 0;
 				return false;
 			}
-			var provider = providers[driveName];
 			return provider.TryGetSize(path, out size);
 		}
 

@@ -171,10 +171,20 @@ namespace Files.App.Views.Layouts
 
 		protected virtual void ItemManipulationModel_FocusFileListInvoked(object? sender, EventArgs e)
 		{
-			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot);
-			var isFileListFocused = DependencyObjectHelpers.FindParent<ListViewBase>(focusedElement) == ItemsControl;
-			if (!isFileListFocused)
-				ListViewBase.Focus(FocusState.Programmatic);
+			try
+			{
+				if (App.AppModel.IsMainWindowClosed)
+					return;
+
+				var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot);
+				var isFileListFocused = DependencyObjectHelpers.FindParent<ListViewBase>(focusedElement) == ItemsControl;
+				if (!isFileListFocused)
+					ListViewBase.Focus(FocusState.Programmatic);
+			}
+			catch
+			{
+				// Handle exception in case the window is closed during the operation
+			}
 		}
 
 		protected virtual void ItemManipulationModel_SelectAllItemsInvoked(object? sender, EventArgs e)

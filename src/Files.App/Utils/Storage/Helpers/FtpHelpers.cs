@@ -33,7 +33,7 @@ namespace Files.App.Utils.Storage
 			var authority = GetFtpAuthority(path);
 			var index = authority.IndexOf(':', StringComparison.Ordinal);
 
-			return index == -1 || ushort.TryParse(authority.Substring(index + 1), out _);
+			return index == -1 || ushort.TryParse(authority.AsSpan(index + 1), out _);
 		}
 
 		public static string GetFtpHost(string path)
@@ -57,7 +57,7 @@ namespace Files.App.Utils.Storage
 
 		public static string GetFtpAuthority(string path)
 		{
-			path = path.Replace("\\", "/", StringComparison.Ordinal);
+			path = path.Replace('\\', '/');
 			if (Uri.TryCreate(path, UriKind.Absolute, out var uri))
 				return uri.Authority;
 			return string.Empty;
@@ -65,17 +65,17 @@ namespace Files.App.Utils.Storage
 
 		public static string GetFtpPath(string path)
 		{
-			path = path.Replace("\\", "/", StringComparison.Ordinal);
+			path = path.Replace('\\', '/');
 			var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
-			var hostIndex = path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
+			var hostIndex = path.IndexOf('/', schemaIndex);
 			return hostIndex == -1 ? "/" : path.Substring(hostIndex);
 		}
 
 		public static int GetRootIndex(string path)
 		{
-			path = path.Replace("\\", "/", StringComparison.Ordinal);
+			path = path.Replace('\\', '/');
 			var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
-			return path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
+			return path.IndexOf('/', schemaIndex);
 		}
 	}
 }

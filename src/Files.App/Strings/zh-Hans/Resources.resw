@@ -145,7 +145,7 @@
     <value>路径</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>大小:</value>
+    <value>大小：</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
     <value>占用空间:</value>
@@ -1161,7 +1161,7 @@
     <value>未知</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>如果改变文件扩展名，可能会导致文件不可用。确实要更改吗？</value>
+    <value>如果改变文件扩展名，可能会导致文件不可用。确定要更改吗？</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>CD-ROM 驱动器</value>
@@ -1326,7 +1326,7 @@
     <value>类型：</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
-    <value>修改日期:</value>
+    <value>修改日期：</value>
   </data>
   <data name="OpenWith" xml:space="preserve">
     <value>打开方式</value>
@@ -1485,7 +1485,7 @@
     <value>未知所有者</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>解压缩</value>
+    <value>解压文件到</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>完成后打开目标文件夹</value>
@@ -1773,7 +1773,7 @@
     <value>文件标签</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>通过单击打开项目</value>
+    <value>单击打开文件</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>文件夹路径</value>
@@ -1929,13 +1929,13 @@
     <value>字节</value>
   </data>
   <data name="Extract" xml:space="preserve">
-    <value>解压缩</value>
+    <value>解压</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>解压缩文件</value>
+    <value>解压文件</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>解压缩到此处</value>
+    <value>解压到当前文件夹</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
@@ -2031,13 +2031,13 @@
     <value>您好！</value>
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
-    <value>喜欢Files吗？请考虑在Microsoft Store中给我们写评价。</value>
-  </data>  
+    <value>喜欢Files吗？请考虑在 Microsoft Store 中给我们写评价。</value>
+  </data>
   <data name="SponsorSubtitle" xml:space="preserve">
-    <value>喜欢Files吗？请考虑在Github上支持该项目</value>
+    <value>喜欢Files吗？请考虑在 Github 上支持该项目。</value>
   </data>
   <data name="Sponsor" xml:space="preserve">
-    <value>赞助者</value>
+    <value>赞助</value>
   </data>
   <data name="RateUs" xml:space="preserve">
     <value>为我们评分</value>
@@ -2072,8 +2072,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>锁屏界面</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>在“列”布局下，通过单击打开文件夹</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>单击打开文件夹</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>打开项目</value>
@@ -3132,6 +3132,15 @@
   <data name="UncommittedChanges" xml:space="preserve">
     <value>你在此分支上有未提交的更改。如何处理这些更改？</value>
   </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>您当前存在未解决冲突的合并操作。请解决冲突或取消合并以切换分支。</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>中止合并并切换到'{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>保持'{0}'并解决冲突</value>
+  </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>切换分支</value>
   </data>
@@ -3181,7 +3190,7 @@
     <value>远程</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
-    <value>在 Crowdin 上翻译此应用</value>
+    <value>在 Crowdin 上协助翻译此应用</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
     <value>抓取</value>
@@ -3266,7 +3275,7 @@
     <value>连接到 GitHub</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
-    <value>若要开始使用 GitHub 存储库，请在下方的链接中输入以下验证码。</value>
+    <value>若要开始使用 GitHub 存储库，请点击下方的链接，并输入以下验证码。</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files 目前无法访问 GitHub。</value>
@@ -3302,7 +3311,7 @@
     <value>无法显示当前所有者。</value>
   </data>
   <data name="AuthorizationSucceded" xml:space="preserve">
-    <value>针不戳！你现在已获得授权。</value>
+    <value>真不错！你现在已获得授权。</value>
   </data>
   <data name="InitRepo" xml:space="preserve">
     <value>初始化存储库</value>
@@ -3487,6 +3496,9 @@
   <data name="ProcessingItems" xml:space="preserve">
     <value>正在处理项目...</value>
   </data>
+  <data name="DiscoveringItems" xml:space="preserve">
+    <value>正在发现项目...</value>
+  </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>速度：</value>
   </data>
@@ -3617,6 +3629,10 @@
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
     <value>正在将{0, plural, other {#个项目}}从“{1}”复制到“{2}”</value>
     <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
+    <value>已发现 {0, plural, one {# item} other {# items}}</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
     <value>已取消将 {0} 解压缩到“{1}”</value>
@@ -4291,7 +4307,7 @@
   </data>
   <data name="Signatures" xml:space="preserve">
     <value>签名</value>
-   </data>
+  </data>
   <data name="SignatureList" xml:space="preserve">
     <value>签名列表</value>
   </data>
@@ -4324,5 +4340,26 @@
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
     <value>无法打开日志文件</value>
+  </data>
+  <data name="ShowStatusBar" xml:space="preserve">
+    <value>显示状态栏</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>仅在列视图时</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>New {0}</value>
+  </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Enable smooth scrolling</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Scrolling</value>
+  </data>
+  <data name="ShowPinToSideBar" xml:space="preserve">
+    <value>Show option to Pin to Sidebar</value>
+  </data>
+  <data name="ShowPinToStart" xml:space="preserve">
+    <value>Show option to Pin to the Start Menu</value>
   </data>
 </root>

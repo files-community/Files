@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -214,15 +215,17 @@ namespace Files.App.Utils.Signatures
 			signChain.Clear();
 
 			var cert_store_prov_system = (PCSTR)(byte*)10;
-			var root = "Root";
-			var pRoot = &root;
-			var hSystemStore = PInvoke.CertOpenStore(
-				cert_store_prov_system,
-				ENCODING,
-				HCRYPTPROV_LEGACY.Null,
-				(CERT_OPEN_STORE_FLAGS)CERT_SYSTEM_STORE_CURRENT_USER,
-				pRoot
-			); 
+			HCERTSTORE hSystemStore;
+			fixed (char* pRoot = "Root")
+			{
+				hSystemStore = PInvoke.CertOpenStore(
+					cert_store_prov_system,
+					ENCODING,
+					HCRYPTPROV_LEGACY.Null,
+					(CERT_OPEN_STORE_FLAGS)CERT_SYSTEM_STORE_CURRENT_USER,
+					(void*)pRoot
+				); 
+			}
 			if (hSystemStore == IntPtr.Zero)
 				return false;
 
@@ -233,7 +236,7 @@ namespace Files.App.Utils.Signatures
 				out authSignData.hCertStoreHandle,
 				out authSignData.pSignerInfo,
 				out authSignData.dwObjSize
-			);
+				);
 
 			if (hAuthCryptMsg is not null)
 			{
@@ -837,7 +840,7 @@ namespace Files.App.Utils.Signatures
 				paramType,
 				index,
 				null,
-				ref size
+				&size
 			);
 			if (!result)
 				return false;
@@ -851,7 +854,7 @@ namespace Files.App.Utils.Signatures
 				paramType,
 				index,
 				pParam,
-				ref size
+				&size
 			);
 			if (!result)
 				return false;

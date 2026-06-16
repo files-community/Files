@@ -349,8 +349,9 @@ namespace Files.App.Views.Layouts
 					return;
 
 				// Open the selected folder if selected through tap
-				if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick && !isDraggingSelectionRectangle)
-					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is IShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+				if ((UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick == OpenFoldersWithOneClickEnum.Always ||
+					 UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick == OpenFoldersWithOneClickEnum.OnlyInColumnsView) &&
+					!isDraggingSelectionRectangle) ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is IShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 				else
 					CloseFolder();
 			}
@@ -467,7 +468,7 @@ namespace Files.App.Views.Layouts
 							await Commands.OpenItem.ExecuteAsync();
 						break;
 					case StorageItemTypes.Folder:
-						if (!UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+						if (UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick is not OpenFoldersWithOneClickEnum.Always and not OpenFoldersWithOneClickEnum.OnlyInColumnsView)
 							ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (item is IShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
 						break;
 					default:

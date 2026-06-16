@@ -89,6 +89,8 @@ namespace Files.App.Views.Layouts
 
 			var blade = activeBlades[index];
 			blade?.SetWidth();
+
+			ColumnHost.ScrollToEnd();
 		}
 
 		private void ContentChanged(IShellPage p)
@@ -365,6 +367,7 @@ namespace Files.App.Views.Layouts
 		{
 			if (navArgs is not null && navArgs.IsSearchResultPage)
 			{
+				navArgs.AssociatedTabInstance = ParentShellPageInstance;
 				ParentShellPageInstance?.NavigateToPath(navArgs.SearchPathParam, typeof(DetailsLayoutPage), navArgs);
 				return;
 			}

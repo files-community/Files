@@ -83,7 +83,7 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public async Task<bool> RestoreAllTrashesAsync()
 		{
-			return await Win32Helper.StartSTATask(() =>
+			return await STATask.Run(() =>
 			{
 				try
 				{
@@ -95,7 +95,7 @@ namespace Files.App.Services
 				{
 					return false;
 				}
-			});
+			}, App.Logger);
 		}
 
 		private unsafe bool RestoreAllTrashesInternal()

@@ -24,6 +24,7 @@
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			CoreWebView2Initialized="BlogPostWebView_CoreWebView2Initialized"
+			FlowDirection="LeftToRight"
 			Source="{x:Bind ViewModel.BlogPostUrl, Mode=OneWay}" />
 
 		<!--  Footer  -->

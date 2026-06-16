@@ -52,6 +52,9 @@ namespace Files.App.Utils
 		private async void Win32_OnDeviceAdded(object? sender, DeviceEventArgs e)
 		{
 			var driveAdded = new DriveInfo(e.DeviceId);
+			if (!driveAdded.IsReady)
+				return;
+
 			var rootAdded = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(e.DeviceId).AsTask());
 			if (!rootAdded)
 			{
@@ -98,6 +101,9 @@ namespace Files.App.Utils
 			{
 				// Check if this drive is associated with a drive letter
 				var driveAdded = new DriveInfo(root.Path);
+				if (!driveAdded.IsReady)
+					return;
+
 				type = DriveHelpers.GetDriveType(driveAdded);
 				label = DriveHelpers.GetExtendedDriveLabel(driveAdded);
 			}

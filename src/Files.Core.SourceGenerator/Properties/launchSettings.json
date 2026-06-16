@@ -1,0 +1,20 @@
+{
+  "profiles": {
+    "Files.App.CsWin32": {
+      "commandName": "DebugRoslynComponent",
+      "targetProject": "..\\Files.App.CsWin32\\Files.App.CsWin32.csproj"
+    },
+    "Files.App.Controls": {
+      "commandName": "DebugRoslynComponent",
+      "targetProject": "..\\Files.App.Controls\\Files.App.Controls.csproj"
+    },
+    "Files.App.Server": {
+      "commandName": "DebugRoslynComponent",
+      "targetProject": "..\\Files.App.Server\\Files.App.Server.csproj"
+    },
+    "Files.App": {
+      "commandName": "DebugRoslynComponent",
+      "targetProject": "..\\Files.App\\Files.App.csproj"
+    }
+  }
+}

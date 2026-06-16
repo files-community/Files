@@ -1,0 +1,121 @@
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
+
+using Microsoft.Extensions.Logging;
+using System.IO;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
+
+namespace Files.App.Actions
+{
+	[GeneratedRichCommand]
+	internal sealed partial class CopyItemFromSidebarAction : ObservableObject, IAction
+	{
+		private readonly IContentPageContext context;
+		private readonly ISidebarContext SidebarContext;
+
+		public string Label
+			=> Strings.Copy.GetLocalizedResource();
+
+		public string Description
+			=> Strings.CopyItemDescription.GetLocalizedFormatResource(1);
+
+		public RichGlyph Glyph
+			=> new(themedIconStyle: "App.ThemedIcons.Copy");
+		public bool IsExecutable
+			=> GetIsExecutable();
+
+		public CopyItemFromSidebarAction()
+		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			SidebarContext = Ioc.Default.GetRequiredService<ISidebarContext>();
+		}
+
+		public async Task ExecuteAsync(object? parameter = null)
+		{
+			if (SidebarContext.RightClickedItem is null)
+				return;
+
+			var item = SidebarContext.RightClickedItem;
+			var itemPath = item.Path;
+
+			if (string.IsNullOrEmpty(itemPath))
+				return;
+
+			try
+			{
+				var dataPackage = new DataPackage() { RequestedOperation = DataPackageOperation.Copy };
+				IStorageItem? storageItem = null;
+
+				var folderResult = await context.ShellPage?.ShellViewModel?.GetFolderFromPathAsync(itemPath)!;
+				if (folderResult)
+					storageItem = folderResult.Result;
+
+				if (storageItem is null)
+				{
+					await CopyPathFallback(itemPath);
+					return;
+				}
+
+				if (storageItem is SystemStorageFolder or SystemStorageFile)
+				{
+					var standardItems = await new[] { storageItem }.ToStandardStorageItemsAsync();
+					if (standardItems.Any())
+						storageItem = standardItems.First();
+				}
+
+				dataPackage.Properties.PackageFamilyName = Windows.ApplicationModel.Package.Current.Id.FamilyName;
+				dataPackage.SetStorageItems(new[] { storageItem }, false);
+
+				Clipboard.SetContent(dataPackage);
+			}
+			catch (Exception ex)
+			{
+				if ((FileSystemStatusCode)ex.HResult is FileSystemStatusCode.Unauthorized)
+				{
+					await CopyPathFallback(itemPath);
+					return;
+				}
+
+			}
+		}
+
+		private bool GetIsExecutable()
+		{
+			var item = SidebarContext.RightClickedItem;
+
+			return SidebarContext.IsItemRightClicked
+				&& item is not null
+				&& item.MenuOptions.IsLocationItem
+				&& !IsNonCopyableLocation(item);
+		}
+
+		private async Task CopyPathFallback(string path)
+		{
+			try
+			{
+				await FileOperationsHelpers.SetClipboard(new[] { path }, DataPackageOperation.Copy);
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "Failed to copy path to clipboard.");
+			}
+		}
+
+		private bool IsNonCopyableLocation(INavigationControlItem item)
+		{
+			if (string.IsNullOrEmpty(item.Path))
+				return true;
+
+			var normalizedPath = Constants.UserEnvironmentPaths.ShellPlaces.GetValueOrDefault(
+				item.Path.ToUpperInvariant(),
+				item.Path);
+
+			return item.Path.StartsWith("tag:", StringComparison.OrdinalIgnoreCase) ||
+				string.Equals(item.Path, "Home", StringComparison.OrdinalIgnoreCase) ||
+				string.Equals(normalizedPath, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
+				string.Equals(normalizedPath, Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase) ||
+				string.Equals(normalizedPath, Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase);
+		}
+	}
+}

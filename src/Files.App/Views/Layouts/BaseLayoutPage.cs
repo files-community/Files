@@ -1241,6 +1241,9 @@ namespace Files.App.Views.Layouts
 			{
 				InitializeDrag(container, listedItem);
 
+				if (listedItem.PreloadedIconData is not null && listedItem.FileImage is null)
+					_ = ApplyPreloadedIconAsync(listedItem);
+
 				if (!listedItem.ItemPropertiesInitialized)
 				{
 					uint callbackPhase = 3;
@@ -1252,6 +1255,13 @@ namespace Files.App.Views.Layouts
 					});
 				}
 			}
+		}
+
+		private static async Task ApplyPreloadedIconAsync(ListedItem item)
+		{
+			var image = await item.PreloadedIconData.ToBitmapAsync();
+			if (image is not null)
+				item.FileImage = image;
 		}
 
 		protected internal void FileListItem_PointerPressed(object sender, PointerRoutedEventArgs e)

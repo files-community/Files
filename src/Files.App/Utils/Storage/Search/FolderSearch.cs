@@ -3,6 +3,7 @@
 
 using Microsoft.Extensions.Logging;
 using System.IO;
+using System.Text.RegularExpressions;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
@@ -17,6 +18,7 @@ namespace Files.App.Utils.Storage
 		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		private readonly ILogger logger = Ioc.Default.GetRequiredService<ILogger<FolderSearch>>();
 
 		private const uint defaultStepSize = 500;
 
@@ -94,7 +96,7 @@ namespace Files.App.Utils.Storage
 
 		private async Task AddItemsForHomeAsync(IList<ListedItem> results, CancellationToken token)
 		{
-			if (AQSQuery.StartsWith("tag:", StringComparison.Ordinal))
+			if (IsTagQuery(AQSQuery))
 			{
 				await SearchTagsAsync("", results, token); // Search tags everywhere, not only local drives
 			}
@@ -183,19 +185,118 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
+		private bool IsTagQuery(string query)
+		{
+			return query?.Contains("tag:", StringComparison.OrdinalIgnoreCase) == true;
+		}
+
+		public static string FormatTagQuery(string tagName)
+		{
+			if (tagName.Contains(' ') || tagName.Contains('"') || tagName.Contains(','))
+			{
+				return $"tag:\"{tagName.Replace("\"", "\"\"")}\"";
+			}
+			return $"tag:{tagName}";
+		}
+
+		private TagQueryExpression ParseTagQuery(string query)
+		{
+			var expression = new TagQueryExpression();
+			var orParts = Regex.Split(query, @"\s+OR\s+", RegexOptions.IgnoreCase);
+
+			foreach (var orPart in orParts)
+			{
+				var andGroup = new List<TagTerm>();
+				var andParts = Regex.Split(orPart, @"\s+AND\s+", RegexOptions.IgnoreCase);
+
+				foreach (var andPart in andParts)
+				{
+					var matches = Regex.Matches(andPart.Trim(), @"(NOT\s+)?tag:(?:""([^""]+)""|([^\s""]+))", RegexOptions.IgnoreCase);
+					foreach (Match match in matches)
+					{
+						var isExclude = !string.IsNullOrEmpty(match.Groups[1].Value);
+						var tagValue = match.Groups[2].Value;
+						if (string.IsNullOrEmpty(tagValue))
+							tagValue = match.Groups[3].Value;
+
+						if (string.IsNullOrEmpty(tagValue))
+						{
+							logger.LogWarning("Failed to parse tag query: {Query}", andPart);
+							continue;
+						}
+
+						var tagValues = tagValue.Split(',', StringSplitOptions.RemoveEmptyEntries);
+						var tagUids = new HashSet<string>();
+
+						foreach (var tagName in tagValues)
+						{
+							var uids = fileTagsSettingsService.GetTagsByName(tagName).Select(t => t.Uid);
+							foreach (var uid in uids)
+							{
+								tagUids.Add(uid);
+							}
+						}
+
+						andGroup.Add(new TagTerm { TagUids = tagUids, IsExclude = isExclude });
+					}
+				}
+
+				if (andGroup.Count > 0)
+				{
+					expression.OrGroups.Add(andGroup);
+				}
+			}
+
+			return expression;
+		}
+
+		private bool MatchesTagExpression(IEnumerable<string> fileTags, TagQueryExpression expression)
+		{
+			foreach (var orGroup in expression.OrGroups)
+			{
+				bool groupMatches = true;
+				foreach (var term in orGroup)
+				{
+					if (term.IsExclude)
+					{
+						if (term.TagUids.Count > 0 && term.TagUids.Any(fileTags.Contains))
+						{
+							groupMatches = false;
+							break;
+						}
+					}
+					else
+					{
+						if (term.TagUids.Count == 0 || !term.TagUids.Any(fileTags.Contains))
+						{
+							groupMatches = false;
+							break;
+						}
+					}
+				}
+
+				if (groupMatches)
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
 		private async Task SearchTagsAsync(string folder, IList<ListedItem> results, CancellationToken token)
 		{
 			//var sampler = new IntervalSampler(500);
-			var tags = AQSQuery.Substring("tag:".Length)?.Split(',').Where(t => !string.IsNullOrWhiteSpace(t))
-				.SelectMany(t => fileTagsSettingsService.GetTagsByName(t), (_, t) => t.Uid).ToHashSet();
-			if (tags?.Any() != true)
+			var expression = ParseTagQuery(AQSQuery);
+
+			if (expression.OrGroups.Count == 0)
 			{
 				return;
 			}
 
 			var dbInstance = FileTagsHelper.GetDbInstance();
 			var matches = dbInstance.GetAllUnderPath(folder)
-				.Where(x => tags.All(x.Tags.Contains));
+				.Where(x => MatchesTagExpression(x.Tags, expression));
 			if (string.IsNullOrEmpty(folder))
 				matches = matches.Where(x => !StorageTrashBinService.IsUnderTrashBin(x.FilePath));
 
@@ -258,7 +359,7 @@ namespace Files.App.Utils.Storage
 
 		private async Task AddItemsAsync(string folder, IList<ListedItem> results, CancellationToken token)
 		{
-			if (AQSQuery.StartsWith("tag:", StringComparison.Ordinal))
+			if (IsTagQuery(AQSQuery))
 			{
 				await SearchTagsAsync(folder, results, token);
 			}

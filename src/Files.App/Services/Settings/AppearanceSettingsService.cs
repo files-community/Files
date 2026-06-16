@@ -139,6 +139,13 @@ namespace Files.App.Services.Settings
 		}
 
 		/// <inheritdoc/>
+		public bool ShowStatusBar
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
 		public bool ShowTabActions
 		{
 			get => Get(true);

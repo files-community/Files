@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Content;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
@@ -32,6 +34,7 @@ namespace Files.App.ViewModels.Previews
 		WNDPROC _windProc = null!;
 		HWND _hWnd = HWND.Null;
 		bool _isOfficePreview = false;
+		unsafe char* _pszClassName;
 
 		// Constructor
 
@@ -127,47 +130,48 @@ namespace Files.App.ViewModels.Previews
 
 		public unsafe void LoadPreview(UIElement presenter)
 		{
+			App.Logger.LogInformation($"ShellPreview.LoadPreview: Item={LogPathHelper.GetPathIdentifier(Item?.ItemPath)}");
+
 			var parent = MainWindow.Instance.WindowHandle;
 			var hInst = PInvoke.GetModuleHandle(default(PWSTR));
 			var szClassName = $"{nameof(ShellPreviewViewModel)}-{Guid.NewGuid()}";
 			var szWindowName = $"Preview";
 
-			fixed (char* pszClassName = szClassName)
+			_pszClassName = (char*)Marshal.StringToHGlobalUni(szClassName);
+
+			_windProc = new(WndProc);
+			var pWindProc = Marshal.GetFunctionPointerForDelegate(_windProc);
+			var pfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)pWindProc;
+
+			_windowClass = new WNDCLASSEXW()
 			{
-				_windProc = new(WndProc);
-				var pWindProc = Marshal.GetFunctionPointerForDelegate(_windProc);
-				var pfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)pWindProc;
+				cbSize = (uint)sizeof(WNDCLASSEXW),
+				lpfnWndProc = pfnWndProc,
+				hInstance = hInst,
+				lpszClassName = _pszClassName,
+				style = 0,
+				hIcon = default,
+				hIconSm = default,
+				hCursor = default,
+				hbrBackground = default,
+				lpszMenuName = null,
+				cbClsExtra = 0,
+				cbWndExtra = 0,
+			};
 
-				_windowClass = new WNDCLASSEXW()
-				{
-					cbSize = (uint)sizeof(WNDCLASSEXW),
-					lpfnWndProc = pfnWndProc,
-					hInstance = hInst,
-					lpszClassName = pszClassName,
-					style = 0,
-					hIcon = default,
-					hIconSm = default,
-					hCursor = default,
-					hbrBackground = default,
-					lpszMenuName = null,
-					cbClsExtra = 0,
-					cbWndExtra = 0,
-				};
+			PInvoke.RegisterClassEx(_windowClass);
 
-				PInvoke.RegisterClassEx(_windowClass);
-
-				fixed (char* pszWindowName = szWindowName)
-				{
-					_hWnd = PInvoke.CreateWindowEx(
-						WINDOW_EX_STYLE.WS_EX_LAYERED | WINDOW_EX_STYLE.WS_EX_COMPOSITED,
-						pszClassName,
-						pszWindowName,
-						WINDOW_STYLE.WS_CHILD | WINDOW_STYLE.WS_CLIPSIBLINGS | WINDOW_STYLE.WS_VISIBLE,
-						0, 0, 0, 0,
-						new(parent),
-						HMENU.Null,
-						hInst);
-				}
+			fixed (char* pszWindowName = szWindowName)
+			{
+				_hWnd = PInvoke.CreateWindowEx(
+					WINDOW_EX_STYLE.WS_EX_LAYERED | WINDOW_EX_STYLE.WS_EX_COMPOSITED,
+					_pszClassName,
+					pszWindowName,
+					WINDOW_STYLE.WS_CHILD | WINDOW_STYLE.WS_CLIPSIBLINGS | WINDOW_STYLE.WS_VISIBLE,
+					0, 0, 0, 0,
+					new(parent),
+					HMENU.Null,
+					hInst);
 			}
 
 			_ = ChildWindowToXaml(parent, presenter);
@@ -248,15 +252,27 @@ namespace Files.App.ViewModels.Previews
 				.Succeeded;
 		}
 
-		public void UnloadPreview()
+		public unsafe void UnloadPreview()
 		{
 			if (_hWnd != HWND.Null)
+			{
 				PInvoke.DestroyWindow(_hWnd);
+				App.Logger.LogInformation($"ShellPreview.UnloadPreview: HWND={((nint)_hWnd)}, Item={LogPathHelper.GetPathIdentifier(Item?.ItemPath)}");
+			}
+			else
+				App.Logger.LogInformation($"ShellPreview.UnloadPreview: HWND=, Item={LogPathHelper.GetPathIdentifier(Item?.ItemPath)}");
+
 
 			_contentExternalOutputLink?.Dispose();
 			_contentExternalOutputLink = null;
 
 			PInvoke.UnregisterClass(_windowClass.lpszClassName, PInvoke.GetModuleHandle(default(PWSTR)));
+
+			if (_pszClassName is not null)
+			{
+				Marshal.FreeHGlobal((nint)_pszClassName);
+				_pszClassName = null;
+			}
 		}
 
 		public unsafe void PointerEntered(bool onPreview)

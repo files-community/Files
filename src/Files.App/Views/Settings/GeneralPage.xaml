@@ -290,6 +290,11 @@
 						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowCreateShortcut}" IsOn="{x:Bind ViewModel.ShowCreateShortcut, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 
+					<!--  Pin to Sidebar  -->
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowPinToSideBar}">
+						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowPinToSideBar}" IsOn="{x:Bind ViewModel.ShowPinToSideBar, Mode=TwoWay}" />
+					</wctcontrols:SettingsCard>
+
 					<!--  Compression options  -->
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowCompressionOptions}">
 						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowCompressionOptions}" IsOn="{x:Bind ViewModel.ShowCompressionOptions, Mode=TwoWay}" />
@@ -318,9 +323,13 @@
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowEditTagsMenu}">
 						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowEditTagsMenu}" IsOn="{x:Bind ViewModel.ShowEditTagsMenu, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
+
+					<!--  Pin to Start  -->
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowPinToStart}">
+						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowPinToStart}" IsOn="{x:Bind ViewModel.ShowPinToStart, Mode=TwoWay}" />
+					</wctcontrols:SettingsCard>
 				</wctcontrols:SettingsExpander.Items>
 			</wctcontrols:SettingsExpander>
-
 
 			<!--  Overflow Options  -->
 			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=SettingsContextMenuOverflow}">
@@ -328,6 +337,21 @@
 					<FontIcon Glyph="&#xE712;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsContextMenuOverflow}" IsOn="{x:Bind ViewModel.MoveShellExtensionsToSubMenu, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
+
+			<!--  Scrolling  -->
+			<TextBlock
+				Padding="0,16,0,4"
+				FontSize="16"
+				FontWeight="Medium"
+				Text="{helpers:ResourceString Name=Scrolling}" />
+
+			<!--  Enable Smooth Scrolling  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=EnableSmoothScrolling}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xEC8F;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=EnableSmoothScrolling}" IsOn="{x:Bind ViewModel.EnableSmoothScrolling, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 		</StackPanel>
 

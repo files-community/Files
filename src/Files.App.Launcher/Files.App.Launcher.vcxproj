@@ -66,8 +66,7 @@
     </Link>
     <PostBuildEvent>
       <Command>
-        xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\src\Files.App\Assets\FilesOpenDialog"
-        certutil -hashfile "$(ProjectDir)..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName)" SHA256|findstr /R /V "^SHA256 ^CertUtil"&gt;"$(ProjectDir)..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName).sha256"</Command>
+        xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

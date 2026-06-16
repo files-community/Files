@@ -510,7 +510,8 @@ namespace Files.App.ViewModels.UserControls
 				return;
 
 			if (normalizedInput.Equals(ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory) &&
-				ContentPageContext.ShellPage.CurrentPageType != typeof(HomePage))
+				ContentPageContext.ShellPage.CurrentPageType != typeof(HomePage) &&
+				!ContentPageContext.ShellPage.ShellViewModel.IsSearchResults)
 				return;
 
 			if (normalizedInput.Equals("Home", StringComparison.OrdinalIgnoreCase) ||
@@ -697,7 +698,7 @@ namespace Files.App.ViewModels.UserControls
 		private static string NormalizePathInput(string currentInput, bool isFtp)
 		{
 			if (currentInput.Contains('/') && !isFtp)
-				currentInput = currentInput.Replace("/", "\\", StringComparison.Ordinal);
+				currentInput = currentInput.Replace('/', '\\');
 
 			currentInput = currentInput.Replace("\\\\", "\\", StringComparison.Ordinal);
 

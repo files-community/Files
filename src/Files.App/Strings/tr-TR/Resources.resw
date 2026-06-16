@@ -130,7 +130,7 @@
     <value>Tırnak işaretleriyle yolu kopyala</value>
   </data>
   <data name="CopyItemPathWithQuotes" xml:space="preserve">
-    <value>Seçilen öğenin yolunu tırnak işaretleri ile kopyala</value>
+    <value>Seçilen konum tırnak işaretleri ile kopyala</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Gözat</value>
@@ -1773,7 +1773,7 @@
     <value>Dosya etiketi</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Öğeleri tek tıklamayla aç</value>
+    <value>Dosyaları tek tıklamayla açın</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Klasör yolu</value>
@@ -2032,7 +2032,7 @@
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>Files hoşunuza mı gitti? Lütfen Microsoft Store'da inceleme yazmayı düşünün.</value>
-  </data>  
+  </data>
   <data name="SponsorSubtitle" xml:space="preserve">
     <value>Files'ı beğendiniz mi? Lütfen GitHub'da projeyi desteklemeyi düşünün.</value>
   </data>
@@ -2072,8 +2072,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>Kilit Ekranı</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Sütun düzeninde tek tıklama ile klasörleri aç</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Klasörleri tek tıklamayla açın</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Açılış öğeleri</value>
@@ -3132,6 +3132,15 @@
   <data name="UncommittedChanges" xml:space="preserve">
     <value>Bu dalda kaydedilmemiş değişiklikleriniz var. Onlarla ne yapmak istersin?</value>
   </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>Devam eden ve çözülmemiş çakışmaları olan bir birleştirme işleminiz var. Lütfen çakışmaları çözün veya dallar arasında geçiş yapmak için birleştirme işlemini iptal edin.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Birleştirmeyi iptal et ve '{0}' ye geçiş yap</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value> '{0}' de devam et ve çatışmaları çöz</value>
+  </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Branch değiştir</value>
   </data>
@@ -3487,6 +3496,9 @@
   <data name="ProcessingItems" xml:space="preserve">
     <value>Öğeler işleniyor...</value>
   </data>
+  <data name="DiscoveringItems" xml:space="preserve">
+    <value>Ögeler bulunuyor...</value>
+  </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Hız:</value>
   </data>
@@ -3617,6 +3629,10 @@
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
     <value>{0, plural,one {# öğe}other {# öğe}} "{1}" konumundan "{2}" konumuna kopyalanıyor</value>
     <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
+    <value>{0, plural,one {# öge}other {# öge}} bulundu</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
     <value>"{0}" öğesinin "{1}" öğesine çıkarılması iptal edildi</value>
@@ -4291,7 +4307,7 @@
   </data>
   <data name="Signatures" xml:space="preserve">
     <value>İmzalar</value>
-   </data>
+  </data>
   <data name="SignatureList" xml:space="preserve">
     <value>İmza listesi</value>
   </data>
@@ -4324,5 +4340,26 @@
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
     <value>Günlük dosyası açılamıyor</value>
+  </data>
+  <data name="ShowStatusBar" xml:space="preserve">
+    <value>Durum çubuğunu göster</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>Yalnızca Sütunlar Görünümünde</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>Yeni '{0}'</value>
+  </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Akıcı kaydırmayı etkinleştirin</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Kaydırma</value>
+  </data>
+  <data name="ShowPinToSideBar" xml:space="preserve">
+    <value>Show option to Pin to Sidebar</value>
+  </data>
+  <data name="ShowPinToStart" xml:space="preserve">
+    <value>Show option to Pin to the Start Menu</value>
   </data>
 </root>

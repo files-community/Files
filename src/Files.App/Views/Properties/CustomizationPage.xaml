@@ -58,7 +58,6 @@
 				<Button
 					x:Name="RestoreDefaultButton"
 					Grid.Column="1"
-					x:Load="{x:Bind CustomizationViewModel.IsShortcut, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					Command="{x:Bind CustomizationViewModel.RestoreDefaultIconCommand, Mode=OneWay}"
 					Content="{helpers:ResourceString Name=RestoreDefault}" />
 

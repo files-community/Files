@@ -65,7 +65,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			// Create a new Flyout
 			var itemContextMenuFlyout = new CommandBarFlyout()
 			{
-				Placement = FlyoutPlacementMode.Right
+				Placement = FlyoutPlacementMode.Right,
+				AlwaysExpanded = true
 			};
 
 			// Hook events
@@ -78,7 +79,19 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			// Get items for the flyout
 			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), fileTagsCardItem is not null && fileTagsCardItem.IsFolder);
-			var (_, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
+			var (primaryElements, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
+
+			// Workaround for WinUI (#5508) - AppBarButtons don't auto-close CommandBarFlyout
+			var closeHandler = new RoutedEventHandler((s, e) => itemContextMenuFlyout.Hide());
+			primaryElements
+				.OfType<AppBarButton>()
+				.ForEach(button => button.Click += closeHandler);
+			primaryElements
+				.OfType<AppBarToggleButton>()
+				.ForEach(button => button.Click += closeHandler);
+
+			// Add menu items to the primary flyout
+			primaryElements.ForEach(itemContextMenuFlyout.PrimaryCommands.Add);
 
 			// Set max width of the flyout
 			secondaryElements

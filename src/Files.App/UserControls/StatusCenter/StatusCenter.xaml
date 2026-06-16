@@ -135,11 +135,10 @@
 								<TextBlock
 									x:Name="StatusCenterItemHeaderTextBlock"
 									x:Load="{x:Bind Header, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
-									MaxLines="1"
+									MaxLines="2"
 									Style="{StaticResource BodyTextBlockStyle}"
 									Text="{x:Bind Header, Mode=OneWay}"
 									TextTrimming="CharacterEllipsis"
-									TextWrapping="NoWrap"
 									ToolTipService.ToolTip="{x:Bind HeaderTooltip, Mode=OneWay}" />
 
 							</StackPanel>
@@ -316,22 +315,34 @@
 								Grid.Column="1"
 								VerticalAlignment="Top">
 
+								<!--  More Options  -->
 								<Button
-									x:Name="CancelItemButton"
+									x:Name="MoreOptionsButton"
 									Width="32"
 									Height="32"
 									Padding="0"
 									x:Load="{x:Bind IsCancelable, Mode=OneWay}"
-									AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
+									AutomationProperties.Name="{helpers:ResourceString Name=MoreOptions}"
 									Background="Transparent"
 									BorderBrush="Transparent"
-									Command="{x:Bind CancelCommand}"
-									DataContext="{x:Bind}"
-									IsEnabled="{x:Bind IsCancelable, Mode=OneWay}"
-									ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=MoreOptions}"
 									Visibility="{x:Bind IsInProgress, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+									<Button.Flyout>
+										<MenuFlyout>
+											<MenuFlyoutItem
+												x:Name="CancelItemButton"
+												Command="{x:Bind CancelCommand}"
+												DataContext="{x:Bind}"
+												IsEnabled="{x:Bind IsCancelable, Mode=OneWay}"
+												Text="{helpers:ResourceString Name=Cancel}">
+												<MenuFlyoutItem.Icon>
+													<FontIcon FontSize="16" Glyph="&#xE711;" />
+												</MenuFlyoutItem.Icon>
+											</MenuFlyoutItem>
+										</MenuFlyout>
+									</Button.Flyout>
 									<Button.Content>
-										<FontIcon FontSize="16" Glyph="&#xE711;" />
+										<FontIcon FontSize="16" Glyph="&#xE712;" />
 									</Button.Content>
 								</Button>
 

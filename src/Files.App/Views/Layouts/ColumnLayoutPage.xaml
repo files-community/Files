@@ -199,7 +199,6 @@
 					Loaded="FileList_Loaded"
 					PreviewKeyDown="FileList_PreviewKeyDown"
 					RightTapped="FileList_RightTapped"
-					ScrollViewer.IsScrollInertiaEnabled="True"
 					SelectionChanged="FileList_SelectionChanged"
 					SelectionMode="Extended"
 					Tapped="FileList_ItemTapped">

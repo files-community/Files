@@ -9,6 +9,8 @@
         <PlatformTarget>AnyCPU</PlatformTarget>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
         <Configurations>Debug;Release</Configurations>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <IsRoslynComponent>true</IsRoslynComponent>
     </PropertyGroup>
 
     <ItemGroup>
