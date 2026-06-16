@@ -37,6 +37,10 @@ namespace Files.App.Views.Layouts
 		// so SelectionChanged (which has no PointerDeviceType of its own) can honor input-method-aware single-click settings.
 		private PointerDeviceType? lastPointerDeviceType;
 
+		// True if the most recent PointerPressed had the right button down, so SelectionChanged
+		// (which has no pointer info) can skip auto-opening folders on right-click.
+		private bool isRightButtonPressed;
+
 		public event EventHandler? ItemInvoked;
 		public event EventHandler? ItemTapped;
 
@@ -377,6 +381,14 @@ namespace Files.App.Views.Layouts
 			if (openedFolderPresenter == FileList.ContainerFromItem(SelectedItem))
 				return;
 
+			// Right-click should never navigate into the folder; close any stale subcolumn since
+			// selection moved away from its source folder (#18584).
+			if (isRightButtonPressed)
+			{
+				CloseFolder();
+				return;
+			}
+
 			// Open the selected folder if selected through tap
 			if (UserSettingsService.FoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick.ShouldOpenWithSingleClick(lastPointerDeviceType))
 				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is IShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
@@ -413,6 +425,11 @@ namespace Files.App.Views.Layouts
 		{
 			if (!IsRenamingItem)
 				HandleRightClick();
+
+			// The right-click selection-change has already been consumed by OnSelectionChanged;
+			// clear the flag so the next interaction (e.g. a left-click whose PointerPressed
+			// the ListView may swallow) is treated as a normal navigation.
+			isRightButtonPressed = false;
 		}
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -420,6 +437,7 @@ namespace Files.App.Views.Layouts
 			// Keyboard navigation has no pointer device; clear the cached value so SelectionChanged
 			// falls back to the helper's "null is mouse-like" semantics instead of using a stale device.
 			lastPointerDeviceType = null;
+			isRightButtonPressed = false;
 
 			if
 			(
@@ -534,6 +552,7 @@ namespace Files.App.Views.Layouts
 		private void FileList_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			lastPointerDeviceType = e.Pointer.PointerDeviceType;
+			isRightButtonPressed = e.GetCurrentPoint(null).Properties.IsRightButtonPressed;
 		}
 
 		private void HandleRightClick()
@@ -562,6 +581,15 @@ namespace Files.App.Views.Layouts
 			{
 				ResetRenameDoubleClick();
 				await Commands.OpenItem.ExecuteAsync();
+			}
+			else if (isItemFolder
+				&& openedFolderPresenter != FileList.ContainerFromItem(item)
+				&& UserSettingsService.FoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))
+			{
+				// SelectionChanged won't fire if the folder is already selected (e.g. from a prior right-click),
+				// so drive the single-click open from here too (#18584).
+				ResetRenameDoubleClick();
+				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (item is IShortcutItem sht ? sht.TargetPath : item!.ItemPath), ListView = FileList }, EventArgs.Empty);
 			}
 			else if (item is not null)
 			{
