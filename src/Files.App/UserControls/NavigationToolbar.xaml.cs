@@ -516,9 +516,8 @@ namespace Files.App.UserControls
 					{
 						Text = text,
 						ThemedIconStyle = (Style)Application.Current.Resources[iconStyle],
-						CommandParameter = arrangement,
 					};
-					item.Click += (s, _) => paneHolder.OpenSecondaryPane(path, (ShellPaneArrangement)((MenuFlyoutItem)s).CommandParameter);
+					item.Click += (_, _) => paneHolder.OpenSecondaryPane(path, arrangement);
 					return item;
 				}
 
