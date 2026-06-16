@@ -821,6 +821,11 @@ namespace Files.App.Views.Layouts
 				overflowShellMenuItemsUnfiltered[i + 1 < overflowShellMenuItemsUnfiltered.Count ? i + 1 : i].ItemType != ContextMenuFlyoutItemType.Separator)
 				|| x.ItemType != ContextMenuFlyoutItemType.Separator).ToList();
 
+			var subMenuLoadTasks = mainShellMenuItems.Concat(overflowShellMenuItems)
+				.Where(x => x.LoadSubMenuAction is not null)
+				.Select(x => x.LoadSubMenuAction());
+			await Task.WhenAll(subMenuLoadTasks);
+
 			var overflowItems = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
 			var mainItems = ContextFlyoutModelToElementHelper.GetAppBarButtonsFromModelIgnorePrimary(mainShellMenuItems);
 
