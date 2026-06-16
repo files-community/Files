@@ -54,6 +54,10 @@ namespace Files.App.Controls
 				PointerReleasedEvent,
 				new PointerEventHandler((s, e) =>
 				{
+					// Skip right-button releases so RightTapped can drive the context menu without also navigating
+					if (e.GetCurrentPoint(null).Properties.PointerUpdateKind is PointerUpdateKind.RightButtonReleased)
+						return;
+
 					OnItemClicked(e);
 					e.Handled = true;
 				}),

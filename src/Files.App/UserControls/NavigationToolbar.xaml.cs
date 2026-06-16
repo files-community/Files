@@ -6,6 +6,7 @@ using Files.App.Controls;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
@@ -468,6 +469,67 @@ namespace Files.App.UserControls
 		private async void BreadcrumbBarItem_Drop(object sender, DragEventArgs e)
 		{
 			await ViewModel.PathBoxItem_Drop(sender, e);
+		}
+
+		private void BreadcrumbBarItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			if (sender is not FrameworkElement element || element.DataContext is not PathBoxItem pathBoxItem)
+				return;
+
+			var path = pathBoxItem.Path;
+			if (string.IsNullOrEmpty(path))
+				return;
+
+			var flyout = new MenuFlyout();
+
+			var openInNewTabItem = new MenuFlyoutItemWithThemedIcon
+			{
+				Text = Strings.OpenInNewTab.GetLocalizedResource(),
+				ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.OpenInTab"],
+			};
+			openInNewTabItem.Click += async (_, _) =>
+				await NavigationHelpers.AddNewTabByPathAsync(typeof(ShellPanesPage), path, true);
+
+			var openInNewWindowItem = new MenuFlyoutItemWithThemedIcon
+			{
+				Text = Strings.OpenInNewWindow.GetLocalizedResource(),
+				ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.OpenInWindow"],
+			};
+			openInNewWindowItem.Click += async (_, _) =>
+				await NavigationHelpers.OpenPathInNewWindowAsync(path);
+
+			flyout.Items.Add(openInNewTabItem);
+			flyout.Items.Add(openInNewWindowItem);
+
+			var paneHolder = ContentPageContext.ShellPage?.PaneHolder;
+			if (userSettingsService.GeneralSettingsService.ShowOpenInNewPane && paneHolder is not null)
+			{
+				var openInNewPaneSubItem = new MenuFlyoutSubItem
+				{
+					Text = Strings.OpenInNewPane.GetLocalizedResource(),
+				};
+
+				var splitVerticallyItem = new MenuFlyoutItemWithThemedIcon
+				{
+					Text = Strings.SplitPaneVertically.GetLocalizedResource(),
+					ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.OpenInPaneVertical"],
+				};
+				splitVerticallyItem.Click += (_, _) => paneHolder.OpenSecondaryPane(path, ShellPaneArrangement.Vertical);
+
+				var splitHorizontallyItem = new MenuFlyoutItemWithThemedIcon
+				{
+					Text = Strings.SplitPaneHorizontally.GetLocalizedResource(),
+					ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.OpenInPaneHorizontal"],
+				};
+				splitHorizontallyItem.Click += (_, _) => paneHolder.OpenSecondaryPane(path, ShellPaneArrangement.Horizontal);
+
+				openInNewPaneSubItem.Items.Add(splitVerticallyItem);
+				openInNewPaneSubItem.Items.Add(splitHorizontallyItem);
+				flyout.Items.Add(openInNewPaneSubItem);
+			}
+
+			flyout.ShowAt(element, new FlyoutShowOptions { Position = e.GetPosition(element) });
+			e.Handled = true;
 		}
 	}
 }
