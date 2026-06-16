@@ -46,7 +46,7 @@ namespace Files.App.Controls
 			_itemChevronDropDownMenuFlyout = GetTemplateChild(TemplatePartName_ItemChevronDropDownMenuFlyout) as MenuFlyout
 				?? throw new MissingFieldException($"Could not find {TemplatePartName_ItemChevronDropDownMenuFlyout} in the given {nameof(BreadcrumbBarItem)}'s style.");
 
-			if (IsEllipsis || IsLastItem)
+			if (IsEllipsis || !IsChevronVisible)
 				VisualStateManager.GoToState(this, "ChevronCollapsed", true);
 
 			// Handle click event with PointerReleasedEvent to get PointerPoint
