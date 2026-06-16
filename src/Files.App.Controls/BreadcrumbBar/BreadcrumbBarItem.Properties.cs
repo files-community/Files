@@ -23,10 +23,5 @@ namespace Files.App.Controls
 		{
 			VisualStateManager.GoToState(this, newValue ? "ChevronCollapsed" : "ChevronVisible", true);
 		}
-
-		partial void OnIsLastItemChanged(bool newValue)
-		{
-			VisualStateManager.GoToState(this, newValue ? "ChevronCollapsed" : "ChevronVisible", true);
-		}
 	}
 }
