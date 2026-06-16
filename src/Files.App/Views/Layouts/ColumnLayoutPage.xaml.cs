@@ -68,6 +68,8 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		private uint currentIconSize;
 
+		private readonly IStorageArchiveService storageArchiveService = Ioc.Default.GetRequiredService<IStorageArchiveService>();
+
 		// Constructor
 
 		public ColumnLayoutPage() : base()
@@ -78,6 +80,8 @@ namespace Files.App.Views.Layouts
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 			ItemInvoked += ColumnViewBase_ItemInvoked;
 			GotFocus += ColumnViewBase_GotFocus;
+
+			storageArchiveService.CompressionCompleted += StorageArchiveService_CompressionCompleted;
 
 			doubleClickTimer = DispatcherQueue.CreateTimer();
 		}
@@ -322,6 +326,7 @@ namespace Files.App.Views.Layouts
 
 		public override void Dispose()
 		{
+			storageArchiveService.CompressionCompleted -= StorageArchiveService_CompressionCompleted;
 			base.Dispose();
 			columnsOwner = null;
 		}
@@ -338,30 +343,63 @@ namespace Files.App.Views.Layouts
 
 			if (SelectedItems?.Count == 1 && SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder)
 			{
-				// // Prevents the first selected folder from opening if the user is currently dragging the selection rectangle (#13418)
-				if (isDraggingSelectionRectangle)
-				{
-					CloseFolder();
-					return;
-				}
-
-				if (openedFolderPresenter == FileList.ContainerFromItem(SelectedItem))
-					return;
-
-				// Open the selected folder if selected through tap
-				if (UserSettingsService.FoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick.ShouldOpenWithSingleClick(lastPointerDeviceType))
-					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is IShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
-				else
-					CloseFolder();
+				TryOpenSelectedFolder();
 			}
 			else if (SelectedItems?.Count > 1
 				|| SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File
 				|| openedFolderPresenter != null && ParentShellPageInstance != null
 				&& !ParentShellPageInstance.ShellViewModel.FilesAndFolders.ToList().Contains(FileList.ItemFromContainer(openedFolderPresenter))
-				&& !isDraggingSelectionRectangle) // Skip closing if dragging since nothing should be open 
+				&& !isDraggingSelectionRectangle) // Skip closing if dragging since nothing should be open
 			{
 				CloseFolder();
 			}
+		}
+
+		private void TryOpenSelectedFolder()
+		{
+			if (SelectedItem is null)
+				return;
+
+			// // Prevents the first selected folder from opening if the user is currently dragging the selection rectangle (#13418)
+			if (isDraggingSelectionRectangle)
+			{
+				CloseFolder();
+				return;
+			}
+
+			// Hold off opening freshly-created archives that haven't finished compressing — the
+			// 7-zip stream is still writing, and navigating into it triggers "Drive Unplugged"
+			// (#13695). StorageArchiveService raises CompressionCompleted on success, which we
+			// handle below to retry the open if the archive is still selected.
+			if (SelectedItem.IsArchive && storageArchiveService.IsCompressionInProgress(SelectedItem.ItemPath))
+				return;
+
+			if (openedFolderPresenter == FileList.ContainerFromItem(SelectedItem))
+				return;
+
+			// Open the selected folder if selected through tap
+			if (UserSettingsService.FoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick.ShouldOpenWithSingleClick(lastPointerDeviceType))
+				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is IShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+			else
+				CloseFolder();
+		}
+
+		private void StorageArchiveService_CompressionCompleted(object? sender, string archivePath)
+		{
+			if (DispatcherQueue is null)
+				return;
+
+			DispatcherQueue.TryEnqueue(() =>
+			{
+				// Only retry the open if the just-finished archive is still the lone selection.
+				// If the user moved on, do nothing — don't surprise-navigate.
+				if (SelectedItems?.Count != 1
+					|| SelectedItem is null
+					|| !string.Equals(SelectedItem.ItemPath, archivePath, StringComparison.OrdinalIgnoreCase))
+					return;
+
+				TryOpenSelectedFolder();
+			});
 		}
 
 		private void CloseFolder()
