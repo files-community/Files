@@ -270,7 +270,8 @@
 									DataContext="{x:Bind}"
 									DragLeave="BreadcrumbBarItem_DragLeave"
 									DragOver="BreadcrumbBarItem_DragOver"
-									Drop="BreadcrumbBarItem_Drop" />
+									Drop="BreadcrumbBarItem_Drop"
+									RightTapped="BreadcrumbBarItem_RightTapped" />
 							</DataTemplate>
 						</controls:BreadcrumbBar.ItemTemplate>
 					</controls:BreadcrumbBar>
