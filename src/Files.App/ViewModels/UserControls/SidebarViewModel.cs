@@ -829,6 +829,21 @@ namespace Files.App.ViewModels.UserControls
 				.OfType<AppBarToggleButton>()
 				.ForEach(button => button.Click += closeHandler);
 
+			var subMenuItems = secondaryElements
+				.OfType<AppBarButton>()
+				.Select(item => item.Flyout)
+				.OfType<MenuFlyout>()
+				.SelectMany(menu => menu.Items);
+			AddCloseHandlerRecursive(subMenuItems);
+
+			void AddCloseHandlerRecursive(IEnumerable<MenuFlyoutItemBase> menuFlyoutItems)
+			{
+				menuFlyoutItems.OfType<MenuFlyoutItem>()
+					.ForEach(button => button.Click += closeHandler);
+				menuFlyoutItems.OfType<MenuFlyoutSubItem>()
+					.ForEach(menu => AddCloseHandlerRecursive(menu.Items));
+			}
+
 			primaryElements.ForEach(itemContextMenuFlyout.PrimaryCommands.Add);
 
 			secondaryElements
@@ -1086,10 +1101,29 @@ namespace Files.App.ViewModels.UserControls
 				{
 					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow && Commands.OpenInNewWindowFromSidebar.IsExecutable
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewPaneFromSidebar)
+				new ContextMenuFlyoutItemViewModel()
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && Commands.OpenInNewPaneFromSidebar.IsExecutable
-				}.Build(),
+					Text = Strings.OpenInNewPane.GetLocalizedResource(),
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && options.IsLocationItem,
+					IsEnabled = Commands.OpenInNewPaneFromSidebar.IsExecutable,
+					Items =
+					[
+						new ContextMenuFlyoutItemViewModel()
+						{
+							Text = Strings.SplitPaneVertically.GetLocalizedResource(),
+							ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.OpenInPaneVertical" },
+							Command = Commands.OpenInNewPaneFromSidebar,
+							CommandParameter = ShellPaneArrangement.Vertical,
+						},
+						new ContextMenuFlyoutItemViewModel()
+						{
+							Text = Strings.SplitPaneHorizontally.GetLocalizedResource(),
+							ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.OpenInPaneHorizontal" },
+							Command = Commands.OpenInNewPaneFromSidebar,
+							CommandParameter = ShellPaneArrangement.Horizontal,
+						},
+					]
+				},
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.CopyItemFromSidebar)
 				{
 					IsPrimary = true,

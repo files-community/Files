@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 namespace Files.App.Actions
@@ -22,7 +22,9 @@ namespace Files.App.Actions
 		public virtual bool IsExecutable =>
 			ContentPageContext.PageType != ContentPageTypes.RecycleBin &&
 			ContentPageContext.SelectedItem is not null &&
-			ContentPageContext.SelectedItem.IsFolder;
+			ContentPageContext.SelectedItem.IsFolder &&
+			ContentPageContext.IsMultiPaneAvailable &&
+			!ContentPageContext.IsMultiPaneActive;
 
 		public virtual bool IsAccessibleGlobally
 			=> true;
@@ -36,7 +38,8 @@ namespace Files.App.Actions
 		{
 			NavigationHelpers.OpenInSecondaryPane(
 				ContentPageContext.ShellPage,
-				ContentPageContext.ShellPage.SlimContentPage.SelectedItems.FirstOrDefault());
+				ContentPageContext.ShellPage.SlimContentPage.SelectedItems.FirstOrDefault(),
+				parameter as ShellPaneArrangement? ?? ShellPaneArrangement.None);
 
 			return Task.CompletedTask;
 		}
@@ -49,6 +52,8 @@ namespace Files.App.Actions
 				case nameof(IContentPageContext.PageType):
 				case nameof(IContentPageContext.HasSelection):
 				case nameof(IContentPageContext.SelectedItems):
+				case nameof(IContentPageContext.IsMultiPaneActive):
+				case nameof(IContentPageContext.IsMultiPaneAvailable):
 					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}
