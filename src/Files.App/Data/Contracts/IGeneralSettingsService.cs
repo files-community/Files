@@ -76,6 +76,11 @@ namespace Files.App.Data.Contracts
 		bool AlwaysSwitchToNewlyOpenedTab { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether or not to reverse the mouse wheel direction used to switch tabs.
+		/// </summary>
+		bool ReverseTabScrollDirection { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating whether or not to display the quick access widget.
 		/// </summary>
 		bool ShowQuickAccessWidget { get; set; }
