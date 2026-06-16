@@ -271,6 +271,7 @@
 									DragLeave="BreadcrumbBarItem_DragLeave"
 									DragOver="BreadcrumbBarItem_DragOver"
 									Drop="BreadcrumbBarItem_Drop"
+									IsChevronVisible="{x:Bind IsChevronVisible, Mode=OneWay}"
 									RightTapped="BreadcrumbBarItem_RightTapped" />
 							</DataTemplate>
 						</controls:BreadcrumbBar.ItemTemplate>
