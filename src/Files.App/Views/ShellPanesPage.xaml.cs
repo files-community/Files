@@ -377,10 +377,11 @@ namespace Files.App.Views
 		/// <inheritdoc/>
 		public void FocusOtherPane()
 		{
-			if (ActivePane == (IShellPage)GetPane(0)!)
-				GetPane(1)?.Focus(FocusState.Programmatic);
-			else
-				GetPane(0)?.Focus(FocusState.Programmatic);
+			if (!IsMultiPaneActive)
+				return;
+
+			ActivePane = ActivePane == (IShellPage)GetPane(0)! ? GetPane(1) : GetPane(0);
+			FocusActivePane();
 		}
 
 		/// <inheritdoc/>
