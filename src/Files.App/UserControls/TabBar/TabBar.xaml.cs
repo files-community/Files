@@ -368,8 +368,8 @@ namespace Files.App.UserControls.TabBar
 
 			RightPaddingColumn.Width = new(titleBarInset > 40 ? titleBarInset : 138);
 			HorizontalTabView.Measure(new(
-				HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset,
-				HorizontalTabView.ActualHeight));
+				Math.Max(0, HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset),
+				Math.Max(0, HorizontalTabView.ActualHeight)));
 		}
 	}
 }
