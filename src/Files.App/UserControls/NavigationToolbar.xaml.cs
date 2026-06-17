@@ -504,26 +504,37 @@ namespace Files.App.UserControls
 			var paneHolder = ContentPageContext.ShellPage?.PaneHolder;
 			if (userSettingsService.GeneralSettingsService.ShowOpenInNewPane && paneHolder is not null)
 			{
-				var openInNewPaneSubItem = new MenuFlyoutSubItem
+				if (ContentPageContext.IsMultiPaneActive)
 				{
-					Text = Strings.OpenInNewPane.GetLocalizedResource(),
-					IsEnabled = ContentPageContext.IsMultiPaneAvailable && !ContentPageContext.IsMultiPaneActive,
-				};
-
-				MenuFlyoutItemWithThemedIcon CreateOpenInPaneItem(string text, string iconStyle, ShellPaneArrangement arrangement)
-				{
-					var item = new MenuFlyoutItemWithThemedIcon
+					var openInOtherPaneItem = new MenuFlyoutItem
 					{
-						Text = text,
-						ThemedIconStyle = (Style)Application.Current.Resources[iconStyle],
+						Text = Strings.OpenInOtherPane.GetLocalizedResource(),
 					};
-					item.Click += (_, _) => paneHolder.OpenSecondaryPane(path, arrangement);
-					return item;
+					openInOtherPaneItem.Click += (_, _) => paneHolder.OpenInOtherPane(path);
+					flyout.Items.Add(openInOtherPaneItem);
 				}
+				else if (ContentPageContext.IsMultiPaneAvailable)
+				{
+					var openInNewPaneSubItem = new MenuFlyoutSubItem
+					{
+						Text = Strings.OpenInNewPane.GetLocalizedResource(),
+					};
 
-				openInNewPaneSubItem.Items.Add(CreateOpenInPaneItem(Strings.SplitPaneVertically.GetLocalizedResource(), "App.ThemedIcons.OpenInPaneVertical", ShellPaneArrangement.Vertical));
-				openInNewPaneSubItem.Items.Add(CreateOpenInPaneItem(Strings.SplitPaneHorizontally.GetLocalizedResource(), "App.ThemedIcons.OpenInPaneHorizontal", ShellPaneArrangement.Horizontal));
-				flyout.Items.Add(openInNewPaneSubItem);
+					MenuFlyoutItemWithThemedIcon CreateOpenInPaneItem(string text, string iconStyle, ShellPaneArrangement arrangement)
+					{
+						var item = new MenuFlyoutItemWithThemedIcon
+						{
+							Text = text,
+							ThemedIconStyle = (Style)Application.Current.Resources[iconStyle],
+						};
+						item.Click += (_, _) => paneHolder.OpenSecondaryPane(path, arrangement);
+						return item;
+					}
+
+					openInNewPaneSubItem.Items.Add(CreateOpenInPaneItem(Strings.SplitPaneVertically.GetLocalizedResource(), "App.ThemedIcons.OpenInPaneVertical", ShellPaneArrangement.Vertical));
+					openInNewPaneSubItem.Items.Add(CreateOpenInPaneItem(Strings.SplitPaneHorizontally.GetLocalizedResource(), "App.ThemedIcons.OpenInPaneHorizontal", ShellPaneArrangement.Horizontal));
+					flyout.Items.Add(openInNewPaneSubItem);
+				}
 			}
 
 			flyout.ShowAt(element, new FlyoutShowOptions { Position = e.GetPosition(element) });

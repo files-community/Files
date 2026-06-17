@@ -418,7 +418,7 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = Strings.OpenInNewPane.GetLocalizedResource(),
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && itemsSelected && areAllItemsFolders && !currentInstanceViewModel.IsPageTypeRecycleBin,
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && itemsSelected && areAllItemsFolders && !currentInstanceViewModel.IsPageTypeRecycleBin && Commands.OpenInNewPane.IsExecutable,
 					IsEnabled = Commands.OpenInNewPane.IsExecutable,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
@@ -447,6 +447,10 @@ namespace Files.App.Data.Factories
 						},
 					]
 				},
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInOtherPane)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && itemsSelected && areAllItemsFolders && !currentInstanceViewModel.IsPageTypeRecycleBin && Commands.OpenInOtherPane.IsExecutable
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = Strings.BaseLayoutItemContextFlyoutSetAs_Text.GetLocalizedResource(),
