@@ -112,7 +112,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = Strings.OpenInNewPane.GetLocalizedResource(),
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane,
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && CommandManager.OpenInNewPaneFromHome.IsExecutable,
 					IsEnabled = CommandManager.OpenInNewPaneFromHome.IsExecutable,
 					Items =
 					[
@@ -132,6 +132,10 @@ namespace Files.App.ViewModels.UserControls.Widgets
 						},
 					]
 				},
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInOtherPaneFromHome)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && CommandManager.OpenInOtherPaneFromHome.IsExecutable
+				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.CopyItemFromHome)
 				{
 					IsPrimary = true,
