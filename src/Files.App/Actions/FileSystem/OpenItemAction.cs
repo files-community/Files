@@ -74,6 +74,7 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			context.HasSelection &&
+			context.SelectedItems.Count == 1 &&
 			context.PageType != ContentPageTypes.RecycleBin &&
 			context.SelectedItems.All(i =>
 				(i.PrimaryItemAttribute == StorageItemTypes.File && !i.IsShortcut && (!i.IsExecutable || i.IsScriptFile)) ||

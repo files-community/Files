@@ -86,7 +86,7 @@ namespace Files.App.Data.Factories
 			bool canDecompress = selectedItems.Any() && selectedItems.All(x => x.IsArchive)
 				|| selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension));
 			bool canCompress = !canDecompress || selectedItems.Count > 1;
-			bool showOpenItemWith = selectedItems.All(
+			bool showOpenItemWith = selectedItems.Count == 1 && selectedItems.All(
 				i => (i.PrimaryItemAttribute == StorageItemTypes.File && !i.IsShortcut && !i.IsExecutable) || (i.PrimaryItemAttribute == StorageItemTypes.Folder && i.IsArchive));
 			bool areAllItemsFolders = selectedItems.All(i => i.PrimaryItemAttribute == StorageItemTypes.Folder);
 			bool isFirstFileExecutable = FileExtensionHelpers.IsExecutableFile(selectedItems.FirstOrDefault()?.FileExtension);
