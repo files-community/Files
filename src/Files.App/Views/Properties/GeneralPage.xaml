@@ -109,16 +109,12 @@
 						</Button.Resources>
 						<Button.Flyout>
 							<MenuFlyout Placement="Bottom">
-								<MenuFlyoutItem
-									Command="{x:Bind ViewModel.EditAlbumCoverCommand, Mode=OneWay}"
-									Text="{helpers:ResourceString Name=ChangeAlbumCover}">
+								<MenuFlyoutItem Command="{x:Bind ViewModel.EditAlbumCoverCommand, Mode=OneWay}" Text="{helpers:ResourceString Name=ChangeAlbumCover}">
 									<MenuFlyoutItem.Icon>
 										<FontIcon Glyph="&#xE70F;" />
 									</MenuFlyoutItem.Icon>
 								</MenuFlyoutItem>
-								<MenuFlyoutItem
-									Command="{x:Bind ViewModel.RemoveAlbumCoverCommand, Mode=OneWay}"
-									Text="{helpers:ResourceString Name=RemoveAlbumCover}">
+								<MenuFlyoutItem Command="{x:Bind ViewModel.RemoveAlbumCoverCommand, Mode=OneWay}" Text="{helpers:ResourceString Name=RemoveAlbumCover}">
 									<MenuFlyoutItem.Icon>
 										<FontIcon Glyph="&#xE74D;" />
 									</MenuFlyoutItem.Icon>
