@@ -109,6 +109,31 @@ namespace Files.App.ViewModels.Properties
 				}
 			});
 
+			ViewModel.RemoveAlbumCoverCommand = new RelayCommand(async () =>
+			{
+				ViewModel.IsAblumCoverModified = true;
+				ViewModel.ModifiedAlbumCover = null;
+
+				string mediaPath = np.Parameter switch
+				{
+					ListedItem singleItem => singleItem.ItemPath,
+					List<ListedItem> items => items.FirstOrDefault()?.ItemPath,
+					_ => null
+				};
+
+				if (!string.IsNullOrEmpty(mediaPath))
+				{
+					// ReturnIconOnly skips the file's embedded thumbnail, previewing the generic icon.
+					var iconData = await FileThumbnailHelper.GetIconAsync(
+						mediaPath,
+						Constants.ShellIconSizes.ExtraLarge,
+						false,
+						IconOptions.UseCurrentScale | IconOptions.ReturnIconOnly);
+
+					ViewModel.IconData = iconData;
+				}
+			});
+
 			base.OnNavigatedTo(e);
 		}
 
