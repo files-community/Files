@@ -3926,6 +3926,9 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Change album cover</value>
   </data>
+  <data name="RemoveAlbumCover" xml:space="preserve">
+    <value>Remove album cover</value>
+  </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>Failed to rename item</value>
   </data>
