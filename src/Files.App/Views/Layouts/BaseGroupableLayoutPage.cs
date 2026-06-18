@@ -255,7 +255,7 @@ namespace Files.App.Views.Layouts
 		}
 
 		protected static bool ShouldShowExtensionInRename(ListedItem item) =>
-			!item.IsFolder && !item.IsShortcut && item is not AlternateStreamItem;
+			(!item.IsFolder || item.IsArchive) && !item.IsShortcut && item is not AlternateStreamItem;
 
 		protected virtual void StartRenameItem(string itemNameTextBox)
 		{
