@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
@@ -28,6 +29,8 @@ namespace Files.App.Controls
 		// Owner DisplayMode callback runs once per container, gated by isWiredUp. Template-child handlers (ElementBorder pointer events etc.) run once per template application, gated by isTemplateWired — they can't share the gate because Loaded can fire on a Visibility=Collapsed container before OnApplyTemplate has supplied any template children to hook up.
 		private bool isWiredUp;
 		private bool isTemplateWired;
+		private DispatcherQueueTimer? dragOverTimer;
+		private DispatcherQueueTimer? dragOverExpandTimer;
 
 		public SidebarItem()
 		{
@@ -461,11 +464,6 @@ namespace Files.App.Controls
 
 		private async void ItemBorder_DragOver(object sender, DragEventArgs e)
 		{
-			if (HasChildren)
-			{
-				IsExpanded = true;
-			}
-
 			var insertsAbove = DetermineDropTargetPosition(e);
 			if (insertsAbove == SidebarItemDropPosition.Center)
 			{
@@ -481,6 +479,44 @@ namespace Files.App.Controls
 			}
 
 			Owner?.RaiseItemDragOver(this, insertsAbove, e);
+
+			var openDelay = Owner?.HoverToOpenDelay ?? TimeSpan.Zero;
+			var expandDelay = Owner?.HoverToExpandDelay ?? TimeSpan.Zero;
+			var isCenter = insertsAbove == SidebarItemDropPosition.Center;
+			var canHoverOpen = openDelay > TimeSpan.Zero && isCenter && Item is not null && (!IsGroupHeader || Item.IsLeafWithChildren);
+			var canHoverExpand = expandDelay > TimeSpan.Zero && isCenter && HasChildren && CollapseEnabled;
+			if (canHoverExpand)
+			{
+				dragOverExpandTimer ??= DispatcherQueue.CreateTimer();
+				dragOverExpandTimer.Debounce(
+					() =>
+					{
+						dragOverExpandTimer!.Stop();
+						IsExpanded = true;
+					},
+					expandDelay,
+					false);
+			}
+			else
+			{
+				dragOverExpandTimer?.Stop();
+			}
+			if (canHoverOpen)
+			{
+				dragOverTimer ??= DispatcherQueue.CreateTimer();
+				dragOverTimer.Debounce(
+					() =>
+					{
+						dragOverTimer!.Stop();
+						RaiseItemInvoked(PointerUpdateKind.Other);
+					},
+					openDelay,
+					false);
+			}
+			else
+			{
+				dragOverTimer?.Stop();
+			}
 		}
 
 		private void ItemBorder_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
@@ -491,11 +527,15 @@ namespace Files.App.Controls
 
 		private void ItemBorder_DragLeave(object sender, DragEventArgs e)
 		{
+			dragOverTimer?.Stop();
+			dragOverExpandTimer?.Stop();
 			UpdatePointerState();
 		}
 
 		private void ItemBorder_Drop(object sender, DragEventArgs e)
 		{
+			dragOverTimer?.Stop();
+			dragOverExpandTimer?.Stop();
 			UpdatePointerState();
 			Owner?.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
 		}

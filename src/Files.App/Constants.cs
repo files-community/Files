@@ -217,6 +217,7 @@ namespace Files.App
 		public static class DragAndDrop
 		{
 			public const Int32 HoverToOpenTimespan = 1300;
+			public const Int32 HoverToExpandTimespan = 500;
 		}
 
 		public static class UserEnvironmentPaths

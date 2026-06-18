@@ -343,6 +343,9 @@ namespace Files.App.Views
 			SidebarAdaptiveViewModel.UpdateTabControlMargin();
 			SidebarAdaptiveViewModel.EnsureTabExpansionTrackingInitialized();
 
+			SidebarControl.HoverToOpenDelay = TimeSpan.FromMilliseconds(Constants.DragAndDrop.HoverToOpenTimespan);
+			SidebarControl.HoverToExpandDelay = TimeSpan.FromMilliseconds(Constants.DragAndDrop.HoverToExpandTimespan);
+
 			// VM.SidebarDisplayMode rejects Minimal (it only tracks user preference) so the flat tree mirrors SidebarView.DisplayMode separately.
 			SidebarAdaptiveViewModel.ActualDisplayMode = SidebarControl.DisplayMode;
 			SidebarControl.RegisterPropertyChangedCallback(SidebarView.DisplayModeProperty, (_, _) =>
