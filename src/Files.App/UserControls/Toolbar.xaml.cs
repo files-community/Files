@@ -446,6 +446,9 @@ namespace Files.App.UserControls
 				foreach (var item in openWithMenu.Items.Where(x => x.Type is MENU_ITEM_TYPE.MFT_STRING && !string.IsNullOrWhiteSpace(x.Label)))
 					flyout.Items.Add(await CreateOpenWithMenuItemAsync(openWithMenu, item));
 			}
+
+			if (flyout.Items.Count == 0)
+				flyout.Items.Add(CreateChooseAnotherAppMenuItem());
 		}
 
 		private static async Task<MenuFlyoutItem> CreateOpenWithMenuItemAsync(OpenWithMenu menu, Win32ContextMenuItem entry)
@@ -465,6 +468,23 @@ namespace Files.App.UserControls
 
 			item.Text = entry.Label;
 			item.Command = new AsyncRelayCommand(async () => await menu.InvokeItem(entry.ID));
+
+			return item;
+		}
+
+		private MenuFlyoutItem CreateChooseAnotherAppMenuItem()
+		{
+			var cmd = Commands[CommandCodes.OpenItemWithApplicationPicker];
+
+			var item = new MenuFlyoutItem
+			{
+				Text = Strings.ChooseAnotherApp.GetLocalizedResource(),
+				Command = cmd,
+				Visibility = cmd.IsExecutable ? Visibility.Visible : Visibility.Collapsed,
+			};
+
+			if (!string.IsNullOrEmpty(cmd.AutomationId))
+				AutomationProperties.SetAutomationId(item, cmd.AutomationId);
 
 			return item;
 		}
