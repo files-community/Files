@@ -132,6 +132,15 @@ namespace Files.App.Controls
 		public static readonly DependencyProperty HoverToOpenDelayProperty =
 			DependencyProperty.Register(nameof(HoverToOpenDelay), typeof(TimeSpan), typeof(SidebarView), new PropertyMetadata(TimeSpan.Zero));
 
+		// Default TimeSpan.Zero disables hover-to-expand; the hosting app supplies the timing policy.
+		public TimeSpan HoverToExpandDelay
+		{
+			get => (TimeSpan)GetValue(HoverToExpandDelayProperty);
+			set => SetValue(HoverToExpandDelayProperty, value);
+		}
+		public static readonly DependencyProperty HoverToExpandDelayProperty =
+			DependencyProperty.Register(nameof(HoverToExpandDelay), typeof(TimeSpan), typeof(SidebarView), new PropertyMetadata(TimeSpan.Zero));
+
 		// Off by default; flat-list sidebars (Settings) collapse the chevron column. Opt in for hierarchical sidebars (main tree view).
 		public bool SupportsExpansion { get; set; }
 
