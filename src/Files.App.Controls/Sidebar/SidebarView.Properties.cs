@@ -123,6 +123,15 @@ namespace Files.App.Controls
 		public static readonly DependencyProperty MenuItemsSourceProperty =
 			DependencyProperty.Register(nameof(MenuItemsSource), typeof(object), typeof(SidebarView), new PropertyMetadata(null));
 
+		// Default TimeSpan.Zero disables hover-to-open; the hosting app supplies the timing policy.
+		public TimeSpan HoverToOpenDelay
+		{
+			get => (TimeSpan)GetValue(HoverToOpenDelayProperty);
+			set => SetValue(HoverToOpenDelayProperty, value);
+		}
+		public static readonly DependencyProperty HoverToOpenDelayProperty =
+			DependencyProperty.Register(nameof(HoverToOpenDelay), typeof(TimeSpan), typeof(SidebarView), new PropertyMetadata(TimeSpan.Zero));
+
 		// Off by default; flat-list sidebars (Settings) collapse the chevron column. Opt in for hierarchical sidebars (main tree view).
 		public bool SupportsExpansion { get; set; }
 

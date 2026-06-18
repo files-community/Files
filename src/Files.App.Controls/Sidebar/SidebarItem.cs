@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
@@ -28,6 +29,7 @@ namespace Files.App.Controls
 		// Owner DisplayMode callback runs once per container, gated by isWiredUp. Template-child handlers (ElementBorder pointer events etc.) run once per template application, gated by isTemplateWired — they can't share the gate because Loaded can fire on a Visibility=Collapsed container before OnApplyTemplate has supplied any template children to hook up.
 		private bool isWiredUp;
 		private bool isTemplateWired;
+		private DispatcherQueueTimer? dragOverTimer;
 
 		public SidebarItem()
 		{
@@ -481,6 +483,25 @@ namespace Files.App.Controls
 			}
 
 			Owner?.RaiseItemDragOver(this, insertsAbove, e);
+
+			var hoverDelay = Owner?.HoverToOpenDelay ?? TimeSpan.Zero;
+			var canHoverOpen = hoverDelay > TimeSpan.Zero && insertsAbove == SidebarItemDropPosition.Center && Item is not null && (!IsGroupHeader || Item.IsLeafWithChildren);
+			if (canHoverOpen)
+			{
+				dragOverTimer ??= DispatcherQueue.CreateTimer();
+				dragOverTimer.Debounce(
+					() =>
+					{
+						dragOverTimer!.Stop();
+						RaiseItemInvoked(PointerUpdateKind.Other);
+					},
+					hoverDelay,
+					false);
+			}
+			else
+			{
+				dragOverTimer?.Stop();
+			}
 		}
 
 		private void ItemBorder_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
@@ -491,11 +512,13 @@ namespace Files.App.Controls
 
 		private void ItemBorder_DragLeave(object sender, DragEventArgs e)
 		{
+			dragOverTimer?.Stop();
 			UpdatePointerState();
 		}
 
 		private void ItemBorder_Drop(object sender, DragEventArgs e)
 		{
+			dragOverTimer?.Stop();
 			UpdatePointerState();
 			Owner?.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
 		}
