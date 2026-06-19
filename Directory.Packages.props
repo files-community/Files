@@ -53,7 +53,7 @@
     <PackageVersion Include="PolySharp" Version="1.16.0" />
     <PackageVersion Include="System.Text.Json" Version="10.0.9" />
     <PackageVersion Include="System.IO.Hashing" Version="10.0.2" />
-    <PackageVersion Include="Appium.WebDriver" Version="4.4.5" />
+    <PackageVersion Include="Appium.WebDriver" Version="8.3.0" />
     <PackageVersion Include="Axe.Windows" Version="2.4.2" />
     <PackageVersion Include="MSTest.TestAdapter" Version="4.2.3" />
     <PackageVersion Include="MSTest.TestFramework" Version="4.2.3" />
