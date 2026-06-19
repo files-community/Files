@@ -337,9 +337,8 @@ namespace Files.App
 							if (fileFRN is not null)
 							{
 								var tagUid = tag is not null ? new[] { tag.Uid } : [];
-								var dbInstance = FileTagsHelper.GetDbInstance();
-								dbInstance.SetTags(file, fileFRN, tagUid);
-								FileTagsHelper.WriteFileTag(file, tagUid);
+								// Update the registry index and ADS as one synchronized operation.
+								_ = FileTagsHelper.SetTagsAndWriteFileTagAsync(file, fileFRN, tagUid);
 							}
 						}
 						break;

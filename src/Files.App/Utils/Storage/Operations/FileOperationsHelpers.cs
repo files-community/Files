@@ -1022,12 +1022,14 @@ namespace Files.App.Utils.Storage
 						{
 							var tag = dbInstance.GetTags(sourcePath, null);
 
-							dbInstance.SetTags(destination, FileTagsHelper.GetFileFRN(destination), tag); // copy tag to new files
 							using var si = new ShellItem(destination);
 							if (si.IsFolder) // File tag is not copied automatically for folders
 							{
-								FileTagsHelper.WriteFileTag(destination, tag);
+								// Update the registry index and ADS together when copying a folder.
+								_ = FileTagsHelper.SetTagsAndWriteFileTagAsync(destination, FileTagsHelper.GetFileFRN(destination), tag);
 							}
+							else
+								dbInstance.SetTags(destination, FileTagsHelper.GetFileFRN(destination), tag); // copy tag to new files
 						}
 						else
 						{
