@@ -317,7 +317,15 @@ namespace Files.App.Controls
 			=> e.Handled = TryToggleExpansion();
 
 		private void ItemBorder_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
-			=> e.Handled = TryToggleExpansion();
+		{
+			// Group-header rows already toggle on every PointerReleased via Clicked, so a DoubleTapped toggle stacks on top of the per-click toggles and lands the section in the opposite state (the rapid-click stutter). Leaves-with-children navigate on row click and only toggle via the chevron, so double-tap on the row is still the expected toggle path there.
+			if (IsGroupHeader && Item?.IsLeafWithChildren != true)
+			{
+				e.Handled = true;
+				return;
+			}
+			e.Handled = TryToggleExpansion();
+		}
 
 		private bool TryToggleExpansion()
 		{
