@@ -2412,6 +2412,9 @@
     <value>Willst du diesen Tag wirklich löschen?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
+    <value>Alle abspielen</value>
+  </data>
+  <data name="Play" xml:space="preserve">
     <value>Abspielen</value>
   </data>
   <data name="Height" xml:space="preserve">

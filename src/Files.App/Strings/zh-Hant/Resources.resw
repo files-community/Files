@@ -337,7 +337,7 @@
     <value>暗色</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
-    <value>System Theme</value>
+    <value>系統主題</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>使用系統設定</value>
@@ -2412,7 +2412,10 @@
     <value>您確定要刪除這個標籤？</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>播放</value>
+    <value>Play All</value>
+  </data>
+  <data name="Play" xml:space="preserve">
+    <value>Play</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>高度</value>

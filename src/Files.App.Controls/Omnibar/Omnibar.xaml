@@ -53,7 +53,7 @@
 							Grid.Row="0"
 							Width="{TemplateBinding Width}"
 							Height="{TemplateBinding Height}"
-							Padding="{Binding AutoSuggestBoxPadding, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+							Padding="{TemplateBinding AutoSuggestBoxPadding}"
 							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
 							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
 							Background="{TemplateBinding Background}"
@@ -136,12 +136,12 @@
 							Height="{StaticResource OmnibarModeDefaultHeight}"
 							Margin="1"
 							AutomationProperties.AccessibilityView="Content"
-							AutomationProperties.Name="{Binding ModeName, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+							AutomationProperties.Name="{TemplateBinding ModeName}"
 							Background="{TemplateBinding Background}"
 							BorderBrush="{TemplateBinding BorderBrush}"
 							BorderThickness="0"
 							CornerRadius="{TemplateBinding CornerRadius}"
-							ToolTipService.ToolTip="{Binding ModeName, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
+							ToolTipService.ToolTip="{TemplateBinding ModeName}">
 							<Button.Resources>
 								<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />
 								<SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource SubtleFillColorTertiary}" />
@@ -152,14 +152,14 @@
 									x:Name="PART_ModeButtonInactiveIconPresenter"
 									HorizontalAlignment="Center"
 									VerticalAlignment="Center"
-									Content="{Binding IconOnInactive, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+									Content="{TemplateBinding IconOnInactive}"
 									Visibility="Visible" />
 
 								<ContentPresenter
 									x:Name="PART_ModeButtonActiveIconPresenter"
 									HorizontalAlignment="Center"
 									VerticalAlignment="Center"
-									Content="{Binding IconOnActive, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+									Content="{TemplateBinding IconOnActive}"
 									Visibility="Collapsed" />
 							</Grid>
 						</Button>
@@ -169,7 +169,7 @@
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"
 							HorizontalContentAlignment="Stretch"
-							Content="{Binding ContentOnInactive, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+							Content="{TemplateBinding ContentOnInactive}"
 							Visibility="Collapsed" />
 
 						<VisualStateManager.VisualStateGroups>
@@ -349,7 +349,7 @@
 							<TextBlock
 								x:Name="PlaceholderTextContentPresenter"
 								VerticalAlignment="Center"
-								Foreground="{Binding PlaceholderForeground, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForeground}}"
+								Foreground="{TemplateBinding PlaceholderForeground}"
 								IsHitTestVisible="False"
 								Text="{TemplateBinding PlaceholderText}"
 								TextAlignment="{TemplateBinding TextAlignment}"
@@ -395,7 +395,7 @@
 								<VisualState x:Name="Normal" />
 								<VisualState x:Name="Disabled">
 									<VisualState.Setters>
-										<Setter Target="PlaceholderTextContentPresenter.Foreground" Value="{Binding PlaceholderForeground, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForegroundDisabled}}" />
+										<Setter Target="PlaceholderTextContentPresenter.Foreground" Value="{ThemeResource TextControlPlaceholderForegroundDisabled}" />
 										<Setter Target="HeaderContentPresenter.Foreground" Value="{ThemeResource TextControlHeaderForegroundDisabled}" />
 										<Setter Target="BorderElement.Background" Value="{ThemeResource TextControlBackgroundDisabled}" />
 										<Setter Target="BorderElement.BorderBrush" Value="{ThemeResource TextControlBorderBrushDisabled}" />
@@ -404,7 +404,7 @@
 								</VisualState>
 								<VisualState x:Name="PointerOver">
 									<VisualState.Setters>
-										<Setter Target="PlaceholderTextContentPresenter.Foreground" Value="{Binding PlaceholderForeground, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForegroundPointerOver}}" />
+										<Setter Target="PlaceholderTextContentPresenter.Foreground" Value="{ThemeResource TextControlPlaceholderForegroundPointerOver}" />
 										<Setter Target="HeaderContentPresenter.Foreground" Value="{ThemeResource TextControlHeaderForegroundDisabled}" />
 										<Setter Target="BorderElement.Background" Value="{ThemeResource TextControlBackgroundPointerOver}" />
 										<Setter Target="BorderElement.BorderBrush" Value="{ThemeResource CircleElevationBorderBrush}" />
@@ -413,7 +413,7 @@
 								</VisualState>
 								<VisualState x:Name="Focused">
 									<VisualState.Setters>
-										<Setter Target="PlaceholderTextContentPresenter.Foreground" Value="{Binding PlaceholderForeground, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForegroundFocused}}" />
+										<Setter Target="PlaceholderTextContentPresenter.Foreground" Value="{ThemeResource TextControlPlaceholderForegroundFocused}" />
 										<Setter Target="BorderElement.Background" Value="{ThemeResource TextControlBackgroundFocused}" />
 										<Setter Target="BorderElement.BorderBrush" Value="{ThemeResource AccentFillColorDefaultBrush}" />
 										<Setter Target="BorderElement.BorderThickness" Value="{ThemeResource OmnibarBorderThicknessFocused}" />

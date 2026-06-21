@@ -225,15 +225,37 @@ namespace Files.App.Views.Layouts
 			RootZoom.IsZoomedInViewActive = true;
 		}
 
-		protected virtual void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected virtual void FileList_SelectionChanged(object sender, SelectionChangedEventArgs? e)
 		{
-			SelectedItems = ListViewBase.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+
+			if (e is null && SelectedItems?.Count == 0)
+				return;
+
+			if (e is not null && e.AddedItems.Count == 0 && e.RemovedItems.Count == 0)
+				return;
+
+			var selectedItems = ListViewBase.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+
+			if (SelectedItems is not null && SelectedItems.SequenceEqual(selectedItems))
+				return;
+
+			SelectedItems = selectedItems;
+
+			if (e is null)
+				return;
+
+			OnSelectionChanged(e);
 		}
+
+		protected abstract void OnSelectionChanged(SelectionChangedEventArgs e);
 
 		protected virtual void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
 		{
 			ListViewBase.Focus(FocusState.Programmatic);
 		}
+
+		protected static bool ShouldShowExtensionInRename(ListedItem item) =>
+			(!item.IsFolder || item.IsArchive) && !item.IsShortcut && item is not AlternateStreamItem;
 
 		protected virtual void StartRenameItem(string itemNameTextBox)
 		{
@@ -250,9 +272,10 @@ namespace Files.App.Views.Layouts
 			TextBox? textBox = null;
 			TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
 			textBox = listViewItem.FindDescendant(itemNameTextBox) as TextBox;
-			textBox!.Text = textBlock!.Text;
-			OldItemName = textBlock.Text;
-			textBlock.Visibility = Visibility.Collapsed;
+			string editText = ShouldShowExtensionInRename(RenamingItem) ? RenamingItem.ItemNameRaw : textBlock!.Text;
+			textBox!.Text = editText;
+			OldItemName = editText;
+			textBlock!.Visibility = Visibility.Collapsed;
 			textBox.Visibility = Visibility.Visible;
 
 			if (textBox.FindParent<Grid>() is null)
@@ -268,9 +291,9 @@ namespace Files.App.Views.Layouts
 			textBox.LostFocus += RenameTextBox_LostFocus;
 			textBox.KeyDown += RenameTextBox_KeyDown;
 
-			int selectedTextLength = SelectedItem.Name.Length;
+			int selectedTextLength = editText.Length;
 
-			if (!SelectedItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
+			if (!SelectedItem.IsShortcut && (ShouldShowExtensionInRename(SelectedItem) || UserSettingsService.FoldersSettingsService.ShowFileExtensions))
 				selectedTextLength -= extensionLength;
 
 			textBox.Select(0, selectedTextLength);
@@ -282,7 +305,7 @@ namespace Files.App.Views.Layouts
 			EndRename(textBox);
 			string newItemName = textBox.Text.Trim().TrimEnd('.');
 
-			await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
+			await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance, nameIsComplete: ShouldShowExtensionInRename(RenamingItem));
 		}
 
 		protected virtual async void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)

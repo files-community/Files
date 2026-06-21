@@ -91,6 +91,10 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -v:quiet
 
+    - name: Hide NuGet.Config from signing action
+      shell: pwsh
+      run: Move-Item NuGet.Config NuGet.Config.bak
+
     - name: Sign launcher EXE with Azure Trusted Signing
       uses: Azure/artifact-signing-action@v1
       with:
@@ -106,6 +110,11 @@ jobs:
         file-digest: SHA256
         timestamp-rfc3161: http://timestamp.acs.microsoft.com
         timestamp-digest: SHA256
+
+    - name: Restore NuGet.Config
+      if: always()
+      shell: pwsh
+      run: Move-Item NuGet.Config.bak NuGet.Config
 
     - name: Build & package Files
       shell: pwsh

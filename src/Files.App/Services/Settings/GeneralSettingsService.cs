@@ -95,6 +95,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public bool ReverseTabScrollDirection
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
 		public bool ShowQuickAccessWidget
 		{
 			get => Get(true);
@@ -161,19 +167,7 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool IsPinnedSectionExpanded
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
 		public bool ShowLibrarySection
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool IsLibrarySectionExpanded
 		{
 			get => Get(false);
 			set => Set(value);
@@ -185,21 +179,9 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool IsDriveSectionExpanded
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
 		public bool ShowCloudDrivesSection
 		{
 			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool IsCloudDriveSectionExpanded
-		{
-			get => Get(false);
 			set => Set(value);
 		}
 
@@ -209,33 +191,15 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool IsNetworkSectionExpanded
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
 		public bool ShowWslSection
 		{
 			get => Get(true);
 			set => Set(value);
 		}
 
-		public bool IsWslSectionExpanded
-		{
-			get => Get(false);
-			set => Set(value);
-
-		}
 		public bool ShowFileTagsSection
 		{
 			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool IsFileTagsSectionExpanded
-		{
-			get => Get(false);
 			set => Set(value);
 		}
 

@@ -2412,6 +2412,9 @@
     <value>Sunteți sigur că vreți să ștergeți această etichetă?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
+    <value>Redare toate</value>
+  </data>
+  <data name="Play" xml:space="preserve">
     <value>Redare</value>
   </data>
   <data name="Height" xml:space="preserve">
@@ -4262,7 +4265,7 @@
     <value>Eliminare elemente</value>
   </data>
   <data name="BatchAction" xml:space="preserve">
-    <value>Batch action</value>
+    <value>Acțiune în grup</value>
   </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>Eliminare din raft</value>

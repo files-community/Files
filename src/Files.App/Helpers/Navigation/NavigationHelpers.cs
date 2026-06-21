@@ -383,12 +383,12 @@ namespace Files.App.Helpers
 			return Launcher.LaunchUriAsync(folderUri).AsTask();
 		}
 
-		public static void OpenInSecondaryPane(IShellPage associatedInstance, ListedItem listedItem)
+		public static void OpenInSecondaryPane(IShellPage associatedInstance, ListedItem listedItem, ShellPaneArrangement arrangement = ShellPaneArrangement.None)
 		{
 			if (associatedInstance is null || listedItem is null)
 				return;
 
-			associatedInstance.PaneHolder?.OpenSecondaryPane((listedItem as IShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+			associatedInstance.PaneHolder?.OpenSecondaryPane((listedItem as IShortcutItem)?.TargetPath ?? listedItem.ItemPath, arrangement);
 		}
 
 		public static Task LaunchNewWindowAsync()

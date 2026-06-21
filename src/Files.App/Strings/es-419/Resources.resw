@@ -2412,7 +2412,10 @@
     <value>¿Está seguro que desea eliminar esta etiqueta?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Reproducir</value>
+    <value>Play All</value>
+  </data>
+  <data name="Play" xml:space="preserve">
+    <value>Play</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>Alto</value>

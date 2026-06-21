@@ -654,12 +654,18 @@ namespace Files.App.ViewModels
 						if (e.ValueState is SizeChangedValueState.None)
 						{
 							matchingItem.FileSizeBytes = 0;
-							matchingItem.FileSize = Strings.ItemSizeNotCalculated.GetLocalizedResource();
+							matchingItem.IsCalculatingSize = true;
+							matchingItem.ShowCalculatingText = true;
 						}
 						else if (e.ValueState is SizeChangedValueState.Final || (long)e.NewSize > matchingItem.FileSizeBytes)
 						{
 							matchingItem.FileSizeBytes = (long)e.NewSize;
 							matchingItem.FileSize = e.NewSize.ToSizeString();
+							if (e.ValueState is SizeChangedValueState.Final)
+							{
+								matchingItem.ShowCalculatingText = false;
+								matchingItem.IsCalculatingSize = false;
+							}
 						}
 
 						DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
@@ -2492,7 +2498,7 @@ namespace Files.App.ViewModels
 				await OrderFilesAndFoldersAsync();
 				await ApplyFilesAndFoldersChangesAsync();
 
-				if (lastItemAdded is not null && !lastItemAdded.IsArchive)
+				if (lastItemAdded is not null)
 				{
 					await RequestSelectionAsync([lastItemAdded]);
 					lastItemAdded = null;
@@ -2868,27 +2874,16 @@ namespace Files.App.ViewModels
 			searchCTS?.Cancel();
 		}
 
-		public void UpdateDateDisplay(bool isFormatChange)
+		public void UpdateDateDisplay()
 		{
-			App.Logger.LogDebug($"UpdateDateDisplay: isFormatChange={isFormatChange}, itemCount={filesAndFolders?.Count}");
+			App.Logger.LogDebug($"UpdateDateDisplay: itemCount={filesAndFolders?.Count}");
 
 			filesAndFolders.ToList().AsParallel().ForAll(async item =>
 			{
-				// Reassign values to update date display
-				if (isFormatChange || IsDateDiff(item.ItemDateAccessedReal))
-					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateAccessedReal = item.ItemDateAccessedReal);
-				if (isFormatChange || IsDateDiff(item.ItemDateCreatedReal))
-					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateCreatedReal = item.ItemDateCreatedReal);
-				if (isFormatChange || IsDateDiff(item.ItemDateModifiedReal))
-					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateModifiedReal = item.ItemDateModifiedReal);
-				if (item is RecycleBinItem recycleBinItem && (isFormatChange || IsDateDiff(recycleBinItem.ItemDateDeletedReal)))
-					await dispatcherQueue.EnqueueOrInvokeAsync(() => recycleBinItem.ItemDateDeletedReal = recycleBinItem.ItemDateDeletedReal);
-				if (item is IGitItem gitItem && gitItem.GitLastCommitDate is DateTimeOffset offset && (isFormatChange || IsDateDiff(offset)))
-					await dispatcherQueue.EnqueueOrInvokeAsync(() => gitItem.GitLastCommitDate = gitItem.GitLastCommitDate);
+				if (item.IsRealChanges)
+					await dispatcherQueue.EnqueueOrInvokeAsync(item.UpdateReal);
 			});
 		}
-
-		private static bool IsDateDiff(DateTimeOffset offset) => (DateTimeOffset.Now - offset).TotalDays < 7;
 
 		public void Dispose()
 		{

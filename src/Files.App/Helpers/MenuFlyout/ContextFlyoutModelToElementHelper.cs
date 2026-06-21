@@ -154,6 +154,18 @@ namespace Files.App.Helpers.ContextFlyouts
 					flyoutItem.Icon = new FontIcon { Glyph = i.Glyph };
 				}
 			}
+			else if (i.ThemedIconModel.IsValid)
+			{
+				flyoutItem = new MenuFlyoutItemWithThemedIcon()
+				{
+					Text = i.Text,
+					Tag = i.Tag,
+					Command = i.Command,
+					CommandParameter = i.CommandParameter,
+					ThemedIconStyle = App.Current.Resources[i.ThemedIconModel.ThemedIconStyle] as Style,
+					AccessKey = i.AccessKey,
+				};
+			}
 			else
 			{
 				var icon = string.IsNullOrEmpty(i.Glyph) ? null : new FontIcon

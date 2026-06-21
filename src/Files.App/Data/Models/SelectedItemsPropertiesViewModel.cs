@@ -497,6 +497,13 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref editAlbumCoverCommand, value);
 		}
 
+		private ICommand removeAlbumCoverCommand;
+		public ICommand RemoveAlbumCoverCommand
+		{
+			get => removeAlbumCoverCommand;
+			set => SetProperty(ref removeAlbumCoverCommand, value);
+		}
+
 		private bool itemAttributesVisibility = true;
 		public bool ItemAttributesVisibility
 		{

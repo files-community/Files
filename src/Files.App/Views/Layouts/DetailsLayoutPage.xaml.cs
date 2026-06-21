@@ -360,18 +360,13 @@ namespace Files.App.Views.Layouts
 
 		}
 
-		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected override void OnSelectionChanged(SelectionChangedEventArgs e)
 		{
-			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+			foreach (var item in e.AddedItems)
+				SetCheckboxSelectionState(item);
 
-			if (e != null)
-			{
-				foreach (var item in e.AddedItems)
-					SetCheckboxSelectionState(item);
-
-				foreach (var item in e.RemovedItems)
-					SetCheckboxSelectionState(item);
-			}
+			foreach (var item in e.RemovedItems)
+				SetCheckboxSelectionState(item);
 		}
 
 		override public void StartRenameItem()
@@ -1078,6 +1073,28 @@ namespace Files.App.Views.Layouts
 		private void SetToolTip(TextBlock textBlock)
 		{
 			ToolTipService.SetToolTip(textBlock, textBlock.IsTextTrimmed ? textBlock.Text : null);
+		}
+
+		private async void ViewSizeButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (sender is not FrameworkElement { DataContext: ListedItem item })
+				return;
+
+			item.IsCalculatingSize = true;
+			var sizeProvider = Ioc.Default.GetRequiredService<Services.SizeProvider.ISizeProvider>();
+			var updateTask = Task.Run(() => sizeProvider.UpdateAsync(item.ItemPath, default));
+
+			try
+			{
+				if (await Task.WhenAny(updateTask, Task.Delay(300)) != updateTask)
+					item.ShowCalculatingText = true;
+				await updateTask;
+			}
+			finally
+			{
+				item.ShowCalculatingText = false;
+				item.IsCalculatingSize = false;
+			}
 		}
 
 		private void FileList_LosingFocus(UIElement sender, LosingFocusEventArgs args)

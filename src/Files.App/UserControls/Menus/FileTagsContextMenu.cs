@@ -24,6 +24,8 @@ namespace Files.App.UserControls.Menus
 		public IEnumerable<ListedItem> SelectedItems => selectedItems;
 		private Func<IEnumerable<ListedItem>>? selectedItemsProvider;
 
+		private const string RemoveTagsItemTag = "RemoveTags";
+
 		public FileTagsContextMenu(IEnumerable<ListedItem> selectedItems)
 		{
 			this.selectedItems = selectedItems;
@@ -43,8 +45,8 @@ namespace Files.App.UserControls.Menus
 
 		private void Init()
 		{
-			SetValue(MenuFlyoutHelper.ItemsSourceProperty, FileTagsSettingsService.FileTagList
-				.Select(tag => new MenuFlyoutFactoryItemViewModel(() =>
+			IEnumerable<IMenuFlyoutItemViewModel> tagItems = FileTagsSettingsService.FileTagList
+				.Select(tag => (IMenuFlyoutItemViewModel)new MenuFlyoutFactoryItemViewModel(() =>
 				{
 					var tagItem = new ToggleMenuFlyoutItem()
 					{
@@ -58,7 +60,22 @@ namespace Files.App.UserControls.Menus
 					};
 					tagItem.Click += TagItem_Click;
 					return tagItem;
-				})));
+				}));
+
+			var removeTagsViewModel = new MenuFlyoutFactoryItemViewModel(() =>
+			{
+				var removeItem = new MenuFlyoutItem()
+				{
+					Text = Strings.RemoveTags.GetLocalizedResource(),
+					Tag = RemoveTagsItemTag,
+				};
+				removeItem.Click += RemoveTagsItem_Click;
+				return removeItem;
+			});
+
+			SetValue(MenuFlyoutHelper.ItemsSourceProperty, tagItems
+				.Append(new MenuFlyoutSeparatorViewModel())
+				.Append(removeTagsViewModel));
 
 			Opening += Item_Opening;
 		}
@@ -104,9 +121,16 @@ namespace Files.App.UserControls.Menus
 				.Select(x => x?.FileTags ?? Enumerable.Empty<string>())
 				.DefaultIfEmpty(Enumerable.Empty<string>())
 				.Aggregate((x, y) => x.Intersect(y))
-				.Select(x => Items.FirstOrDefault(y => x == ((TagViewModel)y.Tag)?.Uid));
+				.Select(x => Items.FirstOrDefault(y => x == (y.Tag as TagViewModel)?.Uid));
 
 			commonFileTags.OfType<ToggleMenuFlyoutItem>().ForEach(x => x.IsChecked = true);
+
+			// Enable "Remove tags" only when at least one selected item has tags
+			var removeItem = Items
+				.OfType<MenuFlyoutItem>()
+				.FirstOrDefault(i => i is not ToggleMenuFlyoutItem && (i.Tag as string) == RemoveTagsItemTag);
+			if (removeItem is not null)
+				removeItem.IsEnabled = SelectedItems.Any(item => item?.FileTags is { Length: > 0 });
 		}
 
 		private void RemoveFileTag(IEnumerable<ListedItem> selectedListedItems, TagViewModel removed)
@@ -134,6 +158,12 @@ namespace Files.App.UserControls.Menus
 				}
 			}
 			TagsChanged?.Invoke(this, EventArgs.Empty);
+		}
+
+		private async void RemoveTagsItem_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+		{
+			if (await FileTagsHelper.RemoveTagsAsync(SelectedItems))
+				TagsChanged?.Invoke(this, EventArgs.Empty);
 		}
 	}
 }

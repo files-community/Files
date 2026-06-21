@@ -109,6 +109,31 @@ namespace Files.App.Utils.FileTags
 			}
 		}
 
+		/// <summary>
+		/// Prompts the user for confirmation, then removes all tags from the given items that have tags.
+		/// </summary>
+		/// <returns>True if the user confirmed and tags were removed; otherwise false.</returns>
+		public static async Task<bool> RemoveTagsAsync(IEnumerable<ListedItem> items)
+		{
+			var itemsWithTags = items.Where(item => item.FileTags is { Length: > 0 }).ToList();
+			if (itemsWithTags.Count == 0)
+				return false;
+
+			var confirmed = await DialogDisplayHelper.ShowDialogAsync(
+				Strings.RemoveTags.GetLocalizedResource(),
+				Strings.ConfirmRemoveTagsDialogContent.GetLocalizedResource(),
+				Strings.Yes.GetLocalizedResource(),
+				Strings.Cancel.GetLocalizedResource());
+
+			if (!confirmed)
+				return false;
+
+			foreach (var item in itemsWithTags)
+				item.FileTags = [];
+
+			return true;
+		}
+
 		public static ulong? GetFileFRN(string filePath) => Win32Helper.GetFileFRN(filePath);
 
 		public static Task<ulong?> GetFileFRN(IStorageItem item)

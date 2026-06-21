@@ -124,13 +124,13 @@
     <value>ចម្លងទីតាំង</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>Copy item path</value>
+    <value>ចម្លងទីតាំងនៃធាតុ</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>ចម្លងផ្លូវទីតាំង</value>
   </data>
   <data name="CopyItemPathWithQuotes" xml:space="preserve">
-    <value>Copy selected item path with quotes</value>
+    <value>ចម្លងទីតាំងនៃធាតុដែលបានរើសជាមួយសម្រង់</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>រកមើល</value>
@@ -190,10 +190,10 @@
     <value>ស្វែងរក</value>
   </data>
   <data name="SearchSettings" xml:space="preserve">
-    <value>Search settings...</value>
+    <value>ស្វែងរកការកំណត់...</value>
   </data>
   <data name="NoSearchResults" xml:space="preserve">
-    <value>No settings match your search.</value>
+    <value>គ្មានការកំណត់ណាមួយផ្គូផ្គងនឹងការស្វែងរករបស់អ្នកទេ។</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>ឯកសារដែលអ្នកបានអាក់សេសពីមុននឹងបង្ហាញនៅទីនេះ</value>
@@ -217,7 +217,7 @@
     <value>ផ្ទៃស្បែក</value>
   </data>
   <data name="Font" xml:space="preserve">
-    <value>Font</value>
+    <value>ពុម្ពអក្សរ</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>បង្ហាញប្រភេទឯកសារដែលគេស្គាល់</value>
@@ -226,7 +226,7 @@
     <value>បង្ហាញឯកសារ និងថតដែលលាក់</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>បង្ហាញឯកសារមានចុច</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>រូបរាង</value>
@@ -684,7 +684,7 @@
     <value>ឯកសារ</value>
   </data>
   <data name="Files" xml:space="preserve">
-    <value>Files</value>
+    <value>ឯកសារ</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>បង្កើតឯកសារទទេ</value>
@@ -693,7 +693,7 @@
     <value>ថតឯកសារ</value>
   </data>
   <data name="Folders" xml:space="preserve">
-    <value>Folders</value>
+    <value>ថតឯកសារ</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>បង្កើតថតទំនេរ</value>
@@ -2412,6 +2412,9 @@
     <value>Are you sure you want to delete this tag?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
+    <value>Play All</value>
+  </data>
+  <data name="Play" xml:space="preserve">
     <value>Play</value>
   </data>
   <data name="Height" xml:space="preserve">

@@ -40,7 +40,8 @@ namespace Files.App.ViewModels.Properties
 					.Where(fileProp => !(fileProp.Value is null && fileProp.IsReadOnly))
 					.GroupBy(fileProp => fileProp.SectionResource)
 					.Select(group => new FilePropertySection(group) { Key = group.Key })
-					.Where(section => !section.All(fileProp => fileProp.Value is null));
+					.Where(section => !section.All(fileProp => fileProp.Value is null)
+						|| FileProperty.IsSectionApplicableForEmpty(section.Key, item.FileExtension));
 			}));
 
 			if (queries.Any(query => query is null))
