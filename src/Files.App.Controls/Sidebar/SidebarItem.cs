@@ -317,7 +317,13 @@ namespace Files.App.Controls
 			=> e.Handled = TryToggleExpansion();
 
 		private void ItemBorder_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
-			=> e.Handled = TryToggleExpansion();
+		{
+			// Section headers already toggle expansion on single click
+			if (IsGroupHeader && Item?.IsLeafWithChildren != true)
+				return;
+
+			e.Handled = TryToggleExpansion();
+		}
 
 		private bool TryToggleExpansion()
 		{
