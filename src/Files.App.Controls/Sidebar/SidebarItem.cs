@@ -36,6 +36,7 @@ namespace Files.App.Controls
 		private bool isTemplateWired;
 		private DispatcherQueueTimer? dragOverTimer;
 		private DispatcherQueueTimer? dragOverExpandTimer;
+		private SidebarItemDropPosition lastDropPosition = SidebarItemDropPosition.Center;
 
 		public SidebarItem()
 		{
@@ -502,6 +503,12 @@ namespace Files.App.Controls
 					acceptedOperation = e.AcceptedOperation;
 				}, null, typeof(COMException));
 
+				if (dropPosition != lastDropPosition)
+				{
+					acceptedOperation = DataPackageOperation.None;
+				}
+				lastDropPosition = dropPosition;
+
 				if (!propertiesRead || !isHandled || acceptedOperation == DataPackageOperation.None)
 				{
 					VisualStateManager.GoToState(this, "Normal", true);
@@ -576,6 +583,7 @@ namespace Files.App.Controls
 		{
 			dragOverTimer?.Stop();
 			dragOverExpandTimer?.Stop();
+			lastDropPosition = SidebarItemDropPosition.Center;
 			UpdatePointerState();
 		}
 
@@ -583,6 +591,7 @@ namespace Files.App.Controls
 		{
 			dragOverTimer?.Stop();
 			dragOverExpandTimer?.Stop();
+			lastDropPosition = SidebarItemDropPosition.Center;
 			UpdatePointerState();
 			Owner?.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
 		}

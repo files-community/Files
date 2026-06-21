@@ -1334,11 +1334,17 @@ namespace Files.App.ViewModels.UserControls
 				var hasStorageItems = storageItems.Any();
 
 				if (!isPathNull && hasStorageItems && SectionType.Pinned.Equals(locationItem.Section)
-					&& args.dropPosition != SidebarItemDropPosition.Center
-					&& storageItems.Any(item => item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.PinnedFolders.Contains(item.Path)))
+					&& args.dropPosition != SidebarItemDropPosition.Center)
 				{
-					var captionText = Strings.PinFolderToSidebar.GetLocalizedResource();
-					CompleteDragEventArgs(rawEvent, captionText, DataPackageOperation.Move);
+					if (storageItems.Any(item => item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.PinnedFolders.Contains(item.Path)))
+					{
+						var captionText = Strings.PinFolderToSidebar.GetLocalizedResource();
+						CompleteDragEventArgs(rawEvent, captionText, DataPackageOperation.Move);
+					}
+					else
+					{
+						rawEvent.AcceptedOperation = DataPackageOperation.None;
+					}
 				}
 				else if (isPathNull && hasStorageItems && SectionType.Pinned.Equals(locationItem.Section))
 				{
