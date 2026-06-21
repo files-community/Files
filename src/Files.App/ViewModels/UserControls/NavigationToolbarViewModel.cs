@@ -1104,37 +1104,16 @@ namespace Files.App.ViewModels.UserControls
 				});
 			}
 
-			if (!OmnibarCommandPaletteModeSuggestionItems.IntersectBy(newSuggestions, x => x.PrimaryDisplay).Any())
+			for (int index = 0; index < newSuggestions.Count; index++)
 			{
-				for (int index = 0; index < newSuggestions.Count; index++)
-				{
-					if (index < OmnibarCommandPaletteModeSuggestionItems.Count)
-						OmnibarCommandPaletteModeSuggestionItems[index] = newSuggestions[index];
-					else
-						OmnibarCommandPaletteModeSuggestionItems.Add(newSuggestions[index]);
-				}
-
-				while (OmnibarCommandPaletteModeSuggestionItems.Count > newSuggestions.Count)
-					OmnibarCommandPaletteModeSuggestionItems.RemoveAt(OmnibarCommandPaletteModeSuggestionItems.Count - 1);
+				if (index < OmnibarCommandPaletteModeSuggestionItems.Count)
+					OmnibarCommandPaletteModeSuggestionItems[index] = newSuggestions[index];
+				else
+					OmnibarCommandPaletteModeSuggestionItems.Add(newSuggestions[index]);
 			}
-			else
-			{
-				foreach (var s in OmnibarCommandPaletteModeSuggestionItems.ExceptBy(newSuggestions, x => x.PrimaryDisplay).ToList())
-					OmnibarCommandPaletteModeSuggestionItems.Remove(s);
 
-				for (int index = 0; index < newSuggestions.Count; index++)
-				{
-					if (OmnibarCommandPaletteModeSuggestionItems.Count > index
-						&& OmnibarCommandPaletteModeSuggestionItems[index].PrimaryDisplay == newSuggestions[index].PrimaryDisplay)
-					{
-						OmnibarCommandPaletteModeSuggestionItems[index] = newSuggestions[index];
-					}
-					else
-					{
-						OmnibarCommandPaletteModeSuggestionItems.Insert(index, newSuggestions[index]);
-					}
-				}
-			}
+			while (OmnibarCommandPaletteModeSuggestionItems.Count > newSuggestions.Count)
+				OmnibarCommandPaletteModeSuggestionItems.RemoveAt(OmnibarCommandPaletteModeSuggestionItems.Count - 1);
 		}
 
 		public async Task PopulateOmnibarSuggestionsForSearchMode()
