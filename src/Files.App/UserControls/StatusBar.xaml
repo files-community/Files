@@ -209,7 +209,9 @@
 			<TextBlock Text="{x:Bind StatusBarViewModel.SelectedZipEncoding.Name, Mode=OneWay, FallbackValue='', TargetNullValue=''}" />
 
 			<Button.Flyout>
-				<Flyout x:Name="ZipEncodingFlyout">
+				<Flyout
+					x:Name="ZipEncodingFlyout"
+					Opening="ZipEncodingFlyout_Opening">
 					<Grid
 						Width="240"
 						Height="300"
@@ -223,7 +225,7 @@
 							IsItemClickEnabled="True"
 							ItemClick="ZipEncodingList_ItemClick"
 							ItemsSource="{x:Bind StatusBarViewModel.ZipEncodingOptions, Mode=OneWay}"
-							SelectedItem="{x:Bind StatusBarViewModel.SelectedZipEncoding, Mode=TwoWay}"
+							SelectedItem="{x:Bind StatusBarViewModel.SelectedZipEncoding, Mode=OneWay}"
 							SelectionMode="Single">
 
 							<ListView.ItemTemplate>

@@ -213,6 +213,9 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task UpdateZipEncodingStateAsync()
 		{
+			if (ContentPageContext.ShellPage?.SlimContentPage?.StatusBarViewModel != this)
+				return;
+
 			var instanceVM = InstanceViewModel;
 			if (instanceVM is null)
 				return;
@@ -225,6 +228,9 @@ namespace Files.App.ViewModels.UserControls
 
 			var workingDir = ContentPageContext.ShellPage?.ShellViewModel.WorkingDirectory;
 			if (string.IsNullOrEmpty(workingDir) || !ZipStorageFolder.IsZipPath(workingDir))
+				return;
+
+			if (TryRestoreZipEncodingFromContainerPath(workingDir))
 				return;
 
 			try
@@ -266,9 +272,45 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		private bool TryRestoreZipEncodingFromContainerPath(string workingDir)
+		{
+			if (!FileExtensionHelpers.IsBrowsableZipFile(workingDir, out var ext))
+				return false;
+
+			var marker = workingDir.IndexOf(ext, StringComparison.OrdinalIgnoreCase);
+			if (marker is -1)
+				return false;
+
+			var containerPath = workingDir.Substring(0, marker + ext.Length);
+			if (!ZipStorageFolder.TryGetEncodingForContainerPath(containerPath, out var encoding))
+				return false;
+
+			EncodingItem? match = encoding is not null
+				? ZipEncodingOptions.FirstOrDefault(e => e.Encoding == encoding)
+				: ZipEncodingOptions.FirstOrDefault(e => e.Encoding is null);
+
+			if (match is null && encoding is not null)
+			{
+				match = new EncodingItem(encoding, encoding.EncodingName);
+				ZipEncodingOptions.Add(match);
+			}
+
+			if (match is not null)
+			{
+				SelectedZipEncoding = match;
+				IsZipEncodingSelectorVisible = true;
+				return true;
+			}
+
+			return false;
+		}
+
 		private async Task OnZipEncodingChangedAsync(EncodingItem encodingItem)
 		{
 			if (ContentPageContext.ShellPage is null)
+				return;
+
+			if (ContentPageContext.ShellPage?.SlimContentPage?.StatusBarViewModel != this)
 				return;
 
 			var workingDir = ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
