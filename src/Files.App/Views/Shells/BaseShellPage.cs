@@ -213,8 +213,11 @@ namespace Files.App.Views.Shells
 
 		protected void FilesystemViewModel_OnSelectionRequestedEvent(object sender, List<ListedItem> e)
 		{
-			// Set focus since selection might occur before the UI finishes updating
-			ContentPage.ItemManipulationModel.FocusFileList();
+			// Raised by the directory watcher, which can fire while the user is typing in the
+			// omnibar - don't yank focus in that case (the omnibar's TryCancel doesn't help here
+			// because FocusFileList -> ListViewItem.Focus uses FocusState.Keyboard).
+			if (!UIHelpers.IsTextInputFocused(XamlRoot))
+				ContentPage.ItemManipulationModel.FocusFileList();
 			ContentPage.ItemManipulationModel.SetSelectedItems(e);
 		}
 
