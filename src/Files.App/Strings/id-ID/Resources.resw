@@ -190,10 +190,10 @@
     <value>Cari</value>
   </data>
   <data name="SearchSettings" xml:space="preserve">
-    <value>Search settings...</value>
+    <value>Cari pengaturan...</value>
   </data>
   <data name="NoSearchResults" xml:space="preserve">
-    <value>No settings match your search.</value>
+    <value>Tidak ada pengaturan yang cocok dengan pencarian Anda.</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Berkas yang sebelumnya Anda akses akan muncul di sini</value>
@@ -238,22 +238,22 @@
     <value>Lanjutan</value>
   </data>
   <data name="CacheThumbnails" xml:space="preserve">
-    <value>Cache thumbnails</value>
+    <value>Cache thumbnail</value>
   </data>
   <data name="CacheSizeLimitDescription" xml:space="preserve">
-    <value>Maximum disk space to use for thumbnail cache (100-5000 MiB).</value>
+    <value>Ruang disk maksimum yang digunakan untuk cache thumbnail (100-5000 MB).</value>
   </data>
   <data name="CacheSizeLimit" xml:space="preserve">
-    <value>Cache size limit</value>
+    <value>Batas ukuran cache</value>
   </data>
   <data name="ClearCachedThumbnails" xml:space="preserve">
-    <value>Clear cached thumbnails to free up space</value>
+    <value>Bersihkan cache thumbnail untuk mengosongkan ruang</value>
   </data>
   <data name="CurrentCacheSize" xml:space="preserve">
-    <value>Current cache size: </value>
+    <value>Ukuran cache saat ini:</value>
   </data>
   <data name="ClearCache" xml:space="preserve">
-    <value>Clear cache</value>
+    <value>Bersihkan cache</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Lanjutkan di bagian terakhir yang Anda tinggalkan</value>
@@ -337,7 +337,7 @@
     <value>Gelap</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
-    <value>System Theme</value>
+    <value>Tema Sistem</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Gunakan pengaturan sistem</value>
@@ -684,7 +684,7 @@
     <value>File</value>
   </data>
   <data name="Files" xml:space="preserve">
-    <value>Files</value>
+    <value>File</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Buat file kosong</value>
@@ -693,7 +693,7 @@
     <value>Folder</value>
   </data>
   <data name="Folders" xml:space="preserve">
-    <value>Folders</value>
+    <value>Folder</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Buat folder kosong</value>
@@ -1097,6 +1097,9 @@
   <data name="OpenInNewPane" xml:space="preserve">
     <value>Buka di panel baru</value>
   </data>
+  <data name="OpenInOtherPane" xml:space="preserve">
+    <value>Open in other pane</value>
+  </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Folder &amp; berkas</value>
   </data>
@@ -1155,7 +1158,7 @@
     <value>Nama Item</value>
   </data>
   <data name="Unpin" xml:space="preserve">
-    <value>Unpin</value>
+    <value>Lepas sematan</value>
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Unpin dari Sidebar</value>
@@ -1195,6 +1198,9 @@
   </data>
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Tidak dihitung</value>
+  </data>
+  <data name="ViewSize" xml:space="preserve">
+    <value>Ukuran tampilan</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Tidak diketahui</value>
@@ -1362,7 +1368,7 @@
     <value>Buat folder dari yang dipilih</value>
   </data>
   <data name="CreateShortcutWithSelection" xml:space="preserve">
-    <value>Create shortcuts with selection</value>
+    <value>Buat pintasan dengan pilihan</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>Jenis:</value>
@@ -1815,7 +1821,7 @@
     <value>Tag</value>
   </data>
   <data name="OpenFilesWithOneClick" xml:space="preserve">
-    <value>Open files with a single click</value>
+    <value>Buka file dengan sekali klik</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Jalur folder</value>
@@ -2049,7 +2055,7 @@
     <value>Kustom</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
-    <value>Slideshow</value>
+    <value>Tampilan slide</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
     <value>Atur sebagai tampilan slide desktop</value>
@@ -2121,13 +2127,13 @@
     <value>Buka beberapa folder dengan satu klik</value>
   </data>
   <data name="OpenFolderWithOneClickInColumnsView" xml:space="preserve">
-    <value>Open folders with a single click in Columns View</value>
+    <value>Buka folder dengan sekali klik di Tampilan Kolom</value>
   </data>
   <data name="SingleClickToOpen" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>Buka item dengan sekali klik</value>
   </data>
   <data name="SingleClickFoldersInColumnsViewHeader" xml:space="preserve">
-    <value>Folders in Columns View</value>
+    <value>Folder di Tampilan Kolom</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Membuka item</value>
@@ -2199,10 +2205,10 @@
     <value>Buat arsip</value>
   </data>
   <data name="CompressIntoZip" xml:space="preserve">
-    <value>Create zip archive</value>
+    <value>Buat arsip zip</value>
   </data>
   <data name="CompressIntoSevenZip" xml:space="preserve">
-    <value>Create 7z archive</value>
+    <value>Buat arsip 7z</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Buat</value>
@@ -2241,19 +2247,19 @@
     <value>Jangan dipisah</value>
   </data>
   <data name="Auto" xml:space="preserve">
-    <value>Auto</value>
+    <value>Otomatis</value>
   </data>
   <data name="DictionarySize" xml:space="preserve">
-    <value>Dictionary size</value>
+    <value>Ukuran kamus</value>
   </data>
   <data name="WordSize" xml:space="preserve">
-    <value>Word size</value>
+    <value>Ukuran kata</value>
   </data>
   <data name="EstimatedMemoryUsage" xml:space="preserve">
-    <value>Estimated memory usage: {0}</value>
+    <value>Perkiraan penggunaan memori: {0}</value>
   </data>
   <data name="AvailableMemory" xml:space="preserve">
-    <value>Available memory: {0}</value>
+    <value>Memori yang tersedia: {0}</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2412,10 +2418,10 @@
     <value>Yakin ingin menghapus tag ini?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Play All</value>
+    <value>Putar Semua</value>
   </data>
   <data name="Play" xml:space="preserve">
-    <value>Play</value>
+    <value>Putar</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>Tinggi</value>
@@ -2508,19 +2514,19 @@
     <value>Beralih ke tampilan kecil</value>
   </data>
   <data name="ToggleTheme" xml:space="preserve">
-    <value>Toggle Theme</value>
+    <value>Alihkan Tema</value>
   </data>
   <data name="ToggleThemeDescription" xml:space="preserve">
-    <value>Toggle the app theme</value>
+    <value>Alihkan tema aplikasi</value>
   </data>
   <data name="SwitchToLightThemeDescription" xml:space="preserve">
-    <value>Switch to Light Theme</value>
+    <value>Beralih ke Tema Terang</value>
   </data>
   <data name="SwitchToDarkThemeDescription" xml:space="preserve">
-    <value>Switch to Dark Theme</value>
+    <value>Beralih ke Tema Gelap</value>
   </data>
   <data name="SwitchToDefaultThemeDescription" xml:space="preserve">
-    <value>Switch to System Theme</value>
+    <value>Beralih ke Tema Sistem</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>Memulai pencarian di OmniBar</value>
@@ -3415,6 +3421,9 @@
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
     <value>Buka direktori terpilih di panel baru</value>
   </data>
+  <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
+    <value>Open selected directory in the other pane</value>
+  </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Buka direktori terpilih di tab baru</value>
   </data>
@@ -3917,6 +3926,9 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Ganti sampul album</value>
   </data>
+  <data name="RemoveAlbumCover" xml:space="preserve">
+    <value>Remove album cover</value>
+  </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>Gagal mengganti nama item</value>
   </data>
@@ -3997,7 +4009,7 @@
     <value>Tindakan</value>
   </data>
   <data name="Action" xml:space="preserve">
-    <value>Action</value>
+    <value>Tindakan</value>
   </data>
   <data name="Commands" xml:space="preserve">
     <value>Perintah</value>
@@ -4201,7 +4213,7 @@
     <value>Kembali ke beranda</value>
   </data>
   <data name="AddressBar" xml:space="preserve">
-    <value>Address bar</value>
+    <value>Bilah alamat</value>
   </data>
   <data name="UserID" xml:space="preserve">
     <value>User ID</value>
@@ -4248,6 +4260,15 @@
   <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
     <value>Selalu alihkan fokus ke tab yang baru dibuat</value>
   </data>
+  <data name="ReverseTabScrollDirection" xml:space="preserve">
+    <value>Reverse tab scroll direction</value>
+  </data>
+  <data name="DownMotionScrollsLeft" xml:space="preserve">
+    <value>Down motion scrolls left</value>
+  </data>
+  <data name="DownMotionScrollsRight" xml:space="preserve">
+    <value>Down motion scrolls right</value>
+  </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>Tampilkan/sembunyikan panel rak</value>
   </data>
@@ -4265,7 +4286,7 @@
     <value>Bersihkan item</value>
   </data>
   <data name="BatchAction" xml:space="preserve">
-    <value>Batch action</value>
+    <value>Tindakan massal</value>
   </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>Hapus dari rak</value>
@@ -4432,10 +4453,10 @@
     <value>Tampilkan bilah status</value>
   </data>
   <data name="OnlyForTouch" xml:space="preserve">
-    <value>When using touch</value>
+    <value>Saat menggunakan sentuhan</value>
   </data>
   <data name="OnlyForMouse" xml:space="preserve">
-    <value>When using mouse</value>
+    <value>Saat menggunakan mouse</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>Baru {0}</value>
@@ -4447,111 +4468,120 @@
     <value>Pengguliran</value>
   </data>
   <data name="ShowPinToSideBar" xml:space="preserve">
-    <value>Show option to Pin to Sidebar</value>
+    <value>Tampilkan opsi Sematkan ke Bilah Sisi</value>
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
-    <value>Show option to Pin to the Start Menu</value>
+    <value>Tampilkan opsi Sematkan ke Start Menu</value>
   </data>
   <data name="Toolbar" xml:space="preserve">
-    <value>Toolbar</value>
+    <value>Bilah alat</value>
   </data>
   <data name="CustomizeToolbar" xml:space="preserve">
-    <value>Customize toolbar</value>
+    <value>Sesuaikan bilah alat</value>
   </data>
   <data name="CustomizeToolbarDescription" xml:space="preserve">
-    <value>Customize toolbar buttons</value>
+    <value>Sesuaikan tombol bilah alat</value>
   </data>
   <data name="ChooseToolbarModeToCustomize" xml:space="preserve">
-    <value>Choose toolbar mode to customize</value>
+    <value>Pilih mode bilah alat untuk disesuaikan</value>
   </data>
   <data name="AlwaysVisible" xml:space="preserve">
-    <value>Always visible</value>
+    <value>Selalu terlihat</value>
   </data>
   <data name="ArchiveFiles" xml:space="preserve">
-    <value>Archive files</value>
+    <value>File arsip</value>
   </data>
   <data name="BatchFiles" xml:space="preserve">
-    <value>Batch files</value>
+    <value>File batch</value>
   </data>
   <data name="PowerShellFiles" xml:space="preserve">
-    <value>PowerShell files</value>
+    <value>File PowerShell</value>
   </data>
   <data name="MediaFiles" xml:space="preserve">
-    <value>Media files</value>
+    <value>File media</value>
   </data>
   <data name="FontFiles" xml:space="preserve">
-    <value>Font files</value>
+    <value>File font</value>
   </data>
   <data name="DriverFiles" xml:space="preserve">
-    <value>Driver files</value>
+    <value>File driver</value>
   </data>
   <data name="CertificateFiles" xml:space="preserve">
-    <value>Certificate files</value>
+    <value>File sertifikat</value>
   </data>
   <data name="OtherContexts" xml:space="preserve">
-    <value>Other contexts</value>
+    <value>Konteks lainnya</value>
   </data>
   <data name="Archive" xml:space="preserve">
-    <value>Archive</value>
+    <value>Arsip</value>
   </data>
   <data name="Run" xml:space="preserve">
-    <value>Run</value>
+    <value>Jalankan</value>
   </data>
   <data name="Start" xml:space="preserve">
-    <value>Start</value>
+    <value>Mulai</value>
   </data>
   <data name="Selection" xml:space="preserve">
-    <value>Selection</value>
+    <value>Pilihan</value>
   </data>
   <data name="Show" xml:space="preserve">
-    <value>Show</value>
+    <value>Tampilkan</value>
   </data>
   <data name="Navigation" xml:space="preserve">
-    <value>Navigation</value>
+    <value>Navigasi</value>
   </data>
   <data name="FileSystem" xml:space="preserve">
-    <value>File system</value>
+    <value>Sistem file</value>
   </data>
   <data name="Window" xml:space="preserve">
-    <value>Window</value>
+    <value>Jendela</value>
   </data>
   <data name="DualPaneCategory" xml:space="preserve">
-    <value>Dual Pane</value>
+    <value>Panel Ganda</value>
   </data>
   <data name="ResetDefaults" xml:space="preserve">
-    <value>Reset defaults</value>
+    <value>Setel ulang ke default</value>
   </data>
   <data name="Separator" xml:space="preserve">
-    <value>Separator</value>
+    <value>Pemisah</value>
   </data>
   <data name="Icon" xml:space="preserve">
-    <value>Icon</value>
+    <value>Ikon</value>
   </data>
   <data name="Label" xml:space="preserve">
     <value>Label</value>
   </data>
   <data name="ShowToolbarLabels" xml:space="preserve">
-    <value>Show label</value>
+    <value>Tampilkan label</value>
   </data>
   <data name="ShowToolbarIconOnly" xml:space="preserve">
-    <value>Show icon</value>
+    <value>Tampilkan ikon</value>
   </data>
   <data name="AvailableToolbarItems" xml:space="preserve">
-    <value>Available items</value>
+    <value>Item yang tersedia</value>
   </data>
   <data name="AddedToolbarItems" xml:space="preserve">
-    <value>Added items</value>
+    <value>Item yang ditambahkan</value>
   </data>
   <data name="ExtractGroupDescription" xml:space="preserve">
-    <value>Extract compressed archives</value>
+    <value>Ekstrak arsip terkompresi</value>
   </data>
   <data name="SetAsGroupDescription" xml:space="preserve">
-    <value>Set image as wallpaper or background</value>
+    <value>Atur gambar sebagai wallpaper atau latar belakang</value>
   </data>
   <data name="NewItemGroupDescription" xml:space="preserve">
-    <value>Create new files and folders</value>
+    <value>Buat file dan folder baru</value>
   </data>
   <data name="EditTagsGroupDescription" xml:space="preserve">
-    <value>Add or remove file tags</value>
+    <value>Tambahkan atau hapus tag file</value>
+  </data>
+  <data name="RemoveTags" xml:space="preserve">
+    <value>Hapus tag</value>
+  </data>
+  <data name="RemoveTagsDescription" xml:space="preserve">
+    <value>Hapus tag dari item yang dipilih</value>
+  </data>
+  <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
+    <value>Apakah Anda yakin ingin menghapus tag dari item yang dipilih?</value>
   </data>
 </root>

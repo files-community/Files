@@ -1097,6 +1097,9 @@
   <data name="OpenInNewPane" xml:space="preserve">
     <value>在新面板中打开</value>
   </data>
+  <data name="OpenInOtherPane" xml:space="preserve">
+    <value>Open in other pane</value>
+  </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>文件和文件夹</value>
   </data>
@@ -1195,6 +1198,9 @@
   </data>
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>未计算</value>
+  </data>
+  <data name="ViewSize" xml:space="preserve">
+    <value>View size</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>未知</value>
@@ -3415,6 +3421,9 @@
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
     <value>在新窗格中打开选中的目录</value>
   </data>
+  <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
+    <value>Open selected directory in the other pane</value>
+  </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>在新标签页中打开选中的目录</value>
   </data>
@@ -3917,6 +3926,9 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>更改专辑封面</value>
   </data>
+  <data name="RemoveAlbumCover" xml:space="preserve">
+    <value>Remove album cover</value>
+  </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>重命名项目失败</value>
   </data>
@@ -4248,6 +4260,15 @@
   <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
     <value>总是切换到新创建的标签页</value>
   </data>
+  <data name="ReverseTabScrollDirection" xml:space="preserve">
+    <value>Reverse tab scroll direction</value>
+  </data>
+  <data name="DownMotionScrollsLeft" xml:space="preserve">
+    <value>Down motion scrolls left</value>
+  </data>
+  <data name="DownMotionScrollsRight" xml:space="preserve">
+    <value>Down motion scrolls right</value>
+  </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>显示/隐藏中转站窗格</value>
   </data>
@@ -4553,5 +4574,14 @@
   </data>
   <data name="EditTagsGroupDescription" xml:space="preserve">
     <value>添加或移除文件标签</value>
+  </data>
+  <data name="RemoveTags" xml:space="preserve">
+    <value>Remove tags</value>
+  </data>
+  <data name="RemoveTagsDescription" xml:space="preserve">
+    <value>Remove tags from the selected items</value>
+  </data>
+  <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
+    <value>Are you sure you want to remove tags from the selected items?</value>
   </data>
 </root>

@@ -1097,6 +1097,9 @@
   <data name="OpenInNewPane" xml:space="preserve">
     <value>Avaa uudessa ruudussa</value>
   </data>
+  <data name="OpenInOtherPane" xml:space="preserve">
+    <value>Avaa toisessa ruudussa</value>
+  </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Tiedostot ja kansiot</value>
   </data>
@@ -1195,6 +1198,9 @@
   </data>
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Ei laskettu</value>
+  </data>
+  <data name="ViewSize" xml:space="preserve">
+    <value>Näytä koko</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Tuntematon</value>
@@ -3415,6 +3421,9 @@
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
     <value>Open selected directory in a new pane</value>
   </data>
+  <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
+    <value>Avaa valittu hakemisto toisessa ruudussa</value>
+  </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Open selected directory in a new tab</value>
   </data>
@@ -3917,6 +3926,9 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Vaihda albumin kansikuvaa</value>
   </data>
+  <data name="RemoveAlbumCover" xml:space="preserve">
+    <value>Poista albumin kansikuva</value>
+  </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>Kohteen nimeäminen uudelleen epäonnistui</value>
   </data>
@@ -4248,6 +4260,15 @@
   <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
     <value>Always switch focus to newly created tab</value>
   </data>
+  <data name="ReverseTabScrollDirection" xml:space="preserve">
+    <value>Välilehtien käänteinen vierityssuunta</value>
+  </data>
+  <data name="DownMotionScrollsLeft" xml:space="preserve">
+    <value>Alaspäin suuntautuva liike vierittää vasemmalle</value>
+  </data>
+  <data name="DownMotionScrollsRight" xml:space="preserve">
+    <value>Alaspäin suuntautuva liike vierittää oikealle</value>
+  </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>Toggle shelf pane</value>
   </data>
@@ -4553,5 +4574,14 @@
   </data>
   <data name="EditTagsGroupDescription" xml:space="preserve">
     <value>Lisää tai poista tiedostotunnisteita</value>
+  </data>
+  <data name="RemoveTags" xml:space="preserve">
+    <value>Poista tunnisteet</value>
+  </data>
+  <data name="RemoveTagsDescription" xml:space="preserve">
+    <value>Poista valittujen kohteiden tunnisteet</value>
+  </data>
+  <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
+    <value>Haluatko varmasti poistaa valittujen kohteiden tunnisteet?</value>
   </data>
 </root>

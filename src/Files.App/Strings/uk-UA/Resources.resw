@@ -1097,6 +1097,9 @@
   <data name="OpenInNewPane" xml:space="preserve">
     <value>Відкрити в новій панелі</value>
   </data>
+  <data name="OpenInOtherPane" xml:space="preserve">
+    <value>Open in other pane</value>
+  </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Файли та теки</value>
   </data>
@@ -1195,6 +1198,9 @@
   </data>
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Не розраховано</value>
+  </data>
+  <data name="ViewSize" xml:space="preserve">
+    <value>Переглянути розмір</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Невідомо</value>
@@ -3415,6 +3421,9 @@
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
     <value>Відкрити вибраний каталог у новій панелі</value>
   </data>
+  <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
+    <value>Open selected directory in the other pane</value>
+  </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Відкрити вибраний каталог у новій вкладці</value>
   </data>
@@ -3917,6 +3926,9 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Змінити обкладинку альбому</value>
   </data>
+  <data name="RemoveAlbumCover" xml:space="preserve">
+    <value>Remove album cover</value>
+  </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>Не вдалося перейменувати елемент</value>
   </data>
@@ -4248,6 +4260,15 @@
   <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
     <value>Завжди перемикати фокус на новостворену вкладку</value>
   </data>
+  <data name="ReverseTabScrollDirection" xml:space="preserve">
+    <value>Reverse tab scroll direction</value>
+  </data>
+  <data name="DownMotionScrollsLeft" xml:space="preserve">
+    <value>Down motion scrolls left</value>
+  </data>
+  <data name="DownMotionScrollsRight" xml:space="preserve">
+    <value>Down motion scrolls right</value>
+  </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>Перемкнути панель полиць</value>
   </data>
@@ -4553,5 +4574,14 @@
   </data>
   <data name="EditTagsGroupDescription" xml:space="preserve">
     <value>Додати або видалити теги файлів</value>
+  </data>
+  <data name="RemoveTags" xml:space="preserve">
+    <value>Видалити теги</value>
+  </data>
+  <data name="RemoveTagsDescription" xml:space="preserve">
+    <value>Видалити теги з вибраних елементів</value>
+  </data>
+  <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
+    <value>Упевнені, що хочете видалити теги з вибраних елементів?</value>
   </data>
 </root>
