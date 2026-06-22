@@ -1097,6 +1097,9 @@
   <data name="OpenInNewPane" xml:space="preserve">
     <value>In neuem Bereich öffnen</value>
   </data>
+  <data name="OpenInOtherPane" xml:space="preserve">
+    <value>In anderem Bereich öffnen</value>
+  </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Dateien &amp; Ordner</value>
   </data>
@@ -1195,6 +1198,9 @@
   </data>
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Nicht berechnet</value>
+  </data>
+  <data name="ViewSize" xml:space="preserve">
+    <value>Ansichtsgröße</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Unbekannt</value>
@@ -3415,6 +3421,9 @@
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
     <value>Ausgewähltes Verzeichnis in neuem Bereich öffnen</value>
   </data>
+  <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
+    <value>Ausgewähltes Verzeichnis in anderem Bereich öffnen</value>
+  </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Ausgewähltes Verzeichnis in neuem Tab öffnen</value>
   </data>
@@ -3917,6 +3926,9 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Album-Cover ändern</value>
   </data>
+  <data name="RemoveAlbumCover" xml:space="preserve">
+    <value>Album-Cover entfernen</value>
+  </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>Fehler beim Umbenennen des Elements</value>
   </data>
@@ -4248,6 +4260,15 @@
   <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
     <value>Immer auf neu erstellten Tab fokussieren</value>
   </data>
+  <data name="ReverseTabScrollDirection" xml:space="preserve">
+    <value>Tab-Scrollrichtung umkehren</value>
+  </data>
+  <data name="DownMotionScrollsLeft" xml:space="preserve">
+    <value>Beim Nach-unten-Scrollen wird nach links gescrollt</value>
+  </data>
+  <data name="DownMotionScrollsRight" xml:space="preserve">
+    <value>Beim Nach-unten-Scrollen wird nach rechts gescrollt</value>
+  </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>Ablagebereich umschalten</value>
   </data>
@@ -4553,5 +4574,14 @@
   </data>
   <data name="EditTagsGroupDescription" xml:space="preserve">
     <value>Datei-Tags hinzufügen oder entfernen</value>
+  </data>
+  <data name="RemoveTags" xml:space="preserve">
+    <value>Tags entfernen</value>
+  </data>
+  <data name="RemoveTagsDescription" xml:space="preserve">
+    <value>Tags von den ausgewählten Elementen entfernen</value>
+  </data>
+  <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
+    <value>Bist du sicher, dass du die Tags von den ausgewählten Elementen löschen möchtest?</value>
   </data>
 </root>
