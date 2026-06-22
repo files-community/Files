@@ -209,9 +209,7 @@
 			<TextBlock Text="{x:Bind StatusBarViewModel.SelectedZipEncoding.Name, Mode=OneWay, FallbackValue='', TargetNullValue=''}" />
 
 			<Button.Flyout>
-				<Flyout
-					x:Name="ZipEncodingFlyout"
-					Opening="ZipEncodingFlyout_Opening">
+				<Flyout x:Name="ZipEncodingFlyout" Opening="ZipEncodingFlyout_Opening">
 					<Grid
 						Width="240"
 						Height="300"
