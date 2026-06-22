@@ -46,7 +46,7 @@ namespace Files.App.Helpers
 				await associatedInstance.RefreshIfNoWatcherExistsAsync();
 		}
 
-		public static async Task<bool> RenameFileItemAsync(ListedItem item, string newName, IShellPage associatedInstance, bool showExtensionDialog = true)
+		public static async Task<bool> RenameFileItemAsync(ListedItem item, string newName, IShellPage associatedInstance, bool showExtensionDialog = true, bool nameIsComplete = false)
 		{
 			if (item is AlternateStreamItem ads) // For alternate streams Name is not a substring ItemNameRaw
 			{
@@ -56,13 +56,12 @@ namespace Files.App.Helpers
 					StringComparison.Ordinal);
 				newName = $"{ads.MainStreamName}:{newName}";
 			}
-			else if (string.IsNullOrEmpty(item.Name))
+			else if (!nameIsComplete)
 			{
-				newName = string.Concat(newName, item.FileExtension);
-			}
-			else
-			{
-				newName = item.ItemNameRaw.Replace(item.Name, newName, StringComparison.Ordinal);
+				if (string.IsNullOrEmpty(item.Name))
+					newName = string.Concat(newName, item.FileExtension);
+				else
+					newName = item.ItemNameRaw.Replace(item.Name, newName, StringComparison.Ordinal);
 			}
 
 			if (item.ItemNameRaw == newName || string.IsNullOrEmpty(newName))

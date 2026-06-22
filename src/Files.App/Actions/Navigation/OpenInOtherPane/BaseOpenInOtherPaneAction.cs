@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal abstract class BaseOpenInNewPaneAction : ObservableObject, IAction
+	internal abstract class BaseOpenInOtherPaneAction : ObservableObject, IAction
 	{
 		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		protected IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
@@ -11,10 +11,10 @@ namespace Files.App.Actions
 		protected ISidebarContext SidebarContext { get; } = Ioc.Default.GetRequiredService<ISidebarContext>();
 
 		public string Label
-			=> Strings.OpenInNewPane.GetLocalizedResource();
+			=> Strings.OpenInOtherPane.GetLocalizedResource();
 
 		public string Description
-			=> Strings.OpenDirectoryInNewPaneDescription.GetLocalizedResource();
+			=> Strings.OpenDirectoryInOtherPaneDescription.GetLocalizedResource();
 
 		public virtual ActionCategory Category
 			=> ActionCategory.DualPane;
@@ -23,23 +23,24 @@ namespace Files.App.Actions
 			ContentPageContext.PageType != ContentPageTypes.RecycleBin &&
 			ContentPageContext.SelectedItem is not null &&
 			ContentPageContext.SelectedItem.IsFolder &&
-			ContentPageContext.IsMultiPaneAvailable &&
-			!ContentPageContext.IsMultiPaneActive;
+			ContentPageContext.IsMultiPaneActive;
 
 		public virtual bool IsAccessibleGlobally
 			=> true;
 
-		public BaseOpenInNewPaneAction()
+		public BaseOpenInOtherPaneAction()
 		{
 			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public virtual Task ExecuteAsync(object? parameter = null)
 		{
-			NavigationHelpers.OpenInSecondaryPane(
-				ContentPageContext.ShellPage,
-				ContentPageContext.ShellPage.SlimContentPage.SelectedItems.FirstOrDefault(),
-				parameter as ShellPaneArrangement? ?? ShellPaneArrangement.None);
+			var selectedItem = ContentPageContext.ShellPage?.SlimContentPage?.SelectedItems?.FirstOrDefault();
+			if (selectedItem is null)
+				return Task.CompletedTask;
+
+			var path = (selectedItem as IShortcutItem)?.TargetPath ?? selectedItem.ItemPath;
+			ContentPageContext.ShellPage?.PaneHolder?.OpenInOtherPane(path);
 
 			return Task.CompletedTask;
 		}

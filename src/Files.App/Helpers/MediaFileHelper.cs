@@ -8,14 +8,13 @@ namespace Files.App.Helpers
 		/// Changes the album cover for a given <paramref name="filePath"/>.
 		/// </summary>
 		/// <param name="filePath">The file path to change the album cover.</param>
-		/// <param name="albumCover">The album cover to use.</param>
+		/// <param name="albumCover">The album cover to use, or <c>null</c> to clear any embedded cover.</param>
 		public static bool ChangeAlbumCover(string filePath, Picture albumCover)
 		{
 			try
 			{
 				File mediaFile = File.Create(filePath);
-				IPicture[] pictures = [albumCover];
-				mediaFile.Tag.Pictures = pictures;
+				mediaFile.Tag.Pictures = albumCover is null ? [] : [albumCover];
 				mediaFile.Save();
 				mediaFile.Dispose();
 

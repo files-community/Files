@@ -95,6 +95,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public bool ReverseTabScrollDirection
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
 		public bool ShowQuickAccessWidget
 		{
 			get => Get(true);

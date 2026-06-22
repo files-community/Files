@@ -1,17 +1,16 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
 	[GeneratedRichCommand]
-	internal sealed partial class OpenInNewPaneFromSidebarAction : BaseOpenInNewPaneAction
+	internal sealed partial class OpenInOtherPaneFromSidebarAction : BaseOpenInOtherPaneAction
 	{
 		public override bool IsExecutable =>
 			SidebarContext.IsItemRightClicked &&
 			SidebarContext.RightClickedItem is not null &&
 			SidebarContext.RightClickedItem.MenuOptions.IsLocationItem &&
-			ContentPageContext.IsMultiPaneAvailable &&
-			!ContentPageContext.IsMultiPaneActive;
+			ContentPageContext.IsMultiPaneActive;
 
 		public override bool IsAccessibleGlobally
 			=> false;
@@ -24,7 +23,7 @@ namespace Files.App.Actions
 			if (await DriveHelpers.CheckEmptyDrive(SidebarContext.RightClickedItem!.Path))
 				return;
 
-			ContentPageContext.ShellPage!.PaneHolder?.OpenSecondaryPane(SidebarContext.RightClickedItem!.Path ?? string.Empty, parameter as ShellPaneArrangement? ?? ShellPaneArrangement.None);
+			ContentPageContext.ShellPage!.PaneHolder?.OpenInOtherPane(SidebarContext.RightClickedItem!.Path ?? string.Empty);
 		}
 
 		protected override void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

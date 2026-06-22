@@ -169,7 +169,7 @@
 					<VisualState.Setters>
 						<Setter Target="PaneColumnDefinition.Width" Value="{StaticResource SidebarOpenPaneLength}" />
 						<Setter Target="PaneColumnGrid.Background" Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
-						<Setter Target="PaneColumnGrid.BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+						<Setter Target="PaneColumnGrid.BorderBrush" Value="{ThemeResource SurfaceStrokeColorDefaultBrush}" />
 						<Setter Target="PaneColumnGrid.BorderThickness" Value="0,1,1,0" />
 						<Setter Target="PaneColumnGrid.CornerRadius" Value="0,8,0,8" />
 						<Setter Target="ContentPresenter.(Grid.Column)" Value="0" />
@@ -185,7 +185,7 @@
 					<VisualState.Setters>
 						<Setter Target="PaneColumnDefinition.Width" Value="{StaticResource SidebarOpenPaneLength}" />
 						<Setter Target="PaneColumnGrid.Background" Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
-						<Setter Target="PaneColumnGrid.BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+						<Setter Target="PaneColumnGrid.BorderBrush" Value="{ThemeResource SurfaceStrokeColorDefaultBrush}" />
 						<Setter Target="PaneColumnGrid.BorderThickness" Value="0,1,1,0" />
 						<Setter Target="PaneColumnGrid.CornerRadius" Value="0,8,0,8" />
 						<Setter Target="ContentPresenter.(Grid.Column)" Value="0" />

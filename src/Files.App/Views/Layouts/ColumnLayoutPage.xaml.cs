@@ -37,6 +37,10 @@ namespace Files.App.Views.Layouts
 		// so SelectionChanged (which has no PointerDeviceType of its own) can honor input-method-aware single-click settings.
 		private PointerDeviceType? lastPointerDeviceType;
 
+		// True if the most recent PointerPressed had the right button down, so SelectionChanged
+		// (which has no pointer info) can skip auto-opening folders on right-click.
+		private bool isRightButtonPressed;
+
 		public event EventHandler? ItemInvoked;
 		public event EventHandler? ItemTapped;
 
@@ -68,6 +72,8 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		private uint currentIconSize;
 
+		private readonly IStorageArchiveService storageArchiveService = Ioc.Default.GetRequiredService<IStorageArchiveService>();
+
 		// Constructor
 
 		public ColumnLayoutPage() : base()
@@ -78,6 +84,8 @@ namespace Files.App.Views.Layouts
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 			ItemInvoked += ColumnViewBase_ItemInvoked;
 			GotFocus += ColumnViewBase_GotFocus;
+
+			storageArchiveService.CompressionCompleted += StorageArchiveService_CompressionCompleted;
 
 			doubleClickTimer = DispatcherQueue.CreateTimer();
 		}
@@ -322,6 +330,7 @@ namespace Files.App.Views.Layouts
 
 		public override void Dispose()
 		{
+			storageArchiveService.CompressionCompleted -= StorageArchiveService_CompressionCompleted;
 			base.Dispose();
 			columnsOwner = null;
 		}
@@ -338,30 +347,71 @@ namespace Files.App.Views.Layouts
 
 			if (SelectedItems?.Count == 1 && SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder)
 			{
-				// // Prevents the first selected folder from opening if the user is currently dragging the selection rectangle (#13418)
-				if (isDraggingSelectionRectangle)
-				{
-					CloseFolder();
-					return;
-				}
-
-				if (openedFolderPresenter == FileList.ContainerFromItem(SelectedItem))
-					return;
-
-				// Open the selected folder if selected through tap
-				if (UserSettingsService.FoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick.ShouldOpenWithSingleClick(lastPointerDeviceType))
-					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is IShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
-				else
-					CloseFolder();
+				TryOpenSelectedFolder();
 			}
 			else if (SelectedItems?.Count > 1
 				|| SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File
 				|| openedFolderPresenter != null && ParentShellPageInstance != null
 				&& !ParentShellPageInstance.ShellViewModel.FilesAndFolders.ToList().Contains(FileList.ItemFromContainer(openedFolderPresenter))
-				&& !isDraggingSelectionRectangle) // Skip closing if dragging since nothing should be open 
+				&& !isDraggingSelectionRectangle) // Skip closing if dragging since nothing should be open
 			{
 				CloseFolder();
 			}
+		}
+
+		private void TryOpenSelectedFolder()
+		{
+			if (SelectedItem is null)
+				return;
+
+			// // Prevents the first selected folder from opening if the user is currently dragging the selection rectangle (#13418)
+			if (isDraggingSelectionRectangle)
+			{
+				CloseFolder();
+				return;
+			}
+
+			// Hold off opening freshly-created archives that haven't finished compressing — the
+			// 7-zip stream is still writing, and navigating into it triggers "Drive Unplugged"
+			// (#13695). StorageArchiveService raises CompressionCompleted on success, which we
+			// handle below to retry the open if the archive is still selected.
+			if (SelectedItem.IsArchive && storageArchiveService.IsCompressionInProgress(SelectedItem.ItemPath))
+				return;
+
+			if (openedFolderPresenter == FileList.ContainerFromItem(SelectedItem))
+				return;
+
+			// Right-click should never navigate into the folder; close any stale subcolumn since
+			// selection moved away from its source folder (#18584).
+			if (isRightButtonPressed)
+			{
+				CloseFolder();
+				return;
+			}
+
+			// Open the selected folder if selected through tap
+			if (UserSettingsService.FoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick.ShouldOpenWithSingleClick(lastPointerDeviceType))
+				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is IShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+			else
+				CloseFolder();
+		}
+
+		private void StorageArchiveService_CompressionCompleted(object? sender, string archivePath)
+		{
+			if (DispatcherQueue is null)
+				return;
+
+			DispatcherQueue.TryEnqueue(() =>
+			{
+				// Only retry the open if the just-finished archive is still the lone selection.
+				// If the user moved on, do nothing — don't surprise-navigate.
+				if (SelectedItems?.Count != 1
+					|| SelectedItem is null
+					|| !string.Equals(SelectedItem.ItemPath, archivePath, StringComparison.OrdinalIgnoreCase))
+					return;
+
+				TryOpenSelectedFolder();
+			});
 		}
 
 		private void CloseFolder()
@@ -375,6 +425,11 @@ namespace Files.App.Views.Layouts
 		{
 			if (!IsRenamingItem)
 				HandleRightClick();
+
+			// The right-click selection-change has already been consumed by OnSelectionChanged;
+			// clear the flag so the next interaction (e.g. a left-click whose PointerPressed
+			// the ListView may swallow) is treated as a normal navigation.
+			isRightButtonPressed = false;
 		}
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -382,6 +437,7 @@ namespace Files.App.Views.Layouts
 			// Keyboard navigation has no pointer device; clear the cached value so SelectionChanged
 			// falls back to the helper's "null is mouse-like" semantics instead of using a stale device.
 			lastPointerDeviceType = null;
+			isRightButtonPressed = false;
 
 			if
 			(
@@ -496,6 +552,7 @@ namespace Files.App.Views.Layouts
 		private void FileList_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			lastPointerDeviceType = e.Pointer.PointerDeviceType;
+			isRightButtonPressed = e.GetCurrentPoint(null).Properties.IsRightButtonPressed;
 		}
 
 		private void HandleRightClick()
@@ -524,6 +581,15 @@ namespace Files.App.Views.Layouts
 			{
 				ResetRenameDoubleClick();
 				await Commands.OpenItem.ExecuteAsync();
+			}
+			else if (isItemFolder
+				&& openedFolderPresenter != FileList.ContainerFromItem(item)
+				&& UserSettingsService.FoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))
+			{
+				// SelectionChanged won't fire if the folder is already selected (e.g. from a prior right-click),
+				// so drive the single-click open from here too (#18584).
+				ResetRenameDoubleClick();
+				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (item is IShortcutItem sht ? sht.TargetPath : item!.ItemPath), ListView = FileList }, EventArgs.Empty);
 			}
 			else if (item is not null)
 			{

@@ -86,7 +86,7 @@ namespace Files.App.Data.Factories
 			bool canDecompress = selectedItems.Any() && selectedItems.All(x => x.IsArchive)
 				|| selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension));
 			bool canCompress = !canDecompress || selectedItems.Count > 1;
-			bool showOpenItemWith = selectedItems.All(
+			bool showOpenItemWith = selectedItems.Count == 1 && selectedItems.All(
 				i => (i.PrimaryItemAttribute == StorageItemTypes.File && !i.IsShortcut && !i.IsExecutable) || (i.PrimaryItemAttribute == StorageItemTypes.Folder && i.IsArchive));
 			bool areAllItemsFolders = selectedItems.All(i => i.PrimaryItemAttribute == StorageItemTypes.Folder);
 			bool isFirstFileExecutable = FileExtensionHelpers.IsExecutableFile(selectedItems.FirstOrDefault()?.FileExtension);
@@ -415,9 +415,41 @@ namespace Files.App.Data.Factories
 				{
 					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow && Commands.OpenInNewWindow.IsExecutable
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewPane)
+				new ContextMenuFlyoutItemViewModel()
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && Commands.OpenInNewPane.IsExecutable
+					Text = Strings.OpenInNewPane.GetLocalizedResource(),
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && itemsSelected && areAllItemsFolders && !currentInstanceViewModel.IsPageTypeRecycleBin && Commands.OpenInNewPane.IsExecutable,
+					IsEnabled = Commands.OpenInNewPane.IsExecutable,
+					ShowInSearchPage = true,
+					ShowInFtpPage = true,
+					ShowInZipPage = true,
+					Items =
+					[
+						new ContextMenuFlyoutItemViewModel()
+						{
+							Text = Strings.SplitPaneVertically.GetLocalizedResource(),
+							ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.OpenInPaneVertical" },
+							Command = Commands.OpenInNewPane,
+							CommandParameter = ShellPaneArrangement.Vertical,
+							ShowInSearchPage = true,
+							ShowInFtpPage = true,
+							ShowInZipPage = true,
+						},
+						new ContextMenuFlyoutItemViewModel()
+						{
+							Text = Strings.SplitPaneHorizontally.GetLocalizedResource(),
+							ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.OpenInPaneHorizontal" },
+							Command = Commands.OpenInNewPane,
+							CommandParameter = ShellPaneArrangement.Horizontal,
+							ShowInSearchPage = true,
+							ShowInFtpPage = true,
+							ShowInZipPage = true,
+						},
+					]
+				},
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInOtherPane)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && itemsSelected && areAllItemsFolders && !currentInstanceViewModel.IsPageTypeRecycleBin && Commands.OpenInOtherPane.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{

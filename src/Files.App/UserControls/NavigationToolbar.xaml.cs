@@ -6,6 +6,7 @@ using Files.App.Controls;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
@@ -468,6 +469,76 @@ namespace Files.App.UserControls
 		private async void BreadcrumbBarItem_Drop(object sender, DragEventArgs e)
 		{
 			await ViewModel.PathBoxItem_Drop(sender, e);
+		}
+
+		private void BreadcrumbBarItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			if (sender is not FrameworkElement element || element.DataContext is not PathBoxItem pathBoxItem)
+				return;
+
+			var path = pathBoxItem.Path;
+			if (string.IsNullOrEmpty(path))
+				return;
+
+			var flyout = new MenuFlyout();
+
+			var openInNewTabItem = new MenuFlyoutItemWithThemedIcon
+			{
+				Text = Strings.OpenInNewTab.GetLocalizedResource(),
+				ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.OpenInTab"],
+			};
+			openInNewTabItem.Click += async (_, _) =>
+				await NavigationHelpers.AddNewTabByPathAsync(typeof(ShellPanesPage), path, true);
+
+			var openInNewWindowItem = new MenuFlyoutItemWithThemedIcon
+			{
+				Text = Strings.OpenInNewWindow.GetLocalizedResource(),
+				ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.OpenInWindow"],
+			};
+			openInNewWindowItem.Click += async (_, _) =>
+				await NavigationHelpers.OpenPathInNewWindowAsync(path);
+
+			flyout.Items.Add(openInNewTabItem);
+			flyout.Items.Add(openInNewWindowItem);
+
+			var paneHolder = ContentPageContext.ShellPage?.PaneHolder;
+			if (userSettingsService.GeneralSettingsService.ShowOpenInNewPane && paneHolder is not null)
+			{
+				if (ContentPageContext.IsMultiPaneActive)
+				{
+					var openInOtherPaneItem = new MenuFlyoutItem
+					{
+						Text = Strings.OpenInOtherPane.GetLocalizedResource(),
+					};
+					openInOtherPaneItem.Click += (_, _) => paneHolder.OpenInOtherPane(path);
+					flyout.Items.Add(openInOtherPaneItem);
+				}
+				else if (ContentPageContext.IsMultiPaneAvailable)
+				{
+					var openInNewPaneSubItem = new MenuFlyoutSubItem
+					{
+						Text = Strings.OpenInNewPane.GetLocalizedResource(),
+					};
+
+					MenuFlyoutItemWithThemedIcon CreateOpenInPaneItem(string text, string iconStyle, ShellPaneArrangement arrangement)
+					{
+						var item = new MenuFlyoutItemWithThemedIcon
+						{
+							Text = text,
+							ThemedIconStyle = (Style)Application.Current.Resources[iconStyle],
+						};
+						item.Click += (_, _) => paneHolder.OpenSecondaryPane(path, arrangement);
+						return item;
+					}
+
+					openInNewPaneSubItem.Items.Add(CreateOpenInPaneItem(Strings.SplitPaneVertically.GetLocalizedResource(), "App.ThemedIcons.OpenInPaneVertical", ShellPaneArrangement.Vertical));
+					openInNewPaneSubItem.Items.Add(CreateOpenInPaneItem(Strings.SplitPaneHorizontally.GetLocalizedResource(), "App.ThemedIcons.OpenInPaneHorizontal", ShellPaneArrangement.Horizontal));
+					flyout.Items.Add(openInNewPaneSubItem);
+				}
+			}
+
+			flyout.ShowAt(element, new FlyoutShowOptions { Position = e.GetPosition(element) });
+			e.Handled = true;
 		}
 	}
 }

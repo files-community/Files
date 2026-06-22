@@ -13,6 +13,9 @@ namespace Files.App.Controls
 		[GeneratedDependencyProperty]
 		public partial bool IsLastItem { get; set; }
 
+		[GeneratedDependencyProperty(DefaultValue = true)]
+		public partial bool IsChevronVisible { get; set; }
+
 		[GeneratedDependencyProperty]
 		public partial string? ItemToolTip { get; set; }
 
@@ -21,12 +24,18 @@ namespace Files.App.Controls
 
 		partial void OnIsEllipsisChanged(bool newValue)
 		{
-			VisualStateManager.GoToState(this, newValue ? "ChevronCollapsed" : "ChevronVisible", true);
+			UpdateChevronVisibilityState();
 		}
 
-		partial void OnIsLastItemChanged(bool newValue)
+		partial void OnIsChevronVisibleChanged(bool newValue)
 		{
-			VisualStateManager.GoToState(this, newValue ? "ChevronCollapsed" : "ChevronVisible", true);
+			UpdateChevronVisibilityState();
+		}
+
+		private void UpdateChevronVisibilityState()
+		{
+			var visible = !IsEllipsis && IsChevronVisible;
+			VisualStateManager.GoToState(this, visible ? "ChevronVisible" : "ChevronCollapsed", true);
 		}
 	}
 }

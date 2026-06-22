@@ -293,6 +293,20 @@ namespace Files.App.Views
 		}
 
 		/// <inheritdoc/>
+		public void OpenInOtherPane(string path)
+		{
+			if (!IsMultiPaneActive || string.IsNullOrEmpty(path))
+				return;
+
+			var otherPane = ActivePane == (IShellPage)GetPane(0)! ? GetPane(1) : GetPane(0);
+			if (otherPane is null)
+				return;
+
+			otherPane.NavigateToPath(path);
+			otherPane.Focus(FocusState.Programmatic);
+		}
+
+		/// <inheritdoc/>
 		public void ArrangePanes(ShellPaneArrangement arrangement = ShellPaneArrangement.None)
 		{
 			if (arrangement is not ShellPaneArrangement.None)
@@ -377,10 +391,11 @@ namespace Files.App.Views
 		/// <inheritdoc/>
 		public void FocusOtherPane()
 		{
-			if (ActivePane == (IShellPage)GetPane(0)!)
-				GetPane(1)?.Focus(FocusState.Programmatic);
-			else
-				GetPane(0)?.Focus(FocusState.Programmatic);
+			if (!IsMultiPaneActive)
+				return;
+
+			ActivePane = ActivePane == (IShellPage)GetPane(0)! ? GetPane(1) : GetPane(0);
+			FocusActivePane();
 		}
 
 		/// <inheritdoc/>

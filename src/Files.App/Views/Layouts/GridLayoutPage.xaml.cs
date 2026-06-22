@@ -376,6 +376,7 @@ namespace Files.App.Views.Layouts
 				return;
 
 			TextBox? textBox = null;
+			string editText = ShouldShowExtensionInRename(RenamingItem) ? RenamingItem.ItemNameRaw : textBlock.Text;
 
 			// Grid View
 			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
@@ -387,10 +388,10 @@ namespace Files.App.Views.Layouts
 				if (textBox is null)
 					return;
 
-				textBox.Text = textBlock.Text;
+				textBox.Text = editText;
 				textBlock.Opacity = 0;
 				popup.IsOpen = true;
-				OldItemName = textBlock.Text;
+				OldItemName = editText;
 			}
 			// List View
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.ListView)
@@ -399,8 +400,8 @@ namespace Files.App.Views.Layouts
 				if (textBox is null)
 					return;
 
-				textBox.Text = textBlock.Text;
-				OldItemName = textBlock.Text;
+				textBox.Text = editText;
+				OldItemName = editText;
 				textBlock.Visibility = Visibility.Collapsed;
 				textBox.Visibility = Visibility.Visible;
 
@@ -418,8 +419,8 @@ namespace Files.App.Views.Layouts
 				if (textBox is null)
 					return;
 
-				textBox.Text = textBlock.Text;
-				OldItemName = textBlock.Text;
+				textBox.Text = editText;
+				OldItemName = editText;
 				textBox.Visibility = Visibility.Visible;
 
 				if (textBox.FindParent<Grid>() is null)
@@ -433,8 +434,8 @@ namespace Files.App.Views.Layouts
 			textBox.LostFocus += RenameTextBox_LostFocus;
 			textBox.KeyDown += RenameTextBox_KeyDown;
 
-			int selectedTextLength = RenamingItem.Name.Length;
-			if (!RenamingItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
+			int selectedTextLength = editText.Length;
+			if (!RenamingItem.IsShortcut && (ShouldShowExtensionInRename(RenamingItem) || UserSettingsService.FoldersSettingsService.ShowFileExtensions))
 				selectedTextLength -= extensionLength;
 
 			textBox.Select(0, selectedTextLength);
