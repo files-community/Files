@@ -238,22 +238,22 @@
     <value>Avançat</value>
   </data>
   <data name="CacheThumbnails" xml:space="preserve">
-    <value>Cache thumbnails</value>
+    <value>Memòria cau de miniatures</value>
   </data>
   <data name="CacheSizeLimitDescription" xml:space="preserve">
-    <value>Maximum disk space to use for thumbnail cache (100-5000 MiB).</value>
+    <value>Espai màxim al disc per utilitzar per a la memòria cau de miniatures (100-5000 MiB).</value>
   </data>
   <data name="CacheSizeLimit" xml:space="preserve">
-    <value>Cache size limit</value>
+    <value>Límit de mida de la memòria cau</value>
   </data>
   <data name="ClearCachedThumbnails" xml:space="preserve">
-    <value>Clear cached thumbnails to free up space</value>
+    <value>Suprimeix les miniatures emmagatzemades a la memòria cau per alliberar espai</value>
   </data>
   <data name="CurrentCacheSize" xml:space="preserve">
-    <value>Current cache size: </value>
+    <value>Mida actual de la memòria cau: </value>
   </data>
   <data name="ClearCache" xml:space="preserve">
-    <value>Clear cache</value>
+    <value>Buida la memòria cau</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Continueu on ho vau deixar</value>
@@ -1097,6 +1097,9 @@
   <data name="OpenInNewPane" xml:space="preserve">
     <value>Obre en un panell nou</value>
   </data>
+  <data name="OpenInOtherPane" xml:space="preserve">
+    <value>Open in other pane</value>
+  </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Fitxers i carpetes</value>
   </data>
@@ -1195,6 +1198,9 @@
   </data>
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>No calculat</value>
+  </data>
+  <data name="ViewSize" xml:space="preserve">
+    <value>Mostra la mida</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Desconegut</value>
@@ -3415,6 +3421,9 @@
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
     <value>Obre el directori seleccionat en un panell nou</value>
   </data>
+  <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
+    <value>Open selected directory in the other pane</value>
+  </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Obre el directori seleccionat en una pestanya nova</value>
   </data>
@@ -3917,6 +3926,9 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Canvia la portada de l'àlbum</value>
   </data>
+  <data name="RemoveAlbumCover" xml:space="preserve">
+    <value>Remove album cover</value>
+  </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>No s'ha pogut canviar el nom de l'element</value>
   </data>
@@ -4248,6 +4260,15 @@
   <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
     <value>Canvia sempre el focus a la pestanya creada recentment</value>
   </data>
+  <data name="ReverseTabScrollDirection" xml:space="preserve">
+    <value>Reverse tab scroll direction</value>
+  </data>
+  <data name="DownMotionScrollsLeft" xml:space="preserve">
+    <value>Down motion scrolls left</value>
+  </data>
+  <data name="DownMotionScrollsRight" xml:space="preserve">
+    <value>Down motion scrolls right</value>
+  </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>Commuta el panell del prestatge</value>
   </data>
@@ -4553,5 +4574,14 @@
   </data>
   <data name="EditTagsGroupDescription" xml:space="preserve">
     <value>Afegeix o elimina etiquetes de fitxer</value>
+  </data>
+  <data name="RemoveTags" xml:space="preserve">
+    <value>Elimina les etiquetes</value>
+  </data>
+  <data name="RemoveTagsDescription" xml:space="preserve">
+    <value>Elimina les etiquetes dels elements seleccionats</value>
+  </data>
+  <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
+    <value>Esteu segur que voleu eliminar les etiquetes dels elements seleccionats?</value>
   </data>
 </root>
