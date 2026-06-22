@@ -1098,6 +1098,9 @@
   <data name="OpenInNewPane" xml:space="preserve">
     <value>Abrir num novo painel</value>
   </data>
+  <data name="OpenInOtherPane" xml:space="preserve">
+    <value>Open in other pane</value>
+  </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Ficheiros e pastas</value>
   </data>
@@ -1196,6 +1199,9 @@
   </data>
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Não calculado</value>
+  </data>
+  <data name="ViewSize" xml:space="preserve">
+    <value>Tamanho de exibição</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Desconhecido</value>
@@ -3416,6 +3422,9 @@
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
     <value>Abrir pasta selecionada num novo painel</value>
   </data>
+  <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
+    <value>Open selected directory in the other pane</value>
+  </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Abrir pasta selecionada num novo separador</value>
   </data>
@@ -3918,6 +3927,9 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Alterar imagem do álbum</value>
   </data>
+  <data name="RemoveAlbumCover" xml:space="preserve">
+    <value>Remove album cover</value>
+  </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>Falha ao tentar renomear {0}.</value>
   </data>
@@ -4249,6 +4261,15 @@
   <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
     <value>Trocar foco para o separador mais recente</value>
   </data>
+  <data name="ReverseTabScrollDirection" xml:space="preserve">
+    <value>Reverse tab scroll direction</value>
+  </data>
+  <data name="DownMotionScrollsLeft" xml:space="preserve">
+    <value>Down motion scrolls left</value>
+  </data>
+  <data name="DownMotionScrollsRight" xml:space="preserve">
+    <value>Down motion scrolls right</value>
+  </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>Mostrar/ocultar painel da prateleira</value>
   </data>
@@ -4554,5 +4575,14 @@
   </data>
   <data name="EditTagsGroupDescription" xml:space="preserve">
     <value>Adicionar ou remover etiquetas de ficheiro</value>
+  </data>
+  <data name="RemoveTags" xml:space="preserve">
+    <value>Remover etiquetas</value>
+  </data>
+  <data name="RemoveTagsDescription" xml:space="preserve">
+    <value>Remover etiquetas dos itens selecionados</value>
+  </data>
+  <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
+    <value>Tem a certeza de que deseja remover as etiquetas dos itens selecionados?</value>
   </data>
 </root>
