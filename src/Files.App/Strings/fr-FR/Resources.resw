@@ -145,7 +145,7 @@
     <value>Chemin</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Taille :</value>
+    <value>Taille :</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
     <value>Taille sur le disque :</value>
@@ -184,7 +184,7 @@
     <value>Effacer tous les éléments</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Entrez un chemin pour naviguer ou tapez "&gt;" pour ouvrir la palette de commandes</value>
+    <value>Entrez un chemin pour naviguer ou tapez « &gt; » pour ouvrir la palette de commandes</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Rechercher</value>
@@ -1074,7 +1074,7 @@
     <value>Modifier</value>
   </data>
   <data name="Remove" xml:space="preserve">
-    <value>Enlever</value>
+    <value>Supprimer</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>Ouvrir les onglets en mode double volet</value>
@@ -1096,6 +1096,9 @@
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
     <value>Ouvrir dans un nouveau volet</value>
+  </data>
+  <data name="OpenInOtherPane" xml:space="preserve">
+    <value>Open in other pane</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Fichiers et dossiers</value>
@@ -1195,6 +1198,9 @@
   </data>
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Non calculé</value>
+  </data>
+  <data name="ViewSize" xml:space="preserve">
+    <value>Voir la taille</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Inconnu</value>
@@ -1449,7 +1455,7 @@
     <value>Année {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
-    <value>{0} élement</value>
+    <value>{0} élément</value>
   </data>
   <data name="GroupItemsCount_Plural" xml:space="preserve">
     <value>{0} éléments</value>
@@ -1518,7 +1524,7 @@
     <value>Compte inconnu</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>Vous n'avez pas les autorisations pour voir les propriétés de sécurité de cet objet. Cliquez sur "Autorisations avancées" pour continuer.</value>
+    <value>Vous n'avez pas les autorisations pour voir les propriétés de sécurité de cet objet. Cliquez sur « Autorisations avancées » pour continuer.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Propriétaire :</value>
@@ -1737,7 +1743,7 @@
     <value>Inconnu</value>
   </data>
   <data name="EditTags" xml:space="preserve">
-    <value>Éditer les étiquettes</value>
+    <value>Modifier les étiquettes</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
     <value>Partie de l'ensemble</value>
@@ -2337,13 +2343,13 @@
     <value>Voir plus</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Afficher l'édition des étiquettes en survolant</value>
+    <value>Afficher la modification des étiquettes en survolant</value>
   </data>
   <data name="ShowCompressionOptions" xml:space="preserve">
     <value>Afficher les options de compression</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Afficher le menu "Envoyer vers"</value>
+    <value>Afficher le menu « Envoyer vers »</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Afficher l'option pour ouvrir les dossiers dans un nouvel onglet</value>
@@ -2586,7 +2592,7 @@
     <value>Vider le contenu de la corbeille</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Ouvrir le menu "Formater le lecteur" pour l'élément sélectionné</value>
+    <value>Ouvrir le menu « Formater le lecteur » pour l'élément sélectionné</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
     <value>Restaurer {0, plural, one {l'élément sélectionné} other {les éléments sélectionnés}} depuis la corbeille</value>
@@ -3190,7 +3196,7 @@
     <value>Grouper les éléments par année de modification</value>
   </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
-    <value>Cliquez sur "Autorisations avancées" pour continuer.</value>
+    <value>Cliquez sur « Autorisations avancées » pour continuer.</value>
   </data>
   <data name="SecurityRequireReadPermissions" xml:space="preserve">
     <value>Vous devez avoir des autorisations de lecture pour voir les propriétés de cet élément.</value>
@@ -3353,7 +3359,7 @@
     <value>{0} commits sortants / {1} commits entrants</value>
   </data>
   <data name="ConnectGitHub" xml:space="preserve">
-    <value>Connectez-vous à GitHub</value>
+    <value>Se connecter à GitHub</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
     <value>Entrez le code suivant dans le lien ci-dessous pour commencer à travailler avec des dépôts GitHub.</value>
@@ -3415,6 +3421,9 @@
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
     <value>Ouvrir le dossier sélectionné dans un nouveau volet</value>
   </data>
+  <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
+    <value>Open selected directory in the other pane</value>
+  </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Ouvrir le dossier sélectionné dans un nouvel onglet</value>
   </data>
@@ -3428,7 +3437,7 @@
     <value>Ouvrir tous les éléments étiquetés</value>
   </data>
   <data name="DriveWithLetter" xml:space="preserve">
-    <value>Disque ({0})</value>
+    <value>Lecteur ({0})</value>
     <comment>{0} is the drive letter.</comment>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
@@ -3584,7 +3593,7 @@
     <value>Vitesse :</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
-    <value>Compression de {0} élément(s) vers "{1}" annulée</value>
+    <value>Compression de {0} élément(s) vers « {1} » annulée</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressCanceled_SubHeader" xml:space="preserve">
@@ -3616,35 +3625,35 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
-    <value>Clonage annulé de {0} vers "{1}"</value>
+    <value>Clonage annulé de {0} vers « {1} »</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
-    <value>Clonage annulé de {0} depuis "{1}" vers "{2}"</value>
+    <value>Clonage annulé de {0} depuis « {1} » vers « {2} »</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
-    <value>"{0}" cloné vers "{1}"</value>
+    <value>« {0} » cloné vers « {1} »</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
-    <value>{0} cloné depuis "{1}" vers "{2}"</value>
+    <value>{0} cloné depuis « {1} » vers « {2} »</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
-    <value>Erreur lors du clonage de "{0}" vers "{1}"</value>
+    <value>Erreur lors du clonage de « {0} » vers « {1} »</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
-    <value>Échec du clonage de {0} depuis "{1}" vers "{2}"</value>
+    <value>Échec du clonage de {0} depuis « {1} » vers « {2} »</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
-    <value>Clonage de "{0}" vers "{1}"</value>
+    <value>Clonage de « {0} » vers « {1} »</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
-    <value>Clonage de {0} depuis "{1}" vers "{2}"</value>
+    <value>Clonage de {0} depuis « {1} » vers « {2} »</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
@@ -3917,11 +3926,14 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Changer la pochette de l'album</value>
   </data>
+  <data name="RemoveAlbumCover" xml:space="preserve">
+    <value>Remove album cover</value>
+  </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>Échec du renommage de l'élément</value>
   </data>
   <data name="HigherPermissionsRequired" xml:space="preserve">
-    <value>La modification de "{0}" nécessite des autorisations supplémentaires</value>
+    <value>La modification de « {0} » nécessite des autorisations supplémentaires</value>
   </data>
   <data name="EditPermissions" xml:space="preserve">
     <value>Modifier les autorisations</value>
@@ -4085,7 +4097,7 @@
     <value>Outils de développement</value>
   </data>
   <data name="DisplayOpenIDE" xml:space="preserve">
-    <value>Configurer le bouton "Ouvrir l'IDE" dans la barre d'état</value>
+    <value>Configurer le bouton « Ouvrir l'IDE » dans la barre d'état</value>
   </data>
   <data name="GitRepos" xml:space="preserve">
     <value>Afficher pour les repos Git</value>
@@ -4248,6 +4260,15 @@
   <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
     <value>Toujours basculer le focus vers l'onglet nouvellement créé</value>
   </data>
+  <data name="ReverseTabScrollDirection" xml:space="preserve">
+    <value>Reverse tab scroll direction</value>
+  </data>
+  <data name="DownMotionScrollsLeft" xml:space="preserve">
+    <value>Down motion scrolls left</value>
+  </data>
+  <data name="DownMotionScrollsRight" xml:space="preserve">
+    <value>Down motion scrolls right</value>
+  </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>Afficher/Masquer le volet étagère</value>
   </data>
@@ -4268,7 +4289,7 @@
     <value>Action groupée</value>
   </data>
   <data name="RemoveFromShelf" xml:space="preserve">
-    <value>Retirer de l'étagère</value>
+    <value>Supprimer de l'étagère</value>
   </data>
   <data name="AddToShelf" xml:space="preserve">
     <value>Ajouter à l'étagère</value>
@@ -4553,5 +4574,14 @@
   </data>
   <data name="EditTagsGroupDescription" xml:space="preserve">
     <value>Ajouter ou supprimer des étiquettes de fichiers</value>
+  </data>
+  <data name="RemoveTags" xml:space="preserve">
+    <value>Supprimer les étiquettes</value>
+  </data>
+  <data name="RemoveTagsDescription" xml:space="preserve">
+    <value>Supprimer les étiquettes des éléments sélectionnés</value>
+  </data>
+  <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir supprimer les étiquettes des éléments sélectionnés ?</value>
   </data>
 </root>
