@@ -145,20 +145,17 @@
 							Source="{x:Bind IconOverlay, Mode=OneWay}"
 							Stretch="Uniform" />
 
-						<Viewbox
+						<Border
 							x:Name="ShortcutGlyphElement"
-							Width="16"
-							Height="16"
-							Margin="14"
+							Margin="2"
 							HorizontalAlignment="Left"
 							VerticalAlignment="Bottom"
 							x:Load="{x:Bind IsShortcut}"
 							x:Phase="1">
-							<controls:ThemedIcon
-								Width="12"
-								Height="12"
-								Style="{StaticResource App.ThemedIcons.Shortcut}" />
-						</Viewbox>
+							<Viewbox Width="6" Height="6">
+								<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.Shortcut}" />
+							</Viewbox>
+						</Border>
 
 						<Image
 							x:Name="ShieldOverlay"
@@ -336,13 +333,13 @@
 								Stretch="Uniform" />
 							<Border
 								x:Name="ShortcutGlyphElement"
+								Margin="2"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Bottom"
 								x:Load="{x:Bind IsShortcut}">
-								<controls:ThemedIcon
-									Width="12"
-									Height="12"
-									Style="{StaticResource App.ThemedIcons.Shortcut}" />
+								<Viewbox Width="6" Height="6">
+									<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.Shortcut}" />
+								</Viewbox>
 							</Border>
 							<Image
 								x:Name="ShieldOverlay"
@@ -484,20 +481,17 @@
 								Source="{x:Bind IconOverlay, Mode=OneWay}"
 								Stretch="Uniform" />
 
-							<Viewbox
+							<Border
 								x:Name="ShortcutGlyphElement"
-								Width="16"
-								Height="16"
-								Margin="8"
+								Margin="2"
 								HorizontalAlignment="Right"
 								VerticalAlignment="Top"
 								x:Load="{x:Bind IsShortcut}"
 								x:Phase="1">
-								<controls:ThemedIcon
-									Width="12"
-									Height="12"
-									Style="{StaticResource App.ThemedIcons.Shortcut}" />
-							</Viewbox>
+								<Viewbox Width="6" Height="6">
+									<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.Shortcut}" />
+								</Viewbox>
+							</Border>
 
 							<Image
 								x:Name="ShieldOverlay"
