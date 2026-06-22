@@ -1097,6 +1097,9 @@
   <data name="OpenInNewPane" xml:space="preserve">
     <value>פתחו בחלון חדש</value>
   </data>
+  <data name="OpenInOtherPane" xml:space="preserve">
+    <value>Open in other pane</value>
+  </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>קבצים ותיקיות</value>
   </data>
@@ -1195,6 +1198,9 @@
   </data>
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>לא חושב</value>
+  </data>
+  <data name="ViewSize" xml:space="preserve">
+    <value>View size</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>לא ידוע</value>
@@ -3415,6 +3421,9 @@
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
     <value>Open selected directory in a new pane</value>
   </data>
+  <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
+    <value>Open selected directory in the other pane</value>
+  </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Open selected directory in a new tab</value>
   </data>
@@ -3917,6 +3926,9 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>שנה עטיפת אלבום</value>
   </data>
+  <data name="RemoveAlbumCover" xml:space="preserve">
+    <value>Remove album cover</value>
+  </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>Failed to rename item</value>
   </data>
@@ -4248,6 +4260,15 @@
   <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
     <value>Always switch focus to newly created tab</value>
   </data>
+  <data name="ReverseTabScrollDirection" xml:space="preserve">
+    <value>Reverse tab scroll direction</value>
+  </data>
+  <data name="DownMotionScrollsLeft" xml:space="preserve">
+    <value>Down motion scrolls left</value>
+  </data>
+  <data name="DownMotionScrollsRight" xml:space="preserve">
+    <value>Down motion scrolls right</value>
+  </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>Toggle shelf pane</value>
   </data>
@@ -4553,5 +4574,14 @@
   </data>
   <data name="EditTagsGroupDescription" xml:space="preserve">
     <value>Add or remove file tags</value>
+  </data>
+  <data name="RemoveTags" xml:space="preserve">
+    <value>Remove tags</value>
+  </data>
+  <data name="RemoveTagsDescription" xml:space="preserve">
+    <value>Remove tags from the selected items</value>
+  </data>
+  <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
+    <value>Are you sure you want to remove tags from the selected items?</value>
   </data>
 </root>
