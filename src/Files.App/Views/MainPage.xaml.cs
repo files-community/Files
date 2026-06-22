@@ -12,7 +12,6 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.InteropServices;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
 using Windows.UI.Input;
@@ -508,26 +507,30 @@ namespace Files.App.Views
 
 		private async void SidebarControl_ItemDragOver(object sender, ItemDragOverEventArgs e)
 		{
-			// Expected to fail with COMException if the OLE drag payload is stale
-			var deferral = SafetyExtensions.IgnoreExceptions(() => e.RawEvent.GetDeferral(), App.Logger, typeof(COMException));
+			// GetDeferral()/Complete() can throw COMException if the underlying drag operation has already been released (e.g. canceled by the system or window closed)
+			var deferral = SafetyExtensions.IgnoreExceptions(() => e.RawEvent.GetDeferral(), App.Logger);
 
-			await SafetyExtensions.IgnoreExceptions(
-				() => SidebarAdaptiveViewModel.HandleItemDragOverAsync(e), App.Logger);
+			await SafetyExtensions.IgnoreExceptions(async () =>
+			{
+				await SidebarAdaptiveViewModel.HandleItemDragOverAsync(e);
+			}, App.Logger);
 
 			if (deferral is not null)
-				SafetyExtensions.IgnoreExceptions(() => deferral.Complete(), App.Logger, typeof(COMException));
+				SafetyExtensions.IgnoreExceptions(() => deferral.Complete(), App.Logger);
 		}
 
 		private async void SidebarControl_ItemDropped(object sender, ItemDroppedEventArgs e)
 		{
-			// Expected to fail with COMException if the OLE drag payload is stale
-			var deferral = SafetyExtensions.IgnoreExceptions(() => e.RawEvent.GetDeferral(), App.Logger, typeof(COMException));
+			// GetDeferral()/Complete() can throw COMException if the underlying drag operation has already been released (e.g. canceled by the system or window closed)
+			var deferral = SafetyExtensions.IgnoreExceptions(() => e.RawEvent.GetDeferral(), App.Logger);
 
-			await SafetyExtensions.IgnoreExceptions(
-				() => SidebarAdaptiveViewModel.HandleItemDroppedAsync(e), App.Logger);
+			await SafetyExtensions.IgnoreExceptions(async () =>
+			{
+				await SidebarAdaptiveViewModel.HandleItemDroppedAsync(e);
+			}, App.Logger);
 
 			if (deferral is not null)
-				SafetyExtensions.IgnoreExceptions(() => deferral.Complete(), App.Logger, typeof(COMException));
+				SafetyExtensions.IgnoreExceptions(() => deferral.Complete(), App.Logger);
 		}
 
 		private void SidebarControl_ItemInvoked(object sender, ItemInvokedEventArgs e)
