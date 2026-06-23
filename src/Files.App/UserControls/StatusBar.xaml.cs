@@ -61,6 +61,8 @@ namespace Files.App.UserControls
 				return;
 
 			await StatusBarViewModel.UpdateZipEncodingStateAsync();
+			if (StatusBarViewModel.SelectedZipEncoding is not null)
+				ZipEncodingList.SelectedItem = StatusBarViewModel.SelectedZipEncoding;
 		}
 
 		private void BranchesList_ItemClick(object sender, ItemClickEventArgs e)
