@@ -722,17 +722,14 @@ namespace Files.App.Views
 			var sprite = compositor.CreateSpriteVisual();
 			sprite.Brush = compositor.CreateColorBrush(accent);
 			sprite.Opacity = 0f;
-			// AnchorPoint center makes Offset the visual's center, so it can grow outward from a point.
 			sprite.AnchorPoint = new Vector2(0.5f, 0.5f);
 
-			// Rounded-corner clip whose Right/Bottom expression-bind to the sprite's Size.
 			var clip = compositor.CreateRectangleClip();
 			clip.StartAnimation("Right", BindToSize("X"));
 			clip.StartAnimation("Bottom", BindToSize("Y"));
 			sprite.Clip = clip;
 			_indicatorClip = clip;
 
-			// Skip implicit animations if the OS "Show animations" setting is off.
 			if (new UISettings().AnimationsEnabled)
 			{
 				var anims = compositor.CreateImplicitAnimationCollection();
@@ -773,9 +770,6 @@ namespace Files.App.Views
 				_indicatorVisual.Opacity = 0f;
 		}
 
-		// Round only the outer (window-facing) corners of the indicator; the inner edge sits
-		// against the splitter and stays flat. Assigning these tweens via the clip's implicit
-		// animations when motion is enabled.
 		private void ApplyZoneCorners(PaneDropZone zone)
 		{
 			if (_indicatorClip is null)
@@ -847,8 +841,7 @@ namespace Files.App.Views
 
 			var visual = GetOrCreateIndicatorVisual();
 
-			// First DragOver: seed a zero-size state at the cursor with flat corners (no animation)
-			// so the assignment below grows out from there with the zone's corners morphing in.
+			// Seed a zero-size state at the cursor with flat corners (no animation) so the assignment below grows out from there.
 			if (!_indicatorInitialized)
 			{
 				var cursor = e.GetPosition(TabDropOverlay);
@@ -916,12 +909,11 @@ namespace Files.App.Views
 			if (nearSide)
 			{
 				NavParamsLeft = new() { NavPath = string.IsNullOrEmpty(draggedPath) ? "Home" : draggedPath };
-				// AddPane focuses the new secondary pane; for near-side drops the dropped content lives in the primary pane.
+				// Override AddPane's focus on the new pane; the dropped content lives in pane 0 here.
 				ActivePane = GetPane(0);
 			}
 
-			// Self-drop (current tab split onto its own pane) keeps the source tab open;
-			// otherwise the source tab is absorbed into the new split.
+			// Self-drop: leave the close-on-drop flag unset so the source tab survives the split.
 			if (!ReferenceEquals(_draggedTabItem?.TabItemContent, this))
 				ApplicationData.Current.LocalSettings.Values[BaseTabBar.TabDropHandledIdentifier] = true;
 		}

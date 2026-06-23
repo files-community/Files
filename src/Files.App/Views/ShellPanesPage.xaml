@@ -28,7 +28,6 @@
 		<!--  TabFocusNavigation is set to 'once' to prevent focus from auto switching to the next pane  -->
 		<Grid x:Name="RootGrid" TabFocusNavigation="Once" />
 
-		<!--  Hit-testing host for the tab-to-pane drop target. The animated accent overlay is a SpriteVisual attached in code-behind.  -->
 		<Grid
 			x:Name="TabDropOverlay"
 			AllowDrop="True"
