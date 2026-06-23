@@ -13,8 +13,6 @@ namespace Files.App
 
 			public const string GitHubClientId = "githubclientid.secret";
 
-			public const string BingMapsSecret = "bingmapskey.secret";
-
 			public const string SentrySecret = "sentry.secret";
 		}
 

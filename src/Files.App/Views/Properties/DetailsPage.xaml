@@ -96,7 +96,8 @@
 												HorizontalAlignment="Stretch"
 												x:Load="{x:Bind IsReadOnly, Mode=OneWay}"
 												IsTextSelectionEnabled="True"
-												Text="{x:Bind ValueText, Mode=TwoWay}" />
+												Text="{x:Bind ValueText, Mode=TwoWay}"
+												TextWrapping="Wrap" />
 
 											<!--  Edit Value Text Box  -->
 											<TextBox
