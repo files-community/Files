@@ -154,7 +154,7 @@
 							VerticalAlignment="Bottom"
 							x:Load="{x:Bind IsShortcut}"
 							x:Phase="1">
-							<controls:ThemedIcon 
+							<controls:ThemedIcon
 								Width="12"
 								Height="12"
 								Style="{StaticResource App.ThemedIcons.Shortcut}" />
