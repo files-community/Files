@@ -205,7 +205,7 @@ namespace Files.App.UserControls
 				{
 					btn.Flyout = new MenuFlyout
 					{
-						Placement = group is NewItemCommandGroup
+						Placement = group is NewItemCommandGroup or OpenWithCommandGroup
 						? FlyoutPlacementMode.BottomEdgeAlignedLeft
 						: FlyoutPlacementMode.Bottom
 					};
