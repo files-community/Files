@@ -343,26 +343,27 @@ namespace Files.App.ViewModels.UserControls
 			if (dispatcherQueue is null)
 				return;
 
-			await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+			await dispatcherQueue.EnqueueOrInvokeAsync(() => SyncSidebarDataAsync((SectionType)sender, e));
+		}
+
+		private async Task SyncSidebarDataAsync(SectionType sectionType, NotifyCollectionChangedEventArgs e)
+		{
+			await SafetyExtensions.IgnoreExceptions(async () =>
 			{
-				await SafetyExtensions.IgnoreExceptions(async () =>
+				var section = await GetOrCreateSectionAsync(sectionType);
+				IReadOnlyList<INavigationControlItem>? getElements() => sectionType switch
 				{
-					var sectionType = (SectionType)sender;
-					var section = await GetOrCreateSectionAsync(sectionType);
-					Func<IReadOnlyList<INavigationControlItem>> getElements = () => sectionType switch
-					{
-						SectionType.Pinned => App.QuickAccessManager.Model.PinnedFolderItems,
-						SectionType.CloudDrives => CloudDrivesManager.Drives,
-						SectionType.Drives => drivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
-						SectionType.Network => NetworkService.Computers.Cast<DriveItem>().ToList().AsReadOnly(),
-						SectionType.WSL => WSLDistroManager.Distros,
-						SectionType.Library => App.LibraryManager.Libraries,
-						SectionType.FileTag => App.FileTagsManager.FileTags,
-						_ => null
-					};
-					await SyncSidebarItemsAsync(section, getElements, e);
-				}, App.Logger, typeof(COMException));
-			});
+					SectionType.Pinned => App.QuickAccessManager.Model.PinnedFolderItems,
+					SectionType.CloudDrives => CloudDrivesManager.Drives,
+					SectionType.Drives => drivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
+					SectionType.Network => NetworkService.Computers.Cast<DriveItem>().ToList().AsReadOnly(),
+					SectionType.WSL => WSLDistroManager.Distros,
+					SectionType.Library => App.LibraryManager.Libraries,
+					SectionType.FileTag => App.FileTagsManager.FileTags,
+					_ => null
+				};
+				await SyncSidebarItemsAsync(section, getElements, e);
+			}, App.Logger, typeof(COMException));
 		}
 
 		private void Manager_DataChangedForDrives(object? sender, NotifyCollectionChangedEventArgs e) => Manager_DataChanged(SectionType.Drives, e);
@@ -397,9 +398,12 @@ namespace Files.App.ViewModels.UserControls
 							var match = section.ChildItems.FirstOrDefault(x => x.Path == item.Path);
 							if (match is not null)
 							{
-								section.ChildItems.Remove(match);
-								var newIndex = e.NewStartingIndex < 0 ? section.ChildItems.Count : Math.Min(e.NewStartingIndex, section.ChildItems.Count);
-								section.ChildItems.Insert(newIndex, match);
+								var oldIndex = section.ChildItems.IndexOf(match);
+								var newIndex = e.NewStartingIndex < 0 ? section.ChildItems.Count - 1 : Math.Min(e.NewStartingIndex, section.ChildItems.Count - 1);
+								if (oldIndex >= 0 && oldIndex != newIndex)
+								{
+									section.ChildItems.Move(oldIndex, newIndex);
+								}
 							}
 							return;
 						}
@@ -1546,9 +1550,7 @@ namespace Files.App.ViewModels.UserControls
 
 							if (sourceIndex != targetIndex && targetIndex >= 0 && targetIndex < section.ChildItems.Count)
 							{
-								var item = section.ChildItems[sourceIndex];
-								section.ChildItems.RemoveAt(sourceIndex);
-								section.ChildItems.Insert(targetIndex, item);
+								section.ChildItems.Move(sourceIndex, targetIndex);
 								await PersistPinnedOrderAsync(section);
 							}
 						}

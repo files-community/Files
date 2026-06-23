@@ -275,55 +275,63 @@ namespace Files.App.Services
 			if (!Directory.Exists(automaticDestinationsPath))
 				return await PollWaitAsync(condition, timeout, TimeSpan.FromMilliseconds(200));
 
-			using var cts = new CancellationTokenSource(timeout);
-			using var watcher = new FileSystemWatcher(automaticDestinationsPath, "f01b4d95cf55d32a.automaticDestinations-ms")
-			{
-				NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName
-			};
-
-			using var semaphore = new SemaphoreSlim(0);
-			void OnChanged(object sender, FileSystemEventArgs e)
-			{
-				try
-				{
-					semaphore.Release();
-				}
-				catch (ObjectDisposedException)
-				{
-
-				}
-			}
-
-			watcher.Changed += OnChanged;
-			watcher.Created += OnChanged;
-			watcher.Deleted += OnChanged;
-
 			try
 			{
-				watcher.EnableRaisingEvents = true;
-
-				while (!cts.IsCancellationRequested)
+				using var cts = new CancellationTokenSource(timeout);
+				using var watcher = new FileSystemWatcher(automaticDestinationsPath, "f01b4d95cf55d32a.automaticDestinations-ms")
 				{
-					if (await condition())
-						return true;
+					NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName
+				};
 
+				using var semaphore = new SemaphoreSlim(0);
+				void OnChanged(object sender, FileSystemEventArgs e)
+				{
 					try
 					{
-						// prevents wait deadlocks if the FileSystemWatcher 
-						// randomly swallows a background COM completion event
-						await semaphore.WaitAsync(TimeSpan.FromMilliseconds(400), cts.Token);
+						semaphore.Release();
 					}
-					catch (OperationCanceledException)
+					catch (ObjectDisposedException)
 					{
-						break;
+
 					}
 				}
+
+				watcher.Changed += OnChanged;
+				watcher.Created += OnChanged;
+				watcher.Deleted += OnChanged;
+
+				try
+				{
+					watcher.EnableRaisingEvents = true;
+
+					while (!cts.IsCancellationRequested)
+					{
+						if (await condition())
+							return true;
+
+						try
+						{
+							// prevents wait deadlocks if the FileSystemWatcher 
+							// randomly swallows a background COM completion event
+							await semaphore.WaitAsync(TimeSpan.FromMilliseconds(400), cts.Token);
+						}
+						catch (OperationCanceledException)
+						{
+							break;
+						}
+					}
+				}
+				finally
+				{
+					watcher.Changed -= OnChanged;
+					watcher.Created -= OnChanged;
+					watcher.Deleted -= OnChanged;
+				}
 			}
-			finally
+			catch (Exception ex)
 			{
-				watcher.Changed -= OnChanged;
-				watcher.Created -= OnChanged;
-				watcher.Deleted -= OnChanged;
+				App.Logger.LogWarning(ex, "FileSystemWatcher failed to initialize for automaticDestinations-ms. Falling back to polling.");
+				return await PollWaitAsync(condition, timeout, TimeSpan.FromMilliseconds(200));
 			}
 
 			return await condition();

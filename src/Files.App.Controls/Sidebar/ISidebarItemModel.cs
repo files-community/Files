@@ -30,18 +30,10 @@ namespace Files.App.Controls
 		/// Expansion participant that keeps the regular row appearance (icon + normal text) instead of the section-header style.
 		/// </summary>
 		bool IsLeafWithChildren => false;
-	}
-
-	public interface IDraggableSidebarItemModel : ISidebarItemModel
-	{
-		/// <summary>
-		/// The file path used for drag and drop operations
-		/// </summary>
-		string? DropPath { get; }
 
 		/// <summary>
-		/// Indicates whether the item supports reorder dropping
+		/// Indicates whether the item supports reorder dropping.
 		/// </summary>
-		bool IsReorderDropItem { get; }
+		bool IsReorderDropItem => false;
 	}
 }

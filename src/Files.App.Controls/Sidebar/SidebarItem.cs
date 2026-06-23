@@ -133,10 +133,10 @@ namespace Files.App.Controls
 			UpdateExpansionState();
 			ReevaluateSelection();
 
-			if (Item is IDraggableSidebarItemModel draggableItem)
+			if (Item is not null)
 			{
-				CanDrag = IsValidDropPath(draggableItem.DropPath);
-				UseReorderDrop = !IsGroupHeader && CanDrag && draggableItem.IsReorderDropItem;
+				CanDrag = IsValidDropPath(Item.Path);
+				UseReorderDrop = !IsGroupHeader && CanDrag && Item.IsReorderDropItem;
 			}
 			else
 			{
@@ -211,7 +211,7 @@ namespace Files.App.Controls
 
 		private void SidebarItem_DragStarting(UIElement sender, DragStartingEventArgs args)
 		{
-			if (Item is not IDraggableSidebarItemModel draggableItem || draggableItem.DropPath is not string dragPath || !IsValidDropPath(dragPath))
+			if (Item?.Path is not string dragPath || !IsValidDropPath(dragPath))
 				return;
 
 			SafetyExtensions.IgnoreExceptions(() =>
