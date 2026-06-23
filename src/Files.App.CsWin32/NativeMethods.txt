@@ -262,6 +262,7 @@ S_FALSE
 IExecuteCommand
 IObjectWithSelection
 SHCreateShellItemArrayFromShellItem
+IDataObject
 IShellExtInit
 IContextMenu2
 GetSubMenu

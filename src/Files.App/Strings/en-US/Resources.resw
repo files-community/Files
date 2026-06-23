@@ -1379,6 +1379,9 @@
   <data name="OpenWith" xml:space="preserve">
     <value>Open with</value>
   </data>
+  <data name="ChooseAnotherApp" xml:space="preserve">
+    <value>Choose another app</value>
+  </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>File icon</value>
   </data>

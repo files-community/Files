@@ -97,7 +97,7 @@ namespace Files.App.Actions
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
+			if (e.PropertyName is nameof(IContentPageContext.HasSelection) or nameof(IContentPageContext.SelectedItems))
 				OnPropertyChanged(nameof(IsExecutable));
 		}
 	}
