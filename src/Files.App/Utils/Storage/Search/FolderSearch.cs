@@ -67,7 +67,8 @@ namespace Files.App.Utils.Storage
 				}
 				else
 				{
-					return $"System.FileName:{QueryWithWildcard}";
+					var escaped = QueryWithWildcard.Replace("\"", "\\\"");
+					return QueryWithWildcard.Contains(' ') ? $"System.FileName:\"{escaped}\"" : $"System.FileName:{QueryWithWildcard}";
 				}
 			}
 		}
@@ -391,7 +392,7 @@ namespace Files.App.Utils.Storage
 			(IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
 			{
 				int additionalFlags = Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH;
-				IntPtr hFileTsk = Win32PInvoke.FindFirstFileExFromApp($"{folder}\\{QueryWithWildcard}", Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic,
+				IntPtr hFileTsk = Win32PInvoke.FindFirstFileExFromApp($"{folder}\\*{QueryWithWildcard}", Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic,
 					out WIN32_FIND_DATA findDataTsk, Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
 				return (hFileTsk, findDataTsk);
 			}).WithTimeoutAsync(TimeSpan.FromSeconds(5));

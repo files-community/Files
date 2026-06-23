@@ -1158,7 +1158,7 @@ namespace Files.App.ViewModels.UserControls
 
 			// Add new suggestions
 			var toAdd = newSuggestions
-				.Where(newItem => !OmnibarSearchModeSuggestionItems.Any(existing => existing.Name == newItem.Name));
+				.Where(newItem => !OmnibarSearchModeSuggestionItems.Any(existing => existing.ItemPath == newItem.ItemPath));
 
 			foreach (var item in toAdd)
 				OmnibarSearchModeSuggestionItems.Add(item);
