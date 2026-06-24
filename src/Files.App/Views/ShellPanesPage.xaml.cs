@@ -41,6 +41,7 @@ namespace Files.App.Views
 
 		private bool _wasRightPaneVisible;
 		private NavigationParams? _savedNavParamsRight;
+		private readonly PointerEventHandler _panePointerPressedHandler;
 
 		// Properties
 
@@ -259,6 +260,7 @@ namespace Files.App.Views
 
 		public ShellPanesPage()
 		{
+			_panePointerPressedHandler = Pane_PointerPressed;
 			InitializeComponent();
 
 			ShellPaneArrangement = GeneralSettingsService.ShellPaneArrangementOption;
@@ -929,7 +931,7 @@ namespace Files.App.Views
 			{
 				element.GotFocus += Pane_GotFocus;
 				element.RightTapped += Pane_RightTapped;
-				element.PointerPressed += Pane_PointerPressed;
+				element.AddHandler(UIElement.PointerPressedEvent, _panePointerPressedHandler, true);
 			}
 		}
 
@@ -1054,7 +1056,7 @@ namespace Files.App.Views
 				pane.ContentChanged -= Pane_ContentChanged;
 				pane.GotFocus -= Pane_GotFocus;
 				pane.RightTapped -= Pane_RightTapped;
-				pane.PointerPressed -= Pane_PointerPressed;
+				pane.RemoveHandler(UIElement.PointerPressedEvent, _panePointerPressedHandler);
 				pane.Dispose();
 			}
 
