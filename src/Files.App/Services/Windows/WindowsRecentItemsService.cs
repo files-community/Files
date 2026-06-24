@@ -213,9 +213,10 @@ namespace Files.App.Services
 					if (index is 20)
 						break;
 
-					// Exclude folders
-					if (pShellItem.Get()->GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER, out var attribute) == HRESULT.S_OK &&
-						(attribute & SFGAO_FLAGS.SFGAO_FOLDER) == SFGAO_FLAGS.SFGAO_FOLDER)
+					// Exclude folders, but keep archives (ZIP/7z/RAR) which the shell reports as both folder and stream.
+					if (pShellItem.Get()->GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER | SFGAO_FLAGS.SFGAO_STREAM, out var attribute).Succeeded &&
+						(attribute & SFGAO_FLAGS.SFGAO_FOLDER) == SFGAO_FLAGS.SFGAO_FOLDER &&
+						(attribute & SFGAO_FLAGS.SFGAO_STREAM) == 0)
 						continue;
 
 					// Get the target path

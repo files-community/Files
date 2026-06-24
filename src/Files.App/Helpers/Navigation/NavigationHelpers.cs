@@ -612,8 +612,10 @@ namespace Files.App.Helpers
 					opened = await associatedInstance.ShellViewModel.GetFolderWithPathFromPathAsync(path)
 						.OnSuccess((childFolder) =>
 						{
-							// Add location to Recent Items List
-							if (childFolder.Item is SystemStorageFolder)
+							// Add location to Recent Items List.
+							// File.Exists distinguishes an archive root (real file on disk) from an inner path like "archive.zip\sub".
+							if (childFolder.Item is SystemStorageFolder ||
+								(childFolder.Item is ZipStorageFolder && File.Exists(childFolder.Path)))
 								WindowsRecentItemsService.Add(childFolder.Path);
 						});
 				}
