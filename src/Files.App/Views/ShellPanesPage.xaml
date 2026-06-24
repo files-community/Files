@@ -24,6 +24,17 @@
 		</ResourceDictionary>
 	</Page.Resources>
 
-	<!--  TabFocusNavigation is set to 'once' to prevent focus from auto switching to the next pane  -->
-	<Grid x:Name="RootGrid" TabFocusNavigation="Once" />
+	<Grid>
+		<!--  TabFocusNavigation is set to 'once' to prevent focus from auto switching to the next pane  -->
+		<Grid x:Name="RootGrid" TabFocusNavigation="Once" />
+
+		<Border
+			x:Name="TabDropOverlay"
+			AllowDrop="True"
+			Background="Transparent"
+			DragLeave="TabDropOverlay_DragLeave"
+			DragOver="TabDropOverlay_DragOver"
+			Drop="TabDropOverlay_Drop"
+			Visibility="Collapsed" />
+	</Grid>
 </Page>

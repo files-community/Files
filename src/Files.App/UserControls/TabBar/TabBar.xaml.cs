@@ -55,6 +55,8 @@ namespace Files.App.UserControls.TabBar
 		// Events
 
 		public static event EventHandler<TabBarItem?>? SelectedTabItemChanged;
+		public static event EventHandler<TabBarItem?>? TabDragStarted;
+		public static event EventHandler<TabBarItem?>? TabDragCompleted;
 
 		// Constructor
 
@@ -147,6 +149,8 @@ namespace Files.App.UserControls.TabBar
 			// and the PreviewKeyDown event won't trigger.
 			Focus(FocusState.Programmatic);
 			PreviewKeyDown += TabDragging_PreviewKeyDown;
+
+			TabDragStarted?.Invoke(this, args.Item as TabBarItem);
 		}
 
 		private void TabDragging_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -212,6 +216,8 @@ namespace Files.App.UserControls.TabBar
 		{
 			// Unsubscribe from the key down event, it's only needed when a tab is actively being dragged
 			PreviewKeyDown -= TabDragging_PreviewKeyDown;
+
+			TabDragCompleted?.Invoke(this, args.Item as TabBarItem);
 
 			if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier) &&
 				(bool)ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier])
