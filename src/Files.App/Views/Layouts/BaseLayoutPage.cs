@@ -70,6 +70,8 @@ namespace Files.App.Views.Layouts
 		private bool shiftPressed;
 		private bool itemDragging;
 
+		protected bool isDraggingSelectionRectangle;
+
 		private ListedItem? dragOverItem = null;
 		private ListedItem? hoveredItem = null;
 		private ListedItem? preRenamingItem = null;
@@ -282,8 +284,15 @@ namespace Files.App.Views.Layouts
 
 					NotifyPropertyChanged(nameof(SelectedItems));
 				}
-				ParentShellPageInstance!.ToolbarViewModel.SelectedItems = value;
+				if (!isDraggingSelectionRectangle)
+					ParentShellPageInstance!.ToolbarViewModel.SelectedItems = value;
 			}
+		}
+
+		protected void FlushSelectionToToolbar()
+		{
+			if (ParentShellPageInstance is not null)
+				ParentShellPageInstance.ToolbarViewModel.SelectedItems = selectedItems;
 		}
 
 		// Constructor

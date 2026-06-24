@@ -249,8 +249,15 @@ namespace Files.App.Views.Layouts
 
 		protected abstract void OnSelectionChanged(SelectionChangedEventArgs e);
 
+		protected virtual void SelectionRectangle_SelectionStarted(object? sender, EventArgs e)
+		{
+			isDraggingSelectionRectangle = true;
+		}
+
 		protected virtual void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
 		{
+			isDraggingSelectionRectangle = false;
+			FlushSelectionToToolbar();
 			ListViewBase.Focus(FocusState.Programmatic);
 		}
 
