@@ -4,6 +4,7 @@
 using Files.App.Dialogs;
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
+using Sentry;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
@@ -96,8 +97,7 @@ namespace Files.App.Utils.Git
 
 		public static async Task<bool> Checkout(string? repositoryPath, string? branch)
 		{
-			// Re-enable when Metris feature is available again
-			// SentrySdk.Metrics.Increment("Triggered git checkout");
+			SentrySdk.Experimental.Metrics.EmitCounter("Triggered git checkout", 1);
 
 			if (string.IsNullOrWhiteSpace(repositoryPath) || !IsRepoValid(repositoryPath))
 				return false;
@@ -190,8 +190,7 @@ namespace Files.App.Utils.Git
 
 		public static async Task CreateNewBranchAsync(string repositoryPath, string activeBranch)
 		{
-			// Re-enable when Metris feature is available again
-			// SentrySdk.Metrics.Increment("Triggered create git branch");
+			SentrySdk.Experimental.Metrics.EmitCounter("Triggered create git branch", 1);
 
 			var viewModel = new AddBranchDialogViewModel(repositoryPath, activeBranch);
 			var loadBranchesTask = viewModel.LoadBranches();
@@ -221,8 +220,7 @@ namespace Files.App.Utils.Git
 
 		public static async Task DeleteBranchAsync(string? repositoryPath, string? activeBranch, string? branchToDelete)
 		{
-			// Re-enable when Metris feature is available again
-			// SentrySdk.Metrics.Increment("Triggered delete git branch");
+			SentrySdk.Experimental.Metrics.EmitCounter("Triggered delete git branch", 1);
 
 			if (string.IsNullOrWhiteSpace(repositoryPath) ||
 				string.IsNullOrWhiteSpace(activeBranch) ||
