@@ -6,8 +6,6 @@ using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.IO;
-using System.Security.Principal;
-using Tulpep.ActiveDirectoryObjectPicker;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel.DataTransfer;
@@ -941,38 +939,7 @@ namespace Files.App.Utils.Storage
 		}
 
 		public static Task<string?> OpenObjectPickerAsync(long hWnd)
-		{
-			return STATask.Run(() =>
-			{
-				var picker = new DirectoryObjectPickerDialog()
-				{
-					AllowedObjectTypes = ObjectTypes.All,
-					DefaultObjectTypes = ObjectTypes.Users | ObjectTypes.Groups,
-					AllowedLocations = Locations.All,
-					DefaultLocations = Locations.LocalComputer,
-					MultiSelect = false,
-					ShowAdvancedView = true
-				};
-
-				picker.AttributesToFetch.Add("objectSid");
-
-				using (picker)
-				{
-					if (picker.ShowDialog(Win32Helper.Win32Window.FromLong(hWnd)) == System.Windows.Forms.DialogResult.OK)
-					{
-						try
-						{
-							var attribs = picker.SelectedObject.FetchedAttributes;
-							if (attribs.Any() && attribs[0] is byte[] objectSid)
-								return new SecurityIdentifier(objectSid, 0).Value;
-						}
-						catch { }
-					}
-				}
-
-				return null;
-			}, App.Logger);
-		}
+			=> WindowsObjectPicker.OpenObjectPickerAsync((nint)hWnd, App.Logger);
 
 		private static ShellItem? GetFirstFile(ShellItem shi)
 		{
