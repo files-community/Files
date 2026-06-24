@@ -28,7 +28,7 @@
 		<!--  TabFocusNavigation is set to 'once' to prevent focus from auto switching to the next pane  -->
 		<Grid x:Name="RootGrid" TabFocusNavigation="Once" />
 
-		<Grid
+		<Border
 			x:Name="TabDropOverlay"
 			AllowDrop="True"
 			Background="Transparent"
