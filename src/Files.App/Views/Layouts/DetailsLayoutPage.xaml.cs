@@ -78,6 +78,7 @@ namespace Files.App.Views.Layouts
 			InitializeComponent();
 			DataContext = this;
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
+			selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 
 			UpdateSortOptionsCommand = new RelayCommand<string>(x =>

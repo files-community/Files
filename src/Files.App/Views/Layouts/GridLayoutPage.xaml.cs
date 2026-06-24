@@ -150,6 +150,7 @@ namespace Files.App.Views.Layouts
 			DataContext = this;
 
 			var selectionRectangle = RectangleSelection.Create(ListViewBase, SelectionRectangle, FileList_SelectionChanged);
+			selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
 
