@@ -25,6 +25,11 @@
         <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
         <SelfContained>false</SelfContained>
         <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
+        <!-- Disable WinAppSDK DeploymentManager auto-init. The Main+Singleton packages
+             ship with the framework MSIX and are deployed at MSIX install time, so the
+             startup auto-init is redundant and was throwing REGDB_E_CLASSNOTREG on
+             DeploymentInitializeOptions activation, killing the app before first paint. -->
+        <WindowsAppSDKDeploymentManagerInitialize>false</WindowsAppSDKDeploymentManagerInitialize>
         <UseWinUI>true</UseWinUI>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -41,6 +46,14 @@
     <PropertyGroup>
         <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     </PropertyGroup>
+
+    <!-- Debug builds use a manifest without the desktop6:Service extension so VS
+         can sideload without requiring administrator privileges. SearchServiceManager
+         spawns the exe directly in DEBUG builds instead of relying on SCM. -->
+    <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+        <AppxManifest Remove="Package.appxmanifest" />
+        <AppxManifest Include="Package.Debug.appxmanifest" />
+    </ItemGroup>
   
     <ItemGroup>
         <Manifest Include="app.manifest" />
@@ -54,6 +67,21 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
         <Content Update="Assets\FilesOpenDialog\Files.App.Launcher.exe">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <!-- Search service — all output files from Files.SearchService included so the
+             framework-dependent apphost (files-search-service.exe) can find its DLL and deps.
+             The glob preserves runtimes\ so native gRPC binaries land in the right place. -->
+        <Content Include="..\Files.SearchService\bin\$(Platform)\$(Configuration)\$(WindowsTargetFramework)\**" Exclude="..\Files.SearchService\bin\$(Platform)\$(Configuration)\$(WindowsTargetFramework)\**\*.pdb;..\Files.SearchService\bin\$(Platform)\$(Configuration)\$(WindowsTargetFramework)\**\*.staticwebassets.endpoints.json" Condition="Exists('..\Files.SearchService\bin\$(Platform)\$(Configuration)\$(WindowsTargetFramework)\')">
+            <Link>SearchService\%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <!-- Files.App.Server out-of-process COM server — stage exe and deps into
+             Files.App.Server\ so the AppxManifest OutOfProcessServer Path resolves.
+             Without this, AppX deployment validation fails on every activation and
+             Files.exe is never launched. -->
+        <Content Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\**" Exclude="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\**\*.pdb;..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\Files.App.Server.winmd" Condition="Exists('..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\')">
+            <Link>Files.App.Server\%(RecursiveDir)%(Filename)%(Extension)</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
         <Content Include="7z.dll" Condition="'$(Platform)' == 'x86'">
@@ -94,6 +122,7 @@
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
         <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" />
         <PackageReference Include="Sentry" />
+        <PackageReference Include="System.ServiceProcess.ServiceController" />
         <PackageReference Include="SevenZipSharp" />
         <PackageReference Include="SharpZipLib" />
         <PackageReference Include="SQLitePCLRaw.bundle_green" />
@@ -132,8 +161,13 @@
         <ProjectReference Include="..\Files.App.Controls\Files.App.Controls.csproj" />
         <ProjectReference Include="..\Files.App.Storage\Files.App.Storage.csproj" />
         <ProjectReference Include="..\Files.Core.Storage\Files.Core.Storage.csproj" />
+        <ProjectReference Include="..\Files.IndexedSearch.Client\Files.IndexedSearch.Client.csproj" />
+        <ProjectReference Include="..\Files.LegacySearch\Files.LegacySearch.csproj" />
+        <ProjectReference Include="..\Files.SearchAbstraction\Files.SearchAbstraction.csproj" />
         <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
         <ProjectReference Include="..\Files.Core.SourceGenerator\Files.Core.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+        <!-- Build dependency only — no assembly reference. Ensures the service is rebuilt before we copy its exe. -->
+        <ProjectReference Include="..\Files.SearchService\Files.SearchService.csproj" ReferenceOutputAssembly="false" Private="false" />
     </ItemGroup>
 
     <ItemGroup>

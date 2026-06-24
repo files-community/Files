@@ -108,6 +108,9 @@ namespace Files.App.Helpers
 				App.QuickAccessManager.InitializeAsync()
 			);
 
+			// Start the search service sidecar in the background — fire and forget.
+			_ = Task.Run(SearchServiceManager.EnsureRunning);
+
 			// Start non-critical tasks without waiting for them to complete
 			_ = Task.Run(async () =>
 			{

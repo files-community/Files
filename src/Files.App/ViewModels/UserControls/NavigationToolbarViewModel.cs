@@ -1137,7 +1137,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 			else
 			{
-				var search = new FolderSearch
+				var search = new SearchRouter
 				{
 					Query = OmnibarSearchModeText,
 					Folder = ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory,

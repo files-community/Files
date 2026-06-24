@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Debug manifest: desktop6:Service omitted so VS can sideload without admin.
+      SearchServiceManager spawns files-search-service.exe as a child process instead.  -->
 <Package
     xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
     xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
@@ -16,7 +18,7 @@
     <Identity
         Name="FilesDev"
         Publisher="CN=Files"
-        Version="4.1.5.0" />
+        Version="4.1.0.0" />
 
     <Properties>
         <DisplayName>Files - Dev</DisplayName>
@@ -59,7 +61,7 @@
         <Resource Language="km-KH" />
         <Resource Language="ko-KR" />
         <Resource Language="lt-LT" />
-        <Resource Language="lv-LV" />        
+        <Resource Language="lv-LV" />
         <Resource Language="ms-MY" />
         <Resource Language="nb-NO" />
         <Resource Language="nl-NL" />
@@ -140,14 +142,6 @@
 
                 <Extension Category="windows.updateTask" EntryPoint="Files.App.BackgroundTasks.UpdateTask" />
 
-                <!-- Search service — installed by the package, managed by SCM.
-                     Runs as LocalSystem so it can read the NTFS USN Change Journal
-                     for fast whole-drive indexing without a UAC prompt at runtime.
-                     Admin is only required at install time, which MSIX already handles. -->
-                <desktop6:Extension Category="windows.service" Executable="SearchService\files-search-service.exe" EntryPoint="Windows.FullTrustApplication">
-                    <desktop6:Service Name="FilesSearchService" StartupType="auto" StartAccount="localSystem" />
-                </desktop6:Extension>
-
                 <uap:Extension Category="windows.fileTypeAssociation">
                     <uap:FileTypeAssociation Name="archives">
                         <uap:SupportedFileTypes>
@@ -184,14 +178,12 @@
             </OutOfProcessServer>
         </Extension>
     </Extensions>
-  
+
     <Capabilities>
         <!--
             <rescap:Capability Name="packageQuery" />
         -->
         <rescap:Capability Name="runFullTrust" />
-        <rescap:Capability Name="packagedServices" />
-        <rescap:Capability Name="localSystemServices" />
         <rescap:Capability Name="broadFileSystemAccess" />
         <rescap:Capability Name="allowElevation" />
         <!--

@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package files.search.v1;
+
+service FilesSearch {
+  rpc Health(HealthRequest) returns (HealthResponse);
+  rpc Search(SearchRequest) returns (stream SearchHit);
+}
+
+message HealthRequest {}
+
+message HealthResponse {
+  string version = 1;
+  uint64 indexed_file_count = 2;
+  bool indexing = 3;
+}
+
+message SearchRequest {
+  string query = 1;
+  uint32 max_results = 2;
+  repeated string scope_paths = 3;
+}
+
+message SearchHit {
+  string path = 1;
+  string filename = 2;
+  uint64 size_bytes = 3;
+  int64 modified_unix_ms = 4;
+  float score = 5;
+}
