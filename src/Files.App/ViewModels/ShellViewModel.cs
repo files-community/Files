@@ -824,6 +824,11 @@ namespace Files.App.ViewModels
 		{
 			var isFolderEmpty = FilesAndFolders.Count == 0;
 
+			EmptyTextType = isFolderEmpty ? (IsSearchResults ? EmptyTextType.NoSearchResultsFound : EmptyTextType.FolderEmpty) : EmptyTextType.None;
+		}
+
+		public void UpdateNetworkAvailabilityInfoBar()
+		{
 			var shouldCheckNetworkAvailability =
 				!IsSearchResults &&
 				IsNetworkFolder(WorkingDirectory);
@@ -835,8 +840,6 @@ namespace Files.App.ViewModels
 				CancelNetworkAvailabilityUpdate();
 				IsNetworkDiscoveryInfoBarOpen = false;
 			}
-
-			EmptyTextType = isFolderEmpty ? (IsSearchResults ? EmptyTextType.NoSearchResultsFound : EmptyTextType.FolderEmpty) : EmptyTextType.None;
 		}
 
 		private void QueueNetworkAvailabilityUpdate(string workingDirectory)
@@ -930,6 +933,7 @@ namespace Files.App.ViewModels
 					{
 						FilesAndFolders.Clear();
 						UpdateEmptyTextType();
+						UpdateNetworkAvailabilityInfoBar();
 						DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
 					}
 
@@ -974,6 +978,7 @@ namespace Files.App.ViewModels
 							// once loading is completed so that UI can be updated
 							FilesAndFolders.EndBulkOperation();
 							UpdateEmptyTextType();
+							UpdateNetworkAvailabilityInfoBar();
 							DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
 						}
 						finally

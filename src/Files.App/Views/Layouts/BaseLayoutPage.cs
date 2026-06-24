@@ -390,6 +390,7 @@ namespace Files.App.Views.Layouts
 				}
 
 				ParentShellPageInstance.ShellViewModel.UpdateEmptyTextType();
+				ParentShellPageInstance.ShellViewModel.UpdateNetworkAvailabilityInfoBar();
 
 				// Focus on the active pane in case it was lost during the layout switch.
 				// Allthough the focus is also set from SetSelectedItemsOnNavigation,
