@@ -67,6 +67,7 @@ namespace Files.App.Services.Settings
 
 			// Remove session settings
 			export.Remove(nameof(GeneralSettingsService.LastSessionTabList));
+			export.Remove(nameof(GeneralSettingsService.LastSessionSelectedTabIndex));
 			export.Remove(nameof(GeneralSettingsService.LastCrashedTabList));
 			export.Remove(nameof(GeneralSettingsService.PathHistoryList));
 			export.Remove(nameof(GeneralSettingsService.PreviousSearchQueriesList));

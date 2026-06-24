@@ -319,6 +319,8 @@ namespace Files.App.Helpers
 				}
 			})
 			.ToList();
+
+			userSettingsService.GeneralSettingsService.LastSessionSelectedTabIndex = App.AppModel.TabStripSelectedIndex;
 		}
 
 		/// <summary>
