@@ -33,6 +33,18 @@ namespace Files.App.Data.Contracts
 		Task<bool> CompressAsync(ICompressArchiveModel compressionModel);
 
 		/// <summary>
+		/// Whether the archive at <paramref name="archivePath"/> is currently being written by an
+		/// in-flight <see cref="CompressAsync"/> call.
+		/// </summary>
+		bool IsCompressionInProgress(string archivePath);
+
+		/// <summary>
+		/// Raised after <see cref="CompressAsync"/> finishes successfully, with the archive's path.
+		/// Subscribers should not assume any particular thread.
+		/// </summary>
+		event EventHandler<string>? CompressionCompleted;
+
+		/// <summary>
 		/// Decompresses the archive file specified by the path to the path specified by the path with password if applicable.
 		/// </summary>
 		/// <param name="archiveFilePath">The archive file path to decompress.</param>

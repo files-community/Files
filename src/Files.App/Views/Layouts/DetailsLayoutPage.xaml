@@ -950,16 +950,15 @@
 												x:Load="True"
 												Source="{x:Bind IconOverlay, Mode=OneWay}"
 												Stretch="Uniform" />
-											<Border
+											<Viewbox
 												x:Name="ShortcutGlyphElement"
+												Width="10"
+												Height="10"
 												HorizontalAlignment="Left"
 												VerticalAlignment="Bottom"
 												x:Load="{x:Bind IsShortcut}">
-												<controls:ThemedIcon
-													Width="12"
-													Height="12"
-													Style="{StaticResource App.ThemedIcons.Shortcut}" />
-											</Border>
+												<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.Shortcut}" />
+											</Viewbox>
 											<Image
 												x:Name="ShieldOverlay"
 												Width="8"
@@ -1246,17 +1245,30 @@
 										Visibility="{Binding ColumnsViewModel.ItemTypeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Item Size  -->
-									<TextBlock
+									<Grid
 										x:Name="ItemSize"
 										Width="{Binding ColumnsViewModel.SizeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
-										DataContextChanged="TextBlock_DataContextChanged"
-										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
-										Style="{StaticResource ColumnContentTextBlock}"
-										Text="{x:Bind FileSize, Mode=OneWay}"
-										Visibility="{Binding ColumnsViewModel.SizeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+										Visibility="{Binding ColumnsViewModel.SizeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
+										<TextBlock
+											DataContextChanged="TextBlock_DataContextChanged"
+											IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
+											Style="{StaticResource ColumnContentTextBlock}"
+											Text="{x:Bind SizeText, Mode=OneWay}"
+											Visibility="{x:Bind ShowViewSizeButton, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										<HyperlinkButton
+											Padding="0"
+											HorizontalAlignment="Left"
+											VerticalAlignment="Center"
+											Click="ViewSizeButton_Click"
+											Content="{helpers:ResourceString Name=ViewSize}"
+											FontFamily="{ThemeResource ContentControlThemeFontFamily}"
+											FontSize="{StaticResource CaptionTextBlockFontSize}"
+											FontWeight="Normal"
+											Visibility="{x:Bind ShowViewSizeButton, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+									</Grid>
 
 									<!--  Item Sync Status Badge  -->
 									<Border

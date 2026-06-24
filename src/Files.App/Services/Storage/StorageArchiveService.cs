@@ -6,6 +6,7 @@ using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Extensions.Logging;
 using SevenZip;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Text;
 using UtfUnknown;
@@ -19,6 +20,18 @@ namespace Files.App.Services
 	{
 		private StatusCenterViewModel StatusCenterViewModel { get; } = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 		private IThreadingService ThreadingService { get; } = Ioc.Default.GetRequiredService<IThreadingService>();
+
+		// Archive paths currently being written. ConcurrentDictionary used as a set; the byte value
+		// is unused. Lookups are case-insensitive to match Windows path semantics.
+		private readonly ConcurrentDictionary<string, byte> inProgressArchives =
+			new(StringComparer.OrdinalIgnoreCase);
+
+		/// <inheritdoc/>
+		public event EventHandler<string>? CompressionCompleted;
+
+		/// <inheritdoc/>
+		public bool IsCompressionInProgress(string archivePath)
+			=> inProgressArchives.ContainsKey(archivePath);
 
 		/// <inheritdoc/>
 		public bool CanCompress(IReadOnlyList<ListedItem> items)
@@ -60,7 +73,17 @@ namespace Files.App.Services
 			compressionModel.Progress = banner.ProgressEventSource;
 			compressionModel.CancellationToken = banner.CancellationToken;
 
-			bool isSuccess = await compressionModel.RunCreationAsync();
+			inProgressArchives.TryAdd(archivePath, 0);
+
+			bool isSuccess;
+			try
+			{
+				isSuccess = await compressionModel.RunCreationAsync();
+			}
+			finally
+			{
+				inProgressArchives.TryRemove(archivePath, out _);
+			}
 
 			StatusCenterViewModel.RemoveItem(banner);
 
@@ -71,6 +94,8 @@ namespace Files.App.Services
 					archivePath.CreateEnumerable(),
 					ReturnResult.Success,
 					compressionModel.Sources.Count());
+
+				CompressionCompleted?.Invoke(this, archivePath);
 			}
 			else
 			{

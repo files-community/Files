@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Files.App.Converters;
+using Files.Shared.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using System.Collections.Concurrent;
@@ -354,6 +355,17 @@ namespace Files.App.ViewModels.Properties
 			}
 
 			return list;
+		}
+
+		public static bool IsSectionApplicableForEmpty(string sectionResource, string fileExtension)
+		{
+			return sectionResource switch
+			{
+				"PropertySectionMusic" => FileExtensionHelpers.IsAudioFile(fileExtension),
+				"PropertySectionPhoto" => FileExtensionHelpers.IsImageFile(fileExtension),
+				"PropertySectionVideo" => FileExtensionHelpers.IsVideoFile(fileExtension),
+				_ => false,
+			};
 		}
 
 		/// <summary>

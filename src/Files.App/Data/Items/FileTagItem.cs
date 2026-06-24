@@ -57,7 +57,5 @@ namespace Files.App.Data.Items
 		public object ToolTip => Text;
 
 		public bool IsExpanded { get => false; set { } }
-
-		public bool PaddedItem => false;
 	}
 }

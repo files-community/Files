@@ -34,9 +34,6 @@ namespace Files.App.ViewModels.Previews
 		{
 		}
 
-		public static bool ContainsExtension(string extension)
-			=> extension is ".pdf";
-
 		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
 			var fileStream = await Item.ItemFile.OpenReadAsync();

@@ -190,10 +190,10 @@
     <value>搜索</value>
   </data>
   <data name="SearchSettings" xml:space="preserve">
-    <value>Search settings...</value>
+    <value>搜索设置……</value>
   </data>
   <data name="NoSearchResults" xml:space="preserve">
-    <value>No settings match your search.</value>
+    <value>没有匹配您搜索的设置。</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>以前访问过的文件和文件夹将显示在此处</value>
@@ -223,10 +223,10 @@
     <value>显示已知文件类型的扩展名</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>显示隐藏的文件或文件夹</value>
+    <value>显示隐藏的文件和文件夹</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>显示以英文句点开头的文件</value>
+    <value>显示以英文句点 (.) 开头的文件</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>外观</value>
@@ -238,22 +238,22 @@
     <value>高级选项</value>
   </data>
   <data name="CacheThumbnails" xml:space="preserve">
-    <value>Cache thumbnails</value>
+    <value>缓存缩略图</value>
   </data>
   <data name="CacheSizeLimitDescription" xml:space="preserve">
-    <value>Maximum disk space to use for thumbnail cache (100-5000 MiB).</value>
+    <value>用于缩略图缓存的最大磁盘空间(100-5000 MiB)。</value>
   </data>
   <data name="CacheSizeLimit" xml:space="preserve">
-    <value>Cache size limit</value>
+    <value>缓存大小限制</value>
   </data>
   <data name="ClearCachedThumbnails" xml:space="preserve">
-    <value>Clear cached thumbnails to free up space</value>
+    <value>清除缓存的缩略图以释放空间</value>
   </data>
   <data name="CurrentCacheSize" xml:space="preserve">
-    <value>Current cache size: </value>
+    <value>当前缓存大小： </value>
   </data>
   <data name="ClearCache" xml:space="preserve">
-    <value>Clear cache</value>
+    <value>清除缓存</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>从离开的位置继续</value>
@@ -684,7 +684,7 @@
     <value>文件</value>
   </data>
   <data name="Files" xml:space="preserve">
-    <value>Files</value>
+    <value>文件</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>创建空文件</value>
@@ -693,7 +693,7 @@
     <value>文件夹</value>
   </data>
   <data name="Folders" xml:space="preserve">
-    <value>Folders</value>
+    <value>文件夹</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>创建空文件夹</value>
@@ -1080,7 +1080,7 @@
     <value>以双窗格模式打开标签页</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>显示“在新面板中打开”</value>
+    <value>显示“在新面板中打开”选项</value>
   </data>
   <data name="ShowCopyPath" xml:space="preserve">
     <value>显示“复制路径”选项</value>
@@ -1096,6 +1096,9 @@
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
     <value>在新面板中打开</value>
+  </data>
+  <data name="OpenInOtherPane" xml:space="preserve">
+    <value>Open in other pane</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>文件和文件夹</value>
@@ -1195,6 +1198,9 @@
   </data>
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>未计算</value>
+  </data>
+  <data name="ViewSize" xml:space="preserve">
+    <value>View size</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>未知</value>
@@ -1362,7 +1368,7 @@
     <value>用选中的项目创建文件夹</value>
   </data>
   <data name="CreateShortcutWithSelection" xml:space="preserve">
-    <value>Create shortcuts with selection</value>
+    <value>创建所选项目的快捷方式</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>类型：</value>
@@ -1815,7 +1821,7 @@
     <value>文件标签</value>
   </data>
   <data name="OpenFilesWithOneClick" xml:space="preserve">
-    <value>Open files with a single click</value>
+    <value>单击打开文件</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>文件夹路径</value>
@@ -2076,10 +2082,10 @@
     <value>您好！</value>
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
-    <value>喜欢Files吗？请考虑在 Microsoft Store 中给我们写评价。</value>
+    <value>喜欢 Files 吗？请考虑在 Microsoft Store 中给我们写评价。</value>
   </data>
   <data name="SponsorSubtitle" xml:space="preserve">
-    <value>喜欢Files吗？请考虑在 Github 上支持该项目。</value>
+    <value>喜欢 Files 吗？请考虑在 GitHub上支持该项目。</value>
   </data>
   <data name="Sponsor" xml:space="preserve">
     <value>赞助</value>
@@ -2121,7 +2127,7 @@
     <value>单击打开文件夹</value>
   </data>
   <data name="OpenFolderWithOneClickInColumnsView" xml:space="preserve">
-    <value>Open folders with a single click in Columns View</value>
+    <value>在列视图下单击打开文件夹</value>
   </data>
   <data name="SingleClickToOpen" xml:space="preserve">
     <value>单击打开文件夹</value>
@@ -2412,7 +2418,10 @@
     <value>确定要删除此标签吗？</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>播放</value>
+    <value>Play All</value>
+  </data>
+  <data name="Play" xml:space="preserve">
+    <value>Play</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>高度</value>
@@ -3412,6 +3421,9 @@
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
     <value>在新窗格中打开选中的目录</value>
   </data>
+  <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
+    <value>Open selected directory in the other pane</value>
+  </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>在新标签页中打开选中的目录</value>
   </data>
@@ -3914,6 +3926,9 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>更改专辑封面</value>
   </data>
+  <data name="RemoveAlbumCover" xml:space="preserve">
+    <value>Remove album cover</value>
+  </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>重命名项目失败</value>
   </data>
@@ -4210,7 +4225,7 @@
     <value>压缩内容</value>
   </data>
   <data name="ShowCreateAlternateDataStream" xml:space="preserve">
-    <value>显示创建备用数据流 (Alternate Data Stream) 的选项</value>
+    <value>显示“创建备用数据流 (Alternate Data Stream)”选项</value>
   </data>
   <data name="CreateAlternateDataStream" xml:space="preserve">
     <value>创建备用数据流</value>
@@ -4244,6 +4259,15 @@
   </data>
   <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
     <value>总是切换到新创建的标签页</value>
+  </data>
+  <data name="ReverseTabScrollDirection" xml:space="preserve">
+    <value>Reverse tab scroll direction</value>
+  </data>
+  <data name="DownMotionScrollsLeft" xml:space="preserve">
+    <value>Down motion scrolls left</value>
+  </data>
+  <data name="DownMotionScrollsRight" xml:space="preserve">
+    <value>Down motion scrolls right</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>显示/隐藏中转站窗格</value>
@@ -4429,10 +4453,10 @@
     <value>显示状态栏</value>
   </data>
   <data name="OnlyForTouch" xml:space="preserve">
-    <value>When using touch</value>
+    <value>使用触摸时</value>
   </data>
   <data name="OnlyForMouse" xml:space="preserve">
-    <value>When using mouse</value>
+    <value>使用鼠标时</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>新建 {0}</value>
@@ -4444,10 +4468,10 @@
     <value>翻页</value>
   </data>
   <data name="ShowPinToSideBar" xml:space="preserve">
-    <value>显示固定选项到侧边栏</value>
+    <value>显示“固定到侧边栏”选项</value>
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
-    <value>显示固定选项到“开始菜单”</value>
+    <value>显示“固定到开始菜单”选项</value>
   </data>
   <data name="Toolbar" xml:space="preserve">
     <value>工具栏</value>
@@ -4550,5 +4574,14 @@
   </data>
   <data name="EditTagsGroupDescription" xml:space="preserve">
     <value>添加或移除文件标签</value>
+  </data>
+  <data name="RemoveTags" xml:space="preserve">
+    <value>Remove tags</value>
+  </data>
+  <data name="RemoveTagsDescription" xml:space="preserve">
+    <value>Remove tags from the selected items</value>
+  </data>
+  <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
+    <value>Are you sure you want to remove tags from the selected items?</value>
   </data>
 </root>

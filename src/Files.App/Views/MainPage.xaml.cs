@@ -35,6 +35,9 @@ namespace Files.App.Views
 
 		private DispatcherQueueTimer _updateDateDisplayTimer;
 
+		private readonly Dictionary<TabBarItem, double> _sidebarScrollByTab = new();
+		private TabBarItem? _previousSidebarTab;
+
 		public MainPage()
 		{
 			InitializeComponent();
@@ -338,6 +341,15 @@ namespace Files.App.Views
 		{
 			// Set the correct tab margin on startup
 			SidebarAdaptiveViewModel.UpdateTabControlMargin();
+			SidebarAdaptiveViewModel.EnsureTabExpansionTrackingInitialized();
+
+			SidebarControl.HoverToOpenDelay = TimeSpan.FromMilliseconds(Constants.DragAndDrop.HoverToOpenTimespan);
+			SidebarControl.HoverToExpandDelay = TimeSpan.FromMilliseconds(Constants.DragAndDrop.HoverToExpandTimespan);
+
+			// VM.SidebarDisplayMode rejects Minimal (it only tracks user preference) so the flat tree mirrors SidebarView.DisplayMode separately.
+			SidebarAdaptiveViewModel.ActualDisplayMode = SidebarControl.DisplayMode;
+			SidebarControl.RegisterPropertyChangedCallback(SidebarView.DisplayModeProperty, (_, _) =>
+				SidebarAdaptiveViewModel.ActualDisplayMode = SidebarControl.DisplayMode);
 		}
 
 		private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e) => LoadPaneChanged();
@@ -425,6 +437,24 @@ namespace Files.App.Views
 		{
 			if (e.PropertyName == nameof(ViewModel.ShouldPreviewPaneBeActive) && ViewModel.ShouldPreviewPaneBeActive)
 				await Ioc.Default.GetRequiredService<InfoPaneViewModel>().UpdateSelectedItemPreviewAsync();
+			else if (e.PropertyName == nameof(ViewModel.SelectedTabItem))
+				HandleSidebarTabChange();
+		}
+
+		private void HandleSidebarTabChange()
+		{
+			if (_previousSidebarTab is not null)
+				_sidebarScrollByTab[_previousSidebarTab] = SidebarControl.VerticalScrollOffset;
+
+			var newTab = ViewModel.SelectedTabItem;
+			_previousSidebarTab = newTab;
+
+			if (newTab is null)
+				return;
+
+			var savedOffset = _sidebarScrollByTab.GetValueOrDefault(newTab);
+			// Defer to after the flat-tree's tab-state restoration dispatcher work so the content extent has caught up before scrolling.
+			DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () => SidebarControl.ScrollToVerticalOffset(savedOffset));
 		}
 
 		private void RootGrid_PreviewKeyDown(object sender, KeyRoutedEventArgs e)

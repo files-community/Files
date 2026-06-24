@@ -6,3 +6,6 @@ contact_links:
   - name: Question & Discussion
     url: https://discord.gg/files
     about: Post your questions and join the discussion. You can participate in chats on every channel.
+  - name: Code Quality
+    url: https://discord.gg/files
+    about: Discuss code quality and improvements on our Discord server.

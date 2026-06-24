@@ -1,8 +1,12 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using CommunityToolkit.WinUI;
+using Files.App.Controls;
 using Files.App.Helpers.Application;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
@@ -12,6 +16,26 @@ namespace Files.App.Helpers
 	public static class UIHelpers
 	{
 		public static event PropertyChangedEventHandler? PropertyChanged;
+
+		/// <summary>
+		/// True if a user-editable text input currently owns keyboard focus within the given XamlRoot.
+		/// Used to gate code that programmatically reassigns focus on a background-completion
+		/// callback (e.g. folder-load done), so the user's typing isn't yanked away.
+		/// </summary>
+		public static bool IsTextInputFocused(XamlRoot? xamlRoot)
+		{
+			if (xamlRoot is null)
+				return false;
+
+			if (FocusManager.GetFocusedElement(xamlRoot) is TextBox or RichEditBox or PasswordBox or AutoSuggestBox)
+				return true;
+
+			// The Omnibar holds an internal focus DP that stays true while its suggestion popup is
+			// open (the popup root sits outside the omnibar's visual ancestry, so GetFocusedElement
+			// alone misses it). Consult that DP as a fallback.
+			var omnibar = (MainWindow.Instance.Content as Frame)?.FindDescendant<Omnibar>();
+			return omnibar?.IsFocused == true;
+		}
 
 		private static bool canShowDialog = true;
 		public static bool CanShowDialog

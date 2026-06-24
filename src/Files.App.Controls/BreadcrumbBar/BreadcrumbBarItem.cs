@@ -46,7 +46,7 @@ namespace Files.App.Controls
 			_itemChevronDropDownMenuFlyout = GetTemplateChild(TemplatePartName_ItemChevronDropDownMenuFlyout) as MenuFlyout
 				?? throw new MissingFieldException($"Could not find {TemplatePartName_ItemChevronDropDownMenuFlyout} in the given {nameof(BreadcrumbBarItem)}'s style.");
 
-			if (IsEllipsis || IsLastItem)
+			if (IsEllipsis || !IsChevronVisible)
 				VisualStateManager.GoToState(this, "ChevronCollapsed", true);
 
 			// Handle click event with PointerReleasedEvent to get PointerPoint
@@ -54,6 +54,10 @@ namespace Files.App.Controls
 				PointerReleasedEvent,
 				new PointerEventHandler((s, e) =>
 				{
+					// Skip right-button releases so RightTapped can drive the context menu without also navigating
+					if (e.GetCurrentPoint(null).Properties.PointerUpdateKind is PointerUpdateKind.RightButtonReleased)
+						return;
+
 					OnItemClicked(e);
 					e.Handled = true;
 				}),
@@ -62,6 +66,7 @@ namespace Files.App.Controls
 			_itemContentButton.PreviewKeyDown += ItemContentButton_PreviewKeyDown;
 			_itemChevronButton.Click += ItemChevronButton_Click;
 			_itemChevronButton.PreviewKeyDown += ItemChevronButton_PreviewKeyDown;
+			_itemChevronButton.RightTapped += ItemChevronButton_RightTapped;
 			_itemChevronDropDownMenuFlyout.Opening += ChevronDropDownMenuFlyout_Opening;
 			_itemChevronDropDownMenuFlyout.Opened += ChevronDropDownMenuFlyout_Opened;
 			_itemChevronDropDownMenuFlyout.Closed += ChevronDropDownMenuFlyout_Closed;

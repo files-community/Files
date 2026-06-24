@@ -153,6 +153,9 @@ namespace Files.App.Helpers
 			set => SetProperty(ref _IsLayoutModeChanging, value);
 		}
 
+		// One-shot selection carried across a layout-mode change; kept off NavigationArguments so the back stack can't replay it
+		public List<string>? PendingLayoutSwitchSelection { get; set; }
+
 		private LayoutPreferencesItem? _LayoutPreferencesItem;
 		public LayoutPreferencesItem LayoutPreferencesItem
 		{

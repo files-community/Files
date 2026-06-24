@@ -26,6 +26,15 @@ namespace Files.App.Controls
 
 		private void AutoSuggestBox_LosingFocus(UIElement sender, LosingFocusEventArgs args)
 		{
+			// Programmatic focus moves (InputDevice == None) while the user is typing in the
+			// Omnibar - typically a post-folder-load FocusActivePane / FocusFileList - should not
+			// pull focus away and clear the in-progress query. User gestures still pass through.
+			if (args.InputDevice is FocusInputDeviceKind.None && args.FocusState is FocusState.Programmatic)
+			{
+				args.TryCancel();
+				return;
+			}
+
 			// Prevent the TextBox from losing focus when the ModeButton is focused
 			if (args.NewFocusedElement is not Button button ||
 				args.InputDevice is FocusInputDeviceKind.Keyboard ||

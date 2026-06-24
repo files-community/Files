@@ -18,6 +18,7 @@ namespace Files.App.UserControls.TabBar
 
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly IAppearanceSettingsService AppearanceSettingsService = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
+		private readonly IGeneralSettingsService GeneralSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 		private readonly IWindowContext WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
 
 		// Fields
@@ -257,16 +258,15 @@ namespace Files.App.UserControls.TabBar
 		private void TabView_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
 		{
 			var delta = e.GetCurrentPoint(null).Properties.MouseWheelDelta;
+			var scrollUpSelectsNextTab = !GeneralSettingsService.ReverseTabScrollDirection;
 
-			if (delta > 0)
+			if ((delta > 0) == scrollUpSelectsNextTab)
 			{
-				// Scroll up, select the next tab
 				if (App.AppModel.TabStripSelectedIndex < Items.Count - 1)
 					App.AppModel.TabStripSelectedIndex++;
 			}
 			else
 			{
-				// Scroll down, select the previous tab
 				if (App.AppModel.TabStripSelectedIndex > 0)
 					App.AppModel.TabStripSelectedIndex--;
 			}
@@ -368,8 +368,8 @@ namespace Files.App.UserControls.TabBar
 
 			RightPaddingColumn.Width = new(titleBarInset > 40 ? titleBarInset : 138);
 			HorizontalTabView.Measure(new(
-				HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset,
-				HorizontalTabView.ActualHeight));
+				Math.Max(0, HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset),
+				Math.Max(0, HorizontalTabView.ActualHeight)));
 		}
 	}
 }

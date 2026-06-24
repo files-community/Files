@@ -17,13 +17,18 @@ namespace Files.App.Controls
 		bool IsExpanded { get; set; }
 
 		/// <summary>
-		/// Indicates whether the children should have an indentation or not.
-		/// </summary>
-		bool PaddedItem { get; }
-
-		/// <summary>
 		/// Optional path associated with this sidebar item for drag/drop scenarios.
 		/// </summary>
 		string? Path { get; }
+
+		/// <summary>
+		/// Renders as expandable even when Children is empty (children load lazily on first expansion).
+		/// </summary>
+		bool HasUnrealizedChildren => false;
+
+		/// <summary>
+		/// Expansion participant that keeps the regular row appearance (icon + normal text) instead of the section-header style.
+		/// </summary>
+		bool IsLeafWithChildren => false;
 	}
 }

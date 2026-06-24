@@ -76,6 +76,11 @@ namespace Files.App.Data.Contracts
 		bool AlwaysSwitchToNewlyOpenedTab { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether or not to reverse the mouse wheel direction used to switch tabs.
+		/// </summary>
+		bool ReverseTabScrollDirection { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating whether or not to display the quick access widget.
 		/// </summary>
 		bool ShowQuickAccessWidget { get; set; }
@@ -131,19 +136,9 @@ namespace Files.App.Data.Contracts
 		bool ShowPinnedSection { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating if the favorites section should be expanded.
-		/// </summary>
-		bool IsPinnedSectionExpanded { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating if the library section should be visible.
 		/// </summary>
 		bool ShowLibrarySection { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating if the library section should be expanded.
-		/// </summary>
-		bool IsLibrarySectionExpanded { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating if the drive section should be visible.
@@ -151,19 +146,9 @@ namespace Files.App.Data.Contracts
 		bool ShowDrivesSection { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating if the drive section should be expanded.
-		/// </summary>
-		bool IsDriveSectionExpanded { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating if the cloud drive section should be visible.
 		/// </summary>
 		bool ShowCloudDrivesSection { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating if the cloud drive section should be expanded.
-		/// </summary>
-		bool IsCloudDriveSectionExpanded { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating if the network section should be visible.
@@ -171,29 +156,14 @@ namespace Files.App.Data.Contracts
 		bool ShowNetworkSection { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating if the network section should be expanded.
-		/// </summary>
-		bool IsNetworkSectionExpanded { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating if the wsl section should be visible.
 		/// </summary>
 		bool ShowWslSection { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating if the wsl section should be expanded.
-		/// </summary>
-		bool IsWslSectionExpanded { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating if the tags section should be visible.
 		/// </summary>
 		bool ShowFileTagsSection { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating if the file tags section should be expanded.
-		/// </summary>
-		bool IsFileTagsSectionExpanded { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to move shell extensions into a sub menu.
