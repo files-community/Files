@@ -131,7 +131,7 @@ namespace Files.App.Storage
 
 			if (_computerFolderPidl is not null)
 			{
-				PInvoke.ILFree(_computerFolderPidl);
+				PInvoke.CoTaskMemFree(_computerFolderPidl);
 				_computerFolderPidl = null;
 			}
 		}
