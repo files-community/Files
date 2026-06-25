@@ -405,7 +405,7 @@ namespace Files.App.Utils.Storage
 
 		private IAsyncOperation<BaseStorageFile> CopyWithEncodingAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
 		{
-			return AsyncInfo.Run(async (cancellationToken) =>
+			return (IAsyncOperation<BaseStorageFile>)AsyncInfo.Run(async (cancellationToken) => SafetyExtensions.Wrap<BaseStorageFile>(async () =>
 			{
 				using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(CurrentEncoding!));
 
@@ -446,7 +446,7 @@ namespace Files.App.Utils.Storage
 				}
 
 				return null;
-			});
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 		public override IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace)
 		{
@@ -477,7 +477,7 @@ namespace Files.App.Utils.Storage
 
 		private IAsyncAction CopyAndReplaceWithEncodingAsync(IStorageFile fileToReplace)
 		{
-			return AsyncInfo.Run(async (cancellationToken) =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.WrapAsync(async () =>
 			{
 				using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(CurrentEncoding!));
 
@@ -502,7 +502,7 @@ namespace Files.App.Utils.Storage
 						return;
 					}
 				}
-			});
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
 		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder)
