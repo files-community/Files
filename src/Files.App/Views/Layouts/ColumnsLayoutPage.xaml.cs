@@ -255,7 +255,7 @@ namespace Files.App.Views.Layouts
 				return;
 
 			var currentBlade = ColumnHost.ActiveBlades.ToList().Single(x => (x.Content as Frame)?.Content == sender);
-			currentBlade.StartBringIntoView();
+			currentBlade.StartBringIntoView(new BringIntoViewOptions { AnimationDesired = false });
 			if (ColumnHost.ActiveBlades is not null)
 			{
 				ColumnHost.ActiveBlades.ToList().ForEach(x =>
@@ -325,17 +325,21 @@ namespace Files.App.Views.Layouts
 			DismissOtherBlades(currentBladeIndex);
 
 			var activeBlade = ColumnHost.ActiveBlades[currentBladeIndex - 1];
-			activeBlade.Focus(FocusState.Programmatic);
 			FocusIndex = currentBladeIndex - 1;
 
 			var activeBladeColumnViewBase = RetrieveBladeColumnViewBase(activeBlade);
-			if (activeBladeColumnViewBase is null)
+			if (activeBladeColumnViewBase?.FileList is null)
+			{
+				activeBlade.Focus(FocusState.Programmatic);
 				return;
+			}
 
-			// This allows to deselect and reselect the parent folder, hence forcing the refocus.
-			var selectedItem = activeBladeColumnViewBase.FileList.SelectedItem;
-			activeBladeColumnViewBase.FileList.SelectedItem = null;
-			activeBladeColumnViewBase.FileList.SelectedItem = selectedItem;
+			var fileList = activeBladeColumnViewBase.FileList;
+			if (fileList.SelectedItem is not null &&
+				fileList.ContainerFromItem(fileList.SelectedItem) is ListViewItem container)
+				container.Focus(FocusState.Programmatic);
+			else
+				fileList.Focus(FocusState.Programmatic);
 		}
 
 		public void MoveFocusToNextBlade(int currentBladeIndex)
