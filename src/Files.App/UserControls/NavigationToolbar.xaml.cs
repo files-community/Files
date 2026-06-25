@@ -422,6 +422,11 @@ namespace Files.App.UserControls
 			}
 			else
 			{
+				if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
+				{
+					ViewModel?.CancelSuggestionSearch();
+				}
+
 				// When Omnibar loses focus, revert to Path Mode to display BreadcrumbBar
 				Omnibar.CurrentSelectedMode = OmnibarPathMode;
 			}
