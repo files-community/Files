@@ -190,6 +190,30 @@ namespace Files.App.Utils.Storage
 				? new BaseBasicProperties()
 				: new ZipFolderBasicProperties(entry);
 		}
+		private Task<BaseBasicProperties> GetBasicPropertiesWithEncodingAsync()
+		{
+			return Task.Run(() =>
+			{
+				using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(CurrentEncoding!));
+
+				if (!string.IsNullOrEmpty(Credentials.Password))
+					zipFile.Password = Credentials.Password;
+
+				var normalizedTarget = Path.TrimEnd('\\', '/');
+
+				foreach (ZipEntry entry in zipFile)
+				{
+					var entryPath = System.IO.Path.Combine(System.IO.Path.GetFullPath(containerPath), entry.Name.Replace("/", "\\"));
+					var normalizedEntry = entryPath.TrimEnd('\\', '/');
+
+					if (normalizedEntry == normalizedTarget)
+						return new ZipFolderBasicPropertiesWithEncoding(entry);
+				}
+
+				return new BaseBasicProperties();
+			});
+		}
+
 		public override IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync()
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
@@ -199,6 +223,10 @@ namespace Files.App.Utils.Storage
 					var zipFile = new SystemStorageFile(await StorageFile.GetFileFromPathAsync(Path));
 					return await zipFile.GetBasicPropertiesAsync();
 				}
+
+				if (CurrentEncoding is not null)
+					return await GetBasicPropertiesWithEncodingAsync();
+
 				return await GetBasicProperties();
 			});
 		}
@@ -807,6 +835,19 @@ namespace Files.App.Utils.Storage
 			public override DateTimeOffset DateCreated => entry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.CreationTime;
 
 			public override ulong Size => entry.Size;
+		}
+
+		private sealed partial class ZipFolderBasicPropertiesWithEncoding : BaseBasicProperties
+		{
+			private ZipEntry entry;
+
+			public ZipFolderBasicPropertiesWithEncoding(ZipEntry entry) => this.entry = entry;
+
+			public override DateTimeOffset DateModified => entry.DateTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.DateTime;
+
+			public override DateTimeOffset DateCreated => DateTimeOffset.MinValue;
+
+			public override ulong Size => (ulong)entry.Size;
 		}
 	}
 }

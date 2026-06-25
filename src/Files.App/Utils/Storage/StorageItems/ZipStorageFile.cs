@@ -98,7 +98,16 @@ namespace Files.App.Utils.Storage
 		public override bool IsOfType(StorageItemTypes type) => type is StorageItemTypes.File;
 
 		public override IAsyncOperation<BaseStorageFolder> GetParentAsync() => throw new NotSupportedException();
-		public override IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync() => GetBasicProperties().AsAsyncOperation();
+		public override IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync()
+		{
+			return AsyncInfo.Run(async (cancellationToken) =>
+			{
+				if (CurrentEncoding is not null && Path != containerPath)
+					return await GetBasicPropertiesWithEncodingAsync();
+
+				return await GetBasicProperties();
+			});
+		}
 
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode)
 		{
@@ -672,6 +681,30 @@ namespace Files.App.Utils.Storage
 				: new ZipFileBasicProperties(entry);
 		}
 
+		private Task<BaseBasicProperties> GetBasicPropertiesWithEncodingAsync()
+		{
+			return Task.Run(() =>
+			{
+				using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(CurrentEncoding!));
+
+				if (!string.IsNullOrEmpty(Credentials.Password))
+					zipFile.Password = Credentials.Password;
+
+				var targetName = GetEntryRelativePath();
+
+				foreach (ZipEntry entry in zipFile)
+				{
+					if (!entry.IsFile)
+						continue;
+
+					if (string.Equals(entry.Name.Replace('\\', '/'), targetName, StringComparison.OrdinalIgnoreCase))
+						return new ZipFileBasicPropertiesWithEncoding(entry);
+				}
+
+				return new BaseBasicProperties();
+			});
+		}
+
 		private IAsyncOperation<SevenZipExtractor> OpenZipFileAsync()
 		{
 			return AsyncInfo.Run<SevenZipExtractor>(async (cancellationToken) =>
@@ -747,6 +780,19 @@ namespace Files.App.Utils.Storage
 			public override DateTimeOffset DateCreated => entry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.CreationTime;
 
 			public override ulong Size => entry.Size;
+		}
+
+		private sealed partial class ZipFileBasicPropertiesWithEncoding : BaseBasicProperties
+		{
+			private ZipEntry entry;
+
+			public ZipFileBasicPropertiesWithEncoding(ZipEntry entry) => this.entry = entry;
+
+			public override DateTimeOffset DateModified => entry.DateTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.DateTime;
+
+			public override DateTimeOffset DateCreated => DateTimeOffset.MinValue;
+
+			public override ulong Size => (ulong)entry.Size;
 		}
 	}
 }
