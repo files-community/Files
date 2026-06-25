@@ -185,8 +185,8 @@ namespace Files.App.Helpers
 				options.AutoSessionTracking = true;
 				var packageVersion = Package.Current.Id.Version;
 				options.Release = $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}";
-				options.TracesSampleRate = 0.80;
-				options.ProfilesSampleRate = 0.40;
+				options.TracesSampleRate = 0.10;
+				options.ProfilesSampleRate = 0.05;
 				options.Environment = AppEnvironment == AppEnvironment.StorePreview || AppEnvironment == AppEnvironment.SideloadPreview ? "preview" : "production";
 
 				options.DisableWinUiUnhandledExceptionIntegration();
@@ -319,6 +319,8 @@ namespace Files.App.Helpers
 				}
 			})
 			.ToList();
+
+			userSettingsService.GeneralSettingsService.LastSessionSelectedTabIndex = App.AppModel.TabStripSelectedIndex;
 		}
 
 		/// <summary>

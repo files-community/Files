@@ -374,6 +374,15 @@
 									x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
 									FontSize="14"
 									Glyph="{x:Bind IsRecentSearch, Mode=OneTime, Converter={StaticResource SearchSuggestionGlyphConverter}}" />
+								<Viewbox
+									x:Name="ShortcutGlyphElement"
+									Width="10"
+									Height="10"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Bottom"
+									x:Load="{x:Bind IsShortcut}">
+									<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.Shortcut}" />
+								</Viewbox>
 							</Grid>
 							<StackPanel Grid.Column="1" VerticalAlignment="Center">
 								<TextBlock Text="{x:Bind Name, Mode=OneWay}" />

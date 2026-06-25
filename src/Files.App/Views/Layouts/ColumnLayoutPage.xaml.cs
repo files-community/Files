@@ -31,8 +31,6 @@ namespace Files.App.Views.Layouts
 
 		private ListViewItem? openedFolderPresenter;
 
-		private bool isDraggingSelectionRectangle = false;
-
 		// Tracks the most recent pointer device that interacted with the FileList,
 		// so SelectionChanged (which has no PointerDeviceType of its own) can honor input-method-aware single-click settings.
 		private PointerDeviceType? lastPointerDeviceType;
@@ -679,7 +677,6 @@ namespace Files.App.Views.Layouts
 
 		protected override void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
 		{
-			isDraggingSelectionRectangle = false;
 			// Open selected folder (if only one folder is selected) after the user finishes dragging the selection rectangle
 			if (SelectedItems?.Count is 1
 				&& SelectedItem is not null
@@ -687,11 +684,6 @@ namespace Files.App.Views.Layouts
 				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is IShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 
 			base.SelectionRectangle_SelectionEnded(sender, e);
-		}
-
-		private void SelectionRectangle_SelectionStarted(object sender, EventArgs e)
-		{
-			isDraggingSelectionRectangle = true;
 		}
 
 		internal void ClearSelectionIndicator()

@@ -172,6 +172,7 @@ namespace Files.App.ViewModels
 		private CancellationTokenSource searchCTS;
 		private CancellationTokenSource updateTagGroupCTS;
 		private CancellationTokenSource? filterDebounceCS;
+		private CancellationTokenSource? networkAvailabilityCTS;
 
 		public event EventHandler FocusFilterHeader;
 
@@ -308,6 +309,38 @@ namespace Files.App.ViewModels
 		{
 			get => emptyTextType;
 			set => SetProperty(ref emptyTextType, value);
+		}
+
+		private bool isNetworkDiscoveryInfoBarOpen;
+		public bool IsNetworkDiscoveryInfoBarOpen
+		{
+			get => isNetworkDiscoveryInfoBarOpen;
+			set => SetProperty(ref isNetworkDiscoveryInfoBarOpen, value);
+		}
+
+		private NetworkAvailability networkAvailability = NetworkAvailability.All;
+		public NetworkAvailability NetworkAvailability
+		{
+			get => networkAvailability;
+			private set
+			{
+				if (SetProperty(ref networkAvailability, value))
+					OnPropertyChanged(nameof(NetworkDiscoveryInfoBarMessage));
+			}
+		}
+
+		public string NetworkDiscoveryInfoBarMessage
+		{
+			get
+			{
+				return NetworkAvailability switch
+				{
+					NetworkAvailability.None => Strings.NetworkDiscoveryAndFileSharingTurnedOffInfoBarMessage.GetLocalizedResource(),
+					NetworkAvailability.Discovery => Strings.FileSharingTurnedOffInfoBarMessage.GetLocalizedResource(),
+					NetworkAvailability.Sharing => Strings.NetworkDiscoveryTurnedOffInfoBarMessage.GetLocalizedResource(),
+					_ => string.Empty,
+				};
+			}
 		}
 
 		public async Task UpdateFolderThumbnailImageSource()
@@ -735,6 +768,8 @@ namespace Files.App.ViewModels
 		{
 			Debug.WriteLine("CancelLoadAndClearFiles");
 			CloseWatcher();
+			CancelNetworkAvailabilityUpdate();
+			IsNetworkDiscoveryInfoBarOpen = false;
 			if (IsLoadingItems)
 			{
 				IsLoadingCancelled = true;
@@ -787,7 +822,72 @@ namespace Files.App.ViewModels
 
 		public void UpdateEmptyTextType()
 		{
-			EmptyTextType = FilesAndFolders.Count == 0 ? (IsSearchResults ? EmptyTextType.NoSearchResultsFound : EmptyTextType.FolderEmpty) : EmptyTextType.None;
+			var isFolderEmpty = FilesAndFolders.Count == 0;
+
+			EmptyTextType = isFolderEmpty ? (IsSearchResults ? EmptyTextType.NoSearchResultsFound : EmptyTextType.FolderEmpty) : EmptyTextType.None;
+		}
+
+		public void UpdateNetworkAvailabilityInfoBar()
+		{
+			var shouldCheckNetworkAvailability =
+				!IsSearchResults &&
+				IsNetworkFolder(WorkingDirectory);
+
+			if (shouldCheckNetworkAvailability)
+				QueueNetworkAvailabilityUpdate(WorkingDirectory);
+			else
+			{
+				CancelNetworkAvailabilityUpdate();
+				IsNetworkDiscoveryInfoBarOpen = false;
+			}
+		}
+
+		private void QueueNetworkAvailabilityUpdate(string workingDirectory)
+		{
+			CancelNetworkAvailabilityUpdate();
+
+			networkAvailabilityCTS = new CancellationTokenSource();
+			IsNetworkDiscoveryInfoBarOpen = false;
+
+			_ = UpdateNetworkAvailabilityInfoBarAsync(workingDirectory, networkAvailabilityCTS.Token);
+		}
+
+		private void CancelNetworkAvailabilityUpdate()
+		{
+			networkAvailabilityCTS?.Cancel();
+			networkAvailabilityCTS?.Dispose();
+			networkAvailabilityCTS = null;
+		}
+
+		private async Task UpdateNetworkAvailabilityInfoBarAsync(string workingDirectory, CancellationToken cancellationToken)
+		{
+			var availability = await NetworkService.GetNetworkAvailabilityAsync();
+			if (cancellationToken.IsCancellationRequested)
+				return;
+
+			await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+			{
+				if (cancellationToken.IsCancellationRequested ||
+					IsSearchResults ||
+					!string.Equals(WorkingDirectory, workingDirectory, StringComparison.OrdinalIgnoreCase))
+				{
+					return;
+				}
+
+				if (availability is null or NetworkAvailability.All)
+				{
+					IsNetworkDiscoveryInfoBarOpen = false;
+					return;
+				}
+
+				NetworkAvailability = availability.Value;
+				IsNetworkDiscoveryInfoBarOpen = true;
+			});
+		}
+
+		private static bool IsNetworkFolder(string path)
+		{
+			return string.Equals(path, Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase);
 		}
 
 		private string? _filesAndFoldersFilter;
@@ -833,6 +933,7 @@ namespace Files.App.ViewModels
 					{
 						FilesAndFolders.Clear();
 						UpdateEmptyTextType();
+						UpdateNetworkAvailabilityInfoBar();
 						DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
 					}
 
@@ -877,6 +978,7 @@ namespace Files.App.ViewModels
 							// once loading is completed so that UI can be updated
 							FilesAndFolders.EndBulkOperation();
 							UpdateEmptyTextType();
+							UpdateNetworkAvailabilityInfoBar();
 							DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
 						}
 						finally
@@ -2890,6 +2992,7 @@ namespace Files.App.ViewModels
 			CancelLoadAndClearFiles();
 			filterDebounceCS?.Cancel();
 			filterDebounceCS?.Dispose();
+			networkAvailabilityCTS?.Dispose();
 			App.Logger.LogInformation($"ShellViewModel.Dispose: CurrentFolder={LogPathHelper.GetPathIdentifier(CurrentFolder?.ItemPath)}");
 
 			StorageTrashBinService.Watcher.ItemAdded -= RecycleBinItemCreatedAsync;

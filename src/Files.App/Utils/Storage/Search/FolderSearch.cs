@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -66,7 +67,8 @@ namespace Files.App.Utils.Storage
 				}
 				else
 				{
-					return $"System.FileName:\"{QueryWithWildcard}\"";
+					var escaped = QueryWithWildcard.Replace("\"", "\\\"");
+					return QueryWithWildcard.Contains(' ') ? $"System.FileName:\"{escaped}\"" : $"System.FileName:{QueryWithWildcard}";
 				}
 			}
 		}
@@ -377,7 +379,7 @@ namespace Files.App.Utils.Storage
 					hiddenOnlyFromWin32 = (results.Count != 0);
 				}
 
-				if (!IsAQSQuery && (!hiddenOnlyFromWin32 || UserSettingsService.FoldersSettingsService.ShowHiddenItems))
+				if (!IsAQSQuery)
 				{
 					await SearchWithWin32Async(folder, hiddenOnlyFromWin32, UsedMaxItemCount - (uint)results.Count, results, token);
 				}
@@ -390,10 +392,12 @@ namespace Files.App.Utils.Storage
 			(IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
 			{
 				int additionalFlags = Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH;
-				IntPtr hFileTsk = Win32PInvoke.FindFirstFileExFromApp($"{folder}\\{QueryWithWildcard}", Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic,
+				IntPtr hFileTsk = Win32PInvoke.FindFirstFileExFromApp($"{folder}\\*{QueryWithWildcard}", Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic,
 					out WIN32_FIND_DATA findDataTsk, Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
 				return (hFileTsk, findDataTsk);
 			}).WithTimeoutAsync(TimeSpan.FromSeconds(5));
+
+			var pendingShortcuts = new List<(string Path, WIN32_FIND_DATA FindData)>();
 
 			if (hFile != IntPtr.Zero && hFile.ToInt64() != -1)
 			{
@@ -411,18 +415,26 @@ namespace Files.App.Utils.Storage
 						var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
 						var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 						var startWithDot = findData.cFileName.StartsWith('.');
+						var isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(findData.cFileName);
 
 						bool shouldBeListed = (hiddenOnly ?
-							isHidden && (!isSystem || !UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles) :
+							(!isHidden && isShortcut) || (isHidden && UserSettingsService.FoldersSettingsService.ShowHiddenItems && (!isSystem || UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles)) :
 							!isHidden || (UserSettingsService.FoldersSettingsService.ShowHiddenItems && (!isSystem || UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) &&
 							(!startWithDot || UserSettingsService.FoldersSettingsService.ShowDotFiles);
 
 						if (shouldBeListed)
 						{
-							var item = GetListedItemAsync(itemPath, findData);
-							if (item is not null)
+							if (isShortcut)
 							{
-								results.Add(item);
+								pendingShortcuts.Add((itemPath, findData));
+							}
+							else
+							{
+								var item = GetListedItemAsync(itemPath, findData);
+								if (item is not null)
+								{
+									results.Add(item);
+								}
 							}
 						}
 
@@ -441,6 +453,121 @@ namespace Files.App.Utils.Storage
 
 					Win32PInvoke.FindClose(hFile);
 				}, token);
+			}
+
+			foreach (var (itemPath, itemFindData) in pendingShortcuts)
+			{
+				if (results.Count >= maxItemCount || token.IsCancellationRequested)
+					break;
+
+				var isUrl = FileExtensionHelpers.IsWebLinkFile(itemFindData.cFileName);
+				var shortcutFindData = itemFindData;
+				var isHidden = ((FileAttributes)shortcutFindData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+				Win32PInvoke.FileTimeToSystemTime(ref shortcutFindData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME modifiedTime);
+				Win32PInvoke.FileTimeToSystemTime(ref shortcutFindData.ftCreationTime, out Win32PInvoke.SYSTEMTIME createdTime);
+				var fileSize = Win32FindDataExtensions.GetSize(shortcutFindData);
+				var itemFileExtension = shortcutFindData.cFileName.Contains('.', StringComparison.Ordinal) ? Path.GetExtension(itemPath) : null;
+
+				var shortcutItem = new ShortcutItem(null)
+				{
+					PrimaryItemAttribute = StorageItemTypes.File,
+					FileExtension = itemFileExtension,
+					IsHiddenItem = isHidden,
+					Opacity = isHidden ? Constants.UI.DimItemOpacity : 1,
+					FileImage = null,
+					LoadFileIcon = false,
+					NeedsPlaceholderGlyph = false,
+					ItemNameRaw = shortcutFindData.cFileName,
+					ItemDateModifiedReal = modifiedTime.ToDateTime(),
+					ItemDateCreatedReal = createdTime.ToDateTime(),
+					ItemType = isUrl ? Strings.ShortcutWebLinkFileType.GetLocalizedResource() : Strings.Shortcut.GetLocalizedResource(),
+					ItemPath = itemPath,
+					FileSize = fileSize.ToSizeString(),
+					FileSizeBytes = fileSize,
+					IsUrl = isUrl,
+				};
+
+				if (results.Any(r => string.Equals(r.ItemPath, itemPath, StringComparison.OrdinalIgnoreCase)))
+					continue;
+
+				if (MaxItemCount == 0)
+				{
+					_ = FileOperationsHelpers.ParseLinkAsync(itemPath).ContinueWith((t) =>
+					{
+						if (t.IsCompletedSuccessfully && t.Result is not null)
+						{
+							_ = FilesystemTasks.Wrap(() => MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+							{
+								shortcutItem.TargetPath = t.Result.TargetPath;
+								shortcutItem.Arguments = t.Result.Arguments;
+								shortcutItem.WorkingDirectory = t.Result.WorkingDirectory;
+								shortcutItem.RunAsAdmin = t.Result.RunAsAdmin;
+								shortcutItem.ShowWindowCommand = t.Result.ShowWindowCommand;
+								shortcutItem.PrimaryItemAttribute = t.Result.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File;
+							}));
+						}
+					});
+				}
+				else
+				{
+					var iconResult = await FileThumbnailHelper.GetIconAsync(
+						itemPath,
+						Constants.ShellIconSizes.Small,
+						false,
+						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+					if (iconResult is not null)
+						shortcutItem.FileImage = await iconResult.ToBitmapAsync();
+					else
+						shortcutItem.NeedsPlaceholderGlyph = true;
+				}
+
+				results.Add(shortcutItem);
+
+				if (results.Count == 32 || results.Count % 300 == 0)
+				{
+					SearchTick?.Invoke(this, EventArgs.Empty);
+				}
+			}
+
+			(IntPtr hSubDir, WIN32_FIND_DATA subDirData) = await Task.Run(() =>
+			{
+				int additionalFlags = Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH;
+				IntPtr hSubDirTsk = Win32PInvoke.FindFirstFileExFromApp($"{folder}\\*", Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic,
+					out WIN32_FIND_DATA subDirDataTsk, Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
+				return (hSubDirTsk, subDirDataTsk);
+			}).WithTimeoutAsync(TimeSpan.FromSeconds(5));
+
+			if (hSubDir != IntPtr.Zero && hSubDir.ToInt64() != -1)
+			{
+				var subDirectories = new List<string>();
+
+				await Task.Run(() =>
+				{
+					var hasNextDir = false;
+					do
+					{
+						var isDirectory = ((FileAttributes)subDirData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory;
+						if (isDirectory && subDirData.cFileName != "." && subDirData.cFileName != "..")
+						{
+							subDirectories.Add(Path.Combine(folder, subDirData.cFileName));
+						}
+
+						if (token.IsCancellationRequested)
+							break;
+
+						hasNextDir = Win32PInvoke.FindNextFile(hSubDir, out subDirData);
+					} while (hasNextDir);
+
+					Win32PInvoke.FindClose(hSubDir);
+				}, token);
+
+				foreach (var subDir in subDirectories)
+				{
+					if (results.Count >= maxItemCount || token.IsCancellationRequested)
+						break;
+
+					await SearchWithWin32Async(subDir, hiddenOnly, maxItemCount - (uint)results.Count, results, token);
+				}
 			}
 		}
 
@@ -595,6 +722,47 @@ namespace Files.App.Utils.Storage
 						ItemDateDeletedReal = binFile.DateDeleted,
 						ItemOriginalPath = binFile.OriginalPath
 					};
+				}
+				else if (FileExtensionHelpers.IsShortcutOrUrlFile(file.Path))
+				{
+					var isUrl = FileExtensionHelpers.IsWebLinkFile(file.Path);
+					var shortcutItem = new ShortcutItem(null)
+					{
+						PrimaryItemAttribute = StorageItemTypes.File,
+						FileExtension = itemFileExtension,
+						IsHiddenItem = false,
+						Opacity = 1,
+						FileImage = null,
+						LoadFileIcon = false,
+						NeedsPlaceholderGlyph = false,
+						ItemNameRaw = file.Name,
+						ItemDateModifiedReal = props.DateModified,
+						ItemDateCreatedReal = file.DateCreated,
+						ItemType = isUrl ? Strings.ShortcutWebLinkFileType.GetLocalizedResource() : Strings.Shortcut.GetLocalizedResource(),
+						ItemPath = file.Path,
+						FileSize = itemSize,
+						FileSizeBytes = (long)props.Size,
+						IsUrl = isUrl,
+					};
+					if (MaxItemCount == 0)
+					{
+						_ = FileOperationsHelpers.ParseLinkAsync(file.Path).ContinueWith((t) =>
+						{
+							if (t.IsCompletedSuccessfully && t.Result is not null)
+							{
+								_ = FilesystemTasks.Wrap(() => MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+								{
+									shortcutItem.TargetPath = t.Result.TargetPath;
+									shortcutItem.Arguments = t.Result.Arguments;
+									shortcutItem.WorkingDirectory = t.Result.WorkingDirectory;
+									shortcutItem.RunAsAdmin = t.Result.RunAsAdmin;
+									shortcutItem.ShowWindowCommand = t.Result.ShowWindowCommand;
+									shortcutItem.PrimaryItemAttribute = t.Result.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File;
+								}));
+							}
+						});
+					}
+					listedItem = shortcutItem;
 				}
 				else
 				{

@@ -3,6 +3,7 @@
 
 using System.Collections.Specialized;
 using System.IO;
+using Windows.Win32.UI.Shell;
 
 namespace Files.App.Data.Models
 {
@@ -71,6 +72,9 @@ namespace Files.App.Data.Models
 
 		public async Task<LocationItem> CreateLocationItemFromPathAsync(string path)
 		{
+			var isLibrary = LibraryManager.IsLibraryPath(path);
+			var libraryDisplayName = isLibrary ? GetLibraryDisplayName(path) : null;
+
 			var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(path));
 			var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
 			LocationItem locationItem;
@@ -98,9 +102,16 @@ namespace Files.App.Data.Models
 				ShowEmptyRecycleBin = string.Equals(path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase)
 			};
 			locationItem.IsDefaultLocation = false;
-			locationItem.Text = res?.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'));
+			locationItem.Text = libraryDisplayName ?? res?.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'));
 
-			if (res)
+			if (isLibrary)
+			{
+				// DangerousGetFolderFromPathAsync resolves a .library-ms to its first destination folder,
+				// so load the icon from the library file directly (isFolder: false yields the library icon).
+				locationItem.IsInvalid = false;
+				await LoadIconForLocationItemAsync(locationItem, path, isFolder: false);
+			}
+			else if (res)
 			{
 				locationItem.IsInvalid = false;
 				if (res.Result is not null)
@@ -116,14 +127,24 @@ namespace Files.App.Data.Models
 			return locationItem;
 		}
 
-		private async Task LoadIconForLocationItemAsync(LocationItem locationItem, string path)
+		private static string GetLibraryDisplayName(string libraryPath)
+		{
+			using var storable = WindowsStorable.TryParse(libraryPath);
+			if (storable is null)
+				return null;
+
+			var displayName = storable.GetDisplayName(SIGDN.SIGDN_NORMALDISPLAY);
+			return string.IsNullOrEmpty(displayName) ? null : displayName;
+		}
+
+		private async Task LoadIconForLocationItemAsync(LocationItem locationItem, string path, bool isFolder = true)
 		{
 			try
 			{
 				var result = await FileThumbnailHelper.GetIconAsync(
 					path,
 					Constants.ShellIconSizes.Small,
-					true,
+					isFolder,
 					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
 				locationItem.IconData = result;

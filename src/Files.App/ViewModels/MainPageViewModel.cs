@@ -161,6 +161,7 @@ namespace Files.App.ViewModels
 		public ICommand DismissReviewPromptCommand { get; }
 		public ICommand SponsorCommand { get; }
 		public ICommand DismissSponsorPromptCommand { get; }
+		public ICommand OpenNetworkSharingSettingsCommand { get; }
 
 		// Constructor
 
@@ -171,6 +172,7 @@ namespace Files.App.ViewModels
 			DismissReviewPromptCommand = new RelayCommand(ExecuteDismissReviewPromptCommand);
 			SponsorCommand = new RelayCommand(ExecuteSponsorCommand);
 			DismissSponsorPromptCommand = new RelayCommand(ExecuteDismissSponsorPromptCommand);
+			OpenNetworkSharingSettingsCommand = new AsyncRelayCommand(ExecuteOpenNetworkSharingSettingsCommand);
 
 			AppearanceSettingsService.PropertyChanged += (s, e) =>
 			{
@@ -256,11 +258,7 @@ namespace Files.App.ViewModels
 						UserSettingsService.AppSettingsService.RestoreTabsOnStartup = false;
 						if (UserSettingsService.GeneralSettingsService.LastSessionTabList is not null)
 						{
-							foreach (string tabArgsString in UserSettingsService.GeneralSettingsService.LastSessionTabList)
-							{
-								var tabArgs = TabBarItemParameter.Deserialize(tabArgsString);
-								await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
-							}
+							await RestoreSessionTabsAsync(UserSettingsService.GeneralSettingsService.LastSessionTabList);
 
 							if (!UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp)
 								UserSettingsService.GeneralSettingsService.LastSessionTabList = null;
@@ -276,13 +274,7 @@ namespace Files.App.ViewModels
 						UserSettingsService.GeneralSettingsService.LastSessionTabList is not null)
 					{
 						if (AppInstances.Count == 0)
-						{
-							foreach (string tabArgsString in UserSettingsService.GeneralSettingsService.LastSessionTabList)
-							{
-								var tabArgs = TabBarItemParameter.Deserialize(tabArgsString);
-								await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
-							}
-						}
+							await RestoreSessionTabsAsync(UserSettingsService.GeneralSettingsService.LastSessionTabList);
 					}
 					else
 					{
@@ -310,11 +302,7 @@ namespace Files.App.ViewModels
 							UserSettingsService.GeneralSettingsService.LastSessionTabList is not null &&
 							AppInstances.Count == 0)
 						{
-							foreach (string tabArgsString in UserSettingsService.GeneralSettingsService.LastSessionTabList)
-							{
-								var tabArgs = TabBarItemParameter.Deserialize(tabArgsString);
-								await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
-							}
+							await RestoreSessionTabsAsync(UserSettingsService.GeneralSettingsService.LastSessionTabList);
 						}
 					}
 					catch { }
@@ -335,6 +323,37 @@ namespace Files.App.ViewModels
 				DrivesViewModel.UpdateDrivesAsync(),
 				NetworkService.UpdateComputersAsync(),
 				NetworkService.UpdateShortcutsAsync());
+		}
+
+		private async Task RestoreSessionTabsAsync(List<string> sessionTabs)
+		{
+			if (sessionTabs is null || sessionTabs.Count == 0)
+				return;
+
+			var savedIndex = UserSettingsService.GeneralSettingsService.LastSessionSelectedTabIndex;
+			if (savedIndex < 0 || savedIndex >= sessionTabs.Count)
+				savedIndex = sessionTabs.Count - 1;
+
+			// Load the previously focused tab first so the user can interact with it while the rest load.
+			var focusedArgs = TabBarItemParameter.Deserialize(sessionTabs[savedIndex]);
+			await NavigationHelpers.AddNewTabByParamAsync(focusedArgs.InitialPageType, focusedArgs.NavigationParameter);
+
+			// Append the remaining tabs in their original order without changing the selection.
+			for (int i = 0; i < sessionTabs.Count; i++)
+			{
+				if (i == savedIndex)
+					continue;
+
+				var args = TabBarItemParameter.Deserialize(sessionTabs[i]);
+				await NavigationHelpers.AddNewTabByParamAsync(args.InitialPageType, args.NavigationParameter, switchToNewTab: false);
+			}
+
+			// Move the focused tab from position 0 to its original index so the tab order matches the saved session.
+			if (savedIndex > 0 && savedIndex < AppInstances.Count)
+			{
+				AppInstances.Move(0, savedIndex);
+				App.AppModel.TabStripSelectedIndex = savedIndex;
+			}
 		}
 
 		// Command methods
@@ -368,6 +387,11 @@ namespace Files.App.ViewModels
 		private void ExecuteDismissSponsorPromptCommand()
 		{
 			UserSettingsService.ApplicationSettingsService.HasClickedSponsorPrompt = true;
+		}
+
+		private async Task ExecuteOpenNetworkSharingSettingsCommand()
+		{
+			await NetworkService.OpenNetworkSharingSettingsAsync();
 		}
 
 		private async void ExecuteNavigateToNumberedTabKeyboardAcceleratorCommand(KeyboardAcceleratorInvokedEventArgs? e)

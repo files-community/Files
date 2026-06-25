@@ -5,6 +5,7 @@ using Files.App.Actions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Sentry;
 
 namespace Files.App.Data.Commands
 {
@@ -161,8 +162,7 @@ namespace Files.App.Data.Commands
 		{
 			if (IsExecutable)
 			{
-				// Re-enable when Metris feature is available again
-				// SentrySdk.Metrics.Increment("actions", tags: new Dictionary<string, string> { { "command", Code.ToString() } });
+				SentrySdk.Experimental.Metrics.EmitCounter("actions", 1, [new KeyValuePair<string, object>("command", Code.ToString())]);
 				return Action.ExecuteAsync(parameter);
 			}
 

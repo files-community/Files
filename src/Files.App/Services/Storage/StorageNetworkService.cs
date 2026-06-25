@@ -186,6 +186,18 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
+		public Task<NetworkAvailability?> GetNetworkAvailabilityAsync()
+		{
+			return STATask.Run<NetworkAvailability?>(() => DetectionAndSharingHelper.GetNetworkAvailability(), App.Logger);
+		}
+
+		/// <inheritdoc/>
+		public Task OpenNetworkSharingSettingsAsync()
+		{
+			return STATask.Run(DetectionAndSharingHelper.OpenNetworkSharingSettings, App.Logger);
+		}
+
+		/// <inheritdoc/>
 		public bool DisconnectNetworkDrive(IFolder drive)
 		{
 			return

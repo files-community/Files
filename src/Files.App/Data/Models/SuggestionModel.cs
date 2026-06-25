@@ -12,6 +12,8 @@ namespace Files.App.Data.Models
 	{
 		public bool IsRecentSearch { get; set; } = false;
 
+		public bool IsShortcut { get; set; } = false;
+
 		public bool LoadFileIcon { get; set; } = false;
 
 		public bool NeedsPlaceholderGlyph { get; set; } = true;
@@ -73,6 +75,7 @@ namespace Files.App.Data.Models
 
 		public SuggestionModel(ListedItem item)
 		{
+			IsShortcut = item.IsShortcut;
 			LoadFileIcon = item.LoadFileIcon;
 			NeedsPlaceholderGlyph = item.NeedsPlaceholderGlyph;
 			ItemPath = item.ItemPath;

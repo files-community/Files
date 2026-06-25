@@ -95,6 +95,12 @@ namespace Windows.Win32
 
 		[GuidRVAGen.Guid("09799AFB-AD67-11D1-ABCD-00C04FC30936")]
 		public static partial Guid* CLSID_OpenWithMenu { get; }
+
+		[GuidRVAGen.Guid("1FDA955B-61FF-11DA-978C-0008744FAAB7")]
+		public static partial Guid* CLSID_DetectionAndSharing { get; }
+
+		[GuidRVAGen.Guid("06622D85-6856-4460-8DE1-A81921B41C4B")]
+		public static partial Guid* CLSID_OpenControlPanel { get; }
 	}
 
 	public static unsafe partial class BHID

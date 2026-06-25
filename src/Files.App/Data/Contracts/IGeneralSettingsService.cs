@@ -41,6 +41,11 @@ namespace Files.App.Data.Contracts
 		List<string> LastSessionTabList { get; set; }
 
 		/// <summary>
+		/// Gets or sets the index of the tab that was active when the last session ended.
+		/// </summary>
+		int LastSessionSelectedTabIndex { get; set; }
+
+		/// <summary>
 		/// A list containing paths of the tabs from the previous session that crashed.
 		/// </summary>
 		List<string> LastCrashedTabList { get; set; }

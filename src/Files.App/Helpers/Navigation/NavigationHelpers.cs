@@ -85,7 +85,7 @@ namespace Files.App.Helpers
 				App.AppModel.TabStripSelectedIndex = index;
 		}
 
-		public static async Task AddNewTabByParamAsync(Type type, object tabViewItemArgs, int atIndex = -1)
+		public static async Task AddNewTabByParamAsync(Type type, object tabViewItemArgs, int atIndex = -1, bool switchToNewTab = true)
 		{
 			var tabItem = new Files.App.UserControls.TabBar.TabBarItem()
 			{
@@ -107,7 +107,9 @@ namespace Files.App.Helpers
 
 			var index = atIndex == -1 ? MainPageViewModel.AppInstances.Count : atIndex;
 			MainPageViewModel.AppInstances.Insert(index, tabItem);
-			App.AppModel.TabStripSelectedIndex = index;
+
+			if (switchToNewTab)
+				App.AppModel.TabStripSelectedIndex = index;
 		}
 
 		private static async Task UpdateTabInfoAsync(TabBarItem tabItem, object navigationArg)
@@ -612,8 +614,10 @@ namespace Files.App.Helpers
 					opened = await associatedInstance.ShellViewModel.GetFolderWithPathFromPathAsync(path)
 						.OnSuccess((childFolder) =>
 						{
-							// Add location to Recent Items List
-							if (childFolder.Item is SystemStorageFolder)
+							// Add location to Recent Items List.
+							// File.Exists distinguishes an archive root (real file on disk) from an inner path like "archive.zip\sub".
+							if (childFolder.Item is SystemStorageFolder ||
+								(childFolder.Item is ZipStorageFolder && File.Exists(childFolder.Path)))
 								WindowsRecentItemsService.Add(childFolder.Path);
 						});
 				}
