@@ -344,14 +344,30 @@ namespace Files.App.Views.Layouts
 				return;
 
 			var activeBlade = ColumnHost.ActiveBlades[currentBladeIndex];
-			activeBlade.Focus(FocusState.Programmatic);
+			var next = RetrieveBladeColumnViewBase(activeBlade);
+			if (next?.FileList is null)
+				return;
+
 			FocusIndex = currentBladeIndex;
 
-			var activeBladeColumnViewBase = RetrieveBladeColumnViewBase(activeBlade);
-			if (activeBladeColumnViewBase is not null)
+			// Promote the next blade to IsCurrentInstance synchronously. ColumnViewBrowser_GotFocus
+			// would normally do this, but it runs after KeyUp — and KeyUp's ColumnViewBase_KeyUp
+			// would otherwise see the old blade as active, find its selection cleared by
+			// HandleSelectionChange below, and call CloseUnnecessaryColumns → DismissOtherBlades
+			// which tears down the blade we are about to focus into.
+			foreach (var blade in ColumnHost.ActiveBlades)
 			{
-				activeBladeColumnViewBase.FileList.SelectedIndex = 0;
+				if ((blade.Content as Frame)?.Content is ColumnShellPage shell)
+					shell.IsCurrentInstance = blade == activeBlade;
 			}
+
+			next.FileList.SelectedIndex = 0;
+
+			// BladeItem.Focus falls through to the title-bar tab strip; focus the inner ListViewItem.
+			if (next.FileList.ContainerFromIndex(0) is ListViewItem firstContainer)
+				firstContainer.Focus(FocusState.Programmatic);
+			else
+				next.FileList.Focus(FocusState.Programmatic);
 		}
 
 		private ColumnLayoutPage? RetrieveBladeColumnViewBase(BladeItem blade)
