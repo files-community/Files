@@ -32,9 +32,6 @@ namespace Files.App.UserControls
 		public partial NavigationToolbarViewModel? ViewModel { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial bool ShowViewControlButton { get; set; }
-
-		[GeneratedDependencyProperty]
 		public partial bool ShowPreviewPaneButton { get; set; }
 
 		public Toolbar()

@@ -857,10 +857,17 @@ namespace Files.App.Utils.Storage
 				? Strings.FileInUseDialog_Text.GetLocalizedResource()
 				: string.Format(Strings.FileInUseByDialog_Text.GetLocalizedResource(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})")));
 
-			return GetFileListDialog(source, titleText, subtitleText, Strings.Retry.GetLocalizedResource(), Strings.Cancel.GetLocalizedResource());
+			var sourceCount = source.Count();
+
+			return GetFileListDialog(
+				source,
+				titleText,
+				subtitleText,
+				Strings.Retry.GetLocalizedResource(),
+				sourceCount > 1 ? Strings.Skip.GetLocalizedResource() : Strings.Cancel.GetLocalizedResource());
 		}
 
-		private async Task<DialogResult> GetFileListDialog(IEnumerable<string> source, string titleText, string descriptionText = null, string primaryButtonText = null, string secondaryButtonText = null)
+		private async Task<DialogResult> GetFileListDialog(IEnumerable<string> source, string titleText, string descriptionText = null, string primaryButtonText = null, string secondaryButtonText = null, string closeButtonText = null)
 		{
 			var incomingItems = new List<BaseFileSystemDialogItemViewModel>();
 			List<ShellFileItem> binItems = null;
@@ -886,7 +893,7 @@ namespace Files.App.Utils.Storage
 			}
 
 			var dialogViewModel = FileSystemDialogViewModel.GetDialogViewModel(
-				incomingItems, titleText, descriptionText, primaryButtonText, secondaryButtonText);
+				incomingItems, titleText, descriptionText, primaryButtonText, secondaryButtonText, closeButtonText);
 
 			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 

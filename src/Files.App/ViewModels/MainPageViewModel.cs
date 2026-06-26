@@ -60,13 +60,6 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref selectedTabItem, value);
 		}
 
-		private bool shouldViewControlBeDisplayed;
-		public bool ShouldViewControlBeDisplayed
-		{
-			get => shouldViewControlBeDisplayed;
-			set => SetProperty(ref shouldViewControlBeDisplayed, value);
-		}
-
 		private bool shouldPreviewPaneBeActive;
 		public bool ShouldPreviewPaneBeActive
 		{
