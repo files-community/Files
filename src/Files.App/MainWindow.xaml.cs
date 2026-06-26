@@ -73,7 +73,7 @@ namespace Files.App
 						if (ppm.IsEmpty())
 							rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 						else
-							await InitializeFromCmdLineArgsAsync(rootFrame, ppm, Environment.CurrentDirectory);
+							await InitializeFromCmdLineArgsAsync(rootFrame, ppm, Program.ConsumeLaunchCwd());
 					}
 					else if (rootFrame.Content is null || rootFrame.Content is SplashScreenPage || !MainPageViewModel.AppInstances.Any())
 					{
