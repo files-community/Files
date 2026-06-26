@@ -148,6 +148,10 @@
 			<Setter Property="Padding" Value="4,0" />
 		</Style>
 
+		<Style x:Key="PathTracedRowStyle" TargetType="Grid">
+			<Setter Property="Background" Value="{ThemeResource ListViewItemBackgroundSelected}" />
+		</Style>
+
 	</local:BaseGroupableLayoutPage.Resources>
 
 	<Grid x:Name="RootGrid" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
