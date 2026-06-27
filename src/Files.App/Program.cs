@@ -24,8 +24,29 @@ namespace Files.App
 	{
 		public static Semaphore? Pool { get; set; }
 
+		private const string LaunchCwdKey = "LastLaunchCwd";
+
+		/// <summary>
+		/// Reads and clears the working directory captured by the source process
+		/// in <see cref="Main"/>, falling back to the current process's working
+		/// directory if no value is pending. (#16982)
+		/// </summary>
+		public static string ConsumeLaunchCwd()
+		{
+			var values = ApplicationData.Current.LocalSettings.Values;
+			var cwd = values.TryGetValue(LaunchCwdKey, out var raw) ? raw as string : null;
+			if (cwd is not null)
+				values.Remove(LaunchCwdKey);
+			return string.IsNullOrEmpty(cwd) ? Environment.CurrentDirectory : cwd;
+		}
+
 		static Program()
 		{
+			// Capture the source process's working directory before any potential
+			// activation redirect, so a receiving instance can resolve relative
+			// paths like "." against the terminal's CWD rather than its own. (#16982)
+			ApplicationData.Current.LocalSettings.Values[LaunchCwdKey] = Environment.CurrentDirectory;
+
 			var pool = new Semaphore(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance", out var isNew);
 
 			if (!isNew)
