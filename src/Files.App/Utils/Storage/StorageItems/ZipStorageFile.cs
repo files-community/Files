@@ -405,47 +405,45 @@ namespace Files.App.Utils.Storage
 
 		private IAsyncOperation<BaseStorageFile> CopyWithEncodingAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
 		{
-			return (IAsyncOperation<BaseStorageFile>)AsyncInfo.Run(async (cancellationToken) => SafetyExtensions.Wrap<BaseStorageFile>(async () =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<BaseStorageFile>(async () =>
 			{
 				using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(CurrentEncoding!));
+				if (zipFile is null)
+				{
+					return null;
+				}
 
 				if (!string.IsNullOrEmpty(Credentials.Password))
 					zipFile.Password = Credentials.Password;
 
 				var targetName = GetEntryRelativePath();
 
-				foreach (ZipEntry entry in zipFile)
-				{
-					if (!entry.IsFile)
-						continue;
-
-					if (string.Equals(entry.Name.Replace('\\', '/'), targetName, StringComparison.OrdinalIgnoreCase))
-					{
-						var ms = new MemoryStream();
-						using (var zipStream = zipFile.GetInputStream(entry))
-						{
-							zipStream.CopyTo(ms);
-						}
-						ms.Position = 0;
-
-						var destFolder = destinationFolder.AsBaseStorageFolder();
-						if (destFolder is ICreateFileWithStream cwsf)
-						{
-							using var inStream = new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size);
-							return await cwsf.CreateFileAsync(inStream.AsStreamForRead(), desiredNewName, option.Convert());
-						}
-						else
-						{
-							var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
-							await using var outStream = await destFile.OpenStreamForWriteAsync();
-							ms.Position = 0;
-							ms.CopyTo(outStream);
-							return destFile;
-						}
-					}
+				var entry = zipFile.Cast<ZipEntry>().FirstOrDefault(x => x.IsFile && string.Equals(x.Name.Replace('\\', '/'), targetName, StringComparison.OrdinalIgnoreCase));
+				if (entry is null){
+					return null;
 				}
+				
+				var ms = new MemoryStream();
+				using (var zipStream = zipFile.GetInputStream(entry))
+				{
+					zipStream.CopyTo(ms);
+				}
+				ms.Position = 0;
 
-				return null;
+				var destFolder = destinationFolder.AsBaseStorageFolder();
+				if (destFolder is ICreateFileWithStream cwsf)
+				{
+					using var inStream = new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size);
+					return await cwsf.CreateFileAsync(inStream.AsStreamForRead(), desiredNewName, option.Convert());
+				}
+				else
+				{
+					var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
+					await using var outStream = await destFile.OpenStreamForWriteAsync();
+					ms.Position = 0;
+					ms.CopyTo(outStream);
+					return destFile;
+				}
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 		public override IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace)
