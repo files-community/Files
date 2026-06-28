@@ -177,7 +177,8 @@ namespace Files.App
 		{
 			Logger.LogInformation($"Window_Activated: State={args?.WindowActivationState.ToString()}");
 
-			AppModel.IsMainWindowClosed = false;
+			if (args.WindowActivationState != WindowActivationState.Deactivated)
+				AppModel.IsMainWindowClosed = false;
 
 			// TODO(s): Is this code still needed?
 			if (args.WindowActivationState != WindowActivationState.CodeActivated ||
@@ -245,6 +246,7 @@ namespace Files.App
 
 				// Cache the window instead of closing it
 				MainWindow.Instance.AppWindow.Hide();
+				AppModel.IsMainWindowClosed = true;
 
 				// Close all tabs
 				MainPageViewModel.AppInstances.ForEach(tabItem => tabItem.Unload());
