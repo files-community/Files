@@ -53,6 +53,35 @@ namespace Files.App.UserControls
 			Loading -= NavToolbar_Loading;
 			if (OngoingTasksViewModel is not null)
 				OngoingTasksViewModel.NewItemAdded += OngoingTasksActions_ProgressBannerPosted;
+
+			if (ShowStatusCenterButton.Flyout is Flyout statusCenterFlyout)
+				statusCenterFlyout.Opened += StatusCenterFlyout_Opened;
+		}
+
+		private void StatusCenterFlyout_Opened(object? sender, object e)
+		{
+			// The Status Center flyout uses ShouldConstrainToRootBounds=False, so its
+			// FlyoutPresenter lives in a separate popup HWND. When the window moves
+			// between monitors with different DPI scaling, the popup gets the new DPI
+			// but the FlyoutPresenter retains the prior measure pass and clips the
+			// content (issue #16502). Invalidating the presenter and content forces
+			// a re-measure against the current XamlRoot rasterization scale.
+			if (OngoingTasksControl is null)
+				return;
+
+			OngoingTasksControl.InvalidateMeasure();
+
+			DependencyObject? parent = OngoingTasksControl;
+			while ((parent = VisualTreeHelper.GetParent(parent)) is not null)
+			{
+				if (parent is FlyoutPresenter presenter)
+				{
+					presenter.InvalidateMeasure();
+					break;
+				}
+			}
+
+			OngoingTasksControl.UpdateLayout();
 		}
 
 		private void OngoingTasksActions_ProgressBannerPosted(object? _, StatusCenterItem e)
