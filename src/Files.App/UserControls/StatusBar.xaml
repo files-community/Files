@@ -223,7 +223,7 @@
 							IsItemClickEnabled="True"
 							ItemClick="ZipEncodingList_ItemClick"
 							ItemsSource="{x:Bind StatusBarViewModel.ZipEncodingOptions, Mode=OneWay}"
-							SelectedItem="{x:Bind StatusBarViewModel.SelectedZipEncoding, Mode=OneWay}"
+							SelectedItem="{x:Bind StatusBarViewModel.SelectedZipEncoding, Mode=TwoWay}"
 							SelectionMode="Single">
 
 							<ListView.ItemTemplate>

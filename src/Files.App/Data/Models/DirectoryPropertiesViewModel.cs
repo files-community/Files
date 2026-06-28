@@ -104,7 +104,11 @@ namespace Files.App.ViewModels.UserControls
 			get => _SelectedZipEncoding;
 			set
 			{
-				if (SetProperty(ref _SelectedZipEncoding, value) && value is not null)
+				if(value is null)
+				{
+					return;
+				}
+				if (SetProperty(ref _SelectedZipEncoding, value))
 					_ = OnZipEncodingChangedAsync(value);
 			}
 		}
