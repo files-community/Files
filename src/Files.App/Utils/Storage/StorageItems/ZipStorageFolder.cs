@@ -24,6 +24,11 @@ namespace Files.App.Utils.Storage
 		private BaseStorageFile backingFile;
 
 		private Encoding? _currentEncoding;
+
+		// Maps container paths to their configured encoding.
+		// - Key missing: encoding not yet set; detection required.
+		// - Value null: archive opened with system default encoding.
+		// - Value set: archive opened with the specified encoding.
 		private static readonly ConcurrentDictionary<string, Encoding?> _encodingByContainerPath = new(StringComparer.OrdinalIgnoreCase);
 
 		/// <summary>
@@ -36,10 +41,7 @@ namespace Files.App.Utils.Storage
 			set
 			{
 				_currentEncoding = value;
-				if (value is not null)
-					_encodingByContainerPath[containerPath] = value;
-				else
-					_encodingByContainerPath.TryRemove(containerPath, out _);
+				_encodingByContainerPath[containerPath] = value;
 			}
 		}
 
@@ -48,10 +50,7 @@ namespace Files.App.Utils.Storage
 
 		internal static void SetEncodingForContainerPath(string containerPath, Encoding? encoding)
 		{
-			if (encoding is not null)
-				_encodingByContainerPath[containerPath] = encoding;
-			else
-				_encodingByContainerPath.TryRemove(containerPath, out _);
+			_encodingByContainerPath[containerPath] = encoding;
 		}
 
 		public override string Path { get; }
