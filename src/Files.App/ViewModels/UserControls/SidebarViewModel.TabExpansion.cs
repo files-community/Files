@@ -8,14 +8,8 @@ namespace Files.App.ViewModels.UserControls
 {
 	public sealed partial class SidebarViewModel
 	{
-		// Each tab is the sole source of truth for its own expansion (sections and folders alike); Pinned/Drives/CloudDrives are seeded as expanded so a fresh tab matches the historical defaults.
+		// Each tab is the sole source of truth for its own expansion (sections and folders alike). Section expansion is also mirrored to IGeneralSettingsService.Is*SectionExpanded.
 		private static readonly string[] SectionKeyByEnum = BuildSectionKeyByEnum();
-		private static readonly string[] DefaultExpandedSectionKeys =
-		{
-			SectionKeyByEnum[(int)SectionType.Pinned],
-			SectionKeyByEnum[(int)SectionType.Drives],
-			SectionKeyByEnum[(int)SectionType.CloudDrives],
-		};
 
 		private static string[] BuildSectionKeyByEnum()
 		{
@@ -24,6 +18,54 @@ namespace Files.App.ViewModels.UserControls
 			foreach (var v in values)
 				arr[(int)v] = "section:" + v;
 			return arr;
+		}
+
+		private IEnumerable<string> GetPersistedExpandedSectionKeys()
+		{
+			var general = UserSettingsService.GeneralSettingsService;
+			if (general.IsPinnedSectionExpanded)
+				yield return SectionKeyByEnum[(int)SectionType.Pinned];
+			if (general.IsLibrarySectionExpanded)
+				yield return SectionKeyByEnum[(int)SectionType.Library];
+			if (general.IsDriveSectionExpanded)
+				yield return SectionKeyByEnum[(int)SectionType.Drives];
+			if (general.IsCloudDriveSectionExpanded)
+				yield return SectionKeyByEnum[(int)SectionType.CloudDrives];
+			if (general.IsNetworkSectionExpanded)
+				yield return SectionKeyByEnum[(int)SectionType.Network];
+			if (general.IsWslSectionExpanded)
+				yield return SectionKeyByEnum[(int)SectionType.WSL];
+			if (general.IsFileTagsSectionExpanded)
+				yield return SectionKeyByEnum[(int)SectionType.FileTag];
+		}
+
+		private void PersistSectionExpansion(SectionType section, bool isExpanded)
+		{
+			var general = UserSettingsService.GeneralSettingsService;
+			switch (section)
+			{
+				case SectionType.Pinned:
+					general.IsPinnedSectionExpanded = isExpanded;
+					break;
+				case SectionType.Library:
+					general.IsLibrarySectionExpanded = isExpanded;
+					break;
+				case SectionType.Drives:
+					general.IsDriveSectionExpanded = isExpanded;
+					break;
+				case SectionType.CloudDrives:
+					general.IsCloudDriveSectionExpanded = isExpanded;
+					break;
+				case SectionType.Network:
+					general.IsNetworkSectionExpanded = isExpanded;
+					break;
+				case SectionType.WSL:
+					general.IsWslSectionExpanded = isExpanded;
+					break;
+				case SectionType.FileTag:
+					general.IsFileTagsSectionExpanded = isExpanded;
+					break;
+			}
 		}
 
 		private readonly Dictionary<TabBarItem, HashSet<string>> tabExpansionState = new();
@@ -113,8 +155,8 @@ namespace Files.App.ViewModels.UserControls
 		{
 			if (!tabExpansionState.TryGetValue(tab, out var state))
 			{
-				state = new HashSet<string>(DefaultExpandedSectionKeys, StringComparer.OrdinalIgnoreCase);
-				// Inherit whatever section state the user currently sees so a freshly opened tab matches expectation rather than snapping back to defaults.
+				state = new HashSet<string>(GetPersistedExpandedSectionKeys(), StringComparer.OrdinalIgnoreCase);
+				// Inherit whatever section state the user currently sees so a freshly opened tab matches expectation rather than snapping back to the persisted baseline.
 				foreach (var sectionObj in sidebarItems)
 				{
 					if (sectionObj is LocationItem section && section.IsExpanded)
@@ -231,6 +273,8 @@ namespace Files.App.ViewModels.UserControls
 				state.Add(key);
 			else
 				state.Remove(key);
+			if (item is LocationItem { IsHeader: true } section)
+				PersistSectionExpansion(section.Section, item.IsExpanded);
 		}
 
 		// Restores expansion for the initial pass over sidebarItems and for items realized later (async section sync, lazy-loaded subfolders).
