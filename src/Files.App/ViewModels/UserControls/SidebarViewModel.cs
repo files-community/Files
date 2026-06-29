@@ -1296,35 +1296,21 @@ namespace Files.App.ViewModels.UserControls
 						return;
 					}
 
-					if (args.dropPosition == SidebarItemDropPosition.Center)
-					{
-						rawEvent.Handled = true;
-						rawEvent.AcceptedOperation = DataPackageOperation.Link;
-						rawEvent.DragUIOverride.IsCaptionVisible = true;
-						rawEvent.DragUIOverride.Caption = string.Format(Strings.LinkToFolderCaptionText.GetLocalizedResource(), locationItem.Text);
-						return;
-					}
-
-					rawEvent.Handled = true;
-					rawEvent.AcceptedOperation = DataPackageOperation.Move;
-					rawEvent.DragUIOverride.IsCaptionVisible = true;
-					rawEvent.DragUIOverride.Caption = Strings.ReorderSidebarItemsDialogText.GetLocalizedResource();
-					return;
-				}
-
-				if (!locationItem.IsHeader)
-				{
 					if (args.dropPosition != SidebarItemDropPosition.Center)
 					{
 						rawEvent.Handled = true;
 						rawEvent.AcceptedOperation = DataPackageOperation.Move;
 						rawEvent.DragUIOverride.IsCaptionVisible = true;
-						rawEvent.DragUIOverride.Caption = Strings.PinFolderToSidebar.GetLocalizedResource();
+						rawEvent.DragUIOverride.Caption = Strings.ReorderSidebarItemsDialogText.GetLocalizedResource();
 						return;
 					}
-
+				}
+				else if (!locationItem.IsHeader && args.dropPosition != SidebarItemDropPosition.Center)
+				{
 					rawEvent.Handled = true;
-					rawEvent.AcceptedOperation = DataPackageOperation.None;
+					rawEvent.AcceptedOperation = DataPackageOperation.Move;
+					rawEvent.DragUIOverride.IsCaptionVisible = true;
+					rawEvent.DragUIOverride.Caption = Strings.PinFolderToSidebar.GetLocalizedResource();
 					return;
 				}
 			}
@@ -1523,45 +1509,38 @@ namespace Files.App.ViewModels.UserControls
 					var sourceItem = section.ChildItems.FirstOrDefault(x => x.Path == dragPath);
 					if (sourceItem is not null)
 					{
-						if (locationItem.IsHeader)
-							return;
-
-						if (args.dropPosition == SidebarItemDropPosition.Center)
+						if (args.dropPosition != SidebarItemDropPosition.Center)
 						{
-							await FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Link, args.DroppedItem, locationItem.Path, false, true);
-							return;
-						}
-
-						if (isReordering) return;
-						isReordering = true;
-						try
-						{
-							var sourceIndex = section.ChildItems.IndexOf(sourceItem);
-							var targetIndex = section.ChildItems.IndexOf(locationItem);
-
-							if (sourceIndex < 0 || targetIndex < 0)
-								return;
-
-							if (args.dropPosition == SidebarItemDropPosition.Bottom)
-								targetIndex++;
-
-							if (sourceIndex < targetIndex)
-								targetIndex--;
-
-							if (sourceIndex != targetIndex && targetIndex >= 0 && targetIndex < section.ChildItems.Count)
+							if (isReordering) return;
+							isReordering = true;
+							try
 							{
-								section.ChildItems.Move(sourceIndex, targetIndex);
-								await PersistPinnedOrderAsync(section);
-							}
-						}
-						finally
-						{
-							isReordering = false;
-						}
-						return;
-					}
+								var sourceIndex = section.ChildItems.IndexOf(sourceItem);
+								var targetIndex = section.ChildItems.IndexOf(locationItem);
 
-					if (dragPath is not null && args.dropPosition != SidebarItemDropPosition.Center && !locationItem.IsHeader)
+								if (sourceIndex < 0 || targetIndex < 0)
+									return;
+
+								if (args.dropPosition == SidebarItemDropPosition.Bottom)
+									targetIndex++;
+
+								if (sourceIndex < targetIndex)
+									targetIndex--;
+
+								if (sourceIndex != targetIndex && targetIndex >= 0 && targetIndex < section.ChildItems.Count)
+								{
+									section.ChildItems.Move(sourceIndex, targetIndex);
+									await PersistPinnedOrderAsync(section);
+								}
+							}
+							finally
+							{
+								isReordering = false;
+							}
+							return;
+						}
+					}
+					else if (args.dropPosition != SidebarItemDropPosition.Center && !locationItem.IsHeader)
 					{
 						using (SidebarPinnedModel.SuspendSync())
 						{
