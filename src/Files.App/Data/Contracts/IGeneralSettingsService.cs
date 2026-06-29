@@ -171,6 +171,41 @@ namespace Files.App.Data.Contracts
 		bool ShowFileTagsSection { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating if the pinned section should be expanded.
+		/// </summary>
+		bool IsPinnedSectionExpanded { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the library section should be expanded.
+		/// </summary>
+		bool IsLibrarySectionExpanded { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the drive section should be expanded.
+		/// </summary>
+		bool IsDriveSectionExpanded { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the cloud drive section should be expanded.
+		/// </summary>
+		bool IsCloudDriveSectionExpanded { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the network section should be expanded.
+		/// </summary>
+		bool IsNetworkSectionExpanded { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the wsl section should be expanded.
+		/// </summary>
+		bool IsWslSectionExpanded { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the file tags section should be expanded.
+		/// </summary>
+		bool IsFileTagsSectionExpanded { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating whether or not to move shell extensions into a sub menu.
 		/// </summary>
 		bool MoveShellExtensionsToSubMenu { get; set; }
