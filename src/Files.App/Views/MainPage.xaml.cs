@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
 using Windows.UI.Input;
+using Windows.Win32;
 using WinUIEx;
 using GridSplitter = Files.App.Controls.GridSplitter;
 using VirtualKey = Windows.System.VirtualKey;
@@ -32,8 +33,10 @@ namespace Files.App.Views
 		public MainPageViewModel ViewModel { get; }
 
 		private bool keyReleased = true;
+		private const int KEY_DOWN_MASK = 0x8000;
 
 		private DispatcherQueueTimer _updateDateDisplayTimer;
+		private InputNonClientPointerSource? _nonClientPointerSource;
 
 		private readonly Dictionary<TabBarItem, double> _sidebarScrollByTab = new();
 		private TabBarItem? _previousSidebarTab;
@@ -120,6 +123,15 @@ namespace Files.App.Views
 			var height = (int)TabControl.ActualHeight;
 			source.SetRegionRects(NonClientRegionKind.Passthrough, [getScaledRect(this, new RectInt32(0, 0, (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth), height))]);
 			return height;
+		}
+
+		private async void NonClientPointerSource_PointerPressed(InputNonClientPointerSource sender, NonClientPointerEventArgs args)
+		{
+			if (args.RegionKind is not NonClientRegionKind.Caption ||
+				(PInvoke.GetKeyState((int)VirtualKey.MiddleButton) & KEY_DOWN_MASK) == 0)
+				return;
+
+			await NavigationHelpers.AddNewTabAsync();
 		}
 
 		public async void TabItemContent_ContentChanged(object? sender, TabBarItemParameter e)
@@ -296,6 +308,12 @@ namespace Files.App.Views
 			FindName(nameof(InnerNavigationToolbar));
 			FindName(nameof(TabControl));
 			FindName(nameof(NavToolbar));
+
+			if (_nonClientPointerSource is null)
+			{
+				_nonClientPointerSource = InputNonClientPointerSource.GetForWindowId(MainWindow.Instance.AppWindow.Id);
+				_nonClientPointerSource.PointerPressed += NonClientPointerSource_PointerPressed;
+			}
 
 			// Notify user that drag and drop is disabled
 			// Prompt is disabled in the dev environment to prevent issues with the automation testing 
