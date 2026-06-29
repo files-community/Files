@@ -280,6 +280,11 @@ namespace Files.App.Views.Layouts
 
 			// Set the width of the icon column. The value is increased by 4px to account for icon overlays.
 			ColumnsViewModel.IconColumn.UserLength = new GridLength(LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.DetailsView) + 4);
+
+			// Compact rows use a -2px ItemContainer margin, so the header checkbox needs an extra
+			// left offset to stay aligned with row checkboxes.
+			var leftOffset = UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact ? -4 : 0;
+			SelectAllCheckbox.Margin = new Thickness(leftOffset, 14, 0, 0);
 		}
 
 		private void FileList_LayoutUpdated(object? sender, object e)
@@ -368,6 +373,47 @@ namespace Files.App.Views.Layouts
 
 			foreach (var item in e.RemovedItems)
 				SetCheckboxSelectionState(item);
+
+			UpdateSelectAllCheckboxState();
+		}
+
+		private bool _suppressSelectAllCheckboxEvents;
+
+		private void SelectAllCheckbox_Checked(object sender, RoutedEventArgs e)
+		{
+			if (_suppressSelectAllCheckboxEvents)
+				return;
+
+			ItemManipulationModel.SelectAllItems();
+		}
+
+		private void SelectAllCheckbox_Unchecked(object sender, RoutedEventArgs e)
+		{
+			if (_suppressSelectAllCheckboxEvents)
+				return;
+
+			ItemManipulationModel.ClearSelection();
+		}
+
+		private void UpdateSelectAllCheckboxState()
+		{
+			var selectedCount = FileList.SelectedItems.Count;
+			bool? newState = selectedCount == 0
+				? false
+				: selectedCount == FileList.Items.Count ? true : null;
+
+			if (SelectAllCheckbox.IsChecked == newState)
+				return;
+
+			_suppressSelectAllCheckboxEvents = true;
+			try
+			{
+				SelectAllCheckbox.IsChecked = newState;
+			}
+			finally
+			{
+				_suppressSelectAllCheckboxEvents = false;
+			}
 		}
 
 		override public void StartRenameItem()

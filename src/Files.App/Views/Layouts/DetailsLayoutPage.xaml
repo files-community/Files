@@ -559,6 +559,23 @@
 
 							</Grid.ColumnDefinitions>
 
+							<!--  Select All Check Box  -->
+							<CheckBox
+								x:Name="SelectAllCheckbox"
+								Grid.Column="0"
+								Width="20"
+								Height="20"
+								MinWidth="0"
+								MinHeight="0"
+								Margin="-4,14,0,0"
+								Padding="0"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Top"
+								AutomationProperties.Name="{helpers:ResourceString Name=SelectAll}"
+								Checked="SelectAllCheckbox_Checked"
+								ToolTipService.ToolTip="{helpers:ResourceString Name=SelectAll}"
+								Unchecked="SelectAllCheckbox_Unchecked" />
+
 							<!--  Item Name  -->
 							<uc:DataGridHeader
 								x:Name="NameHeader"
