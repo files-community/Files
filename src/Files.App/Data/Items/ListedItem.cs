@@ -498,6 +498,8 @@ namespace Files.App.Utils
 
 		public string Key { get; set; }
 
+		public GroupedHeaderViewModel? GroupHeader { get; set; }
+
 		public virtual bool IsRealChanges =>  ItemDateAccessed != dateTimeFormatter.ToShortLabel(ItemDateAccessedReal)
 			|| ItemDateCreated != dateTimeFormatter.ToShortLabel(ItemDateCreatedReal)
 			|| ItemDateModified != dateTimeFormatter.ToShortLabel(ItemDateModifiedReal);

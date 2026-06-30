@@ -39,16 +39,16 @@
 			NotEmptyValue="Visible" />
 		<converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
 
-		<Style TargetType="ListViewHeaderItem">
+		<Style x:Key="RegularGroupHeaderItemStyle" TargetType="ListViewHeaderItem">
 			<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 			<Setter Property="FontSize" Value="{ThemeResource GridViewHeaderItemThemeFontSize}" />
 			<Setter Property="Background" Value="{ThemeResource GridViewHeaderItemBackground}" />
-			<Setter Property="Margin" Value="0,0,0,4" />
-			<Setter Property="Padding" Value="12,8,12,0" />
+			<Setter Property="Margin" Value="0" />
+			<Setter Property="Padding" Value="12,4,12,0" />
 			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 			<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
 			<Setter Property="VerticalContentAlignment" Value="Stretch" />
-			<Setter Property="MinHeight" Value="{ThemeResource GridViewHeaderItemMinHeight}" />
+			<Setter Property="MinHeight" Value="32" />
 			<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
 			<Setter Property="HorizontalAlignment" Value="Stretch" />
 			<Setter Property="Template">
@@ -56,7 +56,7 @@
 					<ControlTemplate TargetType="ListViewHeaderItem">
 						<Grid
 							x:Name="HeaderItemRootGrid"
-							Margin="0,0,4,0"
+							Margin="4,0,4,0"
 							HorizontalAlignment="Stretch"
 							Background="{TemplateBinding Background}"
 							BorderBrush="{TemplateBinding BorderBrush}"
@@ -67,14 +67,8 @@
 							PointerExited="StackPanel_PointerCanceled"
 							PointerPressed="RootPanel_PointerPressed"
 							PointerReleased="StackPanel_PointerCanceled">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="*" />
-							</Grid.ColumnDefinitions>
-
 							<ContentPresenter
 								x:Name="ContentPresenter"
-								Grid.Column="0"
 								Margin="{TemplateBinding Padding}"
 								HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
 								VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -82,42 +76,17 @@
 								ContentTemplate="{TemplateBinding ContentTemplate}"
 								ContentTransitions="{TemplateBinding ContentTransitions}" />
 
-							<Rectangle
-								Grid.Column="1"
-								Height="1"
-								Margin="0,20,0,0"
-								HorizontalAlignment="Stretch"
-								VerticalAlignment="Center"
-								Stroke="{ThemeResource GridViewHeaderItemDividerStroke}"
-								StrokeThickness="0.5" />
-
 							<VisualStateManager.VisualStateGroups>
 								<VisualStateGroup x:Name="CommonStates">
 									<VisualState x:Name="Normal" />
 									<VisualState x:Name="PointerOver">
-										<Storyboard>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="Background">
-												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}" />
-											</ObjectAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="BorderBrush">
-												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}" />
-											</ObjectAnimationUsingKeyFrames>
-										</Storyboard>
 										<VisualState.Setters>
-											<!--<Setter Target="ContentPresenter.(local:AnimatedIcon.State)" Value="PointerOver" />-->
+											<Setter Target="HeaderItemRootGrid.Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
 										</VisualState.Setters>
 									</VisualState>
 									<VisualState x:Name="Pressed">
-										<Storyboard>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="Background">
-												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}" />
-											</ObjectAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="BorderBrush">
-												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}" />
-											</ObjectAnimationUsingKeyFrames>
-										</Storyboard>
 										<VisualState.Setters>
-											<!--<Setter Target="ContentPresenter.(local:AnimatedIcon.State)" Value="Pressed" />-->
+											<Setter Target="HeaderItemRootGrid.Background" Value="{ThemeResource SubtleFillColorTertiaryBrush}" />
 										</VisualState.Setters>
 									</VisualState>
 								</VisualStateGroup>
@@ -126,6 +95,15 @@
 					</ControlTemplate>
 				</Setter.Value>
 			</Setter>
+		</Style>
+
+		<Style BasedOn="{StaticResource RegularGroupHeaderItemStyle}" TargetType="ListViewHeaderItem" />
+
+		<Style
+			x:Key="CompactGroupHeaderItemStyle"
+			BasedOn="{StaticResource RegularGroupHeaderItemStyle}"
+			TargetType="ListViewHeaderItem">
+			<Setter Property="Margin" Value="-2,0,0,0" />
 		</Style>
 
 		<Style
@@ -172,318 +150,256 @@
 			Subtitle="{helpers:ResourceString Name=FileNameTeachingTip/Subtitle}"
 			Visibility="Collapsed" />
 
-		<!--  Grouping/Ungrouping  -->
-		<SemanticZoom
-			x:Name="RootGridZoom"
-			CanChangeViews="{x:Bind CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
-			ViewChangeStarted="SemanticZoom_ViewChangeStarted"
+		<!--  Main View  -->
+		<ListView
+			x:Name="FileList"
+			Padding="8,0,8,0"
+			ext:ScrollViewerMiddleClickExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
+			x:FieldModifier="public"
+			AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+			CanDragItems="{x:Bind AllowItemDrag, Mode=OneWay}"
+			ContainerContentChanging="FileList_ContainerContentChanging"
+			DoubleTapped="FileList_DoubleTapped"
+			DragItemsCompleted="FileList_DragItemsCompleted"
+			DragItemsStarting="FileList_DragItemsStarting"
+			DragOver="ItemsLayout_DragOver"
+			Drop="ItemsLayout_Drop"
+			FocusVisualPrimaryThickness="0"
+			FocusVisualSecondaryThickness="0"
+			Holding="FileList_Holding"
+			IsDoubleTapEnabled="True"
+			IsRightTapEnabled="True"
+			IsTabStop="True"
+			ItemContainerTransitions="{x:Null}"
+			ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
+			Loaded="FileList_Loaded"
+			PointerPressed="FileList_PointerPressed"
+			PreviewKeyDown="FileList_PreviewKeyDown"
+			RightTapped="FileList_RightTapped"
+			SelectionChanged="FileList_SelectionChanged"
+			SelectionMode="Extended"
+			Tapped="FileList_ItemTapped"
 			Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
 
-			<!--  Main View  -->
-			<SemanticZoom.ZoomedInView>
-				<ListView
-					x:Name="FileList"
-					Padding="8,0,8,0"
-					ext:ScrollViewerMiddleClickExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
-					x:FieldModifier="public"
-					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-					CanDragItems="{x:Bind AllowItemDrag, Mode=OneWay}"
-					ContainerContentChanging="FileList_ContainerContentChanging"
-					DoubleTapped="FileList_DoubleTapped"
-					DragItemsCompleted="FileList_DragItemsCompleted"
-					DragItemsStarting="FileList_DragItemsStarting"
-					DragOver="ItemsLayout_DragOver"
-					Drop="ItemsLayout_Drop"
-					FocusVisualPrimaryThickness="0"
-					FocusVisualSecondaryThickness="0"
-					Holding="FileList_Holding"
-					IsDoubleTapEnabled="True"
-					IsRightTapEnabled="True"
-					IsTabStop="True"
-					ItemContainerTransitions="{x:Null}"
-					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
-					Loaded="FileList_Loaded"
-					PointerPressed="FileList_PointerPressed"
-					PreviewKeyDown="FileList_PreviewKeyDown"
-					RightTapped="FileList_RightTapped"
-					SelectionChanged="FileList_SelectionChanged"
-					SelectionMode="Extended"
-					Tapped="FileList_ItemTapped">
+			<ListView.ItemTemplate>
+				<DataTemplate x:DataType="filesystem:ListedItem">
+					<Grid
+						x:Name="FilesRootGrid"
+						Height="{Binding RowHeight, ElementName=PageRoot, Mode=OneWay}"
+						Margin="0,2,0,2"
+						Padding="12,0,12,0"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Center"
+						CornerRadius="{StaticResource ControlCornerRadius}"
+						IsRightTapEnabled="True"
+						Loaded="Grid_Loaded">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
 
-					<ListView.ItemTemplate>
-						<DataTemplate x:DataType="filesystem:ListedItem">
-							<Grid
-								x:Name="FilesRootGrid"
-								Height="{Binding RowHeight, ElementName=PageRoot, Mode=OneWay}"
-								Margin="0,2,0,2"
-								Padding="12,0,12,0"
-								HorizontalAlignment="Stretch"
+						<!--  Thumbnail  -->
+						<Grid
+							Grid.Column="0"
+							Width="{Binding IconBoxSize, ElementName=PageRoot, Mode=OneWay}"
+							Height="{Binding IconBoxSize, ElementName=PageRoot, Mode=OneWay}"
+							Opacity="{x:Bind Opacity, Mode=OneWay}"
+							Tag="IconBox">
+							<ContentPresenter
+								x:Name="PicturePresenter"
+								Margin="2"
+								HorizontalAlignment="Center"
 								VerticalAlignment="Center"
-								CornerRadius="{StaticResource ControlCornerRadius}"
-								IsRightTapEnabled="True"
-								Loaded="Grid_Loaded">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="Auto" />
-									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="Auto" />
-								</Grid.ColumnDefinitions>
+								x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
+								CornerRadius="{StaticResource DetailsLayoutThumbnailCornerRadius}">
+								<Image
+									x:Name="Picture"
+									Source="{x:Bind FileImage, Mode=OneWay}"
+									Stretch="Uniform" />
+							</ContentPresenter>
 
-								<!--  Thumbnail  -->
-								<Grid
-									Grid.Column="0"
-									Width="{Binding IconBoxSize, ElementName=PageRoot, Mode=OneWay}"
-									Height="{Binding IconBoxSize, ElementName=PageRoot, Mode=OneWay}"
-									Opacity="{x:Bind Opacity, Mode=OneWay}"
-									Tag="IconBox">
-									<ContentPresenter
-										x:Name="PicturePresenter"
-										Margin="2"
-										HorizontalAlignment="Center"
-										VerticalAlignment="Center"
-										x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
-										CornerRadius="{StaticResource DetailsLayoutThumbnailCornerRadius}">
-										<Image
-											x:Name="Picture"
-											Source="{x:Bind FileImage, Mode=OneWay}"
-											Stretch="Uniform" />
-									</ContentPresenter>
+							<!--  Loading indicator  -->
+							<wctlabs:Shimmer
+								x:Name="TypeUnknownGlyph"
+								Margin="2"
+								x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
 
-									<!--  Loading indicator  -->
-									<wctlabs:Shimmer
-										x:Name="TypeUnknownGlyph"
-										Margin="2"
-										x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
+							<Image
+								x:Name="IconOverlay"
+								Width="16"
+								Height="16"
+								Margin="2"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Bottom"
+								x:Load="True"
+								Source="{x:Bind IconOverlay, Mode=OneWay}"
+								Stretch="Uniform" />
 
-									<Image
-										x:Name="IconOverlay"
+							<Viewbox
+								x:Name="ShortcutGlyphElement"
+								Width="10"
+								Height="10"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Bottom"
+								Visibility="{x:Bind IsShortcut}">
+								<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.Shortcut}" />
+							</Viewbox>
+							<Image
+								x:Name="ShieldOverlay"
+								Width="8"
+								Height="8"
+								Margin="2"
+								HorizontalAlignment="Right"
+								VerticalAlignment="Bottom"
+								x:Load="{x:Bind IsElevationRequired}"
+								Source="{x:Bind ShieldIcon, Mode=OneWay}"
+								Stretch="Uniform" />
+						</Grid>
+
+						<!--  Item Name  -->
+						<TextBlock
+							x:Name="ItemName"
+							Grid.Column="1"
+							Margin="5,0,5,0"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Center"
+							Opacity="{x:Bind Opacity, Mode=OneWay}"
+							Text="{x:Bind Name, Mode=OneWay}"
+							TextTrimming="CharacterEllipsis"
+							TextWrapping="NoWrap" />
+
+						<!--  Rename Text Box  -->
+						<TextBox
+							x:Name="ListViewTextBoxItemName"
+							Grid.Column="1"
+							Margin="0"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"
+							BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
+							TextAlignment="Left"
+							TextWrapping="Wrap"
+							Visibility="Collapsed">
+							<TextBox.Resources>
+								<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
+							</TextBox.Resources>
+						</TextBox>
+
+						<Grid Grid.Column="2">
+							<StackPanel Orientation="Horizontal" Spacing="4">
+								<!--  Cloud Status  -->
+								<Border
+									x:Name="CloudDriveSyncStatusGlyph"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									x:Load="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
+									x:Phase="2"
+									Background="Transparent"
+									ToolTipService.ToolTip="{x:Bind SyncStatusUI.SyncStatusString, Mode=OneWay}">
+									<controls:ThemedIcon
 										Width="16"
 										Height="16"
-										Margin="2"
-										HorizontalAlignment="Left"
-										VerticalAlignment="Bottom"
-										x:Load="True"
-										Source="{x:Bind IconOverlay, Mode=OneWay}"
-										Stretch="Uniform" />
+										Style="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).ThemedIconStyle, Mode=OneWay}" />
+								</Border>
 
-									<Viewbox
-										x:Name="ShortcutGlyphElement"
-										Width="10"
-										Height="10"
-										HorizontalAlignment="Left"
-										VerticalAlignment="Bottom"
-										Visibility="{x:Bind IsShortcut}">
-										<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.Shortcut}" />
-									</Viewbox>
-									<Image
-										x:Name="ShieldOverlay"
-										Width="8"
-										Height="8"
-										Margin="2"
-										HorizontalAlignment="Right"
-										VerticalAlignment="Bottom"
-										x:Load="{x:Bind IsElevationRequired}"
-										Source="{x:Bind ShieldIcon, Mode=OneWay}"
-										Stretch="Uniform" />
+								<!--  Tag  -->
+								<Ellipse
+									Width="12"
+									Height="12"
+									Margin="8,0,4,0"
+									x:Phase="2"
+									Fill="{x:Bind FileTagsUI[0].Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
+									ToolTipService.ToolTip="{x:Bind FileTagsUI[0].Name, Mode=OneWay}"
+									Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
+
+								<!--  Open Folder Chevron  -->
+								<FontIcon
+									x:Name="OpenFolderChevron"
+									HorizontalAlignment="Right"
+									VerticalAlignment="Center"
+									x:Load="{x:Bind IsFolder}"
+									FontSize="12"
+									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+									Glyph="&#xE76C;" />
+
+							</StackPanel>
+						</Grid>
+
+					</Grid>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+
+			<ListView.GroupStyle>
+				<GroupStyle>
+					<GroupStyle.HeaderTemplate>
+						<DataTemplate x:DataType="storage:IGroupedCollectionHeader">
+							<StackPanel
+								VerticalAlignment="Center"
+								AutomationProperties.Name="{x:Bind Model.Text}"
+								Background="Transparent"
+								DoubleTapped="GroupHeader_DoubleTapped"
+								Orientation="Horizontal"
+								PointerPressed="GroupHeader_PointerPressed"
+								Spacing="4"
+								Tapped="GroupHeader_Tapped">
+
+								<Grid
+									Width="20"
+									Height="20"
+									Background="Transparent"
+									DoubleTapped="GroupChevron_DoubleTapped"
+									Tapped="GroupChevron_Tapped">
+									<FontIcon
+										VerticalAlignment="Center"
+										FontSize="12"
+										Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+										Glyph="&#xE70D;"
+										Visibility="{x:Bind Model.IsExpanded, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+									<FontIcon
+										VerticalAlignment="Center"
+										FontSize="12"
+										Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+										Glyph="&#xE76C;"
+										Visibility="{x:Bind Model.IsExpanded, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 								</Grid>
 
-								<!--  Item Name  -->
 								<TextBlock
-									x:Name="ItemName"
-									Grid.Column="1"
-									Margin="5,0,5,0"
-									HorizontalAlignment="Left"
 									VerticalAlignment="Center"
-									Opacity="{x:Bind Opacity, Mode=OneWay}"
-									Text="{x:Bind Name, Mode=OneWay}"
+									FontFamily="{ThemeResource ContentControlThemeFontFamily}"
+									FontSize="12"
+									FontWeight="SemiBold"
+									Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+									LineHeight="16"
+									Text="{x:Bind Model.Text, Mode=OneWay}"
 									TextTrimming="CharacterEllipsis"
 									TextWrapping="NoWrap" />
 
-								<!--  Rename Text Box  -->
-								<TextBox
-									x:Name="ListViewTextBoxItemName"
-									Grid.Column="1"
-									Margin="0"
-									HorizontalAlignment="Stretch"
-									VerticalAlignment="Stretch"
-									BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
-									TextAlignment="Left"
-									TextWrapping="Wrap"
-									Visibility="Collapsed">
-									<TextBox.Resources>
-										<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
-									</TextBox.Resources>
-								</TextBox>
-
-								<Grid Grid.Column="2">
-									<StackPanel Orientation="Horizontal" Spacing="4">
-										<!--  Cloud Status  -->
-										<Border
-											x:Name="CloudDriveSyncStatusGlyph"
-											HorizontalAlignment="Center"
-											VerticalAlignment="Center"
-											x:Load="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
-											x:Phase="2"
-											Background="Transparent"
-											ToolTipService.ToolTip="{x:Bind SyncStatusUI.SyncStatusString, Mode=OneWay}">
-											<controls:ThemedIcon
-												Width="16"
-												Height="16"
-												Style="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).ThemedIconStyle, Mode=OneWay}" />
-										</Border>
-
-										<!--  Tag  -->
-										<Ellipse
-											Width="12"
-											Height="12"
-											Margin="8,0,4,0"
-											x:Phase="2"
-											Fill="{x:Bind FileTagsUI[0].Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-											ToolTipService.ToolTip="{x:Bind FileTagsUI[0].Name, Mode=OneWay}"
-											Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
-
-										<!--  Open Folder Chevron  -->
-										<FontIcon
-											x:Name="OpenFolderChevron"
-											HorizontalAlignment="Right"
-											VerticalAlignment="Center"
-											x:Load="{x:Bind IsFolder}"
-											FontSize="12"
-											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-											Glyph="&#xE76C;" />
-
-									</StackPanel>
-								</Grid>
-
-							</Grid>
-						</DataTemplate>
-					</ListView.ItemTemplate>
-
-					<ListView.GroupStyle>
-						<GroupStyle>
-							<GroupStyle.HeaderTemplate>
-								<DataTemplate x:DataType="storage:IGroupedCollectionHeader">
-									<StackPanel
-										Margin="0,0,0,4"
-										VerticalAlignment="Bottom"
-										AutomationProperties.Name="{x:Bind Model.Text}"
-										Spacing="0">
-
-										<StackPanel Orientation="Horizontal" Spacing="4">
-
-											<TextBlock
-												VerticalAlignment="Center"
-												FontSize="16"
-												Style="{StaticResource SubtitleTextBlockStyle}"
-												Text="{x:Bind Model.Text, Mode=OneWay}" />
-
-											<TextBlock
-												Margin="4,0,0,0"
-												VerticalAlignment="Center"
-												Style="{StaticResource App.Theme.BodyTextBlockStyle}"
-												Text="{x:Bind Model.CountText, Mode=OneWay}"
-												Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
-
-											<TextBlock
-												VerticalAlignment="Center"
-												FontSize="14"
-												Style="{StaticResource SubheaderTextBlockStyle}"
-												Text="{x:Bind Model.Subtext, Mode=OneWay}"
-												Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-
-										</StackPanel>
-
-										<TextBlock
-											Margin="0,2,0,0"
-											Style="{StaticResource App.Theme.BodyTextBlockStyle}"
-											Text="{x:Bind Model.CountText, Mode=OneWay}"
-											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-
-									</StackPanel>
-								</DataTemplate>
-							</GroupStyle.HeaderTemplate>
-						</GroupStyle>
-					</ListView.GroupStyle>
-
-					<ListView.ItemsPanel>
-						<ItemsPanelTemplate>
-							<ItemsStackPanel AreStickyGroupHeadersEnabled="True" Orientation="Vertical" />
-						</ItemsPanelTemplate>
-					</ListView.ItemsPanel>
-
-				</ListView>
-			</SemanticZoom.ZoomedInView>
-
-			<!--  Grouped View  -->
-			<SemanticZoom.ZoomedOutView>
-				<ListView
-					HorizontalAlignment="Stretch"
-					ItemsSource="{x:Bind CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
-					SelectionMode="None">
-					<ListView.ItemTemplate>
-						<DataTemplate x:DataType="ICollectionViewGroup">
-							<StackPanel
-								Margin="0,4,0,4"
-								VerticalAlignment="Center"
-								Orientation="Horizontal"
-								Spacing="4">
-
-								<!--  Group Image  -->
-								<Image
-									Height="36"
-									Source="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
-									Stretch="Uniform" />
-
-								<!--  Group Icon  -->
-								<FontIcon FontSize="32" Glyph="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
-
-								<StackPanel
+								<TextBlock
 									VerticalAlignment="Center"
-									AutomationProperties.Name="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
-									Orientation="Vertical">
-									<StackPanel Orientation="Horizontal" Spacing="4">
-
-										<!--  Header  -->
-										<TextBlock
-											VerticalAlignment="Center"
-											FontSize="16"
-											Style="{StaticResource SubtitleTextBlockStyle}"
-											Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
-
-										<!--  Count  -->
-										<TextBlock
-											Margin="4,0,0,0"
-											VerticalAlignment="Center"
-											Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
-											Style="{StaticResource App.Theme.BodyTextBlockStyle}"
-											Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-											Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
-
-										<!--  Subheader  -->
-										<TextBlock
-											VerticalAlignment="Center"
-											FontSize="14"
-											Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
-											Style="{StaticResource SubheaderTextBlockStyle}"
-											Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
-											Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-
-									</StackPanel>
-
-									<TextBlock
-										Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
-										Style="{StaticResource App.Theme.BodyTextBlockStyle}"
-										Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-										Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-
-								</StackPanel>
+									FontFamily="{ThemeResource ContentControlThemeFontFamily}"
+									FontSize="12"
+									FontWeight="SemiBold"
+									Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+									LineHeight="16"
+									Text="{x:Bind Model.Subtext, Mode=OneWay}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap"
+									Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 							</StackPanel>
 						</DataTemplate>
-					</ListView.ItemTemplate>
-				</ListView>
-			</SemanticZoom.ZoomedOutView>
+					</GroupStyle.HeaderTemplate>
+				</GroupStyle>
+			</ListView.GroupStyle>
 
-		</SemanticZoom>
+			<ListView.ItemsPanel>
+				<ItemsPanelTemplate>
+					<ItemsStackPanel AreStickyGroupHeadersEnabled="True" Orientation="Vertical" />
+				</ItemsPanelTemplate>
+			</ListView.ItemsPanel>
+
+		</ListView>
 
 		<!--  Selector  -->
 		<Canvas>

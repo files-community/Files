@@ -31,7 +31,6 @@ namespace Files.App.Views.Layouts
 		// Properties
 
 		protected abstract ListViewBase ListViewBase { get; }
-		protected abstract SemanticZoom RootZoom { get; }
 
 		protected override ItemsControl ItemsControl => ListViewBase;
 
@@ -218,11 +217,6 @@ namespace Files.App.Views.Layouts
 		protected virtual void ItemManipulationModel_StartRenameItemInvoked(object? sender, EventArgs e)
 		{
 			StartRenameItem();
-		}
-
-		protected override void ZoomIn()
-		{
-			RootZoom.IsZoomedInViewActive = true;
 		}
 
 		protected virtual void FileList_SelectionChanged(object sender, SelectionChangedEventArgs? e)

@@ -40,7 +40,6 @@ namespace Files.App.Views.Layouts
 		// Properties
 
 		protected override ListViewBase ListViewBase => FileList;
-		protected override SemanticZoom RootZoom => RootGridZoom;
 
 		public ColumnsViewModel ColumnsViewModel { get; } = new();
 
@@ -261,7 +260,9 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		private void SetItemContainerStyle()
 		{
-			if (UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact)
+			var isCompact = UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact;
+
+			if (isCompact)
 			{
 				// Toggle style to force item size to update
 				FileList.ItemContainerStyle = RegularItemContainerStyle;
@@ -277,6 +278,13 @@ namespace Files.App.Views.Layouts
 				// Set correct style
 				FileList.ItemContainerStyle = RegularItemContainerStyle;
 			}
+
+			// Compact rows shift -2px via their container Margin; mirror that on the
+			// group header so its background and content stay aligned with the rows.
+			if (FileList.GroupStyle.Count > 0)
+				FileList.GroupStyle[0].HeaderContainerStyle = isCompact
+					? (Style)Resources["CompactGroupHeaderItemStyle"]
+					: null;
 
 			// Set the width of the icon column. The value is increased by 4px to account for icon overlays.
 			ColumnsViewModel.IconColumn.UserLength = new GridLength(LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.DetailsView) + 4);
@@ -478,6 +486,12 @@ namespace Files.App.Views.Layouts
 		{
 			if (ParentShellPageInstance is null || IsRenamingItem)
 				return;
+
+			if (TryHandleGroupHeaderKey(e))
+			{
+				e.Handled = true;
+				return;
+			}
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
@@ -953,20 +967,6 @@ namespace Files.App.Views.Layouts
 		private void FileList_Loaded(object sender, RoutedEventArgs e)
 		{
 			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
-			const double OffsetCorrection = 88; // HeaderGrid (40) + ListViewHeaderItem (44 + 4 margin)
-
-			RootGridZoom.ViewChangeStarted += (_, args) =>
-			{
-				var scroller = ContentScroller;
-				if (args.IsSourceZoomedInView || scroller is null)
-					return;
-				void OnZoomScrolled(object? s, ScrollViewerViewChangedEventArgs ve)
-				{
-					scroller.ViewChanged -= OnZoomScrolled; 
-					scroller.ChangeView(0, Math.Max(0, scroller.VerticalOffset - OffsetCorrection), null, true);
-				}
-				scroller.ViewChanged += OnZoomScrolled;
-			};
 		}
 
 		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
@@ -1010,6 +1010,11 @@ namespace Files.App.Views.Layouts
 			selectionCheckbox.PointerEntered += SelectionCheckbox_PointerEntered;
 			selectionCheckbox.PointerExited += SelectionCheckbox_PointerExited;
 			selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
+		}
+
+		protected override void RefreshItemSelectionVisualState(ListedItem item)
+		{
+			SetCheckboxSelectionState(item);
 		}
 
 		private void SetCheckboxSelectionState(object item, ListViewItem? lviContainer = null)

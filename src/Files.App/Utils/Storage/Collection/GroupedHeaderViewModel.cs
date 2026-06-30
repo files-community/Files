@@ -60,6 +60,14 @@ namespace Files.App.Utils.Storage
 			set => SetPropertyWithUpdateDelay(ref icon, value);
 		}
 
+		private bool isExpanded = true;
+
+		public bool IsExpanded
+		{
+			get => isExpanded;
+			set => SetProperty(ref isExpanded, value);
+		}
+
 		private void SetPropertyWithUpdateDelay<T>(ref T field, T newVal, [CallerMemberName] string propName = null)
 		{
 			if (propName is null)

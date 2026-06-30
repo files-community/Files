@@ -44,7 +44,6 @@ namespace Files.App.Views.Layouts
 		// Properties
 
 		protected override ListViewBase ListViewBase => FileList;
-		protected override SemanticZoom RootZoom => RootGridZoom;
 		public ScrollViewer? ContentScroller { get; private set; }
 
 		/// <summary>
@@ -309,7 +308,9 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		private void SetItemContainerStyle()
 		{
-			if (UserSettingsService.LayoutSettingsService.ColumnsViewSize == ColumnsViewSizeKind.Compact)
+			var isCompact = UserSettingsService.LayoutSettingsService.ColumnsViewSize == ColumnsViewSizeKind.Compact;
+
+			if (isCompact)
 			{
 				// Toggle style to force item size to update
 				FileList.ItemContainerStyle = RegularItemContainerStyle;
@@ -325,6 +326,11 @@ namespace Files.App.Views.Layouts
 				// Set correct style
 				FileList.ItemContainerStyle = RegularItemContainerStyle;
 			}
+
+			if (FileList.GroupStyle.Count > 0)
+				FileList.GroupStyle[0].HeaderContainerStyle = isCompact
+					? (Style)Resources["CompactGroupHeaderItemStyle"]
+					: null;
 		}
 
 		public override void Dispose()
@@ -440,6 +446,12 @@ namespace Files.App.Views.Layouts
 				SelectedItems?.Count > 1
 			)
 				return;
+
+			if (TryHandleGroupHeaderKey(e))
+			{
+				e.Handled = true;
+				return;
+			}
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);

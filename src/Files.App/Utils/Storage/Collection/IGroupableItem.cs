@@ -6,5 +6,7 @@ namespace Files.App.Utils.Storage
 	public interface IGroupableItem
 	{
 		public string Key { get; set; }
+
+		public GroupedHeaderViewModel? GroupHeader { get; set; }
 	}
 }

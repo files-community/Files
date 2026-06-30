@@ -36,7 +36,6 @@ namespace Files.App.Views.Layouts
 		public ScrollViewer? ContentScroller { get; private set; }
 
 		protected override ListViewBase ListViewBase => FileList;
-		protected override SemanticZoom RootZoom => RootGridZoom;
 
 
 		// List View properties
@@ -503,6 +502,12 @@ namespace Files.App.Views.Layouts
 			if (ParentShellPageInstance is null || IsRenamingItem)
 				return;
 
+			if (TryHandleGroupHeaderKey(e))
+			{
+				e.Handled = true;
+				return;
+			}
+
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var focusedElement = FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot) as FrameworkElement;
@@ -719,6 +724,11 @@ namespace Files.App.Views.Layouts
 			selectionCheckbox.PointerEntered += SelectionCheckbox_PointerEntered;
 			selectionCheckbox.PointerExited += SelectionCheckbox_PointerExited;
 			selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
+		}
+
+		protected override void RefreshItemSelectionVisualState(ListedItem item)
+		{
+			SetCheckboxSelectionState(item);
 		}
 
 		private void SetCheckboxSelectionState(object item, GridViewItem? lviContainer = null)

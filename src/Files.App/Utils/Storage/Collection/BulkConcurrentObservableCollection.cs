@@ -183,8 +183,19 @@ namespace Files.App.Utils.Storage
 					groups.Any())
 				{
 					var gp = groups.First();
-					gp.Add(item);
-					gp.IsSorted = false;
+
+					if (item is IGroupableItem g)
+						g.GroupHeader = gp.Model;
+
+					if (gp.CachedItems is not null)
+					{
+						gp.CachedItems.Add(item);
+					}
+					else
+					{
+						gp.Add(item);
+						gp.IsSorted = false;
+					}
 				}
 				else
 				{
@@ -199,6 +210,9 @@ namespace Files.App.Utils.Storage
 
 					GroupedCollection?.Add(group);
 					GroupedCollection!.IsSorted = false;
+
+					if (item is IGroupableItem g)
+						g.GroupHeader = group.Model;
 				}
 			}
 		}
@@ -212,8 +226,10 @@ namespace Files.App.Utils.Storage
 				var group = GroupedCollection?.Where(x => x.Model.Key == key).FirstOrDefault();
 				if (group is not null)
 				{
-					group.Remove(item);
-					if (group.Count == 0)
+					if (group.CachedItems is null || !group.CachedItems.Remove(item))
+						group.Remove(item);
+
+					if (group.Count == 0 && (group.CachedItems is null || group.CachedItems.Count == 0))
 						GroupedCollection?.Remove(group);
 				}
 			}

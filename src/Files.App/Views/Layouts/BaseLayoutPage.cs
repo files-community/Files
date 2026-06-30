@@ -1235,6 +1235,14 @@ namespace Files.App.Views.Layouts
 			RefreshContainer(args.ItemContainer, args.InRecycleQueue);
 			RefreshItem(args.ItemContainer, args.Item, args.InRecycleQueue, args);
 
+			// For ListView (ItemsStackPanel), reflect the group's collapsed
+			// state via container Visibility. GridView (ItemsWrapGrid) uses
+			// source mutation in SetGroupExpanded instead.
+			if (sender is not GridView && !args.InRecycleQueue && args.Item is IGroupableItem groupable && groupable.GroupHeader is { IsExpanded: false })
+				args.ItemContainer.Visibility = Visibility.Collapsed;
+			else if (!args.InRecycleQueue)
+				args.ItemContainer.Visibility = Visibility.Visible;
+
 			// Set can window to front (#13255)
 			itemDragging = false;
 			MainWindow.Instance.SetCanWindowToFront(true);
@@ -1507,8 +1515,6 @@ namespace Files.App.Views.Layouts
 			}
 			else
 			{
-				ZoomIn();
-
 				var newSource = new CollectionViewSource()
 				{
 					IsSourceGrouped = false,
@@ -1518,19 +1524,257 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		protected virtual void ZoomIn()
+		private GroupedCollection<ListedItem>? _pressedGroupHeader;
+		private bool _pressedGroupHeaderAllSelected;
+
+		protected void GroupHeader_PointerPressed(object sender, PointerRoutedEventArgs e)
+		{
+			// Capture whether every item in this group is selected BEFORE the
+			// list view's pointer handling runs and (in Extended selection mode)
+			// clears the selection because the press wasn't on a list item.
+			_pressedGroupHeader = null;
+			_pressedGroupHeaderAllSelected = false;
+
+			if (sender is not FrameworkElement fe ||
+				fe.DataContext is not GroupedCollection<ListedItem> group ||
+				ItemsControl is not ListViewBase listView)
+				return;
+
+			_pressedGroupHeader = group;
+
+			var groupSet = group.ToHashSet();
+			if (groupSet.Count == 0)
+				return;
+
+			var selectedInGroup = listView.SelectedItems.OfType<ListedItem>().Count(groupSet.Contains);
+			_pressedGroupHeaderAllSelected = selectedInGroup == groupSet.Count;
+		}
+
+		protected void GroupHeader_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			var allWereSelected = _pressedGroupHeaderAllSelected && _pressedGroupHeader is not null;
+			_pressedGroupHeader = null;
+			_pressedGroupHeaderAllSelected = false;
+
+			if (sender is not FrameworkElement fe || fe.DataContext is not GroupedCollection<ListedItem> group)
+				return;
+
+			e.Handled = true;
+
+			if (!group.Model.IsExpanded)
+			{
+				SetGroupExpanded(group, true);
+				return;
+			}
+
+			if (ItemsControl is not ListViewBase listView)
+				return;
+
+			var ranges = BuildContiguousRanges(listView, group).ToList();
+			var items = group.ToList();
+			DispatcherQueue.TryEnqueue(() =>
+			{
+				foreach (var range in ranges)
+				{
+					if (allWereSelected)
+						listView.DeselectRange(range);
+					else
+						listView.SelectRange(range);
+				}
+
+				// SelectRange/DeselectRange doesn't always trigger the per-item
+				// SelectionChanged path that the layouts rely on to update
+				// checkbox visuals on recycled containers (e.g. after a
+				// collapse+expand cycle), so force the refresh here.
+				foreach (var item in items)
+					RefreshItemSelectionVisualState(item);
+			});
+		}
+
+		protected virtual void RefreshItemSelectionVisualState(ListedItem item)
 		{
 		}
 
-		protected void SemanticZoom_ViewChangeStarted(object sender, SemanticZoomViewChangedEventArgs e)
+		private static IEnumerable<ItemIndexRange> BuildContiguousRanges(ListViewBase listView, GroupedCollection<ListedItem> group)
 		{
-			if (e.IsSourceZoomedInView)
+			var items = listView.Items;
+			if (items is null)
+				yield break;
+
+			var indices = new List<int>(group.Count);
+			foreach (var item in group)
+			{
+				var idx = items.IndexOf(item);
+				if (idx >= 0)
+					indices.Add(idx);
+			}
+
+			if (indices.Count == 0)
+				yield break;
+
+			indices.Sort();
+
+			int rangeStart = indices[0];
+			int rangeLength = 1;
+			for (int i = 1; i < indices.Count; i++)
+			{
+				if (indices[i] == rangeStart + rangeLength)
+				{
+					rangeLength++;
+				}
+				else
+				{
+					yield return new ItemIndexRange(rangeStart, (uint)rangeLength);
+					rangeStart = indices[i];
+					rangeLength = 1;
+				}
+			}
+			yield return new ItemIndexRange(rangeStart, (uint)rangeLength);
+		}
+
+		protected void GroupHeader_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		{
+			if (sender is FrameworkElement fe && fe.DataContext is GroupedCollection<ListedItem> group)
+			{
+				SetGroupExpanded(group, !group.Model.IsExpanded);
+				e.Handled = true;
+			}
+		}
+
+		protected void GroupChevron_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			if (sender is FrameworkElement fe && fe.DataContext is GroupedCollection<ListedItem> group)
+			{
+				SetGroupExpanded(group, !group.Model.IsExpanded);
+				e.Handled = true;
+			}
+		}
+
+		protected void GroupChevron_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		{
+			// Chevron handles toggles via Tapped; swallow DoubleTapped so it
+			// doesn't bubble to the header and re-toggle the group.
+			e.Handled = true;
+		}
+
+		protected bool TryHandleGroupHeaderKey(KeyRoutedEventArgs e)
+		{
+			if (ItemsControl is not ListViewBase listView)
+				return false;
+
+			var focused = FocusManager.GetFocusedElement(listView.XamlRoot) as DependencyObject;
+			var header = focused as ListViewBaseHeaderItem
+				?? DependencyObjectHelpers.FindParent<ListViewBaseHeaderItem>(focused);
+			if (header?.DataContext is not GroupedCollection<ListedItem> group)
+				return false;
+
+			switch (e.Key)
+			{
+				case VirtualKey.Space:
+				case VirtualKey.Enter:
+					SetGroupExpanded(group, !group.Model.IsExpanded);
+					return true;
+				case VirtualKey.Left:
+					if (group.Model.IsExpanded)
+					{
+						SetGroupExpanded(group, false);
+						return true;
+					}
+					return false;
+				case VirtualKey.Right:
+					if (!group.Model.IsExpanded)
+					{
+						SetGroupExpanded(group, true);
+						return true;
+					}
+					return false;
+			}
+
+			return false;
+		}
+
+		protected void SetGroupExpanded(GroupedCollection<ListedItem> group, bool expanded)
+		{
+			if (group.Model.IsExpanded == expanded)
 				return;
 
-			// According to the docs this isn't necessary, but it would crash otherwise
-			var destination = e.DestinationItem.Item as GroupedCollection<ListedItem>;
+			group.Model.IsExpanded = expanded;
 
-			e.DestinationItem.Item = destination?.FirstOrDefault();
+			// GridView uses ItemsWrapGrid which allocates cells even for
+			// collapsed containers, so we have to physically remove the
+			// items from the source. ListView uses ItemsStackPanel which
+			// honors container Visibility, so we can hide the containers
+			// instead and avoid container recycling (which can leave
+			// per-item visual state — checkbox visibility — stale).
+			if (ItemsControl is GridView)
+				ToggleGroupViaSourceMutation(group, expanded);
+			else
+				ToggleGroupViaContainerVisibility(group, expanded);
+		}
+
+		// CachedItems holds items in arrival order; the parent collection holds
+		// them in sorted order, so use it as the authority on re-injection.
+		private void SortCachedItemsByParentOrder(List<ListedItem> cached)
+		{
+			if (cached.Count < 2 || ParentShellPageInstance?.ShellViewModel?.FilesAndFolders is not { } source)
+				return;
+
+			var cachedSet = cached.ToHashSet();
+			var orderMap = new Dictionary<ListedItem, int>(cached.Count);
+			int idx = 0;
+			foreach (var item in source)
+			{
+				if (cachedSet.Contains(item))
+					orderMap[item] = idx;
+				idx++;
+			}
+
+			cached.Sort((a, b) =>
+				(orderMap.TryGetValue(a, out var ia) ? ia : int.MaxValue)
+					.CompareTo(orderMap.TryGetValue(b, out var ib) ? ib : int.MaxValue));
+		}
+
+		private void ToggleGroupViaContainerVisibility(GroupedCollection<ListedItem> group, bool expanded)
+		{
+			if (ItemsControl is not ListViewBase lvb)
+				return;
+
+			var visibility = expanded ? Visibility.Visible : Visibility.Collapsed;
+			foreach (var item in group)
+			{
+				if (lvb.ContainerFromItem(item) is ListViewItem container)
+					container.Visibility = visibility;
+			}
+		}
+
+		private void ToggleGroupViaSourceMutation(GroupedCollection<ListedItem> group, bool expanded)
+		{
+			if (expanded)
+			{
+				if (group.CachedItems is { } cached)
+				{
+					group.CachedItems = null;
+					SortCachedItemsByParentOrder(cached);
+					group.AddRange(cached);
+				}
+			}
+			else
+			{
+				var items = group.ToList();
+				group.CachedItems = items;
+
+				if (ItemsControl is ListViewBase lvb)
+				{
+					var itemSet = items.ToHashSet();
+					for (int i = lvb.SelectedItems.Count - 1; i >= 0; i--)
+					{
+						if (lvb.SelectedItems[i] is ListedItem li && itemSet.Contains(li))
+							lvb.SelectedItems.RemoveAt(i);
+					}
+				}
+
+				group.Clear();
+			}
 		}
 
 		protected void StackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)

@@ -7,6 +7,10 @@ namespace Files.App.Utils.Storage
 	{
 		public GroupedHeaderViewModel Model { get; set; }
 
+		// Stash for items removed from the live collection while the group is
+		// collapsed; restored on expand. Null when the group is expanded.
+		public List<T>? CachedItems { get; set; }
+
 		public GroupedCollection(IEnumerable<T> items) : base(items)
 		{
 			AddEvents();
