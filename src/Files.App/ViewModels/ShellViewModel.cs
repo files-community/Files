@@ -2645,9 +2645,29 @@ namespace Files.App.ViewModels
 										break;
 
 									case FILE_ACTION_RENAMED_OLD_NAME:
-										var itemRenamedOld = await RemoveFileOrFolderAsync(operation.FileName);
-										if (itemRenamedOld is not null)
-											anyEdits = true;
+										// Pair OLD_NAME with the following NEW_NAME so the item can be updated
+										// in place and stay at its current position instead of jumping to a new
+										// sorted slot after a rename (issue #4214). Leaving anyEdits false skips
+										// OrderFilesAndFoldersAsync; PropertyChanged keeps the visible name in sync.
+										if (operationQueue.TryPeek(out var nextOp) && nextOp.Action == FILE_ACTION_RENAMED_NEW_NAME &&
+											filesAndFolders.ToList().FirstOrDefault(x => x.ItemPath.Equals(operation.FileName, StringComparison.OrdinalIgnoreCase)) is { } renamed)
+										{
+											operationQueue.TryDequeue(out _);
+											var newPath = nextOp.FileName;
+											await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+											{
+												renamed.ItemPath = newPath;
+												renamed.ItemNameRaw = Path.GetFileName(newPath);
+												if (renamed.PrimaryItemAttribute == StorageItemTypes.File)
+													renamed.FileExtension = Path.GetExtension(newPath);
+											});
+										}
+										else
+										{
+											var itemRenamedOld = await RemoveFileOrFolderAsync(operation.FileName);
+											if (itemRenamedOld is not null)
+												anyEdits = true;
+										}
 										break;
 								}
 							}
