@@ -8,8 +8,6 @@ namespace Files.App.Storage
 {
 	public unsafe sealed class WindowsDriveManager : IDisposable
 	{
-		private static readonly Lazy<WindowsDriveManager> lazy = new(() => new WindowsDriveManager());
-
 		private readonly WindowsFolderChangeWatcher _folderChangeWatcher;
 		private bool _isDisposed;
 
@@ -18,7 +16,7 @@ namespace Files.App.Storage
 		public event EventHandler<DeviceEventArgs>? DeviceInserted;
 		public event EventHandler<DeviceEventArgs>? DeviceEjected;
 
-		public static WindowsDriveManager Default => lazy.Value;
+		public static WindowsDriveManager Default { get; } = new();
 
 		private WindowsDriveManager()
 		{
