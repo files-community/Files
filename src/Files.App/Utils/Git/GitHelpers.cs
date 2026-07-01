@@ -29,7 +29,7 @@ namespace Files.App.Utils.Git
 		/// <inheritdoc cref="IVersionControl.GetRepositoryHead(string?)"/>
 		public static Task<BranchItem?> GetRepositoryHead(string? path) => _implementation.GetRepositoryHead(path);
 
-		/// <inheritdoc cref="IVersionControl.Checkout(string? repositoryPath, string? branch)"/>
+		/// <inheritdoc cref="IVersionControl.Checkout(string?, string?)"/>
 		public static Task<bool> Checkout(string? repositoryPath, string? branch) => _implementation.Checkout(repositoryPath, branch);
 
 		#region Legacy implementation
