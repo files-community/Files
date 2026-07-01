@@ -30,6 +30,9 @@ namespace Files.App.Utils.Git
 		/// <inheritdoc cref="IVersionControlService.GetRepositoryHead(string?)"/>
 		public static Task<BranchItem?> GetRepositoryHead(string? path) => _implementation.GetRepositoryHead(path);
 
+		/// <inheritdoc cref="IVersionControlService.Checkout(string?, string?)"/>
+		public static Task<bool> Checkout(string? repositoryPath, string? branch) => _implementation.Checkout(repositoryPath, branch);
+
 		/// <inheritdoc cref="IVersionControlService.FetchOrigin(string?, CancellationToken)"/>
 		public static async void FetchOrigin(string? repositoryPath, CancellationToken cancellationToken = default) => _implementation.FetchOrigin(repositoryPath, cancellationToken);
 
@@ -92,99 +95,6 @@ namespace Files.App.Utils.Git
 
 		// Property already moved into abstraction
 		private static readonly SemaphoreSlim GitOperationSemaphore = new SemaphoreSlim(1, 1);
-
-		public static async Task<bool> Checkout(string? repositoryPath, string? branch)
-		{
-			SentrySdk.Experimental.Metrics.EmitCounter("Triggered git checkout", 1);
-
-			if (string.IsNullOrWhiteSpace(repositoryPath) || !IsRepoValid(repositoryPath))
-				return false;
-
-			using var repository = new Repository(repositoryPath);
-			var checkoutBranch = repository.Branches[branch];
-			if (checkoutBranch is null)
-				return false;
-
-			var options = new CheckoutOptions();
-			var isBringingChanges = false;
-
-			_implementation.IsExecutingGitAction = true;
-
-			if (repository.Index.Conflicts.Any())
-			{
-				var dialog = DynamicDialogFactory.GetFor_GitMergeConflicts(checkoutBranch.FriendlyName, repository.Head.FriendlyName);
-				await dialog.ShowAsync();
-
-				var resolveConflictOption = (GitCheckoutOptions)dialog.ViewModel.AdditionalData;
-
-				switch (resolveConflictOption)
-				{
-					case GitCheckoutOptions.None:
-						_implementation.IsExecutingGitAction = false;
-						return false;
-					case GitCheckoutOptions.AbortMerge:
-						repository.Reset(ResetMode.Hard);
-						break;
-				}
-			}
-			else if (repository.RetrieveStatus().IsDirty)
-			{
-				var dialog = DynamicDialogFactory.GetFor_GitCheckoutConflicts(checkoutBranch.FriendlyName, repository.Head.FriendlyName);
-				await dialog.ShowAsync();
-
-				var resolveConflictOption = (GitCheckoutOptions)dialog.ViewModel.AdditionalData;
-
-				switch (resolveConflictOption)
-				{
-					case GitCheckoutOptions.None:
-						_implementation.IsExecutingGitAction = false;
-						return false;
-					case GitCheckoutOptions.DiscardChanges:
-						options.CheckoutModifiers = CheckoutModifiers.Force;
-						break;
-					case GitCheckoutOptions.BringChanges:
-					case GitCheckoutOptions.StashChanges:
-						var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
-						if (signature is null)
-						{
-							_implementation.IsExecutingGitAction = false;
-							return false;
-						}
-
-						repository.Stashes.Add(signature);
-
-						isBringingChanges = resolveConflictOption is GitCheckoutOptions.BringChanges;
-						break;
-				}
-			}
-
-			var result = await DoGitOperationAsync<GitOperationResult>(() =>
-			{
-				try
-				{
-					if (checkoutBranch.IsRemote)
-						CheckoutRemoteBranch(repository, checkoutBranch);
-					else
-						LibGit2Sharp.Commands.Checkout(repository, checkoutBranch, options);
-
-					if (isBringingChanges)
-					{
-						var lastStashIndex = repository.Stashes.Count() - 1;
-						repository.Stashes.Pop(lastStashIndex, new StashApplyOptions());
-					}
-				}
-				catch (Exception)
-				{
-					return GitOperationResult.GenericError;
-				}
-
-				return GitOperationResult.Success;
-			});
-
-			_implementation.IsExecutingGitAction = false;
-
-			return result is GitOperationResult.Success;
-		}
 
 		public static async Task CreateNewBranchAsync(string repositoryPath, string activeBranch)
 		{
