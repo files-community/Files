@@ -11,6 +11,8 @@ namespace Files.App.Data.Contracts
 
 		public string Path { get; }
 
+		bool ISidebarItemModel.IsReorderDropItem => Section == SectionType.Pinned;
+
 		public SectionType Section { get; }
 
 		public NavigationControlItemType ItemType { get; }

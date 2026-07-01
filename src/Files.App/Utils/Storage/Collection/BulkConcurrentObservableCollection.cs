@@ -375,6 +375,21 @@ namespace Files.App.Utils.Storage
 			UpdateGroups(e);
 		}
 
+		public void Move(int oldIndex, int newIndex)
+		{
+			NotifyCollectionChangedEventArgs e;
+
+			lock (syncRoot)
+			{
+				var item = collection[oldIndex];
+				collection.RemoveAt(oldIndex);
+				collection.Insert(newIndex, item);
+
+				e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item, newIndex, oldIndex);
+				OnCollectionChanged(e, false);
+			}
+		}
+
 		public void AddRange(IEnumerable<T> items)
 		{
 			if (!items.Any())
