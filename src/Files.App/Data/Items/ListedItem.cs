@@ -117,9 +117,8 @@ namespace Files.App.Utils
 					// only set the tags if the file tags have been changed
 					if (fileTagsInitialized)
 					{
-						var dbInstance = FileTagsHelper.GetDbInstance();
-						dbInstance.SetTags(ItemPath, FileFRN, value);
-						FileTagsHelper.WriteFileTag(ItemPath, value);
+						// Update the registry index and ADS as one synchronized operation.
+						_ = FileTagsHelper.SetTagsAndWriteFileTagAsync(ItemPath, FileFRN, value);
 					}
 
 					HasTags = !FileTags.IsEmpty();

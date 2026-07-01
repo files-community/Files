@@ -1438,7 +1438,6 @@ namespace Files.App.ViewModels.UserControls
 		private async Task HandleTagItemDroppedAsync(FileTagItem fileTagItem, ItemDroppedEventArgs args)
 		{
 			var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
-			var dbInstance = FileTagsHelper.GetDbInstance();
 			var pathToTags = new Dictionary<string, string[]>();
 			foreach (var item in storageItems.Where(x => !string.IsNullOrEmpty(x.Path)))
 			{
@@ -1447,8 +1446,8 @@ namespace Files.App.ViewModels.UserControls
 				{
 					filesTags = [.. filesTags, fileTagItem.FileTag.Uid];
 					var fileFRN = await FileTagsHelper.GetFileFRN(item.Item);
-					dbInstance.SetTags(item.Path, fileFRN, filesTags);
-					FileTagsHelper.WriteFileTag(item.Path, filesTags);
+					// Update the registry index and ADS as one synchronized operation.
+					_ = FileTagsHelper.SetTagsAndWriteFileTagAsync(item.Path, fileFRN, filesTags);
 					pathToTags[item.Path] = filesTags;
 				}
 			}
