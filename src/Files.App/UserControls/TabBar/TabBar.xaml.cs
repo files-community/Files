@@ -251,7 +251,7 @@ namespace Files.App.UserControls.TabBar
 			var selectedTabViewItemIndex = sender.SelectedIndex;
 
 			Items.Remove(args.Item as TabBarItem);
-			if (!await NavigationHelpers.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
+			if (!await NavigationHelpers.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize(), droppedPoint.X, droppedPoint.Y))
 			{
 				Items.Insert(indexOfTabViewItem, args.Item as TabBarItem);
 				sender.SelectedIndex = selectedTabViewItemIndex;
