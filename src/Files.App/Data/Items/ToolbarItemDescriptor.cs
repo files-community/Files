@@ -73,14 +73,14 @@ namespace Files.App.Data.Items
 					yield return FromCommand(cmd, contextId: contextId);
 		}
 
-		public static List<ToolbarAvailableTreeItem> BuildAvailableTree(IEnumerable<ToolbarItemDescriptor> items)
+		public static List<ToolbarAvailableTreeItem> BuildAvailableTree(IEnumerable<ToolbarItemDescriptor> items, bool flat = false)
 		{
 			var roots = new List<ToolbarAvailableTreeItem>();
 			var nodes = new Dictionary<string, ToolbarAvailableTreeItem>(StringComparer.OrdinalIgnoreCase);
-			foreach (var item in items.OrderBy(i => i.CategoryPath, StringComparer.OrdinalIgnoreCase)
+			foreach (var item in items.OrderBy(i => flat ? "" : i.CategoryPath, StringComparer.OrdinalIgnoreCase)
 				.ThenBy(i => i.ExtendedDisplayName, StringComparer.OrdinalIgnoreCase))
 			{
-				var parent = GetOrCreateCategoryNode(item.CategoryPath, roots, nodes);
+				var parent = flat ? null : GetOrCreateCategoryNode(item.CategoryPath, roots, nodes);
 				IList<ToolbarAvailableTreeItem> target = parent?.Children ?? (IList<ToolbarAvailableTreeItem>)roots;
 				target.Add(new(item.ExtendedDisplayNameWithGroupSuffix, item));
 			}
