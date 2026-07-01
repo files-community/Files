@@ -44,6 +44,7 @@ namespace Files.App.ViewModels.UserControls
 		private string? _dragOverPath;
 		private bool _lockFlag;
 		private PointerRoutedEventArgs? _pointerRoutedEventArgs;
+		private CancellationTokenSource _suggestSearchCTS = new();
 
 		// Events
 
@@ -1127,6 +1128,10 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 
+			_suggestSearchCTS.Cancel();
+			_suggestSearchCTS = new CancellationTokenSource();
+			var token = _suggestSearchCTS.Token;
+
 			List<SuggestionModel> newSuggestions = [];
 
 			if (string.IsNullOrWhiteSpace(OmnibarSearchModeText))
@@ -1137,16 +1142,29 @@ namespace Files.App.ViewModels.UserControls
 			}
 			else
 			{
-				var search = new FolderSearch
+				try
 				{
-					Query = OmnibarSearchModeText,
-					Folder = ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory,
-					MaxItemCount = 10,
-				};
+					await Task.Delay(200, token);
 
-				var results = await search.SearchAsync();
-				newSuggestions.AddRange(results.Select(result => new SuggestionModel(result)));
+					var search = new FolderSearch
+					{
+						Query = OmnibarSearchModeText,
+						Folder = ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory,
+						MaxItemCount = 10,
+					};
+
+					var results = new List<ListedItem>();
+					await search.SearchAsync(results, token);
+					newSuggestions.AddRange(results.Select(result => new SuggestionModel(result)));
+				}
+				catch (OperationCanceledException)
+				{
+					return;
+				}
 			}
+
+			if (token.IsCancellationRequested)
+				return;
 
 			// Remove outdated suggestions
 			var toRemove = OmnibarSearchModeSuggestionItems
@@ -1211,10 +1229,17 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		public void CancelSuggestionSearch()
+		{
+			_suggestSearchCTS.Cancel();
+		}
+
 		// Disposer
 
 		public void Dispose()
 		{
+			_suggestSearchCTS.Cancel();
+			_suggestSearchCTS.Dispose();
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 		}
 	}
