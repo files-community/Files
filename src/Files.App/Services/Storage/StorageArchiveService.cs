@@ -386,7 +386,9 @@ namespace Files.App.Services
 			{
 				using (ZipFile zipFile = new ZipFile(archiveFilePath))
 				{
-					return !zipFile.Cast<ZipEntry>().All(entry => entry.IsUnicodeText);
+					return !zipFile.Cast<ZipEntry>().All(
+						entry => entry.IsUnicodeText || entry.Name.All(c => char.IsAscii(c))
+					);
 				}
 			}
 			catch (Exception ex)

@@ -55,9 +55,24 @@ namespace Files.App.UserControls
 			StatusBarViewModel.SelectedBranchIndex = StatusBarViewModel.ACTIVE_BRANCH_INDEX;
 		}
 
+		private async void ZipEncodingFlyout_Opening(object _, object e)
+		{
+			if (StatusBarViewModel is null)
+				return;
+
+			await StatusBarViewModel.UpdateZipEncodingStateAsync();
+			if (StatusBarViewModel.SelectedZipEncoding is not null)
+				ZipEncodingList.SelectedItem = StatusBarViewModel.SelectedZipEncoding;
+		}
+
 		private void BranchesList_ItemClick(object sender, ItemClickEventArgs e)
 		{
 			BranchesFlyout.Hide();
+		}
+
+		private void ZipEncodingList_ItemClick(object sender, ItemClickEventArgs e)
+		{
+			ZipEncodingFlyout.Hide();
 		}
 
 		private void BranchesFlyout_Closing(object _, object e)
