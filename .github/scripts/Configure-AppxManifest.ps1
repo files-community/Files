@@ -6,7 +6,6 @@ param(
     [string]$PackageManifestPath = "",
     [string]$Publisher = "",
     [string]$WorkingDir = "",
-    [string]$SecretBingMapsKey = "",
     [string]$SecretSentry = "",
     [string]$SecretGitHubOAuthClientId = ""
 )
@@ -161,12 +160,6 @@ foreach ($folder in @('Dev', 'Preview', 'Release')) {
 Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `
 { `
     (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "cd_app_env_placeholder", $Branch }) | `
-    Set-Content $_ -NoNewline `
-}
-
-Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `
-{ `
-    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "bingmapskey.secret", "$SecretBingMapsKey" }) | `
     Set-Content $_ -NoNewline `
 }
 

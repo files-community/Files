@@ -179,10 +179,9 @@ namespace Files.App.ViewModels.Properties
 
 			var list = await FileProperty.RetrieveAndInitializePropertiesAsync(file);
 
-			list.Find(x => x.ID == "address").Value =
-				await LocationHelpers.GetAddressFromCoordinatesAsync((double?)list.Find(
-					x => x.Property == "System.GPS.LatitudeDecimal").Value,
-					(double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+			var addressItem = list.Find(x => x.ID == "address");
+			if (addressItem is not null)
+				addressItem.Value = await LocationHelpers.GetAddressFromImageMetadataAsync(file);
 
 			var query = list
 				.Where(fileProp => !(fileProp.Value is null && fileProp.IsReadOnly))

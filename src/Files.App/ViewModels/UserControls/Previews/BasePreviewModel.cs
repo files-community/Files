@@ -116,10 +116,9 @@ namespace Files.App.ViewModels.Previews
 			var list = await FileProperty.RetrieveAndInitializePropertiesAsync(Item.ItemFile,
 				Constants.ResourceFilePaths.PreviewPaneDetailsPropertiesJsonPath);
 
-			list.Find(x => x.ID is "address").Value = await LocationHelpers.GetAddressFromCoordinatesAsync(
-				(double?)list.Find(x => x.Property is "System.GPS.LatitudeDecimal").Value,
-				(double?)list.Find(x => x.Property is "System.GPS.LongitudeDecimal").Value
-			);
+			var addressItem = list.Find(x => x.ID is "address");
+			if (addressItem is not null)
+				addressItem.Value = await LocationHelpers.GetAddressFromImageMetadataAsync(Item.ItemFile);
 
 			// Adds the value for the file tag
 			list.FirstOrDefault(x => x.ID is "filetag").Value =
