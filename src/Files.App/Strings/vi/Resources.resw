@@ -1098,7 +1098,7 @@
     <value>Mở trong ngăn mới</value>
   </data>
   <data name="OpenInOtherPane" xml:space="preserve">
-    <value>Open in other pane</value>
+    <value>Mở trong ngăn khác</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Tệp &amp; thư mục</value>
@@ -1378,6 +1378,9 @@
   </data>
   <data name="OpenWith" xml:space="preserve">
     <value>Mở bằng</value>
+  </data>
+  <data name="ChooseAnotherApp" xml:space="preserve">
+    <value>Chọn ứng dụng khác</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Biểu tượng tệp</value>
@@ -3422,7 +3425,7 @@
     <value>Mở thư mục đã chọn trong ngăn mới</value>
   </data>
   <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
-    <value>Open selected directory in the other pane</value>
+    <value>Mở thư mục đã chọn trong ngăn còn lại</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Mở thư mục đã chọn trong thẻ mới</value>
@@ -3927,7 +3930,7 @@
     <value>Thay đổi bìa album</value>
   </data>
   <data name="RemoveAlbumCover" xml:space="preserve">
-    <value>Remove album cover</value>
+    <value>Xóa bìa album</value>
   </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>Không thể đổi tên khoản mục</value>
@@ -4261,13 +4264,13 @@
     <value>Luôn đặt tiêu điểm vào thẻ mới</value>
   </data>
   <data name="ReverseTabScrollDirection" xml:space="preserve">
-    <value>Reverse tab scroll direction</value>
+    <value>Đảo chiều cuộn thẻ</value>
   </data>
   <data name="DownMotionScrollsLeft" xml:space="preserve">
-    <value>Down motion scrolls left</value>
+    <value>Lăn xuống sẽ cuộn sang trái</value>
   </data>
   <data name="DownMotionScrollsRight" xml:space="preserve">
-    <value>Down motion scrolls right</value>
+    <value>Lăn xuống sẽ cuộn sang phải</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>Bật tắt ngăn tạm</value>
@@ -4324,6 +4327,15 @@
   </data>
   <data name="OpenSettings" xml:space="preserve">
     <value>Mở cài đặt</value>
+  </data>
+  <data name="NetworkDiscoveryTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Đã tắt khám phá mạng. Các máy tính và thiết bị trong mạng không được hiển thị.</value>
+  </data>
+  <data name="FileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Đã tắt chia sẻ tệp. Một số máy tính và thiết bị trong mạng có thể không hiển thị.</value>
+  </data>
+  <data name="NetworkDiscoveryAndFileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Đã tắt khám phá mạng và chia sẻ tệp. Các máy tính và thiết bị trong mạng không được hiển thị.</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
@@ -4573,7 +4585,7 @@
     <value>Tạo tệp và thư mục mới</value>
   </data>
   <data name="EditTagsGroupDescription" xml:space="preserve">
-    <value>Thêm hoặc loại bỏ nhãn</value>
+    <value>Thêm hoặc gỡ bỏ nhãn</value>
   </data>
   <data name="RemoveTags" xml:space="preserve">
     <value>Gỡ bỏ nhãn</value>
