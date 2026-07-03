@@ -1098,7 +1098,7 @@
     <value>Deschidere într-un panou nou</value>
   </data>
   <data name="OpenInOtherPane" xml:space="preserve">
-    <value>Open in other pane</value>
+    <value>Deschidere într-un alt panou</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Fișiere și foldere</value>
@@ -1378,6 +1378,9 @@
   </data>
   <data name="OpenWith" xml:space="preserve">
     <value>Deschidere cu</value>
+  </data>
+  <data name="ChooseAnotherApp" xml:space="preserve">
+    <value>Alegeți o altă aplicație</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Fișier pictogramă</value>
@@ -3422,7 +3425,7 @@
     <value>Deschideți folderul selectat într-un panou nou</value>
   </data>
   <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
-    <value>Open selected directory in the other pane</value>
+    <value>Deschidere directorul selectat în celălalt panou</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Deschideți folderul selectat într-o filă nouă</value>
@@ -3927,7 +3930,7 @@
     <value>Modificare copertă album</value>
   </data>
   <data name="RemoveAlbumCover" xml:space="preserve">
-    <value>Remove album cover</value>
+    <value>Eliminați coperta de album</value>
   </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>Nu s-a putut redenumi elementul</value>
@@ -4261,13 +4264,13 @@
     <value>Comutați întotdeauna focalizarea la fila nou creată</value>
   </data>
   <data name="ReverseTabScrollDirection" xml:space="preserve">
-    <value>Reverse tab scroll direction</value>
+    <value>Inversare direcție derulare filă</value>
   </data>
   <data name="DownMotionScrollsLeft" xml:space="preserve">
-    <value>Down motion scrolls left</value>
+    <value>Mișcarea jos se derulează la stânga</value>
   </data>
   <data name="DownMotionScrollsRight" xml:space="preserve">
-    <value>Down motion scrolls right</value>
+    <value>Mișcarea jos se derulează la dreapta</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>Comutare panou raft</value>
@@ -4324,6 +4327,15 @@
   </data>
   <data name="OpenSettings" xml:space="preserve">
     <value>Deschidere setări</value>
+  </data>
+  <data name="NetworkDiscoveryTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Descoperirea rețelei este dezactivată. Calculatoarele și dispozitivele din rețea nu sunt vizibile.</value>
+  </data>
+  <data name="FileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Partajarea fișierelor este dezactivată. Unele calculatoare și dispozitive din rețea ar putea să nu fie vizibile.</value>
+  </data>
+  <data name="NetworkDiscoveryAndFileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Descoperirea rețelei și partajarea fișierelor sunt dezactivate. Calculatoarele și dispozitivele din rețea nu sunt vizibile.</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
