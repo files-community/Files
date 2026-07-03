@@ -1098,7 +1098,7 @@
     <value>Ouvrir dans un nouveau volet</value>
   </data>
   <data name="OpenInOtherPane" xml:space="preserve">
-    <value>Open in other pane</value>
+    <value>Ouvrir dans un autre panneau</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Fichiers et dossiers</value>
@@ -1378,6 +1378,9 @@
   </data>
   <data name="OpenWith" xml:space="preserve">
     <value>Ouvrir avec</value>
+  </data>
+  <data name="ChooseAnotherApp" xml:space="preserve">
+    <value>Choisir une autre application</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Icône du fichier</value>
@@ -3422,7 +3425,7 @@
     <value>Ouvrir le dossier sélectionné dans un nouveau volet</value>
   </data>
   <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
-    <value>Open selected directory in the other pane</value>
+    <value>Ouvrir le répertoire sélectionné dans l'autre panneau</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Ouvrir le dossier sélectionné dans un nouvel onglet</value>
@@ -3927,7 +3930,7 @@
     <value>Changer la pochette de l'album</value>
   </data>
   <data name="RemoveAlbumCover" xml:space="preserve">
-    <value>Remove album cover</value>
+    <value>Retirer la pochette de l'album</value>
   </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>Échec du renommage de l'élément</value>
@@ -4261,7 +4264,7 @@
     <value>Toujours basculer le focus vers l'onglet nouvellement créé</value>
   </data>
   <data name="ReverseTabScrollDirection" xml:space="preserve">
-    <value>Reverse tab scroll direction</value>
+    <value>Inverser la direction de défilement des onglets</value>
   </data>
   <data name="DownMotionScrollsLeft" xml:space="preserve">
     <value>Down motion scrolls left</value>
@@ -4324,6 +4327,15 @@
   </data>
   <data name="OpenSettings" xml:space="preserve">
     <value>Ouvrir les paramètres</value>
+  </data>
+  <data name="NetworkDiscoveryTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Network discovery is turned off. Network computers and devices are not visible.</value>
+  </data>
+  <data name="FileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>File sharing is turned off. Some network computers and devices might not be visible.</value>
+  </data>
+  <data name="NetworkDiscoveryAndFileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Network discovery and file sharing are turned off. Network computers and devices are not visible.</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
