@@ -190,10 +190,10 @@
     <value>Traži</value>
   </data>
   <data name="SearchSettings" xml:space="preserve">
-    <value>Search settings...</value>
+    <value>Traži postavke...</value>
   </data>
   <data name="NoSearchResults" xml:space="preserve">
-    <value>No settings match your search.</value>
+    <value>Nijedna postavka ne odgovara vašem pretraživanju.</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Datoteke kojima ste pristupili prije pojaviti će se ovdje</value>
@@ -226,7 +226,7 @@
     <value>Prikaz skrivenih datoteka i mapa</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Prikaži datoteke s točkom</value>
+    <value>Prikaz datoteka s točkom</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Izgled</value>
@@ -684,7 +684,7 @@
     <value>Datoteka</value>
   </data>
   <data name="Files" xml:space="preserve">
-    <value>Files</value>
+    <value>Datoteke</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Stvara praznu datoteku</value>
@@ -693,7 +693,7 @@
     <value>Mapa</value>
   </data>
   <data name="Folders" xml:space="preserve">
-    <value>Folders</value>
+    <value>Mape</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Stvara praznu mapu</value>
@@ -1378,6 +1378,9 @@
   </data>
   <data name="OpenWith" xml:space="preserve">
     <value>Otvori sa</value>
+  </data>
+  <data name="ChooseAnotherApp" xml:space="preserve">
+    <value>Choose another app</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Ikona datoteke</value>
@@ -2127,13 +2130,13 @@
     <value>Otvaranje mapa jednim klikom</value>
   </data>
   <data name="OpenFolderWithOneClickInColumnsView" xml:space="preserve">
-    <value>Open folders with a single click in Columns View</value>
+    <value>Otvaranje mapa jednim klikom u prikazu stupaca</value>
   </data>
   <data name="SingleClickToOpen" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>Otvaranje stavki jednim klikom</value>
   </data>
   <data name="SingleClickFoldersInColumnsViewHeader" xml:space="preserve">
-    <value>Folders in Columns View</value>
+    <value>Mape u prikazu stupaca</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Otvaranje stavki</value>
@@ -2421,7 +2424,7 @@
     <value>Play All</value>
   </data>
   <data name="Play" xml:space="preserve">
-    <value>Play</value>
+    <value>Reproduciraj</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>Visina</value>
@@ -4009,7 +4012,7 @@
     <value>Radnje</value>
   </data>
   <data name="Action" xml:space="preserve">
-    <value>Action</value>
+    <value>Radnja</value>
   </data>
   <data name="Commands" xml:space="preserve">
     <value>Naredbe</value>
@@ -4124,7 +4127,7 @@
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
   <data name="ImageFiles" xml:space="preserve">
-    <value>Image Files</value>
+    <value>Datoteke slika</value>
     <comment>This is the friendly name for image files.</comment>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
@@ -4140,10 +4143,10 @@
     <value>Onemogući</value>
   </data>
   <data name="EditInNotepad" xml:space="preserve">
-    <value>Edit in Notepad</value>
+    <value>Uredi u bloku za pisanje</value>
   </data>
   <data name="EditInNotepadDescription" xml:space="preserve">
-    <value>Edit the selected file in Notepad</value>
+    <value>Uredi odabranu datoteku u bloku za pisanje</value>
   </data>
   <data name="PropertyDimensionsColon" xml:space="preserve">
     <value>Dimensions:</value>
@@ -4213,7 +4216,7 @@
     <value>Idi na početnu stranicu</value>
   </data>
   <data name="AddressBar" xml:space="preserve">
-    <value>Address bar</value>
+    <value>Adresna traka</value>
   </data>
   <data name="UserID" xml:space="preserve">
     <value>User ID</value>
@@ -4261,13 +4264,13 @@
     <value>Uvijek prebaci fokus na novoizrađenu karticu</value>
   </data>
   <data name="ReverseTabScrollDirection" xml:space="preserve">
-    <value>Reverse tab scroll direction</value>
+    <value>Obrni smjer pomicanja kartica</value>
   </data>
   <data name="DownMotionScrollsLeft" xml:space="preserve">
-    <value>Down motion scrolls left</value>
+    <value>Pomicanje prema dolje pomiče ulijevo</value>
   </data>
   <data name="DownMotionScrollsRight" xml:space="preserve">
-    <value>Down motion scrolls right</value>
+    <value>Pomicanje prema dolje pomiče udesno</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>Toggle shelf pane</value>
@@ -4324,6 +4327,15 @@
   </data>
   <data name="OpenSettings" xml:space="preserve">
     <value>Otvori postavke</value>
+  </data>
+  <data name="NetworkDiscoveryTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Network discovery is turned off. Network computers and devices are not visible.</value>
+  </data>
+  <data name="FileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>File sharing is turned off. Some network computers and devices might not be visible.</value>
+  </data>
+  <data name="NetworkDiscoveryAndFileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Network discovery and file sharing are turned off. Network computers and devices are not visible.</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
@@ -4453,10 +4465,10 @@
     <value>Prikaži statusnu traku</value>
   </data>
   <data name="OnlyForTouch" xml:space="preserve">
-    <value>When using touch</value>
+    <value>Kada se koristi dodir</value>
   </data>
   <data name="OnlyForMouse" xml:space="preserve">
-    <value>When using mouse</value>
+    <value>Kada se koristi miš</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>New {0}</value>
@@ -4474,43 +4486,43 @@
     <value>Prikaži opciju Prikvači na izbornik Start</value>
   </data>
   <data name="Toolbar" xml:space="preserve">
-    <value>Toolbar</value>
+    <value>Alatna traka</value>
   </data>
   <data name="CustomizeToolbar" xml:space="preserve">
-    <value>Customize toolbar</value>
+    <value>Prilagodi alatnu traku</value>
   </data>
   <data name="CustomizeToolbarDescription" xml:space="preserve">
-    <value>Customize toolbar buttons</value>
+    <value>Prilagodi gumbe alatne trake</value>
   </data>
   <data name="ChooseToolbarModeToCustomize" xml:space="preserve">
-    <value>Choose toolbar mode to customize</value>
+    <value>Odaberite način alatne trake za prilagodbu</value>
   </data>
   <data name="AlwaysVisible" xml:space="preserve">
-    <value>Always visible</value>
+    <value>Uvijek vidljivo</value>
   </data>
   <data name="ArchiveFiles" xml:space="preserve">
-    <value>Archive files</value>
+    <value>Arhivske datoteke</value>
   </data>
   <data name="BatchFiles" xml:space="preserve">
-    <value>Batch files</value>
+    <value>Batch datoteke</value>
   </data>
   <data name="PowerShellFiles" xml:space="preserve">
-    <value>PowerShell files</value>
+    <value>PowerShell datoteke</value>
   </data>
   <data name="MediaFiles" xml:space="preserve">
-    <value>Media files</value>
+    <value>Medijske datoteke</value>
   </data>
   <data name="FontFiles" xml:space="preserve">
-    <value>Font files</value>
+    <value>Datoteke fontova</value>
   </data>
   <data name="DriverFiles" xml:space="preserve">
-    <value>Driver files</value>
+    <value>Datoteke upravljačkih programa</value>
   </data>
   <data name="CertificateFiles" xml:space="preserve">
-    <value>Certificate files</value>
+    <value>Datoteke certifikata</value>
   </data>
   <data name="OtherContexts" xml:space="preserve">
-    <value>Other contexts</value>
+    <value>Ostali konteksti</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>Archive</value>
@@ -4540,28 +4552,28 @@
     <value>Dual Pane</value>
   </data>
   <data name="ResetDefaults" xml:space="preserve">
-    <value>Reset defaults</value>
+    <value>Resetiraj na zadane</value>
   </data>
   <data name="Separator" xml:space="preserve">
-    <value>Separator</value>
+    <value>Razdjelnik</value>
   </data>
   <data name="Icon" xml:space="preserve">
-    <value>Icon</value>
+    <value>Ikona</value>
   </data>
   <data name="Label" xml:space="preserve">
-    <value>Label</value>
+    <value>Oznaka</value>
   </data>
   <data name="ShowToolbarLabels" xml:space="preserve">
-    <value>Show label</value>
+    <value>Prikaži oznaku</value>
   </data>
   <data name="ShowToolbarIconOnly" xml:space="preserve">
-    <value>Show icon</value>
+    <value>Prikaži ikonu</value>
   </data>
   <data name="AvailableToolbarItems" xml:space="preserve">
-    <value>Available items</value>
+    <value>Dostupne stavke</value>
   </data>
   <data name="AddedToolbarItems" xml:space="preserve">
-    <value>Added items</value>
+    <value>Dodane stavke</value>
   </data>
   <data name="ExtractGroupDescription" xml:space="preserve">
     <value>Extract compressed archives</value>

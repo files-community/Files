@@ -1379,6 +1379,9 @@
   <data name="OpenWith" xml:space="preserve">
     <value>Abrir com</value>
   </data>
+  <data name="ChooseAnotherApp" xml:space="preserve">
+    <value>Escolha outro aplicativo</value>
+  </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Arquivo ícone</value>
   </data>
@@ -4324,6 +4327,15 @@
   </data>
   <data name="OpenSettings" xml:space="preserve">
     <value>Abrir configurações</value>
+  </data>
+  <data name="NetworkDiscoveryTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>A descoberta de rede está desativada. Computadores de rede e dispositivos não estão visíveis.</value>
+  </data>
+  <data name="FileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Compartilhamento de arquivos está desligado. Alguns computadores de rede e dispositivos podem não estar visíveis.</value>
+  </data>
+  <data name="NetworkDiscoveryAndFileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>A descoberta de rede e o compartilhamento de arquivos estão desativados. Computadores de rede e dispositivos não estão visíveis.</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Código do Visual Studio</value>

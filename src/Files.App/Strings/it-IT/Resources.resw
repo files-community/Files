@@ -190,7 +190,7 @@
     <value>Cerca</value>
   </data>
   <data name="SearchSettings" xml:space="preserve">
-    <value>Impostazioni di ricerca...</value>
+    <value>Cerca impostazioni...</value>
   </data>
   <data name="NoSearchResults" xml:space="preserve">
     <value>Nessuna impostazione corrisponde alla tua ricerca.</value>
@@ -1098,7 +1098,7 @@
     <value>Apri in un nuovo pannello</value>
   </data>
   <data name="OpenInOtherPane" xml:space="preserve">
-    <value>Open in other pane</value>
+    <value>Apri in un altro pannello</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>File &amp; cartelle</value>
@@ -1149,7 +1149,7 @@
     <value>Attiva/disattiva riquadro doppio</value>
   </data>
   <data name="ToggleDualPaneDescription" xml:space="preserve">
-    <value>Attiva/disattiva la modalità riquadro doppio</value>
+    <value>Attiva/disattiva modalità doppio pannello</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Anteprima non disponibile</value>
@@ -1378,6 +1378,9 @@
   </data>
   <data name="OpenWith" xml:space="preserve">
     <value>Apri con</value>
+  </data>
+  <data name="ChooseAnotherApp" xml:space="preserve">
+    <value>Scegli un'altra applicazione</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Icona file</value>
@@ -2514,10 +2517,10 @@
     <value>Attiva/Disattiva modalità Overlay Compatto</value>
   </data>
   <data name="ToggleTheme" xml:space="preserve">
-    <value>Attiva/Disattiva Tema</value>
+    <value>Cambia tema</value>
   </data>
   <data name="ToggleThemeDescription" xml:space="preserve">
-    <value>Attiva/Disattiva tema app</value>
+    <value>Cambia il tema dell'app</value>
   </data>
   <data name="SwitchToLightThemeDescription" xml:space="preserve">
     <value>Passa al tema chiaro</value>
@@ -2694,7 +2697,7 @@
     <value>Crea archivio zip con {0, plural, one {l'elemento selezionato} other {gli elementi selezionati}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Estrai {0, plural, one {archivio selezionato} other {archivi selezionati}} in una cartella qualsiasi</value>
+    <value>Estrai {0, plural, one {l'archivio selezionato} other {gli archivi selezionati}} in una cartella a scelta</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
     <value>Estrai {0, plural, one {archivio selezionato} other {archivi selezionati}} nella cartella corrente</value>
@@ -3037,15 +3040,15 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPreviousTrack" xml:space="preserve">
-    <value>Traccia Precedente</value>
+    <value>TracciaPrecedente</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaNextTrack" xml:space="preserve">
-    <value>Prossima Traccia</value>
+    <value>TracciaSuccessiva</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaSelect" xml:space="preserve">
-    <value>Selezione Media</value>
+    <value>SelezioneMedia</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaMute" xml:space="preserve">
@@ -3157,10 +3160,10 @@
     <value>Giorno</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
-    <value>Alterna il campo di raggruppamento per data</value>
+    <value>Alterna unità di raggruppamento per data</value>
   </data>
   <data name="ToggleGroupingUnit" xml:space="preserve">
-    <value>Alterna il campo di raggruppamento</value>
+    <value>Alterna unità di raggruppamento</value>
   </data>
   <data name="Year" xml:space="preserve">
     <value>Anno</value>
@@ -3422,7 +3425,7 @@
     <value>Apri la directory selezionata in un nuovo pannello</value>
   </data>
   <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
-    <value>Open selected directory in the other pane</value>
+    <value>Apre la directory selezionata nell'altro riquadro</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Apri la directory selezionata in una nuova scheda</value>
@@ -3927,7 +3930,7 @@
     <value>Cambia copertina dell'album</value>
   </data>
   <data name="RemoveAlbumCover" xml:space="preserve">
-    <value>Remove album cover</value>
+    <value>Rimuovi copertina album</value>
   </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>Impossibile rinominare l'elemento</value>
@@ -4261,13 +4264,13 @@
     <value>Cambia sempre il focus alla nuova scheda creata</value>
   </data>
   <data name="ReverseTabScrollDirection" xml:space="preserve">
-    <value>Reverse tab scroll direction</value>
+    <value>Inverti direzione scorrimento scheda</value>
   </data>
   <data name="DownMotionScrollsLeft" xml:space="preserve">
-    <value>Down motion scrolls left</value>
+    <value>Movimento in basso scorre a sinistra</value>
   </data>
   <data name="DownMotionScrollsRight" xml:space="preserve">
-    <value>Down motion scrolls right</value>
+    <value>Movimento in basso scorre a destra</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>Attiva/Disattiva il pannello dello scaffale</value>
@@ -4324,6 +4327,15 @@
   </data>
   <data name="OpenSettings" xml:space="preserve">
     <value>Apri impostazioni</value>
+  </data>
+  <data name="NetworkDiscoveryTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>L'individuazione della rete è disattivata. I computer e i dispositivi di rete non sono visibili.</value>
+  </data>
+  <data name="FileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>La condivisione file è disattivata. Alcuni computer e dispositivi di rete potrebbero non essere visibili.</value>
+  </data>
+  <data name="NetworkDiscoveryAndFileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>L'individuazione della rete e la condivisione file sono disattivate. I computer e i dispositivi di rete non sono visibili.</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
