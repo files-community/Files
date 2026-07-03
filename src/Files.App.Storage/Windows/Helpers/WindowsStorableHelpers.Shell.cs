@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
 using System.Runtime.CompilerServices;
@@ -19,26 +19,32 @@ namespace Files.App.Storage
 	{
 		public static HRESULT GetPropertyValue<TValue>(this IWindowsStorable storable, string propKey, out TValue value)
 		{
-			using ComPtr<IShellItem2> pShellItem2 = default;
-			HRESULT hr = storable.ThisPtr->QueryInterface(IID.IID_IShellItem2, (void**)pShellItem2.GetAddressOf());
+			if (storable.ThisPtr is not IShellItem2 pShellItem2)
+			{
+				value = default!;
+				return HRESULT.E_NOINTERFACE;
+			}
 
-			PROPERTYKEY propertyKey = default;
-			fixed (char* pszPropertyKey = propKey)
-				hr = PInvoke.PSGetPropertyKeyFromName(pszPropertyKey, &propertyKey);
+			HRESULT hr = PInvoke.PSGetPropertyKeyFromName(propKey, out PROPERTYKEY propertyKey);
+			if (hr.ThrowIfFailedOnDebug().Failed)
+			{
+				value = default!;
+				return hr;
+			}
 
 			if (typeof(TValue) == typeof(string))
 			{
-				ComHeapPtr<PWSTR> szPropertyValue = default;
-				hr = pShellItem2.Get()->GetString(&propertyKey, szPropertyValue.Get());
-				value = (TValue)(object)szPropertyValue.Get()->ToString();
+				hr = pShellItem2.GetString(propertyKey, out PWSTR szPropertyValue);
+				value = (TValue)(object)szPropertyValue.ToString();
+				PInvoke.CoTaskMemFree(szPropertyValue);
 
 				return hr;
 			}
 			if (typeof(TValue) == typeof(bool))
 			{
-				bool fPropertyValue = false;
-				hr = pShellItem2.Get()->GetBool(&propertyKey, (BOOL*)&fPropertyValue);
-				value = Unsafe.As<bool, TValue>(ref fPropertyValue);
+				hr = pShellItem2.GetBool(propertyKey, out BOOL fPropertyValue);
+				bool propertyValue = fPropertyValue;
+				value = Unsafe.As<bool, TValue>(ref propertyValue);
 
 				return hr;
 			}
@@ -51,27 +57,30 @@ namespace Files.App.Storage
 
 		public static bool HasShellAttributes(this IWindowsStorable storable, SFGAO_FLAGS attributes)
 		{
-			return storable.ThisPtr->GetAttributes(attributes, out var dwRetAttributes).Succeeded && dwRetAttributes == attributes;
+			return storable.ThisPtr.GetAttributes(attributes, out var dwRetAttributes).Succeeded && dwRetAttributes == attributes;
 		}
 
 		public static string GetDisplayName(this IWindowsStorable storable, SIGDN options = SIGDN.SIGDN_FILESYSPATH)
 		{
-			using ComHeapPtr<PWSTR> pszName = default;
-			HRESULT hr = storable.ThisPtr->GetDisplayName(options, (PWSTR*)pszName.GetAddressOf());
-
-			return hr.ThrowIfFailedOnDebug().Succeeded
-				? new string((char*)pszName.Get()) // this is safe as it gets memcpy'd internally
+			HRESULT hr = storable.ThisPtr.GetDisplayName(options, out PWSTR pszName);
+			string name = hr.ThrowIfFailedOnDebug().Succeeded
+				? pszName.ToString()
 				: string.Empty;
+			PInvoke.CoTaskMemFree(pszName);
+
+			return name;
 		}
 
 		public static HRESULT TryInvokeContextMenuVerb(this IWindowsStorable storable, string verbName)
 		{
 			Debug.Assert(Thread.CurrentThread.GetApartmentState() is ApartmentState.STA);
 
-			using ComPtr<IContextMenu> pContextMenu = default;
-			HRESULT hr = storable.ThisPtr->BindToHandler(null, BHID.BHID_SFUIObject, IID.IID_IContextMenu, (void**)pContextMenu.GetAddressOf());
+			HRESULT hr = storable.ThisPtr.BindToHandler(null, PInvoke.BHID_SFUIObject, out IContextMenu? pContextMenu);
+			if (hr.ThrowIfFailedOnDebug().Failed || pContextMenu is null)
+				return hr;
+
 			HMENU hMenu = PInvoke.CreatePopupMenu();
-			hr = pContextMenu.Get()->QueryContextMenu(hMenu, 0, 1, 0x7FFF, PInvoke.CMF_OPTIMIZEFORINVOKE);
+			hr = pContextMenu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, PInvoke.CMF_OPTIMIZEFORINVOKE);
 
 			CMINVOKECOMMANDINFO cmici = default;
 			cmici.cbSize = (uint)sizeof(CMINVOKECOMMANDINFO);
@@ -80,7 +89,7 @@ namespace Files.App.Storage
 			fixed (byte* pszVerbName = Encoding.ASCII.GetBytes(verbName))
 			{
 				cmici.lpVerb = new(pszVerbName);
-				hr = pContextMenu.Get()->InvokeCommand(cmici);
+				hr = pContextMenu.InvokeCommand(cmici);
 
 				if (!PInvoke.DestroyMenu(hMenu))
 					return HRESULT.E_FAIL;
@@ -93,43 +102,52 @@ namespace Files.App.Storage
 		{
 			Debug.Assert(Thread.CurrentThread.GetApartmentState() is ApartmentState.STA);
 
-			using ComPtr<IContextMenu> pContextMenu = default;
-			HRESULT hr = storable.ThisPtr->BindToHandler(null, BHID.BHID_SFUIObject, IID.IID_IContextMenu, (void**)pContextMenu.GetAddressOf());
+			HRESULT hr = storable.ThisPtr.BindToHandler(null, PInvoke.BHID_SFUIObject, out IContextMenu? pContextMenu);
+			if (hr.ThrowIfFailedOnDebug().Failed || pContextMenu is null)
+				return hr;
+
 			HMENU hMenu = PInvoke.CreatePopupMenu();
-			hr = pContextMenu.Get()->QueryContextMenu(hMenu, 0, 1, 0x7FFF, PInvoke.CMF_OPTIMIZEFORINVOKE);
-
-			CMINVOKECOMMANDINFO cmici = default;
-			cmici.cbSize = (uint)sizeof(CMINVOKECOMMANDINFO);
-			cmici.nShow = (int)SHOW_WINDOW_CMD.SW_HIDE;
-
-			foreach (var verbName in verbNames)
+			HRESULT result = HRESULT.S_OK;
+			try
 			{
-				fixed (byte* pszVerbName = Encoding.ASCII.GetBytes(verbName))
+				hr = pContextMenu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, PInvoke.CMF_OPTIMIZEFORINVOKE);
+				result = hr;
+
+				CMINVOKECOMMANDINFO cmici = default;
+				cmici.cbSize = (uint)sizeof(CMINVOKECOMMANDINFO);
+				cmici.nShow = (int)SHOW_WINDOW_CMD.SW_HIDE;
+
+				foreach (var verbName in verbNames)
 				{
-					cmici.lpVerb = new(pszVerbName);
-					hr = pContextMenu.Get()->InvokeCommand(cmici);
+					fixed (byte* pszVerbName = Encoding.ASCII.GetBytes(verbName))
+					{
+						cmici.lpVerb = new(pszVerbName);
+						hr = pContextMenu.InvokeCommand(cmici);
+						result = hr;
 
-					if (!PInvoke.DestroyMenu(hMenu))
-						return HRESULT.E_FAIL;
-
-					if (hr.Succeeded && earlyReturnOnSuccess)
-						return hr;
+						if (hr.Succeeded && earlyReturnOnSuccess)
+							break;
+					}
 				}
 			}
+			finally
+			{
+				if (!PInvoke.DestroyMenu(hMenu))
+					result = HRESULT.E_FAIL;
+			}
 
-			return hr;
+			return result;
 		}
 
 		public static HRESULT TryGetShellTooltip(this IWindowsStorable storable, out string? tooltip)
 		{
 			tooltip = null;
 
-			using ComPtr<IQueryInfo> pQueryInfo = default;
-			HRESULT hr = storable.ThisPtr->BindToHandler(null, BHID.BHID_SFUIObject, IID.IID_IQueryInfo, (void**)pQueryInfo.GetAddressOf());
-			if (hr.ThrowIfFailedOnDebug().Failed)
+			HRESULT hr = storable.ThisPtr.BindToHandler(null, PInvoke.BHID_SFUIObject, out IQueryInfo? pQueryInfo);
+			if (hr.ThrowIfFailedOnDebug().Failed || pQueryInfo is null)
 				return hr;
 
-			pQueryInfo.Get()->GetInfoTip((uint)QITIPF_FLAGS.QITIPF_DEFAULT, out var pszTip);
+			hr = pQueryInfo.GetInfoTip(QITIPF_FLAGS.QITIPF_DEFAULT, out var pszTip);
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return hr;
 
@@ -143,27 +161,22 @@ namespace Files.App.Storage
 		{
 			HRESULT hr = default;
 
-			using ComPtr<IExecuteCommand> pExecuteCommand = default;
-			using ComPtr<IObjectWithSelection> pObjectWithSelection = default;
+			hr = PInvoke.CoCreateInstance(CLSID.CLSID_PinToFrequentExecute, null, CLSCTX.CLSCTX_INPROC_SERVER, out IExecuteCommand? pExecuteCommand);
+			if (hr.ThrowIfFailedOnDebug().Failed || pExecuteCommand is null)
+				return hr;
 
-			hr = PInvoke.CoCreateInstance(CLSID.CLSID_PinToFrequentExecute, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IExecuteCommand, (void**)pExecuteCommand.GetAddressOf());
+			hr = PInvoke.SHCreateShellItemArrayFromShellItem(@this.ThisPtr, out IShellItemArray pShellItemArray);
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return hr;
 
-			using ComPtr<IShellItemArray> pShellItemArray = default;
-			hr = PInvoke.SHCreateShellItemArrayFromShellItem(@this.ThisPtr, IID.IID_IShellItemArray, (void**)pShellItemArray.GetAddressOf());
+			if (pExecuteCommand is not IObjectWithSelection pObjectWithSelection)
+				return HRESULT.E_NOINTERFACE;
+
+			hr = pObjectWithSelection.SetSelection(pShellItemArray);
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return hr;
 
-			hr = pExecuteCommand.Get()->QueryInterface(IID.IID_IObjectWithSelection, (void**)pObjectWithSelection.GetAddressOf());
-			if (hr.ThrowIfFailedOnDebug().Failed)
-				return hr;
-
-			hr = pObjectWithSelection.Get()->SetSelection(pShellItemArray.Get());
-			if (hr.ThrowIfFailedOnDebug().Failed)
-				return hr;
-
-			hr = pExecuteCommand.Get()->Execute();
+			hr = pExecuteCommand.Execute();
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return hr;
 
@@ -174,27 +187,22 @@ namespace Files.App.Storage
 		{
 			HRESULT hr = default;
 
-			using ComPtr<IExecuteCommand> pExecuteCommand = default;
-			using ComPtr<IObjectWithSelection> pObjectWithSelection = default;
+			hr = PInvoke.CoCreateInstance(CLSID.CLSID_UnPinFromFrequentExecute, null, CLSCTX.CLSCTX_INPROC_SERVER, out IExecuteCommand? pExecuteCommand);
+			if (hr.ThrowIfFailedOnDebug().Failed || pExecuteCommand is null)
+				return hr;
 
-			hr = PInvoke.CoCreateInstance(CLSID.CLSID_UnPinFromFrequentExecute, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IExecuteCommand, (void**)pExecuteCommand.GetAddressOf());
+			hr = PInvoke.SHCreateShellItemArrayFromShellItem(@this.ThisPtr, out IShellItemArray pShellItemArray);
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return hr;
 
-			using ComPtr<IShellItemArray> pShellItemArray = default;
-			hr = PInvoke.SHCreateShellItemArrayFromShellItem(@this.ThisPtr, IID.IID_IShellItemArray, (void**)pShellItemArray.GetAddressOf());
+			if (pExecuteCommand is not IObjectWithSelection pObjectWithSelection)
+				return HRESULT.E_NOINTERFACE;
+
+			hr = pObjectWithSelection.SetSelection(pShellItemArray);
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return hr;
 
-			hr = pExecuteCommand.Get()->QueryInterface(IID.IID_IObjectWithSelection, (void**)pObjectWithSelection.GetAddressOf());
-			if (hr.ThrowIfFailedOnDebug().Failed)
-				return hr;
-
-			hr = pObjectWithSelection.Get()->SetSelection(pShellItemArray.Get());
-			if (hr.ThrowIfFailedOnDebug().Failed)
-				return hr;
-
-			hr = pExecuteCommand.Get()->Execute();
+			hr = pExecuteCommand.Execute();
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return hr;
 
@@ -205,42 +213,33 @@ namespace Files.App.Storage
 		{
 			HRESULT hr = default;
 
-			IContextMenu* pNewMenu = default;
-			using ComPtr<IShellExtInit> pShellExtInit = default;
-			using ComPtr<IContextMenu2> pContextMenu2 = default;
-
-			hr = PInvoke.CoCreateInstance(CLSID.CLSID_NewMenu, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IContextMenu, (void**)&pNewMenu);
-			if (hr.ThrowIfFailedOnDebug().Failed)
+			hr = PInvoke.CoCreateInstance(CLSID.CLSID_NewMenu, null, CLSCTX.CLSCTX_INPROC_SERVER, out IContextMenu? pNewMenu);
+			if (hr.ThrowIfFailedOnDebug().Failed || pNewMenu is null)
 				return [];
 
-			hr = pNewMenu->QueryInterface(IID.IID_IContextMenu2, (void**)pContextMenu2.GetAddressOf());
-			if (hr.ThrowIfFailedOnDebug().Failed)
-				return [];
-
-			hr = pNewMenu->QueryInterface(IID.IID_IShellExtInit, (void**)pShellExtInit.GetAddressOf());
-			if (hr.ThrowIfFailedOnDebug().Failed)
+			if (pNewMenu is not IContextMenu2 pContextMenu2 ||
+				pNewMenu is not IShellExtInit pShellExtInit)
 				return [];
 
 			@this.ShellNewMenu = pNewMenu;
 
-			ITEMIDLIST* pFolderPidl = default;
-			hr = PInvoke.SHGetIDListFromObject((IUnknown*)@this.ThisPtr, &pFolderPidl);
+			hr = PInvoke.SHGetIDListFromObject(@this.ThisPtr, out ITEMIDLIST* pFolderPidl);
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return [];
 
-			hr = pShellExtInit.Get()->Initialize(pFolderPidl, null, default);
+			hr = pShellExtInit.Initialize(pFolderPidl, null!, default);
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return [];
 
 			// Inserts "New (&W)"
 			HMENU hMenu = PInvoke.CreatePopupMenu();
-			hr = pNewMenu->QueryContextMenu(hMenu, 0, 1, 256, 0);
+			hr = pNewMenu.QueryContextMenu(hMenu, 0, 1, 256, 0);
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return [];
 
 			// Invokes CNewMenu::_InitMenuPopup(), which populates the hSubMenu
 			HMENU hSubMenu = PInvoke.GetSubMenu(hMenu, 0);
-			hr = pContextMenu2.Get()->HandleMenuMsg(PInvoke.WM_INITMENUPOPUP, (WPARAM)(nuint)hSubMenu.Value, 0);
+			hr = pContextMenu2.HandleMenuMsg(PInvoke.WM_INITMENUPOPUP, (WPARAM)(nuint)hSubMenu.Value, 0);
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return [];
 
@@ -280,10 +279,8 @@ namespace Files.App.Storage
 
 			if (@this.ShellNewMenu is null)
 			{
-				IContextMenu* pNewMenu = default;
-
-				hr = PInvoke.CoCreateInstance(CLSID.CLSID_NewMenu, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IContextMenu, (void**)&pNewMenu);
-				if (hr.ThrowIfFailedOnDebug().Failed)
+				hr = PInvoke.CoCreateInstance(CLSID.CLSID_NewMenu, null, CLSCTX.CLSCTX_INPROC_SERVER, out IContextMenu? pNewMenu);
+				if (hr.ThrowIfFailedOnDebug().Failed || pNewMenu is null)
 					return false;
 
 				@this.ShellNewMenu = pNewMenu;
@@ -294,7 +291,7 @@ namespace Files.App.Storage
 			cmici.lpVerb = (PCSTR)(byte*)item.Id;
 			cmici.nShow = (int)SHOW_WINDOW_CMD.SW_SHOWNORMAL;
 
-			hr = @this.ShellNewMenu->InvokeCommand(&cmici);
+			hr = @this.ShellNewMenu.InvokeCommand(cmici);
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return false;
 

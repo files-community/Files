@@ -1,46 +1,31 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.System.Com;
+using Windows.Win32.UI.Shell;
 
 namespace Files.App.Utils.Shell
 {
 	public static class ItemStreamHelper
 	{
-		static readonly Guid IShellItemIid = Guid.ParseExact("43826d1e-e718-42ee-bc55-a1e261c37bfe", "d");
-
-		public static unsafe IntPtr IShellItemFromPath(string path)
+		public static IShellItem? IShellItemFromPath(string path)
 		{
-			void* psi;
-			Guid iid = IShellItemIid;
-			var hr = PInvoke.SHCreateItemFromParsingName(path, null, ref iid, out psi);
-			if ((int)hr < 0)
-				return IntPtr.Zero;
-			return (IntPtr)psi;
+			var hr = PInvoke.SHCreateItemFromParsingName(path, null!, out IShellItem psi);
+			return hr.Failed ? null : psi;
 		}
 
-		public static unsafe IntPtr IStreamFromPath(string path)
+		public static IStream? IStreamFromPath(string path)
 		{
-			IStream* pstm;
 			var hr = PInvoke.SHCreateStreamOnFileEx(
 				path,
 				(uint)(STGM.STGM_READ | STGM.STGM_FAILIFTHERE | STGM.STGM_SHARE_DENY_NONE),
 				0,
 				false,
 				null,
-				&pstm);
+				out IStream pstm);
 
-			if ((int)hr < 0)
-				return IntPtr.Zero;
-
-			return (IntPtr)pstm;
-		}
-
-		public static void ReleaseObject(IntPtr obj)
-		{
-			Marshal.Release(obj);
+			return hr.Failed ? null : pstm;
 		}
 	}
 }

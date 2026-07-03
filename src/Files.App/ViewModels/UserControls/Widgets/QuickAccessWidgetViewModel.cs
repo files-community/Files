@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Microsoft.UI.Input;
@@ -230,25 +230,20 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			if (currentPinnedItemIndex is -1)
 				return;
 
-			HRESULT hr = default;
-			using ComPtr<IAgileReference> pAgileReference = default;
-
-			unsafe
-			{
-				hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, IID.IID_IShellItem, (IUnknown*)folderCardItem.Item.ThisPtr, pAgileReference.GetAddressOf());
-			}
+			HRESULT hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, typeof(IShellItem).GUID, folderCardItem.Item.ThisPtr, out IAgileReference pAgileReference);
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return;
 
 			// Pin to Quick Access on Windows
 			hr = await STATask.Run(() =>
 			{
-				unsafe
-				{
-					IShellItem* pShellItem = null;
-					hr = pAgileReference.Get()->Resolve(IID.IID_IShellItem, (void**)&pShellItem);
-					using var windowsFile = new WindowsFile(pShellItem);
-					// NOTE: "pintohome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CPinToFrequentExecute : public IExecuteCommand, ...
-					return windowsFile.TryInvokeContextMenuVerb("pintohome");
-				}
+				hr = pAgileReference.Resolve(out IShellItem pShellItem);
+				if (hr.ThrowIfFailedOnDebug().Failed)
+					return hr;
+
+				using var windowsFile = new WindowsFile(pShellItem);
+				// NOTE: "pintohome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CPinToFrequentExecute : public IExecuteCommand, ...
+				return windowsFile.TryInvokeContextMenuVerb("pintohome");
 			}, App.Logger);
 
 			// The file watcher will update the collection automatically
@@ -259,27 +254,22 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			if (item is not WidgetFolderCardItem folderCardItem || folderCardItem.Path is null)
 				return;
 
-			HRESULT hr = default;
-			using ComPtr<IAgileReference> pAgileReference = default;
-
-			unsafe
-			{
-				hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, IID.IID_IShellItem, (IUnknown*)folderCardItem.Item.ThisPtr, pAgileReference.GetAddressOf());
-			}
+			HRESULT hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, typeof(IShellItem).GUID, folderCardItem.Item.ThisPtr, out IAgileReference pAgileReference);
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return;
 
 			// Unpin from Quick Access on Windows
 			hr = await STATask.Run(() =>
 			{
-				unsafe
-				{
-					IShellItem* pShellItem = null;
-					hr = pAgileReference.Get()->Resolve(IID.IID_IShellItem, (void**)&pShellItem);
-					using var windowsFile = new WindowsFile(pShellItem);
+				hr = pAgileReference.Resolve(out IShellItem pShellItem);
+				if (hr.ThrowIfFailedOnDebug().Failed)
+					return hr;
 
-					// NOTE: "unpinfromhome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CRemoveFromFrequentPlacesExecute : public IExecuteCommand, ...
-					// NOTE: "remove" is for some shell folders where the "unpinfromhome" may not work
-					return windowsFile.TryInvokeContextMenuVerbs(["unpinfromhome", "remove"], true);
-				}
+				using var windowsFile = new WindowsFile(pShellItem);
+
+				// NOTE: "unpinfromhome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CRemoveFromFrequentPlacesExecute : public IExecuteCommand, ...
+				// NOTE: "remove" is for some shell folders where the "unpinfromhome" may not work
+				return windowsFile.TryInvokeContextMenuVerbs(["unpinfromhome", "remove"], true);
 			}, App.Logger);
 
 			if (hr.ThrowIfFailedOnDebug().Failed)

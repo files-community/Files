@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: MPL-2.0
 
 using Microsoft.Extensions.Logging;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
 using System.Security.Principal;
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -22,9 +24,8 @@ namespace Files.App.Storage
 		{
 			Guid CLSID_DsObjectPicker = PInvoke.CLSID_DsObjectPicker;
 
-			using ComPtr<IDsObjectPicker> pObjectPicker = default;
-			HRESULT hr = pObjectPicker.CoCreateInstance(&CLSID_DsObjectPicker, null, CLSCTX.CLSCTX_INPROC_SERVER);
-			if (hr.ThrowIfFailedOnDebug().Failed)
+			HRESULT hr = PInvoke.CoCreateInstance(CLSID_DsObjectPicker, null, CLSCTX.CLSCTX_INPROC_SERVER, out IDsObjectPicker? pObjectPicker);
+			if (hr.ThrowIfFailedOnDebug().Failed || pObjectPicker is null)
 				return null;
 
 			DSOP_SCOPE_INIT_INFO* scopeInitInfos = stackalloc DSOP_SCOPE_INIT_INFO[2];
@@ -53,17 +54,16 @@ namespace Files.App.Storage
 				initInfo.cAttributesToFetch = 1;
 				initInfo.apwzAttributeNames = attributeNames;
 
-				hr = pObjectPicker.Get()->Initialize(&initInfo);
+				hr = pObjectPicker.Initialize(ref initInfo);
 				if (hr.ThrowIfFailedOnDebug().Failed)
 					return null;
 			}
 
-			using ComPtr<IDataObject> pSelections = default;
-			hr = pObjectPicker.Get()->InvokeDialog(ownerHWnd, pSelections.GetAddressOf());
-			if (hr == HRESULT.S_FALSE || hr.ThrowIfFailedOnDebug().Failed || pSelections.IsNull)
+			hr = pObjectPicker.InvokeDialog(ownerHWnd, out IDataObject pSelections);
+			if (hr == HRESULT.S_FALSE || hr.ThrowIfFailedOnDebug().Failed)
 				return null;
 
-			return GetSelectedSid(pSelections.Get());
+			return GetSelectedSid(pSelections);
 		}
 
 		private static DSOP_SCOPE_INIT_INFO CreateScopeInitInfo(uint scopeType, bool startingScope)
@@ -106,11 +106,9 @@ namespace Files.App.Storage
 			return info;
 		}
 
-		private static string? GetSelectedSid(IDataObject* pSelections)
+		private static string? GetSelectedSid(IDataObject pSelections)
 		{
-			uint clipboardFormat;
-			fixed (char* pszSelectionListFormatName = PInvoke.CFSTR_DSOP_DS_SELECTION_LIST)
-				clipboardFormat = PInvoke.RegisterClipboardFormat(pszSelectionListFormatName);
+			uint clipboardFormat = PInvoke.RegisterClipboardFormat(PInvoke.CFSTR_DSOP_DS_SELECTION_LIST);
 
 			if (clipboardFormat is 0 || clipboardFormat > ushort.MaxValue)
 				return null;
@@ -124,14 +122,14 @@ namespace Files.App.Storage
 			STGMEDIUM medium = default;
 			medium.tymed = TYMED.TYMED_HGLOBAL;
 
-			HRESULT hr = pSelections->GetData(&format, &medium);
+			HRESULT hr = pSelections.GetData(format, out medium);
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return null;
 
 			void* pvSelectionList = PInvoke.GlobalLock(medium.u.hGlobal);
 			if (pvSelectionList is null)
 			{
-				PInvoke.ReleaseStgMedium(&medium);
+				PInvoke.ReleaseStgMedium(ref medium);
 				return null;
 			}
 
@@ -142,7 +140,7 @@ namespace Files.App.Storage
 					return null;
 
 				var selectionsAsSpan = pSelectionList->aDsSelection.AsSpan((int)pSelectionList->cItems);
-				fixed (DS_SELECTION* pSelection = selectionsAsSpan)
+				fixed (DS_SELECTION_unmanaged* pSelection = selectionsAsSpan)
 				{
 					if (pSelection->pvarFetchedAttributes is null)
 						return null;
@@ -153,31 +151,31 @@ namespace Files.App.Storage
 			finally
 			{
 				PInvoke.GlobalUnlock(medium.u.hGlobal);
-				PInvoke.ReleaseStgMedium(&medium);
+				PInvoke.ReleaseStgMedium(ref medium);
 			}
 		}
 
-		private static string? GetSidString(VARIANT* objectSidVariant)
+		private static string? GetSidString(ComVariant* objectSidVariant)
 		{
-			VARENUM variantType = objectSidVariant->Anonymous.Anonymous.vt;
-			if ((variantType & VARENUM.VT_ARRAY) is 0 || (variantType & VARENUM.VT_TYPEMASK) is not VARENUM.VT_UI1)
+			VarEnum variantType = objectSidVariant->VarType;
+			if ((variantType & VarEnum.VT_ARRAY) is 0 || (variantType & (VarEnum)0x0FFF) is not VarEnum.VT_UI1)
 				return null;
 
-			SAFEARRAY* pSafeArray = (variantType & VARENUM.VT_BYREF) is not 0
-				? *objectSidVariant->Anonymous.Anonymous.Anonymous.pparray
-				: objectSidVariant->Anonymous.Anonymous.Anonymous.parray;
+			ref nint rawValue = ref objectSidVariant->GetRawDataRef<nint>();
+			SAFEARRAY* pSafeArray = (variantType & VarEnum.VT_BYREF) is not 0
+				? *(SAFEARRAY**)rawValue
+				: (SAFEARRAY*)rawValue;
 
 			if (pSafeArray is null || PInvoke.SafeArrayGetDim(pSafeArray) is not 1)
 				return null;
 
 			int lowerBound = 0, upperBound = 0;
-			if (PInvoke.SafeArrayGetLBound(pSafeArray, 1, &lowerBound).ThrowIfFailedOnDebug().Failed ||
-				PInvoke.SafeArrayGetUBound(pSafeArray, 1, &upperBound).ThrowIfFailedOnDebug().Failed ||
+			if (PInvoke.SafeArrayGetLBound(pSafeArray, 1, out lowerBound).ThrowIfFailedOnDebug().Failed ||
+				PInvoke.SafeArrayGetUBound(pSafeArray, 1, out upperBound).ThrowIfFailedOnDebug().Failed ||
 				upperBound < lowerBound)
 				return null;
 
-			void* pSidBytes;
-			if (PInvoke.SafeArrayAccessData(pSafeArray, &pSidBytes).ThrowIfFailedOnDebug().Failed || pSidBytes is null)
+			if (PInvoke.SafeArrayAccessData(pSafeArray, out void* pSidBytes).ThrowIfFailedOnDebug().Failed || pSidBytes is null)
 				return null;
 
 			try

@@ -324,3 +324,16 @@ SafeArrayUnaccessData
 SafeArrayGetDim
 SafeArrayGetLBound
 SafeArrayGetUBound
+IObjectWithSite
+IPreviewHandlerVisuals
+IPreviewHandlerFrame
+IInitializeWithStream
+IInitializeWithFile
+IInitializeWithItem
+WindowsGetStringRawBuffer
+BHID_*
+FileOperation
+FileOpenDialog
+FileSaveDialog
+DesktopWallpaper
+ApplicationActivationManager

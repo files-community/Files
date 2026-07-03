@@ -13,13 +13,13 @@ namespace Files.App.Utils.Shell
 	{
 		public static unsafe NetworkAvailability GetNetworkAvailability()
 		{
-			using ComPtr<IDetectionAndSharing> dtsh = CreateDetectionAndSharing();
+			IDetectionAndSharing dtsh = CreateDetectionAndSharing();
 			var availability = NetworkAvailability.None;
 
-			if (IsEnabled(dtsh.Get(), DTSH_TYPE.DTSH_NETWORK_DISCOVERY))
+			if (IsEnabled(dtsh, DTSH_TYPE.DTSH_NETWORK_DISCOVERY))
 				availability |= NetworkAvailability.Discovery;
 
-			if (IsEnabled(dtsh.Get(), DTSH_TYPE.DTSH_FILE_SHARING))
+			if (IsEnabled(dtsh, DTSH_TYPE.DTSH_FILE_SHARING))
 				availability |= NetworkAvailability.Sharing;
 
 			return availability;
@@ -27,32 +27,28 @@ namespace Files.App.Utils.Shell
 
 		public static unsafe void OpenNetworkSharingSettings()
 		{
-			using ComPtr<IOpenControlPanel> controlPanel = default;
-			HRESULT hr = controlPanel.CoCreateInstance(CLSID.CLSID_OpenControlPanel, null, CLSCTX.CLSCTX_INPROC_SERVER);
+			HRESULT hr = PInvoke.CoCreateInstance(CLSID.CLSID_OpenControlPanel, null, CLSCTX.CLSCTX_INPROC_SERVER, out IOpenControlPanel? controlPanel);
 			ThrowIfFailed(hr, "Failed to create open control panel object.");
 
 			fixed (char* name = "Microsoft.NetworkAndSharingCenter")
 			fixed (char* page = "Advanced")
 			{
-				hr = controlPanel.Get()->Open(name, page, null);
+				hr = controlPanel!.Open(name, page, null);
 				ThrowIfFailed(hr, "Failed to open advanced sharing settings.");
 			}
 		}
 
-		private static unsafe ComPtr<IDetectionAndSharing> CreateDetectionAndSharing()
+		private static unsafe IDetectionAndSharing CreateDetectionAndSharing()
 		{
-			ComPtr<IDetectionAndSharing> dtsh = default;
-			HRESULT hr = dtsh.CoCreateInstance(CLSID.CLSID_DetectionAndSharing, null, CLSCTX.CLSCTX_INPROC_SERVER);
+			HRESULT hr = PInvoke.CoCreateInstance(CLSID.CLSID_DetectionAndSharing, null, CLSCTX.CLSCTX_INPROC_SERVER, out IDetectionAndSharing? dtsh);
 			ThrowIfFailed(hr, "Failed to create detection and sharing object.");
 
-			return dtsh;
+			return dtsh!;
 		}
 
-		private static unsafe bool IsEnabled(IDetectionAndSharing* dtsh, DTSH_TYPE type)
+		private static unsafe bool IsEnabled(IDetectionAndSharing dtsh, DTSH_TYPE type)
 		{
-			DTSH_STATE state;
-			DTSH_ACTION action;
-			HRESULT hr = dtsh->GetStatus(type, &state, &action);
+			HRESULT hr = dtsh.GetStatus(type, out DTSH_STATE state, out _);
 			ThrowIfFailed(hr, $"Failed to get {type} status.");
 
 			return state is DTSH_STATE.DTSH_ON;

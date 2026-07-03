@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Media.Imaging;
-using Windows.Win32;
 using Windows.Win32.UI.Shell;
 
 namespace Files.App.Data.Items
@@ -38,7 +37,7 @@ namespace Files.App.Data.Items
 		/// <remarks>
 		/// This has to be removed in the future.
 		/// </remarks>
-		public unsafe required ComPtr<IShellItem> ShellItem { get; init; }
+		public required IShellItem ShellItem { get; init; }
 
 		/// <summary>
 		/// Loads thumbnail icon of the recent item.
@@ -57,9 +56,8 @@ namespace Files.App.Data.Items
 		public override bool Equals(object? other) => other is RecentItem item && Equals(item);
 		public bool Equals(RecentItem? other) => other is not null && other.Name == Name && other.Path == Path;
 
-		public unsafe void Dispose()
+		public void Dispose()
 		{
-			ShellItem.Dispose();
 		}
 	}
 }

@@ -1,25 +1,15 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using Windows.Win32.Foundation;
+using Windows.Win32.Graphics.DirectComposition;
+using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Windows.Win32
 {
-	namespace Graphics.Gdi
-	{
-		[UnmanagedFunctionPointer(CallingConvention.Winapi)]
-		public unsafe delegate BOOL MONITORENUMPROC([In] HMONITOR param0, [In] HDC param1, [In][Out] RECT* param2, [In] LPARAM param3);
-	}
-
-	namespace UI.WindowsAndMessaging
-	{
-		[UnmanagedFunctionPointer(CallingConvention.Winapi)]
-		public delegate LRESULT WNDPROC(HWND hWnd, uint msg, WPARAM wParam, LPARAM lParam);
-	}
-
 	public static partial class PInvoke
 	{
 		[LibraryImport("User32", EntryPoint = "SetWindowLongW")]
@@ -46,11 +36,17 @@ namespace Windows.Win32
 
 	namespace Extras
 	{
+		[UnmanagedFunctionPointer(CallingConvention.Winapi)]
+		public unsafe delegate BOOL ManagedMONITORENUMPROC([In] HMONITOR param0, [In] HDC param1, [In][Out] RECT* param2, [In] LPARAM param3);
+
+		[UnmanagedFunctionPointer(CallingConvention.Winapi)]
+		public delegate LRESULT ManagedWNDPROC(HWND hWnd, uint msg, WPARAM wParam, LPARAM lParam);
+
 		[GeneratedComInterface, Guid("EACDD04C-117E-4E17-88F4-D1B12B0E3D89"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 		public partial interface IDCompositionTarget
 		{
 			[PreserveSig]
-			int SetRoot(nint visual);
+			int SetRoot(IDCompositionVisual visual);
 		}
 	}
 }

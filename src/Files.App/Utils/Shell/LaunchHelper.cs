@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.Shared.Helpers;
@@ -7,6 +7,7 @@ using System.IO;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.Win32;
+using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;
 
 namespace Files.App.Utils.Shell
@@ -18,10 +19,9 @@ namespace Files.App.Utils.Shell
 	{
 		public unsafe static void LaunchSettings(string page)
 		{
-			using ComPtr<IApplicationActivationManager> pApplicationActivationManager = default;
-			pApplicationActivationManager.CoCreateInstance(CLSID.CLSID_ApplicationActivationManager);
+			PInvoke.CoCreateInstance(typeof(ApplicationActivationManager).GUID, null, CLSCTX.CLSCTX_LOCAL_SERVER, out IApplicationActivationManager? pApplicationActivationManager);
 
-			pApplicationActivationManager.Get()->ActivateApplication(
+			pApplicationActivationManager!.ActivateApplication(
 				"windows.immersivecontrolpanel_cw5n1h2txyewy!microsoft.windows.immersivecontrolpanel",
 				page,
 				ACTIVATEOPTIONS.AO_NONE,
