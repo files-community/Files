@@ -1098,7 +1098,7 @@
     <value>Abrir en nuevo panel</value>
   </data>
   <data name="OpenInOtherPane" xml:space="preserve">
-    <value>Open in other pane</value>
+    <value>Abrir en otro panel</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Archivos y carpetas</value>
@@ -1378,6 +1378,9 @@
   </data>
   <data name="OpenWith" xml:space="preserve">
     <value>Abrir con</value>
+  </data>
+  <data name="ChooseAnotherApp" xml:space="preserve">
+    <value>Elegir otra aplicación</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Icono de archivo</value>
@@ -2499,7 +2502,7 @@
     <value>Entrar/Salir de superposición compacta</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Abrir la página de ayuda en línea en su navegador</value>
+    <value>Abrir la página de ayuda en línea en el navegador</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
     <value>Entrar/Salir de pantalla completa</value>
@@ -3422,7 +3425,7 @@
     <value>Abrir directorio seleccionado en un nuevo panel</value>
   </data>
   <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
-    <value>Open selected directory in the other pane</value>
+    <value>Abrir el directorio seleccionado en el otro panel</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Abrir directorio seleccionado en una nueva pestaña</value>
@@ -3927,7 +3930,7 @@
     <value>Cambiar la portada del álbum</value>
   </data>
   <data name="RemoveAlbumCover" xml:space="preserve">
-    <value>Remove album cover</value>
+    <value>Eliminar portada de álbum</value>
   </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>No se ha podido cambiar el nombre del elemento</value>
@@ -4261,7 +4264,7 @@
     <value>Cambiar siempre el foco a la pestaña recién creada</value>
   </data>
   <data name="ReverseTabScrollDirection" xml:space="preserve">
-    <value>Reverse tab scroll direction</value>
+    <value>Invertir sentido del desplazamiento de las pestañas</value>
   </data>
   <data name="DownMotionScrollsLeft" xml:space="preserve">
     <value>Down motion scrolls left</value>
@@ -4324,6 +4327,15 @@
   </data>
   <data name="OpenSettings" xml:space="preserve">
     <value>Abrir configuración</value>
+  </data>
+  <data name="NetworkDiscoveryTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Network discovery is turned off. Network computers and devices are not visible.</value>
+  </data>
+  <data name="FileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>File sharing is turned off. Some network computers and devices might not be visible.</value>
+  </data>
+  <data name="NetworkDiscoveryAndFileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Network discovery and file sharing are turned off. Network computers and devices are not visible.</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
