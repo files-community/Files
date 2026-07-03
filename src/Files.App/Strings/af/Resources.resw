@@ -1380,6 +1380,9 @@
   <data name="OpenWith" xml:space="preserve">
     <value>Maak oop met</value>
   </data>
+  <data name="ChooseAnotherApp" xml:space="preserve">
+    <value>Choose another app</value>
+  </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Lêerikoon</value>
   </data>
@@ -4325,6 +4328,15 @@
   </data>
   <data name="OpenSettings" xml:space="preserve">
     <value>Open settings</value>
+  </data>
+  <data name="NetworkDiscoveryTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Network discovery is turned off. Network computers and devices are not visible.</value>
+  </data>
+  <data name="FileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>File sharing is turned off. Some network computers and devices might not be visible.</value>
+  </data>
+  <data name="NetworkDiscoveryAndFileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Network discovery and file sharing are turned off. Network computers and devices are not visible.</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
