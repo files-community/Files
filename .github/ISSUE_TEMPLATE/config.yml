@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Feature Request
+    url: https://discord.gg/files
+    about: Suggest an idea for Files.
   - name: Translation issue
     url: https://crowdin.com/project/files-app
     about: Help improve translations on Crowdin.

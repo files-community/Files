@@ -1379,6 +1379,9 @@
   <data name="OpenWith" xml:space="preserve">
     <value>Öffnen mit</value>
   </data>
+  <data name="ChooseAnotherApp" xml:space="preserve">
+    <value>Wähle eine andere App</value>
+  </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Dateisymbol</value>
   </data>
@@ -4324,6 +4327,15 @@
   </data>
   <data name="OpenSettings" xml:space="preserve">
     <value>Einstellungen öffnen</value>
+  </data>
+  <data name="NetworkDiscoveryTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Die Netzwerkerkennung ist deaktiviert. Netzwerkcomputer und -geräte sind nicht sichtbar.</value>
+  </data>
+  <data name="FileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Dateifreigaben sind deaktiviert. Einige Netzwerkcomputer und Geräte sind möglicherweise nicht sichtbar.</value>
+  </data>
+  <data name="NetworkDiscoveryAndFileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Die Netzwerkerkennung und Dateifreigaben sind deaktiviert. Netzwerkcomputer und -geräte sind nicht sichtbar.</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>

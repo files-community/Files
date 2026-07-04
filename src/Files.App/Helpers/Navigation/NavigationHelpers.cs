@@ -379,10 +379,10 @@ namespace Files.App.Helpers
 			return Launcher.LaunchUriAsync(folderUri).AsTask();
 		}
 
-		public static Task<bool> OpenTabInNewWindowAsync(string tabArgs)
+		public static Task<bool> OpenTabInNewWindowAsync(string tabArgs, int? dropX = null, int? dropY = null)
 		{
-			var folderUri = new Uri($"files-dev:?tab={Uri.EscapeDataString(tabArgs)}");
-			return Launcher.LaunchUriAsync(folderUri).AsTask();
+			var drop = dropX is int x && dropY is int y ? $"&x={x}&y={y}" : "";
+			return Launcher.LaunchUriAsync(new Uri($"files-dev:?tab={Uri.EscapeDataString(tabArgs)}{drop}")).AsTask();
 		}
 
 		public static void OpenInSecondaryPane(IShellPage associatedInstance, ListedItem listedItem, ShellPaneArrangement arrangement = ShellPaneArrangement.None)
@@ -762,6 +762,24 @@ namespace Files.App.Helpers
 									}
 									if (!launchSuccess)
 										await Win32Helper.InvokeWin32ComponentAsync(path, associatedInstance, args);
+								}
+								else if (childFile.Item is ZipStorageFile zipStorageFile)
+								{
+									var options = InitializeWithWindow(new LauncherOptions());
+									var storageItem = (StorageFile)await FilesystemTasks.Wrap(() => zipStorageFile.ToStorageFileAsync().AsTask());
+									if (storageItem is null)
+									{
+										await Win32Helper.InvokeWin32ComponentAsync(path, associatedInstance, args);
+									}
+									else if (!await Launcher.LaunchFileAsync(storageItem, options))
+									{
+										var pickerOptions = InitializeWithWindow(new LauncherOptions
+										{
+											DisplayApplicationPicker = true
+										});
+										if (!await Launcher.LaunchFileAsync(storageItem, pickerOptions))
+											await Win32Helper.InvokeWin32ComponentAsync(path, associatedInstance, args);
+									}
 								}
 								else
 								{

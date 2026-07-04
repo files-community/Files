@@ -1099,7 +1099,7 @@
     <value>Abrir num novo painel</value>
   </data>
   <data name="OpenInOtherPane" xml:space="preserve">
-    <value>Open in other pane</value>
+    <value>Abrir em novo painel</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Ficheiros e pastas</value>
@@ -1264,7 +1264,7 @@
     <value>Argumentos</value>
   </data>
   <data name="Default" xml:space="preserve">
-    <value>Predefinição do dispositivo</value>
+    <value>Predefinição</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>N.º de itens</value>
@@ -1379,6 +1379,9 @@
   </data>
   <data name="OpenWith" xml:space="preserve">
     <value>Abrir com</value>
+  </data>
+  <data name="ChooseAnotherApp" xml:space="preserve">
+    <value>Escolher outra aplicação</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Ícone de ficheiro</value>
@@ -3423,7 +3426,7 @@
     <value>Abrir pasta selecionada num novo painel</value>
   </data>
   <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
-    <value>Open selected directory in the other pane</value>
+    <value>Abrir diretório selecionado noutro painel</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Abrir pasta selecionada num novo separador</value>
@@ -3555,7 +3558,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="VioletRedLight" xml:space="preserve">
-    <value>Avermelhado brilhante</value>
+    <value>Vermelhado brilhante</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="YellowGold" xml:space="preserve">
@@ -3928,7 +3931,7 @@
     <value>Alterar imagem do álbum</value>
   </data>
   <data name="RemoveAlbumCover" xml:space="preserve">
-    <value>Remove album cover</value>
+    <value>Remover imagem do álbum</value>
   </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>Falha ao tentar renomear {0}.</value>
@@ -4262,13 +4265,13 @@
     <value>Trocar foco para o separador mais recente</value>
   </data>
   <data name="ReverseTabScrollDirection" xml:space="preserve">
-    <value>Reverse tab scroll direction</value>
+    <value>Inverter direção de deslocação entre separadores</value>
   </data>
   <data name="DownMotionScrollsLeft" xml:space="preserve">
-    <value>Down motion scrolls left</value>
+    <value>Movimentação abaixo para a esquerda</value>
   </data>
   <data name="DownMotionScrollsRight" xml:space="preserve">
-    <value>Down motion scrolls right</value>
+    <value>Movimentação abaixo para a direita</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>Mostrar/ocultar painel da prateleira</value>
@@ -4325,6 +4328,15 @@
   </data>
   <data name="OpenSettings" xml:space="preserve">
     <value>Abrir definições</value>
+  </data>
+  <data name="NetworkDiscoveryTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>A descoberta de rede está desativada. Os computadores e dispositivos de rede não estão visíveis.</value>
+  </data>
+  <data name="FileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>A partilha de ficheiros está desativada. Alguns computadores e dispositivos de rede podem não estar visíveis.</value>
+  </data>
+  <data name="NetworkDiscoveryAndFileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>A descoberta de rede e a partilha de ficheiros estão desativadas. Os computadores e dispositivos de rede não estão visíveis.</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>

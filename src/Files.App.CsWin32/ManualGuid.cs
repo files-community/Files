@@ -1,5 +1,5 @@
 // Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using System;
 using System.Runtime.CompilerServices;
@@ -119,5 +119,8 @@ namespace Windows.Win32
 	{
 		[GuidRVAGen.Guid("B7534046-3ECB-4C18-BE4E-64CD4CB7D6AC")]
 		public static partial Guid* FOLDERID_RecycleBinFolder { get; }
+
+		[GuidRVAGen.Guid("0AC0837C-BBF8-452A-850D-79D08E667CA7")]
+		public static partial Guid* FOLDERID_ComputerFolder { get; }
 	}
 }

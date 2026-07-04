@@ -80,6 +80,14 @@ RegisterApplicationRestart
 BROWSEINFOW
 SHBrowseForFolder
 SHGetPathFromIDList
+SHGetKnownFolderIDList
+SHChangeNotifyRegister
+SHChangeNotifyDeregister
+SHChangeNotification_Lock
+SHChangeNotification_Unlock
+SHChangeNotifyEntry
+SHCNRF_SOURCE
+SHCNE_ID
 SHCreateStreamOnFileEx
 DwmSetWindowAttribute
 WIN32_ERROR

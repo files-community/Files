@@ -220,71 +220,46 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			ContentPageContext.PageType is not ContentPageTypes.Home &&
-			ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes layoutMode &&
-			((layoutMode is FolderLayoutModes.DetailsView && UserSettingsService.LayoutSettingsService.DetailsViewSize > DetailsViewSizeKind.Compact) ||
-			(layoutMode is FolderLayoutModes.ListView && UserSettingsService.LayoutSettingsService.ListViewSize > ListViewSizeKind.Compact) ||
-			(layoutMode is FolderLayoutModes.CardsView && UserSettingsService.LayoutSettingsService.CardsViewSize > CardsViewSizeKind.Small) ||
-			(layoutMode is FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.GridViewSize > GridViewSizeKind.Small) ||
-			(layoutMode is FolderLayoutModes.ColumnView && UserSettingsService.LayoutSettingsService.ColumnsViewSize > ColumnsViewSizeKind.Compact));
+			ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings is not null;
 
 		public LayoutDecreaseSizeAction()
 		{
 			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
-			UserSettingsService.LayoutSettingsService.PropertyChanged += UserSettingsService_PropertyChanged;
 		}
 
 		private void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			switch (e.PropertyName)
-			{
-				case nameof(IContentPageContext.PageType):
-					OnPropertyChanged(nameof(IsExecutable));
-					break;
-			}
-		}
-
-		private void UserSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			switch (e.PropertyName)
-			{
-				case nameof(ILayoutSettingsService.DetailsViewSize):
-				case nameof(ILayoutSettingsService.ListViewSize):
-				case nameof(ILayoutSettingsService.GridViewSize):
-				case nameof(ILayoutSettingsService.ColumnsViewSize):
-				case nameof(ILayoutSettingsService.CardsViewSize):
-					OnPropertyChanged(nameof(IsExecutable));
-					break;
-			}
+			if (e.PropertyName is nameof(IContentPageContext.PageType))
+				OnPropertyChanged(nameof(IsExecutable));
 		}
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			switch (ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings.LayoutMode)
+			var instanceViewModel = ContentPageContext.ShellPage?.InstanceViewModel;
+			if (instanceViewModel?.FolderSettings is not { } folderSettings)
+				return Task.CompletedTask;
+
+			var settings = UserSettingsService.LayoutSettingsService;
+			switch (folderSettings.LayoutMode)
 			{
-				case FolderLayoutModes.DetailsView:
-					if (UserSettingsService.LayoutSettingsService.DetailsViewSize > DetailsViewSizeKind.Compact)
-						UserSettingsService.LayoutSettingsService.DetailsViewSize -= 1;
-					break;
-				case FolderLayoutModes.ListView:
-					if (UserSettingsService.LayoutSettingsService.ListViewSize > ListViewSizeKind.Compact)
-						UserSettingsService.LayoutSettingsService.ListViewSize -= 1;
-					break;
-				case FolderLayoutModes.CardsView:
-					if (UserSettingsService.LayoutSettingsService.CardsViewSize > CardsViewSizeKind.Small)
-						UserSettingsService.LayoutSettingsService.CardsViewSize -= 1;
-					break;
-				case FolderLayoutModes.GridView:
-					if (UserSettingsService.LayoutSettingsService.GridViewSize > GridViewSizeKind.Small)
-						UserSettingsService.LayoutSettingsService.GridViewSize -= 1;
-					break;
-				case FolderLayoutModes.ColumnView:
-					if (UserSettingsService.LayoutSettingsService.ColumnsViewSize > ColumnsViewSizeKind.Compact)
-						UserSettingsService.LayoutSettingsService.ColumnsViewSize -= 1;
-					break;
-				default:
-					break;
+				case FolderLayoutModes.DetailsView when settings.DetailsViewSize > DetailsViewSizeKind.Compact:
+					settings.DetailsViewSize -= 1;
+					return Task.CompletedTask;
+				case FolderLayoutModes.ListView when settings.ListViewSize > ListViewSizeKind.Compact:
+					settings.ListViewSize -= 1;
+					return Task.CompletedTask;
+				case FolderLayoutModes.CardsView when settings.CardsViewSize > CardsViewSizeKind.Small:
+					settings.CardsViewSize -= 1;
+					return Task.CompletedTask;
+				case FolderLayoutModes.GridView when settings.GridViewSize > GridViewSizeKind.Small:
+					settings.GridViewSize -= 1;
+					return Task.CompletedTask;
+				case FolderLayoutModes.ColumnView when settings.ColumnsViewSize > ColumnsViewSizeKind.Compact:
+					settings.ColumnsViewSize -= 1;
+					return Task.CompletedTask;
 			}
 
+			LayoutCycler.Cycle(folderSettings, instanceViewModel.IsPageTypeRecycleBin, forward: false);
 			return Task.CompletedTask;
 		}
 	}
@@ -312,71 +287,104 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			ContentPageContext.PageType is not ContentPageTypes.Home &&
-			ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes layoutMode &&
-			((layoutMode is FolderLayoutModes.DetailsView && UserSettingsService.LayoutSettingsService.DetailsViewSize < DetailsViewSizeKind.ExtraLarge) ||
-			(layoutMode is FolderLayoutModes.ListView && UserSettingsService.LayoutSettingsService.ListViewSize < ListViewSizeKind.ExtraLarge) ||
-			(layoutMode is FolderLayoutModes.CardsView && UserSettingsService.LayoutSettingsService.CardsViewSize < CardsViewSizeKind.ExtraLarge) ||
-			(layoutMode is FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.GridViewSize < GridViewSizeKind.ExtraLarge) ||
-			(layoutMode is FolderLayoutModes.ColumnView && UserSettingsService.LayoutSettingsService.ColumnsViewSize < ColumnsViewSizeKind.ExtraLarge));
+			ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings is not null;
 
 		public LayoutIncreaseSizeAction()
 		{
 			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
-			UserSettingsService.LayoutSettingsService.PropertyChanged += UserSettingsService_PropertyChanged;
 		}
 
 		private void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			switch (e.PropertyName)
-			{
-				case nameof(IContentPageContext.PageType):
-					OnPropertyChanged(nameof(IsExecutable));
-					break;
-			}
-		}
-
-		private void UserSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			switch (e.PropertyName)
-			{
-				case nameof(ILayoutSettingsService.DetailsViewSize):
-				case nameof(ILayoutSettingsService.ListViewSize):
-				case nameof(ILayoutSettingsService.GridViewSize):
-				case nameof(ILayoutSettingsService.ColumnsViewSize):
-					OnPropertyChanged(nameof(IsExecutable));
-					break;
-			}
+			if (e.PropertyName is nameof(IContentPageContext.PageType))
+				OnPropertyChanged(nameof(IsExecutable));
 		}
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			switch (ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings.LayoutMode)
+			var instanceViewModel = ContentPageContext.ShellPage?.InstanceViewModel;
+			if (instanceViewModel?.FolderSettings is not { } folderSettings)
+				return Task.CompletedTask;
+
+			var settings = UserSettingsService.LayoutSettingsService;
+			switch (folderSettings.LayoutMode)
 			{
-				case FolderLayoutModes.DetailsView:
-					if (UserSettingsService.LayoutSettingsService.DetailsViewSize < DetailsViewSizeKind.ExtraLarge)
-						UserSettingsService.LayoutSettingsService.DetailsViewSize += 1;
-					break;
-				case FolderLayoutModes.ListView:
-					if (UserSettingsService.LayoutSettingsService.ListViewSize < ListViewSizeKind.ExtraLarge)
-						UserSettingsService.LayoutSettingsService.ListViewSize += 1;
-					break;
-				case FolderLayoutModes.CardsView:
-					if (UserSettingsService.LayoutSettingsService.CardsViewSize < CardsViewSizeKind.ExtraLarge)
-						UserSettingsService.LayoutSettingsService.CardsViewSize += 1;
-					break;
-				case FolderLayoutModes.GridView:
-					if (UserSettingsService.LayoutSettingsService.GridViewSize < GridViewSizeKind.ExtraLarge)
-						UserSettingsService.LayoutSettingsService.GridViewSize += 1;
-					break;
-				case FolderLayoutModes.ColumnView:
-					if (UserSettingsService.LayoutSettingsService.ColumnsViewSize < ColumnsViewSizeKind.ExtraLarge)
-						UserSettingsService.LayoutSettingsService.ColumnsViewSize += 1;
-					break;
-				default:
-					break;
+				case FolderLayoutModes.DetailsView when settings.DetailsViewSize < DetailsViewSizeKind.ExtraLarge:
+					settings.DetailsViewSize += 1;
+					return Task.CompletedTask;
+				case FolderLayoutModes.ListView when settings.ListViewSize < ListViewSizeKind.ExtraLarge:
+					settings.ListViewSize += 1;
+					return Task.CompletedTask;
+				case FolderLayoutModes.CardsView when settings.CardsViewSize < CardsViewSizeKind.ExtraLarge:
+					settings.CardsViewSize += 1;
+					return Task.CompletedTask;
+				case FolderLayoutModes.GridView when settings.GridViewSize < GridViewSizeKind.ExtraLarge:
+					settings.GridViewSize += 1;
+					return Task.CompletedTask;
+				case FolderLayoutModes.ColumnView when settings.ColumnsViewSize < ColumnsViewSizeKind.ExtraLarge:
+					settings.ColumnsViewSize += 1;
+					return Task.CompletedTask;
 			}
 
+			LayoutCycler.Cycle(folderSettings, instanceViewModel.IsPageTypeRecycleBin, forward: true);
 			return Task.CompletedTask;
+		}
+	}
+
+	internal static class LayoutCycler
+	{
+		private static readonly FolderLayoutModes[] Order =
+		[
+			FolderLayoutModes.DetailsView,
+			FolderLayoutModes.ListView,
+			FolderLayoutModes.CardsView,
+			FolderLayoutModes.GridView,
+			FolderLayoutModes.ColumnView,
+		];
+
+		public static void Cycle(LayoutPreferencesManager folderSettings, bool isRecycleBin, bool forward)
+		{
+			int currentIndex = Array.IndexOf(Order, folderSettings.LayoutMode);
+			if (currentIndex < 0)
+				return;
+
+			int step = forward ? 1 : -1;
+			int count = Order.Length;
+
+			for (int i = 1; i <= count; i++)
+			{
+				var next = Order[((currentIndex + step * i) % count + count) % count];
+
+				// Columns view is not supported inside the Recycle Bin.
+				if (next is FolderLayoutModes.ColumnView && isRecycleBin)
+					continue;
+
+				// Reset the new layout's size so the next keystroke keeps growing / shrinking.
+				var settings = Ioc.Default.GetRequiredService<IUserSettingsService>().LayoutSettingsService;
+				switch (next)
+				{
+					case FolderLayoutModes.DetailsView:
+						settings.DetailsViewSize = forward ? DetailsViewSizeKind.Compact : DetailsViewSizeKind.ExtraLarge;
+						folderSettings.ToggleLayoutModeDetailsView(true);
+						return;
+					case FolderLayoutModes.ListView:
+						settings.ListViewSize = forward ? ListViewSizeKind.Compact : ListViewSizeKind.ExtraLarge;
+						folderSettings.ToggleLayoutModeList(true);
+						return;
+					case FolderLayoutModes.CardsView:
+						settings.CardsViewSize = forward ? CardsViewSizeKind.Small : CardsViewSizeKind.ExtraLarge;
+						folderSettings.ToggleLayoutModeCards(true);
+						return;
+					case FolderLayoutModes.GridView:
+						settings.GridViewSize = forward ? GridViewSizeKind.Small : GridViewSizeKind.ExtraLarge;
+						folderSettings.ToggleLayoutModeGridView(true);
+						return;
+					case FolderLayoutModes.ColumnView:
+						settings.ColumnsViewSize = forward ? ColumnsViewSizeKind.Compact : ColumnsViewSizeKind.ExtraLarge;
+						folderSettings.ToggleLayoutModeColumnView(true);
+						return;
+				}
+			}
 		}
 	}
 }

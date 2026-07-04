@@ -1,5 +1,5 @@
 // Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 namespace Files.App.ViewModels.Settings
 {
@@ -16,6 +16,7 @@ namespace Files.App.ViewModels.Settings
 		private IEnumerable<string> ContextKeys => ToolbarContexts.Select(c => c.Key);
 		private bool isApplyingItems;
 		private bool isSessionActive;
+		private int searchGeneration;
 
 		public ObservableCollection<KeyValuePair<string, string>> ToolbarContexts { get; } = [];
 		public ObservableCollection<ToolbarAvailableTreeItem> AvailableToolbarTreeItems { get; } = [];
@@ -26,6 +27,7 @@ namespace Files.App.ViewModels.Settings
 
 		[ObservableProperty] public partial string? SelectedToolbarContextId { get; set; }
 		[ObservableProperty] public partial bool HasToolbarChanges { get; set; }
+		[ObservableProperty] public partial string SearchQuery { get; set; } = string.Empty;
 
 		public event EventHandler? CloseRequested;
 		public event EventHandler? PreviewChanged;
@@ -64,6 +66,14 @@ namespace Files.App.ViewModels.Settings
 
 		partial void OnSelectedToolbarContextIdChanged(string? value) => RefreshAvailableAndNotify(notifyPreview: true);
 
+		partial void OnSearchQueryChanged(string value) => _ = DebouncedRefreshAsync(++searchGeneration);
+
+		private async Task DebouncedRefreshAsync(int generation)
+		{
+			await Task.Delay(250);
+			if (generation == searchGeneration) RefreshAvailableAndNotify();
+		}
+
 		private void LoadToolbarItems()
 		{
 			var saved = UserSettingsService.AppearanceSettingsService.CustomToolbarItems;
@@ -100,8 +110,11 @@ namespace Files.App.ViewModels.Settings
 		private void RefreshAvailableAndNotify(bool notifyPreview = false)
 		{
 			AvailableToolbarTreeItems.Clear();
-			foreach (var node in ToolbarItemDescriptor.BuildAvailableTree(
-				ToolbarItemDescriptor.GetAvailableItems(ResolveContextId(), CommandManager)))
+			var query = SearchQuery.Trim();
+			var items = ToolbarItemDescriptor.GetAvailableItems(ResolveContextId(), CommandManager)
+				.Where(i => query.Length == 0
+					|| i.ExtendedDisplayName.Contains(query, StringComparison.OrdinalIgnoreCase));
+			foreach (var node in ToolbarItemDescriptor.BuildAvailableTree(items, flat: query.Length > 0))
 				AvailableToolbarTreeItems.Add(node);
 			OnPropertyChanged(nameof(ToolbarItems));
 			OnPropertyChanged(nameof(SelectedToolbarContextName));

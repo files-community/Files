@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using DiscUtils.Udf;
-using Microsoft.Management.Infrastructure;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;
@@ -17,18 +16,6 @@ namespace Files.App.Utils.Storage
 		public static async void EjectDeviceAsync(string path)
 		{
 			await ContextMenu.InvokeVerb("eject", path);
-		}
-
-		public static string GetVolumeId(string driveName)
-		{
-			string name = driveName.ToUpperInvariant();
-			string query = $"SELECT DeviceID FROM Win32_Volume WHERE DriveLetter = '{name}'";
-
-			using var cimSession = CimSession.Create(null);
-			foreach (var item in cimSession.QueryInstances(@"root\cimv2", "WQL", query)) // max 1 result because DriveLetter is unique.
-				return (string?)item.CimInstanceProperties["DeviceID"]?.Value ?? string.Empty;
-
-			return string.Empty;
 		}
 
 		public static async Task<bool> CheckEmptyDrive(string? drivePath)

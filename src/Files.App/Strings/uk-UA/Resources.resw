@@ -1098,7 +1098,7 @@
     <value>Відкрити в новій панелі</value>
   </data>
   <data name="OpenInOtherPane" xml:space="preserve">
-    <value>Open in other pane</value>
+    <value>Відкрити в іншій панелі</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Файли та теки</value>
@@ -1378,6 +1378,9 @@
   </data>
   <data name="OpenWith" xml:space="preserve">
     <value>Відкрити за допомогою</value>
+  </data>
+  <data name="ChooseAnotherApp" xml:space="preserve">
+    <value>Виберіть інший застосунок</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Піктограма файлу</value>
@@ -3422,7 +3425,7 @@
     <value>Відкрити вибраний каталог у новій панелі</value>
   </data>
   <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
-    <value>Open selected directory in the other pane</value>
+    <value>Відкрити вибраний каталог в іншій панелі</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Відкрити вибраний каталог у новій вкладці</value>
@@ -3927,7 +3930,7 @@
     <value>Змінити обкладинку альбому</value>
   </data>
   <data name="RemoveAlbumCover" xml:space="preserve">
-    <value>Remove album cover</value>
+    <value>Видалити обкладинку альбому</value>
   </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>Не вдалося перейменувати елемент</value>
@@ -4261,13 +4264,13 @@
     <value>Завжди перемикати фокус на новостворену вкладку</value>
   </data>
   <data name="ReverseTabScrollDirection" xml:space="preserve">
-    <value>Reverse tab scroll direction</value>
+    <value>Змінити напрямок гортання вкладки</value>
   </data>
   <data name="DownMotionScrollsLeft" xml:space="preserve">
-    <value>Down motion scrolls left</value>
+    <value>Рух вниз гортає вліво</value>
   </data>
   <data name="DownMotionScrollsRight" xml:space="preserve">
-    <value>Down motion scrolls right</value>
+    <value>Рух вниз гортає право</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>Перемкнути панель полиць</value>
@@ -4324,6 +4327,15 @@
   </data>
   <data name="OpenSettings" xml:space="preserve">
     <value>Відкрити налаштування</value>
+  </data>
+  <data name="NetworkDiscoveryTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Мережеве виявлення вимкнено. Мережеві комп’ютери та пристрої не показуються.</value>
+  </data>
+  <data name="FileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Обмін файлами вимкнено. Окремі комп’ютери та пристрої в мережі можуть не показуватися.</value>
+  </data>
+  <data name="NetworkDiscoveryAndFileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Мережеве виявлення та обмін файлами вимкнено. Мережеві комп’ютери та пристрої не показуються.</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
