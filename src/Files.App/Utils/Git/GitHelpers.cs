@@ -90,7 +90,7 @@ namespace Files.App.Utils.Git
 			var options = new CheckoutOptions();
 			var isBringingChanges = false;
 
-			_implementation._implementation.IsExecutingGitAction = true;
+			_implementation.IsExecutingGitAction = true;
 
 			if (repository.Index.Conflicts.Any())
 			{
