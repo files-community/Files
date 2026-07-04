@@ -29,6 +29,13 @@ namespace Files.App.Utils.Git
 		/// <inheritdoc cref="IVersionControl.GetRepositoryHead(string?)"/>
 		public static Task<BranchItem?> GetRepositoryHead(string? path) => _implementation.GetRepositoryHead(path);
 
+		/// <inheritdoc cref="IVersionControl.IsExecutingGitAction"/>
+		public static bool IsExecutingGitAction
+		{
+			get => _implementation.IsExecutingGitAction;
+			set => _implementation.IsExecutingGitAction = value;
+		}
+
 		#region Legacy implementation
 
 		// Property already moved into abstraction
