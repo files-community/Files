@@ -72,26 +72,6 @@ namespace Files.App.Utils.Git
 		// Property already moved into abstraction
 		private static readonly SemaphoreSlim GitOperationSemaphore = new SemaphoreSlim(1, 1);
 
-		// Field already moved into abstraction
-		private static bool _IsExecutingGitAction;
-
-		// Field already moved into abstraction
-		public static bool IsExecutingGitAction
-		{
-			get => _IsExecutingGitAction;
-			private set
-			{
-				if (_IsExecutingGitAction != value)
-				{
-					_IsExecutingGitAction = value;
-					IsExecutingGitActionChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(IsExecutingGitAction)));
-				}
-			}
-		}
-
-		// Event handler already moved into abstraction
-		public static event PropertyChangedEventHandler? IsExecutingGitActionChanged;
-
 		// Event handler already moved into abstraction
 		public static event EventHandler? GitFetchCompleted;
 
@@ -110,7 +90,7 @@ namespace Files.App.Utils.Git
 			var options = new CheckoutOptions();
 			var isBringingChanges = false;
 
-			IsExecutingGitAction = true;
+			_implementation._implementation.IsExecutingGitAction = true;
 
 			if (repository.Index.Conflicts.Any())
 			{
@@ -122,7 +102,7 @@ namespace Files.App.Utils.Git
 				switch (resolveConflictOption)
 				{
 					case GitCheckoutOptions.None:
-						IsExecutingGitAction = false;
+						_implementation.IsExecutingGitAction = false;
 						return false;
 					case GitCheckoutOptions.AbortMerge:
 						repository.Reset(ResetMode.Hard);
@@ -139,7 +119,7 @@ namespace Files.App.Utils.Git
 				switch (resolveConflictOption)
 				{
 					case GitCheckoutOptions.None:
-						IsExecutingGitAction = false;
+						_implementation.IsExecutingGitAction = false;
 						return false;
 					case GitCheckoutOptions.DiscardChanges:
 						options.CheckoutModifiers = CheckoutModifiers.Force;
@@ -149,7 +129,7 @@ namespace Files.App.Utils.Git
 						var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
 						if (signature is null)
 						{
-							IsExecutingGitAction = false;
+							_implementation.IsExecutingGitAction = false;
 							return false;
 						}
 
@@ -183,7 +163,7 @@ namespace Files.App.Utils.Git
 				return GitOperationResult.Success;
 			});
 
-			IsExecutingGitAction = false;
+			_implementation.IsExecutingGitAction = false;
 
 			return result is GitOperationResult.Success;
 		}
@@ -204,7 +184,7 @@ namespace Files.App.Utils.Git
 
 			using var repository = new Repository(repositoryPath);
 
-			IsExecutingGitAction = true;
+			_implementation.IsExecutingGitAction = true;
 
 			if (repository.Head.FriendlyName.Equals(viewModel.NewBranchName) ||
 				await Checkout(repositoryPath, viewModel.BasedOn))
@@ -215,7 +195,7 @@ namespace Files.App.Utils.Git
 					await Checkout(repositoryPath, viewModel.NewBranchName);
 			}
 
-			IsExecutingGitAction = false;
+			_implementation.IsExecutingGitAction = false;
 		}
 
 		public static async Task DeleteBranchAsync(string? repositoryPath, string? activeBranch, string? branchToDelete)
@@ -236,7 +216,7 @@ namespace Files.App.Utils.Git
 			if (!(dialog.ViewModel.AdditionalData as bool? ?? false))
 				return;
 
-			IsExecutingGitAction = true;
+			_implementation.IsExecutingGitAction = true;
 
 			await DoGitOperationAsync<GitOperationResult>(() =>
 			{
@@ -253,7 +233,7 @@ namespace Files.App.Utils.Git
 				return GitOperationResult.Success;
 			});
 
-			IsExecutingGitAction = false;
+			_implementation.IsExecutingGitAction = false;
 		}
 
 
@@ -292,7 +272,7 @@ namespace Files.App.Utils.Git
 
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
-				IsExecutingGitAction = true;
+				_implementation.IsExecutingGitAction = true;
 			});
 
 			await DoGitOperationAsync<GitOperationResult>(() =>
@@ -332,7 +312,7 @@ namespace Files.App.Utils.Git
 					// Do nothing because the operation was cancelled and another fetch may be in progress
 					return;
 
-				IsExecutingGitAction = false;
+				_implementation.IsExecutingGitAction = false;
 				GitFetchCompleted?.Invoke(null, EventArgs.Empty);
 			});
 		}
@@ -361,7 +341,7 @@ namespace Files.App.Utils.Git
 
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
-				IsExecutingGitAction = true;
+				_implementation.IsExecutingGitAction = true;
 			});
 
 			var result = await DoGitOperationAsync<GitOperationResult>(() =>
@@ -402,7 +382,7 @@ namespace Files.App.Utils.Git
 
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
-				IsExecutingGitAction = false;
+				_implementation.IsExecutingGitAction = false;
 			});
 		}
 
@@ -435,7 +415,7 @@ namespace Files.App.Utils.Git
 
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
-				IsExecutingGitAction = true;
+				_implementation.IsExecutingGitAction = true;
 			});
 
 			try
@@ -476,7 +456,7 @@ namespace Files.App.Utils.Git
 
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
-				IsExecutingGitAction = false;
+				_implementation.IsExecutingGitAction = false;
 			});
 		}
 

@@ -30,7 +30,7 @@ internal sealed partial class LibGit2 // : IVersionControl
 	public bool IsExecutingGitAction
 	{
 		get => _isExecutingGitAction;
-		private set
+		internal set // TODO: Make set method private again when move finished
 		{
 			if (_isExecutingGitAction != value)
 			{

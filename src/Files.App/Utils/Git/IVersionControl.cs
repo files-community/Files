@@ -15,6 +15,11 @@ namespace Files.App.Utils.Git
 	internal interface IVersionControl
 	{
 		/// <summary>
+		/// Determines whether a version control operation is occurring or not.
+		/// </summary>
+		bool IsExecutingGitAction;
+
+		/// <summary>
 		/// Attempts to locate the root of a version control repository (by walking up the directory hierarchy).
 		/// </summary>
 		/// <param name="path">The starting path to search from.</param>
