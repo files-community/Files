@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Files.App.Dialogs;
+using Files.App.Services.Git;
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
 using Sentry;
@@ -15,25 +16,38 @@ namespace Files.App.Utils.Git
 	internal static partial class GitHelpers
 	{
 		// The implementation of the version control interface; it's hardcoded right now but will be made configurable in the future (#16738)
-		private static readonly LibGit2 _implementation = new LibGit2(); // TODO: Replace with IVersionControl abstraction when it is complete
+		private static LibGit2Service _implementation = Ioc.Default.GetRequiredService<LibGit2Service>(); // TODO: Replace with IVersionControl abstraction when it is complete
 
-		/// <inheritdoc cref="IVersionControl.GetGitRepositoryPath(string?,string)"/>
+		/// <inheritdoc cref="IVersionControlService.GetGitRepositoryPath(string?,string)"/>
 		public static string? GetGitRepositoryPath(string? path, string root) => _implementation.GetGitRepositoryPath(path, root);
 
-		/// <inheritdoc cref="IVersionControl.GetOriginRepositoryName(string?)"/>
+		/// <inheritdoc cref="IVersionControlService.GetOriginRepositoryName(string?)"/>
 		public static string GetOriginRepositoryName(string? path) => _implementation.GetOriginRepositoryName(path);
 
-		/// <inheritdoc cref="IVersionControl.GetBranchNames(string?)"/>
+		/// <inheritdoc cref="IVersionControlService.GetBranchNames(string?)"/>
 		public static Task<BranchItem[]> GetBranchNames(string? path) => _implementation.GetBranchNames(path);
 
-		/// <inheritdoc cref="IVersionControl.GetRepositoryHead(string?)"/>
+		/// <inheritdoc cref="IVersionControlService.GetRepositoryHead(string?)"/>
 		public static Task<BranchItem?> GetRepositoryHead(string? path) => _implementation.GetRepositoryHead(path);
 
-		/// <inheritdoc cref="IVersionControl.IsExecutingGitAction"/>
-		public static bool IsExecutingGitAction
+		/// <inheritdoc cref="IVersionControlService.FetchOrigin(string?, CancellationToken)"/>
+		public static async void FetchOrigin(string? repositoryPath, CancellationToken cancellationToken = default) => _implementation.FetchOrigin(repositoryPath, cancellationToken);
+
+		/// <inheritdoc cref="IVersionControlService.IsExecutingGitAction"/>
+		public static bool IsExecutingGitAction => _implementation.IsExecutingGitAction;
+
+		/// <inheritdoc cref="IVersionControlService.IsExecutingGitActionChanged"/>
+		public static event PropertyChangedEventHandler? IsExecutingGitActionChanged
 		{
-			get => _implementation.IsExecutingGitAction;
-			set => _implementation.IsExecutingGitAction = value;
+			add => _implementation.IsExecutingGitActionChanged += value;
+			remove => _implementation.IsExecutingGitActionChanged -= value;
+		}
+
+		/// <inheritdoc cref="IVersionControlService.GitFetchCompleted"/>
+		public static event EventHandler? GitFetchCompleted
+		{
+			add => _implementation.GitFetchCompleted += value;
+			remove => _implementation.GitFetchCompleted -= value;
 		}
 
 		#region Legacy implementation
@@ -78,9 +92,6 @@ namespace Files.App.Utils.Git
 
 		// Property already moved into abstraction
 		private static readonly SemaphoreSlim GitOperationSemaphore = new SemaphoreSlim(1, 1);
-
-		// Event handler already moved into abstraction
-		public static event EventHandler? GitFetchCompleted;
 
 		public static async Task<bool> Checkout(string? repositoryPath, string? branch)
 		{
@@ -243,7 +254,6 @@ namespace Files.App.Utils.Git
 			_implementation.IsExecutingGitAction = false;
 		}
 
-
 		public static bool ValidateBranchNameForRepository(string branchName, string repositoryPath)
 		{
 			if (string.IsNullOrEmpty(branchName) || !IsRepoValid(repositoryPath))
@@ -256,72 +266,6 @@ namespace Files.App.Utils.Git
 			using var repository = new Repository(repositoryPath);
 			return !repository.Branches.Any(branch =>
 				branch.FriendlyName.Equals(branchName, StringComparison.OrdinalIgnoreCase));
-		}
-
-		public static async void FetchOrigin(string? repositoryPath, CancellationToken cancellationToken = default)
-		{
-			if (string.IsNullOrWhiteSpace(repositoryPath))
-				return;
-
-			using var repository = new Repository(repositoryPath);
-			var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
-
-			var token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
-			if (signature is not null && !string.IsNullOrWhiteSpace(token))
-			{
-				_fetchOptions.CredentialsProvider = (url, user, cred)
-					=> new UsernamePasswordCredentials
-					{
-						Username = signature.Name,
-						Password = token
-					};
-			}
-
-			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
-			{
-				_implementation.IsExecutingGitAction = true;
-			});
-
-			await DoGitOperationAsync<GitOperationResult>(() =>
-			{
-				cancellationToken.ThrowIfCancellationRequested();
-
-				var result = GitOperationResult.Success;
-				try
-				{
-					foreach (var remote in repository.Network.Remotes)
-					{
-						cancellationToken.ThrowIfCancellationRequested();
-
-						LibGit2Sharp.Commands.Fetch(
-							repository,
-							remote.Name,
-							remote.FetchRefSpecs.Select(rs => rs.Specification),
-							_fetchOptions,
-							"git fetch updated a ref");
-					}
-
-					cancellationToken.ThrowIfCancellationRequested();
-				}
-				catch (Exception ex)
-				{
-					result = IsAuthorizationException(ex)
-						? GitOperationResult.AuthorizationError
-						: GitOperationResult.GenericError;
-				}
-
-				return result;
-			});
-
-			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
-			{
-				if (cancellationToken.IsCancellationRequested)
-					// Do nothing because the operation was cancelled and another fetch may be in progress
-					return;
-
-				_implementation.IsExecutingGitAction = false;
-				GitFetchCompleted?.Invoke(null, EventArgs.Empty);
-			});
 		}
 
 		public static async Task PullOriginAsync(string? repositoryPath)

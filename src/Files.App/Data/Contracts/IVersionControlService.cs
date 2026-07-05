@@ -4,7 +4,7 @@
 using LibGit2Sharp;
 using System.ComponentModel;
 
-namespace Files.App.Utils.Git
+namespace Files.App.Data.Contracts
 {
 	/// <summary>
 	/// Defines a version control abstraction.
@@ -12,7 +12,7 @@ namespace Files.App.Utils.Git
 	/// <remarks>
 	/// This interface is intended to decouple the app from a specific backend implementation (e.g. a library such as LibGit2Sharp, or a command-line implementation backed by the <c>git.exe</c> executable).
 	/// </remarks>
-	internal interface IVersionControl
+	public interface IVersionControlService
 	{
 		/// <summary>
 		/// Attempts to locate the root of a version control repository (by walking up the directory hierarchy).
