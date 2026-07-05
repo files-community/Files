@@ -7,7 +7,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:Files.App.UserControls.FilePreviews"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	DataContext="{x:Bind ViewModel, Mode=OneWay}"
+	DataContext="{x:Bind ViewModel, Mode=OneTime}"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>

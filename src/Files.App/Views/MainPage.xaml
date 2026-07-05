@@ -17,7 +17,7 @@
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	AllowDrop="True"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
-	DataContext="{x:Bind ViewModel, Mode=OneWay}"
+	DataContext="{x:Bind ViewModel, Mode=OneTime}"
 	HighContrastAdjustment="None"
 	KeyboardAcceleratorPlacementMode="Hidden"
 	Loaded="Page_Loaded"
