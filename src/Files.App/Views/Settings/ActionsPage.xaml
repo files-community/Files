@@ -18,7 +18,7 @@
 
 	<i:Interaction.Behaviors>
 		<i:EventTriggerBehavior EventName="Loaded">
-			<i:InvokeCommandAction Command="{x:Bind ViewModel.LoadAllActionsCommand, Mode=OneWay}" />
+			<i:InvokeCommandAction Command="{x:Bind ViewModel.LoadAllActionsCommand, Mode=OneTime}" />
 		</i:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
@@ -104,14 +104,14 @@
 					<!--  Add New Action Button  -->
 					<Button
 						x:Name="AddNewGridButton"
-						Command="{x:Bind ViewModel.ShowAddNewKeyBindingBlockCommand, Mode=OneWay}"
+						Command="{x:Bind ViewModel.ShowAddNewKeyBindingBlockCommand, Mode=OneTime}"
 						Content="{helpers:ResourceString Name=AddCommand}"
 						IsEnabled="{x:Bind ViewModel.ShowAddNewKeyBindingBlock, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
 					<!--  Restore Defaults Button  -->
 					<Button
 						x:Name="RestoreDefaultsButton"
-						Command="{x:Bind ViewModel.ShowRestoreDefaultsConfirmationCommand, Mode=OneWay}"
+						Command="{x:Bind ViewModel.ShowRestoreDefaultsConfirmationCommand, Mode=OneTime}"
 						Content="{helpers:ResourceString Name=RestoreDefaults}" />
 				</StackPanel>
 			</Grid>
@@ -167,7 +167,7 @@
 					Height="32"
 					Padding="0"
 					AutomationProperties.Name="{helpers:ResourceString Name=Add}"
-					Command="{x:Bind ViewModel.AddNewKeyBindingCommand, Mode=OneWay}"
+					Command="{x:Bind ViewModel.AddNewKeyBindingCommand, Mode=OneTime}"
 					IsEnabled="{x:Bind ViewModel.EnableAddNewKeyBindingButton, Mode=OneWay}"
 					Style="{StaticResource AccentButtonStyle}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Add}">
@@ -182,7 +182,7 @@
 					Height="32"
 					Padding="0"
 					AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
-					Command="{x:Bind ViewModel.HideAddNewKeyBindingBlockCommand, Mode=OneWay}"
+					Command="{x:Bind ViewModel.HideAddNewKeyBindingBlockCommand, Mode=OneTime}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}">
 					<FontIcon FontSize="14" Glyph="&#xE711;" />
 				</Button>
@@ -253,7 +253,7 @@
 												Padding="0"
 												x:Load="{x:Bind IsInEditMode, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 												AutomationProperties.Name="{helpers:ResourceString Name=Edit}"
-												Command="{Binding ElementName=PageRoot, Path=DataContext.EditCommand, Mode=OneWay}"
+												Command="{Binding ElementName=PageRoot, Path=DataContext.EditCommand, Mode=OneTime}"
 												CommandParameter="{x:Bind}"
 												ToolTipService.ToolTip="{helpers:ResourceString Name=Edit}"
 												Visibility="Collapsed">
@@ -269,7 +269,7 @@
 												Padding="0"
 												x:Load="{x:Bind IsInEditMode, Mode=OneWay}"
 												AutomationProperties.Name="{helpers:ResourceString Name=Save}"
-												Command="{Binding ElementName=PageRoot, Path=DataContext.SaveCommand, Mode=OneWay}"
+												Command="{Binding ElementName=PageRoot, Path=DataContext.SaveCommand, Mode=OneTime}"
 												CommandParameter="{x:Bind}"
 												IsEnabled="{x:Bind IsValidKeyBinding, Mode=OneWay}"
 												Style="{StaticResource AccentButtonStyle}"
@@ -286,7 +286,7 @@
 												Padding="0"
 												x:Load="{x:Bind IsInEditMode, Mode=OneWay}"
 												AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
-												Command="{Binding ElementName=PageRoot, Path=DataContext.CancelCommand, Mode=OneWay}"
+												Command="{Binding ElementName=PageRoot, Path=DataContext.CancelCommand, Mode=OneTime}"
 												CommandParameter="{x:Bind}"
 												IsEnabled="{x:Bind IsInEditMode, Mode=OneWay}"
 												ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}">
@@ -302,7 +302,7 @@
 												Padding="0"
 												x:Load="{x:Bind IsInEditMode, Mode=OneWay}"
 												AutomationProperties.Name="{helpers:ResourceString Name=Delete}"
-												Command="{Binding ElementName=PageRoot, Path=DataContext.DeleteCommand, Mode=OneWay}"
+												Command="{Binding ElementName=PageRoot, Path=DataContext.DeleteCommand, Mode=OneTime}"
 												CommandParameter="{x:Bind}"
 												IsEnabled="{x:Bind IsInEditMode, Mode=OneWay}"
 												ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}">
@@ -338,7 +338,7 @@
 		<!--  Restore Defaults Confirmation TeachingTip  -->
 		<TeachingTip
 			x:Name="RestoreDefaultsConfirmationTeachingTip"
-			ActionButtonCommand="{x:Bind ViewModel.RestoreDefaultsCommand, Mode=OneWay}"
+			ActionButtonCommand="{x:Bind ViewModel.RestoreDefaultsCommand, Mode=OneTime}"
 			ActionButtonContent="{helpers:ResourceString Name=Yes}"
 			ActionButtonStyle="{ThemeResource AccentButtonStyle}"
 			CloseButtonContent="{helpers:ResourceString Name=No}"
