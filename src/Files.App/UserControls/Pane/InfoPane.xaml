@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <UserControl
 	x:Class="Files.App.UserControls.InfoPane"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -166,13 +166,13 @@
 			Orientation="Horizontal">
 			<!--  Details  -->
 			<RadioButton
-				Command="{x:Bind Commands.ToggleDetailsPane, Mode=OneTime}"
+				Command="{x:Bind Commands.ToggleDetailsPane}"
 				Content="{helpers:ResourceString Name=Details}"
 				IsChecked="{x:Bind ViewModel.SelectedTab, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Details, Mode=OneWay}"
 				Style="{StaticResource Local.RadioButtonStyle}" />
 			<!--  Preview  -->
 			<RadioButton
-				Command="{x:Bind Commands.TogglePreviewPane, Mode=OneTime}"
+				Command="{x:Bind Commands.TogglePreviewPane}"
 				Content="{helpers:ResourceString Name=Preview}"
 				IsChecked="{x:Bind ViewModel.SelectedTab, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Preview, Mode=OneWay}"
 				Style="{StaticResource Local.RadioButtonStyle}" />

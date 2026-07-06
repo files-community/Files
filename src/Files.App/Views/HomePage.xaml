@@ -15,7 +15,7 @@
 
 	<i:Interaction.Behaviors>
 		<i:EventTriggerBehavior EventName="Loaded">
-			<i:InvokeCommandAction Command="{x:Bind ViewModel.ReloadWidgetsCommand, Mode=OneTime}" />
+			<i:InvokeCommandAction Command="{x:Bind ViewModel.ReloadWidgetsCommand}" />
 		</i:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
@@ -440,11 +440,11 @@
 					x:Load="{x:Bind Commands.SplitPaneHorizontally.IsExecutable, Mode=OneWay}"
 					Text="{helpers:ResourceString Name=SplitPane}">
 					<uc:MenuFlyoutItemWithThemedIcon
-						Command="{x:Bind Commands.SplitPaneVertically, Mode=OneTime}"
+						Command="{x:Bind Commands.SplitPaneVertically}"
 						Text="{x:Bind Commands.SplitPaneVertically.Label}"
 						ThemedIconStyle="{x:Bind Commands.SplitPaneVertically.ThemedIconStyle}" />
 					<uc:MenuFlyoutItemWithThemedIcon
-						Command="{x:Bind Commands.SplitPaneHorizontally, Mode=OneTime}"
+						Command="{x:Bind Commands.SplitPaneHorizontally}"
 						Text="{x:Bind Commands.SplitPaneHorizontally.Label}"
 						ThemedIconStyle="{x:Bind Commands.SplitPaneHorizontally.ThemedIconStyle}" />
 				</MenuFlyoutSubItem>
