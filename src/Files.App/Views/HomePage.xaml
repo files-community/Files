@@ -10,7 +10,7 @@
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
-	DataContext="{x:Bind ViewModel, Mode=OneTime}"
+	DataContext="{x:Bind ViewModel}"
 	mc:Ignorable="d">
 
 	<i:Interaction.Behaviors>

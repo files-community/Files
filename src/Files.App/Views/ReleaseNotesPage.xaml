@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Page
 	x:Class="Files.App.Views.ReleaseNotesPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -9,7 +9,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	DataContext="{x:Bind ViewModel, Mode=OneTime}"
+	DataContext="{x:Bind ViewModel}"
 	mc:Ignorable="d">
 
 	<Grid x:Name="ContainerGrid">
@@ -38,7 +38,7 @@
 			<HyperlinkButton
 				HorizontalAlignment="Left"
 				Content="{helpers:ResourceString Name=SponsorUsOnGitHub}"
-				NavigateUri="{x:Bind ViewModel.SupportUsUrl, Mode=OneTime}" />
+				NavigateUri="{x:Bind ViewModel.SupportUsUrl}" />
 		</Border>
 	</Grid>
 

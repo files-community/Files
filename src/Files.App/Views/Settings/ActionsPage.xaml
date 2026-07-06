@@ -13,7 +13,7 @@
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	x:Name="PageRoot"
-	DataContext="{x:Bind ViewModel, Mode=OneTime}"
+	DataContext="{x:Bind ViewModel}"
 	mc:Ignorable="d">
 
 	<i:Interaction.Behaviors>
