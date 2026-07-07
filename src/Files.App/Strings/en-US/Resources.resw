@@ -1100,6 +1100,9 @@
   <data name="OpenInOtherPane" xml:space="preserve">
     <value>Open in other pane</value>
   </data>
+  <data name="OpenCurrentFolderInOtherPane" xml:space="preserve">
+    <value>Open current folder in other pane</value>
+  </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Files &amp; folders</value>
   </data>
@@ -3426,6 +3429,9 @@
   </data>
   <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
     <value>Open selected directory in the other pane</value>
+  </data>
+  <data name="OpenCurrentFolderInOtherPaneDescription" xml:space="preserve">
+    <value>Open the current folder in the other pane</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Open selected directory in a new tab</value>
