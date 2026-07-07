@@ -3,9 +3,9 @@ using Microsoft.Extensions.Logging;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Files.App.Utils.Git;
+namespace Files.App.Services.Git;
 
-internal sealed partial class LibGit2 // : IVersionControl
+internal sealed partial class LibGit2Service // : IVersionControl
 {
 	private const string GIT_RESOURCE_NAME = "Files:https://github.com";
 	private const string GIT_RESOURCE_USERNAME = "Personal Access Token";
@@ -30,7 +30,7 @@ internal sealed partial class LibGit2 // : IVersionControl
 	public bool IsExecutingGitAction
 	{
 		get => _isExecutingGitAction;
-		private set
+		internal set // TODO: Make set method private again when move finished
 		{
 			if (_isExecutingGitAction != value)
 			{
@@ -157,6 +157,72 @@ internal sealed partial class LibGit2 // : IVersionControl
 		}, true);
 
 		return returnValue;
+	}
+
+	public async void FetchOrigin(string? repositoryPath, CancellationToken cancellationToken = default)
+	{
+		if (string.IsNullOrWhiteSpace(repositoryPath))
+			return;
+
+		using var repository = new Repository(repositoryPath);
+		var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
+
+		var token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
+		if (signature is not null && !string.IsNullOrWhiteSpace(token))
+		{
+			_fetchOptions.CredentialsProvider = (url, user, cred)
+				=> new UsernamePasswordCredentials
+				{
+					Username = signature.Name,
+					Password = token
+				};
+		}
+
+		MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+		{
+			IsExecutingGitAction = true;
+		});
+
+		await DoGitOperationAsync<GitOperationResult>(() =>
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+
+			var result = GitOperationResult.Success;
+			try
+			{
+				foreach (var remote in repository.Network.Remotes)
+				{
+					cancellationToken.ThrowIfCancellationRequested();
+
+					LibGit2Sharp.Commands.Fetch(
+						repository,
+						remote.Name,
+						remote.FetchRefSpecs.Select(rs => rs.Specification),
+						_fetchOptions,
+						"git fetch updated a ref");
+				}
+
+				cancellationToken.ThrowIfCancellationRequested();
+			}
+			catch (Exception ex)
+			{
+				result = IsAuthorizationException(ex)
+					? GitOperationResult.AuthorizationError
+					: GitOperationResult.GenericError;
+			}
+
+			return result;
+		});
+
+		MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+		{
+			if (cancellationToken.IsCancellationRequested)
+				// Do nothing because the operation was cancelled and another fetch may be in progress
+				return;
+
+			IsExecutingGitAction = false;
+			GitFetchCompleted?.Invoke(null, EventArgs.Empty);
+		});
 	}
 
 	private static bool IsRepoValid(string path)
