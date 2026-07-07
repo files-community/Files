@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Controls;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
@@ -34,12 +35,20 @@ namespace Files.App.Views.Properties
 		// Navigates to specified properties page
 		public bool TryNavigateToPage(PropertiesNavigationViewItemType pageType)
 		{
-			var page = MainPropertiesViewModel.NavigationViewItems.FirstOrDefault(item => item.ItemType == pageType);
+			var page = MainPropertiesViewModel.NavigationItems.FirstOrDefault(item => item.ItemType == pageType);
 			if (page is null)
 				return false;
 
-			MainPropertiesViewModel.SelectedNavigationViewItem = page;
+			MainPropertiesViewModel.SelectedNavigationItem = page;
 			return true;
+		}
+
+		private void PropertiesSidebar_ItemInvoked(object sender, ItemInvokedEventArgs e)
+		{
+			if (sender is not SidebarItem { Item: PropertiesNavigationItem navItem })
+				return;
+
+			MainPropertiesViewModel.SelectedNavigationItem = navItem;
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -60,6 +69,7 @@ namespace Files.App.Views.Properties
 
 			AppThemeModeService.ApplyResources();
 			UpdatePageLayout(this.Width);
+			PropertiesSidebar.SelectedItem = MainPropertiesViewModel.SelectedNavigationItem;
 			Window.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
 			Window.AppWindow.Changed += AppWindow_Changed;
 		}
@@ -81,16 +91,7 @@ namespace Files.App.Views.Properties
 
 		private void UpdatePageLayout(double pageWidth)
 		{
-			if (pageWidth < 600)
-				VisualStateManager.GoToState(this, "Narrow", true);
-			else
-				VisualStateManager.GoToState(this, "Wide", true);
-
-			// Collapse NavigationViewItem Content text
-			if (ActualWidth < 600)
-				foreach (var item in MainPropertiesViewModel.NavigationViewItems) item.IsCompact = true;
-			else
-				foreach (var item in MainPropertiesViewModel.NavigationViewItems) item.IsCompact = false;
+			VisualStateManager.GoToState(this, pageWidth < 600 ? "Narrow" : "Wide", true);
 		}
 
 		private async void AppThemeModeService_AppThemeModeChanged(object? sender, EventArgs e)
