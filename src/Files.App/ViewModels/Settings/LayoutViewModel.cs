@@ -200,6 +200,20 @@ namespace Files.App.ViewModels.Settings
 
 		// Details view
 
+		public bool AutoSizeColumnsInDetailsLayout
+		{
+			get => UserSettingsService.LayoutSettingsService.AutoSizeColumnsInDetailsLayout;
+			set
+			{
+				if (value != UserSettingsService.LayoutSettingsService.AutoSizeColumnsInDetailsLayout)
+				{
+					UserSettingsService.LayoutSettingsService.AutoSizeColumnsInDetailsLayout = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public bool ShowFileTagColumn
 		{
 			get => UserSettingsService.LayoutSettingsService.ShowFileTagColumn;
