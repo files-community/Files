@@ -146,7 +146,7 @@ namespace Files.App.ViewModels.Properties
 
 		public object? Children => null;
 		public string? Path => null;
-		[ObservableProperty] private bool _isExpanded;
+		[ObservableProperty] public partial bool IsExpanded { get; set; }
 
 		public object? ToolTip => Text;
 		public object? ItemDecorator => null;
