@@ -11,9 +11,11 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
+using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.App.Data.Enums.SortDirection;
 
 namespace Files.App.Views.Layouts
@@ -36,6 +38,8 @@ namespace Files.App.Views.Layouts
 		/// size changes, even if the layout size changes (since some layout sizes share the same icon size).
 		/// </summary>
 		private uint currentIconSize;
+
+		private DispatcherQueueTimer? _autoFitColumnsTimer;
 
 		// Properties
 
@@ -176,7 +180,9 @@ namespace Files.App.Views.Layouts
 			FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
 			ParentShellPageInstance.ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+			ParentShellPageInstance.ShellViewModel.ItemLoadStatusChanged += ShellViewModel_ItemLoadStatusChanged;
 			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
+			FileList.Items.VectorChanged += FileListItems_VectorChanged;
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
@@ -202,7 +208,10 @@ namespace Files.App.Views.Layouts
 			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
 			ParentShellPageInstance.ShellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+			ParentShellPageInstance.ShellViewModel.ItemLoadStatusChanged -= ShellViewModel_ItemLoadStatusChanged;
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
+			FileList.Items.VectorChanged -= FileListItems_VectorChanged;
+			_autoFitColumnsTimer?.Stop();
 		}
 
 		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -786,14 +795,47 @@ namespace Files.App.Views.Layouts
 
 		private void SizeAllColumnsToFit_Click(object sender, RoutedEventArgs e)
 		{
-			// If there aren't items, do not make columns fit
+			_ = Commands.AutoFitColumns.ExecuteAsync();
+		}
+
+		public void AutoFitColumns()
+		{
 			if (!FileList.Items.Any())
 				return;
 
-			// For scalability, just count the # of public `ColumnViewModel` properties in ColumnsViewModel
+			// Scale to whatever DetailsLayoutColumnItem properties exist on ColumnsViewModel so new columns don't need a code change here.
 			int totalColumnCount = ColumnsViewModel.GetType().GetProperties().Count(prop => prop.PropertyType == typeof(DetailsLayoutColumnItem));
 			for (int columnIndex = 1; columnIndex <= totalColumnCount; columnIndex++)
 				ResizeColumnToFit(columnIndex);
+		}
+
+		private void AutoFitColumnsIfEnabled()
+		{
+			if (!UserSettingsService.LayoutSettingsService.AutoSizeColumnsInDetailsLayout)
+				return;
+
+			// Trailing debounce so bursts of item adds and extended-property updates during a folder load collapse into one resize.
+			_autoFitColumnsTimer ??= DispatcherQueue.CreateTimer();
+			_autoFitColumnsTimer.Debounce(
+				() => _ = Commands.AutoFitColumns.ExecuteAsync(),
+				TimeSpan.FromMilliseconds(250));
+		}
+
+		private void ShellViewModel_ItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs e)
+		{
+			if (e.Status == ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete)
+				AutoFitColumnsIfEnabled();
+		}
+
+		private void FileListItems_VectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs e)
+		{
+			AutoFitColumnsIfEnabled();
+		}
+
+		protected override async Task CommitRenameAsync(TextBox textBox)
+		{
+			await base.CommitRenameAsync(textBox);
+			AutoFitColumnsIfEnabled();
 		}
 
 		private void ResizeColumnToFit(int columnToResize)
