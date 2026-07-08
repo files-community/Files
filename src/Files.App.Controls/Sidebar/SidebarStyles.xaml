@@ -245,9 +245,7 @@
 								<VisualState x:Name="NoChildren">
 									<VisualState.Setters>
 										<Setter Target="ItemNameTextBlock.Margin" Value="8,0,12,0" />
-										<Setter Target="ItemNameTextBlock.FontSize" Value="12" />
 										<Setter Target="ItemNameTextBlock.FontWeight" Value="SemiBold" />
-										<Setter Target="ItemNameTextBlock.Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 
@@ -255,9 +253,7 @@
 									<VisualState.Setters>
 										<Setter Target="ExpandCollapseChevron.Visibility" Value="Visible" />
 										<Setter Target="ItemNameTextBlock.Margin" Value="8,0,12,0" />
-										<Setter Target="ItemNameTextBlock.FontSize" Value="12" />
 										<Setter Target="ItemNameTextBlock.FontWeight" Value="SemiBold" />
-										<Setter Target="ItemNameTextBlock.Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 
@@ -265,9 +261,7 @@
 									<VisualState.Setters>
 										<Setter Target="ExpandCollapseChevron.Visibility" Value="Visible" />
 										<Setter Target="ItemNameTextBlock.Margin" Value="8,0,12,0" />
-										<Setter Target="ItemNameTextBlock.FontSize" Value="12" />
 										<Setter Target="ItemNameTextBlock.FontWeight" Value="SemiBold" />
-										<Setter Target="ItemNameTextBlock.Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 
