@@ -7,7 +7,7 @@
 	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	DataContext="{x:Bind ViewModel}"
+	DataContext="{x:Bind ViewModel, Mode=OneTime}"
 	mc:Ignorable="d">
 
 	<StackPanel>
