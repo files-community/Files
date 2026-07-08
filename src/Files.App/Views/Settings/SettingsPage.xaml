@@ -33,11 +33,11 @@
 					x:Load="{x:Bind Commands.SplitPaneHorizontally.IsExecutable, Mode=OneWay}"
 					Text="{helpers:ResourceString Name=SplitPane}">
 					<uc:MenuFlyoutItemWithThemedIcon
-						Command="{x:Bind Commands.SplitPaneVertically}"
+						Command="{x:Bind Commands.SplitPaneVertically, Mode=OneTime}"
 						Text="{x:Bind Commands.SplitPaneVertically.Label}"
 						ThemedIconStyle="{x:Bind Commands.SplitPaneVertically.ThemedIconStyle}" />
 					<uc:MenuFlyoutItemWithThemedIcon
-						Command="{x:Bind Commands.SplitPaneHorizontally}"
+						Command="{x:Bind Commands.SplitPaneHorizontally, Mode=OneTime}"
 						Text="{x:Bind Commands.SplitPaneHorizontally.Label}"
 						ThemedIconStyle="{x:Bind Commands.SplitPaneHorizontally.ThemedIconStyle}" />
 				</MenuFlyoutSubItem>

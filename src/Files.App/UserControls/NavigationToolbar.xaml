@@ -1,4 +1,4 @@
-<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <UserControl
 	x:Class="Files.App.UserControls.NavigationToolbar"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -117,10 +117,10 @@
 				AccessKeyInvoked="Button_AccessKeyInvoked"
 				AutomationProperties.FullDescription="{x:Bind Commands.NavigateBack.Description, Mode=OneWay}"
 				AutomationProperties.Name="{x:Bind Commands.NavigateBack.Label, Mode=OneWay}"
-				Command="{x:Bind Commands.NavigateBack}"
+				Command="{x:Bind Commands.NavigateBack, Mode=OneTime}"
 				Style="{StaticResource AddressToolbarButtonStyle}"
 				ToolTipService.ToolTip="{x:Bind Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
-				<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateBack.Glyph.BaseGlyph}" />
+				<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneTime}" />
 				<Button.ContextFlyout>
 					<MenuFlyout
 						x:Name="BackHistoryFlyout"
@@ -149,19 +149,19 @@
 				<FontIcon FontSize="14" Glyph="&#xE712;" />
 				<Button.Flyout>
 					<MenuFlyout Placement="BottomEdgeAlignedLeft">
-						<MenuFlyoutItem Command="{x:Bind Commands.NavigateForward}" Text="{x:Bind Commands.NavigateForward.Label, Mode=OneWay}">
+						<MenuFlyoutItem Command="{x:Bind Commands.NavigateForward, Mode=OneTime}" Text="{x:Bind Commands.NavigateForward.Label, Mode=OneWay}">
 							<MenuFlyoutItem.Icon>
-								<FontIcon Glyph="{x:Bind Commands.NavigateForward.Glyph.BaseGlyph}" />
+								<FontIcon Glyph="{x:Bind Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneTime}" />
 							</MenuFlyoutItem.Icon>
 						</MenuFlyoutItem>
-						<MenuFlyoutItem Command="{x:Bind Commands.NavigateUp}" Text="{x:Bind Commands.NavigateUp.Label, Mode=OneWay}">
+						<MenuFlyoutItem Command="{x:Bind Commands.NavigateUp, Mode=OneTime}" Text="{x:Bind Commands.NavigateUp.Label, Mode=OneWay}">
 							<MenuFlyoutItem.Icon>
-								<FontIcon Glyph="{x:Bind Commands.NavigateUp.Glyph.BaseGlyph}" />
+								<FontIcon Glyph="{x:Bind Commands.NavigateUp.Glyph.BaseGlyph, Mode=OneTime}" />
 							</MenuFlyoutItem.Icon>
 						</MenuFlyoutItem>
-						<MenuFlyoutItem Command="{x:Bind Commands.RefreshItems}" Text="{x:Bind Commands.RefreshItems.Label, Mode=OneWay}">
+						<MenuFlyoutItem Command="{x:Bind Commands.RefreshItems, Mode=OneTime}" Text="{x:Bind Commands.RefreshItems.Label, Mode=OneWay}">
 							<MenuFlyoutItem.Icon>
-								<FontIcon Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph}" />
+								<FontIcon Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph, Mode=OneTime}" />
 							</MenuFlyoutItem.Icon>
 						</MenuFlyoutItem>
 					</MenuFlyout>
@@ -174,10 +174,10 @@
 				AccessKeyInvoked="Button_AccessKeyInvoked"
 				AutomationProperties.FullDescription="{x:Bind Commands.NavigateForward.Description, Mode=OneWay}"
 				AutomationProperties.Name="{x:Bind Commands.NavigateForward.Label, Mode=OneWay}"
-				Command="{x:Bind Commands.NavigateForward}"
+				Command="{x:Bind Commands.NavigateForward, Mode=OneTime}"
 				Style="{StaticResource AddressToolbarButtonStyle}"
 				ToolTipService.ToolTip="{x:Bind Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
-				<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateForward.Glyph.BaseGlyph}" />
+				<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneTime}" />
 				<Button.ContextFlyout>
 					<MenuFlyout
 						x:Name="ForwardHistoryFlyout"
@@ -203,10 +203,10 @@
 				AccessKeyInvoked="Button_AccessKeyInvoked"
 				AutomationProperties.FullDescription="{x:Bind Commands.NavigateUp.Description, Mode=OneWay}"
 				AutomationProperties.Name="{x:Bind Commands.NavigateUp.Label, Mode=OneWay}"
-				Command="{x:Bind Commands.NavigateUp}"
+				Command="{x:Bind Commands.NavigateUp, Mode=OneTime}"
 				Style="{StaticResource AddressToolbarButtonStyle}"
 				ToolTipService.ToolTip="{x:Bind Commands.NavigateUp.LabelWithHotKey, Mode=OneWay}">
-				<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateUp.Glyph.BaseGlyph}" />
+				<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateUp.Glyph.BaseGlyph, Mode=OneTime}" />
 			</Button>
 
 			<Button
@@ -214,10 +214,10 @@
 				AccessKey="R"
 				AccessKeyInvoked="Button_AccessKeyInvoked"
 				AutomationProperties.Name="{x:Bind Commands.RefreshItems.Label, Mode=OneWay}"
-				Command="{x:Bind Commands.RefreshItems}"
+				Command="{x:Bind Commands.RefreshItems, Mode=OneTime}"
 				Style="{StaticResource AddressToolbarButtonStyle}"
 				ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.LabelWithHotKey, Mode=OneWay}">
-				<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph}" />
+				<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph, Mode=OneTime}" />
 			</Button>
 		</StackPanel>
 
@@ -373,7 +373,7 @@
 									x:Name="EmptyIconGlyph"
 									x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
 									FontSize="14"
-									Glyph="{x:Bind IsRecentSearch, Converter={StaticResource SearchSuggestionGlyphConverter}}" />
+									Glyph="{x:Bind IsRecentSearch, Mode=OneTime, Converter={StaticResource SearchSuggestionGlyphConverter}}" />
 								<Viewbox
 									x:Name="ShortcutGlyphElement"
 									Width="10"

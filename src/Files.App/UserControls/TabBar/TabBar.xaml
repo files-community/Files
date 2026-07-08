@@ -1,4 +1,4 @@
-<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <local:BaseTabBar
 	x:Class="Files.App.UserControls.TabBar.TabBar"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -149,7 +149,7 @@
 									<!--  Vertical  -->
 									<uc:MenuFlyoutItemWithThemedIcon
 										x:Name="AddVerticalPaneTabActionButton"
-										Command="{x:Bind Commands.SplitPaneVertically}"
+										Command="{x:Bind Commands.SplitPaneVertically, Mode=OneTime}"
 										KeyboardAcceleratorTextOverride="{x:Bind Commands.SplitPaneVertically.HotKeyText, Mode=OneWay}"
 										Text="{x:Bind Commands.SplitPaneVertically.Label}"
 										ThemedIconStyle="{x:Bind Commands.SplitPaneVertically.ThemedIconStyle}" />
@@ -157,7 +157,7 @@
 									<!--  Horizontal  -->
 									<uc:MenuFlyoutItemWithThemedIcon
 										x:Name="SplitPaneHorizontalTabActionButton"
-										Command="{x:Bind Commands.SplitPaneHorizontally}"
+										Command="{x:Bind Commands.SplitPaneHorizontally, Mode=OneTime}"
 										KeyboardAcceleratorTextOverride="{x:Bind Commands.SplitPaneHorizontally.HotKeyText, Mode=OneWay}"
 										Text="{x:Bind Commands.SplitPaneHorizontally.Label}"
 										ThemedIconStyle="{x:Bind Commands.SplitPaneHorizontally.ThemedIconStyle}" />
@@ -173,7 +173,7 @@
 									<!--  Vertical  -->
 									<uc:ToggleMenuFlyoutItemWithThemedIcon
 										x:Name="ArrangePanesVerticallyTabActionButton"
-										Command="{x:Bind Commands.ArrangePanesVertically}"
+										Command="{x:Bind Commands.ArrangePanesVertically, Mode=OneTime}"
 										IsChecked="{x:Bind Commands.ArrangePanesVertically.IsOn, Mode=OneWay}"
 										KeyboardAcceleratorTextOverride="{x:Bind Commands.ArrangePanesVertically.HotKeyText, Mode=OneWay}"
 										Text="{x:Bind Commands.ArrangePanesVertically.Label}"
@@ -182,7 +182,7 @@
 									<!--  Horizontal  -->
 									<uc:ToggleMenuFlyoutItemWithThemedIcon
 										x:Name="ArrangePanesHorizontallyTabActionButton"
-										Command="{x:Bind Commands.ArrangePanesHorizontally}"
+										Command="{x:Bind Commands.ArrangePanesHorizontally, Mode=OneTime}"
 										IsChecked="{x:Bind Commands.ArrangePanesHorizontally.IsOn, Mode=OneWay}"
 										KeyboardAcceleratorTextOverride="{x:Bind Commands.ArrangePanesHorizontally.HotKeyText, Mode=OneWay}"
 										Text="{x:Bind Commands.ArrangePanesHorizontally.Label}"
