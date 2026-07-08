@@ -93,7 +93,12 @@
 			SelectedItem="{x:Bind MainPropertiesViewModel.SelectedNavigationItem, Mode=OneWay}">
 
 			<controls:SidebarView.InnerContent>
-				<Grid>
+				<Grid
+					Margin="0,0,-8,0"
+					Background="{ThemeResource LayerFillColorDefaultBrush}"
+					BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+					BorderThickness="1,1,0,0"
+					CornerRadius="8,0,0,0">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="*" />
 						<RowDefinition Height="52" />
