@@ -167,9 +167,6 @@ namespace Files.App.Helpers
 			var imageResList = Win32Helper.ExtractSelectedIconsFromDLL(imageres, new List<int>() {
 					Constants.ImageRes.RecycleBin,
 					Constants.ImageRes.Network,
-					Constants.ImageRes.Libraries,
-					Constants.ImageRes.ThisPC,
-					Constants.ImageRes.CloudDrives,
 					Constants.ImageRes.Folder
 				}, 32);
 
