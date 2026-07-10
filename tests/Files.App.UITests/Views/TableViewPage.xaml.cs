@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Files.App.UITests.Views
@@ -66,6 +67,45 @@ namespace Files.App.UITests.Views
 				Items.Clear();
 				Items.AddRange(list);
 			});
+		}
+
+		private void ToggleSourceTable_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+		{
+			SourceTableHost.Content = SourceTableHost.Content is null ? SourceTableView : null;
+		}
+
+		private void UpdateFirstItem_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+		{
+			if (Items.Count > 0)
+				Items[0].Name = $"Updated at {DateTimeOffset.Now:T}";
+		}
+
+		private void AddOrRemoveColumn_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+		{
+			if (Columns.Count > 4)
+				Columns.RemoveAt(Columns.Count - 1);
+			else
+				Columns.Add(new("Name copy", nameof(TableViewItemModel.Name)));
+		}
+
+		private void TableView_Sorting(object? sender, TableViewColumnSortingEventArgs e)
+		{
+			IEnumerable<TableViewItemModel> sortedItems = (e.Column.Binding, e.SortDirection) switch
+			{
+				(nameof(TableViewItemModel.Name), ListSortDirection.Ascending) => Items.OrderBy(item => item.Name),
+				(nameof(TableViewItemModel.Name), _) => Items.OrderByDescending(item => item.Name),
+				(nameof(TableViewItemModel.DateUpdated), ListSortDirection.Ascending) => Items.OrderBy(item => item.DateUpdated),
+				(nameof(TableViewItemModel.DateUpdated), _) => Items.OrderByDescending(item => item.DateUpdated),
+				(nameof(TableViewItemModel.Type), ListSortDirection.Ascending) => Items.OrderBy(item => item.Type),
+				(nameof(TableViewItemModel.Type), _) => Items.OrderByDescending(item => item.Type),
+				(nameof(TableViewItemModel.Size), ListSortDirection.Ascending) => Items.OrderBy(item => item.Size),
+				_ => Items.OrderByDescending(item => item.Size),
+			};
+
+			var materializedItems = sortedItems.ToList();
+			Items.Clear();
+			Items.AddRange(materializedItems);
+			SortStatusTextBlock.Text = $"{e.Column.Header}: {e.SortDirection}";
 		}
 
 		private static List<TableViewItemModel> GenerateItems(int count)

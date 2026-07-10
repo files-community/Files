@@ -23,7 +23,16 @@ namespace Files.App.Controls
 		public partial DataTemplateSelector? ColumnTemplateSelector { get; set; }
 
 		[GeneratedDependencyProperty(IsLocalCacheEnabled = true)]
-		public partial object? View { get; set; }
+		public partial ListViewBase? View { get; set; }
+
+		[GeneratedDependencyProperty(DefaultValue = true)]
+		public partial bool CanUserReorderColumns { get; set; }
+
+		[GeneratedDependencyProperty(DefaultValue = true)]
+		public partial bool CanUserResizeColumns { get; set; }
+
+		[GeneratedDependencyProperty(DefaultValue = true)]
+		public partial bool CanUserSortColumns { get; set; }
 
 		[GeneratedDependencyProperty]
 		public partial bool IsColumnResizing { get; internal protected set; }
@@ -35,11 +44,8 @@ namespace Files.App.Controls
 			if (e.NewValue is INotifyCollectionChanged newColumns)
 				newColumns.CollectionChanged += Columns_CollectionChanged;
 
-			foreach (var column in Columns)
-				column.EnsureOwner(this);
-
-			RefreshVisibleRows();
-			InvalidateLayoutOfAllRows();
+			if (ColumnsSource is null)
+				SynchronizeActiveColumns();
 		}
 
 		partial void OnColumnsSourcePropertyChanged(DependencyPropertyChangedEventArgs e)
@@ -49,7 +55,8 @@ namespace Files.App.Controls
 			if (e.NewValue is INotifyCollectionChanged newColumnsSource)
 				newColumnsSource.CollectionChanged += ColumnsSource_CollectionChanged;
 
-			SynchronizeColumnsFromSource();
+			_columnsBySourceItem.Clear();
+			SynchronizeActiveColumns();
 		}
 
 		partial void OnColumnTemplateChanged(DataTemplate? newValue)
@@ -57,8 +64,8 @@ namespace Files.App.Controls
 			if (ColumnsSource is null)
 				return;
 
-			RefreshVisibleRows();
-			InvalidateLayoutOfAllRows();
+			_columnsBySourceItem.Clear();
+			SynchronizeActiveColumns();
 		}
 
 		partial void OnColumnTemplateSelectorChanged(DataTemplateSelector? newValue)
@@ -66,15 +73,32 @@ namespace Files.App.Controls
 			if (ColumnsSource is null)
 				return;
 
+			_columnsBySourceItem.Clear();
+			SynchronizeActiveColumns();
+		}
+
+		partial void OnViewPropertyChanged(DependencyPropertyChangedEventArgs e)
+		{
+			UnhookView();
+			HookView(e.NewValue as ListViewBase);
 			RefreshVisibleRows();
-			InvalidateLayoutOfAllRows();
+		}
+
+		partial void OnCanUserReorderColumnsChanged(bool newValue)
+		{
+			UpdateColumnsPanelInteractionState();
+		}
+
+		partial void OnCanUserResizeColumnsChanged(bool newValue)
+		{
+			UpdateResizeVisualInteractionState();
 		}
 
 		partial void OnIsColumnResizingChanged(bool newValue)
 		{
 			if (newValue)
 			{
-				foreach (var column in Columns)
+				foreach (var column in ActiveColumns)
 					column.ResetPointerEventVisual();
 			}
 		}

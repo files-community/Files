@@ -37,6 +37,16 @@ namespace Files.App.Controls
 			};
 		}
 
+		protected internal override bool UpdateElement(FrameworkElement element, object dataItem)
+		{
+			if (element is not TextBlock textBlock)
+				return false;
+
+			textBlock.Style = ElementStyle;
+			textBlock.Text = GetPropertyValue<string>(dataItem);
+			return true;
+		}
+
 		protected internal override bool CanEdit(object dataItem)
 		{
 			return !string.IsNullOrEmpty(Binding) &&

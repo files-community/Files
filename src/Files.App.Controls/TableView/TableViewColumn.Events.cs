@@ -1,16 +1,32 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
+using Windows.System;
 
 namespace Files.App.Controls
 {
 	public partial class TableViewColumn
 	{
-		private void TableViewColumn_Loaded(object sender, RoutedEventArgs e)
+		private void TableViewColumn_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
-			// We use "*" and thus Width is NaN but we want to set ActualWidth to Width for the proper resizing behavior
-			Width = ActualWidth;
+			UpdateEnabledVisualState(true);
+		}
+
+		private void TableViewColumn_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			if (!e.NewSize.Width.Equals(e.PreviousSize.Width) && _owner is not null && _owner.TryGetTarget(out var owner))
+				owner.InvalidateLayoutOfAllRows();
+		}
+
+		private void TableViewColumn_KeyDown(object sender, KeyRoutedEventArgs e)
+		{
+			if (e.Key is VirtualKey.Enter or VirtualKey.Space)
+			{
+				RequestSort();
+				e.Handled = true;
+			}
 		}
 
 		private void RootGrid_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -27,38 +43,28 @@ namespace Files.App.Controls
 
 		private void RootGrid_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, TemplateVisualStateName_ColumnNormal, true);
+			UpdateEnabledVisualState(true);
 		}
 
 		private void RootGrid_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
+			if (!IsEnabled || e.GetCurrentPoint(this).Properties.PointerUpdateKind is not PointerUpdateKind.LeftButtonPressed)
+				return;
+
 			VisualStateManager.GoToState(this, TemplateVisualStateName_ColumnPressed, true);
 		}
 
 		private void RootGrid_PointerReleased(object sender, PointerRoutedEventArgs e)
 		{
+			if (!IsEnabled || e.GetCurrentPoint(this).Properties.PointerUpdateKind is not PointerUpdateKind.LeftButtonReleased)
+				return;
+
 			VisualStateManager.GoToState(this, TemplateVisualStateName_ColumnPointerOver, true);
+		}
 
-			SortDirection = SortDirection is null or ListSortDirection.Descending
-				? ListSortDirection.Ascending
-				: SortDirection is ListSortDirection.Ascending
-					? ListSortDirection.Descending
-					: null;
-
-			var visualStateName = SortDirection switch
-			{
-				ListSortDirection.Ascending => TemplateVisualStateName_SortOrderAscending,
-				ListSortDirection.Descending => TemplateVisualStateName_SortOrderDescending,
-				_ => TemplateVisualStateName_SortOrderNone,
-			};
-
-			if (SortDirection is not null && (_owner?.TryGetTarget(out var owner) ?? false) && owner.SortedColumn != this)
-			{
-				owner.SortedColumn?.SortDirection = null;
-				owner.SortedColumn = this;
-			}
-
-			VisualStateManager.GoToState(this, visualStateName, true);
+		private void RootGrid_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			RequestSort();
 		}
 	}
 }

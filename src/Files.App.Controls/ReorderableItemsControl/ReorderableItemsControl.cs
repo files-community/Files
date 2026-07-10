@@ -65,7 +65,7 @@ namespace Files.App.Controls
 
 		private void OnItemManipulationStarting(object sender, ManipulationStartingRoutedEventArgs e)
 		{
-			if (sender is not UIElement dragElement || _isSnapping)
+			if (!IsReorderEnabled || sender is not UIElement dragElement || _isSnapping)
 				return;
 
 			var itemCount = Items.Count;

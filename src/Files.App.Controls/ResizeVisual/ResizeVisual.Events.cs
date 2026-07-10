@@ -8,7 +8,7 @@ namespace Files.App.Controls
 {
 	public partial class ResizeVisual
 	{
-		private void ResizeVisual_Loaded(object sender, RoutedEventArgs e)
+		private void ApplyCurrentProperties()
 		{
 			OnTargetChanged(Target);
 			OnCursorShapeChanged(CursorShape);
@@ -25,7 +25,8 @@ namespace Files.App.Controls
 
 		private void Target_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			UpdateThumbTranslation();
+			if (!_isDragging || !FollowPointer)
+				UpdateThumbTranslation();
 		}
 
 		private void RootGrid_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -54,9 +55,26 @@ namespace Files.App.Controls
 			_pointerExited = true;
 		}
 
+		private void OuterThumb_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		{
+			if (Target is null)
+				return;
+
+			if (Orientation is Orientation.Vertical)
+				Target.Height = double.NaN;
+			else
+				Target.Width = double.NaN;
+
+			UpdateThumbTranslation();
+			e.Handled = true;
+		}
+
 		private void Thumb_DragStarted(object sender, DragStartedEventArgs e)
 		{
 			_isDragging = true;
+			_pointerExited = false;
+			_originalTargetWidth = Target?.Width ?? double.NaN;
+			_originalTargetHeight = Target?.Height ?? double.NaN;
 			DragStarted?.Invoke(this, e);
 		}
 
@@ -67,30 +85,13 @@ namespace Files.App.Controls
 				if (Orientation is Orientation.Vertical)
 				{
 					var delta = e.VerticalChange;
+					var currentHeight = double.IsNaN(Target.Height) ? Target.ActualHeight : Target.Height;
+					Target.Height = Math.Clamp(currentHeight + delta, Target.MinHeight, Target.MaxHeight);
 
-					if (Target.Height is double.NaN)
-						Target.Height = Target.ActualHeight;
-
-					if (!_reachedToBounds && IsValidHeight(Target, Target.Height + delta, ActualHeight))
-					{
-						Target.Height += delta;
-					}
-					else
-					{
-						// Snap to the bounds if the delta is outside the bounds
-						if (!_reachedToBounds)
-							Target.Height = delta < 0D ? Target.MinHeight : Target.MaxHeight;
-
-						_reachedToBounds = true;
-						_deltaOutsideBounds += delta;
-
-						if (_deltaOutsideBounds >= 0D)
-							_reachedToBounds = false;
-					}
-
-					// Use Target.Height (the value we just set) instead of Target.ActualHeight
-					// to avoid drift caused by layout not having run yet during fast drags.
-					EnsureTranslateTransform().Y = Target.Height - ActualHeight / 2;
+					var transform = EnsureTranslateTransform();
+					transform.Y = FollowPointer
+						? transform.Y + delta
+						: Target.Height - ActualHeight / 2;
 				}
 				else if (Orientation is Orientation.Horizontal)
 				{
@@ -99,29 +100,13 @@ namespace Files.App.Controls
 					if (Target.FlowDirection is FlowDirection.RightToLeft) delta = -delta;
 					if (IsDragInverted) delta = -delta;
 
-					if (Target.Width is double.NaN)
-						Target.Width = Target.ActualWidth;
+					var currentWidth = double.IsNaN(Target.Width) ? Target.ActualWidth : Target.Width;
+					Target.Width = Math.Clamp(currentWidth + delta, Target.MinWidth, Target.MaxWidth);
 
-					if (!_reachedToBounds && IsValidWidth(Target, Target.Width + delta, ActualWidth))
-					{
-						Target.Width += delta;
-					}
-					else
-					{
-						// Snap to the bounds if the delta is outside the bounds
-						if (!_reachedToBounds)
-							Target.Width = delta < 0D ? Target.MinWidth : Target.MaxWidth;
-
-						_reachedToBounds = true;
-						_deltaOutsideBounds += delta;
-
-						if (_deltaOutsideBounds >= 0D)
-							_reachedToBounds = false;
-					}
-
-					// Use Target.Width (the value we just set) instead of Target.ActualWidth
-					// to avoid drift caused by layout not having run yet during fast drags.
-					EnsureTranslateTransform().X = Target.Width - ActualWidth / 2;
+					var transform = EnsureTranslateTransform();
+					transform.X = FollowPointer
+						? transform.X + delta
+						: Target.Width - ActualWidth / 2;
 				}
 				else
 				{
@@ -135,6 +120,15 @@ namespace Files.App.Controls
 		private void Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
 		{
 			_isDragging = false;
+			if (e.Canceled && Target is not null)
+			{
+				if (Orientation is Orientation.Vertical)
+					Target.Height = _originalTargetHeight;
+				else
+					Target.Width = _originalTargetWidth;
+			}
+
+			UpdateThumbTranslation();
 			DragCompleted?.Invoke(this, e);
 
 			if (_outerThumb is not null && _pointerExited)
@@ -144,30 +138,5 @@ namespace Files.App.Controls
 			}
 		}
 
-		private void ResizeVisual_Unloaded(object sender, RoutedEventArgs e)
-		{
-			Loaded -= ResizeVisual_Loaded;
-			Unloaded -= ResizeVisual_Unloaded;
-			SizeChanged -= ResizeVisual_SizeChanged;
-
-			if (_observedTarget is not null)
-				_observedTarget.SizeChanged -= Target_SizeChanged;
-
-			if (_rootGrid is not null)
-			{
-				_rootGrid.PointerEntered -= RootGrid_PointerEntered;
-				_rootGrid.PointerExited -= RootGrid_PointerExited;
-			}
-
-			if (_outerThumb is not null)
-			{
-				_outerThumb.PointerEntered -= OuterThumb_PointerEntered;
-				_outerThumb.PointerExited -= OuterThumb_PointerExited;
-
-				_outerThumb.DragStarted -= Thumb_DragStarted;
-				_outerThumb.DragDelta -= Thumb_DragDelta;
-				_outerThumb.DragCompleted -= Thumb_DragCompleted;
-			}
-		}
 	}
 }

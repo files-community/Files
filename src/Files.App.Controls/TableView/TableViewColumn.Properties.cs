@@ -18,14 +18,13 @@ namespace Files.App.Controls
 
 		partial void OnSortDirectionChanged(ListSortDirection? newValue)
 		{
-			var visualStateName = SortDirection switch
-			{
-				ListSortDirection.Ascending => TemplateVisualStateName_SortOrderAscending,
-				ListSortDirection.Descending => TemplateVisualStateName_SortOrderDescending,
-				_ => TemplateVisualStateName_SortOrderNone,
-			};
+			UpdateSortVisualState(true);
+			NotifySortDirectionChanged();
+		}
 
-			VisualStateManager.GoToState(this, visualStateName, true);
+		partial void OnHeaderChanged(string? newValue)
+		{
+			Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(this, newValue ?? string.Empty);
 		}
 	}
 }

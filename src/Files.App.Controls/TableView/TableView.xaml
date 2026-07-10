@@ -63,16 +63,23 @@
 							<Border
 								Grid.Row="0"
 								Height="44"
-								HorizontalAlignment="Left"
+								HorizontalAlignment="Stretch"
 								Background="{ThemeResource TableViewColumnBackground}"
 								BorderBrush="{ThemeResource TableViewColumnBorderBrush}"
 								BorderThickness="{StaticResource TableViewColumnBorderThickness}"
 								CornerRadius="{StaticResource TableViewColumnCornerRadius}">
-								<local:ReorderableItemsControl
-									x:Name="PART_ColumnsPanel"
-									HorizontalAlignment="Left"
-									wct:UIElementExtensions.ClipToBounds="True"
-									ItemsSource="{TemplateBinding Columns}" />
+								<ScrollViewer
+									x:Name="PART_ColumnsScrollViewer"
+									HorizontalScrollBarVisibility="Hidden"
+									HorizontalScrollMode="Enabled"
+									VerticalScrollBarVisibility="Disabled"
+									VerticalScrollMode="Disabled"
+									ZoomMode="Disabled">
+									<local:ReorderableItemsControl
+										x:Name="PART_ColumnsPanel"
+										HorizontalAlignment="Left"
+										wct:UIElementExtensions.ClipToBounds="True" />
+								</ScrollViewer>
 							</Border>
 
 							<!--  View  -->
@@ -99,6 +106,7 @@
 			<Setter Property="VerticalContentAlignment" Value="Center" />
 			<Setter Property="Padding" Value="16,0,16,0" />
 			<Setter Property="MinWidth" Value="96" />
+			<Setter Property="UseSystemFocusVisuals" Value="True" />
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="local:TableViewColumn">
@@ -220,7 +228,6 @@
 		TargetType="local:TableViewDateColumn">
 		<Style.Setters>
 			<Setter Property="ElementStyle" Value="{StaticResource DefaultTableViewTextBlockStyle}" />
-			<Setter Property="EditingElementStyle" Value="{StaticResource DefaultTableViewDatePickerStyle}" />
 		</Style.Setters>
 	</Style>
 
@@ -245,16 +252,6 @@
 			<Setter Property="HorizontalAlignment" Value="Stretch" />
 			<Setter Property="VerticalAlignment" Value="Center" />
 			<Setter Property="Padding" Value="15,6,5,6" />
-		</Style.Setters>
-	</Style>
-
-	<Style
-		x:Key="DefaultTableViewDatePickerStyle"
-		BasedOn="{StaticResource DefaultDatePickerStyle}"
-		TargetType="DatePicker">
-		<Style.Setters>
-			<Setter Property="HorizontalAlignment" Value="Stretch" />
-			<Setter Property="VerticalAlignment" Value="Center" />
 		</Style.Setters>
 	</Style>
 

@@ -3,6 +3,8 @@
 
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using CommunityToolkit.WinUI;
+using Microsoft.UI.Xaml.Automation.Peers;
 using Windows.Foundation.Collections;
 
 namespace Files.App.Controls
@@ -10,17 +12,36 @@ namespace Files.App.Controls
 	public partial class TableView : Control
 	{
 		private const string TemplatePartName_ColumnsPanel = "PART_ColumnsPanel";
+		private const string TemplatePartName_ColumnsScrollViewer = "PART_ColumnsScrollViewer";
 
 		protected internal TableViewColumn? SortedColumn;
 
 		private ReorderableItemsControl? _columnsItemsControl;
+		private ScrollViewer? _columnsScrollViewer;
+		private ScrollViewer? _viewScrollViewer;
+		private ListViewBase? _listView;
+		private ResizablePanel? _resizablePanel;
 		private readonly HashSet<ResizeVisual> _trackedResizeVisuals = [];
+		private readonly HashSet<TableViewColumn> _ownedColumns = [];
+		private readonly Dictionary<object, TableViewColumn> _columnsBySourceItem = new(ReferenceEqualityComparer.Instance);
+		private bool _isSynchronizingColumns;
+		private bool _isSynchronizingScroll;
+		private bool _isUpdatingDeclaredColumnsOrder;
+		private bool _isUpdatingColumnsSourceOrder;
+
+		internal ObservableCollection<TableViewColumn> ActiveColumns { get; } = [];
 
 		public TableView()
 		{
 			Columns = [];
+			ActiveColumns.CollectionChanged += ActiveColumns_CollectionChanged;
 
 			DefaultStyleKey = typeof(TableView);
+		}
+
+		protected override AutomationPeer OnCreateAutomationPeer()
+		{
+			return new TableViewAutomationPeer(this);
 		}
 
 		protected override void OnApplyTemplate()
@@ -28,104 +49,100 @@ namespace Files.App.Controls
 			base.OnApplyTemplate();
 
 			UnhookColumnsPanel();
+			UnhookView();
 			_columnsItemsControl = GetTemplateChild(TemplatePartName_ColumnsPanel) as ReorderableItemsControl
 				?? throw new MissingFieldException($"Could not find {TemplatePartName_ColumnsPanel} in the given {nameof(TableView)}'s style.");
+			_columnsScrollViewer = GetTemplateChild(TemplatePartName_ColumnsScrollViewer) as ScrollViewer
+				?? throw new MissingFieldException($"Could not find {TemplatePartName_ColumnsScrollViewer} in the given {nameof(TableView)}'s style.");
+			_columnsItemsControl.ItemsSource = ActiveColumns;
+			UpdateColumnsPanelInteractionState();
 			HookColumnsPanel();
+			HookView(View);
+			SynchronizeActiveColumns();
 
+			Loaded -= TableView_Loaded;
+			Loaded += TableView_Loaded;
+			Unloaded -= TableView_Unloaded;
 			Unloaded += TableView_Unloaded;
+		}
 
-			foreach (var column in Columns)
-				column.EnsureOwner(this);
-
-			if (View is ListViewBase listViewBase)
-			{
-				listViewBase.ContainerContentChanging -= ListViewBase_ContainerContentChanging;
-				listViewBase.Items.VectorChanged -= ListViewBase_Items_VectorChanged;
-				listViewBase.Unloaded -= ListViewBase_Unloaded;
-
-				listViewBase.ContainerContentChanging += ListViewBase_ContainerContentChanging;
-				listViewBase.Items.VectorChanged += ListViewBase_Items_VectorChanged;
-				listViewBase.Unloaded += ListViewBase_Unloaded;
-			}
+		private void TableView_Loaded(object sender, RoutedEventArgs e)
+		{
+			HookColumnsPanel();
+			HookView(View);
+			RefreshVisibleRows();
 		}
 
 		private void TableView_Unloaded(object sender, RoutedEventArgs e)
 		{
-			Unloaded -= TableView_Unloaded;
 			UnhookColumnsPanel();
+			UnhookView();
 		}
 
 		private void Columns_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
-			if (e.Action is NotifyCollectionChangedAction.Add or
-				NotifyCollectionChangedAction.Replace or
-				NotifyCollectionChangedAction.Reset)
-			{
-				foreach (var column in Columns)
-					column.EnsureOwner(this);
-			}
-
-			RefreshVisibleRows();
-			InvalidateLayoutOfAllRows();
+			if (ColumnsSource is null && !_isUpdatingDeclaredColumnsOrder)
+				SynchronizeActiveColumns();
 		}
 
 		private void ColumnsSource_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
-			SynchronizeColumnsFromSource();
+			if (!_isUpdatingColumnsSourceOrder)
+				SynchronizeActiveColumns();
+		}
+
+		private void ActiveColumns_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		{
+			if (_isSynchronizingColumns)
+				return;
+
+			ReconcileColumnOwners();
+			RefreshVisibleRows();
+			InvalidateLayoutOfAllRows();
 		}
 
 		private void ListViewBase_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			//Debug.WriteLine($"ListViewBase_ContainerContentChanging {args.ItemIndex}");
-
 			var itemContainer = args.ItemContainer as Control;
-			RecycleRowOf(sender, itemContainer, args.ItemIndex);
+			if (itemContainer is not ListViewItem listViewItem ||
+				listViewItem.ContentTemplateRoot is not TableViewRow row)
+				return;
 
-			// Recycle the index 1 item since ContainerContentChanging doesn't get called for the index 1st item somehow.
-			if (args.ItemIndex is 1 && sender.ContainerFromIndex(0) is Control container)
+			if (args.InRecycleQueue)
 			{
-				RecycleRowOf(sender, container, 0);
+				row.Unbind();
+				return;
 			}
+
+			BindRow(listViewItem, row, args.Item);
 		}
 
 		private void ListViewBase_Items_VectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs args)
 		{
-			if (View is not ListViewBase listViewBase)
+			if (View is not { } listViewBase)
 				return;
 
-			// Only need to handle Inserted and Removed because we'll handle everything else in the ListViewBase_ContainerContentChanging event
-			if (args.CollectionChange is CollectionChange.ItemInserted or CollectionChange.ItemRemoved)
-			{
-				Debug.WriteLine($"ListViewBase_Items_VectorChanged {args.Index}~{sender.Count}");
-
-				int index = (int)args.Index;
-				for (int i = index; i < sender.Count; i++)
-				{
-					var itemContainer = listViewBase.ContainerFromIndex(i) as Control;
-					if (itemContainer != null)
-					{
-						RecycleRowOf(listViewBase, itemContainer, i);
-					}
-				}
-			}
-		}
-
-		private void ListViewBase_Unloaded(object sender, RoutedEventArgs e)
-		{
-			if (sender is ListViewBase listViewBase)
-			{
-				listViewBase.Unloaded -= ListViewBase_Unloaded;
-				listViewBase.ContainerContentChanging -= ListViewBase_ContainerContentChanging;
-				listViewBase.Items.VectorChanged -= ListViewBase_Items_VectorChanged;
-			}
+			listViewBase.DispatcherQueue.TryEnqueue(RefreshVisibleRows);
 		}
 
 		private void RecycleRowOf(ListViewBase sender, FrameworkElement itemContainer, int itemIndex)
 		{
 			if (itemContainer is not ListViewItem listViewItem ||
 				listViewItem.ContentTemplateRoot is not TableViewRow row ||
-				sender.Items.ElementAt(itemIndex) is not ITableViewCellValueProvider cellValueProvider)
+				itemIndex < 0 ||
+				itemIndex >= sender.Items.Count)
 				return;
+
+			BindRow(listViewItem, row, sender.Items[itemIndex]);
+		}
+
+		private void BindRow(ListViewItem listViewItem, TableViewRow row, object? item)
+		{
+			if (item is not ITableViewCellValueProvider cellValueProvider)
+			{
+				row.Unbind();
+				return;
+			}
 
 			// Ensure row content occupies the whole container height, otherwise
 			// clicks in the item's empty vertical area won't hit cells.
@@ -141,7 +158,7 @@ namespace Files.App.Controls
 
 		public void InvalidateLayoutOfAllRows()
 		{
-			if (View is ListViewBase listViewBase)
+			if (View is { } listViewBase)
 			{
 				if (listViewBase.ItemsPanelRoot is ItemsStackPanel itemsStackPanel)
 				{
@@ -155,7 +172,6 @@ namespace Files.App.Controls
 
 						//Debug.WriteLine($"RearrangeRows {index}");
 
-						row.InvalidateArrange();
 						row.InvalidateMeasure();
 					}
 				}
@@ -164,7 +180,7 @@ namespace Files.App.Controls
 
 		private void RefreshVisibleRows()
 		{
-			if (View is not ListViewBase listViewBase ||
+			if (View is not { } listViewBase ||
 				listViewBase.ItemsPanelRoot is not ItemsStackPanel itemsStackPanel)
 				return;
 
@@ -180,31 +196,101 @@ namespace Files.App.Controls
 			}
 		}
 
-		private void SynchronizeColumnsFromSource()
+		private void SynchronizeActiveColumns()
 		{
-			if (ColumnsSource is null || ReferenceEquals(ColumnsSource, Columns))
-				return;
+			var desiredColumns = ColumnsSource is null
+				? [.. Columns]
+				: CreateColumnsFromSource();
 
-			if (ColumnsSource is not IEnumerable columnsSourceEnumerable)
+			if (desiredColumns.Count != desiredColumns.Distinct().Count())
+				throw new InvalidOperationException($"A {nameof(TableViewColumn)} cannot appear more than once in a {nameof(TableView)}.");
+
+			foreach (var column in desiredColumns)
+				column.VerifyCanAttachOwner(this);
+
+			_isSynchronizingColumns = true;
+			try
+			{
+				for (int index = ActiveColumns.Count - 1; index >= 0; index--)
+				{
+					if (!desiredColumns.Contains(ActiveColumns[index]))
+						ActiveColumns.RemoveAt(index);
+				}
+
+				for (int targetIndex = 0; targetIndex < desiredColumns.Count; targetIndex++)
+				{
+					var column = desiredColumns[targetIndex];
+					var currentIndex = ActiveColumns.IndexOf(column);
+					if (currentIndex < 0)
+						ActiveColumns.Insert(targetIndex, column);
+					else if (currentIndex != targetIndex)
+						ActiveColumns.Move(currentIndex, targetIndex);
+				}
+			}
+			finally
+			{
+				_isSynchronizingColumns = false;
+			}
+
+			ReconcileColumnOwners();
+			RefreshVisibleRows();
+			InvalidateLayoutOfAllRows();
+		}
+
+		private List<TableViewColumn> CreateColumnsFromSource()
+		{
+			if (ColumnsSource is not IEnumerable source)
 				throw new InvalidOperationException($"{nameof(ColumnsSource)} must implement {nameof(IEnumerable)}.");
 
-			Columns.Clear();
-
-			foreach (var item in columnsSourceEnumerable)
+			var desiredColumns = new List<TableViewColumn>();
+			var aliveItems = new HashSet<object>(ReferenceEqualityComparer.Instance);
+			foreach (var item in source)
 			{
 				if (item is null)
 					continue;
 
-				var template = ColumnTemplateSelector?.SelectTemplate(item, this) ?? ColumnTemplate;
-				if (template?.LoadContent() is not TableViewColumn column)
+				aliveItems.Add(item);
+				if (item is TableViewColumn directColumn)
 				{
-					throw new InvalidOperationException(
-						$"{nameof(ColumnsSource)} items must be {nameof(TableViewColumn)} instances or resolve to one through {nameof(ColumnTemplate)} or {nameof(ColumnTemplateSelector)}.");
+					desiredColumns.Add(directColumn);
+					continue;
 				}
 
-				column.DataContext = item;
+				if (!_columnsBySourceItem.TryGetValue(item, out var column))
+				{
+					var template = ColumnTemplateSelector?.SelectTemplate(item, this) ?? ColumnTemplate;
+					if (template?.LoadContent() is not TableViewColumn generatedColumn)
+					{
+						throw new InvalidOperationException(
+							$"{nameof(ColumnsSource)} items must be {nameof(TableViewColumn)} instances or resolve to one through {nameof(ColumnTemplate)} or {nameof(ColumnTemplateSelector)}.");
+					}
 
-				Columns.Add(column);
+					generatedColumn.DataContext = item;
+					column = generatedColumn;
+					_columnsBySourceItem[item] = column;
+				}
+
+				desiredColumns.Add(column);
+			}
+
+			foreach (var staleItem in _columnsBySourceItem.Keys.Where(item => !aliveItems.Contains(item)).ToList())
+				_columnsBySourceItem.Remove(staleItem);
+
+			return desiredColumns;
+		}
+
+		private void ReconcileColumnOwners()
+		{
+			foreach (var column in _ownedColumns.Where(column => !ActiveColumns.Contains(column)).ToList())
+			{
+				column.DetachOwner(this);
+				_ownedColumns.Remove(column);
+			}
+
+			foreach (var column in ActiveColumns)
+			{
+				column.AttachOwner(this);
+				_ownedColumns.Add(column);
 			}
 		}
 
@@ -212,6 +298,22 @@ namespace Files.App.Controls
 		{
 			if (_columnsItemsControl?.ItemsPanelRoot is not ResizablePanel resizablePanel)
 				return;
+
+			var resizeVisualCount = 0;
+			var hasNewResizeVisual = !ReferenceEquals(_resizablePanel, resizablePanel);
+			foreach (var child in resizablePanel.Children)
+			{
+				if (child is ResizeVisual resizeVisual)
+				{
+					resizeVisualCount++;
+					hasNewResizeVisual |= !_trackedResizeVisuals.Contains(resizeVisual);
+				}
+			}
+
+			if (!hasNewResizeVisual && resizeVisualCount == _trackedResizeVisuals.Count)
+				return;
+
+			_resizablePanel = resizablePanel;
 
 			var aliveResizeVisuals = new HashSet<ResizeVisual>();
 			foreach (var child in resizablePanel.Children)
@@ -222,6 +324,7 @@ namespace Files.App.Controls
 				aliveResizeVisuals.Add(resizeVisual);
 				if (_trackedResizeVisuals.Add(resizeVisual))
 				{
+					resizeVisual.IsEnabled = CanUserResizeColumns;
 					resizeVisual.DragDelta += ResizeVisual_DragDelta;
 					resizeVisual.DragCompleted += ResizeVisual_DragCompleted;
 				}
@@ -238,7 +341,7 @@ namespace Files.App.Controls
 
 		private void ResizeVisual_DragDelta(object sender, DragDeltaEventArgs e)
 		{
-			if (sender is ResizeVisual { Target: TableViewColumn column })
+			if (CanUserResizeColumns && sender is ResizeVisual { Target: TableViewColumn column })
 			{
 				column.OnColumnBeingResized();
 			}
@@ -257,8 +360,16 @@ namespace Files.App.Controls
 			if (_columnsItemsControl is null)
 				return;
 
+			_columnsItemsControl.LayoutUpdated -= ColumnsPanel_LayoutUpdated;
+			_columnsItemsControl.Reordered -= ColumnsPanel_Reordered;
 			_columnsItemsControl.LayoutUpdated += ColumnsPanel_LayoutUpdated;
 			_columnsItemsControl.Reordered += ColumnsPanel_Reordered;
+
+			if (_columnsScrollViewer is not null)
+			{
+				_columnsScrollViewer.ViewChanged -= ColumnsScrollViewer_ViewChanged;
+				_columnsScrollViewer.ViewChanged += ColumnsScrollViewer_ViewChanged;
+			}
 		}
 
 		private void UnhookColumnsPanel()
@@ -269,6 +380,9 @@ namespace Files.App.Controls
 				_columnsItemsControl.Reordered -= ColumnsPanel_Reordered;
 			}
 
+			if (_columnsScrollViewer is not null)
+				_columnsScrollViewer.ViewChanged -= ColumnsScrollViewer_ViewChanged;
+
 			foreach (var resizeVisual in _trackedResizeVisuals)
 			{
 				resizeVisual.DragDelta -= ResizeVisual_DragDelta;
@@ -276,12 +390,235 @@ namespace Files.App.Controls
 			}
 
 			_trackedResizeVisuals.Clear();
+			_resizablePanel = null;
 		}
 
 		private void ColumnsPanel_Reordered(object? sender, ReorderedItemsEventArgs e)
 		{
+			if (!CanUserReorderColumns)
+				return;
+
+			PersistColumnOrder(e.NewIndexToOldIndexMap);
+			ColumnReordered?.Invoke(this, e);
 			RefreshVisibleRows();
 			InvalidateLayoutOfAllRows();
+		}
+
+		private void PersistColumnOrder(IReadOnlyList<int> reorderedIndexMap)
+		{
+			if (ColumnsSource is null)
+			{
+				var reorderedColumns = reorderedIndexMap.Select(index => Columns[index]).ToArray();
+				_isUpdatingDeclaredColumnsOrder = true;
+				try
+				{
+					for (int targetIndex = 0; targetIndex < reorderedColumns.Length; targetIndex++)
+					{
+						var currentIndex = Columns.IndexOf(reorderedColumns[targetIndex]);
+						if (currentIndex != targetIndex)
+							Columns.Move(currentIndex, targetIndex);
+					}
+				}
+				finally
+				{
+					_isUpdatingDeclaredColumnsOrder = false;
+				}
+
+				return;
+			}
+
+			if (ColumnsSource is not IList source ||
+				source.IsReadOnly ||
+				source.IsFixedSize ||
+				source.Count != reorderedIndexMap.Count)
+				return;
+
+			var reorderedItems = new object?[source.Count];
+			for (int index = 0; index < reorderedIndexMap.Count; index++)
+				reorderedItems[index] = source[reorderedIndexMap[index]];
+
+			_isUpdatingColumnsSourceOrder = true;
+			try
+			{
+				for (int targetIndex = 0; targetIndex < reorderedItems.Length; targetIndex++)
+				{
+					var currentIndex = IndexOfReference(source, reorderedItems[targetIndex]);
+					if (currentIndex < 0 || currentIndex == targetIndex)
+						continue;
+
+					var item = source[currentIndex];
+					source.RemoveAt(currentIndex);
+					source.Insert(targetIndex, item);
+				}
+			}
+			finally
+			{
+				_isUpdatingColumnsSourceOrder = false;
+			}
+		}
+
+		private static int IndexOfReference(IList source, object? item)
+		{
+			for (int index = 0; index < source.Count; index++)
+			{
+				if (ReferenceEquals(source[index], item))
+					return index;
+			}
+
+			return -1;
+		}
+
+		private void HookView(ListViewBase? listView)
+		{
+			if (ReferenceEquals(_listView, listView))
+			{
+				TryHookViewScrollViewer();
+				return;
+			}
+
+			UnhookView();
+			if (listView is null)
+				return;
+
+			_listView = listView;
+			ScrollViewer.SetHorizontalScrollMode(listView, ScrollMode.Enabled);
+			ScrollViewer.SetHorizontalScrollBarVisibility(listView, ScrollBarVisibility.Auto);
+			listView.ContainerContentChanging += ListViewBase_ContainerContentChanging;
+			listView.Items.VectorChanged += ListViewBase_Items_VectorChanged;
+			listView.Loaded += ListViewBase_Loaded;
+			TryHookViewScrollViewer();
+		}
+
+		private void UnhookView()
+		{
+			if (_listView is not null)
+			{
+				_listView.ContainerContentChanging -= ListViewBase_ContainerContentChanging;
+				_listView.Items.VectorChanged -= ListViewBase_Items_VectorChanged;
+				_listView.Loaded -= ListViewBase_Loaded;
+			}
+
+			if (_viewScrollViewer is not null)
+				_viewScrollViewer.ViewChanged -= ViewScrollViewer_ViewChanged;
+
+			_viewScrollViewer = null;
+			_listView = null;
+		}
+
+		private void ListViewBase_Loaded(object sender, RoutedEventArgs e)
+		{
+			TryHookViewScrollViewer();
+			RefreshVisibleRows();
+		}
+
+		private void TryHookViewScrollViewer()
+		{
+			if (_listView is null)
+				return;
+
+			var scrollViewer = _listView.FindDescendant<ScrollViewer>();
+			if (ReferenceEquals(scrollViewer, _viewScrollViewer))
+				return;
+
+			if (_viewScrollViewer is not null)
+				_viewScrollViewer.ViewChanged -= ViewScrollViewer_ViewChanged;
+
+			_viewScrollViewer = scrollViewer;
+			if (_viewScrollViewer is not null)
+			{
+				_viewScrollViewer.ViewChanged += ViewScrollViewer_ViewChanged;
+				SynchronizeHeaderScrollOffset(_viewScrollViewer.HorizontalOffset);
+			}
+		}
+
+		private void ViewScrollViewer_ViewChanged(object? sender, ScrollViewerViewChangedEventArgs e)
+		{
+			if (!_isSynchronizingScroll && sender is ScrollViewer scrollViewer)
+				SynchronizeHeaderScrollOffset(scrollViewer.HorizontalOffset);
+		}
+
+		private void ColumnsScrollViewer_ViewChanged(object? sender, ScrollViewerViewChangedEventArgs e)
+		{
+			if (_isSynchronizingScroll || _viewScrollViewer is null || sender is not ScrollViewer scrollViewer)
+				return;
+
+			_isSynchronizingScroll = true;
+			try
+			{
+				_viewScrollViewer.ChangeView(scrollViewer.HorizontalOffset, null, null, true);
+			}
+			finally
+			{
+				_isSynchronizingScroll = false;
+			}
+		}
+
+		private void SynchronizeHeaderScrollOffset(double horizontalOffset)
+		{
+			if (_columnsScrollViewer is null)
+				return;
+
+			_isSynchronizingScroll = true;
+			try
+			{
+				_columnsScrollViewer.ChangeView(horizontalOffset, null, null, true);
+			}
+			finally
+			{
+				_isSynchronizingScroll = false;
+			}
+		}
+
+		internal void RequestSort(TableViewColumn column)
+		{
+			if (!CanUserSortColumns)
+				return;
+
+			var requestedDirection = column.SortDirection is null or ListSortDirection.Descending
+				? ListSortDirection.Ascending
+				: ListSortDirection.Descending;
+			var args = new TableViewColumnSortingEventArgs(column, requestedDirection);
+			Sorting?.Invoke(this, args);
+			if (args.Cancel)
+				return;
+
+			if (SortedColumn is not null && SortedColumn != column)
+				SortedColumn.SortDirection = null;
+
+			SortedColumn = column;
+			column.SortDirection = args.SortDirection;
+		}
+
+		internal void RegisterInitialSortColumn(TableViewColumn column)
+		{
+			if (column.SortDirection is null)
+				return;
+
+			if (SortedColumn is not null && SortedColumn != column)
+				SortedColumn.SortDirection = null;
+
+			SortedColumn = column;
+		}
+
+		internal void UnregisterSortColumn(TableViewColumn column)
+		{
+			if (SortedColumn == column)
+				SortedColumn = null;
+		}
+
+		private void UpdateColumnsPanelInteractionState()
+		{
+			if (_columnsItemsControl is not null)
+				_columnsItemsControl.IsReorderEnabled = CanUserReorderColumns;
+		}
+
+		private void UpdateResizeVisualInteractionState()
+		{
+			foreach (var resizeVisual in _trackedResizeVisuals)
+				resizeVisual.IsEnabled = CanUserResizeColumns;
+
+			if (!CanUserResizeColumns && IsColumnResizing)
+				IsColumnResizing = false;
 		}
 	}
 }

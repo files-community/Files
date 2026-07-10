@@ -1,9 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Windows.System;
 
 namespace Files.App.Controls
 {
@@ -11,12 +11,11 @@ namespace Files.App.Controls
 	{
 		private static readonly SolidColorBrush TransparentBackground = new(Microsoft.UI.Colors.Transparent);
 		private object? _data;
-		private DateTimeOffset _lastClickTimestamp;
 
-		internal TableViewColumn? Column { get; private set; }
-		internal object? Data => _data;
-		internal FrameworkElement? EditingElement => IsEditing ? Content as FrameworkElement : null;
-		internal bool IsEditing { get; private set; }
+		public TableViewColumn? Column { get; private set; }
+		public object? Data => _data;
+		public FrameworkElement? EditingElement => IsEditing ? Content as FrameworkElement : null;
+		public bool IsEditing { get; private set; }
 
 		public TableViewCell()
 		{
@@ -25,20 +24,31 @@ namespace Files.App.Controls
 			HorizontalAlignment = HorizontalAlignment.Stretch;
 			HorizontalContentAlignment = HorizontalAlignment.Stretch;
 			VerticalContentAlignment = VerticalAlignment.Stretch;
-			IsTabStop = false;
+			IsTabStop = true;
 
-			PointerReleased += TableViewCell_PointerReleased;
+			DoubleTapped += TableViewCell_DoubleTapped;
+			KeyDown += TableViewCell_KeyDown;
 		}
 
 		internal void Bind(TableViewColumn column, ITableViewCellValueProvider dataItem)
 		{
 			EnsureEndEdit();
 
+			var existingElement = Content as FrameworkElement;
 			Column = column;
 			_data = dataItem;
 			IsEditing = false;
-			_lastClickTimestamp = default;
-			Content = column.GenerateElement(dataItem);
+			if (existingElement is null || !column.UpdateElement(existingElement, dataItem))
+				Content = column.GenerateElement(dataItem);
+		}
+
+		internal void Refresh()
+		{
+			if (!IsEditing && Column is not null && _data is not null && Content is FrameworkElement element &&
+				!Column.UpdateElement(element, _data))
+			{
+				Content = Column.GenerateElement(_data);
+			}
 		}
 
 		internal void EnsureEndEdit()
@@ -50,66 +60,60 @@ namespace Files.App.Controls
 				CancelEdit();
 		}
 
-		internal bool BeginEdit()
+		public bool BeginEdit()
 		{
-			if (IsEditing || Column is null || _data is null || !Column.CanEdit(_data))
+			if (IsEditing || Column is null || _data is null || !Column.CanEdit(_data) ||
+				Column.GetOwner() is { } owner && !owner.RaiseBeginningEdit(this))
 				return false;
 
 			var editingElement = Column.GenerateEditingElement(_data);
 			Content = editingElement;
 			IsEditing = true;
-			_lastClickTimestamp = default;
 			Column.PrepareCellForEdit(this, editingElement);
 			return true;
 		}
 
-		internal bool CommitEdit()
+		public bool CommitEdit()
 		{
-			if (!IsEditing || Column is null || !Column.CommitCellEdit(this))
+			if (!IsEditing || Column is null ||
+				Column.GetOwner() is { } owner && !owner.RaiseCellEditEnding(this, TableViewEditAction.Commit) ||
+				!Column.CommitCellEdit(this))
 				return false;
 
 			// End edit
 			IsEditing = false;
-			_lastClickTimestamp = default;
 			Content = _data is null ? null : Column.GenerateElement(_data);
 
 			return true;
 		}
 
-		internal void CancelEdit()
+		public void CancelEdit()
 		{
-			if (!IsEditing || Column is null)
+			if (!IsEditing || Column is null ||
+				Column.GetOwner() is { } owner && !owner.RaiseCellEditEnding(this, TableViewEditAction.Cancel))
 				return;
 
 			Column.CancelCellEdit(this);
 			IsEditing = false;
-			_lastClickTimestamp = default;
 			Content = _data is null ? null : Column.GenerateElement(_data);
 		}
 
-		private void TableViewCell_PointerReleased(object sender, PointerRoutedEventArgs e)
+		private void TableViewCell_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			if (Column is null ||
 				_data is null ||
 				IsEditing ||
-				!Column.CanEdit(_data) ||
-				e.Pointer.PointerDeviceType is not PointerDeviceType.Mouse ||
-				e.GetCurrentPoint(this).Properties.PointerUpdateKind is not PointerUpdateKind.LeftButtonReleased)
+				!Column.CanEdit(_data))
 				return;
 
-			var now = DateTimeOffset.UtcNow;
-			if (_lastClickTimestamp != default &&
-				now - _lastClickTimestamp <= Column.EditDoubleClickInterval)
-			{
-				_lastClickTimestamp = default;
+			if (BeginEdit())
+				e.Handled = true;
+		}
 
-				if (BeginEdit())
-					e.Handled = true;
-
-				return;
-			}
-
-			_lastClickTimestamp = now;
+		private void TableViewCell_KeyDown(object sender, KeyRoutedEventArgs e)
+		{
+			if (!IsEditing && e.Key is VirtualKey.F2 && BeginEdit())
+				e.Handled = true;
 		}
 	}
 }
