@@ -30,7 +30,7 @@ namespace Files.App.Controls
 			KeyDown += TableViewCell_KeyDown;
 		}
 
-		internal void Bind(TableViewColumn column, ITableViewCellValueProvider dataItem)
+		internal void Bind(TableViewColumn column, object dataItem)
 		{
 			EnsureEndEdit();
 

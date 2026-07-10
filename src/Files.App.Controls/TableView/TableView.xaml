@@ -27,6 +27,7 @@
 
 	<Thickness x:Key="TableViewColumnBorderThickness">1</Thickness>
 	<StaticResource x:Key="TableViewColumnCornerRadius" ResourceKey="ControlCornerRadius" />
+	<x:Double x:Key="TableViewColumnHeaderHeight">44</x:Double>
 	<x:Double x:Key="SortOrderGlyphSize">8</x:Double>
 	<x:String x:Key="SortOrderGlyph">&#xEDDB;</x:String>
 
@@ -36,6 +37,7 @@
 
 	<Style BasedOn="{StaticResource DefaultTableViewStyle}" TargetType="local:TableView" />
 	<Style BasedOn="{StaticResource DefaultTableViewColumnStyle}" TargetType="local:TableViewColumn" />
+	<Style BasedOn="{StaticResource DefaultTableViewColumnStyle}" TargetType="local:TableViewTemplateColumn" />
 	<Style BasedOn="{StaticResource DefaultTableViewTextColumnStyle}" TargetType="local:TableViewTextColumn" />
 	<Style BasedOn="{StaticResource DefaultTableViewDateColumnStyle}" TargetType="local:TableViewDateColumn" />
 
@@ -62,7 +64,7 @@
 							<!--  Columns  -->
 							<Border
 								Grid.Row="0"
-								Height="44"
+								Height="{ThemeResource TableViewColumnHeaderHeight}"
 								HorizontalAlignment="Stretch"
 								Background="{ThemeResource TableViewColumnBackground}"
 								BorderBrush="{ThemeResource TableViewColumnBorderBrush}"

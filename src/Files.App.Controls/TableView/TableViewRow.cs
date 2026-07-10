@@ -9,7 +9,7 @@ namespace Files.App.Controls
 	public partial class TableViewRow : Panel
 	{
 		private WeakReference<TableView>? _owner;
-		private ITableViewCellValueProvider? _dataItem;
+		private object? _dataItem;
 		private INotifyPropertyChanged? _observableDataItem;
 
 		private double _availableHeight;
@@ -24,7 +24,7 @@ namespace Files.App.Controls
 			_owner = new(owner);
 		}
 
-		internal void Bind(TableView owner, ITableViewCellValueProvider dataItem)
+		internal void Bind(TableView owner, object dataItem)
 		{
 			EndEditingCells();
 			SetOwner(owner);
@@ -135,7 +135,7 @@ namespace Files.App.Controls
 			return new(totalWidth, _availableHeight);
 		}
 
-		private void SetDataItem(ITableViewCellValueProvider? dataItem)
+		private void SetDataItem(object? dataItem)
 		{
 			if (_observableDataItem is not null)
 				_observableDataItem.PropertyChanged -= DataItem_PropertyChanged;

@@ -138,7 +138,7 @@ namespace Files.App.Controls
 
 		private void BindRow(ListViewItem listViewItem, TableViewRow row, object? item)
 		{
-			if (item is not ITableViewCellValueProvider cellValueProvider)
+			if (item is null)
 			{
 				row.Unbind();
 				return;
@@ -153,7 +153,7 @@ namespace Files.App.Controls
 			if (row.VerticalAlignment is not VerticalAlignment.Stretch)
 				row.VerticalAlignment = VerticalAlignment.Stretch;
 
-			row.Bind(this, cellValueProvider);
+			row.Bind(this, item);
 		}
 
 		public void InvalidateLayoutOfAllRows()
