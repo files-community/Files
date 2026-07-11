@@ -23,12 +23,6 @@ namespace Files.App.Controls
 		[GeneratedDependencyProperty]
 		public partial bool FollowPointer { get; set; }
 
-		[GeneratedDependencyProperty]
-		public partial double ThumbHeight { get; set; }
-
-		[GeneratedDependencyProperty]
-		public partial double ThumbWidth { get; set; }
-
 		partial void OnTargetChanged(FrameworkElement? newValue)
 		{
 			if (_observedTarget is not null)
@@ -70,18 +64,6 @@ namespace Files.App.Controls
 			}
 
 			UpdateThumbTranslation();
-		}
-
-		partial void OnThumbHeightChanged(double newValue)
-		{
-			if (_outerThumb is not null)
-				_outerThumb.Height = newValue;
-		}
-
-		partial void OnThumbWidthChanged(double newValue)
-		{
-			if (_outerThumb is not null)
-				_outerThumb.Width = newValue;
 		}
 	}
 }

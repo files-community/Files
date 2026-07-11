@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Automation.Peers;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Windows.Foundation.Collections;
 
 namespace Files.App.Controls
@@ -13,21 +14,24 @@ namespace Files.App.Controls
 	{
 		private const string TemplatePartName_ColumnsPanel = "PART_ColumnsPanel";
 		private const string TemplatePartName_ColumnsScrollViewer = "PART_ColumnsScrollViewer";
+		private const string TemplatePartName_ColumnResizeOverlay = "PART_ColumnResizeOverlay";
 
 		protected internal TableViewColumn? SortedColumn;
 
 		private ReorderableItemsControl? _columnsItemsControl;
 		private ScrollViewer? _columnsScrollViewer;
+		private TableViewColumnResizePanel? _columnResizeOverlay;
 		private ScrollViewer? _viewScrollViewer;
 		private ListViewBase? _listView;
-		private ResizablePanel? _resizablePanel;
-		private readonly HashSet<ResizeVisual> _trackedResizeVisuals = [];
+		private readonly Dictionary<TableViewColumn, ResizeVisual> _columnResizeVisuals = [];
 		private readonly HashSet<TableViewColumn> _ownedColumns = [];
 		private readonly Dictionary<object, TableViewColumn> _columnsBySourceItem = new(ReferenceEqualityComparer.Instance);
 		private bool _isSynchronizingColumns;
 		private bool _isSynchronizingScroll;
 		private bool _isUpdatingDeclaredColumnsOrder;
 		private bool _isUpdatingColumnsSourceOrder;
+		private TableViewColumn? _resizingColumn;
+		private GridLength _resizingColumnOriginalWidth;
 
 		internal ObservableCollection<TableViewColumn> ActiveColumns { get; } = [];
 
@@ -35,6 +39,7 @@ namespace Files.App.Controls
 		{
 			Columns = [];
 			ActiveColumns.CollectionChanged += ActiveColumns_CollectionChanged;
+			SizeChanged += TableView_SizeChanged;
 
 			DefaultStyleKey = typeof(TableView);
 		}
@@ -54,8 +59,11 @@ namespace Files.App.Controls
 				?? throw new MissingFieldException($"Could not find {TemplatePartName_ColumnsPanel} in the given {nameof(TableView)}'s style.");
 			_columnsScrollViewer = GetTemplateChild(TemplatePartName_ColumnsScrollViewer) as ScrollViewer
 				?? throw new MissingFieldException($"Could not find {TemplatePartName_ColumnsScrollViewer} in the given {nameof(TableView)}'s style.");
+			_columnResizeOverlay = GetTemplateChild(TemplatePartName_ColumnResizeOverlay) as TableViewColumnResizePanel
+				?? throw new MissingFieldException($"Could not find {TemplatePartName_ColumnResizeOverlay} in the given {nameof(TableView)}'s style.");
 			_columnsItemsControl.ItemsSource = ActiveColumns;
 			UpdateColumnsPanelInteractionState();
+			UpdateResizeVisualInteractionState();
 			HookColumnsPanel();
 			HookView(View);
 			SynchronizeActiveColumns();
@@ -70,7 +78,14 @@ namespace Files.App.Controls
 		{
 			HookColumnsPanel();
 			HookView(View);
+			ResolveColumnWidths();
 			RefreshVisibleRows();
+		}
+
+		private void TableView_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			if (!e.NewSize.Width.Equals(e.PreviousSize.Width))
+				ResolveColumnWidths(e.NewSize.Width);
 		}
 
 		private void TableView_Unloaded(object sender, RoutedEventArgs e)
@@ -97,6 +112,8 @@ namespace Files.App.Controls
 				return;
 
 			ReconcileColumnOwners();
+			ResolveColumnWidths();
+			UpdateColumnResizeVisuals();
 			RefreshVisibleRows();
 			InvalidateLayoutOfAllRows();
 		}
@@ -150,8 +167,14 @@ namespace Files.App.Controls
 				listViewItem.VerticalAlignment = VerticalAlignment.Stretch;
 			if (listViewItem.VerticalContentAlignment is not VerticalAlignment.Stretch)
 				listViewItem.VerticalContentAlignment = VerticalAlignment.Stretch;
+			if (listViewItem.HorizontalAlignment is not HorizontalAlignment.Stretch)
+				listViewItem.HorizontalAlignment = HorizontalAlignment.Stretch;
+			if (listViewItem.HorizontalContentAlignment is not HorizontalAlignment.Stretch)
+				listViewItem.HorizontalContentAlignment = HorizontalAlignment.Stretch;
 			if (row.VerticalAlignment is not VerticalAlignment.Stretch)
 				row.VerticalAlignment = VerticalAlignment.Stretch;
+			if (row.HorizontalAlignment is not HorizontalAlignment.Stretch)
+				row.HorizontalAlignment = HorizontalAlignment.Stretch;
 
 			row.Bind(this, item);
 		}
@@ -294,76 +317,15 @@ namespace Files.App.Controls
 			}
 		}
 
-		private void ColumnsPanel_LayoutUpdated(object? sender, object e)
-		{
-			if (_columnsItemsControl?.ItemsPanelRoot is not ResizablePanel resizablePanel)
-				return;
-
-			var resizeVisualCount = 0;
-			var hasNewResizeVisual = !ReferenceEquals(_resizablePanel, resizablePanel);
-			foreach (var child in resizablePanel.Children)
-			{
-				if (child is ResizeVisual resizeVisual)
-				{
-					resizeVisualCount++;
-					hasNewResizeVisual |= !_trackedResizeVisuals.Contains(resizeVisual);
-				}
-			}
-
-			if (!hasNewResizeVisual && resizeVisualCount == _trackedResizeVisuals.Count)
-				return;
-
-			_resizablePanel = resizablePanel;
-
-			var aliveResizeVisuals = new HashSet<ResizeVisual>();
-			foreach (var child in resizablePanel.Children)
-			{
-				if (child is not ResizeVisual resizeVisual)
-					continue;
-
-				aliveResizeVisuals.Add(resizeVisual);
-				if (_trackedResizeVisuals.Add(resizeVisual))
-				{
-					resizeVisual.IsEnabled = CanUserResizeColumns;
-					resizeVisual.DragDelta += ResizeVisual_DragDelta;
-					resizeVisual.DragCompleted += ResizeVisual_DragCompleted;
-				}
-			}
-
-			// Unhook the events for resizers that no longer exist and synchronize the cached resizers
-			foreach (var staleVisual in _trackedResizeVisuals.Where(rv => !aliveResizeVisuals.Contains(rv)).ToList())
-			{
-				staleVisual.DragDelta -= ResizeVisual_DragDelta;
-				staleVisual.DragCompleted -= ResizeVisual_DragCompleted;
-				_trackedResizeVisuals.Remove(staleVisual);
-			}
-		}
-
-		private void ResizeVisual_DragDelta(object sender, DragDeltaEventArgs e)
-		{
-			if (CanUserResizeColumns && sender is ResizeVisual { Target: TableViewColumn column })
-			{
-				column.OnColumnBeingResized();
-			}
-		}
-
-		private void ResizeVisual_DragCompleted(object sender, DragCompletedEventArgs e)
-		{
-			if (sender is ResizeVisual { Target: TableViewColumn column })
-			{
-				column.OnColumnResizeCompleted();
-			}
-		}
-
 		private void HookColumnsPanel()
 		{
 			if (_columnsItemsControl is null)
 				return;
 
-			_columnsItemsControl.LayoutUpdated -= ColumnsPanel_LayoutUpdated;
 			_columnsItemsControl.Reordered -= ColumnsPanel_Reordered;
-			_columnsItemsControl.LayoutUpdated += ColumnsPanel_LayoutUpdated;
+			_columnsItemsControl.SizeChanged -= ColumnsPanel_SizeChanged;
 			_columnsItemsControl.Reordered += ColumnsPanel_Reordered;
+			_columnsItemsControl.SizeChanged += ColumnsPanel_SizeChanged;
 
 			if (_columnsScrollViewer is not null)
 			{
@@ -376,21 +338,27 @@ namespace Files.App.Controls
 		{
 			if (_columnsItemsControl is not null)
 			{
-				_columnsItemsControl.LayoutUpdated -= ColumnsPanel_LayoutUpdated;
 				_columnsItemsControl.Reordered -= ColumnsPanel_Reordered;
+				_columnsItemsControl.SizeChanged -= ColumnsPanel_SizeChanged;
 			}
 
 			if (_columnsScrollViewer is not null)
 				_columnsScrollViewer.ViewChanged -= ColumnsScrollViewer_ViewChanged;
 
-			foreach (var resizeVisual in _trackedResizeVisuals)
+			foreach (var resizeVisual in _columnResizeVisuals.Values)
 			{
-				resizeVisual.DragDelta -= ResizeVisual_DragDelta;
-				resizeVisual.DragCompleted -= ResizeVisual_DragCompleted;
+				resizeVisual.DragStarted -= ColumnResizeVisual_DragStarted;
+				resizeVisual.DragDelta -= ColumnResizeVisual_DragDelta;
+				resizeVisual.DragCompleted -= ColumnResizeVisual_DragCompleted;
 			}
 
-			_trackedResizeVisuals.Clear();
-			_resizablePanel = null;
+			_columnResizeVisuals.Clear();
+			_columnResizeOverlay?.Children.Clear();
+		}
+
+		private void ColumnsPanel_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			UpdateColumnResizeVisuals();
 		}
 
 		private void ColumnsPanel_Reordered(object? sender, ReorderedItemsEventArgs e)
@@ -400,8 +368,114 @@ namespace Files.App.Controls
 
 			PersistColumnOrder(e.NewIndexToOldIndexMap);
 			ColumnReordered?.Invoke(this, e);
+			ResolveColumnWidths();
+			UpdateColumnResizeVisuals();
 			RefreshVisibleRows();
 			InvalidateLayoutOfAllRows();
+		}
+
+		internal void ResolveColumnWidths(double availableWidth = double.NaN)
+		{
+			if (ActiveColumns.Count is 0)
+				return;
+
+			foreach (var column in ActiveColumns)
+				column.ApplyResolvedWidth(ResolveColumnWidth(column));
+
+			UpdateColumnResizeVisuals();
+		}
+
+		private void UpdateColumnResizeVisuals()
+		{
+			if (_columnResizeOverlay is null)
+				return;
+
+			var resizableColumns = ActiveColumns.Take(Math.Max(0, ActiveColumns.Count - 1)).ToList();
+			foreach (var staleColumn in _columnResizeVisuals.Keys.Where(column => !resizableColumns.Contains(column)).ToList())
+			{
+				var resizeVisual = _columnResizeVisuals[staleColumn];
+				resizeVisual.DragStarted -= ColumnResizeVisual_DragStarted;
+				resizeVisual.DragDelta -= ColumnResizeVisual_DragDelta;
+				resizeVisual.DragCompleted -= ColumnResizeVisual_DragCompleted;
+				_columnResizeOverlay.Children.Remove(resizeVisual);
+				_columnResizeVisuals.Remove(staleColumn);
+			}
+
+			foreach (var column in resizableColumns)
+			{
+				if (_columnResizeVisuals.ContainsKey(column))
+					continue;
+
+				var resizeVisual = new ResizeVisual()
+				{
+					Orientation = Orientation.Horizontal,
+					IsEnabled = CanUserResizeColumns,
+					IsHitTestVisible = CanUserResizeColumns,
+					Tag = column,
+				};
+				resizeVisual.DragStarted += ColumnResizeVisual_DragStarted;
+				resizeVisual.DragDelta += ColumnResizeVisual_DragDelta;
+				resizeVisual.DragCompleted += ColumnResizeVisual_DragCompleted;
+				_columnResizeVisuals[column] = resizeVisual;
+				_columnResizeOverlay.Children.Add(resizeVisual);
+			}
+
+			_columnResizeOverlay.InvalidateMeasure();
+			_columnResizeOverlay.InvalidateArrange();
+		}
+
+		private static double GetResolvedColumnWidth(TableViewColumn column)
+		{
+			if (!double.IsNaN(column.Width) && column.Width > 0)
+				return column.Width;
+
+			return column.ActualWidth > 0 ? column.ActualWidth : column.MinWidth;
+		}
+
+		private void ColumnResizeVisual_DragStarted(object sender, DragStartedEventArgs e)
+		{
+			if (!CanUserResizeColumns || sender is not ResizeVisual { Tag: TableViewColumn column })
+				return;
+
+			_resizingColumn = column;
+			_resizingColumnOriginalWidth = column.ColumnWidth;
+			IsColumnResizing = true;
+		}
+
+		private void ColumnResizeVisual_DragDelta(object sender, DragDeltaEventArgs e)
+		{
+			if (!CanUserResizeColumns || sender is not ResizeVisual { Tag: TableViewColumn column })
+				return;
+
+			var delta = FlowDirection is FlowDirection.RightToLeft ? -e.HorizontalChange : e.HorizontalChange;
+			var currentWidth = GetResolvedColumnWidth(column);
+			var newWidth = Math.Clamp(currentWidth + delta, column.MinWidth, column.MaxWidth);
+			column.ColumnWidth = new GridLength(newWidth, GridUnitType.Pixel);
+			ResolveColumnWidths();
+			InvalidateLayoutOfAllRows();
+		}
+
+		private void ColumnResizeVisual_DragCompleted(object sender, DragCompletedEventArgs e)
+		{
+			if (_resizingColumn is not null && e.Canceled)
+				_resizingColumn.ColumnWidth = _resizingColumnOriginalWidth;
+
+			_resizingColumn = null;
+			IsColumnResizing = false;
+			ResolveColumnWidths();
+			InvalidateLayoutOfAllRows();
+		}
+
+		private static double ResolveColumnWidth(TableViewColumn column)
+		{
+			var width = column.ColumnWidth.IsAuto
+				? Math.Max(column.MinWidth, double.IsNaN(column.Width) ? column.ActualWidth : column.Width)
+				: column.ColumnWidth.Value;
+
+			if (width <= 0 || double.IsNaN(width))
+				width = column.MinWidth;
+
+			return Math.Clamp(width, column.MinWidth, column.MaxWidth);
 		}
 
 		private void PersistColumnOrder(IReadOnlyList<int> reorderedIndexMap)
@@ -528,6 +602,7 @@ namespace Files.App.Controls
 			{
 				_viewScrollViewer.ViewChanged += ViewScrollViewer_ViewChanged;
 				SynchronizeHeaderScrollOffset(_viewScrollViewer.HorizontalOffset);
+				ResolveColumnWidths(_viewScrollViewer.ViewportWidth);
 			}
 		}
 
@@ -614,8 +689,11 @@ namespace Files.App.Controls
 
 		private void UpdateResizeVisualInteractionState()
 		{
-			foreach (var resizeVisual in _trackedResizeVisuals)
+			foreach (var resizeVisual in _columnResizeVisuals.Values)
+			{
 				resizeVisual.IsEnabled = CanUserResizeColumns;
+				resizeVisual.IsHitTestVisible = CanUserResizeColumns;
+			}
 
 			if (!CanUserResizeColumns && IsColumnResizing)
 				IsColumnResizing = false;

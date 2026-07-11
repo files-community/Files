@@ -108,13 +108,19 @@ namespace Files.App.Controls
 				x += column.ActualWidth;
 			}
 
-			return new(x, _availableHeight);
+			var arrangedWidth = double.IsInfinity(finalSize.Width) || finalSize.Width <= 0
+				? x
+				: Math.Max(x, finalSize.Width);
+
+			return new(arrangedWidth, _availableHeight);
 		}
 
 		protected override Size MeasureOverride(Size availableSize)
 		{
 			if (Children.Count is 0 || _owner is null || !_owner.TryGetTarget(out var owner))
 				return new(0, 0);
+
+			owner.ResolveColumnWidths(availableSize.Width);
 
 			double maxHeight = 0;
 			double totalWidth = 0;
@@ -132,7 +138,11 @@ namespace Files.App.Controls
 
 			_availableHeight = maxHeight;
 
-			return new(totalWidth, _availableHeight);
+			var measuredWidth = double.IsInfinity(availableSize.Width) || availableSize.Width <= 0
+				? totalWidth
+				: Math.Max(totalWidth, availableSize.Width);
+
+			return new(measuredWidth, _availableHeight);
 		}
 
 		private void SetDataItem(object? dataItem)

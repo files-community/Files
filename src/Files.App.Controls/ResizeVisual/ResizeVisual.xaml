@@ -3,12 +3,13 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:local="using:Files.App.Controls">
 
+	<x:Double x:Key="ResizeVisualIndicatorHeight">32</x:Double>
+	<x:Double x:Key="ResizeVisualIndicatorWidth">16</x:Double>
+
 	<Style BasedOn="{StaticResource DefaultResizeVisualStyle}" TargetType="local:ResizeVisual" />
 
 	<Style x:Key="DefaultResizeVisualStyle" TargetType="local:ResizeVisual">
 		<Style.Setters>
-			<Setter Property="ThumbWidth" Value="16" />
-			<Setter Property="ThumbHeight" Value="32" />
 			<Setter Property="CornerRadius" Value="8" />
 			<Setter Property="Background" Value="{ThemeResource AcrylicInAppFillColorDefaultBrush}" />
 			<Setter Property="BorderThickness" Value="1" />
@@ -21,13 +22,10 @@
 					<ControlTemplate TargetType="local:ResizeVisual">
 						<Grid
 							x:Name="PART_RootGrid"
-							Width="{TemplateBinding Width}"
 							VerticalAlignment="{TemplateBinding VerticalAlignment}"
 							Background="Transparent">
 							<Thumb
 								x:Name="PART_Thumb"
-								Width="{TemplateBinding ThumbWidth}"
-								Height="{TemplateBinding ThumbHeight}"
 								VerticalAlignment="Center"
 								Background="{TemplateBinding Background}"
 								BorderBrush="{TemplateBinding BorderBrush}"
@@ -93,8 +91,8 @@
 
 	<Style x:Key="ResizeVisualThumbStyle" TargetType="Thumb">
 		<Style.Setters>
-			<Setter Property="Width" Value="16" />
-			<Setter Property="Height" Value="32" />
+			<Setter Property="Width" Value="{ThemeResource ResizeVisualIndicatorWidth}" />
+			<Setter Property="Height" Value="{ThemeResource ResizeVisualIndicatorHeight}" />
 			<Setter Property="CornerRadius" Value="8" />
 			<Setter Property="Background" Value="{ThemeResource AcrylicInAppFillColorDefaultBrush}" />
 			<Setter Property="BorderThickness" Value="1" />

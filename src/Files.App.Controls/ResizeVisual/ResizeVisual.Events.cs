@@ -13,8 +13,6 @@ namespace Files.App.Controls
 			OnTargetChanged(Target);
 			OnCursorShapeChanged(CursorShape);
 			OnOrientationChanged(Orientation);
-			OnThumbHeightChanged(ThumbHeight);
-			OnThumbWidthChanged(ThumbWidth);
 			UpdateThumbTranslation();
 		}
 

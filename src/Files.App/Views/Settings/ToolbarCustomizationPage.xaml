@@ -29,20 +29,6 @@
 				<Setter Property="VerticalAlignment" Value="Center" />
 			</Style>
 
-			<Style
-				x:Key="ItemCheckBoxStyle"
-				BasedOn="{StaticResource DefaultCheckBoxStyle}"
-				TargetType="CheckBox">
-				<Setter Property="Width" Value="20" />
-				<Setter Property="Height" Value="20" />
-				<Setter Property="MinWidth" Value="0" />
-				<Setter Property="MinHeight" Value="0" />
-				<Setter Property="Margin" Value="0" />
-				<Setter Property="Padding" Value="0" />
-				<Setter Property="HorizontalAlignment" Value="Center" />
-				<Setter Property="VerticalAlignment" Value="Center" />
-			</Style>
-
 			<wctconverters:BoolToVisibilityConverter
 				x:Key="NegatedBoolToVisibilityConverter"
 				FalseValue="Visible"
@@ -51,6 +37,7 @@
 			<SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
 			<SolidColorBrush x:Key="CommandBarBorderBrushOpen" Color="Transparent" />
 			<x:Double x:Key="TableViewColumnHeaderHeight">32</x:Double>
+			<x:Double x:Key="ResizeVisualIndicatorHeight">16</x:Double>
 		</ResourceDictionary>
 	</Page.Resources>
 
@@ -173,115 +160,112 @@
 			</Grid>
 
 			<!--  Added items list  -->
-			<Border
+			<controls:TableView
+				x:Name="ToolbarItemsTable"
 				Grid.Row="1"
 				Grid.Column="1"
-				Background="{ThemeResource LayerFillColorDefaultBrush}"
-				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-				BorderThickness="1"
-				CornerRadius="8">
-				<controls:TableView
-					x:Name="ToolbarItemsTable"
-					CanUserReorderColumns="False"
-					CanUserResizeColumns="False"
-					CanUserSortColumns="False">
-					<controls:TableView.Resources>
-						<DataTemplate x:Key="ToolbarItemActionCellTemplate">
-							<Grid>
-								<PathIcon
-									Margin="4,0,0,0"
-									HorizontalAlignment="Left"
-									VerticalAlignment="Center"
-									Data="{StaticResource App.Theme.PathIcon.DragGripper}" />
-								<TextBlock
-									Margin="24,0,8,0"
-									VerticalAlignment="Center"
-									Text="{Binding ExtendedDisplayNameWithGroupSuffix}"
-									TextTrimming="CharacterEllipsis"
-									TextWrapping="NoWrap"
-									ToolTipService.ToolTip="{Binding ExtendedDisplayNameWithGroupSuffix}" />
-							</Grid>
-						</DataTemplate>
-						<DataTemplate x:Key="ToolbarItemIconCellTemplate">
-							<CheckBox
-								AutomationProperties.Name="{helpers:ResourceString Name=ShowToolbarIconOnly}"
-								IsChecked="{Binding ShowIcon, Mode=TwoWay}"
-								IsEnabled="{Binding HasIcon}"
-								Style="{StaticResource ItemCheckBoxStyle}"
-								ToolTipService.ToolTip="{helpers:ResourceString Name=ShowToolbarIconOnly}"
-								Visibility="{Binding IsSeparator, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
-						</DataTemplate>
-						<DataTemplate x:Key="ToolbarItemLabelCellTemplate">
-							<CheckBox
-								AutomationProperties.Name="{helpers:ResourceString Name=ShowToolbarLabels}"
-								IsChecked="{Binding ShowLabel, Mode=TwoWay}"
-								Style="{StaticResource ItemCheckBoxStyle}"
-								ToolTipService.ToolTip="{helpers:ResourceString Name=ShowToolbarLabels}"
-								Visibility="{Binding IsSeparator, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
-						</DataTemplate>
-						<DataTemplate x:Key="ToolbarItemRemoveCellTemplate">
-							<Button
-								Width="32"
-								Height="24"
-								Padding="0"
-								HorizontalAlignment="Center"
+				HorizontalAlignment="Left"
+				CanUserReorderColumns="False"
+				CanUserSortColumns="False">
+				<controls:TableView.Resources>
+					<DataTemplate x:Key="ToolbarItemActionCellTemplate">
+						<Grid>
+							<PathIcon
+								Margin="4,0,0,0"
+								HorizontalAlignment="Left"
 								VerticalAlignment="Center"
-								AutomationProperties.Name="{helpers:ResourceString Name=Remove}"
-								Background="Transparent"
-								BorderThickness="0"
-								Command="{Binding ElementName=PageRoot, Path=DataContext.RemoveToolbarItemCommand}"
-								CommandParameter="{Binding}"
-								ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}">
-								<Button.Resources>
-									<SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="{ThemeResource SystemFillColorCritical}" />
-									<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />
-								</Button.Resources>
-								<FontIcon FontSize="12" Glyph="&#xE711;" />
-							</Button>
-						</DataTemplate>
-					</controls:TableView.Resources>
-					<controls:TableView.Columns>
-						<controls:TableViewTemplateColumn CellTemplate="{StaticResource ToolbarItemActionCellTemplate}" Header="{helpers:ResourceString Name=Action}" Width="360" />
-						<controls:TableViewTemplateColumn CellTemplate="{StaticResource ToolbarItemIconCellTemplate}" Header="{helpers:ResourceString Name=Icon}" Width="48" />
-						<controls:TableViewTemplateColumn CellTemplate="{StaticResource ToolbarItemLabelCellTemplate}" Header="{helpers:ResourceString Name=Label}" Width="48" />
-						<controls:TableViewTemplateColumn CellTemplate="{StaticResource ToolbarItemRemoveCellTemplate}" Header="" Width="48" />
-					</controls:TableView.Columns>
-					<controls:TableView.View>
-						<ListView
-							x:Name="ToolbarItemsList"
-							Padding="4"
-							AllowDrop="True"
-							CanDragItems="True"
-							CanReorderItems="True"
-							DragOver="AddedToolbarItemsList_DragOver"
-							Drop="AddedToolbarItemsList_Drop"
-							ItemsSource="{x:Bind ViewModel.ToolbarItems, Mode=OneWay}"
-							ReorderMode="Enabled"
-							ScrollViewer.HorizontalScrollBarVisibility="Auto"
-							ScrollViewer.HorizontalScrollMode="Enabled"
-							ScrollViewer.VerticalScrollBarVisibility="Auto"
-							ScrollViewer.VerticalScrollMode="Enabled"
-							SelectionMode="None">
-							<ListView.ItemTemplate>
-								<DataTemplate>
-									<controls:TableViewRow HorizontalAlignment="Left" />
-								</DataTemplate>
-							</ListView.ItemTemplate>
-							<ListView.ItemContainerStyle>
-								<Style TargetType="ListViewItem">
-									<Setter Property="Margin" Value="0" />
-									<Setter Property="BorderBrush" Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
-									<Setter Property="BorderThickness" Value="0,0,0,1" />
-									<Setter Property="Padding" Value="0" />
-									<Setter Property="MinHeight" Value="40" />
-									<Setter Property="HorizontalAlignment" Value="Stretch" />
-									<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-								</Style>
-							</ListView.ItemContainerStyle>
-						</ListView>
-					</controls:TableView.View>
-				</controls:TableView>
-			</Border>
+								Data="{StaticResource App.Theme.PathIcon.DragGripper}" />
+							<TextBlock
+								Margin="24,0,8,0"
+								VerticalAlignment="Center"
+								Text="{Binding ExtendedDisplayNameWithGroupSuffix}"
+								TextTrimming="CharacterEllipsis"
+								TextWrapping="NoWrap"
+								ToolTipService.ToolTip="{Binding ExtendedDisplayNameWithGroupSuffix}" />
+						</Grid>
+					</DataTemplate>
+					<DataTemplate x:Key="ToolbarItemRemoveCellTemplate">
+						<Button
+							Width="32"
+							Height="24"
+							Padding="0"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							AutomationProperties.Name="{helpers:ResourceString Name=Remove}"
+							Background="Transparent"
+							BorderThickness="0"
+							Command="{Binding ElementName=PageRoot, Path=DataContext.RemoveToolbarItemCommand}"
+							CommandParameter="{Binding}"
+							ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}">
+							<Button.Resources>
+								<SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="{ThemeResource SystemFillColorCritical}" />
+								<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />
+							</Button.Resources>
+							<FontIcon FontSize="12" Glyph="&#xE711;" />
+						</Button>
+					</DataTemplate>
+				</controls:TableView.Resources>
+				<controls:TableView.Columns>
+					<controls:TableViewTemplateColumn
+						CellTemplate="{StaticResource ToolbarItemActionCellTemplate}"
+						ColumnWidth="270"
+						Header="{helpers:ResourceString Name=Action}" />
+					<controls:TableViewCheckBoxColumn
+						MinWidth="64"
+						Binding="ShowIcon"
+						ColumnWidth="64"
+						Header="{helpers:ResourceString Name=Icon}"
+						IsEnabledBinding="HasIcon"
+						VisibilityBinding="IsSeparator"
+						VisibilityConverter="{StaticResource NegatedBoolToVisibilityConverter}" />
+					<controls:TableViewCheckBoxColumn
+						MinWidth="68"
+						Binding="ShowLabel"
+						ColumnWidth="68"
+						Header="{helpers:ResourceString Name=Label}"
+						VisibilityBinding="IsSeparator"
+						VisibilityConverter="{StaticResource NegatedBoolToVisibilityConverter}" />
+					<controls:TableViewTemplateColumn
+						MinWidth="48"
+						CellTemplate="{StaticResource ToolbarItemRemoveCellTemplate}"
+						ColumnWidth="48"
+						Header="" />
+				</controls:TableView.Columns>
+				<controls:TableView.View>
+					<ListView
+						x:Name="ToolbarItemsList"
+						Padding="4"
+						AllowDrop="True"
+						CanDragItems="True"
+						CanReorderItems="True"
+						DragOver="AddedToolbarItemsList_DragOver"
+						Drop="AddedToolbarItemsList_Drop"
+						ItemsSource="{x:Bind ViewModel.ToolbarItems, Mode=OneWay}"
+						ReorderMode="Enabled"
+						ScrollViewer.HorizontalScrollBarVisibility="Auto"
+						ScrollViewer.HorizontalScrollMode="Enabled"
+						ScrollViewer.VerticalScrollBarVisibility="Auto"
+						ScrollViewer.VerticalScrollMode="Enabled"
+						SelectionMode="None">
+						<ListView.ItemTemplate>
+							<DataTemplate>
+								<controls:TableViewRow HorizontalAlignment="Stretch" />
+							</DataTemplate>
+						</ListView.ItemTemplate>
+						<ListView.ItemContainerStyle>
+							<Style TargetType="ListViewItem">
+								<Setter Property="Margin" Value="0" />
+								<Setter Property="BorderBrush" Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
+								<Setter Property="BorderThickness" Value="0,0,0,1" />
+								<Setter Property="Padding" Value="0" />
+								<Setter Property="MinHeight" Value="40" />
+								<Setter Property="HorizontalAlignment" Value="Stretch" />
+								<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+							</Style>
+						</ListView.ItemContainerStyle>
+					</ListView>
+				</controls:TableView.View>
+			</controls:TableView>
 		</Grid>
 
 		<!--  Preview  -->

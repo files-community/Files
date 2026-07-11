@@ -28,6 +28,7 @@
 	<Thickness x:Key="TableViewColumnBorderThickness">1</Thickness>
 	<StaticResource x:Key="TableViewColumnCornerRadius" ResourceKey="ControlCornerRadius" />
 	<x:Double x:Key="TableViewColumnHeaderHeight">44</x:Double>
+	<x:Double x:Key="TableViewColumnResizeVisualWidth">16</x:Double>
 	<x:Double x:Key="SortOrderGlyphSize">8</x:Double>
 	<x:String x:Key="SortOrderGlyph">&#xEDDB;</x:String>
 
@@ -38,6 +39,7 @@
 	<Style BasedOn="{StaticResource DefaultTableViewStyle}" TargetType="local:TableView" />
 	<Style BasedOn="{StaticResource DefaultTableViewColumnStyle}" TargetType="local:TableViewColumn" />
 	<Style BasedOn="{StaticResource DefaultTableViewColumnStyle}" TargetType="local:TableViewTemplateColumn" />
+	<Style BasedOn="{StaticResource DefaultTableViewCheckBoxColumnStyle}" TargetType="local:TableViewCheckBoxColumn" />
 	<Style BasedOn="{StaticResource DefaultTableViewTextColumnStyle}" TargetType="local:TableViewTextColumn" />
 	<Style BasedOn="{StaticResource DefaultTableViewDateColumnStyle}" TargetType="local:TableViewDateColumn" />
 
@@ -54,8 +56,7 @@
 							Background="{TemplateBinding Background}"
 							BorderBrush="{TemplateBinding BorderBrush}"
 							BorderThickness="{TemplateBinding BorderThickness}"
-							CornerRadius="{TemplateBinding CornerRadius}"
-							RowSpacing="8">
+							CornerRadius="{TemplateBinding CornerRadius}">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="*" />
@@ -65,6 +66,7 @@
 							<Border
 								Grid.Row="0"
 								Height="{ThemeResource TableViewColumnHeaderHeight}"
+								Margin="4"
 								HorizontalAlignment="Stretch"
 								Background="{ThemeResource TableViewColumnBackground}"
 								BorderBrush="{ThemeResource TableViewColumnBorderBrush}"
@@ -77,10 +79,25 @@
 									VerticalScrollBarVisibility="Disabled"
 									VerticalScrollMode="Disabled"
 									ZoomMode="Disabled">
-									<local:ReorderableItemsControl
-										x:Name="PART_ColumnsPanel"
-										HorizontalAlignment="Left"
-										wct:UIElementExtensions.ClipToBounds="True" />
+									<Grid HorizontalAlignment="Left">
+										<local:ReorderableItemsControl
+											x:Name="PART_ColumnsPanel"
+											HorizontalAlignment="Left"
+											wct:UIElementExtensions.ClipToBounds="True">
+											<local:ReorderableItemsControl.ItemsPanel>
+												<ItemsPanelTemplate>
+													<StackPanel Orientation="Horizontal" />
+												</ItemsPanelTemplate>
+											</local:ReorderableItemsControl.ItemsPanel>
+										</local:ReorderableItemsControl>
+										<local:TableViewColumnResizePanel x:Name="PART_ColumnResizeOverlay">
+											<local:TableViewColumnResizePanel.Resources>
+												<Style BasedOn="{StaticResource DefaultResizeVisualStyle}" TargetType="local:ResizeVisual">
+													<Setter Property="Width" Value="{ThemeResource TableViewColumnResizeVisualWidth}" />
+												</Style>
+											</local:TableViewColumnResizePanel.Resources>
+										</local:TableViewColumnResizePanel>
+									</Grid>
 								</ScrollViewer>
 							</Border>
 
@@ -115,17 +132,16 @@
 						<Grid x:Name="PART_RootGrid" Background="{TemplateBinding Background}">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition x:Name="HeaderTextColumn" Width="*" />
-								<ColumnDefinition x:Name="SortOrderGlyphColumn1" Width="16" />
-								<ColumnDefinition x:Name="SortOrderGlyphColumn2" Width="16" />
+								<ColumnDefinition x:Name="SortOrderGlyphColumn" Width="Auto" />
 								<ColumnDefinition x:Name="ColumnVisualDividerColumn" Width="1" />
 							</Grid.ColumnDefinitions>
 
 							<TextBlock
 								x:Name="PART_HeaderTextBlock"
 								Grid.Column="0"
-								Grid.ColumnSpan="2"
 								MinWidth="0"
 								Margin="{TemplateBinding Padding}"
+								HorizontalAlignment="Stretch"
 								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 								Foreground="{ThemeResource TextFillColorTertiaryBrush}"
 								Style="{StaticResource BodyStrongTextBlockStyle}"
@@ -136,7 +152,7 @@
 							<FontIcon
 								x:Name="SortOrderGlyphTextBlock"
 								Grid.Column="1"
-								Grid.ColumnSpan="2"
+								Margin="4,0,12,0"
 								HorizontalAlignment="Center"
 								VerticalAlignment="Center"
 								FontFamily="{ThemeResource SymbolThemeFontFamily}"
@@ -152,7 +168,7 @@
 
 							<Rectangle
 								x:Name="ColumnSeparatorVisual"
-								Grid.Column="3"
+								Grid.Column="2"
 								Width="1"
 								VerticalAlignment="Stretch"
 								Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
@@ -215,6 +231,15 @@
 	</Style>
 
 	<Style
+		x:Key="DefaultTableViewCheckBoxColumnStyle"
+		BasedOn="{StaticResource DefaultTableViewColumnStyle}"
+		TargetType="local:TableViewCheckBoxColumn">
+		<Style.Setters>
+			<Setter Property="ElementStyle" Value="{StaticResource DefaultTableViewCheckBoxStyle}" />
+		</Style.Setters>
+	</Style>
+
+	<Style
 		x:Key="DefaultTableViewTextColumnStyle"
 		BasedOn="{StaticResource DefaultTableViewColumnStyle}"
 		TargetType="local:TableViewTextColumn">
@@ -230,6 +255,22 @@
 		TargetType="local:TableViewDateColumn">
 		<Style.Setters>
 			<Setter Property="ElementStyle" Value="{StaticResource DefaultTableViewTextBlockStyle}" />
+		</Style.Setters>
+	</Style>
+
+	<Style
+		x:Key="DefaultTableViewCheckBoxStyle"
+		BasedOn="{StaticResource DefaultCheckBoxStyle}"
+		TargetType="CheckBox">
+		<Style.Setters>
+			<Setter Property="Width" Value="20" />
+			<Setter Property="Height" Value="20" />
+			<Setter Property="MinWidth" Value="0" />
+			<Setter Property="MinHeight" Value="0" />
+			<Setter Property="Margin" Value="0" />
+			<Setter Property="Padding" Value="0" />
+			<Setter Property="HorizontalAlignment" Value="Center" />
+			<Setter Property="VerticalAlignment" Value="Center" />
 		</Style.Setters>
 	</Style>
 

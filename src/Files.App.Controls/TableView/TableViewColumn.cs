@@ -10,11 +10,13 @@ namespace Files.App.Controls
 	{
 		private WeakReference<TableView>? _owner;
 		private Grid? _rootGrid;
+		private bool _isApplyingResolvedWidth;
 
 		public TableViewColumn()
 		{
 			DefaultStyleKey = typeof(TableViewColumn);
 			IsTabStop = true;
+			RegisterPropertyChangedCallback(WidthProperty, OnWidthPropertyChanged);
 			IsEnabledChanged += TableViewColumn_IsEnabledChanged;
 			KeyDown += TableViewColumn_KeyDown;
 			SizeChanged += TableViewColumn_SizeChanged;
@@ -110,6 +112,25 @@ namespace Files.App.Controls
 			return _owner is not null && _owner.TryGetTarget(out var owner) ? owner : null;
 		}
 
+		internal void ApplyResolvedWidth(double width)
+		{
+			_isApplyingResolvedWidth = true;
+			try
+			{
+				Width = width;
+			}
+			finally
+			{
+				_isApplyingResolvedWidth = false;
+			}
+		}
+
+		internal void NotifyColumnWidthChanged()
+		{
+			if (_owner is not null && _owner.TryGetTarget(out var owner))
+				owner.ResolveColumnWidths();
+		}
+
 		internal protected void ResetPointerEventVisual()
 		{
 			UpdateEnabledVisualState(true);
@@ -172,9 +193,25 @@ namespace Files.App.Controls
 			if (_owner is null || !_owner.TryGetTarget(out var owner))
 				return;
 
+			if (!double.IsNaN(Width))
+				ColumnWidth = new GridLength(Width, GridUnitType.Pixel);
+
 			ResetPointerEventVisual();
 			owner.IsColumnResizing = false;
 			owner.InvalidateLayoutOfAllRows();
+		}
+
+		private void OnWidthPropertyChanged(DependencyObject sender, DependencyProperty dp)
+		{
+			if (_isApplyingResolvedWidth ||
+				double.IsNaN(Width) ||
+				_owner is not null && _owner.TryGetTarget(out var owner) && owner.IsColumnResizing)
+			{
+				return;
+			}
+
+			throw new InvalidOperationException(
+				$"{nameof(TableViewColumn)}.{nameof(Width)} is reserved for internal layout. Use {nameof(ColumnWidth)} instead.");
 		}
 	}
 }

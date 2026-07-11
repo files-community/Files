@@ -49,7 +49,7 @@ namespace Files.App.UITests.Views
 			new("Size" , nameof(TableViewItemModel.Size)),
 		];
 
-		public BulkConcurrentObservableCollection<TableViewItemModel> Items { get; }
+		public ObservableCollection<TableViewItemModel> Items { get; }
 
 		public TableViewPage()
 		{
@@ -65,7 +65,8 @@ namespace Files.App.UITests.Views
 			await DispatcherQueue.EnqueueAsync(() =>
 			{
 				Items.Clear();
-				Items.AddRange(list);
+				foreach (var item in list)
+					Items.Add(item);
 			});
 		}
 
@@ -104,7 +105,8 @@ namespace Files.App.UITests.Views
 
 			var materializedItems = sortedItems.ToList();
 			Items.Clear();
-			Items.AddRange(materializedItems);
+			foreach (var item in materializedItems)
+				Items.Add(item);
 			SortStatusTextBlock.Text = $"{e.Column.Header}: {e.SortDirection}";
 		}
 

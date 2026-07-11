@@ -7,6 +7,23 @@ namespace Files.App.Controls
 {
 	public partial class TableViewColumn
 	{
+		public static readonly DependencyProperty ColumnWidthProperty =
+			DependencyProperty.Register(
+				nameof(ColumnWidth),
+				typeof(GridLength),
+				typeof(TableViewColumn),
+				new PropertyMetadata(GridLength.Auto, OnColumnWidthPropertyChanged));
+
+		public GridLength ColumnWidth
+		{
+			get => (GridLength)GetValue(ColumnWidthProperty);
+			set
+			{
+				ValidateColumnWidth(value);
+				SetValue(ColumnWidthProperty, value);
+			}
+		}
+
 		[GeneratedDependencyProperty]
 		public partial string? Header { get; set; }
 
@@ -25,6 +42,21 @@ namespace Files.App.Controls
 		partial void OnHeaderChanged(string? newValue)
 		{
 			Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(this, newValue ?? string.Empty);
+		}
+
+		private static void OnColumnWidthPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (e.NewValue is GridLength newValue)
+				ValidateColumnWidth(newValue);
+
+			if (d is TableViewColumn column)
+				column.NotifyColumnWidthChanged();
+		}
+
+		private static void ValidateColumnWidth(GridLength columnWidth)
+		{
+			if (columnWidth.IsStar)
+				throw new NotSupportedException($"{nameof(TableViewColumn)}.{nameof(ColumnWidth)} does not support star sizing. Use pixel width or Auto.");
 		}
 	}
 }

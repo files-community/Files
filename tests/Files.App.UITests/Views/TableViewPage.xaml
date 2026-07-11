@@ -34,11 +34,11 @@
 					</Style>
 
 					<DataTemplate x:Key="TextTableViewColumnTemplate" x:DataType="data:TableViewColumnModel">
-						<controls:TableViewTextColumn Width="240" Binding="{Binding PropertyName}" Header="{Binding Header}" />
+						<controls:TableViewTextColumn ColumnWidth="240" Binding="{Binding PropertyName}" Header="{Binding Header}" />
 					</DataTemplate>
 
 					<DataTemplate x:Key="DateTableViewColumnTemplate" x:DataType="data:TableViewColumnModel">
-						<controls:TableViewDateColumn Width="240" Binding="{Binding PropertyName}" Header="{Binding Header}" />
+						<controls:TableViewDateColumn ColumnWidth="240" Binding="{Binding PropertyName}" Header="{Binding Header}" />
 					</DataTemplate>
 
 					<selectors:TableViewColumnTemplateSelector
@@ -82,7 +82,7 @@
 								Style="{StaticResource TableViewListViewStyle}">
 								<ListView.ItemTemplate>
 									<DataTemplate x:DataType="data:TableViewItemModel">
-										<controls:TableViewRow HorizontalAlignment="Left" />
+										<controls:TableViewRow HorizontalAlignment="Stretch" />
 									</DataTemplate>
 								</ListView.ItemTemplate>
 							</ListView>
@@ -109,9 +109,9 @@
 			<controls:SamplePanel.MainContent>
 				<controls:TableView Height="280" Sorting="TableView_Sorting">
 					<controls:TableView.Columns>
-						<controls:TableViewTextColumn Width="280" Binding="Name" Header="Name" />
-						<controls:TableViewDateColumn Width="240" Binding="DateUpdated" Header="Date updated" />
-						<controls:TableViewTextColumn Width="220" Binding="Type" Header="Type" />
+						<controls:TableViewTextColumn ColumnWidth="280" Binding="Name" Header="Name" />
+						<controls:TableViewDateColumn ColumnWidth="240" Binding="DateUpdated" Header="Date updated" />
+						<controls:TableViewTextColumn ColumnWidth="220" Binding="Type" Header="Type" />
 					</controls:TableView.Columns>
 					<controls:TableView.View>
 						<ListView
@@ -120,7 +120,7 @@
 							Style="{StaticResource TableViewListViewStyle}">
 							<ListView.ItemTemplate>
 								<DataTemplate x:DataType="data:TableViewItemModel">
-									<controls:TableViewRow HorizontalAlignment="Left" />
+									<controls:TableViewRow HorizontalAlignment="Stretch" />
 								</DataTemplate>
 							</ListView.ItemTemplate>
 						</ListView>
