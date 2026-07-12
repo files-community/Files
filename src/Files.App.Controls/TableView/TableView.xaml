@@ -67,7 +67,6 @@
 								Grid.Row="0"
 								Height="{ThemeResource TableViewColumnHeaderHeight}"
 								Margin="4"
-								HorizontalAlignment="Stretch"
 								Background="{ThemeResource TableViewColumnBackground}"
 								BorderBrush="{ThemeResource TableViewColumnBorderBrush}"
 								BorderThickness="{StaticResource TableViewColumnBorderThickness}"
