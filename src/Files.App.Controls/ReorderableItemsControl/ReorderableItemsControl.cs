@@ -84,6 +84,7 @@ namespace Files.App.Controls
 				{
 					StackPanel sp => sp.Orientation is Orientation.Horizontal,
 					ResizablePanel rp => rp.Orientation is Orientation.Horizontal,
+					TableViewColumnResizePanel => true,
 					_ => false,
 				};
 				e.Mode = _isHorizontal ? ManipulationModes.TranslateX : ManipulationModes.TranslateY;

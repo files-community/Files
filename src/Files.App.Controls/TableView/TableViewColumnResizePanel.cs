@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Windows.Foundation;
+using Microsoft.UI.Xaml.Shapes;
 
 namespace Files.App.Controls
 {
@@ -9,48 +10,70 @@ namespace Files.App.Controls
 	{
 		protected override Size MeasureOverride(Size availableSize)
 		{
-			double width = 0;
-			double height = 0;
+			double totalWidth = 0;
+			double maxHeight = 0;
 
 			foreach (var child in Children)
 			{
-				child.Measure(new(double.PositiveInfinity, availableSize.Height));
-				height = Math.Max(height, child.DesiredSize.Height);
+				if (IsAdornment(child))
+				{
+					child.Measure(new(double.PositiveInfinity, availableSize.Height));
+					continue;
+				}
 
-				if (child is ResizeVisual { Tag: TableViewColumn column })
-					width += GetResolvedColumnWidth(column);
+				child.Measure(new(double.PositiveInfinity, availableSize.Height));
+				totalWidth += child.DesiredSize.Width;
+				maxHeight = Math.Max(maxHeight, child.DesiredSize.Height);
 			}
 
-			return new(width, double.IsInfinity(availableSize.Height) ? height : availableSize.Height);
+			return new(totalWidth, maxHeight);
 		}
 
 		protected override Size ArrangeOverride(Size finalSize)
 		{
-			double x = 0;
+			double offset = 0;
+			var boundaries = new Dictionary<TableViewColumn, double>();
 
 			foreach (var child in Children)
 			{
-				if (child is not ResizeVisual { Tag: TableViewColumn column })
+				if (IsAdornment(child))
 					continue;
 
-				x += GetResolvedColumnWidth(column);
 				var width = child.DesiredSize.Width;
-				child.Arrange(new(
-					Math.Max(0, x - width / 2),
+				child.Arrange(new(offset, 0, width, finalSize.Height));
+				offset += width;
+
+				if (GetColumn(child) is { } column)
+					boundaries[column] = offset;
+			}
+
+			foreach (var child in Children)
+			{
+				if (child is not FrameworkElement { Tag: TableViewColumn column } adornment ||
+					!boundaries.TryGetValue(column, out var boundary))
+				{
+					continue;
+				}
+
+				var width = adornment.DesiredSize.Width;
+				adornment.Arrange(new(
+					Math.Max(0, boundary - width / 2),
 					0,
 					width,
 					finalSize.Height));
 			}
 
-			return finalSize;
+			return new(offset, finalSize.Height);
 		}
 
-		private static double GetResolvedColumnWidth(TableViewColumn column)
+		private static bool IsAdornment(UIElement element)
 		{
-			if (!double.IsNaN(column.Width) && column.Width > 0)
-				return column.Width;
+			return element is ResizeVisual or Rectangle;
+		}
 
-			return column.ActualWidth > 0 ? column.ActualWidth : column.MinWidth;
+		private static TableViewColumn? GetColumn(UIElement element)
+		{
+			return element as TableViewColumn ?? (element as ContentPresenter)?.Content as TableViewColumn;
 		}
 	}
 }

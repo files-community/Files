@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Shapes;
 using Windows.Foundation.Collections;
 
 namespace Files.App.Controls
@@ -14,16 +15,16 @@ namespace Files.App.Controls
 	{
 		private const string TemplatePartName_ColumnsPanel = "PART_ColumnsPanel";
 		private const string TemplatePartName_ColumnsScrollViewer = "PART_ColumnsScrollViewer";
-		private const string TemplatePartName_ColumnResizeOverlay = "PART_ColumnResizeOverlay";
 
 		protected internal TableViewColumn? SortedColumn;
 
 		private ReorderableItemsControl? _columnsItemsControl;
 		private ScrollViewer? _columnsScrollViewer;
-		private TableViewColumnResizePanel? _columnResizeOverlay;
+		private TableViewColumnResizePanel? _columnResizePanel;
 		private ScrollViewer? _viewScrollViewer;
 		private ListViewBase? _listView;
 		private readonly Dictionary<TableViewColumn, ResizeVisual> _columnResizeVisuals = [];
+		private readonly Dictionary<TableViewColumn, Rectangle> _columnDividers = [];
 		private readonly HashSet<TableViewColumn> _ownedColumns = [];
 		private readonly Dictionary<object, TableViewColumn> _columnsBySourceItem = new(ReferenceEqualityComparer.Instance);
 		private bool _isSynchronizingColumns;
@@ -59,8 +60,6 @@ namespace Files.App.Controls
 				?? throw new MissingFieldException($"Could not find {TemplatePartName_ColumnsPanel} in the given {nameof(TableView)}'s style.");
 			_columnsScrollViewer = GetTemplateChild(TemplatePartName_ColumnsScrollViewer) as ScrollViewer
 				?? throw new MissingFieldException($"Could not find {TemplatePartName_ColumnsScrollViewer} in the given {nameof(TableView)}'s style.");
-			_columnResizeOverlay = GetTemplateChild(TemplatePartName_ColumnResizeOverlay) as TableViewColumnResizePanel
-				?? throw new MissingFieldException($"Could not find {TemplatePartName_ColumnResizeOverlay} in the given {nameof(TableView)}'s style.");
 			_columnsItemsControl.ItemsSource = ActiveColumns;
 			UpdateColumnsPanelInteractionState();
 			UpdateResizeVisualInteractionState();
@@ -76,6 +75,7 @@ namespace Files.App.Controls
 
 		private void TableView_Loaded(object sender, RoutedEventArgs e)
 		{
+			EnsureColumnResizePanel();
 			HookColumnsPanel();
 			HookView(View);
 			ResolveColumnWidths();
@@ -345,19 +345,13 @@ namespace Files.App.Controls
 			if (_columnsScrollViewer is not null)
 				_columnsScrollViewer.ViewChanged -= ColumnsScrollViewer_ViewChanged;
 
-			foreach (var resizeVisual in _columnResizeVisuals.Values)
-			{
-				resizeVisual.DragStarted -= ColumnResizeVisual_DragStarted;
-				resizeVisual.DragDelta -= ColumnResizeVisual_DragDelta;
-				resizeVisual.DragCompleted -= ColumnResizeVisual_DragCompleted;
-			}
-
-			_columnResizeVisuals.Clear();
-			_columnResizeOverlay?.Children.Clear();
+			ClearColumnAdornments();
+			_columnResizePanel = null;
 		}
 
 		private void ColumnsPanel_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
+			EnsureColumnResizePanel();
 			UpdateColumnResizeVisuals();
 		}
 
@@ -387,7 +381,8 @@ namespace Files.App.Controls
 
 		private void UpdateColumnResizeVisuals()
 		{
-			if (_columnResizeOverlay is null)
+			EnsureColumnResizePanel();
+			if (_columnResizePanel is null)
 				return;
 
 			var resizableColumns = ActiveColumns.Take(Math.Max(0, ActiveColumns.Count - 1)).ToList();
@@ -397,8 +392,10 @@ namespace Files.App.Controls
 				resizeVisual.DragStarted -= ColumnResizeVisual_DragStarted;
 				resizeVisual.DragDelta -= ColumnResizeVisual_DragDelta;
 				resizeVisual.DragCompleted -= ColumnResizeVisual_DragCompleted;
-				_columnResizeOverlay.Children.Remove(resizeVisual);
+				_columnResizePanel.Children.Remove(resizeVisual);
 				_columnResizeVisuals.Remove(staleColumn);
+				if (_columnDividers.Remove(staleColumn, out var divider))
+					_columnResizePanel.Children.Remove(divider);
 			}
 
 			foreach (var column in resizableColumns)
@@ -417,11 +414,42 @@ namespace Files.App.Controls
 				resizeVisual.DragDelta += ColumnResizeVisual_DragDelta;
 				resizeVisual.DragCompleted += ColumnResizeVisual_DragCompleted;
 				_columnResizeVisuals[column] = resizeVisual;
-				_columnResizeOverlay.Children.Add(resizeVisual);
+				_columnResizePanel.Children.Add(resizeVisual);
+
+				var divider = new Rectangle { Tag = column };
+				_columnDividers[column] = divider;
+				_columnResizePanel.Children.Add(divider);
 			}
 
-			_columnResizeOverlay.InvalidateMeasure();
-			_columnResizeOverlay.InvalidateArrange();
+			_columnResizePanel.InvalidateMeasure();
+			_columnResizePanel.InvalidateArrange();
+		}
+
+		private void EnsureColumnResizePanel()
+		{
+			var panel = _columnsItemsControl?.ItemsPanelRoot as TableViewColumnResizePanel;
+			if (ReferenceEquals(panel, _columnResizePanel))
+				return;
+
+			ClearColumnAdornments();
+			_columnResizePanel = panel;
+		}
+
+		private void ClearColumnAdornments()
+		{
+			foreach (var resizeVisual in _columnResizeVisuals.Values)
+			{
+				resizeVisual.DragStarted -= ColumnResizeVisual_DragStarted;
+				resizeVisual.DragDelta -= ColumnResizeVisual_DragDelta;
+				resizeVisual.DragCompleted -= ColumnResizeVisual_DragCompleted;
+				_columnResizePanel?.Children.Remove(resizeVisual);
+			}
+
+			foreach (var divider in _columnDividers.Values)
+				_columnResizePanel?.Children.Remove(divider);
+
+			_columnResizeVisuals.Clear();
+			_columnDividers.Clear();
 		}
 
 		private static double GetResolvedColumnWidth(TableViewColumn column)

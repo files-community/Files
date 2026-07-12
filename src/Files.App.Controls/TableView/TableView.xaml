@@ -68,6 +68,7 @@
 								Height="{ThemeResource TableViewColumnHeaderHeight}"
 								Margin="4"
 								HorizontalAlignment="Left"
+								wct:UIElementExtensions.ClipToBounds="True"
 								Background="{ThemeResource TableViewColumnBackground}"
 								BorderBrush="{ThemeResource TableViewColumnBorderBrush}"
 								BorderThickness="{StaticResource TableViewColumnBorderThickness}"
@@ -79,25 +80,24 @@
 									VerticalScrollBarVisibility="Disabled"
 									VerticalScrollMode="Disabled"
 									ZoomMode="Disabled">
-									<Grid HorizontalAlignment="Left">
-										<local:ReorderableItemsControl
-											x:Name="PART_ColumnsPanel"
-											HorizontalAlignment="Left"
-											wct:UIElementExtensions.ClipToBounds="True">
+									<local:ReorderableItemsControl x:Name="PART_ColumnsPanel" HorizontalAlignment="Left">
 											<local:ReorderableItemsControl.ItemsPanel>
 												<ItemsPanelTemplate>
-													<StackPanel Orientation="Horizontal" />
+													<local:TableViewColumnResizePanel>
+														<local:TableViewColumnResizePanel.Resources>
+															<Style BasedOn="{StaticResource DefaultResizeVisualStyle}" TargetType="local:ResizeVisual">
+																<Setter Property="Width" Value="{ThemeResource TableViewColumnResizeVisualWidth}" />
+															</Style>
+															<Style TargetType="Rectangle">
+																<Setter Property="Width" Value="1" />
+																<Setter Property="Fill" Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
+																<Setter Property="IsHitTestVisible" Value="False" />
+															</Style>
+														</local:TableViewColumnResizePanel.Resources>
+													</local:TableViewColumnResizePanel>
 												</ItemsPanelTemplate>
 											</local:ReorderableItemsControl.ItemsPanel>
 										</local:ReorderableItemsControl>
-										<local:TableViewColumnResizePanel x:Name="PART_ColumnResizeOverlay">
-											<local:TableViewColumnResizePanel.Resources>
-												<Style BasedOn="{StaticResource DefaultResizeVisualStyle}" TargetType="local:ResizeVisual">
-													<Setter Property="Width" Value="{ThemeResource TableViewColumnResizeVisualWidth}" />
-												</Style>
-											</local:TableViewColumnResizePanel.Resources>
-										</local:TableViewColumnResizePanel>
-									</Grid>
 								</ScrollViewer>
 							</Border>
 
@@ -133,7 +133,6 @@
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition x:Name="HeaderTextColumn" Width="*" />
 								<ColumnDefinition x:Name="SortOrderGlyphColumn" Width="Auto" />
-								<ColumnDefinition x:Name="ColumnVisualDividerColumn" Width="1" />
 							</Grid.ColumnDefinitions>
 
 							<TextBlock
@@ -165,13 +164,6 @@
 									<RotateTransform />
 								</FontIcon.RenderTransform>
 							</FontIcon>
-
-							<Rectangle
-								x:Name="ColumnSeparatorVisual"
-								Grid.Column="2"
-								Width="1"
-								VerticalAlignment="Stretch"
-								Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
 							<VisualStateManager.VisualStateGroups>
 								<VisualStateGroup x:Name="ColumnVisualStates">
