@@ -27,6 +27,15 @@ namespace Files.App.Controls
 		[GeneratedDependencyProperty]
 		public partial string? Header { get; set; }
 
+		[GeneratedDependencyProperty(DefaultValue = true)]
+		public partial bool CanBeResized { get; set; }
+
+		[GeneratedDependencyProperty(DefaultValue = true)]
+		public partial bool CanBeReordered { get; set; }
+
+		[GeneratedDependencyProperty(DefaultValue = true)]
+		public partial bool CanBeSorted { get; set; }
+
 		[GeneratedDependencyProperty]
 		public partial ListSortDirection? SortDirection { get; set; }
 
@@ -37,6 +46,21 @@ namespace Files.App.Controls
 		{
 			UpdateSortVisualState(true);
 			NotifySortDirectionChanged();
+		}
+
+		partial void OnCanBeResizedChanged(bool newValue)
+		{
+			NotifyInteractionOptionsChanged();
+		}
+
+		partial void OnCanBeReorderedChanged(bool newValue)
+		{
+			NotifyInteractionOptionsChanged();
+		}
+
+		partial void OnCanBeSortedChanged(bool newValue)
+		{
+			ResetPointerEventVisual();
 		}
 
 		partial void OnHeaderChanged(string? newValue)

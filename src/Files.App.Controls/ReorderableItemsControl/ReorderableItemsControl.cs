@@ -33,6 +33,8 @@ namespace Files.App.Controls
 
 		public event EventHandler<ReorderedItemsEventArgs>? Reordered;
 
+		internal Predicate<object>? ReorderItemFilter { get; set; }
+
 		public ReorderableItemsControl()
 		{
 			DefaultStyleKey = typeof(ReorderableItemsControl);
@@ -72,6 +74,10 @@ namespace Files.App.Controls
 			if (itemCount < 2)
 				return;
 
+			var dragItemIndex = IndexFromContainer(dragElement);
+			if (dragItemIndex < 0 || ReorderItemFilter?.Invoke(Items[dragItemIndex]) is false)
+				return;
+
 			_ancestorScrollViewer ??= TryFindAncestorScrollViewer(dragElement);
 
 			_isHorizontal = ItemsPanelRoot switch
@@ -83,7 +89,7 @@ namespace Files.App.Controls
 				e.Mode = _isHorizontal ? ManipulationModes.TranslateX : ManipulationModes.TranslateY;
 
 			_dragItem = dragElement;
-			_dragItemOriginalIndex = IndexFromContainer(dragElement);
+			_dragItemOriginalIndex = dragItemIndex;
 			_isDragging = true;
 
 			_originalPositions = new double[itemCount];

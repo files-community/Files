@@ -103,7 +103,7 @@ namespace Files.App.Controls
 
 		internal void RequestSort()
 		{
-			if (IsEnabled && _owner is not null && _owner.TryGetTarget(out var owner) && !owner.IsColumnResizing)
+			if (IsEnabled && IsSortingEnabled && _owner is not null && _owner.TryGetTarget(out var owner) && !owner.IsColumnResizing)
 				owner.RequestSort(this);
 		}
 
@@ -130,6 +130,18 @@ namespace Files.App.Controls
 			if (_owner is not null && _owner.TryGetTarget(out var owner))
 				owner.ResolveColumnWidths();
 		}
+
+		private void NotifyInteractionOptionsChanged()
+		{
+			if (_owner is not null && _owner.TryGetTarget(out var owner))
+				owner.UpdateColumnInteractionState();
+		}
+
+		private bool IsSortingEnabled =>
+			CanBeSorted &&
+			_owner is not null &&
+			_owner.TryGetTarget(out var owner) &&
+			owner.CanUserSortColumns;
 
 		internal protected void ResetPointerEventVisual()
 		{

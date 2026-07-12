@@ -94,6 +94,12 @@ namespace Files.App.Controls
 			UpdateResizeVisualInteractionState();
 		}
 
+		partial void OnCanUserSortColumnsChanged(bool newValue)
+		{
+			foreach (var column in ActiveColumns)
+				column.ResetPointerEventVisual();
+		}
+
 		partial void OnIsColumnResizingChanged(bool newValue)
 		{
 			if (newValue)

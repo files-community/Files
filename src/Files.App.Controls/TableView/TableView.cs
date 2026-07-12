@@ -409,8 +409,8 @@ namespace Files.App.Controls
 				var resizeVisual = new ResizeVisual()
 				{
 					Orientation = Orientation.Horizontal,
-					IsEnabled = CanUserResizeColumns,
-					IsHitTestVisible = CanUserResizeColumns,
+					IsEnabled = CanUserResizeColumns && column.CanBeResized,
+					IsHitTestVisible = CanUserResizeColumns && column.CanBeResized,
 					Tag = column,
 				};
 				resizeVisual.DragStarted += ColumnResizeVisual_DragStarted;
@@ -434,7 +434,7 @@ namespace Files.App.Controls
 
 		private void ColumnResizeVisual_DragStarted(object sender, DragStartedEventArgs e)
 		{
-			if (!CanUserResizeColumns || sender is not ResizeVisual { Tag: TableViewColumn column })
+			if (!CanUserResizeColumns || sender is not ResizeVisual { Tag: TableViewColumn { CanBeResized: true } column })
 				return;
 
 			_resizingColumn = column;
@@ -444,7 +444,7 @@ namespace Files.App.Controls
 
 		private void ColumnResizeVisual_DragDelta(object sender, DragDeltaEventArgs e)
 		{
-			if (!CanUserResizeColumns || sender is not ResizeVisual { Tag: TableViewColumn column })
+			if (!CanUserResizeColumns || sender is not ResizeVisual { Tag: TableViewColumn { CanBeResized: true } column })
 				return;
 
 			var delta = FlowDirection is FlowDirection.RightToLeft ? -e.HorizontalChange : e.HorizontalChange;
@@ -646,7 +646,7 @@ namespace Files.App.Controls
 
 		internal void RequestSort(TableViewColumn column)
 		{
-			if (!CanUserSortColumns)
+			if (!CanUserSortColumns || !column.CanBeSorted)
 				return;
 
 			var requestedDirection = column.SortDirection is null or ListSortDirection.Descending
@@ -684,19 +684,29 @@ namespace Files.App.Controls
 		private void UpdateColumnsPanelInteractionState()
 		{
 			if (_columnsItemsControl is not null)
+			{
 				_columnsItemsControl.IsReorderEnabled = CanUserReorderColumns;
+				_columnsItemsControl.ReorderItemFilter = item => item is not TableViewColumn column || column.CanBeReordered;
+			}
 		}
 
 		private void UpdateResizeVisualInteractionState()
 		{
 			foreach (var resizeVisual in _columnResizeVisuals.Values)
 			{
-				resizeVisual.IsEnabled = CanUserResizeColumns;
-				resizeVisual.IsHitTestVisible = CanUserResizeColumns;
+				var isEnabled = CanUserResizeColumns && resizeVisual.Tag is TableViewColumn { CanBeResized: true };
+				resizeVisual.IsEnabled = isEnabled;
+				resizeVisual.IsHitTestVisible = isEnabled;
 			}
 
-			if (!CanUserResizeColumns && IsColumnResizing)
+			if ((!CanUserResizeColumns || _resizingColumn is { CanBeResized: false }) && IsColumnResizing)
 				IsColumnResizing = false;
+		}
+
+		internal void UpdateColumnInteractionState()
+		{
+			UpdateColumnsPanelInteractionState();
+			UpdateResizeVisualInteractionState();
 		}
 	}
 }
