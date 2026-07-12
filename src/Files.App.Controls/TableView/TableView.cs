@@ -6,7 +6,6 @@ using System.Collections.Specialized;
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Shapes;
 using Windows.Foundation.Collections;
 
 namespace Files.App.Controls
@@ -23,8 +22,6 @@ namespace Files.App.Controls
 		private TableViewColumnResizePanel? _columnResizePanel;
 		private ScrollViewer? _viewScrollViewer;
 		private ListViewBase? _listView;
-		private readonly Dictionary<TableViewColumn, ResizeVisual> _columnResizeVisuals = [];
-		private readonly Dictionary<TableViewColumn, Rectangle> _columnDividers = [];
 		private readonly HashSet<TableViewColumn> _ownedColumns = [];
 		private readonly Dictionary<object, TableViewColumn> _columnsBySourceItem = new(ReferenceEqualityComparer.Instance);
 		private bool _isSynchronizingColumns;
@@ -113,7 +110,7 @@ namespace Files.App.Controls
 
 			ReconcileColumnOwners();
 			ResolveColumnWidths();
-			UpdateColumnResizeVisuals();
+			InvalidateColumnResizePanel();
 			RefreshVisibleRows();
 			InvalidateLayoutOfAllRows();
 		}
@@ -345,14 +342,14 @@ namespace Files.App.Controls
 			if (_columnsScrollViewer is not null)
 				_columnsScrollViewer.ViewChanged -= ColumnsScrollViewer_ViewChanged;
 
-			ClearColumnAdornments();
+			UnhookColumnResizePanel();
 			_columnResizePanel = null;
 		}
 
 		private void ColumnsPanel_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
 			EnsureColumnResizePanel();
-			UpdateColumnResizeVisuals();
+			InvalidateColumnResizePanel();
 		}
 
 		private void ColumnsPanel_Reordered(object? sender, ReorderedItemsEventArgs e)
@@ -363,7 +360,7 @@ namespace Files.App.Controls
 			PersistColumnOrder(e.NewIndexToOldIndexMap);
 			ColumnReordered?.Invoke(this, e);
 			ResolveColumnWidths();
-			UpdateColumnResizeVisuals();
+			InvalidateColumnResizePanel();
 			RefreshVisibleRows();
 			InvalidateLayoutOfAllRows();
 		}
@@ -376,53 +373,17 @@ namespace Files.App.Controls
 			foreach (var column in ActiveColumns)
 				column.ApplyResolvedWidth(ResolveColumnWidth(column));
 
-			UpdateColumnResizeVisuals();
+			InvalidateColumnResizePanel();
 		}
 
-		private void UpdateColumnResizeVisuals()
+		private void InvalidateColumnResizePanel()
 		{
 			EnsureColumnResizePanel();
 			if (_columnResizePanel is null)
 				return;
 
-			var resizableColumns = ActiveColumns.Take(Math.Max(0, ActiveColumns.Count - 1)).ToList();
-			foreach (var staleColumn in _columnResizeVisuals.Keys.Where(column => !resizableColumns.Contains(column)).ToList())
-			{
-				var resizeVisual = _columnResizeVisuals[staleColumn];
-				resizeVisual.DragStarted -= ColumnResizeVisual_DragStarted;
-				resizeVisual.DragDelta -= ColumnResizeVisual_DragDelta;
-				resizeVisual.DragCompleted -= ColumnResizeVisual_DragCompleted;
-				_columnResizePanel.Children.Remove(resizeVisual);
-				_columnResizeVisuals.Remove(staleColumn);
-				if (_columnDividers.Remove(staleColumn, out var divider))
-					_columnResizePanel.Children.Remove(divider);
-			}
-
-			foreach (var column in resizableColumns)
-			{
-				if (_columnResizeVisuals.ContainsKey(column))
-					continue;
-
-				var resizeVisual = new ResizeVisual()
-				{
-					Orientation = Orientation.Horizontal,
-					IsEnabled = CanUserResizeColumns && column.CanBeResized,
-					IsHitTestVisible = CanUserResizeColumns && column.CanBeResized,
-					Tag = column,
-				};
-				resizeVisual.DragStarted += ColumnResizeVisual_DragStarted;
-				resizeVisual.DragDelta += ColumnResizeVisual_DragDelta;
-				resizeVisual.DragCompleted += ColumnResizeVisual_DragCompleted;
-				_columnResizeVisuals[column] = resizeVisual;
-				_columnResizePanel.Children.Add(resizeVisual);
-
-				var divider = new Rectangle { Tag = column };
-				_columnDividers[column] = divider;
-				_columnResizePanel.Children.Add(divider);
-			}
-
+			_columnResizePanel.CanResizeColumns = CanUserResizeColumns;
 			_columnResizePanel.InvalidateMeasure();
-			_columnResizePanel.InvalidateArrange();
 		}
 
 		private void EnsureColumnResizePanel()
@@ -431,25 +392,25 @@ namespace Files.App.Controls
 			if (ReferenceEquals(panel, _columnResizePanel))
 				return;
 
-			ClearColumnAdornments();
+			UnhookColumnResizePanel();
 			_columnResizePanel = panel;
+			if (_columnResizePanel is not null)
+			{
+				_columnResizePanel.ColumnResizeStarted += ColumnResizeVisual_DragStarted;
+				_columnResizePanel.ColumnResizeDelta += ColumnResizeVisual_DragDelta;
+				_columnResizePanel.ColumnResizeCompleted += ColumnResizeVisual_DragCompleted;
+				_columnResizePanel.CanResizeColumns = CanUserResizeColumns;
+			}
 		}
 
-		private void ClearColumnAdornments()
+		private void UnhookColumnResizePanel()
 		{
-			foreach (var resizeVisual in _columnResizeVisuals.Values)
-			{
-				resizeVisual.DragStarted -= ColumnResizeVisual_DragStarted;
-				resizeVisual.DragDelta -= ColumnResizeVisual_DragDelta;
-				resizeVisual.DragCompleted -= ColumnResizeVisual_DragCompleted;
-				_columnResizePanel?.Children.Remove(resizeVisual);
-			}
+			if (_columnResizePanel is null)
+				return;
 
-			foreach (var divider in _columnDividers.Values)
-				_columnResizePanel?.Children.Remove(divider);
-
-			_columnResizeVisuals.Clear();
-			_columnDividers.Clear();
+			_columnResizePanel.ColumnResizeStarted -= ColumnResizeVisual_DragStarted;
+			_columnResizePanel.ColumnResizeDelta -= ColumnResizeVisual_DragDelta;
+			_columnResizePanel.ColumnResizeCompleted -= ColumnResizeVisual_DragCompleted;
 		}
 
 		private static double GetResolvedColumnWidth(TableViewColumn column)
@@ -720,11 +681,11 @@ namespace Files.App.Controls
 
 		private void UpdateResizeVisualInteractionState()
 		{
-			foreach (var resizeVisual in _columnResizeVisuals.Values)
+			EnsureColumnResizePanel();
+			if (_columnResizePanel is not null)
 			{
-				var isEnabled = CanUserResizeColumns && resizeVisual.Tag is TableViewColumn { CanBeResized: true };
-				resizeVisual.IsEnabled = isEnabled;
-				resizeVisual.IsHitTestVisible = isEnabled;
+				_columnResizePanel.CanResizeColumns = CanUserResizeColumns;
+				_columnResizePanel.UpdateResizeVisualInteractionState();
 			}
 
 			if ((!CanUserResizeColumns || _resizingColumn is { CanBeResized: false }) && IsColumnResizing)

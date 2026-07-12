@@ -8,23 +8,44 @@ namespace Files.App.Controls
 {
 	public sealed partial class TableViewColumnResizePanel : Panel
 	{
+		private readonly Dictionary<TableViewColumn, ResizeVisual> _resizeVisuals = [];
+		private readonly Dictionary<TableViewColumn, Rectangle> _dividers = [];
+		private bool _canResizeColumns = true;
+
+		internal event DragStartedEventHandler? ColumnResizeStarted;
+		internal event DragDeltaEventHandler? ColumnResizeDelta;
+		internal event DragCompletedEventHandler? ColumnResizeCompleted;
+
+		internal bool CanResizeColumns
+		{
+			get => _canResizeColumns;
+			set
+			{
+				if (_canResizeColumns == value)
+					return;
+
+				_canResizeColumns = value;
+				UpdateResizeVisualInteractionState();
+			}
+		}
+
 		protected override Size MeasureOverride(Size availableSize)
 		{
+			var contentChildren = Children.Where(child => !IsAdornment(child)).ToList();
+			EnsureAdornments(contentChildren);
+
 			double totalWidth = 0;
 			double maxHeight = 0;
 
-			foreach (var child in Children)
+			foreach (var child in contentChildren)
 			{
-				if (IsAdornment(child))
-				{
-					child.Measure(new(double.PositiveInfinity, availableSize.Height));
-					continue;
-				}
-
 				child.Measure(new(double.PositiveInfinity, availableSize.Height));
 				totalWidth += child.DesiredSize.Width;
 				maxHeight = Math.Max(maxHeight, child.DesiredSize.Height);
 			}
+
+			foreach (var adornment in Children.Where(IsAdornment))
+				adornment.Measure(new(double.PositiveInfinity, availableSize.Height));
 
 			return new(totalWidth, maxHeight);
 		}
@@ -74,6 +95,81 @@ namespace Files.App.Controls
 		private static TableViewColumn? GetColumn(UIElement element)
 		{
 			return element as TableViewColumn ?? (element as ContentPresenter)?.Content as TableViewColumn;
+		}
+
+		private void EnsureAdornments(IReadOnlyList<UIElement> contentChildren)
+		{
+			var columns = contentChildren
+				.Select(GetColumn)
+				.Where(column => column is not null)
+				.Cast<TableViewColumn>()
+				.ToList();
+			var boundaryColumns = columns.Take(Math.Max(0, columns.Count - 1)).ToHashSet();
+
+			foreach (var column in _resizeVisuals.Keys.Where(column => !boundaryColumns.Contains(column)).ToList())
+				RemoveAdornments(column);
+
+			foreach (var column in boundaryColumns)
+			{
+				if (_resizeVisuals.ContainsKey(column))
+					continue;
+
+				var resizeVisual = new ResizeVisual
+				{
+					Orientation = Orientation.Horizontal,
+					Tag = column,
+				};
+				resizeVisual.DragStarted += ResizeVisual_DragStarted;
+				resizeVisual.DragDelta += ResizeVisual_DragDelta;
+				resizeVisual.DragCompleted += ResizeVisual_DragCompleted;
+				_resizeVisuals[column] = resizeVisual;
+				Children.Add(resizeVisual);
+
+				var divider = new Rectangle { Tag = column };
+				_dividers[column] = divider;
+				Children.Add(divider);
+			}
+
+			UpdateResizeVisualInteractionState();
+		}
+
+		private void RemoveAdornments(TableViewColumn column)
+		{
+			if (_resizeVisuals.Remove(column, out var resizeVisual))
+			{
+				resizeVisual.DragStarted -= ResizeVisual_DragStarted;
+				resizeVisual.DragDelta -= ResizeVisual_DragDelta;
+				resizeVisual.DragCompleted -= ResizeVisual_DragCompleted;
+				Children.Remove(resizeVisual);
+			}
+
+			if (_dividers.Remove(column, out var divider))
+				Children.Remove(divider);
+		}
+
+		internal void UpdateResizeVisualInteractionState()
+		{
+			foreach (var (column, resizeVisual) in _resizeVisuals)
+			{
+				var isEnabled = CanResizeColumns && column.CanBeResized;
+				resizeVisual.IsEnabled = isEnabled;
+				resizeVisual.IsHitTestVisible = isEnabled;
+			}
+		}
+
+		private void ResizeVisual_DragStarted(object sender, DragStartedEventArgs e)
+		{
+			ColumnResizeStarted?.Invoke(sender, e);
+		}
+
+		private void ResizeVisual_DragDelta(object sender, DragDeltaEventArgs e)
+		{
+			ColumnResizeDelta?.Invoke(sender, e);
+		}
+
+		private void ResizeVisual_DragCompleted(object sender, DragCompletedEventArgs e)
+		{
+			ColumnResizeCompleted?.Invoke(sender, e);
 		}
 	}
 }
