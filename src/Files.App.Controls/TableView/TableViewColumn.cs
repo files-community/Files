@@ -10,13 +10,18 @@ namespace Files.App.Controls
 	{
 		private WeakReference<TableView>? _owner;
 		private Grid? _rootGrid;
+		private TextBlock? _headerTextBlock;
+		private FontIcon? _sortOrderGlyph;
 		private bool _isApplyingResolvedWidth;
+		private double _autoDesiredWidth;
 
 		public TableViewColumn()
 		{
 			DefaultStyleKey = typeof(TableViewColumn);
 			IsTabStop = true;
 			RegisterPropertyChangedCallback(WidthProperty, OnWidthPropertyChanged);
+			RegisterPropertyChangedCallback(MinWidthProperty, OnColumnSizeConstraintChanged);
+			RegisterPropertyChangedCallback(MaxWidthProperty, OnColumnSizeConstraintChanged);
 			IsEnabledChanged += TableViewColumn_IsEnabledChanged;
 			KeyDown += TableViewColumn_KeyDown;
 			SizeChanged += TableViewColumn_SizeChanged;
@@ -29,6 +34,8 @@ namespace Files.App.Controls
 			UnhookRootGrid();
 			_rootGrid = GetTemplateChild(TemplatePartName_RootGrid) as Grid
 				?? throw new MissingFieldException($"Could not find {TemplatePartName_RootGrid} in the given {nameof(TableViewColumn)}'s style.");
+			_headerTextBlock = GetTemplateChild(TemplatePartName_HeaderTextBlock) as TextBlock;
+			_sortOrderGlyph = GetTemplateChild(TemplatePartName_SortOrderGlyph) as FontIcon;
 
 			_rootGrid.PointerEntered += RootGrid_PointerEntered;
 			_rootGrid.PointerExited += RootGrid_PointerExited;
@@ -112,6 +119,8 @@ namespace Files.App.Controls
 			return _owner is not null && _owner.TryGetTarget(out var owner) ? owner : null;
 		}
 
+		internal bool IsEffectivelyReadOnly => IsReadOnly || GetOwner() is { IsReadOnly: true };
+
 		internal void ApplyResolvedWidth(double width)
 		{
 			_isApplyingResolvedWidth = true;
@@ -127,18 +136,59 @@ namespace Files.App.Controls
 
 		internal void NotifyColumnWidthChanged()
 		{
-			if (_owner is not null && _owner.TryGetTarget(out var owner))
-				owner.ResolveColumnWidths();
+			if (ColumnWidth.IsAuto)
+				_autoDesiredWidth = 0;
+
+			NotifyPropertyChanged(
+				TableViewNotificationTarget.ColumnLayout |
+				TableViewNotificationTarget.RowLayout |
+				TableViewNotificationTarget.ResizeVisuals);
+		}
+
+		internal double AutoDesiredWidth => Math.Clamp(Math.Max(MinWidth, _autoDesiredWidth), MinWidth, MaxWidth);
+
+		internal bool ReportAutoDesiredWidth(double desiredWidth)
+		{
+			if (!ColumnWidth.IsAuto || double.IsNaN(desiredWidth) || double.IsInfinity(desiredWidth))
+				return false;
+
+			desiredWidth = Math.Clamp(desiredWidth, MinWidth, MaxWidth);
+			if (desiredWidth <= _autoDesiredWidth)
+				return false;
+
+			_autoDesiredWidth = desiredWidth;
+			return true;
+		}
+
+		internal bool MeasureHeaderDesiredWidth(double availableHeight)
+		{
+			if (!ColumnWidth.IsAuto || _headerTextBlock is null)
+				return false;
+
+			_headerTextBlock.Measure(new(double.PositiveInfinity, availableHeight));
+			double desiredWidth = _headerTextBlock.DesiredSize.Width;
+			if (_sortOrderGlyph is { Visibility: Visibility.Visible })
+			{
+				_sortOrderGlyph.Measure(new(double.PositiveInfinity, availableHeight));
+				desiredWidth += _sortOrderGlyph.DesiredSize.Width;
+			}
+
+			return ReportAutoDesiredWidth(desiredWidth);
 		}
 
 		private void NotifyInteractionOptionsChanged()
 		{
+			NotifyPropertyChanged(TableViewNotificationTarget.ResizeVisuals);
+		}
+
+		private protected void NotifyPropertyChanged(TableViewNotificationTarget target)
+		{
 			if (_owner is not null && _owner.TryGetTarget(out var owner))
-				owner.UpdateColumnInteractionState();
+				owner.NotifyPropertyChanged(this, target);
 		}
 
 		private bool IsSortingEnabled =>
-			CanBeSorted &&
+			CanUserSort &&
 			_owner is not null &&
 			_owner.TryGetTarget(out var owner) &&
 			owner.CanUserSortColumns;
@@ -164,6 +214,8 @@ namespace Files.App.Controls
 			_rootGrid.PointerReleased -= RootGrid_PointerReleased;
 			_rootGrid.Tapped -= RootGrid_Tapped;
 			_rootGrid = null;
+			_headerTextBlock = null;
+			_sortOrderGlyph = null;
 		}
 
 		private void UpdateSortVisualState(bool useTransitions)
@@ -186,44 +238,27 @@ namespace Files.App.Controls
 				useTransitions);
 		}
 
-		internal protected void OnColumnBeingResized()
-		{
-			if (_owner is null || !_owner.TryGetTarget(out var owner))
-				return;
-
-			if (!owner.IsColumnResizing)
-			{
-				ResetPointerEventVisual();
-				owner.IsColumnResizing = true;
-			}
-
-			owner.InvalidateLayoutOfAllRows();
-		}
-
-		internal protected void OnColumnResizeCompleted()
-		{
-			if (_owner is null || !_owner.TryGetTarget(out var owner))
-				return;
-
-			if (!double.IsNaN(Width))
-				ColumnWidth = new GridLength(Width, GridUnitType.Pixel);
-
-			ResetPointerEventVisual();
-			owner.IsColumnResizing = false;
-			owner.InvalidateLayoutOfAllRows();
-		}
-
 		private void OnWidthPropertyChanged(DependencyObject sender, DependencyProperty dp)
 		{
 			if (_isApplyingResolvedWidth ||
-				double.IsNaN(Width) ||
-				_owner is not null && _owner.TryGetTarget(out var owner) && owner.IsColumnResizing)
+				double.IsNaN(Width))
 			{
 				return;
 			}
 
 			throw new InvalidOperationException(
 				$"{nameof(TableViewColumn)}.{nameof(Width)} is reserved for internal layout. Use {nameof(ColumnWidth)} instead.");
+		}
+
+		internal void ResetAutoDesiredWidth()
+		{
+			if (ColumnWidth.IsAuto)
+				_autoDesiredWidth = 0;
+		}
+
+		private void OnColumnSizeConstraintChanged(DependencyObject sender, DependencyProperty dp)
+		{
+			NotifyColumnWidthChanged();
 		}
 	}
 }

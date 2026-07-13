@@ -30,37 +30,7 @@ namespace Files.App.Controls
 			SetOwner(owner);
 			SetDataItem(dataItem);
 			_availableHeight = 0;
-
-			var schemaMatches = Children.Count == owner.ActiveColumns.Count;
-			if (schemaMatches)
-			{
-				for (int index = 0; index < Children.Count; index++)
-				{
-					if (Children[index] is not TableViewCell cell || cell.Column != owner.ActiveColumns[index])
-					{
-						schemaMatches = false;
-						break;
-					}
-				}
-			}
-
-			if (!schemaMatches)
-			{
-				Children.Clear();
-				foreach (var column in owner.ActiveColumns)
-				{
-					Children.Add(new TableViewCell
-					{
-						VerticalAlignment = VerticalAlignment.Stretch,
-						HorizontalAlignment = HorizontalAlignment.Stretch,
-					});
-				}
-			}
-
-			for (int index = 0; index < owner.ActiveColumns.Count; index++)
-			{
-				((TableViewCell)Children[index]).Bind(owner.ActiveColumns[index], dataItem);
-			}
+			SynchronizeCells(owner);
 
 			InvalidateArrange();
 			InvalidateMeasure();
@@ -94,19 +64,23 @@ namespace Files.App.Controls
 				? maxHeight
 				: Math.Max(maxHeight, finalSize.Height);
 
-			for (int index = 0; index < Children.Count; index++)
+			foreach (var child in Children.OfType<TableViewCell>())
 			{
-				var column = owner.ActiveColumns[index];
-				var child = Children[index];
+				if (child.Column is not { } column)
+					continue;
+
+				var columnIndex = owner.GetColumnIndex(column);
+				if (columnIndex < 0)
+					continue;
 
 				child.Arrange(new(
-					x,
+					owner.GetColumnOffset(columnIndex),
 					0,
 					column.ActualWidth,
 					_availableHeight));
-
-				x += column.ActualWidth;
 			}
+
+			x = owner.GetTotalColumnsWidth();
 
 			var arrangedWidth = double.IsInfinity(finalSize.Width) || finalSize.Width <= 0
 				? x
@@ -117,32 +91,89 @@ namespace Files.App.Controls
 
 		protected override Size MeasureOverride(Size availableSize)
 		{
-			if (Children.Count is 0 || _owner is null || !_owner.TryGetTarget(out var owner))
+			if (_owner is null || !_owner.TryGetTarget(out var owner))
 				return new(0, 0);
 
 			owner.ResolveColumnWidths(availableSize.Width);
+			SynchronizeCells(owner);
+
+			bool desiredWidthChanged = false;
+			foreach (var cell in Children.OfType<TableViewCell>())
+			{
+				if (cell.Column is not { ColumnWidth.IsAuto: true } column)
+					continue;
+
+				cell.Measure(new(double.PositiveInfinity, availableSize.Height));
+				desiredWidthChanged |= column.ReportAutoDesiredWidth(cell.DesiredSize.Width);
+			}
+
+			if (desiredWidthChanged)
+			{
+				owner.InvalidateColumnWidths();
+				owner.ResolveColumnWidths(availableSize.Width);
+			}
 
 			double maxHeight = 0;
-			double totalWidth = 0;
 
-			for (int index = 0; index < Children.Count; index++)
+			foreach (var child in Children.OfType<TableViewCell>())
 			{
-				var child = Children[index];
-				var column = owner.ActiveColumns[index];
+				if (child.Column is not { } column)
+					continue;
 
 				child.Measure(new(column.ActualWidth, availableSize.Height));
 
 				maxHeight = Math.Max(maxHeight, child.DesiredSize.Height);
-				totalWidth += column.ActualWidth;
 			}
 
 			_availableHeight = maxHeight;
+			var totalWidth = owner.GetTotalColumnsWidth();
 
 			var measuredWidth = double.IsInfinity(availableSize.Width) || availableSize.Width <= 0
 				? totalWidth
 				: Math.Max(totalWidth, availableSize.Width);
 
 			return new(measuredWidth, _availableHeight);
+		}
+
+		private void SynchronizeCells(TableView owner)
+		{
+			if (_dataItem is null)
+				return;
+
+			var (startIndex, endIndex) = owner.GetRealizedColumnRange();
+			var desiredColumns = startIndex < 0
+				? []
+				: owner.ActiveColumns.Skip(startIndex).Take(endIndex - startIndex + 1).ToList();
+			foreach (var editingCell in Children.OfType<TableViewCell>().Where(cell => cell.IsEditing))
+			{
+				if (editingCell.Column is { } column && owner.ActiveColumns.Contains(column) && !desiredColumns.Contains(column))
+					desiredColumns.Add(column);
+			}
+
+			var existingCells = Children
+				.OfType<TableViewCell>()
+				.Where(cell => cell.Column is not null)
+				.ToDictionary(cell => cell.Column!);
+			foreach (var cell in existingCells.Values.Where(cell => !desiredColumns.Contains(cell.Column!)))
+				cell.EnsureEndEdit();
+
+			Children.Clear();
+			foreach (var column in desiredColumns.OrderBy(owner.GetColumnIndex))
+			{
+				if (!existingCells.TryGetValue(column, out var cell))
+				{
+					cell = new TableViewCell
+					{
+						VerticalAlignment = VerticalAlignment.Stretch,
+						HorizontalAlignment = HorizontalAlignment.Stretch,
+					};
+				}
+
+				if (cell.Column != column || !ReferenceEquals(cell.Data, _dataItem))
+					cell.Bind(column, _dataItem);
+
+				Children.Add(cell);
+			}
 		}
 
 		private void SetDataItem(object? dataItem)
@@ -164,7 +195,15 @@ namespace Files.App.Controls
 			foreach (var cell in Children.OfType<TableViewCell>())
 			{
 				if (string.IsNullOrEmpty(e.PropertyName) || cell.Column?.Binding == e.PropertyName)
+				{
 					cell.Refresh();
+					if (cell.Column is { } column &&
+						_owner is not null &&
+						_owner.TryGetTarget(out var owner))
+					{
+						owner.InvalidateAutoColumnWidth(column);
+					}
+				}
 			}
 		}
 
@@ -174,5 +213,27 @@ namespace Files.App.Controls
 				cell.EnsureEndEdit();
 		}
 
+		internal bool CommitEdit()
+		{
+			foreach (var cell in Children.OfType<TableViewCell>().Where(cell => cell.IsEditing))
+			{
+				if (!cell.CommitEdit())
+					return false;
+			}
+
+			return true;
+		}
+
+		internal void CancelEdit()
+		{
+			foreach (var cell in Children.OfType<TableViewCell>().Where(cell => cell.IsEditing))
+				cell.CancelEdit();
+		}
+
+		internal void CancelEdit(TableViewColumn column)
+		{
+			foreach (var cell in Children.OfType<TableViewCell>().Where(cell => cell.IsEditing && cell.Column == column))
+				cell.CancelEdit();
+		}
 	}
 }

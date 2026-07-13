@@ -28,13 +28,16 @@ namespace Files.App.Controls
 		public partial string? Header { get; set; }
 
 		[GeneratedDependencyProperty(DefaultValue = true)]
-		public partial bool CanBeResized { get; set; }
+		public partial bool CanUserResize { get; set; }
 
 		[GeneratedDependencyProperty(DefaultValue = true)]
-		public partial bool CanBeReordered { get; set; }
+		public partial bool CanUserReorder { get; set; }
 
 		[GeneratedDependencyProperty(DefaultValue = true)]
-		public partial bool CanBeSorted { get; set; }
+		public partial bool CanUserSort { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial bool IsReadOnly { get; set; }
 
 		[GeneratedDependencyProperty]
 		public partial ListSortDirection? SortDirection { get; set; }
@@ -44,28 +47,52 @@ namespace Files.App.Controls
 
 		partial void OnSortDirectionChanged(ListSortDirection? newValue)
 		{
+			if (ColumnWidth.IsAuto)
+				_autoDesiredWidth = 0;
 			UpdateSortVisualState(true);
 			NotifySortDirectionChanged();
+			NotifyPropertyChanged(TableViewNotificationTarget.ColumnLayout | TableViewNotificationTarget.ColumnHeaders);
 		}
 
-		partial void OnCanBeResizedChanged(bool newValue)
+		partial void OnCanUserResizeChanged(bool newValue)
 		{
 			NotifyInteractionOptionsChanged();
 		}
 
-		partial void OnCanBeReorderedChanged(bool newValue)
+		partial void OnCanUserReorderChanged(bool newValue)
 		{
 			NotifyInteractionOptionsChanged();
 		}
 
-		partial void OnCanBeSortedChanged(bool newValue)
+		partial void OnCanUserSortChanged(bool newValue)
 		{
 			ResetPointerEventVisual();
 		}
 
+		partial void OnIsReadOnlyChanged(bool newValue)
+		{
+			if (newValue && GetOwner() is { } owner)
+				owner.CancelEdit(this);
+
+			NotifyPropertyChanged(TableViewNotificationTarget.VisibleRows);
+		}
+
 		partial void OnHeaderChanged(string? newValue)
 		{
+			if (ColumnWidth.IsAuto)
+				_autoDesiredWidth = 0;
 			Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(this, newValue ?? string.Empty);
+			NotifyPropertyChanged(TableViewNotificationTarget.ColumnLayout | TableViewNotificationTarget.ColumnHeaders);
+		}
+
+		partial void OnBindingChanged(string? newValue)
+		{
+			if (ColumnWidth.IsAuto)
+				_autoDesiredWidth = 0;
+
+			NotifyPropertyChanged(
+				TableViewNotificationTarget.VisibleRows |
+				TableViewNotificationTarget.ColumnLayout);
 		}
 
 		private static void OnColumnWidthPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -79,8 +106,8 @@ namespace Files.App.Controls
 
 		private static void ValidateColumnWidth(GridLength columnWidth)
 		{
-			if (columnWidth.IsStar)
-				throw new NotSupportedException($"{nameof(TableViewColumn)}.{nameof(ColumnWidth)} does not support star sizing. Use pixel width or Auto.");
+			if (columnWidth.Value < 0 || double.IsNaN(columnWidth.Value))
+				throw new ArgumentOutOfRangeException(nameof(columnWidth));
 		}
 	}
 }

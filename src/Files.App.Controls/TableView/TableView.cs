@@ -30,6 +30,12 @@ namespace Files.App.Controls
 		private bool _isUpdatingColumnsSourceOrder;
 		private TableViewColumn? _resizingColumn;
 		private GridLength _resizingColumnOriginalWidth;
+		private double[] _columnOffsets = [];
+		private readonly Dictionary<TableViewColumn, int> _columnIndexes = [];
+		private double _totalColumnsWidth;
+		private (int StartIndex, int EndIndex)? _realizedColumnRange;
+		private double _lastColumnWidthConstraint = double.NaN;
+		private bool _columnWidthsDirty = true;
 
 		internal ObservableCollection<TableViewColumn> ActiveColumns { get; } = [];
 
@@ -109,10 +115,11 @@ namespace Files.App.Controls
 				return;
 
 			ReconcileColumnOwners();
-			ResolveColumnWidths();
-			InvalidateColumnResizePanel();
-			RefreshVisibleRows();
-			InvalidateLayoutOfAllRows();
+			NotifyPropertyChanged(
+				this,
+				TableViewNotificationTarget.ColumnLayout |
+				TableViewNotificationTarget.VisibleRows |
+				TableViewNotificationTarget.RowLayout);
 		}
 
 		private void ListViewBase_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
@@ -135,6 +142,9 @@ namespace Files.App.Controls
 		{
 			if (View is not { } listViewBase)
 				return;
+
+			if (args.CollectionChange is CollectionChange.ItemRemoved or CollectionChange.Reset)
+				ResetAutoColumnWidths();
 
 			listViewBase.DispatcherQueue.TryEnqueue(RefreshVisibleRows);
 		}
@@ -228,6 +238,9 @@ namespace Files.App.Controls
 			foreach (var column in desiredColumns)
 				column.VerifyCanAttachOwner(this);
 
+			if (!CommitEdit())
+				CancelEdit();
+
 			_isSynchronizingColumns = true;
 			try
 			{
@@ -253,8 +266,11 @@ namespace Files.App.Controls
 			}
 
 			ReconcileColumnOwners();
-			RefreshVisibleRows();
-			InvalidateLayoutOfAllRows();
+			NotifyPropertyChanged(
+				this,
+				TableViewNotificationTarget.ColumnLayout |
+				TableViewNotificationTarget.VisibleRows |
+				TableViewNotificationTarget.RowLayout);
 		}
 
 		private List<TableViewColumn> CreateColumnsFromSource()
@@ -359,21 +375,233 @@ namespace Files.App.Controls
 
 			PersistColumnOrder(e.NewIndexToOldIndexMap);
 			ColumnReordered?.Invoke(this, e);
-			ResolveColumnWidths();
-			InvalidateColumnResizePanel();
-			RefreshVisibleRows();
-			InvalidateLayoutOfAllRows();
+			NotifyPropertyChanged(
+				this,
+				TableViewNotificationTarget.ColumnLayout |
+				TableViewNotificationTarget.VisibleRows |
+				TableViewNotificationTarget.RowLayout);
 		}
 
 		internal void ResolveColumnWidths(double availableWidth = double.NaN)
 		{
 			if (ActiveColumns.Count is 0)
+			{
+				_columnOffsets = [];
+				_columnIndexes.Clear();
+				_totalColumnsWidth = 0;
+				_realizedColumnRange = null;
+				return;
+			}
+
+			if (double.IsNaN(availableWidth) || double.IsInfinity(availableWidth) || availableWidth <= 0)
+			{
+				availableWidth = _viewScrollViewer?.ViewportWidth ?? ActualWidth;
+			}
+
+			if (!_columnWidthsDirty && availableWidth.Equals(_lastColumnWidthConstraint))
 				return;
 
+			double occupiedWidth = 0;
+			var starColumns = new List<TableViewColumn>();
 			foreach (var column in ActiveColumns)
-				column.ApplyResolvedWidth(ResolveColumnWidth(column));
+			{
+				if (column.ColumnWidth.IsStar)
+				{
+					starColumns.Add(column);
+					continue;
+				}
+
+				var width = ResolveNonStarColumnWidth(column);
+				column.ApplyResolvedWidth(width);
+				occupiedWidth += width;
+			}
+
+			ResolveStarColumnWidths(starColumns, Math.Max(0, availableWidth - occupiedWidth));
+			UpdateColumnLayoutCache();
+			_lastColumnWidthConstraint = availableWidth;
+			_columnWidthsDirty = false;
 
 			InvalidateColumnResizePanel();
+		}
+
+		public bool CommitEdit()
+		{
+			foreach (var row in GetRealizedRows())
+			{
+				if (!row.CommitEdit())
+					return false;
+			}
+
+			return true;
+		}
+
+		public void CancelEdit()
+		{
+			foreach (var row in GetRealizedRows())
+				row.CancelEdit();
+		}
+
+		internal void CancelEdit(TableViewColumn column)
+		{
+			foreach (var row in GetRealizedRows())
+				row.CancelEdit(column);
+		}
+
+		private IEnumerable<TableViewRow> GetRealizedRows()
+		{
+			if (View is not { } listViewBase || listViewBase.ItemsPanelRoot is not ItemsStackPanel itemsStackPanel)
+				yield break;
+
+			for (int index = itemsStackPanel.FirstCacheIndex; index <= itemsStackPanel.LastCacheIndex; index++)
+			{
+				if (index >= 0 && index < listViewBase.Items.Count &&
+					listViewBase.ContainerFromIndex(index) is ListViewItem { ContentTemplateRoot: TableViewRow row })
+				{
+					yield return row;
+				}
+			}
+		}
+
+		internal (int StartIndex, int EndIndex) GetRealizedColumnRange()
+		{
+			if (_realizedColumnRange is { } realizedColumnRange)
+				return realizedColumnRange;
+
+			if (ActiveColumns.Count is 0)
+				return (-1, -1);
+
+			if (_viewScrollViewer is not { ViewportWidth: > 0 } scrollViewer)
+			{
+				_realizedColumnRange = (0, ActiveColumns.Count - 1);
+				return _realizedColumnRange.Value;
+			}
+
+			var cacheLength = scrollViewer.ViewportWidth * 0.25;
+			var realizationStart = Math.Max(0, scrollViewer.HorizontalOffset - cacheLength);
+			var realizationEnd = scrollViewer.HorizontalOffset + scrollViewer.ViewportWidth + cacheLength;
+			int startIndex = -1;
+			int endIndex = -1;
+			for (int index = 0; index < ActiveColumns.Count; index++)
+			{
+				var columnStart = GetColumnOffset(index);
+				var columnEnd = columnStart + ActiveColumns[index].ActualWidth;
+				if (columnEnd >= realizationStart && columnStart <= realizationEnd)
+				{
+					startIndex = startIndex < 0 ? index : startIndex;
+					endIndex = index;
+				}
+
+				if (columnStart > realizationEnd)
+					break;
+			}
+
+			_realizedColumnRange = startIndex < 0 ? (0, 0) : (startIndex, endIndex);
+			return _realizedColumnRange.Value;
+		}
+
+		internal double GetColumnOffset(int columnIndex)
+		{
+			return columnIndex >= 0 && columnIndex < _columnOffsets.Length
+				? _columnOffsets[columnIndex]
+				: 0;
+		}
+
+		internal int GetColumnIndex(TableViewColumn column)
+		{
+			return _columnIndexes.TryGetValue(column, out var index) ? index : -1;
+		}
+
+		internal double GetTotalColumnsWidth()
+		{
+			return _totalColumnsWidth;
+		}
+
+		private void UpdateColumnLayoutCache()
+		{
+			if (_columnOffsets.Length != ActiveColumns.Count)
+				_columnOffsets = new double[ActiveColumns.Count];
+
+			_columnIndexes.Clear();
+			double offset = 0;
+			for (int index = 0; index < ActiveColumns.Count; index++)
+			{
+				_columnOffsets[index] = offset;
+				_columnIndexes[ActiveColumns[index]] = index;
+				offset += ActiveColumns[index].ActualWidth;
+			}
+
+			_totalColumnsWidth = offset;
+			_realizedColumnRange = null;
+		}
+
+		internal void InvalidateColumnWidths()
+		{
+			_columnWidthsDirty = true;
+		}
+
+		internal void InvalidateAutoColumnWidth(TableViewColumn column)
+		{
+			if (!column.ColumnWidth.IsAuto)
+				return;
+
+			column.ResetAutoDesiredWidth();
+			_columnWidthsDirty = true;
+			InvalidateLayoutOfAllRows();
+			_columnResizePanel?.InvalidateMeasure();
+		}
+
+		private void ResetAutoColumnWidths()
+		{
+			foreach (var column in ActiveColumns)
+				column.ResetAutoDesiredWidth();
+
+			_columnWidthsDirty = true;
+			_columnResizePanel?.InvalidateMeasure();
+			InvalidateLayoutOfAllRows();
+		}
+
+		private static void ResolveStarColumnWidths(IReadOnlyList<TableViewColumn> columns, double availableWidth)
+		{
+			if (columns.Count is 0)
+				return;
+
+			var unresolved = columns.ToList();
+			double remainingWidth = availableWidth;
+			while (unresolved.Count > 0)
+			{
+				double totalWeight = unresolved.Sum(column => Math.Max(double.Epsilon, column.ColumnWidth.Value));
+				bool constrainedColumnFound = false;
+
+				for (int index = unresolved.Count - 1; index >= 0; index--)
+				{
+					var column = unresolved[index];
+					var proposedWidth = totalWeight <= 0
+						? 0
+						: remainingWidth * column.ColumnWidth.Value / totalWeight;
+					var constrainedWidth = Math.Clamp(proposedWidth, column.MinWidth, column.MaxWidth);
+					if (!proposedWidth.Equals(constrainedWidth))
+					{
+						column.ApplyResolvedWidth(constrainedWidth);
+						remainingWidth = Math.Max(0, remainingWidth - constrainedWidth);
+						unresolved.RemoveAt(index);
+						constrainedColumnFound = true;
+					}
+				}
+
+				if (constrainedColumnFound)
+					continue;
+
+				totalWeight = unresolved.Sum(column => Math.Max(double.Epsilon, column.ColumnWidth.Value));
+				foreach (var column in unresolved)
+				{
+					var width = totalWeight <= 0
+						? column.MinWidth
+						: remainingWidth * column.ColumnWidth.Value / totalWeight;
+					column.ApplyResolvedWidth(Math.Clamp(width, column.MinWidth, column.MaxWidth));
+				}
+
+				break;
+			}
 		}
 
 		private void InvalidateColumnResizePanel()
@@ -423,7 +651,9 @@ namespace Files.App.Controls
 
 		private void ColumnResizeVisual_DragStarted(object sender, DragStartedEventArgs e)
 		{
-			if (!CanUserResizeColumns || sender is not ResizeVisual { Tag: TableViewColumn { CanBeResized: true } column })
+			if (!CanUserResizeColumns || sender is not ResizeVisual { Tag: TableViewColumn { CanUserResize: true } column })
+				return;
+			if (!CommitEdit())
 				return;
 
 			_resizingColumn = column;
@@ -433,7 +663,9 @@ namespace Files.App.Controls
 
 		private void ColumnResizeVisual_DragDelta(object sender, DragDeltaEventArgs e)
 		{
-			if (!CanUserResizeColumns || sender is not ResizeVisual { Tag: TableViewColumn { CanBeResized: true } column })
+			if (!CanUserResizeColumns || sender is not ResizeVisual { Tag: TableViewColumn { CanUserResize: true } column })
+				return;
+			if (_resizingColumn != column)
 				return;
 
 			var delta = FlowDirection is FlowDirection.RightToLeft ? -e.HorizontalChange : e.HorizontalChange;
@@ -455,10 +687,10 @@ namespace Files.App.Controls
 			InvalidateLayoutOfAllRows();
 		}
 
-		private static double ResolveColumnWidth(TableViewColumn column)
+		private static double ResolveNonStarColumnWidth(TableViewColumn column)
 		{
 			var width = column.ColumnWidth.IsAuto
-				? Math.Max(column.MinWidth, double.IsNaN(column.Width) ? column.ActualWidth : column.Width)
+				? column.AutoDesiredWidth
 				: column.ColumnWidth.Value;
 
 			if (width <= 0 || double.IsNaN(width))
@@ -565,6 +797,7 @@ namespace Files.App.Controls
 				_viewScrollViewer.ViewChanged -= ViewScrollViewer_ViewChanged;
 
 			_viewScrollViewer = null;
+			_realizedColumnRange = null;
 			_listView = null;
 		}
 
@@ -587,6 +820,7 @@ namespace Files.App.Controls
 				_viewScrollViewer.ViewChanged -= ViewScrollViewer_ViewChanged;
 
 			_viewScrollViewer = scrollViewer;
+			_realizedColumnRange = null;
 			if (_viewScrollViewer is not null)
 			{
 				_viewScrollViewer.ViewChanged += ViewScrollViewer_ViewChanged;
@@ -597,8 +831,14 @@ namespace Files.App.Controls
 
 		private void ViewScrollViewer_ViewChanged(object? sender, ScrollViewerViewChangedEventArgs e)
 		{
-			if (!_isSynchronizingScroll && sender is ScrollViewer scrollViewer)
+			if (sender is not ScrollViewer scrollViewer)
+				return;
+
+			_realizedColumnRange = null;
+			if (!_isSynchronizingScroll)
 				SynchronizeHeaderScrollOffset(scrollViewer.HorizontalOffset);
+
+			InvalidateLayoutOfAllRows();
 		}
 
 		private void ColumnsScrollViewer_ViewChanged(object? sender, ScrollViewerViewChangedEventArgs e)
@@ -635,7 +875,9 @@ namespace Files.App.Controls
 
 		internal void RequestSort(TableViewColumn column)
 		{
-			if (!CanUserSortColumns || !column.CanBeSorted)
+			if (!CanUserSortColumns || !column.CanUserSort)
+				return;
+			if (!CommitEdit())
 				return;
 
 			var requestedDirection = column.SortDirection is null or ListSortDirection.Descending
@@ -675,7 +917,8 @@ namespace Files.App.Controls
 			if (_columnsItemsControl is not null)
 			{
 				_columnsItemsControl.IsReorderEnabled = CanUserReorderColumns;
-				_columnsItemsControl.ReorderItemFilter = item => item is not TableViewColumn column || column.CanBeReordered;
+				_columnsItemsControl.ReorderItemFilter = item =>
+					item is not TableViewColumn column || column.CanUserReorder && CommitEdit();
 			}
 		}
 
@@ -688,8 +931,29 @@ namespace Files.App.Controls
 				_columnResizePanel.UpdateResizeVisualInteractionState();
 			}
 
-			if ((!CanUserResizeColumns || _resizingColumn is { CanBeResized: false }) && IsColumnResizing)
+			if ((!CanUserResizeColumns || _resizingColumn is { CanUserResize: false }) && IsColumnResizing)
 				IsColumnResizing = false;
+		}
+
+		internal void NotifyPropertyChanged(DependencyObject source, TableViewNotificationTarget target)
+		{
+			if (target.HasFlag(TableViewNotificationTarget.ColumnLayout))
+			{
+				InvalidateColumnWidths();
+				ResolveColumnWidths();
+			}
+
+			if (target.HasFlag(TableViewNotificationTarget.ResizeVisuals))
+				UpdateColumnInteractionState();
+
+			if (target.HasFlag(TableViewNotificationTarget.ColumnHeaders))
+				_columnResizePanel?.InvalidateMeasure();
+
+			if (target.HasFlag(TableViewNotificationTarget.VisibleRows))
+				RefreshVisibleRows();
+
+			if (target.HasFlag(TableViewNotificationTarget.RowLayout))
+				InvalidateLayoutOfAllRows();
 		}
 
 		internal void UpdateColumnInteractionState()

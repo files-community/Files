@@ -13,6 +13,19 @@ namespace Files.App.Controls
 		[GeneratedDependencyProperty]
 		public partial Style? EditingElementStyle { get; set; }
 
+		partial void OnElementStyleChanged(Style? newValue)
+		{
+			ResetAutoDesiredWidth();
+			NotifyPropertyChanged(
+				TableViewNotificationTarget.VisibleRows |
+				TableViewNotificationTarget.ColumnLayout);
+		}
+
+		partial void OnEditingElementStyleChanged(Style? newValue)
+		{
+			NotifyPropertyChanged(TableViewNotificationTarget.VisibleRows);
+		}
+
 		protected T GetPropertyValue<T>(object dataItem)
 		{
 			if (string.IsNullOrEmpty(Binding) ||

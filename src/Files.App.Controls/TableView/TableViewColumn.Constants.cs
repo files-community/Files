@@ -6,6 +6,8 @@ namespace Files.App.Controls
 	public partial class TableViewColumn
 	{
 		private const string TemplatePartName_RootGrid = "PART_RootGrid";
+		private const string TemplatePartName_HeaderTextBlock = "PART_HeaderTextBlock";
+		private const string TemplatePartName_SortOrderGlyph = "SortOrderGlyphTextBlock";
 
 		private const string TemplateVisualStateName_ColumnNormal = "ColumnNormal";
 		private const string TemplateVisualStateName_ColumnPointerOver = "ColumnPointerOver";

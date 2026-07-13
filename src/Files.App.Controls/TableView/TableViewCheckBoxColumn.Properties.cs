@@ -20,7 +20,25 @@ namespace Files.App.Controls
 		[GeneratedDependencyProperty]
 		public partial bool IsThreeState { get; set; }
 
-		[GeneratedDependencyProperty]
-		public partial bool IsReadOnly { get; set; }
+		partial void OnIsEnabledBindingChanged(string? newValue)
+		{
+			NotifyPropertyChanged(TableViewNotificationTarget.VisibleRows);
+		}
+
+		partial void OnVisibilityBindingChanged(string? newValue)
+		{
+			NotifyPropertyChanged(TableViewNotificationTarget.VisibleRows);
+		}
+
+		partial void OnVisibilityConverterChanged(IValueConverter? newValue)
+		{
+			NotifyPropertyChanged(TableViewNotificationTarget.VisibleRows);
+		}
+
+		partial void OnIsThreeStateChanged(bool newValue)
+		{
+			NotifyPropertyChanged(TableViewNotificationTarget.VisibleRows);
+		}
+
 	}
 }

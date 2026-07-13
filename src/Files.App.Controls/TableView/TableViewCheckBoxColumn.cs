@@ -15,17 +15,18 @@ namespace Files.App.Controls
 
 		public override FrameworkElement GenerateElement(object dataItem)
 		{
+			var isReadOnly = IsEffectivelyReadOnly;
 			var checkBox = new CheckBox()
 			{
 				DataContext = dataItem,
 				Style = ElementStyle,
 				IsThreeState = IsThreeState,
-				IsHitTestVisible = !IsReadOnly,
+				IsHitTestVisible = !isReadOnly,
 				HorizontalAlignment = HorizontalAlignment.Center,
 				VerticalAlignment = VerticalAlignment.Center,
 			};
 
-			ApplyBindings(checkBox);
+			ApplyBindings(checkBox, isReadOnly);
 			return checkBox;
 		}
 
@@ -34,26 +35,32 @@ namespace Files.App.Controls
 			if (element is not CheckBox checkBox)
 				return false;
 
+			var isReadOnly = IsEffectivelyReadOnly;
 			checkBox.DataContext = dataItem;
 			checkBox.Style = ElementStyle;
 			checkBox.IsThreeState = IsThreeState;
-			checkBox.IsHitTestVisible = !IsReadOnly;
+			checkBox.IsHitTestVisible = !isReadOnly;
+			ApplyBindings(checkBox, isReadOnly);
 			return true;
 		}
 
-		private void ApplyBindings(CheckBox checkBox)
+		private void ApplyBindings(CheckBox checkBox, bool isReadOnly)
 		{
+			checkBox.ClearValue(ToggleButton.IsCheckedProperty);
+			checkBox.ClearValue(IsEnabledProperty);
+			checkBox.ClearValue(VisibilityProperty);
+
 			if (!string.IsNullOrEmpty(Binding))
 			{
 				checkBox.SetBinding(
 					ToggleButton.IsCheckedProperty,
-					CreateBinding(Binding, IsReadOnly ? BindingMode.OneWay : BindingMode.TwoWay));
+					CreateBinding(Binding, isReadOnly ? BindingMode.OneWay : BindingMode.TwoWay));
 			}
 
 			if (!string.IsNullOrEmpty(IsEnabledBinding))
 				checkBox.SetBinding(IsEnabledProperty, CreateBinding(IsEnabledBinding, BindingMode.OneWay));
-			else if (IsReadOnly)
-				checkBox.IsEnabled = false;
+			else
+				checkBox.IsEnabled = !isReadOnly;
 
 			if (!string.IsNullOrEmpty(VisibilityBinding))
 			{

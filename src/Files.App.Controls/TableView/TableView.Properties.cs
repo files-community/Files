@@ -35,6 +35,9 @@ namespace Files.App.Controls
 		public partial bool CanUserSortColumns { get; set; }
 
 		[GeneratedDependencyProperty]
+		public partial bool IsReadOnly { get; set; }
+
+		[GeneratedDependencyProperty]
 		public partial bool IsColumnResizing { get; internal protected set; }
 
 		partial void OnColumnsPropertyChanged(DependencyPropertyChangedEventArgs e)
@@ -98,6 +101,14 @@ namespace Files.App.Controls
 		{
 			foreach (var column in ActiveColumns)
 				column.ResetPointerEventVisual();
+		}
+
+		partial void OnIsReadOnlyChanged(bool newValue)
+		{
+			if (newValue)
+				CancelEdit();
+
+			NotifyPropertyChanged(this, TableViewNotificationTarget.VisibleRows);
 		}
 
 		partial void OnIsColumnResizingChanged(bool newValue)

@@ -19,6 +19,7 @@ namespace Files.App.Controls
 
 		public TableViewCell()
 		{
+			DefaultStyleKey = typeof(TableViewCell);
 			Background = TransparentBackground;
 			VerticalAlignment = VerticalAlignment.Stretch;
 			HorizontalAlignment = HorizontalAlignment.Stretch;
@@ -28,6 +29,12 @@ namespace Files.App.Controls
 
 			DoubleTapped += TableViewCell_DoubleTapped;
 			KeyDown += TableViewCell_KeyDown;
+		}
+
+		protected override void OnApplyTemplate()
+		{
+			base.OnApplyTemplate();
+			UpdateValidationVisualState(false);
 		}
 
 		internal void Bind(TableViewColumn column, object dataItem)
@@ -63,9 +70,11 @@ namespace Files.App.Controls
 		public bool BeginEdit()
 		{
 			if (IsEditing || Column is null || _data is null || !Column.CanEdit(_data) ||
-				Column.GetOwner() is { } owner && !owner.RaiseBeginningEdit(this))
+				Column.IsEffectivelyReadOnly ||
+				Column.GetOwner() is { } owner && (owner.IsReadOnly || !owner.RaiseBeginningEdit(this)))
 				return false;
 
+			HasValidationError = false;
 			var editingElement = Column.GenerateEditingElement(_data);
 			Content = editingElement;
 			IsEditing = true;
@@ -75,12 +84,19 @@ namespace Files.App.Controls
 
 		public bool CommitEdit()
 		{
-			if (!IsEditing || Column is null ||
-				Column.GetOwner() is { } owner && !owner.RaiseCellEditEnding(this, TableViewEditAction.Commit) ||
-				!Column.CommitCellEdit(this))
+			if (!IsEditing || Column is null)
+				return true;
+
+			if (Column.GetOwner() is { } owner && !owner.RaiseCellEditEnding(this, TableViewEditAction.Commit))
 				return false;
 
-			// End edit
+			if (!Column.CommitCellEdit(this))
+			{
+				HasValidationError = true;
+				return false;
+			}
+
+			HasValidationError = false;
 			IsEditing = false;
 			Content = _data is null ? null : Column.GenerateElement(_data);
 
@@ -94,8 +110,14 @@ namespace Files.App.Controls
 				return;
 
 			Column.CancelCellEdit(this);
+			HasValidationError = false;
 			IsEditing = false;
 			Content = _data is null ? null : Column.GenerateElement(_data);
+		}
+
+		private void UpdateValidationVisualState(bool useTransitions)
+		{
+			VisualStateManager.GoToState(this, HasValidationError ? "ValidationError" : "Valid", useTransitions);
 		}
 
 		private void TableViewCell_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)

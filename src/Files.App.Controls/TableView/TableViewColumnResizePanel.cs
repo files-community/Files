@@ -33,6 +33,22 @@ namespace Files.App.Controls
 		{
 			var contentChildren = Children.Where(child => !IsAdornment(child)).ToList();
 			EnsureAdornments(contentChildren);
+			TableView? owner = null;
+			bool desiredWidthChanged = false;
+			foreach (var child in contentChildren)
+			{
+				if (GetColumn(child) is not { } column)
+					continue;
+
+				owner ??= column.GetOwner();
+				desiredWidthChanged |= column.MeasureHeaderDesiredWidth(availableSize.Height);
+			}
+
+			if (desiredWidthChanged)
+			{
+				owner?.InvalidateColumnWidths();
+				owner?.ResolveColumnWidths(availableSize.Width);
+			}
 
 			double totalWidth = 0;
 			double maxHeight = 0;
@@ -77,8 +93,11 @@ namespace Files.App.Controls
 				}
 
 				var width = adornment.DesiredSize.Width;
+				var left = boundary - width / 2;
+				if (adornment is ResizeVisual && Math.Abs(boundary - offset) < 0.5)
+					left = boundary - width;
 				adornment.Arrange(new(
-					Math.Max(0, boundary - width / 2),
+					Math.Max(0, left),
 					0,
 					width,
 					finalSize.Height));
@@ -104,7 +123,7 @@ namespace Files.App.Controls
 				.Where(column => column is not null)
 				.Cast<TableViewColumn>()
 				.ToList();
-			var boundaryColumns = columns.Take(Math.Max(0, columns.Count - 1)).ToList();
+			var boundaryColumns = columns;
 			var boundaryColumnSet = boundaryColumns.ToHashSet();
 
 			foreach (var column in _resizeVisuals.Keys.Where(column => !boundaryColumnSet.Contains(column)).ToList())
@@ -120,12 +139,14 @@ namespace Files.App.Controls
 					Orientation = Orientation.Horizontal,
 					Tag = column,
 				};
+				Canvas.SetZIndex(resizeVisual, int.MaxValue);
 				resizeVisual.DragStarted += ResizeVisual_DragStarted;
 				resizeVisual.DragDelta += ResizeVisual_DragDelta;
 				resizeVisual.DragCompleted += ResizeVisual_DragCompleted;
 				_resizeVisuals[column] = resizeVisual;
 
 				var divider = new Rectangle { Tag = column };
+				Canvas.SetZIndex(divider, 1);
 				_dividers[column] = divider;
 			}
 
@@ -164,7 +185,7 @@ namespace Files.App.Controls
 		{
 			foreach (var (column, resizeVisual) in _resizeVisuals)
 			{
-				var isEnabled = CanResizeColumns && column.CanBeResized;
+				var isEnabled = CanResizeColumns && column.CanUserResize;
 				resizeVisual.IsEnabled = isEnabled;
 				resizeVisual.IsHitTestVisible = isEnabled;
 			}

@@ -109,9 +109,9 @@
 			<controls:SamplePanel.MainContent>
 				<controls:TableView Height="280" Sorting="TableView_Sorting">
 					<controls:TableView.Columns>
-						<controls:TableViewTextColumn ColumnWidth="280" Binding="Name" Header="Name" />
-						<controls:TableViewDateColumn ColumnWidth="240" Binding="DateUpdated" Header="Date updated" />
-						<controls:TableViewTextColumn ColumnWidth="220" Binding="Type" Header="Type" />
+						<controls:TableViewTextColumn ColumnWidth="2*" Binding="Name" Header="Name" />
+						<controls:TableViewDateColumn ColumnWidth="Auto" Binding="DateUpdated" Header="Date updated" />
+						<controls:TableViewTextColumn ColumnWidth="*" Binding="Type" Header="Type" />
 					</controls:TableView.Columns>
 					<controls:TableView.View>
 						<ListView

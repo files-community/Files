@@ -37,6 +37,7 @@
 	</DataTemplate>
 
 	<Style BasedOn="{StaticResource DefaultTableViewStyle}" TargetType="local:TableView" />
+	<Style BasedOn="{StaticResource DefaultTableViewCellStyle}" TargetType="local:TableViewCell" />
 	<Style BasedOn="{StaticResource DefaultTableViewColumnStyle}" TargetType="local:TableViewColumn" />
 	<Style BasedOn="{StaticResource DefaultTableViewColumnStyle}" TargetType="local:TableViewTemplateColumn" />
 	<Style BasedOn="{StaticResource DefaultTableViewCheckBoxColumnStyle}" TargetType="local:TableViewCheckBoxColumn" />
@@ -116,6 +117,38 @@
 				</Setter.Value>
 			</Setter>
 		</Style.Setters>
+	</Style>
+
+	<Style x:Key="DefaultTableViewCellStyle" TargetType="local:TableViewCell">
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="VerticalContentAlignment" Value="Stretch" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:TableViewCell">
+					<Border
+						x:Name="PART_CellBorder"
+						Background="{TemplateBinding Background}"
+						BorderBrush="Transparent"
+						BorderThickness="0">
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="ValidationStates">
+								<VisualState x:Name="Valid" />
+								<VisualState x:Name="ValidationError">
+									<VisualState.Setters>
+										<Setter Target="PART_CellBorder.BorderBrush" Value="{ThemeResource SystemFillColorCriticalBrush}" />
+										<Setter Target="PART_CellBorder.BorderThickness" Value="1" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+						<ContentPresenter
+							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+							Content="{TemplateBinding Content}" />
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
 	</Style>
 
 	<Style x:Key="DefaultTableViewColumnStyle" TargetType="local:TableViewColumn">
