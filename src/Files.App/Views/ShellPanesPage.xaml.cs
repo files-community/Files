@@ -413,14 +413,20 @@ namespace Files.App.Views
 		/// <inheritdoc/>
 		public void FocusActivePane()
 		{
-			if (ActivePane == (IShellPage)GetPane(0)!)
-				GetPane(0)?.Focus(FocusState.Programmatic);
-			else
-				GetPane(1)?.Focus(FocusState.Programmatic);
+			var activePane = ActivePane == (IShellPage)GetPane(0)! ? GetPane(0) : GetPane(1);
 
-			// Focus file list
-			if (ActivePane is BaseShellPage baseShellPage)
-				baseShellPage.ContentPage?.ItemManipulationModel.FocusFileList();
+			// Skip when the file list is empty and no text input currently has focus:
+			// focusing the pane in that state lands XAML focus on the outer ListView
+			// element itself, which causes subsequent popup-dismissal to push newly
+			// opened top-level windows behind main (Files #13697). If a text input
+			// currently has focus (e.g. omnibar after Enter), we still need to move
+			// focus off it so keyboard shortcuts work.
+			if (activePane?.ShellViewModel?.FilesAndFolders?.Count == 0 &&
+				!UIHelpers.IsTextInputFocused(activePane.XamlRoot))
+				return;
+
+			activePane?.Focus(FocusState.Programmatic);
+			activePane?.ContentPage?.ItemManipulationModel.FocusFileList();
 		}
 
 		/// <inheritdoc/>
