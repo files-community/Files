@@ -79,8 +79,8 @@ namespace Files.App.Controls
 
 			HasValidationError = false;
 			var editingElement = Column.GenerateEditingElement(_data);
-			Content = editingElement;
 			IsEditing = true;
+			Content = editingElement;
 			Column.PrepareCellForEdit(this, editingElement);
 			return true;
 		}
