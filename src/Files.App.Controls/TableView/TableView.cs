@@ -34,7 +34,6 @@ namespace Files.App.Controls
 		private bool _isUpdatingDeclaredColumnsOrder;
 		private bool _isUpdatingColumnsSourceOrder;
 		private TableViewColumn? _resizingColumn;
-		private WeakReference<TableViewCell>? _editingCell;
 		private GridLength _resizingColumnOriginalWidth;
 		private double[] _columnOffsets = [];
 		private readonly Dictionary<TableViewColumn, int> _columnIndexes = [];
@@ -469,37 +468,6 @@ namespace Files.App.Controls
 			}
 
 			return true;
-		}
-
-		internal bool TryBeginEdit(TableViewCell cell)
-		{
-			if (!TryActivateCell(cell))
-				return false;
-
-			if (!RaiseBeginningEdit(cell))
-				return false;
-
-			_editingCell = new(cell);
-			return true;
-		}
-
-		internal bool TryActivateCell(TableViewCell cell)
-		{
-			return _editingCell is null ||
-				!_editingCell.TryGetTarget(out var editingCell) ||
-				editingCell == cell ||
-				!editingCell.IsEditing ||
-				editingCell.CommitEdit();
-		}
-
-		internal void NotifyCellEditEnded(TableViewCell cell)
-		{
-			if (_editingCell is not null &&
-				_editingCell.TryGetTarget(out var editingCell) &&
-				editingCell == cell)
-			{
-				_editingCell = null;
-			}
 		}
 
 		public void CancelEdit()

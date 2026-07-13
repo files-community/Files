@@ -1,7 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Windows.System;
@@ -29,7 +28,6 @@ namespace Files.App.Controls
 			IsTabStop = true;
 
 			DoubleTapped += TableViewCell_DoubleTapped;
-			PointerPressed += TableViewCell_PointerPressed;
 			KeyDown += TableViewCell_KeyDown;
 		}
 
@@ -71,17 +69,16 @@ namespace Files.App.Controls
 
 		public bool BeginEdit()
 		{
-			var owner = Column?.GetOwner();
 			if (IsEditing || Column is null || _data is null || !Column.CanEdit(_data) ||
 				Column.IsEffectivelyReadOnly ||
-				owner is not null && (owner.IsReadOnly || !owner.TryBeginEdit(this)))
+				Column.GetOwner() is { } owner && (owner.IsReadOnly || !owner.RaiseBeginningEdit(this)))
 				return false;
 
 			HasValidationError = false;
 			var editingElement = Column.GenerateEditingElement(_data);
 			IsEditing = true;
-			Content = editingElement;
 			Column.PrepareCellForEdit(this, editingElement);
+			Content = editingElement;
 			return true;
 		}
 
@@ -101,7 +98,6 @@ namespace Files.App.Controls
 
 			HasValidationError = false;
 			IsEditing = false;
-			Column.GetOwner()?.NotifyCellEditEnded(this);
 			Content = _data is null ? null : Column.GenerateElement(_data);
 
 			return true;
@@ -116,7 +112,6 @@ namespace Files.App.Controls
 			Column.CancelCellEdit(this);
 			HasValidationError = false;
 			IsEditing = false;
-			Column.GetOwner()?.NotifyCellEditEnded(this);
 			Content = _data is null ? null : Column.GenerateElement(_data);
 		}
 
@@ -125,37 +120,46 @@ namespace Files.App.Controls
 			VisualStateManager.GoToState(this, HasValidationError ? "ValidationError" : "Valid", useTransitions);
 		}
 
-		private void TableViewCell_PointerPressed(object sender, PointerRoutedEventArgs e)
-		{
-			if (!IsEditing &&
-				e.GetCurrentPoint(this).Properties.PointerUpdateKind is PointerUpdateKind.LeftButtonPressed)
-			{
-				if (Column?.GetOwner() is { } owner && !owner.TryActivateCell(this))
-				{
-					e.Handled = true;
-					return;
-				}
-
-				Focus(FocusState.Pointer);
-			}
-		}
-
 		private void TableViewCell_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
-			if (Column is null ||
-				_data is null ||
-				IsEditing ||
-				!Column.CanEdit(_data))
+			if (!CanBeginEdit())
 				return;
 
-			if (BeginEdit())
-				e.Handled = true;
+			e.Handled = true;
+			QueueBeginEdit();
 		}
 
 		private void TableViewCell_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if (!IsEditing && e.Key is VirtualKey.F2 && BeginEdit())
-				e.Handled = true;
+			if (e.Key is not VirtualKey.F2 || !CanBeginEdit())
+				return;
+
+			e.Handled = true;
+			QueueBeginEdit();
+		}
+
+		private bool CanBeginEdit()
+		{
+			return !IsEditing &&
+				Column is not null &&
+				_data is not null &&
+				Column.CanEdit(_data) &&
+				!Column.IsEffectivelyReadOnly;
+		}
+
+		private void QueueBeginEdit()
+		{
+			var column = Column;
+			var dataItem = _data;
+			DispatcherQueue.TryEnqueue(() =>
+			{
+				if (!CanBeginEdit() || Column != column || !ReferenceEquals(_data, dataItem))
+					return;
+
+				var owner = column?.GetOwner();
+				if (owner is null || owner.CommitEdit())
+					BeginEdit();
+			});
 		}
 	}
 }

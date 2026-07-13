@@ -59,12 +59,7 @@ namespace Files.App.Controls
 
 			textBox.KeyDown += EditingTextBox_KeyDown;
 			if (!FocusEditingTextBox(cell, textBox))
-			{
-				if (textBox.XamlRoot is null)
-					textBox.Loaded += EditingTextBox_Loaded;
-				else
-					textBox.DispatcherQueue.TryEnqueue(() => FocusEditingTextBox(cell, textBox));
-			}
+				textBox.Loaded += EditingTextBox_Loaded;
 		}
 
 		protected internal override bool CommitCellEdit(TableViewCell cell)
@@ -102,16 +97,8 @@ namespace Files.App.Controls
 				return;
 
 			textBox.Loaded -= EditingTextBox_Loaded;
-			if (textBox.FindAscendant<TableViewCell>() is not { } cell ||
-				FocusEditingTextBox(cell, textBox))
-			{
-				return;
-			}
-
-			textBox.DispatcherQueue.TryEnqueue(() =>
-			{
+			if (textBox.FindAscendant<TableViewCell>() is { } cell)
 				FocusEditingTextBox(cell, textBox);
-			});
 		}
 
 		private static bool FocusEditingTextBox(TableViewCell cell, TextBox textBox)
