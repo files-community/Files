@@ -8,6 +8,9 @@ namespace Files.App.Controls
 {
 	public sealed partial class TableViewColumnResizePanel : Panel
 	{
+		private const int DividerZIndex = 1;
+		private const int ResizeVisualZIndex = 2;
+
 		private readonly Dictionary<TableViewColumn, ResizeVisual> _resizeVisuals = [];
 		private readonly Dictionary<TableViewColumn, Rectangle> _dividers = [];
 		private bool _canResizeColumns = true;
@@ -139,14 +142,14 @@ namespace Files.App.Controls
 					Orientation = Orientation.Horizontal,
 					Tag = column,
 				};
-				Canvas.SetZIndex(resizeVisual, int.MaxValue);
+				Canvas.SetZIndex(resizeVisual, ResizeVisualZIndex);
 				resizeVisual.DragStarted += ResizeVisual_DragStarted;
 				resizeVisual.DragDelta += ResizeVisual_DragDelta;
 				resizeVisual.DragCompleted += ResizeVisual_DragCompleted;
 				_resizeVisuals[column] = resizeVisual;
 
 				var divider = new Rectangle { Tag = column };
-				Canvas.SetZIndex(divider, 1);
+				Canvas.SetZIndex(divider, DividerZIndex);
 				_dividers[column] = divider;
 			}
 
