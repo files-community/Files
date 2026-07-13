@@ -38,6 +38,7 @@
 
 	<Style BasedOn="{StaticResource DefaultTableViewStyle}" TargetType="local:TableView" />
 	<Style BasedOn="{StaticResource DefaultTableViewCellStyle}" TargetType="local:TableViewCell" />
+	<Style BasedOn="{StaticResource DefaultTableViewColumnHeadersPresenterStyle}" TargetType="local:TableViewColumnHeadersPresenter" />
 	<Style BasedOn="{StaticResource DefaultTableViewColumnStyle}" TargetType="local:TableViewColumn" />
 	<Style BasedOn="{StaticResource DefaultTableViewColumnStyle}" TargetType="local:TableViewTemplateColumn" />
 	<Style BasedOn="{StaticResource DefaultTableViewCheckBoxColumnStyle}" TargetType="local:TableViewCheckBoxColumn" />
@@ -52,71 +53,61 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="local:TableView">
-						<Grid
+						<Border
 							x:Name="PART_Root"
 							Background="{TemplateBinding Background}"
 							BorderBrush="{TemplateBinding BorderBrush}"
 							BorderThickness="{TemplateBinding BorderThickness}"
 							CornerRadius="{TemplateBinding CornerRadius}">
-							<Grid.RowDefinitions>
-								<RowDefinition Height="Auto" />
-								<RowDefinition Height="*" />
-							</Grid.RowDefinitions>
-
-							<!--  Columns  -->
-							<Border
-								Grid.Row="0"
-								Height="{ThemeResource TableViewColumnHeaderHeight}"
-								Margin="4"
-								HorizontalAlignment="Left"
-								wct:UIElementExtensions.ClipToBounds="True"
-								Background="{ThemeResource TableViewColumnBackground}"
-								BorderBrush="{ThemeResource TableViewColumnBorderBrush}"
-								BorderThickness="{StaticResource TableViewColumnBorderThickness}"
-								CornerRadius="{StaticResource TableViewColumnCornerRadius}">
-								<ScrollViewer
-									x:Name="PART_ColumnsScrollViewer"
-									HorizontalScrollBarVisibility="Hidden"
-									HorizontalScrollMode="Enabled"
-									VerticalScrollBarVisibility="Disabled"
-									VerticalScrollMode="Disabled"
-									ZoomMode="Disabled">
-									<local:ReorderableItemsControl x:Name="PART_ColumnsPanel" HorizontalAlignment="Left">
-											<local:ReorderableItemsControl.ItemsPanel>
-												<ItemsPanelTemplate>
-													<local:TableViewColumnResizePanel>
-														<local:TableViewColumnResizePanel.Resources>
-															<Style BasedOn="{StaticResource DefaultResizeVisualStyle}" TargetType="local:ResizeVisual">
-																<Setter Property="Width" Value="{ThemeResource TableViewColumnResizeVisualWidth}" />
-															</Style>
-															<Style TargetType="Rectangle">
-																<Setter Property="Width" Value="1" />
-																<Setter Property="Fill" Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
-																<Setter Property="IsHitTestVisible" Value="False" />
-															</Style>
-														</local:TableViewColumnResizePanel.Resources>
-													</local:TableViewColumnResizePanel>
-												</ItemsPanelTemplate>
-											</local:ReorderableItemsControl.ItemsPanel>
-										</local:ReorderableItemsControl>
-								</ScrollViewer>
-							</Border>
-
-							<!--  View  -->
 							<ContentPresenter
 								x:Name="PART_ViewContentPresenter"
-								Grid.Row="1"
 								Content="{TemplateBinding View}">
 								<ContentPresenter.Resources>
 									<ResourceDictionary />
 								</ContentPresenter.Resources>
 							</ContentPresenter>
-
-						</Grid>
+						</Border>
 					</ControlTemplate>
 				</Setter.Value>
 			</Setter>
 		</Style.Setters>
+	</Style>
+
+	<Style x:Key="DefaultTableViewColumnHeadersPresenterStyle" TargetType="local:TableViewColumnHeadersPresenter">
+		<Setter Property="HorizontalAlignment" Value="Left" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:TableViewColumnHeadersPresenter">
+					<Border
+						Height="{ThemeResource TableViewColumnHeaderHeight}"
+						Margin="4"
+						wct:UIElementExtensions.ClipToBounds="True"
+						Background="{ThemeResource TableViewColumnBackground}"
+						BorderBrush="{ThemeResource TableViewColumnBorderBrush}"
+						BorderThickness="{StaticResource TableViewColumnBorderThickness}"
+						CornerRadius="{StaticResource TableViewColumnCornerRadius}">
+						<local:ReorderableItemsControl x:Name="PART_ColumnsPanel" HorizontalAlignment="Left">
+							<local:ReorderableItemsControl.ItemsPanel>
+								<ItemsPanelTemplate>
+									<local:TableViewColumnResizePanel>
+										<local:TableViewColumnResizePanel.Resources>
+											<Style BasedOn="{StaticResource DefaultResizeVisualStyle}" TargetType="local:ResizeVisual">
+												<Setter Property="Width" Value="{ThemeResource TableViewColumnResizeVisualWidth}" />
+											</Style>
+											<Style TargetType="Rectangle">
+												<Setter Property="Width" Value="1" />
+												<Setter Property="Fill" Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
+												<Setter Property="IsHitTestVisible" Value="False" />
+											</Style>
+										</local:TableViewColumnResizePanel.Resources>
+									</local:TableViewColumnResizePanel>
+								</ItemsPanelTemplate>
+							</local:ReorderableItemsControl.ItemsPanel>
+						</local:ReorderableItemsControl>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
 	</Style>
 
 	<Style x:Key="DefaultTableViewCellStyle" TargetType="local:TableViewCell">

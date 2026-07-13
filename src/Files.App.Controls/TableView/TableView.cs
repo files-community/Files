@@ -4,28 +4,33 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using CommunityToolkit.WinUI;
+using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Hosting;
 using Windows.Foundation.Collections;
 
 namespace Files.App.Controls
 {
 	public partial class TableView : Control
 	{
-		private const string TemplatePartName_ColumnsPanel = "PART_ColumnsPanel";
-		private const string TemplatePartName_ColumnsScrollViewer = "PART_ColumnsScrollViewer";
-
 		protected internal TableViewColumn? SortedColumn;
 
+		private readonly TableViewColumnHeadersPresenter _columnHeadersPresenter;
 		private ReorderableItemsControl? _columnsItemsControl;
-		private ScrollViewer? _columnsScrollViewer;
 		private TableViewColumnResizePanel? _columnResizePanel;
 		private ScrollViewer? _viewScrollViewer;
 		private ListViewBase? _listView;
+		private CompositionPropertySet? _scrollProperties;
+		private Microsoft.UI.Composition.Visual? _stickyHeaderVisual;
+		private Microsoft.UI.Composition.Visual? _itemsPanelVisual;
+		private CompositionClip? _originalItemsPanelClip;
+		private InsetClip? _itemsPanelClip;
+		private UIElement? _stickyItemsPanel;
+		private int _originalItemsPanelZIndex;
 		private readonly HashSet<TableViewColumn> _ownedColumns = [];
 		private readonly Dictionary<object, TableViewColumn> _columnsBySourceItem = new(ReferenceEqualityComparer.Instance);
 		private bool _isSynchronizingColumns;
-		private bool _isSynchronizingScroll;
 		private bool _isUpdatingDeclaredColumnsOrder;
 		private bool _isUpdatingColumnsSourceOrder;
 		private TableViewColumn? _resizingColumn;
@@ -36,12 +41,17 @@ namespace Files.App.Controls
 		private (int StartIndex, int EndIndex)? _realizedColumnRange;
 		private double _lastColumnWidthConstraint = double.NaN;
 		private bool _columnWidthsDirty = true;
+		private double _lastHorizontalOffset = double.NaN;
 
 		internal ObservableCollection<TableViewColumn> ActiveColumns { get; } = [];
 
 		public TableView()
 		{
 			Columns = [];
+			_columnHeadersPresenter = new();
+			_columnHeadersPresenter.TemplateApplied += ColumnHeadersPresenter_TemplateApplied;
+			_columnHeadersPresenter.Loaded += ColumnHeadersPresenter_Loaded;
+			_columnHeadersPresenter.Unloaded += ColumnHeadersPresenter_Unloaded;
 			ActiveColumns.CollectionChanged += ActiveColumns_CollectionChanged;
 			SizeChanged += TableView_SizeChanged;
 
@@ -59,15 +69,8 @@ namespace Files.App.Controls
 
 			UnhookColumnsPanel();
 			UnhookView();
-			_columnsItemsControl = GetTemplateChild(TemplatePartName_ColumnsPanel) as ReorderableItemsControl
-				?? throw new MissingFieldException($"Could not find {TemplatePartName_ColumnsPanel} in the given {nameof(TableView)}'s style.");
-			_columnsScrollViewer = GetTemplateChild(TemplatePartName_ColumnsScrollViewer) as ScrollViewer
-				?? throw new MissingFieldException($"Could not find {TemplatePartName_ColumnsScrollViewer} in the given {nameof(TableView)}'s style.");
-			_columnsItemsControl.ItemsSource = ActiveColumns;
-			UpdateColumnsPanelInteractionState();
-			UpdateResizeVisualInteractionState();
-			HookColumnsPanel();
 			HookView(View);
+			AttachColumnsPanel(_columnHeadersPresenter.ColumnsItemsControl);
 			SynchronizeActiveColumns();
 
 			Loaded -= TableView_Loaded;
@@ -146,7 +149,11 @@ namespace Files.App.Controls
 			if (args.CollectionChange is CollectionChange.ItemRemoved or CollectionChange.Reset)
 				ResetAutoColumnWidths();
 
-			listViewBase.DispatcherQueue.TryEnqueue(RefreshVisibleRows);
+			listViewBase.DispatcherQueue.TryEnqueue(() =>
+			{
+				RefreshVisibleRows();
+				StartStickyHeaderAnimation();
+			});
 		}
 
 		private void RecycleRowOf(ListViewBase sender, FrameworkElement itemContainer, int itemIndex)
@@ -340,11 +347,6 @@ namespace Files.App.Controls
 			_columnsItemsControl.Reordered += ColumnsPanel_Reordered;
 			_columnsItemsControl.SizeChanged += ColumnsPanel_SizeChanged;
 
-			if (_columnsScrollViewer is not null)
-			{
-				_columnsScrollViewer.ViewChanged -= ColumnsScrollViewer_ViewChanged;
-				_columnsScrollViewer.ViewChanged += ColumnsScrollViewer_ViewChanged;
-			}
 		}
 
 		private void UnhookColumnsPanel()
@@ -355,17 +357,50 @@ namespace Files.App.Controls
 				_columnsItemsControl.SizeChanged -= ColumnsPanel_SizeChanged;
 			}
 
-			if (_columnsScrollViewer is not null)
-				_columnsScrollViewer.ViewChanged -= ColumnsScrollViewer_ViewChanged;
-
 			UnhookColumnResizePanel();
 			_columnResizePanel = null;
+		}
+
+		private void AttachColumnsPanel(ReorderableItemsControl? columnsItemsControl)
+		{
+			if (!ReferenceEquals(_columnsItemsControl, columnsItemsControl))
+			{
+				UnhookColumnsPanel();
+				_columnsItemsControl = columnsItemsControl;
+			}
+
+			if (_columnsItemsControl is null)
+				return;
+
+			_columnsItemsControl.ItemsSource = ActiveColumns;
+			UpdateColumnsPanelInteractionState();
+			UpdateResizeVisualInteractionState();
+			HookColumnsPanel();
+			EnsureColumnResizePanel();
+		}
+
+		private void ColumnHeadersPresenter_TemplateApplied(object? sender, EventArgs e)
+		{
+			AttachColumnsPanel(_columnHeadersPresenter.ColumnsItemsControl);
+		}
+
+		private void ColumnHeadersPresenter_Loaded(object sender, RoutedEventArgs e)
+		{
+			AttachColumnsPanel(_columnHeadersPresenter.ColumnsItemsControl);
+			TryHookViewScrollViewer();
+			DispatcherQueue.TryEnqueue(StartStickyHeaderAnimation);
+		}
+
+		private void ColumnHeadersPresenter_Unloaded(object sender, RoutedEventArgs e)
+		{
+			StopStickyHeaderAnimation();
 		}
 
 		private void ColumnsPanel_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
 			EnsureColumnResizePanel();
 			InvalidateColumnResizePanel();
+			StartStickyHeaderAnimation();
 		}
 
 		private void ColumnsPanel_Reordered(object? sender, ReorderedItemsEventArgs e)
@@ -767,6 +802,9 @@ namespace Files.App.Controls
 		{
 			if (ReferenceEquals(_listView, listView))
 			{
+				if (_listView is not null && !ReferenceEquals(_listView.Header, _columnHeadersPresenter))
+					InstallColumnHeaders(_listView);
+
 				TryHookViewScrollViewer();
 				return;
 			}
@@ -775,6 +813,7 @@ namespace Files.App.Controls
 			if (listView is null)
 				return;
 
+			InstallColumnHeaders(listView);
 			_listView = listView;
 			ScrollViewer.SetHorizontalScrollMode(listView, ScrollMode.Enabled);
 			ScrollViewer.SetHorizontalScrollBarVisibility(listView, ScrollBarVisibility.Auto);
@@ -786,11 +825,15 @@ namespace Files.App.Controls
 
 		private void UnhookView()
 		{
+			StopStickyHeaderAnimation();
+
 			if (_listView is not null)
 			{
 				_listView.ContainerContentChanging -= ListViewBase_ContainerContentChanging;
 				_listView.Items.VectorChanged -= ListViewBase_Items_VectorChanged;
 				_listView.Loaded -= ListViewBase_Loaded;
+				if (ReferenceEquals(_listView.Header, _columnHeadersPresenter))
+					_listView.Header = null;
 			}
 
 			if (_viewScrollViewer is not null)
@@ -798,13 +841,27 @@ namespace Files.App.Controls
 
 			_viewScrollViewer = null;
 			_realizedColumnRange = null;
+			_lastHorizontalOffset = double.NaN;
 			_listView = null;
+		}
+
+		private void InstallColumnHeaders(ListViewBase listView)
+		{
+			if (listView.HeaderTemplate is not null ||
+				listView.Header is not null && !ReferenceEquals(listView.Header, _columnHeadersPresenter))
+			{
+				throw new InvalidOperationException(
+					$"{nameof(TableView)} uses {nameof(ListViewBase)}.{nameof(ListViewBase.Header)} for its column headers. The supplied view must not define a header or header template.");
+			}
+
+			listView.Header = _columnHeadersPresenter;
 		}
 
 		private void ListViewBase_Loaded(object sender, RoutedEventArgs e)
 		{
 			TryHookViewScrollViewer();
 			RefreshVisibleRows();
+			DispatcherQueue.TryEnqueue(StartStickyHeaderAnimation);
 		}
 
 		private void TryHookViewScrollViewer()
@@ -814,8 +871,12 @@ namespace Files.App.Controls
 
 			var scrollViewer = _listView.FindDescendant<ScrollViewer>();
 			if (ReferenceEquals(scrollViewer, _viewScrollViewer))
+			{
+				StartStickyHeaderAnimation();
 				return;
+			}
 
+			StopStickyHeaderAnimation();
 			if (_viewScrollViewer is not null)
 				_viewScrollViewer.ViewChanged -= ViewScrollViewer_ViewChanged;
 
@@ -824,8 +885,9 @@ namespace Files.App.Controls
 			if (_viewScrollViewer is not null)
 			{
 				_viewScrollViewer.ViewChanged += ViewScrollViewer_ViewChanged;
-				SynchronizeHeaderScrollOffset(_viewScrollViewer.HorizontalOffset);
+				_lastHorizontalOffset = _viewScrollViewer.HorizontalOffset;
 				ResolveColumnWidths(_viewScrollViewer.ViewportWidth);
+				StartStickyHeaderAnimation();
 			}
 		}
 
@@ -834,43 +896,73 @@ namespace Files.App.Controls
 			if (sender is not ScrollViewer scrollViewer)
 				return;
 
-			_realizedColumnRange = null;
-			if (!_isSynchronizingScroll)
-				SynchronizeHeaderScrollOffset(scrollViewer.HorizontalOffset);
+			if (scrollViewer.HorizontalOffset.Equals(_lastHorizontalOffset))
+				return;
 
+			_lastHorizontalOffset = scrollViewer.HorizontalOffset;
+			_realizedColumnRange = null;
 			InvalidateLayoutOfAllRows();
 		}
 
-		private void ColumnsScrollViewer_ViewChanged(object? sender, ScrollViewerViewChangedEventArgs e)
+		private void StartStickyHeaderAnimation()
 		{
-			if (_isSynchronizingScroll || _viewScrollViewer is null || sender is not ScrollViewer scrollViewer)
+			if (_viewScrollViewer is null ||
+				_listView is null ||
+				_columnHeadersPresenter.XamlRoot is null)
+			{
+				return;
+			}
+
+			if (_scrollProperties is null)
+			{
+				_scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(_viewScrollViewer);
+				_stickyHeaderVisual = ElementCompositionPreview.GetElementVisual(_columnHeadersPresenter);
+
+				var offsetAnimation = _scrollProperties.Compositor.CreateExpressionAnimation("Max(-scroll.Translation.Y, 0.0f)");
+				offsetAnimation.SetReferenceParameter("scroll", _scrollProperties);
+				_stickyHeaderVisual.StartAnimation("Offset.Y", offsetAnimation);
+			}
+
+			if (_itemsPanelVisual is not null || _listView.ItemsPanelRoot is not { } itemsPanel)
 				return;
 
-			_isSynchronizingScroll = true;
-			try
-			{
-				_viewScrollViewer.ChangeView(scrollViewer.HorizontalOffset, null, null, true);
-			}
-			finally
-			{
-				_isSynchronizingScroll = false;
-			}
+			_stickyItemsPanel = itemsPanel;
+			_originalItemsPanelZIndex = Canvas.GetZIndex(itemsPanel);
+			Canvas.SetZIndex(itemsPanel, -1);
+
+			_itemsPanelVisual = ElementCompositionPreview.GetElementVisual(itemsPanel);
+			_originalItemsPanelClip = _itemsPanelVisual.Clip;
+			_itemsPanelClip = _scrollProperties.Compositor.CreateInsetClip();
+			_itemsPanelClip.TopInset = (float)Math.Max(_viewScrollViewer.VerticalOffset, 0);
+			_itemsPanelVisual.Clip = _itemsPanelClip;
+
+			var clipAnimation = _scrollProperties.Compositor.CreateExpressionAnimation("Max(-scroll.Translation.Y, 0.0f)");
+			clipAnimation.SetReferenceParameter("scroll", _scrollProperties);
+			_itemsPanelClip.StartAnimation("TopInset", clipAnimation);
 		}
 
-		private void SynchronizeHeaderScrollOffset(double horizontalOffset)
+		private void StopStickyHeaderAnimation()
 		{
-			if (_columnsScrollViewer is null)
-				return;
+			if (_stickyHeaderVisual is not null)
+			{
+				_stickyHeaderVisual.StopAnimation("Offset.Y");
+				var offset = _stickyHeaderVisual.Offset;
+				offset.Y = 0;
+				_stickyHeaderVisual.Offset = offset;
+			}
 
-			_isSynchronizingScroll = true;
-			try
-			{
-				_columnsScrollViewer.ChangeView(horizontalOffset, null, null, true);
-			}
-			finally
-			{
-				_isSynchronizingScroll = false;
-			}
+			_itemsPanelClip?.StopAnimation("TopInset");
+			if (_itemsPanelVisual is not null)
+				_itemsPanelVisual.Clip = _originalItemsPanelClip;
+			if (_stickyItemsPanel is not null)
+				Canvas.SetZIndex(_stickyItemsPanel, _originalItemsPanelZIndex);
+
+			_scrollProperties = null;
+			_stickyHeaderVisual = null;
+			_itemsPanelVisual = null;
+			_originalItemsPanelClip = null;
+			_itemsPanelClip = null;
+			_stickyItemsPanel = null;
 		}
 
 		internal void RequestSort(TableViewColumn column)
