@@ -3,7 +3,6 @@
 
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Input;
-using System.Runtime.InteropServices;
 using Windows.System;
 
 namespace Files.App.Controls
@@ -59,7 +58,6 @@ namespace Files.App.Controls
 				return;
 
 			textBox.Loaded += EditingTextBox_Loaded;
-			textBox.LostFocus += EditingTextBox_LostFocus;
 			textBox.KeyDown += EditingTextBox_KeyDown;
 		}
 
@@ -111,28 +109,6 @@ namespace Files.App.Controls
 			});
 		}
 
-		private void EditingTextBox_LostFocus(object sender, RoutedEventArgs e)
-		{
-			try
-			{
-				if (sender is not TextBox textBox)
-					return;
-
-				var focusedElement = textBox.XamlRoot is null
-					? null
-					: FocusManager.GetFocusedElement(textBox.XamlRoot);
-
-				// Keep the editor open while its context menu is active.
-				if (focusedElement is AppBarButton or Popup)
-					return;
-
-				textBox.FindAscendant<TableViewCell>()?.CommitEdit();
-			}
-			catch (COMException)
-			{
-			}
-		}
-
 		private void EditingTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (sender is not TextBox textBox ||
@@ -157,7 +133,6 @@ namespace Files.App.Controls
 				return;
 
 			textBox.Loaded -= EditingTextBox_Loaded;
-			textBox.LostFocus -= EditingTextBox_LostFocus;
 			textBox.KeyDown -= EditingTextBox_KeyDown;
 		}
 	}

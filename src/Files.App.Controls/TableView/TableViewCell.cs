@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Windows.System;
@@ -28,6 +29,7 @@ namespace Files.App.Controls
 			IsTabStop = true;
 
 			DoubleTapped += TableViewCell_DoubleTapped;
+			PointerPressed += TableViewCell_PointerPressed;
 			KeyDown += TableViewCell_KeyDown;
 		}
 
@@ -69,9 +71,10 @@ namespace Files.App.Controls
 
 		public bool BeginEdit()
 		{
+			var owner = Column?.GetOwner();
 			if (IsEditing || Column is null || _data is null || !Column.CanEdit(_data) ||
 				Column.IsEffectivelyReadOnly ||
-				Column.GetOwner() is { } owner && (owner.IsReadOnly || !owner.RaiseBeginningEdit(this)))
+				owner is not null && (owner.IsReadOnly || !owner.TryBeginEdit(this)))
 				return false;
 
 			HasValidationError = false;
@@ -98,6 +101,7 @@ namespace Files.App.Controls
 
 			HasValidationError = false;
 			IsEditing = false;
+			Column.GetOwner()?.NotifyCellEditEnded(this);
 			Content = _data is null ? null : Column.GenerateElement(_data);
 
 			return true;
@@ -112,12 +116,28 @@ namespace Files.App.Controls
 			Column.CancelCellEdit(this);
 			HasValidationError = false;
 			IsEditing = false;
+			Column.GetOwner()?.NotifyCellEditEnded(this);
 			Content = _data is null ? null : Column.GenerateElement(_data);
 		}
 
 		private void UpdateValidationVisualState(bool useTransitions)
 		{
 			VisualStateManager.GoToState(this, HasValidationError ? "ValidationError" : "Valid", useTransitions);
+		}
+
+		private void TableViewCell_PointerPressed(object sender, PointerRoutedEventArgs e)
+		{
+			if (!IsEditing &&
+				e.GetCurrentPoint(this).Properties.PointerUpdateKind is PointerUpdateKind.LeftButtonPressed)
+			{
+				if (Column?.GetOwner() is { } owner && !owner.TryActivateCell(this))
+				{
+					e.Handled = true;
+					return;
+				}
+
+				Focus(FocusState.Pointer);
+			}
 		}
 
 		private void TableViewCell_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)

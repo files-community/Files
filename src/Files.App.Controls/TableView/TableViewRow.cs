@@ -26,11 +26,24 @@ namespace Files.App.Controls
 
 		internal void Bind(TableView owner, object dataItem)
 		{
-			EndEditingCells();
-			SetOwner(owner);
-			SetDataItem(dataItem);
+			var isSameOwner = _owner is not null &&
+				_owner.TryGetTarget(out var currentOwner) &&
+				currentOwner == owner;
+			var isSameDataItem = ReferenceEquals(_dataItem, dataItem);
+			if (!isSameOwner || !isSameDataItem)
+			{
+				EndEditingCells();
+				SetOwner(owner);
+				SetDataItem(dataItem);
+			}
+
 			_availableHeight = 0;
 			SynchronizeCells(owner);
+			if (isSameOwner && isSameDataItem)
+			{
+				foreach (var cell in Children.OfType<TableViewCell>())
+					cell.Refresh();
+			}
 
 			InvalidateArrange();
 			InvalidateMeasure();
