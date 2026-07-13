@@ -58,6 +58,7 @@ namespace Files.App.Controls
 				return;
 
 			textBox.Loaded += EditingTextBox_Loaded;
+			textBox.LostFocus += EditingTextBox_LostFocus;
 			textBox.KeyDown += EditingTextBox_KeyDown;
 		}
 
@@ -127,12 +128,22 @@ namespace Files.App.Controls
 			}
 		}
 
+		private void EditingTextBox_LostFocus(object sender, RoutedEventArgs e)
+		{
+			if (sender is TextBox textBox &&
+				textBox.FindAscendant<TableViewCell>() is { IsEditing: true } cell)
+			{
+				cell.CancelEdit();
+			}
+		}
+
 		private void UnhookTextBoxEvents(TextBox? textBox)
 		{
 			if (textBox is null)
 				return;
 
 			textBox.Loaded -= EditingTextBox_Loaded;
+			textBox.LostFocus -= EditingTextBox_LostFocus;
 			textBox.KeyDown -= EditingTextBox_KeyDown;
 		}
 	}
