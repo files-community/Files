@@ -26,7 +26,19 @@ namespace Files.App.Controls
 			{
 				RequestSort();
 				e.Handled = true;
+				return;
 			}
+
+			if (_owner is null || !_owner.TryGetTarget(out var owner))
+				return;
+
+			var moved = e.Key switch
+			{
+				VirtualKey.Left => owner.TryMoveColumnFocus(this, FlowDirection is FlowDirection.RightToLeft ? 1 : -1),
+				VirtualKey.Right => owner.TryMoveColumnFocus(this, FlowDirection is FlowDirection.RightToLeft ? -1 : 1),
+				_ => false,
+			};
+			e.Handled = moved;
 		}
 
 		private void RootGrid_PointerEntered(object sender, PointerRoutedEventArgs e)

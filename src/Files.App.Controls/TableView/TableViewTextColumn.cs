@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Windows.System;
 
@@ -58,21 +59,21 @@ namespace Files.App.Controls
 				return;
 
 			textBox.Loaded += EditingTextBox_Loaded;
+			textBox.LosingFocus += EditingTextBox_LosingFocus;
 			textBox.LostFocus += EditingTextBox_LostFocus;
 			textBox.KeyDown += EditingTextBox_KeyDown;
 		}
 
-		protected internal override bool CommitCellEdit(TableViewCell cell)
+		protected internal override TableViewCellEditResult CommitCellEdit(TableViewCell cell)
 		{
 			if (cell.EditingElement is not TextBox textBox ||
 				cell.Data is null)
-				return false;
+				return TableViewCellEditResult.Failure();
 
-			if (SetPropertyValue(cell.Data, textBox.Text))
+			var result = SetPropertyValue(cell.Data, textBox.Text);
+			if (result.Succeeded)
 			{
 				UnhookTextBoxEvents(textBox);
-
-				return true;
 			}
 			else
 			{
@@ -81,9 +82,9 @@ namespace Files.App.Controls
 					textBox.Focus(FocusState.Programmatic);
 					textBox.SelectAll();
 				});
-
-				return false;
 			}
+
+			return result;
 		}
 
 		protected internal override void CancelCellEdit(TableViewCell cell)
@@ -128,13 +129,44 @@ namespace Files.App.Controls
 			}
 		}
 
+		private void EditingTextBox_LosingFocus(UIElement sender, LosingFocusEventArgs args)
+		{
+			if (sender is TextBox textBox && IsProtectedFocusTarget(textBox, args.NewFocusedElement))
+				args.TryCancel();
+		}
+
 		private void EditingTextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
-			if (sender is TextBox textBox &&
-				textBox.FindAscendant<TableViewCell>() is { IsEditing: true } cell)
+			if (sender is not TextBox textBox)
+				return;
+
+			textBox.DispatcherQueue.TryEnqueue(() =>
 			{
-				cell.CancelEdit();
-			}
+				if (textBox.FindAscendant<TableViewCell>() is not { IsEditing: true } cell ||
+					IsProtectedFocusTarget(
+						textBox,
+						textBox.XamlRoot is null ? null : FocusManager.GetFocusedElement(textBox.XamlRoot)))
+				{
+					return;
+				}
+
+				cell.CancelEdit(TableViewEditEndingReason.FocusLost);
+			});
+		}
+
+		private static bool IsProtectedFocusTarget(TextBox textBox, object? focusedElement)
+		{
+			if (focusedElement is null || ReferenceEquals(focusedElement, textBox))
+				return true;
+
+			if (focusedElement is FlyoutBase or Popup or FlyoutPresenter or MenuFlyoutPresenter)
+				return true;
+
+			return focusedElement is DependencyObject dependencyObject &&
+				(dependencyObject.FindAscendant<TextBox>() == textBox ||
+				dependencyObject.FindAscendant<Popup>() is not null ||
+				dependencyObject.FindAscendant<FlyoutPresenter>() is not null ||
+				dependencyObject.FindAscendant<MenuFlyoutPresenter>() is not null);
 		}
 
 		private void UnhookTextBoxEvents(TextBox? textBox)
@@ -143,6 +175,7 @@ namespace Files.App.Controls
 				return;
 
 			textBox.Loaded -= EditingTextBox_Loaded;
+			textBox.LosingFocus -= EditingTextBox_LosingFocus;
 			textBox.LostFocus -= EditingTextBox_LostFocus;
 			textBox.KeyDown -= EditingTextBox_KeyDown;
 		}

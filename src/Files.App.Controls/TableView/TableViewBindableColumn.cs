@@ -35,7 +35,7 @@ namespace Files.App.Controls
 			return cellValueProvider.GetValue<T>(Binding);
 		}
 
-		protected bool SetPropertyValue<T>(object dataItem, T value)
+		protected TableViewCellEditResult SetPropertyValue<T>(object dataItem, T value)
 		{
 			if (string.IsNullOrEmpty(Binding) ||
 				dataItem is not ITableViewCellValueEditor cellValueEditor)

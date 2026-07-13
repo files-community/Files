@@ -51,24 +51,24 @@ namespace Files.App.UITests.Data
 			}
 		}
 
-		public bool TrySetValue<T>(string name, T value)
+		public TableViewCellEditResult TrySetValue<T>(string name, T value)
 		{
 			switch (name)
 			{
 				case nameof(Name):
 					Name = Unsafe.As<T, string>(ref value);
-					return true;
+					return TableViewCellEditResult.Success;
 				case nameof(DateUpdated):
 					DateUpdated = Unsafe.As<T, DateTimeOffset?>(ref value);
-					return true;
+					return TableViewCellEditResult.Success;
 				case nameof(Type):
 					Type = Unsafe.As<T, string>(ref value);
-					return true;
+					return TableViewCellEditResult.Success;
 				case nameof(Size):
 					Size = Unsafe.As<T, string>(ref value);
-					return true;
+					return TableViewCellEditResult.Success;
 				default:
-					return false;
+					return TableViewCellEditResult.Failure($"Unknown property '{name}'.");
 			}
 		}
 	}

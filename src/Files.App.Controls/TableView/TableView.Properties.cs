@@ -82,6 +82,7 @@ namespace Files.App.Controls
 
 		partial void OnViewPropertyChanged(DependencyPropertyChangedEventArgs e)
 		{
+			CancelEdit(TableViewEditEndingReason.RowRecycled);
 			UnhookView();
 			HookView(e.NewValue as ListViewBase);
 			RefreshVisibleRows();
@@ -106,7 +107,7 @@ namespace Files.App.Controls
 		partial void OnIsReadOnlyChanged(bool newValue)
 		{
 			if (newValue)
-				CancelEdit();
+				CancelEdit(TableViewEditEndingReason.ReadOnlyChanged);
 
 			NotifyPropertyChanged(this, TableViewNotificationTarget.VisibleRows);
 		}

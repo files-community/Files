@@ -120,7 +120,8 @@
 						x:Name="PART_CellBorder"
 						Background="{TemplateBinding Background}"
 						BorderBrush="Transparent"
-						BorderThickness="0">
+						BorderThickness="0"
+						ToolTipService.ToolTip="{TemplateBinding ValidationError}">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="ValidationStates">
 								<VisualState x:Name="Valid" />

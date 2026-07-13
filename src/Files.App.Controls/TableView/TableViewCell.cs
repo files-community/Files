@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Automation.Peers;
 using Windows.System;
 
 namespace Files.App.Controls
@@ -40,7 +41,7 @@ namespace Files.App.Controls
 
 		internal void Bind(TableViewColumn column, object dataItem)
 		{
-			EnsureEndEdit();
+			EnsureEndEdit(TableViewEditEndingReason.RowRecycled);
 
 			var existingElement = Content as FrameworkElement;
 			Column = column;
@@ -59,22 +60,26 @@ namespace Files.App.Controls
 			}
 		}
 
-		internal void EnsureEndEdit()
+		internal void EnsureEndEdit(TableViewEditEndingReason reason)
 		{
-			if (!IsEditing)
-				return;
+			if (IsEditing)
+				CancelEdit(reason);
+		}
 
-			if (!CommitEdit())
-				CancelEdit();
+		protected override AutomationPeer OnCreateAutomationPeer()
+		{
+			return new TableViewCellAutomationPeer(this);
 		}
 
 		public bool BeginEdit()
 		{
+			var owner = Column?.GetOwner();
 			if (IsEditing || Column is null || _data is null || !Column.CanEdit(_data) ||
 				Column.IsEffectivelyReadOnly ||
-				Column.GetOwner() is { } owner && (owner.IsReadOnly || !owner.RaiseBeginningEdit(this)))
+				owner is not null && (owner.IsReadOnly || !owner.TryBeginEdit(this)))
 				return false;
 
+			ValidationError = null;
 			HasValidationError = false;
 			var editingElement = Column.GenerateEditingElement(_data);
 			Content = editingElement;
@@ -85,35 +90,68 @@ namespace Files.App.Controls
 
 		public bool CommitEdit()
 		{
+			return CommitEdit(TableViewEditEndingReason.Explicit);
+		}
+
+		internal bool CommitEdit(TableViewEditEndingReason reason)
+		{
 			if (!IsEditing || Column is null)
 				return true;
 
-			if (Column.GetOwner() is { } owner && !owner.RaiseCellEditEnding(this, TableViewEditAction.Commit))
+			var owner = Column.GetOwner();
+			if (owner is not null && !owner.RaiseCellEditEnding(this, TableViewEditAction.Commit, reason))
 				return false;
 
-			if (!Column.CommitCellEdit(this))
+			var result = Column.CommitCellEdit(this);
+			if (!result.Succeeded)
 			{
+				ValidationError = result.ErrorContent;
 				HasValidationError = true;
+				owner?.RaiseCellEditFailed(this, ValidationError);
 				return false;
 			}
 
+			ValidationError = null;
 			HasValidationError = false;
 			IsEditing = false;
 			Content = _data is null ? null : Column.GenerateElement(_data);
+			owner?.NotifyCellEditEnded(this);
 
 			return true;
 		}
 
 		public void CancelEdit()
 		{
-			if (!IsEditing || Column is null ||
-				Column.GetOwner() is { } owner && !owner.RaiseCellEditEnding(this, TableViewEditAction.Cancel))
-				return;
+			CancelEdit(TableViewEditEndingReason.Explicit);
+		}
+
+		internal bool CancelEdit(TableViewEditEndingReason reason)
+		{
+			if (!IsEditing || Column is null)
+				return true;
+
+			var owner = Column.GetOwner();
+			if (owner is not null &&
+				!owner.RaiseCellEditEnding(this, TableViewEditAction.Cancel, reason) &&
+				!IsForcedEditEndingReason(reason))
+				return false;
 
 			Column.CancelCellEdit(this);
+			ValidationError = null;
 			HasValidationError = false;
 			IsEditing = false;
 			Content = _data is null ? null : Column.GenerateElement(_data);
+			owner?.NotifyCellEditEnded(this);
+			return true;
+		}
+
+		private static bool IsForcedEditEndingReason(TableViewEditEndingReason reason)
+		{
+			return reason is
+				TableViewEditEndingReason.RowRecycled or
+				TableViewEditEndingReason.ColumnRemoved or
+				TableViewEditEndingReason.ControlUnloaded or
+				TableViewEditEndingReason.ReadOnlyChanged;
 		}
 
 		private void UpdateValidationVisualState(bool useTransitions)
@@ -124,7 +162,7 @@ namespace Files.App.Controls
 		private void TableViewCell_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			if (!IsEditing)
-				Column?.GetOwner()?.CancelEdit();
+				Column?.GetOwner()?.CancelEdit(TableViewEditEndingReason.AnotherCellPressed);
 		}
 
 		private void TableViewCell_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -136,7 +174,47 @@ namespace Files.App.Controls
 		private void TableViewCell_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (!IsEditing && e.Key is VirtualKey.F2 && BeginEdit())
+			{
 				e.Handled = true;
+				return;
+			}
+
+			if (IsEditing || Column?.GetOwner() is not { } owner)
+				return;
+
+			var moved = e.Key switch
+			{
+				VirtualKey.Left => owner.TryMoveCellFocus(this, 0, FlowDirection is FlowDirection.RightToLeft ? 1 : -1),
+				VirtualKey.Right => owner.TryMoveCellFocus(this, 0, FlowDirection is FlowDirection.RightToLeft ? -1 : 1),
+				VirtualKey.Up => owner.TryMoveCellFocus(this, -1, 0),
+				VirtualKey.Down => owner.TryMoveCellFocus(this, 1, 0),
+				_ => false,
+			};
+			e.Handled = moved;
+		}
+
+		internal string GetAutomationValue()
+		{
+			return Content switch
+			{
+				TextBlock textBlock => textBlock.Text,
+				TextBox textBox => textBox.Text,
+				CheckBox checkBox => checkBox.IsChecked?.ToString() ?? string.Empty,
+				FrameworkElement element => Microsoft.UI.Xaml.Automation.AutomationProperties.GetName(element),
+				_ => string.Empty,
+			};
+		}
+
+		internal bool SetAutomationValue(string value)
+		{
+			if (!IsEditing && !BeginEdit())
+				return false;
+
+			if (EditingElement is not TextBox textBox)
+				return false;
+
+			textBox.Text = value;
+			return CommitEdit();
 		}
 	}
 }

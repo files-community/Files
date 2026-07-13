@@ -65,9 +65,9 @@ namespace Files.App.Controls
 		{
 		}
 
-		protected internal virtual bool CommitCellEdit(TableViewCell cell)
+		protected internal virtual TableViewCellEditResult CommitCellEdit(TableViewCell cell)
 		{
-			return true;
+			return TableViewCellEditResult.Success;
 		}
 
 		protected internal virtual void CancelCellEdit(TableViewCell cell)

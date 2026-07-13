@@ -33,6 +33,7 @@ namespace Files.App.Controls
 		private bool _isSynchronizingColumns;
 		private bool _isUpdatingDeclaredColumnsOrder;
 		private bool _isUpdatingColumnsSourceOrder;
+		private WeakReference<TableViewCell>? _editingCell;
 		private TableViewColumn? _resizingColumn;
 		private GridLength _resizingColumnOriginalWidth;
 		private double[] _columnOffsets = [];
@@ -42,6 +43,7 @@ namespace Files.App.Controls
 		private double _lastColumnWidthConstraint = double.NaN;
 		private bool _columnWidthsDirty = true;
 		private double _lastHorizontalOffset = double.NaN;
+		private bool _realizedColumnsUpdateScheduled;
 
 		internal ObservableCollection<TableViewColumn> ActiveColumns { get; } = [];
 
@@ -67,6 +69,7 @@ namespace Files.App.Controls
 		{
 			base.OnApplyTemplate();
 
+			CancelEdit(TableViewEditEndingReason.ControlUnloaded);
 			UnhookColumnsPanel();
 			UnhookView();
 			HookView(View);
@@ -96,6 +99,7 @@ namespace Files.App.Controls
 
 		private void TableView_Unloaded(object sender, RoutedEventArgs e)
 		{
+			CancelEdit(TableViewEditEndingReason.ControlUnloaded);
 			UnhookColumnsPanel();
 			UnhookView();
 		}
@@ -245,8 +249,7 @@ namespace Files.App.Controls
 			foreach (var column in desiredColumns)
 				column.VerifyCanAttachOwner(this);
 
-			if (!CommitEdit())
-				CancelEdit();
+			CancelEdit(TableViewEditEndingReason.ColumnRemoved);
 
 			_isSynchronizingColumns = true;
 			try
@@ -459,27 +462,64 @@ namespace Files.App.Controls
 			InvalidateColumnResizePanel();
 		}
 
-		public bool CommitEdit()
+		internal bool TryBeginEdit(TableViewCell cell)
 		{
-			foreach (var row in GetRealizedRows())
+			if (TryGetEditingCell() is { } editingCell && editingCell != cell)
 			{
-				if (!row.CommitEdit())
+				if (!editingCell.CancelEdit(TableViewEditEndingReason.AnotherCellPressed))
 					return false;
 			}
 
+			if (!RaiseBeginningEdit(cell))
+				return false;
+
+			_editingCell = new(cell);
 			return true;
+		}
+
+		internal void NotifyCellEditEnded(TableViewCell cell)
+		{
+			if (TryGetEditingCell() == cell)
+				_editingCell = null;
+		}
+
+		private TableViewCell? TryGetEditingCell()
+		{
+			if (_editingCell is not null &&
+				_editingCell.TryGetTarget(out var cell) &&
+				cell.IsEditing)
+			{
+				return cell;
+			}
+
+			_editingCell = null;
+			return null;
+		}
+
+		public bool CommitEdit()
+		{
+			return CommitEdit(TableViewEditEndingReason.Explicit);
+		}
+
+		internal bool CommitEdit(TableViewEditEndingReason reason)
+		{
+			return TryGetEditingCell()?.CommitEdit(reason) ?? true;
 		}
 
 		public void CancelEdit()
 		{
-			foreach (var row in GetRealizedRows())
-				row.CancelEdit();
+			CancelEdit(TableViewEditEndingReason.Explicit);
 		}
 
-		internal void CancelEdit(TableViewColumn column)
+		internal void CancelEdit(TableViewEditEndingReason reason)
 		{
-			foreach (var row in GetRealizedRows())
-				row.CancelEdit(column);
+			TryGetEditingCell()?.CancelEdit(reason);
+		}
+
+		internal void CancelEdit(TableViewColumn column, TableViewEditEndingReason reason)
+		{
+			if (TryGetEditingCell() is { Column: var editingColumn } cell && editingColumn == column)
+				cell.CancelEdit(reason);
 		}
 
 		private IEnumerable<TableViewRow> GetRealizedRows()
@@ -567,6 +607,89 @@ namespace Files.App.Controls
 
 			_totalColumnsWidth = offset;
 			_realizedColumnRange = null;
+			ScheduleRealizedColumnsUpdate();
+		}
+
+		internal int AutomationRowCount => _listView?.Items.Count ?? 0;
+
+		internal int AutomationColumnCount => ActiveColumns.Count;
+
+		internal int GetRowIndex(TableViewCell cell)
+		{
+			if (_listView is null || cell.FindAscendant<ListViewItem>() is not { } container)
+				return -1;
+
+			return _listView.IndexFromContainer(container);
+		}
+
+		internal TableViewCell? GetOrRealizeCell(int rowIndex, int columnIndex)
+		{
+			if (_listView is null ||
+				rowIndex < 0 || rowIndex >= _listView.Items.Count ||
+				columnIndex < 0 || columnIndex >= ActiveColumns.Count)
+			{
+				return null;
+			}
+
+			var item = _listView.Items[rowIndex];
+			_listView.ScrollIntoView(item, ScrollIntoViewAlignment.Leading);
+			_listView.UpdateLayout();
+
+			if (_viewScrollViewer is not null)
+			{
+				var columnStart = GetColumnOffset(columnIndex);
+				var columnEnd = columnStart + ActiveColumns[columnIndex].ActualWidth;
+				if (columnStart < _viewScrollViewer.HorizontalOffset ||
+					columnEnd > _viewScrollViewer.HorizontalOffset + _viewScrollViewer.ViewportWidth)
+				{
+					_viewScrollViewer.ChangeView(columnStart, null, null, true);
+					_realizedColumnRange = null;
+					_listView.UpdateLayout();
+				}
+			}
+
+			if (_listView.ContainerFromIndex(rowIndex) is not ListViewItem { ContentTemplateRoot: TableViewRow row })
+				return null;
+
+			row.UpdateRealizedColumns(this);
+			return row.GetCell(ActiveColumns[columnIndex]);
+		}
+
+		internal bool TryMoveCellFocus(TableViewCell cell, int rowOffset, int columnOffset)
+		{
+			var rowIndex = GetRowIndex(cell);
+			var columnIndex = cell.Column is null ? -1 : GetColumnIndex(cell.Column);
+			if (rowIndex < 0 || columnIndex < 0)
+				return false;
+
+			return GetOrRealizeCell(rowIndex + rowOffset, columnIndex + columnOffset)?.Focus(FocusState.Keyboard) is true;
+		}
+
+		internal bool TryMoveColumnFocus(TableViewColumn column, int offset)
+		{
+			var currentIndex = GetColumnIndex(column);
+			var targetIndex = currentIndex + offset;
+			return targetIndex >= 0 &&
+				targetIndex < ActiveColumns.Count &&
+				ActiveColumns[targetIndex].Focus(FocusState.Keyboard);
+		}
+
+		private void ScheduleRealizedColumnsUpdate()
+		{
+			if (_realizedColumnsUpdateScheduled)
+				return;
+
+			_realizedColumnsUpdateScheduled = DispatcherQueue.TryEnqueue(() =>
+			{
+				_realizedColumnsUpdateScheduled = false;
+				UpdateRealizedColumnsOfAllRows();
+			});
+		}
+
+		private void UpdateRealizedColumnsOfAllRows()
+		{
+			foreach (var row in GetRealizedRows())
+				row.UpdateRealizedColumns(this);
 		}
 
 		internal void InvalidateColumnWidths()
@@ -688,7 +811,7 @@ namespace Files.App.Controls
 		{
 			if (!CanUserResizeColumns || sender is not ResizeVisual { Tag: TableViewColumn { CanUserResize: true } column })
 				return;
-			if (!CommitEdit())
+			if (!CommitEdit(TableViewEditEndingReason.ColumnOperation))
 				return;
 
 			_resizingColumn = column;
@@ -841,6 +964,7 @@ namespace Files.App.Controls
 
 			_viewScrollViewer = null;
 			_realizedColumnRange = null;
+			_realizedColumnsUpdateScheduled = false;
 			_lastHorizontalOffset = double.NaN;
 			_listView = null;
 		}
@@ -882,6 +1006,7 @@ namespace Files.App.Controls
 
 			_viewScrollViewer = scrollViewer;
 			_realizedColumnRange = null;
+			ScheduleRealizedColumnsUpdate();
 			if (_viewScrollViewer is not null)
 			{
 				_viewScrollViewer.ViewChanged += ViewScrollViewer_ViewChanged;
@@ -901,7 +1026,7 @@ namespace Files.App.Controls
 
 			_lastHorizontalOffset = scrollViewer.HorizontalOffset;
 			_realizedColumnRange = null;
-			InvalidateLayoutOfAllRows();
+			ScheduleRealizedColumnsUpdate();
 		}
 
 		private void StartStickyHeaderAnimation()
@@ -969,7 +1094,7 @@ namespace Files.App.Controls
 		{
 			if (!CanUserSortColumns || !column.CanUserSort)
 				return;
-			if (!CommitEdit())
+			if (!CommitEdit(TableViewEditEndingReason.ColumnOperation))
 				return;
 
 			var requestedDirection = column.SortDirection is null or ListSortDirection.Descending
@@ -1010,7 +1135,7 @@ namespace Files.App.Controls
 			{
 				_columnsItemsControl.IsReorderEnabled = CanUserReorderColumns;
 				_columnsItemsControl.ReorderItemFilter = item =>
-					item is not TableViewColumn column || column.CanUserReorder && CommitEdit();
+					item is not TableViewColumn column || column.CanUserReorder && CommitEdit(TableViewEditEndingReason.ColumnOperation);
 			}
 		}
 

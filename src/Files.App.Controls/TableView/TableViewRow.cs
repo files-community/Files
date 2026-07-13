@@ -11,6 +11,7 @@ namespace Files.App.Controls
 		private WeakReference<TableView>? _owner;
 		private object? _dataItem;
 		private INotifyPropertyChanged? _observableDataItem;
+		private readonly Dictionary<TableViewColumn, TableViewCell> _cellsByColumn = [];
 
 		private double _availableHeight;
 
@@ -32,7 +33,7 @@ namespace Files.App.Controls
 			var isSameDataItem = ReferenceEquals(_dataItem, dataItem);
 			if (!isSameOwner || !isSameDataItem)
 			{
-				EndEditingCells();
+				EndEditingCells(TableViewEditEndingReason.RowRecycled);
 				SetOwner(owner);
 				SetDataItem(dataItem);
 			}
@@ -56,7 +57,7 @@ namespace Files.App.Controls
 
 		internal void Unbind()
 		{
-			EndEditingCells();
+			EndEditingCells(TableViewEditEndingReason.RowRecycled);
 			SetDataItem(null);
 			_owner = null;
 			_availableHeight = 0;
@@ -108,7 +109,6 @@ namespace Files.App.Controls
 				return new(0, 0);
 
 			owner.ResolveColumnWidths(availableSize.Width);
-			SynchronizeCells(owner);
 
 			bool desiredWidthChanged = false;
 			foreach (var cell in Children.OfType<TableViewCell>())
@@ -148,6 +148,21 @@ namespace Files.App.Controls
 			return new(measuredWidth, _availableHeight);
 		}
 
+		internal void UpdateRealizedColumns(TableView owner)
+		{
+			if (_owner is null || !_owner.TryGetTarget(out var currentOwner) || currentOwner != owner)
+				return;
+
+			SynchronizeCells(owner);
+			InvalidateMeasure();
+			InvalidateArrange();
+		}
+
+		internal TableViewCell? GetCell(TableViewColumn column)
+		{
+			return _cellsByColumn.GetValueOrDefault(column);
+		}
+
 		private void SynchronizeCells(TableView owner)
 		{
 			if (_dataItem is null)
@@ -164,18 +179,23 @@ namespace Files.App.Controls
 			}
 
 			desiredColumns.Sort((left, right) => owner.GetColumnIndex(left).CompareTo(owner.GetColumnIndex(right)));
+			var desiredColumnSet = desiredColumns.ToHashSet();
 
 			for (int index = Children.Count - 1; index >= 0; index--)
 			{
 				if (Children[index] is TableViewCell cell &&
 					cell.Column is { } column &&
-					desiredColumns.Contains(column))
+					desiredColumnSet.Contains(column))
 				{
 					continue;
 				}
 
 				if (Children[index] is TableViewCell removedCell)
-					removedCell.EnsureEndEdit();
+				{
+					removedCell.EnsureEndEdit(TableViewEditEndingReason.ColumnRemoved);
+					if (removedCell.Column is { } removedColumn)
+						_cellsByColumn.Remove(removedColumn);
+				}
 
 				Children.RemoveAt(index);
 			}
@@ -183,18 +203,8 @@ namespace Files.App.Controls
 			for (int desiredIndex = 0; desiredIndex < desiredColumns.Count; desiredIndex++)
 			{
 				var column = desiredColumns[desiredIndex];
-				int existingIndex = -1;
-				for (int index = desiredIndex; index < Children.Count; index++)
-				{
-					if (Children[index] is TableViewCell { Column: var existingColumn } && existingColumn == column)
-					{
-						existingIndex = index;
-						break;
-					}
-				}
-
 				TableViewCell cell;
-				if (existingIndex < 0)
+				if (!_cellsByColumn.TryGetValue(column, out cell))
 				{
 					cell = new()
 					{
@@ -202,10 +212,11 @@ namespace Files.App.Controls
 						HorizontalAlignment = HorizontalAlignment.Stretch,
 					};
 					Children.Insert(desiredIndex, cell);
+					_cellsByColumn[column] = cell;
 				}
 				else
 				{
-					cell = (TableViewCell)Children[existingIndex];
+					var existingIndex = Children.IndexOf(cell);
 					if (existingIndex != desiredIndex)
 					{
 						Children.RemoveAt(existingIndex);
@@ -249,33 +260,10 @@ namespace Files.App.Controls
 			}
 		}
 
-		private void EndEditingCells()
+		private void EndEditingCells(TableViewEditEndingReason reason)
 		{
 			foreach (var cell in Children.OfType<TableViewCell>())
-				cell.EnsureEndEdit();
-		}
-
-		internal bool CommitEdit()
-		{
-			foreach (var cell in Children.OfType<TableViewCell>().Where(cell => cell.IsEditing))
-			{
-				if (!cell.CommitEdit())
-					return false;
-			}
-
-			return true;
-		}
-
-		internal void CancelEdit()
-		{
-			foreach (var cell in Children.OfType<TableViewCell>().Where(cell => cell.IsEditing))
-				cell.CancelEdit();
-		}
-
-		internal void CancelEdit(TableViewColumn column)
-		{
-			foreach (var cell in Children.OfType<TableViewCell>().Where(cell => cell.IsEditing && cell.Column == column))
-				cell.CancelEdit();
+				cell.EnsureEndEdit(reason);
 		}
 	}
 }

@@ -72,7 +72,7 @@ namespace Files.App.Controls
 		partial void OnIsReadOnlyChanged(bool newValue)
 		{
 			if (newValue && GetOwner() is { } owner)
-				owner.CancelEdit(this);
+				owner.CancelEdit(this, TableViewEditEndingReason.ReadOnlyChanged);
 
 			NotifyPropertyChanged(TableViewNotificationTarget.VisibleRows);
 		}
