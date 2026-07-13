@@ -104,9 +104,10 @@ namespace Files.App.Controls
 				.Where(column => column is not null)
 				.Cast<TableViewColumn>()
 				.ToList();
-			var boundaryColumns = columns.Take(Math.Max(0, columns.Count - 1)).ToHashSet();
+			var boundaryColumns = columns.Take(Math.Max(0, columns.Count - 1)).ToList();
+			var boundaryColumnSet = boundaryColumns.ToHashSet();
 
-			foreach (var column in _resizeVisuals.Keys.Where(column => !boundaryColumns.Contains(column)).ToList())
+			foreach (var column in _resizeVisuals.Keys.Where(column => !boundaryColumnSet.Contains(column)).ToList())
 				RemoveAdornments(column);
 
 			foreach (var column in boundaryColumns)
@@ -123,11 +124,23 @@ namespace Files.App.Controls
 				resizeVisual.DragDelta += ResizeVisual_DragDelta;
 				resizeVisual.DragCompleted += ResizeVisual_DragCompleted;
 				_resizeVisuals[column] = resizeVisual;
-				Children.Add(resizeVisual);
 
 				var divider = new Rectangle { Tag = column };
 				_dividers[column] = divider;
-				Children.Add(divider);
+			}
+
+			var desiredAdornments = boundaryColumns
+				.Select(column => (UIElement)_dividers[column])
+				.Concat(boundaryColumns.Select(column => _resizeVisuals[column]))
+				.ToList();
+			var currentAdornments = Children.Where(IsAdornment).ToList();
+			if (!currentAdornments.SequenceEqual(desiredAdornments))
+			{
+				foreach (var adornment in currentAdornments)
+					Children.Remove(adornment);
+
+				foreach (var adornment in desiredAdornments)
+					Children.Add(adornment);
 			}
 
 			UpdateResizeVisualInteractionState();
