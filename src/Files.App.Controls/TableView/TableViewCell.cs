@@ -76,9 +76,9 @@ namespace Files.App.Controls
 
 			HasValidationError = false;
 			var editingElement = Column.GenerateEditingElement(_data);
+			Content = editingElement;
 			IsEditing = true;
 			Column.PrepareCellForEdit(this, editingElement);
-			Content = editingElement;
 			return true;
 		}
 
@@ -122,44 +122,14 @@ namespace Files.App.Controls
 
 		private void TableViewCell_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
-			if (!CanBeginEdit())
-				return;
-
-			e.Handled = true;
-			QueueBeginEdit();
+			if (!IsEditing && BeginEdit())
+				e.Handled = true;
 		}
 
 		private void TableViewCell_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if (e.Key is not VirtualKey.F2 || !CanBeginEdit())
-				return;
-
-			e.Handled = true;
-			QueueBeginEdit();
-		}
-
-		private bool CanBeginEdit()
-		{
-			return !IsEditing &&
-				Column is not null &&
-				_data is not null &&
-				Column.CanEdit(_data) &&
-				!Column.IsEffectivelyReadOnly;
-		}
-
-		private void QueueBeginEdit()
-		{
-			var column = Column;
-			var dataItem = _data;
-			DispatcherQueue.TryEnqueue(() =>
-			{
-				if (!CanBeginEdit() || Column != column || !ReferenceEquals(_data, dataItem))
-					return;
-
-				var owner = column?.GetOwner();
-				if (owner is null || owner.CommitEdit())
-					BeginEdit();
-			});
+			if (!IsEditing && e.Key is VirtualKey.F2 && BeginEdit())
+				e.Handled = true;
 		}
 	}
 }

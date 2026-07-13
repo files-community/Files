@@ -163,29 +163,58 @@ namespace Files.App.Controls
 					desiredColumns.Add(column);
 			}
 
-			var existingCells = Children
-				.OfType<TableViewCell>()
-				.Where(cell => cell.Column is not null)
-				.ToDictionary(cell => cell.Column!);
-			foreach (var cell in existingCells.Values.Where(cell => !desiredColumns.Contains(cell.Column!)))
-				cell.EnsureEndEdit();
+			desiredColumns.Sort((left, right) => owner.GetColumnIndex(left).CompareTo(owner.GetColumnIndex(right)));
 
-			Children.Clear();
-			foreach (var column in desiredColumns.OrderBy(owner.GetColumnIndex))
+			for (int index = Children.Count - 1; index >= 0; index--)
 			{
-				if (!existingCells.TryGetValue(column, out var cell))
+				if (Children[index] is TableViewCell cell &&
+					cell.Column is { } column &&
+					desiredColumns.Contains(column))
 				{
-					cell = new TableViewCell
+					continue;
+				}
+
+				if (Children[index] is TableViewCell removedCell)
+					removedCell.EnsureEndEdit();
+
+				Children.RemoveAt(index);
+			}
+
+			for (int desiredIndex = 0; desiredIndex < desiredColumns.Count; desiredIndex++)
+			{
+				var column = desiredColumns[desiredIndex];
+				int existingIndex = -1;
+				for (int index = desiredIndex; index < Children.Count; index++)
+				{
+					if (Children[index] is TableViewCell { Column: var existingColumn } && existingColumn == column)
+					{
+						existingIndex = index;
+						break;
+					}
+				}
+
+				TableViewCell cell;
+				if (existingIndex < 0)
+				{
+					cell = new()
 					{
 						VerticalAlignment = VerticalAlignment.Stretch,
 						HorizontalAlignment = HorizontalAlignment.Stretch,
 					};
+					Children.Insert(desiredIndex, cell);
+				}
+				else
+				{
+					cell = (TableViewCell)Children[existingIndex];
+					if (existingIndex != desiredIndex)
+					{
+						Children.RemoveAt(existingIndex);
+						Children.Insert(desiredIndex, cell);
+					}
 				}
 
 				if (cell.Column != column || !ReferenceEquals(cell.Data, _dataItem))
 					cell.Bind(column, _dataItem);
-
-				Children.Add(cell);
 			}
 		}
 
