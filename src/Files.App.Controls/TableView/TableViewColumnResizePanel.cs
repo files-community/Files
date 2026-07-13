@@ -97,8 +97,6 @@ namespace Files.App.Controls
 
 				var width = adornment.DesiredSize.Width;
 				var left = boundary - width / 2;
-				if (adornment is ResizeVisual && Math.Abs(boundary - offset) < 0.5)
-					left = boundary - width;
 				adornment.Arrange(new(
 					Math.Max(0, left),
 					0,

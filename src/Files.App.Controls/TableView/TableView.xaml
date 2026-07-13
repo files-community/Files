@@ -3,7 +3,6 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:local="using:Files.App.Controls"
-	xmlns:wct="using:CommunityToolkit.WinUI"
 	xmlns:wctcontrols="using:CommunityToolkit.WinUI.Controls">
 
 	<ResourceDictionary.ThemeDictionaries>
@@ -29,6 +28,7 @@
 	<StaticResource x:Key="TableViewColumnCornerRadius" ResourceKey="ControlCornerRadius" />
 	<x:Double x:Key="TableViewColumnHeaderHeight">44</x:Double>
 	<x:Double x:Key="TableViewColumnResizeVisualWidth">16</x:Double>
+	<GridLength x:Key="TableViewColumnResizeVisualOverflow">8</GridLength>
 	<x:Double x:Key="SortOrderGlyphSize">8</x:Double>
 	<x:String x:Key="SortOrderGlyph">&#xEDDB;</x:String>
 
@@ -78,33 +78,38 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:TableViewColumnHeadersPresenter">
-					<Border
-						Height="{ThemeResource TableViewColumnHeaderHeight}"
-						Margin="4"
-						wct:UIElementExtensions.ClipToBounds="True"
-						Background="{ThemeResource TableViewColumnBackground}"
-						BorderBrush="{ThemeResource TableViewColumnBorderBrush}"
-						BorderThickness="{StaticResource TableViewColumnBorderThickness}"
-						CornerRadius="{StaticResource TableViewColumnCornerRadius}">
-						<local:ReorderableItemsControl x:Name="PART_ColumnsPanel" HorizontalAlignment="Left">
-							<local:ReorderableItemsControl.ItemsPanel>
-								<ItemsPanelTemplate>
-									<local:TableViewColumnResizePanel>
-										<local:TableViewColumnResizePanel.Resources>
-											<Style BasedOn="{StaticResource DefaultResizeVisualStyle}" TargetType="local:ResizeVisual">
-												<Setter Property="Width" Value="{ThemeResource TableViewColumnResizeVisualWidth}" />
-											</Style>
-											<Style TargetType="Rectangle">
-												<Setter Property="Width" Value="1" />
-												<Setter Property="Fill" Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
-												<Setter Property="IsHitTestVisible" Value="False" />
-											</Style>
-										</local:TableViewColumnResizePanel.Resources>
-									</local:TableViewColumnResizePanel>
-								</ItemsPanelTemplate>
-							</local:ReorderableItemsControl.ItemsPanel>
-						</local:ReorderableItemsControl>
-					</Border>
+					<Grid Margin="4">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="{ThemeResource TableViewColumnResizeVisualOverflow}" />
+						</Grid.ColumnDefinitions>
+						<Border
+							Grid.Column="0"
+							Height="{ThemeResource TableViewColumnHeaderHeight}"
+							Background="{ThemeResource TableViewColumnBackground}"
+							BorderBrush="{ThemeResource TableViewColumnBorderBrush}"
+							BorderThickness="{StaticResource TableViewColumnBorderThickness}"
+							CornerRadius="{StaticResource TableViewColumnCornerRadius}">
+							<local:ReorderableItemsControl x:Name="PART_ColumnsPanel" HorizontalAlignment="Left">
+								<local:ReorderableItemsControl.ItemsPanel>
+									<ItemsPanelTemplate>
+										<local:TableViewColumnResizePanel>
+											<local:TableViewColumnResizePanel.Resources>
+												<Style BasedOn="{StaticResource DefaultResizeVisualStyle}" TargetType="local:ResizeVisual">
+													<Setter Property="Width" Value="{ThemeResource TableViewColumnResizeVisualWidth}" />
+												</Style>
+												<Style TargetType="Rectangle">
+													<Setter Property="Width" Value="1" />
+													<Setter Property="Fill" Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
+													<Setter Property="IsHitTestVisible" Value="False" />
+												</Style>
+											</local:TableViewColumnResizePanel.Resources>
+										</local:TableViewColumnResizePanel>
+									</ItemsPanelTemplate>
+								</local:ReorderableItemsControl.ItemsPanel>
+							</local:ReorderableItemsControl>
+						</Border>
+					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
