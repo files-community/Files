@@ -27,6 +27,7 @@ namespace Files.App.Controls
 			VerticalContentAlignment = VerticalAlignment.Stretch;
 			IsTabStop = true;
 
+			AddHandler(PointerPressedEvent, new PointerEventHandler(TableViewCell_PointerPressed), true);
 			DoubleTapped += TableViewCell_DoubleTapped;
 			KeyDown += TableViewCell_KeyDown;
 		}
@@ -118,6 +119,12 @@ namespace Files.App.Controls
 		private void UpdateValidationVisualState(bool useTransitions)
 		{
 			VisualStateManager.GoToState(this, HasValidationError ? "ValidationError" : "Valid", useTransitions);
+		}
+
+		private void TableViewCell_PointerPressed(object sender, PointerRoutedEventArgs e)
+		{
+			if (!IsEditing)
+				Column?.GetOwner()?.CancelEdit();
 		}
 
 		private void TableViewCell_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
