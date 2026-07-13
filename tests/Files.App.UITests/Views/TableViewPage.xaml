@@ -16,11 +16,11 @@
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary>
 
-					<Style x:Key="TableViewListViewStyle" TargetType="ListView">
+					<!--<Style x:Key="TableViewListViewStyle" TargetType="ListView">
 						<Style.Setters>
 							<Setter Property="Margin" Value="-4,0" />
 						</Style.Setters>
-					</Style>
+					</Style>-->
 
 					<Style
 						x:Key="TableViewListViewItemStyle"
@@ -34,11 +34,17 @@
 					</Style>
 
 					<DataTemplate x:Key="TextTableViewColumnTemplate" x:DataType="data:TableViewColumnModel">
-						<controls:TableViewTextColumn ColumnWidth="240" Binding="{Binding PropertyName}" Header="{Binding Header}" />
+						<controls:TableViewTextColumn
+							Binding="{Binding PropertyName}"
+							ColumnWidth="240"
+							Header="{Binding Header}" />
 					</DataTemplate>
 
 					<DataTemplate x:Key="DateTableViewColumnTemplate" x:DataType="data:TableViewColumnModel">
-						<controls:TableViewDateColumn ColumnWidth="240" Binding="{Binding PropertyName}" Header="{Binding Header}" />
+						<controls:TableViewDateColumn
+							Binding="{Binding PropertyName}"
+							ColumnWidth="240"
+							Header="{Binding Header}" />
 					</DataTemplate>
 
 					<selectors:TableViewColumnTemplateSelector
@@ -74,19 +80,18 @@
 							ColumnsSource="{x:Bind Columns, Mode=OneWay}"
 							Sorting="TableView_Sorting">
 
-						<controls:TableView.View>
-							<ListView
-								x:Name="Sample1ListView1"
-								ItemContainerStyle="{StaticResource TableViewListViewItemStyle}"
-								ItemsSource="{x:Bind Items, Mode=OneWay}"
-								Style="{StaticResource TableViewListViewStyle}">
-								<ListView.ItemTemplate>
-									<DataTemplate x:DataType="data:TableViewItemModel">
-										<controls:TableViewRow HorizontalAlignment="Stretch" />
-									</DataTemplate>
-								</ListView.ItemTemplate>
-							</ListView>
-						</controls:TableView.View>
+							<controls:TableView.View>
+								<ListView
+									x:Name="Sample1ListView1"
+									ItemContainerStyle="{StaticResource TableViewListViewItemStyle}"
+									ItemsSource="{x:Bind Items, Mode=OneWay}">
+									<ListView.ItemTemplate>
+										<DataTemplate x:DataType="data:TableViewItemModel">
+											<controls:TableViewRow HorizontalAlignment="Stretch" />
+										</DataTemplate>
+									</ListView.ItemTemplate>
+								</ListView>
+							</controls:TableView.View>
 
 						</controls:TableView>
 					</ContentControl>
@@ -109,15 +114,21 @@
 			<controls:SamplePanel.MainContent>
 				<controls:TableView Height="280" Sorting="TableView_Sorting">
 					<controls:TableView.Columns>
-						<controls:TableViewTextColumn ColumnWidth="2*" Binding="Name" Header="Name" />
-						<controls:TableViewDateColumn ColumnWidth="Auto" Binding="DateUpdated" Header="Date updated" />
-						<controls:TableViewTextColumn ColumnWidth="*" Binding="Type" Header="Type" />
+						<controls:TableViewTextColumn
+							Binding="Name"
+							ColumnWidth="2*"
+							Header="Name" />
+						<controls:TableViewDateColumn
+							Binding="DateUpdated"
+							ColumnWidth="Auto"
+							Header="Date updated" />
+						<controls:TableViewTextColumn
+							Binding="Type"
+							ColumnWidth="*"
+							Header="Type" />
 					</controls:TableView.Columns>
 					<controls:TableView.View>
-						<ListView
-							ItemContainerStyle="{StaticResource TableViewListViewItemStyle}"
-							ItemsSource="{x:Bind Items, Mode=OneWay}"
-							Style="{StaticResource TableViewListViewStyle}">
+						<ListView ItemContainerStyle="{StaticResource TableViewListViewItemStyle}" ItemsSource="{x:Bind Items, Mode=OneWay}">
 							<ListView.ItemTemplate>
 								<DataTemplate x:DataType="data:TableViewItemModel">
 									<controls:TableViewRow HorizontalAlignment="Stretch" />
