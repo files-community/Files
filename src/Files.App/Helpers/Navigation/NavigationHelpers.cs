@@ -216,7 +216,7 @@ namespace Files.App.Helpers
 		{
 			ImageSource? imageSource;
 			if (string.IsNullOrEmpty(path) || path == "Home")
-				imageSource = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
+				imageSource = new BitmapImage(new Uri(SidebarSectionIcons.For(SectionType.Home)!));
 			else if (path == "ReleaseNotes")
 				imageSource = new BitmapImage(new Uri(AppLifecycleHelper.AppIconPath));
 			else if (path == "Settings")
@@ -255,7 +255,7 @@ namespace Files.App.Helpers
 			if (string.IsNullOrEmpty(currentPath) || currentPath == "Home")
 			{
 				tabLocationHeader = Strings.Home.GetLocalizedResource();
-				((ImageIconSource)iconSource).ImageSource = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
+				((ImageIconSource)iconSource).ImageSource = new BitmapImage(new Uri(SidebarSectionIcons.For(SectionType.Home)!));
 			}
 			else if (currentPath == "ReleaseNotes")
 			{

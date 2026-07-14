@@ -35,11 +35,8 @@ namespace Files.App
 			public const int Videos = 189;
 			public const int GenericDiskDrive = 35;
 			public const int WindowsDrive = 36;
-			public const int ThisPC = 109;
 			public const int Network = 25;
 			public const int RecycleBin = 55;
-			public const int CloudDrives = 1040;
-			public const int Libraries = 1023;
 			public const int Folder = 3;
 			public const int ShieldIcon = 78;
 			public const int SearchIcon = 177;
@@ -49,14 +46,6 @@ namespace Files.App
 		{
 			// See shell32.dll for more icon indexes to add
 			public const int QuickAccess = 51380;
-		}
-
-		public static class FluentIconsPaths
-		{
-			public const string CloudDriveIcon = "ms-appx:///Assets/FluentIcons/CloudDrive.png";
-			public const string StarIcon = "ms-appx:///Assets/FluentIcons/Star.png";
-			public const string FileTagsIcon = "ms-appx:///Assets/FluentIcons/FileTags.png";
-			public const string HomeIcon = "ms-appx:///Assets/FluentIcons/Home.png";
 		}
 
 		public static class WslIconsPaths

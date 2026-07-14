@@ -257,7 +257,7 @@
 							<Image
 								Width="16"
 								Height="16"
-								Source="/Assets/FluentIcons/Home.png" />
+								Source="/Assets/FluentIcons/SidebarSections/Home.png" />
 						</controls:BreadcrumbBar.RootItem>
 						<controls:BreadcrumbBar.ItemTemplate>
 							<DataTemplate x:DataType="dataitems:PathBoxItem">

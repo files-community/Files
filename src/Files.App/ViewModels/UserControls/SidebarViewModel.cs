@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Files.App.Controls;
+using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -16,6 +17,7 @@ using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -41,6 +43,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue;
 		private INavigationControlItem rightClickedItem;
+		private readonly UISettings uiSettings = new();
 
 		public object SidebarItems => sidebarItems;
 		public BulkConcurrentObservableCollection<INavigationControlItem> sidebarItems { get; init; }
@@ -320,6 +323,7 @@ namespace Files.App.ViewModels.UserControls
 			NetworkService.Computers.CollectionChanged += Manager_DataChangedForNetworkComputers;
 			WSLDistroManager.DataChanged += Manager_DataChanged;
 			App.FileTagsManager.DataChanged += Manager_DataChanged;
+			uiSettings.ColorValuesChanged += UiSettings_ColorValuesChanged;
 			SidebarDisplayMode = UserSettingsService.AppearanceSettingsService.IsSidebarOpen ? SidebarDisplayMode.Expanded : SidebarDisplayMode.Compact;
 
 			HideSectionCommand = new RelayCommand(HideSection);
@@ -333,6 +337,30 @@ namespace Files.App.ViewModels.UserControls
 		private Task<LocationItem> CreateItemHomeAsync()
 		{
 			return CreateSectionAsync(SectionType.Home);
+		}
+
+		private async void UiSettings_ColorValuesChanged(UISettings sender, object args)
+		{
+			if (dispatcherQueue is null)
+				return;
+
+			await dispatcherQueue.EnqueueOrInvokeAsync(RefreshSectionIcons);
+		}
+
+		private void RefreshSectionIcons()
+		{
+			foreach (var item in sidebarItems.OfType<LocationItem>())
+			{
+				if (!item.IsHeader)
+					continue;
+
+				var uri = SidebarSectionIcons.For(item.Section);
+				if (uri is null)
+					continue;
+
+				item.Icon = null;
+				item.Icon = new BitmapImage(new Uri(uri));
+			}
 		}
 
 		private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -508,126 +536,78 @@ namespace Files.App.ViewModels.UserControls
 			return sidebarItems.FirstOrDefault(x => x.Section == sectionType) as LocationItem;
 		}
 
-		private async Task<LocationItem> CreateSectionAsync(SectionType sectionType)
+		private Task<LocationItem> CreateSectionAsync(SectionType sectionType)
 		{
 			LocationItem section = null;
-			BitmapImage icon = null;
-			int iconIdex = -1;
 
 			switch (sectionType)
 			{
 				case SectionType.Home:
-					{
-						section = BuildSection(Strings.Home.GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLocationItem = true }, true);
-						section.Path = "Home";
-						section.Icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
-						section.IsHeader = true;
-
-						break;
-					}
+					section = BuildSection(Strings.Home.GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLocationItem = true }, true);
+					section.Path = "Home";
+					section.IsHeader = true;
+					break;
 
 				case SectionType.Pinned:
-					{
-						if (ShowPinnedFoldersSection == false)
-						{
-							break;
-						}
-
-						section = BuildSection(Strings.Pinned.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.StarIcon));
-						section.IsHeader = true;
+					if (ShowPinnedFoldersSection == false)
 						break;
-					}
+					section = BuildSection(Strings.Pinned.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+					section.IsHeader = true;
+					break;
 
 				case SectionType.Library:
-					{
-						if (ShowLibrarySection == false)
-						{
-							break;
-						}
-						section = BuildSection(Strings.SidebarLibraries.GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLibrariesHeader = true, ShowHideSection = true }, false);
-						iconIdex = Constants.ImageRes.Libraries;
-						section.IsHeader = true;
+					if (ShowLibrarySection == false)
 						break;
-					}
+					section = BuildSection(Strings.SidebarLibraries.GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLibrariesHeader = true, ShowHideSection = true }, false);
+					section.IsHeader = true;
+					break;
 
 				case SectionType.Drives:
-					{
-						if (ShowDrivesSection == false)
-						{
-							break;
-						}
-						section = BuildSection(Strings.Drives.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						iconIdex = Constants.ImageRes.ThisPC;
-						section.IsHeader = true;
+					if (ShowDrivesSection == false)
 						break;
-					}
+					section = BuildSection(Strings.Drives.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+					section.IsHeader = true;
+					break;
 
 				case SectionType.CloudDrives:
-					{
-						if (ShowCloudDrivesSection == false || CloudDrivesManager.Drives.Any() == false)
-						{
-							break;
-						}
-						section = BuildSection(Strings.SidebarCloudDrives.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.CloudDriveIcon));
-						section.IsHeader = true;
+					if (ShowCloudDrivesSection == false || CloudDrivesManager.Drives.Any() == false)
 						break;
-					}
+					section = BuildSection(Strings.SidebarCloudDrives.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+					section.IsHeader = true;
+					break;
 
 				case SectionType.Network:
-					{
-						if (!ShowNetworkSection)
-						{
-							break;
-						}
-						section = BuildSection(Strings.Network.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						iconIdex = Constants.ImageRes.Network;
-						section.IsHeader = true;
+					if (!ShowNetworkSection)
 						break;
-					}
+					section = BuildSection(Strings.Network.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+					section.IsHeader = true;
+					break;
 
 				case SectionType.WSL:
-					{
-						if (ShowWslSection == false || WSLDistroManager.Distros.Any() == false)
-						{
-							break;
-						}
-						section = BuildSection(Strings.WSL.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						icon = new BitmapImage(new Uri(Constants.WslIconsPaths.GenericIcon));
-						section.IsHeader = true;
+					if (ShowWslSection == false || WSLDistroManager.Distros.Any() == false)
 						break;
-					}
+					section = BuildSection(Strings.WSL.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+					section.IsHeader = true;
+					break;
 
 				case SectionType.FileTag:
-					{
-						if (!ShowFileTagsSection)
-						{
-							break;
-						}
-						section = BuildSection(Strings.FileTags.GetLocalizedResource(), sectionType, new ContextMenuOptions { IsTagsHeader = true, ShowHideSection = true }, false);
-						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FileTagsIcon));
-						section.IsHeader = true;
+					if (!ShowFileTagsSection)
 						break;
-					}
+					section = BuildSection(Strings.FileTags.GetLocalizedResource(), sectionType, new ContextMenuOptions { IsTagsHeader = true, ShowHideSection = true }, false);
+					section.IsHeader = true;
+					break;
 			}
 
 			if (section is not null)
 			{
-				if (icon is not null)
-				{
-					section.Icon = icon;
-				}
+				var iconPath = SidebarSectionIcons.For(sectionType);
+				if (iconPath is not null)
+					section.Icon = new BitmapImage(new Uri(iconPath));
 
 				AddSectionToSideBar(section);
-
-				if (iconIdex != -1)
-				{
-					section.Icon = await UIHelpers.GetSidebarIconResource(iconIdex);
-				}
 			}
 
-			return section;
+			return Task.FromResult(section);
 		}
 
 		private LocationItem BuildSection(string sectionName, SectionType sectionType, ContextMenuOptions options, bool selectsOnInvoked)
@@ -763,6 +743,7 @@ namespace Files.App.ViewModels.UserControls
 			NetworkService.Computers.CollectionChanged -= Manager_DataChangedForNetworkComputers;
 			WSLDistroManager.DataChanged -= Manager_DataChanged;
 			App.FileTagsManager.DataChanged -= Manager_DataChanged;
+			uiSettings.ColorValuesChanged -= UiSettings_ColorValuesChanged;
 
 			TeardownTabExpansionTracking();
 			dispatcherQueue = null;
