@@ -108,7 +108,7 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> Strings.BaseLayoutItemContextFlyoutOpenParentFolder_Text.GetLocalizedResource();
+			=> Strings.BaseLayoutItemContextFlyoutOpenParentFolderText.GetLocalizedResource();
 
 		public string Description
 			=> Strings.OpenParentFolderDescription.GetLocalizedResource();

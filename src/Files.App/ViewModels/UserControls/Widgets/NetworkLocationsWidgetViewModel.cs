@@ -27,7 +27,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public MenuFlyoutItem? MenuFlyoutItem => new()
 		{
 			Icon = new FontIcon() { Glyph = "\uE710" },
-			Text = Strings.DrivesWidgetOptionsFlyoutMapNetDriveMenuItem_Text.GetLocalizedResource(),
+			Text = Strings.DrivesWidgetOptionsFlyoutMapNetDriveMenuItemText.GetLocalizedResource(),
 			Command = MapNetworkDriveCommand
 		};
 

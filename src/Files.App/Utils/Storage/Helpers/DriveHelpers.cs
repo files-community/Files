@@ -29,8 +29,8 @@ namespace Files.App.Utils.Storage
 				return false;
 
 			var ejectButton = await DialogDisplayHelper.ShowDialogAsync(
-				Strings.InsertDiscDialog_Title.GetLocalizedResource(),
-				string.Format(Strings.InsertDiscDialog_Text.GetLocalizedResource(), matchingDrive.Path),
+				Strings.InsertDiscDialogTitle.GetLocalizedResource(),
+				string.Format(Strings.InsertDiscDialogText.GetLocalizedResource(), matchingDrive.Path),
 				Strings.InsertDiscDialog_OpenDriveButton.GetLocalizedResource(),
 				Strings.Close.GetLocalizedResource());
 			if (ejectButton)
