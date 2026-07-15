@@ -128,6 +128,12 @@ namespace Files.App.Utils.Shell
 
 				return true;
 			}
+			catch (Win32Exception ex) when (ex.NativeErrorCode is 193 or 216)
+			{
+				// ERROR_BAD_EXE_FORMAT (193) / ERROR_EXE_MACHINE_TYPE_MISMATCH (216)
+				await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_CannotRunFileDialog());
+				return false;
+			}
 			catch (Win32Exception)
 			{
 				using Process process = new Process();

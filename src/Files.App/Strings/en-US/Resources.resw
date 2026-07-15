@@ -420,6 +420,12 @@
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>File is in use</value>
   </data>
+  <data name="CannotRunFileDialog.Title" xml:space="preserve">
+    <value>This app can't run on your PC</value>
+  </data>
+  <data name="CannotRunFileDialog.Text" xml:space="preserve">
+    <value>To find a version for your PC, check with the software publisher.</value>
+  </data>
   <data name="Layout" xml:space="preserve">
     <value>Layout</value>
   </data>

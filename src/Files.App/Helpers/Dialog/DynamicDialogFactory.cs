@@ -139,6 +139,17 @@ namespace Files.App.Helpers
 			return dialog;
 		}
 
+		public static DynamicDialog GetFor_CannotRunFileDialog()
+		{
+			return new DynamicDialog(new DynamicDialogViewModel()
+			{
+				TitleText = Strings.CannotRunFileDialog_Title.GetLocalizedResource(),
+				SubtitleText = Strings.CannotRunFileDialog_Text.GetLocalizedResource(),
+				PrimaryButtonText = Strings.OK.GetLocalizedResource(),
+				DynamicButtons = DynamicDialogButtons.Primary
+			});
+		}
+
 		public static DynamicDialog GetFor_FileInUseDialog(List<Win32Process> lockingProcess = null)
 		{
 			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
