@@ -104,7 +104,7 @@ namespace Files.App.Services
 				StatusCenterHelper.AddCard_Compress(
 					compressionModel.Sources,
 					archivePath.CreateEnumerable(),
-					compressionModel.CancellationToken.IsCancellationRequested
+					compressionModel.CancellationToken.IsCancellationRequested || compressionModel.IsCancelled
 						? ReturnResult.Cancelled
 						: ReturnResult.Failed,
 					compressionModel.Sources.Count());

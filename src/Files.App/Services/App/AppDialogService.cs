@@ -30,6 +30,7 @@ namespace Files.App.Services
 				{ typeof(FileTooLargeDialogViewModel), () => new FileTooLargeDialog() },
 				{ typeof(BulkRenameDialogViewModel), () => new BulkRenameDialog() },
 				{ typeof(CloneRepoDialogViewModel), () => new CloneRepoDialog() },
+				{ typeof(CompressSkippedItemsDialogViewModel), () => new CompressSkippedItemsDialog() },
 			}.ToFrozenDictionary();
 		}
 
