@@ -9,10 +9,8 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
-using PropertyChangedEventArgs = System.ComponentModel.PropertyChangedEventArgs;
 
 namespace Files.App.UITests.Views
 {
@@ -21,21 +19,6 @@ namespace Files.App.UITests.Views
 		private const int GeneratedItemCount = 5000;
 		private const string FolderGlyph = "\uE8B7";
 		private const string FileGlyph = "\uE8A5";
-
-		private readonly List<ToolbarCustomizationItemModel> _availableToolbarItems =
-		[
-			CreateToolbarItem("New", "\uE710"),
-			CreateToolbarItem("Cut", "\uE8C6"),
-			CreateToolbarItem("Copy", "\uE8C8"),
-			CreateToolbarItem("Paste", "\uE77F"),
-			CreateToolbarItem("Rename", "\uE8AC"),
-			CreateToolbarSeparator(),
-			CreateToolbarItem("Share", "\uE72D"),
-			CreateToolbarItem("Delete", "\uE74D"),
-			CreateToolbarItem("Sort", "\uE8CB"),
-			CreateToolbarItem("View", "\uE890"),
-			CreateToolbarItem("Properties", "\uE946"),
-		];
 
 		private static readonly TableViewItemModel[] SampleItems =
 		[
@@ -87,8 +70,6 @@ namespace Files.App.UITests.Views
 			new() { Name = "appsettings.json", DateModified = DetailsDate(8, 20, 49), Type = "JSON Source File", Size = "5 KB", IconGlyph = FileGlyph },
 		];
 
-		public ObservableCollection<ToolbarCustomizationItemModel> FilteredAvailableToolbarItems { get; } = [];
-
 		public ObservableCollection<ToolbarCustomizationItemModel> ToolbarItems { get; } = [];
 
 		public TableViewPage()
@@ -97,7 +78,6 @@ namespace Files.App.UITests.Views
 
 			InitializeComponent();
 
-			ToolbarItems.CollectionChanged += ToolbarItems_CollectionChanged;
 			ResetToolbarItems();
 		}
 
@@ -172,21 +152,6 @@ namespace Files.App.UITests.Views
 			foreach (var item in materializedItems)
 				DetailsItems.Add(item);
 
-			DetailsSortStatusTextBlock.Text = $"{e.Column.Header}: {e.SortDirection}";
-		}
-
-		private void ToolbarSearchBox_TextChanged(object sender, TextChangedEventArgs e)
-		{
-			RefreshAvailableToolbarItems(ToolbarSearchBox.Text);
-		}
-
-		private void AvailableToolbarItemsList_ItemClick(object sender, ItemClickEventArgs e)
-		{
-			if (e.ClickedItem is not ToolbarCustomizationItemModel item)
-				return;
-
-			AddToolbarItem(CloneToolbarItem(item));
-			ToolbarStatusTextBlock.Text = $"Added {item.DisplayName}";
 		}
 
 		private void RemoveToolbarItem_Click(object sender, RoutedEventArgs e)
@@ -194,22 +159,11 @@ namespace Files.App.UITests.Views
 			if (sender is not FrameworkElement { DataContext: ToolbarCustomizationItemModel item })
 				return;
 
-			item.PropertyChanged -= ToolbarItem_PropertyChanged;
 			ToolbarItems.Remove(item);
-			ToolbarStatusTextBlock.Text = $"Removed {item.DisplayName}";
-		}
-
-		private void ResetToolbarItems_Click(object sender, RoutedEventArgs e)
-		{
-			ResetToolbarItems();
-			ToolbarStatusTextBlock.Text = "Defaults restored";
 		}
 
 		private void ResetToolbarItems()
 		{
-			foreach (var item in ToolbarItems)
-				item.PropertyChanged -= ToolbarItem_PropertyChanged;
-
 			ToolbarItems.Clear();
 			AddToolbarItem(CreateToolbarItem("New", "\uE710", showLabel: true));
 			AddToolbarItem(CreateToolbarItem("Cut", "\uE8C6"));
@@ -217,65 +171,11 @@ namespace Files.App.UITests.Views
 			AddToolbarItem(CreateToolbarItem("Paste", "\uE77F"));
 			AddToolbarItem(CreateToolbarSeparator());
 			AddToolbarItem(CreateToolbarItem("Rename", "\uE8AC", showLabel: true));
-			RefreshAvailableToolbarItems(ToolbarSearchBox?.Text);
-			RefreshToolbarPreview();
 		}
 
 		private void AddToolbarItem(ToolbarCustomizationItemModel item)
 		{
-			item.PropertyChanged += ToolbarItem_PropertyChanged;
 			ToolbarItems.Add(item);
-		}
-
-		private void ToolbarItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			RefreshToolbarPreview();
-		}
-
-		private void ToolbarItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-		{
-			RefreshToolbarPreview();
-		}
-
-		private void RefreshAvailableToolbarItems(string? query)
-		{
-			var filteredItems = string.IsNullOrWhiteSpace(query)
-				? _availableToolbarItems
-				: _availableToolbarItems.Where(item => item.DisplayName.Contains(query, StringComparison.OrdinalIgnoreCase));
-
-			FilteredAvailableToolbarItems.Clear();
-			foreach (var item in filteredItems)
-				FilteredAvailableToolbarItems.Add(item);
-		}
-
-		private void RefreshToolbarPreview()
-		{
-			if (ToolbarPreviewCommandBar is null)
-				return;
-
-			ToolbarPreviewCommandBar.PrimaryCommands.Clear();
-			foreach (var item in ToolbarItems)
-			{
-				if (item.IsSeparator)
-				{
-					ToolbarPreviewCommandBar.PrimaryCommands.Add(new AppBarSeparator());
-					continue;
-				}
-
-				ToolbarPreviewCommandBar.PrimaryCommands.Add(new AppBarButton
-				{
-					Icon = item.ShowIcon && item.HasIcon ? new FontIcon { Glyph = item.IconGlyph } : null,
-					Label = item.DisplayName,
-					LabelPosition = item.ShowLabel ? CommandBarLabelPosition.Default : CommandBarLabelPosition.Collapsed,
-				});
-			}
-		}
-
-		private static ToolbarCustomizationItemModel CloneToolbarItem(ToolbarCustomizationItemModel item)
-		{
-			return item.IsSeparator
-				? CreateToolbarSeparator()
-				: CreateToolbarItem(item.DisplayName, item.IconGlyph, item.ShowLabel, item.HasIcon);
 		}
 
 		private static ToolbarCustomizationItemModel CreateToolbarSeparator()

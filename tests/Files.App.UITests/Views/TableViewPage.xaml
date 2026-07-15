@@ -255,182 +255,62 @@
 					</controls:TableView.View>
 				</controls:TableView>
 			</controls:SamplePanel.MainContent>
-			<controls:SamplePanel.SideContent>
-				<StackPanel Spacing="8">
-					<TextBlock Text="Resize and reorder columns, sort headers, or double-click a name to edit it." TextWrapping="Wrap" />
-					<TextBlock x:Name="DetailsSortStatusTextBlock" Text="Not sorted" />
-				</StackPanel>
-			</controls:SamplePanel.SideContent>
 		</controls:SamplePanel>
 
 		<controls:SamplePanel Header="Toolbar customization dialog scenario">
 			<controls:SamplePanel.MainContent>
-				<Border
-					Width="800"
-					Height="590"
+				<controls:TableView
+					x:Name="ToolbarItemsTable"
+					Height="360"
 					HorizontalAlignment="Left"
-					Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+					Background="{ThemeResource LayerFillColorDefaultBrush}"
 					BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 					BorderThickness="1"
+					CanUserReorderColumns="False"
+					CanUserSortColumns="False"
 					CornerRadius="8">
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="*" />
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="Auto" />
-						</Grid.RowDefinitions>
-
-						<StackPanel
-							Padding="16,12"
-							Orientation="Horizontal"
-							Spacing="12">
-							<TextBlock VerticalAlignment="Center" Text="Toolbar mode" />
-							<ComboBox Width="240" SelectedIndex="0">
-								<x:String>Standard toolbar</x:String>
-								<x:String>Compact overlay</x:String>
-							</ComboBox>
-						</StackPanel>
-
-						<Grid
-							Grid.Row="1"
-							Padding="16,12"
-							ColumnSpacing="12">
-							<Grid.RowDefinitions>
-								<RowDefinition Height="Auto" />
-								<RowDefinition Height="*" />
-							</Grid.RowDefinitions>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="220" />
-								<ColumnDefinition Width="*" />
-							</Grid.ColumnDefinitions>
-
-							<TextBlock Margin="4,0,0,8" FontWeight="SemiBold" Text="Available items" />
-							<TextBlock Grid.Column="1" Margin="4,0,0,8" FontWeight="SemiBold" Text="Added items" />
-
-							<Grid Grid.Row="1" RowSpacing="8">
-								<Grid.RowDefinitions>
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="*" />
-								</Grid.RowDefinitions>
-								<TextBox
-									x:Name="ToolbarSearchBox"
-									PlaceholderText="Search"
-									TextChanged="ToolbarSearchBox_TextChanged" />
-								<Border
-									Grid.Row="1"
-									Background="{ThemeResource LayerFillColorDefaultBrush}"
-									BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-									BorderThickness="1"
-									CornerRadius="8">
-									<ListView
-										x:Name="AvailableToolbarItemsList"
-										IsItemClickEnabled="True"
-										ItemClick="AvailableToolbarItemsList_ItemClick"
-										ItemsSource="{x:Bind FilteredAvailableToolbarItems, Mode=OneWay}"
-										SelectionMode="Single">
-										<ListView.ItemTemplate>
-											<DataTemplate x:DataType="data:ToolbarCustomizationItemModel">
-												<StackPanel Orientation="Horizontal" Spacing="12">
-													<FontIcon FontSize="14" Glyph="{x:Bind IconGlyph}" />
-													<TextBlock VerticalAlignment="Center" Text="{x:Bind DisplayName}" />
-												</StackPanel>
-											</DataTemplate>
-										</ListView.ItemTemplate>
-									</ListView>
-								</Border>
-							</Grid>
-
-							<controls:TableView
-								x:Name="ToolbarItemsTable"
-								Grid.Row="1"
-								Grid.Column="1"
-								HorizontalAlignment="Left"
-								Background="{ThemeResource LayerFillColorDefaultBrush}"
-								BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-								BorderThickness="1"
-								CanUserReorderColumns="False"
-								CanUserSortColumns="False"
-								CornerRadius="8">
-								<controls:TableView.Resources>
-									<x:Double x:Key="TableViewColumnHeaderHeight">32</x:Double>
-									<x:Double x:Key="ResizeVisualIndicatorHeight">24</x:Double>
-								</controls:TableView.Resources>
-								<controls:TableView.Columns>
-									<controls:TableViewTemplateColumn CellTemplate="{StaticResource ToolbarActionCellTemplate}" ColumnWidth="270" Header="Action" />
-									<controls:TableViewCheckBoxColumn
-										Binding="ShowIcon"
-										ColumnWidth="64"
-										Header="Icon"
-										IsEnabledBinding="HasIcon"
-										VisibilityBinding="IsSeparator"
-										VisibilityConverter="{StaticResource NegatedBooleanToVisibilityConverter}" />
-									<controls:TableViewCheckBoxColumn
-										Binding="ShowLabel"
-										ColumnWidth="68"
-										Header="Label"
-										VisibilityBinding="IsSeparator"
-										VisibilityConverter="{StaticResource NegatedBooleanToVisibilityConverter}" />
-									<controls:TableViewTemplateColumn
-										CellTemplate="{StaticResource ToolbarRemoveCellTemplate}"
-										ColumnWidth="44"
-										Header=""
-										MinWidth="44" />
-								</controls:TableView.Columns>
-								<controls:TableView.View>
-									<ListView
-										Padding="4"
-										CanDragItems="True"
-										CanReorderItems="True"
-										ItemContainerStyle="{StaticResource ToolbarListViewItemStyle}"
-										ItemsSource="{x:Bind ToolbarItems, Mode=OneWay}"
-										ReorderMode="Enabled"
-										SelectionMode="None">
-										<ListView.ItemTemplate>
-											<DataTemplate x:DataType="data:ToolbarCustomizationItemModel">
-												<controls:TableViewRow HorizontalAlignment="Stretch" />
-											</DataTemplate>
-										</ListView.ItemTemplate>
-									</ListView>
-								</controls:TableView.View>
-							</controls:TableView>
-						</Grid>
-
-						<Border
-							Grid.Row="2"
-							Margin="16,0"
-							Padding="12"
-							Background="{ThemeResource LayerFillColorDefaultBrush}"
-							BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-							BorderThickness="1"
-							CornerRadius="8">
-							<CommandBar
-								x:Name="ToolbarPreviewCommandBar"
-								HorizontalAlignment="Center"
-								DefaultLabelPosition="Right"
-								IsDynamicOverflowEnabled="False" />
-						</Border>
-
-						<Grid Grid.Row="3" Padding="16,12" ColumnSpacing="8">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="*" />
-								<ColumnDefinition Width="Auto" />
-							</Grid.ColumnDefinitions>
-							<Button Click="ResetToolbarItems_Click" Content="Reset defaults" />
-							<TextBlock
-								x:Name="ToolbarStatusTextBlock"
-								Grid.Column="1"
-								VerticalAlignment="Center"
-								Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
-							<Button
-								Grid.Column="2"
-								MinWidth="96"
-								Content="Save"
-								Style="{StaticResource AccentButtonStyle}" />
-						</Grid>
-					</Grid>
-				</Border>
+					<controls:TableView.Resources>
+						<x:Double x:Key="TableViewColumnHeaderHeight">32</x:Double>
+						<x:Double x:Key="ResizeVisualIndicatorHeight">24</x:Double>
+					</controls:TableView.Resources>
+					<controls:TableView.Columns>
+						<controls:TableViewTemplateColumn CellTemplate="{StaticResource ToolbarActionCellTemplate}" ColumnWidth="270" Header="Action" />
+						<controls:TableViewCheckBoxColumn
+							Binding="ShowIcon"
+							ColumnWidth="64"
+							Header="Icon"
+							IsEnabledBinding="HasIcon"
+							VisibilityBinding="IsSeparator"
+							VisibilityConverter="{StaticResource NegatedBooleanToVisibilityConverter}" />
+						<controls:TableViewCheckBoxColumn
+							Binding="ShowLabel"
+							ColumnWidth="68"
+							Header="Label"
+							VisibilityBinding="IsSeparator"
+							VisibilityConverter="{StaticResource NegatedBooleanToVisibilityConverter}" />
+						<controls:TableViewTemplateColumn
+							CellTemplate="{StaticResource ToolbarRemoveCellTemplate}"
+							ColumnWidth="44"
+							Header=""
+							MinWidth="44" />
+					</controls:TableView.Columns>
+					<controls:TableView.View>
+						<ListView
+							Padding="4"
+							CanDragItems="True"
+							CanReorderItems="True"
+							ItemContainerStyle="{StaticResource ToolbarListViewItemStyle}"
+							ItemsSource="{x:Bind ToolbarItems, Mode=OneWay}"
+							ReorderMode="Enabled"
+							SelectionMode="None">
+							<ListView.ItemTemplate>
+								<DataTemplate x:DataType="data:ToolbarCustomizationItemModel">
+									<controls:TableViewRow HorizontalAlignment="Stretch" />
+								</DataTemplate>
+							</ListView.ItemTemplate>
+						</ListView>
+					</controls:TableView.View>
+				</controls:TableView>
 			</controls:SamplePanel.MainContent>
 		</controls:SamplePanel>
 
