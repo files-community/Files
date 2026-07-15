@@ -24,7 +24,6 @@ namespace Files.App.Services
 				{ typeof(FileSystemDialogViewModel), () => new FilesystemOperationDialog() },
 				{ typeof(DecompressArchiveDialogViewModel), () => new DecompressArchiveDialog() },
 				{ typeof(CreateShortcutDialogViewModel), () => new CreateShortcutDialog() },
-				{ typeof(ReorderSidebarItemsDialogViewModel), () => new ReorderSidebarItemsDialog() },
 				{ typeof(AddBranchDialogViewModel), () => new AddBranchDialog() },
 				{ typeof(GitHubLoginDialogViewModel), () => new GitHubLoginDialog() },
 				{ typeof(FileTooLargeDialogViewModel), () => new FileTooLargeDialog() },

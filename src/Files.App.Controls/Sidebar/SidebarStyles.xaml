@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -344,8 +344,6 @@
 									<VisualState.Setters>
 										<Setter Target="DragTargetIndicator.Visibility" Value="Visible" />
 										<Setter Target="DragTargetIndicator.VerticalAlignment" Value="Top" />
-										<Setter Target="ElementGrid.Margin" Value="4,-2" />
-										<Setter Target="ElementGrid.Height" Value="34" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="DragInsertBelow">
