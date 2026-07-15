@@ -36,6 +36,14 @@
 		<TextBlock />
 	</DataTemplate>
 
+	<Style x:Key="DefaultTableViewColumnHeaderStyle" TargetType="ContentPresenter">
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="VerticalContentAlignment" Value="Center" />
+		<Setter Property="FontWeight" Value="SemiBold" />
+		<Setter Property="Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
+		<Setter Property="TextWrapping" Value="NoWrap" />
+	</Style>
+
 	<Style BasedOn="{StaticResource DefaultTableViewStyle}" TargetType="local:TableView" />
 	<Style BasedOn="{StaticResource DefaultTableViewCellStyle}" TargetType="local:TableViewCell" />
 	<Style BasedOn="{StaticResource DefaultTableViewColumnHeadersPresenterStyle}" TargetType="local:TableViewColumnHeadersPresenter" />
@@ -48,6 +56,7 @@
 	<Style x:Key="DefaultTableViewStyle" TargetType="local:TableView">
 		<Style.Setters>
 			<Setter Property="Background" Value="{ThemeResource ControlFillColorTransparentBrush}" />
+			<Setter Property="ColumnHeaderStyle" Value="{StaticResource DefaultTableViewColumnHeaderStyle}" />
 			<Setter Property="BorderThickness" Value="1" />
 			<Setter Property="BorderBrush" Value="{ThemeResource ControlElevationBorderBrush}" />
 			<Setter Property="Template">
@@ -165,18 +174,15 @@
 								<ColumnDefinition x:Name="SortOrderGlyphColumn" Width="Auto" />
 							</Grid.ColumnDefinitions>
 
-							<TextBlock
-								x:Name="PART_HeaderTextBlock"
+							<ContentPresenter
+								x:Name="PART_HeaderContentPresenter"
 								Grid.Column="0"
 								MinWidth="0"
 								Margin="{TemplateBinding Padding}"
 								HorizontalAlignment="Stretch"
-								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-								Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-								Style="{StaticResource BodyStrongTextBlockStyle}"
-								Text="{TemplateBinding Header}"
-								TextTrimming="CharacterEllipsis"
-								TextWrapping="NoWrap" />
+								VerticalAlignment="Stretch"
+								ContentTemplate="{TemplateBinding HeaderTemplate}"
+								ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" />
 
 							<FontIcon
 								x:Name="SortOrderGlyphTextBlock"
@@ -201,19 +207,19 @@
 									<VisualState x:Name="ColumnPointerOver">
 										<VisualState.Setters>
 											<Setter Target="PART_RootGrid.Background" Value="{ThemeResource ControlFillColorSecondaryBrush}" />
-											<Setter Target="PART_HeaderTextBlock.Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+											<Setter Target="PART_HeaderContentPresenter.Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
 										</VisualState.Setters>
 									</VisualState>
 									<VisualState x:Name="ColumnPressed">
 										<VisualState.Setters>
 											<Setter Target="PART_RootGrid.Background" Value="{ThemeResource ControlFillColorTertiaryBrush}" />
-											<Setter Target="PART_HeaderTextBlock.Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
+											<Setter Target="PART_HeaderContentPresenter.Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
 										</VisualState.Setters>
 									</VisualState>
 									<VisualState x:Name="ColumnDisabled">
 										<VisualState.Setters>
 											<Setter Target="PART_RootGrid.Background" Value="{ThemeResource ControlFillColorDisabledBrush}" />
-											<Setter Target="PART_HeaderTextBlock.Foreground" Value="{ThemeResource TextFillColorDisabledBrush}" />
+											<Setter Target="PART_HeaderContentPresenter.Foreground" Value="{ThemeResource TextFillColorDisabledBrush}" />
 										</VisualState.Setters>
 									</VisualState>
 								</VisualStateGroup>

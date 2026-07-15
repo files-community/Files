@@ -10,7 +10,7 @@ namespace Files.App.Controls
 	{
 		private WeakReference<TableView>? _owner;
 		private Grid? _rootGrid;
-		private TextBlock? _headerTextBlock;
+		private ContentPresenter? _headerContentPresenter;
 		private FontIcon? _sortOrderGlyph;
 		private bool _isApplyingResolvedWidth;
 		private double _autoDesiredWidth;
@@ -34,8 +34,10 @@ namespace Files.App.Controls
 			UnhookRootGrid();
 			_rootGrid = GetTemplateChild(TemplatePartName_RootGrid) as Grid
 				?? throw new MissingFieldException($"Could not find {TemplatePartName_RootGrid} in the given {nameof(TableViewColumn)}'s style.");
-			_headerTextBlock = GetTemplateChild(TemplatePartName_HeaderTextBlock) as TextBlock;
+			_headerContentPresenter = GetTemplateChild(TemplatePartName_HeaderContentPresenter) as ContentPresenter;
 			_sortOrderGlyph = GetTemplateChild(TemplatePartName_SortOrderGlyph) as FontIcon;
+			UpdateHeaderContent();
+			UpdateHeaderStyle();
 
 			_rootGrid.PointerEntered += RootGrid_PointerEntered;
 			_rootGrid.PointerExited += RootGrid_PointerExited;
@@ -44,7 +46,7 @@ namespace Files.App.Controls
 			_rootGrid.Tapped += RootGrid_Tapped;
 			UpdateSortVisualState(false);
 			UpdateEnabledVisualState(false);
-			AutomationProperties.SetName(this, Header ?? string.Empty);
+			AutomationProperties.SetName(this, GetHeaderAutomationName(Header));
 		}
 
 		public abstract FrameworkElement GenerateElement(object dataItem);
@@ -106,6 +108,7 @@ namespace Files.App.Controls
 			VerifyCanAttachOwner(owner);
 
 			_owner = new(owner);
+			UpdateHeaderStyle();
 			owner.RegisterInitialSortColumn(this);
 		}
 
@@ -133,6 +136,7 @@ namespace Files.App.Controls
 
 			owner.UnregisterSortColumn(this);
 			_owner = null;
+			UpdateHeaderStyle();
 		}
 
 		internal void RequestSort()
@@ -189,11 +193,11 @@ namespace Files.App.Controls
 
 		internal bool MeasureHeaderDesiredWidth(double availableHeight)
 		{
-			if (!ColumnWidth.IsAuto || _headerTextBlock is null)
+			if (!ColumnWidth.IsAuto || _headerContentPresenter is null)
 				return false;
 
-			_headerTextBlock.Measure(new(double.PositiveInfinity, availableHeight));
-			double desiredWidth = _headerTextBlock.DesiredSize.Width;
+			_headerContentPresenter.Measure(new(double.PositiveInfinity, availableHeight));
+			double desiredWidth = _headerContentPresenter.DesiredSize.Width;
 			if (_sortOrderGlyph is { Visibility: Visibility.Visible })
 			{
 				_sortOrderGlyph.Measure(new(double.PositiveInfinity, availableHeight));
@@ -241,8 +245,36 @@ namespace Files.App.Controls
 			_rootGrid.PointerReleased -= RootGrid_PointerReleased;
 			_rootGrid.Tapped -= RootGrid_Tapped;
 			_rootGrid = null;
-			_headerTextBlock = null;
+			_headerContentPresenter = null;
 			_sortOrderGlyph = null;
+		}
+
+		private static string GetHeaderAutomationName(object? header)
+		{
+			return header switch
+			{
+				string text => text,
+				_ => header?.ToString() ?? string.Empty,
+			};
+		}
+
+		private void UpdateHeaderContent()
+		{
+			if (_headerContentPresenter is null)
+				return;
+
+			_headerContentPresenter.Content =
+				HeaderTemplate is null &&
+				HeaderTemplateSelector is null &&
+				!string.IsNullOrEmpty(HeaderStringFormat)
+					? string.Format(System.Globalization.CultureInfo.CurrentCulture, HeaderStringFormat, Header)
+					: Header;
+		}
+
+		internal void UpdateHeaderStyle()
+		{
+			if (_headerContentPresenter is not null)
+				_headerContentPresenter.Style = HeaderStyle ?? GetOwner()?.ColumnHeaderStyle;
 		}
 
 		private void UpdateSortVisualState(bool useTransitions)

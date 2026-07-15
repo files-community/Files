@@ -22,6 +22,9 @@ namespace Files.App.Controls
 		[GeneratedDependencyProperty(IsLocalCacheEnabled = true)]
 		public partial DataTemplateSelector? ColumnTemplateSelector { get; set; }
 
+		[GeneratedDependencyProperty]
+		public partial Style? ColumnHeaderStyle { get; set; }
+
 		[GeneratedDependencyProperty(IsLocalCacheEnabled = true)]
 		public partial ListViewBase? View { get; set; }
 
@@ -78,6 +81,14 @@ namespace Files.App.Controls
 
 			_columnsBySourceItem.Clear();
 			SynchronizeActiveColumns();
+		}
+
+		partial void OnColumnHeaderStyleChanged(Style? newValue)
+		{
+			foreach (var column in ActiveColumns)
+				column.UpdateHeaderStyle();
+
+			NotifyPropertyChanged(this, TableViewNotificationTarget.ColumnLayout | TableViewNotificationTarget.ColumnHeaders);
 		}
 
 		partial void OnViewPropertyChanged(DependencyPropertyChangedEventArgs e)

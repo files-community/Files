@@ -25,7 +25,19 @@ namespace Files.App.Controls
 		}
 
 		[GeneratedDependencyProperty]
-		public partial string? Header { get; set; }
+		public partial object? Header { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial DataTemplate? HeaderTemplate { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial DataTemplateSelector? HeaderTemplateSelector { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial Style? HeaderStyle { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial string? HeaderStringFormat { get; set; }
 
 		[GeneratedDependencyProperty(DefaultValue = true)]
 		public partial bool CanUserResize { get; set; }
@@ -77,12 +89,35 @@ namespace Files.App.Controls
 			NotifyPropertyChanged(TableViewNotificationTarget.VisibleRows);
 		}
 
-		partial void OnHeaderChanged(string? newValue)
+		partial void OnHeaderChanged(object? newValue)
 		{
-			if (ColumnWidth.IsAuto)
-				_autoDesiredWidth = 0;
-			Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(this, newValue ?? string.Empty);
-			NotifyPropertyChanged(TableViewNotificationTarget.ColumnLayout | TableViewNotificationTarget.ColumnHeaders);
+			Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(this, GetHeaderAutomationName(newValue));
+			UpdateHeaderContent();
+			NotifyHeaderAppearanceChanged();
+		}
+
+		partial void OnHeaderTemplateChanged(DataTemplate? newValue)
+		{
+			UpdateHeaderContent();
+			NotifyHeaderAppearanceChanged();
+		}
+
+		partial void OnHeaderTemplateSelectorChanged(DataTemplateSelector? newValue)
+		{
+			UpdateHeaderContent();
+			NotifyHeaderAppearanceChanged();
+		}
+
+		partial void OnHeaderStyleChanged(Style? newValue)
+		{
+			UpdateHeaderStyle();
+			NotifyHeaderAppearanceChanged();
+		}
+
+		partial void OnHeaderStringFormatChanged(string? newValue)
+		{
+			UpdateHeaderContent();
+			NotifyHeaderAppearanceChanged();
 		}
 
 		partial void OnBindingChanged(string? newValue)
@@ -108,6 +143,14 @@ namespace Files.App.Controls
 		{
 			if (columnWidth.Value < 0 || double.IsNaN(columnWidth.Value))
 				throw new ArgumentOutOfRangeException(nameof(columnWidth));
+		}
+
+		private void NotifyHeaderAppearanceChanged()
+		{
+			if (ColumnWidth.IsAuto)
+				_autoDesiredWidth = 0;
+
+			NotifyPropertyChanged(TableViewNotificationTarget.ColumnLayout | TableViewNotificationTarget.ColumnHeaders);
 		}
 	}
 }

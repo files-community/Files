@@ -91,6 +91,19 @@
 						</Grid>
 					</DataTemplate>
 
+					<DataTemplate x:Key="DetailsNameHeaderTemplate">
+						<StackPanel Orientation="Horizontal" Spacing="6">
+							<FontIcon
+								VerticalAlignment="Center"
+								FontSize="12"
+								Glyph="&#xE8A5;" />
+							<TextBlock
+								VerticalAlignment="Center"
+								FontWeight="SemiBold"
+								Text="{Binding}" />
+						</StackPanel>
+					</DataTemplate>
+
 					<DataTemplate x:Key="ToolbarActionCellTemplate" x:DataType="data:ToolbarCustomizationItemModel">
 						<Grid>
 							<TextBlock
@@ -248,6 +261,7 @@
 							CellTemplate="{StaticResource DetailsNameCellTemplate}"
 							ColumnWidth="2*"
 							Header="Name"
+							HeaderTemplate="{StaticResource DetailsNameHeaderTemplate}"
 							MinWidth="180" />
 						<controls:TableViewDateColumn
 							Binding="DateModified"

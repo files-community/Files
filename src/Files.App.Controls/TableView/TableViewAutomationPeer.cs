@@ -57,7 +57,7 @@ public sealed partial class TableViewCellAutomationPeer : FrameworkElementAutoma
 
 	protected override string GetNameCore()
 	{
-		var header = Cell.Column?.Header;
+		var header = Cell.Column?.Header?.ToString();
 		var value = Cell.GetAutomationValue();
 		return string.IsNullOrEmpty(header) ? value : $"{header}, {value}";
 	}
@@ -108,7 +108,7 @@ public sealed partial class TableViewColumnAutomationPeer : FrameworkElementAuto
 	protected override string GetNameCore()
 	{
 		var name = AutomationProperties.GetName(Owner);
-		return !string.IsNullOrEmpty(name) ? name : ((TableViewColumn)Owner).Header ?? string.Empty;
+		return !string.IsNullOrEmpty(name) ? name : ((TableViewColumn)Owner).Header?.ToString() ?? string.Empty;
 	}
 
 	public void Invoke()
