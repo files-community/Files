@@ -253,6 +253,36 @@ internal sealed partial class LibGit2Service // : IVersionControl
 		return result is GitOperationResult.Success;
 	}
 
+	public async Task CreateNewBranchAsync(string repositoryPath, string activeBranch)
+	{
+		SentrySdk.Experimental.Metrics.EmitCounter("Triggered create git branch", 1);
+
+		var viewModel = new AddBranchDialogViewModel(repositoryPath, activeBranch);
+		var loadBranchesTask = viewModel.LoadBranches();
+		var dialog = _dialogService.GetDialog(viewModel);
+
+		await loadBranchesTask;
+		var result = await dialog.TryShowAsync();
+
+		if (result != DialogResult.Primary)
+			return;
+
+		using var repository = new Repository(repositoryPath);
+
+		IsExecutingGitAction = true;
+
+		if (repository.Head.FriendlyName.Equals(viewModel.NewBranchName) ||
+			await Checkout(repositoryPath, viewModel.BasedOn))
+		{
+			repository.CreateBranch(viewModel.NewBranchName);
+
+			if (viewModel.Checkout)
+				await Checkout(repositoryPath, viewModel.NewBranchName);
+		}
+
+		IsExecutingGitAction = false;
+	}
+
 	public async void FetchOrigin(string? repositoryPath, CancellationToken cancellationToken = default)
 	{
 		if (string.IsNullOrWhiteSpace(repositoryPath))

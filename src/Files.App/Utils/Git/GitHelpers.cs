@@ -33,6 +33,9 @@ namespace Files.App.Utils.Git
 		/// <inheritdoc cref="IVersionControlService.Checkout(string?, string?)"/>
 		public static Task<bool> Checkout(string? repositoryPath, string? branch) => _implementation.Checkout(repositoryPath, branch);
 
+		/// <inheritdoc cref="IVersionControlService.CreateNewBranchAsync(string, string)"/>
+		public static Task CreateNewBranchAsync(string repositoryPath, string activeBranch) => _implementation.CreateNewBranchAsync(repositoryPath, activeBranch);
+
 		/// <inheritdoc cref="IVersionControlService.FetchOrigin(string?, CancellationToken)"/>
 		public static async void FetchOrigin(string? repositoryPath, CancellationToken cancellationToken = default) => _implementation.FetchOrigin(repositoryPath, cancellationToken);
 
@@ -95,36 +98,6 @@ namespace Files.App.Utils.Git
 
 		// Property already moved into abstraction
 		private static readonly SemaphoreSlim GitOperationSemaphore = new SemaphoreSlim(1, 1);
-
-		public static async Task CreateNewBranchAsync(string repositoryPath, string activeBranch)
-		{
-			SentrySdk.Experimental.Metrics.EmitCounter("Triggered create git branch", 1);
-
-			var viewModel = new AddBranchDialogViewModel(repositoryPath, activeBranch);
-			var loadBranchesTask = viewModel.LoadBranches();
-			var dialog = _dialogService.GetDialog(viewModel);
-
-			await loadBranchesTask;
-			var result = await dialog.TryShowAsync();
-
-			if (result != DialogResult.Primary)
-				return;
-
-			using var repository = new Repository(repositoryPath);
-
-			_implementation.IsExecutingGitAction = true;
-
-			if (repository.Head.FriendlyName.Equals(viewModel.NewBranchName) ||
-				await Checkout(repositoryPath, viewModel.BasedOn))
-			{
-				repository.CreateBranch(viewModel.NewBranchName);
-
-				if (viewModel.Checkout)
-					await Checkout(repositoryPath, viewModel.NewBranchName);
-			}
-
-			_implementation.IsExecutingGitAction = false;
-		}
 
 		public static async Task DeleteBranchAsync(string? repositoryPath, string? activeBranch, string? branchToDelete)
 		{
