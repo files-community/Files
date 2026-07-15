@@ -2871,6 +2871,8 @@ namespace Files.App.ViewModels
 
 				await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
+					var itemsRegrouped = false;
+
 					foreach (var result in results)
 					{
 						if (result is not null)
@@ -2887,8 +2889,17 @@ namespace Files.App.ViewModels
 								item.FileSizeBytes = result.Value.Size.Value;
 								item.FileSize = item.FileSizeBytes.ToSizeString();
 							}
+
+							// Move the item to its correct group when the updated properties change
+							// its group key, e.g. when the date modified is restored after
+							// extracting an archive, see #14461
+							itemsRegrouped |= FilesAndFolders.UpdateItemGroup(item);
 						}
 					}
+
+					// Sort the changed groups and their position among the other groups
+					if (itemsRegrouped)
+						OrderGroups();
 				},
 				Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 			}
