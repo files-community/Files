@@ -92,7 +92,7 @@
 					</DataTemplate>
 
 					<DataTemplate x:Key="DetailsNameHeaderTemplate">
-						<StackPanel Orientation="Horizontal" Spacing="6">
+						<StackPanel Margin="8,0,0,0" Orientation="Horizontal" Spacing="6">
 							<FontIcon
 								VerticalAlignment="Center"
 								FontSize="12"
