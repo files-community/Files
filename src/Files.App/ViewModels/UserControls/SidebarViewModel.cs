@@ -1054,14 +1054,14 @@ namespace Files.App.ViewModels.UserControls
 			{
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = Strings.SideBarCreateNewLibrary_Text.GetLocalizedResource(),
+					Text = Strings.SideBarCreateNewLibraryText.GetLocalizedResource(),
 					Glyph = "\uE710",
 					Command = CreateLibraryCommand,
 					ShowItem = options.IsLibrariesHeader
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = Strings.SideBarRestoreLibraries_Text.GetLocalizedResource(),
+					Text = Strings.SideBarRestoreLibrariesText.GetLocalizedResource(),
 					Glyph = "\uE10E",
 					Command = RestoreLibrariesCommand,
 					ShowItem = options.IsLibrariesHeader
@@ -1159,7 +1159,7 @@ namespace Files.App.ViewModels.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = string.Format(Strings.SideBarHideSectionFromSideBar_Text.GetLocalizedResource(), rightClickedItem.Text),
+					Text = string.Format(Strings.SideBarHideSectionFromSideBarText.GetLocalizedResource(), rightClickedItem.Text),
 					Glyph = "\uE77A",
 					Command = HideSectionCommand,
 					ShowItem = options.ShowHideSection

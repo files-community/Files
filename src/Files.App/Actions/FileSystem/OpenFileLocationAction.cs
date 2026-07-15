@@ -59,7 +59,7 @@ namespace Files.App.Actions
 			}
 			else if (destFolder == FileSystemStatusCode.NotFound)
 			{
-				await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialog_Title.GetLocalizedResource(), Strings.FileNotFoundDialog_Text.GetLocalizedResource());
+				await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialogTitle.GetLocalizedResource(), Strings.FileNotFoundDialogText.GetLocalizedResource());
 			}
 			else
 			{

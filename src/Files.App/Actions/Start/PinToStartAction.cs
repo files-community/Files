@@ -13,7 +13,7 @@ namespace Files.App.Actions
 		public IContentPageContext context;
 
 		public string Label
-			=> Strings.PinItemToStart_Text.GetLocalizedResource();
+			=> Strings.PinItemToStartText.GetLocalizedResource();
 
 		public string Description
 			=> Strings.PinToStartDescription.GetLocalizedFormatResource(context.HasSelection ? context.SelectedItems.Count : 1);

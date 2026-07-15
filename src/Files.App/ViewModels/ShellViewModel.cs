@@ -1942,15 +1942,15 @@ namespace Files.App.ViewModels
 				else if (res == FileSystemStatusCode.NotFound)
 				{
 					await DialogDisplayHelper.ShowDialogAsync(
-						Strings.FolderNotFoundDialog_Title.GetLocalizedResource(),
-						Strings.FolderNotFoundDialog_Text.GetLocalizedResource());
+						Strings.FolderNotFoundDialogTitle.GetLocalizedResource(),
+						Strings.FolderNotFoundDialogText.GetLocalizedResource());
 
 					return -1;
 				}
 				else
 				{
 					await DialogDisplayHelper.ShowDialogAsync(
-						Strings.DriveUnpluggedDialog_Title.GetLocalizedResource(),
+						Strings.DriveUnpluggedDialogTitle.GetLocalizedResource(),
 						res.ErrorCode.ToString());
 
 					return -1;
@@ -2051,7 +2051,7 @@ namespace Files.App.ViewModels
 
 				if (hFile == IntPtr.Zero)
 				{
-					await DialogDisplayHelper.ShowDialogAsync(Strings.DriveUnpluggedDialog_Title.GetLocalizedResource(), "");
+					await DialogDisplayHelper.ShowDialogAsync(Strings.DriveUnpluggedDialogTitle.GetLocalizedResource(), "");
 
 					return -1;
 				}

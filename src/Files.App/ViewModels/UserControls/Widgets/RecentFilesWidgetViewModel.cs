@@ -97,14 +97,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				},
 				new()
 				{
-					Text = Strings.RecentItemRemove_Text.GetLocalizedResource(),
+					Text = Strings.RecentItemRemoveText.GetLocalizedResource(),
 					Glyph = "\uE738",
 					Command = RemoveRecentItemCommand,
 					CommandParameter = item
 				},
 				new()
 				{
-					Text = Strings.RecentItemClearAll_Text.GetLocalizedResource(),
+					Text = Strings.RecentItemClearAllText.GetLocalizedResource(),
 					Glyph = "\uE74D",
 					Command = ClearAllItemsCommand
 				},

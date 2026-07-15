@@ -132,7 +132,7 @@ namespace Files.App.UserControls
 			{
 				menuFlyout.Items.Add(new MenuFlyoutItem
 				{
-					Text = Strings.BaseLayoutItemContextFlyoutOpenParentFolder_Text.GetLocalizedResource(),
+					Text = Strings.BaseLayoutItemContextFlyoutOpenParentFolderText.GetLocalizedResource(),
 					Icon = new FontIcon() { Glyph = "\uE838" },
 					Command = item.ViewInFolderCommand
 				});

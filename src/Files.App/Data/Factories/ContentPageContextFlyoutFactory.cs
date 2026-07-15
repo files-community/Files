@@ -453,7 +453,7 @@ namespace Files.App.Data.Factories
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = Strings.BaseLayoutItemContextFlyoutSetAs_Text.GetLocalizedResource(),
+					Text = Strings.BaseLayoutItemContextFlyoutSetAsText.GetLocalizedResource(),
 					ShowItem = itemsSelected && (selectedItemsPropertiesViewModel?.IsCompatibleToSetAsWindowsWallpaper ?? false),
 					ShowInSearchPage = true,
 					Items =
