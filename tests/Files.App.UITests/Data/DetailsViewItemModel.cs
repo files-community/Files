@@ -4,7 +4,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.Controls;
 using System;
-using System.Runtime.CompilerServices;
 
 namespace Files.App.UITests.Data
 {
@@ -25,37 +24,24 @@ namespace Files.App.UITests.Data
 		[ObservableProperty]
 		public partial string? IconGlyph { get; set; }
 
-		public T GetValue<T>(string name)
+		public object? GetValue(string name)
 		{
-			switch (name)
+			return name switch
 			{
-				case nameof(Name):
-					var itemName = Name ?? string.Empty;
-					return Unsafe.As<string, T>(ref itemName);
-
-				case nameof(DateModified):
-					var dateModified = DateModified;
-					return Unsafe.As<DateTimeOffset?, T>(ref dateModified);
-
-				case nameof(Type):
-					var itemType = Type ?? string.Empty;
-					return Unsafe.As<string, T>(ref itemType);
-
-				case nameof(Size):
-					var itemSize = Size ?? string.Empty;
-					return Unsafe.As<string, T>(ref itemSize);
-
-				default:
-					throw new InvalidOperationException($"Unknown property '{name}'.");
-			}
+				nameof(Name) => Name ?? string.Empty,
+				nameof(DateModified) => DateModified,
+				nameof(Type) => Type ?? string.Empty,
+				nameof(Size) => Size ?? string.Empty,
+				_ => throw new InvalidOperationException($"Unknown property '{name}'."),
+			};
 		}
 
-		public TableViewCellEditResult TrySetValue<T>(string name, T value)
+		public TableViewCellEditResult TrySetValue(string name, object? value)
 		{
 			if (name is not nameof(Name))
 				return TableViewCellEditResult.Failure();
 
-			var newName = Unsafe.As<T, string>(ref value);
+			var newName = value as string;
 			if (string.IsNullOrWhiteSpace(newName))
 				return TableViewCellEditResult.Failure("A file name is required.");
 

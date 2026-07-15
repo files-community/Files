@@ -1,11 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Input;
-using Windows.System;
-
 namespace Files.App.Controls
 {
 	public partial class TableViewTextColumn : TableViewBindableColumn
@@ -55,13 +50,7 @@ namespace Files.App.Controls
 
 		protected internal override void PrepareCellForEdit(TableViewCell cell, FrameworkElement editingElement)
 		{
-			if (editingElement is not TextBox textBox)
-				return;
-
-			textBox.Loaded += EditingTextBox_Loaded;
-			textBox.LosingFocus += EditingTextBox_LosingFocus;
-			textBox.LostFocus += EditingTextBox_LostFocus;
-			textBox.KeyDown += EditingTextBox_KeyDown;
+			TableViewCellEditingBehavior.Prepare(editingElement);
 		}
 
 		protected internal override TableViewCellEditResult CommitCellEdit(TableViewCell cell)
@@ -73,15 +62,11 @@ namespace Files.App.Controls
 			var result = SetPropertyValue(cell.Data, textBox.Text);
 			if (result.Succeeded)
 			{
-				UnhookTextBoxEvents(textBox);
+				TableViewCellEditingBehavior.Unhook(textBox);
 			}
 			else
 			{
-				textBox.DispatcherQueue.TryEnqueue(() =>
-				{
-					textBox.Focus(FocusState.Programmatic);
-					textBox.SelectAll();
-				});
+				TableViewCellEditingBehavior.Refocus(textBox);
 			}
 
 			return result;
@@ -89,95 +74,7 @@ namespace Files.App.Controls
 
 		protected internal override void CancelCellEdit(TableViewCell cell)
 		{
-			UnhookTextBoxEvents(cell.EditingElement as TextBox);
-		}
-
-		private void EditingTextBox_Loaded(object sender, RoutedEventArgs e)
-		{
-			if (sender is not TextBox textBox)
-				return;
-
-			textBox.Loaded -= EditingTextBox_Loaded;
-			textBox.DispatcherQueue.TryEnqueue(() =>
-			{
-				if (textBox.FindAscendant<TableViewCell>() is not { IsEditing: true } cell ||
-					cell.EditingElement != textBox)
-				{
-					return;
-				}
-
-				textBox.Focus(FocusState.Programmatic);
-				textBox.SelectAll();
-			});
-		}
-
-		private void EditingTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
-		{
-			if (sender is not TextBox textBox ||
-				textBox.FindAscendant<TableViewCell>() is not { } cell)
-				return;
-
-			if (e.Key is VirtualKey.Enter)
-			{
-				cell.CommitEdit();
-				e.Handled = true;
-			}
-			else if (e.Key is VirtualKey.Escape)
-			{
-				cell.CancelEdit();
-				e.Handled = true;
-			}
-		}
-
-		private void EditingTextBox_LosingFocus(UIElement sender, LosingFocusEventArgs args)
-		{
-			if (sender is TextBox textBox && IsProtectedFocusTarget(textBox, args.NewFocusedElement))
-				args.TryCancel();
-		}
-
-		private void EditingTextBox_LostFocus(object sender, RoutedEventArgs e)
-		{
-			if (sender is not TextBox textBox)
-				return;
-
-			textBox.DispatcherQueue.TryEnqueue(() =>
-			{
-				if (textBox.FindAscendant<TableViewCell>() is not { IsEditing: true } cell ||
-					IsProtectedFocusTarget(
-						textBox,
-						textBox.XamlRoot is null ? null : FocusManager.GetFocusedElement(textBox.XamlRoot)))
-				{
-					return;
-				}
-
-				cell.CancelEdit(TableViewEditEndingReason.FocusLost);
-			});
-		}
-
-		private static bool IsProtectedFocusTarget(TextBox textBox, object? focusedElement)
-		{
-			if (focusedElement is null || ReferenceEquals(focusedElement, textBox))
-				return true;
-
-			if (focusedElement is FlyoutBase or Popup or FlyoutPresenter or MenuFlyoutPresenter)
-				return true;
-
-			return focusedElement is DependencyObject dependencyObject &&
-				(dependencyObject.FindAscendant<TextBox>() == textBox ||
-				dependencyObject.FindAscendant<Popup>() is not null ||
-				dependencyObject.FindAscendant<FlyoutPresenter>() is not null ||
-				dependencyObject.FindAscendant<MenuFlyoutPresenter>() is not null);
-		}
-
-		private void UnhookTextBoxEvents(TextBox? textBox)
-		{
-			if (textBox is null)
-				return;
-
-			textBox.Loaded -= EditingTextBox_Loaded;
-			textBox.LosingFocus -= EditingTextBox_LosingFocus;
-			textBox.LostFocus -= EditingTextBox_LostFocus;
-			textBox.KeyDown -= EditingTextBox_KeyDown;
+			TableViewCellEditingBehavior.Unhook(cell.EditingElement);
 		}
 	}
 }

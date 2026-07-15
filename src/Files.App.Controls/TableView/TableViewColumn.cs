@@ -74,6 +74,33 @@ namespace Files.App.Controls
 		{
 		}
 
+		protected T GetPropertyValue<T>(object dataItem)
+		{
+			if (string.IsNullOrEmpty(Binding) ||
+				dataItem is not ITableViewCellValueProvider cellValueProvider)
+			{
+				throw new ArgumentException(
+					$"The data source must implement {nameof(ITableViewCellValueProvider)} to get cell value.",
+					$"{dataItem}");
+			}
+
+			var value = cellValueProvider.GetValue(Binding);
+			return value is null ? default! : (T)value;
+		}
+
+		protected TableViewCellEditResult SetPropertyValue<T>(object dataItem, T value)
+		{
+			if (string.IsNullOrEmpty(Binding) ||
+				dataItem is not ITableViewCellValueEditor cellValueEditor)
+			{
+				throw new ArgumentException(
+					$"The data source must implement {nameof(ITableViewCellValueEditor)} to edit cell value.",
+					$"{dataItem}");
+			}
+
+			return cellValueEditor.TrySetValue(Binding, value);
+		}
+
 		internal void AttachOwner(TableView owner)
 		{
 			VerifyCanAttachOwner(owner);

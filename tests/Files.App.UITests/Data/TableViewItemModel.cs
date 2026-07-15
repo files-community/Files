@@ -4,7 +4,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.Controls;
 using System;
-using System.Runtime.CompilerServices;
 
 namespace Files.App.UITests.Data
 {
@@ -22,50 +21,33 @@ namespace Files.App.UITests.Data
 		[ObservableProperty]
 		public partial string? Size { get; set; }
 
-		public T GetValue<T>(string name)
+		public object? GetValue(string name)
 		{
-			switch (name)
+			return name switch
 			{
-				case nameof(Name):
-					{
-						var currentValue = Name ?? string.Empty;
-						return Unsafe.As<string, T>(ref currentValue);
-					}
-				case nameof(DateUpdated):
-					{
-						var currentValue = DateUpdated;
-						return Unsafe.As<DateTimeOffset?, T>(ref currentValue);
-					}
-				case nameof(Type):
-					{
-						var currentValue = Type ?? string.Empty;
-						return Unsafe.As<string, T>(ref currentValue);
-					}
-				case nameof(Size):
-					{
-						var currentValue = Size ?? string.Empty;
-						return Unsafe.As<string, T>(ref currentValue);
-					}
-				default:
-					throw new InvalidOperationException($"Unknown property '{name}'.");
-			}
+				nameof(Name) => Name ?? string.Empty,
+				nameof(DateUpdated) => DateUpdated,
+				nameof(Type) => Type ?? string.Empty,
+				nameof(Size) => Size ?? string.Empty,
+				_ => throw new InvalidOperationException($"Unknown property '{name}'."),
+			};
 		}
 
-		public TableViewCellEditResult TrySetValue<T>(string name, T value)
+		public TableViewCellEditResult TrySetValue(string name, object? value)
 		{
 			switch (name)
 			{
 				case nameof(Name):
-					Name = Unsafe.As<T, string>(ref value);
+					Name = (string?)value;
 					return TableViewCellEditResult.Success;
 				case nameof(DateUpdated):
-					DateUpdated = Unsafe.As<T, DateTimeOffset?>(ref value);
+					DateUpdated = (DateTimeOffset?)value;
 					return TableViewCellEditResult.Success;
 				case nameof(Type):
-					Type = Unsafe.As<T, string>(ref value);
+					Type = (string?)value;
 					return TableViewCellEditResult.Success;
 				case nameof(Size):
-					Size = Unsafe.As<T, string>(ref value);
+					Size = (string?)value;
 					return TableViewCellEditResult.Success;
 				default:
 					return TableViewCellEditResult.Failure($"Unknown property '{name}'.");

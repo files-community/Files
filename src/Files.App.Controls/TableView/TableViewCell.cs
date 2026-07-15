@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Automation.Peers;
+using CommunityToolkit.WinUI;
 using Windows.System;
 
 namespace Files.App.Controls
@@ -195,14 +196,27 @@ namespace Files.App.Controls
 
 		internal string GetAutomationValue()
 		{
-			return Content switch
+			var directValue = Content switch
 			{
 				TextBlock textBlock => textBlock.Text,
 				TextBox textBox => textBox.Text,
 				CheckBox checkBox => checkBox.IsChecked?.ToString() ?? string.Empty,
-				FrameworkElement element => Microsoft.UI.Xaml.Automation.AutomationProperties.GetName(element),
-				_ => string.Empty,
+				_ => null,
 			};
+			if (directValue is not null)
+				return directValue;
+
+			if (Content is not FrameworkElement element)
+				return string.Empty;
+
+			var automationName = Microsoft.UI.Xaml.Automation.AutomationProperties.GetName(element);
+			if (!string.IsNullOrEmpty(automationName))
+				return automationName;
+
+			return element.FindDescendant<TextBox>()?.Text ??
+				element.FindDescendant<TextBlock>()?.Text ??
+				element.FindDescendant<CheckBox>()?.IsChecked?.ToString() ??
+				string.Empty;
 		}
 
 		internal bool SetAutomationValue(string value)
@@ -210,10 +224,13 @@ namespace Files.App.Controls
 			if (!IsEditing && !BeginEdit())
 				return false;
 
-			if (EditingElement is not TextBox textBox)
+			var textBox = EditingElement as TextBox ?? EditingElement?.FindDescendant<TextBox>();
+			if (textBox is null)
 				return false;
 
 			textBox.Text = value;
+			if (EditingElement is ContentPresenter { Content: TableViewTemplateCellEditingContext context })
+				context.Value = value;
 			return CommitEdit();
 		}
 	}

@@ -54,12 +54,41 @@
 
 					<data:NegatedBooleanToVisibilityConverter x:Key="NegatedBooleanToVisibilityConverter" />
 
-					<DataTemplate x:Key="DetailsFileIconCellTemplate" x:DataType="data:DetailsViewItemModel">
-						<FontIcon
-							HorizontalAlignment="Center"
-							VerticalAlignment="Center"
-							FontSize="16"
-							Glyph="{x:Bind IconGlyph, Mode=OneWay}" />
+					<DataTemplate x:Key="DetailsNameCellTemplate" x:DataType="data:DetailsViewItemModel">
+						<Grid ColumnSpacing="8">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="24" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<FontIcon
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								FontSize="16"
+								Glyph="{x:Bind IconGlyph, Mode=OneWay}" />
+							<TextBlock
+								Grid.Column="1"
+								VerticalAlignment="Center"
+								Text="{x:Bind Name, Mode=OneWay}"
+								TextTrimming="CharacterEllipsis" />
+						</Grid>
+					</DataTemplate>
+
+					<DataTemplate x:Key="DetailsNameCellEditingTemplate">
+						<Grid ColumnSpacing="8">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="24" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<FontIcon
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								FontSize="16"
+								Glyph="{Binding DataItem.IconGlyph}" />
+							<TextBox
+								Grid.Column="1"
+								VerticalAlignment="Center"
+								Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+						</Grid>
 					</DataTemplate>
 
 					<DataTemplate x:Key="ToolbarActionCellTemplate" x:DataType="data:ToolbarCustomizationItemModel">
@@ -214,13 +243,9 @@
 					Sorting="DetailsTable_Sorting">
 					<controls:TableView.Columns>
 						<controls:TableViewTemplateColumn
-							CanUserResize="False"
-							CanUserSort="False"
-							CellTemplate="{StaticResource DetailsFileIconCellTemplate}"
-							ColumnWidth="40"
-							Header="" />
-						<controls:TableViewTextColumn
 							Binding="Name"
+							CellEditingTemplate="{StaticResource DetailsNameCellEditingTemplate}"
+							CellTemplate="{StaticResource DetailsNameCellTemplate}"
 							ColumnWidth="2*"
 							Header="Name"
 							MinWidth="180" />
