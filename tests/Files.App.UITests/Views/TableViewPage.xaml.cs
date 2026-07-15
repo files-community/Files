@@ -4,18 +4,38 @@
 using CommunityToolkit.WinUI;
 using Files.App.Controls;
 using Files.App.UITests.Data;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
+using PropertyChangedEventArgs = System.ComponentModel.PropertyChangedEventArgs;
 
 namespace Files.App.UITests.Views
 {
 	internal sealed partial class TableViewPage : Page
 	{
 		private const int GeneratedItemCount = 5000;
+		private const string FolderGlyph = "\uE8B7";
+		private const string FileGlyph = "\uE8A5";
+
+		private readonly List<ToolbarCustomizationItemModel> _availableToolbarItems =
+		[
+			CreateToolbarItem("New", "\uE710"),
+			CreateToolbarItem("Cut", "\uE8C6"),
+			CreateToolbarItem("Copy", "\uE8C8"),
+			CreateToolbarItem("Paste", "\uE77F"),
+			CreateToolbarItem("Rename", "\uE8AC"),
+			CreateToolbarSeparator(),
+			CreateToolbarItem("Share", "\uE72D"),
+			CreateToolbarItem("Delete", "\uE74D"),
+			CreateToolbarItem("Sort", "\uE8CB"),
+			CreateToolbarItem("View", "\uE890"),
+			CreateToolbarItem("Properties", "\uE946"),
+		];
 
 		private static readonly TableViewItemModel[] SampleItems =
 		[
@@ -51,11 +71,34 @@ namespace Files.App.UITests.Views
 
 		public ObservableCollection<TableViewItemModel> Items { get; }
 
+		public ObservableCollection<DetailsViewItemModel> DetailsItems { get; } =
+		[
+			new() { Name = "Assets", DateModified = DetailsDate(15, 9, 12), Type = "File folder", Size = "", IconGlyph = FolderGlyph },
+			new() { Name = "Designs", DateModified = DetailsDate(14, 17, 45), Type = "File folder", Size = "", IconGlyph = FolderGlyph },
+			new() { Name = "Quarterly Report Q2 2026.xlsx", DateModified = DetailsDate(14, 15, 23), Type = "Microsoft Excel Worksheet", Size = "2.4 MB", IconGlyph = FileGlyph },
+			new() { Name = "Product Roadmap.pptx", DateModified = DetailsDate(13, 18, 2), Type = "Microsoft PowerPoint Presentation", Size = "18.7 MB", IconGlyph = FileGlyph },
+			new() { Name = "Brand Guidelines.pdf", DateModified = DetailsDate(13, 14, 18), Type = "PDF Document", Size = "6.1 MB", IconGlyph = FileGlyph },
+			new() { Name = "HeroBanner_Final.png", DateModified = DetailsDate(12, 11, 31), Type = "PNG File", Size = "4.8 MB", IconGlyph = FileGlyph },
+			new() { Name = "Invoice_10482.docx", DateModified = DetailsDate(11, 15, 26), Type = "Microsoft Word Document", Size = "184 KB", IconGlyph = FileGlyph },
+			new() { Name = "Onboarding Checklist.txt", DateModified = DetailsDate(11, 10, 13), Type = "Text Document", Size = "12 KB", IconGlyph = FileGlyph },
+			new() { Name = "Team Photo.jpg", DateModified = DetailsDate(10, 18, 54), Type = "JPEG File", Size = "3.2 MB", IconGlyph = FileGlyph },
+			new() { Name = "ReleaseNotes-v4.0.md", DateModified = DetailsDate(10, 13, 22), Type = "Markdown Source File", Size = "28 KB", IconGlyph = FileGlyph },
+			new() { Name = "Demo Reel.mp4", DateModified = DetailsDate(9, 11, 8), Type = "MP4 Video", Size = "124 MB", IconGlyph = FileGlyph },
+			new() { Name = "appsettings.json", DateModified = DetailsDate(8, 20, 49), Type = "JSON Source File", Size = "5 KB", IconGlyph = FileGlyph },
+		];
+
+		public ObservableCollection<ToolbarCustomizationItemModel> FilteredAvailableToolbarItems { get; } = [];
+
+		public ObservableCollection<ToolbarCustomizationItemModel> ToolbarItems { get; } = [];
+
 		public TableViewPage()
 		{
 			Items = [];
 
 			InitializeComponent();
+
+			ToolbarItems.CollectionChanged += ToolbarItems_CollectionChanged;
+			ResetToolbarItems();
 		}
 
 		private async void TableViewPage_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -108,6 +151,161 @@ namespace Files.App.UITests.Views
 			foreach (var item in materializedItems)
 				Items.Add(item);
 			SortStatusTextBlock.Text = $"{e.Column.Header}: {e.SortDirection}";
+		}
+
+		private void DetailsTable_Sorting(object? sender, TableViewColumnSortingEventArgs e)
+		{
+			IEnumerable<DetailsViewItemModel> sortedItems = (e.Column.Binding, e.SortDirection) switch
+			{
+				(nameof(DetailsViewItemModel.Name), ListSortDirection.Ascending) => DetailsItems.OrderBy(item => item.Name),
+				(nameof(DetailsViewItemModel.Name), _) => DetailsItems.OrderByDescending(item => item.Name),
+				(nameof(DetailsViewItemModel.DateModified), ListSortDirection.Ascending) => DetailsItems.OrderBy(item => item.DateModified),
+				(nameof(DetailsViewItemModel.DateModified), _) => DetailsItems.OrderByDescending(item => item.DateModified),
+				(nameof(DetailsViewItemModel.Type), ListSortDirection.Ascending) => DetailsItems.OrderBy(item => item.Type),
+				(nameof(DetailsViewItemModel.Type), _) => DetailsItems.OrderByDescending(item => item.Type),
+				(nameof(DetailsViewItemModel.Size), ListSortDirection.Ascending) => DetailsItems.OrderBy(item => item.Size),
+				_ => DetailsItems.OrderByDescending(item => item.Size),
+			};
+
+			var materializedItems = sortedItems.ToList();
+			DetailsItems.Clear();
+			foreach (var item in materializedItems)
+				DetailsItems.Add(item);
+
+			DetailsSortStatusTextBlock.Text = $"{e.Column.Header}: {e.SortDirection}";
+		}
+
+		private void ToolbarSearchBox_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			RefreshAvailableToolbarItems(ToolbarSearchBox.Text);
+		}
+
+		private void AvailableToolbarItemsList_ItemClick(object sender, ItemClickEventArgs e)
+		{
+			if (e.ClickedItem is not ToolbarCustomizationItemModel item)
+				return;
+
+			AddToolbarItem(CloneToolbarItem(item));
+			ToolbarStatusTextBlock.Text = $"Added {item.DisplayName}";
+		}
+
+		private void RemoveToolbarItem_Click(object sender, RoutedEventArgs e)
+		{
+			if (sender is not FrameworkElement { DataContext: ToolbarCustomizationItemModel item })
+				return;
+
+			item.PropertyChanged -= ToolbarItem_PropertyChanged;
+			ToolbarItems.Remove(item);
+			ToolbarStatusTextBlock.Text = $"Removed {item.DisplayName}";
+		}
+
+		private void ResetToolbarItems_Click(object sender, RoutedEventArgs e)
+		{
+			ResetToolbarItems();
+			ToolbarStatusTextBlock.Text = "Defaults restored";
+		}
+
+		private void ResetToolbarItems()
+		{
+			foreach (var item in ToolbarItems)
+				item.PropertyChanged -= ToolbarItem_PropertyChanged;
+
+			ToolbarItems.Clear();
+			AddToolbarItem(CreateToolbarItem("New", "\uE710", showLabel: true));
+			AddToolbarItem(CreateToolbarItem("Cut", "\uE8C6"));
+			AddToolbarItem(CreateToolbarItem("Copy", "\uE8C8"));
+			AddToolbarItem(CreateToolbarItem("Paste", "\uE77F"));
+			AddToolbarItem(CreateToolbarSeparator());
+			AddToolbarItem(CreateToolbarItem("Rename", "\uE8AC", showLabel: true));
+			RefreshAvailableToolbarItems(ToolbarSearchBox?.Text);
+			RefreshToolbarPreview();
+		}
+
+		private void AddToolbarItem(ToolbarCustomizationItemModel item)
+		{
+			item.PropertyChanged += ToolbarItem_PropertyChanged;
+			ToolbarItems.Add(item);
+		}
+
+		private void ToolbarItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			RefreshToolbarPreview();
+		}
+
+		private void ToolbarItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		{
+			RefreshToolbarPreview();
+		}
+
+		private void RefreshAvailableToolbarItems(string? query)
+		{
+			var filteredItems = string.IsNullOrWhiteSpace(query)
+				? _availableToolbarItems
+				: _availableToolbarItems.Where(item => item.DisplayName.Contains(query, StringComparison.OrdinalIgnoreCase));
+
+			FilteredAvailableToolbarItems.Clear();
+			foreach (var item in filteredItems)
+				FilteredAvailableToolbarItems.Add(item);
+		}
+
+		private void RefreshToolbarPreview()
+		{
+			if (ToolbarPreviewCommandBar is null)
+				return;
+
+			ToolbarPreviewCommandBar.PrimaryCommands.Clear();
+			foreach (var item in ToolbarItems)
+			{
+				if (item.IsSeparator)
+				{
+					ToolbarPreviewCommandBar.PrimaryCommands.Add(new AppBarSeparator());
+					continue;
+				}
+
+				ToolbarPreviewCommandBar.PrimaryCommands.Add(new AppBarButton
+				{
+					Icon = item.ShowIcon && item.HasIcon ? new FontIcon { Glyph = item.IconGlyph } : null,
+					Label = item.DisplayName,
+					LabelPosition = item.ShowLabel ? CommandBarLabelPosition.Default : CommandBarLabelPosition.Collapsed,
+				});
+			}
+		}
+
+		private static ToolbarCustomizationItemModel CloneToolbarItem(ToolbarCustomizationItemModel item)
+		{
+			return item.IsSeparator
+				? CreateToolbarSeparator()
+				: CreateToolbarItem(item.DisplayName, item.IconGlyph, item.ShowLabel, item.HasIcon);
+		}
+
+		private static ToolbarCustomizationItemModel CreateToolbarSeparator()
+		{
+			return new()
+			{
+				DisplayName = "Separator",
+				IconGlyph = FileGlyph,
+				HasIcon = false,
+				IsSeparator = true,
+				ShowIcon = false,
+				ShowLabel = false,
+			};
+		}
+
+		private static ToolbarCustomizationItemModel CreateToolbarItem(string displayName, string iconGlyph, bool showLabel = false, bool hasIcon = true)
+		{
+			return new()
+			{
+				DisplayName = displayName,
+				IconGlyph = iconGlyph,
+				HasIcon = hasIcon,
+				ShowIcon = hasIcon,
+				ShowLabel = showLabel,
+			};
+		}
+
+		private static DateTimeOffset DetailsDate(int day, int hour, int minute)
+		{
+			return new(2026, 7, day, hour, minute, 0, TimeSpan.FromHours(9));
 		}
 
 		private static List<TableViewItemModel> GenerateItems(int count)
