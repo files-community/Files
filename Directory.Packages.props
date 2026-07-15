@@ -48,7 +48,7 @@
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="5.6.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="5.6.0" />
     <PackageVersion Include="PolySharp" Version="1.16.0" />
-    <PackageVersion Include="System.Text.Json" Version="10.0.9" />
+    <PackageVersion Include="System.Text.Json" Version="10.0.10" />
     <PackageVersion Include="System.IO.Hashing" Version="10.0.2" />
     <PackageVersion Include="Appium.WebDriver" Version="4.4.5" />
     <PackageVersion Include="Axe.Windows" Version="2.4.2" />
