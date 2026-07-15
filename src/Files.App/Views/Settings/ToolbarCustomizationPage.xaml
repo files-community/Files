@@ -165,8 +165,12 @@
 				Grid.Row="1"
 				Grid.Column="1"
 				HorizontalAlignment="Left"
+				Background="{ThemeResource LayerFillColorDefaultBrush}"
+				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+				BorderThickness="1"
 				CanUserReorderColumns="False"
-				CanUserSortColumns="False">
+				CanUserSortColumns="False"
+				CornerRadius="8">
 				<controls:TableView.Resources>
 					<DataTemplate x:Key="ToolbarItemActionCellTemplate">
 						<Grid>
@@ -226,9 +230,9 @@
 						VisibilityBinding="IsSeparator"
 						VisibilityConverter="{StaticResource NegatedBoolToVisibilityConverter}" />
 					<controls:TableViewTemplateColumn
-						MinWidth="48"
+						MinWidth="44"
 						CellTemplate="{StaticResource ToolbarItemRemoveCellTemplate}"
-						ColumnWidth="48"
+						ColumnWidth="44"
 						Header="" />
 				</controls:TableView.Columns>
 				<controls:TableView.View>
