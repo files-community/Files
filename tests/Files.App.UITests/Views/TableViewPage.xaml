@@ -55,7 +55,7 @@
 					<data:NegatedBooleanToVisibilityConverter x:Key="NegatedBooleanToVisibilityConverter" />
 
 					<DataTemplate x:Key="DetailsNameCellTemplate" x:DataType="data:DetailsViewItemModel">
-						<Grid ColumnSpacing="8">
+						<Grid Margin="12,0" ColumnSpacing="8">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="24" />
 								<ColumnDefinition Width="*" />
@@ -74,7 +74,7 @@
 					</DataTemplate>
 
 					<DataTemplate x:Key="DetailsNameCellEditingTemplate">
-						<Grid ColumnSpacing="8">
+						<Grid Margin="12,0" ColumnSpacing="8">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="24" />
 								<ColumnDefinition Width="*" />
@@ -92,14 +92,10 @@
 					</DataTemplate>
 
 					<DataTemplate x:Key="DetailsNameHeaderTemplate">
-						<StackPanel Margin="8,0,0,0" Orientation="Horizontal" Spacing="6">
-							<FontIcon
-								VerticalAlignment="Center"
-								FontSize="12"
-								Glyph="&#xE8A5;" />
+						<StackPanel Margin="26,0,0,0" Orientation="Horizontal">
 							<TextBlock
 								VerticalAlignment="Center"
-								FontWeight="SemiBold"
+								Style="{StaticResource BodyStrongTextBlockStyle}"
 								Text="{Binding}" />
 						</StackPanel>
 					</DataTemplate>
@@ -256,19 +252,19 @@
 					Sorting="DetailsTable_Sorting">
 					<controls:TableView.Columns>
 						<controls:TableViewTemplateColumn
+							MinWidth="180"
 							Binding="Name"
 							CellEditingTemplate="{StaticResource DetailsNameCellEditingTemplate}"
 							CellTemplate="{StaticResource DetailsNameCellTemplate}"
 							ColumnWidth="2*"
 							Header="Name"
-							HeaderTemplate="{StaticResource DetailsNameHeaderTemplate}"
-							MinWidth="180" />
+							HeaderTemplate="{StaticResource DetailsNameHeaderTemplate}" />
 						<controls:TableViewDateColumn
+							MinWidth="160"
 							Binding="DateModified"
 							ColumnWidth="Auto"
 							Header="Date modified"
-							IsReadOnly="True"
-							MinWidth="160" />
+							IsReadOnly="True" />
 						<controls:TableViewTextColumn
 							Binding="Type"
 							ColumnWidth="220"
@@ -313,7 +309,10 @@
 						<x:Double x:Key="ResizeVisualIndicatorHeight">24</x:Double>
 					</controls:TableView.Resources>
 					<controls:TableView.Columns>
-						<controls:TableViewTemplateColumn CellTemplate="{StaticResource ToolbarActionCellTemplate}" ColumnWidth="270" Header="Action" />
+						<controls:TableViewTemplateColumn
+							CellTemplate="{StaticResource ToolbarActionCellTemplate}"
+							ColumnWidth="270"
+							Header="Action" />
 						<controls:TableViewCheckBoxColumn
 							Binding="ShowIcon"
 							ColumnWidth="64"
@@ -328,10 +327,10 @@
 							VisibilityBinding="IsSeparator"
 							VisibilityConverter="{StaticResource NegatedBooleanToVisibilityConverter}" />
 						<controls:TableViewTemplateColumn
+							MinWidth="44"
 							CellTemplate="{StaticResource ToolbarRemoveCellTemplate}"
 							ColumnWidth="44"
-							Header=""
-							MinWidth="44" />
+							Header="" />
 					</controls:TableView.Columns>
 					<controls:TableView.View>
 						<ListView
