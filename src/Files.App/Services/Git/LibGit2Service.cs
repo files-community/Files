@@ -283,6 +283,44 @@ internal sealed partial class LibGit2Service // : IVersionControl
 		IsExecutingGitAction = false;
 	}
 
+	public async Task DeleteBranchAsync(string? repositoryPath, string? activeBranch, string? branchToDelete)
+	{
+		SentrySdk.Experimental.Metrics.EmitCounter("Triggered delete git branch", 1);
+
+		if (string.IsNullOrWhiteSpace(repositoryPath) ||
+			string.IsNullOrWhiteSpace(activeBranch) ||
+			string.IsNullOrWhiteSpace(branchToDelete) ||
+			activeBranch.Equals(branchToDelete, StringComparison.OrdinalIgnoreCase) ||
+			!IsRepoValid(repositoryPath))
+		{
+			return;
+		}
+
+		var dialog = DynamicDialogFactory.GetFor_DeleteGitBranchConfirmation(branchToDelete);
+		await dialog.TryShowAsync();
+		if (!(dialog.ViewModel.AdditionalData as bool? ?? false))
+			return;
+
+		IsExecutingGitAction = true;
+
+		await DoGitOperationAsync<GitOperationResult>(() =>
+		{
+			try
+			{
+				using var repository = new Repository(repositoryPath);
+				repository.Branches.Remove(branchToDelete);
+			}
+			catch (Exception)
+			{
+				return GitOperationResult.GenericError;
+			}
+
+			return GitOperationResult.Success;
+		});
+
+		IsExecutingGitAction = false;
+	}
+
 	public async void FetchOrigin(string? repositoryPath, CancellationToken cancellationToken = default)
 	{
 		if (string.IsNullOrWhiteSpace(repositoryPath))
