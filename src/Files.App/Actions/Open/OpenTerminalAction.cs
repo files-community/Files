@@ -93,7 +93,7 @@ namespace Files.App.Actions
 				{
 					FileName = "wt.exe",
 					Arguments = args.ToString(),
-					UseShellExecute = true
+					UseShellExecute = false
 				};
 			}
 
