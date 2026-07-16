@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using System.Runtime.CompilerServices;
@@ -9,20 +9,20 @@ using Windows.Win32.UI.Shell;
 
 namespace Files.App.Storage
 {
-	public unsafe abstract class WindowsStorable : IWindowsStorable
+	public abstract class WindowsStorable : IWindowsStorable
 	{
 		/// <inheritdoc/>
-		public IShellItem* ThisPtr
+		public IShellItem ThisPtr
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get;
 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set;
-		}
+		} = null!;
 
 		/// <inheritdoc/>
-		public IContextMenu* ContextMenu
+		public IContextMenu? ContextMenu
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get;
@@ -39,32 +39,29 @@ namespace Files.App.Storage
 
 		public static WindowsStorable? TryParse(string szPath)
 		{
-			HRESULT hr = default;
-			IShellItem* pShellItem = null;
-
-			fixed (char* pszPath = szPath)
-				hr = PInvoke.SHCreateItemFromParsingName(pszPath, null, IID.IID_IShellItem, (void**)&pShellItem);
-
-			if (pShellItem is null)
+			HRESULT hr = PInvoke.SHCreateItemFromParsingName(szPath, null, out IShellItem pShellItem);
+			if (hr.ThrowIfFailedOnDebug().Failed)
 				return null;
 
 			return TryParse(pShellItem);
 		}
 
-		public static WindowsStorable? TryParse(IShellItem* pShellItem)
+		public static WindowsStorable? TryParse(IShellItem? pShellItem)
 		{
-			bool isFolder = pShellItem->GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER, out var returnedAttributes).Succeeded && returnedAttributes is SFGAO_FLAGS.SFGAO_FOLDER;
+			if (pShellItem is null)
+				return null;
+
+			bool isFolder = pShellItem.GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER, out var returnedAttributes).Succeeded && returnedAttributes is SFGAO_FLAGS.SFGAO_FOLDER;
 
 			return isFolder ? new WindowsFolder(pShellItem) : new WindowsFile(pShellItem);
 		}
 
 		/// <inheritdoc/>
-		public unsafe Task<IFolder?> GetParentAsync(CancellationToken cancellationToken = default)
+		public Task<IFolder?> GetParentAsync(CancellationToken cancellationToken = default)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 
-			IShellItem* pParentFolder = default;
-			HRESULT hr = ThisPtr->GetParent(&pParentFolder);
+			HRESULT hr = ThisPtr.GetParent(out var pParentFolder);
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return Task.FromResult<IFolder?>(null);
 
@@ -86,8 +83,7 @@ namespace Files.App.Storage
 		/// <inheritdoc/>
 		public virtual void Dispose()
 		{
-			if (ThisPtr is not null) ThisPtr->Release();
-			if (ContextMenu is not null) ContextMenu->Release();
+			ContextMenu = null;
 		}
 
 		/// <inheritdoc/>
@@ -97,12 +93,12 @@ namespace Files.App.Storage
 		}
 
 		/// <inheritdoc/>
-		public unsafe bool Equals(IWindowsStorable? other)
+		public bool Equals(IWindowsStorable? other)
 		{
 			if (other is null)
 				return false;
 
-			return ThisPtr->Compare(other.ThisPtr, (uint)_SICHINTF.SICHINT_DISPLAY, out int order).Succeeded && order is 0;
+			return ThisPtr.Compare(other.ThisPtr, (uint)_SICHINTF.SICHINT_DISPLAY, out int order).Succeeded && order is 0;
 		}
 
 		public static bool operator ==(WindowsStorable left, WindowsStorable right)

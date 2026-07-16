@@ -20,7 +20,7 @@ namespace Files.App.Storage
 
 		private WindowsDriveManager()
 		{
-			Guid computerFolderId = *FOLDERID.FOLDERID_ComputerFolder;
+			Guid computerFolderId = FOLDERID.FOLDERID_ComputerFolder;
 			_folderChangeWatcher = new(
 				computerFolderId,
 				SHCNE_ID.SHCNE_DRIVEADD | SHCNE_ID.SHCNE_DRIVEREMOVED | SHCNE_ID.SHCNE_MEDIAINSERTED | SHCNE_ID.SHCNE_MEDIAREMOVED,

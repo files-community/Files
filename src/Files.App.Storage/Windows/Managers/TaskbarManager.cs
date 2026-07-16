@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
 using Windows.Win32;
@@ -10,7 +10,7 @@ namespace Files.App.Storage
 {
 	public unsafe class TaskbarManager : IDisposable
 	{
-		private ComPtr<ITaskbarList3> pTaskbarList = default;
+		private ITaskbarList3? taskbarList;
 
 		private static TaskbarManager? _Default = null;
 		public static TaskbarManager Default { get; } = _Default ??= new TaskbarManager();
@@ -18,31 +18,27 @@ namespace Files.App.Storage
 		public TaskbarManager()
 		{
 			Guid CLSID_TaskbarList = typeof(TaskbarList).GUID;
-			Guid IID_ITaskbarList3 = ITaskbarList3.IID_Guid;
-			HRESULT hr = PInvoke.CoCreateInstance(
-				&CLSID_TaskbarList,
-				null,
-				CLSCTX.CLSCTX_INPROC_SERVER,
-				&IID_ITaskbarList3,
-				(void**)pTaskbarList.GetAddressOf());
+			HRESULT hr = PInvoke.CoCreateInstance(CLSID_TaskbarList, null, CLSCTX.CLSCTX_INPROC_SERVER, out ITaskbarList3? pTaskbarList);
 
 			if (hr.ThrowIfFailedOnDebug().Succeeded)
-				hr = pTaskbarList.Get()->HrInit().ThrowIfFailedOnDebug();
+				hr = pTaskbarList!.HrInit().ThrowIfFailedOnDebug();
+
+			taskbarList = pTaskbarList;
 		}
 
 		public HRESULT SetProgressValue(HWND hwnd, ulong ullCompleted, ulong ullTotal)
 		{
-			return pTaskbarList.Get()->SetProgressValue(hwnd, ullCompleted, ullTotal);
+			return taskbarList?.SetProgressValue(hwnd, ullCompleted, ullTotal) ?? HRESULT.E_FAIL;
 		}
 
 		public HRESULT SetProgressState(HWND hwnd, TBPFLAG tbpFlags)
 		{
-			return pTaskbarList.Get()->SetProgressState(hwnd, tbpFlags);
+			return taskbarList?.SetProgressState(hwnd, tbpFlags) ?? HRESULT.E_FAIL;
 		}
 
 		public void Dispose()
 		{
-			pTaskbarList.Dispose();
+			taskbarList = null;
 		}
 	}
 }
