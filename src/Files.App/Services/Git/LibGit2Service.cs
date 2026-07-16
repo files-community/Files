@@ -321,6 +321,20 @@ internal sealed partial class LibGit2Service // : IVersionControl
 		IsExecutingGitAction = false;
 	}
 
+	public bool ValidateBranchNameForRepository(string branchName, string repositoryPath)
+	{
+		if (string.IsNullOrEmpty(branchName) || !IsRepoValid(repositoryPath))
+			return false;
+
+		var nameValidator = RegexHelpers.GitBranchName();
+		if (!nameValidator.IsMatch(branchName))
+			return false;
+
+		using var repository = new Repository(repositoryPath);
+		return !repository.Branches.Any(branch =>
+			branch.FriendlyName.Equals(branchName, StringComparison.OrdinalIgnoreCase));
+	}
+
 	public async void FetchOrigin(string? repositoryPath, CancellationToken cancellationToken = default)
 	{
 		if (string.IsNullOrWhiteSpace(repositoryPath))
