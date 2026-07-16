@@ -36,6 +36,9 @@ namespace Files.App.Utils.Git
 		/// <inheritdoc cref="IVersionControlService.CreateNewBranchAsync(string, string)"/>
 		public static Task CreateNewBranchAsync(string repositoryPath, string activeBranch) => _implementation.CreateNewBranchAsync(repositoryPath, activeBranch);
 
+		/// <inheritdoc cref="IVersionControlService.DeleteBranchAsync(string?, string?, string?)"/>
+		public static Task DeleteBranchAsync(string? repositoryPath, string? activeBranch, string? branchToDelete) => _implementation.DeleteBranchAsync(repositoryPath, activeBranch, branchToDelete);
+
 		/// <inheritdoc cref="IVersionControlService.FetchOrigin(string?, CancellationToken)"/>
 		public static async void FetchOrigin(string? repositoryPath, CancellationToken cancellationToken = default) => _implementation.FetchOrigin(repositoryPath, cancellationToken);
 
@@ -98,44 +101,6 @@ namespace Files.App.Utils.Git
 
 		// Property already moved into abstraction
 		private static readonly SemaphoreSlim GitOperationSemaphore = new SemaphoreSlim(1, 1);
-
-		public static async Task DeleteBranchAsync(string? repositoryPath, string? activeBranch, string? branchToDelete)
-		{
-			SentrySdk.Experimental.Metrics.EmitCounter("Triggered delete git branch", 1);
-
-			if (string.IsNullOrWhiteSpace(repositoryPath) ||
-				string.IsNullOrWhiteSpace(activeBranch) ||
-				string.IsNullOrWhiteSpace(branchToDelete) ||
-				activeBranch.Equals(branchToDelete, StringComparison.OrdinalIgnoreCase) ||
-				!IsRepoValid(repositoryPath))
-			{
-				return;
-			}
-
-			var dialog = DynamicDialogFactory.GetFor_DeleteGitBranchConfirmation(branchToDelete);
-			await dialog.TryShowAsync();
-			if (!(dialog.ViewModel.AdditionalData as bool? ?? false))
-				return;
-
-			_implementation.IsExecutingGitAction = true;
-
-			await DoGitOperationAsync<GitOperationResult>(() =>
-			{
-				try
-				{
-					using var repository = new Repository(repositoryPath);
-					repository.Branches.Remove(branchToDelete);
-				}
-				catch (Exception)
-				{
-					return GitOperationResult.GenericError;
-				}
-
-				return GitOperationResult.Success;
-			});
-
-			_implementation.IsExecutingGitAction = false;
-		}
 
 		public static bool ValidateBranchNameForRepository(string branchName, string repositoryPath)
 		{
