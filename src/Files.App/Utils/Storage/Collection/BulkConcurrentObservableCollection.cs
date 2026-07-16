@@ -219,6 +219,32 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
+		/// <summary>
+		/// Moves the item to its correct group if its group key has changed, e.g. after its properties were updated.
+		/// </summary>
+		/// <returns>True if the item was moved to another group; otherwise, false.</returns>
+		public bool UpdateItemGroup(T item)
+		{
+			if (!IsGrouped || item is not IGroupableItem groupable)
+				return false;
+
+			var key = GetGroupKeyForItem(item);
+			if (key is null || key == groupable.Key)
+				return false;
+
+			// Only move items that are currently displayed in their recorded group
+			var oldGroup = GroupedCollection?.FirstOrDefault(x => x.Model.Key == groupable.Key);
+			if (oldGroup is null || !oldGroup.Remove(item))
+				return false;
+
+			if (oldGroup.Count == 0)
+				GroupedCollection?.Remove(oldGroup);
+
+			AddItemsToGroup([item]);
+
+			return true;
+		}
+
 		private string? GetGroupKeyForItem(T item)
 		{
 			return ItemGroupKeySelector?.Invoke(item);
