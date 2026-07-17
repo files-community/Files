@@ -573,8 +573,15 @@ namespace Files.App.Utils.Storage
 			{
 				if (sourceRename.Any())
 				{
-					// Rename operations always use shell operations for proper incremental naming
-					var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+					var renameItems = sourceRename.Zip(destinationRename, (src, dest) => (src, dest)).ToList();
+					var canUseRobocopy = settings.UseRobocopyForFileOperations &&
+						renameItems.All(item =>
+							Path.GetFileName(item.src.Path).Equals(Path.GetFileName(item.dest), StringComparison.OrdinalIgnoreCase) &&
+							!StorageHelpers.Exists(item.dest)) &&
+						renameItems.Select(item => item.dest).Distinct(StringComparer.OrdinalIgnoreCase).Count() == renameItems.Count;
+					var (status, response) = canUseRobocopy
+						? await FileOperationsHelpers.MoveItemWithRobocopyAsync(renameItems.Select(item => item.src.Path).ToArray(), renameItems.Select(item => item.dest).ToArray(), false, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID, _associatedInstance)
+						: await FileOperationsHelpers.MoveItemAsync(renameItems.Select(item => item.src.Path).ToArray(), renameItems.Select(item => item.dest).ToArray(), false, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
 
 					result &= (FilesystemResult)status;
 					moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
@@ -582,9 +589,13 @@ namespace Files.App.Utils.Storage
 
 				if (sourceReplace.Any())
 				{
-					var (status, response) = settings.UseRobocopyForFileOperations
-						? await FileOperationsHelpers.MoveItemWithRobocopyAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID, _associatedInstance)
-						: await FileOperationsHelpers.MoveItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+					var replaceItems = sourceReplace.Zip(destinationReplace, (src, dest) => (src, dest)).ToList();
+					var canUseRobocopy = settings.UseRobocopyForFileOperations &&
+						replaceItems.All(item => Path.GetFileName(item.src.Path).Equals(Path.GetFileName(item.dest), StringComparison.OrdinalIgnoreCase)) &&
+						replaceItems.Select(item => item.dest).Distinct(StringComparer.OrdinalIgnoreCase).Count() == replaceItems.Count;
+					var (status, response) = canUseRobocopy
+						? await FileOperationsHelpers.MoveItemWithRobocopyAsync(replaceItems.Select(item => item.src.Path).ToArray(), replaceItems.Select(item => item.dest).ToArray(), true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID, _associatedInstance)
+						: await FileOperationsHelpers.MoveItemAsync(replaceItems.Select(item => item.src.Path).ToArray(), replaceItems.Select(item => item.dest).ToArray(), true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
 
 					result &= (FilesystemResult)status;
 					moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());

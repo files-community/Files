@@ -13,6 +13,11 @@ namespace Files.App.Data.Contracts
 
 		Task RemoveFolderAsync(string path);
 
+		/// <summary>
+		/// Removes multiple folders using a single Jump List update.
+		/// </summary>
+		Task RemoveFoldersAsync(IEnumerable<string> paths);
+
 		Task<IEnumerable<string>> GetFoldersAsync();
 	}
 }

@@ -711,7 +711,7 @@ namespace Files.App.Utils.Storage
 				shellPage);
 		}
 
-		private static async Task<(bool success, int exitCode)> RunRobocopyAsync(string arguments, StatusCenterItemProgressModel progressModel, string operationID, CancellationToken cancellationToken)
+		private static async Task<(bool success, int exitCode)> RunRobocopyAsync(string arguments, StatusCenterItemProgressModel? progressModel, IReadOnlyCollection<string>? expectedItemNames, string operationID, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -734,89 +734,113 @@ namespace Files.App.Utils.Storage
 				};
 
 				using var process = new Process { StartInfo = psi };
-
-				int completedFiles = 0;
-
-				// With /NP suppressing intermediate percent lines, each non-empty output line is one completed file.
-				process.OutputDataReceived += (sender, e) =>
+				var outputCompleted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+				var remainingItemNames = expectedItemNames is null
+					? null
+					: new HashSet<string>(expectedItemNames, StringComparer.OrdinalIgnoreCase);
+				var initialProcessedSize = progressModel?.ProcessedSize ?? 0;
+				long batchProcessedSize = 0;
+				process.OutputDataReceived += (_, e) =>
 				{
-					if (string.IsNullOrEmpty(e.Data))
-						return;
-
-					completedFiles++;
-					if (completedFiles % 5 == 0)
+					if (e.Data is null)
 					{
-						var estimatedProgress = Math.Min(95, completedFiles * 2);
-						progressModel.Report(estimatedProgress);
+						outputCompleted.TrySetResult();
+						return;
+					}
+
+					var fields = e.Data.Split('\t', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+					var completedItemName = fields.Length > 0 ? Path.GetFileName(fields[^1]) : string.Empty;
+					var itemSize = 0L;
+					var hasItemSize = fields.Length > 1 && long.TryParse(fields[^2], out itemSize);
+					var isCompletedItem = remainingItemNames is null
+						? hasItemSize
+						: remainingItemNames.Remove(completedItemName);
+					if (progressModel is not null && isCompletedItem)
+					{
+						if (hasItemSize)
+						{
+							var processedSize = initialProcessedSize + Interlocked.Add(ref batchProcessedSize, itemSize);
+							progressModel.SetProcessedSize(processedSize);
+						}
+
+						progressModel.FileName = completedItemName;
+						progressModel.AddProcessedItemsCount(1);
+						var percentage = progressModel.TotalSize > 0 && progressModel.ProcessedSize > 0
+							? Math.Min(99, progressModel.ProcessedSize * 100.0 / progressModel.TotalSize)
+							: Math.Min(99, progressModel.ProcessedItemsCount * 100.0 / Math.Max(1, progressModel.ItemsCount));
+						progressModel.Report(percentage);
 					}
 				};
 
-				// process.Start() throws on failure; no need to validate Id afterwards.
 				process.Start();
-
-				// Begin async reading of output
 				process.BeginOutputReadLine();
 
-				// Start reading error stream
-				var errorTask = Task.Run(() =>
+				var errorTask = process.StandardError.ReadToEndAsync();
+				using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+				timeoutCts.CancelAfter(TimeSpan.FromMinutes(30));
+				using var registration = timeoutCts.Token.Register(() =>
 				{
 					try
 					{
-						return process.StandardError.ReadToEnd();
+						if (!process.HasExited)
+							process.Kill(entireProcessTree: true);
 					}
 					catch
 					{
-						return string.Empty;
 					}
 				});
 
-				using var registration = cancellationToken.Register(() =>
-				{
-					try
-					{
-						if (!process.HasExited)
-						{
-							process.Kill();
-						}
-					}
-					catch { }
-				});
-
-				// Wait for the process to exit with a reasonable timeout
-				var exitTask = process.WaitForExitAsync(cancellationToken);
-				var timeoutTask = Task.Delay(TimeSpan.FromMinutes(30), cancellationToken);
-
-				var completedTask = await Task.WhenAny(exitTask, timeoutTask);
-
-				if (completedTask == timeoutTask)
-				{
-					try
-					{
-						if (!process.HasExited)
-							process.Kill();
-					}
-					catch { }
-					return (false, -2); // Timeout error
-				}
-
-				// Wait for error reading to complete (with timeout)
 				try
 				{
-					await Task.WhenAny(errorTask, Task.Delay(5000, CancellationToken.None));
+					await process.WaitForExitAsync(timeoutCts.Token);
 				}
-				catch { }
+				catch (OperationCanceledException)
+				{
+					try
+					{
+						if (!process.HasExited)
+							process.Kill(entireProcessTree: true);
+					}
+					catch
+					{
+					}
+
+					try
+					{
+						await process.WaitForExitAsync(CancellationToken.None).WaitAsync(TimeSpan.FromSeconds(10));
+						await Task.WhenAll(outputCompleted.Task, errorTask).WaitAsync(TimeSpan.FromSeconds(10));
+					}
+					catch
+					{
+						// Do not let a process that resisted termination block later operations.
+					}
+
+					if (cancellationToken.IsCancellationRequested)
+					{
+						App.Logger?.LogWarning($"Robocopy operation {operationID}: Cancelled");
+						return (false, -3);
+					}
+
+					App.Logger?.LogWarning($"Robocopy operation {operationID}: Timed out");
+					return (false, -2);
+				}
+
+				await Task.WhenAll(outputCompleted.Task, errorTask);
 
 				var exitCode = process.ExitCode;
-				var success = exitCode >= 0 && exitCode <= 7;
-
-				App.Logger?.LogInformation($"Robocopy operation {operationID}: Completed with exit code {exitCode}, success: {success}, processed {completedFiles} files");
+				// Bit 2 means mismatched files; treating it as success can hide a partial move.
+				var success = exitCode is >= 0 and <= 3;
+				if (!success)
+				{
+					var error = await errorTask;
+					App.Logger?.LogWarning($"Robocopy operation {operationID}: Exit code {exitCode}. {error}");
+				}
+				else
+				{
+					App.Logger?.LogInformation($"Robocopy operation {operationID}: Completed with exit code {exitCode}");
+				}
 
 				return (success, exitCode);
-			}
-			catch (OperationCanceledException)
-			{
-				App.Logger?.LogWarning($"Robocopy operation {operationID}: Cancelled");
-				return (false, -3); // Cancelled
 			}
 			catch (Exception ex)
 			{
@@ -932,18 +956,22 @@ namespace Files.App.Utils.Storage
 
 			var sizeCalculator = new FileSizeCalculator(filePaths);
 			var sizeTask = sizeCalculator.ComputeSizeAsync(cts.Token);
-			sizeTask.ContinueWith(_ =>
+			_ = sizeTask.ContinueWith(task =>
 			{
+				if (!task.IsCompletedSuccessfully)
+					return;
+
 				fsProgress.TotalSize = sizeCalculator.Size;
-				fsProgress.ItemsCount = filePaths.Length;
+				fsProgress.ItemsCount = sizeCalculator.ItemsCount;
 				fsProgress.EnumerationCompleted = true;
 				fsProgress.Report();
-			});
+			}, TaskScheduler.Default);
 
+			fsProgress.ItemsCount = filePaths.Length;
 			fsProgress.Report();
 			progressHandler ??= new();
 
-			return STATask.Run(async () =>
+			return Task.Run(async () =>
 			{
 				var shellOperationResult = new ShellOperationResult();
 				var success = true;
@@ -976,6 +1004,7 @@ namespace Files.App.Utils.Storage
 					{
 						if (cts.Token.IsCancellationRequested || progressHandler.CheckCanceled(operationID))
 						{
+							success = false;
 							cts.Cancel();
 							break;
 						}
@@ -989,6 +1018,7 @@ namespace Files.App.Utils.Storage
 						{
 							if (cts.Token.IsCancellationRequested || progressHandler.CheckCanceled(operationID))
 							{
+								success = false;
 								cts.Cancel();
 								break;
 							}
@@ -1006,7 +1036,9 @@ namespace Files.App.Utils.Storage
 								"/W:1",
 								"/NJH",
 								"/NJS",
+								"/NDL",
 								"/NP",
+								"/BYTES",
 								$"/MT:{threads}"
 							};
 
@@ -1015,6 +1047,12 @@ namespace Files.App.Utils.Storage
 								argsList.Add("/XN");
 								argsList.Add("/XO");
 								argsList.Add("/XC");
+							}
+							else
+							{
+								// A move with replace semantics must process files Robocopy considers unchanged.
+								argsList.Add("/IS");
+								argsList.Add("/IT");
 							}
 
 							// Add operation-specific flags
@@ -1030,19 +1068,27 @@ namespace Files.App.Utils.Storage
 							}
 
 							App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Executing file batch with {itemNames.Count} items, args length: {robocopyArgs.Length}");
-							(batchOk, exitCode) = await RunRobocopyAsync(robocopyArgs, fsProgress, operationID, cts.Token);
+							(batchOk, exitCode) = await RunRobocopyAsync(robocopyArgs, fsProgress, itemNames, operationID, cts.Token);
 
-							// Populate result items for each file in this batch
+							// Robocopy exit codes describe the batch, so verify every requested item before
+							// reporting success. A skipped move otherwise looks successful while its source remains.
+							var batchVerified = true;
 							foreach (var itemName in itemNames)
 							{
+								var sourcePath = Path.Combine(sourceDir, itemName);
+								var destinationPath = Path.Combine(destDir, itemName);
+								var itemOk = batchOk && StorageHelpers.Exists(destinationPath) &&
+									(!isMoveOperation || !StorageHelpers.Exists(sourcePath));
+								batchVerified &= itemOk;
 								shellOperationResult.Items.Add(new ShellOperationItemResult
 								{
-									Succeeded = batchOk,
-									Source = Path.Combine(sourceDir, itemName),
-									Destination = Path.Combine(destDir, itemName),
-									HResult = batchOk ? 0 : exitCode
+									Succeeded = itemOk,
+									Source = sourcePath,
+									Destination = destinationPath,
+									HResult = itemOk ? 0 : exitCode != 0 ? exitCode : -1
 								});
 							}
+							batchOk &= batchVerified;
 
 							if (!batchOk)
 							{
@@ -1055,15 +1101,8 @@ namespace Files.App.Utils.Storage
 							}
 
 							completed++;
-							var progressPercent = 100.0 * completed / Math.Max(1, totalOperations);
-							fsProgress.Report(progressPercent);
+							fsProgress.Report();
 
-							// Refresh UI periodically to show files (every batch for better responsiveness)
-							if (shellPage is not null)
-							{
-								await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
-									shellPage.ShellViewModel.RefreshItems(null));
-							}
 						}
 					}
 
@@ -1072,6 +1111,7 @@ namespace Files.App.Utils.Storage
 					{
 						if (cts.Token.IsCancellationRequested || progressHandler.CheckCanceled(operationID))
 						{
+							success = false;
 							cts.Cancel();
 							break;
 						}
@@ -1088,7 +1128,9 @@ namespace Files.App.Utils.Storage
 							"/W:1",
 							"/NJH",
 							"/NJS",
+							"/NDL",
 							"/NP",
+							"/BYTES",
 							$"/MT:{threads}"
 						};
 
@@ -1098,6 +1140,12 @@ namespace Files.App.Utils.Storage
 							argsList.Add("/XO");
 							argsList.Add("/XC");
 						}
+						else
+						{
+							// A move with replace semantics must process files Robocopy considers unchanged.
+							argsList.Add("/IS");
+							argsList.Add("/IT");
+						}
 
 						// Add operation-specific flags
 						if (isMoveOperation)
@@ -1106,15 +1154,16 @@ namespace Files.App.Utils.Storage
 						var robocopyArgs = string.Join(" ", argsList);
 
 						App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Processing folder {sourcePath} -> {destPath}");
-						(folderOk, exitCode) = await RunRobocopyAsync(robocopyArgs, fsProgress, operationID, cts.Token);
+						(folderOk, exitCode) = await RunRobocopyAsync(robocopyArgs, fsProgress, null, operationID, cts.Token);
 
-						// Populate result item for this folder
+						folderOk = folderOk && StorageHelpers.Exists(destPath) &&
+							(!isMoveOperation || !StorageHelpers.Exists(sourcePath));
 						shellOperationResult.Items.Add(new ShellOperationItemResult
 						{
 							Succeeded = folderOk,
 							Source = sourcePath,
 							Destination = destPath,
-							HResult = folderOk ? 0 : exitCode
+							HResult = folderOk ? 0 : exitCode != 0 ? exitCode : -1
 						});
 
 						if (!folderOk)
@@ -1128,15 +1177,17 @@ namespace Files.App.Utils.Storage
 						}
 
 						completed++;
-						var progressPercent = 100.0 * completed / Math.Max(1, totalOperations);
-						fsProgress.Report(progressPercent);
+						fsProgress.Report();
 
-						// Refresh UI periodically to show folders
-						if (shellPage is not null)
-						{
-							await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
-								shellPage.ShellViewModel.RefreshItems(null));
-						}
+					}
+
+					if (success)
+						fsProgress.Report(100);
+
+					if (shellPage is not null)
+					{
+						await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+							shellPage.ShellViewModel.RefreshItems(null));
 					}
 
 					App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Completed with overall success: {success}");
@@ -1158,11 +1209,21 @@ namespace Files.App.Utils.Storage
 							robocopyOperationTokens.TryRemove(operationID, out _);
 					}
 					cts.Cancel();
+					try
+					{
+						await sizeTask.WaitAsync(TimeSpan.FromSeconds(2));
+					}
+					catch (OperationCanceledException)
+					{
+					}
+					catch (TimeoutException)
+					{
+					}
 					cts.Dispose();
 				}
 
 				return (success, shellOperationResult);
-			}, App.Logger);
+			});
 		}
 
 		private static string GetUniqueTempDeleteName(string baseName, HashSet<string> usedNames)
@@ -1270,18 +1331,7 @@ namespace Files.App.Utils.Storage
 
 						App.Logger?.LogInformation($"Robocopy delete operation {operationID}: Starting MIR deletion with args: {robocopyArgs}");
 
-						// Create a progress handler that maps MIR progress from 50-100%
-						var mirProgressModel = new StatusCenterItemProgressModel(
-							new Progress<StatusCenterItemProgressModel>(p =>
-							{
-								// Map progress from 0-95% (from RunRobocopyAsync) to 50-100%
-								var mappedProgress = 50 + (p.Percentage * 0.5);
-								fsProgress.Report(mappedProgress);
-							}),
-							false,
-							FileSystemStatusCode.InProgress);
-
-						var (deleteSuccess, exitCode) = await RunRobocopyAsync(robocopyArgs, mirProgressModel, operationID, cts.Token);
+						var (deleteSuccess, exitCode) = await RunRobocopyAsync(robocopyArgs, null, null, operationID, cts.Token);
 
 						if (!deleteSuccess)
 						{

@@ -202,8 +202,10 @@ namespace Files.App.Utils.StatusCenter
 			SpeedGraphValues = [];
 			CancelCommand = new RelayCommand(ExecuteCancelCommand);
 			Message = Strings.DiscoveringItems.GetLocalizedResource();
-			Source = source;
-			Destination = destination;
+			// Status text only uses the first path. Retaining every path keeps large completed
+			// operations and their source storage objects alive for the lifetime of the card.
+			Source = source?.Take(1).ToArray();
+			Destination = destination?.Take(1).ToArray();
 
 			// Get the graph color
 			if (App.Current.Resources["App.Theme.FillColorAttentionBrush"] is not SolidColorBrush accentBrush)
