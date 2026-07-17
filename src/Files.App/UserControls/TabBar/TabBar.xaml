@@ -261,7 +261,8 @@
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
 						Fill="Transparent"
-						Loaded="DragAreaRectangle_Loaded" />
+						Loaded="DragAreaRectangle_Loaded"
+						PointerPressed="DragAreaRectangle_PointerPressed" />
 
 				</Grid>
 			</TabView.TabStripFooter>

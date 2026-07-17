@@ -377,5 +377,14 @@ namespace Files.App.UserControls.TabBar
 				Math.Max(0, HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset),
 				Math.Max(0, HorizontalTabView.ActualHeight)));
 		}
+
+		private async void DragAreaRectangle_PointerPressed(object sender, PointerRoutedEventArgs e)
+		{
+			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
+			{
+				await NavigationHelpers.AddNewTabAsync();
+				e.Handled = true;
+			}
+		}
 	}
 }
