@@ -48,7 +48,7 @@ namespace Files.App.ViewModels
 
 		private Task? aProcessQueueAction;
 		private Task? gitProcessQueueAction;
-		private Task? desktopIniUpdateTask;
+		private volatile Task? desktopIniUpdateTask;
 
 		// Files and folders list for manipulating
 		private ConcurrentCollection<ListedItem> filesAndFolders;
