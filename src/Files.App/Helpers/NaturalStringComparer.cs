@@ -113,6 +113,10 @@ namespace Files.App.Helpers
 						continue;
 					}
 
+					// Identical characters always compare equal, skip the expensive culture-aware comparison
+					if (x[i] == y[i])
+						continue;
+
 					var charCompareResult = x.Slice(i, 1).CompareTo(y.Slice(i, 1), stringComparison);
 					if (charCompareResult != 0) return charCompareResult;
 				}

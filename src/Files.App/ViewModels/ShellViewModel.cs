@@ -2085,8 +2085,10 @@ namespace Files.App.ViewModels
 
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
-						await dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-						await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+						// Not awaited: with Low priority these don't run until the UI thread goes idle
+						// after the final list update, which would delay load completion and watcher setup
+						_ = dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+						_ = dispatcherQueue.EnqueueOrInvokeAsync(() =>
 						{
 							GetDesktopIniFileData();
 							CheckForBackgroundImage();

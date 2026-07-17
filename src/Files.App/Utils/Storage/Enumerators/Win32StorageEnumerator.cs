@@ -33,6 +33,10 @@ namespace Files.App.Utils.Storage
 
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			bool CalculateFolderSizes = userSettingsService.FoldersSettingsService.CalculateFolderSizes;
+			bool showHiddenItems = userSettingsService.FoldersSettingsService.ShowHiddenItems;
+			bool showProtectedSystemFiles = userSettingsService.FoldersSettingsService.ShowProtectedSystemFiles;
+			bool showDotFiles = userSettingsService.FoldersSettingsService.ShowDotFiles;
+			bool areAlternateStreamsVisible = userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible;
 
 			var isGitRepo = GitHelpers.IsRepositoryEx(path, out var repoPath) && !string.IsNullOrEmpty((await GitHelpers.GetRepositoryHead(repoPath))?.Name);
 
@@ -42,9 +46,9 @@ namespace Files.App.Utils.Storage
 				var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 				var startWithDot = findData.cFileName.StartsWith('.');
 				if ((!isHidden ||
-					(userSettingsService.FoldersSettingsService.ShowHiddenItems &&
-					(!isSystem || userSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) &&
-					(!startWithDot || userSettingsService.FoldersSettingsService.ShowDotFiles))
+					(showHiddenItems &&
+					(!isSystem || showProtectedSystemFiles))) &&
+					(!startWithDot || showDotFiles))
 				{
 					if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
 					{
@@ -55,7 +59,7 @@ namespace Files.App.Utils.Storage
 							tempList.Add(file);
 							++count;
 
-							if (userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
+							if (areAlternateStreamsVisible)
 							{
 								tempList.AddRange(EnumAdsForPath(file.ItemPath, file));
 							}
@@ -72,7 +76,7 @@ namespace Files.App.Utils.Storage
 								tempList.Add(folder);
 								++count;
 
-								if (userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
+								if (areAlternateStreamsVisible)
 									tempList.AddRange(EnumAdsForPath(folder.ItemPath, folder));
 
 								if (CalculateFolderSizes)

@@ -175,14 +175,12 @@ namespace Files.App.Utils.Storage
 				if (key is null)
 					continue;
 
-				var groups = GroupedCollection?.Where(x => x.Model.Key == key);
+				var gp = GroupedCollection?.FirstOrDefault(x => x.Model.Key == key);
 				if (item is IGroupableItem groupable)
 					groupable.Key = key;
 
-				if (groups is not null &&
-					groups.Any())
+				if (gp is not null)
 				{
-					var gp = groups.First();
 					gp.Add(item);
 					gp.IsSorted = false;
 				}
