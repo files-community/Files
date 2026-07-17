@@ -1785,8 +1785,8 @@ namespace Files.App.ViewModels
 				ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
 				IsLoadingItems = false;
 
-				if (desktopIniUpdateTask is not null)
-					await desktopIniUpdateTask;
+				if (Interlocked.Exchange(ref desktopIniUpdateTask, null) is Task task)
+					await task;
 
 				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(folderSettings, filesAndFolders.ToList());
 			}
