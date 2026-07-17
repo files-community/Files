@@ -943,7 +943,7 @@ namespace Files.App.Utils.Storage
 			fsProgress.Report();
 			progressHandler ??= new();
 
-			return Win32Helper.StartSTATask(async () =>
+			return STATask.Run(async () =>
 			{
 				var shellOperationResult = new ShellOperationResult();
 				var success = true;
@@ -1162,7 +1162,7 @@ namespace Files.App.Utils.Storage
 				}
 
 				return (success, shellOperationResult);
-			});
+			}, App.Logger);
 		}
 
 		private static string GetUniqueTempDeleteName(string baseName, HashSet<string> usedNames)
@@ -1206,7 +1206,7 @@ namespace Files.App.Utils.Storage
 			fsProgress.Report();
 			progressHandler ??= new();
 
-			return Win32Helper.StartSTATask(async () =>
+			return STATask.Run(async () =>
 			{
 				var shellOperationResult = new ShellOperationResult();
 				var success = true;
@@ -1345,7 +1345,7 @@ namespace Files.App.Utils.Storage
 				}
 
 				return (success, shellOperationResult);
-			});
+			}, App.Logger);
 		}
 
 		public static void TryCancelOperation(string operationId)
