@@ -48,6 +48,7 @@ namespace Files.App.ViewModels
 
 		private Task? aProcessQueueAction;
 		private Task? gitProcessQueueAction;
+		private volatile Task? desktopIniUpdateTask;
 
 		// Files and folders list for manipulating
 		private ConcurrentCollection<ListedItem> filesAndFolders;
@@ -1763,6 +1764,7 @@ namespace Files.App.ViewModels
 
 				filesAndFolders.Clear();
 				FilesAndFolders.Clear();
+				desktopIniUpdateTask = null;
 
 				ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
 
@@ -1782,6 +1784,9 @@ namespace Files.App.ViewModels
 
 				ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
 				IsLoadingItems = false;
+
+				if (Interlocked.Exchange(ref desktopIniUpdateTask, null) is Task task)
+					await task;
 
 				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(folderSettings, filesAndFolders.ToList());
 			}
@@ -2085,8 +2090,11 @@ namespace Files.App.ViewModels
 
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
-						await dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-						await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+						// Not awaited here: with Low priority these don't run until the UI thread goes idle
+						// after the final list update, which would delay load completion and watcher setup.
+						// The desktop.ini task is awaited before applying the adaptive layout, which reads DesktopIni.
+						_ = dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+						desktopIniUpdateTask = dispatcherQueue.EnqueueOrInvokeAsync(() =>
 						{
 							GetDesktopIniFileData();
 							CheckForBackgroundImage();
