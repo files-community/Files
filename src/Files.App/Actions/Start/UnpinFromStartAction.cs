@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 namespace Files.App.Actions
@@ -29,11 +29,12 @@ namespace Files.App.Actions
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
+		// Logic must stay consistent with PinToStartAction.ExecuteAsync()
 		public async Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.SelectedItems.Count > 0)
+			if (context.SelectedItems.Count > 0 && context.ShellPage?.SlimContentPage?.SelectedItems is not null)
 			{
-				foreach (ListedItem listedItem in context.ShellPage?.SlimContentPage.SelectedItems)
+				foreach (ListedItem listedItem in context.ShellPage.SlimContentPage.SelectedItems)
 				{
 					await SafetyExtensions.IgnoreExceptions(async () =>
 					{
@@ -47,7 +48,7 @@ namespace Files.App.Actions
 					});
 				}
 			}
-			else
+			else if (context.ShellPage?.ShellViewModel?.CurrentFolder is not null)
 			{
 				await SafetyExtensions.IgnoreExceptions(async () =>
 				{

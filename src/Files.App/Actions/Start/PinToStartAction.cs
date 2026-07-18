@@ -32,6 +32,7 @@ namespace Files.App.Actions
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
+		// Logic must stay consistent with UnpinFromStartAction.ExecuteAsync()
 		public async Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.SelectedItems.Count > 0 && context.ShellPage?.SlimContentPage?.SelectedItems is not null)
