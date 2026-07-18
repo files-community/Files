@@ -24,8 +24,8 @@ namespace Files.App.Actions
 		public ActionCategory Category
 			=> ActionCategory.Start;
 
-		public bool IsExecutable =>
-			context.ShellPage is not null;
+		public bool IsExecutable
+			=> context.ShellPage is not null;
 
 		public PinToStartAction()
 		{

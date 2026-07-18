@@ -103,9 +103,6 @@ namespace Files.App.Services
 			{
 				using (var managedIcon = Icon.ExtractAssociatedIcon(file.Id))
 				{
-					//if (managedIcon is null)
-					//	return new Uri($"ms-appx:///Assets/AppTiles/Release/Square44x44Logo.scale-100.png");
-
 					using (var bitmap = managedIcon!.ToBitmap())
 					{
 						bitmap.Save(iconPath, ImageFormat.Png);
@@ -120,9 +117,6 @@ namespace Files.App.Services
 
 				using (var managedIcon = Icon.ExtractIcon(Path.Combine(Environment.SystemDirectory, "shell32.dll"), shell32IconId))
 				{
-					if (managedIcon is null)
-						return new Uri($"ms-appx:///Assets/AppTiles/Release/Square44x44Logo.scale-100.png");
-
 					using (var bitmap = managedIcon!.ToBitmap())
 					{
 						bitmap.Save(iconPath, ImageFormat.Png);
