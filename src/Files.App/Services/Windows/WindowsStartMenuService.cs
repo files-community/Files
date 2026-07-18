@@ -1,4 +1,9 @@
-﻿using Windows.UI.StartScreen;
+﻿using System.IO;
+using Windows.Storage;
+using Windows.UI.StartScreen;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Services
 {
@@ -29,18 +34,18 @@ namespace Files.App.Services
 
 			try
 			{
-				var path150x150 = new Uri("ms-appx:///Assets/AppTiles/Preview/Square150x150Logo.scale-100.png");
-				var path71x71 = new Uri("ms-appx:///Assets/AppTiles/Preview/Small71x71Logo.scale-100.png");
-				var path44x44 = new Uri("ms-appx:///Assets/AppTiles/Preview/Square44x44Logo.scale-100.png");
-				var path30x30 = new Uri("ms-appx:///Assets/AppTiles/Preview/Square44x44Logo.targetsize-30.png");
-				var path310x150 = new Uri("ms-appx:///Assets/AppTiles/Preview/Wide310x150Logo.scale-100.png");
+				var path150x150 = ExtractFileIcon(storable, tileId);
+				var path71x71 = path150x150;
+				var path44x44 = path150x150;
+				var path30x30 = path150x150;
+				var path310x150 = path150x150;
 
 				var tile = new SecondaryTile(
 					tileId,
 					displayName,
 					storable.Id,
 					path150x150,
-					TileSize.Square150x150)
+					TileSize.Default)
 				{
 					VisualElements =
 					{
@@ -73,6 +78,14 @@ namespace Files.App.Services
 			var tileId = GetNativeTileId(storable.Id);
 
 			await startScreen.TryRemoveSecondaryTileAsync(tileId);
+
+			try
+			{
+				var iconFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("startmenu", CreationCollisionOption.OpenIfExists);
+				var iconFile = await iconFolder.GetFileAsync($"{tileId}.png");
+				await iconFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
+			}
+			catch (FileNotFoundException) { }
 		}
 
 		private static string GetNativeTileId(string id)
@@ -85,6 +98,38 @@ namespace Files.App.Services
 				str = new string(str.Where((_, i) => i % 2 == 0).ToArray());
 
 			return str;
+		}
+
+		private static unsafe Uri ExtractFileIcon(IStorable file, string id)
+		{
+			var fileName = $"{id}.png";
+			var iconFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "startmenu");
+			var iconPath = Path.Combine(iconFolder, fileName);
+			Directory.CreateDirectory(iconFolder);
+
+			HICON hIcon = default;
+			uint piconid = 0;
+			uint extractedCount = 0;
+
+			extractedCount = PInvoke.PrivateExtractIcons(
+				file.Id,
+				0,
+				256,
+				256,
+				new Span<HICON>(&hIcon, 1),
+				out piconid,
+				0
+			);
+
+			using (var managedIcon = System.Drawing.Icon.FromHandle((nint)hIcon.Value))
+			using (var bitmap = managedIcon.ToBitmap())
+			{
+				bitmap.Save(iconPath, System.Drawing.Imaging.ImageFormat.Png);
+			}
+
+			var destroyResult = PInvoke.DestroyIcon(hIcon);
+
+			return new Uri($"ms-appdata:///local/startmenu/{fileName}");
 		}
 	}
 }

@@ -337,3 +337,4 @@ FileOpenDialog
 FileSaveDialog
 DesktopWallpaper
 ApplicationActivationManager
+PrivateExtractIcons
