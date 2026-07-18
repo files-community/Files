@@ -29,8 +29,11 @@ namespace Files.App.Services
 
 			try
 			{
-				var path150x150 = new Uri("ms-appx:///Assets/tile-0-300x300.png");
-				var path71x71 = new Uri("ms-appx:///Assets/tile-0-250x250.png");
+				var path150x150 = new Uri("ms-appx:///Assets/AppTiles/Preview/Square150x150Logo.scale-100.png");
+				var path71x71 = new Uri("ms-appx:///Assets/AppTiles/Preview/Small71x71Logo.scale-100.png");
+				var path44x44 = new Uri("ms-appx:///Assets/AppTiles/Preview/Square44x44Logo.scale-100.png");
+				var path30x30 = new Uri("ms-appx:///Assets/AppTiles/Preview/Square44x44Logo.targetsize-30.png");
+				var path310x150 = new Uri("ms-appx:///Assets/AppTiles/Preview/Wide310x150Logo.scale-100.png");
 
 				var tile = new SecondaryTile(
 					tileId,
@@ -42,7 +45,12 @@ namespace Files.App.Services
 					VisualElements =
 					{
 						Square71x71Logo = path71x71,
-						ShowNameOnSquare150x150Logo = true
+						Square150x150Logo = path150x150,
+						Square44x44Logo = path44x44,
+						Square30x30Logo = path30x30,
+						Wide310x150Logo = path310x150,
+						ShowNameOnSquare150x150Logo = true,
+						//BackgroundColor = Microsoft.UI.Colors.
 					}
 				};
 
