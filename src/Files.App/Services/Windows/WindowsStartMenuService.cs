@@ -34,28 +34,19 @@ namespace Files.App.Services
 
 			try
 			{
-				var path150x150 = ExtractFileIcon(storable, tileId);
-				var path71x71 = path150x150;
-				var path44x44 = path150x150;
-				var path30x30 = path150x150;
-				var path310x150 = path150x150;
+				var fileIcon = ExtractFileIcon(storable, tileId);
 
 				var tile = new SecondaryTile(
 					tileId,
 					displayName,
 					storable.Id,
-					path150x150,
+					fileIcon,
 					TileSize.Default)
 				{
 					VisualElements =
 					{
-						Square71x71Logo = path71x71,
-						Square150x150Logo = path150x150,
-						Square44x44Logo = path44x44,
-						Square30x30Logo = path30x30,
-						Wide310x150Logo = path310x150,
-						ShowNameOnSquare150x150Logo = true,
-						//BackgroundColor = Microsoft.UI.Colors.
+						Square44x44Logo = fileIcon,
+						ShowNameOnSquare150x150Logo = true
 					}
 				};
 
@@ -68,7 +59,6 @@ namespace Files.App.Services
 				Debug.WriteLine(tileId);
 				Debug.WriteLine(e.ToString());
 			}
-
 		}
 
 		/// <inheritdoc/>
@@ -114,8 +104,8 @@ namespace Files.App.Services
 			extractedCount = PInvoke.PrivateExtractIcons(
 				file.Id,
 				0,
-				256,
-				256,
+				44,
+				44,
 				new Span<HICON>(&hIcon, 1),
 				out piconid,
 				0
