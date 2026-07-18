@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 namespace Files.App.Actions
@@ -25,7 +25,7 @@ namespace Files.App.Actions
 			=> ActionCategory.Start;
 
 		public bool IsExecutable
-			=> context.ShellPage is not null;
+			=> context.ShellPage is not null && context.SelectedItems.Any(item => !item.IsItemPinnedToStart);
 
 		public PinToStartAction()
 		{
