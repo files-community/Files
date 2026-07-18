@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using Windows.Storage;
 using Windows.UI.StartScreen;
 using Windows.Win32;
@@ -97,29 +99,38 @@ namespace Files.App.Services
 			var iconPath = Path.Combine(iconFolder, fileName);
 			Directory.CreateDirectory(iconFolder);
 
-			HICON hIcon = default;
-			uint piconid = 0;
-			uint extractedCount = 0;
-
-			extractedCount = PInvoke.PrivateExtractIcons(
-				file.Id,
-				0,
-				44,
-				44,
-				new Span<HICON>(&hIcon, 1),
-				out piconid,
-				0
-			);
-
-			using (var managedIcon = System.Drawing.Icon.FromHandle((nint)hIcon.Value))
-			using (var bitmap = managedIcon.ToBitmap())
+			try
 			{
-				bitmap.Save(iconPath, System.Drawing.Imaging.ImageFormat.Png);
+				using (var managedIcon = Icon.ExtractAssociatedIcon(file.Id))
+				{
+					//if (managedIcon is null)
+					//	return new Uri($"ms-appx:///Assets/AppTiles/Release/Square44x44Logo.scale-100.png");
+
+					using (var bitmap = managedIcon!.ToBitmap())
+					{
+						bitmap.Save(iconPath, ImageFormat.Png);
+					}
+				}
+
+				return new Uri($"ms-appdata:///local/startmenu/{fileName}");
 			}
+			catch
+			{
+				int shell32IconId = file is IFolder ? 4 : 0;
 
-			var destroyResult = PInvoke.DestroyIcon(hIcon);
+				using (var managedIcon = Icon.ExtractIcon(Path.Combine(Environment.SystemDirectory, "shell32.dll"), shell32IconId))
+				{
+					if (managedIcon is null)
+						return new Uri($"ms-appx:///Assets/AppTiles/Release/Square44x44Logo.scale-100.png");
 
-			return new Uri($"ms-appdata:///local/startmenu/{fileName}");
+					using (var bitmap = managedIcon!.ToBitmap())
+					{
+						bitmap.Save(iconPath, ImageFormat.Png);
+					}
+				}
+
+				return new Uri($"ms-appdata:///local/startmenu/{fileName}");
+			}
 		}
 	}
 }
