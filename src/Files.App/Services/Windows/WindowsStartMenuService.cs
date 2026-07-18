@@ -92,7 +92,7 @@ namespace Files.App.Services
 			return str;
 		}
 
-		private static unsafe Uri ExtractFileIcon(IStorable file, string id)
+		private static Uri ExtractFileIcon(IStorable file, string id)
 		{
 			var fileName = $"{id}.png";
 			var iconFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "startmenu");
