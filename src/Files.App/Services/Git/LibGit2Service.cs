@@ -1,6 +1,7 @@
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
 using Sentry;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -399,6 +400,75 @@ internal sealed partial class LibGit2Service // : IVersionControl
 			IsExecutingGitAction = false;
 			GitFetchCompleted?.Invoke(null, EventArgs.Empty);
 		});
+	}
+
+	public async Task CloneRepoAsync(string repoUrl, string repoName, string targetDirectory)
+	{
+		var banner = StatusCenterHelper.AddCard_GitClone(repoName.CreateEnumerable(), targetDirectory.CreateEnumerable(), ReturnResult.InProgress);
+		var fsProgress = new StatusCenterItemProgressModel(banner.ProgressEventSource, enumerationCompleted: true, FileSystemStatusCode.InProgress);
+		var errorMessage = string.Empty;
+
+		bool isSuccess = await Task.Run(() =>
+		{
+			try
+			{
+				var cloneOptions = new CloneOptions
+				{
+					FetchOptions =
+						{
+							OnTransferProgress = progress =>
+							{
+								banner.CancellationToken.ThrowIfCancellationRequested();
+								fsProgress.ItemsCount = progress.TotalObjects;
+								fsProgress.SetProcessedSize(progress.ReceivedBytes);
+								fsProgress.AddProcessedItemsCount(1);
+								fsProgress.Report((int)((progress.ReceivedObjects / (double)progress.TotalObjects) * 100));
+								return true;
+							},
+							OnProgress = _ => !banner.CancellationToken.IsCancellationRequested,
+						},
+					OnCheckoutProgress = (path, completed, total) =>
+						banner.CancellationToken.ThrowIfCancellationRequested()
+				};
+
+				var token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
+				var signature = Configuration.BuildFrom(null, null).BuildSignature(DateTimeOffset.Now);
+
+				if (signature is not null && !string.IsNullOrWhiteSpace(token))
+				{
+					cloneOptions.FetchOptions.CredentialsProvider = (url, user, cred)
+						=> new UsernamePasswordCredentials
+						{
+							Username = signature.Name,
+							Password = token
+						};
+				}
+
+				Repository.Clone(repoUrl, targetDirectory, cloneOptions);
+				return true;
+			}
+			catch (Exception ex)
+			{
+				errorMessage = ex.Message;
+				return false;
+			}
+		}, banner.CancellationToken);
+
+		if (!string.IsNullOrEmpty(errorMessage))
+		{
+			UIHelpers.CloseAllDialogs();
+			await Task.Delay(500);
+			await DynamicDialogFactory.ShowFor_CannotCloneRepo(errorMessage);
+		}
+
+		StatusCenterViewModel.RemoveItem(banner);
+
+		StatusCenterHelper.AddCard_GitClone(
+			repoName.CreateEnumerable(),
+			targetDirectory.CreateEnumerable(),
+			isSuccess ? ReturnResult.Success :
+			banner.CancellationToken.IsCancellationRequested ? ReturnResult.Cancelled :
+			ReturnResult.Failed);
 	}
 
 	private static bool IsRepoValid(string path)
