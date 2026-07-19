@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -337,7 +338,7 @@ namespace Files.App
 					{
 						var target = Path.IsPathFullyQualified(payload) ? IO.Path.GetFullPath(payload) : IO.Path.GetFullPath(IO.Path.Combine(activationPath, payload));
 						var attributes = IO.File.GetAttributes(target);
-						if (attributes.HasFlag(IO.FileAttributes.Directory) || attributes.HasFlag(IO.FileAttributes.Archive))
+						if (attributes.HasFlag(IO.FileAttributes.Directory) || FileExtensionHelpers.IsBrowsableZipFile(target, out _))
 							await PerformNavigationAsync(target);
 						else
 							await LaunchHelper.LaunchAppAsync("explorer", payload, activationPath);
