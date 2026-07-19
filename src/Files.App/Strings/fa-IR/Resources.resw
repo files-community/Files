@@ -180,11 +180,11 @@
   <data name="Accessed" xml:space="preserve">
     <value>دسترسی یافته:</value>
   </data>
-  <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>پاک کردن همه آیتم ها</value>
+  <data name="RecentItemClearAllText" xml:space="preserve">
+    <value>Clear all items</value>
   </data>
-  <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>مسیری را برای پیمایش وارد کنید یا «&gt;» را تایپ کنید تا صفحه فرمان باز شود</value>
+  <data name="NavigationToolbarVisiblePathPlaceholderText" xml:space="preserve">
+    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>جستجو</value>
@@ -198,8 +198,8 @@
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>فایل‌های مورد استفاده‌ی قبلی در اینجا نمایش داده می‌شوند</value>
   </data>
-  <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>حذف این آیتم</value>
+  <data name="RecentItemRemoveText" xml:space="preserve">
+    <value>Remove this item</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>منبع GitHub</value>
@@ -312,14 +312,14 @@
   <data name="PinFolderToSidebar" xml:space="preserve">
     <value>چسباندن به نوار کناری</value>
   </data>
-  <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>به برنامه «فایل ها» خوش آمدید!</value>
+  <data name="WelcomeDialogTitle" xml:space="preserve">
+    <value>Welcome to Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>اجازه دادن</value>
   </data>
-  <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>برای شروع، شما باید به ما اجازه نمایش فایل‌هایتان را بدهید. با این کار، یک صفحه تنظیمات باز می شود که در آن می توانید این مجوز را به ما بدهید. پس از تکمیل این مرحله، باید برنامه را دوباره باز کنید. </value>
+  <data name="WelcomeDialogTextBlockText" xml:space="preserve">
+    <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>نمایش</value>
@@ -384,17 +384,17 @@
   <data name="SetAsAppBackground" xml:space="preserve">
     <value>تنظیم بعنوان تصویر زمینه‌ی برنامه</value>
   </data>
-  <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
-    <value>قادر به حذف این مورد نیستیم</value>
+  <data name="AccessDeniedDeleteDialogText" xml:space="preserve">
+    <value>We weren't able to delete this item</value>
   </data>
-  <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
-    <value>لطفا درایو لازم برای دسترسی به این آیتم را وارد یا متصل کنید.</value>
+  <data name="DriveUnpluggedDialogText" xml:space="preserve">
+    <value>Please insert the necessary drive to access this item.</value>
   </data>
-  <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>درایو قطع شده است</value>
+  <data name="DriveUnpluggedDialogTitle" xml:space="preserve">
+    <value>Drive unplugged</value>
   </data>
-  <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>فایلی که می خواهید به آن دسترسی پیدا کنید ممکن است منتقل یا حذف شده باشد.</value>
+  <data name="FileNotFoundDialogText" xml:space="preserve">
+    <value>The file you are attempting to access may have been moved or deleted.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
     <value>نمیتوان جزئیات این فایل را باز کرد</value>
@@ -402,23 +402,29 @@
   <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>فایلی که می خواهید به آن دسترسی پیدا کنید ممکن است منتقل یا حذف شده باشد.</value>
   </data>
-  <data name="FileNotFoundDialog.Title" xml:space="preserve">
-    <value>فایل یافت نشد</value>
+  <data name="FileNotFoundDialogTitle" xml:space="preserve">
+    <value>File Not Found</value>
   </data>
-  <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>پوشه ای که می خواهید به آن دسترسی پیدا کنید ممکن است منتقل یا حذف شده باشد.</value>
+  <data name="FolderNotFoundDialogText" xml:space="preserve">
+    <value>The folder you are attempting to access may have been moved or deleted.</value>
   </data>
-  <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>آیا این فولدر را پاک کردید؟</value>
+  <data name="FolderNotFoundDialogTitle" xml:space="preserve">
+    <value>Did you delete this folder?</value>
   </data>
-  <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>فایلی که می‌خواهید به آن دسترسی پیدا کنید در حال حاضر توسط {0} استفاده می‌شود</value>
+  <data name="FileInUseByDialogText" xml:space="preserve">
+    <value>The file you are attempting to access is currently being used by {0}</value>
   </data>
-  <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>فایلی که می‌خواهید به آن دسترسی پیدا کنید، در حال حاضر توسط برنامه دیگری درحال استفاده است</value>
+  <data name="FileInUseDialogText" xml:space="preserve">
+    <value>The file you are attempting to access is currently being used by another application</value>
   </data>
-  <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>فایل درحال استفاده است</value>
+  <data name="FileInUseDialogTitle" xml:space="preserve">
+    <value>File is in use</value>
+  </data>
+  <data name="CannotRunFileDialogTitle" xml:space="preserve">
+    <value>This app can't run on your PC</value>
+  </data>
+  <data name="CannotRunFileDialogText" xml:space="preserve">
+    <value>To find a version for your PC, check with the software publisher.</value>
   </data>
   <data name="Layout" xml:space="preserve">
     <value>چیدمان</value>
@@ -524,8 +530,8 @@
   <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
     <value>{0, number}{0, plural, one { فایل } other { فایل }}{1, number}{1, plural, one { پوشه } other { پوشه }}{2, number}{2, plural, one { مکان} other { مکان}}</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
-    <value>اجرا به عنوان کاربر دیگر</value>
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUserText" xml:space="preserve">
+    <value>Run as another user</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
     <value>همه نوع {0}</value>
@@ -635,23 +641,23 @@
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
     <value>درحال اشتراک {0} {1}</value>
   </data>
-  <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
-    <value>آیتمی که می‌خواهید نام آن را تغییر دهید دیگر وجود ندارد. لطفاً مکان صحیح آیتمی را که می خواهید نام آن را تغییر دهید را بررسی کنید.</value>
+  <data name="RenameErrorItemDeletedText" xml:space="preserve">
+    <value>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</value>
   </data>
-  <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
-    <value>مورد دیگر وجود ندارد</value>
+  <data name="RenameErrorItemDeletedTitle" xml:space="preserve">
+    <value>Item no longer exists</value>
   </data>
-  <data name="RenameError.NameInvalid.Text" xml:space="preserve">
-    <value>نام مشخص شده نامعتبر بود. لطفاً نام مورد نظر را بررسی کرده و دوباره امتحان کنید.</value>
+  <data name="RenameErrorNameInvalidText" xml:space="preserve">
+    <value>The name specified was invalid. Please check the desired item name and try again.</value>
   </data>
-  <data name="RenameError.NameInvalid.Title" xml:space="preserve">
-    <value>نام آیتم نامعتبر است</value>
+  <data name="RenameErrorNameInvalidTitle" xml:space="preserve">
+    <value>Invalid item name</value>
   </data>
-  <data name="RenameError.TooLong.Text" xml:space="preserve">
-    <value>طول نام مورد نظر از حداکثر محدودیت کارکترها بیشتر است. لطفا نام مورد نظر را بررسی کنید و دوباره امتحان کنید.</value>
+  <data name="RenameErrorTooLongText" xml:space="preserve">
+    <value>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</value>
   </data>
-  <data name="RenameError.TooLong.Title" xml:space="preserve">
-    <value>اسم مورد زیادی طولانی است</value>
+  <data name="RenameErrorTooLongTitle" xml:space="preserve">
+    <value>Item name was too long</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
     <value>نمایش گزینه‌های بیشتر</value>
@@ -662,14 +668,14 @@
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>ما را در GitHub حمایت کنید</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
-    <value>ما قادر به ایجاد این آیتم نیستیم</value>
+  <data name="AccessDeniedCreateDialogText" xml:space="preserve">
+    <value>We weren't able to create this item</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>دسترسی رد شده است</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
-    <value>تنظیم به عنوان</value>
+  <data name="BaseLayoutItemContextFlyoutSetAsText" xml:space="preserve">
+    <value>Set as</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>لغو</value>
@@ -710,11 +716,11 @@
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>نمایش کادر تایید برای پاک کردن آیتم ها</value>
   </data>
-  <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
-    <value>مشکلی در ذخیره‌سازی بعضی از مشخصات وجود دارد</value>
+  <data name="PropertySaveErrorMessageText" xml:space="preserve">
+    <value>There was an issue saving some properties.</value>
   </data>
-  <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
-    <value>خطا</value>
+  <data name="PropertySaveErrorDialogTitle" xml:space="preserve">
+    <value>Error</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>به هر حال ببند</value>
@@ -1100,6 +1106,9 @@
   <data name="OpenInOtherPane" xml:space="preserve">
     <value>Open in other pane</value>
   </data>
+  <data name="OpenCurrentFolderInOtherPane" xml:space="preserve">
+    <value>Open current folder in other pane</value>
+  </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>فایل‌ها و پوشه‌ها</value>
   </data>
@@ -1205,8 +1214,8 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>نامشخص</value>
   </data>
-  <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>اگر پسوند فایل را تغییر دهید، ممکن است فایل غیرقابل استفاده شود. آیا مطمئن هستید که می خواهید آن را تغییر دهید؟</value>
+  <data name="RenameFileDialogText" xml:space="preserve">
+    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>درایو سی دی</value>
@@ -1244,8 +1253,8 @@
   <data name="MoreOptions" xml:space="preserve">
     <value>گزینه‌های بیشتر...</value>
   </data>
-  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
-    <value>نقشه زدن درایو شبکه</value>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItemText" xml:space="preserve">
+    <value>Map network drive</value>
   </data>
   <data name="Pinned" xml:space="preserve">
     <value>سنجاق شده</value>
@@ -1277,11 +1286,11 @@
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>ستون ها (Ctrl+Shift+6)</value>
   </data>
-  <data name="PinItemToStart.Text" xml:space="preserve">
-    <value>در منوی استارت بچسبان</value>
+  <data name="PinItemToStartText" xml:space="preserve">
+    <value>Pin to the Start Menu</value>
   </data>
-  <data name="UnpinItemFromStart.Text" xml:space="preserve">
-    <value>از منوی استارت جدا کن</value>
+  <data name="UnpinItemFromStartText" xml:space="preserve">
+    <value>Unpin from the Start Menu</value>
   </data>
   <data name="Library" xml:space="preserve">
     <value>کتابخانه</value>
@@ -1526,14 +1535,14 @@
   <data name="SecurityUnknownAccount" xml:space="preserve">
     <value>حساب کاربری نامشخص</value>
   </data>
-  <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>شما مجوز مشاهده خصوصیات امنیتی این شی (Object) را ندارید. برای ادامه، روی «مجوزهای پیشرفته» کلیک کنید.</value>
+  <data name="SecurityCannotReadPropertiesText" xml:space="preserve">
+    <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>مالک:</value>
   </data>
-  <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
-    <value>مالک نامشخص</value>
+  <data name="SecurityUnknownOwnerTextText" xml:space="preserve">
+    <value>Unknown owner</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>استخراج آرشیو</value>
@@ -1544,11 +1553,11 @@
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
     <value>استخراج به {0}\</value>
   </data>
-  <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
-    <value>ساخت کتابخانه جدید</value>
+  <data name="SideBarCreateNewLibraryText" xml:space="preserve">
+    <value>Create new library</value>
   </data>
-  <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
-    <value>بازیابی کتابخانه‌های پیشفرض</value>
+  <data name="SideBarRestoreLibrariesText" xml:space="preserve">
+    <value>Restore default libraries</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
     <value>آیا مطمئن هستید که می خواهید کتابخانه های پیش فرض را بازیابی کنید؟ تمام فایل های شما در حافظه شما باقی می ماند.</value>
@@ -1559,8 +1568,8 @@
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>مالک</value>
   </data>
-  <data name="SecuritySpecialLabel.Text" xml:space="preserve">
-    <value>ویژه</value>
+  <data name="SecuritySpecialLabelText" xml:space="preserve">
+    <value>Special</value>
   </data>
   <data name="Access" xml:space="preserve">
     <value>دسترسی</value>
@@ -1586,8 +1595,8 @@
   <data name="Permissions" xml:space="preserve">
     <value>مجوزها</value>
   </data>
-  <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>شما مجوز مشاهده خصوصیات امنیتی این شی (Object) را ندارید. می توانید سعی کنید مالکیت این شی را در دست بگیرید.</value>
+  <data name="SecurityAdvancedCannotReadPropertiesText" xml:space="preserve">
+    <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>این پوشه و فایل‌ها</value>
@@ -1610,50 +1619,50 @@
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
     <value>این پوشه‌ و زیرپوشه‌ها</value>
   </data>
-  <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
-    <value>ضمیمه دادن داده</value>
+  <data name="SecurityAppendDataLabelText" xml:space="preserve">
+    <value>Append data</value>
   </data>
-  <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
-    <value>تغییر مجوز</value>
+  <data name="SecurityChangePermissionsLabelText" xml:space="preserve">
+    <value>Change permission</value>
   </data>
-  <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
-    <value>ساخت پوشه های جدید</value>
+  <data name="SecurityCreateDirectoriesLabelText" xml:space="preserve">
+    <value>Create folders</value>
   </data>
-  <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
-    <value>ایجاد فایل</value>
+  <data name="SecurityCreateFilesLabelText" xml:space="preserve">
+    <value>Create files</value>
   </data>
-  <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
-    <value>پاک کردن زیرپوشه‌ها و فایل‌ها</value>
+  <data name="SecurityDeleteSubdirectoriesAndFilesLabelText" xml:space="preserve">
+    <value>Delete subdirectories and files</value>
   </data>
-  <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
-    <value>اجرا فایل ها</value>
+  <data name="SecurityExecuteFileLabelText" xml:space="preserve">
+    <value>Execute files</value>
   </data>
-  <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
-    <value>صفات خوانش</value>
+  <data name="SecurityReadAttributesLabelText" xml:space="preserve">
+    <value>Read attributes</value>
   </data>
-  <data name="SecurityReadDataLabel.Text" xml:space="preserve">
-    <value>خواندن داده</value>
+  <data name="SecurityReadDataLabelText" xml:space="preserve">
+    <value>Read data</value>
   </data>
-  <data name="SecurityReadExtendedAttributesLabel.Text" xml:space="preserve">
-    <value>خواندن ویژگی‌های گسترش‌یافته</value>
+  <data name="SecurityReadExtendedAttributesLabelText" xml:space="preserve">
+    <value>Read extended attributes</value>
   </data>
-  <data name="SecurityReadPermissionsLabel.Text" xml:space="preserve">
-    <value>مجوزهای خواندن</value>
+  <data name="SecurityReadPermissionsLabelText" xml:space="preserve">
+    <value>Read permissions</value>
   </data>
-  <data name="SecurityTakeOwnershipLabel.Text" xml:space="preserve">
-    <value>دردست گرفتن مالکیت</value>
+  <data name="SecurityTakeOwnershipLabelText" xml:space="preserve">
+    <value>Take ownership</value>
   </data>
-  <data name="SecurityTraverseLabel.Text" xml:space="preserve">
-    <value>بازدید پوشه</value>
+  <data name="SecurityTraverseLabelText" xml:space="preserve">
+    <value>Visit folder</value>
   </data>
-  <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
-    <value>مجوزهای نوشتن</value>
+  <data name="SecurityWriteAttributesLabelText" xml:space="preserve">
+    <value>Write attributes</value>
   </data>
-  <data name="SecurityWriteDataLabel.Text" xml:space="preserve">
-    <value>نوشتن داده</value>
+  <data name="SecurityWriteDataLabelText" xml:space="preserve">
+    <value>Write data</value>
   </data>
-  <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
-    <value>نوشتن ویژگی‌های گسترش‌یافته</value>
+  <data name="SecurityWriteExtendedAttributesLabelText" xml:space="preserve">
+    <value>Write extended attributes</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
     <value>مجوزهای ارثی (Inherited Permissions) را به مجوزهای صریح (Explicit Permissions) تبدیل کن</value>
@@ -1709,8 +1718,8 @@
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
   </data>
-  <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
-    <value>پنهان کردن بخش {0}</value>
+  <data name="SideBarHideSectionFromSideBarText" xml:space="preserve">
+    <value>Hide {0} section</value>
   </data>
   <data name="AddFile" xml:space="preserve">
     <value>افرودن فایل</value>
@@ -1739,8 +1748,8 @@
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>استخراج به پایان رسید!</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
-    <value>باز کردن پوشه والد</value>
+  <data name="BaseLayoutItemContextFlyoutOpenParentFolderText" xml:space="preserve">
+    <value>Open parent folder</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>نامشخص</value>
@@ -1754,11 +1763,11 @@
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>باز کردن درایو</value>
   </data>
-  <data name="InsertDiscDialog.Text" xml:space="preserve">
-    <value>لطفا یک دیسک در درایو {0} قرار دهید</value>
+  <data name="InsertDiscDialogText" xml:space="preserve">
+    <value>Please insert a disc into drive {0}</value>
   </data>
-  <data name="InsertDiscDialog.Title" xml:space="preserve">
-    <value>یک دیسک وارد کنید</value>
+  <data name="InsertDiscDialogTitle" xml:space="preserve">
+    <value>Insert a disc</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>پذیرش</value>
@@ -2066,6 +2075,15 @@
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>تناسب سایز همه‌ی ستون‌ها</value>
   </data>
+  <data name="AutoFitColumns" xml:space="preserve">
+    <value>Auto-fit columns</value>
+  </data>
+  <data name="AutoFitColumnsDescription" xml:space="preserve">
+    <value>Resize columns to fit their content</value>
+  </data>
+  <data name="AutoSizeColumnsInDetailsLayout" xml:space="preserve">
+    <value>Automatically fit columns to content</value>
+  </data>
   <data name="Adaptive" xml:space="preserve">
     <value>چیدمان تطبیقی</value>
   </data>
@@ -2206,6 +2224,12 @@
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>ایجاد آرشیو</value>
+  </data>
+  <data name="CompressSkippedItemsDialogTitle" xml:space="preserve">
+    <value>Some items can't be compressed</value>
+  </data>
+  <data name="CompressSkippedItemsDialogText" xml:space="preserve">
+    <value>The following {0, plural, one {item} other {items}} can''t be compressed. Would you like to skip {0, plural, one {this item} other {these items}}?</value>
   </data>
   <data name="CompressIntoZip" xml:space="preserve">
     <value>Create zip archive</value>
@@ -3426,6 +3450,9 @@
   </data>
   <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
     <value>Open selected directory in the other pane</value>
+  </data>
+  <data name="OpenCurrentFolderInOtherPaneDescription" xml:space="preserve">
+    <value>Open the current folder in the other pane</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Open selected directory in a new tab</value>

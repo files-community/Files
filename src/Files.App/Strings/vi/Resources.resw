@@ -180,11 +180,11 @@
   <data name="Accessed" xml:space="preserve">
     <value>Đã truy cập:</value>
   </data>
-  <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>Xóa tất cả khỏi danh sách</value>
+  <data name="RecentItemClearAllText" xml:space="preserve">
+    <value>Clear all items</value>
   </data>
-  <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Nhập đường dẫn hoặc gõ "&gt;" để mở bảng lệnh</value>
+  <data name="NavigationToolbarVisiblePathPlaceholderText" xml:space="preserve">
+    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Tìm kiếm</value>
@@ -198,8 +198,8 @@
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Tệp bạn đã truy cập trước đó sẽ hiển thị tại đây</value>
   </data>
-  <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>Xóa khỏi danh sách</value>
+  <data name="RecentItemRemoveText" xml:space="preserve">
+    <value>Remove this item</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>Kho lưu trữ GitHub</value>
@@ -312,14 +312,14 @@
   <data name="PinFolderToSidebar" xml:space="preserve">
     <value>Ghim vào thanh bên</value>
   </data>
-  <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Chào mừng bạn đến với Files!</value>
+  <data name="WelcomeDialogTitle" xml:space="preserve">
+    <value>Welcome to Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Cấp quyền</value>
   </data>
-  <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Trước khi bắt đầu, bạn cần phải cấp quyền để hiển thị các tệp. Ứng dụng sẽ mở cửa sổ Cài đặt, hãy thực hiện cấp quyền trong cửa sổ này. Sau khi hoàn tất, bạn sẽ cần khởi động lại ứng dụng. </value>
+  <data name="WelcomeDialogTextBlockText" xml:space="preserve">
+    <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Hiển thị</value>
@@ -384,17 +384,17 @@
   <data name="SetAsAppBackground" xml:space="preserve">
     <value>Hình nền ứng dụng</value>
   </data>
-  <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
-    <value>Chúng tôi không thể xóa khoản mục này</value>
+  <data name="AccessDeniedDeleteDialogText" xml:space="preserve">
+    <value>We weren't able to delete this item</value>
   </data>
-  <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
-    <value>Vui lòng kết nối ổ lưu trữ cần để truy cập mục này.</value>
+  <data name="DriveUnpluggedDialogText" xml:space="preserve">
+    <value>Please insert the necessary drive to access this item.</value>
   </data>
-  <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Ổ lưu trữ đã bị ngắt kết nối</value>
+  <data name="DriveUnpluggedDialogTitle" xml:space="preserve">
+    <value>Drive unplugged</value>
   </data>
-  <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>Tệp bạn cố truy cập có thể đã bị di chuyển hoặc xóa bỏ.</value>
+  <data name="FileNotFoundDialogText" xml:space="preserve">
+    <value>The file you are attempting to access may have been moved or deleted.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
     <value>Không thể mở thuộc tính của tệp này</value>
@@ -402,23 +402,29 @@
   <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>Tệp bạn cố truy cập có thể đã bị di chuyển hoặc xóa bỏ.</value>
   </data>
-  <data name="FileNotFoundDialog.Title" xml:space="preserve">
-    <value>Không tìm thấy tệp</value>
+  <data name="FileNotFoundDialogTitle" xml:space="preserve">
+    <value>File Not Found</value>
   </data>
-  <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>Thư mục bạn cố truy cập có thể đã bị di chuyển hoặc xóa bỏ.</value>
+  <data name="FolderNotFoundDialogText" xml:space="preserve">
+    <value>The folder you are attempting to access may have been moved or deleted.</value>
   </data>
-  <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>Có lẽ bạn đã xóa thư mục này?</value>
+  <data name="FolderNotFoundDialogTitle" xml:space="preserve">
+    <value>Did you delete this folder?</value>
   </data>
-  <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>Tệp bạn cố truy cập hiện đang được sử dụng bởi {0}</value>
+  <data name="FileInUseByDialogText" xml:space="preserve">
+    <value>The file you are attempting to access is currently being used by {0}</value>
   </data>
-  <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>Tệp bạn cố truy cập hiện đang được sử dụng bởi ứng dụng khác</value>
+  <data name="FileInUseDialogText" xml:space="preserve">
+    <value>The file you are attempting to access is currently being used by another application</value>
   </data>
-  <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>Tệp đang được sử dụng</value>
+  <data name="FileInUseDialogTitle" xml:space="preserve">
+    <value>File is in use</value>
+  </data>
+  <data name="CannotRunFileDialogTitle" xml:space="preserve">
+    <value>This app can't run on your PC</value>
+  </data>
+  <data name="CannotRunFileDialogText" xml:space="preserve">
+    <value>To find a version for your PC, check with the software publisher.</value>
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Bố cục</value>
@@ -524,8 +530,8 @@
   <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
     <value>{0, number} {0, plural, other {tệp}}, {1, number} {1, plural, other {thư mục}} từ {2, number} {2, plural, other {vị trí}}</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
-    <value>Chạy với vai trò là người dùng khác</value>
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUserText" xml:space="preserve">
+    <value>Run as another user</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
     <value>Loại chung của {0}</value>
@@ -635,23 +641,23 @@
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
     <value>Đang chia sẻ {0} {1}</value>
   </data>
-  <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
-    <value>Khoản mục bạn cố đặt lại tên không còn tồn tại nữa. Vui lòng kiểm tra lại vị trí chính xác của khoản mục.</value>
+  <data name="RenameErrorItemDeletedText" xml:space="preserve">
+    <value>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</value>
   </data>
-  <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
-    <value>Khoản mục không còn tồn tại</value>
+  <data name="RenameErrorItemDeletedTitle" xml:space="preserve">
+    <value>Item no longer exists</value>
   </data>
-  <data name="RenameError.NameInvalid.Text" xml:space="preserve">
-    <value>Tên đã nhập không hợp lệ. Vui lòng kiểm tra và thử lại.</value>
+  <data name="RenameErrorNameInvalidText" xml:space="preserve">
+    <value>The name specified was invalid. Please check the desired item name and try again.</value>
   </data>
-  <data name="RenameError.NameInvalid.Title" xml:space="preserve">
-    <value>Tên khoản mục không hợp lệ</value>
+  <data name="RenameErrorNameInvalidTitle" xml:space="preserve">
+    <value>Invalid item name</value>
   </data>
-  <data name="RenameError.TooLong.Text" xml:space="preserve">
-    <value>Độ dài tên khoản mục đã nhập vượt quá giới hạn tối đa. Vui lòng kiểm tra và thử lại.</value>
+  <data name="RenameErrorTooLongText" xml:space="preserve">
+    <value>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</value>
   </data>
-  <data name="RenameError.TooLong.Title" xml:space="preserve">
-    <value>Tên khoản mục quá dài</value>
+  <data name="RenameErrorTooLongTitle" xml:space="preserve">
+    <value>Item name was too long</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
     <value>Hiện thêm tùy chọn</value>
@@ -662,14 +668,14 @@
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>Ủng hộ chúng tôi trên GitHub</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
-    <value>Chúng tôi không thể tạo khoản mục này</value>
+  <data name="AccessDeniedCreateDialogText" xml:space="preserve">
+    <value>We weren't able to create this item</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>Truy cập bị từ chối</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
-    <value>Đặt làm</value>
+  <data name="BaseLayoutItemContextFlyoutSetAsText" xml:space="preserve">
+    <value>Set as</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Hủy bỏ</value>
@@ -710,11 +716,11 @@
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>Hiện hộp thoại xác nhận khi xóa khoản mục</value>
   </data>
-  <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
-    <value>Đã xảy ra vấn đề khi lưu một số thuộc tính.</value>
+  <data name="PropertySaveErrorMessageText" xml:space="preserve">
+    <value>There was an issue saving some properties.</value>
   </data>
-  <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
-    <value>Lỗi</value>
+  <data name="PropertySaveErrorDialogTitle" xml:space="preserve">
+    <value>Error</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Vẫn đóng</value>
@@ -786,7 +792,7 @@
     <value>Nhà sản xuất máy ảnh</value>
   </data>
   <data name="PropertyCameraModel" xml:space="preserve">
-    <value>Số hiệu máy ảnh</value>
+    <value>Mẫu máy ảnh</value>
   </data>
   <data name="PropertyExposureTime" xml:space="preserve">
     <value>Thời gian phơi sáng</value>
@@ -822,7 +828,7 @@
     <value>Nhịp mỗi phút</value>
   </data>
   <data name="PropertyComposer" xml:space="preserve">
-    <value>Nhạc sĩ</value>
+    <value>Nhà soạn nhạc</value>
   </data>
   <data name="Conductor" xml:space="preserve">
     <value>Nhạc trưởng</value>
@@ -834,7 +840,7 @@
     <value>Thể loại</value>
   </data>
   <data name="PropertyTrackNumber" xml:space="preserve">
-    <value>Số rãnh âm</value>
+    <value>STT bản nhạc</value>
   </data>
   <data name="PropertyDuration" xml:space="preserve">
     <value>Thời lượng</value>
@@ -843,19 +849,19 @@
     <value>Số khung hình</value>
   </data>
   <data name="PropertyProtectionType" xml:space="preserve">
-    <value>Loại trình bảo vệ</value>
+    <value>Hình thức bảo vệ</value>
   </data>
   <data name="PropertyAuthorUrl" xml:space="preserve">
-    <value>Url tác giả</value>
+    <value>URL tác giả</value>
   </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
-    <value>Bên phân phối nội dung</value>
+    <value>Nhà phân phối nội dung</value>
   </data>
   <data name="PropertyDateReleased" xml:space="preserve">
     <value>Ngày phát hành</value>
   </data>
   <data name="PropertySeriesName" xml:space="preserve">
-    <value>Tên loạt</value>
+    <value>Tên bộ</value>
   </data>
   <data name="PropertySeasonNumber" xml:space="preserve">
     <value>Số mùa</value>
@@ -867,10 +873,10 @@
     <value>Nhà sản xuất</value>
   </data>
   <data name="PropertyPromotionUrl" xml:space="preserve">
-    <value>Url quảng cáo</value>
+    <value>URL quảng bá</value>
   </data>
   <data name="PropertyProviderStyle" xml:space="preserve">
-    <value>Hình thức cung cấp</value>
+    <value>Thể loại gốc</value>
   </data>
   <data name="PropertyPublisher" xml:space="preserve">
     <value>Nhà phát hành</value>
@@ -888,7 +894,7 @@
     <value>Uri hình xem trước nhỏ</value>
   </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
-    <value>Url Web người dùng</value>
+    <value>URL Web người dùng</value>
   </data>
   <data name="PropertyWriter" xml:space="preserve">
     <value>Người viết</value>
@@ -903,7 +909,7 @@
     <value>Tác giả cuối</value>
   </data>
   <data name="PropertyRevisionNumber" xml:space="preserve">
-    <value>Số hiệu đính</value>
+    <value>Số lần sửa đổi</value>
   </data>
   <data name="PropertyVersion" xml:space="preserve">
     <value>Phiên bản</value>
@@ -1100,6 +1106,9 @@
   <data name="OpenInOtherPane" xml:space="preserve">
     <value>Mở trong ngăn khác</value>
   </data>
+  <data name="OpenCurrentFolderInOtherPane" xml:space="preserve">
+    <value>Mở thư mục hiện tại trong ngăn còn lại</value>
+  </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Tệp &amp; thư mục</value>
   </data>
@@ -1140,10 +1149,10 @@
     <value>Ẩn hoặc hiện thanh công cụ</value>
   </data>
   <data name="ToggleFilterHeader" xml:space="preserve">
-    <value>Bật tắt phần lọc</value>
+    <value>Bật tắt công cụ lọc</value>
   </data>
   <data name="ToggleFilterHeaderDescription" xml:space="preserve">
-    <value>Ẩn hoặc hiện phần lọc</value>
+    <value>Ẩn hoặc hiện công cụ lọc</value>
   </data>
   <data name="ToggleDualPane" xml:space="preserve">
     <value>Bật tắt hai ngăn</value>
@@ -1197,16 +1206,16 @@
     <value>Đã loại trừ khỏi đồng bộ hóa</value>
   </data>
   <data name="ItemSizeNotCalculated" xml:space="preserve">
-    <value>Chưa tính toán</value>
+    <value>Chưa tính</value>
   </data>
   <data name="ViewSize" xml:space="preserve">
-    <value>Kích thước bố cục</value>
+    <value>Xem kích cỡ</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Không xác định</value>
   </data>
-  <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>Nếu bạn thay đổi phần mở rộng, tệp có thể không sử dụng được nữa. Bạn có chắc chắn muốn tiếp tục không?</value>
+  <data name="RenameFileDialogText" xml:space="preserve">
+    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>Ổ đĩa CD ROM</value>
@@ -1244,8 +1253,8 @@
   <data name="MoreOptions" xml:space="preserve">
     <value>Nhiều tùy chọn hơn...</value>
   </data>
-  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
-    <value>Ánh xạ ổ đĩa mạng</value>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItemText" xml:space="preserve">
+    <value>Map network drive</value>
   </data>
   <data name="Pinned" xml:space="preserve">
     <value>Đã ghim</value>
@@ -1277,11 +1286,11 @@
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>Cột (Ctrl+Shift+6)</value>
   </data>
-  <data name="PinItemToStart.Text" xml:space="preserve">
-    <value>Ghim vào menu Bắt đầu</value>
+  <data name="PinItemToStartText" xml:space="preserve">
+    <value>Pin to the Start Menu</value>
   </data>
-  <data name="UnpinItemFromStart.Text" xml:space="preserve">
-    <value>Bỏ ghim khỏi menu Bắt đầu</value>
+  <data name="UnpinItemFromStartText" xml:space="preserve">
+    <value>Unpin from the Start Menu</value>
   </data>
   <data name="Library" xml:space="preserve">
     <value>Thư viện</value>
@@ -1526,17 +1535,17 @@
   <data name="SecurityUnknownAccount" xml:space="preserve">
     <value>Tài khoản không xác định</value>
   </data>
-  <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>Bạn không có quyền để xem thuộc tính bảo mật của đối tượng này. Vui lòng nhấp vào "Quyền truy cập nâng cao" để tiếp tục.</value>
+  <data name="SecurityCannotReadPropertiesText" xml:space="preserve">
+    <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Chủ sở hữu:</value>
   </data>
-  <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
-    <value>Chủ sở hữu không xác định</value>
+  <data name="SecurityUnknownOwnerTextText" xml:space="preserve">
+    <value>Unknown owner</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>Giải nén</value>
+    <value>Giải nén tệp</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Mở thư mục đích khi hoàn tất</value>
@@ -1544,11 +1553,11 @@
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
     <value>Giải nén vào {0}\</value>
   </data>
-  <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
-    <value>Tạo thư viện mới</value>
+  <data name="SideBarCreateNewLibraryText" xml:space="preserve">
+    <value>Create new library</value>
   </data>
-  <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
-    <value>Khôi phục thư viện mặc định</value>
+  <data name="SideBarRestoreLibrariesText" xml:space="preserve">
+    <value>Restore default libraries</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
     <value>Bạn có chắc chắn muốn khôi phục các thư viện mặc định không? Các tệp của bạn sẽ không bị ảnh hưởng.</value>
@@ -1559,8 +1568,8 @@
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Chủ sở hữu</value>
   </data>
-  <data name="SecuritySpecialLabel.Text" xml:space="preserve">
-    <value>Đặc biệt</value>
+  <data name="SecuritySpecialLabelText" xml:space="preserve">
+    <value>Special</value>
   </data>
   <data name="Access" xml:space="preserve">
     <value>Truy cập</value>
@@ -1586,8 +1595,8 @@
   <data name="Permissions" xml:space="preserve">
     <value>Quyền truy cập</value>
   </data>
-  <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>Bạn không có quyền để xem thuộc tính bảo mật của đối tượng này. Bạn có thể thử lấy quyền chủ sở hữu của đối tượng.</value>
+  <data name="SecurityAdvancedCannotReadPropertiesText" xml:space="preserve">
+    <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>Thư mục này và các tệp</value>
@@ -1610,50 +1619,50 @@
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
     <value>Thư mục này và thư mục con</value>
   </data>
-  <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
-    <value>Bổ sung dữ liệu</value>
+  <data name="SecurityAppendDataLabelText" xml:space="preserve">
+    <value>Append data</value>
   </data>
-  <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
-    <value>Thay đổi quyền</value>
+  <data name="SecurityChangePermissionsLabelText" xml:space="preserve">
+    <value>Change permission</value>
   </data>
-  <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
-    <value>Tạo thư mục</value>
+  <data name="SecurityCreateDirectoriesLabelText" xml:space="preserve">
+    <value>Create folders</value>
   </data>
-  <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
-    <value>Tạo các tệp</value>
+  <data name="SecurityCreateFilesLabelText" xml:space="preserve">
+    <value>Create files</value>
   </data>
-  <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
-    <value>Xóa bỏ thư mục con và các tệp</value>
+  <data name="SecurityDeleteSubdirectoriesAndFilesLabelText" xml:space="preserve">
+    <value>Delete subdirectories and files</value>
   </data>
-  <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
-    <value>Thực thi tệp</value>
+  <data name="SecurityExecuteFileLabelText" xml:space="preserve">
+    <value>Execute files</value>
   </data>
-  <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
-    <value>Đọc thuộc tính</value>
+  <data name="SecurityReadAttributesLabelText" xml:space="preserve">
+    <value>Read attributes</value>
   </data>
-  <data name="SecurityReadDataLabel.Text" xml:space="preserve">
-    <value>Đọc dữ liệu</value>
+  <data name="SecurityReadDataLabelText" xml:space="preserve">
+    <value>Read data</value>
   </data>
-  <data name="SecurityReadExtendedAttributesLabel.Text" xml:space="preserve">
-    <value>Đọc thuộc tính mở rộng</value>
+  <data name="SecurityReadExtendedAttributesLabelText" xml:space="preserve">
+    <value>Read extended attributes</value>
   </data>
-  <data name="SecurityReadPermissionsLabel.Text" xml:space="preserve">
-    <value>Quyền đọc</value>
+  <data name="SecurityReadPermissionsLabelText" xml:space="preserve">
+    <value>Read permissions</value>
   </data>
-  <data name="SecurityTakeOwnershipLabel.Text" xml:space="preserve">
-    <value>Lấy quyền sở hữu</value>
+  <data name="SecurityTakeOwnershipLabelText" xml:space="preserve">
+    <value>Take ownership</value>
   </data>
-  <data name="SecurityTraverseLabel.Text" xml:space="preserve">
-    <value>Xem thư mục</value>
+  <data name="SecurityTraverseLabelText" xml:space="preserve">
+    <value>Visit folder</value>
   </data>
-  <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
-    <value>Ghi thuộc tính</value>
+  <data name="SecurityWriteAttributesLabelText" xml:space="preserve">
+    <value>Write attributes</value>
   </data>
-  <data name="SecurityWriteDataLabel.Text" xml:space="preserve">
-    <value>Ghi dữ liệu</value>
+  <data name="SecurityWriteDataLabelText" xml:space="preserve">
+    <value>Write data</value>
   </data>
-  <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
-    <value>Ghi thuộc tính mở rộng</value>
+  <data name="SecurityWriteExtendedAttributesLabelText" xml:space="preserve">
+    <value>Write extended attributes</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
     <value>Chuyển quyền được kế thừa thành quyền tách biệt</value>
@@ -1689,7 +1698,7 @@
     <value>Ngôn ngữ</value>
   </data>
   <data name="PropertyTrademarks" xml:space="preserve">
-    <value>Thương hiệu</value>
+    <value>Nhãn hiệu</value>
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Phiên bản tệp</value>
@@ -1709,8 +1718,8 @@
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
   </data>
-  <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
-    <value>Ẩn mục {0}</value>
+  <data name="SideBarHideSectionFromSideBarText" xml:space="preserve">
+    <value>Hide {0} section</value>
   </data>
   <data name="AddFile" xml:space="preserve">
     <value>Thêm tệp</value>
@@ -1739,8 +1748,8 @@
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>Giải nén hoàn tất!</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
-    <value>Mở thư mục nguồn</value>
+  <data name="BaseLayoutItemContextFlyoutOpenParentFolderText" xml:space="preserve">
+    <value>Open parent folder</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>Không xác định</value>
@@ -1749,16 +1758,16 @@
     <value>Chỉnh sửa nhãn</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
-    <value>Là một phần của bản</value>
+    <value>Phần trong bộ</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>Mở ổ đĩa</value>
   </data>
-  <data name="InsertDiscDialog.Text" xml:space="preserve">
-    <value>Vui lòng cho đĩa vào ổ {0}</value>
+  <data name="InsertDiscDialogText" xml:space="preserve">
+    <value>Please insert a disc into drive {0}</value>
   </data>
-  <data name="InsertDiscDialog.Title" xml:space="preserve">
-    <value>Chèn đĩa</value>
+  <data name="InsertDiscDialogTitle" xml:space="preserve">
+    <value>Insert a disc</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
@@ -2066,6 +2075,15 @@
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>Căn chỉnh lại chiều rộng cột</value>
   </data>
+  <data name="AutoFitColumns" xml:space="preserve">
+    <value>Tự động căn chỉnh cột</value>
+  </data>
+  <data name="AutoFitColumnsDescription" xml:space="preserve">
+    <value>Căn chỉnh lại các cột cho vừa với nội dung</value>
+  </data>
+  <data name="AutoSizeColumnsInDetailsLayout" xml:space="preserve">
+    <value>Tự động căn chỉnh các cột cho vừa với nội dung</value>
+  </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Chuyển bố cục tự động</value>
   </data>
@@ -2206,6 +2224,12 @@
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>Tạo tệp nén</value>
+  </data>
+  <data name="CompressSkippedItemsDialogTitle" xml:space="preserve">
+    <value>Some items can't be compressed</value>
+  </data>
+  <data name="CompressSkippedItemsDialogText" xml:space="preserve">
+    <value>The following {0, plural, one {item} other {items}} can''t be compressed. Would you like to skip {0, plural, one {this item} other {these items}}?</value>
   </data>
   <data name="CompressIntoZip" xml:space="preserve">
     <value>Tạo tệp nén zip</value>
@@ -2472,7 +2496,7 @@
     <value>Chọn hash để hiển thị</value>
   </data>
   <data name="Calculating" xml:space="preserve">
-    <value>Đang tính toán...</value>
+    <value>Đang tính...</value>
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
     <value>Các mục được ghim</value>
@@ -3426,6 +3450,9 @@
   </data>
   <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
     <value>Mở thư mục đã chọn trong ngăn còn lại</value>
+  </data>
+  <data name="OpenCurrentFolderInOtherPaneDescription" xml:space="preserve">
+    <value>Mở thư mục hiện tại trong ngăn còn lại</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Mở thư mục đã chọn trong thẻ mới</value>
@@ -4570,7 +4597,7 @@
     <value>Hiện biểu tượng</value>
   </data>
   <data name="AvailableToolbarItems" xml:space="preserve">
-    <value>Khoản mục khả dụng</value>
+    <value>Khoản mục sẵn có</value>
   </data>
   <data name="AddedToolbarItems" xml:space="preserve">
     <value>Khoản mục đã thêm</value>
