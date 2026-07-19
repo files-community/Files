@@ -335,9 +335,9 @@ namespace Files.App
 				{
 					try
 					{
-						var target = IO.Path.GetFullPath(IO.Path.Combine(activationPath, payload));
+						var target = Path.IsPathFullyQualified(payload) ? IO.Path.GetFullPath(payload) : IO.Path.GetFullPath(IO.Path.Combine(activationPath, payload));
 						var attributes = IO.File.GetAttributes(target);
-						if ((attributes & IO.FileAttributes.Directory) == IO.FileAttributes.Directory)
+						if (attributes.HasFlag(IO.FileAttributes.Directory) || attributes.HasFlag(IO.FileAttributes.Archive))
 							await PerformNavigationAsync(target);
 						else
 							await LaunchHelper.LaunchAppAsync("explorer", payload, activationPath);
