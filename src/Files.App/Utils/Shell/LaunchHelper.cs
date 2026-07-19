@@ -128,7 +128,7 @@ namespace Files.App.Utils.Shell
 
 				return true;
 			}
-			catch (Win32Exception ex) when (ex.NativeErrorCode is 216)
+			catch (Win32Exception ex) when (ex.NativeErrorCode is 193 or 216 && FileExtensionHelpers.IsExecutableFile(application, exeOnly: true))
 			{
 				// ERROR_EXE_MACHINE_TYPE_MISMATCH (216)
 				// "This app can't run on your PC"
