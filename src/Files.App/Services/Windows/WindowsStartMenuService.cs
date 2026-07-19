@@ -41,7 +41,7 @@ namespace Files.App.Services
 				var tile = new SecondaryTile(
 					tileId,
 					displayName,
-					storable.Id,
+					$"files-dev.exe \"{storable.Id}\"",
 					fileIcon,
 					TileSize.Default)
 				{
