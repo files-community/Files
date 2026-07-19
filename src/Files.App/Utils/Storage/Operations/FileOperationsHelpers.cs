@@ -990,7 +990,7 @@ namespace Files.App.Utils.Storage
 
 					App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Created {fileGroups.Count} file groups and {folderItems.Count} folder items");
 
-					var threads = Math.Clamp(Ioc.Default.GetRequiredService<IUserSettingsService>().DevToolsSettingsService.RobocopyThreads, 1, 128);
+					var threads = Math.Clamp(Ioc.Default.GetRequiredService<IDevToolsSettingsService>().RobocopyThreads, 1, 128);
 
 					// Create batches for files only (folders will be processed individually)
 					(Dictionary<(string sourceDir, string destDir), List<List<string>>> fileBatchesByGroup, int totalFileBatches) = CreateBatchesForFileGroups(fileGroups);
@@ -1292,7 +1292,7 @@ namespace Files.App.Utils.Storage
 					Directory.CreateDirectory(tempDeleteFolder);
 					Directory.CreateDirectory(emptyFolder);
 
-					var threads = Math.Clamp(Ioc.Default.GetRequiredService<IUserSettingsService>().DevToolsSettingsService.RobocopyThreads, 1, 128);
+					var threads = Math.Clamp(Ioc.Default.GetRequiredService<IDevToolsSettingsService>().RobocopyThreads, 1, 128);
 
 					// Step 2: Move files to temp folder first (reuse existing move logic)
 					var tempDestinations = new string[filePaths.Length];
