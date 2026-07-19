@@ -72,7 +72,7 @@ namespace Files.App
 						// WINUI3: When launching from commandline the argument is not ICommandLineActivatedEventArgs (#10370)
 						var ppm = CommandLineParser.ParseUntrustedCommands(launchArgs.Arguments);
 						if (ppm.IsEmpty())
-							rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+							LaunchMainPage(rootFrame);
 						else
 							await InitializeFromCmdLineArgsAsync(rootFrame, ppm, Program.ConsumeLaunchCwd());
 					}
@@ -91,20 +91,14 @@ namespace Files.App
 					}
 					else
 					{
-						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+						LaunchMainPage(rootFrame);
 					}
 					break;
 
 				case IProtocolActivatedEventArgs eventArgs:
 					if (eventArgs.Uri.AbsoluteUri == "files-dev:")
 					{
-						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
-
-						// Bring to foreground (#14730)
-						Win32Helper.BringToForegroundEx(new(WindowHandle));
-
-						// Ensure app-level keyboard shortcuts work immediately after Win+E activation.
-						_ = EnsureContentHasKeyboardFocusAsync();
+						LaunchMainPage(rootFrame);
 					}
 					else
 					{
@@ -123,7 +117,7 @@ namespace Files.App
 						}
 						catch
 						{
-							rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+							LaunchMainPage(rootFrame);
 							break;
 						}
 						if (folder is not null && !string.IsNullOrEmpty(folder.Path))
@@ -148,12 +142,12 @@ namespace Files.App
 							case "cmd":
 								var ppm = CommandLineParser.ParseUntrustedCommands(unescapedValue);
 								if (ppm.IsEmpty())
-									rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+									LaunchMainPage(rootFrame);
 								else
 									await InitializeFromCmdLineArgsAsync(rootFrame, ppm, Environment.CurrentDirectory);
 								break;
 							default:
-								rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+								LaunchMainPage(rootFrame);
 								break;
 						}
 					}
@@ -171,7 +165,7 @@ namespace Files.App
 					}
 					else
 					{
-						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+						LaunchMainPage(rootFrame);
 					}
 					break;
 
@@ -212,14 +206,8 @@ namespace Files.App
 					}
 					break;
 
-				case IStartupTaskActivatedEventArgs startupArgs:
-					// Just launch the app with no arguments
-					rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
-					break;
-
 				default:
-					// Just launch the app with no arguments
-					rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+					LaunchMainPage(rootFrame);
 					break;
 			}
 
@@ -275,11 +263,11 @@ namespace Files.App
 		private async Task InitializeFromCmdLineArgsAsync(Frame rootFrame, ParsedCommands parsedCommands, string activationPath = "")
 		{
 			// Navigate to a folder in the UI
-			async Task PerformNavigationAsync(string payload, string selectItem = null)
+			async Task PerformNavigationAsync(string? payload, string? selectItem = null)
 			{
 				if (!string.IsNullOrEmpty(payload))
 				{
-					payload = Constants.UserEnvironmentPaths.ShellPlaces.Get(payload.ToUpperInvariant(), payload);
+					payload = Constants.UserEnvironmentPaths.ShellPlaces.Get(payload.ToUpperInvariant(), payload)!;
 					var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(payload).AsTask());
 					if (folder is not null && !string.IsNullOrEmpty(folder.Path))
 						payload = folder.Path; // Convert short name to long name (#6190)
@@ -376,7 +364,7 @@ namespace Files.App
 
 					case ParsedCommandType.TagFiles:
 						var tagService = Ioc.Default.GetService<IFileTagsSettingsService>();
-						var tag = tagService.GetTagsByName(command.Payload).FirstOrDefault();
+						var tag = tagService!.GetTagsByName(command.Payload).FirstOrDefault();
 						foreach (var file in command.Args.Skip(1))
 						{
 							var fileFRN = await FilesystemTasks.Wrap(() => StorageHelpers.ToStorageItem<IStorageItem>(file))
@@ -430,6 +418,17 @@ namespace Files.App
 				Win32Helper.ForceWindowPosition(e.Message.LParam);
 				e.Handled = true;
 			}
+		}
+
+		private void LaunchMainPage(Frame rootFrame)
+		{
+			rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+
+			// Bring to foreground (#14730)
+			Win32Helper.BringToForegroundEx(new(WindowHandle));
+
+			// Ensure app-level keyboard shortcuts work immediately after Win+E activation.
+			_ = EnsureContentHasKeyboardFocusAsync();
 		}
 	}
 }
