@@ -39,6 +39,9 @@ namespace Files.App.Utils.Git
 		/// <inheritdoc cref="IVersionControlService.DeleteBranchAsync(string?, string?, string?)"/>
 		public static Task DeleteBranchAsync(string? repositoryPath, string? activeBranch, string? branchToDelete) => _implementation.DeleteBranchAsync(repositoryPath, activeBranch, branchToDelete);
 
+		/// <inheritdoc cref="IVersionControlService.ValidateBranchNameForRepository(string, string)"/>
+		public static bool ValidateBranchNameForRepository(string branchName, string repositoryPath) => _implementation.ValidateBranchNameForRepository(branchName, repositoryPath);
+
 		/// <inheritdoc cref="IVersionControlService.FetchOrigin(string?, CancellationToken)"/>
 		public static async void FetchOrigin(string? repositoryPath, CancellationToken cancellationToken = default) => _implementation.FetchOrigin(repositoryPath, cancellationToken);
 
@@ -101,20 +104,6 @@ namespace Files.App.Utils.Git
 
 		// Property already moved into abstraction
 		private static readonly SemaphoreSlim GitOperationSemaphore = new SemaphoreSlim(1, 1);
-
-		public static bool ValidateBranchNameForRepository(string branchName, string repositoryPath)
-		{
-			if (string.IsNullOrEmpty(branchName) || !IsRepoValid(repositoryPath))
-				return false;
-
-			var nameValidator = RegexHelpers.GitBranchName();
-			if (!nameValidator.IsMatch(branchName))
-				return false;
-
-			using var repository = new Repository(repositoryPath);
-			return !repository.Branches.Any(branch =>
-				branch.FriendlyName.Equals(branchName, StringComparison.OrdinalIgnoreCase));
-		}
 
 		public static async Task PullOriginAsync(string? repositoryPath)
 		{
