@@ -64,6 +64,7 @@ namespace Files.App.Actions
 			{
 				return
 					item.PrimaryItemAttribute is StorageItemTypes.Folder &&
+					!item.IsArchive &&
 					!pinnedFolders.Contains(item.ItemPath);
 			}
 		}
