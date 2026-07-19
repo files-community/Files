@@ -1,6 +1,8 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 using Windows.Storage;
 using Windows.UI.StartScreen;
 using Windows.Win32;
@@ -82,14 +84,7 @@ namespace Files.App.Services
 
 		private static string GetNativeTileId(string id)
 		{
-			// Remove symbols because windows doesn't like them in the ID, and will blow up
-			var str = $"folder-{new string(id.Where(c => char.IsLetterOrDigit(c)).ToArray())}";
-
-			// If the id string is too long, Windows will throw an error, so remove every other character
-			if (str.Length > 64)
-				str = new string(str.Where((_, i) => i % 2 == 0).ToArray());
-
-			return str;
+			return new Guid(SHA1.HashData(Encoding.UTF8.GetBytes(id.ToLowerInvariant()))[..16]).ToString();
 		}
 
 		private static Uri ExtractFileIcon(IStorable file, string id)
