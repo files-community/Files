@@ -315,7 +315,8 @@ namespace Files.App.Utils.Storage
 
 			IStorageHistory history = await filesystemOperations.CopyItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.ProgressEventSource, token);
 
-			banner.Progress.ReportStatus(FileSystemStatusCode.Success);
+			if (returnStatus == ReturnResult.InProgress || returnStatus == ReturnResult.Success)
+				banner.Progress.ReportStatus(FileSystemStatusCode.Success);
 
 			if (registerHistory && history is not null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
 			{
