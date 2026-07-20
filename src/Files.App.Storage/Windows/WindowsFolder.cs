@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
 using System.Runtime.CompilerServices;
@@ -13,7 +13,7 @@ namespace Files.App.Storage
 	public unsafe class WindowsFolder : WindowsStorable, IWindowsFolder
 	{
 		/// <inheritdoc/>
-		public IContextMenu* ShellNewMenu
+		public IContextMenu? ShellNewMenu
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get;
@@ -22,42 +22,38 @@ namespace Files.App.Storage
 			set;
 		}
 
-		public WindowsFolder(IShellItem* ptr)
+		public WindowsFolder(IShellItem ptr)
 		{
 			ThisPtr = ptr;
 		}
 
 		public WindowsFolder(Guid folderId)
 		{
-			IShellItem* pShellItem = default;
-
-			HRESULT hr = PInvoke.SHGetKnownFolderItem(&folderId, KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, HANDLE.Null, IID.IID_IShellItem, (void**)&pShellItem);
+			HRESULT hr = PInvoke.SHGetKnownFolderItem(folderId, KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, null, out IShellItem shellItem);
 			if (hr.Failed)
 			{
-				fixed (char* pszShellPath = $"Shell:::{folderId:B}")
-					hr = PInvoke.SHCreateItemFromParsingName(pszShellPath, null, IID.IID_IShellItem, (void**)&pShellItem);
+				hr = PInvoke.SHCreateItemFromParsingName($"Shell:::{folderId:B}", null, out shellItem);
 
 				// Invalid FOLDERID; this should never happen.
 				hr.ThrowOnFailure();
 			}
 
-			ThisPtr = pShellItem;
+			ThisPtr = shellItem;
 		}
 
 		public IAsyncEnumerable<IStorableChild> GetItemsAsync(StorableType type = StorableType.All, CancellationToken cancellationToken = default)
 		{
-			using ComPtr<IEnumShellItems> pEnumShellItems = default;
-
-			HRESULT hr = ThisPtr->BindToHandler(null, BHID.BHID_EnumItems, IID.IID_IEnumShellItems, (void**)pEnumShellItems.GetAddressOf());
+			HRESULT hr = ThisPtr.BindToHandler(null, PInvoke.BHID_EnumItems, out IEnumShellItems? pEnumShellItems);
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return Enumerable.Empty<IStorableChild>().ToAsyncEnumerable();
 
 			List<IStorableChild> childItems = [];
+			IShellItem[] pChildShellItems = new IShellItem[1];
 
-			IShellItem* pChildShellItem = null;
-			while ((hr = pEnumShellItems.Get()->Next(1, &pChildShellItem)) == HRESULT.S_OK)
+			while ((hr = pEnumShellItems!.Next(1, pChildShellItems, null)) == HRESULT.S_OK)
 			{
-				bool isFolder = pChildShellItem->GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER, out var dwAttributes).Succeeded && dwAttributes is SFGAO_FLAGS.SFGAO_FOLDER;
+				IShellItem pChildShellItem = pChildShellItems[0];
+				bool isFolder = pChildShellItem.GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER, out var dwAttributes).Succeeded && dwAttributes is SFGAO_FLAGS.SFGAO_FOLDER;
 
 				if (type.HasFlag(StorableType.File) && !isFolder)
 				{
@@ -78,8 +74,7 @@ namespace Files.App.Storage
 		public override void Dispose()
 		{
 			base.Dispose();
-
-			if (ShellNewMenu is not null) ShellNewMenu->Release();
+			ShellNewMenu = null;
 		}
 	}
 }

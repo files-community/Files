@@ -565,7 +565,7 @@ namespace Files.App.Utils.Storage
 						UserSettingsService.FoldersSettingsService.ShowFileExtensionWarning
 					)
 					{
-						var yesSelected = await DialogDisplayHelper.ShowDialogAsync(Strings.Rename.GetLocalizedResource(), Strings.RenameFileDialog_Text.GetLocalizedResource(), Strings.Yes.GetLocalizedResource(), Strings.No.GetLocalizedResource());
+						var yesSelected = await DialogDisplayHelper.ShowDialogAsync(Strings.Rename.GetLocalizedResource(), Strings.RenameFileDialogText.GetLocalizedResource(), Strings.Yes.GetLocalizedResource(), Strings.No.GetLocalizedResource());
 						if (yesSelected)
 						{
 							history = await filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);

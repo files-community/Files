@@ -92,6 +92,7 @@ namespace Files.App.Utils.Storage
 			}
 			catch (OperationCanceledException)
 			{
+				return;
 			}
 			catch (Exception e)
 			{
@@ -149,7 +150,7 @@ namespace Files.App.Utils.Storage
 			var options = ToQueryOptions();
 
 			var queryResult = folder.CreateItemQueryWithOptions(options);
-			var items = await queryResult.GetItemsAsync(0, stepSize);
+			var items = await queryResult.GetItemsAsync(0, stepSize).AsTask(token);
 
 			while (items.Count > 0)
 			{
@@ -178,7 +179,7 @@ namespace Files.App.Utils.Storage
 
 				index += (uint)items.Count;
 				stepSize = Math.Min(defaultStepSize, UsedMaxItemCount - (uint)results.Count);
-				items = await queryResult.GetItemsAsync(index, stepSize);
+				items = await queryResult.GetItemsAsync(index, stepSize).AsTask(token);
 			}
 		}
 

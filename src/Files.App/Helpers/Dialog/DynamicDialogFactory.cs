@@ -19,8 +19,8 @@ namespace Files.App.Helpers
 		{
 			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
-				TitleText = Strings.PropertySaveErrorDialog_Title.GetLocalizedResource(),
-				SubtitleText = Strings.PropertySaveErrorMessage_Text.GetLocalizedResource(), // We can use subtitle here as our content
+				TitleText = Strings.PropertySaveErrorDialogTitle.GetLocalizedResource(),
+				SubtitleText = Strings.PropertySaveErrorMessageText.GetLocalizedResource(), // We can use subtitle here as our content
 				PrimaryButtonText = Strings.Retry.GetLocalizedResource(),
 				SecondaryButtonText = Strings.PropertySaveErrorDialog_SecondaryButtonText.GetLocalizedResource(),
 				CloseButtonText = Strings.Cancel.GetLocalizedResource(),
@@ -33,8 +33,8 @@ namespace Files.App.Helpers
 		{
 			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
-				TitleText = Strings.WelcomeDialog_Title.GetLocalizedResource(),
-				SubtitleText = Strings.WelcomeDialogTextBlock_Text.GetLocalizedResource(), // We can use subtitle here as our content
+				TitleText = Strings.WelcomeDialogTitle.GetLocalizedResource(),
+				SubtitleText = Strings.WelcomeDialogTextBlockText.GetLocalizedResource(), // We can use subtitle here as our content
 				PrimaryButtonText = Strings.WelcomeDialog_PrimaryButtonText.GetLocalizedResource(),
 				PrimaryButtonAction = async (vm, e) => await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess")),
 				DynamicButtons = DynamicDialogButtons.Primary
@@ -139,13 +139,24 @@ namespace Files.App.Helpers
 			return dialog;
 		}
 
+		public static DynamicDialog GetFor_CannotRunFileDialog()
+		{
+			return new DynamicDialog(new DynamicDialogViewModel()
+			{
+				TitleText = Strings.CannotRunFileDialogTitle.GetLocalizedResource(),
+				SubtitleText = Strings.CannotRunFileDialogText.GetLocalizedResource(),
+				PrimaryButtonText = Strings.OK.GetLocalizedResource(),
+				DynamicButtons = DynamicDialogButtons.Primary
+			});
+		}
+
 		public static DynamicDialog GetFor_FileInUseDialog(List<Win32Process> lockingProcess = null)
 		{
 			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
-				TitleText = Strings.FileInUseDialog_Title.GetLocalizedResource(),
-				SubtitleText = lockingProcess.IsEmpty() ? Strings.FileInUseDialog_Text.GetLocalizedResource() :
-					string.Format(Strings.FileInUseByDialog_Text.GetLocalizedResource(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})"))),
+				TitleText = Strings.FileInUseDialogTitle.GetLocalizedResource(),
+				SubtitleText = lockingProcess.IsEmpty() ? Strings.FileInUseDialogText.GetLocalizedResource() :
+					string.Format(Strings.FileInUseByDialogText.GetLocalizedResource(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})"))),
 				PrimaryButtonText = Strings.Retry.GetLocalizedResource(),
 				SecondaryButtonText = Strings.Skip.GetLocalizedResource(),
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary | DynamicDialogButtons.Cancel

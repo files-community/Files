@@ -2,125 +2,23 @@
 // SPDX-License-Identifier: MPL-2.0
 
 using System;
-using System.Runtime.CompilerServices;
 using Windows.Win32.System.WinRT;
 
 namespace Windows.Win32
 {
-	public static unsafe partial class IID
+	public static partial class CLSID
 	{
-		public static Guid* IID_IStorageProviderStatusUISourceFactory
-			=> (Guid*)Unsafe.AsPointer(ref Unsafe.AsRef(in IStorageProviderStatusUISourceFactory.Guid));
-
-		[GuidRVAGen.Guid("000214E4-0000-0000-C000-000000000046")]
-		public static partial Guid* IID_IContextMenu { get; }
-
-		[GuidRVAGen.Guid("70629033-E363-4A28-A567-0DB78006E6D7")]
-		public static partial Guid* IID_IEnumShellItems { get; }
-
-		[GuidRVAGen.Guid("43826D1E-E718-42EE-BC55-A1E261C37BFE")]
-		public static partial Guid* IID_IShellItem { get; }
-
-		[GuidRVAGen.Guid("7E9FB0D3-919F-4307-AB2E-9B1860310C93")]
-		public static partial Guid* IID_IShellItem2 { get; }
-
-		[GuidRVAGen.Guid("947AAB5F-0A5C-4C13-B4D6-4BF7836FC9F8")]
-		public static partial Guid* IID_IFileOperation { get; }
-
-		[GuidRVAGen.Guid("D57C7288-D4AD-4768-BE02-9D969532D960")]
-		public static partial Guid* IID_IFileOpenDialog { get; }
-
-		[GuidRVAGen.Guid("84BCCD23-5FDE-4CDB-AEA4-AF64B83D78AB")]
-		public static partial Guid* IID_IFileSaveDialog { get; }
-
-		[GuidRVAGen.Guid("B92B56A9-8B55-4E14-9A89-0199BBB6F93B")]
-		public static partial Guid* IID_IDesktopWallpaper { get; }
-
-		[GuidRVAGen.Guid("2E941141-7F97-4756-BA1D-9DECDE894A3D")]
-		public static partial Guid* IID_IApplicationActivationManager { get; }
-
-		[GuidRVAGen.Guid("00021500-0000-0000-C000-000000000046")]
-		public static partial Guid* IID_IQueryInfo { get; }
-
-		[GuidRVAGen.Guid("BCC18B79-BA16-442F-80C4-8A59C30C463B")]
-		public static partial Guid* IID_IShellItemImageFactory { get; }
-
-		[GuidRVAGen.Guid("000214F9-0000-0000-C000-000000000046")]
-		public static partial Guid* IID_IShellLinkW { get; }
-
-		[GuidRVAGen.Guid("B63EA76D-1F85-456F-A19C-48159EFA858B")]
-		public static partial Guid* IID_IShellItemArray { get; }
-
-		[GuidRVAGen.Guid("7F9185B0-CB92-43C5-80A9-92277A4F7B54")]
-		public static partial Guid* IID_IExecuteCommand { get; }
-
-		[GuidRVAGen.Guid("1C9CD5BB-98E9-4491-A60F-31AACC72B83C")]
-		public static partial Guid* IID_IObjectWithSelection { get; }
-
-		[GuidRVAGen.Guid("000214E8-0000-0000-C000-000000000046")]
-		public static partial Guid* IID_IShellExtInit { get; }
-
-		[GuidRVAGen.Guid("000214F4-0000-0000-C000-000000000046")]
-		public static partial Guid* IID_IContextMenu2 { get; }
-
-		[GuidRVAGen.Guid("0000010E-0000-0000-C000-000000000046")]
-		public static partial Guid* IID_IDataObject { get; }
+		public static Guid CLSID_PinToFrequentExecute { get; } = new(0xB455F46Eu, 0xE4AF, 0x4035, 0xB0, 0xA4, 0xCF, 0x18, 0xD2, 0xF6, 0xF2, 0x8E);
+		public static Guid CLSID_UnPinFromFrequentExecute { get; } = new(0xEE20EEBAu, 0xDF64, 0x4A4E, 0xB7, 0xBB, 0x2D, 0x1C, 0x6B, 0x2D, 0xFC, 0xC1);
+		public static Guid CLSID_NewMenu { get; } = new(0xD969A300u, 0xE7FF, 0x11D0, 0xA9, 0x3B, 0x00, 0xA0, 0xC9, 0x0F, 0x27, 0x19);
+		public static Guid CLSID_OpenWithMenu { get; } = new(0x09799AFBu, 0xAD67, 0x11D1, 0xAB, 0xCD, 0x00, 0xC0, 0x4F, 0xC3, 0x09, 0x36);
+		public static Guid CLSID_DetectionAndSharing { get; } = new(0x1FDA955Bu, 0x61FF, 0x11DA, 0x97, 0x8C, 0x00, 0x08, 0x74, 0x4F, 0xAA, 0xB7);
+		public static Guid CLSID_OpenControlPanel { get; } = new(0x06622D85u, 0x6856, 0x4460, 0x8D, 0xE1, 0xA8, 0x19, 0x21, 0xB4, 0x1C, 0x4B);
 	}
 
-	public static unsafe partial class CLSID
+	public static partial class FOLDERID
 	{
-		[GuidRVAGen.Guid("3AD05575-8857-4850-9277-11B85BDB8E09")]
-		public static partial Guid* CLSID_FileOperation { get; }
-
-		[GuidRVAGen.Guid("DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7")]
-		public static partial Guid* CLSID_FileOpenDialog { get; }
-
-		[GuidRVAGen.Guid("C0B4E2F3-BA21-4773-8DBA-335EC946EB8B")]
-		public static partial Guid* CLSID_FileSaveDialog { get; }
-
-		[GuidRVAGen.Guid("C2CF3110-460E-4FC1-B9D0-8A1C0C9CC4BD")]
-		public static partial Guid* CLSID_DesktopWallpaper { get; }
-
-		[GuidRVAGen.Guid("45BA127D-10A8-46EA-8AB7-56EA9078943C")]
-		public static partial Guid* CLSID_ApplicationActivationManager { get; }
-
-		[GuidRVAGen.Guid("B455F46E-E4AF-4035-B0A4-CF18D2F6F28E")]
-		public static partial Guid* CLSID_PinToFrequentExecute { get; }
-
-		[GuidRVAGen.Guid("EE20EEBA-DF64-4A4E-B7BB-2D1C6B2DFCC1")]
-		public static partial Guid* CLSID_UnPinFromFrequentExecute { get; }
-
-		[GuidRVAGen.Guid("D969A300-E7FF-11d0-A93B-00A0C90F2719")]
-		public static partial Guid* CLSID_NewMenu { get; }
-
-		[GuidRVAGen.Guid("09799AFB-AD67-11D1-ABCD-00C04FC30936")]
-		public static partial Guid* CLSID_OpenWithMenu { get; }
-
-		[GuidRVAGen.Guid("1FDA955B-61FF-11DA-978C-0008744FAAB7")]
-		public static partial Guid* CLSID_DetectionAndSharing { get; }
-
-		[GuidRVAGen.Guid("06622D85-6856-4460-8DE1-A81921B41C4B")]
-		public static partial Guid* CLSID_OpenControlPanel { get; }
-	}
-
-	public static unsafe partial class BHID
-	{
-		[GuidRVAGen.Guid("3981E225-F559-11D3-8E3A-00C04F6837D5")]
-		public static partial Guid* BHID_SFUIObject { get; }
-
-		[GuidRVAGen.Guid("94F60519-2850-4924-AA5A-D15E84868039")]
-		public static partial Guid* BHID_EnumItems { get; }
-
-		[GuidRVAGen.Guid("B8C0BD9F-ED24-455C-83E6-D5390C4FE8C4")]
-		public static partial Guid* BHID_DataObject { get; }
-	}
-
-	public static unsafe partial class FOLDERID
-	{
-		[GuidRVAGen.Guid("B7534046-3ECB-4C18-BE4E-64CD4CB7D6AC")]
-		public static partial Guid* FOLDERID_RecycleBinFolder { get; }
-
-		[GuidRVAGen.Guid("0AC0837C-BBF8-452A-850D-79D08E667CA7")]
-		public static partial Guid* FOLDERID_ComputerFolder { get; }
+		public static Guid FOLDERID_RecycleBinFolder { get; } = new(0xB7534046u, 0x3ECB, 0x4C18, 0xBE, 0x4E, 0x64, 0xCD, 0x4C, 0xB7, 0xD6, 0xAC);
+		public static Guid FOLDERID_ComputerFolder { get; } = new(0x0AC0837Cu, 0xBBF8, 0x452A, 0x85, 0x0D, 0x79, 0xD0, 0x8E, 0x66, 0x7C, 0xA7);
 	}
 }

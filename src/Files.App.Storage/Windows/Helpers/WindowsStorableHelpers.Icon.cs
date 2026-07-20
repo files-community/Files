@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
 using System.Collections.Concurrent;
@@ -44,14 +44,12 @@ namespace Files.App.Storage
 		{
 			thumbnailData = null;
 
-			using ComPtr<IShellItemImageFactory> pShellItemImageFactory = default;
-			storable.ThisPtr->QueryInterface(IID.IID_IShellItemImageFactory, (void**)pShellItemImageFactory.GetAddressOf());
-			if (pShellItemImageFactory.IsNull)
+			if (storable.ThisPtr is not IShellItemImageFactory pShellItemImageFactory)
 				return HRESULT.E_NOINTERFACE;
 
 			// Get HBITMAP
 			HBITMAP hBitmap = default;
-			HRESULT hr = pShellItemImageFactory.Get()->GetImage(new(size, size), options, &hBitmap);
+			HRESULT hr = pShellItemImageFactory.GetImage(new(size, size), options, &hBitmap);
 			if (hr.ThrowIfFailedOnDebug().Failed)
 			{
 				if (!hBitmap.IsNull) PInvoke.DeleteObject(hBitmap);
@@ -168,22 +166,21 @@ namespace Files.App.Storage
 				encoder = GetEncoderClsid(format);
 			}
 
-			using ComPtr<IStream> pStream = default;
-			HRESULT hr = PInvoke.CreateStreamOnHGlobal(HGLOBAL.Null, true, pStream.GetAddressOf());
+			HRESULT hr = PInvoke.CreateStreamOnHGlobal(HGLOBAL.Null, true, out IStream pStream);
 			if (hr.ThrowIfFailedOnDebug().Failed)
 			{
 				if (gpBitmap is not null) PInvoke.GdipDisposeImage((GpImage*)gpBitmap);
 				return false;
 			}
 
-			if (PInvoke.GdipSaveImageToStream((GpImage*)gpBitmap, pStream.Get(), &encoder, (EncoderParameters*)null) is not Status.Ok)
+			if (PInvoke.GdipSaveImageToStream((GpImage*)gpBitmap, pStream, &encoder, (EncoderParameters*)null) is not Status.Ok)
 			{
 				if (gpBitmap is not null) PInvoke.GdipDisposeImage((GpImage*)gpBitmap);
 				return false;
 			}
 
 			STATSTG stat = default;
-			hr = pStream.Get()->Stat(&stat, (uint)STATFLAG.STATFLAG_NONAME);
+			hr = pStream.Stat(out stat, STATFLAG.STATFLAG_NONAME);
 			if (hr.ThrowIfFailedOnDebug().Failed)
 			{
 				if (gpBitmap is not null) PInvoke.GdipDisposeImage((GpImage*)gpBitmap);
@@ -193,8 +190,8 @@ namespace Files.App.Storage
 			ulong statSize = stat.cbSize & 0xFFFFFFFF;
 			byte* RawThumbnailData = (byte*)NativeMemory.Alloc((nuint)statSize);
 
-			pStream.Get()->Seek(0L, (SystemIO.SeekOrigin)STREAM_SEEK.STREAM_SEEK_SET, null);
-			hr = pStream.Get()->Read(RawThumbnailData, (uint)statSize);
+			pStream.Seek(0L, System.IO.SeekOrigin.Begin);
+			hr = pStream.Read(RawThumbnailData, (uint)statSize);
 			if (hr.ThrowIfFailedOnDebug().Failed)
 			{
 				if (gpBitmap is not null) PInvoke.GdipDisposeImage((GpImage*)gpBitmap);
@@ -266,14 +263,12 @@ namespace Files.App.Storage
 			if (iconFile.ToString() is not { } iconFilePath)
 				return HRESULT.E_INVALIDARG;
 
-			using ComPtr<IShellLinkW> pShellLink = default;
-
-			HRESULT hr = storable.ThisPtr->BindToHandler(null, BHID.BHID_SFUIObject, IID.IID_IShellLinkW, (void**)pShellLink.GetAddressOf());
+			HRESULT hr = storable.ThisPtr.BindToHandler(null, PInvoke.BHID_SFUIObject, out IShellLinkW? pShellLink);
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return hr;
 
 			fixed (char* pszIconFilePath = iconFilePath)
-				hr = pShellLink.Get()->SetIconLocation(iconFilePath, index);
+				hr = pShellLink!.SetIconLocation(iconFilePath, index);
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return hr;
 

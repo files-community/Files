@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
@@ -121,10 +121,12 @@ namespace Files.App.Services
 		{
 			try
 			{
-				using ComPtr<IContextMenu> pContextMenu = default;
-				HRESULT hr = item.ShellItem.Get()->BindToHandler(null, BHID.BHID_SFUIObject, IID.IID_IContextMenu, (void**)pContextMenu.GetAddressOf());
+				HRESULT hr = item.ShellItem.BindToHandler(null, PInvoke.BHID_SFUIObject, out IContextMenu? pContextMenu);
+				if (hr.Failed || pContextMenu is null)
+					return false;
+
 				HMENU hMenu = PInvoke.CreatePopupMenu();
-				hr = pContextMenu.Get()->QueryContextMenu(hMenu, 0, 1, 0x7FFF, PInvoke.CMF_OPTIMIZEFORINVOKE);
+				hr = pContextMenu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, PInvoke.CMF_OPTIMIZEFORINVOKE);
 
 				// Initialize invocation info
 				CMINVOKECOMMANDINFO cmi = default;
@@ -138,13 +140,13 @@ namespace Files.App.Services
 				{
 					// Try unpin files
 					cmi.lpVerb = new(pVerb1);
-					hr = pContextMenu.Get()->InvokeCommand(cmi);
+					hr = pContextMenu.InvokeCommand(cmi);
 					if (hr == HRESULT.S_OK)
 						return true;
 
 					// Try unpin folders
 					cmi.lpVerb = new(pVerb2);
-					hr = pContextMenu.Get()->InvokeCommand(cmi);
+					hr = pContextMenu.InvokeCommand(cmi);
 					if (hr == HRESULT.S_OK)
 						return true;
 
@@ -153,7 +155,7 @@ namespace Files.App.Services
 					//  won't be removed via unpinfromhome verb.
 					// Try unpin folders again
 					cmi.lpVerb = new(pVerb3);
-					hr = pContextMenu.Get()->InvokeCommand(cmi);
+					hr = pContextMenu.InvokeCommand(cmi);
 					if (hr == HRESULT.S_OK)
 						return true;
 				}
@@ -195,37 +197,40 @@ namespace Files.App.Services
 						: "Shell:::{679F85CB-0220-4080-B29B-5540CC05AAB6}"; // Quick Access folder (recent files)
 
 				// Get IShellItem of the shell folder
-				using ComPtr<IShellItem> pFolderShellItem = default;
-				fixed (char* pszFolderShellPath = szFolderShellPath)
-					hr = PInvoke.SHCreateItemFromParsingName(pszFolderShellPath, null, IID.IID_IShellItem, (void**)pFolderShellItem.GetAddressOf());
+				hr = PInvoke.SHCreateItemFromParsingName(szFolderShellPath, null, out IShellItem pFolderShellItem);
+				if (hr.Failed)
+					return false;
 
 				// Get IEnumShellItems of the quick access shell folder
-				using ComPtr<IEnumShellItems> pEnumShellItems = default;
-				hr = pFolderShellItem.Get()->BindToHandler(null, BHID.BHID_EnumItems, IID.IID_IEnumShellItems, (void**)pEnumShellItems.GetAddressOf());
+				hr = pFolderShellItem.BindToHandler(null, PInvoke.BHID_EnumItems, out IEnumShellItems? pEnumShellItems);
+				if (hr.Failed || pEnumShellItems is null)
+					return false;
 
 				// Enumerate recent items and populate the list
 				int index = 0;
 				List<RecentItem> recentItems = [];
-				ComPtr<IShellItem> pShellItem = default; // Do not dispose in this method to use later to prepare for its deletion
-				while (pEnumShellItems.Get()->Next(1, pShellItem.GetAddressOf()) == HRESULT.S_OK)
+				IShellItem[] pShellItems = new IShellItem[1];
+				while (pEnumShellItems.Next(1, pShellItems, null) == HRESULT.S_OK)
 				{
+					IShellItem shellItem = pShellItems[0];
+
 					// Get top 20 items
 					if (index is 20)
 						break;
 
 					// Exclude folders, but keep archives (ZIP/7z/RAR) which the shell reports as both folder and stream.
-					if (pShellItem.Get()->GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER | SFGAO_FLAGS.SFGAO_STREAM, out var attribute).Succeeded &&
+					if (shellItem.GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER | SFGAO_FLAGS.SFGAO_STREAM, out var attribute).Succeeded &&
 						(attribute & SFGAO_FLAGS.SFGAO_FOLDER) == SFGAO_FLAGS.SFGAO_FOLDER &&
 						(attribute & SFGAO_FLAGS.SFGAO_STREAM) == 0)
 						continue;
 
 					// Get the target path
-					pShellItem.Get()->GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEEDITING, out var szDisplayName);
+					shellItem.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEEDITING, out var szDisplayName);
 					var targetPath = szDisplayName.ToString();
 					PInvoke.CoTaskMemFree(szDisplayName.Value);
 
 					// Get the display name
-					pShellItem.Get()->GetDisplayName(SIGDN.SIGDN_NORMALDISPLAY, out szDisplayName);
+					shellItem.GetDisplayName(SIGDN.SIGDN_NORMALDISPLAY, out szDisplayName);
 					var fileName = szDisplayName.ToString();
 					PInvoke.CoTaskMemFree(szDisplayName.Value);
 
@@ -235,18 +240,26 @@ namespace Files.App.Services
 						fileName = string.IsNullOrEmpty(fileNameWithoutExtension) ? SystemIO.Path.GetFileName(fileName) : fileNameWithoutExtension;
 
 					// Get the date last modified
-					using ComPtr<IShellItem2> pShellItem2 = default;
-					hr = pShellItem.Get()->QueryInterface(IID.IID_IShellItem2, (void**)pShellItem2.GetAddressOf());
-					hr = PInvoke.PSGetPropertyKeyFromName("System.DateModified", out var propertyKey);
-					hr = pShellItem2.Get()->GetString(propertyKey, out var szPropertyValue);
-					if (DateTime.TryParse(szPropertyValue.ToString(), out var lastModified))
-						lastModified = DateTime.MinValue;
+					DateTime lastModified = DateTime.MinValue;
+
+					if (shellItem is IShellItem2 shellItem2 &&
+						PInvoke.PSGetPropertyKeyFromName("System.DateModified", out var propertyKey).Succeeded)
+					{
+						hr = shellItem2.GetString(propertyKey, out var szPropertyValue);
+						if (hr.Succeeded)
+						{
+							if (!DateTime.TryParse(szPropertyValue.ToString(), out lastModified))
+								lastModified = DateTime.MinValue;
+
+							PInvoke.CoTaskMemFree(szPropertyValue);
+						}
+					}
 
 					recentItems.Add(new()
 					{
 						Path = targetPath,
 						Name = fileName,
-						ShellItem = pShellItem,
+						ShellItem = shellItem,
 						LastModified = lastModified,
 					});
 

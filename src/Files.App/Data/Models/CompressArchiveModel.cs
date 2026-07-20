@@ -116,6 +116,9 @@ namespace Files.App.Data.Models
 		public CancellationToken CancellationToken { get; set; }
 
 		/// <inheritdoc/>
+		public bool IsCancelled { get; private set; }
+
+		/// <inheritdoc/>
 		public int CPUThreads { get; set; }
 
 		public CompressArchiveModel(
@@ -196,6 +199,7 @@ namespace Files.App.Data.Models
 			{
 				var files = sources.Where(File.Exists).ToArray();
 				var directories = sources.Where(SystemIO.Directory.Exists);
+				var skippedItems = new List<string>();
 
 				_sizeCalculator = new FileSizeCalculator([.. files, .. directories]);
 				var sizeTask = _sizeCalculator.ComputeSizeAsync(cts.Token);
@@ -207,17 +211,65 @@ namespace Files.App.Data.Models
 					_fileSystemProgress.Report();
 				});
 
-				foreach (string directory in directories)
+				// Enumerate the sources ourselves, skipping items that cannot be
+				// archived (e.g. broken junctions or locked files), see #16240
+				var directoryItems = new List<(string Path, List<string> ArchivableItems)>();
+				var archivableFiles = new List<string>();
+
+				await Task.Run(() =>
 				{
-					try
+					foreach (string directory in directories)
 					{
-						await compressor.CompressDirectoryAsync(directory, ArchivePath, Password);
+						var directoryPath = Path.GetFullPath(directory);
+						var archivableItems = new List<string>();
+
+						AddArchivableItems(directoryPath, archivableItems, skippedItems);
+						directoryItems.Add((directoryPath, archivableItems));
 					}
-					catch (SevenZipInvalidFileNamesException)
+
+					foreach (var file in files)
+					{
+						if (CanOpenFile(file))
+							archivableFiles.Add(file);
+						else
+							skippedItems.Add(file);
+					}
+				});
+
+				if (skippedItems.Count > 0)
+				{
+					var logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+					logger?.LogWarning($"Skipped {skippedItems.Count} item(s) that could not be archived to {ArchivePath}: {string.Join(", ", skippedItems)}");
+
+					// Ask the user whether to skip the items or cancel the operation, see #16240
+					var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+					var dialogResult = await dialogService.ShowDialogAsync(new CompressSkippedItemsDialogViewModel(skippedItems));
+
+					if (dialogResult is not DialogResult.Primary)
+					{
+						IsCancelled = true;
+						cts.Cancel();
+
+						return false;
+					}
+				}
+
+				foreach ((string directoryPath, List<string> archivableItems) in directoryItems)
+				{
+					if (archivableItems.Any(File.Exists))
+					{
+						var commonRootLength = GetCommonRootLength(directoryPath, sources.Length > 1);
+
+						if (string.IsNullOrEmpty(Password))
+							await compressor.CompressFilesAsync(ArchivePath, commonRootLength, [.. archivableItems]);
+						else
+							await compressor.CompressFilesEncryptedAsync(ArchivePath, commonRootLength, Password, [.. archivableItems]);
+					}
+					else
 					{
 						// The directory has no files, so we need to create entries manually
 						var fileDictionary = new Dictionary<string, string>();
-						AddEntry(fileDictionary, directory, "");
+						AddEntry(fileDictionary, directoryPath, "");
 
 						compressor.CompressFileDictionary(fileDictionary, ArchivePath, Password);
 
@@ -225,7 +277,18 @@ namespace Files.App.Data.Models
 						{
 							DirectoryInfo directoryInfo = new DirectoryInfo(directory);
 
-							DirectoryInfo[] directories = directoryInfo.GetDirectories();
+							DirectoryInfo[] directories;
+
+							try
+							{
+								directories = directoryInfo.GetDirectories();
+							}
+							catch (Exception)
+							{
+								// The directory contents are inaccessible (e.g. a broken junction), skip it
+								return;
+							}
+
 							if (directories.Length == 0)
 							{
 								fileDictionary.Add(entryPrefix + directoryInfo.Name, null);
@@ -242,12 +305,12 @@ namespace Files.App.Data.Models
 					compressor.CompressionMode = CompressionMode.Append;
 				}
 
-				if (files.Any())
+				if (archivableFiles.Count > 0)
 				{
 					if (string.IsNullOrEmpty(Password))
-						await compressor.CompressFilesAsync(ArchivePath, files);
+						await compressor.CompressFilesAsync(ArchivePath, [.. archivableFiles]);
 					else
-						await compressor.CompressFilesEncryptedAsync(ArchivePath, Password, files);
+						await compressor.CompressFilesEncryptedAsync(ArchivePath, Password, [.. archivableFiles]);
 				}
 
 				cts.Cancel();
@@ -263,6 +326,71 @@ namespace Files.App.Data.Models
 
 				return false;
 			}
+		}
+
+		/// <summary>
+		/// Recursively collects the items of a directory that can be archived,
+		/// skipping items that cannot be read (e.g. broken junctions or locked files).
+		/// </summary>
+		private void AddArchivableItems(string directory, List<string> items, List<string> skippedItems)
+		{
+			CancellationToken.ThrowIfCancellationRequested();
+
+			FileSystemInfo[] children;
+
+			try
+			{
+				children = new DirectoryInfo(directory).GetFileSystemInfos();
+			}
+			catch (Exception)
+			{
+				// The directory contents are inaccessible (e.g. a broken junction or access denied)
+				skippedItems.Add(directory);
+				return;
+			}
+
+			foreach (var child in children)
+			{
+				if (child is DirectoryInfo)
+				{
+					// Add the directory entry itself so empty directories are preserved
+					items.Add(child.FullName);
+					AddArchivableItems(child.FullName, items, skippedItems);
+				}
+				else if (CanOpenFile(child.FullName))
+				{
+					items.Add(child.FullName);
+				}
+				else
+				{
+					skippedItems.Add(child.FullName);
+				}
+			}
+		}
+
+		private static bool CanOpenFile(string path)
+		{
+			try
+			{
+				using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+
+				return true;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
+		}
+
+		private static int GetCommonRootLength(string directoryPath, bool preserveRootEntry)
+		{
+			// Entries are relative to the directory itself unless the root should be preserved
+			var trimmedPath = directoryPath.TrimEnd(Path.DirectorySeparatorChar);
+			var root = preserveRootEntry ? Path.GetDirectoryName(trimmedPath) : trimmedPath;
+
+			return string.IsNullOrEmpty(root)
+				? trimmedPath.Length + 1
+				: root.TrimEnd(Path.DirectorySeparatorChar).Length + 1;
 		}
 
 		private void Compressor_FileCompressionStarted(object? sender, FileNameEventArgs e)

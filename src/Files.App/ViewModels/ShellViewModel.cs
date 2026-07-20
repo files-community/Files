@@ -48,6 +48,7 @@ namespace Files.App.ViewModels
 
 		private Task? aProcessQueueAction;
 		private Task? gitProcessQueueAction;
+		private volatile Task? desktopIniUpdateTask;
 
 		// Files and folders list for manipulating
 		private ConcurrentCollection<ListedItem> filesAndFolders;
@@ -1763,6 +1764,7 @@ namespace Files.App.ViewModels
 
 				filesAndFolders.Clear();
 				FilesAndFolders.Clear();
+				desktopIniUpdateTask = null;
 
 				ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
 
@@ -1782,6 +1784,9 @@ namespace Files.App.ViewModels
 
 				ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
 				IsLoadingItems = false;
+
+				if (Interlocked.Exchange(ref desktopIniUpdateTask, null) is Task task)
+					await task;
 
 				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(folderSettings, filesAndFolders.ToList());
 			}
@@ -1942,15 +1947,15 @@ namespace Files.App.ViewModels
 				else if (res == FileSystemStatusCode.NotFound)
 				{
 					await DialogDisplayHelper.ShowDialogAsync(
-						Strings.FolderNotFoundDialog_Title.GetLocalizedResource(),
-						Strings.FolderNotFoundDialog_Text.GetLocalizedResource());
+						Strings.FolderNotFoundDialogTitle.GetLocalizedResource(),
+						Strings.FolderNotFoundDialogText.GetLocalizedResource());
 
 					return -1;
 				}
 				else
 				{
 					await DialogDisplayHelper.ShowDialogAsync(
-						Strings.DriveUnpluggedDialog_Title.GetLocalizedResource(),
+						Strings.DriveUnpluggedDialogTitle.GetLocalizedResource(),
 						res.ErrorCode.ToString());
 
 					return -1;
@@ -2051,7 +2056,7 @@ namespace Files.App.ViewModels
 
 				if (hFile == IntPtr.Zero)
 				{
-					await DialogDisplayHelper.ShowDialogAsync(Strings.DriveUnpluggedDialog_Title.GetLocalizedResource(), "");
+					await DialogDisplayHelper.ShowDialogAsync(Strings.DriveUnpluggedDialogTitle.GetLocalizedResource(), "");
 
 					return -1;
 				}
@@ -2085,8 +2090,11 @@ namespace Files.App.ViewModels
 
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
-						await dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-						await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+						// Not awaited here: with Low priority these don't run until the UI thread goes idle
+						// after the final list update, which would delay load completion and watcher setup.
+						// The desktop.ini task is awaited before applying the adaptive layout, which reads DesktopIni.
+						_ = dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+						desktopIniUpdateTask = dispatcherQueue.EnqueueOrInvokeAsync(() =>
 						{
 							GetDesktopIniFileData();
 							CheckForBackgroundImage();
@@ -2871,6 +2879,8 @@ namespace Files.App.ViewModels
 
 				await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
+					var itemsRegrouped = false;
+
 					foreach (var result in results)
 					{
 						if (result is not null)
@@ -2887,8 +2897,17 @@ namespace Files.App.ViewModels
 								item.FileSizeBytes = result.Value.Size.Value;
 								item.FileSize = item.FileSizeBytes.ToSizeString();
 							}
+
+							// Move the item to its correct group when the updated properties change
+							// its group key, e.g. when the date modified is restored after
+							// extracting an archive, see #14461
+							itemsRegrouped |= FilesAndFolders.UpdateItemGroup(item);
 						}
 					}
+
+					// Sort the changed groups and their position among the other groups
+					if (itemsRegrouped)
+						OrderGroups();
 				},
 				Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 			}

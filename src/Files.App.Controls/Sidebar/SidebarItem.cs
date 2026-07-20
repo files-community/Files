@@ -361,7 +361,16 @@ namespace Files.App.Controls
 			if (!IsInFlyout)
 			{
 				VisualStateManager.GoToState(this, DisplayMode == SidebarDisplayMode.Compact ? "Compact" : "NonCompact", false);
+				ReapplyOwnerExpansionState();
 			}
+		}
+
+		private void ReapplyOwnerExpansionState()
+		{
+			if (Owner is null || Owner.SupportsExpansion)
+				return;
+			VisualStateManager.GoToState(this, "OwnerSupportsExpansion", false);
+			VisualStateManager.GoToState(this, "OwnerDoesNotSupportExpansion", false);
 		}
 
 		private void UpdateSelectionState()

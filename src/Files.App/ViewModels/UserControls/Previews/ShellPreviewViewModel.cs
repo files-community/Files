@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.App.Helpers;
@@ -19,6 +19,7 @@ using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
 using WinRT;
+using WNDPROC = Windows.Win32.Extras.ManagedWNDPROC;
 
 #pragma warning disable CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
 
@@ -186,45 +187,46 @@ namespace Files.App.ViewModels.Previews
 			];
 
 			HRESULT hr = default;
-			Guid IID_IDCompositionDevice = typeof(IDCompositionDevice).GUID;
-			using ComPtr<ID3D11Device> pD3D11Device = default;
-			using ComPtr<ID3D11DeviceContext> pD3D11DeviceContext = default;
-			using ComPtr<IDXGIDevice> pDXGIDevice = default;
-			using ComPtr<IDCompositionDevice> pDCompositionDevice = default;
-			using ComPtr<IUnknown> pControlSurface = default;
-			ComPtr<IDCompositionVisual> pChildVisual = default; // Don't dispose this one, it's used by the compositor
+			ID3D11Device? pD3D11Device = null;
+			ID3D11DeviceContext? pD3D11DeviceContext = null;
+			IDXGIDevice? pDXGIDevice = null;
+			object? pControlSurface = null;
+			IDCompositionVisual? pChildVisual = null;
 
 			// Create the D3D11 device
 			foreach (var driverType in driverTypes)
 			{
 				hr = PInvoke.D3D11CreateDevice(
-					null, driverType, new(nint.Zero),
+					null!, driverType, new(nint.Zero),
 					D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_BGRA_SUPPORT,
-					null, /* FeatureLevels */ 0, /* SDKVersion */ 7,
-					pD3D11Device.GetAddressOf(), null,
-					pD3D11DeviceContext.GetAddressOf());
+					ReadOnlySpan<D3D_FEATURE_LEVEL>.Empty, /* SDKVersion */ 7,
+					out pD3D11Device,
+					out pD3D11DeviceContext);
 
 				if (hr.Succeeded)
 					break;
 			}
 
-			if (pD3D11Device.IsNull)
+			if (pD3D11Device is null)
 				return false;
 
 			// Create the DComp device
-			pDXGIDevice.Attach((IDXGIDevice*)pD3D11Device.Get());
-			hr = PInvoke.DCompositionCreateDevice(
-				pDXGIDevice.Get(),
-				&IID_IDCompositionDevice,
-				(void**)pDCompositionDevice.GetAddressOf());
+			pDXGIDevice = (IDXGIDevice)pD3D11Device;
+			hr = PInvoke.DCompositionCreateDevice(pDXGIDevice, out IDCompositionDevice pDCompositionDevice);
 			if (hr.Failed)
 				return false;
 
 			// Create the visual
-			hr = pDCompositionDevice.Get()->CreateVisual(pChildVisual.GetAddressOf());
-			hr = pDCompositionDevice.Get()->CreateSurfaceFromHwnd(_hWnd, pControlSurface.GetAddressOf());
-			hr = pChildVisual.Get()->SetContent(pControlSurface.Get());
-			if (pChildVisual.IsNull || pControlSurface.IsNull)
+			hr = pDCompositionDevice.CreateVisual(out pChildVisual);
+			if (hr.Failed)
+				return false;
+
+			hr = pDCompositionDevice.CreateSurfaceFromHwnd(_hWnd, out pControlSurface);
+			if (hr.Failed)
+				return false;
+
+			hr = pChildVisual.SetContent(pControlSurface);
+			if (hr.Failed || pChildVisual is null || pControlSurface is null)
 				return false;
 
 			// Get the compositor and set the visual on it
@@ -232,14 +234,14 @@ namespace Files.App.ViewModels.Previews
 			_contentExternalOutputLink = ContentExternalOutputLink.Create(compositor);
 
 			var target = _contentExternalOutputLink.As<Windows.Win32.Extras.IDCompositionTarget>();
-			target.SetRoot((nint)pChildVisual.Get());
+			target.SetRoot(pChildVisual);
 
 			_contentExternalOutputLink.PlacementVisual.Size = new(0, 0);
 			_contentExternalOutputLink.PlacementVisual.Scale = new(1 / (float)presenter.XamlRoot.RasterizationScale);
 			ElementCompositionPreview.SetElementChildVisual(presenter, _contentExternalOutputLink.PlacementVisual);
 
 			// Commit the all pending DComp commands
-			pDCompositionDevice.Get()->Commit();
+			pDCompositionDevice.Commit();
 
 			var dwAttrib = Convert.ToUInt32(true);
 

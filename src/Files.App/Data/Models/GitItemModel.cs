@@ -6,7 +6,7 @@ namespace Files.App.Data.Models
 	/// <summary>
 	/// Represents a model for Git items
 	/// </summary>
-	internal sealed class GitItemModel
+	public sealed class GitItemModel
 	{
 		/// <summary>
 		/// Gets or initializes file change kind

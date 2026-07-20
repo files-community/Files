@@ -19,11 +19,11 @@ namespace Files.App.Utils.Shell
 		private static readonly ImageConverter IconConverter = new();
 
 		private readonly ThreadWithMessageQueue owningThread;
-		private unsafe IContextMenu* contextMenu;
+		private IContextMenu? contextMenu;
 		private HMENU menu;
 		private bool disposedValue;
 
-		private unsafe OpenWithMenu(IContextMenu* contextMenu, HMENU menu, ThreadWithMessageQueue owningThread)
+		private OpenWithMenu(IContextMenu contextMenu, HMENU menu, ThreadWithMessageQueue owningThread)
 		{
 			this.contextMenu = contextMenu;
 			this.menu = menu;
@@ -51,21 +51,15 @@ namespace Files.App.Utils.Shell
 
 		public async Task<bool> InvokeItem(int itemId)
 		{
-			unsafe
-			{
-				if (itemId < 0 || contextMenu is null)
-					return false;
-			}
+			if (itemId < 0 || contextMenu is null)
+				return false;
 
 			try
 			{
 				var currentWindows = Win32Helper.GetDesktopWindows();
 				var hr = await owningThread.PostMethod<HRESULT>(() =>
 				{
-					unsafe
-					{
-						return InvokeItemCore(itemId);
-					}
+					return InvokeItemCore(itemId);
 				});
 				if (hr.Failed)
 					return false;
@@ -94,50 +88,38 @@ namespace Files.App.Utils.Shell
 				nShow = (int)SHOW_WINDOW_CMD.SW_SHOWNORMAL,
 			};
 
-			return contextMenu->InvokeCommand(&commandInfo);
+			return contextMenu.InvokeCommand(commandInfo);
 		}
 
 		private static unsafe OpenWithMenu? Create(string path, ThreadWithMessageQueue owningThread)
 		{
-			IContextMenu* openWithContextMenu = default;
+			IContextMenu? openWithContextMenu = null;
 			HMENU hMenu = default;
 
 			try
 			{
-				using ComPtr<IContextMenu2> openWithContextMenu2 = default;
-				using ComPtr<IShellExtInit> shellExtInit = default;
-				using ComPtr<IShellItem> shellItem = default;
-				using ComPtr<IDataObject> dataObject = default;
+				HRESULT hr = PInvoke.CoCreateInstance(CLSID.CLSID_OpenWithMenu, null, CLSCTX.CLSCTX_INPROC_SERVER, out openWithContextMenu);
+				if (hr.ThrowIfFailedOnDebug().Failed || openWithContextMenu is null)
+					return null;
 
-				HRESULT hr = PInvoke.CoCreateInstance(CLSID.CLSID_OpenWithMenu, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IContextMenu, (void**)&openWithContextMenu);
+				if (openWithContextMenu is not IContextMenu2 openWithContextMenu2 ||
+					openWithContextMenu is not IShellExtInit shellExtInit)
+					return null;
+
+				hr = PInvoke.SHCreateItemFromParsingName(path, null, out IShellItem shellItem);
 				if (hr.ThrowIfFailedOnDebug().Failed)
 					return null;
 
-				hr = openWithContextMenu->QueryInterface(IID.IID_IContextMenu2, (void**)openWithContextMenu2.GetAddressOf());
-				if (hr.ThrowIfFailedOnDebug().Failed)
+				hr = shellItem.BindToHandler(null, PInvoke.BHID_DataObject, out IDataObject? dataObject);
+				if (hr.ThrowIfFailedOnDebug().Failed || dataObject is null)
 					return null;
 
-				hr = openWithContextMenu->QueryInterface(IID.IID_IShellExtInit, (void**)shellExtInit.GetAddressOf());
-				if (hr.ThrowIfFailedOnDebug().Failed)
-					return null;
-
-				fixed (char* pathPtr = path)
-				{
-					hr = PInvoke.SHCreateItemFromParsingName(pathPtr, null, IID.IID_IShellItem, (void**)shellItem.GetAddressOf());
-				}
-				if (hr.ThrowIfFailedOnDebug().Failed)
-					return null;
-
-				hr = shellItem.Get()->BindToHandler(null, BHID.BHID_DataObject, IID.IID_IDataObject, (void**)dataObject.GetAddressOf());
-				if (hr.ThrowIfFailedOnDebug().Failed)
-					return null;
-
-				hr = shellExtInit.Get()->Initialize(null, dataObject.Get(), default);
+				hr = shellExtInit.Initialize(null, dataObject, null);
 				if (hr.ThrowIfFailedOnDebug().Failed)
 					return null;
 
 				hMenu = PInvoke.CreatePopupMenu();
-				hr = openWithContextMenu->QueryContextMenu(hMenu, 0, 1, 256, 0);
+				hr = openWithContextMenu.QueryContextMenu(hMenu, 0, 1, 256, 0);
 				if (hr.ThrowIfFailedOnDebug().Failed)
 					return null;
 
@@ -145,12 +127,12 @@ namespace Files.App.Utils.Shell
 				if (hSubMenu.IsNull)
 					return null;
 
-				hr = openWithContextMenu2.Get()->HandleMenuMsg(PInvoke.WM_INITMENUPOPUP, (WPARAM)(nuint)hSubMenu.Value, 0);
+				hr = openWithContextMenu2.HandleMenuMsg(PInvoke.WM_INITMENUPOPUP, (WPARAM)(nuint)hSubMenu.Value, 0);
 				if (hr.ThrowIfFailedOnDebug().Failed)
 					return null;
 
 				var openWithMenu = new OpenWithMenu(openWithContextMenu, hMenu, owningThread);
-				openWithContextMenu = default;
+				openWithContextMenu = null;
 				hMenu = default;
 				openWithMenu.EnumMenuItems(hSubMenu);
 
@@ -165,9 +147,6 @@ namespace Files.App.Utils.Shell
 			{
 				if (!hMenu.IsNull)
 					PInvoke.DestroyMenu(hMenu);
-
-				if (openWithContextMenu is not null)
-					openWithContextMenu->Release();
 			}
 		}
 
@@ -277,14 +256,7 @@ namespace Files.App.Utils.Shell
 				menu = default;
 			}
 
-			unsafe
-			{
-				if (contextMenu is not null)
-				{
-					contextMenu->Release();
-					contextMenu = null;
-				}
-			}
+			contextMenu = null;
 
 			owningThread.Dispose();
 			disposedValue = true;

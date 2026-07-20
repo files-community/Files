@@ -5,6 +5,7 @@ using Windows.Storage;
 using Windows.System.UserProfile;
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.Shell.Common;
 
@@ -17,11 +18,12 @@ namespace Files.App.Services
 		public unsafe void SetDesktopWallpaper(string szPath)
 		{
 			// Instantiate IDesktopWallpaper
-			using ComPtr<IDesktopWallpaper> pDesktopWallpaper = default;
-			HRESULT hr = pDesktopWallpaper.CoCreateInstance(CLSID.CLSID_DesktopWallpaper);
+			HRESULT hr = PInvoke.CoCreateInstance(typeof(DesktopWallpaper).GUID, null, CLSCTX.CLSCTX_LOCAL_SERVER, out IDesktopWallpaper? pDesktopWallpaper);
+			if (hr.Failed || pDesktopWallpaper is null)
+				return;
 
 			// Get total count of all available monitors
-			hr = pDesktopWallpaper.Get()->GetMonitorDevicePathCount(out var dwMonitorCount);
+			hr = pDesktopWallpaper.GetMonitorDevicePathCount(out var dwMonitorCount);
 
 			fixed (char* pszPath = szPath)
 			{
@@ -31,8 +33,9 @@ namespace Files.App.Services
 				for (uint dwIndex = 0u; dwIndex < dwMonitorCount; dwIndex++)
 				{
 					// Set the wallpaper
-					hr = pDesktopWallpaper.Get()->GetMonitorDevicePathAt(dwIndex, &pMonitorId);
-					hr = pDesktopWallpaper.Get()->SetWallpaper(pMonitorId, pszPath);
+					hr = pDesktopWallpaper.GetMonitorDevicePathAt(dwIndex, out pMonitorId);
+					hr = pDesktopWallpaper.SetWallpaper(pMonitorId.ToString(), szPath);
+					PInvoke.CoTaskMemFree(pMonitorId);
 
 					pMonitorId = default;
 				}
@@ -43,8 +46,9 @@ namespace Files.App.Services
 		public unsafe void SetDesktopSlideshow(string[] aszPaths)
 		{
 			// Instantiate IDesktopWallpaper
-			using ComPtr<IDesktopWallpaper> pDesktopWallpaper = default;
-			HRESULT hr = pDesktopWallpaper.CoCreateInstance(CLSID.CLSID_DesktopWallpaper);
+			HRESULT hr = PInvoke.CoCreateInstance(typeof(DesktopWallpaper).GUID, null, CLSCTX.CLSCTX_LOCAL_SERVER, out IDesktopWallpaper? pDesktopWallpaper);
+			if (hr.Failed || pDesktopWallpaper is null)
+				return;
 
 			uint dwCount = (uint)aszPaths.Length;
 			ITEMIDLIST** ppItemIdList = stackalloc ITEMIDLIST*[aszPaths.Length];
@@ -54,16 +58,15 @@ namespace Files.App.Services
 				ppItemIdList[dwIndex] = PInvoke.ILCreateFromPath(aszPaths[dwIndex]);
 
 			// Get an IShellItemArray from the array of the PIDL
-			using ComPtr<IShellItemArray> pShellItemArray = default;
-			hr = PInvoke.SHCreateShellItemArrayFromIDLists(dwCount, ppItemIdList, pShellItemArray.GetAddressOf());
+			hr = PInvoke.SHCreateShellItemArrayFromIDLists(dwCount, ppItemIdList, out IShellItemArray pShellItemArray);
 
 			// Release the allocated PIDL
 			for (uint dwIndex = 0u; dwIndex < dwCount; dwIndex++)
 				PInvoke.CoTaskMemFree((void*)ppItemIdList[dwIndex]);
 
 			// Set the slideshow and its position
-			hr = pDesktopWallpaper.Get()->SetSlideshow(pShellItemArray.Get());
-			hr = pDesktopWallpaper.Get()->SetPosition(DESKTOP_WALLPAPER_POSITION.DWPOS_FILL);
+			hr = pDesktopWallpaper.SetSlideshow(pShellItemArray);
+			hr = pDesktopWallpaper.SetPosition(DESKTOP_WALLPAPER_POSITION.DWPOS_FILL);
 		}
 
 		/// <inheritdoc/>

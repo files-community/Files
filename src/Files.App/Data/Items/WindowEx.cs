@@ -11,6 +11,8 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.UI.WindowsAndMessaging;
+using MONITORENUMPROC = Windows.Win32.Extras.ManagedMONITORENUMPROC;
+using WNDPROC = Windows.Win32.Extras.ManagedWNDPROC;
 
 namespace Files.App.Data.Items
 {

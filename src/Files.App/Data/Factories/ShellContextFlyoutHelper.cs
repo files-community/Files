@@ -89,7 +89,7 @@ namespace Files.App.Helpers
 					"opennew", "opencontaining", "opennewprocess",
 					"runas", "runasuser", "pintohome", "PinToStartScreen",
 					"cut", "copy", "paste", "delete", "properties", "link",
-					"Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
+					"Windows.ModernShare", "setdesktopwallpaper",
 					"eject", "rename", "explore", "openinfiles", "extract",
 					"copyaspath", "undelete", "empty", "format", "rotate90", "rotate270",
 					Win32Helper.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection

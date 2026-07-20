@@ -328,7 +328,7 @@ namespace Files.App.Utils.Library
 					}
 				},
 				TitleText = Strings.FolderWidgetCreateNewLibraryDialogTitleText.GetLocalizedResource(),
-				SubtitleText = Strings.SideBarCreateNewLibrary_Text.GetLocalizedResource(),
+				SubtitleText = Strings.SideBarCreateNewLibraryText.GetLocalizedResource(),
 				PrimaryButtonText = Strings.Create.GetLocalizedResource(),
 				CloseButtonText = Strings.Cancel.GetLocalizedResource(),
 				PrimaryButtonAction = async (vm, e) =>

@@ -18,13 +18,13 @@ namespace Files.App.ViewModels.Settings
 		private List<SettingsSearchResult>? _searchIndex;
 
 		[ObservableProperty]
-		private SettingsPageKind _selectedPage = SettingsPageKind.GeneralPage;
+		public partial SettingsPageKind SelectedPage { get; set; } = SettingsPageKind.GeneralPage;
 
 		[ObservableProperty]
 		[NotifyPropertyChangedFor(nameof(IsSearchActive))]
 		[NotifyPropertyChangedFor(nameof(HasNoSearchResults))]
 		[NotifyPropertyChangedFor(nameof(SearchHeading))]
-		private string _searchQuery = string.Empty;
+		public partial string SearchQuery { get; set; } = string.Empty;
 
 		public bool IsSearchActive => !string.IsNullOrWhiteSpace(SearchQuery);
 
@@ -116,7 +116,7 @@ namespace Files.App.ViewModels.Settings
 		// ISidebarItemModel
 		public object? Children => null;
 		public string? Path => null;
-		[ObservableProperty] private bool _isExpanded;
+		[ObservableProperty] public partial bool IsExpanded { get; set; }
 
 		// DefaultSidebarItemTemplate bindings
 		public object? ToolTip => Text;

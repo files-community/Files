@@ -124,7 +124,7 @@ namespace Files.App.ViewModels.Settings
 
 		public Task DoSubmitFeatureRequest()
 		{
-			return Launcher.LaunchUriAsync(new Uri($"{Constants.ExternalUrl.FeatureRequestUrl}&{GetVersionsQueryString()}")).AsTask();
+			return Launcher.LaunchUriAsync(new Uri(Constants.ExternalUrl.FeatureRequestUrl)).AsTask();
 		}
 
 		public Task DoSubmitBugReport()

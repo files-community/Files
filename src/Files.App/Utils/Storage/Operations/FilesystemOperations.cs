@@ -636,11 +636,11 @@ namespace Files.App.Utils.Storage
 				}
 				else if (renamed == FileSystemStatusCode.NotAFile || renamed == FileSystemStatusCode.NotAFolder)
 				{
-					await DialogDisplayHelper.ShowDialogAsync(Strings.RenameError_NameInvalid_Title.GetLocalizedResource(), Strings.RenameError_NameInvalid_Text.GetLocalizedResource());
+					await DialogDisplayHelper.ShowDialogAsync(Strings.RenameErrorNameInvalidTitle.GetLocalizedResource(), Strings.RenameErrorNameInvalidText.GetLocalizedResource());
 				}
 				else if (renamed == FileSystemStatusCode.NameTooLong)
 				{
-					await DialogDisplayHelper.ShowDialogAsync(Strings.RenameError_TooLong_Title.GetLocalizedResource(), Strings.RenameError_TooLong_Text.GetLocalizedResource());
+					await DialogDisplayHelper.ShowDialogAsync(Strings.RenameErrorTooLongTitle.GetLocalizedResource(), Strings.RenameErrorTooLongText.GetLocalizedResource());
 				}
 				else if (renamed == FileSystemStatusCode.InUse)
 				{
@@ -649,7 +649,7 @@ namespace Files.App.Utils.Storage
 				}
 				else if (renamed == FileSystemStatusCode.NotFound)
 				{
-					await DialogDisplayHelper.ShowDialogAsync(Strings.RenameError_ItemDeleted_Title.GetLocalizedResource(), Strings.RenameError_ItemDeleted_Text.GetLocalizedResource());
+					await DialogDisplayHelper.ShowDialogAsync(Strings.RenameErrorItemDeletedTitle.GetLocalizedResource(), Strings.RenameErrorItemDeletedText.GetLocalizedResource());
 				}
 				else if (renamed == FileSystemStatusCode.AlreadyExists)
 				{
@@ -792,11 +792,11 @@ namespace Files.App.Utils.Storage
 			{
 				if (((FileSystemStatusCode)fsResult).HasFlag(FileSystemStatusCode.Unauthorized))
 				{
-					await DialogDisplayHelper.ShowDialogAsync(Strings.AccessDenied.GetLocalizedResource(), Strings.AccessDeniedDeleteDialog_Text.GetLocalizedResource());
+					await DialogDisplayHelper.ShowDialogAsync(Strings.AccessDenied.GetLocalizedResource(), Strings.AccessDeniedDeleteDialogText.GetLocalizedResource());
 				}
 				else if (((FileSystemStatusCode)fsResult).HasFlag(FileSystemStatusCode.NotFound))
 				{
-					await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialog_Title.GetLocalizedResource(), Strings.FileNotFoundDialog_Text.GetLocalizedResource());
+					await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialogTitle.GetLocalizedResource(), Strings.FileNotFoundDialogText.GetLocalizedResource());
 				}
 				else if (((FileSystemStatusCode)fsResult).HasFlag(FileSystemStatusCode.AlreadyExists))
 				{

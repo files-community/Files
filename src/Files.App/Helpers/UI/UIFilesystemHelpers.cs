@@ -145,7 +145,7 @@ namespace Files.App.Helpers
 				await DialogDisplayHelper.ShowDialogAsync
 				(
 					Strings.AccessDenied.GetLocalizedResource(),
-					Strings.AccessDeniedCreateDialog_Text.GetLocalizedResource()
+					Strings.AccessDeniedCreateDialogText.GetLocalizedResource()
 				);
 			}
 

@@ -38,7 +38,7 @@
 			<HyperlinkButton
 				HorizontalAlignment="Left"
 				Content="{helpers:ResourceString Name=SponsorUsOnGitHub}"
-				NavigateUri="https://github.com/sponsors/yaira2" />
+				NavigateUri="{x:Bind ViewModel.SupportUsUrl, Mode=OneTime}" />
 		</Border>
 	</Grid>
 
