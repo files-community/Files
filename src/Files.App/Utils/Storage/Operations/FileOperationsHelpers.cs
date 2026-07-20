@@ -469,7 +469,8 @@ namespace Files.App.Utils.Storage
 							Succeeded = false,
 							Source = fileToMovePath[i],
 							Destination = moveDestination[i],
-							HResult = -1
+							// HResult -1 makes the caller retry with the StorageFile API (ADS); a missing source must map to NotFound instead
+							HResult = MainStreamExists(fileToMovePath[i]) ? -1 : CopyEngineResult.COPYENGINE_E_PATH_NOT_FOUND_SRC
 						});
 					}
 				}
@@ -608,7 +609,8 @@ namespace Files.App.Utils.Storage
 							Succeeded = false,
 							Source = fileToCopyPath[i],
 							Destination = copyDestination[i],
-							HResult = -1
+							// HResult -1 makes the caller retry with the StorageFile API (ADS); a missing source must map to NotFound instead
+							HResult = MainStreamExists(fileToCopyPath[i]) ? -1 : CopyEngineResult.COPYENGINE_E_PATH_NOT_FOUND_SRC
 						});
 					}
 				}
@@ -1139,6 +1141,17 @@ namespace Files.App.Utils.Storage
 				index++;
 
 			return Path.GetFileName(genFilePath(index));
+		}
+
+		private static bool MainStreamExists(string path)
+		{
+			// Path.Exists is always false for ADS paths (file.txt:stream), so check the main stream's path
+			var fileName = Path.GetFileName(path);
+			var colonIndex = fileName.IndexOf(':');
+			if (colonIndex is not -1)
+				path = path[..(path.Length - fileName.Length + colonIndex)];
+
+			return Path.Exists(path);
 		}
 	}
 }

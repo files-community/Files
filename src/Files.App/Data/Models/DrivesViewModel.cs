@@ -61,7 +61,11 @@ namespace Files.App.Data.Models
 			logger.LogInformation($"Drive removed: {e}");
 			lock (Drives)
 			{
-				var drive = Drives.FirstOrDefault(x => (x as DriveItem)?.DeviceID == e);
+				// Depending on the event source, drives are identified by a drive letter
+				// or a device interface ID, so match on either.
+				var drive = Drives.FirstOrDefault(x =>
+					(x as DriveItem)?.DeviceID == e ||
+					x.Id.TrimEnd('\\').Equals(e.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase));
 				if (drive is not null)
 					Drives.Remove(drive);
 			}
@@ -77,9 +81,9 @@ namespace Files.App.Data.Models
 				// If drive already in list, remove it first.
 				var matchingDrive = Drives.FirstOrDefault(x =>
 					(x as DriveItem)?.DeviceID == (e as DriveItem)?.DeviceID ||
-					string.IsNullOrEmpty(e.Id)
+					(string.IsNullOrEmpty(e.Id)
 						? x.Id.Contains(e.Name, StringComparison.OrdinalIgnoreCase)
-						: Path.GetFullPath(x.Id) == Path.GetFullPath(e.Id)
+						: Path.GetFullPath(x.Id) == Path.GetFullPath(e.Id))
 				);
 
 				if (matchingDrive is not null)

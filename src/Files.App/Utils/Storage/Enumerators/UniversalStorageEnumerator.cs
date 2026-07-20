@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Services.SizeProvider;
 using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -11,6 +12,8 @@ namespace Files.App.Utils.Storage
 {
 	public static class UniversalStorageEnumerator
 	{
+		private static readonly ISizeProvider folderSizeProvider = Ioc.Default.GetService<ISizeProvider>();
+
 		private static readonly IIconCacheService iconCacheService = Ioc.Default.GetRequiredService<IIconCacheService>();
 
 		public static async Task<List<ListedItem>> ListEntries(
@@ -27,6 +30,7 @@ namespace Files.App.Utils.Storage
 			var firstRound = true;
 
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			bool calculateFolderSizes = userSettingsService.FoldersSettingsService.CalculateFolderSizes;
 
 			while (true)
 			{
@@ -88,6 +92,19 @@ namespace Files.App.Utils.Storage
 									folder.FileImage = defaultIconPairs[string.Empty];
 
 								tempList.Add(folder);
+
+								// The size provider enumerates with Win32, which reports size 0 for
+								// virtual paths (ftp, archives) it cannot traverse; skip those
+								if (calculateFolderSizes && FolderHelpers.CheckFolderAccessWithWin32(folder.ItemPath))
+								{
+									if (folderSizeProvider.TryGetSize(folder.ItemPath, out var size))
+									{
+										folder.FileSizeBytes = (long)size;
+										folder.FileSize = size.ToSizeString();
+									}
+
+									_ = folderSizeProvider.UpdateAsync(folder.ItemPath, cancellationToken);
+								}
 							}
 						}
 						else

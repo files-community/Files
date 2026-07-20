@@ -120,7 +120,7 @@ namespace Files.App.Utils.Storage
 				else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
 				{
 					var failedSources = copyResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
-					var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination);
+					var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_DEST ? x.Destination : x.Source);
 					var lockingProcess = WhoIsLocking(filePath);
 
 					switch (await GetFileInUseDialog(filePath, lockingProcess))
@@ -566,7 +566,7 @@ namespace Files.App.Utils.Storage
 				else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
 				{
 					var failedSources = moveResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
-					var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination);
+					var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_DEST ? x.Destination : x.Source);
 					var lockingProcess = WhoIsLocking(filePath);
 
 					switch (await GetFileInUseDialog(filePath, lockingProcess))
@@ -694,7 +694,7 @@ namespace Files.App.Utils.Storage
 				else if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
 				{
 					var failedSources = renameResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
-					var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination);
+					var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_DEST ? x.Destination : x.Source);
 					var lockingProcess = WhoIsLocking(filePath);
 
 					switch (await GetFileInUseDialog(filePath, lockingProcess))
@@ -799,7 +799,7 @@ namespace Files.App.Utils.Storage
 				else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
 				{
 					var failedSources = moveResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
-					var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination);
+					var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_DEST ? x.Destination : x.Source);
 					var lockingProcess = WhoIsLocking(filePath);
 
 					switch (await GetFileInUseDialog(filePath, lockingProcess))

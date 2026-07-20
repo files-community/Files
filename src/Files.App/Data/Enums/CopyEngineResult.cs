@@ -30,6 +30,7 @@ namespace Files.App.Data.Enums
 		// File in use
 		public const int COPYENGINE_E_SHARING_VIOLATION_SRC = -2144927705;
 		public const int COPYENGINE_E_SHARING_VIOLATION_DEST = -2144927704;
+		public const int HRESULT_ERROR_SHARING_VIOLATION = -2147024864;
 		// Already exists
 		public const int COPYENGINE_E_ALREADY_EXISTS_NORMAL = -2144927703;
 		public const int COPYENGINE_E_ALREADY_EXISTS_READONLY = -2144927702;
@@ -83,6 +84,7 @@ namespace Files.App.Data.Enums
 				CopyEngineResult.COPYENGINE_E_FLD_IS_FILE_DEST => FileSystemStatusCode.NotAFolder,
 				CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC => FileSystemStatusCode.InUse,
 				CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_DEST => FileSystemStatusCode.InUse,
+				CopyEngineResult.HRESULT_ERROR_SHARING_VIOLATION => FileSystemStatusCode.InUse,
 				CopyEngineResult.COPYENGINE_E_STREAM_LOSS => FileSystemStatusCode.PropertyLoss,
 				CopyEngineResult.COPYENGINE_E_EA_LOSS => FileSystemStatusCode.PropertyLoss,
 				CopyEngineResult.COPYENGINE_E_PROPERTY_LOSS => FileSystemStatusCode.PropertyLoss,

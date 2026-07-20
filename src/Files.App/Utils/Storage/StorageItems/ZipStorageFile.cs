@@ -143,7 +143,7 @@ namespace Files.App.Utils.Storage
 					}
 
 					//zipFile.IsStreamOwner = true;
-					var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == Path);
+					var entry = zipFile.GetArchiveFileData(containerPath).FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == Path);
 
 					if (entry.FileName is not null)
 					{
@@ -228,7 +228,7 @@ namespace Files.App.Utils.Storage
 				}
 
 				//zipFile.IsStreamOwner = true;
-				var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == Path);
+				var entry = zipFile.GetArchiveFileData(containerPath).FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == Path);
 				if (entry.FileName is null)
 				{
 					return null;
@@ -302,7 +302,7 @@ namespace Files.App.Utils.Storage
 					return null;
 				}
 				//zipFile.IsStreamOwner = true;
-				var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == Path);
+				var entry = zipFile.GetArchiveFileData(containerPath).FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == Path);
 				if (entry.FileName is null)
 				{
 					return null;
@@ -376,7 +376,7 @@ namespace Files.App.Utils.Storage
 				}
 
 				//zipFile.IsStreamOwner = true;
-				var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == Path);
+				var entry = zipFile.GetArchiveFileData(containerPath).FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == Path);
 				if (entry.FileName is null)
 				{
 					return null;
@@ -462,7 +462,7 @@ namespace Files.App.Utils.Storage
 					return;
 				}
 				//zipFile.IsStreamOwner = true;
-				var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == Path);
+				var entry = zipFile.GetArchiveFileData(containerPath).FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == Path);
 				if (entry.FileName is null)
 				{
 					return;
@@ -657,7 +657,7 @@ namespace Files.App.Utils.Storage
 					return -1;
 				}
 				//zipFile.IsStreamOwner = true;
-				var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == Path);
+				var entry = zipFile.GetArchiveFileData(containerPath).FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == Path);
 				if (entry.FileName is not null)
 				{
 					return entry.Index;
@@ -675,7 +675,7 @@ namespace Files.App.Utils.Storage
 			}
 
 			//zipFile.IsStreamOwner = true;
-			var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == Path);
+			var entry = zipFile.GetArchiveFileData(containerPath).FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == Path);
 
 			return entry.FileName is null
 				? new BaseBasicProperties()
@@ -749,7 +749,7 @@ namespace Files.App.Utils.Storage
 						return;
 					}
 					//zipFile.IsStreamOwner = true;
-					var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == name);
+					var entry = zipFile.GetArchiveFileData(containerPath).FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == name);
 					if (entry.FileName is null)
 					{
 						request.FailAndClose(StreamedFileFailureMode.CurrentlyUnavailable);
