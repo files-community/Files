@@ -169,7 +169,7 @@ namespace Files.App.Services
 				{
 					ThreadingService.ExecuteOnUiThreadAsync(() =>
 					{
-						fsProgress.FileName = e.FileInfo.FileName;
+						fsProgress.FileName = ArchiveEntryHelpers.GetEntryName(e.FileInfo, archiveFilePath);
 						fsProgress.Report();
 					});
 				}
@@ -188,8 +188,21 @@ namespace Files.App.Services
 
 			try
 			{
-				// TODO: Get this method return result
-				await zipFile.ExtractArchiveAsync(destinationFolderPath);
+				var files = zipFile.ArchiveFileData.Where(x => !x.IsDirectory).ToList();
+				var resolvedName = files.Count is 1 ? ArchiveEntryHelpers.GetEntryName(files[0], archiveFilePath) : null;
+
+				if (resolvedName is not null && resolvedName != files[0].FileName)
+				{
+					// ExtractArchive would write the entry's "[no name]" placeholder to disk
+					Directory.CreateDirectory(destinationFolderPath);
+					await using var destinationStream = File.Create(Path.Combine(destinationFolderPath, resolvedName));
+					await zipFile.ExtractFileAsync(files[0].Index, destinationStream);
+				}
+				else
+				{
+					// TODO: Get this method return result
+					await zipFile.ExtractArchiveAsync(destinationFolderPath);
+				}
 
 				if (!statusCard.CancellationToken.IsCancellationRequested)
 					isSuccess = true;
