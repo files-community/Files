@@ -35,6 +35,9 @@ namespace Files.App.Views
 
 		private DispatcherQueueTimer _updateDateDisplayTimer;
 
+		private readonly Dictionary<TabBarItem, double> _sidebarScrollByTab = new();
+		private TabBarItem? _previousSidebarTab;
+
 		public MainPage()
 		{
 			InitializeComponent();
@@ -53,6 +56,7 @@ namespace Files.App.Views
 
 			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
 
 			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
 			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
@@ -183,6 +187,12 @@ namespace Files.App.Views
 			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
+		}
+
+		private void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(IContentPageContext.PageType))
+				LoadPaneChanged();
 		}
 
 		private void UpdateStatusBarProperties()
@@ -338,6 +348,15 @@ namespace Files.App.Views
 		{
 			// Set the correct tab margin on startup
 			SidebarAdaptiveViewModel.UpdateTabControlMargin();
+			SidebarAdaptiveViewModel.EnsureTabExpansionTrackingInitialized();
+
+			SidebarControl.HoverToOpenDelay = TimeSpan.FromMilliseconds(Constants.DragAndDrop.HoverToOpenTimespan);
+			SidebarControl.HoverToExpandDelay = TimeSpan.FromMilliseconds(Constants.DragAndDrop.HoverToExpandTimespan);
+
+			// VM.SidebarDisplayMode rejects Minimal (it only tracks user preference) so the flat tree mirrors SidebarView.DisplayMode separately.
+			SidebarAdaptiveViewModel.ActualDisplayMode = SidebarControl.DisplayMode;
+			SidebarControl.RegisterPropertyChangedCallback(SidebarView.DisplayModeProperty, (_, _) =>
+				SidebarAdaptiveViewModel.ActualDisplayMode = SidebarControl.DisplayMode);
 		}
 
 		private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e) => LoadPaneChanged();
@@ -401,13 +420,13 @@ namespace Files.App.Views
 			{
 				var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
 				var isReleaseNotesPage = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeReleaseNotes ?? false;
+				var isSettingsPage = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeSettings ?? false;
 				var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
 				var isBigEnough = !App.AppModel.IsMainWindowClosed &&
 					(MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360);
 
-				ViewModel.ShouldPreviewPaneBeDisplayed = ((!isHomePage && !isReleaseNotesPage) || isMultiPane) && isBigEnough;
+				ViewModel.ShouldPreviewPaneBeDisplayed = ((!isHomePage && !isReleaseNotesPage && !isSettingsPage) || isMultiPane) && isBigEnough;
 				ViewModel.ShouldPreviewPaneBeActive = UserSettingsService.InfoPaneSettingsService.IsInfoPaneEnabled && ViewModel.ShouldPreviewPaneBeDisplayed;
-				ViewModel.ShouldViewControlBeDisplayed = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
 
 				UpdatePositioning();
 			}
@@ -424,6 +443,24 @@ namespace Files.App.Views
 		{
 			if (e.PropertyName == nameof(ViewModel.ShouldPreviewPaneBeActive) && ViewModel.ShouldPreviewPaneBeActive)
 				await Ioc.Default.GetRequiredService<InfoPaneViewModel>().UpdateSelectedItemPreviewAsync();
+			else if (e.PropertyName == nameof(ViewModel.SelectedTabItem))
+				HandleSidebarTabChange();
+		}
+
+		private void HandleSidebarTabChange()
+		{
+			if (_previousSidebarTab is not null)
+				_sidebarScrollByTab[_previousSidebarTab] = SidebarControl.VerticalScrollOffset;
+
+			var newTab = ViewModel.SelectedTabItem;
+			_previousSidebarTab = newTab;
+
+			if (newTab is null)
+				return;
+
+			var savedOffset = _sidebarScrollByTab.GetValueOrDefault(newTab);
+			// Defer to after the flat-tree's tab-state restoration dispatcher work so the content extent has caught up before scrolling.
+			DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () => SidebarControl.ScrollToVerticalOffset(savedOffset));
 		}
 
 		private void RootGrid_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -476,34 +513,49 @@ namespace Files.App.Views
 
 		private async void SidebarControl_ItemDragOver(object sender, ItemDragOverEventArgs e)
 		{
-			var deferral = e.RawEvent.GetDeferral();
+			// GetDeferral()/Complete() can throw COMException if the underlying drag operation has already been released (e.g. canceled by the system or window closed)
+			var deferral = SafetyExtensions.IgnoreExceptions(() => e.RawEvent.GetDeferral(), App.Logger);
 
 			await SafetyExtensions.IgnoreExceptions(async () =>
 			{
 				await SidebarAdaptiveViewModel.HandleItemDragOverAsync(e);
 			}, App.Logger);
 
-			deferral.Complete();
+			if (deferral is not null)
+				SafetyExtensions.IgnoreExceptions(() => deferral.Complete(), App.Logger);
 		}
 
 		private async void SidebarControl_ItemDropped(object sender, ItemDroppedEventArgs e)
 		{
-			var deferral = e.RawEvent.GetDeferral();
+			// GetDeferral()/Complete() can throw COMException if the underlying drag operation has already been released (e.g. canceled by the system or window closed)
+			var deferral = SafetyExtensions.IgnoreExceptions(() => e.RawEvent.GetDeferral(), App.Logger);
 
 			await SafetyExtensions.IgnoreExceptions(async () =>
 			{
 				await SidebarAdaptiveViewModel.HandleItemDroppedAsync(e);
 			}, App.Logger);
 
-			deferral.Complete();
+			if (deferral is not null)
+				SafetyExtensions.IgnoreExceptions(() => deferral.Complete(), App.Logger);
 		}
 
 		private void SidebarControl_ItemInvoked(object sender, ItemInvokedEventArgs e)
 		{
-			if (sender is not SidebarItem sidebarItem)
+			if (sender is not SidebarItem { Item: ISidebarItemModel item })
 				return;
 
-			SidebarAdaptiveViewModel.HandleItemInvokedAsync(sidebarItem.Item, e.PointerUpdateKind);
+			if (item is INavigationControlItem navItem &&
+				string.Equals(navItem.Path, "Settings", StringComparison.OrdinalIgnoreCase))
+				_ = AnimateSettingsIconAsync();
+
+			SidebarAdaptiveViewModel.HandleItemInvokedAsync(item, e.PointerUpdateKind);
+		}
+
+		private async Task AnimateSettingsIconAsync()
+		{
+			AnimatedIcon.SetState(SettingAnimatedIcon, "Pressed");
+			await Task.Delay(140);
+			AnimatedIcon.SetState(SettingAnimatedIcon, "Normal");
 		}
 	}
 }

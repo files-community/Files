@@ -70,6 +70,8 @@ namespace Files.App.Views.Layouts
 		private bool shiftPressed;
 		private bool itemDragging;
 
+		protected bool isDraggingSelectionRectangle;
+
 		private ListedItem? dragOverItem = null;
 		private ListedItem? hoveredItem = null;
 		private ListedItem? preRenamingItem = null;
@@ -282,8 +284,15 @@ namespace Files.App.Views.Layouts
 
 					NotifyPropertyChanged(nameof(SelectedItems));
 				}
-				ParentShellPageInstance!.ToolbarViewModel.SelectedItems = value;
+				if (!isDraggingSelectionRectangle)
+					ParentShellPageInstance!.ToolbarViewModel.SelectedItems = value;
 			}
+		}
+
+		protected void FlushSelectionToToolbar()
+		{
+			if (ParentShellPageInstance is not null)
+				ParentShellPageInstance.ToolbarViewModel.SelectedItems = selectedItems;
 		}
 
 		// Constructor
@@ -372,6 +381,8 @@ namespace Files.App.Views.Layouts
 
 				if (layoutType != ParentShellPageInstance.CurrentPageType)
 				{
+					FolderSettings!.PendingLayoutSwitchSelection = SelectedItems?.Select(item => item.ItemNameRaw).ToList();
+
 					ParentShellPageInstance.NavigateWithArguments(layoutType, new NavigationArguments()
 					{
 						NavPathParam = navigationArguments!.NavPathParam,
@@ -388,12 +399,16 @@ namespace Files.App.Views.Layouts
 				}
 
 				ParentShellPageInstance.ShellViewModel.UpdateEmptyTextType();
+				ParentShellPageInstance.ShellViewModel.UpdateNetworkAvailabilityInfoBar();
 
 				// Focus on the active pane in case it was lost during the layout switch.
 				// Allthough the focus is also set from SetSelectedItemsOnNavigation,
 				// that is only called when switching between a Grid based layout and Details,
 				// not between different Grid based layouts (eg. List and Cards).
-				ParentShellPageInstance!.PaneHolder.FocusActivePane();
+				// Adaptive layout fires this handler on folder-load completion - skip the focus
+				// restore so an in-progress omnibar query isn't lost.
+				if (!UIHelpers.IsTextInputFocused(XamlRoot))
+					ParentShellPageInstance!.PaneHolder.FocusActivePane();
 			}
 		}
 
@@ -516,26 +531,42 @@ namespace Files.App.Views.Layouts
 		{
 			try
 			{
+				// Consume synchronously so a concurrent navigation can't capture the pending value
+				IEnumerable<string>? layoutSwitchSelection = null;
+				if (navigationArguments is not null && navigationArguments.IsLayoutSwitch && FolderSettings is not null)
+				{
+					layoutSwitchSelection = FolderSettings.PendingLayoutSwitchSelection;
+					FolderSettings.PendingLayoutSwitchSelection = null;
+				}
+
+				// Delay to ensure the new layout is loaded
+				if (navigationArguments is not null && navigationArguments.IsLayoutSwitch)
+					await Task.Delay(100);
+
+				var itemsToSelect = layoutSwitchSelection ?? navigationArguments?.SelectItems;
+
 				if (navigationArguments is not null &&
-					navigationArguments.SelectItems is not null &&
-					navigationArguments.SelectItems.Any())
+					itemsToSelect is not null &&
+					itemsToSelect.Any())
 				{
 					List<ListedItem> listedItemsToSelect =
 					[
-						.. ParentShellPageInstance!.ShellViewModel.FilesAndFolders.ToList().Where((li) => navigationArguments.SelectItems.Contains(li.ItemNameRaw)),
+						.. ParentShellPageInstance!.ShellViewModel.FilesAndFolders.ToList().Where((li) => itemsToSelect.Contains(li.ItemNameRaw)),
 					];
 
 					ItemManipulationModel.SetSelectedItems(listedItemsToSelect);
-					ItemManipulationModel.FocusSelectedItems();
+
+					// Invoked as a post-load callback that can fire long after navigation if the folder
+					// is slow to enumerate; by then the user may be typing into the omnibar - don't yank
+					// focus away. The omnibar also cancels programmatic LosingFocus moves, but its
+					// FocusSelectedItems path uses FocusState.Keyboard which slips past that guard.
+					if (!UIHelpers.IsTextInputFocused(XamlRoot))
+						ItemManipulationModel.FocusSelectedItems();
 				}
 				else if (navigationArguments is not null && ParentShellPageInstance!.InstanceViewModel.FolderSettings.LayoutMode is not FolderLayoutModes.ColumnView)
 				{
-					// Delay to ensure the new layout is loaded
-					if (navigationArguments.IsLayoutSwitch)
-						await Task.Delay(100);
-
-					// Focus on the active pane in case it was lost during navigation
-					ParentShellPageInstance!.PaneHolder.FocusActivePane();
+					if (!UIHelpers.IsTextInputFocused(XamlRoot))
+						ParentShellPageInstance!.PaneHolder.FocusActivePane();
 				}
 			}
 			catch (Exception) { }
@@ -808,6 +839,11 @@ namespace Files.App.Views.Layouts
 				(x, i) => (x.ItemType == ContextMenuFlyoutItemType.Separator &&
 				overflowShellMenuItemsUnfiltered[i + 1 < overflowShellMenuItemsUnfiltered.Count ? i + 1 : i].ItemType != ContextMenuFlyoutItemType.Separator)
 				|| x.ItemType != ContextMenuFlyoutItemType.Separator).ToList();
+
+			var subMenuLoadTasks = mainShellMenuItems.Concat(overflowShellMenuItems)
+				.Where(x => x.LoadSubMenuAction is not null)
+				.Select(x => x.LoadSubMenuAction());
+			await Task.WhenAll(subMenuLoadTasks);
 
 			var overflowItems = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
 			var mainItems = ContextFlyoutModelToElementHelper.GetAppBarButtonsFromModelIgnorePrimary(mainShellMenuItems);
@@ -1206,6 +1242,7 @@ namespace Files.App.Views.Layouts
 
 		private void RefreshContainer(SelectorItem container, bool inRecycleQueue)
 		{
+			container.Loaded -= FileListItem_Loaded;
 			container.PointerPressed -= FileListItem_PointerPressed;
 			container.PointerEntered -= FileListItem_PointerEntered;
 			container.PointerExited -= FileListItem_PointerExited;
@@ -1219,6 +1256,7 @@ namespace Files.App.Views.Layouts
 			}
 			else
 			{
+				container.Loaded += FileListItem_Loaded;
 				container.PointerPressed += FileListItem_PointerPressed;
 				container.PointerEntered += FileListItem_PointerEntered;
 				container.PointerExited += FileListItem_PointerExited;
@@ -1235,10 +1273,12 @@ namespace Files.App.Views.Layouts
 
 			if (inRecycleQueue)
 			{
+				UpdateItemToolTip(container, null);
 				ParentShellPageInstance!.ShellViewModel.CancelExtendedPropertiesLoadingForItem(listedItem);
 			}
 			else
 			{
+				UpdateItemToolTip(container, listedItem.ItemTooltipText);
 				InitializeDrag(container, listedItem);
 
 				if (listedItem.PreloadedIconData is not null && listedItem.FileImage is null)
@@ -1255,6 +1295,32 @@ namespace Files.App.Views.Layouts
 					});
 				}
 			}
+		}
+
+		private static void UpdateItemToolTip(SelectorItem container, string? tooltipText)
+		{
+			// Apply the tooltip to both the container and the realized template root so every layout
+			// gets the same behavior, even when the DataTemplate is wrapped in a UserControl.
+			UpdateItemToolTip(container as FrameworkElement, tooltipText);
+
+			if (container.ContentTemplateRoot is FrameworkElement contentTemplateRoot)
+				UpdateItemToolTip(contentTemplateRoot, tooltipText);
+		}
+
+		private static void UpdateItemToolTip(FrameworkElement? target, string? tooltipText)
+		{
+			if (target is null)
+				return;
+
+			ToolTipService.SetToolTip(target, tooltipText);
+			target.SetValue(ToolTipService.PlacementProperty, PlacementMode.Mouse);
+		}
+
+		private void FileListItem_Loaded(object sender, RoutedEventArgs e)
+		{
+			// Set the initial tooltip before hover starts so WinUI doesn't miss the first dwell.
+			if (sender is SelectorItem container && container.Content is ListedItem listedItem)
+				UpdateItemToolTip(container, listedItem.ItemTooltipText);
 		}
 
 		private static async Task ApplyPreloadedIconAsync(ListedItem item)
@@ -1298,6 +1364,9 @@ namespace Files.App.Views.Layouts
 			// Set can window to front (#13255)
 			if (sender is SelectorItem selectorItem && selectorItem.IsSelected)
 				MainWindow.Instance.SetCanWindowToFront(false);
+
+			if (sender is SelectorItem tooltipContainer && tooltipContainer.Content is ListedItem listedItem)
+				UpdateItemToolTip(tooltipContainer, listedItem.ItemTooltipText);
 
 			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				return;
@@ -1409,7 +1478,6 @@ namespace Files.App.Views.Layouts
 
 		public virtual void Dispose()
 		{
-			InfoPaneViewModel?.Dispose();
 			UnhookBaseEvents();
 		}
 

@@ -17,6 +17,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.PinFolderToSidebarDescription.GetLocalizedFormatResource(context.HasSelection ? context.SelectedItems.Count : 1);
 
+		public ActionCategory Category
+			=> ActionCategory.FileSystem;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.FavoritePin");
 
@@ -61,6 +64,7 @@ namespace Files.App.Actions
 			{
 				return
 					item.PrimaryItemAttribute is StorageItemTypes.Folder &&
+					!item.IsArchive &&
 					!pinnedFolders.Contains(item.ItemPath);
 			}
 		}

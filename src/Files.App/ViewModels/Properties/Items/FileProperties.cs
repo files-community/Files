@@ -46,8 +46,9 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.LoadFileIcon = Item.LoadFileIcon;
 			ViewModel.IsDownloadedFile = Win32Helper.ReadStringFromFile($"{Item.ItemPath}:Zone.Identifier") is not null;
 			ViewModel.IsEditAlbumCoverVisible =
+				Item.FileExtension is not ".avi" && (
 				FileExtensionHelpers.IsVideoFile(Item.FileExtension) ||
-				FileExtensionHelpers.IsAudioFile(Item.FileExtension);
+				FileExtensionHelpers.IsAudioFile(Item.FileExtension));
 
 			if (!Item.IsShortcut)
 				return;
@@ -187,7 +188,8 @@ namespace Files.App.ViewModels.Properties
 				.Where(fileProp => !(fileProp.Value is null && fileProp.IsReadOnly))
 				.GroupBy(fileProp => fileProp.SectionResource)
 				.Select(group => new FilePropertySection(group) { Key = group.Key })
-				.Where(section => !section.All(fileProp => fileProp.Value is null))
+				.Where(section => !section.All(fileProp => fileProp.Value is null)
+					|| FileProperty.IsSectionApplicableForEmpty(section.Key, Item.FileExtension))
 				.OrderBy(group => group.Priority);
 
 			ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);

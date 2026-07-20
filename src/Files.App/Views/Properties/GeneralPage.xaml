@@ -99,15 +99,28 @@
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
 						x:Load="{x:Bind ViewModel.IsEditAlbumCoverVisible, Mode=OneWay}"
-						AutomationProperties.Name="{helpers:ResourceString Name=ChangeAlbumCover}"
+						AutomationProperties.Name="{helpers:ResourceString Name=MoreOptions}"
 						Background="Transparent"
 						BorderThickness="0"
-						Command="{x:Bind ViewModel.EditAlbumCoverCommand, Mode=OneWay}"
 						Opacity="0"
-						ToolTipService.ToolTip="{helpers:ResourceString Name=ChangeAlbumCover}">
+						ToolTipService.ToolTip="{helpers:ResourceString Name=MoreOptions}">
 						<Button.Resources>
 							<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Transparent" />
 						</Button.Resources>
+						<Button.Flyout>
+							<MenuFlyout Placement="Bottom">
+								<MenuFlyoutItem Command="{x:Bind ViewModel.EditAlbumCoverCommand, Mode=OneWay}" Text="{helpers:ResourceString Name=ChangeAlbumCover}">
+									<MenuFlyoutItem.Icon>
+										<FontIcon Glyph="&#xE70F;" />
+									</MenuFlyoutItem.Icon>
+								</MenuFlyoutItem>
+								<MenuFlyoutItem Command="{x:Bind ViewModel.RemoveAlbumCoverCommand, Mode=OneWay}" Text="{helpers:ResourceString Name=RemoveAlbumCover}">
+									<MenuFlyoutItem.Icon>
+										<FontIcon Glyph="&#xE74D;" />
+									</MenuFlyoutItem.Icon>
+								</MenuFlyoutItem>
+							</MenuFlyout>
+						</Button.Flyout>
 						<Border
 							Width="32"
 							Height="32"
@@ -116,7 +129,7 @@
 							<FontIcon
 								FontSize="12"
 								Foreground="{ThemeResource TextFillColorPrimary}"
-								Glyph="&#xE70F;" />
+								Glyph="&#xE712;" />
 						</Border>
 
 						<i:Interaction.Behaviors>

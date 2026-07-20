@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.SplitPaneHorizontallyDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.DualPane;
+
 		public HotKey HotKey
 			=> new(Keys.H, KeyModifiers.AltShift);
 

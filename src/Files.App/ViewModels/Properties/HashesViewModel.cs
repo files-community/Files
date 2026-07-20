@@ -168,12 +168,13 @@ namespace Files.App.ViewModels.Properties
 			return Hashes.FirstOrDefault(h => h.HashValue?.Equals(hash, StringComparison.OrdinalIgnoreCase) == true)?.Algorithm ?? string.Empty;
 		}
 
-		public async Task<string> CalculateFileHashAsync(string filePath)
+		private static Task<string> CalculateFileHashAsync(string filePath)
 		{
-			using var stream = File.OpenRead(filePath);
-			using var md5 = MD5.Create();
-			var hash = await Task.Run(() => md5.ComputeHash(stream));
-			return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+			return Task.Run(() =>
+			{
+				using var stream = File.OpenRead(filePath);
+				return Convert.ToHexStringLower(MD5.HashData(stream));
+			});
 		}
 
 		private void OnHashInputTextChanged()

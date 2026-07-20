@@ -11,6 +11,9 @@ namespace Files.App.Actions
 
 		protected readonly IContentPageContext context;
 
+		public virtual ActionCategory Category
+			=> ActionCategory.FileSystem;
+
 		public override bool IsExecutable =>
 			context.HasSelection &&
 			(!context.ShellPage?.SlimContentPage?.IsRenamingItem ?? false) &&

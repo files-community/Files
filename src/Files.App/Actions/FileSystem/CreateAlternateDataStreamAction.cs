@@ -20,6 +20,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.CreateAlternateDataStreamDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
+		public ActionCategory Category
+			=> ActionCategory.Create;
+
 		public RichGlyph Glyph
 			=> new RichGlyph(themedIconStyle: "App.ThemedIcons.AltDataStream");
 

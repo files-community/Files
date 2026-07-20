@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.InvertSelectionDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Selection;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.SelectInvert");
 
@@ -31,7 +34,7 @@ namespace Files.App.Actions
 				if (page is null)
 					return false;
 
-				bool isRenaming = page.SlimContentPage.IsRenamingItem;
+				bool isRenaming = page.SlimContentPage?.IsRenamingItem ?? false;
 				return !isRenaming;
 			}
 		}

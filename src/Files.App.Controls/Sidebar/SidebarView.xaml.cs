@@ -11,7 +11,7 @@ using Windows.UI.Core;
 namespace Files.App.Controls
 {
 	[ContentProperty(Name = "InnerContent")]
-	public sealed partial class SidebarView : UserControl, INotifyPropertyChanged
+	public sealed partial class SidebarView : UserControl
 	{
 		private const double COMPACT_MAX_WIDTH = 200;
 
@@ -19,8 +19,6 @@ namespace Files.App.Controls
 		public event EventHandler<ItemContextInvokedArgs>? ItemContextInvoked;
 		public event EventHandler<ItemDragOverEventArgs>? ItemDragOver;
 		public event EventHandler<ItemDroppedEventArgs>? ItemDropped;
-		public event PropertyChangedEventHandler? PropertyChanged;
-
 		internal SidebarItem? SelectedItemContainer = null;
 
 		private bool draggingSidebarResizer;
@@ -38,8 +36,8 @@ namespace Files.App.Controls
 
 		internal void RaiseItemInvoked(SidebarItem item, PointerUpdateKind pointerUpdateKind)
 		{
-			// Only leaves can be selected
-			if (item.Item is null || item.IsGroupHeader) return;
+			// Only true group headers (e.g. Pinned, Drives) suppress selection; leaves-with-children (tree-view folder rows) navigate AND get selected.
+			if (item.Item is null || (item.IsGroupHeader && item.Item.IsLeafWithChildren != true)) return;
 
 			SelectedItem = item.Item;
 			ItemInvoked?.Invoke(item, new(pointerUpdateKind));
@@ -82,15 +80,18 @@ namespace Files.App.Controls
 			{
 				case SidebarDisplayMode.Compact:
 					VisualStateManager.GoToState(this, "Compact", true);
-					return;
+					break;
 				case SidebarDisplayMode.Expanded:
+					UpdateOpenPaneLengthColumn();
 					VisualStateManager.GoToState(this, "Expanded", true);
-					return;
+					break;
 				case SidebarDisplayMode.Minimal:
 					IsPaneOpen = false;
 					UpdateMinimalMode();
-					return;
+					break;
 			}
+
+			UpdateResizerAvailability();
 		}
 
 		private void UpdateDisplayModeForPaneWidth(double newPaneWidth)
@@ -108,18 +109,45 @@ namespace Files.App.Controls
 
 		private void UpdateOpenPaneLengthColumn()
 		{
+			if (DisplayMode != SidebarDisplayMode.Expanded)
+				return;
+
 			PaneColumnDefinition.Width = new GridLength(OpenPaneLength);
+		}
+
+		private void UpdateResizerAvailability()
+		{
+			if (!CanResizePane)
+			{
+				SidebarResizer.Visibility = Visibility.Collapsed;
+				SidebarResizer.IsHitTestVisible = false;
+				return;
+			}
+
+			SidebarResizer.IsHitTestVisible = true;
+			if (DisplayMode != SidebarDisplayMode.Minimal)
+				SidebarResizer.Visibility = Visibility.Visible;
 		}
 
 		private void SidebarView_Loaded(object sender, RoutedEventArgs e)
 		{
 			UpdateDisplayMode();
-			UpdateOpenPaneLengthColumn();
+			UpdateResizerAvailability();
 			PaneColumnGrid.Translation = new System.Numerics.Vector3(0, 0, 32);
+		}
+
+		public double VerticalScrollOffset => MenuItemHostScrollViewer?.VerticalOffset ?? 0;
+
+		public void ScrollToVerticalOffset(double offset)
+		{
+			MenuItemHostScrollViewer?.ChangeView(null, offset, null, true);
 		}
 
 		private void SidebarResizer_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
+			if (!CanResizePane)
+				return;
+
 			draggingSidebarResizer = true;
 			preManipulationSidebarWidth = PaneColumnGrid.ActualWidth;
 			VisualStateManager.GoToState(this, "ResizerPressed", true);
@@ -135,6 +163,9 @@ namespace Files.App.Controls
 
 		private void SidebarResizerControl_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
+			if (!CanResizePane)
+				return;
+
 			if
 			(
 				e.Key != VirtualKey.Space &&
@@ -190,6 +221,9 @@ namespace Files.App.Controls
 
 		private void SidebarResizer_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
+			if (!CanResizePane)
+				return;
+
 			if (DisplayMode == SidebarDisplayMode.Expanded)
 			{
 				DisplayMode = SidebarDisplayMode.Compact;
@@ -204,6 +238,9 @@ namespace Files.App.Controls
 
 		private void SidebarResizer_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
+			if (!CanResizePane)
+				return;
+
 			var sidebarResizer = (FrameworkElement)sender;
 			sidebarResizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 			VisualStateManager.GoToState(this, "ResizerPointerOver", true);
@@ -212,7 +249,7 @@ namespace Files.App.Controls
 
 		private void SidebarResizer_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
-			if (draggingSidebarResizer)
+			if (!CanResizePane || draggingSidebarResizer)
 				return;
 
 			var sidebarResizer = (FrameworkElement)sender;
@@ -238,6 +275,8 @@ namespace Files.App.Controls
 		{
 			if (args.Element is SidebarItem sidebarItem)
 			{
+				// Assign Owner from the hosting SidebarView rather than letting the row's HookupOwners FindAscendant walk resolve it: that walk picks up the WRONG SidebarView when this view is the nested SettingsSidebar inside SidebarControl.InnerContent (and a stale Owner from a prior realization can persist across container recycling). Owner drives both the click-routing target and the chevron-column visual state.
+				sidebarItem.Owner = this;
 				sidebarItem.HandleItemChange();
 			}
 		}

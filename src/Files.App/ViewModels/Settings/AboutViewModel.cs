@@ -73,8 +73,6 @@ namespace Files.App.ViewModels.Settings
 				new ("https://github.com/microsoft/Win2D", "Win2D"),
 				new ("https://github.com/CommunityToolkit/Windows", "Windows Community Toolkit"),
 				new ("https://github.com/mono/taglib-sharp", "TagLibSharp"),
-				new ("https://github.com/Tulpep/Active-Directory-Object-Picker", "ActiveDirectoryObjectPicker"),
-				new ("https://github.com/PowerShell/MMI", "MMI"),
 				new ("https://github.com/microsoft/CsWin32", "CsWin32"),
 				new ("https://github.com/microsoft/CsWinRT", "CsWinRT"),
 				new ("https://github.com/GihanSoft/NaturalStringComparer", "NaturalStringComparer"),
@@ -126,7 +124,7 @@ namespace Files.App.ViewModels.Settings
 
 		public Task DoSubmitFeatureRequest()
 		{
-			return Launcher.LaunchUriAsync(new Uri($"{Constants.ExternalUrl.FeatureRequestUrl}&{GetVersionsQueryString()}")).AsTask();
+			return Launcher.LaunchUriAsync(new Uri(Constants.ExternalUrl.FeatureRequestUrl)).AsTask();
 		}
 
 		public Task DoSubmitBugReport()

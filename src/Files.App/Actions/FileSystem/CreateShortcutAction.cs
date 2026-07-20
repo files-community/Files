@@ -11,8 +11,14 @@ namespace Files.App.Actions
 		public string Label
 			=> Strings.CreateShortcut.GetLocalizedResource();
 
+		public string ExtendedLabel
+			=> Strings.CreateShortcutWithSelection.GetLocalizedResource();
+
 		public string Description
 			=> Strings.CreateShortcutDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
+
+		public ActionCategory Category
+			=> ActionCategory.Create;
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.URL");

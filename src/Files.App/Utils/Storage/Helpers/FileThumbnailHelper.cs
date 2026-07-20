@@ -1,6 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.Shared.Helpers;
+using System.IO;
 using Windows.Storage.FileProperties;
 
 namespace Files.App.Utils.Storage
@@ -16,7 +18,31 @@ namespace Files.App.Utils.Storage
 			// Ensure size is at least 1 to prevent layout errors
 			size = Math.Max(1, size);
 
-			return await STATask.Run(() => Win32Helper.GetIcon(path, (int)size, isFolder, iconOptions), App.Logger);
+			if (!isFolder && !iconOptions.HasFlag(IconOptions.ReturnIconOnly) && !iconOptions.HasFlag(IconOptions.ReturnOnlyIfCached))
+			{
+				var extension = Path.GetExtension(path);
+
+				//Restrict to only %windir%\fonts
+				if (FileExtensionHelpers.IsFontFile(extension) && PathHelpers.IsInSystemFontsFolder(path))
+				{
+					var winrtThumbnail = await FontFileHelper.GetWinRTThumbnailAsync(path, (uint)size);
+					if (winrtThumbnail is not null)
+						return winrtThumbnail;
+
+					if (!extension.Equals(".fon", StringComparison.OrdinalIgnoreCase))
+					{
+						var fontThumbnail = await STATask.Run(() => FontFileHelper.GenerateFontThumbnail(path, (int)size), App.Logger);
+						if (fontThumbnail is not null)
+							return fontThumbnail;
+					}
+				}
+			}
+
+			var resolvedPath = path is not null && path.StartsWith(@"\\?\", StringComparison.Ordinal)
+				? MtpHelpers.ResolveMtpShellPath(path) ?? path
+				: path;
+
+			return await STATask.Run(() => Win32Helper.GetIcon(resolvedPath, (int)size, isFolder, iconOptions), App.Logger);
 		}
 
 		/// <summary>

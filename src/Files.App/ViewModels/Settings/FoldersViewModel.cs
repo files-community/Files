@@ -9,7 +9,7 @@ namespace Files.App.ViewModels.Settings
 
 
 		public Dictionary<SizeUnitTypes, string> SizeUnitsOptions { get; private set; } = [];
-		public Dictionary<OpenFoldersWithOneClickEnum, string> OpenFoldersWithOneClickOptions { get; private set; } = [];
+		public Dictionary<SingleClickOpenMode, string> SingleClickOpenModeOptions { get; private set; } = [];
 
 		public FoldersViewModel()
 		{
@@ -20,10 +20,13 @@ namespace Files.App.ViewModels.Settings
 			SizeUnitsOptions.Add(SizeUnitTypes.DecimalUnits, Strings.Decimal.GetLocalizedResource());
 			SizeUnitFormat = SizeUnitsOptions[UserSettingsService.FoldersSettingsService.SizeUnitFormat];
 
-			OpenFoldersWithOneClickOptions.Add(OpenFoldersWithOneClickEnum.OnlyInColumnsView, Strings.OnlyInColumnsView.GetLocalizedResource());
-			OpenFoldersWithOneClickOptions.Add(OpenFoldersWithOneClickEnum.Always, Strings.Always.GetLocalizedResource());
-			OpenFoldersWithOneClickOptions.Add(OpenFoldersWithOneClickEnum.Never, Strings.Never.GetLocalizedResource());
-			SelectedOpenFoldersWithOneClickOption = OpenFoldersWithOneClickOptions[UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick];
+			SingleClickOpenModeOptions.Add(SingleClickOpenMode.Never, Strings.Never.GetLocalizedResource());
+			SingleClickOpenModeOptions.Add(SingleClickOpenMode.OnlyForTouch, Strings.OnlyForTouch.GetLocalizedResource());
+			SingleClickOpenModeOptions.Add(SingleClickOpenMode.OnlyForMouse, Strings.OnlyForMouse.GetLocalizedResource());
+			SingleClickOpenModeOptions.Add(SingleClickOpenMode.Always, Strings.Always.GetLocalizedResource());
+			SelectedOpenFilesWithSingleClickOption = SingleClickOpenModeOptions[UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick];
+			SelectedOpenFoldersWithSingleClickOption = SingleClickOpenModeOptions[UserSettingsService.FoldersSettingsService.OpenFoldersWithSingleClick];
+			SelectedOpenFoldersInColumnsViewWithSingleClickOption = SingleClickOpenModeOptions[UserSettingsService.FoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick];
 		}
 
 		// Properties
@@ -100,29 +103,41 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public bool OpenItemsWithOneClick
+		private string selectedOpenFilesWithSingleClickOption;
+		public string SelectedOpenFilesWithSingleClickOption
 		{
-			get => UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick;
+			get => selectedOpenFilesWithSingleClickOption;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+				if (SetProperty(ref selectedOpenFilesWithSingleClickOption, value))
 				{
-					UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick = value;
-
-					OnPropertyChanged();
+					UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick = SingleClickOpenModeOptions.First(e => e.Value == value).Key;
 				}
 			}
 		}
 
-		private string selectedOpenFoldersWithOneClickOption;
-		public string SelectedOpenFoldersWithOneClickOption
+		private string selectedOpenFoldersWithSingleClickOption;
+		public string SelectedOpenFoldersWithSingleClickOption
 		{
-			get => selectedOpenFoldersWithOneClickOption;
+			get => selectedOpenFoldersWithSingleClickOption;
 			set
 			{
-				if (SetProperty(ref selectedOpenFoldersWithOneClickOption, value))
+				if (SetProperty(ref selectedOpenFoldersWithSingleClickOption, value))
 				{
-					UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick = OpenFoldersWithOneClickOptions.First(e => e.Value == value).Key;
+					UserSettingsService.FoldersSettingsService.OpenFoldersWithSingleClick = SingleClickOpenModeOptions.First(e => e.Value == value).Key;
+				}
+			}
+		}
+
+		private string selectedOpenFoldersInColumnsViewWithSingleClickOption;
+		public string SelectedOpenFoldersInColumnsViewWithSingleClickOption
+		{
+			get => selectedOpenFoldersInColumnsViewWithSingleClickOption;
+			set
+			{
+				if (SetProperty(ref selectedOpenFoldersInColumnsViewWithSingleClickOption, value))
+				{
+					UserSettingsService.FoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick = SingleClickOpenModeOptions.First(e => e.Value == value).Key;
 				}
 			}
 		}

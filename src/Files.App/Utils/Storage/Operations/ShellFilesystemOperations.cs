@@ -132,7 +132,7 @@ namespace Files.App.Utils.Storage
 				else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
 				{
 					var failedSources = copyResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
-					var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination);
+					var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_DEST ? x.Destination : x.Source);
 					var lockingProcess = WhoIsLocking(filePath);
 
 					switch (await GetFileInUseDialog(filePath, lockingProcess))
@@ -161,7 +161,7 @@ namespace Files.App.Utils.Storage
 				}
 				else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
 				{
-					await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialog_Title.GetLocalizedResource(), Strings.FileNotFoundDialog_Text.GetLocalizedResource());
+					await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialogTitle.GetLocalizedResource(), Strings.FileNotFoundDialogText.GetLocalizedResource());
 				}
 				else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
 				{
@@ -296,7 +296,7 @@ namespace Files.App.Utils.Storage
 				}
 				else if (createResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
 				{
-					await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialog_Title.GetLocalizedResource(), Strings.FileNotFoundDialog_Text.GetLocalizedResource());
+					await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialogTitle.GetLocalizedResource(), Strings.FileNotFoundDialogText.GetLocalizedResource());
 				}
 				else if (createResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
 				{
@@ -463,7 +463,7 @@ namespace Files.App.Utils.Storage
 				}
 				else if (deleteResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
 				{
-					await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialog_Title.GetLocalizedResource(), Strings.FileNotFoundDialog_Text.GetLocalizedResource());
+					await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialogTitle.GetLocalizedResource(), Strings.FileNotFoundDialogText.GetLocalizedResource());
 				}
 				else if (deleteResult.Items.All(x => x.HResult == -1) && permanently) // ADS
 				{
@@ -598,7 +598,7 @@ namespace Files.App.Utils.Storage
 				else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
 				{
 					var failedSources = moveResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
-					var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination);
+					var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_DEST ? x.Destination : x.Source);
 					var lockingProcess = WhoIsLocking(filePath);
 
 					switch (await GetFileInUseDialog(filePath, lockingProcess))
@@ -627,7 +627,7 @@ namespace Files.App.Utils.Storage
 				}
 				else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
 				{
-					await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialog_Title.GetLocalizedResource(), Strings.FileNotFoundDialog_Text.GetLocalizedResource());
+					await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialogTitle.GetLocalizedResource(), Strings.FileNotFoundDialogText.GetLocalizedResource());
 				}
 				else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
 				{
@@ -726,7 +726,7 @@ namespace Files.App.Utils.Storage
 				else if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
 				{
 					var failedSources = renameResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
-					var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination);
+					var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_DEST ? x.Destination : x.Source);
 					var lockingProcess = WhoIsLocking(filePath);
 
 					switch (await GetFileInUseDialog(filePath, lockingProcess))
@@ -742,7 +742,7 @@ namespace Files.App.Utils.Storage
 				}
 				else if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
 				{
-					await DialogDisplayHelper.ShowDialogAsync(Strings.RenameError_ItemDeleted_Title.GetLocalizedResource(), Strings.RenameError_ItemDeleted_Text.GetLocalizedResource());
+					await DialogDisplayHelper.ShowDialogAsync(Strings.RenameErrorItemDeletedTitle.GetLocalizedResource(), Strings.RenameErrorItemDeletedText.GetLocalizedResource());
 				}
 				else if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
 				{
@@ -831,7 +831,7 @@ namespace Files.App.Utils.Storage
 				else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
 				{
 					var failedSources = moveResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
-					var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination);
+					var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_DEST ? x.Destination : x.Source);
 					var lockingProcess = WhoIsLocking(filePath);
 
 					switch (await GetFileInUseDialog(filePath, lockingProcess))
@@ -858,7 +858,7 @@ namespace Files.App.Utils.Storage
 				}
 				else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
 				{
-					await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialog_Title.GetLocalizedResource(), Strings.FileNotFoundDialog_Text.GetLocalizedResource());
+					await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialogTitle.GetLocalizedResource(), Strings.FileNotFoundDialogText.GetLocalizedResource());
 				}
 				else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
 				{
@@ -884,15 +884,22 @@ namespace Files.App.Utils.Storage
 
 		private Task<DialogResult> GetFileInUseDialog(IEnumerable<string> source, IEnumerable<Win32Process> lockingProcess = null)
 		{
-			var titleText = Strings.FileInUseDialog_Title.GetLocalizedResource();
+			var titleText = Strings.FileInUseDialogTitle.GetLocalizedResource();
 			var subtitleText = lockingProcess.IsEmpty()
-				? Strings.FileInUseDialog_Text.GetLocalizedResource()
-				: string.Format(Strings.FileInUseByDialog_Text.GetLocalizedResource(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})")));
+				? Strings.FileInUseDialogText.GetLocalizedResource()
+				: string.Format(Strings.FileInUseByDialogText.GetLocalizedResource(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})")));
 
-			return GetFileListDialog(source, titleText, subtitleText, Strings.Retry.GetLocalizedResource(), Strings.Cancel.GetLocalizedResource());
+			var sourceCount = source.Count();
+
+			return GetFileListDialog(
+				source,
+				titleText,
+				subtitleText,
+				Strings.Retry.GetLocalizedResource(),
+				sourceCount > 1 ? Strings.Skip.GetLocalizedResource() : Strings.Cancel.GetLocalizedResource());
 		}
 
-		private async Task<DialogResult> GetFileListDialog(IEnumerable<string> source, string titleText, string descriptionText = null, string primaryButtonText = null, string secondaryButtonText = null)
+		private async Task<DialogResult> GetFileListDialog(IEnumerable<string> source, string titleText, string descriptionText = null, string primaryButtonText = null, string secondaryButtonText = null, string closeButtonText = null)
 		{
 			var incomingItems = new List<BaseFileSystemDialogItemViewModel>();
 			List<ShellFileItem> binItems = null;
@@ -918,7 +925,7 @@ namespace Files.App.Utils.Storage
 			}
 
 			var dialogViewModel = FileSystemDialogViewModel.GetDialogViewModel(
-				incomingItems, titleText, descriptionText, primaryButtonText, secondaryButtonText);
+				incomingItems, titleText, descriptionText, primaryButtonText, secondaryButtonText, closeButtonText);
 
 			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 

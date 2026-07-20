@@ -49,6 +49,16 @@ namespace Files.App.Data.Contracts
 		ArchiveSplittingSizes SplittingSize { get; }
 
 		/// <summary>
+		/// 7zip archive dictionary size.
+		/// </summary>
+		ArchiveDictionarySizes DictionarySize { get; }
+
+		/// <summary>
+		/// 7zip archive word size (fast bytes).
+		/// </summary>
+		ArchiveWordSizes WordSize { get; }
+
+		/// <summary>
 		/// Number of CPU Threads to use.
 		/// </summary>
 		int CPUThreads { get; }
@@ -62,6 +72,11 @@ namespace Files.App.Data.Contracts
 		/// Cancellation request.
 		/// </summary>
 		CancellationToken CancellationToken { get; set; }
+
+		/// <summary>
+		/// Whether the creation was cancelled by the user, e.g. by declining to skip items that cannot be archived.
+		/// </summary>
+		bool IsCancelled { get; }
 
 		/// <summary>
 		/// Get path which target will be archived to.

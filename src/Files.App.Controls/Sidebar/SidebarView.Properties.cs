@@ -1,8 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI;
-
 namespace Files.App.Controls
 {
 	public sealed partial class SidebarView
@@ -31,6 +29,14 @@ namespace Files.App.Controls
 		public static readonly DependencyProperty SidebarContentProperty =
 			DependencyProperty.Register("SidebarContent", typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
 
+		public UIElement Header
+		{
+			get { return (UIElement)GetValue(HeaderProperty); }
+			set { SetValue(HeaderProperty, value); }
+		}
+		public static readonly DependencyProperty HeaderProperty =
+			DependencyProperty.Register(nameof(Header), typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
+
 		public UIElement Footer
 		{
 			get { return (UIElement)GetValue(FooterProperty); }
@@ -38,6 +44,14 @@ namespace Files.App.Controls
 		}
 		public static readonly DependencyProperty FooterProperty =
 			DependencyProperty.Register("Footer", typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
+
+		public Microsoft.UI.Xaml.Media.Brush PaneBackgroundBrush
+		{
+			get { return (Microsoft.UI.Xaml.Media.Brush)GetValue(PaneBackgroundBrushProperty); }
+			set { SetValue(PaneBackgroundBrushProperty, value); }
+		}
+		public static readonly DependencyProperty PaneBackgroundBrushProperty =
+			DependencyProperty.Register(nameof(PaneBackgroundBrush), typeof(Microsoft.UI.Xaml.Media.Brush), typeof(SidebarView), new PropertyMetadata(null));
 
 		public bool IsPaneOpen
 		{
@@ -65,15 +79,41 @@ namespace Files.App.Controls
 			set { SetValue(NegativeOpenPaneLengthProperty, value); }
 		}
 		public static readonly DependencyProperty NegativeOpenPaneLengthProperty =
-			DependencyProperty.Register(nameof(NegativeOpenPaneLength), typeof(double), typeof(SidebarView), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(NegativeOpenPaneLength), typeof(double), typeof(SidebarView), new PropertyMetadata(-240d));
 
-		public object SelectedItem
+		public bool CanResizePane
 		{
-			get => GetValue(SelectedItemProperty);
-			set => SetValue(SelectedItemProperty, value);
+			get => (bool)GetValue(CanResizePaneProperty);
+			set => SetValue(CanResizePaneProperty, value);
+		}
+		public static readonly DependencyProperty CanResizePaneProperty =
+			DependencyProperty.Register(nameof(CanResizePane), typeof(bool), typeof(SidebarView), new PropertyMetadata(true, OnPropertyChanged));
+
+		public ISidebarItemModel SelectedItem
+		{
+			get => (ISidebarItemModel)GetValue(SelectedItemProperty);
+			set
+			{
+				SetValue(SelectedItemProperty, value);
+			}
 		}
 		public static readonly DependencyProperty SelectedItemProperty =
-			DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(SidebarView), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(SelectedItem), typeof(ISidebarItemModel), typeof(SidebarView), new PropertyMetadata(null, OnSelectedItemChanged));
+
+		// Broadcasts SelectedItem changes to every realized row in MenuItemsHost instead of relying on each row's own RegisterPropertyChangedCallback. The per-row callback only registers after Loaded fires, so a row prepared but not yet loaded (or unloaded then re-loaded mid-recycle) can otherwise miss a SelectedItem change and keep its stale IsSelected — visible as multiple "selected" rows.
+		private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (d is not SidebarView view || view.MenuItemsHost is null)
+				return;
+			for (int i = 0; ; i++)
+			{
+				var element = view.MenuItemsHost.TryGetElement(i);
+				if (element is null)
+					break;
+				if (element is SidebarItem sidebarItem)
+					sidebarItem.ReevaluateSelectionFromOwner();
+			}
+		}
 
 		public object MenuItemsSource
 		{
@@ -82,6 +122,27 @@ namespace Files.App.Controls
 		}
 		public static readonly DependencyProperty MenuItemsSourceProperty =
 			DependencyProperty.Register(nameof(MenuItemsSource), typeof(object), typeof(SidebarView), new PropertyMetadata(null));
+
+		// Default TimeSpan.Zero disables hover-to-open; the hosting app supplies the timing policy.
+		public TimeSpan HoverToOpenDelay
+		{
+			get => (TimeSpan)GetValue(HoverToOpenDelayProperty);
+			set => SetValue(HoverToOpenDelayProperty, value);
+		}
+		public static readonly DependencyProperty HoverToOpenDelayProperty =
+			DependencyProperty.Register(nameof(HoverToOpenDelay), typeof(TimeSpan), typeof(SidebarView), new PropertyMetadata(TimeSpan.Zero));
+
+		// Default TimeSpan.Zero disables hover-to-expand; the hosting app supplies the timing policy.
+		public TimeSpan HoverToExpandDelay
+		{
+			get => (TimeSpan)GetValue(HoverToExpandDelayProperty);
+			set => SetValue(HoverToExpandDelayProperty, value);
+		}
+		public static readonly DependencyProperty HoverToExpandDelayProperty =
+			DependencyProperty.Register(nameof(HoverToExpandDelay), typeof(TimeSpan), typeof(SidebarView), new PropertyMetadata(TimeSpan.Zero));
+
+		// Off by default; flat-list sidebars (Settings) collapse the chevron column. Opt in for hierarchical sidebars (main tree view).
+		public bool SupportsExpansion { get; set; }
 
 		public static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{
@@ -98,6 +159,10 @@ namespace Files.App.Controls
 			else if (e.Property == IsPaneOpenProperty)
 			{
 				control.UpdateMinimalMode();
+			}
+			else if (e.Property == CanResizePaneProperty)
+			{
+				control.UpdateResizerAvailability();
 			}
 		}
 	}

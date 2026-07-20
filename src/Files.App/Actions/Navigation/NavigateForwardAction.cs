@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.NavigateForwardDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Navigation;
+
 		public HotKey HotKey
 			=> new(Keys.Right, KeyModifiers.Alt);
 

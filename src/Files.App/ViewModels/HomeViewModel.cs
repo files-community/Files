@@ -15,6 +15,56 @@ namespace Files.App.ViewModels
 
 		public ObservableCollection<WidgetContainerItem> WidgetItems { get; } = [];
 
+		public bool ShowQuickAccessWidget
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget)
+					UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget = value;
+			}
+		}
+
+		public bool ShowDrivesWidget
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowDrivesWidget;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowDrivesWidget)
+					UserSettingsService.GeneralSettingsService.ShowDrivesWidget = value;
+			}
+		}
+
+		public bool ShowNetworkLocationsWidget
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowNetworkLocationsWidget;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowNetworkLocationsWidget)
+					UserSettingsService.GeneralSettingsService.ShowNetworkLocationsWidget = value;
+			}
+		}
+
+		public bool ShowFileTagsWidget
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowFileTagsWidget;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowFileTagsWidget)
+					UserSettingsService.GeneralSettingsService.ShowFileTagsWidget = value;
+			}
+		}
+
+		public bool ShowRecentFilesWidget
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget)
+					UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget = value;
+			}
+		}
+
 		// Commands
 
 		public ICommand ReloadWidgetsCommand { get; }
@@ -24,6 +74,30 @@ namespace Files.App.ViewModels
 		public HomeViewModel()
 		{
 			ReloadWidgetsCommand = new AsyncRelayCommand(ExecuteReloadWidgetsCommand);
+
+			UserSettingsService.GeneralSettingsService.PropertyChanged += GeneralSettingsService_PropertyChanged;
+		}
+
+		private void GeneralSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IGeneralSettingsService.ShowQuickAccessWidget):
+					OnPropertyChanged(nameof(ShowQuickAccessWidget));
+					break;
+				case nameof(IGeneralSettingsService.ShowDrivesWidget):
+					OnPropertyChanged(nameof(ShowDrivesWidget));
+					break;
+				case nameof(IGeneralSettingsService.ShowNetworkLocationsWidget):
+					OnPropertyChanged(nameof(ShowNetworkLocationsWidget));
+					break;
+				case nameof(IGeneralSettingsService.ShowFileTagsWidget):
+					OnPropertyChanged(nameof(ShowFileTagsWidget));
+					break;
+				case nameof(IGeneralSettingsService.ShowRecentFilesWidget):
+					OnPropertyChanged(nameof(ShowRecentFilesWidget));
+					break;
+			}
 		}
 
 		// Methods
@@ -213,6 +287,8 @@ namespace Files.App.ViewModels
 
 		public void Dispose()
 		{
+			UserSettingsService.GeneralSettingsService.PropertyChanged -= GeneralSettingsService_PropertyChanged;
+
 			MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				for (int i = 0; i < WidgetItems.Count; i++)

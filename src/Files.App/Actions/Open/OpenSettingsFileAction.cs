@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -17,6 +17,9 @@ namespace Files.App.Actions
 
 		public string Description
 			=> Strings.EditSettingsFileDescription.GetLocalizedResource();
+
+		public ActionCategory Category
+			=> ActionCategory.Open;
 
 		public HotKey HotKey
 			=> new(Keys.OemComma, KeyModifiers.CtrlShift);

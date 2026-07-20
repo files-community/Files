@@ -278,8 +278,9 @@ size_t strifind(const std::wstring& strHaystack, const std::wstring& strNeedle)
 
 bool comparei(std::wstring stringA, std::wstring stringB)
 {
-	transform(stringA.begin(), stringA.end(), stringA.begin(), std::toupper);
-	transform(stringB.begin(), stringB.end(), stringB.begin(), std::toupper);
+	auto toUpperW = [](wchar_t c) { return static_cast<wchar_t>(std::toupper(c)); };
+	transform(stringA.begin(), stringA.end(), stringA.begin(), toUpperW);
+	transform(stringB.begin(), stringB.end(), stringB.begin(), toUpperW);
 
 	return (stringA == stringB);
 }
@@ -343,9 +344,14 @@ bool OpenInExistingShellWindow(const TCHAR* folderPath)
 {
 	std::wstring openDirectory(folderPath);
 	bool mustOpenInExplorer = false;
+	constexpr auto godModeClsid = L"{ED7BA470-8E54-465E-825C-99712043E01C}";
 
 	if (strifind(openDirectory, L"::{") == 0)
 		openDirectory = L"shell:" + openDirectory;
+
+	// Exclude this shell address so that it opens in File Explorer
+	if (strifind(openDirectory, godModeClsid) != std::wstring::npos)
+		mustOpenInExplorer = true;
 
 	if (strifind(openDirectory, L"shell:") == 0)
 	{

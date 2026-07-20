@@ -16,6 +16,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.CopyItemPathDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.FileSystem;
+
 		public RichGlyph Glyph
 			=> new RichGlyph(themedIconStyle: "App.ThemedIcons.CopyAsPath");
 

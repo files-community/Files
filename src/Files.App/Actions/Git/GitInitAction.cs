@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.InitRepoDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Git;
+
 		public bool IsExecutable =>
 			_context.Folder is not null &&
 			_context.Folder.ItemPath != SystemIO.Path.GetPathRoot(_context.Folder.ItemPath) &&

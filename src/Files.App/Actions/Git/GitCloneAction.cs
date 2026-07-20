@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 namespace Files.App.Actions
 {
@@ -12,6 +12,9 @@ namespace Files.App.Actions
 		public string Label { get; } = Strings.Clone.GetLocalizedResource();
 
 		public string Description { get; } = Strings.GitCloneDescription.GetLocalizedResource();
+
+		public ActionCategory Category
+			=> ActionCategory.Git;
 
 		public bool IsExecutable
 			=> pageContext.CanCreateItem && !pageContext.IsGitRepository;

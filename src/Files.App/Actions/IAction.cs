@@ -17,10 +17,22 @@ namespace Files.App.Actions
 		string Description { get; }
 
 		/// <summary>
+		/// Gets the extended label of this command, used to differentiate similar worded labels. Defaults to <see cref="Label"/>.
+		/// </summary>
+		string ExtendedLabel
+			=> Label;
+
+		/// <summary>
 		/// Glyph information to display icon.
 		/// </summary>
 		RichGlyph Glyph
 			=> RichGlyph.None;
+
+		/// <summary>
+		/// Access key hint used in menus.
+		/// </summary>
+		string AccessKey
+			=> string.Empty;
 
 		/// <summary>
 		/// Primary hotkey to execute the action.
@@ -47,6 +59,12 @@ namespace Files.App.Actions
 			=> HotKey.None;
 
 		/// <summary>
+		/// Gets the automation ID for UI testing.
+		/// </summary>
+		string AutomationId
+			=> string.Empty;
+
+		/// <summary>
 		/// Returns whether the action is executable in the current context.
 		/// </summary>
 		bool IsExecutable
@@ -57,6 +75,9 @@ namespace Files.App.Actions
 		/// </summary>
 		bool IsAccessibleGlobally
 			=> true;
+
+		ActionCategory Category
+			=> ActionCategory.Unspecified;
 
 		/// <summary>
 		/// Executes the action asynchronously.

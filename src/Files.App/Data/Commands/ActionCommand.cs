@@ -5,6 +5,7 @@ using Files.App.Actions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Sentry;
 
 namespace Files.App.Data.Commands
 {
@@ -23,6 +24,10 @@ namespace Files.App.Data.Commands
 		/// <inheritdoc/>
 		public string Label
 			=> Action.Label;
+
+		/// <inheritdoc/>
+		public string ExtendedLabel
+			=> Action.ExtendedLabel;
 
 		/// <inheritdoc/>
 		public string LabelWithHotKey
@@ -69,6 +74,10 @@ namespace Files.App.Data.Commands
 			}
 		}
 
+		/// <inheritdoc/>
+		public string AccessKey
+			=> Action.AccessKey;
+
 		private HotKeyCollection hotKeys;
 		/// <inheritdoc/>
 		public HotKeyCollection HotKeys
@@ -111,6 +120,10 @@ namespace Files.App.Data.Commands
 		public bool IsAccessibleGlobally
 			=> Action.IsAccessibleGlobally;
 
+		/// <inheritdoc/>
+		public string AutomationId
+			=> Action.AutomationId;
+
 		public ActionCommand(CommandCodes code, IAction action)
 		{
 			Code = code;
@@ -149,8 +162,7 @@ namespace Files.App.Data.Commands
 		{
 			if (IsExecutable)
 			{
-				// Re-enable when Metris feature is available again
-				// SentrySdk.Metrics.Increment("actions", tags: new Dictionary<string, string> { { "command", Code.ToString() } });
+				SentrySdk.Experimental.Metrics.EmitCounter("actions", 1, [new KeyValuePair<string, object>("command", Code.ToString())]);
 				return Action.ExecuteAsync(parameter);
 			}
 
@@ -182,6 +194,13 @@ namespace Files.App.Data.Commands
 					OnPropertyChanging(nameof(Label));
 					OnPropertyChanging(nameof(LabelWithHotKey));
 					OnPropertyChanging(nameof(AutomationName));
+					OnPropertyChanging(nameof(ExtendedLabel));
+					break;
+				case nameof(IAction.ExtendedLabel):
+					OnPropertyChanging(nameof(ExtendedLabel));
+					break;
+				case nameof(IAction.AccessKey):
+					OnPropertyChanging(nameof(AccessKey));
 					break;
 				case nameof(IToggleAction.IsOn) when IsToggle:
 					OnPropertyChanging(nameof(IsOn));
@@ -200,6 +219,13 @@ namespace Files.App.Data.Commands
 					OnPropertyChanged(nameof(Label));
 					OnPropertyChanged(nameof(LabelWithHotKey));
 					OnPropertyChanged(nameof(AutomationName));
+					OnPropertyChanged(nameof(ExtendedLabel));
+					break;
+				case nameof(IAction.ExtendedLabel):
+					OnPropertyChanged(nameof(ExtendedLabel));
+					break;
+				case nameof(IAction.AccessKey):
+					OnPropertyChanged(nameof(AccessKey));
 					break;
 				case nameof(IToggleAction.IsOn) when IsToggle:
 					OnPropertyChanged(nameof(IsOn));

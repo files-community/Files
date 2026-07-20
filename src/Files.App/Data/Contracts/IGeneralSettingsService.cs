@@ -41,6 +41,11 @@ namespace Files.App.Data.Contracts
 		List<string> LastSessionTabList { get; set; }
 
 		/// <summary>
+		/// Gets or sets the index of the tab that was active when the last session ended.
+		/// </summary>
+		int LastSessionSelectedTabIndex { get; set; }
+
+		/// <summary>
 		/// A list containing paths of the tabs from the previous session that crashed.
 		/// </summary>
 		List<string> LastCrashedTabList { get; set; }
@@ -74,6 +79,11 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating whether or not to always switch to newly opened tab.
 		/// </summary>
 		bool AlwaysSwitchToNewlyOpenedTab { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to reverse the mouse wheel direction used to switch tabs.
+		/// </summary>
+		bool ReverseTabScrollDirection { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to display the quick access widget.
@@ -131,19 +141,9 @@ namespace Files.App.Data.Contracts
 		bool ShowPinnedSection { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating if the favorites section should be expanded.
-		/// </summary>
-		bool IsPinnedSectionExpanded { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating if the library section should be visible.
 		/// </summary>
 		bool ShowLibrarySection { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating if the library section should be expanded.
-		/// </summary>
-		bool IsLibrarySectionExpanded { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating if the drive section should be visible.
@@ -151,19 +151,9 @@ namespace Files.App.Data.Contracts
 		bool ShowDrivesSection { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating if the drive section should be expanded.
-		/// </summary>
-		bool IsDriveSectionExpanded { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating if the cloud drive section should be visible.
 		/// </summary>
 		bool ShowCloudDrivesSection { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating if the cloud drive section should be expanded.
-		/// </summary>
-		bool IsCloudDriveSectionExpanded { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating if the network section should be visible.
@@ -171,24 +161,44 @@ namespace Files.App.Data.Contracts
 		bool ShowNetworkSection { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating if the network section should be expanded.
-		/// </summary>
-		bool IsNetworkSectionExpanded { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating if the wsl section should be visible.
 		/// </summary>
 		bool ShowWslSection { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating if the wsl section should be expanded.
-		/// </summary>
-		bool IsWslSectionExpanded { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating if the tags section should be visible.
 		/// </summary>
 		bool ShowFileTagsSection { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the pinned section should be expanded.
+		/// </summary>
+		bool IsPinnedSectionExpanded { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the library section should be expanded.
+		/// </summary>
+		bool IsLibrarySectionExpanded { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the drive section should be expanded.
+		/// </summary>
+		bool IsDriveSectionExpanded { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the cloud drive section should be expanded.
+		/// </summary>
+		bool IsCloudDriveSectionExpanded { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the network section should be expanded.
+		/// </summary>
+		bool IsNetworkSectionExpanded { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the wsl section should be expanded.
+		/// </summary>
+		bool IsWslSectionExpanded { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating if the file tags section should be expanded.
@@ -301,6 +311,16 @@ namespace Files.App.Data.Contracts
 		ArchiveSplittingSizes ArchiveSplittingSizesOption { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating the default archive dictionary size for 7z.
+		/// </summary>
+		ArchiveDictionarySizes ArchiveDictionarySizesOption { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating the default archive word size for 7z.
+		/// </summary>
+		ArchiveWordSizes ArchiveWordSizesOption { get; set; }
+
+		/// <summary>
 		/// A dictionary to determine which hashes should be shown.
 		/// </summary>
 		Dictionary<string, bool> ShowHashesDictionary { get; set; }
@@ -326,6 +346,15 @@ namespace Files.App.Data.Contracts
 		bool ShowFilterHeader { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether thumbnail cache should be enabled.
+		/// </summary>
+		bool EnableThumbnailCache { get; set; }
+
+		/// <summary>
+		/// Gets or sets the thumbnail cache size limit in MB.
+		/// </summary>
+		double ThumbnailCacheSizeLimit { get; set; }
+    
 		/// Gets or sets a value indicating whether smooth scrolling is enabled.
 		/// </summary>
 		bool EnableSmoothScrolling { get; set; }

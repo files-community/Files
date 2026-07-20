@@ -3,12 +3,19 @@
 
 using Files.App.Controls;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Composition;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using System.Numerics;
 using System.Runtime.CompilerServices;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
+using Windows.UI.ViewManagement;
 using GridSplitter = Files.App.Controls.GridSplitter;
 
 namespace Files.App.Views
@@ -34,6 +41,7 @@ namespace Files.App.Views
 
 		private bool _wasRightPaneVisible;
 		private NavigationParams? _savedNavParamsRight;
+		private readonly PointerEventHandler _panePointerPressedHandler;
 
 		// Properties
 
@@ -252,6 +260,7 @@ namespace Files.App.Views
 
 		public ShellPanesPage()
 		{
+			_panePointerPressedHandler = Pane_PointerPressed;
 			InitializeComponent();
 
 			ShellPaneArrangement = GeneralSettingsService.ShellPaneArrangementOption;
@@ -279,6 +288,9 @@ namespace Files.App.Views
 			if (IsMultiPaneAvailable &&
 				GeneralSettingsService.AlwaysOpenDualPaneInNewTab)
 				AddPane();
+
+			TabBar.TabDragStarted += TabBar_TabDragStarted;
+			TabBar.TabDragCompleted += TabBar_TabDragCompleted;
 		}
 
 		// Public methods
@@ -290,6 +302,20 @@ namespace Files.App.Views
 				AddPane(arrangement is ShellPaneArrangement.None ? GeneralSettingsService.ShellPaneArrangementOption : arrangement);
 
 			NavParamsRight = new() { NavPath = string.IsNullOrEmpty(path) ? "Home" : path };
+		}
+
+		/// <inheritdoc/>
+		public void OpenInOtherPane(string path)
+		{
+			if (!IsMultiPaneActive || string.IsNullOrEmpty(path))
+				return;
+
+			var otherPane = ActivePane == (IShellPage)GetPane(0)! ? GetPane(1) : GetPane(0);
+			if (otherPane is null)
+				return;
+
+			otherPane.NavigateToPath(path);
+			otherPane.Focus(FocusState.Programmatic);
 		}
 
 		/// <inheritdoc/>
@@ -377,23 +403,30 @@ namespace Files.App.Views
 		/// <inheritdoc/>
 		public void FocusOtherPane()
 		{
-			if (ActivePane == (IShellPage)GetPane(0)!)
-				GetPane(1)?.Focus(FocusState.Programmatic);
-			else
-				GetPane(0)?.Focus(FocusState.Programmatic);
+			if (!IsMultiPaneActive)
+				return;
+
+			ActivePane = ActivePane == (IShellPage)GetPane(0)! ? GetPane(1) : GetPane(0);
+			FocusActivePane();
 		}
 
 		/// <inheritdoc/>
 		public void FocusActivePane()
 		{
-			if (ActivePane == (IShellPage)GetPane(0)!)
-				GetPane(0)?.Focus(FocusState.Programmatic);
-			else
-				GetPane(1)?.Focus(FocusState.Programmatic);
+			var activePane = ActivePane == (IShellPage)GetPane(0)! ? GetPane(0) : GetPane(1);
 
-			// Focus file list
-			if (ActivePane is BaseShellPage baseShellPage)
-				baseShellPage.ContentPage?.ItemManipulationModel.FocusFileList();
+			// Skip when the file list is empty and no text input currently has focus:
+			// focusing the pane in that state lands XAML focus on the outer ListView
+			// element itself, which causes subsequent popup-dismissal to push newly
+			// opened top-level windows behind main (Files #13697). If a text input
+			// currently has focus (e.g. omnibar after Enter), we still need to move
+			// focus off it so keyboard shortcuts work.
+			if (activePane?.ShellViewModel?.FilesAndFolders?.Count == 0 &&
+				!UIHelpers.IsTextInputFocused(activePane.XamlRoot))
+				return;
+
+			activePane?.Focus(FocusState.Programmatic);
+			activePane?.ContentPage?.ItemManipulationModel.FocusFileList();
 		}
 
 		/// <inheritdoc/>
@@ -656,6 +689,243 @@ namespace Files.App.Views
 			return ActivePane?.TabItemDrop(sender, e) ?? Task.CompletedTask;
 		}
 
+		private TabBarItem? _draggedTabItem;
+
+		private void TabBar_TabDragStarted(object? sender, TabBarItem? draggedItem)
+		{
+			if (!IsCurrentInstance ||
+				draggedItem is null ||
+				(draggedItem.NavigationParameter?.NavigationParameter is PaneNavigationArguments p && !string.IsNullOrEmpty(p.RightPaneNavPathParam)) ||
+				GetPaneCount() != 1 ||
+				!IsMultiPaneAvailable)
+				return;
+
+			_draggedTabItem = draggedItem;
+			TabDropOverlay.Visibility = Visibility.Visible;
+		}
+
+		private void TabBar_TabDragCompleted(object? sender, TabBarItem? draggedItem)
+		{
+			TabDropOverlay.Visibility = Visibility.Collapsed;
+			HideDropIndicator();
+			_indicatorInitialized = false;
+			_draggedTabItem = null;
+		}
+
+		private SpriteVisual? _indicatorVisual;
+		private RectangleClip? _indicatorClip;
+		private bool _indicatorInitialized;
+
+		private static readonly string[] _cornerProps =
+			["TopLeftRadius", "TopRightRadius", "BottomRightRadius", "BottomLeftRadius"];
+
+		private SpriteVisual GetOrCreateIndicatorVisual()
+		{
+			if (_indicatorVisual is not null)
+				return _indicatorVisual;
+
+			var compositor = ElementCompositionPreview.GetElementVisual(TabDropOverlay).Compositor;
+			var accent = ((SolidColorBrush)Application.Current.Resources["AccentFillColorDefaultBrush"]).Color;
+
+			var sprite = compositor.CreateSpriteVisual();
+			sprite.Brush = compositor.CreateColorBrush(accent);
+			sprite.Opacity = 0f;
+			sprite.AnchorPoint = new Vector2(0.5f, 0.5f);
+
+			var clip = compositor.CreateRectangleClip();
+			clip.StartAnimation("Right", BindToSize("X"));
+			clip.StartAnimation("Bottom", BindToSize("Y"));
+			sprite.Clip = clip;
+			_indicatorClip = clip;
+
+			if (new UISettings().AnimationsEnabled)
+			{
+				var anims = compositor.CreateImplicitAnimationCollection();
+				anims["Offset"] = Tween(compositor.CreateVector3KeyFrameAnimation(), "Offset", 180);
+				anims["Size"] = Tween(compositor.CreateVector2KeyFrameAnimation(), "Size", 180);
+				anims["Opacity"] = Tween(compositor.CreateScalarKeyFrameAnimation(), "Opacity", 120);
+				sprite.ImplicitAnimations = anims;
+
+				var clipAnims = compositor.CreateImplicitAnimationCollection();
+				foreach (var corner in _cornerProps)
+					clipAnims[corner] = Tween(compositor.CreateVector2KeyFrameAnimation(), corner, 180);
+				clip.ImplicitAnimations = clipAnims;
+			}
+
+			ElementCompositionPreview.SetElementChildVisual(TabDropOverlay, sprite);
+			_indicatorVisual = sprite;
+			return sprite;
+
+			ExpressionAnimation BindToSize(string axis)
+			{
+				var anim = compositor.CreateExpressionAnimation($"v.Size.{axis}");
+				anim.SetReferenceParameter("v", sprite);
+				return anim;
+			}
+
+			static T Tween<T>(T anim, string target, int durationMs) where T : KeyFrameAnimation
+			{
+				anim.InsertExpressionKeyFrame(1f, "this.FinalValue");
+				anim.Target = target;
+				anim.Duration = TimeSpan.FromMilliseconds(durationMs);
+				return anim;
+			}
+		}
+
+		private void HideDropIndicator()
+		{
+			if (_indicatorVisual is not null)
+				_indicatorVisual.Opacity = 0f;
+		}
+
+		private void ApplyZoneCorners(PaneDropZone zone)
+		{
+			if (_indicatorClip is null)
+				return;
+
+			var (tl, tr, br, bl) = zone switch
+			{
+				PaneDropZone.Left => (8f, 0f, 0f, 8f),
+				PaneDropZone.Right => (0f, 8f, 8f, 0f),
+				PaneDropZone.Top => (8f, 8f, 0f, 0f),
+				_ => (0f, 0f, 8f, 8f),
+			};
+			_indicatorClip.TopLeftRadius = new Vector2(tl);
+			_indicatorClip.TopRightRadius = new Vector2(tr);
+			_indicatorClip.BottomRightRadius = new Vector2(br);
+			_indicatorClip.BottomLeftRadius = new Vector2(bl);
+		}
+
+		private enum PaneDropZone { None, Left, Top, Right, Bottom }
+
+		// Overlay diagonals carve it into four triangles; the cursor's triangle picks the edge to split toward.
+		private PaneDropZone GetDropZone(DragEventArgs e)
+		{
+			var w = TabDropOverlay.ActualWidth;
+			var h = TabDropOverlay.ActualHeight;
+			if (w <= 0 || h <= 0)
+				return PaneDropZone.None;
+
+			var pos = e.GetPosition(TabDropOverlay);
+			var nx = pos.X / w;
+			var ny = pos.Y / h;
+
+			if (ny < nx && ny < 1 - nx)
+				return PaneDropZone.Top;
+			if (ny > nx && ny > 1 - nx)
+				return PaneDropZone.Bottom;
+			return ny > nx ? PaneDropZone.Left : PaneDropZone.Right;
+		}
+
+		private void TabDropOverlay_DragOver(object sender, DragEventArgs e)
+		{
+			e.Handled = true;
+
+			if (!e.DataView.Properties.ContainsKey(BaseTabBar.TabPathIdentifier))
+			{
+				HideDropIndicator();
+				return;
+			}
+
+			var zone = GetDropZone(e);
+			if (zone is PaneDropZone.None)
+			{
+				HideDropIndicator();
+				e.AcceptedOperation = DataPackageOperation.None;
+				return;
+			}
+
+			var w = (float)TabDropOverlay.ActualWidth;
+			var h = (float)TabDropOverlay.ActualHeight;
+			var vertical = zone is PaneDropZone.Left or PaneDropZone.Right;
+			var size = vertical ? new Vector2(w / 2, h) : new Vector2(w, h / 2);
+			var offset = zone switch
+			{
+				PaneDropZone.Left => new Vector3(w / 4, h / 2, 0),
+				PaneDropZone.Right => new Vector3(3 * w / 4, h / 2, 0),
+				PaneDropZone.Top => new Vector3(w / 2, h / 4, 0),
+				_ => new Vector3(w / 2, 3 * h / 4, 0),
+			};
+
+			var visual = GetOrCreateIndicatorVisual();
+
+			// Seed a zero-size state at the cursor with flat corners (no animation) so the assignment below grows out from there.
+			if (!_indicatorInitialized)
+			{
+				var cursor = e.GetPosition(TabDropOverlay);
+				var visualAnims = visual.ImplicitAnimations;
+				var clipAnims = _indicatorClip!.ImplicitAnimations;
+				visual.ImplicitAnimations = null;
+				_indicatorClip.ImplicitAnimations = null;
+				visual.Offset = new Vector3((float)cursor.X, (float)cursor.Y, 0);
+				visual.Size = Vector2.Zero;
+				_indicatorClip.TopLeftRadius = _indicatorClip.TopRightRadius =
+					_indicatorClip.BottomRightRadius = _indicatorClip.BottomLeftRadius = Vector2.Zero;
+				visual.ImplicitAnimations = visualAnims;
+				_indicatorClip.ImplicitAnimations = clipAnims;
+				_indicatorInitialized = true;
+			}
+
+			ApplyZoneCorners(zone);
+			visual.Offset = offset;
+			visual.Size = size;
+			visual.Opacity = 0.35f;
+
+			e.AcceptedOperation = DataPackageOperation.Move;
+			e.DragUIOverride.Caption = (vertical
+				? Strings.AddVerticalPaneDescription
+				: Strings.SplitPaneHorizontallyDescription).GetLocalizedResource();
+			e.DragUIOverride.IsCaptionVisible = true;
+			e.DragUIOverride.IsGlyphVisible = false;
+		}
+
+		private void TabDropOverlay_DragLeave(object sender, DragEventArgs e)
+			=> HideDropIndicator();
+
+		private void TabDropOverlay_Drop(object sender, DragEventArgs e)
+		{
+			HideDropIndicator();
+
+			if (!e.DataView.Properties.TryGetValue(BaseTabBar.TabPathIdentifier, out var raw) ||
+				raw is not string serialized)
+				return;
+
+			var zone = GetDropZone(e);
+			if (zone is PaneDropZone.None)
+				return;
+
+			TabBarItemParameter tabArgs;
+			try
+			{
+				tabArgs = TabBarItemParameter.Deserialize(serialized);
+			}
+			catch (JsonException)
+			{
+				return;
+			}
+
+			var draggedPath = (tabArgs.NavigationParameter as PaneNavigationArguments)?.LeftPaneNavPathParam
+				?? tabArgs.NavigationParameter as string
+				?? string.Empty;
+			var nearSide = zone is PaneDropZone.Left or PaneDropZone.Top;
+			var arrangement = zone is PaneDropZone.Left or PaneDropZone.Right
+				? ShellPaneArrangement.Vertical
+				: ShellPaneArrangement.Horizontal;
+			var currentPath = GetPane(0)?.TabBarItemParameter?.NavigationParameter as string ?? "Home";
+
+			OpenSecondaryPane(nearSide ? currentPath : draggedPath, arrangement);
+			if (nearSide)
+			{
+				NavParamsLeft = new() { NavPath = string.IsNullOrEmpty(draggedPath) ? "Home" : draggedPath };
+				// Override AddPane's focus on the new pane; the dropped content lives in pane 0 here.
+				ActivePane = GetPane(0);
+			}
+
+			// Self-drop: leave the close-on-drop flag unset so the source tab survives the split.
+			if (!ReferenceEquals(_draggedTabItem?.TabItemContent, this))
+				ApplicationData.Current.LocalSettings.Values[BaseTabBar.TabDropHandledIdentifier] = true;
+		}
+
 		private void MainWindow_SizeChanged(object sender, WindowSizeChangedEventArgs e)
 		{
 			WindowIsCompact = MainWindow.Instance.Bounds.Width <= Constants.UI.MultiplePaneWidthThreshold;
@@ -667,7 +937,7 @@ namespace Files.App.Views
 			{
 				element.GotFocus += Pane_GotFocus;
 				element.RightTapped += Pane_RightTapped;
-				element.PointerPressed += Pane_PointerPressed;
+				element.AddHandler(UIElement.PointerPressedEvent, _panePointerPressedHandler, true);
 			}
 		}
 
@@ -780,6 +1050,9 @@ namespace Files.App.Views
 		{
 			App.Logger.LogInformation($"ShellPanesPage.Dispose: PaneCount={GetPaneCount()}, ActivePane={LogPathHelper.GetPathIdentifier(ActivePane?.TabBarItemParameter?.NavigationParameter?.ToString())}");
 
+			TabBar.TabDragStarted -= TabBar_TabDragStarted;
+			TabBar.TabDragCompleted -= TabBar_TabDragCompleted;
+
 			MainWindow.Instance.SizeChanged -= MainWindow_SizeChanged;
 
 			// Dispose panes
@@ -789,7 +1062,7 @@ namespace Files.App.Views
 				pane.ContentChanged -= Pane_ContentChanged;
 				pane.GotFocus -= Pane_GotFocus;
 				pane.RightTapped -= Pane_RightTapped;
-				pane.PointerPressed -= Pane_PointerPressed;
+				pane.RemoveHandler(UIElement.PointerPressedEvent, _panePointerPressedHandler);
 				pane.Dispose();
 			}
 

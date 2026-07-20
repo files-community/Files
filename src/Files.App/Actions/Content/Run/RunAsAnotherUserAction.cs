@@ -10,7 +10,7 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 		public override string Label
-			=> Strings.BaseLayoutContextFlyoutRunAsAnotherUser_Text.GetLocalizedResource();
+			=> Strings.BaseLayoutContextFlyoutRunAsAnotherUserText.GetLocalizedResource();
 
 		public override string Description
 			=> Strings.RunAsAnotherUserDescription.GetLocalizedResource();

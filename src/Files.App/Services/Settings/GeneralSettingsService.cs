@@ -53,6 +53,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public int LastSessionSelectedTabIndex
+		{
+			get => Get(-1);
+			set => Set(value);
+		}
+
 		public List<string> LastCrashedTabList
 		{
 			get => Get<List<string>>(null);
@@ -90,6 +96,12 @@ namespace Files.App.Services.Settings
 		}
 
 		public bool AlwaysSwitchToNewlyOpenedTab
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
+		public bool ReverseTabScrollDirection
 		{
 			get => Get(false);
 			set => Set(value);
@@ -161,19 +173,7 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool IsPinnedSectionExpanded
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
 		public bool ShowLibrarySection
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool IsLibrarySectionExpanded
 		{
 			get => Get(false);
 			set => Set(value);
@@ -185,25 +185,49 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool IsDriveSectionExpanded
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
 		public bool ShowCloudDrivesSection
 		{
 			get => Get(true);
 			set => Set(value);
 		}
 
-		public bool IsCloudDriveSectionExpanded
+		public bool ShowNetworkSection
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowWslSection
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowFileTagsSection
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool IsPinnedSectionExpanded
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool IsLibrarySectionExpanded
 		{
 			get => Get(false);
 			set => Set(value);
 		}
 
-		public bool ShowNetworkSection
+		public bool IsDriveSectionExpanded
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool IsCloudDriveSectionExpanded
 		{
 			get => Get(true);
 			set => Set(value);
@@ -215,21 +239,9 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool ShowWslSection
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
 		public bool IsWslSectionExpanded
 		{
 			get => Get(false);
-			set => Set(value);
-
-		}
-		public bool ShowFileTagsSection
-		{
-			get => Get(true);
 			set => Set(value);
 		}
 
@@ -369,6 +381,18 @@ namespace Files.App.Services.Settings
 			set => Set((long)value);
 		}
 
+		public ArchiveDictionarySizes ArchiveDictionarySizesOption
+		{
+			get => (ArchiveDictionarySizes)Get((long)ArchiveDictionarySizes.Auto);
+			set => Set((long)value);
+		}
+
+		public ArchiveWordSizes ArchiveWordSizesOption
+		{
+			get => (ArchiveWordSizes)Get((long)ArchiveWordSizes.Auto);
+			set => Set((long)value);
+		}
+
 		public Dictionary<string, bool> ShowHashesDictionary
 		{
 			get => Get<Dictionary<string, bool>>(null);
@@ -399,10 +423,21 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		/// <inheritdoc/>
+		public bool EnableThumbnailCache
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		public bool EnableSmoothScrolling
 		{
 			get => Get(true);
+			set => Set(value);
+		}
+
+		public double ThumbnailCacheSizeLimit
+		{
+			get => Get(512d);
 			set => Set(value);
 		}
 

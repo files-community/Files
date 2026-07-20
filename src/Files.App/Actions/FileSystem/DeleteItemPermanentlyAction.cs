@@ -12,6 +12,12 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.DeleteItemPermanentlyDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
+		public ActionCategory Category
+			=> ActionCategory.FileSystem;
+
+		public string AccessKey
+			=> "D";
+
 		public HotKey HotKey
 			=> new(Keys.Delete, KeyModifiers.Shift);
 

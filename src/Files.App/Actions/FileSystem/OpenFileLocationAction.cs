@@ -16,6 +16,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.OpenFileLocationDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Open;
+
 		public RichGlyph Glyph
 			=> new(baseGlyph: "\uE8DA");
 
@@ -56,7 +59,7 @@ namespace Files.App.Actions
 			}
 			else if (destFolder == FileSystemStatusCode.NotFound)
 			{
-				await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialog_Title.GetLocalizedResource(), Strings.FileNotFoundDialog_Text.GetLocalizedResource());
+				await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialogTitle.GetLocalizedResource(), Strings.FileNotFoundDialogText.GetLocalizedResource());
 			}
 			else
 			{

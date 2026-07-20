@@ -8,7 +8,6 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System.IO;
 using Windows.Storage;
@@ -31,7 +30,13 @@ namespace Files.App.Views.Layouts
 
 		private ListViewItem? openedFolderPresenter;
 
-		private bool isDraggingSelectionRectangle = false;
+		// Tracks the most recent pointer device that interacted with the FileList,
+		// so SelectionChanged (which has no PointerDeviceType of its own) can honor input-method-aware single-click settings.
+		private PointerDeviceType? lastPointerDeviceType;
+
+		// True if the most recent PointerPressed had the right button down, so SelectionChanged
+		// (which has no pointer info) can skip auto-opening folders on right-click.
+		private bool isRightButtonPressed;
 
 		public event EventHandler? ItemInvoked;
 		public event EventHandler? ItemTapped;
@@ -64,6 +69,8 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		private uint currentIconSize;
 
+		private readonly IStorageArchiveService storageArchiveService = Ioc.Default.GetRequiredService<IStorageArchiveService>();
+
 		// Constructor
 
 		public ColumnLayoutPage() : base()
@@ -75,7 +82,22 @@ namespace Files.App.Views.Layouts
 			ItemInvoked += ColumnViewBase_ItemInvoked;
 			GotFocus += ColumnViewBase_GotFocus;
 
+			storageArchiveService.CompressionCompleted += StorageArchiveService_CompressionCompleted;
+
 			doubleClickTimer = DispatcherQueue.CreateTimer();
+		}
+
+		private void SetOpenedFolder(ListViewItem? lvi)
+		{
+			SetRowStyle(openedFolderPresenter, null);
+			openedFolderPresenter = lvi;
+			SetRowStyle(openedFolderPresenter, this.Resources["PathTracedRowStyle"] as Style);
+		}
+
+		private static void SetRowStyle(ListViewItem? lvi, Style? style)
+		{
+			if (lvi?.FindDescendant<Grid>() is Grid row)
+				row.Style = style;
 		}
 
 		// Methods
@@ -107,19 +129,10 @@ namespace Files.App.Views.Layouts
 
 		private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
 		{
-			ClearOpenedFolderSelectionIndicator();
-			openedFolderPresenter = FileList.ContainerFromItem(FileList.SelectedItem) as ListViewItem;
+			SetOpenedFolder(FileList.ContainerFromItem(FileList.SelectedItem) as ListViewItem);
 		}
 
-		internal void ClearOpenedFolderSelectionIndicator()
-		{
-			if (openedFolderPresenter is null)
-				return;
-
-			openedFolderPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
-			SetFolderBackground(openedFolderPresenter, new SolidColorBrush(Microsoft.UI.Colors.Transparent));
-			openedFolderPresenter = null;
-		}
+		internal void ClearOpenedFolderSelectionIndicator() => SetOpenedFolder(null);
 
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
@@ -184,11 +197,9 @@ namespace Files.App.Views.Layouts
 		private void HighlightPathDirectory(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
 			if (args.Item is ListedItem item && columnsOwner?.OwnerPath is string ownerPath
-				&& (ownerPath == item.ItemPath || ownerPath.StartsWith(item.ItemPath) && ownerPath[item.ItemPath.Length] is '/' or '\\'))
+				&& (ownerPath == item.ItemPath || (ownerPath.Length > item.ItemPath.Length && ownerPath.StartsWith(item.ItemPath) && ownerPath[item.ItemPath.Length] is '/' or '\\')))
 			{
-				SetFolderBackground(args.ItemContainer as ListViewItem, this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush);
-
-				openedFolderPresenter = FileList.ContainerFromItem(item) as ListViewItem;
+				SetOpenedFolder(FileList.ContainerFromItem(item) as ListViewItem);
 				FileList.ContainerContentChanging -= HighlightPathDirectory;
 			}
 		}
@@ -318,51 +329,83 @@ namespace Files.App.Views.Layouts
 
 		public override void Dispose()
 		{
+			storageArchiveService.CompressionCompleted -= StorageArchiveService_CompressionCompleted;
 			base.Dispose();
 			columnsOwner = null;
 		}
 
-		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected override void OnSelectionChanged(SelectionChangedEventArgs e)
 		{
-			base.FileList_SelectionChanged(sender, e);
-			if (e is null)
-				return;
-
 			if (e.AddedItems.Count > 0)
 				columnsOwner?.HandleSelectionChange(this);
 
-			if (e.RemovedItems.Count > 0 && openedFolderPresenter != null)
-			{
-				SetFolderBackground(openedFolderPresenter, this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush);
-			}
-
 			if (SelectedItems?.Count == 1 && SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder)
 			{
-				// // Prevents the first selected folder from opening if the user is currently dragging the selection rectangle (#13418)
-				if (isDraggingSelectionRectangle)
-				{
-					CloseFolder();
-					return;
-				}
-
-				if (openedFolderPresenter == FileList.ContainerFromItem(SelectedItem))
-					return;
-
-				// Open the selected folder if selected through tap
-				if ((UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick == OpenFoldersWithOneClickEnum.Always ||
-					 UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick == OpenFoldersWithOneClickEnum.OnlyInColumnsView) &&
-					!isDraggingSelectionRectangle) ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is IShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
-				else
-					CloseFolder();
+				TryOpenSelectedFolder();
 			}
 			else if (SelectedItems?.Count > 1
 				|| SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File
 				|| openedFolderPresenter != null && ParentShellPageInstance != null
 				&& !ParentShellPageInstance.ShellViewModel.FilesAndFolders.ToList().Contains(FileList.ItemFromContainer(openedFolderPresenter))
-				&& !isDraggingSelectionRectangle) // Skip closing if dragging since nothing should be open 
+				&& !isDraggingSelectionRectangle) // Skip closing if dragging since nothing should be open
 			{
 				CloseFolder();
 			}
+		}
+
+		private void TryOpenSelectedFolder()
+		{
+			if (SelectedItem is null)
+				return;
+
+			// // Prevents the first selected folder from opening if the user is currently dragging the selection rectangle (#13418)
+			if (isDraggingSelectionRectangle)
+			{
+				CloseFolder();
+				return;
+			}
+
+			// Hold off opening freshly-created archives that haven't finished compressing — the
+			// 7-zip stream is still writing, and navigating into it triggers "Drive Unplugged"
+			// (#13695). StorageArchiveService raises CompressionCompleted on success, which we
+			// handle below to retry the open if the archive is still selected.
+			if (SelectedItem.IsArchive && storageArchiveService.IsCompressionInProgress(SelectedItem.ItemPath))
+				return;
+
+			if (openedFolderPresenter == FileList.ContainerFromItem(SelectedItem))
+				return;
+
+			// Right-click should never navigate into the folder; close any stale subcolumn since
+			// selection moved away from its source folder (#18584).
+			if (isRightButtonPressed)
+			{
+				CloseFolder();
+				return;
+			}
+
+			// Open the selected folder if selected through tap
+			if (UserSettingsService.FoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick.ShouldOpenWithSingleClick(lastPointerDeviceType))
+				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is IShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+			else
+				CloseFolder();
+		}
+
+		private void StorageArchiveService_CompressionCompleted(object? sender, string archivePath)
+		{
+			if (DispatcherQueue is null)
+				return;
+
+			DispatcherQueue.TryEnqueue(() =>
+			{
+				// Only retry the open if the just-finished archive is still the lone selection.
+				// If the user moved on, do nothing — don't surprise-navigate.
+				if (SelectedItems?.Count != 1
+					|| SelectedItem is null
+					|| !string.Equals(SelectedItem.ItemPath, archivePath, StringComparison.OrdinalIgnoreCase))
+					return;
+
+				TryOpenSelectedFolder();
+			});
 		}
 
 		private void CloseFolder()
@@ -376,10 +419,20 @@ namespace Files.App.Views.Layouts
 		{
 			if (!IsRenamingItem)
 				HandleRightClick();
+
+			// The right-click selection-change has already been consumed by OnSelectionChanged;
+			// clear the flag so the next interaction (e.g. a left-click whose PointerPressed
+			// the ListView may swallow) is treated as a normal navigation.
+			isRightButtonPressed = false;
 		}
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
+			// Keyboard navigation has no pointer device; clear the cached value so SelectionChanged
+			// falls back to the helper's "null is mouse-like" semantics instead of using a stale device.
+			lastPointerDeviceType = null;
+			isRightButtonPressed = false;
+
 			if
 			(
 				ParentShellPageInstance is null ||
@@ -464,11 +517,11 @@ namespace Files.App.Views.Layouts
 				switch (item.PrimaryItemAttribute)
 				{
 					case StorageItemTypes.File:
-						if (!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+						if (!UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))
 							await Commands.OpenItem.ExecuteAsync();
 						break;
 					case StorageItemTypes.Folder:
-						if (UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick is not OpenFoldersWithOneClickEnum.Always and not OpenFoldersWithOneClickEnum.OnlyInColumnsView)
+						if (!UserSettingsService.FoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))
 							ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (item is IShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
 						break;
 					default:
@@ -488,6 +541,12 @@ namespace Files.App.Views.Layouts
 		private void FileList_Holding(object sender, HoldingRoutedEventArgs e)
 		{
 			HandleRightClick();
+		}
+
+		private void FileList_PointerPressed(object sender, PointerRoutedEventArgs e)
+		{
+			lastPointerDeviceType = e.Pointer.PointerDeviceType;
+			isRightButtonPressed = e.GetCurrentPoint(null).Properties.IsRightButtonPressed;
 		}
 
 		private void HandleRightClick()
@@ -512,10 +571,19 @@ namespace Files.App.Views.Layouts
 			var isItemFolder = item?.PrimaryItemAttribute is StorageItemTypes.Folder;
 
 			// Check if the setting to open items with a single click is turned on
-			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick && isItemFile)
+			if (UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType) && isItemFile)
 			{
 				ResetRenameDoubleClick();
 				await Commands.OpenItem.ExecuteAsync();
+			}
+			else if (isItemFolder
+				&& openedFolderPresenter != FileList.ContainerFromItem(item)
+				&& UserSettingsService.FoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))
+			{
+				// SelectionChanged won't fire if the folder is already selected (e.g. from a prior right-click),
+				// so drive the single-click open from here too (#18584).
+				ResetRenameDoubleClick();
+				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (item is IShortcutItem sht ? sht.TargetPath : item!.ItemPath), ListView = FileList }, EventArgs.Empty);
 			}
 			else if (item is not null)
 			{
@@ -574,13 +642,6 @@ namespace Files.App.Views.Layouts
 			itemContainer.ContextFlyout = ItemContextMenuFlyout;
 		}
 
-		private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
-		{
-			if (sender is FrameworkElement element && element.DataContext is ListedItem item)
-				// Reassign values to update date display
-				ToolTipService.SetToolTip(element, item.ItemTooltipText);
-		}
-
 		protected override void BaseFolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
 			var parent = this.FindAscendant<ModernShellPage>();
@@ -612,7 +673,6 @@ namespace Files.App.Views.Layouts
 
 		protected override void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
 		{
-			isDraggingSelectionRectangle = false;
 			// Open selected folder (if only one folder is selected) after the user finishes dragging the selection rectangle
 			if (SelectedItems?.Count is 1
 				&& SelectedItem is not null
@@ -622,27 +682,11 @@ namespace Files.App.Views.Layouts
 			base.SelectionRectangle_SelectionEnded(sender, e);
 		}
 
-		private void SelectionRectangle_SelectionStarted(object sender, EventArgs e)
-		{
-			isDraggingSelectionRectangle = true;
-		}
-
 		internal void ClearSelectionIndicator()
 		{
 			LockPreviewPaneContent = true;
 			FileList.SelectedItem = null;
 			LockPreviewPaneContent = false;
-		}
-
-		private static void SetFolderBackground(ListViewItem? lvi, SolidColorBrush? backgroundColor)
-		{
-			if (lvi == null || backgroundColor == null) return;
-
-
-			if (lvi.FindDescendant<Grid>() is Grid presenter)
-			{
-				presenter.Background = backgroundColor;
-			}
 		}
 	}
 }

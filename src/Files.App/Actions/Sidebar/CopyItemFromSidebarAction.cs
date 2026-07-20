@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
-using System.IO;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 
@@ -20,10 +19,17 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.CopyItemDescription.GetLocalizedFormatResource(1);
 
+		public ActionCategory Category
+			=> ActionCategory.FileSystem;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Copy");
+
 		public bool IsExecutable
 			=> GetIsExecutable();
+
+		public bool IsAccessibleGlobally
+			=> false;
 
 		public CopyItemFromSidebarAction()
 		{
@@ -113,6 +119,7 @@ namespace Files.App.Actions
 
 			return item.Path.StartsWith("tag:", StringComparison.OrdinalIgnoreCase) ||
 				string.Equals(item.Path, "Home", StringComparison.OrdinalIgnoreCase) ||
+				string.Equals(item.Path, "Settings", StringComparison.OrdinalIgnoreCase) ||
 				string.Equals(normalizedPath, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
 				string.Equals(normalizedPath, Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase) ||
 				string.Equals(normalizedPath, Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase);

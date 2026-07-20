@@ -26,6 +26,14 @@ namespace Files.App.Helpers
 		public static unsafe void BringToForegroundEx(Windows.Win32.Foundation.HWND hWnd)
 		{
 			var hCurWnd = PInvoke.GetForegroundWindow();
+
+			// Nothing to do if we already are the foreground window. Running the rest
+			// unconditionally calls SetFocus(hWnd) on the top-level HWND, which drops
+			// XAML focus to the window root and breaks arrow-key navigation after a
+			// click on a non-name column of a selected Details-layout row.
+			if (hCurWnd == hWnd)
+				return;
+
 			var dwMyID = PInvoke.GetCurrentThreadId();
 			var dwCurID = PInvoke.GetWindowThreadProcessId(hCurWnd);
 

@@ -6,9 +6,6 @@ using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Security.Principal;
-using Tulpep.ActiveDirectoryObjectPicker;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel.DataTransfer;
@@ -473,7 +470,8 @@ namespace Files.App.Utils.Storage
 							Succeeded = false,
 							Source = fileToMovePath[i],
 							Destination = moveDestination[i],
-							HResult = -1
+							// HResult -1 makes the caller retry with the StorageFile API (ADS); a missing source must map to NotFound instead
+							HResult = MainStreamExists(fileToMovePath[i]) ? -1 : CopyEngineResult.COPYENGINE_E_PATH_NOT_FOUND_SRC
 						});
 					}
 				}
@@ -612,7 +610,8 @@ namespace Files.App.Utils.Storage
 							Succeeded = false,
 							Source = fileToCopyPath[i],
 							Destination = copyDestination[i],
-							HResult = -1
+							// HResult -1 makes the caller retry with the StorageFile API (ADS); a missing source must map to NotFound instead
+							HResult = MainStreamExists(fileToCopyPath[i]) ? -1 : CopyEngineResult.COPYENGINE_E_PATH_NOT_FOUND_SRC
 						});
 					}
 				}
@@ -1531,8 +1530,9 @@ namespace Files.App.Utils.Storage
 			return Task.FromResult(false);
 		}
 
-		public static bool SetLinkIcon(string filePath, string iconFile, int iconIndex)
+		public static bool SetLinkIcon(string filePath, string? iconFile, int iconIndex)
 		{
+			iconFile ??= string.Empty;
 			var ext = Path.GetExtension(filePath).ToLowerInvariant();
 
 			try
@@ -1646,7 +1646,7 @@ namespace Files.App.Utils.Storage
 				index++;
 			}
 
-			if(insertedIndex > 0)
+			if (insertedIndex > 0 && !string.IsNullOrEmpty(iconFile))
 			{
 				lines.Insert(insertedIndex, $"IconFile={iconFile}");
 				lines.Insert(insertedIndex + 1, $"IconIndex={iconIndex}");
@@ -1674,38 +1674,7 @@ namespace Files.App.Utils.Storage
 		}
 
 		public static Task<string?> OpenObjectPickerAsync(long hWnd)
-		{
-			return STATask.Run(() =>
-			{
-				var picker = new DirectoryObjectPickerDialog()
-				{
-					AllowedObjectTypes = ObjectTypes.All,
-					DefaultObjectTypes = ObjectTypes.Users | ObjectTypes.Groups,
-					AllowedLocations = Locations.All,
-					DefaultLocations = Locations.LocalComputer,
-					MultiSelect = false,
-					ShowAdvancedView = true
-				};
-
-				picker.AttributesToFetch.Add("objectSid");
-
-				using (picker)
-				{
-					if (picker.ShowDialog(Win32Helper.Win32Window.FromLong(hWnd)) == System.Windows.Forms.DialogResult.OK)
-					{
-						try
-						{
-							var attribs = picker.SelectedObject.FetchedAttributes;
-							if (attribs.Any() && attribs[0] is byte[] objectSid)
-								return new SecurityIdentifier(objectSid, 0).Value;
-						}
-						catch { }
-					}
-				}
-
-				return null;
-			}, App.Logger);
-		}
+			=> WindowsObjectPicker.OpenObjectPickerAsync((nint)hWnd, App.Logger);
 
 		private static ShellItem? GetFirstFile(ShellItem shi)
 		{
@@ -1817,14 +1786,12 @@ namespace Files.App.Utils.Storage
 				public bool Canceled { get; set; }
 			}
 
-			private readonly Shell32.ITaskbarList4? taskbar;
 			private readonly ConcurrentDictionary<string, OperationWithProgress> operations;
 
 			public HWND OwnerWindow { get; set; }
 
 			public ProgressHandler()
 			{
-				taskbar = Win32Helper.CreateTaskbarObject();
 				operations = new ConcurrentDictionary<string, OperationWithProgress>();
 				operationsCompletedEvent = new ManualResetEvent(true);
 			}
@@ -1841,14 +1808,12 @@ namespace Files.App.Utils.Storage
 			public void AddOperation(string uid)
 			{
 				operations.TryAdd(uid, new OperationWithProgress());
-				UpdateTaskbarProgress();
 				operationsCompletedEvent.Reset();
 			}
 
 			public void RemoveOperation(string uid)
 			{
 				operations.TryRemove(uid, out _);
-				UpdateTaskbarProgress();
 				if (!operations.Any())
 				{
 					operationsCompletedEvent.Set();
@@ -1860,7 +1825,6 @@ namespace Files.App.Utils.Storage
 				if (operations.TryGetValue(uid, out var op))
 				{
 					op.Progress = progress;
-					UpdateTaskbarProgress();
 				}
 			}
 
@@ -1874,23 +1838,6 @@ namespace Files.App.Utils.Storage
 				if (operations.TryGetValue(uid, out var op))
 				{
 					op.Canceled = true;
-					UpdateTaskbarProgress();
-				}
-			}
-
-			private void UpdateTaskbarProgress()
-			{
-				if (OwnerWindow == HWND.NULL || taskbar is null)
-				{
-					return;
-				}
-				if (operations.Any())
-				{
-					taskbar.SetProgressValue(OwnerWindow, (ulong)Progress, 100);
-				}
-				else
-				{
-					taskbar.SetProgressState(OwnerWindow, Shell32.TBPFLAG.TBPF_NOPROGRESS);
 				}
 			}
 
@@ -1904,8 +1851,6 @@ namespace Files.App.Utils.Storage
 				if (disposing)
 				{
 					operationsCompletedEvent?.Dispose();
-					if (taskbar is not null)
-						Marshal.ReleaseComObject(taskbar);
 				}
 			}
 		}
@@ -1929,6 +1874,17 @@ namespace Files.App.Utils.Storage
 				index++;
 
 			return Path.GetFileName(genFilePath(index));
+		}
+
+		private static bool MainStreamExists(string path)
+		{
+			// Path.Exists is always false for ADS paths (file.txt:stream), so check the main stream's path
+			var fileName = Path.GetFileName(path);
+			var colonIndex = fileName.IndexOf(':');
+			if (colonIndex is not -1)
+				path = path[..(path.Length - fileName.Length + colonIndex)];
+
+			return Path.Exists(path);
 		}
 	}
 }

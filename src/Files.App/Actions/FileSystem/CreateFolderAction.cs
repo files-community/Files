@@ -14,6 +14,15 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.CreateFolderDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Create;
+
+		public string AccessKey
+			=> "F";
+
+		public string AutomationId
+			=> "InnerNavigationToolbarNewFolderButton";
+
 		public HotKey HotKey
 			=> new(Keys.N, KeyModifiers.CtrlShift);
 

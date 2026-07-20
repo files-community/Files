@@ -85,7 +85,7 @@ namespace Files.App.Helpers
 				App.AppModel.TabStripSelectedIndex = index;
 		}
 
-		public static async Task AddNewTabByParamAsync(Type type, object tabViewItemArgs, int atIndex = -1)
+		public static async Task AddNewTabByParamAsync(Type type, object tabViewItemArgs, int atIndex = -1, bool switchToNewTab = true)
 		{
 			var tabItem = new Files.App.UserControls.TabBar.TabBarItem()
 			{
@@ -107,7 +107,9 @@ namespace Files.App.Helpers
 
 			var index = atIndex == -1 ? MainPageViewModel.AppInstances.Count : atIndex;
 			MainPageViewModel.AppInstances.Insert(index, tabItem);
-			App.AppModel.TabStripSelectedIndex = index;
+
+			if (switchToNewTab)
+				App.AppModel.TabStripSelectedIndex = index;
 		}
 
 		private static async Task UpdateTabInfoAsync(TabBarItem tabItem, object navigationArg)
@@ -148,20 +150,78 @@ namespace Files.App.Helpers
 				var a2 = navigationArg is PaneNavigationArguments pna2 ? pna2 : new PaneNavigationArguments() { LeftPaneNavPathParam = navigationArg as string };
 
 				if (a1.LeftPaneNavPathParam == a2.LeftPaneNavPathParam && a1.RightPaneNavPathParam == a2.RightPaneNavPathParam)
-					(tabItem.Header, tabItem.IconSource, tabItem.ToolTipText) = result;
+				{
+					tabItem.Description = result.Item1;
+					tabItem.IconSource = result.Item2;
+					tabItem.ToolTipText = result.Item3;
+					RefreshTabPathHints();
+				}
 			}
+		}
+
+		internal static void RefreshTabPathHints()
+		{
+			foreach (var group in MainPageViewModel.AppInstances
+				.Where(t => !string.IsNullOrEmpty(t.Description))
+				.GroupBy(t => t.Description!, StringComparer.OrdinalIgnoreCase))
+			{
+				var tabs = group.ToArray();
+
+				foreach (var t in tabs)
+					t.Header = t.Description;
+
+				if (tabs.Length < 2 || tabs[0].Description!.Contains(" | "))
+					continue;
+
+				var hints = tabs.ToDictionary(t => t, t => AncestorHints(t.ToolTipText));
+
+				foreach (var tab in tabs)
+				{
+					for (var d = 0; d < hints[tab].Length; d++)
+					{
+						if (tabs.All(t => t == tab || d >= hints[t].Length || hints[t][d] != hints[tab][d]))
+						{
+							tab.Header = $"{hints[tab][d]}\\{tab.Description}";
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		private static string[] AncestorHints(string? path)
+		{
+			var result = new List<string>();
+
+			try
+			{
+				var root = (PathNormalization.GetPathRoot(path) ?? "").TrimEnd('\\', '/');
+				var prefix = root.Length >= 2 && root[1] == ':'
+					? $"{char.ToUpperInvariant(root[0])}:\\..."
+					: root.Length > 0 ? $"{root}\\..." : "...";
+
+				var dir = path?.TrimEnd('\\', '/');
+				while ((dir = Path.GetDirectoryName(dir)) is not null
+					&& Path.GetFileName(dir) is { Length: > 0 } seg)
+				{
+					result.Add($"{prefix}\\{seg}");
+				}
+			}
+			catch (ArgumentException) { }
+
+			return result.ToArray();
 		}
 
 		public static async Task<ImageSource?> GetIconForPathAsync(string path)
 		{
 			ImageSource? imageSource;
 			if (string.IsNullOrEmpty(path) || path == "Home")
-				imageSource = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
+				imageSource = new BitmapImage(new Uri(SidebarSectionIcons.For(SectionType.Home)!));
 			else if (path == "ReleaseNotes")
 				imageSource = new BitmapImage(new Uri(AppLifecycleHelper.AppIconPath));
-			// TODO add settings page
-			//else if (path == "Settings")
-			//	imageSource = new BitmapImage(new Uri(AppLifecycleHelper.AppIconPath));
+			else if (path == "Settings")
+				// Settings uses its own animated icon in the sidebar, so we intentionally skip a file-based icon here.
+				imageSource = null;
 			else if (WSLDistroManager.TryGetDistro(path, out WslDistroItem? wslDistro) && path.Equals(wslDistro.Path))
 				imageSource = new BitmapImage(wslDistro.Icon);
 			else
@@ -189,25 +249,25 @@ namespace Files.App.Helpers
 		public static async Task<(string tabLocationHeader, IconSource tabIcon, string toolTipText)> GetSelectedTabInfoAsync(string currentPath)
 		{
 			string? tabLocationHeader;
-			var iconSource = new ImageIconSource();
+			IconSource iconSource = new ImageIconSource();
 			string toolTipText = currentPath;
 
 			if (string.IsNullOrEmpty(currentPath) || currentPath == "Home")
 			{
 				tabLocationHeader = Strings.Home.GetLocalizedResource();
-				iconSource.ImageSource = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
+				((ImageIconSource)iconSource).ImageSource = new BitmapImage(new Uri(SidebarSectionIcons.For(SectionType.Home)!));
 			}
 			else if (currentPath == "ReleaseNotes")
 			{
 				tabLocationHeader = Strings.ReleaseNotes.GetLocalizedResource();
-				iconSource.ImageSource = new BitmapImage(new Uri(AppLifecycleHelper.AppIconPath));
+				((ImageIconSource)iconSource).ImageSource = new BitmapImage(new Uri(AppLifecycleHelper.AppIconPath));
 			}
-			// TODO add settings page
-			//else if (currentPath == "Settings")
-			//{ 
-			//	tabLocationHeader = Strings.Settings.GetLocalizedResource();
-			//	iconSource.ImageSource = new BitmapImage(new Uri(AppLifecycleHelper.AppIconPath));
-			//}
+			else if (currentPath == "Settings")
+			{
+				tabLocationHeader = Strings.Settings.GetLocalizedResource();
+				iconSource = new FontIconSource() { Glyph = "\uE713" };
+				toolTipText = Strings.Settings.GetLocalizedResource();
+			}
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
 				tabLocationHeader = Strings.Desktop.GetLocalizedResource();
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
@@ -227,7 +287,7 @@ namespace Files.App.Helpers
 			else if (WSLDistroManager.TryGetDistro(currentPath, out WslDistroItem? wslDistro) && currentPath.Equals(wslDistro.Path))
 			{
 				tabLocationHeader = wslDistro.Text;
-				iconSource.ImageSource = new BitmapImage(wslDistro.Icon);
+				((ImageIconSource)iconSource).ImageSource = new BitmapImage(wslDistro.Icon);
 			}
 			else
 			{
@@ -235,7 +295,7 @@ namespace Files.App.Helpers
 				var matchingCloudDrive = CloudDrivesManager.Drives.FirstOrDefault(x => normalizedCurrentPath.Equals(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
 				if (matchingCloudDrive is not null)
 				{
-					iconSource.ImageSource = matchingCloudDrive.Icon;
+					((ImageIconSource)iconSource).ImageSource = matchingCloudDrive.Icon;
 					tabLocationHeader = matchingCloudDrive.Text;
 				}
 				else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == normalizedCurrentPath) // If path is a drive's root
@@ -258,7 +318,7 @@ namespace Files.App.Helpers
 				}
 			}
 
-			if (iconSource.ImageSource is null)
+			if (iconSource is ImageIconSource imageIcon && imageIcon.ImageSource is null)
 			{
 				var result = await FileThumbnailHelper.GetIconAsync(
 					currentPath,
@@ -267,7 +327,7 @@ namespace Files.App.Helpers
 					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
 				if (result is not null)
-					iconSource.ImageSource = await result.ToBitmapAsync();
+					imageIcon.ImageSource = await result.ToBitmapAsync();
 			}
 
 			return (tabLocationHeader, iconSource, toolTipText);
@@ -319,18 +379,18 @@ namespace Files.App.Helpers
 			return Launcher.LaunchUriAsync(folderUri).AsTask();
 		}
 
-		public static Task<bool> OpenTabInNewWindowAsync(string tabArgs)
+		public static Task<bool> OpenTabInNewWindowAsync(string tabArgs, int? dropX = null, int? dropY = null)
 		{
-			var folderUri = new Uri($"files-dev:?tab={Uri.EscapeDataString(tabArgs)}");
-			return Launcher.LaunchUriAsync(folderUri).AsTask();
+			var drop = dropX is int x && dropY is int y ? $"&x={x}&y={y}" : "";
+			return Launcher.LaunchUriAsync(new Uri($"files-dev:?tab={Uri.EscapeDataString(tabArgs)}{drop}")).AsTask();
 		}
 
-		public static void OpenInSecondaryPane(IShellPage associatedInstance, ListedItem listedItem)
+		public static void OpenInSecondaryPane(IShellPage associatedInstance, ListedItem listedItem, ShellPaneArrangement arrangement = ShellPaneArrangement.None)
 		{
 			if (associatedInstance is null || listedItem is null)
 				return;
 
-			associatedInstance.PaneHolder?.OpenSecondaryPane((listedItem as IShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+			associatedInstance.PaneHolder?.OpenSecondaryPane((listedItem as IShortcutItem)?.TargetPath ?? listedItem.ItemPath, arrangement);
 		}
 
 		public static Task LaunchNewWindowAsync()
@@ -493,7 +553,7 @@ namespace Files.App.Helpers
 
 			if (opened.ErrorCode == FileSystemStatusCode.NotFound && !openSilent)
 			{
-				await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialog_Title.GetLocalizedResource(), Strings.FileNotFoundDialog_Text.GetLocalizedResource());
+				await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialogTitle.GetLocalizedResource(), Strings.FileNotFoundDialogText.GetLocalizedResource());
 				associatedInstance.ToolbarViewModel.CanRefresh = false;
 				associatedInstance.ShellViewModel?.RefreshItems(previousDir);
 			}
@@ -554,8 +614,10 @@ namespace Files.App.Helpers
 					opened = await associatedInstance.ShellViewModel.GetFolderWithPathFromPathAsync(path)
 						.OnSuccess((childFolder) =>
 						{
-							// Add location to Recent Items List
-							if (childFolder.Item is SystemStorageFolder)
+							// Add location to Recent Items List.
+							// File.Exists distinguishes an archive root (real file on disk) from an inner path like "archive.zip\sub".
+							if (childFolder.Item is SystemStorageFolder ||
+								(childFolder.Item is ZipStorageFolder && File.Exists(childFolder.Path)))
 								WindowsRecentItemsService.Add(childFolder.Path);
 						});
 				}
@@ -631,10 +693,19 @@ namespace Files.App.Helpers
 								{
 									//try using launcher first
 									bool launchSuccess = false;
+
+									// The Windows 11 Photos app ignores NeighboringFilesQuery when launched as default app.
+									// Use the app URI only when this extension is associated with Microsoft Photos.
+									if (FileAssociationHelpers.IsMicrosoftPhotosDefaultAssociation(fileExtension))
+									{
+										string uri = $"ms-photos:viewer?fileName={Uri.EscapeDataString(path)}";
+										launchSuccess = await Launcher.LaunchUriAsync(new Uri(uri));
+									}
+
 									BaseStorageFileQueryResult? fileQueryResult = null;
 									//Get folder to create a file query (to pass to apps like Photos, Movies & TV..., needed to scroll through the folder like what Windows Explorer does)
 									BaseStorageFolder currentFolder = await shellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(path));
-									if (currentFolder is not null)
+									if (!launchSuccess && currentFolder is not null)
 									{
 										QueryOptions queryOptions = new(CommonFileQuery.DefaultQuery, null);
 										//We can have many sort entries
@@ -691,6 +762,24 @@ namespace Files.App.Helpers
 									}
 									if (!launchSuccess)
 										await Win32Helper.InvokeWin32ComponentAsync(path, associatedInstance, args);
+								}
+								else if (childFile.Item is ZipStorageFile zipStorageFile)
+								{
+									var options = InitializeWithWindow(new LauncherOptions());
+									var storageItem = (StorageFile)await FilesystemTasks.Wrap(() => zipStorageFile.ToStorageFileAsync().AsTask());
+									if (storageItem is null)
+									{
+										await Win32Helper.InvokeWin32ComponentAsync(path, associatedInstance, args);
+									}
+									else if (!await Launcher.LaunchFileAsync(storageItem, options))
+									{
+										var pickerOptions = InitializeWithWindow(new LauncherOptions
+										{
+											DisplayApplicationPicker = true
+										});
+										if (!await Launcher.LaunchFileAsync(storageItem, pickerOptions))
+											await Win32Helper.InvokeWin32ComponentAsync(path, associatedInstance, args);
+									}
 								}
 								else
 								{

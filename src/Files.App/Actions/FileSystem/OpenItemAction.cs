@@ -17,6 +17,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.OpenItemDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
+		public ActionCategory Category
+			=> ActionCategory.Open;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.OpenFile");
 
@@ -63,11 +66,15 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.OpenItemWithApplicationPickerDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
+		public ActionCategory Category
+			=> ActionCategory.Open;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.OpenWith");
 
 		public bool IsExecutable =>
 			context.HasSelection &&
+			context.SelectedItems.Count == 1 &&
 			context.PageType != ContentPageTypes.RecycleBin &&
 			context.SelectedItems.All(i =>
 				(i.PrimaryItemAttribute == StorageItemTypes.File && !i.IsShortcut && (!i.IsExecutable || i.IsScriptFile)) ||
@@ -90,7 +97,7 @@ namespace Files.App.Actions
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
+			if (e.PropertyName is nameof(IContentPageContext.HasSelection) or nameof(IContentPageContext.SelectedItems))
 				OnPropertyChanged(nameof(IsExecutable));
 		}
 	}
@@ -101,10 +108,13 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> Strings.BaseLayoutItemContextFlyoutOpenParentFolder_Text.GetLocalizedResource();
+			=> Strings.BaseLayoutItemContextFlyoutOpenParentFolderText.GetLocalizedResource();
 
 		public string Description
 			=> Strings.OpenParentFolderDescription.GetLocalizedResource();
+
+		public ActionCategory Category
+			=> ActionCategory.Open;
 
 		public RichGlyph Glyph
 			=> new(baseGlyph: "\uE197");

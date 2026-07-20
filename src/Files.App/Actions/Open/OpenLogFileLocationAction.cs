@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using Windows.Storage;
 using Windows.System;
@@ -14,6 +14,9 @@ namespace Files.App.Actions
 
 		public string Description
 			=> Strings.OpenLogFileLocationDescription.GetLocalizedResource();
+
+		public ActionCategory Category
+			=> ActionCategory.Open;
 
 		public HotKey HotKey
 			=> new(Keys.OemPeriod, KeyModifiers.CtrlShift);

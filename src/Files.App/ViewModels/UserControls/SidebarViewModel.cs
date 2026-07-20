@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Files.App.Controls;
+using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -16,6 +17,7 @@ using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -41,9 +43,11 @@ namespace Files.App.ViewModels.UserControls
 
 		private Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue;
 		private INavigationControlItem rightClickedItem;
+		private readonly UISettings uiSettings = new();
 
 		public object SidebarItems => sidebarItems;
 		public BulkConcurrentObservableCollection<INavigationControlItem> sidebarItems { get; init; }
+		public LocationItem SettingsSidebarItem { get; }
 		public PinnedFoldersManager SidebarPinnedModel => App.QuickAccessManager.Model;
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
@@ -92,33 +96,83 @@ namespace Files.App.ViewModels.UserControls
 			OnPropertyChanged(nameof(SidebarSelectedItem));
 		}
 
+		private string? currentPath;
+		public string? CurrentPath
+		{
+			get => currentPath;
+			private set => SetProperty(ref currentPath, value);
+		}
+
 		public void UpdateSidebarSelectedItemFromArgs(string? arg)
 		{
 			var value = arg;
-
-			INavigationControlItem? item = null;
-			var filteredItems = sidebarItems
-				.Where(x => !string.IsNullOrWhiteSpace(x.Path))
-				.Concat(sidebarItems.Where(x => (x as LocationItem)?.ChildItems is not null).SelectMany(x => ((LocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
-				.ToList();
+			CurrentPath = value;
 
 			if (string.IsNullOrEmpty(value))
-			{
-				//SidebarSelectedItem = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
 				return;
-			}
 
-			item = filteredItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
-			item ??= filteredItems.Where(x => value.StartsWith(x.Path + "\\", StringComparison.OrdinalIgnoreCase)).MaxBy(x => x.Path.Length);
-			item ??= filteredItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
-
-			if (item is null && value == "Home")
-				item = filteredItems.FirstOrDefault(x => x.Path.Equals("Home"));
+			INavigationControlItem? item = value switch
+			{
+				"Home" => sidebarItems.FirstOrDefault(x => x.Path == "Home"),
+				"Settings" => SettingsSidebarItem,
+				_ => FindDeepestVisibleAncestor(value),
+			};
 
 			if (SidebarSelectedItem != item)
 				SidebarSelectedItem = item;
-
 		}
+
+		#region Deepest-visible-ancestor selection
+
+		// Walks only the currently-realized + expanded tree; navigating to a folder whose ancestors are collapsed selects the closest visible parent without forcing any expansion. Section-level descent skips the ancestor-prefix optimization because section paths (e.g. "Pinned") don't prefix their children's paths.
+		private INavigationControlItem? FindDeepestVisibleAncestor(string targetPath)
+		{
+			INavigationControlItem? best = null;
+			foreach (var section in sidebarItems)
+			{
+				if (PathIsAncestorOrMatch(section.Path, targetPath))
+					ConsiderAsBest(section, ref best);
+				if (!section.IsExpanded || GetChildren(section) is not { } children)
+					continue;
+				FindDeepestVisibleAncestorRecursive(children, targetPath, ref best);
+			}
+			return best;
+		}
+
+		private static void FindDeepestVisibleAncestorRecursive(IEnumerable<INavigationControlItem> items, string targetPath, ref INavigationControlItem? best)
+		{
+			foreach (var item in items)
+			{
+				if (!PathIsAncestorOrMatch(item.Path, targetPath))
+					continue;
+				ConsiderAsBest(item, ref best);
+				if (!item.IsExpanded || GetChildren(item) is not { } children)
+					continue;
+				FindDeepestVisibleAncestorRecursive(children, targetPath, ref best);
+			}
+		}
+
+		private static IEnumerable<INavigationControlItem>? GetChildren(INavigationControlItem item)
+			=> item.Children as IEnumerable<INavigationControlItem>;
+
+		// Caller has already verified PathIsAncestorOrMatch so candidate.Path is non-null and the recursive descent doesn't re-do that work.
+		private static void ConsiderAsBest(INavigationControlItem candidate, ref INavigationControlItem? best)
+		{
+			if (best is null || candidate.Path!.Length > (best.Path?.Length ?? 0))
+				best = candidate;
+		}
+
+		// Checks the boundary character directly instead of building "nodePath + sep" and calling StartsWith on the allocated string — saves one allocation per call inside the recursive walk.
+		private static bool PathIsAncestorOrMatch(string? nodePath, string targetPath)
+		{
+			if (string.IsNullOrEmpty(nodePath) || !targetPath.StartsWith(nodePath, StringComparison.OrdinalIgnoreCase))
+				return false;
+			if (targetPath.Length == nodePath.Length)
+				return true;
+			return nodePath[^1] == Path.DirectorySeparatorChar || targetPath[nodePath.Length] == Path.DirectorySeparatorChar;
+		}
+
+		#endregion
 
 		public bool IsSidebarOpen
 		{
@@ -241,6 +295,15 @@ namespace Files.App.ViewModels.UserControls
 			dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
 			fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
 
+			SettingsSidebarItem = new LocationItem()
+			{
+				Text = Strings.Settings.GetLocalizedResource(),
+				Path = "Settings",
+				Section = SectionType.Library,
+				MenuOptions = new ContextMenuOptions() { IsLocationItem = true },
+				SelectsOnInvoked = true,
+				ChildItems = null
+			};
 			sidebarItems = [];
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			CreateItemHomeAsync();
@@ -260,6 +323,7 @@ namespace Files.App.ViewModels.UserControls
 			NetworkService.Computers.CollectionChanged += Manager_DataChangedForNetworkComputers;
 			WSLDistroManager.DataChanged += Manager_DataChanged;
 			App.FileTagsManager.DataChanged += Manager_DataChanged;
+			uiSettings.ColorValuesChanged += UiSettings_ColorValuesChanged;
 			SidebarDisplayMode = UserSettingsService.AppearanceSettingsService.IsSidebarOpen ? SidebarDisplayMode.Expanded : SidebarDisplayMode.Compact;
 
 			HideSectionCommand = new RelayCommand(HideSection);
@@ -273,6 +337,30 @@ namespace Files.App.ViewModels.UserControls
 		private Task<LocationItem> CreateItemHomeAsync()
 		{
 			return CreateSectionAsync(SectionType.Home);
+		}
+
+		private async void UiSettings_ColorValuesChanged(UISettings sender, object args)
+		{
+			if (dispatcherQueue is null)
+				return;
+
+			await dispatcherQueue.EnqueueOrInvokeAsync(RefreshSectionIcons);
+		}
+
+		private void RefreshSectionIcons()
+		{
+			foreach (var item in sidebarItems.OfType<LocationItem>())
+			{
+				if (!item.IsHeader)
+					continue;
+
+				var uri = SidebarSectionIcons.For(item.Section);
+				if (uri is null)
+					continue;
+
+				item.Icon = null;
+				item.Icon = new BitmapImage(new Uri(uri));
+			}
 		}
 
 		private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -330,6 +418,11 @@ namespace Files.App.ViewModels.UserControls
 						foreach (INavigationControlItem elem in e.OldItems)
 						{
 							var match = section.ChildItems.FirstOrDefault(x => x.Path == elem.Path);
+							if (match is null)
+								continue;
+							// Tear down the matched item's watcher + descendants before removing it; without this the orphan keeps a live FileSystemWatcher and would fire resyncs into a detached ChildItems collection.
+							if (match is ExpandableSidebarItemBase expandable)
+								expandable.StopWatchingSubfoldersAndDescendants();
 							section.ChildItems.Remove(match);
 						}
 						if (e.Action != NotifyCollectionChangedAction.Remove)
@@ -350,6 +443,8 @@ namespace Files.App.ViewModels.UserControls
 						{
 							if (!getElements().Any(x => x.Path == elem.Path))
 							{
+								if (elem is ExpandableSidebarItemBase expandable)
+									expandable.StopWatchingSubfoldersAndDescendants();
 								section.ChildItems.Remove(elem);
 							}
 						}
@@ -408,38 +503,26 @@ namespace Files.App.ViewModels.UserControls
 				}
 			}
 
-			section.PropertyChanged += Section_PropertyChanged;
+			// Items rooted at a real filesystem path become tree-view expandable. Pinned stays a flat favorites list.
+			_ = ApplyTreeViewExpandabilityAsync(elem, section.Section);
+
+			// Hook both for per-tab expansion capture and restore.
+			TrackSidebarItem(elem);
+			TrackSidebarItem(section);
+			ApplyTabStateToNewlyAddedItem(elem);
+			ApplyTabStateToNewlyAddedItem(section);
 		}
 
-		private void Section_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private static async Task ApplyTreeViewExpandabilityAsync(INavigationControlItem child, SectionType parentSection)
 		{
-			if (sender is LocationItem section && e.PropertyName == nameof(section.IsExpanded))
-			{
-				switch (section.Text)
-				{
-					case var text when text == Strings.Pinned.GetLocalizedResource():
-						UserSettingsService.GeneralSettingsService.IsPinnedSectionExpanded = section.IsExpanded;
-						break;
-					case var text when text == Strings.SidebarLibraries.GetLocalizedResource():
-						UserSettingsService.GeneralSettingsService.IsLibrarySectionExpanded = section.IsExpanded;
-						break;
-					case var text when text == Strings.Drives.GetLocalizedResource():
-						UserSettingsService.GeneralSettingsService.IsDriveSectionExpanded = section.IsExpanded;
-						break;
-					case var text when text == Strings.SidebarCloudDrives.GetLocalizedResource():
-						UserSettingsService.GeneralSettingsService.IsCloudDriveSectionExpanded = section.IsExpanded;
-						break;
-					case var text when text == Strings.Network.GetLocalizedResource():
-						UserSettingsService.GeneralSettingsService.IsNetworkSectionExpanded = section.IsExpanded;
-						break;
-					case var text when text == Strings.WSL.GetLocalizedResource():
-						UserSettingsService.GeneralSettingsService.IsWslSectionExpanded = section.IsExpanded;
-						break;
-					case var text when text == Strings.FileTags.GetLocalizedResource():
-						UserSettingsService.GeneralSettingsService.IsFileTagsSectionExpanded = section.IsExpanded;
-						break;
-				}
-			}
+			if (parentSection == SectionType.Pinned || child is not IExpandableSidebarFolder expandable)
+				return;
+			if (string.IsNullOrEmpty(child.Path) || !System.IO.Path.IsPathRooted(child.Path))
+				return;
+
+			var hasSubfolders = await Task.Run(() => FolderHelpers.HasSubfolders(child.Path));
+			expandable.IsExpandableFolder = true;
+			expandable.HasUnrealizedChildren = hasSubfolders;
 		}
 
 		private async Task<LocationItem> GetOrCreateSectionAsync(SectionType sectionType)
@@ -453,140 +536,78 @@ namespace Files.App.ViewModels.UserControls
 			return sidebarItems.FirstOrDefault(x => x.Section == sectionType) as LocationItem;
 		}
 
-		private async Task<LocationItem> CreateSectionAsync(SectionType sectionType)
+		private Task<LocationItem> CreateSectionAsync(SectionType sectionType)
 		{
 			LocationItem section = null;
-			BitmapImage icon = null;
-			int iconIdex = -1;
 
 			switch (sectionType)
 			{
 				case SectionType.Home:
-					{
-						section = BuildSection(Strings.Home.GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLocationItem = true }, true);
-						section.Path = "Home";
-						section.Icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
-						section.IsHeader = true;
-
-						break;
-					}
+					section = BuildSection(Strings.Home.GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLocationItem = true }, true);
+					section.Path = "Home";
+					section.IsHeader = true;
+					break;
 
 				case SectionType.Pinned:
-					{
-						if (ShowPinnedFoldersSection == false)
-						{
-							break;
-						}
-
-						section = BuildSection(Strings.Pinned.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.StarIcon));
-						section.IsHeader = true;
-						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsPinnedSectionExpanded;
-
+					if (ShowPinnedFoldersSection == false)
 						break;
-					}
+					section = BuildSection(Strings.Pinned.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+					section.IsHeader = true;
+					break;
 
 				case SectionType.Library:
-					{
-						if (ShowLibrarySection == false)
-						{
-							break;
-						}
-						section = BuildSection(Strings.SidebarLibraries.GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLibrariesHeader = true, ShowHideSection = true }, false);
-						iconIdex = Constants.ImageRes.Libraries;
-						section.IsHeader = true;
-						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsLibrarySectionExpanded;
-
+					if (ShowLibrarySection == false)
 						break;
-					}
+					section = BuildSection(Strings.SidebarLibraries.GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLibrariesHeader = true, ShowHideSection = true }, false);
+					section.IsHeader = true;
+					break;
 
 				case SectionType.Drives:
-					{
-						if (ShowDrivesSection == false)
-						{
-							break;
-						}
-						section = BuildSection(Strings.Drives.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						iconIdex = Constants.ImageRes.ThisPC;
-						section.IsHeader = true;
-						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsDriveSectionExpanded;
-
+					if (ShowDrivesSection == false)
 						break;
-					}
+					section = BuildSection(Strings.Drives.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+					section.IsHeader = true;
+					break;
 
 				case SectionType.CloudDrives:
-					{
-						if (ShowCloudDrivesSection == false || CloudDrivesManager.Drives.Any() == false)
-						{
-							break;
-						}
-						section = BuildSection(Strings.SidebarCloudDrives.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.CloudDriveIcon));
-						section.IsHeader = true;
-						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsCloudDriveSectionExpanded;
-
+					if (ShowCloudDrivesSection == false || CloudDrivesManager.Drives.Any() == false)
 						break;
-					}
+					section = BuildSection(Strings.SidebarCloudDrives.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+					section.IsHeader = true;
+					break;
 
 				case SectionType.Network:
-					{
-						if (!ShowNetworkSection)
-						{
-							break;
-						}
-						section = BuildSection(Strings.Network.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						iconIdex = Constants.ImageRes.Network;
-						section.IsHeader = true;
-						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsNetworkSectionExpanded;
-
+					if (!ShowNetworkSection)
 						break;
-					}
+					section = BuildSection(Strings.Network.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+					section.IsHeader = true;
+					break;
 
 				case SectionType.WSL:
-					{
-						if (ShowWslSection == false || WSLDistroManager.Distros.Any() == false)
-						{
-							break;
-						}
-						section = BuildSection(Strings.WSL.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						icon = new BitmapImage(new Uri(Constants.WslIconsPaths.GenericIcon));
-						section.IsHeader = true;
-						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsWslSectionExpanded;
-
+					if (ShowWslSection == false || WSLDistroManager.Distros.Any() == false)
 						break;
-					}
+					section = BuildSection(Strings.WSL.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+					section.IsHeader = true;
+					break;
 
 				case SectionType.FileTag:
-					{
-						if (!ShowFileTagsSection)
-						{
-							break;
-						}
-						section = BuildSection(Strings.FileTags.GetLocalizedResource(), sectionType, new ContextMenuOptions { IsTagsHeader = true, ShowHideSection = true }, false);
-						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FileTagsIcon));
-						section.IsHeader = true;
-						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsFileTagsSectionExpanded;
-
+					if (!ShowFileTagsSection)
 						break;
-					}
+					section = BuildSection(Strings.FileTags.GetLocalizedResource(), sectionType, new ContextMenuOptions { IsTagsHeader = true, ShowHideSection = true }, false);
+					section.IsHeader = true;
+					break;
 			}
 
 			if (section is not null)
 			{
-				if (icon is not null)
-				{
-					section.Icon = icon;
-				}
+				var iconPath = SidebarSectionIcons.For(sectionType);
+				if (iconPath is not null)
+					section.Icon = new BitmapImage(new Uri(iconPath));
 
 				AddSectionToSideBar(section);
-
-				if (iconIdex != -1)
-				{
-					section.Icon = await UIHelpers.GetSidebarIconResource(iconIdex);
-				}
 			}
 
-			return section;
+			return Task.FromResult(section);
 		}
 
 		private LocationItem BuildSection(string sectionName, SectionType sectionType, ContextMenuOptions options, bool selectsOnInvoked)
@@ -680,6 +701,34 @@ namespace Files.App.ViewModels.UserControls
 					OnPropertyChanged(nameof(ShowFileTagsSection));
 					OnPropertyChanged(nameof(AreSectionsHidden));
 					break;
+				case nameof(UserSettingsService.FoldersSettingsService.ShowHiddenItems):
+					await ReloadFilteredSubfoldersAsync();
+					break;
+			}
+		}
+
+		// Reloads the shallowest already-loaded subfolder in each branch; descendants come back via tab-state restoration as the rebuilt children get re-added, so we don't waste shell calls on items that will be discarded by their parent's reload.
+		private async Task ReloadFilteredSubfoldersAsync()
+		{
+			var topmost = new List<ExpandableSidebarItemBase>();
+			foreach (var section in sidebarItems)
+				CollectTopmostLoaded(section, topmost);
+
+			foreach (var item in topmost)
+				await item.ReloadSubfoldersAsync();
+		}
+
+		private static void CollectTopmostLoaded(INavigationControlItem item, List<ExpandableSidebarItemBase> sink)
+		{
+			if (item is ExpandableSidebarItemBase expandable && expandable.IsLoaded)
+			{
+				sink.Add(expandable);
+				return;
+			}
+			if (item.Children is IEnumerable<INavigationControlItem> children)
+			{
+				foreach (var child in children)
+					CollectTopmostLoaded(child, sink);
 			}
 		}
 
@@ -694,7 +743,9 @@ namespace Files.App.ViewModels.UserControls
 			NetworkService.Computers.CollectionChanged -= Manager_DataChangedForNetworkComputers;
 			WSLDistroManager.DataChanged -= Manager_DataChanged;
 			App.FileTagsManager.DataChanged -= Manager_DataChanged;
+			uiSettings.ColorValuesChanged -= UiSettings_ColorValuesChanged;
 
+			TeardownTabExpansionTracking();
 			dispatcherQueue = null;
 		}
 
@@ -759,6 +810,21 @@ namespace Files.App.ViewModels.UserControls
 				.OfType<AppBarToggleButton>()
 				.ForEach(button => button.Click += closeHandler);
 
+			var subMenuItems = secondaryElements
+				.OfType<AppBarButton>()
+				.Select(item => item.Flyout)
+				.OfType<MenuFlyout>()
+				.SelectMany(menu => menu.Items);
+			AddCloseHandlerRecursive(subMenuItems);
+
+			void AddCloseHandlerRecursive(IEnumerable<MenuFlyoutItemBase> menuFlyoutItems)
+			{
+				menuFlyoutItems.OfType<MenuFlyoutItem>()
+					.ForEach(button => button.Click += closeHandler);
+				menuFlyoutItems.OfType<MenuFlyoutSubItem>()
+					.ForEach(menu => AddCloseHandlerRecursive(menu.Items));
+			}
+
 			primaryElements.ForEach(itemContextMenuFlyout.PrimaryCommands.Add);
 
 			secondaryElements
@@ -792,6 +858,19 @@ namespace Files.App.ViewModels.UserControls
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var middleClickPressed = pointerUpdateKind == PointerUpdateKind.MiddleButtonReleased;
+			if (string.Equals(navigationControlItem.Path, "Settings", StringComparison.OrdinalIgnoreCase))
+			{
+				if (ctrlPressed || middleClickPressed)
+				{
+					_ = NavigationHelpers.OpenPathInNewTab("Settings");
+					return;
+				}
+
+				if (PaneHolder?.ActivePane is IShellPage settingsShellPage)
+					settingsShellPage.NavigateToSettings();
+				return;
+			}
+
 			if ((ctrlPressed ||
 				middleClickPressed) &&
 				navigationControlItem.Path is not null)
@@ -958,6 +1037,7 @@ namespace Files.App.ViewModels.UserControls
 		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, CommandBarFlyout menu)
 		{
 			var options = item.MenuOptions;
+			var isSettingsItem = string.Equals(item.Path, "Settings", StringComparison.OrdinalIgnoreCase);
 
 			var pinnedFolderModel = App.QuickAccessManager.Model;
 			var pinnedFolderIndex = pinnedFolderModel.IndexOfItem(item);
@@ -974,14 +1054,14 @@ namespace Files.App.ViewModels.UserControls
 			{
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = Strings.SideBarCreateNewLibrary_Text.GetLocalizedResource(),
+					Text = Strings.SideBarCreateNewLibraryText.GetLocalizedResource(),
 					Glyph = "\uE710",
 					Command = CreateLibraryCommand,
 					ShowItem = options.IsLibrariesHeader
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = Strings.SideBarRestoreLibraries_Text.GetLocalizedResource(),
+					Text = Strings.SideBarRestoreLibrariesText.GetLocalizedResource(),
 					Glyph = "\uE10E",
 					Command = RestoreLibrariesCommand,
 					ShowItem = options.IsLibrariesHeader
@@ -1002,14 +1082,41 @@ namespace Files.App.ViewModels.UserControls
 				{
 					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow && Commands.OpenInNewWindowFromSidebar.IsExecutable
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewPaneFromSidebar)
+				new ContextMenuFlyoutItemViewModel()
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && Commands.OpenInNewPaneFromSidebar.IsExecutable
+					Text = Strings.OpenInNewPane.GetLocalizedResource(),
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && options.IsLocationItem && Commands.OpenInNewPaneFromSidebar.IsExecutable,
+					IsEnabled = Commands.OpenInNewPaneFromSidebar.IsExecutable,
+					Items =
+					[
+						new ContextMenuFlyoutItemViewModel()
+						{
+							Text = Strings.SplitPaneVertically.GetLocalizedResource(),
+							ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.OpenInPaneVertical" },
+							Command = Commands.OpenInNewPaneFromSidebar,
+							CommandParameter = ShellPaneArrangement.Vertical,
+						},
+						new ContextMenuFlyoutItemViewModel()
+						{
+							Text = Strings.SplitPaneHorizontally.GetLocalizedResource(),
+							ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.OpenInPaneHorizontal" },
+							Command = Commands.OpenInNewPaneFromSidebar,
+							CommandParameter = ShellPaneArrangement.Horizontal,
+						},
+					]
+				},
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInOtherPaneFromSidebar)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && options.IsLocationItem && Commands.OpenInOtherPaneFromSidebar.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.CopyItemFromSidebar)
 				{
 					IsPrimary = true,
 					IsVisible = Commands.CopyItemFromSidebar.IsExecutable
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenSettingsFile)
+				{
+					IsVisible = isSettingsItem
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -1052,7 +1159,7 @@ namespace Files.App.ViewModels.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = string.Format(Strings.SideBarHideSectionFromSideBar_Text.GetLocalizedResource(), rightClickedItem.Text),
+					Text = string.Format(Strings.SideBarHideSectionFromSideBarText.GetLocalizedResource(), rightClickedItem.Text),
 					Glyph = "\uE77A",
 					Command = HideSectionCommand,
 					ShowItem = options.ShowHideSection

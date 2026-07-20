@@ -44,5 +44,12 @@ namespace Files.App.Data.Contracts
 		/// <param name="cancellationToken">A <see cref="CancellationToken"/> that cancels this action.</param>
 		/// <returns>Returns an async operation represented by <see cref="IAsyncEnumerable{T}"/> of type <see cref="TaggedItemModel"/> of tags saved in the database.</returns>
 		IAsyncEnumerable<TaggedItemModel> GetAllFileTagsAsync(CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Gets all tagged items grouped by tag UID using a single database scan.
+		/// </summary>
+		/// <param name="cancellationToken">A <see cref="CancellationToken"/> that cancels this action.</param>
+		/// <returns>A lookup of tag UID to its tagged items.</returns>
+		Task<ILookup<string, TaggedItemModel>> GetAllItemsGroupedByTagAsync(CancellationToken cancellationToken = default);
 	}
 }

@@ -26,7 +26,7 @@ namespace Files.App.Data.Models
 
 		public bool IsToggle { get; init; } = false;
 
-		public string AccessKey { get; init; }
+		public string AccessKey { get; init; } = string.Empty;
 
 		public object Tag { get; init; }
 
@@ -67,7 +67,7 @@ namespace Files.App.Data.Models
 				ShowInSearchPage = true,
 				ShowInFtpPage = true,
 				ShowInZipPage = true,
-				AccessKey = AccessKey,
+				AccessKey = string.IsNullOrWhiteSpace(AccessKey) ? command.AccessKey : AccessKey,
 			};
 
 			var glyph = command.Glyph;

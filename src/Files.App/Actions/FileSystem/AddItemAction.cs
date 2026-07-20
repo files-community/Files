@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 namespace Files.App.Actions
@@ -15,8 +15,14 @@ namespace Files.App.Actions
 		public string Label
 			=> Strings.BaseLayoutContextFlyoutNew_Label.GetLocalizedResource();
 
+		public string ExtendedLabel
+			=> Description;
+
 		public string Description
 			=> Strings.AddItemDescription.GetLocalizedResource();
+
+		public ActionCategory Category
+			=> ActionCategory.Create;
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.New.Item");

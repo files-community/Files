@@ -8,7 +8,10 @@ namespace Files.App.Actions
 	{
 		public override string Label
 			=> string.Format(Strings.CreateNamedArchive.GetLocalizedResource(), $"{StorageArchiveService.GenerateArchiveNameFromItems(context.SelectedItems)}.7z");
-
+		
+		public override string ExtendedLabel
+			=> Strings.CompressIntoSevenZip.GetLocalizedResource();
+		
 		public override string Description
 			=> Strings.CompressIntoSevenZipDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 

@@ -13,6 +13,9 @@
 	mc:Ignorable="d">
 
 	<i:Interaction.Behaviors>
+		<i:EventTriggerBehavior EventName="PointerWheelChanged">
+			<i:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}" />
+		</i:EventTriggerBehavior>
 		<i:EventTriggerBehavior EventName="PointerPressed">
 			<i:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
 		</i:EventTriggerBehavior>

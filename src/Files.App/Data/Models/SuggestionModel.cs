@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 using Files.App.Controls;
+using Files.App.ViewModels.Settings;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Data.Models
@@ -10,6 +12,8 @@ namespace Files.App.Data.Models
 	{
 		public bool IsRecentSearch { get; set; } = false;
 
+		public bool IsShortcut { get; set; } = false;
+
 		public bool LoadFileIcon { get; set; } = false;
 
 		public bool NeedsPlaceholderGlyph { get; set; } = true;
@@ -17,6 +21,12 @@ namespace Files.App.Data.Models
 		public string? ItemPath { get; set; }
 
 		public string Name { get; set; }
+
+		public string? Description { get; set; }
+
+		public Visibility DescriptionVisibility => string.IsNullOrEmpty(Description) ? Visibility.Collapsed : Visibility.Visible;
+
+		public SettingsSearchResult? SettingsResult { get; set; }
 
 		private BitmapImage? fileImage;
 		public BitmapImage? FileImage
@@ -65,6 +75,7 @@ namespace Files.App.Data.Models
 
 		public SuggestionModel(ListedItem item)
 		{
+			IsShortcut = item.IsShortcut;
 			LoadFileIcon = item.LoadFileIcon;
 			NeedsPlaceholderGlyph = item.NeedsPlaceholderGlyph;
 			ItemPath = item.ItemPath;
@@ -76,6 +87,14 @@ namespace Files.App.Data.Models
 		{
 			IsRecentSearch = isRecentSearch;
 			Name = itemName;
+		}
+
+		public SuggestionModel(SettingsSearchResult settingsResult)
+		{
+			SettingsResult = settingsResult;
+			Name = settingsResult.HeaderText;
+			Description = settingsResult.DisplayPath;
+			NeedsPlaceholderGlyph = false;
 		}
 
 		public string GetTextMemberPath(string textMemberPath)

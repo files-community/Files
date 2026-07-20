@@ -42,7 +42,7 @@ if ($Branch -eq "SideloadPreview")
     # Save modified Package.appxmanifest
     $xmlDoc.Save($PackageManifestPath)
 
-    Get-ChildItem $WorkingDir -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach-Object -Process `
+    Get-ChildItem $WorkingDir -Include *.csproj, *.appxmanifest, *.xaml -recurse | ForEach-Object -Process `
     { `
         (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Preview" }) | `
         Set-Content $_ -NoNewline `
@@ -53,6 +53,7 @@ if ($Branch -eq "SideloadPreview")
         (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files-preview" }) | `
         Set-Content $_ -NoNewline `
     }
+
 }
 elseif ($Branch -eq "StorePreview")
 {
@@ -75,7 +76,7 @@ elseif ($Branch -eq "StorePreview")
     
     $xmlDoc.Save($PackageManifestPath)
 
-    Get-ChildItem $WorkingDir -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach-Object -Process `
+    Get-ChildItem $WorkingDir -Include *.csproj, *.appxmanifest, *.xaml -recurse | ForEach-Object -Process `
     { `
         (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Preview" }) | `
         Set-Content $_ -NoNewline `
@@ -86,6 +87,7 @@ elseif ($Branch -eq "StorePreview")
         (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files-preview" }) | `
         Set-Content $_ -NoNewline `
     }
+
 }
 elseif ($Branch -eq "SideloadStable")
 {
@@ -102,7 +104,7 @@ elseif ($Branch -eq "SideloadStable")
     # Save modified Package.appxmanifest
     $xmlDoc.Save($PackageManifestPath)
 
-    Get-ChildItem $WorkingDir -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach-Object -Process `
+    Get-ChildItem $WorkingDir -Include *.csproj, *.appxmanifest, *.xaml -recurse | ForEach-Object -Process `
     { `
         (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release" }) | `
         Set-Content $_ -NoNewline `
@@ -113,6 +115,7 @@ elseif ($Branch -eq "SideloadStable")
         (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files-stable" }) | `
         Set-Content $_ -NoNewline `
     }
+
 }
 elseif ($Branch -eq "StoreStable")
 {
@@ -133,7 +136,7 @@ elseif ($Branch -eq "StoreStable")
     # Save modified Package.appxmanifest
     $xmlDoc.Save($PackageManifestPath)
 
-    Get-ChildItem $WorkingDir -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach-Object -Process `
+    Get-ChildItem $WorkingDir -Include *.csproj, *.appxmanifest, *.xaml -recurse | ForEach-Object -Process `
     { `
         (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release" }) | `
         Set-Content $_ -NoNewline `
@@ -144,6 +147,15 @@ elseif ($Branch -eq "StoreStable")
         (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files-stable" }) | `
         Set-Content $_ -NoNewline `
     }
+
+}
+
+# Remove unused tile assets so they don't end up in the package
+$keepTiles = if ($Branch -match 'Preview') { 'Preview' } elseif ($Branch -match 'Stable') { 'Release' } else { $null }
+foreach ($folder in @('Dev', 'Preview', 'Release')) {
+    if ($folder -eq $keepTiles) { continue }
+    $tilePath = Join-Path $WorkingDir "src\Files.App\Assets\AppTiles\$folder"
+    if (Test-Path $tilePath) { Remove-Item $tilePath -Recurse -Force }
 }
 
 Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `

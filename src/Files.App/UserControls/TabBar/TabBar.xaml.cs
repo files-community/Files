@@ -18,6 +18,7 @@ namespace Files.App.UserControls.TabBar
 
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly IAppearanceSettingsService AppearanceSettingsService = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
+		private readonly IGeneralSettingsService GeneralSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 		private readonly IWindowContext WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
 
 		// Fields
@@ -54,6 +55,8 @@ namespace Files.App.UserControls.TabBar
 		// Events
 
 		public static event EventHandler<TabBarItem?>? SelectedTabItemChanged;
+		public static event EventHandler<TabBarItem?>? TabDragStarted;
+		public static event EventHandler<TabBarItem?>? TabDragCompleted;
 
 		// Constructor
 
@@ -146,6 +149,8 @@ namespace Files.App.UserControls.TabBar
 			// and the PreviewKeyDown event won't trigger.
 			Focus(FocusState.Programmatic);
 			PreviewKeyDown += TabDragging_PreviewKeyDown;
+
+			TabDragStarted?.Invoke(this, args.Item as TabBarItem);
 		}
 
 		private void TabDragging_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -212,6 +217,8 @@ namespace Files.App.UserControls.TabBar
 			// Unsubscribe from the key down event, it's only needed when a tab is actively being dragged
 			PreviewKeyDown -= TabDragging_PreviewKeyDown;
 
+			TabDragCompleted?.Invoke(this, args.Item as TabBarItem);
+
 			if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier) &&
 				(bool)ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier])
 				CloseTab(args.Item as TabBarItem);
@@ -244,7 +251,7 @@ namespace Files.App.UserControls.TabBar
 			var selectedTabViewItemIndex = sender.SelectedIndex;
 
 			Items.Remove(args.Item as TabBarItem);
-			if (!await NavigationHelpers.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
+			if (!await NavigationHelpers.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize(), droppedPoint.X, droppedPoint.Y))
 			{
 				Items.Insert(indexOfTabViewItem, args.Item as TabBarItem);
 				sender.SelectedIndex = selectedTabViewItemIndex;
@@ -257,16 +264,15 @@ namespace Files.App.UserControls.TabBar
 		private void TabView_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
 		{
 			var delta = e.GetCurrentPoint(null).Properties.MouseWheelDelta;
+			var scrollUpSelectsNextTab = !GeneralSettingsService.ReverseTabScrollDirection;
 
-			if (delta > 0)
+			if ((delta > 0) == scrollUpSelectsNextTab)
 			{
-				// Scroll up, select the next tab
 				if (App.AppModel.TabStripSelectedIndex < Items.Count - 1)
 					App.AppModel.TabStripSelectedIndex++;
 			}
 			else
 			{
-				// Scroll down, select the previous tab
 				if (App.AppModel.TabStripSelectedIndex > 0)
 					App.AppModel.TabStripSelectedIndex--;
 			}
@@ -348,11 +354,11 @@ namespace Files.App.UserControls.TabBar
 		{
 			if (sender is TabViewItem tvi && tvi.FindDescendant("IconControl") is ContentControl control)
 			{
-				control.Content = (tvi.IconSource as ImageIconSource)?.CreateIconElement();
+				control.Content = tvi.IconSource?.CreateIconElement();
 				tvi.RegisterPropertyChangedCallback(TabViewItem.IconSourceProperty, (s, args) =>
 				{
 					if (s is TabViewItem tabViewItem && tabViewItem.FindDescendant("IconControl") is ContentControl iconControl)
-						iconControl.Content = (tabViewItem.IconSource as ImageIconSource)?.CreateIconElement();
+						iconControl.Content = tabViewItem.IconSource?.CreateIconElement();
 				});
 			}
 		}
@@ -368,8 +374,8 @@ namespace Files.App.UserControls.TabBar
 
 			RightPaddingColumn.Width = new(titleBarInset > 40 ? titleBarInset : 138);
 			HorizontalTabView.Measure(new(
-				HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset,
-				HorizontalTabView.ActualHeight));
+				Math.Max(0, HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset),
+				Math.Max(0, HorizontalTabView.ActualHeight)));
 		}
 	}
 }

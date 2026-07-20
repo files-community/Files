@@ -66,14 +66,14 @@ namespace Files.App
 					if (launchArgs.Arguments is not null &&
 						(CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"files-dev.exe", StringComparison.OrdinalIgnoreCase)
 						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"files-dev", StringComparison.OrdinalIgnoreCase)
-						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].Equals(Path.Join(Package.Current.InstalledLocation.Path, "Files.App", "Files.exe"), StringComparison.OrdinalIgnoreCase)))
+						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].Equals(Path.Join(Package.Current.InstalledLocation.Path, "Files.exe"), StringComparison.OrdinalIgnoreCase)))
 					{
 						// WINUI3: When launching from commandline the argument is not ICommandLineActivatedEventArgs (#10370)
 						var ppm = CommandLineParser.ParseUntrustedCommands(launchArgs.Arguments);
 						if (ppm.IsEmpty())
 							rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 						else
-							await InitializeFromCmdLineArgsAsync(rootFrame, ppm, Environment.CurrentDirectory);
+							await InitializeFromCmdLineArgsAsync(rootFrame, ppm, Program.ConsumeLaunchCwd());
 					}
 					else if (rootFrame.Content is null || rootFrame.Content is SplashScreenPage || !MainPageViewModel.AppInstances.Any())
 					{
@@ -99,16 +99,20 @@ namespace Files.App
 					{
 						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 
-						if (MainPageViewModel.AppInstances.Count > 0)
-						{
-							// Bring to foreground (#14730)
-							Win32Helper.BringToForegroundEx(new(WindowHandle));
-						}
+						// Bring to foreground (#14730)
+						Win32Helper.BringToForegroundEx(new(WindowHandle));
+
+						// Ensure app-level keyboard shortcuts work immediately after Win+E activation.
+						_ = EnsureContentHasKeyboardFocusAsync();
 					}
 					else
 					{
 						var parsedArgs = eventArgs.Uri.Query.TrimStart('?').Split('=');
-						var unescapedValue = Uri.UnescapeDataString(parsedArgs[1]);
+						var unescapedValue = Uri.UnescapeDataString(parsedArgs[1].Split('&')[0]);
+						if (parsedArgs[0] == "tab" && parsedArgs.Length > 3 &&
+							int.TryParse(parsedArgs[2].Split('&')[0], out var dx) &&
+							int.TryParse(parsedArgs[3], out var dy))
+							AppWindow?.Move(new(dx - 100, dy - 16));
 						var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(unescapedValue).AsTask());
 						if (folder is not null && !string.IsNullOrEmpty(folder.Path))
 						{
@@ -207,10 +211,11 @@ namespace Files.App
 					break;
 			}
 
-			if (!AppWindow.IsVisible)
+			var appWindow = AppWindow;
+			if (appWindow is not null && !appWindow.IsVisible)
 			{
 				// When resuming the cached instance
-				AppWindow.Show();
+				appWindow.Show();
 				Activate();
 
 				// Bring to foreground (#14730) in case Activate() doesn't
@@ -219,6 +224,12 @@ namespace Files.App
 
 			if (Windows.Win32.PInvoke.IsIconic(new(WindowHandle)))
 				WinUIEx.WindowExtensions.Restore(Instance); // Restore window if minimized
+		}
+
+		private async Task EnsureContentHasKeyboardFocusAsync()
+		{
+			await Task.Delay(100);
+			Ioc.Default.GetService<IContentPageContext>()?.ShellPage?.PaneHolder.FocusActivePane();
 		}
 
 		private Frame? EnsureWindowIsInitialized()

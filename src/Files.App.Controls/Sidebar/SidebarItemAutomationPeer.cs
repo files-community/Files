@@ -93,17 +93,25 @@ namespace Files.App.Controls
 
 		protected override int GetSizeOfSetCore()
 		{
+			var baseValue = base.GetSizeOfSetCore();
+			if (baseValue != -1)
+				return baseValue;
+
 			return GetOwnerCollection().Count;
 		}
 
 		protected override int GetPositionInSetCore()
 		{
+			var baseValue = base.GetPositionInSetCore();
+			if (baseValue != -1)
+				return baseValue;
+
 			return GetOwnerCollection().IndexOf(Owner.DataContext) + 1;
 		}
 
 		private IList GetOwnerCollection()
 		{
-			if (Owner.FindAscendant<SidebarItem>() is SidebarItem parent && parent.Children is IList list)
+			if (Owner.FindAscendant<SidebarItem>() is SidebarItem parent && parent.Item?.Children is IList list)
 				return list;
 
 			if (Owner?.Owner is not null && Owner.Owner?.MenuItemsSource is IList items)

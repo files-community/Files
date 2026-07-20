@@ -86,7 +86,7 @@ namespace Files.App.Data.Factories
 			bool canDecompress = selectedItems.Any() && selectedItems.All(x => x.IsArchive)
 				|| selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension));
 			bool canCompress = !canDecompress || selectedItems.Count > 1;
-			bool showOpenItemWith = selectedItems.All(
+			bool showOpenItemWith = selectedItems.Count == 1 && selectedItems.All(
 				i => (i.PrimaryItemAttribute == StorageItemTypes.File && !i.IsShortcut && !i.IsExecutable) || (i.PrimaryItemAttribute == StorageItemTypes.Folder && i.IsArchive));
 			bool areAllItemsFolders = selectedItems.All(i => i.PrimaryItemAttribute == StorageItemTypes.Folder);
 			bool isFirstFileExecutable = FileExtensionHelpers.IsExecutableFile(selectedItems.FirstOrDefault()?.FileExtension);
@@ -415,13 +415,45 @@ namespace Files.App.Data.Factories
 				{
 					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow && Commands.OpenInNewWindow.IsExecutable
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewPane)
+				new ContextMenuFlyoutItemViewModel()
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && Commands.OpenInNewPane.IsExecutable
+					Text = Strings.OpenInNewPane.GetLocalizedResource(),
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && itemsSelected && areAllItemsFolders && !currentInstanceViewModel.IsPageTypeRecycleBin && Commands.OpenInNewPane.IsExecutable,
+					IsEnabled = Commands.OpenInNewPane.IsExecutable,
+					ShowInSearchPage = true,
+					ShowInFtpPage = true,
+					ShowInZipPage = true,
+					Items =
+					[
+						new ContextMenuFlyoutItemViewModel()
+						{
+							Text = Strings.SplitPaneVertically.GetLocalizedResource(),
+							ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.OpenInPaneVertical" },
+							Command = Commands.OpenInNewPane,
+							CommandParameter = ShellPaneArrangement.Vertical,
+							ShowInSearchPage = true,
+							ShowInFtpPage = true,
+							ShowInZipPage = true,
+						},
+						new ContextMenuFlyoutItemViewModel()
+						{
+							Text = Strings.SplitPaneHorizontally.GetLocalizedResource(),
+							ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.OpenInPaneHorizontal" },
+							Command = Commands.OpenInNewPane,
+							CommandParameter = ShellPaneArrangement.Horizontal,
+							ShowInSearchPage = true,
+							ShowInFtpPage = true,
+							ShowInZipPage = true,
+						},
+					]
+				},
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInOtherPane)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && itemsSelected && areAllItemsFolders && !currentInstanceViewModel.IsPageTypeRecycleBin && Commands.OpenInOtherPane.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = Strings.BaseLayoutItemContextFlyoutSetAs_Text.GetLocalizedResource(),
+					Text = Strings.BaseLayoutItemContextFlyoutSetAsText.GetLocalizedResource(),
 					ShowItem = itemsSelected && (selectedItemsPropertiesViewModel?.IsCompatibleToSetAsWindowsWallpaper ?? false),
 					ShowInSearchPage = true,
 					Items =
@@ -457,17 +489,14 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.CutItem)
 				{
 					IsPrimary = true,
-					AccessKey="X"
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.CopyItem)
 				{
 					IsPrimary = true,
-					AccessKey="C"
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.PasteItemToSelection)
 				{
 					IsPrimary = true,
-					AccessKey="V",
 					IsVisible = true,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.PasteItemAsShortcut).Build(),
@@ -496,13 +525,11 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.Rename)
 				{
 					IsPrimary = true,
-					AccessKey="M",
 					IsVisible = itemsSelected
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.ShareItem)
 				{
 					IsPrimary = true,
-					AccessKey = "H"
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(ModifiableCommands.DeleteItem)
 				{
@@ -512,7 +539,6 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModelBuilder(ModifiableCommands.OpenProperties)
 				{
 					IsPrimary = true,
-					AccessKey="O",
 					IsVisible = ModifiableCommands.OpenProperties.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenParentFolder).Build(),
@@ -526,12 +552,12 @@ namespace Files.App.Data.Factories
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.PinToStart)
 				{
-					IsVisible = selectedItems.All(x => (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable || (x is IShortcutItem shortcutItem && FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath))) && !x.IsArchive && !x.IsItemPinnedToStart) && UserSettingsService.GeneralSettingsService.ShowPinToStart,
+					IsVisible = selectedItems.All(x => (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable || (x is IShortcutItem shortcutItem && FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath))) && !x.IsItemPinnedToStart) && UserSettingsService.GeneralSettingsService.ShowPinToStart,
 					ShowOnShift = true,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.UnpinFromStart)
 				{
-					IsVisible = selectedItems.All(x => (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable|| (x is IShortcutItem shortcutItem && FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath))) && !x.IsArchive && x.IsItemPinnedToStart) && UserSettingsService.GeneralSettingsService.ShowPinToStart,
+					IsVisible = selectedItems.All(x => (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable|| (x is IShortcutItem shortcutItem && FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath))) && x.IsItemPinnedToStart) && UserSettingsService.GeneralSettingsService.ShowPinToStart,
 					ShowOnShift = true,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel

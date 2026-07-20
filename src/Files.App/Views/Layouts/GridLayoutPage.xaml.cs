@@ -150,6 +150,7 @@ namespace Files.App.Views.Layouts
 			DataContext = this;
 
 			var selectionRectangle = RectangleSelection.Create(ListViewBase, SelectionRectangle, FileList_SelectionChanged);
+			selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
 
@@ -262,10 +263,24 @@ namespace Files.App.Views.Layouts
 				|| FolderSettings.LayoutMode == FolderLayoutModes.CardsView
 				|| FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
+				// SetItemTemplate clears FileList.ItemsSource on style swap, which drops the selection
+				var preservedSelection = SelectedItems?.ToList();
+
 				// Set ItemTemplate
 				SetItemTemplate();
 				SetItemContainerStyle();
 				FolderSettings_IconSizeChanged();
+
+				if (preservedSelection is { Count: > 0 })
+				{
+					_ = DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+					{
+						// Wait for the new template's containers to be realized
+						await Task.Delay(100);
+						ItemManipulationModel.SetSelectedItems(preservedSelection);
+						ItemManipulationModel.FocusSelectedItems();
+					});
+				}
 			}
 		}
 
@@ -338,18 +353,13 @@ namespace Files.App.Views.Layouts
 			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
 		}
 
-		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected override void OnSelectionChanged(SelectionChangedEventArgs e)
 		{
-			base.FileList_SelectionChanged(sender, e);
+			foreach (var item in e.AddedItems)
+				SetCheckboxSelectionState(item);
 
-			if (e != null)
-			{
-				foreach (var item in e.AddedItems)
-					SetCheckboxSelectionState(item);
-
-				foreach (var item in e.RemovedItems)
-					SetCheckboxSelectionState(item);
-			}
+			foreach (var item in e.RemovedItems)
+				SetCheckboxSelectionState(item);
 		}
 
 		override public void StartRenameItem()
@@ -367,6 +377,7 @@ namespace Files.App.Views.Layouts
 				return;
 
 			TextBox? textBox = null;
+			string editText = ShouldShowExtensionInRename(RenamingItem) ? RenamingItem.ItemNameRaw : textBlock.Text;
 
 			// Grid View
 			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
@@ -378,10 +389,10 @@ namespace Files.App.Views.Layouts
 				if (textBox is null)
 					return;
 
-				textBox.Text = textBlock.Text;
+				textBox.Text = editText;
 				textBlock.Opacity = 0;
 				popup.IsOpen = true;
-				OldItemName = textBlock.Text;
+				OldItemName = editText;
 			}
 			// List View
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.ListView)
@@ -390,8 +401,8 @@ namespace Files.App.Views.Layouts
 				if (textBox is null)
 					return;
 
-				textBox.Text = textBlock.Text;
-				OldItemName = textBlock.Text;
+				textBox.Text = editText;
+				OldItemName = editText;
 				textBlock.Visibility = Visibility.Collapsed;
 				textBox.Visibility = Visibility.Visible;
 
@@ -409,8 +420,8 @@ namespace Files.App.Views.Layouts
 				if (textBox is null)
 					return;
 
-				textBox.Text = textBlock.Text;
-				OldItemName = textBlock.Text;
+				textBox.Text = editText;
+				OldItemName = editText;
 				textBox.Visibility = Visibility.Visible;
 
 				if (textBox.FindParent<Grid>() is null)
@@ -424,8 +435,8 @@ namespace Files.App.Views.Layouts
 			textBox.LostFocus += RenameTextBox_LostFocus;
 			textBox.KeyDown += RenameTextBox_KeyDown;
 
-			int selectedTextLength = RenamingItem.Name.Length;
-			if (!RenamingItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
+			int selectedTextLength = editText.Length;
+			if (!RenamingItem.IsShortcut && (ShouldShowExtensionInRename(RenamingItem) || UserSettingsService.FoldersSettingsService.ShowFileExtensions))
 				selectedTextLength -= extensionLength;
 
 			textBox.Select(0, selectedTextLength);
@@ -621,8 +632,8 @@ namespace Files.App.Views.Layouts
 			}
 
 			// Check if the setting to open items with a single click is turned on
-			if ((item.PrimaryItemAttribute is StorageItemTypes.File && UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick) ||
-				(item.PrimaryItemAttribute is StorageItemTypes.Folder && UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick is OpenFoldersWithOneClickEnum.Always))
+			if ((item.PrimaryItemAttribute is StorageItemTypes.File && UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType)) ||
+				(item.PrimaryItemAttribute is StorageItemTypes.Folder && UserSettingsService.FoldersSettingsService.OpenFoldersWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType)))
 			{
 				ResetRenameDoubleClick();
 				await Commands.OpenItem.ExecuteAsync();
@@ -661,8 +672,8 @@ namespace Files.App.Views.Layouts
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
 			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item &&
-				((item.PrimaryItemAttribute == StorageItemTypes.File && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick) ||
-				 (item.PrimaryItemAttribute == StorageItemTypes.Folder && UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick is not OpenFoldersWithOneClickEnum.Always)))
+				((item.PrimaryItemAttribute == StorageItemTypes.File && !UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType)) ||
+				 (item.PrimaryItemAttribute == StorageItemTypes.Folder && !UserSettingsService.FoldersSettingsService.OpenFoldersWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))))
 				await Commands.OpenItem.ExecuteAsync();
 			else if ((e.OriginalSource as FrameworkElement)?.DataContext is not ListedItem && UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 				await Commands.NavigateUp.ExecuteAsync();
@@ -754,13 +765,6 @@ namespace Files.App.Views.Layouts
 				else
 					ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Enabled);
 			}
-		}
-
-		private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
-		{
-			if (sender is FrameworkElement element && element.DataContext is ListedItem item)
-				// Reassign values to update date display
-				ToolTipService.SetToolTip(element, item.ItemTooltipText);
 		}
 
 		private void SelectionCheckbox_PointerEntered(object sender, PointerRoutedEventArgs e)

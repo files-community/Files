@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using Microsoft.UI.Xaml.Input;
 using Windows.System;
@@ -17,15 +17,30 @@ namespace Files.App.Controls
 		private void AutoSuggestBox_GettingFocus(UIElement sender, GettingFocusEventArgs args)
 		{
 			if (args.OldFocusedElement is null)
+			{
+				// Window is regaining activation and restoring focus to the TextBox - redirect
+				// to whatever was focused before, so the omnibar doesn't get stuck in edit mode.
+				if (args.InputDevice is FocusInputDeviceKind.None &&
+					_previouslyFocusedElement.TryGetTarget(out var previous) &&
+					previous is not null)
+					args.TrySetNewFocusedElement(previous);
 				return;
-
-			GlobalHelper.WriteDebugStringForOmnibar("The TextBox is getting the focus.");
+			}
 
 			_previouslyFocusedElement = new(args.OldFocusedElement as UIElement);
 		}
 
 		private void AutoSuggestBox_LosingFocus(UIElement sender, LosingFocusEventArgs args)
 		{
+			// Programmatic focus moves (InputDevice == None) while the user is typing in the
+			// Omnibar - typically a post-folder-load FocusActivePane / FocusFileList - should not
+			// pull focus away and clear the in-progress query. User gestures still pass through.
+			if (args.InputDevice is FocusInputDeviceKind.None && args.FocusState is FocusState.Programmatic)
+			{
+				args.TryCancel();
+				return;
+			}
+
 			// Prevent the TextBox from losing focus when the ModeButton is focused
 			if (args.NewFocusedElement is not Button button ||
 				args.InputDevice is FocusInputDeviceKind.Keyboard ||
@@ -56,14 +71,6 @@ namespace Files.App.Controls
 
 			IsFocused = false;
 			IsFocusedChanged?.Invoke(this, new(IsFocused));
-
-			// Workaround to prevent an issue where if the window loses focus and then regains focus,
-			// the AutoSuggestBox will regain focus and the suggestions popup will open again.
-			if (element is TextBox)
-			{
-				_previouslyFocusedElement.TryGetTarget(out var previouslyFocusedElement);
-				previouslyFocusedElement?.Focus(FocusState.Programmatic);
-			}
 		}
 
 		private async void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)

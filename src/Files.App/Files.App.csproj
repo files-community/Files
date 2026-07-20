@@ -2,6 +2,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <EnableMsixTooling>true</EnableMsixTooling>
+        <PublishProfile>Properties\PublishProfiles\win-$(Platform).pubxml</PublishProfile>
         <TargetFramework>$(WindowsTargetFramework)</TargetFramework>
         <OutputType>WinExe</OutputType>
         <AssemblyName>Files</AssemblyName>
@@ -21,6 +23,8 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <Platforms>x86;x64;arm64</Platforms>
         <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+        <SelfContained>false</SelfContained>
+        <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
         <UseWinUI>true</UseWinUI>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -31,7 +35,7 @@
         <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
         <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
         <PublishReadyToRunComposite Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRunComposite>
-        <ApplicationIcon>..\Files.App (Package)\Assets\AppTiles\Dev\Logo.ico</ApplicationIcon>
+        <ApplicationIcon>Assets\AppTiles\Dev\Logo.ico</ApplicationIcon>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -52,12 +56,13 @@
         <Content Update="Assets\FilesOpenDialog\Files.App.Launcher.exe">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-        <Content Include="7z64.dll">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content><Content Include="7z.dll">
+        <Content Include="7z.dll" Condition="'$(Platform)' == 'x86'">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-        <Content Include="7zArm64.dll">
+        <Content Include="7z64.dll" Condition="'$(Platform)' == 'x64'">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="7zArm64.dll" Condition="'$(Platform)' == 'arm64'">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
@@ -95,14 +100,17 @@
         <PackageReference Include="Microsoft.WindowsAppSDK" />
         <PackageReference Include="Microsoft.Graphics.Win2D" />
         <PackageReference Include="TagLibSharp" />
-        <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" />
         <PackageReference Include="UTF.Unknown" />
         <PackageReference Include="WinUIEx" />
         <PackageReference Include="Vanara.Windows.Extensions" />
         <PackageReference Include="Vanara.Windows.Shell" />
-        <PackageReference Include="Microsoft.Management.Infrastructure" />
-        <PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" />
         <PackageReference Include="Microsoft.Windows.CsWinRT" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Update="Microsoft.WindowsAppSDK.AI" ExcludeAssets="all" />
+        <PackageReference Update="Microsoft.WindowsAppSDK.ML" ExcludeAssets="all" />
+        <PackageReference Update="Microsoft.WindowsAppSDK.Widgets" ExcludeAssets="all" />
     </ItemGroup>
 
     <ItemGroup>
@@ -138,5 +146,13 @@
         <AdditionalFiles Include="Strings\en-US\Resources.resw" />
     </ItemGroup>
 
-  <Import Project="..\Satori.targets" Condition=" '$(Platform)' != 'x86' " />
+    <!-- Files.App.Server is an out-of-process COM server, not a project reference.
+         Build it before we resolve assemblies so its .winmd is available for CsWinRT. -->
+    <Target Name="BuildFilesAppServer" BeforeTargets="ResolveAssemblyReferences">
+        <MSBuild Projects="..\Files.App.Server\Files.App.Server.csproj"
+                 Targets="Build"
+                 Properties="Configuration=$(Configuration);Platform=$(Platform)" />
+    </Target>
+
+    <Import Project="..\Satori.targets" Condition=" '$(Platform)' != 'x86' " />
 </Project>

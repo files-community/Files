@@ -213,8 +213,11 @@ namespace Files.App.Views.Shells
 
 		protected void FilesystemViewModel_OnSelectionRequestedEvent(object sender, List<ListedItem> e)
 		{
-			// Set focus since selection might occur before the UI finishes updating
-			ContentPage.ItemManipulationModel.FocusFileList();
+			// Raised by the directory watcher, which can fire while the user is typing in the
+			// omnibar - don't yank focus in that case (the omnibar's TryCancel doesn't help here
+			// because FocusFileList -> ListViewItem.Focus uses FocusState.Keyboard).
+			if (!UIHelpers.IsTextInputFocused(XamlRoot))
+				ContentPage.ItemManipulationModel.FocusFileList();
 			ContentPage.ItemManipulationModel.SetSelectedItems(e);
 		}
 
@@ -392,6 +395,9 @@ namespace Files.App.Views.Shells
 		// the updated, most-current path and add them to the UI.
 		public async Task UpdatePathUIToWorkingDirectoryAsync(string newWorkingDir, string singleItemOverride = null)
 		{
+			if (ToolbarViewModel?.PathComponents is null)
+				return;
+
 			if (string.IsNullOrWhiteSpace(singleItemOverride))
 			{
 				cts = new CancellationTokenSource();
@@ -402,24 +408,38 @@ namespace Files.App.Views.Shells
 				if (cts.IsCancellationRequested)
 					return;
 
-				ToolbarViewModel.PathComponents.Clear();
-				foreach (var component in components)
-					ToolbarViewModel.PathComponents.Add(component);
+				// Guard against a rare race where a native CollectionChanged subscriber (e.g. the
+				// bound BreadcrumbBar) is in a torn-down state during navigation and throws NRE.
+				try
+				{
+					ToolbarViewModel.PathComponents.Clear();
+					foreach (var component in components)
+						ToolbarViewModel.PathComponents.Add(component);
+				}
+				catch (NullReferenceException)
+				{
+				}
 			}
 			else
 			{
 				cts?.Cancel();
 
-				// Clear the path UI
-				ToolbarViewModel.PathComponents.Clear();
-				ToolbarViewModel.IsSingleItemOverride = true;
-				ToolbarViewModel.PathComponents.Add(
-					new()
-					{
-						Path = null,
-						Title = singleItemOverride,
-						ChevronToolTip = string.Format(Strings.BreadcrumbBarChevronButtonToolTip.GetLocalizedResource(), singleItemOverride),
-					});
+				try
+				{
+					// Clear the path UI
+					ToolbarViewModel.PathComponents.Clear();
+					ToolbarViewModel.IsSingleItemOverride = true;
+					ToolbarViewModel.PathComponents.Add(
+						new()
+						{
+							Path = null,
+							Title = singleItemOverride,
+							ChevronToolTip = string.Format(Strings.BreadcrumbBarChevronButtonToolTip.GetLocalizedResource(), singleItemOverride),
+						});
+				}
+				catch (NullReferenceException)
+				{
+				}
 			}
 		}
 
@@ -746,6 +766,8 @@ namespace Files.App.Views.Shells
 
 		public abstract void NavigateToReleaseNotes();
 
+		public abstract void NavigateToSettings(string? selectItem = null);
+
 		public abstract void NavigateToPath(string? navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null);
 
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)
@@ -756,11 +778,11 @@ namespace Files.App.Views.Shells
 			if (userSettingsService.GeneralSettingsService.DateTimeFormat != _lastDateTimeFormats)
 			{
 				_lastDateTimeFormats = userSettingsService.GeneralSettingsService.DateTimeFormat;
-				ShellViewModel?.UpdateDateDisplay(true);
+				ShellViewModel?.UpdateDateDisplay();
 			}
 			else if (userSettingsService.GeneralSettingsService.DateTimeFormat == DateTimeFormats.Application)
 			{
-				ShellViewModel?.UpdateDateDisplay(false);
+				ShellViewModel?.UpdateDateDisplay();
 			}
 		}
 

@@ -18,7 +18,7 @@ namespace Files.App.Controls
 		public partial double LayerSize { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial Brush LayerColor { get; set; }
+		public partial Brush? LayerColor { get; set; }
 
 		[GeneratedDependencyProperty(DefaultValue = ThemedIconColorType.Normal)]
 		public partial ThemedIconColorType IconColorType { get; set; }
@@ -38,7 +38,7 @@ namespace Files.App.Controls
 			LayerSizePropertyChanged(newValue);
 		}
 
-		partial void OnLayerColorChanged(Brush newValue)
+		partial void OnLayerColorChanged(Brush? newValue)
 		{
 			IconColorTypeChanged();
 		}

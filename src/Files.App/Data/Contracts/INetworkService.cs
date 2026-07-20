@@ -40,6 +40,18 @@ namespace Files.App.Data.Contracts
 		Task UpdateShortcutsAsync();
 
 		/// <summary>
+		/// Gets the enabled network discovery and file sharing capabilities.
+		/// </summary>
+		/// <returns>The enabled capabilities, or null if the status couldn't be determined.</returns>
+		Task<NetworkAvailability?> GetNetworkAvailabilityAsync();
+
+		/// <summary>
+		/// Opens Windows advanced sharing settings.
+		/// </summary>
+		/// <returns></returns>
+		Task OpenNetworkSharingSettingsAsync();
+
+		/// <summary>
 		/// Displays the operating system dialog for connecting to a network storage device
 		/// </summary>
 		/// <returns></returns>

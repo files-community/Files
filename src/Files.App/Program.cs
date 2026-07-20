@@ -6,7 +6,9 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
+using Windows.Win32.UI.WindowsAndMessaging;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 
@@ -22,8 +24,29 @@ namespace Files.App
 	{
 		public static Semaphore? Pool { get; set; }
 
+		private const string LaunchCwdKey = "LastLaunchCwd";
+
+		/// <summary>
+		/// Reads and clears the working directory captured by the source process
+		/// in <see cref="Main"/>, falling back to the current process's working
+		/// directory if no value is pending. (#16982)
+		/// </summary>
+		public static string ConsumeLaunchCwd()
+		{
+			var values = ApplicationData.Current.LocalSettings.Values;
+			var cwd = values.TryGetValue(LaunchCwdKey, out var raw) ? raw as string : null;
+			if (cwd is not null)
+				values.Remove(LaunchCwdKey);
+			return string.IsNullOrEmpty(cwd) ? Environment.CurrentDirectory : cwd;
+		}
+
 		static Program()
 		{
+			// Capture the source process's working directory before any potential
+			// activation redirect, so a receiving instance can resolve relative
+			// paths like "." against the terminal's CWD rather than its own. (#16982)
+			ApplicationData.Current.LocalSettings.Values[LaunchCwdKey] = Environment.CurrentDirectory;
+
 			var pool = new Semaphore(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance", out var isNew);
 
 			if (!isNew)
@@ -101,7 +124,23 @@ namespace Files.App
 			//Server.AppInstanceMonitor.StartMonitor(Environment.ProcessId);
 
 			var OpenTabInExistingInstance = ApplicationData.Current.LocalSettings.Values.Get("OpenTabInExistingInstance", true);
-			var activatedArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
+
+			AppActivationArguments activatedArgs;
+			try
+			{
+				activatedArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
+			}
+			catch (COMException ex) when (ex.HResult == unchecked((int)0x80040154))
+			{
+				Windows.Win32.PInvoke.MessageBox(
+					default,
+					Constants.Startup.MissingRuntimeMessage,
+					Constants.Startup.MissingRuntimeTitle,
+					MESSAGEBOX_STYLE.MB_ICONERROR);
+
+				throw new InvalidOperationException(Constants.Startup.MissingRuntimeMessage, ex);
+			}
+
 			var commandLineArgs = GetCommandLineArgs(activatedArgs);
 
 			if (commandLineArgs is not null)

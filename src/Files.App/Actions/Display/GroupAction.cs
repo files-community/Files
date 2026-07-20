@@ -14,6 +14,9 @@ namespace Files.App.Actions
 
 		public override string Description
 			=> Strings.GroupByNoneDescription.GetLocalizedResource();
+
+		public override string ExtendedLabel
+			=> Label;
 	}
 
 	[GeneratedRichCommand]
@@ -154,6 +157,9 @@ namespace Files.App.Actions
 		public override string Description
 			=> Strings.GroupByFolderPathDescription.GetLocalizedResource();
 
+		public override string ExtendedLabel
+			=> Label;
+
 		protected override bool GetIsExecutable(ContentPageTypes pageType)
 			=> pageType is ContentPageTypes.Library or ContentPageTypes.SearchResults;
 	}
@@ -169,6 +175,12 @@ namespace Files.App.Actions
 		public abstract string Label { get; }
 
 		public abstract string Description { get; }
+
+		public virtual ActionCategory Category
+			=> ActionCategory.Grouping;
+
+		public virtual string ExtendedLabel
+			=> Description;
 
 		public bool IsOn
 			=> DisplayContext.GroupOption == GroupOption;
@@ -378,6 +390,12 @@ namespace Files.App.Actions
 
 		public abstract string Description { get; }
 
+		public virtual ActionCategory Category
+			=> ActionCategory.Grouping;
+
+		public virtual string ExtendedLabel
+			=> Description;
+
 		public bool IsOn =>
 			DisplayContext.GroupOption == GroupOption &&
 			DisplayContext.GroupByDateUnit == GroupByDateUnit;
@@ -432,6 +450,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.GroupAscendingDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Grouping;
+
 		public bool IsOn
 			=> context.GroupDirection is SortDirection.Ascending;
 
@@ -477,6 +498,9 @@ namespace Files.App.Actions
 
 		public string Description
 			=> Strings.GroupDescendingDescription.GetLocalizedResource();
+
+		public ActionCategory Category
+			=> ActionCategory.Grouping;
 
 		public bool IsOn
 			=> context.GroupDirection is SortDirection.Descending;
@@ -524,6 +548,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.ToggleGroupDirectionDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Grouping;
+
 		public ToggleGroupDirectionAction()
 		{
 			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
@@ -548,6 +575,9 @@ namespace Files.App.Actions
 
 		public string Description
 			=> Strings.GroupByYearDescription.GetLocalizedResource();
+
+		public ActionCategory Category
+			=> ActionCategory.Grouping;
 
 		public bool IsOn
 			=> context.GroupByDateUnit is GroupByDateUnit.Year;
@@ -595,6 +625,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.GroupByMonthDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Grouping;
+
 		public bool IsOn
 			=> context.GroupByDateUnit is GroupByDateUnit.Month;
 
@@ -640,6 +673,9 @@ namespace Files.App.Actions
 
 		public string Description
 			=> Strings.ToggleGroupByDateUnitDescription.GetLocalizedResource();
+
+		public ActionCategory Category
+			=> ActionCategory.Grouping;
 
 		public ToggleGroupByDateUnitAction()
 		{

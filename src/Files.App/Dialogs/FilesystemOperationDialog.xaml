@@ -12,6 +12,7 @@
 	xmlns:vm="using:Files.App.ViewModels.Dialogs.FileSystemDialog"
 	x:Name="RootDialog"
 	Title="{x:Bind ViewModel.Title, Mode=OneWay}"
+	CloseButtonText="{x:Bind ViewModel.CloseButtonText, Mode=OneWay}"
 	Closing="RootDialog_Closing"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
 	DefaultButton="Primary"

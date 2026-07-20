@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Files.App.Converters;
+using Files.Shared.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using System.Collections.Concurrent;
@@ -101,6 +102,11 @@ namespace Files.App.ViewModels.Properties
 		/// Should be used in instances where a property does not have a "Property" value, but needs to be idenitfiable in a list of properties
 		/// </summary>
 		public string ID { get; set; }
+
+		/// <summary>
+		/// True if the property accepts multiple lines of text (e.g., System.Comment)
+		/// </summary>
+		public bool IsMultiLine { get; set; }
 
 		/// <summary>
 		/// True if the property value has been modified by the user
@@ -349,6 +355,17 @@ namespace Files.App.ViewModels.Properties
 			}
 
 			return list;
+		}
+
+		public static bool IsSectionApplicableForEmpty(string sectionResource, string fileExtension)
+		{
+			return sectionResource switch
+			{
+				"PropertySectionMusic" => FileExtensionHelpers.IsAudioFile(fileExtension),
+				"PropertySectionPhoto" => FileExtensionHelpers.IsImageFile(fileExtension),
+				"PropertySectionVideo" => FileExtensionHelpers.IsVideoFile(fileExtension),
+				_ => false,
+			};
 		}
 
 		/// <summary>

@@ -1,42 +1,31 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.Runtime.InteropServices;
+using Windows.Win32;
 using Windows.Win32.System.Com;
+using Windows.Win32.UI.Shell;
 
 namespace Files.App.Utils.Shell
 {
 	public static class ItemStreamHelper
 	{
-		static readonly Guid IShellItemIid = Guid.ParseExact("43826d1e-e718-42ee-bc55-a1e261c37bfe", "d");
-
-		public static IntPtr IShellItemFromPath(string path)
+		public static IShellItem? IShellItemFromPath(string path)
 		{
-			IntPtr psi;
-			Guid iid = IShellItemIid;
-			var hr = Win32PInvoke.SHCreateItemFromParsingName(path, IntPtr.Zero, ref iid, out psi);
-			if ((int)hr < 0)
-				return IntPtr.Zero;
-			return psi;
+			var hr = PInvoke.SHCreateItemFromParsingName(path, null!, out IShellItem psi);
+			return hr.Failed ? null : psi;
 		}
 
-		public static IntPtr IStreamFromPath(string path)
+		public static IStream? IStreamFromPath(string path)
 		{
-			var hr = Win32PInvoke.SHCreateStreamOnFileEx(
+			var hr = PInvoke.SHCreateStreamOnFileEx(
 				path,
-				STGM.STGM_READ | STGM.STGM_FAILIFTHERE | STGM.STGM_SHARE_DENY_NONE,
-				0, 0,
-				IntPtr.Zero, out var pstm);
+				(uint)(STGM.STGM_READ | STGM.STGM_FAILIFTHERE | STGM.STGM_SHARE_DENY_NONE),
+				0,
+				false,
+				null,
+				out IStream pstm);
 
-			if ((int)hr < 0)
-				return IntPtr.Zero;
-
-			return pstm;
-		}
-
-		public static void ReleaseObject(IntPtr obj)
-		{
-			Marshal.Release(obj);
+			return hr.Failed ? null : pstm;
 		}
 	}
 }

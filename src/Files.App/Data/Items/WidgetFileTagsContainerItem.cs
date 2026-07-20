@@ -16,6 +16,7 @@ namespace Files.App.Data.Items
 		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		private readonly string _tagUid;
+		private CancellationTokenSource _initCTS = new();
 
 		// Properties
 
@@ -59,11 +60,51 @@ namespace Files.App.Data.Items
 		/// <inheritdoc/>
 		public async Task InitAsync(CancellationToken cancellationToken = default)
 		{
-			await foreach (var item in FileTagsService.GetItemsForTagAsync(_tagUid, cancellationToken))
+			_initCTS.Cancel();
+			_initCTS = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+			var linkedToken = _initCTS.Token;
+
+			Tags.Clear();
+
+			await foreach (var item in FileTagsService.GetItemsForTagAsync(_tagUid, linkedToken))
 			{
-				var icon = await ImageService.GetIconAsync(item.Storable, default);
-				Tags.Add(new(item.Storable, icon));
+				// Create item without waiting for icon
+				var cardItem = new WidgetFileTagCardItem(item.Storable, null);
+				Tags.Add(cardItem);
+
+				// Load icon asynchronously in background
+				_ = LoadIconAsync(cardItem, item.Storable, linkedToken);
 			}
+		}
+
+		public Task InitAsync(IEnumerable<TaggedItemModel> preloadedItems, CancellationToken cancellationToken = default)
+		{
+			_initCTS.Cancel();
+			_initCTS = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+			var linkedToken = _initCTS.Token;
+
+			Tags.Clear();
+
+			foreach (var item in preloadedItems)
+			{
+				if (linkedToken.IsCancellationRequested)
+					break;
+
+				// Create item without waiting for icon
+				var cardItem = new WidgetFileTagCardItem(item.Storable, null);
+				Tags.Add(cardItem);
+
+				// Load icon asynchronously in background
+				_ = LoadIconAsync(cardItem, item.Storable, linkedToken);
+			}
+
+			return Task.CompletedTask;
+		}
+
+		private async Task LoadIconAsync(WidgetFileTagCardItem cardItem, IStorable storable, CancellationToken cancellationToken)
+		{
+			var icon = await ImageService.GetIconAsync(storable, default);
+			cardItem.Icon = icon;
 		}
 
 		private Task<bool> ViewMore()

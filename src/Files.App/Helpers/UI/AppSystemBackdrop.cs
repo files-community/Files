@@ -80,7 +80,7 @@ namespace Files.App.Helpers
 					controller?.RemoveAllSystemBackdropTargets();
 					controller?.Dispose();
 					var configuration = GetDefaultSystemBackdropConfiguration(target, root);
-					var newController = GetSystemBackdropController((BackdropMaterialType)e.NewValue!, configuration.Theme);
+					var newController = GetSystemBackdropController(userSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial, configuration.Theme);
 					newController?.SetSystemBackdropConfiguration(configuration);
 					newController?.AddSystemBackdropTarget(target);
 					controller = newController;

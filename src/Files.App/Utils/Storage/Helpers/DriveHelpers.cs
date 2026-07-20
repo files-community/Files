@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using DiscUtils.Udf;
-using Microsoft.Management.Infrastructure;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;
@@ -19,18 +18,6 @@ namespace Files.App.Utils.Storage
 			await ContextMenu.InvokeVerb("eject", path);
 		}
 
-		public static string GetVolumeId(string driveName)
-		{
-			string name = driveName.ToUpperInvariant();
-			string query = $"SELECT DeviceID FROM Win32_Volume WHERE DriveLetter = '{name}'";
-
-			using var cimSession = CimSession.Create(null);
-			foreach (var item in cimSession.QueryInstances(@"root\cimv2", "WQL", query)) // max 1 result because DriveLetter is unique.
-				return (string?)item.CimInstanceProperties["DeviceID"]?.Value ?? string.Empty;
-
-			return string.Empty;
-		}
-
 		public static async Task<bool> CheckEmptyDrive(string? drivePath)
 		{
 			if (string.IsNullOrWhiteSpace(drivePath))
@@ -42,8 +29,8 @@ namespace Files.App.Utils.Storage
 				return false;
 
 			var ejectButton = await DialogDisplayHelper.ShowDialogAsync(
-				Strings.InsertDiscDialog_Title.GetLocalizedResource(),
-				string.Format(Strings.InsertDiscDialog_Text.GetLocalizedResource(), matchingDrive.Path),
+				Strings.InsertDiscDialogTitle.GetLocalizedResource(),
+				string.Format(Strings.InsertDiscDialogText.GetLocalizedResource(), matchingDrive.Path),
 				Strings.InsertDiscDialog_OpenDriveButton.GetLocalizedResource(),
 				Strings.Close.GetLocalizedResource());
 			if (ejectButton)

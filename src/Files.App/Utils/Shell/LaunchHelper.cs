@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.Shared.Helpers;
@@ -7,6 +7,7 @@ using System.IO;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.Win32;
+using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;
 
 namespace Files.App.Utils.Shell
@@ -18,10 +19,9 @@ namespace Files.App.Utils.Shell
 	{
 		public unsafe static void LaunchSettings(string page)
 		{
-			using ComPtr<IApplicationActivationManager> pApplicationActivationManager = default;
-			pApplicationActivationManager.CoCreateInstance(CLSID.CLSID_ApplicationActivationManager);
+			PInvoke.CoCreateInstance(typeof(ApplicationActivationManager).GUID, null, CLSCTX.CLSCTX_LOCAL_SERVER, out IApplicationActivationManager? pApplicationActivationManager);
 
-			pApplicationActivationManager.Get()->ActivateApplication(
+			pApplicationActivationManager!.ActivateApplication(
 				"windows.immersivecontrolpanel_cw5n1h2txyewy!microsoft.windows.immersivecontrolpanel",
 				page,
 				ACTIVATEOPTIONS.AO_NONE,
@@ -64,6 +64,8 @@ namespace Files.App.Utils.Shell
 				return await Win32Helper.MountVhdDisk(application);
 			}
 
+			var resolvedWorkingDirectory = string.IsNullOrEmpty(workingDirectory) ? PathNormalization.GetParentDir(application) : workingDirectory;
+
 			try
 			{
 				using Process process = new Process();
@@ -71,7 +73,7 @@ namespace Files.App.Utils.Shell
 				process.StartInfo.FileName = application;
 
 				// Show window if workingDirectory (opening terminal)
-				process.StartInfo.CreateNoWindow = string.IsNullOrEmpty(workingDirectory);
+				process.StartInfo.CreateNoWindow = string.IsNullOrEmpty(resolvedWorkingDirectory);
 
 				if (arguments == "RunAs")
 				{
@@ -119,12 +121,19 @@ namespace Files.App.Utils.Shell
 						Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User));
 				}
 
-				process.StartInfo.WorkingDirectory = string.IsNullOrEmpty(workingDirectory) ? PathNormalization.GetParentDir(application) : workingDirectory;
+				process.StartInfo.WorkingDirectory = resolvedWorkingDirectory;
 				process.Start();
 
 				Win32Helper.BringToForeground(currentWindows);
 
 				return true;
+			}
+			catch (Win32Exception ex) when (ex.NativeErrorCode is 193 or 216 && FileExtensionHelpers.IsExecutableFile(application, exeOnly: true))
+			{
+				// ERROR_EXE_MACHINE_TYPE_MISMATCH (216)
+				// "This app can't run on your PC"
+				await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_CannotRunFileDialog());
+				return false;
 			}
 			catch (Win32Exception)
 			{
@@ -133,7 +142,7 @@ namespace Files.App.Utils.Shell
 				process.StartInfo.FileName = application;
 				process.StartInfo.CreateNoWindow = true;
 				process.StartInfo.Arguments = arguments;
-				process.StartInfo.WorkingDirectory = string.IsNullOrEmpty(workingDirectory) ? PathNormalization.GetParentDir(application) : workingDirectory;
+				process.StartInfo.WorkingDirectory = resolvedWorkingDirectory;
 
 				try
 				{

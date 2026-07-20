@@ -331,6 +331,21 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public int SelectedTabScrollDirectionIndex
+		{
+			get => UserSettingsService.GeneralSettingsService.ReverseTabScrollDirection ? 1 : 0;
+			set
+			{
+				var reverse = value == 1;
+				if (reverse != UserSettingsService.GeneralSettingsService.ReverseTabScrollDirection)
+				{
+					UserSettingsService.GeneralSettingsService.ReverseTabScrollDirection = reverse;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		private void ChangePageAsync()
 		{
 			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, true, [], Environment.SpecialFolder.Desktop, out var filePath);

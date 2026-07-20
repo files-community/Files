@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.GitFetchDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Git;
+
 		public bool IsExecutable
 			=> _context.CanExecuteGitAction;
 

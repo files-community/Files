@@ -14,8 +14,17 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.PasteItemDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.FileSystem;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Paste");
+
+		public string AutomationId
+			=> "InnerNavigationToolbarPasteButton";
+
+		public string AccessKey
+			=> "V";
 
 		public HotKey HotKey
 			=> new(Keys.V, KeyModifiers.Ctrl);

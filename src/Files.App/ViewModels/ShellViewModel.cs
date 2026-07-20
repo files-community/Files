@@ -18,6 +18,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
+using Windows.Win32;
 using Windows.Win32.System.SystemServices;
 using static Files.App.Helpers.Win32PInvoke;
 using ByteSize = ByteSizeLib.ByteSize;
@@ -35,6 +36,7 @@ namespace Files.App.ViewModels
 		private readonly SemaphoreSlim getFileOrFolderSemaphore;
 		private readonly SemaphoreSlim bulkOperationSemaphore;
 		private readonly SemaphoreSlim loadThumbnailSemaphore;
+		private readonly ConcurrentDictionary<string, CancellationTokenSource> thumbnailRetryDebounce;
 		private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
 		private readonly ConcurrentQueue<uint> gitChangesQueue;
 		private readonly ConcurrentDictionary<string, bool> itemLoadQueue;
@@ -46,6 +48,7 @@ namespace Files.App.ViewModels
 
 		private Task? aProcessQueueAction;
 		private Task? gitProcessQueueAction;
+		private volatile Task? desktopIniUpdateTask;
 
 		// Files and folders list for manipulating
 		private ConcurrentCollection<ListedItem> filesAndFolders;
@@ -170,6 +173,7 @@ namespace Files.App.ViewModels
 		private CancellationTokenSource searchCTS;
 		private CancellationTokenSource updateTagGroupCTS;
 		private CancellationTokenSource? filterDebounceCS;
+		private CancellationTokenSource? networkAvailabilityCTS;
 
 		public event EventHandler FocusFilterHeader;
 
@@ -306,6 +310,38 @@ namespace Files.App.ViewModels
 		{
 			get => emptyTextType;
 			set => SetProperty(ref emptyTextType, value);
+		}
+
+		private bool isNetworkDiscoveryInfoBarOpen;
+		public bool IsNetworkDiscoveryInfoBarOpen
+		{
+			get => isNetworkDiscoveryInfoBarOpen;
+			set => SetProperty(ref isNetworkDiscoveryInfoBarOpen, value);
+		}
+
+		private NetworkAvailability networkAvailability = NetworkAvailability.All;
+		public NetworkAvailability NetworkAvailability
+		{
+			get => networkAvailability;
+			private set
+			{
+				if (SetProperty(ref networkAvailability, value))
+					OnPropertyChanged(nameof(NetworkDiscoveryInfoBarMessage));
+			}
+		}
+
+		public string NetworkDiscoveryInfoBarMessage
+		{
+			get
+			{
+				return NetworkAvailability switch
+				{
+					NetworkAvailability.None => Strings.NetworkDiscoveryAndFileSharingTurnedOffInfoBarMessage.GetLocalizedResource(),
+					NetworkAvailability.Discovery => Strings.FileSharingTurnedOffInfoBarMessage.GetLocalizedResource(),
+					NetworkAvailability.Sharing => Strings.NetworkDiscoveryTurnedOffInfoBarMessage.GetLocalizedResource(),
+					_ => string.Empty,
+				};
+			}
 		}
 
 		public async Task UpdateFolderThumbnailImageSource()
@@ -561,6 +597,7 @@ namespace Files.App.ViewModels
 			operationQueue = new ConcurrentQueue<(uint Action, string FileName)>();
 			gitChangesQueue = new ConcurrentQueue<uint>();
 			itemLoadQueue = new ConcurrentDictionary<string, bool>();
+			thumbnailRetryDebounce = new ConcurrentDictionary<string, CancellationTokenSource>();
 			addFilesCTS = new CancellationTokenSource();
 			semaphoreCTS = new CancellationTokenSource();
 			loadPropsCTS = new CancellationTokenSource();
@@ -651,12 +688,18 @@ namespace Files.App.ViewModels
 						if (e.ValueState is SizeChangedValueState.None)
 						{
 							matchingItem.FileSizeBytes = 0;
-							matchingItem.FileSize = Strings.ItemSizeNotCalculated.GetLocalizedResource();
+							matchingItem.IsCalculatingSize = true;
+							matchingItem.ShowCalculatingText = true;
 						}
 						else if (e.ValueState is SizeChangedValueState.Final || (long)e.NewSize > matchingItem.FileSizeBytes)
 						{
 							matchingItem.FileSizeBytes = (long)e.NewSize;
 							matchingItem.FileSize = e.NewSize.ToSizeString();
+							if (e.ValueState is SizeChangedValueState.Final)
+							{
+								matchingItem.ShowCalculatingText = false;
+								matchingItem.IsCalculatingSize = false;
+							}
 						}
 
 						DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
@@ -726,6 +769,8 @@ namespace Files.App.ViewModels
 		{
 			Debug.WriteLine("CancelLoadAndClearFiles");
 			CloseWatcher();
+			CancelNetworkAvailabilityUpdate();
+			IsNetworkDiscoveryInfoBarOpen = false;
 			if (IsLoadingItems)
 			{
 				IsLoadingCancelled = true;
@@ -733,6 +778,12 @@ namespace Files.App.ViewModels
 				addFilesCTS = new CancellationTokenSource();
 			}
 			CancelExtendedPropertiesLoading();
+			foreach (var cts in thumbnailRetryDebounce.Values)
+			{
+				cts.Cancel();
+				cts.Dispose();
+			}
+			thumbnailRetryDebounce.Clear();
 			filesAndFolders.Clear();
 			FilesAndFolders.Clear();
 			CancelSearch();
@@ -772,7 +823,72 @@ namespace Files.App.ViewModels
 
 		public void UpdateEmptyTextType()
 		{
-			EmptyTextType = FilesAndFolders.Count == 0 ? (IsSearchResults ? EmptyTextType.NoSearchResultsFound : EmptyTextType.FolderEmpty) : EmptyTextType.None;
+			var isFolderEmpty = FilesAndFolders.Count == 0;
+
+			EmptyTextType = isFolderEmpty ? (IsSearchResults ? EmptyTextType.NoSearchResultsFound : EmptyTextType.FolderEmpty) : EmptyTextType.None;
+		}
+
+		public void UpdateNetworkAvailabilityInfoBar()
+		{
+			var shouldCheckNetworkAvailability =
+				!IsSearchResults &&
+				IsNetworkFolder(WorkingDirectory);
+
+			if (shouldCheckNetworkAvailability)
+				QueueNetworkAvailabilityUpdate(WorkingDirectory);
+			else
+			{
+				CancelNetworkAvailabilityUpdate();
+				IsNetworkDiscoveryInfoBarOpen = false;
+			}
+		}
+
+		private void QueueNetworkAvailabilityUpdate(string workingDirectory)
+		{
+			CancelNetworkAvailabilityUpdate();
+
+			networkAvailabilityCTS = new CancellationTokenSource();
+			IsNetworkDiscoveryInfoBarOpen = false;
+
+			_ = UpdateNetworkAvailabilityInfoBarAsync(workingDirectory, networkAvailabilityCTS.Token);
+		}
+
+		private void CancelNetworkAvailabilityUpdate()
+		{
+			networkAvailabilityCTS?.Cancel();
+			networkAvailabilityCTS?.Dispose();
+			networkAvailabilityCTS = null;
+		}
+
+		private async Task UpdateNetworkAvailabilityInfoBarAsync(string workingDirectory, CancellationToken cancellationToken)
+		{
+			var availability = await NetworkService.GetNetworkAvailabilityAsync();
+			if (cancellationToken.IsCancellationRequested)
+				return;
+
+			await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+			{
+				if (cancellationToken.IsCancellationRequested ||
+					IsSearchResults ||
+					!string.Equals(WorkingDirectory, workingDirectory, StringComparison.OrdinalIgnoreCase))
+				{
+					return;
+				}
+
+				if (availability is null or NetworkAvailability.All)
+				{
+					IsNetworkDiscoveryInfoBarOpen = false;
+					return;
+				}
+
+				NetworkAvailability = availability.Value;
+				IsNetworkDiscoveryInfoBarOpen = true;
+			});
+		}
+
+		private static bool IsNetworkFolder(string path)
+		{
+			return string.Equals(path, Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase);
 		}
 
 		private string? _filesAndFoldersFilter;
@@ -818,6 +934,7 @@ namespace Files.App.ViewModels
 					{
 						FilesAndFolders.Clear();
 						UpdateEmptyTextType();
+						UpdateNetworkAvailabilityInfoBar();
 						DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
 					}
 
@@ -862,6 +979,7 @@ namespace Files.App.ViewModels
 							// once loading is completed so that UI can be updated
 							FilesAndFolders.EndBulkOperation();
 							UpdateEmptyTextType();
+							UpdateNetworkAvailabilityInfoBar();
 							DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
 						}
 						finally
@@ -1069,7 +1187,7 @@ namespace Files.App.ViewModels
 			return shieldIcon;
 		}
 
-		private async Task LoadThumbnailAsync(ListedItem item, CancellationToken cancellationToken)
+		private async Task LoadThumbnailAsync(ListedItem item, CancellationToken cancellationToken, bool scheduleTimerRetry = true)
 		{
 			var loadNonCachedThumbnail = false;
 			var thumbnailSize = LayoutSizeKindHelper.GetIconSize(folderSettings.LayoutMode);
@@ -1093,7 +1211,7 @@ namespace Files.App.ViewModels
 							IconOptions.ReturnThumbnailOnly | IconOptions.ReturnOnlyIfCached | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
 
 					cancellationToken.ThrowIfCancellationRequested();
-					loadNonCachedThumbnail = result is null;
+					loadNonCachedThumbnail = true;
 				}
 
 				if (result is null)
@@ -1170,7 +1288,45 @@ namespace Files.App.ViewModels
 
 					cancellationToken.ThrowIfCancellationRequested();
 
-					if (result is not null)
+					if (result is null)
+					{
+						item.NeedsDelayedThumbnailLoad = true;
+
+						// Some writers never emit a FILE_ACTION_MODIFIED event after finalizing the file, so the normal event-driven retry never fires.
+						// Schedule a 2s timer as a fallback; the FILE_ACTION_MODIFIED handler cancels it if the event arrives first.
+						if (scheduleTimerRetry)
+						{
+							var retryCts = new CancellationTokenSource();
+							if (thumbnailRetryDebounce.TryAdd(item.ItemPath, retryCts))
+							{
+								App.Logger.LogWarning("Thumbnail load failed [{Id}] '{Extension}'; scheduling 2s timer retry.", item.ItemPath.GetHashCode(), Path.GetExtension(item.ItemPath));
+
+								var retryToken = retryCts.Token;
+								_ = Task.Delay(2000, retryToken)
+									.ContinueWith(_ =>
+									{
+										if (thumbnailRetryDebounce.TryRemove(item.ItemPath, out var cts))
+											cts.Dispose();
+
+										App.Logger.LogInformation("Timer-based thumbnail retry firing [{Id}] '{Extension}'.", item.ItemPath.GetHashCode(), Path.GetExtension(item.ItemPath));
+
+										item.NeedsDelayedThumbnailLoad = false;
+										return LoadThumbnailAsync(item, retryToken, scheduleTimerRetry: false);
+									}, retryToken, TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.Default)
+									.Unwrap();
+							}
+							else
+							{
+								App.Logger.LogWarning("Thumbnail load failed [{Id}] '{Extension}'; mod-retry already pending, skipping timer.", item.ItemPath.GetHashCode(), Path.GetExtension(item.ItemPath));
+								retryCts.Dispose();
+							}
+						}
+						else
+						{
+							App.Logger.LogWarning("Thumbnail load failed [{Id}] '{Extension}' on timer retry; awaiting next FILE_ACTION_MODIFIED.", item.ItemPath.GetHashCode(), Path.GetExtension(item.ItemPath));
+						}
+					}
+					else
 					{
 						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 						{
@@ -1608,6 +1764,7 @@ namespace Files.App.ViewModels
 
 				filesAndFolders.Clear();
 				FilesAndFolders.Clear();
+				desktopIniUpdateTask = null;
 
 				ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
 
@@ -1627,6 +1784,9 @@ namespace Files.App.ViewModels
 
 				ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
 				IsLoadingItems = false;
+
+				if (Interlocked.Exchange(ref desktopIniUpdateTask, null) is Task task)
+					await task;
 
 				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(folderSettings, filesAndFolders.ToList());
 			}
@@ -1787,15 +1947,15 @@ namespace Files.App.ViewModels
 				else if (res == FileSystemStatusCode.NotFound)
 				{
 					await DialogDisplayHelper.ShowDialogAsync(
-						Strings.FolderNotFoundDialog_Title.GetLocalizedResource(),
-						Strings.FolderNotFoundDialog_Text.GetLocalizedResource());
+						Strings.FolderNotFoundDialogTitle.GetLocalizedResource(),
+						Strings.FolderNotFoundDialogText.GetLocalizedResource());
 
 					return -1;
 				}
 				else
 				{
 					await DialogDisplayHelper.ShowDialogAsync(
-						Strings.DriveUnpluggedDialog_Title.GetLocalizedResource(),
+						Strings.DriveUnpluggedDialogTitle.GetLocalizedResource(),
 						res.ErrorCode.ToString());
 
 					return -1;
@@ -1896,7 +2056,7 @@ namespace Files.App.ViewModels
 
 				if (hFile == IntPtr.Zero)
 				{
-					await DialogDisplayHelper.ShowDialogAsync(Strings.DriveUnpluggedDialog_Title.GetLocalizedResource(), "");
+					await DialogDisplayHelper.ShowDialogAsync(Strings.DriveUnpluggedDialogTitle.GetLocalizedResource(), "");
 
 					return -1;
 				}
@@ -1930,8 +2090,11 @@ namespace Files.App.ViewModels
 
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
-						await dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-						await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+						// Not awaited here: with Low priority these don't run until the UI thread goes idle
+						// after the final list update, which would delay load completion and watcher setup.
+						// The desktop.ini task is awaited before applying the adaptive layout, which reads DesktopIni.
+						_ = dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+						desktopIniUpdateTask = dispatcherQueue.EnqueueOrInvokeAsync(() =>
 						{
 							GetDesktopIniFileData();
 							CheckForBackgroundImage();
@@ -2221,7 +2384,8 @@ namespace Files.App.ViewModels
 					notifyFilters |= FILE_NOTIFY_CHANGE_ATTRIBUTES;
 
 				var overlapped = new OVERLAPPED();
-				overlapped.hEvent = CreateEvent(IntPtr.Zero, false, false, null);
+				using var eventHandle = PInvoke.CreateEvent(null, false, false, null);
+				overlapped.hEvent = eventHandle.DangerousGetHandle();
 				const uint INFINITE = 0xFFFFFFFF;
 
 				while (x.Status != AsyncStatus.Canceled)
@@ -2285,7 +2449,6 @@ namespace Files.App.ViewModels
 					}
 				}
 
-				CloseHandle(overlapped.hEvent);
 				operationQueue.Clear();
 
 				Debug.WriteLine("aWatcherAction done: {0}", rand);
@@ -2332,7 +2495,8 @@ namespace Files.App.ViewModels
 				var notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE_CREATION;
 
 				var overlapped = new OVERLAPPED();
-				overlapped.hEvent = CreateEvent(IntPtr.Zero, false, false, null);
+				using var eventHandle = PInvoke.CreateEvent(null, false, false, null);
+				overlapped.hEvent = eventHandle.DangerousGetHandle();
 				const uint INFINITE = 0xFFFFFFFF;
 
 				while (x.Status != AsyncStatus.Canceled)
@@ -2377,7 +2541,6 @@ namespace Files.App.ViewModels
 					}
 				}
 
-				CloseHandle(overlapped.hEvent);
 				gitChangesQueue.Clear();
 			});
 
@@ -2445,7 +2608,7 @@ namespace Files.App.ViewModels
 				await OrderFilesAndFoldersAsync();
 				await ApplyFilesAndFoldersChangesAsync();
 
-				if (lastItemAdded is not null && !lastItemAdded.IsArchive)
+				if (lastItemAdded is not null)
 				{
 					await RequestSelectionAsync([lastItemAdded]);
 					lastItemAdded = null;
@@ -2490,9 +2653,29 @@ namespace Files.App.ViewModels
 										break;
 
 									case FILE_ACTION_RENAMED_OLD_NAME:
-										var itemRenamedOld = await RemoveFileOrFolderAsync(operation.FileName);
-										if (itemRenamedOld is not null)
-											anyEdits = true;
+										// Pair OLD_NAME with the following NEW_NAME so the item can be updated
+										// in place and stay at its current position instead of jumping to a new
+										// sorted slot after a rename (issue #4214). Leaving anyEdits false skips
+										// OrderFilesAndFoldersAsync; PropertyChanged keeps the visible name in sync.
+										if (operationQueue.TryPeek(out var nextOp) && nextOp.Action == FILE_ACTION_RENAMED_NEW_NAME &&
+											filesAndFolders.ToList().FirstOrDefault(x => x.ItemPath.Equals(operation.FileName, StringComparison.OrdinalIgnoreCase)) is { } renamed)
+										{
+											operationQueue.TryDequeue(out _);
+											var newPath = nextOp.FileName;
+											await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+											{
+												renamed.ItemPath = newPath;
+												renamed.ItemNameRaw = Path.GetFileName(newPath);
+												if (renamed.PrimaryItemAttribute == StorageItemTypes.File)
+													renamed.FileExtension = Path.GetExtension(newPath);
+											});
+										}
+										else
+										{
+											var itemRenamedOld = await RemoveFileOrFolderAsync(operation.FileName);
+											if (itemRenamedOld is not null)
+												anyEdits = true;
+										}
 										break;
 								}
 							}
@@ -2650,6 +2833,36 @@ namespace Files.App.ViewModels
 
 		private async Task UpdateFilesOrFoldersAsync(IEnumerable<string> paths, bool hasSyncStatus)
 		{
+			foreach (var path in paths)
+			{
+				var item = filesAndFolders.ToList().FirstOrDefault(x => x.ItemPath.Equals(path, StringComparison.OrdinalIgnoreCase));
+				if (item is not null && item.NeedsDelayedThumbnailLoad)
+				{
+					App.Logger.LogInformation("FILE_ACTION_MODIFIED thumbnail retry triggered [{Id}] '{Extension}'.", path.GetHashCode(), Path.GetExtension(path));
+
+					if (thumbnailRetryDebounce.TryGetValue(path, out var existingCts))
+					{
+						existingCts.Cancel();
+						existingCts.Dispose();
+					}
+
+					var debounceCts = new CancellationTokenSource();
+					thumbnailRetryDebounce[path] = debounceCts;
+					var debounceToken = debounceCts.Token;
+
+					_ = Task.Delay(500, debounceToken)
+						.ContinueWith(_ =>
+						{
+							if (thumbnailRetryDebounce.TryRemove(path, out var cts))
+								cts.Dispose();
+
+							item.NeedsDelayedThumbnailLoad = false;
+							return LoadThumbnailAsync(item, debounceToken);
+						}, debounceToken, TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.Default)
+						.Unwrap();
+				}
+			}
+
 			try
 			{
 				await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
@@ -2666,6 +2879,8 @@ namespace Files.App.ViewModels
 
 				await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
+					var itemsRegrouped = false;
+
 					foreach (var result in results)
 					{
 						if (result is not null)
@@ -2682,8 +2897,17 @@ namespace Files.App.ViewModels
 								item.FileSizeBytes = result.Value.Size.Value;
 								item.FileSize = item.FileSizeBytes.ToSizeString();
 							}
+
+							// Move the item to its correct group when the updated properties change
+							// its group key, e.g. when the date modified is restored after
+							// extracting an archive, see #14461
+							itemsRegrouped |= FilesAndFolders.UpdateItemGroup(item);
 						}
 					}
+
+					// Sort the changed groups and their position among the other groups
+					if (itemsRegrouped)
+						OrderGroups();
 				},
 				Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 			}
@@ -2711,6 +2935,12 @@ namespace Files.App.ViewModels
 				if (matchingItem is not null)
 				{
 					filesAndFolders.Remove(matchingItem);
+
+					if (thumbnailRetryDebounce.TryRemove(matchingItem.ItemPath, out var debounceCts))
+					{
+						debounceCts.Cancel();
+						debounceCts.Dispose();
+					}
 
 					if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
 					{
@@ -2785,33 +3015,23 @@ namespace Files.App.ViewModels
 			searchCTS?.Cancel();
 		}
 
-		public void UpdateDateDisplay(bool isFormatChange)
+		public void UpdateDateDisplay()
 		{
-			App.Logger.LogDebug($"UpdateDateDisplay: isFormatChange={isFormatChange}, itemCount={filesAndFolders?.Count}");
+			App.Logger.LogDebug($"UpdateDateDisplay: itemCount={filesAndFolders?.Count}");
 
 			filesAndFolders.ToList().AsParallel().ForAll(async item =>
 			{
-				// Reassign values to update date display
-				if (isFormatChange || IsDateDiff(item.ItemDateAccessedReal))
-					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateAccessedReal = item.ItemDateAccessedReal);
-				if (isFormatChange || IsDateDiff(item.ItemDateCreatedReal))
-					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateCreatedReal = item.ItemDateCreatedReal);
-				if (isFormatChange || IsDateDiff(item.ItemDateModifiedReal))
-					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateModifiedReal = item.ItemDateModifiedReal);
-				if (item is RecycleBinItem recycleBinItem && (isFormatChange || IsDateDiff(recycleBinItem.ItemDateDeletedReal)))
-					await dispatcherQueue.EnqueueOrInvokeAsync(() => recycleBinItem.ItemDateDeletedReal = recycleBinItem.ItemDateDeletedReal);
-				if (item is IGitItem gitItem && gitItem.GitLastCommitDate is DateTimeOffset offset && (isFormatChange || IsDateDiff(offset)))
-					await dispatcherQueue.EnqueueOrInvokeAsync(() => gitItem.GitLastCommitDate = gitItem.GitLastCommitDate);
+				if (item.IsRealChanges)
+					await dispatcherQueue.EnqueueOrInvokeAsync(item.UpdateReal);
 			});
 		}
-
-		private static bool IsDateDiff(DateTimeOffset offset) => (DateTimeOffset.Now - offset).TotalDays < 7;
 
 		public void Dispose()
 		{
 			CancelLoadAndClearFiles();
 			filterDebounceCS?.Cancel();
 			filterDebounceCS?.Dispose();
+			networkAvailabilityCTS?.Dispose();
 			App.Logger.LogInformation($"ShellViewModel.Dispose: CurrentFolder={LogPathHelper.GetPathIdentifier(CurrentFolder?.ItemPath)}");
 
 			StorageTrashBinService.Watcher.ItemAdded -= RecycleBinItemCreatedAsync;

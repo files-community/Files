@@ -77,7 +77,7 @@ namespace Files.Shared.Helpers
 		/// <returns><c>true</c> if the fileExtensionToCheck is an audio file; otherwise, <c>false</c>.</returns>
 		public static bool IsAudioFile(string? fileExtensionToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".mp3", ".m4a", ".wav", ".wma", ".aac", ".adt", ".adts", ".cda", ".flac");
+			return HasExtension(fileExtensionToCheck, ".mp3", ".m4a", ".ogg", ".oga", ".wav", ".wma", ".aac", ".adt", ".adts", ".cda", ".flac");
 		}
 
 		/// <summary>
@@ -87,7 +87,7 @@ namespace Files.Shared.Helpers
 		/// <returns><c>true</c> if the fileExtensionToCheck is a video file; otherwise, <c>false</c>.</returns>
 		public static bool IsVideoFile(string? fileExtensionToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".mp4", ".webm", ".ogg", ".mov", ".qt", ".m4v", ".mp4v", ".3g2", ".3gp2", ".3gp", ".3gpp", ".mkv");
+			return HasExtension(fileExtensionToCheck, ".avi", ".mp4", ".webm", ".ogg", ".mov", ".qt", ".m4v", ".mp4v", ".3g2", ".3gp2", ".3gp", ".3gpp", ".mkv");
 		}
 
 		/// <summary>
@@ -259,7 +259,8 @@ namespace Files.Shared.Helpers
 		{
 			return HasExtension(
 				filePathToCheck, ".mp4", ".m4v", ".mp4v", ".3g2", ".3gp2", ".3gp", ".3gpp",
-				".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".mkv", ".ogg", ".avi", ".wmv", ".mov", ".qt");
+				".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".mkv", ".ogg", ".avi", ".wmv", ".mov", ".qt",
+				".mp3", ".m4a", ".oga", ".wav", ".wma", ".aac", ".flac");
 		}
 
 		/// <summary>
@@ -336,6 +337,36 @@ namespace Files.Shared.Helpers
 		public static bool IsRichTextFile(string? fileExtensionToCheck)
 		{
 			return HasExtension(fileExtensionToCheck, ".rtf");
+		}
+
+		/// <summary>
+		/// Check if the file extension is a PDF file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck"></param>
+		/// <returns><c>true</c> if the fileExtensionToCheck is a PDF file; otherwise, <c>false</c>.</returns>
+		public static bool IsPdfFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".pdf");
+		}
+
+		/// <summary>
+		/// Check if the file extension is an HTML file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck"></param>
+		/// <returns><c>true</c> if the fileExtensionToCheck is an HTML file; otherwise, <c>false</c>.</returns>
+		public static bool IsHtmlFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".htm", ".html", ".svg");
+		}
+
+		/// <summary>
+		/// Check if the file extension is supported by the image preview pane.
+		/// </summary>
+		/// <param name="fileExtensionToCheck"></param>
+		/// <returns><c>true</c> if the fileExtensionToCheck can be image-previewed; otherwise, <c>false</c>.</returns>
+		public static bool IsImagePreviewFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tiff", ".ico", ".webp", ".jxr");
 		}
 	}
 }

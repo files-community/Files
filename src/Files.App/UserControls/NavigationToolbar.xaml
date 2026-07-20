@@ -257,7 +257,7 @@
 							<Image
 								Width="16"
 								Height="16"
-								Source="/Assets/FluentIcons/Home.png" />
+								Source="/Assets/FluentIcons/SidebarSections/Home.png" />
 						</controls:BreadcrumbBar.RootItem>
 						<controls:BreadcrumbBar.ItemTemplate>
 							<DataTemplate x:DataType="dataitems:PathBoxItem">
@@ -270,7 +270,9 @@
 									DataContext="{x:Bind}"
 									DragLeave="BreadcrumbBarItem_DragLeave"
 									DragOver="BreadcrumbBarItem_DragOver"
-									Drop="BreadcrumbBarItem_Drop" />
+									Drop="BreadcrumbBarItem_Drop"
+									IsChevronVisible="{x:Bind IsChevronVisible, Mode=OneWay}"
+									RightTapped="BreadcrumbBarItem_RightTapped" />
 							</DataTemplate>
 						</controls:BreadcrumbBar.ItemTemplate>
 					</controls:BreadcrumbBar>
@@ -345,7 +347,7 @@
 				IsAutoFocusEnabled="True"
 				ItemsSource="{x:Bind ViewModel.OmnibarSearchModeSuggestionItems, Mode=OneWay}"
 				ModeName="{x:Bind Commands.Search.LabelWithHotKey, Mode=OneWay}"
-				PlaceholderText="{helpers:ResourceString Name=OmnibarSearchModeTextPlaceholder}"
+				PlaceholderText="{x:Bind ViewModel.OmnibarSearchModePlaceholder, Mode=OneWay}"
 				Text="{x:Bind ViewModel.OmnibarSearchModeText, Mode=TwoWay}"
 				UpdateTextOnSelect="False">
 				<controls:OmnibarMode.ItemTemplate>
@@ -372,11 +374,24 @@
 									x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
 									FontSize="14"
 									Glyph="{x:Bind IsRecentSearch, Mode=OneTime, Converter={StaticResource SearchSuggestionGlyphConverter}}" />
+								<Viewbox
+									x:Name="ShortcutGlyphElement"
+									Width="10"
+									Height="10"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Bottom"
+									x:Load="{x:Bind IsShortcut}">
+									<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.Shortcut}" />
+								</Viewbox>
 							</Grid>
-							<TextBlock
-								Grid.Column="1"
-								VerticalAlignment="Center"
-								Text="{x:Bind Name}" />
+							<StackPanel Grid.Column="1" VerticalAlignment="Center">
+								<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+								<TextBlock
+									FontSize="12"
+									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+									Text="{x:Bind Description, Mode=OneWay}"
+									Visibility="{x:Bind DescriptionVisibility}" />
+							</StackPanel>
 						</Grid>
 					</DataTemplate>
 				</controls:OmnibarMode.ItemTemplate>
@@ -500,7 +515,8 @@
 						Width="20"
 						Height="20"
 						x:Load="{x:Bind ViewModel.IsUpdating, Mode=OneWay}"
-						IsIndeterminate="True" />
+						IsIndeterminate="{x:Bind ViewModel.IsUpdateProgressIndeterminate, Mode=OneWay}"
+						Value="{x:Bind ViewModel.UpdateProgress, Mode=OneWay}" />
 				</Grid>
 			</Button>
 		</StackPanel>

@@ -7,19 +7,6 @@ namespace Files.App
 {
 	public static class Constants
 	{
-		public static class AdaptiveLayout
-		{
-			public const float ExtraLargeThreshold = 85.0f;
-
-			public const float LargeThreshold = 80.0f;
-
-			public const float MediumThreshold = 60.0f;
-
-			public const float SmallThreshold = 25.0f;
-
-			public const float ExtraSmallThreshold = 15.0f;
-		}
-
 		// The following constants will be replaced with actual values by the Files CI workflow
 		public static class AutomatedWorkflowInjectionKeys
 		{
@@ -48,12 +35,8 @@ namespace Files.App
 			public const int Videos = 189;
 			public const int GenericDiskDrive = 35;
 			public const int WindowsDrive = 36;
-			public const int ThisPC = 109;
 			public const int Network = 25;
 			public const int RecycleBin = 55;
-			public const int CloudDrives = 1040;
-			public const int OneDrive = 1043;
-			public const int Libraries = 1023;
 			public const int Folder = 3;
 			public const int ShieldIcon = 78;
 			public const int SearchIcon = 177;
@@ -63,14 +46,6 @@ namespace Files.App
 		{
 			// See shell32.dll for more icon indexes to add
 			public const int QuickAccess = 51380;
-		}
-
-		public static class FluentIconsPaths
-		{
-			public const string CloudDriveIcon = "ms-appx:///Assets/FluentIcons/CloudDrive.png";
-			public const string StarIcon = "ms-appx:///Assets/FluentIcons/Star.png";
-			public const string FileTagsIcon = "ms-appx:///Assets/FluentIcons/FileTags.png";
-			public const string HomeIcon = "ms-appx:///Assets/FluentIcons/Home.png";
 		}
 
 		public static class WslIconsPaths
@@ -121,7 +96,14 @@ namespace Files.App
 
 		public static class Appearance
 		{
-			public const string StandardFont = "Segoe UI Variable";
+			/// <summary>
+			/// The system default font family. Returns "Segoe UI Variable" on Windows 11+
+			/// and "Segoe UI" on Windows 10, matching the WinUI ContentControlThemeFontFamily default.
+			/// </summary>
+			public static string StandardFont =>
+				OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000)
+					? "Segoe UI Variable"
+					: "Segoe UI";
 		}
 
 		// Default icon sizes that are available for files and folders
@@ -203,7 +185,7 @@ namespace Files.App
 			public const string GitHubRepoUrl = @"https://github.com/files-community/Files";
 			public const string DocumentationUrl = @"https://files.community/docs";
 			public const string DiscordUrl = @"https://discord.gg/files";
-			public const string FeatureRequestUrl = @"https://github.com/files-community/Files/issues/new?labels=feature+request&template=feature_request.yml";
+			public const string FeatureRequestUrl = @"https://discord.gg/files";
 			public const string BugReportUrl = @"https://github.com/files-community/Files/issues/new?labels=bug&template=bug_report.yml";
 			public const string PrivacyPolicyUrl = @"https://files.community/privacy";
 			public const string SupportUsUrl = @"https://github.com/files-community/Files?sponsor";
@@ -224,6 +206,7 @@ namespace Files.App
 		public static class DragAndDrop
 		{
 			public const Int32 HoverToOpenTimespan = 1300;
+			public const Int32 HoverToExpandTimespan = 500;
 		}
 
 		public static class UserEnvironmentPaths
@@ -281,6 +264,14 @@ namespace Files.App
 				"49306atecsolution.FilesPreview", // store preview
 				"FilesDev", // dev
 			};
+		}
+
+		public static class Startup
+		{
+			// These strings are intentionally hardcoded and cannot be moved to resource files.
+			// The Windows App Runtime (which powers the resource loading system) may itself be unavailable at this point
+			public const string MissingRuntimeMessage = "Files failed to start. A required Windows component could not be loaded. Try reinstalling Files from the Microsoft Store or from https://files.community/download";
+			public const string MissingRuntimeTitle = "Files - Startup Error";
 		}
 	}
 }

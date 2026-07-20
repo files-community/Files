@@ -4,6 +4,7 @@
 using Files.App.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Data.Commands
@@ -66,11 +67,46 @@ namespace Files.App.Data.Commands
 			};
 		}
 
+		public IconElement? ToOverflowIcon()
+		{
+			if (ToThemedIconStyle() is not Style style)
+				return null;
+
+			var pathData = GetStyleStringValue(style, ThemedIcon.OutlineIconDataProperty)
+				?? GetStyleStringValue(style, ThemedIcon.FilledIconDataProperty);
+
+			if (string.IsNullOrWhiteSpace(pathData))
+				return null;
+
+			return new PathIcon
+			{
+				Data = (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), pathData)
+			};
+		}
+
 		public Style? ToThemedIconStyle()
 		{
 			if (string.IsNullOrEmpty(ThemedIconStyle))
 				return null;
 			return (Style)Application.Current.Resources[ThemedIconStyle];
+		}
+
+		private static string? GetStyleStringValue(Style style, DependencyProperty property)
+		{
+			for (var currentStyle = style; currentStyle is not null; currentStyle = currentStyle.BasedOn)
+			{
+				foreach (var setterBase in currentStyle.Setters)
+				{
+					if (setterBase is Setter { Property: var setterProperty, Value: string value }
+						&& setterProperty == property
+						&& !string.IsNullOrWhiteSpace(value))
+					{
+						return value;
+					}
+				}
+			}
+
+			return null;
 		}
 	}
 }

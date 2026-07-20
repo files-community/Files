@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using Microsoft.UI.Xaml.Input;
 using Windows.System;
@@ -17,6 +17,12 @@ namespace Files.App.Controls
 		{
 			if (e.Key == VirtualKey.Down)
 				FlyoutBase.ShowAttachedFlyout(_itemChevronButton);
+		}
+
+		private void ItemChevronButton_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			// Stop bubbling so the BreadcrumbBarItem's RightTapped doesn't open a context menu over the chevron.
+			e.Handled = true;
 		}
 
 		private void ItemContentButton_PreviewKeyDown(object sender, KeyRoutedEventArgs e)

@@ -11,9 +11,11 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
+using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.App.Data.Enums.SortDirection;
 
 namespace Files.App.Views.Layouts
@@ -36,6 +38,8 @@ namespace Files.App.Views.Layouts
 		/// size changes, even if the layout size changes (since some layout sizes share the same icon size).
 		/// </summary>
 		private uint currentIconSize;
+
+		private DispatcherQueueTimer? _autoFitColumnsTimer;
 
 		// Properties
 
@@ -78,6 +82,7 @@ namespace Files.App.Views.Layouts
 			InitializeComponent();
 			DataContext = this;
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
+			selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 
 			UpdateSortOptionsCommand = new RelayCommand<string>(x =>
@@ -175,7 +180,9 @@ namespace Files.App.Views.Layouts
 			FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
 			ParentShellPageInstance.ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+			ParentShellPageInstance.ShellViewModel.ItemLoadStatusChanged += ShellViewModel_ItemLoadStatusChanged;
 			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
+			FileList.Items.VectorChanged += FileListItems_VectorChanged;
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
@@ -201,7 +208,10 @@ namespace Files.App.Views.Layouts
 			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
 			ParentShellPageInstance.ShellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+			ParentShellPageInstance.ShellViewModel.ItemLoadStatusChanged -= ShellViewModel_ItemLoadStatusChanged;
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
+			FileList.Items.VectorChanged -= FileListItems_VectorChanged;
+			_autoFitColumnsTimer?.Stop();
 		}
 
 		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -279,6 +289,11 @@ namespace Files.App.Views.Layouts
 
 			// Set the width of the icon column. The value is increased by 4px to account for icon overlays.
 			ColumnsViewModel.IconColumn.UserLength = new GridLength(LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.DetailsView) + 4);
+
+			// Compact rows use a -2px ItemContainer margin, so the header checkbox needs an extra
+			// left offset to stay aligned with row checkboxes.
+			var leftOffset = UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact ? -4 : 0;
+			SelectAllCheckbox.Margin = new Thickness(leftOffset, 14, 0, 0);
 		}
 
 		private void FileList_LayoutUpdated(object? sender, object e)
@@ -360,17 +375,53 @@ namespace Files.App.Views.Layouts
 
 		}
 
-		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected override void OnSelectionChanged(SelectionChangedEventArgs e)
 		{
-			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+			foreach (var item in e.AddedItems)
+				SetCheckboxSelectionState(item);
 
-			if (e != null)
+			foreach (var item in e.RemovedItems)
+				SetCheckboxSelectionState(item);
+
+			UpdateSelectAllCheckboxState();
+		}
+
+		private bool _suppressSelectAllCheckboxEvents;
+
+		private void SelectAllCheckbox_Checked(object sender, RoutedEventArgs e)
+		{
+			if (_suppressSelectAllCheckboxEvents)
+				return;
+
+			ItemManipulationModel.SelectAllItems();
+		}
+
+		private void SelectAllCheckbox_Unchecked(object sender, RoutedEventArgs e)
+		{
+			if (_suppressSelectAllCheckboxEvents)
+				return;
+
+			ItemManipulationModel.ClearSelection();
+		}
+
+		private void UpdateSelectAllCheckboxState()
+		{
+			var selectedCount = FileList.SelectedItems.Count;
+			bool? newState = selectedCount == 0
+				? false
+				: selectedCount == FileList.Items.Count ? true : null;
+
+			if (SelectAllCheckbox.IsChecked == newState)
+				return;
+
+			_suppressSelectAllCheckboxEvents = true;
+			try
 			{
-				foreach (var item in e.AddedItems)
-					SetCheckboxSelectionState(item);
-
-				foreach (var item in e.RemovedItems)
-					SetCheckboxSelectionState(item);
+				SelectAllCheckbox.IsChecked = newState;
+			}
+			finally
+			{
+				_suppressSelectAllCheckboxEvents = false;
 			}
 		}
 
@@ -473,7 +524,7 @@ namespace Files.App.Views.Layouts
 						NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, selectedFolders.First());
 					}
 				}
-				else if (!ctrlPressed && !shiftPressed && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+				else if (!ctrlPressed && !shiftPressed)
 				{
 					if (SelectedItems?.Any() ?? false)
 					{
@@ -593,8 +644,8 @@ namespace Files.App.Views.Layouts
 			}
 
 			// Check if the setting to open items with a single click is turned on
-			if ((item.PrimaryItemAttribute is StorageItemTypes.File && UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick) ||
-				(item.PrimaryItemAttribute is StorageItemTypes.Folder && UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick is OpenFoldersWithOneClickEnum.Always))
+			if ((item.PrimaryItemAttribute is StorageItemTypes.File && UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType)) ||
+				(item.PrimaryItemAttribute is StorageItemTypes.Folder && UserSettingsService.FoldersSettingsService.OpenFoldersWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType)))
 			{
 				ResetRenameDoubleClick();
 				await Commands.OpenItem.ExecuteAsync();
@@ -643,9 +694,9 @@ namespace Files.App.Views.Layouts
 			if (item == null && sender is ListView listView && listView.SelectedItem is ListedItem selectedItem)
 				item = selectedItem;
 
-			if (item != null && item.PrimaryItemAttribute == StorageItemTypes.File && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			if (item != null && item.PrimaryItemAttribute == StorageItemTypes.File && !UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))
 				await OpenItem(item);
-			else if (item != null && item.PrimaryItemAttribute == StorageItemTypes.Folder && UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick is not OpenFoldersWithOneClickEnum.Always)
+			else if (item != null && item.PrimaryItemAttribute == StorageItemTypes.Folder && !UserSettingsService.FoldersSettingsService.OpenFoldersWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))
 				await OpenItem(item);
 			else if (item == null && UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 				await Commands.NavigateUp.ExecuteAsync();
@@ -744,14 +795,47 @@ namespace Files.App.Views.Layouts
 
 		private void SizeAllColumnsToFit_Click(object sender, RoutedEventArgs e)
 		{
-			// If there aren't items, do not make columns fit
+			_ = Commands.AutoFitColumns.ExecuteAsync();
+		}
+
+		public void AutoFitColumns()
+		{
 			if (!FileList.Items.Any())
 				return;
 
-			// For scalability, just count the # of public `ColumnViewModel` properties in ColumnsViewModel
+			// Scale to whatever DetailsLayoutColumnItem properties exist on ColumnsViewModel so new columns don't need a code change here.
 			int totalColumnCount = ColumnsViewModel.GetType().GetProperties().Count(prop => prop.PropertyType == typeof(DetailsLayoutColumnItem));
 			for (int columnIndex = 1; columnIndex <= totalColumnCount; columnIndex++)
 				ResizeColumnToFit(columnIndex);
+		}
+
+		private void AutoFitColumnsIfEnabled()
+		{
+			if (!UserSettingsService.LayoutSettingsService.AutoSizeColumnsInDetailsLayout)
+				return;
+
+			// Trailing debounce so bursts of item adds and extended-property updates during a folder load collapse into one resize.
+			_autoFitColumnsTimer ??= DispatcherQueue.CreateTimer();
+			_autoFitColumnsTimer.Debounce(
+				() => _ = Commands.AutoFitColumns.ExecuteAsync(),
+				TimeSpan.FromMilliseconds(250));
+		}
+
+		private void ShellViewModel_ItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs e)
+		{
+			if (e.Status == ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete)
+				AutoFitColumnsIfEnabled();
+		}
+
+		private void FileListItems_VectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs e)
+		{
+			AutoFitColumnsIfEnabled();
+		}
+
+		protected override async Task CommitRenameAsync(TextBox textBox)
+		{
+			await base.CommitRenameAsync(textBox);
+			AutoFitColumnsIfEnabled();
 		}
 
 		private void ResizeColumnToFit(int columnToResize)
@@ -911,6 +995,20 @@ namespace Files.App.Views.Layouts
 		private void FileList_Loaded(object sender, RoutedEventArgs e)
 		{
 			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
+			const double OffsetCorrection = 88; // HeaderGrid (40) + ListViewHeaderItem (44 + 4 margin)
+
+			RootGridZoom.ViewChangeStarted += (_, args) =>
+			{
+				var scroller = ContentScroller;
+				if (args.IsSourceZoomedInView || scroller is null)
+					return;
+				void OnZoomScrolled(object? s, ScrollViewerViewChangedEventArgs ve)
+				{
+					scroller.ViewChanged -= OnZoomScrolled; 
+					scroller.ChangeView(0, Math.Max(0, scroller.VerticalOffset - OffsetCorrection), null, true);
+				}
+				scroller.ViewChanged += OnZoomScrolled;
+			};
 		}
 
 		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
@@ -1064,6 +1162,28 @@ namespace Files.App.Views.Layouts
 		private void SetToolTip(TextBlock textBlock)
 		{
 			ToolTipService.SetToolTip(textBlock, textBlock.IsTextTrimmed ? textBlock.Text : null);
+		}
+
+		private async void ViewSizeButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (sender is not FrameworkElement { DataContext: ListedItem item })
+				return;
+
+			item.IsCalculatingSize = true;
+			var sizeProvider = Ioc.Default.GetRequiredService<Services.SizeProvider.ISizeProvider>();
+			var updateTask = Task.Run(() => sizeProvider.UpdateAsync(item.ItemPath, default));
+
+			try
+			{
+				if (await Task.WhenAny(updateTask, Task.Delay(300)) != updateTask)
+					item.ShowCalculatingText = true;
+				await updateTask;
+			}
+			finally
+			{
+				item.ShowCalculatingText = false;
+				item.IsCalculatingSize = false;
+			}
 		}
 
 		private void FileList_LosingFocus(UIElement sender, LosingFocusEventArgs args)

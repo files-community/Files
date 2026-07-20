@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.CloseActivePaneDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.DualPane;
+
 		public HotKey HotKey
 			=> new(Keys.W, KeyModifiers.CtrlAlt);
 

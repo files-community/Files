@@ -2,12 +2,26 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
-using System.Collections.Specialized;
 
 namespace Files.App.Controls
 {
 	public sealed partial class SidebarItem : Control
 	{
+		public SidebarView? Owner
+		{
+			get { return (SidebarView?)GetValue(OwnerProperty); }
+			set { SetValue(OwnerProperty, value); }
+		}
+		public static readonly DependencyProperty OwnerProperty =
+			DependencyProperty.Register(nameof(Owner), typeof(SidebarView), typeof(SidebarItem), new PropertyMetadata(null, OnOwnerChanged));
+
+		// Owner is assigned by the hosting ItemsRepeater's ElementPrepared (top-level rows) or by the parent row (flyout children) — recycled containers can carry a stale Owner across realizations, so the chevron-column visual state must re-apply whenever Owner flips.
+		private static void OnOwnerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (d is SidebarItem item && item.Owner is { } owner)
+				VisualStateManager.GoToState(item, owner.SupportsExpansion ? "OwnerSupportsExpansion" : "OwnerDoesNotSupportExpansion", false);
+		}
+
 		public bool IsSelected
 		{
 			get { return (bool)GetValue(IsSelectedProperty); }
@@ -24,14 +38,52 @@ namespace Files.App.Controls
 		public static readonly DependencyProperty IsExpandedProperty =
 			DependencyProperty.Register(nameof(IsExpanded), typeof(bool), typeof(SidebarItem), new PropertyMetadata(true, OnPropertyChanged));
 
-		public double ChildrenPresenterHeight
+		public int NestingLevel
 		{
-			get { return (double)GetValue(ChildrenPresenterHeightProperty); }
-			set { SetValue(ChildrenPresenterHeightProperty, value); }
+			get { return (int)GetValue(NestingLevelProperty); }
+			set { SetValue(NestingLevelProperty, value); }
 		}
-		// Using 30 as a default in case something goes wrong
-		public static readonly DependencyProperty ChildrenPresenterHeightProperty =
-			DependencyProperty.Register(nameof(ChildrenPresenterHeight), typeof(double), typeof(SidebarItem), new PropertyMetadata(30d));
+		public static readonly DependencyProperty NestingLevelProperty =
+			DependencyProperty.Register(nameof(NestingLevel), typeof(int), typeof(SidebarItem), new PropertyMetadata(0, OnNestingLevelChanged));
+
+		public double IndentWidth
+		{
+			get { return (double)GetValue(IndentWidthProperty); }
+			set { SetValue(IndentWidthProperty, value); }
+		}
+		public static readonly DependencyProperty IndentWidthProperty =
+			DependencyProperty.Register(nameof(IndentWidth), typeof(double), typeof(SidebarItem), new PropertyMetadata(0d));
+
+		private static void OnNestingLevelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (d is SidebarItem item && e.NewValue is int level)
+				item.IndentWidth = level * 16d;
+		}
+
+		// Dims icon + text + chevron + decorator only; the selection indicator and pointer-over fill stay at full opacity so a selected hidden row still reads as selected.
+		public double ContentOpacity
+		{
+			get { return (double)GetValue(ContentOpacityProperty); }
+			set { SetValue(ContentOpacityProperty, value); }
+		}
+		public static readonly DependencyProperty ContentOpacityProperty =
+			DependencyProperty.Register(nameof(ContentOpacity), typeof(double), typeof(SidebarItem), new PropertyMetadata(1.0));
+
+		public bool IsInFlyout
+		{
+			get { return (bool)GetValue(IsInFlyoutProperty); }
+			set { SetValue(IsInFlyoutProperty, value); }
+		}
+		public static readonly DependencyProperty IsInFlyoutProperty =
+			DependencyProperty.Register(nameof(IsInFlyout), typeof(bool), typeof(SidebarItem), new PropertyMetadata(false));
+
+		public ISidebarItemModel? Item
+		{
+			get { return (ISidebarItemModel)GetValue(ItemProperty); }
+			set { SetValue(ItemProperty, value); }
+		}
+		public static readonly DependencyProperty ItemProperty =
+			DependencyProperty.Register(nameof(Item), typeof(ISidebarItemModel), typeof(SidebarItem), new PropertyMetadata(null));
 
 		public bool UseReorderDrop
 		{
@@ -70,53 +122,6 @@ namespace Files.App.Controls
 
 		[GeneratedDependencyProperty]
 		public partial object? ToolTip { get; set; }
-
-		[GeneratedDependencyProperty]
-		public partial bool IsPaddedItem { get; set; }
-
-		[GeneratedDependencyProperty]
-		public partial object? Children { get; set; }
-
-		[GeneratedDependencyProperty, Obsolete]
-		public partial object? Item { get; set; }
-
-		[GeneratedDependencyProperty]
-		public partial SidebarView? Owner { get; set; }
-
-		[GeneratedDependencyProperty]
-		public partial bool IsInFlyout { get; set; }
-
-		partial void OnChildrenPropertyChanged(DependencyPropertyChangedEventArgs e)
-		{
-			if (e.OldValue is INotifyCollectionChanged oldNCC)
-				oldNCC.CollectionChanged -= ChildItems_CollectionChanged;
-			if (e.NewValue is INotifyCollectionChanged newNCC)
-				newNCC.CollectionChanged += ChildItems_CollectionChanged;
-		}
-
-		partial void OnOwnerPropertyChanged(DependencyPropertyChangedEventArgs e)
-		{
-			if (Owner is null)
-				return;
-
-			DisplayMode = Owner.DisplayMode;
-
-			Owner.RegisterPropertyChangedCallback(SidebarView.DisplayModeProperty, (sender, args) =>
-			{
-				DisplayMode = Owner.DisplayMode;
-			});
-			Owner.RegisterPropertyChangedCallback(SidebarView.SelectedItemProperty, (sender, args) =>
-			{
-				ReevaluateSelection();
-			});
-
-			ReevaluateSelection();
-		}
-
-		partial void OnIsInFlyoutPropertyChanged(DependencyPropertyChangedEventArgs e)
-		{
-			VisualStateManager.GoToState(this, DisplayMode is SidebarDisplayMode.Compact && !IsInFlyout ? "Compact" : "NonCompact", true);
-		}
 
 		public static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{

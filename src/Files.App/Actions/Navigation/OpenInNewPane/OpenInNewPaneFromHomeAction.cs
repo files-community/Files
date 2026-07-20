@@ -11,7 +11,9 @@ namespace Files.App.Actions
 			HomePageContext.RightClickedItem is not null &&
 			(HomePageContext.RightClickedItem is WidgetFileTagCardItem fileTagItem
 				? fileTagItem.IsFolder
-				: true);
+				: true) &&
+			ContentPageContext.IsMultiPaneAvailable &&
+			!ContentPageContext.IsMultiPaneActive;
 
 		public override bool IsAccessibleGlobally
 			=> false;
@@ -24,7 +26,7 @@ namespace Files.App.Actions
 			if (await DriveHelpers.CheckEmptyDrive(HomePageContext.RightClickedItem!.Path))
 				return;
 
-			ContentPageContext.ShellPage!.PaneHolder?.OpenSecondaryPane(HomePageContext.RightClickedItem!.Path ?? string.Empty);
+			ContentPageContext.ShellPage!.PaneHolder?.OpenSecondaryPane(HomePageContext.RightClickedItem!.Path ?? string.Empty, parameter as ShellPaneArrangement? ?? ShellPaneArrangement.None);
 		}
 
 		protected override void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

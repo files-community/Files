@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Files.App.Helpers.Application;
+using Files.App.Services.Git;
 using Files.App.Services.SizeProvider;
 using Files.App.Utils.Logger;
 using Files.App.ViewModels.Settings;
@@ -185,8 +186,8 @@ namespace Files.App.Helpers
 				options.AutoSessionTracking = true;
 				var packageVersion = Package.Current.Id.Version;
 				options.Release = $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}";
-				options.TracesSampleRate = 0.80;
-				options.ProfilesSampleRate = 0.40;
+				options.TracesSampleRate = 0.10;
+				options.ProfilesSampleRate = 0.05;
 				options.Environment = AppEnvironment == AppEnvironment.StorePreview || AppEnvironment == AppEnvironment.SideloadPreview ? "preview" : "production";
 
 				options.DisableWinUiUnhandledExceptionIntegration();
@@ -230,6 +231,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IMultitaskingContext, MultitaskingContext>()
 					.AddSingleton<ITagsContext, TagsContext>()
 					.AddSingleton<ISidebarContext, SidebarContext>()
+					.AddSingleton<IShelfContext, ShelfContext>()
 					// Services
 					.AddSingleton<IWindowsRecentItemsService, WindowsRecentItemsService>()
 					.AddSingleton<IWindowsIniService, WindowsIniService>()
@@ -264,6 +266,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IStorageArchiveService, StorageArchiveService>()
 					.AddSingleton<IStorageSecurityService, StorageSecurityService>()
 					.AddSingleton<IWindowsCompatibilityService, WindowsCompatibilityService>()
+					.AddSingleton</*IVersionControlService,*/ LibGit2Service>()
 					// ViewModels
 					.AddSingleton<MainPageViewModel>()
 					.AddSingleton<InfoPaneViewModel>()
@@ -272,6 +275,7 @@ namespace Files.App.Helpers
 					.AddSingleton<ShelfViewModel>()
 					.AddSingleton<StatusCenterViewModel>()
 					.AddSingleton<AppearanceViewModel>()
+					.AddSingleton<ToolbarCustomizationViewModel>()
 					.AddTransient<HomeViewModel>()
 					.AddSingleton<QuickAccessWidgetViewModel>()
 					.AddSingleton<DrivesWidgetViewModel>()
@@ -317,6 +321,8 @@ namespace Files.App.Helpers
 				}
 			})
 			.ToList();
+
+			userSettingsService.GeneralSettingsService.LastSessionSelectedTabIndex = App.AppModel.TabStripSelectedIndex;
 		}
 
 		/// <summary>
@@ -324,95 +330,113 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static void HandleAppUnhandledException(Exception? ex, bool showToastNotification)
 		{
-			var generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
-
-			StringBuilder formattedException = new()
+			try
 			{
-				Capacity = 200
-			};
+				// IoC may not be configured yet if the exception happened during early startup
+				var generalSettingsService = SafetyExtensions.IgnoreExceptions(Ioc.Default.GetService<IGeneralSettingsService>);
 
-			formattedException.AppendLine("--------- UNHANDLED EXCEPTION ---------");
-
-			if (ex is not null)
-			{
-				ex.Data[Mechanism.HandledKey] = false;
-				ex.Data[Mechanism.MechanismKey] = "Application.UnhandledException";
-
-				SentrySdk.CaptureException(ex, scope =>
+				StringBuilder formattedException = new()
 				{
-					scope.User.Id = generalSettingsService?.UserId;
-					scope.Level = SentryLevel.Fatal;
+					Capacity = 200
+				};
+
+				formattedException.AppendLine("--------- UNHANDLED EXCEPTION ---------");
+
+				if (ex is not null)
+				{
+					ex.Data[Mechanism.HandledKey] = false;
+					ex.Data[Mechanism.MechanismKey] = "Application.UnhandledException";
+
+					SafetyExtensions.IgnoreExceptions(() =>
+					{
+						SentrySdk.CaptureException(ex, scope =>
+						{
+							scope.User.Id = generalSettingsService?.UserId;
+							scope.Level = SentryLevel.Fatal;
+						});
+					});
+
+					formattedException.AppendLine($">>>> HRESULT: {ex.HResult}");
+
+					if (ex.Message is not null)
+					{
+						formattedException.AppendLine("--- MESSAGE ---");
+						formattedException.AppendLine(ex.Message);
+					}
+					if (ex.StackTrace is not null)
+					{
+						formattedException.AppendLine("--- STACKTRACE ---");
+						formattedException.AppendLine(ex.StackTrace);
+					}
+					if (ex.Source is not null)
+					{
+						formattedException.AppendLine("--- SOURCE ---");
+						formattedException.AppendLine(ex.Source);
+					}
+					if (ex.InnerException is not null)
+					{
+						formattedException.AppendLine("--- INNER ---");
+						formattedException.AppendLine(ex.InnerException.ToString());
+					}
+				}
+				else
+				{
+					formattedException.AppendLine("Exception data is not available.");
+				}
+
+				formattedException.AppendLine("---------------------------------------");
+
+				Debug.WriteLine(formattedException.ToString());
+
+				// Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
+				Debugger.Break();
+
+				// Save the current tab list in case it was overwriten by another instance
+				SafetyExtensions.IgnoreExceptions(SaveSessionTabs);
+				SafetyExtensions.IgnoreExceptions(() => App.Logger?.LogError(ex, ex?.Message ?? "An unhandled error occurred."));
+
+				if (!showToastNotification)
+					return;
+
+				SafetyExtensions.IgnoreExceptions(AppToastNotificationHelper.ShowUnhandledExceptionToast);
+
+				SafetyExtensions.IgnoreExceptions(() =>
+				{
+					// Restart the app
+					var userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+					if (userSettingsService is null)
+						return;
+
+					var lastSessionTabList = userSettingsService.GeneralSettingsService.LastSessionTabList;
+
+					if (userSettingsService.GeneralSettingsService.LastCrashedTabList?.SequenceEqual(lastSessionTabList) ?? false)
+					{
+						// Avoid infinite restart loop
+						userSettingsService.GeneralSettingsService.LastSessionTabList = null;
+					}
+					else
+					{
+						userSettingsService.AppSettingsService.RestoreTabsOnStartup = true;
+						userSettingsService.GeneralSettingsService.LastCrashedTabList = lastSessionTabList;
+
+						// Try to re-launch and start over
+						MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+						{
+							await Launcher.LaunchUriAsync(new Uri("files-dev:"));
+						})
+						.Wait(100);
+					}
 				});
-
-				formattedException.AppendLine($">>>> HRESULT: {ex.HResult}");
-
-				if (ex.Message is not null)
-				{
-					formattedException.AppendLine("--- MESSAGE ---");
-					formattedException.AppendLine(ex.Message);
-				}
-				if (ex.StackTrace is not null)
-				{
-					formattedException.AppendLine("--- STACKTRACE ---");
-					formattedException.AppendLine(ex.StackTrace);
-				}
-				if (ex.Source is not null)
-				{
-					formattedException.AppendLine("--- SOURCE ---");
-					formattedException.AppendLine(ex.Source);
-				}
-				if (ex.InnerException is not null)
-				{
-					formattedException.AppendLine("--- INNER ---");
-					formattedException.AppendLine(ex.InnerException.ToString());
-				}
 			}
-			else
+			catch
 			{
-				formattedException.AppendLine("Exception data is not available.");
+				// Swallow any exception escaping the handler so it can't re-enter
+				// Application.UnhandledException before Process.Kill terminates the process.
 			}
-
-			formattedException.AppendLine("---------------------------------------");
-
-			Debug.WriteLine(formattedException.ToString());
-
-			// Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
-			Debugger.Break();
-
-			// Save the current tab list in case it was overwriten by another instance
-			SaveSessionTabs();
-			App.Logger?.LogError(ex, ex?.Message ?? "An unhandled error occurred.");
-
-			if (!showToastNotification)
-				return;
-
-			SafetyExtensions.IgnoreExceptions(() =>
+			finally
 			{
-				AppToastNotificationHelper.ShowUnhandledExceptionToast();
-			});
-
-			// Restart the app
-			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			var lastSessionTabList = userSettingsService.GeneralSettingsService.LastSessionTabList;
-
-			if (userSettingsService.GeneralSettingsService.LastCrashedTabList?.SequenceEqual(lastSessionTabList) ?? false)
-			{
-				// Avoid infinite restart loop
-				userSettingsService.GeneralSettingsService.LastSessionTabList = null;
+				Process.GetCurrentProcess().Kill();
 			}
-			else
-			{
-				userSettingsService.AppSettingsService.RestoreTabsOnStartup = true;
-				userSettingsService.GeneralSettingsService.LastCrashedTabList = lastSessionTabList;
-
-				// Try to re-launch and start over
-				MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
-				{
-					await Launcher.LaunchUriAsync(new Uri("files-dev:"));
-				})
-				.Wait(100);
-			}
-			Process.GetCurrentProcess().Kill();
 		}
 
 		/// <summary>
