@@ -241,38 +241,35 @@ namespace Files.App.Utils.Storage
 
 		private IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadWithEncodingAsync()
 		{
-			return AsyncInfo.Run((cancellationToken) =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IRandomAccessStreamWithContentType>(async () =>
 			{
-				return Task.Run<IRandomAccessStreamWithContentType>(() =>
+				using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(CurrentEncoding!));
+
+				if (!string.IsNullOrEmpty(Credentials.Password))
+					zipFile.Password = Credentials.Password;
+
+				var targetName = GetEntryRelativePath();
+
+				foreach (ZipEntry entry in zipFile)
 				{
-					using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(CurrentEncoding!));
+					if (!entry.IsFile)
+						continue;
 
-					if (!string.IsNullOrEmpty(Credentials.Password))
-						zipFile.Password = Credentials.Password;
-
-					var targetName = GetEntryRelativePath();
-
-					foreach (ZipEntry entry in zipFile)
+					if (string.Equals(entry.Name.Replace('\\', '/'), targetName, StringComparison.OrdinalIgnoreCase))
 					{
-						if (!entry.IsFile)
-							continue;
-
-						if (string.Equals(entry.Name.Replace('\\', '/'), targetName, StringComparison.OrdinalIgnoreCase))
+						var ms = new MemoryStream();
+						using (var zipStream = zipFile.GetInputStream(entry))
 						{
-							var ms = new MemoryStream();
-							using (var zipStream = zipFile.GetInputStream(entry))
-							{
-								zipStream.CopyTo(ms);
-							}
-							ms.Position = 0;
-							var nsStream = new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size);
-							return new StreamWithContentType(nsStream);
+							zipStream.CopyTo(ms);
 						}
+						ms.Position = 0;
+						var nsStream = new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size);
+						return new StreamWithContentType(nsStream);
 					}
-
-					return null;
-				});
-			});
+				}
+				return null;
+				
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
 		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync()
