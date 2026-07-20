@@ -67,7 +67,13 @@ namespace Files.App.Utils.Storage
 			=> this.backingFile = backingFile;
 
 		public override IAsyncOperation<StorageFile> ToStorageFileAsync()
-			=> StorageFile.CreateStreamedFileAsync(Name, ZipDataStreamingHandler(Path), null);
+			=> StorageFile.CreateStreamedFileAsync(
+				Name, 
+				CurrentEncoding is not null && Path != containerPath 
+					? ZipDataStreamingHandlerWithEncoding(Path) 
+					: ZipDataStreamingHandler(Path)
+				, null
+			);
 
 		public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
 		{
@@ -755,6 +761,48 @@ namespace Files.App.Utils.Storage
 							await zipFile.ExtractFileAsync(entry.Index, outStream);
 						}
 						request.Dispose();
+					}
+				}
+				catch
+				{
+					request.FailAndClose(StreamedFileFailureMode.Failed);
+				}
+			};
+		}
+
+		private StreamedFileDataRequestedHandler ZipDataStreamingHandlerWithEncoding(string name)
+		{
+			return async request =>
+			{
+				try
+				{
+					using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(CurrentEncoding!));
+
+					if (!string.IsNullOrEmpty(Credentials.Password))
+						zipFile.Password = Credentials.Password;
+
+					var entry = zipFile.Cast<ZipEntry>().FirstOrDefault(
+						x => x.IsFile 
+						&& string.Equals(
+							System.IO.Path.Combine(
+								containerPath, x.Name.Replace('/', '\\')
+							), 
+							name,
+							StringComparison.OrdinalIgnoreCase
+						)
+					);
+					if (entry is not null && entry.IsFile)
+					{
+						using var zipStream = zipFile.GetInputStream(entry);
+						await using (var outStream = request.AsStreamForWrite())
+						{
+							await zipStream.CopyToAsync(outStream);
+						}
+						request.Dispose();
+					}
+					else
+					{
+						request.FailAndClose(StreamedFileFailureMode.CurrentlyUnavailable);
 					}
 				}
 				catch
