@@ -2600,6 +2600,9 @@ namespace Files.App.ViewModels
 			const uint FILE_ACTION_REMOVED_STREAM = 0x00000007;
 			const uint FILE_ACTION_MODIFIED_STREAM = 0x00000008;
 
+			// Not a system action; requeued by the stream cases below
+			const uint FILE_ACTION_RECHECK_STREAM = 0xFFFFFFFF;
+
 			const int UPDATE_BATCH_SIZE = 32;
 			var sampler = new IntervalSampler(200);
 			var updateQueue = new Queue<string>();
@@ -2679,6 +2682,9 @@ namespace Files.App.ViewModels
 												foreach (var adsItem in filesAndFolders.ToList().OfType<AlternateStreamItem>().Where(x => x.MainStreamPath.Equals(oldPath, StringComparison.OrdinalIgnoreCase)))
 													adsItem.ItemPath = $"{newPath}:{adsItem.ItemNameRaw}";
 											});
+
+											if (await SyncAlternateStreamsForFileAsync(newPath))
+												anyEdits = true;
 										}
 										else
 										{
@@ -2691,8 +2697,19 @@ namespace Files.App.ViewModels
 									case FILE_ACTION_ADDED_STREAM:
 									case FILE_ACTION_REMOVED_STREAM:
 									case FILE_ACTION_MODIFIED_STREAM:
+									case FILE_ACTION_RECHECK_STREAM:
 										if (await SyncAlternateStreamsAsync(operation.FileName))
 											anyEdits = true;
+										else if (operation.Action != FILE_ACTION_RECHECK_STREAM)
+										{
+											// The notification can arrive before the operation is visible on disk
+											var streamPath = operation.FileName;
+											_ = Task.Delay(500).ContinueWith(_ =>
+											{
+												operationQueue.Enqueue((FILE_ACTION_RECHECK_STREAM, streamPath));
+												operationEvent.Set();
+											});
+										}
 										break;
 								}
 							}
@@ -2977,18 +2994,21 @@ namespace Files.App.ViewModels
 			return null;
 		}
 
-		private async Task<bool> SyncAlternateStreamsAsync(string streamPath)
+		private Task<bool> SyncAlternateStreamsAsync(string streamPath)
 		{
-			if (!UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
-				return false;
-
 			// Stream notifications name the stream as "<file>:<stream>"; a colon not past the
 			// last separator is the drive colon, i.e. an event for the unnamed data stream
 			var separatorIndex = streamPath.LastIndexOf(':');
 			if (separatorIndex <= streamPath.LastIndexOf('\\'))
-				return false;
+				return Task.FromResult(false);
 
-			var mainStreamPath = streamPath.Substring(0, separatorIndex);
+			return SyncAlternateStreamsForFileAsync(streamPath.Substring(0, separatorIndex));
+		}
+
+		private async Task<bool> SyncAlternateStreamsForFileAsync(string mainStreamPath)
+		{
+			if (!UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
+				return false;
 
 			try
 			{
