@@ -2962,7 +2962,7 @@ namespace Files.App.ViewModels
 					if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
 					{
 						// Main file is removed, remove connected ADS
-						foreach (var adsItem in filesAndFolders.ToList().Where(x => x is AlternateStreamItem ads && ads.MainStreamPath == matchingItem.ItemPath))
+						foreach (var adsItem in filesAndFolders.ToList().Where(x => x is AlternateStreamItem ads && ads.MainStreamPath.Equals(matchingItem.ItemPath, StringComparison.OrdinalIgnoreCase)))
 							filesAndFolders.Remove(adsItem);
 					}
 
