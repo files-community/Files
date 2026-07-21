@@ -1,4 +1,13 @@
-﻿using Windows.UI.StartScreen;
+﻿using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
+using Windows.Storage;
+using Windows.UI.StartScreen;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Services
 {
@@ -29,19 +38,18 @@ namespace Files.App.Services
 
 			try
 			{
-				var path150x150 = new Uri("ms-appx:///Assets/tile-0-300x300.png");
-				var path71x71 = new Uri("ms-appx:///Assets/tile-0-250x250.png");
+				var fileIcon = ExtractFileIcon(storable, tileId);
 
 				var tile = new SecondaryTile(
 					tileId,
 					displayName,
-					storable.Id,
-					path150x150,
-					TileSize.Square150x150)
+					$"files-dev.exe \"{storable.Id}\"",
+					fileIcon,
+					TileSize.Default)
 				{
 					VisualElements =
 					{
-						Square71x71Logo = path71x71,
+						Square44x44Logo = fileIcon,
 						ShowNameOnSquare150x150Logo = true
 					}
 				};
@@ -55,7 +63,6 @@ namespace Files.App.Services
 				Debug.WriteLine(tileId);
 				Debug.WriteLine(e.ToString());
 			}
-
 		}
 
 		/// <inheritdoc/>
@@ -65,18 +72,54 @@ namespace Files.App.Services
 			var tileId = GetNativeTileId(storable.Id);
 
 			await startScreen.TryRemoveSecondaryTileAsync(tileId);
+
+			try
+			{
+				var iconFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("startmenu", CreationCollisionOption.OpenIfExists);
+				var iconFile = await iconFolder.GetFileAsync($"{tileId}.png");
+				await iconFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
+			}
+			catch (FileNotFoundException) { }
 		}
 
 		private static string GetNativeTileId(string id)
 		{
-			// Remove symbols because windows doesn't like them in the ID, and will blow up
-			var str = $"folder-{new string(id.Where(c => char.IsLetterOrDigit(c)).ToArray())}";
+			return new Guid(SHA1.HashData(Encoding.UTF8.GetBytes(id.ToLowerInvariant()))[..16]).ToString();
+		}
 
-			// If the id string is too long, Windows will throw an error, so remove every other character
-			if (str.Length > 64)
-				str = new string(str.Where((_, i) => i % 2 == 0).ToArray());
+		private static Uri ExtractFileIcon(IStorable file, string id)
+		{
+			var fileName = $"{id}.png";
+			var iconFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "startmenu");
+			var iconPath = Path.Combine(iconFolder, fileName);
+			Directory.CreateDirectory(iconFolder);
 
-			return str;
+			try
+			{
+				using (var managedIcon = Icon.ExtractAssociatedIcon(file.Id))
+				{
+					using (var bitmap = managedIcon!.ToBitmap())
+					{
+						bitmap.Save(iconPath, ImageFormat.Png);
+					}
+				}
+
+				return new Uri($"ms-appdata:///local/startmenu/{fileName}");
+			}
+			catch
+			{
+				int shell32IconId = file is IFolder ? 4 : 0;
+
+				using (var managedIcon = Icon.ExtractIcon(Path.Combine(Environment.SystemDirectory, "shell32.dll"), shell32IconId))
+				{
+					using (var bitmap = managedIcon!.ToBitmap())
+					{
+						bitmap.Save(iconPath, ImageFormat.Png);
+					}
+				}
+
+				return new Uri($"ms-appdata:///local/startmenu/{fileName}");
+			}
 		}
 	}
 }

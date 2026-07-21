@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -107,13 +108,24 @@ namespace Files.App
 					}
 					else
 					{
-						var parsedArgs = eventArgs.Uri.Query.TrimStart('?').Split('=');
-						var unescapedValue = Uri.UnescapeDataString(parsedArgs[1].Split('&')[0]);
-						if (parsedArgs[0] == "tab" && parsedArgs.Length > 3 &&
-							int.TryParse(parsedArgs[2].Split('&')[0], out var dx) &&
-							int.TryParse(parsedArgs[3], out var dy))
-							AppWindow?.Move(new(dx - 100, dy - 16));
-						var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(unescapedValue).AsTask());
+						string[] parsedArgs;
+						string? unescapedValue;
+						StorageFolder? folder;
+						try
+						{
+							parsedArgs = eventArgs.Uri.Query.TrimStart('?').Split('=');
+							unescapedValue = Uri.UnescapeDataString(parsedArgs[1].Split('&')[0]);
+							if (parsedArgs[0] == "tab" && parsedArgs.Length > 3 &&
+								int.TryParse(parsedArgs[2].Split('&')[0], out var dx) &&
+								int.TryParse(parsedArgs[3], out var dy))
+								AppWindow?.Move(new(dx - 100, dy - 16));
+							folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(unescapedValue).AsTask());
+						}
+						catch
+						{
+							rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+							break;
+						}
 						if (folder is not null && !string.IsNullOrEmpty(folder.Path))
 						{
 							// Convert short name to long name (#6190)
@@ -262,6 +274,7 @@ namespace Files.App
 
 		private async Task InitializeFromCmdLineArgsAsync(Frame rootFrame, ParsedCommands parsedCommands, string activationPath = "")
 		{
+			// Navigate to a folder in the UI
 			async Task PerformNavigationAsync(string payload, string selectItem = null)
 			{
 				if (!string.IsNullOrEmpty(payload))
@@ -315,12 +328,42 @@ namespace Files.App
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
 			}
+
+			// Open a path (navigate to a folder in the UI / open a file depending on what the path attributes are)
+			async Task OpenPathAsync(string payload)
+			{
+				if (!string.IsNullOrEmpty(payload))
+				{
+					try
+					{
+						var target = Path.IsPathFullyQualified(payload) ? IO.Path.GetFullPath(payload) : IO.Path.GetFullPath(IO.Path.Combine(activationPath, payload));
+						var attributes = IO.File.GetAttributes(target);
+						if (attributes.HasFlag(IO.FileAttributes.Directory) || FileExtensionHelpers.IsBrowsableZipFile(target, out _))
+							await PerformNavigationAsync(target);
+						else
+							await LaunchHelper.LaunchAppAsync("explorer", payload, activationPath);
+					}
+					catch
+					{
+						await LaunchHelper.LaunchAppAsync("explorer", payload, activationPath);
+					}
+				}
+				else
+				{
+					await PerformNavigationAsync(null!);
+				}
+			}
+
 			foreach (var command in parsedCommands)
 			{
 				switch (command.Type)
 				{
 					case ParsedCommandType.OpenDirectory:
+						await OpenPathAsync(command.Payload);
+						break;
 					case ParsedCommandType.OpenPath:
+						await OpenPathAsync(command.Payload);
+						break;
 					case ParsedCommandType.ExplorerShellCommand:
 						var selectItemCommand = parsedCommands.FirstOrDefault(x => x.Type == ParsedCommandType.SelectItem);
 						await PerformNavigationAsync(command.Payload, selectItemCommand?.Payload);
@@ -355,15 +398,8 @@ namespace Files.App
 						}
 						else
 						{
-							if (!string.IsNullOrEmpty(command.Payload))
-							{
-								var target = IO.Path.GetFullPath(IO.Path.Combine(activationPath, command.Payload));
-								await PerformNavigationAsync(target);
-							}
-							else
-							{
-								await PerformNavigationAsync(null);
-							}
+							await OpenPathAsync(command.Payload);
+							break;
 						}
 						break;
 

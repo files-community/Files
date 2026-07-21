@@ -24,16 +24,20 @@ namespace Files.App.Actions
 		public ActionCategory Category
 			=> ActionCategory.Start;
 
+		public bool IsExecutable
+			=> context.ShellPage is not null && context.SelectedItems.Any(item => item.IsItemPinnedToStart) && context.PageType is not ContentPageTypes.ZipFolder;
+
 		public UnpinFromStartAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
+		// Logic must stay consistent with PinToStartAction.ExecuteAsync()
 		public async Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.SelectedItems.Count > 0)
+			if (context.SelectedItems.Count > 0 && context.ShellPage?.SlimContentPage?.SelectedItems is not null)
 			{
-				foreach (ListedItem listedItem in context.ShellPage?.SlimContentPage.SelectedItems)
+				foreach (ListedItem listedItem in context.ShellPage.SlimContentPage.SelectedItems)
 				{
 					await SafetyExtensions.IgnoreExceptions(async () =>
 					{
@@ -47,7 +51,7 @@ namespace Files.App.Actions
 					});
 				}
 			}
-			else
+			else if (context.ShellPage?.ShellViewModel?.CurrentFolder is not null)
 			{
 				await SafetyExtensions.IgnoreExceptions(async () =>
 				{
