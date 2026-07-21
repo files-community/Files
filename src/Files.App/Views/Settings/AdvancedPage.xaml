@@ -206,6 +206,36 @@
 				</wctcontrols:SettingsCard.HeaderIcon>
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowFlattenOptions}" IsOn="{x:Bind ViewModel.ShowFlattenOptions, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
+
+			<!--  Use Robocopy for file operations  -->
+			<wctcontrols:SettingsExpander
+				Description="{helpers:ResourceString Name=UseRobocopyForFileOperationsDescription}"
+				Header="{helpers:ResourceString Name=UseRobocopyForFileOperations}"
+				IsExpanded="False">
+				<wctcontrols:SettingsExpander.HeaderIcon>
+					<FontIcon Glyph="&#xE8B5;" />
+				</wctcontrols:SettingsExpander.HeaderIcon>
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=UseRobocopyForFileOperations}" IsOn="{x:Bind ViewModel.UseRobocopyForFileOperations, Mode=TwoWay}" />
+				<wctcontrols:SettingsExpander.ItemsHeader>
+					<Grid
+						Padding="8"
+						HorizontalAlignment="Stretch"
+						Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+						RowSpacing="4">
+						<StackPanel Orientation="Horizontal" Spacing="12">
+							<TextBlock VerticalAlignment="Center" Text="{helpers:ResourceString Name=RobocopyThreads}" />
+							<NumberBox
+								Width="160"
+								LargeChange="8"
+								Maximum="128"
+								Minimum="1"
+								SmallChange="1"
+								SpinButtonPlacementMode="Compact"
+								Value="{x:Bind ViewModel.RobocopyThreads, Mode=TwoWay}" />
+						</StackPanel>
+					</Grid>
+				</wctcontrols:SettingsExpander.ItemsHeader>
+			</wctcontrols:SettingsExpander>
 		</StackPanel>
 	</Grid>
 </Page>

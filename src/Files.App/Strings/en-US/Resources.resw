@@ -2186,6 +2186,15 @@
   <data name="ShowFlattenOptions" xml:space="preserve">
     <value>Show flatten options</value>
   </data>
+  <data name="UseRobocopyForFileOperations" xml:space="preserve">
+    <value>Use Robocopy for file operations</value>
+  </data>
+  <data name="UseRobocopyForFileOperationsDescription" xml:space="preserve">
+    <value>Use multi-threaded Robocopy engine for large copy, move, and delete operations</value>
+  </data>
+  <data name="RobocopyThreads" xml:space="preserve">
+    <value>Threads</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Select files and folders when hovering over them</value>
   </data>
