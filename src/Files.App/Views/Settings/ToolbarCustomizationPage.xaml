@@ -292,7 +292,7 @@
 									AutomationProperties.Name="{helpers:ResourceString Name=Remove}"
 									Background="Transparent"
 									BorderThickness="0"
-									Command="{Binding ElementName=PageRoot, Path=DataContext.RemoveToolbarItemCommand, Mode=OneWay}"
+									Command="{Binding ElementName=PageRoot, Path=DataContext.RemoveToolbarItemCommand, Mode=OneTime}"
 									CommandParameter="{x:Bind}"
 									ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}">
 									<Button.Resources>
@@ -352,20 +352,20 @@
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
-			<Button Command="{x:Bind ViewModel.ResetToolbarCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=ResetDefaults}" />
+			<Button Command="{x:Bind ViewModel.ResetToolbarCommand, Mode=OneTime}" Content="{helpers:ResourceString Name=ResetDefaults}" />
 			<StackPanel
 				Grid.Column="2"
 				Orientation="Horizontal"
 				Spacing="8">
 				<Button
 					MinWidth="96"
-					Command="{x:Bind ViewModel.SaveToolbarCommand, Mode=OneWay}"
+					Command="{x:Bind ViewModel.SaveToolbarCommand, Mode=OneTime}"
 					Content="{helpers:ResourceString Name=Save}"
 					IsEnabled="{x:Bind ViewModel.HasToolbarChanges, Mode=OneWay}"
 					Style="{StaticResource AccentButtonStyle}" />
 				<Button
 					MinWidth="96"
-					Command="{x:Bind ViewModel.CancelToolbarCommand, Mode=OneWay}"
+					Command="{x:Bind ViewModel.CancelToolbarCommand, Mode=OneTime}"
 					Content="{helpers:ResourceString Name=Cancel}" />
 			</StackPanel>
 		</Grid>

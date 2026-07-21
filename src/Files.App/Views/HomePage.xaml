@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Page
 	x:Class="Files.App.Views.HomePage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -15,7 +15,7 @@
 
 	<i:Interaction.Behaviors>
 		<i:EventTriggerBehavior EventName="Loaded">
-			<i:InvokeCommandAction Command="{x:Bind ViewModel.ReloadWidgetsCommand, Mode=OneWay}" />
+			<i:InvokeCommandAction Command="{x:Bind ViewModel.ReloadWidgetsCommand, Mode=OneTime}" />
 		</i:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
@@ -440,11 +440,11 @@
 					x:Load="{x:Bind Commands.SplitPaneHorizontally.IsExecutable, Mode=OneWay}"
 					Text="{helpers:ResourceString Name=SplitPane}">
 					<uc:MenuFlyoutItemWithThemedIcon
-						Command="{x:Bind Commands.SplitPaneVertically, Mode=OneWay}"
+						Command="{x:Bind Commands.SplitPaneVertically, Mode=OneTime}"
 						Text="{x:Bind Commands.SplitPaneVertically.Label}"
 						ThemedIconStyle="{x:Bind Commands.SplitPaneVertically.ThemedIconStyle}" />
 					<uc:MenuFlyoutItemWithThemedIcon
-						Command="{x:Bind Commands.SplitPaneHorizontally, Mode=OneWay}"
+						Command="{x:Bind Commands.SplitPaneHorizontally, Mode=OneTime}"
 						Text="{x:Bind Commands.SplitPaneHorizontally.Label}"
 						ThemedIconStyle="{x:Bind Commands.SplitPaneHorizontally.ThemedIconStyle}" />
 				</MenuFlyoutSubItem>
