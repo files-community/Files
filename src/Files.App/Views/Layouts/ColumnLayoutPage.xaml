@@ -165,13 +165,13 @@
 
 		<!--  Location Unavailable Indicator  -->
 		<uc:LocationUnavailableIndicator
+			Title="{x:Bind ParentShellPageInstance.ShellViewModel.LocationUnavailableTitle, Mode=OneWay}"
 			Margin="12,0"
 			HorizontalAlignment="Center"
 			VerticalAlignment="Center"
 			Canvas.ZIndex="0"
 			Glyph="{x:Bind ParentShellPageInstance.ShellViewModel.LocationUnavailableGlyph, Mode=OneWay}"
 			Message="{x:Bind ParentShellPageInstance.ShellViewModel.LocationUnavailableMessage, Mode=OneWay}"
-			Title="{x:Bind ParentShellPageInstance.ShellViewModel.LocationUnavailableTitle, Mode=OneWay}"
 			Visibility="{x:Bind ParentShellPageInstance.ShellViewModel.IsLocationUnavailable, Mode=OneWay}" />
 
 		<!--  Invalid Item Name Tip  -->
