@@ -3342,6 +3342,9 @@
   <data name="PullTimeoutError" xml:space="preserve">
     <value>git pull failed due to a timeout error</value>
   </data>
+  <data name="PullUncommittedChangesError" xml:space="preserve">
+    <value>Can't pull because your uncommitted changes would be overwritten. Commit, stash, or discard your changes, then try again.</value>
+  </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(multiple values)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
