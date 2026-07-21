@@ -1,0 +1,31 @@
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<UserControl
+	x:Class="Files.App.UserControls.LocationUnavailableIndicator"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	d:DesignHeight="300"
+	d:DesignWidth="400"
+	mc:Ignorable="d">
+
+	<StackPanel HorizontalAlignment="Center" Spacing="8">
+		<FontIcon
+			HorizontalAlignment="Center"
+			FontSize="32"
+			Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+			Glyph="{x:Bind Glyph, Mode=OneWay}" />
+		<TextBlock
+			HorizontalAlignment="Center"
+			Style="{StaticResource BodyStrongTextBlockStyle}"
+			Text="{x:Bind Title, Mode=OneWay}"
+			TextAlignment="Center"
+			TextWrapping="Wrap" />
+		<TextBlock
+			HorizontalAlignment="Center"
+			Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+			Text="{x:Bind Message, Mode=OneWay}"
+			TextAlignment="Center"
+			TextWrapping="Wrap" />
+	</StackPanel>
+</UserControl>
