@@ -25,7 +25,7 @@ namespace Files.App.Actions
 			=> ActionCategory.Start;
 
 		public bool IsExecutable
-			=> context.ShellPage is not null && context.SelectedItems.Any(item => item.IsItemPinnedToStart);
+			=> context.ShellPage is not null && context.SelectedItems.Any(item => item.IsItemPinnedToStart) && context.PageType is not ContentPageTypes.ZipFolder;
 
 		public UnpinFromStartAction()
 		{
