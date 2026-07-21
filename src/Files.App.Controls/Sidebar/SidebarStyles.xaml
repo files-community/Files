@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -38,13 +38,13 @@
 
 	<DataTemplate x:Key="DefaultSidebarItemTemplate">
 		<local:SidebarItem
+			Margin="{Binding SectionGapMargin}"
 			AutomationProperties.AutomationId="{Binding Item.Text}"
 			ContentOpacity="{Binding RowOpacity}"
 			Decorator="{Binding Item.ItemDecorator}"
 			Icon="{Binding Item.IconElement}"
 			IsExpanded="{Binding Item.IsExpanded, Mode=TwoWay}"
 			Item="{Binding Item}"
-			Margin="{Binding SectionGapMargin}"
 			NestingLevel="{Binding Depth}"
 			Text="{Binding Item.Text}"
 			ToolTip="{Binding Item.ToolTip}" />
@@ -123,9 +123,7 @@
 									RadiusY="2" />
 
 								<!--  Depth indent spacer (width = NestingLevel * 16)  -->
-								<Border
-									Grid.Column="1"
-									Width="{TemplateBinding IndentWidth}" />
+								<Border Grid.Column="1" Width="{TemplateBinding IndentWidth}" />
 
 								<!--  Own pointer surface so chevron clicks only toggle expansion (no row invoke / selection).  -->
 								<Border
