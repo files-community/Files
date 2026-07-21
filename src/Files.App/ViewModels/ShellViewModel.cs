@@ -356,6 +356,7 @@ namespace Files.App.ViewModels
 			AccessDenied,
 			NotFound,
 			DriveUnplugged,
+			PasswordRequired,
 		}
 
 		private void ShowLocationUnavailable(LocationUnavailableKind kind, string? message = null)
@@ -364,6 +365,7 @@ namespace Files.App.ViewModels
 			{
 				LocationUnavailableKind.AccessDenied => ("\uE72E", Strings.AccessDenied.GetLocalizedResource(), Strings.AccessDeniedToFolder.GetLocalizedResource()),
 				LocationUnavailableKind.NotFound => ("\uE838", Strings.FolderNotFoundDialogTitle.GetLocalizedResource(), Strings.FolderNotFoundDialogText.GetLocalizedResource()),
+				LocationUnavailableKind.PasswordRequired => ("\uE8D7", Strings.PasswordRequired.GetLocalizedResource(), Strings.PasswordRequiredMessage.GetLocalizedResource()),
 				_ => ("\uE7BA", Strings.DriveUnpluggedDialogTitle.GetLocalizedResource(), message ?? Strings.DriveUnpluggedDialogText.GetLocalizedResource()),
 			};
 
@@ -2237,28 +2239,42 @@ namespace Files.App.ViewModels
 				return;
 
 			if (rootFolder is IPasswordProtectedItem ppis)
-				ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
+				ppis.PasswordRequestedCallback = async (item) =>
+				{
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => ShowLocationUnavailable(LocationUnavailableKind.PasswordRequired));
 
-			await Task.Run(async () =>
+					return await UIFilesystemHelpers.RequestPassword(item);
+				};
+
+			try
 			{
-				List<ListedItem> finalList = await UniversalStorageEnumerator.ListEntries(
-					rootFolder,
-					currentStorageFolder,
-					cancellationToken,
-					-1,
-					async (intermediateList) =>
-					{
-						filesAndFolders.AddRange(intermediateList);
+				await Task.Run(async () =>
+				{
+					List<ListedItem> finalList = await UniversalStorageEnumerator.ListEntries(
+						rootFolder,
+						currentStorageFolder,
+						cancellationToken,
+						-1,
+						async (intermediateList) =>
+						{
+							filesAndFolders.AddRange(intermediateList);
 
-						await OrderFilesAndFoldersAsync();
-						await ApplyFilesAndFoldersChangesAsync();
-					});
+							await OrderFilesAndFoldersAsync();
+							await ApplyFilesAndFoldersChangesAsync();
+						});
 
-				filesAndFolders.AddRange(finalList);
+					filesAndFolders.AddRange(finalList);
 
-				await OrderFilesAndFoldersAsync();
-				await ApplyFilesAndFoldersChangesAsync();
-			}, cancellationToken);
+					await OrderFilesAndFoldersAsync();
+					await ApplyFilesAndFoldersChangesAsync();
+				}, cancellationToken);
+
+				IsLocationUnavailable = false;
+			}
+			catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested) // Password dialog dismissed
+			{
+				ShowLocationUnavailable(LocationUnavailableKind.PasswordRequired);
+			}
 
 			if (rootFolder is IPasswordProtectedItem ppiu)
 				ppiu.PasswordRequestedCallback = null;
