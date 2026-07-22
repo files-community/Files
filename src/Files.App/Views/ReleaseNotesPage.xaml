@@ -9,7 +9,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	DataContext="{x:Bind ViewModel, Mode=OneWay}"
+	DataContext="{x:Bind ViewModel, Mode=OneTime}"
 	mc:Ignorable="d">
 
 	<Grid x:Name="ContainerGrid">
