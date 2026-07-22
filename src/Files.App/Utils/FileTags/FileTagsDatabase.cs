@@ -14,9 +14,30 @@ namespace Files.App.Utils.FileTags
 	public sealed class FileTagsDatabase
 	{
 		private static string? _FileTagsKey;
+
+		// Protect the registry path and FRN indices from concurrent updates.
+		internal static object SyncRoot { get; } = new();
+
 		private string? FileTagsKey => _FileTagsKey ??= SafetyExtensions.IgnoreExceptions(() => @$"Software\Files Community\{Package.Current.Id.Name}\v1\FileTags");
 
+		internal static void RunSynchronized(Action action)
+		{
+			lock (SyncRoot)
+				action();
+		}
+
+		internal static T RunSynchronized<T>(Func<T> action)
+		{
+			lock (SyncRoot)
+				return action();
+		}
+
 		public void SetTags(string filePath, ulong? frn, string[] tags)
+		{
+			RunSynchronized(() => SetTagsCore(filePath, frn, tags));
+		}
+
+		private void SetTagsCore(string filePath, ulong? frn, string[] tags)
 		{
 			if (FileTagsKey is null)
 				return;
@@ -95,6 +116,11 @@ namespace Files.App.Utils.FileTags
 
 		public void UpdateTag(string oldFilePath, ulong? frn, string? newFilePath)
 		{
+			RunSynchronized(() => UpdateTagCore(oldFilePath, frn, newFilePath));
+		}
+
+		private void UpdateTagCore(string oldFilePath, ulong? frn, string? newFilePath)
+		{
 			if (FileTagsKey is null)
 				return;
 
@@ -122,6 +148,11 @@ namespace Files.App.Utils.FileTags
 		}
 
 		public void UpdateTag(ulong oldFrn, ulong? frn, string? newFilePath)
+		{
+			RunSynchronized(() => UpdateTagCore(oldFrn, frn, newFilePath));
+		}
+
+		private void UpdateTagCore(ulong oldFrn, ulong? frn, string? newFilePath)
 		{
 			if (FileTagsKey is null)
 				return;
@@ -151,10 +182,15 @@ namespace Files.App.Utils.FileTags
 
 		public string[] GetTags(string? filePath, ulong? frn)
 		{
-			return FindTag(filePath, frn)?.Tags ?? [];
+			return RunSynchronized(() => FindTag(filePath, frn)?.Tags ?? []);
 		}
 
 		public IEnumerable<TaggedFile> GetAll()
+		{
+			return RunSynchronized(GetAllCore);
+		}
+
+		private IEnumerable<TaggedFile> GetAllCore()
 		{
 			var list = new List<TaggedFile>();
 
@@ -175,6 +211,11 @@ namespace Files.App.Utils.FileTags
 
 		public IEnumerable<TaggedFile> GetAllUnderPath(string folderPath)
 		{
+			return RunSynchronized(() => GetAllUnderPathCore(folderPath));
+		}
+
+		private IEnumerable<TaggedFile> GetAllUnderPathCore(string folderPath)
+		{
 			folderPath = folderPath.Replace('/', '\\').TrimStart('\\');
 			var list = new List<TaggedFile>();
 
@@ -194,6 +235,11 @@ namespace Files.App.Utils.FileTags
 		}
 
 		public void Import(string json)
+		{
+			RunSynchronized(() => ImportCore(json));
+		}
+
+		private void ImportCore(string json)
 		{
 			if (FileTagsKey is null)
 				return;
@@ -218,6 +264,11 @@ namespace Files.App.Utils.FileTags
 		}
 
 		public string Export()
+		{
+			return RunSynchronized(ExportCore);
+		}
+
+		private string ExportCore()
 		{
 			var list = new List<TaggedFile>();
 

@@ -19,12 +19,41 @@ namespace Files.App.Utils.FileTags
 
 		public static string[] ReadFileTag(string filePath)
 		{
-			var tagString = Win32Helper.ReadStringFromFile($"{filePath}:files");
-			return tagString?.Split(',', StringSplitOptions.RemoveEmptyEntries) ?? [];
+			lock (FileTagsDatabase.SyncRoot)
+			{
+				var tagString = Win32Helper.ReadStringFromFile($"{filePath}:files");
+				return tagString?.Split(',', StringSplitOptions.RemoveEmptyEntries) ?? [];
+			}
 		}
 
 		public static async void WriteFileTag(string filePath, string[] tag)
 		{
+			bool result;
+			lock (FileTagsDatabase.SyncRoot)
+			{
+				result = WriteFileTagCore(filePath, tag);
+			}
+
+			if (!result)
+				await ShowTagWriteErrorAsync();
+		}
+
+		public static Task SetTagsAndWriteFileTagAsync(string filePath, ulong? frn, string[] tags)
+		{
+			bool result;
+			lock (FileTagsDatabase.SyncRoot)
+			{
+				// Update the registry index and ADS without allowing another tag operation to interleave.
+				GetDbInstance().SetTags(filePath, frn, tags);
+				result = WriteFileTagCore(filePath, tags);
+			}
+
+			return result ? Task.CompletedTask : ShowTagWriteErrorAsync();
+		}
+
+		private static bool WriteFileTagCore(string filePath, string[] tag)
+		{
+			var result = true;
 			var isDateOk = Win32Helper.GetFileDateModified(filePath, out var dateModified); // Backup date modified
 			var isReadOnly = Win32Helper.HasFileAttribute(filePath, IO.FileAttributes.ReadOnly);
 			if (isReadOnly) // Unset read-only attribute (#7534)
@@ -37,24 +66,7 @@ namespace Files.App.Utils.FileTags
 			}
 			else if (ReadFileTag(filePath) is not string[] arr || !tag.SequenceEqual(arr))
 			{
-				var result = Win32Helper.WriteStringToFile($"{filePath}:files", string.Join(',', tag));
-				if (result == false)
-				{
-					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
-					{
-						ContentDialog dialog = new()
-						{
-							Title = Strings.ErrorApplyingTagTitle.GetLocalizedResource(),
-							Content = Strings.ErrorApplyingTagContent.GetLocalizedResource(),
-							PrimaryButtonText = "Ok".GetLocalizedResource()
-						};
-
-						if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-							dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
-
-						await dialog.TryShowAsync();
-					});
-				}
+				result = Win32Helper.WriteStringToFile($"{filePath}:files", string.Join(',', tag));
 			}
 			if (isReadOnly) // Restore read-only attribute (#7534)
 			{
@@ -64,6 +76,27 @@ namespace Files.App.Utils.FileTags
 			{
 				Win32Helper.SetFileDateModified(filePath, dateModified); // Restore date modified
 			}
+
+			return result;
+		}
+
+		private static Task ShowTagWriteErrorAsync()
+		{
+			return MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+			{
+				// Show the error dialog on the UI thread after releasing the file operation lock.
+				ContentDialog dialog = new()
+				{
+					Title = Strings.ErrorApplyingTagTitle.GetLocalizedResource(),
+					Content = Strings.ErrorApplyingTagContent.GetLocalizedResource(),
+					PrimaryButtonText = "Ok".GetLocalizedResource()
+				};
+
+				if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+					dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
+				await dialog.TryShowAsync();
+			});
 		}
 
 		public static void UpdateTagsDb()
@@ -71,39 +104,43 @@ namespace Files.App.Utils.FileTags
 			var dbInstance = GetDbInstance();
 			foreach (var file in dbInstance.GetAll())
 			{
-				var pathFromFrn = Win32Helper.PathFromFileId(file.Frn ?? 0, file.FilePath);
-				if (pathFromFrn is not null)
+				lock (FileTagsDatabase.SyncRoot)
 				{
-					// Frn is valid, update file path
-					var tag = ReadFileTag(pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal));
-					if (tag is not null && tag.Any())
+					// Keep validation and updates for one item atomic with user tag changes.
+					var pathFromFrn = Win32Helper.PathFromFileId(file.Frn ?? 0, file.FilePath);
+					if (pathFromFrn is not null)
 					{
-						dbInstance.UpdateTag(file.Frn ?? 0, null, pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal));
-						dbInstance.SetTags(pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal), file.Frn, tag);
-					}
-					else
-					{
-						dbInstance.SetTags(pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal), file.Frn, []);
-					}
-				}
-				else
-				{
-					var tag = ReadFileTag(file.FilePath);
-					if (tag is not null && tag.Any())
-					{
-						if (!SafetyExtensions.IgnoreExceptions(() =>
+						// Frn is valid, update file path
+						var tag = ReadFileTag(pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal));
+						if (tag is not null && tag.Any())
 						{
-							var frn = GetFileFRN(file.FilePath);
-							dbInstance.UpdateTag(file.FilePath, frn, null);
-							dbInstance.SetTags(file.FilePath, frn, tag);
-						}, App.Logger))
+							dbInstance.UpdateTag(file.Frn ?? 0, null, pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal));
+							dbInstance.SetTags(pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal), file.Frn, tag);
+						}
+						else
 						{
-							dbInstance.SetTags(file.FilePath, null, []);
+							dbInstance.SetTags(pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal), file.Frn, []);
 						}
 					}
 					else
 					{
-						dbInstance.SetTags(file.FilePath, null, []);
+						var tag = ReadFileTag(file.FilePath);
+						if (tag is not null && tag.Any())
+						{
+							if (!SafetyExtensions.IgnoreExceptions(() =>
+							{
+								var frn = GetFileFRN(file.FilePath);
+								dbInstance.UpdateTag(file.FilePath, frn, null);
+								dbInstance.SetTags(file.FilePath, frn, tag);
+							}, App.Logger))
+							{
+								dbInstance.SetTags(file.FilePath, null, []);
+							}
+						}
+						else
+						{
+							dbInstance.SetTags(file.FilePath, null, []);
+						}
 					}
 				}
 			}

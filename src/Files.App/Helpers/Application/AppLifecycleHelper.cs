@@ -112,22 +112,32 @@ namespace Files.App.Helpers
 			// Start non-critical tasks without waiting for them to complete
 			_ = Task.Run(async () =>
 			{
-				await Task.WhenAll(
-					OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
-					App.LibraryManager.UpdateLibrariesAsync(),
-					OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
-					OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
-					jumpListService.InitializeAsync()
-				);
+				try
+				{
+					await Task.WhenAll(
+						OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
+						App.LibraryManager.UpdateLibrariesAsync(),
+						OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
+						OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
+						jumpListService.InitializeAsync()
+					);
 
-				//Start the tasks separately to reduce resource contention
-				await Task.WhenAll(
-					addItemService.InitializeAsync(),
-					ContextMenu.WarmUpQueryContextMenuAsync()
-				);
+					// Run these tasks after the preceding initialization to reduce resource contention.
+					await Task.WhenAll(
+						addItemService.InitializeAsync(),
+						ContextMenu.WarmUpQueryContextMenuAsync()
+					);
+				}
+				catch (Exception ex)
+				{
+					App.Logger.LogWarning(ex, "Failed to initialize non-critical app services.");
+				}
+				finally
+				{
+					// Run the tag database scan even if a preceding background task fails.
+					SafetyExtensions.IgnoreExceptions(FileTagsHelper.UpdateTagsDb, App.Logger);
+				}
 			});
-
-			FileTagsHelper.UpdateTagsDb();
 
 			_ = Task.Run(async () =>
 			{
