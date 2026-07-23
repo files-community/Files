@@ -16,7 +16,8 @@ namespace Files.App.Utils.Storage
 		{
 			var handled = exception is SevenZipOpenFailedException szofex && szofex.Result is OperationResult.WrongPassword ||
 				exception is ExtractionFailedException efex && efex.Result is OperationResult.WrongPassword ||
-				exception is FtpAuthenticationException;
+				exception is FtpAuthenticationException ||
+				exception is ICSharpCode.SharpZipLib.Zip.ZipException szlzex && szlzex.Message.Contains("encrypted");
 
 			if (!handled || PasswordRequestedCallback is null)
 				throw exception;
@@ -30,7 +31,8 @@ namespace Files.App.Utils.Storage
 		{
 			var handled = exception is SevenZipOpenFailedException szofex && szofex.Result is OperationResult.WrongPassword ||
 				exception is ExtractionFailedException efex && efex.Result is OperationResult.WrongPassword ||
-				exception is FtpAuthenticationException;
+				exception is FtpAuthenticationException ||
+				exception is ICSharpCode.SharpZipLib.Zip.ZipException szlzex && szlzex.Message.Contains("encrypted");
 
 			if (!handled || PasswordRequestedCallback is null)
 				throw exception;
