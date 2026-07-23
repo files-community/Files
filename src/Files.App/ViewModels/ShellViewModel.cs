@@ -319,6 +319,124 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref isNetworkDiscoveryInfoBarOpen, value);
 		}
 
+		private bool isLocationUnavailable;
+		public bool IsLocationUnavailable
+		{
+			get => isLocationUnavailable;
+			set
+			{
+				if (SetProperty(ref isLocationUnavailable, value))
+					UpdateEmptyTextType();
+			}
+		}
+
+		private string? locationUnavailableGlyph;
+		public string? LocationUnavailableGlyph
+		{
+			get => locationUnavailableGlyph;
+			set => SetProperty(ref locationUnavailableGlyph, value);
+		}
+
+		private string? locationUnavailableTitle;
+		public string? LocationUnavailableTitle
+		{
+			get => locationUnavailableTitle;
+			set => SetProperty(ref locationUnavailableTitle, value);
+		}
+
+		private string? locationUnavailableMessage;
+		public string? LocationUnavailableMessage
+		{
+			get => locationUnavailableMessage;
+			set => SetProperty(ref locationUnavailableMessage, value);
+		}
+
+		private enum LocationUnavailableKind
+		{
+			AccessDenied,
+			NotFound,
+			DriveUnplugged,
+			PasswordRequired,
+		}
+
+		private void ShowLocationUnavailable(LocationUnavailableKind kind, string? message = null)
+		{
+			(LocationUnavailableGlyph, LocationUnavailableTitle, LocationUnavailableMessage) = kind switch
+			{
+				LocationUnavailableKind.AccessDenied => ("\uE72E", Strings.AccessDenied.GetLocalizedResource(), Strings.AccessDeniedToFolder.GetLocalizedResource()),
+				LocationUnavailableKind.NotFound => ("\uE838", Strings.FolderNotFoundDialogTitle.GetLocalizedResource(), Strings.FolderNotFoundDialogText.GetLocalizedResource()),
+				LocationUnavailableKind.PasswordRequired => ("\uE8D7", Strings.PasswordRequired.GetLocalizedResource(), Strings.PasswordRequiredMessage.GetLocalizedResource()),
+				_ => ("\uE7BA", Strings.DriveUnpluggedDialogTitle.GetLocalizedResource(), message ?? Strings.DriveUnpluggedDialogText.GetLocalizedResource()),
+			};
+
+			IsLocationUnavailable = true;
+		}
+
+		private void ShowLocationInaccessibleOrMissing(string path)
+		{
+			// A folder pending deletion fails enumeration with ERROR_ACCESS_DENIED;
+			// Directory.Exists is false for it but true for folders that deny listing
+			if (Directory.Exists(path))
+			{
+				ShowLocationUnavailable(LocationUnavailableKind.AccessDenied);
+			}
+			else
+			{
+				ShowLocationUnavailable(LocationUnavailableKind.NotFound);
+				WatchForLocationRestoration(path);
+			}
+		}
+
+		private FileSystemWatcher? locationRestorationWatcher;
+
+		private void WatchForLocationRestoration(string path)
+		{
+			StopWatchingForLocationRestoration();
+
+			var trimmedPath = path.TrimEnd(Path.DirectorySeparatorChar);
+			var parentPath = Path.GetDirectoryName(trimmedPath);
+			var folderName = Path.GetFileName(trimmedPath);
+			if (string.IsNullOrEmpty(parentPath) || string.IsNullOrEmpty(folderName) || !Directory.Exists(parentPath))
+				return;
+
+			try
+			{
+				var restorationWatcher = new FileSystemWatcher(parentPath, folderName)
+				{
+					NotifyFilter = NotifyFilters.DirectoryName
+				};
+				restorationWatcher.Created += LocationRestorationWatcher_Restored;
+				restorationWatcher.Renamed += LocationRestorationWatcher_Restored;
+				locationRestorationWatcher = restorationWatcher;
+				restorationWatcher.EnableRaisingEvents = true;
+			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+			{
+				// Parent folder was removed or is inaccessible
+				StopWatchingForLocationRestoration();
+				return;
+			}
+
+			// The folder may have been restored before the watcher was armed
+			if (Directory.Exists(path))
+				LocationRestorationWatcher_Restored(this, new FileSystemEventArgs(WatcherChangeTypes.Created, parentPath, folderName));
+		}
+
+		private void StopWatchingForLocationRestoration()
+		{
+			if (Interlocked.Exchange(ref locationRestorationWatcher, null) is FileSystemWatcher restorationWatcher)
+				restorationWatcher.Dispose();
+		}
+
+		private async void LocationRestorationWatcher_Restored(object sender, FileSystemEventArgs e)
+		{
+			if (Interlocked.Exchange(ref locationRestorationWatcher, null) is not FileSystemWatcher restorationWatcher)
+				return;
+
+			restorationWatcher.Dispose();
+			await dispatcherQueue.EnqueueOrInvokeAsync(() => RefreshItems(null));
+		}
+
 		private NetworkAvailability networkAvailability = NetworkAvailability.All;
 		public NetworkAvailability NetworkAvailability
 		{
@@ -823,7 +941,7 @@ namespace Files.App.ViewModels
 
 		public void UpdateEmptyTextType()
 		{
-			var isFolderEmpty = FilesAndFolders.Count == 0;
+			var isFolderEmpty = FilesAndFolders.Count == 0 && !IsLocationUnavailable;
 
 			EmptyTextType = isFolderEmpty ? (IsSearchResults ? EmptyTextType.NoSearchResultsFound : EmptyTextType.FolderEmpty) : EmptyTextType.None;
 		}
@@ -1735,6 +1853,8 @@ namespace Files.App.ViewModels
 		{
 			IsSearchResults = false;
 			HasNoWatcher = false;
+			IsLocationUnavailable = false;
+			StopWatchingForLocationRestoration();
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
 
 			CancelLoadAndClearFiles();
@@ -1938,25 +2058,19 @@ namespace Files.App.ViewModels
 				}
 				else if (res == FileSystemStatusCode.Unauthorized)
 				{
-					await DialogDisplayHelper.ShowDialogAsync(
-						Strings.AccessDenied.GetLocalizedResource(),
-						Strings.AccessDeniedToFolder.GetLocalizedResource());
+					ShowLocationInaccessibleOrMissing(path);
 
 					return -1;
 				}
 				else if (res == FileSystemStatusCode.NotFound)
 				{
-					await DialogDisplayHelper.ShowDialogAsync(
-						Strings.FolderNotFoundDialogTitle.GetLocalizedResource(),
-						Strings.FolderNotFoundDialogText.GetLocalizedResource());
+					ShowLocationInaccessibleOrMissing(path);
 
 					return -1;
 				}
 				else
 				{
-					await DialogDisplayHelper.ShowDialogAsync(
-						Strings.DriveUnpluggedDialogTitle.GetLocalizedResource(),
-						res.ErrorCode.ToString());
+					ShowLocationUnavailable(LocationUnavailableKind.DriveUnplugged, res.ErrorCode.ToString());
 
 					return -1;
 				}
@@ -2056,7 +2170,7 @@ namespace Files.App.ViewModels
 
 				if (hFile == IntPtr.Zero)
 				{
-					await DialogDisplayHelper.ShowDialogAsync(Strings.DriveUnpluggedDialogTitle.GetLocalizedResource(), "");
+					ShowLocationUnavailable(LocationUnavailableKind.DriveUnplugged);
 
 					return -1;
 				}
@@ -2067,9 +2181,7 @@ namespace Files.App.ViewModels
 					// errorCode == ERROR_ACCESS_DENIED
 					if (filesAndFolders.Count == 0 && errorCode == 0x5)
 					{
-						await DialogDisplayHelper.ShowDialogAsync(
-							Strings.AccessDenied.GetLocalizedResource(),
-							Strings.AccessDeniedToFolder.GetLocalizedResource());
+						ShowLocationInaccessibleOrMissing(path);
 
 						return -1;
 					}
@@ -2127,28 +2239,42 @@ namespace Files.App.ViewModels
 				return;
 
 			if (rootFolder is IPasswordProtectedItem ppis)
-				ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
+				ppis.PasswordRequestedCallback = async (item) =>
+				{
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => ShowLocationUnavailable(LocationUnavailableKind.PasswordRequired));
 
-			await Task.Run(async () =>
+					return await UIFilesystemHelpers.RequestPassword(item);
+				};
+
+			try
 			{
-				List<ListedItem> finalList = await UniversalStorageEnumerator.ListEntries(
-					rootFolder,
-					currentStorageFolder,
-					cancellationToken,
-					-1,
-					async (intermediateList) =>
-					{
-						filesAndFolders.AddRange(intermediateList);
+				await Task.Run(async () =>
+				{
+					List<ListedItem> finalList = await UniversalStorageEnumerator.ListEntries(
+						rootFolder,
+						currentStorageFolder,
+						cancellationToken,
+						-1,
+						async (intermediateList) =>
+						{
+							filesAndFolders.AddRange(intermediateList);
 
-						await OrderFilesAndFoldersAsync();
-						await ApplyFilesAndFoldersChangesAsync();
-					});
+							await OrderFilesAndFoldersAsync();
+							await ApplyFilesAndFoldersChangesAsync();
+						});
 
-				filesAndFolders.AddRange(finalList);
+					filesAndFolders.AddRange(finalList);
 
-				await OrderFilesAndFoldersAsync();
-				await ApplyFilesAndFoldersChangesAsync();
-			}, cancellationToken);
+					await OrderFilesAndFoldersAsync();
+					await ApplyFilesAndFoldersChangesAsync();
+				}, cancellationToken);
+
+				IsLocationUnavailable = false;
+			}
+			catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested) // Password dialog dismissed
+			{
+				ShowLocationUnavailable(LocationUnavailableKind.PasswordRequired);
+			}
 
 			if (rootFolder is IPasswordProtectedItem ppiu)
 				ppiu.PasswordRequestedCallback = null;
@@ -3029,6 +3155,7 @@ namespace Files.App.ViewModels
 		public void Dispose()
 		{
 			CancelLoadAndClearFiles();
+			StopWatchingForLocationRestoration();
 			filterDebounceCS?.Cancel();
 			filterDebounceCS?.Dispose();
 			networkAvailabilityCTS?.Dispose();

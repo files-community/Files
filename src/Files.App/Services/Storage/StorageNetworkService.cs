@@ -250,6 +250,12 @@ namespace Files.App.Services
 					return true;
 				}
 
+				// WNetAddConnection3W only accepts "\\server" or "\\server\share" as lpRemoteName;
+				// deeper paths fail (e.g. ERROR_DIRECTORY when the path points to a file such as an archive)
+				var shareRootSegments = path.Substring(2).Split('\\', StringSplitOptions.RemoveEmptyEntries);
+				if (shareRootSegments.Length > 2)
+					path = @"\\" + shareRootSegments[0] + @"\" + shareRootSegments[1];
+
 				fixed (char* lpcPath = path)
 					netRes.lpRemoteName = new PWSTR(lpcPath);
 			}
@@ -299,16 +305,17 @@ namespace Files.App.Services
 				}
 			}
 
-			if (res == WIN32_ERROR.NO_ERROR)
-			{
-				return true;
-			}
-			else
+			if (res == WIN32_ERROR.ERROR_LOGON_FAILURE || res == WIN32_ERROR.ERROR_ACCESS_DENIED)
 			{
 				await DialogDisplayHelper.ShowDialogAsync(Strings.NetworkFolderErrorDialogTitle.GetLocalizedResource(), res.ToString());
 
 				return false;
 			}
+
+			// Other results (e.g. ERROR_SESSION_CREDENTIAL_CONFLICT when a connection already exists,
+			// or provider errors on unusual paths) don't imply the share is inaccessible through the
+			// SMB redirector — proceed and let the enumeration itself surface any failure.
+			return true;
 		}
 	}
 }

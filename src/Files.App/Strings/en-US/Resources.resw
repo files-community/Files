@@ -1781,6 +1781,15 @@
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
     <value>Provide your credential:</value>
   </data>
+  <data name="CredentialDialogIncorrectPassword" xml:space="preserve">
+    <value>The password is incorrect. Try again.</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Password required</value>
+  </data>
+  <data name="PasswordRequiredMessage" xml:space="preserve">
+    <value>This location is password protected. Refresh to enter the password.</value>
+  </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>UserName</value>
   </data>
@@ -3332,6 +3341,9 @@
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
     <value>git pull failed due to a timeout error</value>
+  </data>
+  <data name="PullUncommittedChangesError" xml:space="preserve">
+    <value>Can't pull because your uncommitted changes would be overwritten. Commit, stash, or discard your changes, then try again.</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(multiple values)</value>

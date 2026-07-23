@@ -224,7 +224,9 @@ namespace Files.App.Utils.Storage
 		public async static Task<StorageFolderWithPath> DangerousGetFolderWithPathFromPathAsync
 			(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
 		{
-			if (rootFolder is not null)
+			// Archive paths can't be resolved by chaining WinRT GetFolderAsync from a network root/parent
+			// (an archive is not a real subfolder of the share); resolve them directly like local archives.
+			if (rootFolder is not null && !ZipStorageFolder.IsZipPath(value))
 			{
 				var currComponents = GetDirectoryPathComponents(value);
 

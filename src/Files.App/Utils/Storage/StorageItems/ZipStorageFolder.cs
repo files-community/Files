@@ -740,6 +740,19 @@ namespace Files.App.Utils.Storage
 			return true;
 		}
 
+		public async Task<bool> ValidateCredentialsAsync()
+		{
+			try
+			{
+				using SevenZipExtractor zipFile = await OpenZipFileAsync();
+				return zipFile?.ArchiveFileData is not null;
+			}
+			catch (Exception) // SevenZipOpenFailedException(WrongPassword) for bad credentials; IO exceptions (e.g. archive deleted meanwhile) equally mean the credentials can't be verified
+			{
+				return false;
+			}
+		}
+
 		private IAsyncOperation<SevenZipExtractor> OpenZipFileAsync()
 		{
 			return AsyncInfo.Run<SevenZipExtractor>(async (cancellationToken) =>

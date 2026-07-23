@@ -981,6 +981,18 @@
 			Canvas.ZIndex="0"
 			EmptyTextType="{x:Bind ParentShellPageInstance.ShellViewModel.EmptyTextType, Mode=OneWay}" />
 
+		<!--  Location Unavailable Indicator  -->
+		<uc:LocationUnavailableIndicator
+			Title="{x:Bind ParentShellPageInstance.ShellViewModel.LocationUnavailableTitle, Mode=OneWay}"
+			MaxWidth="400"
+			Margin="24,125,24,0"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Top"
+			Canvas.ZIndex="0"
+			Glyph="{x:Bind ParentShellPageInstance.ShellViewModel.LocationUnavailableGlyph, Mode=OneWay}"
+			Message="{x:Bind ParentShellPageInstance.ShellViewModel.LocationUnavailableMessage, Mode=OneWay}"
+			Visibility="{x:Bind ParentShellPageInstance.ShellViewModel.IsLocationUnavailable, Mode=OneWay}" />
+
 		<!--  Invalid Item Name Tip  -->
 		<TeachingTip
 			x:Name="FileNameTeachingTip"

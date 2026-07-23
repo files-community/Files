@@ -61,6 +61,10 @@ namespace Files.App.Utils.Storage
 				{
 					break;
 				}
+				catch (OperationCanceledException) // Password dialog dismissed - let the caller handle it
+				{
+					throw;
+				}
 				catch (Exception ex) when (
 					ex is UnauthorizedAccessException ||
 					ex is FileNotFoundException ||

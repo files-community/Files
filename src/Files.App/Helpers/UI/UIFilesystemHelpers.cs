@@ -260,11 +260,24 @@ namespace Files.App.Helpers
 			var isFtp = FtpHelpers.IsFtpPath(path);
 
 			var credentialDialogViewModel = new CredentialDialogViewModel() { CanBeAnonymous = isFtp, PasswordOnly = !isFtp };
+
+			if (sender is ZipStorageFolder zipFolder)
+			{
+				credentialDialogViewModel.PasswordValidator = async (password) =>
+				{
+					zipFolder.Credentials = new StorageCredential(null, Encoding.UTF8.GetString(password.Bytes));
+					return await Task.Run(zipFolder.ValidateCredentialsAsync);
+				};
+			}
+
 			IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 			var dialogResult = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				dialogService.ShowDialogAsync(credentialDialogViewModel));
 
-			if (dialogResult != DialogResult.Primary || credentialDialogViewModel.IsAnonymous)
+			if (dialogResult != DialogResult.Primary)
+				throw new OperationCanceledException();
+
+			if (credentialDialogViewModel.IsAnonymous)
 				return new();
 
 			// Can't do more than that to mitigate immutability of strings. Perhaps convert DisposableArray to SecureString immediately?
