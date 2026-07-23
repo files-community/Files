@@ -17,6 +17,7 @@ namespace Files.App.ViewModels.UserControls
 		private IDevToolsSettingsService DevToolsSettingsService = Ioc.Default.GetRequiredService<IDevToolsSettingsService>();
 		private readonly IStorageArchiveService StorageArchiveService = Ioc.Default.GetRequiredService<IStorageArchiveService>();
 		private CurrentInstanceViewModel? InstanceViewModel => ContentPageContext.ShellPage?.InstanceViewModel;
+		private CurrentInstanceViewModel? _subscribedInstanceViewModel;
 
 		// The first branch will always be the active one.
 		public const int ACTIVE_BRANCH_INDEX = 0;
@@ -217,8 +218,8 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task UpdateZipEncodingStateAsync()
 		{
-			//if (ContentPageContext.ShellPage?.SlimContentPage?.StatusBarViewModel != this)
-			//	return;
+			if (ContentPageContext.ShellPage?.SlimContentPage?.StatusBarViewModel != this)
+				return;
 
 			var instanceVM = InstanceViewModel;
 			if (instanceVM is null)
@@ -341,14 +342,17 @@ namespace Files.App.ViewModels.UserControls
 		{
 			var instanceVM = InstanceViewModel;
 			if (instanceVM is not null)
+			{
 				instanceVM.PropertyChanged += OnInstanceViewModelPropertyChanged;
+				_subscribedInstanceViewModel = instanceVM;
+			}
 		}
 
 		internal void UnsubscribeFromInstanceViewModel()
 		{
-			var instanceVM = InstanceViewModel;
-			if (instanceVM is not null)
-				instanceVM.PropertyChanged -= OnInstanceViewModelPropertyChanged;
+			if (_subscribedInstanceViewModel is not null)
+				_subscribedInstanceViewModel.PropertyChanged -= OnInstanceViewModelPropertyChanged;
+			_subscribedInstanceViewModel = null;
 		}
 
 		private void OnInstanceViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
