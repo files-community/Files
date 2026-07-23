@@ -157,41 +157,38 @@ namespace Files.App.Utils.Storage
 		}
 		private IAsyncOperation<IRandomAccessStream> OpenWithEncodingAsync(FileAccessMode accessMode)
 		{
-			return AsyncInfo.Run((cancellationToken) =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IRandomAccessStream>(async () =>
 			{
-				return Task.Run<IRandomAccessStream>(() =>
+				bool rw = accessMode is FileAccessMode.ReadWrite;
+				if (rw)
+					throw new NotSupportedException("Can't open zip file as RW");
+
+				using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(CurrentEncoding!));
+
+				if (!string.IsNullOrEmpty(Credentials.Password))
+					zipFile.Password = Credentials.Password;
+
+				var targetName = GetEntryRelativePath();
+
+				foreach (ZipEntry entry in zipFile)
 				{
-					bool rw = accessMode is FileAccessMode.ReadWrite;
-					if (rw)
-						throw new NotSupportedException("Can't open zip file as RW");
+					if (!entry.IsFile)
+						continue;
 
-					using var zipFile = new ZipFile(containerPath, StringCodec.FromEncoding(CurrentEncoding!));
-
-					if (!string.IsNullOrEmpty(Credentials.Password))
-						zipFile.Password = Credentials.Password;
-
-					var targetName = GetEntryRelativePath();
-
-					foreach (ZipEntry entry in zipFile)
+					if (string.Equals(entry.Name.Replace('\\', '/'), targetName, StringComparison.OrdinalIgnoreCase))
 					{
-						if (!entry.IsFile)
-							continue;
-
-						if (string.Equals(entry.Name.Replace('\\', '/'), targetName, StringComparison.OrdinalIgnoreCase))
+						var ms = new MemoryStream();
+						using (var zipStream = zipFile.GetInputStream(entry))
 						{
-							var ms = new MemoryStream();
-							using (var zipStream = zipFile.GetInputStream(entry))
-							{
-								zipStream.CopyTo(ms);
-							}
-							ms.Position = 0;
-							return new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size);
+							zipStream.CopyTo(ms);
 						}
+						ms.Position = 0;
+						return new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size);
 					}
+				}
 
-					return null;
-				});
-			});
+				return null;
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options)
