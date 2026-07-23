@@ -77,25 +77,19 @@ namespace Files.App.Utils.Storage
 
 		public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
 		{
-			if (!FileExtensionHelpers.IsBrowsableZipFile(path, out var ext))
-			{
+			var containerPath = ZipStorageFolder.GetContainerPath(path);
+			if (containerPath is null)
 				return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
-			}
-			var marker = path.IndexOf(ext, StringComparison.OrdinalIgnoreCase);
-			if (marker is not -1)
+
+			if (path == containerPath)
+				return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation(); // Root
+
+			if (CheckAccess(containerPath))
 			{
-				var containerPath = path.Substring(0, marker + ext.Length);
-				if (path == containerPath)
-				{
-					return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation(); // Root
-				}
-				if (CheckAccess(containerPath))
-				{
-					var file = new ZipStorageFile(path, containerPath);
-					if (ZipStorageFolder.TryGetEncodingForContainerPath(containerPath, out var encoding))
-						file.CurrentEncoding = encoding;
-					return Task.FromResult<BaseStorageFile>(file).AsAsyncOperation();
-				}
+				var file = new ZipStorageFile(path, containerPath);
+				if (ZipStorageFolder.TryGetEncodingForContainerPath(containerPath, out var encoding))
+					file.CurrentEncoding = encoding;
+				return Task.FromResult<BaseStorageFile>(file).AsAsyncOperation();
 			}
 			return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
 		}

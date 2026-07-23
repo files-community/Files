@@ -217,8 +217,8 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task UpdateZipEncodingStateAsync()
 		{
-			if (ContentPageContext.ShellPage?.SlimContentPage?.StatusBarViewModel != this)
-				return;
+			//if (ContentPageContext.ShellPage?.SlimContentPage?.StatusBarViewModel != this)
+			//	return;
 
 			var instanceVM = InstanceViewModel;
 			if (instanceVM is null)
@@ -231,15 +231,18 @@ namespace Files.App.ViewModels.UserControls
 			}
 
 			var workingDir = ContentPageContext.ShellPage?.ShellViewModel.WorkingDirectory;
-			if (string.IsNullOrEmpty(workingDir) || !ZipStorageFolder.IsZipPath(workingDir))
+			if (string.IsNullOrEmpty(workingDir))
+				return;
+			var containerPath = ZipStorageFolder.GetContainerPath(workingDir);
+			if (string.IsNullOrEmpty(containerPath) || !ZipStorageFolder.IsZipPath(containerPath))
 				return;
 
-			if (TryRestoreZipEncodingFromContainerPath(workingDir))
+			if (TryRestoreZipEncodingFromContainerPath(containerPath))
 				return;
 
 			try
 			{
-				var isUndetermined = await StorageArchiveService.IsEncodingUndeterminedAsync(workingDir);
+				var isUndetermined = await StorageArchiveService.IsEncodingUndeterminedAsync(containerPath);
 				instanceVM.IsZipEncodingUndetermined = isUndetermined;
 
 				if (!isUndetermined)
@@ -248,7 +251,7 @@ namespace Files.App.ViewModels.UserControls
 					return;
 				}
 
-				var detected = await StorageArchiveService.DetectEncodingAsync(workingDir);
+				var detected = await StorageArchiveService.DetectEncodingAsync(containerPath);
 				if (detected is not null)
 				{
 					instanceVM.ZipEncodingName = detected.WebName;

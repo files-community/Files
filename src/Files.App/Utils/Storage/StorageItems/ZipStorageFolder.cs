@@ -90,6 +90,18 @@ namespace Files.App.Utils.Storage
 		public ZipStorageFolder(string path, string containerPath, ArchiveFileInfo entry, BaseStorageFile backingFile) : this(path, containerPath, entry)
 			=> this.backingFile = backingFile;
 
+		public static string? GetContainerPath(string path)
+		{
+			if (!FileExtensionHelpers.IsBrowsableZipFile(path, out var ext))
+				return null;
+
+			var marker = path.IndexOf(ext, StringComparison.OrdinalIgnoreCase);
+			if (marker is -1)
+				return null;
+
+			return path.Substring(0, marker + ext.Length);
+		}
+
 		public static bool IsZipPath(string path, bool includeRoot = true)
 		{
 			if (!FileExtensionHelpers.IsBrowsableZipFile(path, out var ext))
@@ -148,18 +160,10 @@ namespace Files.App.Utils.Storage
 
 		public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)
 		{
-			if (!FileExtensionHelpers.IsBrowsableZipFile(path, out var ext))
+			var containerPath = GetContainerPath(path);
+			if (containerPath is not null && CheckAccess(containerPath))
 			{
-				return Task.FromResult<BaseStorageFolder>(null).AsAsyncOperation();
-			}
-			var marker = path.IndexOf(ext, StringComparison.OrdinalIgnoreCase);
-			if (marker is not -1)
-			{
-				var containerPath = path.Substring(0, marker + ext.Length);
-				if (CheckAccess(containerPath))
-				{
-					return Task.FromResult((BaseStorageFolder)new ZipStorageFolder(path, containerPath)).AsAsyncOperation();
-				}
+				return Task.FromResult((BaseStorageFolder)new ZipStorageFolder(path, containerPath)).AsAsyncOperation();
 			}
 			return Task.FromResult<BaseStorageFolder>(null).AsAsyncOperation();
 		}
