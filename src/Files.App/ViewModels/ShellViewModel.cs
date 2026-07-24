@@ -2653,6 +2653,11 @@ namespace Files.App.ViewModels
 									case FILE_ACTION_MODIFIED:
 										if (!updateQueue.Contains(operation.FileName))
 											updateQueue.Enqueue(operation.FileName);
+
+										// Some filesystems report stream deletion only as a modification
+										// of the host file, without any FILE_ACTION_*_STREAM action
+										if (await SyncAlternateStreamsForFileAsync(operation.FileName))
+											anyEdits = true;
 										break;
 
 									case FILE_ACTION_REMOVED:
