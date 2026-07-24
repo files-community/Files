@@ -2509,6 +2509,9 @@ namespace Files.App.ViewModels
 				if (hasSyncStatus)
 					notifyFilters |= FILE_NOTIFY_CHANGE_ATTRIBUTES;
 
+				if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
+					notifyFilters |= FILE_NOTIFY_CHANGE_STREAM_NAME | FILE_NOTIFY_CHANGE_STREAM_SIZE | FILE_NOTIFY_CHANGE_STREAM_WRITE;
+
 				var overlapped = new OVERLAPPED();
 				using var eventHandle = PInvoke.CreateEvent(null, false, false, null);
 				overlapped.hEvent = eventHandle.DangerousGetHandle();
@@ -2719,6 +2722,12 @@ namespace Files.App.ViewModels
 			const uint FILE_ACTION_MODIFIED = 0x00000003;
 			const uint FILE_ACTION_RENAMED_OLD_NAME = 0x00000004;
 			const uint FILE_ACTION_RENAMED_NEW_NAME = 0x00000005;
+			const uint FILE_ACTION_ADDED_STREAM = 0x00000006;
+			const uint FILE_ACTION_REMOVED_STREAM = 0x00000007;
+			const uint FILE_ACTION_MODIFIED_STREAM = 0x00000008;
+
+			// Not a system action; requeued by the stream cases below
+			const uint FILE_ACTION_RECHECK_STREAM = 0xFFFFFFFF;
 
 			const int UPDATE_BATCH_SIZE = 32;
 			var sampler = new IntervalSampler(200);
@@ -2770,6 +2779,11 @@ namespace Files.App.ViewModels
 									case FILE_ACTION_MODIFIED:
 										if (!updateQueue.Contains(operation.FileName))
 											updateQueue.Enqueue(operation.FileName);
+
+										// Some filesystems report stream deletion only as a modification
+										// of the host file, without any FILE_ACTION_*_STREAM action
+										if (await SyncAlternateStreamsForFileAsync(operation.FileName))
+											anyEdits = true;
 										break;
 
 									case FILE_ACTION_REMOVED:
@@ -2788,19 +2802,44 @@ namespace Files.App.ViewModels
 										{
 											operationQueue.TryDequeue(out _);
 											var newPath = nextOp.FileName;
+											var oldPath = operation.FileName;
 											await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 											{
 												renamed.ItemPath = newPath;
 												renamed.ItemNameRaw = Path.GetFileName(newPath);
 												if (renamed.PrimaryItemAttribute == StorageItemTypes.File)
 													renamed.FileExtension = Path.GetExtension(newPath);
+
+												foreach (var adsItem in filesAndFolders.ToList().OfType<AlternateStreamItem>().Where(x => x.MainStreamPath.Equals(oldPath, StringComparison.OrdinalIgnoreCase)))
+													adsItem.ItemPath = $"{newPath}:{adsItem.ItemNameRaw}";
 											});
+
+											if (await SyncAlternateStreamsForFileAsync(newPath))
+												anyEdits = true;
 										}
 										else
 										{
 											var itemRenamedOld = await RemoveFileOrFolderAsync(operation.FileName);
 											if (itemRenamedOld is not null)
 												anyEdits = true;
+										}
+										break;
+
+									case FILE_ACTION_ADDED_STREAM:
+									case FILE_ACTION_REMOVED_STREAM:
+									case FILE_ACTION_MODIFIED_STREAM:
+									case FILE_ACTION_RECHECK_STREAM:
+										if (await SyncAlternateStreamsAsync(operation.FileName))
+											anyEdits = true;
+										else if (operation.Action != FILE_ACTION_RECHECK_STREAM)
+										{
+											// The notification can arrive before the operation is visible on disk
+											var streamPath = operation.FileName;
+											_ = Task.Delay(500).ContinueWith(_ =>
+											{
+												operationQueue.Enqueue((FILE_ACTION_RECHECK_STREAM, streamPath));
+												operationEvent.Set();
+											});
 										}
 										break;
 								}
@@ -3071,7 +3110,7 @@ namespace Files.App.ViewModels
 					if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
 					{
 						// Main file is removed, remove connected ADS
-						foreach (var adsItem in filesAndFolders.ToList().Where(x => x is AlternateStreamItem ads && ads.MainStreamPath == matchingItem.ItemPath))
+						foreach (var adsItem in filesAndFolders.ToList().Where(x => x is AlternateStreamItem ads && ads.MainStreamPath.Equals(matchingItem.ItemPath, StringComparison.OrdinalIgnoreCase)))
 							filesAndFolders.Remove(adsItem);
 					}
 
@@ -3084,6 +3123,67 @@ namespace Files.App.ViewModels
 			}
 
 			return null;
+		}
+
+		private Task<bool> SyncAlternateStreamsAsync(string streamPath)
+		{
+			// Stream notifications name the stream as "<file>:<stream>"; a colon not past the
+			// last separator is the drive colon, i.e. an event for the unnamed data stream
+			var separatorIndex = streamPath.LastIndexOf(':');
+			if (separatorIndex <= streamPath.LastIndexOf('\\'))
+				return Task.FromResult(false);
+
+			return SyncAlternateStreamsForFileAsync(streamPath.Substring(0, separatorIndex));
+		}
+
+		private async Task<bool> SyncAlternateStreamsForFileAsync(string mainStreamPath)
+		{
+			if (!UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
+				return false;
+
+			try
+			{
+				await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
+			}
+			catch (OperationCanceledException)
+			{
+				return false;
+			}
+
+			try
+			{
+				var items = filesAndFolders.ToList();
+				var mainItem = items.FirstOrDefault(x => x is not AlternateStreamItem && x.ItemPath.Equals(mainStreamPath, StringComparison.OrdinalIgnoreCase));
+				if (mainItem is null)
+					return false;
+
+				var onDisk = Win32Helper.GetAlternateStreams(mainStreamPath)
+					.Select(ads => Win32StorageEnumerator.GetAlternateStream(ads, mainItem))
+					.ToDictionary(x => x.ItemPath, StringComparer.OrdinalIgnoreCase);
+
+				var anyChanges = false;
+
+				foreach (var adsItem in items.OfType<AlternateStreamItem>().Where(x => x.MainStreamPath.Equals(mainStreamPath, StringComparison.OrdinalIgnoreCase)))
+				{
+					if (!onDisk.Remove(adsItem.ItemPath))
+					{
+						filesAndFolders.Remove(adsItem);
+						anyChanges = true;
+					}
+				}
+
+				foreach (var adsItem in onDisk.Values)
+				{
+					filesAndFolders.Add(adsItem);
+					anyChanges = true;
+				}
+
+				return anyChanges;
+			}
+			finally
+			{
+				enumFolderSemaphore.Release();
+			}
 		}
 
 		public async Task AddSearchResultsToCollectionAsync(ObservableCollection<ListedItem> searchItems, string currentSearchPath)
