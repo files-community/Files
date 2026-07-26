@@ -216,25 +216,19 @@
 					<FontIcon Glyph="&#xE8B5;" />
 				</wctcontrols:SettingsExpander.HeaderIcon>
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=UseRobocopyForFileOperations}" IsOn="{x:Bind ViewModel.UseRobocopyForFileOperations, Mode=TwoWay}" />
-				<wctcontrols:SettingsExpander.ItemsHeader>
-					<Grid
-						Padding="8"
-						HorizontalAlignment="Stretch"
-						Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-						RowSpacing="4">
-						<StackPanel Orientation="Horizontal" Spacing="12">
-							<TextBlock VerticalAlignment="Center" Text="{helpers:ResourceString Name=RobocopyThreads}" />
-							<NumberBox
-								Width="160"
-								LargeChange="8"
-								Maximum="128"
-								Minimum="1"
-								SmallChange="1"
-								SpinButtonPlacementMode="Compact"
-								Value="{x:Bind ViewModel.RobocopyThreads, Mode=TwoWay}" />
-						</StackPanel>
-					</Grid>
-				</wctcontrols:SettingsExpander.ItemsHeader>
+				<wctcontrols:SettingsExpander.Items>
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=RobocopyThreads}" IsEnabled="{x:Bind ViewModel.UseRobocopyForFileOperations, Mode=OneWay}">
+						<NumberBox
+							Width="160"
+							AutomationProperties.Name="{helpers:ResourceString Name=RobocopyThreads}"
+							LargeChange="8"
+							Maximum="128"
+							Minimum="1"
+							SmallChange="1"
+							SpinButtonPlacementMode="Compact"
+							Value="{x:Bind ViewModel.RobocopyThreads, Mode=TwoWay}" />
+					</wctcontrols:SettingsCard>
+				</wctcontrols:SettingsExpander.Items>
 			</wctcontrols:SettingsExpander>
 		</StackPanel>
 	</Grid>
