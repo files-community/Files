@@ -19,7 +19,6 @@ namespace Files.App.Services
 	public class StorageArchiveService : IStorageArchiveService
 	{
 		private StatusCenterViewModel StatusCenterViewModel { get; } = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
-		private IThreadingService ThreadingService { get; } = Ioc.Default.GetRequiredService<IThreadingService>();
 
 		// Archive paths currently being written. ConcurrentDictionary used as a set; the byte value
 		// is unused. Lookups are case-insensitive to match Windows path semantics.
@@ -167,11 +166,8 @@ namespace Files.App.Services
 
 				if (!e.FileInfo.IsDirectory)
 				{
-					ThreadingService.ExecuteOnUiThreadAsync(() =>
-					{
-						fsProgress.FileName = ArchiveEntryHelpers.GetEntryName(e.FileInfo, archiveFilePath);
-						fsProgress.Report();
-					});
+					fsProgress.FileName = ArchiveEntryHelpers.GetEntryName(e.FileInfo, archiveFilePath);
+					fsProgress.Report();
 				}
 			};
 
@@ -276,7 +272,7 @@ namespace Files.App.Services
 			{
 				long processedBytes = 0;
 				int processedFiles = 0;
-				await Task.Run(async () =>
+				await Task.Run(() =>
 				{
 					foreach (ZipEntry zipEntry in zipFile)
 					{
@@ -304,11 +300,8 @@ namespace Files.App.Services
 						using (Stream zipStream = zipFile.GetInputStream(zipEntry))
 						using (FileStream streamWriter = File.Create(fullZipToPath))
 						{
-							await ThreadingService.ExecuteOnUiThreadAsync(() =>
-							{
-								fsProgress.FileName = entryFileName;
-								fsProgress.Report();
-							});
+							fsProgress.FileName = entryFileName;
+							fsProgress.Report();
 
 							StreamUtils.Copy(zipStream, streamWriter, buffer);
 						}
