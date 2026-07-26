@@ -1781,6 +1781,15 @@
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
     <value>Cung cấp thông tin đăng nhập của bạn:</value>
   </data>
+  <data name="CredentialDialogIncorrectPassword" xml:space="preserve">
+    <value>Mật khẩu không đúng. Vui lòng thử lại.</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Yêu cầu mật khẩu</value>
+  </data>
+  <data name="PasswordRequiredMessage" xml:space="preserve">
+    <value>Vị trí này được bảo vệ bằng mật khẩu. Hãy làm mới để nhập mật khẩu.</value>
+  </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Tên người dùng</value>
   </data>
@@ -3235,7 +3244,7 @@
     <value>Không thể hiển thị quyền truy cập.</value>
   </data>
   <data name="StashChanges" xml:space="preserve">
-    <value>Để các thay đổi của tôi vào '{0}'</value>
+    <value>Giữ các thay đổi của tôi trong '{0}'</value>
   </data>
   <data name="DiscardChanges" xml:space="preserve">
     <value>Hủy các thay đổi của tôi</value>
@@ -3247,13 +3256,13 @@
     <value>Bạn có các thay đổi chưa commit ở nhánh này. Bạn muốn làm gì với các thay đổi này?</value>
   </data>
   <data name="MergeInProgress" xml:space="preserve">
-    <value>Bạn hiện có merge với conflict chưa giải quyết. Vui lòng thực hiện giải quyết conflict hoặc bỏ merge để chuyển nhánh.</value>
+    <value>Bạn hiện có merge với xung đột chưa giải quyết. Vui lòng thực hiện giải quyết xung đột hoặc bỏ merge để chuyển nhánh.</value>
   </data>
   <data name="AbortMergeAndSwitch" xml:space="preserve">
     <value>Bỏ merge và chuyển sang '{0}'</value>
   </data>
   <data name="StayAndResolveConflicts" xml:space="preserve">
-    <value>Ở lại '{0}' và giải quyết conflict</value>
+    <value>Ở lại '{0}' và giải quyết xung đột</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Chuyển nhánh</value>
@@ -3332,6 +3341,9 @@
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
     <value>git pull không thành công do hết thời gian chờ</value>
+  </data>
+  <data name="PullUncommittedChangesError" xml:space="preserve">
+    <value>Không thể pull vì các thay đổi chưa commit của bạn sẽ bị ghi đè. Thực hiện commit, stash hoặc bỏ thay đổi của bạn rồi thử lại.</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(nhiều giá trị)</value>
