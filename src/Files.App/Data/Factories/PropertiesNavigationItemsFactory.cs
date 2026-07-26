@@ -62,10 +62,15 @@ namespace Files.App.Data.Factories
 				var fileExt = listedItem.FileExtension;
 				var isFolder = listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder;
 
+				var isMtpPath = DriveHelpers.IsMtpPath(listedItem.ItemPath);
+				var isNetworkPath = isFolder && DriveHelpers.IsNetworkPath(listedItem.ItemPath);
+
 				var securityItemEnabled = !isLibrary && !listedItem.IsRecycleBinItem;
 				var hashItemEnabled = !(isFolder && !listedItem.IsArchive) && !isLibrary && !listedItem.IsRecycleBinItem;
 				var detailsItemEnabled = !(isFolder && !listedItem.IsArchive) && !isLibrary && !listedItem.IsRecycleBinItem;
-				var customizationItemEnabled = !isLibrary && (isFolder && !listedItem.IsArchive || isShortcut);
+				var customizationItemEnabled =
+					!isLibrary &&
+					(isFolder && !listedItem.IsArchive && !listedItem.IsFtpItem && !listedItem.IsRecycleBinItem && !isMtpPath && !isNetworkPath || isShortcut);
 				var compatibilityItemEnabled = FileExtensionHelpers.IsExecutableFile(listedItem is IShortcutItem sht ? sht.TargetPath : fileExt, true);
 				var signaturesItemEnabled =
 					!isFolder &&

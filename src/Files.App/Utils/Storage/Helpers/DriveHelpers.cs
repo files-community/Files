@@ -93,6 +93,27 @@ namespace Files.App.Utils.Storage
 			return null;
 		}
 
+		public static bool IsMtpPath(string path)
+		{
+			return path.StartsWith(@"\\?\", StringComparison.Ordinal);
+		}
+
+		public static bool IsNetworkPath(string path)
+		{
+			if (IsMtpPath(path))
+				return false;
+
+			try
+			{
+				return path.StartsWith(@"\\", StringComparison.Ordinal) ||
+					GetDriveType(new SystemIO.DriveInfo(path)) is Data.Items.DriveType.Network;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
 		public static Data.Items.DriveType GetDriveType(System.IO.DriveInfo drive)
 		{
 			if (drive.DriveType is System.IO.DriveType.Unknown)
