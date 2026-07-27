@@ -209,7 +209,7 @@ namespace Files.App.Utils.Storage
 					var entryPath = System.IO.Path.Combine(System.IO.Path.GetFullPath(containerPath), entry.Name.Replace("/", "\\"));
 					var normalizedEntry = entryPath.TrimEnd('\\', '/');
 
-					if (normalizedEntry == normalizedTarget)
+					if (normalizedEntry.Equals(normalizedTarget, StringComparison.OrdinalIgnoreCase))
 						return new ZipFolderBasicPropertiesWithEncoding(entry);
 				}
 
@@ -290,7 +290,7 @@ namespace Files.App.Utils.Storage
 						var entryPath = System.IO.Path.Combine(System.IO.Path.GetFullPath(containerPath), entry.Name.Replace("/", "\\"));
 						var normalizedEntry = entryPath.TrimEnd('\\', '/');
 
-						if (normalizedEntry == normalizedTarget)
+						if (normalizedEntry.Equals(normalizedTarget, StringComparison.OrdinalIgnoreCase))
 						{
 							if (entry.IsDirectory)
 							{
