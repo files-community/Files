@@ -12,6 +12,9 @@ namespace Files.App.Utils.Storage
 
 		Func<IPasswordProtectedItem, Task<StorageCredential>> PasswordRequestedCallback { get; set; }
 
+		// Called after an operation succeeds with credentials obtained from PasswordRequestedCallback
+		void OnCredentialsVerified() { }
+
 		async Task<TOut> RetryWithCredentialsAsync<TOut>(Func<Task<TOut>> func, Exception exception)
 		{
 			var handled = exception is SevenZipOpenFailedException szofex && szofex.Result is OperationResult.WrongPassword ||
@@ -23,7 +26,9 @@ namespace Files.App.Utils.Storage
 
 			Credentials = await PasswordRequestedCallback(this);
 
-			return await func();
+			var result = await func();
+			OnCredentialsVerified();
+			return result;
 		}
 
 		async Task RetryWithCredentialsAsync(Func<Task> func, Exception exception)
@@ -38,6 +43,7 @@ namespace Files.App.Utils.Storage
 			Credentials = await PasswordRequestedCallback(this);
 
 			await func();
+			OnCredentialsVerified();
 		}
 
 		void CopyFrom(IPasswordProtectedItem parent)

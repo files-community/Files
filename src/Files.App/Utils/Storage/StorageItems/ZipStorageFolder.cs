@@ -35,6 +35,20 @@ namespace Files.App.Utils.Storage
 
 		public Func<IPasswordProtectedItem, Task<StorageCredential>> PasswordRequestedCallback { get; set; }
 
+		// Verified credentials per archive file path, shared with ZipStorageFile; SecureString-backed like FtpManager.Credentials
+		internal static readonly ConcurrentDictionary<string, StorageCredential> CachedCredentials = new(StringComparer.OrdinalIgnoreCase);
+
+		void IPasswordProtectedItem.OnCredentialsVerified()
+		{
+			using var password = Credentials.SecurePassword;
+			CachedCredentials[containerPath] = new StorageCredential(Credentials.UserName, password);
+		}
+
+		private string ArchivePassword
+			=> string.IsNullOrEmpty(Credentials.Password) && CachedCredentials.TryGetValue(containerPath, out var cached)
+				? cached.Password
+				: Credentials.Password;
+
 		public ZipStorageFolder(string path, string containerPath)
 		{
 			Name = IO.Path.GetFileName(path.TrimEnd('\\', '/'));
@@ -316,7 +330,7 @@ namespace Files.App.Utils.Storage
 						compressor.CustomParameters.Add("cu", "on");
 						compressor.SetFormatFromExistingArchive(archiveStream);
 						var fileName = IO.Path.GetRelativePath(containerPath, zipDesiredName);
-						await compressor.CompressStreamDictionaryAsync(archiveStream, new Dictionary<string, Stream>() { { fileName, null } }, Credentials.Password, ms);
+						await compressor.CompressStreamDictionaryAsync(archiveStream, new Dictionary<string, Stream>() { { fileName, null } }, ArchivePassword, ms);
 					}
 					await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 					{
@@ -371,7 +385,7 @@ namespace Files.App.Utils.Storage
 							var folderDes = IO.Path.Combine(IO.Path.GetDirectoryName(folderKey), desiredName);
 							var entriesMap = new Dictionary<int, string>(index.Select(x => new KeyValuePair<int, string>(x.Index,
 								IO.Path.Combine(folderDes, IO.Path.GetRelativePath(folderKey, x.Key)))));
-							await compressor.ModifyArchiveAsync(archiveStream, entriesMap, Credentials.Password, ms);
+							await compressor.ModifyArchiveAsync(archiveStream, entriesMap, ArchivePassword, ms);
 						}
 						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 						{
@@ -420,7 +434,7 @@ namespace Files.App.Utils.Storage
 							compressor.CustomParameters.Add("cu", "on");
 							compressor.SetFormatFromExistingArchive(archiveStream);
 							var entriesMap = new Dictionary<int, string>(index.Select(x => new KeyValuePair<int, string>(x.Index, null)));
-							await compressor.ModifyArchiveAsync(archiveStream, entriesMap, Credentials.Password, ms);
+							await compressor.ModifyArchiveAsync(archiveStream, entriesMap, ArchivePassword, ms);
 						}
 						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 						{
@@ -581,7 +595,7 @@ namespace Files.App.Utils.Storage
 			return AsyncInfo.Run<SevenZipExtractor>(async (cancellationToken) =>
 			{
 				var zipFile = await OpenZipFileAsync(FileAccessMode.Read);
-				return zipFile is not null ? new SevenZipExtractor(zipFile, Credentials.Password) : null;
+				return zipFile is not null ? new SevenZipExtractor(zipFile, ArchivePassword) : null;
 			});
 		}
 
@@ -645,7 +659,7 @@ namespace Files.App.Utils.Storage
 						compressor.CustomParameters.Add("cu", "on");
 						compressor.SetFormatFromExistingArchive(archiveStream);
 						var fileName = IO.Path.GetRelativePath(containerPath, zipDesiredName);
-						await compressor.CompressStreamDictionaryAsync(archiveStream, new Dictionary<string, Stream>() { { fileName, contents } }, Credentials.Password, ms);
+						await compressor.CompressStreamDictionaryAsync(archiveStream, new Dictionary<string, Stream>() { { fileName, contents } }, ArchivePassword, ms);
 					}
 					await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 					{

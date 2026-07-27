@@ -49,6 +49,17 @@ namespace Files.App.Utils.Storage
 
 		public Func<IPasswordProtectedItem, Task<StorageCredential>> PasswordRequestedCallback { get; set; }
 
+		void IPasswordProtectedItem.OnCredentialsVerified()
+		{
+			using var password = Credentials.SecurePassword;
+			ZipStorageFolder.CachedCredentials[containerPath] = new StorageCredential(Credentials.UserName, password);
+		}
+
+		private string ArchivePassword
+			=> string.IsNullOrEmpty(Credentials.Password) && ZipStorageFolder.CachedCredentials.TryGetValue(containerPath, out var cached)
+				? cached.Password
+				: Credentials.Password;
+
 		public ZipStorageFile(string path, string containerPath)
 		{
 			Name = IO.Path.GetFileName(path.TrimEnd('\\', '/'));
@@ -329,7 +340,7 @@ namespace Files.App.Utils.Storage
 							compressor.CustomParameters.Add("cu", "on");
 							compressor.SetFormatFromExistingArchive(archiveStream);
 							var fileName = IO.Path.GetRelativePath(containerPath, IO.Path.Combine(IO.Path.GetDirectoryName(Path), desiredName));
-							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, fileName } }, Credentials.Password, ms);
+							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, fileName } }, ArchivePassword, ms);
 						}
 
 						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
@@ -378,7 +389,7 @@ namespace Files.App.Utils.Storage
 							SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
 							compressor.CustomParameters.Add("cu", "on");
 							compressor.SetFormatFromExistingArchive(archiveStream);
-							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, null } }, Credentials.Password, ms);
+							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, null } }, ArchivePassword, ms);
 						}
 						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 						{
@@ -463,7 +474,7 @@ namespace Files.App.Utils.Storage
 			return AsyncInfo.Run<SevenZipExtractor>(async (cancellationToken) =>
 			{
 				var zipFile = await OpenZipFileAsync(FileAccessMode.Read);
-				return zipFile is not null ? new SevenZipExtractor(zipFile, Credentials.Password) : null;
+				return zipFile is not null ? new SevenZipExtractor(zipFile, ArchivePassword) : null;
 			});
 		}
 
