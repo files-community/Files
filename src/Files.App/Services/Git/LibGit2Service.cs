@@ -361,15 +361,15 @@ internal sealed partial class LibGit2Service // : IVersionControl
 
 		await DoGitOperationAsync<GitOperationResult>(() =>
 		{
-			cancellationToken.ThrowIfCancellationRequested();
-
 			var result = GitOperationResult.Success;
-			try
-			{
-				foreach (var remote in repository.Network.Remotes)
-				{
-					cancellationToken.ThrowIfCancellationRequested();
 
+			foreach (var remote in repository.Network.Remotes)
+			{
+				if (cancellationToken.IsCancellationRequested)
+					return result;
+
+				try
+				{
 					LibGit2Sharp.Commands.Fetch(
 						repository,
 						remote.Name,
@@ -377,14 +377,14 @@ internal sealed partial class LibGit2Service // : IVersionControl
 						_fetchOptions,
 						"git fetch updated a ref");
 				}
+				catch (Exception ex)
+				{
+					// An unreachable remote (e.g. a deleted fork answering 401) must not prevent fetching the remaining remotes
+					_logger.LogWarning(ex, "Failed to fetch remote {RemoteName} in {RepositoryPath}", remote.Name, repositoryPath);
 
-				cancellationToken.ThrowIfCancellationRequested();
-			}
-			catch (Exception ex)
-			{
-				result = IsAuthorizationException(ex)
-					? GitOperationResult.AuthorizationError
-					: GitOperationResult.GenericError;
+					if (IsAuthorizationException(ex))
+						result = GitOperationResult.AuthorizationError;
+				}
 			}
 
 			return result;

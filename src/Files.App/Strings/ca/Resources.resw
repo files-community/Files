@@ -181,10 +181,10 @@
     <value>Accedit:</value>
   </data>
   <data name="RecentItemClearAllText" xml:space="preserve">
-    <value>Clear all items</value>
+    <value>Neteja tots els elements</value>
   </data>
   <data name="NavigationToolbarVisiblePathPlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>Introduïu una ruta per navegar-hi o escriviu «&gt;» per obrir la paleta d'ordres</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Cerca</value>
@@ -199,7 +199,7 @@
     <value>Els fitxers als quals heu accedit anteriorment es mostraran aquí</value>
   </data>
   <data name="RecentItemRemoveText" xml:space="preserve">
-    <value>Remove this item</value>
+    <value>Elimina aquest element</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>Repositori GitHub</value>
@@ -313,13 +313,13 @@
     <value>Fixar a la barra lateral</value>
   </data>
   <data name="WelcomeDialogTitle" xml:space="preserve">
-    <value>Welcome to Files!</value>
+    <value>Us donem la benvinguda al Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Concedeix permís</value>
   </data>
   <data name="WelcomeDialogTextBlockText" xml:space="preserve">
-    <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </value>
+    <value>Per començar, haureu de concedir-nos permís per mostrar els vostres fitxers. Això obrirà una pàgina de configuració on ens podeu concedir aquest permís. Haureu de tornar a obrir l'aplicació un cop hàgiu completat aquest pas. </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Mostra</value>
@@ -385,16 +385,16 @@
     <value>Estableix com a fons de l'aplicació</value>
   </data>
   <data name="AccessDeniedDeleteDialogText" xml:space="preserve">
-    <value>We weren't able to delete this item</value>
+    <value>No hem pogut suprimir aquest element</value>
   </data>
   <data name="DriveUnpluggedDialogText" xml:space="preserve">
-    <value>Please insert the necessary drive to access this item.</value>
+    <value>Inseriu la unitat necessària per accedir a aquest element.</value>
   </data>
   <data name="DriveUnpluggedDialogTitle" xml:space="preserve">
-    <value>Drive unplugged</value>
+    <value>Unitat desconnectada</value>
   </data>
   <data name="FileNotFoundDialogText" xml:space="preserve">
-    <value>The file you are attempting to access may have been moved or deleted.</value>
+    <value>És possible que el fitxer al qual intenteu accedir s'hagi mogut o suprimit.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
     <value>No es poden obrir les propietats d'aquest fitxer</value>
@@ -403,28 +403,28 @@
     <value>És possible que el fitxer al qual intenteu accedir s'hagi mogut o suprimit.</value>
   </data>
   <data name="FileNotFoundDialogTitle" xml:space="preserve">
-    <value>File Not Found</value>
+    <value>No s'ha trobat el fitxer</value>
   </data>
   <data name="FolderNotFoundDialogText" xml:space="preserve">
-    <value>The folder you are attempting to access may have been moved or deleted.</value>
+    <value>És possible que la carpeta a la qual intenteu accedir s'hagi mogut o suprimit.</value>
   </data>
   <data name="FolderNotFoundDialogTitle" xml:space="preserve">
-    <value>Did you delete this folder?</value>
+    <value>Heu suprimit aquesta carpeta?</value>
   </data>
   <data name="FileInUseByDialogText" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>El fitxer al qual intenteu accedir l'està utilitzant actualment {0}</value>
   </data>
   <data name="FileInUseDialogText" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>El fitxer al qual intenteu accedir l'està utilitzant una altra aplicació</value>
   </data>
   <data name="FileInUseDialogTitle" xml:space="preserve">
-    <value>File is in use</value>
+    <value>El fitxer està en ús</value>
   </data>
   <data name="CannotRunFileDialogTitle" xml:space="preserve">
-    <value>This app can't run on your PC</value>
+    <value>Aquesta aplicació no es pot executar al vostre PC</value>
   </data>
   <data name="CannotRunFileDialogText" xml:space="preserve">
-    <value>To find a version for your PC, check with the software publisher.</value>
+    <value>Per trobar una versió per al vostre PC, consulteu amb l'editor del programari.</value>
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Disseny</value>
@@ -531,7 +531,7 @@
     <value>{0, number} {0, plural, one {fitxer} other {fitxers}}, {1, number} {1, plural, one {carpeta} other {carpetes}} de {2, number} {2, plural, one {ubicació} other {ubicacions}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUserText" xml:space="preserve">
-    <value>Run as another user</value>
+    <value>Executa com un altre usuari</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
     <value>Tot tipus de {0}</value>
@@ -642,22 +642,22 @@
     <value>Compartint {0} {1}</value>
   </data>
   <data name="RenameErrorItemDeletedText" xml:space="preserve">
-    <value>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</value>
+    <value>L'element que intenteu canviar el nom ja no existeix. Verifiqueu la ubicació correcta de l'element que necessiteu canviar-li el nom.</value>
   </data>
   <data name="RenameErrorItemDeletedTitle" xml:space="preserve">
-    <value>Item no longer exists</value>
+    <value>L'element ja no existeix</value>
   </data>
   <data name="RenameErrorNameInvalidText" xml:space="preserve">
-    <value>The name specified was invalid. Please check the desired item name and try again.</value>
+    <value>El nom especificat no és vàlid. Comproveu el nom de l'element desitjat i torneu-ho a provar.</value>
   </data>
   <data name="RenameErrorNameInvalidTitle" xml:space="preserve">
-    <value>Invalid item name</value>
+    <value>Nom de l'element no vàlid</value>
   </data>
   <data name="RenameErrorTooLongText" xml:space="preserve">
-    <value>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</value>
+    <value>La longitud del nom de l'element especificat supera el límit màxim. Comproveu el nom desitjat i torneu-ho a provar.</value>
   </data>
   <data name="RenameErrorTooLongTitle" xml:space="preserve">
-    <value>Item name was too long</value>
+    <value>El nom de l'element és massa llarg</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
     <value>Mostra més opcions</value>
@@ -669,13 +669,13 @@
     <value>Patrocineu-nos al GitHub</value>
   </data>
   <data name="AccessDeniedCreateDialogText" xml:space="preserve">
-    <value>We weren't able to create this item</value>
+    <value>No s'ha pogut crear aquest element</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>Accés denegat</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsText" xml:space="preserve">
-    <value>Set as</value>
+    <value>Estableix com</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel·la</value>
@@ -717,7 +717,7 @@
     <value>Mostra el diàleg de confirmació en suprimir elements</value>
   </data>
   <data name="PropertySaveErrorMessageText" xml:space="preserve">
-    <value>There was an issue saving some properties.</value>
+    <value>S'ha produït un problema en desar algunes propietats.</value>
   </data>
   <data name="PropertySaveErrorDialogTitle" xml:space="preserve">
     <value>Error</value>
@@ -1215,7 +1215,7 @@
     <value>Desconegut</value>
   </data>
   <data name="RenameFileDialogText" xml:space="preserve">
-    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
+    <value>Si canvieu una extensió de fitxer, és possible que el fitxer es torni inutilitzable. Esteu segur que voleu canviar-ho?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>Unitat de CD</value>
@@ -1254,7 +1254,7 @@
     <value>Més opcions...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItemText" xml:space="preserve">
-    <value>Map network drive</value>
+    <value>Afegeix una unitat de xarxa</value>
   </data>
   <data name="Pinned" xml:space="preserve">
     <value>Fixat</value>
@@ -1287,10 +1287,10 @@
     <value>Columnes (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStartText" xml:space="preserve">
-    <value>Pin to the Start Menu</value>
+    <value>Fixa al Menú d'Inici</value>
   </data>
   <data name="UnpinItemFromStartText" xml:space="preserve">
-    <value>Unpin from the Start Menu</value>
+    <value>Elimina del Menú d'Inici</value>
   </data>
   <data name="Library" xml:space="preserve">
     <value>Biblioteca</value>
@@ -1536,13 +1536,13 @@
     <value>Compte desconegut</value>
   </data>
   <data name="SecurityCannotReadPropertiesText" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
+    <value>No teniu permisos per veure les propietats de seguretat d'aquest objecte. Feu clic a «Permisos avançats» per continuar.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Propietari:</value>
   </data>
   <data name="SecurityUnknownOwnerTextText" xml:space="preserve">
-    <value>Unknown owner</value>
+    <value>Propietari desconegut</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Extreu l'arxiu</value>
@@ -1554,10 +1554,10 @@
     <value>Extreu a {0}\</value>
   </data>
   <data name="SideBarCreateNewLibraryText" xml:space="preserve">
-    <value>Create new library</value>
+    <value>Crea una nova biblioteca</value>
   </data>
   <data name="SideBarRestoreLibrariesText" xml:space="preserve">
-    <value>Restore default libraries</value>
+    <value>Restaura les biblioteques per defecte</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
     <value>Esteu segur que voleu restaurar les biblioteques per defecte? Tots els vostres fitxers romandran al vostre emmagatzematge.</value>
@@ -1569,7 +1569,7 @@
     <value>Propietari</value>
   </data>
   <data name="SecuritySpecialLabelText" xml:space="preserve">
-    <value>Special</value>
+    <value>Especial</value>
   </data>
   <data name="Access" xml:space="preserve">
     <value>Accés</value>
@@ -1596,7 +1596,7 @@
     <value>Permisos</value>
   </data>
   <data name="SecurityAdvancedCannotReadPropertiesText" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
+    <value>No teniu permisos per veure les propietats de seguretat d'aquest objecte. Podeu provar d'apropiar-vos d'aquest objecte.</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>Aquesta carpeta i els fitxers</value>
@@ -1620,49 +1620,49 @@
     <value>Aquesta carpeta i subcarpetes</value>
   </data>
   <data name="SecurityAppendDataLabelText" xml:space="preserve">
-    <value>Append data</value>
+    <value>Afegeix dades</value>
   </data>
   <data name="SecurityChangePermissionsLabelText" xml:space="preserve">
-    <value>Change permission</value>
+    <value>Canvia els permisos</value>
   </data>
   <data name="SecurityCreateDirectoriesLabelText" xml:space="preserve">
-    <value>Create folders</value>
+    <value>Crea carpetes</value>
   </data>
   <data name="SecurityCreateFilesLabelText" xml:space="preserve">
-    <value>Create files</value>
+    <value>Crea fitxers</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabelText" xml:space="preserve">
-    <value>Delete subdirectories and files</value>
+    <value>Suprimeix subdirectoris i fitxers</value>
   </data>
   <data name="SecurityExecuteFileLabelText" xml:space="preserve">
-    <value>Execute files</value>
+    <value>Executa fitxers</value>
   </data>
   <data name="SecurityReadAttributesLabelText" xml:space="preserve">
-    <value>Read attributes</value>
+    <value>Llegeix els atributs</value>
   </data>
   <data name="SecurityReadDataLabelText" xml:space="preserve">
-    <value>Read data</value>
+    <value>Llegeix les dades</value>
   </data>
   <data name="SecurityReadExtendedAttributesLabelText" xml:space="preserve">
-    <value>Read extended attributes</value>
+    <value>Llegeix els atributs ampliats</value>
   </data>
   <data name="SecurityReadPermissionsLabelText" xml:space="preserve">
-    <value>Read permissions</value>
+    <value>Llegeix els permisos</value>
   </data>
   <data name="SecurityTakeOwnershipLabelText" xml:space="preserve">
-    <value>Take ownership</value>
+    <value>Pren la propietat</value>
   </data>
   <data name="SecurityTraverseLabelText" xml:space="preserve">
-    <value>Visit folder</value>
+    <value>Visita la carpeta</value>
   </data>
   <data name="SecurityWriteAttributesLabelText" xml:space="preserve">
-    <value>Write attributes</value>
+    <value>Escriu atributs</value>
   </data>
   <data name="SecurityWriteDataLabelText" xml:space="preserve">
-    <value>Write data</value>
+    <value>Escriu dades</value>
   </data>
   <data name="SecurityWriteExtendedAttributesLabelText" xml:space="preserve">
-    <value>Write extended attributes</value>
+    <value>Escriu atributs ampliats</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
     <value>Converteix els permisos heretats en permisos explícits</value>
@@ -1719,7 +1719,7 @@
     <value>WSL</value>
   </data>
   <data name="SideBarHideSectionFromSideBarText" xml:space="preserve">
-    <value>Hide {0} section</value>
+    <value>Amaga la secció {0}</value>
   </data>
   <data name="AddFile" xml:space="preserve">
     <value>Afegeix un fitxer</value>
@@ -1749,7 +1749,7 @@
     <value>Extracció completa!</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolderText" xml:space="preserve">
-    <value>Open parent folder</value>
+    <value>Obre la carpeta principal</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>Desconegut</value>
@@ -1764,10 +1764,10 @@
     <value>Obre una unitat</value>
   </data>
   <data name="InsertDiscDialogText" xml:space="preserve">
-    <value>Please insert a disc into drive {0}</value>
+    <value>Inseriu un disc a la unitat {0}</value>
   </data>
   <data name="InsertDiscDialogTitle" xml:space="preserve">
-    <value>Insert a disc</value>
+    <value>Inseriu un disc</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>D’acord</value>
@@ -1780,6 +1780,15 @@
   </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
     <value>Proporcioneu les vostres credencials:</value>
+  </data>
+  <data name="CredentialDialogIncorrectPassword" xml:space="preserve">
+    <value>La contrasenya és incorrecta. Torneu-ho a provar.</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Contrasenya obligatòria</value>
+  </data>
+  <data name="PasswordRequiredMessage" xml:space="preserve">
+    <value>Aquesta ubicació està protegida amb contrasenya. Actualitzeu la pàgina per introduir la contrasenya.</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Nom d'usuari</value>
@@ -2226,10 +2235,10 @@
     <value>Crea un arxiu</value>
   </data>
   <data name="CompressSkippedItemsDialogTitle" xml:space="preserve">
-    <value>Some items can't be compressed</value>
+    <value>Alguns elements no es poden comprimir</value>
   </data>
   <data name="CompressSkippedItemsDialogText" xml:space="preserve">
-    <value>The following {0, plural, one {item} other {items}} can''t be compressed. Would you like to skip {0, plural, one {this item} other {these items}}?</value>
+    <value>{0, plural, one {El següent element no es pot comprimir} other {Els següents elements no es poden comprimir}}. Voleu ometre {0, plural, one {aquest element} other {aquests elements}}?</value>
   </data>
   <data name="CompressIntoZip" xml:space="preserve">
     <value>Crea un arxiu zip</value>
@@ -3332,6 +3341,9 @@
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
     <value>el git pull ha fallat a causa d'un error de temps d'espera</value>
+  </data>
+  <data name="PullUncommittedChangesError" xml:space="preserve">
+    <value>No es pot realitzar la baixada perquè els canvis no confirmats se sobreescriurien. Confirmeu, deseu o descarteu els canvis i torneu-ho a provar.</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(valors múltiples)</value>

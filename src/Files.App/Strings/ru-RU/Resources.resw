@@ -181,7 +181,7 @@
     <value>Открыт:</value>
   </data>
   <data name="RecentItemClearAllText" xml:space="preserve">
-    <value>Clear all items</value>
+    <value>Очистить все элементы</value>
   </data>
   <data name="NavigationToolbarVisiblePathPlaceholderText" xml:space="preserve">
     <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
@@ -190,7 +190,7 @@
     <value>Поиск</value>
   </data>
   <data name="SearchSettings" xml:space="preserve">
-    <value>Search settings...</value>
+    <value>Поиск настроек...</value>
   </data>
   <data name="NoSearchResults" xml:space="preserve">
     <value>No settings match your search.</value>
@@ -199,7 +199,7 @@
     <value>Файлы, с которыми Вы ранее взаимодействовали, будут отображаться здесь</value>
   </data>
   <data name="RecentItemRemoveText" xml:space="preserve">
-    <value>Remove this item</value>
+    <value>Удалить этот элемент</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>Репозиторий на GitHub</value>
@@ -313,7 +313,7 @@
     <value>Закрепить на боковой панели</value>
   </data>
   <data name="WelcomeDialogTitle" xml:space="preserve">
-    <value>Welcome to Files!</value>
+    <value>Добро пожаловать в Файлы!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Предоставить разрешение</value>
@@ -385,7 +385,7 @@
     <value>Установить в качестве фона приложения</value>
   </data>
   <data name="AccessDeniedDeleteDialogText" xml:space="preserve">
-    <value>We weren't able to delete this item</value>
+    <value>Не удалось удалить этот элемент</value>
   </data>
   <data name="DriveUnpluggedDialogText" xml:space="preserve">
     <value>Please insert the necessary drive to access this item.</value>
@@ -418,10 +418,10 @@
     <value>The file you are attempting to access is currently being used by another application</value>
   </data>
   <data name="FileInUseDialogTitle" xml:space="preserve">
-    <value>File is in use</value>
+    <value>Файл используется</value>
   </data>
   <data name="CannotRunFileDialogTitle" xml:space="preserve">
-    <value>This app can't run on your PC</value>
+    <value>Это приложение не может работать на вашем ПК</value>
   </data>
   <data name="CannotRunFileDialogText" xml:space="preserve">
     <value>To find a version for your PC, check with the software publisher.</value>
@@ -531,7 +531,7 @@
     <value>{0, number} {0, plural, one {файл} few {файла} other {файлов}}, {1, number} {1, plural, one {папка} few {папки} other {папок}} из {2, number} {2, plural, one {места} other {мест}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUserText" xml:space="preserve">
-    <value>Run as another user</value>
+    <value>Запуск под другим пользователем</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
     <value>Все типа {0}</value>
@@ -645,13 +645,13 @@
     <value>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</value>
   </data>
   <data name="RenameErrorItemDeletedTitle" xml:space="preserve">
-    <value>Item no longer exists</value>
+    <value>Элемент больше не существует</value>
   </data>
   <data name="RenameErrorNameInvalidText" xml:space="preserve">
     <value>The name specified was invalid. Please check the desired item name and try again.</value>
   </data>
   <data name="RenameErrorNameInvalidTitle" xml:space="preserve">
-    <value>Invalid item name</value>
+    <value>Неверное имя элемента</value>
   </data>
   <data name="RenameErrorTooLongText" xml:space="preserve">
     <value>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</value>
@@ -720,7 +720,7 @@
     <value>There was an issue saving some properties.</value>
   </data>
   <data name="PropertySaveErrorDialogTitle" xml:space="preserve">
-    <value>Error</value>
+    <value>Ошибка</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Закрыть</value>
@@ -1781,6 +1781,15 @@
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
     <value>Предоставьте Ваши учетные данные:</value>
   </data>
+  <data name="CredentialDialogIncorrectPassword" xml:space="preserve">
+    <value>The password is incorrect. Try again.</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Password required</value>
+  </data>
+  <data name="PasswordRequiredMessage" xml:space="preserve">
+    <value>This location is password protected. Refresh to enter the password.</value>
+  </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Имя пользователя</value>
   </data>
@@ -2475,7 +2484,7 @@
     <value>Изменить порядок элементов боковой панели</value>
   </data>
   <data name="Hashes" xml:space="preserve">
-    <value>Хеши</value>
+    <value>Хэши</value>
   </data>
   <data name="CalculationError" xml:space="preserve">
     <value>Произошла ошибка при вычислении</value>
@@ -3332,6 +3341,9 @@
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
     <value>ошибка git pull из-за времени ожидания</value>
+  </data>
+  <data name="PullUncommittedChangesError" xml:space="preserve">
+    <value>Can't pull because your uncommitted changes would be overwritten. Commit, stash, or discard your changes, then try again.</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(несколько значений)</value>
