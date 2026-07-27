@@ -413,17 +413,14 @@ namespace Files.App.Utils.Storage
 				if (entry is null){
 					return null;
 				}
-				
-				var ms = new MemoryStream();
-				using (var zipStream = zipFile.GetInputStream(entry))
-				{
-					zipStream.CopyTo(ms);
-				}
-				ms.Position = 0;
 
 				var destFolder = destinationFolder.AsBaseStorageFolder();
 				if (destFolder is ICreateFileWithStream cwsf)
 				{
+					var ms = new MemoryStream();
+					using var zipStream = zipFile.GetInputStream(entry);
+					zipStream.CopyTo(ms);
+					ms.Position = 0;
 					using var inStream = new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size);
 					return await cwsf.CreateFileAsync(inStream.AsStreamForRead(), desiredNewName, option.Convert());
 				}
@@ -431,8 +428,8 @@ namespace Files.App.Utils.Storage
 				{
 					var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
 					await using var outStream = await destFile.OpenStreamForWriteAsync();
-					ms.Position = 0;
-					ms.CopyTo(outStream);
+					using var zipStream = zipFile.GetInputStream(entry);
+					zipStream.CopyTo(outStream);
 					return destFile;
 				}
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
