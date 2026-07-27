@@ -11,6 +11,9 @@ namespace Files.App.ViewModels.Settings
 {
 	public sealed partial class AppearanceViewModel : ObservableObject
 	{
+		// Keys the persisted state of the background image picker so it reopens at the last browsed folder
+		private static readonly Guid _backgroundImagePickerClientGuid = new("D3EED455-B484-4400-9232-76C210DA15CE");
+
 		private ICommandManager CommandManager { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
@@ -112,7 +115,7 @@ namespace Files.App.ViewModels.Settings
 				"WEBP", "*.webp",
 			];
 
-			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.MyPictures, out var filePath);
+			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.MyPictures, out var filePath, _backgroundImagePickerClientGuid);
 			if (result)
 				AppThemeBackgroundImageSource = filePath;
 		}
