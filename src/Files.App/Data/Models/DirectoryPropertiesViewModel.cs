@@ -331,11 +331,51 @@ namespace Files.App.ViewModels.UserControls
 				if (marker is not -1)
 				{
 					var containerPath = workingDir.Substring(0, marker + ext.Length);
+
+					ZipStorageFolder.TryGetEncodingForContainerPath(containerPath, out var oldEncoding);
+
 					ZipStorageFolder.SetEncodingForContainerPath(containerPath, encodingItem.Encoding);
+
+					var convertedPath = TryConvertZipPath(workingDir, containerPath, oldEncoding, encodingItem.Encoding);
+					if (convertedPath is not null)
+					{
+						ContentPageContext.ShellPage.NavigateToPath(convertedPath);
+						return;
+					}
 				}
 			}
 
 			ContentPageContext.ShellPage.ShellViewModel.RefreshItems(null);
+		}
+
+		private static string? TryConvertZipPath(string workingDir, string containerPath, Encoding? oldEncoding, Encoding? newEncoding)
+		{
+			if (oldEncoding is null || newEncoding is null)
+				return null;
+
+			if (string.Equals(workingDir, containerPath, StringComparison.OrdinalIgnoreCase))
+				return null;
+
+			var relativePath = workingDir.Substring(containerPath.Length).Trim('\\', '/');
+			if (string.IsNullOrEmpty(relativePath))
+				return null;
+
+			var components = relativePath.Split('\\', '/');
+
+			try
+			{
+				var convertedComponents = new string[components.Length];
+				for (var i = 0; i < components.Length; i++)
+				{
+					var rawBytes = oldEncoding.GetBytes(components[i]);
+					convertedComponents[i] = newEncoding.GetString(rawBytes);
+				}
+				return containerPath + "\\" + string.Join("\\", convertedComponents) + "\\";
+			}
+			catch
+			{
+				return null;
+			}
 		}
 
 		internal void SubscribeToInstanceViewModel()
