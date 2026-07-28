@@ -70,7 +70,8 @@ namespace Files.App.Data.Factories
 				var detailsItemEnabled = !(isFolder && !listedItem.IsArchive) && !isLibrary && !listedItem.IsRecycleBinItem;
 				var customizationItemEnabled =
 					!isLibrary &&
-					(isFolder && !listedItem.IsArchive && !listedItem.IsFtpItem && !listedItem.IsRecycleBinItem && !isMtpPath && !isNetworkPath || isShortcut);
+					(isFolder && !listedItem.IsArchive && !listedItem.IsFtpItem && !listedItem.IsRecycleBinItem && !isMtpPath &&
+						(!isNetworkPath || PolicyHelpers.IsShellShortcutIconRemotePathEnabled()) || isShortcut);
 				var compatibilityItemEnabled = FileExtensionHelpers.IsExecutableFile(listedItem is IShortcutItem sht ? sht.TargetPath : fileExt, true);
 				var signaturesItemEnabled =
 					!isFolder &&
