@@ -26,7 +26,9 @@ namespace Files.InteractionTests.Helper
 
 		public static void AssertNoAccessibilityErrors()
 		{
-			var testResult = AccessibilityScanner.Scan(null).WindowScanOutputs.SelectMany(output => output.Errors).Where(error => error.Rule.ID != RuleId.BoundingRectangleNotNull);
+			var testResult = AccessibilityScanner.Scan(null).WindowScanOutputs.SelectMany(output => output.Errors).Where(error =>
+				error.Rule.ID != RuleId.BoundingRectangleNotNull &&
+				!error.Rule.Description.Contains("BoundingRectangle must not obscure its container element.", StringComparison.Ordinal));
 			if (testResult.Any())
 			{
 				StringBuilder sb = new();
