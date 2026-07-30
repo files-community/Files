@@ -35,6 +35,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// TODO: Replace with IMutableFolder.GetWatcherAsync() once it gets implemented in IWindowsStorable
 		private readonly SystemIO.FileSystemWatcher? _quickAccessFolderWatcher;
+		private bool isDisposed;
 
 		// Constructor
 
@@ -57,15 +58,18 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				NotifyFilter = SystemIO.NotifyFilters.LastAccess | SystemIO.NotifyFilters.LastWrite | SystemIO.NotifyFilters.FileName
 			};
 
-			_quickAccessFolderWatcher.Changed += async (s, e) =>
-			{
-				await RefreshWidgetAsync();
-			};
+			_quickAccessFolderWatcher.Changed += QuickAccessFolderWatcher_Changed;
 
 			_quickAccessFolderWatcher.EnableRaisingEvents = true;
 		}
 
 		// Methods
+
+		private async void QuickAccessFolderWatcher_Changed(object sender, SystemIO.FileSystemEventArgs e)
+		{
+			if (!isDisposed)
+				await RefreshWidgetAsync();
+		}
 
 		public Task RefreshWidgetAsync()
 		{
@@ -318,8 +322,22 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public void Dispose()
 		{
+			if (isDisposed)
+				return;
+
+			isDisposed = true;
+			Items.CollectionChanged -= Items_CollectionChanged;
+			if (_quickAccessFolderWatcher is not null)
+			{
+				_quickAccessFolderWatcher.EnableRaisingEvents = false;
+				_quickAccessFolderWatcher.Changed -= QuickAccessFolderWatcher_Changed;
+				_quickAccessFolderWatcher.Dispose();
+			}
+
 			foreach (var item in Items)
 				item.Dispose();
+
+			Items.Clear();
 		}
 	}
 }
