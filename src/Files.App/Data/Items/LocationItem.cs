@@ -92,6 +92,8 @@ namespace Files.App.Data.Items
 			}
 		}
 
+		FrameworkElement? ISidebarItemModel.IconElement => IconElement;
+
 		public bool SelectsOnInvoked { get; set; } = true;
 
 		// Shared by LocationItem + DriveItem. Enumerates off the UI thread, dispatches a single AddRange (one CollectionChanged event instead of N), paints with the cached generic folder icon, then upgrades per-path icons in the background. onLoaded runs on the UI thread alongside the AddRange so callers can flip their loaded/unrealized flags atomically with the visual update.

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI.Helpers;
+using Files.App.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
@@ -54,7 +55,11 @@ namespace Files.App.Data.Items
 			}
 		}
 
+		FrameworkElement? ISidebarItemModel.IconElement => IconElement;
+
 		public object ToolTip => Text;
+
+		FrameworkElement? ISidebarItemModel.ItemDecorator => null;
 
 		public bool IsExpanded { get => false; set { } }
 	}

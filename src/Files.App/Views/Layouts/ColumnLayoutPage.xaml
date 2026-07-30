@@ -266,7 +266,7 @@
 										x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
 
 									<Image
-										x:Name="IconOverlay"
+										x:Name="IconOverlayElement"
 										Width="16"
 										Height="16"
 										Margin="2"

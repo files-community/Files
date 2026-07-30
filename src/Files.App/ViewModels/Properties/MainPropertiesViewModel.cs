@@ -151,6 +151,8 @@ namespace Files.App.ViewModels.Properties
 
 		public object? ToolTip => Text;
 		public object? ItemDecorator => null;
+		FrameworkElement ISidebarItemModel.IconElement => IconElement;
+		FrameworkElement? ISidebarItemModel.ItemDecorator => null;
 
 		public PropertiesNavigationItem(PropertiesNavigationViewItemType itemType, string text, ThemedIcon iconElement)
 		{

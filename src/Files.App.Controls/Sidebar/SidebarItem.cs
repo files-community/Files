@@ -90,7 +90,10 @@ namespace Files.App.Controls
 				if (GetTemplateChild("ChevronContainer") is Border chevronContainer)
 					chevronContainer.PointerPressed += ChevronContainer_PointerPressed;
 				if (GetTemplateChild("FlyoutChildrenPresenter") is ItemsRepeater flyoutRepeater)
+				{
 					flyoutRepeater.ElementPrepared += FlyoutChildrenPresenter_ElementPrepared;
+					flyoutRepeater.ItemsSource = Item?.Children;
+				}
 			}
 
 			if (Owner is null)
@@ -124,9 +127,28 @@ namespace Files.App.Controls
 		public void HandleItemChange()
 		{
 			HookupItemChangeListener(null, Item);
+			if (UseItemPresentation)
+				UpdateItemPresentation();
+			UpdateFlyoutChildrenSource();
 			UpdateExpansionState();
 			ReevaluateSelection();
 			CanDrag = Item?.Path is string path && Path.IsPathRooted(path);
+		}
+
+		private void UpdateItemPresentation()
+		{
+			AutomationProperties.SetAutomationId(this, Item?.Text ?? string.Empty);
+			Text = Item?.Text;
+			ToolTip = Item?.ToolTip;
+			Icon = Item?.IconElement;
+			Decorator = Item?.ItemDecorator;
+			IsExpanded = Item?.IsExpanded ?? true;
+		}
+
+		private void UpdateFlyoutChildrenSource()
+		{
+			if (GetTemplateChild("FlyoutChildrenPresenter") is ItemsRepeater flyoutRepeater)
+				flyoutRepeater.ItemsSource = Item?.Children;
 		}
 
 		private void HookupOwners()
@@ -181,9 +203,45 @@ namespace Files.App.Controls
 		{
 			switch (e.PropertyName)
 			{
+				case null:
+				case "":
+					if (UseItemPresentation)
+						UpdateItemPresentation();
+					UpdateFlyoutChildrenSource();
+					UpdateExpansionState();
+					ReevaluateSelection();
+					break;
+				case nameof(ISidebarItemModel.Text):
+					if (UseItemPresentation)
+					{
+						Text = Item?.Text;
+						AutomationProperties.SetAutomationId(this, Item?.Text ?? string.Empty);
+					}
+					break;
+				case nameof(ISidebarItemModel.ToolTip):
+					if (UseItemPresentation)
+						ToolTip = Item?.ToolTip;
+					break;
+				case nameof(ISidebarItemModel.IconElement):
+					if (UseItemPresentation)
+						Icon = Item?.IconElement;
+					break;
+				case nameof(ISidebarItemModel.ItemDecorator):
+					if (UseItemPresentation)
+						Decorator = Item?.ItemDecorator;
+					break;
+				case nameof(ISidebarItemModel.IsExpanded):
+					if (UseItemPresentation)
+						IsExpanded = Item?.IsExpanded ?? true;
+					UpdateExpansionState();
+					break;
 				case nameof(ISidebarItemModel.HasUnrealizedChildren):
 				case nameof(ISidebarItemModel.IsLeafWithChildren):
+					UpdateExpansionState();
+					ReevaluateSelection();
+					break;
 				case nameof(ISidebarItemModel.Children):
+					UpdateFlyoutChildrenSource();
 					UpdateExpansionState();
 					ReevaluateSelection();
 					break;

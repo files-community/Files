@@ -204,6 +204,8 @@ namespace Files.App.Data.Items
 			}
 		}
 
+		FrameworkElement? ISidebarItemModel.IconElement => IconElement;
+
 		public FrameworkElement? ItemDecorator
 		{
 			get

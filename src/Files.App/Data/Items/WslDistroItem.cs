@@ -1,6 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Controls;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Data.Items
@@ -64,6 +66,9 @@ namespace Files.App.Data.Items
 				return source.CreateIconElement();
 			}
 		}
+
+		FrameworkElement? ISidebarItemModel.IconElement => IconElement;
+		FrameworkElement? ISidebarItemModel.ItemDecorator => null;
 
 		public int CompareTo(INavigationControlItem? other) => other is null ? 1 : Text.CompareTo(other.Text);
 	}

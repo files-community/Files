@@ -264,14 +264,14 @@
 								<controls:BreadcrumbBarItem
 									AllowDrop="True"
 									AutomationProperties.AccessibilityView="Content"
-									AutomationProperties.Name="{x:Bind Title, Mode=OneWay}"
-									ChevronToolTip="{x:Bind ChevronToolTip, Mode=OneWay}"
-									Content="{x:Bind Title, Mode=OneWay}"
+									AutomationProperties.Name="{x:Bind Title, Mode=OneTime}"
+									ChevronToolTip="{x:Bind ChevronToolTip, Mode=OneTime}"
+									Content="{x:Bind Title, Mode=OneTime}"
 									DataContext="{x:Bind}"
 									DragLeave="BreadcrumbBarItem_DragLeave"
 									DragOver="BreadcrumbBarItem_DragOver"
 									Drop="BreadcrumbBarItem_Drop"
-									IsChevronVisible="{x:Bind IsChevronVisible, Mode=OneWay}"
+									IsChevronVisible="{x:Bind IsChevronVisible, Mode=OneTime}"
 									RightTapped="BreadcrumbBarItem_RightTapped" />
 							</DataTemplate>
 						</controls:BreadcrumbBar.ItemTemplate>
@@ -279,7 +279,7 @@
 				</controls:OmnibarMode.ContentOnInactive>
 				<controls:OmnibarMode.ItemTemplate>
 					<DataTemplate x:DataType="datamodels:OmnibarPathModeSuggestionModel">
-						<TextBlock Text="{x:Bind DisplayName, Mode=OneWay}" />
+						<TextBlock Text="{x:Bind DisplayName, Mode=OneTime}" />
 					</DataTemplate>
 				</controls:OmnibarMode.ItemTemplate>
 			</controls:OmnibarMode>

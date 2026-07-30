@@ -118,9 +118,11 @@ namespace Files.App.ViewModels.Settings
 		public string? Path => null;
 		[ObservableProperty] public partial bool IsExpanded { get; set; }
 
-		// DefaultSidebarItemTemplate bindings
+		// Sidebar presentation
 		public object? ToolTip => Text;
 		public object? ItemDecorator => null;
+		FrameworkElement ISidebarItemModel.IconElement => IconElement;
+		FrameworkElement? ISidebarItemModel.ItemDecorator => null;
 
 		public SettingsNavigationItem(SettingsPageKind pageKind, string automationId, string text, ThemedIcon iconElement)
 		{
