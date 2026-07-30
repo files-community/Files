@@ -40,6 +40,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private readonly DispatcherQueue _dispatcherQueue;
 		private readonly DispatcherQueueTimer _dragOverTimer;
+		private bool _isDisposed;
 
 		private string? _dragOverPath;
 		private bool _lockFlag;
@@ -291,54 +292,40 @@ namespace Files.App.ViewModels.UserControls
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			UpdateService.PropertyChanged += UpdateService_OnPropertyChanged;
 
-			Commands.DecompressArchive.PropertyChanged += (s, e) =>
-			{
-				if (e.PropertyName is nameof(Commands.DecompressArchive.IsExecutable))
-					OnPropertyChanged(nameof(CanExtract));
-			};
-
-			Commands.DecompressArchiveHere.PropertyChanged += (s, e) =>
-			{
-				if (e.PropertyName is nameof(Commands.DecompressArchiveHere.IsExecutable))
-					OnPropertyChanged(nameof(CanExtract));
-			};
-
-			Commands.DecompressArchiveHereSmart.PropertyChanged += (s, e) =>
-			{
-				if (e.PropertyName is nameof(Commands.DecompressArchiveHereSmart.IsExecutable))
-					OnPropertyChanged(nameof(CanExtract));
-			};
-
-			Commands.DecompressArchiveHereSmart.PropertyChanged += (s, e) =>
-			{
-				if (e.PropertyName is nameof(Commands.DecompressArchiveToChildFolder.IsExecutable))
-					OnPropertyChanged(nameof(CanExtract));
-			};
-
-			AppearanceSettingsService.PropertyChanged += (s, e) =>
-			{
-				switch (e.PropertyName)
-				{
-					case nameof(AppearanceSettingsService.StatusCenterVisibility):
-						OnPropertyChanged(nameof(ShowStatusCenterButton));
-						break;
-					case nameof(AppearanceSettingsService.ShowShelfPaneToggleButton):
-						OnPropertyChanged(nameof(ShowShelfPaneToggleButton));
-						break;
-				}
-			};
-			OngoingTasksViewModel.PropertyChanged += (s, e) =>
-			{
-				switch (e.PropertyName)
-				{
-					case nameof(OngoingTasksViewModel.HasAnyItem):
-						OnPropertyChanged(nameof(ShowStatusCenterButton));
-						break;
-				}
-			};
+			Commands.DecompressArchive.PropertyChanged += DecompressCommand_PropertyChanged;
+			Commands.DecompressArchiveHere.PropertyChanged += DecompressCommand_PropertyChanged;
+			Commands.DecompressArchiveHereSmart.PropertyChanged += DecompressCommand_PropertyChanged;
+			Commands.DecompressArchiveToChildFolder.PropertyChanged += DecompressCommand_PropertyChanged;
+			AppearanceSettingsService.PropertyChanged += AppearanceSettingsService_PropertyChanged;
+			OngoingTasksViewModel.PropertyChanged += OngoingTasksViewModel_PropertyChanged;
 		}
 
 		// Methods
+
+		private void DecompressCommand_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(Commands.DecompressArchive.IsExecutable))
+				OnPropertyChanged(nameof(CanExtract));
+		}
+
+		private void AppearanceSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(AppearanceSettingsService.StatusCenterVisibility):
+					OnPropertyChanged(nameof(ShowStatusCenterButton));
+					break;
+				case nameof(AppearanceSettingsService.ShowShelfPaneToggleButton):
+					OnPropertyChanged(nameof(ShowShelfPaneToggleButton));
+					break;
+			}
+		}
+
+		private void OngoingTasksViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(OngoingTasksViewModel.HasAnyItem))
+				OnPropertyChanged(nameof(ShowStatusCenterButton));
+		}
 
 		private void UpdateService_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
@@ -1238,9 +1225,23 @@ namespace Files.App.ViewModels.UserControls
 
 		public void Dispose()
 		{
+			if (_isDisposed)
+				return;
+
+			_isDisposed = true;
 			_suggestSearchCTS.Cancel();
 			_suggestSearchCTS.Dispose();
+			_dragOverTimer.Stop();
+			InstanceViewModel = null!;
+			SelectedItems = null;
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+			UpdateService.PropertyChanged -= UpdateService_OnPropertyChanged;
+			Commands.DecompressArchive.PropertyChanged -= DecompressCommand_PropertyChanged;
+			Commands.DecompressArchiveHere.PropertyChanged -= DecompressCommand_PropertyChanged;
+			Commands.DecompressArchiveHereSmart.PropertyChanged -= DecompressCommand_PropertyChanged;
+			Commands.DecompressArchiveToChildFolder.PropertyChanged -= DecompressCommand_PropertyChanged;
+			AppearanceSettingsService.PropertyChanged -= AppearanceSettingsService_PropertyChanged;
+			OngoingTasksViewModel.PropertyChanged -= OngoingTasksViewModel_PropertyChanged;
 		}
 	}
 }

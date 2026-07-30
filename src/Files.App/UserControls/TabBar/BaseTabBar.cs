@@ -144,6 +144,9 @@ namespace Files.App.UserControls.TabBar
 			if (tabItem is null)
 				return;
 
+			if (MainWindow.Instance.Content is Frame rootFrame && rootFrame.Content is Files.App.Views.MainPage mainPage)
+				mainPage.DetachTabContent(tabItem);
+
 			Items.Remove(tabItem);
 			tabItem.Unload();
 

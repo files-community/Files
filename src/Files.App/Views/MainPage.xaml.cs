@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using System.Collections.Specialized;
 using System.Runtime.InteropServices;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
@@ -55,6 +56,7 @@ namespace Files.App.Views
 			}
 
 			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+			MainPageViewModel.AppInstances.CollectionChanged += AppInstances_CollectionChanged;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
 
@@ -461,6 +463,32 @@ namespace Files.App.Views
 			var savedOffset = _sidebarScrollByTab.GetValueOrDefault(newTab);
 			// Defer to after the flat-tree's tab-state restoration dispatcher work so the content extent has caught up before scrolling.
 			DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () => SidebarControl.ScrollToVerticalOffset(savedOffset));
+		}
+
+		private void AppInstances_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		{
+			if (e.Action is NotifyCollectionChangedAction.Reset)
+			{
+				_sidebarScrollByTab.Clear();
+				_previousSidebarTab = null;
+				return;
+			}
+
+			if (e.Action is not (NotifyCollectionChangedAction.Remove or NotifyCollectionChangedAction.Replace) || e.OldItems is null)
+				return;
+
+			foreach (TabBarItem tabItem in e.OldItems)
+			{
+				_sidebarScrollByTab.Remove(tabItem);
+				if (ReferenceEquals(_previousSidebarTab, tabItem))
+					_previousSidebarTab = null;
+			}
+		}
+
+		internal void DetachTabContent(TabBarItem tabItem)
+		{
+			if (ReferenceEquals(PageContent.Content, tabItem.ContentFrame))
+				PageContent.Content = null;
 		}
 
 		private void RootGrid_PreviewKeyDown(object sender, KeyRoutedEventArgs e)

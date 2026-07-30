@@ -35,6 +35,7 @@ namespace Files.App.Views.Shells
 		public StorageHistoryHelpers StorageHistoryHelpers { get; }
 
 		protected readonly CancellationTokenSource cancellationTokenSource;
+		private bool isDisposed;
 
 		protected readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
@@ -788,6 +789,12 @@ namespace Files.App.Views.Shells
 
 		public virtual void Dispose()
 		{
+			if (isDisposed)
+				return;
+
+			isDisposed = true;
+			cancellationTokenSource.Cancel();
+
 			PreviewKeyDown -= ShellPage_PreviewKeyDown;
 			PointerPressed -= CoreWindow_PointerPressed;
 			drivesViewModel.PropertyChanged -= DrivesManager_PropertyChanged;
@@ -796,6 +803,7 @@ namespace Files.App.Views.Shells
 			ToolbarViewModel.PathBoxItemDropped -= ShellPage_PathBoxItemDropped;
 			ToolbarViewModel.ItemDraggedOverPathItem -= ShellPage_NavigationRequested;
 			ToolbarViewModel.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
+			ToolbarViewModel.Dispose();
 
 			InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired -= FolderSettings_LayoutPreferencesUpdateRequired;
 			InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= AppSettings_SortDirectionPreferenceUpdated;
@@ -816,11 +824,16 @@ namespace Files.App.Views.Shells
 			}
 
 			if (ItemDisplay.Content is IDisposable disposableContent)
-				disposableContent?.Dispose();
+				disposableContent.Dispose();
+
+			ContentPage = null!;
+			ItemDisplay.Content = null;
 
 			GitHelpers.GitFetchCompleted -= FilesystemViewModel_GitDirectoryUpdated;
 
 			_updateDateDisplayTimer.Stop();
+			_updateDateDisplayTimer.Tick -= UpdateDateDisplayTimer_Tick;
+			cancellationTokenSource.Dispose();
 		}
 	}
 }

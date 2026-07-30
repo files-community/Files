@@ -8,7 +8,7 @@ namespace Files.App.UserControls.TabBar
 	/// <summary>
 	/// Represents content item for <see cref="TabBarItem"/>.
 	/// </summary>
-	public interface ITabBarItemContent
+	public interface ITabBarItemContent : IDisposable
 	{
 		public bool IsCurrentInstance { get; set; }
 
