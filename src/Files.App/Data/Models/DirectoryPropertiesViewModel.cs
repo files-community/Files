@@ -5,10 +5,11 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public sealed partial class StatusBarViewModel : ObservableObject
+	public sealed partial class StatusBarViewModel : ObservableObject, IDisposable
 	{
 		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private IDevToolsSettingsService DevToolsSettingsService = Ioc.Default.GetRequiredService<IDevToolsSettingsService>();
+		private bool isDisposed;
 
 		// The first branch will always be the active one.
 		public const int ACTIVE_BRANCH_INDEX = 0;
@@ -103,15 +104,13 @@ namespace Files.App.ViewModels.UserControls
 			NewBranchCommand = new AsyncRelayCommand(()
 				=> GitHelpers.CreateNewBranchAsync(_gitRepositoryPath!, _localBranches[ACTIVE_BRANCH_INDEX].Name));
 
-			DevToolsSettingsService.PropertyChanged += (s, e) =>
-			{
-				switch (e.PropertyName)
-				{
-					case nameof(DevToolsSettingsService.OpenInIDEOption):
-						OnPropertyChanged(nameof(ShowOpenInIDEButton));
-						break;
-				}
-			};
+			DevToolsSettingsService.PropertyChanged += DevToolsSettingsService_PropertyChanged;
+		}
+
+		private void DevToolsSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(DevToolsSettingsService.OpenInIDEOption))
+				OnPropertyChanged(nameof(ShowOpenInIDEButton));
 		}
 
 		public void UpdateGitInfo(bool isGitRepository, string? repositoryPath, BranchItem? head)
@@ -158,6 +157,18 @@ namespace Files.App.ViewModels.UserControls
 			}
 
 			SelectedBranchIndex = ShowLocals ? ACTIVE_BRANCH_INDEX : -1;
+		}
+
+		public void Dispose()
+		{
+			if (isDisposed)
+				return;
+
+			isDisposed = true;
+			DevToolsSettingsService.PropertyChanged -= DevToolsSettingsService_PropertyChanged;
+			CheckoutRequested = null;
+			_localBranches.Clear();
+			_remoteBranches.Clear();
 		}
 
 		public Task ExecuteDeleteBranch(string? branchName)

@@ -1497,6 +1497,7 @@ namespace Files.App.Views.Layouts
 
 			isDisposed = true;
 			UnhookBaseEvents();
+			StatusBarViewModel.Dispose();
 			dragOverItem = null;
 			hoveredItem = null;
 			preRenamingItem = null;
