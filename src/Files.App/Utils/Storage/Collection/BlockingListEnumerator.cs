@@ -9,6 +9,8 @@ namespace Files.App.Utils.Storage
 
 		private readonly object m_Lock;
 
+		private T m_Current = default!;
+
 		private int m_Pos;
 
 		public T Current
@@ -16,12 +18,7 @@ namespace Files.App.Utils.Storage
 			get
 			{
 				lock (m_Lock)
-				{
-					if (m_Pos < 0 || m_Pos >= m_Inner.Count)
-						throw new InvalidOperationException();
-
-					return m_Inner[m_Pos];
-				}
+					return m_Current;
 			}
 		}
 
@@ -45,6 +42,10 @@ namespace Files.App.Utils.Storage
 			{
 				m_Pos++;
 				var hasNext = m_Pos < m_Inner.Count;
+				if (hasNext)
+				{
+					m_Current = m_Inner[m_Pos];
+				}
 				return hasNext;
 			}
 		}

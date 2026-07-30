@@ -41,7 +41,7 @@ namespace Files.App.ViewModels.UserControls
 		public IFilesystemHelpers? FilesystemHelpers
 			=> PaneHolder?.FilesystemHelpers;
 
-		private readonly Microsoft.UI.Dispatching.DispatcherQueue? dispatcherQueue;
+		private Microsoft.UI.Dispatching.DispatcherQueue? dispatcherQueue;
 		private INavigationControlItem? rightClickedItem;
 		private readonly UISettings uiSettings = new();
 
@@ -756,6 +756,7 @@ namespace Files.App.ViewModels.UserControls
 			uiSettings.ColorValuesChanged -= UiSettings_ColorValuesChanged;
 
 			TeardownTabExpansionTracking();
+			dispatcherQueue = null;
 		}
 
 		public void UpdateTabControlMargin()

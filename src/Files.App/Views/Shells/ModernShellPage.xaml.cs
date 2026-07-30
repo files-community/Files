@@ -135,15 +135,16 @@ namespace Files.App.Views.Shells
 		private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
 		{
 			ContentPage = await GetContentOrNullAsync();
-			if (ContentPage is null || e.Parameter is not NavigationArguments parameters)
+			if (e.Parameter is not NavigationArguments parameters)
 				return;
 
 			ToolbarViewModel.UpdateAdditionalActions();
-			if (ItemDisplayFrame.CurrentSourcePageType == (typeof(DetailsLayoutPage))
-				|| ItemDisplayFrame.CurrentSourcePageType == typeof(GridLayoutPage))
+			if (ContentPage is { } contentPage &&
+				(ItemDisplayFrame.CurrentSourcePageType == typeof(DetailsLayoutPage) ||
+				ItemDisplayFrame.CurrentSourcePageType == typeof(GridLayoutPage)))
 			{
 				// Reset DataGrid Rows that may be in "cut" command mode
-				ContentPage.ResetItemOpacity();
+				contentPage.ResetItemOpacity();
 			}
 
 			var isTagSearch = parameters.NavPathParam is not null && parameters.NavPathParam.StartsWith("tag:");
