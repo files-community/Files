@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <dwmapi.h>
 #include <exdisp.h>
 #include <iostream>
 #include <objbase.h>
@@ -10,6 +11,7 @@
 #include <shtypes.h>
 #include <ShlObj_core.h>
 #include <ShObjIdl_core.h>
+#include <tlhelp32.h>
 #include <vector>
 #include <wil/resource.h>
 
@@ -20,11 +22,13 @@
 #pragma comment(lib, "Propsys.lib")
 #pragma comment(lib, "user32.lib")
 #pragma comment(lib, "uuid.lib")
+#pragma comment(lib, "dwmapi.lib")
 
 constexpr auto ID_TIMEREXPIRED = 101;
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 bool OpenInExistingShellWindow(const TCHAR* folderPath);
+bool IsLaunchedByExplorer();
 void RunFileExplorer(const TCHAR* openDirectory);
 size_t strifind(const std::wstring& strHaystack, const std::wstring& strNeedle);
 bool comparei(std::wstring stringA, std::wstring stringB);
@@ -102,7 +106,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	if (withArgs)
 	{
-		if (OpenInExistingShellWindow(openDirectory))
+		if (IsLaunchedByExplorer() && OpenInExistingShellWindow(openDirectory))
 		{
 			if (_debugStream)
 				fclose(_debugStream);
@@ -121,19 +125,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		wcex.lpszClassName = CLASS_NAME;
 		RegisterClassEx(&wcex);
 
-		OpenInFolder openInFolder;
+		winrt::com_ptr<OpenInFolder> openInFolder;
+		openInFolder.attach(new OpenInFolder());
 
 		// Create the window.
 		HWND hwnd = CreateWindowEx(
-			0,
+			WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE,
 			CLASS_NAME,
 			L"Files Launcher",
 			0,
 			0, 0, 0, 0,
-			HWND_MESSAGE,
+			NULL,
 			NULL,
 			hInstance,
-			&openInFolder
+			openInFolder.get()
 		);
 
 		if (hwnd == NULL)
@@ -146,9 +151,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		SetTimer(hwnd, ID_TIMEREXPIRED, 500, NULL);
 
-		ShowWindow(hwnd, SW_SHOWNORMAL);
-		//UpdateWindow(hwnd);
-
 		MSG msg = { };
 		while (GetMessage(&msg, NULL, 0, 0) > 0)
 		{
@@ -156,11 +158,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			DispatchMessage(&msg);
 		}
 
-		auto item = openInFolder.GetResult();
+		auto item = openInFolder->GetResult();
+		openInFolder->RevokeShellWindow();
+		if (IsWindow(hwnd))
+			DestroyWindow(hwnd);
 
 		TCHAR args[1024];
 		if (item.empty())
 		{
+			if (OpenInExistingShellWindow(openDirectory))
+			{
+				if (_debugStream)
+					fclose(_debugStream);
+
+				return 0;
+			}
+
 			std::wcout << L"No item selected" << std::endl;
 			//swprintf(args, _countof(args) - 1, L"-directory \"%s\"", openDirectory);
 			swprintf(args, _countof(args) - 1, L"\"%s\" -directory \"%s\"", szBuf, openDirectory);
@@ -241,6 +254,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		pContainer->SetWindow(hwnd);
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pContainer);
+
+		BOOL cloak = TRUE;
+		DwmSetWindowAttribute(hwnd, DWMWA_CLOAK, &cloak, sizeof(cloak));
 		break;
 	}
 
@@ -338,6 +354,30 @@ void RunFileExplorer(const TCHAR* openDirectory)
 
 	ShExecInfo.nShow = SW_SHOW;
 	ShellExecuteEx(&ShExecInfo);
+}
+
+bool IsLaunchedByExplorer()
+{
+	DWORD explorerProcessId = 0;
+	GetWindowThreadProcessId(GetShellWindow(), &explorerProcessId);
+	if (!explorerProcessId)
+		return false;
+
+	wil::unique_handle snapshot(CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0));
+	if (!snapshot)
+		return false;
+
+	PROCESSENTRY32 processEntry{ sizeof(processEntry) };
+	if (!Process32First(snapshot.get(), &processEntry))
+		return false;
+
+	do
+	{
+		if (processEntry.th32ProcessID == GetCurrentProcessId())
+			return processEntry.th32ParentProcessID == explorerProcessId;
+	} while (Process32Next(snapshot.get(), &processEntry));
+
+	return false;
 }
 
 bool OpenInExistingShellWindow(const TCHAR* folderPath)
