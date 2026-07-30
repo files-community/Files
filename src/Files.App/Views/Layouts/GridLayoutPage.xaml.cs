@@ -225,6 +225,16 @@ namespace Files.App.Views.Layouts
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
 		}
 
+		public override void Dispose()
+		{
+			Bindings.StopTracking();
+			if (FolderSettings is not null)
+				FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+
+			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
+			base.Dispose();
+		}
+
 		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			// Get current scroll position
@@ -707,13 +717,18 @@ namespace Files.App.Views.Layouts
 
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			var selectionCheckbox = args.ItemContainer.FindDescendant("SelectionCheckbox")!;
+			var selectionCheckbox = (CheckBox)args.ItemContainer.FindDescendant("SelectionCheckbox")!;
 
 			selectionCheckbox.PointerEntered -= SelectionCheckbox_PointerEntered;
 			selectionCheckbox.PointerExited -= SelectionCheckbox_PointerExited;
 			selectionCheckbox.PointerCanceled -= SelectionCheckbox_PointerCanceled;
+			selectionCheckbox.Checked -= ItemSelected_Checked;
+			selectionCheckbox.Unchecked -= ItemSelected_Unchecked;
 
 			base.FileList_ContainerContentChanging(sender, args);
+			if (args.InRecycleQueue)
+				return;
+
 			SetCheckboxSelectionState(args.Item, args.ItemContainer as GridViewItem);
 
 			selectionCheckbox.PointerEntered += SelectionCheckbox_PointerEntered;

@@ -429,6 +429,20 @@ namespace Files.App.Views.Layouts
 		{
 			base.Dispose();
 			UnhookEvents();
+
+			if (ListViewBase.ItemsPanelRoot is Panel itemsPanel)
+			{
+				foreach (var container in itemsPanel.Children.OfType<SelectorItem>())
+				{
+					UninitializeDrag(container);
+					ToolTipService.SetToolTip(container, null);
+					container.DataContext = null;
+					container.Content = null;
+				}
+			}
+
+			ListViewBase.ItemsSource = null;
+			CollectionViewSource = new();
 			CommandsViewModel?.Dispose();
 		}
 	}

@@ -214,6 +214,20 @@ namespace Files.App.Views.Layouts
 			_autoFitColumnsTimer?.Stop();
 		}
 
+		public override void Dispose()
+		{
+			Bindings.StopTracking();
+			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
+			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
+			ParentShellPageInstance.ShellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+			ParentShellPageInstance.ShellViewModel.ItemLoadStatusChanged -= ShellViewModel_ItemLoadStatusChanged;
+			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
+			FileList.Items.VectorChanged -= FileListItems_VectorChanged;
+			_autoFitColumnsTimer?.Stop();
+			base.Dispose();
+		}
+
 		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == nameof(ILayoutSettingsService.DetailsViewSize))
@@ -1040,13 +1054,18 @@ namespace Files.App.Views.Layouts
 
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			var selectionCheckbox = args.ItemContainer.FindDescendant("SelectionCheckbox")!;
+			var selectionCheckbox = (CheckBox)args.ItemContainer.FindDescendant("SelectionCheckbox")!;
 
 			selectionCheckbox.PointerEntered -= SelectionCheckbox_PointerEntered;
 			selectionCheckbox.PointerExited -= SelectionCheckbox_PointerExited;
 			selectionCheckbox.PointerCanceled -= SelectionCheckbox_PointerCanceled;
+			selectionCheckbox.Checked -= ItemSelected_Checked;
+			selectionCheckbox.Unchecked -= ItemSelected_Unchecked;
 
 			base.FileList_ContainerContentChanging(sender, args);
+			if (args.InRecycleQueue)
+				return;
+
 			SetCheckboxSelectionState(args.Item, args.ItemContainer as ListViewItem);
 
 			selectionCheckbox.PointerEntered += SelectionCheckbox_PointerEntered;

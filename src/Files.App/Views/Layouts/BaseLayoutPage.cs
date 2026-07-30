@@ -69,6 +69,7 @@ namespace Files.App.Views.Layouts
 
 		private bool shiftPressed;
 		private bool itemDragging;
+		private bool isDisposed;
 
 		protected bool isDraggingSelectionRectangle;
 
@@ -335,6 +336,19 @@ namespace Files.App.Views.Layouts
 		private void UnhookBaseEvents()
 		{
 			ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
+			jumpTimer.Stop();
+			jumpTimer.Tick -= JumpTimer_Tick;
+			dragOverTimer.Stop();
+			tapDebounceTimer.Stop();
+			hoverTimer.Stop();
+
+			shellContextMenuItemCancellationToken?.Cancel();
+			shellContextMenuItemCancellationToken?.Dispose();
+			shellContextMenuItemCancellationToken = null;
+
+			groupingCancellationToken?.Cancel();
+			groupingCancellationToken?.Dispose();
+			groupingCancellationToken = null;
 		}
 
 		private void JumpTimer_Tick(object sender, object e)
@@ -1268,15 +1282,15 @@ namespace Files.App.Views.Layouts
 
 		private void RefreshItem(SelectorItem container, object item, bool inRecycleQueue, ContainerContentChangingEventArgs args)
 		{
-			if (item is not ListedItem listedItem)
-				return;
-
 			if (inRecycleQueue)
 			{
 				UpdateItemToolTip(container, null);
-				ParentShellPageInstance!.ShellViewModel.CancelExtendedPropertiesLoadingForItem(listedItem);
+				if (container.Content is ListedItem recycledItem)
+					ParentShellPageInstance!.ShellViewModel.CancelExtendedPropertiesLoadingForItem(recycledItem);
+				return;
 			}
-			else
+
+			if (item is ListedItem listedItem)
 			{
 				UpdateItemToolTip(container, listedItem.ItemTooltipText);
 				InitializeDrag(container, listedItem);
@@ -1478,7 +1492,14 @@ namespace Files.App.Views.Layouts
 
 		public virtual void Dispose()
 		{
+			if (isDisposed)
+				return;
+
+			isDisposed = true;
 			UnhookBaseEvents();
+			dragOverItem = null;
+			hoveredItem = null;
+			preRenamingItem = null;
 		}
 
 		protected void ItemsLayout_DragOver(object sender, DragEventArgs e)
