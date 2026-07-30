@@ -443,8 +443,14 @@ namespace Files.App.Views
 
 		private async void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == nameof(ViewModel.ShouldPreviewPaneBeActive) && ViewModel.ShouldPreviewPaneBeActive)
-				await Ioc.Default.GetRequiredService<InfoPaneViewModel>().UpdateSelectedItemPreviewAsync();
+			if (e.PropertyName == nameof(ViewModel.ShouldPreviewPaneBeActive))
+			{
+				var infoPaneViewModel = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
+				if (ViewModel.ShouldPreviewPaneBeActive)
+					await infoPaneViewModel.UpdateSelectedItemPreviewAsync();
+				else
+					infoPaneViewModel.UnloadPreview();
+			}
 			else if (e.PropertyName == nameof(ViewModel.SelectedTabItem))
 				HandleSidebarTabChange();
 		}
