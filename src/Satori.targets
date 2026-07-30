@@ -39,8 +39,8 @@
   <Target Name="IncludeSatoriInRuntimePackAssets" AfterTargets="ExtractSatori" DependsOnTargets="ExtractSatori">
     <ItemGroup>
       <RuntimePackAsset Remove="@(RuntimePackAsset)"
-                        Condition=" ('%(RuntimePackAsset.Filename)' == 'coreclr' Or '%(RuntimePackAsset.Filename)' == 'clrjit') And '$(UseSatoriNativeRuntimeOverride)' == 'true'
-                                 Or ('%(RuntimePackAsset.Filename)' == 'System.Private.CoreLib' And '$(UseSatoriCoreLibOverride)' == 'true') " />
+                        Condition=" (('%(RuntimePackAsset.Filename)' == 'coreclr' Or '%(RuntimePackAsset.Filename)' == 'clrjit') And '$(UseSatoriNativeRuntimeOverride)' == 'true')
+                                 Or (('%(RuntimePackAsset.Filename)' == 'System.Private.CoreLib' And '$(UseSatoriCoreLibOverride)' == 'true')) " />
 
       <SatoriRuntimePackAsset Include="$(IntermediateOutputPath)Satori\System.Private.CoreLib.dll" Condition="'$(UseSatoriCoreLibOverride)' == 'true'">
         <AssetType>runtime</AssetType>
