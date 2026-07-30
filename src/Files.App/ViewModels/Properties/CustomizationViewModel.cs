@@ -23,7 +23,7 @@ namespace Files.App.ViewModels.Properties
 
 		public ObservableCollection<IconFileInfo> DllIcons { get; } = [];
 
-		private string _IconResourceItemPath;
+		private string _IconResourceItemPath = string.Empty;
 		public string IconResourceItemPath
 		{
 			get => _IconResourceItemPath;
@@ -62,14 +62,12 @@ namespace Files.App.ViewModels.Properties
 
 		public CustomizationViewModel(IShellPage appInstance, BaseProperties baseProperties, AppWindow appWindow)
 		{
-			ListedItem item;
-
-			if (baseProperties is FileProperties fileProperties)
-				item = fileProperties.Item;
-			else if (baseProperties is FolderProperties folderProperties)
-				item = folderProperties.Item;
-			else
-				return;
+			ListedItem item = baseProperties switch
+			{
+				FileProperties fileProperties => fileProperties.Item,
+				FolderProperties folderProperties => folderProperties.Item,
+				_ => throw new ArgumentException("The properties must represent a file or folder.", nameof(baseProperties)),
+			};
 
 			_appInstance = appInstance;
 			_appWindow = appWindow;

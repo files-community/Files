@@ -17,12 +17,9 @@ namespace Files.App.ViewModels.Properties
 			DispatcherQueue coreDispatcher,
 			ListedItem item,
 			IShellPage instance)
+			: base(viewModel, tokenSource, coreDispatcher, instance)
 		{
-			ViewModel = viewModel;
-			TokenSource = tokenSource;
-			Dispatcher = coreDispatcher;
 			Item = item;
-			AppInstance = instance;
 
 			GetBaseProperties();
 
@@ -38,7 +35,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.OriginalItemName = Item.Name;
 			ViewModel.ItemType = Item.ItemType;
 			ViewModel.ItemLocation = (Item as RecycleBinItem)?.ItemOriginalFolder ??
-				(Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath);
+				(Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) ?? string.Empty : Item.ItemPath);
 			ViewModel.ItemModifiedTimestampReal = Item.ItemDateModifiedReal;
 			ViewModel.ItemCreatedTimestampReal = Item.ItemDateCreatedReal;
 			ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
@@ -142,10 +139,12 @@ namespace Files.App.ViewModels.Properties
 
 			// Get file for further processing
 			string filePath = (Item as IShortcutItem)?.TargetPath ?? Item.ItemPath;
-			BaseStorageFile file = await AppInstance.ShellViewModel.GetFileFromPathAsync(filePath);
+			if (AppInstance.ShellViewModel is not { } shellViewModel)
+				return;
 
 			// Couldn't access the file and can't load any other properties
-			if (file is null)
+			var fileResult = await shellViewModel.GetFileFromPathAsync(filePath);
+			if (fileResult.Result is not { } file)
 				return;
 
 			// Can't load any other properties
@@ -170,8 +169,8 @@ namespace Files.App.ViewModels.Properties
 
 		public async Task GetSystemFilePropertiesAsync()
 		{
-			BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
-			if (file is null)
+			var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
+			if (fileResult.Result is not { } file)
 			{
 				// Could not access file, can't show any other property
 				return;
@@ -179,14 +178,19 @@ namespace Files.App.ViewModels.Properties
 
 			var list = await FileProperty.RetrieveAndInitializePropertiesAsync(file);
 
-			list.Find(x => x.ID == "address").Value =
-				await LocationHelpers.GetAddressFromCoordinatesAsync((double?)list.Find(
-					x => x.Property == "System.GPS.LatitudeDecimal").Value,
-					(double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+			var addressProperty = list.Find(x => x.ID == "address");
+			if (addressProperty is not null)
+			{
+				var latitude = list.Find(x => x.Property == "System.GPS.LatitudeDecimal")?.Value as double?;
+				var longitude = list.Find(x => x.Property == "System.GPS.LongitudeDecimal")?.Value as double?;
+				addressProperty.Value = await LocationHelpers.GetAddressFromCoordinatesAsync(latitude, longitude);
+			}
 
 			var query = list
 				.Where(fileProp => !(fileProp.Value is null && fileProp.IsReadOnly))
-				.GroupBy(fileProp => fileProp.SectionResource)
+				.Select(fileProp => (Property: fileProp, Section: fileProp.SectionResource ?? string.Empty))
+				.Where(item => item.Section.Length > 0)
+				.GroupBy(item => item.Section, item => item.Property)
 				.Select(group => new FilePropertySection(group) { Key = group.Key })
 				.Where(section => !section.All(fileProp => fileProp.Value is null)
 					|| FileProperty.IsSectionApplicableForEmpty(section.Key, Item.FileExtension))
@@ -198,10 +202,9 @@ namespace Files.App.ViewModels.Properties
 
 		public async Task SyncPropertyChangesAsync()
 		{
-			BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
-
 			// Couldn't access the file to save properties
-			if (file is null)
+			var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
+			if (fileResult.Result is not { } file)
 				return;
 
 			var failedProperties = "";
@@ -210,18 +213,19 @@ namespace Files.App.ViewModels.Properties
 			{
 				foreach (FileProperty prop in group)
 				{
-					if (!prop.IsReadOnly && prop.Modified)
+					var propertyName = prop.Property;
+					if (!prop.IsReadOnly && prop.Modified && !string.IsNullOrEmpty(propertyName))
 					{
-						var newDict = new Dictionary<string, object>
+						var newDict = new Dictionary<string, object?>
 						{
-							{ prop.Property, prop.Value }
+							{ propertyName, prop.Value }
 						};
 
 						try
 						{
 							if (file.Properties is not null)
 							{
-								await file.Properties.SavePropertiesAsync(newDict);
+								await file.Properties.SaveNullablePropertiesAsync(newDict);
 							}
 						}
 						catch
@@ -241,27 +245,27 @@ namespace Files.App.ViewModels.Properties
 		public async Task ClearPropertiesAsync()
 		{
 			var failedProperties = new List<string>();
-			BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
-
-			if (file is null)
+			var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
+			if (fileResult.Result is not { } file)
 				return;
 
 			foreach (var group in ViewModel.PropertySections)
 			{
 				foreach (FileProperty prop in group)
 				{
-					if (!prop.IsReadOnly)
+					var propertyName = prop.Property;
+					if (!prop.IsReadOnly && !string.IsNullOrEmpty(propertyName))
 					{
-						var newDict = new Dictionary<string, object>
+						var newDict = new Dictionary<string, object?>
 						{
-							{ prop.Property, null }
+							{ propertyName, null }
 						};
 
 						try
 						{
 							if (file.Properties is not null)
 							{
-								await file.Properties.SavePropertiesAsync(newDict);
+								await file.Properties.SaveNullablePropertiesAsync(newDict);
 							}
 						}
 						catch
@@ -275,7 +279,7 @@ namespace Files.App.ViewModels.Properties
 			_ = GetSystemFilePropertiesAsync();
 		}
 
-		private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private async void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{

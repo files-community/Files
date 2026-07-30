@@ -17,12 +17,12 @@ namespace Files.App.Utils.Storage
 		public static readonly ImmutableHashSet<string> _ftpPaths =
 			new HashSet<string>() { "ftp:/", "ftps:/", "ftpes:/" }.ToImmutableHashSet();
 
-		public static BaseStorageFile? AsBaseStorageFile(this IStorageItem item)
+		public static BaseStorageFile? AsBaseStorageFile(this IStorageItem? item)
 		{
 			if (item is null || !item.IsOfType(StorageItemTypes.File))
 				return null;
 
-			return item is StorageFile file ? (BaseStorageFile)file : item as BaseStorageFile;
+			return item is StorageFile file ? new SystemStorageFile(file) : item as BaseStorageFile;
 		}
 
 		public static async Task<List<IStorageItem>> ToStandardStorageItemsAsync(this IEnumerable<IStorageItem> items)
@@ -37,11 +37,13 @@ namespace Files.App.Utils.Storage
 					}
 					else if (item.IsOfType(StorageItemTypes.File))
 					{
-						newItems.Add(await item.AsBaseStorageFile().ToStorageFileAsync());
+						if (item.AsBaseStorageFile() is { } file)
+							newItems.Add(await file.ToStorageFileAsync());
 					}
 					else if (item.IsOfType(StorageItemTypes.Folder))
 					{
-						newItems.Add(await item.AsBaseStorageFolder().ToStorageFolderAsync());
+						if (item.AsBaseStorageFolder() is { } folder)
+							newItems.Add(await folder.ToStorageFolderAsync());
 					}
 				}
 				catch (NotSupportedException)
@@ -57,7 +59,7 @@ namespace Files.App.Utils.Storage
 			try
 			{
 				var destinationRoot = Path.GetPathRoot(destinationPath);
-				return itemsPath.Any(itemPath => Path.GetPathRoot(itemPath).Equals(destinationRoot, StringComparison.OrdinalIgnoreCase));
+				return itemsPath.Any(itemPath => string.Equals(Path.GetPathRoot(itemPath), destinationRoot, StringComparison.OrdinalIgnoreCase));
 			}
 			catch
 			{
@@ -74,7 +76,7 @@ namespace Files.App.Utils.Storage
 			try
 			{
 				var trimmedPath = destinationPath.TrimPath();
-				return itemsPath.All(itemPath => Path.GetDirectoryName(itemPath).Equals(trimmedPath, StringComparison.OrdinalIgnoreCase));
+				return itemsPath.All(itemPath => string.Equals(Path.GetDirectoryName(itemPath), trimmedPath, StringComparison.OrdinalIgnoreCase));
 			}
 			catch
 			{
@@ -86,10 +88,10 @@ namespace Files.App.Utils.Storage
 		public static bool AreItemsAlreadyInFolder(this IEnumerable<IStorageItemWithPath> storageItems, string destinationPath)
 			=> storageItems.Select(x => x.Path).AreItemsAlreadyInFolder(destinationPath);
 
-		public static BaseStorageFolder? AsBaseStorageFolder(this IStorageItem item)
+		public static BaseStorageFolder? AsBaseStorageFolder(this IStorageItem? item)
 		{
 			if (item is not null && item.IsOfType(StorageItemTypes.Folder))
-				return item is StorageFolder folder ? (BaseStorageFolder)folder : item as BaseStorageFolder;
+				return item is StorageFolder folder ? new SystemStorageFolder(folder) : item as BaseStorageFolder;
 
 			return null;
 		}
@@ -144,9 +146,9 @@ namespace Files.App.Utils.Storage
 					item.Title = Strings.ReleaseNotes.GetLocalizedResource();
 				else if (item.Path == "Settings")
 					item.Title = Strings.Settings.GetLocalizedResource();
-				else
+				else if (item.Path is { } path)
 				{
-					BaseStorageFolder folder = await FilesystemTasks.Wrap(() => DangerousGetFolderFromPathAsync(item.Path));
+					BaseStorageFolder? folder = await FilesystemTasks.WrapNullable(() => DangerousGetFolderFromPathAsync(path));
 
 					if (!string.IsNullOrEmpty(folder?.DisplayName))
 						item.Title = folder.DisplayName;
@@ -164,40 +166,40 @@ namespace Files.App.Utils.Storage
 			return ResolvePath(withoutEnvirnment, isFtp);
 		}
 
-		public async static Task<BaseStorageFile> DangerousGetFileFromPathAsync
-			(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
+		public async static Task<BaseStorageFile?> DangerousGetFileFromPathAsync
+			(string value, StorageFolderWithPath? rootFolder = null, StorageFolderWithPath? parentFolder = null)
 				=> (await DangerousGetFileWithPathFromPathAsync(value, rootFolder, parentFolder)).Item;
 		public async static Task<StorageFileWithPath> DangerousGetFileWithPathFromPathAsync
-			(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
+			(string value, StorageFolderWithPath? rootFolder = null, StorageFolderWithPath? parentFolder = null)
 		{
-			if (rootFolder is not null)
+			if (rootFolder?.Item is { } rootItem)
 			{
 				var currComponents = GetDirectoryPathComponents(value);
 
-				if (parentFolder is not null && value.IsSubPathOf(parentFolder.Path))
+				if (parentFolder?.Item is { } parentItem && value.IsSubPathOf(parentFolder.Path))
 				{
-					var folder = parentFolder.Item;
+					var folder = parentItem;
 					var prevComponents = GetDirectoryPathComponents(parentFolder.Path);
 					var path = parentFolder.Path;
 					foreach (var component in currComponents.ExceptBy(prevComponents, c => c.Path).SkipLast(1))
 					{
-						folder = await folder.GetFolderAsync(component.Title);
+						folder = await folder.GetFolderAsync(component.Title ?? throw new InvalidOperationException("A path component is missing its title."));
 						path = PathNormalization.Combine(path, folder.Name);
 					}
-					var file = await folder.GetFileAsync(currComponents.Last().Title);
+					var file = await folder.GetFileAsync(currComponents.Last().Title ?? throw new InvalidOperationException("A path component is missing its title."));
 					path = PathNormalization.Combine(path, file.Name);
 					return new StorageFileWithPath(file, path);
 				}
 				else if (value.IsSubPathOf(rootFolder.Path))
 				{
-					var folder = rootFolder.Item;
+					var folder = rootItem;
 					var path = rootFolder.Path;
 					foreach (var component in currComponents.Skip(1).SkipLast(1))
 					{
-						folder = await folder.GetFolderAsync(component.Title);
+						folder = await folder.GetFolderAsync(component.Title ?? throw new InvalidOperationException("A path component is missing its title."));
 						path = PathNormalization.Combine(path, folder.Name);
 					}
-					var file = await folder.GetFileAsync(currComponents.Last().Title);
+					var file = await folder.GetFileAsync(currComponents.Last().Title ?? throw new InvalidOperationException("A path component is missing its title."));
 					path = PathNormalization.Combine(path, file.Name);
 					return new StorageFileWithPath(file, path);
 				}
@@ -215,18 +217,20 @@ namespace Files.App.Utils.Storage
 		}
 		public async static Task<IList<StorageFileWithPath>> GetFilesWithPathAsync
 			(this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
-				=> (await parentFolder.Item.GetFilesAsync(CommonFileQuery.DefaultQuery, 0, maxNumberOfItems))
-					.Select(x => new StorageFileWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
+				=> parentFolder.Item is { } folder
+					? (await folder.GetFilesAsync(CommonFileQuery.DefaultQuery, 0, maxNumberOfItems))
+						.Select(x => new StorageFileWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList()
+					: [];
 
-		public async static Task<BaseStorageFolder> DangerousGetFolderFromPathAsync
-			(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
+		public async static Task<BaseStorageFolder?> DangerousGetFolderFromPathAsync
+			(string value, StorageFolderWithPath? rootFolder = null, StorageFolderWithPath? parentFolder = null)
 				=> (await DangerousGetFolderWithPathFromPathAsync(value, rootFolder, parentFolder)).Item;
 		public async static Task<StorageFolderWithPath> DangerousGetFolderWithPathFromPathAsync
-			(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
+			(string value, StorageFolderWithPath? rootFolder = null, StorageFolderWithPath? parentFolder = null)
 		{
 			// Archive paths can't be resolved by chaining WinRT GetFolderAsync from a network root/parent
 			// (an archive is not a real subfolder of the share); resolve them directly like local archives.
-			if (rootFolder is not null && !ZipStorageFolder.IsZipPath(value))
+			if (rootFolder?.Item is { } rootItem && !ZipStorageFolder.IsZipPath(value))
 			{
 				var currComponents = GetDirectoryPathComponents(value);
 
@@ -234,25 +238,25 @@ namespace Files.App.Utils.Storage
 				{
 					return rootFolder;
 				}
-				else if (parentFolder is not null && value.IsSubPathOf(parentFolder.Path))
+				else if (parentFolder?.Item is { } parentItem && value.IsSubPathOf(parentFolder.Path))
 				{
-					var folder = parentFolder.Item;
+					var folder = parentItem;
 					var prevComponents = GetDirectoryPathComponents(parentFolder.Path);
 					var path = parentFolder.Path;
 					foreach (var component in currComponents.ExceptBy(prevComponents, c => c.Path))
 					{
-						folder = await folder.GetFolderAsync(component.Title);
+						folder = await folder.GetFolderAsync(component.Title ?? throw new InvalidOperationException("A path component is missing its title."));
 						path = PathNormalization.Combine(path, folder.Name);
 					}
 					return new StorageFolderWithPath(folder, path);
 				}
 				else if (value.IsSubPathOf(rootFolder.Path))
 				{
-					var folder = rootFolder.Item;
+					var folder = rootItem;
 					var path = rootFolder.Path;
 					foreach (var component in currComponents.Skip(1))
 					{
-						folder = await folder.GetFolderAsync(component.Title);
+						folder = await folder.GetFolderAsync(component.Title ?? throw new InvalidOperationException("A path component is missing its title."));
 						path = PathNormalization.Combine(path, folder.Name);
 					}
 					return new StorageFolderWithPath(folder, path);
@@ -271,19 +275,21 @@ namespace Files.App.Utils.Storage
 		}
 		public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync
 			(this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
-				=> (await parentFolder.Item.GetFoldersAsync(CommonFolderQuery.DefaultQuery, 0, maxNumberOfItems))
-					.Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
+				=> parentFolder.Item is { } folder
+					? (await folder.GetFoldersAsync(CommonFolderQuery.DefaultQuery, 0, maxNumberOfItems))
+						.Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList()
+					: [];
 		public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync
 			(this StorageFolderWithPath parentFolder, string nameFilter, uint maxNumberOfItems = uint.MaxValue)
 		{
-			if (parentFolder is null)
-				return null;
+			if (parentFolder?.Item is not { } folder)
+				return [];
 
 			var queryOptions = new QueryOptions
 			{
 				ApplicationSearchFilter = $"System.FileName:{nameFilter}*"
 			};
-			BaseStorageFolderQueryResult queryResult = parentFolder.Item.CreateFolderQueryWithOptions(queryOptions);
+			BaseStorageFolderQueryResult queryResult = folder.CreateFolderQueryWithOptions(queryOptions);
 
 			return (await queryResult.GetFoldersAsync(0, maxNumberOfItems))
 				.Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
@@ -431,7 +437,7 @@ namespace Files.App.Utils.Storage
 			var subPath = path.ToString().Substring(substringIndex);
 
 			path.Clear();
-			path.Append(context.ShellPage?.ShellViewModel.WorkingDirectory);
+			path.Append(context.ShellPage?.ShellViewModel?.WorkingDirectory);
 			path.Append(separator);
 			path.Append(subPath);
 			i = -1;

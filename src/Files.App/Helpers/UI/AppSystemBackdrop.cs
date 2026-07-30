@@ -2,18 +2,17 @@
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using System.Diagnostics.CodeAnalysis;
 using Windows.UI;
 
 namespace Files.App.Helpers
 {
 	internal sealed partial class AppSystemBackdrop : SystemBackdrop
 	{
-		private bool isSecondaryWindow;
-		private IUserSettingsService userSettingsService;
+		private readonly bool isSecondaryWindow;
+		private readonly IUserSettingsService userSettingsService;
 		private ISystemBackdropControllerWithTargets? controller;
-		private ICompositionSupportsSystemBackdrop target;
-		private XamlRoot root;
+		private ICompositionSupportsSystemBackdrop? target;
+		private XamlRoot? root;
 		private SystemBackdropTheme? prevTheme = null;
 
 		public AppSystemBackdrop(bool isSecondaryWindow = false)
@@ -23,7 +22,6 @@ namespace Files.App.Helpers
 			userSettingsService.OnSettingChangedEvent += OnSettingChanged;
 		}
 
-		[MemberNotNull(nameof(target), nameof(root))]
 		protected override void OnTargetConnected(ICompositionSupportsSystemBackdrop connectedTarget, XamlRoot xamlRoot)
 		{
 			if (target is not null)
@@ -52,8 +50,8 @@ namespace Files.App.Helpers
 		protected override void OnTargetDisconnected(ICompositionSupportsSystemBackdrop disconnectedTarget)
 		{
 			base.OnTargetDisconnected(disconnectedTarget);
-			this.target = null!;
-			this.root = null!;
+			this.target = null;
+			this.root = null;
 
 
 			try
@@ -71,7 +69,7 @@ namespace Files.App.Helpers
 
 		private void OnSettingChanged(object? sender, SettingChangedEventArgs e)
 		{
-			if (target is null)
+			if (target is null || root is null)
 				return;
 
 			switch (e.SettingName)

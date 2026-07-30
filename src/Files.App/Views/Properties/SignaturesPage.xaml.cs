@@ -8,7 +8,7 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class SignaturesPage : BasePropertiesPage
 	{
-		private SignaturesViewModel SignaturesViewModel { get; set; }
+		private SignaturesViewModel? SignaturesViewModel { get; set; }
 
 		public SignaturesPage()
 		{
@@ -34,7 +34,7 @@ namespace Files.App.Views.Properties
 
 		public override void Dispose()
 		{
-			SignaturesViewModel.Dispose();
+			SignaturesViewModel?.Dispose();
 		}
 	}
 }

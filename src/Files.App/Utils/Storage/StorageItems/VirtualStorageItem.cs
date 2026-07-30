@@ -16,15 +16,15 @@ namespace Files.App.Utils.Storage
 	/// </summary>
 	public sealed partial class VirtualStorageItem : IStorageItem
 	{
-		private static BasicProperties props;
+		private static BasicProperties? props;
 
 		public Windows.Storage.FileAttributes Attributes { get; init; }
 
 		public DateTimeOffset DateCreated { get; init; }
 
-		public string Name { get; init; }
+		public required string Name { get; init; }
 
-		public string Path { get; init; }
+		public required string Path { get; init; }
 
 		private VirtualStorageItem() { }
 
@@ -39,7 +39,7 @@ namespace Files.App.Utils.Storage
 			};
 		}
 
-		public static VirtualStorageItem FromPath(string path)
+		public static VirtualStorageItem? FromPath(string path)
 		{
 			Win32PInvoke.FINDEX_INFO_LEVELS findInfoLevel = Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic;
 			int additionalFlags = Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH;

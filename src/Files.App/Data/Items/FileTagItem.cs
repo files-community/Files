@@ -11,10 +11,10 @@ namespace Files.App.Data.Items
 {
 	public sealed partial class FileTagItem : ObservableObject, INavigationControlItem
 	{
-		public string Text { get; set; }
+		public required string Text { get; set; }
 
-		private string path;
-		public string Path
+		private string path = string.Empty;
+		public required string Path
 		{
 			get => path;
 			set
@@ -25,19 +25,19 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public string ToolTipText { get; private set; }
+		public string ToolTipText { get; private set; } = string.Empty;
 
 		public SectionType Section { get; set; }
 
-		public ContextMenuOptions MenuOptions { get; set; }
+		public required ContextMenuOptions MenuOptions { get; set; }
 
 		public NavigationControlItemType ItemType
 			=> NavigationControlItemType.FileTag;
 
 		public int CompareTo(INavigationControlItem? other)
-			=> Text.CompareTo(other.Text);
+			=> other is null ? 1 : Text.CompareTo(other.Text);
 
-		public TagViewModel FileTag { get; set; }
+		public required TagViewModel FileTag { get; set; }
 
 		public object? Children => null;
 

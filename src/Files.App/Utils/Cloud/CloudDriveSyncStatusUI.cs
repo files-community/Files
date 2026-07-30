@@ -7,9 +7,9 @@ namespace Files.App.Utils.Cloud
 {
 	public sealed partial class CloudDriveSyncStatusUI : ObservableObject
 	{
-		public string Glyph { get; }
+		public string? Glyph { get; }
 
-		public Style ThemedIconStyle { get; }
+		public Style? ThemedIconStyle { get; }
 
 		public CloudDriveSyncStatus SyncStatus { get; }
 

@@ -14,7 +14,7 @@ namespace Files.App.ViewModels.Properties
 
 		public Visibility Visibility { get; set; }
 
-		public string Key { get; set; }
+		public required string Key { get; set; }
 
 		public string Title
 			=> Key.GetLocalizedResource();

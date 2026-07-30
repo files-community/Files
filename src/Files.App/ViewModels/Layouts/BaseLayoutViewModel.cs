@@ -49,20 +49,29 @@ namespace Files.App.ViewModels.Layouts
 			DropCommand = new AsyncRelayCommand<DragEventArgs>(DropAsync);
 		}
 
-		private void CreateNewFile(ShellNewEntry f)
+		private void CreateNewFile(ShellNewEntry? f)
 		{
+			if (f is null)
+				return;
+
 			_ = UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.File, f, _associatedInstance);
 		}
 
-		private async Task ItemPointerPressedAsync(PointerRoutedEventArgs e)
+		private async Task ItemPointerPressedAsync(PointerRoutedEventArgs? e)
 		{
+			if (e is null)
+				return;
+
 			// If a folder item was clicked, disable middle mouse click to scroll to cancel the mouse scrolling state and re-enable it
 			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed &&
 				e.OriginalSource is FrameworkElement { DataContext: ListedItem Item } &&
 				Item.PrimaryItemAttribute == StorageItemTypes.Folder)
 			{
-				_associatedInstance.SlimContentPage.IsMiddleClickToScrollEnabled = false;
-				_associatedInstance.SlimContentPage.IsMiddleClickToScrollEnabled = true;
+				if (_associatedInstance.SlimContentPage is { } contentPage)
+				{
+					contentPage.IsMiddleClickToScrollEnabled = false;
+					contentPage.IsMiddleClickToScrollEnabled = true;
+				}
 
 				if (Item.IsShortcut)
 					await NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as IShortcutItem)?.TargetPath ?? Item.ItemPath);
@@ -71,8 +80,11 @@ namespace Files.App.ViewModels.Layouts
 			}
 		}
 
-		private void PointerWheelChanged(PointerRoutedEventArgs e)
+		private void PointerWheelChanged(PointerRoutedEventArgs? e)
 		{
+			if (e is null)
+				return;
+
 			if (e.KeyModifiers is VirtualKeyModifiers.Control &&
 				_associatedInstance.IsCurrentInstance)
 			{
@@ -89,8 +101,11 @@ namespace Files.App.ViewModels.Layouts
 			}
 		}
 
-		public async Task DragOverAsync(DragEventArgs e)
+		public async Task DragOverAsync(DragEventArgs? e)
 		{
+			if (e is null)
+				return;
+
 			var deferral = e.GetDeferral();
 
 			if (_associatedInstance.InstanceViewModel.IsPageTypeSearchResults)
@@ -149,7 +164,7 @@ namespace Files.App.ViewModels.Layouts
 							e.DragUIOverride.Caption = string.Format(Strings.LinkToFolderCaptionText.GetLocalizedResource(), folderName);
 							e.AcceptedOperation = DataPackageOperation.Link;
 						}
-						else if (workingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
+						else if (workingDirectory?.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal) == true)
 						{
 							e.DragUIOverride.Caption = string.Format(Strings.MoveToFolderCaptionText.GetLocalizedResource(), folderName);
 							// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
@@ -174,7 +189,7 @@ namespace Files.App.ViewModels.Layouts
 						else if (draggedItems.Any(x =>
 							x.Item is ZipStorageFile ||
 							x.Item is ZipStorageFolder) ||
-							ZipStorageFolder.IsZipPath(workingDirectory))
+							workingDirectory is not null && ZipStorageFolder.IsZipPath(workingDirectory))
 						{
 							e.DragUIOverride.Caption = string.Format(Strings.CopyToFolderCaptionText.GetLocalizedResource(), folderName);
 							e.AcceptedOperation = DataPackageOperation.Copy;
@@ -203,7 +218,7 @@ namespace Files.App.ViewModels.Layouts
 			deferral.Complete();
 		}
 
-		public async Task DropAsync(DragEventArgs e)
+		public async Task DropAsync(DragEventArgs? e)
 		{
 			if (e is null)
 				return;

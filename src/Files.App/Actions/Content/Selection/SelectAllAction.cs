@@ -30,11 +30,10 @@ namespace Files.App.Actions
 				if (context.PageType is ContentPageTypes.Home)
 					return false;
 
-				var page = context.ShellPage;
-				if (page is null)
+				if (context.ShellPage is not { ShellViewModel: { } shellViewModel } page)
 					return false;
 
-				int itemCount = page.ShellViewModel.FilesAndFolders.Count;
+				int itemCount = shellViewModel.FilesAndFolders.Count;
 				int selectedItemCount = context.SelectedItems.Count;
 				if (itemCount == selectedItemCount)
 					return false;

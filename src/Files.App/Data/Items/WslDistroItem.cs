@@ -7,10 +7,10 @@ namespace Files.App.Data.Items
 {
 	public sealed partial class WslDistroItem : ObservableObject, INavigationControlItem
 	{
-		public string Text { get; set; }
+		public required string Text { get; set; }
 
-		private string path;
-		public string Path
+		private string path = string.Empty;
+		public required string Path
 		{
 			get => path;
 			set
@@ -23,10 +23,10 @@ namespace Files.App.Data.Items
 		public NavigationControlItemType ItemType
 			=> NavigationControlItemType.LinuxDistro;
 
-		private Uri icon;
-		public Uri Icon
+		private Uri? icon;
+		public required Uri Icon
 		{
-			get => icon;
+			get => icon ?? throw new InvalidOperationException("The distribution icon has not been initialized.");
 			set
 			{
 				SetProperty(ref icon, value, nameof(Icon));
@@ -36,7 +36,7 @@ namespace Files.App.Data.Items
 
 		public SectionType Section { get; set; }
 
-		public ContextMenuOptions MenuOptions { get; set; }
+		public required ContextMenuOptions MenuOptions { get; set; }
 
 		public object? Children => null;
 
@@ -65,6 +65,6 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public int CompareTo(INavigationControlItem? other) => Text.CompareTo(other.Text);
+		public int CompareTo(INavigationControlItem? other) => other is null ? 1 : Text.CompareTo(other.Text);
 	}
 }

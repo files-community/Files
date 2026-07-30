@@ -28,9 +28,9 @@ namespace Files.App.Utils.Shell
 				out _);
 		}
 
-		public static Task<bool> LaunchAppAsync(string application, string arguments, string workingDirectory)
+		public static Task<bool> LaunchAppAsync(string application, string? arguments, string? workingDirectory)
 		{
-			return HandleApplicationLaunch(application, arguments, workingDirectory);
+			return HandleApplicationLaunch(application, arguments ?? string.Empty, workingDirectory ?? string.Empty);
 		}
 
 		public static Task<bool> RunCompatibilityTroubleshooterAsync(string filePath)
@@ -104,17 +104,21 @@ namespace Files.App.Utils.Shell
 					// Refresh env variables for the child process
 					foreach (DictionaryEntry ent in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Machine))
 					{
-						string key = (string)ent.Key;
-
-						// Skip USERNAME to avoid issues where files were executed as SYSTEM user (#12139)
-						if (string.Equals(key, "USERNAME", StringComparison.OrdinalIgnoreCase)) 
+						if (ent.Key is not string key || ent.Value is not string value)
 							continue;
 
-						process.StartInfo.EnvironmentVariables[key] = (string)ent.Value;
+						// Skip USERNAME to avoid issues where files were executed as SYSTEM user (#12139)
+						if (string.Equals(key, "USERNAME", StringComparison.OrdinalIgnoreCase))
+							continue;
+
+						process.StartInfo.EnvironmentVariables[key] = value;
 					}
 
 					foreach (DictionaryEntry ent in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.User))
-						process.StartInfo.EnvironmentVariables[(string)ent.Key] = (string)ent.Value;
+					{
+						if (ent.Key is string key && ent.Value is string value)
+							process.StartInfo.EnvironmentVariables[key] = value;
+					}
 
 					process.StartInfo.EnvironmentVariables["PATH"] = string.Join(';',
 						Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine),
@@ -214,7 +218,7 @@ namespace Files.App.Utils.Shell
 							var isAlternateStream = RegexHelpers.AlternateStream().IsMatch(application);
 							if (isAlternateStream)
 							{
-								var basePath = Path.Combine(Environment.GetEnvironmentVariable("TEMP"), Guid.NewGuid().ToString("n"));
+								var basePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("n"));
 								Kernel32.CreateDirectory(basePath);
 
 								var tempPath = Path.Combine(basePath, new string(Path.GetFileName(application).SkipWhile(x => x != ':').Skip(1).ToArray()));
@@ -268,7 +272,9 @@ namespace Files.App.Utils.Shell
 			if (executable.StartsWith("\\\\?\\", StringComparison.Ordinal))
 			{
 				using var computer = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_ComputerFolder);
-				using var device = computer.FirstOrDefault(i => executable.Replace("\\\\?\\", "", StringComparison.Ordinal).StartsWith(i.Name, StringComparison.Ordinal));
+				using var device = computer.FirstOrDefault(i =>
+					i.Name is { } name &&
+					executable.Replace("\\\\?\\", "", StringComparison.Ordinal).StartsWith(name, StringComparison.Ordinal));
 				var deviceId = device?.ParsingName;
 				var itemPath = RegexHelpers.WindowsPath().Replace(executable, "");
 				return deviceId is not null ? Path.Combine(deviceId, itemPath) : executable;

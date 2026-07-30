@@ -7,11 +7,11 @@ namespace Files.App.Data.Items
 {
 	public sealed class ShellLinkItem : ShellFileItem
 	{
-		public string TargetPath { get; set; }
+		public string TargetPath { get; set; } = string.Empty;
 
-		public string Arguments { get; set; }
+		public string Arguments { get; set; } = string.Empty;
 
-		public string WorkingDirectory { get; set; }
+		public string WorkingDirectory { get; set; } = string.Empty;
 
 		public bool RunAsAdmin { get; set; }
 

@@ -30,7 +30,7 @@ namespace Files.App.Data.Items
 		public bool ShowMenuFlyout
 			=> WidgetItemModel.ShowMenuFlyout;
 
-		public MenuFlyoutItem MenuFlyoutItem
+		public MenuFlyoutItem? MenuFlyoutItem
 			=> WidgetItemModel.MenuFlyoutItem;
 
 		private object _WidgetControl;
@@ -57,8 +57,8 @@ namespace Files.App.Data.Items
 			_expanderValueChangedCallback = expanderValueChangedCallback;
 			_expanderValueRequestedCallback = expanderValueRequestedCallback;
 
-			WidgetItemModel = widgetItemModel;
-			WidgetControl = widgetControl;
+			_WidgetItemModel = widgetItemModel;
+			_WidgetControl = widgetControl;
 		}
 
 		// Disposer

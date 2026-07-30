@@ -9,8 +9,6 @@ namespace Files.App.UserControls.FilePreviews
 {
 	public sealed partial class CodePreview : UserControl
 	{
-		private RichTextBlockFormatter formatter;
-
 		private CodePreviewViewModel ViewModel { get; set; }
 
 		public CodePreview(CodePreviewViewModel model)
@@ -33,8 +31,11 @@ namespace Files.App.UserControls.FilePreviews
 					return;
 				}
 
-				formatter = new RichTextBlockFormatter(ActualTheme);
-				formatter.FormatRichTextBlock(ViewModel.TextValue, ViewModel.CodeLanguage, codeView);
+				if (ViewModel.CodeLanguage is not null)
+				{
+					var formatter = new RichTextBlockFormatter(ActualTheme);
+					formatter.FormatRichTextBlock(ViewModel.TextValue ?? string.Empty, ViewModel.CodeLanguage, codeView);
+				}
 			}
 		}
 

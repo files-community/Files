@@ -102,7 +102,7 @@ namespace Files.App.Views.Layouts
 
 		// Methods
 
-		private void OnItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs args)
+		private void OnItemLoadStatusChanged(object? sender, ItemLoadStatusChangedEventArgs args)
 		{
 			if (args.Status is ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete)
 			{
@@ -115,7 +115,8 @@ namespace Files.App.Views.Layouts
 		private void FileList_Loaded(object sender, RoutedEventArgs e)
 		{
 			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
-			ParentShellPageInstance.ShellViewModel.ItemLoadStatusChanged += OnItemLoadStatusChanged;
+			if (ParentShellPageInstance?.ShellViewModel is { } shellViewModel)
+				shellViewModel.ItemLoadStatusChanged += OnItemLoadStatusChanged;
 		}
 
 		private void ColumnViewBase_GotFocus(object sender, RoutedEventArgs e)
@@ -208,7 +209,8 @@ namespace Files.App.Views.Layouts
 		{
 			base.OnNavigatingFrom(e);
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
-			ParentShellPageInstance.ShellViewModel.ItemLoadStatusChanged -= OnItemLoadStatusChanged;
+			if (ParentShellPageInstance?.ShellViewModel is { } shellViewModel)
+				shellViewModel.ItemLoadStatusChanged -= OnItemLoadStatusChanged;
 		}
 
 		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -239,16 +241,16 @@ namespace Files.App.Views.Layouts
 
 		private async Task ReloadItemIconsAsync()
 		{
-			if (ParentShellPageInstance is null)
+			if (ParentShellPageInstance?.ShellViewModel is not { } shellViewModel)
 				return;
 
-			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
-			var filesAndFolders = ParentShellPageInstance.ShellViewModel.FilesAndFolders.ToList();
+			shellViewModel.CancelExtendedPropertiesLoading();
+			var filesAndFolders = shellViewModel.FilesAndFolders.ToList();
 			foreach (ListedItem listedItem in filesAndFolders)
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is not null)
-					await ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
+					await shellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
 			}
 		}
 
@@ -336,6 +338,8 @@ namespace Files.App.Views.Layouts
 
 		protected override void OnSelectionChanged(SelectionChangedEventArgs e)
 		{
+			var shellViewModel = ParentShellPageInstance?.ShellViewModel;
+
 			if (e.AddedItems.Count > 0)
 				columnsOwner?.HandleSelectionChange(this);
 
@@ -345,8 +349,8 @@ namespace Files.App.Views.Layouts
 			}
 			else if (SelectedItems?.Count > 1
 				|| SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File
-				|| openedFolderPresenter != null && ParentShellPageInstance != null
-				&& !ParentShellPageInstance.ShellViewModel.FilesAndFolders.ToList().Contains(FileList.ItemFromContainer(openedFolderPresenter))
+				|| openedFolderPresenter != null && shellViewModel is not null
+				&& !shellViewModel.FilesAndFolders.ToList().Contains(FileList.ItemFromContainer(openedFolderPresenter))
 				&& !isDraggingSelectionRectangle) // Skip closing if dragging since nothing should be open
 			{
 				CloseFolder();
@@ -410,7 +414,9 @@ namespace Files.App.Views.Layouts
 
 		private void CloseFolder()
 		{
-			var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
+			var currentBladeIndex = ParentShellPageInstance is ColumnShellPage associatedColumnShellPage
+				? associatedColumnShellPage.ColumnParams?.Column ?? 0
+				: 0;
 			this.FindAscendant<ColumnsLayoutPage>()?.DismissOtherBlades(currentBladeIndex);
 			ClearOpenedFolderSelectionIndicator();
 		}
@@ -492,7 +498,9 @@ namespace Files.App.Views.Layouts
 			}
 			else if (e.Key == VirtualKey.Left) // Left arrow: select parent folder (previous column)
 			{
-				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
+				var currentBladeIndex = ParentShellPageInstance is ColumnShellPage associatedColumnShellPage
+					? associatedColumnShellPage.ColumnParams?.Column ?? 0
+					: 0;
 				this.FindAscendant<ColumnsLayoutPage>()?.MoveFocusToPreviousBlade(currentBladeIndex);
 				FileList.SelectedItem = null;
 				ClearOpenedFolderSelectionIndicator();
@@ -500,7 +508,9 @@ namespace Files.App.Views.Layouts
 			}
 			else if (e.Key == VirtualKey.Right) // Right arrow: switch focus to next column
 			{
-				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
+				var currentBladeIndex = ParentShellPageInstance is ColumnShellPage associatedColumnShellPage
+					? associatedColumnShellPage.ColumnParams?.Column ?? 0
+					: 0;
 				this.FindAscendant<ColumnsLayoutPage>()?.MoveFocusToNextBlade(currentBladeIndex + 1);
 				e.Handled = true;
 			}

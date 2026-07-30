@@ -53,7 +53,7 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref _IsIDENameValid, value);
 		}
 
-		private string _IDEPath;
+		private string _IDEPath = string.Empty;
 		public string IDEPath
 		{
 			get => _IDEPath;
@@ -72,7 +72,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string _IDEName;
+		private string _IDEName = string.Empty;
 		public string IDEName
 		{
 			get => _IDEName;
@@ -109,7 +109,7 @@ namespace Files.App.ViewModels.Settings
 			TestIDECommand = new RelayCommand(DoTestIDE);
 		}
 
-		private string selectedOpenInIDEOption;
+		private string selectedOpenInIDEOption = string.Empty;
 		public string SelectedOpenInIDEOption
 		{
 			get => selectedOpenInIDEOption;

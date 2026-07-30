@@ -85,7 +85,7 @@ namespace Files.App.Helpers
 				App.AppModel.TabStripSelectedIndex = index;
 		}
 
-		public static async Task AddNewTabByParamAsync(Type type, object tabViewItemArgs, int atIndex = -1, bool switchToNewTab = true)
+		public static async Task AddNewTabByParamAsync(Type type, object? tabViewItemArgs, int atIndex = -1, bool switchToNewTab = true)
 		{
 			var tabItem = new Files.App.UserControls.TabBar.TabBarItem()
 			{
@@ -112,11 +112,11 @@ namespace Files.App.Helpers
 				App.AppModel.TabStripSelectedIndex = index;
 		}
 
-		private static async Task UpdateTabInfoAsync(TabBarItem tabItem, object navigationArg)
+		private static async Task UpdateTabInfoAsync(TabBarItem tabItem, object? navigationArg)
 		{
 			tabItem.AllowStorageItemDrop = true;
 
-			(string, IconSource, string) result = (null, null, null);
+			(string? Header, IconSource? Icon, string? ToolTip) result = default;
 			if (navigationArg is PaneNavigationArguments paneArgs)
 			{
 				if (!string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam) && !string.IsNullOrEmpty(paneArgs.RightPaneNavPathParam))
@@ -145,7 +145,9 @@ namespace Files.App.Helpers
 			// Don't update tabItem if the contents of the tab have already changed
 			if (result.Item1 is not null)
 			{
-				var navigationParameter = tabItem.NavigationParameter.NavigationParameter;
+				if (tabItem.NavigationParameter?.NavigationParameter is not { } navigationParameter)
+					return;
+
 				var a1 = navigationParameter is PaneNavigationArguments pna1 ? pna1 : new PaneNavigationArguments() { LeftPaneNavPathParam = navigationParameter as string };
 				var a2 = navigationArg is PaneNavigationArguments pna2 ? pna2 : new PaneNavigationArguments() { LeftPaneNavPathParam = navigationArg as string };
 
@@ -163,14 +165,14 @@ namespace Files.App.Helpers
 		{
 			foreach (var group in MainPageViewModel.AppInstances
 				.Where(t => !string.IsNullOrEmpty(t.Description))
-				.GroupBy(t => t.Description!, StringComparer.OrdinalIgnoreCase))
+				.GroupBy(t => t.Description ?? string.Empty, StringComparer.OrdinalIgnoreCase))
 			{
 				var tabs = group.ToArray();
 
 				foreach (var t in tabs)
 					t.Header = t.Description;
 
-				if (tabs.Length < 2 || tabs[0].Description!.Contains(" | "))
+				if (tabs.Length < 2 || tabs[0].Description?.Contains(" | ", StringComparison.Ordinal) == true)
 					continue;
 
 				var hints = tabs.ToDictionary(t => t, t => AncestorHints(t.ToolTipText));
@@ -195,7 +197,7 @@ namespace Files.App.Helpers
 
 			try
 			{
-				var root = (PathNormalization.GetPathRoot(path) ?? "").TrimEnd('\\', '/');
+				var root = PathNormalization.GetPathRoot(path).TrimEnd('\\', '/');
 				var prefix = root.Length >= 2 && root[1] == ':'
 					? $"{char.ToUpperInvariant(root[0])}:\\..."
 					: root.Length > 0 ? $"{root}\\..." : "...";
@@ -216,7 +218,10 @@ namespace Files.App.Helpers
 		{
 			ImageSource? imageSource;
 			if (string.IsNullOrEmpty(path) || path == "Home")
-				imageSource = new BitmapImage(new Uri(SidebarSectionIcons.For(SectionType.Home)!));
+			{
+				var iconPath = SidebarSectionIcons.For(SectionType.Home);
+				imageSource = iconPath is null ? null : new BitmapImage(new Uri(iconPath));
+			}
 			else if (path == "ReleaseNotes")
 				imageSource = new BitmapImage(new Uri(AppLifecycleHelper.AppIconPath));
 			else if (path == "Settings")
@@ -248,14 +253,15 @@ namespace Files.App.Helpers
 
 		public static async Task<(string tabLocationHeader, IconSource tabIcon, string toolTipText)> GetSelectedTabInfoAsync(string currentPath)
 		{
-			string? tabLocationHeader;
+			string tabLocationHeader;
 			IconSource iconSource = new ImageIconSource();
 			string toolTipText = currentPath;
 
 			if (string.IsNullOrEmpty(currentPath) || currentPath == "Home")
 			{
 				tabLocationHeader = Strings.Home.GetLocalizedResource();
-				((ImageIconSource)iconSource).ImageSource = new BitmapImage(new Uri(SidebarSectionIcons.For(SectionType.Home)!));
+				if (SidebarSectionIcons.For(SectionType.Home) is { } iconPath)
+					((ImageIconSource)iconSource).ImageSource = new BitmapImage(new Uri(iconPath));
 			}
 			else if (currentPath == "ReleaseNotes")
 			{
@@ -278,7 +284,7 @@ namespace Files.App.Helpers
 				tabLocationHeader = Strings.ThisPC.GetLocalizedResource();
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
 				tabLocationHeader = Strings.Network.GetLocalizedResource();
-			else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
+			else if (App.LibraryManager.TryGetLibrary(currentPath, out var library))
 			{
 				var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path).GetLocalizedResource();
 				// If localized string is empty use the library name.
@@ -308,11 +314,11 @@ namespace Files.App.Helpers
 				{
 					tabLocationHeader = currentPath.TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
 
-					FilesystemResult<StorageFolderWithPath> rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(currentPath));
-					if (rootItem)
+					var rootItem = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(currentPath));
+					if (rootItem.Result is { } rootFolder)
 					{
-						BaseStorageFolder currentFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(currentPath, rootItem));
-						if (currentFolder is not null && !string.IsNullOrEmpty(currentFolder.DisplayName))
+						var currentFolderResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(currentPath, rootFolder));
+						if (currentFolderResult.Result is { } currentFolder && !string.IsNullOrEmpty(currentFolder.DisplayName))
 							tabLocationHeader = currentFolder.DisplayName;
 					}
 				}
@@ -347,7 +353,7 @@ namespace Files.App.Helpers
 						windowTitle = $"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
 					}
 					else
-						(windowTitle, _, _) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
+						(windowTitle, _, _) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam ?? paneArgs.RightPaneNavPathParam ?? string.Empty);
 				}
 				else if (navigationArg is string pathArgs)
 					(windowTitle, _, _) = await GetSelectedTabInfoAsync(pathArgs);
@@ -518,7 +524,7 @@ namespace Files.App.Helpers
 					Win32Helper.GetWin32FindDataForPath(path, out var findData) &&
 					findData.dwReserved0 == Win32PInvoke.IO_REPARSE_TAG_SYMLINK)
 				{
-					shortcutInfo.TargetPath = Win32Helper.ParseSymLink(path);
+					shortcutInfo.TargetPath = Win32Helper.ParseSymLink(path) ?? string.Empty;
 				}
 				itemType ??= isDirectory ? FilesystemItemType.Directory : FilesystemItemType.File;
 			}
@@ -572,7 +578,7 @@ namespace Files.App.Helpers
 				await OpenPath(forceOpenInNewTab, UserSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, associatedInstance);
 				opened = (FilesystemResult)true;
 			}
-			else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
+			else if (App.LibraryManager.TryGetLibrary(path, out var library))
 			{
 				opened = (FilesystemResult)await library.CheckDefaultSaveFolderAccess();
 				if (opened)
@@ -648,9 +654,9 @@ namespace Files.App.Helpers
 				{
 					if (!FileExtensionHelpers.IsWebLinkFile(path) && associatedInstance.ShellViewModel is not null)
 					{
-						StorageFileWithPath childFile = await associatedInstance.ShellViewModel.GetFileWithPathFromPathAsync(shortcutInfo.TargetPath);
+						var childFileResult = await associatedInstance.ShellViewModel.GetFileWithPathFromPathAsync(shortcutInfo.TargetPath);
 						// Add location to Recent Items List
-						if (childFile?.Item is SystemStorageFile)
+						if (childFileResult.Result is { Item: SystemStorageFile } childFile)
 							WindowsRecentItemsService.Add(childFile.Path);
 					}
 					await Win32Helper.InvokeWin32ComponentAsync(shortcutInfo.TargetPath, associatedInstance, $"{args} {shortcutInfo.Arguments}", shortcutInfo.RunAsAdmin, shortcutInfo.WorkingDirectory);
@@ -676,11 +682,17 @@ namespace Files.App.Helpers
 
 							if (openViaApplicationPicker)
 							{
+								if (childFile.Item is not { } storageFile)
+								{
+									await Win32Helper.InvokeWin32ComponentAsync(path, associatedInstance, args);
+									return;
+								}
+
 								LauncherOptions options = InitializeWithWindow(new LauncherOptions
 								{
 									DisplayApplicationPicker = true
 								});
-								if (!await Launcher.LaunchFileAsync(childFile.Item, options))
+								if (!await Launcher.LaunchFileAsync(storageFile, options))
 									await ContextMenu.InvokeVerb("openas", path);
 							}
 							else
@@ -704,8 +716,8 @@ namespace Files.App.Helpers
 
 									BaseStorageFileQueryResult? fileQueryResult = null;
 									//Get folder to create a file query (to pass to apps like Photos, Movies & TV..., needed to scroll through the folder like what Windows Explorer does)
-									BaseStorageFolder currentFolder = await shellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(path));
-									if (!launchSuccess && currentFolder is not null)
+									var currentFolderResult = await shellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(path));
+									if (!launchSuccess && currentFolderResult.Result is { } currentFolder)
 									{
 										QueryOptions queryOptions = new(CommonFileQuery.DefaultQuery, null);
 										//We can have many sort entries
@@ -756,9 +768,11 @@ namespace Files.App.Helpers
 											options.NeighboringFilesQuery = fileQueryResult.ToStorageFileQueryResult();
 										}
 										// Now launch file with options.
-										var storageItem = (StorageFile)await FilesystemTasks.Wrap(() => childFile.Item.ToStorageFileAsync().AsTask());
-										if (storageItem is not null)
+										if (childFile.Item is { } item &&
+											(await FilesystemTasks.Wrap(() => item.ToStorageFileAsync().AsTask())).Result is { } storageItem)
+										{
 											launchSuccess = await Launcher.LaunchFileAsync(storageItem, options);
+										}
 									}
 									if (!launchSuccess)
 										await Win32Helper.InvokeWin32ComponentAsync(path, associatedInstance, args);
@@ -766,7 +780,7 @@ namespace Files.App.Helpers
 								else if (childFile.Item is ZipStorageFile zipStorageFile)
 								{
 									var options = InitializeWithWindow(new LauncherOptions());
-									var storageItem = (StorageFile)await FilesystemTasks.Wrap(() => zipStorageFile.ToStorageFileAsync().AsTask());
+									var storageItem = (await FilesystemTasks.Wrap(() => zipStorageFile.ToStorageFileAsync().AsTask())).Result;
 									if (storageItem is null)
 									{
 										await Win32Helper.InvokeWin32ComponentAsync(path, associatedInstance, args);

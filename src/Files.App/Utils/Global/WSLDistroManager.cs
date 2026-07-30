@@ -10,7 +10,7 @@ namespace Files.App.Utils
 {
 	public static class WSLDistroManager
 	{
-		public static EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
+		public static event EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 
 		private static readonly List<WslDistroItem> distros = [];
 		public static IReadOnlyList<WslDistroItem> Distros

@@ -36,7 +36,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			ContentPageContext.ShellPage!.PaneHolder.ArrangePanes(ShellPaneArrangement.Vertical);
+			ContentPageContext.ShellPage?.PaneHolder?.ArrangePanes(ShellPaneArrangement.Vertical);
 
 			return Task.CompletedTask;
 		}

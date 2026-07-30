@@ -280,38 +280,41 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		private void ExecuteOpenPropertiesCommand(WidgetFolderCardItem? item)
 		{
-			if (!HomePageContext.IsAnyItemRightClicked || item is null || item.Item is null)
+			var flyout = HomePageContext.ItemContextFlyoutMenu;
+			var shellPage = ContentPageContext.ShellPage;
+			if (!HomePageContext.IsAnyItemRightClicked ||
+				item is null ||
+				string.IsNullOrEmpty(item.Path) ||
+				flyout is null ||
+				shellPage?.ShellViewModel is not { } shellViewModel)
 				return;
 
-			var flyout = HomePageContext.ItemContextFlyoutMenu;
-			EventHandler<object> flyoutClosed = null!;
-
-			flyoutClosed = async (s, e) =>
+			async void FlyoutClosed(object? sender, object args)
 			{
-				flyout!.Closed -= flyoutClosed;
+				flyout.Closed -= FlyoutClosed;
 
-				ListedItem listedItem = new(null!)
+				ListedItem listedItem = new(null)
 				{
 					ItemPath = item.Path,
-					ItemNameRaw = item.Text,
+					ItemNameRaw = item.Text ?? System.IO.Path.GetFileName(item.Path),
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemType = Strings.Folder.GetLocalizedResource(),
 				};
 
 				if (!string.Equals(item.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 				{
-					BaseStorageFolder matchingStorageFolder = await ContentPageContext.ShellPage!.ShellViewModel.GetFolderFromPathAsync(item.Path);
+					BaseStorageFolder? matchingStorageFolder = (await shellViewModel.GetFolderFromPathAsync(item.Path)).Result;
 					if (matchingStorageFolder is not null)
 					{
-						var syncStatus = await ContentPageContext.ShellPage!.ShellViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
+						var syncStatus = await shellViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
 						listedItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 					}
 				}
 
-				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, ContentPageContext.ShellPage!);
-			};
+				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, shellPage);
+			}
 
-			flyout!.Closed += flyoutClosed;
+			flyout.Closed += FlyoutClosed;
 		}
 
 		// Disposer

@@ -31,7 +31,10 @@ namespace Files.App.Dialogs
 
 		private void ListView_ItemClick(object sender, ItemClickEventArgs e)
 		{
-			ViewModel.ResultType = (e.ClickedItem as AddItemDialogListItemViewModel).ItemResult;
+			if (e.ClickedItem is not AddItemDialogListItemViewModel { ItemResult: { } itemResult })
+				return;
+
+			ViewModel.ResultType = itemResult;
 
 			Hide();
 		}

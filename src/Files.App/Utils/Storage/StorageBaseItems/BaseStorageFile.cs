@@ -39,9 +39,11 @@ namespace Files.App.Utils.Storage
 
 		public abstract IStorageItemExtraProperties Properties { get; }
 		StorageItemContentProperties IStorageItemProperties.Properties
-			=> this is SystemStorageFile file ? file.File.Properties : null;
+			=> this is SystemStorageFile file
+				? file.File.Properties
+				: throw new NotSupportedException("Content properties are only available for system storage files.");
 
-		public static implicit operator BaseStorageFile(StorageFile value)
+		public static implicit operator BaseStorageFile?(StorageFile? value)
 		{
 			return value is not null ? new SystemStorageFile(value) : null;
 		}
@@ -52,13 +54,16 @@ namespace Files.App.Utils.Storage
 
 		public abstract bool IsOfType(StorageItemTypes type);
 
-		public abstract IAsyncOperation<BaseStorageFolder> GetParentAsync();
+		public abstract IAsyncOperation<BaseStorageFolder?> GetParentAsync();
 
-		IAsyncOperation<StorageFolder> IStorageItem2.GetParentAsync()
+		IAsyncOperation<StorageFolder?> IStorageItem2.GetParentAsync()
 		{
 			return
-				AsyncInfo.Run(async (cancellationToken)
-					=> await (await GetParentAsync()).ToStorageFolderAsync());
+				AsyncInfo.Run(async (cancellationToken) =>
+				{
+					var parent = await GetParentAsync();
+					return parent is not null ? await parent.ToStorageFolderAsync() : null;
+				});
 		}
 
 		public abstract IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync();
@@ -82,31 +87,40 @@ namespace Files.App.Utils.Storage
 
 		public abstract IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync(StorageOpenOptions options);
 
-		public abstract IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder);
+		public abstract IAsyncOperation<BaseStorageFile?> CopyAsync(IStorageFolder destinationFolder);
 
 		IAsyncOperation<StorageFile> IStorageFile.CopyAsync(IStorageFolder destinationFolder)
 		{
 			return
-				AsyncInfo.Run(async (cancellationToken)
-					=> await (await CopyAsync(destinationFolder)).ToStorageFileAsync());
+				AsyncInfo.Run(async (cancellationToken) =>
+				{
+					var file = await CopyAsync(destinationFolder) ?? throw new IOException("The file could not be copied.");
+					return await file.ToStorageFileAsync();
+				});
 		}
 
-		public abstract IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName);
+		public abstract IAsyncOperation<BaseStorageFile?> CopyAsync(IStorageFolder destinationFolder, string desiredNewName);
 
 		IAsyncOperation<StorageFile> IStorageFile.CopyAsync(IStorageFolder destinationFolder, string desiredNewName)
 		{
 			return
-				AsyncInfo.Run(async (cancellationToken)
-					=> await (await CopyAsync(destinationFolder, desiredNewName)).ToStorageFileAsync());
+				AsyncInfo.Run(async (cancellationToken) =>
+				{
+					var file = await CopyAsync(destinationFolder, desiredNewName) ?? throw new IOException("The file could not be copied.");
+					return await file.ToStorageFileAsync();
+				});
 		}
 
-		public abstract IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option);
+		public abstract IAsyncOperation<BaseStorageFile?> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option);
 
 		IAsyncOperation<StorageFile> IStorageFile.CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
 		{
 			return
-				AsyncInfo.Run(async (cancellationToken)
-					=> await (await CopyAsync(destinationFolder, desiredNewName, option)).ToStorageFileAsync());
+				AsyncInfo.Run(async (cancellationToken) =>
+				{
+					var file = await CopyAsync(destinationFolder, desiredNewName, option) ?? throw new IOException("The file could not be copied.");
+					return await file.ToStorageFileAsync();
+				});
 		}
 
 		public abstract IAsyncAction MoveAsync(IStorageFolder destinationFolder);
@@ -127,30 +141,30 @@ namespace Files.App.Utils.Storage
 
 		public abstract IAsyncAction DeleteAsync(StorageDeleteOption option);
 
-		public abstract IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode);
+		public abstract IAsyncOperation<StorageItemThumbnail?> GetThumbnailAsync(ThumbnailMode mode);
 
-		public abstract IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize);
+		public abstract IAsyncOperation<StorageItemThumbnail?> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize);
 
-		public abstract IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options);
+		public abstract IAsyncOperation<StorageItemThumbnail?> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options);
 
-		public IAsyncOperation<StorageItemThumbnail> GetScaledImageAsThumbnailAsync(ThumbnailMode mode)
+		public IAsyncOperation<StorageItemThumbnail?> GetScaledImageAsThumbnailAsync(ThumbnailMode mode)
 		{
-			return Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
+			return Task.FromResult<StorageItemThumbnail?>(null).AsAsyncOperation();
 		}
 
-		public IAsyncOperation<StorageItemThumbnail> GetScaledImageAsThumbnailAsync(ThumbnailMode mode, uint requestedSize)
+		public IAsyncOperation<StorageItemThumbnail?> GetScaledImageAsThumbnailAsync(ThumbnailMode mode, uint requestedSize)
 		{
-			return Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
+			return Task.FromResult<StorageItemThumbnail?>(null).AsAsyncOperation();
 		}
 
-		public IAsyncOperation<StorageItemThumbnail> GetScaledImageAsThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
+		public IAsyncOperation<StorageItemThumbnail?> GetScaledImageAsThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
 		{
-			return Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
+			return Task.FromResult<StorageItemThumbnail?>(null).AsAsyncOperation();
 		}
 
-		public static IAsyncOperation<BaseStorageFile> GetFileFromPathAsync(string path)
+		public static IAsyncOperation<BaseStorageFile?> GetFileFromPathAsync(string path)
 		{
-			return AsyncInfo.Run(async (cancellationToken)
+			return AsyncInfo.Run<BaseStorageFile?>(async (cancellationToken)
 					=> await ZipStorageFile.FromPathAsync(path) ?? await FtpStorageFile.FromPathAsync(path) ?? await ShellStorageFile.FromPathAsync(path) ?? await NativeStorageFile.FromPathAsync(path) ?? await SystemStorageFile.FromPathAsync(path)
 				);
 		}

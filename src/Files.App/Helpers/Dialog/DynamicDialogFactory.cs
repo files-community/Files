@@ -116,7 +116,7 @@ namespace Files.App.Helpers
 				},
 				PrimaryButtonAction = (vm, e) =>
 				{
-					vm.HideDialog(); // Rename successful
+					vm.HideDialog?.Invoke(); // Rename successful
 				},
 				PrimaryButtonText = Strings.Create.GetLocalizedResource(),
 				CloseButtonText = Strings.Cancel.GetLocalizedResource(),
@@ -153,7 +153,7 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static DynamicDialog GetFor_FileInUseDialog(List<Win32Process> lockingProcess = null)
+		public static DynamicDialog GetFor_FileInUseDialog(List<Win32Process>? lockingProcess = null)
 		{
 			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
@@ -190,25 +190,29 @@ namespace Files.App.Helpers
 			inputUsername.TextChanged += (textBox, args) =>
 			{
 				userAndPass[0] = inputUsername.Text;
-				dialog.ViewModel.AdditionalData = userAndPass;
+				if (dialog is not null)
+					dialog.ViewModel.AdditionalData = userAndPass;
 			};
 
 			inputPassword.PasswordChanged += (textBox, args) =>
 			{
 				userAndPass[1] = inputPassword.Password;
-				dialog.ViewModel.AdditionalData = userAndPass;
+				if (dialog is not null)
+					dialog.ViewModel.AdditionalData = userAndPass;
 			};
 
 			saveCreds.Checked += (textBox, args) =>
 			{
 				userAndPass[2] = "y";
-				dialog.ViewModel.AdditionalData = userAndPass;
+				if (dialog is not null)
+					dialog.ViewModel.AdditionalData = userAndPass;
 			};
 
 			saveCreds.Unchecked += (textBox, args) =>
 			{
 				userAndPass[2] = "n";
-				dialog.ViewModel.AdditionalData = userAndPass;
+				if (dialog is not null)
+					dialog.ViewModel.AdditionalData = userAndPass;
 			};
 
 			dialog = new DynamicDialog(new DynamicDialogViewModel()
@@ -236,8 +240,8 @@ namespace Files.App.Helpers
 				},
 				CloseButtonAction = (vm, e) =>
 				{
-					dialog.ViewModel.AdditionalData = null;
-					vm.HideDialog();
+					vm.AdditionalData = null;
+					vm.HideDialog?.Invoke();
 				}
 
 			});
@@ -283,8 +287,8 @@ namespace Files.App.Helpers
 				AdditionalData = GitCheckoutOptions.BringChanges,
 				CloseButtonAction = (vm, e) =>
 				{
-					dialog.ViewModel.AdditionalData = GitCheckoutOptions.None;
-					vm.HideDialog();
+					vm.AdditionalData = GitCheckoutOptions.None;
+					vm.HideDialog?.Invoke();
 				}
 			});
 
@@ -330,8 +334,8 @@ namespace Files.App.Helpers
 				AdditionalData = GitCheckoutOptions.AbortMerge,
 				CloseButtonAction = (vm, e) =>
 				{
-					dialog.ViewModel.AdditionalData = GitCheckoutOptions.None;
-					vm.HideDialog();
+					vm.AdditionalData = GitCheckoutOptions.None;
+					vm.HideDialog?.Invoke();
 				}
 			});
 
@@ -373,8 +377,8 @@ namespace Files.App.Helpers
 				AdditionalData = true,
 				CloseButtonAction = (vm, e) =>
 				{
-					dialog.ViewModel.AdditionalData = false;
-					vm.HideDialog();
+					vm.AdditionalData = false;
+					vm.HideDialog?.Invoke();
 				}
 			});
 
@@ -393,7 +397,7 @@ namespace Files.App.Helpers
 				SecondaryButtonAction = (vm, e) =>
 				{
 					var context = Ioc.Default.GetRequiredService<IContentPageContext>();
-					var item = context.ShellPage?.ShellViewModel.FilesAndFolders.FirstOrDefault(li => li.ItemPath.Equals(path));
+					var item = context.ShellPage?.ShellViewModel?.FilesAndFolders.FirstOrDefault(li => li.ItemPath.Equals(path));
 
 					if (context.ShellPage is not null && item is not null)
 						FilePropertiesHelpers.OpenPropertiesWindow(item, context.ShellPage, PropertiesNavigationViewItemType.Security);
@@ -461,7 +465,7 @@ namespace Files.App.Helpers
 				},
 				PrimaryButtonAction = (vm, e) =>
 				{
-					vm.HideDialog();
+					vm.HideDialog?.Invoke();
 				},
 				PrimaryButtonText = Strings.Create.GetLocalizedResource(),
 				CloseButtonText = Strings.Cancel.GetLocalizedResource(),

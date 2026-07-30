@@ -67,7 +67,7 @@ namespace Files.App.ViewModels
 		// Only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
 
-		private LayoutPreferencesManager folderSettings = null;
+		private readonly LayoutPreferencesManager folderSettings;
 
 		private ListedItem? currentFolder;
 		public ListedItem? CurrentFolder
@@ -160,51 +160,51 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		public CollectionViewSource viewSource;
+		public CollectionViewSource viewSource = new();
 
-		private FileSystemWatcher watcher;
+		private FileSystemWatcher? watcher;
 
-		private static BitmapImage shieldIcon;
+		private static BitmapImage? shieldIcon;
 
 		private CancellationTokenSource addFilesCTS;
 		private CancellationTokenSource semaphoreCTS;
 		private CancellationTokenSource loadPropsCTS;
 		private CancellationTokenSource watcherCTS;
-		private CancellationTokenSource searchCTS;
-		private CancellationTokenSource updateTagGroupCTS;
+		private CancellationTokenSource? searchCTS;
+		private CancellationTokenSource? updateTagGroupCTS;
 		private CancellationTokenSource? filterDebounceCS;
 		private CancellationTokenSource? networkAvailabilityCTS;
 
-		public event EventHandler FocusFilterHeader;
+		public event EventHandler? FocusFilterHeader;
 
-		public event EventHandler DirectoryInfoUpdated;
+		public event EventHandler? DirectoryInfoUpdated;
 
-		public event EventHandler GitDirectoryUpdated;
+		public event EventHandler? GitDirectoryUpdated;
 
-		public event EventHandler<List<ListedItem>> OnSelectionRequestedEvent;
+		public event EventHandler<List<ListedItem>>? OnSelectionRequestedEvent;
 
-		public string WorkingDirectory { get; private set; }
+		public string WorkingDirectory { get; private set; } = string.Empty;
 
 		public string? GitDirectory { get; private set; }
 
 		public bool IsValidGitDirectory { get; private set; }
 
-		public List<IniSectionDataItem> DesktopIni { get; private set; }
+		public List<IniSectionDataItem> DesktopIni { get; private set; } = [];
 
 		private StorageFolderWithPath? currentStorageFolder;
-		private StorageFolderWithPath workingRoot;
+		private StorageFolderWithPath? workingRoot;
 
-		public delegate void WorkingDirectoryModifiedEventHandler(object sender, WorkingDirectoryModifiedEventArgs e);
+		public delegate void WorkingDirectoryModifiedEventHandler(object? sender, WorkingDirectoryModifiedEventArgs e);
 
-		public event WorkingDirectoryModifiedEventHandler WorkingDirectoryModified;
+		public event WorkingDirectoryModifiedEventHandler? WorkingDirectoryModified;
 
-		public delegate void PageTypeUpdatedEventHandler(object sender, PageTypeUpdatedEventArgs e);
+		public delegate void PageTypeUpdatedEventHandler(object? sender, PageTypeUpdatedEventArgs e);
 
-		public event PageTypeUpdatedEventHandler PageTypeUpdated;
+		public event PageTypeUpdatedEventHandler? PageTypeUpdated;
 
-		public delegate void ItemLoadStatusChangedEventHandler(object sender, ItemLoadStatusChangedEventArgs e);
+		public delegate void ItemLoadStatusChangedEventHandler(object? sender, ItemLoadStatusChangedEventArgs e);
 
-		public event ItemLoadStatusChangedEventHandler ItemLoadStatusChanged;
+		public event ItemLoadStatusChangedEventHandler? ItemLoadStatusChanged;
 
 		public void InvokeFocusFilterHeader()
 		{
@@ -218,7 +218,7 @@ namespace Files.App.ViewModels
 
 			var isLibrary = false;
 			string? name = null;
-			if (App.LibraryManager.TryGetLibrary(value, out LibraryLocationItem library))
+			if (App.LibraryManager.TryGetLibrary(value, out var library))
 			{
 				isLibrary = true;
 				name = library.Text;
@@ -229,7 +229,7 @@ namespace Files.App.ViewModels
 			if (isLibrary || !Path.IsPathRooted(value))
 				workingRoot = currentStorageFolder = null;
 			else if (!Path.IsPathRooted(WorkingDirectory) || Path.GetPathRoot(WorkingDirectory) != Path.GetPathRoot(value))
-				workingRoot = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(value));
+				workingRoot = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(value));
 
 			if (value == "Home" || value == "ReleaseNotes" || value == "Settings")
 				currentStorageFolder = null;
@@ -258,7 +258,7 @@ namespace Files.App.ViewModels
 			await getFileOrFolderSemaphore.WaitAsync(cancellationToken);
 			try
 			{
-				return await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(value, workingRoot, currentStorageFolder));
+				return await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(value, workingRoot, currentStorageFolder));
 			}
 			finally
 			{
@@ -271,7 +271,7 @@ namespace Files.App.ViewModels
 			await getFileOrFolderSemaphore.WaitAsync(cancellationToken);
 			try
 			{
-				return await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(value, workingRoot, currentStorageFolder));
+				return await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(value, workingRoot, currentStorageFolder));
 			}
 			finally
 			{
@@ -743,7 +743,7 @@ namespace Files.App.ViewModels
 			await dispatcherQueue.EnqueueOrInvokeAsync(CheckForBackgroundImage, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 		}
 
-		private async void RecycleBinRefreshRequestedAsync(object sender, FileSystemEventArgs e)
+		private async void RecycleBinRefreshRequestedAsync(object? sender, FileSystemEventArgs e)
 		{
 			if (!Constants.UserEnvironmentPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
@@ -754,7 +754,7 @@ namespace Files.App.ViewModels
 			});
 		}
 
-		private async void RecycleBinItemDeletedAsync(object sender, FileSystemEventArgs e)
+		private async void RecycleBinItemDeletedAsync(object? sender, FileSystemEventArgs e)
 		{
 			if (!Constants.UserEnvironmentPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
@@ -765,7 +765,7 @@ namespace Files.App.ViewModels
 				await ApplyFilesAndFoldersChangesAsync();
 		}
 
-		private async void RecycleBinItemCreatedAsync(object sender, FileSystemEventArgs e)
+		private async void RecycleBinItemCreatedAsync(object? sender, FileSystemEventArgs e)
 		{
 			if (!Constants.UserEnvironmentPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
@@ -775,6 +775,8 @@ namespace Files.App.ViewModels
 				return;
 
 			var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
+			if (shellFileItem is null)
+				return;
 
 			var newListedItem = await AddFileOrFolderFromShellFile(shellFileItem);
 			if (newListedItem is null)
@@ -1126,7 +1128,8 @@ namespace Files.App.ViewModels
 		{
 			// Don't notify if shell page is not the active pane (eg. Dual Pane)
 			// https://github.com/files-community/Files/issues/17427
-			if (WorkingDirectory != ContentPageContext.ShellPage!.ShellViewModel.WorkingDirectory)
+			var activeShellViewModel = ContentPageContext.ShellPage?.ShellViewModel;
+			if (activeShellViewModel is null || WorkingDirectory != activeShellViewModel.WorkingDirectory)
 				return Task.CompletedTask;
 
 			// Don't notify if there weren't listed items
@@ -1274,7 +1277,10 @@ namespace Files.App.ViewModels
 			{
 				foreach (var gp in FilesAndFolders.GroupedCollection.ToList())
 				{
-					var img = await GetItemTypeGroupIcon(gp.FirstOrDefault());
+					if (gp.FirstOrDefault() is not { } item)
+						continue;
+
+					var img = await GetItemTypeGroupIcon(item);
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						gp.Model.ImageSource = img;
@@ -1298,7 +1304,7 @@ namespace Files.App.ViewModels
 			set => isLoadingItems = value;
 		}
 
-		private async Task<BitmapImage> GetShieldIcon()
+		private async Task<BitmapImage?> GetShieldIcon()
 		{
 			shieldIcon ??= await UIHelpers.GetShieldIconResource();
 
@@ -1526,9 +1532,9 @@ namespace Files.App.ViewModels
 									item.FileFRN = fileFRN;
 									item.FileTags = fileTag;
 									item.IsElevationRequired = CheckElevationRights(item);
-									item.ImageDimensions = extraProperties?.Result["System.Image.Dimensions"]?.ToString() ?? string.Empty;
-									item.FileVersion = extraProperties?.Result["System.FileVersion"]?.ToString() ?? string.Empty;
-									item.MediaDuration = ulong.TryParse(extraProperties?.Result["System.Media.Duration"]?.ToString(), out ulong duration)
+									item.ImageDimensions = extraProperties?.Result?["System.Image.Dimensions"]?.ToString() ?? string.Empty;
+									item.FileVersion = extraProperties?.Result?["System.FileVersion"]?.ToString() ?? string.Empty;
+									item.MediaDuration = ulong.TryParse(extraProperties?.Result?["System.Media.Duration"]?.ToString(), out ulong duration)
 											? TimeSpan.FromTicks((long)duration).ToString(@"hh\:mm\:ss")
 											: string.Empty;
 
@@ -1559,7 +1565,7 @@ namespace Files.App.ViewModels
 					{
 						if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
 						{
-							BaseStorageFolder matchingStorageFolder = await GetFolderFromPathAsync(item.ItemPath, cts.Token);
+							BaseStorageFolder? matchingStorageFolder = await GetFolderFromPathAsync(item.ItemPath, cts.Token);
 							if (matchingStorageFolder is not null)
 							{
 								if (matchingStorageFolder.DisplayName != item.Name && !matchingStorageFolder.DisplayName.StartsWith("$R", StringComparison.Ordinal))
@@ -1594,12 +1600,12 @@ namespace Files.App.ViewModels
 									item.FileFRN = fileFRN;
 									item.FileTags = fileTag;
 
-									if (extraProperties is not null)
+									if (extraProperties?.Result is { } properties)
 									{
 										// Drive Storage Details
-										if (extraProperties.Result["System.SFGAOFlags"] is uint attributesRaw &&
-											extraProperties.Result["System.Capacity"] is ulong capacityRaw &&
-											extraProperties.Result["System.FreeSpace"] is ulong freeSpaceRaw &&
+										if (properties["System.SFGAOFlags"] is uint attributesRaw &&
+											properties["System.Capacity"] is ulong capacityRaw &&
+											properties["System.FreeSpace"] is ulong freeSpaceRaw &&
 											((SFGAO_FLAGS)attributesRaw).HasFlag(SFGAO_FLAGS.SFGAO_REMOVABLE) &&
 											!((SFGAO_FLAGS)attributesRaw).HasFlag(SFGAO_FLAGS.SFGAO_FILESYSTEM))
 										{
@@ -1667,7 +1673,7 @@ namespace Files.App.ViewModels
 						}
 					}
 
-					if (loadGroupHeaderInfo)
+					if (loadGroupHeaderInfo && gp is not null)
 					{
 						cts.Token.ThrowIfCancellationRequested();
 						await SafetyExtensions.IgnoreExceptions(() =>
@@ -1817,7 +1823,7 @@ namespace Files.App.ViewModels
 
 					if (matchingStorageItem is not null)
 					{
-						using StorageItemThumbnail headerThumbnail = await FilesystemTasks.Wrap(() => matchingStorageItem.GetThumbnailAsync(ThumbnailMode.DocumentsView, 36, ThumbnailOptions.UseCurrentScale).AsTask());
+						using StorageItemThumbnail? headerThumbnail = await FilesystemTasks.Wrap(() => matchingStorageItem.GetThumbnailAsync(ThumbnailMode.DocumentsView, 36, ThumbnailOptions.UseCurrentScale).AsTask());
 						if (headerThumbnail is not null)
 						{
 							await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
@@ -1844,12 +1850,12 @@ namespace Files.App.ViewModels
 			return groupImage;
 		}
 
-		public void RefreshItems(string? previousDir, Action postLoadCallback = null)
+		public void RefreshItems(string? previousDir, Action? postLoadCallback = null)
 		{
 			_ = RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir, postLoadCallback);
 		}
 
-		private async Task RapidAddItemsToCollectionAsync(string path, string? previousDir, Action postLoadCallback)
+		private async Task RapidAddItemsToCollectionAsync(string path, string? previousDir, Action? postLoadCallback)
 		{
 			IsSearchResults = false;
 			HasNoWatcher = false;
@@ -1890,7 +1896,7 @@ namespace Files.App.ViewModels
 
 				if (path.ToLowerInvariant().EndsWith(ShellLibraryItem.EXTENSION, StringComparison.Ordinal))
 				{
-					if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library) && !library.IsEmpty)
+					if (App.LibraryManager.TryGetLibrary(path, out var library) && !library.IsEmpty)
 					{
 						var libItem = new LibraryItem(library);
 						foreach (var folder in library.Folders)
@@ -2044,17 +2050,20 @@ namespace Files.App.ViewModels
 				if (!res)
 					return -1;
 
-				currentStorageFolder = res.Result;
-				rootFolder = currentStorageFolder.Item;
+				if (res.Result is not { } storageFolder)
+					return -1;
+
+				currentStorageFolder = storageFolder;
+				rootFolder = storageFolder.Item;
 				enumFromStorageFolder = true;
 			}
 			else
 			{
 				var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path, workingRoot, currentStorageFolder));
-				if (res)
+				if (res.Result is { } storageFolder)
 				{
-					currentStorageFolder = res.Result;
-					rootFolder = currentStorageFolder.Item;
+					currentStorageFolder = storageFolder;
+					rootFolder = storageFolder.Item;
 				}
 				else if (res == FileSystemStatusCode.Unauthorized)
 				{
@@ -2079,7 +2088,7 @@ namespace Files.App.ViewModels
 			var pathRoot = Path.GetPathRoot(path);
 			if (Path.IsPathRooted(path) && pathRoot == path)
 			{
-				rootFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+				rootFolder ??= await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
 				if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
 					await ContextMenu.InvokeVerb("unlock-bde", pathRoot);
 			}
@@ -2099,7 +2108,7 @@ namespace Files.App.ViewModels
 					FileImage = null,
 					LoadFileIcon = false,
 					ItemPath = string.IsNullOrEmpty(rootFolder?.Path) ? currentStorageFolder?.Path ?? string.Empty : rootFolder.Path,
-					FileSize = null,
+					FileSize = string.Empty,
 					FileSizeBytes = 0,
 				};
 
@@ -2162,7 +2171,7 @@ namespace Files.App.ViewModels
 					Opacity = opacity,
 					LoadFileIcon = false,
 					ItemPath = path,
-					FileSize = null,
+					FileSize = string.Empty,
 					FileSizeBytes = 0,
 				};
 
@@ -2215,7 +2224,7 @@ namespace Files.App.ViewModels
 						Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					});
 
-					rootFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+					rootFolder ??= await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
 					if (rootFolder is not null)
 					{
 						if (rootFolder.DisplayName is not null)
@@ -2233,10 +2242,12 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		private async Task EnumFromStorageFolderAsync(string path, BaseStorageFolder? rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
+		private async Task EnumFromStorageFolderAsync(string path, BaseStorageFolder? rootFolder, StorageFolderWithPath? currentStorageFolder, CancellationToken cancellationToken)
 		{
 			if (rootFolder is null)
 				return;
+
+			currentStorageFolder ??= new StorageFolderWithPath(rootFolder, path);
 
 			if (rootFolder is IPasswordProtectedItem ppis)
 				ppis.PasswordRequestedCallback = async (item) =>
@@ -2361,24 +2372,24 @@ namespace Files.App.ViewModels
 				FolderBackgroundImageHorizontalAlignment = HorizontalAlignment.Center;
 		}
 
-		public async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
+		public async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem? item)
 		{
 			int? syncStatus = null;
 			if (item is BaseStorageFile file && file.Properties is not null)
 			{
 				var extraProperties = await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync(["System.FilePlaceholderStatus"]).AsTask());
-				if (extraProperties)
-					syncStatus = (int?)(uint?)extraProperties.Result["System.FilePlaceholderStatus"];
+				if (extraProperties.Result is { } properties)
+					syncStatus = (int?)(uint?)properties["System.FilePlaceholderStatus"];
 			}
 			else if (item is BaseStorageFolder folder && folder.Properties is not null)
 			{
 				var extraProperties = await FilesystemTasks.Wrap(() => folder.Properties.RetrievePropertiesAsync(["System.FilePlaceholderStatus", "System.FileOfflineAvailabilityStatus"]).AsTask());
-				if (extraProperties)
+				if (extraProperties.Result is { } properties)
 				{
-					syncStatus = (int?)(uint?)extraProperties.Result["System.FileOfflineAvailabilityStatus"];
+					syncStatus = (int?)(uint?)properties["System.FileOfflineAvailabilityStatus"];
 
 					// If no FileOfflineAvailabilityStatus, check FilePlaceholderStatus
-					syncStatus ??= (int?)(uint?)extraProperties.Result["System.FilePlaceholderStatus"];
+					syncStatus ??= (int?)(uint?)properties["System.FilePlaceholderStatus"];
 				}
 			}
 
@@ -2418,6 +2429,9 @@ namespace Files.App.ViewModels
 				if (rootFolder.AreQueryOptionsSupported(options))
 				{
 					var itemQueryResult = rootFolder.CreateItemQueryWithOptions(options).ToStorageItemQueryResult();
+					if (itemQueryResult is null)
+						return;
+
 					itemQueryResult.ContentsChanged += ItemQueryResult_ContentsChanged;
 
 					// Just get one item to start getting notifications
@@ -2509,9 +2523,9 @@ namespace Files.App.ViewModels
 				if (hasSyncStatus)
 					notifyFilters |= FILE_NOTIFY_CHANGE_ATTRIBUTES;
 
-				var overlapped = new OVERLAPPED();
+				var overlapped = new NativeOverlapped();
 				using var eventHandle = PInvoke.CreateEvent(null, false, false, null);
-				overlapped.hEvent = eventHandle.DangerousGetHandle();
+				overlapped.EventHandle = eventHandle.DangerousGetHandle();
 				const uint INFINITE = 0xFFFFFFFF;
 
 				while (x.Status != AsyncStatus.Canceled)
@@ -2523,10 +2537,15 @@ namespace Files.App.ViewModels
 							ref var notifyInformation = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[0]);
 							if (x.Status != AsyncStatus.Canceled)
 							{
-								ReadDirectoryChangesW(hWatchDir, pBuff,
-								4096, false,
-								notifyFilters, null,
-								ref overlapped, null);
+								PInvoke.ReadDirectoryChanges(
+									new Windows.Win32.Foundation.HANDLE(hWatchDir),
+									pBuff,
+									4096,
+									false,
+									(Windows.Win32.Storage.FileSystem.FILE_NOTIFY_CHANGE)notifyFilters,
+									null,
+									&overlapped,
+									null);
 							}
 							else
 							{
@@ -2537,7 +2556,7 @@ namespace Files.App.ViewModels
 							if (x.Status == AsyncStatus.Canceled)
 								break;
 
-							var rc = WaitForSingleObjectEx(overlapped.hEvent, INFINITE, true);
+							var rc = WaitForSingleObjectEx(overlapped.EventHandle, INFINITE, true);
 							Debug.WriteLine("wait done: {0}", rand);
 
 							uint offset = 0;
@@ -2620,9 +2639,9 @@ namespace Files.App.ViewModels
 				var rand = Guid.NewGuid();
 				var notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE_CREATION;
 
-				var overlapped = new OVERLAPPED();
+				var overlapped = new NativeOverlapped();
 				using var eventHandle = PInvoke.CreateEvent(null, false, false, null);
-				overlapped.hEvent = eventHandle.DangerousGetHandle();
+				overlapped.EventHandle = eventHandle.DangerousGetHandle();
 				const uint INFINITE = 0xFFFFFFFF;
 
 				while (x.Status != AsyncStatus.Canceled)
@@ -2635,15 +2654,20 @@ namespace Files.App.ViewModels
 							if (x.Status == AsyncStatus.Canceled)
 								break;
 
-							ReadDirectoryChangesW(hWatchDir, pBuff,
-								4096, true,
-								notifyFilters, null,
-								ref overlapped, null);
+							PInvoke.ReadDirectoryChanges(
+								new Windows.Win32.Foundation.HANDLE(hWatchDir),
+								pBuff,
+								4096,
+								true,
+								(Windows.Win32.Storage.FileSystem.FILE_NOTIFY_CHANGE)notifyFilters,
+								null,
+								&overlapped,
+								null);
 
 							if (x.Status == AsyncStatus.Canceled)
 								break;
 
-							var rc = WaitForSingleObjectEx(overlapped.hEvent, INFINITE, true);
+							var rc = WaitForSingleObjectEx(overlapped.EventHandle, INFINITE, true);
 
 							uint offset = 0;
 							ref var notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
@@ -2842,7 +2866,7 @@ namespace Files.App.ViewModels
 			Debug.WriteLine("aProcessQueueAction done: {0}", rand);
 		}
 
-		public Task<ListedItem> AddFileOrFolderFromShellFile(ShellFileItem item)
+		public Task<ListedItem?> AddFileOrFolderFromShellFile(ShellFileItem item)
 		{
 			return
 				item.IsFolder ?
@@ -2909,13 +2933,20 @@ namespace Files.App.ViewModels
 				return null;
 			}
 
-			ListedItem listedItem;
+			var parentPath = Directory.GetParent(fileOrFolderPath)?.FullName;
+			if (parentPath is null)
+				return null;
+
+			ListedItem? listedItem;
 
 			// FILE_ATTRIBUTE_DIRECTORY
 			if ((findData.dwFileAttributes & 0x10) > 0)
-				listedItem = await Win32StorageEnumerator.GetFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, IsValidGitDirectory, addFilesCTS.Token);
+				listedItem = await Win32StorageEnumerator.GetFolder(findData, parentPath, IsValidGitDirectory, addFilesCTS.Token);
 			else
-				listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, IsValidGitDirectory, addFilesCTS.Token);
+				listedItem = await Win32StorageEnumerator.GetFile(findData, parentPath, IsValidGitDirectory, addFilesCTS.Token);
+
+			if (listedItem is null)
+				return null;
 
 			await AddFileOrFolderAsync(listedItem);
 
@@ -2938,14 +2969,20 @@ namespace Files.App.ViewModels
 
 				if (storageItem.IsOfType(StorageItemTypes.File))
 				{
-					var properties = await storageItem.AsBaseStorageFile().GetBasicPropertiesAsync();
+					if (storageItem.AsBaseStorageFile() is not { } file)
+						return null;
+
+					var properties = await file.GetBasicPropertiesAsync();
 					size = (long)properties.Size;
 					modified = properties.DateModified;
 					created = properties.DateCreated;
 				}
 				else if (storageItem.IsOfType(StorageItemTypes.Folder))
 				{
-					var properties = await storageItem.AsBaseStorageFolder().GetBasicPropertiesAsync();
+					if (storageItem.AsBaseStorageFolder() is not { } folder)
+						return null;
+
+					var properties = await folder.GetBasicPropertiesAsync();
 					size = item.IsArchive ? (long)properties.Size : null;
 					modified = properties.DateModified;
 					created = properties.DateCreated;
@@ -3143,7 +3180,7 @@ namespace Files.App.ViewModels
 
 		public void UpdateDateDisplay()
 		{
-			App.Logger.LogDebug($"UpdateDateDisplay: itemCount={filesAndFolders?.Count}");
+			App.Logger.LogDebug($"UpdateDateDisplay: itemCount={filesAndFolders.Count}");
 
 			filesAndFolders.ToList().AsParallel().ForAll(async item =>
 			{

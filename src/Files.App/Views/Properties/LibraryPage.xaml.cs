@@ -137,7 +137,7 @@ namespace Files.App.Views.Properties
 			}
 		}
 
-		private bool IsChanged(LibraryItem lib, out string newDefaultSaveFolder, out string[] newFolders, out bool? newIsPinned)
+		private bool IsChanged(LibraryItem lib, out string? newDefaultSaveFolder, out string[]? newFolders, out bool? newIsPinned)
 		{
 			bool isChanged = false;
 
@@ -176,7 +176,7 @@ namespace Files.App.Views.Properties
 					return true;
 
 				// Skip updates and close dialog when nothing changed
-				if (!IsChanged(props.Library, out string newDefaultSaveFolder, out string[] newFolders, out bool? newIsPinned))
+				if (!IsChanged(props.Library, out var newDefaultSaveFolder, out var newFolders, out var newIsPinned))
 					return true;
 
 				while (true)
@@ -219,7 +219,7 @@ namespace Files.App.Views.Properties
 
 	public sealed partial class LibraryFolder : ObservableObject
 	{
-		public string Path { get; set; }
+		public string Path { get; set; } = string.Empty;
 
 		private bool isDefault;
 		public bool IsDefault

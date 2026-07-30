@@ -33,7 +33,7 @@ namespace Files.App.Actions
 		{
 			if (context.SelectedItems.Count > 0)
 			{
-				foreach (ListedItem listedItem in context.ShellPage?.SlimContentPage.SelectedItems)
+				foreach (ListedItem listedItem in context.SelectedItems)
 				{
 					await SafetyExtensions.IgnoreExceptions(async () =>
 					{
@@ -49,9 +49,12 @@ namespace Files.App.Actions
 			}
 			else
 			{
+				var currentFolder = context.ShellPage?.ShellViewModel?.CurrentFolder;
+				if (currentFolder is null)
+					return;
+
 				await SafetyExtensions.IgnoreExceptions(async () =>
 				{
-					var currentFolder = context.ShellPage.ShellViewModel.CurrentFolder;
 					IStorable storable = context.PageType is ContentPageTypes.ZipFolder
 						? await StorageService.GetFileAsync(currentFolder.ItemPath)
 						: await StorageService.GetFolderAsync(currentFolder.ItemPath);

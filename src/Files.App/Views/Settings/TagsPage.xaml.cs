@@ -35,7 +35,7 @@ namespace Files.App.Views.Settings
 			switch (e.Key)
 			{
 				case VirtualKey.Enter:
-					if (!editingTag!.CanCommit)
+					if (editingTag?.CanCommit != true)
 						return;
 
 					CommitChanges(textBox);
@@ -53,26 +53,35 @@ namespace Files.App.Views.Settings
 				editingTag.NewColor = editingTag.Tag.Color;
 			}
 
-			editingTag = (ListedTagViewModel)((Button)sender).DataContext;
+			if (sender is not Button { DataContext: ListedTagViewModel tag })
+				return;
+
+			editingTag = tag;
 			editingTag.NewColor = editingTag.Tag.Color;
 			editingTag.NewName = editingTag.Tag.Name;
 			editingTag.IsEditing = true;
 
-			var item = (ListViewItem)TagsList.ContainerFromItem(editingTag);
-			var textBlock = item.FindDescendant("TagName") as TextBlock;
-			var textBox = item.FindDescendant("TagNameTextBox") as TextBox;
+			if (TagsList.ContainerFromItem(editingTag) is not ListViewItem item ||
+				item.FindDescendant("TagName") is not TextBlock textBlock ||
+				item.FindDescendant("TagNameTextBox") is not TextBox textBox)
+			{
+				return;
+			}
 
-			textBox!.TextChanged += RenameTextBox_TextChanged;
+			textBox.TextChanged += RenameTextBox_TextChanged;
 
-			textBox!.Text = textBlock!.Text;
+			textBox.Text = textBlock.Text;
 			oldTagName = textBlock.Text;
 		}
 
 		private void CommitRenameTag_Click(object sender, RoutedEventArgs e)
 		{
-			var item = (ListViewItem)TagsList.ContainerFromItem(editingTag);
-
-			CommitChanges(item.FindDescendant("TagNameTextBox") as TextBox);
+			if (editingTag is not null &&
+				TagsList.ContainerFromItem(editingTag) is ListViewItem item &&
+				item.FindDescendant("TagNameTextBox") is TextBox textBox)
+			{
+				CommitChanges(textBox);
+			}
 		}
 
 		private void CancelRenameTag_Click(object sender, RoutedEventArgs e)
@@ -97,12 +106,15 @@ namespace Files.App.Views.Settings
 
 		private void RenameTextBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
+			if (editingTag is not { } tag)
+				return;
+
 			var text = ((TextBox)sender).Text;
 			var isNullOrEmpty = string.IsNullOrEmpty(text);
-			editingTag!.IsNameValid = isNullOrEmpty || (IsNameValid(text) && !ViewModel.Tags.Any(tag => tag.Tag.Name == text && editingTag!.Tag.Name != text));
-			editingTag!.CanCommit = !isNullOrEmpty && editingTag!.IsNameValid && (
-				text != editingTag!.Tag.Name ||
-				editingTag!.NewColor != editingTag!.Tag.Color
+			tag.IsNameValid = isNullOrEmpty || (IsNameValid(text) && !ViewModel.Tags.Any(item => item.Tag.Name == text && tag.Tag.Name != text));
+			tag.CanCommit = !isNullOrEmpty && tag.IsNameValid && (
+				text != tag.Tag.Name ||
+				tag.NewColor != tag.Tag.Color
 			);
 		}
 
@@ -111,9 +123,9 @@ namespace Files.App.Views.Settings
 			if (editingTag is null)
 				return;
 
-			editingTag!.CanCommit = editingTag!.IsNameValid && (
-				editingTag!.NewName != editingTag!.Tag.Name ||
-				CommunityToolkit.WinUI.Helpers.ColorHelper.ToHex(sender.Color) != editingTag!.Tag.Color
+			editingTag.CanCommit = editingTag.IsNameValid && (
+				editingTag.NewName != editingTag.Tag.Name ||
+				CommunityToolkit.WinUI.Helpers.ColorHelper.ToHex(sender.Color) != editingTag.Tag.Color
 			);
 		}
 
@@ -135,26 +147,36 @@ namespace Files.App.Views.Settings
 
 		private void CommitChanges(TextBox textBox)
 		{
+			if (editingTag is not { } tag)
+				return;
+
 			EndEditing(textBox);
 			string newTagName = textBox.Text.Trim().TrimEnd('.');
-			if (newTagName != oldTagName || editingTag!.NewColor != editingTag.Tag.Color)
-				ViewModel.EditExistingTag(editingTag!, newTagName, editingTag!.NewColor);
+			if (newTagName != oldTagName || tag.NewColor != tag.Tag.Color)
+				ViewModel.EditExistingTag(tag, newTagName, tag.NewColor);
 		}
 
 		private void EndEditing(TextBox textBox)
 		{
 			textBox.TextChanged -= RenameTextBox_TextChanged;
-			editingTag!.IsEditing = false;
+			if (editingTag is { } tag)
+				tag.IsEditing = false;
 		}
 
 		private void CloseEdit()
 		{
-			var item = (ListViewItem)TagsList.ContainerFromItem(editingTag);
-			editingTag!.NewColor = editingTag.Tag.Color;
-			editingTag!.IsNameValid = true;
-			editingTag!.CanCommit = false;
+			if (editingTag is not { } tag ||
+				TagsList.ContainerFromItem(tag) is not ListViewItem item ||
+				item.FindDescendant("TagNameTextBox") is not TextBox textBox)
+			{
+				return;
+			}
 
-			EndEditing(item.FindDescendant("TagNameTextBox") as TextBox);
+			tag.NewColor = tag.Tag.Color;
+			tag.IsNameValid = true;
+			tag.CanCommit = false;
+
+			EndEditing(textBox);
 		}
 
 		private bool IsNameValid(string name)

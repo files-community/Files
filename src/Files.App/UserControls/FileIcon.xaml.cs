@@ -11,9 +11,9 @@ namespace Files.App.UserControls
 {
 	public sealed partial class FileIcon : UserControl
 	{
-		private SelectedItemsPropertiesViewModel viewModel;
+		private SelectedItemsPropertiesViewModel? viewModel;
 
-		public SelectedItemsPropertiesViewModel ViewModel
+		public SelectedItemsPropertiesViewModel? ViewModel
 		{
 			get => viewModel;
 			set
@@ -48,7 +48,7 @@ namespace Files.App.UserControls
 
 		public static readonly DependencyProperty FileIconImageSourceProperty = DependencyProperty.Register(nameof(FileIconImageSource), typeof(BitmapImage), typeof(FileIcon), null);
 
-		private BitmapImage FileIconImageSource
+		private BitmapImage? FileIconImageSource
 		{
 			get => GetValue(FileIconImageSourceProperty) as BitmapImage;
 			set => SetValue(FileIconImageSourceProperty, value);
@@ -56,7 +56,7 @@ namespace Files.App.UserControls
 
 		public static readonly DependencyProperty FileIconImageDataProperty = DependencyProperty.Register(nameof(FileIconImageData), typeof(byte[]), typeof(FileIcon), null);
 
-		public byte[] FileIconImageData
+		public byte[]? FileIconImageData
 		{
 			get => GetValue(FileIconImageDataProperty) as byte[];
 			set
@@ -69,7 +69,7 @@ namespace Files.App.UserControls
 			}
 		}
 
-		private SvgImageSource CustomIconImageSource { get; set; }
+		private SvgImageSource? CustomIconImageSource { get; set; }
 
 		public FileIcon()
 		{
@@ -80,11 +80,12 @@ namespace Files.App.UserControls
 		{
 			if (FileIconImageData is not null)
 			{
-				FileIconImageSource = new BitmapImage();
+				var imageSource = new BitmapImage();
+				FileIconImageSource = imageSource;
 				using InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream();
 				await stream.WriteAsync(FileIconImageData.AsBuffer());
 				stream.Seek(0);
-				await FileIconImageSource.SetSourceAsync(stream);
+				await imageSource.SetSourceAsync(stream);
 			}
 		}
 	}

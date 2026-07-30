@@ -8,7 +8,7 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class CustomizationPage : BasePropertiesPage
 	{
-		private CustomizationViewModel CustomizationViewModel { get; set; }
+		private CustomizationViewModel? CustomizationViewModel { get; set; }
 
 		public CustomizationPage()
 		{
@@ -21,11 +21,14 @@ namespace Files.App.Views.Properties
 
 			base.OnNavigatedTo(e);
 
-			CustomizationViewModel = new(AppInstance, BaseProperties, parameter.Window.AppWindow);
+			CustomizationViewModel = new(
+				AppInstance,
+				BaseProperties ?? throw new InvalidOperationException("The properties model has not been initialized."),
+				parameter.Window.AppWindow);
 		}
 
 		public override async Task<bool> SaveChangesAsync()
-			=> await CustomizationViewModel.UpdateIcon();
+			=> CustomizationViewModel is { } viewModel && await viewModel.UpdateIcon();
 
 		public override void Dispose()
 		{

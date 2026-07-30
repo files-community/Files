@@ -39,7 +39,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync(object? parameter = null)
 		{
-			if (contentPageContext.ShellPage is not { } shellPage)
+			if (contentPageContext.ShellPage is not { ShellViewModel: { } shellViewModel } shellPage)
 				return;
 
 			var itemsToDelete = shelfContext.SelectedItems.Select(x => StorageHelpers.FromPathAndType(x.Inner.Id, x.Inner switch
@@ -50,7 +50,7 @@ namespace Files.App.Actions
 			}));
 
 			await shellPage.FilesystemHelpers.DeleteItemsAsync(itemsToDelete, foldersSettingsService.DeleteConfirmationPolicy, false, true);
-			await shellPage.ShellViewModel.ApplyFilesAndFoldersChangesAsync();
+			await shellViewModel.ApplyFilesAndFoldersChangesAsync();
 		}
 
 		private void ShelfContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)

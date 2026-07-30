@@ -36,7 +36,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.ShellPage?.ShellViewModel is null)
+			if (context.ShellPage is not { ShellViewModel: { } shellViewModel } shellPage)
 				return;
 
 			var item = context.SelectedItem as IShortcutItem;
@@ -46,15 +46,18 @@ namespace Files.App.Actions
 
 			// Check if destination path exists
 			var folderPath = Path.GetDirectoryName(item.TargetPath);
-			var destFolder = await context.ShellPage.ShellViewModel.GetFolderWithPathFromPathAsync(folderPath);
+			if (folderPath is null)
+				return;
+
+			var destFolder = await shellViewModel.GetFolderWithPathFromPathAsync(folderPath);
 
 			if (destFolder)
 			{
-				context.ShellPage?.NavigateWithArguments(context.ShellPage.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
+				shellPage.NavigateWithArguments(shellPage.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
 				{
 					NavPathParam = folderPath,
-					SelectItems = [Path.GetFileName(item.TargetPath.TrimPath())],
-					AssociatedTabInstance = context.ShellPage
+					SelectItems = [Path.GetFileName(item.TargetPath.TrimPath()) ?? string.Empty],
+					AssociatedTabInstance = shellPage
 				});
 			}
 			else if (destFolder == FileSystemStatusCode.NotFound)

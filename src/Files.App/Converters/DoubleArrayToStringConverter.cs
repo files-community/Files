@@ -27,7 +27,10 @@ namespace Files.App.Converters
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
 		{
-			var strArray = (value as string).Split("; ");
+			if (value is not string text)
+				return Array.Empty<double>();
+
+			var strArray = text.Split("; ");
 			var array = new double[strArray.Length];
 
 			for (int i = 0; i < strArray.Length; i++)

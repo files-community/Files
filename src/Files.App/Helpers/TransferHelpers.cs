@@ -76,12 +76,12 @@ namespace Files.App.Helpers
 
 		public static async Task ExecuteTransferAsync(IContentPageContext context, StatusCenterViewModel statusViewModel, DataPackageOperation type = DataPackageOperation.Copy)
 		{
-			if (context.ShellPage?.SlimContentPage is null ||
-				context.ShellPage.SlimContentPage.IsItemSelected is false)
+			if (context.ShellPage is not { SlimContentPage: { } contentPage, ShellViewModel: { } shellViewModel } ||
+				contentPage.IsItemSelected is false)
 				return;
 
 			// Reset cut mode
-			context.ShellPage.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
+			contentPage.ItemManipulationModel.RefreshItemsOpacity();
 
 			ConcurrentBag<IStorageItem> items = [];
 			var itemsCount = context.SelectedItems.Count;
@@ -125,8 +125,8 @@ namespace Files.App.Helpers
 						}
 
 						var result = listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem
-								? await context.ShellPage.ShellViewModel.GetFileFromPathAsync(listedItem.ItemPath).OnSuccess(t => items.Add(t))
-								: await context.ShellPage.ShellViewModel.GetFolderFromPathAsync(listedItem.ItemPath).OnSuccess(t => items.Add(t));
+								? await shellViewModel.GetFileFromPathAsync(listedItem.ItemPath).OnSuccess(t => items.Add(t))
+								: await shellViewModel.GetFolderFromPathAsync(listedItem.ItemPath).OnSuccess(t => items.Add(t));
 
 						if (!result)
 							throw new SystemIO.IOException($"Failed to process {listedItem.ItemPath} in cutting/copying to the clipboard.", (int)result.ErrorCode);

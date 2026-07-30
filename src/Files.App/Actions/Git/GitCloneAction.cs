@@ -29,11 +29,11 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			if (pageContext.ShellPage is null)
+			if (pageContext.ShellPage?.ShellViewModel is not { } shellViewModel)
 				return Task.CompletedTask;
 
 			var repoUrl = parameter?.ToString() ?? string.Empty;
-			var viewModel = new CloneRepoDialogViewModel(repoUrl, pageContext.ShellPage.ShellViewModel.WorkingDirectory);
+			var viewModel = new CloneRepoDialogViewModel(repoUrl, shellViewModel.WorkingDirectory);
 			return dialogService.ShowDialogAsync(viewModel);
 		}
 

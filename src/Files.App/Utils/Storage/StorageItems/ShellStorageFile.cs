@@ -56,7 +56,7 @@ namespace Files.App.Utils.Storage
 
 		public override FileAttributes Attributes => FileAttributes.Normal | FileAttributes.ReadOnly;
 
-		private IStorageItemExtraProperties properties;
+		private IStorageItemExtraProperties? properties;
 		public override IStorageItemExtraProperties Properties => properties ??= new BaseBasicStorageItemExtraProperties(this);
 
 		public ShellStorageFile(ShellFileItem item)
@@ -80,11 +80,11 @@ namespace Files.App.Utils.Storage
 			return new ShellStorageFile(item);
 		}
 
-		public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
+		public static IAsyncOperation<BaseStorageFile?> FromPathAsync(string path)
 		{
 			if (ShellStorageFolder.IsShellPath(path) && GetFile(path) is ShellFileItem file)
-				return Task.FromResult<BaseStorageFile>(FromShellItem(file)).AsAsyncOperation();
-			return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
+				return Task.FromResult<BaseStorageFile?>(FromShellItem(file)).AsAsyncOperation();
+			return Task.FromResult<BaseStorageFile?>(null).AsAsyncOperation();
 		}
 
 		private static ShellFileItem? GetFile(string path)
@@ -104,18 +104,18 @@ namespace Files.App.Utils.Storage
 		public override bool IsEqual(IStorageItem item) => item?.Path == Path;
 		public override bool IsOfType(StorageItemTypes type) => type is StorageItemTypes.File;
 
-		public override IAsyncOperation<BaseStorageFolder> GetParentAsync() => throw new NotSupportedException();
+		public override IAsyncOperation<BaseStorageFolder?> GetParentAsync() => throw new NotSupportedException();
 		public override IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync() => GetBasicProperties().AsAsyncOperation();
 
 		public override IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace) => throw new NotSupportedException();
-		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder) => throw new NotSupportedException();
-		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName) => throw new NotSupportedException();
-		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option) => throw new NotSupportedException();
+		public override IAsyncOperation<BaseStorageFile?> CopyAsync(IStorageFolder destinationFolder) => throw new NotSupportedException();
+		public override IAsyncOperation<BaseStorageFile?> CopyAsync(IStorageFolder destinationFolder, string desiredNewName) => throw new NotSupportedException();
+		public override IAsyncOperation<BaseStorageFile?> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option) => throw new NotSupportedException();
 
 		public override IAsyncAction DeleteAsync() => throw new NotSupportedException();
 		public override IAsyncAction DeleteAsync(StorageDeleteOption option) => throw new NotSupportedException();
 
-		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
+		public override IAsyncOperation<StorageItemThumbnail?> GetThumbnailAsync(ThumbnailMode mode)
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
 			{
@@ -127,7 +127,7 @@ namespace Files.App.Utils.Storage
 				return await zipFile.GetThumbnailAsync(mode);
 			});
 		}
-		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize)
+		public override IAsyncOperation<StorageItemThumbnail?> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize)
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
 			{
@@ -139,7 +139,7 @@ namespace Files.App.Utils.Storage
 				return await zipFile.GetThumbnailAsync(mode, requestedSize);
 			});
 		}
-		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
+		public override IAsyncOperation<StorageItemThumbnail?> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
 			{

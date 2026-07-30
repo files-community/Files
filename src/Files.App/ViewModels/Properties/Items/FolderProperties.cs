@@ -20,12 +20,9 @@ namespace Files.App.ViewModels.Properties
 			DispatcherQueue coreDispatcher,
 			ListedItem item,
 			IShellPage instance)
+			: base(viewModel, tokenSource, coreDispatcher, instance)
 		{
-			ViewModel = viewModel;
-			TokenSource = tokenSource;
-			Dispatcher = coreDispatcher;
 			Item = item;
-			AppInstance = instance;
 
 			GetBaseProperties();
 
@@ -40,7 +37,7 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.OriginalItemName = Item.Name;
 				ViewModel.ItemType = Item.ItemType;
 				ViewModel.ItemLocation = (Item as RecycleBinItem)?.ItemOriginalFolder ??
-					(Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath);
+					(Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) ?? string.Empty : Item.ItemPath);
 				ViewModel.ItemModifiedTimestampReal = Item.ItemDateModifiedReal;
 				ViewModel.ItemCreatedTimestampReal = Item.ItemDateCreatedReal;
 				ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
@@ -112,7 +109,10 @@ namespace Files.App.ViewModels.Properties
 			}
 
 			string folderPath = (Item as IShortcutItem)?.TargetPath ?? Item.ItemPath;
-			BaseStorageFolder storageFolder = await AppInstance.ShellViewModel.GetFolderFromPathAsync(folderPath);
+			if (AppInstance.ShellViewModel is not { } shellViewModel)
+				return;
+
+			var storageFolder = (await shellViewModel.GetFolderFromPathAsync(folderPath)).Result;
 
 			if (storageFolder is not null)
 			{
@@ -200,7 +200,7 @@ namespace Files.App.ViewModels.Properties
 			SetItemsCountString();
 		}
 
-		private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private async void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{

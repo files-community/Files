@@ -16,14 +16,14 @@ namespace Files.App.ViewModels.Dialogs
 		/// <summary>
 		/// Stores any additional data that could be written to, read from.
 		/// </summary>
-		public object AdditionalData { get; set; }
+		public object? AdditionalData { get; set; }
 
-		public object displayControl;
+		public object? displayControl;
 
 		/// <summary>
 		/// The control that is dynamically displayed.
 		/// </summary>
-		public object DisplayControl
+		public object? DisplayControl
 		{
 			get => displayControl;
 			set
@@ -96,7 +96,7 @@ namespace Files.App.ViewModels.Dialogs
 			}
 		}
 
-		private string titleText;
+		private string titleText = string.Empty;
 
 		/// <summary>
 		/// The Title text of the dialog.
@@ -107,14 +107,14 @@ namespace Files.App.ViewModels.Dialogs
 			set => SetProperty(ref titleText, value);
 		}
 
-		private string subtitleText;
+		private string? subtitleText;
 
 		/// <summary>
 		/// The subtitle of the dialog.
 		/// <br/>
 		/// (Can be null or empty)
 		/// </summary>
-		public string SubtitleText
+		public string? SubtitleText
 		{
 			get => subtitleText;
 			set
@@ -139,12 +139,12 @@ namespace Files.App.ViewModels.Dialogs
 
 		#region Primary Button
 
-		private string primaryButtonText;
+		private string? primaryButtonText;
 
 		/// <summary>
 		/// The text content of the primary button.
 		/// </summary>
-		public string PrimaryButtonText
+		public string? PrimaryButtonText
 		{
 			get => primaryButtonText;
 			set => SetProperty(ref primaryButtonText, value);
@@ -165,12 +165,12 @@ namespace Files.App.ViewModels.Dialogs
 
 		#region Secondary Button
 
-		private string secondaryButtonText;
+		private string? secondaryButtonText;
 
 		/// <summary>
 		/// The text of the secondary button.
 		/// </summary>
-		public string SecondaryButtonText
+		public string? SecondaryButtonText
 		{
 			get => secondaryButtonText;
 			set => SetProperty(ref secondaryButtonText, value);
@@ -191,12 +191,12 @@ namespace Files.App.ViewModels.Dialogs
 
 		#region Close Button
 
-		private string closeButtonText;
+		private string? closeButtonText;
 
 		/// <summary>
 		/// The text of the close button.
 		/// </summary>
-		public string CloseButtonText
+		public string? CloseButtonText
 		{
 			get => closeButtonText;
 			set => SetProperty(ref closeButtonText, value);
@@ -259,72 +259,87 @@ namespace Files.App.ViewModels.Dialogs
 		/// <br/>
 		/// This action is assigned by default.
 		/// </summary>
-		public Action HideDialog { get; set; }
+		public Action? HideDialog { get; set; }
 
-		private Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> primaryButtonAction;
+		private Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs>? primaryButtonAction;
 
 		/// <summary>
 		/// OnPrimary action.
 		/// </summary>
-		public Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> PrimaryButtonAction
+		public Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs>? PrimaryButtonAction
 		{
 			get => primaryButtonAction;
 			set
 			{
 				if (SetProperty(ref primaryButtonAction, value))
 				{
-					PrimaryButtonCommand = new RelayCommand<ContentDialogButtonClickEventArgs>((e) =>
-					{
-						DynamicResult = DynamicDialogResult.Primary;
-						PrimaryButtonAction(this, e);
-					});
+					PrimaryButtonCommand = value is null
+						? null
+						: new RelayCommand<ContentDialogButtonClickEventArgs>((e) =>
+						{
+							if (e is null)
+								return;
+
+							DynamicResult = DynamicDialogResult.Primary;
+							value(this, e);
+						});
 				}
 			}
 		}
 
-		private Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> secondaryButtonAction;
+		private Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs>? secondaryButtonAction;
 
 		/// <summary>
 		/// OnSecondary action.
 		/// </summary>
-		public Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> SecondaryButtonAction
+		public Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs>? SecondaryButtonAction
 		{
 			get => secondaryButtonAction;
 			set
 			{
 				if (SetProperty(ref secondaryButtonAction, value))
 				{
-					SecondaryButtonCommand = new RelayCommand<ContentDialogButtonClickEventArgs>((e) =>
-					{
-						DynamicResult = DynamicDialogResult.Secondary;
-						SecondaryButtonAction(this, e);
-					});
+					SecondaryButtonCommand = value is null
+						? null
+						: new RelayCommand<ContentDialogButtonClickEventArgs>((e) =>
+						{
+							if (e is null)
+								return;
+
+							DynamicResult = DynamicDialogResult.Secondary;
+							value(this, e);
+						});
 				}
 			}
 		}
 
-		private Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> closeButtonAction;
+		private Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs>? closeButtonAction;
 
 		/// <summary>
 		/// OnClose action.
 		/// </summary>
-		public Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> CloseButtonAction
+		public Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs>? CloseButtonAction
 		{
 			get => closeButtonAction;
 			set
 			{
 				if (SetProperty(ref closeButtonAction, value))
 				{
-					CloseButtonCommand = new RelayCommand<ContentDialogButtonClickEventArgs>((e) =>
-					{
-						DynamicResult = DynamicDialogResult.Cancel;
-						CloseButtonAction(this, e);
-					});
+					CloseButtonCommand = value is null
+						? null
+						: new RelayCommand<ContentDialogButtonClickEventArgs>((e) =>
+						{
+							if (e is null)
+								return;
+
+							DynamicResult = DynamicDialogResult.Cancel;
+							value(this, e);
+						});
 				}
 			}
 		}
 
-		private Action<DynamicDialogViewModel, KeyRoutedEventArgs> keyDownAction;
+		private Action<DynamicDialogViewModel, KeyRoutedEventArgs>? keyDownAction;
 
 		/// <summary>
 		/// The keydown action on the dialog.
@@ -334,35 +349,43 @@ namespace Files.App.ViewModels.Dialogs
 		/// <br/>
 		/// This action is assigned by default.
 		/// </summary>
-		public Action<DynamicDialogViewModel, KeyRoutedEventArgs> KeyDownAction
+		public Action<DynamicDialogViewModel, KeyRoutedEventArgs>? KeyDownAction
 		{
 			get => keyDownAction;
 			set
 			{
 				if (SetProperty(ref keyDownAction, value))
 				{
-					KeyDownCommand = new RelayCommand<KeyRoutedEventArgs>((e) =>
-					{
-						DynamicResult = DynamicDialogResult.Cancel;
-						KeyDownAction(this, e);
-					});
+					KeyDownCommand = value is null
+						? null
+						: new RelayCommand<KeyRoutedEventArgs>((e) =>
+						{
+							if (e is null)
+								return;
+
+							DynamicResult = DynamicDialogResult.Cancel;
+							value(this, e);
+						});
 				}
 			}
 		}
 
-		private Action<DynamicDialogViewModel, RoutedEventArgs> displayControlOnLoaded;
+		private Action<DynamicDialogViewModel, RoutedEventArgs>? displayControlOnLoaded;
 
-		public Action<DynamicDialogViewModel, RoutedEventArgs> DisplayControlOnLoaded
+		public Action<DynamicDialogViewModel, RoutedEventArgs>? DisplayControlOnLoaded
 		{
 			get => displayControlOnLoaded;
 			set
 			{
 				if (SetProperty(ref displayControlOnLoaded, value))
 				{
-					DisplayControlOnLoadedCommand = new RelayCommand<RoutedEventArgs>((e) =>
-					{
-						DisplayControlOnLoaded(this, e);
-					});
+					DisplayControlOnLoadedCommand = value is null
+						? null
+						: new RelayCommand<RoutedEventArgs>((e) =>
+						{
+							if (e is not null)
+								value(this, e);
+						});
 				}
 			}
 		}
@@ -371,15 +394,15 @@ namespace Files.App.ViewModels.Dialogs
 
 		#region Commands
 
-		public ICommand PrimaryButtonCommand { get; private set; }
+		public ICommand? PrimaryButtonCommand { get; private set; }
 
-		public ICommand SecondaryButtonCommand { get; private set; }
+		public ICommand? SecondaryButtonCommand { get; private set; }
 
-		public ICommand CloseButtonCommand { get; private set; }
+		public ICommand? CloseButtonCommand { get; private set; }
 
-		public ICommand KeyDownCommand { get; private set; }
+		public ICommand? KeyDownCommand { get; private set; }
 
-		public ICommand DisplayControlOnLoadedCommand { get; private set; }
+		public ICommand? DisplayControlOnLoadedCommand { get; private set; }
 
 		#endregion Commands
 
@@ -390,14 +413,14 @@ namespace Files.App.ViewModels.Dialogs
 			// Create default implementation
 			TitleText = "DynamicDialog";
 			PrimaryButtonText = "Ok";
-			PrimaryButtonAction = (vm, e) => HideDialog();
-			SecondaryButtonAction = (vm, e) => HideDialog();
-			CloseButtonAction = (vm, e) => HideDialog();
+			PrimaryButtonAction = (vm, e) => HideDialog?.Invoke();
+			SecondaryButtonAction = (vm, e) => HideDialog?.Invoke();
+			CloseButtonAction = (vm, e) => HideDialog?.Invoke();
 			KeyDownAction = (vm, e) =>
 			{
 				if (e.Key == VirtualKey.Escape)
 				{
-					HideDialog();
+					HideDialog?.Invoke();
 				}
 			};
 			DisplayControlOnLoaded = (vm, e) =>
@@ -406,7 +429,7 @@ namespace Files.App.ViewModels.Dialogs
 				if (vm.DisplayControl is not DependencyObject displayControl)
 					return;
 
-				Control control = (displayControl as Control) ?? DependencyObjectHelpers.FindChild<Control>(displayControl);
+				Control? control = (displayControl as Control) ?? DependencyObjectHelpers.FindChild<Control>(displayControl);
 				control?.Focus(FocusState.Programmatic);
 			};
 
@@ -424,7 +447,7 @@ namespace Files.App.ViewModels.Dialogs
 
 			AdditionalData = null;
 			displayControl = null;
-			titleText = null;
+			titleText = string.Empty;
 			subtitleText = null;
 			primaryButtonText = null;
 			secondaryButtonText = null;

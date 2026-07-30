@@ -115,8 +115,10 @@ namespace Files.App.Helpers
 						if (!hOverlay.IsNull && !hOverlay.IsInvalid)
 						{
 							using var icon = hOverlay.ToIcon();
-							using var image = icon.ToBitmap();
+							if (icon is null)
+								return null;
 
+							using var image = icon.ToBitmap();
 							overlayData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
 						}
 					}
@@ -224,9 +226,12 @@ namespace Files.App.Helpers
 								if (!hIcon.IsNull && !hIcon.IsInvalid)
 								{
 									using (var icon = hIcon.ToIcon())
-									using (var image = icon.ToBitmap())
 									{
-										iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
+										if (icon is not null)
+										{
+											using var image = icon.ToBitmap();
+											iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
+										}
 									}
 								}
 							}
@@ -378,7 +383,7 @@ namespace Files.App.Helpers
 			var fcs = new Shell32.SHFOLDERCUSTOMSETTINGS()
 			{
 				dwMask = Shell32.FOLDERCUSTOMSETTINGSMASK.FCSM_ICONFILE,
-				pszIconFile = iconFile,
+				pszIconFile = iconFile ?? string.Empty,
 				cchIconFile = 0,
 				iIconIndex = iconIndex,
 			};
@@ -561,6 +566,8 @@ namespace Files.App.Helpers
 		public static string? PathFromFileId(ulong frn, string volumeHint)
 		{
 			string? volumePath = Path.GetPathRoot(volumeHint);
+			if (string.IsNullOrEmpty(volumePath))
+				return null;
 
 			using var volumeHandle = Kernel32.CreateFile(volumePath, Kernel32.FileAccess.GENERIC_READ, FileShare.Read, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
 			if (volumeHandle.IsInvalid)
@@ -601,8 +608,7 @@ namespace Files.App.Helpers
 				{
 					var item = shellWindows.Item(i);
 
-					var serv = (Shell32.IServiceProvider)item;
-					if (serv is not null)
+					if (item is Shell32.IServiceProvider serv)
 					{
 						if (serv.QueryService(Shell32.SID_STopLevelBrowser, typeof(Shell32.IShellBrowser).GUID, out var ppv).Succeeded)
 						{
@@ -612,9 +618,9 @@ namespace Files.App.Helpers
 							using var targetFolder = SafetyExtensions.IgnoreExceptions(() => new Vanara.Windows.Shell.ShellItem(folderPath));
 							if (targetFolder is not null)
 							{
-								if (shellBrowser.QueryActiveShellView(out var shellView).Succeeded)
+								if (shellBrowser.QueryActiveShellView(out var shellView).Succeeded &&
+									shellView is Shell32.IFolderView folderView)
 								{
-									var folderView = (Shell32.IFolderView)shellView;
 									var folder = folderView.GetFolder<Shell32.IPersistFolder2>();
 									var folderPidl = new Shell32.PIDL(IntPtr.Zero);
 
@@ -647,7 +653,8 @@ namespace Files.App.Helpers
 						Marshal.ReleaseComObject(serv);
 					}
 
-					Marshal.ReleaseComObject(item);
+					if (item is not null)
+						Marshal.ReleaseComObject(item);
 				}
 
 				Marshal.ReleaseComObject(shellWindows);
@@ -858,7 +865,7 @@ namespace Files.App.Helpers
 			return result;
 		}
 
-		public static string ReadStringFromFile(string filePath)
+		public static string? ReadStringFromFile(string filePath)
 		{
 			IntPtr hFile = Win32PInvoke.CreateFileFromApp(filePath,
 				(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ,
@@ -994,7 +1001,7 @@ namespace Files.App.Helpers
 		}
 
 		// https://github.com/rad1oactive/BetterExplorer/blob/master/Windows%20API%20Code%20Pack%201.1/source/WindowsAPICodePack/Shell/ReparsePoint.cs
-		public static string ParseSymLink(string path)
+		public static string? ParseSymLink(string path)
 		{
 			using var handle = OpenFileForRead(path, false, 0x00200000);
 			if (!handle.IsInvalid)

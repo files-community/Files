@@ -17,7 +17,7 @@ namespace Files.App.Data.Models
 		}
 
 		// TODO: Refactor this method
-		public void Clipboard_ContentChanged(object sender, object e)
+		public void Clipboard_ContentChanged(object? sender, object e)
 		{
 			try
 			{

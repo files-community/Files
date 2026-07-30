@@ -12,7 +12,7 @@ namespace Files.App.Utils.Storage
 {
 	public static class UniversalStorageEnumerator
 	{
-		private static readonly ISizeProvider folderSizeProvider = Ioc.Default.GetService<ISizeProvider>();
+		private static readonly ISizeProvider folderSizeProvider = Ioc.Default.GetRequiredService<ISizeProvider>();
 
 		private static readonly IIconCacheService iconCacheService = Ioc.Default.GetRequiredService<IIconCacheService>();
 
@@ -22,7 +22,7 @@ namespace Files.App.Utils.Storage
 			CancellationToken cancellationToken,
 			int countLimit,
 			Func<List<ListedItem>, Task> intermediateAction,
-			Dictionary<string, BitmapImage> defaultIconPairs = null)
+			Dictionary<string, BitmapImage>? defaultIconPairs = null)
 		{
 			var sampler = new IntervalSampler(500);
 			var tempList = new List<ListedItem>();
@@ -87,7 +87,10 @@ namespace Files.App.Utils.Storage
 					{
 						if (item.IsOfType(StorageItemTypes.Folder))
 						{
-							var folder = await AddFolderAsync(item.AsBaseStorageFolder(), currentStorageFolder, cancellationToken);
+							if (item.AsBaseStorageFolder() is not { } storageFolder)
+								continue;
+
+							var folder = await AddFolderAsync(storageFolder, currentStorageFolder, cancellationToken);
 							if (folder is not null)
 							{
 								folder.PreloadedIconData = await iconCacheService.GetIconAsync(folder.ItemPath, null, true);
@@ -113,7 +116,10 @@ namespace Files.App.Utils.Storage
 						}
 						else
 						{
-							var fileEntry = await AddFileAsync(item.AsBaseStorageFile(), currentStorageFolder, cancellationToken);
+							if (item.AsBaseStorageFile() is not { } storageFile)
+								continue;
+
+							var fileEntry = await AddFileAsync(storageFile, currentStorageFolder, cancellationToken);
 							if (fileEntry is not null)
 							{
 								fileEntry.PreloadedIconData = await iconCacheService.GetIconAsync(fileEntry.ItemPath, fileEntry.FileExtension, false);
@@ -161,7 +167,7 @@ namespace Files.App.Utils.Storage
 
 			for (var i = startFrom; i < startFrom + itemsToIterate; i++)
 			{
-				IStorageItem item;
+				IStorageItem? item;
 				try
 				{
 					var results = await rootFolder.GetItemsAsync(i, 1);
@@ -193,9 +199,9 @@ namespace Files.App.Utils.Storage
 			return tempList;
 		}
 
-		public static async Task<ListedItem> AddFolderAsync(
+		public static async Task<ListedItem?> AddFolderAsync(
 			BaseStorageFolder folder,
-			StorageFolderWithPath currentStorageFolder,
+			StorageFolderWithPath? currentStorageFolder,
 			CancellationToken cancellationToken)
 		{
 			var basicProperties = await folder.GetBasicPropertiesAsync();
@@ -215,7 +221,7 @@ namespace Files.App.Utils.Storage
 						ItemDateCreatedReal = folder.DateCreated,
 						ItemType = folder.DisplayType,
 						ItemPath = folder.Path,
-						FileSize = null,
+						FileSize = string.Empty,
 						FileSizeBytes = 0,
 						TargetPath = linkFolder.TargetPath,
 						Arguments = linkFolder.Arguments,
@@ -237,7 +243,7 @@ namespace Files.App.Utils.Storage
 						Opacity = 1,
 						FileImage = null,
 						LoadFileIcon = false,
-						ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
+						ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder?.Path ?? string.Empty, folder.Name) : folder.Path,
 						FileSize = basicProperties.Size.ToSizeString(),
 						FileSizeBytes = (long)basicProperties.Size,
 						ItemDateDeletedReal = binFolder.DateDeleted,
@@ -257,8 +263,8 @@ namespace Files.App.Utils.Storage
 						Opacity = 1,
 						FileImage = null,
 						LoadFileIcon = false,
-						ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
-						FileSize = null,
+						ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder?.Path ?? string.Empty, folder.Name) : folder.Path,
+						FileSize = string.Empty,
 						FileSizeBytes = 0
 					};
 				}
@@ -267,9 +273,9 @@ namespace Files.App.Utils.Storage
 			return null;
 		}
 
-		public static async Task<ListedItem> AddFileAsync(
+		public static async Task<ListedItem?> AddFileAsync(
 			BaseStorageFile file,
-			StorageFolderWithPath currentStorageFolder,
+			StorageFolderWithPath? currentStorageFolder,
 			CancellationToken cancellationToken)
 		{
 			var basicProperties = await file.GetBasicPropertiesAsync();
@@ -277,7 +283,7 @@ namespace Files.App.Utils.Storage
 			var itemName = file.Name;
 			var itemModifiedDate = basicProperties.DateModified;
 			var itemCreatedDate = file.DateCreated;
-			var itemPath = string.IsNullOrEmpty(file.Path) ? PathNormalization.Combine(currentStorageFolder.Path, file.Name) : file.Path;
+			var itemPath = string.IsNullOrEmpty(file.Path) ? PathNormalization.Combine(currentStorageFolder?.Path ?? string.Empty, file.Name) : file.Path;
 			var itemSize = basicProperties.Size.ToSizeString();
 			var itemSizeBytes = basicProperties.Size;
 			var itemType = file.DisplayType;
@@ -288,7 +294,7 @@ namespace Files.App.Utils.Storage
 				return null;
 
 			// TODO: is this needed to be handled here?
-			if (App.LibraryManager.TryGetLibrary(file.Path, out LibraryLocationItem library))
+			if (App.LibraryManager.TryGetLibrary(file.Path, out var library))
 			{
 				return new LibraryItem(library)
 				{

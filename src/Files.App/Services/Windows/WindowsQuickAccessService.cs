@@ -42,8 +42,16 @@ namespace Files.App.Services
 		private async Task UnpinFromSidebarAsync(string[] folderPaths, bool doUpdateQuickAccessWidget)
 		{
 			Type? shellAppType = Type.GetTypeFromProgID("Shell.Application");
+			if (shellAppType is null)
+				return;
+
 			object? shell = Activator.CreateInstance(shellAppType);
+			if (shell is null)
+				return;
+
 			dynamic? f2 = shellAppType.InvokeMember("NameSpace", System.Reflection.BindingFlags.InvokeMethod, null, shell, [$"shell:{guid}"]);
+			if (f2 is null)
+				return;
 
 			if (folderPaths.Length == 0)
 				folderPaths = (await GetPinnedFoldersAsync())
@@ -52,6 +60,9 @@ namespace Files.App.Services
 
 			foreach (dynamic? fi in f2.Items())
 			{
+				if (fi is null)
+					continue;
+
 				string pathStr = (string)fi.Path;
 
 				if (ShellStorageFolder.IsShellPath(pathStr))

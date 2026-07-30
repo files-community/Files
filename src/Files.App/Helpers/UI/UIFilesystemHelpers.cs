@@ -18,9 +18,9 @@ namespace Files.App.Helpers
 		public static async Task PasteItemAsync(string destinationPath, IShellPage associatedInstance)
 		{
 			FilesystemResult<DataPackageView> packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
-			if (packageView && packageView.Result is not null)
+			if (packageView && packageView.Result is { } content)
 			{
-				await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(packageView.Result.RequestedOperation, packageView, destinationPath, false, true);
+				await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(content.RequestedOperation, content, destinationPath, false, true);
 				associatedInstance.SlimContentPage?.ItemManipulationModel?.RefreshItemsOpacity();
 				await associatedInstance.RefreshIfNoWatcherExistsAsync();
 			}
@@ -29,9 +29,9 @@ namespace Files.App.Helpers
 		public static async Task PasteItemAsShortcutAsync(string destinationPath, IShellPage associatedInstance)
 		{
 			FilesystemResult<DataPackageView> packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
-			if (packageView.Result.Contains(StandardDataFormats.StorageItems))
+			if (packageView.Result is { } content && content.Contains(StandardDataFormats.StorageItems))
 			{
-				var items = await packageView.Result.GetStorageItemsAsync();
+				var items = await content.GetStorageItemsAsync();
 				await Task.WhenAll(items.Select(async item =>
 				{
 					var fileName = FilesystemHelpers.GetShortcutNamingPreference(item.Name);
@@ -93,7 +93,7 @@ namespace Files.App.Helpers
 
 			if (associatedInstance.SlimContentPage is not null)
 			{
-				currentPath = associatedInstance.ShellViewModel.WorkingDirectory;
+				currentPath = associatedInstance.ShellViewModel?.WorkingDirectory;
 				if (App.LibraryManager.TryGetLibrary(currentPath, out var library) &&
 					!library.IsEmpty &&
 					library.Folders.Count == 1) // TODO: handle libraries with multiple folders
@@ -101,6 +101,8 @@ namespace Files.App.Helpers
 					currentPath = library.Folders.First();
 				}
 			}
+			if (string.IsNullOrEmpty(currentPath))
+				return null;
 
 			// Skip rename dialog when ShellNewEntry has a Command (e.g. ".accdb", ".gdoc")
 			string? userInput = null;
@@ -116,7 +118,7 @@ namespace Files.App.Helpers
 			}
 
 			// Create file based on dialog result
-			(ReturnResult Status, IStorageItem Item) created = (ReturnResult.Failed, null);
+			(ReturnResult Status, IStorageItem? Item) created = (ReturnResult.Failed, null);
 			switch (itemType)
 			{
 				case AddItemDialogItemType.Folder:
@@ -156,9 +158,12 @@ namespace Files.App.Helpers
 		{
 			try
 			{
-				var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
+				if (associatedInstance.SlimContentPage?.SelectedItems is not { } selectedItems)
+					return;
+
+				var items = selectedItems.Select((item) => StorageHelpers.FromPathAndType(
 					item.ItemPath,
-					item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+					item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList();
 				var folder = await CreateFileFromDialogResultTypeForResult(AddItemDialogItemType.Folder, null, associatedInstance);
 				if (folder is null)
 					return;
@@ -186,7 +191,7 @@ namespace Files.App.Helpers
 
 		public static async Task CreateShortcutAsync(IShellPage? associatedInstance, IReadOnlyList<ListedItem> selectedItems)
 		{
-			var currentPath = associatedInstance?.ShellViewModel.WorkingDirectory;
+			var currentPath = associatedInstance?.ShellViewModel?.WorkingDirectory;
 
 			if (App.LibraryManager.TryGetLibrary(currentPath ?? string.Empty, out var library) && !library.IsEmpty)
 				currentPath = library.DefaultSaveFolder;
@@ -206,7 +211,10 @@ namespace Files.App.Helpers
 
 		public static async Task CreateShortcutFromDialogAsync(IShellPage associatedInstance)
 		{
-			var currentPath = associatedInstance.ShellViewModel.WorkingDirectory;
+			var currentPath = associatedInstance.ShellViewModel?.WorkingDirectory;
+			if (string.IsNullOrEmpty(currentPath))
+				return;
+
 			if (App.LibraryManager.TryGetLibrary(currentPath, out var library) &&
 				!library.IsEmpty)
 			{
@@ -279,10 +287,12 @@ namespace Files.App.Helpers
 
 			if (credentialDialogViewModel.IsAnonymous)
 				return new();
+			if (credentialDialogViewModel.Password is not { } password)
+				throw new InvalidOperationException("A password is required for authenticated credentials.");
 
 			// Can't do more than that to mitigate immutability of strings. Perhaps convert DisposableArray to SecureString immediately?
-			var credentials = new StorageCredential(credentialDialogViewModel.UserName, Encoding.UTF8.GetString(credentialDialogViewModel.Password));
-			credentialDialogViewModel.Password?.Dispose();
+			var credentials = new StorageCredential(credentialDialogViewModel.UserName, Encoding.UTF8.GetString(password));
+			password.Dispose();
 
 			if (isFtp)
 			{

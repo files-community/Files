@@ -10,9 +10,9 @@ namespace Files.App.UserControls
 {
 	public sealed partial class MenuFlyoutItemWithThemedIcon : MenuFlyoutItem
 	{
-		public Style ThemedIconStyle
+		public Style? ThemedIconStyle
 		{
-			get { return (Style)GetValue(ThemedIconStyleProperty); }
+			get { return GetValue(ThemedIconStyleProperty) as Style; }
 			set { SetValue(ThemedIconStyleProperty, value); }
 		}
 
@@ -21,7 +21,8 @@ namespace Files.App.UserControls
 
 		private static void OnThemedIconStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-			(d as MenuFlyoutItem).Icon = e.NewValue is not null ? new IconSourceElement() : null;
+			if (d is MenuFlyoutItem item)
+				item.Icon = e.NewValue is not null ? new IconSourceElement() : null;
 		}
 
 		public MenuFlyoutItemWithThemedIcon()

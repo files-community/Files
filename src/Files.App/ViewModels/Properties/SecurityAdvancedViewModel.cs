@@ -50,7 +50,7 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		private AccessControlList _AccessControlList;
+		private AccessControlList _AccessControlList = new();
 		public AccessControlList AccessControlList
 		{
 			get => _AccessControlList;
@@ -146,7 +146,7 @@ namespace Files.App.ViewModels.Properties
 			}
 			;
 
-			LoadShieldIconResource();
+			ShieldIconFileInfo = LoadShieldIconResource();
 
 			LoadAccessControlEntry();
 
@@ -155,7 +155,7 @@ namespace Files.App.ViewModels.Properties
 			RemoveAccessControlEntryCommand = new AsyncRelayCommand(ExecuteRemoveAccessControlEntryCommandAsync);
 		}
 
-		private void LoadShieldIconResource()
+		private IconFileInfo LoadShieldIconResource()
 		{
 			string imageres = System.IO.Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "imageres.dll");
 
@@ -164,7 +164,7 @@ namespace Files.App.ViewModels.Properties
 				new List<int>() { Constants.ImageRes.ShieldIcon },
 				16);
 
-			ShieldIconFileInfo = imageResList.First();
+			return imageResList.First();
 		}
 
 		private void LoadAccessControlEntry()

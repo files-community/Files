@@ -14,9 +14,11 @@ namespace Files.App.ViewModels.Properties
 	{
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
 
-		public IShellPage AppInstance = null;
+		private IShellPage? appInstance;
+		public IShellPage AppInstance
+			=> appInstance ?? throw new InvalidOperationException("The properties page has not been initialized.");
 
-		public BaseProperties BaseProperties { get; set; }
+		public BaseProperties? BaseProperties { get; set; }
 
 		public SelectedItemsPropertiesViewModel ViewModel { get; set; } = new();
 
@@ -28,15 +30,15 @@ namespace Files.App.ViewModels.Properties
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			var np = (PropertiesPageNavigationParameter)e.Parameter;
-			AppInstance = np.AppInstance;
+			appInstance = np.AppInstance;
 
 			// Library
 			if (np.Parameter is LibraryItem library)
-				BaseProperties = new LibraryProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, library, AppInstance);
+				BaseProperties = new LibraryProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, library, np.AppInstance);
 			// Drive
 			else if (np.Parameter is DriveItem drive)
 			{
-				var props = new DriveProperties(ViewModel, drive, AppInstance);
+				var props = new DriveProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, drive, np.AppInstance);
 				BaseProperties = props;
 
 				ViewModel.CleanupVisibility = props.Drive.Type != DriveType.Network && props.Drive.Type != DriveType.CloudDrive;
@@ -59,7 +61,7 @@ namespace Files.App.ViewModels.Properties
 				// Selection only contains files
 				if (items.All(item => item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive))
 				{
-					BaseProperties = new CombinedFileProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, items, AppInstance);
+					BaseProperties = new CombinedFileProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, items, np.AppInstance);
 
 					ViewModel.IsEditAlbumCoverVisible =
 						items.All(item => item.FileExtension is not ".avi") && (
@@ -68,17 +70,17 @@ namespace Files.App.ViewModels.Properties
 				}
 				// Selection includes folders
 				else
-					BaseProperties = new CombinedProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, items, AppInstance);
+					BaseProperties = new CombinedProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, items, np.AppInstance);
 			}
 			// A storage object
 			else if (np.Parameter is ListedItem item)
 			{
 				// File or Archive
 				if (item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
-					BaseProperties = new FileProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, item, AppInstance);
+					BaseProperties = new FileProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, item, np.AppInstance);
 				// Folder
 				else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-					BaseProperties = new FolderProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, item, AppInstance);
+					BaseProperties = new FolderProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, item, np.AppInstance);
 			}
 
 			ViewModel.EditAlbumCoverCommand = new RelayCommand(async () =>
@@ -114,7 +116,7 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.IsAblumCoverModified = true;
 				ViewModel.ModifiedAlbumCover = null;
 
-				string mediaPath = np.Parameter switch
+				string? mediaPath = np.Parameter switch
 				{
 					ListedItem singleItem => singleItem.ItemPath,
 					List<ListedItem> items => items.FirstOrDefault()?.ItemPath,

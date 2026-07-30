@@ -28,10 +28,13 @@ namespace Files.App.Extensions
 
 		public static async Task<FilesystemResult<BaseStorageFile>> Create(this ShellNewEntry shellEntry, string filePath, IShellPage associatedInstance)
 		{
-			var parentFolder = await associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(filePath));
-			if (parentFolder)
+			if (associatedInstance.ShellViewModel is not { } shellViewModel)
+				return new FilesystemResult<BaseStorageFile>(null, FileSystemStatusCode.NotFound);
+
+			var parentFolder = await shellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(filePath));
+			if (parentFolder.Result is { } folder)
 			{
-				return await Create(shellEntry, parentFolder, filePath);
+				return await Create(shellEntry, folder, filePath);
 			}
 
 			return new FilesystemResult<BaseStorageFile>(null, parentFolder.ErrorCode);
@@ -39,25 +42,32 @@ namespace Files.App.Extensions
 
 		public static async Task<FilesystemResult<BaseStorageFile>> Create(this ShellNewEntry shellEntry, BaseStorageFolder parentFolder, string filePath)
 		{
-			FilesystemResult<BaseStorageFile> createdFile = null;
 			var fileName = Path.GetFileName(filePath);
+			if (string.IsNullOrEmpty(fileName))
+				return new FilesystemResult<BaseStorageFile>(null, FileSystemStatusCode.NotFound);
 
+			FilesystemResult<BaseStorageFile> createdFile;
 			if (shellEntry.Template is null)
 			{
-				createdFile = await FilesystemTasks.Wrap(() => parentFolder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName).AsTask());
+				createdFile = await FilesystemTasks.WrapNullable(
+					() => parentFolder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName).AsTask());
 			}
 			else
 			{
-				createdFile = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(shellEntry.Template))
-					.OnSuccess(t => t.CopyAsync(parentFolder, fileName, NameCollisionOption.GenerateUniqueName).AsTask());
+				var templateFile = await FilesystemTasks.WrapNullable(
+					() => StorageFileExtensions.DangerousGetFileFromPathAsync(shellEntry.Template));
+				createdFile = templateFile.Result is { } sourceFile
+					? await FilesystemTasks.WrapNullable(
+						() => sourceFile.CopyAsync(parentFolder, fileName, NameCollisionOption.GenerateUniqueName).AsTask())
+					: new FilesystemResult<BaseStorageFile>(null, templateFile.ErrorCode);
 			}
 
-			if (createdFile && shellEntry.Data is not null)
+			if (createdFile is { Result: { } result } && shellEntry.Data is not null)
 			{
 				// Calls unsupported OpenTransactedWriteAsync
 				//await FileIO.WriteBytesAsync(createdFile.Result, shellEntry.Data);
 
-				await createdFile.Result.WriteBytesAsync(shellEntry.Data);
+				await result.WriteBytesAsync(shellEntry.Data);
 			}
 
 			return createdFile;

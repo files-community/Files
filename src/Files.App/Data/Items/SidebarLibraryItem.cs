@@ -9,7 +9,7 @@ namespace Files.App.Data.Items
 
 		public ReadOnlyCollection<string> Folders { get; }
 
-		public bool IsEmpty => DefaultSaveFolder is null || Folders is null || Folders.Count is 0;
+		public bool IsEmpty => string.IsNullOrEmpty(DefaultSaveFolder) || Folders.Count is 0;
 
 		public LibraryLocationItem(ShellLibraryItem shellLibrary)
 		{
@@ -21,10 +21,10 @@ namespace Files.App.Data.Items
 				ShowShellItems = true,
 				ShowUnpinItem = !shellLibrary.IsPinned,
 			};
-			Text = shellLibrary.DisplayName is not null ? shellLibrary.DisplayName : "";
+			Text = shellLibrary.DisplayName;
 			Path = shellLibrary.FullPath;
 			DefaultSaveFolder = shellLibrary.DefaultSaveFolder;
-			Folders = shellLibrary.Folders is null ? null : new ReadOnlyCollection<string>(shellLibrary.Folders);
+			Folders = new ReadOnlyCollection<string>(shellLibrary.Folders);
 			IsDefaultLocation = shellLibrary.IsPinned;
 		}
 
@@ -37,8 +37,8 @@ namespace Files.App.Data.Items
 
 			if (!res)
 			{
-				var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(DefaultSaveFolder));
-				res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(DefaultSaveFolder, item));
+				var item = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(DefaultSaveFolder));
+				res = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(DefaultSaveFolder, item));
 			}
 
 			return res;

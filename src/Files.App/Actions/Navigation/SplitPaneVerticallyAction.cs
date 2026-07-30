@@ -34,7 +34,8 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			ContentPageContext.ShellPage!.PaneHolder.OpenSecondaryPane(ContentPageContext.ShellPage!.ShellViewModel.WorkingDirectory, ShellPaneArrangement.Vertical);
+			if (ContentPageContext.ShellPage is { PaneHolder: { } paneHolder, ShellViewModel: { } shellViewModel })
+				paneHolder.OpenSecondaryPane(shellViewModel.WorkingDirectory, ShellPaneArrangement.Vertical);
 
 			return Task.CompletedTask;
 		}

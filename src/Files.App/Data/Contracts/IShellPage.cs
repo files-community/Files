@@ -7,7 +7,7 @@ namespace Files.App.Data.Contracts
 {
 	public interface IShellPage : ITabBarItemContent, IMultiPaneInfo, IDisposable, INotifyPropertyChanged
 	{
-		ShellViewModel ShellViewModel { get; }
+		ShellViewModel? ShellViewModel { get; }
 
 		CurrentInstanceViewModel InstanceViewModel { get; }
 
@@ -17,7 +17,7 @@ namespace Files.App.Data.Contracts
 
 		IList<PageStackEntry> BackwardStack { get; }
 
-		IBaseLayoutPage SlimContentPage { get; }
+		IBaseLayoutPage? SlimContentPage { get; }
 
 		Type CurrentPageType { get; }
 
@@ -50,16 +50,16 @@ namespace Files.App.Data.Contracts
 
 		void Up_Click();
 
-		Task UpdatePathUIToWorkingDirectoryAsync(string newWorkingDir, string singleItemOverride = null);
+		Task UpdatePathUIToWorkingDirectoryAsync(string? newWorkingDir, string? singleItemOverride = null);
 
-		void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null);
+		void NavigateToPath(string? navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null);
 
 		/// <summary>
 		/// Gets the layout mode for the specified path then navigates to it
 		/// </summary>
 		/// <param name="navigationPath"></param>
 		/// <param name="navArgs"></param>
-		public void NavigateToPath(string navigationPath, NavigationArguments navArgs = null);
+		public void NavigateToPath(string navigationPath, NavigationArguments? navArgs = null);
 
 		/// <summary>
 		/// Navigates to the home page

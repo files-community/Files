@@ -8,19 +8,19 @@ namespace Files.App.Utils.Storage
 {
 	public sealed partial class GroupedHeaderViewModel : ObservableObject
 	{
-		public string Key { get; set; }
+		public string Key { get; set; } = string.Empty;
 		public bool Initialized { get; set; }
 		public int SortIndexOverride { get; set; }
 
-		private string text;
+		private string text = string.Empty;
 
 		public string Text
 		{
-			get => text ?? ""; // Text is bound to AutomationProperties.Name and can't be null
+			get => text; // Text is bound to AutomationProperties.Name and can't be null
 			set => SetPropertyWithUpdateDelay(ref text, value);
 		}
 
-		private string subtext;
+		private string subtext = string.Empty;
 
 		public string Subtext
 		{
@@ -28,7 +28,7 @@ namespace Files.App.Utils.Storage
 			set => SetPropertyWithUpdateDelay(ref subtext, value);
 		}
 
-		private string countText;
+		private string countText = string.Empty;
 
 		public string CountText
 		{
@@ -44,15 +44,15 @@ namespace Files.App.Utils.Storage
 			set => SetProperty(ref showCountTextBelow, value);
 		}
 
-		private ImageSource imageSource;
+		private ImageSource? imageSource;
 
-		public ImageSource ImageSource
+		public ImageSource? ImageSource
 		{
 			get => imageSource;
 			set => SetPropertyWithUpdateDelay(ref imageSource, value);
 		}
 
-		private string icon;
+		private string icon = string.Empty;
 
 		public string Icon
 		{
@@ -60,7 +60,7 @@ namespace Files.App.Utils.Storage
 			set => SetPropertyWithUpdateDelay(ref icon, value);
 		}
 
-		private void SetPropertyWithUpdateDelay<T>(ref T field, T newVal, [CallerMemberName] string propName = null)
+		private void SetPropertyWithUpdateDelay<T>(ref T field, T newVal, [CallerMemberName] string? propName = null)
 		{
 			if (propName is null)
 			{

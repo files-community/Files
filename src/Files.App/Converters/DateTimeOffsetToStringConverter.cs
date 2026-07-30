@@ -7,7 +7,7 @@ namespace Files.App.Converters
 {
 	internal sealed partial class DateTimeOffsetToStringConverter : IValueConverter
 	{
-		private static readonly IDateTimeFormatter formatter = Ioc.Default.GetService<IDateTimeFormatter>();
+		private static readonly IDateTimeFormatter formatter = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
 
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
@@ -16,16 +16,11 @@ namespace Files.App.Converters
 				: formatter.ToLongLabel((DateTimeOffset)value);
 		}
 
-		public object ConvertBack(object value, Type targetType, object parameter, string language)
+		public object? ConvertBack(object value, Type targetType, object parameter, string language)
 		{
-			try
-			{
-				return DateTimeOffset.Parse(value as string);
-			}
-			catch (FormatException)
-			{
-				return null;
-			}
+			return value is string text && DateTimeOffset.TryParse(text, out var result)
+				? result
+				: null;
 		}
 	}
 }

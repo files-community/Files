@@ -175,7 +175,7 @@ namespace Files.App
 		/// </summary>
 		private void Window_Activated(object sender, WindowActivatedEventArgs args)
 		{
-			Logger.LogInformation($"Window_Activated: State={args?.WindowActivationState.ToString()}");
+			Logger.LogInformation($"Window_Activated: State={args.WindowActivationState}");
 
 			if (args.WindowActivationState != WindowActivationState.Deactivated)
 				AppModel.IsMainWindowClosed = false;
@@ -218,7 +218,7 @@ namespace Files.App
 
 			if (OutputPath is not null)
 			{
-				var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.TabItemContent.IsCurrentInstance);
+				var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.TabItemContent?.IsCurrentInstance == true);
 				if (instance is null)
 					return;
 

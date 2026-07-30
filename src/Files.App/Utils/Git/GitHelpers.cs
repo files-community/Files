@@ -19,7 +19,7 @@ namespace Files.App.Utils.Git
 		private static LibGit2Service _implementation = Ioc.Default.GetRequiredService<LibGit2Service>(); // TODO: Replace with IVersionControl abstraction when it is complete
 
 		/// <inheritdoc cref="IVersionControlService.GetGitRepositoryPath(string?,string)"/>
-		public static string? GetGitRepositoryPath(string? path, string root) => _implementation.GetGitRepositoryPath(path, root);
+		public static string? GetGitRepositoryPath(string? path, string? root) => _implementation.GetGitRepositoryPath(path, root);
 
 		/// <inheritdoc cref="IVersionControlService.GetOriginRepositoryName(string?)"/>
 		public static string GetOriginRepositoryName(string? path) => _implementation.GetOriginRepositoryName(path);

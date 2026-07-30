@@ -5,6 +5,6 @@ namespace Files.App.Data.Contracts
 {
 	public interface IMultiPaneInfo
 	{
-		public IShellPanesPage PaneHolder { get; }
+		public IShellPanesPage? PaneHolder { get; }
 	}
 }

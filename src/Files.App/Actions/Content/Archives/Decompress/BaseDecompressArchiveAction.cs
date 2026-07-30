@@ -56,15 +56,17 @@ namespace Files.App.Actions
 				return;
 
 			var selectedItems = context.SelectedItems.ToList();
-			var currentFolderPath = context.ShellPage?.ShellViewModel.CurrentFolder?.ItemPath ?? string.Empty;
-			BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(currentFolderPath);
+			var currentFolderPath = context.ShellPage?.ShellViewModel?.CurrentFolder?.ItemPath ?? string.Empty;
+			BaseStorageFolder? currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(currentFolderPath);
+			if (currentFolder is null)
+				return;
 
 			foreach (var selectedItem in selectedItems)
 			{
 				var password = string.Empty;
-				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
+				BaseStorageFile? archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
 
-				if (archive?.Path is null)
+				if (archive is null)
 					return;
 
 				if (await FilesystemTasks.Wrap(() => StorageArchiveService.IsEncryptedAsync(archive.Path)))
@@ -137,13 +139,16 @@ namespace Files.App.Actions
 					return false;
 				});
 
-				if (smart && currentFolder is not null && isMultipleItems)
+				if (smart && isMultipleItems)
 				{
 					destinationFolder =
-						await FilesystemTasks.Wrap(() =>
+						await FilesystemTasks.WrapNullable(() =>
 							currentFolder.CreateFolderAsync(
 								SystemIO.Path.GetFileNameWithoutExtension(archive.Path),
 								CreationCollisionOption.GenerateUniqueName).AsTask());
+
+					if (destinationFolder is null)
+						return;
 				}
 				else
 				{

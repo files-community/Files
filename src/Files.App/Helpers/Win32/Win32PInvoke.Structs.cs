@@ -99,7 +99,7 @@ namespace Files.App.Helpers
 		{
 			public long StreamSize;
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 296)]
-			public string cStreamName;
+			public string cStreamName = string.Empty;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]

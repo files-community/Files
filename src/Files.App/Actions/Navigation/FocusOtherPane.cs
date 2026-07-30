@@ -32,7 +32,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			context.ShellPage!.PaneHolder.FocusOtherPane();
+			context.ShellPage?.PaneHolder?.FocusOtherPane();
 
 			return Task.CompletedTask;
 		}

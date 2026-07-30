@@ -100,11 +100,11 @@ namespace Files.App.ViewModels.UserControls
 
 		public bool CanExtract => Commands.DecompressArchive.CanExecute(null) || Commands.DecompressArchiveHere.CanExecute(null) || Commands.DecompressArchiveHereSmart.CanExecute(null) || Commands.DecompressArchiveToChildFolder.CanExecute(null);
 
-		public bool IsCardsLayout => _InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.CardsView;
-		public bool IsColumnLayout => _InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ColumnView;
-		public bool IsGridLayout => _InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView;
-		public bool IsDetailsLayout => _InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.DetailsView;
-		public bool IsListLayout => _InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ListView;
+		public bool IsCardsLayout => InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.CardsView;
+		public bool IsColumnLayout => InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ColumnView;
+		public bool IsGridLayout => InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView;
+		public bool IsDetailsLayout => InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.DetailsView;
+		public bool IsListLayout => InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ListView;
 
 		public bool IsLayoutSizeCompact =>
 			(IsDetailsLayout && UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact) ||
@@ -181,15 +181,15 @@ namespace Files.App.ViewModels.UserControls
 		private bool _CanRefresh;
 		public bool CanRefresh { get => _CanRefresh; set => SetProperty(ref _CanRefresh, value); }
 
-		private string _PathControlDisplayText;
+		private string _PathControlDisplayText = string.Empty;
 		[Obsolete("Superseded by Omnibar.")]
 		public string PathControlDisplayText { get => _PathControlDisplayText; set => SetProperty(ref _PathControlDisplayText, value); }
 
 		private bool _HasItem = false;
 		public bool HasItem { get => _HasItem; set => SetProperty(ref _HasItem, value); }
 
-		private Style _LayoutThemedIcon;
-		public Style LayoutThemedIcon { get => _LayoutThemedIcon; set => SetProperty(ref _LayoutThemedIcon, value); }
+		private Style? _LayoutThemedIcon;
+		public Style? LayoutThemedIcon { get => _LayoutThemedIcon; set => SetProperty(ref _LayoutThemedIcon, value); }
 
 		// SetProperty doesn't seem to properly notify the binding in path bar
 		private string? _PathText;
@@ -213,7 +213,7 @@ namespace Files.App.ViewModels.UserControls
 		private string? _OmnibarSearchModeText;
 		public string? OmnibarSearchModeText { get => _OmnibarSearchModeText; set => SetProperty(ref _OmnibarSearchModeText, value); }
 
-		public string OmnibarSearchModePlaceholder => InstanceViewModel?.IsPageTypeSettings == true
+		public string OmnibarSearchModePlaceholder => _InstanceViewModel?.IsPageTypeSettings == true
 			? Strings.SearchSettings.GetLocalizedResource()
 			: Strings.OmnibarSearchModeTextPlaceholder.GetLocalizedResource();
 
@@ -222,23 +222,24 @@ namespace Files.App.ViewModels.UserControls
 		private string _OmnibarCurrentSelectedModeName = OmnibarPathModeName;
 		public string OmnibarCurrentSelectedModeName { get => _OmnibarCurrentSelectedModeName; set => SetProperty(ref _OmnibarCurrentSelectedModeName, value); }
 
-		private CurrentInstanceViewModel _InstanceViewModel;
+		private CurrentInstanceViewModel? _InstanceViewModel;
 		public CurrentInstanceViewModel InstanceViewModel
 		{
-			get => _InstanceViewModel;
+			get => _InstanceViewModel
+				?? throw new InvalidOperationException("The navigation toolbar has not been initialized.");
 			set
 			{
-				if (_InstanceViewModel?.FolderSettings is not null)
-					_InstanceViewModel.FolderSettings.PropertyChanged -= FolderSettings_PropertyChanged;
+				if (_InstanceViewModel is { } previousViewModel)
+				{
+					previousViewModel.FolderSettings.PropertyChanged -= FolderSettings_PropertyChanged;
+					previousViewModel.PropertyChanged -= InstanceViewModel_PropertyChanged;
+				}
 
-				if (_InstanceViewModel is not null)
-					_InstanceViewModel.PropertyChanged -= InstanceViewModel_PropertyChanged;
-
-				if (SetProperty(ref _InstanceViewModel, value) && _InstanceViewModel?.FolderSettings is not null)
+				if (SetProperty(ref _InstanceViewModel, value))
 				{
 					FolderSettings_PropertyChanged(this, new PropertyChangedEventArgs(nameof(LayoutPreferencesManager.LayoutMode)));
-					_InstanceViewModel.FolderSettings.PropertyChanged += FolderSettings_PropertyChanged;
-					_InstanceViewModel.PropertyChanged += InstanceViewModel_PropertyChanged;
+					value.FolderSettings.PropertyChanged += FolderSettings_PropertyChanged;
+					value.PropertyChanged += InstanceViewModel_PropertyChanged;
 					OnPropertyChanged(nameof(OmnibarSearchModePlaceholder));
 				}
 			}
@@ -378,6 +379,7 @@ namespace Files.App.ViewModels.UserControls
 		public void PathBoxItem_DragLeave(object sender, DragEventArgs e)
 		{
 			if (((FrameworkElement)sender).DataContext is not PathBoxItem pathBoxItem ||
+				pathBoxItem.Path is null ||
 				pathBoxItem.Path == "Home" ||
 				pathBoxItem.Path == "ReleaseNotes" ||
 				pathBoxItem.Path == "Settings")
@@ -401,10 +403,10 @@ namespace Files.App.ViewModels.UserControls
 			// Reset dragged over pathbox item
 			_dragOverPath = null;
 
-			if (((FrameworkElement)sender).DataContext is not PathBoxItem pathBoxItem ||
-				pathBoxItem.Path == "Home" ||
-				pathBoxItem.Path == "ReleaseNotes" ||
-				pathBoxItem.Path == "Settings")
+			if (((FrameworkElement)sender).DataContext is not PathBoxItem { Path: { } path } ||
+				path == "Home" ||
+				path == "ReleaseNotes" ||
+				path == "Settings")
 			{
 				return;
 			}
@@ -417,7 +419,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				AcceptedOperation = e.AcceptedOperation,
 				Package = e.DataView,
-				Path = pathBoxItem.Path,
+				Path = path,
 				SignalEvent = signal
 			});
 
@@ -535,7 +537,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task HandleItemNavigationAsync(string path)
 		{
-			if (ContentPageContext.ShellPage is null)
+			if (ContentPageContext.ShellPage is not { ShellViewModel: { } shellViewModel } shellPage)
 				return;
 
 			var currentPath = PathComponents.LastOrDefault()?.Path;
@@ -545,28 +547,28 @@ namespace Files.App.ViewModels.UserControls
 				string.IsNullOrWhiteSpace(normalizedInput))
 				return;
 
-			if (normalizedInput.Equals(ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory) &&
-				ContentPageContext.ShellPage.CurrentPageType != typeof(HomePage) &&
-				!ContentPageContext.ShellPage.ShellViewModel.IsSearchResults)
+			if (normalizedInput.Equals(shellViewModel.WorkingDirectory) &&
+				shellPage.CurrentPageType != typeof(HomePage) &&
+				!shellViewModel.IsSearchResults)
 				return;
 
 			if (normalizedInput.Equals("Home", StringComparison.OrdinalIgnoreCase) ||
 				normalizedInput.Equals(Strings.Home.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 			{
 				SavePathToHistory("Home");
-				ContentPageContext.ShellPage.NavigateHome();
+				shellPage.NavigateHome();
 			}
 			else if (normalizedInput.Equals("ReleaseNotes", StringComparison.OrdinalIgnoreCase) ||
 				normalizedInput.Equals(Strings.ReleaseNotes.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 			{
 				SavePathToHistory("ReleaseNotes");
-				ContentPageContext.ShellPage.NavigateToReleaseNotes();
+				shellPage.NavigateToReleaseNotes();
 			}
 			else if (normalizedInput.Equals("Settings", StringComparison.OrdinalIgnoreCase) ||
 				normalizedInput.Equals(Strings.Settings.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 			{
 				SavePathToHistory("Settings");
-				ContentPageContext.ShellPage.NavigateToSettings();
+				shellPage.NavigateToSettings();
 			}
 			else
 			{
@@ -574,7 +576,7 @@ namespace Files.App.ViewModels.UserControls
 				if (currentPath is not null && currentPath.Equals(normalizedInput, StringComparison.OrdinalIgnoreCase))
 					return;
 
-				var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(normalizedInput));
+				var item = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(normalizedInput));
 
 				var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(normalizedInput, item));
 				if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(normalizedInput))
@@ -590,35 +592,34 @@ namespace Files.App.ViewModels.UserControls
 
 					var pathToNavigate = resFolder.Result?.Path ?? normalizedInput;
 					SavePathToHistory(pathToNavigate);
-					ContentPageContext.ShellPage.NavigateToPath(pathToNavigate);
+					shellPage.NavigateToPath(pathToNavigate);
 				}
 				else if (isFtp)
 				{
 					SavePathToHistory(normalizedInput);
-					ContentPageContext.ShellPage.NavigateToPath(normalizedInput);
+					shellPage.NavigateToPath(normalizedInput);
 				}
 				else // Not a folder or inaccessible
 				{
 					var resFile = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(normalizedInput, item));
-					if (resFile)
+					if (resFile.Result is { } storageFile)
 					{
-						var pathToInvoke = resFile.Result.Path;
-						await Win32Helper.InvokeWin32ComponentAsync(pathToInvoke, ContentPageContext.ShellPage);
+						await Win32Helper.InvokeWin32ComponentAsync(storageFile.Path, shellPage);
 					}
 					else // Not a file or not accessible
 					{
 						var workingDir =
-							string.IsNullOrEmpty(ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory) ||
-							ContentPageContext.ShellPage.CurrentPageType == typeof(HomePage)
+							string.IsNullOrEmpty(shellViewModel.WorkingDirectory) ||
+							shellPage.CurrentPageType == typeof(HomePage)
 								? Constants.UserEnvironmentPaths.HomePath
-								: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
+								: shellViewModel.WorkingDirectory;
 
-						if (await LaunchApplicationFromPath(PathText, workingDir))
+						if (await LaunchApplicationFromPath(path, workingDir))
 							return;
 
 						try
 						{
-							if (!await Windows.System.Launcher.LaunchUriAsync(new Uri(PathText)))
+							if (!await Windows.System.Launcher.LaunchUriAsync(new Uri(path)))
 								await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidItemDialogTitle.GetLocalizedResource(),
 									string.Format(Strings.InvalidItemDialogContent.GetLocalizedResource(), Environment.NewLine, resFolder.ErrorCode.ToString()));
 						}
@@ -631,7 +632,7 @@ namespace Files.App.ViewModels.UserControls
 				}
 			}
 
-			PathControlDisplayText = ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
+			PathControlDisplayText = shellViewModel.WorkingDirectory;
 		}
 
 		public void SwitchToCommandPaletteMode()
@@ -659,8 +660,11 @@ namespace Files.App.ViewModels.UserControls
 				await Task.Delay(100);
 
 			OmnibarCurrentSelectedModeName = OmnibarPathModeName;
-			omnibar?.Focus(FocusState.Programmatic);
-			omnibar.IsFocused = true;
+			if (omnibar is not null)
+			{
+				omnibar.Focus(FocusState.Programmatic);
+				omnibar.IsFocused = true;
+			}
 		}
 
 		public void UpdateAdditionalActions()
@@ -670,16 +674,24 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem)
 		{
-			var childFolders = GetSubfolders(pathItem.Path);
+			if (pathItem.Path is not { } path)
+				return;
+
+			var childFolders = GetSubfolders(path);
 
 			// Fall back to StorageFolder API for non-filesystem paths (e.g. FTP)
 			if (childFolders is null)
 			{
-				StorageFolderWithPath folder = await ContentPageContext.ShellPage.ShellViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
-				if (folder is not null)
+				if (ContentPageContext.ShellPage?.ShellViewModel is { } shellViewModel)
 				{
-					var result = (await FilesystemTasks.Wrap(() => folder.GetFoldersWithPathAsync(string.Empty))).Result;
-					childFolders = result?.Select(f => (f.Item.Name, f.Path, false)).ToList();
+					var folderResult = await shellViewModel.GetFolderWithPathFromPathAsync(path);
+					if (folderResult.Result is { } folder)
+					{
+						var result = (await FilesystemTasks.Wrap(() => folder.GetFoldersWithPathAsync(string.Empty))).Result;
+						childFolders = result?
+							.Select(f => (f.Item?.Name ?? Path.GetFileName(f.Path), f.Path, false))
+							.ToList();
+					}
 				}
 			}
 
@@ -702,7 +714,7 @@ namespace Files.App.ViewModels.UserControls
 			var workingPath =
 				PathComponents[PathComponents.Count - 1].Path?.TrimEnd(Path.DirectorySeparatorChar);
 
-			foreach (var (name, path, isHidden) in childFolders)
+			foreach (var (name, childPath, isHidden) in childFolders)
 			{
 				var flyoutItem = new MenuFlyoutItem
 				{
@@ -711,19 +723,19 @@ namespace Files.App.ViewModels.UserControls
 					Opacity = isHidden ? Constants.UI.DimItemOpacity : 1.0,
 				};
 
-				if (workingPath != path)
+				if (workingPath != childPath)
 				{
 					flyoutItem.Click += (sender, args) =>
 					{
 						// Navigate to the directory
-						ContentPageContext.ShellPage.NavigateToPath(path);
+						ContentPageContext.ShellPage?.NavigateToPath(childPath);
 					};
 				}
 
 				flyout.Items?.Add(flyoutItem);
 
 				// Start loading the thumbnail in the background
-				_ = LoadFlyoutItemIconAsync(flyoutItem, path);
+				_ = LoadFlyoutItemIconAsync(flyoutItem, childPath);
 			}
 		}
 
@@ -798,8 +810,11 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		[Obsolete("Superseded by Omnibar.")]
-		public async Task CheckPathInputAsync(string currentInput, string currentSelectedPath, IShellPage shellPage)
+		public async Task CheckPathInputAsync(string currentInput, string? currentSelectedPath, IShellPage shellPage)
 		{
+			if (shellPage.ShellViewModel is not { } shellViewModel)
+				return;
+
 			if (currentInput.StartsWith('>'))
 			{
 				var code = currentInput.Substring(1).Trim();
@@ -824,7 +839,7 @@ namespace Files.App.ViewModels.UserControls
 			if (currentSelectedPath == normalizedInput || string.IsNullOrWhiteSpace(normalizedInput))
 				return;
 
-			if (normalizedInput != shellPage.ShellViewModel.WorkingDirectory || shellPage.CurrentPageType == typeof(HomePage))
+			if (normalizedInput != shellViewModel.WorkingDirectory || shellPage.CurrentPageType == typeof(HomePage))
 			{
 				if (normalizedInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || normalizedInput.Equals(Strings.Home.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 				{
@@ -847,7 +862,7 @@ namespace Files.App.ViewModels.UserControls
 					if (currentSelectedPath == normalizedInput)
 						return;
 
-					var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(normalizedInput));
+					var item = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(normalizedInput));
 
 					var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(normalizedInput, item));
 					if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(normalizedInput))
@@ -872,18 +887,17 @@ namespace Files.App.ViewModels.UserControls
 					else // Not a folder or inaccessible
 					{
 						var resFile = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(normalizedInput, item));
-						if (resFile)
+						if (resFile.Result is { } storageFile)
 						{
-							var pathToInvoke = resFile.Result.Path;
-							await Win32Helper.InvokeWin32ComponentAsync(pathToInvoke, shellPage);
+							await Win32Helper.InvokeWin32ComponentAsync(storageFile.Path, shellPage);
 						}
 						else // Not a file or not accessible
 						{
 							var workingDir =
-								string.IsNullOrEmpty(shellPage.ShellViewModel.WorkingDirectory) ||
+								string.IsNullOrEmpty(shellViewModel.WorkingDirectory) ||
 								shellPage.CurrentPageType == typeof(HomePage) ?
 									Constants.UserEnvironmentPaths.HomePath :
-									shellPage.ShellViewModel.WorkingDirectory;
+									shellViewModel.WorkingDirectory;
 
 							if (await LaunchApplicationFromPath(currentInput, workingDir))
 								return;
@@ -943,11 +957,11 @@ namespace Files.App.ViewModels.UserControls
 		{
 			var result = await SafetyExtensions.IgnoreExceptions((Func<Task<bool>>)(async () =>
 			{
-				List<OmnibarPathModeSuggestionModel>? newSuggestions = [];
+				List<OmnibarPathModeSuggestionModel> newSuggestions = [];
 				var pathText = this.PathText;
 
 				// If the current input is special, populate navigation history instead.
-				if (string.IsNullOrWhiteSpace((string)pathText) ||
+				if (string.IsNullOrWhiteSpace(pathText) ||
 					pathText is "Home" or "ReleaseNotes" or "Settings")
 				{
 					// Load previously entered path
@@ -958,24 +972,31 @@ namespace Files.App.ViewModels.UserControls
 				}
 				else
 				{
-					var isFtp = FtpHelpers.IsFtpPath((string)pathText);
-					pathText = NormalizePathInput((string)pathText, isFtp);
-					var expandedPath = StorageFileExtensions.GetResolvedPath((string)pathText, isFtp);
+					var isFtp = FtpHelpers.IsFtpPath(pathText);
+					pathText = NormalizePathInput(pathText, isFtp);
+					var expandedPath = StorageFileExtensions.GetResolvedPath(pathText, isFtp);
 					var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
-					StorageFolderWithPath folder = await ContentPageContext.ShellPage.ShellViewModel.GetFolderWithPathFromPathAsync(folderPath);
-					if (folder is null)
+					if (ContentPageContext.ShellPage?.ShellViewModel is not { } shellViewModel)
+						return false;
+
+					var folderResult = await shellViewModel.GetFolderWithPathFromPathAsync(folderPath);
+					if (folderResult.Result is not { } folder)
 						return false;
 
 					var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), MaxSuggestionsCount);
 					if (currPath.Count >= MaxSuggestionsCount)
 					{
-						newSuggestions.AddRange(currPath.Select(x => new OmnibarPathModeSuggestionModel(x.Path, x.Item.DisplayName)));
+						newSuggestions.AddRange(currPath.Select(CreateSuggestion));
 					}
 					else if (currPath.Any())
 					{
-						var subPath = await currPath.First().GetFoldersWithPathAsync((uint)(MaxSuggestionsCount - currPath.Count));
-						newSuggestions.AddRange(currPath.Select(x => new OmnibarPathModeSuggestionModel(x.Path, x.Item.DisplayName)));
-						newSuggestions.AddRange(subPath.Select(x => new OmnibarPathModeSuggestionModel(x.Path, PathNormalization.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName))));
+						var firstPath = currPath.First();
+						var subPath = await firstPath.GetFoldersWithPathAsync((uint)(MaxSuggestionsCount - currPath.Count));
+						var firstDisplayName = firstPath.Item?.DisplayName ?? Path.GetFileName(firstPath.Path);
+						newSuggestions.AddRange(currPath.Select(CreateSuggestion));
+						newSuggestions.AddRange(subPath.Select(x => new OmnibarPathModeSuggestionModel(
+							x.Path,
+							PathNormalization.Combine(firstDisplayName, x.Item?.DisplayName ?? Path.GetFileName(x.Path)))));
 					}
 				}
 
@@ -1021,6 +1042,9 @@ namespace Files.App.ViewModels.UserControls
 				}
 
 				return true;
+
+				static OmnibarPathModeSuggestionModel CreateSuggestion(StorageFolderWithPath folder)
+					=> new(folder.Path, folder.Item?.DisplayName ?? Path.GetFileName(folder.Path));
 			}));
 
 			if (!result)
@@ -1033,9 +1057,9 @@ namespace Files.App.ViewModels.UserControls
 				PathModeSuggestionItems.Clear();
 				
 				// Use null-safe access to avoid NullReferenceException during app lifecycle transitions
-				var workingDirectory = string.IsNullOrEmpty(ContentPageContext.ShellPage?.ShellViewModel?.WorkingDirectory)
-					? Constants.UserEnvironmentPaths.HomePath
-					: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
+				var workingDirectory = ContentPageContext.ShellPage?.ShellViewModel?.WorkingDirectory;
+				if (string.IsNullOrEmpty(workingDirectory))
+					workingDirectory = Constants.UserEnvironmentPaths.HomePath;
 				
 				PathModeSuggestionItems.Add(new(
 					workingDirectory,
@@ -1045,14 +1069,15 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task PopulateOmnibarSuggestionsForCommandPaletteMode()
 		{
+			var commandPaletteText = OmnibarCommandPaletteModeText ?? string.Empty;
 			var (suggestionsToProcess, commandsToProcess) = await Task.Run(() =>
 			{
 				var suggestions = new List<NavigationBarSuggestionItem>();
 
 				var commandsData = Commands
 					.Where(command => command.IsAccessibleGlobally
-						&& (command.Description.Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)
-							|| command.Code.ToString().Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)))
+						&& (command.Description.Contains(commandPaletteText, StringComparison.OrdinalIgnoreCase)
+							|| command.Code.ToString().Contains(commandPaletteText, StringComparison.OrdinalIgnoreCase)))
 					.Where(command => command.Description != Commands.OpenCommandPalette.Description.ToString())
 					.ToList();
 
@@ -1145,11 +1170,13 @@ namespace Files.App.ViewModels.UserControls
 				try
 				{
 					await Task.Delay(200, token);
+					if (ContentPageContext.ShellPage?.ShellViewModel is not { } shellViewModel)
+						return;
 
 					var search = new FolderSearch
 					{
-						Query = OmnibarSearchModeText,
-						Folder = ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory,
+						Query = OmnibarSearchModeText ?? string.Empty,
+						Folder = shellViewModel.WorkingDirectory,
 						MaxItemCount = 10,
 					};
 
@@ -1207,7 +1234,7 @@ namespace Files.App.ViewModels.UserControls
 			switch (e.PropertyName)
 			{
 				case nameof(LayoutPreferencesManager.LayoutMode):
-					LayoutThemedIcon = _InstanceViewModel.FolderSettings.LayoutMode switch
+					LayoutThemedIcon = InstanceViewModel.FolderSettings.LayoutMode switch
 					{
 						FolderLayoutModes.ListView => Commands.LayoutList.ThemedIconStyle!,
 						FolderLayoutModes.CardsView => Commands.LayoutCards.ThemedIconStyle!,

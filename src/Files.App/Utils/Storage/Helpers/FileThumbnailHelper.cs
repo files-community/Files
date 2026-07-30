@@ -38,7 +38,7 @@ namespace Files.App.Utils.Storage
 				}
 			}
 
-			var resolvedPath = path is not null && path.StartsWith(@"\\?\", StringComparison.Ordinal)
+			var resolvedPath = path.StartsWith(@"\\?\", StringComparison.Ordinal)
 				? MtpHelpers.ResolveMtpShellPath(path) ?? path
 				: path;
 

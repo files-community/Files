@@ -37,10 +37,10 @@ namespace Files.App.Actions
 							? FilesystemItemType.File
 							: FilesystemItemType.Directory));
 
-			if (context.ShellPage is IShellPage shellPage)
+			if (context.ShellPage is { ShellViewModel: { } shellViewModel } shellPage)
 			{
 				await shellPage.FilesystemHelpers.DeleteItemsAsync(items, settings.DeleteConfirmationPolicy, permanently, true);
-				await shellPage.ShellViewModel.ApplyFilesAndFoldersChangesAsync();
+				await shellViewModel.ApplyFilesAndFoldersChangesAsync();
 			}
 		}
 

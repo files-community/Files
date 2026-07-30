@@ -17,32 +17,32 @@ namespace Files.App.Utils.Shell
 			var libraryItem = new ShellLibraryItem
 			{
 				FullPath = filePath,
-				AbsolutePath = library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing),
-				RelativePath = library.GetDisplayName(ShellItemDisplayString.ParentRelativeParsing),
-				DisplayName = library.GetDisplayName(ShellItemDisplayString.NormalDisplay),
+				AbsolutePath = library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing) ?? string.Empty,
+				RelativePath = library.GetDisplayName(ShellItemDisplayString.ParentRelativeParsing) ?? string.Empty,
+				DisplayName = library.GetDisplayName(ShellItemDisplayString.NormalDisplay) ?? string.Empty,
 				IsPinned = library.PinnedToNavigationPane,
 			};
 
 			var folders = library.Folders;
 			if (folders.Count > 0)
 			{
-				libraryItem.DefaultSaveFolder = SafetyExtensions.IgnoreExceptions(() => library.DefaultSaveFolder.FileSystemPath);
-				libraryItem.Folders = folders.Select(f => f.FileSystemPath).ToArray();
+				libraryItem.DefaultSaveFolder = SafetyExtensions.IgnoreExceptions(() => library.DefaultSaveFolder.FileSystemPath) ?? string.Empty;
+				libraryItem.Folders = folders.Select(f => f.FileSystemPath).OfType<string>().ToArray();
 			}
 
 			return libraryItem;
 		}
 
-		private static T TryGetProperty<T>(this ShellItemPropertyStore sip, Ole32.PROPERTYKEY key)
+		private static T? TryGetProperty<T>(this ShellItemPropertyStore sip, Ole32.PROPERTYKEY key)
 		{
-			T value = default;
+			T? value = default;
 
 			SafetyExtensions.IgnoreExceptions(() => sip.TryGetValue<T>(key, out value));
 
 			return value;
 		}
 
-		public static ShellFileItem GetShellFileItem(ShellItem folderItem)
+		public static ShellFileItem? GetShellFileItem(ShellItem? folderItem)
 		{
 			if (folderItem is null)
 				return null;
@@ -107,13 +107,13 @@ namespace Files.App.Utils.Shell
 
 			var createdDate = fileTime?.ToDateTime().ToLocalTime() ?? SafetyExtensions.IgnoreExceptions(() => folderItem.FileInfo?.CreationTime) ?? DateTime.Now; // This is LocalTime
 			var fileSizeBytes = folderItem.Properties.TryGetProperty<ulong?>(Ole32.PROPERTYKEY.System.Size);
-			string fileSize = fileSizeBytes is not null ? folderItem.Properties.GetPropertyString(Ole32.PROPERTYKEY.System.Size) : null;
+			string? fileSize = fileSizeBytes is not null ? folderItem.Properties.GetPropertyString(Ole32.PROPERTYKEY.System.Size) : null;
 			var fileType = folderItem.Properties.TryGetProperty<string>(Ole32.PROPERTYKEY.System.ItemTypeText);
 
 			return new(isFolder, parsingPath, fileName, filePath, recycleDate, modifiedDate, createdDate, fileSize, fileSizeBytes ?? 0, fileType, folderItem.PIDL.GetBytes());
 		}
 
-		public static ShellLinkItem GetShellLinkItem(ShellLink linkItem)
+		public static ShellLinkItem? GetShellLinkItem(ShellLink? linkItem)
 		{
 			if (linkItem is null)
 				return null;
@@ -135,7 +135,7 @@ namespace Files.App.Utils.Shell
 			return link;
 		}
 
-		public static string GetParsingPath(this ShellItem item)
+		public static string? GetParsingPath(this ShellItem? item)
 		{
 			if (item is null)
 				return null;

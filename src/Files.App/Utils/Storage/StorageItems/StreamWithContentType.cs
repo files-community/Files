@@ -14,7 +14,7 @@ namespace Files.App.Utils.Storage
 	{
 		private Stream stream;
 		private IInputStream iStream;
-		public Action DisposeCallback { get; set; }
+		public Action? DisposeCallback { get; set; }
 
 		public InputStreamWithDisposeCallback(Stream stream)
 		{
@@ -43,7 +43,7 @@ namespace Files.App.Utils.Storage
 		private ulong byteSize;
 		private bool isWritten;
 
-		public Action DisposeCallback { get; set; }
+		public Action? DisposeCallback { get; set; }
 
 		public NonSeekableRandomAccessStreamForWrite(Stream stream)
 		{
@@ -139,7 +139,7 @@ namespace Files.App.Utils.Storage
 		private ulong readToByte;
 		private ulong byteSize;
 
-		public Action DisposeCallback { get; set; }
+		public Action? DisposeCallback { get; set; }
 
 		public NonSeekableRandomAccessStreamForRead(Stream baseStream, ulong size)
 		{

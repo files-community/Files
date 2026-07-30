@@ -14,7 +14,7 @@ namespace Files.App.UserControls.TabBar
 
 		public TabBarItemParameter? TabBarItemParameter { get; }
 
-		public event EventHandler<TabBarItemParameter> ContentChanged;
+		public event EventHandler<TabBarItemParameter>? ContentChanged;
 
 		public Task TabItemDragOver(object sender, DragEventArgs e);
 

@@ -25,9 +25,9 @@ namespace Files.App.Utils.Storage
 
 		private const uint defaultStepSize = 500;
 
-		public string? Query { get; set; }
+		public required string Query { get; init; }
 
-		public string? Folder { get; set; }
+		public required string Folder { get; init; }
 
 		public uint MaxItemCount { get; set; } = 0; // 0: no limit
 
@@ -164,7 +164,10 @@ namespace Files.App.Utils.Storage
 					try
 					{
 						if (!item.Name.StartsWith('.') || UserSettingsService.FoldersSettingsService.ShowDotFiles)
-							results.Add(await GetListedItemAsync(item));
+						{
+							if (await GetListedItemAsync(item) is { } listedItem)
+								results.Add(listedItem);
+						}
 					}
 					catch (Exception ex)
 					{
@@ -342,10 +345,14 @@ namespace Files.App.Utils.Storage
 				{
 					try
 					{
-						IStorageItem item = (BaseStorageFile)await GetStorageFileAsync(match.FilePath);
-						item ??= (BaseStorageFolder)await GetStorageFolderAsync(match.FilePath);
-						if (!item.Name.StartsWith('.') || UserSettingsService.FoldersSettingsService.ShowDotFiles)
-							results.Add(await GetListedItemAsync(item));
+						IStorageItem? item = (await GetStorageFileAsync(match.FilePath)).Result;
+						item ??= (await GetStorageFolderAsync(match.FilePath)).Result;
+						if (item is not null &&
+							(!item.Name.StartsWith('.') || UserSettingsService.FoldersSettingsService.ShowDotFiles) &&
+							await GetListedItemAsync(item) is { } listedItem)
+						{
+							results.Add(listedItem);
+						}
 					}
 					catch (Exception ex)
 					{
@@ -374,9 +381,9 @@ namespace Files.App.Utils.Storage
 				var workingFolder = await GetStorageFolderAsync(folder);
 
 				var hiddenOnlyFromWin32 = false;
-				if (workingFolder)
+				if (workingFolder.Result is { } storageFolder)
 				{
-					await SearchAsync(workingFolder, results, token);
+					await SearchAsync(storageFolder, results, token);
 					hiddenOnlyFromWin32 = (results.Count != 0);
 				}
 
@@ -467,7 +474,7 @@ namespace Files.App.Utils.Storage
 				Win32PInvoke.FileTimeToSystemTime(ref shortcutFindData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME modifiedTime);
 				Win32PInvoke.FileTimeToSystemTime(ref shortcutFindData.ftCreationTime, out Win32PInvoke.SYSTEMTIME createdTime);
 				var fileSize = Win32FindDataExtensions.GetSize(shortcutFindData);
-				var itemFileExtension = shortcutFindData.cFileName.Contains('.', StringComparison.Ordinal) ? Path.GetExtension(itemPath) : null;
+				var itemFileExtension = shortcutFindData.cFileName.Contains('.', StringComparison.Ordinal) ? Path.GetExtension(itemPath) ?? string.Empty : string.Empty;
 
 				var shortcutItem = new ShortcutItem(null)
 				{
@@ -572,9 +579,9 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private ListedItem GetListedItemAsync(string itemPath, WIN32_FIND_DATA findData)
+		private ListedItem? GetListedItemAsync(string itemPath, WIN32_FIND_DATA findData)
 		{
-			ListedItem listedItem = null;
+			ListedItem? listedItem = null;
 			var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 			var isFolder = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory;
 			Win32PInvoke.FileTimeToSystemTime(ref findData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME systemModifiedTimeOutput);
@@ -582,8 +589,8 @@ namespace Files.App.Utils.Storage
 
 			if (!isFolder)
 			{
-				string itemFileExtension = null;
-				string itemType = null;
+				var itemFileExtension = string.Empty;
+				var itemType = string.Empty;
 				long fileSize = Win32FindDataExtensions.GetSize(findData);
 				if (findData.cFileName.Contains('.', StringComparison.Ordinal))
 				{
@@ -650,12 +657,15 @@ namespace Files.App.Utils.Storage
 			return listedItem;
 		}
 
-		private async Task<ListedItem> GetListedItemAsync(IStorageItem item)
+		private async Task<ListedItem?> GetListedItemAsync(IStorageItem item)
 		{
-			ListedItem listedItem = null;
+			ListedItem? listedItem = null;
 			if (item.IsOfType(StorageItemTypes.Folder))
 			{
 				var folder = item.AsBaseStorageFolder();
+				if (folder is null)
+					return null;
+
 				var props = await folder.GetBasicPropertiesAsync();
 				if (folder is BinStorageFolder binFolder)
 				{
@@ -693,9 +703,12 @@ namespace Files.App.Utils.Storage
 			else if (item.IsOfType(StorageItemTypes.File))
 			{
 				var file = item.AsBaseStorageFile();
+				if (file is null)
+					return null;
+
 				var props = await file.GetBasicPropertiesAsync();
-				string itemFileExtension = null;
-				string itemType = null;
+				var itemFileExtension = string.Empty;
+				var itemType = string.Empty;
 				if (file.Name.Contains('.', StringComparison.Ordinal))
 				{
 					itemFileExtension = Path.GetExtension(file.Path);
@@ -820,9 +833,9 @@ namespace Files.App.Utils.Storage
 		}
 
 		private static Task<FilesystemResult<BaseStorageFolder>> GetStorageFolderAsync(string path)
-			=> FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+			=> FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
 
 		private static Task<FilesystemResult<BaseStorageFile>> GetStorageFileAsync(string path)
-			=> FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
+			=> FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
 	}
 }

@@ -42,9 +42,9 @@ namespace Files.App.Actions
 			if (string.IsNullOrEmpty(archivePath))
 				return;
 
-			BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(archivePath);
+			BaseStorageFile? archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(archivePath);
 
-			if (archive?.Path is null)
+			if (archive is null)
 				return;
 
 			var isArchiveEncrypted = await FilesystemTasks.Wrap(() => StorageArchiveService.IsEncryptedAsync(archive.Path));
@@ -83,7 +83,7 @@ namespace Files.App.Actions
 			if (!StorageHelpers.Exists(archive.Path))
 				return;
 
-			BaseStorageFolder destinationFolder = decompressArchiveViewModel.DestinationFolder;
+			BaseStorageFolder? destinationFolder = decompressArchiveViewModel.DestinationFolder;
 			string destinationFolderPath = decompressArchiveViewModel.DestinationFolderPath;
 
 			// Save extraction location for future use
@@ -91,13 +91,22 @@ namespace Files.App.Actions
 
 			if (destinationFolder is null)
 			{
-				BaseStorageFolder parentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(Path.GetDirectoryName(archive.Path) ?? string.Empty);
-				destinationFolder = await FilesystemTasks.Wrap(() => parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath), CreationCollisionOption.GenerateUniqueName).AsTask());
+				var parentPath = Path.GetDirectoryName(archive.Path);
+				if (parentPath is null)
+					return;
+
+				BaseStorageFolder? parentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(parentPath);
+				if (parentFolder is null)
+					return;
+
+				destinationFolder = await FilesystemTasks.WrapNullable(() => parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath), CreationCollisionOption.GenerateUniqueName).AsTask());
+				if (destinationFolder is null)
+					return;
 			}
 
 			// Operate decompress
 			var result = await FilesystemTasks.Wrap(() =>
-				StorageArchiveService.DecompressAsync(archive?.Path ?? string.Empty, destinationFolder?.Path ?? string.Empty, password, encoding));
+				StorageArchiveService.DecompressAsync(archive.Path, destinationFolder.Path, password, encoding));
 
 			if (decompressArchiveViewModel.OpenDestinationFolderOnCompletion)
 				await NavigationHelpers.OpenPath(destinationFolderPath, context.ShellPage, FilesystemItemType.Directory);

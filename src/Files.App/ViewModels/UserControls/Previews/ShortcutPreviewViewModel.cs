@@ -11,7 +11,9 @@ namespace Files.App.ViewModels.Previews
 
 		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
-			var item = Item as IShortcutItem;
+			if (Item is not IShortcutItem item)
+				return [];
+
 			var details = new List<FileProperty>
 			{
 				GetFileProperty("PropertyParsingPath", item.ItemPath),

@@ -38,7 +38,7 @@ namespace Files.App.Utils.Storage
 			return true;
 		}
 
-		public static async Task<StorageFolderWithPath> GetRootFromPathAsync(string devicePath)
+		public static async Task<StorageFolderWithPath?> GetRootFromPathAsync(string devicePath)
 		{
 			if (!SystemIO.Path.IsPathRooted(devicePath))
 				return null;
@@ -46,10 +46,13 @@ namespace Files.App.Utils.Storage
 			var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 			var rootPath = SystemIO.Path.GetPathRoot(devicePath);
+			if (rootPath is null)
+				return null;
+
 			if (devicePath.StartsWith(@"\\?\", StringComparison.Ordinal)) // USB device
 			{
 				// Check among already discovered drives
-				StorageFolder matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
+				StorageFolder? matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
 					Helpers.PathNormalization.NormalizePath(x.Path) == Helpers.PathNormalization.NormalizePath(rootPath))?.Root;
 				if (matchingDrive is null)
 				{
@@ -175,8 +178,8 @@ namespace Files.App.Utils.Storage
 			}) ?? "";
 		}
 
-		public static async Task<StorageItemThumbnail> GetThumbnailAsync(StorageFolder folder)
-			=> (StorageItemThumbnail)await FilesystemTasks.Wrap(()
+		public static async Task<StorageItemThumbnail?> GetThumbnailAsync(StorageFolder folder)
+			=> await FilesystemTasks.Wrap(()
 				=> folder.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask()
 			);
 	}

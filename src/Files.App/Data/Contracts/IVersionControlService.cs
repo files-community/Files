@@ -26,7 +26,7 @@ namespace Files.App.Data.Contracts
 		/// This method is used for determining whether a directory is within a repository and, if so,
 		/// which directory should be treated as the repository root.
 		/// </remarks>
-		string? GetGitRepositoryPath(string? path, string root);
+		string? GetGitRepositoryPath(string? path, string? root);
 
 		/// <summary>
 		/// Gets the repository name.

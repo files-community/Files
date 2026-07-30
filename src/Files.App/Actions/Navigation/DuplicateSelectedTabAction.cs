@@ -31,7 +31,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync(object? parameter = null)
 		{
-			var arguments = context.SelectedTabItem.NavigationParameter;
+			var arguments = context.SelectedTabItem?.NavigationParameter;
 
 			if (arguments is null)
 			{

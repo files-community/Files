@@ -15,12 +15,9 @@ namespace Files.App.ViewModels.Properties
 			DispatcherQueue coreDispatcher,
 			List<ListedItem> listedItems,
 			IShellPage instance)
+			: base(viewModel, tokenSource, coreDispatcher, instance)
 		{
-			ViewModel = viewModel;
-			TokenSource = tokenSource;
-			Dispatcher = coreDispatcher;
 			List = listedItems;
-			AppInstance = instance;
 			GetBaseProperties();
 			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 		}
@@ -144,7 +141,7 @@ namespace Files.App.ViewModels.Properties
 			SetItemsCountString();
 		}
 
-		private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private async void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{

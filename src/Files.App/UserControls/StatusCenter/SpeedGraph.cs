@@ -28,19 +28,19 @@ namespace Files.App.UserControls.StatusCenter
 
 		Compositor compositor;
 
-		ContainerVisual rootVisual;
+		ContainerVisual? rootVisual;
 
-		CompositionPathGeometry graphGeometry;
-		InsetClip graphClip;
+		CompositionPathGeometry? graphGeometry;
+		InsetClip? graphClip;
 
-		SpriteVisual line;
+		SpriteVisual? line;
 
-		CompositionColorBrush backgroundBrush;
-		CompositionColorGradientStop graphFillBottom;
-		CompositionColorGradientStop graphFillTop;
-		CompositionColorBrush graphStrokeBrush;
+		CompositionColorBrush? backgroundBrush;
+		CompositionColorGradientStop? graphFillBottom;
+		CompositionColorGradientStop? graphFillTop;
+		CompositionColorBrush? graphStrokeBrush;
 
-		LinearEasingFunction linearEasing;
+		LinearEasingFunction? linearEasing;
 
 		bool initialized;
 
@@ -196,6 +196,9 @@ namespace Files.App.UserControls.StatusCenter
 
 		void UpdateGraph()
 		{
+			if (graphGeometry is null || line is null || linearEasing is null || graphClip is null)
+				return;
+
 			var path = CreatePathFromPoints();
 			graphGeometry.Path = path;
 
@@ -231,6 +234,9 @@ namespace Files.App.UserControls.StatusCenter
 
 		void SetGraphColors()
 		{
+			if (backgroundBrush is null || graphFillTop is null || graphFillBottom is null || graphStrokeBrush is null)
+				return;
+
 			var accentColor = themeModeService.DefaultAccentColor;
 
 			var veryLightColor = accentColor with { A = 0x0f };

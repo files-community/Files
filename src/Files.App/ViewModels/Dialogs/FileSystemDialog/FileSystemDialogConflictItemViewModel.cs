@@ -7,15 +7,15 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 {
 	public sealed partial class FileSystemDialogConflictItemViewModel : BaseFileSystemDialogItemViewModel, IFileSystemDialogConflictItemViewModel
 	{
-		private string? _DestinationDisplayName;
-		public string? DestinationDisplayName
+		private string _DestinationDisplayName = string.Empty;
+		public required string DestinationDisplayName
 		{
 			get => _DestinationDisplayName;
 			set => SetProperty(ref _DestinationDisplayName, value);
 		}
 
-		private string? _CustomName;
-		public string? CustomName
+		private string _CustomName = string.Empty;
+		public string CustomName
 		{
 			get => _CustomName;
 			set
@@ -23,13 +23,13 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 				if (SetProperty(ref _CustomName, value))
 				{
 					DestinationDisplayName = value;
-					_DestinationPath = Path.Combine(Path.GetDirectoryName(DestinationPath), value);
+					_DestinationPath = Path.Combine(Path.GetDirectoryName(DestinationPath) ?? string.Empty, value);
 				}
 			}
 		}
 
-		private string? _DestinationPath;
-		public string? DestinationPath
+		private string _DestinationPath = string.Empty;
+		public required string DestinationPath
 		{
 			get => _DestinationPath;
 			set
@@ -47,7 +47,7 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 		}
 
 		public string DestinationDirectoryDisplayName
-			=> Path.GetFileName(Path.GetDirectoryName(DestinationPath));
+			=> Path.GetFileName(Path.GetDirectoryName(DestinationPath)) ?? string.Empty;
 
 		public bool IsConflict
 			=> ConflictResolveOption != FileNameConflictResolveOptionType.None;

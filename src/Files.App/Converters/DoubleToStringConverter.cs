@@ -11,22 +11,17 @@ namespace Files.App.Converters
 		{
 			if (value is not null)
 			{
-				return value.ToString();
+				return value.ToString() ?? string.Empty;
 			}
 
 			return "";
 		}
 
-		public object ConvertBack(object value, Type targetType, object parameter, string language)
+		public object? ConvertBack(object value, Type targetType, object parameter, string language)
 		{
-			try
-			{
-				return Double.Parse(value as string);
-			}
-			catch (FormatException)
-			{
-				return null;
-			}
+			return value is string text && double.TryParse(text, out var result)
+				? result
+				: null;
 		}
 	}
 }

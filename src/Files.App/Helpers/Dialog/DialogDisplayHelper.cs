@@ -27,7 +27,7 @@ namespace Files.App.Helpers
 		/// The (optional) secondary button text.
 		/// If not set, it won't be presented to the user at all.
 		/// </param>
-		public static async Task<bool> ShowDialogAsync(string title, string message, string primaryText = "OK", string secondaryText = null)
+		public static async Task<bool> ShowDialogAsync(string title, string message, string primaryText = "OK", string? secondaryText = null)
 		{
 			var dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{

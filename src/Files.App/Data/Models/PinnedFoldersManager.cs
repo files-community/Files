@@ -75,8 +75,8 @@ namespace Files.App.Data.Models
 			var isLibrary = LibraryManager.IsLibraryPath(path);
 			var libraryDisplayName = isLibrary ? GetLibraryDisplayName(path) : null;
 
-			var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(path));
-			var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
+			var item = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(path));
+			var res = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
 			LocationItem locationItem;
 
 			if (string.Equals(path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
@@ -111,11 +111,10 @@ namespace Files.App.Data.Models
 				locationItem.IsInvalid = false;
 				await LoadIconForLocationItemAsync(locationItem, path, isFolder: false);
 			}
-			else if (res)
+			else if (res?.Result is { } folder)
 			{
 				locationItem.IsInvalid = false;
-				if (res.Result is not null)
-					await LoadIconForLocationItemAsync(locationItem, res.Result.Path);
+				await LoadIconForLocationItemAsync(locationItem, folder.Path);
 			}
 			else
 			{
@@ -127,7 +126,7 @@ namespace Files.App.Data.Models
 			return locationItem;
 		}
 
-		private static string GetLibraryDisplayName(string libraryPath)
+		private static string? GetLibraryDisplayName(string libraryPath)
 		{
 			using var storable = WindowsStorable.TryParse(libraryPath);
 			if (storable is null)

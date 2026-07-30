@@ -34,8 +34,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string currentSearchQuery;
-		public string CurrentSearchQuery
+		private string? currentSearchQuery;
+		public string? CurrentSearchQuery
 		{
 			get => currentSearchQuery;
 			set => SetProperty(ref currentSearchQuery, value);

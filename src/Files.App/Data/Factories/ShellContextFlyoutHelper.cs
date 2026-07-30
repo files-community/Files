@@ -72,15 +72,16 @@ namespace Files.App.Helpers
 			};
 		}
 
-		public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string workingDirectory, List<ListedItem>? selectedItems, CancellationToken cancellationToken)
+		public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string? workingDirectory, List<ListedItem>? selectedItems, CancellationToken cancellationToken)
 		{
-			bool IsItemSelected = selectedItems?.Count > 0;
-
 			var menuItemsList = new List<ContextMenuFlyoutItemViewModel>();
-
-			var filePaths = IsItemSelected
-				? selectedItems!.Select(x => x.ItemPath).ToArray()
-				: new[] { workingDirectory };
+			string[] filePaths;
+			if (selectedItems is { Count: > 0 })
+				filePaths = selectedItems.Select(x => x.ItemPath).ToArray();
+			else if (!string.IsNullOrEmpty(workingDirectory))
+				filePaths = [workingDirectory];
+			else
+				return menuItemsList;
 
 			Func<string, bool> FilterMenuItems(bool showOpenMenu)
 			{
@@ -142,12 +143,14 @@ namespace Files.App.Helpers
 					{
 						Text = Strings.ShowMoreOptions.GetLocalizedResource(),
 						Glyph = "\xE712",
+						Items = [],
 					};
 					LoadMenuFlyoutItem(menuLayoutSubItem.Items, contextMenu, overflowItems, cancellationToken, showIcons);
 					menuItemsListLocal.Insert(0, menuLayoutSubItem);
 				}
 				else
 				{
+					moreItem.Items ??= [];
 					LoadMenuFlyoutItem(moreItem.Items, contextMenu, overflowItems, cancellationToken, showIcons);
 				}
 			}
@@ -421,7 +424,11 @@ namespace Files.App.Helpers
 				var itemsWithSubMenu = shellMenuItems.Where(x => x.LoadSubMenuAction is not null);
 				var subMenuTasks = itemsWithSubMenu.Select(async item =>
 				{
-					await item.LoadSubMenuAction();
+					var loadSubMenuAction = item.LoadSubMenuAction;
+					if (loadSubMenuAction is null)
+						return;
+
+					await loadSubMenuAction();
 					if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 					{
 						AddItemsToMainMenu(itemContextMenuFlyout.SecondaryCommands, item);
@@ -459,7 +466,7 @@ namespace Files.App.Helpers
 				var flyoutSubItem = flyout.Items.FirstOrDefault(x => x.Tag == viewModel.Tag) as MenuFlyoutSubItem;
 				if (flyoutSubItem is not null)
 				{
-					viewModel.Items.ForEach(i => flyoutSubItem.Items.Add(ContextFlyoutModelToElementHelper.GetMenuItem(i)));
+					viewModel.Items?.ForEach(i => flyoutSubItem.Items.Add(ContextFlyoutModelToElementHelper.GetMenuItem(i)));
 					flyout.Items[flyout.Items.IndexOf(flyoutSubItem) + 1].Visibility = Visibility.Collapsed;
 					flyoutSubItem.Visibility = Visibility.Visible;
 				}

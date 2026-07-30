@@ -64,13 +64,12 @@ namespace Files.App.Utils.Cloud
 				}
 
 				var folderResult = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(path).AsTask());
-				if (!folderResult)
+				if (folderResult.Result is not { } folder)
 				{
 					_logger.LogWarning($"Could not access Google Drive path as local storage: {path}");
 					continue;
 				}
 
-				var folder = folderResult.Result;
 				string title = reader["title"]?.ToString() ?? folder.Name;
 
 				Debug.WriteLine("YIELD RETURNING from `GoogleDriveCloudDetector.GetProviders()` (roots): ");
@@ -97,13 +96,12 @@ namespace Files.App.Utils.Cloud
 					continue;
 
 				var folderResult = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(path).AsTask());
-				if (!folderResult)
+				if (folderResult.Result is not { } folder)
 				{
 					_logger.LogWarning($"Could not access Google Drive path as local storage: {path}");
 					continue;
 				}
 
-				var folder = folderResult.Result;
 				string title = reader["name"]?.ToString() ?? folder.Name;
 
 				Debug.WriteLine("YIELD RETURNING from `GoogleDriveCloudDetector.GetProviders` (media): ");

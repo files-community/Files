@@ -9,7 +9,7 @@ namespace Files.App.Helpers
 {
 	public static class DependencyObjectHelpers
 	{
-		public static T FindChild<T>(DependencyObject startNode) where T : DependencyObject
+		public static T? FindChild<T>(DependencyObject startNode) where T : DependencyObject
 		{
 			int count = VisualTreeHelper.GetChildrenCount(startNode);
 			for (int i = 0; i < count; i++)
@@ -29,7 +29,7 @@ namespace Files.App.Helpers
 			return null;
 		}
 
-		public static T FindChild<T>(DependencyObject startNode, Func<T, bool> predicate) where T : DependencyObject
+		public static T? FindChild<T>(DependencyObject startNode, Func<T, bool> predicate) where T : DependencyObject
 		{
 			int count = VisualTreeHelper.GetChildrenCount(startNode);
 			for (int i = 0; i < count; i++)
@@ -70,14 +70,14 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static T FindParent<T>(DependencyObject child) where T : DependencyObject
+		public static T? FindParent<T>(DependencyObject? child) where T : DependencyObject
 		{
-			T parent = null;
+			T? parent = null;
 			if (child is null)
 			{
 				return parent;
 			}
-			DependencyObject CurrentParent = VisualTreeHelper.GetParent(child);
+			DependencyObject? CurrentParent = VisualTreeHelper.GetParent(child);
 			while (CurrentParent is not null)
 			{
 				if (CurrentParent is T)

@@ -10,7 +10,7 @@ namespace Files.App.Utils.Storage
 		private static object OrderByNameFunc(ListedItem item)
 			=> item.Name;
 
-		public static Func<ListedItem, object> GetSortFunc(SortOption directorySortOption)
+		public static Func<ListedItem, object?> GetSortFunc(SortOption directorySortOption)
 		{
 			return directorySortOption switch
 			{

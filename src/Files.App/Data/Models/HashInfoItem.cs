@@ -5,15 +5,15 @@ namespace Files.App.Data.Models
 {
 	public sealed partial class HashInfoItem : ObservableObject
 	{
-		private string _Algorithm;
-		public string Algorithm
+		private string _Algorithm = string.Empty;
+		public required string Algorithm
 		{
 			get => _Algorithm;
 			set => SetProperty(ref _Algorithm, value);
 		}
 
-		private string _HashValue;
-		public string HashValue
+		private string? _HashValue;
+		public string? HashValue
 		{
 			get => _HashValue;
 			set => SetProperty(ref _HashValue, value);

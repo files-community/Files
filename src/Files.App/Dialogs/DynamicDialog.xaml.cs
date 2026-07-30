@@ -8,14 +8,13 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class DynamicDialog : ContentDialog, IDisposable
 	{
+		private DynamicDialogViewModel? viewModel;
+
 		private FrameworkElement RootAppElement
 			=> (FrameworkElement)MainWindow.Instance.Content;
 
 		public DynamicDialogViewModel ViewModel
-		{
-			get => (DynamicDialogViewModel)DataContext;
-			private set => DataContext = value;
-		}
+			=> viewModel ?? throw new ObjectDisposedException(nameof(DynamicDialog));
 
 		public DynamicDialogResult DynamicResult
 		{
@@ -32,27 +31,28 @@ namespace Files.App.Dialogs
 			InitializeComponent();
 
 			dynamicDialogViewModel.HideDialog = Hide;
-			ViewModel = dynamicDialogViewModel;
+			viewModel = dynamicDialogViewModel;
+			DataContext = dynamicDialogViewModel;
 		}
 
 		private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
 		{
-			ViewModel.PrimaryButtonCommand.Execute(args);
+			ViewModel.PrimaryButtonCommand?.Execute(args);
 		}
 
 		private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
 		{
-			ViewModel.SecondaryButtonCommand.Execute(args);
+			ViewModel.SecondaryButtonCommand?.Execute(args);
 		}
 
 		private void ContentDialog_CloseButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
 		{
-			ViewModel.CloseButtonCommand.Execute(args);
+			ViewModel.CloseButtonCommand?.Execute(args);
 		}
 
 		private void ContentDialog_KeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
 		{
-			ViewModel.KeyDownCommand.Execute(e);
+			ViewModel.KeyDownCommand?.Execute(e);
 		}
 
 		// Focus is moved by the dialog itself while opening, so handlers that focus the
@@ -64,8 +64,9 @@ namespace Files.App.Dialogs
 
 		public void Dispose()
 		{
-			ViewModel?.Dispose();
-			ViewModel = null;
+			viewModel?.Dispose();
+			viewModel = null;
+			DataContext = null;
 		}
 	}
 }

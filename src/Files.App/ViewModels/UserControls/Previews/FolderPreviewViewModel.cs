@@ -14,7 +14,7 @@ namespace Files.App.ViewModels.Previews
 
 		public BitmapImage Thumbnail { get; set; } = new();
 
-		private BaseStorageFolder Folder { get; set; }
+		private BaseStorageFolder? Folder { get; set; }
 
 		public FolderPreviewViewModel(ListedItem item)
 			=> Item = item;
@@ -24,9 +24,13 @@ namespace Files.App.ViewModels.Previews
 
 		private async Task LoadPreviewAndDetailsAsync()
 		{
-			var rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(Item.ItemPath));
-			Folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(Item.ItemPath, rootItem);
-			var items = await Folder.GetItemsAsync();
+			var rootItem = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(Item.ItemPath));
+			var folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(Item.ItemPath, rootItem.Result);
+			if (folder is null)
+				return;
+
+			Folder = folder;
+			var items = await folder.GetItemsAsync();
 
 			var result = await FileThumbnailHelper.GetIconAsync(
 				Item.ItemPath,
@@ -35,7 +39,10 @@ namespace Files.App.ViewModels.Previews
 				IconOptions.None);
 
 			if (result is not null)
-				Thumbnail = await result.ToBitmapAsync();
+			{
+				if (await result.ToBitmapAsync() is { } thumbnail)
+					Thumbnail = thumbnail;
+			}
 
 			// If the selected item is the root of a drive (e.g. "C:\") or a cloud drive,
 			// we do not need to load the properties below, since they will not be shown.
@@ -43,20 +50,20 @@ namespace Files.App.ViewModels.Previews
 			if (Item.IsDriveRoot || infoPaneViewModel?.SelectedDriveItem is not null)
 				return;
 
-			var info = await Folder.GetBasicPropertiesAsync();
+			var info = await folder.GetBasicPropertiesAsync();
 
 			Item.FileDetails =
 			[
 				GetFileProperty("PropertyItemCount", infoPaneViewModel?.DirectoryItemCount),
 				GetFileProperty("PropertyDateModified", info.DateModified),
 				GetFileProperty("PropertyDateCreated", info.DateCreated),
-				GetFileProperty("PropertyParsingPath", Folder.Path),
+				GetFileProperty("PropertyParsingPath", folder.Path),
 			];
 
 			if (GitHelpers.IsRepositoryEx(Item.ItemPath, out var repoPath) &&
 				!string.IsNullOrEmpty(repoPath))
 			{
-				var gitDirectory = GitHelpers.GetGitRepositoryPath(Folder.Path, Path.GetPathRoot(Folder.Path));
+				var gitDirectory = GitHelpers.GetGitRepositoryPath(folder.Path, Path.GetPathRoot(folder.Path));
 				var headName = (await GitHelpers.GetRepositoryHead(gitDirectory))?.Name ?? string.Empty;
 				var repositoryName = GitHelpers.GetOriginRepositoryName(gitDirectory);
 
@@ -68,7 +75,7 @@ namespace Files.App.ViewModels.Previews
 			}
 		}
 
-		private static FileProperty GetFileProperty(string nameResource, object value)
+		private static FileProperty GetFileProperty(string nameResource, object? value)
 			=> new() { NameResource = nameResource, Value = value };
 	}
 }

@@ -35,11 +35,9 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.ShellPage?.SlimContentPage is not null)
+			if (context.SelectedItems.Count > 0)
 			{
-				var path = context.ShellPage.SlimContentPage.SelectedItems is not null
-				? context.ShellPage.SlimContentPage.SelectedItems.Select(x => x.ItemPath).Aggregate((accum, current) => accum + "\n" + current)
-				: context.ShellPage.ShellViewModel.WorkingDirectory;
+				var path = string.Join('\n', context.SelectedItems.Select(x => x.ItemPath));
 
 				if (FtpHelpers.IsFtpPath(path))
 					path = path.Replace('\\', '/');

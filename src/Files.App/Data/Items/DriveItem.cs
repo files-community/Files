@@ -14,8 +14,8 @@ namespace Files.App.Data.Items
 {
 	public sealed partial class DriveItem : ExpandableSidebarItemBase, INavigationControlItem, IFolder, IExpandableSidebarFolder
 	{
-		private BitmapImage icon;
-		public BitmapImage Icon
+		private BitmapImage? icon;
+		public BitmapImage? Icon
 		{
 			get => icon;
 			set
@@ -25,18 +25,18 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public byte[] IconData { get; set; }
+		public byte[]? IconData { get; set; }
 
-		private string path;
+		private string path = string.Empty;
 		public string Path
 		{
 			get => path;
 			set => path = value;
 		}
 
-		public string DeviceID { get; set; }
+		public string DeviceID { get; set; } = string.Empty;
 
-		public StorageFolder Root { get; set; }
+		public StorageFolder? Root { get; set; }
 
 		public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
 
@@ -137,14 +137,14 @@ namespace Files.App.Data.Items
 			set => SetProperty(ref filesystem, value);
 		}
 
-		private string text;
+		private string text = string.Empty;
 		public string Text
 		{
 			get => text;
 			set => SetProperty(ref text, value);
 		}
 
-		private string spaceText;
+		private string spaceText = string.Empty;
 		public string SpaceText
 		{
 			get => spaceText;
@@ -153,7 +153,7 @@ namespace Files.App.Data.Items
 
 		public SectionType Section { get; set; }
 
-		public ContextMenuOptions MenuOptions { get; set; }
+		public ContextMenuOptions MenuOptions { get; set; } = new();
 
 		private float percentageUsed = 0.0f;
 		public float PercentageUsed
@@ -177,7 +177,7 @@ namespace Files.App.Data.Items
 		}
 
 		public string Id => Path;
-		public string Name => Root.DisplayName;
+		public string Name => Root?.DisplayName ?? Text;
 
 		public object? Children => IsExpandableFolder ? (childItems ??= []) : null;
 		private BulkConcurrentObservableCollection<INavigationControlItem>? childItems;
@@ -235,7 +235,7 @@ namespace Files.App.Data.Items
 			DriveHelpers.EjectDeviceAsync(Path);
 		}
 
-		public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, string label, DriveType type, IRandomAccessStream imageStream = null)
+		public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, string label, DriveType type, IRandomAccessStream? imageStream = null)
 		{
 			var item = new DriveItem();
 
@@ -266,11 +266,15 @@ namespace Files.App.Data.Items
 
 		public async Task UpdateLabelAsync()
 		{
+			if (Root is not { } root)
+				return;
+
 			try
 			{
-				var properties = await Root.Properties.RetrievePropertiesAsync(["System.ItemNameDisplay"])
+				var properties = await root.Properties.RetrievePropertiesAsync(["System.ItemNameDisplay"])
 					.AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
-				Text = (string)properties["System.ItemNameDisplay"];
+				if (properties?.TryGetValue("System.ItemNameDisplay", out var value) == true && value is string displayName)
+					Text = displayName;
 			}
 			catch (NullReferenceException)
 			{
@@ -304,6 +308,9 @@ namespace Files.App.Data.Items
 					}
 					catch { }
 				}
+
+				if (Root is null)
+					return;
 
 				var properties = await Root.Properties.RetrievePropertiesAsync(["System.FreeSpace", "System.Capacity", "System.Volume.FileSystem"])
 					.AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
@@ -350,6 +357,9 @@ namespace Files.App.Data.Items
 
 		public int CompareTo(INavigationControlItem? other)
 		{
+			if (other is null)
+				return 1;
+
 			var result = Type.CompareTo((other as DriveItem)?.Type ?? Type);
 			return result == 0 ? Text.CompareTo(other.Text) : result;
 		}

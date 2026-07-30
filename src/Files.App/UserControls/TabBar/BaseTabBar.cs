@@ -12,7 +12,7 @@ namespace Files.App.UserControls.TabBar
 	/// </summary>
 	public abstract class BaseTabBar : UserControl, ITabBar, INotifyPropertyChanged
 	{
-		protected ITabBarItemContent CurrentSelectedAppInstance;
+		protected ITabBarItemContent? CurrentSelectedAppInstance;
 
 		public static event EventHandler<ITabBar>? OnLoaded;
 		public static event PropertyChangedEventHandler? StaticPropertyChanged;
@@ -28,7 +28,7 @@ namespace Files.App.UserControls.TabBar
 		public ObservableCollection<TabBarItem> Items
 			=> MainPageViewModel.AppInstances;
 
-		public event EventHandler<CurrentInstanceChangedEventArgs> CurrentInstanceChanged;
+		public event EventHandler<CurrentInstanceChangedEventArgs>? CurrentInstanceChanged;
 
 		private static bool _IsRestoringClosedTab;
 		public static bool IsRestoringClosedTab
@@ -46,12 +46,12 @@ namespace Files.App.UserControls.TabBar
 			Loaded += TabView_Loaded;
 		}
 
-		public virtual DependencyObject ContainerFromItem(ITabBarItem item)
+		public virtual DependencyObject? ContainerFromItem(ITabBarItem item)
 		{
 			return null;
 		}
 
-		private void TabView_CurrentInstanceChanged(object sender, CurrentInstanceChangedEventArgs e)
+		private void TabView_CurrentInstanceChanged(object? sender, CurrentInstanceChangedEventArgs e)
 		{
 			foreach (ITabBarItemContent instance in e.PageInstances)
 			{
@@ -62,7 +62,7 @@ namespace Files.App.UserControls.TabBar
 			}
 		}
 
-		protected void TabView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected void TabView_SelectionChanged(object? sender, SelectionChangedEventArgs? e)
 		{
 			if (App.AppModel.TabStripSelectedIndex >= 0 && App.AppModel.TabStripSelectedIndex < Items.Count)
 			{
@@ -100,7 +100,7 @@ namespace Files.App.UserControls.TabBar
 			OnLoaded?.Invoke(null, this);
 		}
 
-		public ITabBarItemContent GetCurrentSelectedTabInstance()
+		public ITabBarItemContent? GetCurrentSelectedTabInstance()
 		{
 			return MainPageViewModel.AppInstances[App.AppModel.TabStripSelectedIndex].TabItemContent;
 		}
@@ -118,7 +118,7 @@ namespace Files.App.UserControls.TabBar
 
 		public List<ITabBarItemContent> GetAllTabInstances()
 		{
-			return MainPageViewModel.AppInstances.Select(x => x.TabItemContent).ToList();
+			return MainPageViewModel.AppInstances.Select(x => x.TabItemContent).OfType<ITabBarItemContent>().ToList();
 		}
 
 		public async Task ReopenClosedTabAsync()
@@ -136,10 +136,11 @@ namespace Files.App.UserControls.TabBar
 
 		public async void MoveTabToNewWindowAsync(object sender, RoutedEventArgs e)
 		{
-			await MultitaskingTabsHelpers.MoveTabToNewWindow(((FrameworkElement)sender).DataContext as TabBarItem, this);
+			if (sender is FrameworkElement { DataContext: TabBarItem tabItem })
+				await MultitaskingTabsHelpers.MoveTabToNewWindow(tabItem, this);
 		}
 
-		public void CloseTab(TabBarItem tabItem)
+		public void CloseTab(TabBarItem? tabItem)
 		{
 			if (tabItem is null)
 				return;
@@ -148,10 +149,8 @@ namespace Files.App.UserControls.TabBar
 			tabItem.Unload();
 
 			// Dispose and save tab arguments
-			PushRecentTab(
-			[
-				tabItem.NavigationParameter,
-			]);
+			if (tabItem.NavigationParameter is { } navigationParameter)
+				PushRecentTab([navigationParameter]);
 
 			// Save the updated tab list
 			AppLifecycleHelper.SaveSessionTabs();

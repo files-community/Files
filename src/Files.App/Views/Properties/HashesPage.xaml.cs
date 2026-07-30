@@ -11,7 +11,7 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class HashesPage : BasePropertiesPage
 	{
-		private HashesViewModel HashesViewModel { get; set; }
+		private HashesViewModel? HashesViewModel { get; set; }
 
 		private bool _cancel;
 
@@ -60,7 +60,7 @@ namespace Files.App.Views.Properties
 
 		public override void Dispose()
 		{
-			HashesViewModel.Dispose();
+			HashesViewModel?.Dispose();
 		}
 	}
 }

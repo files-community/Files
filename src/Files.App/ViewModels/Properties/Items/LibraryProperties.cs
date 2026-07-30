@@ -12,12 +12,9 @@ namespace Files.App.ViewModels.Properties
 
 		public LibraryProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource,
 			DispatcherQueue coreDispatcher, LibraryItem item, IShellPage instance)
+			: base(viewModel, tokenSource, coreDispatcher, instance)
 		{
-			ViewModel = viewModel;
-			TokenSource = tokenSource;
-			Dispatcher = coreDispatcher;
 			Library = item;
-			AppInstance = instance;
 
 			GetBaseProperties();
 			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
@@ -64,7 +61,10 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.LoadFileIcon = true;
 			}
 
-			BaseStorageFile libraryFile = await AppInstance.ShellViewModel.GetFileFromPathAsync(Library.ItemPath);
+			if (AppInstance.ShellViewModel is not { } shellViewModel)
+				return;
+
+			BaseStorageFile? libraryFile = (await shellViewModel.GetFileFromPathAsync(Library.ItemPath)).Result;
 			if (libraryFile is not null)
 			{
 				ViewModel.ItemCreatedTimestampReal = libraryFile.DateCreated;
@@ -81,8 +81,8 @@ namespace Files.App.ViewModels.Properties
 				{
 					foreach (var path in Library.Folders)
 					{
-						BaseStorageFolder folder = await AppInstance.ShellViewModel.GetFolderFromPathAsync(path);
-						if (!string.IsNullOrEmpty(folder.Path))
+						BaseStorageFolder? folder = (await AppInstance.ShellViewModel.GetFolderFromPathAsync(path)).Result;
+						if (folder is not null && !string.IsNullOrEmpty(folder.Path))
 						{
 							storageFolders.Add(folder);
 						}
@@ -138,7 +138,7 @@ namespace Files.App.ViewModels.Properties
 			SetItemsCountString();
 		}
 
-		private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{

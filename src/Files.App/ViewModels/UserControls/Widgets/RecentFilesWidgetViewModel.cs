@@ -305,35 +305,36 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		private void ExecuteOpenFileLocationCommand(RecentItem? item)
 		{
-			if (item is null)
+			var shellPage = ContentPageContext.ShellPage;
+			if (item is null || string.IsNullOrEmpty(item.Path) || shellPage is null)
 				return;
 
 			var itemPath = Directory.GetParent(item.Path)?.FullName ?? string.Empty;
 			var itemName = Path.GetFileName(item.Path);
 
-			ContentPageContext.ShellPage!.NavigateWithArguments(
-				ContentPageContext.ShellPage!.InstanceViewModel.FolderSettings.GetLayoutType(itemPath),
+			shellPage.NavigateWithArguments(
+				shellPage.InstanceViewModel.FolderSettings.GetLayoutType(itemPath),
 				new NavigationArguments()
 				{
 					NavPathParam = itemPath,
 					SelectItems = new[] { itemName },
-					AssociatedTabInstance = ContentPageContext.ShellPage!
+					AssociatedTabInstance = shellPage
 				});
 		}
 
 		private void ExecuteOpenPropertiesCommand(RecentItem? item)
 		{
 			var flyout = HomePageContext.ItemContextFlyoutMenu;
+			var shellPage = ContentPageContext.ShellPage;
 
-			if (item is null || flyout is null)
+			if (item is null || string.IsNullOrEmpty(item.Path) || flyout is null || shellPage is null)
 				return;
 
-			EventHandler<object> flyoutClosed = null!;
-			flyoutClosed = async (s, e) =>
+			async void FlyoutClosed(object? sender, object args)
 			{
-				flyout!.Closed -= flyoutClosed;
+				flyout.Closed -= FlyoutClosed;
 
-				BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path));
+				BaseStorageFile? file = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path));
 				if (file is null)
 				{
 					ContentDialog dialog = new()
@@ -350,12 +351,13 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				}
 				else
 				{
-					var listedItem = await UniversalStorageEnumerator.AddFileAsync(file, null!, default);
-					FilePropertiesHelpers.OpenPropertiesWindow(listedItem, ContentPageContext.ShellPage!);
+					var listedItem = await UniversalStorageEnumerator.AddFileAsync(file, null, default);
+					if (listedItem is not null)
+						FilePropertiesHelpers.OpenPropertiesWindow(listedItem, shellPage);
 				}
-			};
+			}
 
-			flyout!.Closed += flyoutClosed;
+			flyout.Closed += FlyoutClosed;
 		}
 
 		// Disposer

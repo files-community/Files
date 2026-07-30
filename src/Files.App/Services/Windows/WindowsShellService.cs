@@ -6,7 +6,7 @@ namespace Files.App.Services
 	/// <inheritdoc cref="IAddItemService"/>
 	internal sealed class AddItemService : IAddItemService
 	{
-		private List<ShellNewEntry> _cached;
+		private List<ShellNewEntry> _cached = [];
 
 		public async Task InitializeAsync()
 		{

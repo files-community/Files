@@ -32,9 +32,9 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (IsOn)
-				ContentPageContext.ShellPage?.PaneHolder.CloseOtherPane();
-			else
-				ContentPageContext.ShellPage?.PaneHolder.OpenSecondaryPane(ContentPageContext.ShellPage!.ShellViewModel.WorkingDirectory, generalSettingsService.ShellPaneArrangementOption);
+				ContentPageContext.ShellPage?.PaneHolder?.CloseOtherPane();
+			else if (ContentPageContext.ShellPage is { PaneHolder: { } paneHolder, ShellViewModel: { } shellViewModel })
+				paneHolder.OpenSecondaryPane(shellViewModel.WorkingDirectory, generalSettingsService.ShellPaneArrangementOption);
 
 			return Task.CompletedTask;
 		}

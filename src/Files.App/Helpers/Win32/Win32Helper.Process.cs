@@ -12,17 +12,22 @@ namespace Files.App.Helpers
 	/// </summary>
 	public static partial class Win32Helper
 	{
-		public static async Task<bool> InvokeWin32ComponentAsync(string applicationPath, IShellPage associatedInstance, string arguments = null, bool runAsAdmin = false, string workingDirectory = null)
+		public static async Task<bool> InvokeWin32ComponentAsync(string applicationPath, IShellPage associatedInstance, string? arguments = null, bool runAsAdmin = false, string? workingDirectory = null)
 		{
 			return await InvokeWin32ComponentsAsync(applicationPath.CreateEnumerable(), associatedInstance, arguments, runAsAdmin, workingDirectory);
 		}
 
-		public static async Task<bool> InvokeWin32ComponentsAsync(IEnumerable<string> applicationPaths, IShellPage associatedInstance, string arguments = null, bool runAsAdmin = false, string workingDirectory = null)
+		public static async Task<bool> InvokeWin32ComponentsAsync(IEnumerable<string> applicationPaths, IShellPage associatedInstance, string? arguments = null, bool runAsAdmin = false, string? workingDirectory = null)
 		{
 			var application = applicationPaths.FirstOrDefault();
+			if (string.IsNullOrWhiteSpace(application))
+				return false;
 
-			if (string.IsNullOrEmpty(workingDirectory) && associatedInstance?.ShellViewModel != null && !associatedInstance.ShellViewModel.IsSearchResults)
-				workingDirectory = associatedInstance.ShellViewModel.WorkingDirectory;
+			if (string.IsNullOrEmpty(workingDirectory) &&
+				associatedInstance.ShellViewModel is { IsSearchResults: false } shellViewModel)
+			{
+				workingDirectory = shellViewModel.WorkingDirectory;
+			}
 
 			if (runAsAdmin)
 			{
@@ -32,9 +37,9 @@ namespace Files.App.Helpers
 					ProcessStartInfo startInfo = new ProcessStartInfo
 					{
 						FileName = application,
-						Arguments = arguments,
+						Arguments = arguments ?? string.Empty,
 						Verb = "runas",
-						WorkingDirectory = workingDirectory,
+						WorkingDirectory = workingDirectory ?? string.Empty,
 						UseShellExecute = true
 					};
 
@@ -54,7 +59,7 @@ namespace Files.App.Helpers
 			}
 			else
 			{
-				return await LaunchHelper.LaunchAppAsync(application, arguments, workingDirectory);
+				return await LaunchHelper.LaunchAppAsync(application, arguments ?? string.Empty, workingDirectory ?? string.Empty);
 			}
 		}
 

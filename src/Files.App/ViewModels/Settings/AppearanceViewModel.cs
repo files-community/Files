@@ -61,6 +61,7 @@ namespace Files.App.ViewModels.Settings
 			selectedBackdropMaterial = BackdropMaterialTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial];
 
 			AppThemeResources = AppThemeResourceFactory.AppThemeResources;
+			selectedAppThemeResources = AppThemeResources[0];
 
 
 			// Background image fit options
@@ -296,7 +297,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedImageStretchType;
+		private string selectedImageStretchType = string.Empty;
 		public string SelectedImageStretchType
 		{
 			get => selectedImageStretchType;
@@ -323,7 +324,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedImageVerticalAlignmentType;
+		private string selectedImageVerticalAlignmentType = string.Empty;
 		public string SelectedImageVerticalAlignmentType
 		{
 			get => selectedImageVerticalAlignmentType;
@@ -336,7 +337,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedImageHorizontalAlignmentType;
+		private string selectedImageHorizontalAlignmentType = string.Empty;
 		public string SelectedImageHorizontalAlignmentType
 		{
 			get => selectedImageHorizontalAlignmentType;
@@ -405,7 +406,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedStatusCenterVisibilityOption;
+		private string selectedStatusCenterVisibilityOption = string.Empty;
 		public string SelectedStatusCenterVisibilityOption
 		{
 			get => selectedStatusCenterVisibilityOption;

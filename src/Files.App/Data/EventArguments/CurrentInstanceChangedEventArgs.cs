@@ -5,8 +5,8 @@ namespace Files.App.Data.EventArguments
 {
 	public sealed class CurrentInstanceChangedEventArgs : EventArgs
 	{
-		public ITabBarItemContent CurrentInstance { get; set; }
+		public required ITabBarItemContent CurrentInstance { get; set; }
 
-		public List<ITabBarItemContent> PageInstances { get; set; }
+		public required List<ITabBarItemContent> PageInstances { get; set; }
 	}
 }

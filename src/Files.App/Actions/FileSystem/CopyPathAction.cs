@@ -35,9 +35,9 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.ShellPage?.SlimContentPage is not null)
+			if (context.ShellPage?.ShellViewModel?.WorkingDirectory is { } workingDirectory)
 			{
-				var path = context.ShellPage.ShellViewModel.WorkingDirectory;
+				var path = workingDirectory;
 
 				if (FtpHelpers.IsFtpPath(path))
 					path = path.Replace('\\', '/');

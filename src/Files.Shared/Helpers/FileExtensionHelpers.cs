@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 
@@ -120,7 +121,7 @@ namespace Files.Shared.Helpers
 			return HasExtension(fileExtensionToCheck, ".zip", ".msix", ".appx", ".msixbundle", ".appxbundle", ".7z", ".rar", ".tar", ".mcpack", ".mcworld", ".mrpack", ".jar", ".gz", ".lzh");
 		}
 
-		public static bool IsBrowsableZipFile(string? filePath, out string? ext)
+		public static bool IsBrowsableZipFile(string? filePath, [NotNullWhen(true)] out string? ext)
 		{
 			if (string.IsNullOrWhiteSpace(filePath))
 			{

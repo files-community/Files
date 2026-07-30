@@ -33,11 +33,11 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.ShellPage is null)
+			if (context.ShellPage is not { ShellViewModel: { } shellViewModel } shellPage)
 				return Task.CompletedTask;
 
-			string path = context.ShellPage.ShellViewModel.WorkingDirectory;
-			return UIFilesystemHelpers.PasteItemAsShortcutAsync(path, context.ShellPage);
+			string path = shellViewModel.WorkingDirectory;
+			return UIFilesystemHelpers.PasteItemAsShortcutAsync(path, shellPage);
 		}
 
 		public bool GetIsExecutable()

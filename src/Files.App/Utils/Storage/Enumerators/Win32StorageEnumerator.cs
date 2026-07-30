@@ -11,7 +11,7 @@ namespace Files.App.Utils.Storage
 {
 	public static class Win32StorageEnumerator
 	{
-		private static readonly ISizeProvider folderSizeProvider = Ioc.Default.GetService<ISizeProvider>();
+		private static readonly ISizeProvider folderSizeProvider = Ioc.Default.GetRequiredService<ISizeProvider>();
 		private static readonly IStorageCacheService fileListCache = Ioc.Default.GetRequiredService<IStorageCacheService>();
 
 		private static readonly string folderTypeTextLocalized = Strings.Folder.GetLocalizedResource();
@@ -120,11 +120,11 @@ namespace Files.App.Utils.Storage
 		public static ListedItem GetAlternateStream((string Name, long Size) ads, ListedItem main)
 		{
 			string itemType = Strings.File.GetLocalizedResource();
-			string itemFileExtension = null;
+			var itemFileExtension = string.Empty;
 
 			if (ads.Name.Contains('.'))
 			{
-				itemFileExtension = Path.GetExtension(ads.Name);
+				itemFileExtension = Path.GetExtension(ads.Name) ?? string.Empty;
 				itemType = itemFileExtension.Trim('.') + " " + itemType;
 			}
 
@@ -149,7 +149,7 @@ namespace Files.App.Utils.Storage
 			};
 		}
 
-		public static async Task<ListedItem> GetFolder(
+		public static async Task<ListedItem?> GetFolder(
 			Win32PInvoke.WIN32_FIND_DATA findData,
 			string pathRoot,
 			bool isGitRepo,
@@ -202,7 +202,7 @@ namespace Files.App.Utils.Storage
 					Opacity = opacity,
 					LoadFileIcon = false,
 					ItemPath = itemPath,
-					FileSize = null,
+					FileSize = string.Empty,
 					FileSizeBytes = 0,
 				};
 			}
@@ -220,13 +220,13 @@ namespace Files.App.Utils.Storage
 					Opacity = opacity,
 					LoadFileIcon = false,
 					ItemPath = itemPath,
-					FileSize = null,
+					FileSize = string.Empty,
 					FileSizeBytes = 0,
 				};
 			}
 		}
 
-		public static async Task<ListedItem> GetFile(
+		public static async Task<ListedItem?> GetFile(
 			Win32PInvoke.WIN32_FIND_DATA findData,
 			string pathRoot,
 			bool isGitRepo,
@@ -258,11 +258,11 @@ namespace Files.App.Utils.Storage
 			long itemSizeBytes = findData.GetSize();
 			var itemSize = itemSizeBytes.ToSizeString();
 			string itemType = Strings.File.GetLocalizedResource();
-			string itemFileExtension = null;
+			var itemFileExtension = string.Empty;
 
 			if (findData.cFileName.Contains('.'))
 			{
-				itemFileExtension = Path.GetExtension(itemPath);
+				itemFileExtension = Path.GetExtension(itemPath) ?? string.Empty;
 				itemType = itemFileExtension.Trim('.') + " " + itemType;
 			}
 
@@ -300,7 +300,7 @@ namespace Files.App.Utils.Storage
 						ItemPath = itemPath,
 						FileSize = itemSize,
 						FileSizeBytes = itemSizeBytes,
-						TargetPath = targetPath,
+						TargetPath = targetPath ?? string.Empty,
 						IsSymLink = true,
 					};
 				}
@@ -322,7 +322,7 @@ namespace Files.App.Utils.Storage
 						ItemPath = itemPath,
 						FileSize = itemSize,
 						FileSizeBytes = itemSizeBytes,
-						TargetPath = targetPath,
+						TargetPath = targetPath ?? string.Empty,
 						IsSymLink = true
 					};
 				}
@@ -388,7 +388,7 @@ namespace Files.App.Utils.Storage
 					};
 				}
 			}
-			else if (App.LibraryManager.TryGetLibrary(itemPath, out LibraryLocationItem library))
+			else if (App.LibraryManager.TryGetLibrary(itemPath, out var library))
 			{
 				return new LibraryItem(library)
 				{

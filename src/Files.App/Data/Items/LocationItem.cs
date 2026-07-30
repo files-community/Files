@@ -14,8 +14,8 @@ namespace Files.App.Data.Items
 {
 	public partial class LocationItem : ExpandableSidebarItemBase, INavigationControlItem, IExpandableSidebarFolder
 	{
-		public BitmapImage icon;
-		public BitmapImage Icon
+		public BitmapImage? icon;
+		public BitmapImage? Icon
 		{
 			get => icon;
 			set
@@ -25,7 +25,7 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public byte[] IconData { get; set; }
+		public byte[]? IconData { get; set; }
 
 		private string text = "";
 		public string Text
@@ -40,7 +40,7 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		private string path;
+		private string path = string.Empty;
 		public string Path
 		{
 			get => path;
@@ -222,7 +222,7 @@ namespace Files.App.Data.Items
 				IsExpandableFolder = true,
 				HasUnrealizedChildren = entry.HasSubfolders,
 				IsHidden = entry.IsHidden,
-				Icon = sharedIcon!,
+				Icon = sharedIcon,
 				MenuOptions = new ContextMenuOptions
 				{
 					IsLocationItem = true,
@@ -240,7 +240,7 @@ namespace Files.App.Data.Items
 
 		public SectionType Section { get; set; }
 
-		public ContextMenuOptions MenuOptions { get; set; }
+		public ContextMenuOptions MenuOptions { get; set; } = new();
 
 		public bool IsHeader { get; set; }
 
@@ -257,7 +257,7 @@ namespace Files.App.Data.Items
 		public FrameworkElement? ItemDecorator => null;
 
 		public int CompareTo(INavigationControlItem? other)
-			=> Text.CompareTo(other.Text);
+			=> other is null ? 1 : Text.CompareTo(other.Text);
 
 		public static T Create<T>() where T : LocationItem, new()
 		{

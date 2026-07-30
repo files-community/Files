@@ -13,12 +13,12 @@ namespace Files.App.ViewModels.Properties
 	public sealed partial class HashesViewModel : ObservableObject, IDisposable
 	{
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private readonly AppWindow _appWindow;
 
-		private HashInfoItem _selectedItem;
-		public HashInfoItem SelectedItem
+		private HashInfoItem? _selectedItem;
+		public HashInfoItem? SelectedItem
 		{
 			get => _selectedItem;
 			set => SetProperty(ref _selectedItem, value);
@@ -35,7 +35,7 @@ namespace Files.App.ViewModels.Properties
 
 		private CancellationTokenSource _cancellationTokenSource;
 
-		private string _hashInput;
+		private string _hashInput = string.Empty;
 		public string HashInput
 		{
 			get => _hashInput;
@@ -55,7 +55,7 @@ namespace Files.App.ViewModels.Properties
 			set => SetProperty(ref _infoBarSeverity, value);
 		}
 
-		private string _infoBarTitle;
+		private string _infoBarTitle = string.Empty;
 		public string InfoBarTitle
 		{
 			get => _infoBarTitle;

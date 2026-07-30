@@ -154,11 +154,11 @@ namespace Files.App.Utils.Storage
 			var sw = new Stopwatch();
 			sw.Start();
 
-			IStorageHistory history = await filesystemOperations.DeleteItemsAsync((IList<IStorageItemWithPath>)source, banner.ProgressEventSource, permanently, token);
+			IStorageHistory? history = await filesystemOperations.DeleteItemsAsync((IList<IStorageItemWithPath>)source, banner.ProgressEventSource, permanently, token);
 			banner.Progress.ReportStatus(FileSystemStatusCode.Success);
 			await Task.Yield();
 
-			if (!permanently && registerHistory)
+			if (!permanently && registerHistory && history is not null)
 				App.HistoryWrapper.AddHistory(history);
 
 			// Execute removal tasks concurrently in background
@@ -210,10 +210,10 @@ namespace Files.App.Utils.Storage
 			var sw = new Stopwatch();
 			sw.Start();
 
-			IStorageHistory history = await filesystemOperations.RestoreItemsFromTrashAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, progress, cancellationToken);
+			IStorageHistory? history = await filesystemOperations.RestoreItemsFromTrashAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, progress, cancellationToken);
 			await Task.Yield();
 
-			if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
+			if (registerHistory && history is not null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
 			{
 				App.HistoryWrapper.AddHistory(history);
 			}
@@ -313,21 +313,24 @@ namespace Files.App.Utils.Storage
 
 			itemManipulationModel?.ClearSelection();
 
-			IStorageHistory history = await filesystemOperations.CopyItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.ProgressEventSource, token);
+			IStorageHistory? history = await filesystemOperations.CopyItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.ProgressEventSource, token);
 
 			if (returnStatus == ReturnResult.InProgress || returnStatus == ReturnResult.Success)
 				banner.Progress.ReportStatus(FileSystemStatusCode.Success);
 
-			if (registerHistory && history is not null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
+			if (registerHistory &&
+				history?.Destination is { } historyDestinations &&
+				source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
 			{
-				foreach (var (histSrcItem, histDestItem) in history.Source.Zip(history.Destination))
+				foreach (var (histSrcItem, histDestItem) in history.Source.Zip(historyDestinations))
 				{
 					foreach (var conflictItem in itemsResult)
 					{
 						if (!string.IsNullOrEmpty(conflictItem.CustomName) && conflictItem.SourcePath == histSrcItem.Path && Path.GetFileName(conflictItem.SourcePath) != conflictItem.CustomName)
 						{
 							var renameHistory = await filesystemOperations.RenameAsync(histDestItem, conflictItem.CustomName, NameCollisionOption.FailIfExists, banner.ProgressEventSource, token);
-							history.Destination[history.Source.IndexOf(histSrcItem)] = renameHistory.Destination[0];
+							if (renameHistory?.Destination is { Count: > 0 } renameDestinations)
+								historyDestinations[history.Source.IndexOf(histSrcItem)] = renameDestinations[0];
 						}
 					}
 				}
@@ -391,6 +394,9 @@ namespace Files.App.Utils.Storage
 					var imgSource = await packageView.GetBitmapAsync();
 					using var imageStream = await imgSource.OpenReadAsync();
 					var folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(destination);
+					if (folder is null)
+						return ReturnResult.Failed;
+
 					// Set the name of the file to be the current time and date
 					var file = await folder.CreateFileAsync($"{DateTime.Now:MM-dd-yy-HHmmss}.png", CreationCollisionOption.GenerateUniqueName);
 
@@ -452,23 +458,26 @@ namespace Files.App.Utils.Storage
 
 			itemManipulationModel?.ClearSelection();
 
-			IStorageHistory history = await filesystemOperations.MoveItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.ProgressEventSource, token);
+			IStorageHistory? history = await filesystemOperations.MoveItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.ProgressEventSource, token);
 
 			if (returnStatus == ReturnResult.InProgress || returnStatus == ReturnResult.Success)
 				banner.Progress.ReportStatus(FileSystemStatusCode.Success);
 
 			await Task.Yield();
 
-			if (registerHistory && history is not null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
+			if (registerHistory &&
+				history?.Destination is { } historyDestinations &&
+				source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
 			{
-				foreach (var (histSrcItem, histDestItem) in history.Source.Zip(history.Destination))
+				foreach (var (histSrcItem, histDestItem) in history.Source.Zip(historyDestinations))
 				{
 					foreach (var conflictItem in itemsResult)
 					{
 						if (!string.IsNullOrEmpty(conflictItem.CustomName) && conflictItem.SourcePath == histSrcItem.Path)
 						{
 							var renameHistory = await filesystemOperations.RenameAsync(histDestItem, conflictItem.CustomName, NameCollisionOption.FailIfExists, banner.ProgressEventSource, token);
-							history.Destination[history.Source.IndexOf(histSrcItem)] = renameHistory.Destination[0];
+							if (renameHistory?.Destination is { Count: > 0 } renameDestinations)
+								historyDestinations[history.Source.IndexOf(histSrcItem)] = renameDestinations[0];
 						}
 					}
 				}
@@ -653,7 +662,7 @@ namespace Files.App.Utils.Storage
 
 			foreach (var (src, dest) in source.Zip(destination))
 			{
-				string itemPathOrName = string.IsNullOrEmpty(src.Path) ? src.Item.Name : src.Path;
+				string itemPathOrName = string.IsNullOrEmpty(src.Path) ? src.Name : src.Path;
 				var incomingItem = new FileSystemDialogConflictItemViewModel
 				{
 					ConflictResolveOption = FileNameConflictResolveOptionType.None,
@@ -666,7 +675,7 @@ namespace Files.App.Utils.Storage
 				{
 					// Something strange happened, log
 					App.Logger.LogWarning($"Duplicate key when resolving conflicts: {itemPathOrName}, {src.Name}\n" +
-						$"Source: {string.Join(", ", source.Select(x => string.IsNullOrEmpty(x.Path) ? x.Item.Name : x.Path))}");
+						$"Source: {string.Join(", ", source.Select(x => string.IsNullOrEmpty(x.Path) ? x.Name : x.Path))}");
 				}
 
 				// Assume GenerateNewName when source and destination are the same
@@ -713,7 +722,8 @@ namespace Files.App.Utils.Storage
 				collisions.Clear();
 				foreach (var item in itemsResult)
 				{
-					collisions.TryAdd(item.SourcePath!, item.ConflictResolveOption);
+					if (!string.IsNullOrEmpty(item.SourcePath))
+						collisions.TryAdd(item.SourcePath, item.ConflictResolveOption);
 				}
 			}
 
@@ -722,7 +732,7 @@ namespace Files.App.Utils.Storage
 
 			foreach (var src in source)
 			{
-				var itemPathOrName = string.IsNullOrEmpty(src.Path) ? src.Item.Name : src.Path;
+				var itemPathOrName = string.IsNullOrEmpty(src.Path) ? src.Name : src.Path;
 				bool found = collisions.TryGetValue(itemPathOrName, out var match);
 				var fileNameConflictResolveOptionType = found ? match : FileNameConflictResolveOptionType.Skip;
 				newCollisions.Add(fileNameConflictResolveOptionType);
@@ -842,7 +852,7 @@ namespace Files.App.Utils.Storage
 				}
 			}
 
-			itemsList = itemsList.DistinctBy(x => string.IsNullOrEmpty(x.Path) ? x.Item.Name : x.Path).ToList();
+			itemsList = itemsList.DistinctBy(x => string.IsNullOrEmpty(x.Path) ? x.Name : x.Path).ToList();
 			return itemsList;
 		}
 

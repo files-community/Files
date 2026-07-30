@@ -9,8 +9,6 @@ namespace Files.App.Utils.Storage
 
 		private readonly object m_Lock;
 
-		private T m_Current;
-
 		private int m_Pos;
 
 		public T Current
@@ -18,11 +16,16 @@ namespace Files.App.Utils.Storage
 			get
 			{
 				lock (m_Lock)
-					return m_Current;
+				{
+					if (m_Pos < 0 || m_Pos >= m_Inner.Count)
+						throw new InvalidOperationException();
+
+					return m_Inner[m_Pos];
+				}
 			}
 		}
 
-		object IEnumerator.Current
+		object? IEnumerator.Current
 			=> Current;
 
 		public BlockingListEnumerator(IList<T> inner, object @lock)
@@ -42,10 +45,6 @@ namespace Files.App.Utils.Storage
 			{
 				m_Pos++;
 				var hasNext = m_Pos < m_Inner.Count;
-				if (hasNext)
-				{
-					m_Current = m_Inner[m_Pos];
-				}
 				return hasNext;
 			}
 		}

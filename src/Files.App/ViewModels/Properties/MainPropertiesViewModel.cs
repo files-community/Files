@@ -59,7 +59,8 @@ namespace Files.App.ViewModels.Properties
 			foreach (var navItem in NavigationItems)
 				FlatNavigationItems.Add(new FlatSidebarItem(navItem, 0));
 
-			SelectedNavigationItem = NavigationItems.First(x => x.ItemType == PropertiesNavigationViewItemType.General);
+			_SelectedNavigationItem = NavigationItems.First(x => x.ItemType == PropertiesNavigationViewItemType.General);
+			NavigateToPage(_SelectedNavigationItem);
 		}
 
 		private void NavigateToPage(PropertiesNavigationItem item)

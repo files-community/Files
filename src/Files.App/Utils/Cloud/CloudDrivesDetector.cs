@@ -10,11 +10,11 @@ namespace Files.App.Utils.Cloud
 	[SupportedOSPlatform("Windows10.0.10240")]
 	public sealed class CloudDrivesDetector
 	{
-		private readonly static string programFilesFolder = Environment.GetEnvironmentVariable("ProgramFiles");
+		private readonly static string programFilesFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
 
 		public static async Task<IEnumerable<ICloudProvider>> DetectCloudDrives()
 		{
-			var tasks = new Task<IEnumerable<ICloudProvider>>[]
+			var tasks = new Task<IEnumerable<ICloudProvider>?>[]
 			{
 				SafetyExtensions.IgnoreExceptions(DetectOneDrive, App.Logger),
 				SafetyExtensions.IgnoreExceptions(DetectSharepoint, App.Logger),
@@ -26,11 +26,11 @@ namespace Files.App.Utils.Cloud
 				SafetyExtensions.IgnoreExceptions(DetectAutodeskDrive, App.Logger),
 			};
 
-			await Task.WhenAll(tasks);
+			var results = await Task.WhenAll(tasks);
 
-			return tasks
-				.Where(o => o.Result is not null)
-				.SelectMany(o => o.Result)
+			return results
+				.WhereNotNull()
+				.SelectMany(providers => providers)
 				.OrderBy(o => o.ID.ToString())
 				.ThenBy(o => o.Name)
 				.Distinct();
@@ -121,7 +121,7 @@ namespace Files.App.Utils.Cloud
 							CloudProviders.LucidLink => !string.IsNullOrEmpty(clsidDefaultValue) ? clsidDefaultValue : "lucidLink",
 							CloudProviders.SyncDrive => !string.IsNullOrEmpty(clsidDefaultValue) ? clsidDefaultValue : "Sync",
 							CloudProviders.MagentaCloud => !string.IsNullOrEmpty(clsidDefaultValue) ? clsidDefaultValue : "MagentaCLOUD",
-							_ => null
+							_ => cloudProvider.Value.ToString()
 						},
 						SyncFolder = syncedFolder,
 						IconData = GetIconData(iconPath)
@@ -132,7 +132,7 @@ namespace Files.App.Utils.Cloud
 			return Task.FromResult<IEnumerable<ICloudProvider>>(results);
 		}
 
-		private static byte[]? GetIconData(string iconPath)
+		private static byte[]? GetIconData(string? iconPath)
 		{
 			if (string.IsNullOrEmpty(iconPath) || !File.Exists(iconPath))
 				return null;
@@ -148,7 +148,7 @@ namespace Files.App.Utils.Cloud
 			using var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts");
 			if (oneDriveAccountsKey is null)
 			{
-				return Task.FromResult<IEnumerable<ICloudProvider>>(null);
+				return Task.FromResult<IEnumerable<ICloudProvider>>([]);
 			}
 
 			var oneDriveAccounts = new List<ICloudProvider>();
@@ -165,7 +165,7 @@ namespace Files.App.Utils.Cloud
 					{
 						Name = accountName,
 						SyncFolder = userFolder,
-						IconData = GetIconData($"Environment.GetEnvironmentVariable(\"ProgramFiles\")\\Microsoft OneDrive\\OneDrive.exe"),
+						IconData = GetIconData(Path.Combine(programFilesFolder, "Microsoft OneDrive", "OneDrive.exe")),
 					});
 				}
 			}
@@ -178,7 +178,7 @@ namespace Files.App.Utils.Cloud
 			using var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts");
 			if (oneDriveAccountsKey is null)
 			{
-				return Task.FromResult<IEnumerable<ICloudProvider>>(null);
+				return Task.FromResult<IEnumerable<ICloudProvider>>([]);
 			}
 
 			var sharepointAccounts = new List<ICloudProvider>();
@@ -296,7 +296,7 @@ namespace Files.App.Utils.Cloud
 			using var SeadriveKey = Registry.CurrentUser.OpenSubKey(@"Software\SeaDrive\Seafile Drive Client\Settings");
 
 			var syncFolder = (string?)SeadriveKey?.GetValue("seadriveRoot");
-			if (SeadriveKey is not null)
+			if (!string.IsNullOrWhiteSpace(syncFolder))
 			{
 				string iconPath = Path.Combine(programFilesFolder, "SeaDrive", "bin", "seadrive.exe");
 				var iconFile = Win32Helper.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 101 }).FirstOrDefault();

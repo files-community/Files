@@ -5,7 +5,7 @@ namespace Files.App.Utils.Storage
 {
 	public sealed class GroupedCollection<T> : BulkConcurrentObservableCollection<T>, IGroupedCollectionHeader
 	{
-		public GroupedHeaderViewModel Model { get; set; }
+		public GroupedHeaderViewModel Model { get; set; } = new();
 
 		public GroupedCollection(IEnumerable<T> items) : base(items)
 		{
@@ -37,7 +37,7 @@ namespace Files.App.Utils.Storage
 			PropertyChanged += GroupedCollection_PropertyChanged;
 		}
 
-		private void GroupedCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		private void GroupedCollection_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == nameof(Count))
 			{

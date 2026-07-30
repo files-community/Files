@@ -174,12 +174,12 @@ namespace Files.App.Dialogs
 		{
 			conflictItem.CustomName = FilesystemHelpers.FilterRestrictedCharacters(conflictItem.CustomName);
 
-			if (ViewModel.IsNameAvailableForItem(conflictItem, conflictItem.CustomName!))
+			if (ViewModel.IsNameAvailableForItem(conflictItem, conflictItem.CustomName))
 				conflictItem.IsTextBoxVisible = false;
 			else
 				ViewModel.PrimaryButtonEnabled = false;
 
-			if (conflictItem.CustomName.Equals(conflictItem.DisplayName))
+			if (string.Equals(conflictItem.CustomName, conflictItem.DisplayName, StringComparison.Ordinal))
 			{
 				var savedName = conflictItem.DestinationDisplayName;
 				conflictItem.DestinationDisplayName = savedName;

@@ -6,11 +6,15 @@ namespace Files.App.ViewModels.Properties
 	{
 		public DriveItem Drive { get; }
 
-		public DriveProperties(SelectedItemsPropertiesViewModel viewModel, DriveItem driveItem, IShellPage instance)
+		public DriveProperties(
+			SelectedItemsPropertiesViewModel viewModel,
+			CancellationTokenSource tokenSource,
+			Microsoft.UI.Dispatching.DispatcherQueue dispatcher,
+			DriveItem driveItem,
+			IShellPage instance)
+			: base(viewModel, tokenSource, dispatcher, instance)
 		{
-			ViewModel = viewModel;
 			Drive = driveItem;
-			AppInstance = instance;
 			GetBaseProperties();
 		}
 
@@ -39,8 +43,10 @@ namespace Files.App.ViewModels.Properties
 		{
 			ViewModel.ItemAttributesVisibility = false;
 
-			var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(Drive.Path));
-			BaseStorageFolder diskRoot = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(Drive.Path, item));
+			var rootResult = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(Drive.Path));
+			var diskRootResult = await FilesystemTasks.WrapNullable(
+				() => StorageFileExtensions.DangerousGetFolderFromPathAsync(Drive.Path, rootResult.Result));
+			var diskRoot = diskRootResult.Result;
 
 			if (ViewModel.LoadFileIcon)
 			{

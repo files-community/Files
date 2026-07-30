@@ -28,15 +28,15 @@ namespace Files.App.ViewModels.Dialogs
 		public string ShortcutCompleteName { get; private set; } = string.Empty;
 
 		// Full path of the destination item
-		public string FullPath { get; private set; }
+		public string FullPath { get; private set; } = string.Empty;
 
 		// Arguments to be passed to the destination item if it's an executable
-		public string Arguments { get; private set; }
+		public string Arguments { get; private set; } = string.Empty;
 
 		// Previous path of the destination item
-		private string _previousShortcutTargetPath;
+		private string _previousShortcutTargetPath = string.Empty;
 
-		private string _shortcutName;
+		private string _shortcutName = string.Empty;
 		public string ShortcutName
 		{
 			get => _shortcutName;

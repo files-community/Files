@@ -120,7 +120,7 @@ namespace Files.App.Utils.Shell
 		{
 			var owningThread = new ThreadWithMessageQueue();
 
-			return await owningThread.PostMethod<ContextMenu>(() =>
+			return await owningThread.PostMethod<ContextMenu?>(() =>
 			{
 				var shellItems = new List<ShellItem>();
 
@@ -148,7 +148,7 @@ namespace Files.App.Utils.Shell
 		{
 			var owningThread = new ThreadWithMessageQueue();
 
-			return await owningThread.PostMethod<ContextMenu>(() => GetContextMenuForFiles(shellItems, flags, owningThread, itemFilter));
+			return await owningThread.PostMethod<ContextMenu?>(() => GetContextMenuForFiles(shellItems, flags, owningThread, itemFilter));
 		}
 
 		private static ContextMenu? GetContextMenuForFiles(ShellItem[] shellItems, uint flags, ThreadWithMessageQueue owningThread, Func<string, bool>? itemFilter = null)
@@ -160,11 +160,13 @@ namespace Files.App.Utils.Shell
 			{
 				// NOTE: The items are all in the same folder
 				using var sf = shellItems[0].Parent;
+				if (sf is null)
+					return null;
 
 				Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItems);
 				var hMenu = User32.CreatePopupMenu();
 				menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, (Shell32.CMF)flags);
-				var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName), owningThread, itemFilter);
+				var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName).WhereNotNull(), owningThread, itemFilter);
 				contextMenu.EnumMenuItems(hMenu, contextMenu.Items);
 
 				return contextMenu;
@@ -227,7 +229,9 @@ namespace Files.App.Utils.Shell
 					menuItem.Label = menuItemInfo.dwTypeData;
 					menuItem.CommandString = GetCommandString(_cMenu, menuItemInfo.wID - 1);
 
-					if (_itemFilter is not null && (_itemFilter(menuItem.CommandString) || _itemFilter(menuItem.Label)))
+					if (_itemFilter is not null &&
+						(menuItem.CommandString is { } commandString && _itemFilter(commandString) ||
+						 menuItem.Label is { } label && _itemFilter(label)))
 					{
 						// Skip items implemented in UWP
 						container.Dispose();
@@ -243,8 +247,8 @@ namespace Files.App.Utils.Shell
 							// Make the icon background transparent
 							bitmap.MakeTransparent();
 
-							byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(bitmap, typeof(byte[]));
-							menuItem.Icon = bitmapData;
+							if (new ImageConverter().ConvertTo(bitmap, typeof(byte[])) is byte[] bitmapData)
+								menuItem.Icon = bitmapData;
 						}
 					}
 
@@ -367,7 +371,6 @@ namespace Files.App.Utils.Shell
 							(si as IDisposable)?.Dispose();
 						}
 
-						Items = null;
 					}
 				}
 
@@ -375,12 +378,10 @@ namespace Files.App.Utils.Shell
 				if (_hMenu is not null)
 				{
 					User32.DestroyMenu(_hMenu);
-					_hMenu = null;
 				}
 				if (_cMenu is not null)
 				{
 					Marshal.ReleaseComObject(_cMenu);
-					_cMenu = null;
 				}
 
 				_owningThread.Dispose();

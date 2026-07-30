@@ -19,7 +19,7 @@ namespace Files.App.ViewModels.UserControls
 		private IContentPageContext contentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private DrivesViewModel drivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
-		private CancellationTokenSource loadCancellationTokenSource;
+		private CancellationTokenSource? loadCancellationTokenSource;
 		private Files.App.UserControls.Menus.FileTagsContextMenu? cachedTagsContextMenu;
 
 		/// <summary>
@@ -121,8 +121,8 @@ namespace Files.App.ViewModels.UserControls
 			set => SetProperty(ref showCloudItemButton, value);
 		}
 
-		private UIElement previewPaneContent;
-		public UIElement PreviewPaneContent
+		private UIElement? previewPaneContent;
+		public UIElement? PreviewPaneContent
 		{
 			get => previewPaneContent;
 			set
@@ -208,7 +208,11 @@ namespace Files.App.ViewModels.UserControls
 
 		private async Task LoadPreviewControlAsync(CancellationToken token, bool downloadItem)
 		{
-			if (SelectedItem.IsHiddenItem && !SelectedItem.ItemPath.EndsWith('\\'))
+			var item = SelectedItem;
+			if (item is null)
+				return;
+
+			if (item.IsHiddenItem && !item.ItemPath.EndsWith('\\'))
 			{
 				PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
 
@@ -216,7 +220,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 
-			var control = await GetBuiltInPreviewControlAsync(SelectedItem, downloadItem);
+			var control = await GetBuiltInPreviewControlAsync(item, downloadItem);
 
 			if (token.IsCancellationRequested)
 				return;
@@ -228,7 +232,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 
-			var basicModel = new BasicPreviewViewModel(SelectedItem);
+			var basicModel = new BasicPreviewViewModel(item);
 			await basicModel.LoadAsync();
 
 			control = new BasicPreview(basicModel);
@@ -240,7 +244,7 @@ namespace Files.App.ViewModels.UserControls
 			PreviewPaneState = SelectedDriveItem is not null ? PreviewPaneStates.DriveStorageDetailsAvailable : PreviewPaneStates.PreviewAndDetailsAvailable;
 		}
 
-		private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item, bool downloadItem)
+		private async Task<UserControl?> GetBuiltInPreviewControlAsync(ListedItem item, bool downloadItem)
 		{
 			ShowCloudItemButton = false;
 
@@ -498,7 +502,10 @@ namespace Files.App.ViewModels.UserControls
 		{
 			try
 			{
-				var basicModel = new BasicPreviewViewModel(SelectedItem);
+				if (SelectedItem is not { } selectedItem)
+					return;
+
+				var basicModel = new BasicPreviewViewModel(selectedItem);
 				await basicModel.LoadAsync();
 
 				PreviewPaneContent = new BasicPreview(basicModel);
@@ -523,23 +530,25 @@ namespace Files.App.ViewModels.UserControls
 			try
 			{
 				Items.Clear();
+				if (SelectedItem is not { } selectedItem)
+					return;
 
-				SelectedItem?.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
+				selectedItem.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
 
 				// Create menu once and reuse it for subsequent selections
 				if (cachedTagsContextMenu is null)
 				{
-					cachedTagsContextMenu = new Files.App.UserControls.Menus.FileTagsContextMenu(new List<ListedItem>() { SelectedItem });
+					cachedTagsContextMenu = new Files.App.UserControls.Menus.FileTagsContextMenu([selectedItem]);
 					cachedTagsContextMenu.TagsChanged += async (s, e) =>
 					{
-						if (contentPageContext.ShellPage is not null)
-							await contentPageContext.ShellPage.ShellViewModel.RefreshTagGroups();
+						if (contentPageContext.ShellPage?.ShellViewModel is { } shellViewModel)
+							await shellViewModel.RefreshTagGroups();
 					};
 				}
 				else
 				{
 					// Reset menu for new selection
-					cachedTagsContextMenu.ResetForItems(new List<ListedItem>() { SelectedItem });
+					cachedTagsContextMenu.ResetForItems([selectedItem]);
 				}
 
 				Items.Add(new FlyoutItem(cachedTagsContextMenu));

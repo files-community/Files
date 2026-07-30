@@ -37,12 +37,12 @@ namespace Files.App.Actions
 			generalSettingsService.ShowFilterHeader = !IsOn;
 
 			// Only attempt to focus if there's an active shell page
-			if (ContentPageContext.ShellPage is not null)
+			if (ContentPageContext.ShellPage is { } shellPage)
 			{
 				if (IsOn)
-					ContentPageContext.ShellPage.ShellViewModel.InvokeFocusFilterHeader();
+					shellPage.ShellViewModel?.InvokeFocusFilterHeader();
 				else
-					ContentPageContext.ShellPage.PaneHolder.FocusActivePane();
+					shellPage.PaneHolder?.FocusActivePane();
 			}
 
 			return Task.CompletedTask;

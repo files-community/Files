@@ -81,9 +81,9 @@ namespace Files.App.Utils.Storage
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		private Func<T, string>? itemGroupKeySelector;
+		private Func<T, string?>? itemGroupKeySelector;
 
-		public Func<T, string>? ItemGroupKeySelector
+		public Func<T, string?>? ItemGroupKeySelector
 		{
 			get => itemGroupKeySelector;
 			set

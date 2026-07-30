@@ -19,8 +19,8 @@ namespace Files.App.ViewModels.Properties
 		{
 			var queries = await Task.WhenAll(List.AsParallel().Select(async item =>
 			{
-				BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath));
-				if (file is null)
+				var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath));
+				if (fileResult.Result is not { } file)
 				{
 					// Could not access file, can't show any other property
 					return null;
@@ -38,7 +38,9 @@ namespace Files.App.ViewModels.Properties
 
 				return list
 					.Where(fileProp => !(fileProp.Value is null && fileProp.IsReadOnly))
-					.GroupBy(fileProp => fileProp.SectionResource)
+					.Select(fileProp => (Property: fileProp, Section: fileProp.SectionResource ?? string.Empty))
+					.Where(property => property.Section.Length > 0)
+					.GroupBy(property => property.Section, property => property.Property)
 					.Select(group => new FilePropertySection(group) { Key = group.Key })
 					.Where(section => !section.All(fileProp => fileProp.Value is null)
 						|| FileProperty.IsSectionApplicableForEmpty(section.Key, item.FileExtension));
@@ -47,19 +49,27 @@ namespace Files.App.ViewModels.Properties
 			if (queries.Any(query => query is null))
 				return;
 
+			var validQueries = queries.WhereNotNull().ToArray();
+			if (validQueries.Length == 0)
+				return;
+
 			// Display only the sections that all files have
-			var keys = queries.Select(query => query!.Select(section => section.Key)).Aggregate((x, y) => x.Intersect(y));
-			var sections = queries[0]!.Where(section => keys.Contains(section.Key)).OrderBy(group => group.Priority).ToArray();
+			var keys = validQueries.Select(query => query.Select(section => section.Key)).Aggregate((x, y) => x.Intersect(y));
+			var sections = validQueries[0].Where(section => keys.Contains(section.Key)).OrderBy(group => group.Priority).ToArray();
 
 			foreach (var group in sections)
 			{
-				var props = queries.SelectMany(query => query!.First(section => section.Key == group.Key));
+				var props = validQueries.SelectMany(query => query.First(section => section.Key == group.Key));
 				foreach (FileProperty prop in group)
 				{
 					if (prop.Property == "System.Media.Duration")
 					{
 						ulong totalDuration = 0;
-						props.Where(x => x.Property == prop.Property).ForEach(x => totalDuration += (ulong)x.Value);
+						props
+							.Where(x => x.Property == prop.Property)
+							.Select(x => x.Value)
+							.OfType<ulong>()
+							.ForEach(value => totalDuration += value);
 						prop.Value = totalDuration;
 					}
 					else if (props.Where(x => x.Property == prop.Property).Any(x => !Equals(x.Value, prop.Value)))
@@ -79,10 +89,9 @@ namespace Files.App.ViewModels.Properties
 			var files = new List<BaseStorageFile>();
 			foreach (var item in List)
 			{
-				BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath));
-
 				// Couldn't access the file to save properties
-				if (file is null)
+				var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath));
+				if (fileResult.Result is not { } file)
 					return;
 
 				files.Add(file);
@@ -94,11 +103,12 @@ namespace Files.App.ViewModels.Properties
 			{
 				foreach (FileProperty prop in group)
 				{
-					if (!prop.IsReadOnly && prop.Modified)
+					var propertyName = prop.Property;
+					if (!prop.IsReadOnly && prop.Modified && !string.IsNullOrEmpty(propertyName))
 					{
-						var newDict = new Dictionary<string, object>
+						var newDict = new Dictionary<string, object?>
 						{
-							{ prop.Property, prop.Value }
+							{ propertyName, prop.Value }
 						};
 
 						foreach (var file in files)
@@ -107,7 +117,7 @@ namespace Files.App.ViewModels.Properties
 							{
 								if (file.Properties is not null)
 								{
-									await file.Properties.SavePropertiesAsync(newDict);
+									await file.Properties.SaveNullablePropertiesAsync(newDict);
 								}
 							}
 							catch
@@ -131,9 +141,8 @@ namespace Files.App.ViewModels.Properties
 			var files = new List<BaseStorageFile>();
 			foreach (var item in List)
 			{
-				BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath));
-
-				if (file is null)
+				var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath));
+				if (fileResult.Result is not { } file)
 					return;
 
 				files.Add(file);
@@ -143,11 +152,12 @@ namespace Files.App.ViewModels.Properties
 			{
 				foreach (FileProperty prop in group)
 				{
-					if (!prop.IsReadOnly)
+					var propertyName = prop.Property;
+					if (!prop.IsReadOnly && !string.IsNullOrEmpty(propertyName))
 					{
-						var newDict = new Dictionary<string, object>
+						var newDict = new Dictionary<string, object?>
 						{
-							{ prop.Property, null }
+							{ propertyName, null }
 						};
 
 						foreach (var file in files)
@@ -156,7 +166,7 @@ namespace Files.App.ViewModels.Properties
 							{
 								if (file.Properties is not null)
 								{
-									await file.Properties.SavePropertiesAsync(newDict);
+									await file.Properties.SaveNullablePropertiesAsync(newDict);
 								}
 							}
 							catch

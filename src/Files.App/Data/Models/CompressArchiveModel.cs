@@ -15,7 +15,7 @@ namespace Files.App.Data.Models
 	{
 		private StatusCenterItemProgressModel _fileSystemProgress;
 
-		private FileSizeCalculator _sizeCalculator;
+		private FileSizeCalculator? _sizeCalculator;
 
 		private string ArchiveExtension => FileFormat switch
 		{
@@ -132,6 +132,11 @@ namespace Files.App.Data.Models
 			ArchiveWordSizes wordSize = ArchiveWordSizes.Auto)
 		{
 			_Progress = new Progress<StatusCenterItemProgressModel>();
+			_fileSystemProgress = new(
+				_Progress,
+				false,
+				FileSystemStatusCode.InProgress);
+			_fileSystemProgress.Report(0);
 
 			Sources = source;
 			Directory = directory;
@@ -199,12 +204,13 @@ namespace Files.App.Data.Models
 				var directories = sources.Where(SystemIO.Directory.Exists);
 				var skippedItems = new List<string>();
 
-				_sizeCalculator = new FileSizeCalculator([.. files, .. directories]);
-				var sizeTask = _sizeCalculator.ComputeSizeAsync(cts.Token);
+				var sizeCalculator = new FileSizeCalculator([.. files, .. directories]);
+				_sizeCalculator = sizeCalculator;
+				var sizeTask = sizeCalculator.ComputeSizeAsync(cts.Token);
 				_ = sizeTask.ContinueWith(_ =>
 				{
-					_fileSystemProgress.TotalSize = _sizeCalculator.Size;
-					_fileSystemProgress.ItemsCount = _sizeCalculator.ItemsCount;
+					_fileSystemProgress.TotalSize = sizeCalculator.Size;
+					_fileSystemProgress.ItemsCount = sizeCalculator.ItemsCount;
 					_fileSystemProgress.EnumerationCompleted = true;
 					_fileSystemProgress.Report();
 				});
@@ -289,7 +295,7 @@ namespace Files.App.Data.Models
 
 							if (directories.Length == 0)
 							{
-								fileDictionary.Add(entryPrefix + directoryInfo.Name, null);
+								AddArchiveEntry(fileDictionary, entryPrefix + directoryInfo.Name, null);
 							}
 							else
 							{
@@ -298,6 +304,10 @@ namespace Files.App.Data.Models
 									AddEntry(fileDictionary, directoryInfo2.FullName, entryPrefix);
 							}
 						}
+
+						// SevenZipSharp uses a null source path to represent an empty directory.
+						static void AddArchiveEntry(IDictionary<string, string> entries, string name, string? sourcePath)
+							=> entries.Add(name, sourcePath!);
 					}
 
 					compressor.CompressionMode = CompressionMode.Append;
@@ -399,7 +409,7 @@ namespace Files.App.Data.Models
 				return;
 			}
 
-			_sizeCalculator.ForceComputeFileSize(e.FilePath);
+			_sizeCalculator?.ForceComputeFileSize(e.FilePath);
 			_fileSystemProgress.FileName = e.FileName;
 			_fileSystemProgress.Report();
 		}

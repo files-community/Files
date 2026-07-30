@@ -87,16 +87,17 @@ namespace Files.App.Views.Layouts
 
 			UpdateSortOptionsCommand = new RelayCommand<string>(x =>
 			{
-				if (!Enum.TryParse<SortOption>(x, out var val))
+				if (FolderSettings is not { } folderSettings ||
+					!Enum.TryParse<SortOption>(x, out var val))
 					return;
-				if (FolderSettings.DirectorySortOption == val)
+				if (folderSettings.DirectorySortOption == val)
 				{
-					FolderSettings.DirectorySortDirection = (SortDirection)(((int)FolderSettings.DirectorySortDirection + 1) % 2);
+					folderSettings.DirectorySortDirection = (SortDirection)(((int)folderSettings.DirectorySortDirection + 1) % 2);
 				}
 				else
 				{
-					FolderSettings.DirectorySortOption = val;
-					FolderSettings.DirectorySortDirection = SortDirection.Ascending;
+					folderSettings.DirectorySortOption = val;
+					folderSettings.DirectorySortDirection = SortDirection.Ascending;
 				}
 			});
 		}
@@ -148,6 +149,13 @@ namespace Files.App.Views.Layouts
 
 			base.OnNavigatedTo(eventArgs);
 
+			var parentShellPage = ParentShellPageInstance
+				?? throw new InvalidOperationException("The details layout must be associated with a shell page.");
+			var shellViewModel = parentShellPage.ShellViewModel
+				?? throw new InvalidOperationException("The details layout requires an initialized shell view model.");
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The details layout requires folder settings.");
+
 			currentIconSize = LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.DetailsView);
 
 			if (FolderSettings?.ColumnsViewModel is not null)
@@ -174,13 +182,13 @@ namespace Files.App.Views.Layouts
 				ColumnsViewModel.GitLastCommitShaColumn.Update(FolderSettings.ColumnsViewModel.GitLastCommitShaColumn);
 			}
 
-			ParentShellPageInstance.ShellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
+			shellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
 
-			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
-			FolderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
-			ParentShellPageInstance.ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
-			ParentShellPageInstance.ShellViewModel.ItemLoadStatusChanged += ShellViewModel_ItemLoadStatusChanged;
+			folderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
+			folderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
+			folderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
+			shellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+			shellViewModel.ItemLoadStatusChanged += ShellViewModel_ItemLoadStatusChanged;
 			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
 			FileList.Items.VectorChanged += FileListItems_VectorChanged;
 
@@ -204,11 +212,17 @@ namespace Files.App.Views.Layouts
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
-			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
-			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
-			ParentShellPageInstance.ShellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
-			ParentShellPageInstance.ShellViewModel.ItemLoadStatusChanged -= ShellViewModel_ItemLoadStatusChanged;
+			if (FolderSettings is { } folderSettings)
+			{
+				folderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+				folderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
+				folderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
+			}
+			if (ParentShellPageInstance?.ShellViewModel is { } shellViewModel)
+			{
+				shellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+				shellViewModel.ItemLoadStatusChanged -= ShellViewModel_ItemLoadStatusChanged;
+			}
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
 			FileList.Items.VectorChanged -= FileListItems_VectorChanged;
 			_autoFitColumnsTimer?.Stop();
@@ -240,7 +254,7 @@ namespace Files.App.Views.Layouts
 			else
 			{
 				var settings = sender as ILayoutSettingsService;
-				var isDefaultPath = FolderSettings?.IsPathUsingDefaultLayout(ParentShellPageInstance?.ShellViewModel.CurrentFolder?.ItemPath);
+				var isDefaultPath = FolderSettings?.IsPathUsingDefaultLayout(ParentShellPageInstance?.ShellViewModel?.CurrentFolder?.ItemPath);
 				if (settings is not null && (isDefaultPath ?? true))
 				{
 					switch (e.PropertyName)
@@ -315,16 +329,19 @@ namespace Files.App.Views.Layouts
 
 		private void UpdateSortIndicator()
 		{
-			NameHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Name ? FolderSettings.DirectorySortDirection : null;
-			TagHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileTag ? FolderSettings.DirectorySortDirection : null;
-			PathHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Path ? FolderSettings.DirectorySortDirection : null;
-			OriginalPathHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.OriginalFolder ? FolderSettings.DirectorySortDirection : null;
-			DateDeletedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateDeleted ? FolderSettings.DirectorySortDirection : null;
-			DateModifiedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateModified ? FolderSettings.DirectorySortDirection : null;
-			DateCreatedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateCreated ? FolderSettings.DirectorySortDirection : null;
-			FileTypeHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileType ? FolderSettings.DirectorySortDirection : null;
-			ItemSizeHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Size ? FolderSettings.DirectorySortDirection : null;
-			SyncStatusHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.SyncStatus ? FolderSettings.DirectorySortDirection : null;
+			if (FolderSettings is not { } folderSettings)
+				return;
+
+			NameHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.Name ? folderSettings.DirectorySortDirection : null;
+			TagHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.FileTag ? folderSettings.DirectorySortDirection : null;
+			PathHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.Path ? folderSettings.DirectorySortDirection : null;
+			OriginalPathHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.OriginalFolder ? folderSettings.DirectorySortDirection : null;
+			DateDeletedHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.DateDeleted ? folderSettings.DirectorySortDirection : null;
+			DateModifiedHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.DateModified ? folderSettings.DirectorySortDirection : null;
+			DateCreatedHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.DateCreated ? folderSettings.DirectorySortDirection : null;
+			FileTypeHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.FileType ? folderSettings.DirectorySortDirection : null;
+			ItemSizeHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.Size ? folderSettings.DirectorySortDirection : null;
+			SyncStatusHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.SyncStatus ? folderSettings.DirectorySortDirection : null;
 		}
 
 		private void FilesystemViewModel_PageTypeUpdated(object? sender, PageTypeUpdatedEventArgs e)
@@ -576,27 +593,27 @@ namespace Files.App.Views.Layouts
 
 		private async Task ReloadItemIconsAsync()
 		{
-			if (ParentShellPageInstance is null)
+			if (ParentShellPageInstance?.ShellViewModel is not { } shellViewModel)
 				return;
 
-			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
-			var filesAndFolders = ParentShellPageInstance.ShellViewModel.FilesAndFolders.ToList();
+			shellViewModel.CancelExtendedPropertiesLoading();
+			var filesAndFolders = shellViewModel.FilesAndFolders.ToList();
 
 			await Task.WhenAll(filesAndFolders.Select(listedItem =>
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is not null)
-					return ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
+					return shellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
 				else
 					return Task.CompletedTask;
 			}));
 
-			if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None)
+			if (shellViewModel.EnabledGitProperties is not GitProperties.None)
 			{
 				await Task.WhenAll(filesAndFolders.Select(item =>
 				{
 					if (item is IGitItem gitItem)
-						return ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
+						return shellViewModel.LoadGitPropertiesAsync(gitItem);
 
 					return Task.CompletedTask;
 				}));
@@ -674,8 +691,11 @@ namespace Files.App.Views.Layouts
 			if (!Commands.OpenItem.IsExecutable)
 			{
 				// Fallback if the command is not executable. It occurs only when search is performed from the columns view.
+				if (ParentShellPageInstance is not { } parentShellPage)
+					return;
+
 				var itemType = item.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
-				await NavigationHelpers.OpenPath(item.ItemPath, ParentShellPageInstance, itemType);
+				await NavigationHelpers.OpenPath(item.ItemPath, parentShellPage, itemType);
 			}
 			else
 			{
@@ -731,7 +751,8 @@ namespace Files.App.Views.Layouts
 			if (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right)
 			{
 				UpdateColumnLayout();
-				FolderSettings.ColumnsViewModel = ColumnsViewModel;
+				if (FolderSettings is { } folderSettings)
+					folderSettings.ColumnsViewModel = ColumnsViewModel;
 			}
 		}
 
@@ -770,7 +791,8 @@ namespace Files.App.Views.Layouts
 
 		private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
-			FolderSettings.ColumnsViewModel = ColumnsViewModel;
+			if (FolderSettings is { } folderSettings)
+				folderSettings.ColumnsViewModel = ColumnsViewModel;
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
@@ -781,8 +803,10 @@ namespace Files.App.Views.Layouts
 
 		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
 		{
-			FolderSettings.ColumnsViewModel = ColumnsViewModel;
-			ParentShellPageInstance.ShellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
+			if (FolderSettings is { } folderSettings)
+				folderSettings.ColumnsViewModel = ColumnsViewModel;
+			if (ParentShellPageInstance?.ShellViewModel is { } shellViewModel)
+				shellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
 		}
 
 		private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -821,7 +845,7 @@ namespace Files.App.Views.Layouts
 				TimeSpan.FromMilliseconds(250));
 		}
 
-		private void ShellViewModel_ItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs e)
+		private void ShellViewModel_ItemLoadStatusChanged(object? sender, ItemLoadStatusChangedEventArgs e)
 		{
 			if (e.Status == ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete)
 				AutoFitColumnsIfEnabled();
@@ -899,7 +923,8 @@ namespace Files.App.Views.Layouts
 				column.UserLength = new GridLength(maxFitLength, GridUnitType.Pixel);
 			}
 
-			FolderSettings.ColumnsViewModel = ColumnsViewModel;
+			if (FolderSettings is { } folderSettings)
+				folderSettings.ColumnsViewModel = ColumnsViewModel;
 		}
 
 		private double MeasureColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
@@ -999,8 +1024,7 @@ namespace Files.App.Views.Layouts
 
 			RootGridZoom.ViewChangeStarted += (_, args) =>
 			{
-				var scroller = ContentScroller;
-				if (args.IsSourceZoomedInView || scroller is null)
+				if (args.IsSourceZoomedInView || ContentScroller is not { } scroller)
 					return;
 				void OnZoomScrolled(object? s, ScrollViewerViewChangedEventArgs ve)
 				{
@@ -1104,14 +1128,14 @@ namespace Files.App.Views.Layouts
 
 			var tagId = FileTagsSettingsService.GetTagsByName(tagName).FirstOrDefault()?.Uid;
 
-			if (tagId is not null)
+			if (tagId is not null && item.FileTags is { } fileTags)
 			{
-				item.FileTags = item.FileTags
+				item.FileTags = fileTags
 					.Except([tagId])
 					.ToArray();
 
-				if (ParentShellPageInstance is not null)
-					await ParentShellPageInstance.ShellViewModel.RefreshTagGroups();
+				if (ParentShellPageInstance?.ShellViewModel is { } shellViewModel)
+					await shellViewModel.RefreshTagGroups();
 			}
 
 			e.Handled = true;

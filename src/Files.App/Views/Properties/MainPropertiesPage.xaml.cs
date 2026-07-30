@@ -17,11 +17,11 @@ namespace Files.App.Views.Properties
 	{
 		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 
-		private AppWindow AppWindow => Window.AppWindow;
+		private AppWindow? AppWindow => Window?.AppWindow;
 
-		private Window Window;
+		private Window? Window;
 
-		private MainPropertiesViewModel MainPropertiesViewModel { get; set; }
+		private MainPropertiesViewModel? MainPropertiesViewModel { get; set; }
 
 		public MainPropertiesPage()
 		{
@@ -35,11 +35,15 @@ namespace Files.App.Views.Properties
 		// Navigates to specified properties page
 		public bool TryNavigateToPage(PropertiesNavigationViewItemType pageType)
 		{
-			var page = MainPropertiesViewModel.NavigationItems.FirstOrDefault(item => item.ItemType == pageType);
+			var viewModel = MainPropertiesViewModel;
+			if (viewModel is null)
+				return false;
+
+			var page = viewModel.NavigationItems.FirstOrDefault(item => item.ItemType == pageType);
 			if (page is null)
 				return false;
 
-			MainPropertiesViewModel.SelectedNavigationItem = page;
+			viewModel.SelectedNavigationItem = page;
 			return true;
 		}
 
@@ -48,7 +52,8 @@ namespace Files.App.Views.Properties
 			if (sender is not SidebarItem { Item: PropertiesNavigationItem navItem })
 				return;
 
-			MainPropertiesViewModel.SelectedNavigationItem = navItem;
+			if (MainPropertiesViewModel is { } viewModel)
+				viewModel.SelectedNavigationItem = navItem;
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -59,19 +64,26 @@ namespace Files.App.Views.Properties
 
 			base.OnNavigatedTo(e);
 
-			MainPropertiesViewModel = new(Window, MainContentFrame, BaseProperties, parameter);
+			MainPropertiesViewModel = new(
+				Window,
+				MainContentFrame,
+				BaseProperties ?? throw new InvalidOperationException("The properties model has not been initialized."),
+				parameter);
 		}
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
+			if (Window is not { } window || MainPropertiesViewModel is not { } viewModel)
+				return;
+
 			AppThemeModeService.AppThemeModeChanged += AppThemeModeService_AppThemeModeChanged;
-			Window.Closed += Window_Closed;
+			window.Closed += Window_Closed;
 
 			AppThemeModeService.ApplyResources();
 			UpdatePageLayout(this.Width);
-			PropertiesSidebar.SelectedItem = MainPropertiesViewModel.SelectedNavigationItem;
-			Window.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
-			Window.AppWindow.Changed += AppWindow_Changed;
+			PropertiesSidebar.SelectedItem = viewModel.SelectedNavigationItem;
+			window.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
+			window.AppWindow.Changed += AppWindow_Changed;
 		}
 
 		private int SetTitleBarDragRegion(InputNonClientPointerSource source, SizeInt32 size, double scaleFactor, Func<UIElement, RectInt32?, RectInt32> getScaledRect)
@@ -86,7 +98,7 @@ namespace Files.App.Views.Properties
 		private void Page_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (e.Key.Equals(VirtualKey.Escape))
-				Window.Close();
+				Window?.Close();
 		}
 
 		private void UpdatePageLayout(double pageWidth)
@@ -96,31 +108,33 @@ namespace Files.App.Views.Properties
 
 		private async void AppThemeModeService_AppThemeModeChanged(object? sender, EventArgs e)
 		{
-			if (Parent is null)
+			if (Parent is null || Window is not { } window)
 				return;
 
 			await DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
-				AppThemeModeService.SetAppThemeMode(Window, Window.AppWindow.TitleBar, AppThemeModeService.AppThemeMode, false);
+				AppThemeModeService.SetAppThemeMode(window, window.AppWindow.TitleBar, AppThemeModeService.AppThemeMode, false);
 			});
 		}
 
 		private void Window_Closed(object sender, WindowEventArgs args)
 		{
-			AppThemeModeService.AppThemeModeChanged -= AppThemeModeService_AppThemeModeChanged;
-			Window.Closed -= Window_Closed;
-			Window.AppWindow.Changed -= AppWindow_Changed;
+			if (Window is not { } window)
+				return;
 
-			if (MainPropertiesViewModel.ChangedPropertiesCancellationTokenSource is not null &&
-				!MainPropertiesViewModel.ChangedPropertiesCancellationTokenSource.IsCancellationRequested)
+			AppThemeModeService.AppThemeModeChanged -= AppThemeModeService_AppThemeModeChanged;
+			window.Closed -= Window_Closed;
+			window.AppWindow.Changed -= AppWindow_Changed;
+
+			if (MainPropertiesViewModel?.ChangedPropertiesCancellationTokenSource is { IsCancellationRequested: false } cancellation)
 			{
-				MainPropertiesViewModel.ChangedPropertiesCancellationTokenSource.Cancel();
+				cancellation.Cancel();
 			}
 		}
 
 		private void AppWindow_Changed(AppWindow sender, AppWindowChangedEventArgs e)
 		{
-			Window.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
+			Window?.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
 		}
 
 		public override async Task<bool> SaveChangesAsync()

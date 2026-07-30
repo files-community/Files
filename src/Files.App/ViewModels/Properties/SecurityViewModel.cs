@@ -132,16 +132,21 @@ namespace Files.App.ViewModels.Properties
 
 		private async Task ExecuteRemoveAccessControlEntryCommandAsync()
 		{
+			if (SelectedAccessControlEntry is not { } selectedEntry)
+				return;
+
 			await MainWindow.Instance.DispatcherQueue.EnqueueAsync(() =>
 			{
 				// Get index of the ACE
-				var index = AccessControlList.AccessControlEntries.IndexOf(SelectedAccessControlEntry);
+				var index = AccessControlList.AccessControlEntries.IndexOf(selectedEntry);
+				if (index < 0)
+					return;
 
 				// Run Win32API
 				var win32Result = StorageSecurityService.DeleteAce(_path, (uint)index);
 
 				// Remove the ACE
-				AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);
+				AccessControlList.AccessControlEntries.Remove(selectedEntry);
 
 				if (AccessControlList.AccessControlEntries.Count == 0)
 					return;

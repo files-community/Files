@@ -9,7 +9,7 @@ namespace Files.App.Data.Contracts
 	{
 		T Item { get; }
 
-		BitmapImage Thumbnail { get; }
+		BitmapImage? Thumbnail { get; }
 
 		Task LoadCardThumbnailAsync();
 	}
