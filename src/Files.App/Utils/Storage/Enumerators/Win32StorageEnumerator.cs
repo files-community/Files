@@ -267,7 +267,6 @@ namespace Files.App.Utils.Storage
 			}
 
 			bool itemThumbnailImgVis = false;
-			bool itemEmptyImgVis = true;
 
 			if (cancellationToken.IsCancellationRequested)
 				return null;

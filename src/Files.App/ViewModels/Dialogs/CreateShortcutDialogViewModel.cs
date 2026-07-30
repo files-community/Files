@@ -242,7 +242,7 @@ namespace Files.App.ViewModels.Dialogs
 			{
 				bi.pszDisplayName = displayNameBuffer;
 				bi.lpszTitle = title;
-				var pidl = PInvoke.SHBrowseForFolder(ref bi);
+				var pidl = PInvoke.SHBrowseForFolder(in bi);
 				if (pidl is not null)
 				{
 					Span<char> path = stackalloc char[260];
