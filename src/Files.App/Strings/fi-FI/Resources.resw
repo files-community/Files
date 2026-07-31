@@ -181,10 +181,10 @@
     <value>Käytetty:</value>
   </data>
   <data name="RecentItemClearAllText" xml:space="preserve">
-    <value>Clear all items</value>
+    <value>Poista kaikki kohteet</value>
   </data>
   <data name="NavigationToolbarVisiblePathPlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>Anna sen kansion polku, johon haluat siirtyä, tai avaa komentopaletti kirjoittamalla "&gt;"</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Etsi</value>
@@ -199,7 +199,7 @@
     <value>Aiemmin käyttämäsi tiedostot näkyvät tässä</value>
   </data>
   <data name="RecentItemRemoveText" xml:space="preserve">
-    <value>Remove this item</value>
+    <value>Poista tämä kohde</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>GitHub-repositorio</value>
@@ -313,7 +313,7 @@
     <value>Kiinnitä sivupalkkiin</value>
   </data>
   <data name="WelcomeDialogTitle" xml:space="preserve">
-    <value>Welcome to Files!</value>
+    <value>Tervetuloa Files-sovellukseen!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Myönnä käyttöoikeus</value>
@@ -1780,6 +1780,15 @@
   </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
     <value>Anna käyttäjätunnuksesi:</value>
+  </data>
+  <data name="CredentialDialogIncorrectPassword" xml:space="preserve">
+    <value>The password is incorrect. Try again.</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Password required</value>
+  </data>
+  <data name="PasswordRequiredMessage" xml:space="preserve">
+    <value>This location is password protected. Refresh to enter the password.</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Käyttäjätunnus</value>
@@ -3332,6 +3341,9 @@
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
     <value>git pull epäonnistui aikakatkaisuvirheen vuoksi</value>
+  </data>
+  <data name="PullUncommittedChangesError" xml:space="preserve">
+    <value>Can't pull because your uncommitted changes would be overwritten. Commit, stash, or discard your changes, then try again.</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(useita arvoja)</value>

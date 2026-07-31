@@ -25,7 +25,7 @@ public sealed class AppInstanceMonitor
 
 			if (Interlocked.Decrement(ref processCount) == 0)
 			{
-				Program.ExitSignalEvent.Set();
+				Program.ExitSignal.TrySetResult(true);
 			}
 		}
 	}

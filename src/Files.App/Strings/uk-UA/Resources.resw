@@ -181,10 +181,10 @@
     <value>Відкрито:</value>
   </data>
   <data name="RecentItemClearAllText" xml:space="preserve">
-    <value>Clear all items</value>
+    <value>Очистити все</value>
   </data>
   <data name="NavigationToolbarVisiblePathPlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>Введіть шлях для переходу або введіть «&gt;», щоби відкрити палітру команд</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Пошук</value>
@@ -199,7 +199,7 @@
     <value>Тут відображатимуться файли, до яких ви раніше отримували доступ</value>
   </data>
   <data name="RecentItemRemoveText" xml:space="preserve">
-    <value>Remove this item</value>
+    <value>Видалити цей елемент</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>Репозиторій GitHub</value>
@@ -313,13 +313,13 @@
     <value>Закріпити в бічній панелі</value>
   </data>
   <data name="WelcomeDialogTitle" xml:space="preserve">
-    <value>Welcome to Files!</value>
+    <value>Ласкаво просимо до Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Надати дозволи</value>
   </data>
   <data name="WelcomeDialogTextBlockText" xml:space="preserve">
-    <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </value>
+    <value>Аби розпочати, вам потрібно надати нам дозвіл на показ ваших файлів. Це відкриє сторінку налаштувань, де ви зможете надати цей дозвіл. Після виконання цього кроку вам потрібно буде знову відкрити застосунок. </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Відображення</value>
@@ -385,16 +385,16 @@
     <value>Встановити як фон застосунку</value>
   </data>
   <data name="AccessDeniedDeleteDialogText" xml:space="preserve">
-    <value>We weren't able to delete this item</value>
+    <value>Не вдалося видалити цей елемент</value>
   </data>
   <data name="DriveUnpluggedDialogText" xml:space="preserve">
-    <value>Please insert the necessary drive to access this item.</value>
+    <value>Вставте необхідний диск, щоб отримати доступ до цього об’єкта.</value>
   </data>
   <data name="DriveUnpluggedDialogTitle" xml:space="preserve">
-    <value>Drive unplugged</value>
+    <value>Диск від’єднано</value>
   </data>
   <data name="FileNotFoundDialogText" xml:space="preserve">
-    <value>The file you are attempting to access may have been moved or deleted.</value>
+    <value>Файл, до якого ви намагаєтеся отримати доступ, можливо, було переміщено або видалено.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
     <value>Не вдалося відкрити властивості цього файлу</value>
@@ -403,28 +403,28 @@
     <value>Файл, до якого ви намагаєтеся отримати доступ, можливо було переміщено або видалено.</value>
   </data>
   <data name="FileNotFoundDialogTitle" xml:space="preserve">
-    <value>File Not Found</value>
+    <value>Файл не знайдено</value>
   </data>
   <data name="FolderNotFoundDialogText" xml:space="preserve">
-    <value>The folder you are attempting to access may have been moved or deleted.</value>
+    <value>Теку, до якої ви намагаєтеся отримати доступ, можливо було переміщено або видалено.</value>
   </data>
   <data name="FolderNotFoundDialogTitle" xml:space="preserve">
-    <value>Did you delete this folder?</value>
+    <value>Ви видалили цю теку?</value>
   </data>
   <data name="FileInUseByDialogText" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>Файл, до якого ви намагаєтеся отримати доступ, зараз використовується {0}</value>
   </data>
   <data name="FileInUseDialogText" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>Файл, до якого ви намагаєтеся отримати доступ, використовується іншим застосунком</value>
   </data>
   <data name="FileInUseDialogTitle" xml:space="preserve">
-    <value>File is in use</value>
+    <value>Файл зараз використовується</value>
   </data>
   <data name="CannotRunFileDialogTitle" xml:space="preserve">
-    <value>This app can't run on your PC</value>
+    <value>Цей застосунок не може працювати на вашому ПК</value>
   </data>
   <data name="CannotRunFileDialogText" xml:space="preserve">
-    <value>To find a version for your PC, check with the software publisher.</value>
+    <value>Щоб знайти версію для вашого ПК, зверніться до видавця програмного забезпечення.</value>
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Макет</value>
@@ -531,7 +531,7 @@
     <value>{0, number} {0, plural, one {файл} few {файли} many {файлів} other {файлів}}, {1, number} {1, plural, one {тека} few {теки} many {тек} other {тек}} від {2, number} {2, plural, one {розміщення} few {розміщень} many {розміщень} other {розміщення}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUserText" xml:space="preserve">
-    <value>Run as another user</value>
+    <value>Запустити від імені іншого користувача</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
     <value>Всі типу {0}</value>
@@ -642,22 +642,22 @@
     <value>Спільний доступ до {0} {1}</value>
   </data>
   <data name="RenameErrorItemDeletedText" xml:space="preserve">
-    <value>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</value>
+    <value>Об’єкт, який ви намагаєтеся перейменувати, більше не існує. Перевірте правильність розташування об’єкта, який потрібно перейменувати.</value>
   </data>
   <data name="RenameErrorItemDeletedTitle" xml:space="preserve">
-    <value>Item no longer exists</value>
+    <value>Елемент більше не існує</value>
   </data>
   <data name="RenameErrorNameInvalidText" xml:space="preserve">
-    <value>The name specified was invalid. Please check the desired item name and try again.</value>
+    <value>Вказано неправильну назву. Перевірте бажану назву товару та повторіть спробу.</value>
   </data>
   <data name="RenameErrorNameInvalidTitle" xml:space="preserve">
-    <value>Invalid item name</value>
+    <value>Неправильна назва елемента</value>
   </data>
   <data name="RenameErrorTooLongText" xml:space="preserve">
-    <value>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</value>
+    <value>Довжина вказаної назви товару перевищує максимальну межу. Перевірте бажану назву та повторіть спробу.</value>
   </data>
   <data name="RenameErrorTooLongTitle" xml:space="preserve">
-    <value>Item name was too long</value>
+    <value>Назва елемента завелика</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
     <value>Показати додаткові параметри</value>
@@ -669,13 +669,13 @@
     <value>Підтримати нас на GitHub</value>
   </data>
   <data name="AccessDeniedCreateDialogText" xml:space="preserve">
-    <value>We weren't able to create this item</value>
+    <value>Елемент не може бути створений</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>Немає доступу</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsText" xml:space="preserve">
-    <value>Set as</value>
+    <value>Установити як</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Скасувати</value>
@@ -717,10 +717,10 @@
     <value>Показувати діалог підтвердження під час видалення</value>
   </data>
   <data name="PropertySaveErrorMessageText" xml:space="preserve">
-    <value>There was an issue saving some properties.</value>
+    <value>Не вдалося зберегти деякі властивості.</value>
   </data>
   <data name="PropertySaveErrorDialogTitle" xml:space="preserve">
-    <value>Error</value>
+    <value>Помилка</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Закрити</value>
@@ -1107,7 +1107,7 @@
     <value>Відкрити в іншій панелі</value>
   </data>
   <data name="OpenCurrentFolderInOtherPane" xml:space="preserve">
-    <value>Open current folder in other pane</value>
+    <value>Відкрити поточну теку в іншій панелі</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Файли та теки</value>
@@ -1215,7 +1215,7 @@
     <value>Невідомо</value>
   </data>
   <data name="RenameFileDialogText" xml:space="preserve">
-    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
+    <value>Якщо ви зміните розширення файлу, файл може стати непридатним для використання. Упевнені, що хочете його змінити?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>CD-привід</value>
@@ -1254,7 +1254,7 @@
     <value>Додаткові параметри...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItemText" xml:space="preserve">
-    <value>Map network drive</value>
+    <value>Під’єднати мережевий диск</value>
   </data>
   <data name="Pinned" xml:space="preserve">
     <value>Закріплені</value>
@@ -1287,10 +1287,10 @@
     <value>Стовпці (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStartText" xml:space="preserve">
-    <value>Pin to the Start Menu</value>
+    <value>Закріпити в меню «Пуск»</value>
   </data>
   <data name="UnpinItemFromStartText" xml:space="preserve">
-    <value>Unpin from the Start Menu</value>
+    <value>Відкріпити з меню «Пуск»</value>
   </data>
   <data name="Library" xml:space="preserve">
     <value>Бібліотека</value>
@@ -1536,13 +1536,13 @@
     <value>Невідомий обл. запис</value>
   </data>
   <data name="SecurityCannotReadPropertiesText" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
+    <value>Ви не маєте прав на перегляд властивостей безпеки цього об’єкта. Натисніть «Додаткові дозволи», щоб продовжити.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Власник:</value>
   </data>
   <data name="SecurityUnknownOwnerTextText" xml:space="preserve">
-    <value>Unknown owner</value>
+    <value>Невідомий власник</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Розпакувати архів</value>
@@ -1554,10 +1554,10 @@
     <value>Видобути до {0}\</value>
   </data>
   <data name="SideBarCreateNewLibraryText" xml:space="preserve">
-    <value>Create new library</value>
+    <value>Створити нову бібліотеку</value>
   </data>
   <data name="SideBarRestoreLibrariesText" xml:space="preserve">
-    <value>Restore default libraries</value>
+    <value>Відновити типові бібліотеки</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
     <value>Ви впевнені, що бажаєте відновити стандартні бібліотеки? Усі ваші файли залишаться у вашому сховищі.</value>
@@ -1569,7 +1569,7 @@
     <value>Власник</value>
   </data>
   <data name="SecuritySpecialLabelText" xml:space="preserve">
-    <value>Special</value>
+    <value>Особливі</value>
   </data>
   <data name="Access" xml:space="preserve">
     <value>Доступ</value>
@@ -1596,7 +1596,7 @@
     <value>Дозволи</value>
   </data>
   <data name="SecurityAdvancedCannotReadPropertiesText" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
+    <value>Ви не маєте прав на перегляд властивостей безпеки цього об’єкта. Ви можете спробувати отримати цей об’єкт у власність.</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>Для цієї папки та її файлів</value>
@@ -1620,49 +1620,49 @@
     <value>Для цієї папки та її підпапок</value>
   </data>
   <data name="SecurityAppendDataLabelText" xml:space="preserve">
-    <value>Append data</value>
+    <value>Додати дані</value>
   </data>
   <data name="SecurityChangePermissionsLabelText" xml:space="preserve">
-    <value>Change permission</value>
+    <value>Змінити дозволи</value>
   </data>
   <data name="SecurityCreateDirectoriesLabelText" xml:space="preserve">
-    <value>Create folders</value>
+    <value>Створити теки</value>
   </data>
   <data name="SecurityCreateFilesLabelText" xml:space="preserve">
-    <value>Create files</value>
+    <value>Створити файли</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabelText" xml:space="preserve">
-    <value>Delete subdirectories and files</value>
+    <value>Видалити підкаталоги та файли</value>
   </data>
   <data name="SecurityExecuteFileLabelText" xml:space="preserve">
-    <value>Execute files</value>
+    <value>Запустити файли</value>
   </data>
   <data name="SecurityReadAttributesLabelText" xml:space="preserve">
-    <value>Read attributes</value>
+    <value>Читати атрибути</value>
   </data>
   <data name="SecurityReadDataLabelText" xml:space="preserve">
-    <value>Read data</value>
+    <value>Переглянути дані</value>
   </data>
   <data name="SecurityReadExtendedAttributesLabelText" xml:space="preserve">
-    <value>Read extended attributes</value>
+    <value>Читати додаткові атрибути</value>
   </data>
   <data name="SecurityReadPermissionsLabelText" xml:space="preserve">
-    <value>Read permissions</value>
+    <value>Дозволи на читання</value>
   </data>
   <data name="SecurityTakeOwnershipLabelText" xml:space="preserve">
-    <value>Take ownership</value>
+    <value>Заволодіти</value>
   </data>
   <data name="SecurityTraverseLabelText" xml:space="preserve">
-    <value>Visit folder</value>
+    <value>Перейти в теку</value>
   </data>
   <data name="SecurityWriteAttributesLabelText" xml:space="preserve">
-    <value>Write attributes</value>
+    <value>Записати атрибути</value>
   </data>
   <data name="SecurityWriteDataLabelText" xml:space="preserve">
-    <value>Write data</value>
+    <value>Записати дані</value>
   </data>
   <data name="SecurityWriteExtendedAttributesLabelText" xml:space="preserve">
-    <value>Write extended attributes</value>
+    <value>Записати додаткові атрибути</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
     <value>Перетворити успадковані дозволи на явні</value>
@@ -1719,7 +1719,7 @@
     <value>WSL</value>
   </data>
   <data name="SideBarHideSectionFromSideBarText" xml:space="preserve">
-    <value>Hide {0} section</value>
+    <value>Приховати {0} розділ</value>
   </data>
   <data name="AddFile" xml:space="preserve">
     <value>Додати файл</value>
@@ -1749,7 +1749,7 @@
     <value>Видобування завершено!</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolderText" xml:space="preserve">
-    <value>Open parent folder</value>
+    <value>Відкрити батьківську теку</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>Невідомо</value>
@@ -1764,10 +1764,10 @@
     <value>Відкрити диск</value>
   </data>
   <data name="InsertDiscDialogText" xml:space="preserve">
-    <value>Please insert a disc into drive {0}</value>
+    <value>Вставте диск в пристрій {0}</value>
   </data>
   <data name="InsertDiscDialogTitle" xml:space="preserve">
-    <value>Insert a disc</value>
+    <value>Вставте диск</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>ОК</value>
@@ -1780,6 +1780,15 @@
   </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
     <value>Надайте свої облікові дані:</value>
+  </data>
+  <data name="CredentialDialogIncorrectPassword" xml:space="preserve">
+    <value>The password is incorrect. Try again.</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Password required</value>
+  </data>
+  <data name="PasswordRequiredMessage" xml:space="preserve">
+    <value>This location is password protected. Refresh to enter the password.</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Ім’я користувача</value>
@@ -2076,13 +2085,13 @@
     <value>Стовпці по розміру вмісту</value>
   </data>
   <data name="AutoFitColumns" xml:space="preserve">
-    <value>Auto-fit columns</value>
+    <value>Автодобір ширини стовпців</value>
   </data>
   <data name="AutoFitColumnsDescription" xml:space="preserve">
-    <value>Resize columns to fit their content</value>
+    <value>Змінити розмір стовпців відповідно до вмісту</value>
   </data>
   <data name="AutoSizeColumnsInDetailsLayout" xml:space="preserve">
-    <value>Automatically fit columns to content</value>
+    <value>Автодобір ширини стовпців за вмістом</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Адаптивний макет</value>
@@ -2226,10 +2235,10 @@
     <value>Створити архів</value>
   </data>
   <data name="CompressSkippedItemsDialogTitle" xml:space="preserve">
-    <value>Some items can't be compressed</value>
+    <value>Деякі елементи не можуть бути стиснуті</value>
   </data>
   <data name="CompressSkippedItemsDialogText" xml:space="preserve">
-    <value>The following {0, plural, one {item} other {items}} can''t be compressed. Would you like to skip {0, plural, one {this item} other {these items}}?</value>
+    <value>{0, plural, one {Цей об’єкт} few {Ці об’єкти} other {Ці об’єкти}} неможливо стиснути. Бажаєте пропустити {0, plural, one {цей об’єкт} few {ці об’єкти} other {ці об’єкти}}?</value>
   </data>
   <data name="CompressIntoZip" xml:space="preserve">
     <value>Створити zip-архів</value>
@@ -3333,6 +3342,9 @@
   <data name="PullTimeoutError" xml:space="preserve">
     <value>Не вдалося виконати git pull через помилку часу очікування</value>
   </data>
+  <data name="PullUncommittedChangesError" xml:space="preserve">
+    <value>Can't pull because your uncommitted changes would be overwritten. Commit, stash, or discard your changes, then try again.</value>
+  </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(кілька значень)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
@@ -3452,7 +3464,7 @@
     <value>Відкрити вибраний каталог в іншій панелі</value>
   </data>
   <data name="OpenCurrentFolderInOtherPaneDescription" xml:space="preserve">
-    <value>Open the current folder in the other pane</value>
+    <value>Відкрити поточну теку в іншій панелі</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Відкрити вибраний каталог у новій вкладці</value>
@@ -4048,7 +4060,7 @@
     <value>Додати команду</value>
   </data>
   <data name="RestoreDefaults" xml:space="preserve">
-    <value>Відновити усталені значення</value>
+    <value>Скинути до типових</value>
   </data>
   <data name="ChooseAnAction" xml:space="preserve">
     <value>Виберіть дію</value>

@@ -402,7 +402,11 @@ namespace Files.App.ViewModels.Dialogs
 			};
 			DisplayControlOnLoaded = (vm, e) =>
 			{
-				Control control = (vm.DisplayControl as Control) ?? DependencyObjectHelpers.FindChild<Control>(vm.DisplayControl as DependencyObject);
+				// The Loaded event also fires for dialogs without display content
+				if (vm.DisplayControl is not DependencyObject displayControl)
+					return;
+
+				Control control = (displayControl as Control) ?? DependencyObjectHelpers.FindChild<Control>(displayControl);
 				control?.Focus(FocusState.Programmatic);
 			};
 
