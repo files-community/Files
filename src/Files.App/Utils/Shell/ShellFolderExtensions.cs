@@ -1,7 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using FluentFTP.Helpers;
 using System.IO;
+using System.Text;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 
@@ -42,6 +44,52 @@ namespace Files.App.Utils.Shell
 			return value;
 		}
 
+		private static string? GetOriginalPathFromRecycleBinFile(string? physicalPath)
+		{
+			if (string.IsNullOrEmpty(physicalPath))
+				return null;
+
+			var fileNameFromPath = Path.GetFileName(physicalPath);
+
+			if (!fileNameFromPath.StartsWith("$R", StringComparison.OrdinalIgnoreCase) &&
+				!fileNameFromPath.StartsWith("$I", StringComparison.OrdinalIgnoreCase))
+				return null;
+
+			try
+			{
+				string directory = Path.GetDirectoryName(physicalPath)!;
+
+				string iFileName = fileNameFromPath.StartsWith("$R", StringComparison.OrdinalIgnoreCase) ?
+					"$I" + fileNameFromPath.RemovePrefix("$R") : fileNameFromPath.ToString();
+
+				string filePath = Path.Combine(directory, iFileName);
+
+				if (!File.Exists(filePath) && !Directory.Exists(filePath))
+					return null;
+
+
+				using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+				using var reader = new BinaryReader(stream, Encoding.Unicode);
+
+				// From the 24th to the 28th, contains the number of characters for the originalPath.
+				reader.BaseStream.Seek(24, SeekOrigin.Begin);
+				int pathCharCount = reader.ReadInt32();
+
+				// From the 28th byte, that's where the OriginalPath is.
+				// Windows is UTF-16, so each character takes 2 bytes, hence the multiplication.
+				byte[] pathBytes = reader.ReadBytes(pathCharCount * 2);
+				string originalPath = Encoding.Unicode.GetString(pathBytes).TrimEnd('\0');
+
+				return originalPath;
+			}
+			catch
+			{
+
+			}
+
+			return null;
+		}
+
 		public static ShellFileItem GetShellFileItem(ShellItem folderItem)
 		{
 			if (folderItem is null)
@@ -56,6 +104,8 @@ namespace Files.App.Utils.Shell
 
 			// True path on disk
 			parsingPath ??= folderItem.FileSystemPath;
+
+			string? recycleBinFileOriginalPath = GetOriginalPathFromRecycleBinFile(folderItem.FileSystemPath);
 
 			if (parsingPath is null || !Path.IsPathRooted(parsingPath))
 			{
@@ -110,7 +160,9 @@ namespace Files.App.Utils.Shell
 			string fileSize = fileSizeBytes is not null ? folderItem.Properties.GetPropertyString(Ole32.PROPERTYKEY.System.Size) : null;
 			var fileType = folderItem.Properties.TryGetProperty<string>(Ole32.PROPERTYKEY.System.ItemTypeText);
 
-			return new(isFolder, parsingPath, fileName, filePath, recycleDate, modifiedDate, createdDate, fileSize, fileSizeBytes ?? 0, fileType, folderItem.PIDL.GetBytes());
+			string finalFilePath = string.IsNullOrEmpty(recycleBinFileOriginalPath) ? filePath : recycleBinFileOriginalPath;
+
+			return new(isFolder, parsingPath, fileName, finalFilePath, recycleDate, modifiedDate, createdDate, fileSize, fileSizeBytes ?? 0, fileType, folderItem.PIDL.GetBytes());
 		}
 
 		public static ShellLinkItem GetShellLinkItem(ShellLink linkItem)
