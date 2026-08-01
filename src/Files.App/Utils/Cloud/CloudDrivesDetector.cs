@@ -165,7 +165,6 @@ namespace Files.App.Utils.Cloud
 					{
 						Name = accountName,
 						SyncFolder = userFolder,
-						IconData = GetIconData(Path.Combine(programFilesFolder, "Microsoft OneDrive", "OneDrive.exe")),
 					});
 				}
 			}

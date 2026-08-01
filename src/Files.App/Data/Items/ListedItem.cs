@@ -614,7 +614,12 @@ namespace Files.App.Utils
 		{ }
 
 		// For shortcut elements (.lnk and .url)
-		public string TargetPath { get; set; } = string.Empty;
+		private string? targetPath;
+		public string TargetPath
+		{
+			get => string.IsNullOrEmpty(targetPath) ? ItemPath : targetPath;
+			set => targetPath = value;
+		}
 
 		public override string Name
 			=> IsSymLink ? base.Name : Path.GetFileNameWithoutExtension(ItemNameRaw); // Always hide extension for shortcuts
@@ -794,7 +799,12 @@ namespace Files.App.Utils
 	}
 	public sealed partial class GitShortcutItem : GitItem, IShortcutItem
 	{
-		public string TargetPath { get; set; } = string.Empty;
+		private string? targetPath;
+		public string TargetPath
+		{
+			get => string.IsNullOrEmpty(targetPath) ? ItemPath : targetPath;
+			set => targetPath = value;
+		}
 
 		public override string Name
 			=> IsSymLink ? base.Name : Path.GetFileNameWithoutExtension(ItemNameRaw); // Always hide extension for shortcuts

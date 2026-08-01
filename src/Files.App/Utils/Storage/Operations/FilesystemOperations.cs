@@ -272,6 +272,8 @@ namespace Files.App.Utils.Storage
 
 						if (fsResultCopy.Result is { } copiedFile)
 							copiedItem = copiedFile;
+						else if (fsResultCopy)
+							fsResultCopy = new(null, FileSystemStatusCode.Generic);
 
 						fsResult = fsResultCopy;
 					}
@@ -900,7 +902,7 @@ namespace Files.App.Utils.Storage
 						source[i],
 						destination[i],
 						collisions[i].Convert(),
-						null,
+						progress,
 						token));
 				}
 
@@ -992,11 +994,21 @@ namespace Files.App.Utils.Storage
 			if (rawStorageHistory.Count > 0 && rawStorageHistory.All(item => item is not null))
 			{
 				var storageHistory = rawStorageHistory.WhereNotNull().ToList();
-				var destinations = await storageHistory.SelectMany(item => item.Destination ?? []).ToListAsync();
+				var recycleHistory = storageHistory.Where(item => item.OperationType is FileOperationType.Recycle).ToList();
+				if (recycleHistory.Count > 0)
+				{
+					var sources = await recycleHistory.SelectMany(item => item.Source).ToListAsync();
+					var destinations = await recycleHistory.SelectMany(item => item.Destination ?? []).ToListAsync();
+
+					return sources.Count == destinations.Count
+						? new StorageHistory(FileOperationType.Recycle, sources, destinations)
+						: null;
+				}
+
 				return new StorageHistory(
-					storageHistory[0].OperationType,
+					FileOperationType.Delete,
 					await storageHistory.SelectMany(item => item.Source).ToListAsync(),
-					destinations.Count > 0 ? destinations : null);
+					null);
 			}
 			return null;
 		}

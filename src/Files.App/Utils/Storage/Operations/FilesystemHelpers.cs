@@ -314,6 +314,7 @@ namespace Files.App.Utils.Storage
 			itemManipulationModel?.ClearSelection();
 
 			IStorageHistory? history = await filesystemOperations.CopyItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.ProgressEventSource, token);
+			await Task.Yield();
 
 			if (returnStatus == ReturnResult.InProgress || returnStatus == ReturnResult.Success)
 				banner.Progress.ReportStatus(FileSystemStatusCode.Success);
@@ -336,8 +337,6 @@ namespace Files.App.Utils.Storage
 				}
 				App.HistoryWrapper.AddHistory(history);
 			}
-
-			await Task.Yield();
 
 			var itemsCount = banner.TotalItemsCount;
 

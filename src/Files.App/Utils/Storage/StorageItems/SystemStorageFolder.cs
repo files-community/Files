@@ -80,7 +80,7 @@ namespace Files.App.Utils.Storage
 		public override IAsyncOperation<IndexedState> GetIndexedStateAsync() => Folder.GetIndexedStateAsync();
 
 		public override IAsyncOperation<IStorageItem?> GetItemAsync(string name)
-			=> AsyncInfo.Run<IStorageItem?>(async (cancellationToken) => await Folder.GetItemAsync(name));
+			=> Folder.GetItemAsync(name);
 		public override IAsyncOperation<IStorageItem?> TryGetItemAsync(string name)
 			=> Folder.TryGetItemAsync(name);
 		public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync()

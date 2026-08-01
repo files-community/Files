@@ -125,13 +125,6 @@ namespace Files.App.Utils.Storage
 			switch (history.OperationType)
 			{
 				case FileOperationType.CreateNew:
-					if (!IsHistoryNull(history.Source))
-					{
-						foreach (var source in history.Source)
-						{
-							await operations.CreateAsync(source, progress, cancellationToken);
-						}
-					}
 					break;
 				case FileOperationType.CreateLink:
 					var linkDestinations = history.Destination;

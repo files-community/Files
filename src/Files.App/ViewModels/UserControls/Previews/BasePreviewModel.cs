@@ -59,9 +59,6 @@ namespace Files.App.ViewModels.Previews
 				Item.ItemFile = await StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath, rootItem);
 			}
 
-			if (Item.ItemFile is null)
-				return;
-
 			await Task.Run(async () =>
 			{
 				DetailsFromPreview = await LoadPreviewAndDetailsAsync();

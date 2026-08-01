@@ -23,8 +23,7 @@ namespace Files.App.Utils.Storage
 				GroupOption.OriginalFolder => x => (x as RecycleBinItem)?.ItemOriginalFolder,
 				GroupOption.DateDeleted => x => dateTimeFormatter.ToTimeSpanLabel((x as RecycleBinItem)?.ItemDateDeletedReal ?? DateTimeOffset.Now, unit).Text,
 				GroupOption.FolderPath => x => PathNormalization.GetParentDir(x.ItemPath.TrimPath()),
-				GroupOption.None => null,
-				_ => throw new ArgumentOutOfRangeException(nameof(option)),
+				_ => null,
 			};
 		}
 

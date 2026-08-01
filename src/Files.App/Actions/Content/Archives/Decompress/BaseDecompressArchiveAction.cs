@@ -148,7 +148,7 @@ namespace Files.App.Actions
 								CreationCollisionOption.GenerateUniqueName).AsTask());
 
 					if (destinationFolder is null)
-						return;
+						continue;
 				}
 				else
 				{

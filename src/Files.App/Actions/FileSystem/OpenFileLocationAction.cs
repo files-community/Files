@@ -47,7 +47,11 @@ namespace Files.App.Actions
 			// Check if destination path exists
 			var folderPath = Path.GetDirectoryName(item.TargetPath);
 			if (folderPath is null)
+			{
+				await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidItemDialogTitle.GetLocalizedResource(),
+					string.Format(Strings.InvalidItemDialogContent.GetLocalizedResource(), Environment.NewLine, FileSystemStatusCode.Generic.ToString()));
 				return;
+			}
 
 			var destFolder = await shellViewModel.GetFolderWithPathFromPathAsync(folderPath);
 

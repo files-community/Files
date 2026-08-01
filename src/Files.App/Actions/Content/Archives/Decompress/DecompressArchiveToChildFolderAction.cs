@@ -41,7 +41,7 @@ namespace Files.App.Actions
 
 				var currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(currentFolderPath);
 				if (currentFolder is null)
-					return;
+					continue;
 
 				if (await FilesystemTasks.Wrap(() => StorageArchiveService.IsEncryptedAsync(archive.Path)))
 				{
@@ -68,7 +68,7 @@ namespace Files.App.Actions
 				var destinationResult = await FilesystemTasks.WrapNullable(() =>
 					currentFolder.CreateFolderAsync(SystemIO.Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.GenerateUniqueName).AsTask());
 				if (destinationResult.Result is not { } destinationFolder)
-					return;
+					continue;
 
 				// Operate decompress
 				await FilesystemTasks.Wrap(() =>

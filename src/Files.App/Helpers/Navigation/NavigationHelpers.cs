@@ -315,12 +315,9 @@ namespace Files.App.Helpers
 					tabLocationHeader = currentPath.TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
 
 					var rootItem = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(currentPath));
-					if (rootItem.Result is { } rootFolder)
-					{
-						var currentFolderResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(currentPath, rootFolder));
-						if (currentFolderResult.Result is { } currentFolder && !string.IsNullOrEmpty(currentFolder.DisplayName))
-							tabLocationHeader = currentFolder.DisplayName;
-					}
+					var currentFolderResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(currentPath, rootItem.Result));
+					if (currentFolderResult.Result is { } currentFolder && !string.IsNullOrEmpty(currentFolder.DisplayName))
+						tabLocationHeader = currentFolder.DisplayName;
 				}
 			}
 
