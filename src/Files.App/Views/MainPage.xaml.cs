@@ -131,7 +131,6 @@ namespace Files.App.Views
 			SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ?
 				paneArgs?.LeftPaneNavPathParam : paneArgs?.RightPaneNavPathParam);
 
-			UpdateStatusBarProperties();
 			LoadPaneChanged();
 			UpdateNavToolbarProperties();
 			await NavigationHelpers.UpdateInstancePropertiesAsync(paneArgs);
@@ -166,7 +165,6 @@ namespace Files.App.Views
 			if (statusBarViewModel is not null)
 				statusBarViewModel.ShowLocals = true;
 
-			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
 
@@ -184,7 +182,6 @@ namespace Files.App.Views
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane?.TabBarItemParameter?.NavigationParameter?.ToString());
-			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
 		}
@@ -193,15 +190,6 @@ namespace Files.App.Views
 		{
 			if (e.PropertyName is nameof(IContentPageContext.PageType))
 				LoadPaneChanged();
-		}
-
-		private void UpdateStatusBarProperties()
-		{
-			if (StatusBar is not null)
-			{
-				StatusBar.StatusBarViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.StatusBarViewModel;
-				StatusBar.SelectedItemsPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.SelectedItemsPropertiesViewModel;
-			}
 		}
 
 		private void UpdateNavToolbarProperties()
@@ -291,8 +279,7 @@ namespace Files.App.Views
 		{
 			MainWindow.Instance.AppWindow.Changed += (_, _) => MainWindow.Instance.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
 
-			// Defers the status bar loading until after the page has loaded to improve startup perf
-			FindName(nameof(StatusBar));
+			// Defers loading until after the page has loaded to improve startup perf
 			FindName(nameof(InnerNavigationToolbar));
 			FindName(nameof(TabControl));
 			FindName(nameof(NavToolbar));

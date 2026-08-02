@@ -103,12 +103,25 @@ namespace Files.App.Views.Shells
 			{
 				if (value != _PaneHolder)
 				{
+					if (_PaneHolder is not null)
+						_PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
+
 					_PaneHolder = value;
+
+					if (_PaneHolder is not null)
+						_PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
 
 					NotifyPropertyChanged(nameof(PaneHolder));
 				}
 			}
 		}
+
+		public bool IsStatusBarVisible =>
+			userSettingsService.AppearanceSettingsService.ShowStatusBar &&
+			CurrentPageType != typeof(HomePage) &&
+			CurrentPageType != typeof(ReleaseNotesPage) &&
+			CurrentPageType != typeof(SettingsPage) &&
+			(PaneHolder is null || !PaneHolder.IsMultiPaneActive || PaneHolder.ActivePane == this);
 
 		protected TabBarItemParameter _TabItemArguments;
 		public TabBarItemParameter TabBarItemParameter
@@ -194,6 +207,8 @@ namespace Files.App.Views.Shells
 
 			GitHelpers.GitFetchCompleted += FilesystemViewModel_GitDirectoryUpdated;
 
+			userSettingsService.AppearanceSettingsService.PropertyChanged += AppearanceSettingsService_PropertyChanged;
+
 			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
 			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
 			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
@@ -204,6 +219,18 @@ namespace Files.App.Views.Shells
 		protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+
+		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(IShellPanesPage.IsMultiPaneActive) or nameof(IShellPanesPage.ActivePane))
+				NotifyPropertyChanged(nameof(IsStatusBarVisible));
+		}
+
+		private void AppearanceSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(IAppearanceSettingsService.ShowStatusBar))
+				NotifyPropertyChanged(nameof(IsStatusBarVisible));
 		}
 
 		protected void FilesystemViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)
@@ -791,6 +818,10 @@ namespace Files.App.Views.Shells
 			PreviewKeyDown -= ShellPage_PreviewKeyDown;
 			PointerPressed -= CoreWindow_PointerPressed;
 			drivesViewModel.PropertyChanged -= DrivesManager_PropertyChanged;
+			userSettingsService.AppearanceSettingsService.PropertyChanged -= AppearanceSettingsService_PropertyChanged;
+
+			if (_PaneHolder is not null)
+				_PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
 
 			ToolbarViewModel.ToolbarPathItemInvoked -= ShellPage_NavigationRequested;
 			ToolbarViewModel.PathBoxItemDropped -= ShellPage_PathBoxItemDropped;

@@ -50,6 +50,8 @@ namespace Files.App.Views.Shells
 			ToolbarViewModel.PathControlDisplayText = Strings.Home.GetLocalizedResource();
 			ToolbarViewModel.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
 
+			ContentChanged += ModernShellPage_ContentChanged;
+
 			_navigationInteractionTracker = new NavigationInteractionTracker(this, BackIcon, ForwardIcon);
 			_navigationInteractionTracker.NavigationRequested += OverscrollNavigationRequested;
 		}
@@ -66,6 +68,22 @@ namespace Files.App.Views.Shells
 		{
 			if (ItemDisplayFrame?.Content is HomePage currentPage)
 				currentPage.ViewModel.RefreshWidgetList();
+		}
+
+		private void ModernShellPage_ContentChanged(object? sender, TabBarItemParameter e)
+		{
+			UpdateStatusBarProperties();
+			NotifyPropertyChanged(nameof(IsStatusBarVisible));
+		}
+
+		private void UpdateStatusBarProperties()
+		{
+			var contentPage = SlimContentPage is ColumnsLayoutPage columnsLayoutPage
+				? columnsLayoutPage.ActiveColumnShellPage?.SlimContentPage
+				: SlimContentPage;
+
+			StatusBar.StatusBarViewModel = contentPage?.StatusBarViewModel;
+			StatusBar.SelectedItemsPropertiesViewModel = contentPage?.SelectedItemsPropertiesViewModel;
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -242,6 +260,7 @@ namespace Files.App.Views.Shells
 
 		public override void Dispose()
 		{
+			ContentChanged -= ModernShellPage_ContentChanged;
 			ToolbarViewModel.RefreshWidgetsRequested -= ModernShellPage_RefreshWidgetsRequested;
 			_navigationInteractionTracker.NavigationRequested -= OverscrollNavigationRequested;
 			_navigationInteractionTracker.Dispose();
