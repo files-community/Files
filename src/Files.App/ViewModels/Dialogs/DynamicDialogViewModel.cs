@@ -366,21 +366,20 @@ namespace Files.App.ViewModels.Dialogs
 			}
 		}
 
-		private Action<DynamicDialogViewModel, RoutedEventArgs>? displayControlOnLoaded;
+		private Action<DynamicDialogViewModel, RoutedEventArgs?>? displayControlOnLoaded;
 
-		public Action<DynamicDialogViewModel, RoutedEventArgs>? DisplayControlOnLoaded
+		public Action<DynamicDialogViewModel, RoutedEventArgs?>? DisplayControlOnLoaded
 		{
 			get => displayControlOnLoaded;
 			set
 			{
 				if (SetProperty(ref displayControlOnLoaded, value))
 				{
-					DisplayControlOnLoadedCommand = new RelayCommand<RoutedEventArgs>((e) =>
+					DisplayControlOnLoadedCommand = new RelayCommand<RoutedEventArgs?>((e) =>
 					{
 						var action = DisplayControlOnLoaded
 							?? throw new InvalidOperationException("The loaded action has not been configured.");
-						var eventArgs = e ?? throw new ArgumentNullException(nameof(e));
-						action(this, eventArgs);
+						action(this, e);
 					});
 				}
 			}

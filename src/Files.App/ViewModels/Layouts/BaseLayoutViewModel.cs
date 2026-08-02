@@ -42,7 +42,7 @@ namespace Files.App.ViewModels.Layouts
 			_associatedInstance = associatedInstance;
 			_itemManipulationModel = itemManipulationModel;
 
-			CreateNewFileCommand = new RelayCommand<ShellNewEntry>(CreateNewFile);
+			CreateNewFileCommand = new RelayCommand<ShellNewEntry?>(CreateNewFile);
 			ItemPointerPressedCommand = new AsyncRelayCommand<PointerRoutedEventArgs>(ItemPointerPressedAsync);
 			PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(PointerWheelChanged);
 			DragOverCommand = new AsyncRelayCommand<DragEventArgs>(DragOverAsync);
@@ -51,9 +51,6 @@ namespace Files.App.ViewModels.Layouts
 
 		private void CreateNewFile(ShellNewEntry? f)
 		{
-			if (f is null)
-				return;
-
 			_ = UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.File, f, _associatedInstance);
 		}
 
