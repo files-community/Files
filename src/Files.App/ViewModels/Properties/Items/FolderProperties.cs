@@ -127,7 +127,7 @@ namespace Files.App.ViewModels.Properties
 					CloudDriveSyncStatus.FolderOfflinePartial)
 					_ = GetFolderSizeAsync(storageFolder.Path, TokenSource.Token);
 			}
-			else if (Item.ItemPath.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+			else if (Item.ItemPath?.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase) == true)
 			{
 				var recycleBinQuery = StorageTrashBinService.QueryRecycleBin();
 				if (recycleBinQuery.BinSize is long binSize)

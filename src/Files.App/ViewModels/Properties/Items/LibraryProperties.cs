@@ -64,7 +64,7 @@ namespace Files.App.ViewModels.Properties
 
 			var shellViewModel = AppInstance.GetRequiredShellViewModel();
 
-			BaseStorageFile? libraryFile = (await shellViewModel.GetFileFromPathAsync(Library.ItemPath)).Result;
+			BaseStorageFile? libraryFile = Library.ItemPath is null ? null : (await shellViewModel.GetFileFromPathAsync(Library.ItemPath)).Result;
 			if (libraryFile is not null)
 			{
 				ViewModel.ItemCreatedTimestampReal = libraryFile.DateCreated;
