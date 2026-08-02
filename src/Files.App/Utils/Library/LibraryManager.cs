@@ -292,12 +292,12 @@ namespace Files.App.Utils.Library
 					await ContextMenu.InvokeVerb("restorelibraries", ShellLibraryItem.LibrariesPath);
 					await App.LibraryManager.UpdateLibrariesAsync();
 				},
-				CloseButtonAction = (vm, e) => vm.HideDialog!.Invoke(),
+				CloseButtonAction = (vm, e) => vm.Hide(),
 				KeyDownAction = (vm, e) =>
 				{
 					if (e.Key == VirtualKey.Escape)
 					{
-						vm.HideDialog!.Invoke();
+						vm.Hide();
 					}
 				},
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
@@ -352,7 +352,7 @@ namespace Files.App.Utils.Library
 				},
 				CloseButtonAction = (vm, e) =>
 				{
-					vm.HideDialog!.Invoke();
+					vm.Hide();
 				},
 				KeyDownAction = async (vm, e) =>
 				{
@@ -362,7 +362,7 @@ namespace Files.App.Utils.Library
 					}
 					else if (e.Key == VirtualKey.Escape)
 					{
-						vm.HideDialog!.Invoke();
+						vm.Hide();
 					}
 				},
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel

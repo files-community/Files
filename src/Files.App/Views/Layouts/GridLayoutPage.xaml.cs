@@ -201,8 +201,7 @@ namespace Files.App.Views.Layouts
 
 			var parentShellPage = ParentShellPageInstance
 				?? throw new InvalidOperationException("The grid layout must be associated with a shell page.");
-			var shellViewModel = parentShellPage.ShellViewModel
-				?? throw new InvalidOperationException("The grid layout requires an initialized shell view model.");
+			var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 			var folderSettings = FolderSettings
 				?? throw new InvalidOperationException("The grid layout requires folder settings.");
 
@@ -616,8 +615,7 @@ namespace Files.App.Views.Layouts
 		{
 			if (ParentShellPageInstance is not { } parentShellPage)
 				return;
-			var shellViewModel = parentShellPage.ShellViewModel
-				?? throw new InvalidOperationException("The grid layout does not have a shell view model.");
+			var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 
 			shellViewModel.CancelExtendedPropertiesLoading();
 			var filesAndFolders = shellViewModel.FilesAndFolders.ToList();

@@ -257,8 +257,7 @@ namespace Files.App.Views.Layouts
 
 					if ((ColumnHost.ActiveBlades[index].Content as Frame)?.Content is ColumnShellPage shellPage)
 					{
-						var shellViewModel = shellPage.ShellViewModel
-							?? throw new InvalidOperationException("The column shell view model is not available.");
+						var shellViewModel = shellPage.GetRequiredShellViewModel();
 						var args = navigationArguments
 							?? throw new InvalidOperationException("The column navigation arguments are not available.");
 						args.NavPathParam = shellViewModel.WorkingDirectory;

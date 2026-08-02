@@ -31,8 +31,7 @@ namespace Files.App.Actions
 			if (SidebarContext.IsItemRightClicked && SidebarContext.RightClickedItem is not null)
 				return
 				[
-					SidebarContext.RightClickedItem.Path
-						?? throw new InvalidOperationException("The selected sidebar item has no path.")
+					SidebarContext.RightClickedItem.GetRequiredPath()
 				];
 
 			return [];

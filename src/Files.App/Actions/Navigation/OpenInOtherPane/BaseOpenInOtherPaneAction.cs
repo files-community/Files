@@ -40,8 +40,7 @@ namespace Files.App.Actions
 				return Task.CompletedTask;
 
 			var targetPath = (selectedItem as IShortcutItem)?.TargetPath;
-			var path = (!string.IsNullOrEmpty(targetPath) ? targetPath : selectedItem.ItemPath)
-				?? throw new InvalidOperationException("The selected item does not have a path.");
+			var path = !string.IsNullOrEmpty(targetPath) ? targetPath : selectedItem.GetRequiredPath();
 			ContentPageContext.ShellPage?.PaneHolder?.OpenInOtherPane(path);
 
 			return Task.CompletedTask;

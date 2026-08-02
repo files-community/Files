@@ -28,8 +28,7 @@ namespace Files.App.Extensions
 
 		public static async Task<FilesystemResult<BaseStorageFile>> Create(this ShellNewEntry shellEntry, string filePath, IShellPage associatedInstance)
 		{
-			var shellViewModel = associatedInstance.ShellViewModel
-				?? throw new InvalidOperationException("The shell view model is not available for creating an item.");
+			var shellViewModel = associatedInstance.GetRequiredShellViewModel();
 
 			var parentFolder = await shellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(filePath));
 			if (parentFolder)

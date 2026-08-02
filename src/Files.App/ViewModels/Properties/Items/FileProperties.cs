@@ -28,8 +28,7 @@ namespace Files.App.ViewModels.Properties
 
 		public override void GetBaseProperties()
 		{
-			var itemPath = Item.ItemPath
-				?? throw new InvalidOperationException("The selected file does not have a path.");
+			var itemPath = Item.GetRequiredPath();
 
 			ViewModel.ItemName = Item.Name;
 			ViewModel.OriginalItemName = Item.Name;
@@ -95,8 +94,7 @@ namespace Files.App.ViewModels.Properties
 
 		public override async Task GetSpecialPropertiesAsync()
 		{
-			var itemPath = Item.ItemPath
-				?? throw new InvalidOperationException("The selected file does not have a path.");
+			var itemPath = Item.GetRequiredPath();
 
 			// Check if item is on device (not online)
 			var isOnDevice = Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline;
@@ -113,7 +111,7 @@ namespace Files.App.ViewModels.Properties
 			if (isOnDevice)
 			{
 				ViewModel.IsContentCompressed = fileAttributes.HasFlag(FileAttributes.Compressed);
-				ViewModel.ItemSizeOnDisk = Win32Helper.GetFileSizeOnDisk(itemPath)?.ToLongSizeString();
+				ViewModel.ItemSizeOnDisk = Win32Helper.GetFileSizeOnDisk(itemPath)?.ToLongSizeString() ?? string.Empty;
 			}
 
 			// Load icon
@@ -146,8 +144,7 @@ namespace Files.App.ViewModels.Properties
 			// Get file for further processing
 			var targetPath = (Item as IShortcutItem)?.TargetPath;
 			string filePath = !string.IsNullOrEmpty(targetPath) ? targetPath : itemPath;
-			var shellViewModel = AppInstance.ShellViewModel
-				?? throw new InvalidOperationException("The properties page does not have a shell view model.");
+			var shellViewModel = AppInstance.GetRequiredShellViewModel();
 
 			// Couldn't access the file and can't load any other properties
 			var fileResult = await shellViewModel.GetFileFromPathAsync(filePath);
@@ -176,8 +173,7 @@ namespace Files.App.ViewModels.Properties
 
 		public async Task GetSystemFilePropertiesAsync()
 		{
-			var itemPath = Item.ItemPath
-				?? throw new InvalidOperationException("The selected file does not have a path.");
+			var itemPath = Item.GetRequiredPath();
 			var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(itemPath));
 			if (fileResult.Result is not { } file)
 			{
@@ -212,8 +208,7 @@ namespace Files.App.ViewModels.Properties
 		public async Task SyncPropertyChangesAsync()
 		{
 			// Couldn't access the file to save properties
-			var itemPath = Item.ItemPath
-				?? throw new InvalidOperationException("The selected file does not have a path.");
+			var itemPath = Item.GetRequiredPath();
 			var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(itemPath));
 			if (fileResult.Result is not { } file)
 				return;
@@ -257,8 +252,7 @@ namespace Files.App.ViewModels.Properties
 		public async Task ClearPropertiesAsync()
 		{
 			var failedProperties = new List<string>();
-			var itemPath = Item.ItemPath
-				?? throw new InvalidOperationException("The selected file does not have a path.");
+			var itemPath = Item.GetRequiredPath();
 			var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(itemPath));
 			if (fileResult.Result is not { } file)
 				return;
@@ -296,8 +290,7 @@ namespace Files.App.ViewModels.Properties
 
 		private async void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
-			var itemPath = Item.ItemPath
-				?? throw new InvalidOperationException("The selected file does not have a path.");
+			var itemPath = Item.GetRequiredPath();
 
 			switch (e.PropertyName)
 			{

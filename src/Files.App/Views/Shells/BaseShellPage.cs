@@ -231,8 +231,7 @@ namespace Files.App.Views.Shells
 			if (ContentPage is null)
 				return;
 
-			var shellViewModel = ShellViewModel
-				?? throw new InvalidOperationException("The shell view model is not available.");
+			var shellViewModel = this.GetRequiredShellViewModel();
 
 			var directoryItemCountLocalization = Strings.Items.GetLocalizedFormatResource(shellViewModel.FilesAndFolders.Count);
 
@@ -240,8 +239,7 @@ namespace Files.App.Views.Shells
 					? await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath)
 					: null;
 
-			shellViewModel = ShellViewModel
-				?? throw new InvalidOperationException("The shell view model was cleared while Git information was loading.");
+			shellViewModel = this.GetRequiredShellViewModel();
 
 			if (InstanceViewModel.GitRepositoryPath != shellViewModel.GitDirectory)
 			{
@@ -305,8 +303,7 @@ namespace Files.App.Views.Shells
 
 		protected async void GitCheckout_Required(object? sender, string branchName)
 		{
-			var shellViewModel = ShellViewModel
-				?? throw new InvalidOperationException("The shell view model is not available for Git checkout.");
+			var shellViewModel = this.GetRequiredShellViewModel();
 
 			if (!await GitHelpers.Checkout(shellViewModel.GitDirectory, branchName))
 			{
@@ -471,8 +468,7 @@ namespace Files.App.Views.Shells
 
 		public void SubmitSearch(string query)
 		{
-			var shellViewModel = ShellViewModel
-				?? throw new InvalidOperationException("The shell view model is not available for search.");
+			var shellViewModel = this.GetRequiredShellViewModel();
 
 			shellViewModel.CancelSearch();
 			InstanceViewModel.CurrentSearchQuery = query;
@@ -523,8 +519,7 @@ namespace Files.App.Views.Shells
 
 		public async Task RefreshIfNoWatcherExistsAsync()
 		{
-			var shellViewModel = ShellViewModel
-				?? throw new InvalidOperationException("The shell view model is not available for refresh.");
+			var shellViewModel = this.GetRequiredShellViewModel();
 			if (shellViewModel.HasNoWatcher)
 				await Refresh_Click();
 		}
@@ -533,8 +528,7 @@ namespace Files.App.Views.Shells
 		{
 			if (InstanceViewModel.IsPageTypeSearchResults)
 			{
-				var shellViewModel = ShellViewModel
-					?? throw new InvalidOperationException("The shell view model is not available for search refresh.");
+				var shellViewModel = this.GetRequiredShellViewModel();
 				var searchQuery = InstanceViewModel.CurrentSearchQuery;
 				if (searchQuery is null)
 				{
@@ -554,8 +548,7 @@ namespace Files.App.Views.Shells
 			}
 			else if (CurrentPageType != typeof(HomePage))
 			{
-				var shellViewModel = ShellViewModel
-					?? throw new InvalidOperationException("The shell view model is not available for refresh.");
+				var shellViewModel = this.GetRequiredShellViewModel();
 				ToolbarViewModel.CanRefresh = false;
 				shellViewModel.RefreshItems(null);
 			}
@@ -662,14 +655,14 @@ namespace Files.App.Views.Shells
 
 					ToolbarViewModel.CanRefresh = true;
 					// Select previous directory
-					if (!string.IsNullOrWhiteSpace(e.PreviousDirectory) &&
+					var path = e.Path;
+					if (path is not null &&
+						!string.IsNullOrWhiteSpace(e.PreviousDirectory) &&
 						e.PreviousDirectory.Contains(
-							e.Path ?? throw new ArgumentNullException("value", "The completed item load did not include its path."),
+							path,
 							StringComparison.Ordinal) &&
 						!e.PreviousDirectory.Contains(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 					{
-						var path = e.Path
-							?? throw new InvalidOperationException("The completed item-load path was cleared while selecting the previous directory.");
 						// Remove the WorkingDir from previous dir
 						e.PreviousDirectory = e.PreviousDirectory.Replace(path, string.Empty, StringComparison.Ordinal);
 
@@ -697,8 +690,7 @@ namespace Files.App.Views.Shells
 						if (folderToSelect.EndsWith(separator))
 							folderToSelect = folderToSelect.Remove(folderToSelect.Length - 1, 1);
 
-						var shellViewModel = ShellViewModel
-							?? throw new InvalidOperationException("The shell view model is not available for restoring selection.");
+						var shellViewModel = this.GetRequiredShellViewModel();
 						var itemToSelect = shellViewModel.FilesAndFolders.ToList().FirstOrDefault((item) => item.ItemPath == folderToSelect);
 
 						if (itemToSelect is not null && ContentPage is not null && userSettingsService.FoldersSettingsService.ScrollToPreviousFolderWhenNavigatingUp)

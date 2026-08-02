@@ -409,8 +409,8 @@ namespace Files.App.Helpers
 
 					var lastSessionTabList = userSettingsService.GeneralSettingsService.LastSessionTabList;
 
-					if (userSettingsService.GeneralSettingsService.LastCrashedTabList?.SequenceEqual(
-						lastSessionTabList ?? throw new ArgumentNullException("second")) ?? false)
+					if (lastSessionTabList is not null &&
+						userSettingsService.GeneralSettingsService.LastCrashedTabList?.SequenceEqual(lastSessionTabList) is true)
 					{
 						// Avoid infinite restart loop
 						userSettingsService.GeneralSettingsService.LastSessionTabList = null;

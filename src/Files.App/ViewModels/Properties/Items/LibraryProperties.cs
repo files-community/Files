@@ -43,8 +43,7 @@ namespace Files.App.ViewModels.Properties
 
 		public async override Task GetSpecialPropertiesAsync()
 		{
-			var libraryPath = Library.ItemPath
-				?? throw new InvalidOperationException("The library does not have a path.");
+			var libraryPath = Library.GetRequiredPath();
 			var fileAttributes = Win32Helper.GetFileAttributes(libraryPath);
 			ViewModel.IsReadOnly = fileAttributes.HasFlag(System.IO.FileAttributes.ReadOnly);
 			ViewModel.IsHidden = fileAttributes.HasFlag(System.IO.FileAttributes.Hidden);
@@ -63,8 +62,7 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.LoadFileIcon = true;
 			}
 
-			var shellViewModel = AppInstance.ShellViewModel
-				?? throw new InvalidOperationException("The properties page does not have a shell view model.");
+			var shellViewModel = AppInstance.GetRequiredShellViewModel();
 
 			BaseStorageFile? libraryFile = (await shellViewModel.GetFileFromPathAsync(Library.ItemPath)).Result;
 			if (libraryFile is not null)
@@ -143,8 +141,7 @@ namespace Files.App.ViewModels.Properties
 
 		private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
-			var libraryPath = Library.ItemPath
-				?? throw new InvalidOperationException("The library does not have a path.");
+			var libraryPath = Library.GetRequiredPath();
 			switch (e.PropertyName)
 			{
 				case "IsReadOnly":

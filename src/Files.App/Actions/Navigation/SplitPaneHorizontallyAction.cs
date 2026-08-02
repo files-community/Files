@@ -36,7 +36,7 @@ namespace Files.App.Actions
 		{
 			var shellPage = ContentPageContext.ShellPage ?? throw new InvalidOperationException("An active shell page is required to split the pane.");
 			var paneHolder = shellPage.PaneHolder ?? throw new InvalidOperationException("The active shell page has no pane holder.");
-			var shellViewModel = shellPage.ShellViewModel ?? throw new InvalidOperationException("The active shell page has no shell view model.");
+			var shellViewModel = shellPage.GetRequiredShellViewModel();
 			paneHolder.OpenSecondaryPane(shellViewModel.WorkingDirectory ?? string.Empty, ShellPaneArrangement.Horizontal);
 
 			return Task.CompletedTask;

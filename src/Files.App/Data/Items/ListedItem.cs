@@ -117,8 +117,7 @@ namespace Files.App.Utils
 					// only set the tags if the file tags have been changed
 					if (fileTagsInitialized)
 					{
-						var path = ItemPath
-							?? throw new InvalidOperationException("The listed item does not have a path.");
+						var path = this.GetRequiredPath();
 						var dbInstance = FileTagsHelper.GetDbInstance();
 						dbInstance.SetTags(path, FileFRN, value);
 						FileTagsHelper.WriteFileTag(path, value);
@@ -200,8 +199,7 @@ namespace Files.App.Utils
 			get
 			{
 				var targetPath = (this as IShortcutItem)?.TargetPath;
-				return StartMenuService.IsPinned((!string.IsNullOrEmpty(targetPath) ? targetPath : ItemPath)
-					?? throw new InvalidOperationException("The listed item does not have a path."));
+				return StartMenuService.IsPinned(!string.IsNullOrEmpty(targetPath) ? targetPath : this.GetRequiredPath());
 			}
 		}
 
@@ -490,8 +488,7 @@ namespace Files.App.Utils
 		public bool IsGitItem => this is IGitItem;
 		public virtual bool IsExecutable => !IsFolder && FileExtensionHelpers.IsExecutableFile(ItemPath);
 		public virtual bool IsScriptFile => FileExtensionHelpers.IsScriptFile(ItemPath);
-		public bool IsPinned => App.QuickAccessManager.Model.PinnedFolders.Contains(
-			itemPath ?? throw new InvalidOperationException("The listed item does not have a path."));
+		public bool IsPinned => App.QuickAccessManager.Model.PinnedFolders.Contains(this.GetRequiredPath());
 		public bool IsDriveRoot => ItemPath == PathNormalization.GetPathRoot(ItemPath);
 		public bool IsElevationRequired { get; set; }
 
@@ -526,8 +523,7 @@ namespace Files.App.Utils
 		/// </summary>
 		public void UpdateContainsFilesFolders()
 		{
-			ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(
-				ItemPath ?? throw new InvalidOperationException("The listed item does not have a path."));
+			ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(this.GetRequiredPath());
 		}
 	}
 
@@ -609,7 +605,7 @@ namespace Files.App.Utils
 
 		public async Task<IStorageItem> ToStorageItem()
 		{
-			var path = ItemPath ?? throw new InvalidOperationException("The FTP item does not have a path.");
+			var path = this.GetRequiredPath();
 			var name = ItemNameRaw ?? throw new InvalidOperationException("The FTP item does not have a name.");
 
 			return PrimaryItemAttribute switch
@@ -704,8 +700,7 @@ namespace Files.App.Utils
 		{
 			get
 			{
-				var path = ItemPath
-					?? throw new InvalidOperationException("The alternate stream does not have a path.");
+				var path = this.GetRequiredPath();
 				return path.Substring(0, path.LastIndexOf(':'));
 			}
 		}

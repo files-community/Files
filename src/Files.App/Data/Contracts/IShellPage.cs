@@ -92,4 +92,14 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		public bool IsColumnView { get; }
 	}
+
+	internal static class ShellPageExtensions
+	{
+		extension(IShellPage? shellPage)
+		{
+			public ShellViewModel GetRequiredShellViewModel()
+			=> shellPage?.ShellViewModel
+				?? throw new InvalidOperationException("The shell page does not have a shell view model.");
+		}
+	}
 }

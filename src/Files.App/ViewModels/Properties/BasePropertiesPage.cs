@@ -46,8 +46,7 @@ namespace Files.App.ViewModels.Properties
 			{
 				var props = new DriveProperties(ViewModel, tokenSource, DispatcherQueue, drive, instance);
 				BaseProperties = props;
-				var drivePath = props.Drive.Path
-					?? throw new InvalidOperationException("The selected drive does not have a path.");
+				var drivePath = props.Drive.GetRequiredPath();
 
 				ViewModel.CleanupVisibility = props.Drive.Type != DriveType.Network && props.Drive.Type != DriveType.CloudDrive;
 				ViewModel.FormatVisibility = !(props.Drive.Type == DriveType.Network || props.Drive.Type == DriveType.CloudDrive || string.Equals(props.Drive.Path, $@"{Constants.UserEnvironmentPaths.SystemDrivePath}\", StringComparison.OrdinalIgnoreCase));

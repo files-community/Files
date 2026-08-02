@@ -126,11 +126,8 @@ namespace Files.App.Helpers
 							});
 						}
 
-						var shellViewModel = context.ShellPage?.ShellViewModel;
-						if (shellViewModel is null)
-							throw new InvalidOperationException("The active shell page does not have a shell view model.");
-
-						var itemPath = listedItem.ItemPath!;
+						var shellViewModel = context.ShellPage.GetRequiredShellViewModel();
+						var itemPath = listedItem.GetRequiredPath();
 						var result = listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem
 								? await shellViewModel.GetFileFromPathAsync(itemPath).OnSuccess(t => items.Add(t
 									?? throw new InvalidOperationException($"The file '{itemPath}' could not be opened.")))

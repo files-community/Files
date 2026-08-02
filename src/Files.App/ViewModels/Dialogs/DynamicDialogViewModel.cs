@@ -261,6 +261,10 @@ namespace Files.App.ViewModels.Dialogs
 		/// </summary>
 		public Action? HideDialog { get; set; }
 
+		internal void Hide()
+			=> (HideDialog
+				?? throw new InvalidOperationException("The dialog has not been attached to a view."))();
+
 		private Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs>? primaryButtonAction;
 
 		/// <summary>
@@ -405,19 +409,13 @@ namespace Files.App.ViewModels.Dialogs
 			// Create default implementation
 			TitleText = "DynamicDialog";
 			PrimaryButtonText = "Ok";
-			PrimaryButtonAction = (vm, e) => (HideDialog
-				?? throw new InvalidOperationException("The dialog has not been attached to a view."))();
-			SecondaryButtonAction = (vm, e) => (HideDialog
-				?? throw new InvalidOperationException("The dialog has not been attached to a view."))();
-			CloseButtonAction = (vm, e) => (HideDialog
-				?? throw new InvalidOperationException("The dialog has not been attached to a view."))();
+			PrimaryButtonAction = (vm, e) => vm.Hide();
+			SecondaryButtonAction = (vm, e) => vm.Hide();
+			CloseButtonAction = (vm, e) => vm.Hide();
 			KeyDownAction = (vm, e) =>
 			{
 				if (e.Key == VirtualKey.Escape)
-				{
-					(HideDialog
-						?? throw new InvalidOperationException("The dialog has not been attached to a view."))();
-				}
+					vm.Hide();
 			};
 			DisplayControlOnLoaded = (vm, e) =>
 			{

@@ -873,11 +873,8 @@ namespace Files.App.Utils.Storage
 			return await dialogService.ShowDialogAsync(new ElevateConfirmDialogViewModel()) == DialogResult.Primary;
 		}
 
-		private Task<DialogResult> GetFileInUseDialog(IEnumerable<string> source, IEnumerable<Win32Process>? lockingProcess = null)
+		private Task<DialogResult> GetFileInUseDialog(IEnumerable<string> source, IEnumerable<Win32Process> lockingProcess)
 		{
-			if (lockingProcess is null)
-				throw new ArgumentNullException(nameof(lockingProcess), "The locking process list is required to show the file-in-use dialog.");
-
 			var titleText = Strings.FileInUseDialogTitle.GetLocalizedResource();
 			var subtitleText = lockingProcess.IsEmpty()
 				? Strings.FileInUseDialogText.GetLocalizedResource()

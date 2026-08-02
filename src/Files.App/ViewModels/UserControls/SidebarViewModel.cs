@@ -492,8 +492,7 @@ namespace Files.App.ViewModels.UserControls
 				}
 				else
 				{
-					string drivePath = drive.Path
-						?? throw new InvalidOperationException("The drive does not have a path.");
+					string drivePath = drive.GetRequiredPath();
 					var paths = childItems.Select(item => item.Path).ToList();
 
 					if (!paths.Contains(drivePath))
@@ -861,8 +860,7 @@ namespace Files.App.ViewModels.UserControls
 
 			var item = rightClickedItem
 				?? throw new InvalidOperationException("No sidebar item is associated with the context menu.");
-			var itemPath = item.Path
-				?? throw new InvalidOperationException("The sidebar item does not have a path.");
+			var itemPath = item.GetRequiredPath();
 
 			itemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
 			await ShellContextFlyoutFactory.LoadShellMenuItemsAsync(itemPath, itemContextMenuFlyout, item.MenuOptions);
@@ -928,8 +926,7 @@ namespace Files.App.ViewModels.UserControls
 				case NavigationControlItemType.FileTag:
 					if (PaneHolder?.ActivePane is IShellPage shp)
 					{
-						var tagPath = navigationControlItem.Path
-							?? throw new InvalidOperationException("The sidebar tag does not have a path.");
+						var tagPath = navigationControlItem.GetRequiredPath();
 						shp.NavigateToPath(tagPath, new NavigationArguments()
 						{
 							IsSearchResultPage = true,
@@ -972,8 +969,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			if (rightClickedItem is DriveItem drive)
 			{
-				var path = drive.Path
-					?? throw new InvalidOperationException("The selected drive does not have a path.");
+				var path = drive.GetRequiredPath();
 				_ = QuickAccessService.PinToSidebarAsync([path]);
 			}
 		}
@@ -984,8 +980,7 @@ namespace Files.App.ViewModels.UserControls
 				?? throw new InvalidOperationException("No sidebar item is selected for unpinning.");
 			if (item.Section == SectionType.Pinned || item is DriveItem)
 			{
-				var path = item.Path
-					?? throw new InvalidOperationException("The selected sidebar item does not have a path.");
+				var path = item.GetRequiredPath();
 				_ = QuickAccessService.UnpinFromSidebarAsync(path);
 			}
 		}
@@ -1060,8 +1055,7 @@ namespace Files.App.ViewModels.UserControls
 					if (!string.IsNullOrEmpty(locationItem.Path) &&
 						!string.Equals(locationItem.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 					{
-						var shellViewModel = activePane.ShellViewModel
-							?? throw new InvalidOperationException("The active pane does not have a shell view model.");
+						var shellViewModel = activePane.GetRequiredShellViewModel();
 						var matchingStorageFolder = await shellViewModel.GetFolderFromPathAsync(locationItem.Path);
 						if (matchingStorageFolder.Result is { } folder)
 						{
@@ -1077,8 +1071,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private void EjectDevice()
 		{
-			var path = rightClickedItem?.Path
-				?? throw new InvalidOperationException("The selected sidebar item does not have a path.");
+			var path = rightClickedItem.GetRequiredPath();
 			DriveHelpers.EjectDeviceAsync(path);
 		}
 
@@ -1365,8 +1358,7 @@ namespace Files.App.ViewModels.UserControls
 
 			var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
 			var hasStorageItems = storageItems.Any();
-			var drivePath = driveItem.Path
-				?? throw new InvalidOperationException("The drive does not have a path.");
+			var drivePath = driveItem.GetRequiredPath();
 
 			if (Strings.Unknown.GetLocalizedResource().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
 				(hasStorageItems && storageItems.AreItemsAlreadyInFolder(drivePath)))
@@ -1460,8 +1452,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					var filesystemHelpers = FilesystemHelpers
 						?? throw new InvalidOperationException("The sidebar does not have filesystem helpers.");
-					var path = locationItem.Path
-						?? throw new InvalidOperationException("The sidebar drop target does not have a path.");
+					var path = locationItem.GetRequiredPath();
 					await filesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.DroppedItem, path, false, true);
 				}
 			}
@@ -1469,8 +1460,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private Task<ReturnResult> HandleDriveItemDroppedAsync(DriveItem driveItem, ItemDroppedEventArgs args)
 		{
-			var drivePath = driveItem.Path
-				?? throw new InvalidOperationException("The drive does not have a path.");
+			var drivePath = driveItem.GetRequiredPath();
 			var filesystemHelpers = FilesystemHelpers
 				?? throw new InvalidOperationException("The sidebar does not have filesystem helpers.");
 			return filesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.RawEvent.DataView, drivePath, false, true);
@@ -1504,8 +1494,7 @@ namespace Files.App.ViewModels.UserControls
 				?? throw new InvalidOperationException("The sidebar does not have a pane holder.");
 			if (paneHolder.ActivePane is { } activePane)
 			{
-				var shellViewModel = activePane.ShellViewModel
-					?? throw new InvalidOperationException("The active pane does not have a shell view model.");
+				var shellViewModel = activePane.GetRequiredShellViewModel();
 				await shellViewModel.UpdateItemsTags(pathToTags);
 				await shellViewModel.RefreshTagGroups();
 			}

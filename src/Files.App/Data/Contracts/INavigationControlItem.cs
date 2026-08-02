@@ -18,6 +18,16 @@ namespace Files.App.Data.Contracts
 		public ContextMenuOptions? MenuOptions { get; }
 	}
 
+	internal static class NavigationControlItemExtensions
+	{
+		extension(INavigationControlItem? item)
+		{
+			public string GetRequiredPath()
+			=> item?.Path
+				?? throw new InvalidOperationException("The navigation item does not have a path.");
+		}
+	}
+
 	public enum NavigationControlItemType
 	{
 		Drive,

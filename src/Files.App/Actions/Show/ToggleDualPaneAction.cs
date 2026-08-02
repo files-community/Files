@@ -42,7 +42,7 @@ namespace Files.App.Actions
 					return Task.CompletedTask;
 
 				var paneHolder = shellPage.PaneHolder ?? throw new InvalidOperationException("The active shell page has no pane holder.");
-				var shellViewModel = shellPage.ShellViewModel ?? throw new InvalidOperationException("The active shell page has no shell view model.");
+				var shellViewModel = shellPage.GetRequiredShellViewModel();
 				paneHolder.OpenSecondaryPane(shellViewModel.WorkingDirectory ?? string.Empty, generalSettingsService.ShellPaneArrangementOption);
 			}
 

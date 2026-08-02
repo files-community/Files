@@ -101,8 +101,7 @@ namespace Files.App.UserControls
 		{
 			if (PageContext.ShellPage is { } shellPage)
 			{
-				var shellViewModel = shellPage.ShellViewModel
-					?? throw new InvalidOperationException("The active shell page does not have a shell view model.");
+				var shellViewModel = shellPage.GetRequiredShellViewModel();
 				await shellViewModel.RefreshTagGroups();
 			}
 		}

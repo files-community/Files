@@ -79,13 +79,11 @@ namespace Files.App.ViewModels.Properties
 			switch (parameter.Parameter)
 			{
 				case ListedItem listedItem:
-					_path = listedItem.ItemPath
-						?? throw new InvalidOperationException("The selected item does not have a path.");
+					_path = listedItem.GetRequiredPath();
 					_isFolder = listedItem.PrimaryItemAttribute == StorageItemTypes.Folder && !listedItem.IsShortcut;
 					break;
 				case DriveItem driveItem:
-					_path = driveItem.Path
-						?? throw new InvalidOperationException("The selected drive does not have a path.");
+					_path = driveItem.GetRequiredPath();
 					_isFolder = true;
 					break;
 				default:

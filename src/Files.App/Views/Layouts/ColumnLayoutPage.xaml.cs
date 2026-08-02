@@ -115,8 +115,7 @@ namespace Files.App.Views.Layouts
 		private void FileList_Loaded(object sender, RoutedEventArgs e)
 		{
 			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
-			var shellViewModel = ParentShellPageInstance?.ShellViewModel
-				?? throw new InvalidOperationException("The column layout does not have a shell view model.");
+			var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 			shellViewModel.ItemLoadStatusChanged += OnItemLoadStatusChanged;
 		}
 
@@ -213,8 +212,7 @@ namespace Files.App.Views.Layouts
 		{
 			base.OnNavigatingFrom(e);
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
-			var shellViewModel = ParentShellPageInstance?.ShellViewModel
-				?? throw new InvalidOperationException("The column layout does not have a shell view model.");
+			var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 			shellViewModel.ItemLoadStatusChanged -= OnItemLoadStatusChanged;
 		}
 
@@ -248,8 +246,7 @@ namespace Files.App.Views.Layouts
 		{
 			if (ParentShellPageInstance is not { } parentShellPage)
 				return;
-			var shellViewModel = parentShellPage.ShellViewModel
-				?? throw new InvalidOperationException("The column layout does not have a shell view model.");
+			var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 
 			shellViewModel.CancelExtendedPropertiesLoading();
 			var filesAndFolders = shellViewModel.FilesAndFolders.ToList();
@@ -355,8 +352,7 @@ namespace Files.App.Views.Layouts
 			else if (SelectedItems?.Count > 1
 				|| SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File
 				|| openedFolderPresenter != null && ParentShellPageInstance != null
-				&& !(ParentShellPageInstance.ShellViewModel
-					?? throw new InvalidOperationException("The column layout does not have a shell view model."))
+				&& !ParentShellPageInstance.GetRequiredShellViewModel()
 					.FilesAndFolders.ToList().Contains(FileList.ItemFromContainer(openedFolderPresenter))
 				&& !isDraggingSelectionRectangle) // Skip closing if dragging since nothing should be open
 			{

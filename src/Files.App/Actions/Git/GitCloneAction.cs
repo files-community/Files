@@ -32,7 +32,7 @@ namespace Files.App.Actions
 			if (pageContext.ShellPage is not { } shellPage)
 				return Task.CompletedTask;
 
-			var shellViewModel = shellPage.ShellViewModel ?? throw new InvalidOperationException("The active shell page has no shell view model.");
+			var shellViewModel = shellPage.GetRequiredShellViewModel();
 			var repoUrl = parameter?.ToString() ?? string.Empty;
 			var viewModel = new CloneRepoDialogViewModel(repoUrl, shellViewModel.WorkingDirectory!);
 			return dialogService.ShowDialogAsync(viewModel);

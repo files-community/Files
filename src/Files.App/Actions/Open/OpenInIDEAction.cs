@@ -39,8 +39,7 @@ namespace Files.App.Actions
 		{
 			var shellPage = _context.ShellPage
 				?? throw new InvalidOperationException("An active shell page is required to open the current folder in an IDE.");
-			var shellViewModel = shellPage.ShellViewModel
-				?? throw new InvalidOperationException("The active shell page does not have a shell view model.");
+			var shellViewModel = shellPage.GetRequiredShellViewModel();
 
 			var res = await Win32Helper.RunPowershellCommandAsync(
 				$"& \'{_devToolsSettingsService.IDEPath}\' \'{shellViewModel.WorkingDirectory}\'",

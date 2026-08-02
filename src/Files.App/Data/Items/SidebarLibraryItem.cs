@@ -26,8 +26,7 @@ namespace Files.App.Data.Items
 			Path = shellLibrary.FullPath
 				?? throw new InvalidOperationException("The library does not have a path.");
 			DefaultSaveFolder = shellLibrary.DefaultSaveFolder;
-			Folders = new ReadOnlyCollection<string>(shellLibrary.Folders
-				?? throw new InvalidOperationException("The library does not have a folder list."));
+			Folders = new ReadOnlyCollection<string>(shellLibrary.Folders ?? []);
 			IsDefaultLocation = shellLibrary.IsPinned;
 		}
 
@@ -50,7 +49,7 @@ namespace Files.App.Data.Items
 
 		public async Task LoadLibraryIconAsync()
 		{
-			var path = Path ?? throw new InvalidOperationException("The library does not have a path.");
+			var path = this.GetRequiredPath();
 			var result = await FileThumbnailHelper.GetIconAsync(
 				path,
 				Constants.ShellIconSizes.Small,
@@ -64,9 +63,8 @@ namespace Files.App.Data.Items
 				Icon = bitmapImage;
 		}
 
-		public override int GetHashCode() => (Path
-			?? throw new InvalidOperationException("The library does not have a path."))
-			.GetHashCode(System.StringComparison.OrdinalIgnoreCase);
+		public override int GetHashCode()
+			=> this.GetRequiredPath().GetHashCode(System.StringComparison.OrdinalIgnoreCase);
 
 		public override bool Equals(object? obj)
 			=> obj is LibraryLocationItem other && GetType() == obj.GetType() && string.Equals(Path, other.Path, System.StringComparison.OrdinalIgnoreCase);

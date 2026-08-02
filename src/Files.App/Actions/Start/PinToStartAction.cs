@@ -40,8 +40,7 @@ namespace Files.App.Actions
 				{
 					await SafetyExtensions.IgnoreExceptions(async () =>
 					{
-						var itemPath = listedItem.ItemPath
-							?? throw new InvalidOperationException("The selected item does not have a path.");
+						var itemPath = listedItem.GetRequiredPath();
 						IStorable storable = listedItem switch
 						{
 							// Archives are marked as folders when browsable in-app but are files on disk
@@ -59,8 +58,7 @@ namespace Files.App.Actions
 				await SafetyExtensions.IgnoreExceptions(async () =>
 				{
 					var currentFolder = context.ShellPage.ShellViewModel.CurrentFolder;
-					var currentFolderPath = currentFolder.ItemPath
-						?? throw new InvalidOperationException("The current folder does not have a path.");
+					var currentFolderPath = currentFolder.GetRequiredPath();
 					IStorable storable = context.PageType is ContentPageTypes.ZipFolder
 						? await StorageService.GetFileAsync(currentFolderPath)
 						: await StorageService.GetFolderAsync(currentFolderPath);

@@ -185,8 +185,7 @@ namespace Files.App.Views.Layouts
 					value = jumpString;
 				if (value != string.Empty)
 				{
-					var shellViewModel = ParentShellPageInstance?.ShellViewModel
-						?? throw new InvalidOperationException("The layout does not have a shell view model.");
+					var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 					ListedItem? jumpedToItem = null;
 					ListedItem? previouslySelectedItem = IsItemSelected ? SelectedItem : null;
 
@@ -397,8 +396,7 @@ namespace Files.App.Views.Layouts
 		{
 			if (ParentShellPageInstance is { SlimContentPage: not null } parentShellPage)
 			{
-				var shellViewModel = parentShellPage.ShellViewModel
-					?? throw new InvalidOperationException("The layout does not have a shell view model.");
+				var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 				var folderSettings = parentShellPage.InstanceViewModel.FolderSettings;
 				var workingDirectory = shellViewModel.WorkingDirectory
 					?? throw new InvalidOperationException("The shell page does not have a working directory.");
@@ -634,8 +632,7 @@ namespace Files.App.Views.Layouts
 
 		private async Task GroupPreferenceUpdatedAsync()
 		{
-			var shellViewModel = ParentShellPageInstance?.ShellViewModel
-				?? throw new InvalidOperationException("The layout does not have a shell view model.");
+			var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 
 			// Two or more of these running at the same time will cause a crash, so cancel the previous one before beginning
 			groupingCancellationToken?.Cancel();
@@ -667,8 +664,7 @@ namespace Files.App.Views.Layouts
 			var parameter = e.Parameter as NavigationArguments;
 			if (parameter is not null && !parameter.IsLayoutSwitch)
 			{
-				var shellViewModel = ParentShellPageInstance?.ShellViewModel
-					?? throw new InvalidOperationException("The layout does not have a shell view model.");
+				var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 				shellViewModel.CancelLoadAndClearFiles();
 			}
 		}
@@ -681,8 +677,7 @@ namespace Files.App.Views.Layouts
 			{
 				var parentShellPage = ParentShellPageInstance
 					?? throw new InvalidOperationException("The layout does not have a parent shell page.");
-				var shellViewModel = parentShellPage.ShellViewModel
-					?? throw new InvalidOperationException("The layout does not have a shell view model.");
+				var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 				var commandsViewModel = CommandsViewModel
 					?? throw new InvalidOperationException("The layout commands are not initialized.");
 
@@ -752,8 +747,7 @@ namespace Files.App.Views.Layouts
 			{
 				var parentShellPage = ParentShellPageInstance
 					?? throw new InvalidOperationException("The layout does not have a parent shell page.");
-				var shellViewModel = parentShellPage.ShellViewModel
-					?? throw new InvalidOperationException("The layout does not have a shell view model.");
+				var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 				var commandsViewModel = CommandsViewModel
 					?? throw new InvalidOperationException("The layout commands are not initialized.");
 
@@ -890,8 +884,7 @@ namespace Files.App.Views.Layouts
 			{
 				if (ParentShellPageInstance is not null)
 				{
-					var shellViewModel = ParentShellPageInstance.ShellViewModel
-						?? throw new InvalidOperationException("The layout does not have a shell view model.");
+					var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 					await shellViewModel.RefreshTagGroups();
 				}
 			}
@@ -1146,7 +1139,7 @@ namespace Files.App.Views.Layouts
 				var orderedItems = sortedItems.SkipWhile(x => x != firstItem).Concat(sortedItems.TakeWhile(x => x != firstItem)).ToList();
 
 				var shellItemList = SafetyExtensions.IgnoreExceptions(() => orderedItems.Select(item => new VanaraWindowsShell.ShellItem(
-					item.ItemPath ?? throw new InvalidOperationException("A dragged item does not have a path."))).ToArray());
+					item.GetRequiredPath())).ToArray());
 				if (shellItemList?[0].FileSystemPath is not null &&
 					!instanceViewModel.IsPageTypeSearchResults)
 				{
@@ -1319,8 +1312,7 @@ namespace Files.App.Views.Layouts
 				var parentShellPage = ParentShellPageInstance
 					?? throw new InvalidOperationException("The layout page does not have a parent shell page.");
 				var targetPath = (item as IShortcutItem)?.TargetPath;
-				var destination = (!string.IsNullOrEmpty(targetPath) ? targetPath : item.ItemPath)
-					?? throw new InvalidOperationException("The drop target does not have a path.");
+				var destination = !string.IsNullOrEmpty(targetPath) ? targetPath : item.GetRequiredPath();
 				await parentShellPage.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, destination, false, true, item.IsExecutable, item.IsScriptFile);
 			}
 
@@ -1371,8 +1363,7 @@ namespace Files.App.Views.Layouts
 			if (inRecycleQueue)
 			{
 				UpdateItemToolTip(container, null);
-				var shellViewModel = ParentShellPageInstance?.ShellViewModel
-					?? throw new InvalidOperationException("The layout does not have a shell view model.");
+				var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 				shellViewModel.CancelExtendedPropertiesLoadingForItem(listedItem);
 			}
 			else
@@ -1388,8 +1379,7 @@ namespace Files.App.Views.Layouts
 					uint callbackPhase = 3;
 					args.RegisterUpdateCallback(callbackPhase, async (s, c) =>
 					{
-						var shellViewModel = ParentShellPageInstance?.ShellViewModel
-							?? throw new InvalidOperationException("The layout does not have a shell view model.");
+						var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 
 						await shellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
 						if (shellViewModel.EnabledGitProperties is not GitProperties.None && listedItem is IGitItem gitItem)
@@ -1597,8 +1587,7 @@ namespace Files.App.Views.Layouts
 		{
 			if (ParentShellPageInstance is not { } parentShellPage)
 				return;
-			var shellViewModel = parentShellPage.ShellViewModel
-				?? throw new InvalidOperationException("The layout does not have a shell view model.");
+			var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 
 			if (shellViewModel.FilesAndFolders.IsGrouped)
 			{

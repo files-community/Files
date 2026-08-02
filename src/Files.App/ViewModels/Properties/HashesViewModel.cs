@@ -123,8 +123,7 @@ namespace Files.App.ViewModels.Properties
 				{
 					try
 					{
-						var itemPath = _item.ItemPath
-							?? throw new InvalidOperationException("The file does not have a path.");
+						var itemPath = _item.GetRequiredPath();
 						await using (var stream = File.OpenRead(itemPath))
 						{
 							hashInfoItem.HashValue = hashInfoItem.Algorithm switch

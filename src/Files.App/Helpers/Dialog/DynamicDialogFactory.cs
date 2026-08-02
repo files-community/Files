@@ -116,7 +116,7 @@ namespace Files.App.Helpers
 				},
 				PrimaryButtonAction = (vm, e) =>
 				{
-					vm.HideDialog!.Invoke(); // Rename successful
+					vm.Hide(); // Rename successful
 				},
 				PrimaryButtonText = Strings.Create.GetLocalizedResource(),
 				CloseButtonText = Strings.Cancel.GetLocalizedResource(),
@@ -237,7 +237,7 @@ namespace Files.App.Helpers
 				CloseButtonAction = (vm, e) =>
 				{
 					vm.AdditionalData = null;
-					vm.HideDialog!.Invoke();
+					vm.Hide();
 				}
 
 			});
@@ -284,7 +284,7 @@ namespace Files.App.Helpers
 				CloseButtonAction = (vm, e) =>
 				{
 					vm.AdditionalData = GitCheckoutOptions.None;
-					vm.HideDialog!.Invoke();
+					vm.Hide();
 				}
 			});
 
@@ -331,7 +331,7 @@ namespace Files.App.Helpers
 				CloseButtonAction = (vm, e) =>
 				{
 					vm.AdditionalData = GitCheckoutOptions.None;
-					vm.HideDialog!.Invoke();
+					vm.Hide();
 				}
 			});
 
@@ -374,7 +374,7 @@ namespace Files.App.Helpers
 				CloseButtonAction = (vm, e) =>
 				{
 					vm.AdditionalData = false;
-					vm.HideDialog!.Invoke();
+					vm.Hide();
 				}
 			});
 
@@ -461,7 +461,7 @@ namespace Files.App.Helpers
 				},
 				PrimaryButtonAction = (vm, e) =>
 				{
-					vm.HideDialog!.Invoke();
+					vm.Hide();
 				},
 				PrimaryButtonText = Strings.Create.GetLocalizedResource(),
 				CloseButtonText = Strings.Cancel.GetLocalizedResource(),

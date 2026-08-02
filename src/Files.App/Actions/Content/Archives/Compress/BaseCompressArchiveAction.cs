@@ -38,7 +38,7 @@ namespace Files.App.Actions
 		protected void GetDestination(out string[] sources, out string directory, out string fileName)
 		{
 			sources = context.SelectedItems
-				.Select(item => item.ItemPath ?? throw new InvalidOperationException("A selected item does not have a path."))
+				.Select(item => item.GetRequiredPath())
 				.ToArray();
 			directory = string.Empty;
 			fileName = string.Empty;
@@ -47,11 +47,10 @@ namespace Files.App.Actions
 			{
 				// Get the current directory path
 				var shellPage = context.ShellPage ?? throw new InvalidOperationException("An active shell page is required to compress items.");
-				var shellViewModel = shellPage.ShellViewModel ?? throw new InvalidOperationException("The active shell page has no shell view model.");
+				var shellViewModel = shellPage.GetRequiredShellViewModel();
 				var workingDirectory = shellViewModel.WorkingDirectory
 					?? throw new InvalidOperationException("The active shell page does not have a working directory.");
-				directory = workingDirectory.Normalize()
-					?? throw new InvalidOperationException("The active shell page does not have a working directory.");
+				directory = workingDirectory.Normalize();
 
 				// Get the library save folder if the folder is library item
 				if (App.LibraryManager.TryGetLibrary(directory, out var library) && !library.IsEmpty)

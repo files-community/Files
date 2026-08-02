@@ -309,12 +309,10 @@ namespace Files.App.Helpers
 				else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == normalizedCurrentPath) // If path is a drive's root
 				{
 					var matchingDrive = NetworkService.Computers.Cast<DriveItem>().FirstOrDefault(netDrive => normalizedCurrentPath.Contains(
-						PathNormalization.NormalizePath(netDrive.Path
-							?? throw new InvalidOperationException("The network drive does not have a path.")),
+						PathNormalization.NormalizePath(netDrive.GetRequiredPath()),
 						StringComparison.OrdinalIgnoreCase));
 					matchingDrive ??= DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(drive => normalizedCurrentPath.Contains(
-						PathNormalization.NormalizePath(drive.Path
-							?? throw new InvalidOperationException("The drive does not have a path.")),
+						PathNormalization.NormalizePath(drive.GetRequiredPath()),
 						StringComparison.OrdinalIgnoreCase));
 					tabLocationHeader = matchingDrive is not null ? matchingDrive.Text : normalizedCurrentPath;
 				}
@@ -405,8 +403,7 @@ namespace Files.App.Helpers
 				return;
 
 			var targetPath = (listedItem as IShortcutItem)?.TargetPath;
-			var path = (!string.IsNullOrEmpty(targetPath) ? targetPath : listedItem.ItemPath)
-				?? throw new InvalidOperationException("The selected item does not have a path.");
+			var path = !string.IsNullOrEmpty(targetPath) ? targetPath : listedItem.GetRequiredPath();
 			associatedInstance.PaneHolder?.OpenSecondaryPane(path, arrangement);
 		}
 
@@ -451,8 +448,7 @@ namespace Files.App.Helpers
 					? FilesystemItemType.Directory
 					: FilesystemItemType.File;
 
-				var itemPath = item.ItemPath
-					?? throw new InvalidOperationException("The selected item does not have a path.");
+				var itemPath = item.GetRequiredPath();
 				await OpenPath(itemPath, associatedInstance, type, false, openViaApplicationPicker, forceOpenInNewTab: forceOpenInNewTab);
 
 				if (type == FilesystemItemType.Directory)

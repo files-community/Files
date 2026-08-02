@@ -24,9 +24,7 @@ namespace Files.App.Utils.Storage
 				GroupOption.FileTag => x => x.FileTags?.FirstOrDefault() ?? "Untagged",
 				GroupOption.OriginalFolder => x => (x as RecycleBinItem)?.ItemOriginalFolder,
 				GroupOption.DateDeleted => x => dateTimeFormatter.ToTimeSpanLabel((x as RecycleBinItem)?.ItemDateDeletedReal ?? DateTimeOffset.Now, unit).Text,
-				GroupOption.FolderPath => x => PathNormalization.GetParentDir((x.ItemPath
-					?? throw new InvalidOperationException("The grouped item does not have a path."))
-					.TrimPath()),
+				GroupOption.FolderPath => x => PathNormalization.GetParentDir(x.GetRequiredPath().TrimPath()),
 				_ => null,
 			};
 		}
@@ -123,9 +121,7 @@ namespace Files.App.Utils.Storage
 					ListedItem first = x.First();
 					var model = x.Model;
 					model.ShowCountTextBelow = true;
-					var parentPath = PathNormalization.GetParentDir((first.ItemPath
-						?? throw new InvalidOperationException("The grouped item does not have a path."))
-						.TrimPath());
+					var parentPath = PathNormalization.GetParentDir(first.GetRequiredPath().TrimPath());
 					model.Text = GetFolderName(parentPath);
 					model.Subtext = parentPath;
 				}, null),

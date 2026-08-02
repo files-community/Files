@@ -293,8 +293,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					?? throw new InvalidOperationException("The quick-access item does not have a path.");
 				var shellPage = ContentPageContext.ShellPage
 					?? throw new InvalidOperationException("There is no active shell page for quick-access properties.");
-				var shellViewModel = shellPage.ShellViewModel
-					?? throw new InvalidOperationException("The active shell page does not have a shell view model.");
+				var shellViewModel = shellPage.GetRequiredShellViewModel();
 
 				ListedItem listedItem = new(null)
 				{

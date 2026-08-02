@@ -93,14 +93,12 @@ namespace Files.App.Views.Properties
 					Win32Helper.SetNetworkDriveLabel(drive.DeviceID
 						?? throw new InvalidOperationException("The network drive does not have a device ID."), newName);
 				else
-					Win32Helper.SetVolumeLabel(drive.Path
-						?? throw new InvalidOperationException("The drive does not have a path."), newName);
+					Win32Helper.SetVolumeLabel(drive.GetRequiredPath(), newName);
 
 				_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await drive.UpdateLabelAsync();
-					await fsVM.SetWorkingDirectoryAsync(drive.Path
-						?? throw new InvalidOperationException("The drive does not have a path."));
+					await fsVM.SetWorkingDirectoryAsync(drive.GetRequiredPath());
 				});
 				return true;
 			}
@@ -113,8 +111,7 @@ namespace Files.App.Views.Properties
 
 				newName = $"{newName}{ShellLibraryItem.EXTENSION}";
 
-				var libraryPath = library.ItemPath
-					?? throw new InvalidOperationException("The library does not have a path.");
+				var libraryPath = library.GetRequiredPath();
 				var file = new StorageFileWithPath(null, libraryPath);
 				var renamed = await AppInstance.FilesystemHelpers.RenameAsync(file, newName, NameCollisionOption.FailIfExists, false, false);
 				if (renamed is ReturnResult.Success)
@@ -155,8 +152,7 @@ namespace Files.App.Views.Properties
 
 						if (ViewModel.IsAblumCoverModified)
 						{
-							MediaFileHelper.ChangeAlbumCover(fileOrFolder.ItemPath
-								?? throw new InvalidOperationException("A selected item does not have a path."), ViewModel.ModifiedAlbumCover);
+							MediaFileHelper.ChangeAlbumCover(fileOrFolder.GetRequiredPath(), ViewModel.ModifiedAlbumCover);
 
 							await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 							{
@@ -170,8 +166,7 @@ namespace Files.App.Views.Properties
 
 			async Task<bool> SaveBaseAsync(ListedItem item)
 			{
-				var itemPath = item.ItemPath
-					?? throw new InvalidOperationException("The selected item does not have a path.");
+				var itemPath = item.GetRequiredPath();
 				// Handle the visibility attribute for a single file
 				var itemMM = AppInstance?.SlimContentPage?.ItemManipulationModel;
 				if (itemMM is not null && ViewModel.IsHiddenEditedValue is not null) // null on homepage

@@ -588,11 +588,11 @@ namespace Files.App.ViewModels.UserControls
 				if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(normalizedInput))
 				{
 					var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(normalizedInput).StartsWith(
-						PathNormalization.NormalizePath(x.Path!),
+						PathNormalization.NormalizePath(x.GetRequiredPath()),
 						StringComparison.Ordinal));
 					if (matchingDrive is not null && matchingDrive.Type == Data.Items.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
 					{
-						var drivePath = matchingDrive.Path!;
+						var drivePath = matchingDrive.GetRequiredPath();
 						bool ejectButton = await DialogDisplayHelper.ShowDialogAsync(Strings.InsertDiscDialogTitle.GetLocalizedResource(), string.Format(Strings.InsertDiscDialogText.GetLocalizedResource(), drivePath), Strings.InsertDiscDialog_OpenDriveButton.GetLocalizedResource(), Strings.Close.GetLocalizedResource());
 						if (ejectButton)
 							DriveHelpers.EjectDeviceAsync(drivePath);
@@ -889,12 +889,11 @@ namespace Files.App.ViewModels.UserControls
 					if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(normalizedInput))
 					{
 						var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(normalizedInput).StartsWith(
-							PathNormalization.NormalizePath(x.Path) ?? throw new InvalidOperationException("A drive does not have a path."),
+							PathNormalization.NormalizePath(x.GetRequiredPath()),
 							StringComparison.Ordinal));
 						if (matchingDrive is not null && matchingDrive.Type == Data.Items.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
 						{
-							var drivePath = matchingDrive.Path
-								?? throw new InvalidOperationException("The optical drive does not have a path.");
+							var drivePath = matchingDrive.GetRequiredPath();
 							bool ejectButton = await DialogDisplayHelper.ShowDialogAsync(Strings.InsertDiscDialogTitle.GetLocalizedResource(), string.Format(Strings.InsertDiscDialogText.GetLocalizedResource(), drivePath), Strings.InsertDiscDialog_OpenDriveButton.GetLocalizedResource(), Strings.Close.GetLocalizedResource());
 							if (ejectButton)
 								DriveHelpers.EjectDeviceAsync(drivePath);
@@ -1096,8 +1095,9 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task PopulateOmnibarSuggestionsForCommandPaletteMode()
 		{
-			var commandPaletteText = OmnibarCommandPaletteModeText;
-			ArgumentNullException.ThrowIfNull(commandPaletteText, "value");
+			if (OmnibarCommandPaletteModeText is not { } commandPaletteText)
+				return;
+
 			var (suggestionsToProcess, commandsToProcess) = await Task.Run(() =>
 			{
 				var suggestions = new List<NavigationBarSuggestionItem>();

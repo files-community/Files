@@ -58,7 +58,7 @@ namespace Files.App.Actions
 			var items = context.SelectedItems.ToList().Where(x => x is RecycleBinItem).Select((item) => new
 			{
 				Source = StorageHelpers.FromPathAndType(
-					item.ItemPath ?? throw new InvalidOperationException("The recycle-bin item does not have a path."),
+					item.GetRequiredPath(),
 					item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory),
 				Dest = ((RecycleBinItem)item).ItemOriginalPath!
 			});

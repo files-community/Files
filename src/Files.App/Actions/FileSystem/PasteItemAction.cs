@@ -45,7 +45,7 @@ namespace Files.App.Actions
 			if (context.ShellPage is not { } shellPage)
 				return;
 
-			var shellViewModel = shellPage.ShellViewModel ?? throw new InvalidOperationException("The active shell page has no shell view model.");
+			var shellViewModel = shellPage.GetRequiredShellViewModel();
 			string path = shellViewModel.WorkingDirectory!;
 			await UIFilesystemHelpers.PasteItemAsync(path, shellPage);
 		}

@@ -78,4 +78,18 @@ namespace Files.App.Utils
 		string ToString();
 		void UpdateContainsFilesFolders();
 	}
+
+	internal static class ListedItemExtensions
+	{
+		extension(IListedItem item)
+		{
+			public string GetRequiredPath()
+			{
+				ArgumentNullException.ThrowIfNull(item);
+
+				return item.ItemPath
+					?? throw new InvalidOperationException("The listed item does not have a path.");
+			}
+		}
+	}
 }

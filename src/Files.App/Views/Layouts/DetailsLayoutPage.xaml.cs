@@ -152,8 +152,7 @@ namespace Files.App.Views.Layouts
 
 			var parentShellPage = ParentShellPageInstance
 				?? throw new InvalidOperationException("The details layout must be associated with a shell page.");
-			var shellViewModel = parentShellPage.ShellViewModel
-				?? throw new InvalidOperationException("The details layout requires an initialized shell view model.");
+			var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 			var folderSettings = FolderSettings
 				?? throw new InvalidOperationException("The details layout requires folder settings.");
 
@@ -218,8 +217,7 @@ namespace Files.App.Views.Layouts
 			folderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 			folderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			folderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
-			var shellViewModel = ParentShellPageInstance?.ShellViewModel
-				?? throw new InvalidOperationException("The details layout does not have a shell view model.");
+			var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 			shellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
 			shellViewModel.ItemLoadStatusChanged -= ShellViewModel_ItemLoadStatusChanged;
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
@@ -594,8 +592,7 @@ namespace Files.App.Views.Layouts
 		{
 			if (ParentShellPageInstance is not { } parentShellPage)
 				return;
-			var shellViewModel = parentShellPage.ShellViewModel
-				?? throw new InvalidOperationException("The details layout does not have a shell view model.");
+			var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 
 			shellViewModel.CancelExtendedPropertiesLoading();
 			var filesAndFolders = shellViewModel.FilesAndFolders.ToList();
@@ -809,8 +806,7 @@ namespace Files.App.Views.Layouts
 			var folderSettings = FolderSettings
 				?? throw new InvalidOperationException("The details layout does not have folder settings.");
 			folderSettings.ColumnsViewModel = ColumnsViewModel;
-			var shellViewModel = ParentShellPageInstance?.ShellViewModel
-				?? throw new InvalidOperationException("The details layout does not have a shell view model.");
+			var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 			shellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
 		}
 
@@ -1144,8 +1140,7 @@ namespace Files.App.Views.Layouts
 
 				if (ParentShellPageInstance is not null)
 				{
-					var shellViewModel = ParentShellPageInstance.ShellViewModel
-						?? throw new InvalidOperationException("The details layout does not have a shell view model.");
+					var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 					await shellViewModel.RefreshTagGroups();
 				}
 			}

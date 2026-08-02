@@ -136,8 +136,7 @@ namespace Files.App.Views.Layouts
 			var selectedItem = parentShellPage?.SlimContentPage?.SelectedItem;
 			if (selectedItem is null)
 				return;
-			var shellViewModel = parentShellPage!.ShellViewModel
-				?? throw new InvalidOperationException("The layout does not have a shell view model.");
+			var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 
 			shellViewModel.CancelExtendedPropertiesLoading();
 			selectedItem.ItemPropertiesInitialized = false;
@@ -157,8 +156,7 @@ namespace Files.App.Views.Layouts
 			var selectedItems = parentShellPage?.SlimContentPage?.SelectedItems;
 			if (selectedItems is null)
 				return;
-			var shellViewModel = parentShellPage!.ShellViewModel
-				?? throw new InvalidOperationException("The layout does not have a shell view model.");
+			var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 
 			shellViewModel.CancelExtendedPropertiesLoading();
 

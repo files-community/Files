@@ -50,7 +50,7 @@ namespace Files.App.Actions
 			}));
 
 			await shellPage.FilesystemHelpers.DeleteItemsAsync(itemsToDelete, foldersSettingsService.DeleteConfirmationPolicy, false, true);
-			var shellViewModel = shellPage.ShellViewModel ?? throw new InvalidOperationException("The active shell page has no shell view model.");
+			var shellViewModel = shellPage.GetRequiredShellViewModel();
 			await shellViewModel.ApplyFilesAndFoldersChangesAsync();
 		}
 

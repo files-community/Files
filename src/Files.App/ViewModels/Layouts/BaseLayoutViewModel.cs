@@ -75,8 +75,7 @@ namespace Files.App.ViewModels.Layouts
 				if (Item.IsShortcut)
 				{
 					var targetPath = ((e.OriginalSource as FrameworkElement)?.DataContext as IShortcutItem)?.TargetPath;
-					await NavigationHelpers.OpenPathInNewTab((!string.IsNullOrEmpty(targetPath) ? targetPath : Item.ItemPath)
-						?? throw new InvalidOperationException("The selected item does not have a path."));
+					await NavigationHelpers.OpenPathInNewTab(!string.IsNullOrEmpty(targetPath) ? targetPath : Item.GetRequiredPath());
 				}
 				else
 					await NavigationHelpers.OpenPathInNewTab(Item.ItemPath);

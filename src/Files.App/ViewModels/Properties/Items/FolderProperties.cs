@@ -31,8 +31,7 @@ namespace Files.App.ViewModels.Properties
 
 		public override void GetBaseProperties()
 		{
-			var itemPath = Item.ItemPath
-				?? throw new InvalidOperationException("The selected folder does not have a path.");
+			var itemPath = Item.GetRequiredPath();
 			ViewModel.ItemName = Item.Name;
 			ViewModel.OriginalItemName = Item.Name;
 			ViewModel.ItemType = Item.ItemType;
@@ -72,8 +71,7 @@ namespace Files.App.ViewModels.Properties
 
 		public async override Task GetSpecialPropertiesAsync()
 		{
-			var itemPath = Item.ItemPath
-				?? throw new InvalidOperationException("The selected folder does not have a path.");
+			var itemPath = Item.GetRequiredPath();
 			var fileAttributes = Win32Helper.GetFileAttributes(itemPath);
 			ViewModel.IsHidden = fileAttributes.HasFlag(FileAttributes.Hidden);
 			ViewModel.CanCompressContent = Win32Helper.CanCompressContent(itemPath);
@@ -112,10 +110,8 @@ namespace Files.App.ViewModels.Properties
 			}
 
 			var targetPath = (Item as IShortcutItem)?.TargetPath;
-			string folderPath = (!string.IsNullOrEmpty(targetPath) ? targetPath : Item.ItemPath)
-				?? throw new InvalidOperationException("The selected folder does not have a path.");
-			var shellViewModel = AppInstance.ShellViewModel
-				?? throw new InvalidOperationException("The properties page does not have a shell view model.");
+			string folderPath = !string.IsNullOrEmpty(targetPath) ? targetPath : Item.GetRequiredPath();
+			var shellViewModel = AppInstance.GetRequiredShellViewModel();
 
 			var storageFolder = (await shellViewModel.GetFolderFromPathAsync(folderPath)).Result;
 
@@ -207,8 +203,7 @@ namespace Files.App.ViewModels.Properties
 
 		private async void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
-			var itemPath = Item.ItemPath
-				?? throw new InvalidOperationException("The selected folder does not have a path.");
+			var itemPath = Item.GetRequiredPath();
 			switch (e.PropertyName)
 			{
 				case nameof(ViewModel.IsHidden):

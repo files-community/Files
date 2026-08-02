@@ -172,18 +172,18 @@ namespace Files.App.Helpers
 			}
 			else if (item.IsOfType(StorageItemTypes.File))
 			{
-				return new StorageFileWithPath(item.AsBaseStorageFile(), GetRequiredPath(item, customPath));
+				return new StorageFileWithPath(item.AsBaseStorageFile(), GetPath(item, customPath));
 			}
 			else if (item.IsOfType(StorageItemTypes.Folder))
 			{
-				return new StorageFolderWithPath(item.AsBaseStorageFolder(), GetRequiredPath(item, customPath));
+				return new StorageFolderWithPath(item.AsBaseStorageFolder(), GetPath(item, customPath));
 			}
 			return null;
 
-			static string GetRequiredPath(IStorageItem item, string? customPath)
+			static string GetPath(IStorageItem item, string? customPath)
 				=> !string.IsNullOrEmpty(item.Path)
 					? item.Path
-					: customPath ?? throw new InvalidOperationException("A custom path is required for a storage item without a path.");
+					: customPath ?? string.Empty;
 		}
 
 		public static FilesystemResult<T> ToType<T, V>(FilesystemResult<V> result) where T : class

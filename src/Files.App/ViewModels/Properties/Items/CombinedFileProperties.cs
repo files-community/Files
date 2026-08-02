@@ -19,8 +19,7 @@ namespace Files.App.ViewModels.Properties
 		{
 			var queries = await Task.WhenAll(List.AsParallel().Select(async item =>
 			{
-				var itemPath = item.ItemPath
-					?? throw new InvalidOperationException("A selected file does not have a path.");
+				var itemPath = item.GetRequiredPath();
 				var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(itemPath));
 				if (fileResult.Result is not { } file)
 				{
@@ -92,8 +91,7 @@ namespace Files.App.ViewModels.Properties
 			foreach (var item in List)
 			{
 				// Couldn't access the file to save properties
-				var itemPath = item.ItemPath
-					?? throw new InvalidOperationException("A selected file does not have a path.");
+				var itemPath = item.GetRequiredPath();
 				var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(itemPath));
 				if (fileResult.Result is not { } file)
 					return;
@@ -146,8 +144,7 @@ namespace Files.App.ViewModels.Properties
 			var files = new List<BaseStorageFile>();
 			foreach (var item in List)
 			{
-				var itemPath = item.ItemPath
-					?? throw new InvalidOperationException("A selected file does not have a path.");
+				var itemPath = item.GetRequiredPath();
 				var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(itemPath));
 				if (fileResult.Result is not { } file)
 					return;

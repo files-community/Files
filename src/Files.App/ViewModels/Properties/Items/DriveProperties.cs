@@ -42,8 +42,7 @@ namespace Files.App.ViewModels.Properties
 		public async override Task GetSpecialPropertiesAsync()
 		{
 			ViewModel.ItemAttributesVisibility = false;
-			var drivePath = Drive.Path
-				?? throw new InvalidOperationException("The drive does not have a path.");
+			var drivePath = Drive.GetRequiredPath();
 
 			var rootResult = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(drivePath));
 			var diskRootResult = await FilesystemTasks.WrapNullable(

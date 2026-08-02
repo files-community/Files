@@ -49,8 +49,7 @@ namespace Files.App.ViewModels.Dialogs
 			{
 				var itemType = item.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
 				await context.ShellPage.FilesystemHelpers.RenameAsync(
-					StorageHelpers.FromPathAndType(item.ItemPath
-						?? throw new InvalidOperationException("The selected item does not have a path."), itemType),
+					StorageHelpers.FromPathAndType(item.GetRequiredPath(), itemType),
 					FileName + item.FileExtension,
 					NameCollisionOption.GenerateUniqueName,
 					true,

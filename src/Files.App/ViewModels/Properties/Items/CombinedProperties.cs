@@ -42,8 +42,7 @@ namespace Files.App.ViewModels.Properties
 
 			var itemsPath = List.Select(item =>
 			{
-				var itemPath = item.ItemPath
-					?? throw new InvalidOperationException("A selected item does not have a path.");
+				var itemPath = item.GetRequiredPath();
 				return (item as RecycleBinItem)?.ItemOriginalFolder ??
 					(Path.IsPathRooted(itemPath) ? Path.GetDirectoryName(itemPath) : itemPath);
 			});
@@ -56,7 +55,7 @@ namespace Files.App.ViewModels.Properties
 		{
 			var itemsWithPaths = List.Select(item => (
 				Item: item,
-				Path: item.ItemPath ?? throw new InvalidOperationException("A selected item does not have a path."))).ToList();
+				Path: item.GetRequiredPath())).ToList();
 			bool allFiles = true, allReadOnly = true, allNotReadOnly = true, allHidden = true, allNotHidden = true;
 			bool allCompressed = true, allNotCompressed = true, anyCanCompress = false;
 			foreach (var (x, path) in itemsWithPaths)
@@ -153,8 +152,7 @@ namespace Files.App.ViewModels.Properties
 
 		private async void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
-			var itemPaths = List.Select(item => item.ItemPath
-				?? throw new InvalidOperationException("A selected item does not have a path.")).ToList();
+			var itemPaths = List.Select(item => item.GetRequiredPath()).ToList();
 
 			switch (e.PropertyName)
 			{

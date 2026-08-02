@@ -219,7 +219,8 @@ namespace Files.App.Utils.Shell
 							if (isAlternateStream)
 							{
 								var tempPathRoot = Environment.GetEnvironmentVariable("TEMP");
-								ArgumentNullException.ThrowIfNull(tempPathRoot, "path1");
+								if (tempPathRoot is null)
+									return false;
 
 								var basePath = Path.Combine(tempPathRoot, Guid.NewGuid().ToString("n"));
 								Kernel32.CreateDirectory(basePath);
@@ -277,10 +278,8 @@ namespace Files.App.Utils.Shell
 				using var computer = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_ComputerFolder);
 				using var device = computer.FirstOrDefault(i =>
 				{
-					var name = i.Name
-						?? throw new ArgumentNullException("value", "A device shell item does not have a name.");
-
-					return executable.Replace("\\\\?\\", "", StringComparison.Ordinal).StartsWith(name, StringComparison.Ordinal);
+					return i.Name is { } name &&
+						executable.Replace("\\\\?\\", "", StringComparison.Ordinal).StartsWith(name, StringComparison.Ordinal);
 				});
 				var deviceId = device?.ParsingName;
 				var itemPath = RegexHelpers.WindowsPath().Replace(executable, "");

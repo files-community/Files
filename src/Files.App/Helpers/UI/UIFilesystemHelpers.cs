@@ -78,8 +78,7 @@ namespace Files.App.Helpers
 			FilesystemItemType itemType = (item.PrimaryItemAttribute == StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File;
 
 			ReturnResult renamed = await associatedInstance.FilesystemHelpers.RenameAsync(
-				StorageHelpers.FromPathAndType(item.ItemPath
-					?? throw new InvalidOperationException("The item being renamed does not have a path."), itemType),
+				StorageHelpers.FromPathAndType(item.GetRequiredPath(), itemType),
 				newName, NameCollisionOption.FailIfExists, true, showExtensionDialog);
 
 			if (renamed == ReturnResult.Success)
@@ -104,8 +103,7 @@ namespace Files.App.Helpers
 
 			if (associatedInstance.SlimContentPage is not null)
 			{
-				var shellViewModel = associatedInstance.ShellViewModel
-					?? throw new InvalidOperationException("The active shell page does not have a shell view model.");
+				var shellViewModel = associatedInstance.GetRequiredShellViewModel();
 				currentPath = shellViewModel.WorkingDirectory;
 				if (App.LibraryManager.TryGetLibrary(currentPath, out var library) &&
 					!library.IsEmpty &&
@@ -172,7 +170,7 @@ namespace Files.App.Helpers
 					throw new InvalidOperationException("The active file-list selection is not available.");
 
 				var items = selectedItems.Select((item) => StorageHelpers.FromPathAndType(
-					item.ItemPath ?? throw new InvalidOperationException("The selected item does not have a path."),
+					item.GetRequiredPath(),
 					item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList();
 				var folder = await CreateFileFromDialogResultTypeForResult(AddItemDialogItemType.Folder, null, associatedInstance);
 				if (folder is null)
@@ -203,9 +201,7 @@ namespace Files.App.Helpers
 		{
 			var currentPath = associatedInstance is null
 				? null
-				: (associatedInstance.ShellViewModel
-					?? throw new InvalidOperationException("The active shell page does not have a shell view model."))
-					.WorkingDirectory;
+				: associatedInstance.GetRequiredShellViewModel().WorkingDirectory;
 
 			if (App.LibraryManager.TryGetLibrary(currentPath ?? string.Empty, out var library) && !library.IsEmpty)
 				currentPath = library.DefaultSaveFolder!;
@@ -225,8 +221,7 @@ namespace Files.App.Helpers
 
 		public static async Task CreateShortcutFromDialogAsync(IShellPage associatedInstance)
 		{
-			var shellViewModel = associatedInstance.ShellViewModel
-				?? throw new InvalidOperationException("The active shell page does not have a shell view model.");
+			var shellViewModel = associatedInstance.GetRequiredShellViewModel();
 			var currentPath = shellViewModel.WorkingDirectory
 				?? throw new InvalidOperationException("The active shell page does not have a working directory.");
 

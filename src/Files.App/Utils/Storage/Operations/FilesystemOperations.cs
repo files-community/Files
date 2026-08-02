@@ -22,8 +22,7 @@ namespace Files.App.Utils.Storage
 		private IShellPage AssociatedInstance
 			=> _associatedInstance ?? throw new ObjectDisposedException(nameof(FilesystemOperations));
 		private ShellViewModel ShellViewModel
-			=> AssociatedInstance.ShellViewModel
-				?? throw new InvalidOperationException("The shell view model is not available.");
+			=> AssociatedInstance.GetRequiredShellViewModel();
 
 		public FilesystemOperations(IShellPage associatedInstance)
 		{
