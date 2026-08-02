@@ -2,13 +2,14 @@
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace Files.App.Helpers
 {
 	public static class PathNormalization
 	{
-		public static string GetPathRoot(string path)
+		public static string GetPathRoot(string? path)
 		{
 			if (string.IsNullOrEmpty(path))
 				return string.Empty;
@@ -30,7 +31,8 @@ namespace Files.App.Helpers
 			return rootPath;
 		}
 
-		public static string NormalizePath(string path)
+		[return: NotNullIfNotNull(nameof(path))]
+		public static string? NormalizePath(string? path)
 		{
 			if (string.IsNullOrEmpty(path))
 				return path;
@@ -58,12 +60,12 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static string? TrimPath(this string path)
+		public static string? TrimPath(this string? path)
 		{
 			return path?.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 		}
 
-		public static string GetParentDir(string path)
+		public static string GetParentDir(string? path)
 		{
 			if (string.IsNullOrEmpty(path))
 				return string.Empty;

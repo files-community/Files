@@ -14,8 +14,8 @@ namespace Files.App.Data.Items
 {
 	public partial class LocationItem : ExpandableSidebarItemBase, INavigationControlItem, IExpandableSidebarFolder
 	{
-		public BitmapImage icon;
-		public BitmapImage Icon
+		public BitmapImage? icon;
+		public BitmapImage? Icon
 		{
 			get => icon;
 			set
@@ -25,7 +25,7 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public byte[] IconData { get; set; }
+		public byte[]? IconData { get; set; }
 
 		private string text = "";
 		public string Text
@@ -40,22 +40,23 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		private string path;
-		public string Path
+		private string? path;
+		public string? Path
 		{
 			get => path;
 			set
 			{
 				path = value;
-				ToolTip = string.IsNullOrEmpty(Path) ||
-					Path.Contains('?', StringComparison.Ordinal) ||
-					Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) ||
-					Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) ||
-					Path == "Home" ||
-					Path == "ReleaseNotes" ||
-					Path == "Settings"
+				var currentPath = value;
+				ToolTip = string.IsNullOrEmpty(currentPath) ||
+					currentPath.Contains('?', StringComparison.Ordinal) ||
+					currentPath.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) ||
+					currentPath.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) ||
+					currentPath == "Home" ||
+					currentPath == "ReleaseNotes" ||
+					currentPath == "Settings"
 					? Text
-					: Path;
+					: currentPath;
 			}
 		}
 
@@ -77,7 +78,8 @@ namespace Files.App.Data.Items
 		}
 		public BulkConcurrentObservableCollection<INavigationControlItem>? ChildItems { get; set; }
 
-		protected override string ExpansionPath => path;
+		protected override string ExpansionPath
+			=> path ?? throw new InvalidOperationException("The location path has not been initialized.");
 		protected override BulkConcurrentObservableCollection<INavigationControlItem> EnsureChildItems() => ChildItems ??= [];
 
 		public IconElement? IconElement
@@ -91,6 +93,8 @@ namespace Files.App.Data.Items
 				return source.CreateIconElement();
 			}
 		}
+
+		FrameworkElement? ISidebarItemPresentationModel.IconElement => IconElement;
 
 		public bool SelectsOnInvoked { get; set; } = true;
 
@@ -222,7 +226,7 @@ namespace Files.App.Data.Items
 				IsExpandableFolder = true,
 				HasUnrealizedChildren = entry.HasSubfolders,
 				IsHidden = entry.IsHidden,
-				Icon = sharedIcon!,
+				Icon = sharedIcon,
 				MenuOptions = new ContextMenuOptions
 				{
 					IsLocationItem = true,
@@ -236,11 +240,11 @@ namespace Files.App.Data.Items
 
 		public bool IsInvalid { get; set; } = false;
 
-		public bool IsPinned => App.QuickAccessManager.Model.PinnedFolders.Contains(path);
+		public bool IsPinned => Enumerable.Contains<string?>(App.QuickAccessManager.Model.PinnedFolders, path);
 
 		public SectionType Section { get; set; }
 
-		public ContextMenuOptions MenuOptions { get; set; }
+		public ContextMenuOptions? MenuOptions { get; set; }
 
 		public bool IsHeader { get; set; }
 
@@ -257,7 +261,12 @@ namespace Files.App.Data.Items
 		public FrameworkElement? ItemDecorator => null;
 
 		public int CompareTo(INavigationControlItem? other)
-			=> Text.CompareTo(other.Text);
+		{
+			var otherText = other?.Text
+				?? throw new ArgumentException("The compared item must have a name.", nameof(other));
+
+			return Text.CompareTo(otherText);
+		}
 
 		public static T Create<T>() where T : LocationItem, new()
 		{

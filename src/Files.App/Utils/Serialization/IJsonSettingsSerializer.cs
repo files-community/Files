@@ -5,7 +5,7 @@ namespace Files.App.Utils.Serialization
 {
 	internal interface IJsonSettingsSerializer
 	{
-		string? SerializeToJson(object? obj);
+		string SerializeToJson(object? obj);
 
 		T? DeserializeFromJson<T>(string json);
 	}

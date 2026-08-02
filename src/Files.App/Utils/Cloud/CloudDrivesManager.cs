@@ -12,7 +12,7 @@ namespace Files.App.Utils.Cloud
 	{
 		private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 		private static readonly ICloudDetector _detector = Ioc.Default.GetRequiredService<ICloudDetector>();
-		public static EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
+		public static EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 		private static readonly List<DriveItem> _Drives = [];
 
 		public static IReadOnlyList<DriveItem> Drives

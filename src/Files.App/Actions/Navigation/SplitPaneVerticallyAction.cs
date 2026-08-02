@@ -34,7 +34,10 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			ContentPageContext.ShellPage!.PaneHolder.OpenSecondaryPane(ContentPageContext.ShellPage!.ShellViewModel.WorkingDirectory, ShellPaneArrangement.Vertical);
+			var shellPage = ContentPageContext.ShellPage ?? throw new InvalidOperationException("An active shell page is required to split the pane.");
+			var paneHolder = shellPage.PaneHolder ?? throw new InvalidOperationException("The active shell page has no pane holder.");
+			var shellViewModel = shellPage.GetRequiredShellViewModel();
+			paneHolder.OpenSecondaryPane(shellViewModel.WorkingDirectory ?? string.Empty, ShellPaneArrangement.Vertical);
 
 			return Task.CompletedTask;
 		}

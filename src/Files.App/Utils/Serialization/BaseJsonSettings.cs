@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Runtime.CompilerServices;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Files.App.Utils.Serialization
 {
@@ -77,6 +78,7 @@ namespace Files.App.Utils.Serialization
 			IsAvailable = SettingsSerializer?.CreateFile(filePath) ?? false;
 		}
 
+		[return: NotNullIfNotNull(nameof(defaultValue))]
 		protected virtual TValue? Get<TValue>(TValue? defaultValue, [CallerMemberName] string propertyName = "")
 		{
 			if (string.IsNullOrEmpty(propertyName))

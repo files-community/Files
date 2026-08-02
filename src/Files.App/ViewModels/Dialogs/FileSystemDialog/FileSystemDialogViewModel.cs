@@ -216,7 +216,7 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 			return viewModel;
 		}
 
-		public static FileSystemDialogViewModel GetDialogViewModel(List<BaseFileSystemDialogItemViewModel> nonConflictingItems, string titleText, string descriptionText, string primaryButtonText, string secondaryButtonText, string closeButtonText = null)
+		public static FileSystemDialogViewModel GetDialogViewModel(List<BaseFileSystemDialogItemViewModel> nonConflictingItems, string titleText, string? descriptionText, string? primaryButtonText, string? secondaryButtonText, string? closeButtonText = null)
 		{
 			var viewModel = new FileSystemDialogViewModel(
 				new()

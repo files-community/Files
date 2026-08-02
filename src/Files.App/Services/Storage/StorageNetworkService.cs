@@ -107,14 +107,15 @@ namespace Files.App.Services
 					{
 						if (item is ShellLink link)
 						{
-							locations.Add(ShellFolderExtensions.GetShellLinkItem(link));
+							if (ShellFolderExtensions.GetShellLinkItem(link) is { } linkItem)
+								locations.Add(linkItem);
 						}
 						else
 						{
-							var linkPath = (string?)item?.Properties["System.Link.TargetParsingPath"];
-							if (linkPath is not null)
+							var linkPath = item.Properties["System.Link.TargetParsingPath"] as string;
+							if (linkPath is not null &&
+								ShellFolderExtensions.GetShellFileItem(item) is { } linkItem)
 							{
-								var linkItem = ShellFolderExtensions.GetShellFileItem(item);
 								locations.Add(new(linkItem) { TargetPath = linkPath });
 							}
 						}

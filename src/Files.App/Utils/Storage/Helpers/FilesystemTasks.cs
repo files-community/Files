@@ -48,36 +48,43 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		public async static Task<FilesystemResult> OnSuccess<T>(this Task<FilesystemResult<T>> wrapped, Action<T> func)
+		public async static Task<FilesystemResult<T>> WrapNullable<T>(Func<Task<T?>> wrapped)
+			where T : class
+		{
+			try
+			{
+				return new FilesystemResult<T>(await wrapped(), FileSystemStatusCode.Success);
+			}
+			catch (Exception ex)
+			{
+				return new FilesystemResult<T>(default, GetErrorCode(ex, typeof(T)));
+			}
+		}
+
+		public async static Task<FilesystemResult> OnSuccess<T>(this Task<FilesystemResult<T>> wrapped, Action<T?> func)
 		{
 			var res = await wrapped;
 			if (res)
-			{
 				func(res.Result);
-			}
 			return res;
 		}
-		public async static Task<FilesystemResult> OnSuccess<T>(this Task<FilesystemResult<T>> wrapped, Func<T, Task> func)
+		public async static Task<FilesystemResult> OnSuccess<T>(this Task<FilesystemResult<T>> wrapped, Func<T?, Task> func)
 		{
 			var res = await wrapped;
 			if (res)
-			{
 				return await Wrap(() => func(res.Result));
-			}
 			return res;
 		}
-		public async static Task<FilesystemResult<V>> OnSuccess<V, T>(this Task<FilesystemResult<T>> wrapped, Func<T, Task<V>> func)
+		public async static Task<FilesystemResult<V>> OnSuccess<V, T>(this Task<FilesystemResult<T>> wrapped, Func<T?, Task<V>> func)
 		{
 			var res = await wrapped;
 			if (res)
-			{
 				return await Wrap(() => func(res.Result));
-			}
 			return new FilesystemResult<V>(default, res.ErrorCode);
 		}
 
-		private static FileSystemStatusCode ToStatusCode(Type T)
-			=> T == typeof(StorageFolderWithPath) || typeof(IStorageFolder).IsAssignableFrom(T)
+		private static FileSystemStatusCode ToStatusCode(Type? T)
+			=> T == typeof(StorageFolderWithPath) || T is not null && typeof(IStorageFolder).IsAssignableFrom(T)
 				? FileSystemStatusCode.NotAFolder
 				: FileSystemStatusCode.NotAFile;
 	}

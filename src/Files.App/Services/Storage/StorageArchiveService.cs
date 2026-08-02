@@ -289,9 +289,9 @@ namespace Files.App.Services
 
 						string entryFileName = zipEntry.Name;
 						string fullZipToPath = Path.Combine(destinationFolderPath, entryFileName);
-						string directoryName = Path.GetDirectoryName(fullZipToPath);
+						string? directoryName = Path.GetDirectoryName(fullZipToPath);
 
-						if (!Directory.Exists(directoryName))
+						if (directoryName is not null && !Directory.Exists(directoryName))
 						{
 							Directory.CreateDirectory(directoryName);
 						}
@@ -441,15 +441,18 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public async Task<SevenZipExtractor?> GetSevenZipExtractorAsync(string archiveFilePath, string password = "")
 		{
-			return await FilesystemTasks.Wrap(async () =>
+			return await FilesystemTasks.WrapNullable(async () =>
 			{
-				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(archiveFilePath);
+				BaseStorageFile? archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(archiveFilePath);
+				if (archive is null)
+					return null;
+
 				var extractor = string.IsNullOrEmpty(password)
 					? new SevenZipExtractor(archive.Path)
 					: new SevenZipExtractor(archive.Path, password);
 
 				// Force to load archive (1665013614u)
-				return extractor?.ArchiveFileData is null ? null : extractor;
+				return extractor.ArchiveFileData is null ? null : extractor;
 			});
 		}
 	}

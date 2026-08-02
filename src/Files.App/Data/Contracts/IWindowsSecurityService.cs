@@ -35,6 +35,6 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		/// <param name="path"></param>
 		/// <returns>True if the application needs to be elevated for some operations; otherwise, false.</returns>
-		bool IsElevationRequired(string path);
+		bool IsElevationRequired(string? path);
 	}
 }

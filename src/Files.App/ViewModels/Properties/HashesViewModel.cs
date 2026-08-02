@@ -13,12 +13,12 @@ namespace Files.App.ViewModels.Properties
 	public sealed partial class HashesViewModel : ObservableObject, IDisposable
 	{
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private readonly AppWindow _appWindow;
 
-		private HashInfoItem _selectedItem;
-		public HashInfoItem SelectedItem
+		private HashInfoItem? _selectedItem;
+		public HashInfoItem? SelectedItem
 		{
 			get => _selectedItem;
 			set => SetProperty(ref _selectedItem, value);
@@ -35,8 +35,8 @@ namespace Files.App.ViewModels.Properties
 
 		private CancellationTokenSource _cancellationTokenSource;
 
-		private string _hashInput;
-		public string HashInput
+		private string? _hashInput;
+		public string? HashInput
 		{
 			get => _hashInput;
 			set
@@ -55,8 +55,8 @@ namespace Files.App.ViewModels.Properties
 			set => SetProperty(ref _infoBarSeverity, value);
 		}
 
-		private string _infoBarTitle;
-		public string InfoBarTitle
+		private string? _infoBarTitle;
+		public string? InfoBarTitle
 		{
 			get => _infoBarTitle;
 			set => SetProperty(ref _infoBarTitle, value);
@@ -123,7 +123,8 @@ namespace Files.App.ViewModels.Properties
 				{
 					try
 					{
-						await using (var stream = File.OpenRead(_item.ItemPath))
+						var itemPath = _item.GetRequiredPath();
+						await using (var stream = File.OpenRead(itemPath))
 						{
 							hashInfoItem.HashValue = hashInfoItem.Algorithm switch
 							{
@@ -133,7 +134,7 @@ namespace Files.App.ViewModels.Properties
 								"SHA256" => await ChecksumHelpers.CreateSHA256(stream, _cancellationTokenSource.Token),
 								"SHA384" => await ChecksumHelpers.CreateSHA384(stream, _cancellationTokenSource.Token),
 								"SHA512" => await ChecksumHelpers.CreateSHA512(stream, _cancellationTokenSource.Token),
-								_ => throw new InvalidOperationException()
+								_ => throw new InvalidOperationException($"The hash algorithm '{hashInfoItem.Algorithm}' is not supported.")
 							};
 						}
 
@@ -160,7 +161,7 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		public string FindMatchingAlgorithm(string hash)
+		public string FindMatchingAlgorithm(string? hash)
 		{
 			if (string.IsNullOrEmpty(hash))
 				return string.Empty;

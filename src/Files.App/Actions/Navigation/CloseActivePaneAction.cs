@@ -33,7 +33,12 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			ContentPageContext.ShellPage?.PaneHolder.CloseActivePane();
+			if (ContentPageContext.ShellPage is not { } shellPage)
+				return Task.CompletedTask;
+
+			var paneHolder = shellPage.PaneHolder
+				?? throw new InvalidOperationException("An active pane holder is required to close a pane.");
+			paneHolder.CloseActivePane();
 			return Task.CompletedTask;
 		}
 

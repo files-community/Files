@@ -7,7 +7,7 @@ namespace Files.App.Services.DateTimeFormatter
 	{
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private IDateTimeFormatter formatter;
+		private IDateTimeFormatter formatter = null!;
 
 		public string Name
 			=> formatter.Name;
@@ -31,12 +31,12 @@ namespace Files.App.Services.DateTimeFormatter
 		private void Update()
 		{
 			var dateTimeFormat = UserSettingsService.GeneralSettingsService.DateTimeFormat;
-			var factory = Ioc.Default.GetService<IDateTimeFormatterFactory>();
+			var factory = Ioc.Default.GetRequiredService<IDateTimeFormatterFactory>();
 
 			formatter = factory.GetDateTimeFormatter(dateTimeFormat);
 		}
 
-		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
+		private void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
 		{
 			if (e.SettingName is nameof(UserSettingsService.GeneralSettingsService.DateTimeFormat))
 				Update();

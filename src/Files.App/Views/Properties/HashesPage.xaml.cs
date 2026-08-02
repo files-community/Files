@@ -11,7 +11,7 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class HashesPage : BasePropertiesPage
 	{
-		private HashesViewModel HashesViewModel { get; set; }
+		private HashesViewModel? HashesViewModel { get; set; }
 
 		private bool _cancel;
 
@@ -25,7 +25,8 @@ namespace Files.App.Views.Properties
 			var parameter = (PropertiesPageNavigationParameter)e.Parameter;
 
 			if (parameter.Parameter is ListedItem listedItem)
-				HashesViewModel = new(listedItem, parameter.Window.AppWindow);
+				HashesViewModel = new(listedItem,
+					(parameter.Window ?? throw new InvalidOperationException("The properties window has not been initialized.")).AppWindow);
 
 			base.OnNavigatedTo(e);
 		}
@@ -60,7 +61,7 @@ namespace Files.App.Views.Properties
 
 		public override void Dispose()
 		{
-			HashesViewModel.Dispose();
+			HashesViewModel?.Dispose();
 		}
 	}
 }

@@ -8,8 +8,8 @@ namespace Files.App.Actions
 	{
 		public override bool IsExecutable =>
 			SidebarContext.IsItemRightClicked &&
-			SidebarContext.RightClickedItem is not null &&
-			SidebarContext.RightClickedItem.MenuOptions.IsLocationItem &&
+			SidebarContext.RightClickedItem is { } item &&
+			item.MenuOptions!.IsLocationItem &&
 			ContentPageContext.IsMultiPaneActive;
 
 		public override bool IsAccessibleGlobally

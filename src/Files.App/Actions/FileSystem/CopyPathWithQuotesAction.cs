@@ -37,7 +37,7 @@ namespace Files.App.Actions
 		{
 			if (context.ShellPage?.SlimContentPage is not null)
 			{
-				var path = "\"" + context.ShellPage.ShellViewModel.WorkingDirectory + "\"";
+				var path = "\"" + context.ShellPage.ShellViewModel!.WorkingDirectory + "\"";
 
 				if (FtpHelpers.IsFtpPath(path))
 					path = path.Replace('\\', '/');

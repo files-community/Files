@@ -64,7 +64,7 @@ namespace Files.App.Helpers
 				}
 
 				var fileStreamRes = await FilesystemTasks.Wrap(() => file.OpenAsync(FileAccessMode.ReadWrite).AsTask());
-				using IRandomAccessStream fileStream = fileStreamRes.Result;
+				using IRandomAccessStream? fileStream = fileStreamRes.Result;
 				if (fileStream is null)
 				{
 					return;

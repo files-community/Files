@@ -7,7 +7,7 @@ namespace Files.App.Utils.Shell
 {
 	public sealed partial class ThreadWithMessageQueue : Disposable
 	{
-		private readonly BlockingCollection<Internal> messageQueue;
+		private readonly BlockingCollection<IInternal> messageQueue;
 
 		private readonly Thread thread;
 
@@ -21,33 +21,30 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
-		public async Task<V> PostMethod<V>(Func<object> payload)
+		public Task<V> PostMethod<V>(Func<V> payload)
 		{
-			var message = new Internal(payload);
+			var message = new Internal<V>(payload);
 			messageQueue.TryAdd(message);
 
-			return (V)await message.tcs.Task;
+			return message.Task;
 		}
 
 		public Task PostMethod(Action payload)
 		{
-			var message = new Internal(payload);
+			var message = new ActionInternal(payload);
 			messageQueue.TryAdd(message);
 
-			return message.tcs.Task;
+			return message.Task;
 		}
 
 		public ThreadWithMessageQueue()
 		{
-			messageQueue = new BlockingCollection<Internal>(new ConcurrentQueue<Internal>());
+			messageQueue = new BlockingCollection<IInternal>(new ConcurrentQueue<IInternal>());
 
 			thread = new Thread(new ThreadStart(() =>
 			{
 				foreach (var message in messageQueue.GetConsumingEnumerable())
-				{
-					var res = message.payload();
-					message.tcs.SetResult(res);
-				}
+					message.Invoke();
 			}));
 
 			thread.SetApartmentState(ApartmentState.STA);
@@ -58,22 +55,47 @@ namespace Files.App.Utils.Shell
 			thread.Start();
 		}
 
-		private sealed class Internal
+		private interface IInternal
 		{
-			public Func<object?> payload;
+			void Invoke();
+		}
 
-			public TaskCompletionSource<object> tcs;
+		private sealed class Internal<T> : IInternal
+		{
+			private readonly Func<T> payload;
+			private readonly TaskCompletionSource<T> taskCompletionSource =
+				new(TaskCreationOptions.RunContinuationsAsynchronously);
 
-			public Internal(Action payload)
-			{
-				this.payload = () => { payload(); return default; };
-				tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
-			}
+			public Task<T> Task => taskCompletionSource.Task;
 
-			public Internal(Func<object?> payload)
+			public Internal(Func<T> payload)
 			{
 				this.payload = payload;
-				tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
+			}
+
+			public void Invoke()
+			{
+				taskCompletionSource.SetResult(payload());
+			}
+		}
+
+		private sealed class ActionInternal : IInternal
+		{
+			private readonly Action payload;
+			private readonly TaskCompletionSource taskCompletionSource =
+				new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+			public Task Task => taskCompletionSource.Task;
+
+			public ActionInternal(Action payload)
+			{
+				this.payload = payload;
+			}
+
+			public void Invoke()
+			{
+				payload();
+				taskCompletionSource.SetResult();
 			}
 		}
 	}

@@ -92,7 +92,7 @@ namespace Files.App.Actions
 
 			return SidebarContext.IsItemRightClicked
 				&& item is not null
-				&& item.MenuOptions.IsLocationItem
+				&& item.MenuOptions!.IsLocationItem
 				&& !IsNonCopyableLocation(item);
 		}
 

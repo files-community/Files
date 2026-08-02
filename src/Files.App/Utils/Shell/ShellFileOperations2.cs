@@ -12,11 +12,12 @@ public partial class ShellFileOperations2 : IDisposable
 {
 	private const OperationFlags defaultOptions = OperationFlags.AllowUndo | OperationFlags.NoConfirmMkDir;
 	private int disposedValue = 0;
-	private IFileOperation op;
+	private IFileOperation? op;
 	private OperationFlags opFlags = defaultOptions;
 	private HWND owner;
 	private readonly IFileOperationProgressSink sink;
 	private readonly uint sinkCookie;
+	private IFileOperation Operation => op ?? throw new ObjectDisposedException(nameof(ShellFileOperations2));
 
 	/// <summary>Initializes a new instance of the <see cref="ShellFileOperations"/> class.</summary>
 	/// <param name="owner">The window that owns the modal dialog. This value can be <see langword="null"/>.</param>
@@ -28,11 +29,11 @@ public partial class ShellFileOperations2 : IDisposable
 		//op = new IFileOperation();
 		if (owner != default)
 		{
-			op.SetOwnerWindow(owner);
+			Operation.SetOwnerWindow(owner);
 		}
 
 		sink = new OpSink(this);
-		sinkCookie = op.Advise(sink);
+		sinkCookie = Operation.Advise(sink);
 	}
 
 	/// <summary>Initializes a new instance of the <see cref="ShellFileOperations"/> class.</summary>
@@ -41,7 +42,7 @@ public partial class ShellFileOperations2 : IDisposable
 	{
 		op = operation;
 		sink = new OpSink(this);
-		sinkCookie = op.Advise(sink);
+		sinkCookie = Operation.Advise(sink);
 	}
 
 	/// <summary>Finalizes an instance of the <see cref="ShellFileOperations"/> class.</summary>
@@ -51,56 +52,56 @@ public partial class ShellFileOperations2 : IDisposable
 	}
 
 	/// <summary>Performs caller-implemented actions after the last operation performed by the call to IFileOperation is complete.</summary>
-	public event EventHandler<ShellFileOpEventArgs> FinishOperations;
+	public event EventHandler<ShellFileOpEventArgs>? FinishOperations;
 
 	/// <summary>Performs caller-implemented actions after the copy process for each item is complete.</summary>
-	public event EventHandler<ShellFileOpEventArgs> PostCopyItem;
+	public event EventHandler<ShellFileOpEventArgs>? PostCopyItem;
 
 	/// <summary>Performs caller-implemented actions after the delete process for each item is complete.</summary>
-	public event EventHandler<ShellFileOpEventArgs> PostDeleteItem;
+	public event EventHandler<ShellFileOpEventArgs>? PostDeleteItem;
 
 	/// <summary>Performs caller-implemented actions after the move process for each item is complete.</summary>
-	public event EventHandler<ShellFileOpEventArgs> PostMoveItem;
+	public event EventHandler<ShellFileOpEventArgs>? PostMoveItem;
 
 	/// <summary>Performs caller-implemented actions after the new item is created.</summary>
-	public event EventHandler<ShellFileNewOpEventArgs> PostNewItem;
+	public event EventHandler<ShellFileNewOpEventArgs>? PostNewItem;
 
 	/// <summary>Performs caller-implemented actions after the rename process for each item is complete.</summary>
-	public event EventHandler<ShellFileOpEventArgs> PostRenameItem;
+	public event EventHandler<ShellFileOpEventArgs>? PostRenameItem;
 
 	/// <summary>Performs caller-implemented actions before the copy process for each item begins.</summary>
-	public event EventHandler<ShellFileOpEventArgs> PreCopyItem;
+	public event EventHandler<ShellFileOpEventArgs>? PreCopyItem;
 
 	/// <summary>Performs caller-implemented actions before the delete process for each item begins.</summary>
-	public event EventHandler<ShellFileOpEventArgs> PreDeleteItem;
+	public event EventHandler<ShellFileOpEventArgs>? PreDeleteItem;
 
 	/// <summary>Performs caller-implemented actions before the move process for each item begins.</summary>
-	public event EventHandler<ShellFileOpEventArgs> PreMoveItem;
+	public event EventHandler<ShellFileOpEventArgs>? PreMoveItem;
 
 	/// <summary>Performs caller-implemented actions before the process to create a new item begins.</summary>
-	public event EventHandler<ShellFileOpEventArgs> PreNewItem;
+	public event EventHandler<ShellFileOpEventArgs>? PreNewItem;
 
 	/// <summary>Performs caller-implemented actions before the rename process for each item begins.</summary>
-	public event EventHandler<ShellFileOpEventArgs> PreRenameItem;
+	public event EventHandler<ShellFileOpEventArgs>? PreRenameItem;
 
 	/// <summary>Performs caller-implemented actions before any specific file operations are performed.</summary>
-	public event EventHandler StartOperations;
+	public event EventHandler? StartOperations;
 
 	/// <summary>Occurs when a progress update is received.</summary>
-	public event ProgressChangedEventHandler UpdateProgress;
+	public event ProgressChangedEventHandler? UpdateProgress;
 
 	/// <summary>
 	/// Gets a value that states whether any file operations initiated by a call to <see cref="PerformOperations"/> were stopped before they
 	/// were complete. The operations could be stopped either by user action or silently by the system.
 	/// </summary>
 	/// <value><see langword="true"/> if any file operations were aborted before they were complete; otherwise, <see langword="false"/>.</value>
-	public bool AnyOperationsAborted => op.GetAnyOperationsAborted();
+	public bool AnyOperationsAborted => Operation.GetAnyOperationsAborted();
 
 	/// <summary>Gets or sets options that control file operations.</summary>
 	public OperationFlags Options
 	{
 		get => opFlags;
-		set { if (value == opFlags) { return; } op.SetOperationFlags((FILEOP_FLAGS)(opFlags = value)); }
+		set { if (value == opFlags) { return; } Operation.SetOperationFlags((FILEOP_FLAGS)(opFlags = value)); }
 	}
 
 	/// <summary>Gets or sets the parent or owner window for progress and dialog windows.</summary>
@@ -108,7 +109,7 @@ public partial class ShellFileOperations2 : IDisposable
 	public HWND OwnerWindow
 	{
 		get => owner;
-		set => op.SetOwnerWindow(owner = value);
+		set => Operation.SetOwnerWindow(owner = value);
 	}
 
 	/// <summary>Gets the number of queued operations.</summary>
@@ -122,7 +123,7 @@ public partial class ShellFileOperations2 : IDisposable
 	/// of the destination item is the same as the source.
 	/// </param>
 	/// <param name="options">Options that control file operations.</param>
-	public static void Copy(string source, string dest, string newName = null, OperationFlags options = defaultOptions)
+	public static void Copy(string source, string dest, string? newName = null, OperationFlags options = defaultOptions)
 	{
 		using ShellItem shfile = new(source);
 		using ShellFolder shfld = new(dest);
@@ -137,7 +138,7 @@ public partial class ShellFileOperations2 : IDisposable
 	/// of the destination item is the same as the source.
 	/// </param>
 	/// <param name="options">Options that control file operations.</param>
-	public static void Copy(ShellItem source, ShellFolder dest, string newName = null, OperationFlags options = defaultOptions)
+	public static void Copy(ShellItem source, ShellFolder dest, string? newName = null, OperationFlags options = defaultOptions)
 	{
 		using ShellFileOperations2 sop = new();
 		sop.Options = options;
@@ -154,7 +155,7 @@ public partial class ShellFileOperations2 : IDisposable
 			sop.PostCopyItem -= OnPost;
 		}
 
-		void OnPost(object sender, ShellFileOpEventArgs e) => hr = e.Result;
+		void OnPost(object? sender, ShellFileOpEventArgs e) => hr = e.Result;
 	}
 
 	/// <summary>Copies a set of items to a specified destination using the Shell to provide progress and error dialogs.</summary>
@@ -180,7 +181,7 @@ public partial class ShellFileOperations2 : IDisposable
 			sop.PostCopyItem -= OnPost;
 		}
 
-		void OnPost(object sender, ShellFileOpEventArgs e) => hr = e.Result;
+		void OnPost(object? sender, ShellFileOpEventArgs e) => hr = e.Result;
 	}
 
 	/// <summary>Deletes a single item using the Shell to provide progress and error dialogs.</summary>
@@ -212,7 +213,7 @@ public partial class ShellFileOperations2 : IDisposable
 			sop.PostDeleteItem -= OnPost;
 		}
 
-		void OnPost(object sender, ShellFileOpEventArgs e) => hr = e.Result;
+		void OnPost(object? sender, ShellFileOpEventArgs e) => hr = e.Result;
 	}
 
 	/// <summary>Deletes a set of items using the Shell to provide progress and error dialogs.</summary>
@@ -237,7 +238,7 @@ public partial class ShellFileOperations2 : IDisposable
 			sop.PostDeleteItem -= OnPost;
 		}
 
-		void OnPost(object sender, ShellFileOpEventArgs e) => hr = e.Result;
+		void OnPost(object? sender, ShellFileOpEventArgs e) => hr = e.Result;
 	}
 
 	/// <summary>Moves a single item to a specified destination using the Shell to provide progress and error dialogs.</summary>
@@ -248,7 +249,7 @@ public partial class ShellFileOperations2 : IDisposable
 	/// destination item is the same as the source.
 	/// </param>
 	/// <param name="options">Options that control file operations.</param>
-	public static void Move(string source, string dest, string newName = null, OperationFlags options = defaultOptions)
+	public static void Move(string source, string dest, string? newName = null, OperationFlags options = defaultOptions)
 	{
 		using ShellItem shfile = new(source);
 		using ShellFolder shfld = new(dest);
@@ -263,7 +264,7 @@ public partial class ShellFileOperations2 : IDisposable
 	/// destination item is the same as the source.
 	/// </param>
 	/// <param name="options">Options that control file operations.</param>
-	public static void Move(ShellItem source, ShellFolder dest, string newName = null, OperationFlags options = defaultOptions)
+	public static void Move(ShellItem source, ShellFolder dest, string? newName = null, OperationFlags options = defaultOptions)
 	{
 		using ShellFileOperations2 sop = new() { Options = options };
 		HRESULT hr = HRESULT.S_OK;
@@ -279,7 +280,7 @@ public partial class ShellFileOperations2 : IDisposable
 			sop.PostMoveItem -= OnPost;
 		}
 
-		void OnPost(object sender, ShellFileOpEventArgs e) => hr = e.Result;
+		void OnPost(object? sender, ShellFileOpEventArgs e) => hr = e.Result;
 	}
 
 	/// <summary>Moves a set of items to a specified destination using the Shell to provide progress and error dialogs.</summary>
@@ -305,7 +306,7 @@ public partial class ShellFileOperations2 : IDisposable
 			sop.PostMoveItem -= OnPost;
 		}
 
-		void OnPost(object sender, ShellFileOpEventArgs e) => hr = e.Result;
+		void OnPost(object? sender, ShellFileOpEventArgs e) => hr = e.Result;
 	}
 
 	/// <summary>Creates a new item in a specified location using the Shell to provide progress and error dialogs.</summary>
@@ -332,7 +333,7 @@ public partial class ShellFileOperations2 : IDisposable
 	/// <para>This parameter is normally <see langword="null"/> to specify a new, blank file.</para>
 	/// </param>
 	/// <param name="options">Options that control file operations.</param>
-	public static void NewItem(ShellFolder dest, string name, System.IO.FileAttributes attr = System.IO.FileAttributes.Normal, string template = null, OperationFlags options = defaultOptions)
+	public static void NewItem(ShellFolder dest, string name, System.IO.FileAttributes attr = System.IO.FileAttributes.Normal, string? template = null, OperationFlags options = defaultOptions)
 	{
 		using ShellFileOperations2 sop = new();
 		sop.Options = options;
@@ -349,15 +350,17 @@ public partial class ShellFileOperations2 : IDisposable
 			sop.PostRenameItem -= OnPost;
 		}
 
-		void OnPost(object sender, ShellFileOpEventArgs e) => hr = e.Result;
+		void OnPost(object? sender, ShellFileOpEventArgs e) => hr = e.Result;
 	}
 
 	/// <summary>Renames a single item to a new display name using the Shell to provide progress and error dialogs.</summary>
 	/// <param name="source">A <see cref="ShellItem"/> that specifies the source item.</param>
 	/// <param name="newName">The new display name of the item.</param>
 	/// <param name="options">Options that control file operations.</param>
-	public static void Rename(ShellItem source, string newName = null, OperationFlags options = defaultOptions)
+	public static void Rename(ShellItem source, string? newName = null, OperationFlags options = defaultOptions)
 	{
+		ArgumentNullException.ThrowIfNull(newName);
+
 		using ShellFileOperations2 sop = new();
 		sop.Options = options;
 		HRESULT hr = HRESULT.S_OK;
@@ -373,7 +376,7 @@ public partial class ShellFileOperations2 : IDisposable
 			sop.PostRenameItem -= OnPost;
 		}
 
-		void OnPost(object sender, ShellFileOpEventArgs e) => hr = e.Result;
+		void OnPost(object? sender, ShellFileOpEventArgs e) => hr = e.Result;
 	}
 
 	/// <summary>
@@ -402,7 +405,7 @@ public partial class ShellFileOperations2 : IDisposable
 			sop.PostRenameItem -= OnPost;
 		}
 
-		void OnPost(object sender, ShellFileOpEventArgs e) => hr = e.Result;
+		void OnPost(object? sender, ShellFileOpEventArgs e) => hr = e.Result;
 	}
 
 	/// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
@@ -420,7 +423,7 @@ public partial class ShellFileOperations2 : IDisposable
 	/// </remarks>
 	public void PerformOperations()
 	{
-		op.PerformOperations();
+		Operation.PerformOperations();
 		QueuedOperations = 0;
 	}
 
@@ -431,8 +434,8 @@ public partial class ShellFileOperations2 : IDisposable
 	/// </param>
 	public void QueueApplyPropertiesOperation(ShellItem item, ShellItemPropertyUpdates props)
 	{
-		op.SetProperties(props.IPropertyChangeArray);
-		op.ApplyPropertiesToItem(item.IShellItem);
+		Operation.SetProperties(props.IPropertyChangeArray);
+		Operation.ApplyPropertiesToItem(item.IShellItem);
 		QueuedOperations++;
 	}
 
@@ -445,8 +448,8 @@ public partial class ShellFileOperations2 : IDisposable
 	/// </param>
 	public void QueueApplyPropertiesOperation(IEnumerable<ShellItem> items, ShellItemPropertyUpdates props)
 	{
-		op.SetProperties(props.IPropertyChangeArray);
-		op.ApplyPropertiesToItems(GetSHArray(items).IShellItemArray);
+		Operation.SetProperties(props.IPropertyChangeArray);
+		Operation.ApplyPropertiesToItems(GetRequiredShellItemArray(items));
 		QueuedOperations++;
 	}
 
@@ -457,9 +460,9 @@ public partial class ShellFileOperations2 : IDisposable
 	/// An optional new name for the item after it has been copied. This can be <see langword="null"/>. If <see langword="null"/>, the name
 	/// of the destination item is the same as the source.
 	/// </param>
-	public void QueueCopyOperation(ShellItem source, ShellFolder dest, string newName = null)
+	public void QueueCopyOperation(ShellItem source, ShellFolder dest, string? newName = null)
 	{
-		op.CopyItem(source.IShellItem, dest.IShellItem, newName, null);
+		Operation.CopyItem(source.IShellItem, dest.IShellItem, newName, null);
 		QueuedOperations++;
 	}
 
@@ -470,7 +473,7 @@ public partial class ShellFileOperations2 : IDisposable
 	/// <param name="dest">A <see cref="ShellFolder"/> that specifies the destination folder to contain the copy of the items.</param>
 	public void QueueCopyOperation(IEnumerable<ShellItem> sourceItems, ShellFolder dest)
 	{
-		op.CopyItems(GetSHArray(sourceItems).IShellItemArray, dest.IShellItem);
+		Operation.CopyItems(GetRequiredShellItemArray(sourceItems), dest.IShellItem);
 		QueuedOperations++;
 	}
 
@@ -478,7 +481,7 @@ public partial class ShellFileOperations2 : IDisposable
 	/// <param name="item">&gt;A <see cref="ShellItem"/> that specifies the item to be deleted.</param>
 	public void QueueDeleteOperation(ShellItem item)
 	{
-		op.DeleteItem(item.IShellItem, null);
+		Operation.DeleteItem(item.IShellItem, null);
 		QueuedOperations++;
 	}
 
@@ -488,7 +491,7 @@ public partial class ShellFileOperations2 : IDisposable
 	/// </param>
 	public void QueueDeleteOperation(IEnumerable<ShellItem> items)
 	{
-		op.DeleteItems(GetSHArray(items).IShellItemArray);
+		Operation.DeleteItems(GetRequiredShellItemArray(items));
 		QueuedOperations++;
 	}
 
@@ -499,9 +502,9 @@ public partial class ShellFileOperations2 : IDisposable
 	/// An optional new name for the item in its new location. This can be <see langword="null"/>. If <see langword="null"/>, the name of the
 	/// destination item is the same as the source.
 	/// </param>
-	public void QueueMoveOperation(ShellItem source, ShellFolder dest, string newName = null)
+	public void QueueMoveOperation(ShellItem source, ShellFolder dest, string? newName = null)
 	{
-		op.MoveItem(source.IShellItem, dest.IShellItem, newName, null);
+		Operation.MoveItem(source.IShellItem, dest.IShellItem, newName, null);
 		QueuedOperations++;
 	}
 
@@ -512,7 +515,7 @@ public partial class ShellFileOperations2 : IDisposable
 	/// <param name="dest">A <see cref="ShellFolder"/> that specifies the destination folder to contain the moved items.</param>
 	public void QueueMoveOperation(IEnumerable<ShellItem> sourceItems, ShellFolder dest)
 	{
-		op.MoveItems(GetSHArray(sourceItems).IShellItemArray, dest.IShellItem);
+		Operation.MoveItems(GetRequiredShellItemArray(sourceItems), dest.IShellItem);
 		QueuedOperations++;
 	}
 
@@ -539,9 +542,9 @@ public partial class ShellFileOperations2 : IDisposable
 	/// </para>
 	/// <para>This parameter is normally <see langword="null"/> to specify a new, blank file.</para>
 	/// </param>
-	public void QueueNewItemOperation(ShellFolder dest, string name, System.IO.FileAttributes attr = System.IO.FileAttributes.Normal, string template = null)
+	public void QueueNewItemOperation(ShellFolder dest, string name, System.IO.FileAttributes attr = System.IO.FileAttributes.Normal, string? template = null)
 	{
-		op.NewItem(dest.IShellItem, attr, name, template, null);
+		Operation.NewItem(dest.IShellItem, attr, name, template, null);
 		QueuedOperations++;
 	}
 
@@ -550,7 +553,7 @@ public partial class ShellFileOperations2 : IDisposable
 	/// <param name="newName">The new display name of the item.</param>
 	public void QueueRenameOperation(ShellItem source, string newName)
 	{
-		op.RenameItem(source.IShellItem, newName, null);
+		Operation.RenameItem(source.IShellItem, newName, null);
 		QueuedOperations++;
 	}
 
@@ -561,7 +564,7 @@ public partial class ShellFileOperations2 : IDisposable
 	/// <param name="newName">The new display name of the items.</param>
 	public void QueueRenameOperation(IEnumerable<ShellItem> sourceItems, string newName)
 	{
-		op.RenameItems(GetSHArray(sourceItems).IShellItemArray, newName);
+		Operation.RenameItems(GetRequiredShellItemArray(sourceItems), newName);
 		QueuedOperations++;
 	}
 
@@ -576,7 +579,7 @@ public partial class ShellFileOperations2 : IDisposable
 				// Dispose managed state (managed objects).
 			}
 
-			if (sink != null && op != null)
+			if (op is not null)
 			{
 				op.Unadvise(sinkCookie);
 			}
@@ -585,7 +588,9 @@ public partial class ShellFileOperations2 : IDisposable
 		}
 	}
 
-	private ShellItemArray GetSHArray(IEnumerable<ShellItem> items) => items is ShellItemArray a ? a : new ShellItemArray(items);
+	private static IShellItemArray GetRequiredShellItemArray(IEnumerable<ShellItem> items) =>
+		(items is ShellItemArray array ? array : new ShellItemArray(items)).IShellItemArray ??
+		throw new InvalidOperationException("Unable to create a shell item array.");
 
 	private sealed class OpSink : IFileOperationProgressSink
 	{
@@ -651,7 +656,7 @@ public partial class ShellFileOperations2 : IDisposable
 	/// <seealso cref="ShellFileOpEventArgs"/>
 	public sealed class ShellFileNewOpEventArgs : ShellFileOpEventArgs
 	{
-		internal ShellFileNewOpEventArgs(TRANSFER_SOURCE_FLAGS flags, IShellItem source, IShellItem folder, IShellItem dest, string name, HRESULT hr, string templ, uint attr) :
+		internal ShellFileNewOpEventArgs(TRANSFER_SOURCE_FLAGS flags, IShellItem? source, IShellItem folder, IShellItem dest, string name, HRESULT hr, string? templ, uint attr) :
 			base(flags, source, folder, dest, name, hr)
 		{
 			TemplateName = templ;
@@ -660,7 +665,7 @@ public partial class ShellFileOperations2 : IDisposable
 
 		/// <summary>Gets the name of the template.</summary>
 		/// <value>The name of the template.</value>
-		public string TemplateName { get; private set; }
+		public string? TemplateName { get; private set; }
 
 		/// <summary>Gets the file attributes.</summary>
 		/// <value>The file attributes.</value>
@@ -673,7 +678,7 @@ public partial class ShellFileOperations2 : IDisposable
 	/// <seealso cref="EventArgs"/>
 	public class ShellFileOpEventArgs : EventArgs
 	{
-		internal ShellFileOpEventArgs(TRANSFER_SOURCE_FLAGS flags, IShellItem source, IShellItem folder = null, IShellItem dest = null, string name = null, HRESULT hr = default)
+		internal ShellFileOpEventArgs(TRANSFER_SOURCE_FLAGS flags, IShellItem? source, IShellItem? folder = null, IShellItem? dest = null, string? name = null, HRESULT hr = default)
 		{
 			Flags = (TransferFlags)flags;
 			if (source != null) try { SourceItem = ShellItem.Open(source); } catch { }
@@ -685,11 +690,11 @@ public partial class ShellFileOperations2 : IDisposable
 
 		/// <summary>Gets the destination folder.</summary>
 		/// <value>The destination folder.</value>
-		public ShellItem DestFolder { get; protected set; }
+		public ShellItem? DestFolder { get; protected set; }
 
 		/// <summary>Gets the destination item.</summary>
 		/// <value>The destination item.</value>
-		public ShellItem DestItem { get; protected set; }
+		public ShellItem? DestItem { get; protected set; }
 
 		/// <summary>Gets the tranfer flag values.</summary>
 		/// <value>The flags.</value>
@@ -697,7 +702,7 @@ public partial class ShellFileOperations2 : IDisposable
 
 		/// <summary>Gets the name of the item.</summary>
 		/// <value>The item name.</value>
-		public string Name { get; protected set; }
+		public string? Name { get; protected set; }
 
 		/// <summary>Gets the result of the operation.</summary>
 		/// <value>The result.</value>
@@ -705,7 +710,7 @@ public partial class ShellFileOperations2 : IDisposable
 
 		/// <summary>Gets the source item.</summary>
 		/// <value>The source item.</value>
-		public ShellItem SourceItem { get; protected set; }
+		public ShellItem? SourceItem { get; protected set; }
 
 		/// <summary>Returns a <see cref="System.String"/> that represents this instance.</summary>
 		/// <returns>A <see cref="System.String"/> that represents this instance.</returns>

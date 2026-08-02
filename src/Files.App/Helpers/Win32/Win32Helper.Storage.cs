@@ -84,8 +84,11 @@ namespace Files.App.Helpers
 		/// <param name="path"></param>
 		/// <param name="isDirectory"></param>
 		/// <returns></returns>
-		public static byte[]? GetIconOverlay(string path, bool isDirectory)
+		public static byte[]? GetIconOverlay(string? path, bool isDirectory)
 		{
+			if (path is null)
+				return null;
+
 			var shFileInfo = new Shell32.SHFILEINFO();
 			const Shell32.SHGFI flags = Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION;
 			byte[]? overlayData = null;
@@ -115,8 +118,10 @@ namespace Files.App.Helpers
 						if (!hOverlay.IsNull && !hOverlay.IsInvalid)
 						{
 							using var icon = hOverlay.ToIcon();
-							using var image = icon.ToBitmap();
+							if (icon is null)
+								return null;
 
+							using var image = icon.ToBitmap();
 							overlayData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
 						}
 					}
@@ -143,7 +148,7 @@ namespace Files.App.Helpers
 		/// <param name="iconOptions"></param>
 		/// <returns></returns>
 		public static byte[]? GetIcon(
-			string path,
+			string? path,
 			int size,
 			bool isFolder,
 			IconOptions iconOptions)
@@ -224,9 +229,12 @@ namespace Files.App.Helpers
 								if (!hIcon.IsNull && !hIcon.IsInvalid)
 								{
 									using (var icon = hIcon.ToIcon())
-									using (var image = icon.ToBitmap())
 									{
-										iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
+										if (icon is not null)
+										{
+											using var image = icon.ToBitmap();
+											iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
+										}
 									}
 								}
 							}
@@ -378,7 +386,7 @@ namespace Files.App.Helpers
 			var fcs = new Shell32.SHFOLDERCUSTOMSETTINGS()
 			{
 				dwMask = Shell32.FOLDERCUSTOMSETTINGSMASK.FCSM_ICONFILE,
-				pszIconFile = iconFile,
+				pszIconFile = iconFile!,
 				cchIconFile = 0,
 				iIconIndex = iconIndex,
 			};
@@ -561,6 +569,8 @@ namespace Files.App.Helpers
 		public static string? PathFromFileId(ulong frn, string volumeHint)
 		{
 			string? volumePath = Path.GetPathRoot(volumeHint);
+			if (string.IsNullOrEmpty(volumePath))
+				return null;
 
 			using var volumeHandle = Kernel32.CreateFile(volumePath, Kernel32.FileAccess.GENERIC_READ, FileShare.Read, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
 			if (volumeHandle.IsInvalid)
@@ -601,8 +611,7 @@ namespace Files.App.Helpers
 				{
 					var item = shellWindows.Item(i);
 
-					var serv = (Shell32.IServiceProvider)item;
-					if (serv is not null)
+					if (item is Shell32.IServiceProvider serv)
 					{
 						if (serv.QueryService(Shell32.SID_STopLevelBrowser, typeof(Shell32.IShellBrowser).GUID, out var ppv).Succeeded)
 						{
@@ -612,9 +621,9 @@ namespace Files.App.Helpers
 							using var targetFolder = SafetyExtensions.IgnoreExceptions(() => new Vanara.Windows.Shell.ShellItem(folderPath));
 							if (targetFolder is not null)
 							{
-								if (shellBrowser.QueryActiveShellView(out var shellView).Succeeded)
+								if (shellBrowser.QueryActiveShellView(out var shellView).Succeeded &&
+									shellView is Shell32.IFolderView folderView)
 								{
-									var folderView = (Shell32.IFolderView)shellView;
 									var folder = folderView.GetFolder<Shell32.IPersistFolder2>();
 									var folderPidl = new Shell32.PIDL(IntPtr.Zero);
 
@@ -647,7 +656,8 @@ namespace Files.App.Helpers
 						Marshal.ReleaseComObject(serv);
 					}
 
-					Marshal.ReleaseComObject(item);
+					if (item is not null)
+						Marshal.ReleaseComObject(item);
 				}
 
 				Marshal.ReleaseComObject(shellWindows);
@@ -666,7 +676,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static async Task<bool> InstallInf(string filePath)
+		public static async Task<bool> InstallInf(string? filePath)
 		{
 			try
 			{
@@ -751,7 +761,7 @@ namespace Files.App.Helpers
 				(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE, 0, IntPtr.Zero, overwrite ? Win32PInvoke.CREATE_ALWAYS : Win32PInvoke.OPEN_ALWAYS, (uint)Win32PInvoke.File_Attributes.BackupSemantics, IntPtr.Zero), true);
 		}
 
-		public static SafeFileHandle OpenFileForRead(string filePath, bool readWrite = false, uint flags = 0)
+		public static SafeFileHandle OpenFileForRead(string? filePath, bool readWrite = false, uint flags = 0)
 		{
 			return new SafeFileHandle(Win32PInvoke.CreateFileFromApp(filePath,
 				(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ | (uint)(readWrite ? FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE : 0u), (uint)(Win32PInvoke.FILE_SHARE_READ | (readWrite ? 0 : Win32PInvoke.FILE_SHARE_WRITE)), IntPtr.Zero, Win32PInvoke.OPEN_EXISTING, (uint)Win32PInvoke.File_Attributes.BackupSemantics | flags, IntPtr.Zero), true);
@@ -858,7 +868,7 @@ namespace Files.App.Helpers
 			return result;
 		}
 
-		public static string ReadStringFromFile(string filePath)
+		public static string? ReadStringFromFile(string filePath)
 		{
 			IntPtr hFile = Win32PInvoke.CreateFileFromApp(filePath,
 				(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ,
@@ -949,7 +959,7 @@ namespace Files.App.Helpers
 		}
 
 		// https://www.pinvoke.net/default.aspx/kernel32/GetFileInformationByHandleEx.html
-		public static ulong? GetFolderFRN(string folderPath)
+		public static ulong? GetFolderFRN(string? folderPath)
 		{
 			using var handle = OpenFileForRead(folderPath);
 			if (!handle.IsInvalid)
@@ -994,7 +1004,7 @@ namespace Files.App.Helpers
 		}
 
 		// https://github.com/rad1oactive/BetterExplorer/blob/master/Windows%20API%20Code%20Pack%201.1/source/WindowsAPICodePack/Shell/ReparsePoint.cs
-		public static string ParseSymLink(string path)
+		public static string? ParseSymLink(string path)
 		{
 			using var handle = OpenFileForRead(path, false, 0x00200000);
 			if (!handle.IsInvalid)
@@ -1038,9 +1048,11 @@ namespace Files.App.Helpers
 					// The documentation for FindFirstStreamW says that it is always a ::$DATA
 					// stream type, but FindNextStreamW doesn't guarantee that for subsequent
 					// streams so we check to make sure
-					if (findStreamData.cStreamName.EndsWith(":$DATA") && findStreamData.cStreamName != "::$DATA")
+					var streamName = findStreamData.cStreamName
+						?? throw new InvalidDataException("The alternate-stream enumeration returned an item without a name.");
+					if (streamName.EndsWith(":$DATA") && streamName != "::$DATA")
 					{
-						yield return (findStreamData.cStreamName, findStreamData.StreamSize);
+						yield return (streamName, findStreamData.StreamSize);
 					}
 				}
 				while (Win32PInvoke.FindNextStreamW(hFile, findStreamData));

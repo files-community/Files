@@ -50,7 +50,8 @@ namespace Files.App.Actions
 			}));
 
 			await shellPage.FilesystemHelpers.DeleteItemsAsync(itemsToDelete, foldersSettingsService.DeleteConfirmationPolicy, false, true);
-			await shellPage.ShellViewModel.ApplyFilesAndFoldersChangesAsync();
+			var shellViewModel = shellPage.GetRequiredShellViewModel();
+			await shellViewModel.ApplyFilesAndFoldersChangesAsync();
 		}
 
 		private void ShelfContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)

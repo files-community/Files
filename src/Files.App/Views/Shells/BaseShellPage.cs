@@ -48,7 +48,7 @@ namespace Files.App.Views.Shells
 
 		public NavigationToolbarViewModel ToolbarViewModel { get; } = new NavigationToolbarViewModel();
 
-		public IBaseLayoutPage SlimContentPage => ContentPage;
+		public IBaseLayoutPage? SlimContentPage => ContentPage;
 
 		public IFilesystemHelpers FilesystemHelpers { get; protected set; }
 
@@ -70,12 +70,12 @@ namespace Files.App.Views.Shells
 
 		public virtual IList<PageStackEntry> BackwardStack => ItemDisplay.BackStack;
 
-		public ShellViewModel ShellViewModel { get; protected set; }
+		public ShellViewModel? ShellViewModel { get; protected set; }
 
 		public CurrentInstanceViewModel InstanceViewModel { get; }
 
-		protected BaseLayoutPage _ContentPage;
-		public BaseLayoutPage ContentPage
+		protected BaseLayoutPage? _ContentPage;
+		public BaseLayoutPage? ContentPage
 		{
 			get => _ContentPage;
 			set
@@ -90,13 +90,13 @@ namespace Files.App.Views.Shells
 					NotifyPropertyChanged(nameof(ContentPage));
 					NotifyPropertyChanged(nameof(SlimContentPage));
 					if (value is not null)
-						_ContentPage.StatusBarViewModel.CheckoutRequested += GitCheckout_Required;
+						value.StatusBarViewModel.CheckoutRequested += GitCheckout_Required;
 				}
 			}
 		}
 
-		protected IShellPanesPage _PaneHolder;
-		public IShellPanesPage PaneHolder
+		protected IShellPanesPage? _PaneHolder;
+		public IShellPanesPage? PaneHolder
 		{
 			get => _PaneHolder;
 			set
@@ -110,8 +110,8 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		protected TabBarItemParameter _TabItemArguments;
-		public TabBarItemParameter TabBarItemParameter
+		protected TabBarItemParameter? _TabItemArguments;
+		public TabBarItemParameter? TabBarItemParameter
 		{
 			get => _TabItemArguments;
 			set
@@ -120,7 +120,9 @@ namespace Files.App.Views.Shells
 				{
 					_TabItemArguments = value;
 
-					ContentChanged?.Invoke(this, value);
+					ContentChanged?.Invoke(
+						this,
+						value ?? throw new InvalidOperationException("The tab content arguments cannot be cleared."));
 				}
 			}
 		}
@@ -156,7 +158,7 @@ namespace Files.App.Views.Shells
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		public event EventHandler<TabBarItemParameter> ContentChanged;
+		public event EventHandler<TabBarItemParameter>? ContentChanged;
 
 		public BaseShellPage(CurrentInstanceViewModel instanceViewModel)
 		{
@@ -206,36 +208,43 @@ namespace Files.App.Views.Shells
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		protected void FilesystemViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)
+		protected void FilesystemViewModel_PageTypeUpdated(object? sender, PageTypeUpdatedEventArgs e)
 		{
 			InstanceViewModel.IsPageTypeCloudDrive = e.IsTypeCloudDrive;
 		}
 
-		protected void FilesystemViewModel_OnSelectionRequestedEvent(object sender, List<ListedItem> e)
+		protected void FilesystemViewModel_OnSelectionRequestedEvent(object? sender, List<ListedItem> e)
 		{
+			var contentPage = ContentPage
+				?? throw new InvalidOperationException("The content page is not available for selection.");
+
 			// Raised by the directory watcher, which can fire while the user is typing in the
 			// omnibar - don't yank focus in that case (the omnibar's TryCancel doesn't help here
 			// because FocusFileList -> ListViewItem.Focus uses FocusState.Keyboard).
 			if (!UIHelpers.IsTextInputFocused(XamlRoot))
-				ContentPage.ItemManipulationModel.FocusFileList();
-			ContentPage.ItemManipulationModel.SetSelectedItems(e);
+				contentPage.ItemManipulationModel.FocusFileList();
+			contentPage.ItemManipulationModel.SetSelectedItems(e);
 		}
 
-		protected async void FilesystemViewModel_DirectoryInfoUpdated(object sender, EventArgs e)
+		protected async void FilesystemViewModel_DirectoryInfoUpdated(object? sender, EventArgs e)
 		{
 			if (ContentPage is null)
 				return;
 
-			var directoryItemCountLocalization = Strings.Items.GetLocalizedFormatResource(ShellViewModel.FilesAndFolders.Count);
+			var shellViewModel = this.GetRequiredShellViewModel();
 
-			BranchItem? headBranch = headBranch = InstanceViewModel.IsGitRepository
+			var directoryItemCountLocalization = Strings.Items.GetLocalizedFormatResource(shellViewModel.FilesAndFolders.Count);
+
+			BranchItem? headBranch = InstanceViewModel.IsGitRepository
 					? await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath)
 					: null;
 
-			if (InstanceViewModel.GitRepositoryPath != ShellViewModel.GitDirectory)
+			shellViewModel = this.GetRequiredShellViewModel();
+
+			if (InstanceViewModel.GitRepositoryPath != shellViewModel.GitDirectory)
 			{
-				InstanceViewModel.GitRepositoryPath = ShellViewModel.GitDirectory;
-				InstanceViewModel.IsGitRepository = ShellViewModel.IsValidGitDirectory;
+				InstanceViewModel.GitRepositoryPath = shellViewModel.GitDirectory;
+				InstanceViewModel.IsGitRepository = shellViewModel.IsValidGitDirectory;
 
 				InstanceViewModel.GitBranchName = headBranch is not null
 					? headBranch.Name
@@ -268,12 +277,12 @@ namespace Files.App.Views.Shells
 					headBranch);
 			}
 
-			contentPage.StatusBarViewModel.DirectoryItemCount = $"{ShellViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
-			contentPage.InfoPaneViewModel.DirectoryItemCount = $"{ShellViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
+			contentPage.StatusBarViewModel.DirectoryItemCount = $"{shellViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
+			contentPage.InfoPaneViewModel.DirectoryItemCount = $"{shellViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
 			contentPage.UpdateSelectionSize();
 		}
 
-		protected async void FilesystemViewModel_GitDirectoryUpdated(object sender, EventArgs e)
+		protected async void FilesystemViewModel_GitDirectoryUpdated(object? sender, EventArgs e)
 		{
 			if (GitHelpers.IsExecutingGitAction)
 				return;
@@ -294,14 +303,22 @@ namespace Files.App.Views.Shells
 
 		protected async void GitCheckout_Required(object? sender, string branchName)
 		{
-			if (!await GitHelpers.Checkout(ShellViewModel.GitDirectory, branchName))
+			var shellViewModel = this.GetRequiredShellViewModel();
+
+			if (!await GitHelpers.Checkout(shellViewModel.GitDirectory, branchName))
 			{
-				_ContentPage.StatusBarViewModel.ShowLocals = true;
-				_ContentPage.StatusBarViewModel.SelectedBranchIndex = StatusBarViewModel.ACTIVE_BRANCH_INDEX;
+				var contentPage = ContentPage
+					?? throw new InvalidOperationException("The content page is not available after Git checkout failed.");
+
+				contentPage.StatusBarViewModel.ShowLocals = true;
+				contentPage.StatusBarViewModel.SelectedBranchIndex = StatusBarViewModel.ACTIVE_BRANCH_INDEX;
 			}
 			else
 			{
-				ContentPage.StatusBarViewModel.UpdateGitInfo(
+				var contentPage = ContentPage
+					?? throw new InvalidOperationException("The content page is not available after Git checkout.");
+
+				contentPage.StatusBarViewModel.UpdateGitInfo(
 					InstanceViewModel.IsGitRepository,
 					InstanceViewModel.GitRepositoryPath,
 					await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath));
@@ -340,22 +357,22 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		protected void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
+		protected void AppSettings_SortDirectionPreferenceUpdated(object? sender, SortDirection e)
 		{
 			ShellViewModel?.UpdateSortDirectionStatusAsync();
 		}
 
-		protected void AppSettings_SortOptionPreferenceUpdated(object sender, SortOption e)
+		protected void AppSettings_SortOptionPreferenceUpdated(object? sender, SortOption e)
 		{
 			ShellViewModel?.UpdateSortOptionStatusAsync();
 		}
 
-		protected void AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(object sender, bool e)
+		protected void AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(object? sender, bool e)
 		{
 			ShellViewModel?.UpdateSortDirectoriesAlongsideFilesAsync();
 		}
 
-		protected void AppSettings_SortFilesFirstPreferenceUpdated(object sender, bool e)
+		protected void AppSettings_SortFilesFirstPreferenceUpdated(object? sender, bool e)
 		{
 			ShellViewModel?.UpdateSortFilesFirstAsync();
 		}
@@ -373,16 +390,22 @@ namespace Files.App.Views.Shells
 
 		protected async void ShellPage_PathBoxItemDropped(object sender, PathBoxItemDroppedEventArgs e)
 		{
-			await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.Path, false, true);
+			var package = e.Package
+				?? throw new InvalidOperationException("The dropped data package is not available.");
+			var destination = e.Path
+				?? throw new InvalidOperationException("The drop destination is not available.");
+			await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, package, destination, false, true);
 			e.SignalEvent?.Set();
 		}
 
 		protected async void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
 		{
-			await ToolbarViewModel.CheckPathInputAsync(e.QueryText, ToolbarViewModel.PathComponents.LastOrDefault()?.Path, this);
+			var queryText = e.QueryText
+				?? throw new InvalidOperationException("The submitted navigation query is missing.");
+			await ToolbarViewModel.CheckPathInputAsync(queryText, ToolbarViewModel.PathComponents.LastOrDefault()?.Path, this);
 		}
 
-		protected async void DrivesManager_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		protected async void DrivesManager_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == "ShowUserConsentOnInit")
 				await DisplayFilesystemConsentDialogAsync();
@@ -393,13 +416,13 @@ namespace Files.App.Views.Shells
 		// Ensure that the path bar gets updated for user interaction
 		// whenever the path changes.We will get the individual directories from
 		// the updated, most-current path and add them to the UI.
-		public async Task UpdatePathUIToWorkingDirectoryAsync(string newWorkingDir, string singleItemOverride = null)
+		public async Task UpdatePathUIToWorkingDirectoryAsync(string? newWorkingDir, string? singleItemOverride = null)
 		{
-			if (ToolbarViewModel?.PathComponents is null)
-				return;
-
 			if (string.IsNullOrWhiteSpace(singleItemOverride))
 			{
+				if (newWorkingDir is null)
+					throw new InvalidOperationException("The working directory is not available for the path bar.");
+
 				cts = new CancellationTokenSource();
 
 				var components = await StorageFileExtensions.GetDirectoryPathComponentsWithDisplayNameAsync(newWorkingDir);
@@ -445,23 +468,25 @@ namespace Files.App.Views.Shells
 
 		public void SubmitSearch(string query)
 		{
-			ShellViewModel.CancelSearch();
+			var shellViewModel = this.GetRequiredShellViewModel();
+
+			shellViewModel.CancelSearch();
 			InstanceViewModel.CurrentSearchQuery = query;
 
 			var args = new NavigationArguments()
 			{
 				AssociatedTabInstance = this,
 				IsSearchResultPage = true,
-				SearchPathParam = ShellViewModel.WorkingDirectory,
+				SearchPathParam = shellViewModel.WorkingDirectory,
 				SearchQuery = query,
 			};
 
-			var layout = InstanceViewModel.FolderSettings.GetLayoutType(ShellViewModel.WorkingDirectory);
+			var layout = InstanceViewModel.FolderSettings.GetLayoutType(shellViewModel.WorkingDirectory);
 
 			if (layout == typeof(ColumnsLayoutPage))
-				NavigateToPath(ShellViewModel.WorkingDirectory, typeof(DetailsLayoutPage), args);
+				NavigateToPath(shellViewModel.WorkingDirectory, typeof(DetailsLayoutPage), args);
 			else
-				NavigateToPath(ShellViewModel.WorkingDirectory, layout, args);
+				NavigateToPath(shellViewModel.WorkingDirectory, layout, args);
 		}
 
 		public void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs)
@@ -482,17 +507,20 @@ namespace Files.App.Views.Shells
 
 		public Task TabItemDragOver(object sender, DragEventArgs e)
 		{
-			return SlimContentPage?.CommandsViewModel.DragOverAsync(e);
+			return SlimContentPage?.CommandsViewModel?.DragOverAsync(e)
+				?? throw new InvalidOperationException("The tab content is not available for drag-over.");
 		}
 
 		public Task TabItemDrop(object sender, DragEventArgs e)
 		{
-			return SlimContentPage?.CommandsViewModel.DropAsync(e);
+			return SlimContentPage?.CommandsViewModel?.DropAsync(e)
+				?? throw new InvalidOperationException("The tab content is not available for drop.");
 		}
 
 		public async Task RefreshIfNoWatcherExistsAsync()
 		{
-			if (ShellViewModel.HasNoWatcher)
+			var shellViewModel = this.GetRequiredShellViewModel();
+			if (shellViewModel.HasNoWatcher)
 				await Refresh_Click();
 		}
 
@@ -500,19 +528,29 @@ namespace Files.App.Views.Shells
 		{
 			if (InstanceViewModel.IsPageTypeSearchResults)
 			{
+				var shellViewModel = this.GetRequiredShellViewModel();
+				var searchQuery = InstanceViewModel.CurrentSearchQuery;
+				if (searchQuery is null)
+				{
+					var tabArguments = TabBarItemParameter
+						?? throw new InvalidOperationException("The tab navigation arguments are not available for search refresh.");
+					searchQuery = (string?)tabArguments.NavigationParameter;
+				}
+
 				ToolbarViewModel.CanRefresh = false;
 				var searchInstance = new FolderSearch
 				{
-					Query = InstanceViewModel.CurrentSearchQuery ?? (string)TabBarItemParameter.NavigationParameter,
-					Folder = ShellViewModel.WorkingDirectory,
+					Query = searchQuery,
+					Folder = shellViewModel.WorkingDirectory,
 				};
 
-				await ShellViewModel.SearchAsync(searchInstance);
+				await shellViewModel.SearchAsync(searchInstance);
 			}
 			else if (CurrentPageType != typeof(HomePage))
 			{
+				var shellViewModel = this.GetRequiredShellViewModel();
 				ToolbarViewModel.CanRefresh = false;
-				ShellViewModel?.RefreshItems(null);
+				shellViewModel.RefreshItems(null);
 			}
 			else if (ItemDisplay.Content is HomePage homePage)
 			{
@@ -589,7 +627,7 @@ namespace Files.App.Views.Shells
 			ContentChanged?.Invoke(instance, args);
 		}
 
-		protected void FilesystemViewModel_ItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs e)
+		protected void FilesystemViewModel_ItemLoadStatusChanged(object? sender, ItemLoadStatusChangedEventArgs e)
 		{
 			switch (e.Status)
 			{
@@ -617,15 +655,19 @@ namespace Files.App.Views.Shells
 
 					ToolbarViewModel.CanRefresh = true;
 					// Select previous directory
-					if (!string.IsNullOrWhiteSpace(e.PreviousDirectory) &&
-						e.PreviousDirectory.Contains(e.Path, StringComparison.Ordinal) &&
+					var path = e.Path;
+					if (path is not null &&
+						!string.IsNullOrWhiteSpace(e.PreviousDirectory) &&
+						e.PreviousDirectory.Contains(
+							path,
+							StringComparison.Ordinal) &&
 						!e.PreviousDirectory.Contains(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 					{
 						// Remove the WorkingDir from previous dir
-						e.PreviousDirectory = e.PreviousDirectory.Replace(e.Path, string.Empty, StringComparison.Ordinal);
+						e.PreviousDirectory = e.PreviousDirectory.Replace(path, string.Empty, StringComparison.Ordinal);
 
-						var isNetwork = e.Path.StartsWith("\\\\", StringComparison.Ordinal);
-						var isFtp = FtpHelpers.IsFtpPath(e.Path);
+						var isNetwork = path.StartsWith("\\\\", StringComparison.Ordinal);
+						var isFtp = FtpHelpers.IsFtpPath(path);
 						var separator = isFtp ? "/" : "\\";
 
 						// Get previous dir name
@@ -635,7 +677,7 @@ namespace Files.App.Views.Shells
 							e.PreviousDirectory = e.PreviousDirectory.Split(separator)[0];
 
 						// Get the first folder and combine it with WorkingDir
-						string folderToSelect = e.Path + separator + e.PreviousDirectory;
+						string folderToSelect = path + separator + e.PreviousDirectory;
 
 						// Make sure we don't get double separators in the e.Path
 						folderToSelect = folderToSelect.Replace(separator + separator, separator, StringComparison.Ordinal);
@@ -648,7 +690,8 @@ namespace Files.App.Views.Shells
 						if (folderToSelect.EndsWith(separator))
 							folderToSelect = folderToSelect.Remove(folderToSelect.Length - 1, 1);
 
-						var itemToSelect = ShellViewModel.FilesAndFolders.ToList().FirstOrDefault((item) => item.ItemPath == folderToSelect);
+						var shellViewModel = this.GetRequiredShellViewModel();
+						var itemToSelect = shellViewModel.FilesAndFolders.ToList().FirstOrDefault((item) => item.ItemPath == folderToSelect);
 
 						if (itemToSelect is not null && ContentPage is not null && userSettingsService.FoldersSettingsService.ScrollToPreviousFolderWhenNavigatingUp)
 						{
@@ -660,7 +703,7 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
+		private void FolderSettings_LayoutPreferencesUpdateRequired(object? sender, LayoutPreferenceEventArgs e)
 		{
 			if (ShellViewModel is null)
 				return;
@@ -670,7 +713,7 @@ namespace Files.App.Views.Shells
 				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(InstanceViewModel.FolderSettings, ShellViewModel.FilesAndFolders.ToList());
 		}
 
-		protected virtual void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
+		protected virtual void ViewModel_WorkingDirectoryModified(object? sender, WorkingDirectoryModifiedEventArgs e)
 		{
 		}
 
@@ -689,7 +732,7 @@ namespace Files.App.Views.Shells
 			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdatesAsync());
 		}
 
-		protected async Task<BaseLayoutPage> GetContentOrNullAsync()
+		protected async Task<BaseLayoutPage?> GetContentOrNullAsync()
 		{
 			// WINUI3: Make sure not to run this synchronously, do not use EnqueueAsync
 			var tcs = new TaskCompletionSource<object?>();
@@ -718,9 +761,9 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		protected void SelectSidebarItemFromPath(Type incomingSourcePageType = null)
+		protected void SelectSidebarItemFromPath(Type? incomingSourcePageType = null)
 		{
-			if (incomingSourcePageType == typeof(HomePage) && incomingSourcePageType is not null)
+			if (incomingSourcePageType == typeof(HomePage))
 				ToolbarViewModel.PathControlDisplayText = Strings.Home.GetLocalizedResource();
 		}
 
@@ -728,10 +771,14 @@ namespace Files.App.Views.Shells
 		{
 			try
 			{
-				var multitaskingControls = ((MainWindow.Instance.Content as Frame).Content as MainPage).ViewModel.MultitaskingControls;
+				var mainPage = (MainWindow.Instance.Content as Frame)?.Content as MainPage
+					?? throw new InvalidOperationException("The main page is not available for updating tab loading indicators.");
 
-				foreach (var x in multitaskingControls)
-					x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.TabItemContent == PaneHolder), isLoading);
+				foreach (var tabBar in mainPage.ViewModel.MultitaskingControls)
+				{
+					if (tabBar.Items.FirstOrDefault(item => item.TabItemContent == PaneHolder) is { } tabItem)
+						tabBar.SetLoadingIndicatorStatus(tabItem, isLoading);
+				}
 			}
 			catch (COMException)
 			{
@@ -755,7 +802,14 @@ namespace Files.App.Views.Shells
 
 			// Update layout type
 			if (pageContent.SourcePageType != typeof(HomePage))
-				InstanceViewModel.FolderSettings.GetLayoutType(incomingPageNavPath.IsSearchResultPage ? incomingPageNavPath.SearchPathParam : incomingPageNavPath.NavPathParam);
+			{
+				var navigationArguments = incomingPageNavPath
+					?? throw new InvalidOperationException("The navigation entry does not contain navigation arguments.");
+				var path = navigationArguments.IsSearchResultPage
+					? navigationArguments.SearchPathParam
+					: navigationArguments.NavPathParam;
+				InstanceViewModel.FolderSettings.GetLayoutType(path);
+			}
 
 			SelectSidebarItemFromPath(pageContent.SourcePageType);
 		}

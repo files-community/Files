@@ -44,10 +44,11 @@ namespace Files.App.Services
 					continue;
 				}
 
-				using var thumbnail = await DriveHelpers.GetThumbnailAsync(res.Result);
+				var root = res.Result!;
+				using var thumbnail = await DriveHelpers.GetThumbnailAsync(root);
 				var type = DriveHelpers.GetDriveType(drive);
 				var label = DriveHelpers.GetExtendedDriveLabel(drive);
-				var driveItem = await DriveItem.CreateFromPropertiesAsync(res.Result, drive.Name.TrimEnd('\\'), label, type, thumbnail);
+				var driveItem = await DriveItem.CreateFromPropertiesAsync(root, drive.Name.TrimEnd('\\'), label, type, thumbnail);
 
 				App.Logger.LogInformation($"Drive added: {driveItem.Path}, {driveItem.Type}");
 
@@ -72,10 +73,11 @@ namespace Files.App.Services
 			var rootModified = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Id).AsTask());
 			if (rootModified && drive is DriveItem matchingDriveEjected)
 			{
+				var root = rootModified.Result!;
 				_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
-					matchingDriveEjected.Root = rootModified.Result;
-					matchingDriveEjected.Text = rootModified.Result.DisplayName;
+					matchingDriveEjected.Root = root;
+					matchingDriveEjected.Text = root.DisplayName;
 					return matchingDriveEjected.UpdatePropertiesAsync();
 				});
 			}

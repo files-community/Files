@@ -18,9 +18,9 @@ namespace Files.App.Helpers
 		public static async Task PasteItemAsync(string destinationPath, IShellPage associatedInstance)
 		{
 			FilesystemResult<DataPackageView> packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
-			if (packageView && packageView.Result is not null)
+			if (packageView && packageView.Result is { } content)
 			{
-				await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(packageView.Result.RequestedOperation, packageView, destinationPath, false, true);
+				await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(content.RequestedOperation, content, destinationPath, false, true);
 				associatedInstance.SlimContentPage?.ItemManipulationModel?.RefreshItemsOpacity();
 				await associatedInstance.RefreshIfNoWatcherExistsAsync();
 			}
@@ -29,9 +29,11 @@ namespace Files.App.Helpers
 		public static async Task PasteItemAsShortcutAsync(string destinationPath, IShellPage associatedInstance)
 		{
 			FilesystemResult<DataPackageView> packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
-			if (packageView.Result.Contains(StandardDataFormats.StorageItems))
+			var content = packageView.Result
+				?? throw new InvalidOperationException("The clipboard content is not available.");
+			if (content.Contains(StandardDataFormats.StorageItems))
 			{
-				var items = await packageView.Result.GetStorageItemsAsync();
+				var items = await content.GetStorageItemsAsync();
 				await Task.WhenAll(items.Select(async item =>
 				{
 					var fileName = FilesystemHelpers.GetShortcutNamingPreference(item.Name);
@@ -50,8 +52,12 @@ namespace Files.App.Helpers
 		{
 			if (item is AlternateStreamItem ads) // For alternate streams Name is not a substring ItemNameRaw
 			{
-				newName = item.ItemNameRaw.Replace(
-					item.Name.Substring(item.Name.LastIndexOf(':') + 1),
+				var itemNameRaw = item.ItemNameRaw
+					?? throw new InvalidOperationException("The alternate stream does not have a name.");
+				var itemName = item.Name
+					?? throw new InvalidOperationException("The alternate stream does not have a display name.");
+				newName = itemNameRaw.Replace(
+					itemName.Substring(itemName.LastIndexOf(':') + 1),
 					newName.Substring(newName.LastIndexOf(':') + 1),
 					StringComparison.Ordinal);
 				newName = $"{ads.MainStreamName}:{newName}";
@@ -61,7 +67,9 @@ namespace Files.App.Helpers
 				if (string.IsNullOrEmpty(item.Name))
 					newName = string.Concat(newName, item.FileExtension);
 				else
-					newName = item.ItemNameRaw.Replace(item.Name, newName, StringComparison.Ordinal);
+					newName = (item.ItemNameRaw
+						?? throw new InvalidOperationException("The item does not have a name."))
+						.Replace(item.Name, newName, StringComparison.Ordinal);
 			}
 
 			if (item.ItemNameRaw == newName || string.IsNullOrEmpty(newName))
@@ -69,7 +77,9 @@ namespace Files.App.Helpers
 
 			FilesystemItemType itemType = (item.PrimaryItemAttribute == StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File;
 
-			ReturnResult renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageHelpers.FromPathAndType(item.ItemPath, itemType), newName, NameCollisionOption.FailIfExists, true, showExtensionDialog);
+			ReturnResult renamed = await associatedInstance.FilesystemHelpers.RenameAsync(
+				StorageHelpers.FromPathAndType(item.GetRequiredPath(), itemType),
+				newName, NameCollisionOption.FailIfExists, true, showExtensionDialog);
 
 			if (renamed == ReturnResult.Success)
 			{
@@ -93,7 +103,8 @@ namespace Files.App.Helpers
 
 			if (associatedInstance.SlimContentPage is not null)
 			{
-				currentPath = associatedInstance.ShellViewModel.WorkingDirectory;
+				var shellViewModel = associatedInstance.GetRequiredShellViewModel();
+				currentPath = shellViewModel.WorkingDirectory;
 				if (App.LibraryManager.TryGetLibrary(currentPath, out var library) &&
 					!library.IsEmpty &&
 					library.Folders.Count == 1) // TODO: handle libraries with multiple folders
@@ -101,7 +112,6 @@ namespace Files.App.Helpers
 					currentPath = library.Folders.First();
 				}
 			}
-
 			// Skip rename dialog when ShellNewEntry has a Command (e.g. ".accdb", ".gdoc")
 			string? userInput = null;
 			if (itemType != AddItemDialogItemType.File || itemInfo?.Command is null)
@@ -116,20 +126,20 @@ namespace Files.App.Helpers
 			}
 
 			// Create file based on dialog result
-			(ReturnResult Status, IStorageItem Item) created = (ReturnResult.Failed, null);
+			(ReturnResult Status, IStorageItem? Item) created = (ReturnResult.Failed, null);
 			switch (itemType)
 			{
 				case AddItemDialogItemType.Folder:
 					userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : Strings.NewFolder.GetLocalizedResource();
 					created = await associatedInstance.FilesystemHelpers.CreateAsync(
-						StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath, userInput), FilesystemItemType.Directory),
+						StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath ?? string.Empty, userInput), FilesystemItemType.Directory),
 						true);
 					break;
 
 				case AddItemDialogItemType.File:
 					userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo?.Name ?? Strings.NewFile.GetLocalizedResource();
 					created = await associatedInstance.FilesystemHelpers.CreateAsync(
-						StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath, userInput + itemInfo?.Extension), FilesystemItemType.File),
+						StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath ?? string.Empty, userInput + itemInfo?.Extension), FilesystemItemType.File),
 						true);
 					break;
 			}
@@ -156,9 +166,12 @@ namespace Files.App.Helpers
 		{
 			try
 			{
-				var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
-					item.ItemPath,
-					item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+				if (associatedInstance.SlimContentPage?.SelectedItems is not { } selectedItems)
+					throw new InvalidOperationException("The active file-list selection is not available.");
+
+				var items = selectedItems.Select((item) => StorageHelpers.FromPathAndType(
+					item.GetRequiredPath(),
+					item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList();
 				var folder = await CreateFileFromDialogResultTypeForResult(AddItemDialogItemType.Folder, null, associatedInstance);
 				if (folder is null)
 					return;
@@ -186,10 +199,12 @@ namespace Files.App.Helpers
 
 		public static async Task CreateShortcutAsync(IShellPage? associatedInstance, IReadOnlyList<ListedItem> selectedItems)
 		{
-			var currentPath = associatedInstance?.ShellViewModel.WorkingDirectory;
+			var currentPath = associatedInstance is null
+				? null
+				: associatedInstance.GetRequiredShellViewModel().WorkingDirectory;
 
 			if (App.LibraryManager.TryGetLibrary(currentPath ?? string.Empty, out var library) && !library.IsEmpty)
-				currentPath = library.DefaultSaveFolder;
+				currentPath = library.DefaultSaveFolder!;
 
 			foreach (ListedItem selectedItem in selectedItems)
 			{
@@ -206,11 +221,14 @@ namespace Files.App.Helpers
 
 		public static async Task CreateShortcutFromDialogAsync(IShellPage associatedInstance)
 		{
-			var currentPath = associatedInstance.ShellViewModel.WorkingDirectory;
+			var shellViewModel = associatedInstance.GetRequiredShellViewModel();
+			var currentPath = shellViewModel.WorkingDirectory
+				?? throw new InvalidOperationException("The active shell page does not have a working directory.");
+
 			if (App.LibraryManager.TryGetLibrary(currentPath, out var library) &&
 				!library.IsEmpty)
 			{
-				currentPath = library.DefaultSaveFolder;
+				currentPath = library.DefaultSaveFolder!;
 			}
 
 			var viewModel = new CreateShortcutDialogViewModel(currentPath);
@@ -225,7 +243,7 @@ namespace Files.App.Helpers
 			await associatedInstance.RefreshIfNoWatcherExistsAsync();
 		}
 
-		public static async Task<bool> HandleShortcutCannotBeCreated(string shortcutName, string destinationPath, string arguments = "")
+		public static async Task<bool> HandleShortcutCannotBeCreated(string shortcutName, string? destinationPath, string? arguments = "")
 		{
 			var result = await DialogDisplayHelper.ShowDialogAsync
 			(
@@ -245,8 +263,9 @@ namespace Files.App.Helpers
 		/// <summary>
 		/// Updates ListedItem properties for a shortcut
 		/// </summary>
-		public static void UpdateShortcutItemProperties(IShortcutItem item, string targetPath, string arguments, string workingDir, bool runAsAdmin, SHOW_WINDOW_CMD showWindowCommand)
+		public static void UpdateShortcutItemProperties(IShortcutItem item, string? targetPath, string? arguments, string? workingDir, bool runAsAdmin, SHOW_WINDOW_CMD showWindowCommand)
 		{
+			ArgumentNullException.ThrowIfNull(targetPath);
 			item.TargetPath = Environment.ExpandEnvironmentVariables(targetPath);
 			item.Arguments = arguments;
 			item.WorkingDirectory = workingDir;
@@ -279,10 +298,12 @@ namespace Files.App.Helpers
 
 			if (credentialDialogViewModel.IsAnonymous)
 				return new();
+			if (credentialDialogViewModel.Password is not { } password)
+				throw new InvalidOperationException("A password is required for authenticated credentials.");
 
 			// Can't do more than that to mitigate immutability of strings. Perhaps convert DisposableArray to SecureString immediately?
-			var credentials = new StorageCredential(credentialDialogViewModel.UserName, Encoding.UTF8.GetString(credentialDialogViewModel.Password));
-			credentialDialogViewModel.Password?.Dispose();
+			var credentials = new StorageCredential(credentialDialogViewModel.UserName, Encoding.UTF8.GetString(password));
+			password.Dispose();
 
 			if (isFtp)
 			{

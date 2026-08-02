@@ -33,12 +33,12 @@ namespace Files.App.Data.Contracts
 		/// <summary>
 		/// A list containing all paths to open at startup.
 		/// </summary>
-		List<string> TabsOnStartupList { get; set; }
+		List<string>? TabsOnStartupList { get; set; }
 
 		/// <summary>
 		/// A list containing all paths to tabs closed on last session.
 		/// </summary>
-		List<string> LastSessionTabList { get; set; }
+		List<string>? LastSessionTabList { get; set; }
 
 		/// <summary>
 		/// Gets or sets the index of the tab that was active when the last session ended.
@@ -48,22 +48,22 @@ namespace Files.App.Data.Contracts
 		/// <summary>
 		/// A list containing paths of the tabs from the previous session that crashed.
 		/// </summary>
-		List<string> LastCrashedTabList { get; set; }
+		List<string>? LastCrashedTabList { get; set; }
 
 		/// <summary>
 		/// A list containing paths previously entered in the path bar.
 		/// </summary>
-		List<string> PathHistoryList { get; set; }
+		List<string>? PathHistoryList { get; set; }
 
 		/// <summary>
 		/// A list containing previous search queries.
 		/// </summary>
-		List<string> PreviousSearchQueriesList { get; set; }
+		List<string>? PreviousSearchQueriesList { get; set; }
 
 		/// <summary>
 		/// Stores list of paths where archives have previously been extracted.
 		/// </summary>
-		List<string> PreviousArchiveExtractionLocations { get; set; }
+		List<string>? PreviousArchiveExtractionLocations { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating which date and time format to use.
@@ -323,7 +323,7 @@ namespace Files.App.Data.Contracts
 		/// <summary>
 		/// A dictionary to determine which hashes should be shown.
 		/// </summary>
-		Dictionary<string, bool> ShowHashesDictionary { get; set; }
+		Dictionary<string, bool>? ShowHashesDictionary { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating a random user ID.

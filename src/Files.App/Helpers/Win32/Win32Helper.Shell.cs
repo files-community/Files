@@ -16,7 +16,7 @@ namespace Files.App.Helpers
 	/// </summary>
 	public static partial class Win32Helper
 	{
-		public static async Task<(ShellFileItem Folder, List<ShellFileItem> Enumerate)> GetShellFolderAsync(string path, bool getFolder, bool getEnumerate, int from, int count, params string[] properties)
+		public static async Task<(ShellFileItem? Folder, List<ShellFileItem> Enumerate)> GetShellFolderAsync(string path, bool getFolder, bool getEnumerate, int from, int count, params string[] properties)
 		{
 			if (path.StartsWith("::{", StringComparison.Ordinal))
 			{
@@ -26,7 +26,7 @@ namespace Files.App.Helpers
 			return await STATask.Run(() =>
 			{
 				var flc = new List<ShellFileItem>();
-				var folder = (ShellFileItem)null;
+				ShellFileItem? folder = null;
 
 				try
 				{
@@ -56,6 +56,8 @@ namespace Files.App.Helpers
 								var shellFileItem = folderItem is ShellLink link ?
 									ShellFolderExtensions.GetShellLinkItem(link) :
 									ShellFolderExtensions.GetShellFileItem(folderItem);
+								if (shellFileItem is null)
+									continue;
 
 								foreach (var prop in properties)
 									shellFileItem.Properties[prop] = SafetyExtensions.IgnoreExceptions(() => folderItem.Properties[prop]);
@@ -84,7 +86,7 @@ namespace Files.App.Helpers
 		public static unsafe string GetFolderFromKnownFolderGUID(Guid guid)
 		{
 			PWSTR pszPath;
-			PInvoke.SHGetKnownFolderPath(ref guid, (KNOWN_FOLDER_FLAG)0, null, out pszPath);
+			PInvoke.SHGetKnownFolderPath(in guid, (KNOWN_FOLDER_FLAG)0, null, out pszPath);
 			string path = pszPath.ToString();
 			Marshal.FreeCoTaskMem((nint)pszPath.Value);
 

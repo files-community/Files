@@ -70,7 +70,7 @@ namespace Files.App.Utils.Cloud
 					continue;
 				}
 
-				var folder = folderResult.Result;
+				var folder = folderResult.Result!;
 				string title = reader["title"]?.ToString() ?? folder.Name;
 
 				Debug.WriteLine("YIELD RETURNING from `GoogleDriveCloudDetector.GetProviders()` (roots): ");
@@ -103,7 +103,7 @@ namespace Files.App.Utils.Cloud
 					continue;
 				}
 
-				var folder = folderResult.Result;
+				var folder = folderResult.Result!;
 				string title = reader["name"]?.ToString() ?? folder.Name;
 
 				Debug.WriteLine("YIELD RETURNING from `GoogleDriveCloudDetector.GetProviders` (media): ");

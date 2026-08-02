@@ -971,7 +971,7 @@
 												x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
 
 											<Image
-												x:Name="IconOverlay"
+												x:Name="IconOverlayElement"
 												Width="16"
 												Height="16"
 												Margin="2"
@@ -1196,7 +1196,7 @@
 
 									<!--  Item Path  -->
 									<TextBlock
-										x:Name="ItemPath"
+										x:Name="ItemPathTextBlock"
 										Width="{Binding ColumnsViewModel.PathColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
@@ -1237,7 +1237,7 @@
 
 									<!--  Item Modified Date  -->
 									<TextBlock
-										x:Name="ItemDateModified"
+										x:Name="ItemDateModifiedTextBlock"
 										Width="{Binding ColumnsViewModel.DateModifiedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
@@ -1250,7 +1250,7 @@
 
 									<!--  Item Created Date  -->
 									<TextBlock
-										x:Name="ItemDateCreated"
+										x:Name="ItemDateCreatedTextBlock"
 										Width="{Binding ColumnsViewModel.DateCreatedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
@@ -1263,7 +1263,7 @@
 
 									<!--  Item Type  -->
 									<TextBlock
-										x:Name="ItemType"
+										x:Name="ItemTypeTextBlock"
 										Width="{Binding ColumnsViewModel.ItemTypeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"

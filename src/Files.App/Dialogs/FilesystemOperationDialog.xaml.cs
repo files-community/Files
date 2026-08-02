@@ -172,14 +172,14 @@ namespace Files.App.Dialogs
 
 		private void EndRename(FileSystemDialogConflictItemViewModel conflictItem)
 		{
-			conflictItem.CustomName = FilesystemHelpers.FilterRestrictedCharacters(conflictItem.CustomName);
+			conflictItem.CustomName = FilesystemHelpers.FilterRestrictedCharacters(conflictItem.CustomName!);
 
 			if (ViewModel.IsNameAvailableForItem(conflictItem, conflictItem.CustomName!))
 				conflictItem.IsTextBoxVisible = false;
 			else
 				ViewModel.PrimaryButtonEnabled = false;
 
-			if (conflictItem.CustomName.Equals(conflictItem.DisplayName))
+			if (conflictItem.CustomName!.Equals(conflictItem.DisplayName))
 			{
 				var savedName = conflictItem.DestinationDisplayName;
 				conflictItem.DestinationDisplayName = savedName;

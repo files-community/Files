@@ -3,6 +3,7 @@
 
 using LibGit2Sharp;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Files.App.Data.Contracts
 {
@@ -26,7 +27,7 @@ namespace Files.App.Data.Contracts
 		/// This method is used for determining whether a directory is within a repository and, if so,
 		/// which directory should be treated as the repository root.
 		/// </remarks>
-		string? GetGitRepositoryPath(string? path, string root);
+		string? GetGitRepositoryPath(string? path, string? root);
 
 		/// <summary>
 		/// Gets the repository name.
@@ -137,7 +138,7 @@ namespace Files.App.Data.Contracts
 		/// <returns>
 		/// <see langword="true"/> if a repository was found; otherwise, <see langword="false"/>.
 		/// </returns>
-		bool IsRepositoryEx(string path, out string repoRootPath);
+		bool IsRepositoryEx([NotNullWhen(true)] string? path, [NotNullWhen(true)] out string? repoRootPath);
 
 		/// <summary>
 		/// Gets version control information for a filesystem item.

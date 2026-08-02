@@ -81,7 +81,9 @@ namespace Files.App.ViewModels.Properties
 
 		public CompatibilityViewModel(ListedItem item)
 		{
-			ItemPath = item is IShortcutItem shortcutItem ? shortcutItem.TargetPath : item.ItemPath;
+			var targetPath = (item as IShortcutItem)?.TargetPath;
+			ItemPath = (!string.IsNullOrEmpty(targetPath) ? targetPath : item.ItemPath)
+				?? throw new InvalidOperationException("The selected item does not have a compatibility target path.");
 
 			CompatibilityOptions = WindowsCompatibilityService.GetCompatibilityOptionsForPath(ItemPath);
 

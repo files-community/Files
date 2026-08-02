@@ -2,14 +2,15 @@
 // Licensed under the MIT License.
 
 using System.IO;
+using System.Diagnostics.CodeAnalysis;
 using Windows.Storage;
 
 namespace Files.App.Utils.Storage
 {
 	public sealed partial class StorageHistoryOperations : IStorageHistoryOperations
 	{
-		private IFilesystemHelpers helpers;
-		private ShellFilesystemOperations operations;
+		private IFilesystemHelpers? helpers;
+		private ShellFilesystemOperations? operations;
 
 		private readonly CancellationToken cancellationToken;
 
@@ -22,6 +23,8 @@ namespace Files.App.Utils.Storage
 
 		public async Task<ReturnResult> Undo(IStorageHistory history)
 		{
+			var helpers = this.helpers ?? throw new ObjectDisposedException(nameof(StorageHistoryOperations));
+			var operations = this.operations ?? throw new ObjectDisposedException(nameof(StorageHistoryOperations));
 			ReturnResult returnStatus = ReturnResult.InProgress;
 			Progress<StatusCenterItemProgressModel> progress = new();
 
@@ -37,34 +40,38 @@ namespace Files.App.Utils.Storage
 					}
 					break;
 				case FileOperationType.CreateLink: // Opposite: Delete created items
-					if (!IsHistoryNull(history.Destination))
+					var createdLinks = history.Destination;
+					if (!IsHistoryNull(createdLinks))
 					{
 						// Show a dialog regardless of the setting to prevent unexpected deletion
-						return await helpers.DeleteItemsAsync(history.Destination, DeleteConfirmationPolicies.Always, true, false);
+						return await helpers.DeleteItemsAsync(createdLinks, DeleteConfirmationPolicies.Always, true, false);
 					}
 					break;
 				case FileOperationType.Rename: // Opposite: Restore original item names
-					if (!IsHistoryNull(history))
+					var renamedItems = history.Destination;
+					if (!IsHistoryNull(history.Source) && !IsHistoryNull(renamedItems))
 					{
 						NameCollisionOption collision = NameCollisionOption.GenerateUniqueName;
-						for (int i = 0; i < history.Destination.Count; i++)
+						for (int i = 0; i < renamedItems.Count; i++)
 						{
 							string name = Path.GetFileName(history.Source[i].Path);
-							await operations.RenameAsync(history.Destination[i], name, collision, progress, cancellationToken);
+							await operations.RenameAsync(renamedItems[i], name, collision, progress, cancellationToken);
 						}
 					}
 					break;
 				case FileOperationType.Copy: // Opposite: Delete copied items
-					if (!IsHistoryNull(history.Destination))
+					var copiedItems = history.Destination;
+					if (!IsHistoryNull(copiedItems))
 					{
 						// Show a dialog regardless of the setting to prevent unexpected deletion
-						return await helpers.DeleteItemsAsync(history.Destination, DeleteConfirmationPolicies.Always, true, false);
+						return await helpers.DeleteItemsAsync(copiedItems, DeleteConfirmationPolicies.Always, true, false);
 					}
 					break;
 				case FileOperationType.Move: // Opposite: Move the items to original directory
-					if (!IsHistoryNull(history))
+					var movedItems = history.Destination;
+					if (!IsHistoryNull(history.Source) && !IsHistoryNull(movedItems))
 					{
-						return await helpers.MoveItemsAsync(history.Destination, history.Source.Select(item => item.Path), false, false);
+						return await helpers.MoveItemsAsync(movedItems, history.Source.Select(item => item.Path), false, false);
 					}
 					break;
 				case FileOperationType.Extract: // Opposite: No opposite for archive extraction
@@ -72,9 +79,10 @@ namespace Files.App.Utils.Storage
 					Debugger.Break();
 					break;
 				case FileOperationType.Recycle: // Opposite: Restore recycled items
-					if (!IsHistoryNull(history))
+					var recycledItems = history.Destination;
+					if (!IsHistoryNull(history.Source) && !IsHistoryNull(recycledItems))
 					{
-						returnStatus = await helpers.RestoreItemsFromTrashAsync(history.Destination, history.Source.Select(item => item.Path), false);
+						returnStatus = await helpers.RestoreItemsFromTrashAsync(recycledItems, history.Source.Select(item => item.Path), false);
 						if (returnStatus is ReturnResult.IntegrityCheckFailed) // Not found, corrupted
 						{
 							App.HistoryWrapper.RemoveHistory(history, false);
@@ -82,9 +90,10 @@ namespace Files.App.Utils.Storage
 					}
 					break;
 				case FileOperationType.Restore: // Opposite: Move restored items to Recycle Bin
-					if (!IsHistoryNull(history.Destination))
+					var restoredItems = history.Destination;
+					if (!IsHistoryNull(restoredItems))
 					{
-						var newHistory = await operations.DeleteItemsAsync(history.Destination, progress, false, cancellationToken);
+						var newHistory = await operations.DeleteItemsAsync(restoredItems, progress, false, cancellationToken);
 						if (newHistory is null)
 						{
 							App.HistoryWrapper.RemoveHistory(history, false);
@@ -106,6 +115,8 @@ namespace Files.App.Utils.Storage
 
 		public async Task<ReturnResult> Redo(IStorageHistory history)
 		{
+			var helpers = this.helpers ?? throw new ObjectDisposedException(nameof(StorageHistoryOperations));
+			var operations = this.operations ?? throw new ObjectDisposedException(nameof(StorageHistoryOperations));
 			ReturnResult returnStatus = ReturnResult.InProgress;
 			Progress<StatusCenterItemProgressModel> progress = new();
 
@@ -114,42 +125,39 @@ namespace Files.App.Utils.Storage
 			switch (history.OperationType)
 			{
 				case FileOperationType.CreateNew:
-					if (IsHistoryNull(history))
-					{
-						foreach (var source in history.Source)
-						{
-							await operations.CreateAsync(source, progress, cancellationToken);
-						}
-					}
 					break;
 				case FileOperationType.CreateLink:
-					if (!IsHistoryNull(history))
+					var linkDestinations = history.Destination;
+					if (!IsHistoryNull(history.Source) && !IsHistoryNull(linkDestinations))
 					{
 						await operations.CreateShortcutItemsAsync(history.Source,
-							await history.Destination.Select(item => item.Path).ToListAsync(), progress, cancellationToken);
+							await linkDestinations.Select(item => item.Path).ToListAsync(), progress, cancellationToken);
 					}
 					break;
 				case FileOperationType.Rename:
-					if (!IsHistoryNull(history))
+					var renameDestinations = history.Destination;
+					if (!IsHistoryNull(history.Source) && !IsHistoryNull(renameDestinations))
 					{
 						NameCollisionOption collision = NameCollisionOption.GenerateUniqueName;
 						for (int i = 0; i < history.Source.Count; i++)
 						{
-							string name = Path.GetFileName(history.Destination[i].Path);
+							string name = Path.GetFileName(renameDestinations[i].Path);
 							await operations.RenameAsync(history.Source[i], name, collision, progress, cancellationToken);
 						}
 					}
 					break;
 				case FileOperationType.Copy:
-					if (!IsHistoryNull(history))
+					var copyDestinations = history.Destination;
+					if (!IsHistoryNull(history.Source) && !IsHistoryNull(copyDestinations))
 					{
-						return await helpers.CopyItemsAsync(history.Source, history.Destination.Select(item => item.Path), false, false);
+						return await helpers.CopyItemsAsync(history.Source, copyDestinations.Select(item => item.Path), false, false);
 					}
 					break;
 				case FileOperationType.Move:
-					if (!IsHistoryNull(history))
+					var moveDestinations = history.Destination;
+					if (!IsHistoryNull(history.Source) && !IsHistoryNull(moveDestinations))
 					{
-						return await helpers.MoveItemsAsync(history.Source, history.Destination.Select(item => item.Path), false, false);
+						return await helpers.MoveItemsAsync(history.Source, moveDestinations.Select(item => item.Path), false, false);
 					}
 					break;
 				case FileOperationType.Extract:
@@ -157,7 +165,8 @@ namespace Files.App.Utils.Storage
 					Debugger.Break();
 					break;
 				case FileOperationType.Recycle: // Recycle PASS
-					if (!IsHistoryNull(history.Destination))
+					var recycleDestinations = history.Destination;
+					if (!IsHistoryNull(history.Source) && !IsHistoryNull(recycleDestinations))
 					{
 						var newHistory = await operations.DeleteItemsAsync(history.Source, progress, false, cancellationToken);
 						if (newHistory is null)
@@ -172,9 +181,10 @@ namespace Files.App.Utils.Storage
 					}
 					break;
 				case FileOperationType.Restore:
-					if (!IsHistoryNull(history))
+					var restoreDestinations = history.Destination;
+					if (!IsHistoryNull(history.Source) && !IsHistoryNull(restoreDestinations))
 					{
-						await helpers.RestoreItemsFromTrashAsync(history.Source, history.Destination.Select(item => item.Path), false);
+						await helpers.RestoreItemsFromTrashAsync(history.Source, restoreDestinations.Select(item => item.Path), false);
 					}
 					break;
 				case FileOperationType.Delete:
@@ -194,9 +204,8 @@ namespace Files.App.Utils.Storage
 			operations = null;
 		}
 
-		private bool IsHistoryNull(IStorageHistory history) // history.Destination is null with CreateNew
-			=> IsHistoryNull(history.Source) || (history.Destination is not null && IsHistoryNull(history.Destination));
-		private bool IsHistoryNull(IEnumerable<IStorageItemWithPath> source) => !source.All(HasPath);
+		private static bool IsHistoryNull([NotNullWhen(false)] IEnumerable<IStorageItemWithPath>? source)
+			=> source is null || !source.All(HasPath);
 
 		private static bool HasPath(IStorageItemWithPath item) => item is not null && !string.IsNullOrWhiteSpace(item.Path);
 	}

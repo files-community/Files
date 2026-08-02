@@ -31,7 +31,7 @@ namespace Files.App.Data.Factories
 			return menuItemsList;
 		}
 
-		public static Task<List<ContextMenuFlyoutItemViewModel>> GetItemContextShellCommandsAsync(string workingDir, List<ListedItem> selectedItems, bool shiftPressed, bool showOpenMenu, CancellationToken cancellationToken)
+		public static Task<List<ContextMenuFlyoutItemViewModel>> GetItemContextShellCommandsAsync(string? workingDir, List<ListedItem> selectedItems, bool shiftPressed, bool showOpenMenu, CancellationToken cancellationToken)
 		{
 			return ShellContextFlyoutFactory.GetShellContextmenuAsync(shiftPressed: shiftPressed, showOpenMenu: showOpenMenu, workingDirectory: workingDir, selectedItems: selectedItems, cancellationToken: cancellationToken);
 		}
@@ -44,20 +44,23 @@ namespace Files.App.Data.Factories
 			var overflow = items.FirstOrDefault(x => x.ID == "ItemOverflow");
 			if (overflow is not null)
 			{
+				var overflowMenuItems = overflow.Items
+					?? throw new InvalidOperationException("The overflow menu has not been initialized.");
+
 				if (!shiftPressed && UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu) // items with ShowOnShift to overflow menu
 				{
 					var overflowItems = items.Where(x => x.ShowOnShift).ToList();
 
 					// Adds a separator between items already there and the new ones
-					if (overflow.Items.Count != 0 && overflowItems.Count > 0 && overflow.Items.Last().ItemType != ContextMenuFlyoutItemType.Separator)
-						overflow.Items.Add(new ContextMenuFlyoutItemViewModel { ItemType = ContextMenuFlyoutItemType.Separator });
+					if (overflowMenuItems.Count != 0 && overflowItems.Count > 0 && overflowMenuItems.Last().ItemType != ContextMenuFlyoutItemType.Separator)
+						overflowMenuItems.Add(new ContextMenuFlyoutItemViewModel { ItemType = ContextMenuFlyoutItemType.Separator });
 
 					items = items.Except(overflowItems).ToList();
-					overflow.Items.AddRange(overflowItems);
+					overflowMenuItems.AddRange(overflowItems);
 				}
 
 				// remove the overflow if it has no child items
-				if (overflow.Items.Count == 0 && removeOverflowMenu)
+				if (overflowMenuItems.Count == 0 && removeOverflowMenu)
 					items.Remove(overflow);
 			}
 

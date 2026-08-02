@@ -64,7 +64,7 @@ namespace Files.App.Actions
 			if (result != ContentDialogResult.Primary)
 				return;
 
-			FlattenFolder(context.SelectedItem.ItemPath);
+			FlattenFolder(context.SelectedItem.ItemPath!);
 		}
 
 		private void FlattenFolder(string path)

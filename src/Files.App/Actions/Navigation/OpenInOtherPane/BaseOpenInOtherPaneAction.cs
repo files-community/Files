@@ -39,7 +39,8 @@ namespace Files.App.Actions
 			if (selectedItem is null)
 				return Task.CompletedTask;
 
-			var path = (selectedItem as IShortcutItem)?.TargetPath ?? selectedItem.ItemPath;
+			var targetPath = (selectedItem as IShortcutItem)?.TargetPath;
+			var path = !string.IsNullOrEmpty(targetPath) ? targetPath : selectedItem.GetRequiredPath();
 			ContentPageContext.ShellPage?.PaneHolder?.OpenInOtherPane(path);
 
 			return Task.CompletedTask;

@@ -8,8 +8,8 @@ namespace Files.App.ViewModels.Previews
 {
 	public sealed partial class TextPreviewViewModel : BasePreviewModel
 	{
-		private string textValue;
-		public string TextValue
+		private string? textValue;
+		public string? TextValue
 		{
 			get => textValue;
 			private set => SetProperty(ref textValue, value);
@@ -26,7 +26,7 @@ namespace Files.App.ViewModels.Previews
 
 			try
 			{
-				var text = TextValue ?? await ReadFileAsTextAsync(Item.ItemFile);
+				var text = TextValue ?? await ReadFileAsTextAsync(PreviewFile);
 
 				details.Add(GetFileProperty("PropertyLineCount", text.Split('\n').Length));
 				details.Add(GetFileProperty("PropertyWordCount", text.Split(new[] { ' ', '\n' }, StringSplitOptions.RemoveEmptyEntries).Length));
@@ -41,17 +41,19 @@ namespace Files.App.ViewModels.Previews
 			return details;
 		}
 
-		public static async Task<TextPreview> TryLoadAsTextAsync(ListedItem item)
+		public static async Task<TextPreview?> TryLoadAsTextAsync(ListedItem item)
 		{
-			string extension = item.FileExtension?.ToLowerInvariant();
+			string? extension = item.FileExtension?.ToLowerInvariant();
 			if (ExcludedExtensions(extension) || item.FileSizeBytes is 0 or > Constants.PreviewPane.TryLoadAsTextSizeLimit)
 				return null;
 
 			try
 			{
-				item.ItemFile = await StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath);
+				item.ItemFile = await StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath!);
+				if (item.ItemFile is not { } itemFile)
+					return null;
 
-				var text = await ReadFileAsTextAsync(item.ItemFile);
+				var text = await ReadFileAsTextAsync(itemFile);
 				bool isBinaryFile = text.Contains("\0\0\0\0", StringComparison.Ordinal);
 
 				if (isBinaryFile)
@@ -68,7 +70,7 @@ namespace Files.App.ViewModels.Previews
 			}
 		}
 
-		private static bool ExcludedExtensions(string extension)
+		private static bool ExcludedExtensions(string? extension)
 			=> extension is ".iso";
 	}
 }

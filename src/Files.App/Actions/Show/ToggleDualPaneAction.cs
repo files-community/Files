@@ -32,9 +32,19 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (IsOn)
-				ContentPageContext.ShellPage?.PaneHolder.CloseOtherPane();
+			{
+				if (ContentPageContext.ShellPage is { } shellPage)
+					(shellPage.PaneHolder ?? throw new InvalidOperationException("The active shell page has no pane holder.")).CloseOtherPane();
+			}
 			else
-				ContentPageContext.ShellPage?.PaneHolder.OpenSecondaryPane(ContentPageContext.ShellPage!.ShellViewModel.WorkingDirectory, generalSettingsService.ShellPaneArrangementOption);
+			{
+				if (ContentPageContext.ShellPage is not { } shellPage)
+					return Task.CompletedTask;
+
+				var paneHolder = shellPage.PaneHolder ?? throw new InvalidOperationException("The active shell page has no pane holder.");
+				var shellViewModel = shellPage.GetRequiredShellViewModel();
+				paneHolder.OpenSecondaryPane(shellViewModel.WorkingDirectory ?? string.Empty, generalSettingsService.ShellPaneArrangementOption);
+			}
 
 			return Task.CompletedTask;
 		}

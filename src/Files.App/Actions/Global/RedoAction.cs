@@ -33,7 +33,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			return context.ShellPage!.StorageHistoryHelpers.TryRedo();
+			return context.ShellPage?.StorageHistoryHelpers.TryRedo() ?? Task.CompletedTask;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

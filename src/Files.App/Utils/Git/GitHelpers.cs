@@ -6,6 +6,7 @@ using Files.App.Services.Git;
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
 using Sentry;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
@@ -19,7 +20,7 @@ namespace Files.App.Utils.Git
 		private static LibGit2Service _implementation = Ioc.Default.GetRequiredService<LibGit2Service>(); // TODO: Replace with IVersionControl abstraction when it is complete
 
 		/// <inheritdoc cref="IVersionControlService.GetGitRepositoryPath(string?,string)"/>
-		public static string? GetGitRepositoryPath(string? path, string root) => _implementation.GetGitRepositoryPath(path, root);
+		public static string? GetGitRepositoryPath(string? path, string? root) => _implementation.GetGitRepositoryPath(path, root);
 
 		/// <inheritdoc cref="IVersionControlService.GetOriginRepositoryName(string?)"/>
 		public static string GetOriginRepositoryName(string? path) => _implementation.GetOriginRepositoryName(path);
@@ -358,7 +359,7 @@ namespace Files.App.Utils.Git
 			await loginDialogTask;
 		}
 
-		public static bool IsRepositoryEx(string path, out string repoRootPath)
+		public static bool IsRepositoryEx([NotNullWhen(true)] string? path, [NotNullWhen(true)] out string? repoRootPath)
 		{
 			repoRootPath = path;
 

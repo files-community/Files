@@ -9,9 +9,9 @@ namespace Files.App.Utils.FileTags
 	public sealed class FileTagsManager
 	{
 		private readonly ILogger logger = Ioc.Default.GetRequiredService<ILogger<App>>();
-		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetService<IFileTagsSettingsService>();
+		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
-		public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
+		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 
 		private readonly List<FileTagItem> fileTags = [];
 		public IReadOnlyList<FileTagItem> FileTags

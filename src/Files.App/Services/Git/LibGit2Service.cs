@@ -44,7 +44,7 @@ internal sealed partial class LibGit2Service // : IVersionControl
 	public event PropertyChangedEventHandler? IsExecutingGitActionChanged;
 	public event EventHandler? GitFetchCompleted;
 
-	public string? GetGitRepositoryPath(string? path, string root)
+	public string? GetGitRepositoryPath(string? path, string? root)
 	{
 		if (string.IsNullOrEmpty(root))
 			return null;
@@ -182,7 +182,9 @@ internal sealed partial class LibGit2Service // : IVersionControl
 			var dialog = DynamicDialogFactory.GetFor_GitMergeConflicts(checkoutBranch.FriendlyName, repository.Head.FriendlyName);
 			await dialog.ShowAsync();
 
-			var resolveConflictOption = (GitCheckoutOptions)dialog.ViewModel.AdditionalData;
+			var resolveConflictOption = dialog.ViewModel.AdditionalData is GitCheckoutOptions option
+				? option
+				: GitCheckoutOptions.None;
 
 			switch (resolveConflictOption)
 			{
@@ -199,7 +201,9 @@ internal sealed partial class LibGit2Service // : IVersionControl
 			var dialog = DynamicDialogFactory.GetFor_GitCheckoutConflicts(checkoutBranch.FriendlyName, repository.Head.FriendlyName);
 			await dialog.ShowAsync();
 
-			var resolveConflictOption = (GitCheckoutOptions)dialog.ViewModel.AdditionalData;
+			var resolveConflictOption = dialog.ViewModel.AdditionalData is GitCheckoutOptions option
+				? option
+				: GitCheckoutOptions.None;
 
 			switch (resolveConflictOption)
 			{

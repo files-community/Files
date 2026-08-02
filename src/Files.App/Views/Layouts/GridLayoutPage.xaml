@@ -134,7 +134,7 @@
 							x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
 
 						<Image
-							x:Name="IconOverlay"
+							x:Name="IconOverlayElement"
 							Width="32"
 							Height="32"
 							Margin="16"
@@ -325,7 +325,7 @@
 								x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
 
 							<Image
-								x:Name="IconOverlay"
+								x:Name="IconOverlayElement"
 								Width="16"
 								Height="16"
 								Margin="2"
@@ -472,7 +472,7 @@
 								x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
 
 							<Image
-								x:Name="IconOverlay"
+								x:Name="IconOverlayElement"
 								Width="32"
 								Height="32"
 								Margin="-10"

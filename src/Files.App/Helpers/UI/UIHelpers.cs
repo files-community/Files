@@ -128,11 +128,11 @@ namespace Files.App.Helpers
 
 		private static IEnumerable<IconFileInfo> SidebarIconResources = LoadSidebarIconResources();
 
-		private static IconFileInfo ShieldIconResource = LoadShieldIconResource();
+		private static IconFileInfo? ShieldIconResource = LoadShieldIconResource();
 
-		private static IconFileInfo SearchIconResource = LoadSearchIconResource();
+		private static IconFileInfo? SearchIconResource = LoadSearchIconResource();
 
-		public static IconFileInfo GetSidebarIconResourceInfo(int index)
+		public static IconFileInfo? GetSidebarIconResourceInfo(int index)
 		{
 			var icons = UIHelpers.SidebarIconResources;
 			return icons?.FirstOrDefault(x => x.Index == index);
@@ -173,7 +173,7 @@ namespace Files.App.Helpers
 			return imageResList;
 		}
 
-		private static IconFileInfo LoadShieldIconResource()
+		private static IconFileInfo? LoadShieldIconResource()
 		{
 			string imageres = Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "imageres.dll");
 			var imageResList = Win32Helper.ExtractSelectedIconsFromDLL(imageres, new List<int>() {
@@ -183,7 +183,7 @@ namespace Files.App.Helpers
 			return imageResList.FirstOrDefault();
 		}
 
-		private static IconFileInfo LoadSearchIconResource()
+		private static IconFileInfo? LoadSearchIconResource()
 		{
 			string imageres = Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "imageres.dll");
 			var imageResList = Win32Helper.ExtractSelectedIconsFromDLL(imageres, new List<int>() {

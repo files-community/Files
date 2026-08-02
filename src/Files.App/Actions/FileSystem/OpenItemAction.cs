@@ -137,7 +137,7 @@ namespace Files.App.Actions
 				return;
 
 			var item = context.SelectedItem;
-			var folderPath = Path.GetDirectoryName(item?.ItemPath.TrimEnd('\\'));
+			var folderPath = Path.GetDirectoryName(item?.ItemPath!.TrimEnd('\\'));
 
 			if (folderPath is null || item is null)
 				return;
@@ -145,7 +145,7 @@ namespace Files.App.Actions
 			context.ShellPage.NavigateWithArguments(context.ShellPage.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
 			{
 				NavPathParam = folderPath,
-				SelectItems = [item.ItemNameRaw],
+				SelectItems = [item.ItemNameRaw!],
 				AssociatedTabInstance = context.ShellPage
 			});
 		}

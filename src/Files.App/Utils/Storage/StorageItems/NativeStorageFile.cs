@@ -96,15 +96,15 @@ namespace Files.App.Utils.Storage
 		public override IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace)
 			=> throw new NotSupportedException();
 
-		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder)
+		public override IAsyncOperation<BaseStorageFile?> CopyAsync(IStorageFolder destinationFolder)
 			=> CopyAsync(destinationFolder, Name, NameCollisionOption.FailIfExists);
 
-		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName)
+		public override IAsyncOperation<BaseStorageFile?> CopyAsync(IStorageFolder destinationFolder, string desiredNewName)
 			=> CopyAsync(destinationFolder, desiredNewName, NameCollisionOption.FailIfExists);
 
-		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
+		public override IAsyncOperation<BaseStorageFile?> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
 		{
-			return AsyncInfo.Run<BaseStorageFile>(async (cancellationToken) =>
+			return AsyncInfo.Run<BaseStorageFile?>(async (cancellationToken) =>
 			{
 				if (string.IsNullOrEmpty(destinationFolder.Path))
 				{
@@ -169,26 +169,26 @@ namespace Files.App.Utils.Storage
 			return Task.FromResult(new BaseBasicProperties()).AsAsyncOperation();
 		}
 
-		public override IAsyncOperation<BaseStorageFolder> GetParentAsync()
+		public override IAsyncOperation<BaseStorageFolder?> GetParentAsync()
 			=> throw new NotSupportedException();
 
-		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
+		public override IAsyncOperation<StorageItemThumbnail?> GetThumbnailAsync(ThumbnailMode mode)
 			=> throw new NotSupportedException();
 
-		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize)
+		public override IAsyncOperation<StorageItemThumbnail?> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize)
 			=> throw new NotSupportedException();
 
-		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
+		public override IAsyncOperation<StorageItemThumbnail?> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
 			=> throw new NotSupportedException();
 
-		public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
+		public static IAsyncOperation<BaseStorageFile?> FromPathAsync(string path)
 		{
 			if (IsNativePath(path) && CheckAccess(path))
 			{
 				var name = IO.Path.GetFileName(path);
-				return Task.FromResult((BaseStorageFile)new NativeStorageFile(path, name[(name.LastIndexOf(':') + 1)..], DateTime.Now)).AsAsyncOperation();
+				return Task.FromResult<BaseStorageFile?>(new NativeStorageFile(path, name[(name.LastIndexOf(':') + 1)..], DateTime.Now)).AsAsyncOperation();
 			}
-			return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
+			return Task.FromResult<BaseStorageFile?>(null).AsAsyncOperation();
 		}
 
 		private static bool CheckAccess(string path)
@@ -259,26 +259,28 @@ namespace Files.App.Utils.Storage
 			});
 		}
 
-		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode)
+		public override IAsyncOperation<IRandomAccessStream?> OpenAsync(FileAccessMode accessMode)
 		{
 			var hFile = Win32Helper.OpenFileForRead(Path, accessMode == FileAccessMode.ReadWrite);
-			return Task.FromResult(new FileStream(hFile, accessMode == FileAccessMode.ReadWrite ? FileAccess.ReadWrite : FileAccess.Read).AsRandomAccessStream()).AsAsyncOperation();
+			return Task.FromResult<IRandomAccessStream?>(new FileStream(hFile, accessMode == FileAccessMode.ReadWrite ? FileAccess.ReadWrite : FileAccess.Read).AsRandomAccessStream()).AsAsyncOperation();
 		}
 
-		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => OpenAsync(accessMode);
+		public override IAsyncOperation<IRandomAccessStream?> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => OpenAsync(accessMode);
 
-		public override IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadAsync()
+		public override IAsyncOperation<IRandomAccessStreamWithContentType?> OpenReadAsync()
 		{
-			return AsyncInfo.Run<IRandomAccessStreamWithContentType>(async (cancellationToken) =>
+			return AsyncInfo.Run<IRandomAccessStreamWithContentType?>(async (cancellationToken) =>
 			{
-				return new StreamWithContentType(await OpenAsync(FileAccessMode.Read));
+				var stream = await OpenAsync(FileAccessMode.Read)
+					?? throw new IOException("The native file could not be opened for reading.");
+				return new StreamWithContentType(stream);
 			});
 		}
 
-		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync()
+		public override IAsyncOperation<IInputStream?> OpenSequentialReadAsync()
 		{
 			var hFile = Win32Helper.OpenFileForRead(Path);
-			return Task.FromResult(new FileStream(hFile, FileAccess.Read).AsInputStream()).AsAsyncOperation();
+			return Task.FromResult<IInputStream?>(new FileStream(hFile, FileAccess.Read).AsInputStream()).AsAsyncOperation();
 		}
 
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync()
@@ -294,7 +296,8 @@ namespace Files.App.Utils.Storage
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
 			{
-				string destination = IO.Path.Combine(IO.Path.GetDirectoryName(Path), desiredName);
+				var parentPath = IO.Path.GetDirectoryName(Path) ?? throw new InvalidOperationException("The file path has no parent.");
+				string destination = IO.Path.Combine(parentPath, desiredName);
 				var destFile = new NativeStorageFile(destination, desiredName, DateTime.Now);
 				if (!IsAlternateStream)
 				{

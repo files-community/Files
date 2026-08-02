@@ -36,9 +36,13 @@ namespace Files.App.Actions
 
 		public virtual Task ExecuteAsync(object? parameter = null)
 		{
+			var shellPage = ContentPageContext.ShellPage ?? throw new InvalidOperationException("An active shell page is required to open an item in another pane.");
+			var selectedItem = shellPage.SlimContentPage?.SelectedItems?.FirstOrDefault()
+				?? throw new InvalidOperationException("A selected item is required to open another pane.");
+
 			NavigationHelpers.OpenInSecondaryPane(
-				ContentPageContext.ShellPage,
-				ContentPageContext.ShellPage.SlimContentPage.SelectedItems.FirstOrDefault(),
+				shellPage,
+				selectedItem,
 				parameter as ShellPaneArrangement? ?? ShellPaneArrangement.None);
 
 			return Task.CompletedTask;

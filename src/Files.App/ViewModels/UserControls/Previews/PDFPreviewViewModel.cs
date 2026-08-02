@@ -36,7 +36,7 @@ namespace Files.App.ViewModels.Previews
 
 		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
-			var fileStream = await Item.ItemFile.OpenReadAsync();
+			var fileStream = await PreviewFile.OpenReadAsync();
 			var pdf = await PdfDocument.LoadFromStreamAsync(fileStream);
 			_ = TryLoadPagesAsync(pdf, fileStream);
 

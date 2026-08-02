@@ -12,10 +12,10 @@ namespace Files.App.Utils
 {
 	public sealed class WindowsStorageDeviceWatcher : IStorageDeviceWatcher
 	{
-		public event EventHandler<IFolder> DeviceAdded;
-		public event EventHandler<string> DeviceRemoved;
-		public event EventHandler EnumerationCompleted;
-		public event EventHandler<string> DeviceModified;
+		public event EventHandler<IFolder>? DeviceAdded;
+		public event EventHandler<string>? DeviceRemoved;
+		public event EventHandler? EnumerationCompleted;
+		public event EventHandler<string>? DeviceModified;
 
 		private DeviceWatcher watcher;
 
@@ -55,10 +55,10 @@ namespace Files.App.Utils
 			if (!driveAdded.IsReady && !IsUnauthorizedDrive(driveAdded))
 				return;
 
-			var rootAdded = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(e.DeviceId).AsTask());
-			if (!rootAdded)
+			var rootResult = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(e.DeviceId).AsTask());
+			if (rootResult.Result is not { } rootAdded)
 			{
-				App.Logger.LogWarning($"{rootAdded.ErrorCode}: Attempting to add the device, {e.DeviceId},"
+				App.Logger.LogWarning($"{rootResult.ErrorCode}: Attempting to add the device, {e.DeviceId},"
 					+ " failed at the StorageFolder initialization step. This device will be ignored.");
 				return;
 			}

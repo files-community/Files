@@ -11,15 +11,15 @@ namespace Files.App.ViewModels.Previews
 	{
 		private static readonly FrozenDictionary<string, ILanguage> extensions = GetDictionary();
 
-		private string textValue;
-		public string TextValue
+		private string? textValue;
+		public string? TextValue
 		{
 			get => textValue;
 			private set => SetProperty(ref textValue, value);
 		}
 
-		private ILanguage codeLanguage;
-		public ILanguage CodeLanguage
+		private ILanguage? codeLanguage;
+		public ILanguage? CodeLanguage
 		{
 			get => codeLanguage;
 			private set => SetProperty(ref codeLanguage, value);
@@ -39,10 +39,10 @@ namespace Files.App.ViewModels.Previews
 
 			try
 			{
-				var text = TextValue ?? await ReadFileAsTextAsync(Item.ItemFile);
+				var text = TextValue ?? await ReadFileAsTextAsync(PreviewFile);
 				details.Add(GetFileProperty("PropertyLineCount", text.Split('\n').Length));
 
-				CodeLanguage = extensions[Item.FileExtension.ToLowerInvariant()];
+				CodeLanguage = extensions[Item.FileExtension!.ToLowerInvariant()];
 				TextValue = text.Left(Constants.PreviewPane.TextCharacterLimit);
 			}
 			catch (Exception e)

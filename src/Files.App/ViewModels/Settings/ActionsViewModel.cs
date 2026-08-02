@@ -20,8 +20,8 @@ namespace Files.App.ViewModels.Settings
 		public ObservableCollection<ModifiableActionItem> ValidActionItems { get; } = [];
 		public ObservableCollection<ModifiableActionItem> AllActionItems { get; } = [];
 
-		private ObservableCollection<ModifiableActionItem> _FilteredActionItems;
-		public ObservableCollection<ModifiableActionItem> FilteredActionItems
+		private ObservableCollection<ModifiableActionItem>? _FilteredActionItems;
+		public ObservableCollection<ModifiableActionItem>? FilteredActionItems
 		{
 			get { return _FilteredActionItems; }
 			set { SetProperty(ref _FilteredActionItems, value); }

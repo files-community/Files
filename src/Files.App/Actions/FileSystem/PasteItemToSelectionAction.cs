@@ -39,14 +39,15 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.ShellPage is null)
+			if (context.ShellPage is not { } shellPage)
 				return;
 
 			string path = context.SelectedItem is ListedItem selectedItem
-				? selectedItem.ItemPath
-				: context.ShellPage.ShellViewModel.WorkingDirectory;
+				? selectedItem.GetRequiredPath()
+				: shellPage.ShellViewModel?.WorkingDirectory
+					?? throw new InvalidOperationException("The active shell page has no working directory.");
 
-			await UIFilesystemHelpers.PasteItemAsync(path, context.ShellPage);
+			await UIFilesystemHelpers.PasteItemAsync(path, shellPage);
 		}
 
 		public bool GetIsExecutable()

@@ -58,16 +58,18 @@ namespace Files.App.Views.Layouts
 		private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
 		{
 			var column = sender as ColumnParam;
-			if (column?.ListView.FindAscendant<ColumnsLayoutPage>() != this)
+			if (column?.ListView!.FindAscendant<ColumnsLayoutPage>() != this)
 				return;
 
-			var nextBladeIndex = ColumnHost.ActiveBlades.IndexOf(column.ListView.FindAscendant<BladeItem>()) + 1;
+			var listView = column.ListView!;
+			var currentBlade = listView.FindAscendant<BladeItem>();
+			var nextBladeIndex = ColumnHost.ActiveBlades.IndexOf(currentBlade!) + 1;
 			var nextBlade = ColumnHost.ActiveBlades.ToList().ElementAtOrDefault(nextBladeIndex);
 			var arePathsDifferent = ((nextBlade?.Content as Frame)?.Content as IShellPage)?.ShellViewModel?.WorkingDirectory != column.NavPathParam;
 
 			if (nextBlade is null || arePathsDifferent)
 			{
-				DismissOtherBlades(column.ListView);
+				DismissOtherBlades(listView);
 
 				var (frame, newblade) = CreateAndAddNewBlade();
 
@@ -76,8 +78,12 @@ namespace Files.App.Views.Layouts
 					Column = ColumnHost.ActiveBlades.IndexOf(newblade),
 					NavPathParam = column.NavPathParam
 				});
-				navigationArguments.NavPathParam = column.NavPathParam;
-				ParentShellPageInstance.TabBarItemParameter.NavigationParameter = column.NavPathParam;
+				var args = navigationArguments
+					?? throw new InvalidOperationException("The column navigation arguments are not available.");
+				args.NavPathParam = column.NavPathParam;
+				var tabArguments = ParentShellPageInstance?.TabBarItemParameter
+					?? throw new InvalidOperationException("The parent tab navigation arguments are not available.");
+				tabArguments.NavigationParameter = column.NavPathParam;
 			}
 		}
 
@@ -93,16 +99,27 @@ namespace Files.App.Views.Layouts
 			ColumnHost.ScrollToEnd();
 		}
 
-		private void ContentChanged(IShellPage p)
+		private void ContentChanged(IShellPage? shellPage)
 		{
-			(ParentShellPageInstance as ModernShellPage)?.RaiseContentChanged(p, p.TabBarItemParameter);
+			if (ParentShellPageInstance is ModernShellPage parent)
+			{
+				if (shellPage is null)
+					throw new InvalidOperationException("The active column shell page is not available.");
+
+				var tabArguments = shellPage.TabBarItemParameter
+					?? throw new InvalidOperationException("The column tab navigation arguments are not available.");
+				parent.RaiseContentChanged(shellPage, tabArguments);
+			}
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
 			base.OnNavigatedTo(eventArgs);
 
-			var path = navigationArguments.NavPathParam;
+			var args = navigationArguments
+				?? throw new InvalidOperationException("The column navigation arguments are not available.");
+			var path = args.NavPathParam
+				?? throw new InvalidOperationException("The column navigation path is not available.");
 			var pathRoot = GetPathRoot(path);
 			var pathStack = new Stack<string>();
 
@@ -120,18 +137,18 @@ namespace Files.App.Views.Layouts
 				}
 			}
 
-			OwnerPath = navigationArguments.NavPathParam;
+			OwnerPath = args.NavPathParam;
 			FocusIndex = pathStack.Count;
 
 			MainPageFrame.Navigated += Frame_Navigated;
 			MainPageFrame.Navigate(typeof(ColumnShellPage), new ColumnParam
 			{
 				Column = 0,
-				IsSearchResultPage = navigationArguments.IsSearchResultPage,
-				SearchQuery = navigationArguments.SearchQuery,
-				SearchPathParam = navigationArguments.SearchPathParam,
+				IsSearchResultPage = args.IsSearchResultPage,
+				SearchQuery = args.SearchQuery,
+				SearchPathParam = args.SearchPathParam,
 				NavPathParam = path,
-				SelectItems = path == navigationArguments.NavPathParam ? navigationArguments.SelectItems : null
+				SelectItems = path == args.NavPathParam ? args.SelectItems : null
 			});
 
 			var index = 0;
@@ -140,17 +157,19 @@ namespace Files.App.Views.Layouts
 				var (frame, _) = CreateAndAddNewBlade();
 
 				frame.Navigate(typeof(ColumnShellPage), new ColumnParam
-				{
-					Column = ++index,
-					NavPathParam = path,
-					SelectItems = path == navigationArguments.NavPathParam ? navigationArguments.SelectItems : null
-				});
+					{
+						Column = ++index,
+						NavPathParam = path,
+						SelectItems = path == args.NavPathParam ? args.SelectItems : null
+					});
 			}
 		}
 
 		protected override void InitializeCommandsViewModel()
 		{
-			CommandsViewModel = new BaseLayoutViewModel(ParentShellPageInstance, ItemManipulationModel);
+			var parentShellPage = ParentShellPageInstance
+				?? throw new InvalidOperationException("The parent shell page must be initialized before commands.");
+			CommandsViewModel = new BaseLayoutViewModel(parentShellPage, ItemManipulationModel);
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -196,9 +215,9 @@ namespace Files.App.Views.Layouts
 			DismissOtherBlades(listView.FindAscendant<BladeItem>());
 		}
 
-		private void DismissOtherBlades(BladeItem blade)
+		private void DismissOtherBlades(BladeItem? blade)
 		{
-			DismissOtherBlades(ColumnHost.ActiveBlades.IndexOf(blade));
+			DismissOtherBlades(ColumnHost.ActiveBlades.IndexOf(blade!));
 		}
 
 		public void DismissOtherBlades(int index)
@@ -219,8 +238,14 @@ namespace Files.App.Views.Layouts
 							columnLayout.KeyUp -= ColumnViewBase_KeyUp;
 						}
 
-						(frame?.Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus;
-						(frame?.Content as ColumnShellPage).ContentChanged -= ColumnViewBrowser_ContentChanged;
+						var content = frame?.Content
+							?? throw new InvalidOperationException("The column blade does not contain a page.");
+						(content as UIElement
+							?? throw new InvalidOperationException("The column page is not a UI element."))
+							.GotFocus -= ColumnViewBrowser_GotFocus;
+						(content as ColumnShellPage
+							?? throw new InvalidOperationException("The column blade does not contain a shell page."))
+							.ContentChanged -= ColumnViewBrowser_ContentChanged;
 
 						// Dispose content AFTER unsubscribing event handlers
 						if (frame?.Content is IDisposable disposableContent)
@@ -230,10 +255,15 @@ namespace Files.App.Views.Layouts
 						ColumnHost.ActiveBlades.RemoveAt(index + 1);
 					}
 
-					if ((ColumnHost.ActiveBlades[index].Content as Frame)?.Content is ColumnShellPage s)
+					if ((ColumnHost.ActiveBlades[index].Content as Frame)?.Content is ColumnShellPage shellPage)
 					{
-						navigationArguments.NavPathParam = s.ShellViewModel.WorkingDirectory;
-						ParentShellPageInstance.TabBarItemParameter.NavigationParameter = s.ShellViewModel.WorkingDirectory;
+						var shellViewModel = shellPage.GetRequiredShellViewModel();
+						var args = navigationArguments
+							?? throw new InvalidOperationException("The column navigation arguments are not available.");
+						args.NavPathParam = shellViewModel.WorkingDirectory;
+						var tabArguments = ParentShellPageInstance?.TabBarItemParameter
+							?? throw new InvalidOperationException("The parent tab navigation arguments are not available.");
+						tabArguments.NavigationParameter = shellViewModel.WorkingDirectory;
 					}
 				});
 			}
@@ -243,10 +273,16 @@ namespace Files.App.Views.Layouts
 
 		private void Frame_Navigated(object sender, NavigationEventArgs e)
 		{
-			var f = sender as Frame;
-			f.Navigated -= Frame_Navigated;
-			(f.Content as IShellPage).ContentChanged += ColumnViewBrowser_ContentChanged;
-			(f.Content as UIElement).GotFocus += ColumnViewBrowser_GotFocus;
+			if (sender is not Frame frame)
+				return;
+
+			frame.Navigated -= Frame_Navigated;
+			(frame.Content as IShellPage
+				?? throw new InvalidOperationException("The column frame does not contain a shell page."))
+				.ContentChanged += ColumnViewBrowser_ContentChanged;
+			(frame.Content as UIElement
+				?? throw new InvalidOperationException("The column frame content is not a UI element."))
+				.GotFocus += ColumnViewBrowser_GotFocus;
 		}
 
 		private void ColumnViewBrowser_GotFocus(object sender, RoutedEventArgs e)
@@ -261,7 +297,9 @@ namespace Files.App.Views.Layouts
 				ColumnHost.ActiveBlades.ToList().ForEach(x =>
 				{
 					var shellPage = (x.Content as Frame)?.Content as ColumnShellPage;
-					shellPage.IsCurrentInstance = false;
+					(shellPage
+						?? throw new InvalidOperationException("A column blade does not contain a shell page."))
+						.IsCurrentInstance = false;
 				});
 			}
 
@@ -269,7 +307,7 @@ namespace Files.App.Views.Layouts
 			ContentChanged(shPage);
 		}
 
-		private void ColumnViewBrowser_ContentChanged(object sender, TabBarItemParameter e)
+		private void ColumnViewBrowser_ContentChanged(object? sender, TabBarItemParameter e)
 		{
 			var c = sender as IShellPage;
 			var columnView = c?.SlimContentPage as ColumnLayoutPage;
@@ -290,7 +328,8 @@ namespace Files.App.Views.Layouts
 		{
 			var shPage = ActiveColumnShellPage as ColumnShellPage;
 			if (shPage?.SlimContentPage?.SelectedItem?.PrimaryItemAttribute is not StorageItemTypes.Folder)
-				CloseUnnecessaryColumns(shPage?.ColumnParams);
+				CloseUnnecessaryColumns(shPage?.ColumnParams
+					?? throw new InvalidOperationException("The active column does not have navigation parameters."));
 		}
 
 		public void NavigateBack()
@@ -309,7 +348,7 @@ namespace Files.App.Views.Layouts
 				DismissOtherBlades(ColumnHost.ActiveBlades[ColumnHost.ActiveBlades.Count - 2]);
 			else
 			{
-				var workingDirectory = ((ColumnHost.ActiveBlades?.ToList().FirstOrDefault()?.Content as Frame)?.Content as ColumnShellPage)?.ShellViewModel.WorkingDirectory;
+				var workingDirectory = ((ColumnHost.ActiveBlades?.ToList().FirstOrDefault()?.Content as Frame)?.Content as ColumnShellPage)?.ShellViewModel?.WorkingDirectory;
 				if (workingDirectory is null || string.Equals(workingDirectory, GetPathRoot(workingDirectory), StringComparison.OrdinalIgnoreCase))
 					ParentShellPageInstance?.NavigateHome();
 				else
@@ -383,7 +422,7 @@ namespace Files.App.Views.Layouts
 			return activeBladePage.SlimContentPage as ColumnLayoutPage;
 		}
 
-		public void SetSelectedPathOrNavigate(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
+		public void SetSelectedPathOrNavigate(string navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null)
 		{
 			if (navArgs is not null && navArgs.IsSearchResultPage)
 			{
@@ -393,8 +432,8 @@ namespace Files.App.Views.Layouts
 			}
 
 			var destPath = navArgs is not null ? navArgs.NavPathParam : navigationPath;
-			var columnPath = ((ColumnHost.ActiveBlades.ToList().LastOrDefault()?.Content as Frame)?.Content as ColumnShellPage)?.ShellViewModel.WorkingDirectory;
-			var columnFirstPath = ((ColumnHost.ActiveBlades.ToList().FirstOrDefault()?.Content as Frame)?.Content as ColumnShellPage)?.ShellViewModel.WorkingDirectory;
+			var columnPath = ((ColumnHost.ActiveBlades.ToList().LastOrDefault()?.Content as Frame)?.Content as ColumnShellPage)?.ShellViewModel?.WorkingDirectory;
+			var columnFirstPath = ((ColumnHost.ActiveBlades.ToList().FirstOrDefault()?.Content as Frame)?.Content as ColumnShellPage)?.ShellViewModel?.WorkingDirectory;
 
 			if (string.IsNullOrEmpty(destPath) || string.IsNullOrEmpty(columnPath) || string.IsNullOrEmpty(columnFirstPath))
 			{
@@ -436,12 +475,15 @@ namespace Files.App.Views.Layouts
 
 		public void SetSelectedPathOrNavigate(PathNavigationEventArgs e)
 		{
+			var itemPath = e.ItemPath
+				?? throw new InvalidOperationException("The navigation event does not contain a path.");
+
 			if (ColumnHost.ActiveBlades?.Count > 1)
 			{
 				foreach (var item in ColumnHost.ActiveBlades.ToList())
 				{
-					if ((item.Content as Frame)?.Content is ColumnShellPage s &&
-						NormalizePath(s.ShellViewModel?.WorkingDirectory) == NormalizePath(e.ItemPath))
+					if ((item.Content as Frame)?.Content is ColumnShellPage { ShellViewModel.WorkingDirectory: { } workingDirectory } &&
+						NormalizePath(workingDirectory) == NormalizePath(itemPath))
 					{
 						DismissOtherBlades(item);
 						return;
@@ -452,20 +494,21 @@ namespace Files.App.Views.Layouts
 			if (ParentShellPageInstance is null)
 				return;
 
-			if (NormalizePath(ParentShellPageInstance.ShellViewModel?.WorkingDirectory) != NormalizePath(e.ItemPath))
-				ParentShellPageInstance.NavigateToPath(e.ItemPath);
+			if (NormalizePath(ParentShellPageInstance.ShellViewModel?.WorkingDirectory) != NormalizePath(itemPath))
+				ParentShellPageInstance.NavigateToPath(itemPath);
 			else
 				DismissOtherBlades(0);
 		}
 
-		public IShellPage ActiveColumnShellPage
+		public IShellPage? ActiveColumnShellPage
 		{
 			get
 			{
 				if (ColumnHost.ActiveBlades?.Count > 0)
 				{
-					var shellPages = ColumnHost.ActiveBlades.ToList().Select(x => (x.Content as Frame).Content as IShellPage);
-					var activeInstance = shellPages.SingleOrDefault(x => x.IsCurrentInstance);
+					var shellPages = ColumnHost.ActiveBlades.ToList()
+						.Select(x => (x.Content as Frame)!.Content as IShellPage);
+					var activeInstance = shellPages.SingleOrDefault(x => x!.IsCurrentInstance);
 					return activeInstance ?? shellPages.Last();
 				}
 
@@ -476,7 +519,8 @@ namespace Files.App.Views.Layouts
 		private void ColumnViewBase_ItemTapped(object? sender, EventArgs e)
 		{
 			var column = sender as ColumnParam;
-			if (column?.ListView.FindAscendant<ColumnsLayoutPage>() != this || string.IsNullOrEmpty(column.NavPathParam))
+			if (column?.ListView!.FindAscendant<ColumnsLayoutPage>() != this ||
+				string.IsNullOrEmpty(column.NavPathParam))
 				return;
 
 			CloseUnnecessaryColumns(column);

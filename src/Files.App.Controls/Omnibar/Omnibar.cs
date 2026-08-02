@@ -275,7 +275,7 @@ namespace Files.App.Controls
 			return obj is string text
 				? text
 				: obj is IOmnibarTextMemberPathProvider textMemberPathProvider
-					? textMemberPathProvider.GetTextMemberPath(CurrentSelectedMode.TextMemberPath ?? string.Empty)
+					? textMemberPathProvider.GetTextMemberPath(CurrentSelectedMode.TextMemberPath ?? string.Empty) ?? string.Empty
 					: obj.ToString() ?? string.Empty;
 		}
 

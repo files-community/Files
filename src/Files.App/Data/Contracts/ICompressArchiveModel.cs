@@ -66,7 +66,7 @@ namespace Files.App.Data.Contracts
 		/// <summary>
 		/// Archiving progress.
 		/// </summary>
-		IProgress<StatusCenterItemProgressModel> Progress { get; set; }
+		IProgress<StatusCenterItemProgressModel>? Progress { get; set; }
 
 		/// <summary>
 		/// Cancellation request.
