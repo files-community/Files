@@ -32,7 +32,7 @@ namespace Files.App.Dialogs
 		private void ListView_ItemClick(object sender, ItemClickEventArgs e)
 		{
 			if (e.ClickedItem is not AddItemDialogListItemViewModel { ItemResult: { } itemResult })
-				return;
+				throw new InvalidOperationException("The selected entry does not describe an item type.");
 
 			ViewModel.ResultType = itemResult;
 
@@ -42,7 +42,7 @@ namespace Files.App.Dialogs
 		private async void AddItemDialog_Loaded(object sender, RoutedEventArgs e)
 		{
 			var itemTypes = addItemService.GetEntries();
-			await ViewModel.AddItemsToListAsync(itemTypes);
+			await ViewModel.AddItemsToListAsync(itemTypes!);
 
 			// Focus on the list view so users can use keyboard navigation
 			AddItemsListView.Focus(FocusState.Programmatic);

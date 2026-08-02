@@ -5,29 +5,29 @@ namespace Files.App.Helpers
 {
 	public static class MultitaskingTabsHelpers
 	{
-		public static void CloseTabsToTheLeft(TabBarItem clickedTab, ITabBar multitaskingControl)
+		public static void CloseTabsToTheLeft(TabBarItem? clickedTab, ITabBar? multitaskingControl)
 		{
 			if (multitaskingControl is not null)
 			{
 				var tabs = MainPageViewModel.AppInstances;
-				var currentIndex = tabs.IndexOf(clickedTab);
+				var currentIndex = ((System.Collections.IList)tabs).IndexOf(clickedTab);
 
 				tabs.Take(currentIndex).ToList().ForEach(tab => multitaskingControl.CloseTab(tab));
 			}
 		}
 
-		public static void CloseTabsToTheRight(TabBarItem clickedTab, ITabBar multitaskingControl)
+		public static void CloseTabsToTheRight(TabBarItem? clickedTab, ITabBar? multitaskingControl)
 		{
 			if (multitaskingControl is not null)
 			{
 				var tabs = MainPageViewModel.AppInstances;
-				var currentIndex = tabs.IndexOf(clickedTab);
+				var currentIndex = ((System.Collections.IList)tabs).IndexOf(clickedTab);
 
 				tabs.Skip(currentIndex + 1).ToList().ForEach(tab => multitaskingControl.CloseTab(tab));
 			}
 		}
 
-		public static void CloseOtherTabs(TabBarItem clickedTab, ITabBar multitaskingControl)
+		public static void CloseOtherTabs(TabBarItem? clickedTab, ITabBar? multitaskingControl)
 		{
 			if (multitaskingControl is not null)
 			{

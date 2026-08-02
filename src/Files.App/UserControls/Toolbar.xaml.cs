@@ -99,8 +99,12 @@ namespace Files.App.UserControls
 
 		private async void EditTagsMenu_TagsChanged(object? sender, EventArgs e)
 		{
-			if (PageContext.ShellPage?.ShellViewModel is { } shellViewModel)
+			if (PageContext.ShellPage is { } shellPage)
+			{
+				var shellViewModel = shellPage.ShellViewModel
+					?? throw new InvalidOperationException("The active shell page does not have a shell view model.");
 				await shellViewModel.RefreshTagGroups();
+			}
 		}
 
 		private void RequestToolbarRefresh(bool ignoreDebounce)

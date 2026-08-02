@@ -22,9 +22,9 @@ namespace Files.App.Utils.Storage
 
 		public DateTimeOffset DateCreated { get; init; }
 
-		public required string Name { get; init; }
+		public string Name { get; init; } = null!;
 
-		public required string Path { get; init; }
+		public string Path { get; init; } = null!;
 
 		private VirtualStorageItem() { }
 
@@ -32,8 +32,8 @@ namespace Files.App.Utils.Storage
 		{
 			return new VirtualStorageItem()
 			{
-				Name = item.ItemNameRaw,
-				Path = item.ItemPath,
+				Name = item.ItemNameRaw!,
+				Path = item.ItemPath!,
 				DateCreated = item.ItemDateCreatedReal,
 				Attributes = item.IsArchive || item.PrimaryItemAttribute == StorageItemTypes.File ? Windows.Storage.FileAttributes.Normal : Windows.Storage.FileAttributes.Directory
 			};

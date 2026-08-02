@@ -39,10 +39,11 @@ namespace Files.App.ViewModels.Properties
 				? Strings.Permissions.GetLocalizedResource()
 				: string.Format(Strings.SecurityPermissionsHeaderText.GetLocalizedResource(), SelectedAccessControlEntry?.Principal.DisplayName);
 
-		private AccessControlList _AccessControlList;
+		private AccessControlList? _AccessControlList;
 		public AccessControlList AccessControlList
 		{
-			get => _AccessControlList;
+			get => _AccessControlList
+				?? throw new InvalidOperationException("The access control list has not been loaded.");
 			set => SetProperty(ref _AccessControlList, value);
 		}
 
@@ -72,27 +73,29 @@ namespace Files.App.ViewModels.Properties
 		public SecurityViewModel(PropertiesPageNavigationParameter parameter)
 		{
 			_navigationParameter = parameter;
-			_window = parameter.Window;
+			_window = parameter.Window
+				?? throw new InvalidOperationException("The security page does not have an associated window.");
 
 			switch (parameter.Parameter)
 			{
 				case ListedItem listedItem:
-					_path = listedItem.ItemPath;
+					_path = listedItem.ItemPath
+						?? throw new InvalidOperationException("The selected item does not have a path.");
 					_isFolder = listedItem.PrimaryItemAttribute == StorageItemTypes.Folder && !listedItem.IsShortcut;
 					break;
 				case DriveItem driveItem:
-					_path = driveItem.Path;
+					_path = driveItem.Path
+						?? throw new InvalidOperationException("The selected drive does not have a path.");
 					_isFolder = true;
 					break;
 				default:
-					var defaultlistedItem = (ListedItem)parameter.Parameter;
-					_path = defaultlistedItem.ItemPath;
-					_isFolder = defaultlistedItem.PrimaryItemAttribute == StorageItemTypes.Folder && !defaultlistedItem.IsShortcut;
-					break;
+					throw new ArgumentException("The security page requires a listed item or drive.", nameof(parameter));
 			}
 			;
 
-			var error = StorageSecurityService.GetAcl(_path, _isFolder, out _AccessControlList);
+			var error = StorageSecurityService.GetAcl(_path, _isFolder, out var accessControlList);
+			AccessControlList = accessControlList
+				?? throw new InvalidOperationException("The security service did not return an access control list.");
 			_SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
 
 			if (!AccessControlList.IsValid)
@@ -132,15 +135,15 @@ namespace Files.App.ViewModels.Properties
 
 		private async Task ExecuteRemoveAccessControlEntryCommandAsync()
 		{
-			if (SelectedAccessControlEntry is not { } selectedEntry)
-				return;
+			var selectedEntry = SelectedAccessControlEntry
+				?? throw new InvalidOperationException("No access control entry is selected for removal.");
 
 			await MainWindow.Instance.DispatcherQueue.EnqueueAsync(() =>
 			{
 				// Get index of the ACE
 				var index = AccessControlList.AccessControlEntries.IndexOf(selectedEntry);
 				if (index < 0)
-					return;
+					throw new InvalidOperationException("The selected access control entry is not part of the access control list.");
 
 				// Run Win32API
 				var win32Result = StorageSecurityService.DeleteAce(_path, (uint)index);

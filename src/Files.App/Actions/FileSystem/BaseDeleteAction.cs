@@ -32,14 +32,15 @@ namespace Files.App.Actions
 			var items =
 				context.SelectedItems.Select(item =>
 					StorageHelpers.FromPathAndType(
-						item.ItemPath,
+						item.ItemPath ?? throw new InvalidOperationException("The selected item does not have a path."),
 						item.PrimaryItemAttribute is StorageItemTypes.File
 							? FilesystemItemType.File
 							: FilesystemItemType.Directory));
 
-			if (context.ShellPage is { ShellViewModel: { } shellViewModel } shellPage)
+			if (context.ShellPage is { } shellPage)
 			{
 				await shellPage.FilesystemHelpers.DeleteItemsAsync(items, settings.DeleteConfirmationPolicy, permanently, true);
+				var shellViewModel = shellPage.ShellViewModel ?? throw new InvalidOperationException("The active shell page has no shell view model.");
 				await shellViewModel.ApplyFilesAndFoldersChangesAsync();
 			}
 		}

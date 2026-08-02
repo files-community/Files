@@ -229,7 +229,13 @@ namespace Files.App
 		private async Task EnsureContentHasKeyboardFocusAsync()
 		{
 			await Task.Delay(100);
-			Ioc.Default.GetService<IContentPageContext>()?.ShellPage?.PaneHolder?.FocusActivePane();
+			var shellPage = Ioc.Default.GetService<IContentPageContext>()?.ShellPage;
+			if (shellPage is not null)
+			{
+				var paneHolder = shellPage.PaneHolder
+					?? throw new InvalidOperationException("The active shell page does not have a pane holder.");
+				paneHolder.FocusActivePane();
+			}
 		}
 
 		private Frame? EnsureWindowIsInitialized()
@@ -303,7 +309,7 @@ namespace Files.App
 					var existingTabIndex = MainPageViewModel.AppInstances
 						.Select((tabItem, idx) => new { tabItem, idx })
 						.FirstOrDefault(x =>
-							x.tabItem.NavigationParameter?.NavigationParameter is PaneNavigationArguments paneArgs &&
+							x.tabItem.NavigationParameter!.NavigationParameter is PaneNavigationArguments paneArgs &&
 							(paneNavigationArgs.LeftPaneNavPathParam == paneArgs.LeftPaneNavPathParam ||
 							paneNavigationArgs.LeftPaneNavPathParam == paneArgs.RightPaneNavPathParam))?.idx ?? -1;
 
@@ -332,8 +338,8 @@ namespace Files.App
 						break;
 
 					case ParsedCommandType.TagFiles:
-						var tagService = Ioc.Default.GetService<IFileTagsSettingsService>();
-						var tag = tagService?.GetTagsByName(command.Payload).FirstOrDefault();
+						var tagService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+						var tag = tagService.GetTagsByName(command.Payload).FirstOrDefault();
 						foreach (var file in command.Args.Skip(1))
 						{
 							var fileFRN = await FilesystemTasks.Wrap(() => StorageHelpers.ToStorageItem<IStorageItem>(file))

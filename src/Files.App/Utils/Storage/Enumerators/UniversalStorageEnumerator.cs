@@ -87,12 +87,10 @@ namespace Files.App.Utils.Storage
 					{
 						if (item.IsOfType(StorageItemTypes.Folder))
 						{
-							if (item.AsBaseStorageFolder() is not { } storageFolder)
-								continue;
-
-							var folder = await AddFolderAsync(storageFolder, currentStorageFolder, cancellationToken);
+							var folder = await AddFolderAsync(item.AsBaseStorageFolder()!, currentStorageFolder, cancellationToken);
 							if (folder is not null)
 							{
+								var folderPath = folder.ItemPath!;
 								folder.PreloadedIconData = await iconCacheService.GetIconAsync(folder.ItemPath, null, true);
 
 								if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
@@ -102,24 +100,21 @@ namespace Files.App.Utils.Storage
 
 								// The size provider enumerates with Win32, which reports size 0 for
 								// virtual paths (ftp, archives) it cannot traverse; skip those
-								if (calculateFolderSizes && FolderHelpers.CheckFolderAccessWithWin32(folder.ItemPath))
+								if (calculateFolderSizes && FolderHelpers.CheckFolderAccessWithWin32(folderPath))
 								{
-									if (folderSizeProvider.TryGetSize(folder.ItemPath, out var size))
+									if (folderSizeProvider.TryGetSize(folderPath, out var size))
 									{
 										folder.FileSizeBytes = (long)size;
 										folder.FileSize = size.ToSizeString();
 									}
 
-									_ = folderSizeProvider.UpdateAsync(folder.ItemPath, cancellationToken);
+									_ = folderSizeProvider.UpdateAsync(folderPath, cancellationToken);
 								}
 							}
 						}
 						else
 						{
-							if (item.AsBaseStorageFile() is not { } storageFile)
-								continue;
-
-							var fileEntry = await AddFileAsync(storageFile, currentStorageFolder, cancellationToken);
+							var fileEntry = await AddFileAsync(item.AsBaseStorageFile()!, currentStorageFolder, cancellationToken);
 							if (fileEntry is not null)
 							{
 								fileEntry.PreloadedIconData = await iconCacheService.GetIconAsync(fileEntry.ItemPath, fileEntry.FileExtension, false);
@@ -221,7 +216,7 @@ namespace Files.App.Utils.Storage
 						ItemDateCreatedReal = folder.DateCreated,
 						ItemType = folder.DisplayType,
 						ItemPath = folder.Path,
-						FileSize = string.Empty,
+						FileSize = null,
 						FileSizeBytes = 0,
 						TargetPath = linkFolder.TargetPath,
 						Arguments = linkFolder.Arguments,
@@ -243,7 +238,7 @@ namespace Files.App.Utils.Storage
 						Opacity = 1,
 						FileImage = null,
 						LoadFileIcon = false,
-						ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder?.Path ?? string.Empty, folder.Name) : folder.Path,
+						ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder!.Path, folder.Name) : folder.Path,
 						FileSize = basicProperties.Size.ToSizeString(),
 						FileSizeBytes = (long)basicProperties.Size,
 						ItemDateDeletedReal = binFolder.DateDeleted,
@@ -263,8 +258,8 @@ namespace Files.App.Utils.Storage
 						Opacity = 1,
 						FileImage = null,
 						LoadFileIcon = false,
-						ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder?.Path ?? string.Empty, folder.Name) : folder.Path,
-						FileSize = string.Empty,
+						ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder!.Path, folder.Name) : folder.Path,
+						FileSize = null,
 						FileSizeBytes = 0
 					};
 				}
@@ -283,7 +278,7 @@ namespace Files.App.Utils.Storage
 			var itemName = file.Name;
 			var itemModifiedDate = basicProperties.DateModified;
 			var itemCreatedDate = file.DateCreated;
-			var itemPath = string.IsNullOrEmpty(file.Path) ? PathNormalization.Combine(currentStorageFolder?.Path ?? string.Empty, file.Name) : file.Path;
+			var itemPath = string.IsNullOrEmpty(file.Path) ? PathNormalization.Combine(currentStorageFolder!.Path, file.Name) : file.Path;
 			var itemSize = basicProperties.Size.ToSizeString();
 			var itemSizeBytes = basicProperties.Size;
 			var itemType = file.DisplayType;

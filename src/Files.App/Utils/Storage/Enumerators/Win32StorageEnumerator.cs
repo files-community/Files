@@ -55,13 +55,14 @@ namespace Files.App.Utils.Storage
 						var file = await GetFile(findData, path, isGitRepo, cancellationToken);
 						if (file is not null)
 						{
+							var filePath = file.ItemPath!;
 							file.PreloadedIconData = await iconCacheService.GetIconAsync(file.ItemPath, file.FileExtension, false);
 							tempList.Add(file);
 							++count;
 
 							if (areAlternateStreamsVisible)
 							{
-								tempList.AddRange(EnumAdsForPath(file.ItemPath, file));
+								tempList.AddRange(EnumAdsForPath(filePath, file));
 							}
 						}
 					}
@@ -72,22 +73,23 @@ namespace Files.App.Utils.Storage
 							var folder = await GetFolder(findData, path, isGitRepo, cancellationToken);
 							if (folder is not null)
 							{
+								var folderPath = folder.ItemPath!;
 								folder.PreloadedIconData = await iconCacheService.GetIconAsync(folder.ItemPath, null, true);
 								tempList.Add(folder);
 								++count;
 
 								if (areAlternateStreamsVisible)
-									tempList.AddRange(EnumAdsForPath(folder.ItemPath, folder));
+									tempList.AddRange(EnumAdsForPath(folderPath, folder));
 
 								if (CalculateFolderSizes)
 								{
-									if (folderSizeProvider.TryGetSize(folder.ItemPath, out var size))
+									if (folderSizeProvider.TryGetSize(folderPath, out var size))
 									{
 										folder.FileSizeBytes = (long)size;
 										folder.FileSize = size.ToSizeString();
 									}
 
-									_ = folderSizeProvider.UpdateAsync(folder.ItemPath, cancellationToken);
+									_ = folderSizeProvider.UpdateAsync(folderPath, cancellationToken);
 								}
 							}
 						}
@@ -120,12 +122,12 @@ namespace Files.App.Utils.Storage
 		public static ListedItem GetAlternateStream((string Name, long Size) ads, ListedItem main)
 		{
 			string itemType = Strings.File.GetLocalizedResource();
-			var itemFileExtension = string.Empty;
+			string? itemFileExtension = null;
 
 			if (ads.Name.Contains('.'))
 			{
-				itemFileExtension = Path.GetExtension(ads.Name) ?? string.Empty;
-				itemType = itemFileExtension.Trim('.') + " " + itemType;
+				itemFileExtension = Path.GetExtension(ads.Name);
+				itemType = itemFileExtension!.Trim('.') + " " + itemType;
 			}
 
 			string adsName = ads.Name.Substring(1, ads.Name.Length - 7); // Remove ":" and ":$DATA"
@@ -202,7 +204,7 @@ namespace Files.App.Utils.Storage
 					Opacity = opacity,
 					LoadFileIcon = false,
 					ItemPath = itemPath,
-					FileSize = string.Empty,
+					FileSize = null,
 					FileSizeBytes = 0,
 				};
 			}
@@ -220,7 +222,7 @@ namespace Files.App.Utils.Storage
 					Opacity = opacity,
 					LoadFileIcon = false,
 					ItemPath = itemPath,
-					FileSize = string.Empty,
+					FileSize = null,
 					FileSizeBytes = 0,
 				};
 			}
@@ -258,12 +260,12 @@ namespace Files.App.Utils.Storage
 			long itemSizeBytes = findData.GetSize();
 			var itemSize = itemSizeBytes.ToSizeString();
 			string itemType = Strings.File.GetLocalizedResource();
-			var itemFileExtension = string.Empty;
+			string? itemFileExtension = null;
 
 			if (findData.cFileName.Contains('.'))
 			{
-				itemFileExtension = Path.GetExtension(itemPath) ?? string.Empty;
-				itemType = itemFileExtension.Trim('.') + " " + itemType;
+				itemFileExtension = Path.GetExtension(itemPath);
+				itemType = itemFileExtension!.Trim('.') + " " + itemType;
 			}
 
 			bool itemThumbnailImgVis = false;
@@ -299,7 +301,7 @@ namespace Files.App.Utils.Storage
 						ItemPath = itemPath,
 						FileSize = itemSize,
 						FileSizeBytes = itemSizeBytes,
-						TargetPath = targetPath ?? string.Empty,
+						TargetPath = targetPath,
 						IsSymLink = true,
 					};
 				}
@@ -321,7 +323,7 @@ namespace Files.App.Utils.Storage
 						ItemPath = itemPath,
 						FileSize = itemSize,
 						FileSizeBytes = itemSizeBytes,
-						TargetPath = targetPath ?? string.Empty,
+						TargetPath = targetPath,
 						IsSymLink = true
 					};
 				}

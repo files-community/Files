@@ -7,12 +7,12 @@ namespace Files.App.Data.Parameters
 {
 	public sealed class PropertiesPageNavigationParameter
 	{
-		public CancellationTokenSource CancellationTokenSource = new();
+		public CancellationTokenSource? CancellationTokenSource;
 
-		public required object Parameter;
+		public object? Parameter;
 
-		public required IShellPage AppInstance;
+		public IShellPage? AppInstance;
 
-		public required Window Window;
+		public Window? Window;
 	}
 }

@@ -24,7 +24,7 @@ namespace Files.App.Utils.Storage
 				return false;
 			var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
-			var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
+			var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => drivePath.StartsWith(x.Path!, StringComparison.Ordinal));
 			if (matchingDrive is null || matchingDrive.Type != Data.Items.DriveType.CDRom || matchingDrive.MaxSpace != ByteSizeLib.ByteSize.FromBytes(0))
 				return false;
 
@@ -34,11 +34,11 @@ namespace Files.App.Utils.Storage
 				Strings.InsertDiscDialog_OpenDriveButton.GetLocalizedResource(),
 				Strings.Close.GetLocalizedResource());
 			if (ejectButton)
-				EjectDeviceAsync(matchingDrive.Path);
+				EjectDeviceAsync(matchingDrive.Path!);
 			return true;
 		}
 
-		public static async Task<StorageFolderWithPath?> GetRootFromPathAsync(string devicePath)
+		public static async Task<StorageFolderWithPath?> GetRootFromPathAsync(string? devicePath)
 		{
 			if (!SystemIO.Path.IsPathRooted(devicePath))
 				return null;

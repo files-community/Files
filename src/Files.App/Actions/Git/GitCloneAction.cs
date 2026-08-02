@@ -29,11 +29,12 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			if (pageContext.ShellPage?.ShellViewModel is not { } shellViewModel)
+			if (pageContext.ShellPage is not { } shellPage)
 				return Task.CompletedTask;
 
+			var shellViewModel = shellPage.ShellViewModel ?? throw new InvalidOperationException("The active shell page has no shell view model.");
 			var repoUrl = parameter?.ToString() ?? string.Empty;
-			var viewModel = new CloneRepoDialogViewModel(repoUrl, shellViewModel.WorkingDirectory);
+			var viewModel = new CloneRepoDialogViewModel(repoUrl, shellViewModel.WorkingDirectory!);
 			return dialogService.ShowDialogAsync(viewModel);
 		}
 

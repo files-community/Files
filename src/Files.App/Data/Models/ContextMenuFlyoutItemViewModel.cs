@@ -21,7 +21,7 @@ namespace Files.App.Data.Models
 
 		public string? KeyboardAcceleratorTextOverride { get; set; }
 
-		public string Text { get; set; } = string.Empty;
+		public string? Text { get; set; }
 
 		public object? Tag { get; set; }
 
@@ -51,7 +51,7 @@ namespace Files.App.Data.Models
 
 		public bool IsEnabled { get; set; } = true;
 
-		public string ID { get; set; } = string.Empty;
+		public string? ID { get; set; }
 
 		public bool IsPrimary { get; set; }
 

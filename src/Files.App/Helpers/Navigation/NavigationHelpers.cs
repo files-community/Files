@@ -145,8 +145,8 @@ namespace Files.App.Helpers
 			// Don't update tabItem if the contents of the tab have already changed
 			if (result.Item1 is not null)
 			{
-				if (tabItem.NavigationParameter?.NavigationParameter is not { } navigationParameter)
-					return;
+				var navigationParameter = tabItem.NavigationParameter?.NavigationParameter
+					?? throw new InvalidOperationException("The tab does not have a navigation parameter.");
 
 				var a1 = navigationParameter is PaneNavigationArguments pna1 ? pna1 : new PaneNavigationArguments() { LeftPaneNavPathParam = navigationParameter as string };
 				var a2 = navigationArg is PaneNavigationArguments pna2 ? pna2 : new PaneNavigationArguments() { LeftPaneNavPathParam = navigationArg as string };
@@ -165,14 +165,14 @@ namespace Files.App.Helpers
 		{
 			foreach (var group in MainPageViewModel.AppInstances
 				.Where(t => !string.IsNullOrEmpty(t.Description))
-				.GroupBy(t => t.Description ?? string.Empty, StringComparer.OrdinalIgnoreCase))
+				.GroupBy(t => t.Description!, StringComparer.OrdinalIgnoreCase))
 			{
 				var tabs = group.ToArray();
 
 				foreach (var t in tabs)
 					t.Header = t.Description;
 
-				if (tabs.Length < 2 || tabs[0].Description?.Contains(" | ", StringComparison.Ordinal) == true)
+				if (tabs.Length < 2 || tabs[0].Description!.Contains(" | "))
 					continue;
 
 				var hints = tabs.ToDictionary(t => t, t => AncestorHints(t.ToolTipText));
@@ -197,7 +197,7 @@ namespace Files.App.Helpers
 
 			try
 			{
-				var root = PathNormalization.GetPathRoot(path).TrimEnd('\\', '/');
+				var root = (PathNormalization.GetPathRoot(path) ?? "").TrimEnd('\\', '/');
 				var prefix = root.Length >= 2 && root[1] == ':'
 					? $"{char.ToUpperInvariant(root[0])}:\\..."
 					: root.Length > 0 ? $"{root}\\..." : "...";
@@ -214,13 +214,14 @@ namespace Files.App.Helpers
 			return result.ToArray();
 		}
 
-		public static async Task<ImageSource?> GetIconForPathAsync(string path)
+		public static async Task<ImageSource?> GetIconForPathAsync(string? path)
 		{
 			ImageSource? imageSource;
 			if (string.IsNullOrEmpty(path) || path == "Home")
 			{
-				var iconPath = SidebarSectionIcons.For(SectionType.Home);
-				imageSource = iconPath is null ? null : new BitmapImage(new Uri(iconPath));
+				var iconPath = SidebarSectionIcons.For(SectionType.Home)
+					?? throw new InvalidOperationException("The Home sidebar icon is not configured.");
+				imageSource = new BitmapImage(new Uri(iconPath));
 			}
 			else if (path == "ReleaseNotes")
 				imageSource = new BitmapImage(new Uri(AppLifecycleHelper.AppIconPath));
@@ -251,17 +252,16 @@ namespace Files.App.Helpers
 			return imageSource;
 		}
 
-		public static async Task<(string tabLocationHeader, IconSource tabIcon, string toolTipText)> GetSelectedTabInfoAsync(string currentPath)
+		public static async Task<(string? tabLocationHeader, IconSource tabIcon, string toolTipText)> GetSelectedTabInfoAsync(string currentPath)
 		{
-			string tabLocationHeader;
+			string? tabLocationHeader;
 			IconSource iconSource = new ImageIconSource();
 			string toolTipText = currentPath;
 
 			if (string.IsNullOrEmpty(currentPath) || currentPath == "Home")
 			{
 				tabLocationHeader = Strings.Home.GetLocalizedResource();
-				if (SidebarSectionIcons.For(SectionType.Home) is { } iconPath)
-					((ImageIconSource)iconSource).ImageSource = new BitmapImage(new Uri(iconPath));
+				((ImageIconSource)iconSource).ImageSource = new BitmapImage(new Uri(SidebarSectionIcons.For(SectionType.Home)!));
 			}
 			else if (currentPath == "ReleaseNotes")
 			{
@@ -286,7 +286,9 @@ namespace Files.App.Helpers
 				tabLocationHeader = Strings.Network.GetLocalizedResource();
 			else if (App.LibraryManager.TryGetLibrary(currentPath, out var library))
 			{
-				var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path).GetLocalizedResource();
+				var libraryName = System.IO.Path.GetFileNameWithoutExtension(library.Path)
+					?? throw new InvalidOperationException("The library does not have a file name.");
+				var libName = libraryName.GetLocalizedResource();
 				// If localized string is empty use the library name.
 				tabLocationHeader = string.IsNullOrEmpty(libName) ? library.Text : libName;
 			}
@@ -306,8 +308,14 @@ namespace Files.App.Helpers
 				}
 				else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == normalizedCurrentPath) // If path is a drive's root
 				{
-					var matchingDrive = NetworkService.Computers.Cast<DriveItem>().FirstOrDefault(netDrive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
-					matchingDrive ??= DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(drive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(drive.Path), StringComparison.OrdinalIgnoreCase));
+					var matchingDrive = NetworkService.Computers.Cast<DriveItem>().FirstOrDefault(netDrive => normalizedCurrentPath.Contains(
+						PathNormalization.NormalizePath(netDrive.Path
+							?? throw new InvalidOperationException("The network drive does not have a path.")),
+						StringComparison.OrdinalIgnoreCase));
+					matchingDrive ??= DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(drive => normalizedCurrentPath.Contains(
+						PathNormalization.NormalizePath(drive.Path
+							?? throw new InvalidOperationException("The drive does not have a path.")),
+						StringComparison.OrdinalIgnoreCase));
 					tabLocationHeader = matchingDrive is not null ? matchingDrive.Text : normalizedCurrentPath;
 				}
 				else
@@ -315,9 +323,12 @@ namespace Files.App.Helpers
 					tabLocationHeader = currentPath.TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
 
 					var rootItem = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(currentPath));
-					var currentFolderResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(currentPath, rootItem.Result));
-					if (currentFolderResult.Result is { } currentFolder && !string.IsNullOrEmpty(currentFolder.DisplayName))
-						tabLocationHeader = currentFolder.DisplayName;
+					if (rootItem)
+					{
+						var currentFolderResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(currentPath, rootItem.Result));
+						if (currentFolderResult.Result is { } currentFolder && !string.IsNullOrEmpty(currentFolder.DisplayName))
+							tabLocationHeader = currentFolder.DisplayName;
+					}
 				}
 			}
 
@@ -340,7 +351,7 @@ namespace Files.App.Helpers
 		{
 			await SafetyExtensions.IgnoreExceptions(async () =>
 			{
-				string windowTitle = string.Empty;
+				string? windowTitle = string.Empty;
 				if (navigationArg is PaneNavigationArguments paneArgs)
 				{
 					if (!string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam) && !string.IsNullOrEmpty(paneArgs.RightPaneNavPathParam))
@@ -350,7 +361,7 @@ namespace Files.App.Helpers
 						windowTitle = $"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
 					}
 					else
-						(windowTitle, _, _) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam ?? paneArgs.RightPaneNavPathParam ?? string.Empty);
+						(windowTitle, _, _) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam ?? string.Empty);
 				}
 				else if (navigationArg is string pathArgs)
 					(windowTitle, _, _) = await GetSelectedTabInfoAsync(pathArgs);
@@ -393,7 +404,10 @@ namespace Files.App.Helpers
 			if (associatedInstance is null || listedItem is null)
 				return;
 
-			associatedInstance.PaneHolder?.OpenSecondaryPane((listedItem as IShortcutItem)?.TargetPath ?? listedItem.ItemPath, arrangement);
+			var targetPath = (listedItem as IShortcutItem)?.TargetPath;
+			var path = (!string.IsNullOrEmpty(targetPath) ? targetPath : listedItem.ItemPath)
+				?? throw new InvalidOperationException("The selected item does not have a path.");
+			associatedInstance.PaneHolder?.OpenSecondaryPane(path, arrangement);
 		}
 
 		public static Task LaunchNewWindowAsync()
@@ -403,13 +417,18 @@ namespace Files.App.Helpers
 
 		public static async Task OpenSelectedItemsAsync(IShellPage associatedInstance, bool openViaApplicationPicker = false)
 		{
+			var shellViewModel = associatedInstance.ShellViewModel;
+
 			// Don't open files and folders inside recycle bin
-			if (associatedInstance.ShellViewModel is null ||
-				associatedInstance.ShellViewModel.WorkingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal) ||
+			if (shellViewModel is null ||
 				associatedInstance.SlimContentPage?.SelectedItems is null)
 			{
 				return;
 			}
+			var workingDirectory = shellViewModel.WorkingDirectory
+				?? throw new InvalidOperationException("The shell page does not have a working directory.");
+			if (workingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
+				return;
 
 			var forceOpenInNewTab = false;
 			var selectedItems = associatedInstance.SlimContentPage.SelectedItems.ToList();
@@ -432,7 +451,9 @@ namespace Files.App.Helpers
 					? FilesystemItemType.Directory
 					: FilesystemItemType.File;
 
-				await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker, forceOpenInNewTab: forceOpenInNewTab);
+				var itemPath = item.ItemPath
+					?? throw new InvalidOperationException("The selected item does not have a path.");
+				await OpenPath(itemPath, associatedInstance, type, false, openViaApplicationPicker, forceOpenInNewTab: forceOpenInNewTab);
 
 				if (type == FilesystemItemType.Directory)
 					forceOpenInNewTab = true;
@@ -441,10 +462,15 @@ namespace Files.App.Helpers
 
 		public static async Task OpenItemsWithExecutableAsync(IShellPage associatedInstance, IEnumerable<IStorageItemWithPath> items, string executablePath)
 		{
+			var shellViewModel = associatedInstance.ShellViewModel;
+
 			// Don't open files and folders inside recycle bin
-			if (associatedInstance.ShellViewModel is null ||
-				associatedInstance.ShellViewModel.WorkingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal) ||
+			if (shellViewModel is null ||
 				associatedInstance.SlimContentPage is null)
+				return;
+			var workingDirectory = shellViewModel.WorkingDirectory
+				?? throw new InvalidOperationException("The shell page does not have a working directory.");
+			if (workingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 				return;
 
 			var arguments = string.Join(" ", items.Select(item => $"\"{item.Path}\""));
@@ -487,7 +513,7 @@ namespace Files.App.Helpers
 				return true;
 			}
 
-			string previousDir = associatedInstance.ShellViewModel.WorkingDirectory;
+			string? previousDir = associatedInstance.ShellViewModel.WorkingDirectory;
 
 			var fileAttributes = Win32Helper.GetFileAttributes(path);
 			bool isDirectory = fileAttributes.HasFlag(System.IO.FileAttributes.Directory);
@@ -521,7 +547,7 @@ namespace Files.App.Helpers
 					Win32Helper.GetWin32FindDataForPath(path, out var findData) &&
 					findData.dwReserved0 == Win32PInvoke.IO_REPARSE_TAG_SYMLINK)
 				{
-					shortcutInfo.TargetPath = Win32Helper.ParseSymLink(path) ?? string.Empty;
+					shortcutInfo.TargetPath = Win32Helper.ParseSymLink(path);
 				}
 				itemType ??= isDirectory ? FilesystemItemType.Directory : FilesystemItemType.File;
 			}
@@ -617,11 +643,12 @@ namespace Files.App.Helpers
 					opened = await associatedInstance.ShellViewModel.GetFolderWithPathFromPathAsync(path)
 						.OnSuccess((childFolder) =>
 						{
+							var folder = childFolder!;
 							// Add location to Recent Items List.
 							// File.Exists distinguishes an archive root (real file on disk) from an inner path like "archive.zip\sub".
-							if (childFolder.Item is SystemStorageFolder ||
-								(childFolder.Item is ZipStorageFolder && File.Exists(childFolder.Path)))
-								WindowsRecentItemsService.Add(childFolder.Path);
+							if (folder.Item is SystemStorageFolder ||
+								(folder.Item is ZipStorageFolder && File.Exists(folder.Path)))
+								WindowsRecentItemsService.Add(folder.Path);
 						});
 				}
 				if (!opened)
@@ -673,17 +700,15 @@ namespace Files.App.Helpers
 					opened = await shellViewModel.GetFileWithPathFromPathAsync(path)
 						.OnSuccess(async childFile =>
 						{
+							var file = childFile!;
 							// Add location to Recent Items List
-							if (childFile.Item is SystemStorageFile)
-								WindowsRecentItemsService.Add(childFile.Path);
+							if (file.Item is SystemStorageFile)
+								WindowsRecentItemsService.Add(file.Path);
 
 							if (openViaApplicationPicker)
 							{
-								if (childFile.Item is not { } storageFile)
-								{
-									await Win32Helper.InvokeWin32ComponentAsync(path, associatedInstance, args);
-									return;
-								}
+								var storageFile = file.Item
+									?? throw new InvalidOperationException("The file cannot be opened with the application picker because it has no storage item.");
 
 								LauncherOptions options = InitializeWithWindow(new LauncherOptions
 								{
@@ -765,7 +790,7 @@ namespace Files.App.Helpers
 											options.NeighboringFilesQuery = fileQueryResult.ToStorageFileQueryResult();
 										}
 										// Now launch file with options.
-										if (childFile.Item is { } item &&
+										if (file.Item is { } item &&
 											(await FilesystemTasks.Wrap(() => item.ToStorageFileAsync().AsTask())).Result is { } storageItem)
 										{
 											launchSuccess = await Launcher.LaunchFileAsync(storageItem, options);
@@ -774,7 +799,7 @@ namespace Files.App.Helpers
 									if (!launchSuccess)
 										await Win32Helper.InvokeWin32ComponentAsync(path, associatedInstance, args);
 								}
-								else if (childFile.Item is ZipStorageFile zipStorageFile)
+								else if (file.Item is ZipStorageFile zipStorageFile)
 								{
 									var options = InitializeWithWindow(new LauncherOptions());
 									var storageItem = (await FilesystemTasks.Wrap(() => zipStorageFile.ToStorageFileAsync().AsTask())).Result;

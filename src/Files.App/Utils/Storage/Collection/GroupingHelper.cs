@@ -13,7 +13,9 @@ namespace Files.App.Utils.Storage
 		{
 			return option switch
 			{
-				GroupOption.Name => x => new string(x.Name.Take(1).ToArray()).ToUpperInvariant(),
+				GroupOption.Name => x => new string((x.Name
+					?? throw new InvalidOperationException("The grouped item does not have a name."))
+					.Take(1).ToArray()).ToUpperInvariant(),
 				GroupOption.Size => x => x.PrimaryItemAttribute != StorageItemTypes.Folder || x.IsArchive ? GetGroupSizeKey(x.FileSizeBytes) : x.FileSizeDisplay,
 				GroupOption.DateCreated => x => dateTimeFormatter.ToTimeSpanLabel(x.ItemDateCreatedReal, unit).Text,
 				GroupOption.DateModified => x => dateTimeFormatter.ToTimeSpanLabel(x.ItemDateModifiedReal, unit).Text,
@@ -22,7 +24,9 @@ namespace Files.App.Utils.Storage
 				GroupOption.FileTag => x => x.FileTags?.FirstOrDefault() ?? "Untagged",
 				GroupOption.OriginalFolder => x => (x as RecycleBinItem)?.ItemOriginalFolder,
 				GroupOption.DateDeleted => x => dateTimeFormatter.ToTimeSpanLabel((x as RecycleBinItem)?.ItemDateDeletedReal ?? DateTimeOffset.Now, unit).Text,
-				GroupOption.FolderPath => x => PathNormalization.GetParentDir(x.ItemPath.TrimPath()),
+				GroupOption.FolderPath => x => PathNormalization.GetParentDir((x.ItemPath
+					?? throw new InvalidOperationException("The grouped item does not have a path."))
+					.TrimPath()),
 				_ => null,
 			};
 		}
@@ -85,7 +89,7 @@ namespace Files.App.Utils.Storage
 					ListedItem first = x.First();
 					x.Model.ShowCountTextBelow = true;
 					x.Model.Text = first.SyncStatusString;
-					x.Model.Icon = first.SyncStatusUI.Glyph ?? string.Empty;
+					x.Model.Icon = first.SyncStatusUI.Glyph;
 				}, null),
 
 				GroupOption.FileTag => (x =>
@@ -110,8 +114,8 @@ namespace Files.App.Utils.Storage
 						var model = x.Model;
 						model.ShowCountTextBelow = true;
 
-						model.Text = (first as RecycleBinItem)?.ItemOriginalFolderName ?? string.Empty;
-						model.Subtext = (first as RecycleBinItem)?.ItemOriginalFolder ?? string.Empty;
+						model.Text = (first as RecycleBinItem)?.ItemOriginalFolderName;
+						model.Subtext = (first as RecycleBinItem)?.ItemOriginalFolder;
 					}, null),
 
 				GroupOption.FolderPath => (x =>
@@ -119,7 +123,9 @@ namespace Files.App.Utils.Storage
 					ListedItem first = x.First();
 					var model = x.Model;
 					model.ShowCountTextBelow = true;
-					var parentPath = PathNormalization.GetParentDir(first.ItemPath.TrimPath());
+					var parentPath = PathNormalization.GetParentDir((first.ItemPath
+						?? throw new InvalidOperationException("The grouped item does not have a path."))
+						.TrimPath());
 					model.Text = GetFolderName(parentPath);
 					model.Subtext = parentPath;
 				}, null),
@@ -166,8 +172,11 @@ namespace Files.App.Utils.Storage
 			(16000, Strings.ItemSizeText_Small.GetLocalizedResource(), "16 KiB".ConvertSizeAbbreviation()),
 		];
 
-		private static string GetFolderName(string path)
+		private static string? GetFolderName(string? path)
 		{
+			if (path is null)
+				return null;
+
 			return path.Substring(path.LastIndexOf('\\') + 1);
 		}
 	}

@@ -5,7 +5,7 @@ namespace Files.App.Data.Contracts
 {
 	internal interface IIconCacheService
 	{
-		Task<byte[]?> GetIconAsync(string itemPath, string? extension, bool isFolder);
+		Task<byte[]?> GetIconAsync(string? itemPath, string? extension, bool isFolder);
 
 		void Clear();
 	}

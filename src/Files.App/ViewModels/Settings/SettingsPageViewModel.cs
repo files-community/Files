@@ -106,7 +106,7 @@ namespace Files.App.ViewModels.Settings
 		}
 	}
 
-	public sealed partial class SettingsNavigationItem : ObservableObject, ISidebarItemModel
+	public sealed partial class SettingsNavigationItem : ObservableObject, ISidebarItemModel, ISidebarItemPresentationModel
 	{
 		public SettingsPageKind PageKind { get; }
 		public string AutomationId { get; }
@@ -121,8 +121,8 @@ namespace Files.App.ViewModels.Settings
 		// Sidebar presentation
 		public object? ToolTip => Text;
 		public object? ItemDecorator => null;
-		FrameworkElement ISidebarItemModel.IconElement => IconElement;
-		FrameworkElement? ISidebarItemModel.ItemDecorator => null;
+		FrameworkElement ISidebarItemPresentationModel.IconElement => IconElement;
+		FrameworkElement? ISidebarItemPresentationModel.ItemDecorator => null;
 
 		public SettingsNavigationItem(SettingsPageKind pageKind, string automationId, string text, ThemedIcon iconElement)
 		{

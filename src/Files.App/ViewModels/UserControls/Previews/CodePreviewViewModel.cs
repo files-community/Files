@@ -42,7 +42,7 @@ namespace Files.App.ViewModels.Previews
 				var text = TextValue ?? await ReadFileAsTextAsync(PreviewFile);
 				details.Add(GetFileProperty("PropertyLineCount", text.Split('\n').Length));
 
-				CodeLanguage = extensions[Item.FileExtension.ToLowerInvariant()];
+				CodeLanguage = extensions[Item.FileExtension!.ToLowerInvariant()];
 				TextValue = text.Left(Constants.PreviewPane.TextCharacterLimit);
 			}
 			catch (Exception e)

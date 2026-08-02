@@ -280,30 +280,33 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		private void ExecuteOpenPropertiesCommand(WidgetFolderCardItem? item)
 		{
-			var flyout = HomePageContext.ItemContextFlyoutMenu;
-			var shellPage = ContentPageContext.ShellPage;
-			if (!HomePageContext.IsAnyItemRightClicked ||
-				item is null ||
-				string.IsNullOrEmpty(item.Path) ||
-				flyout is null ||
-				shellPage?.ShellViewModel is not { } shellViewModel)
+			if (!HomePageContext.IsAnyItemRightClicked || item?.Item is null)
 				return;
+
+			var flyout = HomePageContext.ItemContextFlyoutMenu
+				?? throw new InvalidOperationException("The quick-access item context menu is not available.");
 
 			async void FlyoutClosed(object? sender, object args)
 			{
 				flyout.Closed -= FlyoutClosed;
+				var itemPath = item.Path
+					?? throw new InvalidOperationException("The quick-access item does not have a path.");
+				var shellPage = ContentPageContext.ShellPage
+					?? throw new InvalidOperationException("There is no active shell page for quick-access properties.");
+				var shellViewModel = shellPage.ShellViewModel
+					?? throw new InvalidOperationException("The active shell page does not have a shell view model.");
 
 				ListedItem listedItem = new(null)
 				{
-					ItemPath = item.Path,
-					ItemNameRaw = item.Text ?? System.IO.Path.GetFileName(item.Path),
+					ItemPath = itemPath,
+					ItemNameRaw = item.Text,
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemType = Strings.Folder.GetLocalizedResource(),
 				};
 
-				if (!string.Equals(item.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+				if (!string.Equals(itemPath, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 				{
-					BaseStorageFolder? matchingStorageFolder = (await shellViewModel.GetFolderFromPathAsync(item.Path)).Result;
+					BaseStorageFolder? matchingStorageFolder = (await shellViewModel.GetFolderFromPathAsync(itemPath)).Result;
 					if (matchingStorageFolder is not null)
 					{
 						var syncStatus = await shellViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);

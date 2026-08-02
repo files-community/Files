@@ -3,7 +3,6 @@
 
 using Files.Shared.Helpers;
 using SevenZip;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
@@ -46,14 +45,9 @@ namespace Files.App.Utils.Storage
 		private IStorageItemExtraProperties? properties;
 		public override IStorageItemExtraProperties Properties => properties ??= new BaseBasicStorageItemExtraProperties(this);
 
-		private StorageCredential credentials = new();
-
-		[AllowNull]
-		public StorageCredential Credentials
-		{
-			get => credentials;
-			set => credentials = value ?? new();
-		}
+		public StorageCredential? Credentials { get; set; } = new();
+		private string Password => Credentials?.Password
+			?? throw new InvalidOperationException("Archive credentials are not available.");
 
 		public Func<IPasswordProtectedItem, Task<StorageCredential>>? PasswordRequestedCallback { get; set; }
 
@@ -101,9 +95,9 @@ namespace Files.App.Utils.Storage
 		public override IAsyncOperation<BaseStorageFolder?> GetParentAsync() => throw new NotSupportedException();
 		public override IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync() => GetBasicProperties().AsAsyncOperation();
 
-		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode)
+		public override IAsyncOperation<IRandomAccessStream?> OpenAsync(FileAccessMode accessMode)
 		{
-			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IRandomAccessStream>(async () =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IRandomAccessStream?>(async () =>
 			{
 				bool rw = accessMode is FileAccessMode.ReadWrite;
 				if (Path == containerPath)
@@ -114,18 +108,15 @@ namespace Files.App.Utils.Storage
 					}
 
 					var file = Win32Helper.OpenFileForRead(containerPath, rw);
-					if (file.IsInvalid)
-						throw new IOException($"The archive '{containerPath}' could not be opened.");
-
-					return new FileStream(file, rw ? FileAccess.ReadWrite : FileAccess.Read).AsRandomAccessStream();
+					return file.IsInvalid ? null : new FileStream(file, rw ? FileAccess.ReadWrite : FileAccess.Read).AsRandomAccessStream();
 				}
 
 				if (!rw)
 				{
-					SevenZipExtractor zipFile = await OpenZipFileAsync();
+					SevenZipExtractor? zipFile = await OpenZipFileAsync();
 					if (zipFile is null || zipFile.ArchiveFileData is null)
 					{
-						throw new InvalidDataException($"The archive '{containerPath}' could not be read.");
+						return null;
 					}
 
 					//zipFile.IsStreamOwner = true;
@@ -141,18 +132,18 @@ namespace Files.App.Utils.Storage
 							DisposeCallback = () => zipFile.Dispose()
 						};
 					}
-					throw new FileNotFoundException($"The archive entry '{Path}' was not found.");
+					return null;
 				}
 
 				throw new NotSupportedException("Can't open zip file as RW");
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
-		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options)
+		public override IAsyncOperation<IRandomAccessStream?> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options)
 			=> OpenAsync(accessMode);
 
-		public override IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadAsync()
+		public override IAsyncOperation<IRandomAccessStreamWithContentType?> OpenReadAsync()
 		{
-			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IRandomAccessStreamWithContentType>(async () =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IRandomAccessStreamWithContentType?>(async () =>
 			{
 				if (Path == containerPath)
 				{
@@ -162,23 +153,20 @@ namespace Files.App.Utils.Storage
 					}
 
 					var hFile = Win32Helper.OpenFileForRead(containerPath);
-					if (hFile.IsInvalid)
-						throw new IOException($"The archive '{containerPath}' could not be opened.");
-
-					return new StreamWithContentType(new FileStream(hFile, FileAccess.Read).AsRandomAccessStream());
+					return hFile.IsInvalid ? null : new StreamWithContentType(new FileStream(hFile, FileAccess.Read).AsRandomAccessStream());
 				}
 
-				SevenZipExtractor zipFile = await OpenZipFileAsync();
+				SevenZipExtractor? zipFile = await OpenZipFileAsync();
 				if (zipFile is null || zipFile.ArchiveFileData is null)
 				{
-					throw new InvalidDataException($"The archive '{containerPath}' could not be read.");
+					return null;
 				}
 
 				//zipFile.IsStreamOwner = true;
 				var entry = zipFile.GetArchiveFileData(containerPath).FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == Path);
 				if (entry.FileName is null)
 				{
-					throw new FileNotFoundException($"The archive entry '{Path}' was not found.");
+					return null;
 				}
 
 				var ms = new MemoryStream();
@@ -192,9 +180,9 @@ namespace Files.App.Utils.Storage
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
-		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync()
+		public override IAsyncOperation<IInputStream?> OpenSequentialReadAsync()
 		{
-			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IInputStream>(async () =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IInputStream?>(async () =>
 			{
 				if (Path == containerPath)
 				{
@@ -204,22 +192,19 @@ namespace Files.App.Utils.Storage
 					}
 
 					var hFile = Win32Helper.OpenFileForRead(containerPath);
-					if (hFile.IsInvalid)
-						throw new IOException($"The archive '{containerPath}' could not be opened.");
-
-					return new FileStream(hFile, FileAccess.Read).AsInputStream();
+					return hFile.IsInvalid ? null : new FileStream(hFile, FileAccess.Read).AsInputStream();
 				}
 
-				SevenZipExtractor zipFile = await OpenZipFileAsync();
+				SevenZipExtractor? zipFile = await OpenZipFileAsync();
 				if (zipFile is null || zipFile.ArchiveFileData is null)
 				{
-					throw new InvalidDataException($"The archive '{containerPath}' could not be read.");
+					return null;
 				}
 				//zipFile.IsStreamOwner = true;
 				var entry = zipFile.GetArchiveFileData(containerPath).FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == Path);
 				if (entry.FileName is null)
 				{
-					throw new FileNotFoundException($"The archive entry '{Path}' was not found.");
+					return null;
 				}
 
 				var ms = new MemoryStream();
@@ -245,7 +230,7 @@ namespace Files.App.Utils.Storage
 		{
 			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<BaseStorageFile?>(async () =>
 			{
-				using SevenZipExtractor zipFile = await OpenZipFileAsync();
+				using SevenZipExtractor? zipFile = await OpenZipFileAsync();
 				if (zipFile is null || zipFile.ArchiveFileData is null)
 				{
 					return null;
@@ -258,8 +243,8 @@ namespace Files.App.Utils.Storage
 					return null;
 				}
 
-				if (destinationFolder.AsBaseStorageFolder() is not { } destFolder)
-					return null;
+				var destFolder = destinationFolder.AsBaseStorageFolder()
+					?? throw new NotSupportedException("The destination folder type is not supported.");
 
 				if (destFolder is ICreateFileWithStream cwsf)
 				{
@@ -271,9 +256,8 @@ namespace Files.App.Utils.Storage
 				}
 				else
 				{
-					var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
-					if (destFile is null)
-						return null;
+					var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert())
+						?? throw new IOException($"Failed to create destination file '{desiredNewName}'.");
 
 					await using var outStream = await destFile.OpenStreamForWriteAsync();
 					await SafetyExtensions.WrapAsync(() => zipFile.ExtractFileAsync(entry.Index, outStream), async (_, exception) =>
@@ -289,7 +273,7 @@ namespace Files.App.Utils.Storage
 		{
 			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.WrapAsync(async () =>
 			{
-				using SevenZipExtractor zipFile = await OpenZipFileAsync();
+				using SevenZipExtractor? zipFile = await OpenZipFileAsync();
 				if (zipFile is null || zipFile.ArchiveFileData is null)
 				{
 					return;
@@ -345,17 +329,19 @@ namespace Files.App.Utils.Storage
 					}
 					using (var ms = new MemoryStream())
 					{
-						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
+						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read)
+							?? throw new IOException($"The archive '{containerPath}' could not be opened for reading."))
 						{
 							SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
 							compressor.CustomParameters.Add("cu", "on");
 							compressor.SetFormatFromExistingArchive(archiveStream);
 							var parentPath = IO.Path.GetDirectoryName(Path) ?? throw new InvalidOperationException("The archive entry has no parent.");
 							var fileName = IO.Path.GetRelativePath(containerPath, IO.Path.Combine(parentPath, desiredName));
-							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, fileName } }, Credentials.Password, ms);
+							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, fileName } }, Password, ms);
 						}
 
-						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite)
+							?? throw new IOException($"The archive '{containerPath}' could not be opened for writing."))
 						{
 							ms.Position = 0;
 							await ms.CopyToAsync(archiveStream);
@@ -396,14 +382,16 @@ namespace Files.App.Utils.Storage
 					}
 					using (var ms = new MemoryStream())
 					{
-						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
+						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read)
+							?? throw new IOException($"The archive '{containerPath}' could not be opened for reading."))
 						{
 							SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
 							compressor.CustomParameters.Add("cu", "on");
 							compressor.SetFormatFromExistingArchive(archiveStream);
-							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string?>() { { index, null } }, Credentials.Password, ms);
+							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string?>() { { index, null } }, Password, ms);
 						}
-						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite)
+							?? throw new IOException($"The archive '{containerPath}' could not be opened for writing."))
 						{
 							ms.Position = 0;
 							await ms.CopyToAsync(archiveStream);
@@ -449,7 +437,7 @@ namespace Files.App.Utils.Storage
 
 		private async Task<int> FetchZipIndex()
 		{
-			using (SevenZipExtractor zipFile = await OpenZipFileAsync())
+			using (SevenZipExtractor? zipFile = await OpenZipFileAsync())
 			{
 				if (zipFile is null || zipFile.ArchiveFileData is null)
 				{
@@ -467,10 +455,10 @@ namespace Files.App.Utils.Storage
 
 		private async Task<BaseBasicProperties> GetBasicProperties()
 		{
-			using SevenZipExtractor zipFile = await OpenZipFileAsync();
+			using SevenZipExtractor? zipFile = await OpenZipFileAsync();
 			if (zipFile is null || zipFile.ArchiveFileData is null)
 			{
-				return new BaseBasicProperties();
+				throw new InvalidDataException($"The archive '{containerPath}' could not be read.");
 			}
 
 			//zipFile.IsStreamOwner = true;
@@ -481,32 +469,29 @@ namespace Files.App.Utils.Storage
 				: new ZipFileBasicProperties(entry);
 		}
 
-		private IAsyncOperation<SevenZipExtractor> OpenZipFileAsync()
+		private IAsyncOperation<SevenZipExtractor?> OpenZipFileAsync()
 		{
-			return AsyncInfo.Run<SevenZipExtractor>(async (cancellationToken) =>
+			return AsyncInfo.Run<SevenZipExtractor?>(async (cancellationToken) =>
 			{
 				var zipFile = await OpenZipFileAsync(FileAccessMode.Read);
-				return new SevenZipExtractor(zipFile, Credentials.Password);
+				return zipFile is not null ? new SevenZipExtractor(zipFile, Password) : null;
 			});
 		}
 
-		private IAsyncOperation<Stream> OpenZipFileAsync(FileAccessMode accessMode)
+		private IAsyncOperation<Stream?> OpenZipFileAsync(FileAccessMode accessMode)
 		{
-			return AsyncInfo.Run<Stream>(async (cancellationToken) =>
+			return AsyncInfo.Run<Stream?>(async (cancellationToken) =>
 			{
 				bool readWrite = accessMode == FileAccessMode.ReadWrite;
 				if (backingFile is not null)
 				{
-					return (await backingFile.OpenAsync(accessMode)).AsStream();
+					var stream = await backingFile.OpenAsync(accessMode);
+					return stream?.AsStream();
 				}
 				else
 				{
 					var hFile = Win32Helper.OpenFileForRead(containerPath, readWrite);
-					if (hFile.IsInvalid)
-					{
-						throw new IOException($"The archive '{containerPath}' could not be opened.");
-					}
-					return new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read);
+					return hFile.IsInvalid ? null : new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read);
 				}
 			});
 		}
@@ -517,7 +502,7 @@ namespace Files.App.Utils.Storage
 			{
 				try
 				{
-					using SevenZipExtractor zipFile = await OpenZipFileAsync();
+					using SevenZipExtractor? zipFile = await OpenZipFileAsync();
 					if (zipFile is null || zipFile.ArchiveFileData is null)
 					{
 						request.FailAndClose(StreamedFileFailureMode.CurrentlyUnavailable);

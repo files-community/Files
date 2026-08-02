@@ -7,15 +7,15 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 {
 	public sealed partial class FileSystemDialogConflictItemViewModel : BaseFileSystemDialogItemViewModel, IFileSystemDialogConflictItemViewModel
 	{
-		private string _DestinationDisplayName = string.Empty;
-		public required string DestinationDisplayName
+		private string? _DestinationDisplayName;
+		public string? DestinationDisplayName
 		{
 			get => _DestinationDisplayName;
 			set => SetProperty(ref _DestinationDisplayName, value);
 		}
 
-		private string _CustomName = string.Empty;
-		public string CustomName
+		private string? _CustomName;
+		public string? CustomName
 		{
 			get => _CustomName;
 			set
@@ -23,13 +23,17 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 				if (SetProperty(ref _CustomName, value))
 				{
 					DestinationDisplayName = value;
-					_DestinationPath = Path.Combine(Path.GetDirectoryName(DestinationPath) ?? string.Empty, value);
+					var destinationPath = DestinationPath ?? throw new ArgumentNullException(nameof(DestinationPath));
+					var customName = value ?? throw new ArgumentNullException(nameof(value));
+					var destinationDirectory = Path.GetDirectoryName(destinationPath)
+						?? throw new InvalidOperationException("The destination path does not have a parent directory.");
+					_DestinationPath = Path.Combine(destinationDirectory, customName);
 				}
 			}
 		}
 
-		private string _DestinationPath = string.Empty;
-		public required string DestinationPath
+		private string? _DestinationPath;
+		public string? DestinationPath
 		{
 			get => _DestinationPath;
 			set
@@ -46,8 +50,8 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 			set => SetProperty(ref _IsTextBoxVisible, value);
 		}
 
-		public string DestinationDirectoryDisplayName
-			=> Path.GetFileName(Path.GetDirectoryName(DestinationPath)) ?? string.Empty;
+		public string? DestinationDirectoryDisplayName
+			=> Path.GetFileName(Path.GetDirectoryName(DestinationPath));
 
 		public bool IsConflict
 			=> ConflictResolveOption != FileNameConflictResolveOptionType.None;

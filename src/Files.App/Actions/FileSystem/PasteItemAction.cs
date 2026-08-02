@@ -42,10 +42,11 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.ShellPage is not { ShellViewModel: { } shellViewModel } shellPage)
+			if (context.ShellPage is not { } shellPage)
 				return;
 
-			string path = shellViewModel.WorkingDirectory;
+			var shellViewModel = shellPage.ShellViewModel ?? throw new InvalidOperationException("The active shell page has no shell view model.");
+			string path = shellViewModel.WorkingDirectory!;
 			await UIFilesystemHelpers.PasteItemAsync(path, shellPage);
 		}
 

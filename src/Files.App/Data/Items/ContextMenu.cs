@@ -22,7 +22,7 @@ namespace Files.App.Data.Items
 
 	public class Win32ContextMenu
 	{
-		public List<Win32ContextMenuItem> Items { get; set; } = [];
+		public List<Win32ContextMenuItem>? Items { get; set; }
 	}
 
 	public class Win32ContextMenuItem

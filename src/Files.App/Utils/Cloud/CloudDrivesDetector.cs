@@ -10,7 +10,7 @@ namespace Files.App.Utils.Cloud
 	[SupportedOSPlatform("Windows10.0.10240")]
 	public sealed class CloudDrivesDetector
 	{
-		private readonly static string programFilesFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+		private readonly static string? programFilesFolder = Environment.GetEnvironmentVariable("ProgramFiles");
 
 		public static async Task<IEnumerable<ICloudProvider>> DetectCloudDrives()
 		{
@@ -121,7 +121,7 @@ namespace Files.App.Utils.Cloud
 							CloudProviders.LucidLink => !string.IsNullOrEmpty(clsidDefaultValue) ? clsidDefaultValue : "lucidLink",
 							CloudProviders.SyncDrive => !string.IsNullOrEmpty(clsidDefaultValue) ? clsidDefaultValue : "Sync",
 							CloudProviders.MagentaCloud => !string.IsNullOrEmpty(clsidDefaultValue) ? clsidDefaultValue : "MagentaCLOUD",
-							_ => cloudProvider.Value.ToString()
+							_ => null
 						},
 						SyncFolder = syncedFolder,
 						IconData = GetIconData(iconPath)
@@ -143,12 +143,12 @@ namespace Files.App.Utils.Cloud
 			return File.ReadAllBytes(iconPath);
 		}
 
-		private static Task<IEnumerable<ICloudProvider>> DetectOneDrive()
+		private static Task<IEnumerable<ICloudProvider>?> DetectOneDrive()
 		{
 			using var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts");
 			if (oneDriveAccountsKey is null)
 			{
-				return Task.FromResult<IEnumerable<ICloudProvider>>([]);
+				return Task.FromResult<IEnumerable<ICloudProvider>?>(null);
 			}
 
 			var oneDriveAccounts = new List<ICloudProvider>();
@@ -165,19 +165,20 @@ namespace Files.App.Utils.Cloud
 					{
 						Name = accountName,
 						SyncFolder = userFolder,
+						IconData = GetIconData($"Environment.GetEnvironmentVariable(\"ProgramFiles\")\\Microsoft OneDrive\\OneDrive.exe"),
 					});
 				}
 			}
 
-			return Task.FromResult<IEnumerable<ICloudProvider>>(oneDriveAccounts);
+			return Task.FromResult<IEnumerable<ICloudProvider>?>(oneDriveAccounts);
 		}
 
-		private static Task<IEnumerable<ICloudProvider>> DetectSharepoint()
+		private static Task<IEnumerable<ICloudProvider>?> DetectSharepoint()
 		{
 			using var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts");
 			if (oneDriveAccountsKey is null)
 			{
-				return Task.FromResult<IEnumerable<ICloudProvider>>([]);
+				return Task.FromResult<IEnumerable<ICloudProvider>?>(null);
 			}
 
 			var sharepointAccounts = new List<ICloudProvider>();
@@ -226,7 +227,7 @@ namespace Files.App.Utils.Cloud
 				}
 			}
 
-			return Task.FromResult<IEnumerable<ICloudProvider>>(sharepointAccounts);
+			return Task.FromResult<IEnumerable<ICloudProvider>?>(sharepointAccounts);
 		}
 
 		private static Task<IEnumerable<ICloudProvider>> DetectpCloudDrive()
@@ -237,7 +238,8 @@ namespace Files.App.Utils.Cloud
 			var syncedFolder = (string?)pCloudDriveKey?.GetValue("SyncDrive");
 			if (syncedFolder is not null)
 			{
-				string iconPath = Path.Combine(programFilesFolder, "pCloud Drive", "pCloud.exe");
+				string iconPath = Path.Combine(programFilesFolder
+					?? throw new InvalidOperationException("The ProgramFiles environment variable is not set."), "pCloud Drive", "pCloud.exe");
 				var iconFile = Win32Helper.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }, 32).FirstOrDefault();
 
 				App.AppModel.PCloudDrivePath = syncedFolder;
@@ -260,7 +262,8 @@ namespace Files.App.Utils.Cloud
 
 			if (NutstoreKey is not null)
 			{
-				string iconPath = Path.Combine(programFilesFolder, "Nutstore", "Nutstore.exe");
+				string iconPath = Path.Combine(programFilesFolder
+					?? throw new InvalidOperationException("The ProgramFiles environment variable is not set."), "Nutstore", "Nutstore.exe");
 				var iconFile = Win32Helper.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 101 }).FirstOrDefault();
 
 				using var syncRootMangerKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\SyncRootManager");
@@ -295,9 +298,10 @@ namespace Files.App.Utils.Cloud
 			using var SeadriveKey = Registry.CurrentUser.OpenSubKey(@"Software\SeaDrive\Seafile Drive Client\Settings");
 
 			var syncFolder = (string?)SeadriveKey?.GetValue("seadriveRoot");
-			if (!string.IsNullOrWhiteSpace(syncFolder))
+			if (SeadriveKey is not null)
 			{
-				string iconPath = Path.Combine(programFilesFolder, "SeaDrive", "bin", "seadrive.exe");
+				string iconPath = Path.Combine(programFilesFolder
+					?? throw new InvalidOperationException("The ProgramFiles environment variable is not set."), "SeaDrive", "bin", "seadrive.exe");
 				var iconFile = Win32Helper.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 101 }).FirstOrDefault();
 
 				results.Add(new CloudProvider(CloudProviders.Seadrive)
@@ -318,7 +322,8 @@ namespace Files.App.Utils.Cloud
 
 			if (AutodeskKey is not null)
 			{
-				string iconPath = Path.Combine(programFilesFolder, "Autodesk", "Desktop Connector", "DesktopConnector.Applications.Tray.exe");
+				string iconPath = Path.Combine(programFilesFolder
+					?? throw new InvalidOperationException("The ProgramFiles environment variable is not set."), "Autodesk", "Desktop Connector", "DesktopConnector.Applications.Tray.exe");
 				var iconFile = Win32Helper.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }).FirstOrDefault();
 				var mainFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "DC");
 				var autodeskFolders = Directory.GetDirectories(mainFolder, "", SearchOption.AllDirectories);

@@ -37,9 +37,9 @@ namespace Files.App.Views.Layouts
 	{
 		// Dependency injections
 
-		protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>()!;
-		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
-		protected ILayoutSettingsService LayoutSettingsService { get; } = Ioc.Default.GetService<ILayoutSettingsService>()!;
+		protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		protected ILayoutSettingsService LayoutSettingsService { get; } = Ioc.Default.GetRequiredService<ILayoutSettingsService>();
 		protected ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		public InfoPaneViewModel InfoPaneViewModel { get; } = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
 		protected readonly IWindowContext WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
@@ -183,9 +183,10 @@ namespace Files.App.Views.Layouts
 				// search for next file that starts with "a" (a.k.a. _jumpString = "a")
 				if (jumpString.Length == 1 && value == jumpString + jumpString)
 					value = jumpString;
-				if (value != string.Empty &&
-					ParentShellPageInstance?.ShellViewModel is { } shellViewModel)
+				if (value != string.Empty)
 				{
+					var shellViewModel = ParentShellPageInstance?.ShellViewModel
+						?? throw new InvalidOperationException("The layout does not have a shell view model.");
 					ListedItem? jumpedToItem = null;
 					ListedItem? previouslySelectedItem = IsItemSelected ? SelectedItem : null;
 
@@ -196,7 +197,11 @@ namespace Files.App.Views.Layouts
 						IEnumerable<ListedItem> candidateItems = shellViewModel.FilesAndFolders.ToList()
 							.SkipWhile(x => x != previouslySelectedItem)
 							.Skip(value.Length == 1 ? 1 : 0) // User is trying to cycle through items starting with the same letter
-							.Where(f => f.Name.Length >= value.Length && string.Equals(f.Name.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
+							.Where(f =>
+							{
+								var name = f.Name ?? throw new InvalidOperationException("A listed item does not have a name.");
+								return name.Length >= value.Length && string.Equals(name.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase);
+							});
 						jumpedToItem = candidateItems.FirstOrDefault();
 					}
 
@@ -204,7 +209,11 @@ namespace Files.App.Views.Layouts
 					{
 						// Use FilesAndFolders because only displayed entries should be jumped to
 						IEnumerable<ListedItem> candidateItems = shellViewModel.FilesAndFolders.ToList()
-							.Where(f => f.Name.Length >= value.Length && string.Equals(f.Name.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
+							.Where(f =>
+							{
+								var name = f.Name ?? throw new InvalidOperationException("A listed item does not have a name.");
+								return name.Length >= value.Length && string.Equals(name.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase);
+							});
 						jumpedToItem = candidateItems.FirstOrDefault();
 					}
 
@@ -224,23 +233,28 @@ namespace Files.App.Views.Layouts
 		}
 
 		private bool isSelectedItemsSorted = false;
-		private List<ListedItem> selectedItems = [];
+		private List<ListedItem>? selectedItems = [];
 		public List<ListedItem> SelectedItems
 		{
 			get
 			{
-				if (!isSelectedItemsSorted && FolderSettings is { } folderSettings)
+				var currentItems = selectedItems
+					?? throw new InvalidOperationException("The selected items collection has not been initialized.");
+				if (!isSelectedItemsSorted)
 				{
-					var orderedItems = SortingHelper.OrderFileList(selectedItems, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst).ToList();
+					var folderSettings = FolderSettings
+						?? throw new InvalidOperationException("The layout does not have folder settings.");
+					var orderedItems = SortingHelper.OrderFileList(currentItems, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst).ToList();
 					selectedItems = orderedItems;
+					currentItems = orderedItems;
 					isSelectedItemsSorted = true;
 				}
 
-				return SelectedItem is null || !selectedItems.Contains(SelectedItem)
-					? selectedItems
-					: selectedItems
+				return SelectedItem is null || !currentItems.Contains(SelectedItem)
+					? currentItems
+					: currentItems
 						.SkipWhile(x => x != SelectedItem)
-						.Concat(selectedItems.TakeWhile(x => x != SelectedItem))
+						.Concat(currentItems.TakeWhile(x => x != SelectedItem))
 						.ToList();
 			}
 			internal set
@@ -249,8 +263,9 @@ namespace Files.App.Views.Layouts
 				{
 					isSelectedItemsSorted = false;
 					selectedItems = value;
+					var currentItems = value;
 
-					if (selectedItems.Count == 0)
+					if (currentItems.Count == 0)
 					{
 						IsItemSelected = false;
 						SelectedItem = null;
@@ -262,15 +277,15 @@ namespace Files.App.Views.Layouts
 					else
 					{
 						IsItemSelected = true;
-						SelectedItem = selectedItems.First();
+						SelectedItem = currentItems.First();
 						SelectedItemsPropertiesViewModel.IsItemSelected = true;
 
 						UpdateSelectionSize();
 
-						SelectedItemsPropertiesViewModel.SelectedItemsCount = selectedItems.Count;
-						SelectedItemsPropertiesViewModel.SelectedItemsCountString = Strings.SelectedItems.GetLocalizedFormatResource(selectedItems.Count);
+						SelectedItemsPropertiesViewModel.SelectedItemsCount = currentItems.Count;
+						SelectedItemsPropertiesViewModel.SelectedItemsCountString = Strings.SelectedItems.GetLocalizedFormatResource(currentItems.Count);
 
-						if (selectedItems.Count == 1)
+						if (currentItems.Count == 1)
 						{
 							DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 							{
@@ -286,7 +301,11 @@ namespace Files.App.Views.Layouts
 					NotifyPropertyChanged(nameof(SelectedItems));
 				}
 				if (!isDraggingSelectionRectangle)
-					ParentShellPageInstance?.ToolbarViewModel.SelectedItems = value;
+				{
+					var parentShellPage = ParentShellPageInstance
+						?? throw new InvalidOperationException("The layout does not have a parent shell page.");
+					parentShellPage.ToolbarViewModel.SelectedItems = value;
+				}
 			}
 		}
 
@@ -376,15 +395,20 @@ namespace Files.App.Views.Layouts
 
 		protected virtual void BaseFolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
-			if (ParentShellPageInstance is { SlimContentPage: not null, ShellViewModel: { } shellViewModel } parentShellPage &&
-				navigationArguments is { } args)
+			if (ParentShellPageInstance is { SlimContentPage: not null } parentShellPage)
 			{
+				var shellViewModel = parentShellPage.ShellViewModel
+					?? throw new InvalidOperationException("The layout does not have a shell view model.");
 				var folderSettings = parentShellPage.InstanceViewModel.FolderSettings;
-				var layoutType = folderSettings.GetLayoutType(shellViewModel.WorkingDirectory);
+				var workingDirectory = shellViewModel.WorkingDirectory
+					?? throw new InvalidOperationException("The shell page does not have a working directory.");
+				var layoutType = folderSettings.GetLayoutType(workingDirectory);
 
 				if (layoutType != parentShellPage.CurrentPageType)
 				{
-					folderSettings.PendingLayoutSwitchSelection = SelectedItems.Select(item => item.ItemNameRaw).ToList();
+					var args = navigationArguments
+						?? throw new InvalidOperationException("The layout navigation arguments are not available.");
+					folderSettings.PendingLayoutSwitchSelection = SelectedItems.Select(item => item.ItemNameRaw!).ToList();
 
 					parentShellPage.NavigateWithArguments(layoutType, new NavigationArguments()
 					{
@@ -411,7 +435,11 @@ namespace Files.App.Views.Layouts
 				// Adaptive layout fires this handler on folder-load completion - skip the focus
 				// restore so an in-progress omnibar query isn't lost.
 				if (!UIHelpers.IsTextInputFocused(XamlRoot))
-					parentShellPage.PaneHolder?.FocusActivePane();
+				{
+					var paneHolder = parentShellPage.PaneHolder
+						?? throw new InvalidOperationException("The parent shell pane is not available.");
+					paneHolder.FocusActivePane();
+				}
 			}
 		}
 
@@ -454,7 +482,7 @@ namespace Files.App.Views.Layouts
 
 			if (!args.IsSearchResultPage)
 			{
-				var navigationPath = args.NavPathParam ?? string.Empty;
+				var navigationPath = args.NavPathParam;
 				var previousDir = shellViewModel.WorkingDirectory;
 				await shellViewModel.SetWorkingDirectoryAsync(navigationPath);
 
@@ -491,7 +519,7 @@ namespace Files.App.Views.Layouts
 			}
 			else
 			{
-				var searchPath = args.SearchPathParam ?? string.Empty;
+				var searchPath = args.SearchPathParam;
 				await shellViewModel.SetWorkingDirectoryAsync(searchPath);
 
 				parentShellPage.ToolbarViewModel.CanGoForward = false;
@@ -518,7 +546,7 @@ namespace Files.App.Views.Layouts
 					await parentShellPage.UpdatePathUIToWorkingDirectoryAsync(null, string.Format(Strings.SearchPagePathBoxOverrideText.GetLocalizedResource(), args.SearchQuery, displayName));
 					var searchInstance = new Utils.Storage.FolderSearch
 					{
-						Query = args.SearchQuery ?? string.Empty,
+						Query = args.SearchQuery,
 						Folder = searchPath,
 					};
 
@@ -606,8 +634,8 @@ namespace Files.App.Views.Layouts
 
 		private async Task GroupPreferenceUpdatedAsync()
 		{
-			if (ParentShellPageInstance?.ShellViewModel is not { } shellViewModel)
-				return;
+			var shellViewModel = ParentShellPageInstance?.ShellViewModel
+				?? throw new InvalidOperationException("The layout does not have a shell view model.");
 
 			// Two or more of these running at the same time will cause a crash, so cancel the previous one before beginning
 			groupingCancellationToken?.Cancel();
@@ -627,19 +655,22 @@ namespace Files.App.Views.Layouts
 
 			// Remove item jumping handler
 			CharacterReceived -= Page_CharacterReceived;
-			if (FolderSettings is { } folderSettings)
-			{
-				folderSettings.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
-				folderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
-				folderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
-				folderSettings.GroupByDateUnitPreferenceUpdated -= FolderSettings_GroupByDateUnitPreferenceUpdated;
-			}
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The layout does not have folder settings.");
+			folderSettings.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
+			folderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
+			folderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
+			folderSettings.GroupByDateUnitPreferenceUpdated -= FolderSettings_GroupByDateUnitPreferenceUpdated;
 			ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
 			BaseContextMenuFlyout.Opening -= BaseContextFlyout_Opening;
 
 			var parameter = e.Parameter as NavigationArguments;
 			if (parameter is not null && !parameter.IsLayoutSwitch)
-				ParentShellPageInstance?.ShellViewModel?.CancelLoadAndClearFiles();
+			{
+				var shellViewModel = ParentShellPageInstance?.ShellViewModel
+					?? throw new InvalidOperationException("The layout does not have a shell view model.");
+				shellViewModel.CancelLoadAndClearFiles();
+			}
 		}
 
 		private async void ItemContextFlyout_Opening(object? sender, object e)
@@ -648,9 +679,12 @@ namespace Files.App.Views.Layouts
 
 			try
 			{
-				if (ParentShellPageInstance is not { ShellViewModel: { } shellViewModel } parentShellPage ||
-					CommandsViewModel is not { } commandsViewModel)
-					return;
+				var parentShellPage = ParentShellPageInstance
+					?? throw new InvalidOperationException("The layout does not have a parent shell page.");
+				var shellViewModel = parentShellPage.ShellViewModel
+					?? throw new InvalidOperationException("The layout does not have a shell view model.");
+				var commandsViewModel = CommandsViewModel
+					?? throw new InvalidOperationException("The layout commands are not initialized.");
 
 				var instanceViewModel = parentShellPage.InstanceViewModel;
 				if (!parentShellPage.IsCurrentInstance || !parentShellPage.IsCurrentPane)
@@ -673,7 +707,7 @@ namespace Files.App.Views.Layouts
 
 					shellContextMenuItemCancellationToken?.Cancel();
 					shellContextMenuItemCancellationToken = new CancellationTokenSource();
-					SelectedItemsPropertiesViewModel.CheckAllFileExtensions(SelectedItems.Select(selectedItem => selectedItem.FileExtension).ToList());
+					SelectedItemsPropertiesViewModel.CheckAllFileExtensions(SelectedItems.Select(selectedItem => selectedItem?.FileExtension).ToList());
 
 					shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
 					var items = ContentPageContextFlyoutFactory.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: instanceViewModel, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: commandsViewModel, shiftPressed: shiftPressed, itemViewModel: null);
@@ -716,9 +750,12 @@ namespace Files.App.Views.Layouts
 
 			try
 			{
-				if (ParentShellPageInstance is not { ShellViewModel: { } shellViewModel } parentShellPage ||
-					CommandsViewModel is not { } commandsViewModel)
-					return;
+				var parentShellPage = ParentShellPageInstance
+					?? throw new InvalidOperationException("The layout does not have a parent shell page.");
+				var shellViewModel = parentShellPage.ShellViewModel
+					?? throw new InvalidOperationException("The layout does not have a shell view model.");
+				var commandsViewModel = CommandsViewModel
+					?? throw new InvalidOperationException("The layout commands are not initialized.");
 
 				var instanceViewModel = parentShellPage.InstanceViewModel;
 				if (!parentShellPage.IsCurrentInstance || !parentShellPage.IsCurrentPane)
@@ -739,7 +776,9 @@ namespace Files.App.Views.Layouts
 				shellContextMenuItemCancellationToken = new CancellationTokenSource();
 
 				shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-				List<ListedItem> contextItems = shellViewModel.CurrentFolder is { } currentFolder ? [currentFolder] : [];
+				var currentFolder = shellViewModel.CurrentFolder
+					?? throw new InvalidOperationException("The current folder is not available.");
+				List<ListedItem> contextItems = [currentFolder];
 				var items = ContentPageContextFlyoutFactory.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: instanceViewModel, selectedItems: contextItems, commandsViewModel: commandsViewModel, shiftPressed: shiftPressed, itemViewModel: shellViewModel, selectedItemsPropertiesViewModel: null);
 
 				BaseContextMenuFlyout.PrimaryCommands.Clear();
@@ -849,8 +888,12 @@ namespace Files.App.Views.Layouts
 
 			async void RequireTagGroupsUpdate(object? sender, EventArgs e)
 			{
-				if (ParentShellPageInstance?.ShellViewModel is { } shellViewModel)
+				if (ParentShellPageInstance is not null)
+				{
+					var shellViewModel = ParentShellPageInstance.ShellViewModel
+						?? throw new InvalidOperationException("The layout does not have a shell view model.");
 					await shellViewModel.RefreshTagGroups();
+				}
 			}
 
 			void HandleClosed(object? sender, object e)
@@ -875,12 +918,11 @@ namespace Files.App.Views.Layouts
 				|| x.ItemType != ContextMenuFlyoutItemType.Separator).ToList();
 
 			var subMenuLoadTasks = mainShellMenuItems.Concat(overflowShellMenuItems)
-				.Select(x => x.LoadSubMenuAction)
-				.WhereNotNull()
-				.Select(loadSubMenu => loadSubMenu());
+				.Where(x => x.LoadSubMenuAction is not null)
+				.Select(x => x.LoadSubMenuAction!());
 			await Task.WhenAll(subMenuLoadTasks);
 
-			var overflowItems = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems) ?? [];
+			var overflowItems = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems)!;
 			var mainItems = ContextFlyoutModelToElementHelper.GetAppBarButtonsFromModelIgnorePrimary(mainShellMenuItems);
 
 			var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(MainWindow.Instance);
@@ -1024,10 +1066,7 @@ namespace Files.App.Views.Layouts
 
 			var mainSubMenuTasks = mainItemsWithSubMenu.Select(async item =>
 			{
-				if (item.LoadSubMenuAction is not { } loadSubMenu)
-					return;
-
-				await loadSubMenu();
+				await item.LoadSubMenuAction!();
 				ShellContextFlyoutFactory.AddItemsToMainMenu(mainItems, item);
 			});
 
@@ -1036,10 +1075,7 @@ namespace Files.App.Views.Layouts
 
 			var overflowSubMenuTasks = overflowItemsWithSubMenu.Select(async item =>
 			{
-				if (item.LoadSubMenuAction is not { } loadSubMenu)
-					return;
-
-				await loadSubMenu();
+				await item.LoadSubMenuAction!();
 				ShellContextFlyoutFactory.AddItemsToOverflowMenu(overflowItem, item);
 			});
 
@@ -1084,7 +1120,9 @@ namespace Files.App.Views.Layouts
 
 		protected virtual void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
 		{
-			if (ParentShellPageInstance?.IsCurrentInstance ?? false)
+			var parentShellPage = ParentShellPageInstance
+				?? throw new InvalidOperationException("The layout does not have a parent shell page.");
+			if (parentShellPage.IsCurrentInstance)
 			{
 				char letter = args.Character;
 				JumpString += letter.ToString().ToLowerInvariant();
@@ -1107,19 +1145,21 @@ namespace Files.App.Views.Layouts
 				var sortedItems = SortingHelper.OrderFileList(itemList, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst).ToList();
 				var orderedItems = sortedItems.SkipWhile(x => x != firstItem).Concat(sortedItems.TakeWhile(x => x != firstItem)).ToList();
 
-				var shellItemList = SafetyExtensions.IgnoreExceptions(() => orderedItems.Select(x => new VanaraWindowsShell.ShellItem(x.ItemPath)).ToArray());
-				if (shellItemList is { Length: > 0 } &&
-					shellItemList[0].FileSystemPath is not null &&
-					shellItemList[0].Parent is { } parentShellItem &&
+				var shellItemList = SafetyExtensions.IgnoreExceptions(() => orderedItems.Select(item => new VanaraWindowsShell.ShellItem(
+					item.ItemPath ?? throw new InvalidOperationException("A dragged item does not have a path."))).ToArray());
+				if (shellItemList?[0].FileSystemPath is not null &&
 					!instanceViewModel.IsPageTypeSearchResults)
 				{
+					var parentShellItem = shellItemList[0].Parent
+						?? throw new InvalidOperationException("The dragged shell item does not have a parent.");
 					var iddo = parentShellItem.GetChildrenUIObjects<IDataObject>(HWND.NULL, shellItemList);
 					shellItemList.ForEach(x => x.Dispose());
 
 					var format = System.Windows.Forms.DataFormats.GetFormat("Shell IDList Array");
-					if (iddo.TryGetData<byte[]>((uint)format.Id, out var data) && data is not null)
+					if (iddo.TryGetData<byte[]>((uint)format.Id, out var data))
 					{
-						var mem = new MemoryStream(data).AsRandomAccessStream();
+						var mem = new MemoryStream(data
+							?? throw new InvalidOperationException("The shell drag data is empty.")).AsRandomAccessStream();
 						e.Data.SetData(format.Name, mem);
 					}
 				}
@@ -1209,7 +1249,7 @@ namespace Files.App.Views.Layouts
 							e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
 						}
 						else if (draggedItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
-							|| ZipStorageFolder.IsZipPath(item.ItemPath))
+							|| ZipStorageFolder.IsZipPath(item.ItemPath!))
 						{
 							e.DragUIOverride.Caption = string.Format(Strings.CopyToFolderCaptionText.GetLocalizedResource(), item.Name);
 							e.AcceptedOperation = DataPackageOperation.Copy;
@@ -1275,7 +1315,14 @@ namespace Files.App.Views.Layouts
 			dragOverItem = null;
 			var item = GetItemFromElement(sender);
 			if (item is not null)
-				await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as IShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable, item.IsScriptFile);
+			{
+				var parentShellPage = ParentShellPageInstance
+					?? throw new InvalidOperationException("The layout page does not have a parent shell page.");
+				var targetPath = (item as IShortcutItem)?.TargetPath;
+				var destination = (!string.IsNullOrEmpty(targetPath) ? targetPath : item.ItemPath)
+					?? throw new InvalidOperationException("The drop target does not have a path.");
+				await parentShellPage.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, destination, false, true, item.IsExecutable, item.IsScriptFile);
+			}
 
 			deferral.Complete();
 		}
@@ -1324,7 +1371,9 @@ namespace Files.App.Views.Layouts
 			if (inRecycleQueue)
 			{
 				UpdateItemToolTip(container, null);
-				ParentShellPageInstance?.ShellViewModel?.CancelExtendedPropertiesLoadingForItem(listedItem);
+				var shellViewModel = ParentShellPageInstance?.ShellViewModel
+					?? throw new InvalidOperationException("The layout does not have a shell view model.");
+				shellViewModel.CancelExtendedPropertiesLoadingForItem(listedItem);
 			}
 			else
 			{
@@ -1339,8 +1388,8 @@ namespace Files.App.Views.Layouts
 					uint callbackPhase = 3;
 					args.RegisterUpdateCallback(callbackPhase, async (s, c) =>
 					{
-						if (ParentShellPageInstance?.ShellViewModel is not { } shellViewModel)
-							return;
+						var shellViewModel = ParentShellPageInstance?.ShellViewModel
+							?? throw new InvalidOperationException("The layout does not have a shell view model.");
 
 						await shellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
 						if (shellViewModel.EnabledGitProperties is not GitProperties.None && listedItem is IGitItem gitItem)
@@ -1546,8 +1595,10 @@ namespace Files.App.Views.Layouts
 
 		private void UpdateCollectionViewSource()
 		{
-			if (ParentShellPageInstance?.ShellViewModel is not { } shellViewModel)
+			if (ParentShellPageInstance is not { } parentShellPage)
 				return;
+			var shellViewModel = parentShellPage.ShellViewModel
+				?? throw new InvalidOperationException("The layout does not have a shell view model.");
 
 			if (shellViewModel.FilesAndFolders.IsGrouped)
 			{

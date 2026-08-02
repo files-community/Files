@@ -33,8 +33,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref _CanCommit, value);
 		}
 
-		private string _NewName = string.Empty;
-		public string NewName
+		private string? _NewName;
+		public string? NewName
 		{
 			get => _NewName;
 			set => SetProperty(ref _NewName, value);

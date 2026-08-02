@@ -163,8 +163,12 @@ namespace Files.App.Utils.CommandLine
 				}
 			}
 
-			if (parsedArgs.Count == 0 && args is { Length: >= 2 })
-				parsedArgs.Add(new KeyValuePair<string, string[]>("Cmdless", [string.Join(' ', args.Skip(1)).TrimStart()]));
+			if (parsedArgs.Count == 0)
+			{
+				ArgumentNullException.ThrowIfNull(args);
+				if (args.Length >= 2)
+					parsedArgs.Add(new KeyValuePair<string, string[]>("Cmdless", [string.Join(' ', args.Skip(1)).TrimStart()]));
+			}
 
 			return parsedArgs;
 		}

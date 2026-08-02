@@ -96,12 +96,12 @@ namespace Files.App.ViewModels.Dialogs
 			}
 		}
 
-		private string titleText = string.Empty;
+		private string? titleText;
 
 		/// <summary>
 		/// The Title text of the dialog.
 		/// </summary>
-		public string TitleText
+		public string? TitleText
 		{
 			get => titleText;
 			set => SetProperty(ref titleText, value);
@@ -273,16 +273,14 @@ namespace Files.App.ViewModels.Dialogs
 			{
 				if (SetProperty(ref primaryButtonAction, value))
 				{
-					PrimaryButtonCommand = value is null
-						? null
-						: new RelayCommand<ContentDialogButtonClickEventArgs>((e) =>
-						{
-							if (e is null)
-								return;
-
-							DynamicResult = DynamicDialogResult.Primary;
-							value(this, e);
-						});
+					PrimaryButtonCommand = new RelayCommand<ContentDialogButtonClickEventArgs>((e) =>
+					{
+						var action = PrimaryButtonAction
+							?? throw new InvalidOperationException("The primary button action has not been configured.");
+						var eventArgs = e ?? throw new ArgumentNullException(nameof(e));
+						DynamicResult = DynamicDialogResult.Primary;
+						action(this, eventArgs);
+					});
 				}
 			}
 		}
@@ -299,16 +297,14 @@ namespace Files.App.ViewModels.Dialogs
 			{
 				if (SetProperty(ref secondaryButtonAction, value))
 				{
-					SecondaryButtonCommand = value is null
-						? null
-						: new RelayCommand<ContentDialogButtonClickEventArgs>((e) =>
-						{
-							if (e is null)
-								return;
-
-							DynamicResult = DynamicDialogResult.Secondary;
-							value(this, e);
-						});
+					SecondaryButtonCommand = new RelayCommand<ContentDialogButtonClickEventArgs>((e) =>
+					{
+						var action = SecondaryButtonAction
+							?? throw new InvalidOperationException("The secondary button action has not been configured.");
+						var eventArgs = e ?? throw new ArgumentNullException(nameof(e));
+						DynamicResult = DynamicDialogResult.Secondary;
+						action(this, eventArgs);
+					});
 				}
 			}
 		}
@@ -325,16 +321,14 @@ namespace Files.App.ViewModels.Dialogs
 			{
 				if (SetProperty(ref closeButtonAction, value))
 				{
-					CloseButtonCommand = value is null
-						? null
-						: new RelayCommand<ContentDialogButtonClickEventArgs>((e) =>
-						{
-							if (e is null)
-								return;
-
-							DynamicResult = DynamicDialogResult.Cancel;
-							value(this, e);
-						});
+					CloseButtonCommand = new RelayCommand<ContentDialogButtonClickEventArgs>((e) =>
+					{
+						var action = CloseButtonAction
+							?? throw new InvalidOperationException("The close button action has not been configured.");
+						var eventArgs = e ?? throw new ArgumentNullException(nameof(e));
+						DynamicResult = DynamicDialogResult.Cancel;
+						action(this, eventArgs);
+					});
 				}
 			}
 		}
@@ -356,16 +350,14 @@ namespace Files.App.ViewModels.Dialogs
 			{
 				if (SetProperty(ref keyDownAction, value))
 				{
-					KeyDownCommand = value is null
-						? null
-						: new RelayCommand<KeyRoutedEventArgs>((e) =>
-						{
-							if (e is null)
-								return;
-
-							DynamicResult = DynamicDialogResult.Cancel;
-							value(this, e);
-						});
+					KeyDownCommand = new RelayCommand<KeyRoutedEventArgs>((e) =>
+					{
+						var action = KeyDownAction
+							?? throw new InvalidOperationException("The key-down action has not been configured.");
+						var eventArgs = e ?? throw new ArgumentNullException(nameof(e));
+						DynamicResult = DynamicDialogResult.Cancel;
+						action(this, eventArgs);
+					});
 				}
 			}
 		}
@@ -379,13 +371,13 @@ namespace Files.App.ViewModels.Dialogs
 			{
 				if (SetProperty(ref displayControlOnLoaded, value))
 				{
-					DisplayControlOnLoadedCommand = value is null
-						? null
-						: new RelayCommand<RoutedEventArgs>((e) =>
-						{
-							if (e is not null)
-								value(this, e);
-						});
+					DisplayControlOnLoadedCommand = new RelayCommand<RoutedEventArgs>((e) =>
+					{
+						var action = DisplayControlOnLoaded
+							?? throw new InvalidOperationException("The loaded action has not been configured.");
+						var eventArgs = e ?? throw new ArgumentNullException(nameof(e));
+						action(this, eventArgs);
+					});
 				}
 			}
 		}
@@ -413,14 +405,18 @@ namespace Files.App.ViewModels.Dialogs
 			// Create default implementation
 			TitleText = "DynamicDialog";
 			PrimaryButtonText = "Ok";
-			PrimaryButtonAction = (vm, e) => HideDialog?.Invoke();
-			SecondaryButtonAction = (vm, e) => HideDialog?.Invoke();
-			CloseButtonAction = (vm, e) => HideDialog?.Invoke();
+			PrimaryButtonAction = (vm, e) => (HideDialog
+				?? throw new InvalidOperationException("The dialog has not been attached to a view."))();
+			SecondaryButtonAction = (vm, e) => (HideDialog
+				?? throw new InvalidOperationException("The dialog has not been attached to a view."))();
+			CloseButtonAction = (vm, e) => (HideDialog
+				?? throw new InvalidOperationException("The dialog has not been attached to a view."))();
 			KeyDownAction = (vm, e) =>
 			{
 				if (e.Key == VirtualKey.Escape)
 				{
-					HideDialog?.Invoke();
+					(HideDialog
+						?? throw new InvalidOperationException("The dialog has not been attached to a view."))();
 				}
 			};
 			DisplayControlOnLoaded = (vm, e) =>
@@ -447,7 +443,7 @@ namespace Files.App.ViewModels.Dialogs
 
 			AdditionalData = null;
 			displayControl = null;
-			titleText = string.Empty;
+			titleText = null;
 			subtitleText = null;
 			primaryButtonText = null;
 			secondaryButtonText = null;

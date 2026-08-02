@@ -55,7 +55,8 @@ namespace Files.App.ViewModels.Properties
 			SaveChangedPropertiesCommand = new AsyncRelayCommand(ExecuteSaveChangedPropertiesCommandAsync);
 			CancelChangedPropertiesCommand = new RelayCommand(ExecuteCancelChangedPropertiesCommand);
 
-			NavigationItems = PropertiesNavigationItemsFactory.Initialize(parameter.Parameter);
+			NavigationItems = PropertiesNavigationItemsFactory.Initialize(parameter.Parameter
+				?? throw new InvalidOperationException("The properties parameter does not contain an item."));
 			foreach (var navItem in NavigationItems)
 				FlatNavigationItems.Add(new FlatSidebarItem(navItem, 0));
 
@@ -139,7 +140,7 @@ namespace Files.App.ViewModels.Properties
 		}
 	}
 
-	public sealed partial class PropertiesNavigationItem : ObservableObject, ISidebarItemModel
+	public sealed partial class PropertiesNavigationItem : ObservableObject, ISidebarItemModel, ISidebarItemPresentationModel
 	{
 		public PropertiesNavigationViewItemType ItemType { get; }
 		public string Text { get; }
@@ -151,8 +152,8 @@ namespace Files.App.ViewModels.Properties
 
 		public object? ToolTip => Text;
 		public object? ItemDecorator => null;
-		FrameworkElement ISidebarItemModel.IconElement => IconElement;
-		FrameworkElement? ISidebarItemModel.ItemDecorator => null;
+		FrameworkElement ISidebarItemPresentationModel.IconElement => IconElement;
+		FrameworkElement? ISidebarItemPresentationModel.ItemDecorator => null;
 
 		public PropertiesNavigationItem(PropertiesNavigationViewItemType itemType, string text, ThemedIcon iconElement)
 		{

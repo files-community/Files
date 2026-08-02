@@ -6,6 +6,7 @@ using Files.Shared.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using System.Collections.Concurrent;
+using System.IO;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.Properties
@@ -18,7 +19,9 @@ namespace Files.App.ViewModels.Properties
 		/// <summary>
 		/// The name to display
 		/// </summary>
-		public string Name => LocalizedName ?? NameResource?.GetLocalizedResource() ?? string.Empty;
+		public string Name => LocalizedName ?? (NameResource
+			?? throw new InvalidOperationException("The file property does not have a name resource."))
+			.GetLocalizedResource();
 
 		/// <summary>
 		/// The name of the string resource for the property name
@@ -163,14 +166,18 @@ namespace Files.App.ViewModels.Properties
 		/// <returns></returns>
 		public Task SaveValueToFile(BaseStorageFile file)
 		{
-			if (string.IsNullOrEmpty(Property) || file.Properties is null)
+			if (!string.IsNullOrEmpty(Property) || file.Properties is null)
 			{
 				return Task.CompletedTask;
 			}
+			if (Property is null)
+				throw new InvalidOperationException("The file property does not have a property identifier.");
+			var converter = Converter
+				?? throw new InvalidOperationException("The file property does not have a value converter.");
 
 			var propsToSave = new Dictionary<string, object?>
 			{
-				{ Property, Converter?.ConvertBack(Value, null, null, null) ?? Value }
+				{ Property, converter.ConvertBack(Value, null, null, null) }
 			};
 
 			return file.Properties.SaveNullablePropertiesAsync(propsToSave).AsTask();
@@ -303,7 +310,8 @@ namespace Files.App.ViewModels.Properties
 				cachedPropertiesListFiles[path] = text;
 			}
 
-			List<FileProperty> list = JsonSerializer.Deserialize<List<FileProperty>>(text) ?? [];
+			List<FileProperty> list = JsonSerializer.Deserialize<List<FileProperty>>(text)
+				?? throw new InvalidDataException($"The property definition file '{path}' does not contain a property list.");
 
 			var propsToGet = new List<string>();
 
@@ -357,7 +365,7 @@ namespace Files.App.ViewModels.Properties
 			return list;
 		}
 
-		public static bool IsSectionApplicableForEmpty(string sectionResource, string fileExtension)
+		public static bool IsSectionApplicableForEmpty(string? sectionResource, string? fileExtension)
 		{
 			return sectionResource switch
 			{

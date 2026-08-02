@@ -27,9 +27,7 @@ namespace Files.App.Converters
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
 		{
-			if (value is not string text)
-				return Array.Empty<double>();
-
+			var text = value as string ?? throw new ArgumentException("The value must be a string.", nameof(value));
 			var strArray = text.Split("; ");
 			var array = new double[strArray.Length];
 

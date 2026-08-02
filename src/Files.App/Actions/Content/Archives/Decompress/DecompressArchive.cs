@@ -44,7 +44,7 @@ namespace Files.App.Actions
 
 			BaseStorageFile? archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(archivePath);
 
-			if (archive is null)
+			if (archive?.Path is null)
 				return;
 
 			var isArchiveEncrypted = await FilesystemTasks.Wrap(() => StorageArchiveService.IsEncryptedAsync(archive.Path));
@@ -91,22 +91,16 @@ namespace Files.App.Actions
 
 			if (destinationFolder is null)
 			{
-				var parentPath = Path.GetDirectoryName(archive.Path);
-				if (parentPath is null)
-					return;
-
-				BaseStorageFolder? parentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(parentPath);
+				BaseStorageFolder? parentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(Path.GetDirectoryName(archive.Path) ?? string.Empty);
 				if (parentFolder is null)
-					return;
+					throw new InvalidOperationException("The archive's parent folder could not be resolved.");
 
 				destinationFolder = await FilesystemTasks.WrapNullable(() => parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath), CreationCollisionOption.GenerateUniqueName).AsTask());
-				if (destinationFolder is null)
-					return;
 			}
 
 			// Operate decompress
 			var result = await FilesystemTasks.Wrap(() =>
-				StorageArchiveService.DecompressAsync(archive.Path, destinationFolder.Path, password, encoding));
+				StorageArchiveService.DecompressAsync(archive.Path, destinationFolder?.Path ?? string.Empty, password, encoding));
 
 			if (decompressArchiveViewModel.OpenDestinationFolderOnCompletion)
 				await NavigationHelpers.OpenPath(destinationFolderPath, context.ShellPage, FilesystemItemType.Directory);

@@ -40,9 +40,15 @@ namespace Files.App.Actions
 			if (ContentPageContext.ShellPage is { } shellPage)
 			{
 				if (IsOn)
-					shellPage.ShellViewModel?.InvokeFocusFilterHeader();
+				{
+					var shellViewModel = shellPage.ShellViewModel ?? throw new InvalidOperationException("The active shell page has no shell view model.");
+					shellViewModel.InvokeFocusFilterHeader();
+				}
 				else
-					shellPage.PaneHolder?.FocusActivePane();
+				{
+					var paneHolder = shellPage.PaneHolder ?? throw new InvalidOperationException("The active shell page has no pane holder.");
+					paneHolder.FocusActivePane();
+				}
 			}
 
 			return Task.CompletedTask;

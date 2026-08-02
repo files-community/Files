@@ -12,19 +12,17 @@ namespace Files.App.Helpers
 	/// </summary>
 	public static partial class Win32Helper
 	{
-		public static async Task<bool> InvokeWin32ComponentAsync(string applicationPath, IShellPage associatedInstance, string? arguments = null, bool runAsAdmin = false, string? workingDirectory = null)
+		public static async Task<bool> InvokeWin32ComponentAsync(string applicationPath, IShellPage? associatedInstance, string? arguments = null, bool runAsAdmin = false, string? workingDirectory = null)
 		{
 			return await InvokeWin32ComponentsAsync(applicationPath.CreateEnumerable(), associatedInstance, arguments, runAsAdmin, workingDirectory);
 		}
 
-		public static async Task<bool> InvokeWin32ComponentsAsync(IEnumerable<string> applicationPaths, IShellPage associatedInstance, string? arguments = null, bool runAsAdmin = false, string? workingDirectory = null)
+		public static async Task<bool> InvokeWin32ComponentsAsync(IEnumerable<string> applicationPaths, IShellPage? associatedInstance, string? arguments = null, bool runAsAdmin = false, string? workingDirectory = null)
 		{
 			var application = applicationPaths.FirstOrDefault();
-			if (string.IsNullOrWhiteSpace(application))
-				return false;
 
 			if (string.IsNullOrEmpty(workingDirectory) &&
-				associatedInstance.ShellViewModel is { IsSearchResults: false } shellViewModel)
+				associatedInstance?.ShellViewModel is { IsSearchResults: false } shellViewModel)
 			{
 				workingDirectory = shellViewModel.WorkingDirectory;
 			}
@@ -36,7 +34,8 @@ namespace Files.App.Helpers
 				{
 					ProcessStartInfo startInfo = new ProcessStartInfo
 					{
-						FileName = application,
+						FileName = application
+							?? throw new InvalidOperationException("No application path was provided."),
 						Arguments = arguments ?? string.Empty,
 						Verb = "runas",
 						WorkingDirectory = workingDirectory ?? string.Empty,
@@ -59,7 +58,8 @@ namespace Files.App.Helpers
 			}
 			else
 			{
-				return await LaunchHelper.LaunchAppAsync(application, arguments ?? string.Empty, workingDirectory ?? string.Empty);
+				return await LaunchHelper.LaunchAppAsync(application
+					?? throw new InvalidOperationException("No application path was provided."), arguments, workingDirectory);
 			}
 		}
 

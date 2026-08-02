@@ -9,14 +9,19 @@ namespace Files.App.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
-			return value?.ToString() ?? string.Empty;
+			return value is not null ? value.ToString()! : string.Empty;
 		}
 
 		public object? ConvertBack(object value, Type targetType, object parameter, string language)
 		{
-			return value is string text && uint.TryParse(text, out var result)
-				? result
-				: null;
+			try
+			{
+				return uint.Parse((value as string)!);
+			}
+			catch (FormatException)
+			{
+				return null;
+			}
 		}
 	}
 }

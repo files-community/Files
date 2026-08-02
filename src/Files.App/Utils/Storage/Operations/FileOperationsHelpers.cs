@@ -781,10 +781,11 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		public static Task<bool> CreateOrUpdateLinkAsync(string linkSavePath, string targetPath, string arguments = "", string workingDirectory = "", bool runAsAdmin = false, SHOW_WINDOW_CMD showWindowCommand = SHOW_WINDOW_CMD.SW_NORMAL)
+		public static Task<bool> CreateOrUpdateLinkAsync(string linkSavePath, string? targetPath, string? arguments = "", string? workingDirectory = "", bool runAsAdmin = false, SHOW_WINDOW_CMD showWindowCommand = SHOW_WINDOW_CMD.SW_NORMAL)
 		{
 			try
 			{
+				ArgumentNullException.ThrowIfNull(targetPath);
 				if (FileExtensionHelpers.IsShortcutFile(linkSavePath))
 				{
 					using var newLink = new ShellLink(targetPath, arguments, workingDirectory);

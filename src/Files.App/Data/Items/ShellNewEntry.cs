@@ -5,9 +5,9 @@ namespace Files.App.Data.Items
 {
 	public sealed class ShellNewEntry
 	{
-		public required string Extension { get; set; }
+		public string? Extension { get; set; }
 
-		public required string Name { get; set; }
+		public string? Name { get; set; }
 
 		public string? Command { get; set; }
 

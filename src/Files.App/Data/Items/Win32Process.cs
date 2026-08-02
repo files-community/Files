@@ -5,7 +5,7 @@ namespace Files.App.Data.Items
 {
 	public sealed class Win32Process
 	{
-		public required string Name { get; set; }
+		public string? Name { get; set; }
 
 		public int Pid { get; set; }
 

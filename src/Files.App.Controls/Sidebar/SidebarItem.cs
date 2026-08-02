@@ -137,11 +137,12 @@ namespace Files.App.Controls
 
 		private void UpdateItemPresentation()
 		{
-			AutomationProperties.SetAutomationId(this, Item?.Text ?? string.Empty);
-			Text = Item?.Text;
-			ToolTip = Item?.ToolTip;
-			Icon = Item?.IconElement;
-			Decorator = Item?.ItemDecorator;
+			var presentation = Item as ISidebarItemPresentationModel;
+			AutomationProperties.SetAutomationId(this, presentation?.Text ?? string.Empty);
+			Text = presentation?.Text;
+			ToolTip = presentation?.ToolTip;
+			Icon = presentation?.IconElement;
+			Decorator = presentation?.ItemDecorator;
 			IsExpanded = Item?.IsExpanded ?? true;
 		}
 
@@ -211,24 +212,25 @@ namespace Files.App.Controls
 					UpdateExpansionState();
 					ReevaluateSelection();
 					break;
-				case nameof(ISidebarItemModel.Text):
+				case nameof(ISidebarItemPresentationModel.Text):
 					if (UseItemPresentation)
 					{
-						Text = Item?.Text;
-						AutomationProperties.SetAutomationId(this, Item?.Text ?? string.Empty);
+						var presentation = Item as ISidebarItemPresentationModel;
+						Text = presentation?.Text;
+						AutomationProperties.SetAutomationId(this, presentation?.Text ?? string.Empty);
 					}
 					break;
-				case nameof(ISidebarItemModel.ToolTip):
+				case nameof(ISidebarItemPresentationModel.ToolTip):
 					if (UseItemPresentation)
-						ToolTip = Item?.ToolTip;
+						ToolTip = (Item as ISidebarItemPresentationModel)?.ToolTip;
 					break;
-				case nameof(ISidebarItemModel.IconElement):
+				case nameof(ISidebarItemPresentationModel.IconElement):
 					if (UseItemPresentation)
-						Icon = Item?.IconElement;
+						Icon = (Item as ISidebarItemPresentationModel)?.IconElement;
 					break;
-				case nameof(ISidebarItemModel.ItemDecorator):
+				case nameof(ISidebarItemPresentationModel.ItemDecorator):
 					if (UseItemPresentation)
-						Decorator = Item?.ItemDecorator;
+						Decorator = (Item as ISidebarItemPresentationModel)?.ItemDecorator;
 					break;
 				case nameof(ISidebarItemModel.IsExpanded):
 					if (UseItemPresentation)

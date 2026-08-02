@@ -161,7 +161,7 @@ namespace Files.App.ViewModels.Settings
 			{
 				var file = await StorageHelpers.ToStorageItem<BaseStorageFile>(filePath);
 				if (file is null)
-					return;
+					throw new IOException($"The selected settings file '{filePath}' could not be read.");
 
 				if (await ZipStorageFolder.FromStorageFileAsync(file) is not ZipStorageFolder zipFolder)
 					return;
@@ -222,7 +222,7 @@ namespace Files.App.ViewModels.Settings
 
 				var file = await StorageHelpers.ToStorageItem<BaseStorageFile>(filePath);
 				if (file is null)
-					return;
+					throw new IOException($"The settings export file '{filePath}' could not be opened.");
 
 				await ZipStorageFolder.InitArchive(file, OutArchiveFormat.Zip);
 

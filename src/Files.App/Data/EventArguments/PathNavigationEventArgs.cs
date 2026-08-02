@@ -5,7 +5,7 @@ namespace Files.App.Data.EventArguments
 {
 	public sealed class PathNavigationEventArgs
 	{
-		public required string ItemPath { get; set; }
+		public string? ItemPath { get; set; }
 
 		public string? ItemName { get; set; }
 

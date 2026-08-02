@@ -138,7 +138,7 @@ namespace Files.App.Services.Settings
 			if (FileTagList is not null)
 			{
 				FlushSettings();
-				OnSettingImportedEvent?.Invoke(this, EventArgs.Empty);
+				OnSettingImportedEvent?.Invoke(this, null!);
 				return true;
 			}
 

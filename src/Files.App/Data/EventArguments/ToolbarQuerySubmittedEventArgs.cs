@@ -5,6 +5,6 @@ namespace Files.App.Data.EventArguments
 {
 	public sealed class ToolbarQuerySubmittedEventArgs
 	{
-		public required string QueryText { get; init; }
+		public string? QueryText { get; set; }
 	}
 }

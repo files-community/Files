@@ -79,7 +79,7 @@ namespace Files.App.Data.Models
 			LoadFileIcon = item.LoadFileIcon;
 			NeedsPlaceholderGlyph = item.NeedsPlaceholderGlyph;
 			ItemPath = item.ItemPath;
-			Name = item.Name;
+			Name = item.Name!;
 			FileImage = item.FileImage;
 		}
 

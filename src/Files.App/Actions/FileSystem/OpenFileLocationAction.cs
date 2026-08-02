@@ -36,7 +36,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.ShellPage is not { ShellViewModel: { } shellViewModel } shellPage)
+			if (context.ShellPage?.ShellViewModel is not { } shellViewModel)
 				return;
 
 			var item = context.SelectedItem as IShortcutItem;
@@ -46,21 +46,19 @@ namespace Files.App.Actions
 
 			// Check if destination path exists
 			var folderPath = Path.GetDirectoryName(item.TargetPath);
-			if (folderPath is null)
-			{
-				await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidItemDialogTitle.GetLocalizedResource(),
-					string.Format(Strings.InvalidItemDialogContent.GetLocalizedResource(), Environment.NewLine, FileSystemStatusCode.Generic.ToString()));
-				return;
-			}
-
-			var destFolder = await shellViewModel.GetFolderWithPathFromPathAsync(folderPath);
+			FilesystemResult<StorageFolderWithPath> destFolder = folderPath is null
+				? new(null, FileSystemStatusCode.Generic)
+				: await shellViewModel.GetFolderWithPathFromPathAsync(folderPath);
 
 			if (destFolder)
 			{
+				if (context.ShellPage is not { } shellPage)
+					return;
+
 				shellPage.NavigateWithArguments(shellPage.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
 				{
 					NavPathParam = folderPath,
-					SelectItems = [Path.GetFileName(item.TargetPath.TrimPath()) ?? string.Empty],
+					SelectItems = [Path.GetFileName(item.TargetPath.TrimPath())!],
 					AssociatedTabInstance = shellPage
 				});
 			}

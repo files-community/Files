@@ -5,13 +5,17 @@ using Files.App.Controls;
 
 namespace Files.App.Data.Contracts
 {
-	public interface INavigationControlItem : IComparable<INavigationControlItem>, INotifyPropertyChanged, ISidebarItemModel
+	public interface INavigationControlItem : IComparable<INavigationControlItem>, INotifyPropertyChanged, ISidebarItemModel, ISidebarItemPresentationModel
 	{
+		public string? Text { get; }
+
+		public string? Path { get; }
+
 		public SectionType Section { get; }
 
 		public NavigationControlItemType ItemType { get; }
 
-		public ContextMenuOptions MenuOptions { get; }
+		public ContextMenuOptions? MenuOptions { get; }
 	}
 
 	public enum NavigationControlItemType

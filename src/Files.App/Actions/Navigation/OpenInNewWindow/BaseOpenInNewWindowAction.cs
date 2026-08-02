@@ -52,7 +52,9 @@ namespace Files.App.Actions
 
 			foreach (ListedItem listedItem in items)
 			{
-				var selectedItemPath = (listedItem as IShortcutItem)?.TargetPath ?? listedItem.ItemPath;
+				var targetPath = (listedItem as IShortcutItem)?.TargetPath;
+				var selectedItemPath = (!string.IsNullOrEmpty(targetPath) ? targetPath : listedItem.ItemPath)
+					?? throw new InvalidOperationException("The selected item does not have a path.");
 				var folderUri = new Uri($"files-dev:?folder={@selectedItemPath}");
 
 				await Launcher.LaunchUriAsync(folderUri);

@@ -31,11 +31,8 @@ namespace Files.App.UserControls.FilePreviews
 					return;
 				}
 
-				if (ViewModel.CodeLanguage is not null)
-				{
-					var formatter = new RichTextBlockFormatter(ActualTheme);
-					formatter.FormatRichTextBlock(ViewModel.TextValue ?? string.Empty, ViewModel.CodeLanguage, codeView);
-				}
+				var formatter = new RichTextBlockFormatter(ActualTheme);
+				formatter.FormatRichTextBlock(ViewModel.TextValue!, ViewModel.CodeLanguage!, codeView);
 			}
 		}
 

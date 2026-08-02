@@ -30,9 +30,11 @@ namespace Files.App.Actions
 				if (context.PageType is ContentPageTypes.Home)
 					return false;
 
-				if (context.ShellPage is not { ShellViewModel: { } shellViewModel } page)
+				var page = context.ShellPage;
+				if (page is null)
 					return false;
 
+				var shellViewModel = page.ShellViewModel ?? throw new InvalidOperationException("The active shell page has no shell view model.");
 				int itemCount = shellViewModel.FilesAndFolders.Count;
 				int selectedItemCount = context.SelectedItems.Count;
 				if (itemCount == selectedItemCount)

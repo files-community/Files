@@ -44,9 +44,7 @@ namespace Files.App.Services
 					continue;
 				}
 
-				if (res.Result is not { } root)
-					continue;
-
+				var root = res.Result!;
 				using var thumbnail = await DriveHelpers.GetThumbnailAsync(root);
 				var type = DriveHelpers.GetDriveType(drive);
 				var label = DriveHelpers.GetExtendedDriveLabel(drive);
@@ -73,8 +71,9 @@ namespace Files.App.Services
 		public async Task UpdateDrivePropertiesAsync(IFolder drive)
 		{
 			var rootModified = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Id).AsTask());
-			if (rootModified.Result is { } root && drive is DriveItem matchingDriveEjected)
+			if (rootModified && drive is DriveItem matchingDriveEjected)
 			{
+				var root = rootModified.Result!;
 				_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
 					matchingDriveEjected.Root = root;

@@ -13,7 +13,7 @@ namespace Files.App.Data.Models
 	/// </summary>
 	public sealed class CompressArchiveModel : ICompressArchiveModel
 	{
-		private StatusCenterItemProgressModel _fileSystemProgress;
+		private StatusCenterItemProgressModel? _fileSystemProgress;
 
 		private FileSizeCalculator? _sizeCalculator;
 
@@ -63,16 +63,15 @@ namespace Files.App.Data.Models
 			_ => throw new ArgumentOutOfRangeException(nameof(SplittingSize)),
 		};
 
-		private IProgress<StatusCenterItemProgressModel> _Progress;
-		public IProgress<StatusCenterItemProgressModel> Progress
+		private IProgress<StatusCenterItemProgressModel>? _Progress;
+		public IProgress<StatusCenterItemProgressModel>? Progress
 		{
 			get => _Progress;
 			set
 			{
 				_Progress = value;
-
 				_fileSystemProgress = new(
-					Progress,
+					value,
 					false,
 					FileSystemStatusCode.InProgress);
 
@@ -132,11 +131,6 @@ namespace Files.App.Data.Models
 			ArchiveWordSizes wordSize = ArchiveWordSizes.Auto)
 		{
 			_Progress = new Progress<StatusCenterItemProgressModel>();
-			_fileSystemProgress = new(
-				_Progress,
-				false,
-				FileSystemStatusCode.InProgress);
-			_fileSystemProgress.Report(0);
 
 			Sources = source;
 			Directory = directory;
@@ -160,6 +154,9 @@ namespace Files.App.Data.Models
 		/// <inheritdoc/>
 		public async Task<bool> RunCreationAsync()
 		{
+			if (_fileSystemProgress is null)
+				throw new InvalidOperationException("Compression progress must be initialized before archive creation starts.");
+
 			string[] sources = Sources.ToArray();
 
 			var compressor = new SevenZipCompressor()
@@ -204,13 +201,12 @@ namespace Files.App.Data.Models
 				var directories = sources.Where(SystemIO.Directory.Exists);
 				var skippedItems = new List<string>();
 
-				var sizeCalculator = new FileSizeCalculator([.. files, .. directories]);
-				_sizeCalculator = sizeCalculator;
-				var sizeTask = sizeCalculator.ComputeSizeAsync(cts.Token);
+				_sizeCalculator = new FileSizeCalculator([.. files, .. directories]);
+				var sizeTask = _sizeCalculator.ComputeSizeAsync(cts.Token);
 				_ = sizeTask.ContinueWith(_ =>
 				{
-					_fileSystemProgress.TotalSize = sizeCalculator.Size;
-					_fileSystemProgress.ItemsCount = sizeCalculator.ItemsCount;
+					_fileSystemProgress.TotalSize = _sizeCalculator.Size;
+					_fileSystemProgress.ItemsCount = _sizeCalculator.ItemsCount;
 					_fileSystemProgress.EnumerationCompleted = true;
 					_fileSystemProgress.Report();
 				});
@@ -409,20 +405,20 @@ namespace Files.App.Data.Models
 				return;
 			}
 
-			_sizeCalculator?.ForceComputeFileSize(e.FilePath);
-			_fileSystemProgress.FileName = e.FileName;
+			_sizeCalculator!.ForceComputeFileSize(e.FilePath);
+			_fileSystemProgress!.FileName = e.FileName;
 			_fileSystemProgress.Report();
 		}
 
 		private void Compressor_FileCompressionFinished(object? sender, EventArgs e)
 		{
-			_fileSystemProgress.AddProcessedItemsCount(1);
+			_fileSystemProgress!.AddProcessedItemsCount(1);
 			_fileSystemProgress.Report();
 		}
 
 		private void Compressor_Compressing(object? _, ProgressEventArgs e)
 		{
-			if (_fileSystemProgress.TotalSize > 0)
+			if (_fileSystemProgress!.TotalSize > 0)
 				_fileSystemProgress.Report((_fileSystemProgress.ProcessedSize + e.PercentDelta / 100.0 * e.BytesCount) / _fileSystemProgress.TotalSize * 100);
 		}
 

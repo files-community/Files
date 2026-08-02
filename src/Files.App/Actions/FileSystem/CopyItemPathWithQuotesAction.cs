@@ -35,9 +35,11 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.SelectedItems.Count > 0)
+			if (context.ShellPage?.SlimContentPage is { } contentPage)
 			{
-				var path = string.Join("\n", context.SelectedItems.Select(item => $"\"{item.ItemPath}\""));
+				var path = contentPage.SelectedItems is not null
+					? string.Join("\n", contentPage.SelectedItems.Select(item => $"\"{item.ItemPath}\""))
+					: context.ShellPage.ShellViewModel!.WorkingDirectory;
 
 				if (FtpHelpers.IsFtpPath(path))
 					path = path.Replace('\\', '/');
@@ -45,7 +47,7 @@ namespace Files.App.Actions
 				SafetyExtensions.IgnoreExceptions(() =>
 				{
 					DataPackage data = new();
-					data.SetText(path);
+					data.SetText(path!);
 
 					Clipboard.SetContent(data);
 					Clipboard.Flush();

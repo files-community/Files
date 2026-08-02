@@ -13,24 +13,24 @@ namespace Files.App.Utils
 		GitItem? AsGitItem { get; }
 		RecycleBinItem? AsRecycleBinItem { get; }
 		bool ContainsFilesOrFolders { get; set; }
-		string ContextualProperty { get; set; }
+		string? ContextualProperty { get; set; }
 		BitmapImage? CustomIcon { get; set; }
 		Uri? CustomIconSource { get; set; }
-		ObservableCollection<FileProperty> FileDetails { get; set; }
-		string FileExtension { get; set; }
+		ObservableCollection<FileProperty>? FileDetails { get; set; }
+		string? FileExtension { get; set; }
 		ulong? FileFRN { get; set; }
 		BitmapImage? FileImage { get; set; }
-		string FileSize { get; set; }
+		string? FileSize { get; set; }
 		long FileSizeBytes { get; set; }
 		string FileSizeDisplay { get; }
 		[DisallowNull]
 		string[]? FileTags { get; set; }
 		IList<TagViewModel>? FileTagsUI { get; }
-		string FileVersion { get; set; }
+		string? FileVersion { get; set; }
 		string? FolderRelativeId { get; set; }
 		bool HasTags { get; set; }
 		BitmapImage? IconOverlay { get; set; }
-		string ImageDimensions { get; set; }
+		string? ImageDimensions { get; set; }
 		bool IsAlternateStream { get; }
 		bool IsArchive { get; }
 		bool IsDriveRoot { get; }
@@ -47,25 +47,25 @@ namespace Files.App.Utils
 		bool IsRecycleBinItem { get; }
 		bool IsScriptFile { get; }
 		bool IsShortcut { get; }
-		string ItemDateAccessed { get; }
+		string? ItemDateAccessed { get; }
 		DateTimeOffset ItemDateAccessedReal { get; set; }
-		string ItemDateCreated { get; }
+		string? ItemDateCreated { get; }
 		DateTimeOffset ItemDateCreatedReal { get; set; }
-		string ItemDateModified { get; }
+		string? ItemDateModified { get; }
 		DateTimeOffset ItemDateModifiedReal { get; set; }
 		BaseStorageFile? ItemFile { get; set; }
-		string ItemNameRaw { get; set; }
-		string ItemPath { get; set; }
-		ObservableCollection<FileProperty> ItemProperties { get; set; }
+		string? ItemNameRaw { get; set; }
+		string? ItemPath { get; set; }
+		ObservableCollection<FileProperty>? ItemProperties { get; set; }
 		bool ItemPropertiesInitialized { get; set; }
 		string ItemTooltipText { get; }
-		string ItemType { get; set; }
-		string Key { get; set; }
+		string? ItemType { get; set; }
+		string? Key { get; set; }
 		bool LoadCustomIcon { get; set; }
 		bool LoadFileIcon { get; set; }
 		ByteSizeLib.ByteSize MaxSpace { get; set; }
-		string MediaDuration { get; set; }
-		string Name { get; }
+		string? MediaDuration { get; set; }
+		string? Name { get; }
 		bool NeedsPlaceholderGlyph { get; set; }
 		double Opacity { get; set; }
 		StorageItemTypes PrimaryItemAttribute { get; set; }

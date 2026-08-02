@@ -37,13 +37,11 @@ namespace Files.App.Utils.Storage
 					}
 					else if (item.IsOfType(StorageItemTypes.File))
 					{
-						if (item.AsBaseStorageFile() is { } file)
-							newItems.Add(await file.ToStorageFileAsync());
+						newItems.Add(await item.AsBaseStorageFile()!.ToStorageFileAsync());
 					}
 					else if (item.IsOfType(StorageItemTypes.Folder))
 					{
-						if (item.AsBaseStorageFolder() is { } folder)
-							newItems.Add(await folder.ToStorageFolderAsync());
+						newItems.Add(await item.AsBaseStorageFolder()!.ToStorageFolderAsync());
 					}
 				}
 				catch (NotSupportedException)
@@ -54,7 +52,7 @@ namespace Files.App.Utils.Storage
 			return newItems;
 		}
 
-		public static bool AreItemsInSameDrive(this IEnumerable<string> itemsPath, string destinationPath)
+		public static bool AreItemsInSameDrive(this IEnumerable<string> itemsPath, string? destinationPath)
 		{
 			try
 			{
@@ -66,9 +64,9 @@ namespace Files.App.Utils.Storage
 				return false;
 			}
 		}
-		public static bool AreItemsInSameDrive(this IEnumerable<IStorageItem> storageItems, string destinationPath)
+		public static bool AreItemsInSameDrive(this IEnumerable<IStorageItem> storageItems, string? destinationPath)
 			=> storageItems.Select(x => x.Path).AreItemsInSameDrive(destinationPath);
-		public static bool AreItemsInSameDrive(this IEnumerable<IStorageItemWithPath> storageItems, string destinationPath)
+		public static bool AreItemsInSameDrive(this IEnumerable<IStorageItemWithPath> storageItems, string? destinationPath)
 			=> storageItems.Select(x => x.Path).AreItemsInSameDrive(destinationPath);
 
 		public static bool AreItemsAlreadyInFolder(this IEnumerable<string> itemsPath, string destinationPath)
@@ -146,8 +144,9 @@ namespace Files.App.Utils.Storage
 					item.Title = Strings.ReleaseNotes.GetLocalizedResource();
 				else if (item.Path == "Settings")
 					item.Title = Strings.Settings.GetLocalizedResource();
-				else if (item.Path is { } path)
+				else
 				{
+					var path = item.Path!;
 					BaseStorageFolder? folder = await FilesystemTasks.WrapNullable(() => DangerousGetFolderFromPathAsync(path));
 
 					if (!string.IsNullOrEmpty(folder?.DisplayName))
@@ -172,13 +171,14 @@ namespace Files.App.Utils.Storage
 		public async static Task<StorageFileWithPath> DangerousGetFileWithPathFromPathAsync
 			(string value, StorageFolderWithPath? rootFolder = null, StorageFolderWithPath? parentFolder = null)
 		{
-			if (rootFolder?.Item is { } rootItem)
+			if (rootFolder is not null)
 			{
+				var rootItem = rootFolder.Item!;
 				var currComponents = GetDirectoryPathComponents(value);
 
-				if (parentFolder?.Item is { } parentItem && value.IsSubPathOf(parentFolder.Path))
+				if (parentFolder is not null && value.IsSubPathOf(parentFolder.Path))
 				{
-					var folder = parentItem;
+					var folder = parentFolder.Item!;
 					var prevComponents = GetDirectoryPathComponents(parentFolder.Path);
 					var path = parentFolder.Path;
 					foreach (var component in currComponents.ExceptBy(prevComponents, c => c.Path).SkipLast(1))
@@ -217,10 +217,8 @@ namespace Files.App.Utils.Storage
 		}
 		public async static Task<IList<StorageFileWithPath>> GetFilesWithPathAsync
 			(this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
-				=> parentFolder.Item is { } folder
-					? (await folder.GetFilesAsync(CommonFileQuery.DefaultQuery, 0, maxNumberOfItems))
-						.Select(x => new StorageFileWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList()
-					: [];
+				=> (await parentFolder.Item!.GetFilesAsync(CommonFileQuery.DefaultQuery, 0, maxNumberOfItems))
+					.Select(x => new StorageFileWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
 
 		public async static Task<BaseStorageFolder?> DangerousGetFolderFromPathAsync
 			(string value, StorageFolderWithPath? rootFolder = null, StorageFolderWithPath? parentFolder = null)
@@ -230,17 +228,18 @@ namespace Files.App.Utils.Storage
 		{
 			// Archive paths can't be resolved by chaining WinRT GetFolderAsync from a network root/parent
 			// (an archive is not a real subfolder of the share); resolve them directly like local archives.
-			if (rootFolder?.Item is { } rootItem && !ZipStorageFolder.IsZipPath(value))
+			if (rootFolder is not null && !ZipStorageFolder.IsZipPath(value))
 			{
+				var rootItem = rootFolder.Item!;
 				var currComponents = GetDirectoryPathComponents(value);
 
 				if (rootFolder.Path == value)
 				{
 					return rootFolder;
 				}
-				else if (parentFolder?.Item is { } parentItem && value.IsSubPathOf(parentFolder.Path))
+				else if (parentFolder is not null && value.IsSubPathOf(parentFolder.Path))
 				{
-					var folder = parentItem;
+					var folder = parentFolder.Item!;
 					var prevComponents = GetDirectoryPathComponents(parentFolder.Path);
 					var path = parentFolder.Path;
 					foreach (var component in currComponents.ExceptBy(prevComponents, c => c.Path))
@@ -275,15 +274,15 @@ namespace Files.App.Utils.Storage
 		}
 		public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync
 			(this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
-				=> parentFolder.Item is { } folder
-					? (await folder.GetFoldersAsync(CommonFolderQuery.DefaultQuery, 0, maxNumberOfItems))
-						.Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList()
-					: [];
-		public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync
+				=> (await parentFolder.Item!.GetFoldersAsync(CommonFolderQuery.DefaultQuery, 0, maxNumberOfItems))
+					.Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
+		public async static Task<IList<StorageFolderWithPath>?> GetFoldersWithPathAsync
 			(this StorageFolderWithPath parentFolder, string nameFilter, uint maxNumberOfItems = uint.MaxValue)
 		{
-			if (parentFolder?.Item is not { } folder)
-				return [];
+			if (parentFolder is null)
+				return null;
+
+			var folder = parentFolder.Item!;
 
 			var queryOptions = new QueryOptions
 			{
@@ -316,7 +315,7 @@ namespace Files.App.Utils.Storage
 				var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 				var drives = drivesViewModel.Drives.Cast<DriveItem>();
-				var drive = drives.FirstOrDefault(y => y.ItemType is NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase));
+				var drive = drives.FirstOrDefault(y => y.ItemType is NavigationControlItemType.Drive && y.Path!.Contains(component, StringComparison.OrdinalIgnoreCase));
 				title = drive is not null ? drive.Text : string.Format(Strings.DriveWithLetter.GetLocalizedResource(), component);
 			}
 			else

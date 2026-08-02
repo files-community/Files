@@ -22,23 +22,23 @@ namespace Files.App.Utils.Storage
 
 		new IAsyncOperation<IStorageItem?> TryGetItemAsync(string name);
 
-		new IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync();
+		new IAsyncOperation<IReadOnlyList<IStorageItem>?> GetItemsAsync();
 
 		new IAsyncOperation<BaseStorageFile?> GetFileAsync(string name);
 
-		new IAsyncOperation<IReadOnlyList<BaseStorageFile>> GetFilesAsync();
+		new IAsyncOperation<IReadOnlyList<BaseStorageFile>?> GetFilesAsync();
 
-		new IAsyncOperation<IReadOnlyList<BaseStorageFile>> GetFilesAsync(CommonFileQuery query);
+		new IAsyncOperation<IReadOnlyList<BaseStorageFile>?> GetFilesAsync(CommonFileQuery query);
 
-		new IAsyncOperation<IReadOnlyList<BaseStorageFile>> GetFilesAsync(CommonFileQuery query, uint startIndex, uint maxItemsToRetrieve);
+		new IAsyncOperation<IReadOnlyList<BaseStorageFile>?> GetFilesAsync(CommonFileQuery query, uint startIndex, uint maxItemsToRetrieve);
 
 		new IAsyncOperation<BaseStorageFolder?> GetFolderAsync(string name);
 
-		new IAsyncOperation<IReadOnlyList<BaseStorageFolder>> GetFoldersAsync();
+		new IAsyncOperation<IReadOnlyList<BaseStorageFolder>?> GetFoldersAsync();
 
-		new IAsyncOperation<IReadOnlyList<BaseStorageFolder>> GetFoldersAsync(CommonFolderQuery query);
+		new IAsyncOperation<IReadOnlyList<BaseStorageFolder>?> GetFoldersAsync(CommonFolderQuery query);
 
-		new IAsyncOperation<IReadOnlyList<BaseStorageFolder>> GetFoldersAsync(CommonFolderQuery query, uint startIndex, uint maxItemsToRetrieve);
+		new IAsyncOperation<IReadOnlyList<BaseStorageFolder>?> GetFoldersAsync(CommonFolderQuery query, uint startIndex, uint maxItemsToRetrieve);
 
 		new IAsyncOperation<BaseStorageFile?> CreateFileAsync(string desiredName);
 

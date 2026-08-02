@@ -44,7 +44,8 @@ namespace Files.App.Data.Factories
 			var overflow = items.FirstOrDefault(x => x.ID == "ItemOverflow");
 			if (overflow is not null)
 			{
-				var overflowMenuItems = overflow.Items ??= [];
+				var overflowMenuItems = overflow.Items
+					?? throw new InvalidOperationException("The overflow menu has not been initialized.");
 
 				if (!shiftPressed && UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu) // items with ShowOnShift to overflow menu
 				{

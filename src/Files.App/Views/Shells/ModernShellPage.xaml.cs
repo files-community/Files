@@ -135,18 +135,16 @@ namespace Files.App.Views.Shells
 		private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
 		{
 			ContentPage = await GetContentOrNullAsync();
-			if (e.Parameter is not NavigationArguments parameters)
-				return;
 
 			ToolbarViewModel.UpdateAdditionalActions();
-			if (ContentPage is { } contentPage &&
-				(ItemDisplayFrame.CurrentSourcePageType == typeof(DetailsLayoutPage) ||
-				ItemDisplayFrame.CurrentSourcePageType == typeof(GridLayoutPage)))
+			if (ItemDisplayFrame.CurrentSourcePageType == typeof(DetailsLayoutPage) ||
+				ItemDisplayFrame.CurrentSourcePageType == typeof(GridLayoutPage))
 			{
 				// Reset DataGrid Rows that may be in "cut" command mode
-				contentPage.ResetItemOpacity();
+				ContentPage!.ResetItemOpacity();
 			}
 
+			var parameters = (e.Parameter as NavigationArguments)!;
 			var isTagSearch = parameters.NavPathParam is not null && parameters.NavPathParam.StartsWith("tag:");
 			TabBarItemParameter = new()
 			{
@@ -159,8 +157,8 @@ namespace Files.App.Views.Shells
 
 			// Update the ShellViewModel with the current working directory
 			// Fixes https://github.com/files-community/Files/issues/17469
-			if (parameters.IsSearchResultPage == false && ShellViewModel is { } shellViewModel)
-				shellViewModel.IsSearchResults = false;
+			if (parameters.IsSearchResultPage == false)
+				ShellViewModel!.IsSearchResults = false;
 
 			_navigationInteractionTracker.CanNavigateBackward = CanNavigateBackward;
 			_navigationInteractionTracker.CanNavigateForward = CanNavigateForward;
@@ -291,8 +289,8 @@ namespace Files.App.Views.Shells
 
 		public override void NavigateToPath(string? navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null)
 		{
-			if (ShellViewModel is { } shellViewModel)
-				shellViewModel.FilesAndFoldersFilter = null;
+			var shellViewModel = ShellViewModel!;
+			shellViewModel.FilesAndFoldersFilter = null;
 
 			if (sourcePageType is null && !string.IsNullOrEmpty(navigationPath))
 				sourcePageType = InstanceViewModel.FolderSettings.GetLayoutType(navigationPath);
@@ -307,9 +305,9 @@ namespace Files.App.Views.Shells
 			else
 			{
 				if ((string.IsNullOrEmpty(navigationPath) ||
-					string.IsNullOrEmpty(ShellViewModel?.WorkingDirectory) ||
+					string.IsNullOrEmpty(shellViewModel.WorkingDirectory) ||
 					navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
-						ShellViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
+						shellViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
 						StringComparison.OrdinalIgnoreCase)) &&
 					(TabBarItemParameter?.NavigationParameter is not string navArg ||
 					string.IsNullOrEmpty(navArg) ||
@@ -334,7 +332,7 @@ namespace Files.App.Views.Shells
 					new SuppressNavigationTransitionInfo());
 			}
 
-			ToolbarViewModel.PathControlDisplayText = ShellViewModel?.WorkingDirectory ?? string.Empty;
+			ToolbarViewModel.PathControlDisplayText = shellViewModel.WorkingDirectory;
 		}
 
 		private void FilterTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)

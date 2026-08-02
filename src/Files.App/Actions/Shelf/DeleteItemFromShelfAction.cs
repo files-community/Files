@@ -39,7 +39,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync(object? parameter = null)
 		{
-			if (contentPageContext.ShellPage is not { ShellViewModel: { } shellViewModel } shellPage)
+			if (contentPageContext.ShellPage is not { } shellPage)
 				return;
 
 			var itemsToDelete = shelfContext.SelectedItems.Select(x => StorageHelpers.FromPathAndType(x.Inner.Id, x.Inner switch
@@ -50,6 +50,7 @@ namespace Files.App.Actions
 			}));
 
 			await shellPage.FilesystemHelpers.DeleteItemsAsync(itemsToDelete, foldersSettingsService.DeleteConfirmationPolicy, false, true);
+			var shellViewModel = shellPage.ShellViewModel ?? throw new InvalidOperationException("The active shell page has no shell view model.");
 			await shellViewModel.ApplyFilesAndFoldersChangesAsync();
 		}
 

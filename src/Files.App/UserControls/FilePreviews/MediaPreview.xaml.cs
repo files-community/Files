@@ -64,7 +64,7 @@ namespace Files.App.UserControls.FilePreviews
 
 		private void TogglePlaybackAcceleratorInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
 		{
-			TogglePlaybackRequestInvoked(sender, EventArgs.Empty);
+			TogglePlaybackRequestInvoked(sender, null!);
 		}
 	}
 }

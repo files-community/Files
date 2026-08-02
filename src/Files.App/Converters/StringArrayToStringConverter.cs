@@ -26,7 +26,8 @@ namespace Files.App.Converters
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
 		{
-			return value is string text ? text.Split("; ") : Array.Empty<string>();
+			var text = value as string ?? throw new ArgumentException("The value must be a string.", nameof(value));
+			return text.Split("; ");
 		}
 	}
 }

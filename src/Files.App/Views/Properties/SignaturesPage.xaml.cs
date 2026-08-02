@@ -19,7 +19,8 @@ namespace Files.App.Views.Properties
 		{
 			var np = (PropertiesPageNavigationParameter)e.Parameter;
 			if (np.Parameter is ListedItem listedItem)
-				SignaturesViewModel = new(listedItem, np.Window.AppWindow);
+				SignaturesViewModel = new(listedItem,
+					(np.Window ?? throw new InvalidOperationException("The properties window has not been initialized.")).AppWindow);
 
 			base.OnNavigatedTo(e);
 		}

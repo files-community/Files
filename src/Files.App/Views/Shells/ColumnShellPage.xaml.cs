@@ -180,8 +180,6 @@ namespace Files.App.Views.Shells
 			if (string.IsNullOrEmpty(navigationPath))
 				return;
 
-			sourcePageType ??= InstanceViewModel.FolderSettings.GetLayoutType(navigationPath);
-
 			var columnsLayoutPage = this.FindAscendant<ColumnsLayoutPage>();
 			if (columnsLayoutPage != null)
 			{

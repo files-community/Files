@@ -22,7 +22,7 @@ namespace Files.App.ViewModels.Properties
 			var hWnd = new HWND(Microsoft.UI.Win32Interop.GetWindowFromWindowId(appWindow.Id));
 			Signatures.CollectionChanged += (s, e) => OnPropertyChanged(nameof(NoSignatureFound));
 			DigitalSignaturesUtil.LoadItemSignatures(
-				item.ItemPath,
+				item.ItemPath!,
 				Signatures,
 				hWnd,
 				_cancellationTokenSource.Token

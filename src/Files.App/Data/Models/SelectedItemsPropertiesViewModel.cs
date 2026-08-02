@@ -62,8 +62,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref iconData, value);
 		}
 
-		private string itemName = string.Empty;
-		public string ItemName
+		private string? itemName;
+		public string? ItemName
 		{
 			get => itemName;
 			set
@@ -73,8 +73,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string originalItemName = string.Empty;
-		public string OriginalItemName
+		private string? originalItemName;
+		public string? OriginalItemName
 		{
 			get => originalItemName;
 			set
@@ -91,8 +91,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref itemNameVisibility, value);
 		}
 
-		private string itemType = string.Empty;
-		public string ItemType
+		private string? itemType;
+		public string? ItemType
 		{
 			get => itemType;
 			set
@@ -109,8 +109,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref itemTypeVisibility, value);
 		}
 
-		private string driveFileSystem = string.Empty;
-		public string DriveFileSystem
+		private string? driveFileSystem;
+		public string? DriveFileSystem
 		{
 			get => driveFileSystem;
 			set
@@ -127,8 +127,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref driveFileSystemVisibility, value);
 		}
 
-		private string itemLocation = string.Empty;
-		public string ItemLocation
+		private string? itemLocation;
+		public string? ItemLocation
 		{
 			get => itemLocation;
 			set
@@ -145,22 +145,22 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref itemLocationVisibility, value);
 		}
 
-		private string itemSize = string.Empty;
-		public string ItemSize
+		private string? itemSize;
+		public string? ItemSize
 		{
 			get => itemSize;
 			set => SetProperty(ref itemSize, value);
 		}
 
-		private string itemSizeOnDisk = string.Empty;
-		public string ItemSizeOnDisk
+		private string? itemSizeOnDisk;
+		public string? ItemSizeOnDisk
 		{
 			get => itemSizeOnDisk;
 			set => SetProperty(ref itemSizeOnDisk, value);
 		}
 
-		private string uncompresseditemSize = string.Empty;
-		public string UncompressedItemSize
+		private string? uncompresseditemSize;
+		public string? UncompressedItemSize
 		{
 			get => uncompresseditemSize;
 			set
@@ -241,8 +241,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref filesCount, value);
 		}
 
-		public string filesAndFoldersCountString = string.Empty;
-		public string FilesAndFoldersCountString
+		public string? filesAndFoldersCountString;
+		public string? FilesAndFoldersCountString
 		{
 			get => filesAndFoldersCountString;
 			set
@@ -274,8 +274,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string driveUsedSpace = string.Empty;
-		public string DriveUsedSpace
+		private string? driveUsedSpace;
+		public string? DriveUsedSpace
 		{
 			get => driveUsedSpace;
 			set
@@ -285,8 +285,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string driveUsedSpaceLongSize = string.Empty;
-		public string DriveUsedSpaceLongSize
+		private string? driveUsedSpaceLongSize;
+		public string? DriveUsedSpaceLongSize
 		{
 			get => driveUsedSpaceLongSize;
 			set
@@ -315,8 +315,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string driveFreeSpace = string.Empty;
-		public string DriveFreeSpace
+		private string? driveFreeSpace;
+		public string? DriveFreeSpace
 		{
 			get => driveFreeSpace;
 			set
@@ -326,8 +326,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string driveFreeSpaceLongSize = string.Empty;
-		public string DriveFreeSpaceLongSize
+		private string? driveFreeSpaceLongSize;
+		public string? DriveFreeSpaceLongSize
 		{
 			get => driveFreeSpaceLongSize;
 			set
@@ -343,7 +343,7 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref driveFreeSpaceVisibility, value);
 		}
 
-		public string ItemCreatedTimestamp { get; private set; } = string.Empty;
+		public string? ItemCreatedTimestamp { get; private set; }
 
 		private DateTimeOffset itemCreatedTimestampReal;
 		public DateTimeOffset ItemCreatedTimestampReal
@@ -365,7 +365,7 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref itemCreatedTimestampVisibility, value);
 		}
 
-		public string ItemModifiedTimestamp { get; private set; } = string.Empty;
+		public string? ItemModifiedTimestamp { get; private set; }
 
 		private DateTimeOffset itemModifiedTimestampReal;
 		public DateTimeOffset ItemModifiedTimestampReal
@@ -387,7 +387,7 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref itemModifiedTimestampVisibility, value);
 		}
 
-		public string ItemAccessedTimestamp { get; private set; } = string.Empty;
+		public string? ItemAccessedTimestamp { get; private set; }
 
 		public DateTimeOffset itemAccessedTimestampReal;
 		public DateTimeOffset ItemAccessedTimestampReal
@@ -429,8 +429,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string driveCapacity = string.Empty;
-		public string DriveCapacity
+		private string? driveCapacity;
+		public string? DriveCapacity
 		{
 			get => driveCapacity;
 			set
@@ -440,8 +440,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string driveCapacityLongSize = string.Empty;
-		public string DriveCapacityLongSize
+		private string? driveCapacityLongSize;
+		public string? DriveCapacityLongSize
 		{
 			get => driveCapacityLongSize;
 			set
@@ -511,8 +511,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref itemAttributesVisibility, value);
 		}
 
-		private string selectedItemsCountString = string.Empty;
-		public string SelectedItemsCountString
+		private string? selectedItemsCountString;
+		public string? SelectedItemsCountString
 		{
 			get => selectedItemsCountString;
 			set => SetProperty(ref selectedItemsCountString, value);
@@ -550,7 +550,7 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref isSelectedItemShortcut, value);
 		}
 
-		public void CheckAllFileExtensions(List<string> itemExtensions)
+		public void CheckAllFileExtensions(List<string?> itemExtensions)
 		{
 			// Checks if all the item extensions are image extensions of some kind.
 			IsCompatibleToSetAsWindowsWallpaper = itemExtensions.TrueForAll(FileExtensionHelpers.IsCompatibleToSetAsWindowsWallpaper);
@@ -558,15 +558,15 @@ namespace Files.App.Data.Models
 			IsSelectedItemShortcut = (itemExtensions.Count == 1) && (itemExtensions.TrueForAll(itemExtension => FileExtensionHelpers.IsShortcutFile(itemExtension)));
 		}
 
-		private string shortcutItemType = string.Empty;
-		public string ShortcutItemType
+		private string? shortcutItemType;
+		public string? ShortcutItemType
 		{
 			get => shortcutItemType;
 			set => SetProperty(ref shortcutItemType, value);
 		}
 
-		private string shortcutItemPath = string.Empty;
-		public string ShortcutItemPath
+		private string? shortcutItemPath;
+		public string? ShortcutItemPath
 		{
 			get => shortcutItemPath;
 			set
@@ -576,8 +576,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string shortcutItemPathEditedValue = string.Empty;
-		public string ShortcutItemPathEditedValue
+		private string? shortcutItemPathEditedValue;
+		public string? ShortcutItemPathEditedValue
 		{
 			get => shortcutItemPathEditedValue;
 			set => SetProperty(ref shortcutItemPathEditedValue, value);
@@ -590,8 +590,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref isShortcutItemPathReadOnly, value);
 		}
 
-		private string shortcutItemWorkingDir = string.Empty;
-		public string ShortcutItemWorkingDir
+		private string? shortcutItemWorkingDir;
+		public string? ShortcutItemWorkingDir
 		{
 			get => shortcutItemWorkingDir;
 			set
@@ -601,8 +601,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string shortcutItemWorkingDirEditedValue = string.Empty;
-		public string ShortcutItemWorkingDirEditedValue
+		private string? shortcutItemWorkingDirEditedValue;
+		public string? ShortcutItemWorkingDirEditedValue
 		{
 			get => shortcutItemWorkingDirEditedValue;
 			set => SetProperty(ref shortcutItemWorkingDirEditedValue, value);
@@ -615,8 +615,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref shortcutItemWorkingDirVisibility, value);
 		}
 
-		private string shortcutItemArguments = string.Empty;
-		public string ShortcutItemArguments
+		private string? shortcutItemArguments;
+		public string? ShortcutItemArguments
 		{
 			get => shortcutItemArguments;
 			set
@@ -626,8 +626,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string shortcutItemArgumentsEditedValue = string.Empty;
-		public string ShortcutItemArgumentsEditedValue
+		private string? shortcutItemArgumentsEditedValue;
+		public string? ShortcutItemArgumentsEditedValue
 		{
 			get => shortcutItemArgumentsEditedValue;
 			set
@@ -815,11 +815,7 @@ namespace Files.App.Data.Models
 		public string? SelectedShowWindowCommand
 		{
 			get => ShowWindowCommandTypes.GetValueOrDefault(ShowWindowCommandEditedValue);
-			set
-			{
-				if (value is not null)
-					ShowWindowCommandEditedValue = ShowWindowCommandTypes.First(e => e.Value == value).Key;
-			}
+			set => ShowWindowCommandEditedValue = ShowWindowCommandTypes.First(e => e.Value == value).Key;
 		}
 
 		private SHOW_WINDOW_CMD showWindowCommand;

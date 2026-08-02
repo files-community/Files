@@ -5,7 +5,7 @@ namespace Files.App.Data.Items
 {
 	public sealed partial class LibraryLocationItem : LocationItem
 	{
-		public string DefaultSaveFolder { get; }
+		public string? DefaultSaveFolder { get; }
 
 		public ReadOnlyCollection<string> Folders { get; }
 
@@ -21,24 +21,28 @@ namespace Files.App.Data.Items
 				ShowShellItems = true,
 				ShowUnpinItem = !shellLibrary.IsPinned,
 			};
-			Text = shellLibrary.DisplayName;
-			Path = shellLibrary.FullPath;
+			Text = shellLibrary.DisplayName
+				?? throw new InvalidOperationException("The library does not have a display name.");
+			Path = shellLibrary.FullPath
+				?? throw new InvalidOperationException("The library does not have a path.");
 			DefaultSaveFolder = shellLibrary.DefaultSaveFolder;
-			Folders = new ReadOnlyCollection<string>(shellLibrary.Folders);
+			Folders = new ReadOnlyCollection<string>(shellLibrary.Folders
+				?? throw new InvalidOperationException("The library does not have a folder list."));
 			IsDefaultLocation = shellLibrary.IsPinned;
 		}
 
 		public async Task<bool> CheckDefaultSaveFolderAccess()
 		{
-			if (IsEmpty)
+			var defaultSaveFolder = DefaultSaveFolder;
+			if (string.IsNullOrEmpty(defaultSaveFolder) || Folders.Count is 0)
 				return false;
 
-			var res = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(DefaultSaveFolder);
+			var res = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(defaultSaveFolder);
 
 			if (!res)
 			{
-				var item = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(DefaultSaveFolder));
-				res = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(DefaultSaveFolder, item));
+				var item = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(defaultSaveFolder));
+				res = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(defaultSaveFolder, item));
 			}
 
 			return res;
@@ -46,18 +50,23 @@ namespace Files.App.Data.Items
 
 		public async Task LoadLibraryIconAsync()
 		{
+			var path = Path ?? throw new InvalidOperationException("The library does not have a path.");
 			var result = await FileThumbnailHelper.GetIconAsync(
-				Path,
+				path,
 				Constants.ShellIconSizes.Small,
 				false,
 				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-			var bitmapImage = await result.ToBitmapAsync();
+			var bitmapImage = await (result
+				?? throw new InvalidOperationException("The library icon could not be loaded."))
+				.ToBitmapAsync();
 			if (bitmapImage is not null)
 				Icon = bitmapImage;
 		}
 
-		public override int GetHashCode() => Path.GetHashCode(System.StringComparison.OrdinalIgnoreCase);
+		public override int GetHashCode() => (Path
+			?? throw new InvalidOperationException("The library does not have a path."))
+			.GetHashCode(System.StringComparison.OrdinalIgnoreCase);
 
 		public override bool Equals(object? obj)
 			=> obj is LibraryLocationItem other && GetType() == obj.GetType() && string.Equals(Path, other.Path, System.StringComparison.OrdinalIgnoreCase);

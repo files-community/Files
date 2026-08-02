@@ -16,10 +16,9 @@ namespace Files.App.Actions
 
 		public override bool IsExecutable =>
 			SidebarContext.IsItemRightClicked &&
-			SidebarContext.RightClickedItem is not null &&
-			!string.IsNullOrEmpty(SidebarContext.RightClickedItem.Path) &&
-			SidebarContext.RightClickedItem.MenuOptions.ShowShellItems &&
-			!SidebarContext.RightClickedItem.MenuOptions.ShowEmptyRecycleBin;
+			SidebarContext.RightClickedItem is { } item &&
+			item.MenuOptions!.ShowShellItems &&
+			!item.MenuOptions.ShowEmptyRecycleBin;
 
 		public override bool IsAccessibleGlobally
 			=> false;
@@ -29,11 +28,12 @@ namespace Files.App.Actions
 
 		protected override string[] GetPaths()
 		{
-			if (SidebarContext.IsItemRightClicked &&
-				SidebarContext.RightClickedItem?.Path is { Length: > 0 } path)
-			{
-				return [path];
-			}
+			if (SidebarContext.IsItemRightClicked && SidebarContext.RightClickedItem is not null)
+				return
+				[
+					SidebarContext.RightClickedItem.Path
+						?? throw new InvalidOperationException("The selected sidebar item has no path.")
+				];
 
 			return [];
 		}

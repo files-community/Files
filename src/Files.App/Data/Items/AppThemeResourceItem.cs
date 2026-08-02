@@ -5,8 +5,8 @@ namespace Files.App.Data.Items
 {
 	public sealed class AppThemeResourceItem
 	{
-		public required string Name { get; set; }
+		public string? Name { get; set; }
 
-		public required string BackgroundColor { get; set; }
+		public string? BackgroundColor { get; set; }
 	}
 }

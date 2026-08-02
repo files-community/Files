@@ -49,34 +49,34 @@ namespace Files.App.Utils.Storage
 		{
 			return Task.FromResult<IStorageItem?>(null).AsAsyncOperation();
 		}
-		public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync()
+		public override IAsyncOperation<IReadOnlyList<IStorageItem>?> GetItemsAsync()
 		{
-			return Task.FromResult<IReadOnlyList<IStorageItem>>(new List<IStorageItem>().AsReadOnly())
+			return Task.FromResult<IReadOnlyList<IStorageItem>?>(new List<IStorageItem>().AsReadOnly())
 				.AsAsyncOperation();
 		}
-		public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve)
-			=> AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken)
-				=> (await GetItemsAsync()).Skip((int)startIndex).Take((int)maxItemsToRetrieve).ToList());
+		public override IAsyncOperation<IReadOnlyList<IStorageItem>?> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve)
+			=> AsyncInfo.Run<IReadOnlyList<IStorageItem>?>(async (cancellationToken)
+				=> (await GetItemsAsync())!.Skip((int)startIndex).Take((int)maxItemsToRetrieve).ToList());
 
 		public override IAsyncOperation<BaseStorageFile?> GetFileAsync(string name)
 			=> AsyncInfo.Run<BaseStorageFile?>(async (cancellationToken) => await GetItemAsync(name) as BaseStorageFile);
-		public override IAsyncOperation<IReadOnlyList<BaseStorageFile>> GetFilesAsync()
-			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFile>>(async (cancellationToken) => (await GetItemsAsync()).OfType<FtpStorageFile>().ToList());
-		public override IAsyncOperation<IReadOnlyList<BaseStorageFile>> GetFilesAsync(CommonFileQuery query)
-			=> AsyncInfo.Run(async (cancellationToken) => await GetFilesAsync());
-		public override IAsyncOperation<IReadOnlyList<BaseStorageFile>> GetFilesAsync(CommonFileQuery query, uint startIndex, uint maxItemsToRetrieve)
-			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFile>>(async (cancellationToken)
-				=> (await GetFilesAsync()).Skip((int)startIndex).Take((int)maxItemsToRetrieve).ToList());
+		public override IAsyncOperation<IReadOnlyList<BaseStorageFile>?> GetFilesAsync()
+			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFile>?>(async (cancellationToken) => (await GetItemsAsync())!.OfType<FtpStorageFile>().ToList());
+		public override IAsyncOperation<IReadOnlyList<BaseStorageFile>?> GetFilesAsync(CommonFileQuery query)
+			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFile>?>(async (cancellationToken) => await GetFilesAsync());
+		public override IAsyncOperation<IReadOnlyList<BaseStorageFile>?> GetFilesAsync(CommonFileQuery query, uint startIndex, uint maxItemsToRetrieve)
+			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFile>?>(async (cancellationToken)
+				=> (await GetFilesAsync())!.Skip((int)startIndex).Take((int)maxItemsToRetrieve).ToList());
 
 		public override IAsyncOperation<BaseStorageFolder?> GetFolderAsync(string name)
 			=> AsyncInfo.Run<BaseStorageFolder?>(async (cancellationToken) => await GetItemAsync(name) as BaseStorageFolder);
-		public override IAsyncOperation<IReadOnlyList<BaseStorageFolder>> GetFoldersAsync()
-			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFolder>>(async (cancellationToken) => (await GetItemsAsync()).OfType<FtpStorageFolder>().ToList());
-		public override IAsyncOperation<IReadOnlyList<BaseStorageFolder>> GetFoldersAsync(CommonFolderQuery query)
-			=> AsyncInfo.Run(async (cancellationToken) => await GetFoldersAsync());
-		public override IAsyncOperation<IReadOnlyList<BaseStorageFolder>> GetFoldersAsync(CommonFolderQuery query, uint startIndex, uint maxItemsToRetrieve)
-			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFolder>>(async (cancellationToken)
-				=> (await GetFoldersAsync()).Skip((int)startIndex).Take((int)maxItemsToRetrieve).ToList());
+		public override IAsyncOperation<IReadOnlyList<BaseStorageFolder>?> GetFoldersAsync()
+			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFolder>?>(async (cancellationToken) => (await GetItemsAsync())!.OfType<FtpStorageFolder>().ToList());
+		public override IAsyncOperation<IReadOnlyList<BaseStorageFolder>?> GetFoldersAsync(CommonFolderQuery query)
+			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFolder>?>(async (cancellationToken) => await GetFoldersAsync());
+		public override IAsyncOperation<IReadOnlyList<BaseStorageFolder>?> GetFoldersAsync(CommonFolderQuery query, uint startIndex, uint maxItemsToRetrieve)
+			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFolder>?>(async (cancellationToken)
+				=> (await GetFoldersAsync())!.Skip((int)startIndex).Take((int)maxItemsToRetrieve).ToList());
 
 		public override IAsyncOperation<BaseStorageFile?> CreateFileAsync(string desiredName)
 			=> CreateFileAsync(desiredName, CreationCollisionOption.FailIfExists);

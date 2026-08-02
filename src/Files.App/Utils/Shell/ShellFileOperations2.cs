@@ -357,8 +357,10 @@ public partial class ShellFileOperations2 : IDisposable
 	/// <param name="source">A <see cref="ShellItem"/> that specifies the source item.</param>
 	/// <param name="newName">The new display name of the item.</param>
 	/// <param name="options">Options that control file operations.</param>
-	public static void Rename(ShellItem source, string newName, OperationFlags options = defaultOptions)
+	public static void Rename(ShellItem source, string? newName = null, OperationFlags options = defaultOptions)
 	{
+		ArgumentNullException.ThrowIfNull(newName);
+
 		using ShellFileOperations2 sop = new();
 		sop.Options = options;
 		HRESULT hr = HRESULT.S_OK;

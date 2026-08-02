@@ -30,14 +30,11 @@ namespace Files.App.Data.Items
 				true,
 				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-			if (result is null && Item.Root is { } root)
+			if (result is null)
 			{
-				using var thumbnail = await DriveHelpers.GetThumbnailAsync(root);
+				using var thumbnail = await DriveHelpers.GetThumbnailAsync(Item.Root!);
 				result ??= await thumbnail.ToByteArrayAsync();
 			}
-
-			if (result is null)
-				return;
 
 			var bitmapImage = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => result.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
 			if (bitmapImage is not null)
@@ -45,6 +42,6 @@ namespace Files.App.Data.Items
 		}
 
 		public int CompareTo(WidgetDriveCardItem? other)
-			=> Item.Path.CompareTo(other?.Item?.Path);
+			=> Item.Path!.CompareTo(other?.Item?.Path);
 	}
 }

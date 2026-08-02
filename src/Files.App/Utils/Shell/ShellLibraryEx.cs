@@ -23,7 +23,7 @@ namespace Files.App.Utils.Shell
 
 		private ShellLibraryFolders? _folders;
 
-		private string _name = string.Empty;
+		private string? _name;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ShellLibrary"/>Ex class.
@@ -117,11 +117,11 @@ namespace Files.App.Utils.Shell
 		/// <summary>
 		/// Gets the name relative to the parent for the item.
 		/// </summary>
-		[AllowNull]
+		[AllowNull, MaybeNull]
 		public override string Name
 		{
 			get => _name;
-			protected set => _name = value ?? string.Empty;
+			protected set => _name = value;
 		}
 
 		/// <summary>

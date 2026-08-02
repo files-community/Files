@@ -7,15 +7,16 @@ namespace Files.App.Services.DateTimeFormatter
 	{
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private IDateTimeFormatter formatter;
+		private IDateTimeFormatter formatter = null!;
 
 		public string Name
 			=> formatter.Name;
 
 		public UserDateTimeFormatter()
 		{
-			formatter = GetFormatter();
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+
+			Update();
 		}
 
 		public string ToShortLabel(DateTimeOffset offset)
@@ -28,14 +29,11 @@ namespace Files.App.Services.DateTimeFormatter
 			=> formatter.ToTimeSpanLabel(offset, unit);
 
 		private void Update()
-			=> formatter = GetFormatter();
-
-		private IDateTimeFormatter GetFormatter()
 		{
 			var dateTimeFormat = UserSettingsService.GeneralSettingsService.DateTimeFormat;
 			var factory = Ioc.Default.GetRequiredService<IDateTimeFormatterFactory>();
 
-			return factory.GetDateTimeFormatter(dateTimeFormat);
+			formatter = factory.GetDateTimeFormatter(dateTimeFormat);
 		}
 
 		private void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)

@@ -28,16 +28,16 @@ namespace Files.App.ViewModels.Dialogs
 		public string ShortcutCompleteName { get; private set; } = string.Empty;
 
 		// Full path of the destination item
-		public string FullPath { get; private set; } = string.Empty;
+		public string? FullPath { get; private set; }
 
 		// Arguments to be passed to the destination item if it's an executable
-		public string Arguments { get; private set; } = string.Empty;
+		public string? Arguments { get; private set; }
 
 		// Previous path of the destination item
-		private string _previousShortcutTargetPath = string.Empty;
+		private string? _previousShortcutTargetPath;
 
-		private string _shortcutName = string.Empty;
-		public string ShortcutName
+		private string? _shortcutName;
+		public string? ShortcutName
 		{
 			get => _shortcutName;
 			set
@@ -205,7 +205,8 @@ namespace Files.App.ViewModels.Dialogs
 
 		public bool ShowWarningTip => !string.IsNullOrEmpty(ShortcutTarget) && !_isLocationValid;
 
-		public bool ShowNameWarningTip => !string.IsNullOrEmpty(_shortcutTarget) && !FilesystemHelpers.IsValidForFilename(_shortcutName);
+		public bool ShowNameWarningTip => !string.IsNullOrEmpty(_shortcutTarget) && !FilesystemHelpers.IsValidForFilename(
+			_shortcutName ?? throw new InvalidOperationException("The shortcut name has not been set."));
 
 		public bool IsShortcutValid => _isLocationValid && !ShowNameWarningTip && !string.IsNullOrEmpty(_shortcutTarget);
 
@@ -292,7 +293,8 @@ namespace Files.App.ViewModels.Dialogs
 					if (string.IsNullOrEmpty(FullPath))
 					{
 
-						var destinationPath = FullPath.Replace('/', '\\');
+						var destinationPath = (FullPath
+							?? throw new InvalidOperationException("The shortcut target path has not been set.")).Replace('/', '\\');
 
 						if (destinationPath.EndsWith('\\'))
 							destinationPath = destinationPath.Substring(0, destinationPath.Length - 1);

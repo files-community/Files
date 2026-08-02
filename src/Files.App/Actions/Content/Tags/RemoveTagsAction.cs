@@ -33,8 +33,9 @@ namespace Files.App.Actions
 		public async Task ExecuteAsync(object? parameter = null)
 		{
 			if (await FileTagsHelper.RemoveTagsAsync(context.SelectedItems) &&
-				context.ShellPage?.ShellViewModel is { } shellViewModel)
+				context.ShellPage is { } shellPage)
 			{
+				var shellViewModel = shellPage.ShellViewModel ?? throw new InvalidOperationException("The active shell page has no shell view model.");
 				await shellViewModel.RefreshTagGroups();
 			}
 		}

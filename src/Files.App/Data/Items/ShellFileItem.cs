@@ -7,11 +7,11 @@ namespace Files.App.Data.Items
 	{
 		public bool IsFolder { get; set; }
 
-		public string RecyclePath { get; set; } = string.Empty;
+		public string? RecyclePath { get; set; }
 
-		public string FileName { get; set; } = string.Empty;
+		public string? FileName { get; set; }
 
-		public string FilePath { get; set; } = string.Empty;
+		public string? FilePath { get; set; }
 
 		public DateTime RecycleDate { get; set; }
 
@@ -19,13 +19,13 @@ namespace Files.App.Data.Items
 
 		public DateTime CreatedDate { get; set; }
 
-		public string FileSize { get; set; } = string.Empty;
+		public string? FileSize { get; set; }
 
 		public ulong FileSizeBytes { get; set; }
 
-		public string FileType { get; set; } = string.Empty;
+		public string? FileType { get; set; }
 
-		public byte[] PIDL { get; set; } = []; // Low level shell item identifier
+		public byte[]? PIDL { get; set; } // Low level shell item identifier
 
 		public Dictionary<string, object?> Properties { get; set; }
 
@@ -37,15 +37,15 @@ namespace Files.App.Data.Items
 		public ShellFileItem(bool isFolder, string? recyclePath, string? fileName, string? filePath, DateTime recycleDate, DateTime modifiedDate, DateTime createdDate, string? fileSize, ulong fileSizeBytes, string? fileType, byte[] pidl) : this()
 		{
 			IsFolder = isFolder;
-			RecyclePath = recyclePath ?? string.Empty;
-			FileName = fileName ?? string.Empty;
-			FilePath = filePath ?? string.Empty;
+			RecyclePath = recyclePath;
+			FileName = fileName;
+			FilePath = filePath;
 			RecycleDate = recycleDate;
 			ModifiedDate = modifiedDate;
 			CreatedDate = createdDate;
-			FileSize = fileSize ?? string.Empty;
+			FileSize = fileSize;
 			FileSizeBytes = fileSizeBytes;
-			FileType = fileType ?? string.Empty;
+			FileType = fileType;
 			PIDL = pidl;
 		}
 	}

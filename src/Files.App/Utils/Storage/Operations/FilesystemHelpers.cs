@@ -184,16 +184,20 @@ namespace Files.App.Utils.Storage
 			=> DeleteItemsAsync(source.CreateEnumerable(), showDialog, permanently, registerHistory);
 
 		public Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItem> source, DeleteConfirmationPolicies showDialog, bool permanently, bool registerHistory)
-			=> DeleteItemsAsync(source.Select((item) => item.FromStorageItem()), showDialog, permanently, registerHistory);
+			=> DeleteItemsAsync(source.Select(item => item.FromStorageItem()
+				?? throw new InvalidOperationException("A storage item could not be converted for deletion.")), showDialog, permanently, registerHistory);
 
 		public Task<ReturnResult> DeleteItemAsync(IStorageItem source, DeleteConfirmationPolicies showDialog, bool permanently, bool registerHistory)
-			=> DeleteItemAsync(source.FromStorageItem(), showDialog, permanently, registerHistory);
+			=> DeleteItemAsync(source.FromStorageItem()
+				?? throw new InvalidOperationException("The storage item could not be converted for deletion."), showDialog, permanently, registerHistory);
 
 		public Task<ReturnResult> RestoreItemFromTrashAsync(IStorageItem source, string destination, bool registerHistory)
-			=> RestoreItemFromTrashAsync(source.FromStorageItem(), destination, registerHistory);
+			=> RestoreItemFromTrashAsync(source.FromStorageItem()
+				?? throw new InvalidOperationException("The storage item could not be converted for restoration."), destination, registerHistory);
 
 		public Task<ReturnResult> RestoreItemsFromTrashAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
-			=> RestoreItemsFromTrashAsync(source.Select((item) => item.FromStorageItem()), destination, registerHistory);
+			=> RestoreItemsFromTrashAsync(source.Select(item => item.FromStorageItem()
+				?? throw new InvalidOperationException("A storage item could not be converted for restoration.")), destination, registerHistory);
 
 		public Task<ReturnResult> RestoreItemFromTrashAsync(IStorageItemWithPath source, string destination, bool registerHistory)
 			=> RestoreItemsFromTrashAsync(source.CreateEnumerable(), destination.CreateEnumerable(), registerHistory);
@@ -281,10 +285,12 @@ namespace Files.App.Utils.Storage
 		}
 
 		public Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
-			=> CopyItemsAsync(source.Select((item) => item.FromStorageItem()), destination, showDialog, registerHistory);
+			=> CopyItemsAsync(source.Select(item => item.FromStorageItem()
+				?? throw new InvalidOperationException("A storage item could not be converted for copying.")), destination, showDialog, registerHistory);
 
 		public Task<ReturnResult> CopyItemAsync(IStorageItem source, string destination, bool showDialog, bool registerHistory)
-			=> CopyItemAsync(source.FromStorageItem(), destination, showDialog, registerHistory);
+			=> CopyItemAsync(source.FromStorageItem()
+				?? throw new InvalidOperationException("The storage item could not be converted for copying."), destination, showDialog, registerHistory);
 
 		public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
 		{
@@ -314,7 +320,6 @@ namespace Files.App.Utils.Storage
 			itemManipulationModel?.ClearSelection();
 
 			IStorageHistory? history = await filesystemOperations.CopyItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.ProgressEventSource, token);
-			await Task.Yield();
 
 			if (returnStatus == ReturnResult.InProgress || returnStatus == ReturnResult.Success)
 				banner.Progress.ReportStatus(FileSystemStatusCode.Success);
@@ -337,6 +342,8 @@ namespace Files.App.Utils.Storage
 				}
 				App.HistoryWrapper.AddHistory(history);
 			}
+
+			await Task.Yield();
 
 			var itemsCount = banner.TotalItemsCount;
 
@@ -421,10 +428,12 @@ namespace Files.App.Utils.Storage
 		}
 
 		public Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
-			=> MoveItemsAsync(source.Select((item) => item.FromStorageItem()), destination, showDialog, registerHistory);
+			=> MoveItemsAsync(source.Select(item => item.FromStorageItem()
+				?? throw new InvalidOperationException("A storage item could not be converted for moving.")), destination, showDialog, registerHistory);
 
 		public Task<ReturnResult> MoveItemAsync(IStorageItem source, string destination, bool showDialog, bool registerHistory)
-			=> MoveItemAsync(source.FromStorageItem(), destination, showDialog, registerHistory);
+			=> MoveItemAsync(source.FromStorageItem()
+				?? throw new InvalidOperationException("The storage item could not be converted for moving."), destination, showDialog, registerHistory);
 
 		public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
 		{
@@ -541,7 +550,8 @@ namespace Files.App.Utils.Storage
 		}
 
 		public Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory, bool showExtensionDialog = true)
-			=> RenameAsync(source.FromStorageItem(), newName, collision, registerHistory, showExtensionDialog);
+			=> RenameAsync(source.FromStorageItem()
+				?? throw new InvalidOperationException("The storage item could not be converted for renaming."), newName, collision, registerHistory, showExtensionDialog);
 
 		public async Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory, bool showExtensionDialog = true)
 		{
@@ -755,7 +765,8 @@ namespace Files.App.Utils.Storage
 				try
 				{
 					var source = await packageView.GetStorageItemsAsync();
-					itemsList.AddRange(source.Select(x => x.FromStorageItem()));
+					itemsList.AddRange(source.Select(item => item.FromStorageItem()
+						?? throw new InvalidOperationException("A dragged storage item could not be converted.")));
 				}
 				catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
 				{
@@ -777,11 +788,11 @@ namespace Files.App.Utils.Storage
 					for (var ii = 0; ii < descriptor.cItems; ii++)
 					{
 						if (descriptor.fgd[ii].dwFileAttributes.HasFlag(FileFlagsAndAttributes.FILE_ATTRIBUTE_DIRECTORY))
-							itemsList.Add(new VirtualStorageFolder(descriptor.fgd[ii].cFileName).FromStorageItem());
+							itemsList.Add(new VirtualStorageFolder(descriptor.fgd[ii].cFileName).FromStorageItem()!);
 						else if (NativeClipboard.CurrentDataObject.GetData("FileContents", DVASPECT.DVASPECT_CONTENT, ii) is IStream stream)
 						{
 							var streamContent = new ComStreamWrapper(stream);
-							itemsList.Add(new VirtualStorageFile(streamContent, descriptor.fgd[ii].cFileName).FromStorageItem());
+							itemsList.Add(new VirtualStorageFile(streamContent, descriptor.fgd[ii].cFileName).FromStorageItem()!);
 						}
 					}
 				}
@@ -885,7 +896,7 @@ namespace Files.App.Utils.Storage
 		/// <summary>
 		/// Gets the shortcut naming template from File Explorer
 		/// </summary>
-		public static string GetShortcutNamingPreference(string itemName)
+		public static string GetShortcutNamingPreference(string? itemName)
 		{
 			var keyName = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\NamingTemplates";
 			var value = Registry.GetValue(keyName, "ShortcutNameTemplate", null);

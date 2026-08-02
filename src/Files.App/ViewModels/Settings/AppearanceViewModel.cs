@@ -191,7 +191,7 @@ namespace Files.App.ViewModels.Settings
 			{
 				if (value is not null && SetProperty(ref selectedAppThemeResources, value))
 				{
-					AppThemeBackgroundColor = SelectedAppThemeResources.BackgroundColor;
+					AppThemeBackgroundColor = value.BackgroundColor!;
 					OnPropertyChanged(nameof(selectedAppThemeResources));
 				}
 			}
@@ -297,7 +297,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedImageStretchType = string.Empty;
+		private string selectedImageStretchType = null!;
 		public string SelectedImageStretchType
 		{
 			get => selectedImageStretchType;
@@ -324,7 +324,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedImageVerticalAlignmentType = string.Empty;
+		private string selectedImageVerticalAlignmentType = null!;
 		public string SelectedImageVerticalAlignmentType
 		{
 			get => selectedImageVerticalAlignmentType;
@@ -337,7 +337,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedImageHorizontalAlignmentType = string.Empty;
+		private string selectedImageHorizontalAlignmentType = null!;
 		public string SelectedImageHorizontalAlignmentType
 		{
 			get => selectedImageHorizontalAlignmentType;
@@ -406,7 +406,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedStatusCenterVisibilityOption = string.Empty;
+		private string selectedStatusCenterVisibilityOption = null!;
 		public string SelectedStatusCenterVisibilityOption
 		{
 			get => selectedStatusCenterVisibilityOption;

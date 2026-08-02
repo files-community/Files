@@ -87,9 +87,10 @@ namespace Files.App.Views.Layouts
 
 			UpdateSortOptionsCommand = new RelayCommand<string>(x =>
 			{
-				if (FolderSettings is not { } folderSettings ||
-					!Enum.TryParse<SortOption>(x, out var val))
+				if (!Enum.TryParse<SortOption>(x, out var val))
 					return;
+				var folderSettings = FolderSettings
+					?? throw new InvalidOperationException("The details layout does not have folder settings.");
 				if (folderSettings.DirectorySortOption == val)
 				{
 					folderSettings.DirectorySortDirection = (SortDirection)(((int)folderSettings.DirectorySortDirection + 1) % 2);
@@ -212,17 +213,15 @@ namespace Files.App.Views.Layouts
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
-			if (FolderSettings is { } folderSettings)
-			{
-				folderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-				folderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
-				folderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
-			}
-			if (ParentShellPageInstance?.ShellViewModel is { } shellViewModel)
-			{
-				shellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
-				shellViewModel.ItemLoadStatusChanged -= ShellViewModel_ItemLoadStatusChanged;
-			}
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The details layout does not have folder settings.");
+			folderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+			folderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
+			folderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
+			var shellViewModel = ParentShellPageInstance?.ShellViewModel
+				?? throw new InvalidOperationException("The details layout does not have a shell view model.");
+			shellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+			shellViewModel.ItemLoadStatusChanged -= ShellViewModel_ItemLoadStatusChanged;
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
 			FileList.Items.VectorChanged -= FileListItems_VectorChanged;
 			_autoFitColumnsTimer?.Stop();
@@ -254,7 +253,7 @@ namespace Files.App.Views.Layouts
 			else
 			{
 				var settings = sender as ILayoutSettingsService;
-				var isDefaultPath = FolderSettings?.IsPathUsingDefaultLayout(ParentShellPageInstance?.ShellViewModel?.CurrentFolder?.ItemPath);
+				var isDefaultPath = FolderSettings?.IsPathUsingDefaultLayout(ParentShellPageInstance?.ShellViewModel!.CurrentFolder?.ItemPath);
 				if (settings is not null && (isDefaultPath ?? true))
 				{
 					switch (e.PropertyName)
@@ -329,8 +328,8 @@ namespace Files.App.Views.Layouts
 
 		private void UpdateSortIndicator()
 		{
-			if (FolderSettings is not { } folderSettings)
-				return;
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The details layout does not have folder settings.");
 
 			NameHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.Name ? folderSettings.DirectorySortDirection : null;
 			TagHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.FileTag ? folderSettings.DirectorySortDirection : null;
@@ -593,8 +592,10 @@ namespace Files.App.Views.Layouts
 
 		private async Task ReloadItemIconsAsync()
 		{
-			if (ParentShellPageInstance?.ShellViewModel is not { } shellViewModel)
+			if (ParentShellPageInstance is not { } parentShellPage)
 				return;
+			var shellViewModel = parentShellPage.ShellViewModel
+				?? throw new InvalidOperationException("The details layout does not have a shell view model.");
 
 			shellViewModel.CancelExtendedPropertiesLoading();
 			var filesAndFolders = shellViewModel.FilesAndFolders.ToList();
@@ -692,10 +693,10 @@ namespace Files.App.Views.Layouts
 			{
 				// Fallback if the command is not executable. It occurs only when search is performed from the columns view.
 				if (ParentShellPageInstance is not { } parentShellPage)
-					return;
+					throw new InvalidOperationException("The details layout does not have a parent shell page.");
 
 				var itemType = item.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
-				await NavigationHelpers.OpenPath(item.ItemPath, parentShellPage, itemType);
+				await NavigationHelpers.OpenPath(item.ItemPath!, parentShellPage, itemType);
 			}
 			else
 			{
@@ -751,8 +752,9 @@ namespace Files.App.Views.Layouts
 			if (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right)
 			{
 				UpdateColumnLayout();
-				if (FolderSettings is { } folderSettings)
-					folderSettings.ColumnsViewModel = ColumnsViewModel;
+				var folderSettings = FolderSettings
+					?? throw new InvalidOperationException("The details layout does not have folder settings.");
+				folderSettings.ColumnsViewModel = ColumnsViewModel;
 			}
 		}
 
@@ -791,8 +793,9 @@ namespace Files.App.Views.Layouts
 
 		private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
-			if (FolderSettings is { } folderSettings)
-				folderSettings.ColumnsViewModel = ColumnsViewModel;
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The details layout does not have folder settings.");
+			folderSettings.ColumnsViewModel = ColumnsViewModel;
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
@@ -803,10 +806,12 @@ namespace Files.App.Views.Layouts
 
 		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (FolderSettings is { } folderSettings)
-				folderSettings.ColumnsViewModel = ColumnsViewModel;
-			if (ParentShellPageInstance?.ShellViewModel is { } shellViewModel)
-				shellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The details layout does not have folder settings.");
+			folderSettings.ColumnsViewModel = ColumnsViewModel;
+			var shellViewModel = ParentShellPageInstance?.ShellViewModel
+				?? throw new InvalidOperationException("The details layout does not have a shell view model.");
+			shellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
 		}
 
 		private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -923,8 +928,9 @@ namespace Files.App.Views.Layouts
 				column.UserLength = new GridLength(maxFitLength, GridUnitType.Pixel);
 			}
 
-			if (FolderSettings is { } folderSettings)
-				folderSettings.ColumnsViewModel = ColumnsViewModel;
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The details layout does not have folder settings.");
+			folderSettings.ColumnsViewModel = ColumnsViewModel;
 		}
 
 		private double MeasureColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
@@ -1128,14 +1134,20 @@ namespace Files.App.Views.Layouts
 
 			var tagId = FileTagsSettingsService.GetTagsByName(tagName).FirstOrDefault()?.Uid;
 
-			if (tagId is not null && item.FileTags is { } fileTags)
+			if (tagId is not null)
 			{
+				var fileTags = item.FileTags
+					?? throw new InvalidOperationException("The selected item does not have initialized tags.");
 				item.FileTags = fileTags
 					.Except([tagId])
 					.ToArray();
 
-				if (ParentShellPageInstance?.ShellViewModel is { } shellViewModel)
+				if (ParentShellPageInstance is not null)
+				{
+					var shellViewModel = ParentShellPageInstance.ShellViewModel
+						?? throw new InvalidOperationException("The details layout does not have a shell view model.");
 					await shellViewModel.RefreshTagGroups();
+				}
 			}
 
 			e.Handled = true;
@@ -1195,7 +1207,7 @@ namespace Files.App.Views.Layouts
 
 			item.IsCalculatingSize = true;
 			var sizeProvider = Ioc.Default.GetRequiredService<Services.SizeProvider.ISizeProvider>();
-			var updateTask = Task.Run(() => sizeProvider.UpdateAsync(item.ItemPath, default));
+			var updateTask = Task.Run(() => sizeProvider.UpdateAsync(item.ItemPath!, default));
 
 			try
 			{

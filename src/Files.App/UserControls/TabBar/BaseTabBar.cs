@@ -53,7 +53,7 @@ namespace Files.App.UserControls.TabBar
 
 		private void TabView_CurrentInstanceChanged(object? sender, CurrentInstanceChangedEventArgs e)
 		{
-			foreach (ITabBarItemContent instance in e.PageInstances)
+			foreach (ITabBarItemContent? instance in e.PageInstances!)
 			{
 				if (instance is not null)
 				{
@@ -116,9 +116,9 @@ namespace Files.App.UserControls.TabBar
 			StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(RecentlyClosedTabs)));
 		}
 
-		public List<ITabBarItemContent> GetAllTabInstances()
+		public List<ITabBarItemContent?> GetAllTabInstances()
 		{
-			return MainPageViewModel.AppInstances.Select(x => x.TabItemContent).OfType<ITabBarItemContent>().ToList();
+			return MainPageViewModel.AppInstances.Select(x => x.TabItemContent).ToList();
 		}
 
 		public async Task ReopenClosedTabAsync()
@@ -136,8 +136,10 @@ namespace Files.App.UserControls.TabBar
 
 		public async void MoveTabToNewWindowAsync(object sender, RoutedEventArgs e)
 		{
-			if (sender is FrameworkElement { DataContext: TabBarItem tabItem })
-				await MultitaskingTabsHelpers.MoveTabToNewWindow(tabItem, this);
+			if (sender is not FrameworkElement { DataContext: TabBarItem tabItem })
+				return;
+
+			await MultitaskingTabsHelpers.MoveTabToNewWindow(tabItem, this);
 		}
 
 		public void CloseTab(TabBarItem? tabItem)
@@ -149,8 +151,7 @@ namespace Files.App.UserControls.TabBar
 			tabItem.Unload();
 
 			// Dispose and save tab arguments
-			if (tabItem.NavigationParameter is { } navigationParameter)
-				PushRecentTab([navigationParameter]);
+			PushRecentTab([tabItem.NavigationParameter!]);
 
 			// Save the updated tab list
 			AppLifecycleHelper.SaveSessionTabs();

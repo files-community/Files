@@ -210,9 +210,7 @@ namespace Files.App.UserControls.TabBar
 
 			for (int i = 0; i < tabStrip.TabItems.Count; i++)
 			{
-				var item = tabStrip.ContainerFromIndex(i) as TabViewItem;
-				if (item is null)
-					continue;
+				var item = (tabStrip.ContainerFromIndex(i) as TabViewItem)!;
 
 				if (e.GetPosition(item).X - item.ActualWidth < 0)
 				{

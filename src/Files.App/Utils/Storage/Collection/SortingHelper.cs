@@ -7,7 +7,7 @@ namespace Files.App.Utils.Storage
 {
 	public static class SortingHelper
 	{
-		private static object OrderByNameFunc(ListedItem item)
+		private static object? OrderByNameFunc(ListedItem item)
 			=> item.Name;
 
 		public static Func<ListedItem, object?> GetSortFunc(SortOption directorySortOption)

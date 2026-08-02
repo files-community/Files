@@ -9,16 +9,18 @@ namespace Files.App.Data.Items
 {
 	public sealed partial class WslDistroItem : ObservableObject, INavigationControlItem
 	{
-		public required string Text { get; set; }
+		public string? Text { get; set; }
 
-		private string path = string.Empty;
-		public required string Path
+		private string? path;
+		public string? Path
 		{
 			get => path;
 			set
 			{
 				path = value;
-				ToolTip = Path.Contains('?', StringComparison.Ordinal) ? Text : Path;
+				ArgumentNullException.ThrowIfNull(value);
+				var currentPath = value;
+				ToolTip = currentPath.Contains('?', StringComparison.Ordinal) ? Text : currentPath;
 			}
 		}
 
@@ -26,9 +28,9 @@ namespace Files.App.Data.Items
 			=> NavigationControlItemType.LinuxDistro;
 
 		private Uri? icon;
-		public required Uri Icon
+		public Uri? Icon
 		{
-			get => icon ?? throw new InvalidOperationException("The distribution icon has not been initialized.");
+			get => icon;
 			set
 			{
 				SetProperty(ref icon, value, nameof(Icon));
@@ -38,12 +40,12 @@ namespace Files.App.Data.Items
 
 		public SectionType Section { get; set; }
 
-		public required ContextMenuOptions MenuOptions { get; set; }
+		public ContextMenuOptions? MenuOptions { get; set; }
 
 		public object? Children => null;
 
-		private object toolTip = "";
-		public object ToolTip
+		private object? toolTip = "";
+		public object? ToolTip
 		{
 			get => toolTip;
 			set
@@ -67,9 +69,16 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		FrameworkElement? ISidebarItemModel.IconElement => IconElement;
-		FrameworkElement? ISidebarItemModel.ItemDecorator => null;
+		FrameworkElement? ISidebarItemPresentationModel.IconElement => IconElement;
+		FrameworkElement? ISidebarItemPresentationModel.ItemDecorator => null;
 
-		public int CompareTo(INavigationControlItem? other) => other is null ? 1 : Text.CompareTo(other.Text);
+		public int CompareTo(INavigationControlItem? other)
+		{
+			var text = Text ?? throw new InvalidOperationException("The distribution name has not been initialized.");
+			var otherText = other?.Text
+				?? throw new ArgumentException("The compared item must have a name.", nameof(other));
+
+			return text.CompareTo(otherText);
+		}
 	}
 }

@@ -96,7 +96,7 @@ namespace Files.Shared.Helpers
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
 		/// <returns><c>true</c> if the fileExtensionToCheck is a PowerShell script; otherwise, <c>false</c>.</returns>
-		public static bool IsPowerShellFile(string fileExtensionToCheck)
+		public static bool IsPowerShellFile(string? fileExtensionToCheck)
 		{
 			return HasExtension(fileExtensionToCheck, ".ps1");
 		}
@@ -106,7 +106,7 @@ namespace Files.Shared.Helpers
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
 		/// <returns><c>true</c> if the fileExtensionToCheck is a Batch file; otherwise, <c>false</c>.</returns>
-		public static bool IsBatchFile(string fileExtensionToCheck)
+		public static bool IsBatchFile(string? fileExtensionToCheck)
 		{
 			return HasExtension(fileExtensionToCheck, ".bat");
 		}

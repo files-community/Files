@@ -32,7 +32,9 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			context.ShellPage?.PaneHolder?.FocusOtherPane();
+			var paneHolder = context.ShellPage?.PaneHolder
+				?? throw new InvalidOperationException("An active pane holder is required to focus the other pane.");
+			paneHolder.FocusOtherPane();
 
 			return Task.CompletedTask;
 		}

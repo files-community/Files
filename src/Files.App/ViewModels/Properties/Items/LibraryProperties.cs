@@ -43,13 +43,15 @@ namespace Files.App.ViewModels.Properties
 
 		public async override Task GetSpecialPropertiesAsync()
 		{
-			var fileAttributes = Win32Helper.GetFileAttributes(Library.ItemPath);
+			var libraryPath = Library.ItemPath
+				?? throw new InvalidOperationException("The library does not have a path.");
+			var fileAttributes = Win32Helper.GetFileAttributes(libraryPath);
 			ViewModel.IsReadOnly = fileAttributes.HasFlag(System.IO.FileAttributes.ReadOnly);
 			ViewModel.IsHidden = fileAttributes.HasFlag(System.IO.FileAttributes.Hidden);
 			ViewModel.CanCompressContent = false;
 
 			var result = await FileThumbnailHelper.GetIconAsync(
-				Library.ItemPath,
+				libraryPath,
 				Constants.ShellIconSizes.ExtraLarge,
 				true,
 				IconOptions.UseCurrentScale);
@@ -61,8 +63,8 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.LoadFileIcon = true;
 			}
 
-			if (AppInstance.ShellViewModel is not { } shellViewModel)
-				return;
+			var shellViewModel = AppInstance.ShellViewModel
+				?? throw new InvalidOperationException("The properties page does not have a shell view model.");
 
 			BaseStorageFile? libraryFile = (await shellViewModel.GetFileFromPathAsync(Library.ItemPath)).Result;
 			if (libraryFile is not null)
@@ -81,8 +83,9 @@ namespace Files.App.ViewModels.Properties
 				{
 					foreach (var path in Library.Folders)
 					{
-						BaseStorageFolder? folder = (await AppInstance.ShellViewModel.GetFolderFromPathAsync(path)).Result;
-						if (folder is not null && !string.IsNullOrEmpty(folder.Path))
+						var folder = (await shellViewModel.GetFolderFromPathAsync(path)).Result
+							?? throw new InvalidOperationException($"The library folder '{path}' could not be opened.");
+						if (!string.IsNullOrEmpty(folder.Path))
 						{
 							storageFolders.Add(folder);
 						}
@@ -140,15 +143,17 @@ namespace Files.App.ViewModels.Properties
 
 		private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
+			var libraryPath = Library.ItemPath
+				?? throw new InvalidOperationException("The library does not have a path.");
 			switch (e.PropertyName)
 			{
 				case "IsReadOnly":
 					if (ViewModel.IsReadOnly is not null)
 					{
 						if ((bool)ViewModel.IsReadOnly)
-							Win32Helper.SetFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
+							Win32Helper.SetFileAttribute(libraryPath, System.IO.FileAttributes.ReadOnly);
 						else
-							Win32Helper.UnsetFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
+							Win32Helper.UnsetFileAttribute(libraryPath, System.IO.FileAttributes.ReadOnly);
 					}
 
 					break;
@@ -157,9 +162,9 @@ namespace Files.App.ViewModels.Properties
 					if (ViewModel.IsHidden is not null)
 					{
 						if ((bool)ViewModel.IsHidden)
-							Win32Helper.SetFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
+							Win32Helper.SetFileAttribute(libraryPath, System.IO.FileAttributes.Hidden);
 						else
-							Win32Helper.UnsetFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
+							Win32Helper.UnsetFileAttribute(libraryPath, System.IO.FileAttributes.Hidden);
 					}
 
 					break;

@@ -13,9 +13,9 @@ namespace Files.App.Utils.Storage
 {
 	public sealed partial class ShortcutStorageFile : ShellStorageFile, IShortcutStorageItem
 	{
-		public string TargetPath { get; }
-		public string Arguments { get; }
-		public string WorkingDirectory { get; }
+		public string? TargetPath { get; }
+		public string? Arguments { get; }
+		public string? WorkingDirectory { get; }
 		public bool RunAsAdmin { get; }
 		public SHOW_WINDOW_CMD ShowWindowCommand { get; set; }
 
@@ -31,7 +31,7 @@ namespace Files.App.Utils.Storage
 
 	public sealed partial class BinStorageFile : ShellStorageFile, IBinStorageItem
 	{
-		public string OriginalPath { get; }
+		public string? OriginalPath { get; }
 		public DateTimeOffset DateDeleted { get; }
 
 		public BinStorageFile(ShellFileItem item) : base(item)
@@ -61,17 +61,20 @@ namespace Files.App.Utils.Storage
 
 		public ShellStorageFile(ShellFileItem item)
 		{
-			Name = item.FileName;
-			Path = item.RecyclePath; // True path on disk
+			Name = item.FileName
+				?? throw new IO.InvalidDataException("The shell item does not have a file name.");
+			Path = item.RecyclePath // True path on disk
+				?? throw new IO.InvalidDataException("The shell item does not have a path.");
 			DateCreated = item.CreatedDate;
-			DisplayType = item.FileType;
+			DisplayType = item.FileType
+				?? throw new IO.InvalidDataException("The shell item does not have a display type.");
 		}
 
 		public override IAsyncOperation<StorageFile> ToStorageFileAsync() => throw new NotSupportedException();
 
 		public static ShellStorageFile FromShellItem(ShellFileItem item)
 		{
-			if (item.RecyclePath.Contains("$Recycle.Bin", StringComparison.OrdinalIgnoreCase))
+			if (item.RecyclePath?.Contains("$Recycle.Bin", StringComparison.OrdinalIgnoreCase) is true)
 				return new BinStorageFile(item);
 
 			if (item is ShellLinkItem linkItem)
@@ -157,10 +160,10 @@ namespace Files.App.Utils.Storage
 		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName) => throw new NotSupportedException();
 		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option) => throw new NotSupportedException();
 
-		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode) => throw new NotSupportedException();
-		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => throw new NotSupportedException();
-		public override IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadAsync() => throw new NotSupportedException();
-		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync() => throw new NotSupportedException();
+		public override IAsyncOperation<IRandomAccessStream?> OpenAsync(FileAccessMode accessMode) => throw new NotSupportedException();
+		public override IAsyncOperation<IRandomAccessStream?> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => throw new NotSupportedException();
+		public override IAsyncOperation<IRandomAccessStreamWithContentType?> OpenReadAsync() => throw new NotSupportedException();
+		public override IAsyncOperation<IInputStream?> OpenSequentialReadAsync() => throw new NotSupportedException();
 
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync() => throw new NotSupportedException();
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync(StorageOpenOptions options) => throw new NotSupportedException();

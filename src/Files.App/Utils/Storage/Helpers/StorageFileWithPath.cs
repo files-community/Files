@@ -9,7 +9,7 @@ namespace Files.App.Utils
 	public sealed class StorageFileWithPath : IStorageItemWithPath
 	{
 		public string Path { get; }
-		public string Name => Item?.Name ?? IO.Path.GetFileName(Path) ?? string.Empty;
+		public string Name => Item?.Name ?? IO.Path.GetFileName(Path)!;
 
 		IStorageItem? IStorageItemWithPath.Item => Item;
 		public BaseStorageFile? Item { get; }
@@ -18,7 +18,7 @@ namespace Files.App.Utils
 
 		public StorageFileWithPath(BaseStorageFile file)
 			: this(file, file.Path) { }
-		public StorageFileWithPath(BaseStorageFile? file, string? path)
-			=> (Item, Path) = (file, path ?? file?.Path ?? string.Empty);
+		public StorageFileWithPath(BaseStorageFile? file, string path)
+			=> (Item, Path) = (file, path);
 	}
 }

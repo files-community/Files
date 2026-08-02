@@ -43,7 +43,7 @@ namespace Files.App.Data.Models
 
 				PinnedFolders = (await QuickAccessService.GetPinnedFoldersAsync())
 					.Where(link => (bool?)link.Properties["System.Home.IsPinned"] ?? false)
-					.Select(link => link.FilePath).ToList();
+					.Select(link => link.FilePath!).ToList();
 
 				if (formerPinnedFolders.SequenceEqual(PinnedFolders))
 					return;
@@ -111,10 +111,11 @@ namespace Files.App.Data.Models
 				locationItem.IsInvalid = false;
 				await LoadIconForLocationItemAsync(locationItem, path, isFolder: false);
 			}
-			else if (res?.Result is { } folder)
+			else if (res)
 			{
 				locationItem.IsInvalid = false;
-				await LoadIconForLocationItemAsync(locationItem, folder.Path);
+				if (res!.Result is { } folder)
+					await LoadIconForLocationItemAsync(locationItem, folder.Path);
 			}
 			else
 			{
@@ -221,7 +222,7 @@ namespace Files.App.Data.Models
 			// Remove unpinned items from PinnedFolderItems
 			foreach (var childItem in PinnedFolderItems)
 			{
-				if (childItem is LocationItem item && !item.IsDefaultLocation && !PinnedFolders.Contains(item.Path))
+				if (childItem is LocationItem item && !item.IsDefaultLocation && !Enumerable.Contains<string?>(PinnedFolders, item.Path))
 				{
 					lock (_PinnedFolderItems)
 					{

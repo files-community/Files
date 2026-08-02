@@ -27,14 +27,14 @@ namespace Files.App.Data.Items
 
 		public byte[]? IconData { get; set; }
 
-		private string path = string.Empty;
-		public string Path
+		private string? path;
+		public string? Path
 		{
 			get => path;
 			set => path = value;
 		}
 
-		public string DeviceID { get; set; } = string.Empty;
+		public string? DeviceID { get; set; }
 
 		public StorageFolder? Root { get; set; }
 
@@ -49,7 +49,7 @@ namespace Files.App.Data.Items
 			=> Type == DriveType.Network;
 
 		public bool IsPinned
-			=> App.QuickAccessManager.Model.PinnedFolders.Contains(Path);
+			=> Enumerable.Contains<string?>(App.QuickAccessManager.Model.PinnedFolders, Path);
 
 		public string MaxSpaceText
 			=> MaxSpace.ToSizeString();
@@ -137,15 +137,15 @@ namespace Files.App.Data.Items
 			set => SetProperty(ref filesystem, value);
 		}
 
-		private string text = string.Empty;
-		public string Text
+		private string? text;
+		public string? Text
 		{
 			get => text;
 			set => SetProperty(ref text, value);
 		}
 
-		private string spaceText = string.Empty;
-		public string SpaceText
+		private string? spaceText;
+		public string? SpaceText
 		{
 			get => spaceText;
 			set => SetProperty(ref spaceText, value);
@@ -153,7 +153,7 @@ namespace Files.App.Data.Items
 
 		public SectionType Section { get; set; }
 
-		public ContextMenuOptions MenuOptions { get; set; } = new();
+		public ContextMenuOptions? MenuOptions { get; set; }
 
 		private float percentageUsed = 0.0f;
 		public float PercentageUsed
@@ -176,17 +176,20 @@ namespace Files.App.Data.Items
 			set => SetProperty(ref showStorageSense, value);
 		}
 
-		public string Id => Path;
-		public string Name => Root?.DisplayName ?? Text;
+		public string Id
+			=> Path ?? throw new InvalidOperationException("The drive path has not been initialized.");
+		public string Name => Root?.DisplayName
+			?? throw new InvalidOperationException("The drive root has not been initialized.");
 
 		public object? Children => IsExpandableFolder ? (childItems ??= []) : null;
 		private BulkConcurrentObservableCollection<INavigationControlItem>? childItems;
 
-		protected override string ExpansionPath => path;
+		protected override string ExpansionPath
+			=> path ?? throw new InvalidOperationException("The drive path has not been initialized.");
 		protected override BulkConcurrentObservableCollection<INavigationControlItem> EnsureChildItems() => childItems ??= [];
 
-		private object toolTip = "";
-		public object ToolTip
+		private object? toolTip = "";
+		public object? ToolTip
 		{
 			get => toolTip;
 			set
@@ -204,7 +207,7 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		FrameworkElement? ISidebarItemModel.IconElement => IconElement;
+		FrameworkElement? ISidebarItemPresentationModel.IconElement => IconElement;
 
 		public FrameworkElement? ItemDecorator
 		{
@@ -234,7 +237,9 @@ namespace Files.App.Data.Items
 
 		private void ItemDecorator_Click(object sender, RoutedEventArgs e)
 		{
-			DriveHelpers.EjectDeviceAsync(Path);
+			var drivePath = Path
+				?? throw new InvalidOperationException("The drive path has not been initialized.");
+			DriveHelpers.EjectDeviceAsync(drivePath);
 		}
 
 		public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, string label, DriveType type, IRandomAccessStream? imageStream = null)
@@ -268,15 +273,12 @@ namespace Files.App.Data.Items
 
 		public async Task UpdateLabelAsync()
 		{
-			if (Root is not { } root)
-				return;
-
 			try
 			{
+				var root = Root!;
 				var properties = await root.Properties.RetrievePropertiesAsync(["System.ItemNameDisplay"])
 					.AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
-				if (properties?.TryGetValue("System.ItemNameDisplay", out var value) == true && value is string displayName)
-					Text = displayName;
+				Text = (string?)properties!["System.ItemNameDisplay"];
 			}
 			catch (NullReferenceException)
 			{
@@ -292,7 +294,9 @@ namespace Files.App.Data.Items
 				{
 					try
 					{
-						var syncRootStatus = await SyncRootHelpers.GetSyncRootQuotaAsync(Path);
+						var drivePath = Path
+							?? throw new InvalidOperationException("The drive path has not been initialized.");
+						var syncRootStatus = await SyncRootHelpers.GetSyncRootQuotaAsync(drivePath);
 						if (syncRootStatus.Success)
 						{
 							MaxSpace = ByteSize.FromBytes(syncRootStatus.Capacity);
@@ -311,10 +315,8 @@ namespace Files.App.Data.Items
 					catch { }
 				}
 
-				if (Root is null)
-					return;
-
-				var properties = await Root.Properties.RetrievePropertiesAsync(["System.FreeSpace", "System.Capacity", "System.Volume.FileSystem"])
+				var root = Root ?? throw new InvalidOperationException("The drive root has not been initialized.");
+				var properties = await root.Properties.RetrievePropertiesAsync(["System.FreeSpace", "System.Capacity", "System.Volume.FileSystem"])
 					.AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
 				if (properties is not null && properties["System.Capacity"] is not null && properties["System.FreeSpace"] is not null)
@@ -359,11 +361,13 @@ namespace Files.App.Data.Items
 
 		public int CompareTo(INavigationControlItem? other)
 		{
-			if (other is null)
-				return 1;
+			ArgumentNullException.ThrowIfNull(other);
+			var text = Text ?? throw new InvalidOperationException("The drive name has not been initialized.");
+			var otherText = other.Text
+				?? throw new ArgumentException("The compared item must have a name.", nameof(other));
 
 			var result = Type.CompareTo((other as DriveItem)?.Type ?? Type);
-			return result == 0 ? Text.CompareTo(other.Text) : result;
+			return result == 0 ? text.CompareTo(otherText) : result;
 		}
 
 		public async Task LoadThumbnailAsync()

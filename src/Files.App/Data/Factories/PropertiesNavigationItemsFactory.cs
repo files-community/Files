@@ -61,9 +61,10 @@ namespace Files.App.Data.Factories
 				var isLibrary = listedItem.IsLibrary;
 				var fileExt = listedItem.FileExtension;
 				var isFolder = listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder;
+				var itemPath = listedItem.ItemPath!;
 
-				var isMtpPath = DriveHelpers.IsMtpPath(listedItem.ItemPath);
-				var isNetworkPath = isFolder && DriveHelpers.IsNetworkPath(listedItem.ItemPath);
+				var isMtpPath = DriveHelpers.IsMtpPath(itemPath);
+				var isNetworkPath = isFolder && DriveHelpers.IsNetworkPath(itemPath);
 
 				var securityItemEnabled = !isLibrary && !listedItem.IsRecycleBinItem;
 				var hashItemEnabled = !(isFolder && !listedItem.IsArchive) && !isLibrary && !listedItem.IsRecycleBinItem;

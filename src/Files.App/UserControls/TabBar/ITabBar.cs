@@ -14,7 +14,7 @@ namespace Files.App.UserControls.TabBar
 
 		public ITabBarItemContent? GetCurrentSelectedTabInstance();
 
-		public List<ITabBarItemContent> GetAllTabInstances();
+		public List<ITabBarItemContent?> GetAllTabInstances();
 
 		public Task ReopenClosedTabAsync();
 

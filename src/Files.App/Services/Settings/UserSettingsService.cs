@@ -75,14 +75,14 @@ namespace Files.App.Services.Settings
 			export.Remove(nameof(GeneralSettingsService.PreviousSearchQueriesList));
 			export.Remove(nameof(GeneralSettingsService.PreviousArchiveExtractionLocations));
 
-			return GetJsonSettingsSerializer().SerializeToJson(export);
+			return JsonSettingsSerializer!.SerializeToJson(export);
 		}
 
 		public override bool ImportSettings(object import)
 		{
 			Dictionary<string, object> settingsImport = import switch
 			{
-				string s => GetJsonSettingsSerializer().DeserializeFromJson<Dictionary<string, object>>(s) ?? [],
+				string s => JsonSettingsSerializer?.DeserializeFromJson<Dictionary<string, object>>(s) ?? [],
 				Dictionary<string, object> d => d,
 				_ => [],
 			};
@@ -106,12 +106,6 @@ namespace Files.App.Services.Settings
 			settingsServiceMember ??= Ioc.Default.GetRequiredService<TSettingsService>();
 
 			return settingsServiceMember;
-		}
-
-		private IJsonSettingsSerializer GetJsonSettingsSerializer()
-		{
-			return JsonSettingsSerializer
-				?? throw new InvalidOperationException("The JSON settings serializer has not been initialized.");
 		}
 	}
 }

@@ -61,8 +61,9 @@ namespace Files.App.Utils.Storage
 		public override IAsyncOperation<BaseStorageFolder?> GetParentAsync()
 			=> AsyncInfo.Run<BaseStorageFolder?>(async (cancellationToken) =>
 			{
-				var parent = await File.GetParentAsync();
-				return parent is not null ? new SystemStorageFolder(parent) : null;
+				var parent = await File.GetParentAsync()
+					?? throw new InvalidOperationException("The file does not have a parent.");
+				return new SystemStorageFolder(parent);
 			});
 
 		public override IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync()
@@ -94,9 +95,8 @@ namespace Files.App.Utils.Storage
 					}
 					else
 					{
-						var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
-						if (destFile is null)
-							return null;
+						var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert())
+							?? throw new IOException($"Failed to create destination file '{desiredNewName}'.");
 
 						await using (var inStream = await this.OpenStreamForReadAsync())
 						await using (var outStream = await destFile.OpenStreamForWriteAsync())
@@ -130,11 +130,11 @@ namespace Files.App.Utils.Storage
 			});
 		}
 
-		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode) => File.OpenAsync(accessMode);
-		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => File.OpenAsync(accessMode, options);
+		public override IAsyncOperation<IRandomAccessStream?> OpenAsync(FileAccessMode accessMode) => File.OpenAsync(accessMode);
+		public override IAsyncOperation<IRandomAccessStream?> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => File.OpenAsync(accessMode, options);
 
-		public override IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadAsync() => File.OpenReadAsync();
-		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync() => File.OpenSequentialReadAsync();
+		public override IAsyncOperation<IRandomAccessStreamWithContentType?> OpenReadAsync() => File.OpenReadAsync();
+		public override IAsyncOperation<IInputStream?> OpenSequentialReadAsync() => File.OpenSequentialReadAsync();
 
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync() => File.OpenTransactedWriteAsync();
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync(StorageOpenOptions options) => File.OpenTransactedWriteAsync(options);

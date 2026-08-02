@@ -7,11 +7,11 @@ namespace Files.App.Converters
 {
 	internal sealed partial class DoubleToStringConverter : IValueConverter
 	{
-		public object Convert(object value, Type targetType, object parameter, string language)
+		public object? Convert(object value, Type targetType, object parameter, string language)
 		{
 			if (value is not null)
 			{
-				return value.ToString() ?? string.Empty;
+				return value.ToString();
 			}
 
 			return "";
@@ -19,9 +19,14 @@ namespace Files.App.Converters
 
 		public object? ConvertBack(object value, Type targetType, object parameter, string language)
 		{
-			return value is string text && double.TryParse(text, out var result)
-				? result
-				: null;
+			try
+			{
+				return double.Parse((value as string)!);
+			}
+			catch (FormatException)
+			{
+				return null;
+			}
 		}
 	}
 }

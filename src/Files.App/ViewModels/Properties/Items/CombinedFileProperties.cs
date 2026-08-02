@@ -19,7 +19,9 @@ namespace Files.App.ViewModels.Properties
 		{
 			var queries = await Task.WhenAll(List.AsParallel().Select(async item =>
 			{
-				var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath));
+				var itemPath = item.ItemPath
+					?? throw new InvalidOperationException("A selected file does not have a path.");
+				var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(itemPath));
 				if (fileResult.Result is not { } file)
 				{
 					// Could not access file, can't show any other property
@@ -28,19 +30,21 @@ namespace Files.App.ViewModels.Properties
 
 				var list = await FileProperty.RetrieveAndInitializePropertiesAsync(file);
 
-				var latitude = list.Find(x => x.Property == "System.GPS.LatitudeDecimal")?.Value as double?;
-				var longitude = list.Find(x => x.Property == "System.GPS.LongitudeDecimal")?.Value as double?;
-				var addressItem = list.Find(x => x.ID == "address");
+				var latitudeProperty = list.Find(x => x.Property == "System.GPS.LatitudeDecimal")
+					?? throw new InvalidOperationException("The file property definitions do not contain the latitude property.");
+				var longitudeProperty = list.Find(x => x.Property == "System.GPS.LongitudeDecimal")
+					?? throw new InvalidOperationException("The file property definitions do not contain the longitude property.");
+				var addressItem = list.Find(x => x.ID == "address")
+					?? throw new InvalidOperationException("The file property definitions do not contain the address property.");
 
-				if (latitude.HasValue && longitude.HasValue && addressItem != null)
-					addressItem.Value = await LocationHelpers.GetAddressFromCoordinatesAsync(latitude.Value, longitude.Value);
+				addressItem.Value = await LocationHelpers.GetAddressFromCoordinatesAsync(
+					(double?)latitudeProperty.Value,
+					(double?)longitudeProperty.Value);
 
 
 				return list
 					.Where(fileProp => !(fileProp.Value is null && fileProp.IsReadOnly))
-					.Select(fileProp => (Property: fileProp, Section: fileProp.SectionResource ?? string.Empty))
-					.Where(property => property.Section.Length > 0)
-					.GroupBy(property => property.Section, property => property.Property)
+					.GroupBy(fileProp => fileProp.SectionResource!)
 					.Select(group => new FilePropertySection(group) { Key = group.Key })
 					.Where(section => !section.All(fileProp => fileProp.Value is null)
 						|| FileProperty.IsSectionApplicableForEmpty(section.Key, item.FileExtension));
@@ -51,7 +55,7 @@ namespace Files.App.ViewModels.Properties
 
 			var validQueries = queries.WhereNotNull().ToArray();
 			if (validQueries.Length == 0)
-				return;
+				throw new InvalidOperationException("No selected files were available for property aggregation.");
 
 			// Display only the sections that all files have
 			var keys = validQueries.Select(query => query.Select(section => section.Key)).Aggregate((x, y) => x.Intersect(y));
@@ -65,11 +69,9 @@ namespace Files.App.ViewModels.Properties
 					if (prop.Property == "System.Media.Duration")
 					{
 						ulong totalDuration = 0;
-						props
-							.Where(x => x.Property == prop.Property)
-							.Select(x => x.Value)
-							.OfType<ulong>()
-							.ForEach(value => totalDuration += value);
+						props.Where(x => x.Property == prop.Property).ForEach(x =>
+							totalDuration += (ulong)(x.Value
+								?? throw new InvalidOperationException("A media duration property does not have a value.")));
 						prop.Value = totalDuration;
 					}
 					else if (props.Where(x => x.Property == prop.Property).Any(x => !Equals(x.Value, prop.Value)))
@@ -90,7 +92,9 @@ namespace Files.App.ViewModels.Properties
 			foreach (var item in List)
 			{
 				// Couldn't access the file to save properties
-				var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath));
+				var itemPath = item.ItemPath
+					?? throw new InvalidOperationException("A selected file does not have a path.");
+				var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(itemPath));
 				if (fileResult.Result is not { } file)
 					return;
 
@@ -103,9 +107,10 @@ namespace Files.App.ViewModels.Properties
 			{
 				foreach (FileProperty prop in group)
 				{
-					var propertyName = prop.Property;
-					if (!prop.IsReadOnly && prop.Modified && !string.IsNullOrEmpty(propertyName))
+					if (!prop.IsReadOnly && prop.Modified)
 					{
+						var propertyName = prop.Property
+							?? throw new InvalidOperationException("An editable file property does not have an identifier.");
 						var newDict = new Dictionary<string, object?>
 						{
 							{ propertyName, prop.Value }
@@ -141,7 +146,9 @@ namespace Files.App.ViewModels.Properties
 			var files = new List<BaseStorageFile>();
 			foreach (var item in List)
 			{
-				var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath));
+				var itemPath = item.ItemPath
+					?? throw new InvalidOperationException("A selected file does not have a path.");
+				var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(itemPath));
 				if (fileResult.Result is not { } file)
 					return;
 
@@ -152,9 +159,10 @@ namespace Files.App.ViewModels.Properties
 			{
 				foreach (FileProperty prop in group)
 				{
-					var propertyName = prop.Property;
-					if (!prop.IsReadOnly && !string.IsNullOrEmpty(propertyName))
+					if (!prop.IsReadOnly)
 					{
+						var propertyName = prop.Property
+							?? throw new InvalidOperationException("An editable file property does not have an identifier.");
 						var newDict = new Dictionary<string, object?>
 						{
 							{ propertyName, null }

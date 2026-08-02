@@ -61,31 +61,25 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		public async static Task<FilesystemResult> OnSuccess<T>(this Task<FilesystemResult<T>> wrapped, Action<T> func)
+		public async static Task<FilesystemResult> OnSuccess<T>(this Task<FilesystemResult<T>> wrapped, Action<T?> func)
 		{
 			var res = await wrapped;
-			if (res && res.Result is { } result)
-			{
-				func(result);
-			}
+			if (res)
+				func(res.Result);
 			return res;
 		}
-		public async static Task<FilesystemResult> OnSuccess<T>(this Task<FilesystemResult<T>> wrapped, Func<T, Task> func)
+		public async static Task<FilesystemResult> OnSuccess<T>(this Task<FilesystemResult<T>> wrapped, Func<T?, Task> func)
 		{
 			var res = await wrapped;
-			if (res && res.Result is { } result)
-			{
-				return await Wrap(() => func(result));
-			}
+			if (res)
+				return await Wrap(() => func(res.Result));
 			return res;
 		}
-		public async static Task<FilesystemResult<V>> OnSuccess<V, T>(this Task<FilesystemResult<T>> wrapped, Func<T, Task<V>> func)
+		public async static Task<FilesystemResult<V>> OnSuccess<V, T>(this Task<FilesystemResult<T>> wrapped, Func<T?, Task<V>> func)
 		{
 			var res = await wrapped;
-			if (res && res.Result is { } result)
-			{
-				return await Wrap(() => func(result));
-			}
+			if (res)
+				return await Wrap(() => func(res.Result));
 			return new FilesystemResult<V>(default, res.ErrorCode);
 		}
 

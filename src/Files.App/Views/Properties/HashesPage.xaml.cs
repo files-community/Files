@@ -25,7 +25,8 @@ namespace Files.App.Views.Properties
 			var parameter = (PropertiesPageNavigationParameter)e.Parameter;
 
 			if (parameter.Parameter is ListedItem listedItem)
-				HashesViewModel = new(listedItem, parameter.Window.AppWindow);
+				HashesViewModel = new(listedItem,
+					(parameter.Window ?? throw new InvalidOperationException("The properties window has not been initialized.")).AppWindow);
 
 			base.OnNavigatedTo(e);
 		}

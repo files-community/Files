@@ -9,9 +9,9 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class SecurityPage : BasePropertiesPage
 	{
-		private SecurityViewModel? SecurityViewModel { get; set; }
+		private SecurityViewModel SecurityViewModel { get; set; } = null!;
 
-		private PropertiesPageNavigationParameter? _parameter;
+		private PropertiesPageNavigationParameter _parameter = null!;
 
 		public SecurityPage()
 		{
@@ -30,8 +30,7 @@ namespace Files.App.Views.Properties
 
 		private void OpenSecurityAdvancedPageButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (_parameter is not null)
-				Frame?.Navigate(typeof(SecurityAdvancedPage), _parameter);
+			Frame?.Navigate(typeof(SecurityAdvancedPage), _parameter);
 		}
 
 		public async override Task<bool> SaveChangesAsync()

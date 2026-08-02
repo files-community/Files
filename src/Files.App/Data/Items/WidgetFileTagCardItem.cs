@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Files.Shared.Utils;
-using System.Diagnostics.CodeAnalysis;
 using System.Windows.Input;
 
 namespace Files.App.Data.Items
@@ -36,12 +35,11 @@ namespace Files.App.Data.Items
 			set => SetProperty(ref _Name, value);
 		}
 
-		private string _Path;
-		[AllowNull]
-		public override string Path
+		private string? _Path;
+		public override string? Path
 		{
 			get => _Path;
-			set => SetProperty(ref _Path, value ?? string.Empty);
+			set => SetProperty(ref _Path, value);
 		}
 
 		// Commands

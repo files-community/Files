@@ -181,9 +181,9 @@ namespace Files.App.ViewModels.UserControls
 		private bool _CanRefresh;
 		public bool CanRefresh { get => _CanRefresh; set => SetProperty(ref _CanRefresh, value); }
 
-		private string _PathControlDisplayText = string.Empty;
+		private string? _PathControlDisplayText;
 		[Obsolete("Superseded by Omnibar.")]
-		public string PathControlDisplayText { get => _PathControlDisplayText; set => SetProperty(ref _PathControlDisplayText, value); }
+		public string? PathControlDisplayText { get => _PathControlDisplayText; set => SetProperty(ref _PathControlDisplayText, value); }
 
 		private bool _HasItem = false;
 		public bool HasItem { get => _HasItem; set => SetProperty(ref _HasItem, value); }
@@ -379,7 +379,6 @@ namespace Files.App.ViewModels.UserControls
 		public void PathBoxItem_DragLeave(object sender, DragEventArgs e)
 		{
 			if (((FrameworkElement)sender).DataContext is not PathBoxItem pathBoxItem ||
-				pathBoxItem.Path is null ||
 				pathBoxItem.Path == "Home" ||
 				pathBoxItem.Path == "ReleaseNotes" ||
 				pathBoxItem.Path == "Settings")
@@ -403,10 +402,10 @@ namespace Files.App.ViewModels.UserControls
 			// Reset dragged over pathbox item
 			_dragOverPath = null;
 
-			if (((FrameworkElement)sender).DataContext is not PathBoxItem { Path: { } path } ||
-				path == "Home" ||
-				path == "ReleaseNotes" ||
-				path == "Settings")
+			if (((FrameworkElement)sender).DataContext is not PathBoxItem pathBoxItem ||
+				pathBoxItem.Path == "Home" ||
+				pathBoxItem.Path == "ReleaseNotes" ||
+				pathBoxItem.Path == "Settings")
 			{
 				return;
 			}
@@ -419,7 +418,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				AcceptedOperation = e.AcceptedOperation,
 				Package = e.DataView,
-				Path = path,
+				Path = pathBoxItem.Path,
 				SignalEvent = signal
 			});
 
@@ -537,8 +536,12 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task HandleItemNavigationAsync(string path)
 		{
-			if (ContentPageContext.ShellPage is not { ShellViewModel: { } shellViewModel } shellPage)
+			var shellPage = ContentPageContext.ShellPage;
+			if (shellPage is null)
 				return;
+
+			var shellViewModel = shellPage.ShellViewModel
+				?? throw new InvalidOperationException("The current shell page does not have a view model.");
 
 			var currentPath = PathComponents.LastOrDefault()?.Path;
 			var isFtp = FtpHelpers.IsFtpPath(path);
@@ -576,17 +579,23 @@ namespace Files.App.ViewModels.UserControls
 				if (currentPath is not null && currentPath.Equals(normalizedInput, StringComparison.OrdinalIgnoreCase))
 					return;
 
-				var item = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(normalizedInput));
+				var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(normalizedInput));
 
 				var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(normalizedInput, item));
+				shellPage = ContentPageContext.ShellPage
+					?? throw new InvalidOperationException("The current shell page is no longer available.");
+
 				if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(normalizedInput))
 				{
-					var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(normalizedInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
+					var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(normalizedInput).StartsWith(
+						PathNormalization.NormalizePath(x.Path!),
+						StringComparison.Ordinal));
 					if (matchingDrive is not null && matchingDrive.Type == Data.Items.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
 					{
-						bool ejectButton = await DialogDisplayHelper.ShowDialogAsync(Strings.InsertDiscDialogTitle.GetLocalizedResource(), string.Format(Strings.InsertDiscDialogText.GetLocalizedResource(), matchingDrive.Path), Strings.InsertDiscDialog_OpenDriveButton.GetLocalizedResource(), Strings.Close.GetLocalizedResource());
+						var drivePath = matchingDrive.Path!;
+						bool ejectButton = await DialogDisplayHelper.ShowDialogAsync(Strings.InsertDiscDialogTitle.GetLocalizedResource(), string.Format(Strings.InsertDiscDialogText.GetLocalizedResource(), drivePath), Strings.InsertDiscDialog_OpenDriveButton.GetLocalizedResource(), Strings.Close.GetLocalizedResource());
 						if (ejectButton)
-							DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+							DriveHelpers.EjectDeviceAsync(drivePath);
 						return;
 					}
 
@@ -602,24 +611,34 @@ namespace Files.App.ViewModels.UserControls
 				else // Not a folder or inaccessible
 				{
 					var resFile = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(normalizedInput, item));
-					if (resFile.Result is { } storageFile)
+					shellPage = ContentPageContext.ShellPage
+						?? throw new InvalidOperationException("The current shell page is no longer available.");
+
+					if (resFile)
 					{
+						var storageFile = resFile.Result
+							?? throw new InvalidOperationException("A successful file lookup did not return a storage file.");
 						await Win32Helper.InvokeWin32ComponentAsync(storageFile.Path, shellPage);
 					}
 					else // Not a file or not accessible
 					{
+						shellViewModel = shellPage.ShellViewModel
+							?? throw new InvalidOperationException("The current shell page does not have a view model.");
+
 						var workingDir =
 							string.IsNullOrEmpty(shellViewModel.WorkingDirectory) ||
 							shellPage.CurrentPageType == typeof(HomePage)
 								? Constants.UserEnvironmentPaths.HomePath
 								: shellViewModel.WorkingDirectory;
+						var pathText = PathText
+							?? throw new InvalidOperationException("The navigation path has not been initialized.");
 
-						if (await LaunchApplicationFromPath(path, workingDir))
+						if (await LaunchApplicationFromPath(pathText, workingDir))
 							return;
 
 						try
 						{
-							if (!await Windows.System.Launcher.LaunchUriAsync(new Uri(path)))
+							if (!await Windows.System.Launcher.LaunchUriAsync(new Uri(pathText)))
 								await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidItemDialogTitle.GetLocalizedResource(),
 									string.Format(Strings.InvalidItemDialogContent.GetLocalizedResource(), Environment.NewLine, resFolder.ErrorCode.ToString()));
 						}
@@ -632,6 +651,10 @@ namespace Files.App.ViewModels.UserControls
 				}
 			}
 
+			shellPage = ContentPageContext.ShellPage
+				?? throw new InvalidOperationException("The current shell page is no longer available.");
+			shellViewModel = shellPage.ShellViewModel
+				?? throw new InvalidOperationException("The current shell page does not have a view model.");
 			PathControlDisplayText = shellViewModel.WorkingDirectory;
 		}
 
@@ -660,11 +683,8 @@ namespace Files.App.ViewModels.UserControls
 				await Task.Delay(100);
 
 			OmnibarCurrentSelectedModeName = OmnibarPathModeName;
-			if (omnibar is not null)
-			{
-				omnibar.Focus(FocusState.Programmatic);
-				omnibar.IsFocused = true;
-			}
+			omnibar?.Focus(FocusState.Programmatic);
+			(omnibar ?? throw new InvalidOperationException("The omnibar is not available.")).IsFocused = true;
 		}
 
 		public void UpdateAdditionalActions()
@@ -674,24 +694,23 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem)
 		{
-			if (pathItem.Path is not { } path)
-				return;
+			var path = pathItem.Path
+				?? throw new InvalidOperationException("The path box item does not have a path.");
 
 			var childFolders = GetSubfolders(path);
 
 			// Fall back to StorageFolder API for non-filesystem paths (e.g. FTP)
 			if (childFolders is null)
 			{
-				if (ContentPageContext.ShellPage?.ShellViewModel is { } shellViewModel)
+				var shellPage = ContentPageContext.ShellPage
+					?? throw new InvalidOperationException("The current shell page is not available.");
+				var shellViewModel = shellPage.ShellViewModel
+					?? throw new InvalidOperationException("The current shell page does not have a view model.");
+				var folderResult = await shellViewModel.GetFolderWithPathFromPathAsync(path);
+				if (folderResult.Result is { } folder)
 				{
-					var folderResult = await shellViewModel.GetFolderWithPathFromPathAsync(path);
-					if (folderResult.Result is { } folder)
-					{
-						var result = (await FilesystemTasks.Wrap(() => folder.GetFoldersWithPathAsync(string.Empty))).Result;
-						childFolders = result?
-							.Select(f => (f.Item?.Name ?? Path.GetFileName(f.Path), f.Path, false))
-							.ToList();
-					}
+					var result = (await FilesystemTasks.Wrap(() => folder.GetFoldersWithPathAsync(string.Empty))).Result;
+					childFolders = result?.Select(f => (f.Item!.Name, f.Path, false)).ToList();
 				}
 			}
 
@@ -728,7 +747,9 @@ namespace Files.App.ViewModels.UserControls
 					flyoutItem.Click += (sender, args) =>
 					{
 						// Navigate to the directory
-						ContentPageContext.ShellPage?.NavigateToPath(childPath);
+						var shellPage = ContentPageContext.ShellPage
+							?? throw new InvalidOperationException("The current shell page is not available.");
+						shellPage.NavigateToPath(childPath);
 					};
 				}
 
@@ -812,8 +833,8 @@ namespace Files.App.ViewModels.UserControls
 		[Obsolete("Superseded by Omnibar.")]
 		public async Task CheckPathInputAsync(string currentInput, string? currentSelectedPath, IShellPage shellPage)
 		{
-			if (shellPage.ShellViewModel is not { } shellViewModel)
-				return;
+			var shellViewModel = shellPage.ShellViewModel
+				?? throw new InvalidOperationException("The shell page does not have a view model.");
 
 			if (currentInput.StartsWith('>'))
 			{
@@ -867,12 +888,16 @@ namespace Files.App.ViewModels.UserControls
 					var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(normalizedInput, item));
 					if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(normalizedInput))
 					{
-						var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(normalizedInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
+						var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(normalizedInput).StartsWith(
+							PathNormalization.NormalizePath(x.Path) ?? throw new InvalidOperationException("A drive does not have a path."),
+							StringComparison.Ordinal));
 						if (matchingDrive is not null && matchingDrive.Type == Data.Items.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
 						{
-							bool ejectButton = await DialogDisplayHelper.ShowDialogAsync(Strings.InsertDiscDialogTitle.GetLocalizedResource(), string.Format(Strings.InsertDiscDialogText.GetLocalizedResource(), matchingDrive.Path), Strings.InsertDiscDialog_OpenDriveButton.GetLocalizedResource(), Strings.Close.GetLocalizedResource());
+							var drivePath = matchingDrive.Path
+								?? throw new InvalidOperationException("The optical drive does not have a path.");
+							bool ejectButton = await DialogDisplayHelper.ShowDialogAsync(Strings.InsertDiscDialogTitle.GetLocalizedResource(), string.Format(Strings.InsertDiscDialogText.GetLocalizedResource(), drivePath), Strings.InsertDiscDialog_OpenDriveButton.GetLocalizedResource(), Strings.Close.GetLocalizedResource());
 							if (ejectButton)
-								DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+								DriveHelpers.EjectDeviceAsync(drivePath);
 							return;
 						}
 						var pathToNavigate = resFolder.Result?.Path ?? normalizedInput;
@@ -887,8 +912,10 @@ namespace Files.App.ViewModels.UserControls
 					else // Not a folder or inaccessible
 					{
 						var resFile = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(normalizedInput, item));
-						if (resFile.Result is { } storageFile)
+						if (resFile)
 						{
+							var storageFile = resFile.Result
+								?? throw new InvalidOperationException("A successful file lookup did not return a storage file.");
 							await Win32Helper.InvokeWin32ComponentAsync(storageFile.Path, shellPage);
 						}
 						else // Not a file or not accessible
@@ -976,14 +1003,14 @@ namespace Files.App.ViewModels.UserControls
 					pathText = NormalizePathInput(pathText, isFtp);
 					var expandedPath = StorageFileExtensions.GetResolvedPath(pathText, isFtp);
 					var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
-					if (ContentPageContext.ShellPage?.ShellViewModel is not { } shellViewModel)
-						return false;
+					var shellViewModel = ContentPageContext.ShellPage?.ShellViewModel
+						?? throw new InvalidOperationException("The current shell page does not have a view model.");
 
 					var folderResult = await shellViewModel.GetFolderWithPathFromPathAsync(folderPath);
 					if (folderResult.Result is not { } folder)
 						return false;
 
-					var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), MaxSuggestionsCount);
+					var currPath = (await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), MaxSuggestionsCount))!;
 					if (currPath.Count >= MaxSuggestionsCount)
 					{
 						newSuggestions.AddRange(currPath.Select(CreateSuggestion));
@@ -992,11 +1019,11 @@ namespace Files.App.ViewModels.UserControls
 					{
 						var firstPath = currPath.First();
 						var subPath = await firstPath.GetFoldersWithPathAsync((uint)(MaxSuggestionsCount - currPath.Count));
-						var firstDisplayName = firstPath.Item?.DisplayName ?? Path.GetFileName(firstPath.Path);
+						var firstDisplayName = firstPath.Item!.DisplayName;
 						newSuggestions.AddRange(currPath.Select(CreateSuggestion));
 						newSuggestions.AddRange(subPath.Select(x => new OmnibarPathModeSuggestionModel(
 							x.Path,
-							PathNormalization.Combine(firstDisplayName, x.Item?.DisplayName ?? Path.GetFileName(x.Path)))));
+							PathNormalization.Combine(firstDisplayName, x.Item!.DisplayName))));
 					}
 				}
 
@@ -1044,7 +1071,7 @@ namespace Files.App.ViewModels.UserControls
 				return true;
 
 				static OmnibarPathModeSuggestionModel CreateSuggestion(StorageFolderWithPath folder)
-					=> new(folder.Path, folder.Item?.DisplayName ?? Path.GetFileName(folder.Path));
+					=> new(folder.Path, folder.Item!.DisplayName);
 			}));
 
 			if (!result)
@@ -1069,7 +1096,8 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task PopulateOmnibarSuggestionsForCommandPaletteMode()
 		{
-			var commandPaletteText = OmnibarCommandPaletteModeText ?? string.Empty;
+			var commandPaletteText = OmnibarCommandPaletteModeText;
+			ArgumentNullException.ThrowIfNull(commandPaletteText, "value");
 			var (suggestionsToProcess, commandsToProcess) = await Task.Run(() =>
 			{
 				var suggestions = new List<NavigationBarSuggestionItem>();
@@ -1170,12 +1198,12 @@ namespace Files.App.ViewModels.UserControls
 				try
 				{
 					await Task.Delay(200, token);
-					if (ContentPageContext.ShellPage?.ShellViewModel is not { } shellViewModel)
-						return;
+					var shellViewModel = ContentPageContext.ShellPage?.ShellViewModel
+						?? throw new InvalidOperationException("The current shell page does not have a view model.");
 
 					var search = new FolderSearch
 					{
-						Query = OmnibarSearchModeText ?? string.Empty,
+						Query = OmnibarSearchModeText,
 						Folder = shellViewModel.WorkingDirectory,
 						MaxItemCount = 10,
 					};

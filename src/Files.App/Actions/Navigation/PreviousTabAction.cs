@@ -45,7 +45,9 @@ namespace Files.App.Actions
 			await Task.Delay(500);
 
 			// Focus the content of the selected tab item (needed for keyboard navigation)
-			contentPageContext.ShellPage?.PaneHolder?.FocusActivePane();
+			var paneHolder = contentPageContext.ShellPage?.PaneHolder
+				?? throw new InvalidOperationException("The selected tab no longer has an active pane holder.");
+			paneHolder.FocusActivePane();
 		}
 
 		private void MultitaskingContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)

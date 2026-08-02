@@ -266,8 +266,8 @@ namespace Files.App.Views.Layouts
 
 		private void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
-			if (FolderSettings is not { } folderSettings)
-				return;
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The grid layout does not have folder settings.");
 
 			if (folderSettings.LayoutMode == FolderLayoutModes.ListView
 				|| folderSettings.LayoutMode == FolderLayoutModes.CardsView
@@ -296,8 +296,8 @@ namespace Files.App.Views.Layouts
 
 		private void SetItemTemplate()
 		{
-			if (FolderSettings is not { } folderSettings)
-				return;
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The grid layout does not have folder settings.");
 
 			var newFileListStyle = folderSettings.LayoutMode switch
 			{
@@ -390,7 +390,7 @@ namespace Files.App.Views.Layouts
 				return;
 
 			TextBox? textBox = null;
-			string editText = ShouldShowExtensionInRename(RenamingItem) ? RenamingItem.ItemNameRaw : textBlock.Text;
+			string editText = ShouldShowExtensionInRename(RenamingItem) ? RenamingItem.ItemNameRaw! : textBlock.Text;
 
 			// Grid View
 			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
@@ -444,15 +444,17 @@ namespace Files.App.Views.Layouts
 				}
 			}
 
-			textBox.Focus(FocusState.Pointer);
-			textBox.LostFocus += RenameTextBox_LostFocus;
-			textBox.KeyDown += RenameTextBox_KeyDown;
+			var activeTextBox = textBox
+				?? throw new InvalidOperationException("The rename text box is not available for the selected layout.");
+			activeTextBox.Focus(FocusState.Pointer);
+			activeTextBox.LostFocus += RenameTextBox_LostFocus;
+			activeTextBox.KeyDown += RenameTextBox_KeyDown;
 
 			int selectedTextLength = editText.Length;
 			if (!RenamingItem.IsShortcut && (ShouldShowExtensionInRename(RenamingItem) || UserSettingsService.FoldersSettingsService.ShowFileExtensions))
 				selectedTextLength -= extensionLength;
 
-			textBox.Select(0, selectedTextLength);
+			activeTextBox.Select(0, selectedTextLength);
 			IsRenamingItem = true;
 		}
 
@@ -471,31 +473,40 @@ namespace Files.App.Views.Layouts
 		protected override void EndRename(TextBox textBox)
 		{
 			GridViewItem? gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
-			var layoutMode = FolderSettings?.LayoutMode;
 
 			if (textBox is null || gridViewItem is null)
 			{
 				// NOTE: Navigating away, do nothing
 			}
-			else if (layoutMode == FolderLayoutModes.GridView)
+			else
 			{
-				Popup? popup = gridViewItem.FindDescendant("EditPopup") as Popup;
-				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
+				var layoutMode = (FolderSettings
+					?? throw new InvalidOperationException("The grid layout does not have folder settings."))
+					.LayoutMode;
+				if (layoutMode == FolderLayoutModes.GridView)
+				{
+					Popup? popup = gridViewItem.FindDescendant("EditPopup") as Popup;
+					TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
 
-				if (popup is not null)
-					popup.IsOpen = false;
+					if (popup is not null)
+						popup.IsOpen = false;
 
-				if (textBlock?.DataContext is ListedItem item)
-					textBlock.Opacity = item.Opacity;
-			}
-			else if (layoutMode is FolderLayoutModes.CardsView or FolderLayoutModes.ListView)
-			{
-				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
+					if (textBlock is not null)
+					{
+						var item = textBlock.DataContext as ListedItem
+							?? throw new InvalidOperationException("The renamed item is not available.");
+						textBlock.Opacity = item.Opacity;
+					}
+				}
+				else if (layoutMode is FolderLayoutModes.CardsView or FolderLayoutModes.ListView)
+				{
+					TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
 
-				textBox.Visibility = Visibility.Collapsed;
+					textBox.Visibility = Visibility.Collapsed;
 
-				if (textBlock is not null)
-					textBlock.Visibility = Visibility.Visible;
+					if (textBlock is not null)
+						textBlock.Visibility = Visibility.Visible;
+				}
 			}
 
 			// Unsubscribe from events
@@ -537,9 +548,8 @@ namespace Files.App.Views.Layouts
 
 				if (ctrlPressed && !shiftPressed)
 				{
-					var selectedItems = ParentShellPageInstance?.SlimContentPage?.SelectedItems;
-					if (selectedItems is null)
-						return;
+					var selectedItems = ParentShellPageInstance?.SlimContentPage?.SelectedItems
+						?? throw new InvalidOperationException("The selected items are not available.");
 
 					foreach (var folder in selectedItems.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder))
 					{
@@ -590,8 +600,8 @@ namespace Files.App.Views.Layouts
 
 		private void FolderSettings_IconSizeChanged()
 		{
-			if (FolderSettings is not { } folderSettings)
-				return;
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The grid layout does not have folder settings.");
 
 			// Check if icons need to be reloaded
 			var newIconSize = LayoutSizeKindHelper.GetIconSize(folderSettings.LayoutMode);
@@ -604,8 +614,10 @@ namespace Files.App.Views.Layouts
 
 		private async Task ReloadItemIconsAsync()
 		{
-			if (ParentShellPageInstance?.ShellViewModel is not { } shellViewModel)
+			if (ParentShellPageInstance is not { } parentShellPage)
 				return;
+			var shellViewModel = parentShellPage.ShellViewModel
+				?? throw new InvalidOperationException("The grid layout does not have a shell view model.");
 
 			shellViewModel.CancelExtendedPropertiesLoading();
 			var filesAndFolders = shellViewModel.FilesAndFolders.ToList();
@@ -671,7 +683,10 @@ namespace Files.App.Views.Layouts
 				{
 					if (FileList.ContainerFromItem(RenamingItem) is GridViewItem gridViewItem)
 					{
-						if (FolderSettings?.LayoutMode == FolderLayoutModes.GridView)
+						var layoutMode = (FolderSettings
+							?? throw new InvalidOperationException("The grid layout does not have folder settings."))
+							.LayoutMode;
+						if (layoutMode == FolderLayoutModes.GridView)
 						{
 							Popup? popup = gridViewItem.FindDescendant("EditPopup") as Popup;
 							var textBox = popup?.Child as TextBox;
@@ -808,7 +823,7 @@ namespace Files.App.Views.Layouts
 		// To avoid crashes, disable scrolling when drag-and-drop if grouped. (#14484)
 		private bool ShouldDisableScrollingWhenDragAndDrop =>
 			FolderSettings?.LayoutMode is FolderLayoutModes.GridView or FolderLayoutModes.CardsView &&
-			(ParentShellPageInstance?.ShellViewModel is { } shellViewModel && shellViewModel.FilesAndFolders.IsGrouped);
+			(ParentShellPageInstance?.ShellViewModel!.FilesAndFolders.IsGrouped ?? false);
 
 		protected override void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{

@@ -134,9 +134,10 @@ namespace Files.App.Views.Layouts
 		{
 			var parentShellPage = ParentShellPageInstance;
 			var selectedItem = parentShellPage?.SlimContentPage?.SelectedItem;
-			var shellViewModel = parentShellPage?.ShellViewModel;
-			if (selectedItem is null || shellViewModel is null)
+			if (selectedItem is null)
 				return;
+			var shellViewModel = parentShellPage!.ShellViewModel
+				?? throw new InvalidOperationException("The layout does not have a shell view model.");
 
 			shellViewModel.CancelExtendedPropertiesLoading();
 			selectedItem.ItemPropertiesInitialized = false;
@@ -154,9 +155,10 @@ namespace Files.App.Views.Layouts
 		{
 			var parentShellPage = ParentShellPageInstance;
 			var selectedItems = parentShellPage?.SlimContentPage?.SelectedItems;
-			var shellViewModel = parentShellPage?.ShellViewModel;
-			if (selectedItems is null || shellViewModel is null)
+			if (selectedItems is null)
 				return;
+			var shellViewModel = parentShellPage!.ShellViewModel
+				?? throw new InvalidOperationException("The layout does not have a shell view model.");
 
 			shellViewModel.CancelExtendedPropertiesLoading();
 
@@ -289,15 +291,16 @@ namespace Files.App.Views.Layouts
 			TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
 			TextBox? textBox = listViewItem.FindDescendant(itemNameTextBox) as TextBox;
 			if (textBlock is null || textBox is null)
-				return;
+				throw new InvalidOperationException("The rename controls are not available for the selected item.");
 
-			string editText = ShouldShowExtensionInRename(renamingItem) ? renamingItem.ItemNameRaw : textBlock.Text;
+			string editText = ShouldShowExtensionInRename(renamingItem) ? renamingItem.ItemNameRaw! : textBlock.Text;
 			textBox.Text = editText;
 			OldItemName = editText;
 			textBlock.Visibility = Visibility.Collapsed;
 			textBox.Visibility = Visibility.Visible;
 
-			if (textBox.FindParent<Grid>() is not { } parentGrid)
+			var parentGrid = textBox.FindParent<Grid>();
+			if (parentGrid is null)
 			{
 				textBlock.Visibility = Visibility.Visible;
 				textBox.Visibility = Visibility.Collapsed;
@@ -325,7 +328,7 @@ namespace Files.App.Views.Layouts
 			var parentShellPage = ParentShellPageInstance;
 			EndRename(textBox);
 			if (renamingItem is null || parentShellPage is null)
-				return;
+				throw new InvalidOperationException("The rename operation does not have an item and shell page.");
 
 			string newItemName = textBox.Text.Trim().TrimEnd('.');
 

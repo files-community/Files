@@ -210,9 +210,9 @@ namespace Files.App.ViewModels.UserControls
 		{
 			var item = SelectedItem;
 			if (item is null)
-				return;
+				throw new InvalidOperationException("The preview pane does not have a selected item.");
 
-			if (item.IsHiddenItem && !item.ItemPath.EndsWith('\\'))
+			if (item.IsHiddenItem && !item.ItemPath!.EndsWith('\\'))
 			{
 				PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
 
@@ -288,7 +288,7 @@ namespace Files.App.ViewModels.UserControls
 				await model.LoadAsync();
 
 				if (contentPageContext.SelectedItems.Count == 0)
-					item.FileTags ??= FileTagsHelper.ReadFileTag(item.ItemPath);
+					item.FileTags ??= FileTagsHelper.ReadFileTag(item.ItemPath!);
 
 				return new FolderPreview(model);
 			}
@@ -503,7 +503,7 @@ namespace Files.App.ViewModels.UserControls
 			try
 			{
 				if (SelectedItem is not { } selectedItem)
-					return;
+					throw new InvalidOperationException("The preview pane does not have a selected item.");
 
 				var basicModel = new BasicPreviewViewModel(selectedItem);
 				await basicModel.LoadAsync();
@@ -530,25 +530,24 @@ namespace Files.App.ViewModels.UserControls
 			try
 			{
 				Items.Clear();
-				if (SelectedItem is not { } selectedItem)
-					return;
-
-				selectedItem.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
+				var selectedItem = SelectedItem;
+				selectedItem?.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
+				IEnumerable<ListedItem> selectedItems = selectedItem is null ? [] : [selectedItem];
 
 				// Create menu once and reuse it for subsequent selections
 				if (cachedTagsContextMenu is null)
 				{
-					cachedTagsContextMenu = new Files.App.UserControls.Menus.FileTagsContextMenu([selectedItem]);
+					cachedTagsContextMenu = new Files.App.UserControls.Menus.FileTagsContextMenu(selectedItems);
 					cachedTagsContextMenu.TagsChanged += async (s, e) =>
 					{
-						if (contentPageContext.ShellPage?.ShellViewModel is { } shellViewModel)
-							await shellViewModel.RefreshTagGroups();
+						if (contentPageContext.ShellPage is { } shellPage)
+							await shellPage.ShellViewModel!.RefreshTagGroups();
 					};
 				}
 				else
 				{
 					// Reset menu for new selection
-					cachedTagsContextMenu.ResetForItems([selectedItem]);
+					cachedTagsContextMenu.ResetForItems(selectedItems);
 				}
 
 				Items.Add(new FlyoutItem(cachedTagsContextMenu));
@@ -569,7 +568,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 
-			var normalizedPath = PathNormalization.NormalizePath(selectedItem.ItemPath);
+			var normalizedPath = PathNormalization.NormalizePath(selectedItem.ItemPath!);
 
 			SelectedDriveItem = drivesViewModel.Drives
 				.OfType<DriveItem>()

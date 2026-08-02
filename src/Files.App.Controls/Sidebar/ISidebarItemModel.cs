@@ -5,15 +5,19 @@ using Microsoft.UI.Xaml;
 
 namespace Files.App.Controls
 {
-	public interface ISidebarItemModel : INotifyPropertyChanged
+	public interface ISidebarItemPresentationModel
 	{
-		string Text { get; }
+		string? Text { get; }
 
 		object? ToolTip { get; }
 
 		FrameworkElement? IconElement { get; }
 
 		FrameworkElement? ItemDecorator { get; }
+	}
+
+	public interface ISidebarItemModel : INotifyPropertyChanged
+	{
 
 		/// <summary>
 		/// The children of this item that will be rendered as child elements of the SidebarItem

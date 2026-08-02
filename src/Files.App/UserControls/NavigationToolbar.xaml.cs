@@ -171,8 +171,8 @@ namespace Files.App.UserControls
 
 		private async void Omnibar_QuerySubmitted(Omnibar sender, OmnibarQuerySubmittedEventArgs args)
 		{
-			if (ViewModel is not { } viewModel)
-				return;
+			var viewModel = ViewModel
+				?? throw new InvalidOperationException("The navigation toolbar does not have a view model.");
 
 			var mode = Omnibar.CurrentSelectedMode;
 
@@ -180,7 +180,9 @@ namespace Files.App.UserControls
 			if (mode == OmnibarPathMode)
 			{
 				await viewModel.HandleItemNavigationAsync(args.Text);
-				ContentPageContext.ShellPage?.PaneHolder?.FocusActivePane();
+				var pathPaneHolder = ContentPageContext.ShellPage?.PaneHolder
+					?? throw new InvalidOperationException("The active shell page does not have a pane holder.");
+				pathPaneHolder.FocusActivePane();
 				return;
 			}
 
@@ -200,14 +202,18 @@ namespace Files.App.UserControls
 						continue;
 
 					await command.ExecuteAsync();
-					ContentPageContext.ShellPage?.PaneHolder?.FocusActivePane();
+					var paneHolder = ContentPageContext.ShellPage?.PaneHolder
+						?? throw new InvalidOperationException("The active shell page does not have a pane holder.");
+					paneHolder.FocusActivePane();
 					return;
 				}
 
 				await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidCommand.GetLocalizedResource(),
 					string.Format(Strings.InvalidCommandContent.GetLocalizedResource(), args.Text));
 
-				ContentPageContext.ShellPage?.PaneHolder?.FocusActivePane();
+				var commandPaneHolder = ContentPageContext.ShellPage?.PaneHolder
+					?? throw new InvalidOperationException("The active shell page does not have a pane holder.");
+				commandPaneHolder.FocusActivePane();
 				return;
 			}
 
@@ -232,7 +238,12 @@ namespace Files.App.UserControls
 
 					viewModel.OmnibarSearchModeText = string.Empty;
 					Omnibar.IsFocused = false;
-					shellPage?.PaneHolder?.FocusActivePane();
+					if (shellPage is not null)
+					{
+						var paneHolder = shellPage.PaneHolder
+							?? throw new InvalidOperationException("The active shell page does not have a pane holder.");
+						paneHolder.FocusActivePane();
+					}
 					return;
 				}
 
@@ -248,16 +259,20 @@ namespace Files.App.UserControls
 					viewModel.SaveSearchQueryToList(searchQuery);
 				}
 
-				ContentPageContext.ShellPage?.PaneHolder?.FocusActivePane();
+				var searchPaneHolder = ContentPageContext.ShellPage?.PaneHolder
+					?? throw new InvalidOperationException("The active shell page does not have a pane holder.");
+				searchPaneHolder.FocusActivePane();
 				return;
 			}
 		}
 
 		private async void Omnibar_TextChanged(Omnibar sender, OmnibarTextChangedEventArgs args)
 		{
-			if (args.Reason is not OmnibarTextChangeReason.UserInput ||
-				ViewModel is not { } viewModel)
+			if (args.Reason is not OmnibarTextChangeReason.UserInput)
 				return;
+
+			var viewModel = ViewModel
+				?? throw new InvalidOperationException("The navigation toolbar does not have a view model.");
 
 			if (Omnibar.CurrentSelectedMode == OmnibarPathMode)
 			{
@@ -275,8 +290,8 @@ namespace Files.App.UserControls
 
 		private async void BreadcrumbBar_ItemClicked(Controls.BreadcrumbBar sender, Controls.BreadcrumbBarItemClickedEventArgs args)
 		{
-			if (ViewModel is not { } viewModel)
-				return;
+			var viewModel = ViewModel
+				?? throw new InvalidOperationException("The navigation toolbar does not have a view model.");
 
 			if (args.IsRootItem)
 			{
@@ -329,8 +344,11 @@ namespace Files.App.UserControls
 					flyoutItem.Click += (sender, args) =>
 					{
 						// NOTE: We should not pass a path string but pass the storable object itself in the future.
-						if (flyoutItem.DataContext is string path)
-							contentPageContext.ShellPage?.NavigateToPath(path);
+						var path = flyoutItem.DataContext as string
+							?? throw new InvalidOperationException("The breadcrumb item does not have a navigation path.");
+						var shellPage = contentPageContext.ShellPage
+							?? throw new InvalidOperationException("There is no active shell page for breadcrumb navigation.");
+						shellPage.NavigateToPath(path);
 					};
 				}
 
@@ -358,20 +376,23 @@ namespace Files.App.UserControls
 					flyoutItem.Click += (sender, args) =>
 					{
 						// NOTE: We should not pass a path string but pass the storable object itself in the future.
-						if (flyoutItem.DataContext is string path)
-							contentPageContext.ShellPage?.NavigateToPath(path);
+						var path = flyoutItem.DataContext as string
+							?? throw new InvalidOperationException("The breadcrumb item does not have a navigation path.");
+						var shellPage = contentPageContext.ShellPage
+							?? throw new InvalidOperationException("There is no active shell page for breadcrumb navigation.");
+						shellPage.NavigateToPath(path);
 					};
 				}
 
 				return;
 			}
 
-			if (ViewModel is { } viewModel &&
-				e.Index >= 0 &&
-				e.Index < viewModel.PathComponents.Count)
-			{
-				await viewModel.SetPathBoxDropDownFlyoutAsync(e.Flyout, viewModel.PathComponents[e.Index]);
-			}
+			var viewModel = ViewModel
+				?? throw new InvalidOperationException("The navigation toolbar does not have a view model.");
+			if (e.Index < 0 || e.Index >= viewModel.PathComponents.Count)
+				return;
+
+			await viewModel.SetPathBoxDropDownFlyoutAsync(e.Flyout, viewModel.PathComponents[e.Index]);
 		}
 
 		private void BreadcrumbBar_ItemDropDownFlyoutClosed(object sender, BreadcrumbBarItemDropDownFlyoutEventArgs e)
@@ -387,8 +408,8 @@ namespace Files.App.UserControls
 		/// </summary>
 		private async void Omnibar_ModeChanged(object sender, OmnibarModeChangedEventArgs e)
 		{
-			if (ViewModel is not { } viewModel)
-				return;
+			var viewModel = ViewModel
+				?? throw new InvalidOperationException("The navigation toolbar does not have a view model.");
 
 			if (e.NewMode == OmnibarPathMode)
 			{
@@ -426,8 +447,8 @@ namespace Files.App.UserControls
 		/// </summary>
 		private async void Omnibar_IsFocusedChanged(Omnibar sender, OmnibarIsFocusedChangedEventArgs args)
 		{
-			if (ViewModel is not { } viewModel)
-				return;
+			var viewModel = ViewModel
+				?? throw new InvalidOperationException("The navigation toolbar does not have a view model.");
 
 			if (args.IsFocused)
 			{
@@ -459,7 +480,9 @@ namespace Files.App.UserControls
 			if (e.Key is VirtualKey.Escape)
 			{
 				Omnibar.IsFocused = false;
-				ContentPageContext.ShellPage?.PaneHolder?.FocusActivePane();
+				var paneHolder = ContentPageContext.ShellPage?.PaneHolder
+					?? throw new InvalidOperationException("The active shell page does not have a pane holder.");
+				paneHolder.FocusActivePane();
 			}
 			else if (e.Key is VirtualKey.Tab && Omnibar.IsFocused && !InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
 			{
@@ -485,19 +508,23 @@ namespace Files.App.UserControls
 
 		private void BreadcrumbBarItem_DragLeave(object sender, DragEventArgs e)
 		{
-			ViewModel?.PathBoxItem_DragLeave(sender, e);
+			var viewModel = ViewModel
+				?? throw new InvalidOperationException("The navigation toolbar does not have a view model.");
+			viewModel.PathBoxItem_DragLeave(sender, e);
 		}
 
 		private async void BreadcrumbBarItem_DragOver(object sender, DragEventArgs e)
 		{
-			if (ViewModel is { } viewModel)
-				await viewModel.PathBoxItem_DragOver(sender, e);
+			var viewModel = ViewModel
+				?? throw new InvalidOperationException("The navigation toolbar does not have a view model.");
+			await viewModel.PathBoxItem_DragOver(sender, e);
 		}
 
 		private async void BreadcrumbBarItem_Drop(object sender, DragEventArgs e)
 		{
-			if (ViewModel is { } viewModel)
-				await viewModel.PathBoxItem_Drop(sender, e);
+			var viewModel = ViewModel
+				?? throw new InvalidOperationException("The navigation toolbar does not have a view model.");
+			await viewModel.PathBoxItem_Drop(sender, e);
 		}
 
 		private void BreadcrumbBarItem_RightTapped(object sender, RightTappedRoutedEventArgs e)

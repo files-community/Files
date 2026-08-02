@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -160,7 +161,7 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		public CollectionViewSource viewSource = new();
+		public CollectionViewSource? viewSource;
 
 		private FileSystemWatcher? watcher;
 
@@ -183,13 +184,13 @@ namespace Files.App.ViewModels
 
 		public event EventHandler<List<ListedItem>>? OnSelectionRequestedEvent;
 
-		public string WorkingDirectory { get; private set; } = string.Empty;
+		public string? WorkingDirectory { get; private set; }
 
 		public string? GitDirectory { get; private set; }
 
 		public bool IsValidGitDirectory { get; private set; }
 
-		public List<IniSectionDataItem> DesktopIni { get; private set; } = [];
+		public List<IniSectionDataItem>? DesktopIni { get; private set; }
 
 		private StorageFolderWithPath? currentStorageFolder;
 		private StorageFolderWithPath? workingRoot;
@@ -776,7 +777,7 @@ namespace Files.App.ViewModels
 
 			var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
 			if (shellFileItem is null)
-				return;
+				throw new InvalidDataException("The recycle-bin item could not be converted to a shell item.");
 
 			var newListedItem = await AddFileOrFolderFromShellFile(shellFileItem);
 			if (newListedItem is null)
@@ -917,7 +918,7 @@ namespace Files.App.ViewModels
 
 		public void CancelExtendedPropertiesLoadingForItem(ListedItem item)
 		{
-			itemLoadQueue.TryUpdate(item.ItemPath, true, false);
+			itemLoadQueue.TryUpdate(GetRequiredItemPath(item), true, false);
 		}
 
 		private bool _isSearchResults;
@@ -950,12 +951,9 @@ namespace Files.App.ViewModels
 
 		public void UpdateNetworkAvailabilityInfoBar()
 		{
-			var shouldCheckNetworkAvailability =
-				!IsSearchResults &&
-				IsNetworkFolder(WorkingDirectory);
-
-			if (shouldCheckNetworkAvailability)
-				QueueNetworkAvailabilityUpdate(WorkingDirectory);
+			var workingDirectory = WorkingDirectory;
+			if (!IsSearchResults && IsNetworkFolder(workingDirectory))
+				QueueNetworkAvailabilityUpdate(workingDirectory);
 			else
 			{
 				CancelNetworkAvailabilityUpdate();
@@ -1006,7 +1004,7 @@ namespace Files.App.ViewModels
 			});
 		}
 
-		private static bool IsNetworkFolder(string path)
+		private static bool IsNetworkFolder([NotNullWhen(true)] string? path)
 		{
 			return string.Equals(path, Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase);
 		}
@@ -1090,7 +1088,10 @@ namespace Files.App.ViewModels
 							if (string.IsNullOrEmpty(FilesAndFoldersFilter))
 								FilesAndFolders.AddRange(filesAndFoldersLocal);
 							else
-								FilesAndFolders.AddRange(filesAndFoldersLocal.Where(x => x.Name.Contains(FilesAndFoldersFilter, StringComparison.OrdinalIgnoreCase)));
+								FilesAndFolders.AddRange(filesAndFoldersLocal.Where(x => (x.Name
+									?? throw new InvalidOperationException("A listed item does not have a name.")).Contains(
+									FilesAndFoldersFilter ?? throw new ArgumentNullException("value", "The file-list filter was cleared while it was being applied."),
+									StringComparison.OrdinalIgnoreCase)));
 
 							if (folderSettings.DirectoryGroupOption != GroupOption.None)
 								OrderGroups();
@@ -1128,8 +1129,9 @@ namespace Files.App.ViewModels
 		{
 			// Don't notify if shell page is not the active pane (eg. Dual Pane)
 			// https://github.com/files-community/Files/issues/17427
-			var activeShellViewModel = ContentPageContext.ShellPage?.ShellViewModel;
-			if (activeShellViewModel is null || WorkingDirectory != activeShellViewModel.WorkingDirectory)
+			var activeShellViewModel = ContentPageContext.ShellPage?.ShellViewModel
+				?? throw new InvalidOperationException("The active shell page is not available.");
+			if (WorkingDirectory != activeShellViewModel.WorkingDirectory)
 				return Task.CompletedTask;
 
 			// Don't notify if there weren't listed items
@@ -1277,8 +1279,8 @@ namespace Files.App.ViewModels
 			{
 				foreach (var gp in FilesAndFolders.GroupedCollection.ToList())
 				{
-					if (gp.FirstOrDefault() is not { } item)
-						continue;
+					var item = gp.FirstOrDefault()
+						?? throw new InvalidOperationException("A file-type group does not contain an item.");
 
 					var img = await GetItemTypeGroupIcon(item);
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
@@ -1421,18 +1423,18 @@ namespace Files.App.ViewModels
 						if (scheduleTimerRetry)
 						{
 							var retryCts = new CancellationTokenSource();
-							if (thumbnailRetryDebounce.TryAdd(item.ItemPath, retryCts))
+							if (thumbnailRetryDebounce.TryAdd(GetRequiredItemPath(item), retryCts))
 							{
-								App.Logger.LogWarning("Thumbnail load failed [{Id}] '{Extension}'; scheduling 2s timer retry.", item.ItemPath.GetHashCode(), Path.GetExtension(item.ItemPath));
+								App.Logger.LogWarning("Thumbnail load failed [{Id}] '{Extension}'; scheduling 2s timer retry.", GetRequiredItemPath(item).GetHashCode(), Path.GetExtension(item.ItemPath));
 
 								var retryToken = retryCts.Token;
 								_ = Task.Delay(2000, retryToken)
 									.ContinueWith(_ =>
 									{
-										if (thumbnailRetryDebounce.TryRemove(item.ItemPath, out var cts))
-											cts.Dispose();
+									if (thumbnailRetryDebounce.TryRemove(GetRequiredItemPath(item), out var cts))
+										cts.Dispose();
 
-										App.Logger.LogInformation("Timer-based thumbnail retry firing [{Id}] '{Extension}'.", item.ItemPath.GetHashCode(), Path.GetExtension(item.ItemPath));
+									App.Logger.LogInformation("Timer-based thumbnail retry firing [{Id}] '{Extension}'.", GetRequiredItemPath(item).GetHashCode(), Path.GetExtension(item.ItemPath));
 
 										item.NeedsDelayedThumbnailLoad = false;
 										return LoadThumbnailAsync(item, retryToken, scheduleTimerRetry: false);
@@ -1441,13 +1443,13 @@ namespace Files.App.ViewModels
 							}
 							else
 							{
-								App.Logger.LogWarning("Thumbnail load failed [{Id}] '{Extension}'; mod-retry already pending, skipping timer.", item.ItemPath.GetHashCode(), Path.GetExtension(item.ItemPath));
+								App.Logger.LogWarning("Thumbnail load failed [{Id}] '{Extension}'; mod-retry already pending, skipping timer.", GetRequiredItemPath(item).GetHashCode(), Path.GetExtension(item.ItemPath));
 								retryCts.Dispose();
 							}
 						}
 						else
 						{
-							App.Logger.LogWarning("Thumbnail load failed [{Id}] '{Extension}' on timer retry; awaiting next FILE_ACTION_MODIFIED.", item.ItemPath.GetHashCode(), Path.GetExtension(item.ItemPath));
+							App.Logger.LogWarning("Thumbnail load failed [{Id}] '{Extension}' on timer retry; awaiting next FILE_ACTION_MODIFIED.", GetRequiredItemPath(item).GetHashCode(), Path.GetExtension(item.ItemPath));
 						}
 					}
 					else
@@ -1467,8 +1469,11 @@ namespace Files.App.ViewModels
 		private static void SetFileTag(ListedItem item)
 		{
 			var dbInstance = FileTagsHelper.GetDbInstance();
-			dbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags ?? []);
+			dbInstance.SetTags(GetRequiredItemPath(item), item.FileFRN, item.FileTags ?? []);
 		}
+
+		private static string GetRequiredItemPath(IListedItem item)
+			=> item.ItemPath ?? throw new InvalidOperationException("The listed item does not have a path.");
 
 		// This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
 		// for file inside the recycle bin (but not on the recycle bin folder itself)
@@ -1477,14 +1482,14 @@ namespace Files.App.ViewModels
 			if (item is null)
 				return;
 
-			itemLoadQueue[item.ItemPath] = false;
+			itemLoadQueue[GetRequiredItemPath(item)] = false;
 
 			var cts = loadPropsCTS;
 
 			try
 			{
 				cts.Token.ThrowIfCancellationRequested();
-				if (itemLoadQueue.TryGetValue(item.ItemPath, out var canceled) && canceled)
+				if (itemLoadQueue.TryGetValue(GetRequiredItemPath(item), out var canceled) && canceled)
 					return;
 
 				item.ItemPropertiesInitialized = true;
@@ -1511,14 +1516,14 @@ namespace Files.App.ViewModels
 					{
 						if (!item.IsShortcut && !FtpHelpers.IsFtpPath(item.ItemPath))
 						{
-							matchingStorageFile = await GetFileFromPathAsync(item.ItemPath, cts.Token);
+							matchingStorageFile = await GetFileFromPathAsync(GetRequiredItemPath(item), cts.Token);
 							if (matchingStorageFile is not null)
 							{
 								cts.Token.ThrowIfCancellationRequested();
 
 								var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
-								var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
+								var fileTag = FileTagsHelper.ReadFileTag(GetRequiredItemPath(item));
 								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFile.DisplayType;
 								var extraProperties = await GetExtraProperties(matchingStorageFile);
 
@@ -1526,15 +1531,19 @@ namespace Files.App.ViewModels
 
 								await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 								{
+									var properties = extraProperties?.Result;
+									if (extraProperties is not null && properties is null)
+										throw new InvalidOperationException("A file-property lookup did not return properties.");
+
 									item.FolderRelativeId = matchingStorageFile.FolderRelativeId;
 									item.ItemType = itemType;
 									item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 									item.FileFRN = fileFRN;
 									item.FileTags = fileTag;
 									item.IsElevationRequired = CheckElevationRights(item);
-									item.ImageDimensions = extraProperties?.Result?["System.Image.Dimensions"]?.ToString() ?? string.Empty;
-									item.FileVersion = extraProperties?.Result?["System.FileVersion"]?.ToString() ?? string.Empty;
-									item.MediaDuration = ulong.TryParse(extraProperties?.Result?["System.Media.Duration"]?.ToString(), out ulong duration)
+									item.ImageDimensions = properties?["System.Image.Dimensions"]?.ToString() ?? string.Empty;
+									item.FileVersion = properties?["System.FileVersion"]?.ToString() ?? string.Empty;
+									item.MediaDuration = ulong.TryParse(properties?["System.Media.Duration"]?.ToString(), out ulong duration)
 											? TimeSpan.FromTicks((long)duration).ToString(@"hh\:mm\:ss")
 											: string.Empty;
 
@@ -1565,7 +1574,7 @@ namespace Files.App.ViewModels
 					{
 						if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
 						{
-							BaseStorageFolder? matchingStorageFolder = await GetFolderFromPathAsync(item.ItemPath, cts.Token);
+							BaseStorageFolder? matchingStorageFolder = await GetFolderFromPathAsync(GetRequiredItemPath(item), cts.Token);
 							if (matchingStorageFolder is not null)
 							{
 								if (matchingStorageFolder.DisplayName != item.Name && !matchingStorageFolder.DisplayName.StartsWith("$R", StringComparison.Ordinal))
@@ -1575,7 +1584,7 @@ namespace Files.App.ViewModels
 									{
 										item.ItemNameRaw = matchingStorageFolder.DisplayName;
 									});
-									await fileListCache.AddDisplayName(item.ItemPath, matchingStorageFolder.DisplayName);
+									await fileListCache.AddDisplayName(GetRequiredItemPath(item), matchingStorageFolder.DisplayName);
 									if (folderSettings.DirectorySortOption == SortOption.Name && !isLoadingItems)
 									{
 										await OrderFilesAndFoldersAsync();
@@ -1586,7 +1595,7 @@ namespace Files.App.ViewModels
 								cts.Token.ThrowIfCancellationRequested();
 								var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFolder);
-								var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
+								var fileTag = FileTagsHelper.ReadFileTag(GetRequiredItemPath(item));
 								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFolder.DisplayType;
 								var extraProperties = await GetExtraProperties(matchingStorageFolder);
 
@@ -1600,8 +1609,11 @@ namespace Files.App.ViewModels
 									item.FileFRN = fileFRN;
 									item.FileTags = fileTag;
 
-									if (extraProperties?.Result is { } properties)
+									if (extraProperties is not null)
 									{
+										var properties = extraProperties.Result
+											?? throw new InvalidOperationException("A folder-property lookup did not return properties.");
+
 										// Drive Storage Details
 										if (properties["System.SFGAOFlags"] is uint attributesRaw &&
 											properties["System.Capacity"] is ulong capacityRaw &&
@@ -1645,7 +1657,7 @@ namespace Files.App.ViewModels
 						cts.Token.ThrowIfCancellationRequested();
 						await FilesystemTasks.Wrap(async () =>
 						{
-							var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
+							var fileTag = FileTagsHelper.ReadFileTag(GetRequiredItemPath(item));
 
 							await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 							{
@@ -1673,14 +1685,16 @@ namespace Files.App.ViewModels
 						}
 					}
 
-					if (loadGroupHeaderInfo && gp is not null)
+					if (loadGroupHeaderInfo)
 					{
+						var group = gp
+							?? throw new InvalidOperationException("The item group is unavailable while loading its header.");
 						cts.Token.ThrowIfCancellationRequested();
 						await SafetyExtensions.IgnoreExceptions(() =>
 							dispatcherQueue.EnqueueOrInvokeAsync(() =>
 							{
-								gp.Model.ImageSource = groupImage;
-								gp.InitializeExtendedGroupHeaderInfoAsync();
+								group.Model.ImageSource = groupImage;
+								group.InitializeExtendedGroupHeaderInfoAsync();
 							}));
 					}
 				}
@@ -1691,7 +1705,7 @@ namespace Files.App.ViewModels
 			}
 			finally
 			{
-				itemLoadQueue.TryRemove(item.ItemPath, out _);
+				itemLoadQueue.TryRemove(GetRequiredItemPath(item), out _);
 				await RefreshTagGroups();
 			}
 		}
@@ -1716,7 +1730,7 @@ namespace Files.App.ViewModels
 				int count = newTags.Count;
 				foreach (var item in FilesAndFolders)
 				{
-					if (newTags.TryGetValue(item.ItemPath, out var tags))
+					if (newTags.TryGetValue(GetRequiredItemPath(item), out var tags))
 					{
 						item.FileTags = tags;
 						if (--count == 0)
@@ -1732,7 +1746,8 @@ namespace Files.App.ViewModels
 			if (item.SyncStatusUI.LoadSyncStatus)
 				return false;
 
-			return WindowsSecurityService.IsElevationRequired(item.IsShortcut ? ((IShortcutItem)item).TargetPath : item.ItemPath);
+			var targetPath = (item as IShortcutItem)?.TargetPath;
+			return WindowsSecurityService.IsElevationRequired(!string.IsNullOrEmpty(targetPath) ? targetPath : item.ItemPath);
 		}
 
 		public async Task LoadGitPropertiesAsync(IGitItem gitItem)
@@ -1819,7 +1834,7 @@ namespace Files.App.ViewModels
 				// The groupImage is null if loading icon from fulltrust process failed
 				if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath) && groupImage is null)
 				{
-					matchingStorageItem ??= await GetFileFromPathAsync(item.ItemPath);
+					matchingStorageItem ??= await GetFileFromPathAsync(GetRequiredItemPath(item));
 
 					if (matchingStorageItem is not null)
 					{
@@ -1855,7 +1870,7 @@ namespace Files.App.ViewModels
 			_ = RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir, postLoadCallback);
 		}
 
-		private async Task RapidAddItemsToCollectionAsync(string path, string? previousDir, Action? postLoadCallback)
+		private async Task RapidAddItemsToCollectionAsync(string? path, string? previousDir, Action? postLoadCallback)
 		{
 			IsSearchResults = false;
 			HasNoWatcher = false;
@@ -2050,8 +2065,8 @@ namespace Files.App.ViewModels
 				if (!res)
 					return -1;
 
-				if (res.Result is not { } storageFolder)
-					return -1;
+				var storageFolder = res.Result
+					?? throw new InvalidOperationException("A successful folder lookup did not return a storage folder.");
 
 				currentStorageFolder = storageFolder;
 				rootFolder = storageFolder.Item;
@@ -2060,8 +2075,10 @@ namespace Files.App.ViewModels
 			else
 			{
 				var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path, workingRoot, currentStorageFolder));
-				if (res.Result is { } storageFolder)
+				if (res)
 				{
+					var storageFolder = res.Result
+						?? throw new InvalidOperationException("A successful folder lookup did not return a storage folder.");
 					currentStorageFolder = storageFolder;
 					rootFolder = storageFolder.Item;
 				}
@@ -2089,7 +2106,9 @@ namespace Files.App.ViewModels
 			if (Path.IsPathRooted(path) && pathRoot == path)
 			{
 				rootFolder ??= await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
-				if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
+				if (await FolderHelpers.CheckBitlockerStatusAsync(
+					rootFolder,
+					WorkingDirectory ?? throw new InvalidOperationException("The working directory has not been initialized.")))
 					await ContextMenu.InvokeVerb("unlock-bde", pathRoot);
 			}
 
@@ -2108,7 +2127,7 @@ namespace Files.App.ViewModels
 					FileImage = null,
 					LoadFileIcon = false,
 					ItemPath = string.IsNullOrEmpty(rootFolder?.Path) ? currentStorageFolder?.Path ?? string.Empty : rootFolder.Path,
-					FileSize = string.Empty,
+					FileSize = null,
 					FileSizeBytes = 0,
 				};
 
@@ -2171,7 +2190,7 @@ namespace Files.App.ViewModels
 					Opacity = opacity,
 					LoadFileIcon = false,
 					ItemPath = path,
-					FileSize = string.Empty,
+					FileSize = null,
 					FileSizeBytes = 0,
 				};
 
@@ -2247,7 +2266,8 @@ namespace Files.App.ViewModels
 			if (rootFolder is null)
 				return;
 
-			currentStorageFolder ??= new StorageFolderWithPath(rootFolder, path);
+			if (currentStorageFolder is null)
+				throw new InvalidOperationException("The storage-folder context is unavailable.");
 
 			if (rootFolder is IPasswordProtectedItem ppis)
 				ppis.PasswordRequestedCallback = async (item) =>
@@ -2300,7 +2320,9 @@ namespace Files.App.ViewModels
 
 		private void GetDesktopIniFileData()
 		{
-			var path = Path.Combine(WorkingDirectory, "desktop.ini");
+			var workingDirectory = WorkingDirectory
+				?? throw new InvalidOperationException("The working directory has not been initialized.");
+			var path = Path.Combine(workingDirectory, "desktop.ini");
 			DesktopIni = WindowsIniService.GetData(path);
 		}
 
@@ -2378,14 +2400,20 @@ namespace Files.App.ViewModels
 			if (item is BaseStorageFile file && file.Properties is not null)
 			{
 				var extraProperties = await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync(["System.FilePlaceholderStatus"]).AsTask());
-				if (extraProperties.Result is { } properties)
+				if (extraProperties)
+				{
+					var properties = extraProperties.Result
+						?? throw new InvalidOperationException("A successful file-property lookup did not return properties.");
 					syncStatus = (int?)(uint?)properties["System.FilePlaceholderStatus"];
+				}
 			}
 			else if (item is BaseStorageFolder folder && folder.Properties is not null)
 			{
 				var extraProperties = await FilesystemTasks.Wrap(() => folder.Properties.RetrievePropertiesAsync(["System.FilePlaceholderStatus", "System.FileOfflineAvailabilityStatus"]).AsTask());
-				if (extraProperties.Result is { } properties)
+				if (extraProperties)
 				{
+					var properties = extraProperties.Result
+						?? throw new InvalidOperationException("A successful folder-property lookup did not return properties.");
 					syncStatus = (int?)(uint?)properties["System.FileOfflineAvailabilityStatus"];
 
 					// If no FileOfflineAvailabilityStatus, check FilePlaceholderStatus
@@ -2428,9 +2456,8 @@ namespace Files.App.ViewModels
 
 				if (rootFolder.AreQueryOptionsSupported(options))
 				{
-					var itemQueryResult = rootFolder.CreateItemQueryWithOptions(options).ToStorageItemQueryResult();
-					if (itemQueryResult is null)
-						return;
+					var itemQueryResult = rootFolder.CreateItemQueryWithOptions(options).ToStorageItemQueryResult()
+						?? throw new InvalidOperationException("The folder query could not be converted to a storage query.");
 
 					itemQueryResult.ContentsChanged += ItemQueryResult_ContentsChanged;
 
@@ -2808,7 +2835,7 @@ namespace Files.App.ViewModels
 										// sorted slot after a rename (issue #4214). Leaving anyEdits false skips
 										// OrderFilesAndFoldersAsync; PropertyChanged keeps the visible name in sync.
 										if (operationQueue.TryPeek(out var nextOp) && nextOp.Action == FILE_ACTION_RENAMED_NEW_NAME &&
-											filesAndFolders.ToList().FirstOrDefault(x => x.ItemPath.Equals(operation.FileName, StringComparison.OrdinalIgnoreCase)) is { } renamed)
+											filesAndFolders.ToList().FirstOrDefault(x => GetRequiredItemPath(x).Equals(operation.FileName, StringComparison.OrdinalIgnoreCase)) is { } renamed)
 										{
 											operationQueue.TryDequeue(out _);
 											var newPath = nextOp.FileName;
@@ -2888,14 +2915,14 @@ namespace Files.App.ViewModels
 				return;
 			}
 
-			if (!filesAndFolders.ToList().Any(x => x.ItemPath.Equals(item.ItemPath, StringComparison.OrdinalIgnoreCase))) // Avoid adding duplicate items
+			if (!filesAndFolders.ToList().Any(x => GetRequiredItemPath(x).Equals(GetRequiredItemPath(item), StringComparison.OrdinalIgnoreCase))) // Avoid adding duplicate items
 			{
 				filesAndFolders.Add(item);
 
 				if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
 				{
 					// New file added, enumerate ADS
-					foreach (var ads in Win32Helper.GetAlternateStreams(item.ItemPath))
+					foreach (var ads in Win32Helper.GetAlternateStreams(GetRequiredItemPath(item)))
 					{
 						var adsItem = Win32StorageEnumerator.GetAlternateStream(ads, item);
 						filesAndFolders.Add(adsItem);
@@ -2933,9 +2960,8 @@ namespace Files.App.ViewModels
 				return null;
 			}
 
-			var parentPath = Directory.GetParent(fileOrFolderPath)?.FullName;
-			if (parentPath is null)
-				return null;
+			var parentPath = Directory.GetParent(fileOrFolderPath)?.FullName
+				?? throw new InvalidOperationException("The added item does not have a parent directory.");
 
 			ListedItem? listedItem;
 
@@ -2957,9 +2983,9 @@ namespace Files.App.ViewModels
 		{
 			IStorageItem? storageItem = null;
 			if (item.PrimaryItemAttribute == StorageItemTypes.File)
-				storageItem = (await GetFileFromPathAsync(item.ItemPath)).Result;
+				storageItem = (await GetFileFromPathAsync(GetRequiredItemPath(item))).Result;
 			else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-				storageItem = (await GetFolderFromPathAsync(item.ItemPath)).Result;
+				storageItem = (await GetFolderFromPathAsync(GetRequiredItemPath(item))).Result;
 
 			if (storageItem is not null)
 			{
@@ -2969,8 +2995,8 @@ namespace Files.App.ViewModels
 
 				if (storageItem.IsOfType(StorageItemTypes.File))
 				{
-					if (storageItem.AsBaseStorageFile() is not { } file)
-						return null;
+					var file = storageItem.AsBaseStorageFile()
+						?? throw new InvalidOperationException("The storage item reported a file type but is not a storage file.");
 
 					var properties = await file.GetBasicPropertiesAsync();
 					size = (long)properties.Size;
@@ -2979,8 +3005,8 @@ namespace Files.App.ViewModels
 				}
 				else if (storageItem.IsOfType(StorageItemTypes.Folder))
 				{
-					if (storageItem.AsBaseStorageFolder() is not { } folder)
-						return null;
+					var folder = storageItem.AsBaseStorageFolder()
+						?? throw new InvalidOperationException("The storage item reported a folder type but is not a storage folder.");
 
 					var properties = await folder.GetBasicPropertiesAsync();
 					size = item.IsArchive ? (long)properties.Size : null;
@@ -2998,7 +3024,7 @@ namespace Files.App.ViewModels
 		{
 			foreach (var path in paths)
 			{
-				var item = filesAndFolders.ToList().FirstOrDefault(x => x.ItemPath.Equals(path, StringComparison.OrdinalIgnoreCase));
+				var item = filesAndFolders.ToList().FirstOrDefault(x => GetRequiredItemPath(x).Equals(path, StringComparison.OrdinalIgnoreCase));
 				if (item is not null && item.NeedsDelayedThumbnailLoad)
 				{
 					App.Logger.LogInformation("FILE_ACTION_MODIFIED thumbnail retry triggered [{Id}] '{Extension}'.", path.GetHashCode(), Path.GetExtension(path));
@@ -3093,13 +3119,13 @@ namespace Files.App.ViewModels
 
 			try
 			{
-				var matchingItem = filesAndFolders.ToList().FirstOrDefault(x => x.ItemPath.Equals(path, StringComparison.OrdinalIgnoreCase));
+				var matchingItem = filesAndFolders.ToList().FirstOrDefault(x => GetRequiredItemPath(x).Equals(path, StringComparison.OrdinalIgnoreCase));
 
 				if (matchingItem is not null)
 				{
 					filesAndFolders.Remove(matchingItem);
 
-					if (thumbnailRetryDebounce.TryRemove(matchingItem.ItemPath, out var debounceCts))
+					if (thumbnailRetryDebounce.TryRemove(GetRequiredItemPath(matchingItem), out var debounceCts))
 					{
 						debounceCts.Cancel();
 						debounceCts.Dispose();

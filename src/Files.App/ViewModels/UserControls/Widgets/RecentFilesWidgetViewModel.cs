@@ -305,12 +305,15 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		private void ExecuteOpenFileLocationCommand(RecentItem? item)
 		{
-			var shellPage = ContentPageContext.ShellPage;
-			if (item is null || string.IsNullOrEmpty(item.Path) || shellPage is null)
+			if (item is null)
 				return;
+			var itemPathValue = item.Path
+				?? throw new InvalidOperationException("The recent item does not have a path.");
+			var shellPage = ContentPageContext.ShellPage
+				?? throw new InvalidOperationException("The shell page is not available for opening the file location.");
 
-			var itemPath = Directory.GetParent(item.Path)?.FullName ?? string.Empty;
-			var itemName = Path.GetFileName(item.Path);
+			var itemPath = Directory.GetParent(itemPathValue)?.FullName ?? string.Empty;
+			var itemName = Path.GetFileName(itemPathValue);
 
 			shellPage.NavigateWithArguments(
 				shellPage.InstanceViewModel.FolderSettings.GetLayoutType(itemPath),
@@ -325,16 +328,17 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		private void ExecuteOpenPropertiesCommand(RecentItem? item)
 		{
 			var flyout = HomePageContext.ItemContextFlyoutMenu;
-			var shellPage = ContentPageContext.ShellPage;
 
-			if (item is null || string.IsNullOrEmpty(item.Path) || flyout is null || shellPage is null)
+			if (item is null || flyout is null)
 				return;
+			var itemPath = item.Path
+				?? throw new InvalidOperationException("The recent item does not have a path.");
 
 			async void FlyoutClosed(object? sender, object args)
 			{
 				flyout.Closed -= FlyoutClosed;
 
-				BaseStorageFile? file = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path));
+				BaseStorageFile? file = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(itemPath));
 				if (file is null)
 				{
 					ContentDialog dialog = new()
@@ -352,8 +356,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				else
 				{
 					var listedItem = await UniversalStorageEnumerator.AddFileAsync(file, null, default);
-					if (listedItem is not null)
-						FilePropertiesHelpers.OpenPropertiesWindow(listedItem, shellPage);
+					var shellPage = ContentPageContext.ShellPage
+						?? throw new InvalidOperationException("The shell page is not available for opening properties.");
+					FilePropertiesHelpers.OpenPropertiesWindow(listedItem!, shellPage);
 				}
 			}
 

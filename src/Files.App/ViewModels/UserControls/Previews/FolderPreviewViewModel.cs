@@ -12,7 +12,7 @@ namespace Files.App.ViewModels.Previews
 		private readonly InfoPaneViewModel infoPaneViewModel = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
 		public ListedItem Item { get; }
 
-		public BitmapImage Thumbnail { get; set; } = new();
+		public BitmapImage? Thumbnail { get; set; } = new();
 
 		private BaseStorageFolder? Folder { get; set; }
 
@@ -24,10 +24,10 @@ namespace Files.App.ViewModels.Previews
 
 		private async Task LoadPreviewAndDetailsAsync()
 		{
-			var rootItem = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(Item.ItemPath));
-			var folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(Item.ItemPath, rootItem.Result);
-			if (folder is null)
-				return;
+			var itemPath = Item.ItemPath!;
+			var rootItem = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(itemPath));
+			var folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(itemPath, rootItem.Result)
+				?? throw new InvalidOperationException("The preview folder could not be opened.");
 
 			Folder = folder;
 			var items = await folder.GetItemsAsync();
@@ -39,10 +39,7 @@ namespace Files.App.ViewModels.Previews
 				IconOptions.None);
 
 			if (result is not null)
-			{
-				if (await result.ToBitmapAsync() is { } thumbnail)
-					Thumbnail = thumbnail;
-			}
+				Thumbnail = await result.ToBitmapAsync();
 
 			// If the selected item is the root of a drive (e.g. "C:\") or a cloud drive,
 			// we do not need to load the properties below, since they will not be shown.

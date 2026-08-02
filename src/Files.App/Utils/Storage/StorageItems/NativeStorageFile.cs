@@ -259,26 +259,28 @@ namespace Files.App.Utils.Storage
 			});
 		}
 
-		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode)
+		public override IAsyncOperation<IRandomAccessStream?> OpenAsync(FileAccessMode accessMode)
 		{
 			var hFile = Win32Helper.OpenFileForRead(Path, accessMode == FileAccessMode.ReadWrite);
-			return Task.FromResult(new FileStream(hFile, accessMode == FileAccessMode.ReadWrite ? FileAccess.ReadWrite : FileAccess.Read).AsRandomAccessStream()).AsAsyncOperation();
+			return Task.FromResult<IRandomAccessStream?>(new FileStream(hFile, accessMode == FileAccessMode.ReadWrite ? FileAccess.ReadWrite : FileAccess.Read).AsRandomAccessStream()).AsAsyncOperation();
 		}
 
-		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => OpenAsync(accessMode);
+		public override IAsyncOperation<IRandomAccessStream?> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => OpenAsync(accessMode);
 
-		public override IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadAsync()
+		public override IAsyncOperation<IRandomAccessStreamWithContentType?> OpenReadAsync()
 		{
-			return AsyncInfo.Run<IRandomAccessStreamWithContentType>(async (cancellationToken) =>
+			return AsyncInfo.Run<IRandomAccessStreamWithContentType?>(async (cancellationToken) =>
 			{
-				return new StreamWithContentType(await OpenAsync(FileAccessMode.Read));
+				var stream = await OpenAsync(FileAccessMode.Read)
+					?? throw new IOException("The native file could not be opened for reading.");
+				return new StreamWithContentType(stream);
 			});
 		}
 
-		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync()
+		public override IAsyncOperation<IInputStream?> OpenSequentialReadAsync()
 		{
 			var hFile = Win32Helper.OpenFileForRead(Path);
-			return Task.FromResult(new FileStream(hFile, FileAccess.Read).AsInputStream()).AsAsyncOperation();
+			return Task.FromResult<IInputStream?>(new FileStream(hFile, FileAccess.Read).AsInputStream()).AsAsyncOperation();
 		}
 
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync()

@@ -12,9 +12,9 @@ namespace Files.App.Utils.Storage
 {
 	public sealed partial class ShortcutStorageFolder : ShellStorageFolder, IShortcutStorageItem
 	{
-		public string TargetPath { get; }
-		public string Arguments { get; }
-		public string WorkingDirectory { get; }
+		public string? TargetPath { get; }
+		public string? Arguments { get; }
+		public string? WorkingDirectory { get; }
 		public bool RunAsAdmin { get; }
 		public SHOW_WINDOW_CMD ShowWindowCommand { get; set; }
 
@@ -30,15 +30,15 @@ namespace Files.App.Utils.Storage
 
 	public interface IShortcutStorageItem : IStorageItem
 	{
-		string TargetPath { get; }
-		string Arguments { get; }
-		string WorkingDirectory { get; }
+		string? TargetPath { get; }
+		string? Arguments { get; }
+		string? WorkingDirectory { get; }
 		bool RunAsAdmin { get; }
 	}
 
 	public sealed partial class BinStorageFolder : ShellStorageFolder, IBinStorageItem
 	{
-		public string OriginalPath { get; }
+		public string? OriginalPath { get; }
 		public DateTimeOffset DateDeleted { get; }
 
 		public BinStorageFolder(ShellFileItem item) : base(item)
@@ -50,7 +50,7 @@ namespace Files.App.Utils.Storage
 
 	public interface IBinStorageItem : IStorageItem
 	{
-		string OriginalPath { get; }
+		string? OriginalPath { get; }
 		DateTimeOffset DateDeleted { get; }
 	}
 
@@ -68,10 +68,13 @@ namespace Files.App.Utils.Storage
 
 		public ShellStorageFolder(ShellFileItem item)
 		{
-			Name = item.FileName;
-			Path = item.RecyclePath; // True path on disk
+			Name = item.FileName
+				?? throw new System.IO.InvalidDataException("The shell item does not have a file name.");
+			Path = item.RecyclePath // True path on disk
+				?? throw new System.IO.InvalidDataException("The shell item does not have a path.");
 			DateCreated = item.CreatedDate;
-			DisplayType = item.FileType;
+			DisplayType = item.FileType
+				?? throw new System.IO.InvalidDataException("The shell item does not have a display type.");
 		}
 
 		public static bool IsShellPath(string? path)
@@ -87,7 +90,7 @@ namespace Files.App.Utils.Storage
 			if (item is ShellLinkItem linkItem)
 				return new ShortcutStorageFolder(linkItem);
 
-			if (item.RecyclePath.Contains("$Recycle.Bin", StringComparison.OrdinalIgnoreCase))
+			if (item.RecyclePath?.Contains("$Recycle.Bin", StringComparison.OrdinalIgnoreCase) is true)
 				return new BinStorageFolder(item);
 
 			return new ShellStorageFolder(item);
@@ -170,18 +173,21 @@ namespace Files.App.Utils.Storage
 				}
 			});
 		}
-		public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync()
-			=> AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken)
-				=> (await GetItemsAsync(0, int.MaxValue)).ToList()
-			);
-		public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve)
+		public override IAsyncOperation<IReadOnlyList<IStorageItem>?> GetItemsAsync()
+			=> AsyncInfo.Run<IReadOnlyList<IStorageItem>?>(async (cancellationToken) =>
+			{
+				var items = await GetItemsAsync(0, int.MaxValue)
+					?? throw new InvalidOperationException("The shell folder could not be enumerated.");
+				return items.ToList();
+			});
+		public override IAsyncOperation<IReadOnlyList<IStorageItem>?> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve)
 		{
-			return AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken) =>
+			return AsyncInfo.Run<IReadOnlyList<IStorageItem>?>(async (cancellationToken) =>
 			{
 				var res = await GetFolderAndItems(Path, true, (int)startIndex, (int)maxItemsToRetrieve);
 				if (res.Items is null)
 				{
-					return [];
+					return null;
 				}
 
 				var items = new List<IStorageItem>();
@@ -202,26 +208,40 @@ namespace Files.App.Utils.Storage
 
 		public override IAsyncOperation<BaseStorageFile?> GetFileAsync(string name)
 			=> AsyncInfo.Run<BaseStorageFile?>(async (cancellationToken) => await GetItemAsync(name) as ShellStorageFile);
-		public override IAsyncOperation<IReadOnlyList<BaseStorageFile>> GetFilesAsync()
-			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFile>>(async (cancellationToken) => (await GetItemsAsync()).OfType<ShellStorageFile>().ToList());
-		public override IAsyncOperation<IReadOnlyList<BaseStorageFile>> GetFilesAsync(CommonFileQuery query)
-			=> AsyncInfo.Run(async (cancellationToken) => await GetFilesAsync());
-		public override IAsyncOperation<IReadOnlyList<BaseStorageFile>> GetFilesAsync(CommonFileQuery query, uint startIndex, uint maxItemsToRetrieve)
-			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFile>>(async (cancellationToken)
-				=> (await GetFilesAsync()).Skip((int)startIndex).Take((int)maxItemsToRetrieve).ToList()
-			);
+		public override IAsyncOperation<IReadOnlyList<BaseStorageFile>?> GetFilesAsync()
+			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFile>?>(async (cancellationToken) =>
+			{
+				var items = await GetItemsAsync()
+					?? throw new InvalidOperationException("The shell folder could not be enumerated.");
+				return items.OfType<ShellStorageFile>().ToList();
+			});
+		public override IAsyncOperation<IReadOnlyList<BaseStorageFile>?> GetFilesAsync(CommonFileQuery query)
+			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFile>?>(async (cancellationToken) => await GetFilesAsync());
+		public override IAsyncOperation<IReadOnlyList<BaseStorageFile>?> GetFilesAsync(CommonFileQuery query, uint startIndex, uint maxItemsToRetrieve)
+			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFile>?>(async (cancellationToken) =>
+			{
+				var files = await GetFilesAsync()
+					?? throw new InvalidOperationException("The shell folder files could not be enumerated.");
+				return files.Skip((int)startIndex).Take((int)maxItemsToRetrieve).ToList();
+			});
 
 		public override IAsyncOperation<BaseStorageFolder?> GetFolderAsync(string name)
 			=> AsyncInfo.Run<BaseStorageFolder?>(async (cancellationToken) => await GetItemAsync(name) as ShellStorageFolder);
-		public override IAsyncOperation<IReadOnlyList<BaseStorageFolder>> GetFoldersAsync()
-			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFolder>>(async (cancellationToken) => (await GetItemsAsync()).OfType<ShellStorageFolder>().ToList());
-		public override IAsyncOperation<IReadOnlyList<BaseStorageFolder>> GetFoldersAsync(CommonFolderQuery query)
-			=> AsyncInfo.Run(async (cancellationToken) => await GetFoldersAsync());
-		public override IAsyncOperation<IReadOnlyList<BaseStorageFolder>> GetFoldersAsync(CommonFolderQuery query, uint startIndex, uint maxItemsToRetrieve)
-		{
-			return AsyncInfo.Run<IReadOnlyList<BaseStorageFolder>>(async (cancellationToken) =>
+		public override IAsyncOperation<IReadOnlyList<BaseStorageFolder>?> GetFoldersAsync()
+			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFolder>?>(async (cancellationToken) =>
 			{
-				var items = await GetFoldersAsync();
+				var items = await GetItemsAsync()
+					?? throw new InvalidOperationException("The shell folder could not be enumerated.");
+				return items.OfType<ShellStorageFolder>().ToList();
+			});
+		public override IAsyncOperation<IReadOnlyList<BaseStorageFolder>?> GetFoldersAsync(CommonFolderQuery query)
+			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFolder>?>(async (cancellationToken) => await GetFoldersAsync());
+		public override IAsyncOperation<IReadOnlyList<BaseStorageFolder>?> GetFoldersAsync(CommonFolderQuery query, uint startIndex, uint maxItemsToRetrieve)
+		{
+			return AsyncInfo.Run<IReadOnlyList<BaseStorageFolder>?>(async (cancellationToken) =>
+			{
+				var items = await GetFoldersAsync()
+					?? throw new InvalidOperationException("The shell folder children could not be enumerated.");
 				return items.Skip((int)startIndex).Take((int)maxItemsToRetrieve).ToList();
 			});
 		}

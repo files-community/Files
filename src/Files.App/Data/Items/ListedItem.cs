@@ -117,9 +117,11 @@ namespace Files.App.Utils
 					// only set the tags if the file tags have been changed
 					if (fileTagsInitialized)
 					{
+						var path = ItemPath
+							?? throw new InvalidOperationException("The listed item does not have a path.");
 						var dbInstance = FileTagsHelper.GetDbInstance();
-						dbInstance.SetTags(ItemPath, FileFRN, value);
-						FileTagsHelper.WriteFileTag(ItemPath, value);
+						dbInstance.SetTags(path, FileFRN, value);
+						FileTagsHelper.WriteFileTag(path, value);
 					}
 
 					HasTags = !value.IsEmpty();
@@ -193,7 +195,15 @@ namespace Files.App.Utils
 			}
 		}
 
-		public bool IsItemPinnedToStart => StartMenuService.IsPinned((this as IShortcutItem)?.TargetPath ?? ItemPath);
+		public bool IsItemPinnedToStart
+		{
+			get
+			{
+				var targetPath = (this as IShortcutItem)?.TargetPath;
+				return StartMenuService.IsPinned((!string.IsNullOrEmpty(targetPath) ? targetPath : ItemPath)
+					?? throw new InvalidOperationException("The listed item does not have a path."));
+			}
+		}
 
 		private BitmapImage? iconOverlay;
 		public BitmapImage? IconOverlay
@@ -221,15 +231,15 @@ namespace Files.App.Utils
 			}
 		}
 
-		private string itemPath = string.Empty;
-		public string ItemPath
+		private string? itemPath;
+		public string? ItemPath
 		{
 			get => itemPath;
 			set => SetProperty(ref itemPath, value);
 		}
 
-		private string itemNameRaw = string.Empty;
-		public string ItemNameRaw
+		private string? itemNameRaw;
+		public string? ItemNameRaw
 		{
 			get => itemNameRaw;
 			set
@@ -241,7 +251,7 @@ namespace Files.App.Utils
 			}
 		}
 
-		public virtual string Name
+		public virtual string? Name
 		{
 			get
 			{
@@ -257,8 +267,8 @@ namespace Files.App.Utils
 			}
 		}
 
-		private string itemType = string.Empty;
-		public string ItemType
+		private string? itemType;
+		public string? ItemType
 		{
 			get => itemType;
 			set
@@ -270,10 +280,10 @@ namespace Files.App.Utils
 			}
 		}
 
-		public string FileExtension { get; set; } = string.Empty;
+		public string? FileExtension { get; set; }
 
-		private string fileSize = string.Empty;
-		public string FileSize
+		private string? fileSize;
+		public string? FileSize
 		{
 			get => fileSize;
 			set
@@ -289,7 +299,7 @@ namespace Files.App.Utils
 
 		public bool ShowViewSizeButton => !IsCalculatingSize && string.IsNullOrEmpty(FileSize) && PrimaryItemAttribute == StorageItemTypes.Folder;
 
-		public string SizeText => ShowCalculatingText ? Strings.Calculating.GetLocalizedResource() : FileSize;
+		public string? SizeText => ShowCalculatingText ? Strings.Calculating.GetLocalizedResource() : FileSize;
 
 		private bool isCalculatingSize;
 		public bool IsCalculatingSize
@@ -315,22 +325,22 @@ namespace Files.App.Utils
 
 		public long FileSizeBytes { get; set; }
 
-		private string itemDateModified = string.Empty;
-		public string ItemDateModified
+		private string? itemDateModified;
+		public string? ItemDateModified
 		{
 			get => itemDateModified;
 			private set => SetProperty(ref itemDateModified, value);
 		}
 
-		private string itemDateCreated = string.Empty;
-		public string ItemDateCreated
+		private string? itemDateCreated;
+		public string? ItemDateCreated
 		{
 			get => itemDateCreated;
 			private set => SetProperty(ref itemDateCreated, value);
 		}
 
-		private string itemDateAccessed = string.Empty;
-		public string ItemDateAccessed
+		private string? itemDateAccessed;
+		public string? ItemDateAccessed
 		{
 			get => itemDateAccessed;
 			private set => SetProperty(ref itemDateAccessed, value);
@@ -369,8 +379,8 @@ namespace Files.App.Utils
 			}
 		}
 
-		private ObservableCollection<FileProperty> itemProperties = [];
-		public ObservableCollection<FileProperty> ItemProperties
+		private ObservableCollection<FileProperty>? itemProperties;
+		public ObservableCollection<FileProperty>? ItemProperties
 		{
 			get => itemProperties;
 			set => SetProperty(ref itemProperties, value);
@@ -399,22 +409,22 @@ namespace Files.App.Utils
 
 		}
 
-		private string imageDimensions = string.Empty;
-		public string ImageDimensions
+		private string? imageDimensions;
+		public string? ImageDimensions
 		{
 			get => imageDimensions;
 			set => SetProperty(ref imageDimensions, value);
 		}
 
-		private string fileVersion = string.Empty;
-		public string FileVersion
+		private string? fileVersion;
+		public string? FileVersion
 		{
 			get => fileVersion;
 			set => SetProperty(ref fileVersion, value);
 		}
 
-		private string mediaDuration = string.Empty;
-		public string MediaDuration
+		private string? mediaDuration;
+		public string? MediaDuration
 		{
 			get => mediaDuration;
 			set => SetProperty(ref mediaDuration, value);
@@ -423,8 +433,8 @@ namespace Files.App.Utils
 		/// <summary>
 		/// Contextual property that changes based on the item type.
 		/// </summary>
-		private string contextualProperty = string.Empty;
-		public string ContextualProperty
+		private string? contextualProperty;
+		public string? ContextualProperty
 		{
 			get => contextualProperty;
 			set => SetProperty(ref contextualProperty, value);
@@ -439,8 +449,8 @@ namespace Files.App.Utils
 		// Parameterless constructor for JsonConvert
 		public ListedItem() { }
 
-		private ObservableCollection<FileProperty> fileDetails = [];
-		public ObservableCollection<FileProperty> FileDetails
+		private ObservableCollection<FileProperty>? fileDetails;
+		public ObservableCollection<FileProperty>? FileDetails
 		{
 			get => fileDetails;
 			set => SetProperty(ref fileDetails, value);
@@ -480,7 +490,8 @@ namespace Files.App.Utils
 		public bool IsGitItem => this is IGitItem;
 		public virtual bool IsExecutable => !IsFolder && FileExtensionHelpers.IsExecutableFile(ItemPath);
 		public virtual bool IsScriptFile => FileExtensionHelpers.IsScriptFile(ItemPath);
-		public bool IsPinned => App.QuickAccessManager.Model.PinnedFolders.Contains(itemPath);
+		public bool IsPinned => App.QuickAccessManager.Model.PinnedFolders.Contains(
+			itemPath ?? throw new InvalidOperationException("The listed item does not have a path."));
 		public bool IsDriveRoot => ItemPath == PathNormalization.GetPathRoot(ItemPath);
 		public bool IsElevationRequired { get; set; }
 
@@ -496,7 +507,7 @@ namespace Files.App.Utils
 
 		public GitItem? AsGitItem => this as GitItem;
 
-		public string Key { get; set; } = string.Empty;
+		public string? Key { get; set; }
 
 		public virtual bool IsRealChanges =>  ItemDateAccessed != dateTimeFormatter.ToShortLabel(ItemDateAccessedReal)
 			|| ItemDateCreated != dateTimeFormatter.ToShortLabel(ItemDateCreatedReal)
@@ -515,7 +526,8 @@ namespace Files.App.Utils
 		/// </summary>
 		public void UpdateContainsFilesFolders()
 		{
-			ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(ItemPath);
+			ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(
+				ItemPath ?? throw new InvalidOperationException("The listed item does not have a path."));
 		}
 	}
 
@@ -525,8 +537,8 @@ namespace Files.App.Utils
 		{
 		}
 
-		private string itemDateDeleted = string.Empty;
-		public string ItemDateDeleted
+		private string? itemDateDeleted;
+		public string? ItemDateDeleted
 		{
 			get => itemDateDeleted;
 			private set
@@ -559,12 +571,12 @@ namespace Files.App.Utils
 		private DateTimeOffset itemDateDeletedReal;
 
 		// For recycle bin elements (path + name)
-		public string ItemOriginalPath { get; set; } = string.Empty;
+		public string? ItemOriginalPath { get; set; }
 
 		// For recycle bin elements (path)
-		public string ItemOriginalFolder => Path.IsPathRooted(ItemOriginalPath) ? Path.GetDirectoryName(ItemOriginalPath) ?? ItemOriginalPath : ItemOriginalPath;
+		public string? ItemOriginalFolder => Path.IsPathRooted(ItemOriginalPath) ? Path.GetDirectoryName(ItemOriginalPath) : ItemOriginalPath;
 
-		public string ItemOriginalFolderName => Path.GetFileName(ItemOriginalFolder);
+		public string? ItemOriginalFolderName => Path.GetFileName(ItemOriginalFolder);
 	}
 
 	public sealed partial class FtpItem : ListedItem
@@ -581,7 +593,7 @@ namespace Files.App.Utils
 			ItemPropertiesInitialized = false;
 
 			var itemType = isFile ? Strings.File.GetLocalizedResource() : Strings.Folder.GetLocalizedResource();
-			if (isFile && Name.Contains('.', StringComparison.Ordinal))
+			if (isFile && item.Name.Contains('.', StringComparison.Ordinal))
 			{
 				itemType = FileExtension.Trim('.') + " " + itemType;
 			}
@@ -595,12 +607,18 @@ namespace Files.App.Utils
 			IsHiddenItem = false;
 		}
 
-		public async Task<IStorageItem> ToStorageItem() => PrimaryItemAttribute switch
+		public async Task<IStorageItem> ToStorageItem()
 		{
-			StorageItemTypes.File => await new Utils.Storage.FtpStorageFile(ItemPath, ItemNameRaw, ItemDateCreatedReal).ToStorageFileAsync(),
-			StorageItemTypes.Folder => new Utils.Storage.FtpStorageFolder(ItemPath, ItemNameRaw, ItemDateCreatedReal),
-			_ => throw new InvalidDataException(),
-		};
+			var path = ItemPath ?? throw new InvalidOperationException("The FTP item does not have a path.");
+			var name = ItemNameRaw ?? throw new InvalidOperationException("The FTP item does not have a name.");
+
+			return PrimaryItemAttribute switch
+			{
+				StorageItemTypes.File => await new Utils.Storage.FtpStorageFile(path, name, ItemDateCreatedReal).ToStorageFileAsync(),
+				StorageItemTypes.Folder => new Utils.Storage.FtpStorageFolder(path, name, ItemDateCreatedReal),
+				_ => throw new InvalidDataException("The FTP item has an unsupported storage type."),
+			};
+		}
 	}
 
 	public sealed partial class ShortcutItem : ListedItem, IShortcutItem
@@ -614,18 +632,13 @@ namespace Files.App.Utils
 		{ }
 
 		// For shortcut elements (.lnk and .url)
-		private string? targetPath;
-		public string TargetPath
-		{
-			get => string.IsNullOrEmpty(targetPath) ? ItemPath : targetPath;
-			set => targetPath = value;
-		}
+		public string? TargetPath { get; set; }
 
-		public override string Name
+		public override string? Name
 			=> IsSymLink ? base.Name : Path.GetFileNameWithoutExtension(ItemNameRaw); // Always hide extension for shortcuts
 
-		public string Arguments { get; set; } = string.Empty;
-		public string WorkingDirectory { get; set; } = string.Empty;
+		public string? Arguments { get; set; }
+		public string? WorkingDirectory { get; set; }
 		public bool RunAsAdmin { get; set; }
 		public SHOW_WINDOW_CMD ShowWindowCommand { get; set; }
 		public bool IsUrl { get; set; }
@@ -640,7 +653,7 @@ namespace Files.App.Utils
 		{
 		}
 
-		public override string Name
+		public override string? Name
 		{
 			get
 			{
@@ -678,19 +691,27 @@ namespace Files.App.Utils
 
 		public bool IsEmpty { get; }
 
-		public string DefaultSaveFolder { get; }
+		public string? DefaultSaveFolder { get; }
 
-		public override string Name => ItemNameRaw;
+		public override string? Name => ItemNameRaw;
 
 		public ReadOnlyCollection<string> Folders { get; }
 	}
 
 	public sealed partial class AlternateStreamItem : ListedItem
 	{
-		public string MainStreamPath => ItemPath.Substring(0, ItemPath.LastIndexOf(':'));
+		public string MainStreamPath
+		{
+			get
+			{
+				var path = ItemPath
+					?? throw new InvalidOperationException("The alternate stream does not have a path.");
+				return path.Substring(0, path.LastIndexOf(':'));
+			}
+		}
 		public string MainStreamName => Path.GetFileName(MainStreamPath);
 
-		public override string Name
+		public override string? Name
 		{
 			get
 			{
@@ -799,18 +820,13 @@ namespace Files.App.Utils
 	}
 	public sealed partial class GitShortcutItem : GitItem, IShortcutItem
 	{
-		private string? targetPath;
-		public string TargetPath
-		{
-			get => string.IsNullOrEmpty(targetPath) ? ItemPath : targetPath;
-			set => targetPath = value;
-		}
+		public string? TargetPath { get; set; }
 
 		public override string Name
-			=> IsSymLink ? base.Name : Path.GetFileNameWithoutExtension(ItemNameRaw); // Always hide extension for shortcuts
+			=> IsSymLink ? base.Name! : Path.GetFileNameWithoutExtension(ItemNameRaw)!; // Always hide extension for shortcuts
 
-		public string Arguments { get; set; } = string.Empty;
-		public string WorkingDirectory { get; set; } = string.Empty;
+		public string? Arguments { get; set; }
+		public string? WorkingDirectory { get; set; }
 		public bool RunAsAdmin { get; set; }
 		public SHOW_WINDOW_CMD ShowWindowCommand { get; set; }
 		public bool IsUrl { get; set; }
@@ -841,9 +857,9 @@ namespace Files.App.Utils
 	}
 	public interface IShortcutItem : IListedItem
 	{
-		public string TargetPath { get; set; }
-		public string Arguments { get; set; }
-		public string WorkingDirectory { get; set; }
+		public string? TargetPath { get; set; }
+		public string? Arguments { get; set; }
+		public string? WorkingDirectory { get; set; }
 		public bool RunAsAdmin { get; set; }
 		public SHOW_WINDOW_CMD ShowWindowCommand { get; set; }
 		public bool IsUrl { get; set; }

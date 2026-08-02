@@ -31,11 +31,11 @@ namespace Files.App.Views
 
 		protected override async void OnNavigatedTo(NavigationEventArgs e)
 		{
-			if (e.Parameter is not NavigationArguments { AssociatedTabInstance: { } associatedInstance } parameters ||
-				associatedInstance.ShellViewModel is not { } shellViewModel)
+			if (e.Parameter is not NavigationArguments parameters)
 				return;
 
-			appInstance = associatedInstance;
+			appInstance = parameters.AssociatedTabInstance!;
+			var shellViewModel = AppInstance.ShellViewModel!;
 
 			AppInstance.InstanceViewModel.IsPageTypeNotHome = true;
 			AppInstance.InstanceViewModel.IsPageTypeSearchResults = false;

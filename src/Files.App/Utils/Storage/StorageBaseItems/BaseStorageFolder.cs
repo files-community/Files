@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Storage;
@@ -30,10 +31,9 @@ namespace Files.App.Utils.Storage
 
 		public abstract IStorageItemExtraProperties Properties { get; }
 
+		[MaybeNull]
 		StorageItemContentProperties IStorageItemProperties.Properties
-			=> this is SystemStorageFolder folder
-				? folder.Folder.Properties
-				: throw new NotSupportedException("Content properties are only available for system storage folders.");
+			=> this is SystemStorageFolder folder ? folder.Folder.Properties : null;
 
 		public static implicit operator BaseStorageFolder?(StorageFolder? value)
 		{
@@ -55,10 +55,11 @@ namespace Files.App.Utils.Storage
 
 		IAsyncOperation<StorageFolder?> IStorageItem2.GetParentAsync()
 		{
-			return AsyncInfo.Run(async (cancellationToken) =>
+			return AsyncInfo.Run<StorageFolder?>(async (cancellationToken) =>
 			{
-				var parent = await GetParentAsync();
-				return parent is not null ? await parent.ToStorageFolderAsync() : null;
+				var parent = await GetParentAsync()
+					?? throw new InvalidOperationException("The folder does not have an accessible parent.");
+				return await parent.ToStorageFolderAsync();
 			});
 		}
 
@@ -73,9 +74,9 @@ namespace Files.App.Utils.Storage
 
 		public abstract IAsyncOperation<IStorageItem?> TryGetItemAsync(string name);
 
-		public abstract IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync();
+		public abstract IAsyncOperation<IReadOnlyList<IStorageItem>?> GetItemsAsync();
 
-		public abstract IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve);
+		public abstract IAsyncOperation<IReadOnlyList<IStorageItem>?> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve);
 
 		public abstract IAsyncOperation<BaseStorageFile?> GetFileAsync(string name);
 
@@ -83,36 +84,46 @@ namespace Files.App.Utils.Storage
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
 			{
-				var file = await GetFileAsync(name) ?? throw new System.IO.FileNotFoundException($"The file '{name}' was not found.");
+				var file = await GetFileAsync(name)
+					?? throw new System.IO.FileNotFoundException($"The file '{name}' was not found.", name);
 				return await file.ToStorageFileAsync();
 			});
 		}
 
-		public abstract IAsyncOperation<IReadOnlyList<BaseStorageFile>> GetFilesAsync();
+		public abstract IAsyncOperation<IReadOnlyList<BaseStorageFile>?> GetFilesAsync();
 
 		IAsyncOperation<IReadOnlyList<StorageFile>> IStorageFolder.GetFilesAsync()
 		{
-			return
-				AsyncInfo.Run<IReadOnlyList<StorageFile>>(async (cancellationToken)
-					=> await Task.WhenAll((await GetFilesAsync()).Select(x => x.ToStorageFileAsync().AsTask())));
+			return AsyncInfo.Run<IReadOnlyList<StorageFile>>(async (cancellationToken) =>
+			{
+				var files = await GetFilesAsync()
+					?? throw new InvalidOperationException("The storage provider did not return a file list.");
+				return await Task.WhenAll(files.Select(x => x.ToStorageFileAsync().AsTask()));
+			});
 		}
 
-		public abstract IAsyncOperation<IReadOnlyList<BaseStorageFile>> GetFilesAsync(CommonFileQuery query);
+		public abstract IAsyncOperation<IReadOnlyList<BaseStorageFile>?> GetFilesAsync(CommonFileQuery query);
 
 		IAsyncOperation<IReadOnlyList<StorageFile>> IStorageFolderQueryOperations.GetFilesAsync(CommonFileQuery query)
 		{
-			return
-				AsyncInfo.Run<IReadOnlyList<StorageFile>>(async (cancellationToken)
-					=> await Task.WhenAll((await GetFilesAsync(query)).Select(x => x.ToStorageFileAsync().AsTask())));
+			return AsyncInfo.Run<IReadOnlyList<StorageFile>>(async (cancellationToken) =>
+			{
+				var files = await GetFilesAsync(query)
+					?? throw new InvalidOperationException("The storage provider did not return a file list.");
+				return await Task.WhenAll(files.Select(x => x.ToStorageFileAsync().AsTask()));
+			});
 		}
 
-		public abstract IAsyncOperation<IReadOnlyList<BaseStorageFile>> GetFilesAsync(CommonFileQuery query, uint startIndex, uint maxItemsToRetrieve);
+		public abstract IAsyncOperation<IReadOnlyList<BaseStorageFile>?> GetFilesAsync(CommonFileQuery query, uint startIndex, uint maxItemsToRetrieve);
 
 		IAsyncOperation<IReadOnlyList<StorageFile>> IStorageFolderQueryOperations.GetFilesAsync(CommonFileQuery query, uint startIndex, uint maxItemsToRetrieve)
 		{
-			return
-				AsyncInfo.Run<IReadOnlyList<StorageFile>>(async (cancellationToken)
-					=> await Task.WhenAll((await GetFilesAsync(query, startIndex, maxItemsToRetrieve)).Select(x => x.ToStorageFileAsync().AsTask())));
+			return AsyncInfo.Run<IReadOnlyList<StorageFile>>(async (cancellationToken) =>
+			{
+				var files = await GetFilesAsync(query, startIndex, maxItemsToRetrieve)
+					?? throw new InvalidOperationException("The storage provider did not return a file list.");
+				return await Task.WhenAll(files.Select(x => x.ToStorageFileAsync().AsTask()));
+			});
 		}
 
 		public abstract IAsyncOperation<BaseStorageFolder?> GetFolderAsync(string name);
@@ -122,7 +133,8 @@ namespace Files.App.Utils.Storage
 			return
 				AsyncInfo.Run(async (cancellationToken) =>
 				{
-					var folder = await GetFolderAsync(name) ?? throw new System.IO.DirectoryNotFoundException($"The folder '{name}' was not found.");
+					var folder = await GetFolderAsync(name)
+						?? throw new System.IO.DirectoryNotFoundException($"The folder '{name}' was not found.");
 					return await folder.ToStorageFolderAsync();
 				});
 		}
@@ -134,31 +146,40 @@ namespace Files.App.Utils.Storage
 					=> await ZipStorageFolder.FromPathAsync(path) ?? await FtpStorageFolder.FromPathAsync(path) ?? await ShellStorageFolder.FromPathAsync(path) ?? await SystemStorageFolder.FromPathAsync(path));
 		}
 
-		public abstract IAsyncOperation<IReadOnlyList<BaseStorageFolder>> GetFoldersAsync();
+		public abstract IAsyncOperation<IReadOnlyList<BaseStorageFolder>?> GetFoldersAsync();
 
 		IAsyncOperation<IReadOnlyList<StorageFolder>> IStorageFolder.GetFoldersAsync()
 		{
-			return
-				AsyncInfo.Run<IReadOnlyList<StorageFolder>>(async (cancellationToken)
-					=> await Task.WhenAll((await GetFoldersAsync()).Select(x => x.ToStorageFolderAsync().AsTask())));
+			return AsyncInfo.Run<IReadOnlyList<StorageFolder>>(async (cancellationToken) =>
+			{
+				var folders = await GetFoldersAsync()
+					?? throw new InvalidOperationException("The storage provider did not return a folder list.");
+				return await Task.WhenAll(folders.Select(x => x.ToStorageFolderAsync().AsTask()));
+			});
 		}
 
-		public abstract IAsyncOperation<IReadOnlyList<BaseStorageFolder>> GetFoldersAsync(CommonFolderQuery query);
+		public abstract IAsyncOperation<IReadOnlyList<BaseStorageFolder>?> GetFoldersAsync(CommonFolderQuery query);
 
 		IAsyncOperation<IReadOnlyList<StorageFolder>> IStorageFolderQueryOperations.GetFoldersAsync(CommonFolderQuery query)
 		{
-			return
-				AsyncInfo.Run<IReadOnlyList<StorageFolder>>(async (cancellationToken)
-					=> await Task.WhenAll((await GetFoldersAsync(query)).Select(x => x.ToStorageFolderAsync().AsTask())));
+			return AsyncInfo.Run<IReadOnlyList<StorageFolder>>(async (cancellationToken) =>
+			{
+				var folders = await GetFoldersAsync(query)
+					?? throw new InvalidOperationException("The storage provider did not return a folder list.");
+				return await Task.WhenAll(folders.Select(x => x.ToStorageFolderAsync().AsTask()));
+			});
 		}
 
-		public abstract IAsyncOperation<IReadOnlyList<BaseStorageFolder>> GetFoldersAsync(CommonFolderQuery query, uint startIndex, uint maxItemsToRetrieve);
+		public abstract IAsyncOperation<IReadOnlyList<BaseStorageFolder>?> GetFoldersAsync(CommonFolderQuery query, uint startIndex, uint maxItemsToRetrieve);
 
 		IAsyncOperation<IReadOnlyList<StorageFolder>> IStorageFolderQueryOperations.GetFoldersAsync(CommonFolderQuery query, uint startIndex, uint maxItemsToRetrieve)
 		{
-			return
-				AsyncInfo.Run<IReadOnlyList<StorageFolder>>(async (cancellationToken)
-					=> await Task.WhenAll((await GetFoldersAsync(query, startIndex, maxItemsToRetrieve)).Select(x => x.ToStorageFolderAsync().AsTask())));
+			return AsyncInfo.Run<IReadOnlyList<StorageFolder>>(async (cancellationToken) =>
+			{
+				var folders = await GetFoldersAsync(query, startIndex, maxItemsToRetrieve)
+					?? throw new InvalidOperationException("The storage provider did not return a folder list.");
+				return await Task.WhenAll(folders.Select(x => x.ToStorageFolderAsync().AsTask()));
+			});
 		}
 
 		public abstract IAsyncOperation<BaseStorageFile?> CreateFileAsync(string desiredName);
@@ -168,7 +189,8 @@ namespace Files.App.Utils.Storage
 			return
 				AsyncInfo.Run(async (cancellationToken) =>
 				{
-					var file = await CreateFileAsync(desiredName) ?? throw new System.IO.IOException($"The file '{desiredName}' could not be created.");
+					var file = await CreateFileAsync(desiredName)
+						?? throw new System.IO.IOException($"The storage provider did not create file '{desiredName}'.");
 					return await file.ToStorageFileAsync();
 				});
 		}
@@ -180,7 +202,8 @@ namespace Files.App.Utils.Storage
 			return
 				AsyncInfo.Run(async (cancellationToken) =>
 				{
-					var file = await CreateFileAsync(desiredName, options) ?? throw new System.IO.IOException($"The file '{desiredName}' could not be created.");
+					var file = await CreateFileAsync(desiredName, options)
+						?? throw new System.IO.IOException($"The storage provider did not create file '{desiredName}'.");
 					return await file.ToStorageFileAsync();
 				});
 		}
@@ -192,7 +215,8 @@ namespace Files.App.Utils.Storage
 			return
 				AsyncInfo.Run(async (cancellationToken) =>
 				{
-					var folder = await CreateFolderAsync(desiredName) ?? throw new System.IO.IOException($"The folder '{desiredName}' could not be created.");
+					var folder = await CreateFolderAsync(desiredName)
+						?? throw new System.IO.IOException($"The storage provider did not create folder '{desiredName}'.");
 					return await folder.ToStorageFolderAsync();
 				});
 		}
@@ -204,7 +228,8 @@ namespace Files.App.Utils.Storage
 			return
 				AsyncInfo.Run(async (cancellationToken) =>
 				{
-					var folder = await CreateFolderAsync(desiredName, options) ?? throw new System.IO.IOException($"The folder '{desiredName}' could not be created.");
+					var folder = await CreateFolderAsync(desiredName, options)
+						?? throw new System.IO.IOException($"The storage provider did not create folder '{desiredName}'.");
 					return await folder.ToStorageFolderAsync();
 				});
 		}

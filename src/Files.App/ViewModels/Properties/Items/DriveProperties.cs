@@ -42,16 +42,18 @@ namespace Files.App.ViewModels.Properties
 		public async override Task GetSpecialPropertiesAsync()
 		{
 			ViewModel.ItemAttributesVisibility = false;
+			var drivePath = Drive.Path
+				?? throw new InvalidOperationException("The drive does not have a path.");
 
-			var rootResult = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(Drive.Path));
+			var rootResult = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(drivePath));
 			var diskRootResult = await FilesystemTasks.WrapNullable(
-				() => StorageFileExtensions.DangerousGetFolderFromPathAsync(Drive.Path, rootResult.Result));
+				() => StorageFileExtensions.DangerousGetFolderFromPathAsync(drivePath, rootResult.Result));
 			var diskRoot = diskRootResult.Result;
 
 			if (ViewModel.LoadFileIcon)
 			{
 				var result = await FileThumbnailHelper.GetIconAsync(
-					Drive.Path,
+					drivePath,
 					Constants.ShellIconSizes.ExtraLarge,
 					true,
 					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
@@ -61,7 +63,7 @@ namespace Files.App.ViewModels.Properties
 				else
 				{
 					result = await FileThumbnailHelper.GetIconAsync(
-						Drive.DeviceID,
+						Drive.DeviceID ?? throw new InvalidOperationException("The drive does not have a device ID."),
 						Constants.ShellIconSizes.ExtraLarge,
 						true,
 						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale); // For network shortcuts
@@ -79,7 +81,7 @@ namespace Files.App.ViewModels.Properties
 
 			try
 			{
-				var syncRootStatus = await SyncRootHelpers.GetSyncRootQuotaAsync(Drive.Path);
+				var syncRootStatus = await SyncRootHelpers.GetSyncRootQuotaAsync(drivePath);
 				if (syncRootStatus.Success)
 				{
 					ViewModel.DriveCapacityValue = syncRootStatus.Capacity;

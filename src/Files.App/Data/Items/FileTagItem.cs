@@ -12,10 +12,10 @@ namespace Files.App.Data.Items
 {
 	public sealed partial class FileTagItem : ObservableObject, INavigationControlItem
 	{
-		public required string Text { get; set; }
+		public string? Text { get; set; }
 
-		private string path = string.Empty;
-		public required string Path
+		private string? path;
+		public string? Path
 		{
 			get => path;
 			set
@@ -26,19 +26,25 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public string ToolTipText { get; private set; } = string.Empty;
+		public string? ToolTipText { get; private set; }
 
 		public SectionType Section { get; set; }
 
-		public required ContextMenuOptions MenuOptions { get; set; }
+		public ContextMenuOptions? MenuOptions { get; set; }
 
 		public NavigationControlItemType ItemType
 			=> NavigationControlItemType.FileTag;
 
 		public int CompareTo(INavigationControlItem? other)
-			=> other is null ? 1 : Text.CompareTo(other.Text);
+		{
+			var text = Text ?? throw new InvalidOperationException("The file tag name has not been initialized.");
+			var otherText = other?.Text
+				?? throw new ArgumentException("The compared item must have a name.", nameof(other));
 
-		public required TagViewModel FileTag { get; set; }
+			return text.CompareTo(otherText);
+		}
+
+		public TagViewModel? FileTag { get; set; }
 
 		public object? Children => null;
 
@@ -49,17 +55,18 @@ namespace Files.App.Data.Items
 				var source = new PathIconSource()
 				{
 					Data = (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), (string)Application.Current.Resources["App.Theme.PathIcon.FilledTag"]),
-					Foreground = new SolidColorBrush(FileTag.Color.ToColor())
+					Foreground = new SolidColorBrush((FileTag
+						?? throw new InvalidOperationException("The file tag has not been initialized.")).Color.ToColor())
 				};
 				return source.CreateIconElement();
 			}
 		}
 
-		FrameworkElement? ISidebarItemModel.IconElement => IconElement;
+		FrameworkElement? ISidebarItemPresentationModel.IconElement => IconElement;
 
-		public object ToolTip => Text;
+		public object? ToolTip => Text;
 
-		FrameworkElement? ISidebarItemModel.ItemDecorator => null;
+		FrameworkElement? ISidebarItemPresentationModel.ItemDecorator => null;
 
 		public bool IsExpanded { get => false; set { } }
 	}

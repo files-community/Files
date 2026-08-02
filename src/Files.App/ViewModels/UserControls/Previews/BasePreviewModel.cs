@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.IO;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -23,7 +24,7 @@ namespace Files.App.ViewModels.Previews
 			protected set => SetProperty(ref fileImage, value);
 		}
 
-		public List<FileProperty> DetailsFromPreview { get; set; } = [];
+		public List<FileProperty>? DetailsFromPreview { get; set; }
 
 		/// <summary>
 		/// This is cancelled when the user has selected another file or closed the pane.
@@ -37,7 +38,7 @@ namespace Files.App.ViewModels.Previews
 
 		public static Task LoadDetailsOnlyAsync(ListedItem item, List<FileProperty>? details = null)
 		{
-			var temp = new DetailsOnlyPreviewModel(item) { DetailsFromPreview = details ?? [] };
+			var temp = new DetailsOnlyPreviewModel(item) { DetailsFromPreview = details };
 			return temp.LoadAsync();
 		}
 
@@ -55,8 +56,9 @@ namespace Files.App.ViewModels.Previews
 
 			if (Item.ItemFile is null)
 			{
-				var rootItem = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(Item.ItemPath));
-				Item.ItemFile = await StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath, rootItem);
+				var itemPath = Item.ItemPath!;
+				var rootItem = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(itemPath));
+				Item.ItemFile = await StorageFileExtensions.DangerousGetFileFromPathAsync(itemPath, rootItem.Result);
 			}
 
 			await Task.Run(async () =>
@@ -65,9 +67,10 @@ namespace Files.App.ViewModels.Previews
 				if (userSettingsService.InfoPaneSettingsService.SelectedTab == InfoPaneTabs.Details)
 				{
 					// Add the details from the preview function, then the system file properties
-					DetailsFromPreview.ForEach(i => detailsFull.Add(i));
-					List<FileProperty> props = await GetSystemFilePropertiesAsync();
-					detailsFull.AddRange(props);
+					DetailsFromPreview?.ForEach(i => detailsFull.Add(i));
+					List<FileProperty>? props = await GetSystemFilePropertiesAsync();
+					if (props is not null)
+						detailsFull.AddRange(props);
 				}
 			});
 
@@ -108,30 +111,32 @@ namespace Files.App.ViewModels.Previews
 		protected static FileProperty GetFileProperty(string nameResource, object? value)
 			=> new() { NameResource = nameResource, Value = value };
 
-		private async Task<List<FileProperty>> GetSystemFilePropertiesAsync()
+		private async Task<List<FileProperty>?> GetSystemFilePropertiesAsync()
 		{
-			if (Item.IsShortcut || Item.ItemFile is null)
-				return [];
+			if (Item.IsShortcut)
+				return null;
+			if (Item.ItemFile is null)
+				throw new InvalidOperationException("The preview item could not be opened as a file.");
 
 			var list = await FileProperty.RetrieveAndInitializePropertiesAsync(Item.ItemFile,
 				Constants.ResourceFilePaths.PreviewPaneDetailsPropertiesJsonPath);
 
-			var address = list.Find(x => x.ID is "address");
-			if (address is not null)
-			{
-				address.Value = await LocationHelpers.GetAddressFromCoordinatesAsync(
-					(double?)list.Find(x => x.Property is "System.GPS.LatitudeDecimal")?.Value,
-					(double?)list.Find(x => x.Property is "System.GPS.LongitudeDecimal")?.Value);
-			}
+			var address = list.Find(x => x.ID is "address")
+				?? throw new InvalidDataException("The preview property definition is missing the address field.");
+			var latitude = list.Find(x => x.Property is "System.GPS.LatitudeDecimal")
+				?? throw new InvalidDataException("The preview property definition is missing the latitude field.");
+			var longitude = list.Find(x => x.Property is "System.GPS.LongitudeDecimal")
+				?? throw new InvalidDataException("The preview property definition is missing the longitude field.");
+			address.Value = await LocationHelpers.GetAddressFromCoordinatesAsync(
+				(double?)latitude.Value,
+				(double?)longitude.Value);
 
 			// Adds the value for the file tag
-			var fileTag = list.FirstOrDefault(x => x.ID is "filetag");
-			if (fileTag is not null)
-			{
-				fileTag.Value = Item.FileTagsUI is not null
-					? string.Join(',', Item.FileTagsUI.Select(x => x.Name))
-					: null;
-			}
+			var fileTag = list.FirstOrDefault(x => x.ID is "filetag")
+				?? throw new InvalidDataException("The preview property definition is missing the file tag field.");
+			fileTag.Value = Item.FileTagsUI is not null
+				? string.Join(',', Item.FileTagsUI.Select(x => x.Name))
+				: null;
 
 			return list.Where(i => i.ValueText is not null).ToList();
 		}
@@ -140,7 +145,7 @@ namespace Files.App.ViewModels.Previews
 		{
 			public DetailsOnlyPreviewModel(ListedItem item) : base(item) { }
 
-			public override Task<List<FileProperty>> LoadPreviewAndDetailsAsync() => Task.FromResult(DetailsFromPreview);
+			public override Task<List<FileProperty>> LoadPreviewAndDetailsAsync() => Task.FromResult(DetailsFromPreview ?? []);
 		}
 	}
 }

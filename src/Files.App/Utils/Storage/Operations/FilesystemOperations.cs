@@ -18,9 +18,12 @@ namespace Files.App.Utils.Storage
 	{
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 
-		private readonly IShellPage _associatedInstance;
+		private IShellPage? _associatedInstance;
+		private IShellPage AssociatedInstance
+			=> _associatedInstance ?? throw new ObjectDisposedException(nameof(FilesystemOperations));
 		private ShellViewModel ShellViewModel
-			=> _associatedInstance.ShellViewModel ?? throw new InvalidOperationException("File operations require an initialized shell.");
+			=> AssociatedInstance.ShellViewModel
+				?? throw new InvalidOperationException("The shell view model is not available.");
 
 		public FilesystemOperations(IShellPage associatedInstance)
 		{
@@ -45,13 +48,17 @@ namespace Files.App.Utils.Storage
 							{
 								var fsFolderResult = await ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(source.Path));
 								fsResult = fsFolderResult;
-								var fileName = Path.GetFileName(source.Path);
-								if (fsResult && fsFolderResult.Result is { } folder && !string.IsNullOrEmpty(fileName))
+								if (fsResult)
 								{
+									var folder = fsFolderResult.Result
+										?? throw new InvalidOperationException("The destination folder could not be opened for file creation.");
+									var fileName = Path.GetFileName(source.Path)!;
 									var fsCreateResult = await FilesystemTasks.Wrap(() => folder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName).AsTask());
 									fsResult = fsCreateResult;
-									if (fsCreateResult.Result is { } createdFile)
-										item = createdFile.FromStorageItem();
+									var createdFile = fsCreateResult.Result;
+									if (fsCreateResult && createdFile is null)
+										throw new InvalidOperationException("The file creation completed without returning the created file.");
+									item = createdFile?.FromStorageItem();
 								}
 								if (fsResult == FileSystemStatusCode.Unauthorized)
 								{
@@ -60,12 +67,11 @@ namespace Files.App.Utils.Storage
 							}
 							else
 							{
-								var fsCreateResult = await newEntryInfo.Create(source.Path, _associatedInstance);
+								var fsCreateResult = await newEntryInfo.Create(source.Path, AssociatedInstance);
 								fsResult = fsCreateResult;
-								if (fsResult && fsCreateResult.Result is { } createdFile)
-								{
-									item = createdFile.FromStorageItem();
-								}
+								if (fsResult && fsCreateResult.Result is null)
+									throw new InvalidOperationException("The file creation completed without returning the created file.");
+								item = fsCreateResult.Result?.FromStorageItem();
 								if (fsResult == FileSystemStatusCode.Unauthorized)
 								{
 									// Can't do anything, already tried with admin FTP
@@ -79,13 +85,17 @@ namespace Files.App.Utils.Storage
 						{
 							var fsFolderResult = await ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(source.Path));
 							fsResult = fsFolderResult;
-							var folderName = Path.GetFileName(source.Path);
-							if (fsResult && fsFolderResult.Result is { } folder && !string.IsNullOrEmpty(folderName))
+							if (fsResult)
 							{
+								var folder = fsFolderResult.Result
+									?? throw new InvalidOperationException("The destination folder could not be opened for folder creation.");
+								var folderName = Path.GetFileName(source.Path)!;
 								var fsCreateResult = await FilesystemTasks.Wrap(() => folder.CreateFolderAsync(folderName, CreationCollisionOption.GenerateUniqueName).AsTask());
 								fsResult = fsCreateResult;
-								if (fsCreateResult.Result is { } createdFolder)
-									item = createdFolder.FromStorageItem();
+								var createdFolder = fsCreateResult.Result;
+								if (fsCreateResult && createdFolder is null)
+									throw new InvalidOperationException("The folder creation completed without returning the created folder.");
+								item = createdFolder?.FromStorageItem();
 							}
 							if (fsResult == FileSystemStatusCode.Unauthorized)
 							{
@@ -114,7 +124,8 @@ namespace Files.App.Utils.Storage
 
 		public Task<IStorageHistory?> CopyAsync(IStorageItem source, string destination, NameCollisionOption collision, IProgress<StatusCenterItemProgressModel>? progress, CancellationToken cancellationToken)
 		{
-			return CopyAsync(source.FromStorageItem(), destination, collision, progress, cancellationToken);
+			return CopyAsync(source.FromStorageItem()
+				?? throw new InvalidOperationException("The storage item could not be converted for copying."), destination, collision, progress, cancellationToken);
 		}
 
 		public async Task<IStorageHistory?> CopyAsync(IStorageItemWithPath source, string destination, NameCollisionOption collision, IProgress<StatusCenterItemProgressModel>? progress, CancellationToken cancellationToken)
@@ -194,6 +205,9 @@ namespace Files.App.Utils.Storage
 							return null;
 						}
 
+						if (fsCopyResult && fsCopyResult.Result is null)
+							fsCopyResult = new FilesystemResult<BaseStorageFolder>(null, FileSystemStatusCode.Generic);
+
 						if (fsCopyResult.Result is { } copiedFolder)
 						{
 							if (Win32Helper.HasFileAttribute(source.Path, SystemIO.FileAttributes.Hidden))
@@ -206,6 +220,10 @@ namespace Files.App.Utils.Storage
 						}
 
 						fsResult = fsCopyResult;
+					}
+					else if (fsResult)
+					{
+						fsResult = FileSystemStatusCode.Generic;
 					}
 
 					if (fsResult == FileSystemStatusCode.Unauthorized)
@@ -257,7 +275,7 @@ namespace Files.App.Utils.Storage
 						}
 						else
 						{
-							fsResultCopy = await FilesystemTasks.WrapNullable(() => file.CopyAsync(destinationFolder, Path.GetFileName(file.Name) ?? file.Name, collision).AsTask());
+							fsResultCopy = await FilesystemTasks.WrapNullable(() => file.CopyAsync(destinationFolder, Path.GetFileName(file.Name)!, collision).AsTask());
 						}
 
 						if (file is IPasswordProtectedItem ppiu)
@@ -270,12 +288,17 @@ namespace Files.App.Utils.Storage
 							return null;
 						}
 
+						if (fsResultCopy && fsResultCopy.Result is null)
+							fsResultCopy = new FilesystemResult<BaseStorageFile>(null, FileSystemStatusCode.Generic);
+
 						if (fsResultCopy.Result is { } copiedFile)
 							copiedItem = copiedFile;
-						else if (fsResultCopy)
-							fsResultCopy = new(null, FileSystemStatusCode.Generic);
 
 						fsResult = fsResultCopy;
+					}
+					else if (fsResult)
+					{
+						fsResult = FileSystemStatusCode.Generic;
 					}
 
 					if (fsResult == FileSystemStatusCode.Unauthorized)
@@ -305,7 +328,8 @@ namespace Files.App.Utils.Storage
 
 		public Task<IStorageHistory?> MoveAsync(IStorageItem source, string destination, NameCollisionOption collision, IProgress<StatusCenterItemProgressModel>? progress, CancellationToken cancellationToken)
 		{
-			return MoveAsync(source.FromStorageItem(), destination, collision, progress, cancellationToken);
+			return MoveAsync(source.FromStorageItem()
+				?? throw new InvalidOperationException("The storage item could not be converted for moving."), destination, collision, progress, cancellationToken);
 		}
 
 		public async Task<IStorageHistory?> MoveAsync(IStorageItemWithPath source, string destination, NameCollisionOption collision, IProgress<StatusCenterItemProgressModel>? progress, CancellationToken cancellationToken)
@@ -415,6 +439,9 @@ namespace Files.App.Utils.Storage
 								return null;
 							}
 
+							if (fsResultMove && fsResultMove.Result is null)
+								fsResultMove = new FilesystemResult<BaseStorageFolder>(null, FileSystemStatusCode.Generic);
+
 							if (fsResultMove.Result is { } movedFolder)
 							{
 								if (Win32Helper.HasFileAttribute(source.Path, SystemIO.FileAttributes.Hidden))
@@ -426,6 +453,10 @@ namespace Files.App.Utils.Storage
 								movedItem = movedFolder;
 							}
 							fsResult = fsResultMove;
+						}
+						else if (fsResult)
+						{
+							fsResult = FileSystemStatusCode.Generic;
 						}
 						if (fsResult == FileSystemStatusCode.Unauthorized || fsResult == FileSystemStatusCode.ReadOnly)
 						{
@@ -455,7 +486,7 @@ namespace Files.App.Utils.Storage
 						if (file is IPasswordProtectedItem ppis)
 							ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
 
-						var fsResultMove = await FilesystemTasks.Wrap(() => file.MoveAsync(destinationFolder, Path.GetFileName(file.Name) ?? file.Name, collision).AsTask());
+						var fsResultMove = await FilesystemTasks.Wrap(() => file.MoveAsync(destinationFolder, Path.GetFileName(file.Name)!, collision).AsTask());
 
 						if (file is IPasswordProtectedItem ppiu)
 							ppiu.PasswordRequestedCallback = null;
@@ -472,6 +503,10 @@ namespace Files.App.Utils.Storage
 
 						fsResult = fsResultMove;
 					}
+					else if (fsResult)
+					{
+						fsResult = FileSystemStatusCode.Generic;
+					}
 					if (fsResult == FileSystemStatusCode.Unauthorized || fsResult == FileSystemStatusCode.ReadOnly)
 					{
 						// Cannot do anything, already tried with admin FTP
@@ -486,8 +521,9 @@ namespace Files.App.Utils.Storage
 				return null;
 			}
 
-			bool sourceInCurrentFolder = ShellViewModel.CurrentFolder is { } currentFolder &&
-				PathNormalization.TrimPath(currentFolder.ItemPath) == PathNormalization.GetParentDir(source.Path);
+			var currentFolder = ShellViewModel.CurrentFolder
+				?? throw new InvalidOperationException("The shell view model does not have a current folder.");
+			bool sourceInCurrentFolder = PathNormalization.TrimPath(currentFolder.ItemPath) == PathNormalization.GetParentDir(source.Path);
 			if (fsProgress.Status == FileSystemStatusCode.Success && sourceInCurrentFolder)
 			{
 				await ShellViewModel.RemoveFileOrFolderAsync(source.Path);
@@ -501,7 +537,8 @@ namespace Files.App.Utils.Storage
 
 		public Task<IStorageHistory?> DeleteAsync(IStorageItem source, IProgress<StatusCenterItemProgressModel>? progress, bool permanently, CancellationToken cancellationToken)
 		{
-			return DeleteAsync(source.FromStorageItem(), progress, permanently, cancellationToken);
+			return DeleteAsync(source.FromStorageItem()
+				?? throw new InvalidOperationException("The storage item could not be converted for deletion."), progress, permanently, cancellationToken);
 		}
 
 		public async Task<IStorageHistory?> DeleteAsync(IStorageItemWithPath source, IProgress<StatusCenterItemProgressModel>? progress, bool permanently, CancellationToken cancellationToken)
@@ -526,12 +563,14 @@ namespace Files.App.Utils.Storage
 				if (source.ItemType == FilesystemItemType.File)
 				{
 					fsResult = await ShellViewModel.GetFileFromPathAsync(source.Path, cancellationToken)
-						.OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
+						.OnSuccess((t) => (t ?? throw new InvalidOperationException($"The file '{source.Path}' could not be opened."))
+							.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
 				}
 				else if (source.ItemType == FilesystemItemType.Directory)
 				{
 					fsResult = await ShellViewModel.GetFolderFromPathAsync(source.Path, cancellationToken)
-						.OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
+						.OnSuccess((t) => (t ?? throw new InvalidOperationException($"The folder '{source.Path}' could not be opened."))
+							.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
 				}
 			}
 
@@ -550,14 +589,13 @@ namespace Files.App.Utils.Storage
 			if (deleteFromRecycleBin)
 			{
 				// Recycle bin also stores a file starting with $I for each item
-				var parentPath = Path.GetDirectoryName(source.Path);
-				var fileName = Path.GetFileName(source.Path);
-				if (parentPath is not null && fileName is not null)
-				{
-					string iFilePath = Path.Combine(parentPath, fileName.Replace("$R", "$I", StringComparison.Ordinal));
-					await ShellViewModel.GetFileFromPathAsync(iFilePath, cancellationToken)
-						.OnSuccess(iFile => iFile.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
-				}
+				var parentPath = Path.GetDirectoryName(source.Path)
+					?? throw new InvalidOperationException("The recycle-bin item does not have a parent path.");
+				var fileName = Path.GetFileName(source.Path)!;
+				string iFilePath = Path.Combine(parentPath, fileName.Replace("$R", "$I", StringComparison.Ordinal));
+				await ShellViewModel.GetFileFromPathAsync(iFilePath, cancellationToken)
+					.OnSuccess(iFile => (iFile ?? throw new InvalidOperationException($"The recycle-bin metadata file '{iFilePath}' could not be opened."))
+						.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
 			}
 			fsProgress.ReportStatus(fsResult);
 
@@ -573,11 +611,10 @@ namespace Files.App.Utils.Storage
 					// Get name matching files
 					if (FileExtensionHelpers.IsShortcutOrUrlFile(source.Path)) // We need to check if it is a shortcut file
 					{
-						var parentPath = Path.GetDirectoryName(source.Path);
-						var fileName = Path.GetFileNameWithoutExtension(source.Path);
-						nameMatchItems = parentPath is not null && fileName is not null
-							? items.Where((item) => item.FilePath == Path.Combine(parentPath, fileName))
-							: [];
+						var parentPath = Path.GetDirectoryName(source.Path)
+							?? throw new InvalidOperationException("The recycled shortcut does not have a parent path.");
+						var fileName = Path.GetFileNameWithoutExtension(source.Path)!;
+						nameMatchItems = items.Where((item) => item.FilePath == Path.Combine(parentPath, fileName));
 					}
 					else
 						nameMatchItems = items.Where((item) => item.FilePath == source.Path);
@@ -587,7 +624,9 @@ namespace Files.App.Utils.Storage
 					if (item is null)
 						return null;
 
-					return new StorageHistory(FileOperationType.Recycle, source, StorageHelpers.FromPathAndType(item.RecyclePath, source.ItemType));
+					return new StorageHistory(FileOperationType.Recycle, source, StorageHelpers.FromPathAndType(
+						item.RecyclePath ?? throw new InvalidOperationException("The recycle-bin item does not have a recycle path."),
+						source.ItemType));
 				}
 
 				return new StorageHistory(FileOperationType.Delete, source, null);
@@ -601,7 +640,8 @@ namespace Files.App.Utils.Storage
 
 		public Task<IStorageHistory?> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken)
 		{
-			return RenameAsync(StorageHelpers.FromStorageItem(source), newName, collision, progress, cancellationToken);
+			return RenameAsync(StorageHelpers.FromStorageItem(source)
+				?? throw new InvalidOperationException("The storage item could not be converted for renaming."), newName, collision, progress, cancellationToken);
 		}
 
 		public async Task<IStorageHistory?> RenameAsync(
@@ -630,6 +670,8 @@ namespace Files.App.Utils.Storage
 				var renamed = await source.ToStorageItemResult()
 					.OnSuccess(async (t) =>
 					{
+						if (t is null)
+							throw new InvalidOperationException($"The item '{source.Path}' could not be opened for renaming.");
 						if (t.Name.Equals(newName, StringComparison.CurrentCultureIgnoreCase))
 							await t.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
 						else
@@ -647,10 +689,8 @@ namespace Files.App.Utils.Storage
 				else if (renamed == FileSystemStatusCode.Unauthorized)
 				{
 					// Try again with MoveFileFromApp
-					var parentPath = Path.GetDirectoryName(source.Path);
-					if (parentPath is null)
-						return null;
-
+					var parentPath = Path.GetDirectoryName(source.Path)
+						?? throw new InvalidOperationException("The item being renamed does not have a parent path.");
 					var destination = Path.Combine(parentPath, newName);
 					if (PInvoke.MoveFileFromApp(source.Path, destination))
 					{
@@ -711,7 +751,8 @@ namespace Files.App.Utils.Storage
 
 		public async Task<IStorageHistory?> RestoreItemsFromTrashAsync(IList<IStorageItem> source, IList<string> destination, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken)
 		{
-			return await RestoreItemsFromTrashAsync(await source.Select((item) => item.FromStorageItem()).ToListAsync(), destination, progress, cancellationToken);
+			return await RestoreItemsFromTrashAsync(await source.Select(item => item.FromStorageItem()
+				?? throw new InvalidOperationException("A storage item could not be converted for restoration.")).ToListAsync(), destination, progress, cancellationToken);
 		}
 
 		public async Task<IStorageHistory?> RestoreItemsFromTrashAsync(
@@ -744,7 +785,7 @@ namespace Files.App.Utils.Storage
 				return new StorageHistory(
 					storageHistory[0].OperationType,
 					await storageHistory.SelectMany(item => item.Source).ToListAsync(),
-					await storageHistory.SelectMany(item => item.Destination ?? []).ToListAsync());
+					await storageHistory.SelectMany(item => item.Destination!).ToListAsync());
 			}
 
 			return null;
@@ -752,7 +793,8 @@ namespace Files.App.Utils.Storage
 
 		public Task<IStorageHistory?> RestoreFromTrashAsync(IStorageItem source, string destination, IProgress<StatusCenterItemProgressModel>? progress, CancellationToken cancellationToken)
 		{
-			return RestoreFromTrashAsync(source.FromStorageItem(), destination, progress, cancellationToken);
+			return RestoreFromTrashAsync(source.FromStorageItem()
+				?? throw new InvalidOperationException("The storage item could not be converted for restoration."), destination, progress, cancellationToken);
 		}
 
 		public async Task<IStorageHistory?> RestoreFromTrashAsync(IStorageItemWithPath source, string destination, IProgress<StatusCenterItemProgressModel>? progress, CancellationToken cancellationToken)
@@ -781,14 +823,17 @@ namespace Files.App.Utils.Storage
 						// Moving folders using Storage API can result in data loss, copy instead
 						//fsResult = await FilesystemTasks.Wrap(() => MoveDirectoryAsync(sourceFolder.Result, destinationFolder.Result, Path.GetFileName(destination), CreationCollisionOption.FailIfExists, true));
 
-						var destinationName = Path.GetFileName(destination);
-						if (!string.IsNullOrEmpty(destinationName) &&
-							await DialogDisplayHelper.ShowDialogAsync(Strings.ErrorDialogThisActionCannotBeDone.GetLocalizedResource(), Strings.ErrorDialogUnsupportedMoveOperation.GetLocalizedResource(), "OK", Strings.Cancel.GetLocalizedResource()))
+						var destinationName = Path.GetFileName(destination)!;
+						if (await DialogDisplayHelper.ShowDialogAsync(Strings.ErrorDialogThisActionCannotBeDone.GetLocalizedResource(), Strings.ErrorDialogUnsupportedMoveOperation.GetLocalizedResource(), "OK", Strings.Cancel.GetLocalizedResource()))
 						{
 							fsResult = await FilesystemTasks.Wrap(() => CloneDirectoryAsync(sourceFolderItem, destinationFolderItem, destinationName, CreationCollisionOption.FailIfExists));
 						}
 
 						// TODO: we could use here FilesystemHelpers with registerHistory false?
+					}
+					else if (fsResult)
+					{
+						fsResult = FileSystemStatusCode.Generic;
 					}
 
 					fsProgress.ReportStatus(fsResult);
@@ -801,13 +846,16 @@ namespace Files.App.Utils.Storage
 					fsResult = sourceFile.ErrorCode | destinationFolder.ErrorCode;
 					fsProgress.ReportStatus(fsResult);
 
-					var destinationName = Path.GetFileName(destination);
+					var destinationName = Path.GetFileName(destination)!;
 					if (fsResult &&
 						sourceFile.Result is { } sourceFileItem &&
-						destinationFolder.Result is { } destinationFolderItem &&
-						!string.IsNullOrEmpty(destinationName))
+						destinationFolder.Result is { } destinationFolderItem)
 					{
 						fsResult = await FilesystemTasks.Wrap(() => sourceFileItem.MoveAsync(destinationFolderItem, destinationName, NameCollisionOption.GenerateUniqueName).AsTask());
+					}
+					else if (fsResult)
+					{
+						fsResult = FileSystemStatusCode.Generic;
 					}
 
 					fsProgress.ReportStatus(fsResult);
@@ -822,14 +870,13 @@ namespace Files.App.Utils.Storage
 			if (fsResult)
 			{
 				// Recycle bin also stores a file starting with $I for each item
-				var parentPath = Path.GetDirectoryName(source.Path);
-				var fileName = Path.GetFileName(source.Path);
-				if (parentPath is not null && fileName is not null)
-				{
-					string iFilePath = Path.Combine(parentPath, fileName.Replace("$R", "$I", StringComparison.Ordinal));
-					await ShellViewModel.GetFileFromPathAsync(iFilePath, cancellationToken)
-						.OnSuccess(iFile => iFile.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
-				}
+				var parentPath = Path.GetDirectoryName(source.Path)
+					?? throw new InvalidOperationException("The recycle-bin item does not have a parent path.");
+				var fileName = Path.GetFileName(source.Path)!;
+				string iFilePath = Path.Combine(parentPath, fileName.Replace("$R", "$I", StringComparison.Ordinal));
+				await ShellViewModel.GetFileFromPathAsync(iFilePath, cancellationToken)
+					.OnSuccess(iFile => (iFile ?? throw new InvalidOperationException($"The recycle-bin metadata file '{iFilePath}' could not be opened."))
+						.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
 			}
 
 			fsProgress.ReportStatus(fsResult);
@@ -879,7 +926,8 @@ namespace Files.App.Utils.Storage
 
 		public async Task<IStorageHistory?> CopyItemsAsync(IList<IStorageItem> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken)
 		{
-			return await CopyItemsAsync(await source.Select((item) => item.FromStorageItem()).ToListAsync(), destination, collisions, progress, cancellationToken);
+			return await CopyItemsAsync(await source.Select(item => item.FromStorageItem()
+				?? throw new InvalidOperationException("A storage item could not be converted for copying.")).ToListAsync(), destination, collisions, progress, cancellationToken);
 		}
 
 		public async Task<IStorageHistory?> CopyItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<StatusCenterItemProgressModel> progress, CancellationToken token, bool asAdmin = false)
@@ -902,7 +950,7 @@ namespace Files.App.Utils.Storage
 						source[i],
 						destination[i],
 						collisions[i].Convert(),
-						progress,
+						null,
 						token));
 				}
 
@@ -917,14 +965,15 @@ namespace Files.App.Utils.Storage
 				return new StorageHistory(
 					storageHistory[0].OperationType,
 					await storageHistory.SelectMany(item => item.Source).ToListAsync(),
-					await storageHistory.SelectMany(item => item.Destination ?? []).ToListAsync());
+					await storageHistory.SelectMany(item => item.Destination!).ToListAsync());
 			}
 			return null;
 		}
 
 		public async Task<IStorageHistory?> MoveItemsAsync(IList<IStorageItem> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken)
 		{
-			return await MoveItemsAsync(await source.Select((item) => item.FromStorageItem()).ToListAsync(), destination, collisions, progress, cancellationToken);
+			return await MoveItemsAsync(await source.Select(item => item.FromStorageItem()
+				?? throw new InvalidOperationException("A storage item could not be converted for moving.")).ToListAsync(), destination, collisions, progress, cancellationToken);
 		}
 
 		public async Task<IStorageHistory?> MoveItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<StatusCenterItemProgressModel> progress, CancellationToken token, bool asAdmin = false)
@@ -961,14 +1010,15 @@ namespace Files.App.Utils.Storage
 				return new StorageHistory(
 					storageHistory[0].OperationType,
 					await storageHistory.SelectMany(item => item.Source).ToListAsync(),
-					await storageHistory.SelectMany(item => item.Destination ?? []).ToListAsync());
+					await storageHistory.SelectMany(item => item.Destination!).ToListAsync());
 			}
 			return null;
 		}
 
 		public async Task<IStorageHistory?> DeleteItemsAsync(IList<IStorageItem> source, IProgress<StatusCenterItemProgressModel>? progress, bool permanently, CancellationToken cancellationToken)
 		{
-			return await DeleteItemsAsync(await source.Select((item) => item.FromStorageItem()).ToListAsync(), progress, permanently, cancellationToken);
+			return await DeleteItemsAsync(await source.Select(item => item.FromStorageItem()
+				?? throw new InvalidOperationException("A storage item could not be converted for deletion.")).ToListAsync(), progress, permanently, cancellationToken);
 		}
 
 		public async Task<IStorageHistory?> DeleteItemsAsync(IList<IStorageItemWithPath> source, IProgress<StatusCenterItemProgressModel>? progress, bool permanently, CancellationToken token, bool asAdmin = false)
@@ -997,8 +1047,11 @@ namespace Files.App.Utils.Storage
 				var recycleHistory = storageHistory.Where(item => item.OperationType is FileOperationType.Recycle).ToList();
 				if (recycleHistory.Count > 0)
 				{
+					if (recycleHistory.Any(item => item.Destination is null))
+						return null;
+
 					var sources = await recycleHistory.SelectMany(item => item.Source).ToListAsync();
-					var destinations = await recycleHistory.SelectMany(item => item.Destination ?? []).ToListAsync();
+					var destinations = await recycleHistory.SelectMany(item => item.Destination!).ToListAsync();
 
 					return sources.Count == destinations.Count
 						? new StorageHistory(FileOperationType.Recycle, sources, destinations)
@@ -1020,6 +1073,7 @@ namespace Files.App.Utils.Storage
 
 		public void Dispose()
 		{
+			_associatedInstance = null;
 		}
 	}
 }

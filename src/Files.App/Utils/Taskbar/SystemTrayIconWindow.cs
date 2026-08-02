@@ -69,7 +69,7 @@ namespace Files.App.Utils.Taskbar
 
 		private LRESULT WindowProc(HWND hWnd, uint uMsg, WPARAM wParam, LPARAM lParam)
 		{
-			return _trayIcon?.WindowProc(hWnd, uMsg, wParam, lParam) ?? default;
+			return _trayIcon!.WindowProc(hWnd, uMsg, wParam, lParam);
 		}
 
 		public void Dispose()

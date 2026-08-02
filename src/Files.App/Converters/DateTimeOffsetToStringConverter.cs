@@ -18,9 +18,14 @@ namespace Files.App.Converters
 
 		public object? ConvertBack(object value, Type targetType, object parameter, string language)
 		{
-			return value is string text && DateTimeOffset.TryParse(text, out var result)
-				? result
-				: null;
+			try
+			{
+				return DateTimeOffset.Parse((value as string)!);
+			}
+			catch (FormatException)
+			{
+				return null;
+			}
 		}
 	}
 }

@@ -5,7 +5,12 @@ namespace Files.App.Utils.Storage
 {
 	public sealed class GroupedCollection<T> : BulkConcurrentObservableCollection<T>, IGroupedCollectionHeader
 	{
-		public GroupedHeaderViewModel Model { get; set; } = new();
+		private GroupedHeaderViewModel? model;
+		public GroupedHeaderViewModel Model
+		{
+			get => model ?? throw new InvalidOperationException("The group header model has not been initialized.");
+			set => model = value;
+		}
 
 		public GroupedCollection(IEnumerable<T> items) : base(items)
 		{

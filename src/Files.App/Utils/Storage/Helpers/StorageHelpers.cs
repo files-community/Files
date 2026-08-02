@@ -144,7 +144,7 @@ namespace Files.App.Helpers
 			return returnedItem;
 		}
 
-		public static IStorageItemWithPath FromPathAndType(string? customPath, FilesystemItemType? itemType)
+		public static IStorageItemWithPath FromPathAndType(string customPath, FilesystemItemType? itemType)
 		{
 			return (itemType == FilesystemItemType.File) ?
 					new StorageFileWithPath(null, customPath) :
@@ -163,21 +163,27 @@ namespace Files.App.Helpers
 			return Win32PInvoke.GetFileAttributesExFromApp(path, Win32PInvoke.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out _);
 		}
 
-		public static IStorageItemWithPath FromStorageItem(this IStorageItem? item, string? customPath = null, FilesystemItemType? itemType = null)
+		public static IStorageItemWithPath? FromStorageItem(this IStorageItem? item, string? customPath = null, FilesystemItemType? itemType = null)
 		{
 			if (item is null)
 			{
-				return FromPathAndType(customPath, itemType);
+				return FromPathAndType(customPath
+					?? throw new InvalidOperationException("A path is required when converting a missing storage item."), itemType);
 			}
 			else if (item.IsOfType(StorageItemTypes.File))
 			{
-				return new StorageFileWithPath(item.AsBaseStorageFile(), string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
+				return new StorageFileWithPath(item.AsBaseStorageFile(), GetRequiredPath(item, customPath));
 			}
 			else if (item.IsOfType(StorageItemTypes.Folder))
 			{
-				return new StorageFolderWithPath(item.AsBaseStorageFolder(), string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
+				return new StorageFolderWithPath(item.AsBaseStorageFolder(), GetRequiredPath(item, customPath));
 			}
-			throw new ArgumentException("The storage item must represent a file or folder.", nameof(item));
+			return null;
+
+			static string GetRequiredPath(IStorageItem item, string? customPath)
+				=> !string.IsNullOrEmpty(item.Path)
+					? item.Path
+					: customPath ?? throw new InvalidOperationException("A custom path is required for a storage item without a path.");
 		}
 
 		public static FilesystemResult<T> ToType<T, V>(FilesystemResult<V> result) where T : class

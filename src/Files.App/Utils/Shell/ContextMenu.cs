@@ -22,7 +22,7 @@ namespace Files.App.Utils.Shell
 
 		private readonly ThreadWithMessageQueue _owningThread;
 
-		private readonly Func<string, bool>? _itemFilter;
+		private readonly Func<string?, bool>? _itemFilter;
 
 		private readonly Dictionary<List<Win32ContextMenuItem>, Action> _loadSubMenuActions;
 
@@ -31,7 +31,7 @@ namespace Files.App.Utils.Shell
 
 		public List<string> ItemsPath { get; }
 
-		private ContextMenu(Shell32.IContextMenu cMenu, User32.SafeHMENU hMenu, IEnumerable<string> itemsPath, ThreadWithMessageQueue owningThread, Func<string, bool>? itemFilter)
+		private ContextMenu(Shell32.IContextMenu cMenu, User32.SafeHMENU hMenu, IEnumerable<string> itemsPath, ThreadWithMessageQueue owningThread, Func<string?, bool>? itemFilter)
 		{
 			_cMenu = cMenu;
 			_hMenu = hMenu;
@@ -43,7 +43,7 @@ namespace Files.App.Utils.Shell
 			Items = [];
 		}
 
-		public async static Task<bool> InvokeVerb(string verb, params string[] filePaths)
+		public async static Task<bool> InvokeVerb(string verb, params string?[] filePaths)
 		{
 			using var cMenu = await GetContextMenuForFiles(filePaths, PInvoke.CMF_DEFAULTONLY);
 
@@ -55,7 +55,9 @@ namespace Files.App.Utils.Shell
 			if (string.IsNullOrEmpty(verb))
 				return false;
 
-			var item = Items.FirstOrDefault(x => x.CommandString == verb);
+			var items = Items
+				?? throw new InvalidOperationException("The shell context menu has not been initialized.");
+			var item = items.FirstOrDefault(x => x.CommandString == verb);
 			if (item is not null && item.ID >= 0)
 				// Prefer invocation by ID
 				return await InvokeItem(item.ID);
@@ -116,7 +118,7 @@ namespace Files.App.Utils.Shell
 			return false;
 		}
 
-		public async static Task<ContextMenu?> GetContextMenuForFiles(string[] filePathList, uint flags, Func<string, bool>? itemFilter = null)
+		public async static Task<ContextMenu?> GetContextMenuForFiles(string?[] filePathList, uint flags, Func<string?, bool>? itemFilter = null)
 		{
 			var owningThread = new ThreadWithMessageQueue();
 
@@ -127,7 +129,7 @@ namespace Files.App.Utils.Shell
 				try
 				{
 					foreach (var filePathItem in filePathList.Where(x => !string.IsNullOrEmpty(x)))
-						shellItems.Add(ShellFolderExtensions.GetShellItemFromPathOrPIDL(filePathItem));
+						shellItems.Add(ShellFolderExtensions.GetShellItemFromPathOrPIDL(filePathItem!));
 
 					return GetContextMenuForFiles([.. shellItems], flags, owningThread, itemFilter);
 				}
@@ -144,14 +146,14 @@ namespace Files.App.Utils.Shell
 			});
 		}
 
-		public async static Task<ContextMenu?> GetContextMenuForFiles(ShellItem[] shellItems, uint flags, Func<string, bool>? itemFilter = null)
+		public async static Task<ContextMenu?> GetContextMenuForFiles(ShellItem[] shellItems, uint flags, Func<string?, bool>? itemFilter = null)
 		{
 			var owningThread = new ThreadWithMessageQueue();
 
 			return await owningThread.PostMethod<ContextMenu?>(() => GetContextMenuForFiles(shellItems, flags, owningThread, itemFilter));
 		}
 
-		private static ContextMenu? GetContextMenuForFiles(ShellItem[] shellItems, uint flags, ThreadWithMessageQueue owningThread, Func<string, bool>? itemFilter = null)
+		private static ContextMenu? GetContextMenuForFiles(ShellItem[] shellItems, uint flags, ThreadWithMessageQueue owningThread, Func<string?, bool>? itemFilter = null)
 		{
 			if (!shellItems.Any())
 				return null;
@@ -167,7 +169,9 @@ namespace Files.App.Utils.Shell
 				var hMenu = User32.CreatePopupMenu();
 				menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, (Shell32.CMF)flags);
 				var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName).WhereNotNull(), owningThread, itemFilter);
-				contextMenu.EnumMenuItems(hMenu, contextMenu.Items);
+				var items = contextMenu.Items
+					?? throw new InvalidOperationException("The shell context menu did not initialize its item collection.");
+				contextMenu.EnumMenuItems(hMenu, items);
 
 				return contextMenu;
 			}
@@ -230,8 +234,7 @@ namespace Files.App.Utils.Shell
 					menuItem.CommandString = GetCommandString(_cMenu, menuItemInfo.wID - 1);
 
 					if (_itemFilter is not null &&
-						(menuItem.CommandString is { } commandString && _itemFilter(commandString) ||
-						 menuItem.Label is { } label && _itemFilter(label)))
+						(_itemFilter(menuItem.CommandString) || _itemFilter(menuItem.Label)))
 					{
 						// Skip items implemented in UWP
 						container.Dispose();

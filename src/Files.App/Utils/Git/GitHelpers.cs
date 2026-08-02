@@ -6,6 +6,7 @@ using Files.App.Services.Git;
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
 using Sentry;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
@@ -358,7 +359,7 @@ namespace Files.App.Utils.Git
 			await loginDialogTask;
 		}
 
-		public static bool IsRepositoryEx(string path, out string repoRootPath)
+		public static bool IsRepositoryEx([NotNullWhen(true)] string? path, [NotNullWhen(true)] out string? repoRootPath)
 		{
 			repoRootPath = path;
 

@@ -35,8 +35,10 @@ namespace Files.App.Helpers
 
 					var result = storable switch
 					{
-						IFile => await shellViewModel.GetFileFromPathAsync(storable.Id).OnSuccess(x => items.Add(x)),
-						IFolder => await shellViewModel.GetFolderFromPathAsync(storable.Id).OnSuccess(x => items.Add(x)),
+						IFile => await shellViewModel.GetFileFromPathAsync(storable.Id).OnSuccess(x => items.Add(x
+							?? throw new InvalidOperationException($"The file '{storable.Id}' could not be opened."))),
+						IFolder => await shellViewModel.GetFolderFromPathAsync(storable.Id).OnSuccess(x => items.Add(x
+							?? throw new InvalidOperationException($"The folder '{storable.Id}' could not be opened."))),
 						_ => throw new ArgumentOutOfRangeException(nameof(storable)),
 					};
 
@@ -76,7 +78,7 @@ namespace Files.App.Helpers
 
 		public static async Task ExecuteTransferAsync(IContentPageContext context, StatusCenterViewModel statusViewModel, DataPackageOperation type = DataPackageOperation.Copy)
 		{
-			if (context.ShellPage is not { SlimContentPage: { } contentPage, ShellViewModel: { } shellViewModel } ||
+			if (context.ShellPage?.SlimContentPage is not { } contentPage ||
 				contentPage.IsItemSelected is false)
 				return;
 
@@ -124,9 +126,16 @@ namespace Files.App.Helpers
 							});
 						}
 
+						var shellViewModel = context.ShellPage?.ShellViewModel;
+						if (shellViewModel is null)
+							throw new InvalidOperationException("The active shell page does not have a shell view model.");
+
+						var itemPath = listedItem.ItemPath!;
 						var result = listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem
-								? await shellViewModel.GetFileFromPathAsync(listedItem.ItemPath).OnSuccess(t => items.Add(t))
-								: await shellViewModel.GetFolderFromPathAsync(listedItem.ItemPath).OnSuccess(t => items.Add(t));
+								? await shellViewModel.GetFileFromPathAsync(itemPath).OnSuccess(t => items.Add(t
+									?? throw new InvalidOperationException($"The file '{itemPath}' could not be opened.")))
+								: await shellViewModel.GetFolderFromPathAsync(itemPath).OnSuccess(t => items.Add(t
+									?? throw new InvalidOperationException($"The folder '{itemPath}' could not be opened.")));
 
 						if (!result)
 							throw new SystemIO.IOException($"Failed to process {listedItem.ItemPath} in cutting/copying to the clipboard.", (int)result.ErrorCode);
@@ -152,7 +161,7 @@ namespace Files.App.Helpers
 
 				if ((FileSystemStatusCode)ex.HResult is FileSystemStatusCode.Unauthorized)
 				{
-					var filePaths = context.SelectedItems.Select(x => x.ItemPath).ToArray();
+					var filePaths = context.SelectedItems.Select(x => x.ItemPath!).ToArray();
 					await FileOperationsHelpers.SetClipboard(filePaths, type);
 
 					return;

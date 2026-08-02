@@ -93,14 +93,14 @@ namespace Files.App.Utils.Storage
 			}, (_, _) => Task.FromResult(new BaseBasicProperties())));
 		}
 
-		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode)
+		public override IAsyncOperation<IRandomAccessStream?> OpenAsync(FileAccessMode accessMode)
 		{
-			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IRandomAccessStream>(async () =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IRandomAccessStream?>(async () =>
 			{
 				var ftpClient = GetFtpClient();
 				if (!await ftpClient.EnsureConnectedAsync())
 				{
-					throw new IOException("Failed to connect to the FTP server.");
+					return null;
 				}
 
 				if (accessMode is FileAccessMode.Read)
@@ -117,16 +117,16 @@ namespace Files.App.Utils.Storage
 				};
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
-		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => OpenAsync(accessMode);
+		public override IAsyncOperation<IRandomAccessStream?> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => OpenAsync(accessMode);
 
-		public override IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadAsync()
+		public override IAsyncOperation<IRandomAccessStreamWithContentType?> OpenReadAsync()
 		{
-			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IRandomAccessStreamWithContentType>(async () =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IRandomAccessStreamWithContentType?>(async () =>
 			{
 				var ftpClient = GetFtpClient();
 				if (!await ftpClient.EnsureConnectedAsync())
 				{
-					throw new IOException("Failed to connect to the FTP server.");
+					return null;
 				}
 
 				var inStream = await ftpClient.OpenRead(FtpPath, token: cancellationToken);
@@ -134,14 +134,14 @@ namespace Files.App.Utils.Storage
 				return new StreamWithContentType(nsStream);
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
-		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync()
+		public override IAsyncOperation<IInputStream?> OpenSequentialReadAsync()
 		{
-			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IInputStream>(async () =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IInputStream?>(async () =>
 			{
 				var ftpClient = GetFtpClient();
 				if (!await ftpClient.EnsureConnectedAsync())
 				{
-					throw new IOException("Failed to connect to the FTP server.");
+					return null;
 				}
 
 				var inStream = await ftpClient.OpenRead(FtpPath, token: cancellationToken);
@@ -166,9 +166,8 @@ namespace Files.App.Utils.Storage
 					return null;
 				}
 
-				var destFolder = destinationFolder.AsBaseStorageFolder();
-				if (destFolder is null)
-					return null;
+				var destFolder = destinationFolder.AsBaseStorageFolder()
+					?? throw new NotSupportedException("The destination folder type is not supported.");
 
 				if (destFolder is ICreateFileWithStream cwsf)
 				{
@@ -177,9 +176,8 @@ namespace Files.App.Utils.Storage
 				}
 				else
 				{
-					var file = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
-					if (file is null)
-						return null;
+					var file = await destFolder.CreateFileAsync(desiredNewName, option.Convert())
+						?? throw new IOException($"Failed to create destination file '{desiredNewName}'.");
 
 					await using var stream = await file.OpenStreamForWriteAsync();
 					return await ftpClient.DownloadStream(stream, FtpPath, token: cancellationToken) ? file : null;

@@ -22,11 +22,7 @@ namespace Files.App.Data.Contracts
 
 		public async Task<IImage?> GetImageModelFromDataAsync(byte[]? rawData)
 		{
-			if (rawData is null)
-				return null;
-
-			var bitmapImage = await BitmapHelper.ToBitmapAsync(rawData);
-			return bitmapImage is null ? null : new BitmapImageModel(bitmapImage);
+			return new BitmapImageModel(await BitmapHelper.ToBitmapAsync(rawData));
 		}
 
 		public async Task<IImage?> GetImageModelFromPathAsync(string filePath, uint thumbnailSize = 64)

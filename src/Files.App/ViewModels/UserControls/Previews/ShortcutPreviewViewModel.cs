@@ -12,7 +12,7 @@ namespace Files.App.ViewModels.Previews
 		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
 			if (Item is not IShortcutItem item)
-				return [];
+				throw new InvalidOperationException("The shortcut preview item does not implement the shortcut contract.");
 
 			var details = new List<FileProperty>
 			{

@@ -12,7 +12,7 @@ namespace Files.App.Utils.Storage
 		/// <summary>
 		/// Returns icon or thumbnail for given file or folder
 		/// </summary>
-		public static async Task<byte[]?> GetIconAsync(string path, uint requestedSize, bool isFolder, IconOptions iconOptions)
+		public static async Task<byte[]?> GetIconAsync(string? path, uint requestedSize, bool isFolder, IconOptions iconOptions)
 		{
 			var size = iconOptions.HasFlag(IconOptions.UseCurrentScale) ? requestedSize * App.AppModel.AppWindowDPI : requestedSize;
 			// Ensure size is at least 1 to prevent layout errors
@@ -23,13 +23,13 @@ namespace Files.App.Utils.Storage
 				var extension = Path.GetExtension(path);
 
 				//Restrict to only %windir%\fonts
-				if (FileExtensionHelpers.IsFontFile(extension) && PathHelpers.IsInSystemFontsFolder(path))
+				if (FileExtensionHelpers.IsFontFile(extension) && path is not null && PathHelpers.IsInSystemFontsFolder(path))
 				{
 					var winrtThumbnail = await FontFileHelper.GetWinRTThumbnailAsync(path, (uint)size);
 					if (winrtThumbnail is not null)
 						return winrtThumbnail;
 
-					if (!extension.Equals(".fon", StringComparison.OrdinalIgnoreCase))
+					if (!string.Equals(extension, ".fon", StringComparison.OrdinalIgnoreCase))
 					{
 						var fontThumbnail = await STATask.Run(() => FontFileHelper.GenerateFontThumbnail(path, (int)size), App.Logger);
 						if (fontThumbnail is not null)
@@ -38,7 +38,7 @@ namespace Files.App.Utils.Storage
 				}
 			}
 
-			var resolvedPath = path.StartsWith(@"\\?\", StringComparison.Ordinal)
+			var resolvedPath = path is not null && path.StartsWith(@"\\?\", StringComparison.Ordinal)
 				? MtpHelpers.ResolveMtpShellPath(path) ?? path
 				: path;
 
@@ -51,7 +51,7 @@ namespace Files.App.Utils.Storage
 		/// <param name="path"></param>
 		/// <param name="isFolder"></param>
 		/// <returns></returns>
-		public static async Task<byte[]?> GetIconOverlayAsync(string path, bool isFolder)
+		public static async Task<byte[]?> GetIconOverlayAsync(string? path, bool isFolder)
 			=> await STATask.Run(() => Win32Helper.GetIconOverlay(path, isFolder), App.Logger);
 
 		[Obsolete]

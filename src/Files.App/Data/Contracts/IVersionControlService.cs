@@ -3,6 +3,7 @@
 
 using LibGit2Sharp;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Files.App.Data.Contracts
 {
@@ -137,7 +138,7 @@ namespace Files.App.Data.Contracts
 		/// <returns>
 		/// <see langword="true"/> if a repository was found; otherwise, <see langword="false"/>.
 		/// </returns>
-		bool IsRepositoryEx(string path, out string repoRootPath);
+		bool IsRepositoryEx([NotNullWhen(true)] string? path, [NotNullWhen(true)] out string? repoRootPath);
 
 		/// <summary>
 		/// Gets version control information for a filesystem item.

@@ -85,22 +85,22 @@ namespace Files.App.Utils.Storage
 
 		public override IAsyncOperation<BaseStorageFolder?> GetParentAsync() => throw new NotSupportedException();
 
-		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode)
+		public override IAsyncOperation<IRandomAccessStream?> OpenAsync(FileAccessMode accessMode)
 		{
-			return Task.FromResult(Contents.AsRandomAccessStream()).AsAsyncOperation();
+			return Task.FromResult<IRandomAccessStream?>(Contents.AsRandomAccessStream()).AsAsyncOperation();
 		}
 
-		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => OpenAsync(accessMode);
+		public override IAsyncOperation<IRandomAccessStream?> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => OpenAsync(accessMode);
 
-		public override IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadAsync()
+		public override IAsyncOperation<IRandomAccessStreamWithContentType?> OpenReadAsync()
 		{
-			return Task.FromResult<IRandomAccessStreamWithContentType>(new StreamWithContentType(Contents.AsRandomAccessStream()))
+			return Task.FromResult<IRandomAccessStreamWithContentType?>(new StreamWithContentType(Contents.AsRandomAccessStream()))
 				.AsAsyncOperation();
 		}
 
-		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync()
+		public override IAsyncOperation<IInputStream?> OpenSequentialReadAsync()
 		{
-			return Task.FromResult(Contents.AsInputStream()).AsAsyncOperation();
+			return Task.FromResult<IInputStream?>(Contents.AsInputStream()).AsAsyncOperation();
 		}
 
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync() => throw new NotSupportedException();
@@ -115,9 +115,8 @@ namespace Files.App.Utils.Storage
 		{
 			return AsyncInfo.Run<BaseStorageFile?>(async (cancellationToken) =>
 			{
-				var destFolder = destinationFolder.AsBaseStorageFolder();
-				if (destFolder is null)
-					return null;
+				var destFolder = destinationFolder.AsBaseStorageFolder()
+					?? throw new NotSupportedException("The destination folder type is not supported.");
 
 				if (destFolder is ICreateFileWithStream cwsf)
 				{
@@ -126,9 +125,8 @@ namespace Files.App.Utils.Storage
 				}
 				else
 				{
-					var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
-					if (destFile is null)
-						return null;
+					var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert())
+						?? throw new IOException($"Failed to create destination file '{desiredNewName}'.");
 
 					await using (var inStream = await this.OpenStreamForReadAsync())
 					await using (var outStream = await destFile.OpenStreamForWriteAsync())

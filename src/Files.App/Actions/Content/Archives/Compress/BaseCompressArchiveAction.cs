@@ -37,21 +37,30 @@ namespace Files.App.Actions
 
 		protected void GetDestination(out string[] sources, out string directory, out string fileName)
 		{
-			sources = context.SelectedItems.Select(item => item.ItemPath).ToArray();
+			sources = context.SelectedItems
+				.Select(item => item.ItemPath ?? throw new InvalidOperationException("A selected item does not have a path."))
+				.ToArray();
 			directory = string.Empty;
 			fileName = string.Empty;
 
 			if (sources.Length is not 0)
 			{
 				// Get the current directory path
-				directory = (context.ShellPage?.ShellViewModel?.WorkingDirectory ?? context.Folder?.ItemPath ?? string.Empty).Normalize();
+				var shellPage = context.ShellPage ?? throw new InvalidOperationException("An active shell page is required to compress items.");
+				var shellViewModel = shellPage.ShellViewModel ?? throw new InvalidOperationException("The active shell page has no shell view model.");
+				var workingDirectory = shellViewModel.WorkingDirectory
+					?? throw new InvalidOperationException("The active shell page does not have a working directory.");
+				directory = workingDirectory.Normalize()
+					?? throw new InvalidOperationException("The active shell page does not have a working directory.");
 
 				// Get the library save folder if the folder is library item
 				if (App.LibraryManager.TryGetLibrary(directory, out var library) && !library.IsEmpty)
-					directory = library.DefaultSaveFolder;
+					directory = library.DefaultSaveFolder
+						?? throw new InvalidOperationException("The library does not have a default save folder.");
 
 				// Gets the file name from the directory path
-				fileName = SystemIO.Path.GetFileName(sources.Length is 1 ? sources[0] : directory);
+				fileName = SystemIO.Path.GetFileName(sources.Length is 1 ? sources[0] : directory)
+					?? throw new InvalidOperationException("The archive destination does not have a file name.");
 			}
 		}
 

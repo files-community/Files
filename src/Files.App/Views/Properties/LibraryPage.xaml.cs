@@ -154,7 +154,7 @@ namespace Files.App.Views.Properties
 
 			if ((lib.Folders?.Count ?? 0) != Folders.Count || lib.Folders?.SequenceEqual(Folders.Select(f => f.Path), StringComparer.OrdinalIgnoreCase) != true)
 			{
-				newFolders = Folders.Select(f => f.Path).ToArray();
+				newFolders = Folders.Select(f => f.Path!).ToArray();
 				isChanged = true;
 			}
 
@@ -184,7 +184,7 @@ namespace Files.App.Views.Properties
 					using var dialog = DynamicDialogFactory.GetFor_PropertySaveErrorDialog();
 					try
 					{
-						var library = await Task.Run(() => App.LibraryManager.UpdateLibrary(props.Library.ItemPath, newDefaultSaveFolder, newFolders, newIsPinned));
+						var library = await Task.Run(() => App.LibraryManager.UpdateLibrary(props.Library.ItemPath!, newDefaultSaveFolder, newFolders, newIsPinned));
 						if (library is not null)
 						{
 							props.UpdateLibrary(new LibraryItem(library));
@@ -219,7 +219,7 @@ namespace Files.App.Views.Properties
 
 	public sealed partial class LibraryFolder : ObservableObject
 	{
-		public string Path { get; set; } = string.Empty;
+		public string? Path { get; set; }
 
 		private bool isDefault;
 		public bool IsDefault

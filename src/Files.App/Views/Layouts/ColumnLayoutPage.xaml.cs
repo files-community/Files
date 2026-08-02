@@ -115,8 +115,9 @@ namespace Files.App.Views.Layouts
 		private void FileList_Loaded(object sender, RoutedEventArgs e)
 		{
 			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
-			if (ParentShellPageInstance?.ShellViewModel is { } shellViewModel)
-				shellViewModel.ItemLoadStatusChanged += OnItemLoadStatusChanged;
+			var shellViewModel = ParentShellPageInstance?.ShellViewModel
+				?? throw new InvalidOperationException("The column layout does not have a shell view model.");
+			shellViewModel.ItemLoadStatusChanged += OnItemLoadStatusChanged;
 		}
 
 		private void ColumnViewBase_GotFocus(object sender, RoutedEventArgs e)
@@ -197,11 +198,14 @@ namespace Files.App.Views.Layouts
 
 		private void HighlightPathDirectory(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			if (args.Item is ListedItem item && columnsOwner?.OwnerPath is string ownerPath
-				&& (ownerPath == item.ItemPath || (ownerPath.Length > item.ItemPath.Length && ownerPath.StartsWith(item.ItemPath) && ownerPath[item.ItemPath.Length] is '/' or '\\')))
+			if (args.Item is ListedItem item && columnsOwner?.OwnerPath is string ownerPath)
 			{
-				SetOpenedFolder(FileList.ContainerFromItem(item) as ListViewItem);
-				FileList.ContainerContentChanging -= HighlightPathDirectory;
+				var itemPath = item.ItemPath!;
+				if (ownerPath == itemPath || (ownerPath.Length > itemPath.Length && ownerPath.StartsWith(itemPath) && ownerPath[itemPath.Length] is '/' or '\\'))
+				{
+					SetOpenedFolder(FileList.ContainerFromItem(item) as ListViewItem);
+					FileList.ContainerContentChanging -= HighlightPathDirectory;
+				}
 			}
 		}
 
@@ -209,8 +213,9 @@ namespace Files.App.Views.Layouts
 		{
 			base.OnNavigatingFrom(e);
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
-			if (ParentShellPageInstance?.ShellViewModel is { } shellViewModel)
-				shellViewModel.ItemLoadStatusChanged -= OnItemLoadStatusChanged;
+			var shellViewModel = ParentShellPageInstance?.ShellViewModel
+				?? throw new InvalidOperationException("The column layout does not have a shell view model.");
+			shellViewModel.ItemLoadStatusChanged -= OnItemLoadStatusChanged;
 		}
 
 		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -241,8 +246,10 @@ namespace Files.App.Views.Layouts
 
 		private async Task ReloadItemIconsAsync()
 		{
-			if (ParentShellPageInstance?.ShellViewModel is not { } shellViewModel)
+			if (ParentShellPageInstance is not { } parentShellPage)
 				return;
+			var shellViewModel = parentShellPage.ShellViewModel
+				?? throw new InvalidOperationException("The column layout does not have a shell view model.");
 
 			shellViewModel.CancelExtendedPropertiesLoading();
 			var filesAndFolders = shellViewModel.FilesAndFolders.ToList();
@@ -338,8 +345,6 @@ namespace Files.App.Views.Layouts
 
 		protected override void OnSelectionChanged(SelectionChangedEventArgs e)
 		{
-			var shellViewModel = ParentShellPageInstance?.ShellViewModel;
-
 			if (e.AddedItems.Count > 0)
 				columnsOwner?.HandleSelectionChange(this);
 
@@ -349,8 +354,10 @@ namespace Files.App.Views.Layouts
 			}
 			else if (SelectedItems?.Count > 1
 				|| SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File
-				|| openedFolderPresenter != null && shellViewModel is not null
-				&& !shellViewModel.FilesAndFolders.ToList().Contains(FileList.ItemFromContainer(openedFolderPresenter))
+				|| openedFolderPresenter != null && ParentShellPageInstance != null
+				&& !(ParentShellPageInstance.ShellViewModel
+					?? throw new InvalidOperationException("The column layout does not have a shell view model."))
+					.FilesAndFolders.ToList().Contains(FileList.ItemFromContainer(openedFolderPresenter))
 				&& !isDraggingSelectionRectangle) // Skip closing if dragging since nothing should be open
 			{
 				CloseFolder();
@@ -373,7 +380,7 @@ namespace Files.App.Views.Layouts
 			// 7-zip stream is still writing, and navigating into it triggers "Drive Unplugged"
 			// (#13695). StorageArchiveService raises CompressionCompleted on success, which we
 			// handle below to retry the open if the archive is still selected.
-			if (SelectedItem.IsArchive && storageArchiveService.IsCompressionInProgress(SelectedItem.ItemPath))
+			if (SelectedItem.IsArchive && storageArchiveService.IsCompressionInProgress(SelectedItem.ItemPath!))
 				return;
 
 			if (openedFolderPresenter == FileList.ContainerFromItem(SelectedItem))
@@ -389,7 +396,7 @@ namespace Files.App.Views.Layouts
 
 			// Open the selected folder if selected through tap
 			if (UserSettingsService.FoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick.ShouldOpenWithSingleClick(lastPointerDeviceType))
-				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is IShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = SelectedItem is IShortcutItem { TargetPath.Length: > 0 } shortcut ? shortcut.TargetPath : SelectedItem.ItemPath, ListView = FileList }, EventArgs.Empty);
 			else
 				CloseFolder();
 		}
@@ -414,8 +421,8 @@ namespace Files.App.Views.Layouts
 
 		private void CloseFolder()
 		{
-			var currentBladeIndex = ParentShellPageInstance is ColumnShellPage associatedColumnShellPage
-				? associatedColumnShellPage.ColumnParams?.Column ?? 0
+			var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage)
+				? associatedColumnShellPage.ColumnParams!.Column
 				: 0;
 			this.FindAscendant<ColumnsLayoutPage>()?.DismissOtherBlades(currentBladeIndex);
 			ClearOpenedFolderSelectionIndicator();
@@ -464,7 +471,7 @@ namespace Files.App.Views.Layouts
 				e.Handled = true;
 
 				if (IsItemSelected && SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
-					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is IShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = SelectedItem is IShortcutItem { TargetPath.Length: > 0 } shortcut ? shortcut.TargetPath : SelectedItem.ItemPath, ListView = FileList }, EventArgs.Empty);
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
 			{
@@ -498,8 +505,8 @@ namespace Files.App.Views.Layouts
 			}
 			else if (e.Key == VirtualKey.Left) // Left arrow: select parent folder (previous column)
 			{
-				var currentBladeIndex = ParentShellPageInstance is ColumnShellPage associatedColumnShellPage
-					? associatedColumnShellPage.ColumnParams?.Column ?? 0
+				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage)
+					? associatedColumnShellPage.ColumnParams!.Column
 					: 0;
 				this.FindAscendant<ColumnsLayoutPage>()?.MoveFocusToPreviousBlade(currentBladeIndex);
 				FileList.SelectedItem = null;
@@ -508,8 +515,8 @@ namespace Files.App.Views.Layouts
 			}
 			else if (e.Key == VirtualKey.Right) // Right arrow: switch focus to next column
 			{
-				var currentBladeIndex = ParentShellPageInstance is ColumnShellPage associatedColumnShellPage
-					? associatedColumnShellPage.ColumnParams?.Column ?? 0
+				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage)
+					? associatedColumnShellPage.ColumnParams!.Column
 					: 0;
 				this.FindAscendant<ColumnsLayoutPage>()?.MoveFocusToNextBlade(currentBladeIndex + 1);
 				e.Handled = true;
@@ -532,7 +539,7 @@ namespace Files.App.Views.Layouts
 						break;
 					case StorageItemTypes.Folder:
 						if (!UserSettingsService.FoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))
-							ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (item is IShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
+							ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = item is IShortcutItem { TargetPath.Length: > 0 } shortcut ? shortcut.TargetPath : item.ItemPath, ListView = FileList }, EventArgs.Empty);
 						break;
 					default:
 						if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
@@ -593,7 +600,7 @@ namespace Files.App.Views.Layouts
 				// SelectionChanged won't fire if the folder is already selected (e.g. from a prior right-click),
 				// so drive the single-click open from here too (#18584).
 				ResetRenameDoubleClick();
-				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (item is IShortcutItem sht ? sht.TargetPath : item!.ItemPath), ListView = FileList }, EventArgs.Empty);
+				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = item is IShortcutItem { TargetPath.Length: > 0 } shortcut ? shortcut.TargetPath : item!.ItemPath, ListView = FileList }, EventArgs.Empty);
 			}
 			else if (item is not null)
 			{
@@ -631,9 +638,10 @@ namespace Files.App.Views.Layouts
 			{
 				ClearOpenedFolderSelectionIndicator();
 
-				var itemPath = item!.ItemPath.EndsWith('\\')
-					? item.ItemPath.Substring(0, item.ItemPath.Length - 1)
-					: item.ItemPath;
+				var fullItemPath = item.ItemPath!;
+				var itemPath = fullItemPath.EndsWith('\\')
+					? fullItemPath.Substring(0, fullItemPath.Length - 1)
+					: fullItemPath;
 
 				ItemTapped?.Invoke(new ColumnParam { Source = this, NavPathParam = Path.GetDirectoryName(itemPath), ListView = FileList }, EventArgs.Empty);
 
@@ -687,7 +695,7 @@ namespace Files.App.Views.Layouts
 			if (SelectedItems?.Count is 1
 				&& SelectedItem is not null
 				&& SelectedItem.PrimaryItemAttribute is StorageItemTypes.Folder)
-				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is IShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = SelectedItem is IShortcutItem { TargetPath.Length: > 0 } shortcut ? shortcut.TargetPath : SelectedItem.ItemPath, ListView = FileList }, EventArgs.Empty);
 
 			base.SelectionRectangle_SelectionEnded(sender, e);
 		}

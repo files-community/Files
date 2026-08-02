@@ -33,15 +33,21 @@ namespace Files.App.Actions
 		{
 			if (context.SelectedItems.Count > 0)
 			{
-				foreach (ListedItem listedItem in context.SelectedItems)
+				var selectedItems = context.ShellPage?.SlimContentPage?.SelectedItems
+					?? throw new InvalidOperationException("The active file-list selection is not available.");
+				foreach (ListedItem listedItem in selectedItems)
 				{
 					await SafetyExtensions.IgnoreExceptions(async () =>
 					{
+						var itemPath = listedItem.ItemPath
+							?? throw new InvalidOperationException("The selected item does not have a path.");
 						IStorable storable = listedItem switch
 						{
 							// Archives are marked as folders when browsable in-app but are files on disk
-							{ IsFolder: true, IsArchive: false } => await StorageService.GetFolderAsync(listedItem.ItemPath),
-							_ => await StorageService.GetFileAsync((listedItem as IShortcutItem)?.TargetPath ?? listedItem.ItemPath)
+							{ IsFolder: true, IsArchive: false } => await StorageService.GetFolderAsync(itemPath),
+							_ => await StorageService.GetFileAsync((listedItem as IShortcutItem)?.TargetPath is { Length: > 0 } targetPath
+								? targetPath
+								: itemPath)
 						};
 						await StartMenuService.UnpinAsync(storable);
 					});
@@ -49,15 +55,15 @@ namespace Files.App.Actions
 			}
 			else
 			{
-				var currentFolder = context.ShellPage?.ShellViewModel?.CurrentFolder;
-				if (currentFolder is null)
-					return;
-
 				await SafetyExtensions.IgnoreExceptions(async () =>
 				{
+					var currentFolder = context.ShellPage?.ShellViewModel?.CurrentFolder
+						?? throw new InvalidOperationException("The current folder is not available.");
+					var currentFolderPath = currentFolder.ItemPath
+						?? throw new InvalidOperationException("The current folder does not have a path.");
 					IStorable storable = context.PageType is ContentPageTypes.ZipFolder
-						? await StorageService.GetFileAsync(currentFolder.ItemPath)
-						: await StorageService.GetFolderAsync(currentFolder.ItemPath);
+						? await StorageService.GetFileAsync(currentFolderPath)
+						: await StorageService.GetFolderAsync(currentFolderPath);
 
 					await StartMenuService.UnpinAsync(storable);
 				});

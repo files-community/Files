@@ -21,12 +21,13 @@ namespace Files.App.ViewModels.Previews
 		public MediaPreviewViewModel(ListedItem item) : base(item) { }
 
 		public void TogglePlayback()
-			=> TogglePlaybackRequested?.Invoke(this, EventArgs.Empty);
+			=> TogglePlaybackRequested?.Invoke(this, null!);
 
 		public override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
-			if (Item.ItemFile is not null)
-				Source = MediaSource.CreateFromStorageFile(Item.ItemFile);
+			var itemFile = Item.ItemFile
+				?? throw new InvalidOperationException("The media preview item does not have a storage file.");
+			Source = MediaSource.CreateFromStorageFile(itemFile);
 
 			return Task.FromResult(new List<FileProperty>());
 		}
