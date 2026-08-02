@@ -1107,7 +1107,7 @@
     <value>Obre en un altre panell</value>
   </data>
   <data name="OpenCurrentFolderInOtherPane" xml:space="preserve">
-    <value>Open current folder in other pane</value>
+    <value>Obre la carpeta actual en un altre panell</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Fitxers i carpetes</value>
@@ -3464,7 +3464,7 @@
     <value>Obre el directori seleccionat a l'altre panell</value>
   </data>
   <data name="OpenCurrentFolderInOtherPaneDescription" xml:space="preserve">
-    <value>Open the current folder in the other pane</value>
+    <value>Obre la carpeta actual a l'altre panell</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Obre el directori seleccionat en una pestanya nova</value>

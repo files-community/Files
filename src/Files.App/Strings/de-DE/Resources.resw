@@ -181,10 +181,10 @@
     <value>Letzter Zugriff:</value>
   </data>
   <data name="RecentItemClearAllText" xml:space="preserve">
-    <value>Clear all items</value>
+    <value>Alle Einträge löschen</value>
   </data>
   <data name="NavigationToolbarVisiblePathPlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>Gib einen Pfad zum Navigieren ein oder gib "&gt;" ein, um die Befehlspalette zu öffnen</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Suche</value>
@@ -199,7 +199,7 @@
     <value>Kürzlich verwendete Dateien werden hier angezeigt</value>
   </data>
   <data name="RecentItemRemoveText" xml:space="preserve">
-    <value>Remove this item</value>
+    <value>Dieses Element entfernen</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>GitHub-Repository</value>
@@ -313,13 +313,13 @@
     <value>An Seitenleiste anheften</value>
   </data>
   <data name="WelcomeDialogTitle" xml:space="preserve">
-    <value>Welcome to Files!</value>
+    <value>Willkommen bei Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Berechtigung erteilen</value>
   </data>
   <data name="WelcomeDialogTextBlockText" xml:space="preserve">
-    <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </value>
+    <value>Um loslegen zu können, müssen Sie uns die Erlaubnis geben, Ihre Dateien anzeigen zu dürfen. Es wird eine Einstellungsseite geöffnet, auf der Sie diese Erlaubnis erteilen können. Wenn Sie diesen Schritt erledigt haben, müssen Sie die Anwendung neu starten. </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Anzeige</value>
@@ -385,16 +385,16 @@
     <value>Als App-Hintergrund festlegen</value>
   </data>
   <data name="AccessDeniedDeleteDialogText" xml:space="preserve">
-    <value>We weren't able to delete this item</value>
+    <value>Löschen des Elements nicht möglich</value>
   </data>
   <data name="DriveUnpluggedDialogText" xml:space="preserve">
-    <value>Please insert the necessary drive to access this item.</value>
+    <value>Schließen Sie bitte das entsprechende Laufwerk an, um auf diese Datei zuzugreifen.</value>
   </data>
   <data name="DriveUnpluggedDialogTitle" xml:space="preserve">
-    <value>Drive unplugged</value>
+    <value>Laufwerk getrennt</value>
   </data>
   <data name="FileNotFoundDialogText" xml:space="preserve">
-    <value>The file you are attempting to access may have been moved or deleted.</value>
+    <value>Die Datei, auf die Sie zugreifen möchten, wurde eventuell verschoben oder gelöscht.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
     <value>Eigenschaften für diese Datei können nicht geöffnet werden</value>
@@ -403,28 +403,28 @@
     <value>Die Datei, auf die du zuzugreifen versuchst, wurde möglicherweise verschoben oder gelöscht.</value>
   </data>
   <data name="FileNotFoundDialogTitle" xml:space="preserve">
-    <value>File Not Found</value>
+    <value>Datei nicht gefunden</value>
   </data>
   <data name="FolderNotFoundDialogText" xml:space="preserve">
-    <value>The folder you are attempting to access may have been moved or deleted.</value>
+    <value>Der Ordner, auf den Sie zugreifen möchten, wurde eventuell verschoben oder gelöscht.</value>
   </data>
   <data name="FolderNotFoundDialogTitle" xml:space="preserve">
-    <value>Did you delete this folder?</value>
+    <value>Haben Sie diesen Ordner gelöscht?</value>
   </data>
   <data name="FileInUseByDialogText" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>Die Datei, auf die Sie zugreifen möchten, wird derzeit von {0} verwendet</value>
   </data>
   <data name="FileInUseDialogText" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>Die Datei, auf die Sie zugreifen möchten, wird derzeit von einer anderen Anwendung verwendet</value>
   </data>
   <data name="FileInUseDialogTitle" xml:space="preserve">
-    <value>File is in use</value>
+    <value>Datei wird bereits verwendet</value>
   </data>
   <data name="CannotRunFileDialogTitle" xml:space="preserve">
-    <value>This app can't run on your PC</value>
+    <value>Diese App kann nicht auf Ihrem PC ausgeführt werden</value>
   </data>
   <data name="CannotRunFileDialogText" xml:space="preserve">
-    <value>To find a version for your PC, check with the software publisher.</value>
+    <value>Um eine Version für Ihren PC zu finden, wenden Sie sich bitte an den Software-Herausgeber.</value>
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Layout</value>
@@ -531,7 +531,7 @@
     <value>{0, number} {0, plural, one {Datei} other {Dateien}}, {1, number} {1, plural, one {Ordner} other {Ordner}} von {2, number} {2, plural, one {Ort} other {Orten}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUserText" xml:space="preserve">
-    <value>Run as another user</value>
+    <value>Als ein anderer Benutzer ausführen</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
     <value>Alle Typen von {0}</value>
@@ -642,22 +642,22 @@
     <value>{0} {1} werden geteilt</value>
   </data>
   <data name="RenameErrorItemDeletedText" xml:space="preserve">
-    <value>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</value>
+    <value>Das Element, das Sie umbenennen möchten, ist nicht mehr vorhanden. Bitte überprüfen Sie den richtigen Speicherort des Elements, das Sie umbenennen möchten.</value>
   </data>
   <data name="RenameErrorItemDeletedTitle" xml:space="preserve">
-    <value>Item no longer exists</value>
+    <value>Das Element existiert nicht mehr</value>
   </data>
   <data name="RenameErrorNameInvalidText" xml:space="preserve">
-    <value>The name specified was invalid. Please check the desired item name and try again.</value>
+    <value>Der angegebene Dateiname war ungültig. Bitte überprüfen Sie den gewünschten Elementnamen und versuchen Sie es erneut.</value>
   </data>
   <data name="RenameErrorNameInvalidTitle" xml:space="preserve">
-    <value>Invalid item name</value>
+    <value>Ungültiger Elementname</value>
   </data>
   <data name="RenameErrorTooLongText" xml:space="preserve">
-    <value>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</value>
+    <value>Die Länge des angegebenen Elementnamens überschreitet den Grenzwert. Bitte überprüfen Sie den gewünschten Namen und versuchen Sie es erneut.</value>
   </data>
   <data name="RenameErrorTooLongTitle" xml:space="preserve">
-    <value>Item name was too long</value>
+    <value>Der Elementname war zu lang</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
     <value>Mehr Optionen anzeigen</value>
@@ -669,13 +669,13 @@
     <value>Unterstütze uns auf GitHub</value>
   </data>
   <data name="AccessDeniedCreateDialogText" xml:space="preserve">
-    <value>We weren't able to create this item</value>
+    <value>Wir konnten dieses Element nicht erstellen</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>Zugriff verweigert</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsText" xml:space="preserve">
-    <value>Set as</value>
+    <value>Festlegen als</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Abbrechen</value>
@@ -717,10 +717,10 @@
     <value>Bestätigungs-Dialog beim Löschen von Elementen anzeigen</value>
   </data>
   <data name="PropertySaveErrorMessageText" xml:space="preserve">
-    <value>There was an issue saving some properties.</value>
+    <value>Es gab ein Problem beim Speichern einiger Eigenschaften.</value>
   </data>
   <data name="PropertySaveErrorDialogTitle" xml:space="preserve">
-    <value>Error</value>
+    <value>Fehler</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Trotzdem schließen</value>
@@ -1215,7 +1215,7 @@
     <value>Unbekannt</value>
   </data>
   <data name="RenameFileDialogText" xml:space="preserve">
-    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
+    <value>Wenn Sie eine Dateinamenerweiterung ändern, wird die Datei möglicherweise unbrauchbar. Möchten Sie das wirklich ändern?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>CD-ROM-Laufwerk</value>
@@ -1254,7 +1254,7 @@
     <value>Mehr Optionen...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItemText" xml:space="preserve">
-    <value>Map network drive</value>
+    <value>Netzwerklaufwerk zuweisen</value>
   </data>
   <data name="Pinned" xml:space="preserve">
     <value>Angeheftet</value>
@@ -1287,10 +1287,10 @@
     <value>Spaltenansicht (Strg+Shift+6)</value>
   </data>
   <data name="PinItemToStartText" xml:space="preserve">
-    <value>Pin to the Start Menu</value>
+    <value>An "Start" anheften</value>
   </data>
   <data name="UnpinItemFromStartText" xml:space="preserve">
-    <value>Unpin from the Start Menu</value>
+    <value>Von "Start" lösen</value>
   </data>
   <data name="Library" xml:space="preserve">
     <value>Bibliothek</value>
@@ -1536,13 +1536,13 @@
     <value>Unbekannter Account</value>
   </data>
   <data name="SecurityCannotReadPropertiesText" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
+    <value>Sie sind nicht berechtigt, die Sicherheitseigenschaften dieses Objektes anzusehen. Klicken Sie auf "Erweiterte Rechte", um fortzufahren.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Besitzer:</value>
   </data>
   <data name="SecurityUnknownOwnerTextText" xml:space="preserve">
-    <value>Unknown owner</value>
+    <value>Unbekannter Besitzer</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Archiv extrahieren</value>
@@ -1554,10 +1554,10 @@
     <value>Nach {0}\ entpacken</value>
   </data>
   <data name="SideBarCreateNewLibraryText" xml:space="preserve">
-    <value>Create new library</value>
+    <value>Neue Bibliothek erstellen</value>
   </data>
   <data name="SideBarRestoreLibrariesText" xml:space="preserve">
-    <value>Restore default libraries</value>
+    <value>Standardbibliotheken wiederherstellen</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
     <value>Bist du sicher, dass du die Standardbibliotheken wiederherstellen willst? Alle deine Dateien bleiben auf deinem Speicherplatz.</value>
@@ -1569,7 +1569,7 @@
     <value>Besitzer</value>
   </data>
   <data name="SecuritySpecialLabelText" xml:space="preserve">
-    <value>Special</value>
+    <value>Speziell</value>
   </data>
   <data name="Access" xml:space="preserve">
     <value>Zugriff</value>
@@ -1596,7 +1596,7 @@
     <value>Berechtigungen</value>
   </data>
   <data name="SecurityAdvancedCannotReadPropertiesText" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
+    <value>Sie sind nicht berechtigt, die Sicherheitseigenschaften dieses Objektes anzusehen. Sie können versuchen, dieses Objekt in Besitz zu nehmen.</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>Diesen Ordner und Dateien</value>
@@ -1620,49 +1620,49 @@
     <value>Diesen Ordner und Unterordner</value>
   </data>
   <data name="SecurityAppendDataLabelText" xml:space="preserve">
-    <value>Append data</value>
+    <value>Daten hinzufügen</value>
   </data>
   <data name="SecurityChangePermissionsLabelText" xml:space="preserve">
-    <value>Change permission</value>
+    <value>Berechtigungen ändern</value>
   </data>
   <data name="SecurityCreateDirectoriesLabelText" xml:space="preserve">
-    <value>Create folders</value>
+    <value>Ordner erstellen</value>
   </data>
   <data name="SecurityCreateFilesLabelText" xml:space="preserve">
-    <value>Create files</value>
+    <value>Dateien erstellen</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabelText" xml:space="preserve">
-    <value>Delete subdirectories and files</value>
+    <value>Unterordner und Dateien löschen</value>
   </data>
   <data name="SecurityExecuteFileLabelText" xml:space="preserve">
-    <value>Execute files</value>
+    <value>Dateien ausführen</value>
   </data>
   <data name="SecurityReadAttributesLabelText" xml:space="preserve">
-    <value>Read attributes</value>
+    <value>Attribute lesen</value>
   </data>
   <data name="SecurityReadDataLabelText" xml:space="preserve">
-    <value>Read data</value>
+    <value>Lesen</value>
   </data>
   <data name="SecurityReadExtendedAttributesLabelText" xml:space="preserve">
-    <value>Read extended attributes</value>
+    <value>Erweiterte Attribute lesen</value>
   </data>
   <data name="SecurityReadPermissionsLabelText" xml:space="preserve">
-    <value>Read permissions</value>
+    <value>Leseberechtigungen</value>
   </data>
   <data name="SecurityTakeOwnershipLabelText" xml:space="preserve">
-    <value>Take ownership</value>
+    <value>Besitz übernehmen</value>
   </data>
   <data name="SecurityTraverseLabelText" xml:space="preserve">
-    <value>Visit folder</value>
+    <value>Ordner besuchen</value>
   </data>
   <data name="SecurityWriteAttributesLabelText" xml:space="preserve">
-    <value>Write attributes</value>
+    <value>Attribute schreiben</value>
   </data>
   <data name="SecurityWriteDataLabelText" xml:space="preserve">
-    <value>Write data</value>
+    <value>Schreiben</value>
   </data>
   <data name="SecurityWriteExtendedAttributesLabelText" xml:space="preserve">
-    <value>Write extended attributes</value>
+    <value>Erweiterte Attribute schreiben</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
     <value>Vererbeite Rechte zu expliziten Rechten konvertieren</value>
@@ -1719,7 +1719,7 @@
     <value>WSL</value>
   </data>
   <data name="SideBarHideSectionFromSideBarText" xml:space="preserve">
-    <value>Hide {0} section</value>
+    <value>Sektion {0} verstecken</value>
   </data>
   <data name="AddFile" xml:space="preserve">
     <value>Datei hinzufügen</value>
@@ -1749,7 +1749,7 @@
     <value>Entpacken abgeschlossen!</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolderText" xml:space="preserve">
-    <value>Open parent folder</value>
+    <value>Übergeordneten Ordner öffnen</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>Unbekannt</value>
@@ -1764,10 +1764,10 @@
     <value>Laufwerk öffnen</value>
   </data>
   <data name="InsertDiscDialogText" xml:space="preserve">
-    <value>Please insert a disc into drive {0}</value>
+    <value>Bitte lege einen Datenträger in Laufwerk {0} ein</value>
   </data>
   <data name="InsertDiscDialogTitle" xml:space="preserve">
-    <value>Insert a disc</value>
+    <value>Datenträger einlegen</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
@@ -2235,10 +2235,10 @@
     <value>Archiv erstellen</value>
   </data>
   <data name="CompressSkippedItemsDialogTitle" xml:space="preserve">
-    <value>Some items can't be compressed</value>
+    <value>Einige Elemente können nicht komprimiert werden</value>
   </data>
   <data name="CompressSkippedItemsDialogText" xml:space="preserve">
-    <value>The following {0, plural, one {item} other {items}} can''t be compressed. Would you like to skip {0, plural, one {this item} other {these items}}?</value>
+    <value>{0, plural, one {Folgendes Element kann} other {Folgende Elemente können}} nicht komprimiert werden. Möchtest du {0, plural, one {dieses Element} other {diese Elemente}} überspringen?</value>
   </data>
   <data name="CompressIntoZip" xml:space="preserve">
     <value>ZIP-Archiv erstellen</value>
@@ -3343,7 +3343,7 @@
     <value>git pull wegen eines Timeout-Fehlers fehlgeschlagen</value>
   </data>
   <data name="PullUncommittedChangesError" xml:space="preserve">
-    <value>Can't pull because your uncommitted changes would be overwritten. Commit, stash, or discard your changes, then try again.</value>
+    <value>Ein Pull ist nicht möglich, da Ihre nicht festgeschriebenen Änderungen überschrieben würden. Führen Sie ein Commit durch, legen Sie Ihre Änderungen im Stash ab oder verwerfen Sie sie, und versuchen Sie es dann erneut.</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(mehrere Werte)</value>

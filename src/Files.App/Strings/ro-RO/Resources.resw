@@ -181,10 +181,10 @@
     <value>Accesat:</value>
   </data>
   <data name="RecentItemClearAllText" xml:space="preserve">
-    <value>Clear all items</value>
+    <value>Eliminați toate elementele</value>
   </data>
   <data name="NavigationToolbarVisiblePathPlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>Introduceți o cale pentru a naviga sau tastați „&gt;” pentru a deschide paleta de comenzi</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Căutare</value>
@@ -199,7 +199,7 @@
     <value>Fișierele pe care le veți accesa vor apărea aici</value>
   </data>
   <data name="RecentItemRemoveText" xml:space="preserve">
-    <value>Remove this item</value>
+    <value>Eliminați acest element</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>Repozitoriu GitHub</value>
@@ -235,7 +235,7 @@
     <value>Culoare de fundal</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Avansat</value>
+    <value>Complex</value>
   </data>
   <data name="CacheThumbnails" xml:space="preserve">
     <value>Cache miniaturi</value>
@@ -313,13 +313,13 @@
     <value>Fixați la Bara Laterală</value>
   </data>
   <data name="WelcomeDialogTitle" xml:space="preserve">
-    <value>Welcome to Files!</value>
+    <value>Bun venit la Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Acordați permisiunea</value>
   </data>
   <data name="WelcomeDialogTextBlockText" xml:space="preserve">
-    <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </value>
+    <value>Pentru a începe, va trebui să ne acordați permisiunea de a vă afișa fișierele. Acest lucru va deschide o pagină de setări de unde ne puteți acorda permisiunea. Va trebui să reporniți aplicația după ce ați acordat permisiunea. </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Afișare</value>
@@ -385,16 +385,16 @@
     <value>Stabilire ca fundal al aplicației</value>
   </data>
   <data name="AccessDeniedDeleteDialogText" xml:space="preserve">
-    <value>We weren't able to delete this item</value>
+    <value>Nu am putut șterge acest element</value>
   </data>
   <data name="DriveUnpluggedDialogText" xml:space="preserve">
-    <value>Please insert the necessary drive to access this item.</value>
+    <value>Vă rugăm introduceți unitatea necesară pentru a accesa acest element.</value>
   </data>
   <data name="DriveUnpluggedDialogTitle" xml:space="preserve">
-    <value>Drive unplugged</value>
+    <value>Unitate deconectată</value>
   </data>
   <data name="FileNotFoundDialogText" xml:space="preserve">
-    <value>The file you are attempting to access may have been moved or deleted.</value>
+    <value>Fișierul pe care încercați să-l accesați a fost mutat sau șters.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
     <value>Nu se pot deschide proprietățile pentru acest fișier</value>
@@ -403,28 +403,28 @@
     <value>Fișierul pe care încercați să-l accesați a fost mutat sau șters.</value>
   </data>
   <data name="FileNotFoundDialogTitle" xml:space="preserve">
-    <value>File Not Found</value>
+    <value>Fișierul nu a fost găsit</value>
   </data>
   <data name="FolderNotFoundDialogText" xml:space="preserve">
-    <value>The folder you are attempting to access may have been moved or deleted.</value>
+    <value>Fișierul pe care încercați să-l accesați a fost mutat sau șters.</value>
   </data>
   <data name="FolderNotFoundDialogTitle" xml:space="preserve">
-    <value>Did you delete this folder?</value>
+    <value>Ați șters acest folder?</value>
   </data>
   <data name="FileInUseByDialogText" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>Fișierul pe care încercați să îl accesați este utilizat în prezent de {0}</value>
   </data>
   <data name="FileInUseDialogText" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>Fișierul pe care încercați să îl accesați este utilizat în prezent de o altă aplicație</value>
   </data>
   <data name="FileInUseDialogTitle" xml:space="preserve">
-    <value>File is in use</value>
+    <value>Fișierul este în uz</value>
   </data>
   <data name="CannotRunFileDialogTitle" xml:space="preserve">
-    <value>This app can't run on your PC</value>
+    <value>Această aplicație nu poate rula pe PC</value>
   </data>
   <data name="CannotRunFileDialogText" xml:space="preserve">
-    <value>To find a version for your PC, check with the software publisher.</value>
+    <value>Pentru a găsi o versiune pentru PC-ul dvs., consultați editorul software-ului.</value>
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Aspect</value>
@@ -531,7 +531,7 @@
     <value>{0, number} {0, plural, one {fișier} few {fișiere} other {de fișiere}}, {1, number} {1, plural, one {folder} few {foldere} other {de foldere}} din {2, number} {2, plural, one {locație} few {locații} other {de locații}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUserText" xml:space="preserve">
-    <value>Run as another user</value>
+    <value>Executare ca alt utilizator</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
     <value>Toate tipurile de {0}</value>
@@ -642,22 +642,22 @@
     <value>Se partajează {0} {1}</value>
   </data>
   <data name="RenameErrorItemDeletedText" xml:space="preserve">
-    <value>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</value>
+    <value>Elementul pe care încercați să îl redenumiți nu mai există. Verificați locația corectă a elementului pe care trebuie să-l redenumiți.</value>
   </data>
   <data name="RenameErrorItemDeletedTitle" xml:space="preserve">
-    <value>Item no longer exists</value>
+    <value>Elementul nu mai există</value>
   </data>
   <data name="RenameErrorNameInvalidText" xml:space="preserve">
-    <value>The name specified was invalid. Please check the desired item name and try again.</value>
+    <value>Numele specificat a fost invalid. Vă rugăm să verificați numele fișierului dorit și încercați din nou.</value>
   </data>
   <data name="RenameErrorNameInvalidTitle" xml:space="preserve">
-    <value>Invalid item name</value>
+    <value>Nume element invalid</value>
   </data>
   <data name="RenameErrorTooLongText" xml:space="preserve">
-    <value>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</value>
+    <value>Lungimea numelui elementului specificat depășește limita maximă. Vă rugăm să verificați numele dorit și încercați din nou.</value>
   </data>
   <data name="RenameErrorTooLongTitle" xml:space="preserve">
-    <value>Item name was too long</value>
+    <value>Numele elementului era prea lung</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
     <value>Afișați mai multe opțiuni</value>
@@ -669,13 +669,13 @@
     <value>Sponsorizați-ne pe GitHub</value>
   </data>
   <data name="AccessDeniedCreateDialogText" xml:space="preserve">
-    <value>We weren't able to create this item</value>
+    <value>Nu s-a putut crea acest element</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>Acces respins</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsText" xml:space="preserve">
-    <value>Set as</value>
+    <value>Stabilire ca</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Anulare</value>
@@ -717,10 +717,10 @@
     <value>Afișare dialog de confirmare înainte de a șterge</value>
   </data>
   <data name="PropertySaveErrorMessageText" xml:space="preserve">
-    <value>There was an issue saving some properties.</value>
+    <value>A apărut o eroare la salvarea unor proprietăți.</value>
   </data>
   <data name="PropertySaveErrorDialogTitle" xml:space="preserve">
-    <value>Error</value>
+    <value>Eroare</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Închidere oricum</value>
@@ -1215,7 +1215,7 @@
     <value>Necunoscut</value>
   </data>
   <data name="RenameFileDialogText" xml:space="preserve">
-    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
+    <value>Dacă modificați extensia unui fișier, acesta poate deveni inutilizabil. Sigur modificați extensia?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>Unitate CD-ROM</value>
@@ -1254,7 +1254,7 @@
     <value>Mai multe opțiuni...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItemText" xml:space="preserve">
-    <value>Map network drive</value>
+    <value>Conectare unitate de rețea</value>
   </data>
   <data name="Pinned" xml:space="preserve">
     <value>Fixat</value>
@@ -1287,10 +1287,10 @@
     <value>Coloane (Ctrl + Shift+6)</value>
   </data>
   <data name="PinItemToStartText" xml:space="preserve">
-    <value>Pin to the Start Menu</value>
+    <value>Fixare la meniul Start</value>
   </data>
   <data name="UnpinItemFromStartText" xml:space="preserve">
-    <value>Unpin from the Start Menu</value>
+    <value>Anulați fixarea la meniul Start</value>
   </data>
   <data name="Library" xml:space="preserve">
     <value>Bibliotecă</value>
@@ -1536,13 +1536,13 @@
     <value>Cont necunoscut</value>
   </data>
   <data name="SecurityCannotReadPropertiesText" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
+    <value>Nu aveți permisiuni pentru a vizualiza proprietățile de securitate ale acestui obiect. Faceți clic pe „Permisiuni avansate” pentru a continua.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Proprietar:</value>
   </data>
   <data name="SecurityUnknownOwnerTextText" xml:space="preserve">
-    <value>Unknown owner</value>
+    <value>Proprietar necunoscut</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Extragere arhivă</value>
@@ -1554,10 +1554,10 @@
     <value>Extragere în {0}\</value>
   </data>
   <data name="SideBarCreateNewLibraryText" xml:space="preserve">
-    <value>Create new library</value>
+    <value>Creați o bibliotecă nouă</value>
   </data>
   <data name="SideBarRestoreLibrariesText" xml:space="preserve">
-    <value>Restore default libraries</value>
+    <value>Restabilire biblioteci implicite</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
     <value>Sigur doriți să restaurați bibliotecile implicite? Toate fișierele dvs. vor rămâne în spațiul de stocare.</value>
@@ -1596,7 +1596,7 @@
     <value>Permisiuni</value>
   </data>
   <data name="SecurityAdvancedCannotReadPropertiesText" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
+    <value>Nu aveți permisiuni pentru a vizualiza proprietățile de securitate ale acestui obiect. Puteți încerca să preluați proprietatea asupra acestui obiect.</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>Acest folder și fișiere</value>
@@ -1620,49 +1620,49 @@
     <value>Acest folder și subfoldere</value>
   </data>
   <data name="SecurityAppendDataLabelText" xml:space="preserve">
-    <value>Append data</value>
+    <value>Adăugați date</value>
   </data>
   <data name="SecurityChangePermissionsLabelText" xml:space="preserve">
-    <value>Change permission</value>
+    <value>Schimbați permisiunea</value>
   </data>
   <data name="SecurityCreateDirectoriesLabelText" xml:space="preserve">
-    <value>Create folders</value>
+    <value>Creați foldere</value>
   </data>
   <data name="SecurityCreateFilesLabelText" xml:space="preserve">
-    <value>Create files</value>
+    <value>Creați fișiere</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabelText" xml:space="preserve">
-    <value>Delete subdirectories and files</value>
+    <value>Ștergeți subdirectoarele și fișierele</value>
   </data>
   <data name="SecurityExecuteFileLabelText" xml:space="preserve">
-    <value>Execute files</value>
+    <value>Executare fișiere</value>
   </data>
   <data name="SecurityReadAttributesLabelText" xml:space="preserve">
-    <value>Read attributes</value>
+    <value>Atribute de citire</value>
   </data>
   <data name="SecurityReadDataLabelText" xml:space="preserve">
-    <value>Read data</value>
+    <value>Citire date</value>
   </data>
   <data name="SecurityReadExtendedAttributesLabelText" xml:space="preserve">
-    <value>Read extended attributes</value>
+    <value>Citire atribute extinse</value>
   </data>
   <data name="SecurityReadPermissionsLabelText" xml:space="preserve">
-    <value>Read permissions</value>
+    <value>Permisiuni citire</value>
   </data>
   <data name="SecurityTakeOwnershipLabelText" xml:space="preserve">
-    <value>Take ownership</value>
+    <value>Preluați proprietatea</value>
   </data>
   <data name="SecurityTraverseLabelText" xml:space="preserve">
-    <value>Visit folder</value>
+    <value>Vizitați folderul</value>
   </data>
   <data name="SecurityWriteAttributesLabelText" xml:space="preserve">
-    <value>Write attributes</value>
+    <value>Atribute de scriere</value>
   </data>
   <data name="SecurityWriteDataLabelText" xml:space="preserve">
-    <value>Write data</value>
+    <value>Scriere date</value>
   </data>
   <data name="SecurityWriteExtendedAttributesLabelText" xml:space="preserve">
-    <value>Write extended attributes</value>
+    <value>Atribute de scriere extinse</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
     <value>Convertiți permisiunile moștenite în permisiuni explicite</value>
@@ -1719,7 +1719,7 @@
     <value>WSL</value>
   </data>
   <data name="SideBarHideSectionFromSideBarText" xml:space="preserve">
-    <value>Hide {0} section</value>
+    <value>Ascundeți secțiunea {0}</value>
   </data>
   <data name="AddFile" xml:space="preserve">
     <value>Adăugare fișier</value>
@@ -1749,7 +1749,7 @@
     <value>Extragere completă!</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolderText" xml:space="preserve">
-    <value>Open parent folder</value>
+    <value>Deschideți folderul părinte</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>Necunoscut</value>
@@ -1764,10 +1764,10 @@
     <value>Deschidere unitate</value>
   </data>
   <data name="InsertDiscDialogText" xml:space="preserve">
-    <value>Please insert a disc into drive {0}</value>
+    <value>Introduceți un disc în unitatea {0}</value>
   </data>
   <data name="InsertDiscDialogTitle" xml:space="preserve">
-    <value>Insert a disc</value>
+    <value>Introduceți un disc</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
@@ -1782,13 +1782,13 @@
     <value>Furnizați datele de autentificare:</value>
   </data>
   <data name="CredentialDialogIncorrectPassword" xml:space="preserve">
-    <value>The password is incorrect. Try again.</value>
+    <value>Parola este incorectă. Încercați din nou.</value>
   </data>
   <data name="PasswordRequired" xml:space="preserve">
-    <value>Password required</value>
+    <value>Este necesară parola</value>
   </data>
   <data name="PasswordRequiredMessage" xml:space="preserve">
-    <value>This location is password protected. Refresh to enter the password.</value>
+    <value>Această locație este protejată prin parolă. Reîmprospătați pentru a introduce parola.</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Nume de utilizator</value>
@@ -2235,10 +2235,10 @@
     <value>Creare arhivă</value>
   </data>
   <data name="CompressSkippedItemsDialogTitle" xml:space="preserve">
-    <value>Some items can't be compressed</value>
+    <value>Unele elemente nu pot fi comprimate</value>
   </data>
   <data name="CompressSkippedItemsDialogText" xml:space="preserve">
-    <value>The following {0, plural, one {item} other {items}} can''t be compressed. Would you like to skip {0, plural, one {this item} other {these items}}?</value>
+    <value>{0, plural, one {Următorul element nu poate fi comprimat} few {Următoarele elemente nu pot fi comprimate} other {Următoarele elemente nu pot fi comprimate}}. Doriți să omiteți {0, plural, one {acest element} few {aceste elemente} other {aceste elemente}}?</value>
   </data>
   <data name="CompressIntoZip" xml:space="preserve">
     <value>Creare arhivă zip</value>
@@ -3343,7 +3343,7 @@
     <value>git pull eșuat datorită unei erori timeout</value>
   </data>
   <data name="PullUncommittedChangesError" xml:space="preserve">
-    <value>Can't pull because your uncommitted changes would be overwritten. Commit, stash, or discard your changes, then try again.</value>
+    <value>Nu se poate efectua operațiunea „pull”, deoarece modificările neconfirmate ar fi suprascrise. Confirmați, stocați temporar („stash”) sau renunțați la modificări, apoi încercați din nou.</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(valori multiple)</value>
