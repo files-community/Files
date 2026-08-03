@@ -159,7 +159,7 @@
 
 	<Grid x:Name="ContainerGrid">
 		<StackPanel Spacing="16">
-			<Grid x:Name="ApplyToAll" x:Load="{x:Bind ViewModel.FileSystemDialogMode.ConflictsExist}">
+			<Grid x:Name="ApplyToAll" Visibility="{x:Bind ViewModel.FileSystemDialogMode.ConflictsExist}">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
 					<ColumnDefinition Width="Auto" />
@@ -204,10 +204,10 @@
 
 			<CheckBox
 				x:Name="chkPermanentlyDelete"
-				x:Load="{x:Bind ViewModel.FileSystemDialogMode.IsInDeleteMode, Mode=OneWay}"
 				Content="{helpers:ResourceString Name=DeleteItemsDialogPermanentlyDeleteCheckBox/Content}"
 				IsChecked="{x:Bind ViewModel.DeletePermanently, Mode=TwoWay}"
-				IsEnabled="{x:Bind ViewModel.IsDeletePermanentlyEnabled, Mode=OneWay}" />
+				IsEnabled="{x:Bind ViewModel.IsDeletePermanentlyEnabled, Mode=OneWay}"
+				Visibility="{x:Bind ViewModel.FileSystemDialogMode.IsInDeleteMode, Mode=OneWay}" />
 
 			<ListView
 				x:Name="DetailsGrid"
