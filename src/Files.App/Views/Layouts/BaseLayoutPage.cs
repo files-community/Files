@@ -54,10 +54,10 @@ namespace Files.App.Views.Layouts
 
 		// Fields
 
-		private readonly DispatcherQueueTimer jumpTimer;
-		private readonly DispatcherQueueTimer dragOverTimer;
-		private readonly DispatcherQueueTimer tapDebounceTimer;
-		private readonly DispatcherQueueTimer hoverTimer;
+		private DispatcherQueueTimer? jumpTimer;
+		private DispatcherQueueTimer? dragOverTimer;
+		private DispatcherQueueTimer? tapDebounceTimer;
+		private DispatcherQueueTimer? hoverTimer;
 
 		private readonly DragEventHandler Item_DragOverEventHandler;
 		public event PropertyChangedEventHandler? PropertyChanged;
@@ -216,7 +216,7 @@ namespace Files.App.Views.Layouts
 					}
 
 					// Restart the timer
-					jumpTimer.Start();
+					JumpTimer.Start();
 				}
 
 				jumpString = value;
@@ -305,18 +305,10 @@ namespace Files.App.Views.Layouts
 			HookBaseEvents();
 			HookEvents();
 
-			jumpTimer = DispatcherQueue.CreateTimer();
-			jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
-			jumpTimer.Tick += JumpTimer_Tick;
-
 			Item_DragOverEventHandler = new DragEventHandler(Item_DragOver);
 
 			SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
 			StatusBarViewModel = new StatusBarViewModel();
-
-			dragOverTimer = DispatcherQueue.CreateTimer();
-			tapDebounceTimer = DispatcherQueue.CreateTimer();
-			hoverTimer = DispatcherQueue.CreateTimer();
 		}
 
 		// Abstract methods
@@ -336,11 +328,18 @@ namespace Files.App.Views.Layouts
 		private void UnhookBaseEvents()
 		{
 			ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
-			jumpTimer.Stop();
-			jumpTimer.Tick -= JumpTimer_Tick;
-			dragOverTimer.Stop();
-			tapDebounceTimer.Stop();
-			hoverTimer.Stop();
+			jumpTimer?.Stop();
+			if (jumpTimer is not null)
+			{
+				jumpTimer.Tick -= JumpTimer_Tick;
+			}
+			dragOverTimer?.Stop();
+			tapDebounceTimer?.Stop();
+			hoverTimer?.Stop();
+			jumpTimer = null;
+			dragOverTimer = null;
+			tapDebounceTimer = null;
+			hoverTimer = null;
 
 			shellContextMenuItemCancellationToken?.Cancel();
 			shellContextMenuItemCancellationToken?.Dispose();
@@ -354,8 +353,27 @@ namespace Files.App.Views.Layouts
 		private void JumpTimer_Tick(object sender, object e)
 		{
 			jumpString = string.Empty;
-			jumpTimer.Stop();
+			jumpTimer?.Stop();
 		}
+
+		private DispatcherQueueTimer JumpTimer
+		{
+			get
+			{
+				if (jumpTimer is null)
+				{
+					jumpTimer = DispatcherQueue.CreateTimer();
+					jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
+					jumpTimer.Tick += JumpTimer_Tick;
+				}
+
+				return jumpTimer;
+			}
+		}
+
+		private DispatcherQueueTimer DragOverTimer => dragOverTimer ??= DispatcherQueue.CreateTimer();
+		private DispatcherQueueTimer TapDebounceTimer => tapDebounceTimer ??= DispatcherQueue.CreateTimer();
+		private DispatcherQueueTimer HoverTimer => hoverTimer ??= DispatcherQueue.CreateTimer();
 
 		protected IEnumerable<ListedItem>? GetAllItems()
 		{
@@ -1195,15 +1213,15 @@ namespace Files.App.Views.Layouts
 				if (dragOverItem != item)
 				{
 					dragOverItem = item;
-					dragOverTimer.Stop();
+					DragOverTimer.Stop();
 
 					if (e.AcceptedOperation != DataPackageOperation.None)
 					{
-						dragOverTimer.Debounce(() =>
+						DragOverTimer.Debounce(() =>
 						{
 							if (dragOverItem is not null && !dragOverItem.IsExecutable)
 							{
-								dragOverTimer.Stop();
+								dragOverTimer?.Stop();
 								ItemManipulationModel.SetSelectedItem(dragOverItem);
 								dragOverItem = null;
 								Commands.OpenItem.ExecuteAsync();
@@ -1387,13 +1405,13 @@ namespace Files.App.Views.Layouts
 
 			hoveredItem = GetItemFromElement(sender);
 
-			hoverTimer.Stop();
-			hoverTimer.Debounce(() =>
+			HoverTimer.Stop();
+			HoverTimer.Debounce(() =>
 			{
 				if (hoveredItem is null)
 					return;
 
-				hoverTimer.Stop();
+				hoverTimer?.Stop();
 
 				// Selection of multiple individual items with control
 				if (e.KeyModifiers == VirtualKeyModifiers.Control &&
@@ -1435,7 +1453,7 @@ namespace Files.App.Views.Layouts
 			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				return;
 
-			hoverTimer.Stop();
+			hoverTimer?.Stop();
 			hoveredItem = null;
 		}
 
@@ -1607,19 +1625,19 @@ namespace Files.App.Views.Layouts
 			{
 				if (item == preRenamingItem)
 				{
-					tapDebounceTimer.Debounce(() =>
+					TapDebounceTimer.Debounce(() =>
 					{
 						if (item == preRenamingItem)
 						{
 							StartRenameItem();
-							tapDebounceTimer.Stop();
+							tapDebounceTimer?.Stop();
 						}
 					},
 					TimeSpan.FromMilliseconds(1500));
 				}
 				else
 				{
-					tapDebounceTimer.Stop();
+					tapDebounceTimer?.Stop();
 					preRenamingItem = item;
 				}
 			}
@@ -1632,7 +1650,7 @@ namespace Files.App.Views.Layouts
 		public void ResetRenameDoubleClick()
 		{
 			preRenamingItem = null;
-			tapDebounceTimer.Stop();
+			tapDebounceTimer?.Stop();
 		}
 
 		protected async Task ValidateItemNameInputTextAsync(TextBox textBox, TextBoxBeforeTextChangingEventArgs args, Action<bool> showError)

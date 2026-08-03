@@ -39,7 +39,7 @@ namespace Files.App.ViewModels.UserControls
 		// Fields
 
 		private readonly DispatcherQueue _dispatcherQueue;
-		private readonly DispatcherQueueTimer _dragOverTimer;
+		private DispatcherQueueTimer? _dragOverTimer;
 		private bool _isDisposed;
 
 		private string? _dragOverPath;
@@ -287,8 +287,6 @@ namespace Files.App.ViewModels.UserControls
 		public NavigationToolbarViewModel()
 		{
 			_dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-			_dragOverTimer = _dispatcherQueue.CreateTimer();
-
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			UpdateService.PropertyChanged += UpdateService_OnPropertyChanged;
 
@@ -431,15 +429,20 @@ namespace Files.App.ViewModels.UserControls
 			if (_dragOverPath != pathBoxItem.Path)
 			{
 				_dragOverPath = pathBoxItem.Path;
-				_dragOverTimer.Stop();
+				_dragOverTimer?.Stop();
 
 				if (_dragOverPath != (this as IAddressToolbarViewModel).PathComponents.LastOrDefault()?.Path)
 				{
+					if (_dragOverTimer is null)
+					{
+						_dragOverTimer = _dispatcherQueue.CreateTimer();
+					}
+
 					_dragOverTimer.Debounce(() =>
 					{
 						if (_dragOverPath is not null)
 						{
-							_dragOverTimer.Stop();
+							_dragOverTimer?.Stop();
 							ItemDraggedOverPathItem?.Invoke(this, new PathNavigationEventArgs()
 							{
 								ItemPath = _dragOverPath
@@ -1231,7 +1234,8 @@ namespace Files.App.ViewModels.UserControls
 			_isDisposed = true;
 			_suggestSearchCTS.Cancel();
 			_suggestSearchCTS.Dispose();
-			_dragOverTimer.Stop();
+			_dragOverTimer?.Stop();
+			_dragOverTimer = null;
 			InstanceViewModel = null!;
 			SelectedItems = null;
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
