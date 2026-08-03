@@ -97,19 +97,28 @@ namespace Files.App.UserControls
 			_remeasureQueued = true;
 
 			// Deferred so bindings apply the changed content before measuring
-			DispatcherQueue.TryEnqueue(() =>
+			var enqueued = DispatcherQueue.TryEnqueue(() =>
 			{
 				_remeasureQueued = false;
 
 				if (!IsLoaded)
 					return;
 
-				// Reveal everything to measure the new content, then re-decide;
-				// no frame renders in between
-				VisualStateManager.GoToState(this, _stateNames[0], false);
-				UpdateLayout();
-				UpdateResponsiveState();
+				// UpdateLayout throws COMException when the pane hosting the bar is being
+				// torn down; skipping leaves the bar in its previous, still-valid state
+				SafetyExtensions.IgnoreExceptions(() =>
+				{
+					// Reveal everything to measure the new content, then re-decide;
+					// no frame renders in between
+					VisualStateManager.GoToState(this, _stateNames[0], false);
+					UpdateLayout();
+					UpdateResponsiveState();
+				}, App.Logger);
 			});
+
+			// TryEnqueue returns false once the dispatcher shuts down at app close
+			if (!enqueued)
+				_remeasureQueued = false;
 		}
 
 		private void UpdateResponsiveState()
@@ -154,13 +163,18 @@ namespace Files.App.UserControls
 		private void GitBranchCompact_Click(object sender, RoutedEventArgs e)
 		{
 			ActionsOverflowFlyout.Hide();
-			BranchesFlyout.ShowAt(GitOverflowButton);
+
+			// ShowAt throws ArgumentException when a queued remeasure expanded the bar and
+			// removed the anchor from the tree between the click and this handler
+			SafetyExtensions.IgnoreExceptions(() => BranchesFlyout.ShowAt(GitOverflowButton), App.Logger);
 		}
 
 		private void GitNetworkActionsCompact_Click(object sender, RoutedEventArgs e)
 		{
 			ActionsOverflowFlyout.Hide();
-			GitNetworkActions?.Flyout?.ShowAt(GitOverflowButton);
+
+			// Same anchor-removed ArgumentException risk as in GitBranchCompact_Click
+			SafetyExtensions.IgnoreExceptions(() => GitNetworkActions?.Flyout?.ShowAt(GitOverflowButton), App.Logger);
 		}
 
 		private async void BranchesFlyout_Opening(object _, object e)
