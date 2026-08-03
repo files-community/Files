@@ -17,7 +17,7 @@ namespace Files.App.Views.Shells
 {
 	public abstract class BaseShellPage : Page, IShellPage, INotifyPropertyChanged
 	{
-		private readonly DispatcherQueueTimer _updateDateDisplayTimer;
+		private DispatcherQueueTimer? _updateDateDisplayTimer;
 
 		private DateTimeFormats _lastDateTimeFormats;
 
@@ -831,8 +831,12 @@ namespace Files.App.Views.Shells
 
 			GitHelpers.GitFetchCompleted -= FilesystemViewModel_GitDirectoryUpdated;
 
-			_updateDateDisplayTimer.Stop();
-			_updateDateDisplayTimer.Tick -= UpdateDateDisplayTimer_Tick;
+			_updateDateDisplayTimer?.Stop();
+			if (_updateDateDisplayTimer is not null)
+			{
+				_updateDateDisplayTimer.Tick -= UpdateDateDisplayTimer_Tick;
+				_updateDateDisplayTimer = null;
+			}
 			cancellationTokenSource.Dispose();
 		}
 	}
