@@ -31,7 +31,7 @@ namespace Files.App.Dialogs
 		private void ContentDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
 		{
 			// Focus the first editable input so the user can type without clicking first
-			var target = UserName is { IsLoaded: true, IsEnabled: true } ? UserName : (Control)Password;
+			var target = UserName is { Visibility: Visibility.Visible, IsEnabled: true } ? UserName : (Control)Password;
 			target.Focus(FocusState.Programmatic);
 		}
 
