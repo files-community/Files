@@ -162,7 +162,7 @@ namespace Files.App.Data.Commands
 		{
 			if (IsExecutable)
 			{
-				SentrySdk.Experimental.Metrics.EmitCounter("actions", 1, [new KeyValuePair<string, object>("command", Code.ToString())]);
+				SentrySdk.Metrics.EmitCounter("actions", 1, [new KeyValuePair<string, object>("command", Code.ToString())]);
 				return Action.ExecuteAsync(parameter);
 			}
 
