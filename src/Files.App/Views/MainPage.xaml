@@ -195,6 +195,7 @@
 			<controls:SidebarView.InnerContent>
 				<Grid
 					x:Name="RootGrid"
+					Padding="0,0,0,8"
 					PreviewKeyDown="RootGrid_PreviewKeyDown"
 					SizeChanged="RootGrid_SizeChanged">
 					<Grid.RowDefinitions>
@@ -206,7 +207,6 @@
 							MinHeight="100" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition x:Name="InfoPaneRowDefinition" Height="Auto" />
-						<RowDefinition Height="Auto" MinHeight="8" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition
@@ -288,22 +288,13 @@
 						Loaded="PreviewPane_Loaded"
 						Unloaded="PreviewPane_Unloaded" />
 
-					<!--  Status Bar  -->
-					<uc:StatusBar
-						x:Name="StatusBar"
-						Grid.Row="5"
-						Grid.ColumnSpan="3"
-						x:Load="False"
-						ShowInfoText="{x:Bind ViewModel.ShowStatusBar, Mode=OneWay}"
-						Visibility="{x:Bind ViewModel.ShowStatusBar, Mode=OneWay}" />
-
 					<!--  Shelf Pane  -->
 					<uc:ShelfPane
 						x:Name="ShelfPane"
 						Grid.Row="0"
-						Grid.RowSpan="6"
+						Grid.RowSpan="5"
 						Grid.Column="3"
-						Margin="4,0,0,8"
+						Margin="4,0,0,0"
 						x:Load="{x:Bind ViewModel.ShowShelfPane, Mode=OneWay}"
 						ClearCommand="{x:Bind ViewModel.ShelfViewModel.ClearItemsCommand}"
 						ItemFocusedCommand="{x:Bind Commands.ClearSelection}"

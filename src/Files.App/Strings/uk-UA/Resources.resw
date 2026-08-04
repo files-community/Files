@@ -1782,13 +1782,13 @@
     <value>Надайте свої облікові дані:</value>
   </data>
   <data name="CredentialDialogIncorrectPassword" xml:space="preserve">
-    <value>The password is incorrect. Try again.</value>
+    <value>Неправильний пароль. Спробуйте ще раз.</value>
   </data>
   <data name="PasswordRequired" xml:space="preserve">
-    <value>Password required</value>
+    <value>Потрібен пароль</value>
   </data>
   <data name="PasswordRequiredMessage" xml:space="preserve">
-    <value>This location is password protected. Refresh to enter the password.</value>
+    <value>Ця сторінка захищена паролем. Оновіть сторінку, щоби ввести пароль.</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Ім’я користувача</value>
@@ -3343,7 +3343,7 @@
     <value>Не вдалося виконати git pull через помилку часу очікування</value>
   </data>
   <data name="PullUncommittedChangesError" xml:space="preserve">
-    <value>Can't pull because your uncommitted changes would be overwritten. Commit, stash, or discard your changes, then try again.</value>
+    <value>Неможливо виконати pull, оскільки ваші незафіксовані зміни буде перезаписано. Зафіксуйте, сховайте або відкиньте свої зміни, а потім спробуйте знову.</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(кілька значень)</value>

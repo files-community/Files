@@ -169,7 +169,7 @@
     <value>Odaberi sve</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Obrnuti izbor</value>
+    <value>Preokreni odabir</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
     <value>Poništi odabir</value>
@@ -181,10 +181,10 @@
     <value>Pristupano:</value>
   </data>
   <data name="RecentItemClearAllText" xml:space="preserve">
-    <value>Clear all items</value>
+    <value>Očisti sve stavke</value>
   </data>
   <data name="NavigationToolbarVisiblePathPlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>Unesite putanju za navigaciju ili upišite „&gt;” za otvaranje palete naredbi</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Traži</value>
@@ -199,7 +199,7 @@
     <value>Datoteke kojima ste pristupili prije pojaviti će se ovdje</value>
   </data>
   <data name="RecentItemRemoveText" xml:space="preserve">
-    <value>Remove this item</value>
+    <value>Ukloni ovu stavku</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>GitHub repozitorij</value>
@@ -238,22 +238,22 @@
     <value>Napredno</value>
   </data>
   <data name="CacheThumbnails" xml:space="preserve">
-    <value>Cache thumbnails</value>
+    <value>Predmemoriraj minijature</value>
   </data>
   <data name="CacheSizeLimitDescription" xml:space="preserve">
-    <value>Maximum disk space to use for thumbnail cache (100-5000 MiB).</value>
+    <value>Maksimalni prostor na disku koji se koristi za predmemoriju minijatura (100 – 5000 MiB).</value>
   </data>
   <data name="CacheSizeLimit" xml:space="preserve">
-    <value>Cache size limit</value>
+    <value>Ograničenje veličine predmemorije</value>
   </data>
   <data name="ClearCachedThumbnails" xml:space="preserve">
-    <value>Clear cached thumbnails to free up space</value>
+    <value>Izbriši predmemorirane minijature kako biste oslobodili prostor</value>
   </data>
   <data name="CurrentCacheSize" xml:space="preserve">
-    <value>Current cache size: </value>
+    <value>Trenutna veličina predmemorije: </value>
   </data>
   <data name="ClearCache" xml:space="preserve">
-    <value>Clear cache</value>
+    <value>Izbriši predmemoriju</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Nastavite gdje ste završili</value>
@@ -313,13 +313,13 @@
     <value>Prikvači na alatnu traku Brzi pristup</value>
   </data>
   <data name="WelcomeDialogTitle" xml:space="preserve">
-    <value>Welcome to Files!</value>
+    <value>Dobrodošli u Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Odobri dopuštenje</value>
   </data>
   <data name="WelcomeDialogTextBlockText" xml:space="preserve">
-    <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </value>
+    <value>Za početak morate odobriti prikaz vaših datoteka. Otvorit će se stranica Postavki na kojoj možete odobriti to dopuštenje. Nakon što dovršite ovaj korak, morat ćete ponovno otvoriti aplikaciju. </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Prikaz</value>
@@ -337,7 +337,7 @@
     <value>Tamno</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
-    <value>System Theme</value>
+    <value>Tema sustava</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Koristi postavke sustava</value>
@@ -385,16 +385,16 @@
     <value>Postavi kao pozadinu aplikacije</value>
   </data>
   <data name="AccessDeniedDeleteDialogText" xml:space="preserve">
-    <value>We weren't able to delete this item</value>
+    <value>Nismo uspjeli izbrisati ovu stavku</value>
   </data>
   <data name="DriveUnpluggedDialogText" xml:space="preserve">
-    <value>Please insert the necessary drive to access this item.</value>
+    <value>Molimo umetnite potreban pogon za pristup ovoj stavci.</value>
   </data>
   <data name="DriveUnpluggedDialogTitle" xml:space="preserve">
-    <value>Drive unplugged</value>
+    <value>Pogon isključen</value>
   </data>
   <data name="FileNotFoundDialogText" xml:space="preserve">
-    <value>The file you are attempting to access may have been moved or deleted.</value>
+    <value>Datoteka kojoj pokušavate pristupiti je možda premještena ili izbrisana.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
     <value>Nije moguće otvoriti svojstva za ovu datoteku</value>
@@ -403,28 +403,28 @@
     <value>Datoteka kojoj pokušavate pristupiti je možda premještena ili izbrisana.</value>
   </data>
   <data name="FileNotFoundDialogTitle" xml:space="preserve">
-    <value>File Not Found</value>
+    <value>Datoteka nije pronađena</value>
   </data>
   <data name="FolderNotFoundDialogText" xml:space="preserve">
-    <value>The folder you are attempting to access may have been moved or deleted.</value>
+    <value>Mapa kojoj pokušavate pristupiti možda je premještena ili izbrisana.</value>
   </data>
   <data name="FolderNotFoundDialogTitle" xml:space="preserve">
-    <value>Did you delete this folder?</value>
+    <value>Jeste li izbrisali ovu mapu?</value>
   </data>
   <data name="FileInUseByDialogText" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>Dadoteku koju pokušavate pristupiti trenutno koristi {0}</value>
   </data>
   <data name="FileInUseDialogText" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>Datoteku kojoj pokušavate pristupiti trenutno koristi druga aplikacija</value>
   </data>
   <data name="FileInUseDialogTitle" xml:space="preserve">
-    <value>File is in use</value>
+    <value>Datoteka je u upotrebi</value>
   </data>
   <data name="CannotRunFileDialogTitle" xml:space="preserve">
-    <value>This app can't run on your PC</value>
+    <value>Ova se aplikacija ne može pokrenuti na vašem računalu</value>
   </data>
   <data name="CannotRunFileDialogText" xml:space="preserve">
-    <value>To find a version for your PC, check with the software publisher.</value>
+    <value>Da biste pronašli verziju za svoje računalo, obratite se izdavaču softvera.</value>
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Raspored</value>
@@ -433,7 +433,7 @@
     <value>Samo za čitanje</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>{0, plural, one {# day ago} other {# days ago}}</value>
+    <value>{0, plural, one {prije # dana} few {prije # dana} other {prije # dana}}</value>
   </data>
   <data name="DaysAgo_Singular" xml:space="preserve">
     <value>Prije 1 dan</value>
@@ -442,7 +442,7 @@
     <value>Prije {0} dana</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0, plural, one {# hour ago} other {# hours ago}}</value>
+    <value>{0, plural, one {prije # sat} few {prije # sata} other {prije # sati}}</value>
   </data>
   <data name="HoursAgo_Singular" xml:space="preserve">
     <value>Prije 1 sat</value>
@@ -451,7 +451,7 @@
     <value>Prije {0} sati</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>{0, plural, one {# minute ago} other {# minutes ago}}</value>
+    <value>{0, plural, one {prije # minute} few {prije # minute} other {prije # minuta}}</value>
   </data>
   <data name="MinutesAgo_Singular" xml:space="preserve">
     <value>Prije 1 minutu</value>
@@ -460,7 +460,7 @@
     <value>Prije {0} minuta</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>{0, plural, one {# second ago} other {# seconds ago}}</value>
+    <value>{0, plural, one {prije # sekunde} few {prije # sekunde} other {prije # sekundi}}</value>
   </data>
   <data name="SecondsAgo_Singular" xml:space="preserve">
     <value>Prije 1 sekunde</value>
@@ -487,11 +487,11 @@
     <value>Navedeni naziv stavke nije valjan</value>
   </data>
   <data name="SelectedItems" xml:space="preserve">
-    <value>{0, plural, one {# item selected} few {# items selected} other {# items selected}}</value>
+    <value>{0, plural, one {# odabrana stavka} few {# odabrane stavke} other {# odabranih stavki}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Items" xml:space="preserve">
-    <value>{0, plural, one {item} few {items} other {items}}</value>
+    <value>{0, plural, one {stavka} few {stavke} other {stavki}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
@@ -525,13 +525,13 @@
     <value>B</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}}</value>
+    <value>{0, number} {0, plural, one {datoteka} few {datoteke} other {datoteka}}, {1, number} {1, plural, one {mapa} few {mape} other {mapa}}</value>
   </data>
   <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
-    <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}} from {2, number} {2, plural, one {location} other {locations}}</value>
+    <value>{0, number} {0, plural, one {datoteka} few {datoteke} other {datoteka}}, {1, number} {1, plural, one {mapa} few {mape} other {mapa}} iz {2, number} {2, plural, one {lokacije} few {lokacije} other {lokacija}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUserText" xml:space="preserve">
-    <value>Run as another user</value>
+    <value>Pokreni kao neki drugi korisnik</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
     <value>Sve vrste od {0}</value>
@@ -642,25 +642,25 @@
     <value>Dijeljenje {0} {1}</value>
   </data>
   <data name="RenameErrorItemDeletedText" xml:space="preserve">
-    <value>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</value>
+    <value>Stavka koju pokušavate preimenovati više ne postoji. Molimo provjerite ispravnu lokaciju stavke koju trebate preimenovati.</value>
   </data>
   <data name="RenameErrorItemDeletedTitle" xml:space="preserve">
-    <value>Item no longer exists</value>
+    <value>Stavka više ne postoji</value>
   </data>
   <data name="RenameErrorNameInvalidText" xml:space="preserve">
-    <value>The name specified was invalid. Please check the desired item name and try again.</value>
+    <value>Navedeni naziv nije valjan. Provjerite naziv željene stavke i pokušajte ponovno.</value>
   </data>
   <data name="RenameErrorNameInvalidTitle" xml:space="preserve">
-    <value>Invalid item name</value>
+    <value>Nevažeći naziv stavke</value>
   </data>
   <data name="RenameErrorTooLongText" xml:space="preserve">
-    <value>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</value>
+    <value>Duljina navedenog naziva stavke premašuje maksimalno ograničenje. Provjerite željeni naziv i pokušajte ponovno.</value>
   </data>
   <data name="RenameErrorTooLongTitle" xml:space="preserve">
-    <value>Item name was too long</value>
+    <value>Naziv stavke je predugačak</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
-    <value>Pokaži više mogućnosti</value>
+    <value>Prikaži više mogućnosti</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>Aplikaciju je potrebno ponovno pokrenuti da biste primijenili ove postavke. Želite li ponovo pokrenuti aplikaciju?</value>
@@ -669,13 +669,13 @@
     <value>Sponzorirajte nas na GitHubu</value>
   </data>
   <data name="AccessDeniedCreateDialogText" xml:space="preserve">
-    <value>We weren't able to create this item</value>
+    <value>Nismo uspjeli stvoriti ovu stavku</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>Pristup odbijen</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsText" xml:space="preserve">
-    <value>Set as</value>
+    <value>Postavi kao</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Odustani</value>
@@ -717,10 +717,10 @@
     <value>Prikaz dijaloga za potvrdu prilikom brisanja</value>
   </data>
   <data name="PropertySaveErrorMessageText" xml:space="preserve">
-    <value>There was an issue saving some properties.</value>
+    <value>Došlo je do problema prilikom spremanja nekih svojstava.</value>
   </data>
   <data name="PropertySaveErrorDialogTitle" xml:space="preserve">
-    <value>Error</value>
+    <value>Pogreška</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Ipak zatvori</value>
@@ -1092,7 +1092,7 @@
     <value>Prikaži opciju za kopiranje putanje</value>
   </data>
   <data name="ShowCreateFolderWithSelection" xml:space="preserve">
-    <value>Prikaži opciju za stvaranje mape s odabirom</value>
+    <value>Prikaži opciju za stvaranje mape za odabrane stavke</value>
   </data>
   <data name="ShowCreateShortcut" xml:space="preserve">
     <value>Prikaži opciju za stvaranje prečaca</value>
@@ -1104,10 +1104,10 @@
     <value>Otvori u novom panelu</value>
   </data>
   <data name="OpenInOtherPane" xml:space="preserve">
-    <value>Open in other pane</value>
+    <value>Otvori u drugom panelu</value>
   </data>
   <data name="OpenCurrentFolderInOtherPane" xml:space="preserve">
-    <value>Open current folder in other pane</value>
+    <value>Otvori trenutnu mapu u drugom panelu</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Datoteke i mape</value>
@@ -1167,7 +1167,7 @@
     <value>Naziv stavke</value>
   </data>
   <data name="Unpin" xml:space="preserve">
-    <value>Unpin</value>
+    <value>Otkvači</value>
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Otkvači s alatne trake Brzi pristup</value>
@@ -1209,13 +1209,13 @@
     <value>Nije izračunato</value>
   </data>
   <data name="ViewSize" xml:space="preserve">
-    <value>View size</value>
+    <value>Prikaži veličinu</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Nepoznato</value>
   </data>
   <data name="RenameFileDialogText" xml:space="preserve">
-    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
+    <value>Ako promijenite datotečni nastavak, datoteka bi mogla postati neupotrebljiva. Jeste li sigurni da ga želite promijeniti?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>CD ROM pogon</value>
@@ -1254,7 +1254,7 @@
     <value>Više postavki...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItemText" xml:space="preserve">
-    <value>Map network drive</value>
+    <value>Mapiranje mrežnog pogona</value>
   </data>
   <data name="Pinned" xml:space="preserve">
     <value>Prikvačeno</value>
@@ -1287,10 +1287,10 @@
     <value>Stupci (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStartText" xml:space="preserve">
-    <value>Pin to the Start Menu</value>
+    <value>Prikvači na izbornik Start</value>
   </data>
   <data name="UnpinItemFromStartText" xml:space="preserve">
-    <value>Unpin from the Start Menu</value>
+    <value>Otkvači s izbornika Start</value>
   </data>
   <data name="Library" xml:space="preserve">
     <value>Biblioteka</value>
@@ -1329,37 +1329,37 @@
     <value>Kopiraj</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Copy {0, plural, one {item} other {items}}</value>
+    <value>{0, plural, one {Kopiraj stavku} few {Kopiraj stavke} other {Kopiraj stavke}}</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Delete {0, plural, one {item} other {items}}</value>
+    <value>{0, plural, one {Izbriši stavku} other {Izbriši stavke}}</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Premjesti</value>
   </data>
   <data name="MoveItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {One item will be moved} other {# items will be moved}}</value>
+    <value>{0, plural, one {# stavka će biti premještena} few {# stavke će biti premještene} other {# stavki će biti premješteno}}</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Move {0, plural, one {item} other {items}}</value>
+    <value>{0, plural, one {Premjesti stavku} other {Premjesti stavke}}</value>
   </data>
   <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {One item will be deleted} other {# items will be deleted}}</value>
+    <value>{0, plural, one {# stavka će biti izbrisana} few {# stavke će biti izbrisane} other {# stavki će biti izbrisano}}</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Nastavi</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
-    <value>{0, plural, one {There is one conflicting file name} other {There are # conflicting file names}}</value>
+    <value>{0, plural, one {Pronađen je # naziv datoteke u sukobu} few {Pronađena su # naziva datoteka u sukobu} other {Pronađeno je # naziva datoteka u sukobu}}</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
-    <value>{0, plural, one {There is one conflicting file name} other {There are # conflicting file names}}, and {1, plural, one {one outgoing item} other {# outgoing items}}</value>
+    <value>{0, plural, one {Pronađen je # naziv datoteke u sukobu} few {Pronađena su # naziva datoteka u sukobu} other {Pronađeno je # naziva datoteka u sukobu}}, i {1, plural, one {# odlazna stavka} few {# odlazne stavke} other {# odlaznih stavki}}</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Conflicting {0, plural, one {file name} other {file names}}</value>
+    <value>{0, plural, one {Naziv datoteke u sukobu} few {Nazivi datoteka u sukobu} other {Nazivi datoteka u sukobu}}</value>
   </data>
   <data name="CopyItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {One item will be copied} other {# items will be copied}}</value>
+    <value>{0, plural, one {# stavka će biti kopirana} few {# stavke će biti kopirane} other {# stavki će biti kopirano}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Trajno izbrisati</value>
@@ -1374,10 +1374,10 @@
     <value>Generirajte novi naziv</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Napravi mapu s odabirom</value>
+    <value>Stvori mapu za odabrane stavke</value>
   </data>
   <data name="CreateShortcutWithSelection" xml:space="preserve">
-    <value>Create shortcuts with selection</value>
+    <value>Stvori prečace za odabrane stavke</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>Vrsta:</value>
@@ -1389,7 +1389,7 @@
     <value>Otvori sa</value>
   </data>
   <data name="ChooseAnotherApp" xml:space="preserve">
-    <value>Choose another app</value>
+    <value>Odaberi drugu aplikaciju</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Ikona datoteke</value>
@@ -1536,13 +1536,13 @@
     <value>Nepoznat račun</value>
   </data>
   <data name="SecurityCannotReadPropertiesText" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
+    <value>Nemate dopuštenja za pregled sigurnosnih svojstava ovog objekta. Kliknite "Napredna dopuštenja" za nastavak.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Vlasnik:</value>
   </data>
   <data name="SecurityUnknownOwnerTextText" xml:space="preserve">
-    <value>Unknown owner</value>
+    <value>Nepoznati vlasnik</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Raspakiranje arhive</value>
@@ -1554,10 +1554,10 @@
     <value>Raspakiraj u {0}\</value>
   </data>
   <data name="SideBarCreateNewLibraryText" xml:space="preserve">
-    <value>Create new library</value>
+    <value>Stvori novu biblioteku</value>
   </data>
   <data name="SideBarRestoreLibrariesText" xml:space="preserve">
-    <value>Restore default libraries</value>
+    <value>Vrati zadane biblioteke</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
     <value>Jeste li sigurni da želite vratiti zadane biblioteke? Sve vaše datoteke ostat će u vašoj pohrani.</value>
@@ -1569,7 +1569,7 @@
     <value>Vlasnik</value>
   </data>
   <data name="SecuritySpecialLabelText" xml:space="preserve">
-    <value>Special</value>
+    <value>Posebno</value>
   </data>
   <data name="Access" xml:space="preserve">
     <value>Pristup</value>
@@ -1596,7 +1596,7 @@
     <value>Dozvole</value>
   </data>
   <data name="SecurityAdvancedCannotReadPropertiesText" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
+    <value>Nemate dopuštenja za pregled sigurnosnih svojstava ovog objekta. Možete pokušati preuzeti vlasništvo nad ovim objektom.</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>Ova mapa i datoteke</value>
@@ -1620,49 +1620,49 @@
     <value>Ova mapa i podmape</value>
   </data>
   <data name="SecurityAppendDataLabelText" xml:space="preserve">
-    <value>Append data</value>
+    <value>Dodaj podatke</value>
   </data>
   <data name="SecurityChangePermissionsLabelText" xml:space="preserve">
-    <value>Change permission</value>
+    <value>Promijeni dopuštenje</value>
   </data>
   <data name="SecurityCreateDirectoriesLabelText" xml:space="preserve">
-    <value>Create folders</value>
+    <value>Stvori mape</value>
   </data>
   <data name="SecurityCreateFilesLabelText" xml:space="preserve">
-    <value>Create files</value>
+    <value>Stvori datoteke</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabelText" xml:space="preserve">
-    <value>Delete subdirectories and files</value>
+    <value>Izbriši podmape i datoteke</value>
   </data>
   <data name="SecurityExecuteFileLabelText" xml:space="preserve">
-    <value>Execute files</value>
+    <value>Izvrši datoteke</value>
   </data>
   <data name="SecurityReadAttributesLabelText" xml:space="preserve">
-    <value>Read attributes</value>
+    <value>Čitanje atributa</value>
   </data>
   <data name="SecurityReadDataLabelText" xml:space="preserve">
-    <value>Read data</value>
+    <value>Čitanje podataka</value>
   </data>
   <data name="SecurityReadExtendedAttributesLabelText" xml:space="preserve">
-    <value>Read extended attributes</value>
+    <value>Čitanje proširenih atributa</value>
   </data>
   <data name="SecurityReadPermissionsLabelText" xml:space="preserve">
-    <value>Read permissions</value>
+    <value>Čitanje dozvola</value>
   </data>
   <data name="SecurityTakeOwnershipLabelText" xml:space="preserve">
-    <value>Take ownership</value>
+    <value>Preuzmi vlasništvo</value>
   </data>
   <data name="SecurityTraverseLabelText" xml:space="preserve">
-    <value>Visit folder</value>
+    <value>Posjeti mapu</value>
   </data>
   <data name="SecurityWriteAttributesLabelText" xml:space="preserve">
-    <value>Write attributes</value>
+    <value>Zapisivanje atributa</value>
   </data>
   <data name="SecurityWriteDataLabelText" xml:space="preserve">
-    <value>Write data</value>
+    <value>Zapisivanje atributa</value>
   </data>
   <data name="SecurityWriteExtendedAttributesLabelText" xml:space="preserve">
-    <value>Write extended attributes</value>
+    <value>Zapisivanje proširenih atributa</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
     <value>Pretvori naslijeđena dopuštenja u eksplicitna dopuštenja</value>
@@ -1710,7 +1710,7 @@
     <value>Preuzima stavku iz oblaka i učitava pregled</value>
   </data>
   <data name="DetailsArchiveItems" xml:space="preserve">
-    <value>{0, plural, one {# item} other {# items}} ({1, plural, one {# file} other {# files}}, {2, plural, one {# folder} other {# folders}})</value>
+    <value>{0, plural, one {# stavka} few {# stavke} other {# stavki}} ({1, plural, one {# datoteka} few {# datoteke} other {# datoteka}}, {2, plural, one {# mapa} few {# mape} other {# mapa}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Nekomprimirana veličina</value>
@@ -1719,7 +1719,7 @@
     <value>WSL</value>
   </data>
   <data name="SideBarHideSectionFromSideBarText" xml:space="preserve">
-    <value>Hide {0} section</value>
+    <value>Sakrij odjeljak {0}</value>
   </data>
   <data name="AddFile" xml:space="preserve">
     <value>Dodajte datoteku</value>
@@ -1749,7 +1749,7 @@
     <value>Raspakiranje završeno!</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolderText" xml:space="preserve">
-    <value>Open parent folder</value>
+    <value>Otvori nadređenu mapu</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>Nepoznato</value>
@@ -1764,10 +1764,10 @@
     <value>Otvori pogon</value>
   </data>
   <data name="InsertDiscDialogText" xml:space="preserve">
-    <value>Please insert a disc into drive {0}</value>
+    <value>Umetnite disk u pogon {0}</value>
   </data>
   <data name="InsertDiscDialogTitle" xml:space="preserve">
-    <value>Insert a disc</value>
+    <value>Umetnite disk</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>U redu</value>
@@ -1782,13 +1782,13 @@
     <value>Navedite svoju vjerodajnicu:</value>
   </data>
   <data name="CredentialDialogIncorrectPassword" xml:space="preserve">
-    <value>The password is incorrect. Try again.</value>
+    <value>Lozinka nije ispravna. Pokušajte ponovno.</value>
   </data>
   <data name="PasswordRequired" xml:space="preserve">
-    <value>Password required</value>
+    <value>Potrebna je lozinka</value>
   </data>
   <data name="PasswordRequiredMessage" xml:space="preserve">
-    <value>This location is password protected. Refresh to enter the password.</value>
+    <value>Ova je lokacija zaštićena lozinkom. Osvježite je kako biste unijeli lozinku.</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Korisničko ime</value>
@@ -1842,7 +1842,7 @@
     <value>Oznaka datoteke</value>
   </data>
   <data name="OpenFilesWithOneClick" xml:space="preserve">
-    <value>Open files with a single click</value>
+    <value>Otvaranje datoteka jednim klikom</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Putanja do mape</value>
@@ -2076,7 +2076,7 @@
     <value>Prilagođeno</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
-    <value>Slideshow</value>
+    <value>Dijaprojekcija</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
     <value>Postavi kao dijaprojekciju na radnoj površini</value>
@@ -2085,13 +2085,13 @@
     <value>Prilagodi širinu svih stupaca</value>
   </data>
   <data name="AutoFitColumns" xml:space="preserve">
-    <value>Auto-fit columns</value>
+    <value>Automatski prilagodi stupce</value>
   </data>
   <data name="AutoFitColumnsDescription" xml:space="preserve">
-    <value>Resize columns to fit their content</value>
+    <value>Prilagodi veličinu stupaca sadržaju</value>
   </data>
   <data name="AutoSizeColumnsInDetailsLayout" xml:space="preserve">
-    <value>Automatically fit columns to content</value>
+    <value>Automatski prilagodi stupce sadržaju</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Prilagodljivi raspored</value>
@@ -2196,7 +2196,7 @@
     <value>Vrati sve stavke</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Do you want to restore the {0, plural, one {selected item} other {{0} selected items}}?</value>
+    <value>Želite li vratiti {0, plural, one {{0} odabranu stavku} few {{0} odabrane stavke} other {{0} odabranih stavki}}?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>Vrati odabrano</value>
@@ -2235,16 +2235,16 @@
     <value>Stvori arhivu</value>
   </data>
   <data name="CompressSkippedItemsDialogTitle" xml:space="preserve">
-    <value>Some items can't be compressed</value>
+    <value>Neke se stavke ne mogu komprimirati</value>
   </data>
   <data name="CompressSkippedItemsDialogText" xml:space="preserve">
-    <value>The following {0, plural, one {item} other {items}} can''t be compressed. Would you like to skip {0, plural, one {this item} other {these items}}?</value>
+    <value>Sljedeć{0, plural, one {a stavka se ne može} other {e stavke se ne mogu}} komprimirati. Želite li preskočiti {0, plural, one {ovu stavku} other {ove stavke}}?</value>
   </data>
   <data name="CompressIntoZip" xml:space="preserve">
-    <value>Create zip archive</value>
+    <value>Stvori zip arhivu</value>
   </data>
   <data name="CompressIntoSevenZip" xml:space="preserve">
-    <value>Create 7z archive</value>
+    <value>Stvori 7z arhivu</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Napravi</value>
@@ -2283,19 +2283,19 @@
     <value>Ne dijeli</value>
   </data>
   <data name="Auto" xml:space="preserve">
-    <value>Auto</value>
+    <value>Automatski</value>
   </data>
   <data name="DictionarySize" xml:space="preserve">
-    <value>Dictionary size</value>
+    <value>Veličina rječnika</value>
   </data>
   <data name="WordSize" xml:space="preserve">
-    <value>Word size</value>
+    <value>Veličina riječi</value>
   </data>
   <data name="EstimatedMemoryUsage" xml:space="preserve">
-    <value>Estimated memory usage: {0}</value>
+    <value>Procijenjena upotreba memorije: {0}</value>
   </data>
   <data name="AvailableMemory" xml:space="preserve">
-    <value>Available memory: {0}</value>
+    <value>Dostupna memorija: {0}</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2454,7 +2454,7 @@
     <value>Jeste li sigurni da želite izbrisati ovu oznaku?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Play All</value>
+    <value>Reproduciraj sve</value>
   </data>
   <data name="Play" xml:space="preserve">
     <value>Reproduciraj</value>
@@ -2550,19 +2550,19 @@
     <value>Uključi/isključi kompaktni prikaz</value>
   </data>
   <data name="ToggleTheme" xml:space="preserve">
-    <value>Toggle Theme</value>
+    <value>Promijeni temu</value>
   </data>
   <data name="ToggleThemeDescription" xml:space="preserve">
-    <value>Toggle the app theme</value>
+    <value>Promijeni temu aplikacije</value>
   </data>
   <data name="SwitchToLightThemeDescription" xml:space="preserve">
-    <value>Switch to Light Theme</value>
+    <value>Prebaci na svijetlu temu</value>
   </data>
   <data name="SwitchToDarkThemeDescription" xml:space="preserve">
-    <value>Switch to Dark Theme</value>
+    <value>Prebaci na tamnu temu</value>
   </data>
   <data name="SwitchToDefaultThemeDescription" xml:space="preserve">
-    <value>Switch to System Theme</value>
+    <value>Prebaci na temu sustava</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>Pokreni pretraživanje u OmniBar-u</value>
@@ -2583,7 +2583,7 @@
     <value>Uključi/isključi prikaz bočne trake</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy selected {0, plural, one {item} other {items}}</value>
+    <value>Kopiraj {0, plural, one {odabranu stavku} other {odabrane stavke}}</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
     <value>Kopiraj putanju trenutnog direktorija</value>
@@ -2598,7 +2598,7 @@
     <value>Kopiraj putanju trenutnog direktorija s navodnicima</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut selected {0, plural, one {item} other {items}}</value>
+    <value>Izreži {0, plural, one {odabranu stavku}  other {odabrane stavke}}</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Zalijepi stavke u trenutnu mapu</value>
@@ -2613,13 +2613,13 @@
     <value>Zalijepi u odabranu mapu</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>Delete selected {0, plural, one {item} other {items}}</value>
+    <value>{0, plural, one {Izbriši odabranu stavku} other {Izbriši odabrane stavke}}</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
     <value>Stvori novu mapu</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Create new {0, plural, one {shortcut} other {shortcuts}} to selected {0, plural, one {item} other {items}}</value>
+    <value>Izradi {0, plural, one {novi prečac} other {nove prečace}} za odabran{0, plural, one {u stavku} other {e stavke}}</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
     <value>Stvori novi prečac za bilo koju stavku</value>
@@ -2631,16 +2631,16 @@
     <value>Otvori izbornik "Formatiraj disk" za odabranu stavku</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Restore selected {0, plural, one {item} other {items}} from recycle bin</value>
+    <value>Vrati odabran{0, plural, one {u stavku} other {e stavke}} iz koša za smeće</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
     <value>Vrati sve stavke iz koša za smeće</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Open {0, plural, one {item} other {items}}</value>
+    <value>Otvori {0, plural, one {stavku} other {stavke}}</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Open {0, plural, one {item} other {items}} with selected application</value>
+    <value>Otvori {0, plural, one {stavku} other {stavke}} odabranom aplikacijom</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
     <value>Otvori nadređenu mapu pretražene stavke</value>
@@ -2664,19 +2664,19 @@
     <value>Uključi/isključi odabir stavke</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>Share selected {0, plural, one {file} other {files}} with others</value>
+    <value>Podijeli odabran{0, plural, one {u datoteku} other {e datoteke}} s drugima</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Pin {0, plural, one {item} other {items}} to the Start Menu</value>
+    <value>{0, plural, one {Prikvači stavku na izbornik Start} few {Prikvači stavke na izbornik Start} other {Prikvači stavke na izbornik Start}}</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Unpin {0, plural, one {item} other {items}} from the Start Menu</value>
+    <value>{0, plural, one {Otkvači stavku s izbornika Start} few {Otkvači stavke s izbornika Start} other {Otkvači stavke s izbornika Start}}</value>
   </data>
   <data name="PinFolderToSidebarDescription" xml:space="preserve">
-    <value>Pin {0, plural, one {folder} other {folders}} to Sidebar</value>
+    <value>Prikvači {0, plural, one {mapu} other {mape}} na bočnu traku</value>
   </data>
   <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
-    <value>Unpin {0, plural, one {folder} other {folders}} from Sidebar</value>
+    <value>Otkvači {0, plural, one {mapu} other {mape}} s bočne trake</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>Postavi odabranu sliku kao pozadinu radne površine</value>
@@ -2700,13 +2700,13 @@
     <value>Instaliraj certifikat</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>Install selected {0, plural, one {font} other {fonts}}</value>
+    <value>Instaliraj odabran{0, plural, one {i font} other {e fontove}}</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Install {0, plural, one {driver} other {drivers}} using selected inf {0, plural, one {file} other {files}}</value>
+    <value>Instaliraj {0, plural, one {upravljački program} other {upravljačke programe}} pomoću odabran{0, plural, one {e inf datoteke} other {ih inf datoteka}}</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-    <value>Install selected {0, plural, one {certificate} other {certificates}}</value>
+    <value>Instaliraj odabran{0, plural, one {i certifikat} other {e certifikate}}</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Pokreni odabranu aplikaciju kao administrator</value>
@@ -2721,28 +2721,28 @@
     <value>Pokreni pregled u skočnom prozoru</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>Create archive with selected {0, plural, one {item} other {items}}</value>
+    <value>Stvori arhivu s odabran{0, plural, one {om stavkom} other {im stavkama}}</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Create 7z archive with selected {0, plural, one {item} other {items}}</value>
+    <value>Stvori 7z arhivu s odabran{0, plural, one {om stavkom} other {im stavkama}}</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>Create zip archive with selected {0, plural, one {item} other {items}}</value>
+    <value>Stvori zip arhivu s odabran{0, plural, one {om stavkom} other {im stavkama}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to any folder</value>
+    <value>Izdvoji odabran{0, plural, one {u arhivu} other {e arhive}} u bilo koju mapu</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to the current folder</value>
+    <value>Izdvoji odabran{0, plural, one {u arhivu} other {e arhive}} u trenutnu mapu</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to new folder</value>
+    <value>Izdvoji odabran{0, plural, one {u arhivu} other {e arhive}} u novu mapu</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Rotate selected {0, plural, one {image} other {images}} to the left</value>
+    <value>Rotiraj odabran{0, plural, one {u sliku} other {e slike}} ulijevo</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Rotate selected {0, plural, one {image} other {images}} to the right</value>
+    <value>Rotiraj odabran{0, plural, one {u sliku} other {e slike}} udesno</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>Otvori stranicu postavki</value>
@@ -2910,7 +2910,7 @@
     <value>Prebaci fokus na drugi panel</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
-    <value>Toggle the sidebar</value>
+    <value>Prikaži/sakrij bočnu traku</value>
   </data>
   <data name="Key.Menu" xml:space="preserve">
     <value>Alt</value>
@@ -3166,7 +3166,7 @@
     <value>Izbriši trajno</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete selected {0, plural, one {item} other {items}} permanently</value>
+    <value>{0, plural, one {Trajno izbriši odabranu stavku} other {Trajno izbriši odabrane stavke}}</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>Reproduciraj odabrane medijske datoteke</value>
@@ -3193,10 +3193,10 @@
     <value>Dan</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
-    <value>Toggle unit for grouping by date</value>
+    <value>Promijeni jedinicu grupiranja po datumu</value>
   </data>
   <data name="ToggleGroupingUnit" xml:space="preserve">
-    <value>Toggle grouping unit</value>
+    <value>Promijeni jedinicu grupiranja</value>
   </data>
   <data name="Year" xml:space="preserve">
     <value>Godina</value>
@@ -3253,31 +3253,31 @@
     <value>Primijeni moje promjene na '{0}'</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
-    <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
+    <value>Imate promjene na ovoj grani koje nisu commitane. Što želite učiniti s njima?</value>
   </data>
   <data name="MergeInProgress" xml:space="preserve">
-    <value>You have an ongoing merge with unresolved conflicts. Please resolve the conflicts or abort the merge to switch branches.</value>
+    <value>Imate aktivno spajanje s neriješenim sukobima. Riješite sukobe ili prekinite spajanje kako biste se prebacili na drugu granu.</value>
   </data>
   <data name="AbortMergeAndSwitch" xml:space="preserve">
-    <value>Abort merge and switch to '{0}'</value>
+    <value>Prekini spajanje i prebaci se na '{0}'</value>
   </data>
   <data name="StayAndResolveConflicts" xml:space="preserve">
-    <value>Stay on '{0}' and resolve conflicts</value>
+    <value>Ostani na '{0}' i riješi sukobe</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-    <value>Switch branch</value>
+    <value>Prebaci granu</value>
   </data>
   <data name="Branches" xml:space="preserve">
-    <value>Branches</value>
+    <value>Grane</value>
   </data>
   <data name="Switch" xml:space="preserve">
-    <value>Switch</value>
+    <value>Prekidač</value>
   </data>
   <data name="NewBranch" xml:space="preserve">
-    <value>New branch</value>
+    <value>Nova grana</value>
   </data>
   <data name="InvalidBranchName" xml:space="preserve">
-    <value>Invalid branch name</value>
+    <value>Nevažeći naziv grane</value>
   </data>
   <data name="CreateBranch" xml:space="preserve">
     <value>Stvori granu</value>
@@ -3292,7 +3292,7 @@
     <value>Prebaci na novu granu</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Create a folder with the currently selected {0, plural, one {item} other {items}}</value>
+    <value>Stvori mapu s trenutno odabran{0, plural, one {om stavkom} other {im stavkama}}</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
     <value>Svojstva</value>
@@ -3322,13 +3322,13 @@
     <value>Pull</value>
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
-    <value>Run git fetch</value>
+    <value>Pokreni git fetch</value>
   </data>
   <data name="GitCloneDescription" xml:space="preserve">
-    <value>Clone a git repo</value>
+    <value>Kloniraj Git repozitorij</value>
   </data>
   <data name="GitPullDescription" xml:space="preserve">
-    <value>Run git pull</value>
+    <value>Pokreni git pull</value>
   </data>
   <data name="Preview" xml:space="preserve">
     <value>Pretpregled</value>
@@ -3337,16 +3337,16 @@
     <value>Git status</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Git error</value>
+    <value>Git pogreška</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
-    <value>git pull failed due to a timeout error</value>
+    <value>git pull nije uspio zbog isteka vremena čekanja</value>
   </data>
   <data name="PullUncommittedChangesError" xml:space="preserve">
-    <value>Can't pull because your uncommitted changes would be overwritten. Commit, stash, or discard your changes, then try again.</value>
+    <value>Nije moguće izvršiti pull jer bi vaše necommitane promjene bile prebrisane. Commitajte promjene, spremite ih u stash ili ih odbacite, a zatim pokušajte ponovno.</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
-    <value>(multiple values)</value>
+    <value>(više vrijednosti)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
   <data name="Author" xml:space="preserve">
@@ -3377,25 +3377,25 @@
     <value>Pozadinski efekt</value>
   </data>
   <data name="Solid" xml:space="preserve">
-    <value>Solid</value>
+    <value>Puno</value>
   </data>
   <data name="ManageBranches" xml:space="preserve">
-    <value>Manage branches</value>
+    <value>Upravljanje granama</value>
   </data>
   <data name="Push" xml:space="preserve">
     <value>Push</value>
   </data>
   <data name="GitPushDescription" xml:space="preserve">
-    <value>Run git push</value>
+    <value>Pokreni git push</value>
   </data>
   <data name="GitSync" xml:space="preserve">
     <value>Sync</value>
   </data>
   <data name="GitSyncDescription" xml:space="preserve">
-    <value>Run git pull and then git push</value>
+    <value>Pokreni git pull, a zatim git push</value>
   </data>
   <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
-    <value>{0} outgoing / {1} incoming commits</value>
+    <value>{0} odlaznih / {1} dolaznih commitova</value>
   </data>
   <data name="ConnectGitHub" xml:space="preserve">
     <value>Poveži s GitHubom</value>
@@ -3404,67 +3404,67 @@
     <value>Unesite sljedeći kod na donji link kako biste započeli rad s GitHub repozitorijima.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
-    <value>Files cannot access GitHub right now.</value>
+    <value>Files trenutno ne može pristupiti GitHubu.</value>
   </data>
   <data name="OpenInIDE" xml:space="preserve">
     <value>Otvori mapu u {0}</value>
   </data>
   <data name="OpenInIDEDescription" xml:space="preserve">
-    <value>Open the current directory in {0}</value>
+    <value>Otvori trenutni direktorij u {0}</value>
   </data>
   <data name="OpenRepoInIDE" xml:space="preserve">
-    <value>Open repo in {0}</value>
+    <value>Otvori repozitorij u {0}</value>
   </data>
   <data name="OpenRepoInIDEDescription" xml:space="preserve">
-    <value>Open the root of the Git repo in {0}</value>
+    <value>Otvori korijenski direktorij Git repozitorija u {0}</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Kopiraj kod</value>
   </data>
   <data name="Added" xml:space="preserve">
-    <value>Added</value>
+    <value>Dodano</value>
   </data>
   <data name="Deleted" xml:space="preserve">
-    <value>Deleted</value>
+    <value>Izbrisano</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value>Modified</value>
+    <value>Izmijenjeno</value>
   </data>
   <data name="Untracked" xml:space="preserve">
-    <value>Untracked</value>
+    <value>Nije praćeno</value>
   </data>
   <data name="UnableToDisplayOwner" xml:space="preserve">
-    <value>Unable to display current owner.</value>
+    <value>Nije moguće prikazati trenutnog vlasnika.</value>
   </data>
   <data name="AuthorizationSucceded" xml:space="preserve">
-    <value>Great! You are now authorized.</value>
+    <value>Odlično! Sada ste autorizirani.</value>
   </data>
   <data name="InitRepo" xml:space="preserve">
-    <value>Initialize repo</value>
+    <value>Inicijaliziraj repozitorij</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
     <value>Inicijaliziraj trenutnu mapu kao Git repozitorij</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
-    <value>Remote Repository Name</value>
+    <value>Naziv udaljenog repozitorija</value>
   </data>
   <data name="GitCurrentBranch" xml:space="preserve">
-    <value>Current Branch</value>
+    <value>Trenutačna grana</value>
   </data>
   <data name="PathColumn" xml:space="preserve">
-    <value>Path column</value>
+    <value>Stupac putanje</value>
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
-    <value>Sort items by path</value>
+    <value>Sortiraj stavke po putanji</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
     <value>Otvori odabrani direktorij u novom panelu</value>
   </data>
   <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
-    <value>Open selected directory in the other pane</value>
+    <value>Otvori odabrani direktorij u drugom panelu</value>
   </data>
   <data name="OpenCurrentFolderInOtherPaneDescription" xml:space="preserve">
-    <value>Open the current folder in the other pane</value>
+    <value>Otvori trenutnu mapu u drugom panelu</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Otvori odabrani direktorij u novoj kartici</value>
@@ -3476,23 +3476,23 @@
     <value>Otvori sve</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
-    <value>Open all tagged items</value>
+    <value>Otvori sve označene stavke</value>
   </data>
   <data name="DriveWithLetter" xml:space="preserve">
-    <value>Drive ({0})</value>
+    <value>Pogon ({0})</value>
     <comment>{0} is the drive letter.</comment>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
     <value>Nevažeća naredba</value>
   </data>
   <data name="InvalidCommandContent" xml:space="preserve">
-    <value>'{0}' is not recognized as a command.</value>
+    <value>'{0}' nije prepoznat kao naredba.</value>
   </data>
   <data name="CommandNotExecutable" xml:space="preserve">
-    <value>Command not executable</value>
+    <value>Naredbu nije moguće izvršiti</value>
   </data>
   <data name="CommandNotExecutableContent" xml:space="preserve">
-    <value>The '{0}' command is not ready to be executed.</value>
+    <value>Naredba '{0}' nije spremna za izvršavanje.</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
     <value>Paleta naredbi</value>
@@ -3501,7 +3501,7 @@
     <value>Otvori paletu naredbi u OmniBaru</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
-    <value>Start in:</value>
+    <value>Pokreni u:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
     <value>Uključi BitLocker</value>
@@ -3629,7 +3629,7 @@
     <value>Obrada stavki...</value>
   </data>
   <data name="DiscoveringItems" xml:space="preserve">
-    <value>Discovering items...</value>
+    <value>Otkrivanje stavki...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Brzina:</value>
@@ -3643,27 +3643,27 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
-    <value>Compressed {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Komprimiran{0, plural, one {a # stavka} few {e # stavke} other {o # stavki}} u "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
-    <value>Compressed {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Komprimiran{0, plural, one {a # stavka} few {e # stavke} other {o # stavki}} iz "{1}" u "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>Error compressing {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Pogreška pri komprimiranju {0, plural, one {# stavke} few {# stavke} other {# stavki}} u "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
-    <value>Failed to compress {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Komprimiranje {0, plural, one {# stavke} few {# stavke} other {# stavki}} iz "{1}" u "{2}" nije uspjelo</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
-    <value>Compressing {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Komprimiranje {0, plural, one {# stavke} few {# stavke} other {# stavki}} u "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
-    <value>Compressing {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Komprimiranje {0, plural, one {# stavke} few {# stavke} other {# stavki}} iz "{1}" u "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
@@ -3703,151 +3703,151 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled installing {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>Otkazano instaliranje {0, plural, one {# fonta} few {# fonta} other {# fontova}} iz "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
-    <value>Installed {0, plural, one {# font} other {# fonts}}</value>
+    <value>Instaliran{0, plural, one { # font} few {a # fonta} other {o # fontova}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
-    <value>Installed {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>Instaliran{0, plural, one { # font} few {a # fonta} other {o # fontova}} iz "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
-    <value>Error installing {0, plural, one {# font} other {# fonts}}</value>
+    <value>Pogreška pri instaliranju {0, plural, one {# fonta} few {# fonta} other {# fontova}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
-    <value>Failed to install {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>Instaliranje {0, plural, one {# fonta} few {# fonta} other {# fontova}} iz "{1}" nije uspjelo</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
-    <value>Installing {0, plural, one {# font} other {# fonts}}</value>
+    <value>Instaliranje {0, plural, one {# fonta} few {# fonta} other {# fontova}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
-    <value>Installing {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>Instaliranje {0, plural, one {# fonta} few {# fonta} other {# fontova}} iz "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>Canceled copying {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Otkazano kopiranje {0, plural, one {# stavke} few {# stavke} other {# stavki}} u "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled copying {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Otkazano kopiranje {0, plural, one {# stavke} few {# stavke} other {# stavki}} iz "{1}" u "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>Copied {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>{0, plural, one {Kopirana je # stavka} few {Kopirane su # stavke} other {Kopirano je # stavki}} u "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
-    <value>Copied {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>{0, plural, one {Kopirana je # stavka} few {Kopirane su # stavke} other {Kopirano je # stavki}} iz "{1}" u "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>Error copying {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Pogreška pri kopiranju {0, plural, one {# stavke} few {# stavke} other {# stavki}} u "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
-    <value>Failed to copy {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Kopiranje {0, plural, one {# stavke} few {# stavke} other {# stavki}} iz "{1}" u "{2}" nije uspjelo</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
-    <value>Copying {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Kopiranje {0, plural, one {# stavke} few {# stavke} other {# stavki}} u "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
-    <value>Copying {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Kopiranje {0, plural, one {# stavke} few {# stavke} other {# stavki}} iz "{1}" u "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
-    <value>Discovered {0, plural, one {# item} other {# items}}</value>
+    <value>Otkriven{0, plural, one {a # stavka} few {e # stavke} other {o # stavki}}</value>
     <comment>Shown in a StatusCenter card during file discovery phase.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
-    <value>Canceled extracting "{0}" to "{1}"</value>
+    <value>Otkazano raspakiravanje "{0}" u "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled extracting "{0}" from "{1}" to "{2}"</value>
+    <value>Otkazano raspakiravanje "{0}" iz "{1}" u "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
-    <value>Extracted "{0}" to "{1}"</value>
+    <value>Raspakirano "{0}" u "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_SubHeader" xml:space="preserve">
-    <value>Extracted "{0}" from "{1}" to "{2}"</value>
+    <value>Raspakirano "{0}" iz "{1}" u "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_Header" xml:space="preserve">
-    <value>Error extracting "{0}" to "{1}"</value>
+    <value>Pogreška pri raspakiravanju "{0}" u "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_SubHeader" xml:space="preserve">
-    <value>Failed to extract "{0}" from "{1}" to "{2}"</value>
+    <value>Raspakiravanje "{0}" iz "{1}" u "{2}" nije uspjelo</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_Header" xml:space="preserve">
-    <value>Extracting "{0}" to "{1}"</value>
+    <value>Raspakiravanje "{0}" u "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_SubHeader" xml:space="preserve">
-    <value>Extracting "{0}" from "{1}" to "{2}"</value>
+    <value>Raspakiravanje "{0}" iz "{1}" u "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Canceled deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>Otkazano brisanje {0, plural, one {# stavke} few {# stavke} other {# stavki}} iz "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Deleted {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>{0, plural, one {Izbrisana je # stavka} few {Izbrisane su # stavke} other {Izbrisano je # stavki}} iz "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Error deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>Pogreška pri brisanju {0, plural, one {# stavke} few {# stavke} other {# stavki}} iz "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Failed to delete {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>Brisanje {0, plural, one {# stavke} few {# stavke} other {# stavki}} iz "{1}" nije uspjelo</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>Brisanje {0, plural, one {# stavke} few {# stavke} other {# stavki}} iz "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
-    <value>Canceled moving {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>{0, plural, one {Otkazano je premještanje # stavke} few {Otkazano je premještanje # stavki} other {Otkazano je premještanje # stavki}} u "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled moving {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>{0, plural, one {Otkazano je premještanje # stavke} few {Otkazano je premještanje # stavki} other {Otkazano je premještanje # stavki}} iz "{1}" u "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
-    <value>Moved {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>{0, plural, one {Premještena je # stavka} few {Premještene su # stavke} other {Premješteno je # stavki}} u "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
-    <value>Moved {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>{0, plural, one {Premještena je # stavka} few {Premještene su # stavke} other {Premješteno je # stavki}} iz "{1}" u "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
-    <value>Moving {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>{0, plural, one {Premještanje # stavke} few {Premještanje # stavki} other {Premještanje # stavki}} u "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
-    <value>Moving {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>{0, plural, one {Premještanje # stavke} few {Premještanje # stavki} other {Premještanje # stavki}} iz "{1}" u "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
-    <value>Error moving {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>{0, plural, one {Pogreška pri premještanju # stavke} few {Pogreška pri premještanju # stavki} other {Pogreška pri premještanju # stavki}} u "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
-    <value>Failed to move {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>{0, plural, one {Premještanje # stavke} few {Premještanje # stavki} other {Premještanje # stavki}} iz "{1}" u "{2}" nije uspjelo</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
@@ -3871,15 +3871,15 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_Prepare_Header" xml:space="preserve">
-    <value>Preparing the operation...</value>
+    <value>Priprema postupka...</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1, plural, one {# item} other {# items}} processed</value>
+    <value>Obrađeno {0}/{1, plural, one {# stavka} few {# stavke} other {# stavki}}</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
-    <value>Unblock downloaded file</value>
+    <value>Deblokiraj preuzetu datoteku</value>
   </data>
   <data name="NoFileOperations" xml:space="preserve">
     <value>Nema aktivnih operacija s datotekama</value>
@@ -3891,10 +3891,10 @@
     <value>Neuspješno vraćanje stavki iz koša za smeće</value>
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
-    <value>Failed to set the background wallpaper</value>
+    <value>Postavljanje pozadinske slike nije uspjelo</value>
   </data>
   <data name="FailedToOpenSettingsFile" xml:space="preserve">
-    <value>Failed to open the settings file</value>
+    <value>Otvaranje datoteke postavki nije uspjelo</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
     <value>Izbriši Git granu</value>
@@ -3915,13 +3915,13 @@
     <value>Prijava</value>
   </data>
   <data name="ErrorApplyingTagContent" xml:space="preserve">
-    <value>Tags are currently only compatible on drives formatted as NTFS.</value>
+    <value>Oznake su trenutno kompatibilne samo s pogonima formatiranim kao NTFS.</value>
   </data>
   <data name="ErrorApplyingTagTitle" xml:space="preserve">
-    <value>There was an error applying this tag</value>
+    <value>Došlo je do pogreške pri primjeni ove oznake</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} here for single-item or to new folder for multi-item</value>
+    <value>Raspakiraj odabran{0, plural, one {u arhivu} other {e arhive}} ovdje za pojedinačnu stavku ili u novu mapu za više stavki</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Raspakiraj ovdje (Pametno)</value>
@@ -3948,16 +3948,16 @@
     <value>Prioritet sortiranja</value>
   </data>
   <data name="FailedToRotateImage" xml:space="preserve">
-    <value>Failed to rotate the image</value>
+    <value>Rotiranje slike nije uspjelo</value>
   </data>
   <data name="Restart" xml:space="preserve">
-    <value>Restart</value>
+    <value>Ponovno pokreni</value>
   </data>
   <data name="Quit" xml:space="preserve">
     <value>Zatvori</value>
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
-    <value>Failed to share items</value>
+    <value>Dijeljenje stavki nije uspjelo</value>
   </data>
   <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
     <value>Pomicanje na prethodnu mapu prilikom navigacije prema gore</value>
@@ -3966,19 +3966,19 @@
     <value>Otvori novi prozor</value>
   </data>
   <data name="ChangeAlbumCover" xml:space="preserve">
-    <value>Promijeni naslovnicu albuma</value>
+    <value>Promijeni omot albuma</value>
   </data>
   <data name="RemoveAlbumCover" xml:space="preserve">
-    <value>Remove album cover</value>
+    <value>Ukloni omot albuma</value>
   </data>
   <data name="ItemRenameFailed" xml:space="preserve">
-    <value>Failed to rename item</value>
+    <value>Preimenovanje stavke nije uspjelo</value>
   </data>
   <data name="HigherPermissionsRequired" xml:space="preserve">
-    <value>Editing "{0}" requires additional permissions</value>
+    <value>Uređivanje "{0}" zahtijeva dodatne dozvole</value>
   </data>
   <data name="EditPermissions" xml:space="preserve">
-    <value>Edit permissions</value>
+    <value>Uredi dopuštenja</value>
   </data>
   <data name="BackgroundRunningNotificationBody" xml:space="preserve">
     <value>Files i dalje radi u pozadini kako bi poboljšao brzinu pokretanja.</value>
@@ -4072,10 +4072,10 @@
     <value>Ova tipkovnička kratica se već koristi, odaberite drugu tipkovničku kraticu za nastavak.</value>
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
-    <value>The key binding you choose cannot be used, please try again using a different key binding.</value>
+    <value>Tipkovnički prečac koji ste odabrali ne može se koristiti, pokušajte ponovno s drugim tipkovničkim prečacem.</value>
   </data>
   <data name="Customized" xml:space="preserve">
-    <value>Customized</value>
+    <value>Prilagođeno</value>
   </data>
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
     <value>Prilagodljivi raspored nije dostupan kada su postavke sinkronizirane, zadani raspored je promijenjen na Detalje.</value>
@@ -4146,15 +4146,15 @@
     <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
   </data>
   <data name="ApplicationExtension" xml:space="preserve">
-    <value>Application extension</value>
+    <value>Proširenje aplikacije</value>
     <comment>This is the friendly name for DLL files.</comment>
   </data>
   <data name="IcoFileCapitalized" xml:space="preserve">
-    <value>ICO File</value>
+    <value>ICO datoteka</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
   <data name="IclFileCapitalized" xml:space="preserve">
-    <value>ICL File</value>
+    <value>ICL datoteka</value>
     <comment>This is the friendly name for ICL files.</comment>
   </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
@@ -4162,7 +4162,7 @@
     <comment>This is the friendly name for ZIP files.</comment>
   </data>
   <data name="BitmapFiles" xml:space="preserve">
-    <value>Bitmap Files</value>
+    <value>Bitmap datoteke</value>
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
   <data name="ImageFiles" xml:space="preserve">
@@ -4188,7 +4188,7 @@
     <value>Uredi odabranu datoteku u bloku za pisanje</value>
   </data>
   <data name="PropertyDimensionsColon" xml:space="preserve">
-    <value>Dimensions:</value>
+    <value>Dimenzije:</value>
   </data>
   <data name="StatusWithColon" xml:space="preserve">
     <value>Status:</value>
@@ -4249,7 +4249,7 @@
     <value>Prikaži ikonu Files u sistemskoj traci</value>
   </data>
   <data name="CPUThreads" xml:space="preserve">
-    <value>CPU threads</value>
+    <value>CPU dretve</value>
   </data>
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>Idi na početnu stranicu</value>
@@ -4258,10 +4258,10 @@
     <value>Adresna traka</value>
   </data>
   <data name="UserID" xml:space="preserve">
-    <value>User ID</value>
+    <value>Korisnički ID</value>
   </data>
   <data name="BulkRename" xml:space="preserve">
-    <value>Bulk rename</value>
+    <value>Skupno preimenovanje</value>
   </data>
   <data name="CompressContents" xml:space="preserve">
     <value>Komprimiraj sadržaj</value>
@@ -4273,10 +4273,10 @@
     <value>Stvori alternativni tok podataka</value>
   </data>
   <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
-    <value>Create alternate data stream for the selected {0, plural, one {item} other {items}}</value>
+    <value>Stvori alternativni tok podataka za odabran{0, plural, one {u stavku} other {e stavke}}</value>
   </data>
   <data name="EnterDataStreamName" xml:space="preserve">
-    <value>Enter data stream name</value>
+    <value>Unesite naziv toka podataka</value>
   </data>
   <data name="ErrorCreatingDataStreamTitle" xml:space="preserve">
     <value>Došlo je do pogreške pri stvaranju alternativnog toka podataka</value>
@@ -4291,13 +4291,13 @@
     <value>Želite li prikazati alternativne tokove podataka? Ovu postavku možete promijeniti u bilo kojem trenutku na stranici postavki datoteka i mapa.</value>
   </data>
   <data name="ManageTags" xml:space="preserve">
-    <value>Manage tags</value>
+    <value>Upravljanje oznakama</value>
   </data>
   <data name="Available" xml:space="preserve">
-    <value>Available</value>
+    <value>Dostupno</value>
   </data>
   <data name="Total" xml:space="preserve">
-    <value>Total</value>
+    <value>Ukupno</value>
   </data>
   <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
     <value>Uvijek prebaci fokus na novoizrađenu karticu</value>
@@ -4312,29 +4312,29 @@
     <value>Pomicanje prema dolje pomiče udesno</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
-    <value>Toggle shelf pane</value>
+    <value>Prikaži/sakrij panel police</value>
   </data>
   <data name="ToggleShelfPaneDescription" xml:space="preserve">
-    <value>Toggle the visibility of the shelf pane</value>
+    <value>Uključi/isključi vidljivost panela police</value>
   </data>
   <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
-    <value>Show shelf pane toggle in address bar</value>
+    <value>Prikaži prekidač panela police u adresnoj traci</value>
   </data>
   <data name="Shelf" xml:space="preserve">
-    <value>Shelf</value>
+    <value>Polica</value>
     <comment>'Shelf' refers to the Shelf Pane feature, where users can conveniently drag and drop files for quick access and perform bulk actions with ease.</comment>
   </data>
   <data name="ClearItems" xml:space="preserve">
-    <value>Clear items</value>
+    <value>Očisti stavke</value>
   </data>
   <data name="BatchAction" xml:space="preserve">
-    <value>Batch action</value>
+    <value>Skupna radnja</value>
   </data>
   <data name="RemoveFromShelf" xml:space="preserve">
-    <value>Remove from shelf</value>
+    <value>Ukloni s police</value>
   </data>
   <data name="AddToShelf" xml:space="preserve">
-    <value>Add to shelf</value>
+    <value>Dodaj na policu</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
   </data>
   <data name="EnterHashToCompare" xml:space="preserve">
@@ -4359,7 +4359,7 @@
     <value>Testiraj integraciju</value>
   </data>
   <data name="IDENotLocatedContent" xml:space="preserve">
-    <value>{0} could not be located. Please check your settings and try again.</value>
+    <value>{0} nije moguće pronaći. Provjerite postavke i pokušajte ponovno.</value>
   </data>
   <data name="IDENotLocatedTitle" xml:space="preserve">
     <value>Konfigurirani IDE nije pronađen</value>
@@ -4368,13 +4368,13 @@
     <value>Otvori postavke</value>
   </data>
   <data name="NetworkDiscoveryTurnedOffInfoBarMessage" xml:space="preserve">
-    <value>Network discovery is turned off. Network computers and devices are not visible.</value>
+    <value>Otkrivanje mreže je isključeno. Računala i uređaji na mreži nisu vidljivi.</value>
   </data>
   <data name="FileSharingTurnedOffInfoBarMessage" xml:space="preserve">
-    <value>File sharing is turned off. Some network computers and devices might not be visible.</value>
+    <value>Dijeljenje datoteka je isključeno. Neka računala i uređaji na mreži možda neće biti vidljivi.</value>
   </data>
   <data name="NetworkDiscoveryAndFileSharingTurnedOffInfoBarMessage" xml:space="preserve">
-    <value>Network discovery and file sharing are turned off. Network computers and devices are not visible.</value>
+    <value>Otkrivanje mreže i dijeljenje datoteka isključeni su. Računala i uređaji na mreži nisu vidljivi.</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
@@ -4383,22 +4383,22 @@
     <value>Unesite putanju ili alias za pokretanje</value>
   </data>
   <data name="InvalidIDENameError" xml:space="preserve">
-    <value>Please enter a name for the IDE</value>
+    <value>Unesite naziv za IDE</value>
   </data>
   <data name="CloneRepo" xml:space="preserve">
-    <value>Clone repo</value>
+    <value>Kloniraj repozitorij</value>
     <comment>Clone repo dialog title</comment>
   </data>
   <data name="Clone" xml:space="preserve">
-    <value>Clone</value>
+    <value>Kloniraj</value>
     <comment>Primary action button in the clone repo dialog</comment>
   </data>
   <data name="RepositoryURL" xml:space="preserve">
-    <value>Repository URL</value>
+    <value>URL repozitorija</value>
     <comment>URL textbox header in the clone repo dialog</comment>
   </data>
   <data name="CannotCloneRepoTitle" xml:space="preserve">
-    <value>Cannot clone repo</value>
+    <value>Nije moguće klonirati repozitorij</value>
     <comment>Cannot clone repo dialog title</comment>
   </data>
   <data name="CompareFile" xml:space="preserve">
@@ -4415,10 +4415,10 @@
     <value>Decimalni</value>
   </data>
   <data name="SectionsHiddenMessage" xml:space="preserve">
-    <value>You can add sections to the sidebar by right-clicking and selecting the sections you want to add</value>
+    <value>Možete dodati odjeljke na bočnu traku desnim klikom i odabirom odjeljaka koje želite dodati.</value>
   </data>
   <data name="EmptyShelfText" xml:space="preserve">
-    <value>Drag files or folders here to interact with them across different tabs</value>
+    <value>Povucite datoteke ili mape ovdje kako biste s njima radili u različitim karticama</value>
   </data>
   <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
     <value>Unesite putanju za navigaciju do...</value>
@@ -4436,15 +4436,15 @@
     <value>Prikaži gumb status centra</value>
   </data>
   <data name="StatusCenterProgressRing" xml:space="preserve">
-    <value>Status center progress ring</value>
+    <value>Kružni indikator napretka</value>
     <comment>Screen reader name for the status center progress ring</comment>
   </data>
   <data name="IconFiles" xml:space="preserve">
-    <value>Icon files</value>
+    <value>Datoteke ikona</value>
     <comment>This is the friendly name for a variety of different icon files.</comment>
   </data>
   <data name="BreadcrumbBarEllipsisButtonToolTip" xml:space="preserve">
-    <value>Show collapsed path breadcrumbs</value>
+    <value>Prikaži sažetu putanju</value>
   </data>
   <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
     <value>Prikaži mape u {0}</value>
@@ -4453,7 +4453,7 @@
     <value>Prikaži mape u Početno</value>
   </data>
   <data name="NoCommandsFound" xml:space="preserve">
-    <value>There are no commands containing {0}</value>
+    <value>Nema naredbi koje sadrže {0}</value>
   </data>
   <data name="SeeMore" xml:space="preserve">
     <value>Prikaži više</value>
@@ -4510,7 +4510,7 @@
     <value>Kada se koristi miš</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
-    <value>New {0}</value>
+    <value>Novi {0}</value>
   </data>
   <data name="EnableSmoothScrolling" xml:space="preserve">
     <value>Omogući glatko pomicanje</value>
@@ -4564,31 +4564,31 @@
     <value>Ostali konteksti</value>
   </data>
   <data name="Archive" xml:space="preserve">
-    <value>Archive</value>
+    <value>Arhiva</value>
   </data>
   <data name="Run" xml:space="preserve">
-    <value>Run</value>
+    <value>Pokreni</value>
   </data>
   <data name="Start" xml:space="preserve">
     <value>Start</value>
   </data>
   <data name="Selection" xml:space="preserve">
-    <value>Selection</value>
+    <value>Odabir</value>
   </data>
   <data name="Show" xml:space="preserve">
-    <value>Show</value>
+    <value>Prikaz</value>
   </data>
   <data name="Navigation" xml:space="preserve">
-    <value>Navigation</value>
+    <value>Navigacija</value>
   </data>
   <data name="FileSystem" xml:space="preserve">
-    <value>File system</value>
+    <value>Datotečni sustav</value>
   </data>
   <data name="Window" xml:space="preserve">
-    <value>Window</value>
+    <value>Prozor</value>
   </data>
   <data name="DualPaneCategory" xml:space="preserve">
-    <value>Dual Pane</value>
+    <value>Dvostruki panel</value>
   </data>
   <data name="ResetDefaults" xml:space="preserve">
     <value>Resetiraj na zadane</value>
@@ -4615,24 +4615,24 @@
     <value>Dodane stavke</value>
   </data>
   <data name="ExtractGroupDescription" xml:space="preserve">
-    <value>Extract compressed archives</value>
+    <value>Raspakiraj komprimirane arhive</value>
   </data>
   <data name="SetAsGroupDescription" xml:space="preserve">
-    <value>Set image as wallpaper or background</value>
+    <value>Postavi sliku kao pozadinsku sliku</value>
   </data>
   <data name="NewItemGroupDescription" xml:space="preserve">
-    <value>Create new files and folders</value>
+    <value>Stvori nove datoteke i mape</value>
   </data>
   <data name="EditTagsGroupDescription" xml:space="preserve">
-    <value>Add or remove file tags</value>
+    <value>Dodaj ili ukloni oznake datoteka</value>
   </data>
   <data name="RemoveTags" xml:space="preserve">
-    <value>Remove tags</value>
+    <value>Ukloni oznake</value>
   </data>
   <data name="RemoveTagsDescription" xml:space="preserve">
-    <value>Remove tags from the selected items</value>
+    <value>Ukloni oznake iz odabranih stavki</value>
   </data>
   <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
-    <value>Are you sure you want to remove tags from the selected items?</value>
+    <value>Jeste li sigurni da želite ukloniti oznake iz odabranih stavki?</value>
   </data>
 </root>

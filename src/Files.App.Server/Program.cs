@@ -1,7 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Helpers;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using Windows.Storage;
@@ -13,7 +12,7 @@ namespace Files.App.Server;
 
 class Program
 {
-	internal static readonly AsyncManualResetEvent ExitSignalEvent = new();
+	internal static readonly TaskCompletionSource<bool> ExitSignal = new(TaskCreationOptions.RunContinuationsAsynchronously);
 	private static readonly CancellationTokenSource cancellationTokenSource = new();
 	private static readonly StreamWriter logWriter = new(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug_server.log"), append: true) { AutoFlush = true };
 
@@ -66,8 +65,7 @@ class Program
 
 		try
 		{
-			ExitSignalEvent.Reset();
-			await ExitSignalEvent.WaitAsync(cancellationTokenSource.Token);
+			await ExitSignal.Task.WaitAsync(cancellationTokenSource.Token);
 		}
 		catch (OperationCanceledException)
 		{

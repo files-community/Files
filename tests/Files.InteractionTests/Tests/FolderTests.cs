@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
 using System.Threading;
 
 namespace Files.InteractionTests.Tests
@@ -10,7 +9,6 @@ namespace Files.InteractionTests.Tests
 	[TestClass]
 	public sealed class FolderTests
 	{
-
 		[TestCleanup]
 		public void Cleanup()
 		{
@@ -21,15 +19,19 @@ namespace Files.InteractionTests.Tests
 		[TestMethod]
 		public void TestFolders()
 		{
+			var id = System.DateTime.UtcNow.ToString("yyyyMMddHHmmssfff");
+			var initialFolderName = $"IT New Folder {id}";
+			var renamedFolderName = $"IT Renamed Folder {id}";
+
 			NavigationTest();
 
-			CreateFolderTest();
+			CreateFolderTest(initialFolderName);
 
-			RenameFolderTest();
+			RenameFolderTest(initialFolderName, renamedFolderName);
 
 			CopyPasteFolderTest();
 
-			DeleteFolderTest();
+			DeleteFolderTest(renamedFolderName);
 		}
 
 		/// <summary>
@@ -48,7 +50,7 @@ namespace Files.InteractionTests.Tests
 		/// <summary>
 		/// Tests folder creation and checks for accessibility issues along the way
 		/// </summary>
-		private void CreateFolderTest()
+		private void CreateFolderTest(string folderName)
 		{
 			// Click the "New" button on the toolbar
 			TestHelper.InvokeButtonById("InnerNavigationToolbarNewButton");
@@ -59,45 +61,47 @@ namespace Files.InteractionTests.Tests
 			// Click the "Folder" item from the menu flyout
 			TestHelper.InvokeButtonById("InnerNavigationToolbarNewFolderButton");
 
-			// Wait for the content dialog to load
-			Thread.Sleep(3500);
+			// Type the folder name into the dialog text box; this also waits for the dialog to open
+			TestHelper.SetTextById("CreateItemDialogNameTextBox", folderName);
 
 			// Check for accessibility issues in the new folder prompt
 			AxeHelper.AssertNoAccessibilityErrors();
 
-			// Type the folder name
-			var action = new Actions(SessionManager.Session);
-			action.SendKeys("New Folder").Perform();
-
-			// Press the enter button to confirm
-			action = new Actions(SessionManager.Session);
-			action.SendKeys(Keys.Enter).Perform();
+			// Click the "Create" button to confirm
+			TestHelper.InvokeDialogPrimaryButton("Create");
 
 			// Wait for folder to be created
 			Thread.Sleep(3500);
 
 			// Check for accessibility issues in the file area
 			AxeHelper.AssertNoAccessibilityErrors();
+
+			// Verify the folder shows up in the file area without clicking it,
+			// since a click here and the selection click that follows could
+			// land close enough together to register as a double click
+			TestHelper.WaitForElementByName(folderName);
 		}
 
 		/// <summary>
 		/// Tests renaming a folder
 		/// </summary>
-		private void RenameFolderTest()
+		private void RenameFolderTest(string currentFolderName, string renamedFolderName)
 		{
+			// Select the folder to avoid invoking Rename with a stale selection.
+			TestHelper.InvokeButtonByName(currentFolderName);
+
+			// Wait for the toolbar commands to enable for the new selection
+			Thread.Sleep(500);
+
 			// Click the "Rename" button on the toolbar
 			TestHelper.InvokeButtonById("InnerNavigationToolbarRenameButton");
 
-			// Type the new name into the inline text box
-			var action = new Actions(SessionManager.Session);
-			action.SendKeys("Renamed Folder").Perform();
+			// Type the new name into the inline text box and commit with Enter
+			var renameBox = TestHelper.SetTextById("ItemNameTextBox", renamedFolderName);
+			renameBox.SendKeys(Keys.Enter);
 
-			// Press the enter button to save the new name
-			action = new Actions(SessionManager.Session);
-			action.SendKeys(Keys.Enter).Perform();
-
-			// Wait for the folder to be renamed
-			Thread.Sleep(4000);
+			// Verify the rename completed; this also re-selects the folder for the next step
+			TestHelper.InvokeButtonByName(renamedFolderName);
 		}
 
 		/// <summary>
@@ -121,10 +125,10 @@ namespace Files.InteractionTests.Tests
 		/// <summary>
 		/// Tests deleting folders
 		/// </summary>
-		private void DeleteFolderTest()
+		private void DeleteFolderTest(string renamedFolderName)
 		{
 			// Select the "Renamed Folder" folder and clicks the "delete" button on the toolbar
-			TestHelper.InvokeButtonByName("Renamed Folder");
+			TestHelper.InvokeButtonByName(renamedFolderName);
 			TestHelper.InvokeButtonById("InnerNavigationToolbarDeleteButton");
 
 			// Wait for prompt to show
@@ -133,24 +137,8 @@ namespace Files.InteractionTests.Tests
 			// Check for accessibility issues in the confirm delete prompt
 			AxeHelper.AssertNoAccessibilityErrors();
 
-			// Press the enter key to confirm
-			var action = new Actions(SessionManager.Session);
-			action.SendKeys(Keys.Enter).Perform();
-
-
-			// Select the "Renamed Folder - Copy" folder and clicks the "delete" button on the toolbar
-			TestHelper.InvokeButtonByName("Renamed Folder - Copy");
-			TestHelper.InvokeButtonById("InnerNavigationToolbarDeleteButton");
-
-			// Wait for prompt to show
-			Thread.Sleep(3500);
-
-			// Check for accessibility issues in the confirm delete prompt
-			AxeHelper.AssertNoAccessibilityErrors();
-
-			// Press the enter key to confirm
-			action = new Actions(SessionManager.Session);
-			action.SendKeys(Keys.Enter).Perform();
+			// Click the "Delete" button to confirm
+			TestHelper.InvokeDialogPrimaryButton("Delete");
 
 			// Wait for items to finish being deleted
 			Thread.Sleep(3500);
