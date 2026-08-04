@@ -56,7 +56,7 @@ namespace Files.App.Actions
 				return;
 
 			var selectedItems = context.SelectedItems.ToList();
-			var currentFolderPath = context.ShellPage?.ShellViewModel!.CurrentFolder?.ItemPath ?? string.Empty;
+			var currentFolderPath = context.ShellPage?.ShellViewModel?.CurrentFolder?.ItemPath ?? string.Empty;
 			BaseStorageFolder? currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(currentFolderPath);
 
 			foreach (var selectedItem in selectedItems)

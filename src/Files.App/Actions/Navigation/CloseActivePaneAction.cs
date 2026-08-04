@@ -36,8 +36,7 @@ namespace Files.App.Actions
 			if (ContentPageContext.ShellPage is not { } shellPage)
 				return Task.CompletedTask;
 
-			var paneHolder = shellPage.PaneHolder
-				?? throw new InvalidOperationException("An active pane holder is required to close a pane.");
+			var paneHolder = shellPage.GetRequiredPaneHolder();
 			paneHolder.CloseActivePane();
 			return Task.CompletedTask;
 		}

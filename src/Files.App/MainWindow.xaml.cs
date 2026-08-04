@@ -232,8 +232,7 @@ namespace Files.App
 			var shellPage = Ioc.Default.GetService<IContentPageContext>()?.ShellPage;
 			if (shellPage is not null)
 			{
-				var paneHolder = shellPage.PaneHolder
-					?? throw new InvalidOperationException("The active shell page does not have a pane holder.");
+				var paneHolder = shellPage.GetRequiredPaneHolder();
 				paneHolder.FocusActivePane();
 			}
 		}

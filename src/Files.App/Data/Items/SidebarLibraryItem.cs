@@ -56,9 +56,7 @@ namespace Files.App.Data.Items
 				false,
 				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-			var bitmapImage = await (result
-				?? throw new InvalidOperationException("The library icon could not be loaded."))
-				.ToBitmapAsync();
+			var bitmapImage = await result.ToBitmapAsync();
 			if (bitmapImage is not null)
 				Icon = bitmapImage;
 		}

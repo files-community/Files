@@ -152,14 +152,13 @@ namespace Files.App.ViewModels.Properties
 
 		private async void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
-			var itemPaths = List.Select(item => item.GetRequiredPath()).ToList();
-
 			switch (e.PropertyName)
 			{
 				case "IsReadOnly":
 					{
 						if (ViewModel.IsReadOnly is not null)
 						{
+							var itemPaths = List.Select(item => item.GetRequiredPath()).ToList();
 							if ((bool)ViewModel.IsReadOnly)
 							{
 								itemPaths.ForEach(path => Win32Helper.SetFileAttribute(
@@ -178,6 +177,7 @@ namespace Files.App.ViewModels.Properties
 					{
 						if (ViewModel.IsHidden is not null)
 						{
+							var itemPaths = List.Select(item => item.GetRequiredPath()).ToList();
 							if ((bool)ViewModel.IsHidden)
 							{
 								itemPaths.ForEach(path => Win32Helper.SetFileAttribute(
@@ -196,7 +196,7 @@ namespace Files.App.ViewModels.Properties
 				case "IsContentCompressed":
 					{
 						var isCompressed = ViewModel.IsContentCompressed ?? false;
-						var items = itemPaths;
+						var items = List.Select(item => item.GetRequiredPath()).ToList();
 						await Task.Run(() =>
 						{
 							foreach (var path in items)

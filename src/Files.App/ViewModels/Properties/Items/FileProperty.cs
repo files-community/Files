@@ -343,12 +343,12 @@ namespace Files.App.ViewModels.Properties
 				keyValuePairs.Add(prop, val);
 			}
 #else
-            IDictionary<string, object?> keyValuePairs = new Dictionary<string, object?>();
-            if (file.Properties is not null)
-            {
-                keyValuePairs = (await file.Properties.RetrievePropertiesAsync(propsToGet))
+			IDictionary<string, object?> keyValuePairs = new Dictionary<string, object?>();
+			if (file.Properties is not null)
+			{
+				keyValuePairs = (await file.Properties.RetrievePropertiesAsync(propsToGet))
 					.ToDictionary(pair => pair.Key, pair => (object?)pair.Value);
-            }
+			}
 #endif
 
 			foreach (var prop in list)

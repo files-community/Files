@@ -35,11 +35,11 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.ShellPage?.SlimContentPage is { } contentPage)
+			if (context.ShellPage is { SlimContentPage: { } contentPage } shellPage)
 			{
 				var path = contentPage.SelectedItems is not null
 					? string.Join("\n", contentPage.SelectedItems.Select(item => $"\"{item.ItemPath}\""))
-					: context.ShellPage.ShellViewModel!.WorkingDirectory;
+					: shellPage.GetRequiredShellViewModel().WorkingDirectory;
 
 				if (FtpHelpers.IsFtpPath(path))
 					path = path.Replace('\\', '/');

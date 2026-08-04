@@ -39,7 +39,7 @@ namespace Files.App.Views
 				return;
 
 			appInstance = navArgs.AssociatedTabInstance!;
-			var shellViewModel = AppInstance.ShellViewModel!;
+			var shellViewModel = AppInstance.GetRequiredShellViewModel();
 
 			AppInstance.InstanceViewModel.IsPageTypeNotHome = true;
 			AppInstance.InstanceViewModel.IsPageTypeSearchResults = false;

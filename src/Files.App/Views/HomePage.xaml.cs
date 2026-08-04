@@ -36,7 +36,7 @@ namespace Files.App.Views
 				return;
 
 			appInstance = parameters.AssociatedTabInstance!;
-			var shellViewModel = AppInstance.ShellViewModel!;
+			var shellViewModel = AppInstance.GetRequiredShellViewModel();
 
 			AppInstance.InstanceViewModel.IsPageTypeNotHome = false;
 			AppInstance.InstanceViewModel.IsPageTypeSearchResults = false;

@@ -62,7 +62,7 @@ namespace Files.App.ViewModels.Properties
 				else
 				{
 					result = await FileThumbnailHelper.GetIconAsync(
-						Drive.DeviceID ?? throw new InvalidOperationException("The drive does not have a device ID."),
+						Drive.DeviceID,
 						Constants.ShellIconSizes.ExtraLarge,
 						true,
 						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale); // For network shortcuts

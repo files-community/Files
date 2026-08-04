@@ -34,14 +34,14 @@ namespace Files.App.Actions
 			if (IsOn)
 			{
 				if (ContentPageContext.ShellPage is { } shellPage)
-					(shellPage.PaneHolder ?? throw new InvalidOperationException("The active shell page has no pane holder.")).CloseOtherPane();
+					shellPage.GetRequiredPaneHolder().CloseOtherPane();
 			}
 			else
 			{
 				if (ContentPageContext.ShellPage is not { } shellPage)
 					return Task.CompletedTask;
 
-				var paneHolder = shellPage.PaneHolder ?? throw new InvalidOperationException("The active shell page has no pane holder.");
+				var paneHolder = shellPage.GetRequiredPaneHolder();
 				var shellViewModel = shellPage.GetRequiredShellViewModel();
 				paneHolder.OpenSecondaryPane(shellViewModel.WorkingDirectory ?? string.Empty, generalSettingsService.ShellPaneArrangementOption);
 			}

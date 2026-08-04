@@ -35,7 +35,7 @@ namespace Files.App.Actions
 				var password = string.Empty;
 
 				var archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath!);
-				var currentFolderPath = context.ShellPage?.ShellViewModel!.CurrentFolder!.ItemPath;
+				var currentFolderPath = context.ShellPage?.ShellViewModel?.CurrentFolder?.ItemPath;
 				if (archive?.Path is null)
 					return;
 

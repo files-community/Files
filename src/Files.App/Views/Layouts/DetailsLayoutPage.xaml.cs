@@ -251,7 +251,7 @@ namespace Files.App.Views.Layouts
 			else
 			{
 				var settings = sender as ILayoutSettingsService;
-				var isDefaultPath = FolderSettings?.IsPathUsingDefaultLayout(ParentShellPageInstance?.ShellViewModel!.CurrentFolder?.ItemPath);
+				var isDefaultPath = FolderSettings?.IsPathUsingDefaultLayout(ParentShellPageInstance?.ShellViewModel?.CurrentFolder?.ItemPath);
 				if (settings is not null && (isDefaultPath ?? true))
 				{
 					switch (e.PropertyName)

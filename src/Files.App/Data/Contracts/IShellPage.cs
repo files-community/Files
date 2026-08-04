@@ -100,6 +100,10 @@ namespace Files.App.Data.Contracts
 			public ShellViewModel GetRequiredShellViewModel()
 			=> shellPage?.ShellViewModel
 				?? throw new InvalidOperationException("The shell page does not have a shell view model.");
+
+			public IShellPanesPage GetRequiredPaneHolder()
+			=> shellPage?.PaneHolder
+				?? throw new InvalidOperationException("The shell page does not have a pane holder.");
 		}
 	}
 }

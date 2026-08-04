@@ -38,7 +38,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.ShellPage?.ShellViewModel!.WorkingDirectory is not { } workingDirectory)
+			if (context.ShellPage?.ShellViewModel?.WorkingDirectory is not { } workingDirectory)
 				return;
 
 			var banner = StatusCenterHelper.AddCard_InstallFont(workingDirectory.CreateEnumerable(), ReturnResult.InProgress, context.SelectedItems.Count);
@@ -48,7 +48,7 @@ namespace Files.App.Actions
 			await Win32Helper.InstallFontsAsync(paths, false);
 
 			StatusCenterViewModel.RemoveItem(banner);
-			var currentWorkingDirectory = context.ShellPage!.ShellViewModel!.WorkingDirectory!;
+			var currentWorkingDirectory = context.ShellPage.GetRequiredShellViewModel().WorkingDirectory!;
 			StatusCenterHelper.AddCard_InstallFont(currentWorkingDirectory.CreateEnumerable(), ReturnResult.Success, context.SelectedItems.Count);
 		}
 

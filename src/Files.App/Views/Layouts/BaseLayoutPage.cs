@@ -434,8 +434,7 @@ namespace Files.App.Views.Layouts
 				// restore so an in-progress omnibar query isn't lost.
 				if (!UIHelpers.IsTextInputFocused(XamlRoot))
 				{
-					var paneHolder = parentShellPage.PaneHolder
-						?? throw new InvalidOperationException("The parent shell pane is not available.");
+					var paneHolder = parentShellPage.GetRequiredPaneHolder();
 					paneHolder.FocusActivePane();
 				}
 			}

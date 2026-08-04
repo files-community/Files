@@ -541,7 +541,7 @@ namespace Files.App.ViewModels.UserControls
 					cachedTagsContextMenu.TagsChanged += async (s, e) =>
 					{
 						if (contentPageContext.ShellPage is { } shellPage)
-							await shellPage.ShellViewModel!.RefreshTagGroups();
+							await shellPage.GetRequiredShellViewModel().RefreshTagGroups();
 					};
 				}
 				else

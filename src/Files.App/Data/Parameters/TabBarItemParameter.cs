@@ -26,11 +26,11 @@ namespace Files.App.Data.Parameters
 			var tempArgs = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(obj)
 				?? throw new JsonException("The tab data is empty.");
 			var typeName = tempArgs[nameof(InitialPageType)].GetString();
-			var initialPageType = typeName is null ? null : Type.GetType(typeName);
-			if (initialPageType is null)
-			{
+			if (string.IsNullOrEmpty(typeName))
 				throw new JsonException("The initial page type is missing or invalid.");
-			}
+
+			// Restore navigation data from tabs whose original page type no longer exists.
+			var initialPageType = Type.GetType(typeName) ?? typeof(Files.App.Views.ShellPanesPage);
 
 			object? navigationParameter;
 			try

@@ -18,7 +18,7 @@ namespace Files.App.Utils.Storage
 		private readonly FilesystemOperations _filesystemOperations;
 
 		private ShellViewModel ShellViewModel =>
-			_associatedInstance.ShellViewModel ?? throw new InvalidOperationException("The shell page is not initialized.");
+			_associatedInstance.GetRequiredShellViewModel();
 
 		public ShellFilesystemOperations(IShellPage associatedInstance)
 		{

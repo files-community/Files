@@ -36,8 +36,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			var paneHolder = ContentPageContext.ShellPage?.PaneHolder
-				?? throw new InvalidOperationException("An active pane holder is required to arrange panes.");
+			var paneHolder = ContentPageContext.ShellPage.GetRequiredPaneHolder();
 			paneHolder.ArrangePanes(ShellPaneArrangement.Horizontal);
 
 			return Task.CompletedTask;

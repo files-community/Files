@@ -32,8 +32,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			var paneHolder = context.ShellPage?.PaneHolder
-				?? throw new InvalidOperationException("An active pane holder is required to focus the other pane.");
+			var paneHolder = context.ShellPage.GetRequiredPaneHolder();
 			paneHolder.FocusOtherPane();
 
 			return Task.CompletedTask;

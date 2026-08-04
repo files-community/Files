@@ -42,10 +42,11 @@ namespace Files.App.Actions
 			if (context.ShellPage is not { } shellPage)
 				return;
 
-			string path = context.SelectedItem is ListedItem selectedItem
-				? selectedItem.GetRequiredPath()
-				: shellPage.ShellViewModel?.WorkingDirectory
-					?? throw new InvalidOperationException("The active shell page has no working directory.");
+			string? path = context.SelectedItem is ListedItem selectedItem
+				? selectedItem.ItemPath
+				: shellPage.ShellViewModel?.WorkingDirectory;
+			if (path is null)
+				return;
 
 			await UIFilesystemHelpers.PasteItemAsync(path, shellPage);
 		}

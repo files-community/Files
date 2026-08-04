@@ -46,7 +46,7 @@ namespace Files.App.Actions
 				}
 				else
 				{
-					var paneHolder = shellPage.PaneHolder ?? throw new InvalidOperationException("The active shell page has no pane holder.");
+					var paneHolder = shellPage.GetRequiredPaneHolder();
 					paneHolder.FocusActivePane();
 				}
 			}

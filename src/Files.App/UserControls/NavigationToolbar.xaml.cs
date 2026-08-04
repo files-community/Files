@@ -171,8 +171,8 @@ namespace Files.App.UserControls
 
 		private async void Omnibar_QuerySubmitted(Omnibar sender, OmnibarQuerySubmittedEventArgs args)
 		{
-			var viewModel = ViewModel
-				?? throw new InvalidOperationException("The navigation toolbar does not have a view model.");
+			if (ViewModel is not { } viewModel)
+				return;
 
 			var mode = Omnibar.CurrentSelectedMode;
 
@@ -180,8 +180,7 @@ namespace Files.App.UserControls
 			if (mode == OmnibarPathMode)
 			{
 				await viewModel.HandleItemNavigationAsync(args.Text);
-				var pathPaneHolder = ContentPageContext.ShellPage?.PaneHolder
-					?? throw new InvalidOperationException("The active shell page does not have a pane holder.");
+				var pathPaneHolder = ContentPageContext.ShellPage.GetRequiredPaneHolder();
 				pathPaneHolder.FocusActivePane();
 				return;
 			}
@@ -202,8 +201,7 @@ namespace Files.App.UserControls
 						continue;
 
 					await command.ExecuteAsync();
-					var paneHolder = ContentPageContext.ShellPage?.PaneHolder
-						?? throw new InvalidOperationException("The active shell page does not have a pane holder.");
+					var paneHolder = ContentPageContext.ShellPage.GetRequiredPaneHolder();
 					paneHolder.FocusActivePane();
 					return;
 				}
@@ -211,8 +209,7 @@ namespace Files.App.UserControls
 				await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidCommand.GetLocalizedResource(),
 					string.Format(Strings.InvalidCommandContent.GetLocalizedResource(), args.Text));
 
-				var commandPaneHolder = ContentPageContext.ShellPage?.PaneHolder
-					?? throw new InvalidOperationException("The active shell page does not have a pane holder.");
+				var commandPaneHolder = ContentPageContext.ShellPage.GetRequiredPaneHolder();
 				commandPaneHolder.FocusActivePane();
 				return;
 			}
@@ -240,8 +237,7 @@ namespace Files.App.UserControls
 					Omnibar.IsFocused = false;
 					if (shellPage is not null)
 					{
-						var paneHolder = shellPage.PaneHolder
-							?? throw new InvalidOperationException("The active shell page does not have a pane holder.");
+						var paneHolder = shellPage.GetRequiredPaneHolder();
 						paneHolder.FocusActivePane();
 					}
 					return;
@@ -259,8 +255,7 @@ namespace Files.App.UserControls
 					viewModel.SaveSearchQueryToList(searchQuery);
 				}
 
-				var searchPaneHolder = ContentPageContext.ShellPage?.PaneHolder
-					?? throw new InvalidOperationException("The active shell page does not have a pane holder.");
+				var searchPaneHolder = ContentPageContext.ShellPage.GetRequiredPaneHolder();
 				searchPaneHolder.FocusActivePane();
 				return;
 			}
@@ -271,8 +266,8 @@ namespace Files.App.UserControls
 			if (args.Reason is not OmnibarTextChangeReason.UserInput)
 				return;
 
-			var viewModel = ViewModel
-				?? throw new InvalidOperationException("The navigation toolbar does not have a view model.");
+			if (ViewModel is not { } viewModel)
+				return;
 
 			if (Omnibar.CurrentSelectedMode == OmnibarPathMode)
 			{
@@ -408,8 +403,8 @@ namespace Files.App.UserControls
 		/// </summary>
 		private async void Omnibar_ModeChanged(object sender, OmnibarModeChangedEventArgs e)
 		{
-			var viewModel = ViewModel
-				?? throw new InvalidOperationException("The navigation toolbar does not have a view model.");
+			if (ViewModel is not { } viewModel)
+				return;
 
 			if (e.NewMode == OmnibarPathMode)
 			{
@@ -447,11 +442,11 @@ namespace Files.App.UserControls
 		/// </summary>
 		private async void Omnibar_IsFocusedChanged(Omnibar sender, OmnibarIsFocusedChangedEventArgs args)
 		{
-			var viewModel = ViewModel
-				?? throw new InvalidOperationException("The navigation toolbar does not have a view model.");
-
 			if (args.IsFocused)
 			{
+				if (ViewModel is not { } viewModel)
+					return;
+
 				// Path Mode needs special handling when gaining focus since it has an unfocused state
 				if (Omnibar.CurrentSelectedMode == OmnibarPathMode)
 				{
@@ -467,7 +462,7 @@ namespace Files.App.UserControls
 			{
 				if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
 				{
-					viewModel.CancelSuggestionSearch();
+					ViewModel?.CancelSuggestionSearch();
 				}
 
 				// When Omnibar loses focus, revert to Path Mode to display BreadcrumbBar
@@ -480,8 +475,7 @@ namespace Files.App.UserControls
 			if (e.Key is VirtualKey.Escape)
 			{
 				Omnibar.IsFocused = false;
-				var paneHolder = ContentPageContext.ShellPage?.PaneHolder
-					?? throw new InvalidOperationException("The active shell page does not have a pane holder.");
+				var paneHolder = ContentPageContext.ShellPage.GetRequiredPaneHolder();
 				paneHolder.FocusActivePane();
 			}
 			else if (e.Key is VirtualKey.Tab && Omnibar.IsFocused && !InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
