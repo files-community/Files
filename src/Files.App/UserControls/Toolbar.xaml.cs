@@ -27,6 +27,7 @@ namespace Files.App.UserControls
 		private UserControls.Menus.FileTagsContextMenu? editTagsMenu;
 		private OpenWithMenu? openWithMenu;
 		private int openWithFlyoutRequestId;
+		private readonly List<Action> toggleButtonDetachActions = new();
 
 		[GeneratedDependencyProperty]
 		public partial NavigationToolbarViewModel? ViewModel { get; set; }
@@ -52,6 +53,7 @@ namespace Files.App.UserControls
 		private void Toolbar_Unloaded(object sender, RoutedEventArgs e)
 		{
 			foreach (var cmd in Commands) cmd.PropertyChanged -= Command_PropertyChanged;
+			DetachToggleButtons();
 			UserSettingsService.AppearanceSettingsService.PropertyChanged -= AppearanceSettings_PropertyChanged;
 			if (editTagsMenu is not null)
 				editTagsMenu.TagsChanged -= EditTagsMenu_TagsChanged;
@@ -116,6 +118,7 @@ namespace Files.App.UserControls
 			if (ContextCommandBar is null)
 				return;
 
+			DetachToggleButtons();
 			ContextCommandBar.PrimaryCommands.Clear();
 
 			var active = GetActiveToolbarContexts();
@@ -134,7 +137,7 @@ namespace Files.App.UserControls
 				{
 					if (CreateToolbarElement(entries[i]) is { } el)
 					{
-						if (el is AppBarButton btn && !ToolbarItemDescriptor.IsSeparatorCode(entries[i].CommandCode ?? ""))
+						if (el is FrameworkElement btn and not AppBarSeparator && !ToolbarItemDescriptor.IsSeparatorCode(entries[i].CommandCode ?? ""))
 							AttachContextFlyout(btn, contextId, entries[i], i);
 
 						ContextCommandBar.PrimaryCommands.Add(el);
@@ -239,6 +242,9 @@ namespace Files.App.UserControls
 				if (!showIcon && !showLabel)
 					return null;
 
+				if (cmd.IsToggle)
+					return CreateToggleButton(cmd, showIcon, showLabel);
+
 				var tooltip = cmd.HotKeyText is null ? cmd.ExtendedLabel : $"{cmd.ExtendedLabel} ({cmd.HotKeyText})";
 				var btn = CreateButton(showIcon, showLabel, cmd.ExtendedLabel, tooltip,
 					cmd.AccessKey, cmd.AutomationId, cmd.Glyph, cmd.HotKeyText);
@@ -319,6 +325,76 @@ namespace Files.App.UserControls
 			return button;
 		}
 
+		private AppBarToggleButton CreateToggleButton(IRichCommand cmd, bool showIcon, bool showLabel)
+		{
+			var button = new AppBarToggleButton
+			{
+				Width = double.NaN,
+				MinWidth = showIcon ? 40 : 0,
+				Label = cmd.ExtendedLabel,
+				LabelPosition = showLabel ? CommandBarLabelPosition.Default : CommandBarLabelPosition.Collapsed,
+				IsChecked = cmd.IsOn,
+				IsEnabled = cmd.IsExecutable,
+			};
+
+			if (showIcon)
+			{
+				if (!string.IsNullOrEmpty(cmd.Glyph.ThemedIconStyle))
+					button.Content = cmd.Glyph.ToIcon();
+
+				// The default AppBarToggleButton template presents Icon rather than Content,
+				// so themed icons need the PathIcon fallback to be visible
+				button.Icon = cmd.Glyph.ToOverflowIcon() ?? cmd.Glyph.ToFontIcon();
+			}
+			else
+			{
+				button.Loaded += CollapseIconViewbox;
+			}
+
+			ToolTipService.SetToolTip(button, cmd.HotKeyText is null ? cmd.ExtendedLabel : $"{cmd.ExtendedLabel} ({cmd.HotKeyText})");
+
+			if (!string.IsNullOrEmpty(cmd.AccessKey))
+			{
+				button.AccessKey = cmd.AccessKey;
+				button.AccessKeyInvoked += AppBarButton_AccessKeyInvoked;
+			}
+
+			if (!string.IsNullOrEmpty(cmd.AutomationId))
+				AutomationProperties.SetAutomationId(button, cmd.AutomationId);
+
+			if (cmd.HotKeyText is { } hotKeyText)
+				button.KeyboardAcceleratorTextOverride = hotKeyText;
+
+			button.Click += async (sender, _) =>
+			{
+				await cmd.ExecuteAsync();
+
+				// Executing may leave the state unchanged (e.g. re-invoking the active sort option),
+				// in which case no IsOn notification arrives to undo the control's automatic toggle
+				((AppBarToggleButton)sender).IsChecked = cmd.IsOn;
+			};
+
+			PropertyChangedEventHandler commandPropertyChanged = (_, e) =>
+			{
+				if (e.PropertyName is nameof(IRichCommand.IsOn))
+					button.IsChecked = cmd.IsOn;
+				else if (e.PropertyName is nameof(IRichCommand.IsExecutable))
+					button.IsEnabled = cmd.IsExecutable;
+			};
+			cmd.PropertyChanged += commandPropertyChanged;
+			toggleButtonDetachActions.Add(() => cmd.PropertyChanged -= commandPropertyChanged);
+
+			return button;
+		}
+
+		private void DetachToggleButtons()
+		{
+			foreach (var detach in toggleButtonDetachActions)
+				detach();
+
+			toggleButtonDetachActions.Clear();
+		}
+
 		internal static void ApplyIcon(AppBarButton button, RichGlyph glyph, bool setContent)
 		{
 			if (setContent)
@@ -329,7 +405,7 @@ namespace Files.App.UserControls
 
 		internal static void CollapseIconViewbox(object sender, RoutedEventArgs e)
 		{
-			var button = (AppBarButton)sender;
+			var button = (FrameworkElement)sender;
 			button.Loaded -= CollapseIconViewbox;
 
 			if (button.FindDescendant("ContentViewbox") is Viewbox vb)
@@ -357,7 +433,7 @@ namespace Files.App.UserControls
 				last.Visibility = Visibility.Collapsed;
 		}
 
-		private void AttachContextFlyout(AppBarButton button, string contextId, ToolbarItemSettingsEntry entry, int index)
+		private void AttachContextFlyout(FrameworkElement button, string contextId, ToolbarItemSettingsEntry entry, int index)
 		{
 			var customize = new MenuFlyoutItem { Text = Strings.CustomizeToolbar.GetLocalizedResource() };
 			customize.Click += (_, _) => Commands.CustomizeToolbar.Execute(null);
