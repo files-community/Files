@@ -36,6 +36,7 @@
 			<ColumnDefinition />
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 
 		<!--  Folder and selection info  -->
@@ -146,10 +147,19 @@
 		<!--  Actions area, collapses into the Git button in the compact states  -->
 		<StackPanel
 			x:Name="StandardActions"
-			Grid.Column="1"
+			Grid.Column="2"
 			VerticalAlignment="Center"
 			Orientation="Horizontal"
 			SizeChanged="Content_SizeChanged">
+
+			<!--  Divider  -->
+			<Border
+				x:Name="EncodingDivider"
+				Width="1"
+				Height="18"
+				Margin="4,0,4,0"
+				Background="{ThemeResource DividerStrokeColorDefaultBrush}"
+				Visibility="{x:Bind GetEncodingDividerVisibility(StatusBarViewModel.IsZipEncodingSelectorVisible, StatusBarViewModel.ShowOpenInIDEButton, StatusBarViewModel.GitBranchDisplayName), Mode=OneWay, FallbackValue=Collapsed}" />
 
 			<!--  Actions panel  -->
 			<StackPanel
@@ -157,52 +167,6 @@
 				VerticalAlignment="Center"
 				Orientation="Horizontal"
 				Spacing="4">
-
-				<!--  Open in IDE Button  -->
-				<Button
-					x:Name="OpenInIDEButton"
-					Height="24"
-					Padding="8,0,8,0"
-					VerticalAlignment="Center"
-					x:Load="{x:Bind StatusBarViewModel.ShowOpenInIDEButton, Mode=OneWay}"
-					AutomationProperties.Name="{helpers:ResourceString Name=Open}"
-					Background="Transparent"
-					BorderBrush="Transparent">
-					<Button.Content>
-						<StackPanel Orientation="Horizontal" Spacing="8">
-							<controls:ThemedIcon
-								Width="16"
-								Height="16"
-								Style="{StaticResource App.ThemedIcons.Open}" />
-							<TextBlock Text="{helpers:ResourceString Name=Open}" />
-						</StackPanel>
-					</Button.Content>
-
-					<Button.Flyout>
-						<MenuFlyout>
-							<MenuFlyoutItem
-								x:Name="OpenFolderInIDEButton"
-								Command="{x:Bind Commands.OpenInIDE}"
-								KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenInIDE.HotKeys, Mode=OneWay}"
-								Text="{x:Bind Commands.OpenInIDE.Label, Mode=OneWay}"
-								ToolTipService.ToolTip="{x:Bind Commands.OpenInIDE.LabelWithHotKey, Mode=OneWay}" />
-							<MenuFlyoutItem
-								x:Name="OpenRepoInIDEButton"
-								Command="{x:Bind Commands.OpenRepoInIDE}"
-								KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenRepoInIDE.HotKeys, Mode=OneWay}"
-								Text="{x:Bind Commands.OpenRepoInIDE.Label, Mode=OneWay}"
-								ToolTipService.ToolTip="{x:Bind Commands.OpenRepoInIDE.LabelWithHotKey, Mode=OneWay}"
-								Visibility="{x:Bind StatusBarViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToVisibilityCollapsedConverter}, FallbackValue=Collapsed}" />
-						</MenuFlyout>
-					</Button.Flyout>
-				</Button>
-				<!--  Divider  -->
-				<Border
-					x:Name="VSCodeDivider"
-					Width="1"
-					Height="18"
-					x:Load="{x:Bind StatusBarViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}, FallbackValue=False}"
-					Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
 				<Button
 					x:Name="GitNetworkActions"
@@ -373,12 +337,61 @@
 					</Flyout>
 				</Button.Flyout>
 			</Button>
+
+			<!--  Divider  -->
+			<Border
+				x:Name="VSCodeDivider"
+				Width="1"
+				Height="18"
+				Margin="4,0,0,0"
+				Background="{ThemeResource DividerStrokeColorDefaultBrush}"
+				Visibility="{x:Bind GetOpenRepoInIDEItemVisibility(StatusBarViewModel.ShowOpenInIDEButton, StatusBarViewModel.GitBranchDisplayName), Mode=OneWay, FallbackValue=Collapsed}" />
+
+			<!--  Open in IDE Button  -->
+			<Button
+				x:Name="OpenInIDEButton"
+				Height="24"
+				Margin="4,0,0,0"
+				Padding="8,0,8,0"
+				VerticalAlignment="Center"
+				x:Load="{x:Bind StatusBarViewModel.ShowOpenInIDEButton, Mode=OneWay}"
+				AutomationProperties.Name="{helpers:ResourceString Name=Open}"
+				Background="Transparent"
+				BorderBrush="Transparent">
+				<Button.Content>
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<controls:ThemedIcon
+							Width="16"
+							Height="16"
+							Style="{StaticResource App.ThemedIcons.Open}" />
+						<TextBlock Text="{helpers:ResourceString Name=Open}" />
+					</StackPanel>
+				</Button.Content>
+
+				<Button.Flyout>
+					<MenuFlyout>
+						<MenuFlyoutItem
+							x:Name="OpenFolderInIDEButton"
+							Command="{x:Bind Commands.OpenInIDE}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenInIDE.HotKeys, Mode=OneWay}"
+							Text="{x:Bind Commands.OpenInIDE.Label, Mode=OneWay}"
+							ToolTipService.ToolTip="{x:Bind Commands.OpenInIDE.LabelWithHotKey, Mode=OneWay}" />
+						<MenuFlyoutItem
+							x:Name="OpenRepoInIDEButton"
+							Command="{x:Bind Commands.OpenRepoInIDE}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenRepoInIDE.HotKeys, Mode=OneWay}"
+							Text="{x:Bind Commands.OpenRepoInIDE.Label, Mode=OneWay}"
+							ToolTipService.ToolTip="{x:Bind Commands.OpenRepoInIDE.LabelWithHotKey, Mode=OneWay}"
+							Visibility="{x:Bind StatusBarViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToVisibilityCollapsedConverter}, FallbackValue=Collapsed}" />
+					</MenuFlyout>
+				</Button.Flyout>
+			</Button>
 		</StackPanel>
 
 		<!--  Compact stand-in for the actions area  -->
 		<Grid
 			x:Name="ActionsCompactArea"
-			Grid.Column="2"
+			Grid.Column="3"
 			Visibility="{x:Bind GetActionsAreaVisibility(StatusBarViewModel.ShowOpenInIDEButton, StatusBarViewModel.GitBranchDisplayName), Mode=OneWay, FallbackValue=Collapsed}">
 
 			<Button
@@ -426,8 +439,8 @@
 									Height="32"
 									Padding="8,0,8,0"
 									HorizontalAlignment="Stretch"
-									HorizontalContentAlignment="Left"
 									VerticalAlignment="Center"
+									HorizontalContentAlignment="Left"
 									Background="Transparent"
 									BorderBrush="Transparent"
 									Click="GitNetworkActionsCompact_Click"
@@ -457,8 +470,8 @@
 									Height="32"
 									Padding="8,0,8,0"
 									HorizontalAlignment="Stretch"
-									HorizontalContentAlignment="Right"
 									VerticalAlignment="Center"
+									HorizontalContentAlignment="Right"
 									Background="Transparent"
 									BorderBrush="Transparent"
 									Click="GitBranchCompact_Click"
@@ -529,17 +542,90 @@
 			</Button>
 		</Grid>
 
+		<!--  ZIP Encoding Selector  -->
+		<Grid
+			x:Name="EncodingArea"
+			Grid.Column="1"
+			Visibility="{x:Bind StatusBarViewModel.IsZipEncodingSelectorVisible, Mode=OneWay}">
+			<Button
+				x:Name="ZipEncodingSelector"
+				Height="24"
+				Padding="8,0,8,0"
+				VerticalAlignment="Center"
+				Background="Transparent"
+				BorderBrush="Transparent"
+				SizeChanged="Content_SizeChanged"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=Encoding}">
+
+				<StackPanel Orientation="Horizontal" Spacing="8">
+					<FontIcon
+						x:Name="ZipEncodingIcon"
+						VerticalAlignment="Center"
+						FontSize="14"
+						Glyph="&#xE774;"
+						Visibility="Collapsed" />
+					<!--  Encoding Name  -->
+					<TextBlock
+						x:Name="ZipEncodingLabel"
+						VerticalAlignment="Center"
+						Text="{x:Bind StatusBarViewModel.SelectedZipEncoding.Name, Mode=OneWay, FallbackValue='', TargetNullValue=''}" />
+				</StackPanel>
+
+				<Button.Flyout>
+					<Flyout x:Name="ZipEncodingFlyout" Opening="ZipEncodingFlyout_Opening">
+						<Grid
+							Width="240"
+							Height="300"
+							Margin="-16">
+
+							<!--  Encodings List  -->
+							<ListView
+								x:Name="ZipEncodingList"
+								Padding="4"
+								Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+								IsItemClickEnabled="True"
+								ItemClick="ZipEncodingList_ItemClick"
+								ItemsSource="{x:Bind StatusBarViewModel.ZipEncodingOptions, Mode=OneWay}"
+								SelectedItem="{x:Bind StatusBarViewModel.SelectedZipEncoding, Mode=TwoWay}"
+								SelectionMode="Single">
+
+								<ListView.ItemTemplate>
+									<DataTemplate x:DataType="data:EncodingItem">
+										<TextBlock
+											VerticalAlignment="Center"
+											Text="{x:Bind Name}"
+											TextTrimming="CharacterEllipsis" />
+									</DataTemplate>
+								</ListView.ItemTemplate>
+
+							</ListView>
+						</Grid>
+					</Flyout>
+				</Button.Flyout>
+			</Button>
+		</Grid>
+
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup x:Name="ResponsiveStates">
 				<VisualState x:Name="NormalState" />
+				<VisualState x:Name="CompactEncodingState">
+					<VisualState.Setters>
+						<Setter Target="ZipEncodingLabel.Visibility" Value="Collapsed" />
+						<Setter Target="ZipEncodingIcon.Visibility" Value="Visible" />
+					</VisualState.Setters>
+				</VisualState>
 				<VisualState x:Name="CompactActionsState">
 					<VisualState.Setters>
+						<Setter Target="ZipEncodingLabel.Visibility" Value="Collapsed" />
+						<Setter Target="ZipEncodingIcon.Visibility" Value="Visible" />
 						<Setter Target="StandardActions.Visibility" Value="Collapsed" />
 						<Setter Target="GitOverflowButton.Visibility" Value="Visible" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="CompactState">
 					<VisualState.Setters>
+						<Setter Target="ZipEncodingLabel.Visibility" Value="Collapsed" />
+						<Setter Target="ZipEncodingIcon.Visibility" Value="Visible" />
 						<Setter Target="StandardActions.Visibility" Value="Collapsed" />
 						<Setter Target="GitOverflowButton.Visibility" Value="Visible" />
 						<Setter Target="InfoTextPanel.Visibility" Value="Collapsed" />
@@ -548,6 +634,19 @@
 				</VisualState>
 				<VisualState x:Name="CompactIconsState">
 					<VisualState.Setters>
+						<Setter Target="ZipEncodingLabel.Visibility" Value="Collapsed" />
+						<Setter Target="ZipEncodingIcon.Visibility" Value="Visible" />
+						<Setter Target="StandardActions.Visibility" Value="Collapsed" />
+						<Setter Target="GitOverflowButton.Visibility" Value="Visible" />
+						<Setter Target="InfoTextPanel.Visibility" Value="Collapsed" />
+						<Setter Target="StatusButton.Visibility" Value="Visible" />
+						<Setter Target="StatusButtonLabel.Visibility" Value="Collapsed" />
+						<Setter Target="GitOverflowButtonLabel.Visibility" Value="Collapsed" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="MinimalState">
+					<VisualState.Setters>
+						<Setter Target="ZipEncodingSelector.Visibility" Value="Collapsed" />
 						<Setter Target="StandardActions.Visibility" Value="Collapsed" />
 						<Setter Target="GitOverflowButton.Visibility" Value="Visible" />
 						<Setter Target="InfoTextPanel.Visibility" Value="Collapsed" />
@@ -558,6 +657,5 @@
 				</VisualState>
 			</VisualStateGroup>
 		</VisualStateManager.VisualStateGroups>
-
 	</Grid>
 </UserControl>
