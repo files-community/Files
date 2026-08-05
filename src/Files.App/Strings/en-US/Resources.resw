@@ -4178,9 +4178,6 @@
   <data name="ConvertToIconError" xml:space="preserve">
     <value>Couldn't convert the image to an icon file</value>
   </data>
-  <data name="Convert" xml:space="preserve">
-    <value>Convert…</value>
-  </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Num</value>
   </data>

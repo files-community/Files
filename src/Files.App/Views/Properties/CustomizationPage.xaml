@@ -101,7 +101,7 @@
 				Message="{x:Bind CustomizationViewModel.ConvertImageInfoBarMessage, Mode=OneWay}"
 				Severity="{x:Bind CustomizationViewModel.ConvertImageInfoBarSeverity, Mode=OneWay}">
 				<InfoBar.ActionButton>
-					<Button Command="{x:Bind CustomizationViewModel.ConvertImageToIconCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=Convert}" />
+					<Button Command="{x:Bind CustomizationViewModel.ConvertImageToIconCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=Browse}" />
 				</InfoBar.ActionButton>
 			</InfoBar>
 
