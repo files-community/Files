@@ -162,7 +162,7 @@ internal sealed partial class LibGit2Service // : IVersionControl
 
 	public async Task<bool> Checkout(string? repositoryPath, string? branch)
 	{
-		SentrySdk.Experimental.Metrics.EmitCounter("Triggered git checkout", 1);
+		SentrySdk.Metrics.EmitCounter("Triggered git checkout", 1);
 
 		if (string.IsNullOrWhiteSpace(repositoryPath) || !IsRepoValid(repositoryPath))
 			return false;
@@ -255,7 +255,7 @@ internal sealed partial class LibGit2Service // : IVersionControl
 
 	public async Task CreateNewBranchAsync(string repositoryPath, string activeBranch)
 	{
-		SentrySdk.Experimental.Metrics.EmitCounter("Triggered create git branch", 1);
+		SentrySdk.Metrics.EmitCounter("Triggered create git branch", 1);
 
 		var viewModel = new AddBranchDialogViewModel(repositoryPath, activeBranch);
 		var loadBranchesTask = viewModel.LoadBranches();
@@ -285,7 +285,7 @@ internal sealed partial class LibGit2Service // : IVersionControl
 
 	public async Task DeleteBranchAsync(string? repositoryPath, string? activeBranch, string? branchToDelete)
 	{
-		SentrySdk.Experimental.Metrics.EmitCounter("Triggered delete git branch", 1);
+		SentrySdk.Metrics.EmitCounter("Triggered delete git branch", 1);
 
 		if (string.IsNullOrWhiteSpace(repositoryPath) ||
 			string.IsNullOrWhiteSpace(activeBranch) ||
