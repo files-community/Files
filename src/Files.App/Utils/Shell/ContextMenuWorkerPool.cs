@@ -18,51 +18,80 @@ namespace Files.App.Utils.Shell
 		private const int MaxIdleWorkers = 3;
 		private const int MaxUsesPerWorker = 50;
 
-		private static readonly object _lock = new();
-		private static readonly Stack<Worker> _idleWorkers = new();
+	private static PoolState _idleWorkers = PoolState.Empty;
 
-		internal sealed class Worker(ThreadWithMessageQueue thread)
+	private sealed class PoolState(Worker? head, int count)
+	{
+		internal static readonly PoolState Empty = new(null, 0);
+
+		internal Worker? Head { get; } = head;
+		internal int Count { get; } = count;
+	}
+
+	internal class Worker(ThreadWithMessageQueue thread)
+	{
+		public ThreadWithMessageQueue Thread { get; } = thread;
+
+		internal int Uses { get; set; }
+		internal Worker? Next { get; set; }
+	}
+
+	/// <summary>
+	/// Borrows a warm worker from the pool, or creates one if none are idle.
+	/// </summary>
+	public static Worker Rent()
+	{
+		while (true)
 		{
-			public ThreadWithMessageQueue Thread { get; } = thread;
+			PoolState state = Volatile.Read(ref _idleWorkers);
+			Worker? worker = state.Head;
 
-			public int Uses { get; set; }
-		}
-
-		/// <summary>
-		/// Borrows a warm worker from the pool, or creates one if none are idle.
-		/// </summary>
-		public static Worker Rent()
-		{
-			lock (_lock)
+			if (worker is null)
 			{
-				if (_idleWorkers.Count > 0)
-					return _idleWorkers.Pop();
+				return new Worker(new ThreadWithMessageQueue());
 			}
 
-			return new Worker(new ThreadWithMessageQueue());
-		}
-
-		/// <summary>
-		/// Returns a worker to the pool once the caller has finished releasing the COM state it created
-		/// (which must happen on the worker's own thread). Over-used or excess workers are disposed.
-		/// </summary>
-		public static void Return(Worker worker)
-		{
-			worker.Uses++;
-
-			if (worker.Uses < MaxUsesPerWorker)
+			var newState = new PoolState(worker.Next, state.Count - 1);
+			if (ReferenceEquals(Interlocked.CompareExchange(ref _idleWorkers, newState, state), state))
 			{
-				lock (_lock)
-				{
-					if (_idleWorkers.Count < MaxIdleWorkers)
-					{
-						_idleWorkers.Push(worker);
-						return;
-					}
-				}
+				worker.Next = null;
+				return worker;
 			}
+		}
+	}
 
+	/// <summary>
+	/// Returns a worker to the pool once the caller has finished releasing the COM state it created
+	/// (which must happen on the worker's own thread). Over-used or excess workers are disposed.
+	/// </summary>
+	public static void Return(Worker worker)
+	{
+		worker.Uses++;
+
+		if (worker.Uses >= MaxUsesPerWorker)
+		{
 			worker.Thread.Dispose();
+			return;
 		}
+
+		while (true)
+		{
+			PoolState state = Volatile.Read(ref _idleWorkers);
+
+			if (state.Count >= MaxIdleWorkers)
+			{
+				worker.Thread.Dispose();
+				return;
+			}
+
+			worker.Next = state.Head;
+			var newState = new PoolState(worker, state.Count + 1);
+
+			if (ReferenceEquals(Interlocked.CompareExchange(ref _idleWorkers, newState, state), state))
+			{
+				return;
+			}
+		}
+	}
 	}
 }
