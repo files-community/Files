@@ -109,19 +109,37 @@ namespace Files.App.Services
 
 		public async Task RemoveFolderAsync(string path)
 		{
-			if (JumpList.IsSupported())
-			{
-				try
-				{
-					var instance = await JumpList.LoadCurrentAsync();
-					// Disable automatic jumplist. It doesn't work.
-					instance.SystemGroupKind = JumpListSystemGroupKind.None;
+			await RemoveFoldersAsync([path]);
+		}
 
-					var itemToRemove = instance.Items.Where(x => x.Arguments == path).Select(x => x).FirstOrDefault();
-					instance.Items.Remove(itemToRemove);
+		/// <inheritdoc/>
+		public async Task RemoveFoldersAsync(IEnumerable<string> paths)
+		{
+			if (!JumpList.IsSupported())
+				return;
+
+			try
+			{
+				var pathsToRemove = paths.ToHashSet(StringComparer.OrdinalIgnoreCase);
+				if (pathsToRemove.Count == 0)
+					return;
+
+				var instance = await JumpList.LoadCurrentAsync();
+				// Disable automatic jumplist. It doesn't work.
+				instance.SystemGroupKind = JumpListSystemGroupKind.None;
+
+				var itemsToRemove = instance.Items
+					.Where(item => pathsToRemove.Contains(item.Arguments))
+					.ToList();
+				foreach (var item in itemsToRemove)
+					instance.Items.Remove(item);
+
+				if (itemsToRemove.Count > 0)
 					await instance.SaveAsync();
-				}
-				catch { }
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, ex.Message);
 			}
 		}
 

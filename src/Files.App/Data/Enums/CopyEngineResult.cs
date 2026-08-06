@@ -63,6 +63,7 @@ namespace Files.App.Data.Enums
 			{
 				CopyEngineResult.S_OK => FileSystemStatusCode.Success,
 				CopyEngineResult.COPYENGINE_E_ACCESS_DENIED_SRC => FileSystemStatusCode.Unauthorized,
+				CopyEngineResult.COPYENGINE_E_USER_CANCELLED => FileSystemStatusCode.Generic,
 				CopyEngineResult.COPYENGINE_E_ACCESS_DENIED_DEST => FileSystemStatusCode.Unauthorized,
 				CopyEngineResult.COPYENGINE_E_REQUIRES_ELEVATION => FileSystemStatusCode.Unauthorized,
 				CopyEngineResult.COPYENGINE_E_RECYCLE_PATH_TOO_LONG => FileSystemStatusCode.NameTooLong,

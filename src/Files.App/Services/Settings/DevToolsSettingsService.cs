@@ -32,6 +32,20 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		/// <inheritdoc/>
+		public bool UseRobocopyForFileOperations
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public int RobocopyThreads
+		{
+			get => Get(8);
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			base.RaiseOnSettingChangedEvent(sender, e);
