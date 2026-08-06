@@ -225,7 +225,11 @@ namespace Files.App.Utils
 		public string ItemPath
 		{
 			get => itemPath;
-			set => SetProperty(ref itemPath, value);
+			set
+			{
+				if (SetProperty(ref itemPath, value))
+					OnPropertyChanged(nameof(Name));
+			}
 		}
 
 		private string itemNameRaw;
