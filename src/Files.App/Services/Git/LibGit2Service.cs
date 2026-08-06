@@ -473,9 +473,15 @@ internal sealed partial class LibGit2Service // : IVersionControl
 	{
 		var uniqueName = branch.FriendlyName.Substring(END_OF_ORIGIN_PREFIX);
 
-		// TODO: This is a temp fix to avoid an issue where Files would create many branches in a loop
 		if (repository.Branches.Any(b => !b.IsRemote && b.FriendlyName == uniqueName))
+		{
+			var localBranch = repository.Branches[uniqueName];
+			if (repository.Head.FriendlyName != localBranch.FriendlyName)
+			{
+				LibGit2Sharp.Commands.Checkout(repository, localBranch);
+			}
 			return;
+		}
 
 		//var discriminator = 0;
 		//while (repository.Branches.Any(b => !b.IsRemote && b.FriendlyName == uniqueName))
