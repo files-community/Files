@@ -735,23 +735,5 @@ namespace Files.App.Data.Factories
 
 			return list;
 		}
-
-		public static void SwapPlaceholderWithShellOption(CommandBarFlyout contextMenu, string placeholderName, ContextMenuFlyoutItemViewModel? replacingItem, int position)
-		{
-			var placeholder = contextMenu.SecondaryCommands
-				.FirstOrDefault(x => Equals((x as AppBarButton)?.Tag, placeholderName)) as AppBarButton;
-
-			if (placeholder is not null)
-				placeholder.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-
-			if (replacingItem is not null)
-			{
-				var (_, bitLockerCommands) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel([replacingItem]);
-				contextMenu.SecondaryCommands.Insert(
-					position,
-					bitLockerCommands.FirstOrDefault()
-				);
-			}
-		}
 	}
 }

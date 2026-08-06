@@ -76,21 +76,6 @@ namespace Files.App
 
 			public const double MaximumSidebarWidth = 500;
 
-			// For contextmenu hacks, must match WinUI style
-			public const double ContextMenuMaxHeight = 480;
-
-			// For contextmenu hacks, must match WinUI style
-			public const double ContextMenuSecondaryItemsHeight = 32;
-
-			// For contextmenu hacks, must match WinUI style
-			public const double ContextMenuPrimaryItemsHeight = 48;
-
-			// For contextmenu hacks
-			public const double ContextMenuLabelMargin = 10;
-
-			// For contextmenu hacks
-			public const double ContextMenuItemsMaxWidth = 250;
-
 			public const double MultiplePaneWidthThreshold = 750;
 		}
 
