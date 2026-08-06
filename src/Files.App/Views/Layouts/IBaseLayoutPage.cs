@@ -33,8 +33,8 @@ namespace Files.App.Views.Layouts
 
 		BaseLayoutViewModel? CommandsViewModel { get; }
 
-		CommandBarFlyout ItemContextMenuFlyout { get; set; }
+		MenuFlyout ItemContextMenuFlyout { get; }
 
-		CommandBarFlyout BaseContextMenuFlyout { get; set; }
+		MenuFlyout BaseContextMenuFlyout { get; }
 	}
 }

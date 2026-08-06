@@ -27,5 +27,24 @@ namespace Files.App.UserControls.Menus
 		{
 			(d as MenuFlyoutSubItem).Icon = e.NewValue is not null ? new IconSourceElement() : null;
 		}
+
+		public static readonly DependencyProperty ThemedIconStyleProperty =
+			DependencyProperty.Register("ThemedIconStyle", typeof(Style), typeof(MenuFlyoutSubItemCustomProperties), new PropertyMetadata(null, OnThemedIconStyleChanged));
+
+		public static Style GetThemedIconStyle(DependencyObject obj)
+		{
+			return (Style)obj.GetValue(ThemedIconStyleProperty);
+		}
+
+		public static void SetThemedIconStyle(DependencyObject obj, Style value)
+		{
+			obj.SetValue(ThemedIconStyleProperty, value);
+		}
+
+		private static void OnThemedIconStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			// Reserve the icon column (the ThemedIcon itself is drawn by the template); mirrors the BitmapIcon path.
+			(d as MenuFlyoutSubItem).Icon = e.NewValue is not null ? new IconSourceElement() : null;
+		}
 	}
 }

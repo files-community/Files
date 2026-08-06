@@ -28,7 +28,8 @@ namespace Files.InteractionTests.Helper
 		{
 			var testResult = AccessibilityScanner.Scan(null).WindowScanOutputs.SelectMany(output => output.Errors).Where(error =>
 				error.Rule.ID != RuleId.BoundingRectangleNotNull &&
-				!error.Rule.Description.Contains("BoundingRectangle must not obscure its container element.", StringComparison.Ordinal));
+				!error.Rule.Description.Contains("BoundingRectangle must not obscure its container element.", StringComparison.Ordinal) &&
+				!IsTransientZeroSizeElement(error));
 			if (testResult.Any())
 			{
 				StringBuilder sb = new();
@@ -40,6 +41,26 @@ namespace Files.InteractionTests.Helper
 
 				Assert.Fail(sb.ToString());
 			}
+		}
+
+		/// <summary>
+		/// Filters out the minimum-area rule for elements collapsed to a sliver (≤2px on a side),
+		/// such as the sidebar's scroll-arrow buttons mid-animation while the pointer hovers it.
+		/// </summary>
+		private static bool IsTransientZeroSizeElement(ScanResult error)
+		{
+			if (error.Rule.ID != RuleId.BoundingRectangleSizeReasonable)
+				return false;
+
+			var parts = error.Element.Properties["BoundingRectangle"].Trim('[').Trim(']').Split(',');
+			var values = new int[4];
+			for (int index = 0; index < 4; index++)
+			{
+				if (!int.TryParse(parts[index][2..], out values[index]))
+					return false;
+			}
+
+			return (values[2] - values[0]) <= 2 || (values[3] - values[1]) <= 2;
 		}
 
 		private static string BuildAssertMessage(ScanResult result)

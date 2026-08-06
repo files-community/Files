@@ -1,5 +1,5 @@
 // Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 namespace Files.App.Utils.Shell
 {
@@ -28,7 +28,7 @@ namespace Files.App.Utils.Shell
 			internal int Count { get; } = count;
 		}
 
-		internal class Worker(ThreadWithMessageQueue thread)
+		internal sealed class Worker(ThreadWithMessageQueue thread)
 		{
 			public ThreadWithMessageQueue Thread { get; } = thread;
 

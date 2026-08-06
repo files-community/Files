@@ -93,19 +93,11 @@ namespace Files.App.Views.Layouts
 		public bool AllowItemDrag
 			=> WindowContext.CanDragAndDrop;
 
-		public CommandBarFlyout ItemContextMenuFlyout { get; set; } = new()
-		{
-			AlwaysExpanded = true,
-			AreOpenCloseAnimationsEnabled = false,
-			Placement = FlyoutPlacementMode.Right,
-		};
+		protected FastContextFlyout ItemContextFlyoutHost { get; } = new();
+		protected FastContextFlyout BaseContextFlyoutHost { get; } = new();
 
-		public CommandBarFlyout BaseContextMenuFlyout { get; set; } = new()
-		{
-			AlwaysExpanded = true,
-			AreOpenCloseAnimationsEnabled = false,
-			Placement = FlyoutPlacementMode.Right,
-		};
+		public MenuFlyout ItemContextMenuFlyout => ItemContextFlyoutHost.Flyout;
+		public MenuFlyout BaseContextMenuFlyout => BaseContextFlyoutHost.Flyout;
 
 		protected abstract ItemsControl ItemsControl { get; }
 
@@ -527,6 +519,172 @@ namespace Files.App.Views.Layouts
 			BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
 		}
 
+		private async Task EnsurePageIsCurrentAsync()
+		{
+			if (!ParentShellPageInstance!.IsCurrentInstance || !ParentShellPageInstance.IsCurrentPane)
+			{
+				// Wait until the pane and column become current, then let the page context update
+				await Task.WhenAny(ParentShellPageInstance.WhenIsCurrent(), Task.Delay(500));
+				await Task.Delay(10);
+			}
+		}
+
+		private CancellationToken RenewShellMenuToken()
+		{
+			shellContextMenuItemCancellationToken?.Cancel();
+			shellContextMenuItemCancellationToken = new CancellationTokenSource();
+			return shellContextMenuItemCancellationToken.Token;
+		}
+
+		private async void ItemContextFlyout_Opening(object? sender, object e)
+		{
+			try
+			{
+				await EnsurePageIsCurrentAsync();
+
+				// Workaround for item sometimes not getting selected
+				if (!IsItemSelected && (sender as MenuFlyout)?.Target is SelectorItem { Content: ListedItem li })
+					ItemManipulationModel.SetSelectedItem(li);
+
+				if (!IsItemSelected)
+					return;
+
+				shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
+				SelectedItemsPropertiesViewModel.CheckAllFileExtensions(SelectedItems!.Select(x => x?.FileExtension).ToList()!);
+
+				var items = ContentPageContextFlyoutFactory.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: null);
+				var host = ItemContextFlyoutHost;
+				host.Build(items);
+
+				// Edit tags: a submenu of the available tags (FileTagsContextMenu is a standalone MenuFlyout that
+				// can't be nested, so build the tag toggles directly).
+				if (InstanceViewModel.CanTagFilesInPage && UserSettingsService.GeneralSettingsService.ShowEditTagsMenu && SelectedItems is { Count: > 0 })
+				{
+					host.AddSeparatorIfNeeded();
+					host.Items.Add(BuildEditTagsSubItem(SelectedItems!));
+				}
+
+				// Shell extensions. Open with / Send to belong in the MAIN menu (they replace placeholders there);
+				// the rest go under a single "Show more options" submenu (Win11) or inline (Win10) per the setting.
+				if (!InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
+				{
+					var token = RenewShellMenuToken();
+
+					// Pre-add "Show more options" (with the synchronously-known built-in overflow items) BEFORE the
+					// async shell fetch so its placeholder shows while the extensions load.
+					var (moreOptions, moreSeparator) = host.AddShowMoreOptionsIfEnabled(items);
+
+					// Open with / Send to: swap the leaf placeholders for their submenus synchronously (before the
+					// menu renders) so the main menu does not reflow when the shell sub-items load - only the submenu
+					// contents fill in. Reverted after the fetch if the shell has no such items.
+					var openWithSwap = host.SwapLeafForSubMenu("OpenWith", "OpenWithOverflow", Strings.OpenWith.GetLocalizedResource(), "App.ThemedIcons.OpenWith");
+					var sendToSwap = UserSettingsService.GeneralSettingsService.ShowSendToMenu
+						? host.SwapLeafForSubMenu("SendTo", "SendToOverflow", null, null)
+						: null;
+
+					// Place the primary row BEFORE the menu renders so it does not jump on an upward open.
+					host.ResolvePlacement();
+
+					var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(
+						ParentShellPageInstance.ShellViewModel.WorkingDirectory, SelectedItems!, shiftPressed, false, token);
+
+					if (token.IsCancellationRequested)
+						return;
+
+					var openWithModel = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
+					var sendToModel = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
+
+					// BitLocker: replace the placeholders with whichever entries the shell offers (drives)
+					host.ApplyBitLockerModels(shellMenuItems, moreOptions, moreSeparator);
+
+					// Fill the swapped-in submenus off the open path; revert to the leaf form when the shell
+					// offers no such entry.
+					FastContextFlyout.FillOrRevert(openWithSwap, openWithModel, ShellContextFlyoutFactory.GetOpenWithItems);
+					FastContextFlyout.FillOrRevert(sendToSwap, sendToModel, ShellContextFlyoutFactory.GetSendToItems);
+
+					var shellModelsFiltered = shellMenuItems
+						.Where(x => x != openWithModel && x != sendToModel)
+						.ToList();
+					host.AddShellModels(shellModelsFiltered, shiftPressed, moreOptions, moreSeparator);
+				}
+				else
+				{
+					host.ResolvePlacement();
+				}
+
+				host.FinalizePrimaryRowPosition();
+			}
+			catch (Exception error)
+			{
+				Debug.WriteLine(error);
+			}
+		}
+
+		private MenuFlyoutSubItem BuildEditTagsSubItem(List<ListedItem> selected)
+		{
+			var subItem = new MenuFlyoutSubItem
+			{
+				Text = Strings.EditTags.GetLocalizedResource(),
+			};
+			if (App.Current.Resources["App.ThemedIcons.TagEdit"] is Style tagEditIconStyle)
+			{
+				subItem.Style = App.Current.Resources["MenuFlyoutSubItemWithThemedIconStyle"] as Style;
+				MenuFlyoutSubItemCustomProperties.SetThemedIconStyle(subItem, tagEditIconStyle);
+			}
+
+			var commonTags = selected
+				.Select(x => (IEnumerable<string>)(x?.FileTags ?? []))
+				.Aggregate((a, b) => a.Intersect(b))
+				.ToHashSet();
+
+			var tagPathData = (string)Application.Current.Resources["App.Theme.PathIcon.FilledTag"];
+
+			foreach (var tag in FileTagsSettingsService.FileTagList)
+			{
+				var toggle = new ToggleMenuFlyoutItem
+				{
+					Text = tag.Name,
+					Tag = tag,
+					IsChecked = commonTags.Contains(tag.Uid),
+					Icon = new Microsoft.UI.Xaml.Controls.PathIcon
+					{
+						Data = (Microsoft.UI.Xaml.Media.Geometry)Microsoft.UI.Xaml.Markup.XamlBindingHelper.ConvertValue(typeof(Microsoft.UI.Xaml.Media.Geometry), tagPathData),
+						Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(ColorHelpers.FromHex(tag.Color)),
+					},
+				};
+				toggle.Click += async (s, _) =>
+				{
+					var toggled = (ToggleMenuFlyoutItem)s;
+					var tv = (TagViewModel)toggled.Tag;
+					foreach (var it in selected.Where(i => i is not null))
+					{
+						var existing = it.FileTags ?? [];
+						it.FileTags = toggled.IsChecked
+							? (existing.Contains(tv.Uid) ? existing : [.. existing, tv.Uid])
+							: existing.Where(u => u != tv.Uid).ToArray();
+					}
+					if (ParentShellPageInstance is not null)
+						await ParentShellPageInstance.ShellViewModel.RefreshTagGroups();
+				};
+				subItem.Items.Add(toggle);
+			}
+
+			subItem.Items.Add(new MenuFlyoutSeparator());
+			var removeTags = new MenuFlyoutItem
+			{
+				Text = Strings.RemoveTags.GetLocalizedResource(),
+				IsEnabled = selected.Any(x => x?.FileTags is { Length: > 0 }),
+			};
+			removeTags.Click += async (_, _) =>
+			{
+				if (await FileTagsHelper.RemoveTagsAsync(selected) && ParentShellPageInstance is not null)
+					await ParentShellPageInstance.ShellViewModel.RefreshTagGroups();
+			};
+			subItem.Items.Add(removeTags);
+
+			return subItem;
+		}
+
 		public async void SetSelectedItemsOnNavigation()
 		{
 			try
@@ -619,120 +777,45 @@ namespace Files.App.Views.Layouts
 				ParentShellPageInstance!.ShellViewModel.CancelLoadAndClearFiles();
 		}
 
-		private async void ItemContextFlyout_Opening(object? sender, object e)
-		{
-			App.LastOpenedFlyout = sender as CommandBarFlyout;
-
-			try
-			{
-				if (!ParentShellPageInstance!.IsCurrentInstance || !ParentShellPageInstance.IsCurrentPane)
-				{
-					// Wait until the pane and column become current
-					await Task.WhenAny(ParentShellPageInstance.WhenIsCurrent(), Task.Delay(500));
-					// Wait a little longer to ensure the page context is updated
-					await Task.Delay(10);
-				}
-
-				// Workaround for item sometimes not getting selected
-				if (!IsItemSelected && (sender as CommandBarFlyout)?.Target is ListViewItem { Content: ListedItem li })
-					ItemManipulationModel.SetSelectedItem(li);
-
-				if (IsItemSelected)
-				{
-					// Reset menu max height
-					if (ItemContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
-						itc.MaxHeight = Constants.UI.ContextMenuMaxHeight;
-
-					shellContextMenuItemCancellationToken?.Cancel();
-					shellContextMenuItemCancellationToken = new CancellationTokenSource();
-					SelectedItemsPropertiesViewModel.CheckAllFileExtensions(SelectedItems!.Select(selectedItem => selectedItem?.FileExtension).ToList()!);
-
-					shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-					var items = ContentPageContextFlyoutFactory.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: null);
-
-					ItemContextMenuFlyout.PrimaryCommands.Clear();
-					ItemContextMenuFlyout.SecondaryCommands.Clear();
-
-					var (primaryElements, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(items);
-					AddCloseHandler(ItemContextMenuFlyout, primaryElements, secondaryElements);
-					primaryElements.ForEach(ItemContextMenuFlyout.PrimaryCommands.Add);
-					secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
-					secondaryElements.ForEach(ItemContextMenuFlyout.SecondaryCommands.Add);
-
-					if (InstanceViewModel!.CanTagFilesInPage)
-						AddNewFileTagsToMenu(ItemContextMenuFlyout);
-
-					if (!InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
-					{
-						var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.ShellViewModel.WorkingDirectory, selectedItems: SelectedItems!, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
-						if (shellMenuItems.Any())
-							await AddShellMenuItemsAsync(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
-						else
-							RemoveOverflow(ItemContextMenuFlyout);
-					}
-					else
-					{
-						RemoveOverflow(ItemContextMenuFlyout);
-					}
-				}
-			}
-			catch (Exception error)
-			{
-				Debug.WriteLine(error);
-			}
-		}
-
 		private async void BaseContextFlyout_Opening(object? sender, object e)
 		{
-			App.LastOpenedFlyout = sender as CommandBarFlyout;
-
 			try
 			{
-				if (!ParentShellPageInstance!.IsCurrentInstance || !ParentShellPageInstance.IsCurrentPane)
-				{
-					// Wait until the pane and column become current
-					await Task.WhenAny(ParentShellPageInstance.WhenIsCurrent(), Task.Delay(500));
-					// Wait a little longer to ensure the page context is updated
-					await Task.Delay(10);
-				}
+				await EnsurePageIsCurrentAsync();
 
 				ItemManipulationModel.ClearSelection();
-
-				// Reset menu max height
-				if (BaseContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
-					itc.MaxHeight = Constants.UI.ContextMenuMaxHeight;
-
-				shellContextMenuItemCancellationToken?.Cancel();
-				shellContextMenuItemCancellationToken = new CancellationTokenSource();
-
 				shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
+
 				var items = ContentPageContextFlyoutFactory.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: [ParentShellPageInstance!.ShellViewModel.CurrentFolder], commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: ParentShellPageInstance!.ShellViewModel, selectedItemsPropertiesViewModel: null);
-
-				BaseContextMenuFlyout.PrimaryCommands.Clear();
-				BaseContextMenuFlyout.SecondaryCommands.Clear();
-
-				var (primaryElements, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(items);
-
-				AddCloseHandler(BaseContextMenuFlyout, primaryElements, secondaryElements);
-
-				primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
-
-				// Set menu min width
-				secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
-				secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
+				var host = BaseContextFlyoutHost;
+				host.Build(items);
 
 				if (!InstanceViewModel!.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
 				{
-					var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.ShellViewModel.WorkingDirectory, selectedItems: [], shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
-					if (shellMenuItems.Any())
-						await AddShellMenuItemsAsync(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
-					else
-						RemoveOverflow(BaseContextMenuFlyout);
+					var token = RenewShellMenuToken();
+
+					// Pre-add "Show more options" (with the synchronously-known built-in overflow items) BEFORE the
+					// async shell fetch so its placeholder shows while the extensions load.
+					var (moreOptions, moreSeparator) = host.AddShowMoreOptionsIfEnabled(items);
+
+					host.ResolvePlacement();
+
+					var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.ShellViewModel.WorkingDirectory, selectedItems: [], shiftPressed: shiftPressed, showOpenMenu: false, token);
+					if (token.IsCancellationRequested)
+						return;
+
+					// The background menu has no Open with / Send to entries - drop them from the shell list
+					var shellModelsFiltered = shellMenuItems
+						.Where(x => x.Tag is not Win32ContextMenuItem { CommandString: "openas" or "sendto" })
+						.ToList();
+					host.AddShellModels(shellModelsFiltered, shiftPressed, moreOptions, moreSeparator);
 				}
 				else
 				{
-					RemoveOverflow(BaseContextMenuFlyout);
+					host.ResolvePlacement();
 				}
+
+				host.FinalizePrimaryRowPosition();
 			}
 			catch (Exception error)
 			{
@@ -760,286 +843,6 @@ namespace Files.App.Views.Layouts
 			}
 
 			SelectedItemsPropertiesViewModel.ItemSizeVisibility = isSizeKnown;
-		}
-
-		private void AddCloseHandler(CommandBarFlyout flyout, IList<ICommandBarElement> primaryElements, IList<ICommandBarElement> secondaryElements)
-		{
-			// Workaround for WinUI (#5508)
-			var closeHandler = new RoutedEventHandler((s, e) => flyout.Hide());
-
-			primaryElements
-				.OfType<AppBarButton>()
-				.ForEach(button => button.Click += closeHandler);
-
-			var menuFlyoutItems = secondaryElements
-				.OfType<AppBarButton>()
-				.Select(item => item.Flyout)
-				.OfType<MenuFlyout>()
-				.SelectMany(menu => menu.Items);
-
-			addCloseHandler(menuFlyoutItems);
-
-			void addCloseHandler(IEnumerable<MenuFlyoutItemBase> menuFlyoutItems)
-			{
-				menuFlyoutItems.OfType<MenuFlyoutItem>()
-					.ForEach(button => button.Click += closeHandler);
-				menuFlyoutItems.OfType<MenuFlyoutSubItem>()
-					.ForEach(menu => addCloseHandler(menu.Items));
-			}
-		}
-
-		private void AddNewFileTagsToMenu(CommandBarFlyout contextMenu)
-		{
-			var fileTagsContextMenu = new FileTagsContextMenu(SelectedItems!);
-			var overflowSeparator = contextMenu.SecondaryCommands.FirstOrDefault(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator;
-			var index = contextMenu.SecondaryCommands.IndexOf(overflowSeparator);
-			index = index >= 0 ? index : contextMenu.SecondaryCommands.Count;
-
-			// Only show the edit tags flyout if settings is enabled
-			if (!UserSettingsService.GeneralSettingsService.ShowEditTagsMenu)
-				return;
-
-			contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
-			contextMenu.SecondaryCommands.Insert(index + 1, new AppBarButton()
-			{
-				Label = Strings.EditTags.GetLocalizedResource(),
-				Content = new ThemedIcon()
-				{
-					Style = (Style)Application.Current.Resources["App.ThemedIcons.TagEdit"],
-				},
-				Flyout = fileTagsContextMenu
-			});
-
-			fileTagsContextMenu.TagsChanged += RequireTagGroupsUpdate;
-			fileTagsContextMenu.Closed += HandleClosed;
-
-			async void RequireTagGroupsUpdate(object? sender, EventArgs e)
-			{
-				if (ParentShellPageInstance is not null)
-					await ParentShellPageInstance.ShellViewModel.RefreshTagGroups();
-			}
-
-			void HandleClosed(object? sender, object e)
-			{
-				fileTagsContextMenu.TagsChanged -= RequireTagGroupsUpdate;
-				fileTagsContextMenu.Closed -= HandleClosed;
-			}
-		}
-
-		private async Task AddShellMenuItemsAsync(List<ContextMenuFlyoutItemViewModel> shellMenuItems, CommandBarFlyout contextMenuFlyout, bool shiftPressed)
-		{
-			var openWithMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
-			var sendToMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
-			var turnOnBitLockerMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem menuItem && menuItem.CommandString is not null && menuItem.CommandString.StartsWith("encrypt-bde"));
-			var manageBitLockerMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "manage-bde" });
-			var shellMenuItemsFiltered = shellMenuItems.Where(x => x != openWithMenuItem && x != sendToMenuItem && x != turnOnBitLockerMenuItem && x != manageBitLockerMenuItem).ToList();
-			var mainShellMenuItems = shellMenuItemsFiltered.RemoveFrom(!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 0);
-			var overflowShellMenuItemsUnfiltered = shellMenuItemsFiltered.Except(mainShellMenuItems).ToList();
-			var overflowShellMenuItems = overflowShellMenuItemsUnfiltered.Where(
-				(x, i) => (x.ItemType == ContextMenuFlyoutItemType.Separator &&
-				overflowShellMenuItemsUnfiltered[i + 1 < overflowShellMenuItemsUnfiltered.Count ? i + 1 : i].ItemType != ContextMenuFlyoutItemType.Separator)
-				|| x.ItemType != ContextMenuFlyoutItemType.Separator).ToList();
-
-			var subMenuLoadTasks = mainShellMenuItems.Concat(overflowShellMenuItems)
-				.Where(x => x.LoadSubMenuAction is not null)
-				.Select(x => x.LoadSubMenuAction());
-			await Task.WhenAll(subMenuLoadTasks);
-
-			var overflowItems = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
-			var mainItems = ContextFlyoutModelToElementHelper.GetAppBarButtonsFromModelIgnorePrimary(mainShellMenuItems);
-
-			var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(MainWindow.Instance);
-			var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
-
-			var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
-			if (itemsControl is not null && secondaryMenu is not null)
-			{
-				contextMenuFlyout.SetValue(ContextMenuExtensions.ItemsControlProperty, itemsControl);
-
-				var ttv = secondaryMenu.TransformToVisual(MainWindow.Instance.Content);
-				var cMenuPos = ttv.TransformPoint(new Point(0, 0));
-
-				var requiredHeight = contextMenuFlyout.SecondaryCommands.Concat(mainItems).Count(x => x is not AppBarSeparator) * Constants.UI.ContextMenuSecondaryItemsHeight;
-				var availableHeight = MainWindow.Instance.Bounds.Height - cMenuPos.Y - Constants.UI.ContextMenuPrimaryItemsHeight;
-
-				// Set menu max height to current height (Avoid menu repositioning)
-				if (requiredHeight > availableHeight)
-					itemsControl.MaxHeight = Math.Min(Constants.UI.ContextMenuMaxHeight, Math.Max(itemsControl.ActualHeight, Math.Min(availableHeight, requiredHeight)));
-
-				// Set items max width to current menu width (#5555)
-				mainItems.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin);
-			}
-
-			ContentPageContextFlyoutFactory.SwapPlaceholderWithShellOption(
-				contextMenuFlyout,
-				"TurnOnBitLockerPlaceholder",
-				turnOnBitLockerMenuItem,
-				contextMenuFlyout.SecondaryCommands.Count - 2
-			);
-			ContentPageContextFlyoutFactory.SwapPlaceholderWithShellOption(
-				contextMenuFlyout,
-				"ManageBitLockerPlaceholder",
-				manageBitLockerMenuItem,
-				contextMenuFlyout.SecondaryCommands.Count - 2
-			);
-
-			var overflowItem = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
-			if (overflowItem is not null)
-			{
-				var overflowItemFlyout = overflowItem.Flyout as MenuFlyout;
-				if (overflowItemFlyout is not null)
-				{
-					if (overflowItemFlyout.Items.Count > 0)
-						overflowItemFlyout.Items.Insert(0, new MenuFlyoutSeparator());
-
-					var index = contextMenuFlyout.SecondaryCommands.Count - 2;
-					foreach (var i in mainItems)
-					{
-						index++;
-						contextMenuFlyout.SecondaryCommands.Insert(index, i);
-					}
-
-					index = 0;
-					foreach (var i in overflowItems)
-					{
-						overflowItemFlyout.Items.Insert(index, i);
-						index++;
-					}
-
-					if (overflowItemFlyout.Items.Count > 0 && UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
-					{
-						overflowItem.Label = Strings.ShowMoreOptions.GetLocalizedResource();
-						overflowItem.IsEnabled = true;
-					}
-					else
-					{
-						overflowItem.Visibility = Visibility.Collapsed;
-
-						// Hide separators at the end of the menu
-						while (contextMenuFlyout.SecondaryCommands.LastOrDefault(x => x is UIElement element && element.Visibility is Visibility.Visible) is AppBarSeparator separator)
-							separator.Visibility = Visibility.Collapsed;
-					}
-				}
-			}
-			else
-			{
-				mainItems.ForEach(x => contextMenuFlyout.SecondaryCommands.Add(x));
-			}
-
-			// Add items to openwith dropdown
-			var openWithOverflow = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWithOverflow") as AppBarButton;
-
-			var openWith = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWith") as AppBarButton;
-			if (openWithMenuItem?.LoadSubMenuAction is not null && openWithOverflow is not null && openWith is not null)
-			{
-				await openWithMenuItem.LoadSubMenuAction();
-				var openWithSubItems = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(ShellContextFlyoutFactory.GetOpenWithItems(shellMenuItems));
-
-				if (openWithSubItems is not null)
-				{
-					var flyout = (MenuFlyout)openWithOverflow.Flyout;
-
-					flyout.Items.Clear();
-
-					foreach (var item in openWithSubItems)
-						flyout.Items.Add(item);
-
-					openWithOverflow.Flyout = flyout;
-					openWith.Visibility = Visibility.Collapsed;
-					openWithOverflow.Visibility = Visibility.Visible;
-
-					// TODO delete this when https://github.com/microsoft/microsoft-ui-xaml/issues/9409 is resolved
-					openWithOverflow.Content = new ThemedIconModel()
-					{
-						ThemedIconStyle = "App.ThemedIcons.OpenWith"
-					}.ToThemedIcon();
-					openWithOverflow.Label = Strings.OpenWith.GetLocalizedResource();
-				}
-			}
-
-			// Add items to sendto dropdown
-			if (UserSettingsService.GeneralSettingsService.ShowSendToMenu)
-			{
-				var sendToOverflow = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "SendToOverflow") as AppBarButton;
-
-				var sendTo = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "SendTo") as AppBarButton;
-				if (sendToMenuItem?.LoadSubMenuAction is not null && sendToOverflow is not null && sendTo is not null)
-				{
-					await sendToMenuItem.LoadSubMenuAction();
-					var sendToSubItems = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(ShellContextFlyoutFactory.GetSendToItems(shellMenuItems));
-
-					if (sendToSubItems is not null)
-					{
-						var flyout = (MenuFlyout)sendToOverflow.Flyout;
-
-						flyout.Items.Clear();
-
-						foreach (var item in sendToSubItems)
-							flyout.Items.Add(item);
-
-						sendToOverflow.Flyout = flyout;
-						sendTo.Visibility = Visibility.Collapsed;
-						sendToOverflow.Visibility = Visibility.Visible;
-					}
-				}
-			}
-
-			// Filter mainShellMenuItems that have a non-null LoadSubMenuAction
-			var mainItemsWithSubMenu = mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null);
-
-			var mainSubMenuTasks = mainItemsWithSubMenu.Select(async item =>
-			{
-				await item.LoadSubMenuAction();
-				ShellContextFlyoutFactory.AddItemsToMainMenu(mainItems, item);
-			});
-
-			// Filter overflowShellMenuItems that have a non-null LoadSubMenuAction
-			var overflowItemsWithSubMenu = overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null);
-
-			var overflowSubMenuTasks = overflowItemsWithSubMenu.Select(async item =>
-			{
-				await item.LoadSubMenuAction();
-				ShellContextFlyoutFactory.AddItemsToOverflowMenu(overflowItem, item);
-			});
-
-			itemsControl?.Items.OfType<FrameworkElement>().ForEach(item =>
-			{
-				// Enable CharacterEllipsis text trimming for menu items
-				if (item.FindDescendant("OverflowTextLabel") is TextBlock label)
-					label.TextTrimming = TextTrimming.CharacterEllipsis;
-
-				// Close main menu when clicking on subitems (#5508)
-				if ((item as AppBarButton)?.Flyout as MenuFlyout is MenuFlyout flyout)
-				{
-					Action<IList<MenuFlyoutItemBase>> clickAction = null!;
-					clickAction = (items) =>
-					{
-						items.OfType<MenuFlyoutItem>().ForEach(i =>
-						{
-							i.Click += new RoutedEventHandler((s, e) => contextMenuFlyout.Hide());
-						});
-						items.OfType<MenuFlyoutSubItem>().ForEach(i =>
-						{
-							clickAction(i.Items);
-						});
-					};
-
-					clickAction(flyout.Items);
-				}
-			});
-
-			await Task.WhenAll(mainSubMenuTasks.Concat(overflowSubMenuTasks));
-		}
-
-		private void RemoveOverflow(CommandBarFlyout contextMenuFlyout)
-		{
-			var overflowItem = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
-			var overflowSeparator = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarSeparator appBarSeparator && (appBarSeparator.Tag as string) == "OverflowSeparator") as AppBarSeparator;
-
-			if (overflowItem is not null)
-				overflowItem.Visibility = Visibility.Collapsed;
-			if (overflowSeparator is not null)
-				overflowSeparator.Visibility = Visibility.Collapsed;
 		}
 
 		protected virtual void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
@@ -1634,20 +1437,5 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		public sealed class ContextMenuExtensions : DependencyObject
-		{
-			public static ItemsControl GetItemsControl(DependencyObject obj)
-			{
-				return (ItemsControl)obj.GetValue(ItemsControlProperty);
-			}
-
-			public static void SetItemsControl(DependencyObject obj, ItemsControl value)
-			{
-				obj.SetValue(ItemsControlProperty, value);
-			}
-
-			public static readonly DependencyProperty ItemsControlProperty =
-				DependencyProperty.RegisterAttached("ItemsControl", typeof(ItemsControl), typeof(ContextMenuExtensions), new PropertyMetadata(null));
-		}
 	}
 }
