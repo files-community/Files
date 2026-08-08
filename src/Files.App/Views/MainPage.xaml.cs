@@ -15,7 +15,10 @@ using System.Runtime.InteropServices;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
 using Windows.UI.Input;
+using Windows.Win32;
+using Windows.Win32.Foundation;
 using WinUIEx;
+using WinUIEx.Messaging;
 using GridSplitter = Files.App.Controls.GridSplitter;
 using VirtualKey = Windows.System.VirtualKey;
 
@@ -31,9 +34,12 @@ namespace Files.App.Views
 		public SidebarViewModel SidebarAdaptiveViewModel { get; }
 		public MainPageViewModel ViewModel { get; }
 
+		private const int HTCAPTION = 2;
+
 		private bool keyReleased = true;
 
 		private DispatcherQueueTimer _updateDateDisplayTimer;
+		private WindowMessageMonitor? _titleBarMessageMonitor;
 
 		private readonly Dictionary<TabBarItem, double> _sidebarScrollByTab = new();
 		private TabBarItem? _previousSidebarTab;
@@ -119,7 +125,35 @@ namespace Files.App.Views
 		{
 			var height = (int)TabControl.ActualHeight;
 			source.SetRegionRects(NonClientRegionKind.Passthrough, [getScaledRect(this, new RectInt32(0, 0, (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth), height))]);
+			AttachTitleBarMessageMonitor();
 			return height;
+		}
+
+		// Caption regions live in a dedicated child window
+		private void AttachTitleBarMessageMonitor()
+		{
+			if (_titleBarMessageMonitor is not null)
+				return;
+
+			var titleBarHwnd = PInvoke.FindWindowEx(new(MainWindow.Instance.WindowHandle), HWND.Null, "InputNonClientPointerSource", null);
+			if (titleBarHwnd.IsNull)
+				return;
+
+			_titleBarMessageMonitor = new WindowMessageMonitor(titleBarHwnd);
+			_titleBarMessageMonitor.WindowMessageReceived += TitleBar_WindowMessageReceived;
+		}
+
+		private void TitleBar_WindowMessageReceived(object? sender, WindowMessageEventArgs e)
+		{
+			if (e.Message.MessageId is not (PInvoke.WM_NCMBUTTONDOWN or PInvoke.WM_NCMBUTTONDBLCLK) ||
+				(int)e.Message.WParam != HTCAPTION || TabControl is null)
+				return;
+
+			// Deferred because this runs inside the window procedure
+			DispatcherQueue.TryEnqueue(async () => await Commands.NewTab.ExecuteAsync());
+
+			e.Result = 0;
+			e.Handled = true;
 		}
 
 		public async void TabItemContent_ContentChanged(object? sender, TabBarItemParameter e)
