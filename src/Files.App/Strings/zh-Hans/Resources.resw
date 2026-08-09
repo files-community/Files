@@ -181,10 +181,10 @@
     <value>访问日期：</value>
   </data>
   <data name="RecentItemClearAllText" xml:space="preserve">
-    <value>Clear all items</value>
+    <value>清空所有项目</value>
   </data>
   <data name="NavigationToolbarVisiblePathPlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>输入要定位到的路径，或键入"&gt;"以打开命令面板</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>搜索</value>
@@ -199,7 +199,7 @@
     <value>以前访问过的文件和文件夹将显示在此处</value>
   </data>
   <data name="RecentItemRemoveText" xml:space="preserve">
-    <value>Remove this item</value>
+    <value>删除此项目</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>GitHub 仓库</value>
@@ -313,7 +313,7 @@
     <value>固定到侧边栏</value>
   </data>
   <data name="WelcomeDialogTitle" xml:space="preserve">
-    <value>Welcome to Files!</value>
+    <value>欢迎使用 Files！</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>授予权限</value>
@@ -385,16 +385,16 @@
     <value>设置为应用程序背景</value>
   </data>
   <data name="AccessDeniedDeleteDialogText" xml:space="preserve">
-    <value>We weren't able to delete this item</value>
+    <value>无法删除此项目</value>
   </data>
   <data name="DriveUnpluggedDialogText" xml:space="preserve">
     <value>Please insert the necessary drive to access this item.</value>
   </data>
   <data name="DriveUnpluggedDialogTitle" xml:space="preserve">
-    <value>Drive unplugged</value>
+    <value>驱动器已弹出</value>
   </data>
   <data name="FileNotFoundDialogText" xml:space="preserve">
-    <value>The file you are attempting to access may have been moved or deleted.</value>
+    <value>要访问的文件可能已被移动或删除。</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
     <value>无法打开此文件的属性</value>
@@ -403,10 +403,10 @@
     <value>要访问的文件可能已被移动或删除。</value>
   </data>
   <data name="FileNotFoundDialogTitle" xml:space="preserve">
-    <value>File Not Found</value>
+    <value>未找到文件</value>
   </data>
   <data name="FolderNotFoundDialogText" xml:space="preserve">
-    <value>The folder you are attempting to access may have been moved or deleted.</value>
+    <value>要访问的文件夹可能已被移动或删除。</value>
   </data>
   <data name="FolderNotFoundDialogTitle" xml:space="preserve">
     <value>Did you delete this folder?</value>
@@ -421,10 +421,10 @@
     <value>File is in use</value>
   </data>
   <data name="CannotRunFileDialogTitle" xml:space="preserve">
-    <value>This app can't run on your PC</value>
+    <value>此应用程序无法在您的电脑上运行</value>
   </data>
   <data name="CannotRunFileDialogText" xml:space="preserve">
-    <value>To find a version for your PC, check with the software publisher.</value>
+    <value>若要查找您的 PC版本，请与软件发行商联系。</value>
   </data>
   <data name="Layout" xml:space="preserve">
     <value>布局</value>
@@ -531,7 +531,7 @@
     <value>{0, number} {0, plural, other {个文件}}, {1, number} {1, plural, other {个文件夹}}, 来自 {2, number} {2, plural, other {个位置}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUserText" xml:space="preserve">
-    <value>Run as another user</value>
+    <value>以其他用户身份运行</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
     <value>{0} 中的全部类型</value>
@@ -645,19 +645,19 @@
     <value>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</value>
   </data>
   <data name="RenameErrorItemDeletedTitle" xml:space="preserve">
-    <value>Item no longer exists</value>
+    <value>该项目不存在</value>
   </data>
   <data name="RenameErrorNameInvalidText" xml:space="preserve">
-    <value>The name specified was invalid. Please check the desired item name and try again.</value>
+    <value>指定的名称无效。请检查所需的项目名称并重试。</value>
   </data>
   <data name="RenameErrorNameInvalidTitle" xml:space="preserve">
-    <value>Invalid item name</value>
+    <value>无效的项目名称</value>
   </data>
   <data name="RenameErrorTooLongText" xml:space="preserve">
     <value>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</value>
   </data>
   <data name="RenameErrorTooLongTitle" xml:space="preserve">
-    <value>Item name was too long</value>
+    <value>项目名称过长</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
     <value>显示更多选项</value>
@@ -669,13 +669,13 @@
     <value>在 GitHub 上赞助我们</value>
   </data>
   <data name="AccessDeniedCreateDialogText" xml:space="preserve">
-    <value>We weren't able to create this item</value>
+    <value>无法创建此项目</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>拒绝访问</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsText" xml:space="preserve">
-    <value>Set as</value>
+    <value>设为</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>取消</value>
@@ -717,10 +717,10 @@
     <value>删除项目时显示确认对话框</value>
   </data>
   <data name="PropertySaveErrorMessageText" xml:space="preserve">
-    <value>There was an issue saving some properties.</value>
+    <value>保存某些属性时出现错误。</value>
   </data>
   <data name="PropertySaveErrorDialogTitle" xml:space="preserve">
-    <value>Error</value>
+    <value>错误</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>仍要关闭</value>
@@ -1104,10 +1104,10 @@
     <value>在新面板中打开</value>
   </data>
   <data name="OpenInOtherPane" xml:space="preserve">
-    <value>Open in other pane</value>
+    <value>在其他窗格中打开</value>
   </data>
   <data name="OpenCurrentFolderInOtherPane" xml:space="preserve">
-    <value>Open current folder in other pane</value>
+    <value>在其他窗格中打开当前文件夹</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>文件和文件夹</value>
@@ -1209,13 +1209,13 @@
     <value>未计算</value>
   </data>
   <data name="ViewSize" xml:space="preserve">
-    <value>View size</value>
+    <value>查看大小</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>未知</value>
   </data>
   <data name="RenameFileDialogText" xml:space="preserve">
-    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
+    <value>如果改变文件扩展名，可能会导致文件不可用。确定要更改吗？</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>CD-ROM 驱动器</value>
@@ -1254,7 +1254,7 @@
     <value>更多选项...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItemText" xml:space="preserve">
-    <value>Map network drive</value>
+    <value>映射网络驱动器</value>
   </data>
   <data name="Pinned" xml:space="preserve">
     <value>已固定</value>
@@ -1287,10 +1287,10 @@
     <value>列 (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStartText" xml:space="preserve">
-    <value>Pin to the Start Menu</value>
+    <value>固定到开始菜单</value>
   </data>
   <data name="UnpinItemFromStartText" xml:space="preserve">
-    <value>Unpin from the Start Menu</value>
+    <value>从开始菜单取消固定</value>
   </data>
   <data name="Library" xml:space="preserve">
     <value>库</value>
@@ -1389,7 +1389,7 @@
     <value>打开方式</value>
   </data>
   <data name="ChooseAnotherApp" xml:space="preserve">
-    <value>Choose another app</value>
+    <value>选择另一个应用程序</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>文件图标</value>
@@ -1536,13 +1536,13 @@
     <value>未知帐户</value>
   </data>
   <data name="SecurityCannotReadPropertiesText" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
+    <value>你无权查看此对象的安全属性。 单击“高级权限”继续。</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>所有者：</value>
   </data>
   <data name="SecurityUnknownOwnerTextText" xml:space="preserve">
-    <value>Unknown owner</value>
+    <value>未知所有者</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>解压文件到</value>
@@ -1596,7 +1596,7 @@
     <value>权限</value>
   </data>
   <data name="SecurityAdvancedCannotReadPropertiesText" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
+    <value>你无权查看此对象的安全属性。 你可以尝试获取此对象的所有权。</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>此文件夹和文件</value>
@@ -1623,25 +1623,25 @@
     <value>Append data</value>
   </data>
   <data name="SecurityChangePermissionsLabelText" xml:space="preserve">
-    <value>Change permission</value>
+    <value>更改权限</value>
   </data>
   <data name="SecurityCreateDirectoriesLabelText" xml:space="preserve">
-    <value>Create folders</value>
+    <value>创建文件夹</value>
   </data>
   <data name="SecurityCreateFilesLabelText" xml:space="preserve">
-    <value>Create files</value>
+    <value>创建文件</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabelText" xml:space="preserve">
-    <value>Delete subdirectories and files</value>
+    <value>删除子文件夹和文件</value>
   </data>
   <data name="SecurityExecuteFileLabelText" xml:space="preserve">
-    <value>Execute files</value>
+    <value>执行文件</value>
   </data>
   <data name="SecurityReadAttributesLabelText" xml:space="preserve">
-    <value>Read attributes</value>
+    <value>读取属性</value>
   </data>
   <data name="SecurityReadDataLabelText" xml:space="preserve">
-    <value>Read data</value>
+    <value>读取数据</value>
   </data>
   <data name="SecurityReadExtendedAttributesLabelText" xml:space="preserve">
     <value>Read extended attributes</value>
@@ -1650,19 +1650,19 @@
     <value>Read permissions</value>
   </data>
   <data name="SecurityTakeOwnershipLabelText" xml:space="preserve">
-    <value>Take ownership</value>
+    <value>取得所有权</value>
   </data>
   <data name="SecurityTraverseLabelText" xml:space="preserve">
-    <value>Visit folder</value>
+    <value>访问文件夹</value>
   </data>
   <data name="SecurityWriteAttributesLabelText" xml:space="preserve">
-    <value>Write attributes</value>
+    <value>写入属性</value>
   </data>
   <data name="SecurityWriteDataLabelText" xml:space="preserve">
-    <value>Write data</value>
+    <value>写入数据</value>
   </data>
   <data name="SecurityWriteExtendedAttributesLabelText" xml:space="preserve">
-    <value>Write extended attributes</value>
+    <value>写入扩展属性</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
     <value>将继承的权限转换为显式权限</value>
@@ -1719,7 +1719,7 @@
     <value>WSL</value>
   </data>
   <data name="SideBarHideSectionFromSideBarText" xml:space="preserve">
-    <value>Hide {0} section</value>
+    <value>隐藏 {0} 部分</value>
   </data>
   <data name="AddFile" xml:space="preserve">
     <value>添加文件</value>
@@ -1749,7 +1749,7 @@
     <value>解压完成。</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolderText" xml:space="preserve">
-    <value>Open parent folder</value>
+    <value>打开上级文件夹</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>未知</value>
@@ -1782,13 +1782,13 @@
     <value>请提供你的访问凭据</value>
   </data>
   <data name="CredentialDialogIncorrectPassword" xml:space="preserve">
-    <value>The password is incorrect. Try again.</value>
+    <value>密码错误，请重试。</value>
   </data>
   <data name="PasswordRequired" xml:space="preserve">
-    <value>Password required</value>
+    <value>需要密码</value>
   </data>
   <data name="PasswordRequiredMessage" xml:space="preserve">
-    <value>This location is password protected. Refresh to enter the password.</value>
+    <value>此位置受密码保护。刷新以输入密码。</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>用户名</value>
@@ -2085,13 +2085,13 @@
     <value>自动调整所有列宽</value>
   </data>
   <data name="AutoFitColumns" xml:space="preserve">
-    <value>Auto-fit columns</value>
+    <value>自动调整列宽</value>
   </data>
   <data name="AutoFitColumnsDescription" xml:space="preserve">
-    <value>Resize columns to fit their content</value>
+    <value>根据内容调整列宽</value>
   </data>
   <data name="AutoSizeColumnsInDetailsLayout" xml:space="preserve">
-    <value>Automatically fit columns to content</value>
+    <value>列宽自动适配内容</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>自适应布局</value>
@@ -2454,10 +2454,10 @@
     <value>确定要删除此标签吗？</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Play All</value>
+    <value>全部播放</value>
   </data>
   <data name="Play" xml:space="preserve">
-    <value>Play</value>
+    <value>播放</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>高度</value>
@@ -3461,10 +3461,10 @@
     <value>在新窗格中打开选中的目录</value>
   </data>
   <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
-    <value>Open selected directory in the other pane</value>
+    <value>在另一个窗格中打开选定的目录</value>
   </data>
   <data name="OpenCurrentFolderInOtherPaneDescription" xml:space="preserve">
-    <value>Open the current folder in the other pane</value>
+    <value>在另一个窗格中打开当前文件夹</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>在新标签页中打开选中的目录</value>
@@ -4169,6 +4169,15 @@
     <value>图片文件</value>
     <comment>This is the friendly name for image files.</comment>
   </data>
+  <data name="AllSupportedFiles" xml:space="preserve">
+    <value>All supported files</value>
+  </data>
+  <data name="ConvertToIconRequiredMessage" xml:space="preserve">
+    <value>This image needs to be converted into an icon file before it can be used. Choose a location to save the converted icon file.</value>
+  </data>
+  <data name="ConvertToIconError" xml:space="preserve">
+    <value>Couldn't convert the image to an icon file</value>
+  </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>小键盘</value>
   </data>
@@ -4303,13 +4312,13 @@
     <value>总是切换到新创建的标签页</value>
   </data>
   <data name="ReverseTabScrollDirection" xml:space="preserve">
-    <value>Reverse tab scroll direction</value>
+    <value>反转标签页滚轮切换方向</value>
   </data>
   <data name="DownMotionScrollsLeft" xml:space="preserve">
-    <value>Down motion scrolls left</value>
+    <value>向下滚动切换至左侧标签页</value>
   </data>
   <data name="DownMotionScrollsRight" xml:space="preserve">
-    <value>Down motion scrolls right</value>
+    <value>向下滚动切换至右侧标签页</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>显示/隐藏中转站窗格</value>
@@ -4627,12 +4636,12 @@
     <value>添加或移除文件标签</value>
   </data>
   <data name="RemoveTags" xml:space="preserve">
-    <value>Remove tags</value>
+    <value>删除标签</value>
   </data>
   <data name="RemoveTagsDescription" xml:space="preserve">
-    <value>Remove tags from the selected items</value>
+    <value>从所选项目中删除标签</value>
   </data>
   <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
-    <value>Are you sure you want to remove tags from the selected items?</value>
+    <value>您确定要从所选项目中删除标签吗？</value>
   </data>
 </root>
