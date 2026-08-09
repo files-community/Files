@@ -3343,7 +3343,7 @@
     <value>Fusionar git (git pull) ha fallado debido a un error de tiempo de espera</value>
   </data>
   <data name="PullUncommittedChangesError" xml:space="preserve">
-    <value>Can't pull because your uncommitted changes would be overwritten. Commit, stash, or discard your changes, then try again.</value>
+    <value>No se puede realizar la extracción porque se sobrescribirían los cambios no confirmados. Confirme, guarde temporalmente o descarte los cambios y, a continuación, inténtelo de nuevo.</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(varios valores)</value>
@@ -4168,6 +4168,15 @@
   <data name="ImageFiles" xml:space="preserve">
     <value>Archivos de imagen</value>
     <comment>This is the friendly name for image files.</comment>
+  </data>
+  <data name="AllSupportedFiles" xml:space="preserve">
+    <value>Todos los archivos compatibles</value>
+  </data>
+  <data name="ConvertToIconRequiredMessage" xml:space="preserve">
+    <value>Esta imagen debe convertirse en un archivo de icono antes de poder utilizarla. Seleccione una ubicación para guardar el archivo de icono convertido.</value>
+  </data>
+  <data name="ConvertToIconError" xml:space="preserve">
+    <value>No se ha podido convertir la imagen en un archivo de icono</value>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Núm</value>
