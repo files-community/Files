@@ -4169,6 +4169,15 @@
     <value>Fișiere Imagine</value>
     <comment>This is the friendly name for image files.</comment>
   </data>
+  <data name="AllSupportedFiles" xml:space="preserve">
+    <value>Toate fișierele acceptate</value>
+  </data>
+  <data name="ConvertToIconRequiredMessage" xml:space="preserve">
+    <value>Această imagine trebuie să fie convertită într-un fișier pictogramă înainte de a putea fi utilizată. Alegeți o locație pentru a salva fișierul pictogramă convertit.</value>
+  </data>
+  <data name="ConvertToIconError" xml:space="preserve">
+    <value>Nu s-a putut converti imaginea într-un fișier pictogramă</value>
+  </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Num</value>
   </data>
