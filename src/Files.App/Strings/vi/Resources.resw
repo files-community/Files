@@ -1014,10 +1014,10 @@
     <value>Di chuyển đến đây</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
-    <value>An toàn để ngắt kết nối phần cứng</value>
+    <value>An toàn để gỡ phần cứng</value>
   </data>
   <data name="EjectNotificationBody" xml:space="preserve">
-    <value>Thiết bị hiện có thể được ngắt kết nối khỏi máy tính.</value>
+    <value>Thiết bị hiện có thể được gỡ bỏ khỏi máy tính.</value>
   </data>
   <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
     <value>Xảy ra vấn đề khi ngắt kết nối thiết bị</value>
@@ -4168,6 +4168,15 @@
   <data name="ImageFiles" xml:space="preserve">
     <value>Tệp hình ảnh</value>
     <comment>This is the friendly name for image files.</comment>
+  </data>
+  <data name="AllSupportedFiles" xml:space="preserve">
+    <value>Tất cả tệp hỗ trợ</value>
+  </data>
+  <data name="ConvertToIconRequiredMessage" xml:space="preserve">
+    <value>Hình ảnh này cần được chuyển đổi sang tệp icon trước khi sử dụng. Hãy chọn vị trí lưu tệp icon sẽ chuyển đổi.</value>
+  </data>
+  <data name="ConvertToIconError" xml:space="preserve">
+    <value>Không thể chuyển đổi hình ảnh sang tệp icon</value>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Num</value>

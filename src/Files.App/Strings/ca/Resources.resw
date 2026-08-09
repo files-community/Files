@@ -4169,6 +4169,15 @@
     <value>Fitxers d'imatge</value>
     <comment>This is the friendly name for image files.</comment>
   </data>
+  <data name="AllSupportedFiles" xml:space="preserve">
+    <value>Tots els fitxers suportats</value>
+  </data>
+  <data name="ConvertToIconRequiredMessage" xml:space="preserve">
+    <value>Aquesta imatge s'ha de convertir en un fitxer d'icona abans de poder-se utilitzar. Trieu una ubicació per desar el fitxer d'icona convertit.</value>
+  </data>
+  <data name="ConvertToIconError" xml:space="preserve">
+    <value>No s'ha pogut convertir la imatge a un fitxer d'icona</value>
+  </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Núm.</value>
   </data>
