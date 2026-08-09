@@ -4169,6 +4169,15 @@
     <value>Arquivos de imagem</value>
     <comment>This is the friendly name for image files.</comment>
   </data>
+  <data name="AllSupportedFiles" xml:space="preserve">
+    <value>Todos os arquivos suportados</value>
+  </data>
+  <data name="ConvertToIconRequiredMessage" xml:space="preserve">
+    <value>Esta imagem precisa ser convertida em um arquivo de ícone antes que possa ser usado. Escolha um local para salvar o arquivo de ícone convertido.</value>
+  </data>
+  <data name="ConvertToIconError" xml:space="preserve">
+    <value>Não foi possível converter a imagem para um arquivo de ícone</value>
+  </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Num</value>
   </data>
