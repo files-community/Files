@@ -4169,6 +4169,15 @@
     <value>Bildfiler</value>
     <comment>This is the friendly name for image files.</comment>
   </data>
+  <data name="AllSupportedFiles" xml:space="preserve">
+    <value>All supported files</value>
+  </data>
+  <data name="ConvertToIconRequiredMessage" xml:space="preserve">
+    <value>This image needs to be converted into an icon file before it can be used. Choose a location to save the converted icon file.</value>
+  </data>
+  <data name="ConvertToIconError" xml:space="preserve">
+    <value>Couldn't convert the image to an icon file</value>
+  </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Num</value>
   </data>
