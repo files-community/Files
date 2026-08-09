@@ -181,10 +181,10 @@
     <value>アクセス日時:</value>
   </data>
   <data name="RecentItemClearAllText" xml:space="preserve">
-    <value>Clear all items</value>
+    <value>すべての項目をクリア</value>
   </data>
   <data name="NavigationToolbarVisiblePathPlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>移動先のパスを入力するか、 "&gt;" をタイプしてコマンド パレットを開く</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>検索</value>
@@ -199,7 +199,7 @@
     <value>最近アクセスしたファイルがここに表示されます</value>
   </data>
   <data name="RecentItemRemoveText" xml:space="preserve">
-    <value>Remove this item</value>
+    <value>一覧から削除</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>GitHub リポジトリ</value>
@@ -217,7 +217,7 @@
     <value>テーマ</value>
   </data>
   <data name="Font" xml:space="preserve">
-    <value>Font</value>
+    <value>フォント</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>既知のファイル タイプの拡張子を表示する</value>
@@ -313,7 +313,7 @@
     <value>サイドバーにピン留めする</value>
   </data>
   <data name="WelcomeDialogTitle" xml:space="preserve">
-    <value>Welcome to Files!</value>
+    <value>Files へようこそ！</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>付与された権限</value>
@@ -337,7 +337,7 @@
     <value>ダーク</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
-    <value>System Theme</value>
+    <value>システムテーマ</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>システム設定を使用</value>
@@ -531,7 +531,7 @@
     <value>{2, number} {2, plural, other {か所}}からの {0, number} {0, plural, other {ファイル}}、{1, number} {1, plural, other {フォルダー}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUserText" xml:space="preserve">
-    <value>Run as another user</value>
+    <value>別のユーザーとして実行</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
     <value>すべての種類の {0}</value>
@@ -675,7 +675,7 @@
     <value>アクセスが拒否されました</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsText" xml:space="preserve">
-    <value>Set as</value>
+    <value>背景に設定</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>キャンセル</value>
@@ -690,7 +690,7 @@
     <value>ファイル</value>
   </data>
   <data name="Files" xml:space="preserve">
-    <value>Files</value>
+    <value>ファイル</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>空のファイルを作成</value>
@@ -699,7 +699,7 @@
     <value>フォルダー</value>
   </data>
   <data name="Folders" xml:space="preserve">
-    <value>Folders</value>
+    <value>フォルダー</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>空のフォルダーを作成</value>
@@ -1104,10 +1104,10 @@
     <value>新しいペインで開く</value>
   </data>
   <data name="OpenInOtherPane" xml:space="preserve">
-    <value>Open in other pane</value>
+    <value>他のペインで開く</value>
   </data>
   <data name="OpenCurrentFolderInOtherPane" xml:space="preserve">
-    <value>Open current folder in other pane</value>
+    <value>現在のフォルダを他のペインで開く</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>ファイルとフォルダー</value>
@@ -1254,7 +1254,7 @@
     <value>その他のオプション...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItemText" xml:space="preserve">
-    <value>Map network drive</value>
+    <value>ネットワークドライブを割り当てる</value>
   </data>
   <data name="Pinned" xml:space="preserve">
     <value>ピン留め</value>
@@ -1287,10 +1287,10 @@
     <value>カラム (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStartText" xml:space="preserve">
-    <value>Pin to the Start Menu</value>
+    <value>スタートメニューにピン留めする</value>
   </data>
   <data name="UnpinItemFromStartText" xml:space="preserve">
-    <value>Unpin from the Start Menu</value>
+    <value>スタートメニューからピン留めを外す</value>
   </data>
   <data name="Library" xml:space="preserve">
     <value>ライブラリ</value>
@@ -1377,7 +1377,7 @@
     <value>選択した項目でフォルダーを作成</value>
   </data>
   <data name="CreateShortcutWithSelection" xml:space="preserve">
-    <value>Create shortcuts with selection</value>
+    <value>選択した項目でショートカットを作成</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>種類:</value>
@@ -1749,7 +1749,7 @@
     <value>展開が完了しました</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolderText" xml:space="preserve">
-    <value>Open parent folder</value>
+    <value>親フォルダーを開く</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>不明</value>
@@ -2085,13 +2085,13 @@
     <value>すべての列のサイズを合わせる</value>
   </data>
   <data name="AutoFitColumns" xml:space="preserve">
-    <value>Auto-fit columns</value>
+    <value>列を自動調整する</value>
   </data>
   <data name="AutoFitColumnsDescription" xml:space="preserve">
-    <value>Resize columns to fit their content</value>
+    <value>コンテンツに合わせて列のサイズを変更する</value>
   </data>
   <data name="AutoSizeColumnsInDetailsLayout" xml:space="preserve">
-    <value>Automatically fit columns to content</value>
+    <value>列をコンテンツに自動的に合わせる</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>レイアウトを自動的に選択</value>
@@ -2160,10 +2160,10 @@
     <value>Open folders with a single click in Columns View</value>
   </data>
   <data name="SingleClickToOpen" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>シングルクリックで項目を開く</value>
   </data>
   <data name="SingleClickFoldersInColumnsViewHeader" xml:space="preserve">
-    <value>Folders in Columns View</value>
+    <value>カラム表示内のフォルダ</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>項目を開くとき</value>
@@ -2241,10 +2241,10 @@
     <value>The following {0, plural, one {item} other {items}} can''t be compressed. Would you like to skip {0, plural, one {this item} other {these items}}?</value>
   </data>
   <data name="CompressIntoZip" xml:space="preserve">
-    <value>Create zip archive</value>
+    <value>アーカイブを作成</value>
   </data>
   <data name="CompressIntoSevenZip" xml:space="preserve">
-    <value>Create 7z archive</value>
+    <value>7z アーカイブを作成</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>作成</value>
@@ -2457,7 +2457,7 @@
     <value>Play All</value>
   </data>
   <data name="Play" xml:space="preserve">
-    <value>Play</value>
+    <value>再生</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>高さ</value>
@@ -2550,19 +2550,19 @@
     <value>コンパクト オーバーレイモードを切り替える</value>
   </data>
   <data name="ToggleTheme" xml:space="preserve">
-    <value>Toggle Theme</value>
+    <value>テーマを切り替える</value>
   </data>
   <data name="ToggleThemeDescription" xml:space="preserve">
-    <value>Toggle the app theme</value>
+    <value>アプリのテーマを切り替える</value>
   </data>
   <data name="SwitchToLightThemeDescription" xml:space="preserve">
-    <value>Switch to Light Theme</value>
+    <value>ライトテーマに切り替える</value>
   </data>
   <data name="SwitchToDarkThemeDescription" xml:space="preserve">
-    <value>Switch to Dark Theme</value>
+    <value>ダークテーマに切り替える</value>
   </data>
   <data name="SwitchToDefaultThemeDescription" xml:space="preserve">
-    <value>Switch to System Theme</value>
+    <value>システムテーマに切り替える</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>OmniBarで検索を開始</value>
@@ -3461,10 +3461,10 @@
     <value>新しいペインで選択したフォルダーを開く</value>
   </data>
   <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
-    <value>Open selected directory in the other pane</value>
+    <value>選択したフォルダーを別のペインで開く</value>
   </data>
   <data name="OpenCurrentFolderInOtherPaneDescription" xml:space="preserve">
-    <value>Open the current folder in the other pane</value>
+    <value>現在のフォルダを別のペインで開く</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>新しいタブで選択したフォルダーを開く</value>
@@ -4170,6 +4170,15 @@
     <value>画像ファイル</value>
     <comment>This is the friendly name for image files.</comment>
   </data>
+  <data name="AllSupportedFiles" xml:space="preserve">
+    <value>All supported files</value>
+  </data>
+  <data name="ConvertToIconRequiredMessage" xml:space="preserve">
+    <value>This image needs to be converted into an icon file before it can be used. Choose a location to save the converted icon file.</value>
+  </data>
+  <data name="ConvertToIconError" xml:space="preserve">
+    <value>Couldn't convert the image to an icon file</value>
+  </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Num</value>
   </data>
@@ -4256,7 +4265,7 @@
     <value>ホーム ページに移動する</value>
   </data>
   <data name="AddressBar" xml:space="preserve">
-    <value>Address bar</value>
+    <value>アドレスバー</value>
   </data>
   <data name="UserID" xml:space="preserve">
     <value>ユーザー ID</value>
@@ -4304,13 +4313,13 @@
     <value>常に新しく作成したタブに表示を切り替える</value>
   </data>
   <data name="ReverseTabScrollDirection" xml:space="preserve">
-    <value>Reverse tab scroll direction</value>
+    <value>タブのスクロール方向を反転</value>
   </data>
   <data name="DownMotionScrollsLeft" xml:space="preserve">
-    <value>Down motion scrolls left</value>
+    <value>下向きのモーションで左へスクロール</value>
   </data>
   <data name="DownMotionScrollsRight" xml:space="preserve">
-    <value>Down motion scrolls right</value>
+    <value>下向きのモーションで右へスクロール</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>シェルフペインを切り替え</value>
@@ -4505,10 +4514,10 @@
     <value>ステータスバーを表示</value>
   </data>
   <data name="OnlyForTouch" xml:space="preserve">
-    <value>When using touch</value>
+    <value>タッチ操作のときのみ</value>
   </data>
   <data name="OnlyForMouse" xml:space="preserve">
-    <value>When using mouse</value>
+    <value>マウス操作のときのみ</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>新規 {0}</value>
@@ -4526,94 +4535,94 @@
     <value>[スタートメニューにピン留め] オプションを表示する</value>
   </data>
   <data name="Toolbar" xml:space="preserve">
-    <value>Toolbar</value>
+    <value>ツールバー</value>
   </data>
   <data name="CustomizeToolbar" xml:space="preserve">
-    <value>Customize toolbar</value>
+    <value>ツールバーのカスタマイズ</value>
   </data>
   <data name="CustomizeToolbarDescription" xml:space="preserve">
-    <value>Customize toolbar buttons</value>
+    <value>ツールバーボタンをカスタマイズ</value>
   </data>
   <data name="ChooseToolbarModeToCustomize" xml:space="preserve">
-    <value>Choose toolbar mode to customize</value>
+    <value>カスタマイズするツールバーモードを選択</value>
   </data>
   <data name="AlwaysVisible" xml:space="preserve">
-    <value>Always visible</value>
+    <value>常時表示</value>
   </data>
   <data name="ArchiveFiles" xml:space="preserve">
-    <value>Archive files</value>
+    <value>圧縮ファイル</value>
   </data>
   <data name="BatchFiles" xml:space="preserve">
-    <value>Batch files</value>
+    <value>バッチファイル</value>
   </data>
   <data name="PowerShellFiles" xml:space="preserve">
-    <value>PowerShell files</value>
+    <value>PowerShell ファイル</value>
   </data>
   <data name="MediaFiles" xml:space="preserve">
-    <value>Media files</value>
+    <value>メディアファイル</value>
   </data>
   <data name="FontFiles" xml:space="preserve">
-    <value>Font files</value>
+    <value>フォントファイル</value>
   </data>
   <data name="DriverFiles" xml:space="preserve">
-    <value>Driver files</value>
+    <value>ドライバーファイル</value>
   </data>
   <data name="CertificateFiles" xml:space="preserve">
-    <value>Certificate files</value>
+    <value>証明書ファイル</value>
   </data>
   <data name="OtherContexts" xml:space="preserve">
-    <value>Other contexts</value>
+    <value>その他のコンテキスト</value>
   </data>
   <data name="Archive" xml:space="preserve">
-    <value>Archive</value>
+    <value>アーカイブ</value>
   </data>
   <data name="Run" xml:space="preserve">
-    <value>Run</value>
+    <value>実行</value>
   </data>
   <data name="Start" xml:space="preserve">
-    <value>Start</value>
+    <value>スタート</value>
   </data>
   <data name="Selection" xml:space="preserve">
-    <value>Selection</value>
+    <value>選択</value>
   </data>
   <data name="Show" xml:space="preserve">
-    <value>Show</value>
+    <value>表示</value>
   </data>
   <data name="Navigation" xml:space="preserve">
-    <value>Navigation</value>
+    <value>ナビゲーション</value>
   </data>
   <data name="FileSystem" xml:space="preserve">
-    <value>File system</value>
+    <value>ファイルシステム</value>
   </data>
   <data name="Window" xml:space="preserve">
-    <value>Window</value>
+    <value>ウィンドウ</value>
   </data>
   <data name="DualPaneCategory" xml:space="preserve">
-    <value>Dual Pane</value>
+    <value>デュアルペイン</value>
   </data>
   <data name="ResetDefaults" xml:space="preserve">
-    <value>Reset defaults</value>
+    <value>初期設定に戻す</value>
   </data>
   <data name="Separator" xml:space="preserve">
-    <value>Separator</value>
+    <value>セパレーター</value>
   </data>
   <data name="Icon" xml:space="preserve">
-    <value>Icon</value>
+    <value>アイコン</value>
   </data>
   <data name="Label" xml:space="preserve">
-    <value>Label</value>
+    <value>ラベル</value>
   </data>
   <data name="ShowToolbarLabels" xml:space="preserve">
-    <value>Show label</value>
+    <value>ラベルを表示</value>
   </data>
   <data name="ShowToolbarIconOnly" xml:space="preserve">
-    <value>Show icon</value>
+    <value>アイコンを表示</value>
   </data>
   <data name="AvailableToolbarItems" xml:space="preserve">
-    <value>Available items</value>
+    <value>利用可能なアイテム</value>
   </data>
   <data name="AddedToolbarItems" xml:space="preserve">
-    <value>Added items</value>
+    <value>追加したアイテム</value>
   </data>
   <data name="ExtractGroupDescription" xml:space="preserve">
     <value>Extract compressed archives</value>
@@ -4628,12 +4637,12 @@
     <value>Add or remove file tags</value>
   </data>
   <data name="RemoveTags" xml:space="preserve">
-    <value>Remove tags</value>
+    <value>タグを削除</value>
   </data>
   <data name="RemoveTagsDescription" xml:space="preserve">
-    <value>Remove tags from the selected items</value>
+    <value>選択した項目からタグを削除</value>
   </data>
   <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
-    <value>Are you sure you want to remove tags from the selected items?</value>
+    <value>選択したアイテムからタグを削除してもよろしいですか？</value>
   </data>
 </root>
