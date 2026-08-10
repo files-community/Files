@@ -61,6 +61,16 @@ namespace Files.Shared.Helpers
 		}
 
 		/// <summary>
+		/// Check if the file extension is an image that can be converted to an ICO file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck">The file extension to check.</param>
+		/// <returns><c>true</c> if the fileExtensionToCheck can be converted to an ICO file; otherwise, <c>false</c>.</returns>
+		public static bool IsConvertibleToIcoFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".png", ".bmp", ".jpg", ".jpeg", ".jfif");
+		}
+
+		/// <summary>
 		/// Checks if the file can be set as wallpaper.
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>

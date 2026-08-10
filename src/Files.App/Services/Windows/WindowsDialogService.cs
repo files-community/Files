@@ -16,7 +16,7 @@ namespace Files.App.Services
 	public sealed class CommonDialogService : ICommonDialogService
 	{
 		/// <inheritdoc/>
-		public unsafe bool Open_FileOpenDialog(nint hWnd, bool pickFoldersOnly, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath)
+		public unsafe bool Open_FileOpenDialog(nint hWnd, bool pickFoldersOnly, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath, Guid? clientGuid = null)
 		{
 			filePath = string.Empty;
 
@@ -69,10 +69,17 @@ namespace Files.App.Services
 				if (pickFoldersOnly)
 					pDialog.SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
 
+				// Persist dialog state (including the last browsed folder) under the caller's GUID
+				if (clientGuid is { } guid)
+					pDialog.SetClientGuid(in guid);
+
 				// Set the default folder to open in the dialog (only if creation succeeded)
 				if (pDefaultFolderShellItem is not null)
 				{
-					pDialog.SetFolder(pDefaultFolderShellItem);
+					// SetFolder forces the dialog to always open at this folder, which would override the persisted state
+					if (clientGuid is null)
+						pDialog.SetFolder(pDefaultFolderShellItem);
+
 					pDialog.SetDefaultFolder(pDefaultFolderShellItem);
 				}
 

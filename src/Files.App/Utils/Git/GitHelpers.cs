@@ -141,6 +141,10 @@ namespace Files.App.Utils.Git
 						signature,
 						_pullOptions);
 				}
+				catch (CheckoutConflictException)
+				{
+					return GitOperationResult.UncommittedChangesError;
+				}
 				catch (Exception ex)
 				{
 					return IsAuthorizationException(ex)
@@ -155,12 +159,14 @@ namespace Files.App.Utils.Git
 			{
 				await RequireGitAuthenticationAsync();
 			}
-			else if (result is GitOperationResult.GenericError)
+			else if (result is GitOperationResult.GenericError or GitOperationResult.UncommittedChangesError)
 			{
 				var viewModel = new DynamicDialogViewModel()
 				{
 					TitleText = Strings.GitError.GetLocalizedResource(),
-					SubtitleText = Strings.PullTimeoutError.GetLocalizedResource(),
+					SubtitleText = result is GitOperationResult.UncommittedChangesError
+						? Strings.PullUncommittedChangesError.GetLocalizedResource()
+						: Strings.PullTimeoutError.GetLocalizedResource(),
 					CloseButtonText = Strings.Close.GetLocalizedResource(),
 					DynamicButtons = DynamicDialogButtons.Cancel
 				};

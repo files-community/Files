@@ -1,4 +1,6 @@
-﻿using Microsoft.UI.Windowing;
+﻿using Files.Shared.Helpers;
+using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml.Controls;
 using System.IO;
 using System.Windows.Input;
 
@@ -33,6 +35,16 @@ namespace Files.App.ViewModels.Properties
 				{
 					DllIcons.Clear();
 
+					if (IsConvertibleImagePath(_IconResourceItemPath))
+					{
+						ConvertImageInfoBarSeverity = InfoBarSeverity.Informational;
+						ConvertImageInfoBarMessage = Strings.ConvertToIconRequiredMessage.GetLocalizedResource();
+						IsConvertImageInfoBarOpen = true;
+						return;
+					}
+
+					IsConvertImageInfoBarOpen = false;
+
 					if (Path.Exists(_IconResourceItemPath))
 					{
 						var icons = Win32Helper.ExtractIconsFromDLL(_IconResourceItemPath);
@@ -57,8 +69,13 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
+		[ObservableProperty] public partial bool IsConvertImageInfoBarOpen { get; set; }
+		[ObservableProperty] public partial InfoBarSeverity ConvertImageInfoBarSeverity { get; set; }
+		[ObservableProperty] public partial string ConvertImageInfoBarMessage { get; set; }
+
 		public ICommand RestoreDefaultIconCommand { get; private set; }
 		public ICommand OpenFilePickerCommand { get; private set; }
+		public ICommand ConvertImageToIconCommand { get; private set; }
 
 		public CustomizationViewModel(IShellPage appInstance, BaseProperties baseProperties, AppWindow appWindow)
 		{
@@ -80,6 +97,12 @@ namespace Files.App.ViewModels.Properties
 
 			RestoreDefaultIconCommand = new RelayCommand(ExecuteRestoreDefaultIconCommand);
 			OpenFilePickerCommand = new RelayCommand(ExecuteOpenFilePickerCommand);
+			ConvertImageToIconCommand = new AsyncRelayCommand(ExecuteConvertImageToIconCommandAsync);
+		}
+
+		private static bool IsConvertibleImagePath(string? path)
+		{
+			return FileExtensionHelpers.IsConvertibleToIcoFile(path) && File.Exists(path);
 		}
 
 		private void ExecuteRestoreDefaultIconCommand()
@@ -95,16 +118,46 @@ namespace Files.App.ViewModels.Properties
 
 			string[] extensions =
 			[
+				Strings.AllSupportedFiles.GetLocalizedResource(), "*.dll;*.exe;*.ico;*.icl;*.png;*.bmp;*.jpg;*.jpeg;*.jfif",
 				Strings.IconFiles.GetLocalizedResource(), "*.dll;*.exe;*.ico;*.icl",
 				Strings.ApplicationExtension.GetLocalizedResource(), "*.dll",
 				Strings.Application.GetLocalizedResource(), "*.exe",
 				Strings.IcoFileCapitalized.GetLocalizedResource(), "*.ico",
 				Strings.IclFileCapitalized.GetLocalizedResource(), "*.icl ",
+				Strings.ImageFiles.GetLocalizedResource(), "*.png;*.bmp;*.jpg;*.jpeg;*.jfif",
 			];
 
 			var result = CommonDialogService.Open_FileOpenDialog(hWnd, false, extensions, Environment.SpecialFolder.MyComputer, out var filePath);
 			if (result)
 				IconResourceItemPath = filePath;
+		}
+
+		private async Task ExecuteConvertImageToIconCommandAsync()
+		{
+			var imagePath = IconResourceItemPath;
+			if (!IsConvertibleImagePath(imagePath))
+				return;
+
+			var hWnd = Microsoft.UI.Win32Interop.GetWindowFromWindowId(_appWindow.Id);
+			if (!CommonDialogService.Open_FileSaveDialog(hWnd, false, [Strings.IcoFileCapitalized.GetLocalizedResource(), "*.ico"], Environment.SpecialFolder.MyPictures, out var icoFilePath))
+				return;
+
+			// The save dialog doesn't enforce an extension, and the shell only accepts real .ico files here
+			if (!Path.GetExtension(icoFilePath).Equals(".ico", StringComparison.OrdinalIgnoreCase))
+				icoFilePath += ".ico";
+
+			var converted = await Task.Run(() => Win32Helper.ConvertImageToIcoFile(imagePath, icoFilePath));
+			if (converted)
+			{
+				IconResourceItemPath = icoFilePath;
+				SelectedDllIcon = DllIcons.FirstOrDefault();
+			}
+			else
+			{
+				ConvertImageInfoBarSeverity = InfoBarSeverity.Error;
+				ConvertImageInfoBarMessage = Strings.ConvertToIconError.GetLocalizedResource();
+				IsConvertImageInfoBarOpen = true;
+			}
 		}
 
 		public async Task<bool> UpdateIcon()

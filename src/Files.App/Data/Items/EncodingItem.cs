@@ -50,7 +50,7 @@ namespace Files.App.Data.Items
             //reference: https://en.wikipedia.org/wiki/Windows_code_page
             //East Asian
             "shift_jis",       //Japanese
-            "gb2312",          //Simplified Chinese
+            "gb18030",          //Simplified Chinese
             "big5",            //Traditional Chinese
             "ks_c_5601-1987",  //Korean
             

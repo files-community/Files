@@ -17,8 +17,6 @@ namespace Files.App.Data.Models
 
 		private FileSizeCalculator _sizeCalculator;
 
-		private IThreadingService _threadingService = Ioc.Default.GetRequiredService<IThreadingService>();
-
 		private string ArchiveExtension => FileFormat switch
 		{
 			ArchiveFormats.Zip => ".zip",
@@ -396,14 +394,14 @@ namespace Files.App.Data.Models
 		private void Compressor_FileCompressionStarted(object? sender, FileNameEventArgs e)
 		{
 			if (CancellationToken.IsCancellationRequested)
-				e.Cancel = true;
-			else
-				_sizeCalculator.ForceComputeFileSize(e.FilePath);
-			_threadingService.ExecuteOnUiThreadAsync(() =>
 			{
-				_fileSystemProgress.FileName = e.FileName;
-				_fileSystemProgress.Report();
-			});
+				e.Cancel = true;
+				return;
+			}
+
+			_sizeCalculator.ForceComputeFileSize(e.FilePath);
+			_fileSystemProgress.FileName = e.FileName;
+			_fileSystemProgress.Report();
 		}
 
 		private void Compressor_FileCompressionFinished(object? sender, EventArgs e)

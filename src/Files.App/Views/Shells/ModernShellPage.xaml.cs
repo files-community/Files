@@ -50,6 +50,8 @@ namespace Files.App.Views.Shells
 			ToolbarViewModel.PathControlDisplayText = Strings.Home.GetLocalizedResource();
 			ToolbarViewModel.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
 
+			ContentChanged += ModernShellPage_ContentChanged;
+
 			_navigationInteractionTracker = new NavigationInteractionTracker(this, BackIcon, ForwardIcon);
 			_navigationInteractionTracker.NavigationRequested += OverscrollNavigationRequested;
 		}
@@ -66,6 +68,27 @@ namespace Files.App.Views.Shells
 		{
 			if (ItemDisplayFrame?.Content is HomePage currentPage)
 				currentPage.ViewModel.RefreshWidgetList();
+		}
+
+		private void ModernShellPage_ContentChanged(object? sender, TabBarItemParameter e)
+		{
+			UpdateStatusBarProperties();
+			NotifyPropertyChanged(nameof(IsStatusBarVisible));
+		}
+
+		private void UpdateStatusBarProperties()
+		{
+			var contentPage = SlimContentPage is ColumnsLayoutPage columnsLayoutPage
+				? columnsLayoutPage.ActiveColumnShellPage?.SlimContentPage
+				: SlimContentPage;
+
+			StatusBar.StatusBarViewModel = contentPage?.StatusBarViewModel;
+			StatusBar.SelectedItemsPropertiesViewModel = contentPage?.SelectedItemsPropertiesViewModel;
+
+			// The view model's own triggers can all fire before this page's content is
+			// assigned (e.g. restoring a session inside an archive), so re-evaluate the
+			// ZIP encoding selector once the content page is wired up
+			_ = contentPage?.StatusBarViewModel.UpdateZipEncodingStateAsync();
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -243,6 +266,7 @@ namespace Files.App.Views.Shells
 		public override void Dispose()
 		{
 			Bindings.StopTracking();
+			ContentChanged -= ModernShellPage_ContentChanged;
 			ToolbarViewModel.RefreshWidgetsRequested -= ModernShellPage_RefreshWidgetsRequested;
 			ShellViewModel.FocusFilterHeader -= ShellViewModel_FocusFilterHeader;
 			ItemDisplayFrame.Navigated -= ItemDisplayFrame_Navigated;

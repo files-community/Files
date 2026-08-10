@@ -112,8 +112,9 @@ namespace Files.App.Controls
 			if (string.IsNullOrEmpty(pathData))
 				return;
 
-			var geometry = (Geometry)XamlReader.Load(
-				$"<Geometry xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'>{pathData}</Geometry>");
+			// Parse the path mini-language directly instead of booting the full XAML parser (XamlReader.Load).
+			// Same geometry, much faster - a layered icon parses one of these per layer.
+			var geometry = (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), pathData);
 
 			if (GetTemplateChild(LayerPathPart) is Path path)
 			{

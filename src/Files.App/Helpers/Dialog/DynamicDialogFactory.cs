@@ -63,6 +63,8 @@ namespace Files.App.Helpers
 				PlaceholderText = Strings.EnterAnItemName.GetLocalizedResource()
 			};
 
+			Microsoft.UI.Xaml.Automation.AutomationProperties.SetAutomationId(inputText, "CreateItemDialogNameTextBox");
+
 			TeachingTip warning = new()
 			{
 				Title = Strings.InvalidFilename_Text.GetLocalizedResource(),
@@ -82,7 +84,7 @@ namespace Files.App.Helpers
 
 			inputText.Resources.Add("InvalidNameWarningTip", warning);
 
-			inputText.TextChanged += (textBox, args) =>
+			void UpdateDialogState()
 			{
 				var isInputValid = FilesystemHelpers.IsValidForFilename(inputText.Text);
 				((CreateItemDialogViewModel)warning.DataContext).IsNameInvalid = !string.IsNullOrEmpty(inputText.Text) && !isInputValid;
@@ -91,23 +93,9 @@ namespace Files.App.Helpers
 														: DynamicDialogButtons.Cancel;
 				if (isInputValid)
 					dialog.ViewModel.AdditionalData = inputText.Text;
-			};
+			}
 
-			inputText.Loaded += (s, e) =>
-			{
-				// Dispatching to the UI thread fixes an issue where the primary dialog button would steal focus
-				_ = inputText.DispatcherQueue.EnqueueOrInvokeAsync(() =>
-				{
-					// Prefill text box with default name #17845
-					if (itemType.Equals("Folder", StringComparison.OrdinalIgnoreCase))
-						inputText.Text = Strings.NewFolder.GetLocalizedResource();
-					else if (itemName is not null)
-						inputText.Text = string.Format(Strings.CreateNewFile.GetLocalizedResource(), itemName);
-
-					inputText.Focus(FocusState.Programmatic);
-					inputText.SelectAll();
-				});
-			};
+			inputText.TextChanged += (textBox, args) => UpdateDialogState();
 
 			dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
@@ -121,6 +109,21 @@ namespace Files.App.Helpers
 						inputText
 					}
 				},
+				DisplayControlOnLoaded = async (vm, e) =>
+				{
+					// The dialog asynchronously moves initial focus to its default button on an
+					// unpredictable schedule, so keep refocusing until focus verifiably sticks
+					for (int i = 0; i < 20; i++)
+					{
+						if (inputText.XamlRoot is not null &&
+							Microsoft.UI.Xaml.Input.FocusManager.GetFocusedElement(inputText.XamlRoot) == inputText)
+							return;
+
+						inputText.Focus(FocusState.Programmatic);
+						inputText.SelectAll();
+						await Task.Delay(50);
+					}
+				},
 				PrimaryButtonAction = (vm, e) =>
 				{
 					vm.HideDialog(); // Rename successful
@@ -130,6 +133,16 @@ namespace Files.App.Helpers
 				DynamicButtonsEnabled = DynamicDialogButtons.Cancel,
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 			});
+
+			// Prefill text box with default name #17845
+			if (itemType.Equals("Folder", StringComparison.OrdinalIgnoreCase))
+				inputText.Text = Strings.NewFolder.GetLocalizedResource();
+			else if (itemName is not null)
+				inputText.Text = string.Format(Strings.CreateNewFile.GetLocalizedResource(), itemName);
+
+			// TextChanged is not raised for text set while the box is not loaded yet,
+			// so apply the initial validation state directly
+			UpdateDialogState();
 
 			dialog.Closing += (s, e) =>
 			{

@@ -55,6 +55,13 @@ namespace Files.App.Dialogs
 			ViewModel.KeyDownCommand.Execute(e);
 		}
 
+		// The dialog moves focus to its default button after Opened is raised, so handlers
+		// that focus the display content must be dispatched to run after that
+		private void ContentDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
+		{
+			DispatcherQueue.TryEnqueue(() => ViewModel?.DisplayControlOnLoadedCommand?.Execute(null));
+		}
+
 		public void Dispose()
 		{
 			ViewModel?.Dispose();

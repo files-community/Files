@@ -6,6 +6,7 @@ using Microsoft.Win32;
 using Microsoft.Win32.SafeHandles;
 using System.Collections.Concurrent;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -398,6 +399,73 @@ namespace Files.App.Helpers
 			var success = FileOperationsHelpers.SetLinkIcon(filePath, iconFile, iconIndex);
 
 			return success;
+		}
+
+		public static bool ConvertImageToIcoFile(string imagePath, string icoFilePath)
+		{
+			try
+			{
+				using var sourceImage = new Bitmap(imagePath);
+
+				// ICO frames are capped at 256x256; don't upscale sources smaller than a standard frame size
+				int largestFrameSize = Math.Min(Math.Max(sourceImage.Width, sourceImage.Height), 256);
+				int[] frameSizes = [.. new[] { 16, 24, 32, 48, 256 }.Where(size => size < largestFrameSize), largestFrameSize];
+
+				var pngFrames = new List<byte[]>(frameSizes.Length);
+				foreach (int size in frameSizes)
+				{
+					using var frame = new Bitmap(size, size, PixelFormat.Format32bppArgb);
+					using var graphics = Graphics.FromImage(frame);
+					graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+					graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+					// Fit into the square frame preserving aspect ratio, centered on a transparent background
+					double scale = Math.Min((double)size / sourceImage.Width, (double)size / sourceImage.Height);
+					int scaledWidth = Math.Max(1, (int)Math.Round(sourceImage.Width * scale));
+					int scaledHeight = Math.Max(1, (int)Math.Round(sourceImage.Height * scale));
+					graphics.DrawImage(sourceImage, (size - scaledWidth) / 2, (size - scaledHeight) / 2, scaledWidth, scaledHeight);
+
+					using var pngStream = new MemoryStream();
+					frame.Save(pngStream, ImageFormat.Png);
+					pngFrames.Add(pngStream.ToArray());
+				}
+
+				using var icoStream = new FileStream(icoFilePath, FileMode.Create, FileAccess.Write);
+				using var writer = new BinaryWriter(icoStream);
+
+				// ICONDIR header
+				writer.Write((ushort)0); // Reserved
+				writer.Write((ushort)1); // Type: icon
+				writer.Write((ushort)frameSizes.Length);
+
+				// ICONDIRENTRY table; a width/height byte of 0 means 256
+				int frameDataOffset = 6 + 16 * frameSizes.Length;
+				for (int i = 0; i < frameSizes.Length; i++)
+				{
+					byte sizeByte = (byte)(frameSizes[i] == 256 ? 0 : frameSizes[i]);
+					writer.Write(sizeByte); // Width
+					writer.Write(sizeByte); // Height
+					writer.Write((byte)0); // Color palette size (none)
+					writer.Write((byte)0); // Reserved
+					writer.Write((ushort)1); // Color planes
+					writer.Write((ushort)32); // Bits per pixel
+					writer.Write((uint)pngFrames[i].Length);
+					writer.Write((uint)frameDataOffset);
+					frameDataOffset += pngFrames[i].Length;
+				}
+
+				// PNG-compressed frame data (supported in ICO since Windows Vista)
+				foreach (var frameData in pngFrames)
+					writer.Write(frameData);
+
+				return true;
+			}
+			// GDI+ surfaces unsupported or corrupted image data as ArgumentException/OutOfMemoryException; IOException/UnauthorizedAccessException cover an unreadable source or unwritable destination
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "Failed to convert '{ImagePath}' to an ICO file.", imagePath);
+				return false;
+			}
 		}
 
 		public static Task OpenFormatDriveDialog(string drive)

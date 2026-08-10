@@ -4,6 +4,7 @@
 using Files.Shared.Helpers;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Settings;
 using Microsoft.Windows.AppLifecycle;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -237,6 +238,12 @@ namespace Files.App
 				currentInstance.Activated += OnActivated;
 
 			ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Environment.ProcessId;
+
+			// Optional XAML performance changes must be opted into before XAML initialization
+			XamlOptionalChanges.EnableChange(XamlChangeId.DefaultStyleOptimizations);
+			XamlOptionalChanges.EnableChange(XamlChangeId.OptimizeApplyStyles);
+			XamlOptionalChanges.EnableChange(XamlChangeId.IconNoGridOptimization);
+			XamlOptionalChanges.EnableChange(XamlChangeId.DeferContextFlyoutInit);
 
 			Application.Start((p) =>
 			{

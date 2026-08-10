@@ -2260,7 +2260,8 @@ namespace Files.App.ViewModels
 						{
 							filesAndFolders.AddRange(intermediateList);
 
-							await OrderFilesAndFoldersAsync();
+							// Sorting the growing list on every intermediate batch is O(batches x n log n);
+							// append unsorted here (matching the Win32 path) and sort once when enumeration completes.
 							await ApplyFilesAndFoldersChangesAsync();
 						});
 

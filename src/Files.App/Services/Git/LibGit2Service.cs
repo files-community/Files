@@ -162,7 +162,7 @@ internal sealed partial class LibGit2Service // : IVersionControl
 
 	public async Task<bool> Checkout(string? repositoryPath, string? branch)
 	{
-		SentrySdk.Experimental.Metrics.EmitCounter("Triggered git checkout", 1);
+		SentrySdk.Metrics.EmitCounter("Triggered git checkout", 1);
 
 		if (string.IsNullOrWhiteSpace(repositoryPath) || !IsRepoValid(repositoryPath))
 			return false;
@@ -255,7 +255,7 @@ internal sealed partial class LibGit2Service // : IVersionControl
 
 	public async Task CreateNewBranchAsync(string repositoryPath, string activeBranch)
 	{
-		SentrySdk.Experimental.Metrics.EmitCounter("Triggered create git branch", 1);
+		SentrySdk.Metrics.EmitCounter("Triggered create git branch", 1);
 
 		var viewModel = new AddBranchDialogViewModel(repositoryPath, activeBranch);
 		var loadBranchesTask = viewModel.LoadBranches();
@@ -285,7 +285,7 @@ internal sealed partial class LibGit2Service // : IVersionControl
 
 	public async Task DeleteBranchAsync(string? repositoryPath, string? activeBranch, string? branchToDelete)
 	{
-		SentrySdk.Experimental.Metrics.EmitCounter("Triggered delete git branch", 1);
+		SentrySdk.Metrics.EmitCounter("Triggered delete git branch", 1);
 
 		if (string.IsNullOrWhiteSpace(repositoryPath) ||
 			string.IsNullOrWhiteSpace(activeBranch) ||
@@ -361,15 +361,15 @@ internal sealed partial class LibGit2Service // : IVersionControl
 
 		await DoGitOperationAsync<GitOperationResult>(() =>
 		{
-			cancellationToken.ThrowIfCancellationRequested();
-
 			var result = GitOperationResult.Success;
-			try
-			{
-				foreach (var remote in repository.Network.Remotes)
-				{
-					cancellationToken.ThrowIfCancellationRequested();
 
+			foreach (var remote in repository.Network.Remotes)
+			{
+				if (cancellationToken.IsCancellationRequested)
+					return result;
+
+				try
+				{
 					LibGit2Sharp.Commands.Fetch(
 						repository,
 						remote.Name,
@@ -377,14 +377,14 @@ internal sealed partial class LibGit2Service // : IVersionControl
 						_fetchOptions,
 						"git fetch updated a ref");
 				}
+				catch (Exception ex)
+				{
+					// An unreachable remote (e.g. a deleted fork answering 401) must not prevent fetching the remaining remotes
+					_logger.LogWarning(ex, "Failed to fetch remote {RemoteName} in {RepositoryPath}", remote.Name, repositoryPath);
 
-				cancellationToken.ThrowIfCancellationRequested();
-			}
-			catch (Exception ex)
-			{
-				result = IsAuthorizationException(ex)
-					? GitOperationResult.AuthorizationError
-					: GitOperationResult.GenericError;
+					if (IsAuthorizationException(ex))
+						result = GitOperationResult.AuthorizationError;
+				}
 			}
 
 			return result;
