@@ -39,7 +39,10 @@
 
 	<ContentDialog.Resources>
 		<ResourceDictionary>
-			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<converters:BoolToVisibilityConverter
+				x:Key="NegatedBoolToVisibilityConverter"
+				FalseValue="Visible"
+				TrueValue="Collapsed" />
 		</ResourceDictionary>
 	</ContentDialog.Resources>
 
@@ -65,7 +68,7 @@
 			Grid.Row="1"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
-			Visibility="{x:Bind ViewModel.LoginConfirmed, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}">
+			Visibility="{x:Bind ViewModel.LoginConfirmed, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}">
 
 			<HyperlinkButton
 				x:Name="LoginUrl"
