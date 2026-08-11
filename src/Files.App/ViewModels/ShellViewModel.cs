@@ -215,6 +215,10 @@ namespace Files.App.ViewModels
 		{
 			if (string.IsNullOrWhiteSpace(value))
 				return;
+			if (value != WorkingDirectory)
+			{
+				FilesAndFoldersFilter = null;
+			}
 
 			var isLibrary = false;
 			string? name = null;
@@ -2210,7 +2214,6 @@ namespace Files.App.ViewModels
 						{
 							GetDesktopIniFileData();
 							CheckForBackgroundImage();
-							FilesAndFoldersFilter = null;
 						},
 						Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					});
