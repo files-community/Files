@@ -710,7 +710,7 @@ namespace Files.App.Utils.Storage
 				shellPage);
 		}
 
-		private static async Task<(bool success, int exitCode)> RunRobocopyAsync(string arguments, StatusCenterItemProgressModel? progressModel, IReadOnlyCollection<string>? expectedItemNames, string operationID, CancellationToken cancellationToken)
+		private static async Task<(bool success, int hResult)> RunRobocopyAsync(string arguments, StatusCenterItemProgressModel? progressModel, IReadOnlyCollection<string>? expectedItemNames, string operationID, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -739,6 +739,7 @@ namespace Files.App.Utils.Storage
 					: new HashSet<string>(expectedItemNames, StringComparer.OrdinalIgnoreCase);
 				var initialProcessedSize = progressModel?.ProcessedSize ?? 0;
 				long batchProcessedSize = 0;
+				var hResult = -1;
 				process.OutputDataReceived += (_, e) =>
 				{
 					if (e.Data is null)
@@ -746,6 +747,9 @@ namespace Files.App.Utils.Storage
 						outputCompleted.TrySetResult();
 						return;
 					}
+
+					if (e.Data.Contains("(0x00000020)", StringComparison.OrdinalIgnoreCase))
+						hResult = CopyEngineResult.HRESULT_ERROR_SHARING_VIOLATION;
 
 					var fields = e.Data.Split('\t', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 					var completedItemName = fields.Length > 0 ? Path.GetFileName(fields[^1]) : string.Empty;
@@ -839,7 +843,7 @@ namespace Files.App.Utils.Storage
 					App.Logger?.LogInformation($"Robocopy operation {operationID}: Completed with exit code {exitCode}");
 				}
 
-				return (success, exitCode);
+				return (success, success ? 0 : hResult);
 			}
 			catch (Exception ex)
 			{
@@ -1023,7 +1027,7 @@ namespace Files.App.Utils.Storage
 							}
 
 							var batchOk = true;
-							var exitCode = 0;
+							var hResult = 0;
 
 							var argsList = new List<string>
 							{
@@ -1067,7 +1071,7 @@ namespace Files.App.Utils.Storage
 							}
 
 							App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Executing file batch with {itemNames.Count} items, args length: {robocopyArgs.Length}");
-							(batchOk, exitCode) = await RunRobocopyAsync(robocopyArgs, fsProgress, itemNames, operationID, cts.Token);
+							(batchOk, hResult) = await RunRobocopyAsync(robocopyArgs, fsProgress, itemNames, operationID, cts.Token);
 
 							// Robocopy exit codes describe the batch, so verify every requested item before
 							// reporting success. A skipped move otherwise looks successful while its source remains.
@@ -1084,14 +1088,14 @@ namespace Files.App.Utils.Storage
 									Succeeded = itemOk,
 									Source = sourcePath,
 									Destination = destinationPath,
-									HResult = itemOk ? 0 : exitCode != 0 ? exitCode : -1
+									HResult = itemOk ? 0 : hResult != 0 ? hResult : -1
 								});
 							}
 							batchOk &= batchVerified;
 
 							if (!batchOk)
 							{
-								App.Logger?.LogWarning($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: File batch failed with exit code {exitCode}");
+								App.Logger?.LogWarning($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: File batch failed with HRESULT {hResult}");
 								success = false;
 							}
 							else
@@ -1116,7 +1120,7 @@ namespace Files.App.Utils.Storage
 						}
 
 						var folderOk = true;
-						var exitCode = 0;
+						var hResult = 0;
 
 						var argsList = new List<string>
 						{
@@ -1153,7 +1157,7 @@ namespace Files.App.Utils.Storage
 						var robocopyArgs = string.Join(" ", argsList);
 
 						App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Processing folder {sourcePath} -> {destPath}");
-						(folderOk, exitCode) = await RunRobocopyAsync(robocopyArgs, fsProgress, null, operationID, cts.Token);
+						(folderOk, hResult) = await RunRobocopyAsync(robocopyArgs, fsProgress, null, operationID, cts.Token);
 
 						folderOk = folderOk && StorageHelpers.Exists(destPath) &&
 							(!isMoveOperation || !StorageHelpers.Exists(sourcePath));
@@ -1162,12 +1166,12 @@ namespace Files.App.Utils.Storage
 							Succeeded = folderOk,
 							Source = sourcePath,
 							Destination = destPath,
-							HResult = folderOk ? 0 : exitCode != 0 ? exitCode : -1
+							HResult = folderOk ? 0 : hResult != 0 ? hResult : -1
 						});
 
 						if (!folderOk)
 						{
-							App.Logger?.LogWarning($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Folder operation failed with exit code {exitCode}");
+							App.Logger?.LogWarning($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Folder operation failed with HRESULT {hResult}");
 							success = false;
 						}
 						else
@@ -1315,6 +1319,8 @@ namespace Files.App.Utils.Storage
 						shellPage,
 						isMoveOperation: true);
 
+					shellOperationResult.Items.AddRange(moveResult.Final.Where(x => !x.Succeeded));
+
 					if (!moveSuccess)
 					{
 						App.Logger?.LogWarning($"Robocopy delete operation {operationID}: Move to temp folder failed");
@@ -1330,11 +1336,11 @@ namespace Files.App.Utils.Storage
 
 						App.Logger?.LogInformation($"Robocopy delete operation {operationID}: Starting MIR deletion with args: {robocopyArgs}");
 
-						var (deleteSuccess, exitCode) = await RunRobocopyAsync(robocopyArgs, null, null, operationID, cts.Token);
+						var (deleteSuccess, hResult) = await RunRobocopyAsync(robocopyArgs, null, null, operationID, cts.Token);
 
 						if (!deleteSuccess)
 						{
-							App.Logger?.LogWarning($"Robocopy delete operation {operationID}: MIR deletion failed with exit code {exitCode}");
+							App.Logger?.LogWarning($"Robocopy delete operation {operationID}: MIR deletion failed with HRESULT {hResult}");
 							success = false;
 						}
 						else
