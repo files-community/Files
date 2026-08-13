@@ -215,6 +215,7 @@ namespace Files.App.ViewModels
 		{
 			if (string.IsNullOrWhiteSpace(value))
 				return;
+			
 			if (value != WorkingDirectory)
 			{
 				FilesAndFoldersFilter = null;
