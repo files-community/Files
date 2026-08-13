@@ -2655,7 +2655,7 @@
     <value>Vybrat všechny položky</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>Invertovat vybrané položky</value>
+    <value>Invertovat výběr položek</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
     <value>Zrušit vybrání položek</value>
@@ -3498,7 +3498,7 @@
     <value>Paleta příkazů</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Otevřít paletu příkazů v OmniBaru</value>
+    <value>Otevřít paletu příkazů</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Začít v:</value>
@@ -4480,7 +4480,7 @@
     <value>Signature list</value>
   </data>
   <data name="IssuedBy" xml:space="preserve">
-    <value>Vystavil:</value>
+    <value>Vydal:</value>
   </data>
   <data name="IssuedTo" xml:space="preserve">
     <value>Vydáno pro:</value>
