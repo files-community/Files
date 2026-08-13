@@ -11,7 +11,7 @@ namespace Files.App.UserControls.TabBar
 	/// </summary>
 	public sealed partial class TabBarItem : ObservableObject, ITabBarItem, IDisposable
 	{
-		public Frame ContentFrame { get; private set; }
+		public Frame? ContentFrame { get; private set; }
 
 		public event EventHandler<TabBarItemParameter> ContentChanged;
 
@@ -61,11 +61,12 @@ namespace Files.App.UserControls.TabBar
 					_NavigationArguments = value;
 					if (_NavigationArguments is not null)
 					{
-						ContentFrame.Navigate(_NavigationArguments.InitialPageType, _NavigationArguments.NavigationParameter, new SuppressNavigationTransitionInfo());
+						ContentFrame?.Navigate(_NavigationArguments.InitialPageType, _NavigationArguments.NavigationParameter, new SuppressNavigationTransitionInfo());
 					}
 					else
 					{
-						ContentFrame.Content = null;
+						if (ContentFrame is not null)
+							ContentFrame.Content = null;
 					}
 				}
 			}
@@ -106,10 +107,21 @@ namespace Files.App.UserControls.TabBar
 
 		public void Dispose()
 		{
-			if (TabItemContent is IDisposable disposableContent)
-				disposableContent?.Dispose();
+			var content = TabItemContent;
+			if (content is not null)
+			{
+				content.ContentChanged -= TabItemContent_ContentChanged;
+				content.Dispose();
+			}
 
-			ContentFrame.Content = null;
+			var frame = ContentFrame;
+			if (frame is not null)
+			{
+				frame.Navigated -= ContentFrame_Navigated;
+				frame.Content = null;
+				ContentFrame = null;
+				OnPropertyChanged(nameof(ContentFrame));
+			}
 		}
 	}
 }

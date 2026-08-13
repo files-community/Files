@@ -265,8 +265,11 @@ namespace Files.App.Views.Shells
 
 		public override void Dispose()
 		{
+			Bindings.StopTracking();
 			ContentChanged -= ModernShellPage_ContentChanged;
 			ToolbarViewModel.RefreshWidgetsRequested -= ModernShellPage_RefreshWidgetsRequested;
+			ShellViewModel.FocusFilterHeader -= ShellViewModel_FocusFilterHeader;
+			ItemDisplayFrame.Navigated -= ItemDisplayFrame_Navigated;
 			_navigationInteractionTracker.NavigationRequested -= OverscrollNavigationRequested;
 			_navigationInteractionTracker.Dispose();
 

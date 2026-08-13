@@ -18,7 +18,7 @@ namespace Files.App.UserControls.Selection
 		private ListViewBase uiElement;
 		private ScrollViewer scrollViewer;
 		private SelectionChangedEventHandler selectionChanged;
-		private DispatcherQueueTimer timer;
+		private DispatcherQueueTimer? timer;
 		private Point originDragPoint;
 		private Dictionary<object, System.Drawing.Rectangle> itemsPosition;
 		private List<object> prevSelectedItems;
@@ -31,7 +31,6 @@ namespace Files.App.UserControls.Selection
 			this.selectionRectangle = selectionRectangle;
 			this.selectionChanged = selectionChanged;
 			itemsPosition = [];
-			timer = DispatcherQueue.GetForCurrentThread().CreateTimer();
 			InitEvents(null, null);
 		}
 
@@ -175,6 +174,10 @@ namespace Files.App.UserControls.Selection
 
 		private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
 		{
+			if (timer is null)
+			{
+				timer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+			}
 			if (!timer.IsRunning)
 			{
 				timer.Debounce(FetchItemsPosition, TimeSpan.FromMilliseconds(1000));

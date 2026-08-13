@@ -32,7 +32,9 @@ namespace Files.App.ViewModels.Previews
 
 		public override void PreviewControlBase_Unloaded(object sender, RoutedEventArgs e)
 		{
+			var mediaSource = Source;
 			Source = null;
+			mediaSource?.Dispose();
 
 			base.PreviewControlBase_Unloaded(sender, e);
 		}

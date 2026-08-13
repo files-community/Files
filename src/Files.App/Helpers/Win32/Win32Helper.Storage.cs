@@ -174,11 +174,18 @@ namespace Files.App.Helpers
 						flags |= Shell32.SIIGBF.SIIGBF_INCACHEONLY;
 
 					var hres = shellFactory.GetImage(new Vanara.PInvoke.SIZE(size, size), flags, out var hbitmap);
-					if (hres == HRESULT.S_OK)
+					try
 					{
-						using var image = GetBitmapFromHBitmap(hbitmap);
-						if (image is not null)
-							iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
+						if (hres == HRESULT.S_OK)
+						{
+							using var image = GetBitmapFromHBitmap(hbitmap);
+							if (image is not null)
+								iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
+						}
+					}
+					finally
+					{
+						hbitmap?.Dispose();
 					}
 
 					Marshal.ReleaseComObject(shellFactory);

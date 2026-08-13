@@ -1,7 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.Windows.Forms;
 using Vanara.Extensions;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -215,11 +214,11 @@ namespace Files.App.Utils.Shell
 		/// <param name="allowUnindexableLocations">
 		/// If set to <c>true</c> do not display a warning dialog to the user in collisions that concern network locations that cannot be indexed.
 		/// </param>
-		public void ShowLibraryManagementDialog(IWin32Window parentWindow = null, string title = null, string instruction = null, bool allowUnindexableLocations = false)
+		public void ShowLibraryManagementDialog(IntPtr parentWindow = default, string title = null, string instruction = null, bool allowUnindexableLocations = false)
 		{
 			Shell32.SHShowManageLibraryUI(
 				IShellItem,
-				parentWindow?.Handle ?? IntPtr.Zero,
+				parentWindow,
 				title, instruction,
 				allowUnindexableLocations ? Shell32.LIBRARYMANAGEDIALOGOPTIONS.LMD_ALLOWUNINDEXABLENETWORKLOCATIONS : Shell32.LIBRARYMANAGEDIALOGOPTIONS.LMD_DEFAULT
 			).ThrowIfFailed();

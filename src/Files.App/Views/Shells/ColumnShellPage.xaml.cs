@@ -151,6 +151,12 @@ namespace Files.App.Views.Shells
 			}
 		}
 
+		public override void Dispose()
+		{
+			ItemDisplayFrame.Navigated -= ItemDisplayFrame_Navigated;
+			base.Dispose();
+		}
+
 		public override void Back_Click()
 		{
 			if (ToolbarViewModel != null)

@@ -174,6 +174,7 @@ namespace Files.App.ViewModels
 		private CancellationTokenSource updateTagGroupCTS;
 		private CancellationTokenSource? filterDebounceCS;
 		private CancellationTokenSource? networkAvailabilityCTS;
+		private bool isDisposed;
 
 		public event EventHandler FocusFilterHeader;
 
@@ -3155,11 +3156,18 @@ namespace Files.App.ViewModels
 
 		public void Dispose()
 		{
+			if (isDisposed)
+				return;
+
+			isDisposed = true;
 			CancelLoadAndClearFiles();
 			StopWatchingForLocationRestoration();
 			filterDebounceCS?.Cancel();
 			filterDebounceCS?.Dispose();
 			networkAvailabilityCTS?.Dispose();
+			semaphoreCTS.Cancel();
+			searchCTS?.Cancel();
+			updateTagGroupCTS?.Cancel();
 			App.Logger.LogInformation($"ShellViewModel.Dispose: CurrentFolder={LogPathHelper.GetPathIdentifier(CurrentFolder?.ItemPath)}");
 
 			StorageTrashBinService.Watcher.ItemAdded -= RecycleBinItemCreatedAsync;
@@ -3170,6 +3178,15 @@ namespace Files.App.ViewModels
 			fileTagsSettingsService.OnTagsUpdated -= FileTagsSettingsService_OnSettingUpdated;
 			folderSizeProvider.SizeChanged -= FolderSizeProvider_SizeChanged;
 			folderSettings.LayoutModeChangeRequested -= LayoutModeChangeRequested;
+
+			addFilesCTS.Cancel();
+			loadPropsCTS.Cancel();
+			watcherCTS.Cancel();
+			addFilesCTS.Dispose();
+			loadPropsCTS.Dispose();
+			watcherCTS.Dispose();
+			SearchIconBitmapImage = null;
+			currentStorageFolder = null;
 		}
 	}
 
