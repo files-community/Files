@@ -319,7 +319,7 @@
     <value>授予权限</value>
   </data>
   <data name="WelcomeDialogTextBlockText" xml:space="preserve">
-    <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </value>
+    <value>使用此应用需授予我们访问文件系统的权限。你可在稍后打开的设置页面中授权。完成设置后，需重启应用程序。 </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>显示</value>
@@ -388,7 +388,7 @@
     <value>无法删除此项目</value>
   </data>
   <data name="DriveUnpluggedDialogText" xml:space="preserve">
-    <value>Please insert the necessary drive to access this item.</value>
+    <value>请插入访问此项目所需的驱动器。</value>
   </data>
   <data name="DriveUnpluggedDialogTitle" xml:space="preserve">
     <value>驱动器已弹出</value>
@@ -409,16 +409,16 @@
     <value>要访问的文件夹可能已被移动或删除。</value>
   </data>
   <data name="FolderNotFoundDialogTitle" xml:space="preserve">
-    <value>Did you delete this folder?</value>
+    <value>此文件夹是否已被删除？</value>
   </data>
   <data name="FileInUseByDialogText" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>{0}正在使用您尝试访问的文件</value>
   </data>
   <data name="FileInUseDialogText" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>另一程序正在使用您尝试访问的文件</value>
   </data>
   <data name="FileInUseDialogTitle" xml:space="preserve">
-    <value>File is in use</value>
+    <value>文件正在使用中</value>
   </data>
   <data name="CannotRunFileDialogTitle" xml:space="preserve">
     <value>此应用程序无法在您的电脑上运行</value>
@@ -642,7 +642,7 @@
     <value>正在共享 {0} {1}</value>
   </data>
   <data name="RenameErrorItemDeletedText" xml:space="preserve">
-    <value>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</value>
+    <value>您试图重命名的项目已不存在。请确认要重命名的项目的位置。</value>
   </data>
   <data name="RenameErrorItemDeletedTitle" xml:space="preserve">
     <value>该项目不存在</value>
@@ -654,7 +654,7 @@
     <value>无效的项目名称</value>
   </data>
   <data name="RenameErrorTooLongText" xml:space="preserve">
-    <value>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</value>
+    <value>指定项目的名称长度超出最大限制。请检查名称并重试。</value>
   </data>
   <data name="RenameErrorTooLongTitle" xml:space="preserve">
     <value>项目名称过长</value>
@@ -1554,10 +1554,10 @@
     <value>解压缩到 {0}\</value>
   </data>
   <data name="SideBarCreateNewLibraryText" xml:space="preserve">
-    <value>Create new library</value>
+    <value>新建库</value>
   </data>
   <data name="SideBarRestoreLibrariesText" xml:space="preserve">
-    <value>Restore default libraries</value>
+    <value>恢复默认库</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
     <value>确定要恢复为默认库吗？ 所有文件都将保留在存储空间中。</value>
@@ -1569,7 +1569,7 @@
     <value>所有者</value>
   </data>
   <data name="SecuritySpecialLabelText" xml:space="preserve">
-    <value>Special</value>
+    <value>特殊</value>
   </data>
   <data name="Access" xml:space="preserve">
     <value>访问</value>
@@ -1620,7 +1620,7 @@
     <value>此文件夹和子文件夹</value>
   </data>
   <data name="SecurityAppendDataLabelText" xml:space="preserve">
-    <value>Append data</value>
+    <value>追加数据</value>
   </data>
   <data name="SecurityChangePermissionsLabelText" xml:space="preserve">
     <value>更改权限</value>
@@ -1644,10 +1644,10 @@
     <value>读取数据</value>
   </data>
   <data name="SecurityReadExtendedAttributesLabelText" xml:space="preserve">
-    <value>Read extended attributes</value>
+    <value>读取扩展属性</value>
   </data>
   <data name="SecurityReadPermissionsLabelText" xml:space="preserve">
-    <value>Read permissions</value>
+    <value>读取权限</value>
   </data>
   <data name="SecurityTakeOwnershipLabelText" xml:space="preserve">
     <value>取得所有权</value>
@@ -1764,10 +1764,10 @@
     <value>打开驱动器</value>
   </data>
   <data name="InsertDiscDialogText" xml:space="preserve">
-    <value>Please insert a disc into drive {0}</value>
+    <value>请将碟片插入驱动器{0}</value>
   </data>
   <data name="InsertDiscDialogTitle" xml:space="preserve">
-    <value>Insert a disc</value>
+    <value>请插入碟片</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>确定</value>
@@ -2235,10 +2235,10 @@
     <value>创建压缩文件</value>
   </data>
   <data name="CompressSkippedItemsDialogTitle" xml:space="preserve">
-    <value>Some items can't be compressed</value>
+    <value>有些项目无法压缩</value>
   </data>
   <data name="CompressSkippedItemsDialogText" xml:space="preserve">
-    <value>The following {0, plural, one {item} other {items}} can''t be compressed. Would you like to skip {0, plural, one {this item} other {these items}}?</value>
+    <value>以下{0, plural, other {项目}}不能被压缩。你想跳过{0, plural, other {这些项目}}吗？</value>
   </data>
   <data name="CompressIntoZip" xml:space="preserve">
     <value>创建 zip 压缩文件</value>
@@ -3343,7 +3343,7 @@
     <value>由于超时错误，git pull 失败</value>
   </data>
   <data name="PullUncommittedChangesError" xml:space="preserve">
-    <value>Can't pull because your uncommitted changes would be overwritten. Commit, stash, or discard your changes, then try again.</value>
+    <value>无法拉取，因为您未提交的更改将被覆盖。请提交、栈暂存或放弃您的更改，然后重试。</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(多个值)</value>
@@ -3969,7 +3969,7 @@
     <value>更改专辑封面</value>
   </data>
   <data name="RemoveAlbumCover" xml:space="preserve">
-    <value>Remove album cover</value>
+    <value>删除专辑封面</value>
   </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>重命名项目失败</value>
@@ -4170,13 +4170,13 @@
     <comment>This is the friendly name for image files.</comment>
   </data>
   <data name="AllSupportedFiles" xml:space="preserve">
-    <value>All supported files</value>
+    <value>所有支持的文件</value>
   </data>
   <data name="ConvertToIconRequiredMessage" xml:space="preserve">
-    <value>This image needs to be converted into an icon file before it can be used. Choose a location to save the converted icon file.</value>
+    <value>此图像需要转换为图标文件后才能使用。请选择保存转换的图标文件的位置。</value>
   </data>
   <data name="ConvertToIconError" xml:space="preserve">
-    <value>Couldn't convert the image to an icon file</value>
+    <value>无法将图像转换为图标文件</value>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>小键盘</value>
@@ -4377,13 +4377,13 @@
     <value>打开设置</value>
   </data>
   <data name="NetworkDiscoveryTurnedOffInfoBarMessage" xml:space="preserve">
-    <value>Network discovery is turned off. Network computers and devices are not visible.</value>
+    <value>已关闭网络发现，网络计算机和设备不可见。</value>
   </data>
   <data name="FileSharingTurnedOffInfoBarMessage" xml:space="preserve">
-    <value>File sharing is turned off. Some network computers and devices might not be visible.</value>
+    <value>已关闭文件共享，部分网络计算机和设备可能无法看到。</value>
   </data>
   <data name="NetworkDiscoveryAndFileSharingTurnedOffInfoBarMessage" xml:space="preserve">
-    <value>Network discovery and file sharing are turned off. Network computers and devices are not visible.</value>
+    <value>已关闭网络发现与文件共享，网络计算机和设备不可见。</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
