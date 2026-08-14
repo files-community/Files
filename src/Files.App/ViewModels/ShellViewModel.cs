@@ -217,9 +217,7 @@ namespace Files.App.ViewModels
 				return;
 			
 			if (value != WorkingDirectory)
-			{
 				FilesAndFoldersFilter = null;
-			}
 
 			var isLibrary = false;
 			string? name = null;
