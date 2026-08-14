@@ -1067,27 +1067,32 @@ namespace Files.App.Views.Layouts
 
 		protected virtual async void Item_Drop(object sender, DragEventArgs e)
 		{
-			var deferral = e.GetDeferral();
 			e.Handled = true;
+
+			if (e.DataView is null)
+			{
+				e.AcceptedOperation = DataPackageOperation.None;
+				return;
+			}
+
+			var deferral = e.GetDeferral();
 
 			try
 			{
-				_ = e.Data.Properties;
-				var exists = e.Data.Properties.TryGetValue("Files_ActionBinder", out var val);
-				_ = val;
+				dragOverItem = null;
+
+				var item = GetItemFromElement(sender);
+				if (item is not null)
+				{
+					await SafetyExtensions.IgnoreExceptions(async () =>
+						await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as IShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable, item.IsScriptFile),
+						App.Logger);
+				}
 			}
-			catch (NullReferenceException)
+			finally
 			{
-				// e.Data or e.Data.Properties is null, continue without the property check
+				deferral?.Complete();
 			}
-
-			// Reset dragged over item
-			dragOverItem = null;
-			var item = GetItemFromElement(sender);
-			if (item is not null)
-				await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as IShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable, item.IsScriptFile);
-
-			deferral.Complete();
 		}
 
 		protected void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
