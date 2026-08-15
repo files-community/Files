@@ -81,7 +81,7 @@ namespace Files.App.ViewModels.UserControls
 		private NavigationToolbar? AddressToolbar => (MainWindow.Instance.Content as Frame)?.FindDescendant<NavigationToolbar>();
 
 		public bool HasAdditionalAction =>
-			InstanceViewModel.IsPageTypeRecycleBin ||
+			InstanceViewModel?.IsPageTypeRecycleBin == true ||
 			Commands.RunWithPowershell.IsExecutable ||
 			CanExtract ||
 			Commands.DecompressArchive.IsExecutable ||
@@ -101,11 +101,11 @@ namespace Files.App.ViewModels.UserControls
 
 		public bool CanExtract => Commands.DecompressArchive.CanExecute(null) || Commands.DecompressArchiveHere.CanExecute(null) || Commands.DecompressArchiveHereSmart.CanExecute(null) || Commands.DecompressArchiveToChildFolder.CanExecute(null);
 
-		public bool IsCardsLayout => InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.CardsView;
-		public bool IsColumnLayout => InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ColumnView;
-		public bool IsGridLayout => InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView;
-		public bool IsDetailsLayout => InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.DetailsView;
-		public bool IsListLayout => InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ListView;
+		public bool IsCardsLayout => InstanceViewModel?.FolderSettings.LayoutMode is FolderLayoutModes.CardsView;
+		public bool IsColumnLayout => InstanceViewModel?.FolderSettings.LayoutMode is FolderLayoutModes.ColumnView;
+		public bool IsGridLayout => InstanceViewModel?.FolderSettings.LayoutMode is FolderLayoutModes.GridView;
+		public bool IsDetailsLayout => InstanceViewModel?.FolderSettings.LayoutMode is FolderLayoutModes.DetailsView;
+		public bool IsListLayout => InstanceViewModel?.FolderSettings.LayoutMode is FolderLayoutModes.ListView;
 
 		public bool IsLayoutSizeCompact =>
 			(IsDetailsLayout && UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact) ||
@@ -224,10 +224,9 @@ namespace Files.App.ViewModels.UserControls
 		public string OmnibarCurrentSelectedModeName { get => _OmnibarCurrentSelectedModeName; set => SetProperty(ref _OmnibarCurrentSelectedModeName, value); }
 
 		private CurrentInstanceViewModel? _InstanceViewModel;
-		public CurrentInstanceViewModel InstanceViewModel
+		public CurrentInstanceViewModel? InstanceViewModel
 		{
-			get => _InstanceViewModel
-				?? throw new InvalidOperationException("The navigation toolbar has not been initialized.");
+			get => _InstanceViewModel;
 			set
 			{
 				if (_InstanceViewModel is { } previousViewModel)
@@ -236,7 +235,7 @@ namespace Files.App.ViewModels.UserControls
 					previousViewModel.PropertyChanged -= InstanceViewModel_PropertyChanged;
 				}
 
-				if (SetProperty(ref _InstanceViewModel, value))
+				if (SetProperty(ref _InstanceViewModel, value) && value is not null)
 				{
 					FolderSettings_PropertyChanged(this, new PropertyChangedEventArgs(nameof(LayoutPreferencesManager.LayoutMode)));
 					value.FolderSettings.PropertyChanged += FolderSettings_PropertyChanged;
@@ -1252,7 +1251,10 @@ namespace Files.App.ViewModels.UserControls
 			switch (e.PropertyName)
 			{
 				case nameof(LayoutPreferencesManager.LayoutMode):
-					LayoutThemedIcon = InstanceViewModel.FolderSettings.LayoutMode switch
+					if (InstanceViewModel is not { } instanceViewModel)
+						return;
+
+					LayoutThemedIcon = instanceViewModel.FolderSettings.LayoutMode switch
 					{
 						FolderLayoutModes.ListView => Commands.LayoutList.ThemedIconStyle!,
 						FolderLayoutModes.CardsView => Commands.LayoutCards.ThemedIconStyle!,
@@ -1291,7 +1293,7 @@ namespace Files.App.ViewModels.UserControls
 			_suggestSearchCTS.Dispose();
 			_dragOverTimer?.Stop();
 			_dragOverTimer = null;
-			InstanceViewModel = null!;
+			InstanceViewModel = null;
 			SelectedItems = null;
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 			UpdateService.PropertyChanged -= UpdateService_OnPropertyChanged;

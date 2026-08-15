@@ -475,7 +475,7 @@ namespace Files.App.UserControls
 				if (Commands[code] is { Code: not CommandCodes.None } cmd)
 					flyout.Items.Add(CreateGroupMenuItem(cmd));
 
-			if (group is NewItemCommandGroup && ViewModel?.InstanceViewModel.CanCreateFileInPage == true
+			if (group is NewItemCommandGroup && ViewModel?.InstanceViewModel?.CanCreateFileInPage == true
 				&& addItemService.GetEntries() is { Count: > 0 } entries)
 			{
 				flyout.Items.Add(new MenuFlyoutSeparator());
