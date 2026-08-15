@@ -1040,9 +1040,10 @@ namespace Files.App.Utils.Storage
 				fsProgress.Report();
 			}
 
-			if (rawStorageHistory.Count > 0 && rawStorageHistory.All(item => item is not null))
+			var storageHistory = rawStorageHistory.WhereNotNull().ToList();
+			if (storageHistory.Count > 0)
 			{
-				var storageHistory = rawStorageHistory.WhereNotNull().ToList();
+				// Permanent deletes cannot be undone, so only recycled items belong in a mixed batch's undo history.
 				var recycleHistory = storageHistory.Where(item => item.OperationType is FileOperationType.Recycle).ToList();
 				if (recycleHistory.Count > 0)
 				{

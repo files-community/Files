@@ -93,7 +93,7 @@ namespace Files.App.Actions
 			{
 				BaseStorageFolder? parentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(Path.GetDirectoryName(archive.Path) ?? string.Empty);
 				if (parentFolder is null)
-					throw new InvalidOperationException("The archive's parent folder could not be resolved.");
+					return;
 
 				destinationFolder = await FilesystemTasks.WrapNullable(() => parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath), CreationCollisionOption.GenerateUniqueName).AsTask());
 			}

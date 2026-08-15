@@ -205,8 +205,8 @@ namespace Files.App.ViewModels.Dialogs
 
 		public bool ShowWarningTip => !string.IsNullOrEmpty(ShortcutTarget) && !_isLocationValid;
 
-		public bool ShowNameWarningTip => !string.IsNullOrEmpty(_shortcutTarget) && !FilesystemHelpers.IsValidForFilename(
-			_shortcutName ?? throw new InvalidOperationException("The shortcut name has not been set."));
+		public bool ShowNameWarningTip => !string.IsNullOrEmpty(_shortcutTarget) &&
+			!FilesystemHelpers.IsValidForFilename(_shortcutName ?? string.Empty);
 
 		public bool IsShortcutValid => _isLocationValid && !ShowNameWarningTip && !string.IsNullOrEmpty(_shortcutTarget);
 

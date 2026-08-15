@@ -66,8 +66,7 @@ namespace Files.App.Utils.Storage
 			Path = item.RecyclePath // True path on disk
 				?? throw new IO.InvalidDataException("The shell item does not have a path.");
 			DateCreated = item.CreatedDate;
-			DisplayType = item.FileType
-				?? throw new IO.InvalidDataException("The shell item does not have a display type.");
+			DisplayType = item.FileType ?? string.Empty;
 		}
 
 		public override IAsyncOperation<StorageFile> ToStorageFileAsync() => throw new NotSupportedException();

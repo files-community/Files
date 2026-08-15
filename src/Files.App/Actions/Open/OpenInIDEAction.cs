@@ -37,12 +37,10 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync(object? parameter = null)
 		{
-			var shellPage = _context.ShellPage
-				?? throw new InvalidOperationException("An active shell page is required to open the current folder in an IDE.");
-			var shellViewModel = shellPage.GetRequiredShellViewModel();
+			var workingDirectory = _context.ShellPage?.ShellViewModel?.WorkingDirectory;
 
 			var res = await Win32Helper.RunPowershellCommandAsync(
-				$"& \'{_devToolsSettingsService.IDEPath}\' \'{shellViewModel.WorkingDirectory}\'",
+				$"& \'{_devToolsSettingsService.IDEPath}\' \'{workingDirectory}\'",
 				PowerShellExecutionOptions.Hidden
 			);
 

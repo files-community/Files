@@ -73,8 +73,7 @@ namespace Files.App.Utils.Storage
 			Path = item.RecyclePath // True path on disk
 				?? throw new System.IO.InvalidDataException("The shell item does not have a path.");
 			DateCreated = item.CreatedDate;
-			DisplayType = item.FileType
-				?? throw new System.IO.InvalidDataException("The shell item does not have a display type.");
+			DisplayType = item.FileType ?? string.Empty;
 		}
 
 		public static bool IsShellPath(string? path)
@@ -211,9 +210,8 @@ namespace Files.App.Utils.Storage
 		public override IAsyncOperation<IReadOnlyList<BaseStorageFile>?> GetFilesAsync()
 			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFile>?>(async (cancellationToken) =>
 			{
-				var items = await GetItemsAsync()
-					?? throw new InvalidOperationException("The shell folder could not be enumerated.");
-				return items.OfType<ShellStorageFile>().ToList();
+				var items = await GetItemsAsync();
+				return items?.OfType<ShellStorageFile>().ToList();
 			});
 		public override IAsyncOperation<IReadOnlyList<BaseStorageFile>?> GetFilesAsync(CommonFileQuery query)
 			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFile>?>(async (cancellationToken) => await GetFilesAsync());
@@ -230,9 +228,8 @@ namespace Files.App.Utils.Storage
 		public override IAsyncOperation<IReadOnlyList<BaseStorageFolder>?> GetFoldersAsync()
 			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFolder>?>(async (cancellationToken) =>
 			{
-				var items = await GetItemsAsync()
-					?? throw new InvalidOperationException("The shell folder could not be enumerated.");
-				return items.OfType<ShellStorageFolder>().ToList();
+				var items = await GetItemsAsync();
+				return items?.OfType<ShellStorageFolder>().ToList();
 			});
 		public override IAsyncOperation<IReadOnlyList<BaseStorageFolder>?> GetFoldersAsync(CommonFolderQuery query)
 			=> AsyncInfo.Run<IReadOnlyList<BaseStorageFolder>?>(async (cancellationToken) => await GetFoldersAsync());

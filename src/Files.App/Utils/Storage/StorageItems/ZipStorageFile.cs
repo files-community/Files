@@ -677,7 +677,7 @@ namespace Files.App.Utils.Storage
 			using SevenZipExtractor? zipFile = await OpenZipFileAsync();
 			if (zipFile is null || zipFile.ArchiveFileData is null)
 			{
-				throw new InvalidDataException($"The archive '{containerPath}' could not be read.");
+				return new BaseBasicProperties();
 			}
 
 			//zipFile.IsStreamOwner = true;

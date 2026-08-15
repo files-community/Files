@@ -418,10 +418,12 @@ namespace Files.App.Views.Shells
 
 		protected async void ShellPage_PathBoxItemDropped(object sender, PathBoxItemDroppedEventArgs e)
 		{
-			var package = e.Package
-				?? throw new InvalidOperationException("The dropped data package is not available.");
-			var destination = e.Path
-				?? throw new InvalidOperationException("The drop destination is not available.");
+			if (e.Package is not { } package || e.Path is not { } destination)
+			{
+				e.SignalEvent?.Set();
+				return;
+			}
+
 			await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, package, destination, false, true);
 			e.SignalEvent?.Set();
 		}
@@ -536,13 +538,13 @@ namespace Files.App.Views.Shells
 		public Task TabItemDragOver(object sender, DragEventArgs e)
 		{
 			return SlimContentPage?.CommandsViewModel?.DragOverAsync(e)
-				?? throw new InvalidOperationException("The tab content is not available for drag-over.");
+				?? Task.CompletedTask;
 		}
 
 		public Task TabItemDrop(object sender, DragEventArgs e)
 		{
 			return SlimContentPage?.CommandsViewModel?.DropAsync(e)
-				?? throw new InvalidOperationException("The tab content is not available for drop.");
+				?? Task.CompletedTask;
 		}
 
 		public async Task RefreshIfNoWatcherExistsAsync()

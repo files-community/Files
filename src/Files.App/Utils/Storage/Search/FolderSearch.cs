@@ -576,7 +576,7 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private ListedItem GetListedItemAsync(string itemPath, WIN32_FIND_DATA findData)
+		private ListedItem? GetListedItemAsync(string itemPath, WIN32_FIND_DATA findData)
 		{
 			ListedItem? listedItem = null;
 			var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
@@ -651,8 +651,7 @@ namespace Files.App.Utils.Storage
 					});
 			}
 
-			return listedItem
-				?? throw new InvalidOperationException($"The search result '{itemPath}' is neither a file nor a folder.");
+			return listedItem;
 		}
 
 		private async Task<ListedItem> GetListedItemAsync(IStorageItem item)
