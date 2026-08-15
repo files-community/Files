@@ -988,8 +988,9 @@ namespace Files.App.ViewModels.UserControls
 			async void FlyoutClosed(object? sender, object e)
 			{
 				menu.Closed -= FlyoutClosed;
-				var item = rightClickedItem
-					?? throw new InvalidOperationException("No sidebar item is selected for properties.");
+				var item = rightClickedItem;
+				if (item is not (DriveItem or LibraryLocationItem or LocationItem))
+					return;
 				var activePane = PaneHolder?.ActivePane
 					?? throw new InvalidOperationException("There is no active pane for sidebar properties.");
 

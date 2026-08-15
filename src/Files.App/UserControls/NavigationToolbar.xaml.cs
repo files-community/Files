@@ -218,12 +218,9 @@ namespace Files.App.UserControls
 			else if (mode == OmnibarSearchMode)
 			{
 				var shellPage = ContentPageContext.ShellPage;
-				var instanceViewModel = viewModel.InstanceViewModel;
-				if (instanceViewModel is null)
-					return;
 
 				// Settings search: jump to the matching card, or apply the query in-page.
-				if (instanceViewModel.IsPageTypeSettings)
+				if (viewModel.InstanceViewModel.IsPageTypeSettings)
 				{
 					var settingsPage = (MainWindow.Instance.Content as FrameworkElement)?.FindDescendant<Files.App.Views.SettingsPage>();
 
@@ -428,15 +425,11 @@ namespace Files.App.UserControls
 			}
 			else if (e.NewMode == OmnibarSearchMode)
 			{
-				var instanceViewModel = viewModel.InstanceViewModel;
-				if (instanceViewModel is null)
-					return;
-
 				// Preserve existing search query or clear for new search
-				if (!instanceViewModel.IsPageTypeSearchResults)
+				if (!viewModel.InstanceViewModel.IsPageTypeSearchResults)
 					viewModel.OmnibarSearchModeText = string.Empty;
 				else
-					viewModel.OmnibarSearchModeText = instanceViewModel.CurrentSearchQuery;
+					viewModel.OmnibarSearchModeText = viewModel.InstanceViewModel.CurrentSearchQuery;
 
 				await DispatcherQueue.EnqueueOrInvokeAsync(viewModel.PopulateOmnibarSuggestionsForSearchMode);
 			}

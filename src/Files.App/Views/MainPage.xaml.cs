@@ -228,16 +228,13 @@ namespace Files.App.Views
 
 		private void UpdateNavToolbarProperties()
 		{
-			var paneHolder = SidebarAdaptiveViewModel.PaneHolder;
-			var activePane = paneHolder is null
-				? null
-				: paneHolder.ActivePaneOrColumn ?? throw new InvalidOperationException("The pane holder does not have an active pane.");
+			var toolbarViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn!.ToolbarViewModel;
 
 			if (NavToolbar is not null)
-				NavToolbar.ViewModel = activePane?.ToolbarViewModel;
+				NavToolbar.ViewModel = toolbarViewModel;
 
 			if (InnerNavigationToolbar is not null)
-				InnerNavigationToolbar.ViewModel = activePane?.ToolbarViewModel;
+				InnerNavigationToolbar.ViewModel = toolbarViewModel;
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
