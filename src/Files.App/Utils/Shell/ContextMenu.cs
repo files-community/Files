@@ -16,11 +16,16 @@ namespace Files.App.Utils.Shell
 	/// </summary>
 	public partial class ContextMenu : Win32ContextMenu, IDisposable
 	{
-		private Shell32.IContextMenu _cMenu;
+		private Shell32.IContextMenu? _cMenu;
 
-		private User32.SafeHMENU _hMenu;
+		private User32.SafeHMENU? _hMenu;
 
-		private readonly ThreadWithMessageQueue _owningThread;
+		private readonly ContextMenuWorkerPool.Worker _worker;
+
+		private ThreadWithMessageQueue _owningThread => _worker.Thread;
+
+		private Shell32.IContextMenu Menu
+			=> _cMenu ?? throw new ObjectDisposedException(nameof(ContextMenu));
 
 		private readonly Func<string?, bool>? _itemFilter;
 
@@ -31,11 +36,11 @@ namespace Files.App.Utils.Shell
 
 		public List<string> ItemsPath { get; }
 
-		private ContextMenu(Shell32.IContextMenu cMenu, User32.SafeHMENU hMenu, IEnumerable<string> itemsPath, ThreadWithMessageQueue owningThread, Func<string?, bool>? itemFilter)
+		private ContextMenu(Shell32.IContextMenu cMenu, User32.SafeHMENU hMenu, IEnumerable<string> itemsPath, ContextMenuWorkerPool.Worker worker, Func<string?, bool>? itemFilter)
 		{
 			_cMenu = cMenu;
 			_hMenu = hMenu;
-			_owningThread = owningThread;
+			_worker = worker;
 			_itemFilter = itemFilter;
 			_loadSubMenuActions = [];
 
@@ -74,7 +79,8 @@ namespace Files.App.Utils.Shell
 
 				pici.cbSize = (uint)Marshal.SizeOf(pici);
 
-				await _owningThread.PostMethod(() => _cMenu.InvokeCommand(pici));
+				var menu = Menu;
+				await _owningThread.PostMethod(() => menu.InvokeCommand(pici));
 				Win32Helper.BringToForeground(currentWindows);
 
 				return true;
@@ -105,7 +111,8 @@ namespace Files.App.Utils.Shell
 				if (workingDirectory is not null)
 					pici.lpDirectoryW = workingDirectory;
 
-				await _owningThread.PostMethod(() => _cMenu.InvokeCommand(pici));
+				var menu = Menu;
+				await _owningThread.PostMethod(() => menu.InvokeCommand(pici));
 				Win32Helper.BringToForeground(currentWindows);
 
 				return true;
@@ -120,9 +127,8 @@ namespace Files.App.Utils.Shell
 
 		public async static Task<ContextMenu?> GetContextMenuForFiles(string?[] filePathList, uint flags, Func<string?, bool>? itemFilter = null)
 		{
-			var owningThread = new ThreadWithMessageQueue();
-
-			return await owningThread.PostMethod<ContextMenu?>(() =>
+			var worker = ContextMenuWorkerPool.Rent();
+			var contextMenu = await worker.Thread.PostMethod<ContextMenu?>(() =>
 			{
 				var shellItems = new List<ShellItem>();
 
@@ -131,7 +137,7 @@ namespace Files.App.Utils.Shell
 					foreach (var filePathItem in filePathList.Where(x => !string.IsNullOrEmpty(x)))
 						shellItems.Add(ShellFolderExtensions.GetShellItemFromPathOrPIDL(filePathItem!));
 
-					return GetContextMenuForFiles([.. shellItems], flags, owningThread, itemFilter);
+					return GetContextMenuForFiles([.. shellItems], flags, worker, itemFilter);
 				}
 				catch
 				{
@@ -144,16 +150,27 @@ namespace Files.App.Utils.Shell
 						item.Dispose();
 				}
 			});
+
+			// No ContextMenu was created, so nothing will dispose to return the worker: hand it back now.
+			if (contextMenu is null)
+				ContextMenuWorkerPool.Return(worker);
+
+			return contextMenu;
 		}
 
 		public async static Task<ContextMenu?> GetContextMenuForFiles(ShellItem[] shellItems, uint flags, Func<string?, bool>? itemFilter = null)
 		{
-			var owningThread = new ThreadWithMessageQueue();
+			var worker = ContextMenuWorkerPool.Rent();
+			var contextMenu = await worker.Thread.PostMethod<ContextMenu?>(() => GetContextMenuForFiles(shellItems, flags, worker, itemFilter));
 
-			return await owningThread.PostMethod<ContextMenu?>(() => GetContextMenuForFiles(shellItems, flags, owningThread, itemFilter));
+			// No ContextMenu was created, so nothing will dispose to return the worker: hand it back now.
+			if (contextMenu is null)
+				ContextMenuWorkerPool.Return(worker);
+
+			return contextMenu;
 		}
 
-		private static ContextMenu? GetContextMenuForFiles(ShellItem[] shellItems, uint flags, ThreadWithMessageQueue owningThread, Func<string?, bool>? itemFilter = null)
+		private static ContextMenu? GetContextMenuForFiles(ShellItem[] shellItems, uint flags, ContextMenuWorkerPool.Worker worker, Func<string?, bool>? itemFilter = null)
 		{
 			if (!shellItems.Any())
 				return null;
@@ -168,7 +185,7 @@ namespace Files.App.Utils.Shell
 				Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItems);
 				var hMenu = User32.CreatePopupMenu();
 				menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, (Shell32.CMF)flags);
-				var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName).WhereNotNull(), owningThread, itemFilter);
+				var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName).WhereNotNull(), worker, itemFilter);
 				var items = contextMenu.Items
 					?? throw new InvalidOperationException("The shell context menu did not initialize its item collection.");
 				contextMenu.EnumMenuItems(hMenu, items);
@@ -207,7 +224,7 @@ namespace Files.App.Utils.Shell
 			{
 				var menuItem = new ContextMenuItem();
 				var container = new SafeCoTaskMemString(512);
-				var cMenu2 = _cMenu as Shell32.IContextMenu2;
+				var cMenu2 = Menu as Shell32.IContextMenu2;
 
 				menuItemInfo.dwTypeData = (IntPtr)container;
 
@@ -231,7 +248,7 @@ namespace Files.App.Utils.Shell
 					Debug.WriteLine("Item {0} ({1}): {2}", index, menuItemInfo.wID, menuItemInfo.dwTypeData);
 
 					menuItem.Label = menuItemInfo.dwTypeData;
-					menuItem.CommandString = GetCommandString(_cMenu, menuItemInfo.wID - 1);
+					menuItem.CommandString = GetCommandString(Menu, menuItemInfo.wID - 1);
 
 					if (_itemFilter is not null &&
 						(_itemFilter(menuItem.CommandString) || _itemFilter(menuItem.Label)))
@@ -377,17 +394,23 @@ namespace Files.App.Utils.Shell
 					}
 				}
 
-				// TODO: Free unmanaged resources (unmanaged objects) and override a finalizer below
-				if (_hMenu is not null)
-				{
-					User32.DestroyMenu(_hMenu);
-				}
-				if (_cMenu is not null)
-				{
-					Marshal.ReleaseComObject(_cMenu);
-				}
+				// Release the native menu and COM object on the worker's own STA thread (COM objects have
+				// apartment affinity), then return the still-warm worker to the pool. The message queue is
+				// FIFO, so this cleanup always runs before any work the next renter posts on this worker.
+				var hMenu = _hMenu;
+				var cMenu = _cMenu;
+				_hMenu = null;
+				_cMenu = null;
 
-				_owningThread.Dispose();
+				_owningThread.PostMethod(() =>
+				{
+					if (hMenu is not null)
+						User32.DestroyMenu(hMenu);
+					if (cMenu is not null)
+						Marshal.ReleaseComObject(cMenu);
+				});
+
+				ContextMenuWorkerPool.Return(_worker);
 
 				disposedValue = true;
 			}

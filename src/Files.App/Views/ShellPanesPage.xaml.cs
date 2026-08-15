@@ -1074,6 +1074,11 @@ namespace Files.App.Views
 				sizer.ManipulationCompleted -= Sizer_ManipulationCompleted;
 				sizer.ManipulationStarted -= Sizer_ManipulationStarted;
 			}
+
+			_ActivePane = null;
+			RootGrid.Children.Clear();
+			RootGrid.RowDefinitions.Clear();
+			RootGrid.ColumnDefinitions.Clear();
 		}
 	}
 }

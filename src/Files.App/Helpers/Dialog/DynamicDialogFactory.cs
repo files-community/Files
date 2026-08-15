@@ -109,10 +109,20 @@ namespace Files.App.Helpers
 						inputText
 					}
 				},
-				DisplayControlOnLoaded = (vm, e) =>
+				DisplayControlOnLoaded = async (vm, e) =>
 				{
-					inputText.Focus(FocusState.Programmatic);
-					inputText.SelectAll();
+					// The dialog asynchronously moves initial focus to its default button on an
+					// unpredictable schedule, so keep refocusing until focus verifiably sticks
+					for (int i = 0; i < 20; i++)
+					{
+						if (inputText.XamlRoot is not null &&
+							Microsoft.UI.Xaml.Input.FocusManager.GetFocusedElement(inputText.XamlRoot) == inputText)
+							return;
+
+						inputText.Focus(FocusState.Programmatic);
+						inputText.SelectAll();
+						await Task.Delay(50);
+					}
 				},
 				PrimaryButtonAction = (vm, e) =>
 				{

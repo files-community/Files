@@ -330,7 +330,7 @@ namespace Files.App.ViewModels.UserControls
 			UnpinItemCommand = new RelayCommand(UnpinItem);
 			PinItemCommand = new RelayCommand(PinItem);
 			EjectDeviceCommand = new RelayCommand(EjectDevice);
-			OpenPropertiesCommand = new RelayCommand<CommandBarFlyout>(OpenProperties);
+			OpenPropertiesCommand = new RelayCommand<FlyoutBase>(OpenProperties);
 			ReorderItemsCommand = new AsyncRelayCommand(ReorderItemsAsync);
 		}
 
@@ -802,68 +802,23 @@ namespace Files.App.ViewModels.UserControls
 			rightClickedItem = item;
 			RightClickedItemChanged?.Invoke(this, item);
 
-			var itemContextMenuFlyout = new CommandBarFlyout()
-			{
-				Placement = FlyoutPlacementMode.Right,
-				AlwaysExpanded = true
-			};
-
-			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-
-			var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
-			var (primaryElements, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
-
-			// Workaround for WinUI (#5508) - AppBarButtons don't auto-close CommandBarFlyout
-			var closeHandler = new RoutedEventHandler((s, e) => itemContextMenuFlyout.Hide());
-			primaryElements
-				.OfType<AppBarButton>()
-				.ForEach(button => button.Click += closeHandler);
-			primaryElements
-				.OfType<AppBarToggleButton>()
-				.ForEach(button => button.Click += closeHandler);
-
-			var subMenuItems = secondaryElements
-				.OfType<AppBarButton>()
-				.Select(item => item.Flyout)
-				.OfType<MenuFlyout>()
-				.SelectMany(menu => menu.Items);
-			AddCloseHandlerRecursive(subMenuItems);
-
-			void AddCloseHandlerRecursive(IEnumerable<MenuFlyoutItemBase> menuFlyoutItems)
-			{
-				menuFlyoutItems.OfType<MenuFlyoutItem>()
-					.ForEach(button => button.Click += closeHandler);
-				menuFlyoutItems.OfType<MenuFlyoutSubItem>()
-					.ForEach(menu => AddCloseHandlerRecursive(menu.Items));
-			}
-
-			primaryElements.ForEach(itemContextMenuFlyout.PrimaryCommands.Add);
-
-			secondaryElements
-				.OfType<FrameworkElement>()
-				.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
-
-			secondaryElements.ForEach(itemContextMenuFlyout.SecondaryCommands.Add);
-
 			var menuOptions = item.MenuOptions
 				?? throw new InvalidOperationException("The sidebar item does not have context-menu options.");
+			var flyout = new FastContextFlyout();
+			var menuItems = GetLocationItemMenuItems(item, flyout.Flyout);
+			flyout.Build(menuItems);
+
+			// Pre-add "Show more options" before showing so filling it with shell items never resizes the menu
+			MenuFlyoutSubItem? moreOptions = null;
+			MenuFlyoutSeparator? moreSeparator = null;
 			if (menuOptions.ShowShellItems)
-				itemContextMenuFlyout.Opened += ItemContextMenuFlyout_Opened;
+				(moreOptions, moreSeparator) = flyout.AddShowMoreOptionsIfEnabled();
 
-			itemContextMenuFlyout.ShowAt(sidebarItem, new() { Position = args.Position });
-		}
+			flyout.ResolvePlacement(sidebarItem, args.Position);
+			flyout.Flyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = args.Position });
 
-		private async void ItemContextMenuFlyout_Opened(object? sender, object e)
-		{
-			if (sender is not CommandBarFlyout itemContextMenuFlyout)
-				return;
-
-			var item = rightClickedItem
-				?? throw new InvalidOperationException("No sidebar item is associated with the context menu.");
-			var itemPath = item.GetRequiredPath();
-
-			itemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
-			await ShellContextFlyoutFactory.LoadShellMenuItemsAsync(itemPath, itemContextMenuFlyout, item.MenuOptions);
+			if (menuOptions.ShowShellItems)
+				await ShellContextFlyoutFactory.LoadShellMenuItemsAsync(item.GetRequiredPath(), flyout, menuOptions, moreOptions, moreSeparator);
 		}
 
 		public async void HandleItemInvokedAsync(object item, PointerUpdateKind pointerUpdateKind)
@@ -1023,7 +978,7 @@ namespace Files.App.ViewModels.UserControls
 			var result = await dialogService.ShowDialogAsync(dialog);
 		}
 
-		private void OpenProperties(CommandBarFlyout? menu)
+		private void OpenProperties(FlyoutBase? menu)
 		{
 			if (menu is null)
 				return;
@@ -1075,7 +1030,7 @@ namespace Files.App.ViewModels.UserControls
 			DriveHelpers.EjectDeviceAsync(path);
 		}
 
-		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, CommandBarFlyout menu)
+		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, FlyoutBase menu)
 		{
 			var options = item.MenuOptions
 				?? throw new InvalidOperationException("The sidebar item does not have context-menu options.");

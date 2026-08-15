@@ -54,6 +54,7 @@ namespace Files.App.UserControls
 
 		private void Root_Unloaded(object sender, RoutedEventArgs e)
 		{
+			ViewModel.UnloadPreview();
 			PreviewControlPresenter.Content = null;
 			Bindings.StopTracking();
 		}

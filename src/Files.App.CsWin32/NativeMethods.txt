@@ -129,6 +129,7 @@ SHCreateShellItemArrayFromIDLists
 ILCreateFromPath
 CLSIDFromString
 FindWindow
+FindWindowEx
 SendMessage
 IsWindowVisible
 COPYDATASTRUCT

@@ -17,7 +17,7 @@ namespace Files.App.Views.Shells
 {
 	public abstract class BaseShellPage : Page, IShellPage, INotifyPropertyChanged
 	{
-		private readonly DispatcherQueueTimer _updateDateDisplayTimer;
+		private DispatcherQueueTimer? _updateDateDisplayTimer;
 
 		private DateTimeFormats _lastDateTimeFormats;
 
@@ -35,6 +35,7 @@ namespace Files.App.Views.Shells
 		public StorageHistoryHelpers StorageHistoryHelpers { get; }
 
 		protected readonly CancellationTokenSource cancellationTokenSource;
+		private bool isDisposed;
 
 		protected readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
@@ -103,12 +104,25 @@ namespace Files.App.Views.Shells
 			{
 				if (value != _PaneHolder)
 				{
+					if (_PaneHolder is not null)
+						_PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
+
 					_PaneHolder = value;
+
+					if (_PaneHolder is not null)
+						_PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
 
 					NotifyPropertyChanged(nameof(PaneHolder));
 				}
 			}
 		}
+
+		public bool IsStatusBarVisible =>
+			userSettingsService.AppearanceSettingsService.ShowStatusBar &&
+			CurrentPageType != typeof(HomePage) &&
+			CurrentPageType != typeof(ReleaseNotesPage) &&
+			CurrentPageType != typeof(SettingsPage) &&
+			(PaneHolder is null || !PaneHolder.IsMultiPaneActive || PaneHolder.ActivePane == this);
 
 		protected TabBarItemParameter? _TabItemArguments;
 		public TabBarItemParameter? TabBarItemParameter
@@ -196,6 +210,8 @@ namespace Files.App.Views.Shells
 
 			GitHelpers.GitFetchCompleted += FilesystemViewModel_GitDirectoryUpdated;
 
+			userSettingsService.AppearanceSettingsService.PropertyChanged += AppearanceSettingsService_PropertyChanged;
+
 			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
 			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
 			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
@@ -206,6 +222,18 @@ namespace Files.App.Views.Shells
 		protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+
+		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(IShellPanesPage.IsMultiPaneActive) or nameof(IShellPanesPage.ActivePane))
+				NotifyPropertyChanged(nameof(IsStatusBarVisible));
+		}
+
+		private void AppearanceSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(IAppearanceSettingsService.ShowStatusBar))
+				NotifyPropertyChanged(nameof(IsStatusBarVisible));
 		}
 
 		protected void FilesystemViewModel_PageTypeUpdated(object? sender, PageTypeUpdatedEventArgs e)
@@ -842,14 +870,25 @@ namespace Files.App.Views.Shells
 
 		public virtual void Dispose()
 		{
+			if (isDisposed)
+				return;
+
+			isDisposed = true;
+			cancellationTokenSource.Cancel();
+
 			PreviewKeyDown -= ShellPage_PreviewKeyDown;
 			PointerPressed -= CoreWindow_PointerPressed;
 			drivesViewModel.PropertyChanged -= DrivesManager_PropertyChanged;
+			userSettingsService.AppearanceSettingsService.PropertyChanged -= AppearanceSettingsService_PropertyChanged;
+
+			if (_PaneHolder is not null)
+				_PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
 
 			ToolbarViewModel.ToolbarPathItemInvoked -= ShellPage_NavigationRequested;
 			ToolbarViewModel.PathBoxItemDropped -= ShellPage_PathBoxItemDropped;
 			ToolbarViewModel.ItemDraggedOverPathItem -= ShellPage_NavigationRequested;
 			ToolbarViewModel.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
+			ToolbarViewModel.Dispose();
 
 			InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired -= FolderSettings_LayoutPreferencesUpdateRequired;
 			InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= AppSettings_SortDirectionPreferenceUpdated;
@@ -870,11 +909,20 @@ namespace Files.App.Views.Shells
 			}
 
 			if (ItemDisplay.Content is IDisposable disposableContent)
-				disposableContent?.Dispose();
+				disposableContent.Dispose();
+
+			ContentPage = null!;
+			ItemDisplay.Content = null;
 
 			GitHelpers.GitFetchCompleted -= FilesystemViewModel_GitDirectoryUpdated;
 
-			_updateDateDisplayTimer.Stop();
+			_updateDateDisplayTimer?.Stop();
+			if (_updateDateDisplayTimer is not null)
+			{
+				_updateDateDisplayTimer.Tick -= UpdateDateDisplayTimer_Tick;
+				_updateDateDisplayTimer = null;
+			}
+			cancellationTokenSource.Dispose();
 		}
 	}
 }
