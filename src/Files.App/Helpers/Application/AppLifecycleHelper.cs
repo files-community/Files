@@ -325,10 +325,62 @@ namespace Files.App.Helpers
 			userSettingsService.GeneralSettingsService.LastSessionSelectedTabIndex = App.AppModel.TabStripSelectedIndex;
 		}
 
+		// XAML delivers Application.UnhandledException with the managed stack already stripped,
+		// so recently thrown exceptions are buffered here to recover their stacks at crash time.
+		private const int RecentExceptionsCapacity = 16;
+		private static readonly Exception?[] _recentExceptions = new Exception?[RecentExceptionsCapacity];
+		private static int _recentExceptionsNext = -1;
+
+		[ThreadStatic]
+		private static bool _isRecordingException;
+
+		/// <summary>
+		/// Starts recording thrown exceptions into a fixed-size buffer included in crash reports.
+		/// </summary>
+		public static void RecordFirstChanceExceptions()
+		{
+			AppDomain.CurrentDomain.FirstChanceException += (_, e) =>
+			{
+				// A throw inside this handler would raise FirstChanceException again on the same thread
+				if (_isRecordingException)
+					return;
+
+				_isRecordingException = true;
+				try
+				{
+					// Cancellations are routine app-wide and would evict the faults worth keeping
+					if (e.Exception is not OperationCanceledException)
+						_recentExceptions[(uint)Interlocked.Increment(ref _recentExceptionsNext) % RecentExceptionsCapacity] = e.Exception;
+				}
+				finally
+				{
+					_isRecordingException = false;
+				}
+			};
+		}
+
+		private static string FormatRecentExceptions()
+		{
+			StringBuilder builder = new();
+			var next = Volatile.Read(ref _recentExceptionsNext);
+
+			for (var i = Math.Max(0, next - RecentExceptionsCapacity + 1); i <= next; i++)
+			{
+				if (_recentExceptions[(uint)i % RecentExceptionsCapacity] is not Exception recent)
+					continue;
+
+				var text = recent.ToString();
+				builder.AppendLine(text[..Math.Min(text.Length, 1024)]);
+				builder.AppendLine("----");
+			}
+
+			return builder.ToString();
+		}
+
 		/// <summary>
 		/// Shows exception on the Debug Output and sends Toast Notification to the Windows Notification Center.
 		/// </summary>
-		public static void HandleAppUnhandledException(Exception? ex, bool showToastNotification)
+		public static void HandleAppUnhandledException(Exception? ex, bool showToastNotification, string mechanism = "Application.UnhandledException", string? unhandledMessage = null)
 		{
 			try
 			{
@@ -345,7 +397,7 @@ namespace Files.App.Helpers
 				if (ex is not null)
 				{
 					ex.Data[Mechanism.HandledKey] = false;
-					ex.Data[Mechanism.MechanismKey] = "Application.UnhandledException";
+					ex.Data[Mechanism.MechanismKey] = mechanism;
 
 					SafetyExtensions.IgnoreExceptions(() =>
 					{
@@ -353,10 +405,24 @@ namespace Files.App.Helpers
 						{
 							scope.User.Id = generalSettingsService?.UserId;
 							scope.Level = SentryLevel.Fatal;
+							scope.SetTag("hresult", $"0x{ex.HResult:X8}");
+
+							if (!string.IsNullOrEmpty(unhandledMessage))
+								scope.SetExtra("unhandled_message", unhandledMessage);
+
+							// Exception.ToString of a buffered exception may run a throwing override
+							if (string.IsNullOrEmpty(ex.StackTrace))
+								scope.SetExtra("recent_exceptions", SafetyExtensions.IgnoreExceptions(FormatRecentExceptions));
 						});
 					});
 
 					formattedException.AppendLine($">>>> HRESULT: {ex.HResult}");
+
+					if (unhandledMessage is not null)
+					{
+						formattedException.AppendLine("--- UNHANDLED MESSAGE ---");
+						formattedException.AppendLine(unhandledMessage);
+					}
 
 					if (ex.Message is not null)
 					{
