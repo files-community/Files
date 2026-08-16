@@ -1,5 +1,5 @@
 # Copyright (c) Files Community
-# Licensed under the MIT License.
+# SPDX-License-Identifier: MPL-2.0
 
 param(
     [string]$Branch = "", # This has to correspond with one of the AppEnvironment enum values
