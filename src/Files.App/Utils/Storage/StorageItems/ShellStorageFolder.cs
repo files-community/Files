@@ -84,11 +84,12 @@ namespace Files.App.Utils.Storage
 
 		public static ShellStorageFolder FromShellItem(ShellFileItem item)
 		{
+			if (item.RecyclePath.Contains("$Recycle.Bin", StringComparison.OrdinalIgnoreCase))
+				return new BinStorageFolder(item);
+
 			if (item is ShellLinkItem linkItem)
 				return new ShortcutStorageFolder(linkItem);
 
-			if (item.RecyclePath.Contains("$Recycle.Bin", StringComparison.OrdinalIgnoreCase))
-				return new BinStorageFolder(item);
 
 			return new ShellStorageFolder(item);
 		}
