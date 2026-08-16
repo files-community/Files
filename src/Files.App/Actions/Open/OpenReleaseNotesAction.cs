@@ -39,7 +39,9 @@ namespace Files.App.Actions
 			switch (e.PropertyName)
 			{
 				case nameof(IUpdateService.AreReleaseNotesAvailable):
-					OnPropertyChanged(nameof(IsExecutable));
+					// Raised from the background release-notes check; IsExecutable feeds
+					// XAML-bound command state, so raise the change on the UI thread
+					MainWindow.Instance.DispatcherQueue.TryEnqueue(() => OnPropertyChanged(nameof(IsExecutable)));
 					break;
 			}
 		}

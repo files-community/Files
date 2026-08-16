@@ -327,9 +327,14 @@ namespace Files.App.ViewModels.UserControls
 
 		private void UpdateService_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			IsUpdateAvailable = UpdateService.IsUpdateAvailable;
-			IsUpdating = UpdateService.IsUpdating;
-			UpdateProgress = UpdateService.UpdateProgress;
+			// Update services raise PropertyChanged from background update checks;
+			// these properties are x:Bind-bound, so set them on the UI thread
+			_dispatcherQueue.TryEnqueue(() =>
+			{
+				IsUpdateAvailable = UpdateService.IsUpdateAvailable;
+				IsUpdating = UpdateService.IsUpdating;
+				UpdateProgress = UpdateService.UpdateProgress;
+			});
 		}
 
 		private void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
