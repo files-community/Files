@@ -217,6 +217,9 @@ namespace Files.App.ViewModels
 		{
 			if (string.IsNullOrWhiteSpace(value))
 				return;
+			
+			if (value != WorkingDirectory)
+				FilesAndFoldersFilter = null;
 
 			var isLibrary = false;
 			string? name = null;
@@ -1080,27 +1083,32 @@ namespace Files.App.ViewModels
 					{
 						try
 						{
-							FilesAndFolders.BeginBulkOperation();
-
 							if (addFilesCTS.IsCancellationRequested)
 								return;
 
-							FilesAndFolders.Clear();
-							var filter = FilesAndFoldersFilter;
-							if (string.IsNullOrEmpty(filter))
-								FilesAndFolders.AddRange(filesAndFoldersLocal);
-							else
-								FilesAndFolders.AddRange(filesAndFoldersLocal.Where(x => (x.Name
-									?? throw new InvalidOperationException("A listed item does not have a name.")).Contains(
-									filter,
-									StringComparison.OrdinalIgnoreCase)));
+							FilesAndFolders.BeginBulkOperation();
+							try
+							{
+								FilesAndFolders.Clear();
+								var filter = FilesAndFoldersFilter;
+								if (string.IsNullOrEmpty(filter))
+									FilesAndFolders.AddRange(filesAndFoldersLocal);
+								else
+									FilesAndFolders.AddRange(filesAndFoldersLocal.Where(x => (x.Name
+										?? throw new InvalidOperationException("A listed item does not have a name.")).Contains(
+										filter,
+										StringComparison.OrdinalIgnoreCase)));
 
-							if (folderSettings.DirectoryGroupOption != GroupOption.None)
-								OrderGroups();
+								if (folderSettings.DirectoryGroupOption != GroupOption.None)
+									OrderGroups();
+							}
+							finally
+							{
+								// Trigger CollectionChanged with NotifyCollectionChangedAction.Reset
+								// once loading is completed so that UI can be updated
+								FilesAndFolders.EndBulkOperation();
+							}
 
-							// Trigger CollectionChanged with NotifyCollectionChangedAction.Reset
-							// once loading is completed so that UI can be updated
-							FilesAndFolders.EndBulkOperation();
 							UpdateEmptyTextType();
 							UpdateNetworkAvailabilityInfoBar();
 							DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
@@ -1228,22 +1236,25 @@ namespace Files.App.ViewModels
 					{
 						try
 						{
-							FilesAndFolders.BeginBulkOperation();
-							UpdateGroupOptions();
-
-							if (FilesAndFolders.IsGrouped)
-							{
-								FilesAndFolders.ResetGroups(token);
-								if (token.IsCancellationRequested)
-									return;
-
-								OrderGroups();
-							}
-
 							if (token.IsCancellationRequested)
 								return;
 
-							FilesAndFolders.EndBulkOperation();
+							FilesAndFolders.BeginBulkOperation();
+							try
+							{
+								UpdateGroupOptions();
+
+								if (FilesAndFolders.IsGrouped)
+								{
+									FilesAndFolders.ResetGroups(token);
+									if (!token.IsCancellationRequested)
+										OrderGroups();
+								}
+							}
+							finally
+							{
+								FilesAndFolders.EndBulkOperation();
+							}
 						}
 						finally
 						{
@@ -2237,7 +2248,6 @@ namespace Files.App.ViewModels
 						{
 							GetDesktopIniFileData();
 							CheckForBackgroundImage();
-							FilesAndFoldersFilter = null;
 						},
 						Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					});

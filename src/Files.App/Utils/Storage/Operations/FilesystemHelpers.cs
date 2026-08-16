@@ -280,7 +280,16 @@ namespace Files.App.Utils.Storage
 			}
 			finally
 			{
-				packageView.ReportOperationCompleted(packageView.RequestedOperation);
+				try
+				{
+					packageView.ReportOperationCompleted(packageView.RequestedOperation);
+				}
+				// The source app owns the data object behind packageView; RequestedOperation and
+				// ReportOperationCompleted throw COMException if it revoked the data object or
+				// exited while the operation was running
+				catch (COMException)
+				{
+				}
 			}
 		}
 

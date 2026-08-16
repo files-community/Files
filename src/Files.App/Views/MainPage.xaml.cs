@@ -67,6 +67,7 @@ namespace Files.App.Views
 			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
 			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
 			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
+			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
 
 			ApplySidebarWidthState();
 		}
@@ -350,6 +351,18 @@ namespace Files.App.Views
 				InfoPane?.ViewModel.UpdateDateDisplay();
 			else
 				App.Logger.LogWarning("UpdateDateDisplayTimer_Tick: Timer firing after window closed!");
+		}
+
+		private void AppModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName != nameof(AppModel.IsMainWindowClosed))
+				return;
+
+			// Ticks dispatched during dispatcher queue shutdown crash in CoreMessaging
+			if (App.AppModel.IsMainWindowClosed)
+				_updateDateDisplayTimer.Stop();
+			else if (InfoPane is not null && InfoPane.IsLoaded)
+				_updateDateDisplayTimer.Start();
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)

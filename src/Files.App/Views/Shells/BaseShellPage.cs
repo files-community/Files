@@ -217,6 +217,20 @@ namespace Files.App.Views.Shells
 			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
 			_lastDateTimeFormats = userSettingsService.GeneralSettingsService.DateTimeFormat;
 			_updateDateDisplayTimer.Start();
+
+			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
+		}
+
+		private void AppModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName != nameof(AppModel.IsMainWindowClosed))
+				return;
+
+			// Ticks dispatched during dispatcher queue shutdown crash in CoreMessaging
+			if (App.AppModel.IsMainWindowClosed)
+				_updateDateDisplayTimer?.Stop();
+			else
+				_updateDateDisplayTimer?.Start();
 		}
 
 		protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -917,6 +931,8 @@ namespace Files.App.Views.Shells
 			ItemDisplay.Content = null;
 
 			GitHelpers.GitFetchCompleted -= FilesystemViewModel_GitDirectoryUpdated;
+
+			App.AppModel.PropertyChanged -= AppModel_PropertyChanged;
 
 			_updateDateDisplayTimer?.Stop();
 			if (_updateDateDisplayTimer is not null)
