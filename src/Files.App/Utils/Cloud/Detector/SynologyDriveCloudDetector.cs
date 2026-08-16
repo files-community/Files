@@ -38,7 +38,7 @@ namespace Files.App.Utils.Cloud
 
 			// Open the connection and execute the command
 			database.Open();
-			var connections = new Dictionary<string, (string ConnectionType, string HostName)>();
+			var connections = new Dictionary<string, (string? ConnectionType, string? HostName)>();
 
 			var reader = cmdConnection.ExecuteReader();
 			while (reader.Read())
@@ -49,14 +49,15 @@ namespace Files.App.Utils.Cloud
 					HostName: reader["host_name"]?.ToString()
 				);
 
-				connections.Add(reader["id"]?.ToString(), connection);
+				connections.Add(reader["id"]?.ToString()!, connection);
 			}
 
 			reader = cmdTable.ExecuteReader();
 			while (reader.Read())
 			{
 				// Extract the data from the reader
-				if (connections[reader["conn_id"]?.ToString()].ConnectionType is "1")
+				var connectionId = reader["conn_id"]?.ToString()!;
+				if (connections[connectionId].ConnectionType is "1")
 				{
 					string? path = reader["sync_folder"]?.ToString();
 
@@ -68,7 +69,7 @@ namespace Files.App.Utils.Cloud
 					yield return new CloudProvider(CloudProviders.SynologyDrive)
 					{
 						SyncFolder = path,
-						Name = $"Synology Drive - {connections[reader["conn_id"]?.ToString()].HostName} ({folder.Name})",
+						Name = $"Synology Drive - {connections[connectionId].HostName} ({folder.Name})",
 					};
 				}
 			}

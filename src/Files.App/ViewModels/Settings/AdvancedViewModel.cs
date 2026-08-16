@@ -160,9 +160,10 @@ namespace Files.App.ViewModels.Settings
 			try
 			{
 				var file = await StorageHelpers.ToStorageItem<BaseStorageFile>(filePath);
+				if (file is null)
+					throw new IOException($"The selected settings file '{filePath}' could not be read.");
 
-				var zipFolder = await ZipStorageFolder.FromStorageFileAsync(file);
-				if (zipFolder is null)
+				if (await ZipStorageFolder.FromStorageFileAsync(file) is not ZipStorageFolder zipFolder)
 					return;
 
 				var localFolderPath = ApplicationData.Current.LocalFolder.Path;
@@ -220,11 +221,12 @@ namespace Files.App.ViewModels.Settings
 				Win32PInvoke.CloseHandle(handle);
 
 				var file = await StorageHelpers.ToStorageItem<BaseStorageFile>(filePath);
+				if (file is null)
+					throw new IOException($"The settings export file '{filePath}' could not be opened.");
 
 				await ZipStorageFolder.InitArchive(file, OutArchiveFormat.Zip);
 
-				var zipFolder = (ZipStorageFolder)await ZipStorageFolder.FromStorageFileAsync(file);
-				if (zipFolder is null)
+				if (await ZipStorageFolder.FromStorageFileAsync(file) is not ZipStorageFolder zipFolder)
 					return;
 
 				var localFolderPath = ApplicationData.Current.LocalFolder.Path;

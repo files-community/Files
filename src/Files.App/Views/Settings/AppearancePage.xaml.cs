@@ -8,7 +8,9 @@ namespace Files.App.Views.Settings
 {
 	public sealed partial class AppearancePage : Page
 	{
-		private AppearanceViewModel ViewModel => DataContext as AppearanceViewModel;
+		private AppearanceViewModel ViewModel
+			=> DataContext as AppearanceViewModel
+				?? throw new InvalidOperationException("The appearance view model has not been initialized.");
 
 		public AppearancePage()
 		{

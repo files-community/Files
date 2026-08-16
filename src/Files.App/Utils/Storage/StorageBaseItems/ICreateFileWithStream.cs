@@ -9,8 +9,8 @@ namespace Files.App.Utils.Storage
 {
 	public interface ICreateFileWithStream
 	{
-		IAsyncOperation<BaseStorageFile> CreateFileAsync(Stream contents, string desiredName);
+		IAsyncOperation<BaseStorageFile?> CreateFileAsync(Stream contents, string desiredName);
 
-		IAsyncOperation<BaseStorageFile> CreateFileAsync(Stream contents, string desiredName, CreationCollisionOption options);
+		IAsyncOperation<BaseStorageFile?> CreateFileAsync(Stream contents, string desiredName, CreationCollisionOption options);
 	}
 }

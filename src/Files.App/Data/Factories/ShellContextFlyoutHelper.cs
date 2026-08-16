@@ -72,17 +72,14 @@ namespace Files.App.Helpers
 			};
 		}
 
-		public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string workingDirectory, List<ListedItem>? selectedItems, CancellationToken cancellationToken)
+		public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string? workingDirectory, List<ListedItem>? selectedItems, CancellationToken cancellationToken)
 		{
-			bool IsItemSelected = selectedItems?.Count > 0;
-
 			var menuItemsList = new List<ContextMenuFlyoutItemViewModel>();
+			var filePaths = selectedItems is { Count: > 0 }
+				? selectedItems.Select(x => x.ItemPath!).ToArray()
+				: [workingDirectory ?? throw new ArgumentException("A working directory is required when no items are selected.", nameof(workingDirectory))];
 
-			var filePaths = IsItemSelected
-				? selectedItems!.Select(x => x.ItemPath).ToArray()
-				: new[] { workingDirectory };
-
-			Func<string, bool> FilterMenuItems(bool showOpenMenu)
+			Func<string?, bool> FilterMenuItems(bool showOpenMenu)
 			{
 				var knownItems = new HashSet<string>()
 				{
@@ -100,7 +97,7 @@ namespace Files.App.Helpers
 					"{9F156763-7844-4DC4-B2B1-901F640F5155}", // Open in Terminal
 				};
 
-				bool filterMenuItemsImpl(string menuItem) => !string.IsNullOrEmpty(menuItem)
+				bool filterMenuItemsImpl(string? menuItem) => !string.IsNullOrEmpty(menuItem)
 					&& (knownItems.Contains(menuItem) || (!showOpenMenu && menuItem.Equals("open", StringComparison.OrdinalIgnoreCase)));
 
 				return filterMenuItemsImpl;
@@ -110,7 +107,7 @@ namespace Files.App.Helpers
 				shiftPressed ? PInvoke.CMF_EXTENDEDVERBS : PInvoke.CMF_NORMAL, FilterMenuItems(showOpenMenu));
 
 			if (contextMenu is not null)
-				LoadMenuFlyoutItem(menuItemsList, contextMenu, contextMenu.Items, cancellationToken, true);
+				LoadMenuFlyoutItem(menuItemsList, contextMenu, contextMenu.Items!, cancellationToken, true);
 
 			if (cancellationToken.IsCancellationRequested)
 				menuItemsList.Clear();
@@ -143,12 +140,14 @@ namespace Files.App.Helpers
 						Text = Strings.ShowMoreOptions.GetLocalizedResource(),
 						Glyph = "\xE712",
 					};
-					LoadMenuFlyoutItem(menuLayoutSubItem.Items, contextMenu, overflowItems, cancellationToken, showIcons);
+					LoadMenuFlyoutItem(menuLayoutSubItem.Items
+						?? throw new InvalidOperationException("The shell overflow menu has not been initialized."), contextMenu, overflowItems, cancellationToken, showIcons);
 					menuItemsListLocal.Insert(0, menuLayoutSubItem);
 				}
 				else
 				{
-					LoadMenuFlyoutItem(moreItem.Items, contextMenu, overflowItems, cancellationToken, showIcons);
+					LoadMenuFlyoutItem(moreItem.Items
+						?? throw new InvalidOperationException("The shell overflow menu has not been initialized."), contextMenu, overflowItems, cancellationToken, showIcons);
 				}
 			}
 

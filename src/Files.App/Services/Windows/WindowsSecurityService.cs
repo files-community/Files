@@ -21,7 +21,7 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public bool IsElevationRequired(string path)
+		public bool IsElevationRequired(string? path)
 		{
 			if (string.IsNullOrEmpty(path))
 				return false;

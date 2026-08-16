@@ -136,7 +136,7 @@ namespace Files.App.Utils.FileTags
 
 		public static ulong? GetFileFRN(string filePath) => Win32Helper.GetFileFRN(filePath);
 
-		public static Task<ulong?> GetFileFRN(IStorageItem item)
+		public static Task<ulong?> GetFileFRN(IStorageItem? item)
 		{
 			return item switch
 			{

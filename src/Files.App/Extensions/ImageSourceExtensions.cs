@@ -10,7 +10,7 @@ namespace Files.App.Extensions
 {
 	internal static class ImageSourceExtensions
 	{
-		internal static async Task<byte[]> ToByteArrayAsync(this IInputStream stream)
+		internal static async Task<byte[]?> ToByteArrayAsync(this IInputStream? stream)
 		{
 			if (stream is null)
 			{
@@ -22,7 +22,7 @@ namespace Files.App.Extensions
 			return await readStream.ToByteArrayAsync();
 		}
 
-		internal static async Task<byte[]> ToByteArrayAsync(this StorageFile file)
+		internal static async Task<byte[]?> ToByteArrayAsync(this StorageFile? file)
 		{
 			if (file is null)
 			{

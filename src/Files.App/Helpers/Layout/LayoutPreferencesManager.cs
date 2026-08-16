@@ -205,7 +205,7 @@ namespace Files.App.Helpers
 
 		// Methods
 
-		public Type GetLayoutType(string path, bool changeLayoutMode = true)
+		public Type GetLayoutType(string? path, bool changeLayoutMode = true)
 		{
 			var preferencesItem = GetLayoutPreferencesForPath(path);
 			if (preferencesItem is null)
@@ -311,7 +311,7 @@ namespace Files.App.Helpers
 			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.Adaptive));
 		}
 
-		public void OnDefaultPreferencesChanged(string path, string settingsName)
+		public void OnDefaultPreferencesChanged(string? path, string settingsName)
 		{
 			var preferencesItem = GetLayoutPreferencesForPath(path);
 			if (preferencesItem is null)
@@ -376,7 +376,7 @@ namespace Files.App.Helpers
 			UserSettingsService.LayoutSettingsService.SyncStatusColumnWidth = columns.StatusColumn.UserLengthPixels;
 		}
 
-		public static void SetLayoutPreferencesForPath(string path, LayoutPreferencesItem preferencesItem)
+		public static void SetLayoutPreferencesForPath(string? path, LayoutPreferencesItem preferencesItem)
 		{
 			if (!UserSettingsService.LayoutSettingsService.SyncFolderPreferencesAcrossDirectories)
 			{
@@ -487,7 +487,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		private static LayoutPreferencesItem? GetLayoutPreferencesForPath(string path)
+		private static LayoutPreferencesItem? GetLayoutPreferencesForPath(string? path)
 		{
 			// Guard against null
 			if (path is null)

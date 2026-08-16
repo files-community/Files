@@ -15,47 +15,53 @@ namespace Files.App.ViewModels.Properties
 			DispatcherQueue coreDispatcher,
 			List<ListedItem> listedItems,
 			IShellPage instance)
+			: base(viewModel, tokenSource, coreDispatcher, instance)
 		{
-			ViewModel = viewModel;
-			TokenSource = tokenSource;
-			Dispatcher = coreDispatcher;
 			List = listedItems;
-			AppInstance = instance;
 			GetBaseProperties();
 			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 		}
 
 		public sealed override void GetBaseProperties()
 		{
-			if (List is not null)
+			ViewModel.LoadCombinedItemsGlyph = true;
+			var firstItemType = List.First().ItemType
+				?? throw new InvalidOperationException("A selected item does not have a type.");
+
+			if (List.All(x => string.Equals(
+				x.ItemType ?? throw new InvalidOperationException("A selected item does not have a type."),
+				firstItemType,
+				StringComparison.Ordinal)))
 			{
-				ViewModel.LoadCombinedItemsGlyph = true;
-
-				if (List.All(x => x.ItemType.Equals(List.First().ItemType)))
-				{
-					ViewModel.ItemType = string.Format(Strings.PropertiesDriveItemTypesEquals.GetLocalizedResource(), List.First().ItemType);
-				}
-				else
-				{
-					ViewModel.ItemType = Strings.PropertiesDriveItemTypeDifferent.GetLocalizedResource();
-				}
-
-				var itemsPath = List.Select(Item => (Item as RecycleBinItem)?.ItemOriginalFolder ??
-					(Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath));
-
-				if (itemsPath.Distinct().Count() == 1)
-					ViewModel.ItemLocation = string.Format(Strings.PropertiesCombinedItemLocation.GetLocalizedResource(), itemsPath.First());
+				ViewModel.ItemType = string.Format(Strings.PropertiesDriveItemTypesEquals.GetLocalizedResource(), firstItemType);
 			}
+			else
+			{
+				ViewModel.ItemType = Strings.PropertiesDriveItemTypeDifferent.GetLocalizedResource();
+			}
+
+			var itemsPath = List.Select(item =>
+			{
+				var itemPath = item.GetRequiredPath();
+				return (item as RecycleBinItem)?.ItemOriginalFolder ??
+					(Path.IsPathRooted(itemPath) ? Path.GetDirectoryName(itemPath) : itemPath);
+			});
+
+			if (itemsPath.Distinct().Count() == 1)
+				ViewModel.ItemLocation = string.Format(Strings.PropertiesCombinedItemLocation.GetLocalizedResource(), itemsPath.First());
 		}
 
 		public override async Task GetSpecialPropertiesAsync()
 		{
+			var itemsWithPaths = List.Select(item => (
+				Item: item,
+				Path: item.GetRequiredPath())).ToList();
 			bool allFiles = true, allReadOnly = true, allNotReadOnly = true, allHidden = true, allNotHidden = true;
 			bool allCompressed = true, allNotCompressed = true, anyCanCompress = false;
-			foreach (var x in List)
+			foreach (var (x, path) in itemsWithPaths)
 			{
 				allFiles &= x.PrimaryItemAttribute == StorageItemTypes.File;
-				var fileAttributes = Win32Helper.GetFileAttributes(x.ItemPath);
+				var fileAttributes = Win32Helper.GetFileAttributes(path);
 				bool isReadOnly = fileAttributes.HasFlag(System.IO.FileAttributes.ReadOnly);
 				allReadOnly &= isReadOnly;
 				allNotReadOnly &= !isReadOnly;
@@ -65,7 +71,7 @@ namespace Files.App.ViewModels.Properties
 				bool isCompressed = fileAttributes.HasFlag(System.IO.FileAttributes.Compressed);
 				allCompressed &= isCompressed;
 				allNotCompressed &= !isCompressed;
-				anyCanCompress |= Win32Helper.CanCompressContent(x.ItemPath);
+				anyCanCompress |= Win32Helper.CanCompressContent(path);
 			}
 			
 			if (allFiles)
@@ -101,15 +107,15 @@ namespace Files.App.ViewModels.Properties
 
 			long filesSize = List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).Sum(x => x.FileSizeBytes);
 			long foldersSize = 0;
-			long filesSizeOnDisk = List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File &&
-				x.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline)
-					.Sum(x => Win32Helper.GetFileSizeOnDisk(x.ItemPath) ?? 0);
+			long filesSizeOnDisk = itemsWithPaths.Where(x => x.Item.PrimaryItemAttribute == StorageItemTypes.File &&
+				x.Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline)
+					.Sum(x => Win32Helper.GetFileSizeOnDisk(x.Path) ?? 0);
 			long foldersSizeOnDisk = 0;
 
 			ViewModel.ItemSizeProgressVisibility = true;
 			ViewModel.ItemSizeOnDiskProgressVisibility = true;
 
-			foreach (var item in List)
+			foreach (var (item, path) in itemsWithPaths)
 			{
 				if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
 				{
@@ -118,7 +124,7 @@ namespace Files.App.ViewModels.Properties
 						CloudDriveSyncStatus.FolderOfflinePartial)
 						continue;
 
-					var folderSizeTask = Task.Run(() => CalculateFolderSizeAsync(item.ItemPath, TokenSource.Token));
+					var folderSizeTask = Task.Run(() => CalculateFolderSizeAsync(path, TokenSource.Token));
 
 					try
 					{
@@ -144,7 +150,7 @@ namespace Files.App.ViewModels.Properties
 			SetItemsCountString();
 		}
 
-		private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private async void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{
@@ -152,15 +158,16 @@ namespace Files.App.ViewModels.Properties
 					{
 						if (ViewModel.IsReadOnly is not null)
 						{
+							var itemPaths = List.Select(item => item.GetRequiredPath()).ToList();
 							if ((bool)ViewModel.IsReadOnly)
 							{
-								List.ForEach(x => Win32Helper.SetFileAttribute(
-									x.ItemPath, System.IO.FileAttributes.ReadOnly));
+								itemPaths.ForEach(path => Win32Helper.SetFileAttribute(
+									path, System.IO.FileAttributes.ReadOnly));
 							}
 							else
 							{
-								List.ForEach(x => Win32Helper.UnsetFileAttribute(
-									x.ItemPath, System.IO.FileAttributes.ReadOnly));
+								itemPaths.ForEach(path => Win32Helper.UnsetFileAttribute(
+									path, System.IO.FileAttributes.ReadOnly));
 							}
 						}
 					}
@@ -170,15 +177,16 @@ namespace Files.App.ViewModels.Properties
 					{
 						if (ViewModel.IsHidden is not null)
 						{
+							var itemPaths = List.Select(item => item.GetRequiredPath()).ToList();
 							if ((bool)ViewModel.IsHidden)
 							{
-								List.ForEach(x => Win32Helper.SetFileAttribute(
-									x.ItemPath, System.IO.FileAttributes.Hidden));
+								itemPaths.ForEach(path => Win32Helper.SetFileAttribute(
+									path, System.IO.FileAttributes.Hidden));
 							}
 							else
 							{
-								List.ForEach(x => Win32Helper.UnsetFileAttribute(
-									x.ItemPath, System.IO.FileAttributes.Hidden));
+								itemPaths.ForEach(path => Win32Helper.UnsetFileAttribute(
+									path, System.IO.FileAttributes.Hidden));
 							}
 						}
 
@@ -188,7 +196,7 @@ namespace Files.App.ViewModels.Properties
 				case "IsContentCompressed":
 					{
 						var isCompressed = ViewModel.IsContentCompressed ?? false;
-						var items = List.Select(x => x.ItemPath).ToList();
+						var items = List.Select(item => item.GetRequiredPath()).ToList();
 						await Task.Run(() =>
 						{
 							foreach (var path in items)

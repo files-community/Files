@@ -6,10 +6,15 @@ namespace Files.App.Data.Parameters
 	public sealed class TabBarItemParameter
 	{
 		private static readonly KnownTypesConverter _typesConverter = new();
+		private Type? _initialPageType;
 
-		public Type InitialPageType { get; set; }
+		public Type InitialPageType
+		{
+			get => _initialPageType ?? throw new InvalidOperationException("The initial page type has not been set.");
+			set => _initialPageType = value;
+		}
 
-		public object NavigationParameter { get; set; }
+		public object? NavigationParameter { get; set; }
 
 		public string Serialize()
 		{
@@ -18,21 +23,30 @@ namespace Files.App.Data.Parameters
 
 		public static TabBarItemParameter Deserialize(string obj)
 		{
-			var tabArgs = new TabBarItemParameter();
+			var tempArgs = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(obj)
+				?? throw new JsonException("The tab data is empty.");
+			var typeName = tempArgs[nameof(InitialPageType)].GetString();
+			if (string.IsNullOrEmpty(typeName))
+				throw new JsonException("The initial page type is missing or invalid.");
 
-			var tempArgs = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(obj);
-			tabArgs.InitialPageType = Type.GetType(tempArgs[nameof(InitialPageType)].GetString());
+			// Restore navigation data from tabs whose original page type no longer exists.
+			var initialPageType = Type.GetType(typeName) ?? typeof(Files.App.Views.ShellPanesPage);
 
+			object? navigationParameter;
 			try
 			{
-				tabArgs.NavigationParameter = JsonSerializer.Deserialize<PaneNavigationArguments>(tempArgs[nameof(NavigationParameter)].GetRawText());
+				navigationParameter = JsonSerializer.Deserialize<PaneNavigationArguments>(tempArgs[nameof(NavigationParameter)].GetRawText());
 			}
 			catch (JsonException)
 			{
-				tabArgs.NavigationParameter = tempArgs[nameof(NavigationParameter)].GetString();
+				navigationParameter = tempArgs[nameof(NavigationParameter)].GetString();
 			}
 
-			return tabArgs;
+			return new TabBarItemParameter
+			{
+				InitialPageType = initialPageType,
+				NavigationParameter = navigationParameter,
+			};
 		}
 	}
 }

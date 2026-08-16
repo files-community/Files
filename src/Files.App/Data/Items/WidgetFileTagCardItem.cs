@@ -35,8 +35,8 @@ namespace Files.App.Data.Items
 			set => SetProperty(ref _Name, value);
 		}
 
-		private string _Path;
-		public override string Path
+		private string? _Path;
+		public override string? Path
 		{
 			get => _Path;
 			set => SetProperty(ref _Path, value);

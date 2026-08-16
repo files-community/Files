@@ -17,7 +17,9 @@ namespace Files.App.Views
 
 		// Properties
 
-		private IShellPage AppInstance { get; set; } = null!;
+		private IShellPage? appInstance;
+		private IShellPage AppInstance
+			=> appInstance ?? throw new InvalidOperationException("The home page has not been initialized.");
 
 		// Constructor
 
@@ -33,7 +35,8 @@ namespace Files.App.Views
 			if (e.Parameter is not NavigationArguments parameters)
 				return;
 
-			AppInstance = parameters.AssociatedTabInstance!;
+			appInstance = parameters.AssociatedTabInstance!;
+			var shellViewModel = AppInstance.GetRequiredShellViewModel();
 
 			AppInstance.InstanceViewModel.IsPageTypeNotHome = false;
 			AppInstance.InstanceViewModel.IsPageTypeSearchResults = false;
@@ -53,8 +56,8 @@ namespace Files.App.Views
 			AppInstance.ToolbarViewModel.CanNavigateToParent = false;
 
 			// Set path of working directory empty
-			await AppInstance.ShellViewModel.SetWorkingDirectoryAsync("Home");
-			AppInstance.ShellViewModel.CheckForBackgroundImage();
+			await shellViewModel.SetWorkingDirectoryAsync("Home");
+			shellViewModel.CheckForBackgroundImage();
 
 			AppInstance.SlimContentPage?.StatusBarViewModel.UpdateGitInfo(false, string.Empty, null);
 

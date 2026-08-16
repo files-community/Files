@@ -40,11 +40,14 @@ namespace Files.App.Actions
 				{
 					await SafetyExtensions.IgnoreExceptions(async () =>
 					{
+						var itemPath = listedItem.GetRequiredPath();
 						IStorable storable = listedItem switch
 						{
 							// Archives are marked as folders when browsable in-app but are files on disk
-							{ IsFolder: true, IsArchive: false } => await StorageService.GetFolderAsync(listedItem.ItemPath),
-							_ => await StorageService.GetFileAsync((listedItem as IShortcutItem)?.TargetPath ?? listedItem.ItemPath)
+							{ IsFolder: true, IsArchive: false } => await StorageService.GetFolderAsync(itemPath),
+							_ => await StorageService.GetFileAsync((listedItem as IShortcutItem)?.TargetPath is { Length: > 0 } targetPath
+								? targetPath
+								: itemPath)
 						};
 						await StartMenuService.PinAsync(storable, listedItem.Name);
 					});
@@ -55,9 +58,10 @@ namespace Files.App.Actions
 				await SafetyExtensions.IgnoreExceptions(async () =>
 				{
 					var currentFolder = context.ShellPage.ShellViewModel.CurrentFolder;
+					var currentFolderPath = currentFolder.GetRequiredPath();
 					IStorable storable = context.PageType is ContentPageTypes.ZipFolder
-						? await StorageService.GetFileAsync(currentFolder.ItemPath)
-						: await StorageService.GetFolderAsync(currentFolder.ItemPath);
+						? await StorageService.GetFileAsync(currentFolderPath)
+						: await StorageService.GetFolderAsync(currentFolderPath);
 
 					await StartMenuService.PinAsync(storable, currentFolder.Name);
 				});

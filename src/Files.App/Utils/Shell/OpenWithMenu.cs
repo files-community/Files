@@ -188,7 +188,8 @@ namespace Files.App.Utils.Shell
 						if (bitmap is not null)
 						{
 							bitmap.MakeTransparent();
-							menuItem.Icon = (byte[])IconConverter.ConvertTo(bitmap, typeof(byte[]));
+							if (IconConverter.ConvertTo(bitmap, typeof(byte[])) is byte[] icon)
+								menuItem.Icon = icon;
 						}
 					}
 

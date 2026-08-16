@@ -19,9 +19,9 @@ namespace Files.App.Views.Properties
 
 		private AppWindow AppWindow => Window.AppWindow;
 
-		private Window Window;
+		private Window Window = null!;
 
-		private MainPropertiesViewModel MainPropertiesViewModel { get; set; }
+		private MainPropertiesViewModel MainPropertiesViewModel { get; set; } = null!;
 
 		public MainPropertiesPage()
 		{
@@ -55,11 +55,11 @@ namespace Files.App.Views.Properties
 		{
 			var parameter = (PropertiesPageNavigationParameter)e.Parameter;
 
-			Window = parameter.Window;
+			Window = parameter.Window!;
 
 			base.OnNavigatedTo(e);
 
-			MainPropertiesViewModel = new(Window, MainContentFrame, BaseProperties, parameter);
+			MainPropertiesViewModel = new(Window, MainContentFrame, BaseProperties!, parameter);
 		}
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)

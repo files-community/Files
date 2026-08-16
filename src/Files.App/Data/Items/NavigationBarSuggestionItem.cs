@@ -98,7 +98,7 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public string GetTextMemberPath(string textMemberPath)
+		public string? GetTextMemberPath(string textMemberPath)
 		{
 			return textMemberPath switch
 			{

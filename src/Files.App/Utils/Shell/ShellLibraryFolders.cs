@@ -13,7 +13,10 @@ namespace Files.App.Utils.Shell
 	/// <seealso cref="ICollection{ShellItem}"/>
 	public sealed partial class ShellLibraryFolders : ShellItemArray, ICollection<ShellItem>
 	{
-		private Shell32.IShellLibrary _lib;
+		private Shell32.IShellLibrary? _lib;
+
+		private Shell32.IShellLibrary Library
+			=> _lib ?? throw new ObjectDisposedException(nameof(ShellLibraryFolders));
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ShellLibraryFolders"/> class.
@@ -40,7 +43,7 @@ namespace Files.App.Utils.Shell
 		{
 			ArgumentNullException.ThrowIfNull(location);
 
-			_lib.AddFolder(location.IShellItem);
+			Library.AddFolder(location.IShellItem);
 		}
 
 		/// <summary>
@@ -55,7 +58,7 @@ namespace Files.App.Utils.Shell
 
 			try
 			{
-				_lib.RemoveFolder(location.IShellItem);
+				Library.RemoveFolder(location.IShellItem);
 
 				return true;
 			}

@@ -33,9 +33,10 @@ namespace Files.App.Actions
 		public async Task ExecuteAsync(object? parameter = null)
 		{
 			if (await FileTagsHelper.RemoveTagsAsync(context.SelectedItems) &&
-				context.ShellPage is not null)
+				context.ShellPage is { } shellPage)
 			{
-				await context.ShellPage.ShellViewModel.RefreshTagGroups();
+				var shellViewModel = shellPage.GetRequiredShellViewModel();
+				await shellViewModel.RefreshTagGroups();
 			}
 		}
 

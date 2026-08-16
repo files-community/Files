@@ -43,7 +43,7 @@ namespace Files.App.Data.Models
 
 				PinnedFolders = (await QuickAccessService.GetPinnedFoldersAsync())
 					.Where(link => (bool?)link.Properties["System.Home.IsPinned"] ?? false)
-					.Select(link => link.FilePath).ToList();
+					.Select(link => link.FilePath!).ToList();
 
 				if (formerPinnedFolders.SequenceEqual(PinnedFolders))
 					return;
@@ -75,8 +75,8 @@ namespace Files.App.Data.Models
 			var isLibrary = LibraryManager.IsLibraryPath(path);
 			var libraryDisplayName = isLibrary ? GetLibraryDisplayName(path) : null;
 
-			var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(path));
-			var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
+			var item = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(path));
+			var res = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
 			LocationItem locationItem;
 
 			if (string.Equals(path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
@@ -114,8 +114,8 @@ namespace Files.App.Data.Models
 			else if (res)
 			{
 				locationItem.IsInvalid = false;
-				if (res.Result is not null)
-					await LoadIconForLocationItemAsync(locationItem, res.Result.Path);
+				if (res!.Result is { } folder)
+					await LoadIconForLocationItemAsync(locationItem, folder.Path);
 			}
 			else
 			{
@@ -127,7 +127,7 @@ namespace Files.App.Data.Models
 			return locationItem;
 		}
 
-		private static string GetLibraryDisplayName(string libraryPath)
+		private static string? GetLibraryDisplayName(string libraryPath)
 		{
 			using var storable = WindowsStorable.TryParse(libraryPath);
 			if (storable is null)
@@ -222,7 +222,7 @@ namespace Files.App.Data.Models
 			// Remove unpinned items from PinnedFolderItems
 			foreach (var childItem in PinnedFolderItems)
 			{
-				if (childItem is LocationItem item && !item.IsDefaultLocation && !PinnedFolders.Contains(item.Path))
+				if (childItem is LocationItem item && !item.IsDefaultLocation && !Enumerable.Contains<string?>(PinnedFolders, item.Path))
 				{
 					lock (_PinnedFolderItems)
 					{

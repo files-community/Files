@@ -16,19 +16,19 @@ namespace Files.App.UserControls.Selection
 	public sealed class RectangleSelection_ListViewBase : RectangleSelection
 	{
 		private ListViewBase uiElement;
-		private ScrollViewer scrollViewer;
-		private SelectionChangedEventHandler selectionChanged;
+		private ScrollViewer? scrollViewer;
+		private SelectionChangedEventHandler? selectionChanged;
 		private DispatcherQueueTimer? timer;
 		private Point originDragPoint;
 		private Dictionary<object, System.Drawing.Rectangle> itemsPosition;
-		private List<object> prevSelectedItems;
-		private List<object> prevSelectedItemsDrag;
-		private ItemSelectionStrategy selectionStrategy;
+		private List<object>? prevSelectedItems;
+		private List<object>? prevSelectedItemsDrag;
+		private ItemSelectionStrategy? selectionStrategy;
 
-		public RectangleSelection_ListViewBase(ListViewBase uiElement, Rectangle selectionRectangle, SelectionChangedEventHandler selectionChanged = null)
+		public RectangleSelection_ListViewBase(ListViewBase uiElement, Rectangle selectionRectangle, SelectionChangedEventHandler? selectionChanged = null)
+			: base(selectionRectangle)
 		{
 			this.uiElement = uiElement;
-			this.selectionRectangle = selectionRectangle;
 			this.selectionChanged = selectionChanged;
 			itemsPosition = [];
 			InitEvents(null, null);
@@ -51,7 +51,7 @@ namespace Files.App.UserControls.Selection
 				}
 
 				// Clear selected items once if the pointer is pressed and moved
-				selectionStrategy.StartSelection();
+				selectionStrategy!.StartSelection();
 				OnSelectionStarted();
 				selectionState = SelectionState.Active;
 			}
@@ -70,11 +70,11 @@ namespace Files.App.UserControls.Selection
 					{
 						if (rect.IntersectsWith(item.Value))
 						{
-							selectionStrategy.HandleIntersectionWithItem(item.Key);
+							selectionStrategy!.HandleIntersectionWithItem(item.Key);
 						}
 						else
 						{
-							selectionStrategy.HandleNoIntersectionWithItem(item.Key);
+							selectionStrategy!.HandleNoIntersectionWithItem(item.Key);
 						}
 					}
 					catch (ArgumentException)
@@ -156,7 +156,7 @@ namespace Files.App.UserControls.Selection
 
 		private void FetchItemsPosition()
 		{
-			var verticalOffset = scrollViewer.VerticalOffset;
+			var verticalOffset = scrollViewer!.VerticalOffset;
 			foreach (var item in uiElement.Items.ToList().Except(itemsPosition.Keys))
 			{
 				var listViewItem = (FrameworkElement)uiElement.ContainerFromItem(item); // Get ListViewItem
@@ -172,7 +172,7 @@ namespace Files.App.UserControls.Selection
 			}
 		}
 
-		private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+		private void ScrollViewer_ViewChanged(object? sender, ScrollViewerViewChangedEventArgs e)
 		{
 			if (timer is null)
 			{
@@ -230,7 +230,7 @@ namespace Files.App.UserControls.Selection
 			}
 		}
 
-		private void InitEvents(object sender, RoutedEventArgs e)
+		private void InitEvents(object? sender, RoutedEventArgs? e)
 		{
 			if (!uiElement.IsLoaded)
 			{

@@ -645,7 +645,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				case FileOperationType.Copy:
 					{
-						string headerResource = card.HeaderStringResource;
+						string? headerResource = card.HeaderStringResource;
 
 						if (card.IsDiscovering && card.TotalItemsCount > 0 && card.IsInProgress)
 							headerResource = "StatusCenter_CopyDiscovery_Header";
@@ -664,7 +664,7 @@ namespace Files.App.Utils.StatusCenter
 					}
 				case FileOperationType.Move:
 					{
-						string headerResource = card.HeaderStringResource;
+						string? headerResource = card.HeaderStringResource;
 
 						if (card.IsDiscovering && card.TotalItemsCount > 0 && card.IsInProgress)
 							headerResource = "StatusCenter_CopyDiscovery_Header";
@@ -683,7 +683,7 @@ namespace Files.App.Utils.StatusCenter
 					}
 				case FileOperationType.Delete:
 					{
-						string headerResource = card.HeaderStringResource;
+						string? headerResource = card.HeaderStringResource;
 
 						if (card.IsDiscovering && card.TotalItemsCount > 0 && card.IsInProgress)
 							headerResource = "StatusCenter_CopyDiscovery_Header";

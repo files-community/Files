@@ -38,10 +38,10 @@ namespace Files.App.Utils.Serialization.Implementation
 		{
 			ArgumentNullException.ThrowIfNull(_filePath);
 
-			return ReadStringFromFile(_filePath);
+			return ReadStringFromFile(_filePath) ?? string.Empty;
 		}
 
-		public bool WriteToFile(string? text)
+		public bool WriteToFile(string text)
 		{
 			ArgumentNullException.ThrowIfNull(_filePath);
 

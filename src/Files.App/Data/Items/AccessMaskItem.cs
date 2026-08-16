@@ -8,7 +8,7 @@ namespace Files.App.Data.Items
 	/// </summary>
 	public sealed partial class AccessMaskItem : ObservableObject
 	{
-		public string AccessMaskName { get; set; }
+		public string? AccessMaskName { get; set; }
 
 		public AccessMaskFlags AccessMask { get; set; }
 

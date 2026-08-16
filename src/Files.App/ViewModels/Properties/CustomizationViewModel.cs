@@ -13,11 +13,11 @@ namespace Files.App.ViewModels.Properties
 		private static string DefaultIconDllFilePath
 			=> Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "SHELL32.dll");
 
-		private readonly AppWindow _appWindow;
+		private readonly AppWindow? _appWindow;
 
-		private readonly IShellPage _appInstance;
+		private readonly IShellPage? _appInstance;
 
-		private readonly string _selectedItemPath;
+		private readonly string? _selectedItemPath;
 
 		private bool _isIconChanged;
 
@@ -25,8 +25,8 @@ namespace Files.App.ViewModels.Properties
 
 		public ObservableCollection<IconFileInfo> DllIcons { get; } = [];
 
-		private string _IconResourceItemPath;
-		public string IconResourceItemPath
+		private string? _IconResourceItemPath;
+		public string? IconResourceItemPath
 		{
 			get => _IconResourceItemPath;
 			set
@@ -71,16 +71,15 @@ namespace Files.App.ViewModels.Properties
 
 		[ObservableProperty] public partial bool IsConvertImageInfoBarOpen { get; set; }
 		[ObservableProperty] public partial InfoBarSeverity ConvertImageInfoBarSeverity { get; set; }
-		[ObservableProperty] public partial string ConvertImageInfoBarMessage { get; set; }
+		[ObservableProperty] public partial string? ConvertImageInfoBarMessage { get; set; }
 
-		public ICommand RestoreDefaultIconCommand { get; private set; }
-		public ICommand OpenFilePickerCommand { get; private set; }
-		public ICommand ConvertImageToIconCommand { get; private set; }
+		public ICommand? RestoreDefaultIconCommand { get; private set; }
+		public ICommand? OpenFilePickerCommand { get; private set; }
+		public ICommand? ConvertImageToIconCommand { get; private set; }
 
 		public CustomizationViewModel(IShellPage appInstance, BaseProperties baseProperties, AppWindow appWindow)
 		{
-			ListedItem item;
-
+			ListedItem? item;
 			if (baseProperties is FileProperties fileProperties)
 				item = fileProperties.Item;
 			else if (baseProperties is FolderProperties folderProperties)
@@ -113,7 +112,8 @@ namespace Files.App.ViewModels.Properties
 
 		private void ExecuteOpenFilePickerCommand()
 		{
-			var parentWindowId = _appWindow.Id;
+			var parentWindowId = (_appWindow
+				?? throw new InvalidOperationException("The customization window has not been initialized.")).Id;
 			var hWnd = Microsoft.UI.Win32Interop.GetWindowFromWindowId(parentWindowId);
 
 			string[] extensions =
@@ -135,10 +135,12 @@ namespace Files.App.ViewModels.Properties
 		private async Task ExecuteConvertImageToIconCommandAsync()
 		{
 			var imagePath = IconResourceItemPath;
-			if (!IsConvertibleImagePath(imagePath))
+			if (imagePath is null || !IsConvertibleImagePath(imagePath))
 				return;
 
-			var hWnd = Microsoft.UI.Win32Interop.GetWindowFromWindowId(_appWindow.Id);
+			var appWindow = _appWindow
+				?? throw new InvalidOperationException("The customization window has not been initialized.");
+			var hWnd = Microsoft.UI.Win32Interop.GetWindowFromWindowId(appWindow.Id);
 			if (!CommonDialogService.Open_FileSaveDialog(hWnd, false, [Strings.IcoFileCapitalized.GetLocalizedResource(), "*.ico"], Environment.SpecialFolder.MyPictures, out var icoFilePath))
 				return;
 
@@ -165,19 +167,21 @@ namespace Files.App.ViewModels.Properties
 			if (!_isIconChanged)
 				return false;
 
+			var selectedItemPath = _selectedItemPath
+				?? throw new InvalidOperationException("The selected item path has not been initialized.");
 			bool result = false;
 
 			if (SelectedDllIcon is null)
 			{
 				result = IsShortcut
-					? Win32Helper.SetCustomFileIcon(_selectedItemPath, null)
-					: Win32Helper.SetCustomDirectoryIcon(_selectedItemPath, null);
+					? Win32Helper.SetCustomFileIcon(selectedItemPath, null)
+					: Win32Helper.SetCustomDirectoryIcon(selectedItemPath, null);
 			}
 			else
 			{
 				result = IsShortcut
-					? Win32Helper.SetCustomFileIcon(_selectedItemPath, IconResourceItemPath, SelectedDllIcon.Index)
-					: Win32Helper.SetCustomDirectoryIcon(_selectedItemPath, IconResourceItemPath, SelectedDllIcon.Index);
+					? Win32Helper.SetCustomFileIcon(selectedItemPath, IconResourceItemPath, SelectedDllIcon.Index)
+					: Win32Helper.SetCustomDirectoryIcon(selectedItemPath, IconResourceItemPath, SelectedDllIcon.Index);
 			}
 
 			if (!result)

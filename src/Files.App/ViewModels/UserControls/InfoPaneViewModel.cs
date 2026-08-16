@@ -121,8 +121,8 @@ namespace Files.App.ViewModels.UserControls
 			set => SetProperty(ref showCloudItemButton, value);
 		}
 
-		private UIElement previewPaneContent;
-		public UIElement PreviewPaneContent
+		private UIElement? previewPaneContent;
+		public UIElement? PreviewPaneContent
 		{
 			get => previewPaneContent;
 			set
@@ -208,7 +208,11 @@ namespace Files.App.ViewModels.UserControls
 
 		private async Task LoadPreviewControlAsync(CancellationToken token, bool downloadItem)
 		{
-			if (SelectedItem.IsHiddenItem && !SelectedItem.ItemPath.EndsWith('\\'))
+			var item = SelectedItem;
+			if (item is null)
+				throw new InvalidOperationException("The preview pane does not have a selected item.");
+
+			if (item.IsHiddenItem && !item.ItemPath!.EndsWith('\\'))
 			{
 				PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
 
@@ -216,7 +220,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 
-			var control = await GetBuiltInPreviewControlAsync(SelectedItem, downloadItem);
+			var control = await GetBuiltInPreviewControlAsync(item, downloadItem);
 
 			if (token.IsCancellationRequested)
 				return;
@@ -228,7 +232,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 
-			var basicModel = new BasicPreviewViewModel(SelectedItem);
+			var basicModel = new BasicPreviewViewModel(item);
 			await basicModel.LoadAsync();
 
 			control = new BasicPreview(basicModel);
@@ -240,7 +244,7 @@ namespace Files.App.ViewModels.UserControls
 			PreviewPaneState = SelectedDriveItem is not null ? PreviewPaneStates.DriveStorageDetailsAvailable : PreviewPaneStates.PreviewAndDetailsAvailable;
 		}
 
-		private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item, bool downloadItem)
+		private async Task<UserControl?> GetBuiltInPreviewControlAsync(ListedItem item, bool downloadItem)
 		{
 			ShowCloudItemButton = false;
 
@@ -284,7 +288,7 @@ namespace Files.App.ViewModels.UserControls
 				await model.LoadAsync();
 
 				if (contentPageContext.SelectedItems.Count == 0)
-					item.FileTags ??= FileTagsHelper.ReadFileTag(item.ItemPath);
+					item.FileTags ??= FileTagsHelper.ReadFileTag(item.ItemPath!);
 
 				return new FolderPreview(model);
 			}
@@ -507,7 +511,10 @@ namespace Files.App.ViewModels.UserControls
 		{
 			try
 			{
-				var basicModel = new BasicPreviewViewModel(SelectedItem);
+				if (SelectedItem is not { } selectedItem)
+					throw new InvalidOperationException("The preview pane does not have a selected item.");
+
+				var basicModel = new BasicPreviewViewModel(selectedItem);
 				await basicModel.LoadAsync();
 
 				if (token.IsCancellationRequested)
@@ -558,23 +565,24 @@ namespace Files.App.ViewModels.UserControls
 			try
 			{
 				Items.Clear();
-
-				SelectedItem?.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
+				var selectedItem = SelectedItem;
+				selectedItem?.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
+				IEnumerable<ListedItem> selectedItems = selectedItem is null ? [] : [selectedItem];
 
 				// Create menu once and reuse it for subsequent selections
 				if (cachedTagsContextMenu is null)
 				{
-					cachedTagsContextMenu = new Files.App.UserControls.Menus.FileTagsContextMenu(new List<ListedItem>() { SelectedItem });
+					cachedTagsContextMenu = new Files.App.UserControls.Menus.FileTagsContextMenu(selectedItems);
 					cachedTagsContextMenu.TagsChanged += async (s, e) =>
 					{
-						if (contentPageContext.ShellPage is not null)
-							await contentPageContext.ShellPage.ShellViewModel.RefreshTagGroups();
+						if (contentPageContext.ShellPage is { } shellPage)
+							await shellPage.GetRequiredShellViewModel().RefreshTagGroups();
 					};
 				}
 				else
 				{
 					// Reset menu for new selection
-					cachedTagsContextMenu.ResetForItems(new List<ListedItem>() { SelectedItem });
+					cachedTagsContextMenu.ResetForItems(selectedItems);
 				}
 
 				Items.Add(new FlyoutItem(cachedTagsContextMenu));
@@ -595,7 +603,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 
-			var normalizedPath = PathNormalization.NormalizePath(selectedItem.ItemPath);
+			var normalizedPath = PathNormalization.NormalizePath(selectedItem.ItemPath!);
 
 			SelectedDriveItem = drivesViewModel.Drives
 				.OfType<DriveItem>()

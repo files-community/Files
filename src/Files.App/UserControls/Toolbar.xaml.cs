@@ -101,8 +101,11 @@ namespace Files.App.UserControls
 
 		private async void EditTagsMenu_TagsChanged(object? sender, EventArgs e)
 		{
-			if (PageContext.ShellPage is not null)
-				await PageContext.ShellPage.ShellViewModel.RefreshTagGroups();
+			if (PageContext.ShellPage is { } shellPage)
+			{
+				var shellViewModel = shellPage.GetRequiredShellViewModel();
+				await shellViewModel.RefreshTagGroups();
+			}
 		}
 
 		private void RequestToolbarRefresh(bool ignoreDebounce)
@@ -203,18 +206,19 @@ namespace Files.App.UserControls
 				}
 				else
 				{
-					btn.Flyout = new MenuFlyout
+					var menuFlyout = new MenuFlyout
 					{
 						Placement = group is NewItemCommandGroup or OpenWithCommandGroup
 						? FlyoutPlacementMode.BottomEdgeAlignedLeft
 						: FlyoutPlacementMode.Bottom
 					};
+					btn.Flyout = menuFlyout;
 
-					((MenuFlyout)btn.Flyout).Opening += async (s, _) =>
+					menuFlyout.Opening += async (s, _) =>
 					{
 						try
 						{
-							await PopulateGroupFlyoutAsync((MenuFlyout)s, group);
+							await PopulateGroupFlyoutAsync(menuFlyout, group);
 						}
 						catch (Exception ex)
 						{

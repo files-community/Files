@@ -284,38 +284,43 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		private void ExecuteOpenPropertiesCommand(WidgetFolderCardItem? item)
 		{
-			if (!HomePageContext.IsAnyItemRightClicked || item is null || item.Item is null)
+			if (!HomePageContext.IsAnyItemRightClicked || item?.Item is null)
 				return;
 
-			var flyout = HomePageContext.ItemContextFlyoutMenu;
-			EventHandler<object> flyoutClosed = null!;
+			var flyout = HomePageContext.ItemContextFlyoutMenu
+				?? throw new InvalidOperationException("The quick-access item context menu is not available.");
 
-			flyoutClosed = async (s, e) =>
+			async void FlyoutClosed(object? sender, object args)
 			{
-				flyout!.Closed -= flyoutClosed;
+				flyout.Closed -= FlyoutClosed;
+				var itemPath = item.Path
+					?? throw new InvalidOperationException("The quick-access item does not have a path.");
+				var shellPage = ContentPageContext.ShellPage
+					?? throw new InvalidOperationException("There is no active shell page for quick-access properties.");
+				var shellViewModel = shellPage.GetRequiredShellViewModel();
 
-				ListedItem listedItem = new(null!)
+				ListedItem listedItem = new(null)
 				{
-					ItemPath = item.Path,
+					ItemPath = itemPath,
 					ItemNameRaw = item.Text,
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemType = Strings.Folder.GetLocalizedResource(),
 				};
 
-				if (!string.Equals(item.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+				if (!string.Equals(itemPath, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 				{
-					BaseStorageFolder matchingStorageFolder = await ContentPageContext.ShellPage!.ShellViewModel.GetFolderFromPathAsync(item.Path);
+					BaseStorageFolder? matchingStorageFolder = (await shellViewModel.GetFolderFromPathAsync(itemPath)).Result;
 					if (matchingStorageFolder is not null)
 					{
-						var syncStatus = await ContentPageContext.ShellPage!.ShellViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
+						var syncStatus = await shellViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
 						listedItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 					}
 				}
 
-				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, ContentPageContext.ShellPage!);
-			};
+				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, shellPage);
+			}
 
-			flyout!.Closed += flyoutClosed;
+			flyout.Closed += FlyoutClosed;
 		}
 
 		// Disposer

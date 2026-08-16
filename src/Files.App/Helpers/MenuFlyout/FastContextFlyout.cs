@@ -501,7 +501,7 @@ namespace Files.App.Helpers.ContextFlyouts
 						break;
 					}
 				}
-				if (presenter is null)
+				if (presenter is null || popup is null)
 					return;
 
 
@@ -536,7 +536,9 @@ namespace Files.App.Helpers.ContextFlyouts
 				// and move the row when it landed on the wrong end.
 				if (!double.IsNaN(referenceScreenY) && presenter.ActualHeight > 0)
 				{
-					var menuTopScreen = MainWindow.Instance.AppWindow.Position.Y + popup.VerticalOffset * scale;
+					var appWindow = MainWindow.Instance.AppWindow
+						?? throw new InvalidOperationException("The app window is not available.");
+					var menuTopScreen = appWindow.Position.Y + popup.VerticalOffset * scale;
 					var menuBottomScreen = menuTopScreen + presenter.ActualHeight * scale;
 					var actuallyOpenedUp = referenceScreenY - menuTopScreen > menuBottomScreen - referenceScreenY;
 					if (actuallyOpenedUp != openedUp)

@@ -12,7 +12,7 @@ namespace Files.App.UserControls.Menus
 	public sealed partial class FileTagsContextMenu : MenuFlyout
 	{
 		private IFileTagsSettingsService FileTagsSettingsService { get; } =
-			Ioc.Default.GetService<IFileTagsSettingsService>();
+			Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 		/// <summary>
 		/// Event fired when an item's tags are updated (added/removed).

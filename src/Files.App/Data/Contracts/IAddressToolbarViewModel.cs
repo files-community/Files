@@ -17,7 +17,7 @@ namespace Files.App.Data.Contracts
 
 		public bool IsSingleItemOverride { get; set; }
 
-		public string PathControlDisplayText { get; set; }
+		public string? PathControlDisplayText { get; set; }
 
 		public ObservableCollection<PathBoxItem> PathComponents { get; }
 

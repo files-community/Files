@@ -104,7 +104,7 @@ namespace Files.App.Helpers
 
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		public static extern IntPtr CreateFileFromApp(
-			string lpFileName,
+			string? lpFileName,
 			uint dwDesiredAccess,
 			uint dwShareMode,
 			IntPtr SecurityAttributes,

@@ -50,7 +50,7 @@ namespace Files.App
 			rootFrame?.Navigate(typeof(SplashScreenPage));
 		}
 
-		public async Task InitializeApplicationAsync(object activatedEventArgs)
+		public async Task InitializeApplicationAsync(object? activatedEventArgs)
 		{
 			var rootFrame = EnsureWindowIsInitialized();
 
@@ -113,8 +113,8 @@ namespace Files.App
 							int.TryParse(parsedArgs[2].Split('&')[0], out var dx) &&
 							int.TryParse(parsedArgs[3], out var dy))
 							AppWindow?.Move(new(dx - 100, dy - 16));
-						var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(unescapedValue).AsTask());
-						if (folder is not null && !string.IsNullOrEmpty(folder.Path))
+						var folderResult = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(unescapedValue).AsTask());
+						if (folderResult.Result is { } folder && !string.IsNullOrEmpty(folder.Path))
 						{
 							// Convert short name to long name (#6190)
 							unescapedValue = folder.Path;
@@ -229,7 +229,12 @@ namespace Files.App
 		private async Task EnsureContentHasKeyboardFocusAsync()
 		{
 			await Task.Delay(100);
-			Ioc.Default.GetService<IContentPageContext>()?.ShellPage?.PaneHolder.FocusActivePane();
+			var shellPage = Ioc.Default.GetService<IContentPageContext>()?.ShellPage;
+			if (shellPage is not null)
+			{
+				var paneHolder = shellPage.GetRequiredPaneHolder();
+				paneHolder.FocusActivePane();
+			}
 		}
 
 		private Frame? EnsureWindowIsInitialized()
@@ -262,13 +267,13 @@ namespace Files.App
 
 		private async Task InitializeFromCmdLineArgsAsync(Frame rootFrame, ParsedCommands parsedCommands, string activationPath = "")
 		{
-			async Task PerformNavigationAsync(string payload, string selectItem = null)
+			async Task PerformNavigationAsync(string? payload, string? selectItem = null)
 			{
 				if (!string.IsNullOrEmpty(payload))
 				{
-					payload = Constants.UserEnvironmentPaths.ShellPlaces.Get(payload.ToUpperInvariant(), payload);
-					var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(payload).AsTask());
-					if (folder is not null && !string.IsNullOrEmpty(folder.Path))
+					payload = Constants.UserEnvironmentPaths.ShellPlaces.Get(payload.ToUpperInvariant(), payload) ?? payload;
+					var folderResult = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(payload).AsTask());
+					if (folderResult.Result is { } folder && !string.IsNullOrEmpty(folder.Path))
 						payload = folder.Path; // Convert short name to long name (#6190)
 				}
 
@@ -303,7 +308,7 @@ namespace Files.App
 					var existingTabIndex = MainPageViewModel.AppInstances
 						.Select((tabItem, idx) => new { tabItem, idx })
 						.FirstOrDefault(x =>
-							x.tabItem.NavigationParameter.NavigationParameter is PaneNavigationArguments paneArgs &&
+							x.tabItem.NavigationParameter!.NavigationParameter is PaneNavigationArguments paneArgs &&
 							(paneNavigationArgs.LeftPaneNavPathParam == paneArgs.LeftPaneNavPathParam ||
 							paneNavigationArgs.LeftPaneNavPathParam == paneArgs.RightPaneNavPathParam))?.idx ?? -1;
 
@@ -332,7 +337,7 @@ namespace Files.App
 						break;
 
 					case ParsedCommandType.TagFiles:
-						var tagService = Ioc.Default.GetService<IFileTagsSettingsService>();
+						var tagService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 						var tag = tagService.GetTagsByName(command.Payload).FirstOrDefault();
 						foreach (var file in command.Args.Skip(1))
 						{

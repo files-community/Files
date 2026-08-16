@@ -11,9 +11,9 @@ namespace Files.App.UserControls
 {
 	public sealed partial class MenuFlyoutItemWithImage : MenuFlyoutItem
 	{
-		public BitmapImage BitmapIcon
+		public BitmapImage? BitmapIcon
 		{
-			get { return (BitmapImage)GetValue(BitmapIconProperty); }
+			get { return GetValue(BitmapIconProperty) as BitmapImage; }
 			set { SetValue(BitmapIconProperty, value); }
 		}
 
@@ -22,7 +22,8 @@ namespace Files.App.UserControls
 
 		private static void OnBitmapIconChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-			(d as MenuFlyoutItem).Icon = e.NewValue is not null ? new IconSourceElement() : null;
+			if (d is MenuFlyoutItem item)
+				item.Icon = e.NewValue is not null ? new IconSourceElement() : null;
 		}
 
 		public MenuFlyoutItemWithImage()

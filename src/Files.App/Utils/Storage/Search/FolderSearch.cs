@@ -87,7 +87,7 @@ namespace Files.App.Utils.Storage
 				}
 				else
 				{
-					await AddItemsAsync(Folder, results, token);
+					await AddItemsAsync(Folder ?? throw new InvalidOperationException("The search folder has not been set."), results, token);
 				}
 			}
 			catch (OperationCanceledException)
@@ -110,7 +110,7 @@ namespace Files.App.Utils.Storage
 			{
 				foreach (var drive in drivesViewModel.Drives.ToList().Cast<DriveItem>().Where(x => !x.IsNetwork))
 				{
-					await AddItemsAsync(drive.Path, results, token);
+					await AddItemsAsync(drive.Path!, results, token);
 				}
 			}
 		}
@@ -131,7 +131,7 @@ namespace Files.App.Utils.Storage
 				}
 				else
 				{
-					await AddItemsAsync(Folder, results, token);
+					await AddItemsAsync(Folder ?? throw new InvalidOperationException("The search folder has not been set."), results, token);
 				}
 			}
 			catch (Exception e)
@@ -342,8 +342,10 @@ namespace Files.App.Utils.Storage
 				{
 					try
 					{
-						IStorageItem item = (BaseStorageFile)await GetStorageFileAsync(match.FilePath);
-						item ??= (BaseStorageFolder)await GetStorageFolderAsync(match.FilePath);
+						IStorageItem? item = (await GetStorageFileAsync(match.FilePath)).Result;
+						item ??= (await GetStorageFolderAsync(match.FilePath)).Result;
+						item = item
+							?? throw new InvalidOperationException($"The search item '{match.FilePath}' could not be opened.");
 						if (!item.Name.StartsWith('.') || UserSettingsService.FoldersSettingsService.ShowDotFiles)
 							results.Add(await GetListedItemAsync(item));
 					}
@@ -376,7 +378,9 @@ namespace Files.App.Utils.Storage
 				var hiddenOnlyFromWin32 = false;
 				if (workingFolder)
 				{
-					await SearchAsync(workingFolder, results, token);
+					var storageFolder = workingFolder.Result
+						?? throw new InvalidOperationException($"The search folder '{folder}' could not be opened.");
+					await SearchAsync(storageFolder, results, token);
 					hiddenOnlyFromWin32 = (results.Count != 0);
 				}
 
@@ -467,7 +471,7 @@ namespace Files.App.Utils.Storage
 				Win32PInvoke.FileTimeToSystemTime(ref shortcutFindData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME modifiedTime);
 				Win32PInvoke.FileTimeToSystemTime(ref shortcutFindData.ftCreationTime, out Win32PInvoke.SYSTEMTIME createdTime);
 				var fileSize = Win32FindDataExtensions.GetSize(shortcutFindData);
-				var itemFileExtension = shortcutFindData.cFileName.Contains('.', StringComparison.Ordinal) ? Path.GetExtension(itemPath) : null;
+				var itemFileExtension = shortcutFindData.cFileName.Contains('.', StringComparison.Ordinal) ? Path.GetExtension(itemPath)! : string.Empty;
 
 				var shortcutItem = new ShortcutItem(null)
 				{
@@ -572,9 +576,9 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private ListedItem GetListedItemAsync(string itemPath, WIN32_FIND_DATA findData)
+		private ListedItem? GetListedItemAsync(string itemPath, WIN32_FIND_DATA findData)
 		{
-			ListedItem listedItem = null;
+			ListedItem? listedItem = null;
 			var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 			var isFolder = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory;
 			Win32PInvoke.FileTimeToSystemTime(ref findData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME systemModifiedTimeOutput);
@@ -582,13 +586,13 @@ namespace Files.App.Utils.Storage
 
 			if (!isFolder)
 			{
-				string itemFileExtension = null;
-				string itemType = null;
+				string? itemFileExtension = null;
+				string? itemType = null;
 				long fileSize = Win32FindDataExtensions.GetSize(findData);
 				if (findData.cFileName.Contains('.', StringComparison.Ordinal))
 				{
 					itemFileExtension = Path.GetExtension(itemPath);
-					itemType = itemFileExtension.Trim('.') + " " + itemType;
+					itemType = itemFileExtension!.Trim('.') + " " + itemType;
 				}
 
 				listedItem = new ListedItem(null)
@@ -652,10 +656,12 @@ namespace Files.App.Utils.Storage
 
 		private async Task<ListedItem> GetListedItemAsync(IStorageItem item)
 		{
-			ListedItem listedItem = null;
+			ListedItem? listedItem = null;
 			if (item.IsOfType(StorageItemTypes.Folder))
 			{
-				var folder = item.AsBaseStorageFolder();
+				var folder = item.AsBaseStorageFolder()
+					?? throw new InvalidOperationException($"The search result '{item.Path}' could not be opened as a folder.");
+
 				var props = await folder.GetBasicPropertiesAsync();
 				if (folder is BinStorageFolder binFolder)
 				{
@@ -692,14 +698,16 @@ namespace Files.App.Utils.Storage
 			}
 			else if (item.IsOfType(StorageItemTypes.File))
 			{
-				var file = item.AsBaseStorageFile();
+				var file = item.AsBaseStorageFile()
+					?? throw new InvalidOperationException($"The search result '{item.Path}' could not be opened as a file.");
+
 				var props = await file.GetBasicPropertiesAsync();
-				string itemFileExtension = null;
-				string itemType = null;
+				string? itemFileExtension = null;
+				string? itemType = null;
 				if (file.Name.Contains('.', StringComparison.Ordinal))
 				{
 					itemFileExtension = Path.GetExtension(file.Path);
-					itemType = itemFileExtension.Trim('.') + " " + itemType;
+					itemType = itemFileExtension!.Trim('.') + " " + itemType;
 				}
 
 				var itemSize = props.Size.ToSizeString();
@@ -797,7 +805,8 @@ namespace Files.App.Utils.Storage
 				else
 					listedItem.NeedsPlaceholderGlyph = true;
 			}
-			return listedItem;
+			return listedItem
+				?? throw new InvalidOperationException($"The search result '{item.Path}' is neither a file nor a folder.");
 		}
 
 		private QueryOptions ToQueryOptions()
@@ -820,9 +829,9 @@ namespace Files.App.Utils.Storage
 		}
 
 		private static Task<FilesystemResult<BaseStorageFolder>> GetStorageFolderAsync(string path)
-			=> FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+			=> FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
 
 		private static Task<FilesystemResult<BaseStorageFile>> GetStorageFileAsync(string path)
-			=> FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
+			=> FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
 	}
 }

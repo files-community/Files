@@ -159,7 +159,7 @@ namespace Files.App.Services
 						displayName = Strings.RecycleBin.GetLocalizedResource();
 					else if (path.Equals(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
 						displayName = Strings.ThisPC.GetLocalizedResource();
-					else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
+					else if (App.LibraryManager.TryGetLibrary(path, out var library))
 					{
 						var libName = Path.GetFileNameWithoutExtension(library.Path);
 						displayName = libName switch

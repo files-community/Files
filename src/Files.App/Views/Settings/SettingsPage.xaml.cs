@@ -19,7 +19,9 @@ namespace Files.App.Views
 
 		public SettingsPageViewModel ViewModel { get; } = new();
 
-		private IShellPage AppInstance { get; set; } = null!;
+		private IShellPage? appInstance;
+		private IShellPage AppInstance
+			=> appInstance ?? throw new InvalidOperationException("The settings page has not been initialized.");
 
 		public SettingsPage()
 		{
@@ -36,7 +38,8 @@ namespace Files.App.Views
 			if (e.Parameter is not NavigationArguments navArgs)
 				return;
 
-			AppInstance = navArgs.AssociatedTabInstance!;
+			appInstance = navArgs.AssociatedTabInstance!;
+			var shellViewModel = AppInstance.GetRequiredShellViewModel();
 
 			AppInstance.InstanceViewModel.IsPageTypeNotHome = true;
 			AppInstance.InstanceViewModel.IsPageTypeSearchResults = false;
@@ -55,8 +58,8 @@ namespace Files.App.Views
 			AppInstance.ToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
 			AppInstance.ToolbarViewModel.CanNavigateToParent = false;
 
-			await AppInstance.ShellViewModel.SetWorkingDirectoryAsync("Settings");
-			AppInstance.ShellViewModel.CheckForBackgroundImage();
+			await shellViewModel.SetWorkingDirectoryAsync("Settings");
+			shellViewModel.CheckForBackgroundImage();
 
 			AppInstance.SlimContentPage?.StatusBarViewModel.UpdateGitInfo(false, string.Empty, null);
 			AppInstance.SlimContentPage?.InfoPaneViewModel.UpdateSelectedItemPreviewAsync();

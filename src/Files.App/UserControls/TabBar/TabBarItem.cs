@@ -13,10 +13,10 @@ namespace Files.App.UserControls.TabBar
 	{
 		public Frame? ContentFrame { get; private set; }
 
-		public event EventHandler<TabBarItemParameter> ContentChanged;
+		public event EventHandler<TabBarItemParameter>? ContentChanged;
 
-		private IconSource _IconSource;
-		public IconSource IconSource
+		private IconSource? _IconSource;
+		public IconSource? IconSource
 		{
 			get => _IconSource;
 			set => SetProperty(ref _IconSource, value);
@@ -50,8 +50,8 @@ namespace Files.App.UserControls.TabBar
 			set => SetProperty(ref _AllowStorageItemDrop, value);
 		}
 
-		private TabBarItemParameter _NavigationArguments;
-		public TabBarItemParameter NavigationParameter
+		private TabBarItemParameter? _NavigationArguments;
+		public TabBarItemParameter? NavigationParameter
 		{
 			get => _NavigationArguments;
 			set
@@ -72,7 +72,7 @@ namespace Files.App.UserControls.TabBar
 			}
 		}
 
-		public ITabBarItemContent TabItemContent
+		public ITabBarItemContent? TabItemContent
 			=> ContentFrame?.Content as ITabBarItemContent;
 
 		public TabBarItem()

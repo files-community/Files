@@ -20,7 +20,7 @@ namespace Files.App.Data.EventArguments
 
 		public ModifyQuickAccessEventArgs(ShellFileItem[] items, bool add)
 		{
-			Paths = items.Select(x => x.FilePath).ToArray();
+			Paths = items.Select(x => x.FilePath!).ToArray();
 			Items = items;
 			Add = add;
 		}

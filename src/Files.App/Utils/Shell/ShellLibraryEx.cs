@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.Diagnostics.CodeAnalysis;
 using Vanara.Extensions;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -14,11 +15,14 @@ namespace Files.App.Utils.Shell
 	{
 		//private const string ext = ".library-ms";
 
-		internal Shell32.IShellLibrary _lib;
+		internal Shell32.IShellLibrary? _lib;
 
-		private ShellLibraryFolders _folders;
+		private Shell32.IShellLibrary Library
+			=> _lib ?? throw new ObjectDisposedException(nameof(ShellLibraryEx));
 
-		private string _name;
+		private ShellLibraryFolders? _folders;
+
+		private string? _name;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ShellLibrary"/>Ex class.
@@ -28,7 +32,7 @@ namespace Files.App.Utils.Shell
 		public ShellLibraryEx(Shell32.KNOWNFOLDERID knownFolderId, bool readOnly = false)
 		{
 			_lib = new Shell32.IShellLibrary();
-			_lib.LoadLibraryFromKnownFolder(knownFolderId.Guid(), readOnly ? STGM.STGM_READ : STGM.STGM_READWRITE);
+			Library.LoadLibraryFromKnownFolder(knownFolderId.Guid(), readOnly ? STGM.STGM_READ : STGM.STGM_READWRITE);
 
 			Init(knownFolderId.GetIShellItem());
 		}
@@ -43,7 +47,7 @@ namespace Files.App.Utils.Shell
 		{
 			_lib = new Shell32.IShellLibrary();
 			_name = libraryName;
-			var item = _lib.SaveInKnownFolder(kf.Guid(), libraryName, overwrite ? Shell32.LIBRARYSAVEFLAGS.LSF_OVERRIDEEXISTING : Shell32.LIBRARYSAVEFLAGS.LSF_FAILIFTHERE);
+			var item = Library.SaveInKnownFolder(kf.Guid(), libraryName, overwrite ? Shell32.LIBRARYSAVEFLAGS.LSF_OVERRIDEEXISTING : Shell32.LIBRARYSAVEFLAGS.LSF_FAILIFTHERE);
 
 			Init(item);
 		}
@@ -58,7 +62,7 @@ namespace Files.App.Utils.Shell
 		{
 			_lib = new Shell32.IShellLibrary();
 			_name = libraryName;
-			var item = _lib.Save(parent.IShellItem, libraryName, overwrite ? Shell32.LIBRARYSAVEFLAGS.LSF_OVERRIDEEXISTING : Shell32.LIBRARYSAVEFLAGS.LSF_FAILIFTHERE);
+			var item = Library.Save(parent.IShellItem, libraryName, overwrite ? Shell32.LIBRARYSAVEFLAGS.LSF_OVERRIDEEXISTING : Shell32.LIBRARYSAVEFLAGS.LSF_FAILIFTHERE);
 
 			Init(item);
 		}
@@ -71,7 +75,7 @@ namespace Files.App.Utils.Shell
 		public ShellLibraryEx(Shell32.IShellItem libraryItem, bool readOnly = false)
 		{
 			_lib = new Shell32.IShellLibrary();
-			_lib.LoadLibraryFromItem(libraryItem, readOnly ? STGM.STGM_READ : STGM.STGM_READWRITE);
+			Library.LoadLibraryFromItem(libraryItem, readOnly ? STGM.STGM_READ : STGM.STGM_READWRITE);
 
 			Init(libraryItem);
 		}
@@ -82,8 +86,8 @@ namespace Files.App.Utils.Shell
 		/// <value>The default save folder.</value>
 		public ShellItem DefaultSaveFolder
 		{
-			get => Open(_lib.GetDefaultSaveFolder<Shell32.IShellItem>(Shell32.DEFAULTSAVEFOLDERTYPE.DSFT_DETECT));
-			set => _lib.SetDefaultSaveFolder(Shell32.DEFAULTSAVEFOLDERTYPE.DSFT_DETECT, value.IShellItem);
+			get => Open(Library.GetDefaultSaveFolder<Shell32.IShellItem>(Shell32.DEFAULTSAVEFOLDERTYPE.DSFT_DETECT));
+			set => Library.SetDefaultSaveFolder(Shell32.DEFAULTSAVEFOLDERTYPE.DSFT_DETECT, value.IShellItem);
 		}
 
 		/// <summary>Gets the set of child folders that are contained in the library.</summary>
@@ -103,15 +107,16 @@ namespace Files.App.Utils.Shell
 		{
 			get
 			{
-				_ = IconLocation.TryParse(_lib.GetIcon(), out var l);
+				_ = IconLocation.TryParse(Library.GetIcon(), out var l);
 				return l;
 			}
-			set => _lib.SetIcon(value.ToString());
+			set => Library.SetIcon(value.ToString());
 		}
 
 		/// <summary>
 		/// Gets the name relative to the parent for the item.
 		/// </summary>
+		[AllowNull, MaybeNull]
 		public override string Name
 		{
 			get => _name;
@@ -126,8 +131,8 @@ namespace Files.App.Utils.Shell
 		/// </value>
 		public bool PinnedToNavigationPane
 		{
-			get => _lib.GetOptions().IsFlagSet(Shell32.LIBRARYOPTIONFLAGS.LOF_PINNEDTONAVPANE);
-			set => _lib.SetOptions(Shell32.LIBRARYOPTIONFLAGS.LOF_PINNEDTONAVPANE, value ? Shell32.LIBRARYOPTIONFLAGS.LOF_PINNEDTONAVPANE : 0);
+			get => Library.GetOptions().IsFlagSet(Shell32.LIBRARYOPTIONFLAGS.LOF_PINNEDTONAVPANE);
+			set => Library.SetOptions(Shell32.LIBRARYOPTIONFLAGS.LOF_PINNEDTONAVPANE, value ? Shell32.LIBRARYOPTIONFLAGS.LOF_PINNEDTONAVPANE : 0);
 		}
 
 		/// <summary>
@@ -154,8 +159,8 @@ namespace Files.App.Utils.Shell
 		/// </value>
 		public Guid ViewTemplateId
 		{
-			get => _lib.GetFolderType();
-			set => _lib.SetFolderType(value);
+			get => Library.GetFolderType();
+			set => Library.SetFolderType(value);
 		}
 
 		/// <summary>
@@ -171,7 +176,7 @@ namespace Files.App.Utils.Shell
 		/// </summary>
 		public void Commit()
 		{
-			_lib.Commit();
+			Library.Commit();
 		}
 
 		/// <summary>
@@ -181,7 +186,10 @@ namespace Files.App.Utils.Shell
 		/// <returns>A <see cref="ShellItemArray"/> containing the child folders.</returns>
 		public ShellLibraryFolders GetFilteredFolders(LibraryFolderFilter filter = LibraryFolderFilter.AllItems)
 		{
-			return new(_lib, _lib.GetFolders<Shell32.IShellItemArray>((Shell32.LIBRARYFOLDERFILTER)filter));
+			var library = Library;
+			var folders = library.GetFolders<Shell32.IShellItemArray>((Shell32.LIBRARYFOLDERFILTER)filter)
+				?? throw new InvalidOperationException("The shell library did not return its folders.");
+			return new(library, folders);
 		}
 
 		/// <summary>
@@ -195,7 +203,7 @@ namespace Files.App.Utils.Shell
 		/// <returns>The resulting target location.</returns>
 		public ShellItem ResolveFolder(ShellItem item, TimeSpan timeout)
 		{
-			return Open(_lib.ResolveFolder<Shell32.IShellItem>(item.IShellItem, Convert.ToUInt32(timeout.TotalMilliseconds)));
+			return Open(Library.ResolveFolder<Shell32.IShellItem>(item.IShellItem, Convert.ToUInt32(timeout.TotalMilliseconds)));
 		}
 
 		/// <summary>
@@ -214,7 +222,7 @@ namespace Files.App.Utils.Shell
 		/// <param name="allowUnindexableLocations">
 		/// If set to <c>true</c> do not display a warning dialog to the user in collisions that concern network locations that cannot be indexed.
 		/// </param>
-		public void ShowLibraryManagementDialog(IntPtr parentWindow = default, string title = null, string instruction = null, bool allowUnindexableLocations = false)
+		public void ShowLibraryManagementDialog(IntPtr parentWindow = default, string? title = null, string? instruction = null, bool allowUnindexableLocations = false)
 		{
 			Shell32.SHShowManageLibraryUI(
 				IShellItem,

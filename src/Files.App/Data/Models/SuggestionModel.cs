@@ -56,7 +56,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private void Img_ImageOpened(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+		private void Img_ImageOpened(object sender, Microsoft.UI.Xaml.RoutedEventArgs? e)
 		{
 			if (sender is BitmapImage image)
 			{
@@ -79,7 +79,7 @@ namespace Files.App.Data.Models
 			LoadFileIcon = item.LoadFileIcon;
 			NeedsPlaceholderGlyph = item.NeedsPlaceholderGlyph;
 			ItemPath = item.ItemPath;
-			Name = item.Name;
+			Name = item.Name!;
 			FileImage = item.FileImage;
 		}
 

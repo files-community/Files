@@ -97,7 +97,7 @@ namespace Files.App.ViewModels.Previews
 		{
 			if (msg is PInvoke.WM_CREATE)
 			{
-				var clsid = FindPreviewHandlerFor(Item.FileExtension, hwnd);
+				var clsid = FindPreviewHandlerFor(Item.FileExtension!, hwnd);
 
 				_isOfficePreview = new Guid?[]
 				{
@@ -109,7 +109,7 @@ namespace Files.App.ViewModels.Previews
 				try
 				{
 					_previewHandler = new PreviewHandler(clsid!.Value, hwnd);
-					_previewHandler.InitWithFileWithEveryWay(Item.ItemPath);
+					_previewHandler.InitWithFileWithEveryWay(Item.ItemPath!);
 					_previewHandler.DoPreview();
 				}
 				catch

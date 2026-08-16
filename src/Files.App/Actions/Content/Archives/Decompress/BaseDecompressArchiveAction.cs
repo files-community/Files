@@ -56,13 +56,13 @@ namespace Files.App.Actions
 				return;
 
 			var selectedItems = context.SelectedItems.ToList();
-			var currentFolderPath = context.ShellPage?.ShellViewModel.CurrentFolder?.ItemPath ?? string.Empty;
-			BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(currentFolderPath);
+			var currentFolderPath = context.ShellPage?.ShellViewModel?.CurrentFolder?.ItemPath ?? string.Empty;
+			BaseStorageFolder? currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(currentFolderPath);
 
 			foreach (var selectedItem in selectedItems)
 			{
 				var password = string.Empty;
-				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
+				BaseStorageFile? archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath!);
 
 				if (archive?.Path is null)
 					return;
@@ -140,7 +140,7 @@ namespace Files.App.Actions
 				if (smart && currentFolder is not null && isMultipleItems)
 				{
 					destinationFolder =
-						await FilesystemTasks.Wrap(() =>
+						await FilesystemTasks.WrapNullable(() =>
 							currentFolder.CreateFolderAsync(
 								SystemIO.Path.GetFileNameWithoutExtension(archive.Path),
 								CreationCollisionOption.GenerateUniqueName).AsTask());
@@ -152,7 +152,7 @@ namespace Files.App.Actions
 
 				// Operate decompress
 				var result = await FilesystemTasks.Wrap(() =>
-					StorageArchiveService.DecompressAsync(selectedItem.ItemPath, destinationFolder?.Path ?? string.Empty, password));
+					StorageArchiveService.DecompressAsync(selectedItem.ItemPath!, destinationFolder?.Path ?? string.Empty, password));
 			}
 		}
 

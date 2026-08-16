@@ -10,7 +10,7 @@ namespace Files.App.Utils.Serialization.Implementation
 			WriteIndented = true
 		};
 
-		public string? SerializeToJson(object? obj)
+		public string SerializeToJson(object? obj)
 		{
 			return JsonSerializer.Serialize(obj, Options);
 		}

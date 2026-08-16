@@ -230,7 +230,8 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task UpdateZipEncodingStateAsync()
 		{
-			if (ContentPageContext.ShellPage?.SlimContentPage?.StatusBarViewModel != this)
+			var shellPage = ContentPageContext.ShellPage;
+			if (shellPage?.SlimContentPage?.StatusBarViewModel != this)
 				return;
 
 			var instanceVM = InstanceViewModel;
@@ -243,7 +244,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 
-			var workingDir = ContentPageContext.ShellPage?.ShellViewModel.WorkingDirectory;
+			var workingDir = shellPage.GetRequiredShellViewModel().WorkingDirectory;
 			if (string.IsNullOrEmpty(workingDir))
 				return;
 			var containerPath = ZipStorageFolder.GetContainerPath(workingDir);
@@ -327,13 +328,14 @@ namespace Files.App.ViewModels.UserControls
 
 		private async Task OnZipEncodingChangedAsync(EncodingItem encodingItem)
 		{
-			if (ContentPageContext.ShellPage is null)
+			var shellPage = ContentPageContext.ShellPage;
+			if (shellPage is null)
 				return;
 
-			if (ContentPageContext.ShellPage?.SlimContentPage?.StatusBarViewModel != this)
+			if (shellPage.SlimContentPage?.StatusBarViewModel != this)
 				return;
 
-			var workingDir = ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
+			var workingDir = shellPage.GetRequiredShellViewModel().WorkingDirectory;
 			if (string.IsNullOrEmpty(workingDir))
 				return;
 
@@ -351,13 +353,13 @@ namespace Files.App.ViewModels.UserControls
 					var convertedPath = TryConvertZipPath(workingDir, containerPath, oldEncoding, encodingItem.Encoding);
 					if (convertedPath is not null)
 					{
-						ContentPageContext.ShellPage.NavigateToPath(convertedPath);
+						shellPage.NavigateToPath(convertedPath);
 						return;
 					}
 				}
 			}
 
-			ContentPageContext.ShellPage.ShellViewModel.RefreshItems(null);
+			shellPage.GetRequiredShellViewModel().RefreshItems(null);
 		}
 
 		private static string? TryConvertZipPath(string workingDir, string containerPath, Encoding? oldEncoding, Encoding? newEncoding)

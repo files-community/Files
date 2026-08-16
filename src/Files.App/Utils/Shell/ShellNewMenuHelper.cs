@@ -38,7 +38,7 @@ namespace Files.App.Utils.Shell
 			return [.. newMenuItems.OrderBy(item => item.Name)];
 		}
 
-		public static async Task<ShellNewEntry> GetNewContextMenuEntryForType(string extension)
+		public static async Task<ShellNewEntry?> GetNewContextMenuEntryForType(string extension)
 		{
 			if (string.IsNullOrEmpty(extension))
 				return null;
@@ -48,7 +48,7 @@ namespace Files.App.Utils.Shell
 			return key is not null ? await GetShellNewRegistryEntries(key, key) : null;
 		}
 
-		private static async Task<ShellNewEntry> GetShellNewRegistryEntries(RegistryKey current, RegistryKey root)
+		private static async Task<ShellNewEntry?> GetShellNewRegistryEntries(RegistryKey current, RegistryKey root)
 		{
 			try
 			{
@@ -77,7 +77,7 @@ namespace Files.App.Utils.Shell
 			return null;
 		}
 
-		private static Task<ShellNewEntry> ParseShellNewRegistryEntry(RegistryKey key, RegistryKey root)
+		private static async Task<ShellNewEntry?> ParseShellNewRegistryEntry(RegistryKey key, RegistryKey root)
 		{
 			var valueNames = key.GetValueNames();
 
@@ -88,14 +88,14 @@ namespace Files.App.Utils.Shell
 				!valueNames.Contains("ItemName", StringComparer.OrdinalIgnoreCase) &&
 				!valueNames.Contains("Data", StringComparer.OrdinalIgnoreCase))
 			{
-				return Task.FromResult<ShellNewEntry>(null);
+				return null;
 			}
 
 			var extension = root.Name.Substring(root.Name.LastIndexOf('\\') + 1);
-			var fileName = (string)key.GetValue("FileName");
-			var command = (string)key.GetValue("Command");
+			var fileName = key.GetValue("FileName") as string;
+			var command = key.GetValue("Command") as string;
 
-			byte[] data = null;
+			byte[]? data = null;
 			var dataObj = key.GetValue("Data");
 
 			if (dataObj is not null)
@@ -108,7 +108,7 @@ namespace Files.App.Utils.Shell
 				};
 			}
 
-			return CreateShellNewEntry(extension, fileName, command, data);
+			return await CreateShellNewEntry(extension, fileName, command, data);
 		}
 
 		private static async Task<ShellNewEntry> CreateShellNewEntry(string extension, string? fileName, string? command, byte[]? data)
@@ -119,7 +119,7 @@ namespace Files.App.Utils.Shell
 			var displayType = sampleFile is not null ? sampleFile.DisplayType : $"file {extension}";
 			var thumbnail = sampleFile is not null ? await SafetyExtensions.IgnoreExceptions(() => sampleFile.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale).AsTask()) : null;
 
-			string iconString = null;
+			string? iconString = null;
 
 			if (thumbnail is not null)
 			{
@@ -142,7 +142,7 @@ namespace Files.App.Utils.Shell
 			return entry;
 		}
 
-		private static RegistryKey OpenSubKeySafe(this RegistryKey root, string keyName)
+		private static RegistryKey? OpenSubKeySafe(this RegistryKey root, string keyName)
 		{
 			try
 			{

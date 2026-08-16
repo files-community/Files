@@ -36,9 +36,13 @@ namespace Files.App.Actions
 
 		public virtual Task ExecuteAsync(object? parameter = null)
 		{
+			if (ContentPageContext.ShellPage is not { } shellPage ||
+				shellPage.SlimContentPage?.SelectedItems?.FirstOrDefault() is not { } selectedItem)
+				return Task.CompletedTask;
+
 			NavigationHelpers.OpenInSecondaryPane(
-				ContentPageContext.ShellPage,
-				ContentPageContext.ShellPage.SlimContentPage.SelectedItems.FirstOrDefault(),
+				shellPage,
+				selectedItem,
 				parameter as ShellPaneArrangement? ?? ShellPaneArrangement.None);
 
 			return Task.CompletedTask;

@@ -31,7 +31,8 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync(object? parameter = null)
 		{
-			var arguments = context.SelectedTabItem.NavigationParameter;
+			var selectedTabItem = context.SelectedTabItem ?? throw new InvalidOperationException("A selected tab is required to duplicate a tab.");
+			var arguments = selectedTabItem.NavigationParameter;
 
 			if (arguments is null)
 			{

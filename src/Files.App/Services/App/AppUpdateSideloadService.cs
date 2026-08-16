@@ -95,15 +95,21 @@ namespace Files.App.Services
 
 				ArgumentNullException.ThrowIfNull(appInstaller);
 
+				var remotePackageName = appInstaller.MainBundle?.Name;
+				if (string.IsNullOrWhiteSpace(remotePackageName) || string.IsNullOrWhiteSpace(appInstaller.Version))
+				{
+					throw new InvalidDataException("The app installer manifest does not identify a package and version.");
+				}
+
 				var remoteVersion = new Version(appInstaller.Version);
 
 				Logger?.LogInformation($"SIDELOAD: Current Package Name: {PackageName}");
-				Logger?.LogInformation($"SIDELOAD: Remote Package Name: {appInstaller.MainBundle.Name}");
+				Logger?.LogInformation($"SIDELOAD: Remote Package Name: {remotePackageName}");
 				Logger?.LogInformation($"SIDELOAD: Current Version: {PackageVersion}");
 				Logger?.LogInformation($"SIDELOAD: Remote Version: {remoteVersion}");
 
 				// Check details and version number
-				if (appInstaller.MainBundle.Name.Equals(PackageName) && remoteVersion.CompareTo(PackageVersion) > 0)
+				if (remotePackageName.Equals(PackageName) && remoteVersion.CompareTo(PackageVersion) > 0)
 				{
 					Logger?.LogInformation("SIDELOAD: Update found.");
 					MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
@@ -255,24 +261,24 @@ namespace Files.App.Services
 	public sealed class AppInstaller
 	{
 		[XmlElement("MainBundle")]
-		public MainBundle MainBundle { get; set; }
+		public MainBundle? MainBundle { get; set; }
 
 		[XmlAttribute("Uri")]
-		public string Uri { get; set; }
+		public string? Uri { get; set; }
 
 		[XmlAttribute("Version")]
-		public string Version { get; set; }
+		public string? Version { get; set; }
 	}
 
 	public sealed class MainBundle
 	{
 		[XmlAttribute("Name")]
-		public string Name { get; set; }
+		public string? Name { get; set; }
 
 		[XmlAttribute("Version")]
-		public string Version { get; set; }
+		public string? Version { get; set; }
 
 		[XmlAttribute("Uri")]
-		public string Uri { get; set; }
+		public string? Uri { get; set; }
 	}
 }

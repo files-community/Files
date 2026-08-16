@@ -62,9 +62,9 @@ namespace Files.App.Data.Behaviors
 		/// <remarks>
 		/// Set this using the header of a ListView or GridView.
 		/// </remarks>
-		public UIElement HeaderElement
+		public UIElement? HeaderElement
 		{
-			get => (UIElement)GetValue(HeaderElementProperty);
+			get => GetValue(HeaderElementProperty) as UIElement;
 			set => SetValue(HeaderElementProperty, value);
 		}
 
@@ -169,17 +169,14 @@ namespace Files.App.Data.Behaviors
 			_headerVisual.StartAnimation("Offset.Y", expressionAnimation);
 
 			// Mod: clip items panel below header
-			var itemsPanel = listView.ItemsPanelRoot;
+			var itemsPanel = listView?.ItemsPanelRoot;
 
 			if (itemsPanel is null)
 				return true;
 
-			if (_itemsPanelVisual is null)
-			{
-				_itemsPanelVisual = ElementCompositionPreview.GetElementVisual(itemsPanel);
-				_contentClip = compositor.CreateInsetClip();
-				_itemsPanelVisual.Clip = _contentClip;
-			}
+			_itemsPanelVisual ??= ElementCompositionPreview.GetElementVisual(itemsPanel);
+			_contentClip ??= compositor.CreateInsetClip();
+			_itemsPanelVisual.Clip = _contentClip;
 
 			var expressionClipAnimation = ExpressionFunctions.Max(-scrollPropSet.Translation.Y, 0);
 			_contentClip.TopInset = (float)Math.Max(-_scrollViewer.VerticalOffset, 0);

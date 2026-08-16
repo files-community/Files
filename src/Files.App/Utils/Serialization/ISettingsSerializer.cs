@@ -9,6 +9,6 @@ namespace Files.App.Utils.Serialization
 
 		string ReadFromFile();
 
-		bool WriteToFile(string? text);
+		bool WriteToFile(string text);
 	}
 }

@@ -83,7 +83,15 @@ namespace Files.App.Controls
 			set { SetValue(ItemProperty, value); }
 		}
 		public static readonly DependencyProperty ItemProperty =
-			DependencyProperty.Register(nameof(Item), typeof(ISidebarItemModel), typeof(SidebarItem), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(Item), typeof(ISidebarItemModel), typeof(SidebarItem), new PropertyMetadata(null, OnPropertyChanged));
+
+		public bool UseItemPresentation
+		{
+			get { return (bool)GetValue(UseItemPresentationProperty); }
+			set { SetValue(UseItemPresentationProperty, value); }
+		}
+		public static readonly DependencyProperty UseItemPresentationProperty =
+			DependencyProperty.Register(nameof(UseItemPresentation), typeof(bool), typeof(SidebarItem), new PropertyMetadata(false, OnPropertyChanged));
 
 		public bool UseReorderDrop
 		{
@@ -136,11 +144,17 @@ namespace Files.App.Controls
 			}
 			else if (e.Property == IsExpandedProperty)
 			{
+				if (item.UseItemPresentation && item.Item is { } model && model.IsExpanded != item.IsExpanded)
+					model.IsExpanded = item.IsExpanded;
 				item.UpdateExpansionState();
 			}
 			else if (e.Property == ItemProperty)
 			{
 				item.HandleItemChange();
+			}
+			else if (e.Property == UseItemPresentationProperty && item.UseItemPresentation)
+			{
+				item.UpdateItemPresentation();
 			}
 			else
 			{

@@ -13,7 +13,7 @@ namespace Files.App.Services
 
 		private readonly ConcurrentDictionary<string, byte[]?> _cache = new();
 
-		public async Task<byte[]?> GetIconAsync(string itemPath, string? extension, bool isFolder)
+		public async Task<byte[]?> GetIconAsync(string? itemPath, string? extension, bool isFolder)
 		{
 			var key = isFolder ? ":folder:" : (extension?.ToLowerInvariant() ?? ":noext:");
 
