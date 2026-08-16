@@ -16,6 +16,9 @@ namespace Files.App.Helpers
 		public const int FILE_NOTIFY_CHANGE_LAST_ACCESS = 32;
 		public const int FILE_NOTIFY_CHANGE_CREATION = 64;
 		public const int FILE_NOTIFY_CHANGE_SECURITY = 256;
+		public const int FILE_NOTIFY_CHANGE_STREAM_NAME = 512;
+		public const int FILE_NOTIFY_CHANGE_STREAM_SIZE = 1024;
+		public const int FILE_NOTIFY_CHANGE_STREAM_WRITE = 2048;
 
 		public const int INVALID_HANDLE_VALUE = -1;
 		public const int FILE_SHARE_READ = 0x00000001;
