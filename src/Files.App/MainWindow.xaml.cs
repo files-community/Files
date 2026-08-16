@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -71,7 +72,7 @@ namespace Files.App
 						// WINUI3: When launching from commandline the argument is not ICommandLineActivatedEventArgs (#10370)
 						var ppm = CommandLineParser.ParseUntrustedCommands(launchArgs.Arguments);
 						if (ppm.IsEmpty())
-							rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+							LaunchMainPage(rootFrame);
 						else
 							await InitializeFromCmdLineArgsAsync(rootFrame, ppm, Program.ConsumeLaunchCwd());
 					}
@@ -90,30 +91,35 @@ namespace Files.App
 					}
 					else
 					{
-						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+						LaunchMainPage(rootFrame);
 					}
 					break;
 
 				case IProtocolActivatedEventArgs eventArgs:
 					if (eventArgs.Uri.AbsoluteUri == "files-dev:")
 					{
-						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
-
-						// Bring to foreground (#14730)
-						Win32Helper.BringToForegroundEx(new(WindowHandle));
-
-						// Ensure app-level keyboard shortcuts work immediately after Win+E activation.
-						_ = EnsureContentHasKeyboardFocusAsync();
+						LaunchMainPage(rootFrame);
 					}
 					else
 					{
-						var parsedArgs = eventArgs.Uri.Query.TrimStart('?').Split('=');
-						var unescapedValue = Uri.UnescapeDataString(parsedArgs[1].Split('&')[0]);
-						if (parsedArgs[0] == "tab" && parsedArgs.Length > 3 &&
-							int.TryParse(parsedArgs[2].Split('&')[0], out var dx) &&
-							int.TryParse(parsedArgs[3], out var dy))
-							AppWindow?.Move(new(dx - 100, dy - 16));
-						var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(unescapedValue).AsTask());
+						string[] parsedArgs;
+						string? unescapedValue;
+						StorageFolder? folder;
+						try
+						{
+							parsedArgs = eventArgs.Uri.Query.TrimStart('?').Split('=');
+							unescapedValue = Uri.UnescapeDataString(parsedArgs[1].Split('&')[0]);
+							if (parsedArgs[0] == "tab" && parsedArgs.Length > 3 &&
+								int.TryParse(parsedArgs[2].Split('&')[0], out var dx) &&
+								int.TryParse(parsedArgs[3], out var dy))
+								AppWindow?.Move(new(dx - 100, dy - 16));
+							folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(unescapedValue).AsTask());
+						}
+						catch
+						{
+							LaunchMainPage(rootFrame);
+							break;
+						}
 						if (folder is not null && !string.IsNullOrEmpty(folder.Path))
 						{
 							// Convert short name to long name (#6190)
@@ -136,12 +142,12 @@ namespace Files.App
 							case "cmd":
 								var ppm = CommandLineParser.ParseUntrustedCommands(unescapedValue);
 								if (ppm.IsEmpty())
-									rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+									LaunchMainPage(rootFrame);
 								else
 									await InitializeFromCmdLineArgsAsync(rootFrame, ppm, Environment.CurrentDirectory);
 								break;
 							default:
-								rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+								LaunchMainPage(rootFrame);
 								break;
 						}
 					}
@@ -159,7 +165,7 @@ namespace Files.App
 					}
 					else
 					{
-						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+						LaunchMainPage(rootFrame);
 					}
 					break;
 
@@ -200,14 +206,8 @@ namespace Files.App
 					}
 					break;
 
-				case IStartupTaskActivatedEventArgs startupArgs:
-					// Just launch the app with no arguments
-					rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
-					break;
-
 				default:
-					// Just launch the app with no arguments
-					rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+					LaunchMainPage(rootFrame);
 					break;
 			}
 
@@ -262,11 +262,12 @@ namespace Files.App
 
 		private async Task InitializeFromCmdLineArgsAsync(Frame rootFrame, ParsedCommands parsedCommands, string activationPath = "")
 		{
-			async Task PerformNavigationAsync(string payload, string selectItem = null)
+			// Navigate to a folder in the UI
+			async Task PerformNavigationAsync(string? payload, string? selectItem = null)
 			{
 				if (!string.IsNullOrEmpty(payload))
 				{
-					payload = Constants.UserEnvironmentPaths.ShellPlaces.Get(payload.ToUpperInvariant(), payload);
+					payload = Constants.UserEnvironmentPaths.ShellPlaces.Get(payload.ToUpperInvariant(), payload)!;
 					var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(payload).AsTask());
 					if (folder is not null && !string.IsNullOrEmpty(folder.Path))
 						payload = folder.Path; // Convert short name to long name (#6190)
@@ -315,12 +316,42 @@ namespace Files.App
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
 			}
+
+			// Open a path (navigate to a folder in the UI / open a file depending on what the path attributes are)
+			async Task OpenPathAsync(string payload)
+			{
+				if (!string.IsNullOrEmpty(payload))
+				{
+					try
+					{
+						var target = Path.IsPathFullyQualified(payload) ? IO.Path.GetFullPath(payload) : IO.Path.GetFullPath(IO.Path.Combine(activationPath, payload));
+						var attributes = IO.File.GetAttributes(target);
+						if (attributes.HasFlag(IO.FileAttributes.Directory) || FileExtensionHelpers.IsBrowsableZipFile(target, out _))
+							await PerformNavigationAsync(target);
+						else
+							await LaunchHelper.LaunchAppAsync("explorer", payload, activationPath);
+					}
+					catch
+					{
+						await LaunchHelper.LaunchAppAsync("explorer", payload, activationPath);
+					}
+				}
+				else
+				{
+					await PerformNavigationAsync(null!);
+				}
+			}
+
 			foreach (var command in parsedCommands)
 			{
 				switch (command.Type)
 				{
 					case ParsedCommandType.OpenDirectory:
+						await OpenPathAsync(command.Payload);
+						break;
 					case ParsedCommandType.OpenPath:
+						await OpenPathAsync(command.Payload);
+						break;
 					case ParsedCommandType.ExplorerShellCommand:
 						var selectItemCommand = parsedCommands.FirstOrDefault(x => x.Type == ParsedCommandType.SelectItem);
 						await PerformNavigationAsync(command.Payload, selectItemCommand?.Payload);
@@ -333,7 +364,7 @@ namespace Files.App
 
 					case ParsedCommandType.TagFiles:
 						var tagService = Ioc.Default.GetService<IFileTagsSettingsService>();
-						var tag = tagService.GetTagsByName(command.Payload).FirstOrDefault();
+						var tag = tagService!.GetTagsByName(command.Payload).FirstOrDefault();
 						foreach (var file in command.Args.Skip(1))
 						{
 							var fileFRN = await FilesystemTasks.Wrap(() => StorageHelpers.ToStorageItem<IStorageItem>(file))
@@ -355,15 +386,8 @@ namespace Files.App
 						}
 						else
 						{
-							if (!string.IsNullOrEmpty(command.Payload))
-							{
-								var target = IO.Path.GetFullPath(IO.Path.Combine(activationPath, command.Payload));
-								await PerformNavigationAsync(target);
-							}
-							else
-							{
-								await PerformNavigationAsync(null);
-							}
+							await OpenPathAsync(command.Payload);
+							break;
 						}
 						break;
 
@@ -394,6 +418,17 @@ namespace Files.App
 				Win32Helper.ForceWindowPosition(e.Message.LParam);
 				e.Handled = true;
 			}
+		}
+
+		private void LaunchMainPage(Frame rootFrame)
+		{
+			rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+
+			// Bring to foreground (#14730)
+			Win32Helper.BringToForegroundEx(new(WindowHandle));
+
+			// Ensure app-level keyboard shortcuts work immediately after Win+E activation.
+			_ = EnsureContentHasKeyboardFocusAsync();
 		}
 	}
 }
