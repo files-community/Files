@@ -1083,23 +1083,28 @@ namespace Files.App.ViewModels
 					{
 						try
 						{
-							FilesAndFolders.BeginBulkOperation();
-
 							if (addFilesCTS.IsCancellationRequested)
 								return;
 
-							FilesAndFolders.Clear();
-							if (string.IsNullOrEmpty(FilesAndFoldersFilter))
-								FilesAndFolders.AddRange(filesAndFoldersLocal);
-							else
-								FilesAndFolders.AddRange(filesAndFoldersLocal.Where(x => x.Name.Contains(FilesAndFoldersFilter, StringComparison.OrdinalIgnoreCase)));
+							FilesAndFolders.BeginBulkOperation();
+							try
+							{
+								FilesAndFolders.Clear();
+								if (string.IsNullOrEmpty(FilesAndFoldersFilter))
+									FilesAndFolders.AddRange(filesAndFoldersLocal);
+								else
+									FilesAndFolders.AddRange(filesAndFoldersLocal.Where(x => x.Name.Contains(FilesAndFoldersFilter, StringComparison.OrdinalIgnoreCase)));
 
-							if (folderSettings.DirectoryGroupOption != GroupOption.None)
-								OrderGroups();
+								if (folderSettings.DirectoryGroupOption != GroupOption.None)
+									OrderGroups();
+							}
+							finally
+							{
+								// Trigger CollectionChanged with NotifyCollectionChangedAction.Reset
+								// once loading is completed so that UI can be updated
+								FilesAndFolders.EndBulkOperation();
+							}
 
-							// Trigger CollectionChanged with NotifyCollectionChangedAction.Reset
-							// once loading is completed so that UI can be updated
-							FilesAndFolders.EndBulkOperation();
 							UpdateEmptyTextType();
 							UpdateNetworkAvailabilityInfoBar();
 							DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
@@ -1225,22 +1230,25 @@ namespace Files.App.ViewModels
 					{
 						try
 						{
-							FilesAndFolders.BeginBulkOperation();
-							UpdateGroupOptions();
-
-							if (FilesAndFolders.IsGrouped)
-							{
-								FilesAndFolders.ResetGroups(token);
-								if (token.IsCancellationRequested)
-									return;
-
-								OrderGroups();
-							}
-
 							if (token.IsCancellationRequested)
 								return;
 
-							FilesAndFolders.EndBulkOperation();
+							FilesAndFolders.BeginBulkOperation();
+							try
+							{
+								UpdateGroupOptions();
+
+								if (FilesAndFolders.IsGrouped)
+								{
+									FilesAndFolders.ResetGroups(token);
+									if (!token.IsCancellationRequested)
+										OrderGroups();
+								}
+							}
+							finally
+							{
+								FilesAndFolders.EndBulkOperation();
+							}
 						}
 						finally
 						{
