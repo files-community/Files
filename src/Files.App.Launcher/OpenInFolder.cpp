@@ -484,7 +484,7 @@ HRESULT OpenInFolder::NotifyShellOfNavigation(PCIDLIST_ABSOLUTE pidl)
 	wil::unique_variant empty;
 	RETURN_IF_FAILED(m_shellWindows->RegisterPending(GetCurrentThreadId(), &pidlVariant, &empty, SWC_BROWSER, &m_shellWindowCookie));
 	m_isRegistered = true;
-	RETURN_IF_FAILED(m_shellWindows->Register(static_cast<IDispatch*>(this), HandleToLong(m_hwnd), SWC_BROWSER, &m_shellWindowCookie));
+	RETURN_IF_FAILED(m_shellWindows->OnCreated(m_shellWindowCookie, static_cast<IWebBrowserApp*>(this)));
 
 	RETURN_IF_FAILED(m_shellWindows->OnNavigate(m_shellWindowCookie, &pidlVariant));
 
