@@ -374,6 +374,7 @@ DragQueryFileW
 PROPVARIANT
 PropVariantClear
 PSFormatForDisplayAlloc
+FOLDERID_ControlPanelFolder
 FOLDERID_NetHood
 FOLDERID_Libraries
 FOLDERID_ComputerFolder

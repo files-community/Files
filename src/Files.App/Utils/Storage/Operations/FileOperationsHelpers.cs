@@ -8,7 +8,6 @@ using System.Collections.Concurrent;
 using System.IO;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Win32;
-using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
 using FILEOPERATION_FLAGS = Windows.Win32.UI.Shell.FILEOPERATION_FLAGS;
 using HRESULT = Windows.Win32.Foundation.HRESULT;
@@ -157,7 +156,7 @@ namespace Files.App.Utils.Storage
 				var deleteTcs = new TaskCompletionSource<bool>();
 				op.PreDeleteItem += [DebuggerHidden] (s, e) =>
 				{
-					if ((e.Flags & _TRANSFER_SOURCE_FLAGS.TSF_DELETE_RECYCLE_IF_POSSIBLE) is 0)
+					if ((e.Flags & Windows.Win32.UI.Shell._TRANSFER_SOURCE_FLAGS.TSF_DELETE_RECYCLE_IF_POSSIBLE) is 0)
 					{
 						shellOperationResult.Items.Add(new ShellOperationItemResult()
 						{
