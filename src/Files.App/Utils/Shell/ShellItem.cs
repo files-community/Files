@@ -223,13 +223,13 @@ namespace Files.App.Utils.Shell
 		public static ShellItem Open(string path)
 		{
 			var item = new ShellItem(path);
-			return TryOpenLink(item) ?? item;
+			return CreateSpecializedItem(item);
 		}
 
 		public static ShellItem Open(IShellItem item)
 		{
 			var shellItem = new ShellItem(item);
-			return TryOpenLink(shellItem) ?? shellItem;
+			return CreateSpecializedItem(shellItem);
 		}
 
 		public unsafe static ShellItem Open(ShellPidl pidl)
@@ -288,6 +288,19 @@ namespace Files.App.Utils.Shell
 			{
 				return null;
 			}
+		}
+
+		private static ShellItem CreateSpecializedItem(ShellItem item)
+		{
+			if (TryOpenLink(item) is { } link)
+				return link;
+
+			if (!item.IsFolder)
+				return item;
+
+			var folder = new ShellFolder(item);
+			item.Dispose();
+			return folder;
 		}
 	}
 
