@@ -399,6 +399,12 @@ namespace Files.App
 				Win32Helper.ForceWindowPosition(e.Message.LParam);
 				e.Handled = true;
 			}
+			else if (e.Message.MessageId == Windows.Win32.PInvoke.WM_MENUCHAR &&
+				(e.Message.WParam & 0xFFFF) == '\r')
+			{
+				e.Result = Win32PInvoke.MNC_CLOSE << 16;
+				e.Handled = true;
+			}
 		}
 	}
 }
