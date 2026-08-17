@@ -404,31 +404,30 @@ namespace Files.App.Utils.Shell
 						return result;
 				}
 
-				unsafe
-				{
-					if (Link.GetIDList(out ITEMIDLIST* targetPidl).Succeeded && targetPidl is not null)
-					{
-						try
-						{
-							if (PInvoke.SHCreateItemFromIDList<IShellItem>(in *targetPidl, out IShellItem target).Succeeded)
-							{
-								using var targetItem = Open(target);
-								return targetItem.ParsingName ?? string.Empty;
-							}
-						}
-						finally
-						{
-							PInvoke.CoTaskMemFree(targetPidl);
-						}
-					}
-				}
+				using ShellItem? targetItem = TryOpenTarget();
+				if (targetItem is not null)
+					return targetItem.ParsingName ?? string.Empty;
 
 				return string.Empty;
 			}
 		}
 
-		public ShellItem Target
-			=> Open(TargetPath);
+		internal bool IsTargetFolder(string expandedTargetPath)
+		{
+			using ShellItem? targetItem = TryOpenTarget();
+			if (targetItem is not null)
+				return targetItem.IsFolder;
+
+			try
+			{
+				using var fallbackTarget = Open(expandedTargetPath);
+				return fallbackTarget.IsFolder;
+			}
+			catch
+			{
+				return false;
+			}
+		}
 
 		public string Arguments
 		{
@@ -529,6 +528,21 @@ namespace Files.App.Utils.Shell
 		{
 			int length = value.IndexOf('\0');
 			return value[..(length < 0 ? value.Length : length)].ToString();
+		}
+
+		private unsafe ShellItem? TryOpenTarget()
+		{
+			if (Link.GetIDList(out ITEMIDLIST* targetPidl).Failed || targetPidl is null)
+				return null;
+
+			try
+			{
+				return PInvoke.SHCreateItemFromIDList<IShellItem>(in *targetPidl, out IShellItem target).Succeeded ? Open(target) : null;
+			}
+			finally
+			{
+				PInvoke.CoTaskMemFree(targetPidl);
+			}
 		}
 
 		private void SaveCurrent()
