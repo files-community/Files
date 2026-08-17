@@ -3119,7 +3119,19 @@ namespace Files.App.ViewModels
 
 					// Sort the changed groups and their position among the other groups
 					if (itemsRegrouped)
-						OrderGroups();
+					{
+						// Suppress the multi-item Replace notifications raised while sorting,
+						// which the XAML list controls cannot process, and fire a single Reset
+						FilesAndFolders.BeginBulkOperation();
+						try
+						{
+							OrderGroups();
+						}
+						finally
+						{
+							FilesAndFolders.EndBulkOperation();
+						}
+					}
 				},
 				Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 			}
