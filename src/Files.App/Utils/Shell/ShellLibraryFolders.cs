@@ -46,7 +46,18 @@ namespace Files.App.Utils.Shell
 			if (Library.RemoveFolder(item.IShellItem).Failed)
 				return false;
 
-			return items.Remove(item);
+			int index = items.FindIndex(existing => ReferenceEquals(existing, item) ||
+				existing.IShellItem.Compare(item.IShellItem, (uint)_SICHINTF.SICHINT_CANONICAL, out int order).Succeeded && order is 0);
+			if (index >= 0)
+			{
+				ShellItem cachedItem = items[index];
+				items.RemoveAt(index);
+				// Dispose only the cached wrapper; the caller owns the supplied item.
+				if (!ReferenceEquals(cachedItem, item))
+					cachedItem.Dispose();
+			}
+
+			return true;
 		}
 
 		public bool Contains(ShellItem item) => items.Contains(item);
