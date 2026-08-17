@@ -130,11 +130,11 @@ namespace Files.App.Services
 
 				var itemsToRemove = instance.Items
 					.Where(item => pathsToRemove.Contains(item.Arguments))
-					.ToList();
+					.ToArray();
 				foreach (var item in itemsToRemove)
 					instance.Items.Remove(item);
 
-				if (itemsToRemove.Count > 0)
+				if (itemsToRemove.Length > 0)
 					await instance.SaveAsync();
 			}
 			catch (Exception ex)
