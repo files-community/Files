@@ -44,7 +44,8 @@ namespace Files.App.ViewModels.Properties
 
 		public MainPropertiesViewModel(Window window, Frame mainFrame, BaseProperties baseProperties, PropertiesPageNavigationParameter parameter)
 		{
-			ChangedPropertiesCancellationTokenSource = new();
+			ChangedPropertiesCancellationTokenSource = parameter.CancellationTokenSource
+				?? throw new InvalidOperationException("The properties parameter does not contain a cancellation token source.");
 
 			Window = window;
 			_mainFrame = mainFrame;
