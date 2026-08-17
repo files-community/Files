@@ -1,7 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.ComponentModel;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -108,14 +110,14 @@ namespace Files.App.Utils.Shell
 		public void QueueCopyOperation(ShellItem source, ShellFolder destination, string? newName = null)
 		{
 			fixed (char* name = newName)
-				Operation.CopyItem(source.IShellItem, destination.IShellItem, name, null!);
+				Operation.CopyItem(source.IShellItem, destination.IShellItem, name, null!).ThrowOnFailure();
 			QueuedOperations++;
 		}
 
 		/// <summary>Queues an item for deletion.</summary>
 		public void QueueDeleteOperation(ShellItem item)
 		{
-			Operation.DeleteItem(item.IShellItem, null!);
+			Operation.DeleteItem(item.IShellItem, null!).ThrowOnFailure();
 			QueuedOperations++;
 		}
 
@@ -123,7 +125,7 @@ namespace Files.App.Utils.Shell
 		public void QueueMoveOperation(ShellItem source, ShellFolder destination, string? newName = null)
 		{
 			fixed (char* name = newName)
-				Operation.MoveItem(source.IShellItem, destination.IShellItem, name, null!);
+				Operation.MoveItem(source.IShellItem, destination.IShellItem, name, null!).ThrowOnFailure();
 			QueuedOperations++;
 		}
 
@@ -131,7 +133,7 @@ namespace Files.App.Utils.Shell
 		public void QueueNewItemOperation(ShellFolder destination, string name, FileAttributes attributes = FileAttributes.Normal, string? template = null)
 		{
 			fixed (char* itemName = name, templateName = template)
-				Operation.NewItem(destination.IShellItem, (uint)attributes, itemName, templateName, null!);
+				Operation.NewItem(destination.IShellItem, (uint)attributes, itemName, templateName, null!).ThrowOnFailure();
 			QueuedOperations++;
 		}
 
@@ -139,14 +141,14 @@ namespace Files.App.Utils.Shell
 		public void QueueRenameOperation(ShellItem source, string newName)
 		{
 			fixed (char* name = newName)
-				Operation.RenameItem(source.IShellItem, name, null!);
+				Operation.RenameItem(source.IShellItem, name, null!).ThrowOnFailure();
 			QueuedOperations++;
 		}
 
 		/// <summary>Executes all queued operations.</summary>
 		public void PerformOperations()
 		{
-			Operation.PerformOperations();
+			Operation.PerformOperations().ThrowOnFailure();
 			QueuedOperations = 0;
 		}
 
@@ -210,6 +212,15 @@ namespace Files.App.Utils.Shell
 				{
 					action(operations);
 					return HRESULT.S_OK;
+				}
+				catch (COMException exception)
+				{
+					return new(exception.ErrorCode);
+				}
+				catch (Win32Exception exception)
+				{
+					int error = exception.NativeErrorCode;
+					return new(error <= 0 ? error : unchecked((int)(0x80070000u | ((uint)error & 0xFFFFu))));
 				}
 				catch (Exception exception)
 				{
