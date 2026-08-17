@@ -33,9 +33,9 @@ namespace Files.App.Utils.Shell
 		Stream = 1,
 	}
 
-	public enum LinkResolution
+	public enum LinkResolution : uint
 	{
-		NoUIWithMsgPump,
+		NoUIWithMsgPump = (uint)SLR_FLAGS.SLR_NO_UI_WITH_MSG_PUMP,
 	}
 
 	public readonly record struct IconLocation(string Path, int Index)
@@ -149,11 +149,18 @@ namespace Files.App.Utils.Shell
 
 		protected ShellItem(IShellItem shellItem)
 		{
-			this.shellItem = shellItem;
+			Initialize(shellItem);
 		}
 
 		protected ShellItem()
 		{
+		}
+
+		protected void Initialize(IShellItem item)
+		{
+			shellItem = item;
+			properties = null;
+			pidl = null;
 		}
 
 		public IShellItem IShellItem
@@ -343,18 +350,23 @@ namespace Files.App.Utils.Shell
 		private IPersistFile? persistFile;
 		private string? persistedPath;
 
-		public ShellLink(string linkPath, LinkResolution resolution = LinkResolution.NoUIWithMsgPump, uint flags = 0, TimeSpan timeout = default) : base(linkPath)
+		public ShellLink(string linkPath, LinkResolution resolution = LinkResolution.NoUIWithMsgPump, HWND window = default, TimeSpan timeout = default) : base(linkPath)
 		{
 			link = Win32ShellLink.CreateInstance<IShellLinkW>();
 			persistFile = (IPersistFile)link;
 			persistFile.Load(linkPath, STGM.STGM_READ).ThrowOnFailure();
 			persistedPath = linkPath;
 
-			uint resolveFlags = 0x1 | 0x10 | 0x20;
-			link.Resolve(HWND.Null, resolveFlags);
+			uint resolveFlags = (uint)resolution;
+			if ((resolveFlags & (uint)SLR_FLAGS.SLR_NO_UI) is not 0 && timeout != default)
+			{
+				ushort timeoutMilliseconds = checked((ushort)timeout.TotalMilliseconds);
+				resolveFlags = (resolveFlags & ushort.MaxValue) | ((uint)timeoutMilliseconds << 16);
+			}
+			link.Resolve(window, resolveFlags).ThrowOnFailure();
 		}
 
-		public ShellLink(string targetPath, string? arguments, string? workingDirectory) : base(targetPath)
+		public ShellLink(string targetPath, string? arguments, string? workingDirectory)
 		{
 			link = Win32ShellLink.CreateInstance<IShellLinkW>();
 			persistFile = (IPersistFile)link;
@@ -480,6 +492,8 @@ namespace Files.App.Utils.Shell
 		public void SaveAs(string path)
 		{
 			PersistFile.Save(path, true).ThrowOnFailure();
+			PInvoke.SHCreateItemFromParsingName(path, null, out IShellItem item).ThrowOnFailure();
+			Initialize(item);
 			persistedPath = path;
 		}
 
