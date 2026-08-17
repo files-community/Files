@@ -334,7 +334,7 @@ namespace Files.App.Utils.Shell
 		{
 			link = Win32ShellLink.CreateInstance<IShellLinkW>();
 			persistFile = (IPersistFile)link;
-			persistFile.Load(linkPath, STGM.STGM_READWRITE).ThrowOnFailure();
+			persistFile.Load(linkPath, STGM.STGM_READ).ThrowOnFailure();
 			persistedPath = linkPath;
 
 			uint resolveFlags = 0x1 | 0x10 | 0x20;

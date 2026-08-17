@@ -107,7 +107,7 @@ namespace Files.App.Utils.Shell
 				commandInfo.cbSize = (uint)sizeof(CMINVOKECOMMANDINFOEX);
 				commandInfo.lpVerb = (PCSTR)verbPointer;
 				commandInfo.nShow = (int)SHOW_WINDOW_CMD.SW_SHOWNORMAL;
-				return Menu.InvokeCommand(*(CMINVOKECOMMANDINFO*)&commandInfo);
+				return Menu.InvokeCommand((CMINVOKECOMMANDINFO*)&commandInfo);
 			}
 		}
 
@@ -121,7 +121,7 @@ namespace Files.App.Utils.Shell
 				commandInfo.lpVerb = (PCSTR)(byte*)(nuint)(uint)itemId;
 				commandInfo.lpDirectoryW = directory;
 				commandInfo.nShow = (int)SHOW_WINDOW_CMD.SW_SHOWNORMAL;
-				return Menu.InvokeCommand(*(CMINVOKECOMMANDINFO*)&commandInfo);
+				return Menu.InvokeCommand((CMINVOKECOMMANDINFO*)&commandInfo);
 			}
 		}
 

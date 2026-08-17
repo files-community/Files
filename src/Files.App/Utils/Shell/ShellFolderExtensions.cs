@@ -119,7 +119,7 @@ namespace Files.App.Utils.Shell
 
 			var link = new ShellLinkItem(baseItem)
 			{
-				IsFolder = !string.IsNullOrEmpty(linkItem.TargetPath) && SafetyExtensions.IgnoreExceptions(() => Directory.Exists(linkItem.TargetPath)),
+				IsFolder = IsFolderTarget(linkItem.TargetPath),
 				RunAsAdmin = linkItem.RunAsAdministrator,
 				ShowWindowCommand = (Windows.Win32.UI.WindowsAndMessaging.SHOW_WINDOW_CMD)linkItem.ShowState,
 				Arguments = linkItem.Arguments,
@@ -166,5 +166,21 @@ namespace Files.App.Utils.Shell
 
 		private static DateTime ToDateTime(FILETIME value)
 			=> DateTime.FromFileTimeUtc(((long)value.dwHighDateTime << 32) | (uint)value.dwLowDateTime);
+
+		private static bool IsFolderTarget(string targetPath)
+		{
+			if (string.IsNullOrEmpty(targetPath))
+				return false;
+
+			try
+			{
+				using var target = GetShellItemFromPathOrPIDL(targetPath);
+				return target.IsFolder;
+			}
+			catch
+			{
+				return false;
+			}
+		}
 	}
 }

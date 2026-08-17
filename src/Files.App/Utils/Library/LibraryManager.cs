@@ -198,7 +198,8 @@ namespace Files.App.Utils.Library
 							}
 							var foldersToAdd = folders.Distinct(StringComparer.OrdinalIgnoreCase)
 													  .Where(folderPath => !library.Folders.Any(f => string.Equals(folderPath, f.FileSystemPath, StringComparison.OrdinalIgnoreCase)))
-													  .Select(ShellItem.Open);
+													  .Select(ShellItem.Open)
+													  .ToList();
 							foreach (var toAdd in foldersToAdd)
 							{
 								library.Folders.Add(toAdd);
