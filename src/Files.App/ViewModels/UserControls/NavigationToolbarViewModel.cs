@@ -101,11 +101,11 @@ namespace Files.App.ViewModels.UserControls
 
 		public bool CanExtract => Commands.DecompressArchive.CanExecute(null) || Commands.DecompressArchiveHere.CanExecute(null) || Commands.DecompressArchiveHereSmart.CanExecute(null) || Commands.DecompressArchiveToChildFolder.CanExecute(null);
 
-		public bool IsCardsLayout => InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.CardsView;
-		public bool IsColumnLayout => InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ColumnView;
-		public bool IsGridLayout => InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView;
-		public bool IsDetailsLayout => InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.DetailsView;
-		public bool IsListLayout => InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ListView;
+		public bool IsCardsLayout => _InstanceViewModel?.FolderSettings.LayoutMode is FolderLayoutModes.CardsView;
+		public bool IsColumnLayout => _InstanceViewModel?.FolderSettings.LayoutMode is FolderLayoutModes.ColumnView;
+		public bool IsGridLayout => _InstanceViewModel?.FolderSettings.LayoutMode is FolderLayoutModes.GridView;
+		public bool IsDetailsLayout => _InstanceViewModel?.FolderSettings.LayoutMode is FolderLayoutModes.DetailsView;
+		public bool IsListLayout => _InstanceViewModel?.FolderSettings.LayoutMode is FolderLayoutModes.ListView;
 
 		public bool IsLayoutSizeCompact =>
 			(IsDetailsLayout && UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact) ||
