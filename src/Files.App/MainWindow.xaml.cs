@@ -28,8 +28,7 @@ namespace Files.App
 		{
 			InitializeComponent();
 
-			var gamepadCursor = new XBoxGamepadController(DispatcherQueue);
-
+			var GamepadHelper = new XBoxGamepadHelper(DispatcherQueue);
 
 			WindowHandle = WinUIEx.WindowExtensions.GetWindowHandle(this);
 			MinHeight = 316;

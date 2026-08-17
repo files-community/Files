@@ -6,7 +6,7 @@ using Microsoft.UI.Dispatching;
 
 namespace Files.App.Helpers
 {
-	public sealed class XBoxGamepadController
+	public sealed class XBoxGamepadHelper
 	{
 		[DllImport("user32.dll")]
 		private static extern bool SetCursorPos(int x, int y);
@@ -78,7 +78,7 @@ namespace Files.App.Helpers
 		private bool _wasDPadLeftPressed;
 		private bool _wasDPadRightPressed;
 
-		public XBoxGamepadController(DispatcherQueue dispatcherQueue)
+		public XBoxGamepadHelper(DispatcherQueue dispatcherQueue)
 		{
 			_timer = dispatcherQueue.CreateTimer();
 			_timer.Interval = TimeSpan.FromMilliseconds(16);
@@ -91,7 +91,7 @@ namespace Files.App.Helpers
 			var gamepads = Gamepad.Gamepads;
 			if (gamepads.Count == 0)
 				return;
-
+				
 			var gamepad = gamepads[0];
 			var reading = gamepad.GetCurrentReading();
 
@@ -152,9 +152,7 @@ namespace Files.App.Helpers
 			{
 				var wheelDelta = (int)Math.Round(-rightThumbY * 120f);
 				if (wheelDelta != 0)
-				{
 					SimulateMouseWheel(wheelDelta);
-				}
 			}
 		}
 
