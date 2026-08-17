@@ -3,7 +3,6 @@
 
 using Microsoft.Extensions.Logging;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Vanara.PInvoke;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
@@ -38,11 +37,8 @@ namespace Files.App.Utils.Storage
 			{
 				try
 				{
-					var libraryShellItem = Shell32.ShellUtil.GetShellItemForPath(path);
-					if (libraryShellItem is null)
-						throw new System.IO.FileNotFoundException($"The library '{path}' was not found.");
-
-					using var shellItem = new ShellLibraryEx(libraryShellItem, true);
+					using var libraryFile = ShellItem.Open(path);
+					using var shellItem = new ShellLibraryEx(libraryFile.IShellItem, true);
 					if (shellItem is ShellLibraryEx library)
 					{
 						var libraryItem = ShellFolderExtensions.GetShellLibraryItem(library, path);

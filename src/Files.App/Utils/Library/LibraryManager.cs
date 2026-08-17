@@ -7,9 +7,8 @@ using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using Vanara.PInvoke;
-using Vanara.Windows.Shell;
 using Windows.System;
+using Windows.Win32;
 using Visibility = Microsoft.UI.Xaml.Visibility;
 
 namespace Files.App.Utils.Library
@@ -77,10 +76,8 @@ namespace Files.App.Utils.Library
 					var libFiles = Directory.EnumerateFiles(ShellLibraryItem.LibrariesPath, "*" + ShellLibraryItem.EXTENSION);
 					foreach (var libFile in libFiles)
 					{
-						if (Shell32.ShellUtil.GetShellItemForPath(libFile) is not { } libraryItem)
-							continue;
-
-						using var library = new ShellLibraryEx(libraryItem, true);
+						using var libraryFile = ShellItem.Open(libFile);
+						using var library = new ShellLibraryEx(libraryFile.IShellItem, true);
 						libraryItems.Add(ShellFolderExtensions.GetShellLibraryItem(library, libFile));
 					}
 					return libraryItems;
@@ -139,7 +136,7 @@ namespace Files.App.Utils.Library
 			{
 				try
 				{
-					using var library = new ShellLibraryEx(name, Shell32.KNOWNFOLDERID.FOLDERID_Libraries, false);
+					using var library = new ShellLibraryEx(name, PInvoke.FOLDERID_Libraries, false);
 					library.Folders.Add(ShellItem.Open(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))); // Add default folder so it's not empty
 					library.Commit();
 					library.Reload();
@@ -187,10 +184,8 @@ namespace Files.App.Utils.Library
 				try
 				{
 					bool updated = false;
-					if (Shell32.ShellUtil.GetShellItemForPath(libraryPath) is not { } libraryItem)
-						return Task.FromResult<ShellLibraryItem?>(null);
-
-					using var library = new ShellLibraryEx(libraryItem, false);
+					using var libraryFile = ShellItem.Open(libraryPath);
+					using var library = new ShellLibraryEx(libraryFile.IShellItem, false);
 					if (folders is not null)
 					{
 						if (folders.Length > 0)
@@ -217,7 +212,8 @@ namespace Files.App.Utils.Library
 					}
 					if (defaultSaveFolder is not null)
 					{
-						library.DefaultSaveFolder = ShellItem.Open(defaultSaveFolder);
+						using var saveFolder = ShellItem.Open(defaultSaveFolder);
+						library.DefaultSaveFolder = saveFolder;
 						updated = true;
 					}
 					if (isPinned is not null)
@@ -382,14 +378,14 @@ namespace Files.App.Utils.Library
 
 			if (!changeType.HasFlag(WatcherChangeTypes.Deleted))
 			{
-				if (newPath is null ||
-					Shell32.ShellUtil.GetShellItemForPath(newPath) is not { } libraryItem)
+				if (newPath is null)
 				{
 					App.Logger.LogWarning($"Failed to open library after {changeType}: {newPath}");
 					return;
 				}
 
-				var library = SafetyExtensions.IgnoreExceptions(() => new ShellLibraryEx(libraryItem, true));
+				using var libraryFile = SafetyExtensions.IgnoreExceptions(() => ShellItem.Open(newPath));
+				var library = SafetyExtensions.IgnoreExceptions(() => new ShellLibraryEx(libraryFile!.IShellItem, true));
 				if (library is null)
 				{
 					App.Logger.LogWarning($"Failed to open library after {changeType}: {newPath}");

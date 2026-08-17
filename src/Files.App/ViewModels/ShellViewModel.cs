@@ -14,7 +14,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Vanara.Windows.Shell;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;

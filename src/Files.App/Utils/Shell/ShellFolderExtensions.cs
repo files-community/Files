@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 using System.IO;
-using Vanara.PInvoke;
-using Vanara.Windows.Shell;
+using System.Runtime.InteropServices.ComTypes;
+using Windows.Win32.System.SystemServices;
 
 namespace Files.App.Utils.Shell
 {
@@ -33,12 +33,10 @@ namespace Files.App.Utils.Shell
 			return libraryItem;
 		}
 
-		private static T? TryGetProperty<T>(this ShellItemPropertyStore sip, Ole32.PROPERTYKEY key)
+		private static T? TryGetProperty<T>(this ShellItemPropertyStore propertyStore, string propertyName)
 		{
 			T? value = default;
-
-			SafetyExtensions.IgnoreExceptions(() => sip.TryGetValue<T>(key, out value));
-
+			SafetyExtensions.IgnoreExceptions(() => propertyStore.TryGetValue(propertyName, out value));
 			return value;
 		}
 
@@ -51,7 +49,7 @@ namespace Files.App.Utils.Shell
 
 			// Zip archives are also shell folders, check for STREAM attribute
 
-			bool isFolder = folderItem.IsFolder && folderItem.IShellItem?.GetAttributes(Shell32.SFGAO.SFGAO_STREAM) is 0;
+			bool isFolder = folderItem.IsFolder && !folderItem.Attributes.HasFlag(ShellItemAttribute.Stream);
 			var parsingPath = folderItem.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing);
 
 			// True path on disk
@@ -75,7 +73,7 @@ namespace Files.App.Utils.Shell
 				};
 			}
 
-			var fileName = folderItem.Properties.TryGetProperty<string>(Ole32.PROPERTYKEY.System.ItemNameDisplay);
+			var fileName = folderItem.Properties.TryGetProperty<string>("System.ItemNameDisplay");
 			fileName ??= Path.GetFileName(folderItem.Name); // Original file name
 			fileName ??= folderItem.GetDisplayName(ShellItemDisplayString.ParentRelativeParsing);
 
@@ -94,21 +92,18 @@ namespace Files.App.Utils.Shell
 					filePath = $"{filePath}{realExtension}";
 			}
 
-			var fileTime = folderItem.Properties.TryGetProperty<System.Runtime.InteropServices.ComTypes.FILETIME?>(
-				Ole32.PROPERTYKEY.System.Recycle.DateDeleted);
+			var fileTime = folderItem.Properties.TryGetProperty<FILETIME?>("System.Recycle.DateDeleted");
 
-			var recycleDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
-			fileTime = folderItem.Properties.TryGetProperty<System.Runtime.InteropServices.ComTypes.FILETIME?>(
-				Ole32.PROPERTYKEY.System.DateModified);
+			var recycleDate = fileTime is { } deleted ? ToDateTime(deleted).ToLocalTime() : DateTime.Now; // This is LocalTime
+			fileTime = folderItem.Properties.TryGetProperty<FILETIME?>("System.DateModified");
 
-			var modifiedDate = fileTime?.ToDateTime().ToLocalTime() ?? SafetyExtensions.IgnoreExceptions(() => folderItem.FileInfo?.LastWriteTime) ?? DateTime.Now; // This is LocalTime
-			fileTime = folderItem.Properties.TryGetProperty<System.Runtime.InteropServices.ComTypes.FILETIME?>(
-				Ole32.PROPERTYKEY.System.DateCreated);
+			var modifiedDate = fileTime is { } modified ? ToDateTime(modified).ToLocalTime() : SafetyExtensions.IgnoreExceptions(() => folderItem.FileInfo?.LastWriteTime) ?? DateTime.Now; // This is LocalTime
+			fileTime = folderItem.Properties.TryGetProperty<FILETIME?>("System.DateCreated");
 
-			var createdDate = fileTime?.ToDateTime().ToLocalTime() ?? SafetyExtensions.IgnoreExceptions(() => folderItem.FileInfo?.CreationTime) ?? DateTime.Now; // This is LocalTime
-			var fileSizeBytes = folderItem.Properties.TryGetProperty<ulong?>(Ole32.PROPERTYKEY.System.Size);
-			string? fileSize = fileSizeBytes is not null ? folderItem.Properties.GetPropertyString(Ole32.PROPERTYKEY.System.Size) : null;
-			var fileType = folderItem.Properties.TryGetProperty<string>(Ole32.PROPERTYKEY.System.ItemTypeText);
+			var createdDate = fileTime is { } created ? ToDateTime(created).ToLocalTime() : SafetyExtensions.IgnoreExceptions(() => folderItem.FileInfo?.CreationTime) ?? DateTime.Now; // This is LocalTime
+			var fileSizeBytes = folderItem.Properties.TryGetProperty<ulong?>("System.Size");
+			string? fileSize = fileSizeBytes is not null ? folderItem.Properties.GetPropertyString("System.Size") : null;
+			var fileType = folderItem.Properties.TryGetProperty<string>("System.ItemTypeText");
 
 			return new(isFolder, parsingPath, fileName, filePath, recycleDate, modifiedDate, createdDate, fileSize, fileSizeBytes ?? 0, fileType, folderItem.PIDL.GetBytes());
 		}
@@ -124,7 +119,7 @@ namespace Files.App.Utils.Shell
 
 			var link = new ShellLinkItem(baseItem)
 			{
-				IsFolder = !string.IsNullOrEmpty(linkItem.TargetPath) && linkItem.Target.IsFolder,
+				IsFolder = !string.IsNullOrEmpty(linkItem.TargetPath) && SafetyExtensions.IgnoreExceptions(() => Directory.Exists(linkItem.TargetPath)),
 				RunAsAdmin = linkItem.RunAsAdministrator,
 				ShowWindowCommand = (Windows.Win32.UI.WindowsAndMessaging.SHOW_WINDOW_CMD)linkItem.ShowState,
 				Arguments = linkItem.Arguments,
@@ -143,22 +138,22 @@ namespace Files.App.Utils.Shell
 			return item.IsFileSystem ? item.FileSystemPath : item.ParsingName;
 		}
 
-		public static bool GetStringAsPIDL(string pathOrPIDL, out Shell32.PIDL pPIDL)
+		public static bool GetStringAsPIDL(string pathOrPIDL, out ShellPidl? pPIDL)
 		{
 			if (pathOrPIDL.StartsWith(@"\\SHELL\", StringComparison.Ordinal))
 			{
-				pPIDL = pathOrPIDL.Replace(@"\\SHELL\", "", StringComparison.Ordinal)
+				var segments = pathOrPIDL.Replace(@"\\SHELL\", "", StringComparison.Ordinal)
 					// Avoid confusion with path separator
 					.Replace('_', '/')
 					.Split('\\', StringSplitOptions.RemoveEmptyEntries)
-					.Select(pathSegment => new Shell32.PIDL(Convert.FromBase64String(pathSegment)))
-					.Aggregate(Shell32.PIDL.Combine);
+					.Select(Convert.FromBase64String);
+				pPIDL = ShellPidl.FromSegments(segments);
 
 				return true;
 			}
 			else
 			{
-				pPIDL = Shell32.PIDL.Null;
+				pPIDL = null;
 
 				return false;
 			}
@@ -166,7 +161,10 @@ namespace Files.App.Utils.Shell
 
 		public static ShellItem GetShellItemFromPathOrPIDL(string pathOrPIDL)
 		{
-			return GetStringAsPIDL(pathOrPIDL, out var pPIDL) ? ShellItem.Open(pPIDL) : ShellItem.Open(pathOrPIDL);
+			return GetStringAsPIDL(pathOrPIDL, out var pPIDL) ? ShellItem.Open(pPIDL!) : ShellItem.Open(pathOrPIDL);
 		}
+
+		private static DateTime ToDateTime(FILETIME value)
+			=> DateTime.FromFileTimeUtc(((long)value.dwHighDateTime << 32) | (uint)value.dwLowDateTime);
 	}
 }

@@ -3,11 +3,15 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System.Windows.Input;
-using Vanara.PInvoke;
-using Vanara.Windows.Shell;
-using Windows.ApplicationModel.DataTransfer;
 using Microsoft.UI.Xaml.Input;
+using System.Runtime.InteropServices;
+using System.Windows.Input;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Win32;
+using Windows.Win32.System.Com;
+using Windows.Win32.System.Memory;
+using Windows.Win32.UI.Shell;
+using Windows.Win32.UI.Shell.Common;
 using WinRT;
 using DragEventArgs = Microsoft.UI.Xaml.DragEventArgs;
 using Visibility = Microsoft.UI.Xaml.Visibility;
@@ -67,28 +71,43 @@ namespace Files.App.UserControls
 			}
 		}
 
-		private void ListView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+		private unsafe void ListView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
-			var apidl = SafetyExtensions.IgnoreExceptions(() => e.Items
-				.Cast<ShelfItem>()
-				.Select(x => new ShellItem(x.Inner.Id).PIDL)
-				.ToArray());
-
-			if (apidl is null)
+			string[] paths = e.Items.Cast<ShelfItem>().Select(item => item.Inner.Id).ToArray();
+			if (paths.Length is 0)
 				return;
 
-			if (!Shell32.SHGetDesktopFolder(out var pDesktop).Succeeded)
+			if (PInvoke.SHGetDesktopFolder(out IShellFolder? desktop).Failed || desktop is null)
 				return;
 
-			if (!Shell32.SHGetIDListFromObject(pDesktop, out var pDesktopPidl).Succeeded)
+			if (PInvoke.SHGetIDListFromObject(desktop, out ITEMIDLIST* desktopPidl).Failed)
 				return;
 
-			e.Data.Properties["Files_ActionBinder"] = "Files_ShelfBinder";
-			if (!Shell32.SHCreateDataObject(pDesktopPidl, apidl, null, out var ppDataObject).Succeeded)
-				return;
+			ITEMIDLIST** itemPidls = (ITEMIDLIST**)NativeMemory.AllocZeroed((nuint)paths.Length, (nuint)sizeof(ITEMIDLIST*));
+			try
+			{
+				for (int index = 0; index < paths.Length; index++)
+				{
+					using var item = new ShellItem(paths[index]);
+					PInvoke.SHGetIDListFromObject(item.IShellItem, out itemPidls[index]).ThrowOnFailure();
+				}
 
-			var dataObjectProvider = e.Data.As<Shell32.IDataObjectProvider>();
-			dataObjectProvider.SetDataObject(ppDataObject);
+				Guid interfaceId = typeof(IDataObject).GUID;
+				PInvoke.SHCreateDataObject(desktopPidl, (uint)paths.Length, itemPidls, null!, &interfaceId, out object dataObject).ThrowOnFailure();
+				e.Data.Properties["Files_ActionBinder"] = "Files_ShelfBinder";
+				e.Data.As<IDataObjectProvider>().SetDataObject((IDataObject)dataObject).ThrowOnFailure();
+			}
+			catch (COMException exception)
+			{
+				Debug.WriteLine(exception);
+			}
+			finally
+			{
+				for (int index = 0; index < paths.Length; index++)
+					PInvoke.CoTaskMemFree(itemPidls[index]);
+				NativeMemory.Free(itemPidls);
+				PInvoke.CoTaskMemFree(desktopPidl);
+			}
 		}
 
 		private void ShelfItemsList_RightTapped(object sender, Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs e)
