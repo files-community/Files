@@ -348,7 +348,7 @@ namespace Files.App.Utils.Storage
 			iStream = null;
 			try
 			{
-				if (stream is ComObject comObject)
+				if ((object?)stream is ComObject comObject)
 					comObject.FinalRelease();
 			}
 			finally
