@@ -384,7 +384,7 @@ namespace Files.App.Utils.Shell
 			{
 				if (!menuToDestroy.IsNull)
 					PInvoke.DestroyMenu(menuToDestroy);
-				if ((object)contextMenuToRelease is ComObject comObject)
+				if ((object?)contextMenuToRelease is ComObject comObject)
 					comObject.FinalRelease();
 			});
 			ContextMenuWorkerPool.Return(worker);
