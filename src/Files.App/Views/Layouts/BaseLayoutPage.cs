@@ -924,6 +924,9 @@ namespace Files.App.Views.Layouts
 					if (token.IsCancellationRequested)
 						return;
 
+					// BitLocker: replace the placeholders with whichever entries the shell offers (drives)
+					host.ApplyBitLockerModels(shellMenuItems, moreOptions, moreSeparator);
+
 					// The background menu has no Open with / Send to entries - drop them from the shell list
 					var shellModelsFiltered = shellMenuItems
 						.Where(x => x.Tag is not Win32ContextMenuItem { CommandString: "openas" or "sendto" })
