@@ -4,6 +4,7 @@
 using System.Collections;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Storage.FileSystem;
@@ -335,9 +336,17 @@ namespace Files.App.Utils.Shell
 			if (result.Failed || enumerator is null)
 				yield break;
 
-			IShellItem[] items = new IShellItem[1];
-			while (enumerator.Next(items) == HRESULT.S_OK)
-				yield return Open(items[0]);
+			try
+			{
+				IShellItem[] items = new IShellItem[1];
+				while (enumerator.Next(items) == HRESULT.S_OK)
+					yield return Open(items[0]);
+			}
+			finally
+			{
+				if ((object)enumerator is ComObject comObject)
+					comObject.FinalRelease();
+			}
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
