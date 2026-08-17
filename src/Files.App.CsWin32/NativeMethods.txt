@@ -353,6 +353,7 @@ IShellItemArray
 IEnumShellItems
 ShellLink
 SLR_FLAGS
+SLGP_FLAGS
 IShellLinkDataList
 SHELL_LINK_DATA_FLAGS
 IPersistFile

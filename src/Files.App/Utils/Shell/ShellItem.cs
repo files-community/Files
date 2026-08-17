@@ -387,7 +387,7 @@ namespace Files.App.Utils.Shell
 			{
 				Span<char> path = stackalloc char[32768];
 				WIN32_FIND_DATAW data = default;
-				if (Link.GetPath(path, ref data, 0).Succeeded)
+				if (Link.GetPath(path, ref data, (uint)SLGP_FLAGS.SLGP_RAWPATH).Succeeded)
 				{
 					string result = GetNullTerminatedString(path);
 					if (!string.IsNullOrEmpty(result))
