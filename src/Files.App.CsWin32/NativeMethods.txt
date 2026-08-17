@@ -347,6 +347,7 @@ ExtractIconW
 FindExecutableW
 ILGetSize
 ILIsParent
+ILIsEqual
 ILCombine
 IShellItemArray
 IEnumShellItems
@@ -392,3 +393,5 @@ GetFinalPathNameByHandleW
 FILE_ID_INFO
 FILE_STANDARD_INFO
 ShellExecuteW
+SBSP_SAMEBROWSER
+SBSP_ABSOLUTE

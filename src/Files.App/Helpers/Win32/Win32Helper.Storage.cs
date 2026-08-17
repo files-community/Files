@@ -691,49 +691,25 @@ namespace Files.App.Helpers
 
 		private static bool TryOpenFolderInExistingShellWindow(string folderPath)
 		{
-			// IShellWindows is IDispatch-only, which source-generated COM does not support. Keep the
-			// automation fallback isolated here and use generated interop for all IUnknown interfaces.
-			Type? shellWindowsType = Type.GetTypeFromCLSID(new("9BA05972-F6A8-11CF-A442-00A0C90A8F39"));
-			object? shellWindowsObject = shellWindowsType is null ? null : Activator.CreateInstance(shellWindowsType);
-			if (shellWindowsObject is null)
-				return false;
-
 			try
 			{
-				dynamic shellWindows = shellWindowsObject;
+				using var target = SafetyExtensions.IgnoreExceptions(() => ShellFolderExtensions.GetShellItemFromPathOrPIDL(folderPath));
+				if (target is null)
+					return false;
+
+				using var controlPanelCategoryView = new ShellItem("::{26EE0668-A00A-44D7-9371-BEB064C98683}");
+				using var shellWindows = new ShellWindowsAutomation();
 				int count = shellWindows.Count;
-				string? parentPath = Path.GetDirectoryName(Path.TrimEndingDirectorySeparator(folderPath));
 				for (int index = 0; index < count; index++)
 				{
-					object? windowObject = shellWindows.Item(index);
-					if (windowObject is null)
-						continue;
-
-					try
-					{
-						dynamic window = windowObject;
-						string? locationUrl = window.LocationURL as string;
-						if (parentPath is null || !Uri.TryCreate(locationUrl, UriKind.Absolute, out Uri? location) || !location.IsFile || !string.Equals(Path.TrimEndingDirectorySeparator(location.LocalPath), Path.TrimEndingDirectorySeparator(parentPath), StringComparison.OrdinalIgnoreCase))
-							continue;
-
-						window.Navigate(folderPath);
+					using var window = shellWindows.GetWindow(index);
+					if (window?.TryNavigate(target.PIDL, controlPanelCategoryView.PIDL) is true)
 						return true;
-					}
-					finally
-					{
-						if (Marshal.IsComObject(windowObject))
-							Marshal.FinalReleaseComObject(windowObject);
-					}
 				}
 			}
 			catch (Exception exception)
 			{
 				Debug.WriteLine(exception);
-			}
-			finally
-			{
-				if (Marshal.IsComObject(shellWindowsObject))
-					Marshal.FinalReleaseComObject(shellWindowsObject);
 			}
 
 			return false;
