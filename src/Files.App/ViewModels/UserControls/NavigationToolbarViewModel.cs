@@ -1166,7 +1166,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task PopulateOmnibarSuggestionsForSearchMode()
 		{
-			if (ContentPageContext.ShellPage is null)
+			if (_isDisposed || ContentPageContext.ShellPage is null)
 				return;
 
 			if (InstanceViewModel?.IsPageTypeSettings == true)
@@ -1280,7 +1280,8 @@ namespace Files.App.ViewModels.UserControls
 
 		public void CancelSuggestionSearch()
 		{
-			_suggestSearchCTS.Cancel();
+			if (!_isDisposed)
+				_suggestSearchCTS.Cancel();
 		}
 
 		// Disposer
