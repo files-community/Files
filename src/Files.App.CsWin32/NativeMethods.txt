@@ -29,7 +29,6 @@ LRESULT
 WPARAM
 LPARAM
 WM_*
-MENUCHARRESULT
 SetForegroundWindow
 GetForegroundWindow
 GetCurrentThreadId

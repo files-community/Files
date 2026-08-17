@@ -397,7 +397,7 @@ namespace Files.App
 			else if (e.Message.MessageId == Windows.Win32.PInvoke.WM_MENUCHAR &&
 				(e.Message.WParam & 0xFFFF) == '\r')
 			{
-				e.Result = (nint)Windows.Win32.UI.WindowsAndMessaging.MENUCHARRESULT.MNC_CLOSE << 16;
+				e.Result = Win32PInvoke.MNC_CLOSE << 16;
 				e.Handled = true;
 			}
 		}
