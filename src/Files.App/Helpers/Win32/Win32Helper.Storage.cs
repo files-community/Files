@@ -19,7 +19,6 @@ using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.Storage.FileSystem;
 using Windows.Win32.System.Com;
-using Windows.Win32.System.LibraryLoader;
 using Windows.Win32.UI.Controls;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
