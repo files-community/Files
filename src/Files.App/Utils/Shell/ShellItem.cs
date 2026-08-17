@@ -182,7 +182,7 @@ namespace Files.App.Utils.Shell
 			=> GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING);
 
 		public virtual string? Name
-			=> GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI);
+			=> GetDisplayName(SIGDN.SIGDN_NORMALDISPLAY);
 
 		public ShellItem? Parent
 		{
