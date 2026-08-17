@@ -264,7 +264,7 @@ namespace Files.App.Utils.Shell
 
 						if (!info.hbmpItem.IsNull && !Enum.IsDefined((HBITMAP_HMENU)((IntPtr)info.hbmpItem).ToInt64()))
 						{
-							using Bitmap? bitmap = GetBitmap(info.hbmpItem);
+							using Bitmap? bitmap = Win32Helper.GetBitmapFromHBitmap(info.hbmpItem);
 							if (bitmap is not null)
 							{
 								bitmap.MakeTransparent();
@@ -348,18 +348,6 @@ namespace Files.App.Utils.Shell
 			finally
 			{
 				NativeMemory.Free(buffer);
-			}
-		}
-
-		private static Bitmap? GetBitmap(HBITMAP bitmap)
-		{
-			try
-			{
-				return Image.FromHbitmap((IntPtr)bitmap);
-			}
-			catch
-			{
-				return null;
 			}
 		}
 
