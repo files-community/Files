@@ -349,7 +349,6 @@ ILGetSize
 ILFindLastID
 ILIsParent
 ILIsEqual
-ILCombine
 IShellItemArray
 IEnumShellItems
 ShellLink
@@ -367,8 +366,6 @@ LIBRARYFOLDERFILTER
 DEFAULTSAVEFOLDERTYPE
 LIBRARYOPTIONFLAGS
 LIBRARYSAVEFLAGS
-SHShowManageLibraryUI
-LIBRARYMANAGEDIALOGOPTIONS
 SHCreateDataObject
 SHGetDesktopFolder
 IDataObjectProvider
@@ -377,8 +374,6 @@ DragQueryFileW
 PROPVARIANT
 PropVariantClear
 PSFormatForDisplayAlloc
-SHGetNameFromIDList
-FOLDERID_ControlPanelFolder
 FOLDERID_NetHood
 FOLDERID_Libraries
 FOLDERID_ComputerFolder
