@@ -104,6 +104,8 @@ namespace Files.App.Helpers
 			var generalSettingsService = userSettingsService.GeneralSettingsService;
 			var jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
 
+			ActiveSessionTracker.ReportPersistedTime();
+
 			// Start off a list of tasks we need to run before we can continue startup
 			await Task.WhenAll(
 				App.QuickAccessManager.InitializeAsync()
@@ -187,6 +189,10 @@ namespace Files.App.Helpers
 				var packageVersion = Package.Current.Id.Version;
 				options.Release = $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}";
 				options.TracesSampleRate = 0.10;
+				// Active-session reports must not be sampled away or their sums undercount;
+				// returning null falls back to TracesSampleRate for everything else
+				options.TracesSampler = context =>
+					context.TransactionContext.Operation == ActiveSessionTracker.TransactionOperation ? 1.0 : null;
 				options.ProfilesSampleRate = 0.05;
 				options.Environment = AppEnvironment == AppEnvironment.StorePreview || AppEnvironment == AppEnvironment.SideloadPreview ? "preview" : "production";
 

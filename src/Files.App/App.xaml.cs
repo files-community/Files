@@ -179,6 +179,8 @@ namespace Files.App
 		{
 			Logger.LogInformation($"Window_Activated: State={args.WindowActivationState}");
 
+			ActiveSessionTracker.OnActivationChanged(args.WindowActivationState != WindowActivationState.Deactivated);
+
 			if (args.WindowActivationState != WindowActivationState.Deactivated)
 				AppModel.IsMainWindowClosed = false;
 
@@ -211,6 +213,9 @@ namespace Files.App
 				_LastOpenedFlyout.Hide();
 				return;
 			}
+
+			// Persist the final active stretch; it is reported on the next launch
+			ActiveSessionTracker.OnActivationChanged(false);
 
 			// Save the current tab list in case it was overwriten by another instance
 			if (userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp || userSettingsService.AppSettingsService.RestoreTabsOnStartup)
