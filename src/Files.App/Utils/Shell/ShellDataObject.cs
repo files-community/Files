@@ -28,25 +28,73 @@ namespace Files.App.Utils.Shell
 		public static IDataObject Create(IReadOnlyList<ShellItem> items)
 		{
 			ArgumentOutOfRangeException.ThrowIfZero(items.Count);
-			PInvoke.SHGetDesktopFolder(out IShellFolder? desktop).ThrowOnFailure();
-			PInvoke.SHGetIDListFromObject(desktop!, out ITEMIDLIST* desktopPidl).ThrowOnFailure();
+			using ShellItem? commonParent = GetCommonParent(items);
+			ITEMIDLIST* parentPidl;
+			if (commonParent is not null)
+			{
+				PInvoke.SHGetIDListFromObject(commonParent.IShellItem, out parentPidl).ThrowOnFailure();
+			}
+			else
+			{
+				PInvoke.SHGetDesktopFolder(out IShellFolder? desktop).ThrowOnFailure();
+				PInvoke.SHGetIDListFromObject(desktop!, out parentPidl).ThrowOnFailure();
+			}
 
-			ITEMIDLIST** itemPidls = (ITEMIDLIST**)NativeMemory.AllocZeroed((nuint)items.Count, (nuint)sizeof(ITEMIDLIST*));
+			ITEMIDLIST** itemPidls = null;
+			ITEMIDLIST** dataObjectPidls = null;
 			try
 			{
+				itemPidls = (ITEMIDLIST**)NativeMemory.AllocZeroed((nuint)items.Count, (nuint)sizeof(ITEMIDLIST*));
+				dataObjectPidls = (ITEMIDLIST**)NativeMemory.AllocZeroed((nuint)items.Count, (nuint)sizeof(ITEMIDLIST*));
 				for (int index = 0; index < items.Count; index++)
+				{
 					PInvoke.SHGetIDListFromObject(items[index].IShellItem, out itemPidls[index]).ThrowOnFailure();
+					// SHCreateDataObject expects single child PIDLs when the items share a parent.
+					dataObjectPidls[index] = commonParent is null ? itemPidls[index] : PInvoke.ILFindLastID(itemPidls[index]);
+				}
 
 				Guid interfaceId = typeof(IDataObject).GUID;
-				PInvoke.SHCreateDataObject(desktopPidl, (uint)items.Count, itemPidls, null!, &interfaceId, out object dataObject).ThrowOnFailure();
+				PInvoke.SHCreateDataObject(parentPidl, (uint)items.Count, dataObjectPidls, null!, &interfaceId, out object dataObject).ThrowOnFailure();
 				return (IDataObject)dataObject;
 			}
 			finally
 			{
-				for (int index = 0; index < items.Count; index++)
-					PInvoke.CoTaskMemFree(itemPidls[index]);
+				if (itemPidls is not null)
+				{
+					for (int index = 0; index < items.Count; index++)
+						PInvoke.CoTaskMemFree(itemPidls[index]);
+				}
+				NativeMemory.Free(dataObjectPidls);
 				NativeMemory.Free(itemPidls);
-				PInvoke.CoTaskMemFree(desktopPidl);
+				PInvoke.CoTaskMemFree(parentPidl);
+			}
+		}
+
+		private static ShellItem? GetCommonParent(IReadOnlyList<ShellItem> items)
+		{
+			ShellItem? commonParent = items[0].Parent;
+			if (commonParent is null)
+				return null;
+
+			try
+			{
+				ShellPidl commonParentPidl = commonParent.PIDL;
+				for (int index = 1; index < items.Count; index++)
+				{
+					using ShellItem? parent = items[index].Parent;
+					if (parent is null || !parent.PIDL.Equals(commonParentPidl))
+					{
+						commonParent.Dispose();
+						return null;
+					}
+				}
+
+				return commonParent;
+			}
+			catch
+			{
+				commonParent.Dispose();
+				throw;
 			}
 		}
 

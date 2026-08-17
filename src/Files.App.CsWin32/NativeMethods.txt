@@ -346,6 +346,7 @@ Windows.Win32.UI.Controls.IImageList
 ExtractIconW
 FindExecutableW
 ILGetSize
+ILFindLastID
 ILIsParent
 ILIsEqual
 ILCombine
