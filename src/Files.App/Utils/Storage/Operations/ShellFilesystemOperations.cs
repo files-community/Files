@@ -17,6 +17,7 @@ namespace Files.App.Utils.Storage
 		private const int ROBOCOPY_MIN_ITEM_COUNT = 21;
 
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
+		private readonly IDevToolsSettingsService DevToolsSettingsService = Ioc.Default.GetRequiredService<IDevToolsSettingsService>();
 
 		private IShellPage _associatedInstance;
 
@@ -78,7 +79,7 @@ namespace Files.App.Utils.Storage
 
 			// Small operations stay on the shell path to avoid Robocopy process overhead.
 			var canUseRobocopy = source.Count >= ROBOCOPY_MIN_ITEM_COUNT &&
-				Ioc.Default.GetRequiredService<IDevToolsSettingsService>().UseRobocopyForFileOperations;
+				DevToolsSettingsService.UseRobocopyForFileOperations;
 
 			if (sourceRename.Any())
 			{
@@ -385,7 +386,7 @@ namespace Files.App.Utils.Storage
 			var operationID = Guid.NewGuid().ToString();
 			await using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
-			var (success, response) = permanently && Ioc.Default.GetRequiredService<IDevToolsSettingsService>().UseRobocopyForFileOperations
+			var (success, response) = permanently && DevToolsSettingsService.UseRobocopyForFileOperations
 				? await FileOperationsHelpers.DeleteItemWithRobocopyAsync(deleteFilePaths.ToArray(), MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID, _associatedInstance)
 				: await FileOperationsHelpers.DeleteItemAsync(deleteFilePaths.ToArray(), permanently, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
 
@@ -527,7 +528,7 @@ namespace Files.App.Utils.Storage
 
 			// Small operations stay on the shell path to avoid Robocopy process overhead.
 			var preferRobocopy = source.Count >= ROBOCOPY_MIN_ITEM_COUNT &&
-				Ioc.Default.GetRequiredService<IDevToolsSettingsService>().UseRobocopyForFileOperations;
+				DevToolsSettingsService.UseRobocopyForFileOperations;
 
 			if (sourceRename.Any())
 			{

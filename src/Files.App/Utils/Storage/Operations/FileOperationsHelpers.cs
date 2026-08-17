@@ -18,6 +18,8 @@ namespace Files.App.Utils.Storage
 		private static readonly Ole32.PROPERTYKEY PKEY_FilePlaceholderStatus = new Ole32.PROPERTYKEY(new Guid("B2F9B9D6-FEC4-4DD5-94D7-8957488C807B"), 2);
 		private const uint PS_CLOUDFILE_PLACEHOLDER = 8;
 
+		private static readonly IDevToolsSettingsService DevToolsSettingsService = Ioc.Default.GetRequiredService<IDevToolsSettingsService>();
+
 		private static ProgressHandler? progressHandler; // Warning: must be initialized from a MTA thread
 		private static readonly ConcurrentDictionary<string, CancellationTokenSource> robocopyOperationTokens = new();
 
@@ -993,7 +995,7 @@ namespace Files.App.Utils.Storage
 
 					App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Created {fileGroups.Count} file groups and {folderItems.Count} folder items");
 
-					var threads = Math.Clamp(Ioc.Default.GetRequiredService<IDevToolsSettingsService>().RobocopyThreads, 1, 128);
+					var threads = Math.Clamp(DevToolsSettingsService.RobocopyThreads, 1, 128);
 
 					// Create batches for files only (folders will be processed individually)
 					(Dictionary<(string sourceDir, string destDir), List<List<string>>> fileBatchesByGroup, int totalFileBatches) = CreateBatchesForFileGroups(fileGroups);
@@ -1295,7 +1297,7 @@ namespace Files.App.Utils.Storage
 					Directory.CreateDirectory(tempDeleteFolder);
 					Directory.CreateDirectory(emptyFolder);
 
-					var threads = Math.Clamp(Ioc.Default.GetRequiredService<IDevToolsSettingsService>().RobocopyThreads, 1, 128);
+					var threads = Math.Clamp(DevToolsSettingsService.RobocopyThreads, 1, 128);
 
 					// Step 2: Move files to temp folder first (reuse existing move logic)
 					var tempDestinations = new string[filePaths.Length];
