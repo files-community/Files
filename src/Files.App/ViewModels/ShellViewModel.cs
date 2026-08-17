@@ -903,12 +903,16 @@ namespace Files.App.ViewModels
 				addFilesCTS = new CancellationTokenSource();
 			}
 			CancelExtendedPropertiesLoading();
-			foreach (var cts in thumbnailRetryDebounce.Values)
+			foreach (var key in thumbnailRetryDebounce.Keys)
 			{
-				cts.Cancel();
-				cts.Dispose();
+				// Only the thread that removes an entry may cancel/dispose it, otherwise
+				// a concurrent retry continuation could touch an already disposed source
+				if (thumbnailRetryDebounce.TryRemove(key, out var cts))
+				{
+					cts.Cancel();
+					cts.Dispose();
+				}
 			}
-			thumbnailRetryDebounce.Clear();
 			filesAndFolders.Clear();
 			FilesAndFolders.Clear();
 			CancelSearch();
@@ -1436,18 +1440,23 @@ namespace Files.App.ViewModels
 						if (scheduleTimerRetry)
 						{
 							var retryCts = new CancellationTokenSource();
+							// Capture the token before publishing the source to the debounce map,
+							// as another thread may remove and dispose it at any point afterwards
+							var retryToken = retryCts.Token;
 							if (thumbnailRetryDebounce.TryAdd(item.GetRequiredPath(), retryCts))
 							{
 								App.Logger.LogWarning("Thumbnail load failed [{Id}] '{Extension}'; scheduling 2s timer retry.", item.GetRequiredPath().GetHashCode(), Path.GetExtension(item.ItemPath));
 
-								var retryToken = retryCts.Token;
 								_ = Task.Delay(2000, retryToken)
 									.ContinueWith(_ =>
 									{
-									if (thumbnailRetryDebounce.TryRemove(item.GetRequiredPath(), out var cts))
-										cts.Dispose();
+										// Skip if another thread already took ownership of the entry
+										if (!thumbnailRetryDebounce.TryRemove(new KeyValuePair<string, CancellationTokenSource>(item.GetRequiredPath(), retryCts)))
+											return Task.CompletedTask;
 
-									App.Logger.LogInformation("Timer-based thumbnail retry firing [{Id}] '{Extension}'.", item.GetRequiredPath().GetHashCode(), Path.GetExtension(item.ItemPath));
+										retryCts.Dispose();
+
+										App.Logger.LogInformation("Timer-based thumbnail retry firing [{Id}] '{Extension}'.", item.GetRequiredPath().GetHashCode(), Path.GetExtension(item.ItemPath));
 
 										item.NeedsDelayedThumbnailLoad = false;
 										return LoadThumbnailAsync(item, retryToken, scheduleTimerRetry: false);
@@ -3039,21 +3048,25 @@ namespace Files.App.ViewModels
 				{
 					App.Logger.LogInformation("FILE_ACTION_MODIFIED thumbnail retry triggered [{Id}] '{Extension}'.", path.GetHashCode(), Path.GetExtension(path));
 
-					if (thumbnailRetryDebounce.TryGetValue(path, out var existingCts))
+					// Removing the entry takes ownership; a concurrent continuation that lost the
+					// race sees its entry gone and backs off without touching the disposed source
+					if (thumbnailRetryDebounce.TryRemove(path, out var existingCts))
 					{
 						existingCts.Cancel();
 						existingCts.Dispose();
 					}
 
 					var debounceCts = new CancellationTokenSource();
-					thumbnailRetryDebounce[path] = debounceCts;
 					var debounceToken = debounceCts.Token;
+					thumbnailRetryDebounce[path] = debounceCts;
 
 					_ = Task.Delay(500, debounceToken)
 						.ContinueWith(_ =>
 						{
-							if (thumbnailRetryDebounce.TryRemove(path, out var cts))
-								cts.Dispose();
+							if (!thumbnailRetryDebounce.TryRemove(new KeyValuePair<string, CancellationTokenSource>(path, debounceCts)))
+								return Task.CompletedTask;
+
+							debounceCts.Dispose();
 
 							item.NeedsDelayedThumbnailLoad = false;
 							return LoadThumbnailAsync(item, debounceToken);
