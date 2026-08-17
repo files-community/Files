@@ -190,11 +190,16 @@ namespace Files.App.Utils.Library
 					{
 						if (folders.Length > 0)
 						{
-							var foldersToRemove = library.Folders.Where(f => !folders.Any(folderPath => string.Equals(folderPath, f.FileSystemPath, StringComparison.OrdinalIgnoreCase)));
+							var foldersToRemove = library.Folders
+								.Where(f => !folders.Any(folderPath => string.Equals(folderPath, f.FileSystemPath, StringComparison.OrdinalIgnoreCase)))
+								.ToList();
 							foreach (var toRemove in foldersToRemove)
 							{
-								library.Folders.Remove(toRemove);
-								updated = true;
+								if (library.Folders.Remove(toRemove))
+								{
+									toRemove.Dispose();
+									updated = true;
+								}
 							}
 							var foldersToAdd = folders.Distinct(StringComparer.OrdinalIgnoreCase)
 													  .Where(folderPath => !library.Folders.Any(f => string.Equals(folderPath, f.FileSystemPath, StringComparison.OrdinalIgnoreCase)))
