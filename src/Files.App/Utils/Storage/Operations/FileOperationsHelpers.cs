@@ -8,6 +8,7 @@ using System.Collections.Concurrent;
 using System.IO;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Win32;
+using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
 using FILEOPERATION_FLAGS = Windows.Win32.UI.Shell.FILEOPERATION_FLAGS;
 using HRESULT = Windows.Win32.Foundation.HRESULT;
@@ -156,7 +157,7 @@ namespace Files.App.Utils.Storage
 				var deleteTcs = new TaskCompletionSource<bool>();
 				op.PreDeleteItem += [DebuggerHidden] (s, e) =>
 				{
-					if (!e.Flags.HasFlag(ShellFileOperations2.TransferFlags.DeleteRecycleIfPossible))
+					if ((e.Flags & _TRANSFER_SOURCE_FLAGS.TSF_DELETE_RECYCLE_IF_POSSIBLE) is 0)
 					{
 						shellOperationResult.Items.Add(new ShellOperationItemResult()
 						{
@@ -713,7 +714,7 @@ namespace Files.App.Utils.Storage
 			{
 				if (FileExtensionHelpers.IsShortcutFile(linkPath))
 				{
-					using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
+					using var link = new ShellLink(linkPath, timeout: TimeSpan.FromMilliseconds(100));
 					targetPath = link.TargetPath;
 					return ShellFolderExtensions.GetShellLinkItem(link);
 				}
@@ -919,7 +920,7 @@ namespace Files.App.Utils.Storage
 
 		private static bool TrySetLnkShortcutIcon(string filePath, string iconFile, int iconIndex)
 		{
-			using var link = new ShellLink(filePath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
+			using var link = new ShellLink(filePath, timeout: TimeSpan.FromMilliseconds(100));
 			if (string.IsNullOrWhiteSpace(iconFile))
 			{
 				link.IconLocation = new IconLocation(string.Empty, 0);
@@ -938,16 +939,16 @@ namespace Files.App.Utils.Storage
 
 		private static ShellItem? GetFirstFile(ShellItem shi)
 		{
-			if (!shi.IsFolder || shi.Attributes.HasFlag(ShellItemAttribute.Stream))
+			if (!shi.IsFolder || shi.IsStream)
 			{
 				return shi;
 			}
 			using var shf = new ShellFolder(shi);
-			if (shf.FirstOrDefault(x => !x.IsFolder || x.Attributes.HasFlag(ShellItemAttribute.Stream)) is ShellItem item)
+			if (shf.FirstOrDefault(x => !x.IsFolder || x.IsStream) is ShellItem item)
 			{
 				return item;
 			}
-			foreach (var shsfi in shf.Where(x => x.IsFolder && !x.Attributes.HasFlag(ShellItemAttribute.Stream)))
+			foreach (var shsfi in shf.Where(x => x.IsFolder && !x.IsStream))
 			{
 				using var shsf = new ShellFolder(shsfi);
 				if (GetFirstFile(shsf) is ShellItem item2)

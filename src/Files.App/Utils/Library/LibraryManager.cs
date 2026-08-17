@@ -9,6 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Windows.System;
 using Windows.Win32;
+using Windows.Win32.UI.Shell;
 using Visibility = Microsoft.UI.Xaml.Visibility;
 
 namespace Files.App.Utils.Library
@@ -140,7 +141,7 @@ namespace Files.App.Utils.Library
 					library.Folders.Add(ShellItem.Open(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))); // Add default folder so it's not empty
 					library.Commit();
 					library.Reload();
-					var libraryPath = library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing);
+					var libraryPath = library.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING);
 					return Task.FromResult(libraryPath is null
 						? null
 						: ShellFolderExtensions.GetShellLibraryItem(library, libraryPath));

@@ -4,6 +4,7 @@
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 using Windows.Win32.System.SystemServices;
+using Windows.Win32.UI.Shell;
 
 namespace Files.App.Utils.Shell
 {
@@ -17,9 +18,9 @@ namespace Files.App.Utils.Shell
 			var libraryItem = new ShellLibraryItem
 			{
 				FullPath = filePath,
-				AbsolutePath = library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing) ?? string.Empty,
-				RelativePath = library.GetDisplayName(ShellItemDisplayString.ParentRelativeParsing) ?? string.Empty,
-				DisplayName = library.GetDisplayName(ShellItemDisplayString.NormalDisplay) ?? string.Empty,
+				AbsolutePath = library.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING) ?? string.Empty,
+				RelativePath = library.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEPARSING) ?? string.Empty,
+				DisplayName = library.GetDisplayName(SIGDN.SIGDN_NORMALDISPLAY) ?? string.Empty,
 				IsPinned = library.PinnedToNavigationPane,
 			};
 
@@ -45,12 +46,12 @@ namespace Files.App.Utils.Shell
 			if (folderItem is null)
 				return null;
 
-			// NOTE: Do not use folderItem's Attributes property, throws unimplemented for some shell folders
+			// NOTE: Query only the required attributes because some shell folders do not implement the full attribute set
 
 			// Zip archives are also shell folders, check for STREAM attribute
 
-			bool isFolder = folderItem.IsFolder && !folderItem.Attributes.HasFlag(ShellItemAttribute.Stream);
-			var parsingPath = folderItem.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing);
+			bool isFolder = folderItem.IsFolder && !folderItem.IsStream;
+			var parsingPath = folderItem.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING);
 
 			// True path on disk
 			parsingPath ??= folderItem.FileSystemPath;
@@ -75,7 +76,7 @@ namespace Files.App.Utils.Shell
 
 			var fileName = folderItem.Properties.TryGetProperty<string>("System.ItemNameDisplay");
 			fileName ??= Path.GetFileName(folderItem.Name); // Original file name
-			fileName ??= folderItem.GetDisplayName(ShellItemDisplayString.ParentRelativeParsing);
+			fileName ??= folderItem.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEPARSING);
 
 			var itemNameOrOriginalPath = folderItem.Name ?? fileName;
 

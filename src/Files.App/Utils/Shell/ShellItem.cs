@@ -20,25 +20,6 @@ using Win32ShellLink = Windows.Win32.UI.Shell.ShellLink;
 
 namespace Files.App.Utils.Shell
 {
-	public enum ShellItemDisplayString
-	{
-		NormalDisplay = SIGDN.SIGDN_NORMALDISPLAY,
-		ParentRelativeParsing = SIGDN.SIGDN_PARENTRELATIVEPARSING,
-		DesktopAbsoluteParsing = SIGDN.SIGDN_DESKTOPABSOLUTEPARSING,
-	}
-
-	[Flags]
-	public enum ShellItemAttribute
-	{
-		None = 0,
-		Stream = 1,
-	}
-
-	public enum LinkResolution : uint
-	{
-		NoUIWithMsgPump = (uint)SLR_FLAGS.SLR_NO_UI_WITH_MSG_PUMP,
-	}
-
 	public readonly record struct IconLocation(string Path, int Index)
 	{
 		public override string ToString()
@@ -173,8 +154,8 @@ namespace Files.App.Utils.Shell
 		public bool IsFileSystem
 			=> HasAttribute(SFGAO_FLAGS.SFGAO_FILESYSTEM);
 
-		public ShellItemAttribute Attributes
-			=> HasAttribute(SFGAO_FLAGS.SFGAO_STREAM) ? ShellItemAttribute.Stream : ShellItemAttribute.None;
+		public bool IsStream
+			=> HasAttribute(SFGAO_FLAGS.SFGAO_STREAM);
 
 		public string? FileSystemPath
 			=> GetDisplayName(SIGDN.SIGDN_FILESYSPATH);
@@ -208,9 +189,6 @@ namespace Files.App.Utils.Shell
 				return string.IsNullOrEmpty(path) ? null : IsFolder ? new DirectoryInfo(path) : new FileInfo(path);
 			}
 		}
-
-		public string? GetDisplayName(ShellItemDisplayString displayString)
-			=> GetDisplayName((SIGDN)displayString);
 
 		public string? GetDisplayName(SIGDN displayString)
 		{
@@ -359,7 +337,7 @@ namespace Files.App.Utils.Shell
 		private IPersistFile? persistFile;
 		private string? persistedPath;
 
-		public ShellLink(string linkPath, LinkResolution resolution = LinkResolution.NoUIWithMsgPump, HWND window = default, TimeSpan timeout = default) : base(linkPath)
+		public ShellLink(string linkPath, SLR_FLAGS resolution = SLR_FLAGS.SLR_NO_UI_WITH_MSG_PUMP, HWND window = default, TimeSpan timeout = default) : base(linkPath)
 		{
 			link = Win32ShellLink.CreateInstance<IShellLinkW>();
 			persistFile = (IPersistFile)link;

@@ -229,20 +229,12 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
-		/// <summary>Flags reported by a Shell transfer callback.</summary>
-		[Flags]
-		public enum TransferFlags
-		{
-			None = 0,
-			DeleteRecycleIfPossible = 128,
-		}
-
 		/// <summary>Arguments supplied to Shell file-operation events.</summary>
 		public class ShellFileOpEventArgs : EventArgs
 		{
 			internal ShellFileOpEventArgs(_TRANSFER_SOURCE_FLAGS flags = _TRANSFER_SOURCE_FLAGS.TSF_NORMAL, IShellItem? source = null, IShellItem? destinationFolder = null, IShellItem? destination = null, string? name = null, HRESULT result = default)
 			{
-				Flags = (TransferFlags)flags;
+				Flags = flags;
 				if (source is not null)
 					SourceItem = ShellItem.Open(source);
 				if (destinationFolder is not null)
@@ -260,7 +252,7 @@ namespace Files.App.Utils.Shell
 			public ShellItem? DestItem { get; }
 
 			/// <summary>Gets the transfer flags.</summary>
-			public TransferFlags Flags { get; }
+			public _TRANSFER_SOURCE_FLAGS Flags { get; }
 
 			/// <summary>Gets the item name.</summary>
 			public string? Name { get; }
