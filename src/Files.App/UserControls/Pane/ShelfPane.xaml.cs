@@ -7,11 +7,8 @@ using Microsoft.UI.Xaml.Input;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Win32;
 using Windows.Win32.System.Com;
-using Windows.Win32.System.Memory;
 using Windows.Win32.UI.Shell;
-using Windows.Win32.UI.Shell.Common;
 using WinRT;
 using DragEventArgs = Microsoft.UI.Xaml.DragEventArgs;
 using Visibility = Microsoft.UI.Xaml.Visibility;
@@ -71,31 +68,19 @@ namespace Files.App.UserControls
 			}
 		}
 
-		private unsafe void ListView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+		private void ListView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
 			string[] paths = e.Items.Cast<ShelfItem>().Select(item => item.Inner.Id).ToArray();
 			if (paths.Length is 0)
 				return;
 
-			if (PInvoke.SHGetDesktopFolder(out IShellFolder? desktop).Failed || desktop is null)
-				return;
-
-			if (PInvoke.SHGetIDListFromObject(desktop, out ITEMIDLIST* desktopPidl).Failed)
-				return;
-
-			ITEMIDLIST** itemPidls = (ITEMIDLIST**)NativeMemory.AllocZeroed((nuint)paths.Length, (nuint)sizeof(ITEMIDLIST*));
+			var items = new List<ShellItem>(paths.Length);
 			try
 			{
-				for (int index = 0; index < paths.Length; index++)
-				{
-					using var item = new ShellItem(paths[index]);
-					PInvoke.SHGetIDListFromObject(item.IShellItem, out itemPidls[index]).ThrowOnFailure();
-				}
-
-				Guid interfaceId = typeof(IDataObject).GUID;
-				PInvoke.SHCreateDataObject(desktopPidl, (uint)paths.Length, itemPidls, null!, &interfaceId, out object dataObject).ThrowOnFailure();
+				items.AddRange(paths.Select(path => new ShellItem(path)));
+				IDataObject dataObject = ShellDataObject.Create(items);
 				e.Data.Properties["Files_ActionBinder"] = "Files_ShelfBinder";
-				e.Data.As<IDataObjectProvider>().SetDataObject((IDataObject)dataObject).ThrowOnFailure();
+				e.Data.As<IDataObjectProvider>().SetDataObject(dataObject).ThrowOnFailure();
 			}
 			catch (COMException exception)
 			{
@@ -103,10 +88,8 @@ namespace Files.App.UserControls
 			}
 			finally
 			{
-				for (int index = 0; index < paths.Length; index++)
-					PInvoke.CoTaskMemFree(itemPidls[index]);
-				NativeMemory.Free(itemPidls);
-				PInvoke.CoTaskMemFree(desktopPidl);
+				foreach (ShellItem item in items)
+					item.Dispose();
 			}
 		}
 

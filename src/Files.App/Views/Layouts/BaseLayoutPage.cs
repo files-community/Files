@@ -14,9 +14,6 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.ComTypes;
-using Vanara.Extensions;
-using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Foundation;
@@ -26,7 +23,6 @@ using Windows.System;
 using static Files.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.App.Data.Enums.SortDirection;
-using VanaraWindowsShell = Vanara.Windows.Shell;
 
 namespace Files.App.Views.Layouts
 {
@@ -996,29 +992,33 @@ namespace Files.App.Views.Layouts
 				var sortedItems = SortingHelper.OrderFileList(itemList, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst).ToList();
 				var orderedItems = sortedItems.SkipWhile(x => x != firstItem).Concat(sortedItems.TakeWhile(x => x != firstItem)).ToList();
 
-				var shellItemList = SafetyExtensions.IgnoreExceptions(() => orderedItems.Select(item => new VanaraWindowsShell.ShellItem(
-					item.GetRequiredPath())).ToArray());
-				if (shellItemList?[0].FileSystemPath is not null &&
-					!instanceViewModel.IsPageTypeSearchResults)
+				var shellItemList = SafetyExtensions.IgnoreExceptions(() => orderedItems.Select(item => new ShellItem(item.GetRequiredPath())).ToArray());
+				try
 				{
-					var parentShellItem = shellItemList[0].Parent
-						?? throw new InvalidOperationException("The dragged shell item does not have a parent.");
-					var iddo = parentShellItem.GetChildrenUIObjects<IDataObject>(HWND.NULL, shellItemList);
-					shellItemList.ForEach(x => x.Dispose());
-
-					var format = System.Windows.Forms.DataFormats.GetFormat("Shell IDList Array");
-					if (iddo.TryGetData<byte[]>((uint)format.Id, out var data))
+					if (shellItemList?[0].FileSystemPath is not null && !instanceViewModel.IsPageTypeSearchResults)
 					{
-						var mem = new MemoryStream(data
-							?? throw new InvalidOperationException("The shell drag data is empty.")).AsRandomAccessStream();
-						e.Data.SetData(format.Name, mem);
+						var format = System.Windows.Forms.DataFormats.GetFormat("Shell IDList Array");
+						var dataObject = ShellDataObject.Create(shellItemList);
+						if (ShellDataObject.GetShellIdListArray(dataObject) is byte[] data)
+						{
+							var stream = new MemoryStream(data).AsRandomAccessStream();
+							e.Data.SetData(format.Name, stream);
+						}
+					}
+					else
+					{
+						// Only support IStorageItem capable paths
+						var storageItemList = orderedItems.Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcut)).Select(x => VirtualStorageItem.FromListedItem(x));
+						e.Data.SetStorageItems(storageItemList, false);
 					}
 				}
-				else
+				finally
 				{
-					// Only support IStorageItem capable paths
-					var storageItemList = orderedItems.Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcut)).Select(x => VirtualStorageItem.FromListedItem(x));
-					e.Data.SetStorageItems(storageItemList, false);
+					if (shellItemList is not null)
+					{
+						foreach (ShellItem item in shellItemList)
+							item.Dispose();
+					}
 				}
 
 				// Set can window to front (#13255)
