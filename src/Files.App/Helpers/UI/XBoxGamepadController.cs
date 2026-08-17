@@ -73,6 +73,11 @@ namespace Files.App.Helpers
 		private bool _wasXPressed;
 		private bool _wasBPressed;
 
+		private bool _wasDPadDownPressed;
+		private bool _wasDPadUpPressed;
+		private bool _wasDPadLeftPressed;
+		private bool _wasDPadRightPressed;
+
 		public XBoxGamepadController(DispatcherQueue dispatcherQueue)
 		{
 			_timer = dispatcherQueue.CreateTimer();
@@ -121,6 +126,26 @@ namespace Files.App.Helpers
 				HandleBackOrCancel();
 			}
 			_wasBPressed = isBPressed;
+
+
+			var isDDownPressed = (reading.Buttons & GamepadButtons.DPadDown) == GamepadButtons.DPadDown;
+			if (isDDownPressed && !_wasDPadDownPressed)
+				SimulateKeyPress(Windows.System.VirtualKey.Down);
+			_wasDPadDownPressed = isDDownPressed;
+
+			var isDUpPressed = (reading.Buttons & GamepadButtons.DPadUp) == GamepadButtons.DPadUp;
+			if (isDUpPressed && !_wasDPadUpPressed)
+				SimulateKeyPress(Windows.System.VirtualKey.Up);
+			_wasDPadUpPressed = isDUpPressed;
+
+			var isDLeftPressed = (reading.Buttons & GamepadButtons.DPadLeft) == GamepadButtons.DPadLeft;
+			if (isDLeftPressed && !_wasDPadLeftPressed)
+				SimulateKeyPress(Windows.System.VirtualKey.Left);
+			_wasDPadLeftPressed = isDLeftPressed;
+
+			var isDRightPressed = (reading.Buttons & GamepadButtons.DPadRight) == GamepadButtons.DPadRight;
+			if (isDRightPressed && !_wasDPadRightPressed)
+				SimulateKeyPress(Windows.System.VirtualKey.Right);
 
 			var rightThumbY = reading.RightThumbstickY;
 			if (Math.Abs(rightThumbY) > _deadzone)
@@ -201,7 +226,6 @@ namespace Files.App.Helpers
 			SendInput(1, ref inputDown, Marshal.SizeOf<INPUT>());
 			inputDown.mi.dwFlags = MOUSEEVENTF_LEFTUP;
 			SendInput(1, ref inputDown, Marshal.SizeOf<INPUT>());
-
 		}
 
 		private static void SimulateRightMouseClick()
