@@ -123,7 +123,7 @@ namespace Files.App.Utils.Shell
 
 			try
 			{
-				stream = ComInterfaceMarshaller<IStream>.ConvertToManaged(medium.u.pstm);
+				stream = UniqueComInterfaceMarshaller<IStream>.ConvertToManaged(medium.u.pstm);
 			}
 			catch
 			{

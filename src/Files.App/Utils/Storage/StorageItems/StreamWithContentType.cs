@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.IO;
+using System.Runtime.InteropServices.Marshalling;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Storage.Streams;
@@ -281,12 +282,11 @@ namespace Files.App.Utils.Storage
 			this.medium = medium;
 			try
 			{
-				iStream.Stat(out iStreamStat, STATFLAG.STATFLAG_DEFAULT).ThrowOnFailure();
+				iStream.Stat(out iStreamStat, STATFLAG.STATFLAG_NONAME).ThrowOnFailure();
 			}
 			catch
 			{
-				iStream = null;
-				PInvoke.ReleaseStgMedium(ref this.medium);
+				ReleaseResources();
 				throw;
 			}
 		}
@@ -339,9 +339,23 @@ namespace Files.App.Utils.Storage
 				return;
 
 			base.Dispose(disposing);
+			ReleaseResources();
+		}
+
+		private void ReleaseResources()
+		{
+			IStream? stream = iStream;
 			iStream = null;
-			PInvoke.ReleaseStgMedium(ref medium);
-			medium = default;
+			try
+			{
+				if (stream is ComObject comObject)
+					comObject.FinalRelease();
+			}
+			finally
+			{
+				PInvoke.ReleaseStgMedium(ref medium);
+				medium = default;
+			}
 		}
 	}
 }
