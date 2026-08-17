@@ -262,7 +262,7 @@ namespace Files.App.Utils.Shell
 						if (itemFilter is not null && (itemFilter(menuItem.CommandString) || itemFilter(menuItem.Label)))
 							continue;
 
-						if (!info.hbmpItem.IsNull && !Enum.IsDefined(typeof(HBITMAP_HMENU), ((IntPtr)info.hbmpItem).ToInt64()))
+						if (!info.hbmpItem.IsNull && !Enum.IsDefined((HBITMAP_HMENU)((IntPtr)info.hbmpItem).ToInt64()))
 						{
 							using Bitmap? bitmap = GetBitmap(info.hbmpItem);
 							if (bitmap is not null)
