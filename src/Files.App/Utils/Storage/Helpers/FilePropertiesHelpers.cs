@@ -123,6 +123,7 @@ namespace Files.App.Utils.Storage
 				typeof(MainPropertiesPage),
 				new PropertiesPageNavigationParameter
 				{
+					CancellationTokenSource = new(),
 					Parameter = item,
 					AppInstance = associatedInstance,
 					Window = propertiesWindow
