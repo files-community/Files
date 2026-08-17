@@ -337,7 +337,7 @@ namespace Files.App.Utils.Shell
 		private IPersistFile? persistFile;
 		private string? persistedPath;
 
-		public ShellLink(string linkPath, SLR_FLAGS resolution = SLR_FLAGS.SLR_NO_UI_WITH_MSG_PUMP, HWND window = default, TimeSpan timeout = default) : base(linkPath)
+		public ShellLink(string linkPath, SLR_FLAGS resolution = SLR_FLAGS.SLR_NO_UI, HWND window = default, TimeSpan timeout = default) : base(linkPath)
 		{
 			link = Win32ShellLink.CreateInstance<IShellLinkW>();
 			persistFile = (IPersistFile)link;

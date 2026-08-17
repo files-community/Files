@@ -13,6 +13,7 @@ using FILEOPERATION_FLAGS = Windows.Win32.UI.Shell.FILEOPERATION_FLAGS;
 using HRESULT = Windows.Win32.Foundation.HRESULT;
 using HWND = Windows.Win32.Foundation.HWND;
 using PROPERTYKEY = Windows.Win32.Foundation.PROPERTYKEY;
+using SLR_FLAGS = Windows.Win32.UI.Shell.SLR_FLAGS;
 
 namespace Files.App.Utils.Storage
 {
@@ -713,7 +714,7 @@ namespace Files.App.Utils.Storage
 			{
 				if (FileExtensionHelpers.IsShortcutFile(linkPath))
 				{
-					using var link = new ShellLink(linkPath, timeout: TimeSpan.FromMilliseconds(100));
+					using var link = new ShellLink(linkPath, SLR_FLAGS.SLR_NO_UI_WITH_MSG_PUMP, timeout: TimeSpan.FromMilliseconds(100));
 					targetPath = link.TargetPath;
 					return ShellFolderExtensions.GetShellLinkItem(link);
 				}
@@ -919,7 +920,7 @@ namespace Files.App.Utils.Storage
 
 		private static bool TrySetLnkShortcutIcon(string filePath, string iconFile, int iconIndex)
 		{
-			using var link = new ShellLink(filePath, timeout: TimeSpan.FromMilliseconds(100));
+			using var link = new ShellLink(filePath, SLR_FLAGS.SLR_NO_UI_WITH_MSG_PUMP, timeout: TimeSpan.FromMilliseconds(100));
 			if (string.IsNullOrWhiteSpace(iconFile))
 			{
 				link.IconLocation = new IconLocation(string.Empty, 0);
