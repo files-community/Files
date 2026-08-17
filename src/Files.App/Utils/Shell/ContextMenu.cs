@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -177,9 +179,7 @@ namespace Files.App.Utils.Shell
 					PInvoke.SHGetIDListFromObject(shellItems[index].IShellItem, out pidls[index]).ThrowOnFailure();
 
 				PInvoke.SHCreateShellItemArrayFromIDLists((uint)shellItems.Length, pidls, out IShellItemArray itemArray).ThrowOnFailure();
-				itemArray.BindToHandler(null!, PInvoke.BHID_SFUIObject, out IContextMenu? shellContextMenu).ThrowOnFailure();
-				if (shellContextMenu is null)
-					return null;
+				IContextMenu shellContextMenu = BindContextMenu(itemArray);
 
 				menu = PInvoke.CreatePopupMenu();
 				shellContextMenu.QueryContextMenu(menu, 0, 1, 0x7FFF, flags).ThrowOnFailure();
@@ -202,6 +202,30 @@ namespace Files.App.Utils.Shell
 						PInvoke.CoTaskMemFree(pidls[index]);
 					NativeMemory.Free(pidls);
 				}
+			}
+		}
+
+		private static unsafe IContextMenu BindContextMenu(IShellItemArray itemArray)
+		{
+			void* itemArrayPointer = ComInterfaceMarshaller<IShellItemArray>.ConvertToUnmanaged(itemArray);
+			void* contextMenuPointer = null;
+			try
+			{
+				// Bind through the native vtable so the result can use a uniquely owned generated COM wrapper.
+				void** vtable = *(void***)itemArrayPointer;
+				var bindToHandler =
+					(delegate* unmanaged[MemberFunction]<void*, void*, Guid*, Guid*, void**, int>)vtable[3];
+				Guid handlerId = PInvoke.BHID_SFUIObject;
+				Guid interfaceId = typeof(IContextMenu).GUID;
+				HRESULT result = new(bindToHandler(itemArrayPointer, null, &handlerId, &interfaceId, &contextMenuPointer));
+				result.ThrowOnFailure();
+				return UniqueComInterfaceMarshaller<IContextMenu>.ConvertToManaged(contextMenuPointer)
+					?? throw new InvalidOperationException("The shell did not return a context menu.");
+			}
+			finally
+			{
+				UniqueComInterfaceMarshaller<IContextMenu>.Free(contextMenuPointer);
+				ComInterfaceMarshaller<IShellItemArray>.Free(itemArrayPointer);
 			}
 		}
 
@@ -360,7 +384,8 @@ namespace Files.App.Utils.Shell
 			{
 				if (!menuToDestroy.IsNull)
 					PInvoke.DestroyMenu(menuToDestroy);
-				GC.KeepAlive(contextMenuToRelease);
+				if (contextMenuToRelease is ComObject comObject)
+					comObject.FinalRelease();
 			});
 			ContextMenuWorkerPool.Return(worker);
 			disposedValue = true;
