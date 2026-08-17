@@ -3,6 +3,7 @@
 
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
@@ -59,8 +60,8 @@ namespace Files.App.Utils.Shell
 		public ShellWindow? GetWindow(int index)
 		{
 			ObjectDisposedException.ThrowIf(shellWindows is null, this);
-			var getItem = (delegate* unmanaged[MemberFunction]<void*, RawVariant, void**, int>)GetVtable(shellWindows)[GetItemSlot];
-			RawVariant itemIndex = RawVariant.FromInt32(index);
+			var getItem = (delegate* unmanaged[MemberFunction]<void*, ComVariant, void**, int>)GetVtable(shellWindows)[GetItemSlot];
+			ComVariant itemIndex = ComVariant.Create(index);
 			void* window = null;
 			HRESULT result = new(getItem(shellWindows, itemIndex, &window));
 			if (result.Failed || window is null)
@@ -103,19 +104,6 @@ namespace Files.App.Utils.Shell
 			var release = (delegate* unmanaged[MemberFunction]<void*, uint>)GetVtable(instance)[ReleaseSlot];
 			release(instance);
 			instance = null;
-		}
-
-		[StructLayout(LayoutKind.Explicit, Size = 16)]
-		private struct RawVariant
-		{
-			[FieldOffset(0)]
-			private ushort type;
-
-			[FieldOffset(8)]
-			private int int32;
-
-			public static RawVariant FromInt32(int value)
-				=> new() { type = (ushort)VarEnum.VT_I4, int32 = value };
 		}
 
 		internal sealed unsafe class ShellWindow : IDisposable
