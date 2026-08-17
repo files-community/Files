@@ -149,9 +149,9 @@ namespace Files.App.Utils.StatusCenter
 
 		public bool IsDiscovering { get; private set; } = true;
 
-		public IEnumerable<string>? Source { get; private set; }
+		public string[]? Source { get; private set; }
 
-		public IEnumerable<string>? Destination { get; private set; }
+		public string[]? Destination { get; private set; }
 
 		public string? HeaderStringResource { get; private set; }
 
