@@ -520,9 +520,7 @@ namespace Files.App.Utils.Storage
 				return null;
 			}
 
-			var currentFolder = ShellViewModel.CurrentFolder
-				?? throw new InvalidOperationException("The shell view model does not have a current folder.");
-			bool sourceInCurrentFolder = PathNormalization.TrimPath(currentFolder.ItemPath) == PathNormalization.GetParentDir(source.Path);
+			bool sourceInCurrentFolder = PathNormalization.TrimPath(ShellViewModel.CurrentFolder?.ItemPath) == PathNormalization.GetParentDir(source.Path);
 			if (fsProgress.Status == FileSystemStatusCode.Success && sourceInCurrentFolder)
 			{
 				await ShellViewModel.RemoveFileOrFolderAsync(source.Path);
