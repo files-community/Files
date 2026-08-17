@@ -5,13 +5,13 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
-using Vanara.PInvoke;
-using Vanara.Windows.Shell;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.Win32;
+using Windows.Win32.Storage.FileSystem;
+using Windows.Win32.UI.Shell;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Utils.Storage
@@ -793,15 +793,20 @@ namespace Files.App.Utils.Storage
 			{
 				if (hasVirtualItems && packageView.Contains("FileContents"))
 				{
-					var descriptor = NativeClipboard.CurrentDataObject.GetData<Shell32.FILEGROUPDESCRIPTOR>("FileGroupDescriptorW");
-					for (var ii = 0; ii < descriptor.cItems; ii++)
+					var dataObject = ShellDataObject.GetClipboard();
+					if (dataObject is null)
+						return itemsList;
+
+					var descriptors = ShellDataObject.GetFileDescriptors(dataObject);
+					for (var ii = 0; ii < descriptors.Count; ii++)
 					{
-						if (descriptor.fgd[ii].dwFileAttributes.HasFlag(FileFlagsAndAttributes.FILE_ATTRIBUTE_DIRECTORY))
-							itemsList.Add(new VirtualStorageFolder(descriptor.fgd[ii].cFileName).FromStorageItem()!);
-						else if (NativeClipboard.CurrentDataObject.GetData("FileContents", DVASPECT.DVASPECT_CONTENT, ii) is IStream stream)
+						var descriptor = descriptors[ii];
+						if (descriptor.Attributes.HasFlag(FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_DIRECTORY))
+							itemsList.Add(new VirtualStorageFolder(descriptor.Name).FromStorageItem()!);
+						else if (ShellDataObject.TryGetFileContents(dataObject, ii, out var stream, out var medium))
 						{
-							var streamContent = new ComStreamWrapper(stream);
-							itemsList.Add(new VirtualStorageFile(streamContent, descriptor.fgd[ii].cFileName).FromStorageItem()!);
+							var streamContent = new ComStreamWrapper(stream!, medium);
+							itemsList.Add(new VirtualStorageFile(streamContent, descriptor.Name).FromStorageItem()!);
 						}
 					}
 				}
@@ -842,17 +847,17 @@ namespace Files.App.Utils.Storage
 							HDROP dropStructHandle = new(dropStructPointer);
 
 							var itemPaths = new List<string>();
-							uint filesCount = Shell32.DragQueryFile(dropStructHandle, 0xffffffff, null, 0);
+							uint filesCount = PInvoke.DragQueryFile(dropStructHandle, uint.MaxValue, Span<char>.Empty);
 							for (uint i = 0; i < filesCount; i++)
 							{
-								uint charsNeeded = Shell32.DragQueryFile(dropStructHandle, i, null, 0);
+								uint charsNeeded = PInvoke.DragQueryFile(dropStructHandle, i, Span<char>.Empty);
 								uint bufferSpaceRequired = charsNeeded + 1; // include space for terminating null character
-								string buffer = new('\0', (int)bufferSpaceRequired);
-								uint charsCopied = Shell32.DragQueryFile(dropStructHandle, i, buffer, bufferSpaceRequired);
+								char[] buffer = new char[bufferSpaceRequired];
+								uint charsCopied = PInvoke.DragQueryFile(dropStructHandle, i, buffer);
 
 								if (charsCopied > 0)
 								{
-									string path = buffer[..(int)charsCopied];
+									string path = new(buffer, 0, (int)charsCopied);
 									itemPaths.Add(Path.GetFullPath(path));
 								}
 							}

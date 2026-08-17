@@ -68,6 +68,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="ByteSize" />
         <PackageReference Include="ColorCode.WinUI" />
         <PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock" />
@@ -102,8 +106,6 @@
         <PackageReference Include="TagLibSharp" />
         <PackageReference Include="UTF.Unknown" />
         <PackageReference Include="WinUIEx" />
-        <PackageReference Include="Vanara.Windows.Extensions" />
-        <PackageReference Include="Vanara.Windows.Shell" />
         <PackageReference Include="Microsoft.Windows.CsWinRT" />
     </ItemGroup>
 

@@ -4,9 +4,8 @@
 using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using System.IO;
-using Vanara.PInvoke;
-using Vanara.Windows.Shell;
 using Windows.Win32;
+using Windows.Win32.Storage.FileSystem;
 using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;
 
@@ -186,7 +185,7 @@ namespace Files.App.Utils.Shell
 									using var cMenu = await ContextMenu.GetContextMenuForFiles(group.ToArray(), PInvoke.CMF_DEFAULTONLY);
 
 									if (cMenu is not null)
-										await cMenu.InvokeVerb(Shell32.CMDSTR_OPEN);
+										await cMenu.InvokeVerb("open");
 								}
 							}
 
@@ -223,11 +222,11 @@ namespace Files.App.Utils.Shell
 									return false;
 
 								var basePath = Path.Combine(tempPathRoot, Guid.NewGuid().ToString("n"));
-								Kernel32.CreateDirectory(basePath);
+								Directory.CreateDirectory(basePath);
 
 								var tempPath = Path.Combine(basePath, new string(Path.GetFileName(application).SkipWhile(x => x != ':').Skip(1).ToArray()));
-								using var hFileSrc = Kernel32.CreateFile(application, Kernel32.FileAccess.GENERIC_READ, FileShare.ReadWrite, null, FileMode.Open, FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL);
-								using var hFileDst = Kernel32.CreateFile(tempPath, Kernel32.FileAccess.GENERIC_WRITE, 0, null, FileMode.Create, FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL | FileFlagsAndAttributes.FILE_ATTRIBUTE_READONLY);
+								using var hFileSrc = PInvoke.CreateFile(application, (uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ, FILE_SHARE_MODE.FILE_SHARE_READ | FILE_SHARE_MODE.FILE_SHARE_WRITE, null, FILE_CREATION_DISPOSITION.OPEN_EXISTING, FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL, null);
+								using var hFileDst = PInvoke.CreateFile(tempPath, (uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE, 0, null, FILE_CREATION_DISPOSITION.CREATE_ALWAYS, FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL | FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_READONLY, null);
 
 								if (!hFileSrc.IsInvalid && !hFileDst.IsInvalid)
 								{
@@ -275,7 +274,7 @@ namespace Files.App.Utils.Shell
 		{
 			if (executable.StartsWith("\\\\?\\", StringComparison.Ordinal))
 			{
-				using var computer = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_ComputerFolder);
+				using var computer = new ShellFolder(FOLDERID.FOLDERID_ComputerFolder);
 				using var device = computer.FirstOrDefault(i =>
 				{
 					return i.Name is { } name &&
