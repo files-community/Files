@@ -386,6 +386,7 @@ namespace Files.App.Utils.Shell
 			get
 			{
 				Span<char> path = stackalloc char[32768];
+				path.Clear();
 				WIN32_FIND_DATAW data = default;
 				if (Link.GetPath(path, ref data, (uint)SLGP_FLAGS.SLGP_RAWPATH).Succeeded)
 				{
@@ -479,6 +480,7 @@ namespace Files.App.Utils.Shell
 			get
 			{
 				Span<char> path = stackalloc char[32768];
+				path.Clear();
 				Link.GetIconLocation(path, out int index).ThrowOnFailure();
 				return new(GetNullTerminatedString(path), index);
 			}
@@ -509,6 +511,7 @@ namespace Files.App.Utils.Shell
 		private static string GetString(GetStringDelegate getter)
 		{
 			Span<char> value = stackalloc char[32768];
+			value.Clear();
 			getter(value).ThrowOnFailure();
 			return GetNullTerminatedString(value);
 		}

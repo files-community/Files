@@ -246,7 +246,7 @@ namespace Files.App.Utils.Shell
 				MENUITEMINFOW info = default;
 				info.cbSize = (uint)sizeof(MENUITEMINFOW);
 				info.fMask = MENU_ITEM_MASK.MIIM_BITMAP | MENU_ITEM_MASK.MIIM_FTYPE | MENU_ITEM_MASK.MIIM_STRING | MENU_ITEM_MASK.MIIM_ID | MENU_ITEM_MASK.MIIM_SUBMENU;
-				info.dwTypeData = (char*)NativeMemory.Alloc(bufferLength, sizeof(char));
+				info.dwTypeData = (char*)NativeMemory.AllocZeroed(bufferLength, sizeof(char));
 				info.cch = bufferLength - 1;
 
 				try
@@ -335,7 +335,7 @@ namespace Files.App.Utils.Shell
 				return null;
 
 			const int capacity = 512;
-			char* buffer = (char*)NativeMemory.Alloc((nuint)capacity, sizeof(char));
+			char* buffer = (char*)NativeMemory.AllocZeroed((nuint)capacity, sizeof(char));
 			try
 			{
 				return contextMenu.GetCommandString(offset, PInvoke.GCS_VERBW, (PSTR)(byte*)buffer, capacity).Succeeded ? new string(buffer) : null;
