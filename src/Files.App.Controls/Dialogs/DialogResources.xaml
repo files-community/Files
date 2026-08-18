@@ -8,20 +8,85 @@
 
 	<!--  THEME RESOURCE DICTIONARY  -->
 	<ResourceDictionary.ThemeDictionaries>
+
 		<ResourceDictionary x:Key="Default">
+			<Thickness x:Key="PropertiesExpanderHeaderPadding">8</Thickness>
+			<Thickness x:Key="PropertiesExpanderHeaderBorderThickness">0</Thickness>
+
 			<StaticResource x:Key="PropertiesExpanderHeaderBackground" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="PropertiesExpanderHeaderPointerOverBackground" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="PropertiesExpanderHeaderPressedBackground" ResourceKey="SubtleFillColorTertiaryBrush" />
+
+			<StaticResource x:Key="PropertiesExpanderHeaderForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="PropertiesExpanderHeaderPointerOverForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="PropertiesExpanderHeaderPressedForeground" ResourceKey="TextFillColorSecondaryBrush" />
+
+			<StaticResource x:Key="PropertiesExpanderHeaderBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="PropertiesExpanderHeaderPointerOverBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="PropertiesExpanderHeaderPressedBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
+
+			<StaticResource x:Key="PropertiesExpanderChevronForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="PropertiesExpanderChevronPointerOverForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="PropertiesExpanderChevronPressedForeground" ResourceKey="TextFillColorSecondaryBrush" />
+
+			<StaticResource x:Key="PropertiesExpanderHeaderDisabledForeground" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="PropertiesExpanderHeaderDisabledBorderBrush" ResourceKey="CardStrokeColorDefaultBrush" />
 		</ResourceDictionary>
-		<ResourceDictionary x:Key="HighContrast">
-			<StaticResource x:Key="PropertiesExpanderHeaderBackground" ResourceKey="SubtleFillColorTransparentBrush" />
-		</ResourceDictionary>
+
 		<ResourceDictionary x:Key="Light">
+			<Thickness x:Key="PropertiesExpanderHeaderPadding">8</Thickness>
+			<Thickness x:Key="PropertiesExpanderHeaderBorderThickness">0</Thickness>
+
 			<StaticResource x:Key="PropertiesExpanderHeaderBackground" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="PropertiesExpanderHeaderPointerOverBackground" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="PropertiesExpanderHeaderPressedBackground" ResourceKey="SubtleFillColorTertiaryBrush" />
+
+			<StaticResource x:Key="PropertiesExpanderHeaderForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="PropertiesExpanderHeaderPointerOverForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="PropertiesExpanderHeaderPressedForeground" ResourceKey="TextFillColorSecondaryBrush" />
+
+			<StaticResource x:Key="PropertiesExpanderHeaderBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="PropertiesExpanderHeaderPointerOverBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="PropertiesExpanderHeaderPressedBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
+
+			<StaticResource x:Key="PropertiesExpanderChevronForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="PropertiesExpanderChevronPointerOverForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="PropertiesExpanderChevronPressedForeground" ResourceKey="TextFillColorSecondaryBrush" />
+
+			<StaticResource x:Key="PropertiesExpanderHeaderDisabledForeground" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="PropertiesExpanderHeaderDisabledBorderBrush" ResourceKey="CardStrokeColorDefaultBrush" />
 		</ResourceDictionary>
+
+		<ResourceDictionary x:Key="HighContrast">
+			<Thickness x:Key="PropertiesExpanderHeaderPadding">6</Thickness>
+			<Thickness x:Key="PropertiesExpanderHeaderBorderThickness">2</Thickness>
+
+			<StaticResource x:Key="PropertiesExpanderHeaderBackground" ResourceKey="SystemColorButtonFaceColorBrush" />
+			<StaticResource x:Key="PropertiesExpanderHeaderPointerOverBackground" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="PropertiesExpanderHeaderPressedBackground" ResourceKey="SystemControlTransparentBrush" />
+
+			<StaticResource x:Key="PropertiesExpanderHeaderForeground" ResourceKey="SystemColorButtonTextColorBrush" />
+			<StaticResource x:Key="PropertiesExpanderHeaderPointerOverForeground" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="PropertiesExpanderHeaderPressedForeground" ResourceKey="SystemColorHighlightColorBrush" />
+
+			<StaticResource x:Key="PropertiesExpanderHeaderBorderBrush" ResourceKey="SystemColorButtonTextColorBrush" />
+			<StaticResource x:Key="PropertiesExpanderHeaderPointerOverBorderBrush" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="PropertiesExpanderHeaderPressedBorderBrush" ResourceKey="SystemColorHighlightColorBrush" />
+
+			<StaticResource x:Key="PropertiesExpanderChevronForeground" ResourceKey="SystemColorButtonTextColorBrush" />
+			<StaticResource x:Key="PropertiesExpanderChevronPointerOverForeground" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="PropertiesExpanderChevronPressedForeground" ResourceKey="SystemColorHighlightColorBrush" />
+
+			<StaticResource x:Key="PropertiesExpanderHeaderDisabledForeground" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="PropertiesExpanderHeaderDisabledBorderBrush" ResourceKey="TextFillColorDisabledBrush" />
+		</ResourceDictionary>
+
 	</ResourceDictionary.ThemeDictionaries>
 
 
+
+
 	<!--  RESOURCES  -->
-	<Thickness x:Key="PropertiesExpanderHeaderPadding">8</Thickness>
 	<Thickness x:Key="PropertiesExpanderHeaderInnerPadding">12,0</Thickness>
 	<Thickness x:Key="PropertiesExpanderChevronMargin">0,0,8,0</Thickness>
 	<x:Double x:Key="PropertiesExpanderChevronSpaceWidth">24</x:Double>
@@ -29,13 +94,20 @@
 	<x:Double x:Key="PropertiesExpanderChevronGlyphSize">12</x:Double>
 	<Thickness x:Key="PropertiesExpanderContentPadding">16</Thickness>
 
+	<x:String x:Key="PropertiesExpanderChevronUpGlyph">&#xE70E;</x:String>
+	<x:String x:Key="PropertiesExpanderChevronDownGlyph">&#xE70D;</x:String>
+
+
+
 
 	<!--  EXPANDER  -->
 
 
+
+
 	<!--  EXPANDER DOWN BUTTON  -->
 	<Style x:Key="PropertiesExpanderHeaderDownStyle" TargetType="ToggleButton">
-		<Setter Property="Padding" Value="{StaticResource PropertiesExpanderHeaderPadding}" />
+		<Setter Property="Padding" Value="{ThemeResource PropertiesExpanderHeaderPadding}" />
 		<Setter Property="Background" Value="{ThemeResource PropertiesExpanderHeaderBackground}" />
 		<Setter Property="BorderThickness" Value="0" />
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -53,16 +125,16 @@
 						HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
 						Background="{TemplateBinding Background}"
 						BackgroundSizing="{TemplateBinding BackgroundSizing}"
-						BorderBrush="{ThemeResource ExpanderHeaderBorderBrush}"
+						BorderBrush="{TemplateBinding BorderBrush}"
 						BorderThickness="{TemplateBinding BorderThickness}"
 						CornerRadius="{TemplateBinding CornerRadius}">
 						<Grid
 							x:Name="ToggleButtonGrid"
 							Padding="{StaticResource PropertiesExpanderHeaderInnerPadding}"
 							HorizontalAlignment="Stretch"
-							Background="{ThemeResource ExpanderChevronBackground}"
-							BorderBrush="{ThemeResource ExpanderChevronBorderBrush}"
-							BorderThickness="{ThemeResource ExpanderChevronBorderThickness}"
+							Background="{ThemeResource PropertiesExpanderHeaderBackground}"
+							BorderBrush="{ThemeResource PropertiesExpanderHeaderBorderBrush}"
+							BorderThickness="{ThemeResource PropertiesExpanderHeaderBorderThickness}"
 							CornerRadius="{ThemeResource ControlCornerRadius}">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="Auto" />
@@ -87,20 +159,20 @@
 								<controls:AnimatedIcon
 									xmlns:local="using:Microsoft.UI.Xaml.Controls"
 									x:Name="ExpandCollapseChevron"
-									Width="{StaticResource ExpanderChevronGlyphSize}"
-									Height="{StaticResource ExpanderChevronGlyphSize}"
+									Width="{StaticResource PropertiesExpanderChevronGlyphSize}"
+									Height="{StaticResource PropertiesExpanderChevronGlyphSize}"
 									HorizontalAlignment="Center"
 									VerticalAlignment="Center"
 									local:AnimatedIcon.State="NormalOff"
 									AutomationProperties.AccessibilityView="Raw"
-									Foreground="{ThemeResource ExpanderChevronForeground}"
+									Foreground="{ThemeResource PropertiesExpanderChevronForeground}"
 									RenderTransformOrigin="0.5, 0.5">
 									<animatedvisuals:AnimatedChevronUpDownSmallVisualSource />
 									<controls:AnimatedIcon.FallbackIconSource>
 										<controls:FontIconSource
 											FontFamily="{StaticResource SymbolThemeFontFamily}"
 											FontSize="12"
-											Glyph="{StaticResource ExpanderChevronDownGlyph}"
+											Glyph="{StaticResource PropertiesExpanderChevronDownGlyph}"
 											IsTextScaleFactorEnabled="False" />
 									</controls:AnimatedIcon.FallbackIconSource>
 									<controls:AnimatedIcon.RenderTransform />
@@ -112,79 +184,70 @@
 							<VisualStateGroup x:Name="CommonStates">
 								<VisualState x:Name="Normal">
 									<VisualState.Setters>
-										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ExpanderHeaderForeground}" />
-										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource ExpanderHeaderBorderBrush}" />
-										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource ExpanderChevronForeground}" />
-										<Setter Target="ExpandCollapseChevronBorder.BorderBrush" Value="{ThemeResource ExpanderChevronBorderBrush}" />
-										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource ExpanderChevronBackground}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PropertiesExpanderHeaderForeground}" />
+										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderBorderBrush}" />
+										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderChevronForeground}" />
+										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderBackground}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="PointerOver">
 									<VisualState.Setters>
-										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ExpanderHeaderForegroundPointerOver}" />
-										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource ExpanderHeaderBorderPointerOverBrush}" />
-										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource ExpanderChevronPointerOverForeground}" />
-										<Setter Target="ExpandCollapseChevronBorder.BorderBrush" Value="{ThemeResource ExpanderChevronBorderPointerOverBrush}" />
-										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource ExpanderChevronPointerOverBackground}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PropertiesExpanderHeaderPointerOverForeground}" />
+										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderPointerOverBorderBrush}" />
+										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderPointerOverBackground}" />
 										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="PointerOverOff" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Pressed">
 									<VisualState.Setters>
-										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ExpanderHeaderForegroundPressed}" />
-										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource ExpanderHeaderBorderPressedBrush}" />
-										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource ExpanderChevronPressedForeground}" />
-										<Setter Target="ExpandCollapseChevronBorder.BorderBrush" Value="{ThemeResource ExpanderChevronBorderPressedBrush}" />
-										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource ExpanderChevronPressedBackground}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PropertiesExpanderHeaderPressedForeground}" />
+										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderPressedBorderBrush}" />
+										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderChevronPressedForeground}" />
+										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderPressedBackground}" />
 										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="PressedOff" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Disabled">
 									<VisualState.Setters>
-										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ExpanderHeaderDisabledForeground}" />
-										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource ExpanderHeaderDisabledBorderBrush}" />
-										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource ExpanderHeaderDisabledForeground}" />
-										<Setter Target="ExpandCollapseChevronBorder.BorderBrush" Value="{ThemeResource ExpanderHeaderDisabledBorderBrush}" />
-										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource ExpanderChevronBackground}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PropertiesExpanderHeaderDisabledForeground}" />
+										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderDisabledBorderBrush}" />
+										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderHeaderDisabledForeground}" />
+										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderBackground}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Checked">
 									<VisualState.Setters>
-										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ExpanderHeaderForeground}" />
-										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource ExpanderHeaderBorderBrush}" />
-										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource ExpanderChevronForeground}" />
-										<Setter Target="ExpandCollapseChevronBorder.BorderBrush" Value="{ThemeResource ExpanderChevronBorderBrush}" />
-										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource ExpanderChevronBackground}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PropertiesExpanderHeaderForeground}" />
+										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderBorderBrush}" />
+										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderChevronForeground}" />
+										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderBackground}" />
 										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="NormalOn" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="CheckedPointerOver">
 									<VisualState.Setters>
-										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ExpanderHeaderForegroundPointerOver}" />
-										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource ExpanderHeaderBorderPointerOverBrush}" />
-										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource ExpanderChevronPointerOverForeground}" />
-										<Setter Target="ExpandCollapseChevronBorder.BorderBrush" Value="{ThemeResource ExpanderChevronBorderPointerOverBrush}" />
-										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource ExpanderChevronPointerOverBackground}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PropertiesExpanderHeaderPointerOverForeground}" />
+										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderPointerOverBorderBrush}" />
+										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderChevronPointerOverForeground}" />
+										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderPointerOverBackground}" />
 										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="PointerOverOn" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="CheckedPressed">
 									<VisualState.Setters>
-										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ExpanderHeaderForegroundPressed}" />
-										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource ExpanderHeaderBorderPressedBrush}" />
-										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource ExpanderChevronPressedForeground}" />
-										<Setter Target="ExpandCollapseChevronBorder.BorderBrush" Value="{ThemeResource ExpanderChevronBorderPressedBrush}" />
-										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource ExpanderChevronPressedBackground}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PropertiesExpanderHeaderPressedForeground}" />
+										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderPressedBorderBrush}" />
+										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderChevronPressedForeground}" />
+										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderPressedBackground}" />
 										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="PressedOn" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="CheckedDisabled">
 									<VisualState.Setters>
-										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource ExpanderHeaderDisabledBorderBrush}" />
-										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ExpanderHeaderDisabledForeground}" />
-										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource ExpanderHeaderDisabledForeground}" />
-										<Setter Target="ExpandCollapseChevronBorder.BorderBrush" Value="{ThemeResource ExpanderHeaderDisabledBorderBrush}" />
-										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource ExpanderChevronBackground}" />
+										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderDisabledBorderBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PropertiesExpanderHeaderDisabledForeground}" />
+										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderHeaderDisabledForeground}" />
+										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderBackground}" />
 										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="NormalOn" />
 									</VisualState.Setters>
 								</VisualState>
@@ -202,6 +265,165 @@
 
 
 	<!--  EXPANDER UP BUTTON  -->
+	<Style
+		x:Key="PropertiesExpanderHeaderUpStyle"
+		BasedOn="{StaticResource PropertiesExpanderHeaderDownStyle}"
+		TargetType="ToggleButton">
+		<Setter Property="Padding" Value="{ThemeResource PropertiesExpanderHeaderPadding}" />
+		<Setter Property="Background" Value="{ThemeResource PropertiesExpanderHeaderBackground}" />
+		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="HorizontalContentAlignment" Value="Left" />
+		<Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="ToggleButton">
+					<Border
+						x:Name="ToggleButtonBase"
+						Width="{TemplateBinding Width}"
+						MinWidth="{TemplateBinding MinWidth}"
+						MinHeight="{TemplateBinding MinHeight}"
+						MaxWidth="{TemplateBinding MaxWidth}"
+						Padding="{TemplateBinding Padding}"
+						HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+						Background="{TemplateBinding Background}"
+						BackgroundSizing="{TemplateBinding BackgroundSizing}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						CornerRadius="{TemplateBinding CornerRadius}">
+						<Grid
+							x:Name="ToggleButtonGrid"
+							Padding="{StaticResource PropertiesExpanderHeaderInnerPadding}"
+							HorizontalAlignment="Stretch"
+							Background="{ThemeResource PropertiesExpanderHeaderBackground}"
+							BorderBrush="{ThemeResource PropertiesExpanderHeaderBorderBrush}"
+							BorderThickness="{ThemeResource PropertiesExpanderHeaderBorderThickness}"
+							CornerRadius="{ThemeResource ControlCornerRadius}">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<ContentPresenter
+								x:Name="ContentPresenter"
+								Grid.Column="1"
+								Padding="0,0,12,0"
+								HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+								VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+								Content="{TemplateBinding Content}"
+								ContentTemplate="{TemplateBinding ContentTemplate}"
+								ContentTransitions="{TemplateBinding ContentTransitions}"
+								Foreground="{TemplateBinding Foreground}" />
+							<Border
+								x:Name="ExpandCollapseChevronBorder"
+								Grid.Column="0"
+								Width="{ThemeResource PropertiesExpanderChevronSpaceWidth}"
+								Height="{ThemeResource PropertiesExpanderChevronSpaceHeight}"
+								Margin="{ThemeResource PropertiesExpanderChevronMargin}">
+								<controls:AnimatedIcon
+									xmlns:local="using:Microsoft.UI.Xaml.Controls"
+									x:Name="ExpandCollapseChevron"
+									Width="{StaticResource PropertiesExpanderChevronGlyphSize}"
+									Height="{StaticResource PropertiesExpanderChevronGlyphSize}"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									local:AnimatedIcon.State="NormalOn"
+									AutomationProperties.AccessibilityView="Raw"
+									Foreground="{ThemeResource PropertiesExpanderChevronForeground}"
+									RenderTransformOrigin="0.5, 0.5">
+									<animatedvisuals:AnimatedChevronUpDownSmallVisualSource />
+									<controls:AnimatedIcon.FallbackIconSource>
+										<controls:FontIconSource
+											FontFamily="{StaticResource SymbolThemeFontFamily}"
+											FontSize="12"
+											Glyph="{StaticResource PropertiesExpanderChevronUpGlyph}"
+											IsTextScaleFactorEnabled="False" />
+									</controls:AnimatedIcon.FallbackIconSource>
+									<controls:AnimatedIcon.RenderTransform />
+								</controls:AnimatedIcon>
+							</Border>
+
+						</Grid>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal">
+									<VisualState.Setters>
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PropertiesExpanderHeaderForeground}" />
+										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderBorderBrush}" />
+										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderChevronForeground}" />
+										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderBackground}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="PointerOver">
+									<VisualState.Setters>
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PropertiesExpanderHeaderPointerOverForeground}" />
+										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderPointerOverBorderBrush}" />
+										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderPointerOverBackground}" />
+										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="PointerOverOn" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Pressed">
+									<VisualState.Setters>
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PropertiesExpanderHeaderPressedForeground}" />
+										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderPressedBorderBrush}" />
+										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderChevronPressedForeground}" />
+										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderPressedBackground}" />
+										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="PressedOn" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Disabled">
+									<VisualState.Setters>
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PropertiesExpanderHeaderDisabledForeground}" />
+										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderDisabledBorderBrush}" />
+										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderHeaderDisabledForeground}" />
+										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderBackground}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Checked">
+									<VisualState.Setters>
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PropertiesExpanderHeaderForeground}" />
+										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderBorderBrush}" />
+										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderChevronForeground}" />
+										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderBackground}" />
+										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="NormalOff" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="CheckedPointerOver">
+									<VisualState.Setters>
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PropertiesExpanderHeaderPointerOverForeground}" />
+										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderPointerOverBorderBrush}" />
+										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderChevronPointerOverForeground}" />
+										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderPointerOverBackground}" />
+										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="PointerOverOff" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="CheckedPressed">
+									<VisualState.Setters>
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PropertiesExpanderHeaderPressedForeground}" />
+										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderPressedBorderBrush}" />
+										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderChevronPressedForeground}" />
+										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderPressedBackground}" />
+										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="PressedOff" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="CheckedDisabled">
+									<VisualState.Setters>
+										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderDisabledBorderBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PropertiesExpanderHeaderDisabledForeground}" />
+										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderHeaderDisabledForeground}" />
+										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderBackground}" />
+										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="NormalOff" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Indeterminate" />
+								<VisualState x:Name="IndeterminatePointerOver" />
+								<VisualState x:Name="IndeterminatePressed" />
+								<VisualState x:Name="IndeterminateDisabled" />
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
 
 
 

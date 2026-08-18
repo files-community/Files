@@ -37,7 +37,7 @@ namespace Files.App.UITests.Dialogs
 			presenter.IsMaximizable = false;
 			AppWindow.SetPresenter( presenter );
 			AppWindow.TitleBar.PreferredTheme = TitleBarTheme.UseDefaultAppMode;
-			presenter.PreferredMinimumHeight = 600;
+			presenter.PreferredMinimumHeight = 800;
 			presenter.PreferredMinimumWidth = 800;
 
 			if ( propertiesFrame != null )

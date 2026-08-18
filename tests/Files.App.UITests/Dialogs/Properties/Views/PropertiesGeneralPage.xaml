@@ -19,13 +19,19 @@
 
 		<StackPanel Padding="0,0,0,0" Orientation="Vertical">
 
-			<Expander Margin="24,0,24,24" Header="Expander title">
+			<Expander
+				Margin="24,0,24,24"
+				Header="Expander title"
+				IsEnabled="{x:Bind EnableToggle.IsOn, Mode=TwoWay}">
 				Customised expander content
 			</Expander>
 
 			<Rectangle Height="4" Fill="Red" />
 
-			<ToggleButton HorizontalAlignment="Stretch" Style="{StaticResource PropertiesExpanderHeaderDownStyle}">
+			<ToggleButton
+				HorizontalAlignment="Stretch"
+				IsEnabled="{x:Bind EnableToggle.IsOn, Mode=TwoWay}"
+				Style="{StaticResource PropertiesExpanderHeaderDownStyle}">
 				<StackPanel Orientation="Horizontal" Spacing="8">
 					<SymbolIcon Symbol="Calendar" />
 					<TextBlock Text="Expander heading text" />
@@ -33,6 +39,25 @@
 			</ToggleButton>
 
 			<Rectangle Height="4" Fill="Red" />
+
+			<ToggleButton
+				HorizontalAlignment="Stretch"
+				IsEnabled="{x:Bind EnableToggle.IsOn, Mode=TwoWay}"
+				Style="{StaticResource PropertiesExpanderHeaderUpStyle}">
+				<StackPanel Orientation="Horizontal" Spacing="8">
+					<SymbolIcon Symbol="Calendar" />
+					<TextBlock Text="Expander heading text" />
+				</StackPanel>
+			</ToggleButton>
+
+			<Rectangle Height="4" Fill="Red" />
+
+			<ToggleSwitch
+				x:Name="EnableToggle"
+				Header="Enable ToggleButton"
+				IsOn="True"
+				OffContent="Disabled"
+				OnContent="Enabled" />
 
 		</StackPanel>
 

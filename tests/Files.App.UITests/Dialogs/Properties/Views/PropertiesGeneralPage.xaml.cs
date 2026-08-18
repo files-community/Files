@@ -27,5 +27,5 @@ namespace Files.App.UITests.Dialogs.Properties.Views
 		{
 			InitializeComponent();
 		}
-	}
+    }
 }
