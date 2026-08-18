@@ -61,6 +61,8 @@ namespace Files.InteractionTests
 		[AssemblyInitialize]
 		public static void CreateSession(TestContext _)
 		{
+			Directory.CreateDirectory(TestHelper.TestDataRootPath);
+
 			if (_session is null)
 			{
 
@@ -70,20 +72,22 @@ namespace Files.InteractionTests
 				if (_session is null)
 				{
 					// WinAppDriver is probably not running, so lets start it!
-					if (File.Exists($@"{Environment.GetEnvironmentVariable("ProgramFiles(x86)")}\Windows Application Driver\WinAppDriver.exe"))
-					{
-						Process.Start($@"{Environment.GetEnvironmentVariable("ProgramFiles(x86)")}\Windows Application Driver\WinAppDriver.exe");
-					}
-					else if (File.Exists($@"{Environment.GetEnvironmentVariable("ProgramFiles")}\Windows Application Driver\WinAppDriver.exe"))
-					{
-						Process.Start($@"{Environment.GetEnvironmentVariable("ProgramFiles")}\Windows Application Driver\WinAppDriver.exe");
-					}
-					else
-					{
+					var driverPath = $@"{Environment.GetEnvironmentVariable("ProgramFiles(x86)")}\Windows Application Driver\WinAppDriver.exe";
+					if (!File.Exists(driverPath))
+						driverPath = $@"{Environment.GetEnvironmentVariable("ProgramFiles")}\Windows Application Driver\WinAppDriver.exe";
+					if (!File.Exists(driverPath))
 						throw new Exception("Unable to start WinAppDriver since no suitable location was found.");
-					}
 
-					Thread.Sleep(10000);
+					// Shell-executed + hidden so the driver gets its own (hidden) console instead
+					// of spamming its per-request log into the test output
+					Process.Start(new ProcessStartInfo
+					{
+						FileName = driverPath,
+						UseShellExecute = true,
+						WindowStyle = ProcessWindowStyle.Hidden,
+					});
+
+					Thread.Sleep(2000);
 					tryInitializeSession();
 				}
 
@@ -94,7 +98,7 @@ namespace Files.InteractionTests
 					timeoutCount *= 2;
 				}
 
-				Thread.Sleep(3000);
+				Thread.Sleep(1000);
 				Assert.IsNotNull(_session);
 				Assert.IsNotNull(_session.SessionId);
 
@@ -106,8 +110,17 @@ namespace Files.InteractionTests
 				}
 				catch (OpenQA.Selenium.WebDriverException) { }
 
-				// Wait if something is still animating in the visual tree
-				_session.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+				// The window the session attached to (splash or disclaimer) may have closed since;
+				// anchor to the first open window so the tests start against the main window
+				try
+				{
+					_session.SwitchTo().Window(_session.WindowHandles[0]);
+				}
+				catch (OpenQA.Selenium.WebDriverException) { }
+
+				// Kept short: the helpers retry their finds client-side, and a long implicit wait
+				// stalls every negative lookup (absence checks, gone-waits) by its full duration
+				_session.Manage().Timeouts().ImplicitWait = TimeSpan.FromMilliseconds(500);
 				_session.Manage().Window.Maximize();
 
 				AxeHelper.InitializeAxe();
@@ -117,15 +130,50 @@ namespace Files.InteractionTests
 		[AssemblyCleanup()]
 		public static void TestRunTearDown()
 		{
-			TearDown();
+			try
+			{
+				TearDown();
+			}
+			finally
+			{
+				try
+				{
+					Directory.Delete(TestHelper.TestDataRootPath, true);
+				}
+				catch (DirectoryNotFoundException)
+				{
+					// The run created nothing on disk
+				}
+				catch (IOException)
+				{
+					// The closing app can briefly keep a change-watcher handle on a test folder;
+					// the next run deletes the leftovers when its own cleanup runs
+				}
+			}
 		}
 
 		public static void TearDown()
 		{
 			if (_session is not null)
 			{
-				_session.CloseApp();
-				_session.Quit();
+				try
+				{
+					_session.CloseApp();
+				}
+				catch (OpenQA.Selenium.WebDriverException)
+				{
+					// The app already exited (or crashed); still quit to dispose the session
+				}
+
+				try
+				{
+					_session.Quit();
+				}
+				catch (OpenQA.Selenium.WebDriverException)
+				{
+					// The driver may already have dropped the session
+				}
+
 				_session = null;
 			}
 		}
