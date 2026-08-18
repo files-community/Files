@@ -199,12 +199,14 @@ namespace Files.App.Utils.FileTags
 			return list;
 		}
 
+		[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("Trimming", "IL2026", Justification = AotJson.SerializerTrimJustification)]
+		[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("AOT", "IL3050", Justification = AotJson.SerializerTrimJustification)]
 		public void Import(string json)
 		{
 			if (FileTagsKey is null)
 				return;
 
-			var tags = JsonSerializer.Deserialize<TaggedFile[]>(json);
+			var tags = JsonSerializer.Deserialize<TaggedFile[]>(json, AotJson.Options);
 
 			Registry.CurrentUser.DeleteSubKeyTree(FileTagsKey, false);
 			if (tags is null)
@@ -223,6 +225,8 @@ namespace Files.App.Utils.FileTags
 			}
 		}
 
+		[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("Trimming", "IL2026", Justification = AotJson.SerializerTrimJustification)]
+		[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("AOT", "IL3050", Justification = AotJson.SerializerTrimJustification)]
 		public string Export()
 		{
 			var list = new List<TaggedFile>();
@@ -230,7 +234,7 @@ namespace Files.App.Utils.FileTags
 			if (FileTagsKey is not null)
 				IterateKeys(list, FileTagsKey, 0);
 
-			return JsonSerializer.Serialize(list);
+			return JsonSerializer.Serialize(list, AotJson.Options);
 		}
 
 		private void IterateKeys(List<TaggedFile> list, string path, int depth)

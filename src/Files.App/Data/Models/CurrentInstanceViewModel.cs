@@ -3,6 +3,7 @@
 
 namespace Files.App.Data.Models
 {
+	[global::WinRT.GeneratedBindableCustomProperty]
 	public sealed partial class CurrentInstanceViewModel : ObservableObject
 	{
 		// TODO:

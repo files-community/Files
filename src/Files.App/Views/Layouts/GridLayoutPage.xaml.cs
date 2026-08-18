@@ -19,6 +19,7 @@ namespace Files.App.Views.Layouts
 	/// <summary>
 	/// Represents the browser page of Grid View
 	/// </summary>
+	[global::WinRT.GeneratedBindableCustomProperty]
 	public sealed partial class GridLayoutPage : BaseGroupableLayoutPage
 	{
 		// Fields

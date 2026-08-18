@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 
 namespace Files.App.Data.Models
 {
+	[global::WinRT.GeneratedBindableCustomProperty]
 	public sealed partial class ColumnsViewModel : ObservableObject
 	{
 		private DetailsLayoutColumnItem iconColumn = new()

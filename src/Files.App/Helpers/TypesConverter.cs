@@ -5,7 +5,7 @@ namespace Files.App.Helpers
 {
 	public sealed class KnownTypesConverter
 	{
-		public JsonSerializerOptions Options { get; } = new JsonSerializerOptions();
+		public JsonSerializerOptions Options { get; } = new JsonSerializerOptions(Files.App.Utils.Serialization.AotJson.Options);
 
 		public KnownTypesConverter()
 		{

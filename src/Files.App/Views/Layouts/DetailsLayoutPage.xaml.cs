@@ -23,6 +23,7 @@ namespace Files.App.Views.Layouts
 	/// <summary>
 	/// Represents the browser page of Details View
 	/// </summary>
+	[global::WinRT.GeneratedBindableCustomProperty]
 	public sealed partial class DetailsLayoutPage : BaseGroupableLayoutPage
 	{
 		// Constants

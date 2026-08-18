@@ -8,6 +8,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents item for a column shown in <see cref="DetailsLayoutPage"/>.
 	/// </summary>
+	[global::WinRT.GeneratedBindableCustomProperty]
 	public sealed partial class DetailsLayoutColumnItem : ObservableObject
 	{
 		private const int GRID_SPLITTER_WIDTH = 12;
@@ -55,6 +56,13 @@ namespace Files.App.Data.Items
 				? new(0)
 				: new(UserLength.Value + (IsResizable ? GRID_SPLITTER_WIDTH : 0));
 
+		// {Binding} cannot traverse into the GridLength struct on Native AOT; bind to these instead of Length.Value
+		[RegistryIgnore, JsonIgnore]
+		public double LengthValue => Length.Value;
+
+		[RegistryIgnore, JsonIgnore]
+		public double LengthIncludingGridSplitterValue => LengthIncludingGridSplitter.Value;
+
 		public double MaxLength
 			=> UserCollapsed || IsHidden ? 0 : NormalMaxLength;
 
@@ -91,6 +99,8 @@ namespace Files.App.Data.Items
 				{
 					OnPropertyChanged(nameof(Length));
 					OnPropertyChanged(nameof(LengthIncludingGridSplitter));
+					OnPropertyChanged(nameof(LengthValue));
+					OnPropertyChanged(nameof(LengthIncludingGridSplitterValue));
 				}
 			}
 		}
@@ -111,6 +121,8 @@ namespace Files.App.Data.Items
 		{
 			OnPropertyChanged(nameof(Length));
 			OnPropertyChanged(nameof(LengthIncludingGridSplitter));
+			OnPropertyChanged(nameof(LengthValue));
+			OnPropertyChanged(nameof(LengthIncludingGridSplitterValue));
 			OnPropertyChanged(nameof(MaxLength));
 			OnPropertyChanged(nameof(Visibility));
 			OnPropertyChanged(nameof(MinLength));

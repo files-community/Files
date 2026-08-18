@@ -382,17 +382,22 @@ namespace Files.App.Dialogs
 
 			private static string ToSizeText(ulong megaBytes) => ByteSize.FromMebiBytes(megaBytes).ShortString;
 
-			public record FileFormatItem(ArchiveFormats Key, string Label);
+			[global::WinRT.GeneratedBindableCustomProperty]
+			public partial record FileFormatItem(ArchiveFormats Key, string Label);
 
-			public record CompressionLevelItem(ArchiveCompressionLevels Key, string Label);
+			[global::WinRT.GeneratedBindableCustomProperty]
+			public partial record CompressionLevelItem(ArchiveCompressionLevels Key, string Label);
 
-			public record DictionarySizeItem(ArchiveDictionarySizes Key, string Label);
+			[global::WinRT.GeneratedBindableCustomProperty]
+			public partial record DictionarySizeItem(ArchiveDictionarySizes Key, string Label);
 
-			public record WordSizeItem(ArchiveWordSizes Key, string Label);
+			[global::WinRT.GeneratedBindableCustomProperty]
+			public partial record WordSizeItem(ArchiveWordSizes Key, string Label);
 		}
 	}
 
-	internal record SplittingSizeItem(ArchiveSplittingSizes Key, string Label, string Description = "")
+	[global::WinRT.GeneratedBindableCustomProperty]
+	internal partial record SplittingSizeItem(ArchiveSplittingSizes Key, string Label, string Description = "")
 	{
 		public string Separator => string.IsNullOrEmpty(Description) ? string.Empty : "-";
 	}

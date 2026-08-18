@@ -30,7 +30,7 @@ namespace Files.App.Utils.Storage
 			if (Path.IsPathRooted(path) && Path.GetPathRoot(path) == path)
 			{
 				IDictionary<string, object> extraProperties =
-					await rootFolder.Properties.RetrievePropertiesAsync(["System.Volume.BitLockerProtection"]);
+					await rootFolder.Properties.RetrievePropertiesAsync(new List<string> { "System.Volume.BitLockerProtection" });
 				return (int?)extraProperties["System.Volume.BitLockerProtection"] == 6; // Drive is bitlocker protected and locked
 			}
 			return false;

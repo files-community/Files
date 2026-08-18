@@ -41,52 +41,14 @@ namespace Files.App.Services
 
 		private async Task UnpinFromSidebarAsync(string[] folderPaths, bool doUpdateQuickAccessWidget)
 		{
-			Type shellAppType = Type.GetTypeFromProgID("Shell.Application")
-				?? throw new InvalidOperationException("Windows Shell automation is not available.");
-
-			object shell = Activator.CreateInstance(shellAppType)
-				?? throw new InvalidOperationException("Windows Shell automation could not be created.");
-
-			dynamic f2 = shellAppType.InvokeMember("NameSpace", System.Reflection.BindingFlags.InvokeMethod, null, shell, [$"shell:{guid}"])
-				?? throw new InvalidOperationException("The Windows Shell Home namespace is not available.");
-
 			if (folderPaths.Length == 0)
 				folderPaths = (await GetPinnedFoldersAsync())
 					.Where(link => (bool?)link.Properties["System.Home.IsPinned"] ?? false)
 					.Select(link => link.FilePath!).ToArray();
 
-			foreach (dynamic? fi in f2.Items())
-			{
-				if (fi is null)
-					throw new InvalidOperationException("The Windows Shell Home namespace returned an invalid item.");
-
-				string pathStr = (string)fi.Path;
-
-				if (ShellStorageFolder.IsShellPath(pathStr))
-				{
-					var folder = await ShellStorageFolder.FromPathAsync(pathStr);
-					var path = folder?.Path;
-
-					if (path is not null &&
-						(folderPaths.Contains(path) ||
-						(path.StartsWith(@"\\SHELL\\") && folderPaths.Any(x => x.StartsWith(@"\\SHELL\\")))))
-					{
-						await STATask.Run(async () =>
-						{
-							fi.InvokeVerb("unpinfromhome");
-						}, App.Logger);
-						continue;
-					}
-				}
-
-				if (folderPaths.Contains(pathStr))
-				{
-					await STATask.Run(async () =>
-					{
-						fi.InvokeVerb("unpinfromhome");
-					}, App.Logger);
-				}
-			}
+			// The 'unpinfromhome' verb is exposed on the pinned folder itself, like 'pintohome'
+			foreach (var folderPath in folderPaths)
+				await ContextMenu.InvokeVerb("unpinfromhome", folderPath);
 
 			await App.QuickAccessManager.Model.LoadAsync();
 			if (doUpdateQuickAccessWidget)

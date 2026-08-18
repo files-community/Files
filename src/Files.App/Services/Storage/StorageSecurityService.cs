@@ -119,7 +119,7 @@ namespace Files.App.Services
 
 				PWSTR pszSid = default;
 
-				var offset = Marshal.SizeOf(typeof(ACE_HEADER)) + sizeof(uint);
+				var offset = Marshal.SizeOf<ACE_HEADER>() + sizeof(uint);
 
 				//if (pAce.IsObjectAce())
 				//	offset += sizeof(uint) + Marshal.SizeOf(typeof(Guid)) * 2;

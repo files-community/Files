@@ -300,6 +300,8 @@ namespace Files.App.ViewModels.Properties
 		/// <param name="file">The file whose properties you wish to obtain</param>
 		/// <param name="path">The path to the json file of properties to be loaded</param>
 		/// <returns>A list if FileProperties containing their values</returns>
+		[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("Trimming", "IL2026", Justification = AotJson.SerializerTrimJustification)]
+		[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("AOT", "IL3050", Justification = AotJson.SerializerTrimJustification)]
 		public async static Task<List<FileProperty>> RetrieveAndInitializePropertiesAsync(BaseStorageFile file, string path = Constants.ResourceFilePaths.DetailsPagePropertiesJsonPath)
 		{
 			// cache the contents of the file to avoid repeatedly reading the file
@@ -310,7 +312,7 @@ namespace Files.App.ViewModels.Properties
 				cachedPropertiesListFiles[path] = text;
 			}
 
-			List<FileProperty> list = JsonSerializer.Deserialize<List<FileProperty>>(text)
+			List<FileProperty> list = JsonSerializer.Deserialize<List<FileProperty>>(text, AotJson.Options)
 				?? throw new InvalidDataException($"The property definition file '{path}' does not contain a property list.");
 
 			var propsToGet = new List<string>();
@@ -333,7 +335,7 @@ namespace Files.App.ViewModels.Properties
 				{
 					if (file.Properties is not null)
 					{
-						val = (await file.Properties.RetrievePropertiesAsync([prop])).First().Value;
+						val = (await file.Properties.RetrievePropertiesAsync(new List<string> { prop })).First().Value;
 					}
 				}
 				catch (ArgumentException e)

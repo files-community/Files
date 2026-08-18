@@ -3,6 +3,7 @@
 
 namespace Files.App.ViewModels.Dialogs
 {
+	[global::WinRT.GeneratedBindableCustomProperty]
 	partial class CreateItemDialogViewModel : ObservableObject
 	{
 		private bool isNameInvalid;

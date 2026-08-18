@@ -147,7 +147,7 @@ namespace Files.App.Utils.FileTags
 
 			static async Task<ulong?> GetFileFRN(IStorageItemExtraProperties properties)
 			{
-				var extra = await properties.RetrievePropertiesAsync(["System.FileFRN"]);
+				var extra = await properties.RetrievePropertiesAsync(new List<string> { "System.FileFRN" });
 				return (ulong?)extra["System.FileFRN"];
 			}
 		}

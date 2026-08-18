@@ -76,7 +76,21 @@ jobs:
         -p:Platform=$env:PLATFORM `
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true `
+        -p:EnableAot=true `
         -v:quiet
+
+    # VS 2026 vcvarsall.bat writes a spurious vswhere error to stderr, which the ILC
+    # linker-discovery script captures into the linker path (MSB3073 at link time)
+    - name: Work around ILC linker discovery failure with VS 2026
+      shell: pwsh
+      run: |
+        Get-ChildItem "$env:USERPROFILE\.nuget\packages\microsoft.dotnet.ilcompiler\*\build\findvcvarsall.bat" -ErrorAction SilentlyContinue | ForEach-Object {
+          $content = Get-Content $_.FullName -Raw
+          if ($content -notmatch '2>NUL') {
+            $content -replace '(%vcEnvironment% > NUL)', '$1 2>NUL' | Set-Content $_.FullName -NoNewline
+            Write-Host "Patched $($_.FullName)"
+          }
+        }
 
     - name: Restore NuGet Packages for Launcher Project
       shell: pwsh
@@ -126,9 +140,11 @@ jobs:
         foreach ($plat in $platforms) {
           Write-Host "Building for $plat..."
           msbuild "$env:APP_PROJECT_PATH" `
+            -restore `
             -t:Build `
             -p:Platform=$plat `
             -p:Configuration=$env:CONFIGURATION `
+            -p:EnableAot=true `
             -p:AppxPackageDir="$env:APPX_PACKAGE_DIR" `
             -p:AppxBundle=Never `
             -p:GenerateAppxPackageOnBuild=true `

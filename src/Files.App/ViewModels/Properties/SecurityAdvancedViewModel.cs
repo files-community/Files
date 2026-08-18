@@ -7,6 +7,7 @@ using Windows.Win32.Foundation;
 
 namespace Files.App.ViewModels.Properties
 {
+	[global::WinRT.GeneratedBindableCustomProperty]
 	public sealed partial class SecurityAdvancedViewModel : ObservableObject
 	{
 		private readonly IStorageSecurityService StorageSecurityService = Ioc.Default.GetRequiredService<IStorageSecurityService>();

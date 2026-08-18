@@ -115,18 +115,26 @@ namespace Files.App.Utils.Serialization.Implementation
 			return GetFreshSettings();
 		}
 
+		[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("Trimming", "IL2026", Justification = AotJson.SerializerTrimJustification)]
+		[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("AOT", "IL3050", Justification = AotJson.SerializerTrimJustification)]
 		protected static TValue? GetValueFromObject<TValue>(object? obj)
 		{
 			if (obj is JsonElement jElem)
 			{
 				try
 				{
-					return jElem.Deserialize<TValue>();
+					return jElem.Deserialize<TValue>(AotJson.Options);
 				}
 				catch (JsonException)
 				{
 					// Deserialization failed (e.g., incompatible type in settings file)
 					// Return null to fall back to the default value
+					return default;
+				}
+				catch (NotSupportedException)
+				{
+					// Thrown on Native AOT when TValue needs a converter instantiation that was
+					// not pre-generated (type missing from AotJsonContext); fall back to the default value
 					return default;
 				}
 			}

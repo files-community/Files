@@ -93,6 +93,8 @@ jobs:
     env:
       CONFIGURATION: ${{ matrix.configuration }}
       ARCHITECTURE: ${{ matrix.platform }}
+      # Native AOT for Release builds; Debug stays JIT for debuggability and CI speed
+      ENABLE_AOT: ${{ matrix.configuration == 'Release' }}
 
     steps:
 
@@ -115,7 +117,22 @@ jobs:
           -p:Platform=$env:ARCHITECTURE `
           -p:Configuration=$env:CONFIGURATION `
           -p:PublishReadyToRun=true `
+          -p:EnableAot=$env:ENABLE_AOT `
           -v:quiet
+
+    # VS 2026 vcvarsall.bat writes a spurious vswhere error to stderr, which the ILC
+    # linker-discovery script captures into the linker path (MSB3073 at link time)
+    - if: env.ENABLE_AOT == 'true'
+      name: Work around ILC linker discovery failure with VS 2026
+      shell: pwsh
+      run: |
+        Get-ChildItem "$env:USERPROFILE\.nuget\packages\microsoft.dotnet.ilcompiler\*\build\findvcvarsall.bat" -ErrorAction SilentlyContinue | ForEach-Object {
+          $content = Get-Content $_.FullName -Raw
+          if ($content -notmatch '2>NUL') {
+            $content -replace '(%vcEnvironment% > NUL)', '$1 2>NUL' | Set-Content $_.FullName -NoNewline
+            Write-Host "Patched $($_.FullName)"
+          }
+        }
 
     - if: env.CONFIGURATION != env.AUTOMATED_TESTS_CONFIGURATION || env.ARCHITECTURE != env.AUTOMATED_TESTS_ARCHITECTURE
       name: Build Files
@@ -125,6 +142,7 @@ jobs:
           -t:Build `
           -p:Configuration=$env:CONFIGURATION `
           -p:Platform=$env:ARCHITECTURE `
+          -p:EnableAot=$env:ENABLE_AOT `
           -p:AppxBundle=Never `
           -p:GenerateAppxPackageOnBuild=false `
           -v:quiet
@@ -141,6 +159,7 @@ jobs:
           -t:Build `
           -p:Configuration=$env:CONFIGURATION `
           -p:Platform=$env:ARCHITECTURE `
+          -p:EnableAot=$env:ENABLE_AOT `
           -p:AppxBundlePlatforms=$env:AUTOMATED_TESTS_ARCHITECTURE `
           -p:AppxBundle=Always `
           -p:GenerateAppxPackageOnBuild=true `

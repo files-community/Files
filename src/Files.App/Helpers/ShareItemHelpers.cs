@@ -21,15 +21,12 @@ namespace Files.App.Helpers
 			if (itemsToShare is null)
 				return;
 
-			var interop = DataTransferManager.As<IDataTransferManagerInterop>();
-			IntPtr result = interop.GetForWindow(MainWindow.Instance.WindowHandle, Win32PInvoke.DataTransferManagerInteropIID);
-
-			var manager = WinRT.MarshalInterface<DataTransferManager>.FromAbi(result);
+			var manager = DataTransferManagerInterop.GetForWindow(MainWindow.Instance.WindowHandle);
 			manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
 
 			try
 			{
-				interop.ShowShareUIForWindow(MainWindow.Instance.WindowHandle);
+				DataTransferManagerInterop.ShowShareUIForWindow(MainWindow.Instance.WindowHandle);
 			}
 			catch (Exception ex)
 			{

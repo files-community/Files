@@ -1008,7 +1008,7 @@ namespace Files.App.Views.Layouts
 					else
 					{
 						// Only support IStorageItem capable paths
-						var storageItemList = orderedItems.Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcut)).Select(x => VirtualStorageItem.FromListedItem(x));
+						var storageItemList = orderedItems.Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcut)).Select(x => VirtualStorageItem.FromListedItem(x)).ToList();
 						e.Data.SetStorageItems(storageItemList, false);
 					}
 				}

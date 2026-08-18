@@ -41,7 +41,7 @@ namespace Files.App.Utils.Storage
 			IEnumerable<KeyValuePair<string, object?>> propertiesToSave)
 		{
 			return properties.SavePropertiesAsync(propertiesToSave.Select(
-				static property => new KeyValuePair<string, object>(property.Key, ToWinRtPropertyValue(property.Value))));
+				static property => new KeyValuePair<string, object>(property.Key, ToWinRtPropertyValue(property.Value))).ToList());
 		}
 
 		internal static void SetNullablePropertyValue(

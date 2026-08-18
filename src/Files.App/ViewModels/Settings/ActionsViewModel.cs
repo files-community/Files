@@ -8,6 +8,7 @@ namespace Files.App.ViewModels.Settings
 	/// <summary>
 	/// Represents view model of <see cref="Views.Settings.ActionsPage"/>.
 	/// </summary>
+	[global::WinRT.GeneratedBindableCustomProperty]
 	public sealed partial class ActionsViewModel : ObservableObject
 	{
 		// Dependency injections

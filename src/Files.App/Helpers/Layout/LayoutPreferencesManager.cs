@@ -537,12 +537,14 @@ namespace Files.App.Helpers
 			return new LayoutPreferencesItem();
 		}
 
+		[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("Trimming", "IL2026", Justification = AotJson.SerializerTrimJustification)]
+		[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("AOT", "IL3050", Justification = AotJson.SerializerTrimJustification)]
 		private static LayoutPreferencesItem? GetLayoutPreferencesFromAds(string path, ulong? frn)
 		{
 			var str = Win32Helper.ReadStringFromFile($"{path}:files_layoutmode");
 
 			var layoutPreferences = SafetyExtensions.IgnoreExceptions(() =>
-				string.IsNullOrEmpty(str) ? null : JsonSerializer.Deserialize<LayoutPreferencesItem>(str));
+				string.IsNullOrEmpty(str) ? null : JsonSerializer.Deserialize<LayoutPreferencesItem>(str, AotJson.Options));
 
 			if (layoutPreferences is null)
 				return null;

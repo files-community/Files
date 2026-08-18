@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Net.Http;
 using System.Text;
-using System.Xml.Serialization;
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;
 using Windows.Storage;
@@ -89,19 +88,20 @@ namespace Files.App.Services
 
 				await using var stream = await _client.GetStreamAsync(_sideloadVersion[PackageName]);
 
-				// Deserialize AppInstaller.
-				XmlSerializer xml = new XmlSerializer(typeof(AppInstaller));
-				var appInstaller = (AppInstaller?)xml.Deserialize(stream);
+				// Parse AppInstaller manifest
+				var appInstallerDoc = await System.Xml.Linq.XDocument.LoadAsync(stream, System.Xml.Linq.LoadOptions.None, CancellationToken.None);
+				var appInstallerRoot = appInstallerDoc.Root
+					?? throw new InvalidDataException("The app installer manifest is empty.");
+				var xmlNamespace = appInstallerRoot.Name.Namespace;
 
-				ArgumentNullException.ThrowIfNull(appInstaller);
-
-				var remotePackageName = appInstaller.MainBundle?.Name;
-				if (string.IsNullOrWhiteSpace(remotePackageName) || string.IsNullOrWhiteSpace(appInstaller.Version))
+				var remoteVersionString = (string?)appInstallerRoot.Attribute("Version");
+				var remotePackageName = (string?)appInstallerRoot.Element(xmlNamespace + "MainBundle")?.Attribute("Name");
+				if (string.IsNullOrWhiteSpace(remotePackageName) || string.IsNullOrWhiteSpace(remoteVersionString))
 				{
 					throw new InvalidDataException("The app installer manifest does not identify a package and version.");
 				}
 
-				var remoteVersion = new Version(appInstaller.Version);
+				var remoteVersion = new Version(remoteVersionString);
 
 				Logger?.LogInformation($"SIDELOAD: Current Package Name: {PackageName}");
 				Logger?.LogInformation($"SIDELOAD: Remote Package Name: {remotePackageName}");
@@ -252,33 +252,5 @@ namespace Files.App.Services
 		{
 			_client?.Dispose();
 		}
-	}
-
-	/// <summary>
-	/// AppInstaller class to hold information about remote updates.
-	/// </summary>
-	[XmlRoot(ElementName = "AppInstaller", Namespace = "http://schemas.microsoft.com/appx/appinstaller/2018")]
-	public sealed class AppInstaller
-	{
-		[XmlElement("MainBundle")]
-		public MainBundle? MainBundle { get; set; }
-
-		[XmlAttribute("Uri")]
-		public string? Uri { get; set; }
-
-		[XmlAttribute("Version")]
-		public string? Version { get; set; }
-	}
-
-	public sealed class MainBundle
-	{
-		[XmlAttribute("Name")]
-		public string? Name { get; set; }
-
-		[XmlAttribute("Version")]
-		public string? Version { get; set; }
-
-		[XmlAttribute("Uri")]
-		public string? Uri { get; set; }
 	}
 }

@@ -37,7 +37,7 @@ namespace Files.App.Utils.Taskbar
 
 				WNDCLASSEXW param = new()
 				{
-					cbSize = (uint)Marshal.SizeOf(typeof(WNDCLASSEXW)),
+					cbSize = (uint)Marshal.SizeOf<WNDCLASSEXW>(),
 					style = WNDCLASS_STYLES.CS_DBLCLKS,
 					lpfnWndProc = pfnWndProc,
 					cbClsExtra = 0,

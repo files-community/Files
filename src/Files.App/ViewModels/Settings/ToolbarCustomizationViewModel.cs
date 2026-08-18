@@ -7,6 +7,7 @@ namespace Files.App.ViewModels.Settings
 	/// ViewModel for toolbar customization. Manages item reordering, addition/removal,
 	/// preview updates, and save/cancel/reset workflow.
 	/// </summary>
+	[global::WinRT.GeneratedBindableCustomProperty]
 	public sealed partial class ToolbarCustomizationViewModel : ObservableObject
 	{
 		private readonly IUserSettingsService UserSettingsService;
@@ -171,28 +172,31 @@ namespace Files.App.ViewModels.Settings
 			items.Insert(Math.Clamp(index, 0, items.Count), clone);
 		}
 
-		[RelayCommand]
+		// Declared manually: the [GeneratedBindableCustomProperty] generator cannot see
+		// [RelayCommand]-generated properties, so they would be missing from {Binding} metadata (MVVMTK0046)
+		public IRelayCommand<ToolbarItemDescriptor?> RemoveToolbarItemCommand => field ??= new RelayCommand<ToolbarItemDescriptor?>(RemoveToolbarItem);
+		public IRelayCommand ResetToolbarCommand => field ??= new RelayCommand(ResetToolbar);
+		public IRelayCommand SaveToolbarCommand => field ??= new RelayCommand(SaveToolbar);
+		public IRelayCommand CancelToolbarCommand => field ??= new RelayCommand(CancelToolbar);
+
 		private void RemoveToolbarItem(ToolbarItemDescriptor? item)
 		{
 			if (item is not null)
 				GetOrCreateItems(item.ContextId).Remove(item);
 		}
 
-		[RelayCommand]
 		private void ResetToolbar()
 		{
 			ApplyItems(ToolbarDefaultsTemplate.CreateDefaultItemsByContext(), saveChanges: false);
 			TrackAndNotify();
 		}
 
-		[RelayCommand]
 		private void SaveToolbar()
 		{
 			FinishCustomizationSession(persistChanges: true);
 			CloseRequested?.Invoke(this, EventArgs.Empty);
 		}
 
-		[RelayCommand]
 		private void CancelToolbar()
 		{
 			FinishCustomizationSession(persistChanges: false);

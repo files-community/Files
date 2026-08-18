@@ -43,7 +43,13 @@ namespace Files.App.ViewModels
 		private readonly AsyncManualResetEvent operationEvent;
 		private readonly AsyncManualResetEvent gitChangedEvent;
 		private readonly DispatcherQueue dispatcherQueue;
-		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
+		private readonly JsonElement defaultJson = CreateEmptyJsonElement();
+
+		private static JsonElement CreateEmptyJsonElement()
+		{
+			using var emptyDocument = JsonDocument.Parse("{}");
+			return emptyDocument.RootElement.Clone();
+		}
 		private readonly string folderTypeTextLocalized = Strings.Folder.GetLocalizedResource();
 
 		private Task? aProcessQueueAction;
@@ -2417,7 +2423,7 @@ namespace Files.App.ViewModels
 			int? syncStatus = null;
 			if (item is BaseStorageFile file && file.Properties is not null)
 			{
-				var extraProperties = await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync(["System.FilePlaceholderStatus"]).AsTask());
+				var extraProperties = await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync(new List<string> { "System.FilePlaceholderStatus" }).AsTask());
 				if (extraProperties)
 				{
 					var properties = extraProperties.Result
@@ -2427,7 +2433,7 @@ namespace Files.App.ViewModels
 			}
 			else if (item is BaseStorageFolder folder && folder.Properties is not null)
 			{
-				var extraProperties = await FilesystemTasks.Wrap(() => folder.Properties.RetrievePropertiesAsync(["System.FilePlaceholderStatus", "System.FileOfflineAvailabilityStatus"]).AsTask());
+				var extraProperties = await FilesystemTasks.Wrap(() => folder.Properties.RetrievePropertiesAsync(new List<string> { "System.FilePlaceholderStatus", "System.FileOfflineAvailabilityStatus" }).AsTask());
 				if (extraProperties)
 				{
 					var properties = extraProperties.Result
@@ -2448,10 +2454,10 @@ namespace Files.App.ViewModels
 		private async Task<FilesystemResult<IDictionary<string, object>>?> GetExtraProperties(IStorageItem matchingStorageItem)
 		{
 			if (matchingStorageItem is BaseStorageFile file && file.Properties != null)
-				return await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync(["System.Image.Dimensions", "System.Media.Duration", "System.FileVersion"]).AsTask());
+				return await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync(new List<string> { "System.Image.Dimensions", "System.Media.Duration", "System.FileVersion" }).AsTask());
 
 			else if (matchingStorageItem is BaseStorageFolder folder && folder.Properties != null)
-				return await FilesystemTasks.Wrap(() => folder.Properties.RetrievePropertiesAsync(["System.FreeSpace", "System.Capacity", "System.SFGAOFlags"]).AsTask());
+				return await FilesystemTasks.Wrap(() => folder.Properties.RetrievePropertiesAsync(new List<string> { "System.FreeSpace", "System.Capacity", "System.SFGAOFlags" }).AsTask());
 
 			return null;
 		}

@@ -255,6 +255,8 @@ namespace Files.App.Utils.Git
 			});
 		}
 
+		[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("Trimming", "IL2026", Justification = AotJson.SerializerTrimJustification)]
+		[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("AOT", "IL3050", Justification = AotJson.SerializerTrimJustification)]
 		public static async Task RequireGitAuthenticationAsync()
 		{
 			var pending = true;
@@ -275,7 +277,7 @@ namespace Files.App.Utils.Git
 					return;
 				}
 
-				codeJsonContent = await codeResponse.Content.ReadFromJsonAsync<JsonDocument>();
+				codeJsonContent = await codeResponse.Content.ReadFromJsonAsync<JsonDocument>(AotJson.Options);
 				if (codeJsonContent is null)
 				{
 					await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
@@ -315,7 +317,7 @@ namespace Files.App.Utils.Git
 						break;
 					}
 
-					var loginJsonContent = await loginResponse.Content.ReadFromJsonAsync<JsonDocument>();
+					var loginJsonContent = await loginResponse.Content.ReadFromJsonAsync<JsonDocument>(AotJson.Options);
 					if (loginJsonContent is null)
 					{
 						dialog.Hide();

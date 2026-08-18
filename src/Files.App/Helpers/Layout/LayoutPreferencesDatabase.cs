@@ -75,9 +75,11 @@ namespace Files.App.Helpers
 			Registry.CurrentUser.DeleteSubKeyTree(LayoutSettingsKey, false);
 		}
 
+		[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("Trimming", "IL2026", Justification = AotJson.SerializerTrimJustification)]
+		[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("AOT", "IL3050", Justification = AotJson.SerializerTrimJustification)]
 		public void Import(string json)
 		{
-			var preferences = JsonSerializer.Deserialize<LayoutPreferencesDatabaseItem[]>(json);
+			var preferences = JsonSerializer.Deserialize<LayoutPreferencesDatabaseItem[]>(json, AotJson.Options);
 			ImportCore(preferences);
 		}
 
@@ -101,11 +103,13 @@ namespace Files.App.Helpers
 			}
 		}
 
+		[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("Trimming", "IL2026", Justification = AotJson.SerializerTrimJustification)]
+		[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("AOT", "IL3050", Justification = AotJson.SerializerTrimJustification)]
 		public string Export()
 		{
 			var list = new List<LayoutPreferencesDatabaseItem>();
 			IterateKeys(list, LayoutSettingsKey, 0);
-			return JsonSerializer.Serialize(list);
+			return JsonSerializer.Serialize(list, AotJson.Options);
 		}
 
 		private void IterateKeys(List<LayoutPreferencesDatabaseItem> list, string path, int depth)

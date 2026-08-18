@@ -20,6 +20,7 @@ namespace Files.App.Views.Layouts
 	/// <summary>
 	/// Represents the base page of Column View
 	/// </summary>
+	[global::WinRT.GeneratedBindableCustomProperty]
 	public sealed partial class ColumnLayoutPage : BaseGroupableLayoutPage
 	{
 		// Fields

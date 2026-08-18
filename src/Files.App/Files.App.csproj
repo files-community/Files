@@ -41,6 +41,22 @@
     <PropertyGroup>
         <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     </PropertyGroup>
+
+    <!-- Native AOT build: pass -p:EnableAot=true on the command line -->
+    <PropertyGroup Condition="'$(EnableAot)' == 'true'">
+        <PublishAot>true</PublishAot>
+        <SelfContained>true</SelfContained>
+        <PublishReadyToRun>false</PublishReadyToRun>
+        <PublishReadyToRunComposite>false</PublishReadyToRunComposite>
+        <PublishSingleFile>false</PublishSingleFile>
+        <BuiltInComInteropSupport>false</BuiltInComInteropSupport>
+        <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+        <EnableAotAnalyzer>true</EnableAotAnalyzer>
+        <EnableSingleFileAnalyzer>true</EnableSingleFileAnalyzer>
+        <TrimmerSingleWarn>false</TrimmerSingleWarn>
+        <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+        <OptimizationPreference>Speed</OptimizationPreference>
+    </PropertyGroup>
   
     <ItemGroup>
         <Manifest Include="app.manifest" />
@@ -139,8 +155,9 @@
         <TrimmerRootAssembly Include="Files.App.BackgroundTasks" />
         <TrimmerRootAssembly Include="Files" />
         <TrimmerRootAssembly Include="Files.App.Storage" />
-        <TrimmerRootAssembly Include="Files.Core" />
         <TrimmerRootAssembly Include="Files.Core.Storage" />
+        <!-- TagLib.File.Create resolves file types by reflecting over its own assembly -->
+        <TrimmerRootAssembly Include="TagLibSharp" />
         <TrimmerRootAssembly Include="Files.Shared" />
     </ItemGroup>
 

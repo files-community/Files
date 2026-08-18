@@ -16,14 +16,19 @@ namespace Files.App.Data.Parameters
 
 		public object? NavigationParameter { get; set; }
 
+		[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("Trimming", "IL2026", Justification = AotJson.SerializerTrimJustification)]
+		[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("AOT", "IL3050", Justification = AotJson.SerializerTrimJustification)]
 		public string Serialize()
 		{
 			return JsonSerializer.Serialize(this, _typesConverter.Options);
 		}
 
+		[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("Trimming", "IL2026", Justification = AotJson.SerializerTrimJustification)]
+		[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("AOT", "IL3050", Justification = AotJson.SerializerTrimJustification)]
+		[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("Trimming", "IL2057", Justification = "Falls back to ShellPanesPage when the stored page type is unavailable")]
 		public static TabBarItemParameter Deserialize(string obj)
 		{
-			var tempArgs = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(obj)
+			var tempArgs = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(obj, AotJson.Options)
 				?? throw new JsonException("The tab data is empty.");
 			var typeName = tempArgs[nameof(InitialPageType)].GetString();
 			if (string.IsNullOrEmpty(typeName))
@@ -35,7 +40,7 @@ namespace Files.App.Data.Parameters
 			object? navigationParameter;
 			try
 			{
-				navigationParameter = JsonSerializer.Deserialize<PaneNavigationArguments>(tempArgs[nameof(NavigationParameter)].GetRawText());
+				navigationParameter = JsonSerializer.Deserialize<PaneNavigationArguments>(tempArgs[nameof(NavigationParameter)].GetRawText(), AotJson.Options);
 			}
 			catch (JsonException)
 			{
