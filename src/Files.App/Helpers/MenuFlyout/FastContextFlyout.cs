@@ -47,6 +47,7 @@ namespace Files.App.Helpers.ContextFlyouts
 		{
 			Flyout.Opening += (sender, e) => App.LastOpenedFlyout = Flyout;
 			Flyout.Opened += Flyout_Opened;
+			Flyout.Closed += Flyout_Closed;
 		}
 
 		/// <summary>
@@ -563,6 +564,15 @@ namespace Files.App.Helpers.ContextFlyouts
 			{
 				Debug.WriteLine(ex);
 			}
+		}
+
+		private void Flyout_Closed(object? sender, object e)
+		{
+			if (primaryRow?.Tag is not Panel row)
+				return;
+
+			foreach (var button in row.Children.OfType<Button>())
+				button.KeyboardAccelerators.Clear();
 		}
 
 		/// <summary>
