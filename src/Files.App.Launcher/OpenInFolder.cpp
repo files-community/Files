@@ -482,9 +482,10 @@ HRESULT OpenInFolder::NotifyShellOfNavigation(PCIDLIST_ABSOLUTE pidl)
 	RETURN_IF_FAILED(InitVariantFromBuffer(pidl, ILGetSize(pidl), &pidlVariant));
 
 	wil::unique_variant empty;
-	RETURN_IF_FAILED(m_shellWindows->RegisterPending(GetCurrentThreadId(), &pidlVariant, &empty, SWC_BROWSER, &m_shellWindowCookie));
+	RETURN_IF_FAILED(m_shellWindows->RegisterPending(GetCurrentThreadId(), &pidlVariant, &empty, SWC_BROWSER, &m_pendingCookie));
+	m_isPendingRegistered = true;
+	RETURN_IF_FAILED(m_shellWindows->Register(static_cast<IDispatch*>(this), HandleToLong(m_hwnd), SWC_BROWSER, &m_shellWindowCookie));
 	m_isRegistered = true;
-	RETURN_IF_FAILED(m_shellWindows->OnCreated(m_shellWindowCookie, static_cast<IWebBrowserApp*>(this)));
 
 	RETURN_IF_FAILED(m_shellWindows->OnNavigate(m_shellWindowCookie, &pidlVariant));
 
@@ -515,10 +516,22 @@ std::wstring OpenInFolder::GetResult()
 
 void OpenInFolder::RevokeShellWindow()
 {
-	if (m_shellWindows && m_isRegistered)
+	if (!m_shellWindows)
+		return;
+
+	if (m_isRegistered)
 	{
 		m_isRegistered = false;
 		m_shellWindows->Revoke(m_shellWindowCookie);
+	}
+
+	if (m_isPendingRegistered)
+	{
+		m_isPendingRegistered = false;
+
+		// Register may complete the pending registration under the same cookie
+		if (m_pendingCookie != m_shellWindowCookie)
+			m_shellWindows->Revoke(m_pendingCookie);
 	}
 }
 
