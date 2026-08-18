@@ -13,6 +13,13 @@ namespace Files.InteractionTests.Helper
 		private static readonly TimeSpan DefaultFindTimeout = TimeSpan.FromSeconds(20);
 		private static readonly TimeSpan DefaultRetryInterval = TimeSpan.FromMilliseconds(500);
 
+		/// <summary>
+		/// Root folder that holds everything the tests create on disk, kept outside the user
+		/// profile so test runs never touch personal folders such as Desktop or Documents.
+		/// SessionManager creates it when the test run starts and deletes it when it ends.
+		/// </summary>
+		public static readonly string TestDataRootPath = @"C:\Temp\Files.InteractionTests";
+
 		public static ICollection<WindowsElement> GetElementsOfType(string elementType)
 		{
 			try
@@ -38,18 +45,25 @@ namespace Files.InteractionTests.Helper
 		{
 			try
 			{
-				_ = SessionManager.Session.CurrentWindowHandle;
-				return;
-			}
-			catch (OpenQA.Selenium.WebDriverException)
-			{
-				// The tracked window is gone; fall through and re-anchor
-			}
-
-			try
-			{
 				var handles = SessionManager.Session.WindowHandles;
-				if (handles.Count > 0)
+				if (handles.Count == 0)
+					return;
+
+				string currentHandle = null;
+				try
+				{
+					currentHandle = SessionManager.Session.CurrentWindowHandle;
+				}
+				catch (OpenQA.Selenium.WebDriverException)
+				{
+					// The tracked window is gone; fall through and re-anchor
+				}
+
+				// Only act when the tracked window is actually gone: switching windows activates
+				// the target, which would light-dismiss an open context menu. WinAppDriver keeps
+				// answering with the stale handle of a closed window, so absence from the list of
+				// open windows is the reliable gone-signal.
+				if (currentHandle is null || !handles.Contains(currentHandle))
 					SessionManager.Session.SwitchTo().Window(handles[0]);
 			}
 			catch (Exception)
@@ -135,6 +149,78 @@ namespace Files.InteractionTests.Helper
 			var element = FindElementByNameWithRetry(uiaName);
 			element.Click();
 			element.SendKeys(OpenQA.Selenium.Keys.Enter);
+		}
+
+		/// <summary>
+		/// Navigates the file area to the given path the way a user would: Ctrl+L opens the
+		/// Omnibar's path edit box, the path is typed there and submitted with Enter (the Omnibar
+		/// navigates only on submit), then the wait ends once the toolbar reports the new folder.
+		/// </summary>
+		public static void NavigateToPath(string path)
+		{
+			// Already there - skip the edit-box round trip
+			if (PathEquals(GetCurrentPath(), path))
+				return;
+
+			var deadline = DateTime.UtcNow + DefaultFindTimeout;
+
+			// Enter path edit mode; re-send the shortcut until the edit box materializes, since
+			// the keystroke is lost when the window does not have input focus yet
+			while (true)
+			{
+				new OpenQA.Selenium.Interactions.Actions(SessionManager.Session)
+					.KeyDown(OpenQA.Selenium.Keys.Control)
+					.SendKeys("l")
+					.KeyUp(OpenQA.Selenium.Keys.Control)
+					.Perform();
+
+				try
+				{
+					SessionManager.Session.FindElementByAccessibilityId("PART_TextBox");
+					break;
+				}
+				catch (OpenQA.Selenium.WebDriverException)
+				{
+					if (DateTime.UtcNow > deadline)
+						throw new TimeoutException($"Timed out opening the path edit box to navigate to '{path}'.");
+
+					TryRecoverWindow();
+					Thread.Sleep(DefaultRetryInterval);
+				}
+			}
+
+			var pathBox = SetTextById("PART_TextBox", path);
+			pathBox.SendKeys(OpenQA.Selenium.Keys.Enter);
+
+			while (DateTime.UtcNow < deadline)
+			{
+				if (PathEquals(GetCurrentPath(), path))
+					return;
+
+				Thread.Sleep(DefaultRetryInterval);
+			}
+
+			throw new TimeoutException($"Timed out waiting for the app to navigate to '{path}'.");
+		}
+
+		private static bool PathEquals(string first, string second)
+			=> first is not null && second is not null
+				&& string.Equals(first.TrimEnd('\\'), second.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase);
+
+		/// <summary>
+		/// Returns the path the toolbar currently displays, or null while it is unavailable.
+		/// </summary>
+		private static string GetCurrentPath()
+		{
+			try
+			{
+				return SessionManager.Session.FindElementByAccessibilityId("CurrentPathGet").Text;
+			}
+			catch (OpenQA.Selenium.WebDriverException)
+			{
+				// The box goes stale while the toolbar rebuilds during navigation
+				return null;
+			}
 		}
 
 		/// <summary>
@@ -283,6 +369,15 @@ namespace Files.InteractionTests.Helper
 		/// "element is not pointer- or keyboard interactable".
 		/// </summary>
 		public static void WaitUntilElementGoneById(string automationId)
+			=> WaitUntilElementGone(() => SessionManager.Session.FindElementByAccessibilityId(automationId));
+
+		/// <summary>
+		/// Waits until the element with the given UIA name is gone, e.g. an item being deleted.
+		/// </summary>
+		public static void WaitUntilElementGoneByName(string uiaName)
+			=> WaitUntilElementGone(() => SessionManager.Session.FindElementByName(uiaName));
+
+		private static void WaitUntilElementGone(Func<WindowsElement> find)
 		{
 			var deadline = DateTime.UtcNow + TimeSpan.FromSeconds(5);
 
@@ -290,7 +385,7 @@ namespace Files.InteractionTests.Helper
 			{
 				try
 				{
-					SessionManager.Session.FindElementByAccessibilityId(automationId);
+					find();
 					Thread.Sleep(200);
 				}
 				catch (Exception)

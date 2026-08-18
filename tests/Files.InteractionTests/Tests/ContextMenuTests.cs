@@ -4,36 +4,43 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using System;
+using System.IO;
 using System.Threading;
 
 namespace Files.InteractionTests.Tests
 {
 	// Tests are declared in the order the app naturally flows: the Home page (where the app opens)
-	// first, then the sidebar, then the file area. File-area tests share a single folder on the
-	// desktop, created lazily on first use and deleted afterwards, so the desktop itself is never
-	// littered with test items.
+	// first, then the sidebar, then the file area. File-area tests share a single folder under the
+	// test data root, created lazily on first use and deleted afterwards, so no user folder is
+	// ever littered with test items.
 	[TestClass]
 	public sealed class ContextMenuTests
 	{
 		private static readonly string testFolderName = $"IT ContextMenuTests {DateTime.UtcNow:yyyyMMddHHmmssfff}";
+		private static readonly string testFolderPath = Path.Combine(TestHelper.TestDataRootPath, testFolderName);
 
 		// Tracks whether the file area currently shows the shared test folder, so tests skip the
 		// navigation when a previous test already left it there
 		private static bool isInTestFolder;
-		private static bool testFolderCreated;
 
 		[ClassCleanup]
 		public static void ClassCleanup()
 		{
-			if (!testFolderCreated)
+			if (!Directory.Exists(testFolderPath))
 				return;
 
-			// Delete the shared test folder along with everything the tests created inside it
-			TestHelper.InvokeButtonById("Desktop");
-			TestHelper.InvokeButtonByName(testFolderName);
-			TestHelper.InvokeButtonById("InnerNavigationToolbarDeleteButton");
-			TestHelper.InvokeDialogPrimaryButton("Delete");
-			Thread.Sleep(600);
+			// Leave the folder before deleting it so the file area is not left on a dead path
+			TestHelper.InvokeButtonById("Home");
+
+			try
+			{
+				Directory.Delete(testFolderPath, true);
+			}
+			catch (IOException)
+			{
+				// The app can briefly keep a change-watcher handle on the folder right after
+				// navigating away; the assembly cleanup removes the whole root once the app closed
+			}
 		}
 
 		[TestCleanup]
@@ -302,14 +309,8 @@ namespace Files.InteractionTests.Tests
 			if (isInTestFolder)
 				return;
 
-			TestHelper.InvokeButtonById("Desktop");
-			if (!testFolderCreated)
-			{
-				CreateItemFromNewFlyout("InnerNavigationToolbarNewFolderButton", testFolderName);
-				testFolderCreated = true;
-			}
-
-			TestHelper.OpenElementByName(testFolderName);
+			Directory.CreateDirectory(testFolderPath);
+			TestHelper.NavigateToPath(testFolderPath);
 			Thread.Sleep(300);
 			isInTestFolder = true;
 		}

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using OpenQA.Selenium;
+using System;
 using System.Threading;
 
 namespace Files.InteractionTests.Tests
@@ -29,7 +30,7 @@ namespace Files.InteractionTests.Tests
 
 			RenameFolderTest(initialFolderName, renamedFolderName);
 
-			CopyPasteFolderTest();
+			CopyPasteFolderTest(renamedFolderName);
 
 			DeleteFolderTest(renamedFolderName);
 		}
@@ -39,11 +40,11 @@ namespace Files.InteractionTests.Tests
 		/// </summary>
 		private void NavigationTest()
 		{
-			// Click on the desktop item in the sidebar
-			TestHelper.InvokeButtonById("Desktop");
+			// Navigate to the test data folder; all items this test creates live there
+			TestHelper.NavigateToPath(TestHelper.TestDataRootPath);
 
-			// Wait for the desktop folder to load
-			Thread.Sleep(2500);
+			// Wait for the folder to settle
+			Thread.Sleep(300);
 		}
 
 
@@ -52,11 +53,8 @@ namespace Files.InteractionTests.Tests
 		/// </summary>
 		private void CreateFolderTest(string folderName)
 		{
-			// Click the "New" button on the toolbar
+			// Click the "New" button on the toolbar; the flyout item finder retries until it loads
 			TestHelper.InvokeButtonById("InnerNavigationToolbarNewButton");
-
-			// Wait for the flyout to load
-			Thread.Sleep(1500);
 
 			// Click the "Folder" item from the menu flyout
 			TestHelper.InvokeButtonById("InnerNavigationToolbarNewFolderButton");
@@ -67,19 +65,17 @@ namespace Files.InteractionTests.Tests
 			// Check for accessibility issues in the new folder prompt
 			AxeHelper.AssertNoAccessibilityErrors();
 
-			// Click the "Create" button to confirm
+			// Click the "Create" button to confirm and wait for the dialog to close
 			TestHelper.InvokeDialogPrimaryButton("Create");
-
-			// Wait for folder to be created
-			Thread.Sleep(3500);
-
-			// Check for accessibility issues in the file area
-			AxeHelper.AssertNoAccessibilityErrors();
+			TestHelper.WaitUntilElementGoneById("CreateItemDialogNameTextBox");
 
 			// Verify the folder shows up in the file area without clicking it,
 			// since a click here and the selection click that follows could
 			// land close enough together to register as a double click
 			TestHelper.WaitForElementByName(folderName);
+
+			// Check for accessibility issues in the file area
+			AxeHelper.AssertNoAccessibilityErrors();
 		}
 
 		/// <summary>
@@ -107,19 +103,25 @@ namespace Files.InteractionTests.Tests
 		/// <summary>
 		/// Tests copying and pasting a folder
 		/// </summary>
-		private void CopyPasteFolderTest()
+		private void CopyPasteFolderTest(string folderName)
 		{
-			// Click the "copy" button on the toolbar
+			// Click the "copy" button on the toolbar and give the clipboard a moment to settle
 			TestHelper.InvokeButtonById("InnerNavigationToolbarCopyButton");
-
-			// Wait for folder to be copied
-			Thread.Sleep(3500);
+			Thread.Sleep(300);
 
 			// Click the "paste" button on the toolbar
 			TestHelper.InvokeButtonById("InnerNavigationToolbarPasteButton");
 
-			// Wait for folder to be pasted
-			Thread.Sleep(4000);
+			// Wait for the pasted duplicate: a second item whose name contains the folder name
+			// (the duplicate gets a localizable suffix, so the exact name is not predictable)
+			var deadline = DateTime.UtcNow + TimeSpan.FromSeconds(20);
+			while (TestHelper.GetElementsOfTypeWithContent("ListItem", folderName).Count < 2)
+			{
+				if (DateTime.UtcNow > deadline)
+					Assert.Fail($"The pasted copy of '{folderName}' did not appear.");
+
+				Thread.Sleep(300);
+			}
 		}
 
 		/// <summary>
@@ -132,16 +134,14 @@ namespace Files.InteractionTests.Tests
 			TestHelper.InvokeButtonById("InnerNavigationToolbarDeleteButton");
 
 			// Wait for prompt to show
-			Thread.Sleep(3500);
+			Thread.Sleep(500);
 
 			// Check for accessibility issues in the confirm delete prompt
 			AxeHelper.AssertNoAccessibilityErrors();
 
-			// Click the "Delete" button to confirm
+			// Click the "Delete" button to confirm, then wait for the item to disappear
 			TestHelper.InvokeDialogPrimaryButton("Delete");
-
-			// Wait for items to finish being deleted
-			Thread.Sleep(3500);
+			TestHelper.WaitUntilElementGoneByName(renamedFolderName);
 		}
 	}
 }
