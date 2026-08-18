@@ -75,6 +75,10 @@
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/BreadcrumbBar/BreadcrumbBar.xaml" />
 		<!--#endregion-->
 
+		<!--#region Dialog Resources-->
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Dialogs/DialogResources.xaml" />
+		<!--#endregion-->
+
 	</ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
