@@ -27,7 +27,6 @@ namespace Files.App.Helpers.ContextFlyouts
 		private bool openedUp;
 		private bool placementResolved;
 		private double estimatedWidth;
-		private double referenceScreenY = double.NaN;
 		private FrameworkElement? invocationAnchor;
 		private Point? invocationPosition;
 
@@ -61,7 +60,6 @@ namespace Files.App.Helpers.ContextFlyouts
 			primaryModels = null;
 			openedUp = false;
 			placementResolved = false;
-			referenceScreenY = double.NaN;
 			invocationAnchor = null;
 			invocationPosition = null;
 		}
@@ -494,16 +492,19 @@ namespace Files.App.Helpers.ContextFlyouts
 				MenuFlyoutPresenter? presenter = null;
 				foreach (var openPopup in Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopupsForXamlRoot(Flyout.XamlRoot))
 				{
-					presenter = openPopup.Child as MenuFlyoutPresenter ?? openPopup.Child?.FindDescendant<MenuFlyoutPresenter>();
-					if (presenter is not null)
+					var candidate = openPopup.Child as MenuFlyoutPresenter ?? openPopup.Child?.FindDescendant<MenuFlyoutPresenter>();
+
+					// Several menu popups can be open at once (a submenu, another pane's leftover menu); ours is
+					// the one presenting this flyout's items
+					if (candidate is not null && candidate.Items.Count > 0 && Flyout.Items.Count > 0 && ReferenceEquals(candidate.Items[0], Flyout.Items[0]))
 					{
+						presenter = candidate;
 						popup = openPopup;
 						break;
 					}
 				}
 				if (presenter is null || popup is null)
 					return;
-
 
 				// Measure the shared accelerator-text column in the open frame; otherwise the menu visibly
 				// widens a beat after it appears.
@@ -518,28 +519,38 @@ namespace Files.App.Helpers.ContextFlyouts
 				if (presenter.XamlRoot.Content is FrameworkElement rootContent && rootContent.ActualHeight > 0)
 					presenter.MaxHeight = rootContent.ActualHeight - 24;
 
-				var scale = Flyout.XamlRoot.RasterizationScale;
-
-				// Pull the touch/pointer point captured after the pre-render guess and recompute the reference; the
-				// cursor is stale for touch. Direct-position callers (widget/sidebar) leave the provider null.
-				if (InvocationPointProvider?.Invoke() is { } invocation && Flyout.XamlRoot.Content is FrameworkElement openedContent)
+				// Pull the touch/pointer point captured after the pre-render guess; the cursor is stale for touch.
+				// Direct-position callers (widget/sidebar) leave the provider null.
+				if (InvocationPointProvider?.Invoke() is { } invocation)
 				{
 					invocationAnchor = invocation.Anchor;
 					invocationPosition = invocation.Position;
-					var refreshedY = GetInvocationReferenceScreenPoint(openedContent, scale).Y;
-					if (!double.IsNaN(refreshedY))
-						referenceScreenY = refreshedY;
 				}
 
-				// The predicted direction can be wrong within the estimation error at the flip boundary; the
-				// popup's offsets give where the menu actually opened (window-logical coordinates), so verify
-				// and move the row when it landed on the wrong end.
+				// The pre-render guess can be wrong within the estimation error at the flip boundary. Decide the
+				// final position the way CommandBarFlyoutCommandBar does after its flyout is placed: from the
+				// menu's ACTUAL position. A context menu is a windowed popup positioned by moving its own popup
+				// window (the popup's offsets don't reflect the final placement), so the placed top edge comes
+				// from the popup window's screen position; in-window popups fall back to the offset. The row goes
+				// on whichever end is nearest the invocation point - also the best answer when the menu is taller
+				// than the work area and the pointer lands mid-menu.
+				var referenceScreenY = GetInvocationReferenceScreenY();
 				if (!double.IsNaN(referenceScreenY) && presenter.ActualHeight > 0)
 				{
-					var appWindow = MainWindow.Instance.AppWindow
-						?? throw new InvalidOperationException("The app window is not available.");
-					var menuTopScreen = appWindow.Position.Y + popup.VerticalOffset * scale;
-					var menuBottomScreen = menuTopScreen + presenter.ActualHeight * scale;
+					var popupScale = presenter.XamlRoot.RasterizationScale;
+					double menuTopScreen;
+					var mainWindowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(MainWindow.Instance.WindowHandle);
+					if (presenter.XamlRoot.ContentIslandEnvironment?.AppWindowId is { } islandWindowId && islandWindowId.Value != mainWindowId.Value)
+					{
+						// The popup window is borderless, so its position is the menu's top-left
+						menuTopScreen = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(islandWindowId).Position.Y;
+					}
+					else
+					{
+						menuTopScreen = ClientYToScreen(popup.VerticalOffset);
+					}
+
+					var menuBottomScreen = menuTopScreen + presenter.ActualHeight * popupScale;
 					var actuallyOpenedUp = referenceScreenY - menuTopScreen > menuBottomScreen - referenceScreenY;
 					if (actuallyOpenedUp != openedUp)
 					{
@@ -554,6 +565,68 @@ namespace Files.App.Helpers.ContextFlyouts
 			}
 		}
 
+		/// <summary>
+		/// Converts a Y coordinate in the main XamlRoot's space to physical screen coordinates through the
+		/// window's client origin (AppWindow.Position is the OUTER top-left, off by the border/caption).
+		/// </summary>
+		private static double ClientYToScreen(double xamlRootY)
+		{
+			var scale = MainWindow.Instance.Content.XamlRoot?.RasterizationScale ?? 1.0;
+			var clientOrigin = new System.Drawing.Point(0, 0);
+			Windows.Win32.PInvoke.ClientToScreen(new(MainWindow.Instance.WindowHandle), ref clientOrigin);
+			return clientOrigin.Y + xamlRootY * scale;
+		}
+
+		/// <summary>
+		/// The invocation point in physical screen coordinates, most reliable first: the explicit invocation
+		/// point when supplied, else the live mouse cursor, else the top of a small target. NaN when unknown.
+		/// </summary>
+		private double GetInvocationReferenceScreenY()
+		{
+			if (invocationAnchor is { } anchor && invocationPosition is { } position)
+			{
+				try
+				{
+					return ClientYToScreen(anchor.TransformToVisual(null).TransformPoint(position).Y);
+				}
+				catch (Exception ex)
+				{
+					Debug.WriteLine(ex);
+				}
+			}
+
+			var cursorY = double.NaN;
+			try
+			{
+				if (Windows.Win32.PInvoke.GetCursorPos(out var cursor))
+					cursorY = cursor.Y;
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+			}
+
+			if (Flyout.Target is FrameworkElement target && target.ActualHeight > 0 && target.ActualHeight <= 300)
+			{
+				try
+				{
+					var scale = MainWindow.Instance.Content.XamlRoot?.RasterizationScale ?? 1.0;
+					var targetTopScreen = ClientYToScreen(target.TransformToVisual(null).TransformPoint(new Point(0, 0)).Y);
+
+					// Tolerance band around the target: a pointer invocation can land a few px outside the
+					// row the flyout ends up anchored to
+					var isCursorNearTarget = cursorY >= targetTopScreen - 24 && cursorY <= targetTopScreen + target.ActualHeight * scale + 24;
+					return isCursorNearTarget ? cursorY : targetTopScreen;
+				}
+				catch
+				{
+					return double.NaN;
+				}
+			}
+
+			return cursorY;
+		}
+
 		private bool PredictOpensUpward()
 		{
 			try
@@ -563,7 +636,6 @@ namespace Files.App.Helpers.ContextFlyouts
 
 				var scale = content.XamlRoot?.RasterizationScale ?? 1.0;
 				var (referenceX, referenceY) = GetInvocationReferenceScreenPoint(content, scale);
-				referenceScreenY = referenceY;
 				if (double.IsNaN(referenceY))
 					return false;
 
