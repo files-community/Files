@@ -48,6 +48,7 @@ namespace Files.App.Helpers.ContextFlyouts
 		{
 			Flyout.Opening += (sender, e) => App.LastOpenedFlyout = Flyout;
 			Flyout.Opened += Flyout_Opened;
+			Flyout.Closed += Flyout_Closed;
 		}
 
 		/// <summary>
@@ -552,6 +553,17 @@ namespace Files.App.Helpers.ContextFlyouts
 			{
 				Debug.WriteLine(ex);
 			}
+		}
+
+		private void Flyout_Closed(object? sender, object e)
+		{
+			if (primaryRow?.Tag is not Panel row)
+				return;
+
+			// Fixes #18820: Primary command accelerators remain active after the flyout closes,
+			// overriding shortcuts in focused text controls such as the rename TextBox.
+			foreach (var button in row.Children.OfType<Button>())
+				button.KeyboardAccelerators.Clear();
 		}
 
 		private bool PredictOpensUpward()
