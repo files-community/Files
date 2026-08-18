@@ -32,8 +32,22 @@ namespace Files.App.Data.Contexts
 			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
 			BaseTabBar.OnLoaded += BaseMultitaskingControl_OnLoaded;
 			TabBar.SelectedTabItemChanged += HorizontalMultitaskingControl_SelectedTabItemChanged;
-			FocusManager.GotFocus += FocusManager_GotFocus;
-			FocusManager.LosingFocus += FocusManager_LosingFocus;
+
+			// The FocusManager statics are UI-thread-only; defer the subscriptions when this
+			// singleton is constructed during the off-thread service prewarm
+			if (App.UiDispatcher?.HasThreadAccess ?? true)
+			{
+				FocusManager.GotFocus += FocusManager_GotFocus;
+				FocusManager.LosingFocus += FocusManager_LosingFocus;
+			}
+			else
+			{
+				App.UiDispatcher.TryEnqueue(() =>
+				{
+					FocusManager.GotFocus += FocusManager_GotFocus;
+					FocusManager.LosingFocus += FocusManager_LosingFocus;
+				});
+			}
 		}
 
 		private void AppInstances_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

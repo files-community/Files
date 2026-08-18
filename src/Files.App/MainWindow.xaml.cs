@@ -38,7 +38,10 @@ namespace Files.App
 			AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonPressedBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonHoverBackgroundColor = Colors.Transparent;
-			AppWindow.SetIcon(AppLifecycleHelper.AppIconPath);
+
+			// Reads the .ico from disk; applied after the first frame has had a chance to render
+			DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+				AppWindow.SetIcon(AppLifecycleHelper.AppIconPath));
 
 			WinUIEx.WindowManager.Get(this).WindowMessageReceived += WindowManager_WindowMessageReceived;
 		}

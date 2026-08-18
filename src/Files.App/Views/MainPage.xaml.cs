@@ -70,6 +70,16 @@ namespace Files.App.Views
 			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
 
 			ApplySidebarWidthState();
+
+			Loaded += MainPage_FirstLoaded;
+		}
+
+		private void MainPage_FirstLoaded(object sender, RoutedEventArgs e)
+		{
+			Loaded -= MainPage_FirstLoaded;
+			App.Logger.LogInformation($"Startup: MainPage first frame at {App.StartupStopwatch.ElapsedMilliseconds}ms");
+
+			DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, App.LoadDeferredResourceDictionaries);
 		}
 
 		private async Task AppRunningAsAdminPromptAsync()

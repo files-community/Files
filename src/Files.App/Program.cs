@@ -76,6 +76,8 @@ namespace Files.App
 		[STAThread]
 		private static void Main()
 		{
+			App.StartupStopwatch.Restart();
+
 			Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 			WinRT.ComWrappersSupport.InitializeComWrappers();
 
@@ -95,28 +97,33 @@ namespace Files.App
 				}
 			}
 
-			var processes = Process.GetProcessesByName("Files")
-				.Where(ProcessPathPredicate)
-				.Where(p => p.Id != Environment.ProcessId);
-
-			if (!processes.Any())
+			// Off the critical path: the guarded first WinRT server call below is disabled (#15384),
+			// and MainModule reads cost tens of milliseconds per scanned process
+			_ = Task.Run(static () =>
 			{
-				foreach (var process in Process.GetProcessesByName("Files.App.Server").Where(ProcessPathPredicate))
+				var processes = Process.GetProcessesByName("Files")
+					.Where(ProcessPathPredicate)
+					.Where(p => p.Id != Environment.ProcessId);
+
+				if (!processes.Any())
 				{
-					try
+					foreach (var process in Process.GetProcessesByName("Files.App.Server").Where(ProcessPathPredicate))
 					{
-						process.Kill();
-					}
-					catch
-					{
-						// ignore any exceptions
-					}
-					finally
-					{
-						process.Dispose();
+						try
+						{
+							process.Kill();
+						}
+						catch
+						{
+							// ignore any exceptions
+						}
+						finally
+						{
+							process.Dispose();
+						}
 					}
 				}
-			}
+			});
 
 			// NOTE:
 			//  This has been commented out since out-of-proc WinRT server seems not to support elevation.

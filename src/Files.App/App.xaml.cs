@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Files.App.Helpers.Application;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.UI.Xaml;
@@ -20,6 +21,8 @@ namespace Files.App
 	/// </summary>
 	public partial class App : Application
 	{
+		public static readonly System.Diagnostics.Stopwatch StartupStopwatch = System.Diagnostics.Stopwatch.StartNew();
+
 		public static SystemTrayIcon? SystemTrayIcon { get; private set; }
 
 		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
@@ -45,6 +48,8 @@ namespace Files.App
 		public static AppModel AppModel { get; private set; } = null!;
 		public static ILogger Logger { get; private set; } = NullLogger.Instance;
 
+		public static Microsoft.UI.Dispatching.DispatcherQueue? UiDispatcher { get; private set; }
+
 		/// <summary>
 		/// Initializes an instance of <see cref="App"/>.
 		/// </summary>
@@ -60,33 +65,144 @@ namespace Files.App
 		}
 
 		/// <summary>
+		/// Merges the app-wide style dictionaries. Called at the start of <see cref="OnLaunched"/>:
+		/// the Application.Resources ABI throws E_UNEXPECTED until construction completes, and
+		/// MainWindow's XAML hasn't parsed yet, so StaticResource lookups still resolve.
+		/// The MenuFlyoutSubItem dictionaries are menu-only and load after the first frame instead.
+		/// </summary>
+		private void MergeStyleDictionaries()
+		{
+			foreach (var source in (ReadOnlySpan<string>)
+			[
+				"ms-appx:///Files.App.Controls/Themes/Generic.xaml",
+				"ms-appx:///Styles/PathIcons.xaml",
+				"ms-appx:///Styles/TextBlockStyles.xaml",
+				"ms-appx:///Styles/ShimmerStyles.xaml",
+			])
+			{
+				Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri(source) });
+			}
+		}
+
+		private static bool _deferredDictionariesLoaded;
+
+		/// <summary>
+		/// Loads resource dictionaries that only flyout menus need; called after the first frame.
+		/// </summary>
+		public static void LoadDeferredResourceDictionaries()
+		{
+			if (_deferredDictionariesLoaded)
+				return;
+
+			_deferredDictionariesLoaded = true;
+
+			Current.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("ms-appx:///Styles/MenuFlyoutSubItemWithImageStyle.xaml") });
+			Current.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("ms-appx:///Styles/MenuFlyoutSubItemWithThemedIconStyle.xaml") });
+		}
+
+		/// <summary>
 		/// Gets invoked when the application is launched normally by the end user.
 		/// </summary>
 		protected override void OnLaunched(LaunchActivatedEventArgs e)
 		{
+			UiDispatcher = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
+
+			// Constructed here (UI thread) rather than by the container: the ctor subscribes
+			// Clipboard.ContentChanged, which is UI-thread-only, and contexts resolved during the
+			// off-thread command prewarm read App.AppModel
+			AppModel = new AppModel();
+
+			MergeStyleDictionaries();
 			_ = ActivateAsync();
 
 			async Task ActivateAsync()
 			{
+				// Build the DI container off-thread while the window initializes
+				var appModel = AppModel;
+				var servicesTask = Task.Run(() =>
+				{
+					try
+					{
+						var provider = AppLifecycleHelper.ConfigureHost(appModel);
+
+						// Configured here (not after the await) so constructions that resolve
+						// through Ioc.Default can also be warmed off the UI thread
+						Ioc.Default.ConfigureServices(provider);
+
+						// Warm the settings file read off the UI thread
+						_ = provider.GetRequiredService<IGeneralSettingsService>().LeaveAppRunning;
+						_ = provider.GetRequiredService<IAppearanceSettingsService>().AppThemeBackdropMaterial;
+
+						// Thread-safe to construct (file watchers, event subscriptions), and several
+						// action/context constructors resolved by the command prewarm below read them
+						// through these statics
+						QuickAccessManager = provider.GetRequiredService<QuickAccessManager>();
+						HistoryWrapper = provider.GetRequiredService<StorageHistoryWrapper>();
+						FileTagsManager = provider.GetRequiredService<FileTagsManager>();
+						LibraryManager = provider.GetRequiredService<LibraryManager>();
+
+						// Warm the command manager (every command and hotkey) off the UI thread,
+						// below normal priority so the window building concurrently on the UI
+						// thread wins every core
+						var previousPriority = Thread.CurrentThread.Priority;
+						Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
+						try
+						{
+							_ = provider.GetRequiredService<ICommandManager>();
+						}
+						catch (Exception)
+						{
+							// A command constructor that requires the UI thread (COMException from a
+							// XAML static, or a not-yet-assigned App static) aborts the warm-up;
+							// commands then construct on first use on the UI thread instead
+						}
+						finally
+						{
+							Thread.CurrentThread.Priority = previousPriority;
+						}
+
+						return provider;
+					}
+					catch (Exception)
+					{
+						// A service constructor that requires the UI thread failed the off-thread
+						// build; the container is rebuilt on the UI thread below, where the same
+						// failure would surface through the normal unhandled-exception handlers
+						return null;
+					}
+				});
+
 				// Get AppActivationArguments
 				var appActivationArguments = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
 				var isStartupTask = appActivationArguments.Data is Windows.ApplicationModel.Activation.IStartupTaskActivatedEventArgs;
+
+				// IsDynamicCodeSupported is false on Native AOT, where startup is fast enough to skip the splash screen
+				var showSplashScreen = System.Runtime.CompilerServices.RuntimeFeature.IsDynamicCodeSupported;
 
 				if (!isStartupTask)
 				{
 					// Initialize and activate MainWindow
 					MainWindow.Instance.Activate();
 
-					// Wait for the Window to initialize
-					await Task.Delay(10);
+					if (showSplashScreen)
+					{
+						// Wait for the Window to initialize
+						await Task.Delay(10);
 
-					SplashScreenLoadingTCS = new TaskCompletionSource();
-					MainWindow.Instance.ShowSplashScreen();
+						SplashScreenLoadingTCS = new TaskCompletionSource();
+						MainWindow.Instance.ShowSplashScreen();
+					}
 				}
 
 				// Configure the DI (dependency injection) container
-				var host = AppLifecycleHelper.ConfigureHost();
-				Ioc.Default.ConfigureServices(host.Services);
+				var serviceProvider = await servicesTask;
+				if (serviceProvider is null)
+				{
+					serviceProvider = AppLifecycleHelper.ConfigureHost(appModel);
+					Ioc.Default.ConfigureServices(serviceProvider);
+				}
+				Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+				Logger.LogInformation($"Startup: DI ready at {StartupStopwatch.ElapsedMilliseconds}ms");
 
 				// Configure Sentry
 				if (AppLifecycleHelper.AppEnvironment is not AppEnvironment.Dev)
@@ -100,11 +216,14 @@ namespace Files.App
 					// Initialize and activate MainWindow
 					MainWindow.Instance.Activate();
 
-					// Wait for the Window to initialize
-					await Task.Delay(10);
+					if (showSplashScreen)
+					{
+						// Wait for the Window to initialize
+						await Task.Delay(10);
 
-					SplashScreenLoadingTCS = new TaskCompletionSource();
-					MainWindow.Instance.ShowSplashScreen();
+						SplashScreenLoadingTCS = new TaskCompletionSource();
+						MainWindow.Instance.ShowSplashScreen();
+					}
 				}
 
 				// TODO: Replace with DI
@@ -123,14 +242,20 @@ namespace Files.App
 
 				if (!(isStartupTask && isLeaveAppRunning))
 				{
-					// Wait for the UI to update
-					await SplashScreenLoadingTCS!.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
-					SplashScreenLoadingTCS = null;
+					if (SplashScreenLoadingTCS is not null)
+					{
+						// Wait for the UI to update
+						await SplashScreenLoadingTCS.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
+						SplashScreenLoadingTCS = null;
+					}
 
-					// Create a system tray icon
-					SystemTrayIcon = new SystemTrayIcon();
-					if (userSettingsService.GeneralSettingsService.ShowSystemTrayIcon)
-						SystemTrayIcon.Show();
+					// Create the system tray icon after the first frame has had a chance to render
+					MainWindow.Instance.DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+					{
+						SystemTrayIcon = new SystemTrayIcon();
+						if (userSettingsService.GeneralSettingsService.ShowSystemTrayIcon)
+							SystemTrayIcon.Show();
+					});
 
 					_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
 				}
