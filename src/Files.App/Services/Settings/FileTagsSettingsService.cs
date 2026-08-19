@@ -3,11 +3,22 @@
 
 using Files.App.Utils.Serialization.Implementation;
 using Microsoft.Extensions.Logging;
+using System.Collections.Concurrent;
 using System.IO;
 using Windows.Storage;
 
 namespace Files.App.Services.Settings
 {
+	[JsonSourceGenerationOptions(WriteIndented = true)]
+	[JsonSerializable(typeof(object))]
+	[JsonSerializable(typeof(ConcurrentDictionary<string, JsonElement>))]
+	[JsonSerializable(typeof(List<TagViewModel>))]
+	[JsonSerializable(typeof(IList<TagViewModel>))]
+	[JsonSerializable(typeof(Dictionary<string, IList<TagViewModel>>))]
+	internal sealed partial class FileTagsSettingsJsonSerializationContext : JsonSerializerContext
+	{
+	}
+
 	internal sealed class FileTagsSettingsService : BaseJsonSettings, IFileTagsSettingsService
 	{
 		public event EventHandler? OnSettingImportedEvent;
@@ -32,7 +43,10 @@ namespace Files.App.Services.Settings
 
 			var jsonSettingsSerializer = new DefaultJsonSettingsSerializer();
 			JsonSettingsSerializer = jsonSettingsSerializer;
-			JsonSettingsDatabase = new CachingJsonSettingsDatabase(settingsSerializer, jsonSettingsSerializer);
+			JsonSettingsDatabase = new CachingJsonSettingsDatabase(
+				settingsSerializer,
+				jsonSettingsSerializer,
+				FileTagsSettingsJsonSerializationContext.Default);
 		}
 
 		public IList<TagViewModel> FileTagList
@@ -124,11 +138,11 @@ namespace Files.App.Services.Settings
 		{
 			if (import is string importString)
 			{
-				var settings = GetJsonSettingsSerializer().DeserializeFromJson<Dictionary<string, List<TagViewModel>>>(importString);
+				var settings = GetJsonSettingsSerializer().DeserializeFromJson(importString, FileTagsSettingsJsonSerializationContext.Default.DictionaryStringIListTagViewModel);
 				if (settings is not null && settings.TryGetValue("FileTagList", out var importedTags))
 					FileTagList = importedTags;
 			}
-			else if (import is List<TagViewModel> importList)
+			else if (import is IList<TagViewModel> importList)
 			{
 				FileTagList = importList;
 			}
@@ -147,13 +161,13 @@ namespace Files.App.Services.Settings
 
 		public override object ExportSettings()
 		{
-			var settings = new Dictionary<string, object>
+			var settings = new Dictionary<string, IList<TagViewModel>>
 			{
 				{ "FileTagList", FileTagList }
 			};
 
 			// Serialize settings to JSON format
-			return GetJsonSettingsSerializer().SerializeToJson(settings);
+			return GetJsonSettingsSerializer().SerializeToJson(settings, FileTagsSettingsJsonSerializationContext.Default.DictionaryStringIListTagViewModel);
 		}
 
 		private int GetTagIndex(string uid)

@@ -47,7 +47,7 @@ namespace Files.App.Utils.Serialization
 
 		public virtual object ExportSettings()
 		{
-			return JsonSettingsDatabase?.ExportSettings() ?? false;
+			return JsonSettingsDatabase is null ? false : JsonSettingsDatabase.ExportSettings();
 		}
 
 		public virtual bool ImportSettings(object import)
