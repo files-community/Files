@@ -26,7 +26,7 @@ namespace Files.Shared.Extensions
 			return description;
 		}
 
-		public static T? GetValueFromDescription<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] T>(string description) where T : Enum
+		public static T? GetValueFromDescription<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] T>(string description) where T : Enum
 		{
 			foreach (var field in typeof(T).GetFields())
 			{
