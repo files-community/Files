@@ -15,30 +15,5 @@
 			Click="BtnProperties_Click"
 			Content="Properties dialog" />
 
-		<Border
-			Margin="0,24,0,24"
-			BorderBrush="Red"
-			BorderThickness="1">
-			<StackPanel Padding="24" Orientation="Vertical">
-				<MenuFlyoutItem Text="Menu item text" />
-				<MenuFlyoutItem Text="Menu item text" />
-				<MenuFlyoutSeparator />
-				<MenuFlyoutItem Text="Menu item text" />
-				<MenuFlyoutItem Text="Menu item text" />
-			</StackPanel>
-		</Border>
-
-		<Border
-			Width="64"
-			Height="64"
-			Background="Blue" />
-
-		<Border
-			Width="64"
-			Height="64"
-			Background="Blue"
-			BorderBrush="Yellow"
-			BorderThickness="5" />
-
 	</StackPanel>
 </Page>

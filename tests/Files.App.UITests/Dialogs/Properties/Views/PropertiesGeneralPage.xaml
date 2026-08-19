@@ -17,209 +17,78 @@
 
 
 
+	<Grid
+		x:Name="RootGrid"
+		HorizontalAlignment="Stretch"
+		VerticalAlignment="Stretch">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="128" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
 
-	<ScrollViewer>
+		<Border
+			x:Name="GeneralHeader"
+			Grid.Row="0"
+			Padding="24,16"
+			VerticalAlignment="Stretch"
+			BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+			BorderThickness="0,0,0,1">
 
-		<Grid Margin="0,0,0,24">
+			<TextBlock Text="Sticky header area with scrolling below" />
 
-			<StackPanel Padding="0,0,0,0" Orientation="Vertical">
+		</Border>
 
-				<Expander
-					Margin="24,0,24,24"
-					Header="Expander title"
-					IsEnabled="{x:Bind EnableToggle.IsOn, Mode=TwoWay}">
-					Expander content goes here.
-				</Expander>
 
-				<Rectangle Height="4" Fill="Red" />
+		<ScrollViewer
+			Grid.Row="1"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch">
 
-				<Expander
-					Margin="24,0,24,24"
-					Background="DarkGoldenrod"
-					BorderBrush="Green"
-					BorderThickness="10"
-					IsEnabled="{x:Bind EnableToggle.IsOn, Mode=TwoWay}">
-
+			<StackPanel
+				Margin="0,0,0,32"
+				HorizontalAlignment="Stretch"
+				Orientation="Vertical">
+				<Expander Style="{StaticResource PropertiesExpanderStyle}">
 					<Expander.Header>
-						<TextBlock Text="Expander title, made extra long to test how it may wrap when there is not enough space to display it on a single line." TextWrapping="WrapWholeWords" />
+						<TextBlock Text="Header goes here" />
 					</Expander.Header>
-					<Expander.Content>
-						<TextBlock Text="Expander content goes here." />
-					</Expander.Content>
-				</Expander>
 
-				<Rectangle Height="4" Fill="Red" />
-
-				<ToggleButton IsEnabled="{x:Bind EnableToggle.IsOn, Mode=TwoWay}" Style="{StaticResource PropertiesExpanderHeaderDownStyle}">
-					<StackPanel Orientation="Horizontal" Spacing="8">
-						<SymbolIcon Symbol="Calendar" />
-						<TextBlock Text="Expander heading text" />
-					</StackPanel>
-				</ToggleButton>
-
-				<Border
-					x:Name="PropertiesSeparator"
-					Height="4"
-					Margin="0,0,0,0"
-					HorizontalAlignment="Stretch">
-					<Rectangle
-						Height="1"
-						HorizontalAlignment="Stretch"
-						VerticalAlignment="Center"
-						Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
-				</Border>
-
-				<ToggleButton IsEnabled="{x:Bind EnableToggle.IsOn, Mode=TwoWay}" Style="{StaticResource PropertiesExpanderHeaderUpStyle}">
-					<StackPanel Orientation="Horizontal" Spacing="8">
-						<SymbolIcon Symbol="Calendar" />
-						<TextBlock Text="Expander heading text" />
-					</StackPanel>
-				</ToggleButton>
-
-				<Rectangle Height="4" Fill="Red" />
-
-				<ToggleButton
-					Background="DarkOrange"
-					BorderBrush="DarkSeaGreen"
-					BorderThickness="4"
-					IsEnabled="{x:Bind EnableToggle.IsOn, Mode=TwoWay}"
-					Style="{StaticResource PropertiesExpanderHeaderDownStyle}">
-					<StackPanel Orientation="Horizontal" Spacing="8">
-						<SymbolIcon Symbol="Calendar" />
-						<TextBlock Text="Expander heading text" />
-					</StackPanel>
-				</ToggleButton>
-
-				<Border
-					Height="4"
-					Margin="0,0,0,0"
-					HorizontalAlignment="Stretch">
-					<Rectangle
-						Height="1"
-						HorizontalAlignment="Stretch"
-						VerticalAlignment="Center"
-						Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
-				</Border>
-
-				<ToggleButton
-					Background="DarkOliveGreen"
-					BorderBrush="DarkMagenta"
-					BorderThickness="4"
-					IsEnabled="{x:Bind EnableToggle.IsOn, Mode=TwoWay}"
-					Style="{StaticResource PropertiesExpanderHeaderUpStyle}">
-					<StackPanel Orientation="Horizontal" Spacing="8">
-						<SymbolIcon Symbol="Calendar" />
-						<TextBlock Text="Expander heading text" />
-					</StackPanel>
-				</ToggleButton>
-
-				<Rectangle Height="4" Fill="Red" />
-
-				<ToggleSwitch
-					x:Name="EnableToggle"
-					Header="Enable ToggleButton"
-					IsOn="True"
-					OffContent="Disabled"
-					OnContent="Enabled" />
-
-				<Rectangle Height="4" Fill="Red" />
-
-				<Expander
-					HorizontalAlignment="Stretch"
-					HorizontalContentAlignment="Stretch"
-					Background="#213243"
-					BorderBrush="HotPink"
-					BorderThickness="1"
-					IsEnabled="{x:Bind EnableToggle.IsOn, Mode=TwoWay}"
-					Style="{StaticResource PropertiesExpanderStyle}">
 					<Expander.Content>
 						<StackPanel
 							HorizontalAlignment="Stretch"
-							Background="DarkBlue"
+							Background="#11FF0000"
 							Orientation="Vertical">
-							<TextBlock Text="Customised expander content." />
+							<TextBlock Height="48" Text="Item 1 in the stack" />
+							<MenuFlyoutSeparator />
+							<TextBlock Height="48" Text="Item 2 in the stack" />
+							<MenuFlyoutSeparator />
+							<TextBlock Height="48" Text="Item 3 in the stack" />
 						</StackPanel>
 					</Expander.Content>
-					<Expander.Header>
-						<Grid>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="*" />
-							</Grid.ColumnDefinitions>
-							<SymbolIcon
-								Grid.Column="0"
-								Margin="0,0,12,0"
-								Symbol="Calendar" />
-							<TextBlock
-								Grid.Column="1"
-								Margin="0,4"
-								HorizontalAlignment="Left"
-								Text="Custom expander heading text, made extra long to test how it may wrap when there is not enough space to display it on a single line."
-								TextWrapping="WrapWholeWords" />
-						</Grid>
-					</Expander.Header>
 				</Expander>
 
 
+				<Expander Style="{StaticResource PropertiesExpanderStyle}">
+					<Expander.Header>
+						<TextBlock Text="Again header goes here" />
+					</Expander.Header>
 
-				<Border
-					Height="4"
-					Margin="0,0,0,0"
-					HorizontalAlignment="Stretch">
-					<Rectangle
-						Height="1"
-						HorizontalAlignment="Stretch"
-						VerticalAlignment="Center"
-						Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
-				</Border>
-
-				<Expander
-					HorizontalAlignment="Stretch"
-					HorizontalContentAlignment="Stretch"
-					IsEnabled="{x:Bind EnableToggle.IsOn, Mode=TwoWay}"
-					Style="{StaticResource PropertiesExpanderStyle}">
 					<Expander.Content>
-						<StackPanel HorizontalAlignment="Stretch" Orientation="Vertical">
-							<TextBlock Text="Customised expander content." />
+						<StackPanel
+							HorizontalAlignment="Stretch"
+							Background="#1100FF00"
+							Orientation="Vertical">
+							<TextBlock Height="48" Text="Item 1 in the stack" />
+							<MenuFlyoutSeparator />
+							<TextBlock Height="48" Text="Item 2 in the stack" />
+							<MenuFlyoutSeparator />
+							<TextBlock Height="48" Text="Item 3 in the stack" />
 						</StackPanel>
 					</Expander.Content>
-					<Expander.Header>
-						<Grid>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="*" />
-							</Grid.ColumnDefinitions>
-							<SymbolIcon
-								Grid.Column="0"
-								Margin="0,0,12,0"
-								Symbol="Calendar" />
-							<TextBlock
-								Grid.Column="1"
-								Margin="0,4"
-								HorizontalAlignment="Left"
-								Text="Custom expander heading text."
-								TextWrapping="WrapWholeWords" />
-						</Grid>
-					</Expander.Header>
 				</Expander>
-
-
-
-				<Border
-					Height="4"
-					Margin="0,0,0,0"
-					HorizontalAlignment="Stretch">
-					<Rectangle
-						Height="1"
-						HorizontalAlignment="Stretch"
-						VerticalAlignment="Center"
-						Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
-				</Border>
-
 			</StackPanel>
+		</ScrollViewer>
 
-		</Grid>
-
-	</ScrollViewer>
+	</Grid>
 
 </Page>
