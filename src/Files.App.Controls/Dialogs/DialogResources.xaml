@@ -10,7 +10,7 @@
 	<ResourceDictionary.ThemeDictionaries>
 
 		<ResourceDictionary x:Key="Default">
-			<Thickness x:Key="PropertiesExpanderHeaderPadding">8</Thickness>
+			<Thickness x:Key="PropertiesExpanderHeaderPadding">8,8,8,7</Thickness>
 			<Thickness x:Key="PropertiesExpanderHeaderBorderThickness">0</Thickness>
 
 			<StaticResource x:Key="PropertiesExpanderHeaderBackground" ResourceKey="SubtleFillColorTransparentBrush" />
@@ -31,10 +31,15 @@
 
 			<StaticResource x:Key="PropertiesExpanderHeaderDisabledForeground" ResourceKey="TextFillColorDisabledBrush" />
 			<StaticResource x:Key="PropertiesExpanderHeaderDisabledBorderBrush" ResourceKey="CardStrokeColorDefaultBrush" />
+
+			<StaticResource x:Key="PropertiesExpanderContentBackground" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="PropertiesExpanderContentBorderBrush" ResourceKey="DividerStrokeColorDefaultBrush" />
+
+			<StaticResource x:Key="PropertiesExpanderSeparatorFillColor" ResourceKey="DividerStrokeColorDefaultBrush" />
 		</ResourceDictionary>
 
 		<ResourceDictionary x:Key="Light">
-			<Thickness x:Key="PropertiesExpanderHeaderPadding">8</Thickness>
+			<Thickness x:Key="PropertiesExpanderHeaderPadding">8,8,8,7</Thickness>
 			<Thickness x:Key="PropertiesExpanderHeaderBorderThickness">0</Thickness>
 
 			<StaticResource x:Key="PropertiesExpanderHeaderBackground" ResourceKey="SubtleFillColorTransparentBrush" />
@@ -55,10 +60,15 @@
 
 			<StaticResource x:Key="PropertiesExpanderHeaderDisabledForeground" ResourceKey="TextFillColorDisabledBrush" />
 			<StaticResource x:Key="PropertiesExpanderHeaderDisabledBorderBrush" ResourceKey="CardStrokeColorDefaultBrush" />
+
+			<StaticResource x:Key="PropertiesExpanderContentBackground" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="PropertiesExpanderContentBorderBrush" ResourceKey="DividerStrokeColorDefaultBrush" />
+
+			<StaticResource x:Key="PropertiesExpanderSeparatorFillColor" ResourceKey="DividerStrokeColorDefaultBrush" />
 		</ResourceDictionary>
 
 		<ResourceDictionary x:Key="HighContrast">
-			<Thickness x:Key="PropertiesExpanderHeaderPadding">6</Thickness>
+			<Thickness x:Key="PropertiesExpanderHeaderPadding">6,6,6,5</Thickness>
 			<Thickness x:Key="PropertiesExpanderHeaderBorderThickness">2</Thickness>
 
 			<StaticResource x:Key="PropertiesExpanderHeaderBackground" ResourceKey="SystemColorButtonFaceColorBrush" />
@@ -79,6 +89,11 @@
 
 			<StaticResource x:Key="PropertiesExpanderHeaderDisabledForeground" ResourceKey="TextFillColorDisabledBrush" />
 			<StaticResource x:Key="PropertiesExpanderHeaderDisabledBorderBrush" ResourceKey="TextFillColorDisabledBrush" />
+
+			<StaticResource x:Key="PropertiesExpanderContentBackground" ResourceKey="SystemColorWindowColorBrush" />
+			<StaticResource x:Key="PropertiesExpanderContentBorderBrush" ResourceKey="SystemColorWindowTextColorBrush" />
+
+			<StaticResource x:Key="PropertiesExpanderSeparatorFillColor" ResourceKey="SystemColorWindowTextColorBrush" />
 		</ResourceDictionary>
 
 	</ResourceDictionary.ThemeDictionaries>
@@ -87,16 +102,25 @@
 
 
 	<!--  RESOURCES  -->
-	<Thickness x:Key="PropertiesExpanderHeaderBorderThickness">0</Thickness>
+	<x:Double x:Key="PropertiesExpanderMinHeight">48</x:Double>
+
 	<Thickness x:Key="PropertiesExpanderHeaderInnerPadding">12,0,24,0</Thickness>
 	<Thickness x:Key="PropertiesExpanderChevronMargin">0,0,8,0</Thickness>
 	<x:Double x:Key="PropertiesExpanderChevronSpaceWidth">24</x:Double>
 	<x:Double x:Key="PropertiesExpanderChevronSpaceHeight">32</x:Double>
 	<x:Double x:Key="PropertiesExpanderChevronGlyphSize">12</x:Double>
-	<Thickness x:Key="PropertiesExpanderContentPadding">16</Thickness>
 
 	<x:String x:Key="PropertiesExpanderChevronUpGlyph">&#xE70E;</x:String>
 	<x:String x:Key="PropertiesExpanderChevronDownGlyph">&#xE70D;</x:String>
+
+	<HorizontalAlignment x:Key="PropertiesExpanderHeaderHorizontalContentAlignment">Stretch</HorizontalAlignment>
+	<VerticalAlignment x:Key="PropertiesExpanderHeaderVerticalContentAlignment">Center</VerticalAlignment>
+
+	<Thickness x:Key="PropertiesExpanderContentPadding">24, 0</Thickness>
+	<Thickness x:Key="PropertiesExpanderContentDownBorderThickness">0</Thickness>
+	<Thickness x:Key="PropertiesExpanderContentUpBorderThickness">0</Thickness>
+
+	<x:Double x:Key="PropertiesExpanderSeparatorHeight">1</x:Double>
 
 
 
@@ -117,15 +141,17 @@
 			doesn't work how they would expect.
 		-->
 		<Setter Property="IsTabStop" Value="False" />
-		<Setter Property="Background" Value="{ThemeResource ExpanderContentBackground}" />
+		<Setter Property="Background" Value="{ThemeResource PropertiesExpanderContentBackground}" />
 		<Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
 		<Setter Property="MinWidth" Value="{ThemeResource FlyoutThemeMinWidth}" />
-		<Setter Property="MinHeight" Value="{StaticResource ExpanderMinHeight}" />
-		<Setter Property="BorderThickness" Value="{ThemeResource ExpanderContentDownBorderThickness}" />
-		<Setter Property="BorderBrush" Value="{ThemeResource ExpanderContentBorderBrush}" />
-		<Setter Property="Padding" Value="{StaticResource ExpanderContentPadding}" />
-		<Setter Property="HorizontalAlignment" Value="Left" />
+		<Setter Property="MinHeight" Value="{StaticResource PropertiesExpanderMinHeight}" />
+		<Setter Property="BorderThickness" Value="{ThemeResource PropertiesExpanderContentDownBorderThickness}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource PropertiesExpanderContentBorderBrush}" />
+		<Setter Property="Padding" Value="{StaticResource PropertiesExpanderContentPadding}" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="VerticalContentAlignment" Value="Top" />
 		<Setter Property="CornerRadius" Value="0" />
 		<Setter Property="Template">
 			<Setter.Value>
@@ -134,19 +160,20 @@
 						<Grid.RowDefinitions>
 							<RowDefinition x:Name="Row0" Height="Auto" />
 							<RowDefinition x:Name="Row1" Height="*" />
+							<RowDefinition x:Name="Row2" Height="Auto" />
 						</Grid.RowDefinitions>
 						<ToggleButton
 							x:Name="ExpanderHeader"
 							MinHeight="{TemplateBinding MinHeight}"
 							Padding="{StaticResource PropertiesExpanderHeaderPadding}"
 							HorizontalAlignment="Stretch"
-							HorizontalContentAlignment="{StaticResource ExpanderHeaderHorizontalContentAlignment}"
-							VerticalContentAlignment="{StaticResource ExpanderHeaderVerticalContentAlignment}"
+							HorizontalContentAlignment="{StaticResource PropertiesExpanderHeaderHorizontalContentAlignment}"
+							VerticalContentAlignment="{StaticResource PropertiesExpanderHeaderVerticalContentAlignment}"
 							AutomationProperties.AutomationId="ExpanderToggleButton"
 							Background="{ThemeResource PropertiesExpanderHeaderBackground}"
 							BackgroundSizing="{TemplateBinding BackgroundSizing}"
 							BorderBrush="{ThemeResource PropertiesExpanderHeaderBorderBrush}"
-							BorderThickness="{ThemeResource PropertiesExpanderHeaderBorderThickness}"
+							BorderThickness="0"
 							Content="{TemplateBinding Header}"
 							ContentTemplate="{TemplateBinding HeaderTemplate}"
 							ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
@@ -165,7 +192,7 @@
 								Background="{TemplateBinding Background}"
 								BackgroundSizing="{TemplateBinding BackgroundSizing}"
 								BorderBrush="{TemplateBinding BorderBrush}"
-								BorderThickness="{StaticResource ExpanderContentDownBorderThickness}"
+								BorderThickness="{StaticResource PropertiesExpanderContentDownBorderThickness}"
 								CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BottomCornerRadiusFilterConverter}}"
 								Visibility="Collapsed">
 								<ContentPresenter
@@ -179,6 +206,11 @@
 								</Border.RenderTransform>
 							</Border>
 						</Border>
+						<Rectangle
+							x:Name="ExpanderSeparator"
+							Grid.Row="2"
+							Height="{StaticResource PropertiesExpanderSeparatorHeight}"
+							Fill="{ThemeResource PropertiesExpanderSeparatorFillColor}" />
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="ExpandStates">
 								<VisualState x:Name="ExpandUp">
@@ -253,12 +285,14 @@
 								<VisualState x:Name="Up">
 									<VisualState.Setters>
 										<Setter Target="ExpanderHeader.Style" Value="{StaticResource PropertiesExpanderHeaderUpStyle}" />
-										<Setter Target="ExpanderContent.BorderThickness" Value="{StaticResource ExpanderContentUpBorderThickness}" />
+										<Setter Target="ExpanderContent.BorderThickness" Value="{StaticResource PropertiesExpanderContentUpBorderThickness}" />
 										<Setter Target="ExpanderContent.CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TopCornerRadiusFilterConverter}}" />
-										<Setter Target="ExpanderHeader.(Grid.Row)" Value="1" />
-										<Setter Target="ExpanderContentClip.(Grid.Row)" Value="0" />
-										<Setter Target="Row0.Height" Value="*" />
-										<Setter Target="Row1.Height" Value="Auto" />
+										<Setter Target="ExpanderHeader.(Grid.Row)" Value="2" />
+										<Setter Target="ExpanderContentClip.(Grid.Row)" Value="1" />
+										<Setter Target="ExpanderSeparator.(Grid.Row)" Value="0" />
+										<Setter Target="Row0.Height" Value="Auto" />
+										<Setter Target="Row1.Height" Value="*" />
+										<Setter Target="Row2.Height" Value="Auto" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -276,7 +310,7 @@
 	<Style x:Key="PropertiesExpanderHeaderDownStyle" TargetType="ToggleButton">
 		<Setter Property="Padding" Value="{ThemeResource PropertiesExpanderHeaderPadding}" />
 		<Setter Property="Background" Value="{ThemeResource PropertiesExpanderHeaderBackground}" />
-		<Setter Property="BorderThickness" Value="{StaticResource PropertiesExpanderHeaderBorderThickness}" />
+		<Setter Property="BorderThickness" Value="0" />
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
 		<Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
 		<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
@@ -438,9 +472,9 @@
 		TargetType="ToggleButton">
 		<Setter Property="Padding" Value="{ThemeResource PropertiesExpanderHeaderPadding}" />
 		<Setter Property="Background" Value="{ThemeResource PropertiesExpanderHeaderBackground}" />
+		<Setter Property="BorderThickness" Value="0" />
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
 		<Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
-		<Setter Property="BorderBrush" Value="{StaticResource PropertiesExpanderHeaderBorderThickness}" />
 		<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
 		<Setter Property="Template">
 			<Setter.Value>
