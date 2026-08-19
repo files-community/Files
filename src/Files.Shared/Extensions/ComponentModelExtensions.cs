@@ -4,6 +4,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace Files.Shared.Extensions
 {
@@ -16,10 +17,9 @@ namespace Files.Shared.Extensions
 
 			if (fieldInfo is not null)
 			{
-				var attrs = fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), true);
-				if (attrs is not null && attrs.Length > 0)
+				if (fieldInfo.GetCustomAttribute<DescriptionAttribute>(true) is DescriptionAttribute attribute)
 				{
-					description = ((DescriptionAttribute)attrs[0]).Description;
+					description = attribute.Description;
 				}
 			}
 
@@ -30,8 +30,7 @@ namespace Files.Shared.Extensions
 		{
 			foreach (var field in typeof(T).GetFields())
 			{
-				if (Attribute.GetCustomAttribute(field,
-					typeof(DescriptionAttribute)) is DescriptionAttribute attribute)
+				if (field.GetCustomAttribute<DescriptionAttribute>(true) is DescriptionAttribute attribute)
 				{
 					if (attribute.Description == description)
 					{
