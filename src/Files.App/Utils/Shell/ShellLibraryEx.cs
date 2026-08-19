@@ -10,7 +10,8 @@ namespace Files.App.Utils.Shell
 	/// <summary>
 	/// Represents a Windows Shell library backed by source-generated COM interop.
 	/// </summary>
-	public sealed class ShellLibraryEx : ShellFolder
+	[WinRT.GeneratedWinRTExposedType]
+	public sealed partial class ShellLibraryEx : ShellFolder
 	{
 		private IShellLibrary? library;
 		private ShellLibraryFolders? folders;

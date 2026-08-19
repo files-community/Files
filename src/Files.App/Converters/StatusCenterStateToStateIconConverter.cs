@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Shapes;
 
 namespace Files.App.Converters
 {
@@ -30,18 +29,10 @@ namespace Files.App.Converters
 					_ => ""
 				};
 
-				string xaml = @$"<Path xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""><Path.Data>{pathMarkup}</Path.Data></Path>";
-
-				if (XamlReader.Load(xaml) is not Path path)
+				if (string.IsNullOrEmpty(pathMarkup))
 					return null;
 
-				// Initialize a new instance
-				Geometry geometry = path.Data;
-
-				// Destroy
-				path.Data = null;
-
-				return geometry;
+				return XamlBindingHelper.ConvertValue(typeof(Geometry), pathMarkup) as Geometry;
 			}
 
 			return null;

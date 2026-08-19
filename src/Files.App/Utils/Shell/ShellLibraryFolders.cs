@@ -7,7 +7,8 @@ using Windows.Win32.UI.Shell;
 namespace Files.App.Utils.Shell
 {
 	/// <summary>Represents the child folders contained in a Shell library.</summary>
-	public sealed class ShellLibraryFolders : ICollection<ShellItem>, IDisposable
+	[WinRT.GeneratedWinRTExposedType]
+	public sealed partial class ShellLibraryFolders : ICollection<ShellItem>, IDisposable
 	{
 		private IShellLibrary? library;
 		private readonly List<ShellItem> items = [];

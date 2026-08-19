@@ -9,10 +9,10 @@ namespace Files.Shared.Extensions
 {
 	public static class ComponentModelExtensions
 	{
-		public static string GetDescription<T>(this T enumValue) where T : Enum
+		public static string GetDescription<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] T>(this T enumValue) where T : Enum
 		{
 			var description = enumValue.ToString();
-			var fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
+			var fieldInfo = typeof(T).GetField(enumValue.ToString());
 
 			if (fieldInfo is not null)
 			{

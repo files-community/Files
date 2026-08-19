@@ -335,7 +335,7 @@ namespace Files.App.ViewModels.Properties
 				{
 					if (file.Properties is not null)
 					{
-						val = (await file.Properties.RetrievePropertiesAsync([prop])).First().Value;
+						val = (await file.Properties.RetrievePropertiesAsync((string[])[prop])).First().Value;
 					}
 				}
 				catch (ArgumentException e)

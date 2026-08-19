@@ -3,7 +3,8 @@
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class BlockingListEnumerator<T> : IEnumerator<T>
+	[WinRT.GeneratedWinRTExposedType]
+	public sealed partial class BlockingListEnumerator<T> : IEnumerator<T>
 	{
 		private readonly IList<T> m_Inner;
 

@@ -149,9 +149,7 @@
 			ManipulationStarted="SidebarResizer_ManipulationStarted"
 			PointerCanceled="SidebarResizer_PointerExited"
 			PointerEntered="SidebarResizer_PointerEntered"
-			PointerExited="SidebarResizer_PointerExited"
-			RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}"
-			Visibility="{Binding ElementName=PaneRoot, Path=Visibility, Mode=OneWay}">
+			PointerExited="SidebarResizer_PointerExited">
 			<UserControl
 				x:Name="SidebarResizerControl"
 				IsTabStop="True"

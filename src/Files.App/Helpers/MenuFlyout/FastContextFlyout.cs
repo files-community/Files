@@ -776,8 +776,7 @@ namespace Files.App.Helpers.ContextFlyouts
 				row.Children.Add(button);
 			}
 
-			primaryRowTemplate ??= (ControlTemplate)Microsoft.UI.Xaml.Markup.XamlReader.Load(
-				"<ControlTemplate xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation' TargetType='MenuFlyoutItem'><ContentPresenter Content='{TemplateBinding Tag}' Margin='4,2' /></ControlTemplate>");
+			primaryRowTemplate ??= (ControlTemplate)App.Current.Resources["PrimaryCommandMenuFlyoutItemTemplate"];
 
 			// The row's min width sets the whole main menu's min width, reserving the measured content width
 			// up-front so the accelerator column cannot widen it after it opens.

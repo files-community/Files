@@ -26,7 +26,8 @@ namespace Files.App.Utils.Shell
 			=> $"{Path},{Index}";
 	}
 
-	public sealed class ShellPidl : IEnumerable<ShellPidl>
+	[WinRT.GeneratedWinRTExposedType]
+	public sealed partial class ShellPidl : IEnumerable<ShellPidl>
 	{
 		private readonly byte[] bytes;
 
@@ -290,7 +291,8 @@ namespace Files.App.Utils.Shell
 		}
 	}
 
-	public class ShellFolder : ShellItem, IEnumerable<ShellItem>
+	[WinRT.GeneratedWinRTExposedType]
+	public partial class ShellFolder : ShellItem, IEnumerable<ShellItem>
 	{
 		public ShellFolder(string path) : base(path)
 		{
