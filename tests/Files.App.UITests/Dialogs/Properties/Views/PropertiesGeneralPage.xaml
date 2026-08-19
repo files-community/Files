@@ -13,7 +13,16 @@
 	mc:Ignorable="d">
 
 	<Page.Resources>
-		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Dialogs/DialogResources.xaml" />
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+
+				<ResourceDictionary Source="ms-appx:///Files.App.Controls/Dialogs/DialogResources.xaml" />
+
+			</ResourceDictionary.MergedDictionaries>
+
+			<GridLength x:Key="LabelWidth">120</GridLength>
+
+		</ResourceDictionary>
 	</Page.Resources>
 
 
@@ -23,19 +32,51 @@
 		HorizontalAlignment="Stretch"
 		VerticalAlignment="Stretch">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="128" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
 		<Border
 			x:Name="GeneralHeader"
 			Grid.Row="0"
-			Padding="24,16"
+			Padding="24,20"
 			VerticalAlignment="Stretch"
 			BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 			BorderThickness="0,0,0,1">
 
-			<TextBlock Text="Sticky header area with scrolling below" />
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="{StaticResource LabelWidth}" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+
+				<Border
+					Width="72"
+					Height="72"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Center"
+					Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+					BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+					BorderThickness="1"
+					CornerRadius="{ThemeResource OverlayCornerRadius}">
+					<Rectangle
+						Width="48"
+						Height="48"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						Fill="Red" />
+				</Border>
+
+				<StackPanel
+					Grid.Column="1"
+					VerticalAlignment="Center"
+					Orientation="Vertical"
+					Spacing="8">
+					<TextBox Text="Filename here" Margin="-12,0,0,0" />
+					<TextBlock Text="Sticky header area with scrolling below" />
+				</StackPanel>
+
+			</Grid>
 
 		</Border>
 
@@ -122,6 +163,76 @@
 						</StackPanel>
 					</Expander.Content>
 				</Expander>
+
+				<Grid
+					Padding="24,6"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Center">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="{StaticResource LabelWidth}" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<TextBlock
+						x:Name="Label"
+						Grid.RowSpan="2"
+						Grid.Column="0"
+						Margin="0,2,12,2"
+						VerticalAlignment="Center"
+						Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+						Style="{ThemeResource CaptionTextBlockStyle}"
+						Text="Label Text" />
+					<TextBlock
+						x:Name="Value"
+						Grid.RowSpan="2"
+						Grid.Column="1"
+						Margin="0,2,12,2"
+						VerticalAlignment="Bottom"
+						Text="This is the value text  that is very very long so it wraps at the width set"
+						TextWrapping="WrapWholeWords" />
+				</Grid>
+
+
+				<MenuFlyoutSeparator Margin="24,0" />
+
+				<Grid
+					Padding="24,6"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Center">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="{StaticResource LabelWidth}" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<TextBlock
+						x:Name="Label2"
+						Grid.Row="0"
+						Grid.RowSpan="1"
+						Grid.Column="0"
+						Grid.ColumnSpan="2"
+						Margin="0,2,12,2"
+						VerticalAlignment="Center"
+						Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+						Style="{ThemeResource CaptionTextBlockStyle}"
+						Text="Label Text" />
+					<TextBlock
+						x:Name="Value2"
+						Grid.Row="1"
+						Grid.RowSpan="1"
+						Grid.Column="0"
+						Grid.ColumnSpan="2"
+						Margin="0,2,12,2"
+						VerticalAlignment="Bottom"
+						Text="This is the value text  that is very very long so it wraps at the width set"
+						TextWrapping="WrapWholeWords" />
+				</Grid>
+
 			</StackPanel>
 		</ScrollViewer>
 
