@@ -39,7 +39,7 @@ namespace Files.App.Services
 
 		public Task UnpinFromSidebarAsync(string[] folderPaths) => UnpinFromSidebarAsync(folderPaths, true);
 
-		private async Task UnpinFromSidebarAsync(string[] folderPaths, bool doUpdateQuickAccessWidget)
+		private async Task<bool> UnpinFromSidebarAsync(string[] folderPaths, bool doUpdateQuickAccessWidget)
 		{
 			ShellFileItem[] shellItems = [.. await GetPinnedFoldersAsync()];
 
@@ -70,17 +70,25 @@ namespace Files.App.Services
 				byte[] pidl = shellItem.PIDL
 					?? throw new InvalidOperationException("The Windows Shell Home namespace returned an item without a PIDL.");
 
-				_ = await STATask.Run(() =>
+				var result = await STATask.Run(() =>
 				{
 					using var item = ShellItem.Open(new ShellPidl(pidl));
 					using var windowsFile = new WindowsFile(item.IShellItem);
-					return windowsFile.TryInvokeContextMenuVerb("unpinfromhome");
+					return windowsFile.TryInvokeContextMenuVerbs(["unpinfromhome", "remove"], true);
 				}, App.Logger);
+
+				if (result.Failed)
+				{
+					await App.QuickAccessManager.Model.LoadAsync();
+					return false;
+				}
 			}
 
 			await App.QuickAccessManager.Model.LoadAsync();
 			if (doUpdateQuickAccessWidget)
 				App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, false));
+
+			return true;
 		}
 
 		public bool IsItemPinned(string folderPath)
@@ -97,7 +105,12 @@ namespace Files.App.Services
 				App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
 
 			// Unpin every item that is below this index and then pin them all in order
-			await UnpinFromSidebarAsync([], false);
+			if (!await UnpinFromSidebarAsync([], false))
+			{
+				if (App.QuickAccessManager.PinnedItemsWatcher is not null)
+					App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;
+				return;
+			}
 
 			await PinToSidebarAsync(items, false);
 			if (App.QuickAccessManager.PinnedItemsWatcher is not null)
