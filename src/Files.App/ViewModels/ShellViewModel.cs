@@ -9,18 +9,21 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.Win32.SafeHandles;
+using System.Buffers.Binary;
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.Storage.FileSystem;
 using Windows.Win32.System.SystemServices;
-using static Files.App.Helpers.Win32PInvoke;
 using ByteSize = ByteSizeLib.ByteSize;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
@@ -216,7 +219,7 @@ namespace Files.App.ViewModels
 		{
 			if (string.IsNullOrWhiteSpace(value))
 				return;
-			
+
 			if (value != WorkingDirectory)
 				FilesAndFoldersFilter = null;
 
@@ -2004,7 +2007,7 @@ namespace Files.App.ViewModels
 
 			switch (enumerated)
 			{
-				// Enumerated with FindFirstFileExFromApp
+				// Enumerated with FindFirstFileEx
 				// Is folder synced to cloud storage?
 				case 0:
 					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
@@ -2069,7 +2072,7 @@ namespace Files.App.ViewModels
 
 		private async Task<int> EnumerateItemsFromStandardFolderAsync(string path, CancellationToken cancellationToken, LibraryItem? library = null)
 		{
-			// Flag to use FindFirstFileExFromApp or StorageFolder enumeration - Use storage folder for Box Drive (#4629)
+			// Flag to use FindFirstFileEx or StorageFolder enumeration - Use storage folder for Box Drive (#4629)
 			var isBoxFolder = CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder && path.StartsWith(boxFolder);
 			bool isWslDistro = path.StartsWith(@"\\wsl$\", StringComparison.OrdinalIgnoreCase) || path.StartsWith(@"\\wsl.localhost\", StringComparison.OrdinalIgnoreCase)
 				|| path.Equals(@"\\wsl$", StringComparison.OrdinalIgnoreCase) || path.Equals(@"\\wsl.localhost", StringComparison.OrdinalIgnoreCase);
@@ -2103,7 +2106,7 @@ namespace Files.App.ViewModels
 
 			if (!enumFromStorageFolder && FolderHelpers.CheckFolderAccessWithWin32(path))
 			{
-				// Will enumerate with FindFirstFileExFromApp, rootFolder only used for Bitlocker
+				// Will enumerate with FindFirstFileEx, rootFolder only used for Bitlocker
 				currentStorageFolder = null;
 			}
 			else if (workingRoot is not null)
@@ -2189,19 +2192,19 @@ namespace Files.App.ViewModels
 			}
 			else
 			{
-				(Win32PInvoke.SafeFindHandle? hFile, WIN32_FIND_DATA findData, int errorCode) = await Task.Run(() =>
+				(FindCloseSafeHandle? hFile, WIN32_FIND_DATAW findData, int errorCode) = await Task.Run(() =>
 				{
-					var findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-					var additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-
-					var hFileTsk = FindFirstFileExFromAppSafe(
-						path + "\\*.*",
-						findInfoLevel,
-						out WIN32_FIND_DATA findDataTsk,
-						FINDEX_SEARCH_OPS.FindExSearchNameMatch,
-						IntPtr.Zero,
-						additionalFlags);
-
+					WIN32_FIND_DATAW findDataTsk = default;
+					FindCloseSafeHandle hFileTsk;
+					unsafe
+					{
+						hFileTsk = PInvoke.FindFirstFileEx(
+							path + "\\*.*",
+							FINDEX_INFO_LEVELS.FindExInfoBasic,
+							&findDataTsk,
+							FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+							FIND_FIRST_EX_FLAGS.FIND_FIRST_EX_LARGE_FETCH);
+					}
 					return (hFileTsk, findDataTsk, hFileTsk.IsInvalid ? Marshal.GetLastWin32Error() : 0);
 				})
 				.WithTimeoutAsync(TimeSpan.FromSeconds(5));
@@ -2211,10 +2214,10 @@ namespace Files.App.ViewModels
 
 				try
 				{
-					FileTimeToSystemTime(ref findData.ftLastWriteTime, out var systemModifiedTimeOutput);
+					PInvoke.FileTimeToSystemTime(ref findData.ftLastWriteTime, out var systemModifiedTimeOutput);
 					itemModifiedDate = systemModifiedTimeOutput.ToDateTime();
 
-					FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedTimeOutput);
+					PInvoke.FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedTimeOutput);
 					itemCreatedDate = systemCreatedTimeOutput.ToDateTime();
 				}
 				catch (ArgumentException)
@@ -2242,7 +2245,6 @@ namespace Files.App.ViewModels
 				};
 
 				CurrentFolder = currentFolder;
-
 				if (hFile is null)
 				{
 					ShowLocationUnavailable(LocationUnavailableKind.DriveUnplugged);
@@ -2573,17 +2575,20 @@ namespace Files.App.ViewModels
 			});
 		}
 
-		private void WatchForDirectoryChanges(string path, CloudDriveSyncStatus syncStatus)
+		private unsafe void WatchForDirectoryChanges(string path, CloudDriveSyncStatus syncStatus)
 		{
 			// Enumeration is fire-and-forget; don't set up a watcher on a disposed view model.
 			if (isDisposed)
 				return;
 
 			Debug.WriteLine($"WatchForDirectoryChanges: {path}");
-			var hWatchDir = Win32PInvoke.CreateFileFromApp(path, 1, 1 | 2 | 4,
-				IntPtr.Zero, 3, (uint)Win32PInvoke.File_Attributes.BackupSemantics | (uint)Win32PInvoke.File_Attributes.Overlapped, IntPtr.Zero);
-			if (hWatchDir.ToInt64() == -1)
+			SafeFileHandle hWatchDir = PInvoke.CreateFile(path, 1, FILE_SHARE_MODE.FILE_SHARE_READ | FILE_SHARE_MODE.FILE_SHARE_WRITE | FILE_SHARE_MODE.FILE_SHARE_DELETE,
+				null, FILE_CREATION_DISPOSITION.OPEN_EXISTING, FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_OVERLAPPED, null);
+			if (hWatchDir.IsInvalid)
+			{
+				hWatchDir.Dispose();
 				return;
+			}
 
 			var hasSyncStatus = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown;
 
@@ -2593,79 +2598,56 @@ namespace Files.App.ViewModels
 			{
 				var buff = new byte[4096];
 				var rand = Guid.NewGuid();
-				var notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE;
+				var notifyFilters = FILE_NOTIFY_CHANGE.FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE.FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE.FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE.FILE_NOTIFY_CHANGE_SIZE;
 
 				if (hasSyncStatus)
-					notifyFilters |= FILE_NOTIFY_CHANGE_ATTRIBUTES;
+					notifyFilters |= FILE_NOTIFY_CHANGE.FILE_NOTIFY_CHANGE_ATTRIBUTES;
 
 				var overlapped = new NativeOverlapped();
 				using var eventHandle = PInvoke.CreateEvent(null, false, false, null);
 				overlapped.EventHandle = eventHandle.DangerousGetHandle();
 				const uint INFINITE = 0xFFFFFFFF;
 
-				while (x.Status != AsyncStatus.Canceled)
+				// The buffer must remain pinned until each overlapped read completes.
+				fixed (byte* pinnedBuffer = buff)
 				{
-					unsafe
+					while (x.Status != AsyncStatus.Canceled)
 					{
-						fixed (byte* pBuff = buff)
+						if (x.Status != AsyncStatus.Canceled)
 						{
-							ref var notifyInformation = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[0]);
-							if (x.Status != AsyncStatus.Canceled)
-							{
-								PInvoke.ReadDirectoryChanges(
-									new Windows.Win32.Foundation.HANDLE(hWatchDir),
-									pBuff,
-									4096,
-									false,
-									(Windows.Win32.Storage.FileSystem.FILE_NOTIFY_CHANGE)notifyFilters,
-									null,
-									&overlapped,
-									null);
-							}
-							else
-							{
-								break;
-							}
-
-							Debug.WriteLine("waiting: {0}", rand);
-							if (x.Status == AsyncStatus.Canceled)
-								break;
-
-							var rc = WaitForSingleObjectEx(overlapped.EventHandle, INFINITE, true);
-							Debug.WriteLine("wait done: {0}", rand);
-
-							uint offset = 0;
-							ref var notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
-							if (x.Status == AsyncStatus.Canceled)
-								break;
-
-							do
-							{
-								notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
-								string? FileName = null;
-								unsafe
-								{
-									fixed (char* name = notifyInfo.FileName)
-									{
-										FileName = Path.Combine(path, new string(name, 0, (int)notifyInfo.FileNameLength / 2));
-									}
-								}
-
-								uint action = notifyInfo.Action;
-
-								Debug.WriteLine("action: {0}", action);
-
-								operationQueue.Enqueue((action, FileName));
-
-								offset += notifyInfo.NextEntryOffset;
-							}
-							while (notifyInfo.NextEntryOffset != 0 && x.Status != AsyncStatus.Canceled);
-
-							operationEvent.Set();
-
-							//ResetEvent(overlapped.hEvent);
-							Debug.WriteLine("Task running...");
+							PInvoke.ReadDirectoryChanges(
+								(HANDLE)hWatchDir.DangerousGetHandle(),
+								pinnedBuffer,
+								(uint)buff.Length,
+								false,
+								notifyFilters,
+								null,
+								&overlapped,
+								null);
 						}
+						else
+						{
+							break;
+						}
+
+						Debug.WriteLine("waiting: {0}", rand);
+						if (x.Status == AsyncStatus.Canceled)
+							break;
+
+						PInvoke.WaitForSingleObjectEx(eventHandle, INFINITE, true);
+						Debug.WriteLine("wait done: {0}", rand);
+
+						if (x.Status == AsyncStatus.Canceled)
+							break;
+
+						foreach ((uint action, string fileName) in ParseDirectoryChanges(buff))
+						{
+							Debug.WriteLine("action: {0}", action);
+							operationQueue.Enqueue((action, Path.Combine(path, fileName)));
+						}
+
+						operationEvent.Set();
+						Debug.WriteLine("Task running...");
 					}
 				}
 
@@ -2686,28 +2668,31 @@ namespace Files.App.ViewModels
 					Debug.WriteLine("watcher canceled");
 				}
 
-				CancelIoEx(hWatchDir, IntPtr.Zero);
-				CloseHandle(hWatchDir);
+				PInvoke.CancelIoEx(hWatchDir, null);
+				hWatchDir.Dispose();
 			});
 		}
 
-		private void WatchForGitChanges()
+		private unsafe void WatchForGitChanges()
 		{
 			// Enumeration is fire-and-forget; don't set up a watcher on a disposed view model.
 			if (isDisposed)
 				return;
 
-			var hWatchDir = Win32PInvoke.CreateFileFromApp(
+			SafeFileHandle hWatchDir = PInvoke.CreateFile(
 				GitDirectory!,
 				1,
-				1 | 2 | 4,
-				IntPtr.Zero,
-				3,
-				(uint)Win32PInvoke.File_Attributes.BackupSemantics | (uint)Win32PInvoke.File_Attributes.Overlapped,
-				IntPtr.Zero);
+				FILE_SHARE_MODE.FILE_SHARE_READ | FILE_SHARE_MODE.FILE_SHARE_WRITE | FILE_SHARE_MODE.FILE_SHARE_DELETE,
+				null,
+				FILE_CREATION_DISPOSITION.OPEN_EXISTING,
+				FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_OVERLAPPED,
+				null);
 
-			if (hWatchDir.ToInt64() == -1)
+			if (hWatchDir.IsInvalid)
+			{
+				hWatchDir.Dispose();
 				return;
+			}
 
 			gitProcessQueueAction ??= Task.Run(() => ProcessGitChangesQueueAsync(watcherCTS.Token));
 
@@ -2715,57 +2700,43 @@ namespace Files.App.ViewModels
 			{
 				var buff = new byte[4096];
 				var rand = Guid.NewGuid();
-				var notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE_CREATION;
+				var notifyFilters = FILE_NOTIFY_CHANGE.FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE.FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE.FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE.FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE.FILE_NOTIFY_CHANGE_CREATION;
 
 				var overlapped = new NativeOverlapped();
 				using var eventHandle = PInvoke.CreateEvent(null, false, false, null);
 				overlapped.EventHandle = eventHandle.DangerousGetHandle();
 				const uint INFINITE = 0xFFFFFFFF;
 
-				while (x.Status != AsyncStatus.Canceled)
+				// The buffer must remain pinned until each overlapped read completes.
+				fixed (byte* pinnedBuffer = buff)
 				{
-					unsafe
+					while (x.Status != AsyncStatus.Canceled)
 					{
-						fixed (byte* pBuff = buff)
-						{
-							ref var notifyInformation = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[0]);
-							if (x.Status == AsyncStatus.Canceled)
-								break;
+						if (x.Status == AsyncStatus.Canceled)
+							break;
 
-							PInvoke.ReadDirectoryChanges(
-								new Windows.Win32.Foundation.HANDLE(hWatchDir),
-								pBuff,
-								4096,
-								true,
-								(Windows.Win32.Storage.FileSystem.FILE_NOTIFY_CHANGE)notifyFilters,
-								null,
-								&overlapped,
-								null);
+						PInvoke.ReadDirectoryChanges(
+							(HANDLE)hWatchDir.DangerousGetHandle(),
+							pinnedBuffer,
+							(uint)buff.Length,
+							true,
+							notifyFilters,
+							null,
+							&overlapped,
+							null);
 
-							if (x.Status == AsyncStatus.Canceled)
-								break;
+						if (x.Status == AsyncStatus.Canceled)
+							break;
 
-							var rc = WaitForSingleObjectEx(overlapped.EventHandle, INFINITE, true);
+						PInvoke.WaitForSingleObjectEx(eventHandle, INFINITE, true);
 
-							uint offset = 0;
-							ref var notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
-							if (x.Status == AsyncStatus.Canceled)
-								break;
+						if (x.Status == AsyncStatus.Canceled)
+							break;
 
-							do
-							{
-								notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
+						foreach ((uint action, _) in ParseDirectoryChanges(buff))
+							gitChangesQueue.Enqueue(action);
 
-								uint action = notifyInfo.Action;
-
-								gitChangesQueue.Enqueue(action);
-
-								offset += notifyInfo.NextEntryOffset;
-							}
-							while (notifyInfo.NextEntryOffset != 0 && x.Status != AsyncStatus.Canceled);
-
-							gitChangedEvent.Set();
-						}
+						gitChangedEvent.Set();
 					}
 				}
 
@@ -2782,9 +2753,33 @@ namespace Files.App.ViewModels
 					gitWatcherAction = null;
 				}
 
-				CancelIoEx(hWatchDir, IntPtr.Zero);
-				CloseHandle(hWatchDir);
+				PInvoke.CancelIoEx(hWatchDir, null);
+				hWatchDir.Dispose();
 			});
+		}
+
+		private static List<(uint Action, string FileName)> ParseDirectoryChanges(ReadOnlySpan<byte> buffer)
+		{
+			var changes = new List<(uint Action, string FileName)>();
+			int offset = 0;
+
+			while (offset + 12 <= buffer.Length)
+			{
+				uint nextEntryOffset = BinaryPrimitives.ReadUInt32LittleEndian(buffer.Slice(offset, 4));
+				uint action = BinaryPrimitives.ReadUInt32LittleEndian(buffer.Slice(offset + 4, 4));
+				uint fileNameLength = BinaryPrimitives.ReadUInt32LittleEndian(buffer.Slice(offset + 8, 4));
+				if (fileNameLength > buffer.Length - offset - 12)
+					break;
+
+				string fileName = Encoding.Unicode.GetString(buffer.Slice(offset + 12, (int)fileNameLength));
+				changes.Add((action, fileName));
+
+				if (nextEntryOffset == 0 || nextEntryOffset > buffer.Length - offset)
+					break;
+				offset += (int)nextEntryOffset;
+			}
+
+			return changes;
 		}
 
 		private async Task ProcessGitChangesQueueAsync(CancellationToken cancellationToken)
@@ -2986,22 +2981,23 @@ namespace Files.App.ViewModels
 
 		private async Task<ListedItem?> AddFileOrFolderAsync(string fileOrFolderPath)
 		{
-			FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-			var additionalFlags = FIND_FIRST_EX_CASE_SENSITIVE;
-
-			IntPtr hFile = FindFirstFileExFromApp(fileOrFolderPath, findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
-												  additionalFlags);
-			if (hFile.ToInt64() == -1)
+			WIN32_FIND_DATAW findData = default;
+			FindCloseSafeHandle hFile;
+			unsafe
+			{
+				hFile = PInvoke.FindFirstFileEx(fileOrFolderPath, FINDEX_INFO_LEVELS.FindExInfoBasic, &findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+					FIND_FIRST_EX_FLAGS.FIND_FIRST_EX_CASE_SENSITIVE);
+			}
+			using FindCloseSafeHandle findHandleScope = hFile;
+			if (hFile.IsInvalid)
 			{
 				// If we cannot find the file (probably since it doesn't exist anymore) simply exit without adding it
 				return null;
 			}
 
-			FindClose(hFile);
-
 			var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
 			var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-			var startWithDot = findData.cFileName.StartsWith('.');
+			var startWithDot = findData.cFileName.ToString().StartsWith('.');
 			if ((isHidden &&
 			   (!UserSettingsService.FoldersSettingsService.ShowHiddenItems ||
 			   (isSystem && !UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) ||

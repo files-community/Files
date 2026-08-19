@@ -6,12 +6,18 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Security.Cryptography;
 using Windows.Win32.Security.WinTrust;
-using static Files.App.Helpers.Win32PInvoke;
 
 namespace Files.App.Utils.Signatures
 {
 	public static class DigitalSignaturesUtil
 	{
+		private sealed unsafe class SignerData
+		{
+			public uint ObjectSize;
+			public CMSG_SIGNER_INFO* SignerInfo;
+			public HCERTSTORE CertStore;
+		}
+
 		// OIDs
 		private const string szOID_NESTED_SIGNATURE = "1.3.6.1.4.1.311.2.4.1";
 		private const string szOID_RSA_counterSign = "1.2.840.113549.1.9.6";
@@ -80,30 +86,30 @@ namespace Files.App.Utils.Signatures
 				return;
 
 			void* hAuthCryptMsg = null;
-			var signHandle = new SignDataHandle();
-			var signDataChain = new List<SignDataHandle>();
+			var signHandle = new SignerData();
+			var signDataChain = new List<SignerData>();
 
 			try
 			{
 				var result = TryGetSignerInfo(
 					filePath,
 					out hAuthCryptMsg,
-					out signHandle.hCertStoreHandle,
-					out signHandle.pSignerInfo,
-					out signHandle.dwObjSize
+					out signHandle.CertStore,
+					out signHandle.SignerInfo,
+					out signHandle.ObjectSize
 				);
-				if (!result || signHandle.pSignerInfo is null)
+				if (!result || signHandle.SignerInfo is null)
 					return;
 
 				signDataChain.Add(signHandle);
-				GetNestedSignerInfo(ref signHandle, signDataChain);
+				GetNestedSignerInfo(signHandle, signDataChain);
 				if (index >= signDataChain.Count)
 					return;
 
 				signHandle = signDataChain[index];
-				var issuer = signHandle.pSignerInfo->Issuer;
+				var issuer = signHandle.SignerInfo->Issuer;
 				var pCertContext = PInvoke.CertFindCertificateInStore(
-					signHandle.hCertStoreHandle,
+					signHandle.CertStore,
 					ENCODING,
 					0,
 					CERT_FIND_FLAGS.CERT_FIND_ISSUER_NAME,
@@ -113,24 +119,25 @@ namespace Files.App.Utils.Signatures
 				if (pCertContext is null)
 					return;
 
+				HCERTSTORE* stores = stackalloc HCERTSTORE[1];
+				stores[0] = signHandle.CertStore;
 				var viewInfo = new CRYPTUI_VIEWSIGNERINFO_STRUCT
 				{
 					dwSize = (uint)Marshal.SizeOf<CRYPTUI_VIEWSIGNERINFO_STRUCT>(),
 					hwndParent = hwndParent,
 					dwFlags = 0,
-					szTitle = (PCSTR)null,
-					pSignerInfo = signHandle.pSignerInfo,
+					szTitle = (PCWSTR)null,
+					pSignerInfo = signHandle.SignerInfo,
 					hMsg = hAuthCryptMsg,
 					pszOID = (PCSTR)null,
-					dwReserved = null,
+					dwReserved = 0,
 					cStores = 1,
-					rghStores = (HCERTSTORE*)NativeMemory.Alloc((uint)sizeof(void*)),
+					rghStores = stores,
 					cPropPages = 0,
 					rgPropPages = null
 				};
-				*(viewInfo.rghStores) = signHandle.hCertStoreHandle;
 
-				result = CryptUIDlgViewSignerInfo(&viewInfo);
+				result = PInvoke.CryptUIDlgViewSignerInfo(ref viewInfo);
 
 				PInvoke.CertFreeCertificateContext(pCertContext);
 			}
@@ -140,11 +147,11 @@ namespace Files.App.Utils.Signatures
 				// you must release them starting from the last one.
 				for (int i = signDataChain.Count - 1; i >= 0; i--)
 				{
-					if (signDataChain[i].pSignerInfo is not null)
-						NativeMemory.Free(signDataChain[i].pSignerInfo);
+					if (signDataChain[i].SignerInfo is not null)
+						NativeMemory.Free(signDataChain[i].SignerInfo);
 
-					if (!signDataChain[i].hCertStoreHandle.IsNull)
-						PInvoke.CertCloseStore(signDataChain[i].hCertStoreHandle, 0);
+					if (!signDataChain[i].CertStore.IsNull)
+						PInvoke.CertCloseStore(signDataChain[i].CertStore, 0);
 				}
 
 				if (hAuthCryptMsg is not null)
@@ -209,8 +216,8 @@ namespace Files.App.Utils.Signatures
 		private unsafe static bool GetSignerCertificateInfo(string fileName, List<SignNodeInfo> signChain, CancellationToken ct)
 		{
 			var succeded = false;
-			var authSignData = new SignDataHandle() { dwObjSize = 0, hCertStoreHandle = HCERTSTORE.Null, pSignerInfo = null };
-			var signDataChain = new List<SignDataHandle>();
+			var authSignData = new SignerData() { ObjectSize = 0, CertStore = HCERTSTORE.Null, SignerInfo = null };
+			var signDataChain = new List<SignerData>();
 			signChain.Clear();
 
 			var cert_store_prov_system = (PCSTR)(byte*)10;
@@ -232,9 +239,9 @@ namespace Files.App.Utils.Signatures
 			var result = TryGetSignerInfo(
 				fileName,
 				out hAuthCryptMsg,
-				out authSignData.hCertStoreHandle,
-				out authSignData.pSignerInfo,
-				out authSignData.dwObjSize
+				out authSignData.CertStore,
+				out authSignData.SignerInfo,
+				out authSignData.ObjectSize
 				);
 
 			if (hAuthCryptMsg is not null)
@@ -245,15 +252,15 @@ namespace Files.App.Utils.Signatures
 
 			if (!result)
 			{
-				if (authSignData.hCertStoreHandle != IntPtr.Zero)
-					PInvoke.CertCloseStore(authSignData.hCertStoreHandle, 0);
+				if (authSignData.CertStore != IntPtr.Zero)
+					PInvoke.CertCloseStore(authSignData.CertStore, 0);
 
 				PInvoke.CertCloseStore(hSystemStore, 0);
 				return false;
 			}
 
 			signDataChain.Add(authSignData);
-			GetNestedSignerInfo(ref authSignData, signDataChain);
+			GetNestedSignerInfo(authSignData, signDataChain);
 
 			for (var i = 0; i < signDataChain.Count; i++)
 			{
@@ -267,21 +274,21 @@ namespace Files.App.Utils.Signatures
 				CMSG_SIGNER_INFO* pCounterSigner = null;
 				var signNode = new SignNodeInfo();
 
-				GetCounterSignerInfo(signDataChain[i].pSignerInfo, &pCounterSigner);
+				GetCounterSignerInfo(signDataChain[i].SignerInfo, &pCounterSigner);
 				if (pCounterSigner is not null)
 					GetCounterSignerData(pCounterSigner, signNode.CounterSign);
 				else
-					GetGeneralizedTimeStamp(signDataChain[i].pSignerInfo, signNode.CounterSign);
+					GetGeneralizedTimeStamp(signDataChain[i].SignerInfo, signNode.CounterSign);
 
-				var pszObjId = signDataChain[i].pSignerInfo->HashAlgorithm.pszObjId;
+				var pszObjId = signDataChain[i].SignerInfo->HashAlgorithm.pszObjId;
 				var szObjId = new string((sbyte*)(byte*)pszObjId);
 				CalculateDigestAlgorithm(szObjId, signNode);
-				(_, signNode.Version) = CalculateSignVersion(signDataChain[i].pSignerInfo->dwVersion);
+				(_, signNode.Version) = CalculateSignVersion(signDataChain[i].SignerInfo->dwVersion);
 
 
-				var pIssuer = &(signDataChain[i].pSignerInfo->Issuer);
+				var pIssuer = &(signDataChain[i].SignerInfo->Issuer);
 				pCurrContext = PInvoke.CertFindCertificateInStore(
-					signDataChain[i].hCertStoreHandle,
+					signDataChain[i].CertStore,
 					ENCODING,
 					0,
 					CERT_FIND_FLAGS.CERT_FIND_ISSUER_NAME,
@@ -295,7 +302,7 @@ namespace Files.App.Utils.Signatures
 					var pOrigContext = pCurrContext;
 					result = GetSignerSignatureInfo(
 						hSystemStore,
-						signDataChain[i].hCertStoreHandle,
+						signDataChain[i].CertStore,
 						pOrigContext,
 						ref pCurrContext,
 						signNode
@@ -309,11 +316,11 @@ namespace Files.App.Utils.Signatures
 				if (pCounterSigner is not null)
 					NativeMemory.Free(pCounterSigner);
 
-				if (signDataChain[i].pSignerInfo is not null)
-					NativeMemory.Free(signDataChain[i].pSignerInfo);
+				if (signDataChain[i].SignerInfo is not null)
+					NativeMemory.Free(signDataChain[i].SignerInfo);
 
-				if (!signDataChain[i].hCertStoreHandle.IsNull)
-					PInvoke.CertCloseStore(signDataChain[i].hCertStoreHandle, 0);
+				if (!signDataChain[i].CertStore.IsNull)
+					PInvoke.CertCloseStore(signDataChain[i].CertStore, 0);
 
 				succeded = true;
 				signNode.IsValid = VerifyySignature(fileName);
@@ -747,26 +754,26 @@ namespace Files.App.Utils.Signatures
 			return n < pSignerInfo->AuthAttrs.cAttr;
 		}
 
-		private unsafe static bool GetNestedSignerInfo(ref SignDataHandle AuthSignData, List<SignDataHandle> NestedChain)
+		private unsafe static bool GetNestedSignerInfo(SignerData authSignData, List<SignerData> nestedChain)
 		{
 			var succeded = false;
 			void* hNestedMsg = null;
-			if (AuthSignData.pSignerInfo is null)
+			if (authSignData.SignerInfo is null)
 				return false;
 
 			try
 			{
 				CRYPT_ATTRIBUTE* attr = null;
-				var res = TryGetUnauthAttr(AuthSignData.pSignerInfo, szOID_NESTED_SIGNATURE, ref attr);
+				var res = TryGetUnauthAttr(authSignData.SignerInfo, szOID_NESTED_SIGNATURE, ref attr);
 				if (!res || attr is null)
 					return false;
 
 				var cbCurrData = attr->rgValue[0].cbData;
 				var pbCurrData = attr->rgValue[0].pbData;
-				var upperBound = AuthSignData.pSignerInfo + AuthSignData.dwObjSize;
-				while (pbCurrData > AuthSignData.pSignerInfo && pbCurrData < upperBound)
+				var upperBound = authSignData.SignerInfo + authSignData.ObjectSize;
+				while (pbCurrData > authSignData.SignerInfo && pbCurrData < upperBound)
 				{
-					var nestedHandle = new SignDataHandle() { dwObjSize = 0, pSignerInfo = null, hCertStoreHandle = HCERTSTORE.Null };
+					var nestedHandle = new SignerData() { ObjectSize = 0, SignerInfo = null, CertStore = HCERTSTORE.Null };
 					if (!Memcmp(pbCurrData, SG_ProtoCoded) ||
 						!Memcmp(pbCurrData + 6, SG_SignedData))
 					{
@@ -792,20 +799,20 @@ namespace Files.App.Utils.Signatures
 					if (!result)
 						continue;
 
-					var pSignerInfo = (void*)nestedHandle.pSignerInfo;
+					var pSignerInfo = (void*)nestedHandle.SignerInfo;
 					result = CustomCryptMsgGetParam(
 						hNestedMsg,
 						CMSG_SIGNER_INFO_PARAM,
 						0,
 						ref pSignerInfo,
-						ref nestedHandle.dwObjSize
+						ref nestedHandle.ObjectSize
 					);
-					nestedHandle.pSignerInfo = (CMSG_SIGNER_INFO*)pSignerInfo;
+					nestedHandle.SignerInfo = (CMSG_SIGNER_INFO*)pSignerInfo;
 					if (!result)
 						continue;
 
 					var cert_store_prov_msg = (PCSTR)(byte*)1;
-					nestedHandle.hCertStoreHandle = PInvoke.CertOpenStore(
+					nestedHandle.CertStore = PInvoke.CertOpenStore(
 						cert_store_prov_msg,
 						ENCODING,
 						HCRYPTPROV_LEGACY.Null,
@@ -814,7 +821,7 @@ namespace Files.App.Utils.Signatures
 					);
 
 					succeded = true;
-					NestedChain.Add(nestedHandle);
+					nestedChain.Add(nestedHandle);
 				}
 			}
 			finally

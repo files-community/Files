@@ -5,7 +5,6 @@ using System.IO;
 using Windows.Win32;
 using Windows.Win32.Storage.FileSystem;
 using static Files.App.Helpers.Win32Helper;
-using static Files.App.Helpers.Win32PInvoke;
 
 namespace Files.App.Utils.Serialization.Implementation
 {
@@ -15,15 +14,13 @@ namespace Files.App.Utils.Serialization.Implementation
 
 		public bool CreateFile(string path)
 		{
-			PInvoke.CreateDirectoryFromApp(Path.GetDirectoryName(path), null);
+			PInvoke.CreateDirectory(Path.GetDirectoryName(path), null);
 
-			var hFile = CreateFileFromApp(path, (uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ, FILE_SHARE_READ, IntPtr.Zero, OPEN_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero);
-			if (hFile.IsHandleInvalid())
+			using var hFile = PInvoke.CreateFile(path, (uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ, FILE_SHARE_MODE.FILE_SHARE_READ, null, FILE_CREATION_DISPOSITION.OPEN_ALWAYS, FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_BACKUP_SEMANTICS, null);
+			if (hFile.IsInvalid)
 			{
 				return false;
 			}
-
-			Win32PInvoke.CloseHandle(hFile);
 
 			_filePath = path;
 			return true;

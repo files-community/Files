@@ -14,6 +14,8 @@ using System.IO;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using WinRT;
+using Windows.Win32;
+using Windows.Win32.Storage.FileSystem;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -767,17 +769,17 @@ namespace Files.App.ViewModels.UserControls
 		/// Enumerates subfolders using Win32 API, including hidden folders based on user settings.
 		/// Returns null if the path cannot be enumerated with Win32.
 		/// </summary>
-		private List<(string Name, string Path, bool IsHidden)>? GetSubfolders(string parentPath)
+		private unsafe List<(string Name, string Path, bool IsHidden)>? GetSubfolders(string parentPath)
 		{
-			IntPtr hFile = Win32PInvoke.FindFirstFileExFromApp(
+			WIN32_FIND_DATAW findData = default;
+			using FindCloseSafeHandle hFile = PInvoke.FindFirstFileEx(
 				$"{parentPath}{Path.DirectorySeparatorChar}*.*",
-				Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic,
-				out Win32PInvoke.WIN32_FIND_DATA findData,
-				Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch,
-				IntPtr.Zero,
-				Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH);
+				FINDEX_INFO_LEVELS.FindExInfoBasic,
+				&findData,
+				FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+				FIND_FIRST_EX_FLAGS.FIND_FIRST_EX_LARGE_FETCH);
 
-			if (hFile.ToInt64() == -1)
+			if (hFile.IsInvalid)
 				return null;
 
 			var showHidden = UserSettingsService.FoldersSettingsService.ShowHiddenItems;
@@ -787,7 +789,8 @@ namespace Files.App.ViewModels.UserControls
 
 			do
 			{
-				if (findData.cFileName is "." or "..")
+				string fileName = findData.cFileName.ToString();
+				if (fileName is "." or "..")
 					continue;
 
 				if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == 0)
@@ -799,14 +802,13 @@ namespace Files.App.ViewModels.UserControls
 				if (isHidden && (!showHidden || (isSystem && !showSystem)))
 					continue;
 
-				if (findData.cFileName.StartsWith('.') && !showDot)
+				if (fileName.StartsWith('.') && !showDot)
 					continue;
 
-				folders.Add((findData.cFileName, Path.Combine(parentPath, findData.cFileName), isHidden));
+				folders.Add((fileName, Path.Combine(parentPath, fileName), isHidden));
 			}
-			while (Win32PInvoke.FindNextFile(hFile, out findData));
+			while (PInvoke.FindNextFile(hFile, out findData));
 
-			Win32PInvoke.FindClose(hFile);
 			folders.Sort((a, b) => string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase));
 
 			return folders;
