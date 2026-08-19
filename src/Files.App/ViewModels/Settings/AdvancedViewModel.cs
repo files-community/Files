@@ -291,6 +291,13 @@ namespace Files.App.ViewModels.Settings
 			get => AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;
 		}
 
+		/// <summary>
+		/// Gets the value indicating whether replacing File Explorer is available;
+		/// Files.App.Launcher reaches the app through packaged-only activation.
+		/// </summary>
+		public bool CanSetAsDefaultFileManager
+			=> AppRuntimeHelper.IsPackaged;
+
 		private FileSavePicker InitializeWithWindow(FileSavePicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, MainWindow.Instance.WindowHandle);
