@@ -18,6 +18,10 @@ namespace Files.App.Services
 
 		public async Task InitializeAsync()
 		{
+			// Jump lists require package identity
+			if (!AppRuntimeHelper.IsPackaged)
+				return;
+
 			try
 			{
 				App.QuickAccessManager.UpdateQuickAccessWidget -= UpdateQuickAccessWidget_Invoked;
@@ -33,6 +37,9 @@ namespace Files.App.Services
 
 		public async Task AddFolderAsync(string path)
 		{
+			if (!AppRuntimeHelper.IsPackaged)
+				return;
+
 			try
 			{
 				if (JumpList.IsSupported())
@@ -58,6 +65,9 @@ namespace Files.App.Services
 
 		public async Task<IEnumerable<string>> GetFoldersAsync()
 		{
+			if (!AppRuntimeHelper.IsPackaged)
+				return [];
+
 			if (JumpList.IsSupported())
 			{
 				try
@@ -81,6 +91,9 @@ namespace Files.App.Services
 
 		public async Task RefreshPinnedFoldersAsync()
 		{
+			if (!AppRuntimeHelper.IsPackaged)
+				return;
+
 			try
 			{
 				if (App.QuickAccessManager.PinnedItemsWatcher is not null)
@@ -113,6 +126,9 @@ namespace Files.App.Services
 
 		public async Task RemoveFolderAsync(string path)
 		{
+			if (!AppRuntimeHelper.IsPackaged)
+				return;
+
 			if (JumpList.IsSupported())
 			{
 				try

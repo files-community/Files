@@ -307,8 +307,9 @@ namespace Files.App.ViewModels.Properties
 			// cache the contents of the file to avoid repeatedly reading the file
 			if (!cachedPropertiesListFiles.TryGetValue(path, out var text))
 			{
-				var propertiesJsonFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(path));
-				text = await FileIO.ReadTextAsync(propertiesJsonFile);
+				// ms-appx resolution requires package identity; the asset ships on disk in both distributions
+				var localPath = Path.Combine(AppRuntimeHelper.InstalledPath, path.Replace("ms-appx:///", string.Empty).Replace('/', Path.DirectorySeparatorChar));
+				text = await File.ReadAllTextAsync(localPath);
 				cachedPropertiesListFiles[path] = text;
 			}
 

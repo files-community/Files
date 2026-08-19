@@ -26,14 +26,16 @@ namespace Files.App.Utils.Cloud
 			// Google Drive's sync database can be in a couple different locations. Go find it.
 			string appDataPath = UserDataPaths.GetDefault().LocalAppData;
 
+			var temporaryFolder = await AppDataHelper.GetTemporaryFolderAsync();
+
 			await StorageFile.GetFileFromPathAsync(Path.Combine(appDataPath, @"Google\DriveFS\root_preference_sqlite.db")).AsTask()
-				.AndThen(c => c.CopyAsync(ApplicationData.Current.TemporaryFolder, "google_drive.db", NameCollisionOption.ReplaceExisting).AsTask());
+				.AndThen(c => c.CopyAsync(temporaryFolder, "google_drive.db", NameCollisionOption.ReplaceExisting).AsTask());
 
 			// The wal file may not exist but that's ok
 			await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Path.Combine(appDataPath, @"Google\DriveFS\root_preference_sqlite.db-wal")).AsTask()
-				.AndThen(c => c.CopyAsync(ApplicationData.Current.TemporaryFolder, "google_drive.db-wal", NameCollisionOption.ReplaceExisting).AsTask()));
+				.AndThen(c => c.CopyAsync(temporaryFolder, "google_drive.db-wal", NameCollisionOption.ReplaceExisting).AsTask()));
 
-			var syncDbPath = Path.Combine(ApplicationData.Current.TemporaryFolder.Path, "google_drive.db");
+			var syncDbPath = Path.Combine(AppDataHelper.TemporaryFolderPath, "google_drive.db");
 
 			// Build the connection and sql command
 			SQLitePCL.Batteries_V2.Init();

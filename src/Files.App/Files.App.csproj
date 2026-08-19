@@ -43,6 +43,60 @@
     <PropertyGroup>
         <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     </PropertyGroup>
+
+    <!-- Portable (unpackaged) build, selected with /p:Portable=true.
+         EnableMsixTooling stays on: its targets flow the project pri into the output. -->
+    <PropertyGroup Condition="'$(Portable)' == 'true'">
+        <WindowsPackageType>None</WindowsPackageType>
+        <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+        <SelfContained>true</SelfContained>
+        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-$(Platform)</RuntimeIdentifier>
+        <!-- The default MRT Core ResourceManager only loads this file name in unpackaged apps -->
+        <ProjectPriFileName>resources.pri</ProjectPriFileName>
+        <!-- The Windows App SDK only supports single-file with full self-extraction: the
+             payload unpacks under %TEMP%\.net at first launch and AppContext.BaseDirectory
+             points there, while user data stays beside the executable -->
+        <PublishSingleFile>true</PublishSingleFile>
+        <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+        <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+        <CopyOutputSymbolsToPublishDirectory>false</CopyOutputSymbolsToPublishDirectory>
+        <!-- The publish profiles force SelfContained=false and must not apply to portable output -->
+        <PublishProfile></PublishProfile>
+    </PropertyGroup>
+
+    <!-- Packaged builds carry Assets inside the MSIX; unpackaged builds need them on disk -->
+    <ItemGroup Condition="'$(Portable)' == 'true'">
+        <Content Update="Assets\**">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <!-- The control library's XAML ships as loose xbf under Files.App.Controls\ (resolved by
+         ms-appx:///Files.App.Controls/ URIs); the publish target does not flow it from OutDir -->
+    <Target Name="PublishPortableLibraryXaml" BeforeTargets="ComputeResolvedFilesToPublishList" Condition="'$(Portable)' == 'true'">
+        <ItemGroup>
+            <_PortableLibraryXaml Include="$(OutDir)Files.App.Controls\**\*" />
+            <ResolvedFileToPublish Include="@(_PortableLibraryXaml)">
+                <RelativePath>Files.App.Controls\%(RecursiveDir)%(Filename)%(Extension)</RelativePath>
+                <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            </ResolvedFileToPublish>
+        </ItemGroup>
+    </Target>
+
+    <!-- CopyOutputSymbolsToPublishDirectory only strips the app's own pdb, not referenced projects'.
+         Of the AppTiles only Logo.ico and SplashScreen.png are read at runtime; the rest are MSIX tile assets. -->
+    <Target Name="StripPortableSymbols" AfterTargets="ComputeResolvedFilesToPublishList" Condition="'$(Portable)' == 'true'">
+        <ItemGroup>
+            <ResolvedFileToPublish Remove="@(ResolvedFileToPublish->WithMetadataValue('Extension', '.pdb'))" />
+            <_PortableTileAssetsToRemove Include="@(ResolvedFileToPublish)" Condition="$([System.String]::Copy('%(ResolvedFileToPublish.RelativePath)').StartsWith('Assets\AppTiles\'))" />
+            <_PortableTileAssetsToRemove Remove="@(_PortableTileAssetsToRemove)" Condition="'%(Filename)%(Extension)' == 'Logo.ico' Or $([System.String]::Copy('%(Filename)').StartsWith('SplashScreen'))" />
+            <ResolvedFileToPublish Remove="@(_PortableTileAssetsToRemove)" />
+            <!-- Runtime .mui folders for languages the app ships no translation for -->
+            <_PortableMuiToRemove Include="@(ResolvedFileToPublish)" Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('%(ResolvedFileToPublish.RelativePath)', '^(am|as|az|bn|bs|cy|et|eu|ga|gd|gl|gu|is|kk|kn|kok|lb|lo|mi|mk|ml|mr|mt|ne|nn|or|pa|quz|sl|te|tt|ug|ur|uz)(-[^\\]+)?\\'))" />
+            <ResolvedFileToPublish Remove="@(_PortableMuiToRemove)" />
+        </ItemGroup>
+    </Target>
   
     <ItemGroup>
         <Manifest Include="app.manifest" />

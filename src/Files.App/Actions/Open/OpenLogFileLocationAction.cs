@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-using Windows.Storage;
 using Windows.System;
 
 namespace Files.App.Actions
@@ -23,7 +22,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync(object? parameter = null)
 		{
-			await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder).AsTask();
+			await Launcher.LaunchFolderPathAsync(AppDataHelper.LocalFolderPath).AsTask();
 		}
 	}
 }

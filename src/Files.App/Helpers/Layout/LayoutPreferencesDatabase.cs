@@ -3,7 +3,6 @@
 
 using Microsoft.Win32;
 using System.Runtime.CompilerServices;
-using Windows.ApplicationModel;
 using static Files.App.Helpers.LayoutPreferencesDatabaseItemRegistry;
 using static Files.App.Helpers.RegistryHelpers;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -12,7 +11,7 @@ namespace Files.App.Helpers
 {
 	public sealed class LayoutPreferencesDatabase
 	{
-		private readonly static string LayoutSettingsKey = @$"Software\Files Community\{Package.Current.Id.Name}\v1\LayoutPreferences";
+		private readonly static string LayoutSettingsKey = @$"Software\Files Community\{AppRuntimeHelper.PackageName}\v1\LayoutPreferences";
 
 		public LayoutPreferencesItem? GetPreferences(string filePath, ulong? frn)
 		{

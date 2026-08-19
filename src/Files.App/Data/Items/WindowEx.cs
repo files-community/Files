@@ -25,7 +25,7 @@ namespace Files.App.Data.Items
 		private readonly WNDPROC _oldWndProc;
 		private readonly WNDPROC _newWndProc;
 
-		private readonly ApplicationDataContainer _applicationDataContainer = ApplicationData.Current.LocalSettings;
+		private readonly ApplicationDataContainer? _applicationDataContainer = AppRuntimeHelper.IsPackaged ? ApplicationData.Current.LocalSettings : null;
 
 		/// <summary>
 		/// Gets hWnd of this <see cref="Window"/>.
@@ -134,7 +134,7 @@ namespace Files.App.Data.Items
 
 			var values = GetDataStore(out _, true);
 
-			if (_applicationDataContainer.Containers.ContainsKey("WinUIEx"))
+			if (_applicationDataContainer is not null && _applicationDataContainer.Containers.ContainsKey("WinUIEx"))
 				_applicationDataContainer.Values.Remove("WinUIEx");
 
 			values["MainWindowPlacementData"] = Convert.ToBase64String(data.ToArray());
@@ -198,10 +198,13 @@ namespace Files.App.Data.Items
 			return;
 		}
 
-		private IPropertySet GetDataStore(out bool oldDataExists, bool useNewStore = true)
+		private IDictionary<string, object> GetDataStore(out bool oldDataExists, bool useNewStore = true)
 		{
 			IPropertySet values;
 			oldDataExists = false;
+
+			if (_applicationDataContainer is null)
+				return AppDataHelper.LocalSettingsValues;
 
 			if (_applicationDataContainer.Containers.TryGetValue("Files", out var dataContainer))
 			{

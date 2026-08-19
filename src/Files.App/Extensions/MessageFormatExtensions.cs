@@ -17,7 +17,12 @@ namespace Files.App.Extensions
 		/// Resource map for accessing localized strings.
 		/// It is initialized with the main resource map of the application's resources and the subtree "Resources".
 		/// </summary>
-		private static readonly ResourceMap _resourcesTree = new ResourceManager().MainResourceMap.TryGetSubtree("Resources");
+		// The parameterless ResourceManager resolves resources.pri beside the executable,
+		// which a single-file bundle extracts elsewhere
+		private static readonly ResourceMap _resourcesTree = (AppRuntimeHelper.IsPackaged
+			? new ResourceManager()
+			: new ResourceManager(SystemIO.Path.Combine(AppContext.BaseDirectory, "resources.pri")))
+			.MainResourceMap.TryGetSubtree("Resources");
 
 		/// <summary>
 		/// CultureInfo based on the application's primary language override.

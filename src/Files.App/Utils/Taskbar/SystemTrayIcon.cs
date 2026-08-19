@@ -35,6 +35,7 @@ namespace Files.App.Utils.Taskbar
 			AppEnvironment.StorePreview => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4003"),
 			AppEnvironment.SideloadStable => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4004"),
 			AppEnvironment.StoreStable => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4005"),
+			AppEnvironment.Portable => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4006"),
 			_ => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4001")
 		};
 
@@ -142,7 +143,7 @@ namespace Files.App.Utils.Taskbar
 		public SystemTrayIcon()
 		{
 			_Icon = new(AppLifecycleHelper.AppIconPath);
-			_Tooltip = Package.Current.DisplayName;
+			_Tooltip = AppRuntimeHelper.DisplayName;
 			_taskbarRestartMessageId = PInvoke.RegisterWindowMessage("TaskbarCreated");
 
 			Id = _trayIconGuid;

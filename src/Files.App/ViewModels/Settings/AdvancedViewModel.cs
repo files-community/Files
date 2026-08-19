@@ -55,10 +55,10 @@ namespace Files.App.ViewModels.Settings
 			if (IsSetAsDefaultFileManager == DetectIsSetAsDefaultFileManager())
 				return;
 
-			var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FilesOpenDialog");
+			var destFolder = Path.Combine(AppDataHelper.LocalFolderPath, "FilesOpenDialog");
 			Directory.CreateDirectory(destFolder);
 
-			foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Assets", "FilesOpenDialog")))
+			foreach (var file in Directory.GetFiles(Path.Combine(AppRuntimeHelper.InstalledPath, "Assets", "FilesOpenDialog")))
 			{
 				if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), App.Logger))
 				{
@@ -116,9 +116,9 @@ namespace Files.App.ViewModels.Settings
 			if (IsSetAsOpenFileDialog == DetectIsSetAsOpenFileDialog())
 				return;
 
-			var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FilesOpenDialog");
+			var destFolder = Path.Combine(AppDataHelper.LocalFolderPath, "FilesOpenDialog");
 			Directory.CreateDirectory(destFolder);
-			foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Assets", "FilesOpenDialog")))
+			foreach (var file in Directory.GetFiles(Path.Combine(AppRuntimeHelper.InstalledPath, "Assets", "FilesOpenDialog")))
 			{
 				if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), App.Logger))
 				{
@@ -166,7 +166,7 @@ namespace Files.App.ViewModels.Settings
 				if (await ZipStorageFolder.FromStorageFileAsync(file) is not ZipStorageFolder zipFolder)
 					return;
 
-				var localFolderPath = ApplicationData.Current.LocalFolder.Path;
+				var localFolderPath = AppDataHelper.LocalFolderPath;
 				var settingsFolder = await StorageFolder.GetFolderFromPathAsync(Path.Combine(localFolderPath, Constants.LocalSettings.SettingsFolderName));
 
 				// Import user settings
@@ -229,7 +229,7 @@ namespace Files.App.ViewModels.Settings
 				if (await ZipStorageFolder.FromStorageFileAsync(file) is not ZipStorageFolder zipFolder)
 					return;
 
-				var localFolderPath = ApplicationData.Current.LocalFolder.Path;
+				var localFolderPath = AppDataHelper.LocalFolderPath;
 
 				// Export user settings
 				var exportSettings = UTF8Encoding.UTF8.GetBytes((string)UserSettingsService.ExportSettings());
@@ -473,6 +473,10 @@ namespace Files.App.ViewModels.Settings
 
 		public async Task<StartupTaskState> ReadState()
 		{
+			// StartupTask requires package identity; report a policy-disabled state so the toggle is unavailable
+			if (!AppRuntimeHelper.IsPackaged)
+				return StartupTaskState.DisabledByPolicy;
+
 			try
 			{
 				var state = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");

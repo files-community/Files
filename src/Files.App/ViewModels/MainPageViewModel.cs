@@ -133,7 +133,7 @@ namespace Files.App.ViewModels
 		{
 			get
 			{
-				var isTargetEnvironment = AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev or AppEnvironment.SideloadStable or AppEnvironment.SideloadPreview;
+				var isTargetEnvironment = AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev or AppEnvironment.SideloadStable or AppEnvironment.SideloadPreview or AppEnvironment.Portable;
 				var hasClickedSponsorPrompt = UserSettingsService.ApplicationSettingsService.HasClickedSponsorPrompt;
 				var launchCountReached = AppLifecycleHelper.TotalLaunchCount == 30;
 

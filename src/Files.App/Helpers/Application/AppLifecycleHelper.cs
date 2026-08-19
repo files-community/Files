@@ -14,8 +14,6 @@ using Sentry;
 using Sentry.Protocol;
 using System.IO;
 using System.Text;
-using Windows.ApplicationModel;
-using Windows.Storage;
 using Windows.System;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
@@ -26,7 +24,7 @@ namespace Files.App.Helpers
 	/// </summary>
 	public static class AppLifecycleHelper
 	{
-		private readonly static string AppInformationKey = @$"Software\Files Community\{Package.Current.Id.Name}\v1\AppInformation";
+		private readonly static string AppInformationKey = @$"Software\Files Community\{AppRuntimeHelper.PackageName}\v1\AppInformation";
 
 		/// <summary>
 		/// Gets the value that indicates whether the app is updated.
@@ -74,23 +72,32 @@ namespace Files.App.Helpers
 		public static AppEnvironment AppEnvironment =>
 			Enum.TryParse("cd_app_env_placeholder", true, out AppEnvironment appEnvironment)
 				? appEnvironment
-				: AppEnvironment.Dev;
+				: AppRuntimeHelper.IsPackaged
+					? AppEnvironment.Dev
+					: AppEnvironment.Portable;
 
 
 		/// <summary>
 		/// Gets application package version.
 		/// </summary>
 		public static Version AppVersion { get; } =
-			new(Package.Current.Id.Version.Major, Package.Current.Id.Version.Minor, Package.Current.Id.Version.Build, Package.Current.Id.Version.Revision);
+			AppRuntimeHelper.AppVersion;
+
+		/// <summary>
+		/// Gets the value that indicates whether CI stamped this build with a distribution branch.
+		/// </summary>
+		public static bool IsStampedBuild { get; } =
+			Enum.TryParse<AppEnvironment>("cd_app_env_placeholder", true, out _);
 
 		/// <summary>
 		/// Gets application icon path.
 		/// </summary>
 		public static string AppIconPath { get; } =
-			SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, AppEnvironment switch
+			SystemIO.Path.Combine(AppRuntimeHelper.InstalledPath, AppEnvironment switch
 			{
 				AppEnvironment.Dev => Constants.AssetPaths.DevLogo,
 				AppEnvironment.SideloadPreview or AppEnvironment.StorePreview => Constants.AssetPaths.PreviewLogo,
+				AppEnvironment.Portable when !IsStampedBuild => Constants.AssetPaths.DevLogo,
 				_ => Constants.AssetPaths.StableLogo
 			});
 
@@ -186,15 +193,19 @@ namespace Files.App.Helpers
 			{
 				options.Dsn = Constants.AutomatedWorkflowInjectionKeys.SentrySecret;
 				options.AutoSessionTracking = true;
-				var packageVersion = Package.Current.Id.Version;
-				options.Release = $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}";
+				options.Release = $"{AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}";
 				options.TracesSampleRate = 0.10;
 				// Active-session reports must not be sampled away or their sums undercount;
 				// returning null falls back to TracesSampleRate for everything else
 				options.TracesSampler = context =>
 					context.TransactionContext.Operation == ActiveSessionTracker.TransactionOperation ? 1.0 : null;
 				options.ProfilesSampleRate = 0.05;
-				options.Environment = AppEnvironment == AppEnvironment.StorePreview || AppEnvironment == AppEnvironment.SideloadPreview ? "preview" : "production";
+				options.Environment = AppEnvironment switch
+				{
+					AppEnvironment.StorePreview or AppEnvironment.SideloadPreview => "preview",
+					AppEnvironment.Portable => "portable",
+					_ => "production"
+				};
 
 				options.DisableWinUiUnhandledExceptionIntegration();
 			});
@@ -206,13 +217,13 @@ namespace Files.App.Helpers
 		public static IHost ConfigureHost()
 		{
 			var builder = Host.CreateDefaultBuilder()
-				.UseContentRoot(Package.Current.InstalledLocation.Path)
+				.UseContentRoot(AppRuntimeHelper.InstalledPath)
 				.UseEnvironment(AppLifecycleHelper.AppEnvironment.ToString())
 				.ConfigureLogging(builder => builder
 					.ClearProviders()
 					.AddConsole()
 					.AddDebug()
-					.AddProvider(new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log")))
+					.AddProvider(new FileLoggerProvider(Path.Combine(AppDataHelper.LocalFolderPath, "debug.log")))
 					.AddProvider(new SentryLoggerProvider())
 					.SetMinimumLevel(LogLevel.Information))
 				.ConfigureServices(services => services
@@ -302,6 +313,8 @@ namespace Files.App.Helpers
 				builder.ConfigureServices(s => s.AddSingleton<IUpdateService, SideloadUpdateService>());
 			else if (AppEnvironment is AppEnvironment.StorePreview or AppEnvironment.StoreStable)
 				builder.ConfigureServices(s => s.AddSingleton<IUpdateService, StoreUpdateService>());
+			else if (AppEnvironment is AppEnvironment.Portable)
+				builder.ConfigureServices(s => s.AddSingleton<IUpdateService, PortableUpdateService>());
 			else
 				builder.ConfigureServices(s => s.AddSingleton<IUpdateService, DummyUpdateService>());
 
@@ -463,6 +476,11 @@ namespace Files.App.Helpers
 				// Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
 				Debugger.Break();
 
+				// The file logger is unavailable for crashes during early startup
+				SafetyExtensions.IgnoreExceptions(() => SystemIO.File.AppendAllText(
+					SystemIO.Path.Combine(AppDataHelper.LocalFolderPath, "crash.log"),
+					$"{DateTime.Now:O}{Environment.NewLine}{formattedException}{Environment.NewLine}--- RECENT ---{Environment.NewLine}{SafetyExtensions.IgnoreExceptions(FormatRecentExceptions)}{Environment.NewLine}"));
+
 				// Save the current tab list in case it was overwriten by another instance
 				SafetyExtensions.IgnoreExceptions(SaveSessionTabs);
 				SafetyExtensions.IgnoreExceptions(() => App.Logger?.LogError(ex, ex?.Message ?? "An unhandled error occurred."));
@@ -493,11 +511,19 @@ namespace Files.App.Helpers
 						userSettingsService.GeneralSettingsService.LastCrashedTabList = lastSessionTabList;
 
 						// Try to re-launch and start over
-						MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+						if (AppRuntimeHelper.IsPackaged)
 						{
-							await Launcher.LaunchUriAsync(new Uri("files-dev:"));
-						})
-						.Wait(100);
+							MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+							{
+								await Launcher.LaunchUriAsync(new Uri("files-dev:"));
+							})
+							.Wait(100);
+						}
+						else
+						{
+							// Protocol activation requires package identity; relaunch the executable directly
+							Process.Start(new ProcessStartInfo(Environment.ProcessPath ?? Path.Combine(AppRuntimeHelper.EffectivePath, "Files.exe")) { UseShellExecute = true });
+						}
 					}
 				});
 			}

@@ -923,7 +923,7 @@ namespace Files.App.Views
 
 			// Self-drop: leave the close-on-drop flag unset so the source tab survives the split.
 			if (!ReferenceEquals(_draggedTabItem?.TabItemContent, this))
-				ApplicationData.Current.LocalSettings.Values[BaseTabBar.TabDropHandledIdentifier] = true;
+				AppDataHelper.LocalSettingsValues[BaseTabBar.TabDropHandledIdentifier] = true;
 		}
 
 		private void MainWindow_SizeChanged(object sender, WindowSizeChangedEventArgs e)

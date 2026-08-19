@@ -16,6 +16,8 @@ namespace Files.App.Views
 			{
 				AppEnvironment.Dev => "Dev",
 				AppEnvironment.SideloadPreview or AppEnvironment.StorePreview => "Preview",
+				AppEnvironment.Portable when !AppLifecycleHelper.IsStampedBuild => "Dev",
+				AppEnvironment.Portable => "Portable",
 				_ => string.Empty,
 			};
 

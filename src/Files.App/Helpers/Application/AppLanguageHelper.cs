@@ -18,6 +18,38 @@ namespace Files.App.Helpers
 		private static readonly string _defaultCode = string.Empty;
 
 		/// <summary>
+		/// The languages the app ships translations for, used when no package manifest is
+		/// available to enumerate them. Keep in sync with AppxDefaultResourceQualifiers in Files.App.csproj.
+		/// </summary>
+		private static readonly string[] _unpackagedLanguages =
+		[
+			"en-US", "af", "ar", "be-BY", "bg", "ca", "cs-CZ", "da", "de-DE", "el", "en-GB",
+			"es-ES", "es-419", "fa-IR", "fi-FI", "fil-PH", "fr-FR", "he-IL", "hi-IN", "hr-HR",
+			"hu-HU", "hy-AM", "id-ID", "it-IT", "ja-JP", "ka", "km-KH", "ko-KR", "lt-LT",
+			"lv-LV", "ms-MY", "nb-NO", "nl-NL", "pl-PL", "pt-BR", "pt-PT", "ro-RO", "ru-RU",
+			"sk-SK", "sq-AL", "sr-Cyrl", "sv-SE", "ta", "th-TH", "tr-TR", "uk-UA", "vi",
+			"zh-Hans", "zh-Hant"
+		];
+
+		/// <summary>
+		/// The primary language override, routed to the API that matches how the process runs;
+		/// the Windows.Globalization one requires package identity.
+		/// </summary>
+		private static string PrimaryLanguageOverride
+		{
+			get => AppRuntimeHelper.IsPackaged
+				? ApplicationLanguages.PrimaryLanguageOverride
+				: Microsoft.Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride;
+			set
+			{
+				if (AppRuntimeHelper.IsPackaged)
+					ApplicationLanguages.PrimaryLanguageOverride = value;
+				else
+					Microsoft.Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = value;
+			}
+		}
+
+		/// <summary>
 		/// A collection of available languages.
 		/// </summary>
 		public static ObservableCollection<AppLanguageItem> SupportedLanguages { get; }
@@ -48,7 +80,11 @@ namespace Files.App.Helpers
 		static AppLanguageHelper()
 		{
 			// Populate the Languages collection with available languages
-			var appLanguages = ApplicationLanguages.ManifestLanguages
+			var manifestLanguages = AppRuntimeHelper.IsPackaged
+				? ApplicationLanguages.ManifestLanguages.AsEnumerable()
+				: _unpackagedLanguages;
+
+			var appLanguages = manifestLanguages
 			   .Append(string.Empty) // Add default language code
 			   .Select(language => new AppLanguageItem(language))
 			   .OrderBy(language => language.Code is not "") // Default language on top
@@ -56,7 +92,7 @@ namespace Files.App.Helpers
 			   .ToList();
 
 			// Get the current primary language override.
-			var current = new AppLanguageItem(ApplicationLanguages.PrimaryLanguageOverride);
+			var current = new AppLanguageItem(PrimaryLanguageOverride);
 
 			// Find the index of the saved language
 			var index = appLanguages.IndexOf(appLanguages.FirstOrDefault(dl => dl.Name == current.Name) ?? appLanguages.First());
@@ -86,7 +122,7 @@ namespace Files.App.Helpers
 			PreferredLanguage = SupportedLanguages[index];
 
 			// Update the primary language override
-			ApplicationLanguages.PrimaryLanguageOverride = index == 0 ? _defaultCode : PreferredLanguage.Code;
+			PrimaryLanguageOverride = index == 0 ? _defaultCode : PreferredLanguage.Code;
 			return true;
 		}
 
@@ -116,7 +152,7 @@ namespace Files.App.Helpers
 			PreferredLanguage = SupportedLanguages[index];
 
 			// Update the primary language override
-			ApplicationLanguages.PrimaryLanguageOverride = index == 0 ? _defaultCode : PreferredLanguage.Code;
+			PrimaryLanguageOverride = index == 0 ? _defaultCode : PreferredLanguage.Code;
 			return true;
 		}
 	}
