@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.Foundation;
 using Windows.System;
+using WinRT;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
@@ -154,6 +155,7 @@ namespace Files.App.UserControls.Selection
 			selectionState = SelectionState.Starting;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void FetchItemsPosition()
 		{
 			var verticalOffset = scrollViewer!.VerticalOffset;
@@ -184,6 +186,7 @@ namespace Files.App.UserControls.Selection
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewBase))]
 		private void RectangleSelection_PointerReleased(object sender, PointerRoutedEventArgs e)
 		{
 			if (scrollViewer is null) return;

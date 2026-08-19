@@ -7,6 +7,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
+using WinRT;
 
 namespace Files.App.ViewModels.Properties
 {
@@ -98,6 +99,7 @@ namespace Files.App.ViewModels.Properties
 			_mainFrame?.Navigate(page, parameter, new EntranceNavigationTransitionInfo());
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Page))]
 		private void ExecuteDoBackwardNavigationCommand()
 		{
 			if (NavigationItems is null ||

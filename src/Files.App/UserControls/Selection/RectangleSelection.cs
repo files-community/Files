@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.Foundation;
+using WinRT;
 
 namespace Files.App.UserControls.Selection
 {
@@ -31,6 +32,7 @@ namespace Files.App.UserControls.Selection
 		/// <param name="selectionRectangle">Rectangle inside a Canvas</param>
 		/// <param name="selectionChanged">SelectionChanged event associated with uiElement</param>
 		/// <returns></returns>
+		[DynamicWindowsRuntimeCast(typeof(ListViewBase))]
 		public static RectangleSelection Create(FrameworkElement uiElement, Rectangle selectionRectangle, SelectionChangedEventHandler? selectionChanged = null)
 		{
 			if (uiElement is ListViewBase listView)

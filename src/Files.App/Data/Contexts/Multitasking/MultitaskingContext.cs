@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using System.Collections.Specialized;
+using WinRT;
 
 namespace Files.App.Data.Contexts
 {
@@ -61,6 +62,7 @@ namespace Files.App.Data.Contexts
 			UpdateSelectedTabIndex(newSelectedIndex);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void FocusManager_GotFocus(object? sender, FocusManagerGotFocusEventArgs e)
 		{
 			if (isPopupOpen)

@@ -17,6 +17,7 @@ using Windows.Graphics;
 using Windows.UI.Input;
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using WinRT;
 using WinUIEx;
 using WinUIEx.Messaging;
 using GridSplitter = Files.App.Controls.GridSplitter;
@@ -44,6 +45,7 @@ namespace Files.App.Views
 		private readonly Dictionary<TabBarItem, double> _sidebarScrollByTab = new();
 		private TabBarItem? _previousSidebarTab;
 
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyout))]
 		public MainPage()
 		{
 			InitializeComponent();
@@ -252,6 +254,9 @@ namespace Files.App.Views
 
 		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e) => await OnPreviewKeyDownAsync(e);
 
+		[DynamicWindowsRuntimeCast(typeof(DependencyObject))]
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private async Task OnPreviewKeyDownAsync(KeyRoutedEventArgs e)
 		{
 			base.OnPreviewKeyDown(e);

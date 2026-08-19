@@ -3,6 +3,7 @@
 
 using Files.App.Controls;
 using Microsoft.UI.Xaml;
+using WinRT;
 
 namespace Files.App.ViewModels.Settings
 {
@@ -91,6 +92,7 @@ namespace Files.App.ViewModels.Settings
 			SearchQuery = string.Empty;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
 		private static SettingsNavigationItem CreateNavigationItem(SettingsPageKind pageKind, string automationId, string text, string iconStyleKey)
 		{
 			var iconStyle = (Style)Application.Current.Resources[iconStyleKey];

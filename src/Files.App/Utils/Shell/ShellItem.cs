@@ -110,7 +110,7 @@ namespace Files.App.Utils.Shell
 		}
 	}
 
-	public unsafe class ShellItem : IDisposable
+	public unsafe partial class ShellItem : IDisposable
 	{
 		private IShellItem? shellItem;
 		private ShellItemPropertyStore? properties;
@@ -333,7 +333,7 @@ namespace Files.App.Utils.Shell
 			=> GetEnumerator();
 	}
 
-	public sealed class ShellLink : ShellItem
+	public sealed partial class ShellLink : ShellItem
 	{
 		private IShellLinkW? link;
 		private IPersistFile? persistFile;

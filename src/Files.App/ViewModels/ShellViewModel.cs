@@ -1767,6 +1767,7 @@ namespace Files.App.ViewModels
 			return WindowsSecurityService.IsElevationRequired(!string.IsNullOrEmpty(targetPath) ? targetPath : item.ItemPath);
 		}
 
+		[WinRT.DynamicWindowsRuntimeCast(typeof(Style))]
 		public async Task LoadGitPropertiesAsync(IGitItem gitItem)
 		{
 			var getStatus = EnabledGitProperties is GitProperties.All or GitProperties.Status && !gitItem.StatusPropertiesInitialized;

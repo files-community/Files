@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -103,6 +104,7 @@ namespace Files.App.Controls
 
 		public FrameworkElement? Icon
 		{
+			[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 			get { return (FrameworkElement?)GetValue(IconProperty); }
 			set { SetValue(IconProperty, value); }
 		}
@@ -111,6 +113,7 @@ namespace Files.App.Controls
 
 		public FrameworkElement? Decorator
 		{
+			[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 			get { return (FrameworkElement?)GetValue(DecoratorProperty); }
 			set { SetValue(DecoratorProperty, value); }
 		}

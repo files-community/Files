@@ -6,6 +6,7 @@ using Files.App.ViewModels.Properties;
 using Files.Shared.Helpers;
 using Microsoft.UI.Xaml;
 using Windows.Storage;
+using WinRT;
 
 namespace Files.App.Data.Factories
 {
@@ -118,6 +119,7 @@ namespace Files.App.Data.Factories
 			return propertiesNavigationItems;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
 		private static PropertiesNavigationItem CreateNavigationItem(PropertiesNavigationViewItemType itemType, string text, string iconStyleKey)
 		{
 			var iconStyle = (Style)Application.Current.Resources[iconStyleKey];

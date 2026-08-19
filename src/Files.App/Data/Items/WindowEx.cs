@@ -11,6 +11,7 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.UI.WindowsAndMessaging;
+using WinRT;
 using MONITORENUMPROC = Windows.Win32.Extras.ManagedMONITORENUMPROC;
 using WNDPROC = Windows.Win32.Extras.ManagedWNDPROC;
 
@@ -50,6 +51,7 @@ namespace Files.App.Data.Items
 		public bool IsMaximizable
 		{
 			get => _IsMaximizable;
+			[DynamicWindowsRuntimeCast(typeof(OverlappedPresenter))]
 			set
 			{
 				_IsMaximizable = value;
@@ -66,6 +68,7 @@ namespace Files.App.Data.Items
 		public bool IsMinimizable
 		{
 			get => _IsMinimizable;
+			[DynamicWindowsRuntimeCast(typeof(OverlappedPresenter))]
 			set
 			{
 				_IsMinimizable = value;

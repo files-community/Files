@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml;
+using WinRT;
 
 namespace Files.App.Utils.Cloud
 {
@@ -36,6 +37,7 @@ namespace Files.App.Utils.Cloud
 			SyncStatusString = SyncStatusStringKey.GetLocalizedResource();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
 		public static CloudDriveSyncStatusUI FromCloudDriveSyncStatus(CloudDriveSyncStatus syncStatus) => syncStatus switch
 		{
 			// File

@@ -5,13 +5,17 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Immutable;
 using Windows.Foundation.Metadata;
+using WinRT;
 
 namespace Files.App.Dialogs
 {
 	public sealed partial class CreateArchiveDialog : ContentDialog
 	{
 		private FrameworkElement RootAppElement
-			=> (FrameworkElement)MainWindow.Instance.Content;
+		{
+			[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+			get => (FrameworkElement)MainWindow.Instance.Content;
+		}
 
 		private bool canCreate = false;
 		public bool CanCreate => canCreate;

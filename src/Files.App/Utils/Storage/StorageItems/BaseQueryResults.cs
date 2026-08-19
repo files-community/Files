@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Search;
+using WinRT;
 
 namespace Files.App.Utils.Storage
 {
@@ -177,6 +178,8 @@ namespace Files.App.Utils.Storage
 			StorageItemQueryResult = sfqr;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(StorageFolder))]
+		[DynamicWindowsRuntimeCast(typeof(StorageFile))]
 		public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync(uint startIndex, uint maxNumberOfItems)
 		{
 			return AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken) =>
@@ -191,6 +194,8 @@ namespace Files.App.Utils.Storage
 			});
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(StorageFolder))]
+		[DynamicWindowsRuntimeCast(typeof(StorageFile))]
 		public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync()
 		{
 			return AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken) =>

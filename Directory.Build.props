@@ -17,5 +17,8 @@
     <!--  Use strict Roslyn compilation mode  -->
     <Features>strict</Features>
 
+    <!--  Enable all C#/WinRT trimming and NativeAOT diagnostics  -->
+    <CsWinRTAotWarningLevel>3</CsWinRTAotWarningLevel>
+
   </PropertyGroup>
 </Project>

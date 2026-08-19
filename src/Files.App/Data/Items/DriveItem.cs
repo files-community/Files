@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.Runtime.CompilerServices;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using WinRT;
 using ByteSize = ByteSizeLib.ByteSize;
 
 namespace Files.App.Data.Items
@@ -211,6 +212,7 @@ namespace Files.App.Data.Items
 
 		public FrameworkElement? ItemDecorator
 		{
+			[DynamicWindowsRuntimeCast(typeof(Style))]
 			get
 			{
 				if (!IsRemovable)

@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Navigation;
+using WinRT;
 
 namespace Files.App.Views.Properties
 {
@@ -31,6 +32,7 @@ namespace Files.App.Views.Properties
 			base.OnNavigatedTo(e);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Button))]
 		private void CopyHashButton_Click(object sender, RoutedEventArgs e)
 		{
 			var item = (HashInfoItem)(((Button)sender).DataContext);

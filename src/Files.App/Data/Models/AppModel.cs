@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using WinRT;
 
 namespace Files.App.Data.Models
 {
@@ -34,6 +35,7 @@ namespace Files.App.Data.Models
 		public int TabStripSelectedIndex
 		{
 			get => _TabStripSelectedIndex;
+			[DynamicWindowsRuntimeCast(typeof(Frame))]
 			set
 			{
 				try

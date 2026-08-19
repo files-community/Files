@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -20,6 +21,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
+using WinRT;
 using static Files.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.App.Data.Enums.SortDirection;
@@ -82,7 +84,10 @@ namespace Files.App.Views.Layouts
 		// Properties
 
 		protected NavigationToolbar? NavToolbar
-			=> (MainWindow.Instance.Content as Frame)?.FindDescendant<NavigationToolbar>();
+		{
+			[DynamicWindowsRuntimeCast(typeof(Frame))]
+			get => (MainWindow.Instance.Content as Frame)?.FindDescendant<NavigationToolbar>();
+		}
 
 		public LayoutPreferencesManager? FolderSettings
 			=> ParentShellPageInstance?.InstanceViewModel.FolderSettings;
@@ -424,6 +429,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ContentControl))]
 		protected ListedItem? GetItemFromElement(object element)
 		{
 			if (element is not ContentControl item || !CanGetItemFromElement(element))
@@ -637,6 +643,7 @@ namespace Files.App.Views.Layouts
 			return shellContextMenuItemCancellationToken.Token;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyout))]
 		private async void ItemContextFlyout_Opening(object? sender, object e)
 		{
 			try
@@ -729,6 +736,9 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
+		[DynamicWindowsRuntimeCast(typeof(Geometry))]
+		[DynamicWindowsRuntimeCast(typeof(ToggleMenuFlyoutItem))]
 		private MenuFlyoutSubItem BuildEditTagsSubItem(List<ListedItem> selected)
 		{
 			var subItem = new MenuFlyoutSubItem
@@ -1265,6 +1275,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private static void UpdateItemToolTip(SelectorItem container, string? tooltipText)
 		{
 			// Apply the tooltip to both the container and the realized template root so every layout
@@ -1284,6 +1295,7 @@ namespace Files.App.Views.Layouts
 			target.SetValue(ToolTipService.PlacementProperty, PlacementMode.Mouse);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(SelectorItem))]
 		private void FileListItem_Loaded(object sender, RoutedEventArgs e)
 		{
 			// Set the initial tooltip before hover starts so WinUI doesn't miss the first dwell.
@@ -1298,6 +1310,7 @@ namespace Files.App.Views.Layouts
 				item.FileImage = image;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(SelectorItem))]
 		protected internal void FileListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			// Set can window to front and bring the window to the front if necessary (#13255)
@@ -1327,6 +1340,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(SelectorItem))]
 		protected internal void FileListItem_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			// Set can window to front (#13255)
@@ -1407,6 +1421,7 @@ namespace Files.App.Views.Layouts
 				Win32Helper.BringToForegroundEx(new(MainWindow.Instance.WindowHandle));
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(SelectorItem))]
 		protected void FileListItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			// Set can window to front and bring the window to the front if necessary (#13255)
@@ -1510,6 +1525,7 @@ namespace Files.App.Views.Layouts
 			e.DestinationItem.Item = destination?.FirstOrDefault();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
 		protected void StackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			var element = (sender as UIElement)?.FindAscendant<ListViewBaseHeaderItem>();
@@ -1517,6 +1533,7 @@ namespace Files.App.Views.Layouts
 				VisualStateManager.GoToState(element, "PointerOver", true);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
 		protected void StackPanel_PointerCanceled(object sender, PointerRoutedEventArgs e)
 		{
 			var element = (sender as UIElement)?.FindAscendant<ListViewBaseHeaderItem>();
@@ -1524,6 +1541,7 @@ namespace Files.App.Views.Layouts
 				VisualStateManager.GoToState(element, "Normal", true);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
 		protected void RootPanel_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			var element = (sender as UIElement)?.FindAscendant<ListViewBaseHeaderItem>();

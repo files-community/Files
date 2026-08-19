@@ -8,6 +8,7 @@ using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
+using WinRT;
 
 namespace Files.App.Utils.Storage
 {
@@ -165,10 +166,18 @@ namespace Files.App.Utils.Storage
 			private readonly IStorageItemExtraProperties basicProps;
 			private readonly DateTimeOffset? dateCreated;
 
-			public override ulong Size => (basicProps as BasicProperties)?.Size ?? 0;
+			public override ulong Size
+			{
+				[DynamicWindowsRuntimeCast(typeof(BasicProperties))]
+				get => (basicProps as BasicProperties)?.Size ?? 0;
+			}
 
 			public override DateTimeOffset DateCreated => dateCreated ?? DateTimeOffset.Now;
-			public override DateTimeOffset DateModified => (basicProps as BasicProperties)?.DateModified ?? DateTimeOffset.Now;
+			public override DateTimeOffset DateModified
+			{
+				[DynamicWindowsRuntimeCast(typeof(BasicProperties))]
+				get => (basicProps as BasicProperties)?.DateModified ?? DateTimeOffset.Now;
+			}
 
 			public SystemFolderBasicProperties(IStorageItemExtraProperties basicProps, DateTimeOffset dateCreated)
 			{

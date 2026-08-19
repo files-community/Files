@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System.Windows.Input;
 using Windows.System;
+using WinRT;
 
 namespace Files.App.ViewModels.Dialogs
 {
@@ -403,6 +404,8 @@ namespace Files.App.ViewModels.Dialogs
 
 		#region Constructor
 
+		[DynamicWindowsRuntimeCast(typeof(DependencyObject))]
+		[DynamicWindowsRuntimeCast(typeof(Control))]
 		public DynamicDialogViewModel()
 		{
 			// Create default implementation

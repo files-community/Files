@@ -1,6 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+[assembly: WinRT.GeneratedWinRTExposedExternalType(typeof(Files.App.Utils.Storage.GroupedCollection<Files.App.Utils.ListedItem>))]
+
 namespace Files.App.Utils.Storage
 {
 	[WinRT.GeneratedWinRTExposedType]

@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Data;
 using Windows.Foundation.Collections;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -48,6 +49,8 @@ namespace Files.App.Controls
 		/// </summary>
 		/// <param name="obj">The element that's used to display the specified item.</param>
 		/// <param name="item">The item to display.</param>
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		[DynamicWindowsRuntimeCast(typeof(ContentControl))]
 		protected override void PrepareContainerForItemOverride(DependencyObject obj, object item)
 		{
 			base.PrepareContainerForItemOverride(obj, item);
@@ -184,6 +187,7 @@ namespace Files.App.Controls
 			_isLoaded = false;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ItemsWrapGrid))]
 		private void DetermineOneRowMode()
 		{
 			if (_isLoaded)

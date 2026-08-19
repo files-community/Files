@@ -16,6 +16,7 @@ using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.ViewManagement;
+using WinRT;
 using GridSplitter = Files.App.Controls.GridSplitter;
 
 namespace Files.App.Views
@@ -719,6 +720,7 @@ namespace Files.App.Views
 		private static readonly string[] _cornerProps =
 			["TopLeftRadius", "TopRightRadius", "BottomRightRadius", "BottomLeftRadius"];
 
+		[DynamicWindowsRuntimeCast(typeof(SolidColorBrush))]
 		private SpriteVisual GetOrCreateIndicatorVisual()
 		{
 			if (_indicatorVisual is not null)
@@ -931,6 +933,7 @@ namespace Files.App.Views
 			WindowIsCompact = MainWindow.Instance.Bounds.Width <= Constants.UI.MultiplePaneWidthThreshold;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
 		private void Pane_Loaded(object sender, RoutedEventArgs e)
 		{
 			if (sender is UIElement element)
@@ -955,6 +958,7 @@ namespace Files.App.Views
 			};
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
 		private void Pane_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			// Focus pane if interaction suggests intent to focus:
@@ -989,6 +993,7 @@ namespace Files.App.Views
 				ActivePane = newActivePane;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
 		private void Pane_RightTapped(object sender, RoutedEventArgs e)
 		{
 			if (sender != ActivePane && sender is IShellPage shellPage && shellPage.SlimContentPage is not ColumnsLayoutPage)

@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation;
 using Windows.Win32.Foundation;
+using WinRT;
 
 namespace Files.App.UserControls.FilePreviews
 {
@@ -20,6 +21,7 @@ namespace Files.App.UserControls.FilePreviews
 			InitializeComponent();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void PreviewHost_Loaded(object sender, RoutedEventArgs e)
 		{
 			ViewModel.LoadPreview(contentPresenter);
@@ -52,6 +54,7 @@ namespace Files.App.UserControls.FilePreviews
 			return result;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void PreviewHost_Unloaded(object sender, RoutedEventArgs e)
 		{
 			if (XamlRoot.Content is FrameworkElement element)

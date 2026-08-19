@@ -1,6 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.UI.Xaml.Media;
+using WinRT;
+
 namespace Files.App.Controls
 {
 	public sealed partial class SidebarView
@@ -15,6 +18,7 @@ namespace Files.App.Controls
 
 		public UIElement InnerContent
 		{
+			[DynamicWindowsRuntimeCast(typeof(UIElement))]
 			get { return (UIElement)GetValue(InnerContentProperty); }
 			set { SetValue(InnerContentProperty, value); }
 		}
@@ -23,6 +27,7 @@ namespace Files.App.Controls
 
 		public UIElement SidebarContent
 		{
+			[DynamicWindowsRuntimeCast(typeof(UIElement))]
 			get { return (UIElement)GetValue(SidebarContentProperty); }
 			set { SetValue(SidebarContentProperty, value); }
 		}
@@ -31,6 +36,7 @@ namespace Files.App.Controls
 
 		public UIElement Header
 		{
+			[DynamicWindowsRuntimeCast(typeof(UIElement))]
 			get { return (UIElement)GetValue(HeaderProperty); }
 			set { SetValue(HeaderProperty, value); }
 		}
@@ -39,6 +45,7 @@ namespace Files.App.Controls
 
 		public UIElement Footer
 		{
+			[DynamicWindowsRuntimeCast(typeof(UIElement))]
 			get { return (UIElement)GetValue(FooterProperty); }
 			set { SetValue(FooterProperty, value); }
 		}
@@ -47,6 +54,7 @@ namespace Files.App.Controls
 
 		public Microsoft.UI.Xaml.Media.Brush PaneBackgroundBrush
 		{
+			[DynamicWindowsRuntimeCast(typeof(Brush))]
 			get { return (Microsoft.UI.Xaml.Media.Brush)GetValue(PaneBackgroundBrushProperty); }
 			set { SetValue(PaneBackgroundBrushProperty, value); }
 		}

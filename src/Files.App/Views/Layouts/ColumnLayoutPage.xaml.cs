@@ -13,6 +13,7 @@ using System.IO;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
+using WinRT;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.Views.Layouts
@@ -88,6 +89,7 @@ namespace Files.App.Views.Layouts
 			doubleClickTimer = DispatcherQueue.CreateTimer();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
 		private void SetOpenedFolder(ListViewItem? lvi)
 		{
 			SetRowStyle(openedFolderPresenter, null);
@@ -129,6 +131,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
 		{
 			SetOpenedFolder(FileList.ContainerFromItem(FileList.SelectedItem) as ListViewItem);
@@ -153,6 +156,7 @@ namespace Files.App.Views.Layouts
 			ContentScroller?.ChangeView(null, 0, null, true);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
 			if (SelectedItems?.Any() ?? false)
@@ -175,6 +179,7 @@ namespace Files.App.Views.Layouts
 			FileList?.SelectedItems.Remove(e);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
 			if (eventArgs.Parameter is NavigationArguments navArgs)
@@ -196,6 +201,7 @@ namespace Files.App.Views.Layouts
 			SetItemContainerStyle();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		private void HighlightPathDirectory(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
 			if (args.Item is ListedItem item && columnsOwner?.OwnerPath is string ownerPath)
@@ -276,6 +282,8 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
 		protected override void EndRename(TextBox textBox)
 		{
 			FileNameTeachingTip.IsOpen = false;
@@ -308,6 +316,7 @@ namespace Files.App.Views.Layouts
 			// throw new NotImplementedException();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		protected override bool CanGetItemFromElement(object element)
 			=> element is ListViewItem;
 
@@ -520,6 +529,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			doubleClickTimer.Stop();
@@ -563,6 +573,7 @@ namespace Files.App.Views.Layouts
 			isRightButtonPressed = e.GetCurrentPoint(null).Properties.IsRightButtonPressed;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
 		private void HandleRightClick()
 		{
 			if (ParentShellPageInstance is UIElement element &&
@@ -571,6 +582,10 @@ namespace Files.App.Views.Layouts
 				element.Focus(FocusState.Programmatic);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
 		{
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -647,6 +662,7 @@ namespace Files.App.Views.Layouts
 			TimeSpan.FromMilliseconds(200));
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Grid))]
 		private void Grid_Loaded(object sender, RoutedEventArgs e)
 		{
 			var itemContainer = (sender as Grid)?.FindAscendant<ListViewItem>();

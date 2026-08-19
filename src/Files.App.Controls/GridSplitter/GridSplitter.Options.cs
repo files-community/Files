@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Media;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -96,6 +97,7 @@ namespace Files.App.Controls
 		/// </summary>
 		public UIElement Element
 		{
+			[DynamicWindowsRuntimeCast(typeof(UIElement))]
 			get { return (UIElement)GetValue(ElementProperty); }
 			set { SetValue(ElementProperty, value); }
 		}
@@ -125,6 +127,7 @@ namespace Files.App.Controls
 		/// </summary>
 		public Brush GripperForeground
 		{
+			[DynamicWindowsRuntimeCast(typeof(Brush))]
 			get { return (Brush)GetValue(GripperForegroundProperty); }
 
 			set { SetValue(GripperForegroundProperty, value); }

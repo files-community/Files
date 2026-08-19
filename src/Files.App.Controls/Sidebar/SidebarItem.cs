@@ -10,6 +10,7 @@ using System.Collections.Specialized;
 using System.IO;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -66,6 +67,8 @@ namespace Files.App.Controls
 		}
 
 		// Template-tied work needs to run *here* (not in Loaded) because Loaded can fire while the control is still not measured; template parts may not exist yet. Sub-rows realized later would otherwise keep isWiredUp=true with no handlers attached.
+		[DynamicWindowsRuntimeCast(typeof(Border))]
+		[DynamicWindowsRuntimeCast(typeof(ItemsRepeater))]
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
@@ -146,6 +149,7 @@ namespace Files.App.Controls
 			IsExpanded = Item?.IsExpanded ?? true;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ItemsRepeater))]
 		private void UpdateFlyoutChildrenSource()
 		{
 			if (GetTemplateChild("FlyoutChildrenPresenter") is ItemsRepeater flyoutRepeater)
@@ -278,6 +282,7 @@ namespace Files.App.Controls
 			});
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void SetFlyoutOpen(bool isOpen = true)
 		{
 			if (Item?.Children is null) return;
@@ -617,6 +622,7 @@ namespace Files.App.Controls
 			Owner?.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Grid))]
 		private SidebarItemDropPosition DetermineDropTargetPosition(DragEventArgs args)
 		{
 			if (UseReorderDrop)

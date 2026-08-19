@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
 using Windows.Foundation.Metadata;
+using WinRT;
 
 namespace Files.App.Data.Behaviors
 {
@@ -64,6 +65,7 @@ namespace Files.App.Data.Behaviors
 		/// </remarks>
 		public UIElement? HeaderElement
 		{
+			[DynamicWindowsRuntimeCast(typeof(UIElement))]
 			get => GetValue(HeaderElementProperty) as UIElement;
 			set => SetValue(HeaderElementProperty, value);
 		}
@@ -116,6 +118,10 @@ namespace Files.App.Data.Behaviors
 		/// <returns>
 		/// <c>true</c> if the assignment was successful; otherwise, <c>false</c>.
 		/// </returns>
+		[DynamicWindowsRuntimeCast(typeof(ScrollViewer))]
+		[DynamicWindowsRuntimeCast(typeof(ListViewBase))]
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private bool AssignAnimation()
 		{
 			StopAnimation();
@@ -188,6 +194,7 @@ namespace Files.App.Data.Behaviors
 		/// <summary>
 		/// Remove the animation from the UIElement.
 		/// </summary>
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void RemoveAnimation()
 		{
 			if (HeaderElement is FrameworkElement element)

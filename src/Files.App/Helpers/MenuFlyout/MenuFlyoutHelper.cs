@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Windows.Input;
+using WinRT;
 
 namespace Files.App.Helpers
 {
@@ -56,6 +57,7 @@ namespace Files.App.Helpers
 
 		public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.RegisterAttached("ItemsSource", typeof(IEnumerable<IMenuFlyoutItemViewModel>), typeof(MenuFlyoutHelper), new PropertyMetadata(null, ItemsSourceChanged));
 
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyout))]
 		private static void ItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			if (d is MenuFlyout menu)
@@ -68,6 +70,7 @@ namespace Files.App.Helpers
 
 		public static readonly DependencyProperty IsVisibleProperty = DependencyProperty.RegisterAttached("IsVisible", typeof(bool), typeof(MenuFlyoutHelper), new PropertyMetadata(false, OnIsVisiblePropertyChanged));
 
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyout))]
 		private static void OnIsVisiblePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			if (d is not MenuFlyout flyout)

@@ -5,11 +5,13 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
+using WinRT;
 
 namespace Files.App.Converters
 {
 	partial class StatusCenterStateToStateIconConverter : IValueConverter
 	{
+		[DynamicWindowsRuntimeCast(typeof(Geometry))]
 		public object? Convert(object value, Type targetType, object parameter, string language)
 		{
 			if (value is StatusCenterItemIconKind state)

@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -57,6 +58,8 @@ namespace Files.App.Controls
 			OnIconSizeChanged();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Viewbox))]
+		[DynamicWindowsRuntimeCast(typeof(Canvas))]
 		private void GetTemplateParts()
 		{
 			// Gets the template parts and sets the private fields
@@ -231,6 +234,8 @@ namespace Files.App.Controls
 			OnIconColorTypeChanged();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Geometry))]
+		[DynamicWindowsRuntimeCast(typeof(Path))]
 		private void SetPathData(string partName, string pathData, FrameworkElement element)
 		{
 			// Updates PathData
@@ -254,6 +259,8 @@ namespace Files.App.Controls
 			UpdateVisualStates();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Path))]
+		[DynamicWindowsRuntimeCast(typeof(Brush))]
 		private void OnIconColorChanged()
 		{
 			if (GetTemplateChild(OutlineIconPath) is Path outlinePath)

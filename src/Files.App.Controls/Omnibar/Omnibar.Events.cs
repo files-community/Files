@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Input;
 using Windows.System;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -14,6 +15,7 @@ namespace Files.App.Controls
 			_textBoxSuggestionsContainerBorder.Width = ActualWidth;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
 		private void AutoSuggestBox_GettingFocus(UIElement sender, GettingFocusEventArgs args)
 		{
 			if (args.OldFocusedElement is null)
@@ -30,6 +32,7 @@ namespace Files.App.Controls
 			_previouslyFocusedElement = new(args.OldFocusedElement as UIElement);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Button))]
 		private void AutoSuggestBox_LosingFocus(UIElement sender, LosingFocusEventArgs args)
 		{
 			// Programmatic focus moves (InputDevice == None) while the user is typing in the
@@ -60,6 +63,8 @@ namespace Files.App.Controls
 			_textBox.SelectAll();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FlyoutBase))]
+		[DynamicWindowsRuntimeCast(typeof(Popup))]
 		private void AutoSuggestBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			// TextBox still has focus if the context menu for selected text is open

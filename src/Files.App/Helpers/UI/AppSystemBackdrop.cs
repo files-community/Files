@@ -3,6 +3,7 @@ using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI;
+using WinRT;
 
 namespace Files.App.Helpers
 {
@@ -36,6 +37,7 @@ namespace Files.App.Helpers
 			controller?.AddSystemBackdropTarget(connectedTarget);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(DesktopAcrylicController))]
 		protected override void OnDefaultSystemBackdropConfigurationChanged(ICompositionSupportsSystemBackdrop target, XamlRoot xamlRoot)
 		{
 			base.OnDefaultSystemBackdropConfigurationChanged(target, xamlRoot);

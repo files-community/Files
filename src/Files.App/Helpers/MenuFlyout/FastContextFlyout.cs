@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Windows.Foundation;
+using WinRT;
 
 namespace Files.App.Helpers.ContextFlyouts
 {
@@ -102,6 +103,7 @@ namespace Files.App.Helpers.ContextFlyouts
 		/// <summary>
 		/// Appends a separator unless the menu is empty or already ends with one; returns the added separator.
 		/// </summary>
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSeparator))]
 		public MenuFlyoutSeparator? AddSeparatorIfNeeded()
 		{
 			if (Flyout.Items.Count == 0 || Flyout.Items[^1] is MenuFlyoutSeparator)
@@ -117,6 +119,7 @@ namespace Files.App.Helpers.ContextFlyouts
 		/// async shell fetch so filling it later never resizes the main menu; drop it via
 		/// <see cref="RemoveIfEmpty"/> when the shell turns out to have nothing to offer.
 		/// </summary>
+		[DynamicWindowsRuntimeCast(typeof(Style))]
 		private (MenuFlyoutSubItem SubMenu, MenuFlyoutSeparator? Separator) AddShowMoreOptionsSubMenu()
 		{
 			var separator = AddSeparatorIfNeeded();
@@ -223,6 +226,7 @@ namespace Files.App.Helpers.ContextFlyouts
 		/// first 6 inline while shift is held, the rest inside "Show more options" - above its built-in commands
 		/// when <paramref name="aboveExisting"/> is set, appended otherwise.
 		/// </summary>
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSeparator))]
 		public void AddShellModels(List<ContextMenuFlyoutItemViewModel> models, bool shiftPressed, MenuFlyoutSubItem? overflowSubMenu, MenuFlyoutSeparator? overflowSeparator, bool aboveExisting = true)
 		{
 			List<ContextMenuFlyoutItemViewModel> mainModels = overflowSubMenu is null
@@ -289,6 +293,7 @@ namespace Files.App.Helpers.ContextFlyouts
 		/// Collapses a leaf item and shows its submenu counterpart (both looked up by Tag), styling the submenu
 		/// with the shared themed-icon template. Returns null unless both elements exist.
 		/// </summary>
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSubItem))]
 		public (MenuFlyoutItemBase Leaf, MenuFlyoutSubItem SubMenu)? SwapLeafForSubMenu(string leafTag, string subMenuTag, string? text, string? themedIconStyleKey)
 		{
 			if (FindByTag(leafTag) is not { } leaf || FindByTag(subMenuTag) is not MenuFlyoutSubItem subMenu)
@@ -307,6 +312,7 @@ namespace Files.App.Helpers.ContextFlyouts
 		/// Applies the shared themed-icon submenu template; an empty icon slot is reserved when no icon style is
 		/// given so the item's metrics match the others.
 		/// </summary>
+		[DynamicWindowsRuntimeCast(typeof(Style))]
 		private static void ApplyThemedSubMenuStyle(MenuFlyoutSubItem subMenu, string? themedIconStyleKey)
 		{
 			subMenu.Style = App.Current.Resources["MenuFlyoutSubItemWithThemedIconStyle"] as Style;
@@ -463,6 +469,7 @@ namespace Files.App.Helpers.ContextFlyouts
 		/// position. Doing this BEFORE the menu is shown keeps item heights stable when the shell items land; the
 		/// async loader then only fills the submenu contents. Returns the existing submenu when already converted.
 		/// </summary>
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSubItem))]
 		public MenuFlyoutSubItem? ConvertPlaceholderToSubMenu(string tag, string text, string? themedIconStyleKey)
 		{
 			if (FindByTag(tag) is not { } placeholder)
@@ -482,6 +489,8 @@ namespace Files.App.Helpers.ContextFlyouts
 			return subMenu;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutPresenter))]
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void Flyout_Opened(object? sender, object e)
 		{
 			try
@@ -566,6 +575,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Panel))]
 		private void Flyout_Closed(object? sender, object e)
 		{
 			if (primaryRow?.Tag is not Panel row)
@@ -637,6 +647,8 @@ namespace Files.App.Helpers.ContextFlyouts
 			return cursorY;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSeparator))]
 		private bool PredictOpensUpward()
 		{
 			try
@@ -736,6 +748,8 @@ namespace Files.App.Helpers.ContextFlyouts
 		private static double EstimateTextWidth(string? text)
 			=> (text?.Length ?? 0) * 7.3;
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
+		[DynamicWindowsRuntimeCast(typeof(ControlTemplate))]
 		private MenuFlyoutItem BuildPrimaryCommandRow(List<ContextMenuFlyoutItemViewModel> models)
 		{
 			var row = new StackPanel

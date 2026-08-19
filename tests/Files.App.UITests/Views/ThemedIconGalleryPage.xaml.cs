@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
+using WinRT;
 
 namespace Files.App.UITests.Views
 {
@@ -48,6 +49,8 @@ namespace Files.App.UITests.Views
 				.ToList();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
+		[DynamicWindowsRuntimeCast(typeof(ResourceDictionary))]
 		private static void CollectIconStyles(ResourceDictionary dictionary, IDictionary<string, Style> iconStyles)
 		{
 			foreach (var key in dictionary.Keys)

@@ -4,13 +4,17 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Text;
+using WinRT;
 
 namespace Files.App.Dialogs
 {
 	public sealed partial class DecompressArchiveDialog : ContentDialog
 	{
 		private FrameworkElement RootAppElement
-			=> (FrameworkElement)MainWindow.Instance.Content;
+		{
+			[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+			get => (FrameworkElement)MainWindow.Instance.Content;
+		}
 
 		public DecompressArchiveDialogViewModel ViewModel
 		{
