@@ -7,6 +7,7 @@ namespace Files.App.ViewModels.Settings
 	/// ViewModel for toolbar customization. Manages item reordering, addition/removal,
 	/// preview updates, and save/cancel/reset workflow.
 	/// </summary>
+	[WinRT.GeneratedBindableCustomProperty([nameof(RemoveToolbarItemCommand)], [])]
 	public sealed partial class ToolbarCustomizationViewModel : ObservableObject
 	{
 		private readonly IUserSettingsService UserSettingsService;
@@ -24,6 +25,7 @@ namespace Files.App.ViewModels.Settings
 		public ObservableCollection<ToolbarItemDescriptor> AlwaysVisibleToolbarItems => GetOrCreateItems(ToolbarDefaultsTemplate.AlwaysVisibleContextId);
 		public string SelectedToolbarContextName => ToolbarItemDescriptor.GetContextDisplayName(ResolveContextId());
 		public bool IsSelectedContextAlwaysVisible => ResolveContextId() == ToolbarDefaultsTemplate.AlwaysVisibleContextId;
+		public IRelayCommand RemoveToolbarItemCommand { get; }
 		public ToolbarContextItem? SelectedToolbarContext
 		{
 			get => ToolbarContexts.FirstOrDefault(context => context.Key == SelectedToolbarContextId);
@@ -41,6 +43,7 @@ namespace Files.App.ViewModels.Settings
 		{
 			UserSettingsService = userSettingsService;
 			CommandManager = commandManager;
+			RemoveToolbarItemCommand = new RelayCommand<ToolbarItemDescriptor?>(RemoveToolbarItem);
 			foreach (var ctxId in ToolbarItemDescriptor.BuildKnownContextIds(CommandManager))
 			{
 				ToolbarContexts.Add(new(ctxId, ToolbarItemDescriptor.GetContextDisplayName(ctxId)));
@@ -180,7 +183,6 @@ namespace Files.App.ViewModels.Settings
 			items.Insert(Math.Clamp(index, 0, items.Count), clone);
 		}
 
-		[RelayCommand]
 		private void RemoveToolbarItem(ToolbarItemDescriptor? item)
 		{
 			if (item is not null)

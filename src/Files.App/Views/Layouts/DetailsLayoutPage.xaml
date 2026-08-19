@@ -929,15 +929,15 @@
 									Orientation="Horizontal">
 									<!--  Item Thumbnail  -->
 									<Grid
-										Width="{Binding Path=ColumnsViewModel.IconColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding Path=ColumnsViewModel.IconColumn.LengthPixels, ElementName=PageRoot, Mode=OneWay}"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Stretch">
 
 										<!--  Thumbnail  -->
 										<Grid
 											x:Name="IconBox"
-											Width="{Binding Path=ColumnsViewModel.IconColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
-											Height="{Binding Path=ColumnsViewModel.IconColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+											Width="{Binding Path=ColumnsViewModel.IconColumn.LengthPixels, ElementName=PageRoot, Mode=OneWay}"
+											Height="{Binding Path=ColumnsViewModel.IconColumn.LengthPixels, ElementName=PageRoot, Mode=OneWay}"
 											HorizontalAlignment="Center"
 											VerticalAlignment="Center"
 											AutomationProperties.Name="{helpers:ResourceString Name=FileBrowserThumbnailIconColumnGrid/AutomationProperties/Name}"
@@ -1009,7 +1009,7 @@
 
 									<!--  Item Name  -->
 									<Grid
-										Width="{Binding Path=ColumnsViewModel.NameColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding Path=ColumnsViewModel.NameColumn.LengthIncludingGridSplitterPixels, ElementName=PageRoot, Mode=OneWay}"
 										Padding="12,0,0,0"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Center"
@@ -1044,7 +1044,7 @@
 									<!--  Item Git Status  -->
 									<Border
 										x:Name="ItemGitStatusTextBlock"
-										Width="{Binding Path=ColumnsViewModel.GitStatusColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding Path=ColumnsViewModel.GitStatusColumn.LengthIncludingGridSplitterPixels, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1061,7 +1061,7 @@
 									<!--  Item Git Last Commit Date  -->
 									<TextBlock
 										x:Name="ItemGitLastCommitDateTextBlock"
-										Width="{Binding Path=ColumnsViewModel.GitLastCommitDateColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding Path=ColumnsViewModel.GitLastCommitDateColumn.LengthIncludingGridSplitterPixels, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1075,7 +1075,7 @@
 									<!--  Item Git Last Commit Message  -->
 									<TextBlock
 										x:Name="ItemGitLastCommitMessageTextBlock"
-										Width="{Binding Path=ColumnsViewModel.GitLastCommitMessageColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding Path=ColumnsViewModel.GitLastCommitMessageColumn.LengthIncludingGridSplitterPixels, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1089,7 +1089,7 @@
 									<!--  Item Git Last Commit Author  -->
 									<TextBlock
 										x:Name="ItemGitCommitAuthorTextBlock"
-										Width="{Binding Path=ColumnsViewModel.GitCommitAuthorColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding Path=ColumnsViewModel.GitCommitAuthorColumn.LengthIncludingGridSplitterPixels, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1103,7 +1103,7 @@
 									<!--  Item Git Last Commit SHA  -->
 									<TextBlock
 										x:Name="ItemGitLastCommitShaTextBlock"
-										Width="{Binding Path=ColumnsViewModel.GitLastCommitShaColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding Path=ColumnsViewModel.GitLastCommitShaColumn.LengthIncludingGridSplitterPixels, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1116,7 +1116,7 @@
 									<!--  Tags That Item Is Labeled  -->
 									<Grid
 										x:Name="ItemTagGrid"
-										Width="{Binding Path=ColumnsViewModel.TagColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding Path=ColumnsViewModel.TagColumn.LengthIncludingGridSplitterPixels, ElementName=PageRoot, Mode=OneWay}"
 										Padding="12,0,12,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1190,7 +1190,7 @@
 									<!--  Item Path  -->
 									<TextBlock
 										x:Name="ItemPathTextBlock"
-										Width="{Binding Path=ColumnsViewModel.PathColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding Path=ColumnsViewModel.PathColumn.LengthIncludingGridSplitterPixels, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1203,7 +1203,7 @@
 									<!--  Item Original Path  -->
 									<TextBlock
 										x:Name="ItemOriginalPath"
-										Width="{Binding Path=ColumnsViewModel.OriginalPathColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding Path=ColumnsViewModel.OriginalPathColumn.LengthIncludingGridSplitterPixels, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1217,7 +1217,7 @@
 									<!--  Item Deleted Date  -->
 									<TextBlock
 										x:Name="ItemDateDeleted"
-										Width="{Binding Path=ColumnsViewModel.DateDeletedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding Path=ColumnsViewModel.DateDeletedColumn.LengthIncludingGridSplitterPixels, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1231,7 +1231,7 @@
 									<!--  Item Modified Date  -->
 									<TextBlock
 										x:Name="ItemDateModifiedTextBlock"
-										Width="{Binding Path=ColumnsViewModel.DateModifiedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding Path=ColumnsViewModel.DateModifiedColumn.LengthIncludingGridSplitterPixels, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1244,7 +1244,7 @@
 									<!--  Item Created Date  -->
 									<TextBlock
 										x:Name="ItemDateCreatedTextBlock"
-										Width="{Binding Path=ColumnsViewModel.DateCreatedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding Path=ColumnsViewModel.DateCreatedColumn.LengthIncludingGridSplitterPixels, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1257,7 +1257,7 @@
 									<!--  Item Type  -->
 									<TextBlock
 										x:Name="ItemTypeTextBlock"
-										Width="{Binding Path=ColumnsViewModel.ItemTypeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding Path=ColumnsViewModel.ItemTypeColumn.LengthIncludingGridSplitterPixels, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1270,7 +1270,7 @@
 									<!--  Item Size  -->
 									<Grid
 										x:Name="ItemSize"
-										Width="{Binding Path=ColumnsViewModel.SizeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding Path=ColumnsViewModel.SizeColumn.LengthIncludingGridSplitterPixels, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1296,7 +1296,7 @@
 									<!--  Item Sync Status Badge  -->
 									<Border
 										x:Name="ItemStatus"
-										Width="{Binding Path=ColumnsViewModel.StatusColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding Path=ColumnsViewModel.StatusColumn.LengthIncludingGridSplitterPixels, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"

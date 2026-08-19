@@ -7,6 +7,14 @@ using Windows.Win32.Foundation;
 
 namespace Files.App.ViewModels.Properties
 {
+	[WinRT.GeneratedBindableCustomProperty(
+		[
+			nameof(ColumnTypeGridLength),
+			nameof(ColumnPrincipalGridLength),
+			nameof(ColumnAccessGridLength),
+			nameof(ColumnInheritedGridLength),
+		],
+		[])]
 	public sealed partial class SecurityAdvancedViewModel : ObservableObject
 	{
 		private readonly IStorageSecurityService StorageSecurityService = Ioc.Default.GetRequiredService<IStorageSecurityService>();
