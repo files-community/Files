@@ -122,7 +122,7 @@ namespace Files.App.Data.Items
 			WINDOWPLACEMENT placement = default;
 			PInvoke.GetWindowPlacement(new(WindowHandle), ref placement);
 
-			int structSize = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
+			int structSize = Marshal.SizeOf<WINDOWPLACEMENT>();
 			IntPtr buffer = Marshal.AllocHGlobal(structSize);
 			Marshal.StructureToPtr(placement, buffer, false);
 			byte[] placementData = new byte[structSize];
@@ -178,11 +178,11 @@ namespace Files.App.Data.Items
 					return;
 			}
 
-			int structSize = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
+			int structSize = Marshal.SizeOf<WINDOWPLACEMENT>();
 			byte[] placementData = br.ReadBytes(structSize);
 			IntPtr buffer = Marshal.AllocHGlobal(structSize);
 			Marshal.Copy(placementData, 0, buffer, structSize);
-			var windowPlacementData = (WINDOWPLACEMENT)Marshal.PtrToStructure(buffer, typeof(WINDOWPLACEMENT))!;
+			var windowPlacementData = Marshal.PtrToStructure<WINDOWPLACEMENT>(buffer);
 
 			Marshal.FreeHGlobal(buffer);
 

@@ -116,7 +116,7 @@ namespace Files.App.Utils.Taskbar
 					return default;
 
 				NOTIFYICONIDENTIFIER identifier = default;
-				identifier.cbSize = (uint)Marshal.SizeOf(typeof(NOTIFYICONIDENTIFIER));
+				identifier.cbSize = (uint)Marshal.SizeOf<NOTIFYICONIDENTIFIER>();
 				identifier.hWnd = _IconWindow.WindowHandle;
 				identifier.guidItem = Id;
 
@@ -181,7 +181,7 @@ namespace Files.App.Utils.Taskbar
 			{
 				NOTIFYICONDATAW lpData = default;
 
-				lpData.cbSize = (uint)Marshal.SizeOf(typeof(NOTIFYICONDATAW));
+				lpData.cbSize = (uint)Marshal.SizeOf<NOTIFYICONDATAW>();
 				lpData.hWnd = _IconWindow.WindowHandle;
 				lpData.uCallbackMessage = WM_FILES_UNIQUE_MESSAGE;
 				lpData.hIcon = (Icon != null) ? new HICON(Icon.Handle) : default;
@@ -221,7 +221,7 @@ namespace Files.App.Utils.Taskbar
 
 				NOTIFYICONDATAW lpData = default;
 
-				lpData.cbSize = (uint)Marshal.SizeOf(typeof(NOTIFYICONDATAW));
+				lpData.cbSize = (uint)Marshal.SizeOf<NOTIFYICONDATAW>();
 				lpData.hWnd = _IconWindow.WindowHandle;
 				lpData.guidItem = Id;
 				lpData.uFlags = NOTIFY_ICON_DATA_FLAGS.NIF_MESSAGE | NOTIFY_ICON_DATA_FLAGS.NIF_ICON | NOTIFY_ICON_DATA_FLAGS.NIF_TIP | NOTIFY_ICON_DATA_FLAGS.NIF_GUID | NOTIFY_ICON_DATA_FLAGS.NIF_SHOWTIP;

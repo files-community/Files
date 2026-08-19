@@ -541,8 +541,9 @@ namespace Files.App.Helpers
 		{
 			var str = Win32Helper.ReadStringFromFile($"{path}:files_layoutmode");
 
-			var layoutPreferences = SafetyExtensions.IgnoreExceptions(() =>
-				string.IsNullOrEmpty(str) ? null : JsonSerializer.Deserialize<LayoutPreferencesItem>(str));
+			var layoutPreferences = SafetyExtensions.IgnoreExceptions(() => string.IsNullOrEmpty(str)
+				? null
+				: JsonSerializer.Deserialize(str, AppJsonSerializerContext.Default.LayoutPreferencesItem));
 
 			if (layoutPreferences is null)
 				return null;

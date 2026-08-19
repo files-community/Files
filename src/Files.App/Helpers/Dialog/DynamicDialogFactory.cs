@@ -116,7 +116,7 @@ namespace Files.App.Helpers
 					for (int i = 0; i < 20; i++)
 					{
 						if (inputText.XamlRoot is not null &&
-							Microsoft.UI.Xaml.Input.FocusManager.GetFocusedElement(inputText.XamlRoot) == inputText)
+							Equals(Microsoft.UI.Xaml.Input.FocusManager.GetFocusedElement(inputText.XamlRoot), inputText))
 							return;
 
 						inputText.Focus(FocusState.Programmatic);

@@ -122,7 +122,7 @@ namespace Files.App.Views.Shells
 			CurrentPageType != typeof(HomePage) &&
 			CurrentPageType != typeof(ReleaseNotesPage) &&
 			CurrentPageType != typeof(SettingsPage) &&
-			(PaneHolder is null || !PaneHolder.IsMultiPaneActive || PaneHolder.ActivePane == this);
+			(PaneHolder is null || !PaneHolder.IsMultiPaneActive || Equals(PaneHolder.ActivePane, this));
 
 		protected TabBarItemParameter? _TabItemArguments;
 		public TabBarItemParameter? TabBarItemParameter

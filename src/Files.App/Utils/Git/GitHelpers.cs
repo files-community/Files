@@ -278,7 +278,8 @@ namespace Files.App.Utils.Git
 					return;
 				}
 
-				codeJsonContent = await codeResponse.Content.ReadFromJsonAsync<JsonDocument>();
+				await using var codeStream = await codeResponse.Content.ReadAsStreamAsync();
+				codeJsonContent = await JsonDocument.ParseAsync(codeStream);
 				if (codeJsonContent is null)
 				{
 					await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
@@ -318,7 +319,8 @@ namespace Files.App.Utils.Git
 						break;
 					}
 
-					var loginJsonContent = await loginResponse.Content.ReadFromJsonAsync<JsonDocument>();
+					await using var loginStream = await loginResponse.Content.ReadAsStreamAsync();
+					using var loginJsonContent = await JsonDocument.ParseAsync(loginStream);
 					if (loginJsonContent is null)
 					{
 						dialog.Hide();
