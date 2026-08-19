@@ -88,7 +88,7 @@ namespace Files.App.Actions
 				}
 				catch (Exception ex)
 				{
-					App.Logger.LogWarning(ex.Message, $"Folder '{folderName}' already exists in the destination folder.");
+					App.Logger.LogWarning(ex, $"Folder '{LogPathHelper.RedactPath(folderName)}' already exists in the destination folder.");
 				}
 			}
 
@@ -106,7 +106,7 @@ namespace Files.App.Actions
 				}
 				catch (Exception ex)
 				{
-					App.Logger.LogWarning(ex.Message, $"Failed to move file '{fileName}'.");
+					App.Logger.LogWarning(ex, $"Failed to move file '{LogPathHelper.RedactPath(fileName)}'.");
 				}
 			}
 
@@ -118,7 +118,7 @@ namespace Files.App.Actions
 				}
 				catch (Exception ex)
 				{
-					App.Logger.LogWarning(ex.Message, $"Failed to delete folder '{path}'.");
+					App.Logger.LogWarning(ex, $"Failed to delete folder '{LogPathHelper.RedactPath(path)}'.");
 				}
 			}
 		}

@@ -408,7 +408,7 @@ internal sealed partial class LibGit2Service // : IVersionControl
 				catch (Exception ex)
 				{
 					// An unreachable remote (e.g. a deleted fork answering 401) must not prevent fetching the remaining remotes
-					_logger.LogWarning(ex, "Failed to fetch remote {RemoteName} in {RepositoryPath}", remote.Name, repositoryPath);
+					_logger.LogWarning(ex, "Failed to fetch remote {RemoteName} in {RepositoryPath}", remote.Name, LogPathHelper.RedactPath(repositoryPath));
 
 					if (IsAuthorizationException(ex))
 						result = GitOperationResult.AuthorizationError;

@@ -36,7 +36,7 @@ namespace Files.Shared
 
 			try
 			{
-				var message = exception?.ToString() ?? formatter(state, exception);
+				var message = LogPathHelper.SanitizeMessage(exception?.ToString() ?? formatter(state, exception));
 
 				lock (syncRoot)
 				{
