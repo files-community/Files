@@ -87,7 +87,8 @@
 
 
 	<!--  RESOURCES  -->
-	<Thickness x:Key="PropertiesExpanderHeaderInnerPadding">12,0</Thickness>
+	<Thickness x:Key="PropertiesExpanderHeaderBorderThickness">0</Thickness>
+	<Thickness x:Key="PropertiesExpanderHeaderInnerPadding">12,0,24,0</Thickness>
 	<Thickness x:Key="PropertiesExpanderChevronMargin">0,0,8,0</Thickness>
 	<x:Double x:Key="PropertiesExpanderChevronSpaceWidth">24</x:Double>
 	<x:Double x:Key="PropertiesExpanderChevronSpaceHeight">32</x:Double>
@@ -101,6 +102,172 @@
 
 
 	<!--  EXPANDER  -->
+	<Style x:Key="PropertiesExpanderStyle" TargetType="controls:Expander">
+		<!--
+			We won't make this control tab stoppable, since the tab focus should go
+			to the toggle button. For this logic, several things were made:
+			1. Expander::OnApplyTemplate - We set the toggle button's events source to the expander's. This will announce expander properties
+			(expand/collapse) changes to narrator. Without this, narrator would announce the toggle button's "on/off" logic
+			instead of the "expand/collapse" logic.
+			2. ExpanderAutomationPeer::GetChildrenCore - Because of 1., we need to override GetChildrenCore to NOT include the toggle button.
+			If we don't do this, we create a weird dependency cycle between the toggle button and the expander.
+			3. ExpanderAutomationPeer::GetPeerFromPointCore Finally, when using narrator with a touch screen, this was overriden as well, to
+			focus the toggle button programmatically to sync the narrator focus with the keyboard focus.
+			Without this override, the narrator user that focuses the expander on a touch screen will see that pressing "Tab"
+			doesn't work how they would expect.
+		-->
+		<Setter Property="IsTabStop" Value="False" />
+		<Setter Property="Background" Value="{ThemeResource ExpanderContentBackground}" />
+		<Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
+		<Setter Property="MinWidth" Value="{ThemeResource FlyoutThemeMinWidth}" />
+		<Setter Property="MinHeight" Value="{StaticResource ExpanderMinHeight}" />
+		<Setter Property="BorderThickness" Value="{ThemeResource ExpanderContentDownBorderThickness}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource ExpanderContentBorderBrush}" />
+		<Setter Property="Padding" Value="{StaticResource ExpanderContentPadding}" />
+		<Setter Property="HorizontalAlignment" Value="Left" />
+		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="CornerRadius" Value="0" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="controls:Expander">
+					<Grid MinWidth="{TemplateBinding MinWidth}" MaxWidth="{TemplateBinding MaxWidth}">
+						<Grid.RowDefinitions>
+							<RowDefinition x:Name="Row0" Height="Auto" />
+							<RowDefinition x:Name="Row1" Height="*" />
+						</Grid.RowDefinitions>
+						<ToggleButton
+							x:Name="ExpanderHeader"
+							MinHeight="{TemplateBinding MinHeight}"
+							Padding="{StaticResource PropertiesExpanderHeaderPadding}"
+							HorizontalAlignment="Stretch"
+							HorizontalContentAlignment="{StaticResource ExpanderHeaderHorizontalContentAlignment}"
+							VerticalContentAlignment="{StaticResource ExpanderHeaderVerticalContentAlignment}"
+							AutomationProperties.AutomationId="ExpanderToggleButton"
+							Background="{ThemeResource PropertiesExpanderHeaderBackground}"
+							BackgroundSizing="{TemplateBinding BackgroundSizing}"
+							BorderBrush="{ThemeResource PropertiesExpanderHeaderBorderBrush}"
+							BorderThickness="{ThemeResource PropertiesExpanderHeaderBorderThickness}"
+							Content="{TemplateBinding Header}"
+							ContentTemplate="{TemplateBinding HeaderTemplate}"
+							ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
+							CornerRadius="{TemplateBinding CornerRadius}"
+							IsChecked="{Binding Path=IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+							IsEnabled="{TemplateBinding IsEnabled}"
+							Style="{StaticResource PropertiesExpanderHeaderDownStyle}" />
+						<!--  The clip is a composition clip applied in code  -->
+						<Border x:Name="ExpanderContentClip" Grid.Row="1">
+							<Border
+								x:Name="ExpanderContent"
+								MinHeight="{TemplateBinding MinHeight}"
+								Padding="{TemplateBinding Padding}"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Stretch"
+								Background="{TemplateBinding Background}"
+								BackgroundSizing="{TemplateBinding BackgroundSizing}"
+								BorderBrush="{TemplateBinding BorderBrush}"
+								BorderThickness="{StaticResource ExpanderContentDownBorderThickness}"
+								CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BottomCornerRadiusFilterConverter}}"
+								Visibility="Collapsed">
+								<ContentPresenter
+									HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+									VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+									Content="{TemplateBinding Content}"
+									ContentTemplate="{TemplateBinding ContentTemplate}"
+									ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" />
+								<Border.RenderTransform>
+									<CompositeTransform />
+								</Border.RenderTransform>
+							</Border>
+						</Border>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="ExpandStates">
+								<VisualState x:Name="ExpandUp">
+									<VisualState.Setters>
+										<Setter Target="ExpanderHeader.CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BottomCornerRadiusFilterConverter}}" />
+										<Setter Target="ExpanderContent.Visibility" Value="Visible" />
+									</VisualState.Setters>
+									<VisualState.Storyboard>
+										<Storyboard>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
+												<DiscreteDoubleKeyFrame KeyTime="0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ContentHeight}" />
+												<SplineDoubleKeyFrame
+													KeySpline="0.0, 0.0, 0.0, 1.0"
+													KeyTime="0:0:0.333"
+													Value="0" />
+											</DoubleAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState.Storyboard>
+								</VisualState>
+								<VisualState x:Name="CollapseDown">
+									<VisualState.Storyboard>
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" Storyboard.TargetProperty="Visibility">
+												<DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed" />
+											</ObjectAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
+												<DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
+												<SplineDoubleKeyFrame
+													KeySpline="1.0, 1.0, 0.0, 1.0"
+													KeyTime="0:0:0.167"
+													Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ContentHeight}" />
+											</DoubleAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState.Storyboard>
+								</VisualState>
+								<VisualState x:Name="ExpandDown">
+									<VisualState.Setters>
+										<Setter Target="ExpanderHeader.CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TopCornerRadiusFilterConverter}}" />
+										<Setter Target="ExpanderContent.Visibility" Value="Visible" />
+									</VisualState.Setters>
+									<VisualState.Storyboard>
+										<Storyboard>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
+												<DiscreteDoubleKeyFrame KeyTime="0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.NegativeContentHeight}" />
+												<SplineDoubleKeyFrame
+													KeySpline="0.0, 0.0, 0.0, 1.0"
+													KeyTime="0:0:0.333"
+													Value="0" />
+											</DoubleAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState.Storyboard>
+								</VisualState>
+								<VisualState x:Name="CollapseUp">
+									<VisualState.Storyboard>
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" Storyboard.TargetProperty="Visibility">
+												<DiscreteObjectKeyFrame KeyTime="0:0:0.167" Value="Collapsed" />
+											</ObjectAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
+												<DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
+												<SplineDoubleKeyFrame
+													KeySpline="1.0, 1.0, 0.0, 1.0"
+													KeyTime="0:0:0.167"
+													Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.NegativeContentHeight}" />
+											</DoubleAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState.Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="ExpandDirectionStates">
+								<VisualState x:Name="Down" />
+								<VisualState x:Name="Up">
+									<VisualState.Setters>
+										<Setter Target="ExpanderHeader.Style" Value="{StaticResource PropertiesExpanderHeaderUpStyle}" />
+										<Setter Target="ExpanderContent.BorderThickness" Value="{StaticResource ExpanderContentUpBorderThickness}" />
+										<Setter Target="ExpanderContent.CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TopCornerRadiusFilterConverter}}" />
+										<Setter Target="ExpanderHeader.(Grid.Row)" Value="1" />
+										<Setter Target="ExpanderContentClip.(Grid.Row)" Value="0" />
+										<Setter Target="Row0.Height" Value="*" />
+										<Setter Target="Row1.Height" Value="Auto" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
 
 
 
@@ -109,9 +276,10 @@
 	<Style x:Key="PropertiesExpanderHeaderDownStyle" TargetType="ToggleButton">
 		<Setter Property="Padding" Value="{ThemeResource PropertiesExpanderHeaderPadding}" />
 		<Setter Property="Background" Value="{ThemeResource PropertiesExpanderHeaderBackground}" />
-		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="BorderThickness" Value="{StaticResource PropertiesExpanderHeaderBorderThickness}" />
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
 		<Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
+		<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="ToggleButton">
@@ -131,7 +299,6 @@
 						<Grid
 							x:Name="ToggleButtonGrid"
 							Padding="{StaticResource PropertiesExpanderHeaderInnerPadding}"
-							HorizontalAlignment="Stretch"
 							Background="{ThemeResource PropertiesExpanderHeaderBackground}"
 							BorderBrush="{ThemeResource PropertiesExpanderHeaderBorderBrush}"
 							BorderThickness="{ThemeResource PropertiesExpanderHeaderBorderThickness}"
@@ -143,13 +310,13 @@
 							<ContentPresenter
 								x:Name="ContentPresenter"
 								Grid.Column="1"
-								Padding="0,0,12,0"
 								HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
 								VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
 								Content="{TemplateBinding Content}"
 								ContentTemplate="{TemplateBinding ContentTemplate}"
 								ContentTransitions="{TemplateBinding ContentTransitions}"
 								Foreground="{TemplateBinding Foreground}" />
+
 							<Border
 								x:Name="ExpandCollapseChevronBorder"
 								Grid.Column="0"
@@ -271,9 +438,10 @@
 		TargetType="ToggleButton">
 		<Setter Property="Padding" Value="{ThemeResource PropertiesExpanderHeaderPadding}" />
 		<Setter Property="Background" Value="{ThemeResource PropertiesExpanderHeaderBackground}" />
-		<Setter Property="BorderThickness" Value="0" />
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
 		<Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
+		<Setter Property="BorderBrush" Value="{StaticResource PropertiesExpanderHeaderBorderThickness}" />
+		<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="ToggleButton">
@@ -293,7 +461,6 @@
 						<Grid
 							x:Name="ToggleButtonGrid"
 							Padding="{StaticResource PropertiesExpanderHeaderInnerPadding}"
-							HorizontalAlignment="Stretch"
 							Background="{ThemeResource PropertiesExpanderHeaderBackground}"
 							BorderBrush="{ThemeResource PropertiesExpanderHeaderBorderBrush}"
 							BorderThickness="{ThemeResource PropertiesExpanderHeaderBorderThickness}"
@@ -305,7 +472,6 @@
 							<ContentPresenter
 								x:Name="ContentPresenter"
 								Grid.Column="1"
-								Padding="0,0,12,0"
 								HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
 								VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
 								Content="{TemplateBinding Content}"
