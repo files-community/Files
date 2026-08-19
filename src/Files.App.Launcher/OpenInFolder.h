@@ -20,7 +20,9 @@ class OpenInFolder final : public IWebBrowserApp, public IServiceProvider, publi
 	HWND m_hwnd = NULL;
 	winrt::com_ptr<IShellWindows> m_shellWindows;
 	PIDLIST_ABSOLUTE m_folderPidl = NULL;
+	long m_pendingCookie = 0;
 	long m_shellWindowCookie = 0;
+	bool m_isPendingRegistered = false;
 	bool m_isRegistered = false;
 
 	HRESULT NotifyShellOfNavigation(PCIDLIST_ABSOLUTE pidl);
