@@ -57,6 +57,22 @@ namespace Files.App
 		{
 			InitializeComponent();
 
+			// SevenZipSharp loads its native library with a plain LoadLibrary call, which does
+			// not search the single-file extraction folder BaseDirectory points at
+			if (!AppRuntimeHelper.IsPackaged)
+			{
+				var sevenZipDllName = System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture switch
+				{
+					System.Runtime.InteropServices.Architecture.Arm64 => "7zArm64.dll",
+					System.Runtime.InteropServices.Architecture.X86 => "7z.dll",
+					_ => "7z64.dll",
+				};
+
+				// SetLibraryPath throws when the dll is not at the given path
+				SafetyExtensions.IgnoreExceptions(() =>
+					SevenZip.SevenZipBase.SetLibraryPath(SystemIO.Path.Combine(AppContext.BaseDirectory, sevenZipDllName)));
+			}
+
 			// Configure exception handlers
 			AppLifecycleHelper.RecordFirstChanceExceptions();
 			UnhandledException += (sender, e) => AppLifecycleHelper.HandleAppUnhandledException(e.Exception, true, "Application.UnhandledException", e.Message);
@@ -157,7 +173,10 @@ namespace Files.App
 				}
 
 				// Configure Sentry
-				if (AppLifecycleHelper.AppEnvironment is not AppEnvironment.Dev)
+				// The DSN placeholder is only replaced by CI, and SentrySdk.Init throws
+				// ArgumentException on a string that does not parse as a DSN
+				if (AppLifecycleHelper.AppEnvironment is not AppEnvironment.Dev &&
+					Constants.AutomatedWorkflowInjectionKeys.SentrySecret.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
 					AppLifecycleHelper.ConfigureSentry();
 
 				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
@@ -269,7 +288,7 @@ namespace Files.App
 				args.WindowActivationState != WindowActivationState.PointerActivated)
 				return;
 
-			ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Environment.ProcessId;
+			AppDataHelper.LocalSettingsValues["INSTANCE_ACTIVE"] = -Environment.ProcessId;
 
 			// Reclaim the tray icon if a sibling instance's exit removed the shared-GUID icon
 			SystemTrayIcon?.EnsureCreated();
@@ -418,7 +437,7 @@ namespace Files.App
 			SafetyExtensions.IgnoreExceptions(() =>
 			{
 				var dataPackage = Clipboard.GetContent();
-				if (dataPackage.Properties.PackageFamilyName == Package.Current.Id.FamilyName)
+				if (dataPackage.Properties.PackageFamilyName == AppRuntimeHelper.PackageFamilyName)
 				{
 					if (dataPackage.Contains(StandardDataFormats.StorageItems))
 						Clipboard.Flush();

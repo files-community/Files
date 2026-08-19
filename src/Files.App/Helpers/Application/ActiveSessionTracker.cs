@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: MPL-2.0
 
 using Sentry;
-using Windows.Storage;
 
 namespace Files.App.Helpers
 {
@@ -41,7 +40,7 @@ namespace Files.App.Helpers
 			var elapsed = _stretchStopwatch.Elapsed;
 			_stretchStopwatch.Reset();
 
-			var values = ApplicationData.Current.LocalSettings.Values;
+			var values = AppDataHelper.LocalSettingsValues;
 			values.TryGetValue(ActiveTimeKey, out var totalTime);
 			values.TryGetValue(StretchCountKey, out var totalStretches);
 			values[ActiveTimeKey] = (totalTime as double? ?? 0d) + elapsed.TotalSeconds;
@@ -56,7 +55,7 @@ namespace Files.App.Helpers
 			if (!SentrySdk.IsEnabled)
 				return;
 
-			var values = ApplicationData.Current.LocalSettings.Values;
+			var values = AppDataHelper.LocalSettingsValues;
 			values.TryGetValue(ActiveTimeKey, out var totalTime);
 			if (totalTime is not double activeTimeSeconds || activeTimeSeconds <= 0d)
 				return;

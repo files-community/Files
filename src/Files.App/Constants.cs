@@ -1,8 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Windows.ApplicationModel;
-
 namespace Files.App
 {
 	public static class Constants
@@ -175,7 +173,7 @@ namespace Files.App
 			public const string PrivacyPolicyUrl = @"https://files.community/privacy";
 			public const string SupportUsUrl = @"https://files.community/sponsor";
 			public const string CrowdinUrl = @"https://crowdin.com/project/files-app";
-			public static readonly string ReleaseNotesUrl = $"https://files.community/blog/posts/v{Package.Current.Id.Version.Major}-{Package.Current.Id.Version.Minor}-{Package.Current.Id.Version.Build}?minimal";
+			public static readonly string ReleaseNotesUrl = $"https://files.community/blog/posts/v{AppRuntimeHelper.AppVersion.Major}-{AppRuntimeHelper.AppVersion.Minor}-{AppRuntimeHelper.AppVersion.Build}?minimal";
 		}
 
 		public static class DocsPath

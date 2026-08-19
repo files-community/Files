@@ -226,7 +226,7 @@ namespace Files.App.ViewModels.Settings
 					UserSettingsService.GeneralSettingsService.OpenTabInExistingInstance = value;
 
 					// Needed in Program.cs
-					ApplicationData.Current.LocalSettings.Values["OpenTabInExistingInstance"] = value;
+					AppDataHelper.LocalSettingsValues["OpenTabInExistingInstance"] = value;
 
 					OnPropertyChanged();
 				}

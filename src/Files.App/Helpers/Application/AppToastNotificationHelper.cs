@@ -7,6 +7,10 @@ namespace Files.App.Helpers.Application
 	{
 		public static void ShowUnhandledExceptionToast()
 		{
+			// App notifications require the registration that only packaged installs get
+			if (!AppRuntimeHelper.IsPackaged)
+				return;
+
 			var toastContent = new AppNotificationBuilder()
 					.AddText(Strings.ExceptionNotificationHeader.GetLocalizedResource())
 					.AddText(Strings.ExceptionNotificationBody.GetLocalizedResource())
@@ -19,6 +23,9 @@ namespace Files.App.Helpers.Application
 
 		public static void ShowBackgroundRunningToast()
 		{
+			if (!AppRuntimeHelper.IsPackaged)
+				return;
+
 			var toastContent = new AppNotificationBuilder()
 				.AddText(Strings.BackgroundRunningNotificationHeader.GetLocalizedResource())
 				.AddText(Strings.BackgroundRunningNotificationBody.GetLocalizedResource())
@@ -28,6 +35,9 @@ namespace Files.App.Helpers.Application
 
 		public static void ShowDriveEjectToast()
 		{
+			if (!AppRuntimeHelper.IsPackaged)
+				return;
+
 			var toastContent = new AppNotificationBuilder()
 				.AddText(Strings.EjectNotificationHeader.GetLocalizedResource())
 				.AddText(Strings.EjectNotificationBody.GetLocalizedResource())

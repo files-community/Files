@@ -38,7 +38,7 @@ namespace Files.App.Services.Settings
 			var settingsSerializer = new DefaultSettingsSerializer();
 			SettingsSerializer = settingsSerializer;
 
-			Initialize(Path.Combine(ApplicationData.Current.LocalFolder.Path,
+			Initialize(Path.Combine(AppDataHelper.LocalFolderPath,
 				Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.FileTagSettingsFileName));
 
 			var jsonSettingsSerializer = new DefaultJsonSettingsSerializer();

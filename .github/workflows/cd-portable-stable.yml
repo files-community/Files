@@ -1,0 +1,196 @@
+# Copyright (c) Files Community
+# Licensed under the MIT License.
+
+# Abstract:
+#  Deploys Files (Portable).
+#
+# Workflow:
+#  1. Configure secrets and the Portable app environment
+#  2. Restore and publish Files unpackaged (self-contained) per platform
+#  3. Sign the executables
+#  4. Zip the publish output, generate the Files.Portable.json update manifest
+#  5. Publish the zips and manifest to files.community
+
+name: Files CD (Portable Stable)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-2025-vs2026
+    environment: Deployments
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [Release]
+    env:
+      SOLUTION_NAME:            'Files.slnx'
+      CONFIGURATION:            '${{ matrix.configuration }}'
+      PORTABLE_PLATFORMS:       'x64|arm64'
+      WORKING_DIR:              '${{ github.workspace }}' # D:\a\Files\Files\
+      ARTIFACTS_STAGING_DIR:    '${{ github.workspace }}\artifacts'
+      CDN_STAGING_DIR:          '${{ github.workspace }}\artifacts\cdn'
+      APP_PROJECT_DIR:          'src\Files.App'
+      APP_PROJECT_PATH:         'src\Files.App\Files.App.csproj'
+      PACKAGE_MANIFEST_PATH:    'src\Files.App\Package.appxmanifest'
+      LAUNCHER_PROJECT_PATH:    'src\Files.App.Launcher\Files.App.Launcher.vcxproj'
+      PORTABLE_CDN_URL:         'https://cdn.files.community/files/stable/'
+
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v6
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v3
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        global-json-file: global.json
+
+    - name: Configure the app environment and secrets
+      shell: pwsh
+      run: |
+        . './.github/scripts/Configure-AppxManifest.ps1' `
+          -Branch "Portable" `
+          -PackageManifestPath "$env:PACKAGE_MANIFEST_PATH" `
+          -WorkingDir "$env:WORKING_DIR" `
+          -SecretBingMapsKey "$env:SECRET_BINGMAPS_KEY" `
+          -SecretSentry "$env:SECRET_SENTRY" `
+          -SecretGitHubOAuthClientId "$env:SECRET_GITHUB_OAUTH_CLIENT_ID"
+      env:
+        SECRET_BINGMAPS_KEY: ${{ secrets.BING_MAPS_SECRET }}
+        SECRET_SENTRY: ${{ secrets.SENTRY_SECRET }}
+        SECRET_GITHUB_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
+
+    # The portable build reads its version from the assembly, so the package
+    # manifest version is forwarded to msbuild as /p:Version
+    - name: Read the app version
+      shell: pwsh
+      run: |
+        [xml]$manifest = Get-Content "$env:PACKAGE_MANIFEST_PATH"
+        $version = $manifest.Package.Identity.Version
+        Write-Host "App version: $version"
+        "APP_VERSION=$version" >> $env:GITHUB_ENV
+
+    - name: Restore NuGet Packages for Launcher Project
+      shell: pwsh
+      run: |
+        nuget restore "$env:LAUNCHER_PROJECT_PATH" `
+          -SolutionDirectory "$env:WORKING_DIR" `
+          -Verbosity detailed
+
+    - name: Build launcher project
+      shell: pwsh
+      run: |
+        msbuild "$env:LAUNCHER_PROJECT_PATH" `
+        -t:Build `
+        -p:Platform=x64 `
+        -p:Configuration=$env:CONFIGURATION `
+        -v:quiet
+
+    - name: Hide NuGet.Config from signing action
+      shell: pwsh
+      run: Move-Item NuGet.Config NuGet.Config.bak
+
+    - name: Sign launcher EXE with Azure Trusted Signing
+      uses: Azure/artifact-signing-action@v1
+      with:
+        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+        endpoint: https://eus.codesigning.azure.net/
+        signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
+        certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
+        files-folder: ${{ github.workspace }}\src\Files.App\Assets\FilesOpenDialog
+        files-folder-filter: "*.exe"
+        files-folder-recurse: false
+        file-digest: SHA256
+        timestamp-rfc3161: http://timestamp.acs.microsoft.com
+        timestamp-digest: SHA256
+
+    - name: Restore NuGet.Config
+      if: always()
+      shell: pwsh
+      run: Move-Item NuGet.Config.bak NuGet.Config
+
+    - name: Restore & publish Files (portable)
+      shell: pwsh
+      run: |
+        $platforms = "$env:PORTABLE_PLATFORMS" -split '\|'
+        foreach ($plat in $platforms) {
+          Write-Host "Restoring for $plat..."
+          msbuild "$env:APP_PROJECT_PATH" `
+            -t:Restore `
+            -p:Portable=true `
+            -p:Platform=$plat `
+            -p:RuntimeIdentifier=win-$plat `
+            -p:Configuration=$env:CONFIGURATION `
+            -p:PublishReadyToRun=true `
+            -v:quiet
+
+          Write-Host "Publishing for $plat..."
+          msbuild "$env:APP_PROJECT_PATH" `
+            -t:Publish `
+            -p:Portable=true `
+            -p:Platform=$plat `
+            -p:RuntimeIdentifier=win-$plat `
+            -p:Configuration=$env:CONFIGURATION `
+            -p:Version=$env:APP_VERSION `
+            -p:PublishReadyToRun=true `
+            -v:quiet
+        }
+
+    - name: Hide NuGet.Config from signing action
+      shell: pwsh
+      run: Move-Item NuGet.Config NuGet.Config.bak
+
+    - name: Sign Files executables with Azure Trusted Signing
+      uses: Azure/artifact-signing-action@v1
+      with:
+        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+        endpoint: https://eus.codesigning.azure.net/
+        signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
+        certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
+        files-folder: ${{ github.workspace }}\src\Files.App\bin\${{ matrix.configuration }}
+        files-folder-filter: "*.exe"
+        files-folder-recurse: true
+        files-folder-depth: 6
+        file-digest: SHA256
+        timestamp-rfc3161: http://timestamp.acs.microsoft.com
+        timestamp-digest: SHA256
+
+    - name: Restore NuGet.Config
+      if: always()
+      shell: pwsh
+      run: Move-Item NuGet.Config.bak NuGet.Config
+
+    - name: Create portable zips and update manifest
+      shell: pwsh
+      run: |
+        . './.github/scripts/Create-PortableRelease.ps1' `
+          -AppProjectDir "$env:APP_PROJECT_DIR" `
+          -Configuration "$env:CONFIGURATION" `
+          -Platforms "$env:PORTABLE_PLATFORMS" `
+          -Version "$env:APP_VERSION" `
+          -CdnBaseUrl "$env:PORTABLE_CDN_URL" `
+          -StagingDir "$env:CDN_STAGING_DIR"
+
+    - name: Upload portable release to Cloudflare
+      uses: ryand56/r2-upload-action@latest
+      with:
+        r2-account-id: ${{ secrets.R2_ACCOUNT_ID }}
+        r2-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
+        r2-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+        r2-bucket: ${{ secrets.R2_BUCKET }}
+        source-dir: ${{ env.CDN_STAGING_DIR }}
+        destination-dir: ./files/stable
+
+    - name: Upload the zips to GitHub Actions
+      uses: actions/upload-artifact@v7
+      with:
+        name: 'Portable Packages (${{ env.CONFIGURATION }})'
+        path: ${{ env.ARTIFACTS_STAGING_DIR }}

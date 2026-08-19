@@ -157,7 +157,7 @@ namespace Files.App.ViewModels
 				if (!canShowPrompts || hasShownSponsorPrompt)
 					return false;
 
-				var isTargetEnvironment = AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev or AppEnvironment.SideloadStable or AppEnvironment.SideloadPreview;
+				var isTargetEnvironment = AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev or AppEnvironment.SideloadStable or AppEnvironment.SideloadPreview or AppEnvironment.Portable;
 				var hasClickedSponsorPrompt = UserSettingsService.ApplicationSettingsService.HasClickedSponsorPrompt;
 				var launchCountReached = AppLifecycleHelper.TotalLaunchCount % 50 == 0;
 

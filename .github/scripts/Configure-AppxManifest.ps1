@@ -149,9 +149,19 @@ elseif ($Branch -eq "StoreStable")
     }
 
 }
+elseif ($Branch -eq "Portable")
+{
+    # Unpackaged build: Package.appxmanifest is unused, only the tile asset references
+    # in project files need to point at the Release logos
+    Get-ChildItem $WorkingDir -Include *.csproj, *.appxmanifest, *.xaml -recurse | ForEach-Object -Process `
+    { `
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release" }) | `
+        Set-Content $_ -NoNewline `
+    }
+}
 
 # Remove unused tile assets so they don't end up in the package
-$keepTiles = if ($Branch -match 'Preview') { 'Preview' } elseif ($Branch -match 'Stable') { 'Release' } else { $null }
+$keepTiles = if ($Branch -match 'Preview') { 'Preview' } elseif ($Branch -match 'Stable|Portable') { 'Release' } else { $null }
 foreach ($folder in @('Dev', 'Preview', 'Release')) {
     if ($folder -eq $keepTiles) { continue }
     $tilePath = Join-Path $WorkingDir "src\Files.App\Assets\AppTiles\$folder"

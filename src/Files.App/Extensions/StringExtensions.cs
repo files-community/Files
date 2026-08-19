@@ -55,7 +55,12 @@ namespace Files.App.Extensions
 			return result;
 		}
 
-		private static readonly ResourceMap resourcesTree = new ResourceManager().MainResourceMap.TryGetSubtree("Resources");
+		// The parameterless ResourceManager resolves resources.pri beside the executable,
+		// which a single-file bundle extracts elsewhere
+		private static readonly ResourceMap resourcesTree = (AppRuntimeHelper.IsPackaged
+			? new ResourceManager()
+			: new ResourceManager(Path.Combine(AppContext.BaseDirectory, "resources.pri")))
+			.MainResourceMap.TryGetSubtree("Resources");
 
 		private static readonly ConcurrentDictionary<string, string> cachedResources = new();
 

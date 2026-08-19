@@ -3,9 +3,7 @@
 
 using Microsoft.Win32;
 using System.Windows.Input;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
 using Windows.System;
 
 namespace Files.App.ViewModels.Settings
@@ -26,10 +24,10 @@ namespace Files.App.ViewModels.Settings
 			=> string.Format($"{Strings.SettingsAboutVersionTitle.GetLocalizedResource()} {AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}");
 
 		public string AppName
-			=> Package.Current.DisplayName;
+			=> AppRuntimeHelper.DisplayName;
 
-		public PackageVersion AppVersion
-			=> Package.Current.Id.Version;
+		public Version AppVersion
+			=> AppLifecycleHelper.AppVersion;
 
 		public ObservableCollection<OpenSourceLibraryItem> OpenSourceLibraries { get; }
 
@@ -98,7 +96,7 @@ namespace Files.App.ViewModels.Settings
 
 		private async Task<bool> OpenLogLocation()
 		{
-			await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder).AsTask();
+			await Launcher.LaunchFolderPathAsync(AppDataHelper.LocalFolderPath).AsTask();
 
 			// TODO: Move this to an application service
 			// Detect if Files is set as the default file manager

@@ -93,7 +93,7 @@ namespace Files.App.Services.Settings
 			var settingsSerializer = new DefaultSettingsSerializer();
 			SettingsSerializer = settingsSerializer;
 
-			Initialize(Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.UserSettingsFileName));
+			Initialize(Path.Combine(AppDataHelper.LocalFolderPath, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.UserSettingsFileName));
 
 			var jsonSettingsSerializer = new DefaultJsonSettingsSerializer();
 			JsonSettingsSerializer = jsonSettingsSerializer;

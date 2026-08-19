@@ -113,7 +113,7 @@ namespace Files.App.Utils.Shell
 
 		private static async Task<ShellNewEntry> CreateShellNewEntry(string extension, string? fileName, string? command, byte[]? data)
 		{
-			var folder = await SafetyExtensions.IgnoreExceptions(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("extensions", CreationCollisionOption.OpenIfExists).AsTask());
+			var folder = await SafetyExtensions.IgnoreExceptions(async () => await (await AppDataHelper.GetLocalFolderAsync()).CreateFolderAsync("extensions", CreationCollisionOption.OpenIfExists));
 			var sampleFile = folder is not null ? await SafetyExtensions.IgnoreExceptions(() => folder.CreateFileAsync("file" + extension, CreationCollisionOption.OpenIfExists).AsTask()) : null;
 
 			var displayType = sampleFile is not null ? sampleFile.DisplayType : $"file {extension}";

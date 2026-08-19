@@ -4,7 +4,6 @@
 using Microsoft.Win32;
 using System.Runtime.CompilerServices;
 using System.Security;
-using Windows.ApplicationModel;
 using static Files.App.Helpers.RegistryHelpers;
 using static Files.App.Utils.FileTags.TaggedFileRegistry;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -14,7 +13,7 @@ namespace Files.App.Utils.FileTags
 	public sealed class FileTagsDatabase
 	{
 		private static string? _FileTagsKey;
-		private string? FileTagsKey => _FileTagsKey ??= SafetyExtensions.IgnoreExceptions(() => @$"Software\Files Community\{Package.Current.Id.Name}\v1\FileTags");
+		private string? FileTagsKey => _FileTagsKey ??= SafetyExtensions.IgnoreExceptions(() => @$"Software\Files Community\{AppRuntimeHelper.PackageName}\v1\FileTags");
 
 		public void SetTags(string filePath, ulong? frn, string[] tags)
 		{

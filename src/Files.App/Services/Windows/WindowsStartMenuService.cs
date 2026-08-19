@@ -8,6 +8,10 @@ namespace Files.App.Services
 		[Obsolete("See IStartMenuService for further information.")]
 		public bool IsPinned(string itemPath)
 		{
+			// Secondary tiles require package identity
+			if (!AppRuntimeHelper.IsPackaged)
+				return false;
+
 			var tileId = GetNativeTileId(itemPath);
 			return SecondaryTile.Exists(tileId);
 		}
@@ -15,6 +19,9 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public Task<bool> IsPinnedAsync(IStorable storable)
 		{
+			if (!AppRuntimeHelper.IsPackaged)
+				return Task.FromResult(false);
+
 			var tileId = GetNativeTileId(storable.Id);
 			var exists = SecondaryTile.Exists(tileId);
 
@@ -24,6 +31,9 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public async Task PinAsync(IStorable storable, string? displayName = null)
 		{
+			if (!AppRuntimeHelper.IsPackaged)
+				return;
+
 			var tileId = GetNativeTileId(storable.Id);
 			displayName ??= storable.Name;
 
@@ -61,6 +71,9 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public async Task UnpinAsync(IStorable storable)
 		{
+			if (!AppRuntimeHelper.IsPackaged)
+				return;
+
 			var startScreen = StartScreenManager.GetDefault();
 			var tileId = GetNativeTileId(storable.Id);
 
