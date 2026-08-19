@@ -38,7 +38,7 @@ namespace Files.App.Utils.Storage
 			bool showDotFiles = userSettingsService.FoldersSettingsService.ShowDotFiles;
 			bool areAlternateStreamsVisible = userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible;
 
-			var isGitRepo = GitHelpers.IsRepositoryEx(path, out var repoPath) && !string.IsNullOrEmpty((await GitHelpers.GetRepositoryHead(repoPath))?.Name);
+			var isGitRepo = GitHelpers.IsRepositoryEx(path, out var repoPath) && !string.IsNullOrEmpty(await GitHelpers.GetRepositoryHeadName(repoPath));
 
 			do
 			{
