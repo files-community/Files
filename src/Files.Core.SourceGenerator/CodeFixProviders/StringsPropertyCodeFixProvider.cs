@@ -57,7 +57,7 @@ namespace Files.Core.SourceGenerator.CodeFixProviders
 				CodeAction.Create(
 					CodeFixProviderTitle,
 					c => Task.FromResult(newDocument),
-					null),
+					CodeFixProviderTitle),
 				diagnostic);
 		}
 	}

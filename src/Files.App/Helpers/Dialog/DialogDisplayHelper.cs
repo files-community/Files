@@ -3,6 +3,7 @@
 
 using Files.App.Dialogs;
 using Microsoft.UI.Xaml.Controls;
+using WinRT;
 
 namespace Files.App.Helpers
 {
@@ -41,6 +42,7 @@ namespace Files.App.Helpers
 			return await ShowDialogAsync(dialog) == DynamicDialogResult.Primary;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Frame))]
 		public static async Task<DynamicDialogResult> ShowDialogAsync(DynamicDialog dialog)
 		{
 			try

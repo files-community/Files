@@ -26,7 +26,8 @@ namespace Files.App.Utils.Shell
 			=> $"{Path},{Index}";
 	}
 
-	public sealed class ShellPidl : IEnumerable<ShellPidl>
+	[WinRT.GeneratedWinRTExposedType]
+	public sealed partial class ShellPidl : IEnumerable<ShellPidl>
 	{
 		private readonly byte[] bytes;
 
@@ -109,7 +110,7 @@ namespace Files.App.Utils.Shell
 		}
 	}
 
-	public unsafe class ShellItem : IDisposable
+	public unsafe partial class ShellItem : IDisposable
 	{
 		private IShellItem? shellItem;
 		private ShellItemPropertyStore? properties;
@@ -290,7 +291,8 @@ namespace Files.App.Utils.Shell
 		}
 	}
 
-	public class ShellFolder : ShellItem, IEnumerable<ShellItem>
+	[WinRT.GeneratedWinRTExposedType]
+	public partial class ShellFolder : ShellItem, IEnumerable<ShellItem>
 	{
 		public ShellFolder(string path) : base(path)
 		{
@@ -331,7 +333,7 @@ namespace Files.App.Utils.Shell
 			=> GetEnumerator();
 	}
 
-	public sealed class ShellLink : ShellItem
+	public sealed partial class ShellLink : ShellItem
 	{
 		private IShellLinkW? link;
 		private IPersistFile? persistFile;

@@ -225,7 +225,7 @@
 						<DataTemplate x:DataType="filesystem:ListedItem">
 							<Grid
 								x:Name="FilesRootGrid"
-								Height="{Binding RowHeight, ElementName=PageRoot, Mode=OneWay}"
+								Height="{Binding Path=RowHeight, ElementName=PageRoot, Mode=OneWay}"
 								Margin="0,2,0,2"
 								Padding="12,0,12,0"
 								HorizontalAlignment="Stretch"
@@ -242,8 +242,8 @@
 								<!--  Thumbnail  -->
 								<Grid
 									Grid.Column="0"
-									Width="{Binding IconBoxSize, ElementName=PageRoot, Mode=OneWay}"
-									Height="{Binding IconBoxSize, ElementName=PageRoot, Mode=OneWay}"
+									Width="{Binding Path=IconBoxSize, ElementName=PageRoot, Mode=OneWay}"
+									Height="{Binding Path=IconBoxSize, ElementName=PageRoot, Mode=OneWay}"
 									Opacity="{x:Bind Opacity, Mode=OneWay}"
 									Tag="IconBox">
 									<ContentPresenter

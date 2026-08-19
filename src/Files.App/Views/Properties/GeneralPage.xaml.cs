@@ -9,6 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Windows.Storage;
 using Windows.Win32;
+using WinRT;
 
 namespace Files.App.Views.Properties
 {
@@ -24,6 +25,14 @@ namespace Files.App.Views.Properties
 			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
 			_updateDateDisplayTimer.Start();
 		}
+
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
+		private void EditAlbumCoverButton_PointerEntered(object sender, PointerRoutedEventArgs e)
+			=> ((UIElement)sender).Opacity = 1;
+
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
+		private void EditAlbumCoverButton_PointerExited(object sender, PointerRoutedEventArgs e)
+			=> ((UIElement)sender).Opacity = 0;
 
 		private void ItemFileName_GettingFocus(UIElement _, GettingFocusEventArgs e)
 		{

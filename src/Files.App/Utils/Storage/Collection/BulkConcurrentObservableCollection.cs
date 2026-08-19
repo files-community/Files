@@ -7,7 +7,8 @@ namespace Files.App.Utils.Storage
 {
 	[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
 	[DebuggerDisplay("Count = {Count}")]
-	public class BulkConcurrentObservableCollection<T> : INotifyCollectionChanged, INotifyPropertyChanged, ICollection<T>, IList<T>, ICollection, IList
+	[WinRT.GeneratedWinRTExposedType]
+	public partial class BulkConcurrentObservableCollection<T> : INotifyCollectionChanged, INotifyPropertyChanged, ICollection<T>, IList<T>, ICollection, IList
 	{
 		protected bool isBulkOperationStarted;
 		private readonly object syncRoot = new object();
@@ -238,7 +239,7 @@ namespace Files.App.Utils.Storage
 			if (oldGroup.Count == 0)
 				GroupedCollection?.Remove(oldGroup);
 
-			AddItemsToGroup([item]);
+			AddItemsToGroup((T[])[item]);
 
 			return true;
 		}

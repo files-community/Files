@@ -13,6 +13,7 @@ using System.Runtime.CompilerServices;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
+using WinRT;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.Extensions
@@ -41,6 +42,7 @@ namespace Files.App.Extensions
 				typeof(ScrollViewerMiddleClickExtensions),
 				new PropertyMetadata(false, OnEnableMiddleClickScrollingChanged));
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private static void OnEnableMiddleClickScrollingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			if (d is not FrameworkElement element)
@@ -176,6 +178,7 @@ namespace Files.App.Extensions
 				_rootElement?.RemoveHandler(UIElement.KeyDownEvent, _rootKeyDownHandler);
 			}
 
+			[DynamicWindowsRuntimeCast(typeof(UIElement))]
 			private void Element_PointerPressed(object sender, PointerRoutedEventArgs e)
 			{
 				if (!_isEnabled)
@@ -212,6 +215,7 @@ namespace Files.App.Extensions
 				e.Handled = true;
 			}
 
+			[DynamicWindowsRuntimeCast(typeof(UIElement))]
 			private void RootElement_PointerMoved(object sender, PointerRoutedEventArgs e)
 			{
 				if (!_isAutoScrollActive)

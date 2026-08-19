@@ -70,12 +70,12 @@
 									FontSize="12"
 									FontWeight="Light"
 									Text="{x:Bind Sample1}"
-									Visibility="{Binding IsDropDownOpen, ElementName=DateFormatChooser}" />
+									Visibility="{Binding Path=IsDropDownOpen, ElementName=DateFormatChooser}" />
 								<TextBlock
 									FontSize="12"
 									FontWeight="Light"
 									Text="{x:Bind Sample2}"
-									Visibility="{Binding IsDropDownOpen, ElementName=DateFormatChooser}" />
+									Visibility="{Binding Path=IsDropDownOpen, ElementName=DateFormatChooser}" />
 							</StackPanel>
 						</DataTemplate>
 					</uc:ComboBoxEx.ItemTemplate>

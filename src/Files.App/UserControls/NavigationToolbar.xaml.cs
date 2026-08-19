@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.System;
 using Windows.UI.Core;
+using WinRT;
 
 namespace Files.App.UserControls
 {
@@ -169,6 +170,7 @@ namespace Files.App.UserControls
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private async void Omnibar_QuerySubmitted(Omnibar sender, OmnibarQuerySubmittedEventArgs args)
 		{
 			if (ViewModel is not { } viewModel)
@@ -493,6 +495,7 @@ namespace Files.App.UserControls
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		private void NavigationButtonOverflowFlyoutButton_LosingFocus(UIElement sender, LosingFocusEventArgs args)
 		{
 			// Prevent the Omnibar from taking focus if the overflow button is hidden while the button is focused
@@ -521,6 +524,8 @@ namespace Files.App.UserControls
 			await viewModel.PathBoxItem_Drop(sender, e);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		[DynamicWindowsRuntimeCast(typeof(Style))]
 		private void BreadcrumbBarItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			if (sender is not FrameworkElement element || element.DataContext is not PathBoxItem pathBoxItem)

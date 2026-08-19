@@ -10,6 +10,7 @@
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
+	xmlns:vm="using:Files.App.ViewModels.Settings"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	x:Name="PageRoot"
 	mc:Ignorable="d">
@@ -91,10 +92,14 @@
 					Width="240"
 					HorizontalAlignment="Left"
 					AutomationProperties.Name="{helpers:ResourceString Name=ChooseToolbarModeToCustomize}"
-					DisplayMemberPath="Value"
 					ItemsSource="{x:Bind ViewModel.ToolbarContexts, Mode=OneWay}"
-					SelectedValue="{x:Bind ViewModel.SelectedToolbarContextId, Mode=TwoWay}"
-					SelectedValuePath="Key" />
+					SelectedItem="{x:Bind ViewModel.SelectedToolbarContext, Mode=TwoWay}">
+					<uc:ComboBoxEx.ItemTemplate>
+						<DataTemplate x:DataType="vm:ToolbarContextItem">
+							<TextBlock Text="{x:Bind Value}" />
+						</DataTemplate>
+					</uc:ComboBoxEx.ItemTemplate>
+				</uc:ComboBoxEx>
 			</StackPanel>
 		</Grid>
 

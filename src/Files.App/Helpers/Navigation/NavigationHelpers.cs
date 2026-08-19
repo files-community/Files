@@ -9,6 +9,7 @@ using System.IO;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.System;
+using WinRT;
 
 namespace Files.App.Helpers
 {
@@ -252,6 +253,7 @@ namespace Files.App.Helpers
 			return imageSource;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ImageIconSource))]
 		public static async Task<(string? tabLocationHeader, IconSource tabIcon, string toolTipText)> GetSelectedTabInfoAsync(string currentPath)
 		{
 			string? tabLocationHeader;

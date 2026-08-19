@@ -3,6 +3,7 @@
 
 namespace Files.App.Data.Models
 {
+	[WinRT.GeneratedBindableCustomProperty([nameof(IsPageTypeCloudDrive)], [])]
 	public sealed partial class CurrentInstanceViewModel : ObservableObject
 	{
 		// TODO:

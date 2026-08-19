@@ -5,7 +5,8 @@ namespace Files.App.Helpers
 {
 	[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
 	[DebuggerDisplay("Count = {Count}")]
-	public sealed class ConcurrentCollection<T> : ICollection<T>, IList<T>, ICollection, IList
+	[WinRT.GeneratedWinRTExposedType]
+	public sealed partial class ConcurrentCollection<T> : ICollection<T>, IList<T>, ICollection, IList
 	{
 		private readonly object syncRoot = new object();
 

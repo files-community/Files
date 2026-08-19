@@ -6,6 +6,7 @@ using System.IO;
 using System.Text;
 using Windows.Storage;
 using Windows.Storage.Search;
+using WinRT;
 
 namespace Files.App.Utils.Storage
 {
@@ -17,6 +18,7 @@ namespace Files.App.Utils.Storage
 		public static readonly ImmutableHashSet<string> _ftpPaths =
 			new HashSet<string>() { "ftp:/", "ftps:/", "ftpes:/" }.ToImmutableHashSet();
 
+		[DynamicWindowsRuntimeCast(typeof(StorageFile))]
 		public static BaseStorageFile? AsBaseStorageFile(this IStorageItem? item)
 		{
 			if (item is null || !item.IsOfType(StorageItemTypes.File))
@@ -86,6 +88,7 @@ namespace Files.App.Utils.Storage
 		public static bool AreItemsAlreadyInFolder(this IEnumerable<IStorageItemWithPath> storageItems, string destinationPath)
 			=> storageItems.Select(x => x.Path).AreItemsAlreadyInFolder(destinationPath);
 
+		[DynamicWindowsRuntimeCast(typeof(StorageFolder))]
 		public static BaseStorageFolder? AsBaseStorageFolder(this IStorageItem? item)
 		{
 			if (item is not null && item.IsOfType(StorageItemTypes.Folder))

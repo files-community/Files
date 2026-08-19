@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System.Text;
 using Windows.System;
+using WinRT;
 
 namespace Files.App.Views.Settings
 {
@@ -27,6 +28,14 @@ namespace Files.App.Views.Settings
 			InitializeComponent();
 		}
 
+		private void ActionsPage_Loaded(object sender, RoutedEventArgs e)
+		{
+			if (ViewModel.LoadAllActionsCommand.CanExecute(e))
+				ViewModel.LoadAllActionsCommand.Execute(e);
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(UserControl))]
+		[DynamicWindowsRuntimeCast(typeof(Button))]
 		private void RootGrid_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			VisualStateManager.GoToState((UserControl)sender, PointerOverState, true);
@@ -39,6 +48,8 @@ namespace Files.App.Views.Settings
 				editButton.Visibility = Visibility.Visible;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UserControl))]
+		[DynamicWindowsRuntimeCast(typeof(Button))]
 		private void RootGrid_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
 			VisualStateManager.GoToState((UserControl)sender, NormalState, true);
@@ -51,6 +62,7 @@ namespace Files.App.Views.Settings
 				editButton.Visibility = Visibility.Collapsed;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		private void KeyBindingEditorTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			// Ensure the sender is a TextBox
@@ -142,6 +154,7 @@ namespace Files.App.Views.Settings
 			e.Handled = true;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		private void KeyBindingEditorTextBox_Loaded(object sender, RoutedEventArgs e)
 		{
 			// Focus the editor TextBox
@@ -159,6 +172,7 @@ namespace Files.App.Views.Settings
 			KeyBindingEditorTextBox.Focus(FocusState.Programmatic);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			var query = ((TextBox)sender).Text;

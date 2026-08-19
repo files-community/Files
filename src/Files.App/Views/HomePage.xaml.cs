@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
+using WinRT;
 
 namespace Files.App.Views
 {
@@ -26,6 +27,12 @@ namespace Files.App.Views
 		public HomePage()
 		{
 			InitializeComponent();
+		}
+
+		private void HomePage_Loaded(object sender, RoutedEventArgs e)
+		{
+			if (ViewModel.ReloadWidgetsCommand.CanExecute(e))
+				ViewModel.ReloadWidgetsCommand.Execute(e);
 		}
 
 		// Methods
@@ -83,6 +90,7 @@ namespace Files.App.Views
 			base.OnNavigatedTo(e);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void ScrollViewer_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			if (sender is FrameworkElement element)

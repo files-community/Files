@@ -10,15 +10,33 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml.Shapes;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
+using WinRT;
 
 namespace Files.App.Views.Layouts
 {
 	/// <summary>
 	/// Represents the browser page of Grid View
 	/// </summary>
+	[WinRT.GeneratedBindableCustomProperty(
+		[
+			nameof(ItemWidthGridView),
+			nameof(RowHeightListView),
+			nameof(IconBoxSizeListView),
+			nameof(CardsViewOrientation),
+			nameof(CardsViewIconBoxWidth),
+			nameof(CardsViewIconBoxHeight),
+			nameof(CardsViewIconSize),
+			nameof(CardsViewDetailsBoxWidth),
+			nameof(CardsViewDetailsBoxHeight),
+			nameof(CardsViewItemNameMaxLines),
+			nameof(CardsViewShowContextualProperty),
+			nameof(InstanceViewModel),
+		],
+		[])]
 	public sealed partial class GridLayoutPage : BaseGroupableLayoutPage
 	{
 		// Fields
@@ -169,6 +187,7 @@ namespace Files.App.Views.Layouts
 				ContentScroller?.ChangeView(null, 0, null, true);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
 			if (SelectedItems.Any())
@@ -303,6 +322,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
 		private void SetItemTemplate()
 		{
 			var folderSettings = FolderSettings
@@ -384,6 +404,10 @@ namespace Files.App.Views.Layouts
 				SetCheckboxSelectionState(item);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
+		[DynamicWindowsRuntimeCast(typeof(Popup))]
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		override public void StartRenameItem()
 		{
 			RenamingItem = SelectedItem;
@@ -479,6 +503,9 @@ namespace Files.App.Views.Layouts
 			});
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(Popup))]
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
 		protected override void EndRename(TextBox textBox)
 		{
 			GridViewItem? gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
@@ -532,6 +559,8 @@ namespace Files.App.Views.Layouts
 			gridViewItem?.Focus(FocusState.Programmatic);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		[DynamicWindowsRuntimeCast(typeof(HyperlinkButton))]
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (ParentShellPageInstance is null || IsRenamingItem)
@@ -604,6 +633,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
 		protected override bool CanGetItemFromElement(object element)
 			=> element is GridViewItem;
 
@@ -648,6 +678,12 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		[DynamicWindowsRuntimeCast(typeof(Rectangle))]
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
+		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(Popup))]
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
 		{
 			var clickedItem = e.OriginalSource as FrameworkElement;
@@ -714,6 +750,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
@@ -727,6 +764,7 @@ namespace Files.App.Views.Layouts
 			ResetRenameDoubleClick();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
 		{
 			if (sender is CheckBox checkBox &&
@@ -735,6 +773,7 @@ namespace Files.App.Views.Layouts
 				FileList.SelectedItems.Add(item);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
 		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
 		{
 			if (sender is not CheckBox checkBox)
@@ -751,6 +790,8 @@ namespace Files.App.Views.Layouts
 			FileList.Focus(FocusState.Programmatic);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
+		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
 			var selectionCheckbox = (CheckBox)args.ItemContainer.FindDescendant("SelectionCheckbox")!;
@@ -772,6 +813,8 @@ namespace Files.App.Views.Layouts
 			selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
 		private void SetCheckboxSelectionState(object item, GridViewItem? lviContainer = null)
 		{
 			var container = lviContainer ?? FileList.ContainerFromItem(item) as GridViewItem;
@@ -794,6 +837,8 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Grid))]
+		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
 		private void Grid_Loaded(object sender, RoutedEventArgs e)
 		{
 			// This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
@@ -818,16 +863,19 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void SelectionCheckbox_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<GridViewItem>()!, true);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void SelectionCheckbox_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
 			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<GridViewItem>()!, false);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void SelectionCheckbox_PointerCanceled(object sender, PointerRoutedEventArgs e)
 		{
 			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<GridViewItem>()!, false);
@@ -877,6 +925,7 @@ namespace Files.App.Views.Layouts
 			base.Item_Drop(sender, e);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
 		private void UpdateCheckboxVisibility(object sender, bool isPointerOver)
 		{
 			if (sender is GridViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)

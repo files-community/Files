@@ -2,11 +2,14 @@
 using System.Collections.Concurrent;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using WinRT;
 
 namespace Files.App.Helpers
 {
 	public static class TransferHelpers
 	{
+		[DynamicWindowsRuntimeCast(typeof(StorageFile))]
+		[DynamicWindowsRuntimeCast(typeof(StorageFolder))]
 		public static async Task ExecuteTransferAsync(IReadOnlyList<IStorable> itemsToTransfer, ShellViewModel shellViewModel, StatusCenterViewModel statusViewModel, DataPackageOperation type = DataPackageOperation.Copy)
 		{
 			ConcurrentBag<IStorageItem> items = [];
@@ -76,6 +79,8 @@ namespace Files.App.Helpers
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(StorageFile))]
+		[DynamicWindowsRuntimeCast(typeof(StorageFolder))]
 		public static async Task ExecuteTransferAsync(IContentPageContext context, StatusCenterViewModel statusViewModel, DataPackageOperation type = DataPackageOperation.Copy)
 		{
 			if (context.ShellPage?.SlimContentPage is not { } contentPage ||

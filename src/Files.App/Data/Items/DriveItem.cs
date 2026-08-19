@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.Runtime.CompilerServices;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using WinRT;
 using ByteSize = ByteSizeLib.ByteSize;
 
 namespace Files.App.Data.Items
@@ -211,6 +212,7 @@ namespace Files.App.Data.Items
 
 		public FrameworkElement? ItemDecorator
 		{
+			[DynamicWindowsRuntimeCast(typeof(Style))]
 			get
 			{
 				if (!IsRemovable)
@@ -276,7 +278,7 @@ namespace Files.App.Data.Items
 			try
 			{
 				var root = Root!;
-				var properties = await root.Properties.RetrievePropertiesAsync(["System.ItemNameDisplay"])
+				var properties = await root.Properties.RetrievePropertiesAsync((string[])["System.ItemNameDisplay"])
 					.AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
 				Text = (string?)properties!["System.ItemNameDisplay"];
 			}
@@ -316,7 +318,7 @@ namespace Files.App.Data.Items
 				}
 
 				var root = Root ?? throw new InvalidOperationException("The drive root has not been initialized.");
-				var properties = await root.Properties.RetrievePropertiesAsync(["System.FreeSpace", "System.Capacity", "System.Volume.FileSystem"])
+				var properties = await root.Properties.RetrievePropertiesAsync((string[])["System.FreeSpace", "System.Capacity", "System.Volume.FileSystem"])
 					.AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
 				if (properties is not null && properties["System.Capacity"] is not null && properties["System.FreeSpace"] is not null)

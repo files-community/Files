@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Media;
 using System.Numerics;
 using System.Windows.Input;
+using WinRT;
 
 namespace Files.App.Utils.StatusCenter
 {
@@ -173,6 +174,7 @@ namespace Files.App.Utils.StatusCenter
 
 		public ICommand CancelCommand { get; }
 
+		[DynamicWindowsRuntimeCast(typeof(SolidColorBrush))]
 		public StatusCenterItem(
 			string headerResource,
 			string subHeaderResource,

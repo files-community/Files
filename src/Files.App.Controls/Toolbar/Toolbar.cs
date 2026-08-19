@@ -1,6 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using WinRT;
+
 namespace Files.App.Controls
 {
 	public partial class Toolbar : Control
@@ -32,6 +34,7 @@ namespace Files.App.Controls
 			DefaultStyleKey = typeof(Toolbar);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ItemsRepeater))]
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();

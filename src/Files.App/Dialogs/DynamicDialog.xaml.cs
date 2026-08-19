@@ -3,13 +3,17 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using WinRT;
 
 namespace Files.App.Dialogs
 {
 	public sealed partial class DynamicDialog : ContentDialog, IDisposable
 	{
 		private FrameworkElement RootAppElement
-			=> (FrameworkElement)MainWindow.Instance.Content;
+		{
+			[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+			get => (FrameworkElement)MainWindow.Instance.Content;
+		}
 
 		public DynamicDialogViewModel ViewModel
 			=> DataContext as DynamicDialogViewModel ?? throw new ObjectDisposedException(nameof(DynamicDialog));

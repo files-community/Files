@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using System.Windows.Input;
+using WinRT;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
@@ -50,6 +51,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		public void BuildItemContextMenu(object sender, RightTappedRoutedEventArgs e)
 		{
 			// Ensure values are not null

@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
+using WinRT;
 using IO = System.IO;
 
 namespace Files.App
@@ -237,6 +238,7 @@ namespace Files.App
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Frame))]
 		private Frame? EnsureWindowIsInitialized()
 		{
 			try

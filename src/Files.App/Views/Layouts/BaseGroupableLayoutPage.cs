@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.Win32;
+using WinRT;
 
 namespace Files.App.Views.Layouts
 {
@@ -98,6 +99,10 @@ namespace Files.App.Views.Layouts
 			ItemManipulationModel.RefreshItemsThumbnailInvoked -= ItemManipulationModel_RefreshItemsThumbnail;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		[DynamicWindowsRuntimeCast(typeof(Button))]
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
+		[DynamicWindowsRuntimeCast(typeof(PasswordBox))]
 		protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
 		{
 			if (ParentShellPageInstance is null ||
@@ -178,6 +183,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		protected virtual void ItemManipulationModel_FocusFileListInvoked(object? sender, EventArgs e)
 		{
 			try
@@ -273,6 +279,9 @@ namespace Files.App.Views.Layouts
 		protected static bool ShouldShowExtensionInRename(ListedItem item) =>
 			(!item.IsFolder || item.IsArchive) && !item.IsShortcut && item is not AlternateStreamItem;
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		protected virtual void StartRenameItem(string itemNameTextBox)
 		{
 			RenamingItem = SelectedItem;
@@ -333,6 +342,9 @@ namespace Files.App.Views.Layouts
 			await UIFilesystemHelpers.RenameFileItemAsync(renamingItem, newItemName, parentShellPage, nameIsComplete: ShouldShowExtensionInRename(renamingItem));
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(AppBarButton))]
+		[DynamicWindowsRuntimeCast(typeof(Popup))]
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		protected virtual async void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			try
@@ -352,6 +364,7 @@ namespace Files.App.Views.Layouts
 
 		// Methods
 
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		protected async void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			var textBox = (TextBox)sender;

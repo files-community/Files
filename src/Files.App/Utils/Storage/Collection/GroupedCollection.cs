@@ -1,9 +1,12 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+[assembly: WinRT.GeneratedWinRTExposedExternalType(typeof(Files.App.Utils.Storage.GroupedCollection<Files.App.Utils.ListedItem>))]
+
 namespace Files.App.Utils.Storage
 {
-	public sealed class GroupedCollection<T> : BulkConcurrentObservableCollection<T>, IGroupedCollectionHeader
+	[WinRT.GeneratedWinRTExposedType]
+	public sealed partial class GroupedCollection<T> : BulkConcurrentObservableCollection<T>, IGroupedCollectionHeader
 	{
 		private GroupedHeaderViewModel? model;
 		public GroupedHeaderViewModel Model

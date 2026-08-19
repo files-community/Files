@@ -12,6 +12,7 @@ using Windows.Win32;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using WinRT;
 
 namespace Files.App
 {
@@ -325,6 +326,7 @@ namespace Files.App
 		/// <summary>
 		/// Gets invoked when the last opened flyout is closed.
 		/// </summary>
+		[DynamicWindowsRuntimeCast(typeof(FlyoutBase))]
 		private static void LastOpenedFlyout_Closed(object? sender, object e)
 		{
 			if (sender is not FlyoutBase flyoutBase)

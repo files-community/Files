@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI.Core;
+using WinRT;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.Views.Shells
@@ -811,6 +812,7 @@ namespace Files.App.Views.Shells
 				ToolbarViewModel.PathControlDisplayText = Strings.Home.GetLocalizedResource();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Frame))]
 		protected void SetLoadingIndicatorForTabs(bool isLoading)
 		{
 			try

@@ -55,6 +55,7 @@ namespace Files.App.Views.Layouts
 		protected override bool CanGetItemFromElement(object element)
 			=> false;
 
+		[WinRT.DynamicWindowsRuntimeCast(typeof(Frame))]
 		private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
 		{
 			var column = sender as ColumnParam;
@@ -179,6 +180,8 @@ namespace Files.App.Views.Layouts
 			Dispose();
 		}
 
+		[WinRT.DynamicWindowsRuntimeCast(typeof(Frame))]
+		[WinRT.DynamicWindowsRuntimeCast(typeof(UIElement))]
 		public override void Dispose()
 		{
 			base.Dispose();
@@ -220,6 +223,8 @@ namespace Files.App.Views.Layouts
 			DismissOtherBlades(ColumnHost.ActiveBlades.IndexOf(blade!));
 		}
 
+		[WinRT.DynamicWindowsRuntimeCast(typeof(Frame))]
+		[WinRT.DynamicWindowsRuntimeCast(typeof(UIElement))]
 		public void DismissOtherBlades(int index)
 		{
 			if (index >= 0)
@@ -271,6 +276,8 @@ namespace Files.App.Views.Layouts
 			ContentChanged(ActiveColumnShellPage);
 		}
 
+		[WinRT.DynamicWindowsRuntimeCast(typeof(Frame))]
+		[WinRT.DynamicWindowsRuntimeCast(typeof(UIElement))]
 		private void Frame_Navigated(object sender, NavigationEventArgs e)
 		{
 			if (sender is not Frame frame)
@@ -285,6 +292,7 @@ namespace Files.App.Views.Layouts
 				.GotFocus += ColumnViewBrowser_GotFocus;
 		}
 
+		[WinRT.DynamicWindowsRuntimeCast(typeof(Frame))]
 		private void ColumnViewBrowser_GotFocus(object sender, RoutedEventArgs e)
 		{
 			if (sender is not IShellPage shPage || shPage.IsCurrentInstance)
@@ -342,6 +350,7 @@ namespace Files.App.Views.Layouts
 			(ParentShellPageInstance as ModernShellPage)?.Forward_Click();
 		}
 
+		[WinRT.DynamicWindowsRuntimeCast(typeof(Frame))]
 		public void NavigateUp()
 		{
 			if (ColumnHost.ActiveBlades?.Count > 1)
@@ -356,6 +365,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[WinRT.DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		public void MoveFocusToPreviousBlade(int currentBladeIndex)
 		{
 			if (currentBladeIndex <= 0)
@@ -381,6 +391,8 @@ namespace Files.App.Views.Layouts
 				fileList.Focus(FocusState.Programmatic);
 		}
 
+		[WinRT.DynamicWindowsRuntimeCast(typeof(Frame))]
+		[WinRT.DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		public void MoveFocusToNextBlade(int currentBladeIndex)
 		{
 			if (currentBladeIndex >= ColumnHost.ActiveBlades.Count)
@@ -413,6 +425,7 @@ namespace Files.App.Views.Layouts
 				next.FileList.Focus(FocusState.Programmatic);
 		}
 
+		[WinRT.DynamicWindowsRuntimeCast(typeof(Frame))]
 		private ColumnLayoutPage? RetrieveBladeColumnViewBase(BladeItem blade)
 		{
 			if (blade.Content is not Frame activeBladeFrame ||
@@ -422,6 +435,7 @@ namespace Files.App.Views.Layouts
 			return activeBladePage.SlimContentPage as ColumnLayoutPage;
 		}
 
+		[WinRT.DynamicWindowsRuntimeCast(typeof(Frame))]
 		public void SetSelectedPathOrNavigate(string navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null)
 		{
 			if (navArgs is not null && navArgs.IsSearchResultPage)
@@ -473,6 +487,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[WinRT.DynamicWindowsRuntimeCast(typeof(Frame))]
 		public void SetSelectedPathOrNavigate(PathNavigationEventArgs e)
 		{
 			var itemPath = e.ItemPath
@@ -502,6 +517,7 @@ namespace Files.App.Views.Layouts
 
 		public IShellPage? ActiveColumnShellPage
 		{
+			[WinRT.DynamicWindowsRuntimeCast(typeof(Frame))]
 			get
 			{
 				if (ColumnHost.ActiveBlades?.Count > 0)
@@ -526,6 +542,7 @@ namespace Files.App.Views.Layouts
 			CloseUnnecessaryColumns(column);
 		}
 
+		[WinRT.DynamicWindowsRuntimeCast(typeof(Frame))]
 		private void CloseUnnecessaryColumns(ColumnParam column)
 		{
 			if (string.IsNullOrEmpty(column.NavPathParam))

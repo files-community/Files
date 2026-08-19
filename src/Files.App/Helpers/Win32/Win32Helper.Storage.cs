@@ -10,15 +10,12 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text;
-using System.Windows.Forms;
 using Windows.System;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.Storage.FileSystem;
-using Windows.Win32.System.Com;
 using Windows.Win32.UI.Controls;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
@@ -668,14 +665,6 @@ namespace Files.App.Helpers
 			Span<char> path = stackalloc char[4096];
 			uint length = PInvoke.GetFinalPathNameByHandle(hFile, path, GETFINALPATHNAMEBYHANDLE_FLAGS.FILE_NAME_NORMALIZED | GETFINALPATHNAMEBYHANDLE_FLAGS.VOLUME_NAME_DOS);
 			return length is > 0 and < 4096 ? path[..(int)length].ToString() : null;
-		}
-
-		public sealed class Win32Window : IWin32Window
-		{
-			public IntPtr Handle { get; set; }
-
-			public static Win32Window FromLong(long hwnd)
-				=> new Win32Window() { Handle = new IntPtr(hwnd) };
 		}
 
 		public static unsafe void OpenFolderInExistingShellWindow(string folderPath)

@@ -155,6 +155,7 @@ namespace Files.App.UserControls
 			ItemFocusedCommand?.Execute(null);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void HyperlinkBatch_Click(object sender, RoutedEventArgs e)
 		{
 			if (sender is not FrameworkElement element)

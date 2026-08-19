@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Runtime.CompilerServices;
+using WinRT;
 
 namespace Files.App.UserControls.TabBar
 {
@@ -142,6 +143,7 @@ namespace Files.App.UserControls.TabBar
 			await MultitaskingTabsHelpers.MoveTabToNewWindow(tabItem, this);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Frame))]
 		public void CloseTab(TabBarItem? tabItem)
 		{
 			if (tabItem is null)
@@ -163,6 +165,7 @@ namespace Files.App.UserControls.TabBar
 				MainWindow.Instance.Close();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Control))]
 		public void SetLoadingIndicatorStatus(ITabBarItem item, bool loading)
 		{
 			if (ContainerFromItem(item) is not Control tabItem)

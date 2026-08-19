@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml.Input;
 using System.IO;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
+using WinRT;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -78,7 +79,11 @@ namespace Files.App.ViewModels.UserControls
 
 		public bool ShowShelfPaneToggleButton => AppearanceSettingsService.ShowShelfPaneToggleButton && AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;
 
-		private NavigationToolbar? AddressToolbar => (MainWindow.Instance.Content as Frame)?.FindDescendant<NavigationToolbar>();
+		private NavigationToolbar? AddressToolbar
+		{
+			[DynamicWindowsRuntimeCast(typeof(Frame))]
+			get => (MainWindow.Instance.Content as Frame)?.FindDescendant<NavigationToolbar>();
+		}
 
 		public bool HasAdditionalAction =>
 			InstanceViewModel.IsPageTypeRecycleBin ||
@@ -365,6 +370,7 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		[Obsolete("Superseded by Omnibar.")]
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		public void PathBoxItem_DragLeave(object sender, DragEventArgs e)
 		{
 			if (((FrameworkElement)sender).DataContext is not PathBoxItem pathBoxItem ||
@@ -381,6 +387,7 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		[Obsolete("Superseded by Omnibar.")]
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		public async Task PathBoxItem_Drop(object sender, DragEventArgs e)
 		{
 			if (_lockFlag)
@@ -420,6 +427,7 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		[Obsolete("Superseded by Omnibar.")]
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		public async Task PathBoxItem_DragOver(object sender, DragEventArgs e)
 		{
 			if (IsSingleItemOverride ||
@@ -502,6 +510,7 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		[Obsolete("Superseded by Omnibar.")]
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		public void CurrentPathSetTextBox_TextChanged(object sender, TextChangedEventArgs args)
 		{
 			if (sender is TextBox textBox)

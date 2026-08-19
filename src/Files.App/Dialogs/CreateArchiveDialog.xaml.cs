@@ -5,13 +5,17 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Immutable;
 using Windows.Foundation.Metadata;
+using WinRT;
 
 namespace Files.App.Dialogs
 {
 	public sealed partial class CreateArchiveDialog : ContentDialog
 	{
 		private FrameworkElement RootAppElement
-			=> (FrameworkElement)MainWindow.Instance.Content;
+		{
+			[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+			get => (FrameworkElement)MainWindow.Instance.Content;
+		}
 
 		private bool canCreate = false;
 		public bool CanCreate => canCreate;
@@ -382,13 +386,25 @@ namespace Files.App.Dialogs
 
 			private static string ToSizeText(ulong megaBytes) => ByteSize.FromMebiBytes(megaBytes).ShortString;
 
-			public record FileFormatItem(ArchiveFormats Key, string Label);
+			public record FileFormatItem(ArchiveFormats Key, string Label)
+			{
+				public override string ToString() => Label;
+			}
 
-			public record CompressionLevelItem(ArchiveCompressionLevels Key, string Label);
+			public record CompressionLevelItem(ArchiveCompressionLevels Key, string Label)
+			{
+				public override string ToString() => Label;
+			}
 
-			public record DictionarySizeItem(ArchiveDictionarySizes Key, string Label);
+			public record DictionarySizeItem(ArchiveDictionarySizes Key, string Label)
+			{
+				public override string ToString() => Label;
+			}
 
-			public record WordSizeItem(ArchiveWordSizes Key, string Label);
+			public record WordSizeItem(ArchiveWordSizes Key, string Label)
+			{
+				public override string ToString() => Label;
+			}
 		}
 	}
 

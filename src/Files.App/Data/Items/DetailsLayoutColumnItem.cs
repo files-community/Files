@@ -8,6 +8,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents item for a column shown in <see cref="DetailsLayoutPage"/>.
 	/// </summary>
+	[WinRT.GeneratedBindableCustomProperty([nameof(LengthPixels), nameof(LengthIncludingGridSplitterPixels), nameof(Visibility)], [])]
 	public sealed partial class DetailsLayoutColumnItem : ObservableObject
 	{
 		private const int GRID_SPLITTER_WIDTH = 12;
@@ -50,10 +51,16 @@ namespace Files.App.Data.Items
 		public GridLength Length
 			=> UserCollapsed || IsHidden ? new GridLength(0) : UserLength;
 
+		[RegistryIgnore, JsonIgnore]
+		public double LengthPixels => Length.Value;
+
 		public GridLength LengthIncludingGridSplitter =>
 			UserCollapsed || IsHidden
 				? new(0)
 				: new(UserLength.Value + (IsResizable ? GRID_SPLITTER_WIDTH : 0));
+
+		[RegistryIgnore, JsonIgnore]
+		public double LengthIncludingGridSplitterPixels => LengthIncludingGridSplitter.Value;
 
 		public double MaxLength
 			=> UserCollapsed || IsHidden ? 0 : NormalMaxLength;
@@ -90,7 +97,9 @@ namespace Files.App.Data.Items
 				if (SetProperty(ref _UserLength, value))
 				{
 					OnPropertyChanged(nameof(Length));
+					OnPropertyChanged(nameof(LengthPixels));
 					OnPropertyChanged(nameof(LengthIncludingGridSplitter));
+					OnPropertyChanged(nameof(LengthIncludingGridSplitterPixels));
 				}
 			}
 		}
@@ -110,7 +119,9 @@ namespace Files.App.Data.Items
 		private void UpdateVisibility()
 		{
 			OnPropertyChanged(nameof(Length));
+			OnPropertyChanged(nameof(LengthPixels));
 			OnPropertyChanged(nameof(LengthIncludingGridSplitter));
+			OnPropertyChanged(nameof(LengthIncludingGridSplitterPixels));
 			OnPropertyChanged(nameof(MaxLength));
 			OnPropertyChanged(nameof(Visibility));
 			OnPropertyChanged(nameof(MinLength));

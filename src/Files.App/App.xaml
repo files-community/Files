@@ -81,6 +81,10 @@
 				</Setter>
 			</Style>
 
+			<ControlTemplate x:Key="PrimaryCommandMenuFlyoutItemTemplate" TargetType="MenuFlyoutItem">
+				<ContentPresenter Margin="4,2" Content="{TemplateBinding Tag}" />
+			</ControlTemplate>
+
 			<!--  Workaround for https://github.com/files-community/Files/issues/12026  -->
 			<Style BasedOn="{StaticResource DefaultMenuFlyoutItemStyle}" TargetType="MenuFlyoutItem">
 				<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />

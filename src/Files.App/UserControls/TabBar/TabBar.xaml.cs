@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Shapes;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Win32;
+using WinRT;
 
 namespace Files.App.UserControls.TabBar
 {
@@ -195,6 +196,8 @@ namespace Files.App.UserControls.TabBar
 			HorizontalTabView.CanReorderTabs = WindowContext.CanDragAndDrop;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(TabView))]
+		[DynamicWindowsRuntimeCast(typeof(TabViewItem))]
 		private async void TabView_TabStripDrop(object sender, DragEventArgs e)
 		{
 			HorizontalTabView.CanReorderTabs = WindowContext.CanDragAndDrop;
@@ -303,6 +306,7 @@ namespace Files.App.UserControls.TabBar
 			e.Handled = true;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyout))]
 		private void TabItemContextMenu_Opening(object sender, object e)
 		{
 			MenuItemMoveTabToNewWindow.IsEnabled = Items.Count > 1;
@@ -373,6 +377,8 @@ namespace Files.App.UserControls.TabBar
 			return HorizontalTabView.ContainerFromItem(item);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(TabViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(ContentControl))]
 		private void TabViewItem_Loaded(object sender, RoutedEventArgs e)
 		{
 			if (sender is TabViewItem tvi && tvi.FindDescendant("IconControl") is ContentControl control)

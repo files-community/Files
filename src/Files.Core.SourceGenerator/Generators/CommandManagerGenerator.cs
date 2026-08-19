@@ -190,8 +190,7 @@ namespace Files.Core.SourceGenerator.Generators
 				{
 				{{groupProperties}}
 				
-					public IReadOnlyList<CommandGroup> All =>
-					[
+					public IReadOnlyList<CommandGroup> All => (CommandGroup[])[
 				{{groupListItems}}
 					];
 				}

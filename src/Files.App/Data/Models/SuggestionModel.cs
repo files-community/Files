@@ -5,6 +5,7 @@ using Files.App.Controls;
 using Files.App.ViewModels.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
+using WinRT;
 
 namespace Files.App.Data.Models
 {
@@ -56,6 +57,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(BitmapImage))]
 		private void Img_ImageOpened(object sender, Microsoft.UI.Xaml.RoutedEventArgs? e)
 		{
 			if (sender is BitmapImage image)

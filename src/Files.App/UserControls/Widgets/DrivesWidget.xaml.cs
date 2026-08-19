@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using WinRT;
 
 namespace Files.App.UserControls.Widgets
 {
@@ -19,6 +20,7 @@ namespace Files.App.UserControls.Widgets
 			InitializeComponent();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Button))]
 		private async void Button_Click(object sender, RoutedEventArgs e)
 		{
 			if (sender is not Button button ||
@@ -28,6 +30,7 @@ namespace Files.App.UserControls.Widgets
 			await ViewModel.NavigateToPath(path);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Button))]
 		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			if (!e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed ||
@@ -46,6 +49,7 @@ namespace Files.App.UserControls.Widgets
 			ViewModel.BuildItemContextMenu(sender, e);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Button))]
 		private async void GoToStorageSense_Click(object sender, RoutedEventArgs e)
 		{
 			if (sender is not Button button ||

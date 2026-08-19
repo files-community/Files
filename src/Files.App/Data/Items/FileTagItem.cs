@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
+using WinRT;
 
 namespace Files.App.Data.Items
 {
@@ -50,6 +51,7 @@ namespace Files.App.Data.Items
 
 		public IconElement? IconElement
 		{
+			[DynamicWindowsRuntimeCast(typeof(Geometry))]
 			get
 			{
 				var source = new PathIconSource()

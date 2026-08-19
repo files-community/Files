@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
+using WinRT;
 
 namespace Files.App.Views
 {
@@ -144,6 +145,7 @@ namespace Files.App.Views
 			SettingsContentFrame.Navigate(pageType, null, new SuppressNavigationTransitionInfo());
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void Grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			if (sender is FrameworkElement element)
@@ -170,6 +172,7 @@ namespace Files.App.Views
 				await JumpToSearchResultAsync(result);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		public async Task JumpToSearchResultAsync(SettingsSearchResult result)
 		{
 			ViewModel.ClearSearch();

@@ -10,11 +10,13 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml.Shapes;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
+using WinRT;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.App.Data.Enums.SortDirection;
 
@@ -23,6 +25,7 @@ namespace Files.App.Views.Layouts
 	/// <summary>
 	/// Represents the browser page of Details View
 	/// </summary>
+	[WinRT.GeneratedBindableCustomProperty([nameof(RowHeight), nameof(ColumnsViewModel), nameof(MaxWidthForRenameTextbox)], [])]
 	public sealed partial class DetailsLayoutPage : BaseGroupableLayoutPage
 	{
 		// Constants
@@ -116,6 +119,7 @@ namespace Files.App.Views.Layouts
 			ContentScroller?.ChangeView(null, 0, null, true);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
 			if (SelectedItems?.Any() ?? false)
@@ -459,6 +463,8 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		override public void StartRenameItem()
 		{
 			StartRenameItem("ItemNameTextBox");
@@ -485,6 +491,8 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
 		protected override void EndRename(TextBox textBox)
 		{
 			if (textBox is not null && textBox.FindParent<Grid>() is FrameworkElement parent)
@@ -517,6 +525,9 @@ namespace Files.App.Views.Layouts
 			listViewItem?.Focus(FocusState.Programmatic);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		[DynamicWindowsRuntimeCast(typeof(HyperlinkButton))]
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (ParentShellPageInstance is null || IsRenamingItem)
@@ -605,6 +616,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		protected override bool CanGetItemFromElement(object element)
 			=> element is ListViewItem;
 
@@ -638,6 +650,11 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
+		[DynamicWindowsRuntimeCast(typeof(Rectangle))]
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
 		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
 		{
 			var clickedItem = e.OriginalSource as FrameworkElement;
@@ -721,6 +738,8 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		[DynamicWindowsRuntimeCast(typeof(ListView))]
 		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
@@ -742,6 +761,8 @@ namespace Files.App.Views.Layouts
 			ResetRenameDoubleClick();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(StackPanel))]
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		private void StackPanel_Loaded(object sender, RoutedEventArgs e)
 		{
 			// This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
@@ -816,6 +837,7 @@ namespace Files.App.Views.Layouts
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
 		private void GridSplitter_Loaded(object sender, RoutedEventArgs e)
 		{
 			(sender as UIElement)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
@@ -849,7 +871,7 @@ namespace Files.App.Views.Layouts
 				return;
 
 			// Scale to whatever DetailsLayoutColumnItem properties exist on ColumnsViewModel so new columns don't need a code change here.
-			int totalColumnCount = ColumnsViewModel.GetType().GetProperties().Count(prop => prop.PropertyType == typeof(DetailsLayoutColumnItem));
+			int totalColumnCount = typeof(ColumnsViewModel).GetProperties().Count(prop => prop.PropertyType == typeof(DetailsLayoutColumnItem));
 			for (int columnIndex = 1; columnIndex <= totalColumnCount; columnIndex++)
 				ResizeColumnToFit(columnIndex);
 		}
@@ -1062,12 +1084,14 @@ namespace Files.App.Views.Layouts
 			LayoutPreferencesManager.SetDefaultLayoutPreferences(ColumnsViewModel);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
 		{
 			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && !FileList.SelectedItems.Contains(item))
 				FileList.SelectedItems.Add(item);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
 		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
 		{
 			if (sender is not CheckBox checkBox)
@@ -1084,6 +1108,8 @@ namespace Files.App.Views.Layouts
 			FileList.Focus(FocusState.Programmatic);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
 			var selectionCheckbox = (CheckBox)args.ItemContainer.FindDescendant("SelectionCheckbox")!;
@@ -1105,6 +1131,8 @@ namespace Files.App.Views.Layouts
 			selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
 		private void SetCheckboxSelectionState(object item, ListViewItem? lviContainer = null)
 		{
 			var container = lviContainer ?? FileList.ContainerFromItem(item) as ListViewItem;
@@ -1126,6 +1154,8 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
+		[DynamicWindowsRuntimeCast(typeof(StackPanel))]
 		private void TagItem_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			var tagName = ((sender as StackPanel)?.Children[TAG_TEXT_BLOCK] as TextBlock)?.Text;
@@ -1135,16 +1165,21 @@ namespace Files.App.Views.Layouts
 			ParentShellPageInstance?.SubmitSearch(FolderSearch.FormatTagQuery(tagName));
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UserControl))]
 		private void FileTag_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			VisualStateManager.GoToState((UserControl)sender, "PointerOver", true);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UserControl))]
 		private void FileTag_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
 			VisualStateManager.GoToState((UserControl)sender, "Normal", true);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(StackPanel))]
+		[DynamicWindowsRuntimeCast(typeof(FontIcon))]
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
 		private async void RemoveTagIcon_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			var parent = (sender as FontIcon)?.Parent as StackPanel;
@@ -1160,7 +1195,7 @@ namespace Files.App.Views.Layouts
 				var fileTags = item.FileTags
 					?? throw new InvalidOperationException("The selected item does not have initialized tags.");
 				item.FileTags = fileTags
-					.Except([tagId])
+					.Except((string[])[tagId])
 					.ToArray();
 
 				if (ParentShellPageInstance is not null)
@@ -1173,21 +1208,25 @@ namespace Files.App.Views.Layouts
 			e.Handled = true;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void SelectionCheckbox_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, true);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void SelectionCheckbox_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
 			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, false);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void SelectionCheckbox_PointerCanceled(object sender, PointerRoutedEventArgs e)
 		{
 			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, false);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		private void UpdateCheckboxVisibility(object sender, bool isPointerOver)
 		{
 			if (sender is ListViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
@@ -1209,6 +1248,7 @@ namespace Files.App.Views.Layouts
 			SetToolTip(sender);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
 		private void TextBlock_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs e)
 		{
 			if (sender is TextBlock textBlock)

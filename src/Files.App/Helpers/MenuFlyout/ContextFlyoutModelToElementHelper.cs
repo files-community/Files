@@ -5,6 +5,7 @@ using Files.App.UserControls.Menus;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using WinRT;
 namespace Files.App.Helpers.ContextFlyouts
 {
 	/// <summary>
@@ -12,6 +13,7 @@ namespace Files.App.Helpers.ContextFlyouts
 	/// </summary>
 	public static class ContextFlyoutModelToElementHelper
 	{
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSubItem))]
 		public static List<MenuFlyoutItemBase>? GetMenuFlyoutItemsFromModel(List<ContextMenuFlyoutItemViewModel>? items)
 		{
 			if (items is null)
@@ -49,6 +51,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			};
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
 		private static MenuFlyoutItemBase GetMenuFlyoutItem(ContextMenuFlyoutItemViewModel item)
 		{
 			if (item.Items is not null)
@@ -106,6 +109,8 @@ namespace Files.App.Helpers.ContextFlyouts
 			return GetItem(item);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
+		[DynamicWindowsRuntimeCast(typeof(FontFamily))]
 		private static MenuFlyoutItemBase GetItem(ContextMenuFlyoutItemViewModel i)
 		{
 			if (i.BitmapIcon is not null)

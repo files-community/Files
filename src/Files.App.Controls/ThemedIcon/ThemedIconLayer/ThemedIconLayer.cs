@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -34,6 +35,7 @@ namespace Files.App.Controls
 			UpdateIconLayerState();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Canvas))]
 		private void LayerPathDataChanged(string pathData)
 		{
 			if (GetTemplateChild(LayerCanvasPart) is not Canvas layerCanvas)
@@ -101,6 +103,9 @@ namespace Files.App.Controls
 					true);
 			}
 		}
+
+		[DynamicWindowsRuntimeCast(typeof(Geometry))]
+		[DynamicWindowsRuntimeCast(typeof(Path))]
 		private void SetPathData(string pathData, FrameworkElement element)
 		{
 			// Code to take the PathData string, and convert it to an actual path

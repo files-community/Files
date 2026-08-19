@@ -12,6 +12,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Storage;
 using Windows.System;
+using WinRT;
 
 namespace Files.App.ViewModels.Layouts
 {
@@ -54,6 +55,7 @@ namespace Files.App.ViewModels.Layouts
 			_ = UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.File, f, _associatedInstance);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private async Task ItemPointerPressedAsync(PointerRoutedEventArgs? e)
 		{
 			if (e is null)
@@ -219,6 +221,7 @@ namespace Files.App.ViewModels.Layouts
 			deferral.Complete();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
 		public async Task DropAsync(DragEventArgs? e)
 		{
 			if (e is null)

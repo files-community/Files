@@ -8,6 +8,7 @@ using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
+using WinRT;
 using IO = System.IO;
 
 namespace Files.App.Utils.Storage
@@ -201,10 +202,18 @@ namespace Files.App.Utils.Storage
 			private readonly IStorageItemExtraProperties basicProps;
 			private readonly DateTimeOffset? dateCreated;
 
-			public override ulong Size => (basicProps as BasicProperties)?.Size ?? 0;
+			public override ulong Size
+			{
+				[DynamicWindowsRuntimeCast(typeof(BasicProperties))]
+				get => (basicProps as BasicProperties)?.Size ?? 0;
+			}
 
 			public override DateTimeOffset DateCreated => dateCreated ?? DateTimeOffset.Now;
-			public override DateTimeOffset DateModified => (basicProps as BasicProperties)?.DateModified ?? DateTimeOffset.Now;
+			public override DateTimeOffset DateModified
+			{
+				[DynamicWindowsRuntimeCast(typeof(BasicProperties))]
+				get => (basicProps as BasicProperties)?.DateModified ?? DateTimeOffset.Now;
+			}
 
 			public SystemFileBasicProperties(IStorageItemExtraProperties basicProps, DateTimeOffset dateCreated)
 			{

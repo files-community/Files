@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Input;
 using Windows.Foundation;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -48,6 +49,7 @@ namespace Files.App.Controls
 
 		// Methods
 
+		[DynamicWindowsRuntimeCast(typeof(ItemsRepeater))]
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();

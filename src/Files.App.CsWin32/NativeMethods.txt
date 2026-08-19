@@ -371,6 +371,7 @@ SHCreateDataObject
 SHGetDesktopFolder
 IDataObjectProvider
 FILEGROUPDESCRIPTORW
+DROPFILES
 DragQueryFileW
 PROPVARIANT
 PropVariantClear
@@ -385,6 +386,9 @@ COPYENGINE_S_DONT_PROCESS_CHILDREN
 CMINVOKECOMMANDINFOEX
 GCS_VERBW
 OleGetClipboard
+OleSetClipboard
+OleFlushClipboard
+GlobalAlloc
 GlobalSize
 OpenFileById
 FILE_ID_DESCRIPTOR

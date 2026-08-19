@@ -106,7 +106,7 @@ namespace Files.App.Utils.Shell
 			instance = null;
 		}
 
-		internal sealed unsafe class ShellWindow : IDisposable
+		internal sealed unsafe partial class ShellWindow : IDisposable
 		{
 			private void* window;
 

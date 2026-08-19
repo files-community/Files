@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Storage.Streams;
+using WinRT;
 
 namespace Files.App.UserControls
 {
@@ -50,6 +51,7 @@ namespace Files.App.UserControls
 
 		private BitmapImage? FileIconImageSource
 		{
+			[DynamicWindowsRuntimeCast(typeof(BitmapImage))]
 			get => GetValue(FileIconImageSourceProperty) as BitmapImage;
 			set => SetValue(FileIconImageSourceProperty, value);
 		}

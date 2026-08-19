@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
+using WinRT;
 
 namespace Files.App.Helpers
 {
@@ -23,6 +24,11 @@ namespace Files.App.Helpers
 		/// Used to gate code that programmatically reassigns focus on a background-completion
 		/// callback (e.g. folder-load done), so the user's typing isn't yanked away.
 		/// </summary>
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
+		[DynamicWindowsRuntimeCast(typeof(RichEditBox))]
+		[DynamicWindowsRuntimeCast(typeof(PasswordBox))]
+		[DynamicWindowsRuntimeCast(typeof(AutoSuggestBox))]
+		[DynamicWindowsRuntimeCast(typeof(Frame))]
 		public static bool IsTextInputFocused(XamlRoot? xamlRoot)
 		{
 			if (xamlRoot is null)
@@ -108,6 +114,7 @@ namespace Files.App.Helpers
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ContentDialog))]
 		public static async Task<DialogResult> TryShowAsync<TViewModel>(this IDialog<TViewModel> dialog)
 			where TViewModel : class, INotifyPropertyChanged
 		{
@@ -124,6 +131,7 @@ namespace Files.App.Helpers
 			return contentDialog;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ContentDialog))]
 		public static void CloseAllDialogs()
 		{
 			if (MainWindow.Instance?.Content?.XamlRoot == null)

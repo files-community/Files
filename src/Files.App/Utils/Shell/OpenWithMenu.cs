@@ -14,7 +14,7 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Utils.Shell
 {
-	internal sealed class OpenWithMenu : IDisposable
+	internal sealed partial class OpenWithMenu : IDisposable
 	{
 		private static readonly ImageConverter IconConverter = new();
 

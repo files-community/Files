@@ -58,7 +58,7 @@ namespace Files.App.Actions
 				shellPage.NavigateWithArguments(shellPage.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
 				{
 					NavPathParam = folderPath,
-					SelectItems = [Path.GetFileName(item.TargetPath.TrimPath())!],
+					SelectItems = (string[])[Path.GetFileName(item.TargetPath.TrimPath())!],
 					AssociatedTabInstance = shellPage
 				});
 			}
