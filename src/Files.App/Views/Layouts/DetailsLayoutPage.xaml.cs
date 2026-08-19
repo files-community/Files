@@ -23,6 +23,7 @@ namespace Files.App.Views.Layouts
 	/// <summary>
 	/// Represents the browser page of Details View
 	/// </summary>
+	[WinRT.GeneratedBindableCustomProperty([nameof(RowHeight), nameof(ColumnsViewModel), nameof(MaxWidthForRenameTextbox)], [])]
 	public sealed partial class DetailsLayoutPage : BaseGroupableLayoutPage
 	{
 		// Constants
@@ -1160,7 +1161,7 @@ namespace Files.App.Views.Layouts
 				var fileTags = item.FileTags
 					?? throw new InvalidOperationException("The selected item does not have initialized tags.");
 				item.FileTags = fileTags
-					.Except([tagId])
+					.Except((string[])[tagId])
 					.ToArray();
 
 				if (ParentShellPageInstance is not null)

@@ -22,8 +22,7 @@ internal sealed class ExtractCommandGroup : CommandGroup
 	public override ActionCategory Category
 		=> ActionCategory.Archive;
 
-	public override IReadOnlyList<CommandCodes> Commands =>
-	[
+	public override IReadOnlyList<CommandCodes> Commands => (CommandCodes[])[
 		CommandCodes.DecompressArchive,
 		CommandCodes.DecompressArchiveHereSmart,
 		CommandCodes.DecompressArchiveHere,
@@ -50,8 +49,7 @@ internal sealed class SetAsCommandGroup : CommandGroup
 	public override ActionCategory Category
 		=> ActionCategory.Image;
 
-	public override IReadOnlyList<CommandCodes> Commands =>
-	[
+	public override IReadOnlyList<CommandCodes> Commands => (CommandCodes[])[
 		CommandCodes.SetAsWallpaperBackground,
 		CommandCodes.SetAsLockscreenBackground,
 		CommandCodes.SetAsAppBackground,
@@ -81,8 +79,7 @@ internal sealed class NewItemCommandGroup : CommandGroup
 	public override string AutomationId
 		=> "InnerNavigationToolbarNewButton";
 
-	public override IReadOnlyList<CommandCodes> Commands =>
-	[
+	public override IReadOnlyList<CommandCodes> Commands => (CommandCodes[])[
 		CommandCodes.CreateFolder,
 		CommandCodes.CreateFile,
 		CommandCodes.CreateShortcutFromDialog,
@@ -108,8 +105,7 @@ internal sealed class OpenWithCommandGroup : CommandGroup
 	public override ActionCategory Category
 		=> ActionCategory.Open;
 
-	public override IReadOnlyList<CommandCodes> Commands =>
-	[
+	public override IReadOnlyList<CommandCodes> Commands => (CommandCodes[])[
 		CommandCodes.OpenItemWithApplicationPicker,
 	];
 }

@@ -19,6 +19,22 @@ namespace Files.App.Views.Layouts
 	/// <summary>
 	/// Represents the browser page of Grid View
 	/// </summary>
+	[WinRT.GeneratedBindableCustomProperty(
+		[
+			nameof(ItemWidthGridView),
+			nameof(RowHeightListView),
+			nameof(IconBoxSizeListView),
+			nameof(CardsViewOrientation),
+			nameof(CardsViewIconBoxWidth),
+			nameof(CardsViewIconBoxHeight),
+			nameof(CardsViewIconSize),
+			nameof(CardsViewDetailsBoxWidth),
+			nameof(CardsViewDetailsBoxHeight),
+			nameof(CardsViewItemNameMaxLines),
+			nameof(CardsViewShowContextualProperty),
+			nameof(InstanceViewModel),
+		],
+		[])]
 	public sealed partial class GridLayoutPage : BaseGroupableLayoutPage
 	{
 		// Fields

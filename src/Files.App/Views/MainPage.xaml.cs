@@ -72,6 +72,13 @@ namespace Files.App.Views
 			ApplySidebarWidthState();
 		}
 
+		private void NumberedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs e)
+		{
+			var command = ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand;
+			if (command.CanExecute(e))
+				command.Execute(e);
+		}
+
 		private async Task AppRunningAsAdminPromptAsync()
 		{
 			var runningAsAdminPrompt = new ContentDialog

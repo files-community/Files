@@ -25,6 +25,12 @@ namespace Files.App.Views.Properties
 			_updateDateDisplayTimer.Start();
 		}
 
+		private void EditAlbumCoverButton_PointerEntered(object sender, PointerRoutedEventArgs e)
+			=> ((UIElement)sender).Opacity = 1;
+
+		private void EditAlbumCoverButton_PointerExited(object sender, PointerRoutedEventArgs e)
+			=> ((UIElement)sender).Opacity = 0;
+
 		private void ItemFileName_GettingFocus(UIElement _, GettingFocusEventArgs e)
 		{
 			ItemFileName.Text = RegexHelpers.DriveLetter().Replace(ItemFileName.Text, string.Empty);

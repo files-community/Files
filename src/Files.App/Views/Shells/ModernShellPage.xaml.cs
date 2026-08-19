@@ -135,7 +135,7 @@ namespace Files.App.Views.Shells
 					new NavigationArguments()
 					{
 						NavPathParam = navParams.NavPath,
-						SelectItems = !string.IsNullOrWhiteSpace(navParams.SelectItem) ? [navParams.SelectItem] : null,
+						SelectItems = !string.IsNullOrWhiteSpace(navParams.SelectItem) ? (string[])[navParams.SelectItem] : null,
 						IsSearchResultPage = isTagSearch,
 						SearchPathParam = isTagSearch ? "Home" : null,
 						SearchQuery = isTagSearch ? navParams.NavPath : null,

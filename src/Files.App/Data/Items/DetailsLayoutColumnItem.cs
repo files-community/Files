@@ -8,6 +8,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents item for a column shown in <see cref="DetailsLayoutPage"/>.
 	/// </summary>
+	[WinRT.GeneratedBindableCustomProperty([nameof(Length), nameof(LengthIncludingGridSplitter), nameof(Visibility)], [])]
 	public sealed partial class DetailsLayoutColumnItem : ObservableObject
 	{
 		private const int GRID_SPLITTER_WIDTH = 12;

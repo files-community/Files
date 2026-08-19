@@ -382,13 +382,25 @@ namespace Files.App.Dialogs
 
 			private static string ToSizeText(ulong megaBytes) => ByteSize.FromMebiBytes(megaBytes).ShortString;
 
-			public record FileFormatItem(ArchiveFormats Key, string Label);
+			public record FileFormatItem(ArchiveFormats Key, string Label)
+			{
+				public override string ToString() => Label;
+			}
 
-			public record CompressionLevelItem(ArchiveCompressionLevels Key, string Label);
+			public record CompressionLevelItem(ArchiveCompressionLevels Key, string Label)
+			{
+				public override string ToString() => Label;
+			}
 
-			public record DictionarySizeItem(ArchiveDictionarySizes Key, string Label);
+			public record DictionarySizeItem(ArchiveDictionarySizes Key, string Label)
+			{
+				public override string ToString() => Label;
+			}
 
-			public record WordSizeItem(ArchiveWordSizes Key, string Label);
+			public record WordSizeItem(ArchiveWordSizes Key, string Label)
+			{
+				public override string ToString() => Label;
+			}
 		}
 	}
 

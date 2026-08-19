@@ -18,12 +18,17 @@ namespace Files.App.ViewModels.Settings
 		private bool isSessionActive;
 		private int searchGeneration;
 
-		public ObservableCollection<KeyValuePair<string, string>> ToolbarContexts { get; } = [];
+		public ObservableCollection<ToolbarContextItem> ToolbarContexts { get; } = [];
 		public ObservableCollection<ToolbarAvailableTreeItem> AvailableToolbarTreeItems { get; } = [];
 		public ObservableCollection<ToolbarItemDescriptor> ToolbarItems => GetOrCreateItems(ResolveContextId());
 		public ObservableCollection<ToolbarItemDescriptor> AlwaysVisibleToolbarItems => GetOrCreateItems(ToolbarDefaultsTemplate.AlwaysVisibleContextId);
 		public string SelectedToolbarContextName => ToolbarItemDescriptor.GetContextDisplayName(ResolveContextId());
 		public bool IsSelectedContextAlwaysVisible => ResolveContextId() == ToolbarDefaultsTemplate.AlwaysVisibleContextId;
+		public ToolbarContextItem? SelectedToolbarContext
+		{
+			get => ToolbarContexts.FirstOrDefault(context => context.Key == SelectedToolbarContextId);
+			set => SelectedToolbarContextId = value?.Key;
+		}
 
 		[ObservableProperty] public partial string? SelectedToolbarContextId { get; set; }
 		[ObservableProperty] public partial bool HasToolbarChanges { get; set; }
@@ -64,7 +69,11 @@ namespace Files.App.ViewModels.Settings
 			HasToolbarChanges = false;
 		}
 
-		partial void OnSelectedToolbarContextIdChanged(string? value) => RefreshAvailableAndNotify(notifyPreview: true);
+		partial void OnSelectedToolbarContextIdChanged(string? value)
+		{
+			OnPropertyChanged(nameof(SelectedToolbarContext));
+			RefreshAvailableAndNotify(notifyPreview: true);
+		}
 
 		partial void OnSearchQueryChanged(string value) => _ = DebouncedRefreshAsync(++searchGeneration);
 
@@ -213,5 +222,17 @@ namespace Files.App.ViewModels.Settings
 		private string ResolveContextId()
 			=> ToolbarDefaultsTemplate.NormalizeContextId(SelectedToolbarContextId,
 				nullFallback: ToolbarDefaultsTemplate.AlwaysVisibleContextId);
+	}
+
+	public sealed class ToolbarContextItem
+	{
+		public string Key { get; }
+		public string Value { get; }
+
+		public ToolbarContextItem(string key, string value)
+		{
+			Key = key;
+			Value = value;
+		}
 	}
 }

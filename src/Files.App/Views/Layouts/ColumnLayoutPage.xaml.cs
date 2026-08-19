@@ -20,6 +20,7 @@ namespace Files.App.Views.Layouts
 	/// <summary>
 	/// Represents the base page of Column View
 	/// </summary>
+	[WinRT.GeneratedBindableCustomProperty([nameof(RowHeight), nameof(IconBoxSize)], [])]
 	public sealed partial class ColumnLayoutPage : BaseGroupableLayoutPage
 	{
 		// Fields

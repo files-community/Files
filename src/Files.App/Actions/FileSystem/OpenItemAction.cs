@@ -145,7 +145,7 @@ namespace Files.App.Actions
 			context.ShellPage.NavigateWithArguments(context.ShellPage.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
 			{
 				NavPathParam = folderPath,
-				SelectItems = [item.ItemNameRaw!],
+				SelectItems = (string[])[item.ItemNameRaw!],
 				AssociatedTabInstance = context.ShellPage
 			});
 		}

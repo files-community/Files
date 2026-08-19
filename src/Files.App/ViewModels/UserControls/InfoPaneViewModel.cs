@@ -567,7 +567,7 @@ namespace Files.App.ViewModels.UserControls
 				Items.Clear();
 				var selectedItem = SelectedItem;
 				selectedItem?.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
-				IEnumerable<ListedItem> selectedItems = selectedItem is null ? [] : [selectedItem];
+				ListedItem[] selectedItems = selectedItem is null ? [] : [selectedItem];
 
 				// Create menu once and reuse it for subsequent selections
 				if (cachedTagsContextMenu is null)

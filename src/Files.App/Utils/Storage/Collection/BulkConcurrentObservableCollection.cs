@@ -238,7 +238,7 @@ namespace Files.App.Utils.Storage
 			if (oldGroup.Count == 0)
 				GroupedCollection?.Remove(oldGroup);
 
-			AddItemsToGroup([item]);
+			AddItemsToGroup((T[])[item]);
 
 			return true;
 		}

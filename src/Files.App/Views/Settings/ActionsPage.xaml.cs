@@ -27,6 +27,12 @@ namespace Files.App.Views.Settings
 			InitializeComponent();
 		}
 
+		private void ActionsPage_Loaded(object sender, RoutedEventArgs e)
+		{
+			if (ViewModel.LoadAllActionsCommand.CanExecute(e))
+				ViewModel.LoadAllActionsCommand.Execute(e);
+		}
+
 		private void RootGrid_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			VisualStateManager.GoToState((UserControl)sender, PointerOverState, true);

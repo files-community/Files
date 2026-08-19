@@ -324,6 +324,20 @@ namespace Files.App.Views.Layouts
 			StatusBarViewModel = new StatusBarViewModel();
 		}
 
+		protected void LayoutPage_PointerPressed(object sender, PointerRoutedEventArgs e)
+		{
+			var command = CommandsViewModel?.ItemPointerPressedCommand;
+			if (command?.CanExecute(e) is true)
+				command.Execute(e);
+		}
+
+		protected void LayoutPage_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
+		{
+			var command = CommandsViewModel?.PointerWheelChangedCommand;
+			if (command?.CanExecute(e) is true)
+				command.Execute(e);
+		}
+
 		// Abstract methods
 
 		protected abstract void HookEvents();

@@ -28,6 +28,12 @@ namespace Files.App.Views
 			InitializeComponent();
 		}
 
+		private void HomePage_Loaded(object sender, RoutedEventArgs e)
+		{
+			if (ViewModel.ReloadWidgetsCommand.CanExecute(e))
+				ViewModel.ReloadWidgetsCommand.Execute(e);
+		}
+
 		// Methods
 
 		protected override async void OnNavigatedTo(NavigationEventArgs e)
