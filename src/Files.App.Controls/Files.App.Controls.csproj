@@ -15,6 +15,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Dialogs\PropertiesHeader\PropertiesHeader.xaml" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="CommunityToolkit.WinUI.Extensions" />
         <PackageReference Include="CommunityToolkit.Labs.WinUI.DependencyPropertyGenerator" />
         <PackageReference Include="Microsoft.WindowsAppSDK" />
@@ -35,6 +39,12 @@
     <ItemGroup>
       <Page Update="Dialogs\DialogResources.xaml">
         <SubType>Designer</SubType>
+      </Page>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Page Update="Dialogs\PropertiesHeader\PropertiesHeader.xaml">
+        <Generator>MSBuild:Compile</Generator>
       </Page>
     </ItemGroup>
 

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <Page
 	x:Class="Files.App.UITests.Dialogs.Properties.Views.PropertiesGeneralPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -6,6 +5,8 @@
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:controls="using:Microsoft.UI.Xaml.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dcontrols="using:Files.App.Controls.Dialogs"
+	xmlns:dialogs="using:Files.App.UITests.Dialogs"
 	xmlns:fcontrols="using:Files.App.Controls"
 	xmlns:local="using:Files.App.UITests.Dialogs.Properties.Views"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -50,7 +51,11 @@
 				Orientation="Vertical">
 				<Expander Style="{StaticResource PropertiesExpanderStyle}">
 					<Expander.Header>
-						<TextBlock Text="Header goes here" />
+						<dcontrols:PropertiesHeader Text="Header text goes here">
+							<dcontrols:PropertiesHeader.Icon>
+								<SymbolIcon Symbol="AddFriend" />
+							</dcontrols:PropertiesHeader.Icon>
+						</dcontrols:PropertiesHeader>
 					</Expander.Header>
 
 					<Expander.Content>
@@ -70,13 +75,44 @@
 
 				<Expander Style="{StaticResource PropertiesExpanderStyle}">
 					<Expander.Header>
-						<TextBlock Text="Again header goes here" />
+						<dcontrols:PropertiesHeader Text="Header text goes here, made extra long to ensure wrapping and arranging within the header works as expected">
+							<dcontrols:PropertiesHeader.Icon>
+								<SymbolIcon Symbol="Comment" />
+							</dcontrols:PropertiesHeader.Icon>
+						</dcontrols:PropertiesHeader>
 					</Expander.Header>
 
 					<Expander.Content>
 						<StackPanel
 							HorizontalAlignment="Stretch"
 							Background="#1100FF00"
+							Orientation="Vertical">
+							<TextBlock Height="48" Text="Item 1 in the stack" />
+							<MenuFlyoutSeparator />
+							<TextBlock Height="48" Text="Item 2 in the stack" />
+							<MenuFlyoutSeparator />
+							<TextBlock Height="48" Text="Item 3 in the stack" />
+						</StackPanel>
+					</Expander.Content>
+				</Expander>
+
+
+
+
+
+				<Expander Style="{StaticResource PropertiesExpanderStyle}">
+					<Expander.Header>
+						<dcontrols:PropertiesHeader Text="Header text goes here">
+							<dcontrols:PropertiesHeader.Icon>
+								<SymbolIcon Symbol="SlideShow" />
+							</dcontrols:PropertiesHeader.Icon>
+						</dcontrols:PropertiesHeader>
+					</Expander.Header>
+
+					<Expander.Content>
+						<StackPanel
+							HorizontalAlignment="Stretch"
+							Background="#110000FF"
 							Orientation="Vertical">
 							<TextBlock Height="48" Text="Item 1 in the stack" />
 							<MenuFlyoutSeparator />
