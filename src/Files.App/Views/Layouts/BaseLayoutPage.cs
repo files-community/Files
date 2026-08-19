@@ -1014,12 +1014,11 @@ namespace Files.App.Views.Layouts
 				{
 					if (shellItemList?[0].FileSystemPath is not null && !instanceViewModel.IsPageTypeSearchResults)
 					{
-						var format = System.Windows.Forms.DataFormats.GetFormat("Shell IDList Array");
 						var dataObject = ShellDataObject.Create(shellItemList);
 						if (ShellDataObject.GetShellIdListArray(dataObject) is byte[] data)
 						{
 							var stream = new MemoryStream(data).AsRandomAccessStream();
-							e.Data.SetData(format.Name, stream);
+							e.Data.SetData(ShellDataObject.ShellIdListArrayFormat, stream);
 						}
 					}
 					else

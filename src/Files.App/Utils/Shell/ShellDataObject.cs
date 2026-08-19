@@ -18,7 +18,11 @@ namespace Files.App.Utils.Shell
 	/// </summary>
 	public static unsafe class ShellDataObject
 	{
-		private const string ShellIdListArrayFormat = "Shell IDList Array";
+		private const ushort CfHDrop = 15;
+		private const int ClipboardRetryCount = 10;
+		private const int ClipboardRetryDelay = 100;
+		internal const string ShellIdListArrayFormat = "Shell IDList Array";
+		private const string PreferredDropEffectFormat = "Preferred DropEffect";
 		private const string FileGroupDescriptorFormat = "FileGroupDescriptorW";
 		private const string FileContentsFormat = "FileContents";
 
@@ -67,6 +71,27 @@ namespace Files.App.Utils.Shell
 				NativeMemory.Free(dataObjectPidls);
 				NativeMemory.Free(itemPidls);
 				PInvoke.CoTaskMemFree(parentPidl);
+			}
+		}
+
+		/// <summary>Places file system paths on the clipboard with the specified preferred drop effect.</summary>
+		public static void SetClipboard(IReadOnlyList<string> paths, uint preferredDropEffect)
+		{
+			var items = new List<ShellItem>(paths.Count);
+			try
+			{
+				foreach (string path in paths)
+					items.Add(new(path));
+
+				IDataObject dataObject = Create(items);
+				SetFileDropList(dataObject, paths);
+				SetData(dataObject, PreferredDropEffectFormat, preferredDropEffect);
+				SetClipboard(dataObject);
+			}
+			finally
+			{
+				foreach (ShellItem item in items)
+					item.Dispose();
 			}
 		}
 
@@ -206,6 +231,122 @@ namespace Files.App.Utils.Shell
 			PInvoke.ReleaseStgMedium(ref medium);
 			medium = default;
 			return false;
+		}
+
+		private static void SetData(IDataObject dataObject, string formatName, uint value)
+		{
+			HGLOBAL data = PInvoke.GlobalAlloc(GLOBAL_ALLOC_FLAGS.GMEM_MOVEABLE, sizeof(uint));
+			if (data.IsNull)
+				throw new OutOfMemoryException();
+
+			bool transferred = false;
+			try
+			{
+				uint* dataPointer = (uint*)PInvoke.GlobalLock(data);
+				if (dataPointer is null)
+					throw new OutOfMemoryException();
+				try
+				{
+					*dataPointer = value;
+				}
+				finally
+				{
+					PInvoke.GlobalUnlock(data);
+				}
+
+				SetData(dataObject, checked((ushort)PInvoke.RegisterClipboardFormat(formatName)), data);
+				transferred = true;
+			}
+			finally
+			{
+				if (!transferred)
+					PInvoke.GlobalFree(data);
+			}
+		}
+
+		private static void SetFileDropList(IDataObject dataObject, IReadOnlyList<string> paths)
+		{
+			int characterCount = 1;
+			foreach (string path in paths)
+				characterCount = checked(characterCount + path.Length + 1);
+
+			nuint dataSize = checked((nuint)sizeof(DROPFILES) + (nuint)characterCount * sizeof(char));
+			HGLOBAL data = PInvoke.GlobalAlloc(GLOBAL_ALLOC_FLAGS.GMEM_MOVEABLE, dataSize);
+			if (data.IsNull)
+				throw new OutOfMemoryException();
+
+			bool transferred = false;
+			try
+			{
+				DROPFILES* dropFiles = (DROPFILES*)PInvoke.GlobalLock(data);
+				if (dropFiles is null)
+					throw new OutOfMemoryException();
+				try
+				{
+					*dropFiles = new()
+					{
+						pFiles = (uint)sizeof(DROPFILES),
+						fWide = true,
+					};
+					char* destination = (char*)((byte*)dropFiles + dropFiles->pFiles);
+					foreach (string path in paths)
+					{
+						path.AsSpan().CopyTo(new Span<char>(destination, path.Length));
+						destination += path.Length;
+						*destination++ = '\0';
+					}
+					*destination = '\0';
+				}
+				finally
+				{
+					PInvoke.GlobalUnlock(data);
+				}
+
+				SetData(dataObject, CfHDrop, data);
+				transferred = true;
+			}
+			finally
+			{
+				if (!transferred)
+					PInvoke.GlobalFree(data);
+			}
+		}
+
+		private static void SetData(IDataObject dataObject, ushort formatId, HGLOBAL data)
+		{
+			FORMATETC format = new()
+			{
+				cfFormat = formatId,
+				dwAspect = (uint)DVASPECT.DVASPECT_CONTENT,
+				lindex = -1,
+				tymed = (uint)TYMED.TYMED_HGLOBAL,
+			};
+			STGMEDIUM medium = new()
+			{
+				tymed = TYMED.TYMED_HGLOBAL,
+				u = new() { hGlobal = data },
+			};
+			dataObject.SetData(format, medium, true).ThrowOnFailure();
+		}
+
+		private static void SetClipboard(IDataObject dataObject)
+		{
+			HRESULT result = default;
+			for (int attempt = 0; attempt < ClipboardRetryCount; attempt++)
+			{
+				result = PInvoke.OleSetClipboard(dataObject);
+				if (result.Succeeded)
+				{
+					result = PInvoke.OleFlushClipboard();
+					if (result.Succeeded)
+						return;
+				}
+
+				if (attempt + 1 < ClipboardRetryCount)
+					Thread.Sleep(ClipboardRetryDelay);
+			}
+
+			result.ThrowOnFailure();
 		}
 	}
 }

@@ -28,15 +28,10 @@ namespace Files.App.Utils.Storage
 		{
 			return STATask.Run(() =>
 			{
-				System.Windows.Forms.Clipboard.Clear();
-				var fileList = new System.Collections.Specialized.StringCollection();
-				fileList.AddRange(filesToCopy);
-				MemoryStream dropEffect = new MemoryStream(operation == DataPackageOperation.Copy ?
-					[5, 0, 0, 0] : [2, 0, 0, 0]);
-				var data = new System.Windows.Forms.DataObject();
-				data.SetFileDropList(fileList);
-				data.SetData("Preferred DropEffect", dropEffect);
-				System.Windows.Forms.Clipboard.SetDataObject(data, true);
+				uint preferredDropEffect = (uint)(operation == DataPackageOperation.Copy
+					? DataPackageOperation.Copy | DataPackageOperation.Link
+					: DataPackageOperation.Move);
+				ShellDataObject.SetClipboard(filesToCopy, preferredDropEffect);
 			}, App.Logger);
 		}
 

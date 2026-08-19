@@ -70,10 +70,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="ByteSize" />
         <PackageReference Include="ColorCode.WinUI" />
         <PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock" />
@@ -103,6 +99,7 @@
         <PackageReference Include="SevenZipSharp" />
         <PackageReference Include="SharpZipLib" />
         <PackageReference Include="SQLitePCLRaw.bundle_green" />
+        <PackageReference Include="System.Drawing.Common" />
         <PackageReference Include="Microsoft.WindowsAppSDK" />
         <PackageReference Include="Microsoft.Graphics.Win2D" />
         <PackageReference Include="TagLibSharp" />
