@@ -337,12 +337,15 @@ namespace Files.App.Utils.Shell
 		private IPersistFile? persistFile;
 		private string? persistedPath;
 
-		public ShellLink(string linkPath, SLR_FLAGS resolution = SLR_FLAGS.SLR_NO_UI, HWND window = default, TimeSpan timeout = default) : base(linkPath)
+		public ShellLink(string linkPath, SLR_FLAGS resolution = SLR_FLAGS.SLR_NO_UI, HWND window = default, TimeSpan timeout = default, bool resolve = true) : base(linkPath)
 		{
 			link = Win32ShellLink.CreateInstance<IShellLinkW>();
 			persistFile = (IPersistFile)link;
 			persistFile.Load(linkPath, STGM.STGM_READ).ThrowOnFailure();
 			persistedPath = linkPath;
+
+			if (!resolve)
+				return;
 
 			uint resolveFlags = (uint)resolution;
 			if ((resolveFlags & (uint)SLR_FLAGS.SLR_NO_UI) is not 0 && timeout != default)
@@ -388,6 +391,21 @@ namespace Files.App.Utils.Shell
 
 				return string.Empty;
 			}
+		}
+
+		/// <summary>
+		/// Reads the target's directory attribute from the find data persisted inside the link file,
+		/// without opening the target. Returns <see langword="null"/> when the link stores no attributes.
+		/// </summary>
+		internal bool? StoredTargetIsFolder()
+		{
+			Span<char> path = stackalloc char[32768];
+			path.Clear();
+			WIN32_FIND_DATAW data = default;
+			if (Link.GetPath(path, ref data, (uint)SLGP_FLAGS.SLGP_RAWPATH).Succeeded && data.dwFileAttributes is not 0)
+				return (data.dwFileAttributes & (uint)FileAttributes.Directory) is not 0;
+
+			return null;
 		}
 
 		internal bool IsTargetFolder(string expandedTargetPath)

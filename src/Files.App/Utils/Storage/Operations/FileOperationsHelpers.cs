@@ -703,7 +703,12 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		public static async Task<ShellLinkItem?> ParseLinkAsync(string linkPath)
+		/// <param name="resolveTarget">
+		/// Whether to run the shell's link resolution (which may search for moved targets and touch the
+		/// network). Pass <see langword="false"/> when only the data stored in the link file is needed,
+		/// e.g. for listing items.
+		/// </param>
+		public static async Task<ShellLinkItem?> ParseLinkAsync(string linkPath, bool resolveTarget = true)
 		{
 			if (string.IsNullOrEmpty(linkPath))
 				return null;
@@ -714,7 +719,9 @@ namespace Files.App.Utils.Storage
 			{
 				if (FileExtensionHelpers.IsShortcutFile(linkPath))
 				{
-					using var link = new ShellLink(linkPath, SLR_FLAGS.SLR_NO_UI_WITH_MSG_PUMP, timeout: TimeSpan.FromMilliseconds(100));
+					using var link = resolveTarget
+						? new ShellLink(linkPath, SLR_FLAGS.SLR_NO_UI_WITH_MSG_PUMP, timeout: TimeSpan.FromMilliseconds(100))
+						: new ShellLink(linkPath, resolve: false);
 					targetPath = link.TargetPath;
 					return ShellFolderExtensions.GetShellLinkItem(link);
 				}
