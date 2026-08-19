@@ -36,6 +36,10 @@
     <PackageVersion Include="SharpZipLib" Version="1.4.2" />
     <PackageVersion Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="2.4.0" />
+    <PackageVersion Include="Microsoft.Windows.AI.MachineLearning" Version="2.1.74" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.AI" Version="2.4.4" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.ML" Version="2.1.74" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.Widgets" Version="2.0.5" />
     <PackageVersion Include="Microsoft.Graphics.Win2D" Version="1.4.0" />
     <PackageVersion Include="TagLibSharp" Version="2.3.0" />
     <PackageVersion Include="UTF.Unknown" Version="2.6.0" />

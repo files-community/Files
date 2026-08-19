@@ -107,9 +107,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Update="Microsoft.WindowsAppSDK.AI" ExcludeAssets="all" />
-        <PackageReference Update="Microsoft.WindowsAppSDK.ML" ExcludeAssets="all" />
-        <PackageReference Update="Microsoft.WindowsAppSDK.Widgets" ExcludeAssets="all" />
+        <PackageReference Include="Microsoft.WindowsAppSDK.AI" ExcludeAssets="all" />
+        <PackageReference Include="Microsoft.WindowsAppSDK.ML" ExcludeAssets="all" />
+        <PackageReference Include="Microsoft.Windows.AI.MachineLearning" ExcludeAssets="all" />
+        <PackageReference Include="Microsoft.WindowsAppSDK.Widgets" ExcludeAssets="all" />
     </ItemGroup>
 
     <ItemGroup>
