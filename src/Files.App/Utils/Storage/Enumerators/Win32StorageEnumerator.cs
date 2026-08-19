@@ -28,6 +28,10 @@ namespace Files.App.Utils.Storage
 		)
 		{
 			var sampler = new IntervalSampler(500);
+			// The first flush is time-based only: folders that enumerate faster than the
+			// interval get a single sorted apply, slow folders show content early.
+			var firstBatchSampler = new IntervalSampler(50);
+			var hasFlushedFirstBatch = false;
 			var tempList = new List<ListedItem>();
 			var count = 0;
 
@@ -38,7 +42,7 @@ namespace Files.App.Utils.Storage
 			bool showDotFiles = userSettingsService.FoldersSettingsService.ShowDotFiles;
 			bool areAlternateStreamsVisible = userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible;
 
-			var isGitRepo = GitHelpers.IsRepositoryEx(path, out var repoPath) && !string.IsNullOrEmpty((await GitHelpers.GetRepositoryHead(repoPath))?.Name);
+			var isGitRepo = GitHelpers.IsRepositoryEx(path, out var repoPath) && !string.IsNullOrEmpty(await GitHelpers.GetRepositoryHeadName(repoPath));
 
 			do
 			{
@@ -99,8 +103,12 @@ namespace Files.App.Utils.Storage
 				if (cancellationToken.IsCancellationRequested || count == countLimit)
 					break;
 
-				if (intermediateAction is not null && (count == 32 || sampler.CheckNow()))
+				if (intermediateAction is not null &&
+					(hasFlushedFirstBatch
+						? sampler.CheckNow()
+						: tempList.Count > 0 && firstBatchSampler.CheckNow()))
 				{
+					hasFlushedFirstBatch = true;
 					await intermediateAction(tempList);
 
 					// clear the temporary list every time we do an intermediate action
@@ -332,7 +340,9 @@ namespace Files.App.Utils.Storage
 			{
 				var isUrl = FileExtensionHelpers.IsWebLinkFile(findData.cFileName);
 
-				var shInfo = await FileOperationsHelpers.ParseLinkAsync(itemPath);
+				// Listing only needs the data stored in the link file; resolving the target
+				// can block on moved or unreachable targets and is done when the item is opened
+				var shInfo = await FileOperationsHelpers.ParseLinkAsync(itemPath, resolveTarget: false);
 				if (shInfo is null)
 					return null;
 

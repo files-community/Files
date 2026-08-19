@@ -139,15 +139,18 @@ internal sealed partial class LibGit2Service // : IVersionControl
 			try
 			{
 				using var repository = new Repository(path);
-				var branch = GetValidBranches(repository.Branches).FirstOrDefault(b => b.IsCurrentRepositoryHead);
-				if (branch is not null)
+				var branch = repository.Head;
+				if (branch?.Tip is not null)
+				{
+					var trackingDetails = TryGetTrackingDetails(branch);
 					head = new BranchItem(
 						branch.FriendlyName,
-						branch.IsCurrentRepositoryHead,
+						true,
 						branch.IsRemote,
-						TryGetTrackingDetails(branch)?.AheadBy ?? 0,
-						TryGetTrackingDetails(branch)?.BehindBy ?? 0
+						trackingDetails?.AheadBy ?? 0,
+						trackingDetails?.BehindBy ?? 0
 					);
+				}
 			}
 			catch
 			{
@@ -158,6 +161,27 @@ internal sealed partial class LibGit2Service // : IVersionControl
 		}, true);
 
 		return returnValue;
+	}
+
+	public Task<string?> GetRepositoryHeadName(string? path)
+	{
+		if (string.IsNullOrWhiteSpace(path))
+			return Task.FromResult<string?>(null);
+
+		return Task.Run(() =>
+		{
+			try
+			{
+				using var repository = new Repository(path);
+				var branch = repository.Head;
+				return branch?.Tip is null ? null : branch.FriendlyName;
+			}
+			// The repository may have been removed or corrupted after discovery returned its path
+			catch (LibGit2SharpException)
+			{
+				return null;
+			}
+		});
 	}
 
 	public async Task<bool> Checkout(string? repositoryPath, string? branch)
@@ -502,12 +526,10 @@ internal sealed partial class LibGit2Service // : IVersionControl
 	{
 		if (useSemaphore)
 			await GitOperationSemaphore.WaitAsync();
-		else
-			await Task.Yield();
 
 		try
 		{
-			return (T)payload();
+			return (T)await Task.Run(payload);
 		}
 		finally
 		{

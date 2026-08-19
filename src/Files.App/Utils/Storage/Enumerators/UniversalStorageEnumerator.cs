@@ -45,7 +45,8 @@ namespace Files.App.Utils.Storage
 				}
 				else if (firstRound)
 				{
-					maxItemsToRetrieve = 32;
+					// A small first fetch gets content on screen quickly; later rounds use full batches
+					maxItemsToRetrieve = 8;
 					firstRound = false;
 				}
 

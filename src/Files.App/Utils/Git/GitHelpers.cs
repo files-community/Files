@@ -31,6 +31,9 @@ namespace Files.App.Utils.Git
 		/// <inheritdoc cref="IVersionControlService.GetRepositoryHead(string?)"/>
 		public static Task<BranchItem?> GetRepositoryHead(string? path) => _implementation.GetRepositoryHead(path);
 
+		/// <inheritdoc cref="IVersionControlService.GetRepositoryHeadName(string?)"/>
+		public static Task<string?> GetRepositoryHeadName(string? path) => _implementation.GetRepositoryHeadName(path);
+
 		/// <inheritdoc cref="IVersionControlService.Checkout(string?, string?)"/>
 		public static Task<bool> Checkout(string? repositoryPath, string? branch) => _implementation.Checkout(repositoryPath, branch);
 
