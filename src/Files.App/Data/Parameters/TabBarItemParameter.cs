@@ -1,11 +1,12 @@
 ﻿// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
+using System.Text.Json.Nodes;
+
 namespace Files.App.Data.Parameters
 {
 	public sealed class TabBarItemParameter
 	{
-		private static readonly KnownTypesConverter _typesConverter = new();
 		private Type? _initialPageType;
 
 		public Type InitialPageType
@@ -18,28 +19,46 @@ namespace Files.App.Data.Parameters
 
 		public string Serialize()
 		{
-			return JsonSerializer.Serialize(this, _typesConverter.Options);
+			JsonNode? navigationParameter = NavigationParameter switch
+			{
+				PaneNavigationArguments paneArguments => JsonSerializer.SerializeToNode(paneArguments, AppJsonSerializerContext.Default.PaneNavigationArguments),
+				string path => path,
+				null => null,
+				_ => throw new JsonException($"Unsupported tab navigation parameter type: {NavigationParameter.GetType()}.")
+			};
+
+			return new JsonObject
+			{
+				[nameof(InitialPageType)] = InitialPageType.FullName ?? throw new JsonException("The initial page type does not have a full name."),
+				[nameof(NavigationParameter)] = navigationParameter,
+			}.ToJsonString();
 		}
 
 		public static TabBarItemParameter Deserialize(string obj)
 		{
-			var tempArgs = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(obj)
+			var data = JsonNode.Parse(obj)?.AsObject()
 				?? throw new JsonException("The tab data is empty.");
-			var typeName = tempArgs[nameof(InitialPageType)].GetString();
+			var typeName = data[nameof(InitialPageType)]?.GetValue<string>();
 			if (string.IsNullOrEmpty(typeName))
 				throw new JsonException("The initial page type is missing or invalid.");
 
 			// Restore navigation data from tabs whose original page type no longer exists.
-			var initialPageType = Type.GetType(typeName) ?? typeof(Files.App.Views.ShellPanesPage);
+			var initialPageType = typeName switch
+			{
+				var name when name == typeof(ShellPanesPage).FullName => typeof(ShellPanesPage),
+				var name when name == typeof(ModernShellPage).FullName => typeof(ModernShellPage),
+				var name when name == typeof(ColumnShellPage).FullName => typeof(ColumnShellPage),
+				_ => typeof(ShellPanesPage),
+			};
 
 			object? navigationParameter;
 			try
 			{
-				navigationParameter = JsonSerializer.Deserialize<PaneNavigationArguments>(tempArgs[nameof(NavigationParameter)].GetRawText());
+				navigationParameter = data[nameof(NavigationParameter)]?.Deserialize(AppJsonSerializerContext.Default.PaneNavigationArguments);
 			}
 			catch (JsonException)
 			{
-				navigationParameter = tempArgs[nameof(NavigationParameter)].GetString();
+				navigationParameter = data[nameof(NavigationParameter)]?.GetValue<string>();
 			}
 
 			return new TabBarItemParameter

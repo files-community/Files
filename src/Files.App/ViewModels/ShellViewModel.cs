@@ -43,7 +43,6 @@ namespace Files.App.ViewModels
 		private readonly AsyncManualResetEvent operationEvent;
 		private readonly AsyncManualResetEvent gitChangedEvent;
 		private readonly DispatcherQueue dispatcherQueue;
-		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 		private readonly string folderTypeTextLocalized = Strings.Folder.GetLocalizedResource();
 
 		private Task? aProcessQueueAction;

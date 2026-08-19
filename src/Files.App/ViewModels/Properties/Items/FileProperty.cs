@@ -87,6 +87,7 @@ namespace Files.App.ViewModels.Properties
 		/// Also serves as an alternative to the Converter property
 		/// Note: should only be used on read only properties
 		/// </summary>
+		[JsonIgnore]
 		public Func<object, string>? DisplayFunction { get; set; }
 
 		/// <summary>
@@ -97,6 +98,7 @@ namespace Files.App.ViewModels.Properties
 		/// <summary>
 		/// The converter used to convert the property to a string, and vice versa if needed
 		/// </summary>
+		[JsonIgnore]
 		public IValueConverter? Converter => GetConverter();
 
 		public bool IsReadOnly { get; set; } = true;
@@ -310,7 +312,7 @@ namespace Files.App.ViewModels.Properties
 				cachedPropertiesListFiles[path] = text;
 			}
 
-			List<FileProperty> list = JsonSerializer.Deserialize<List<FileProperty>>(text)
+			var list = JsonSerializer.Deserialize(text, AppJsonSerializerContext.Default.ListFileProperty)
 				?? throw new InvalidDataException($"The property definition file '{path}' does not contain a property list.");
 
 			var propsToGet = new List<string>();

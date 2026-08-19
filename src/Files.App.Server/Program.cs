@@ -16,6 +16,8 @@ class Program
 	private static readonly CancellationTokenSource cancellationTokenSource = new();
 	private static readonly StreamWriter logWriter = new(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug_server.log"), append: true) { AutoFlush = true };
 
+	static Type[] GetActivatableTypes() => [typeof(AppInstanceMonitor)];
+
 	static async Task Main()
 	{
 		AppDomain.CurrentDomain.FirstChanceException += OnFirstChanceException;
@@ -24,12 +26,10 @@ class Program
 
 		_ = PInvoke.RoInitialize(RO_INIT_TYPE.RO_INIT_MULTITHREADED);
 
-		var classIds = typeof(Program).Assembly.GetTypes()
-			.Where(t => t.IsSealed && t.IsPublic && t.IsClass)
-			.Select(t => t.FullName!)
-			.Where(name => name.StartsWith("Files.App.Server.", StringComparison.Ordinal))
-			.Select(name =>
+		var classIds = GetActivatableTypes()
+			.Select(t =>
 			{
+				var name = t.FullName!;
 				if (PInvoke.WindowsCreateString(name, (uint)name.Length, out var classId) is HRESULT hr && hr.Value is not 0)
 				{
 					Marshal.ThrowExceptionForHR(hr);
