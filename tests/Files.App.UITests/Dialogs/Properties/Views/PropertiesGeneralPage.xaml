@@ -15,7 +15,7 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries />
 
-			<GridLength x:Key="LabelWidth">120</GridLength>
+			<GridLength x:Key="LabelWidth">80</GridLength>
 
 		</ResourceDictionary>
 	</Page.Resources>
@@ -107,6 +107,22 @@
 								Orientation="Horizontal"
 								Text="Item value 1 text here" />
 							<MenuFlyoutSeparator />
+							<fcontrols:PropertiesViewItemInfo
+								CanEdit="False"
+								InfoText="Detailed text to display with the button press."
+								Label="Item info label 1"
+								LabelWidth="{StaticResource LabelWidth}"
+								Orientation="Horizontal"
+								Text="Info item value 1 text" />
+							<MenuFlyoutSeparator />
+							<fcontrols:PropertiesViewItemInfo
+								CanEdit="True"
+								InfoText="Detailed text to display with the button press."
+								Label="Item info label 1"
+								LabelWidth="{StaticResource LabelWidth}"
+								Orientation="Horizontal"
+								Text="Info item value 1 text" />
+							<MenuFlyoutSeparator />
 							<fcontrols:PropertiesViewItemText
 								Label="Item label t00 extra long to demonstrate the wrapping for Labels"
 								LabelWidth="{StaticResource LabelWidth}"
@@ -178,9 +194,7 @@
 					</Expander.Header>
 
 					<Expander.Content>
-						<StackPanel
-							HorizontalAlignment="Stretch"
-							Orientation="Vertical">
+						<StackPanel HorizontalAlignment="Stretch" Orientation="Vertical">
 
 							<fcontrols:PropertiesViewItemText
 								CanEdit="True"
@@ -188,6 +202,26 @@
 								LabelWidth="{StaticResource LabelWidth}"
 								Orientation="Vertical"
 								Text="Item value 1 text here" />
+
+							<MenuFlyoutSeparator />
+
+							<fcontrols:PropertiesViewItemInfo
+								CanEdit="False"
+								InfoText="Detailed text to display with the button press."
+								Label="Item info label 1"
+								LabelWidth="{StaticResource LabelWidth}"
+								Orientation="Vertical"
+								Text="Info item value 1 text" />
+
+							<MenuFlyoutSeparator />
+
+							<fcontrols:PropertiesViewItemInfo
+								CanEdit="True"
+								InfoText="Detailed text to display with the button press."
+								Label="Item info label 1"
+								LabelWidth="{StaticResource LabelWidth}"
+								Orientation="Vertical"
+								Text="Info item value 1 text" />
 
 							<MenuFlyoutSeparator />
 
