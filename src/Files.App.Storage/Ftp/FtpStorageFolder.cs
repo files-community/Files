@@ -20,17 +20,17 @@ namespace Files.App.Storage
 			using var ftpClient = GetFtpClient();
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
 
-			var itemUri = new Uri(new Uri(Id.EndsWith('/') ? Id : $"{Id}/"), Uri.EscapeDataString(folderName));
-			var path = FtpHelpers.GetFtpPath(itemUri.AbsoluteUri);
+			var itemId = $"{Id.TrimEnd('/')}/{folderName}";
+			var path = FtpHelpers.GetFtpPath(itemId);
 			var item = await ftpClient.GetObjectInfo(path, token: cancellationToken);
 
 			if (item is null)
 				throw new FileNotFoundException();
 
 			if (item.Type == FtpObjectType.Directory)
-				return new FtpStorageFolder(itemUri.AbsoluteUri, item.Name, this);
+				return new FtpStorageFolder(itemId, item.Name, this);
 			else
-				return new FtpStorageFile(itemUri.AbsoluteUri, item.Name, this);
+				return new FtpStorageFile(itemId, item.Name, this);
 
 		}
 
@@ -40,11 +40,9 @@ namespace Files.App.Storage
 			using var ftpClient = GetFtpClient();
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
 
-			var serverUri = new Uri(new Uri(Id).GetLeftPart(UriPartial.Authority));
 			foreach (var item in await ftpClient.GetListing(FtpHelpers.GetFtpPath(Id), cancellationToken))
 			{
-				var escapedPath = string.Join('/', item.FullName.Split('/').Select(Uri.EscapeDataString));
-				var itemId = new UriBuilder(serverUri) { Path = escapedPath }.Uri.AbsoluteUri;
+				var itemId = $"{Id.TrimEnd('/')}/{item.Name}";
 				if (kind.HasFlag(StorableType.File) && item.Type == FtpObjectType.File)
 					yield return new FtpStorageFile(itemId, item.Name, this);
 				else if (kind.HasFlag(StorableType.Folder) && item.Type == FtpObjectType.Directory)
@@ -109,8 +107,8 @@ namespace Files.App.Storage
 			using var ftpClient = GetFtpClient();
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
 
-			var newUri = new Uri(new Uri(Id.EndsWith('/') ? Id : $"{Id}/"), Uri.EscapeDataString(desiredName));
-			var newPath = FtpHelpers.GetFtpPath(newUri.AbsoluteUri);
+			var newId = $"{Id.TrimEnd('/')}/{desiredName}";
+			var newPath = FtpHelpers.GetFtpPath(newId);
 			if (!overwrite && await ftpClient.FileExists(newPath, cancellationToken))
 				throw new IOException("File already exists.");
 
@@ -120,7 +118,7 @@ namespace Files.App.Storage
 			if (result == FtpStatus.Success)
 			{
 				// Success
-				return new FtpStorageFile(newUri.AbsoluteUri, desiredName, this);
+				return new FtpStorageFile(newId, desiredName, this);
 			}
 			else if (result == FtpStatus.Skipped)
 			{
@@ -140,21 +138,21 @@ namespace Files.App.Storage
 			using var ftpClient = GetFtpClient();
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
 
-			var newUri = new Uri(new Uri(Id.EndsWith('/') ? Id : $"{Id}/"), Uri.EscapeDataString(desiredName));
-			var newPath = FtpHelpers.GetFtpPath(newUri.AbsoluteUri);
+			var newId = $"{Id.TrimEnd('/')}/{desiredName}";
+			var newPath = FtpHelpers.GetFtpPath(newId);
 			if (await ftpClient.DirectoryExists(newPath, cancellationToken))
 			{
 				if (!overwrite)
 					throw new IOException("Directory already exists.");
 
-				return new FtpStorageFolder(newUri.AbsoluteUri, desiredName, this);
+				return new FtpStorageFolder(newId, desiredName, this);
 			}
 
 			var isSuccessful = await ftpClient.CreateDirectory(newPath, overwrite, cancellationToken);
 			if (!isSuccessful)
 				throw new IOException("Directory was not successfully created.");
 
-			return new FtpStorageFolder(newUri.AbsoluteUri, desiredName, this);
+			return new FtpStorageFolder(newId, desiredName, this);
 		}
 	}
 }

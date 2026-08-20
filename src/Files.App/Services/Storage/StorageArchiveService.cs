@@ -190,12 +190,16 @@ namespace Files.App.Services
 				if (resolvedName is not null && resolvedName != files[0].FileName)
 				{
 					// ExtractArchive would write the entry's "[no name]" placeholder to disk
-					Directory.CreateDirectory(destinationFolderPath);
-					await using var destinationStream = File.Create(Path.Combine(destinationFolderPath, resolvedName));
+					var destinationPath = ValidateAndGetSafeExtractionPath(destinationFolderPath, resolvedName);
+					Directory.CreateDirectory(Path.GetDirectoryName(destinationPath)!);
+					await using var destinationStream = File.Create(destinationPath);
 					await zipFile.ExtractFileAsync(files[0].Index, destinationStream);
 				}
 				else
 				{
+					foreach (var archiveEntry in zipFile.ArchiveFileData)
+						_ = ValidateAndGetSafeExtractionPath(destinationFolderPath, archiveEntry.FileName);
+
 					// TODO: Get this method return result
 					await zipFile.ExtractArchiveAsync(destinationFolderPath);
 				}
@@ -288,7 +292,7 @@ namespace Files.App.Services
 						}
 
 						string entryFileName = zipEntry.Name;
-						string fullZipToPath = GetSafeExtractionPath(destinationFolderPath, entryFileName);
+						string fullZipToPath = ValidateAndGetSafeExtractionPath(destinationFolderPath, entryFileName);
 						string? directoryName = Path.GetDirectoryName(fullZipToPath);
 
 						if (directoryName is not null && !Directory.Exists(directoryName))
@@ -358,7 +362,7 @@ namespace Files.App.Services
 			return isSuccess;
 		}
 
-		private static string GetSafeExtractionPath(string destinationFolderPath, string entryName)
+		private static string ValidateAndGetSafeExtractionPath(string destinationFolderPath, string entryName)
 		{
 			var destinationRoot = Path.GetFullPath(destinationFolderPath);
 			var destinationPrefix = Path.EndsInDirectorySeparator(destinationRoot)
@@ -367,8 +371,24 @@ namespace Files.App.Services
 			var normalizedEntryName = entryName.Replace('/', Path.DirectorySeparatorChar);
 			var destinationPath = Path.GetFullPath(Path.Combine(destinationPrefix, normalizedEntryName));
 
-			if (!destinationPath.StartsWith(destinationPrefix, StringComparison.OrdinalIgnoreCase))
+			if (!destinationPath.StartsWith(destinationPrefix, StringComparison.Ordinal))
 				throw new InvalidDataException($"Archive entry '{entryName}' resolves outside the destination folder.");
+
+			var currentPath = destinationRoot;
+			var relativePath = Path.GetRelativePath(destinationRoot, destinationPath);
+			foreach (var pathSegment in relativePath.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
+			{
+				currentPath = Path.Combine(currentPath, pathSegment);
+				try
+				{
+					if (File.GetAttributes(currentPath).HasFlag(System.IO.FileAttributes.ReparsePoint))
+						throw new InvalidDataException($"Archive entry '{entryName}' traverses a reparse point.");
+				}
+				catch (Exception ex) when (ex is FileNotFoundException or DirectoryNotFoundException)
+				{
+					break;
+				}
+			}
 
 			return destinationPath;
 		}

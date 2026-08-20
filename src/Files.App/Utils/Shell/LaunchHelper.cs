@@ -241,16 +241,16 @@ namespace Files.App.Utils.Shell
 								}
 								finally
 								{
-									Action deleteTemporaryCopy = () =>
+									void DeleteTemporaryCopy()
 									{
 										if (File.Exists(tempPath))
 											File.SetAttributes(tempPath, FileAttributes.Normal);
 										Directory.Delete(basePath, true);
-									};
+									}
 
 									if (!opened)
 									{
-										SafetyExtensions.IgnoreExceptions(deleteTemporaryCopy, App.Logger);
+										SafetyExtensions.IgnoreExceptions(DeleteTemporaryCopy, App.Logger);
 									}
 									else
 									{
@@ -265,7 +265,7 @@ namespace Files.App.Utils.Shell
 													_ => TimeSpan.FromMinutes(30),
 												};
 												await Task.Delay(delay);
-												if (SafetyExtensions.IgnoreExceptions(deleteTemporaryCopy, App.Logger))
+												if (SafetyExtensions.IgnoreExceptions(DeleteTemporaryCopy, App.Logger))
 													return;
 											}
 										});

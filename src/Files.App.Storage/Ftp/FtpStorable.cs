@@ -20,7 +20,7 @@ namespace Files.App.Storage
 
 		protected internal FtpStorable(string path, string name, IFolder? parent)
 		{
-			Id = new Uri(path.Replace('\\', '/'), UriKind.Absolute).AbsoluteUri;
+			Id = path.Replace('\\', '/');
 			Name = name;
 			Parent = parent;
 		}
