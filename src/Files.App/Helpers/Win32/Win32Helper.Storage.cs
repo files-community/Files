@@ -30,6 +30,9 @@ namespace Files.App.Helpers
 	/// </summary>
 	public static partial class Win32Helper
 	{
+		internal static string ToPowerShellStringLiteral(string? value)
+			=> $"'{(value ?? string.Empty).Replace("'", "''", StringComparison.Ordinal)}'";
+
 		public static async Task<string?> GetDefaultFileAssociationAsync(string filename, bool checkDesktopFirst = true)
 		{
 			// check if there exists an user choice first
@@ -481,18 +484,18 @@ namespace Files.App.Helpers
 		public static void SetVolumeLabel(string drivePath, string newLabel)
 		{
 			// Rename requires elevation
-			RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"kernel32.dll\\\", SetLastError = false)]public static extern bool SetVolumeLabel(string lpRootPathName, string lpVolumeName);'; $SetVolumeLabel = Add-Type -MemberDefinition $Signature -Name \"Win32SetVolumeLabel\" -Namespace Win32Functions -PassThru; $SetVolumeLabel::SetVolumeLabel('{drivePath}', '{newLabel}')\"", PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
+			RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"kernel32.dll\\\", SetLastError = false)]public static extern bool SetVolumeLabel(string lpRootPathName, string lpVolumeName);'; $SetVolumeLabel = Add-Type -MemberDefinition $Signature -Name \"Win32SetVolumeLabel\" -Namespace Win32Functions -PassThru; $SetVolumeLabel::SetVolumeLabel({ToPowerShellStringLiteral(drivePath)}, {ToPowerShellStringLiteral(newLabel)})\"", PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
 		}
 
 		public static void SetNetworkDriveLabel(string driveName, string newLabel)
 		{
-			RunPowershellCommand($"-command \"(New-Object -ComObject Shell.Application).NameSpace('{driveName}').Self.Name='{newLabel}'\"", PowerShellExecutionOptions.Hidden);
+			RunPowershellCommand($"-command \"(New-Object -ComObject Shell.Application).NameSpace({ToPowerShellStringLiteral(driveName)}).Self.Name={ToPowerShellStringLiteral(newLabel)}\"", PowerShellExecutionOptions.Hidden);
 		}
 
 		public static Task<bool> MountVhdDisk(string vhdPath)
 		{
 			// Mounting requires elevation
-			return RunPowershellCommandAsync($"-command \"Mount-DiskImage -ImagePath '{vhdPath}'\"", PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
+			return RunPowershellCommandAsync($"-command \"Mount-DiskImage -ImagePath {ToPowerShellStringLiteral(vhdPath)}\"", PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
 		}
 
 		public static Bitmap? GetBitmapFromHBitmap(HBITMAP hBitmap)
@@ -743,7 +746,7 @@ namespace Files.App.Helpers
 			foreach (string fontFilePath in fontFilePaths)
 			{
 				var destinationPath = Path.Combine(fontDirectory, Path.GetFileName(fontFilePath));
-				var appendCommand = $"Copy-Item '{fontFilePath}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPath}';";
+				var appendCommand = $"Copy-Item {ToPowerShellStringLiteral(fontFilePath)} {ToPowerShellStringLiteral(fontDirectory)}; New-ItemProperty -Name {ToPowerShellStringLiteral(Path.GetFileNameWithoutExtension(fontFilePath))} -Path {ToPowerShellStringLiteral(registryKey)} -PropertyType string -Value {ToPowerShellStringLiteral(destinationPath)};";
 
 				if (psCommand.Length + appendCommand.Length > 32766)
 				{

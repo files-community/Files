@@ -7,9 +7,12 @@ namespace Files.App.Storage
 	{
 		public static async Task<bool> TrySetShortcutIconOnPowerShellAsElevatedAsync(this IWindowsStorable storable, IWindowsStorable iconFile, int index)
 		{
+			static string ToPowerShellStringLiteral(string value)
+				=> $"'{value.Replace("'", "''", StringComparison.Ordinal)}'";
+
 			string psScript =
-				$@"$FilePath = '{storable}'
-					$IconFile = '{iconFile}'
+				$@"$FilePath = {ToPowerShellStringLiteral(storable.ToString())}
+					$IconFile = {ToPowerShellStringLiteral(iconFile.ToString())}
 					$IconIndex = '{index}'
 
 					$Shell = New-Object -ComObject WScript.Shell

@@ -58,7 +58,7 @@ namespace Files.App.Services
 			if (result is not WIN32_ERROR.ERROR_SUCCESS)
 			{
 				return Win32Helper.RunPowershellCommand(
-					$"-command \"try {{ $path = '{path}'; $ID = new-object System.Security.Principal.SecurityIdentifier('{sid}'); $acl = get-acl $path; $acl.SetOwner($ID); set-acl -path $path -aclObject $acl }} catch {{ exit 1; }}\"",
+					$"-command \"try {{ $path = {Win32Helper.ToPowerShellStringLiteral(path)}; $ID = new-object System.Security.Principal.SecurityIdentifier({Win32Helper.ToPowerShellStringLiteral(sid)}); $acl = get-acl -LiteralPath $path; $acl.SetOwner($ID); set-acl -LiteralPath $path -aclObject $acl }} catch {{ exit 1; }}\"",
 					PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
 			}
 

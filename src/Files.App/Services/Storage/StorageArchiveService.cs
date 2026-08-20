@@ -288,7 +288,7 @@ namespace Files.App.Services
 						}
 
 						string entryFileName = zipEntry.Name;
-						string fullZipToPath = Path.Combine(destinationFolderPath, entryFileName);
+						string fullZipToPath = GetSafeExtractionPath(destinationFolderPath, entryFileName);
 						string? directoryName = Path.GetDirectoryName(fullZipToPath);
 
 						if (directoryName is not null && !Directory.Exists(directoryName))
@@ -356,6 +356,21 @@ namespace Files.App.Services
 				}
 			}
 			return isSuccess;
+		}
+
+		private static string GetSafeExtractionPath(string destinationFolderPath, string entryName)
+		{
+			var destinationRoot = Path.GetFullPath(destinationFolderPath);
+			var destinationPrefix = Path.EndsInDirectorySeparator(destinationRoot)
+				? destinationRoot
+				: destinationRoot + Path.DirectorySeparatorChar;
+			var normalizedEntryName = entryName.Replace('/', Path.DirectorySeparatorChar);
+			var destinationPath = Path.GetFullPath(Path.Combine(destinationPrefix, normalizedEntryName));
+
+			if (!destinationPath.StartsWith(destinationPrefix, StringComparison.OrdinalIgnoreCase))
+				throw new InvalidDataException($"Archive entry '{entryName}' resolves outside the destination folder.");
+
+			return destinationPath;
 		}
 
 
