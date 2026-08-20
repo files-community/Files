@@ -72,7 +72,7 @@
 					VerticalAlignment="Center"
 					Orientation="Vertical"
 					Spacing="8">
-					<TextBox Text="Filename here" Margin="-12,0,0,0" />
+					<TextBox Margin="-12,0,0,0" Text="Filename here" />
 					<TextBlock Text="Sticky header area with scrolling below" />
 				</StackPanel>
 
@@ -90,7 +90,7 @@
 				Margin="0,0,0,32"
 				HorizontalAlignment="Stretch"
 				Orientation="Vertical">
-				<Expander Style="{StaticResource PropertiesExpanderStyle}">
+				<Expander IsExpanded="True" Style="{StaticResource PropertiesExpanderStyle}">
 					<Expander.Header>
 						<dcontrols:PropertiesHeader Text="Header text goes here">
 							<dcontrols:PropertiesHeader.Icon>
@@ -100,15 +100,29 @@
 					</Expander.Header>
 
 					<Expander.Content>
+
 						<StackPanel
+							Padding="0,0,0,8"
 							HorizontalAlignment="Stretch"
-							Background="#11FF0000"
 							Orientation="Vertical">
-							<TextBlock Height="48" Text="Item 1 in the stack" />
+							<dcontrols:PropertiesItemText
+								CanEdit="True"
+								LabelWidth="{StaticResource LabelWidth}"
+								Label="Item label 1"
+								Orientation="Horizontal"
+								Text="Item value 1 text here" />
 							<MenuFlyoutSeparator />
-							<TextBlock Height="48" Text="Item 2 in the stack" />
+							<dcontrols:PropertiesItemText
+								Label="Item label t00"
+								LabelWidth="{StaticResource LabelWidth}"
+								Orientation="Horizontal"
+								Text="Item value t00 text here" />
 							<MenuFlyoutSeparator />
-							<TextBlock Height="48" Text="Item 3 in the stack" />
+							<dcontrols:PropertiesItemText
+								Label="Item label three"
+								LabelWidth="{StaticResource LabelWidth}"
+								Orientation="Horizontal"
+								Text="Item value three text here" />
 						</StackPanel>
 					</Expander.Content>
 				</Expander>
@@ -125,14 +139,26 @@
 
 					<Expander.Content>
 						<StackPanel
+							Padding="0,0,0,8"
 							HorizontalAlignment="Stretch"
-							Background="#1100FF00"
 							Orientation="Vertical">
-							<TextBlock Height="48" Text="Item 1 in the stack" />
-							<MenuFlyoutSeparator />
-							<TextBlock Height="48" Text="Item 2 in the stack" />
-							<MenuFlyoutSeparator />
-							<TextBlock Height="48" Text="Item 3 in the stack" />
+							<dcontrols:PropertiesItemText
+								LabelWidth="{StaticResource LabelWidth}"
+								Label="Item label 1"
+								Orientation="Vertical"
+								Text="Item value 1 text here" />
+							<MenuFlyoutSeparator Margin="16,0" />
+							<dcontrols:PropertiesItemText
+								Label="Item label t00"
+								Orientation="Vertical"
+								Text="Item value t00 text here" />
+							<MenuFlyoutSeparator Margin="16,0" />
+							<dcontrols:PropertiesItemText
+								LabelWidth="{StaticResource LabelWidth}"
+								CanEdit="True"
+								Label="Item label three"
+								Orientation="Vertical"
+								Text="Item value three text here" />
 						</StackPanel>
 					</Expander.Content>
 				</Expander>
@@ -164,74 +190,6 @@
 					</Expander.Content>
 				</Expander>
 
-				<Grid
-					Padding="24,6"
-					HorizontalAlignment="Stretch"
-					VerticalAlignment="Center">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="{StaticResource LabelWidth}" />
-						<ColumnDefinition Width="*" />
-					</Grid.ColumnDefinitions>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-					</Grid.RowDefinitions>
-					<TextBlock
-						x:Name="Label"
-						Grid.RowSpan="2"
-						Grid.Column="0"
-						Margin="0,2,12,2"
-						VerticalAlignment="Center"
-						Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-						Style="{ThemeResource CaptionTextBlockStyle}"
-						Text="Label Text" />
-					<TextBlock
-						x:Name="Value"
-						Grid.RowSpan="2"
-						Grid.Column="1"
-						Margin="0,2,12,2"
-						VerticalAlignment="Bottom"
-						Text="This is the value text  that is very very long so it wraps at the width set"
-						TextWrapping="WrapWholeWords" />
-				</Grid>
-
-
-				<MenuFlyoutSeparator Margin="24,0" />
-
-				<Grid
-					Padding="24,6"
-					HorizontalAlignment="Stretch"
-					VerticalAlignment="Center">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="{StaticResource LabelWidth}" />
-						<ColumnDefinition Width="*" />
-					</Grid.ColumnDefinitions>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-					</Grid.RowDefinitions>
-					<TextBlock
-						x:Name="Label2"
-						Grid.Row="0"
-						Grid.RowSpan="1"
-						Grid.Column="0"
-						Grid.ColumnSpan="2"
-						Margin="0,2,12,2"
-						VerticalAlignment="Center"
-						Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-						Style="{ThemeResource CaptionTextBlockStyle}"
-						Text="Label Text" />
-					<TextBlock
-						x:Name="Value2"
-						Grid.Row="1"
-						Grid.RowSpan="1"
-						Grid.Column="0"
-						Grid.ColumnSpan="2"
-						Margin="0,2,12,2"
-						VerticalAlignment="Bottom"
-						Text="This is the value text  that is very very long so it wraps at the width set"
-						TextWrapping="WrapWholeWords" />
-				</Grid>
 
 			</StackPanel>
 		</ScrollViewer>

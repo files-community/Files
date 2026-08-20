@@ -47,7 +47,7 @@ namespace Files.App.Controls.Dialogs
 				"Text",
 				typeof(string),
 				typeof(PropertiesHeader),
-				new PropertyMetadata( null ) );
+				new PropertyMetadata( string.Empty ) );
 
 
 
