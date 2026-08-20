@@ -6,8 +6,6 @@
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:controls="using:Microsoft.UI.Xaml.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:dcontrols="using:Files.App.Controls.Dialogs"
-	xmlns:dialogs="using:Files.App.UITests.Dialogs"
 	xmlns:fcontrols="using:Files.App.Controls"
 	xmlns:local="using:Files.App.UITests.Dialogs.Properties.Views"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -93,11 +91,11 @@
 				Orientation="Vertical">
 				<Expander IsExpanded="True" Style="{StaticResource PropertiesExpanderStyle}">
 					<Expander.Header>
-						<dcontrols:PropertiesHeader Text="Header text goes here">
-							<dcontrols:PropertiesHeader.Icon>
+						<fcontrols:PropertiesHeader Text="Header text goes here">
+							<fcontrols:PropertiesHeader.Icon>
 								<SymbolIcon Symbol="AddFriend" />
-							</dcontrols:PropertiesHeader.Icon>
-						</dcontrols:PropertiesHeader>
+							</fcontrols:PropertiesHeader.Icon>
+						</fcontrols:PropertiesHeader>
 					</Expander.Header>
 
 					<Expander.Content>
@@ -106,20 +104,20 @@
 							Padding="0,0,0,8"
 							HorizontalAlignment="Stretch"
 							Orientation="Vertical">
-							<dcontrols:PropertiesItemText
+							<fcontrols:PropertiesItemText
 								CanEdit="True"
 								Label="Item label 1"
 								LabelWidth="{StaticResource LabelWidth}"
 								Orientation="Horizontal"
 								Text="Item value 1 text here" />
 							<MenuFlyoutSeparator />
-							<dcontrols:PropertiesItemText
+							<fcontrols:PropertiesItemText
 								Label="Item label t00"
 								LabelWidth="{StaticResource LabelWidth}"
 								Orientation="Horizontal"
 								Text="Item value t00 text here" />
 							<MenuFlyoutSeparator />
-							<dcontrols:PropertiesItemText
+							<fcontrols:PropertiesItemText
 								Label="Item label three"
 								LabelWidth="{StaticResource LabelWidth}"
 								Orientation="Horizontal"
@@ -131,11 +129,11 @@
 
 				<Expander Style="{StaticResource PropertiesExpanderStyle}">
 					<Expander.Header>
-						<dcontrols:PropertiesHeader Text="Header text goes here, made extra long to ensure wrapping and arranging within the header works as expected">
-							<dcontrols:PropertiesHeader.Icon>
+						<fcontrols:PropertiesHeader Text="Header text goes here, made extra long to ensure wrapping and arranging within the header works as expected">
+							<fcontrols:PropertiesHeader.Icon>
 								<SymbolIcon Symbol="Comment" />
-							</dcontrols:PropertiesHeader.Icon>
-						</dcontrols:PropertiesHeader>
+							</fcontrols:PropertiesHeader.Icon>
+						</fcontrols:PropertiesHeader>
 					</Expander.Header>
 
 					<Expander.Content>
@@ -143,18 +141,18 @@
 							Padding="0,0,0,8"
 							HorizontalAlignment="Stretch"
 							Orientation="Vertical">
-							<dcontrols:PropertiesItemText
+							<fcontrols:PropertiesItemText
 								Label="Item label 1"
 								LabelWidth="{StaticResource LabelWidth}"
 								Orientation="Vertical"
 								Text="Item value 1 text here" />
 							<MenuFlyoutSeparator Margin="16,0" />
-							<dcontrols:PropertiesItemText
+							<fcontrols:PropertiesItemText
 								Label="Item label t00"
 								Orientation="Vertical"
 								Text="Item value t00 text here" />
 							<MenuFlyoutSeparator Margin="16,0" />
-							<dcontrols:PropertiesItemText
+							<fcontrols:PropertiesItemText
 								CanEdit="True"
 								Label="Item label three"
 								LabelWidth="{StaticResource LabelWidth}"
@@ -170,11 +168,11 @@
 
 				<Expander Style="{StaticResource PropertiesExpanderStyle}">
 					<Expander.Header>
-						<dcontrols:PropertiesHeader Text="Header text goes here">
-							<dcontrols:PropertiesHeader.Icon>
+						<fcontrols:PropertiesHeader Text="Header text goes here">
+							<fcontrols:PropertiesHeader.Icon>
 								<SymbolIcon Symbol="SlideShow" />
-							</dcontrols:PropertiesHeader.Icon>
-						</dcontrols:PropertiesHeader>
+							</fcontrols:PropertiesHeader.Icon>
+						</fcontrols:PropertiesHeader>
 					</Expander.Header>
 
 					<Expander.Content>

@@ -1,6 +1,6 @@
 <!--  Copyright (c) Files Community. SPDX-License-Identifier: MPL-2.0  -->
 <UserControl
-	x:Class="Files.App.Controls.Dialogs.PropertiesHeader"
+	x:Class="Files.App.Controls.PropertiesHeader"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
