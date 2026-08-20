@@ -253,6 +253,10 @@ namespace Files.App
 				{
 					// Create a Frame to act as the navigation context and navigate to the first page
 					rootFrame = new() { CacheSize = 1 };
+
+					// Apply the saved theme before the first page renders so startup doesn't flash the system theme
+					rootFrame.RequestedTheme = AppThemeModeService.GetSavedAppThemeMode();
+
 					rootFrame.NavigationFailed += (s, e) =>
 					{
 						throw new Exception("Failed to load Page " + e.SourcePageType.FullName);

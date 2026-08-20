@@ -7,6 +7,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System.Runtime.InteropServices;
+using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using WinRT;
@@ -15,6 +16,10 @@ namespace Files.App.Services
 {
 	public class AppThemeModeService : IAppThemeModeService
 	{
+		// Mirrors the resolved theme into LocalSettings, which is readable synchronously before the
+		// DI container is configured. Lets the root theme be applied on the very first frame at startup.
+		private const string ThemeModeLocalSettingsKey = "AppThemeMode";
+
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private UISettings UISettings { get; } = new();
@@ -54,6 +59,18 @@ namespace Files.App.Services
 		public event EventHandler? AppThemeModeChanged;
 
 		/// <summary>
+		/// Reads the persisted theme from LocalSettings without requiring the DI container,
+		/// so the root theme can be applied during window initialization at startup.
+		/// </summary>
+		public static ElementTheme GetSavedAppThemeMode()
+		{
+			return ApplicationData.Current.LocalSettings.Values[ThemeModeLocalSettingsKey] is string theme &&
+				Enum.TryParse<ElementTheme>(theme, out var parsed)
+					? parsed
+					: ElementTheme.Default;
+		}
+
+		/// <summary>
 		/// Initializes an instance of <see cref="AppThemeModeService"/>.
 		/// </summary>
 		public AppThemeModeService()
@@ -84,6 +101,11 @@ namespace Files.App.Services
 			{
 				window ??= MainWindow.Instance;
 				titleBar ??= MainWindow.Instance.AppWindow?.TitleBar;
+
+				// A null rootTheme means "apply the saved theme"; mirror it for the next startup's first frame
+				if (rootTheme is null)
+					ApplicationData.Current.LocalSettings.Values[ThemeModeLocalSettingsKey] = AppThemeMode.ToString();
+
 				rootTheme ??= AppThemeMode;
 
 				if (window.Content is FrameworkElement rootElement)
