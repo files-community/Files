@@ -13,11 +13,7 @@
 
 	<Page.Resources>
 		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-
-				<!--<ResourceDictionary Source="ms-appx:///Files.App.Controls/Dialogs/DialogResources.xaml" />-->
-
-			</ResourceDictionary.MergedDictionaries>
+			<ResourceDictionary.MergedDictionaries />
 
 			<GridLength x:Key="LabelWidth">120</GridLength>
 
@@ -104,20 +100,20 @@
 							Padding="0,0,0,8"
 							HorizontalAlignment="Stretch"
 							Orientation="Vertical">
-							<fcontrols:PropertiesItemText
+							<fcontrols:PropertiesViewItemText
 								CanEdit="True"
 								Label="Item label 1"
 								LabelWidth="{StaticResource LabelWidth}"
 								Orientation="Horizontal"
 								Text="Item value 1 text here" />
 							<MenuFlyoutSeparator />
-							<fcontrols:PropertiesItemText
+							<fcontrols:PropertiesViewItemText
 								Label="Item label t00"
 								LabelWidth="{StaticResource LabelWidth}"
 								Orientation="Horizontal"
 								Text="Item value t00 text here" />
 							<MenuFlyoutSeparator />
-							<fcontrols:PropertiesItemText
+							<fcontrols:PropertiesViewItemText
 								Label="Item label three"
 								LabelWidth="{StaticResource LabelWidth}"
 								Orientation="Horizontal"
@@ -141,18 +137,18 @@
 							Padding="0,0,0,8"
 							HorizontalAlignment="Stretch"
 							Orientation="Vertical">
-							<fcontrols:PropertiesItemText
+							<fcontrols:PropertiesViewItemText
 								Label="Item label 1"
 								LabelWidth="{StaticResource LabelWidth}"
 								Orientation="Vertical"
 								Text="Item value 1 text here" />
 							<MenuFlyoutSeparator Margin="16,0" />
-							<fcontrols:PropertiesItemText
+							<fcontrols:PropertiesViewItemText
 								Label="Item label t00"
 								Orientation="Vertical"
 								Text="Item value t00 text here" />
 							<MenuFlyoutSeparator Margin="16,0" />
-							<fcontrols:PropertiesItemText
+							<fcontrols:PropertiesViewItemText
 								CanEdit="True"
 								Label="Item label three"
 								LabelWidth="{StaticResource LabelWidth}"
