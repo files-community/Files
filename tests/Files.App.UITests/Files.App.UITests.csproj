@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Dialogs\Properties\Views\PropertiesGeneralPage.xaml" />
     <None Remove="Views\DialogWindowsPage.xaml" />
   </ItemGroup>
 
@@ -39,11 +38,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\DialogWindowsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Dialogs\Properties\Views\PropertiesGeneralPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
