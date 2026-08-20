@@ -15,11 +15,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="Dialogs\PropertiesHeader\PropertiesHeader.xaml" />
-      <None Remove="Dialogs\PropertiesItemText\PropertiesItemText.xaml" />
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="CommunityToolkit.WinUI.Extensions" />
         <PackageReference Include="CommunityToolkit.Labs.WinUI.DependencyPropertyGenerator" />
         <PackageReference Include="Microsoft.WindowsAppSDK" />
@@ -35,24 +30,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Files.Core.SourceGenerator\Files.Core.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Page Update="Dialogs\DialogResources.xaml">
-        <SubType>Designer</SubType>
-      </Page>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Page Update="Dialogs\PropertiesHeader\PropertiesHeader.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Page Update="Dialogs\PropertiesItemText\PropertiesItemText.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
     </ItemGroup>
 
 </Project>

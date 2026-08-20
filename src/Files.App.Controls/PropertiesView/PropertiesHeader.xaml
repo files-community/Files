@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<!--  Copyright (c) Files Community. SPDX-License-Identifier: MPL-2.0  -->
 <UserControl
 	x:Class="Files.App.Controls.Dialogs.PropertiesHeader"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
