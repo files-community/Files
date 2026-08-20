@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<!--  Copyright (c) Files Community. SPDX-License-Identifier: MPL-2.0  -->
 <Window
 	x:Class="Files.App.UITests.Dialogs.PropertiesDialog"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"

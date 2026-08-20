@@ -76,7 +76,7 @@
 		<!--#endregion-->
 
 		<!--#region Dialog Resources-->
-		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Dialogs/DialogResources.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/PropertiesView/PropertiesView.ThemeResources.xaml" />
 		<!--#endregion-->
 
 	</ResourceDictionary.MergedDictionaries>

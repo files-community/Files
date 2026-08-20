@@ -1,3 +1,4 @@
+<!--  Copyright (c) Files Community. SPDX-License-Identifier: MPL-2.0  -->
 <Page
 	x:Class="Files.App.UITests.Dialogs.Properties.Views.PropertiesGeneralPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -16,7 +17,7 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 
-				<ResourceDictionary Source="ms-appx:///Files.App.Controls/Dialogs/DialogResources.xaml" />
+				<!--<ResourceDictionary Source="ms-appx:///Files.App.Controls/Dialogs/DialogResources.xaml" />-->
 
 			</ResourceDictionary.MergedDictionaries>
 
@@ -107,8 +108,8 @@
 							Orientation="Vertical">
 							<dcontrols:PropertiesItemText
 								CanEdit="True"
-								LabelWidth="{StaticResource LabelWidth}"
 								Label="Item label 1"
+								LabelWidth="{StaticResource LabelWidth}"
 								Orientation="Horizontal"
 								Text="Item value 1 text here" />
 							<MenuFlyoutSeparator />
@@ -143,8 +144,8 @@
 							HorizontalAlignment="Stretch"
 							Orientation="Vertical">
 							<dcontrols:PropertiesItemText
-								LabelWidth="{StaticResource LabelWidth}"
 								Label="Item label 1"
+								LabelWidth="{StaticResource LabelWidth}"
 								Orientation="Vertical"
 								Text="Item value 1 text here" />
 							<MenuFlyoutSeparator Margin="16,0" />
@@ -154,9 +155,9 @@
 								Text="Item value t00 text here" />
 							<MenuFlyoutSeparator Margin="16,0" />
 							<dcontrols:PropertiesItemText
-								LabelWidth="{StaticResource LabelWidth}"
 								CanEdit="True"
 								Label="Item label three"
+								LabelWidth="{StaticResource LabelWidth}"
 								Orientation="Vertical"
 								Text="Item value three text here" />
 						</StackPanel>
