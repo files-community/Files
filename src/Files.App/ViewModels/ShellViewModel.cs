@@ -3242,11 +3242,11 @@ namespace Files.App.ViewModels
 		{
 			App.Logger.LogDebug($"UpdateDateDisplay: itemCount={filesAndFolders.Count}");
 
-			filesAndFolders.ToList().AsParallel().ForAll(async item =>
+			foreach (var item in filesAndFolders.ToList())
 			{
 				if (item.IsRealChanges)
-					await dispatcherQueue.EnqueueOrInvokeAsync(item.UpdateReal);
-			});
+					item.UpdateReal();
+			}
 		}
 
 		public void Dispose()
