@@ -16,6 +16,7 @@ Shell_NotifyIcon
 GetCursorPos
 GetCursorInfo
 SetCursor
+WindowFromPoint
 ClientToScreen
 DestroyMenu
 AppendMenu
