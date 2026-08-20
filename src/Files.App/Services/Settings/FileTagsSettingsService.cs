@@ -189,7 +189,7 @@ namespace Files.App.Services.Settings
 			{
 				if (item.Tags.Contains(uid))
 				{
-					FileTagsHelper.WriteFileTag(
+					_ = FileTagsHelper.WriteFileTagAsync(
 						item.FilePath,
 						item.Tags.Except(tagDoDelete).ToArray());
 				}

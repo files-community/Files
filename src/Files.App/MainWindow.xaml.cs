@@ -353,7 +353,7 @@ namespace Files.App
 								var tagUid = tag is not null ? new[] { tag.Uid } : [];
 								var dbInstance = FileTagsHelper.GetDbInstance();
 								dbInstance.SetTags(file, fileFRN, tagUid);
-								FileTagsHelper.WriteFileTag(file, tagUid);
+								await FileTagsHelper.WriteFileTagAsync(file, tagUid);
 							}
 						}
 						break;

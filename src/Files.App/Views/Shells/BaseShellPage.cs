@@ -296,15 +296,20 @@ namespace Files.App.Views.Shells
 				var isGitFetchCanceled = false;
 				if (!_gitFetch.IsCompleted)
 				{
-					_gitFetchToken.Cancel();
+					var canceledFetch = _gitFetch;
+					var canceledFetchToken = _gitFetchToken;
+					canceledFetchToken.Cancel();
+					_ = canceledFetch.ContinueWith(
+						_ => canceledFetchToken.Dispose(),
+						CancellationToken.None,
+						TaskContinuationOptions.ExecuteSynchronously,
+						TaskScheduler.Default);
 					_gitFetchToken = new CancellationTokenSource();
 					isGitFetchCanceled = true;
 				}
 				if (InstanceViewModel.IsGitRepository && (!GitHelpers.IsExecutingGitAction || isGitFetchCanceled))
 				{
-					_gitFetch = Task.Run(
-						() => GitHelpers.FetchOrigin(InstanceViewModel.GitRepositoryPath, _gitFetchToken.Token),
-						_gitFetchToken.Token);
+					_gitFetch = GitHelpers.FetchOriginAsync(InstanceViewModel.GitRepositoryPath, _gitFetchToken.Token);
 				}
 			}
 
@@ -943,6 +948,13 @@ namespace Files.App.Views.Shells
 				_updateDateDisplayTimer = null;
 			}
 			cancellationTokenSource.Dispose();
+			var gitFetchToken = _gitFetchToken;
+			gitFetchToken.Cancel();
+			_ = _gitFetch.ContinueWith(
+				_ => gitFetchToken.Dispose(),
+				CancellationToken.None,
+				TaskContinuationOptions.ExecuteSynchronously,
+				TaskScheduler.Default);
 		}
 	}
 }

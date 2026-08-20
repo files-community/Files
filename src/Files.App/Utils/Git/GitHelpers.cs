@@ -46,8 +46,9 @@ namespace Files.App.Utils.Git
 		/// <inheritdoc cref="IVersionControlService.ValidateBranchNameForRepository(string, string)"/>
 		public static bool ValidateBranchNameForRepository(string branchName, string repositoryPath) => _implementation.ValidateBranchNameForRepository(branchName, repositoryPath);
 
-		/// <inheritdoc cref="IVersionControlService.FetchOrigin(string?, CancellationToken)"/>
-		public static async void FetchOrigin(string? repositoryPath, CancellationToken cancellationToken = default) => _implementation.FetchOrigin(repositoryPath, cancellationToken);
+		/// <inheritdoc cref="IVersionControlService.FetchOriginAsync(string?, CancellationToken)"/>
+		public static Task FetchOriginAsync(string? repositoryPath, CancellationToken cancellationToken = default)
+			=> _implementation.FetchOriginAsync(repositoryPath, cancellationToken);
 
 		/// <inheritdoc cref="IVersionControlService.IsExecutingGitAction"/>
 		public static bool IsExecutingGitAction => _implementation.IsExecutingGitAction;
