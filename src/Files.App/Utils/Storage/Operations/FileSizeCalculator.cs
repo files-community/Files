@@ -30,13 +30,13 @@ namespace Files.App.Utils.Storage.Operations
 			await Parallel.ForEachAsync(
 				_paths,
 				cancellationToken,
-				async (path, token) => await Task.Factory.StartNew(() =>
+				(path, token) =>
 				{
 					ComputeSizeRecursively(path, token);
-				},
-				token,
-				TaskCreationOptions.LongRunning,
-				TaskScheduler.Default));
+					return ValueTask.CompletedTask;
+				});
+
+			Completed = true;
 
 			unsafe void ComputeSizeRecursively(string path, CancellationToken token)
 			{

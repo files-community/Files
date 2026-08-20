@@ -5,7 +5,6 @@ using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Data.Pdf;
-using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 
 namespace Files.App.ViewModels.Previews
@@ -76,13 +75,10 @@ namespace Files.App.ViewModels.Previews
 				if (LoadCancelledTokenSource.Token.IsCancellationRequested)
 					return;
 
-				PdfPage page = pdf.GetPage(i);
+				using PdfPage page = pdf.GetPage(i);
 				await page.PreparePageAsync();
 				using InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream();
 				await page.RenderToStreamAsync(stream);
-
-				BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
-				using SoftwareBitmap sw = await decoder.GetSoftwareBitmapAsync();
 
 				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
@@ -91,7 +87,6 @@ namespace Files.App.ViewModels.Previews
 					{
 						PageImage = src,
 						PageNumber = (int)i,
-						PageImageSB = sw,
 					};
 
 					await src.SetSourceAsync(stream);
@@ -110,7 +105,5 @@ namespace Files.App.ViewModels.Previews
 		public int PageNumber { get; set; }
 
 		public BitmapImage PageImage { get; set; }
-
-		public SoftwareBitmap PageImageSB { get; set; }
 	}
 }

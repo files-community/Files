@@ -389,7 +389,9 @@ namespace Files.App.Utils.Git
 		public static GitItemModel GetGitInformationForItem(Repository repository, string path, bool getStatus = true, bool getCommit = true)
 		{
 			var rootRepoPath = repository.Info.WorkingDirectory;
-			var relativePath = path.Substring(rootRepoPath.Length).Replace('\\', '/');
+			var relativePath = SystemIO.Path.GetRelativePath(rootRepoPath, path).Replace('\\', '/');
+			if (relativePath == ".")
+				relativePath = string.Empty;
 
 			Commit? commit = null;
 			if (getCommit)
@@ -403,10 +405,17 @@ namespace Files.App.Utils.Git
 			if (getStatus)
 			{
 				changeKind = ChangeKind.Unmodified;
-				//foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>())
-				foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>(repository.Commits.FirstOrDefault()?.Tree, DiffTargets.Index | DiffTargets.WorkingDirectory))
+				string[]? pathsToCompare = relativePath.Length == 0 ? null : [relativePath];
+				foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>(
+					repository.Commits.FirstOrDefault()?.Tree,
+					DiffTargets.Index | DiffTargets.WorkingDirectory,
+					pathsToCompare))
 				{
-					if (c.Path.StartsWith(relativePath))
+					if (relativePath.Length == 0 ||
+						c.Path.Equals(relativePath, StringComparison.Ordinal) ||
+						(c.Path.Length > relativePath.Length &&
+						c.Path.StartsWith(relativePath, StringComparison.Ordinal) &&
+						c.Path[relativePath.Length] == '/'))
 					{
 						changeKind = c.Status;
 						break;
@@ -430,7 +439,10 @@ namespace Files.App.Utils.Git
 			{
 				Status = changeKind,
 				StatusHumanized = changeKindHumanized,
-				LastCommit = commit,
+				LastCommitDate = commit?.Author.When,
+				LastCommitMessage = commit?.MessageShort,
+				LastCommitAuthor = commit?.Author.Name,
+				LastCommitSha = commit?.Sha,
 				Path = relativePath,
 			};
 

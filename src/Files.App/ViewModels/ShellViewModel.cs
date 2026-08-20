@@ -36,6 +36,7 @@ namespace Files.App.ViewModels
 		private readonly SemaphoreSlim getFileOrFolderSemaphore;
 		private readonly SemaphoreSlim bulkOperationSemaphore;
 		private readonly SemaphoreSlim loadThumbnailSemaphore;
+		private readonly SemaphoreSlim gitPropertiesSemaphore;
 		private readonly ConcurrentDictionary<string, CancellationTokenSource> thumbnailRetryDebounce;
 		private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
 		private readonly ConcurrentQueue<uint> gitChangesQueue;
@@ -146,15 +147,15 @@ namespace Files.App.ViewModels
 			{
 				if (SetProperty(ref _EnabledGitProperties, value) && value is not GitProperties.None)
 				{
-					filesAndFolders.ToList().ForEach(async item =>
+					foreach (var item in filesAndFolders)
 					{
 						if (item is IGitItem gitItem &&
-							(!gitItem.StatusPropertiesInitialized && value is GitProperties.All or GitProperties.Status
-							|| !gitItem.CommitPropertiesInitialized && value is GitProperties.All or GitProperties.Commit))
+							(!gitItem.StatusPropertiesInitialized && value is (GitProperties.All or GitProperties.Status)
+							|| !gitItem.CommitPropertiesInitialized && value is (GitProperties.All or GitProperties.Commit)))
 						{
-							await LoadGitPropertiesAsync(gitItem);
+							_ = LoadGitPropertiesAsync(gitItem);
 						}
-					});
+					}
 				}
 			}
 		}
@@ -729,6 +730,7 @@ namespace Files.App.ViewModels
 			getFileOrFolderSemaphore = new SemaphoreSlim(50);
 			bulkOperationSemaphore = new SemaphoreSlim(1, 1);
 			loadThumbnailSemaphore = new SemaphoreSlim(1, 1);
+			gitPropertiesSemaphore = new SemaphoreSlim(1, 1);
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
@@ -1770,68 +1772,91 @@ namespace Files.App.ViewModels
 		[WinRT.DynamicWindowsRuntimeCast(typeof(Style))]
 		public async Task LoadGitPropertiesAsync(IGitItem gitItem)
 		{
-			var getStatus = EnabledGitProperties is GitProperties.All or GitProperties.Status && !gitItem.StatusPropertiesInitialized;
-			var getCommit = EnabledGitProperties is GitProperties.All or GitProperties.Commit && !gitItem.CommitPropertiesInitialized;
+			var getStatus = EnabledGitProperties is (GitProperties.All or GitProperties.Status) &&
+				!gitItem.StatusPropertiesInitialized;
+			var getCommit = EnabledGitProperties is (GitProperties.All or GitProperties.Commit) &&
+				!gitItem.CommitPropertiesInitialized;
 
 			if (!getStatus && !getCommit)
 				return;
 
 			var cts = loadPropsCTS;
+			var semaphoreEntered = false;
+			var propertiesLoaded = false;
+			if (getStatus)
+				gitItem.StatusPropertiesInitialized = true;
+			if (getCommit)
+				gitItem.CommitPropertiesInitialized = true;
 
 			try
 			{
-				await Task.Run(async () =>
+				await gitPropertiesSemaphore.WaitAsync(cts.Token);
+				semaphoreEntered = true;
+
+				var gitItemModel = await Task.Run(() =>
 				{
+					cts.Token.ThrowIfCancellationRequested();
+					if (!GitHelpers.IsRepositoryEx(gitItem.ItemPath, out var repositoryPath))
+						return null;
 
-					if (GitHelpers.IsRepositoryEx(gitItem.ItemPath, out var repoPath) &&
-						!string.IsNullOrEmpty(repoPath))
-					{
-						cts.Token.ThrowIfCancellationRequested();
-
-						if (getStatus)
-							gitItem.StatusPropertiesInitialized = true;
-
-						if (getCommit)
-							gitItem.CommitPropertiesInitialized = true;
-
-						await SafetyExtensions.IgnoreExceptions(() =>
-						{
-							return dispatcherQueue.EnqueueOrInvokeAsync(() =>
-							{
-								var repo = new Repository(repoPath);
-								GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, gitItem.ItemPath, getStatus, getCommit);
-
-								if (getStatus)
-								{
-									gitItem.UnmergedGitStatusIcon = gitItemModel.Status switch
-									{
-										ChangeKind.Added => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["App.ThemedIcons.Status.Added"],
-										ChangeKind.Deleted => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["App.ThemedIcons.Status.Removed"],
-										ChangeKind.Modified => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["App.ThemedIcons.Status.Modified"],
-										ChangeKind.Untracked => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["App.ThemedIcons.Status.Removed"],
-										_ => null,
-									};
-									gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
-								}
-								if (getCommit)
-								{
-									gitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
-									gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
-									gitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
-									gitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha.Substring(0, 7);
-									gitItem.GitLastCommitFullSha = gitItemModel.LastCommit?.Sha;
-								}
-
-								repo.Dispose();
-							},
-							Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-						});
-					}
+					using var repository = new Repository(repositoryPath);
+					return GitHelpers.GetGitInformationForItem(repository, gitItem.ItemPath, getStatus, getCommit);
 				}, cts.Token);
+
+				if (gitItemModel is null)
+					return;
+
+				cts.Token.ThrowIfCancellationRequested();
+				await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+				{
+					cts.Token.ThrowIfCancellationRequested();
+
+					if (getStatus)
+					{
+						gitItem.UnmergedGitStatusIcon = gitItemModel.Status switch
+						{
+							ChangeKind.Added => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["App.ThemedIcons.Status.Added"],
+							ChangeKind.Deleted => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["App.ThemedIcons.Status.Removed"],
+							ChangeKind.Modified => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["App.ThemedIcons.Status.Modified"],
+							ChangeKind.Untracked => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["App.ThemedIcons.Status.Removed"],
+							_ => null,
+						};
+						gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
+					}
+
+					if (getCommit)
+					{
+						gitItem.GitLastCommitDate = gitItemModel.LastCommitDate;
+						gitItem.GitLastCommitMessage = gitItemModel.LastCommitMessage;
+						gitItem.GitLastCommitAuthor = gitItemModel.LastCommitAuthor;
+						gitItem.GitLastCommitSha = gitItemModel.LastCommitSha is { Length: >= 7 } sha
+							? sha[..7]
+							: gitItemModel.LastCommitSha;
+						gitItem.GitLastCommitFullSha = gitItemModel.LastCommitSha;
+					}
+				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+
+				propertiesLoaded = true;
 			}
-			catch (OperationCanceledException)
+			catch (OperationCanceledException) when (cts.IsCancellationRequested)
 			{
-				// Ignored
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "Failed to load Git properties for '{ItemPath}'.", gitItem.ItemPath);
+			}
+			finally
+			{
+				if (!propertiesLoaded)
+				{
+					if (getStatus)
+						gitItem.StatusPropertiesInitialized = false;
+					if (getCommit)
+						gitItem.CommitPropertiesInitialized = false;
+				}
+
+				if (semaphoreEntered)
+					gitPropertiesSemaphore.Release();
 			}
 		}
 
@@ -2461,7 +2486,7 @@ namespace Files.App.ViewModels
 			if (rootFolder is null)
 				return;
 
-			await Task.Factory.StartNew(() =>
+			await Task.Run(() =>
 			{
 				var options = new QueryOptions()
 				{
@@ -2488,10 +2513,7 @@ namespace Files.App.ViewModels
 						watchedItemsOperation?.Cancel();
 					});
 				}
-			},
-			default,
-			TaskCreationOptions.LongRunning,
-			TaskScheduler.Default);
+			});
 		}
 
 		private void WatchForWin32FolderChanges(string? folderPath)
@@ -2556,8 +2578,7 @@ namespace Files.App.ViewModels
 
 			var hasSyncStatus = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown;
 
-			aProcessQueueAction ??= Task.Factory.StartNew(() => ProcessOperationQueueAsync(watcherCTS.Token, hasSyncStatus), default,
-				TaskCreationOptions.LongRunning, TaskScheduler.Default);
+			aProcessQueueAction ??= Task.Run(() => ProcessOperationQueueAsync(watcherCTS.Token, hasSyncStatus));
 
 			var aWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>
 			{
@@ -2675,8 +2696,7 @@ namespace Files.App.ViewModels
 			if (hWatchDir.ToInt64() == -1)
 				return;
 
-			gitProcessQueueAction ??= Task.Factory.StartNew(() => ProcessGitChangesQueueAsync(watcherCTS.Token), default,
-				TaskCreationOptions.LongRunning, TaskScheduler.Default);
+			gitProcessQueueAction ??= Task.Run(() => ProcessGitChangesQueueAsync(watcherCTS.Token));
 
 			var gitWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>
 			{
@@ -3240,13 +3260,11 @@ namespace Files.App.ViewModels
 
 		public void UpdateDateDisplay()
 		{
-			App.Logger.LogDebug($"UpdateDateDisplay: itemCount={filesAndFolders.Count}");
-
-			filesAndFolders.ToList().AsParallel().ForAll(async item =>
+			foreach (var item in filesAndFolders)
 			{
 				if (item.IsRealChanges)
-					await dispatcherQueue.EnqueueOrInvokeAsync(item.UpdateReal);
-			});
+					item.UpdateReal();
+			}
 		}
 
 		public void Dispose()
