@@ -196,7 +196,73 @@ namespace Files.App.Helpers
 				options.Environment = AppEnvironment == AppEnvironment.StorePreview || AppEnvironment == AppEnvironment.SideloadPreview ? "preview" : "production";
 
 				options.DisableWinUiUnhandledExceptionIntegration();
+
+				options.SetBeforeSend(sentryEvent =>
+				{
+					if (sentryEvent.Message is { } message)
+					{
+						message.Message = SanitizeSentryText(message.Message);
+						message.Formatted = SanitizeSentryText(message.Formatted);
+					}
+
+					if (sentryEvent.SentryExceptions is { } sentryExceptions)
+					{
+						foreach (var sentryException in sentryExceptions)
+						{
+							sentryException.Value = SanitizeSentryText(sentryException.Value);
+
+							if (sentryException.Stacktrace?.Frames is { } frames)
+							{
+								foreach (var frame in frames)
+								{
+									frame.FileName = LogPathHelper.RedactUserName(frame.FileName);
+									frame.AbsolutePath = LogPathHelper.RedactUserName(frame.AbsolutePath);
+								}
+							}
+						}
+					}
+
+					foreach (var key in sentryEvent.Extra.Keys.ToList())
+					{
+						if (sentryEvent.Extra[key] is string text)
+							sentryEvent.SetExtra(key, SanitizeSentryText(text) ?? string.Empty);
+					}
+
+					return sentryEvent;
+				});
+
+				options.SetBeforeBreadcrumb(breadcrumb =>
+				{
+					var message = SanitizeSentryText(breadcrumb.Message);
+
+					Dictionary<string, string>? sanitizedData = null;
+					if (breadcrumb.Data is { } data)
+					{
+						foreach (var (key, value) in data)
+						{
+							var sanitizedValue = SanitizeSentryText(value);
+							if (sanitizedValue != value)
+							{
+								sanitizedData ??= new(data);
+								sanitizedData[key] = sanitizedValue ?? string.Empty;
+							}
+						}
+					}
+
+					if (message == breadcrumb.Message && sanitizedData is null)
+						return breadcrumb;
+
+					return new Breadcrumb(message!, breadcrumb.Type!, sanitizedData ?? breadcrumb.Data, breadcrumb.Category, breadcrumb.Level);
+				});
 			});
+		}
+
+		/// <summary>
+		/// Scrubs user names and file system paths from text before it is attached to a Sentry event.
+		/// </summary>
+		private static string? SanitizeSentryText(string? text)
+		{
+			return text is null ? null : LogPathHelper.SanitizeMessage(text);
 		}
 
 		/// <summary>

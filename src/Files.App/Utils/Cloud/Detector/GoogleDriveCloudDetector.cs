@@ -65,7 +65,7 @@ namespace Files.App.Utils.Cloud
 				var folderResult = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(path).AsTask());
 				if (!folderResult)
 				{
-					_logger.LogWarning($"Could not access Google Drive path as local storage: {path}");
+					_logger.LogWarning($"Could not access Google Drive path as local storage: {LogPathHelper.RedactUserName(path)}");
 					continue;
 				}
 
@@ -98,7 +98,7 @@ namespace Files.App.Utils.Cloud
 				var folderResult = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(path).AsTask());
 				if (!folderResult)
 				{
-					_logger.LogWarning($"Could not access Google Drive path as local storage: {path}");
+					_logger.LogWarning($"Could not access Google Drive path as local storage: {LogPathHelper.RedactUserName(path)}");
 					continue;
 				}
 
@@ -269,7 +269,7 @@ namespace Files.App.Utils.Cloud
 		{
 			if (Directory.Exists(path))
 				return true;
-			_logger.LogWarning($"Invalid path: {path}");
+			_logger.LogWarning($"Invalid path: {LogPathHelper.RedactUserName(path)}");
 			return false;
 		}
 

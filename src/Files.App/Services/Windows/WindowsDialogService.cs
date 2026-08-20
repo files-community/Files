@@ -57,7 +57,7 @@ namespace Files.App.Services
 				// Handle shell item creation failure gracefully
 				if (hr.Failed)
 				{
-					App.Logger.LogWarning("Failed to create shell item for default folder '{0}'. HRESULT: 0x{1:X8}. Dialog will open without default folder.", Environment.GetFolderPath(defaultFolder), hr.Value);
+					App.Logger.LogWarning("Failed to create shell item for default folder '{0}'. HRESULT: 0x{1:X8}. Dialog will open without default folder.", defaultFolder, hr.Value);
 					// Continue without setting default folder rather than failing completely
 				}
 				else
@@ -159,7 +159,7 @@ namespace Files.App.Services
 				// Handle shell item creation failure gracefully
 				if (hr.Failed)
 				{
-					App.Logger.LogWarning("Failed to create shell item for default folder '{0}'. HRESULT: 0x{1:X8}. Dialog will open without default folder.", Environment.GetFolderPath(defaultFolder), hr.Value);
+					App.Logger.LogWarning("Failed to create shell item for default folder '{0}'. HRESULT: 0x{1:X8}. Dialog will open without default folder.", defaultFolder, hr.Value);
 					// Continue without setting default folder rather than failing completely
 				}
 				else

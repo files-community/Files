@@ -387,7 +387,7 @@ namespace Files.App.Utils.Library
 			{
 				if (newPath is null)
 				{
-					App.Logger.LogWarning($"Failed to open library after {changeType}: {newPath}");
+					App.Logger.LogWarning($"Failed to open library after {changeType}: {LogPathHelper.RedactPath(newPath)}");
 					return;
 				}
 
@@ -395,14 +395,14 @@ namespace Files.App.Utils.Library
 				var library = SafetyExtensions.IgnoreExceptions(() => new ShellLibraryEx(libraryFile!.IShellItem, true));
 				if (library is null)
 				{
-					App.Logger.LogWarning($"Failed to open library after {changeType}: {newPath}");
+					App.Logger.LogWarning($"Failed to open library after {changeType}: {LogPathHelper.RedactPath(newPath)}");
 					return;
 				}
 
 				var library1 = SafetyExtensions.IgnoreExceptions(() => ShellFolderExtensions.GetShellLibraryItem(library, newPath));
 				if (library1 is null)
 				{
-					App.Logger.LogWarning($"Failed to open library after {changeType}: {newPath}");
+					App.Logger.LogWarning($"Failed to open library after {changeType}: {LogPathHelper.RedactPath(newPath)}");
 					return;
 				}
 

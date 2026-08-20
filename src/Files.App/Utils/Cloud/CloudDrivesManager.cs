@@ -34,7 +34,7 @@ namespace Files.App.Utils.Cloud
 
 			foreach (var provider in providers)
 			{
-				_logger?.LogInformation($"Adding cloud provider \"{provider.Name}\" mapped to {provider.SyncFolder}");
+				_logger?.LogInformation($"Adding cloud provider {provider.ID} mapped to {LogPathHelper.RedactUserName(provider.SyncFolder)}");
 
 				var cloudProviderItem = new DriveItem()
 				{
