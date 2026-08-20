@@ -1,5 +1,5 @@
 ﻿using Microsoft.UI.Input;
-using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace Files.App.Controls
 {
@@ -12,16 +12,11 @@ namespace Files.App.Controls
 		/// <param name="cursor">Cursor to change.</param>
 		public static void ChangeCursor(this UIElement uiElement, InputCursor cursor)
 		{
-			Type type = typeof(UIElement);
-
-			type.InvokeMember(
-				"ProtectedCursor",
-				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.SetProperty | BindingFlags.Instance,
-				null,
-				uiElement,
-				[cursor]
-			);
+			SetProtectedCursor(uiElement, cursor);
 		}
+
+		[UnsafeAccessor(UnsafeAccessorKind.Method, Name = "set_ProtectedCursor")]
+		private static extern void SetProtectedCursor(UIElement uiElement, InputCursor cursor);
 
 		[Conditional("OMNIBAR_DEBUG")]
 		public static void WriteDebugStringForOmnibar(string? message)
