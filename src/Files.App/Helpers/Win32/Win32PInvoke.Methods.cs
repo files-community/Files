@@ -14,7 +14,7 @@ namespace Files.App.Helpers
 	{
 		public sealed partial class SafeFindHandle : SafeHandleZeroOrMinusOneIsInvalid
 		{
-			private SafeFindHandle(IntPtr handle) : base(true)
+			internal SafeFindHandle(IntPtr handle) : base(true)
 			{
 				SetHandle(handle);
 			}
