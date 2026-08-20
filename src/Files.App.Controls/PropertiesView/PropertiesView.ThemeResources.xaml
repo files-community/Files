@@ -853,4 +853,189 @@
 
 
 
+
+	<!--  PROPERTIES VIEW ITEM - TEXT  -->
+	<Style BasedOn="{StaticResource DefaultPropertiesViewItem_Info}" TargetType="fcontrols:PropertiesViewItemInfo" />
+
+	<Style x:Key="DefaultPropertiesViewItem_Info" TargetType="fcontrols:PropertiesViewItemInfo">
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="fcontrols:PropertiesViewItemInfo">
+					<Grid
+						MinHeight="48"
+						Padding="0,6"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="{TemplateBinding LabelWidth}" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+
+						<TextBlock
+							x:Name="PART_Label"
+							Grid.Row="0"
+							Grid.RowSpan="2"
+							Grid.Column="0"
+							Grid.ColumnSpan="1"
+							Margin="0,4,24,4"
+							VerticalAlignment="Center"
+							Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+							Style="{ThemeResource CaptionTextBlockStyle}"
+							Text="{TemplateBinding Label}" />
+
+						<Grid
+							x:Name="TextGrid"
+							Grid.Row="0"
+							Grid.RowSpan="2"
+							Grid.Column="1"
+							Grid.ColumnSpan="1"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Center">
+
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition x:Name="Col01" Width="Auto" />
+								<ColumnDefinition x:Name="Col02" Width="*" />
+							</Grid.ColumnDefinitions>
+
+							<TextBlock
+								x:Name="PART_Text"
+								Grid.Column="0"
+								Margin="0,2,12,2"
+								VerticalAlignment="Center"
+								Text="{TemplateBinding Text}"
+								TextWrapping="WrapWholeWords"
+								Visibility="Visible" />
+
+							<TextBox
+								x:Name="PART_TextEdit"
+								Grid.Column="0"
+								Grid.ColumnSpan="2"
+								Margin="-12,2,0,2"
+								VerticalAlignment="Center"
+								Text="{TemplateBinding Text}"
+								Visibility="Collapsed" />
+
+							<Border
+								x:Name="PART_InfoCard"
+								Grid.Column="1"
+								Width="32"
+								Height="32"
+								Margin="0,2,0,2"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Center"
+								Background="{ThemeResource SubtleFillColorTransparentBrush}"
+								BorderBrush="{ThemeResource SubtleFillColorTransparentBrush}"
+								BorderThickness="1"
+								CornerRadius="16">
+
+								<ToolTipService.ToolTip>
+									<ToolTip Content="{TemplateBinding InfoText}" Placement="Top" />
+								</ToolTipService.ToolTip>
+
+								<FontIcon
+									x:Name="PART_InfoIcon"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									FontSize="16"
+									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+									Glyph="&#xEA80;" />
+
+							</Border>
+						</Grid>
+
+
+
+
+						<VisualStateManager.VisualStateGroups>
+
+							<VisualStateGroup x:Name="EditableStateGroup">
+
+								<VisualState x:Name="NotEditableState">
+									<VisualState.Setters>
+										<Setter Target="PART_TextEdit.Visibility" Value="Collapsed" />
+										<Setter Target="PART_Text.Visibility" Value="Visible" />
+										<Setter Target="PART_InfoCard.Visibility" Value="Visible" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="EditableState">
+									<VisualState.Setters>
+										<Setter Target="PART_TextEdit.Visibility" Value="Visible" />
+										<Setter Target="PART_Text.Visibility" Value="Collapsed" />
+										<Setter Target="PART_InfoCard.Visibility" Value="Collapsed" />
+									</VisualState.Setters>
+								</VisualState>
+
+							</VisualStateGroup>
+
+
+							<VisualStateGroup x:Name="InfoStateGroup">
+
+								<VisualState x:Name="InfoRest">
+									<VisualState.Setters>
+										<Setter Target="PART_InfoCard.Background" Value="{ThemeResource SubtleFillColorTransparentBrush}" />
+										<Setter Target="PART_InfoCard.BorderBrush" Value="{ThemeResource SubtleFillColorTransparentBrush}" />
+										<Setter Target="PART_InfoIcon.Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="InfoPointerOver">
+									<VisualState.Setters>
+										<Setter Target="PART_InfoCard.Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+										<Setter Target="PART_InfoCard.BorderBrush" Value="{ThemeResource SurfaceStrokeColorDefaultBrush}" />
+										<Setter Target="PART_InfoIcon.Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+
+							</VisualStateGroup>
+
+
+							<VisualStateGroup x:Name="OrientationStateGroup">
+
+								<VisualState x:Name="HorizontalState">
+									<VisualState.Setters>
+										<Setter Target="PART_Label.(Grid.Row)" Value="0" />
+										<Setter Target="PART_Label.(Grid.RowSpan)" Value="2" />
+										<Setter Target="PART_Label.(Grid.Column)" Value="0" />
+										<Setter Target="PART_Label.(Grid.ColumnSpan)" Value="1" />
+
+										<Setter Target="TextStack.(Grid.Row)" Value="0" />
+										<Setter Target="TextStack.(Grid.RowSpan)" Value="2" />
+										<Setter Target="TextStack.(Grid.Column)" Value="1" />
+										<Setter Target="TextStack.(Grid.ColumnSpan)" Value="1" />
+										<Setter Target="Col01.Width" Value="Auto" />
+										<Setter Target="Col02.Width" Value="*" />
+									</VisualState.Setters>
+								</VisualState>
+
+								<VisualState x:Name="VerticalState">
+									<VisualState.Setters>
+										<Setter Target="PART_Label.(Grid.Row)" Value="0" />
+										<Setter Target="PART_Label.(Grid.RowSpan)" Value="1" />
+										<Setter Target="PART_Label.(Grid.Column)" Value="0" />
+										<Setter Target="PART_Label.(Grid.ColumnSpan)" Value="2" />
+
+										<Setter Target="TextStack.(Grid.Row)" Value="1" />
+										<Setter Target="TextStack.(Grid.RowSpan)" Value="1" />
+										<Setter Target="TextStack.(Grid.Column)" Value="0" />
+										<Setter Target="TextStack.(Grid.ColumnSpan)" Value="2" />
+
+										<Setter Target="Col01.Width" Value="*" />
+										<Setter Target="Col02.Width" Value="Auto" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+
 </ResourceDictionary>
