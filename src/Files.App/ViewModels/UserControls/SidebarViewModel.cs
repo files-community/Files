@@ -1443,7 +1443,7 @@ namespace Files.App.ViewModels.UserControls
 					filesTags = [.. filesTags, fileTag.Uid];
 					var fileFRN = await FileTagsHelper.GetFileFRN(item.Item);
 					dbInstance.SetTags(path, fileFRN, filesTags);
-					FileTagsHelper.WriteFileTag(path, filesTags);
+					await FileTagsHelper.WriteFileTagAsync(path, filesTags);
 					pathToTags[path] = filesTags;
 				}
 			}

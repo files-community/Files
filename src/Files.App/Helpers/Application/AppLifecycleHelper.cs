@@ -272,10 +272,13 @@ namespace Files.App.Helpers
 		public static IServiceProvider ConfigureHost(AppModel appModel)
 		{
 			var services = new ServiceCollection();
+			var fileLoggerProvider = new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log"));
+
+			services.AddSingleton(fileLoggerProvider);
 
 			services.AddLogging(builder => builder
 					.AddDebug()
-					.AddProvider(new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log")))
+					.AddProvider(fileLoggerProvider)
 					.AddProvider(new SentryLoggerProvider())
 					.SetMinimumLevel(LogLevel.Information));
 
@@ -567,11 +570,11 @@ namespace Files.App.Helpers
 			catch
 			{
 				// Swallow any exception escaping the handler so it can't re-enter
-				// Application.UnhandledException before Process.Kill terminates the process.
+				// Application.UnhandledException before the process terminates.
 			}
 			finally
 			{
-				Process.GetCurrentProcess().Kill();
+				Environment.Exit(ex?.HResult ?? 1);
 			}
 		}
 

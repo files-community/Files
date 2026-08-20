@@ -119,7 +119,7 @@ namespace Files.App.Data.Contracts
 		/// <remarks>
 		/// Implementations should raise <see cref="GitFetchCompleted"/> when the fetch completes successfully.
 		/// </remarks>
-		void FetchOrigin(string? repositoryPath, CancellationToken cancellationToken = default);
+		Task FetchOriginAsync(string? repositoryPath, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		/// Pulls from the default remote.

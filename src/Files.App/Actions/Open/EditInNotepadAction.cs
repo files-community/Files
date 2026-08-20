@@ -37,7 +37,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			return Task.WhenAll(context.SelectedItems.Select(item => Win32Helper.RunPowershellCommandAsync($"notepad '{item.ItemPath}\'", PowerShellExecutionOptions.Hidden)));
+			return Task.WhenAll(context.SelectedItems.Select(item => Win32Helper.RunPowershellCommandAsync($"& 'notepad.exe' {Win32Helper.ToPowerShellStringLiteral(item.ItemPath)}", PowerShellExecutionOptions.Hidden)));
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

@@ -35,18 +35,20 @@ namespace Files.App.Services
 		public bool SetCompatibilityOptionsForPath(string filePath, WindowsCompatibilityOptions options)
 		{
 			var stringOptions = options.ToString();
+			var registryPath = Win32Helper.ToPowerShellStringLiteral($@"HKCU:\{_registrySubPath}");
+			var propertyName = Win32Helper.ToPowerShellStringLiteral(filePath);
 
 			// Remove old one if new one is valid
 			if (string.IsNullOrEmpty(stringOptions) || stringOptions == "~")
 			{
 				return Win32Helper.RunPowershellCommand(
-					@$"Remove-ItemProperty -Path 'HKCU:\{_registrySubPath}' -Name '{filePath}' | Out-Null",
+					$"Remove-ItemProperty -Path {registryPath} -Name {propertyName} | Out-Null",
 					PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
 			}
 
 			// Set the new one
 			return Win32Helper.RunPowershellCommand(
-				@$"New-ItemProperty -Path 'HKCU:\{_registrySubPath}' -Name '{filePath}' -Value '{options}' -PropertyType String -Force | Out-Null",
+				$"New-ItemProperty -Path {registryPath} -Name {propertyName} -Value {Win32Helper.ToPowerShellStringLiteral(stringOptions)} -PropertyType String -Force | Out-Null",
 				PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
 		}
 	}

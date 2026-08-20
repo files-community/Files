@@ -64,8 +64,8 @@ END_COM_MAP()
 
 	std::vector<std::wstring> _selectedItems;
 	std::wstring _outputPath;
-	IShellItem* _initFolder;
-	IFileDialogEvents* _dialogEvents;
+	CComPtr<IShellItem> _initFolder;
+	CComPtr<IFileDialogEvents> _dialogEvents;
 
 	FILE* _debugStream;
 

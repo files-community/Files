@@ -35,22 +35,6 @@ CComPtr<IFileOpenDialog> GetSystemDialog()
 	return systemDialog;
 }
 
-IShellItem* CloneShellItem(IShellItem* psi)
-{
-	IShellItem* item = NULL;
-	if (psi)
-	{
-		PIDLIST_ABSOLUTE pidl;
-		if (SUCCEEDED(SHGetIDListFromObject(psi, &pidl)))
-		{
-			SHCreateItemFromIDList(pidl, IID_IShellItem, (void**)&item);
-			CoTaskMemFree(pidl);
-		}
-	}
-
-	return item;
-}
-
 std::string wstring_to_utf8_hex(const std::wstring& input)
 {
 	std::string output;
@@ -124,11 +108,13 @@ CFilesOpenDialog::CFilesOpenDialog()
 	GetTempFileName(tempPath, L"fsd", 0, tempName);
 	_outputPath = tempName;
 
-	(void)SHGetKnownFolderItem(FOLDERID_Documents, KF_FLAG_DEFAULT_PATH, NULL, IID_IShellItem, (void**)&_initFolder);
+	(void)SHGetKnownFolderItem(FOLDERID_Documents, KF_FLAG_DEFAULT_PATH, NULL, IID_PPV_ARGS(&_initFolder));
 
-	hr = _initFolder->GetDisplayName(SIGDN_NORMALDISPLAY, &pszPath);
-	if (SUCCEEDED(hr))
+	if (_initFolder && SUCCEEDED(_initFolder->GetDisplayName(SIGDN_NORMALDISPLAY, &pszPath)))
+	{
 		wcout << L"_outputPath: " << _outputPath << L", _initFolder: " << pszPath << endl;
+		CoTaskMemFree(pszPath);
+	}
 
 #ifdef  SYSTEMDIALOG
 	_systemDialog = GetSystemDialog();
@@ -140,8 +126,9 @@ void CFilesOpenDialog::FinalRelease()
 	if (_systemDialog)
 		_systemDialog.Release();
 
-	if (_initFolder)
-		_initFolder->Release();
+	_initFolder.Release();
+	_dialogEvents.Release();
+	DeleteFile(_outputPath.c_str());
 
 	if (_debugStream)
 		fclose(_debugStream);
@@ -150,6 +137,7 @@ void CFilesOpenDialog::FinalRelease()
 STDAPICALL CFilesOpenDialog::Show(HWND hwndOwner)
 {
 	cout << "Show, hwndOwner: " << hwndOwner << endl;
+	_selectedItems.clear();
 
 #ifdef  SYSTEMDIALOG
 	return _systemDialog->Show(hwndOwner);
@@ -273,7 +261,7 @@ STDAPICALL CFilesOpenDialog::Advise(IFileDialogEvents* pfde, DWORD* pdwCookie)
 	return _systemDialog->Advise(pfde, pdwCookie);
 #endif
 	_dialogEvents = pfde;
-	*pdwCookie = 0;
+	*pdwCookie = 1;
 	return S_OK;
 }
 
@@ -283,7 +271,7 @@ STDAPICALL CFilesOpenDialog::Unadvise(DWORD dwCookie)
 #ifdef SYSTEMDIALOG
 	return _systemDialog->Unadvise(dwCookie);
 #endif
-	_dialogEvents = NULL;
+	_dialogEvents.Release();
 	return S_OK;
 }
 
@@ -318,11 +306,7 @@ STDAPICALL CFilesOpenDialog::SetDefaultFolder(IShellItem* psi)
 #ifdef SYSTEMDIALOG
 	return _systemDialog->SetDefaultFolder(psi);
 #endif
-	if (_initFolder)
-	{
-		_initFolder->Release();
-	}
-	_initFolder = CloneShellItem(psi);
+	_initFolder = psi;
 	return S_OK;
 }
 
@@ -337,11 +321,7 @@ STDAPICALL CFilesOpenDialog::SetFolder(IShellItem* psi)
 #ifdef SYSTEMDIALOG
 	return _systemDialog->SetFolder(psi);
 #endif
-	if (_initFolder)
-	{
-		_initFolder->Release();
-	}
-	_initFolder = CloneShellItem(psi);
+	_initFolder = psi;
 	return S_OK;
 }
 
@@ -379,12 +359,7 @@ STDAPICALL CFilesOpenDialog::GetFileName(LPWSTR* pszName)
 #ifdef SYSTEMDIALOG
 	return _systemDialog->GetFileName(pszName);
 #endif
-	SHStrDupW(L"", pszName);
-	if (!_selectedItems.empty())
-	{
-		SHStrDupW(_selectedItems[0].c_str(), pszName);
-	}
-	return S_OK;
+	return SHStrDupW(_selectedItems.empty() ? L"" : _selectedItems[0].c_str(), pszName);
 }
 
 STDAPICALL CFilesOpenDialog::SetTitle(LPCWSTR pszTitle)
@@ -420,11 +395,9 @@ STDAPICALL CFilesOpenDialog::GetResult(IShellItem** ppsi)
 #ifdef SYSTEMDIALOG
 	return _systemDialog->GetResult(ppsi);
 #endif
+	*ppsi = NULL;
 	if (!_selectedItems.empty())
-	{
-		SHCreateItemFromParsingName(_selectedItems[0].c_str(), NULL, IID_IShellItem, (void**)ppsi);
-		return S_OK;
-	}
+		return SHCreateItemFromParsingName(_selectedItems[0].c_str(), NULL, IID_IShellItem, (void**)ppsi);
 	return E_NOTIMPL;
 }
 
@@ -493,24 +466,25 @@ STDAPICALL CFilesOpenDialog::GetResults(IShellItemArray** ppenum)
 #ifdef SYSTEMDIALOG
 	return _systemDialog->GetResults(ppenum);
 #endif
+	*ppenum = NULL;
 	if (!_selectedItems.empty())
 	{
 		std::vector<PIDLIST_ABSOLUTE> pidls;
-		IShellItem* psi;
-		PIDLIST_ABSOLUTE pidl;
-		for (std::wstring ipath : _selectedItems)
+		for (const std::wstring& ipath : _selectedItems)
 		{
-			if (SUCCEEDED(SHCreateItemFromParsingName(ipath.c_str(), NULL, IID_IShellItem, (void**)&psi)))
+			CComPtr<IShellItem> psi;
+			if (SUCCEEDED(SHCreateItemFromParsingName(ipath.c_str(), NULL, IID_PPV_ARGS(&psi))))
 			{
+				PIDLIST_ABSOLUTE pidl = NULL;
 				if (SUCCEEDED(SHGetIDListFromObject(psi, &pidl)))
-				{
-					pidls.push_back(ILClone(pidl));
-				}
-				psi->Release();
+					pidls.push_back(pidl);
 			}
 		}
 
-		HRESULT hr = SHCreateShellItemArrayFromIDLists((UINT)pidls.size(), (LPCITEMIDLIST*)&pidls[0], ppenum);
+		if (pidls.empty())
+			return E_FAIL;
+
+		HRESULT hr = SHCreateShellItemArrayFromIDLists((UINT)pidls.size(), (LPCITEMIDLIST*)pidls.data(), ppenum);
 		for (PIDLIST_ABSOLUTE item : pidls)
 		{
 			CoTaskMemFree(item);

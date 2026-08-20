@@ -4,6 +4,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using Microsoft.Win32.SafeHandles;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
 
@@ -11,6 +12,16 @@ namespace Files.App.Helpers
 {
 	public static partial class Win32PInvoke
 	{
+		public sealed partial class SafeFindHandle : SafeHandleZeroOrMinusOneIsInvalid
+		{
+			internal SafeFindHandle(IntPtr handle) : base(true)
+			{
+				SetHandle(handle);
+			}
+
+			protected override bool ReleaseHandle() => FindClose(handle);
+		}
+
 		public delegate void LpoverlappedCompletionRoutine(
 			uint dwErrorCode,
 			uint dwNumberOfBytesTransfered,
@@ -224,6 +235,26 @@ namespace Files.App.Helpers
 			IntPtr lpSearchFilter,
 			int dwAdditionalFlags
 		);
+
+		public static SafeFindHandle FindFirstFileExFromAppSafe(
+			string lpFileName,
+			FINDEX_INFO_LEVELS fInfoLevelId,
+			out WIN32_FIND_DATA lpFindFileData,
+			FINDEX_SEARCH_OPS fSearchOp,
+			IntPtr lpSearchFilter,
+			int dwAdditionalFlags
+		)
+		{
+			var handle = FindFirstFileExFromApp(
+				lpFileName,
+				fInfoLevelId,
+				out lpFindFileData,
+				fSearchOp,
+				lpSearchFilter,
+				dwAdditionalFlags);
+
+			return new(handle);
+		}
 
 		[LibraryImport("shell32.dll", EntryPoint = "#865", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
