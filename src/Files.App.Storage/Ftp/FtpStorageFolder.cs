@@ -82,7 +82,7 @@ namespace Files.App.Storage
 			if (itemToCopy is IFile sourceFile)
 			{
 				var destinationId = $"{Id.TrimEnd('/')}/{itemToCopy.Name}";
-				if (string.Equals(itemToCopy.Id, destinationId, StringComparison.Ordinal))
+				if (FtpHelpers.IsSameFtpPath(itemToCopy.Id, destinationId))
 					throw new IOException("Source and destination refer to the same FTP file.");
 
 				var copiedFile = await CreateFileAsync(itemToCopy.Name, overwrite, cancellationToken);

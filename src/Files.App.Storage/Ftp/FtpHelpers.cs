@@ -33,6 +33,14 @@ namespace Files.App.Storage
 			return uri.Scheme.Equals("ftps", StringComparison.OrdinalIgnoreCase) ? (ushort)990 : (ushort)21;
 		}
 
+		public static bool IsSameFtpPath(string firstPath, string secondPath)
+		{
+			return
+				string.Equals(GetFtpHost(firstPath), GetFtpHost(secondPath), StringComparison.OrdinalIgnoreCase) &&
+				GetFtpPort(firstPath) == GetFtpPort(secondPath) &&
+				string.Equals(GetFtpPath(firstPath), GetFtpPath(secondPath), StringComparison.Ordinal);
+		}
+
 		public static AsyncFtpClient GetFtpClient(string ftpPath)
 		{
 			var host = GetFtpHost(ftpPath);

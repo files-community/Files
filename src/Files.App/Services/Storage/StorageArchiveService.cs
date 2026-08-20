@@ -198,7 +198,7 @@ namespace Files.App.Services
 				else
 				{
 					foreach (var archiveEntry in zipFile.ArchiveFileData)
-						_ = ValidateAndGetSafeExtractionPath(destinationFolderPath, archiveEntry.FileName);
+						_ = ValidateAndGetSafeExtractionPath(destinationFolderPath, archiveEntry.FileName, archiveEntry.IsDirectory);
 
 					// TODO: Get this method return result
 					await zipFile.ExtractArchiveAsync(destinationFolderPath);
@@ -362,14 +362,21 @@ namespace Files.App.Services
 			return isSuccess;
 		}
 
-		private static string ValidateAndGetSafeExtractionPath(string destinationFolderPath, string entryName)
+		private static string ValidateAndGetSafeExtractionPath(string destinationFolderPath, string entryName, bool allowDestinationRoot = false)
 		{
-			var destinationRoot = Path.GetFullPath(destinationFolderPath);
+			var destinationRoot = Path.TrimEndingDirectorySeparator(Path.GetFullPath(destinationFolderPath));
 			var destinationPrefix = Path.EndsInDirectorySeparator(destinationRoot)
 				? destinationRoot
 				: destinationRoot + Path.DirectorySeparatorChar;
 			var normalizedEntryName = entryName.Replace('/', Path.DirectorySeparatorChar);
 			var destinationPath = Path.GetFullPath(Path.Combine(destinationPrefix, normalizedEntryName));
+
+			if (string.Equals(destinationPath, destinationRoot, StringComparison.Ordinal))
+			{
+				return allowDestinationRoot
+					? destinationPath
+					: throw new InvalidDataException($"Archive entry '{entryName}' resolves to the destination folder instead of a file path.");
+			}
 
 			if (!destinationPath.StartsWith(destinationPrefix, StringComparison.Ordinal))
 				throw new InvalidDataException($"Archive entry '{entryName}' resolves outside the destination folder.");
