@@ -3261,6 +3261,8 @@ namespace Files.App.ViewModels
 
 		public void UpdateDateDisplay()
 		{
+			App.Logger.LogDebug($"UpdateDateDisplay: itemCount={filesAndFolders.Count}");
+
 			foreach (var item in filesAndFolders)
 			{
 				if (item.IsRealChanges)
