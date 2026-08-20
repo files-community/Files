@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Runtime.InteropServices;
+using System.Security.Principal;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Security;
@@ -238,10 +239,11 @@ namespace Files.App.Services
 
 				try
 				{
+					var sidLength = (uint)new SecurityIdentifier(szSid).BinaryLength;
 					var cbNewDACL = checked(
 						aclSizeInfo.AclBytesInUse +
 						(uint)Marshal.SizeOf<ACCESS_ALLOWED_ACE>() +
-						PInvoke.GetLengthSid(pSid) -
+						sidLength -
 						(uint)sizeof(uint));
 					var pNewDACL = (ACL*)PInvoke.LocalAlloc(LOCAL_ALLOC_FLAGS.LPTR, (nuint)cbNewDACL);
 					if (pNewDACL == null)

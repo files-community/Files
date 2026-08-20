@@ -10,9 +10,14 @@ namespace Files.App.Storage
 			static string ToPowerShellStringLiteral(string value)
 				=> $"'{value.Replace("'", "''", StringComparison.Ordinal)}'";
 
+			var filePath = storable.ToString();
+			var iconPath = iconFile.ToString();
+			if (string.IsNullOrEmpty(filePath) || string.IsNullOrEmpty(iconPath))
+				return false;
+
 			string psScript =
-				$@"$FilePath = {ToPowerShellStringLiteral(storable.ToString())}
-					$IconFile = {ToPowerShellStringLiteral(iconFile.ToString())}
+				$@"$FilePath = {ToPowerShellStringLiteral(filePath)}
+					$IconFile = {ToPowerShellStringLiteral(iconPath)}
 					$IconIndex = '{index}'
 
 					$Shell = New-Object -ComObject WScript.Shell

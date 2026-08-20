@@ -31,7 +31,7 @@ namespace Files.App.Storage
 		{
 			var host = GetFtpHost(ftpPath);
 			var port = GetFtpPort(ftpPath);
-			var credentials = FtpManager.Credentials.Get(host, FtpManager.Anonymous);
+			var credentials = FtpManager.Credentials.GetValueOrDefault(host) ?? FtpManager.Anonymous;
 
 			return new(host, credentials, port);
 		}

@@ -12,7 +12,7 @@ namespace Files.App.Helpers
 {
 	public static partial class Win32PInvoke
 	{
-		public sealed class SafeFindHandle : SafeHandleZeroOrMinusOneIsInvalid
+		public sealed partial class SafeFindHandle : SafeHandleZeroOrMinusOneIsInvalid
 		{
 			public SafeFindHandle() : base(true)
 			{
