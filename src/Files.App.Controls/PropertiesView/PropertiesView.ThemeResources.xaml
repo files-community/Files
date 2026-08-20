@@ -638,7 +638,8 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="fcontrols:PropertiesViewItemText">
 					<Grid
-						Padding="12,6"
+						MinHeight="48"
+						Padding="0,6"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch">
 						<Grid.ColumnDefinitions>
@@ -656,7 +657,7 @@
 							Grid.RowSpan="2"
 							Grid.Column="0"
 							Grid.ColumnSpan="1"
-							Margin="0,2,12,2"
+							Margin="0,4,24,4"
 							VerticalAlignment="Center"
 							Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 							Style="{ThemeResource CaptionTextBlockStyle}"
@@ -692,14 +693,14 @@
 							<VisualStateGroup x:Name="EditableStateGroup">
 								<VisualState x:Name="NotEditableState">
 									<VisualState.Setters>
-										<Setter Target="TextEdit_PART.Visibility" Value="Collapsed" />
-										<Setter Target="Text_PART.Visibility" Value="Visible" />
+										<Setter Target="PART_TextEdit.Visibility" Value="Collapsed" />
+										<Setter Target="PART_Text.Visibility" Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="EditableState">
 									<VisualState.Setters>
-										<Setter Target="TextEdit_PART.Visibility" Value="Visible" />
-										<Setter Target="Text_PART.Visibility" Value="Collapsed" />
+										<Setter Target="PART_TextEdit.Visibility" Value="Visible" />
+										<Setter Target="PART_Text.Visibility" Value="Collapsed" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -759,7 +760,93 @@
 
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="fcontrols:PropertiesViewItemRating" />
+				<ControlTemplate TargetType="fcontrols:PropertiesViewItemRating">
+					<Grid
+						Padding="0,6"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="{TemplateBinding LabelWidth}" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+
+						<TextBlock
+							x:Name="PART_Label"
+							Grid.Row="0"
+							Grid.RowSpan="2"
+							Grid.Column="0"
+							Grid.ColumnSpan="1"
+							Margin="0,4,24,4"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Center"
+							Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+							Style="{ThemeResource CaptionTextBlockStyle}"
+							Text="{TemplateBinding Label}" />
+
+						<RatingControl
+							x:Name="PART_RatingControl"
+							Grid.Row="0"
+							Grid.RowSpan="2"
+							Grid.Column="1"
+							Grid.ColumnSpan="1"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Center"
+							IsClearEnabled="True"
+							MaxRating="5"
+							PlaceholderValue="-1" />
+
+
+
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="EditableStateGroup">
+								<VisualState x:Name="NotEditableState">
+									<VisualState.Setters>
+										<Setter Target="PART_RatingControl.IsReadOnly" Value="True" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="EditableState">
+									<VisualState.Setters>
+										<Setter Target="PART_RatingControl.IsReadOnly" Value="False" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="OrientationStateGroup">
+								<VisualState x:Name="HorizontalState">
+									<VisualState.Setters>
+										<Setter Target="PART_Label.(Grid.Row)" Value="0" />
+										<Setter Target="PART_Label.(Grid.RowSpan)" Value="2" />
+										<Setter Target="PART_Label.(Grid.Column)" Value="0" />
+										<Setter Target="PART_Label.(Grid.ColumnSpan)" Value="1" />
+
+										<Setter Target="PART_RatingControl.(Grid.Row)" Value="0" />
+										<Setter Target="PART_RatingControl.(Grid.RowSpan)" Value="2" />
+										<Setter Target="PART_RatingControl.(Grid.Column)" Value="1" />
+										<Setter Target="PART_RatingControl.(Grid.ColumnSpan)" Value="1" />
+									</VisualState.Setters>
+								</VisualState>
+
+								<VisualState x:Name="VerticalState">
+									<VisualState.Setters>
+										<Setter Target="PART_Label.(Grid.Row)" Value="0" />
+										<Setter Target="PART_Label.(Grid.RowSpan)" Value="1" />
+										<Setter Target="PART_Label.(Grid.Column)" Value="0" />
+										<Setter Target="PART_Label.(Grid.ColumnSpan)" Value="2" />
+
+										<Setter Target="PART_RatingControl.(Grid.Row)" Value="1" />
+										<Setter Target="PART_RatingControl.(Grid.RowSpan)" Value="1" />
+										<Setter Target="PART_RatingControl.(Grid.Column)" Value="0" />
+										<Setter Target="PART_RatingControl.(Grid.ColumnSpan)" Value="2" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
 	</Style>
