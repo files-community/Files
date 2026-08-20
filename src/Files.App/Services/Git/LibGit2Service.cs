@@ -411,6 +411,7 @@ internal sealed partial class LibGit2Service // : IVersionControl
 					}
 				}
 			}, cancellationToken);
+			cancellationToken.ThrowIfCancellationRequested();
 			fetchCompleted = true;
 		}
 		catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
@@ -429,7 +430,7 @@ internal sealed partial class LibGit2Service // : IVersionControl
 					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						IsExecutingGitAction = false;
-						if (fetchCompleted)
+						if (fetchCompleted && !cancellationToken.IsCancellationRequested)
 							GitFetchCompleted?.Invoke(this, EventArgs.Empty);
 					});
 				}

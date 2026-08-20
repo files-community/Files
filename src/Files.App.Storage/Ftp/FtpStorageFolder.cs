@@ -43,7 +43,8 @@ namespace Files.App.Storage
 			var serverUri = new Uri(new Uri(Id).GetLeftPart(UriPartial.Authority));
 			foreach (var item in await ftpClient.GetListing(FtpHelpers.GetFtpPath(Id), cancellationToken))
 			{
-				var itemId = new Uri(serverUri, item.FullName).AbsoluteUri;
+				var escapedPath = string.Join('/', item.FullName.Split('/').Select(Uri.EscapeDataString));
+				var itemId = new UriBuilder(serverUri) { Path = escapedPath }.Uri.AbsoluteUri;
 				if (kind.HasFlag(StorableType.File) && item.Type == FtpObjectType.File)
 					yield return new FtpStorageFile(itemId, item.Name, this);
 				else if (kind.HasFlag(StorableType.Folder) && item.Type == FtpObjectType.Directory)
