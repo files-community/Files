@@ -222,7 +222,7 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public async Task<bool> AuthenticateNetworkShare(string path)
 		{
-			var netRes = new NETRESOURCEW() { dwType = NET_RESOURCE_TYPE.RESOURCETYPE_DISK };
+			WIN32_ERROR res;
 
 			unsafe
 			{
@@ -255,12 +255,18 @@ namespace Files.App.Services
 				if (shareRootSegments.Length > 2)
 					path = @"\\" + shareRootSegments[0] + @"\" + shareRootSegments[1];
 
+				// If credentials are saved, this will return NO_ERROR
 				fixed (char* lpcPath = path)
-					netRes.lpRemoteName = new PWSTR(lpcPath);
-			}
+				{
+					var netRes = new NETRESOURCEW()
+					{
+						dwType = NET_RESOURCE_TYPE.RESOURCETYPE_DISK,
+						lpRemoteName = new PWSTR(lpcPath)
+					};
 
-			// If credentials are saved, this will return NO_ERROR
-			var res = (WIN32_ERROR)PInvoke.WNetAddConnection3W(new(nint.Zero), netRes, null, null, 0);
+					res = (WIN32_ERROR)PInvoke.WNetAddConnection3W(new(nint.Zero), netRes, null, null, 0);
+				}
+			}
 
 			if (res == WIN32_ERROR.ERROR_LOGON_FAILURE || res == WIN32_ERROR.ERROR_ACCESS_DENIED)
 			{
@@ -270,7 +276,20 @@ namespace Files.App.Services
 
 				if (credentialsReturned is not null && credentialsReturned[1] != null)
 				{
-					res = (WIN32_ERROR)PInvoke.WNetAddConnection3W(new(nint.Zero), netRes, credentialsReturned[1], credentialsReturned[0], 0);
+					unsafe
+					{
+						fixed (char* lpcPath = path)
+						{
+							var netRes = new NETRESOURCEW()
+							{
+								dwType = NET_RESOURCE_TYPE.RESOURCETYPE_DISK,
+								lpRemoteName = new PWSTR(lpcPath)
+							};
+
+							res = (WIN32_ERROR)PInvoke.WNetAddConnection3W(new(nint.Zero), netRes, credentialsReturned[1], credentialsReturned[0], 0);
+						}
+					}
+
 					if (credentialsReturned[2] == "y" && res == WIN32_ERROR.NO_ERROR)
 					{
 						var creds = new CREDENTIALW()
