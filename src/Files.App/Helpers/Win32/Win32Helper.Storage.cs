@@ -79,7 +79,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		private static readonly object _iconOverlayLock = new object();
+		private static readonly Lock _iconOverlayLock = new();
 
 		/// <summary>
 		/// Returns overlay for given file or folder
@@ -134,7 +134,7 @@ namespace Files.App.Helpers
 			return overlayData;
 		}
 
-		private static readonly object _iconLock = new object();
+		private static readonly Lock _iconLock = new();
 
 		/// <summary>
 		/// Returns an icon if returnIconOnly is true, otherwise a thumbnail will be returned if available.

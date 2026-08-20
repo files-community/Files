@@ -23,7 +23,7 @@ namespace Files.App
 
 		public nint WindowHandle { get; }
 		private bool CanWindowToFront { get; set; } = true;
-		private readonly object _canWindowToFrontLock = new();
+		private readonly Lock _canWindowToFrontLock = new();
 
 		public MainWindow()
 		{
