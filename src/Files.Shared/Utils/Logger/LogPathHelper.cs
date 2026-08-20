@@ -19,6 +19,14 @@ namespace Files.Shared
 		[GeneratedRegex(@"(?<=[\\/][Uu]sers[\\/])[^\\/:*?""'<>|\r\n]+")]
 		private static partial Regex UserProfileSegmentRegex();
 
+		// Email address token; "%40" also matches the URL-encoded "@" in remote-URL userinfo
+		[GeneratedRegex(@"[A-Za-z0-9._+\-]+(?:@|%40)[A-Za-z0-9.\-]+\.[A-Za-z]{2,}")]
+		private static partial Regex EmailRegex();
+
+		// Authority of a "scheme://" URL (userinfo, host, port), up to the path/query/fragment
+		[GeneratedRegex(@"(?<=://)[^/?#\s""'<>|\\,;)\]]+")]
+		private static partial Regex UrlAuthorityRegex();
+
 		[GeneratedRegex(@"[^\\/]+")]
 		private static partial Regex PathSegmentRegex();
 
@@ -59,6 +67,10 @@ namespace Files.Shared
 				var lines = message.Split('\n');
 				for (int i = 0; i < lines.Length; i++)
 				{
+					// Scrubbed on every line, stack trace frames included
+					lines[i] = EmailRegex().Replace(lines[i], "%Email%");
+					lines[i] = UrlAuthorityRegex().Replace(lines[i], "%Host%");
+
 					// Stack trace frames ("   at Method() in <file>:line n") carry build-machine source
 					// paths that are needed to read the trace; only the user name is scrubbed there
 					if (!lines[i].TrimStart().StartsWith("at ", StringComparison.Ordinal))
