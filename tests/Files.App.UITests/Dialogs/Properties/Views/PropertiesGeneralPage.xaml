@@ -108,7 +108,7 @@
 								Text="Item value 1 text here" />
 							<MenuFlyoutSeparator />
 							<fcontrols:PropertiesViewItemText
-								Label="Item label t00"
+								Label="Item label t00 extra long to demonstrate the wrapping for Labels"
 								LabelWidth="{StaticResource LabelWidth}"
 								Orientation="Horizontal"
 								Text="Item value t00 text here" />
@@ -117,7 +117,7 @@
 								Label="Item label three"
 								LabelWidth="{StaticResource LabelWidth}"
 								Orientation="Horizontal"
-								Text="Item value three text here" />
+								Text="Item value three text here, extra long to show how text values will wrap onto mnany lines." />
 						</StackPanel>
 					</Expander.Content>
 				</Expander>
@@ -137,23 +137,29 @@
 							Padding="0,0,0,8"
 							HorizontalAlignment="Stretch"
 							Orientation="Vertical">
-							<fcontrols:PropertiesViewItemText
-								Label="Item label 1"
+							<fcontrols:PropertiesViewItemRating
+								Label="Item label 1 readonly"
 								LabelWidth="{StaticResource LabelWidth}"
-								Orientation="Vertical"
-								Text="Item value 1 text here" />
+								Orientation="Horizontal"
+								Rating="9345" />
 							<MenuFlyoutSeparator Margin="16,0" />
-							<fcontrols:PropertiesViewItemText
-								Label="Item label t00"
-								Orientation="Vertical"
-								Text="Item value t00 text here" />
-							<MenuFlyoutSeparator Margin="16,0" />
-							<fcontrols:PropertiesViewItemText
+							<fcontrols:PropertiesViewItemRating
 								CanEdit="True"
-								Label="Item label three"
-								LabelWidth="{StaticResource LabelWidth}"
-								Orientation="Vertical"
-								Text="Item value three text here" />
+								Label="Item label t00 editable"
+								Orientation="Horizontal"
+								Rating="-23" />
+							<MenuFlyoutSeparator Margin="16,0" />
+							<fcontrols:PropertiesViewItemRating
+								CanEdit="False"
+								Label="Item label three readonly"
+								Orientation="Horizontal"
+								Rating="32" />
+							<MenuFlyoutSeparator Margin="16,0" />
+							<fcontrols:PropertiesViewItemRating
+								CanEdit="True"
+								Label="Item label 4ore editable"
+								Orientation="Horizontal"
+								Rating="72" />
 						</StackPanel>
 					</Expander.Content>
 				</Expander>
@@ -164,7 +170,7 @@
 
 				<Expander Style="{StaticResource PropertiesExpanderStyle}">
 					<Expander.Header>
-						<fcontrols:PropertiesHeader Text="Header text goes here">
+						<fcontrols:PropertiesHeader Text="Vertical examples">
 							<fcontrols:PropertiesHeader.Icon>
 								<SymbolIcon Symbol="SlideShow" />
 							</fcontrols:PropertiesHeader.Icon>
@@ -174,13 +180,31 @@
 					<Expander.Content>
 						<StackPanel
 							HorizontalAlignment="Stretch"
-							Background="#110000FF"
 							Orientation="Vertical">
-							<TextBlock Height="48" Text="Item 1 in the stack" />
+
+							<fcontrols:PropertiesViewItemText
+								CanEdit="True"
+								Label="Item label 1"
+								LabelWidth="{StaticResource LabelWidth}"
+								Orientation="Vertical"
+								Text="Item value 1 text here" />
+
 							<MenuFlyoutSeparator />
-							<TextBlock Height="48" Text="Item 2 in the stack" />
+
+							<fcontrols:PropertiesViewItemRating
+								CanEdit="True"
+								Label="Really long label wrapping when using a vertical layout example here for your viewing pleasure."
+								Orientation="Vertical"
+								Rating="54" />
+
 							<MenuFlyoutSeparator />
-							<TextBlock Height="48" Text="Item 3 in the stack" />
+
+							<fcontrols:PropertiesViewItemText
+								CanEdit="False"
+								Label="Item label three"
+								LabelWidth="{StaticResource LabelWidth}"
+								Orientation="Vertical"
+								Text="Item value 1 text here, made long so we can see how wrapping will work for this vertical exanple of the control layout. " />
 						</StackPanel>
 					</Expander.Content>
 				</Expander>

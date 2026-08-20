@@ -34,11 +34,11 @@ namespace Files.App.Controls.Primitives
 		{
 			if ( orientation == Orientation.Horizontal )
 			{
-				VisualStateManager.GoToState( this , "HorizontalState" , false );
+				VisualStateManager.GoToState( this , HorizontalStateName , false );
 			}
 			else
 			{
-				VisualStateManager.GoToState( this , "VerticalState" , false );
+				VisualStateManager.GoToState( this , VerticalStateName , false );
 			}
 		}
 
@@ -55,11 +55,11 @@ namespace Files.App.Controls.Primitives
 		{
 			if ( canEdit == true )
 			{
-				VisualStateManager.GoToState( this , "EditableState" , false );
+				VisualStateManager.GoToState( this , EditableStateName , false );
 			}
 			else
 			{
-				VisualStateManager.GoToState( this , "NonEditableState" , false );
+				VisualStateManager.GoToState( this , NotEditableStateName , false );
 			}
 		}
 

@@ -24,9 +24,10 @@
 		<TextBlock
 			x:Name="Text_PART"
 			Grid.Column="1"
-			Margin="0,4"
+			Margin="0,4,0,8"
 			HorizontalAlignment="Left"
 			Text="{x:Bind Text}"
+			FontWeight="SemiBold"
 			TextWrapping="WrapWholeWords" />
 	</Grid>
 
