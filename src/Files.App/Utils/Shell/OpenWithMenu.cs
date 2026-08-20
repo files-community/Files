@@ -38,6 +38,7 @@ namespace Files.App.Utils.Shell
 			var owningThread = new ThreadWithMessageQueue();
 			var menu = await owningThread.PostMethod<OpenWithMenu?>(() =>
 			{
+				using var cursorScope = ShellCursorScope.Capture();
 				unsafe
 				{
 					return Create(path, owningThread);

@@ -14,6 +14,8 @@ RegisterWindowMessage
 NOTIFYICONDATAW
 Shell_NotifyIcon
 GetCursorPos
+GetCursorInfo
+SetCursor
 ClientToScreen
 DestroyMenu
 AppendMenu

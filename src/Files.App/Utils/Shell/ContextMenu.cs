@@ -133,6 +133,7 @@ namespace Files.App.Utils.Shell
 			var worker = ContextMenuWorkerPool.Rent();
 			var contextMenu = await worker.Thread.PostMethod<ContextMenu?>(() =>
 			{
+				using var cursorScope = ShellCursorScope.Capture();
 				var shellItems = new List<ShellItem>();
 				try
 				{
@@ -159,7 +160,11 @@ namespace Files.App.Utils.Shell
 		public static async Task<ContextMenu?> GetContextMenuForFiles(ShellItem[] shellItems, uint flags, Func<string?, bool>? itemFilter = null)
 		{
 			var worker = ContextMenuWorkerPool.Rent();
-			var contextMenu = await worker.Thread.PostMethod<ContextMenu?>(() => Create(shellItems, flags, worker, itemFilter));
+			var contextMenu = await worker.Thread.PostMethod<ContextMenu?>(() =>
+			{
+				using var cursorScope = ShellCursorScope.Capture();
+				return Create(shellItems, flags, worker, itemFilter);
+			});
 			if (contextMenu is null)
 				ContextMenuWorkerPool.Return(worker);
 			return contextMenu;
@@ -315,6 +320,7 @@ namespace Files.App.Utils.Shell
 
 			return OwningThread.PostMethod(() =>
 			{
+				using var cursorScope = ShellCursorScope.Capture();
 				try
 				{
 					loadSubMenu();
