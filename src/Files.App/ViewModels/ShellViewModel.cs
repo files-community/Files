@@ -2185,12 +2185,12 @@ namespace Files.App.ViewModels
 			}
 			else
 			{
-				(IntPtr hFile, WIN32_FIND_DATA findData, int errorCode) = await Task.Run(() =>
+				(Win32PInvoke.SafeFindHandle? hFile, WIN32_FIND_DATA findData, int errorCode) = await Task.Run(() =>
 				{
 					var findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
 					var additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
 
-					IntPtr hFileTsk = FindFirstFileExFromApp(
+					var hFileTsk = FindFirstFileExFromAppSafe(
 						path + "\\*.*",
 						findInfoLevel,
 						out WIN32_FIND_DATA findDataTsk,
@@ -2198,7 +2198,7 @@ namespace Files.App.ViewModels
 						IntPtr.Zero,
 						additionalFlags);
 
-					return (hFileTsk, findDataTsk, hFileTsk.ToInt64() == -1 ? Marshal.GetLastWin32Error() : 0);
+					return (hFileTsk, findDataTsk, hFileTsk.IsInvalid ? Marshal.GetLastWin32Error() : 0);
 				})
 				.WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
@@ -2239,14 +2239,15 @@ namespace Files.App.ViewModels
 
 				CurrentFolder = currentFolder;
 
-				if (hFile == IntPtr.Zero)
+				if (hFile is null)
 				{
 					ShowLocationUnavailable(LocationUnavailableKind.DriveUnplugged);
 
 					return -1;
 				}
-				else if (hFile.ToInt64() == -1)
+				else if (hFile.IsInvalid)
 				{
+					hFile.Dispose();
 					await EnumFromStorageFolderAsync(path, rootFolder, currentStorageFolder, cancellationToken);
 
 					// errorCode == ERROR_ACCESS_DENIED

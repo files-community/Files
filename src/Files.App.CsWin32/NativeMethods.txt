@@ -109,6 +109,7 @@ IDCompositionDevice
 GetNamedSecurityInfo
 ConvertSidToStringSid
 ConvertStringSidToSid
+GetLengthSid
 SetNamedSecurityInfo
 GetAclInformation
 IsValidAcl

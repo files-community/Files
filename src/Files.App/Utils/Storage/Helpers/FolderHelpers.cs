@@ -44,11 +44,25 @@ namespace Files.App.Utils.Storage
 		public static bool CheckForFilesFolders(string targetPath)
 		{
 			IntPtr hFile = Win32PInvoke.FindFirstFileExFromApp($"{targetPath}{Path.DirectorySeparatorChar}*.*", Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic,
-				out Win32PInvoke.WIN32_FIND_DATA _, Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH);
-			Win32PInvoke.FindNextFile(hFile, out _);
-			var result = Win32PInvoke.FindNextFile(hFile, out _);
-			Win32PInvoke.FindClose(hFile);
-			return result;
+				out Win32PInvoke.WIN32_FIND_DATA findData, Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH);
+			if (hFile.ToInt64() == -1)
+				return false;
+
+			try
+			{
+				do
+				{
+					if (findData.cFileName is not "." and not "..")
+						return true;
+				}
+				while (Win32PInvoke.FindNextFile(hFile, out findData));
+
+				return false;
+			}
+			finally
+			{
+				Win32PInvoke.FindClose(hFile);
+			}
 		}
 
 		public static List<SubfolderEntry> EnumerateSubfolders(string path, bool showHidden, bool showProtected, bool showDot, int limit = 1000)

@@ -4,6 +4,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using Microsoft.Win32.SafeHandles;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
 
@@ -11,6 +12,15 @@ namespace Files.App.Helpers
 {
 	public static partial class Win32PInvoke
 	{
+		public sealed class SafeFindHandle : SafeHandleZeroOrMinusOneIsInvalid
+		{
+			public SafeFindHandle() : base(true)
+			{
+			}
+
+			protected override bool ReleaseHandle() => FindClose(handle);
+		}
+
 		public delegate void LpoverlappedCompletionRoutine(
 			uint dwErrorCode,
 			uint dwNumberOfBytesTransfered,
@@ -217,6 +227,16 @@ namespace Files.App.Helpers
 
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Unicode)]
 		public static extern IntPtr FindFirstFileExFromApp(
+			string lpFileName,
+			FINDEX_INFO_LEVELS fInfoLevelId,
+			out WIN32_FIND_DATA lpFindFileData,
+			FINDEX_SEARCH_OPS fSearchOp,
+			IntPtr lpSearchFilter,
+			int dwAdditionalFlags
+		);
+
+		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", EntryPoint = "FindFirstFileExFromApp", SetLastError = true, CharSet = CharSet.Unicode)]
+		public static extern SafeFindHandle FindFirstFileExFromAppSafe(
 			string lpFileName,
 			FINDEX_INFO_LEVELS fInfoLevelId,
 			out WIN32_FIND_DATA lpFindFileData,

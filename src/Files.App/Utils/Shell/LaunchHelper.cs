@@ -217,28 +217,59 @@ namespace Files.App.Utils.Shell
 							var isAlternateStream = RegexHelpers.AlternateStream().IsMatch(application);
 							if (isAlternateStream)
 							{
-								var tempPathRoot = Environment.GetEnvironmentVariable("TEMP");
-								if (tempPathRoot is null)
-									return false;
-
-								var basePath = Path.Combine(tempPathRoot, Guid.NewGuid().ToString("n"));
+								var basePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("n"));
 								Directory.CreateDirectory(basePath);
 
 								var tempPath = Path.Combine(basePath, new string(Path.GetFileName(application).SkipWhile(x => x != ':').Skip(1).ToArray()));
-								using var hFileSrc = PInvoke.CreateFile(application, (uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ, FILE_SHARE_MODE.FILE_SHARE_READ | FILE_SHARE_MODE.FILE_SHARE_WRITE, null, FILE_CREATION_DISPOSITION.OPEN_EXISTING, FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL, null);
-								using var hFileDst = PInvoke.CreateFile(tempPath, (uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE, 0, null, FILE_CREATION_DISPOSITION.CREATE_ALWAYS, FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL | FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_READONLY, null);
-
-								if (!hFileSrc.IsInvalid && !hFileDst.IsInvalid)
+								try
 								{
-									// Copy ADS to temp folder and open
-									await using (var inStream = new FileStream(hFileSrc.DangerousGetHandle(), FileAccess.Read))
-									await using (var outStream = new FileStream(hFileDst.DangerousGetHandle(), FileAccess.Write))
-									{
-										await inStream.CopyToAsync(outStream);
-										await outStream.FlushAsync();
-									}
+									using var hFileSrc = PInvoke.CreateFile(application, (uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ, FILE_SHARE_MODE.FILE_SHARE_READ | FILE_SHARE_MODE.FILE_SHARE_WRITE, null, FILE_CREATION_DISPOSITION.OPEN_EXISTING, FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL, null);
+									using var hFileDst = PInvoke.CreateFile(tempPath, (uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE, 0, null, FILE_CREATION_DISPOSITION.CREATE_ALWAYS, FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL | FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_READONLY, null);
 
-									opened = await HandleApplicationLaunch(tempPath, arguments, workingDirectory);
+									if (!hFileSrc.IsInvalid && !hFileDst.IsInvalid)
+									{
+										// Copy ADS to temp folder and open
+										await using (var inStream = new FileStream(hFileSrc, FileAccess.Read))
+										await using (var outStream = new FileStream(hFileDst, FileAccess.Write))
+										{
+											await inStream.CopyToAsync(outStream);
+											await outStream.FlushAsync();
+										}
+
+										opened = await HandleApplicationLaunch(tempPath, arguments, workingDirectory);
+									}
+								}
+								finally
+								{
+									Action deleteTemporaryCopy = () =>
+									{
+										if (File.Exists(tempPath))
+											File.SetAttributes(tempPath, FileAttributes.Normal);
+										Directory.Delete(basePath, true);
+									};
+
+									if (!opened)
+									{
+										SafetyExtensions.IgnoreExceptions(deleteTemporaryCopy, App.Logger);
+									}
+									else
+									{
+										_ = Task.Run(async () =>
+										{
+											for (var attempt = 0; attempt < 3; attempt++)
+											{
+												var delay = attempt switch
+												{
+													0 => TimeSpan.FromMinutes(1),
+													1 => TimeSpan.FromMinutes(5),
+													_ => TimeSpan.FromMinutes(30),
+												};
+												await Task.Delay(delay);
+												if (SafetyExtensions.IgnoreExceptions(deleteTemporaryCopy, App.Logger))
+													return;
+											}
+										});
+									}
 								}
 							}
 						}
