@@ -570,13 +570,11 @@ namespace Files.App.Helpers
 			catch
 			{
 				// Swallow any exception escaping the handler so it can't re-enter
-				// Application.UnhandledException before Process.Kill terminates the process.
+				// Application.UnhandledException before the process terminates.
 			}
 			finally
 			{
-				// Drain the asynchronous file logger before forcibly terminating the process.
-				SafetyExtensions.IgnoreExceptions(() => Ioc.Default.GetService<FileLoggerProvider>()?.Dispose());
-				Process.GetCurrentProcess().Kill();
+				Environment.Exit(ex?.HResult ?? 1);
 			}
 		}
 

@@ -126,7 +126,7 @@ namespace Files.App.ViewModels.Settings
 			await Launcher.LaunchUriAsync(new Uri("files-dev:"));
 
 			// Closes the current instance
-			Process.GetCurrentProcess().Kill();
+			Environment.Exit(0);
 		}
 
 		private void DoCancelRestart()

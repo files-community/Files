@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Files.Shared
 {
@@ -16,6 +17,9 @@ namespace Files.Shared
 
 		public ILogger CreateLogger(string categoryName)
 			=> logger;
+
+		public bool TryCompleteAndFlush(TimeSpan timeout)
+			=> logger.TryCompleteAndFlush(timeout);
 
 		public void Dispose()
 		{

@@ -3,10 +3,12 @@
 
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
@@ -14,9 +16,14 @@ namespace Files.Shared
 {
 	public sealed class FileLogger : ILogger, IDisposable
 	{
+		private const int MaxBatchSize = 256;
+		private const int MaxWriteAttempts = 3;
+		private const int WriteRetryDelayMilliseconds = 250;
+
 		private readonly string filePath;
 		private readonly Channel<string> messages;
 		private readonly Task writerTask;
+		private bool writerFailed;
 
 		public FileLogger(string filePath)
 		{
@@ -59,33 +66,53 @@ namespace Files.Shared
 		private async Task ProcessLogQueueAsync()
 		{
 			PurgeLogs(100);
+			var pendingMessages = new List<string>();
+			var consecutiveFailures = 0;
 
-			try
+			while (true)
 			{
-				await using var stream = new FileStream(filePath, new FileStreamOptions
+				try
 				{
-					Mode = FileMode.Append,
-					Access = FileAccess.Write,
-					Share = FileShare.ReadWrite | FileShare.Delete,
-					Options = FileOptions.Asynchronous | FileOptions.SequentialScan,
-				});
-				await using var writer = new StreamWriter(stream, new UTF8Encoding(false));
+					await using var stream = new FileStream(filePath, new FileStreamOptions
+					{
+						Mode = FileMode.Append,
+						Access = FileAccess.Write,
+						Share = FileShare.ReadWrite | FileShare.Delete,
+						Options = FileOptions.Asynchronous | FileOptions.SequentialScan,
+					});
+					await using var writer = new StreamWriter(stream, new UTF8Encoding(false));
 
-				while (await messages.Reader.WaitToReadAsync())
-				{
-					while (messages.Reader.TryRead(out var message))
-						await writer.WriteLineAsync(message);
+					while (pendingMessages.Count > 0 || await messages.Reader.WaitToReadAsync())
+					{
+						while (pendingMessages.Count < MaxBatchSize && messages.Reader.TryRead(out var message))
+							pendingMessages.Add(message);
 
-					await writer.FlushAsync();
+						foreach (var message in pendingMessages)
+							await writer.WriteLineAsync(message);
+
+						await writer.FlushAsync();
+						pendingMessages.Clear();
+						consecutiveFailures = 0;
+					}
+
+					return;
 				}
-			}
-			catch (Exception e)
-			{
-				messages.Writer.TryComplete();
-				while (messages.Reader.TryRead(out _))
+				catch (Exception e)
 				{
+					Trace.TraceError($"Writing to log file failed with the following exception:\n{e}");
+					if (++consecutiveFailures >= MaxWriteAttempts)
+					{
+						Volatile.Write(ref writerFailed, true);
+						messages.Writer.TryComplete();
+						pendingMessages.Clear();
+						while (messages.Reader.TryRead(out _))
+						{
+						}
+						return;
+					}
+
+					await Task.Delay(TimeSpan.FromMilliseconds(WriteRetryDelayMilliseconds * consecutiveFailures));
 				}
-				Debug.WriteLine($"Writing to log file failed with the following exception:\n{e}");
 			}
 		}
 
@@ -112,8 +139,22 @@ namespace Files.Shared
 
 		public void Dispose()
 		{
+			TryCompleteAndFlush(Timeout.InfiniteTimeSpan);
+		}
+
+		public bool TryCompleteAndFlush(TimeSpan timeout)
+		{
 			messages.Writer.TryComplete();
-			writerTask.GetAwaiter().GetResult();
+
+			try
+			{
+				return writerTask.Wait(timeout) && !Volatile.Read(ref writerFailed);
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Flushing the log file failed with the following exception:\n{e}");
+				return false;
+			}
 		}
 	}
 }

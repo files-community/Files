@@ -162,27 +162,28 @@ namespace Files.App.Utils.Shell
 					{
 						var opened = await STATask.Run(async () =>
 						{
-							var split = application.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => GetMtpPath(x));
-							if (split.Count() == 1)
+							var split = application.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(GetMtpPath).ToArray();
+							if (split.Length == 1)
 							{
-								Process.Start(split.First());
+								Process.Start(split[0]);
 
 								Win32Helper.BringToForeground(currentWindows);
 							}
 							else
 							{
-								var groups = split.GroupBy(x => new
+								var pathsWithAssociations = new List<(string Path, string? Directory, string Association)>(split.Length);
+								foreach (var path in split)
 								{
-									Dir = Path.GetDirectoryName(x),
-									Prog = Win32Helper.GetDefaultFileAssociationAsync(x).Result ?? Path.GetExtension(x)
-								});
+									var association = await Win32Helper.GetDefaultFileAssociationAsync(path) ?? Path.GetExtension(path);
+									pathsWithAssociations.Add((path, Path.GetDirectoryName(path), association));
+								}
 
-								foreach (var group in groups)
+								foreach (var group in pathsWithAssociations.GroupBy(x => new { x.Directory, x.Association }))
 								{
 									if (!group.Any())
 										continue;
 
-									using var cMenu = await ContextMenu.GetContextMenuForFiles(group.ToArray(), PInvoke.CMF_DEFAULTONLY);
+									using var cMenu = await ContextMenu.GetContextMenuForFiles(group.Select(x => x.Path).ToArray(), PInvoke.CMF_DEFAULTONLY);
 
 									if (cMenu is not null)
 										await cMenu.InvokeVerb("open");

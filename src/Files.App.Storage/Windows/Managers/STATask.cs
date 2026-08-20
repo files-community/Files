@@ -179,12 +179,13 @@ namespace Files.App.Storage
 
 		private sealed class StaSynchronizationContext : SynchronizationContext, IDisposable
 		{
-			private static readonly SendOrPostCallback WakeCallback = static _ => { };
 			private readonly BlockingCollection<(SendOrPostCallback Callback, object? State)> _queue = new();
+			private readonly Lock _queueLock = new();
 			private readonly int _threadId = Environment.CurrentManagedThreadId;
+			private bool _acceptingWork = true;
 
 			public override void Post(SendOrPostCallback callback, object? state)
-				=> _queue.Add((callback, state));
+				=> TryPost(callback, state);
 
 			public override void Send(SendOrPostCallback callback, object? state)
 			{
@@ -196,7 +197,7 @@ namespace Files.App.Storage
 
 				Exception? exception = null;
 				using var completed = new ManualResetEventSlim();
-				Post(
+				if (!TryPost(
 					_ =>
 					{
 						try
@@ -212,7 +213,10 @@ namespace Files.App.Storage
 							completed.Set();
 						}
 					},
-					null);
+					null))
+				{
+					throw new InvalidOperationException("The STA synchronization context has completed.");
+				}
 				completed.Wait();
 
 				if (exception is not null)
@@ -222,21 +226,46 @@ namespace Files.App.Storage
 			public void Run(Task task)
 			{
 				var completionSignal = task.ContinueWith(
-					_ => _queue.Add((WakeCallback, null)),
+					_ => Complete(),
 					CancellationToken.None,
 					TaskContinuationOptions.ExecuteSynchronously,
 					TaskScheduler.Default);
 
-				while (!task.IsCompleted)
-				{
-					var work = _queue.Take();
+				foreach (var work in _queue.GetConsumingEnumerable())
 					work.Callback(work.State);
-				}
 
 				completionSignal.GetAwaiter().GetResult();
 			}
 
-			public void Dispose() => _queue.Dispose();
+			private bool TryPost(SendOrPostCallback callback, object? state)
+			{
+				lock (_queueLock)
+				{
+					if (!_acceptingWork)
+						return false;
+
+					_queue.Add((callback, state));
+					return true;
+				}
+			}
+
+			private void Complete()
+			{
+				lock (_queueLock)
+				{
+					if (!_acceptingWork)
+						return;
+
+					_acceptingWork = false;
+					_queue.CompleteAdding();
+				}
+			}
+
+			public void Dispose()
+			{
+				Complete();
+				_queue.Dispose();
+			}
 		}
 	}
 }

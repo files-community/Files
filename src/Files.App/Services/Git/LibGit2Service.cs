@@ -15,14 +15,13 @@ internal sealed partial class LibGit2Service // : IVersionControl
 	private const int END_OF_ORIGIN_PREFIX = 7;
 	private const int MAX_NUMBER_OF_BRANCHES = 30;
 
-	private static readonly SemaphoreSlim GitOperationSemaphore = new(1, 1);
-	private static readonly FetchOptions _fetchOptions = new() { Prune = true };
 	private static readonly PullOptions _pullOptions = new();
 	private static readonly string _clientId = AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev
 		? string.Empty
 		: CLIENT_ID_SECRET;
 
 	private bool _isExecutingGitAction;
+	private int _activeFetchCount;
 
 	private static readonly StatusCenterViewModel StatusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 	private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
@@ -158,7 +157,7 @@ internal sealed partial class LibGit2Service // : IVersionControl
 			}
 
 			return (GitOperationResult.Success, head);
-		}, true);
+		});
 
 		return returnValue;
 	}
@@ -368,22 +367,29 @@ internal sealed partial class LibGit2Service // : IVersionControl
 		if (string.IsNullOrWhiteSpace(repositoryPath))
 			return;
 
-		var lockTaken = false;
+		var fetchStarted = false;
 		var fetchCompleted = false;
 		try
 		{
-			await GitOperationSemaphore.WaitAsync(cancellationToken);
-			lockTaken = true;
-			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => IsExecutingGitAction = true);
+			cancellationToken.ThrowIfCancellationRequested();
+			Interlocked.Increment(ref _activeFetchCount);
+			fetchStarted = true;
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(
+				() => IsExecutingGitAction = Volatile.Read(ref _activeFetchCount) > 0);
 
 			await Task.Run(() =>
 			{
 				using var repository = new Repository(repositoryPath);
 				var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
 				var token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
+				var fetchOptions = new FetchOptions
+				{
+					Prune = true,
+					OnTransferProgress = _ => !cancellationToken.IsCancellationRequested,
+				};
 				if (signature is not null && !string.IsNullOrWhiteSpace(token))
 				{
-					_fetchOptions.CredentialsProvider = (url, user, cred)
+					fetchOptions.CredentialsProvider = (url, user, cred)
 						=> new UsernamePasswordCredentials
 						{
 							Username = signature.Name,
@@ -401,11 +407,12 @@ internal sealed partial class LibGit2Service // : IVersionControl
 							repository,
 							remote.Name,
 							remote.FetchRefSpecs.Select(rs => rs.Specification),
-							_fetchOptions,
+							fetchOptions,
 							"git fetch updated a ref");
 					}
 					catch (Exception ex)
 					{
+						cancellationToken.ThrowIfCancellationRequested();
 						// An unreachable remote (e.g. a deleted fork answering 401) must not prevent fetching the remaining remotes
 						_logger.LogWarning(ex, "Failed to fetch remote {RemoteName} in {RepositoryPath}", remote.Name, LogPathHelper.RedactPath(repositoryPath));
 					}
@@ -423,21 +430,15 @@ internal sealed partial class LibGit2Service // : IVersionControl
 		}
 		finally
 		{
-			if (lockTaken)
+			if (fetchStarted)
 			{
-				try
+				Interlocked.Decrement(ref _activeFetchCount);
+				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
-					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
-					{
-						IsExecutingGitAction = false;
-						if (fetchCompleted && !cancellationToken.IsCancellationRequested)
-							GitFetchCompleted?.Invoke(this, EventArgs.Empty);
-					});
-				}
-				finally
-				{
-					GitOperationSemaphore.Release();
-				}
+					IsExecutingGitAction = Volatile.Read(ref _activeFetchCount) > 0;
+					if (fetchCompleted && !cancellationToken.IsCancellationRequested)
+						GitFetchCompleted?.Invoke(this, EventArgs.Empty);
+				});
 			}
 		}
 	}
@@ -528,20 +529,9 @@ internal sealed partial class LibGit2Service // : IVersionControl
 		LibGit2Sharp.Commands.Checkout(repository, newBranch);
 	}
 
-	private static async Task<T?> DoGitOperationAsync<T>(Func<object> payload, bool useSemaphore = false)
+	private static async Task<T?> DoGitOperationAsync<T>(Func<object> payload)
 	{
-		if (useSemaphore)
-			await GitOperationSemaphore.WaitAsync();
-
-		try
-		{
-			return (T)await Task.Run(payload);
-		}
-		finally
-		{
-			if (useSemaphore)
-				GitOperationSemaphore.Release();
-		}
+		return (T)await Task.Run(payload);
 	}
 
 	[GeneratedRegex(@"^(?:https?:\/\/)?(?:www\.)?(?<domain>github|gitlab)\.com\/(?<user>[^\/]+)\/(?<repo>[^\/]+?)(?=\.git|\/|$)(?:\.git)?(?:\/)?", RegexOptions.IgnoreCase)]

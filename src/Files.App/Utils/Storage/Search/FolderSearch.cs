@@ -308,6 +308,9 @@ namespace Files.App.Utils.Storage
 
 			foreach (var match in matches)
 			{
+				if (token.IsCancellationRequested)
+					return;
+
 				(Win32PInvoke.SafeFindHandle? hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
 				{
 					int additionalFlags = Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH;
@@ -315,6 +318,11 @@ namespace Files.App.Utils.Storage
 						out WIN32_FIND_DATA findDataTsk, Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
 					return (hFileTsk, findDataTsk);
 				}).WithTimeoutAsync(TimeSpan.FromSeconds(5));
+				if (token.IsCancellationRequested)
+				{
+					hFile?.Dispose();
+					return;
+				}
 
 				if (hFile is { IsInvalid: false })
 				{
@@ -332,7 +340,7 @@ namespace Files.App.Utils.Storage
 						if (shouldBeListed)
 						{
 							var item = GetListedItemAsync(match.FilePath, findData);
-							if (item is not null)
+							if (item is not null && !token.IsCancellationRequested)
 								results.Add(item);
 						}
 					}
@@ -347,7 +355,11 @@ namespace Files.App.Utils.Storage
 						item = item
 							?? throw new InvalidOperationException($"The search item '{match.FilePath}' could not be opened.");
 						if (!item.Name.StartsWith('.') || UserSettingsService.FoldersSettingsService.ShowDotFiles)
-							results.Add(await GetListedItemAsync(item));
+						{
+							var listedItem = await GetListedItemAsync(item);
+							if (!token.IsCancellationRequested)
+								results.Add(listedItem);
+						}
 					}
 					catch (Exception ex)
 					{
@@ -394,6 +406,9 @@ namespace Files.App.Utils.Storage
 		private async Task SearchWithWin32Async(string folder, bool hiddenOnly, uint maxItemCount, IList<ListedItem> results, CancellationToken token)
 		{
 			//var sampler = new IntervalSampler(500);
+			if (token.IsCancellationRequested)
+				return;
+
 			(Win32PInvoke.SafeFindHandle? hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
 			{
 				int additionalFlags = Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH;
@@ -401,11 +416,17 @@ namespace Files.App.Utils.Storage
 					out WIN32_FIND_DATA findDataTsk, Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
 				return (hFileTsk, findDataTsk);
 			}).WithTimeoutAsync(TimeSpan.FromSeconds(5));
+			if (token.IsCancellationRequested)
+			{
+				hFile?.Dispose();
+				return;
+			}
 
 			var pendingShortcuts = new List<(string Path, WIN32_FIND_DATA FindData)>();
 
 			if (hFile is { IsInvalid: false } findHandle)
 			{
+				// Always enter the delegate so the find handle is disposed; cancellation is checked before mutations.
 				await Task.Run(() =>
 				{
 					using (findHandle)
@@ -414,6 +435,9 @@ namespace Files.App.Utils.Storage
 						var hasNextFile = false;
 						do
 						{
+							if (token.IsCancellationRequested)
+								break;
+
 							if (results.Count >= maxItemCount)
 								break;
 							var itemPath = Path.Combine(folder, findData.cFileName);
@@ -437,15 +461,12 @@ namespace Files.App.Utils.Storage
 								else
 								{
 									var item = GetListedItemAsync(itemPath, findData);
-									if (item is not null)
+									if (item is not null && !token.IsCancellationRequested)
 										results.Add(item);
 								}
 							}
 
-							if (token.IsCancellationRequested)
-								break;
-
-							if (results.Count == 32 || results.Count % 300 == 0 /*|| sampler.CheckNow()*/)
+							if (!token.IsCancellationRequested && (results.Count == 32 || results.Count % 300 == 0 /*|| sampler.CheckNow()*/))
 								SearchTick?.Invoke(this, EventArgs.Empty);
 
 							hasNextFile = Win32PInvoke.FindNextFile(rawHandle, out findData);
@@ -524,13 +545,19 @@ namespace Files.App.Utils.Storage
 						shortcutItem.NeedsPlaceholderGlyph = true;
 				}
 
+				if (token.IsCancellationRequested)
+					break;
+
 				results.Add(shortcutItem);
 
-				if (results.Count == 32 || results.Count % 300 == 0)
+				if (!token.IsCancellationRequested && (results.Count == 32 || results.Count % 300 == 0))
 				{
 					SearchTick?.Invoke(this, EventArgs.Empty);
 				}
 			}
+
+			if (token.IsCancellationRequested)
+				return;
 
 			(Win32PInvoke.SafeFindHandle? hSubDir, WIN32_FIND_DATA subDirData) = await Task.Run(() =>
 			{
@@ -539,11 +566,17 @@ namespace Files.App.Utils.Storage
 					out WIN32_FIND_DATA subDirDataTsk, Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
 				return (hSubDirTsk, subDirDataTsk);
 			}).WithTimeoutAsync(TimeSpan.FromSeconds(5));
+			if (token.IsCancellationRequested)
+			{
+				hSubDir?.Dispose();
+				return;
+			}
 
 			if (hSubDir is { IsInvalid: false } subDirectoryHandle)
 			{
 				var subDirectories = new List<string>();
 
+				// Always enter the delegate so the find handle is disposed; cancellation is checked before mutations.
 				await Task.Run(() =>
 				{
 					using (subDirectoryHandle)
@@ -552,12 +585,12 @@ namespace Files.App.Utils.Storage
 						var hasNextDir = false;
 						do
 						{
+							if (token.IsCancellationRequested)
+								break;
+
 							var isDirectory = ((FileAttributes)subDirData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory;
 							if (isDirectory && subDirData.cFileName != "." && subDirData.cFileName != "..")
 								subDirectories.Add(Path.Combine(folder, subDirData.cFileName));
-
-							if (token.IsCancellationRequested)
-								break;
 
 							hasNextDir = Win32PInvoke.FindNextFile(rawHandle, out subDirData);
 						} while (hasNextDir);

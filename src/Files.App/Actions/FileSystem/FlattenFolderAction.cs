@@ -91,42 +91,40 @@ namespace Files.App.Actions
 
 			foreach (var containedFolder in containedFolders)
 			{
-				if (!IsUnderRoot(rootPath, containedFolder) || IsReparsePoint(containedFolder))
-					continue;
-
-				FlattenFolderCore(rootPath, containedFolder);
-				if (!Directory.Exists(containedFolder))
-					continue;
-
 				var folderName = Path.GetFileName(containedFolder);
-				var destinationPath = Path.Combine(rootPath, folderName);
-
-				if (string.Equals(containedFolder, destinationPath, StringComparison.OrdinalIgnoreCase) || Directory.Exists(destinationPath))
-					continue;
-
 				try
 				{
+					if (!IsUnderRoot(rootPath, containedFolder) || IsReparsePoint(containedFolder))
+						continue;
+
+					FlattenFolderCore(rootPath, containedFolder);
+					if (!Directory.Exists(containedFolder))
+						continue;
+
+					var destinationPath = Path.Combine(rootPath, folderName);
+					if (string.Equals(containedFolder, destinationPath, StringComparison.OrdinalIgnoreCase) || Directory.Exists(destinationPath))
+						continue;
+
 					Directory.Move(containedFolder, destinationPath);
 				}
 				catch (Exception ex)
 				{
-					App.Logger.LogWarning(ex, $"Folder '{LogPathHelper.RedactPath(folderName)}' already exists in the destination folder.");
+					App.Logger.LogWarning(ex, "Failed to process folder '{FolderName}'.", LogPathHelper.RedactPath(folderName));
 				}
 			}
 
 			foreach (var containedFile in containedFiles)
 			{
-				if (!IsUnderRoot(rootPath, containedFile) || IsReparsePoint(containedFile))
-					continue;
-
 				var fileName = Path.GetFileName(containedFile);
-				var destinationPath = Path.Combine(rootPath, fileName);
-
-				if (string.Equals(containedFile, destinationPath, StringComparison.OrdinalIgnoreCase) || File.Exists(destinationPath))
-					continue;
-
 				try
 				{
+					if (!IsUnderRoot(rootPath, containedFile) || IsReparsePoint(containedFile))
+						continue;
+
+					var destinationPath = Path.Combine(rootPath, fileName);
+					if (string.Equals(containedFile, destinationPath, StringComparison.OrdinalIgnoreCase) || File.Exists(destinationPath))
+						continue;
+
 					File.Move(containedFile, destinationPath);
 				}
 				catch (Exception ex)
