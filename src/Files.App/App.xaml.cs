@@ -63,36 +63,6 @@ namespace Files.App
 			TaskScheduler.UnobservedTaskException += (sender, e) => AppLifecycleHelper.HandleAppUnhandledException(e.Exception, false, "TaskScheduler.UnobservedTaskException");
 		}
 
-		// Merged from code at the start of OnLaunched: Application.Resources throws until the ctor
-		// returns, but MainWindow's XAML hasn't parsed yet so StaticResource lookups still resolve.
-		private void MergeStyleDictionaries()
-		{
-			foreach (var source in (ReadOnlySpan<string>)
-			[
-				"ms-appx:///Files.App.Controls/Themes/Generic.xaml",
-				"ms-appx:///Styles/PathIcons.xaml",
-				"ms-appx:///Styles/TextBlockStyles.xaml",
-				"ms-appx:///Styles/ShimmerStyles.xaml",
-			])
-			{
-				Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri(source) });
-			}
-		}
-
-		private static bool _deferredDictionariesLoaded;
-
-		// Menu-only dictionaries, loaded after the first frame
-		public static void LoadDeferredResourceDictionaries()
-		{
-			if (_deferredDictionariesLoaded)
-				return;
-
-			_deferredDictionariesLoaded = true;
-
-			Current.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("ms-appx:///Styles/MenuFlyoutSubItemWithImageStyle.xaml") });
-			Current.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("ms-appx:///Styles/MenuFlyoutSubItemWithThemedIconStyle.xaml") });
-		}
-
 		/// <summary>
 		/// Gets invoked when the application is launched normally by the end user.
 		/// </summary>
@@ -103,7 +73,6 @@ namespace Files.App
 			// Constructed on the UI thread: the ctor subscribes the UI-thread-only Clipboard.ContentChanged
 			AppModel = new AppModel();
 
-			MergeStyleDictionaries();
 			_ = ActivateAsync();
 
 			async Task ActivateAsync()

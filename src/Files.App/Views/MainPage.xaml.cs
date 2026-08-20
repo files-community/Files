@@ -72,15 +72,6 @@ namespace Files.App.Views
 			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
 
 			ApplySidebarWidthState();
-
-			Loaded += MainPage_FirstLoaded;
-		}
-
-		private void MainPage_FirstLoaded(object sender, RoutedEventArgs e)
-		{
-			Loaded -= MainPage_FirstLoaded;
-
-			DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, App.LoadDeferredResourceDictionaries);
 		}
 
 		private void NumberedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs e)
