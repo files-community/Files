@@ -272,10 +272,13 @@ namespace Files.App.Helpers
 		public static IServiceProvider ConfigureHost(AppModel appModel)
 		{
 			var services = new ServiceCollection();
+			var fileLoggerProvider = new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log"));
+
+			services.AddSingleton(fileLoggerProvider);
 
 			services.AddLogging(builder => builder
 					.AddDebug()
-					.AddProvider(new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log")))
+					.AddProvider(fileLoggerProvider)
 					.AddProvider(new SentryLoggerProvider())
 					.SetMinimumLevel(LogLevel.Information));
 
@@ -571,6 +574,8 @@ namespace Files.App.Helpers
 			}
 			finally
 			{
+				// Drain the asynchronous file logger before forcibly terminating the process.
+				SafetyExtensions.IgnoreExceptions(() => Ioc.Default.GetService<FileLoggerProvider>()?.Dispose());
 				Process.GetCurrentProcess().Kill();
 			}
 		}

@@ -14,8 +14,9 @@ namespace Files.App.Helpers
 	{
 		public sealed partial class SafeFindHandle : SafeHandleZeroOrMinusOneIsInvalid
 		{
-			public SafeFindHandle() : base(true)
+			private SafeFindHandle(IntPtr handle) : base(true)
 			{
+				SetHandle(handle);
 			}
 
 			protected override bool ReleaseHandle() => FindClose(handle);
@@ -235,15 +236,25 @@ namespace Files.App.Helpers
 			int dwAdditionalFlags
 		);
 
-		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", EntryPoint = "FindFirstFileExFromApp", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern SafeFindHandle FindFirstFileExFromAppSafe(
+		public static SafeFindHandle FindFirstFileExFromAppSafe(
 			string lpFileName,
 			FINDEX_INFO_LEVELS fInfoLevelId,
 			out WIN32_FIND_DATA lpFindFileData,
 			FINDEX_SEARCH_OPS fSearchOp,
 			IntPtr lpSearchFilter,
 			int dwAdditionalFlags
-		);
+		)
+		{
+			var handle = FindFirstFileExFromApp(
+				lpFileName,
+				fInfoLevelId,
+				out lpFindFileData,
+				fSearchOp,
+				lpSearchFilter,
+				dwAdditionalFlags);
+
+			return new(handle);
+		}
 
 		[LibraryImport("shell32.dll", EntryPoint = "#865", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
