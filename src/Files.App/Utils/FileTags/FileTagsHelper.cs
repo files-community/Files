@@ -71,7 +71,7 @@ namespace Files.App.Utils.FileTags
 			}
 			catch (Exception ex)
 			{
-				App.Logger.LogWarning(ex, "Failed to write tags for '{FilePath}'.", filePath);
+				App.Logger.LogWarning(ex, "Failed to write tags for '{FilePath}'.", LogPathHelper.RedactPath(filePath));
 				return false;
 			}
 			finally

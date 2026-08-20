@@ -1053,7 +1053,7 @@ namespace Files.App.Views
 
 		public void Dispose()
 		{
-			App.Logger.LogInformation($"ShellPanesPage.Dispose: PaneCount={GetPaneCount()}, ActivePane={LogPathHelper.GetPathIdentifier(ActivePane?.TabBarItemParameter?.NavigationParameter?.ToString())}");
+			App.Logger.LogInformation($"ShellPanesPage.Dispose: PaneCount={GetPaneCount()}, ActivePane={LogPathHelper.RedactPath(ActivePane?.TabBarItemParameter?.NavigationParameter?.ToString())}");
 
 			TabBar.TabDragStarted -= TabBar_TabDragStarted;
 			TabBar.TabDragCompleted -= TabBar_TabDragCompleted;

@@ -140,7 +140,7 @@ namespace Files.App.Data.Items
 			// FolderHelpers.EnumerateSubfolders / FileThumbnailHelper can throw UnauthorizedAccessException, IOException, or COMException on inaccessible / missing paths. Still run onLoaded on the dispatcher so the caller can clear HasUnrealizedChildren and mark childrenLoaded — otherwise the chevron stays and every subsequent click replays the failing enumeration.
 			catch (Exception ex)
 			{
-				App.Logger?.LogDebug(ex, "Sidebar subfolder enumeration failed for {Path}", enumerationPath);
+				App.Logger?.LogDebug(ex, "Sidebar subfolder enumeration failed for {Path}", LogPathHelper.RedactPath(enumerationPath));
 				await (MainWindow.Instance?.DispatcherQueue).EnqueueOrInvokeAsync(onLoaded);
 			}
 		}
@@ -194,7 +194,7 @@ namespace Files.App.Data.Items
 				// FileThumbnailHelper.GetIconAsync can throw COMException / UnauthorizedAccessException on inaccessible paths; keep the shared generic icon.
 				catch (Exception ex)
 				{
-					App.Logger?.LogDebug(ex, "LocationItem: real icon load failed for {Path}", path);
+					App.Logger?.LogDebug(ex, "LocationItem: real icon load failed for {Path}", LogPathHelper.RedactPath(path));
 					continue;
 				}
 
@@ -212,7 +212,7 @@ namespace Files.App.Data.Items
 							item.Icon = bmp;
 					}
 					// BitmapImage.SetSourceAsync throws on corrupt bytes; keep the generic icon.
-					catch (Exception ex) { App.Logger?.LogDebug(ex, "LocationItem: real icon decode failed for {Path}", path); }
+					catch (Exception ex) { App.Logger?.LogDebug(ex, "LocationItem: real icon decode failed for {Path}", LogPathHelper.RedactPath(path)); }
 				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 			}
 		}

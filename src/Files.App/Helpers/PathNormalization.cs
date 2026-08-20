@@ -55,7 +55,7 @@ namespace Files.App.Helpers
 			}
 			catch (Exception ex) when (ex is UriFormatException || ex is ArgumentException)
 			{
-				App.Logger.LogDebug(ex, path);
+				App.Logger.LogDebug(ex, LogPathHelper.RedactPath(path));
 				return path;
 			}
 		}

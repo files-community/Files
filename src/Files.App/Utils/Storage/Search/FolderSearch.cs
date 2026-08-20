@@ -227,7 +227,7 @@ namespace Files.App.Utils.Storage
 
 						if (string.IsNullOrEmpty(tagValue))
 						{
-							logger.LogWarning("Failed to parse tag query: {Query}", andPart);
+							logger.LogWarning("Failed to parse tag query.");
 							continue;
 						}
 

@@ -239,7 +239,7 @@ namespace Files.App.Data.Models
 				if (skippedItems.Count > 0)
 				{
 					var logger = Ioc.Default.GetRequiredService<ILogger<App>>();
-					logger?.LogWarning($"Skipped {skippedItems.Count} item(s) that could not be archived to {ArchivePath}: {string.Join(", ", skippedItems)}");
+					logger?.LogWarning($"Skipped {skippedItems.Count} item(s) that could not be archived to {LogPathHelper.RedactPath(ArchivePath)}: {string.Join(", ", skippedItems.Select(LogPathHelper.RedactPath))}");
 
 					// Ask the user whether to skip the items or cancel the operation, see #16240
 					var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
@@ -324,7 +324,7 @@ namespace Files.App.Data.Models
 			catch (Exception ex)
 			{
 				var logger = Ioc.Default.GetRequiredService<ILogger<App>>();
-				logger?.LogWarning(ex, $"Error compressing folder: {ArchivePath}");
+				logger?.LogWarning(ex, $"Error compressing folder: {LogPathHelper.RedactPath(ArchivePath)}");
 
 				cts.Cancel();
 

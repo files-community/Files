@@ -1843,7 +1843,7 @@ namespace Files.App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				App.Logger.LogWarning(ex, "Failed to load Git properties for '{ItemPath}'.", gitItem.ItemPath);
+				App.Logger.LogWarning(ex, "Failed to load Git properties for '{ItemPath}'.", LogPathHelper.RedactPath(gitItem.ItemPath));
 			}
 			finally
 			{
@@ -3284,7 +3284,7 @@ namespace Files.App.ViewModels
 			semaphoreCTS.Cancel();
 			searchCTS?.Cancel();
 			updateTagGroupCTS?.Cancel();
-			App.Logger.LogInformation($"ShellViewModel.Dispose: CurrentFolder={LogPathHelper.GetPathIdentifier(CurrentFolder?.ItemPath)}");
+			App.Logger.LogInformation($"ShellViewModel.Dispose: CurrentFolder={LogPathHelper.RedactPath(CurrentFolder?.ItemPath)}");
 
 			StorageTrashBinService.Watcher.ItemAdded -= RecycleBinItemCreatedAsync;
 			StorageTrashBinService.Watcher.ItemDeleted -= RecycleBinItemDeletedAsync;
