@@ -81,6 +81,10 @@ namespace Files.Shared
 			}
 			catch (Exception e)
 			{
+				messages.Writer.TryComplete();
+				while (messages.Reader.TryRead(out _))
+				{
+				}
 				Debug.WriteLine($"Writing to log file failed with the following exception:\n{e}");
 			}
 		}
