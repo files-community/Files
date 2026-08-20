@@ -16,6 +16,7 @@
 
     <ItemGroup>
       <None Remove="Dialogs\PropertiesHeader\PropertiesHeader.xaml" />
+      <None Remove="Dialogs\PropertiesItemText\PropertiesItemText.xaml" />
     </ItemGroup>
 
     <ItemGroup>
@@ -44,6 +45,12 @@
 
     <ItemGroup>
       <Page Update="Dialogs\PropertiesHeader\PropertiesHeader.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Page Update="Dialogs\PropertiesItemText\PropertiesItemText.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
     </ItemGroup>

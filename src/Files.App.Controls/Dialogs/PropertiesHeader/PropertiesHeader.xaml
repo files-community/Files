@@ -19,9 +19,10 @@
 			Margin="0,0,12,0"
 			HorizontalAlignment="Stretch"
 			AutomationProperties.AccessibilityView="Raw">
-			<ContentPresenter x:Name="Content" Content="{x:Bind Icon}" />
+			<ContentPresenter x:Name="Content_PART" Content="{x:Bind Icon}" />
 		</Viewbox>
 		<TextBlock
+			x:Name="Text_PART"
 			Grid.Column="1"
 			Margin="0,4"
 			HorizontalAlignment="Left"
