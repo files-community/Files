@@ -97,6 +97,7 @@ namespace Files.App.Data.Items
 			_oldWndProc = Marshal.GetDelegateForFunctionPointer<WNDPROC>(pOldWndProc);
 
 			Closed += WindowEx_Closed;
+			Activated += WindowEx_Activated;
 		}
 
 		private unsafe void StoreWindowPlacementData()
@@ -288,9 +289,16 @@ namespace Files.App.Data.Items
 			StoreWindowPlacementData();
 		}
 
+		private void WindowEx_Activated(object sender, WindowActivatedEventArgs args)
+		{
+			if (SystemBackdrop is AppSystemBackdrop appSystemBackdrop)
+				appSystemBackdrop.SetInputActive(args.WindowActivationState is not WindowActivationState.Deactivated);
+		}
+
 		public void Dispose()
 		{
 			Closed -= WindowEx_Closed;
+			Activated -= WindowEx_Activated;
 		}
 	}
 }
