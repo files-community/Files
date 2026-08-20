@@ -7,7 +7,6 @@ using Files.App.Services.SizeProvider;
 using Files.App.Utils.Logger;
 using Files.App.ViewModels.Settings;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Sentry;
@@ -203,19 +202,18 @@ namespace Files.App.Helpers
 		/// <summary>
 		/// Configures DI (dependency injection) container.
 		/// </summary>
-		public static IHost ConfigureHost()
+		/// <param name="appModel">Constructed on the UI thread by the caller (its ctor is UI-thread-only).</param>
+		public static IServiceProvider ConfigureHost(AppModel appModel)
 		{
-			var builder = Host.CreateDefaultBuilder()
-				.UseContentRoot(Package.Current.InstalledLocation.Path)
-				.UseEnvironment(AppLifecycleHelper.AppEnvironment.ToString())
-				.ConfigureLogging(builder => builder
-					.ClearProviders()
-					.AddConsole()
+			var services = new ServiceCollection();
+
+			services.AddLogging(builder => builder
 					.AddDebug()
 					.AddProvider(new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log")))
 					.AddProvider(new SentryLoggerProvider())
-					.SetMinimumLevel(LogLevel.Information))
-				.ConfigureServices(services => services
+					.SetMinimumLevel(LogLevel.Information));
+
+			services
 					// Settings services
 					.AddSingleton<IUserSettingsService, UserSettingsService>()
 					.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>(sp => new AppearanceSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
@@ -294,18 +292,17 @@ namespace Files.App.Helpers
 					.AddSingleton<StorageHistoryWrapper>()
 					.AddSingleton<FileTagsManager>()
 					.AddSingleton<LibraryManager>()
-					.AddSingleton<AppModel>()
-				);
+					.AddSingleton(appModel);
 
 			// Conditional DI
 			if (AppEnvironment is AppEnvironment.SideloadPreview or AppEnvironment.SideloadStable)
-				builder.ConfigureServices(s => s.AddSingleton<IUpdateService, SideloadUpdateService>());
+				services.AddSingleton<IUpdateService, SideloadUpdateService>();
 			else if (AppEnvironment is AppEnvironment.StorePreview or AppEnvironment.StoreStable)
-				builder.ConfigureServices(s => s.AddSingleton<IUpdateService, StoreUpdateService>());
+				services.AddSingleton<IUpdateService, StoreUpdateService>();
 			else
-				builder.ConfigureServices(s => s.AddSingleton<IUpdateService, DummyUpdateService>());
+				services.AddSingleton<IUpdateService, DummyUpdateService>();
 
-			return builder.Build();
+			return services.BuildServiceProvider();
 		}
 
 		/// <summary>

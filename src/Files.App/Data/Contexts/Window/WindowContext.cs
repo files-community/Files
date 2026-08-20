@@ -29,7 +29,11 @@ namespace Files.App.Data.Contexts
 			IsRunningAsAdmin = WindowsSecurityService.IsAppElevated();
 			CanDragAndDrop = WindowsSecurityService.CanDragAndDrop();
 
-			MainWindow.Instance.AppWindow.Changed += AppWindow_Changed;
+			// MainWindow.Instance lazily creates the window; defer if constructed during the off-thread prewarm
+			if (App.UiDispatcher?.HasThreadAccess ?? true)
+				MainWindow.Instance.AppWindow.Changed += AppWindow_Changed;
+			else
+				App.UiDispatcher.TryEnqueue(() => MainWindow.Instance.AppWindow.Changed += AppWindow_Changed);
 		}
 
 		private void AppWindow_Changed(AppWindow sender, AppWindowChangedEventArgs args)
