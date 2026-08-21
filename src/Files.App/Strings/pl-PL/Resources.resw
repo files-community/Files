@@ -1632,7 +1632,7 @@
     <value>Stwórz plik</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabelText" xml:space="preserve">
-    <value>Delete subdirectories and files</value>
+    <value>Usuń podfoldery i pliki</value>
   </data>
   <data name="SecurityExecuteFileLabelText" xml:space="preserve">
     <value>Uruchom plik</value>
@@ -1644,25 +1644,25 @@
     <value>Czytaj pliki data</value>
   </data>
   <data name="SecurityReadExtendedAttributesLabelText" xml:space="preserve">
-    <value>Read extended attributes</value>
+    <value>Odczyt atrybutów rozszerzonych</value>
   </data>
   <data name="SecurityReadPermissionsLabelText" xml:space="preserve">
-    <value>Read permissions</value>
+    <value>Uprawnienia odczytu</value>
   </data>
   <data name="SecurityTakeOwnershipLabelText" xml:space="preserve">
-    <value>Take ownership</value>
+    <value>Przejmij własność</value>
   </data>
   <data name="SecurityTraverseLabelText" xml:space="preserve">
-    <value>Visit folder</value>
+    <value>Odwiedź folder</value>
   </data>
   <data name="SecurityWriteAttributesLabelText" xml:space="preserve">
-    <value>Write attributes</value>
+    <value>Zapisz atrybuty</value>
   </data>
   <data name="SecurityWriteDataLabelText" xml:space="preserve">
-    <value>Write data</value>
+    <value>Zapisz dane</value>
   </data>
   <data name="SecurityWriteExtendedAttributesLabelText" xml:space="preserve">
-    <value>Write extended attributes</value>
+    <value>Zapisz rozszerzone atrybuty</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
     <value>Konwertuj uprawnienia odziedziczone na uprawnienia jawne</value>
@@ -1719,7 +1719,7 @@
     <value>WSL</value>
   </data>
   <data name="SideBarHideSectionFromSideBarText" xml:space="preserve">
-    <value>Hide {0} section</value>
+    <value>Ukryj {0} sekcji</value>
   </data>
   <data name="AddFile" xml:space="preserve">
     <value>Dodaj plik</value>
@@ -1749,7 +1749,7 @@
     <value>Wypakowywanie ukończone!</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolderText" xml:space="preserve">
-    <value>Open parent folder</value>
+    <value>Otwórz folder nadrzędny</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>Nieznany</value>
@@ -1764,10 +1764,10 @@
     <value>Otwórz dysk</value>
   </data>
   <data name="InsertDiscDialogText" xml:space="preserve">
-    <value>Please insert a disc into drive {0}</value>
+    <value>Włóż dysk do napędu {0}</value>
   </data>
   <data name="InsertDiscDialogTitle" xml:space="preserve">
-    <value>Insert a disc</value>
+    <value>Włóż dysk</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
@@ -1782,13 +1782,13 @@
     <value>Wprowadź Twoje poświadczenie:</value>
   </data>
   <data name="CredentialDialogIncorrectPassword" xml:space="preserve">
-    <value>The password is incorrect. Try again.</value>
+    <value>Nieprawidłowe hasło. Spróbuj ponownie.</value>
   </data>
   <data name="PasswordRequired" xml:space="preserve">
-    <value>Password required</value>
+    <value>Wymagane hasło</value>
   </data>
   <data name="PasswordRequiredMessage" xml:space="preserve">
-    <value>This location is password protected. Refresh to enter the password.</value>
+    <value>Ta lokalizacja jest chroniona hasłem. Odśwież, aby wprowadzić hasło.</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Nazwa użytkownika</value>
@@ -2085,13 +2085,13 @@
     <value>Dopasuj rozmiar wszystkich kolumn</value>
   </data>
   <data name="AutoFitColumns" xml:space="preserve">
-    <value>Auto-fit columns</value>
+    <value>Automatyczne dopasowanie kolumn</value>
   </data>
   <data name="AutoFitColumnsDescription" xml:space="preserve">
     <value>Zmień rozmiar kolumn, by dostosować je do zawartości</value>
   </data>
   <data name="AutoSizeColumnsInDetailsLayout" xml:space="preserve">
-    <value>Automatically fit columns to content</value>
+    <value>Automatycznie dopasuj kolumny do zawartości</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Automatycznie wybierz najlepszy układ</value>
@@ -2157,10 +2157,10 @@
     <value>Otwieraj foldery pojedynczym kliknięciem</value>
   </data>
   <data name="OpenFolderWithOneClickInColumnsView" xml:space="preserve">
-    <value>Open folders with a single click in Columns View</value>
+    <value>Otwórz foldery jednym kliknięciem</value>
   </data>
   <data name="SingleClickToOpen" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>Otwórz elementy jednym kliknięciem</value>
   </data>
   <data name="SingleClickFoldersInColumnsViewHeader" xml:space="preserve">
     <value>Foldery w widoku kolumn</value>
@@ -2235,7 +2235,7 @@
     <value>Utwórz archiwum</value>
   </data>
   <data name="CompressSkippedItemsDialogTitle" xml:space="preserve">
-    <value>Some items can't be compressed</value>
+    <value>Niektóre elementy nie mogą zostać skompresowane</value>
   </data>
   <data name="CompressSkippedItemsDialogText" xml:space="preserve">
     <value>Następujące elementy {0, plural, one {item} other {items}} nie można skompresować, czy cgcesz pominąć pliki {0, plural, one {this item} other {these items}}?</value>
@@ -2292,7 +2292,7 @@
     <value>Wielkość znaków</value>
   </data>
   <data name="EstimatedMemoryUsage" xml:space="preserve">
-    <value>Estimated memory usage: {0}</value>
+    <value>Szacowane zużycie pamięci: {0}</value>
   </data>
   <data name="AvailableMemory" xml:space="preserve">
     <value>Dostępna pamięć: {0}</value>
@@ -3343,7 +3343,7 @@
     <value>Błąd git pull z powodu przekroczenia limitu czasu</value>
   </data>
   <data name="PullUncommittedChangesError" xml:space="preserve">
-    <value>Can't pull because your uncommitted changes would be overwritten. Commit, stash, or discard your changes, then try again.</value>
+    <value>Nie można ściągnąć, ponieważ Twoje niezatwierdzone zmiany zostaną nadpisane. Wykonaj commit, stash, lub odrzuć zmiany, a następnie spróbuj ponownie.</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(wiele wartości)</value>
@@ -3461,10 +3461,10 @@
     <value>Otwórz zaznaczony folder w nowym panelu</value>
   </data>
   <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
-    <value>Open selected directory in the other pane</value>
+    <value>Otwórz zaznaczony folder w nowym panelu</value>
   </data>
   <data name="OpenCurrentFolderInOtherPaneDescription" xml:space="preserve">
-    <value>Open the current folder in the other pane</value>
+    <value>Otwórz bieżący folder w innym panelu</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Otwórz wybrany katalog w nowej karcie</value>
@@ -3969,7 +3969,7 @@
     <value>Zmień okładkę albumu</value>
   </data>
   <data name="RemoveAlbumCover" xml:space="preserve">
-    <value>Remove album cover</value>
+    <value>Usuń okładkę albumu</value>
   </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>Nie udało się zmienić nazwy pliku</value>
@@ -4170,13 +4170,13 @@
     <comment>This is the friendly name for image files.</comment>
   </data>
   <data name="AllSupportedFiles" xml:space="preserve">
-    <value>All supported files</value>
+    <value>Wszystkie obsługiwane pliki</value>
   </data>
   <data name="ConvertToIconRequiredMessage" xml:space="preserve">
-    <value>This image needs to be converted into an icon file before it can be used. Choose a location to save the converted icon file.</value>
+    <value>Ten obraz musi być przekonwertowany do pliku ikony, zanim będzie mógł być użyty. Wybierz lokalizację, aby zapisać plik z ikonami.</value>
   </data>
   <data name="ConvertToIconError" xml:space="preserve">
-    <value>Couldn't convert the image to an icon file</value>
+    <value>Nie można przekonwertować obrazu na plik ikony</value>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Nr.</value>
@@ -4213,13 +4213,13 @@
     <value>Podziel w pionie</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Split pane vertically</value>
+    <value>Podziel w pionie</value>
   </data>
   <data name="SplitPaneHorizontally" xml:space="preserve">
     <value>Podziel w poziomie</value>
   </data>
   <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
-    <value>Split pane horizontally</value>
+    <value>Podziel w poziomie</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Ułóż pionowo</value>
@@ -4243,10 +4243,10 @@
     <value>Ułóż strony</value>
   </data>
   <data name="DualPaneSplitDirection" xml:space="preserve">
-    <value>Default dual pane split direction</value>
+    <value>Domyślny kierunek podziału paneli podwójnych</value>
   </data>
   <data name="DualPane" xml:space="preserve">
-    <value>Dual pane mode</value>
+    <value>Tryb dwupanelowy</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
     <value>Poziomo</value>
@@ -4312,19 +4312,19 @@
     <value>Zawsze przełącz fokus na nowo utworzoną kartę</value>
   </data>
   <data name="ReverseTabScrollDirection" xml:space="preserve">
-    <value>Reverse tab scroll direction</value>
+    <value>Odwróć kierunek przewijania karty</value>
   </data>
   <data name="DownMotionScrollsLeft" xml:space="preserve">
-    <value>Down motion scrolls left</value>
+    <value>Przesunięcie w dół w lewo</value>
   </data>
   <data name="DownMotionScrollsRight" xml:space="preserve">
-    <value>Down motion scrolls right</value>
+    <value>Przesunięcie w dół w prawo</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
-    <value>Toggle shelf pane</value>
+    <value>Przełącz tryb dwupanelowy</value>
   </data>
   <data name="ToggleShelfPaneDescription" xml:space="preserve">
-    <value>Toggle the visibility of the shelf pane</value>
+    <value>Przełącz widoczność panelu bocznego</value>
   </data>
   <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
     <value>Pokaż przełącznik panelu półki na pasku adresu</value>
@@ -4377,13 +4377,13 @@
     <value>Otwórz ustawienia</value>
   </data>
   <data name="NetworkDiscoveryTurnedOffInfoBarMessage" xml:space="preserve">
-    <value>Network discovery is turned off. Network computers and devices are not visible.</value>
+    <value>Wyszukiwanie sieci jest wyłączone. Komputery sieciowe i urządzenia sieciowe nie są widoczne.</value>
   </data>
   <data name="FileSharingTurnedOffInfoBarMessage" xml:space="preserve">
-    <value>File sharing is turned off. Some network computers and devices might not be visible.</value>
+    <value>Udostępnianie plików jest wyłączone. Niektóre komputery sieciowe i urządzenia mogą być niewidoczne.</value>
   </data>
   <data name="NetworkDiscoveryAndFileSharingTurnedOffInfoBarMessage" xml:space="preserve">
-    <value>Network discovery and file sharing are turned off. Network computers and devices are not visible.</value>
+    <value>Wykrywanie sieci i udostępnianie plików są wyłączone. Komputery i urządzenia sieciowe nie są widoczne.</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
@@ -4439,7 +4439,7 @@
     <value>Szukaj plików i folderów...</value>
   </data>
   <data name="DuringOngoingFileOperations" xml:space="preserve">
-    <value>During file operations</value>
+    <value>Podczas operacji plików</value>
   </data>
   <data name="ShowStatusCenterButton" xml:space="preserve">
     <value>Pokaż przycisk statusu</value>
