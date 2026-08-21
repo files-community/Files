@@ -2,10 +2,24 @@
 	x:Class="Files.App.UITests.Dialogs.PropertiesDetailsPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:Files.App.UITests.Dialogs"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
 
-	<Grid />
+	<controls:PropertiesView>
+
+		<Expander IsExpanded="True" Style="{StaticResource PropertiesExpanderStyle}">
+			<Expander.Header>
+				<controls:PropertiesHeader Text="Description">
+					<controls:PropertiesHeader.Icon>
+						<FontIcon Glyph="&#xF0E3;" />
+					</controls:PropertiesHeader.Icon>
+				</controls:PropertiesHeader>
+			</Expander.Header>
+
+		</Expander>
+
+	</controls:PropertiesView>
 </Page>

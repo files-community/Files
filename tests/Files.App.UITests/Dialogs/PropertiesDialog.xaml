@@ -7,8 +7,12 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:Files.App.UITests.Dialogs"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	Title="Properties title"
+	Title="Properties"
 	mc:Ignorable="d">
+
+	<controls:WindowedDialog.SystemBackdrop>
+		<MicaBackdrop />
+	</controls:WindowedDialog.SystemBackdrop>
 
 	<controls:WindowedDialog.Header>
 		<SelectorBar Padding="12,4" SelectionChanged="SelectorBar_SelectionChanged">
@@ -24,9 +28,7 @@
 		</SelectorBar>
 	</controls:WindowedDialog.Header>
 
-	<controls:WindowedDialog.RootContent>
-		<Frame x:Name="MainContentFrame" IsNavigationStackEnabled="False" />
-	</controls:WindowedDialog.RootContent>
+	<Frame x:Name="MainContentFrame" IsNavigationStackEnabled="False" />
 
 	<controls:WindowedDialog.Footer>
 		<Grid ColumnSpacing="8">
