@@ -1086,14 +1086,14 @@ namespace Files.App.ViewModels
 				await bulkOperationSemaphore.WaitAsync(addFilesCTS.Token);
 
 				var filter = FilesAndFoldersFilter;
-				var displayedFilesAndFolders = string.IsNullOrEmpty(filter)
-					? filesAndFoldersLocal
-					: await Task.Run(() => filesAndFoldersLocal.Where(
-						x => x.Name?.Contains(filter, StringComparison.OrdinalIgnoreCase) == true).ToList(), addFilesCTS.Token);
-
 				var isSemaphoreReleased = false;
 				try
 				{
+					var displayedFilesAndFolders = string.IsNullOrEmpty(filter)
+						? filesAndFoldersLocal
+						: await Task.Run(() => filesAndFoldersLocal.Where(
+							x => x.Name?.Contains(filter, StringComparison.OrdinalIgnoreCase) == true).ToList(), addFilesCTS.Token);
+
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						try
