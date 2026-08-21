@@ -5,9 +5,9 @@
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:fcontrols="using:Files.App.Controls">
 
-	<Style BasedOn="{StaticResource DefaultPropertiesViewFormStyle}" TargetType="fcontrols:PropertiesViewForm" />
+	<Style BasedOn="{StaticResource DefaultPropertiesViewStyle}" TargetType="fcontrols:PropertiesView" />
 
-	<Style x:Key="DefaultPropertiesViewFormStyle" TargetType="fcontrols:PropertiesViewForm">
+	<Style x:Key="DefaultPropertiesViewStyle" TargetType="fcontrols:PropertiesView">
 		<Setter Property="VerticalAlignment" Value="Stretch" />
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="ItemsPanel">
@@ -19,7 +19,7 @@
 		</Setter>
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="fcontrols:PropertiesViewForm">
+				<ControlTemplate TargetType="fcontrols:PropertiesView">
 					<Grid>
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto" />

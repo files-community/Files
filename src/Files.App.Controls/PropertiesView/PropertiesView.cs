@@ -5,7 +5,7 @@ using CommunityToolkit.WinUI;
 
 namespace Files.App.Controls
 {
-	public partial class PropertiesViewForm : ItemsControl
+	public partial class PropertiesView : ItemsControl
 	{
 		[GeneratedDependencyProperty]
 		public partial FrameworkElement? Header { get; set; }
@@ -13,9 +13,9 @@ namespace Files.App.Controls
 		[GeneratedDependencyProperty]
 		public partial FrameworkElement? Footer { get; set; }
 
-		public PropertiesViewForm()
+		public PropertiesView()
 		{
-			DefaultStyleKey = typeof(PropertiesViewForm);
+			DefaultStyleKey = typeof(PropertiesView);
 		}
 	}
 }
