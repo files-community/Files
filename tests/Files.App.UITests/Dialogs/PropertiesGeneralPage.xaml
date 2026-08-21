@@ -71,6 +71,12 @@
 					Padding="0,0,0,8"
 					HorizontalAlignment="Stretch"
 					Orientation="Vertical">
+
+
+					<controls:PropertiesViewCard Header="Card header text" />
+
+					<controls:PropertiesViewItemSeparator />
+
 					<controls:PropertiesViewItemText
 						CanEdit="True"
 						Label="Item label 1"
