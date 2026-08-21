@@ -18,9 +18,9 @@
 		</ResourceDictionary>
 	</Page.Resources>
 
-	<controls:PropertiesViewForm>
+	<controls:PropertiesView>
 
-		<controls:PropertiesViewForm.Header>
+		<controls:PropertiesView.Header>
 			<Grid Padding="24,20">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="{StaticResource LabelWidth}" />
@@ -54,7 +54,7 @@
 				</StackPanel>
 
 			</Grid>
-		</controls:PropertiesViewForm.Header>
+		</controls:PropertiesView.Header>
 
 		<Expander IsExpanded="True" Style="{StaticResource PropertiesExpanderStyle}">
 			<Expander.Header>
@@ -329,6 +329,6 @@
 			</Expander.Content>
 		</Expander>
 
-	</controls:PropertiesViewForm>
+	</controls:PropertiesView>
 
 </Page>
