@@ -129,15 +129,22 @@ namespace Files.App.ViewModels
 			}
 		}
 
+		// Ensures the sponsor prompt is only displayed once per app session
+		private static bool hasShownSponsorPrompt;
+
 		public bool ShowSponsorPrompt
 		{
 			get
 			{
+				if (hasShownSponsorPrompt)
+					return false;
+
 				var isTargetEnvironment = AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev or AppEnvironment.SideloadStable or AppEnvironment.SideloadPreview;
 				var hasClickedSponsorPrompt = UserSettingsService.ApplicationSettingsService.HasClickedSponsorPrompt;
 				var launchCountReached = AppLifecycleHelper.TotalLaunchCount % 50 == 0;
 
-				return isTargetEnvironment && !hasClickedSponsorPrompt && launchCountReached;
+				hasShownSponsorPrompt = isTargetEnvironment && !hasClickedSponsorPrompt && launchCountReached;
+				return hasShownSponsorPrompt;
 			}
 		}
 
