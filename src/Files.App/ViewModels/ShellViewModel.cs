@@ -1076,11 +1076,6 @@ namespace Files.App.ViewModels
 					return;
 				}
 				var filesAndFoldersLocal = filesAndFolders.ToList();
-				var filter = FilesAndFoldersFilter;
-				var displayedFilesAndFolders = string.IsNullOrEmpty(filter)
-					? filesAndFoldersLocal
-					: await Task.Run(() => filesAndFoldersLocal.Where(
-						x => x.Name?.Contains(filter, StringComparison.OrdinalIgnoreCase) == true).ToList(), addFilesCTS.Token);
 
 				// CollectionChanged will cause UI update, which may cause significant performance degradation,
 				// so suppress CollectionChanged event here while loading items heavily.
@@ -1089,6 +1084,13 @@ namespace Files.App.ViewModels
 				// we have to call BeginBulkOperation to suppress CollectionChanged and call EndBulkOperation
 				// in the end to fire a CollectionChanged event with NotifyCollectionChangedAction.Reset
 				await bulkOperationSemaphore.WaitAsync(addFilesCTS.Token);
+
+				var filter = FilesAndFoldersFilter;
+				var displayedFilesAndFolders = string.IsNullOrEmpty(filter)
+					? filesAndFoldersLocal
+					: await Task.Run(() => filesAndFoldersLocal.Where(
+						x => x.Name?.Contains(filter, StringComparison.OrdinalIgnoreCase) == true).ToList(), addFilesCTS.Token);
+
 				var isSemaphoreReleased = false;
 				try
 				{
