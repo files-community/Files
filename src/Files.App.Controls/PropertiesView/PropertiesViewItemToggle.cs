@@ -133,12 +133,12 @@ namespace Files.App.Controls
 			}
 
 			// Get the template part
-			_toggleSwitch = GetTemplateChild( ToggleSwitchPartName ) as ToggleSwitch;
+			var _ts = GetTemplateChild( ToggleSwitchPartName ) as ToggleSwitch;
 
 			// Hook the event
-			if ( _toggleSwitch != null )
+			if ( _ts != null )
 			{
-				_toggleSwitch.Toggled += OnToggleSwitchToggled;
+				_ts.Toggled += OnToggleSwitchToggled;
 			}
 		}
 

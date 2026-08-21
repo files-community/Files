@@ -1,31 +1,47 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Documents;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Files.App.Controls.Primitives;
 using WinRT;
 
 namespace Files.App.Controls
 {
-
 	#region Template
+
 	[TemplateVisualState( Name = HorizontalStateName , GroupName = OrientationStateGroupName )]
 	[TemplateVisualState( Name = VerticalStateName , GroupName = OrientationStateGroupName )]
+
 	#endregion
 
-	public sealed partial class PropertiesViewItemSeparator : Control
+
+
+
+	public sealed partial class PropertiesViewItemCheck : CheckBox
 	{
+
 		#region Constants
 		internal const string OrientationStateGroupName = "OrientationStateGroup";
 
 		internal const string HorizontalStateName = "HorizontalState";
 		internal const string VerticalStateName = "VerticalState";
+
 		#endregion
 
 
-		#region Properties
 
+
+		#region Properties
+		
 		public Orientation Orientation
 		{
 			[DynamicWindowsRuntimeCast( typeof( Orientation ) )]
@@ -38,16 +54,20 @@ namespace Files.App.Controls
 			DependencyProperty.Register(
 				"Orientation",
 				typeof(Orientation),
-				typeof(PropertiesViewItemSeparator),
+				typeof(PropertiesViewItemCheck),
 				new PropertyMetadata(Orientation.Horizontal, OnOrientationChanged));
 
 		#endregion
 
 
+
+
 		#region Property Changed
+
+		[DynamicWindowsRuntimeCast( typeof( Orientation ) )]
 		private static void OnOrientationChanged(DependencyObject d , DependencyPropertyChangedEventArgs e)
 		{
-			var control = (PropertiesViewItemSeparator)d;
+			var control = (PropertiesViewItemCheck)d;
 			control.UpdateOrientationState( (Orientation)e.NewValue );
 		}
 
@@ -66,11 +86,16 @@ namespace Files.App.Controls
 		#endregion
 
 
+
+
 		private bool _isLoaded;
-		public PropertiesViewItemSeparator()
-		{ 
-			DefaultStyleKey = typeof( PropertiesViewItemSeparator );
+		public PropertiesViewItemCheck()
+		{
+			DefaultStyleKey = typeof( PropertiesViewItemCheck );
 		}
+
+
+
 
 		protected override void OnApplyTemplate()
 		{
