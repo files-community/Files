@@ -138,6 +138,11 @@
 
 	<x:Double x:Key="PropertiesItemSeparatorStrokeThickness">1</x:Double>
 	<CornerRadius x:Key="PropertiessItemSeparatorCornerRadius">1</CornerRadius>
+
+	<Thickness x:Key="PropertiesItemCheckBoxVerticalMargin">8</Thickness>
+	<Thickness x:Key="PropertiesItemCheckBoxHorizontalMargin">0,0,12,0</Thickness>
+
+	<Thickness x:Key="PropertiesViewItemCheckPadding">0</Thickness>
 	<!--#endregion-->
 
 </ResourceDictionary>

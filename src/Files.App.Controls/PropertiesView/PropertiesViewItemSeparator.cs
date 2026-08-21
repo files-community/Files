@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -27,6 +28,8 @@ namespace Files.App.Controls
 
 		public Orientation Orientation
 		{
+			[DynamicWindowsRuntimeCast( typeof( Orientation ) )]
+
 			get => (Orientation)GetValue( OrientationProperty );
 			set => SetValue( OrientationProperty , value );
 		}
@@ -59,6 +62,7 @@ namespace Files.App.Controls
 				VisualStateManager.GoToState( this , VerticalStateName , false );
 			}
 		}
+
 		#endregion
 
 

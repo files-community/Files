@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using WinRT;
 
 namespace Files.App.Controls.Primitives
 {
@@ -32,6 +33,8 @@ namespace Files.App.Controls.Primitives
 
 
 		#region Property Changed
+
+		[DynamicWindowsRuntimeCast( typeof( Orientation ) )]
 		private static void OnOrientationChanged(DependencyObject d , DependencyPropertyChangedEventArgs e)
 		{
 			var control = (PropertiesViewItem)d;

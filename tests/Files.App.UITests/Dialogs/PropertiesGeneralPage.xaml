@@ -333,19 +333,44 @@
 			Padding="24,8"
 			Orientation="Horizontal"
 			Spacing="16">
-			<CheckBox Content="Text for a Checkbox" />
+			<controls:PropertiesViewItemCheck
+				Content="Text for a Checkbox"
+				IsChecked="False"
+				Orientation="Vertical" />
 
 			<controls:PropertiesViewItemSeparator Orientation="Vertical" />
 
-			<CheckBox Content="Checkbox t00" />
+			<controls:PropertiesViewItemCheck
+				Content="Checkbox t00"
+				IsChecked="True"
+				Orientation="Vertical" />
 
 			<controls:PropertiesViewItemSeparator Orientation="Vertical" />
 
-			<CheckBox Content="Text for a Checkbox three" />
+			<controls:PropertiesViewItemCheck
+				Content="Text for a Checkbox three"
+				IsChecked="{x:Null}"
+				Orientation="Vertical" />
+		</StackPanel>
 
-			<controls:PropertiesViewItemSeparator Orientation="Vertical" />
+		<Rectangle
+			Height="1"
+			HorizontalAlignment="Stretch"
+			Fill="Red" />
 
-			<CheckBox Content="Text for a Checkbox 4ore" />
+		<StackPanel
+			Padding="24,8"
+			Orientation="Vertical"
+			Spacing="16">
+			<controls:PropertiesViewItemCheck Content="Text for a Checkbox" IsChecked="False" />
+
+			<controls:PropertiesViewItemSeparator />
+
+			<controls:PropertiesViewItemCheck Content="Checkbox t00" IsChecked="True" />
+
+			<controls:PropertiesViewItemSeparator />
+
+			<controls:PropertiesViewItemCheck Content="Text for a Checkbox three" IsChecked="{x:Null}" />
 		</StackPanel>
 
 	</controls:PropertiesView>
