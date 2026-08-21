@@ -167,6 +167,13 @@ namespace Files.App.Utils.Storage
 			if (GroupedCollection is null)
 				return;
 
+			var groupsByKey = new Dictionary<string, GroupedCollection<T>>(StringComparer.Ordinal);
+			foreach (var group in GroupedCollection)
+			{
+				if (group.Model.Key is not null)
+					groupsByKey.TryAdd(group.Model.Key, group);
+			}
+
 			foreach (var item in items)
 			{
 				if (token.IsCancellationRequested)
@@ -176,7 +183,7 @@ namespace Files.App.Utils.Storage
 				if (key is null)
 					continue;
 
-				var gp = GroupedCollection?.FirstOrDefault(x => x.Model.Key == key);
+				groupsByKey.TryGetValue(key, out var gp);
 				if (item is IGroupableItem groupable)
 					groupable.Key = key;
 
@@ -198,6 +205,7 @@ namespace Files.App.Utils.Storage
 
 					GroupedCollection?.Add(group);
 					GroupedCollection!.IsSorted = false;
+					groupsByKey[key] = group;
 				}
 			}
 		}
