@@ -1544,7 +1544,7 @@ namespace Files.App.ViewModels
 
 								var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
-								var fileTag = FileTagsHelper.ReadFileTag(item.GetRequiredPath());
+								var fileTag = await Task.Run(() => FileTagsHelper.ReadFileTag(item.GetRequiredPath()));
 								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFile.DisplayType;
 								var extraProperties = await GetExtraProperties(matchingStorageFile);
 
@@ -1616,7 +1616,7 @@ namespace Files.App.ViewModels
 								cts.Token.ThrowIfCancellationRequested();
 								var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFolder);
-								var fileTag = FileTagsHelper.ReadFileTag(item.GetRequiredPath());
+								var fileTag = await Task.Run(() => FileTagsHelper.ReadFileTag(item.GetRequiredPath()));
 								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFolder.DisplayType;
 								var extraProperties = await GetExtraProperties(matchingStorageFolder);
 
@@ -1678,7 +1678,7 @@ namespace Files.App.ViewModels
 						cts.Token.ThrowIfCancellationRequested();
 						await FilesystemTasks.Wrap(async () =>
 						{
-							var fileTag = FileTagsHelper.ReadFileTag(item.GetRequiredPath());
+							var fileTag = await Task.Run(() => FileTagsHelper.ReadFileTag(item.GetRequiredPath()));
 
 							await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 							{

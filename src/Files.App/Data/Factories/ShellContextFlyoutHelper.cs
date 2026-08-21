@@ -107,7 +107,7 @@ namespace Files.App.Helpers
 				shiftPressed ? PInvoke.CMF_EXTENDEDVERBS : PInvoke.CMF_NORMAL, FilterMenuItems(showOpenMenu));
 
 			if (contextMenu is not null)
-				LoadMenuFlyoutItem(menuItemsList, contextMenu, contextMenu.Items!, cancellationToken, true);
+				await LoadMenuFlyoutItemAsync(menuItemsList, contextMenu, contextMenu.Items!, cancellationToken, true);
 
 			if (cancellationToken.IsCancellationRequested)
 				menuItemsList.Clear();
@@ -115,7 +115,7 @@ namespace Files.App.Helpers
 			return menuItemsList;
 		}
 
-		private static void LoadMenuFlyoutItem(
+		private static async Task LoadMenuFlyoutItemAsync(
 			List<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
 			ContextMenu contextMenu,
 			IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
@@ -140,13 +140,13 @@ namespace Files.App.Helpers
 						Text = Strings.ShowMoreOptions.GetLocalizedResource(),
 						Glyph = "\xE712",
 					};
-					LoadMenuFlyoutItem(menuLayoutSubItem.Items
+					await LoadMenuFlyoutItemAsync(menuLayoutSubItem.Items
 						?? throw new InvalidOperationException("The shell overflow menu has not been initialized."), contextMenu, overflowItems, cancellationToken, showIcons);
 					menuItemsListLocal.Insert(0, menuLayoutSubItem);
 				}
 				else
 				{
-					LoadMenuFlyoutItem(moreItem.Items
+					await LoadMenuFlyoutItemAsync(moreItem.Items
 						?? throw new InvalidOperationException("The shell overflow menu has not been initialized."), contextMenu, overflowItems, cancellationToken, showIcons);
 				}
 			}
@@ -168,7 +168,7 @@ namespace Files.App.Helpers
 				{
 					image = new BitmapImage();
 					using var ms = new MemoryStream(menuFlyoutItem.Icon);
-					image.SetSourceAsync(ms.AsRandomAccessStream()).AsTask().Wait(10);
+					await image.SetSourceAsync(ms.AsRandomAccessStream());
 				}
 
 				if (menuFlyoutItem.Type is MENU_ITEM_TYPE.MFT_SEPARATOR)
@@ -190,14 +190,14 @@ namespace Files.App.Helpers
 
 					if (menuFlyoutItem.SubItems.Any())
 					{
-						LoadMenuFlyoutItem(menuLayoutSubItem.Items, contextMenu, menuFlyoutItem.SubItems, cancellationToken, showIcons);
+						await LoadMenuFlyoutItemAsync(menuLayoutSubItem.Items, contextMenu, menuFlyoutItem.SubItems, cancellationToken, showIcons);
 					}
 					else
 					{
 						menuLayoutSubItem.LoadSubMenuAction = async () =>
 						{
 							if (await contextMenu.LoadSubMenu(menuFlyoutItem.SubItems))
-								LoadMenuFlyoutItem(menuLayoutSubItem.Items, contextMenu, menuFlyoutItem.SubItems, cancellationToken, showIcons);
+								await LoadMenuFlyoutItemAsync(menuLayoutSubItem.Items, contextMenu, menuFlyoutItem.SubItems, cancellationToken, showIcons);
 						};
 					}
 

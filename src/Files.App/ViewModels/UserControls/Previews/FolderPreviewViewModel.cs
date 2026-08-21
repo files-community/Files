@@ -30,7 +30,6 @@ namespace Files.App.ViewModels.Previews
 				?? throw new InvalidOperationException("The preview folder could not be opened.");
 
 			Folder = folder;
-			var items = await folder.GetItemsAsync();
 
 			var result = await FileThumbnailHelper.GetIconAsync(
 				Item.ItemPath,
