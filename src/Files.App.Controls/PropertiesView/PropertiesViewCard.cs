@@ -9,7 +9,6 @@ using Windows.System;
 namespace Files.App.Controls;
 
 [TemplatePart(Name = ActionIconPresenterHolderName, Type = typeof(Viewbox))]
-[TemplatePart(Name = DescriptionPresenterName, Type = typeof(ContentPresenter))]
 [TemplatePart(Name = HeaderIconPresenterHolderName, Type = typeof(Viewbox))]
 [TemplatePart(Name = HeaderPresenterName, Type = typeof(ContentPresenter))]
 [TemplateVisualState(Name = NormalStateName, GroupName = CommonStatesName)]
@@ -37,7 +36,6 @@ public partial class PropertiesViewCard : Button
 	private const string BitmapHeaderIconEnabledStateName = "BitmapHeaderIconEnabled";
 	private const string BitmapHeaderIconDisabledStateName = "BitmapHeaderIconDisabled";
 	private const string ActionIconPresenterHolderName = "PART_ActionIconPresenterHolder";
-	private const string DescriptionPresenterName = "PART_DescriptionPresenter";
 	private const string HeaderIconPresenterHolderName = "PART_HeaderIconPresenterHolder";
 	private const string HeaderPresenterName = "PART_HeaderPresenter";
 
@@ -64,7 +62,6 @@ public partial class PropertiesViewCard : Button
 		base.OnApplyTemplate();
 
 		UpdateActionIcon();
-		UpdateDescription();
 		UpdateHeader();
 		UpdateHeaderIcon();
 		UpdateClickInteraction();
@@ -164,12 +161,6 @@ public partial class PropertiesViewCard : Button
 		UpdateContentSpacingState(contentAlignmentStates?.CurrentState, true);
 	}
 
-	partial void OnDescriptionChanged(object? newValue)
-	{
-		UpdateDescription();
-		SetAccessibleContentName();
-	}
-
 	partial void OnHeaderChanged(object? newValue)
 	{
 		UpdateHeader();
@@ -260,12 +251,6 @@ public partial class PropertiesViewCard : Button
 				: Visibility.Collapsed;
 	}
 
-	private void UpdateDescription()
-	{
-		if (GetTemplateChild(DescriptionPresenterName) is FrameworkElement presenter)
-			presenter.Visibility = IsNullOrEmptyString(Description) ? Visibility.Collapsed : Visibility.Visible;
-	}
-
 	private void UpdateHeader()
 	{
 		if (GetTemplateChild(HeaderPresenterName) is FrameworkElement presenter)
@@ -296,7 +281,7 @@ public partial class PropertiesViewCard : Button
 	private void UpdateContentSpacingState(VisualState? state, bool useTransitions)
 	{
 		bool isVertical = state?.Name is RightWrappedStateName or VerticalStateName;
-		bool hasHeader = !IsNullOrEmptyString(Header) || !IsNullOrEmptyString(Description);
+		bool hasHeader = !IsNullOrEmptyString(Header);
 		VisualStateManager.GoToState(
 			this,
 			isVertical && Content is not null && hasHeader ? ContentSpacingStateName : NoContentSpacingStateName,

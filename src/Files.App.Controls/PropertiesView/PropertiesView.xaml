@@ -6,6 +6,51 @@
 
 	<Style BasedOn="{StaticResource DefaultPropertiesViewStyle}" TargetType="local:PropertiesView" />
 
+	<Style TargetType="local:PropertiesViewItemSeparator">
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="Foreground" Value="{ThemeResource PropertiesItemSeparatorForeground}" />
+		<Setter Property="CornerRadius" Value="{StaticResource PropertiessItemSeparatorCornerRadius}" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:PropertiesViewItemSeparator">
+					<Grid
+						Padding="{TemplateBinding Padding}"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch">
+						<Border
+							x:Name="SeparatorHorizontalBorder"
+							Height="{StaticResource PropertiesItemSeparatorStrokeThickness}"
+							Margin="{StaticResource PropertiesItemSeparatorHorizontalMargin}"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Center"
+							Background="{TemplateBinding Foreground}"
+							CornerRadius="{TemplateBinding CornerRadius}" />
+						<Border
+							x:Name="SeparatorVerticalBorder"
+							Width="{StaticResource PropertiesItemSeparatorStrokeThickness}"
+							Margin="{StaticResource PropertiesItemSeparatorVerticalMargin}"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Stretch"
+							Background="{TemplateBinding Foreground}"
+							CornerRadius="{TemplateBinding CornerRadius}"
+							Visibility="Collapsed" />
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="OrientationStateGroup">
+								<VisualState x:Name="HorizontalState" />
+								<VisualState x:Name="VerticalState">
+									<VisualState.Setters>
+										<Setter Target="SeparatorHorizontalBorder.Visibility" Value="Collapsed" />
+										<Setter Target="SeparatorVerticalBorder.Visibility" Value="Visible" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
 	<Style x:Key="DefaultPropertiesViewStyle" TargetType="local:PropertiesView">
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="VerticalAlignment" Value="Stretch" />

@@ -11,9 +11,6 @@ public partial class PropertiesViewCard
 	public partial object? Header { get; set; }
 
 	[GeneratedDependencyProperty]
-	public partial object? Description { get; set; }
-
-	[GeneratedDependencyProperty]
 	public partial IconElement? HeaderIcon { get; set; }
 
 	[GeneratedDependencyProperty]

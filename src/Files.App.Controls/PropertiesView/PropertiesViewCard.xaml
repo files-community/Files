@@ -27,12 +27,10 @@
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
-	<Thickness x:Key="PropertiesViewCardBorderThickness">0,0,0,1</Thickness>
 	<Thickness x:Key="PropertiesViewCardPadding">0,6</Thickness>
 	<GridLength x:Key="PropertiesViewCardDefaultLabelWidth">160</GridLength>
 	<x:Double x:Key="PropertiesViewCardMinWidth">148</x:Double>
 	<x:Double x:Key="PropertiesViewCardMinHeight">48</x:Double>
-	<x:Double x:Key="PropertiesViewCardDescriptionFontSize">12</x:Double>
 	<x:Double x:Key="PropertiesViewCardHeaderIconMaxSize">20</x:Double>
 	<x:Double x:Key="PropertiesViewCardActionIconMaxSize">13</x:Double>
 	<x:Double x:Key="PropertiesViewCardVerticalHeaderContentSpacing">8</x:Double>
@@ -47,8 +45,8 @@
 	<Style x:Key="DefaultPropertiesViewCardStyle" TargetType="local:PropertiesViewCard">
 		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="Foreground" Value="{ThemeResource PropertiesViewCardForeground}" />
-		<Setter Property="BorderBrush" Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
-		<Setter Property="BorderThickness" Value="{ThemeResource PropertiesViewCardBorderThickness}" />
+		<Setter Property="BorderBrush" Value="Transparent" />
+		<Setter Property="BorderThickness" Value="0" />
 		<Setter Property="CornerRadius" Value="0" />
 		<Setter Property="LabelWidth" Value="{StaticResource PropertiesViewCardDefaultLabelWidth}" />
 		<Setter Property="MinWidth" Value="{ThemeResource PropertiesViewCardMinWidth}" />
@@ -95,15 +93,12 @@
 								<VisualState x:Name="Normal" />
 								<VisualState x:Name="PointerOver">
 									<VisualState.Setters>
-										<Setter Target="PART_HeaderPresenter.Foreground" Value="{ThemeResource PropertiesViewCardForegroundPointerOver}" />
 										<Setter Target="PART_HeaderIconPresenter.Foreground" Value="{ThemeResource PropertiesViewCardForegroundPointerOver}" />
 										<Setter Target="PART_RootGrid.(muxc:AnimatedIcon.State)" Value="PointerOver" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Pressed">
 									<VisualState.Setters>
-										<Setter Target="PART_HeaderPresenter.Foreground" Value="{ThemeResource PropertiesViewCardForegroundPressed}" />
-										<Setter Target="PART_DescriptionPresenter.Foreground" Value="{ThemeResource PropertiesViewCardForegroundPressed}" />
 										<Setter Target="PART_HeaderIconPresenter.Foreground" Value="{ThemeResource PropertiesViewCardForegroundPressed}" />
 										<Setter Target="PART_ActionIconPresenter.Foreground" Value="{ThemeResource PropertiesViewCardForegroundPressed}" />
 										<Setter Target="PART_RootGrid.(muxc:AnimatedIcon.State)" Value="Pressed" />
@@ -112,7 +107,6 @@
 								<VisualState x:Name="Disabled">
 									<VisualState.Setters>
 										<Setter Target="PART_HeaderPresenter.Foreground" Value="{ThemeResource PropertiesViewCardForegroundDisabled}" />
-										<Setter Target="PART_DescriptionPresenter.Foreground" Value="{ThemeResource PropertiesViewCardForegroundDisabled}" />
 										<Setter Target="PART_HeaderIconPresenter.Foreground" Value="{ThemeResource PropertiesViewCardForegroundDisabled}" />
 										<Setter Target="PART_ActionIconPresenter.Foreground" Value="{ThemeResource PropertiesViewCardForegroundDisabled}" />
 										<Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource PropertiesViewCardForegroundDisabled}" />
@@ -219,24 +213,18 @@
 									Foreground="{TemplateBinding Foreground}"
 									HighContrastAdjustment="None" />
 							</Viewbox>
-							<StackPanel
+							<ContentPresenter
+								x:Name="PART_HeaderPresenter"
 								Grid.Column="1"
+								Margin="0,4,0,4"
+								HorizontalAlignment="Stretch"
 								VerticalAlignment="Center"
-								Orientation="Vertical">
-								<ContentPresenter
-									x:Name="PART_HeaderPresenter"
-									HorizontalAlignment="Left"
-									Content="{TemplateBinding Header}"
-									Foreground="{TemplateBinding Foreground}"
-									HighContrastAdjustment="None"
-									TextWrapping="WrapWholeWords" />
-								<ContentPresenter
-									x:Name="PART_DescriptionPresenter"
-									Content="{TemplateBinding Description}"
-									FontSize="{ThemeResource PropertiesViewCardDescriptionFontSize}"
-									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-									TextWrapping="WrapWholeWords" />
-							</StackPanel>
+								Content="{TemplateBinding Header}"
+								FontSize="{StaticResource CaptionTextBlockFontSize}"
+								Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+								HighContrastAdjustment="None"
+								LineHeight="20"
+								TextWrapping="WrapWholeWords" />
 						</Grid>
 
 						<ContentPresenter
