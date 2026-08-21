@@ -345,7 +345,12 @@ namespace Files.App.Views.Layouts
 
 		public override void Dispose()
 		{
+			Bindings.StopTracking();
 			storageArchiveService.CompressionCompleted -= StorageArchiveService_CompressionCompleted;
+			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
+			if (ParentShellPageInstance?.ShellViewModel is { } shellViewModel)
+				shellViewModel.ItemLoadStatusChanged -= OnItemLoadStatusChanged;
+
 			base.Dispose();
 			columnsOwner = null;
 		}
