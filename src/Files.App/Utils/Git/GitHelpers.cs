@@ -581,12 +581,10 @@ namespace Files.App.Utils.Git
 		{
 			if (useSemaphore)
 				await GitOperationSemaphore.WaitAsync();
-			else
-				await Task.Yield();
 
 			try
 			{
-				return (T)payload();
+				return (T)await Task.Run(payload);
 			}
 			finally
 			{

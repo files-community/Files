@@ -248,7 +248,11 @@ namespace Files.App.ViewModels
 				pathRoot = Path.GetPathRoot(WorkingDirectory);
 			}
 
-			GitDirectory = GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
+			var gitDirectory = await Task.Run(() => GitHelpers.GetGitRepositoryPath(value, pathRoot));
+			if (WorkingDirectory != value)
+				return;
+
+			GitDirectory = gitDirectory;
 			IsValidGitDirectory = !string.IsNullOrEmpty(await GitHelpers.GetRepositoryHeadName(GitDirectory));
 
 			_ = UpdateFolderThumbnailImageSource();
@@ -1080,28 +1084,28 @@ namespace Files.App.ViewModels
 				// we have to call BeginBulkOperation to suppress CollectionChanged and call EndBulkOperation
 				// in the end to fire a CollectionChanged event with NotifyCollectionChangedAction.Reset
 				await bulkOperationSemaphore.WaitAsync(addFilesCTS.Token);
+
+				var filter = FilesAndFoldersFilter;
 				var isSemaphoreReleased = false;
 				try
 				{
+					var displayedFilesAndFolders = string.IsNullOrEmpty(filter)
+						? filesAndFoldersLocal
+						: await Task.Run(() => filesAndFoldersLocal.Where(
+							x => x.Name?.Contains(filter, StringComparison.OrdinalIgnoreCase) == true).ToList(), addFilesCTS.Token);
+
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						try
 						{
-							if (addFilesCTS.IsCancellationRequested)
+							if (addFilesCTS.IsCancellationRequested || FilesAndFoldersFilter != filter)
 								return;
 
 							FilesAndFolders.BeginBulkOperation();
 							try
 							{
 								FilesAndFolders.Clear();
-								var filter = FilesAndFoldersFilter;
-								if (string.IsNullOrEmpty(filter))
-									FilesAndFolders.AddRange(filesAndFoldersLocal);
-								else
-									FilesAndFolders.AddRange(filesAndFoldersLocal.Where(x => (x.Name
-										?? throw new InvalidOperationException("A listed item does not have a name.")).Contains(
-										filter,
-										StringComparison.OrdinalIgnoreCase)));
+								FilesAndFolders.AddRange(displayedFilesAndFolders);
 
 								if (folderSettings.DirectoryGroupOption != GroupOption.None)
 									OrderGroups();
@@ -1542,7 +1546,7 @@ namespace Files.App.ViewModels
 
 								var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
-								var fileTag = FileTagsHelper.ReadFileTag(item.GetRequiredPath());
+								var fileTag = await Task.Run(() => FileTagsHelper.ReadFileTag(item.GetRequiredPath()));
 								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFile.DisplayType;
 								var extraProperties = await GetExtraProperties(matchingStorageFile);
 
@@ -1614,7 +1618,7 @@ namespace Files.App.ViewModels
 								cts.Token.ThrowIfCancellationRequested();
 								var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFolder);
-								var fileTag = FileTagsHelper.ReadFileTag(item.GetRequiredPath());
+								var fileTag = await Task.Run(() => FileTagsHelper.ReadFileTag(item.GetRequiredPath()));
 								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFolder.DisplayType;
 								var extraProperties = await GetExtraProperties(matchingStorageFolder);
 
@@ -1676,7 +1680,7 @@ namespace Files.App.ViewModels
 						cts.Token.ThrowIfCancellationRequested();
 						await FilesystemTasks.Wrap(async () =>
 						{
-							var fileTag = FileTagsHelper.ReadFileTag(item.GetRequiredPath());
+							var fileTag = await Task.Run(() => FileTagsHelper.ReadFileTag(item.GetRequiredPath()));
 
 							await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 							{
@@ -2081,7 +2085,7 @@ namespace Files.App.ViewModels
 			{
 				// Special handling for network drives
 				if (!isNetwork)
-					isNetdisk = (new DriveInfo(path).DriveType == System.IO.DriveType.Network);
+					isNetdisk = await Task.Run(() => new DriveInfo(path).DriveType == System.IO.DriveType.Network);
 			}
 			catch { }
 
@@ -2092,7 +2096,7 @@ namespace Files.App.ViewModels
 
 			if (isNetwork || isNetdisk)
 			{
-				var auth = await NetworkService.AuthenticateNetworkShare(path);
+				var auth = await NetworkService.AuthenticateNetworkShare(path, cancellationToken);
 				if (!auth)
 					return -1;
 			}
