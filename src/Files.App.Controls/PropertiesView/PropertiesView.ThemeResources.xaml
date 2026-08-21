@@ -1038,10 +1038,10 @@
 										<Setter Target="PART_Label.(Grid.Column)" Value="0" />
 										<Setter Target="PART_Label.(Grid.ColumnSpan)" Value="1" />
 
-										<Setter Target="TextStack.(Grid.Row)" Value="0" />
-										<Setter Target="TextStack.(Grid.RowSpan)" Value="2" />
-										<Setter Target="TextStack.(Grid.Column)" Value="1" />
-										<Setter Target="TextStack.(Grid.ColumnSpan)" Value="1" />
+										<Setter Target="TextGrid.(Grid.Row)" Value="0" />
+										<Setter Target="TextGrid.(Grid.RowSpan)" Value="2" />
+										<Setter Target="TextGrid.(Grid.Column)" Value="1" />
+										<Setter Target="TextGrid.(Grid.ColumnSpan)" Value="1" />
 										<Setter Target="Col01.Width" Value="Auto" />
 										<Setter Target="Col02.Width" Value="*" />
 									</VisualState.Setters>
@@ -1054,10 +1054,10 @@
 										<Setter Target="PART_Label.(Grid.Column)" Value="0" />
 										<Setter Target="PART_Label.(Grid.ColumnSpan)" Value="2" />
 
-										<Setter Target="TextStack.(Grid.Row)" Value="1" />
-										<Setter Target="TextStack.(Grid.RowSpan)" Value="1" />
-										<Setter Target="TextStack.(Grid.Column)" Value="0" />
-										<Setter Target="TextStack.(Grid.ColumnSpan)" Value="2" />
+										<Setter Target="TextGrid.(Grid.Row)" Value="1" />
+										<Setter Target="TextGrid.(Grid.RowSpan)" Value="1" />
+										<Setter Target="TextGrid.(Grid.Column)" Value="0" />
+										<Setter Target="TextGrid.(Grid.ColumnSpan)" Value="2" />
 
 										<Setter Target="Col01.Width" Value="*" />
 										<Setter Target="Col02.Width" Value="Auto" />
