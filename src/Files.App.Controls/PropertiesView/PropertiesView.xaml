@@ -3,10 +3,10 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
-	xmlns:controls="using:Microsoft.UI.Xaml.Controls"
 	xmlns:fcontrols="using:Files.App.Controls">
 
 	<Style BasedOn="{StaticResource DefaultPropertiesViewStyle}" TargetType="fcontrols:PropertiesView" />
+	<Style BasedOn="{StaticResource DefaultPropertiesViewFormStyle}" TargetType="fcontrols:PropertiesViewForm" />
 
 	<Style x:Key="DefaultPropertiesViewStyle" TargetType="fcontrols:PropertiesView">
 		<Setter Property="VerticalAlignment" Value="Stretch" />
@@ -76,10 +76,34 @@
 		</Setter>
 	</Style>
 
+	<Style x:Key="DefaultPropertiesViewFormStyle" TargetType="fcontrols:PropertiesViewForm">
+		<Setter Property="VerticalAlignment" Value="Stretch" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="ItemsPanel">
+			<Setter.Value>
+				<ItemsPanelTemplate>
+					<StackPanel HorizontalAlignment="Stretch" Orientation="Vertical" />
+				</ItemsPanelTemplate>
+			</Setter.Value>
+		</Setter>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="fcontrols:PropertiesViewForm">
+					<ScrollViewer
+						HorizontalScrollBarVisibility="Disabled"
+						HorizontalScrollMode="Disabled"
+						VerticalScrollBarVisibility="Auto"
+						VerticalScrollMode="Auto">
+						<ItemsPresenter Margin="0,0,0,32" />
+					</ScrollViewer>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
 
 
 	<!--  PROPERTIES EXPANDER  -->
-	<Style x:Key="PropertiesExpanderStyle" TargetType="controls:Expander">
+	<Style x:Key="PropertiesExpanderStyle" TargetType="Expander">
 		<!--
 			We won't make this control tab stoppable, since the tab focus should go
 			to the toggle button. For this logic, several things were made:
@@ -108,7 +132,7 @@
 		<Setter Property="CornerRadius" Value="0" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="controls:Expander">
+				<ControlTemplate TargetType="Expander">
 					<Grid MinWidth="{TemplateBinding MinWidth}" MaxWidth="{TemplateBinding MaxWidth}">
 						<Grid.RowDefinitions>
 							<RowDefinition x:Name="Row0" Height="Auto" />
@@ -310,7 +334,7 @@
 								Width="{ThemeResource PropertiesExpanderChevronSpaceWidth}"
 								Height="{ThemeResource PropertiesExpanderChevronSpaceHeight}"
 								Margin="{ThemeResource PropertiesExpanderChevronMargin}">
-								<controls:AnimatedIcon
+								<AnimatedIcon
 									xmlns:local="using:Microsoft.UI.Xaml.Controls"
 									x:Name="ExpandCollapseChevron"
 									Width="{StaticResource PropertiesExpanderChevronGlyphSize}"
@@ -322,15 +346,15 @@
 									Foreground="{ThemeResource PropertiesExpanderChevronForeground}"
 									RenderTransformOrigin="0.5, 0.5">
 									<animatedvisuals:AnimatedChevronUpDownSmallVisualSource />
-									<controls:AnimatedIcon.FallbackIconSource>
-										<controls:FontIconSource
+									<AnimatedIcon.FallbackIconSource>
+										<FontIconSource
 											FontFamily="{StaticResource SymbolThemeFontFamily}"
 											FontSize="12"
 											Glyph="{StaticResource PropertiesExpanderChevronDownGlyph}"
 											IsTextScaleFactorEnabled="False" />
-									</controls:AnimatedIcon.FallbackIconSource>
-									<controls:AnimatedIcon.RenderTransform />
-								</controls:AnimatedIcon>
+									</AnimatedIcon.FallbackIconSource>
+									<AnimatedIcon.RenderTransform />
+								</AnimatedIcon>
 							</Border>
 
 						</Grid>
@@ -349,7 +373,7 @@
 										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PropertiesExpanderHeaderPointerOverForeground}" />
 										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderPointerOverBorderBrush}" />
 										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderPointerOverBackground}" />
-										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="PointerOverOff" />
+										<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="PointerOverOff" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Pressed">
@@ -358,7 +382,7 @@
 										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderPressedBorderBrush}" />
 										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderChevronPressedForeground}" />
 										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderPressedBackground}" />
-										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="PressedOff" />
+										<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="PressedOff" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Disabled">
@@ -375,7 +399,7 @@
 										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderBorderBrush}" />
 										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderChevronForeground}" />
 										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderBackground}" />
-										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="NormalOn" />
+										<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="NormalOn" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="CheckedPointerOver">
@@ -384,7 +408,7 @@
 										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderPointerOverBorderBrush}" />
 										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderChevronPointerOverForeground}" />
 										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderPointerOverBackground}" />
-										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="PointerOverOn" />
+										<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="PointerOverOn" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="CheckedPressed">
@@ -393,7 +417,7 @@
 										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderPressedBorderBrush}" />
 										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderChevronPressedForeground}" />
 										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderPressedBackground}" />
-										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="PressedOn" />
+										<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="PressedOn" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="CheckedDisabled">
@@ -402,7 +426,7 @@
 										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PropertiesExpanderHeaderDisabledForeground}" />
 										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderHeaderDisabledForeground}" />
 										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderBackground}" />
-										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="NormalOn" />
+										<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="NormalOn" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Indeterminate" />
@@ -471,7 +495,7 @@
 								Width="{ThemeResource PropertiesExpanderChevronSpaceWidth}"
 								Height="{ThemeResource PropertiesExpanderChevronSpaceHeight}"
 								Margin="{ThemeResource PropertiesExpanderChevronMargin}">
-								<controls:AnimatedIcon
+								<AnimatedIcon
 									xmlns:local="using:Microsoft.UI.Xaml.Controls"
 									x:Name="ExpandCollapseChevron"
 									Width="{StaticResource PropertiesExpanderChevronGlyphSize}"
@@ -483,15 +507,15 @@
 									Foreground="{ThemeResource PropertiesExpanderChevronForeground}"
 									RenderTransformOrigin="0.5, 0.5">
 									<animatedvisuals:AnimatedChevronUpDownSmallVisualSource />
-									<controls:AnimatedIcon.FallbackIconSource>
-										<controls:FontIconSource
+									<AnimatedIcon.FallbackIconSource>
+										<FontIconSource
 											FontFamily="{StaticResource SymbolThemeFontFamily}"
 											FontSize="12"
 											Glyph="{StaticResource PropertiesExpanderChevronUpGlyph}"
 											IsTextScaleFactorEnabled="False" />
-									</controls:AnimatedIcon.FallbackIconSource>
-									<controls:AnimatedIcon.RenderTransform />
-								</controls:AnimatedIcon>
+									</AnimatedIcon.FallbackIconSource>
+									<AnimatedIcon.RenderTransform />
+								</AnimatedIcon>
 							</Border>
 
 						</Grid>
@@ -510,7 +534,7 @@
 										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PropertiesExpanderHeaderPointerOverForeground}" />
 										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderPointerOverBorderBrush}" />
 										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderPointerOverBackground}" />
-										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="PointerOverOn" />
+										<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="PointerOverOn" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Pressed">
@@ -519,7 +543,7 @@
 										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderPressedBorderBrush}" />
 										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderChevronPressedForeground}" />
 										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderPressedBackground}" />
-										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="PressedOn" />
+										<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="PressedOn" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Disabled">
@@ -536,7 +560,7 @@
 										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderBorderBrush}" />
 										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderChevronForeground}" />
 										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderBackground}" />
-										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="NormalOff" />
+										<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="NormalOff" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="CheckedPointerOver">
@@ -545,7 +569,7 @@
 										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderPointerOverBorderBrush}" />
 										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderChevronPointerOverForeground}" />
 										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderPointerOverBackground}" />
-										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="PointerOverOff" />
+										<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="PointerOverOff" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="CheckedPressed">
@@ -554,7 +578,7 @@
 										<Setter Target="ToggleButtonGrid.BorderBrush" Value="{ThemeResource PropertiesExpanderHeaderPressedBorderBrush}" />
 										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderChevronPressedForeground}" />
 										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderPressedBackground}" />
-										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="PressedOff" />
+										<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="PressedOff" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="CheckedDisabled">
@@ -563,7 +587,7 @@
 										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PropertiesExpanderHeaderDisabledForeground}" />
 										<Setter Target="ExpandCollapseChevron.Foreground" Value="{ThemeResource PropertiesExpanderHeaderDisabledForeground}" />
 										<Setter Target="ToggleButtonGrid.Background" Value="{ThemeResource PropertiesExpanderHeaderBackground}" />
-										<Setter Target="ExpandCollapseChevron.(controls:AnimatedIcon.State)" Value="NormalOff" />
+										<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="NormalOff" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Indeterminate" />
