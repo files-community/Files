@@ -26,8 +26,8 @@
 			Grid.Column="1"
 			Margin="0,4,0,8"
 			HorizontalAlignment="Left"
-			Text="{x:Bind Text}"
 			FontWeight="SemiBold"
+			Text="{x:Bind Text}"
 			TextWrapping="WrapWholeWords" />
 	</Grid>
 
