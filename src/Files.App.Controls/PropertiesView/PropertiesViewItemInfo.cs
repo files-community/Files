@@ -1,3 +1,6 @@
+// Copyright (c) Files Community
+// SPDX-License-Identifier: MPL-2.0
+
 using Files.App.Controls.Primitives;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
@@ -10,9 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Files.App.Controls
 {

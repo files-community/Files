@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-
-
+﻿// Copyright (c) Files Community
+// SPDX-License-Identifier: MPL-2.0
 
 namespace Files.App.Controls.Primitives
 {
@@ -15,10 +11,6 @@ namespace Files.App.Controls.Primitives
 
 	[TemplateVisualState( Name = EnabledStateName , GroupName = EnabledStateGroupName )]
 	[TemplateVisualState( Name = DisabledStateName , GroupName = EnabledStateGroupName )]
-
-
-
-
 	public partial class PropertiesViewItem : Control
 	{
 		internal const string OrientationStateGroupName = "OrientationStateGroup";

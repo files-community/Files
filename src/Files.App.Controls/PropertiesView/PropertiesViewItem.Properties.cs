@@ -1,9 +1,9 @@
-﻿using System;
+﻿// Copyright (c) Files Community
+// SPDX-License-Identifier: MPL-2.0
+
+using System;
 using System.Collections.Generic;
 using System.Text;
-
-
-
 
 namespace Files.App.Controls.Primitives
 {

@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Windowing;
-using Files.App.UITests.Dialogs.Properties.Views;
 
 namespace Files.App.UITests.Dialogs
 {
