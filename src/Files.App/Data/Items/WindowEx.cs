@@ -23,6 +23,7 @@ namespace Files.App.Data.Items
 	public unsafe partial class WindowEx : Window, IDisposable
 	{
 		private bool _isInitialized;
+		private bool _isClosing;
 		private readonly WNDPROC _oldWndProc;
 		private readonly WNDPROC _newWndProc;
 
@@ -286,12 +287,16 @@ namespace Files.App.Data.Items
 
 		private void WindowEx_Closed(object sender, WindowEventArgs args)
 		{
+			_isClosing = true;
 			StoreWindowPlacementData();
 		}
 
 		private void WindowEx_Activated(object sender, WindowActivatedEventArgs args)
 		{
-			if (SystemBackdrop is AppSystemBackdrop appSystemBackdrop)
+			if (args.WindowActivationState is not WindowActivationState.Deactivated)
+				_isClosing = false;
+
+			if (!_isClosing && SystemBackdrop is AppSystemBackdrop appSystemBackdrop)
 				appSystemBackdrop.SetInputActive(args.WindowActivationState is not WindowActivationState.Deactivated);
 		}
 
