@@ -19,8 +19,16 @@ namespace Files.App.Controls.Primitives
 				_isLoaded = true;
 				UpdateOrientationState( Orientation );
 				UpdateCanEditState( CanEdit );
+
+				// Apply initial state
+				UpdateEnabledState( IsEnabled );
+
+				// React to future changes
+				RegisterPropertyChangedCallback( Control.IsEnabledProperty , OnIsEnabledChanged );
 			};
 		}
+
+
 
 
 		#region Property Changed
@@ -61,6 +69,23 @@ namespace Files.App.Controls.Primitives
 			{
 				VisualStateManager.GoToState( this , NotEditableStateName , false );
 			}
+		}
+
+
+
+
+		private void OnIsEnabledChanged(DependencyObject sender , DependencyProperty dp)
+		{
+			UpdateEnabledState( IsEnabled );
+		}
+
+
+		private void UpdateEnabledState(bool isEnabled)
+		{
+			if ( isEnabled )
+				VisualStateManager.GoToState( this , EnabledStateName , true );
+			else
+				VisualStateManager.GoToState( this , DisabledStateName , true );
 		}
 
 		#endregion

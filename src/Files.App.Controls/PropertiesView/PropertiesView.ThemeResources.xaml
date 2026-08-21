@@ -657,9 +657,10 @@
 							Grid.RowSpan="2"
 							Grid.Column="0"
 							Grid.ColumnSpan="1"
-							Margin="0,4,24,4"
+							Margin="0,4,20,4"
 							VerticalAlignment="Center"
 							Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+							LineHeight="20"
 							Style="{ThemeResource CaptionTextBlockStyle}"
 							Text="{TemplateBinding Label}" />
 
@@ -704,6 +705,8 @@
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
+
+
 							<VisualStateGroup x:Name="OrientationStateGroup">
 								<VisualState x:Name="HorizontalState">
 									<VisualState.Setters>
@@ -743,6 +746,22 @@
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
+
+
+							<VisualStateGroup x:Name="EnabledStateGroup">
+								<VisualState x:Name="Enabledtate">
+									<VisualState.Setters>
+										<Setter Target="PART_TextEdit.IsEnabled" Value="True" />
+										<Setter Target="PART_Text.Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="DisabledState">
+									<VisualState.Setters>
+										<Setter Target="PART_TextEdit.IsEnabled" Value="False" />
+										<Setter Target="PART_Text.Foreground" Value="{ThemeResource TextFillColorDisabledBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
 					</Grid>
 				</ControlTemplate>
@@ -762,6 +781,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="fcontrols:PropertiesViewItemRating">
 					<Grid
+						MinHeight="48"
 						Padding="0,6"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch">
@@ -784,6 +804,7 @@
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Center"
 							Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+							LineHeight="20"
 							Style="{ThemeResource CaptionTextBlockStyle}"
 							Text="{TemplateBinding Label}" />
 
@@ -800,8 +821,6 @@
 							PlaceholderValue="-1" />
 
 
-
-
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="EditableStateGroup">
 								<VisualState x:Name="NotEditableState">
@@ -815,6 +834,8 @@
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
+
+
 							<VisualStateGroup x:Name="OrientationStateGroup">
 								<VisualState x:Name="HorizontalState">
 									<VisualState.Setters>
@@ -841,6 +862,20 @@
 										<Setter Target="PART_RatingControl.(Grid.RowSpan)" Value="1" />
 										<Setter Target="PART_RatingControl.(Grid.Column)" Value="0" />
 										<Setter Target="PART_RatingControl.(Grid.ColumnSpan)" Value="2" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+
+							<VisualStateGroup x:Name="EnabledStateGroup">
+								<VisualState x:Name="Enabledtate">
+									<VisualState.Setters>
+										<Setter Target="PART_RatingControl.IsEnabled" Value="True" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="DisabledState">
+									<VisualState.Setters>
+										<Setter Target="PART_RatingControl.IsEnabled" Value="False" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -885,6 +920,7 @@
 							Margin="0,4,24,4"
 							VerticalAlignment="Center"
 							Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+							LineHeight="20"
 							Style="{ThemeResource CaptionTextBlockStyle}"
 							Text="{TemplateBinding Label}" />
 
@@ -1025,6 +1061,29 @@
 
 										<Setter Target="Col01.Width" Value="*" />
 										<Setter Target="Col02.Width" Value="Auto" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+
+							<VisualStateGroup x:Name="EnabledStateGroup">
+								<VisualState x:Name="Enabledtate">
+									<VisualState.Setters>
+										<Setter Target="PART_InfoCard.Opacity" Value="1.0" />
+										<Setter Target="PART_TextEdit.IsEnabled" Value="True" />
+										<Setter Target="PART_Text.Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="DisabledState">
+									<VisualState.Setters>
+										<Setter Target="PART_InfoCard.Opacity" Value="0.4" />
+										<Setter Target="PART_TextEdit.IsEnabled" Value="False" />
+										<Setter Target="PART_Text.Foreground" Value="{ThemeResource TextFillColorDisabledBrush}" />
+
+										<Setter Target="PART_InfoCard.Background" Value="{ThemeResource SubtleFillColorTransparentBrush}" />
+										<Setter Target="PART_InfoCard.BorderBrush" Value="{ThemeResource SubtleFillColorTransparentBrush}" />
+										<Setter Target="PART_InfoIcon.Foreground" Value="{ThemeResource TextFillColorDisabledBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
