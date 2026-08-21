@@ -413,13 +413,17 @@ namespace Files.App
 
 		private static void TryEmptyWorkingSetWhenIdle(CancellationToken cancellationToken)
 		{
-			static void AggressiveGC(Windows.Win32.Foundation.HANDLE processHandle)
+			static void AggressiveGC(Windows.Win32.Foundation.HANDLE processHandle, CancellationToken cancellationToken)
 			{
 				GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
 				GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, true, true);
 				GC.WaitForPendingFinalizers();
 				GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, true, true);
 				Thread.Sleep(1000);
+
+				if (cancellationToken.IsCancellationRequested)
+					return;
+
 				PInvoke.K32EmptyWorkingSet(processHandle);
 			}
 
@@ -429,14 +433,17 @@ namespace Files.App
 				var processHandle = new Windows.Win32.Foundation.HANDLE(process.Handle);
 
 				// Try to empty the working set
-				AggressiveGC(processHandle);
+				AggressiveGC(processHandle, cancellationToken);
+
+				if (cancellationToken.IsCancellationRequested)
+					return;
 
 				FileOperationsHelpers.WaitForCompletion();
 				if (cancellationToken.IsCancellationRequested)
 					return;
 
 				// After all pending file operations are completed, try to empty the working set again
-				AggressiveGC(processHandle);
+				AggressiveGC(processHandle, cancellationToken);
 			})
 			{ IsBackground = true }.Start();
 		}
