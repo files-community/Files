@@ -4,7 +4,9 @@
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:local="using:Files.App.Controls">
 
-	<Style x:Key="PropertiesExpanderStyle" TargetType="Expander">
+	<Style BasedOn="{StaticResource DefaultPropertiesViewExpanderStyle}" TargetType="local:PropertiesViewExpander" />
+
+	<Style x:Key="DefaultPropertiesViewExpanderStyle" TargetType="local:PropertiesViewExpander">
 		<Setter Property="IsTabStop" Value="False" />
 		<Setter Property="Background" Value="{ThemeResource PropertiesExpanderContentBackground}" />
 		<Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
@@ -20,7 +22,7 @@
 		<Setter Property="CornerRadius" Value="0" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="Expander">
+				<ControlTemplate TargetType="local:PropertiesViewExpander">
 					<Grid MinWidth="{TemplateBinding MinWidth}" MaxWidth="{TemplateBinding MaxWidth}">
 						<Grid.RowDefinitions>
 							<RowDefinition x:Name="Row0" Height="Auto" />

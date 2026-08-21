@@ -56,16 +56,16 @@
 			</Grid>
 		</controls:PropertiesView.Header>
 
-		<Expander IsExpanded="True" Style="{StaticResource PropertiesExpanderStyle}">
-			<Expander.Header>
+		<controls:PropertiesViewExpander IsExpanded="True">
+			<controls:PropertiesViewExpander.Header>
 				<controls:PropertiesHeader Text="Header text goes here">
 					<controls:PropertiesHeader.Icon>
 						<SymbolIcon Symbol="AddFriend" />
 					</controls:PropertiesHeader.Icon>
 				</controls:PropertiesHeader>
-			</Expander.Header>
+			</controls:PropertiesViewExpander.Header>
 
-			<Expander.Content>
+			<controls:PropertiesViewExpander.Content>
 
 				<StackPanel
 					Padding="0,0,0,8"
@@ -129,19 +129,19 @@
 						Orientation="Horizontal"
 						Text="Item value three text here, extra long to show how text values will wrap onto mnany lines." />
 				</StackPanel>
-			</Expander.Content>
-		</Expander>
+			</controls:PropertiesViewExpander.Content>
+		</controls:PropertiesViewExpander>
 
-		<Expander Style="{StaticResource PropertiesExpanderStyle}">
-			<Expander.Header>
+		<controls:PropertiesViewExpander>
+			<controls:PropertiesViewExpander.Header>
 				<controls:PropertiesHeader Text="Header text goes here, made extra long to ensure wrapping and arranging within the header works as expected">
 					<controls:PropertiesHeader.Icon>
 						<SymbolIcon Symbol="Comment" />
 					</controls:PropertiesHeader.Icon>
 				</controls:PropertiesHeader>
-			</Expander.Header>
+			</controls:PropertiesViewExpander.Header>
 
-			<Expander.Content>
+			<controls:PropertiesViewExpander.Content>
 				<StackPanel
 					Padding="0,0,0,8"
 					HorizontalAlignment="Stretch"
@@ -184,19 +184,19 @@
 						Orientation="Horizontal"
 						Rating="72" />
 				</StackPanel>
-			</Expander.Content>
-		</Expander>
+			</controls:PropertiesViewExpander.Content>
+		</controls:PropertiesViewExpander>
 
-		<Expander Style="{StaticResource PropertiesExpanderStyle}">
-			<Expander.Header>
+		<controls:PropertiesViewExpander>
+			<controls:PropertiesViewExpander.Header>
 				<controls:PropertiesHeader Text="Vertical examples">
 					<controls:PropertiesHeader.Icon>
 						<SymbolIcon Symbol="SlideShow" />
 					</controls:PropertiesHeader.Icon>
 				</controls:PropertiesHeader>
-			</Expander.Header>
+			</controls:PropertiesViewExpander.Header>
 
-			<Expander.Content>
+			<controls:PropertiesViewExpander.Content>
 				<StackPanel HorizontalAlignment="Stretch" Orientation="Vertical">
 
 					<controls:PropertiesViewItemText
@@ -243,18 +243,18 @@
 						Orientation="Vertical"
 						Text="Item value 1 text here, made long so we can see how wrapping will work for this vertical exanple of the control layout. " />
 				</StackPanel>
-			</Expander.Content>
-		</Expander>
+			</controls:PropertiesViewExpander.Content>
+		</controls:PropertiesViewExpander>
 
-		<Expander IsExpanded="True" Style="{StaticResource PropertiesExpanderStyle}">
-			<Expander.Header>
+		<controls:PropertiesViewExpander IsExpanded="True">
+			<controls:PropertiesViewExpander.Header>
 				<controls:PropertiesHeader Text="Toggle Items">
 					<controls:PropertiesHeader.Icon>
 						<SymbolIcon Symbol="XboxOneConsole" />
 					</controls:PropertiesHeader.Icon>
 				</controls:PropertiesHeader>
-			</Expander.Header>
-			<Expander.Content>
+			</controls:PropertiesViewExpander.Header>
+			<controls:PropertiesViewExpander.Content>
 				<StackPanel HorizontalAlignment="Stretch" Orientation="Vertical">
 					<controls:PropertiesViewItemToggle
 						IsEnabled="True"
@@ -326,8 +326,8 @@
 						LabelWidth="{StaticResource LabelWidth}"
 						Orientation="Vertical" />
 				</StackPanel>
-			</Expander.Content>
-		</Expander>
+			</controls:PropertiesViewExpander.Content>
+		</controls:PropertiesViewExpander>
 
 		<StackPanel
 			Padding="24,8"
