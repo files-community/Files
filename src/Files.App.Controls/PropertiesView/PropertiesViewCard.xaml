@@ -1,0 +1,63 @@
+<!--  Copyright (c) Files Community. SPDX-License-Identifier: MPL-2.0  -->
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:Files.App.Controls">
+
+	<Style BasedOn="{StaticResource DefaultPropertiesViewCardStyle}" TargetType="local:PropertiesViewCard" />
+
+	<Style x:Key="DefaultPropertiesViewCardStyle" TargetType="local:PropertiesViewCard">
+		<!--<Setter Property="Background" Value="{ThemeResource LayerFillColorAltBrush}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="Padding" Value="12,8" />-->
+		<Setter Property="MinHeight" Value="48" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:PropertiesViewCard">
+					<Grid>
+						<Grid.BackgroundTransition>
+							<BrushTransition Duration="0:0:0.083" />
+						</Grid.BackgroundTransition>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+
+						<Viewbox Grid.Column="0" VerticalAlignment="Center">
+							<ContentPresenter Content="{TemplateBinding HeaderIcon}" />
+						</Viewbox>
+
+						<ContentPresenter
+							Grid.Column="1"
+							VerticalAlignment="Center"
+							Content="{TemplateBinding Header}"
+							FontSize="12"
+							FontWeight="Normal"
+							Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+							LineHeight="20" />
+
+						<ContentPresenter
+							Grid.Column="2"
+							VerticalAlignment="Center"
+							Content="{TemplateBinding Content}" />
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates" />
+
+							<VisualStateGroup x:Name="ContentAlignmentStates">
+								<VisualState x:Name="ContentAlignedRight" />
+
+								<VisualState x:Name="ContentAlignedRightWrapped" />
+
+								<VisualState x:Name="ContentAlignedLeft" />
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>
