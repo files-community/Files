@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.UITests.Dialogs.Properties.Views
+namespace Files.App.UITests.Dialogs
 {
 	public sealed partial class PropertiesGeneralPage : Page
 	{

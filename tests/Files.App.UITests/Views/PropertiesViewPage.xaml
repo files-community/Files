@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<!--  Copyright (c) Files Community. SPDX-License-Identifier: MPL-2.0  -->
 <Page
-	x:Class="Files.App.UITests.Views.DialogWindowsPage"
+	x:Class="Files.App.UITests.Views.PropertiesViewPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,12 +8,13 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
 
-	<StackPanel Margin="0,24,0,24" Orientation="Vertical">
+	<StackPanel Orientation="Vertical">
 
 		<Button
-			x:Name="BtnProperties"
-			Click="BtnProperties_Click"
-			Content="Properties dialog" />
+			x:Name="OpenPropertiesDialogWindowButton"
+			Click="OpenPropertiesDialogWindowButton_Click"
+			Content="Open properties dialog window" />
 
 	</StackPanel>
+
 </Page>
