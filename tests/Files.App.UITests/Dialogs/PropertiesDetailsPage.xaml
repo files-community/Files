@@ -10,16 +10,16 @@
 
 	<controls:PropertiesView>
 
-		<Expander IsExpanded="True" Style="{StaticResource PropertiesExpanderStyle}">
-			<Expander.Header>
+		<controls:PropertiesViewExpander IsExpanded="True" Style="{StaticResource PropertiesExpanderStyle}">
+			<controls:PropertiesViewExpander.Header>
 				<controls:PropertiesHeader Text="Description">
 					<controls:PropertiesHeader.Icon>
 						<FontIcon Glyph="&#xF0E3;" />
 					</controls:PropertiesHeader.Icon>
 				</controls:PropertiesHeader>
-			</Expander.Header>
+			</controls:PropertiesViewExpander.Header>
 
-		</Expander>
+		</controls:PropertiesViewExpander>
 
 	</controls:PropertiesView>
 </Page>
