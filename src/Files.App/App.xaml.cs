@@ -9,10 +9,11 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.Windows.AppLifecycle;
-using Windows.Win32;
+using System.Runtime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.Win32;
 using WinRT;
 
 namespace Files.App
@@ -222,8 +223,12 @@ namespace Files.App
 
 					Thread.Yield();
 
+					var cts = new CancellationTokenSource();
+					TryEmptyWorkingSetWhenIdle(cts.Token);
+
 					if (Program.Pool.WaitOne())
 					{
+						cts.Cancel();
 						// Resume the instance
 						Program.Pool.Dispose();
 						Program.Pool = null;
@@ -359,8 +364,12 @@ namespace Files.App
 					});
 				}
 
+				var cts = new CancellationTokenSource();
+				TryEmptyWorkingSetWhenIdle(cts.Token);
+
 				if (Program.Pool.WaitOne())
 				{
+					cts.Cancel();
 					// Resume the instance
 					Program.Pool.Dispose();
 					Program.Pool = null;
@@ -400,6 +409,36 @@ namespace Files.App
 
 			// Wait for ongoing file operations
 			FileOperationsHelpers.WaitForCompletion();
+		}
+
+		private static void TryEmptyWorkingSetWhenIdle(CancellationToken cancellationToken)
+		{
+			static void AggressiveGC(Windows.Win32.Foundation.HANDLE processHandle)
+			{
+				GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
+				GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, true, true);
+				GC.WaitForPendingFinalizers();
+				GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, true, true);
+				Thread.Sleep(1000);
+				PInvoke.K32EmptyWorkingSet(processHandle);
+			}
+
+			new Thread(() =>
+			{
+				using var process = Process.GetCurrentProcess();
+				var processHandle = new Windows.Win32.Foundation.HANDLE(process.Handle);
+
+				// Try to empty the working set
+				AggressiveGC(processHandle);
+
+				FileOperationsHelpers.WaitForCompletion();
+				if (cancellationToken.IsCancellationRequested)
+					return;
+
+				// After all pending file operations are completed, try to empty the working set again
+				AggressiveGC(processHandle);
+			})
+			{ IsBackground = true }.Start();
 		}
 
 		/// <summary>
