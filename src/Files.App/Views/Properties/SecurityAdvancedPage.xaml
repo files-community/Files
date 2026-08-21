@@ -69,6 +69,7 @@
 		RowSpacing="8">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
@@ -140,10 +141,20 @@
 
 		</Grid>
 
+		<!--  Permission Change Failure InfoBar  -->
+		<InfoBar
+			x:Name="PermissionChangeInfoBar"
+			Grid.Row="1"
+			VerticalAlignment="Top"
+			IsClosable="True"
+			IsOpen="{x:Bind SecurityAdvancedViewModel.IsPermissionChangeInfoBarOpen, Mode=TwoWay}"
+			Message="{x:Bind SecurityAdvancedViewModel.PermissionChangeInfoBarMessage, Mode=OneWay}"
+			Severity="Error" />
+
 		<!--  No Read Access Control InfoBar  -->
 		<InfoBar
 			x:Name="UnableToDisplayInformationInfoBar"
-			Grid.Row="1"
+			Grid.Row="2"
 			VerticalAlignment="Top"
 			x:Load="{x:Bind SecurityAdvancedViewModel.DisplayElements, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 			Background="{ThemeResource LayerFillColorDefaultBrush}"
@@ -155,7 +166,7 @@
 		<!--  Access Control List  -->
 		<Grid
 			x:Name="AccessControlEntriesListLayerGrid"
-			Grid.Row="1"
+			Grid.Row="2"
 			Padding="12,8,12,12"
 			x:Load="{x:Bind SecurityAdvancedViewModel.DisplayElements, Mode=OneWay}"
 			Background="{ThemeResource LayerFillColorDefaultBrush}"

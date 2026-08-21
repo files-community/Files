@@ -24,6 +24,20 @@ namespace Files.App.ViewModels.Properties
 
 		public string ErrorMessage { get; private set; }
 
+		private bool _IsPermissionChangeInfoBarOpen;
+		public bool IsPermissionChangeInfoBarOpen
+		{
+			get => _IsPermissionChangeInfoBarOpen;
+			set => SetProperty(ref _IsPermissionChangeInfoBarOpen, value);
+		}
+
+		private string _PermissionChangeInfoBarMessage = string.Empty;
+		public string PermissionChangeInfoBarMessage
+		{
+			get => _PermissionChangeInfoBarMessage;
+			set => SetProperty(ref _PermissionChangeInfoBarMessage, value);
+		}
+
 		public bool IsAddAccessControlEntryButtonEnabled =>
 			AccessControlList is not null &&
 			AccessControlList.IsValid;
@@ -125,6 +139,14 @@ namespace Files.App.ViewModels.Properties
 				// Run Win32API
 				var win32Result = StorageSecurityService.AddAce(_path, _isFolder, sid);
 
+				if (win32Result != WIN32_ERROR.ERROR_SUCCESS)
+				{
+					SetPermissionChangeError(Strings.SecurityFailedToAddAccessControlEntry.GetLocalizedResource(), win32Result);
+					return;
+				}
+
+				ClearPermissionChangeError();
+
 				// Add a new ACE to the ACL
 				var ace = AccessControlEntry.GetDefault(_isFolder, sid);
 				AccessControlList.AccessControlEntries.Insert(0, ace);
@@ -146,6 +168,14 @@ namespace Files.App.ViewModels.Properties
 				// Run Win32API
 				var win32Result = StorageSecurityService.DeleteAce(_path, (uint)index);
 
+				if (win32Result != WIN32_ERROR.ERROR_SUCCESS)
+				{
+					SetPermissionChangeError(Strings.SecurityFailedToRemoveAccessControlEntry.GetLocalizedResource(), win32Result);
+					return;
+				}
+
+				ClearPermissionChangeError();
+
 				// Remove the ACE
 				AccessControlList.AccessControlEntries.Remove(selectedEntry);
 
@@ -155,6 +185,18 @@ namespace Files.App.ViewModels.Properties
 				// Re-select item
 				SelectedAccessControlEntry = AccessControlList.AccessControlEntries.First();
 			});
+		}
+
+		private void SetPermissionChangeError(string message, WIN32_ERROR error)
+		{
+			PermissionChangeInfoBarMessage = message + "\r\n\r\n" + error.ToString();
+			IsPermissionChangeInfoBarOpen = true;
+		}
+
+		private void ClearPermissionChangeError()
+		{
+			PermissionChangeInfoBarMessage = string.Empty;
+			IsPermissionChangeInfoBarOpen = false;
 		}
 	}
 }

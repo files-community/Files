@@ -3243,6 +3243,15 @@
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
     <value>Unable to display permissions.</value>
   </data>
+  <data name="SecurityFailedToChangeOwner" xml:space="preserve">
+    <value>Unable to change the owner of this item.</value>
+  </data>
+  <data name="SecurityFailedToAddAccessControlEntry" xml:space="preserve">
+    <value>Unable to add the permission entry.</value>
+  </data>
+  <data name="SecurityFailedToRemoveAccessControlEntry" xml:space="preserve">
+    <value>Unable to remove the permission entry.</value>
+  </data>
   <data name="StashChanges" xml:space="preserve">
     <value>Leave my changes on '{0}'</value>
   </data>
