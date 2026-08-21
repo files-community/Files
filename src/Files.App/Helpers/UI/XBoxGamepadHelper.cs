@@ -2,72 +2,20 @@ using System;
 using System.Runtime.InteropServices;
 using Windows.Gaming.Input;
 using Windows.Win32;
+using Windows.Win32.UI.Input.KeyboardAndMouse;
 using Microsoft.UI.Dispatching;
 
 namespace Files.App.Helpers
 {
 	public sealed class XBoxGamepadHelper
 	{
-		[DllImport("user32.dll")]
-		private static extern bool SetCursorPos(int x, int y);
-
-		[DllImport("user32.dll")]
-		private static extern uint SendInput(uint nInputs, ref INPUT pInputs, int cbSize);
-
-		[DllImport("user32.dll")]
-		private static extern uint SendInput(uint nInputs, ref KEYINPUT pInputs, int cbSize);
-
-
-		[StructLayout(LayoutKind.Sequential)]
-		private struct KEYINPUT
-		{
-			public uint type;
-			public KEYBDINPUT ki;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		private struct KEYBDINPUT
-		{
-			public ushort wVk;
-			public ushort wScan;
-			public uint dwFlags;
-			public long time;
-			public nint dwExtraInfo;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		private struct INPUT
-		{
-			public uint type;
-			public MOUSEINPUT mi;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		private struct MOUSEINPUT
-		{
-			public int dx;
-			public int dy;
-			public uint mouseData;
-			public uint dwFlags;
-			public uint time;
-			public IntPtr dwExtraInfo;
-		}
-
-		private const uint INPUT_MOUSE = 0;
-		private const uint MOUSEEVENTF_LEFTDOWN = 0x0002;
-		private const uint MOUSEEVENTF_LEFTUP = 0x0004;
-		private const uint MOUSEEVENTF_RIGHTDOWN = 0x0008;
-		private const uint MOUSEEVENTF_RIGHTUP = 0x0010;
-		private const uint MOUSEEVENTF_WHEEL = 0x0800;
-
-		private const uint INPUT_KEYBOARD = 1;
-		private const uint KEYEVENTF_KEYDOWN = 0x0000;
-		private const uint KEYEVENTF_KEYUP = 0x0002;
-
-
 		private readonly DispatcherQueueTimer _timer;
 		private readonly float _deadzone = 0.15f;
 		private readonly float _sensitivity = 12f;
+		private float _leftTriggerThreshold = 0.5f;
+		private bool _wasLeftTriggerPressed;
+		private bool _wasRightTriggerPressed;
+		private bool _isDragging;
 
 		private bool _wasAPressed;
 		private bool _wasXPressed;
@@ -101,11 +49,36 @@ namespace Files.App.Helpers
 			if (Math.Abs(leftThumbX) < _deadzone) leftThumbX = 0;
 			if (Math.Abs(leftThumbY) < _deadzone) leftThumbY = 0;
 
-			PInvoke.GetCursorPos(out var cursorPos);
 			var dx = (int)Math.Round(leftThumbX * _sensitivity);
 			var dy = (int)Math.Round(-leftThumbY * _sensitivity);
-			SetCursorPos(cursorPos.X + dx, cursorPos.Y + dy);
+			if (dx != 0 || dy != 0)
+				SimulateMouseMove(dx, dy);
 
+			// Left & Right Triggers
+			var leftTriggerValue = reading.LeftTrigger;
+			var isLeftTriggerPressed = leftTriggerValue > _leftTriggerThreshold;
+			if (isLeftTriggerPressed && !_wasLeftTriggerPressed)
+			{
+				_isDragging = true;
+				SimulateMouseDownOnly();
+			}
+			_wasLeftTriggerPressed = isLeftTriggerPressed;
+			if (!isLeftTriggerPressed && _isDragging)
+			{
+				_isDragging = false;
+				SimulateMouseUpOnly();
+			}
+
+			var rightTriggerValue = reading.RightTrigger;
+			var isRightTriggerPressed = rightTriggerValue > _leftTriggerThreshold;
+
+			if (isRightTriggerPressed && !_wasRightTriggerPressed)
+			{
+				SimulateRightMouseClick();
+			}
+			_wasRightTriggerPressed = isRightTriggerPressed;
+
+			// Gamepad Buttons A, X, B
 			var isAPressed = (reading.Buttons & GamepadButtons.A) == GamepadButtons.A;
 			if (isAPressed && !_wasAPressed)
 			{
@@ -146,6 +119,7 @@ namespace Files.App.Helpers
 			var isDRightPressed = (reading.Buttons & GamepadButtons.DPadRight) == GamepadButtons.DPadRight;
 			if (isDRightPressed && !_wasDPadRightPressed)
 				SimulateKeyPress(Windows.System.VirtualKey.Right);
+			_wasDPadRightPressed = isDRightPressed;
 
 			var rightThumbY = reading.RightThumbstickY;
 			if (Math.Abs(rightThumbY) > _deadzone)
@@ -183,78 +157,88 @@ namespace Files.App.Helpers
 		// Key Input Simulation
 		private static void SimulateKeyPress(Windows.System.VirtualKey key)
 		{
-			var down = new KEYINPUT
+			var vk = (VIRTUAL_KEY)(ushort)key;
+
+			var down = new INPUT
 			{
-				type = INPUT_KEYBOARD,
-				ki = new KEYBDINPUT
+				type = INPUT_TYPE.INPUT_KEYBOARD,
+				Anonymous = new INPUT._Anonymous_e__Union
 				{
-					wVk = (ushort)key,
-					dwFlags = KEYEVENTF_KEYDOWN
+					ki = new KEYBDINPUT { wVk = vk }
 				}
 			};
+			PInvoke.SendInput(new ReadOnlySpan<INPUT>(ref down), Marshal.SizeOf<INPUT>());
 
-			SendInput(1, ref down, Marshal.SizeOf<INPUT>());
-
-			var up = new KEYINPUT
+			var up = new INPUT
 			{
-				type = INPUT_KEYBOARD,
-				ki = new KEYBDINPUT
+				type = INPUT_TYPE.INPUT_KEYBOARD,
+				Anonymous = new INPUT._Anonymous_e__Union
 				{
-					wVk = (ushort)key,
-					dwFlags = KEYEVENTF_KEYUP
+					ki = new KEYBDINPUT { wVk = vk, dwFlags = KEYBD_EVENT_FLAGS.KEYEVENTF_KEYUP }
 				}
 			};
-
-			SendInput(1, ref up, Marshal.SizeOf<INPUT>());
+			PInvoke.SendInput(new ReadOnlySpan<INPUT>(ref up), Marshal.SizeOf<INPUT>());
 		}
 
 
 		// Mouse Action Simulation
-		private static void SimulateLeftMouseClick()
+		private static void SimulateMouseMove(int dx, int dy)
 		{
-			var inputDown = new INPUT
+			var input = new INPUT
 			{
-				type = INPUT_MOUSE,
-				mi = new MOUSEINPUT
+				type = INPUT_TYPE.INPUT_MOUSE,
+				Anonymous = new INPUT._Anonymous_e__Union
 				{
-					dwFlags = MOUSEEVENTF_LEFTDOWN
+					mi = new MOUSEINPUT
+					{
+						dx = dx,
+						dy = dy,
+						dwFlags = MOUSE_EVENT_FLAGS.MOUSEEVENTF_MOVE
+					}
 				}
 			};
 
-			SendInput(1, ref inputDown, Marshal.SizeOf<INPUT>());
-			inputDown.mi.dwFlags = MOUSEEVENTF_LEFTUP;
-			SendInput(1, ref inputDown, Marshal.SizeOf<INPUT>());
+			PInvoke.SendInput(new ReadOnlySpan<INPUT>(ref input), Marshal.SizeOf<INPUT>());
+		}
+
+
+		private static void SimulateMouseEvent(MOUSE_EVENT_FLAGS flags, uint mouseData = 0)
+		{
+			var input = new INPUT
+			{
+				type = INPUT_TYPE.INPUT_MOUSE,
+				Anonymous = new INPUT._Anonymous_e__Union
+				{
+					mi = new MOUSEINPUT
+					{
+						dwFlags = flags,
+						mouseData = mouseData,
+					}
+				}
+			};
+
+			PInvoke.SendInput(new ReadOnlySpan<INPUT>(ref input), Marshal.SizeOf<INPUT>());
+		}
+
+		private static void SimulateMouseDownOnly() =>
+			SimulateMouseEvent(MOUSE_EVENT_FLAGS.MOUSEEVENTF_LEFTDOWN);
+
+		private static void SimulateMouseUpOnly() =>
+			SimulateMouseEvent(MOUSE_EVENT_FLAGS.MOUSEEVENTF_LEFTUP);
+
+		private static void SimulateLeftMouseClick()
+		{
+			SimulateMouseEvent(MOUSE_EVENT_FLAGS.MOUSEEVENTF_LEFTDOWN);
+			SimulateMouseEvent(MOUSE_EVENT_FLAGS.MOUSEEVENTF_LEFTUP);
 		}
 
 		private static void SimulateRightMouseClick()
 		{
-			var inputDown = new INPUT
-			{
-				type = INPUT_MOUSE,
-				mi = new MOUSEINPUT
-				{
-					dwFlags = MOUSEEVENTF_RIGHTDOWN
-				}
-			};
-
-			SendInput(1, ref inputDown, Marshal.SizeOf<INPUT>());
-			inputDown.mi.dwFlags = MOUSEEVENTF_RIGHTUP;
-			SendInput(1, ref inputDown, Marshal.SizeOf<INPUT>());
+			SimulateMouseEvent(MOUSE_EVENT_FLAGS.MOUSEEVENTF_RIGHTDOWN);
+			SimulateMouseEvent(MOUSE_EVENT_FLAGS.MOUSEEVENTF_RIGHTUP);
 		}
 
-		private static void SimulateMouseWheel(int delta)
-        {
-            var input = new INPUT
-            {
-                type = INPUT_MOUSE,
-                mi = new MOUSEINPUT
-                {
-                    mouseData = unchecked((uint)(delta)),
-                    dwFlags = MOUSEEVENTF_WHEEL
-                }
-            };
-
-            SendInput(1, ref input, Marshal.SizeOf<INPUT>());
-        }
+		private static void SimulateMouseWheel(int delta) =>
+			SimulateMouseEvent(MOUSE_EVENT_FLAGS.MOUSEEVENTF_WHEEL, unchecked((uint)delta));
 	}
 }
