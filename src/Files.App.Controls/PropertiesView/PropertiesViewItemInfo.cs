@@ -104,12 +104,14 @@ namespace Files.App.Controls
 
 		private void OnHoverBorderPointerEntered(object sender , PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState( this , InfoPointerOverStateName , true );
+			if (IsEnabled)
+				VisualStateManager.GoToState( this , InfoPointerOverStateName , true );
 		}
 
 		private void OnHoverBorderPointerExited(object sender , PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState( this , InfoRestStateName , true );
+			if ( IsEnabled )
+				VisualStateManager.GoToState( this , InfoRestStateName , true );
 		}
 	}
 }
