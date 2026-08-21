@@ -194,6 +194,7 @@ namespace Files.App.Helpers
 					context.TransactionContext.Operation == ActiveSessionTracker.TransactionOperation ? 1.0 : null;
 				options.ProfilesSampleRate = 0.05;
 				options.Environment = AppEnvironment == AppEnvironment.StorePreview || AppEnvironment == AppEnvironment.SideloadPreview ? "preview" : "production";
+				options.CacheDirectoryPath = ApplicationData.Current.LocalFolder.Path;
 
 				options.DisableWinUiUnhandledExceptionIntegration();
 

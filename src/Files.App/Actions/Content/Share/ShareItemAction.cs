@@ -16,6 +16,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.ShareItemDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
+		public string AutomationId
+			=> "InnerNavigationToolbarShareButton";
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Share");
 
