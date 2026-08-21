@@ -222,7 +222,7 @@ namespace Files.App.Helpers
 
 		[DllImport("api-ms-win-core-timezone-l1-1-0.dll", SetLastError = true)]
 		public static extern bool FileTimeToSystemTime(
-			ref System.Runtime.InteropServices.ComTypes.FILETIME lpFileTime,
+			in System.Runtime.InteropServices.ComTypes.FILETIME lpFileTime,
 			out SYSTEMTIME lpSystemTime
 		);
 
