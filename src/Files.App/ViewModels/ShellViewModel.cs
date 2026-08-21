@@ -2571,6 +2571,10 @@ namespace Files.App.ViewModels
 
 		private void WatchForDirectoryChanges(string path, CloudDriveSyncStatus syncStatus)
 		{
+			// Enumeration is fire-and-forget; don't set up a watcher on a disposed view model.
+			if (isDisposed)
+				return;
+
 			Debug.WriteLine($"WatchForDirectoryChanges: {path}");
 			var hWatchDir = Win32PInvoke.CreateFileFromApp(path, 1, 1 | 2 | 4,
 				IntPtr.Zero, 3, (uint)Win32PInvoke.File_Attributes.BackupSemantics | (uint)Win32PInvoke.File_Attributes.Overlapped, IntPtr.Zero);
@@ -2685,6 +2689,10 @@ namespace Files.App.ViewModels
 
 		private void WatchForGitChanges()
 		{
+			// Enumeration is fire-and-forget; don't set up a watcher on a disposed view model.
+			if (isDisposed)
+				return;
+
 			var hWatchDir = Win32PInvoke.CreateFileFromApp(
 				GitDirectory!,
 				1,
@@ -3297,10 +3305,12 @@ namespace Files.App.ViewModels
 
 			addFilesCTS.Cancel();
 			loadPropsCTS.Cancel();
-			watcherCTS.Cancel();
 			addFilesCTS.Dispose();
 			loadPropsCTS.Dispose();
-			watcherCTS.Dispose();
+
+			// Cancel but don't dispose: fire-and-forget watcher setup may still read watcherCTS.Token,
+			// which throws once disposed. Cancel() still fires the handle-releasing callbacks.
+			watcherCTS.Cancel();
 			SearchIconBitmapImage = null;
 			currentStorageFolder = null;
 		}
