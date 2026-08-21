@@ -6,11 +6,9 @@
 	xmlns:controls="using:Microsoft.UI.Xaml.Controls"
 	xmlns:fcontrols="using:Files.App.Controls">
 
-
-	<!--  THEME RESOURCE DICTIONARY  -->
 	<ResourceDictionary.ThemeDictionaries>
 
-		<ResourceDictionary x:Key="Default">
+		<ResourceDictionary x:Key="Light">
 			<Thickness x:Key="PropertiesExpanderHeaderPadding">8,8,8,7</Thickness>
 			<Thickness x:Key="PropertiesExpanderHeaderBorderThickness">0</Thickness>
 
@@ -39,7 +37,7 @@
 			<StaticResource x:Key="PropertiesExpanderSeparatorFillColor" ResourceKey="DividerStrokeColorDefaultBrush" />
 		</ResourceDictionary>
 
-		<ResourceDictionary x:Key="Light">
+		<ResourceDictionary x:Key="Dark">
 			<Thickness x:Key="PropertiesExpanderHeaderPadding">8,8,8,7</Thickness>
 			<Thickness x:Key="PropertiesExpanderHeaderBorderThickness">0</Thickness>
 
@@ -99,10 +97,6 @@
 
 	</ResourceDictionary.ThemeDictionaries>
 
-
-
-
-	<!--  RESOURCES  -->
 	<x:Double x:Key="PropertiesExpanderMinHeight">48</x:Double>
 
 	<Thickness x:Key="PropertiesExpanderHeaderInnerPadding">12,0,24,0</Thickness>
@@ -123,6 +117,75 @@
 
 	<x:Double x:Key="PropertiesExpanderSeparatorHeight">1</x:Double>
 
+	<Style BasedOn="{StaticResource DefaultPropertiesViewStyle}" TargetType="fcontrols:PropertiesView" />
+
+	<Style x:Key="DefaultPropertiesViewStyle" TargetType="fcontrols:PropertiesView">
+		<Setter Property="VerticalAlignment" Value="Stretch" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="VerticalContentAlignment" Value="Stretch" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="Background" Value="{ThemeResource SolidBackgroundFillColorBaseBrush}" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="fcontrols:PropertiesView">
+					<Grid Background="{TemplateBinding Background}">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+
+						<Border
+							Grid.Row="0"
+							Padding="0,24,0,0"
+							Background="{ThemeResource LayerFillColorAltBrush}"
+							BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+							BorderThickness="0,0,0,1">
+
+							<Grid HorizontalAlignment="Stretch">
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="*" />
+								</Grid.RowDefinitions>
+
+								<TextBlock
+									Grid.Row="0"
+									Margin="24,0"
+									Style="{ThemeResource SubtitleTextBlockStyle}"
+									Text="{TemplateBinding Title}" />
+
+								<ContentPresenter
+									Grid.Row="1"
+									HorizontalContentAlignment="Stretch"
+									VerticalContentAlignment="Stretch"
+									Content="{TemplateBinding Header}" />
+
+								<ContentPresenter
+									Grid.Row="2"
+									HorizontalContentAlignment="Stretch"
+									VerticalContentAlignment="Stretch"
+									BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+									BorderThickness="0,1,0,0"
+									Content="{TemplateBinding Content}" />
+
+							</Grid>
+
+						</Border>
+
+						<ContentPresenter
+							Grid.Row="1"
+							Padding="24,24,24,24"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"
+							HorizontalContentAlignment="Stretch"
+							VerticalContentAlignment="Stretch"
+							Content="{TemplateBinding Footer}" />
+
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
 
 
 
