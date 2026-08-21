@@ -588,7 +588,7 @@ namespace Files.App.ViewModels.UserControls
 				shellPage = ContentPageContext.ShellPage
 					?? throw new InvalidOperationException("The current shell page is no longer available.");
 
-				if (resFolder || await Task.Run(() => FolderHelpers.CheckFolderAccessWithWin32(normalizedInput)))
+				if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(normalizedInput))
 				{
 					var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(normalizedInput).StartsWith(
 						PathNormalization.NormalizePath(x.GetRequiredPath()),
@@ -889,7 +889,7 @@ namespace Files.App.ViewModels.UserControls
 					var item = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(normalizedInput));
 
 					var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(normalizedInput, item));
-					if (resFolder || await Task.Run(() => FolderHelpers.CheckFolderAccessWithWin32(normalizedInput)))
+					if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(normalizedInput))
 					{
 						var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(normalizedInput).StartsWith(
 							PathNormalization.NormalizePath(x.GetRequiredPath()),
