@@ -7,18 +7,32 @@
 	xmlns:local="using:Files.App.UITests.Dialogs"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
+	<Page.Resources>
+		<ResourceDictionary>
+			<GridLength x:Key="PropertiesDetailsLabelWidth">200</GridLength>
+			<Thickness x:Key="PropertiesValueTextBoxMargin">-12,0,0,0</Thickness>
+			<Style BasedOn="{StaticResource DefaultPropertiesViewCardStyle}" TargetType="controls:PropertiesViewCard">
+				<Setter Property="LabelWidth" Value="{StaticResource PropertiesDetailsLabelWidth}" />
+			</Style>
+		</ResourceDictionary>
+	</Page.Resources>
 
 	<controls:PropertiesView>
 
-		<controls:PropertiesViewExpander IsExpanded="True" Style="{StaticResource PropertiesExpanderStyle}">
-			<controls:PropertiesViewExpander.Header>
-				<controls:PropertiesHeader Text="Description">
-					<controls:PropertiesHeader.Icon>
-						<FontIcon Glyph="&#xF0E3;" />
-					</controls:PropertiesHeader.Icon>
-				</controls:PropertiesHeader>
-			</controls:PropertiesViewExpander.Header>
-
+		<controls:PropertiesViewExpander Header="Description" IsExpanded="True">
+			<controls:PropertiesViewExpander.HeaderIcon>
+				<FontIcon Glyph="&#xF0E3;" />
+			</controls:PropertiesViewExpander.HeaderIcon>
+			<StackPanel Padding="0,0,0,8">
+				<controls:PropertiesViewCard ContentAlignment="Vertical" Header="Description">
+					<TextBox
+						MinHeight="96"
+						Margin="{StaticResource PropertiesValueTextBoxMargin}"
+						AcceptsReturn="True"
+						Text="Add a description for this file."
+						TextWrapping="Wrap" />
+				</controls:PropertiesViewCard>
+			</StackPanel>
 		</controls:PropertiesViewExpander>
 
 	</controls:PropertiesView>

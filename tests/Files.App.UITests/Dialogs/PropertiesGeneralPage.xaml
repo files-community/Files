@@ -3,27 +3,26 @@
 	x:Class="Files.App.UITests.Dialogs.PropertiesGeneralPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:controls="using:Files.App.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:Files.App.UITests.Dialogs"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
-
 	<Page.Resources>
 		<ResourceDictionary>
-
-			<GridLength x:Key="LabelWidth">160</GridLength>
-
+			<GridLength x:Key="PropertiesGeneralLabelWidth">148</GridLength>
+			<Thickness x:Key="PropertiesValueTextBoxMargin">-12,0,0,0</Thickness>
+			<Style BasedOn="{StaticResource DefaultPropertiesViewCardStyle}" TargetType="controls:PropertiesViewCard">
+				<Setter Property="LabelWidth" Value="{StaticResource PropertiesGeneralLabelWidth}" />
+			</Style>
 		</ResourceDictionary>
 	</Page.Resources>
 
 	<controls:PropertiesView>
-
 		<controls:PropertiesView.Header>
-			<Grid Padding="24,20">
+			<Grid Padding="24,20" ColumnSpacing="20">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="{StaticResource LabelWidth}" />
+					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 
@@ -47,338 +46,135 @@
 				<StackPanel
 					Grid.Column="1"
 					VerticalAlignment="Center"
-					Orientation="Vertical"
 					Spacing="8">
-					<TextBox Margin="-12,0,0,0" Text="Filename here" />
+					<TextBox Text="Filename here" />
 					<TextBlock Text="Sticky header area with scrolling below" />
 				</StackPanel>
-
 			</Grid>
 		</controls:PropertiesView.Header>
 
-		<controls:PropertiesViewExpander IsExpanded="True">
-			<controls:PropertiesViewExpander.Header>
-				<controls:PropertiesHeader Text="Header text goes here">
-					<controls:PropertiesHeader.Icon>
-						<SymbolIcon Symbol="AddFriend" />
-					</controls:PropertiesHeader.Icon>
-				</controls:PropertiesHeader>
-			</controls:PropertiesViewExpander.Header>
+		<controls:PropertiesViewExpander Header="General" IsExpanded="True">
+			<controls:PropertiesViewExpander.HeaderIcon>
+				<SymbolIcon Symbol="Document" />
+			</controls:PropertiesViewExpander.HeaderIcon>
+			<StackPanel Padding="0,0,0,8">
+				<controls:PropertiesViewCard Header="Name">
+					<TextBox
+						Margin="{StaticResource PropertiesValueTextBoxMargin}"
+						HorizontalAlignment="Stretch"
+						Text="Filename here" />
+				</controls:PropertiesViewCard>
 
-			<controls:PropertiesViewExpander.Content>
+				<controls:PropertiesViewCard Header="Type" Description="A read-only text value">
+					<TextBlock Text="Text Document (.txt)" TextWrapping="Wrap" />
+				</controls:PropertiesViewCard>
 
-				<StackPanel
-					Padding="0,0,0,8"
-					HorizontalAlignment="Stretch"
-					Orientation="Vertical">
+				<controls:PropertiesViewCard Header="Additional information">
+					<Grid ColumnSpacing="8">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<TextBlock VerticalAlignment="Center" Text="Information value" />
+						<Button
+							Grid.Column="1"
+							AutomationProperties.Name="Show additional information"
+							ToolTipService.ToolTip="Detailed text displayed on hover">
+							<FontIcon Glyph="&#xE946;" />
+						</Button>
+					</Grid>
+				</controls:PropertiesViewCard>
 
+				<controls:PropertiesViewCard
+					x:Name="ClickableCard"
+					AutomationProperties.AutomationId="ClickablePropertiesViewCard"
+					Click="ClickableCard_Click"
+					Description="Exercises pointer, keyboard, action icon, and automation states"
+					Header="Clickable card"
+					IsClickEnabled="True">
+					<TextBlock x:Name="ClickResultText" Text="Not clicked" />
+				</controls:PropertiesViewCard>
 
-					<controls:PropertiesViewCard Header="Card header text" />
-
-					<controls:PropertiesViewItemSeparator />
-
-					<controls:PropertiesViewItemText
-						CanEdit="True"
-						Label="Item label 1"
-						LabelWidth="{StaticResource LabelWidth}"
-						Orientation="Horizontal"
-						Text="Item value 1 text here" />
-					<controls:PropertiesViewItemSeparator />
-					<controls:PropertiesViewItemInfo
-						CanEdit="False"
-						InfoText="Detailed text to display with hover."
-						Label="Item info label 1"
-						LabelWidth="{StaticResource LabelWidth}"
-						Orientation="Horizontal"
-						Text="Info item value 1 text" />
-					<controls:PropertiesViewItemSeparator />
-					<controls:PropertiesViewItemInfo
-						CanEdit="True"
-						InfoText="Detailed text to display with hover."
-						Label="Item info label 1"
-						LabelWidth="{StaticResource LabelWidth}"
-						Orientation="Horizontal"
-						Text="Info item value 1 text" />
-					<controls:PropertiesViewItemSeparator />
-					<controls:PropertiesViewItemInfo
-						InfoText="Detailed text to display with hover."
-						IsEnabled="False"
-						Label="Disabled info label 1"
-						LabelWidth="{StaticResource LabelWidth}"
-						Orientation="Horizontal"
-						Text="Info item value 1 text" />
-					<controls:PropertiesViewItemSeparator />
-					<controls:PropertiesViewItemText
-						Label="Item label t00 extra long to demonstrate the wrapping for Labels"
-						LabelWidth="{StaticResource LabelWidth}"
-						Orientation="Horizontal"
-						Text="Item value t00 text here" />
-					<controls:PropertiesViewItemSeparator />
-					<controls:PropertiesViewItemText
-						IsEnabled="False"
-						Label="Disabled - CanEdit set to False"
-						LabelWidth="{StaticResource LabelWidth}"
-						Orientation="Horizontal"
-						Text="Item value t00 text here" />
-					<controls:PropertiesViewItemSeparator />
-					<controls:PropertiesViewItemText
-						CanEdit="True"
-						IsEnabled="False"
-						Label="Disabled - CanEdit set to True"
-						LabelWidth="{StaticResource LabelWidth}"
-						Orientation="Horizontal"
-						Text="Item value t00 text here" />
-					<controls:PropertiesViewItemSeparator />
-					<controls:PropertiesViewItemText
-						Label="Item label three"
-						LabelWidth="{StaticResource LabelWidth}"
-						Orientation="Horizontal"
-						Text="Item value three text here, extra long to show how text values will wrap onto mnany lines." />
-				</StackPanel>
-			</controls:PropertiesViewExpander.Content>
+				<controls:PropertiesViewCard
+					Header="Disabled card"
+					IsEnabled="False">
+					<TextBlock Text="Disabled value" />
+				</controls:PropertiesViewCard>
+			</StackPanel>
 		</controls:PropertiesViewExpander>
 
-		<controls:PropertiesViewExpander>
-			<controls:PropertiesViewExpander.Header>
-				<controls:PropertiesHeader Text="Header text goes here, made extra long to ensure wrapping and arranging within the header works as expected">
-					<controls:PropertiesHeader.Icon>
-						<SymbolIcon Symbol="Comment" />
-					</controls:PropertiesHeader.Icon>
-				</controls:PropertiesHeader>
-			</controls:PropertiesViewExpander.Header>
-
-			<controls:PropertiesViewExpander.Content>
-				<StackPanel
-					Padding="0,0,0,8"
-					HorizontalAlignment="Stretch"
-					Orientation="Vertical">
-					<controls:PropertiesViewItemRating
-						Label="Item label 1 readonly"
-						LabelWidth="{StaticResource LabelWidth}"
-						Orientation="Horizontal"
-						Rating="9345" />
-					<controls:PropertiesViewItemSeparator />
-					<controls:PropertiesViewItemRating
-						CanEdit="True"
-						Label="Item label t00 editable"
-						Orientation="Horizontal"
-						Rating="-23" />
-					<controls:PropertiesViewItemSeparator />
-					<controls:PropertiesViewItemRating
-						CanEdit="False"
-						Label="Item label three readonly"
-						Orientation="Horizontal"
-						Rating="32" />
-					<controls:PropertiesViewItemSeparator />
-					<controls:PropertiesViewItemRating
-						CanEdit="False"
-						IsEnabled="False"
-						Label="Disabled item label"
-						Orientation="Horizontal"
-						Rating="50" />
-					<controls:PropertiesViewItemSeparator />
-					<controls:PropertiesViewItemRating
-						CanEdit="True"
-						IsEnabled="False"
-						Label="Disabled, editable label"
-						Orientation="Horizontal"
-						Rating="50" />
-					<controls:PropertiesViewItemSeparator />
-					<controls:PropertiesViewItemRating
-						CanEdit="True"
-						Label="Item label 4ore editable"
-						Orientation="Horizontal"
-						Rating="72" />
-				</StackPanel>
-			</controls:PropertiesViewExpander.Content>
+		<controls:PropertiesViewExpander Header="Ratings">
+			<controls:PropertiesViewExpander.HeaderIcon>
+				<SymbolIcon Symbol="Favorite" />
+			</controls:PropertiesViewExpander.HeaderIcon>
+			<StackPanel Padding="0,0,0,8">
+				<controls:PropertiesViewCard Header="Read-only rating">
+					<RatingControl IsReadOnly="True" Value="4" />
+				</controls:PropertiesViewCard>
+				<controls:PropertiesViewCard Header="Editable rating">
+					<RatingControl Value="3" />
+				</controls:PropertiesViewCard>
+				<controls:PropertiesViewCard Header="Disabled rating" IsEnabled="False">
+					<RatingControl Value="2" />
+				</controls:PropertiesViewCard>
+			</StackPanel>
 		</controls:PropertiesViewExpander>
 
-		<controls:PropertiesViewExpander>
-			<controls:PropertiesViewExpander.Header>
-				<controls:PropertiesHeader Text="Vertical examples">
-					<controls:PropertiesHeader.Icon>
-						<SymbolIcon Symbol="SlideShow" />
-					</controls:PropertiesHeader.Icon>
-				</controls:PropertiesHeader>
-			</controls:PropertiesViewExpander.Header>
-
-			<controls:PropertiesViewExpander.Content>
-				<StackPanel HorizontalAlignment="Stretch" Orientation="Vertical">
-
-					<controls:PropertiesViewItemText
-						CanEdit="True"
-						Label="Item label 1"
-						LabelWidth="{StaticResource LabelWidth}"
-						Orientation="Vertical"
-						Text="Item value 1 text here" />
-
-					<controls:PropertiesViewItemSeparator />
-
-					<controls:PropertiesViewItemInfo
-						CanEdit="False"
-						InfoText="Detailed text to display with the button press."
-						Label="Item info label 1"
-						LabelWidth="{StaticResource LabelWidth}"
-						Orientation="Vertical"
-						Text="Info item value 1 text" />
-
-					<controls:PropertiesViewItemSeparator />
-
-					<controls:PropertiesViewItemInfo
-						CanEdit="True"
-						InfoText="Detailed text to display with the button press."
-						Label="Item info label 1"
-						LabelWidth="{StaticResource LabelWidth}"
-						Orientation="Vertical"
-						Text="Info item value 1 text" />
-
-					<controls:PropertiesViewItemSeparator />
-
-					<controls:PropertiesViewItemRating
-						CanEdit="True"
-						Label="Really long label wrapping when using a vertical layout example here for your viewing pleasure."
-						Orientation="Vertical"
-						Rating="54" />
-
-					<controls:PropertiesViewItemSeparator />
-
-					<controls:PropertiesViewItemText
-						CanEdit="False"
-						Label="Item label three"
-						LabelWidth="{StaticResource LabelWidth}"
-						Orientation="Vertical"
-						Text="Item value 1 text here, made long so we can see how wrapping will work for this vertical exanple of the control layout. " />
-				</StackPanel>
-			</controls:PropertiesViewExpander.Content>
+		<controls:PropertiesViewExpander Header="Vertical and wrapping examples">
+			<controls:PropertiesViewExpander.HeaderIcon>
+				<SymbolIcon Symbol="SlideShow" />
+			</controls:PropertiesViewExpander.HeaderIcon>
+			<StackPanel Padding="0,0,0,8">
+				<controls:PropertiesViewCard
+					ContentAlignment="Vertical"
+					Description="Content is always placed below the header"
+					Header="Editable vertical value">
+					<TextBox
+						Margin="{StaticResource PropertiesValueTextBoxMargin}"
+						HorizontalAlignment="Stretch"
+						Text="Item value text" />
+				</controls:PropertiesViewCard>
+				<controls:PropertiesViewCard
+					ContentAlignment="Vertical"
+					Header="A long header that demonstrates wrapping when the available width becomes constrained">
+					<TextBlock Text="A long value that also wraps across multiple lines when the properties window becomes narrow." TextWrapping="Wrap" />
+				</controls:PropertiesViewCard>
+			</StackPanel>
 		</controls:PropertiesViewExpander>
 
-		<controls:PropertiesViewExpander IsExpanded="True">
-			<controls:PropertiesViewExpander.Header>
-				<controls:PropertiesHeader Text="Toggle Items">
-					<controls:PropertiesHeader.Icon>
-						<SymbolIcon Symbol="XboxOneConsole" />
-					</controls:PropertiesHeader.Icon>
-				</controls:PropertiesHeader>
-			</controls:PropertiesViewExpander.Header>
-			<controls:PropertiesViewExpander.Content>
-				<StackPanel HorizontalAlignment="Stretch" Orientation="Vertical">
-					<controls:PropertiesViewItemToggle
-						IsEnabled="True"
-						IsToggled="True"
-						Label="Enabled and On"
-						LabelWidth="{StaticResource LabelWidth}"
-						Orientation="Horizontal" />
-
-					<controls:PropertiesViewItemSeparator />
-
-					<controls:PropertiesViewItemToggle
-						IsEnabled="True"
-						IsToggled="False"
-						Label="Enabled and Off"
-						LabelWidth="{StaticResource LabelWidth}"
-						Orientation="Horizontal" />
-
-					<controls:PropertiesViewItemSeparator />
-
-					<controls:PropertiesViewItemToggle
-						IsEnabled="False"
-						IsToggled="True"
-						Label="Disabled and On"
-						LabelWidth="{StaticResource LabelWidth}"
-						Orientation="Horizontal" />
-
-					<controls:PropertiesViewItemSeparator />
-
-					<controls:PropertiesViewItemToggle
-						IsEnabled="False"
-						IsToggled="False"
-						Label="Disabled and Off"
-						LabelWidth="{StaticResource LabelWidth}"
-						Orientation="Horizontal" />
-
-					<controls:PropertiesViewItemSeparator />
-
-					<controls:PropertiesViewItemToggle
-						IsEnabled="True"
-						IsToggled="True"
-						Label="Enabled and On"
-						LabelWidth="{StaticResource LabelWidth}"
-						Orientation="Vertical" />
-
-					<controls:PropertiesViewItemSeparator />
-
-					<controls:PropertiesViewItemToggle
-						IsEnabled="True"
-						IsToggled="False"
-						Label="Enabled and Off"
-						LabelWidth="{StaticResource LabelWidth}"
-						Orientation="Vertical" />
-
-					<controls:PropertiesViewItemSeparator />
-
-					<controls:PropertiesViewItemToggle
-						IsEnabled="False"
-						IsToggled="True"
-						Label="Disabled and On"
-						LabelWidth="{StaticResource LabelWidth}"
-						Orientation="Vertical" />
-
-					<controls:PropertiesViewItemSeparator />
-
-					<controls:PropertiesViewItemToggle
-						IsEnabled="False"
-						IsToggled="False"
-						Label="Disabled and Off"
-						LabelWidth="{StaticResource LabelWidth}"
-						Orientation="Vertical" />
-				</StackPanel>
-			</controls:PropertiesViewExpander.Content>
+		<controls:PropertiesViewExpander Header="Toggle items" IsExpanded="True">
+			<controls:PropertiesViewExpander.HeaderIcon>
+				<SymbolIcon Symbol="XboxOneConsole" />
+			</controls:PropertiesViewExpander.HeaderIcon>
+			<StackPanel Padding="0,0,0,8">
+				<controls:PropertiesViewCard Header="Enabled and on">
+					<ToggleSwitch IsOn="True" />
+				</controls:PropertiesViewCard>
+				<controls:PropertiesViewCard Header="Enabled and off">
+					<ToggleSwitch IsOn="False" />
+				</controls:PropertiesViewCard>
+				<controls:PropertiesViewCard Header="Disabled and on" IsEnabled="False">
+					<ToggleSwitch IsOn="True" />
+				</controls:PropertiesViewCard>
+			</StackPanel>
 		</controls:PropertiesViewExpander>
 
-		<StackPanel
-			Padding="24,8"
-			Orientation="Horizontal"
-			Spacing="16">
-			<controls:PropertiesViewItemCheck
-				Content="Text for a Checkbox"
-				IsChecked="False"
-				Orientation="Vertical" />
-
-			<controls:PropertiesViewItemSeparator Orientation="Vertical" />
-
-			<controls:PropertiesViewItemCheck
-				Content="Checkbox t00"
-				IsChecked="True"
-				Orientation="Vertical" />
-
-			<controls:PropertiesViewItemSeparator Orientation="Vertical" />
-
-			<controls:PropertiesViewItemCheck
-				Content="Text for a Checkbox three"
-				IsChecked="{x:Null}"
-				Orientation="Vertical" />
-		</StackPanel>
-
-		<Rectangle
-			Height="1"
-			HorizontalAlignment="Stretch"
-			Fill="Red" />
-
-		<StackPanel
-			Padding="24,8"
-			Orientation="Vertical"
-			Spacing="16">
-			<controls:PropertiesViewItemCheck Content="Text for a Checkbox" IsChecked="False" />
-
-			<controls:PropertiesViewItemSeparator />
-
-			<controls:PropertiesViewItemCheck Content="Checkbox t00" IsChecked="True" />
-
-			<controls:PropertiesViewItemSeparator />
-
-			<controls:PropertiesViewItemCheck Content="Text for a Checkbox three" IsChecked="{x:Null}" />
-		</StackPanel>
-
+		<controls:PropertiesViewExpander Header="Check box items" IsExpanded="True">
+			<controls:PropertiesViewExpander.HeaderIcon>
+				<SymbolIcon Symbol="Accept" />
+			</controls:PropertiesViewExpander.HeaderIcon>
+			<StackPanel Padding="0,0,0,8">
+				<controls:PropertiesViewCard ContentAlignment="Left">
+					<CheckBox Content="Unchecked option" IsChecked="False" />
+				</controls:PropertiesViewCard>
+				<controls:PropertiesViewCard ContentAlignment="Left">
+					<CheckBox Content="Checked option" IsChecked="True" />
+				</controls:PropertiesViewCard>
+				<controls:PropertiesViewCard ContentAlignment="Left">
+					<CheckBox Content="Indeterminate option" IsChecked="{x:Null}" IsThreeState="True" />
+				</controls:PropertiesViewCard>
+			</StackPanel>
+		</controls:PropertiesViewExpander>
 	</controls:PropertiesView>
 
 </Page>

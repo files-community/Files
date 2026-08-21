@@ -16,12 +16,12 @@ namespace Files.App.UITests.Dialogs
 
 			OverlappedPresenter presenter = OverlappedPresenter.Create();
 			ExtendsContentIntoTitleBar = true;
-			AppWindow.Resize(new Windows.Graphics.SizeInt32(640, 480));
+			AppWindow.Resize(new Windows.Graphics.SizeInt32(480, 720));
 			presenter.IsMaximizable = false;
 			AppWindow.SetPresenter(presenter);
 			AppWindow.TitleBar.PreferredTheme = TitleBarTheme.UseDefaultAppMode;
-			presenter.PreferredMinimumHeight = 800;
-			presenter.PreferredMinimumWidth = 800;
+			presenter.PreferredMinimumHeight = 480;
+			presenter.PreferredMinimumWidth = 360;
 		}
 
 		private void SelectorBar_SelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
