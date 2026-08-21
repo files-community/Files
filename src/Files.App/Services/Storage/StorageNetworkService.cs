@@ -220,13 +220,12 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public async Task<bool> AuthenticateNetworkShare(string path)
+		public async Task<bool> AuthenticateNetworkShare(string path, CancellationToken cancellationToken)
 		{
 			if (await Task.Run(() =>
 			{
 				unsafe
 				{
-
 					if (!path.StartsWith(@"\\", StringComparison.Ordinal))
 					{
 						//  Special handling for network drives
@@ -271,6 +270,8 @@ namespace Files.App.Services
 			{
 				return true;
 			}
+
+			if (cancellationToken.IsCancellationRequested) return false;
 
 			if (res == WIN32_ERROR.ERROR_LOGON_FAILURE || res == WIN32_ERROR.ERROR_ACCESS_DENIED)
 			{

@@ -34,30 +34,25 @@ namespace Files.App.Services.PreviewPopupProviders
 			return _cachedSeerWindowHandle.Value;
 		}
 
-		public async Task TogglePreviewPopupAsync(string path)
+		public unsafe Task TogglePreviewPopupAsync(string path)
 		{
-			await Task.Run(() =>
-			{
-				unsafe
-				{
-					COPYDATASTRUCT data = default;
-					data.dwData = 5000u;
-					data.cbData = (uint)(path.Length + 1) * 2;
-					data.lpData = (void*)Marshal.StringToHGlobalUni(path);
+			COPYDATASTRUCT data = default;
+			data.dwData = 5000u;
+			data.cbData = (uint)(path.Length + 1) * 2;
+			data.lpData = (void*)Marshal.StringToHGlobalUni(path);
 
-					var pData = Marshal.AllocHGlobal(Marshal.SizeOf(data));
-					Marshal.StructureToPtr(data, pData, false);
+			var pData = Marshal.AllocHGlobal(Marshal.SizeOf(data));
+			Marshal.StructureToPtr(data, pData, false);
 
-					HWND hWnd = GetSeerWindowHandle();
-					PInvoke.SendMessage(hWnd, 0x004A /*WM_COPYDATA*/, 0, pData);
+			HWND hWnd = GetSeerWindowHandle();
+			PInvoke.SendMessage(hWnd, 0x004A /*WM_COPYDATA*/, 0, pData);
 
-					bool isVisible = PInvoke.IsWindowVisible(hWnd);
-					CurrentPath = isVisible ? path : null;
+			bool isVisible = PInvoke.IsWindowVisible(hWnd);
+			CurrentPath = isVisible ? path : null;
 
-					Marshal.FreeHGlobal((nint)data.lpData);
-					Marshal.FreeHGlobal(pData);
-				}
-			});
+			Marshal.FreeHGlobal((nint)data.lpData);
+			Marshal.FreeHGlobal(pData);
+			return Task.CompletedTask;
 		}
 
 		public async Task SwitchPreviewAsync(string path)

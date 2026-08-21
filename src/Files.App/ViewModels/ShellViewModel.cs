@@ -2096,7 +2096,7 @@ namespace Files.App.ViewModels
 
 			if (isNetwork || isNetdisk)
 			{
-				var auth = await NetworkService.AuthenticateNetworkShare(path);
+				var auth = await NetworkService.AuthenticateNetworkShare(path, cancellationToken);
 				if (!auth)
 					return -1;
 			}
