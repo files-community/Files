@@ -71,15 +71,42 @@
 	</Page.Resources>
 
 	<Page.KeyboardAccelerators>
-		<KeyboardAccelerator Invoked="NumberedTabKeyboardAccelerator_Invoked" Key="Number1" Modifiers="Control" />
-		<KeyboardAccelerator Invoked="NumberedTabKeyboardAccelerator_Invoked" Key="Number2" Modifiers="Control" />
-		<KeyboardAccelerator Invoked="NumberedTabKeyboardAccelerator_Invoked" Key="Number3" Modifiers="Control" />
-		<KeyboardAccelerator Invoked="NumberedTabKeyboardAccelerator_Invoked" Key="Number4" Modifiers="Control" />
-		<KeyboardAccelerator Invoked="NumberedTabKeyboardAccelerator_Invoked" Key="Number5" Modifiers="Control" />
-		<KeyboardAccelerator Invoked="NumberedTabKeyboardAccelerator_Invoked" Key="Number6" Modifiers="Control" />
-		<KeyboardAccelerator Invoked="NumberedTabKeyboardAccelerator_Invoked" Key="Number7" Modifiers="Control" />
-		<KeyboardAccelerator Invoked="NumberedTabKeyboardAccelerator_Invoked" Key="Number8" Modifiers="Control" />
-		<KeyboardAccelerator Invoked="NumberedTabKeyboardAccelerator_Invoked" Key="Number9" Modifiers="Control" />
+		<KeyboardAccelerator
+			Key="Number1"
+			Invoked="NumberedTabKeyboardAccelerator_Invoked"
+			Modifiers="Control" />
+		<KeyboardAccelerator
+			Key="Number2"
+			Invoked="NumberedTabKeyboardAccelerator_Invoked"
+			Modifiers="Control" />
+		<KeyboardAccelerator
+			Key="Number3"
+			Invoked="NumberedTabKeyboardAccelerator_Invoked"
+			Modifiers="Control" />
+		<KeyboardAccelerator
+			Key="Number4"
+			Invoked="NumberedTabKeyboardAccelerator_Invoked"
+			Modifiers="Control" />
+		<KeyboardAccelerator
+			Key="Number5"
+			Invoked="NumberedTabKeyboardAccelerator_Invoked"
+			Modifiers="Control" />
+		<KeyboardAccelerator
+			Key="Number6"
+			Invoked="NumberedTabKeyboardAccelerator_Invoked"
+			Modifiers="Control" />
+		<KeyboardAccelerator
+			Key="Number7"
+			Invoked="NumberedTabKeyboardAccelerator_Invoked"
+			Modifiers="Control" />
+		<KeyboardAccelerator
+			Key="Number8"
+			Invoked="NumberedTabKeyboardAccelerator_Invoked"
+			Modifiers="Control" />
+		<KeyboardAccelerator
+			Key="Number9"
+			Invoked="NumberedTabKeyboardAccelerator_Invoked"
+			Modifiers="Control" />
 	</Page.KeyboardAccelerators>
 
 	<Grid>
@@ -331,7 +358,6 @@
 			VerticalAlignment="Bottom"
 			ActionButtonCommand="{x:Bind ViewModel.SponsorCommand}"
 			ActionButtonContent="{helpers:ResourceString Name=Sponsor}"
-			CloseButtonCommand="{x:Bind ViewModel.DismissSponsorPromptCommand}"
 			CloseButtonContent="{helpers:ResourceString Name=Dismiss}"
 			IsOpen="{x:Bind ViewModel.ShowSponsorPrompt, Mode=OneWay}"
 			Subtitle="{helpers:ResourceString Name=SponsorSubtitle}" />

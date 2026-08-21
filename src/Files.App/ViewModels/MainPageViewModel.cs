@@ -135,7 +135,7 @@ namespace Files.App.ViewModels
 			{
 				var isTargetEnvironment = AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev or AppEnvironment.SideloadStable or AppEnvironment.SideloadPreview;
 				var hasClickedSponsorPrompt = UserSettingsService.ApplicationSettingsService.HasClickedSponsorPrompt;
-				var launchCountReached = AppLifecycleHelper.TotalLaunchCount == 30;
+				var launchCountReached = AppLifecycleHelper.TotalLaunchCount % 50 == 0;
 
 				return isTargetEnvironment && !hasClickedSponsorPrompt && launchCountReached;
 			}
@@ -147,7 +147,6 @@ namespace Files.App.ViewModels
 		public ICommand ReviewAppCommand { get; }
 		public ICommand DismissReviewPromptCommand { get; }
 		public ICommand SponsorCommand { get; }
-		public ICommand DismissSponsorPromptCommand { get; }
 		public ICommand OpenNetworkSharingSettingsCommand { get; }
 
 		// Constructor
@@ -158,7 +157,6 @@ namespace Files.App.ViewModels
 			ReviewAppCommand = new RelayCommand(ExecuteReviewAppCommand);
 			DismissReviewPromptCommand = new RelayCommand(ExecuteDismissReviewPromptCommand);
 			SponsorCommand = new RelayCommand(ExecuteSponsorCommand);
-			DismissSponsorPromptCommand = new RelayCommand(ExecuteDismissSponsorPromptCommand);
 			OpenNetworkSharingSettingsCommand = new AsyncRelayCommand(ExecuteOpenNetworkSharingSettingsCommand);
 
 			AppearanceSettingsService.PropertyChanged += (s, e) =>
@@ -365,11 +363,6 @@ namespace Files.App.ViewModels
 			UserSettingsService.ApplicationSettingsService.HasClickedSponsorPrompt = true;
 			OnPropertyChanged(nameof(ShowSponsorPrompt));
 			await Launcher.LaunchUriAsync(new Uri(Constants.ExternalUrl.SupportUsUrl)).AsTask();
-		}
-
-		private void ExecuteDismissSponsorPromptCommand()
-		{
-			UserSettingsService.ApplicationSettingsService.HasClickedSponsorPrompt = true;
 		}
 
 		private async Task ExecuteOpenNetworkSharingSettingsCommand()
