@@ -64,10 +64,12 @@
 						HorizontalAlignment="Stretch"
 						Text="Filename here" />
 				</controls:PropertiesViewCard>
+				<controls:PropertiesViewItemSeparator />
 
-				<controls:PropertiesViewCard Header="Type" Description="A read-only text value">
+				<controls:PropertiesViewCard Header="Type">
 					<TextBlock Text="Text Document (.txt)" TextWrapping="Wrap" />
 				</controls:PropertiesViewCard>
+				<controls:PropertiesViewItemSeparator />
 
 				<controls:PropertiesViewCard Header="Additional information">
 					<Grid ColumnSpacing="8">
@@ -84,16 +86,17 @@
 						</Button>
 					</Grid>
 				</controls:PropertiesViewCard>
+				<controls:PropertiesViewItemSeparator />
 
 				<controls:PropertiesViewCard
 					x:Name="ClickableCard"
 					AutomationProperties.AutomationId="ClickablePropertiesViewCard"
 					Click="ClickableCard_Click"
-					Description="Exercises pointer, keyboard, action icon, and automation states"
 					Header="Clickable card"
 					IsClickEnabled="True">
 					<TextBlock x:Name="ClickResultText" Text="Not clicked" />
 				</controls:PropertiesViewCard>
+				<controls:PropertiesViewItemSeparator />
 
 				<controls:PropertiesViewCard
 					Header="Disabled card"
@@ -111,9 +114,11 @@
 				<controls:PropertiesViewCard Header="Read-only rating">
 					<RatingControl IsReadOnly="True" Value="4" />
 				</controls:PropertiesViewCard>
+				<controls:PropertiesViewItemSeparator />
 				<controls:PropertiesViewCard Header="Editable rating">
 					<RatingControl Value="3" />
 				</controls:PropertiesViewCard>
+				<controls:PropertiesViewItemSeparator />
 				<controls:PropertiesViewCard Header="Disabled rating" IsEnabled="False">
 					<RatingControl Value="2" />
 				</controls:PropertiesViewCard>
@@ -127,13 +132,13 @@
 			<StackPanel Padding="0,0,0,8">
 				<controls:PropertiesViewCard
 					ContentAlignment="Vertical"
-					Description="Content is always placed below the header"
 					Header="Editable vertical value">
 					<TextBox
 						Margin="{StaticResource PropertiesValueTextBoxMargin}"
 						HorizontalAlignment="Stretch"
 						Text="Item value text" />
 				</controls:PropertiesViewCard>
+				<controls:PropertiesViewItemSeparator />
 				<controls:PropertiesViewCard
 					ContentAlignment="Vertical"
 					Header="A long header that demonstrates wrapping when the available width becomes constrained">
@@ -150,9 +155,11 @@
 				<controls:PropertiesViewCard Header="Enabled and on">
 					<ToggleSwitch IsOn="True" />
 				</controls:PropertiesViewCard>
+				<controls:PropertiesViewItemSeparator />
 				<controls:PropertiesViewCard Header="Enabled and off">
 					<ToggleSwitch IsOn="False" />
 				</controls:PropertiesViewCard>
+				<controls:PropertiesViewItemSeparator />
 				<controls:PropertiesViewCard Header="Disabled and on" IsEnabled="False">
 					<ToggleSwitch IsOn="True" />
 				</controls:PropertiesViewCard>
@@ -167,9 +174,11 @@
 				<controls:PropertiesViewCard ContentAlignment="Left">
 					<CheckBox Content="Unchecked option" IsChecked="False" />
 				</controls:PropertiesViewCard>
+				<controls:PropertiesViewItemSeparator />
 				<controls:PropertiesViewCard ContentAlignment="Left">
 					<CheckBox Content="Checked option" IsChecked="True" />
 				</controls:PropertiesViewCard>
+				<controls:PropertiesViewItemSeparator />
 				<controls:PropertiesViewCard ContentAlignment="Left">
 					<CheckBox Content="Indeterminate option" IsChecked="{x:Null}" IsThreeState="True" />
 				</controls:PropertiesViewCard>
