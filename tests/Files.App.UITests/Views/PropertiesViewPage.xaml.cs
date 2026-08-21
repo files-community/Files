@@ -16,7 +16,7 @@ namespace Files.App.UITests.Views
 
 		private void OpenPropertiesDialogWindowButton_Click(object sender , RoutedEventArgs e)
 		{
-			var window = new PropertiesDialog() { Title = "Properties" };
+			var window = new PropertiesDialog();
 			window.Activate();
 		}
 	}
