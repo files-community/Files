@@ -77,7 +77,7 @@
 						LabelWidth="{StaticResource LabelWidth}"
 						Orientation="Horizontal"
 						Text="Item value 1 text here" />
-					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemSeparator />
 					<controls:PropertiesViewItemInfo
 						CanEdit="False"
 						InfoText="Detailed text to display with hover."
@@ -85,7 +85,7 @@
 						LabelWidth="{StaticResource LabelWidth}"
 						Orientation="Horizontal"
 						Text="Info item value 1 text" />
-					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemSeparator />
 					<controls:PropertiesViewItemInfo
 						CanEdit="True"
 						InfoText="Detailed text to display with hover."
@@ -93,7 +93,7 @@
 						LabelWidth="{StaticResource LabelWidth}"
 						Orientation="Horizontal"
 						Text="Info item value 1 text" />
-					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemSeparator />
 					<controls:PropertiesViewItemInfo
 						InfoText="Detailed text to display with hover."
 						IsEnabled="False"
@@ -101,20 +101,20 @@
 						LabelWidth="{StaticResource LabelWidth}"
 						Orientation="Horizontal"
 						Text="Info item value 1 text" />
-					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemSeparator />
 					<controls:PropertiesViewItemText
 						Label="Item label t00 extra long to demonstrate the wrapping for Labels"
 						LabelWidth="{StaticResource LabelWidth}"
 						Orientation="Horizontal"
 						Text="Item value t00 text here" />
-					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemSeparator />
 					<controls:PropertiesViewItemText
 						IsEnabled="False"
 						Label="Disabled - CanEdit set to False"
 						LabelWidth="{StaticResource LabelWidth}"
 						Orientation="Horizontal"
 						Text="Item value t00 text here" />
-					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemSeparator />
 					<controls:PropertiesViewItemText
 						CanEdit="True"
 						IsEnabled="False"
@@ -122,7 +122,7 @@
 						LabelWidth="{StaticResource LabelWidth}"
 						Orientation="Horizontal"
 						Text="Item value t00 text here" />
-					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemSeparator />
 					<controls:PropertiesViewItemText
 						Label="Item label three"
 						LabelWidth="{StaticResource LabelWidth}"
@@ -151,33 +151,33 @@
 						LabelWidth="{StaticResource LabelWidth}"
 						Orientation="Horizontal"
 						Rating="9345" />
-					<MenuFlyoutSeparator Margin="16,0" />
+					<controls:PropertiesViewItemSeparator />
 					<controls:PropertiesViewItemRating
 						CanEdit="True"
 						Label="Item label t00 editable"
 						Orientation="Horizontal"
 						Rating="-23" />
-					<MenuFlyoutSeparator Margin="16,0" />
+					<controls:PropertiesViewItemSeparator />
 					<controls:PropertiesViewItemRating
 						CanEdit="False"
 						Label="Item label three readonly"
 						Orientation="Horizontal"
 						Rating="32" />
-					<MenuFlyoutSeparator Margin="16,0" />
+					<controls:PropertiesViewItemSeparator />
 					<controls:PropertiesViewItemRating
 						CanEdit="False"
 						IsEnabled="False"
 						Label="Disabled item label"
 						Orientation="Horizontal"
 						Rating="50" />
-					<MenuFlyoutSeparator Margin="16,0" />
+					<controls:PropertiesViewItemSeparator />
 					<controls:PropertiesViewItemRating
 						CanEdit="True"
 						IsEnabled="False"
 						Label="Disabled, editable label"
 						Orientation="Horizontal"
 						Rating="50" />
-					<MenuFlyoutSeparator Margin="16,0" />
+					<controls:PropertiesViewItemSeparator />
 					<controls:PropertiesViewItemRating
 						CanEdit="True"
 						Label="Item label 4ore editable"
@@ -206,7 +206,7 @@
 						Orientation="Vertical"
 						Text="Item value 1 text here" />
 
-					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemSeparator />
 
 					<controls:PropertiesViewItemInfo
 						CanEdit="False"
@@ -216,7 +216,7 @@
 						Orientation="Vertical"
 						Text="Info item value 1 text" />
 
-					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemSeparator />
 
 					<controls:PropertiesViewItemInfo
 						CanEdit="True"
@@ -226,7 +226,7 @@
 						Orientation="Vertical"
 						Text="Info item value 1 text" />
 
-					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemSeparator />
 
 					<controls:PropertiesViewItemRating
 						CanEdit="True"
@@ -234,7 +234,7 @@
 						Orientation="Vertical"
 						Rating="54" />
 
-					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemSeparator />
 
 					<controls:PropertiesViewItemText
 						CanEdit="False"
@@ -263,7 +263,7 @@
 						LabelWidth="{StaticResource LabelWidth}"
 						Orientation="Horizontal" />
 
-					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemSeparator />
 
 					<controls:PropertiesViewItemToggle
 						IsEnabled="True"
@@ -272,7 +272,7 @@
 						LabelWidth="{StaticResource LabelWidth}"
 						Orientation="Horizontal" />
 
-					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemSeparator />
 
 					<controls:PropertiesViewItemToggle
 						IsEnabled="False"
@@ -281,7 +281,7 @@
 						LabelWidth="{StaticResource LabelWidth}"
 						Orientation="Horizontal" />
 
-					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemSeparator />
 
 					<controls:PropertiesViewItemToggle
 						IsEnabled="False"
@@ -290,7 +290,7 @@
 						LabelWidth="{StaticResource LabelWidth}"
 						Orientation="Horizontal" />
 
-					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemSeparator />
 
 					<controls:PropertiesViewItemToggle
 						IsEnabled="True"
@@ -299,7 +299,7 @@
 						LabelWidth="{StaticResource LabelWidth}"
 						Orientation="Vertical" />
 
-					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemSeparator />
 
 					<controls:PropertiesViewItemToggle
 						IsEnabled="True"
@@ -308,7 +308,7 @@
 						LabelWidth="{StaticResource LabelWidth}"
 						Orientation="Vertical" />
 
-					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemSeparator />
 
 					<controls:PropertiesViewItemToggle
 						IsEnabled="False"
@@ -317,7 +317,7 @@
 						LabelWidth="{StaticResource LabelWidth}"
 						Orientation="Vertical" />
 
-					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemSeparator />
 
 					<controls:PropertiesViewItemToggle
 						IsEnabled="False"
@@ -328,6 +328,25 @@
 				</StackPanel>
 			</Expander.Content>
 		</Expander>
+
+		<StackPanel
+			Padding="24,8"
+			Orientation="Horizontal"
+			Spacing="16">
+			<CheckBox Content="Text for a Checkbox" />
+
+			<controls:PropertiesViewItemSeparator Orientation="Vertical" />
+
+			<CheckBox Content="Checkbox t00" />
+
+			<controls:PropertiesViewItemSeparator Orientation="Vertical" />
+
+			<CheckBox Content="Text for a Checkbox three" />
+
+			<controls:PropertiesViewItemSeparator Orientation="Vertical" />
+
+			<CheckBox Content="Text for a Checkbox 4ore" />
+		</StackPanel>
 
 	</controls:PropertiesView>
 

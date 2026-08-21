@@ -9,6 +9,7 @@
 	<ResourceDictionary.ThemeDictionaries>
 
 		<ResourceDictionary x:Key="Light">
+			<!--#region Light PropertiesExpander-->
 			<Thickness x:Key="PropertiesExpanderHeaderPadding">8,8,8,7</Thickness>
 			<Thickness x:Key="PropertiesExpanderHeaderBorderThickness">0</Thickness>
 
@@ -35,9 +36,13 @@
 			<StaticResource x:Key="PropertiesExpanderContentBorderBrush" ResourceKey="DividerStrokeColorDefaultBrush" />
 
 			<StaticResource x:Key="PropertiesExpanderSeparatorFillColor" ResourceKey="DividerStrokeColorDefaultBrush" />
+			<!--#endregion-->
+
+			<StaticResource x:Key="PropertiesItemSeparatorForeground" ResourceKey="DividerStrokeColorDefaultBrush" />
 		</ResourceDictionary>
 
 		<ResourceDictionary x:Key="Dark">
+			<!--#region Dark PropertiesExpander-->
 			<Thickness x:Key="PropertiesExpanderHeaderPadding">8,8,8,7</Thickness>
 			<Thickness x:Key="PropertiesExpanderHeaderBorderThickness">0</Thickness>
 
@@ -64,9 +69,13 @@
 			<StaticResource x:Key="PropertiesExpanderContentBorderBrush" ResourceKey="DividerStrokeColorDefaultBrush" />
 
 			<StaticResource x:Key="PropertiesExpanderSeparatorFillColor" ResourceKey="DividerStrokeColorDefaultBrush" />
+			<!--#endregion-->
+
+			<StaticResource x:Key="PropertiesItemSeparatorForeground" ResourceKey="DividerStrokeColorDefaultBrush" />
 		</ResourceDictionary>
 
 		<ResourceDictionary x:Key="HighContrast">
+			<!--#region HighContrastPropertiesExpander-->
 			<Thickness x:Key="PropertiesExpanderHeaderPadding">6,6,6,5</Thickness>
 			<Thickness x:Key="PropertiesExpanderHeaderBorderThickness">2</Thickness>
 
@@ -93,10 +102,14 @@
 			<StaticResource x:Key="PropertiesExpanderContentBorderBrush" ResourceKey="SystemColorWindowTextColorBrush" />
 
 			<StaticResource x:Key="PropertiesExpanderSeparatorFillColor" ResourceKey="SystemColorWindowTextColorBrush" />
+			<!--#endregion-->
+
+			<StaticResource x:Key="PropertiesItemSeparatorForeground" ResourceKey="SystemColorWindowTextColorBrush" />
 		</ResourceDictionary>
 
 	</ResourceDictionary.ThemeDictionaries>
 
+	<!--#region PropertiesExpander-->
 	<x:Double x:Key="PropertiesExpanderMinHeight">48</x:Double>
 
 	<Thickness x:Key="PropertiesExpanderHeaderInnerPadding">12,0,24,0</Thickness>
@@ -116,5 +129,15 @@
 	<Thickness x:Key="PropertiesExpanderContentUpBorderThickness">0</Thickness>
 
 	<x:Double x:Key="PropertiesExpanderSeparatorHeight">1</x:Double>
+	<!--#endregion-->
+
+
+	<!--#region PropertiesViewItem-->
+	<Thickness x:Key="PropertiesItemSeparatorHorizontalMargin">0,-4,0,-4</Thickness>
+	<Thickness x:Key="PropertiesItemSeparatorVerticalMargin">-4,0,-4,0</Thickness>
+
+	<x:Double x:Key="PropertiesItemSeparatorStrokeThickness">1</x:Double>
+	<CornerRadius x:Key="PropertiessItemSeparatorCornerRadius">1</CornerRadius>
+	<!--#endregion-->
 
 </ResourceDictionary>

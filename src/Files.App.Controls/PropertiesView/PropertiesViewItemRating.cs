@@ -76,6 +76,8 @@ namespace Files.App.Controls
 		#endregion
 
 
+
+
 		private bool _isLoaded;
 		public PropertiesViewItemRating()
 		{
