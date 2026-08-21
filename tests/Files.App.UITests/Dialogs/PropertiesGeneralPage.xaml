@@ -260,6 +260,89 @@
 				</Expander.Content>
 			</Expander>
 
+			<Expander IsExpanded="True" Style="{StaticResource PropertiesExpanderStyle}">
+				<Expander.Header>
+					<controls:PropertiesHeader Text="Toggle Items">
+						<controls:PropertiesHeader.Icon>
+							<SymbolIcon Symbol="XboxOneConsole" />
+						</controls:PropertiesHeader.Icon>
+					</controls:PropertiesHeader>
+				</Expander.Header>
+				<Expander.Content>
+					<StackPanel HorizontalAlignment="Stretch" Orientation="Vertical">
+						<controls:PropertiesViewItemToggle
+							IsEnabled="True"
+							IsToggled="True"
+							Label="Enabled and On"
+							LabelWidth="{StaticResource LabelWidth}"
+							Orientation="Horizontal" />
+
+						<MenuFlyoutSeparator />
+
+						<controls:PropertiesViewItemToggle
+							IsEnabled="True"
+							IsToggled="False"
+							Label="Enabled and Off"
+							LabelWidth="{StaticResource LabelWidth}"
+							Orientation="Horizontal" />
+
+						<MenuFlyoutSeparator />
+
+						<controls:PropertiesViewItemToggle
+							IsEnabled="False"
+							IsToggled="True"
+							Label="Disabled and On"
+							LabelWidth="{StaticResource LabelWidth}"
+							Orientation="Horizontal" />
+
+						<MenuFlyoutSeparator />
+
+						<controls:PropertiesViewItemToggle
+							IsEnabled="False"
+							IsToggled="False"
+							Label="Disabled and Off"
+							LabelWidth="{StaticResource LabelWidth}"
+							Orientation="Horizontal" />
+
+						<MenuFlyoutSeparator />
+
+						<controls:PropertiesViewItemToggle
+							IsEnabled="True"
+							IsToggled="True"
+							Label="Enabled and On"
+							LabelWidth="{StaticResource LabelWidth}"
+							Orientation="Vertical" />
+
+						<MenuFlyoutSeparator />
+
+						<controls:PropertiesViewItemToggle
+							IsEnabled="True"
+							IsToggled="False"
+							Label="Enabled and Off"
+							LabelWidth="{StaticResource LabelWidth}"
+							Orientation="Vertical" />
+
+						<MenuFlyoutSeparator />
+
+						<controls:PropertiesViewItemToggle
+							IsEnabled="False"
+							IsToggled="True"
+							Label="Disabled and On"
+							LabelWidth="{StaticResource LabelWidth}"
+							Orientation="Vertical" />
+
+						<MenuFlyoutSeparator />
+
+						<controls:PropertiesViewItemToggle
+							IsEnabled="False"
+							IsToggled="False"
+							Label="Disabled and Off"
+							LabelWidth="{StaticResource LabelWidth}"
+							Orientation="Vertical" />
+					</StackPanel>
+				</Expander.Content>
+			</Expander>
+
 		</controls:PropertiesViewForm>
 
 	</Grid>

@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Files.App.Controls.Primitives;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -48,10 +49,41 @@ namespace Files.App.Controls
 				typeof(PropertiesViewItemToggle),
 				new PropertyMetadata( false , OnIsToggledPropertyChanged ) );
 
+
+
+		public string OnText
+		{
+			get { return (string)GetValue( OnTextProperty ); }
+			set { SetValue( OnTextProperty , value ); }
+		}
+
+		public static readonly DependencyProperty OnTextProperty =
+			DependencyProperty.Register(
+				"OnText",
+				typeof(string),
+				typeof(PropertiesViewItemToggle),
+				new PropertyMetadata( "On" ) );
+
+
+
+		public string OffText
+		{
+			get { return (string)GetValue( OffTextProperty ); }
+			set { SetValue( OffTextProperty , value ); }
+		}
+
+		public static readonly DependencyProperty OffTextProperty =
+			DependencyProperty.Register(
+				"OffText",
+				typeof(string),
+				typeof(PropertiesViewItemToggle),
+				new PropertyMetadata( "Off") );
+
 		#endregion
 
 
 
+		private ToggleSwitch? _toggleSwitch;
 
 		#region Property Changed
 
@@ -59,11 +91,19 @@ namespace Files.App.Controls
 		{
 			var control = (PropertiesViewItemToggle)d;
 			control.UpdateIsToggledProperty( (bool)e.NewValue );
+
+			if ( e.NewValue != e.OldValue )
+			{ 
+				control.UpdateIsToggledProperty( (bool) e.NewValue );
+			}
 		}
 
 		private void UpdateIsToggledProperty(bool isToggled)
 		{
-			
+			if ( _toggleSwitch == null )
+				return;
+
+			_toggleSwitch.IsOn = isToggled;
 		}
 
 		#endregion
@@ -81,12 +121,38 @@ namespace Files.App.Controls
 			};
 		}
 
-
-
-
+		[DynamicWindowsRuntimeCast( typeof( ToggleSwitch ) )]
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
+
+			// Renive IsOn event hook if ToggleSwitch Part is not found or loaded
+			if ( _toggleSwitch != null )
+			{
+				_toggleSwitch.Toggled -= OnToggleSwitchToggled;
+			}
+
+			// Get the template part
+			_toggleSwitch = GetTemplateChild( ToggleSwitchPartName ) as ToggleSwitch;
+
+			// Hook the event
+			if ( _toggleSwitch != null )
+			{
+				_toggleSwitch.Toggled += OnToggleSwitchToggled;
+			}
+		}
+
+
+
+
+		private void OnToggleSwitchToggled(object sender , RoutedEventArgs e)
+		{
+			if ( _toggleSwitch == null )
+				return;
+
+			bool isOn = _toggleSwitch.IsOn;
+
+			this.IsToggled = isOn;
 		}
 
 	}
