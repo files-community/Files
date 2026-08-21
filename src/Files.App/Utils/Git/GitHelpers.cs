@@ -50,6 +50,9 @@ namespace Files.App.Utils.Git
 		public static Task FetchOriginAsync(string? repositoryPath, CancellationToken cancellationToken = default)
 			=> _implementation.FetchOriginAsync(repositoryPath, cancellationToken);
 
+		/// <inheritdoc cref="IVersionControlService.CloneRepoAsync(string, string, string)"/>
+		public static Task CloneRepoAsync(string repoUrl, string repoName, string targetDirectory) => _implementation.CloneRepoAsync(repoUrl, repoName, targetDirectory);
+
 		/// <inheritdoc cref="IVersionControlService.IsExecutingGitAction"/>
 		public static bool IsExecutingGitAction => _implementation.IsExecutingGitAction;
 
@@ -621,62 +624,6 @@ namespace Files.App.Utils.Git
 		public static bool IsValidRepoUrl(string url)
 		{
 			return GitHubRepositoryRegex().IsMatch(url);
-		}
-
-		public static async Task CloneRepoAsync(string repoUrl, string repoName, string targetDirectory)
-		{
-			var banner = StatusCenterHelper.AddCard_GitClone(repoName.CreateEnumerable(), targetDirectory.CreateEnumerable(), ReturnResult.InProgress);
-			var fsProgress = new StatusCenterItemProgressModel(banner.ProgressEventSource, enumerationCompleted: true, FileSystemStatusCode.InProgress);
-			var errorMessage = string.Empty;
-
-			bool isSuccess = await Task.Run(() =>
-			{
-				try
-				{
-					var cloneOptions = new CloneOptions
-					{
-						FetchOptions =
-						{
-							OnTransferProgress = progress =>
-							{
-								banner.CancellationToken.ThrowIfCancellationRequested();
-								fsProgress.ItemsCount = progress.TotalObjects;
-								fsProgress.SetProcessedSize(progress.ReceivedBytes);
-								fsProgress.AddProcessedItemsCount(1);
-								fsProgress.Report((int)((progress.ReceivedObjects / (double)progress.TotalObjects) * 100));
-								return true;
-							},
-							OnProgress = _ => !banner.CancellationToken.IsCancellationRequested
-						},
-						OnCheckoutProgress = (path, completed, total) =>
-							banner.CancellationToken.ThrowIfCancellationRequested()
-					};
-
-					Repository.Clone(repoUrl, targetDirectory, cloneOptions);
-					return true;
-				}
-				catch (Exception ex)
-				{
-					errorMessage = ex.Message;
-					return false;
-				}
-			}, banner.CancellationToken);
-
-			if (!string.IsNullOrEmpty(errorMessage))
-			{
-				UIHelpers.CloseAllDialogs();
-				await Task.Delay(500);
-				await DynamicDialogFactory.ShowFor_CannotCloneRepo(errorMessage);
-			}
-
-			StatusCenterViewModel.RemoveItem(banner);
-
-			StatusCenterHelper.AddCard_GitClone(
-				repoName.CreateEnumerable(),
-				targetDirectory.CreateEnumerable(),
-				isSuccess ? ReturnResult.Success :
-				banner.CancellationToken.IsCancellationRequested ? ReturnResult.Cancelled :
-				ReturnResult.Failed);
 		}
 
 		// Method already moved into abstraction
