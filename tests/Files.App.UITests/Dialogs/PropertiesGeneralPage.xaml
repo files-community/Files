@@ -18,21 +18,10 @@
 		</ResourceDictionary>
 	</Page.Resources>
 
-	<Grid x:Name="RootGrid">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
+	<controls:PropertiesViewForm>
 
-		<Border
-			x:Name="GeneralHeader"
-			Grid.Row="0"
-			Padding="24,20"
-			VerticalAlignment="Stretch"
-			BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
-			BorderThickness="0,0,0,1">
-
-			<Grid>
+		<controls:PropertiesViewForm.Header>
+			<Grid Padding="24,20">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="{StaticResource LabelWidth}" />
 					<ColumnDefinition Width="*" />
@@ -65,286 +54,281 @@
 				</StackPanel>
 
 			</Grid>
+		</controls:PropertiesViewForm.Header>
 
-		</Border>
+		<Expander IsExpanded="True" Style="{StaticResource PropertiesExpanderStyle}">
+			<Expander.Header>
+				<controls:PropertiesHeader Text="Header text goes here">
+					<controls:PropertiesHeader.Icon>
+						<SymbolIcon Symbol="AddFriend" />
+					</controls:PropertiesHeader.Icon>
+				</controls:PropertiesHeader>
+			</Expander.Header>
 
-		<controls:PropertiesViewForm Grid.Row="1">
+			<Expander.Content>
 
-			<Expander IsExpanded="True" Style="{StaticResource PropertiesExpanderStyle}">
-				<Expander.Header>
-					<controls:PropertiesHeader Text="Header text goes here">
-						<controls:PropertiesHeader.Icon>
-							<SymbolIcon Symbol="AddFriend" />
-						</controls:PropertiesHeader.Icon>
-					</controls:PropertiesHeader>
-				</Expander.Header>
+				<StackPanel
+					Padding="0,0,0,8"
+					HorizontalAlignment="Stretch"
+					Orientation="Vertical">
+					<controls:PropertiesViewItemText
+						CanEdit="True"
+						Label="Item label 1"
+						LabelWidth="{StaticResource LabelWidth}"
+						Orientation="Horizontal"
+						Text="Item value 1 text here" />
+					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemInfo
+						CanEdit="False"
+						InfoText="Detailed text to display with hover."
+						Label="Item info label 1"
+						LabelWidth="{StaticResource LabelWidth}"
+						Orientation="Horizontal"
+						Text="Info item value 1 text" />
+					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemInfo
+						CanEdit="True"
+						InfoText="Detailed text to display with hover."
+						Label="Item info label 1"
+						LabelWidth="{StaticResource LabelWidth}"
+						Orientation="Horizontal"
+						Text="Info item value 1 text" />
+					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemInfo
+						InfoText="Detailed text to display with hover."
+						IsEnabled="False"
+						Label="Disabled info label 1"
+						LabelWidth="{StaticResource LabelWidth}"
+						Orientation="Horizontal"
+						Text="Info item value 1 text" />
+					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemText
+						Label="Item label t00 extra long to demonstrate the wrapping for Labels"
+						LabelWidth="{StaticResource LabelWidth}"
+						Orientation="Horizontal"
+						Text="Item value t00 text here" />
+					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemText
+						IsEnabled="False"
+						Label="Disabled - CanEdit set to False"
+						LabelWidth="{StaticResource LabelWidth}"
+						Orientation="Horizontal"
+						Text="Item value t00 text here" />
+					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemText
+						CanEdit="True"
+						IsEnabled="False"
+						Label="Disabled - CanEdit set to True"
+						LabelWidth="{StaticResource LabelWidth}"
+						Orientation="Horizontal"
+						Text="Item value t00 text here" />
+					<MenuFlyoutSeparator />
+					<controls:PropertiesViewItemText
+						Label="Item label three"
+						LabelWidth="{StaticResource LabelWidth}"
+						Orientation="Horizontal"
+						Text="Item value three text here, extra long to show how text values will wrap onto mnany lines." />
+				</StackPanel>
+			</Expander.Content>
+		</Expander>
 
-				<Expander.Content>
+		<Expander Style="{StaticResource PropertiesExpanderStyle}">
+			<Expander.Header>
+				<controls:PropertiesHeader Text="Header text goes here, made extra long to ensure wrapping and arranging within the header works as expected">
+					<controls:PropertiesHeader.Icon>
+						<SymbolIcon Symbol="Comment" />
+					</controls:PropertiesHeader.Icon>
+				</controls:PropertiesHeader>
+			</Expander.Header>
 
-					<StackPanel
-						Padding="0,0,0,8"
-						HorizontalAlignment="Stretch"
-						Orientation="Vertical">
-						<controls:PropertiesViewItemText
-							CanEdit="True"
-							Label="Item label 1"
-							LabelWidth="{StaticResource LabelWidth}"
-							Orientation="Horizontal"
-							Text="Item value 1 text here" />
-						<MenuFlyoutSeparator />
-						<controls:PropertiesViewItemInfo
-							CanEdit="False"
-							InfoText="Detailed text to display with hover."
-							Label="Item info label 1"
-							LabelWidth="{StaticResource LabelWidth}"
-							Orientation="Horizontal"
-							Text="Info item value 1 text" />
-						<MenuFlyoutSeparator />
-						<controls:PropertiesViewItemInfo
-							CanEdit="True"
-							InfoText="Detailed text to display with hover."
-							Label="Item info label 1"
-							LabelWidth="{StaticResource LabelWidth}"
-							Orientation="Horizontal"
-							Text="Info item value 1 text" />
-						<MenuFlyoutSeparator />
-						<controls:PropertiesViewItemInfo
-							InfoText="Detailed text to display with hover."
-							IsEnabled="False"
-							Label="Disabled info label 1"
-							LabelWidth="{StaticResource LabelWidth}"
-							Orientation="Horizontal"
-							Text="Info item value 1 text" />
-						<MenuFlyoutSeparator />
-						<controls:PropertiesViewItemText
-							Label="Item label t00 extra long to demonstrate the wrapping for Labels"
-							LabelWidth="{StaticResource LabelWidth}"
-							Orientation="Horizontal"
-							Text="Item value t00 text here" />
-						<MenuFlyoutSeparator />
-						<controls:PropertiesViewItemText
-							IsEnabled="False"
-							Label="Disabled - CanEdit set to False"
-							LabelWidth="{StaticResource LabelWidth}"
-							Orientation="Horizontal"
-							Text="Item value t00 text here" />
-						<MenuFlyoutSeparator />
-						<controls:PropertiesViewItemText
-							CanEdit="True"
-							IsEnabled="False"
-							Label="Disabled - CanEdit set to True"
-							LabelWidth="{StaticResource LabelWidth}"
-							Orientation="Horizontal"
-							Text="Item value t00 text here" />
-						<MenuFlyoutSeparator />
-						<controls:PropertiesViewItemText
-							Label="Item label three"
-							LabelWidth="{StaticResource LabelWidth}"
-							Orientation="Horizontal"
-							Text="Item value three text here, extra long to show how text values will wrap onto mnany lines." />
-					</StackPanel>
-				</Expander.Content>
-			</Expander>
+			<Expander.Content>
+				<StackPanel
+					Padding="0,0,0,8"
+					HorizontalAlignment="Stretch"
+					Orientation="Vertical">
+					<controls:PropertiesViewItemRating
+						Label="Item label 1 readonly"
+						LabelWidth="{StaticResource LabelWidth}"
+						Orientation="Horizontal"
+						Rating="9345" />
+					<MenuFlyoutSeparator Margin="16,0" />
+					<controls:PropertiesViewItemRating
+						CanEdit="True"
+						Label="Item label t00 editable"
+						Orientation="Horizontal"
+						Rating="-23" />
+					<MenuFlyoutSeparator Margin="16,0" />
+					<controls:PropertiesViewItemRating
+						CanEdit="False"
+						Label="Item label three readonly"
+						Orientation="Horizontal"
+						Rating="32" />
+					<MenuFlyoutSeparator Margin="16,0" />
+					<controls:PropertiesViewItemRating
+						CanEdit="False"
+						IsEnabled="False"
+						Label="Disabled item label"
+						Orientation="Horizontal"
+						Rating="50" />
+					<MenuFlyoutSeparator Margin="16,0" />
+					<controls:PropertiesViewItemRating
+						CanEdit="True"
+						IsEnabled="False"
+						Label="Disabled, editable label"
+						Orientation="Horizontal"
+						Rating="50" />
+					<MenuFlyoutSeparator Margin="16,0" />
+					<controls:PropertiesViewItemRating
+						CanEdit="True"
+						Label="Item label 4ore editable"
+						Orientation="Horizontal"
+						Rating="72" />
+				</StackPanel>
+			</Expander.Content>
+		</Expander>
 
-			<Expander Style="{StaticResource PropertiesExpanderStyle}">
-				<Expander.Header>
-					<controls:PropertiesHeader Text="Header text goes here, made extra long to ensure wrapping and arranging within the header works as expected">
-						<controls:PropertiesHeader.Icon>
-							<SymbolIcon Symbol="Comment" />
-						</controls:PropertiesHeader.Icon>
-					</controls:PropertiesHeader>
-				</Expander.Header>
+		<Expander Style="{StaticResource PropertiesExpanderStyle}">
+			<Expander.Header>
+				<controls:PropertiesHeader Text="Vertical examples">
+					<controls:PropertiesHeader.Icon>
+						<SymbolIcon Symbol="SlideShow" />
+					</controls:PropertiesHeader.Icon>
+				</controls:PropertiesHeader>
+			</Expander.Header>
 
-				<Expander.Content>
-					<StackPanel
-						Padding="0,0,0,8"
-						HorizontalAlignment="Stretch"
-						Orientation="Vertical">
-						<controls:PropertiesViewItemRating
-							Label="Item label 1 readonly"
-							LabelWidth="{StaticResource LabelWidth}"
-							Orientation="Horizontal"
-							Rating="9345" />
-						<MenuFlyoutSeparator Margin="16,0" />
-						<controls:PropertiesViewItemRating
-							CanEdit="True"
-							Label="Item label t00 editable"
-							Orientation="Horizontal"
-							Rating="-23" />
-						<MenuFlyoutSeparator Margin="16,0" />
-						<controls:PropertiesViewItemRating
-							CanEdit="False"
-							Label="Item label three readonly"
-							Orientation="Horizontal"
-							Rating="32" />
-						<MenuFlyoutSeparator Margin="16,0" />
-						<controls:PropertiesViewItemRating
-							CanEdit="False"
-							IsEnabled="False"
-							Label="Disabled item label"
-							Orientation="Horizontal"
-							Rating="50" />
-						<MenuFlyoutSeparator Margin="16,0" />
-						<controls:PropertiesViewItemRating
-							CanEdit="True"
-							IsEnabled="False"
-							Label="Disabled, editable label"
-							Orientation="Horizontal"
-							Rating="50" />
-						<MenuFlyoutSeparator Margin="16,0" />
-						<controls:PropertiesViewItemRating
-							CanEdit="True"
-							Label="Item label 4ore editable"
-							Orientation="Horizontal"
-							Rating="72" />
-					</StackPanel>
-				</Expander.Content>
-			</Expander>
+			<Expander.Content>
+				<StackPanel HorizontalAlignment="Stretch" Orientation="Vertical">
 
-			<Expander Style="{StaticResource PropertiesExpanderStyle}">
-				<Expander.Header>
-					<controls:PropertiesHeader Text="Vertical examples">
-						<controls:PropertiesHeader.Icon>
-							<SymbolIcon Symbol="SlideShow" />
-						</controls:PropertiesHeader.Icon>
-					</controls:PropertiesHeader>
-				</Expander.Header>
+					<controls:PropertiesViewItemText
+						CanEdit="True"
+						Label="Item label 1"
+						LabelWidth="{StaticResource LabelWidth}"
+						Orientation="Vertical"
+						Text="Item value 1 text here" />
 
-				<Expander.Content>
-					<StackPanel HorizontalAlignment="Stretch" Orientation="Vertical">
+					<MenuFlyoutSeparator />
 
-						<controls:PropertiesViewItemText
-							CanEdit="True"
-							Label="Item label 1"
-							LabelWidth="{StaticResource LabelWidth}"
-							Orientation="Vertical"
-							Text="Item value 1 text here" />
+					<controls:PropertiesViewItemInfo
+						CanEdit="False"
+						InfoText="Detailed text to display with the button press."
+						Label="Item info label 1"
+						LabelWidth="{StaticResource LabelWidth}"
+						Orientation="Vertical"
+						Text="Info item value 1 text" />
 
-						<MenuFlyoutSeparator />
+					<MenuFlyoutSeparator />
 
-						<controls:PropertiesViewItemInfo
-							CanEdit="False"
-							InfoText="Detailed text to display with the button press."
-							Label="Item info label 1"
-							LabelWidth="{StaticResource LabelWidth}"
-							Orientation="Vertical"
-							Text="Info item value 1 text" />
+					<controls:PropertiesViewItemInfo
+						CanEdit="True"
+						InfoText="Detailed text to display with the button press."
+						Label="Item info label 1"
+						LabelWidth="{StaticResource LabelWidth}"
+						Orientation="Vertical"
+						Text="Info item value 1 text" />
 
-						<MenuFlyoutSeparator />
+					<MenuFlyoutSeparator />
 
-						<controls:PropertiesViewItemInfo
-							CanEdit="True"
-							InfoText="Detailed text to display with the button press."
-							Label="Item info label 1"
-							LabelWidth="{StaticResource LabelWidth}"
-							Orientation="Vertical"
-							Text="Info item value 1 text" />
+					<controls:PropertiesViewItemRating
+						CanEdit="True"
+						Label="Really long label wrapping when using a vertical layout example here for your viewing pleasure."
+						Orientation="Vertical"
+						Rating="54" />
 
-						<MenuFlyoutSeparator />
+					<MenuFlyoutSeparator />
 
-						<controls:PropertiesViewItemRating
-							CanEdit="True"
-							Label="Really long label wrapping when using a vertical layout example here for your viewing pleasure."
-							Orientation="Vertical"
-							Rating="54" />
+					<controls:PropertiesViewItemText
+						CanEdit="False"
+						Label="Item label three"
+						LabelWidth="{StaticResource LabelWidth}"
+						Orientation="Vertical"
+						Text="Item value 1 text here, made long so we can see how wrapping will work for this vertical exanple of the control layout. " />
+				</StackPanel>
+			</Expander.Content>
+		</Expander>
 
-						<MenuFlyoutSeparator />
+		<Expander IsExpanded="True" Style="{StaticResource PropertiesExpanderStyle}">
+			<Expander.Header>
+				<controls:PropertiesHeader Text="Toggle Items">
+					<controls:PropertiesHeader.Icon>
+						<SymbolIcon Symbol="XboxOneConsole" />
+					</controls:PropertiesHeader.Icon>
+				</controls:PropertiesHeader>
+			</Expander.Header>
+			<Expander.Content>
+				<StackPanel HorizontalAlignment="Stretch" Orientation="Vertical">
+					<controls:PropertiesViewItemToggle
+						IsEnabled="True"
+						IsToggled="True"
+						Label="Enabled and On"
+						LabelWidth="{StaticResource LabelWidth}"
+						Orientation="Horizontal" />
 
-						<controls:PropertiesViewItemText
-							CanEdit="False"
-							Label="Item label three"
-							LabelWidth="{StaticResource LabelWidth}"
-							Orientation="Vertical"
-							Text="Item value 1 text here, made long so we can see how wrapping will work for this vertical exanple of the control layout. " />
-					</StackPanel>
-				</Expander.Content>
-			</Expander>
+					<MenuFlyoutSeparator />
 
-			<Expander IsExpanded="True" Style="{StaticResource PropertiesExpanderStyle}">
-				<Expander.Header>
-					<controls:PropertiesHeader Text="Toggle Items">
-						<controls:PropertiesHeader.Icon>
-							<SymbolIcon Symbol="XboxOneConsole" />
-						</controls:PropertiesHeader.Icon>
-					</controls:PropertiesHeader>
-				</Expander.Header>
-				<Expander.Content>
-					<StackPanel HorizontalAlignment="Stretch" Orientation="Vertical">
-						<controls:PropertiesViewItemToggle
-							IsEnabled="True"
-							IsToggled="True"
-							Label="Enabled and On"
-							LabelWidth="{StaticResource LabelWidth}"
-							Orientation="Horizontal" />
+					<controls:PropertiesViewItemToggle
+						IsEnabled="True"
+						IsToggled="False"
+						Label="Enabled and Off"
+						LabelWidth="{StaticResource LabelWidth}"
+						Orientation="Horizontal" />
 
-						<MenuFlyoutSeparator />
+					<MenuFlyoutSeparator />
 
-						<controls:PropertiesViewItemToggle
-							IsEnabled="True"
-							IsToggled="False"
-							Label="Enabled and Off"
-							LabelWidth="{StaticResource LabelWidth}"
-							Orientation="Horizontal" />
+					<controls:PropertiesViewItemToggle
+						IsEnabled="False"
+						IsToggled="True"
+						Label="Disabled and On"
+						LabelWidth="{StaticResource LabelWidth}"
+						Orientation="Horizontal" />
 
-						<MenuFlyoutSeparator />
+					<MenuFlyoutSeparator />
 
-						<controls:PropertiesViewItemToggle
-							IsEnabled="False"
-							IsToggled="True"
-							Label="Disabled and On"
-							LabelWidth="{StaticResource LabelWidth}"
-							Orientation="Horizontal" />
+					<controls:PropertiesViewItemToggle
+						IsEnabled="False"
+						IsToggled="False"
+						Label="Disabled and Off"
+						LabelWidth="{StaticResource LabelWidth}"
+						Orientation="Horizontal" />
 
-						<MenuFlyoutSeparator />
+					<MenuFlyoutSeparator />
 
-						<controls:PropertiesViewItemToggle
-							IsEnabled="False"
-							IsToggled="False"
-							Label="Disabled and Off"
-							LabelWidth="{StaticResource LabelWidth}"
-							Orientation="Horizontal" />
+					<controls:PropertiesViewItemToggle
+						IsEnabled="True"
+						IsToggled="True"
+						Label="Enabled and On"
+						LabelWidth="{StaticResource LabelWidth}"
+						Orientation="Vertical" />
 
-						<MenuFlyoutSeparator />
+					<MenuFlyoutSeparator />
 
-						<controls:PropertiesViewItemToggle
-							IsEnabled="True"
-							IsToggled="True"
-							Label="Enabled and On"
-							LabelWidth="{StaticResource LabelWidth}"
-							Orientation="Vertical" />
+					<controls:PropertiesViewItemToggle
+						IsEnabled="True"
+						IsToggled="False"
+						Label="Enabled and Off"
+						LabelWidth="{StaticResource LabelWidth}"
+						Orientation="Vertical" />
 
-						<MenuFlyoutSeparator />
+					<MenuFlyoutSeparator />
 
-						<controls:PropertiesViewItemToggle
-							IsEnabled="True"
-							IsToggled="False"
-							Label="Enabled and Off"
-							LabelWidth="{StaticResource LabelWidth}"
-							Orientation="Vertical" />
+					<controls:PropertiesViewItemToggle
+						IsEnabled="False"
+						IsToggled="True"
+						Label="Disabled and On"
+						LabelWidth="{StaticResource LabelWidth}"
+						Orientation="Vertical" />
 
-						<MenuFlyoutSeparator />
+					<MenuFlyoutSeparator />
 
-						<controls:PropertiesViewItemToggle
-							IsEnabled="False"
-							IsToggled="True"
-							Label="Disabled and On"
-							LabelWidth="{StaticResource LabelWidth}"
-							Orientation="Vertical" />
+					<controls:PropertiesViewItemToggle
+						IsEnabled="False"
+						IsToggled="False"
+						Label="Disabled and Off"
+						LabelWidth="{StaticResource LabelWidth}"
+						Orientation="Vertical" />
+				</StackPanel>
+			</Expander.Content>
+		</Expander>
 
-						<MenuFlyoutSeparator />
-
-						<controls:PropertiesViewItemToggle
-							IsEnabled="False"
-							IsToggled="False"
-							Label="Disabled and Off"
-							LabelWidth="{StaticResource LabelWidth}"
-							Orientation="Vertical" />
-					</StackPanel>
-				</Expander.Content>
-			</Expander>
-
-		</controls:PropertiesViewForm>
-
-	</Grid>
+	</controls:PropertiesViewForm>
 
 </Page>

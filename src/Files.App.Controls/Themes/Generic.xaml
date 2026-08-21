@@ -81,5 +81,9 @@
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/PropertiesView/PropertiesViewSection.xaml" />
 		<!--#endregion-->
 
+		<!--#region WindowedDialog-->
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/WindowedDialog/WindowedDialogRoot.xaml" />
+		<!--#endregion-->
+
 	</ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
