@@ -650,7 +650,7 @@ namespace Files.App.Helpers
 						});
 				}
 				if (!opened)
-					opened = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path);
+					opened = (FilesystemResult)await Task.Run(() => FolderHelpers.CheckFolderAccessWithWin32(path));
 
 				if (opened)
 					await OpenPath(forceOpenInNewTab, UserSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, associatedInstance, selectItems);

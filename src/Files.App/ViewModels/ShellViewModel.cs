@@ -248,7 +248,11 @@ namespace Files.App.ViewModels
 				pathRoot = Path.GetPathRoot(WorkingDirectory);
 			}
 
-			GitDirectory = GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
+			var gitDirectory = await Task.Run(() => GitHelpers.GetGitRepositoryPath(value, pathRoot));
+			if (WorkingDirectory != value)
+				return;
+
+			GitDirectory = gitDirectory;
 			IsValidGitDirectory = !string.IsNullOrEmpty(await GitHelpers.GetRepositoryHeadName(GitDirectory));
 
 			_ = UpdateFolderThumbnailImageSource();
@@ -1072,6 +1076,11 @@ namespace Files.App.ViewModels
 					return;
 				}
 				var filesAndFoldersLocal = filesAndFolders.ToList();
+				var filter = FilesAndFoldersFilter;
+				var displayedFilesAndFolders = string.IsNullOrEmpty(filter)
+					? filesAndFoldersLocal
+					: await Task.Run(() => filesAndFoldersLocal.Where(
+						x => x.Name?.Contains(filter, StringComparison.OrdinalIgnoreCase) == true).ToList(), addFilesCTS.Token);
 
 				// CollectionChanged will cause UI update, which may cause significant performance degradation,
 				// so suppress CollectionChanged event here while loading items heavily.
@@ -1087,21 +1096,14 @@ namespace Files.App.ViewModels
 					{
 						try
 						{
-							if (addFilesCTS.IsCancellationRequested)
+							if (addFilesCTS.IsCancellationRequested || FilesAndFoldersFilter != filter)
 								return;
 
 							FilesAndFolders.BeginBulkOperation();
 							try
 							{
 								FilesAndFolders.Clear();
-								var filter = FilesAndFoldersFilter;
-								if (string.IsNullOrEmpty(filter))
-									FilesAndFolders.AddRange(filesAndFoldersLocal);
-								else
-									FilesAndFolders.AddRange(filesAndFoldersLocal.Where(x => (x.Name
-										?? throw new InvalidOperationException("A listed item does not have a name.")).Contains(
-										filter,
-										StringComparison.OrdinalIgnoreCase)));
+								FilesAndFolders.AddRange(displayedFilesAndFolders);
 
 								if (folderSettings.DirectoryGroupOption != GroupOption.None)
 									OrderGroups();
@@ -2081,7 +2083,7 @@ namespace Files.App.ViewModels
 			{
 				// Special handling for network drives
 				if (!isNetwork)
-					isNetdisk = (new DriveInfo(path).DriveType == System.IO.DriveType.Network);
+					isNetdisk = await Task.Run(() => new DriveInfo(path).DriveType == System.IO.DriveType.Network);
 			}
 			catch { }
 
@@ -2097,7 +2099,7 @@ namespace Files.App.ViewModels
 					return -1;
 			}
 
-			if (!enumFromStorageFolder && FolderHelpers.CheckFolderAccessWithWin32(path))
+			if (!enumFromStorageFolder && await Task.Run(() => FolderHelpers.CheckFolderAccessWithWin32(path)))
 			{
 				// Will enumerate with FindFirstFileExFromApp, rootFolder only used for Bitlocker
 				currentStorageFolder = null;

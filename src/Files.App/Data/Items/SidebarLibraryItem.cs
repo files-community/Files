@@ -36,7 +36,7 @@ namespace Files.App.Data.Items
 			if (string.IsNullOrEmpty(defaultSaveFolder) || Folders.Count is 0)
 				return false;
 
-			var res = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(defaultSaveFolder);
+			var res = (FilesystemResult)await Task.Run(() => FolderHelpers.CheckFolderAccessWithWin32(defaultSaveFolder));
 
 			if (!res)
 			{
