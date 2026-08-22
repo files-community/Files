@@ -1,0 +1,39 @@
+<Page
+	x:Class="Files.App.UITests.Dialogs.PropertiesDetailsPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="using:Files.App.UITests.Dialogs"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d">
+	<Page.Resources>
+		<ResourceDictionary>
+			<GridLength x:Key="PropertiesDetailsLabelWidth">200</GridLength>
+			<Thickness x:Key="PropertiesValueTextBoxMargin">-12,0,0,0</Thickness>
+			<Style BasedOn="{StaticResource DefaultPropertiesViewCardStyle}" TargetType="controls:PropertiesViewCard">
+				<Setter Property="LabelWidth" Value="{StaticResource PropertiesDetailsLabelWidth}" />
+			</Style>
+		</ResourceDictionary>
+	</Page.Resources>
+
+	<controls:PropertiesView>
+
+		<controls:PropertiesViewExpander Header="Description" IsExpanded="True">
+			<controls:PropertiesViewExpander.HeaderIcon>
+				<FontIcon Glyph="&#xF0E3;" />
+			</controls:PropertiesViewExpander.HeaderIcon>
+			<StackPanel Padding="0,0,0,8">
+				<controls:PropertiesViewCard Header="Description" Orientation="Vertical">
+					<TextBox
+						MinHeight="96"
+						Margin="{StaticResource PropertiesValueTextBoxMargin}"
+						AcceptsReturn="True"
+						Text="Add a description for this file."
+						TextWrapping="Wrap" />
+				</controls:PropertiesViewCard>
+			</StackPanel>
+		</controls:PropertiesViewExpander>
+
+	</controls:PropertiesView>
+</Page>
