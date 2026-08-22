@@ -14,15 +14,16 @@
 			<Thickness x:Key="PropertiesValueTextBoxMargin">-12,0,0,0</Thickness>
 			<Style BasedOn="{StaticResource DefaultPropertiesViewCardStyle}" TargetType="controls:PropertiesViewCard">
 				<Setter Property="LabelWidth" Value="{StaticResource PropertiesGeneralLabelWidth}" />
+				<Setter Property="VerticalAlignment" Value="Center" />
 			</Style>
 		</ResourceDictionary>
 	</Page.Resources>
 
 	<controls:PropertiesView>
 		<controls:PropertiesView.Header>
-			<Grid Padding="24,20" ColumnSpacing="20">
+			<Grid Padding="24,20">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="{StaticResource PropertiesGeneralLabelWidth}" />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 
@@ -47,7 +48,7 @@
 					Grid.Column="1"
 					VerticalAlignment="Center"
 					Spacing="8">
-					<TextBox Text="Filename here" />
+					<TextBox Text="Filename here" Margin="-12,0,0,0" />
 					<TextBlock Text="Sticky header area with scrolling below" />
 				</StackPanel>
 			</Grid>
@@ -67,7 +68,7 @@
 				<controls:PropertiesViewItemSeparator />
 
 				<controls:PropertiesViewCard Header="Type">
-					<TextBlock Text="Text Document (.txt)" TextWrapping="Wrap" />
+					<TextBlock Text="Text Document (.txt)" TextWrapping="WrapWholeWords" VerticalAlignment="Center" />
 				</controls:PropertiesViewCard>
 				<controls:PropertiesViewItemSeparator />
 
@@ -94,13 +95,11 @@
 					Click="ClickableCard_Click"
 					Header="Clickable card"
 					IsClickEnabled="True">
-					<TextBlock x:Name="ClickResultText" Text="Not clicked" />
+					<TextBlock x:Name="ClickResultText" Text="Not clicked" VerticalAlignment="Center"  />
 				</controls:PropertiesViewCard>
 				<controls:PropertiesViewItemSeparator />
 
-				<controls:PropertiesViewCard
-					Header="Disabled card"
-					IsEnabled="False">
+				<controls:PropertiesViewCard Header="Disabled card" IsEnabled="False">
 					<TextBlock Text="Disabled value" />
 				</controls:PropertiesViewCard>
 			</StackPanel>
@@ -130,18 +129,14 @@
 				<SymbolIcon Symbol="SlideShow" />
 			</controls:PropertiesViewExpander.HeaderIcon>
 			<StackPanel Padding="0,0,0,8">
-				<controls:PropertiesViewCard
-					ContentAlignment="Vertical"
-					Header="Editable vertical value">
+				<controls:PropertiesViewCard ContentAlignment="Vertical" Header="Editable vertical value">
 					<TextBox
 						Margin="{StaticResource PropertiesValueTextBoxMargin}"
 						HorizontalAlignment="Stretch"
 						Text="Item value text" />
 				</controls:PropertiesViewCard>
 				<controls:PropertiesViewItemSeparator />
-				<controls:PropertiesViewCard
-					ContentAlignment="Vertical"
-					Header="A long header that demonstrates wrapping when the available width becomes constrained">
+				<controls:PropertiesViewCard ContentAlignment="Vertical" Header="A long header that demonstrates wrapping when the available width becomes constrained">
 					<TextBlock Text="A long value that also wraps across multiple lines when the properties window becomes narrow." TextWrapping="Wrap" />
 				</controls:PropertiesViewCard>
 			</StackPanel>
@@ -180,7 +175,10 @@
 				</controls:PropertiesViewCard>
 				<controls:PropertiesViewItemSeparator />
 				<controls:PropertiesViewCard ContentAlignment="Left">
-					<CheckBox Content="Indeterminate option" IsChecked="{x:Null}" IsThreeState="True" />
+					<CheckBox
+						Content="Indeterminate option"
+						IsChecked="{x:Null}"
+						IsThreeState="True" />
 				</controls:PropertiesViewCard>
 			</StackPanel>
 		</controls:PropertiesViewExpander>

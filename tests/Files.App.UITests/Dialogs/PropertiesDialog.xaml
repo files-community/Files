@@ -10,9 +10,6 @@
 	Title="Properties"
 	mc:Ignorable="d">
 
-	<controls:WindowedDialog.SystemBackdrop>
-		<MicaBackdrop />
-	</controls:WindowedDialog.SystemBackdrop>
 
 	<controls:WindowedDialog.Header>
 		<SelectorBar Padding="12,4" SelectionChanged="SelectorBar_SelectionChanged">
