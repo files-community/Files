@@ -12,7 +12,7 @@
 		<ResourceDictionary>
 			<GridLength x:Key="PropertiesGeneralLabelWidth">148</GridLength>
 			<Thickness x:Key="PropertiesValueTextBoxMargin">-12,0,0,0</Thickness>
-			<Style BasedOn="{StaticResource DefaultPropertiesViewCardStyle}" TargetType="controls:PropertiesViewCard">
+			<Style BasedOn="{StaticResource TestPropertiesViewCardStyle}" TargetType="controls:PropertiesViewCard">
 				<Setter Property="LabelWidth" Value="{StaticResource PropertiesGeneralLabelWidth}" />
 				<Setter Property="VerticalAlignment" Value="Center" />
 			</Style>
@@ -48,7 +48,7 @@
 					Grid.Column="1"
 					VerticalAlignment="Center"
 					Spacing="8">
-					<TextBox Text="Filename here" Margin="-12,0,0,0" />
+					<TextBox Margin="-12,0,0,0" Text="Filename here" />
 					<TextBlock Text="Sticky header area with scrolling below" />
 				</StackPanel>
 			</Grid>
@@ -58,7 +58,7 @@
 			<controls:PropertiesViewExpander.HeaderIcon>
 				<SymbolIcon Symbol="Document" />
 			</controls:PropertiesViewExpander.HeaderIcon>
-			<StackPanel Padding="0,0,0,8">
+			<StackPanel Padding="0,0,0,8" HorizontalAlignment="Stretch">
 				<controls:PropertiesViewCard Header="Name">
 					<TextBox
 						Margin="{StaticResource PropertiesValueTextBoxMargin}"
@@ -68,7 +68,10 @@
 				<controls:PropertiesViewItemSeparator />
 
 				<controls:PropertiesViewCard Header="Type">
-					<TextBlock Text="Text Document (.txt)" TextWrapping="WrapWholeWords" VerticalAlignment="Center" />
+					<TextBlock
+						VerticalAlignment="Center"
+						Text="Text Document (.txt)"
+						TextWrapping="WrapWholeWords" />
 				</controls:PropertiesViewCard>
 				<controls:PropertiesViewItemSeparator />
 
@@ -95,7 +98,10 @@
 					Click="ClickableCard_Click"
 					Header="Clickable card"
 					IsClickEnabled="True">
-					<TextBlock x:Name="ClickResultText" Text="Not clicked" VerticalAlignment="Center"  />
+					<TextBlock
+						x:Name="ClickResultText"
+						VerticalAlignment="Center"
+						Text="Not clicked" />
 				</controls:PropertiesViewCard>
 				<controls:PropertiesViewItemSeparator />
 
@@ -109,7 +115,7 @@
 			<controls:PropertiesViewExpander.HeaderIcon>
 				<SymbolIcon Symbol="Favorite" />
 			</controls:PropertiesViewExpander.HeaderIcon>
-			<StackPanel Padding="0,0,0,8">
+			<StackPanel Padding="0,0,0,8" HorizontalAlignment="Stretch">
 				<controls:PropertiesViewCard Header="Read-only rating">
 					<RatingControl IsReadOnly="True" Value="4" />
 				</controls:PropertiesViewCard>
@@ -128,15 +134,33 @@
 			<controls:PropertiesViewExpander.HeaderIcon>
 				<SymbolIcon Symbol="SlideShow" />
 			</controls:PropertiesViewExpander.HeaderIcon>
-			<StackPanel Padding="0,0,0,8">
-				<controls:PropertiesViewCard ContentAlignment="Vertical" Header="Editable vertical value">
+			<StackPanel Padding="0,0,0,8" HorizontalAlignment="Stretch">
+				<controls:PropertiesViewCard Header="Editable vertical value" Orientation="Vertical">
 					<TextBox
 						Margin="{StaticResource PropertiesValueTextBoxMargin}"
 						HorizontalAlignment="Stretch"
 						Text="Item value text" />
 				</controls:PropertiesViewCard>
 				<controls:PropertiesViewItemSeparator />
-				<controls:PropertiesViewCard ContentAlignment="Vertical" Header="A long header that demonstrates wrapping when the available width becomes constrained">
+				<controls:PropertiesViewCard Header="A long header that demonstrates wrapping when the available width becomes constrained" Orientation="Vertical">
+					<TextBlock Text="A long value that also wraps across multiple lines when the properties window becomes narrow." TextWrapping="Wrap" />
+				</controls:PropertiesViewCard>
+			</StackPanel>
+		</controls:PropertiesViewExpander>
+
+		<controls:PropertiesViewExpander Header="Right and wrapping examples">
+			<controls:PropertiesViewExpander.HeaderIcon>
+				<SymbolIcon Symbol="SlideShow" />
+			</controls:PropertiesViewExpander.HeaderIcon>
+			<StackPanel Padding="0,0,0,8">
+				<controls:PropertiesViewCard Header="Editable right value">
+					<TextBox
+						Margin="{StaticResource PropertiesValueTextBoxMargin}"
+						HorizontalAlignment="Stretch"
+						Text="Item value text" />
+				</controls:PropertiesViewCard>
+				<controls:PropertiesViewItemSeparator />
+				<controls:PropertiesViewCard Header="A long header that demonstrates wrapping when the available width becomes constrained">
 					<TextBlock Text="A long value that also wraps across multiple lines when the properties window becomes narrow." TextWrapping="Wrap" />
 				</controls:PropertiesViewCard>
 			</StackPanel>
@@ -146,7 +170,7 @@
 			<controls:PropertiesViewExpander.HeaderIcon>
 				<SymbolIcon Symbol="XboxOneConsole" />
 			</controls:PropertiesViewExpander.HeaderIcon>
-			<StackPanel Padding="0,0,0,8">
+			<StackPanel Padding="0,0,0,8" HorizontalAlignment="Stretch">
 				<controls:PropertiesViewCard Header="Enabled and on">
 					<ToggleSwitch IsOn="True" />
 				</controls:PropertiesViewCard>
@@ -165,16 +189,16 @@
 			<controls:PropertiesViewExpander.HeaderIcon>
 				<SymbolIcon Symbol="Accept" />
 			</controls:PropertiesViewExpander.HeaderIcon>
-			<StackPanel Padding="0,0,0,8">
-				<controls:PropertiesViewCard ContentAlignment="Left">
+			<StackPanel Padding="0,0,0,8" HorizontalAlignment="Stretch">
+				<controls:PropertiesViewCard>
 					<CheckBox Content="Unchecked option" IsChecked="False" />
 				</controls:PropertiesViewCard>
 				<controls:PropertiesViewItemSeparator />
-				<controls:PropertiesViewCard ContentAlignment="Left">
+				<controls:PropertiesViewCard>
 					<CheckBox Content="Checked option" IsChecked="True" />
 				</controls:PropertiesViewCard>
 				<controls:PropertiesViewItemSeparator />
-				<controls:PropertiesViewCard ContentAlignment="Left">
+				<controls:PropertiesViewCard>
 					<CheckBox
 						Content="Indeterminate option"
 						IsChecked="{x:Null}"
