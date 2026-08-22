@@ -4,6 +4,7 @@ using Windows.Gaming.Input;
 using Windows.Win32;
 using Windows.Win32.UI.Input.KeyboardAndMouse;
 using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Helpers
 {
@@ -138,7 +139,14 @@ namespace Files.App.Helpers
 			var currentPage = rootFrame.Content as Microsoft.UI.Xaml.Controls.Page;
 			if (currentPage is null)
 				return;
-			
+
+			var openPopups = VisualTreeHelper.GetOpenPopupsForXamlRoot(rootFrame.XamlRoot);
+			if (openPopups.Count > 0)
+			{
+				SimulateKeyPress(Windows.System.VirtualKey.Escape);
+				return;
+			}
+
 			var pageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 			var shell = pageContext.ShellPage;
 
