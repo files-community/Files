@@ -24,7 +24,7 @@
 				<FontIcon Glyph="&#xF0E3;" />
 			</controls:PropertiesViewExpander.HeaderIcon>
 			<StackPanel Padding="0,0,0,8">
-				<controls:PropertiesViewCard ContentAlignment="Vertical" Header="Description">
+				<controls:PropertiesViewCard Header="Description" Orientation="Vertical">
 					<TextBox
 						MinHeight="96"
 						Margin="{StaticResource PropertiesValueTextBoxMargin}"

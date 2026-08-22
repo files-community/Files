@@ -18,9 +18,11 @@ namespace Files.App.Controls;
 [TemplateVisualState(Name = DisabledStateName, GroupName = CommonStatesName)]
 
 [TemplateVisualState(Name = RightStateName, GroupName = ContentAlignmentStatesName)]
-[TemplateVisualState(Name = RightWrappedStateName, GroupName = ContentAlignmentStatesName)]
+[TemplateVisualState(Name = WrappedStateName, GroupName = ContentAlignmentStatesName)]
 [TemplateVisualState(Name = LeftStateName, GroupName = ContentAlignmentStatesName)]
-[TemplateVisualState(Name = VerticalStateName, GroupName = ContentAlignmentStatesName)]
+
+[TemplateVisualState( Name = HorizontalStateName , GroupName = OrientationStatesName )]
+[TemplateVisualState(Name = VerticalStateName, GroupName = OrientationStatesName )]
 public partial class PropertiesViewCard : Button
 {
 	private const string CommonStatesName = "CommonStates";
@@ -29,9 +31,11 @@ public partial class PropertiesViewCard : Button
 	private const string PressedStateName = "Pressed";
 	private const string DisabledStateName = "Disabled";
 	private const string ContentAlignmentStatesName = "ContentAlignmentStates";
+	private const string OrientationStatesName = "OrientationStates";
 	private const string RightStateName = "Right";
-	private const string RightWrappedStateName = "RightWrapped";
+	private const string WrappedStateName = "Wrapped";
 	private const string LeftStateName = "Left";
+	private const string HorizontalStateName = "Horizontal";
 	private const string VerticalStateName = "Vertical";
 	private const string ContentSpacingStateName = "ContentSpacing";
 	private const string NoContentSpacingStateName = "NoContentSpacing";
@@ -41,7 +45,7 @@ public partial class PropertiesViewCard : Button
 	//private const string HeaderIconPresenterHolderName = "PART_HeaderIconPresenterHolder";
 	private const string HeaderPresenterName = "PART_HeaderPresenter";
 
-	private VisualStateGroup? contentAlignmentStates;
+	//private VisualStateGroup? contentAlignmentStates;
 	private long? contentPropertyChangedToken;
 
 	public PropertiesViewCard()
@@ -55,9 +59,6 @@ public partial class PropertiesViewCard : Button
 		DisableButtonInteraction();
 		IsEnabledChanged -= OnIsEnabledChanged;
 
-		if (contentAlignmentStates is not null)
-			contentAlignmentStates.CurrentStateChanged -= ContentAlignmentStates_CurrentStateChanged;
-
 		if (contentPropertyChangedToken is long token)
 			UnregisterPropertyChangedCallback(ContentProperty, token);
 
@@ -70,16 +71,11 @@ public partial class PropertiesViewCard : Button
 		UpdateCommonState(false);
 		//UpdateBitmapHeaderIconState(false);
 		SetAccessibleContentName();
+		UpdateOrientationState( Orientation );
 
 		contentPropertyChangedToken = RegisterPropertyChangedCallback(ContentProperty, OnContentChanged);
 		IsEnabledChanged += OnIsEnabledChanged;
 
-		contentAlignmentStates = GetTemplateChild(ContentAlignmentStatesName) as VisualStateGroup;
-		if (contentAlignmentStates is not null)
-		{
-			UpdateContentSpacingState(contentAlignmentStates.CurrentState, false);
-			contentAlignmentStates.CurrentStateChanged += ContentAlignmentStates_CurrentStateChanged;
-		}
 	}
 
 	protected override AutomationPeer OnCreateAutomationPeer()
@@ -158,9 +154,15 @@ public partial class PropertiesViewCard : Button
 		UpdateActionIcon();
 	}
 
-	partial void OnContentAlignmentChanged(PropertiesViewCardContentAlignment newValue)
+	//partial void OnContentAlignmentChanged(PropertiesViewCardContentAlignment newValue)
+	//{
+	//	UpdateContentSpacingState(orientationStates?.CurrentState, true);
+	//}
+
+	partial void OnOrientationChanged(Orientation newValue)
 	{
-		UpdateContentSpacingState(contentAlignmentStates?.CurrentState, true);
+		//UpdateContentSpacingState( newValue , true );
+		UpdateOrientationState( newValue );
 	}
 
 	partial void OnHeaderChanged(object? newValue)
@@ -231,7 +233,8 @@ public partial class PropertiesViewCard : Button
 	private void OnContentChanged(DependencyObject sender, DependencyProperty property)
 	{
 		SetAccessibleContentName();
-		UpdateContentSpacingState(contentAlignmentStates?.CurrentState, false);
+		//
+		//UpdateContentSpacingState(this.Orientation, false);
 	}
 
 	private void OnIsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -277,12 +280,28 @@ public partial class PropertiesViewCard : Button
 
 	private void ContentAlignmentStates_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)
 	{
-		UpdateContentSpacingState(e.NewState, true);
+		//UpdateContentSpacingState(e.NewState, true);
 	}
 
-	private void UpdateContentSpacingState(VisualState? state, bool useTransitions)
+	private void UpdateOrientationState(Orientation newOrientation)
 	{
-		bool isVertical = state?.Name is RightWrappedStateName or VerticalStateName;
+		if ( newOrientation == Orientation.Vertical )
+		{
+			VisualStateManager.GoToState( this , VerticalStateName , true );
+		}
+		else
+		{ 
+			VisualStateManager.GoToState ( this , HorizontalStateName , true );
+		}
+	}
+
+	private void UpdateContentSpacingState(Orientation orientation, bool useTransitions)
+	{
+		bool isVertical = false;
+
+		if ( orientation == Orientation.Vertical )
+			isVertical = true;
+
 		bool hasHeader = !IsNullOrEmptyString(Header);
 		VisualStateManager.GoToState(
 			this,

@@ -34,240 +34,178 @@
 	<x:Double x:Key="PropertiesViewCardHeaderIconMaxSize">20</x:Double>
 	<x:Double x:Key="PropertiesViewCardActionIconMaxSize">13</x:Double>
 	<x:Double x:Key="PropertiesViewCardVerticalHeaderContentSpacing">8</x:Double>
-	<x:Double x:Key="PropertiesViewCardWrapThreshold">476</x:Double>
+
+	<x:Double x:Key="PropertiesViewCardWrapThreshold">300</x:Double>
+	<x:Double x:Key="PropertiesViewCardRightThreshold">400</x:Double>
+	<x:Double x:Key="PropertiesViewCardLeftThreshold">500</x:Double>
+
 	<x:Double x:Key="PropertiesViewCardBitmapIconDisabledOpacity">0.4</x:Double>
 	<Thickness x:Key="PropertiesViewCardHeaderIconMargin">0,0,12,0</Thickness>
 	<Thickness x:Key="PropertiesViewCardHeaderMargin">0,0,24,0</Thickness>
 	<Thickness x:Key="PropertiesViewCardActionIconMargin">14,0,0,0</Thickness>
 
-	<Style BasedOn="{StaticResource DefaultPropertiesViewCardStyle}" TargetType="local:PropertiesViewCard" />
+	<Style BasedOn="{StaticResource TestPropertiesViewCardStyle}" TargetType="local:PropertiesViewCard" />
 
-	<Style x:Key="DefaultPropertiesViewCardStyle" TargetType="local:PropertiesViewCard">
-		<Setter Property="Background" Value="Transparent" />
-		<Setter Property="Foreground" Value="{ThemeResource PropertiesViewCardForeground}" />
-		<Setter Property="BorderBrush" Value="Transparent" />
-		<Setter Property="BorderThickness" Value="0" />
-		<Setter Property="CornerRadius" Value="0" />
-		<Setter Property="LabelWidth" Value="{StaticResource PropertiesViewCardDefaultLabelWidth}" />
-		<Setter Property="MinWidth" Value="{ThemeResource PropertiesViewCardMinWidth}" />
-		<Setter Property="MinHeight" Value="{ThemeResource PropertiesViewCardMinHeight}" />
-		<Setter Property="Padding" Value="{ThemeResource PropertiesViewCardPadding}" />
+	<Style x:Key="TestPropertiesViewCardStyle" TargetType="local:PropertiesViewCard">
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
-		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-		<Setter Property="VerticalAlignment" Value="Stretch" />
-		<Setter Property="VerticalContentAlignment" Value="Center" />
-		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-		<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-		<Setter Property="FontWeight" Value="Normal" />
-		<Setter Property="IsTabStop" Value="False" />
-		<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
-		<Setter Property="FocusVisualMargin" Value="-3" />
+
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:PropertiesViewCard">
+
 					<Grid
 						x:Name="PART_RootGrid"
-						MinWidth="{TemplateBinding MinWidth}"
-						MinHeight="{TemplateBinding MinHeight}"
-						MaxWidth="{TemplateBinding MaxWidth}"
-						Padding="{TemplateBinding Padding}"
-						HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-						VerticalAlignment="{TemplateBinding VerticalAlignment}"
-						muxc:AnimatedIcon.State="Normal"
-						Background="{TemplateBinding Background}"
-						BorderBrush="{TemplateBinding BorderBrush}"
-						BorderThickness="{TemplateBinding BorderThickness}"
-						CornerRadius="{TemplateBinding CornerRadius}">
+						Height="72"
+						HorizontalAlignment="Stretch">
 						<Grid.RowDefinitions>
-							<RowDefinition x:Name="PART_LabelRow" Height="Auto" />
-							<RowDefinition x:Name="PART_ContentRow" Height="Auto" />
+							<RowDefinition x:Name="Row_Label" Height="Auto" />
+							<RowDefinition x:Name="Row_Content" Height="*" />
 						</Grid.RowDefinitions>
 						<Grid.ColumnDefinitions>
-							<ColumnDefinition x:Name="PART_LabelColumn" Width="{Binding LabelWidth, RelativeSource={RelativeSource TemplatedParent}}" />
-							<ColumnDefinition x:Name="PART_ContentColumn" Width="*" />
-							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition x:Name="Col_Label" Width="{StaticResource PropertiesViewCardDefaultLabelWidth}" />
+							<ColumnDefinition x:Name="Col_Content" Width="*" />
 						</Grid.ColumnDefinitions>
-
-						<!--
-						<Grid
-							x:Name="PART_HeaderPanel"
-							Grid.Column="0"
-							Grid.ColumnSpan="1"
-							Margin="{ThemeResource PropertiesViewCardHeaderMargin}"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch">
-							<Viewbox
-								x:Name="PART_HeaderIconPresenterHolder"
-								MaxWidth="{ThemeResource PropertiesViewCardHeaderIconMaxSize}"
-								MaxHeight="{ThemeResource PropertiesViewCardHeaderIconMaxSize}"
-								Margin="{ThemeResource PropertiesViewCardHeaderIconMargin}">
-								<ContentPresenter
-									x:Name="PART_HeaderIconPresenter"
-									AutomationProperties.AccessibilityView="Raw"
-									Content="{TemplateBinding HeaderIcon}"
-									Foreground="{TemplateBinding Foreground}"
-									HighContrastAdjustment="None" />
-							</Viewbox>
-						
-						<ContentPresenter
-							x:Name="PART_HeaderPresenter"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch"
-							HorizontalContentAlignment="Stretch"
-							VerticalContentAlignment="Center"
-							Content="{TemplateBinding Header}"
-							FontSize="{StaticResource CaptionTextBlockFontSize}"
-							Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-							HighContrastAdjustment="None"
-							TextWrapping="WrapWholeWords" />
-						</Grid>
-						-->
-
 
 						<ContentPresenter
 							x:Name="PART_HeaderPresenter"
 							Grid.Row="0"
 							Grid.RowSpan="2"
 							Grid.Column="0"
-							Grid.ColumnSpan="1"
-							Margin="{ThemeResource PropertiesViewCardHeaderMargin}"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch"
+							Margin="0,0,24,0"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Center"
 							HorizontalContentAlignment="Stretch"
 							VerticalContentAlignment="Center"
 							Content="{TemplateBinding Header}"
-							FontSize="{StaticResource CaptionTextBlockFontSize}"
-							Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-							HighContrastAdjustment="None"
-							TextWrapping="WrapWholeWords" />
+							Foreground="HotPink" />
 
 						<ContentPresenter
 							x:Name="PART_ContentPresenter"
 							Grid.Row="0"
 							Grid.RowSpan="2"
 							Grid.Column="1"
-							Grid.ColumnSpan="1"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch"
 							HorizontalContentAlignment="Stretch"
 							VerticalContentAlignment="Center"
 							Content="{TemplateBinding Content}"
-							ContentTemplate="{TemplateBinding ContentTemplate}"
-							ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-							ContentTransitions="{TemplateBinding ContentTransitions}"
-							Foreground="{TemplateBinding Foreground}"
-							TextWrapping="WrapWholeWords" />
+							Foreground="Green" />
 
-						<Viewbox
-							x:Name="PART_ActionIconPresenterHolder"
-							Grid.RowSpan="2"
-							Grid.Column="2"
-							MaxWidth="{ThemeResource PropertiesViewCardActionIconMaxSize}"
-							MaxHeight="{ThemeResource PropertiesViewCardActionIconMaxSize}"
-							Margin="{ThemeResource PropertiesViewCardActionIconMargin}"
+						<TextBlock
+							x:Name="testText"
+							Grid.Row="0"
+							Grid.Column="1"
+							Grid.ColumnSpan="2"
 							HorizontalAlignment="Center"
 							VerticalAlignment="Center"
-							HighContrastAdjustment="None"
-							Visibility="Collapsed">
-							<ContentPresenter
-								x:Name="PART_ActionIconPresenter"
-								AutomationProperties.AccessibilityView="Raw"
-								Content="{TemplateBinding ActionIcon}"
-								FontFamily="{ThemeResource SymbolThemeFontFamily}"
-								Foreground="{TemplateBinding Foreground}"
-								HighContrastAdjustment="None"
-								ToolTipService.ToolTip="{TemplateBinding ActionIconToolTip}" />
+							Foreground="Yellow"
+							Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth, Mode=OneWay}" />
+
+
+						<Viewbox x:Name="PART_ActionIconPresenterHolder" Visibility="Collapsed">
+							<ContentPresenter x:Name="PART_ActionIconPresenter" Content="{TemplateBinding ActionIcon}" />
 						</Viewbox>
+
+
 
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
 								<VisualState x:Name="Normal" />
 								<VisualState x:Name="PointerOver">
-									<VisualState.Setters>
-										<!--
-										<Setter Target="PART_HeaderIconPresenter.Foreground" Value="{ThemeResource PropertiesViewCardForegroundPointerOver}" />
-										-->
-										<Setter Target="PART_RootGrid.(muxc:AnimatedIcon.State)" Value="PointerOver" />
-									</VisualState.Setters>
+									<VisualState.Setters />
 								</VisualState>
 								<VisualState x:Name="Pressed">
-									<VisualState.Setters>
-										<!--
-										<Setter Target="PART_HeaderIconPresenter.Foreground" Value="{ThemeResource PropertiesViewCardForegroundPressed}" />
-										-->
-										<Setter Target="PART_ActionIconPresenter.Foreground" Value="{ThemeResource PropertiesViewCardForegroundPressed}" />
-										<Setter Target="PART_RootGrid.(muxc:AnimatedIcon.State)" Value="Pressed" />
-									</VisualState.Setters>
+									<VisualState.Setters />
 								</VisualState>
 								<VisualState x:Name="Disabled">
-									<VisualState.Setters>
-										<Setter Target="PART_HeaderPresenter.Foreground" Value="{ThemeResource PropertiesViewCardForegroundDisabled}" />
-										<!--
-										<Setter Target="PART_HeaderIconPresenter.Foreground" Value="{ThemeResource PropertiesViewCardForegroundDisabled}" />
-										-->
-										<Setter Target="PART_ActionIconPresenter.Foreground" Value="{ThemeResource PropertiesViewCardForegroundDisabled}" />
-										<Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource PropertiesViewCardForegroundDisabled}" />
-										<Setter Target="PART_RootGrid.(muxc:AnimatedIcon.State)" Value="Normal" />
-									</VisualState.Setters>
+									<VisualState.Setters />
 								</VisualState>
 							</VisualStateGroup>
-
-							<!--
-							<VisualStateGroup x:Name="BitmapHeaderIconStates">
-								<VisualState x:Name="BitmapHeaderIconEnabled" />
-								<VisualState x:Name="BitmapHeaderIconDisabled">
-									<VisualState.Setters>
-										<Setter Target="PART_HeaderIconPresenterHolder.Opacity" Value="{StaticResource PropertiesViewCardBitmapIconDisabledOpacity}" />
-									</VisualState.Setters>
-								</VisualState>
-							</VisualStateGroup>
-							-->
 
 							<VisualStateGroup x:Name="ContentAlignmentStates">
-								<VisualState x:Name="Right" />
-								<VisualState x:Name="RightWrapped">
+								<!--	This took a lot of working to get right, because of quirks with how 
+										The Visual State Triggers failover during evaluation.
+								
+										Wrapped HAS to be first, with the EqualStateTrigger to catch the
+										non default Vertical orientation, so we force that one to always
+										use the Wrapped control layout.
+								
+										[ header ]	 
+										========================================================
+										[ content ]   [ action icon ]
+								
+								
+										Then if the first trigger fails, it moves to the next so we are now
+										working with the Horizontal orientation, and we use the ControlSizeTrigger
+										to handle how we lay out the elements based on breakpoints
+								
+										Left is the default state so we do that after Wrapped
+													|											|
+										[ header ]	|	[ content ]  [ action icon ]			|
+													|											|
+								
+								
+										Right is the middle ground between narrow and wide
+													|											|
+										[ header ]	|				[ content ] [ action icon ]	|
+													|											|
+								-->
+
+								<VisualState x:Name="Wrapped">
 									<VisualState.StateTriggers>
-										<toolkit:ControlSizeTrigger MaxWidth="{ThemeResource PropertiesViewCardWrapThreshold}" TargetElement="{Binding ElementName=PART_RootGrid}" />
+
+										<!--  Vertical ALWAYS Wrapped  -->
+										<toolkit:IsEqualStateTrigger Value="{Binding Orientation, RelativeSource={RelativeSource TemplatedParent}}" To="Vertical" />
+
+										<!--  Horizontal small width  -->
+										<toolkit:ControlSizeTrigger
+											MinWidth="0"
+											MaxWidth="{StaticResource PropertiesViewCardWrapThreshold}"
+											TargetElement="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
 									</VisualState.StateTriggers>
 									<VisualState.Setters>
-										<Setter Target="PART_ContentPresenter.(Grid.Row)" Value="1" />
-										<Setter Target="PART_ContentPresenter.(Grid.RowSpan)" Value="1" />
-										<Setter Target="PART_ContentPresenter.(Grid.Column)" Value="0" />
-										<Setter Target="PART_ContentPresenter.(Grid.ColumnSpan)" Value="2" />
-										<Setter Target="PART_ContentPresenter.HorizontalAlignment" Value="Stretch" />
-										<Setter Target="PART_ContentPresenter.HorizontalContentAlignment" Value="Stretch" />
-										<Setter Target="PART_HeaderPresenter.Margin" Value="0" />
-										<Setter Target="PART_HeaderPresenter.ColumnSpan" Value="2" />
-										<Setter Target="PART_HeaderPresenter.(Grid.RowSpan)" Value="1" />
+										<Setter Target="PART_RootGrid.Background" Value="#110000FF" />
 									</VisualState.Setters>
+
 								</VisualState>
+
 								<VisualState x:Name="Left">
 									<VisualState.StateTriggers>
-										<toolkit:IsEqualStateTrigger Value="{Binding ContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" To="Left" />
+
+										<!--  Horizontal large width  -->
+										<toolkit:ControlSizeTrigger
+											MinWidth="{StaticResource PropertiesViewCardWrapThreshold}"
+											MaxWidth="{StaticResource PropertiesViewCardRightThreshold}"
+											TargetElement="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
 									</VisualState.StateTriggers>
 									<VisualState.Setters>
-										<Setter Target="PART_HeaderPresenter.Visibility" Value="Collapsed" />
-										<Setter Target="PART_ContentPresenter.(Grid.RowSpan)" Value="1" />
-										<Setter Target="PART_ContentPresenter.(Grid.Column)" Value="0" />
-										<Setter Target="PART_ContentPresenter.(Grid.ColumnSpan)" Value="2" />
-										<Setter Target="PART_ContentPresenter.HorizontalAlignment" Value="Left" />
-										<Setter Target="PART_HeaderPresenter.(Grid.RowSpan)" Value="1" />
+										<Setter Target="PART_RootGrid.Background" Value="#11FF0000" />
+									</VisualState.Setters>
+
+								</VisualState>
+
+								<VisualState x:Name="Right">
+									<VisualState.StateTriggers>
+
+										<!--  Horizontal medium width  -->
+										<toolkit:ControlSizeTrigger MinWidth="{StaticResource PropertiesViewCardRightThreshold}" TargetElement="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+									</VisualState.StateTriggers>
+									<VisualState.Setters>
+										<Setter Target="PART_RootGrid.Background" Value="#1100FF00" />
+									</VisualState.Setters>
+
+								</VisualState>
+
+							</VisualStateGroup>
+
+
+							<VisualStateGroup x:Name="OrientationStates">
+								<VisualState x:Name="Horizontal">
+									<VisualState.Setters>
+										<Setter Target="testText.Foreground" Value="#FF0000" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Vertical">
-									<VisualState.StateTriggers>
-										<toolkit:IsEqualStateTrigger Value="{Binding ContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" To="Vertical" />
-									</VisualState.StateTriggers>
 									<VisualState.Setters>
-										<Setter Target="PART_ContentPresenter.(Grid.Row)" Value="1" />
-										<Setter Target="PART_ContentPresenter.(Grid.RowSpan)" Value="1" />
-										<Setter Target="PART_ContentPresenter.(Grid.Column)" Value="0" />
-										<Setter Target="PART_ContentPresenter.(Grid.ColumnSpan)" Value="2" />
-										<Setter Target="PART_ContentPresenter.HorizontalAlignment" Value="Stretch" />
-										<Setter Target="PART_ContentPresenter.HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
-										<Setter Target="PART_HeaderPresenter.Margin" Value="0" />
-										<Setter Target="PART_HeaderPresenter.ColumnSpan" Value="2" />
-										<Setter Target="PART_HeaderPresenter.(Grid.RowSpan)" Value="1" />
+										<Setter Target="testText.Foreground" Value="#00FF00" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -275,28 +213,24 @@
 							<VisualStateGroup x:Name="ContentVisibilityStates">
 								<VisualState x:Name="Visible" />
 								<VisualState x:Name="Collapsed">
-									<VisualState.StateTriggers>
-										<toolkit:IsNullOrEmptyStateTrigger Value="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" />
-									</VisualState.StateTriggers>
-									<VisualState.Setters>
-										<Setter Target="PART_ContentPresenter.Visibility" Value="Collapsed" />
-									</VisualState.Setters>
+									<VisualState.Setters />
 								</VisualState>
 							</VisualStateGroup>
 
 							<VisualStateGroup x:Name="ContentSpacingStates">
 								<VisualState x:Name="NoContentSpacing" />
 								<VisualState x:Name="ContentSpacing">
-									<VisualState.Setters>
-										<Setter Target="PART_RootGrid.RowSpacing" Value="{ThemeResource PropertiesViewCardVerticalHeaderContentSpacing}" />
-									</VisualState.Setters>
+									<VisualState.Setters />
 								</VisualState>
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
 					</Grid>
+
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
 	</Style>
+
+
 
 </ResourceDictionary>

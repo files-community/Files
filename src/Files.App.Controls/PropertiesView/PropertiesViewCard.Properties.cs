@@ -36,15 +36,18 @@ public partial class PropertiesViewCard
 			nameof(LabelWidth),
 			typeof(GridLength),
 			typeof(PropertiesViewCard),
-			new PropertyMetadata(new GridLength(160)));
+			new PropertyMetadata(new GridLength(80)));
 
-	[GeneratedDependencyProperty(DefaultValue = PropertiesViewCardContentAlignment.Right)]
-	public partial PropertiesViewCardContentAlignment ContentAlignment { get; set; }
+	//[GeneratedDependencyProperty(DefaultValue = PropertiesViewCardContentAlignment.Horizontal)]
+	//public partial PropertiesViewCardContentAlignment ContentAlignment { get; set; }
+
+
+	[GeneratedDependencyProperty(DefaultValue = Orientation.Horizontal)]
+	public partial Orientation Orientation { get; set; }
 }
 
 public enum PropertiesViewCardContentAlignment
 {
-	Right,
-	Left,
-	Vertical,
+	Horizontal,
+	Vertical
 }
