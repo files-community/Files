@@ -9,12 +9,14 @@ using Windows.System;
 namespace Files.App.Controls;
 
 [TemplatePart(Name = ActionIconPresenterHolderName, Type = typeof(Viewbox))]
-[TemplatePart(Name = HeaderIconPresenterHolderName, Type = typeof(Viewbox))]
+//[TemplatePart(Name = HeaderIconPresenterHolderName, Type = typeof(Viewbox))]
 [TemplatePart(Name = HeaderPresenterName, Type = typeof(ContentPresenter))]
+
 [TemplateVisualState(Name = NormalStateName, GroupName = CommonStatesName)]
 [TemplateVisualState(Name = PointerOverStateName, GroupName = CommonStatesName)]
 [TemplateVisualState(Name = PressedStateName, GroupName = CommonStatesName)]
 [TemplateVisualState(Name = DisabledStateName, GroupName = CommonStatesName)]
+
 [TemplateVisualState(Name = RightStateName, GroupName = ContentAlignmentStatesName)]
 [TemplateVisualState(Name = RightWrappedStateName, GroupName = ContentAlignmentStatesName)]
 [TemplateVisualState(Name = LeftStateName, GroupName = ContentAlignmentStatesName)]
@@ -33,10 +35,10 @@ public partial class PropertiesViewCard : Button
 	private const string VerticalStateName = "Vertical";
 	private const string ContentSpacingStateName = "ContentSpacing";
 	private const string NoContentSpacingStateName = "NoContentSpacing";
-	private const string BitmapHeaderIconEnabledStateName = "BitmapHeaderIconEnabled";
-	private const string BitmapHeaderIconDisabledStateName = "BitmapHeaderIconDisabled";
+	//private const string BitmapHeaderIconEnabledStateName = "BitmapHeaderIconEnabled";
+	//private const string BitmapHeaderIconDisabledStateName = "BitmapHeaderIconDisabled";
 	private const string ActionIconPresenterHolderName = "PART_ActionIconPresenterHolder";
-	private const string HeaderIconPresenterHolderName = "PART_HeaderIconPresenterHolder";
+	//private const string HeaderIconPresenterHolderName = "PART_HeaderIconPresenterHolder";
 	private const string HeaderPresenterName = "PART_HeaderPresenter";
 
 	private VisualStateGroup? contentAlignmentStates;
@@ -63,10 +65,10 @@ public partial class PropertiesViewCard : Button
 
 		UpdateActionIcon();
 		UpdateHeader();
-		UpdateHeaderIcon();
+		//UpdateHeaderIcon();
 		UpdateClickInteraction();
 		UpdateCommonState(false);
-		UpdateBitmapHeaderIconState(false);
+		//UpdateBitmapHeaderIconState(false);
 		SetAccessibleContentName();
 
 		contentPropertyChangedToken = RegisterPropertyChangedCallback(ContentProperty, OnContentChanged);
@@ -167,11 +169,11 @@ public partial class PropertiesViewCard : Button
 		SetAccessibleContentName();
 	}
 
-	partial void OnHeaderIconChanged(IconElement? newValue)
-	{
-		UpdateHeaderIcon();
-		UpdateBitmapHeaderIconState(true);
-	}
+	//partial void OnHeaderIconChanged(IconElement? newValue)
+	//{
+	//	UpdateHeaderIcon();
+	//	UpdateBitmapHeaderIconState(true);
+	//}
 
 	partial void OnIsActionIconVisibleChanged(bool newValue)
 	{
@@ -235,7 +237,7 @@ public partial class PropertiesViewCard : Button
 	private void OnIsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
 	{
 		UpdateCommonState(true);
-		UpdateBitmapHeaderIconState(true);
+		//UpdateBitmapHeaderIconState(true);
 	}
 
 	private void UpdateCommonState(bool useTransitions)
@@ -257,21 +259,21 @@ public partial class PropertiesViewCard : Button
 			presenter.Visibility = IsNullOrEmptyString(Header) ? Visibility.Collapsed : Visibility.Visible;
 	}
 
-	private void UpdateHeaderIcon()
-	{
-		if (GetTemplateChild(HeaderIconPresenterHolderName) is FrameworkElement presenter)
-			presenter.Visibility = HeaderIcon is null ? Visibility.Collapsed : Visibility.Visible;
-	}
+	//private void UpdateHeaderIcon()
+	//{
+	//	if (GetTemplateChild(HeaderIconPresenterHolderName) is FrameworkElement presenter)
+	//		presenter.Visibility = HeaderIcon is null ? Visibility.Collapsed : Visibility.Visible;
+	//}
 
-	private void UpdateBitmapHeaderIconState(bool useTransitions)
-	{
-		VisualStateManager.GoToState(
-			this,
-			HeaderIcon is BitmapIcon && !IsEnabled
-				? BitmapHeaderIconDisabledStateName
-				: BitmapHeaderIconEnabledStateName,
-			useTransitions);
-	}
+	//private void UpdateBitmapHeaderIconState(bool useTransitions)
+	//{
+	//	VisualStateManager.GoToState(
+	//		this,
+	//		HeaderIcon is BitmapIcon && !IsEnabled
+	//			? BitmapHeaderIconDisabledStateName
+	//			: BitmapHeaderIconEnabledStateName,
+	//		useTransitions);
+	//}
 
 	private void ContentAlignmentStates_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)
 	{

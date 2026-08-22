@@ -10,8 +10,8 @@ public partial class PropertiesViewCard
 	[GeneratedDependencyProperty]
 	public partial object? Header { get; set; }
 
-	[GeneratedDependencyProperty]
-	public partial IconElement? HeaderIcon { get; set; }
+	//[GeneratedDependencyProperty]
+	//public partial IconElement? HeaderIcon { get; set; }
 
 	[GeneratedDependencyProperty]
 	public partial IconElement? ActionIcon { get; set; }
