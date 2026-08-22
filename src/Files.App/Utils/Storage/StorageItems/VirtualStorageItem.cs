@@ -60,7 +60,7 @@ namespace Files.App.Utils.Storage
 
 						try
 						{
-							Win32PInvoke.FileTimeToSystemTime(ref findData.ftCreationTime, out Win32PInvoke.SYSTEMTIME systemCreatedDateOutput);
+							Win32PInvoke.FileTimeToSystemTime(in findData.ftCreationTime, out Win32PInvoke.SYSTEMTIME systemCreatedDateOutput);
 							itemCreatedDate = systemCreatedDateOutput.ToDateTime();
 						}
 						catch (ArgumentException)
