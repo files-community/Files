@@ -1,15 +1,15 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.Win32.SafeHandles;
 using Windows.Win32;
 using Windows.Win32.Storage.FileSystem;
-using static Files.App.Helpers.Win32PInvoke;
 
 namespace Files.App.Data.Models
 {
 	public sealed class RemovableDevice
 	{
-		private nint handle;
+		private readonly SafeFileHandle handle;
 		private char driveLetter;
 
 		public RemovableDevice(string letter)
@@ -18,17 +18,17 @@ namespace Files.App.Data.Models
 
 			string filename = @"\\.\" + driveLetter + ":";
 
-			handle = CreateFileFromAppW(filename,
+			handle = PInvoke.CreateFile(filename,
 				(uint)(FILE_ACCESS_RIGHTS.FILE_GENERIC_READ | FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE),
-				FILE_SHARE_READ | FILE_SHARE_WRITE,
-				nint.Zero, OPEN_EXISTING, 0, nint.Zero);
+				FILE_SHARE_MODE.FILE_SHARE_READ | FILE_SHARE_MODE.FILE_SHARE_WRITE,
+				null, FILE_CREATION_DISPOSITION.OPEN_EXISTING, 0, null);
 		}
 
 		public async Task<bool> EjectAsync()
 		{
 			bool result = false;
 
-			if (handle.ToInt32() == INVALID_HANDLE_VALUE)
+			if (handle.IsInvalid)
 			{
 				Debug.WriteLine($"Unable to open drive {driveLetter}");
 				return false;
@@ -51,7 +51,7 @@ namespace Files.App.Data.Models
 
 			for (int i = 0; i < 5; i++)
 			{
-				if (DeviceIoControl(handle, PInvoke.FSCTL_LOCK_VOLUME, nint.Zero, 0, nint.Zero, 0, out _, nint.Zero))
+				if (LockVolume())
 				{
 					Debug.WriteLine("Lock successful!");
 					result = true;
@@ -69,25 +69,31 @@ namespace Files.App.Data.Models
 			return result;
 		}
 
-		private bool DismountVolume()
+		private unsafe bool LockVolume()
 		{
-			return DeviceIoControl(handle, PInvoke.FSCTL_DISMOUNT_VOLUME, nint.Zero, 0, nint.Zero, 0, out _, nint.Zero);
+			return PInvoke.DeviceIoControl(handle, PInvoke.FSCTL_LOCK_VOLUME, [], [], out _, null);
 		}
 
-		private bool PreventRemovalOfVolume(bool prevent)
+		private unsafe bool DismountVolume()
+		{
+			return PInvoke.DeviceIoControl(handle, PInvoke.FSCTL_DISMOUNT_VOLUME, [], [], out _, null);
+		}
+
+		private unsafe bool PreventRemovalOfVolume(bool prevent)
 		{
 			byte[] buf = [prevent ? (byte)1 : (byte)0];
-			return DeviceIoControl(handle, IOCTL_STORAGE_MEDIA_REMOVAL, buf, 1, nint.Zero, 0, out _, nint.Zero);
+			return PInvoke.DeviceIoControl(handle, PInvoke.IOCTL_STORAGE_MEDIA_REMOVAL, buf, [], out _, null);
 		}
 
-		private bool AutoEjectVolume()
+		private unsafe bool AutoEjectVolume()
 		{
-			return DeviceIoControl(handle, IOCTL_STORAGE_EJECT_MEDIA, nint.Zero, 0, nint.Zero, 0, out _, nint.Zero);
+			return PInvoke.DeviceIoControl(handle, PInvoke.IOCTL_STORAGE_EJECT_MEDIA, [], [], out _, null);
 		}
 
 		private bool CloseVolume()
 		{
-			return CloseHandle(handle);
+			handle.Dispose();
+			return true;
 		}
 	}
 }

@@ -788,36 +788,32 @@ namespace Files.App.Helpers
 
 		public static SafeFileHandle CreateFileForWrite(string filePath, bool overwrite = true)
 		{
-			return new SafeFileHandle(Win32PInvoke.CreateFileFromApp(filePath,
-				(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE, 0, IntPtr.Zero, overwrite ? Win32PInvoke.CREATE_ALWAYS : Win32PInvoke.OPEN_ALWAYS, (uint)Win32PInvoke.File_Attributes.BackupSemantics, IntPtr.Zero), true);
+			return PInvoke.CreateFile(filePath,
+				(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE, 0, null, overwrite ? FILE_CREATION_DISPOSITION.CREATE_ALWAYS : FILE_CREATION_DISPOSITION.OPEN_ALWAYS, FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_BACKUP_SEMANTICS, null);
 		}
 
 		public static SafeFileHandle OpenFileForRead(string? filePath, bool readWrite = false, uint flags = 0)
 		{
-			return new SafeFileHandle(Win32PInvoke.CreateFileFromApp(filePath,
-				(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ | (uint)(readWrite ? FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE : 0u), (uint)(Win32PInvoke.FILE_SHARE_READ | (readWrite ? 0 : Win32PInvoke.FILE_SHARE_WRITE)), IntPtr.Zero, Win32PInvoke.OPEN_EXISTING, (uint)Win32PInvoke.File_Attributes.BackupSemantics | flags, IntPtr.Zero), true);
+			return PInvoke.CreateFile(filePath!,
+				(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ | (uint)(readWrite ? FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE : 0u), FILE_SHARE_MODE.FILE_SHARE_READ | (readWrite ? 0 : FILE_SHARE_MODE.FILE_SHARE_WRITE), null, FILE_CREATION_DISPOSITION.OPEN_EXISTING, FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_BACKUP_SEMANTICS | (FILE_FLAGS_AND_ATTRIBUTES)flags, null);
 		}
 
 		public static bool GetFileDateModified(string filePath, out System.Runtime.InteropServices.ComTypes.FILETIME dateModified)
 		{
-			using var hFile = new SafeFileHandle(Win32PInvoke.CreateFileFromApp(filePath, (uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ, Win32PInvoke.FILE_SHARE_READ, IntPtr.Zero, Win32PInvoke.OPEN_EXISTING, (uint)Win32PInvoke.File_Attributes.BackupSemantics, IntPtr.Zero), true);
-			return Win32PInvoke.GetFileTime(hFile.DangerousGetHandle(), out _, out _, out dateModified);
+			using var hFile = PInvoke.CreateFile(filePath, (uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ, FILE_SHARE_MODE.FILE_SHARE_READ, null, FILE_CREATION_DISPOSITION.OPEN_EXISTING, FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_BACKUP_SEMANTICS, null);
+			return PInvoke.GetFileTime(hFile, out _, out _, out dateModified);
 		}
 
 		public static bool SetFileDateModified(string filePath, System.Runtime.InteropServices.ComTypes.FILETIME dateModified)
 		{
-			using var hFile = new SafeFileHandle(Win32PInvoke.CreateFileFromApp(filePath, (uint)FILE_ACCESS_RIGHTS.FILE_WRITE_ATTRIBUTES, 0, IntPtr.Zero, Win32PInvoke.OPEN_EXISTING, (uint)Win32PInvoke.File_Attributes.BackupSemantics, IntPtr.Zero), true);
-			return Win32PInvoke.SetFileTime(hFile.DangerousGetHandle(), new(), new(), dateModified);
+			using var hFile = PInvoke.CreateFile(filePath, (uint)FILE_ACCESS_RIGHTS.FILE_WRITE_ATTRIBUTES, 0, null, FILE_CREATION_DISPOSITION.OPEN_EXISTING, FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_BACKUP_SEMANTICS, null);
+			return PInvoke.SetFileTime(hFile, null, null, dateModified);
 		}
 
 		public static FileAttributes GetFileAttributes(string lpFileName)
 		{
-			if (Win32PInvoke.GetFileAttributesExFromApp(
-				lpFileName, Win32PInvoke.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo))
-			{
-				return lpFileInfo.dwFileAttributes;
-			}
-			return FileAttributes.None;
+			uint attributes = PInvoke.GetFileAttributes(lpFileName);
+			return attributes == PInvoke.INVALID_FILE_ATTRIBUTES ? FileAttributes.None : (FileAttributes)attributes;
 		}
 
 		public static bool HasFileAttribute(string lpFileName, FileAttributes dwAttrs)
@@ -829,22 +825,18 @@ namespace Files.App.Helpers
 
 		public static bool SetFileAttribute(string lpFileName, FileAttributes dwAttrs)
 		{
-			if (!Win32PInvoke.GetFileAttributesExFromApp(
-				lpFileName, Win32PInvoke.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo))
-			{
+			uint attributes = PInvoke.GetFileAttributes(lpFileName);
+			if (attributes == PInvoke.INVALID_FILE_ATTRIBUTES)
 				return false;
-			}
-			return Win32PInvoke.SetFileAttributesFromApp(lpFileName, lpFileInfo.dwFileAttributes | dwAttrs);
+			return PInvoke.SetFileAttributes(lpFileName, (FILE_FLAGS_AND_ATTRIBUTES)(attributes | (uint)dwAttrs));
 		}
 
 		public static bool UnsetFileAttribute(string lpFileName, FileAttributes dwAttrs)
 		{
-			if (!Win32PInvoke.GetFileAttributesExFromApp(
-				lpFileName, Win32PInvoke.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo))
-			{
+			uint attributes = PInvoke.GetFileAttributes(lpFileName);
+			if (attributes == PInvoke.INVALID_FILE_ATTRIBUTES)
 				return false;
-			}
-			return Win32PInvoke.SetFileAttributesFromApp(lpFileName, lpFileInfo.dwFileAttributes & ~dwAttrs);
+			return PInvoke.SetFileAttributes(lpFileName, (FILE_FLAGS_AND_ATTRIBUTES)(attributes & ~(uint)dwAttrs));
 		}
 
 		public static unsafe bool CanCompressContent(string path)
@@ -901,92 +893,25 @@ namespace Files.App.Helpers
 
 		public static string? ReadStringFromFile(string filePath)
 		{
-			IntPtr hFile = Win32PInvoke.CreateFileFromApp(filePath,
-				(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ,
-				Win32PInvoke.FILE_SHARE_READ,
-				IntPtr.Zero,
-				Win32PInvoke.OPEN_EXISTING,
-				(uint)Win32PInvoke.File_Attributes.BackupSemantics,
-				IntPtr.Zero);
-
-			if (hFile.ToInt64() == -1)
-			{
-				return null;
-			}
-
-			const int BUFFER_LENGTH = 4096;
-			byte[] buffer = new byte[BUFFER_LENGTH];
-			int dwBytesRead;
-			string szRead = string.Empty;
-
-			unsafe
-			{
-				using (MemoryStream ms = new MemoryStream())
-				using (StreamReader reader = new StreamReader(ms, true))
-				{
-					while (true)
-					{
-						fixed (byte* pBuffer = buffer)
-						{
-							if (Win32PInvoke.ReadFile(hFile, pBuffer, BUFFER_LENGTH - 1, &dwBytesRead, IntPtr.Zero) && dwBytesRead > 0)
-							{
-								ms.Write(buffer, 0, dwBytesRead);
-							}
-							else
-							{
-								break;
-							}
-						}
-					}
-					ms.Position = 0;
-					szRead = reader.ReadToEnd();
-				}
-			}
-
-			Win32PInvoke.CloseHandle(hFile);
-
-			return szRead;
-		}
-
-		public static bool WriteStringToFile(string filePath, string str, Win32PInvoke.File_Attributes flags = 0)
-		{
-			IntPtr hStream = Win32PInvoke.CreateFileFromApp(filePath,
-				(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE, 0, IntPtr.Zero, Win32PInvoke.CREATE_ALWAYS, (uint)(Win32PInvoke.File_Attributes.BackupSemantics | flags), IntPtr.Zero);
-			if (hStream.ToInt64() == -1)
-			{
-				return false;
-			}
-			byte[] buff = Encoding.UTF8.GetBytes(str);
-			int dwBytesWritten;
-			unsafe
-			{
-				fixed (byte* pBuff = buff)
-				{
-					Win32PInvoke.WriteFile(hStream, pBuff, buff.Length, &dwBytesWritten, IntPtr.Zero);
-				}
-			}
-			Win32PInvoke.CloseHandle(hStream);
-			return true;
-		}
-
-		public static bool WriteBufferToFileWithProgress(string filePath, byte[] buffer, Win32PInvoke.LPOVERLAPPED_COMPLETION_ROUTINE callback)
-		{
-			using var hFile = CreateFileForWrite(filePath);
-
+			using SafeFileHandle hFile = OpenFileForRead(filePath);
 			if (hFile.IsInvalid)
-			{
+				return null;
+
+			using FileStream stream = new(hFile, FileAccess.Read);
+			using StreamReader reader = new(stream, detectEncodingFromByteOrderMarks: true);
+			return reader.ReadToEnd();
+		}
+
+		public static bool WriteStringToFile(string filePath, string str, FILE_FLAGS_AND_ATTRIBUTES flags = 0)
+		{
+			using SafeFileHandle hStream = PInvoke.CreateFile(filePath,
+				(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE, 0, null, FILE_CREATION_DISPOSITION.CREATE_ALWAYS, FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_BACKUP_SEMANTICS | flags, null);
+			if (hStream.IsInvalid)
 				return false;
-			}
 
-			NativeOverlapped nativeOverlapped = new NativeOverlapped();
-			bool result = Win32PInvoke.WriteFileEx(hFile.DangerousGetHandle(), buffer, (uint)buffer.LongLength, ref nativeOverlapped, callback);
-
-			if (!result)
-			{
-				System.Diagnostics.Debug.WriteLine(Marshal.GetLastWin32Error());
-			}
-
-			return result;
+			using FileStream stream = new(hStream, FileAccess.Write);
+			stream.Write(Encoding.UTF8.GetBytes(str));
+			return true;
 		}
 
 		// https://www.pinvoke.net/default.aspx/kernel32/GetFileInformationByHandleEx.html
@@ -995,11 +920,9 @@ namespace Files.App.Helpers
 			using var handle = OpenFileForRead(folderPath);
 			if (!handle.IsInvalid)
 			{
-				var fileStruct = new Win32PInvoke.FILE_ID_BOTH_DIR_INFO();
-				if (Win32PInvoke.GetFileInformationByHandleEx(handle.DangerousGetHandle(), Win32PInvoke.FILE_INFO_BY_HANDLE_CLASS.FileIdBothDirectoryInfo, out fileStruct, (uint)Marshal.SizeOf(fileStruct)))
-				{
-					return (ulong)fileStruct.FileId;
-				}
+				FILE_ID_INFO fileId = default;
+				if (PInvoke.GetFileInformationByHandleEx(handle, FILE_INFO_BY_HANDLE_CLASS.FileIdInfo, MemoryMarshal.AsBytes(new Span<FILE_ID_INFO>(ref fileId))))
+					return BitConverter.ToUInt64(fileId.FileId.Identifier.AsReadOnlySpan());
 			}
 			return null;
 		}
@@ -1037,15 +960,22 @@ namespace Files.App.Helpers
 		}
 
 		// https://github.com/rad1oactive/BetterExplorer/blob/master/Windows%20API%20Code%20Pack%201.1/source/WindowsAPICodePack/Shell/ReparsePoint.cs
-		public static string? ParseSymLink(string path)
+		public static unsafe string? ParseSymLink(string path)
 		{
 			using var handle = OpenFileForRead(path, false, 0x00200000);
 			if (!handle.IsInvalid)
 			{
-				if (Win32PInvoke.DeviceIoControl(handle.DangerousGetHandle(), Win32PInvoke.FSCTL_GET_REPARSE_POINT, IntPtr.Zero, 0, out Win32PInvoke.REPARSE_DATA_BUFFER buffer, Win32PInvoke.MAXIMUM_REPARSE_DATA_BUFFER_SIZE, out _, IntPtr.Zero))
+				byte[] buffer = new byte[16 * 1024];
+				if (PInvoke.DeviceIoControl(handle, PInvoke.FSCTL_GET_REPARSE_POINT, [], buffer, out uint bytesReturned, null))
 				{
-					var subsString = new string(buffer.PathBuffer, ((buffer.SubsNameOffset / 2) + 2), buffer.SubsNameLength / 2);
-					var printString = new string(buffer.PathBuffer, ((buffer.PrintNameOffset / 2) + 2), buffer.PrintNameLength / 2);
+					uint reparseTag = MemoryMarshal.Read<uint>(buffer);
+					short subsNameOffset = MemoryMarshal.Read<short>(buffer.AsSpan(8));
+					short subsNameLength = MemoryMarshal.Read<short>(buffer.AsSpan(10));
+					short printNameOffset = MemoryMarshal.Read<short>(buffer.AsSpan(12));
+					short printNameLength = MemoryMarshal.Read<short>(buffer.AsSpan(14));
+					string pathBuffer = Encoding.Unicode.GetString(buffer, 16, (int)bytesReturned - 16);
+					var subsString = pathBuffer.Substring((subsNameOffset / 2) + 2, subsNameLength / 2);
+					var printString = pathBuffer.Substring((printNameOffset / 2) + 2, printNameLength / 2);
 					var normalisedTarget = printString ?? subsString;
 					if (string.IsNullOrEmpty(normalisedTarget))
 					{
@@ -1055,7 +985,7 @@ namespace Files.App.Helpers
 							normalisedTarget = normalisedTarget.Substring(4);
 						}
 					}
-					if (buffer.ReparseTag == Win32PInvoke.IO_REPARSE_TAG_SYMLINK && (normalisedTarget.Length < 2 || normalisedTarget[1] != ':'))
+					if (reparseTag == PInvoke.IO_REPARSE_TAG_SYMLINK && (normalisedTarget.Length < 2 || normalisedTarget[1] != ':'))
 					{
 						// Target is relative, get the absolute path
 						normalisedTarget = normalisedTarget.TrimStart(Path.DirectorySeparatorChar);
@@ -1069,53 +999,41 @@ namespace Files.App.Helpers
 		}
 
 		// https://stackoverflow.com/a/7988352
-		public static IEnumerable<(string Name, long Size)> GetAlternateStreams(string path)
+		public static unsafe IEnumerable<(string Name, long Size)> GetAlternateStreams(string path)
 		{
-			Win32PInvoke.WIN32_FIND_STREAM_DATA findStreamData = new Win32PInvoke.WIN32_FIND_STREAM_DATA();
-			IntPtr hFile = Win32PInvoke.FindFirstStreamW(path, Win32PInvoke.StreamInfoLevels.FindStreamInfoStandard, findStreamData, 0);
+			var streams = new List<(string Name, long Size)>();
+			WIN32_FIND_STREAM_DATA findStreamData = default;
+			using FindCloseSafeHandle hFile = PInvoke.FindFirstStream(path, STREAM_INFO_LEVELS.FindStreamInfoStandard, &findStreamData);
 
-			if (hFile.ToInt64() != -1)
+			if (!hFile.IsInvalid)
 			{
 				do
 				{
 					// The documentation for FindFirstStreamW says that it is always a ::$DATA
 					// stream type, but FindNextStreamW doesn't guarantee that for subsequent
 					// streams so we check to make sure
-					var streamName = findStreamData.cStreamName
-						?? throw new InvalidDataException("The alternate-stream enumeration returned an item without a name.");
+					var streamName = findStreamData.cStreamName.ToString();
 					if (streamName.EndsWith(":$DATA") && streamName != "::$DATA")
-					{
-						yield return (streamName, findStreamData.StreamSize);
-					}
+						streams.Add((streamName, findStreamData.StreamSize));
 				}
-				while (Win32PInvoke.FindNextStreamW(hFile, findStreamData));
-
-				Win32PInvoke.FindClose(hFile);
+				while (PInvoke.FindNextStream(hFile, &findStreamData));
 			}
+
+			return streams;
 		}
 
-		public static bool GetWin32FindDataForPath(string targetPath, out Win32PInvoke.WIN32_FIND_DATA findData)
+		public static unsafe bool GetWin32FindDataForPath(string targetPath, out WIN32_FIND_DATAW findData)
 		{
-			Win32PInvoke.FINDEX_INFO_LEVELS findInfoLevel = Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic;
-
-			int additionalFlags = Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH;
-
-			IntPtr hFile = Win32PInvoke.FindFirstFileExFromApp(
-				targetPath,
-				findInfoLevel,
-				out findData,
-				Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch,
-				IntPtr.Zero,
-				additionalFlags);
-
-			if (hFile.ToInt64() != -1)
+			fixed (WIN32_FIND_DATAW* findDataPointer = &findData)
 			{
-				Win32PInvoke.FindClose(hFile);
-
-				return true;
+				using FindCloseSafeHandle hFile = PInvoke.FindFirstFileEx(
+					targetPath,
+					FINDEX_INFO_LEVELS.FindExInfoBasic,
+					findDataPointer,
+					FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+					FIND_FIRST_EX_FLAGS.FIND_FIRST_EX_LARGE_FETCH);
+				return !hFile.IsInvalid;
 			}
-
-			return false;
 		}
 
 		private static string? GetPackageFamilyNameFromAppRegistryName(string appRegistryName)

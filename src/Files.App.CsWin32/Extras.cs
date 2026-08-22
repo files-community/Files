@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.Marshalling;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.DirectComposition;
 using Windows.Win32.Graphics.Gdi;
+using Windows.Win32.Security.Cryptography;
 using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Windows.Win32
@@ -31,6 +32,12 @@ namespace Windows.Win32
 		[LibraryImport("shell32.dll", EntryPoint = "SHUpdateRecycleBinIcon", SetLastError = true)]
 		public static partial void SHUpdateRecycleBinIcon();
 
+		[LibraryImport("shell32.dll", EntryPoint = "#865", StringMarshalling = StringMarshalling.Utf16)]
+		public static partial BOOL IsElevationRequired(string path);
+
+		[LibraryImport("cryptui.dll", EntryPoint = "CryptUIDlgViewSignerInfoW")]
+		public static partial BOOL CryptUIDlgViewSignerInfo(ref CRYPTUI_VIEWSIGNERINFO_STRUCT viewInfo);
+
 		public const int PixelFormat32bppARGB = 2498570;
 	}
 
@@ -48,5 +55,25 @@ namespace Windows.Win32
 			[PreserveSig]
 			int SetRoot(IDCompositionVisual visual);
 		}
+	}
+}
+
+namespace Windows.Win32.Security.Cryptography
+{
+	[StructLayout(LayoutKind.Sequential)]
+	public unsafe struct CRYPTUI_VIEWSIGNERINFO_STRUCT
+	{
+		public uint dwSize;
+		public HWND hwndParent;
+		public uint dwFlags;
+		public PCWSTR szTitle;
+		public CMSG_SIGNER_INFO* pSignerInfo;
+		public void* hMsg;
+		public PCSTR pszOID;
+		public nuint dwReserved;
+		public uint cStores;
+		public HCERTSTORE* rghStores;
+		public uint cPropPages;
+		public void* rgPropPages;
 	}
 }

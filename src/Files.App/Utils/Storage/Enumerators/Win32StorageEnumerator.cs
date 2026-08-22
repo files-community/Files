@@ -5,6 +5,9 @@ using Files.App.Services.SizeProvider;
 using Files.Shared.Helpers;
 using System.IO;
 using Windows.Storage;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.Storage.FileSystem;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Utils.Storage
@@ -20,8 +23,8 @@ namespace Files.App.Utils.Storage
 
 		public static async Task<List<ListedItem>> ListEntries(
 			string path,
-			Win32PInvoke.SafeFindHandle hFile,
-			Win32PInvoke.WIN32_FIND_DATA findData,
+			FindCloseSafeHandle hFile,
+			WIN32_FIND_DATAW findData,
 			CancellationToken cancellationToken,
 			int countLimit,
 			Func<List<ListedItem>, Task> intermediateAction
@@ -43,15 +46,15 @@ namespace Files.App.Utils.Storage
 			bool areAlternateStreamsVisible = userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible;
 
 			var isGitRepo = GitHelpers.IsRepositoryEx(path, out var repoPath) && !string.IsNullOrEmpty(await GitHelpers.GetRepositoryHeadName(repoPath));
-			var rawHandle = hFile.DangerousGetHandle();
 
 			try
 			{
 				do
 				{
+					string fileName = findData.cFileName.ToString();
 					var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
 					var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-					var startWithDot = findData.cFileName.StartsWith('.');
+					var startWithDot = fileName.StartsWith('.');
 					if ((!isHidden ||
 						(showHiddenItems &&
 							(!isSystem || showProtectedSystemFiles))) &&
@@ -73,7 +76,7 @@ namespace Files.App.Utils.Storage
 						}
 						else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
 						{
-							if (findData.cFileName != "." && findData.cFileName != "..")
+							if (fileName != "." && fileName != "..")
 							{
 								var folder = await GetFolder(findData, path, isGitRepo, cancellationToken);
 								if (folder is not null)
@@ -111,11 +114,10 @@ namespace Files.App.Utils.Storage
 					{
 						hasFlushedFirstBatch = true;
 						await intermediateAction(tempList);
-
 						// clear the temporary list every time we do an intermediate action
 						tempList.Clear();
 					}
-				} while (Win32PInvoke.FindNextFile(rawHandle, out findData));
+				} while (PInvoke.FindNextFile(hFile, out findData));
 			}
 			finally
 			{
@@ -164,7 +166,7 @@ namespace Files.App.Utils.Storage
 		}
 
 		public static async Task<ListedItem?> GetFolder(
-			Win32PInvoke.WIN32_FIND_DATA findData,
+			WIN32_FIND_DATAW findData,
 			string pathRoot,
 			bool isGitRepo,
 			CancellationToken cancellationToken
@@ -178,10 +180,10 @@ namespace Files.App.Utils.Storage
 
 			try
 			{
-				Win32PInvoke.FileTimeToSystemTime(ref findData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME systemModifiedTimeOutput);
+				PInvoke.FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemModifiedTimeOutput);
 				itemModifiedDate = systemModifiedTimeOutput.ToDateTime();
 
-				Win32PInvoke.FileTimeToSystemTime(ref findData.ftCreationTime, out Win32PInvoke.SYSTEMTIME systemCreatedTimeOutput);
+				PInvoke.FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedTimeOutput);
 				itemCreatedDate = systemCreatedTimeOutput.ToDateTime();
 			}
 			catch (ArgumentException)
@@ -190,11 +192,12 @@ namespace Files.App.Utils.Storage
 				return null;
 			}
 
-			var itemPath = Path.Combine(pathRoot, findData.cFileName);
+			string fileName = findData.cFileName.ToString();
+			var itemPath = Path.Combine(pathRoot, fileName);
 
 			string itemName = await fileListCache.GetDisplayName(itemPath, cancellationToken);
 			if (string.IsNullOrEmpty(itemName))
-				itemName = findData.cFileName;
+				itemName = fileName;
 
 			bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
 			double opacity = 1;
@@ -241,26 +244,26 @@ namespace Files.App.Utils.Storage
 		}
 
 		public static async Task<ListedItem?> GetFile(
-			Win32PInvoke.WIN32_FIND_DATA findData,
+			WIN32_FIND_DATAW findData,
 			string pathRoot,
 			bool isGitRepo,
 			CancellationToken cancellationToken
 		)
 		{
-			var itemPath = Path.Combine(pathRoot, findData.cFileName);
-			var itemName = findData.cFileName;
+			string itemName = findData.cFileName.ToString();
+			var itemPath = Path.Combine(pathRoot, itemName);
 
 			DateTime itemModifiedDate, itemCreatedDate, itemLastAccessDate;
 
 			try
 			{
-				Win32PInvoke.FileTimeToSystemTime(ref findData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME systemModifiedDateOutput);
+				PInvoke.FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemModifiedDateOutput);
 				itemModifiedDate = systemModifiedDateOutput.ToDateTime();
 
-				Win32PInvoke.FileTimeToSystemTime(ref findData.ftCreationTime, out Win32PInvoke.SYSTEMTIME systemCreatedDateOutput);
+				PInvoke.FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedDateOutput);
 				itemCreatedDate = systemCreatedDateOutput.ToDateTime();
 
-				Win32PInvoke.FileTimeToSystemTime(ref findData.ftLastAccessTime, out Win32PInvoke.SYSTEMTIME systemLastAccessOutput);
+				PInvoke.FileTimeToSystemTime(ref findData.ftLastAccessTime, out SYSTEMTIME systemLastAccessOutput);
 				itemLastAccessDate = systemLastAccessOutput.ToDateTime();
 			}
 			catch (ArgumentException)
@@ -274,7 +277,7 @@ namespace Files.App.Utils.Storage
 			string itemType = Strings.File.GetLocalizedResource();
 			string? itemFileExtension = null;
 
-			if (findData.cFileName.Contains('.'))
+			if (itemName.Contains('.'))
 			{
 				itemFileExtension = Path.GetExtension(itemPath);
 				itemType = itemFileExtension!.Trim('.') + " " + itemType;
@@ -290,7 +293,7 @@ namespace Files.App.Utils.Storage
 
 			// https://learn.microsoft.com/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
 			bool isReparsePoint = ((FileAttributes)findData.dwFileAttributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint;
-			bool isSymlink = isReparsePoint && findData.dwReserved0 == Win32PInvoke.IO_REPARSE_TAG_SYMLINK;
+			bool isSymlink = isReparsePoint && findData.dwReserved0 == PInvoke.IO_REPARSE_TAG_SYMLINK;
 
 			if (isSymlink)
 			{
@@ -340,9 +343,9 @@ namespace Files.App.Utils.Storage
 					};
 				}
 			}
-			else if (FileExtensionHelpers.IsShortcutOrUrlFile(findData.cFileName))
+			else if (FileExtensionHelpers.IsShortcutOrUrlFile(itemName))
 			{
-				var isUrl = FileExtensionHelpers.IsWebLinkFile(findData.cFileName);
+				var isUrl = FileExtensionHelpers.IsWebLinkFile(itemName);
 
 				// Listing only needs the data stored in the link file; resolving the target
 				// can block on moved or unreachable targets and is done when the item is opened

@@ -11,6 +11,8 @@ namespace Files.App.Helpers
 {
 	public static class ShareItemHelpers
 	{
+		private static readonly Guid DataTransferManagerInteropId = new(0xa5caee9b, 0x8708, 0x49d1, 0x8d, 0x36, 0x67, 0xd2, 0x5a, 0x8d, 0xa0, 0x0c);
+
 		public static bool IsItemShareable(ListedItem item)
 			=> !item.IsHiddenItem &&
 				(!item.IsShortcut || item.IsLinkItem) &&
@@ -22,7 +24,7 @@ namespace Files.App.Helpers
 				return;
 
 			var interop = DataTransferManager.As<IDataTransferManagerInterop>();
-			IntPtr result = interop.GetForWindow(MainWindow.Instance.WindowHandle, Win32PInvoke.DataTransferManagerInteropIID);
+			IntPtr result = interop.GetForWindow(MainWindow.Instance.WindowHandle, DataTransferManagerInteropId);
 
 			var manager = WinRT.MarshalInterface<DataTransferManager>.FromAbi(result);
 			manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);

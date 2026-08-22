@@ -11,6 +11,7 @@ using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.Win32;
 using Windows.Win32.Storage.FileSystem;
 
 namespace Files.App.ViewModels.Settings
@@ -212,16 +213,14 @@ namespace Files.App.ViewModels.Settings
 
 			try
 			{
-				var handle = Win32PInvoke.CreateFileFromAppW(
+				using var handle = PInvoke.CreateFile(
 					filePath,
 					(uint)(FILE_ACCESS_RIGHTS.FILE_GENERIC_READ | FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE),
-					Win32PInvoke.FILE_SHARE_READ | Win32PInvoke.FILE_SHARE_WRITE,
-					nint.Zero,
-					Win32PInvoke.CREATE_NEW,
+					FILE_SHARE_MODE.FILE_SHARE_READ | FILE_SHARE_MODE.FILE_SHARE_WRITE,
+					null,
+					FILE_CREATION_DISPOSITION.CREATE_NEW,
 					0,
-					nint.Zero);
-
-				Win32PInvoke.CloseHandle(handle);
+					null);
 
 				var file = await StorageHelpers.ToStorageItem<BaseStorageFile>(filePath);
 				if (file is null)

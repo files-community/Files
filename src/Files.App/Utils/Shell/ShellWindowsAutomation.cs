@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
+using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.Shell.Common;
 
 namespace Files.App.Utils.Shell
@@ -16,8 +16,6 @@ namespace Files.App.Utils.Shell
 	{
 		private const int QueryInterfaceSlot = 0;
 		private const int ReleaseSlot = 2;
-		private const int GetCountSlot = 7;
-		private const int GetItemSlot = 8;
 		private const int QueryServiceSlot = 3;
 		private const int BrowseObjectSlot = 11;
 		private const int QueryActiveShellViewSlot = 15;
@@ -25,24 +23,19 @@ namespace Files.App.Utils.Shell
 		private const int GetCurrentFolderSlot = 5;
 
 		private static readonly Guid ShellWindowsClassId = new("9BA05972-F6A8-11CF-A442-00A0C90A8F39");
-		private static readonly Guid ShellWindowsInterfaceId = new("85CB6900-4D95-11CF-960C-0080C7F4EE85");
 		private static readonly Guid ServiceProviderInterfaceId = new("6D5140C1-7436-11CE-8034-00AA006009FA");
 		private static readonly Guid TopLevelBrowserServiceId = new("4C96BE40-915C-11CF-99D3-00AA004AE837");
 		private static readonly Guid ShellBrowserInterfaceId = new("000214E2-0000-0000-C000-000000000046");
 		private static readonly Guid FolderViewInterfaceId = new("CDE725B0-CCC9-4519-917E-325D72FAB4CE");
 		private static readonly Guid PersistFolder2InterfaceId = new("1AC3D9F0-175C-11D1-95BE-00609797EA4F");
 
-		private void* shellWindows;
+		private IShellWindows? shellWindows;
 
 		public ShellWindowsAutomation()
 		{
-			Guid classId = ShellWindowsClassId;
-			Guid interfaceId = ShellWindowsInterfaceId;
-			void* instance = null;
-			new HRESULT(CoCreateInstance(&classId, null, CLSCTX.CLSCTX_LOCAL_SERVER, &interfaceId, &instance)).ThrowOnFailure();
-			if (instance is null)
+			PInvoke.CoCreateInstance(ShellWindowsClassId, null, CLSCTX.CLSCTX_LOCAL_SERVER, out shellWindows).ThrowOnFailure();
+			if (shellWindows is null)
 				throw new InvalidOperationException("The shell did not return an IShellWindows instance.");
-			shellWindows = instance;
 		}
 
 		public int Count
@@ -50,9 +43,7 @@ namespace Files.App.Utils.Shell
 			get
 			{
 				ObjectDisposedException.ThrowIf(shellWindows is null, this);
-				var getCount = (delegate* unmanaged[MemberFunction]<void*, int*, int>)GetVtable(shellWindows)[GetCountSlot];
-				int count = 0;
-				new HRESULT(getCount(shellWindows, &count)).ThrowOnFailure();
+				shellWindows.get_Count(out int count).ThrowOnFailure();
 				return count;
 			}
 		}
@@ -60,28 +51,20 @@ namespace Files.App.Utils.Shell
 		public ShellWindow? GetWindow(int index)
 		{
 			ObjectDisposedException.ThrowIf(shellWindows is null, this);
-			var getItem = (delegate* unmanaged[MemberFunction]<void*, ComVariant, void**, int>)GetVtable(shellWindows)[GetItemSlot];
 			ComVariant itemIndex = ComVariant.Create(index);
-			void* window = null;
-			HRESULT result = new(getItem(shellWindows, itemIndex, &window));
+			HRESULT result = shellWindows.Item(itemIndex, out IDispatch? window);
 			if (result.Failed || window is null)
-			{
-				Release(ref window);
 				return null;
-			}
 
-			return new(window);
+			void* windowPointer = ComInterfaceMarshaller<IDispatch>.ConvertToUnmanaged(window);
+			return windowPointer is null ? null : new(windowPointer);
 		}
 
 		public void Dispose()
 		{
-			Release(ref shellWindows);
+			shellWindows = null;
 			GC.SuppressFinalize(this);
 		}
-
-		[LibraryImport("ole32.dll", EntryPoint = "CoCreateInstance")]
-		[DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-		private static partial int CoCreateInstance(Guid* classId, void* outer, CLSCTX context, Guid* interfaceId, void** instance);
 
 		private static void** GetVtable(void* instance)
 			=> *(void***)instance;

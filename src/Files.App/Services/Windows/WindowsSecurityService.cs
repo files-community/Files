@@ -26,7 +26,7 @@ namespace Files.App.Services
 			if (string.IsNullOrEmpty(path))
 				return false;
 
-			return Win32PInvoke.IsElevationRequired(path);
+			return Windows.Win32.PInvoke.IsElevationRequired(path);
 		}
 	}
 }
