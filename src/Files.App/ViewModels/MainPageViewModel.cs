@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -325,10 +326,24 @@ namespace Files.App.ViewModels
 			// Load the app theme resources
 			ResourcesService.LoadAppResources(AppearanceSettingsService);
 
-			await Task.WhenAll(
-				DrivesViewModel.UpdateDrivesAsync(),
-				NetworkService.UpdateComputersAsync(),
-				NetworkService.UpdateShortcutsAsync());
+			// Non-blocking; started on the UI thread (not Task.Run) so the collection updates aren't off-thread.
+			_ = UpdateNetworkLocationsAsync();
+
+			await DrivesViewModel.UpdateDrivesAsync();
+		}
+
+		private async Task UpdateNetworkLocationsAsync()
+		{
+			try
+			{
+				await Task.WhenAll(
+					NetworkService.UpdateComputersAsync(),
+					NetworkService.UpdateShortcutsAsync());
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "Failed to update network locations.");
+			}
 		}
 
 		private async Task RestoreSessionTabsAsync(List<string> sessionTabs)
