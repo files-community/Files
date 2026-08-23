@@ -178,10 +178,10 @@ namespace Files.App.Utils.Storage
 
 			try
 			{
-				Win32PInvoke.FileTimeToSystemTime(ref findData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME systemModifiedTimeOutput);
+				Win32PInvoke.FileTimeToSystemTime(in findData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME systemModifiedTimeOutput);
 				itemModifiedDate = systemModifiedTimeOutput.ToDateTime();
 
-				Win32PInvoke.FileTimeToSystemTime(ref findData.ftCreationTime, out Win32PInvoke.SYSTEMTIME systemCreatedTimeOutput);
+				Win32PInvoke.FileTimeToSystemTime(in findData.ftCreationTime, out Win32PInvoke.SYSTEMTIME systemCreatedTimeOutput);
 				itemCreatedDate = systemCreatedTimeOutput.ToDateTime();
 			}
 			catch (ArgumentException)
@@ -254,13 +254,13 @@ namespace Files.App.Utils.Storage
 
 			try
 			{
-				Win32PInvoke.FileTimeToSystemTime(ref findData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME systemModifiedDateOutput);
+				Win32PInvoke.FileTimeToSystemTime(in findData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME systemModifiedDateOutput);
 				itemModifiedDate = systemModifiedDateOutput.ToDateTime();
 
-				Win32PInvoke.FileTimeToSystemTime(ref findData.ftCreationTime, out Win32PInvoke.SYSTEMTIME systemCreatedDateOutput);
+				Win32PInvoke.FileTimeToSystemTime(in findData.ftCreationTime, out Win32PInvoke.SYSTEMTIME systemCreatedDateOutput);
 				itemCreatedDate = systemCreatedDateOutput.ToDateTime();
 
-				Win32PInvoke.FileTimeToSystemTime(ref findData.ftLastAccessTime, out Win32PInvoke.SYSTEMTIME systemLastAccessOutput);
+				Win32PInvoke.FileTimeToSystemTime(in findData.ftLastAccessTime, out Win32PInvoke.SYSTEMTIME systemLastAccessOutput);
 				itemLastAccessDate = systemLastAccessOutput.ToDateTime();
 			}
 			catch (ArgumentException)
