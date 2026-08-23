@@ -105,15 +105,11 @@ namespace Files.App.Helpers
 
 			ActiveSessionTracker.ReportPersistedTime();
 
-			// Start off a list of tasks we need to run before we can continue startup
-			await Task.WhenAll(
-				App.QuickAccessManager.InitializeAsync()
-			);
-
-			// Start non-critical tasks without waiting for them to complete
+			// Start non-critical tasks without waiting; pinned loads alongside the others so its shell enumeration doesn't block them.
 			_ = Task.Run(async () =>
 			{
 				await Task.WhenAll(
+					App.QuickAccessManager.InitializeAsync(),
 					OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
 					App.LibraryManager.UpdateLibrariesAsync(),
 					OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
