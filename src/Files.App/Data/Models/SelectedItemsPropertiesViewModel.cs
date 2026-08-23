@@ -798,9 +798,9 @@ namespace Files.App.Data.Models
 
 		private static readonly Dictionary<SHOW_WINDOW_CMD, string> showWindowCommandTypes = new()
 		{
-			{ SHOW_WINDOW_CMD.SW_NORMAL, Strings.NormalWindow.GetLocalizedResource() },
-			{ SHOW_WINDOW_CMD.SW_SHOWMINNOACTIVE, Strings.Minimized.GetLocalizedResource() },
-			{ SHOW_WINDOW_CMD.SW_MAXIMIZE, Strings.Maximized.GetLocalizedResource() }
+			[SHOW_WINDOW_CMD.SW_NORMAL] = Strings.NormalWindow.GetLocalizedResource(),
+			[SHOW_WINDOW_CMD.SW_SHOWMINNOACTIVE] = Strings.Minimized.GetLocalizedResource(),
+			[SHOW_WINDOW_CMD.SW_MAXIMIZE] = Strings.Maximized.GetLocalizedResource()
 		};
 
 		/// <summary>

@@ -182,7 +182,7 @@ namespace Files.App.ViewModels.Properties
 				{ Property, converter.ConvertBack(Value, null, null, null) }
 			};
 
-			return file.Properties.SaveNullablePropertiesAsync(propsToSave).AsTask();
+			return file.Properties.SavePropertiesAsync(propsToSave).AsTask();
 		}
 
 		/// <summary>
