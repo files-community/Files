@@ -8,13 +8,13 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
 	<Page.Resources>
-		<ResourceDictionary>
-			<GridLength x:Key="PropertiesDetailsLabelWidth">200</GridLength>
-			<Thickness x:Key="PropertiesValueTextBoxMargin">-12,0,0,0</Thickness>
-			<Style BasedOn="{StaticResource DefaultPropertiesViewCardStyle}" TargetType="controls:PropertiesViewCard">
-				<Setter Property="LabelWidth" Value="{StaticResource PropertiesDetailsLabelWidth}" />
-			</Style>
-		</ResourceDictionary>
+
+		<GridLength x:Key="PropertiesDetailsLabelWidth">200</GridLength>
+		<Style BasedOn="{StaticResource DefaultPropertiesViewCardStyle}" TargetType="controls:PropertiesViewCard">
+			<Setter Property="LabelWidth" Value="{StaticResource PropertiesDetailsLabelWidth}" />
+			<Setter Property="VerticalAlignment" Value="Center" />
+		</Style>
+
 	</Page.Resources>
 
 	<controls:PropertiesView>
@@ -23,11 +23,12 @@
 			<controls:PropertiesViewExpander.HeaderIcon>
 				<FontIcon Glyph="&#xF0E3;" />
 			</controls:PropertiesViewExpander.HeaderIcon>
-			<StackPanel Padding="0,0,0,8">
+			<StackPanel Padding="0,0,0,8" HorizontalAlignment="Stretch">
 				<controls:PropertiesViewCard Header="Description" Orientation="Vertical">
 					<TextBox
 						MinHeight="96"
-						Margin="{StaticResource PropertiesValueTextBoxMargin}"
+						Margin="-12,0"
+						Padding="24,4"
 						AcceptsReturn="True"
 						Text="Add a description for this file."
 						TextWrapping="Wrap" />

@@ -11,8 +11,7 @@
 	<Page.Resources>
 		<ResourceDictionary>
 			<GridLength x:Key="PropertiesGeneralLabelWidth">148</GridLength>
-			<Thickness x:Key="PropertiesValueTextBoxMargin">-12,0,0,0</Thickness>
-			<Style BasedOn="{StaticResource TestPropertiesViewCardStyle}" TargetType="controls:PropertiesViewCard">
+			<Style BasedOn="{StaticResource DefaultPropertiesViewCardStyle}" TargetType="controls:PropertiesViewCard">
 				<Setter Property="LabelWidth" Value="{StaticResource PropertiesGeneralLabelWidth}" />
 				<Setter Property="VerticalAlignment" Value="Center" />
 			</Style>
@@ -61,7 +60,7 @@
 			<StackPanel Padding="0,0,0,8" HorizontalAlignment="Stretch">
 				<controls:PropertiesViewCard Header="Name">
 					<TextBox
-						Margin="{StaticResource PropertiesValueTextBoxMargin}"
+						Margin="{ThemeResource PropertiesValueTextBoxMargin}"
 						HorizontalAlignment="Stretch"
 						Text="Filename here" />
 				</controls:PropertiesViewCard>
@@ -76,8 +75,9 @@
 				<controls:PropertiesViewItemSeparator />
 
 				<controls:PropertiesViewCard Header="Additional information">
-					<Grid ColumnSpacing="8">
+					<Grid ColumnSpacing="12">
 						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
@@ -92,6 +92,11 @@
 						<controls:PropertiesViewInfo
 							Grid.Column="1"
 							AutomationProperties.Name="Show additional information"
+							ToolTipService.ToolTip="Detailed text displayed on hover" />
+						<controls:PropertiesViewInfo
+							Grid.Column="2"
+							AutomationProperties.Name="Show additional information"
+							IsEnabled="False"
 							ToolTipService.ToolTip="Detailed text displayed on hover" />
 					</Grid>
 				</controls:PropertiesViewCard>
@@ -167,7 +172,7 @@
 			<StackPanel Padding="0,0,0,8" HorizontalAlignment="Stretch">
 				<controls:PropertiesViewCard Header="Editable vertical value" Orientation="Vertical">
 					<TextBox
-						Margin="{StaticResource PropertiesValueTextBoxMargin}"
+						Margin="{ThemeResource PropertiesValueTextBoxMargin}"
 						HorizontalAlignment="Stretch"
 						Text="Item value text" />
 				</controls:PropertiesViewCard>
