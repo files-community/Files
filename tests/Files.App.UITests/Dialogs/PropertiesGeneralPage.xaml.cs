@@ -11,10 +11,5 @@ namespace Files.App.UITests.Dialogs
 		{
 			InitializeComponent();
 		}
-
-		private void ClickableCard_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-		{
-			ClickResultText.Text = "Clicked";
-		}
 	}
 }

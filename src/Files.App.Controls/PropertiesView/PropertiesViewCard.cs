@@ -51,7 +51,7 @@ public partial class PropertiesViewCard : Button
 	public PropertiesViewCard()
 	{
 		DefaultStyleKey = typeof(PropertiesViewCard);
-		ActionIcon = new FontIcon { Glyph = "\uE974", MirroredWhenRightToLeft = true };
+		ActionIcon = new FontIcon { Glyph = "\uE96F" , MirroredWhenRightToLeft = true };
 	}
 
 	protected override void OnApplyTemplate()
