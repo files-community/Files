@@ -105,7 +105,8 @@ namespace Files.App.Utils.Storage
 				Win32PInvoke.FindClose(hFind);
 			}
 
-			results.Sort((a, b) => StringComparer.OrdinalIgnoreCase.Compare(a.Name, b.Name));
+			var naturalComparer = NaturalStringComparer.GetForProcessor();
+			results.Sort((a, b) => naturalComparer.Compare(a.Name, b.Name));
 			return results;
 		}
 
