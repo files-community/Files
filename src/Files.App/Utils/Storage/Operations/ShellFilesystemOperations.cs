@@ -186,7 +186,7 @@ namespace Files.App.Utils.Storage
 						.Select(item => item.Source)
 						.WhereNotNull();
 
-					await Ioc.Default.GetRequiredService<IDialogService>().ShowDialogAsync(new FileTooLargeDialogViewModel(failingItems));
+					await Ioc.Default.GetRequiredService<IDialogService>().ShowDialogAsync(new FileTooLargeDialogViewModel(failingItems.ToArray()));
 				}
 				// ADS
 				else if (copyResult.Items.All(x => x.HResult == -1))
