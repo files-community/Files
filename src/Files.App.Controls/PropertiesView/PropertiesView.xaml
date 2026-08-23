@@ -4,6 +4,75 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:local="using:Files.App.Controls">
 
+	<!--  PROPERTIES VIEW INFO  -->
+	<Style BasedOn="{StaticResource DefaultPropertiesViewInfoStyle}" TargetType="local:PropertiesViewInfo" />
+
+	<Style x:Key="DefaultPropertiesViewInfoStyle" TargetType="local:PropertiesViewInfo">
+		<Setter Property="CornerRadius" Value="16" />
+		<Setter Property="Height" Value="32" />
+		<Setter Property="Width" Value="32" />
+		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="Background" Value="#55000000" />
+		<Setter Property="BorderBrush" Value="#55FFFFFF" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:PropertiesViewInfo">
+					<Grid
+						x:Name="RootGrid"
+						Margin="{TemplateBinding Margin}"
+						Padding="{TemplateBinding Padding}">
+						<Border
+							x:Name="HoverVisual"
+							Width="{TemplateBinding Width}"
+							Height="{TemplateBinding Height}"
+							MaxWidth="{TemplateBinding MaxWidth}"
+							MaxHeight="{TemplateBinding MaxHeight}"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							CornerRadius="{TemplateBinding CornerRadius}">
+							<Viewbox
+								x:Name="PART_InfoIconPresenterHolder"
+								MaxWidth="16"
+								MaxHeight="16"
+								Margin="0"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center">
+								<ContentPresenter
+									x:Name="PART_InfoIconPresenter"
+									HorizontalContentAlignment="Center"
+									VerticalContentAlignment="Center"
+									Content="{TemplateBinding InfoIcon}"
+									Foreground="Cyan" />
+							</Viewbox>
+						</Border>
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal">
+									<VisualState.Setters />
+								</VisualState>
+								<VisualState x:Name="PointerOver">
+									<VisualState.Setters />
+								</VisualState>
+								<VisualState x:Name="Pressed">
+									<VisualState.Setters />
+								</VisualState>
+								<VisualState x:Name="Disabled">
+									<VisualState.Setters />
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+
+
+	<!--  PROPERTIES VIEW ITEM SEPARATOR  -->
 	<Style BasedOn="{StaticResource DefaultPropertiesViewStyle}" TargetType="local:PropertiesView" />
 
 	<Style TargetType="local:PropertiesViewItemSeparator">

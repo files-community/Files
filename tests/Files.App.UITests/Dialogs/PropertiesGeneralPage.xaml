@@ -85,29 +85,59 @@
 						<Button
 							Grid.Column="1"
 							AutomationProperties.Name="Show additional information"
-							ToolTipService.ToolTip="Detailed text displayed on hover">
-							<FontIcon Glyph="&#xE946;" />
+							ToolTipService.ToolTip="Detailed text displayed on hover"
+							Visibility="Collapsed">
+							<FontIcon Glyph="&#xEA80;" />
 						</Button>
+						<controls:PropertiesViewInfo
+							Grid.Column="1"
+							AutomationProperties.Name="Show additional information"
+							ToolTipService.ToolTip="Detailed text displayed on hover" />
 					</Grid>
 				</controls:PropertiesViewCard>
-				<controls:PropertiesViewItemSeparator />
 
-				<controls:PropertiesViewCard
-					x:Name="ClickableCard"
-					AutomationProperties.AutomationId="ClickablePropertiesViewCard"
-					Click="ClickableCard_Click"
-					Header="Clickable card"
-					IsClickEnabled="True">
-					<TextBlock
-						x:Name="ClickResultText"
-						VerticalAlignment="Center"
-						Text="Not clicked" />
-				</controls:PropertiesViewCard>
 				<controls:PropertiesViewItemSeparator />
 
 				<controls:PropertiesViewCard Header="Disabled card" IsEnabled="False">
 					<TextBlock Text="Disabled value" />
 				</controls:PropertiesViewCard>
+
+				<controls:PropertiesViewItemSeparator />
+
+				<controls:PropertiesViewCard
+					AutomationProperties.AutomationId="ClickablePropertiesViewCard"
+					Header="Clickable card (no content)"
+					IsClickEnabled="True"
+					LabelWidth="Auto" />
+
+				<controls:PropertiesViewItemSeparator />
+
+				<controls:PropertiesViewCard
+					Header="Disabled clickable card (no content)"
+					IsClickEnabled="True"
+					IsEnabled="False"
+					LabelWidth="Auto" />
+				<controls:PropertiesViewItemSeparator />
+
+				<controls:PropertiesViewCard
+					AutomationProperties.AutomationId="ClickablePropertiesViewCard"
+					Content="Content doesn't look so good in clickable cards"
+					FontSize="{ThemeResource BodyTextBlockFontSize}"
+					FontWeight="Semibold"
+					Header="Clickable card"
+					IsClickEnabled="True"
+					LabelWidth="Auto" />
+
+				<controls:PropertiesViewItemSeparator />
+
+				<controls:PropertiesViewCard
+					Content="Content doesn't look so good in clickable cards"
+					FontSize="{ThemeResource BodyTextBlockFontSize}"
+					FontWeight="Semibold"
+					Header="Disabled clickable card"
+					IsClickEnabled="True"
+					IsEnabled="False"
+					LabelWidth="Auto" />
 			</StackPanel>
 		</controls:PropertiesViewExpander>
 
@@ -130,7 +160,7 @@
 			</StackPanel>
 		</controls:PropertiesViewExpander>
 
-		<controls:PropertiesViewExpander Header="Vertical and wrapping examples">
+		<controls:PropertiesViewExpander Header="Vertical examples" IsExpanded="True">
 			<controls:PropertiesViewExpander.HeaderIcon>
 				<SymbolIcon Symbol="SlideShow" />
 			</controls:PropertiesViewExpander.HeaderIcon>
@@ -148,25 +178,7 @@
 			</StackPanel>
 		</controls:PropertiesViewExpander>
 
-		<controls:PropertiesViewExpander Header="Right and wrapping examples">
-			<controls:PropertiesViewExpander.HeaderIcon>
-				<SymbolIcon Symbol="SlideShow" />
-			</controls:PropertiesViewExpander.HeaderIcon>
-			<StackPanel Padding="0,0,0,8">
-				<controls:PropertiesViewCard Header="Editable right value">
-					<TextBox
-						Margin="{StaticResource PropertiesValueTextBoxMargin}"
-						HorizontalAlignment="Stretch"
-						Text="Item value text" />
-				</controls:PropertiesViewCard>
-				<controls:PropertiesViewItemSeparator />
-				<controls:PropertiesViewCard Header="A long header that demonstrates wrapping when the available width becomes constrained">
-					<TextBlock Text="A long value that also wraps across multiple lines when the properties window becomes narrow." TextWrapping="Wrap" />
-				</controls:PropertiesViewCard>
-			</StackPanel>
-		</controls:PropertiesViewExpander>
-
-		<controls:PropertiesViewExpander Header="Toggle items" IsExpanded="True">
+		<controls:PropertiesViewExpander Header="Toggle items">
 			<controls:PropertiesViewExpander.HeaderIcon>
 				<SymbolIcon Symbol="XboxOneConsole" />
 			</controls:PropertiesViewExpander.HeaderIcon>
@@ -185,7 +197,7 @@
 			</StackPanel>
 		</controls:PropertiesViewExpander>
 
-		<controls:PropertiesViewExpander Header="Check box items" IsExpanded="True">
+		<controls:PropertiesViewExpander Header="Check box items">
 			<controls:PropertiesViewExpander.HeaderIcon>
 				<SymbolIcon Symbol="Accept" />
 			</controls:PropertiesViewExpander.HeaderIcon>
