@@ -10,7 +10,7 @@
 	mc:Ignorable="d">
 	<Page.Resources>
 		<ResourceDictionary>
-			<GridLength x:Key="PropertiesGeneralLabelWidth">148</GridLength>
+			<GridLength x:Key="PropertiesGeneralLabelWidth">152</GridLength>
 			<Style BasedOn="{StaticResource DefaultPropertiesViewCardStyle}" TargetType="controls:PropertiesViewCard">
 				<Setter Property="LabelWidth" Value="{StaticResource PropertiesGeneralLabelWidth}" />
 				<Setter Property="VerticalAlignment" Value="Center" />
@@ -74,29 +74,22 @@
 				</controls:PropertiesViewCard>
 				<controls:PropertiesViewItemSeparator />
 
+				<controls:PropertiesViewItemSeparator />
+
+				<controls:PropertiesViewCard Header="Disabled card" IsEnabled="False">
+					<TextBlock Text="Disabled value" />
+				</controls:PropertiesViewCard>
+
 				<controls:PropertiesViewCard Header="Additional information">
 					<Grid ColumnSpacing="12">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 						<TextBlock VerticalAlignment="Center" Text="Information value" />
-						<Button
-							Grid.Column="1"
-							AutomationProperties.Name="Show additional information"
-							ToolTipService.ToolTip="Detailed text displayed on hover"
-							Visibility="Collapsed">
-							<FontIcon Glyph="&#xEA80;" />
-						</Button>
 						<controls:PropertiesViewInfo
 							Grid.Column="1"
 							AutomationProperties.Name="Show additional information"
-							ToolTipService.ToolTip="Detailed text displayed on hover" />
-						<controls:PropertiesViewInfo
-							Grid.Column="2"
-							AutomationProperties.Name="Show additional information"
-							IsEnabled="False"
 							ToolTipService.ToolTip="Detailed text displayed on hover" />
 					</Grid>
 				</controls:PropertiesViewCard>
@@ -104,7 +97,17 @@
 				<controls:PropertiesViewItemSeparator />
 
 				<controls:PropertiesViewCard Header="Disabled card" IsEnabled="False">
-					<TextBlock Text="Disabled value" />
+					<Grid ColumnSpacing="12">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<TextBlock VerticalAlignment="Center" Text="Information value" />
+						<controls:PropertiesViewInfo
+							Grid.Column="1"
+							AutomationProperties.Name="Show additional information"
+							ToolTipService.ToolTip="Detailed text displayed on hover" />
+					</Grid>
 				</controls:PropertiesViewCard>
 
 				<controls:PropertiesViewItemSeparator />
@@ -152,15 +155,18 @@
 			</controls:PropertiesViewExpander.HeaderIcon>
 			<StackPanel Padding="0,0,0,8" HorizontalAlignment="Stretch">
 				<controls:PropertiesViewCard Header="Read-only rating">
-					<RatingControl IsReadOnly="True" Value="4" />
+					<RatingControl
+						HorizontalAlignment="Left"
+						IsReadOnly="True"
+						Value="4" />
 				</controls:PropertiesViewCard>
 				<controls:PropertiesViewItemSeparator />
 				<controls:PropertiesViewCard Header="Editable rating">
-					<RatingControl Value="3" />
+					<RatingControl HorizontalAlignment="Left" Value="3" />
 				</controls:PropertiesViewCard>
 				<controls:PropertiesViewItemSeparator />
 				<controls:PropertiesViewCard Header="Disabled rating" IsEnabled="False">
-					<RatingControl Value="2" />
+					<RatingControl HorizontalAlignment="Left" Value="2" />
 				</controls:PropertiesViewCard>
 			</StackPanel>
 		</controls:PropertiesViewExpander>
@@ -170,11 +176,12 @@
 				<SymbolIcon Symbol="SlideShow" />
 			</controls:PropertiesViewExpander.HeaderIcon>
 			<StackPanel Padding="0,0,0,8" HorizontalAlignment="Stretch">
+				<controls:PropertiesViewCard Header="Typical label example" Orientation="Vertical">
+					<TextBlock Text="A simple value here below." TextWrapping="Wrap" />
+				</controls:PropertiesViewCard>
+				<controls:PropertiesViewItemSeparator />
 				<controls:PropertiesViewCard Header="Editable vertical value" Orientation="Vertical">
-					<TextBox
-						Margin="{ThemeResource PropertiesValueTextBoxMargin}"
-						HorizontalAlignment="Stretch"
-						Text="Item value text" />
+					<TextBox HorizontalAlignment="Stretch" Text="Item value text" />
 				</controls:PropertiesViewCard>
 				<controls:PropertiesViewItemSeparator />
 				<controls:PropertiesViewCard Header="A long header that demonstrates wrapping when the available width becomes constrained" Orientation="Vertical">
