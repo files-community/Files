@@ -117,15 +117,33 @@ namespace Files.App.ViewModels
 			context.PageType is not ContentPageTypes.ReleaseNotes &&
 			context.PageType is not ContentPageTypes.Settings;
 
+		private bool canShowPrompts;
+
+		public void OnPageLoaded()
+		{
+			if (canShowPrompts)
+				return;
+
+			canShowPrompts = true;
+			OnPropertyChanged(nameof(ShowReviewPrompt));
+			OnPropertyChanged(nameof(ShowSponsorPrompt));
+		}
+
+		private static bool hasShownReviewPrompt;
+
 		public bool ShowReviewPrompt
 		{
 			get
 			{
+				if (!canShowPrompts || hasShownReviewPrompt)
+					return false;
+
 				var isTargetEnvironment = AppLifecycleHelper.AppEnvironment is AppEnvironment.StoreStable or AppEnvironment.StorePreview;
 				var hasClickedReviewPrompt = UserSettingsService.ApplicationSettingsService.HasClickedReviewPrompt;
 				var launchCountReached = AppLifecycleHelper.TotalLaunchCount == 30;
 
-				return isTargetEnvironment && !hasClickedReviewPrompt && launchCountReached;
+				hasShownReviewPrompt = isTargetEnvironment && !hasClickedReviewPrompt && launchCountReached;
+				return hasShownReviewPrompt;
 			}
 		}
 
@@ -136,7 +154,7 @@ namespace Files.App.ViewModels
 		{
 			get
 			{
-				if (hasShownSponsorPrompt)
+				if (!canShowPrompts || hasShownSponsorPrompt)
 					return false;
 
 				var isTargetEnvironment = AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev or AppEnvironment.SideloadStable or AppEnvironment.SideloadPreview;
