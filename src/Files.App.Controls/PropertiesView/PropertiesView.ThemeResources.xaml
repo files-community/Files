@@ -39,7 +39,27 @@
 			<!--#endregion-->
 
 			<StaticResource x:Key="PropertiesItemSeparatorForeground" ResourceKey="DividerStrokeColorDefaultBrush" />
+
+			<Thickness x:Key="PropertiesValueTextBoxMargin">-12,0,0,0</Thickness>
+
+			<!--#region Light PropertiesViewInfo-->
+			<StaticResource x:Key="PropertiesViewInfoForeground" ResourceKey="AccentFillColorDefaultBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPointerOverForeground" ResourceKey="AccentFillColorSecondaryBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPressedForeground" ResourceKey="AccentFillColorTertiaryBrush" />
+			<StaticResource x:Key="PropertiesViewInfoDisabledForeground" ResourceKey="TextFillColorDisabledBrush" />
+
+			<StaticResource x:Key="PropertiesViewInfoBackground" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPointerOverBackground" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPressedBackground" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="PropertiesViewInfoDisabledBackground" ResourceKey="SubtleFillColorTransparentBrush" />
+
+			<StaticResource x:Key="PropertiesViewInfoBorderBrush" ResourceKey="CardStrokeColorDefaultBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPointerOverBorderBrush" ResourceKey="DividerStrokeColorDefaultBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPressedBorderBrush" ResourceKey="DividerStrokeColorDefaultBrush" />
+			<StaticResource x:Key="PropertiesViewInfoDisabledBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
+			<!--#endregion-->
 		</ResourceDictionary>
+
 
 		<ResourceDictionary x:Key="Dark">
 			<!--#region Dark PropertiesExpander-->
@@ -72,7 +92,28 @@
 			<!--#endregion-->
 
 			<StaticResource x:Key="PropertiesItemSeparatorForeground" ResourceKey="DividerStrokeColorDefaultBrush" />
+
+			<Thickness x:Key="PropertiesValueTextBoxMargin">-12,0,0,0</Thickness>
+
+			<!--#region Dark PropertiesViewInfo-->
+			<StaticResource x:Key="PropertiesViewInfoForeground" ResourceKey="AccentFillColorDefaultBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPointerOverForeground" ResourceKey="AccentFillColorSecondaryBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPressedForeground" ResourceKey="AccentFillColorTertiaryBrush" />
+			<StaticResource x:Key="PropertiesViewInfoDisabledForeground" ResourceKey="TextFillColorDisabledBrush" />
+
+			<StaticResource x:Key="PropertiesViewInfoBackground" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPointerOverBackground" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPressedBackground" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="PropertiesViewInfoDisabledBackground" ResourceKey="SubtleFillColorTransparentBrush" />
+
+			<StaticResource x:Key="PropertiesViewInfoBorderBrush" ResourceKey="CardStrokeColorDefaultBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPointerOverBorderBrush" ResourceKey="DividerStrokeColorDefaultBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPressedBorderBrush" ResourceKey="DividerStrokeColorDefaultBrush" />
+			<StaticResource x:Key="PropertiesViewInfoDisabledBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
+			<!--#endregion-->
+
 		</ResourceDictionary>
+
 
 		<ResourceDictionary x:Key="HighContrast">
 			<!--#region HighContrastPropertiesExpander-->
@@ -105,6 +146,26 @@
 			<!--#endregion-->
 
 			<StaticResource x:Key="PropertiesItemSeparatorForeground" ResourceKey="SystemColorWindowTextColorBrush" />
+
+			<Thickness x:Key="PropertiesValueTextBoxMargin">0,0,0,0</Thickness>
+
+			<!--#region HighContrast PropertiesViewInfo-->
+			<StaticResource x:Key="PropertiesViewInfoForeground" ResourceKey="SystemColorHighlightColor" />
+			<StaticResource x:Key="PropertiesViewInfoPointerOverForeground" ResourceKey="SystemColorHighlightTextColor" />
+			<StaticResource x:Key="PropertiesViewInfoPressedForeground" ResourceKey="SystemColorButtonFaceColor" />
+			<StaticResource x:Key="PropertiesViewInfoDisabledForeground" ResourceKey="SystemColorGrayTextColor" />
+
+			<StaticResource x:Key="PropertiesViewInfoBackground" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPointerOverBackground" ResourceKey="SystemColorHighlightColor" />
+			<StaticResource x:Key="PropertiesViewInfoPressedBackground" ResourceKey="SystemColorButtonTextColor" />
+			<StaticResource x:Key="PropertiesViewInfoDisabledBackground" ResourceKey="SystemControlTransparentBrush" />
+
+			<StaticResource x:Key="PropertiesViewInfoBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPointerOverBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPressedBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="PropertiesViewInfoDisabledBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+			<!--#endregion-->
+
 		</ResourceDictionary>
 
 	</ResourceDictionary.ThemeDictionaries>
@@ -143,6 +204,15 @@
 	<Thickness x:Key="PropertiesItemCheckBoxHorizontalMargin">0,0,12,0</Thickness>
 
 	<Thickness x:Key="PropertiesViewItemCheckPadding">0</Thickness>
+	<!--#endregion-->
+
+
+	<!--#region PropertiesViewInfo-->
+	<x:Double x:Key="PropertiesViewInfoSize">32</x:Double>
+	<x:Double x:Key="PropertiesViewInfoIconSize">16</x:Double>
+	<CornerRadius x:Key="PropertiesViewInfoCornerRadius">16</CornerRadius>
+	<!--  Half the size to make a circle  -->
+	<Thickness x:Key="PropertiesViewInfoBorderThickness">1</Thickness>
 	<!--#endregion-->
 
 </ResourceDictionary>

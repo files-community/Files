@@ -8,12 +8,16 @@
 	<Style BasedOn="{StaticResource DefaultPropertiesViewInfoStyle}" TargetType="local:PropertiesViewInfo" />
 
 	<Style x:Key="DefaultPropertiesViewInfoStyle" TargetType="local:PropertiesViewInfo">
-		<Setter Property="CornerRadius" Value="16" />
-		<Setter Property="Height" Value="32" />
-		<Setter Property="Width" Value="32" />
-		<Setter Property="BorderThickness" Value="1" />
-		<Setter Property="Background" Value="#55000000" />
-		<Setter Property="BorderBrush" Value="#55FFFFFF" />
+		<Setter Property="CornerRadius" Value="{StaticResource PropertiesViewInfoCornerRadius}" />
+		<Setter Property="Height" Value="{StaticResource PropertiesViewInfoSize}" />
+		<Setter Property="Width" Value="{StaticResource PropertiesViewInfoSize}" />
+		<Setter Property="MaxHeight" Value="{StaticResource PropertiesViewInfoSize}" />
+		<Setter Property="MaxWidth" Value="{StaticResource PropertiesViewInfoSize}" />
+		<Setter Property="BorderThickness" Value="{StaticResource PropertiesViewInfoBorderThickness}" />
+		<Setter Property="Background" Value="{ThemeResource PropertiesViewInfoBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource PropertiesViewInfoForeground}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource PropertiesViewInfoBorderBrush}" />
+		<Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:PropertiesViewInfo">
@@ -28,13 +32,14 @@
 							MaxWidth="{TemplateBinding MaxWidth}"
 							MaxHeight="{TemplateBinding MaxHeight}"
 							Background="{TemplateBinding Background}"
+							BackgroundSizing="{TemplateBinding BackgroundSizing}"
 							BorderBrush="{TemplateBinding BorderBrush}"
 							BorderThickness="{TemplateBinding BorderThickness}"
 							CornerRadius="{TemplateBinding CornerRadius}">
 							<Viewbox
 								x:Name="PART_InfoIconPresenterHolder"
-								MaxWidth="16"
-								MaxHeight="16"
+								MaxWidth="{StaticResource PropertiesViewInfoIconSize}"
+								MaxHeight="{StaticResource PropertiesViewInfoIconSize}"
 								Margin="0"
 								HorizontalAlignment="Center"
 								VerticalAlignment="Center">
@@ -43,23 +48,40 @@
 									HorizontalContentAlignment="Center"
 									VerticalContentAlignment="Center"
 									Content="{TemplateBinding InfoIcon}"
-									Foreground="Cyan" />
+									Foreground="{TemplateBinding Foreground}"
+									HighContrastAdjustment="None" />
 							</Viewbox>
 						</Border>
 
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
 								<VisualState x:Name="Normal">
-									<VisualState.Setters />
+									<VisualState.Setters>
+										<Setter Target="PART_InfoIconPresenter.Foreground" Value="{ThemeResource PropertiesViewInfoForeground}" />
+										<Setter Target="HoverVisual.Background" Value="{ThemeResource PropertiesViewInfoBackground}" />
+										<Setter Target="HoverVisual.BorderBrush" Value="{ThemeResource PropertiesViewInfoBorderBrush}" />
+									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="PointerOver">
-									<VisualState.Setters />
+									<VisualState.Setters>
+										<Setter Target="PART_InfoIconPresenter.Foreground" Value="{ThemeResource PropertiesViewInfoPointerOverForeground}" />
+										<Setter Target="HoverVisual.Background" Value="{ThemeResource PropertiesViewInfoPointerOverBackground}" />
+										<Setter Target="HoverVisual.BorderBrush" Value="{ThemeResource PropertiesViewInfoPointerOverBorderBrush}" />
+									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Pressed">
-									<VisualState.Setters />
+									<VisualState.Setters>
+										<Setter Target="PART_InfoIconPresenter.Foreground" Value="{ThemeResource PropertiesViewInfoPressedForeground}" />
+										<Setter Target="HoverVisual.Background" Value="{ThemeResource PropertiesViewInfoPressedBackground}" />
+										<Setter Target="HoverVisual.BorderBrush" Value="{ThemeResource PropertiesViewInfoPressedBorderBrush}" />
+									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Disabled">
-									<VisualState.Setters />
+									<VisualState.Setters>
+										<Setter Target="PART_InfoIconPresenter.Foreground" Value="{ThemeResource PropertiesViewInfoDisabledForeground}" />
+										<Setter Target="HoverVisual.Background" Value="{ThemeResource PropertiesViewInfoDisabledBackground}" />
+										<Setter Target="HoverVisual.BorderBrush" Value="{ThemeResource PropertiesViewInfoDisabledBorderBrush}" />
+									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>

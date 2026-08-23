@@ -62,38 +62,62 @@ namespace Files.App.Controls
         protected override void OnPointerPressed(PointerRoutedEventArgs e)
         {
             base.OnPointerPressed( e );
-            VisualStateManager.GoToState( this , PressedStateName , true );
-        }
+
+			if ( IsEnabled )
+				VisualStateManager.GoToState( this , PressedStateName , true );
+			else
+				VisualStateManager.GoToState( this , DisabledStateName , true );
+		}
 
         protected override void OnPointerReleased(PointerRoutedEventArgs e)
         {
             base.OnPointerReleased( e );
-            VisualStateManager.GoToState( this , NormalStateName , true );
-        }
+
+			if ( IsEnabled )
+				VisualStateManager.GoToState( this , NormalStateName , true );
+			else
+				VisualStateManager.GoToState( this , DisabledStateName , true );
+		}
 
         protected override void OnPointerEntered(PointerRoutedEventArgs e)
         {
             base.OnPointerEntered( e );
-            VisualStateManager.GoToState( this , PointerOverStateName , true );
-        }
+
+			if ( IsEnabled )
+				VisualStateManager.GoToState( this , PointerOverStateName , true );
+			else
+				VisualStateManager.GoToState( this , DisabledStateName , true );
+		}
 
         protected override void OnPointerExited(PointerRoutedEventArgs e)
         {
             base.OnPointerExited( e );
-            VisualStateManager.GoToState( this , NormalStateName , true );
-        }
+
+			if ( IsEnabled )
+				VisualStateManager.GoToState( this , NormalStateName , true );
+			else
+				VisualStateManager.GoToState( this , DisabledStateName , true );
+		}
 
         protected override void OnPointerCaptureLost(PointerRoutedEventArgs e)
         {
             base.OnPointerCaptureLost( e );
-            VisualStateManager.GoToState( this , NormalStateName , true );
-        }
+
+			if ( IsEnabled )
+				VisualStateManager.GoToState( this , NormalStateName , true );
+			else
+				VisualStateManager.GoToState( this , DisabledStateName , true );
+		}
 
         protected override void OnPointerCanceled(PointerRoutedEventArgs e)
         {
             base.OnPointerCanceled( e );
-            VisualStateManager.GoToState( this , NormalStateName , true );
-        }
+
+			if ( IsEnabled )
+				VisualStateManager.GoToState( this , NormalStateName , true );
+			else
+				VisualStateManager.GoToState( this , DisabledStateName , true );
+		}
 
         protected override void OnKeyDown(KeyRoutedEventArgs e)
         {
