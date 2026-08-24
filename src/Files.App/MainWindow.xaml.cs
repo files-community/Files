@@ -11,30 +11,28 @@ using System.Runtime.InteropServices;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
+using Windows.Win32.Foundation;
 using WinRT;
 using IO = System.IO;
 
 namespace Files.App
 {
-	public sealed partial class MainWindow : WinUIEx.WindowEx
+	public sealed partial class MainWindow : WindowEx
 	{
 		private static MainWindow? _Instance;
 		public static MainWindow Instance => _Instance ??= new();
 
-		public nint WindowHandle { get; }
 		private bool CanWindowToFront { get; set; } = true;
 		private readonly Lock _canWindowToFrontLock = new();
 
-		public MainWindow()
+		protected override bool PersistPlacement => true;
+
+		public MainWindow() : base(416, 316)
 		{
 			InitializeComponent();
 
-			WindowHandle = WinUIEx.WindowExtensions.GetWindowHandle(this);
-			MinHeight = 316;
-			MinWidth = 416;
 			ExtendsContentIntoTitleBar = true;
 			Title = "Files";
-			PersistenceId = "FilesMainWindow";
 			AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonPressedBackgroundColor = Colors.Transparent;
@@ -43,8 +41,6 @@ namespace Files.App
 			// Deferred: reads the .ico from disk
 			DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
 				AppWindow.SetIcon(AppLifecycleHelper.AppIconPath));
-
-			WinUIEx.WindowManager.Get(this).WindowMessageReceived += WindowManager_WindowMessageReceived;
 		}
 
 		public void ShowSplashScreen()
@@ -54,6 +50,7 @@ namespace Files.App
 			rootFrame?.Navigate(typeof(SplashScreenPage));
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(OverlappedPresenter))]
 		public async Task InitializeApplicationAsync(object? activatedEventArgs)
 		{
 			var rootFrame = EnsureWindowIsInitialized();
@@ -226,8 +223,8 @@ namespace Files.App
 				Win32Helper.BringToForegroundEx(new(WindowHandle));
 			}
 
-			if (Windows.Win32.PInvoke.IsIconic(new(WindowHandle)))
-				WinUIEx.WindowExtensions.Restore(Instance); // Restore window if minimized
+			if (Windows.Win32.PInvoke.IsIconic(new(WindowHandle)) && appWindow?.Presenter is OverlappedPresenter overlapped)
+				overlapped.Restore();
 		}
 
 		private async Task EnsureContentHasKeyboardFocusAsync()
@@ -397,19 +394,20 @@ namespace Files.App
 			}
 		}
 
-		private void WindowManager_WindowMessageReceived(object? sender, WinUIEx.Messaging.WindowMessageEventArgs e)
+		protected override bool OnWindowMessageReceived(uint message, WPARAM wParam, LPARAM lParam, ref LRESULT result)
 		{
-			if ((!CanWindowToFront) && e.Message.MessageId == Windows.Win32.PInvoke.WM_WINDOWPOSCHANGING)
+			if ((!CanWindowToFront) && message == Windows.Win32.PInvoke.WM_WINDOWPOSCHANGING)
 			{
-				Win32Helper.ForceWindowPosition(e.Message.LParam);
-				e.Handled = true;
+				Win32Helper.ForceWindowPosition(lParam.Value);
+				return true;
 			}
-			else if (e.Message.MessageId == Windows.Win32.PInvoke.WM_MENUCHAR &&
-				(e.Message.WParam & 0xFFFF) == '\r')
+			else if (message == Windows.Win32.PInvoke.WM_MENUCHAR && (wParam.Value & 0xFFFF) == '\r')
 			{
-				e.Result = Win32PInvoke.MNC_CLOSE << 16;
-				e.Handled = true;
+				result = new(Win32PInvoke.MNC_CLOSE << 16);
+				return true;
 			}
+
+			return false;
 		}
 	}
 }

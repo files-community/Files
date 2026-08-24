@@ -124,7 +124,6 @@
         <PackageReference Include="Microsoft.Graphics.Win2D" />
         <PackageReference Include="TagLibSharp" />
         <PackageReference Include="UTF.Unknown" />
-        <PackageReference Include="WinUIEx" />
         <PackageReference Include="Microsoft.Windows.CsWinRT" />
     </ItemGroup>
 

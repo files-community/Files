@@ -266,10 +266,6 @@ namespace Files.App
 
 			ActiveSessionTracker.OnActivationChanged(args.WindowActivationState != WindowActivationState.Deactivated);
 
-			// MainWindow derives from WinUIEx.WindowEx, so it doesn't get the backdrop wiring in Files.App.Data.Items.WindowEx
-			if (!_isMainWindowClosing && MainWindow.Instance.SystemBackdrop is AppSystemBackdrop appSystemBackdrop)
-				appSystemBackdrop.SetInputActive(args.WindowActivationState is not WindowActivationState.Deactivated);
-
 			if (args.WindowActivationState != WindowActivationState.Deactivated)
 				AppModel.IsMainWindowClosed = false;
 

@@ -28,6 +28,19 @@ namespace Windows.Win32
 				: _SetWindowLongPtr(hWnd, (int)nIndex, dwNewLong);
 		}
 
+		[LibraryImport("User32", EntryPoint = "GetWindowLongW")]
+		private static partial int _GetWindowLong(nint hWnd, int nIndex);
+
+		[LibraryImport("User32", EntryPoint = "GetWindowLongPtrW")]
+		private static partial nint _GetWindowLongPtr(nint hWnd, int nIndex);
+
+		public static unsafe nint GetWindowLongPtr(HWND hWnd, WINDOW_LONG_PTR_INDEX nIndex)
+		{
+			return sizeof(nint) is 4
+				? _GetWindowLong(hWnd, (int)nIndex)
+				: _GetWindowLongPtr(hWnd, (int)nIndex);
+		}
+
 		[LibraryImport("shell32.dll", EntryPoint = "SHUpdateRecycleBinIcon", SetLastError = true)]
 		public static partial void SHUpdateRecycleBinIcon();
 

@@ -24,7 +24,7 @@ namespace Files.App.Data.Items
 	{
 		private bool _isInitialized;
 		private bool _isClosing;
-		private readonly WNDPROC _oldWndProc;
+		private readonly nint _oldWndProc;
 		private readonly WNDPROC _newWndProc;
 
 		private readonly ApplicationDataContainer _applicationDataContainer = ApplicationData.Current.LocalSettings;
@@ -94,17 +94,18 @@ namespace Files.App.Data.Items
 
 			_newWndProc = new(NewWindowProc);
 			var pNewWndProc = Marshal.GetFunctionPointerForDelegate(_newWndProc);
-			var pOldWndProc = PInvoke.SetWindowLongPtr(new(WindowHandle), WINDOW_LONG_PTR_INDEX.GWL_WNDPROC, pNewWndProc);
-			_oldWndProc = Marshal.GetDelegateForFunctionPointer<WNDPROC>(pOldWndProc);
+			_oldWndProc = PInvoke.SetWindowLongPtr(new(WindowHandle), WINDOW_LONG_PTR_INDEX.GWL_WNDPROC, pNewWndProc);
 
 			Closed += WindowEx_Closed;
 			Activated += WindowEx_Activated;
 		}
 
+		// Whether this window saves and restores its placement across sessions
+		protected virtual bool PersistPlacement => false;
+
 		private unsafe void StoreWindowPlacementData()
 		{
-			// Save window placement only for MainWindow
-			if (!GetType().Name.Equals(nameof(MainWindow), StringComparison.OrdinalIgnoreCase))
+			if (!PersistPlacement)
 				return;
 
 			// Store monitor info
@@ -112,8 +113,7 @@ namespace Files.App.Data.Items
 			using var sw = new SystemIO.BinaryWriter(data);
 
 			var monitors = GetAllMonitorInfo();
-			int nMonitors = PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CMONITORS);
-			sw.Write(nMonitors);
+			sw.Write(monitors.Count);
 
 			foreach (var monitor in monitors)
 			{
@@ -140,15 +140,14 @@ namespace Files.App.Data.Items
 			var values = GetDataStore(out _, true);
 
 			if (_applicationDataContainer.Containers.ContainsKey("WinUIEx"))
-				_applicationDataContainer.Values.Remove("WinUIEx");
+				_applicationDataContainer.DeleteContainer("WinUIEx");
 
 			values["MainWindowPlacementData"] = Convert.ToBase64String(data.ToArray());
 		}
 
 		private void RestoreWindowPlacementData()
 		{
-			// Save window placement only for MainWindow
-			if (!GetType().Name.Equals(nameof(MainWindow), StringComparison.OrdinalIgnoreCase))
+			if (!PersistPlacement)
 				return;
 
 			var values = GetDataStore(out var oldDataExists, false);
@@ -168,8 +167,7 @@ namespace Files.App.Data.Items
 			// Check if monitor layout changed since we stored position
 			var monitors = GetAllMonitorInfo();
 			int monitorCount = br.ReadInt32();
-			int nMonitors = PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CMONITORS);
-			if (monitorCount != nMonitors)
+			if (monitorCount != monitors.Count)
 				return;
 
 			for (int i = 0; i < monitorCount; i++)
@@ -256,14 +254,34 @@ namespace Files.App.Data.Items
 			return monitors;
 		}
 
+		// Return true to mark the message handled and skip the original window procedure
+		protected virtual bool OnWindowMessageReceived(uint message, WPARAM wParam, LPARAM lParam, ref LRESULT result)
+		{
+			return false;
+		}
+
 		private LRESULT NewWindowProc(HWND param0, uint param1, WPARAM param2, LPARAM param3)
 		{
+			LRESULT overrideResult = default;
+			if (OnWindowMessageReceived(param1, param2, param3, ref overrideResult))
+				return overrideResult;
+
 			switch (param1)
 			{
 				case 0x0018 /*WM_SHOWWINDOW*/ when param2 == (WPARAM)1 && !_isInitialized:
 					{
 						_isInitialized = true;
-						RestoreWindowPlacementData();
+
+						// A malformed or legacy persisted blob (FormatException/EndOfStreamException/ArgumentException)
+						// must not unwind through the native window procedure; fall back to default placement
+						try
+						{
+							RestoreWindowPlacementData();
+						}
+						catch (Exception)
+						{
+						}
+
 						break;
 					}
 				case 0x0024: /*WM_GETMINMAXINFO*/
@@ -274,21 +292,28 @@ namespace Files.App.Data.Items
 						var minMaxInfo = Marshal.PtrToStructure<MINMAXINFO>(param3);
 						minMaxInfo.ptMinTrackSize.X = (int)(MinWidth * scalingFactor);
 						minMaxInfo.ptMinTrackSize.Y = (int)(MinHeight * scalingFactor);
-						Marshal.StructureToPtr(minMaxInfo, param3, true);
+						Marshal.StructureToPtr(minMaxInfo, param3, false);
 						break;
 					}
 			}
 
-			var pWindProc = Marshal.GetFunctionPointerForDelegate(_oldWndProc);
-			var pfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)pWindProc;
+			var pfnOldWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)_oldWndProc;
 
-			return PInvoke.CallWindowProc(pfnWndProc, param0, param1, param2, param3);
+			return PInvoke.CallWindowProc(pfnOldWndProc, param0, param1, param2, param3);
 		}
 
 		private void WindowEx_Closed(object sender, WindowEventArgs args)
 		{
 			_isClosing = true;
-			StoreWindowPlacementData();
+
+			// A LocalSettings write failure (COMException/UnauthorizedAccessException) must not crash the close path
+			try
+			{
+				StoreWindowPlacementData();
+			}
+			catch (Exception)
+			{
+			}
 		}
 
 		private void WindowEx_Activated(object sender, WindowActivatedEventArgs args)
