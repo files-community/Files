@@ -28,7 +28,6 @@ namespace Files.App
 		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
 		public static string? OutputPath { get; set; }
 
-		private bool _isMainWindowClosing;
 		private static FlyoutBase? _LastOpenedFlyout;
 		public static FlyoutBase? LastOpenedFlyout
 		{
@@ -261,14 +260,7 @@ namespace Files.App
 		{
 			Logger.LogInformation($"Window_Activated: State={args.WindowActivationState}");
 
-			if (args.WindowActivationState is not WindowActivationState.Deactivated)
-				_isMainWindowClosing = false;
-
 			ActiveSessionTracker.OnActivationChanged(args.WindowActivationState != WindowActivationState.Deactivated);
-
-			// MainWindow derives from WinUIEx.WindowEx, so it doesn't get the backdrop wiring in Files.App.Data.Items.WindowEx
-			if (!_isMainWindowClosing && MainWindow.Instance.SystemBackdrop is AppSystemBackdrop appSystemBackdrop)
-				appSystemBackdrop.SetInputActive(args.WindowActivationState is not WindowActivationState.Deactivated);
 
 			if (args.WindowActivationState != WindowActivationState.Deactivated)
 				AppModel.IsMainWindowClosed = false;
@@ -289,8 +281,6 @@ namespace Files.App
 		/// </remarks>
 		private async void Window_Closed(object sender, WindowEventArgs args)
 		{
-			_isMainWindowClosing = true;
-
 			// Save application state and stop any background activity
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			StatusCenterViewModel statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();

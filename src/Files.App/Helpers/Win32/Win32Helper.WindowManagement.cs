@@ -57,5 +57,16 @@ namespace Files.App.Helpers
 			windowPos.flags |= SET_WINDOW_POS_FLAGS.SWP_NOZORDER;
 			Marshal.StructureToPtr(windowPos, lParam, false);
 		}
+
+		/// <summary>
+		/// Applies the WS_EX_LAYOUTRTL extended style so the window's non-client area is mirrored.
+		/// </summary>
+		/// <param name="hWnd">The window handle.</param>
+		public static void EnableRtlLayout(nint hWnd)
+		{
+			var hwnd = new Windows.Win32.Foundation.HWND(hWnd);
+			var exStyle = PInvoke.GetWindowLongPtr(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
+			PInvoke.SetWindowLongPtr(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, exStyle | (nint)WINDOW_EX_STYLE.WS_EX_LAYOUTRTL);
+		}
 	}
 }
