@@ -137,7 +137,7 @@ namespace Files.App.Utils.Git
 				_implementation.IsExecutingGitAction = true;
 			});
 
-			var result = await DoGitOperationAsync<GitOperationResult>(() =>
+			var (result, message) = await DoGitOperationAsync<(GitOperationResult, string?)>(() =>
 			{
 				try
 				{
@@ -146,18 +146,18 @@ namespace Files.App.Utils.Git
 						signature,
 						_pullOptions);
 				}
-				catch (CheckoutConflictException)
+				catch (CheckoutConflictException ex)
 				{
-					return GitOperationResult.UncommittedChangesError;
+					return (GitOperationResult.UncommittedChangesError, ex.Message);
 				}
 				catch (Exception ex)
 				{
 					return IsAuthorizationException(ex)
-						? GitOperationResult.AuthorizationError
-						: GitOperationResult.GenericError;
+						? (GitOperationResult.AuthorizationError, ex.Message)
+						: (GitOperationResult.GenericError, ex.Message);
 				}
 
-				return GitOperationResult.Success;
+				return (GitOperationResult.Success, (string?)null);
 			});
 
 			if (result is GitOperationResult.AuthorizationError)
@@ -169,9 +169,7 @@ namespace Files.App.Utils.Git
 				var viewModel = new DynamicDialogViewModel()
 				{
 					TitleText = Strings.GitError.GetLocalizedResource(),
-					SubtitleText = result is GitOperationResult.UncommittedChangesError
-						? Strings.PullUncommittedChangesError.GetLocalizedResource()
-						: Strings.PullTimeoutError.GetLocalizedResource(),
+					SubtitleText = message,
 					CloseButtonText = Strings.Close.GetLocalizedResource(),
 					DynamicButtons = DynamicDialogButtons.Cancel
 				};
