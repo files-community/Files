@@ -24,6 +24,9 @@ namespace Files.App.Data.Items
 	{
 		private bool _isInitialized;
 		private bool _isClosing;
+		private bool _isRestoringPlacement;
+		private WINDOWPLACEMENT _lastOverlappedPlacement;
+		private bool _hasOverlappedPlacement;
 		private readonly nint _oldWndProc;
 		private readonly WNDPROC _newWndProc;
 
@@ -100,7 +103,6 @@ namespace Files.App.Data.Items
 			Activated += WindowEx_Activated;
 		}
 
-		// Whether this window saves and restores its placement across sessions
 		protected virtual bool PersistPlacement => false;
 
 		private unsafe void StoreWindowPlacementData()
@@ -125,7 +127,13 @@ namespace Files.App.Data.Items
 			}
 
 			WINDOWPLACEMENT placement = default;
-			PInvoke.GetWindowPlacement(new(WindowHandle), ref placement);
+			if (IsOverlappedPresenter())
+				PInvoke.GetWindowPlacement(new(WindowHandle), ref placement);
+			else if (_hasOverlappedPlacement)
+				// Closing in fullscreen/compact overlay: persist the last overlapped geometry instead
+				placement = _lastOverlappedPlacement;
+			else
+				return;
 
 			int structSize = Marshal.SizeOf<WINDOWPLACEMENT>();
 			IntPtr buffer = Marshal.AllocHGlobal(structSize);
@@ -196,9 +204,16 @@ namespace Files.App.Data.Items
 			else if (windowPlacementData.showCmd != SHOW_WINDOW_CMD.SW_MAXIMIZE)
 				windowPlacementData.showCmd = SHOW_WINDOW_CMD.SW_NORMAL;
 
-			PInvoke.SetWindowPlacement(new(WindowHandle), in windowPlacementData);
-
-			return;
+			// Suppress DPI-change reflow and min-size clamping while the persisted placement is applied
+			_isRestoringPlacement = true;
+			try
+			{
+				PInvoke.SetWindowPlacement(new(WindowHandle), in windowPlacementData);
+			}
+			finally
+			{
+				_isRestoringPlacement = false;
+			}
 		}
 
 		private IPropertySet GetDataStore(out bool oldDataExists, bool useNewStore = true)
@@ -260,6 +275,19 @@ namespace Files.App.Data.Items
 			return false;
 		}
 
+		private bool IsOverlappedPresenter()
+		{
+			// COMException when the AppWindow is queried during window teardown
+			try
+			{
+				return AppWindow?.Presenter?.Kind is AppWindowPresenterKind.Overlapped;
+			}
+			catch (COMException)
+			{
+				return false;
+			}
+		}
+
 		private LRESULT NewWindowProc(HWND param0, uint param1, WPARAM param2, LPARAM param3)
 		{
 			LRESULT overrideResult = default;
@@ -272,8 +300,7 @@ namespace Files.App.Data.Items
 					{
 						_isInitialized = true;
 
-						// A malformed or legacy persisted blob (FormatException/EndOfStreamException/ArgumentException)
-						// must not unwind through the native window procedure; fall back to default placement
+						// A malformed persisted blob (FormatException/EndOfStreamException) must not unwind through the native wndproc
 						try
 						{
 							RestoreWindowPlacementData();
@@ -284,7 +311,7 @@ namespace Files.App.Data.Items
 
 						break;
 					}
-				case 0x0024: /*WM_GETMINMAXINFO*/
+				case 0x0024 /*WM_GETMINMAXINFO*/ when !_isRestoringPlacement:
 					{
 						var dpi = PInvoke.GetDpiForWindow(param0);
 						float scalingFactor = (float)dpi / 96;
@@ -293,6 +320,19 @@ namespace Files.App.Data.Items
 						minMaxInfo.ptMinTrackSize.X = (int)(MinWidth * scalingFactor);
 						minMaxInfo.ptMinTrackSize.Y = (int)(MinHeight * scalingFactor);
 						Marshal.StructureToPtr(minMaxInfo, param3, false);
+						break;
+					}
+				case 0x02E0 /*WM_DPICHANGED*/ when _isRestoringPlacement:
+					{
+						// Keep the persisted rect: don't let the default handler apply the DPI-suggested rectangle
+						return default;
+					}
+				case 0x0047 /*WM_WINDOWPOSCHANGED*/ when PersistPlacement && IsOverlappedPresenter():
+					{
+						WINDOWPLACEMENT placement = default;
+						PInvoke.GetWindowPlacement(param0, ref placement);
+						_lastOverlappedPlacement = placement;
+						_hasOverlappedPlacement = true;
 						break;
 					}
 			}
