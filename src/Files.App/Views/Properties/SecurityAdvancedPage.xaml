@@ -98,10 +98,27 @@
 				Orientation="Horizontal"
 				Spacing="8">
 
+				<StackPanel
+					x:Name="ChangingOwnerPanel"
+					VerticalAlignment="Center"
+					x:Load="{x:Bind SecurityAdvancedViewModel.IsChangingOwner, Mode=OneWay}"
+					Orientation="Horizontal">
+					<TextBlock
+						VerticalAlignment="Center"
+						Style="{StaticResource App.Theme.BodyTextBlockStyle}"
+						Text="{helpers:ResourceString Name=SecurityChangingOwner}" />
+					<ProgressBar
+						Width="100"
+						Margin="16,0,0,0"
+						HorizontalAlignment="Left"
+						IsIndeterminate="True" />
+				</StackPanel>
+
 				<!--  User/Group Icon  -->
 				<FontIcon
 					x:Name="FontIcon"
 					VerticalAlignment="Center"
+					x:Load="{x:Bind SecurityAdvancedViewModel.IsOwnerDisplayed, Mode=OneWay}"
 					FontSize="16"
 					Glyph="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.Glyph, Mode=OneWay}" />
 
@@ -109,7 +126,7 @@
 				<TextBlock
 					x:Name="OwnerText"
 					VerticalAlignment="Center"
-					x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.IsValid, Mode=OneWay}"
+					x:Load="{x:Bind SecurityAdvancedViewModel.IsOwnerDisplayed, Mode=OneWay}"
 					IsTextSelectionEnabled="True"
 					Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 					ToolTipService.ToolTip="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.FullNameHumanized, Mode=OneWay}">
@@ -141,15 +158,29 @@
 
 		</Grid>
 
-		<!--  Permission Change Failure InfoBar  -->
-		<InfoBar
-			x:Name="PermissionChangeInfoBar"
+		<StackPanel
 			Grid.Row="1"
 			VerticalAlignment="Top"
-			IsClosable="True"
-			IsOpen="{x:Bind SecurityAdvancedViewModel.IsPermissionChangeInfoBarOpen, Mode=TwoWay}"
-			Message="{x:Bind SecurityAdvancedViewModel.PermissionChangeInfoBarMessage, Mode=OneWay}"
-			Severity="Error" />
+			Spacing="8">
+
+			<!--  Permission Change Failure InfoBar  -->
+			<InfoBar
+				x:Name="PermissionChangeInfoBar"
+				IsClosable="True"
+				IsOpen="{x:Bind SecurityAdvancedViewModel.IsPermissionChangeInfoBarOpen, Mode=TwoWay}"
+				Message="{x:Bind SecurityAdvancedViewModel.PermissionChangeInfoBarMessage, Mode=OneWay}"
+				Severity="Error" />
+
+			<!--  No Change Access Control InfoBar  -->
+			<InfoBar
+				x:Name="UnableToChangePermissionsInfoBar"
+				Background="{ThemeResource LayerFillColorDefaultBrush}"
+				IsClosable="True"
+				IsOpen="{x:Bind SecurityAdvancedViewModel.IsUnableToChangePermissionsInfoBarOpen, Mode=TwoWay}"
+				Message="{helpers:ResourceString Name=SecurityRequireChangePermissions}"
+				Severity="Informational" />
+
+		</StackPanel>
 
 		<!--  No Read Access Control InfoBar  -->
 		<InfoBar

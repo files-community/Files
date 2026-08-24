@@ -3234,6 +3234,9 @@
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
     <value>Click 'Advanced permissions' to continue.</value>
   </data>
+  <data name="SecurityRequireChangePermissions" xml:space="preserve">
+    <value>You must be the owner of this item, or have permission to change permissions, to edit these entries.</value>
+  </data>
   <data name="SecurityRequireReadPermissions" xml:space="preserve">
     <value>You must have Read permissions to view the properties of this item.</value>
   </data>
@@ -3245,6 +3248,9 @@
   </data>
   <data name="SecurityFailedToChangeOwner" xml:space="preserve">
     <value>Unable to change the owner of this item.</value>
+  </data>
+  <data name="SecurityChangingOwner" xml:space="preserve">
+    <value>Changing owner...</value>
   </data>
   <data name="SecurityFailedToAddAccessControlEntry" xml:space="preserve">
     <value>Unable to add the permission entry.</value>

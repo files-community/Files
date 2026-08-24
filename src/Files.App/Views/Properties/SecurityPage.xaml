@@ -40,14 +40,26 @@
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
-			<!--  Permission Change Failure InfoBar  -->
-			<InfoBar
-				x:Name="PermissionChangeInfoBar"
-				Grid.Row="0"
-				IsClosable="True"
-				IsOpen="{x:Bind SecurityViewModel.IsPermissionChangeInfoBarOpen, Mode=TwoWay}"
-				Message="{x:Bind SecurityViewModel.PermissionChangeInfoBarMessage, Mode=OneWay}"
-				Severity="Error" />
+			<StackPanel Grid.Row="0" Spacing="8">
+
+				<!--  Permission Change Failure InfoBar  -->
+				<InfoBar
+					x:Name="PermissionChangeInfoBar"
+					IsClosable="True"
+					IsOpen="{x:Bind SecurityViewModel.IsPermissionChangeInfoBarOpen, Mode=TwoWay}"
+					Message="{x:Bind SecurityViewModel.PermissionChangeInfoBarMessage, Mode=OneWay}"
+					Severity="Error" />
+
+				<!--  No Change Access Control InfoBar  -->
+				<InfoBar
+					x:Name="UnableToChangePermissionsInfoBar"
+					Background="{ThemeResource LayerFillColorDefaultBrush}"
+					IsClosable="True"
+					IsOpen="{x:Bind SecurityViewModel.IsUnableToChangePermissionsInfoBarOpen, Mode=TwoWay}"
+					Message="{helpers:ResourceString Name=SecurityRequireChangePermissions}"
+					Severity="Informational" />
+
+			</StackPanel>
 
 			<!--  No Read Access Control InfoBar  -->
 			<InfoBar

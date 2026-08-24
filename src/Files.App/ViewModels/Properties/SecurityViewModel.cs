@@ -38,13 +38,24 @@ namespace Files.App.ViewModels.Properties
 			set => SetProperty(ref _PermissionChangeInfoBarMessage, value);
 		}
 
+		private bool _IsUnableToChangePermissionsInfoBarOpen;
+		public bool IsUnableToChangePermissionsInfoBarOpen
+		{
+			get => _IsUnableToChangePermissionsInfoBarOpen;
+			set => SetProperty(ref _IsUnableToChangePermissionsInfoBarOpen, value);
+		}
+
+		public bool CurrentInstanceCanChangePermissions { get; private set; }
+
 		public bool IsAddAccessControlEntryButtonEnabled =>
 			AccessControlList is not null &&
-			AccessControlList.IsValid;
+			AccessControlList.IsValid &&
+			CurrentInstanceCanChangePermissions;
 
 		public bool IsDeleteAccessControlEntryButtonEnabled =>
 			AccessControlList is not null &&
 			AccessControlList.IsValid &&
+			CurrentInstanceCanChangePermissions &&
 			SelectedAccessControlEntry is not null &&
 			SelectedAccessControlEntry.IsInherited is false;
 
@@ -121,6 +132,9 @@ namespace Files.App.ViewModels.Properties
 			{
 				DisplayElements = true;
 				ErrorMessage = string.Empty;
+
+				CurrentInstanceCanChangePermissions = StorageSecurityService.CanWriteAcl(_path, _isFolder);
+				IsUnableToChangePermissionsInfoBarOpen = !CurrentInstanceCanChangePermissions;
 			}
 
 			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommandAsync);
