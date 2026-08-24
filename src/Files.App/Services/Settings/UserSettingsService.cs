@@ -9,49 +9,49 @@ namespace Files.App.Services.Settings
 {
 	internal sealed class UserSettingsService : BaseJsonSettings, IUserSettingsService
 	{
-		private IGeneralSettingsService _GeneralSettingsService;
+		private IGeneralSettingsService? _GeneralSettingsService;
 		public IGeneralSettingsService GeneralSettingsService
 		{
 			get => GetSettingsService(ref _GeneralSettingsService);
 		}
 
-		private IFoldersSettingsService _FoldersSettingsService;
+		private IFoldersSettingsService? _FoldersSettingsService;
 		public IFoldersSettingsService FoldersSettingsService
 		{
 			get => GetSettingsService(ref _FoldersSettingsService);
 		}
 
-		private IAppearanceSettingsService _AppearanceSettingsService;
+		private IAppearanceSettingsService? _AppearanceSettingsService;
 		public IAppearanceSettingsService AppearanceSettingsService
 		{
 			get => GetSettingsService(ref _AppearanceSettingsService);
 		}
 
-		private IInfoPaneSettingsService _InfoPaneSettingsService;
+		private IInfoPaneSettingsService? _InfoPaneSettingsService;
 		public IInfoPaneSettingsService InfoPaneSettingsService
 		{
 			get => GetSettingsService(ref _InfoPaneSettingsService);
 		}
 
-		private ILayoutSettingsService _LayoutSettingsService;
+		private ILayoutSettingsService? _LayoutSettingsService;
 		public ILayoutSettingsService LayoutSettingsService
 		{
 			get => GetSettingsService(ref _LayoutSettingsService);
 		}
 
-		private IApplicationSettingsService _ApplicationSettingsService;
+		private IApplicationSettingsService? _ApplicationSettingsService;
 		public IApplicationSettingsService ApplicationSettingsService
 		{
 			get => GetSettingsService(ref _ApplicationSettingsService);
 		}
 
-		private IAppSettingsService _AppSettingsService;
+		private IAppSettingsService? _AppSettingsService;
 		public IAppSettingsService AppSettingsService
 		{
 			get => GetSettingsService(ref _AppSettingsService);
 		}
 
-		private IDevToolsSettingsService _DevToolsSettingsService;
+		private IDevToolsSettingsService? _DevToolsSettingsService;
 		public IDevToolsSettingsService DevToolsSettingsService
 		{
 			get => GetSettingsService(ref _DevToolsSettingsService);
@@ -104,10 +104,10 @@ namespace Files.App.Services.Settings
 			return false;
 		}
 
-		private TSettingsService GetSettingsService<TSettingsService>(ref TSettingsService settingsServiceMember)
+		private static TSettingsService GetSettingsService<TSettingsService>(ref TSettingsService? settingsServiceMember)
 			where TSettingsService : class, IBaseSettingsService
 		{
-			settingsServiceMember ??= Ioc.Default.GetService<TSettingsService>()!;
+			settingsServiceMember ??= Ioc.Default.GetRequiredService<TSettingsService>();
 
 			return settingsServiceMember;
 		}
