@@ -679,7 +679,7 @@ namespace Files.App.Utils.Storage
 			}, App.Logger);
 		}
 
-		public static Task<(bool, ShellOperationResult)> CopyItemWithRobocopyAsync(string[] fileToCopyPath, string[] copyDestination, bool overwriteOnCopy, long ownerHwnd, bool asAdmin, IProgress<StatusCenterItemProgressModel> progress, string operationID = "", IShellPage? shellPage = null)
+		public static Task<(bool, ShellOperationResult)> CopyItemWithRobocopyAsync(string[] fileToCopyPath, string[] copyDestination, bool overwriteOnCopy, long ownerHwnd, bool asAdmin, IProgress<StatusCenterItemProgressModel>? progress, string operationID = "", IShellPage? shellPage = null)
 		{
 			return PerformRobocopyOperationAsync(
 				fileToCopyPath,
@@ -691,7 +691,7 @@ namespace Files.App.Utils.Storage
 				isMoveOperation: false);
 		}
 
-		public static Task<(bool, ShellOperationResult)> MoveItemWithRobocopyAsync(string[] fileToMovePath, string[] moveDestination, bool overwriteOnMove, long ownerHwnd, bool asAdmin, IProgress<StatusCenterItemProgressModel> progress, string operationID = "", IShellPage? shellPage = null)
+		public static Task<(bool, ShellOperationResult)> MoveItemWithRobocopyAsync(string[] fileToMovePath, string[] moveDestination, bool overwriteOnMove, long ownerHwnd, bool asAdmin, IProgress<StatusCenterItemProgressModel>? progress, string operationID = "", IShellPage? shellPage = null)
 		{
 			return PerformRobocopyOperationAsync(
 				fileToMovePath,
@@ -703,7 +703,7 @@ namespace Files.App.Utils.Storage
 				isMoveOperation: true);
 		}
 
-		public static Task<(bool, ShellOperationResult)> DeleteItemWithRobocopyAsync(string[] fileToDeletePath, long ownerHwnd, bool asAdmin, IProgress<StatusCenterItemProgressModel> progress, string operationID = "", IShellPage? shellPage = null)
+		public static Task<(bool, ShellOperationResult)> DeleteItemWithRobocopyAsync(string[] fileToDeletePath, long ownerHwnd, bool asAdmin, IProgress<StatusCenterItemProgressModel>? progress, string operationID = "", IShellPage? shellPage = null)
 		{
 			return PerformRobocopyDeleteOperationAsync(
 				fileToDeletePath,
@@ -943,7 +943,7 @@ namespace Files.App.Utils.Storage
 			string[] filePaths,
 			string[] destinationPaths,
 			bool overwriteOnOperation,
-			IProgress<StatusCenterItemProgressModel> progress,
+			IProgress<StatusCenterItemProgressModel>? progress,
 			string operationID,
 			IShellPage? shellPage,
 			bool isMoveOperation)
@@ -1189,10 +1189,10 @@ namespace Files.App.Utils.Storage
 					if (success)
 						fsProgress.Report(100);
 
-					if (shellPage is not null)
+					if (shellPage is { } page)
 					{
 						await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
-							shellPage.ShellViewModel.RefreshItems(null));
+							page.ShellViewModel!.RefreshItems(null));
 					}
 
 					App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Completed with overall success: {success}");
@@ -1244,7 +1244,7 @@ namespace Files.App.Utils.Storage
 
 		private static Task<(bool, ShellOperationResult)> PerformRobocopyDeleteOperationAsync(
 			string[] filePaths,
-			IProgress<StatusCenterItemProgressModel> progress,
+			IProgress<StatusCenterItemProgressModel>? progress,
 			string operationID,
 			IShellPage? shellPage)
 		{
@@ -1374,10 +1374,10 @@ namespace Files.App.Utils.Storage
 					App.Logger?.LogInformation($"Robocopy delete operation {operationID}: Completed with overall success: {success}");
 
 					// Refresh UI if shellPage is provided
-					if (shellPage is not null)
+					if (shellPage is { } page)
 					{
 						await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
-							shellPage.ShellViewModel.RefreshItems(null));
+							page.ShellViewModel!.RefreshItems(null));
 					}
 
 				}
