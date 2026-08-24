@@ -232,7 +232,7 @@ namespace Files.App.ViewModels.Properties
 						{
 							if (file.Properties is not null)
 							{
-								await file.Properties.SaveNullablePropertiesAsync(newDict);
+								await file.Properties.SavePropertiesAsync(newDict);
 							}
 						}
 						catch
@@ -274,7 +274,7 @@ namespace Files.App.ViewModels.Properties
 						{
 							if (file.Properties is not null)
 							{
-								await file.Properties.SaveNullablePropertiesAsync(newDict);
+								await file.Properties.SavePropertiesAsync(newDict);
 							}
 						}
 						catch

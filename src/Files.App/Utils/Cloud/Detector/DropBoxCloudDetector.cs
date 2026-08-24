@@ -21,7 +21,7 @@ namespace Files.App.Utils.Cloud
 			if (File.Exists(websiteJsonPath))
 			{
 				infoJsonPath = websiteJsonPath;
-				App.Logger.LogInformation("Dropbox: Found website version at {Path}", websiteJsonPath);
+				App.Logger.LogInformation("Dropbox: Found website version at {Path}", LogPathHelper.RedactUserName(websiteJsonPath));
 			}
 			else
 			{
@@ -51,7 +51,7 @@ namespace Files.App.Utils.Cloud
 					if (newestInfoJsonPath is not null)
 					{
 						infoJsonPath = newestInfoJsonPath;
-						App.Logger.LogInformation("Dropbox: Found Store version at {Path} (last modified: {Timestamp})", newestInfoJsonPath, newestTimestamp);
+						App.Logger.LogInformation("Dropbox: Found Store version at {Path} (last modified: {Timestamp})", LogPathHelper.RedactUserName(newestInfoJsonPath), newestTimestamp);
 					}
 				}
 			}

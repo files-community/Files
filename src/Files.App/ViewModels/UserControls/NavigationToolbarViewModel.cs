@@ -807,7 +807,8 @@ namespace Files.App.ViewModels.UserControls
 			while (Win32PInvoke.FindNextFile(hFile, out findData));
 
 			Win32PInvoke.FindClose(hFile);
-			folders.Sort((a, b) => string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase));
+			var naturalComparer = NaturalStringComparer.GetForProcessor();
+			folders.Sort((a, b) => naturalComparer.Compare(a.Name, b.Name));
 
 			return folders;
 		}

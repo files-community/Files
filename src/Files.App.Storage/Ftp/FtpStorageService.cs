@@ -20,7 +20,7 @@ namespace Files.App.Storage
 			if (item is null || item.Type != FtpObjectType.Directory)
 				throw new DirectoryNotFoundException("Directory was not found from path.");
 
-			return new FtpStorageFolder(ftpPath, item.Name, null);
+			return new FtpStorageFolder(id, item.Name, null);
 		}
 
 		/// <inheritdoc/>
@@ -34,7 +34,7 @@ namespace Files.App.Storage
 			if (item is null || item.Type != FtpObjectType.File)
 				throw new FileNotFoundException("File was not found from path.");
 
-			return new FtpStorageFile(ftpPath, item.Name, null);
+			return new FtpStorageFile(id, item.Name, null);
 		}
 	}
 }

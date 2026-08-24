@@ -326,6 +326,8 @@ namespace Files.App.Views
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
+			ViewModel.OnPageLoaded();
+
 			MainWindow.Instance.AppWindow.Changed += (_, _) => MainWindow.Instance.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
 
 			// Defers loading until after the page has loaded to improve startup perf

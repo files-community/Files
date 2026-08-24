@@ -177,7 +177,7 @@ namespace Files.App.ViewModels.Settings
 		private async void DoTestIDE()
 		{
 			IsIDEPathValid = await Win32Helper.RunPowershellCommandAsync(
-				$"& \'{IDEPath}\'",
+				$"& {Win32Helper.ToPowerShellStringLiteral(IDEPath)}",
 				PowerShellExecutionOptions.Hidden
 			);
 		}

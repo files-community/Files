@@ -120,7 +120,7 @@ namespace Files.App.Utils
 						var path = this.GetRequiredPath();
 						var dbInstance = FileTagsHelper.GetDbInstance();
 						dbInstance.SetTags(path, FileFRN, value);
-						FileTagsHelper.WriteFileTag(path, value);
+						_ = FileTagsHelper.WriteFileTagAsync(path, value);
 					}
 
 					HasTags = !value.IsEmpty();

@@ -796,17 +796,17 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref runAsAdminEnabled, value);
 		}
 
-		private static readonly IReadOnlyDictionary<SHOW_WINDOW_CMD, string> showWindowCommandTypes = new Dictionary<SHOW_WINDOW_CMD, string>
+		private static readonly Dictionary<SHOW_WINDOW_CMD, string> showWindowCommandTypes = new()
 		{
-			{ SHOW_WINDOW_CMD.SW_NORMAL, Strings.NormalWindow.GetLocalizedResource() },
-			{ SHOW_WINDOW_CMD.SW_SHOWMINNOACTIVE, Strings.Minimized.GetLocalizedResource() },
-			{ SHOW_WINDOW_CMD.SW_MAXIMIZE, Strings.Maximized.GetLocalizedResource() }
-		}.AsReadOnly();
+			[SHOW_WINDOW_CMD.SW_NORMAL] = Strings.NormalWindow.GetLocalizedResource(),
+			[SHOW_WINDOW_CMD.SW_SHOWMINNOACTIVE] = Strings.Minimized.GetLocalizedResource(),
+			[SHOW_WINDOW_CMD.SW_MAXIMIZE] = Strings.Maximized.GetLocalizedResource()
+		};
 
 		/// <summary>
 		/// The available show window command types.
 		/// </summary>
-		public IReadOnlyDictionary<SHOW_WINDOW_CMD, string> ShowWindowCommandTypes { get => showWindowCommandTypes; }
+		public Dictionary<SHOW_WINDOW_CMD, string> ShowWindowCommandTypes { get => showWindowCommandTypes; }
 
 		/// <summary>
 		/// The localized string of the currently selected ShowWindowCommand.

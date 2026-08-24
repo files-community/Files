@@ -105,15 +105,11 @@ namespace Files.App.Helpers
 
 			ActiveSessionTracker.ReportPersistedTime();
 
-			// Start off a list of tasks we need to run before we can continue startup
-			await Task.WhenAll(
-				App.QuickAccessManager.InitializeAsync()
-			);
-
-			// Start non-critical tasks without waiting for them to complete
+			// Start non-critical tasks without waiting; pinned loads alongside the others so its shell enumeration doesn't block them.
 			_ = Task.Run(async () =>
 			{
 				await Task.WhenAll(
+					App.QuickAccessManager.InitializeAsync(),
 					OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
 					App.LibraryManager.UpdateLibrariesAsync(),
 					OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
@@ -194,9 +190,76 @@ namespace Files.App.Helpers
 					context.TransactionContext.Operation == ActiveSessionTracker.TransactionOperation ? 1.0 : null;
 				options.ProfilesSampleRate = 0.05;
 				options.Environment = AppEnvironment == AppEnvironment.StorePreview || AppEnvironment == AppEnvironment.SideloadPreview ? "preview" : "production";
+				options.CacheDirectoryPath = ApplicationData.Current.LocalFolder.Path;
 
 				options.DisableWinUiUnhandledExceptionIntegration();
+
+				options.SetBeforeSend(sentryEvent =>
+				{
+					if (sentryEvent.Message is { } message)
+					{
+						message.Message = SanitizeSentryText(message.Message);
+						message.Formatted = SanitizeSentryText(message.Formatted);
+					}
+
+					if (sentryEvent.SentryExceptions is { } sentryExceptions)
+					{
+						foreach (var sentryException in sentryExceptions)
+						{
+							sentryException.Value = SanitizeSentryText(sentryException.Value);
+
+							if (sentryException.Stacktrace?.Frames is { } frames)
+							{
+								foreach (var frame in frames)
+								{
+									frame.FileName = LogPathHelper.RedactUserName(frame.FileName);
+									frame.AbsolutePath = LogPathHelper.RedactUserName(frame.AbsolutePath);
+								}
+							}
+						}
+					}
+
+					foreach (var key in sentryEvent.Extra.Keys.ToList())
+					{
+						if (sentryEvent.Extra[key] is string text)
+							sentryEvent.SetExtra(key, SanitizeSentryText(text) ?? string.Empty);
+					}
+
+					return sentryEvent;
+				});
+
+				options.SetBeforeBreadcrumb(breadcrumb =>
+				{
+					var message = SanitizeSentryText(breadcrumb.Message);
+
+					Dictionary<string, string>? sanitizedData = null;
+					if (breadcrumb.Data is { } data)
+					{
+						foreach (var (key, value) in data)
+						{
+							var sanitizedValue = SanitizeSentryText(value);
+							if (sanitizedValue != value)
+							{
+								sanitizedData ??= new(data);
+								sanitizedData[key] = sanitizedValue ?? string.Empty;
+							}
+						}
+					}
+
+					if (message == breadcrumb.Message && sanitizedData is null)
+						return breadcrumb;
+
+					return new Breadcrumb(message!, breadcrumb.Type!, sanitizedData ?? breadcrumb.Data, breadcrumb.Category, breadcrumb.Level);
+				});
 			});
+		}
+
+		/// <summary>
+		/// Scrubs user names and file system paths from text before it is attached to a Sentry event.
+		/// </summary>
+		private static string? SanitizeSentryText(string? text)
+		{
+			return text is null ? null : LogPathHelper.SanitizeMessage(text);
 		}
 
 		/// <summary>
@@ -206,10 +269,13 @@ namespace Files.App.Helpers
 		public static IServiceProvider ConfigureHost(AppModel appModel)
 		{
 			var services = new ServiceCollection();
+			var fileLoggerProvider = new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log"));
+
+			services.AddSingleton(fileLoggerProvider);
 
 			services.AddLogging(builder => builder
 					.AddDebug()
-					.AddProvider(new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log")))
+					.AddProvider(fileLoggerProvider)
 					.AddProvider(new SentryLoggerProvider())
 					.SetMinimumLevel(LogLevel.Information));
 
@@ -501,11 +567,11 @@ namespace Files.App.Helpers
 			catch
 			{
 				// Swallow any exception escaping the handler so it can't re-enter
-				// Application.UnhandledException before Process.Kill terminates the process.
+				// Application.UnhandledException before the process terminates.
 			}
 			finally
 			{
-				Process.GetCurrentProcess().Kill();
+				Environment.Exit(ex?.HResult ?? 1);
 			}
 		}
 

@@ -991,7 +991,7 @@ namespace Files.App.Utils.Storage
 							using var si = new ShellItem(destination);
 							if (si.IsFolder) // File tag is not copied automatically for folders
 							{
-								FileTagsHelper.WriteFileTag(destination, tag);
+								_ = FileTagsHelper.WriteFileTagAsync(destination, tag);
 							}
 						}
 						else

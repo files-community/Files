@@ -23,7 +23,7 @@ namespace Files.App
 
 		public nint WindowHandle { get; }
 		private bool CanWindowToFront { get; set; } = true;
-		private readonly object _canWindowToFrontLock = new();
+		private readonly Lock _canWindowToFrontLock = new();
 
 		public MainWindow()
 		{
@@ -353,7 +353,7 @@ namespace Files.App
 								var tagUid = tag is not null ? new[] { tag.Uid } : [];
 								var dbInstance = FileTagsHelper.GetDbInstance();
 								dbInstance.SetTags(file, fileFRN, tagUid);
-								FileTagsHelper.WriteFileTag(file, tagUid);
+								await FileTagsHelper.WriteFileTagAsync(file, tagUid);
 							}
 						}
 						break;

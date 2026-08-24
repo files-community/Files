@@ -9,10 +9,11 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.Windows.AppLifecycle;
-using Windows.Win32;
+using System.Runtime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.Win32;
 using WinRT;
 
 namespace Files.App
@@ -27,6 +28,7 @@ namespace Files.App
 		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
 		public static string? OutputPath { get; set; }
 
+		private bool _isMainWindowClosing;
 		private static FlyoutBase? _LastOpenedFlyout;
 		public static FlyoutBase? LastOpenedFlyout
 		{
@@ -61,6 +63,8 @@ namespace Files.App
 			UnhandledException += (sender, e) => AppLifecycleHelper.HandleAppUnhandledException(e.Exception, true, "Application.UnhandledException", e.Message);
 			AppDomain.CurrentDomain.UnhandledException += (sender, e) => AppLifecycleHelper.HandleAppUnhandledException(e.ExceptionObject as Exception, false, "AppDomain.UnhandledException");
 			TaskScheduler.UnobservedTaskException += (sender, e) => AppLifecycleHelper.HandleAppUnhandledException(e.Exception, false, "TaskScheduler.UnobservedTaskException");
+			AppDomain.CurrentDomain.ProcessExit += static (_, _) =>
+				SafetyExtensions.IgnoreExceptions(() => Ioc.Default.GetService<FileLoggerProvider>()?.TryCompleteAndFlush(TimeSpan.FromSeconds(2)));
 		}
 
 		/// <summary>
@@ -220,8 +224,12 @@ namespace Files.App
 
 					Thread.Yield();
 
+					var cts = new CancellationTokenSource();
+					TryEmptyWorkingSetWhenIdle(cts.Token);
+
 					if (Program.Pool.WaitOne())
 					{
+						cts.Cancel();
 						// Resume the instance
 						Program.Pool.Dispose();
 						Program.Pool = null;
@@ -253,7 +261,14 @@ namespace Files.App
 		{
 			Logger.LogInformation($"Window_Activated: State={args.WindowActivationState}");
 
+			if (args.WindowActivationState is not WindowActivationState.Deactivated)
+				_isMainWindowClosing = false;
+
 			ActiveSessionTracker.OnActivationChanged(args.WindowActivationState != WindowActivationState.Deactivated);
+
+			// MainWindow derives from WinUIEx.WindowEx, so it doesn't get the backdrop wiring in Files.App.Data.Items.WindowEx
+			if (!_isMainWindowClosing && MainWindow.Instance.SystemBackdrop is AppSystemBackdrop appSystemBackdrop)
+				appSystemBackdrop.SetInputActive(args.WindowActivationState is not WindowActivationState.Deactivated);
 
 			if (args.WindowActivationState != WindowActivationState.Deactivated)
 				AppModel.IsMainWindowClosed = false;
@@ -274,6 +289,8 @@ namespace Files.App
 		/// </remarks>
 		private async void Window_Closed(object sender, WindowEventArgs args)
 		{
+			_isMainWindowClosing = true;
+
 			// Save application state and stop any background activity
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			StatusCenterViewModel statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
@@ -353,8 +370,12 @@ namespace Files.App
 					});
 				}
 
+				var cts = new CancellationTokenSource();
+				TryEmptyWorkingSetWhenIdle(cts.Token);
+
 				if (Program.Pool.WaitOne())
 				{
+					cts.Cancel();
 					// Resume the instance
 					Program.Pool.Dispose();
 					Program.Pool = null;
@@ -394,6 +415,43 @@ namespace Files.App
 
 			// Wait for ongoing file operations
 			FileOperationsHelpers.WaitForCompletion();
+		}
+
+		private static void TryEmptyWorkingSetWhenIdle(CancellationToken cancellationToken)
+		{
+			static void AggressiveGC(Windows.Win32.Foundation.HANDLE processHandle, CancellationToken cancellationToken)
+			{
+				GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
+				GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, true, true);
+				GC.WaitForPendingFinalizers();
+				GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, true, true);
+				Thread.Sleep(1000);
+
+				if (cancellationToken.IsCancellationRequested)
+					return;
+
+				PInvoke.K32EmptyWorkingSet(processHandle);
+			}
+
+			new Thread(() =>
+			{
+				using var process = Process.GetCurrentProcess();
+				var processHandle = new Windows.Win32.Foundation.HANDLE(process.Handle);
+
+				// Try to empty the working set
+				AggressiveGC(processHandle, cancellationToken);
+
+				if (cancellationToken.IsCancellationRequested)
+					return;
+
+				FileOperationsHelpers.WaitForCompletion();
+				if (cancellationToken.IsCancellationRequested)
+					return;
+
+				// After all pending file operations are completed, try to empty the working set again
+				AggressiveGC(processHandle, cancellationToken);
+			})
+			{ IsBackground = true }.Start();
 		}
 
 		/// <summary>

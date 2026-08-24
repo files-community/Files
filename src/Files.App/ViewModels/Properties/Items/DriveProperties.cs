@@ -91,7 +91,7 @@ namespace Files.App.ViewModels.Properties
 			}
 			catch (Exception e)
 			{
-				App.Logger.LogWarning(e, "Failed to get sync root quota for path: {Path}", Drive.Path);
+				App.Logger.LogWarning(e, "Failed to get sync root quota for path: {Path}", LogPathHelper.RedactPath(Drive.Path));
 			}
 
 			try

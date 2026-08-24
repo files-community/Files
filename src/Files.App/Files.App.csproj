@@ -20,6 +20,7 @@
         <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
         <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
         <Nullable>Enable</Nullable>
+        <NoWarn>$(NoWarn);CS8305</NoWarn>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <Platforms>x86;x64;arm64</Platforms>
         <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
@@ -36,11 +37,32 @@
         <ApplicationIcon>Assets\AppTiles\Dev\Logo.ico</ApplicationIcon>
         <IsTrimmable>true</IsTrimmable>
         <IsAotCompatible>true</IsAotCompatible>
+        <IlcGenerateMstatFile>true</IlcGenerateMstatFile>
+        <IlcGenerateDgmlFile>true</IlcGenerateDgmlFile>
     </PropertyGroup>
 
     <PropertyGroup>
         <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     </PropertyGroup>
+
+    <ItemGroup>
+        <DirectPInvoke Include="ADVAPI32" />
+        <DirectPInvoke Include="api-ms-win-core-com-l1-1-0" />
+        <DirectPInvoke Include="api-ms-win-core-com-l1-1-1" />
+        <DirectPInvoke Include="api-ms-win-core-winrt-l1-1-0" />
+        <DirectPInvoke Include="api-ms-win-core-winrt-robuffer-l1-1-0" />
+        <DirectPInvoke Include="api-ms-win-core-winrt-string-l1-1-0" />
+        <DirectPInvoke Include="CRYPT32" />
+        <DirectPInvoke Include="GDI32" />
+        <DirectPInvoke Include="KERNEL32.dll" />
+        <DirectPInvoke Include="Microsoft.WindowsAppRuntime.Bootstrap" />
+        <DirectPInvoke Include="OLE32" />
+        <DirectPInvoke Include="OLEAUT32" />
+        <DirectPInvoke Include="USER32" />
+        <_WindowsAppRuntimeBootstrapLibrary Include="@(WindowsAppSdkComponentPackages->'%(FullPath)lib\native\$(Platform)\Microsoft.WindowsAppRuntime.Bootstrap.lib')" />
+        <NativeLibrary Include="runtimeobject.lib" />
+        <NativeLibrary Include="@(_WindowsAppRuntimeBootstrapLibrary->Exists())" />
+    </ItemGroup>
   
     <ItemGroup>
         <Manifest Include="app.manifest" />

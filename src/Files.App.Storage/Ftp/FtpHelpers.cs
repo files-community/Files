@@ -1,7 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Extensions;
 using FluentFTP;
 
 namespace Files.App.Storage
@@ -10,12 +9,11 @@ namespace Files.App.Storage
 	{
 		public static string GetFtpPath(string path)
 		{
+			// FTP paths are raw: URI query, fragment, and escape characters are valid file name characters.
 			path = path.Replace('\\', '/');
+			var authority = GetFtpAuthority(path);
 
-			var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
-			var hostIndex = path.IndexOf('/', schemaIndex);
-
-			return hostIndex == -1 ? "/" : path.Substring(hostIndex);
+			return path.Length == authority.Length ? "/" : path.Substring(authority.Length);
 		}
 
 		public static Task EnsureConnectedAsync(this AsyncFtpClient ftpClient, CancellationToken cancellationToken = default)
@@ -24,43 +22,43 @@ namespace Files.App.Storage
 		}
 
 		public static string GetFtpHost(string path)
-		{
-			var authority = GetFtpAuthority(path);
-			var index = authority.IndexOf(':', StringComparison.Ordinal);
-
-			return index == -1 ? authority : authority.Substring(0, index);
-		}
+			=> new Uri(GetFtpAuthority(path), UriKind.Absolute).DnsSafeHost;
 
 		public static ushort GetFtpPort(string path)
 		{
-			var authority = GetFtpAuthority(path);
-			var index = authority.IndexOf(':', StringComparison.Ordinal);
+			var uri = new Uri(GetFtpAuthority(path), UriKind.Absolute);
+			if (!uri.IsDefaultPort)
+				return checked((ushort)uri.Port);
 
-			if (index != -1)
-				return ushort.Parse(authority.Substring(index + 1));
-
-			return path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase) ? (ushort)990 : (ushort)21;
+			return uri.Scheme.Equals("ftps", StringComparison.OrdinalIgnoreCase) ? (ushort)990 : (ushort)21;
 		}
 
-		public static string GetFtpAuthority(string path)
+		public static bool IsSameFtpPath(string firstPath, string secondPath)
 		{
-			path = path.Replace('\\', '/');
-			var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
-			var hostIndex = path.IndexOf('/', schemaIndex);
-
-			if (hostIndex == -1)
-				hostIndex = path.Length;
-
-			return path.Substring(schemaIndex, hostIndex - schemaIndex);
+			return
+				string.Equals(GetFtpHost(firstPath), GetFtpHost(secondPath), StringComparison.OrdinalIgnoreCase) &&
+				GetFtpPort(firstPath) == GetFtpPort(secondPath) &&
+				string.Equals(GetFtpPath(firstPath), GetFtpPath(secondPath), StringComparison.Ordinal);
 		}
 
 		public static AsyncFtpClient GetFtpClient(string ftpPath)
 		{
 			var host = GetFtpHost(ftpPath);
 			var port = GetFtpPort(ftpPath);
-			var credentials = FtpManager.Credentials.Get(host, FtpManager.Anonymous);
+			var credentials = FtpManager.Credentials.GetValueOrDefault(host) ?? FtpManager.Anonymous;
 
 			return new(host, credentials, port);
+		}
+
+		private static string GetFtpAuthority(string path)
+		{
+			path = path.Replace('\\', '/');
+			var schemeIndex = path.IndexOf(Uri.SchemeDelimiter, StringComparison.Ordinal);
+			if (schemeIndex < 0)
+				throw new UriFormatException("The FTP path does not contain a URI scheme.");
+
+			var pathIndex = path.IndexOf('/', schemeIndex + Uri.SchemeDelimiter.Length);
+			return pathIndex < 0 ? path : path[..pathIndex];
 		}
 	}
 }

@@ -14,6 +14,7 @@ namespace Files.App.Helpers
 		private ISystemBackdropControllerWithTargets? controller;
 		private ICompositionSupportsSystemBackdrop? target;
 		private XamlRoot? root;
+		private SystemBackdropConfiguration? configuration;
 		private SystemBackdropTheme? prevTheme = null;
 
 		public AppSystemBackdrop(bool isSecondaryWindow = false)
@@ -31,7 +32,7 @@ namespace Files.App.Helpers
 			base.OnTargetConnected(connectedTarget, xamlRoot);
 			this.target = connectedTarget;
 			this.root = xamlRoot;
-			var configuration = GetDefaultSystemBackdropConfiguration(connectedTarget, xamlRoot);
+			configuration = GetDefaultSystemBackdropConfiguration(connectedTarget, xamlRoot);
 			controller = GetSystemBackdropController(userSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial, configuration.Theme);
 			controller?.SetSystemBackdropConfiguration(configuration);
 			controller?.AddSystemBackdropTarget(connectedTarget);
@@ -54,6 +55,7 @@ namespace Files.App.Helpers
 			base.OnTargetDisconnected(disconnectedTarget);
 			this.target = null;
 			this.root = null;
+			this.configuration = null;
 
 
 			try
@@ -79,13 +81,20 @@ namespace Files.App.Helpers
 				case nameof(IAppearanceSettingsService.AppThemeBackdropMaterial):
 					controller?.RemoveAllSystemBackdropTargets();
 					controller?.Dispose();
-					var configuration = GetDefaultSystemBackdropConfiguration(target, root);
+					configuration = GetDefaultSystemBackdropConfiguration(target, root);
 					var newController = GetSystemBackdropController(userSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial, configuration.Theme);
 					newController?.SetSystemBackdropConfiguration(configuration);
 					newController?.AddSystemBackdropTarget(target);
 					controller = newController;
 					break;
 			}
+		}
+
+		// Driven from the window's Activated event since the default configuration doesn't reliably flip IsInputActive on pointerless activation (e.g. taskbar).
+		public void SetInputActive(bool isInputActive)
+		{
+			if (configuration is not null)
+				configuration.IsInputActive = isInputActive;
 		}
 
 		private ISystemBackdropControllerWithTargets? GetSystemBackdropController(BackdropMaterialType backdropType, SystemBackdropTheme theme)

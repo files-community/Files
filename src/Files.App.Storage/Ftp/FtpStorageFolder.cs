@@ -1,7 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Helpers;
 using FluentFTP;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -21,16 +20,17 @@ namespace Files.App.Storage
 			using var ftpClient = GetFtpClient();
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
 
-			var path = FtpHelpers.GetFtpPath(PathHelpers.Combine(Id, folderName));
+			var itemId = $"{Id.TrimEnd('/')}/{folderName}";
+			var path = FtpHelpers.GetFtpPath(itemId);
 			var item = await ftpClient.GetObjectInfo(path, token: cancellationToken);
 
 			if (item is null)
 				throw new FileNotFoundException();
 
 			if (item.Type == FtpObjectType.Directory)
-				return new FtpStorageFolder(path, item.Name, this);
+				return new FtpStorageFolder(itemId, item.Name, this);
 			else
-				return new FtpStorageFile(path, item.Name, this);
+				return new FtpStorageFile(itemId, item.Name, this);
 
 		}
 
@@ -40,32 +40,13 @@ namespace Files.App.Storage
 			using var ftpClient = GetFtpClient();
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
 
-			if (kind == StorableType.File)
+			foreach (var item in await ftpClient.GetListing(FtpHelpers.GetFtpPath(Id), cancellationToken))
 			{
-				foreach (var item in await ftpClient.GetListing(Id, cancellationToken))
-				{
-					if (item.Type == FtpObjectType.File)
-						yield return new FtpStorageFile(item.FullName, item.Name, this);
-				}
-			}
-			else if (kind == StorableType.Folder)
-			{
-				foreach (var item in await ftpClient.GetListing(Id, cancellationToken))
-				{
-					if (item.Type == FtpObjectType.Directory)
-						yield return new FtpStorageFolder(item.FullName, item.Name, this);
-				}
-			}
-			else
-			{
-				foreach (var item in await ftpClient.GetListing(Id, cancellationToken))
-				{
-					if (item.Type == FtpObjectType.File)
-						yield return new FtpStorageFile(item.FullName, item.Name, this);
-
-					if (item.Type == FtpObjectType.Directory)
-						yield return new FtpStorageFolder(item.FullName, item.Name, this);
-				}
+				var itemId = $"{Id.TrimEnd('/')}/{item.Name}";
+				if (kind.HasFlag(StorableType.File) && item.Type == FtpObjectType.File)
+					yield return new FtpStorageFile(itemId, item.Name, this);
+				else if (kind.HasFlag(StorableType.Folder) && item.Type == FtpObjectType.Directory)
+					yield return new FtpStorageFolder(itemId, item.Name, this);
 			}
 		}
 
@@ -83,11 +64,11 @@ namespace Files.App.Storage
 
 			if (item is IFile locatableFile)
 			{
-				await ftpClient.DeleteFile(locatableFile.Id, cancellationToken);
+				await ftpClient.DeleteFile(FtpHelpers.GetFtpPath(locatableFile.Id), cancellationToken);
 			}
 			else if (item is IFolder locatableFolder)
 			{
-				await ftpClient.DeleteDirectory(locatableFolder.Id, cancellationToken);
+				await ftpClient.DeleteDirectory(FtpHelpers.GetFtpPath(locatableFolder.Id), cancellationToken);
 			}
 			else
 			{
@@ -100,6 +81,10 @@ namespace Files.App.Storage
 		{
 			if (itemToCopy is IFile sourceFile)
 			{
+				var destinationId = $"{Id.TrimEnd('/')}/{itemToCopy.Name}";
+				if (sourceFile is FtpStorageFile && FtpHelpers.IsSameFtpPath(sourceFile.Id, destinationId))
+					throw new IOException("Source and destination refer to the same FTP file.");
+
 				var copiedFile = await CreateFileAsync(itemToCopy.Name, overwrite, cancellationToken);
 				await sourceFile.CopyContentsToAsync(copiedFile, cancellationToken);
 
@@ -114,9 +99,6 @@ namespace Files.App.Storage
 		/// <inheritdoc/>
 		public async Task<IStorableChild> MoveFromAsync(IStorableChild itemToMove, IModifiableFolder source, bool overwrite = default, CancellationToken cancellationToken = default)
 		{
-			using var ftpClient = GetFtpClient();
-			await ftpClient.EnsureConnectedAsync(cancellationToken);
-
 			var newItem = await CreateCopyOfAsync(itemToMove, overwrite, cancellationToken);
 			await source.DeleteAsync(itemToMove, cancellationToken);
 
@@ -129,8 +111,9 @@ namespace Files.App.Storage
 			using var ftpClient = GetFtpClient();
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
 
-			var newPath = $"{Id}/{desiredName}";
-			if (overwrite && await ftpClient.FileExists(newPath, cancellationToken))
+			var newId = $"{Id.TrimEnd('/')}/{desiredName}";
+			var newPath = FtpHelpers.GetFtpPath(newId);
+			if (!overwrite && await ftpClient.FileExists(newPath, cancellationToken))
 				throw new IOException("File already exists.");
 
 			using var stream = new MemoryStream();
@@ -139,7 +122,7 @@ namespace Files.App.Storage
 			if (result == FtpStatus.Success)
 			{
 				// Success
-				return new FtpStorageFile(newPath, desiredName, this);
+				return new FtpStorageFile(newId, desiredName, this);
 			}
 			else if (result == FtpStatus.Skipped)
 			{
@@ -159,15 +142,21 @@ namespace Files.App.Storage
 			using var ftpClient = GetFtpClient();
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
 
-			var newPath = $"{Id}/{desiredName}";
-			if (overwrite && await ftpClient.DirectoryExists(newPath, cancellationToken))
-				throw new IOException("Directory already exists.");
+			var newId = $"{Id.TrimEnd('/')}/{desiredName}";
+			var newPath = FtpHelpers.GetFtpPath(newId);
+			if (await ftpClient.DirectoryExists(newPath, cancellationToken))
+			{
+				if (!overwrite)
+					throw new IOException("Directory already exists.");
+
+				return new FtpStorageFolder(newId, desiredName, this);
+			}
 
 			var isSuccessful = await ftpClient.CreateDirectory(newPath, overwrite, cancellationToken);
 			if (!isSuccessful)
 				throw new IOException("Directory was not successfully created.");
 
-			return new FtpStorageFolder(newPath, desiredName, this);
+			return new FtpStorageFolder(newId, desiredName, this);
 		}
 	}
 }

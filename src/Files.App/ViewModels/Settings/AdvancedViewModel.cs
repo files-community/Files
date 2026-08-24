@@ -71,7 +71,10 @@ namespace Files.App.ViewModels.Settings
 			var dataPath = Environment.ExpandEnvironmentVariables("%LocalAppData%\\Files");
 			if (IsSetAsDefaultFileManager)
 			{
-				if (!await Win32Helper.RunPowershellCommandAsync($"-command \"New-Item -Force -Path '{dataPath}' -ItemType Directory; Copy-Item -Filter *.* -Path '{destFolder}\\*' -Recurse -Force -Destination '{dataPath}'; 'files-dev' | Out-File -Encoding utf8 -Force -FilePath '{dataPath}\\Branch.txt'\"", PowerShellExecutionOptions.Hidden))
+				var sourcePath = Path.Combine(destFolder, "*");
+				var branchPath = Path.Combine(dataPath, "Branch.txt");
+				var command = $"-command \"New-Item -Force -Path {Win32Helper.ToPowerShellStringLiteral(dataPath)} -ItemType Directory; Copy-Item -Filter *.* -Path {Win32Helper.ToPowerShellStringLiteral(sourcePath)} -Recurse -Force -Destination {Win32Helper.ToPowerShellStringLiteral(dataPath)}; 'files-dev' | Out-File -Encoding utf8 -Force -FilePath {Win32Helper.ToPowerShellStringLiteral(branchPath)}\"";
+				if (!await Win32Helper.RunPowershellCommandAsync(command, PowerShellExecutionOptions.Hidden))
 				{
 					// Error copying files
 					await DetectResult();
@@ -80,7 +83,7 @@ namespace Files.App.ViewModels.Settings
 			}
 			else
 			{
-				await Win32Helper.RunPowershellCommandAsync($"-command \"Remove-Item -Path '{dataPath}' -Recurse -Force\"", PowerShellExecutionOptions.Hidden);
+				await Win32Helper.RunPowershellCommandAsync($"-command \"Remove-Item -LiteralPath {Win32Helper.ToPowerShellStringLiteral(dataPath)} -Recurse -Force\"", PowerShellExecutionOptions.Hidden);
 			}
 
 			try

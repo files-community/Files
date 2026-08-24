@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.Extensions.Logging;
 using System.Collections.Specialized;
 using System.IO;
 using Windows.Win32.UI.Shell;
@@ -104,24 +105,24 @@ namespace Files.App.Data.Models
 			locationItem.IsDefaultLocation = false;
 			locationItem.Text = libraryDisplayName ?? res?.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'));
 
+			// Load icons fire-and-forget so the section renders immediately; Icon is observable and swaps in when ready.
 			if (isLibrary)
 			{
-				// DangerousGetFolderFromPathAsync resolves a .library-ms to its first destination folder,
-				// so load the icon from the library file directly (isFolder: false yields the library icon).
+				// Load from the .library-ms directly (isFolder: false) since the path was resolved to a destination folder.
 				locationItem.IsInvalid = false;
-				await LoadIconForLocationItemAsync(locationItem, path, isFolder: false);
+				_ = LoadIconForLocationItemAsync(locationItem, path, isFolder: false);
 			}
 			else if (res)
 			{
 				locationItem.IsInvalid = false;
 				if (res!.Result is { } folder)
-					await LoadIconForLocationItemAsync(locationItem, folder.Path);
+					_ = LoadIconForLocationItemAsync(locationItem, folder.Path);
 			}
 			else
 			{
 				locationItem.IsInvalid = true;
 				Debug.WriteLine($"Pinned item was invalid {res?.ErrorCode}, item: {path}");
-				await LoadDefaultIconForLocationItemAsync(locationItem);
+				_ = LoadDefaultIconForLocationItemAsync(locationItem);
 			}
 
 			return locationItem;
@@ -149,13 +150,17 @@ namespace Files.App.Data.Models
 
 				locationItem.IconData = result;
 
-				var bitmapImage = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
-				if (bitmapImage is not null)
-					locationItem.Icon = bitmapImage;
+				// Assign Icon on the UI thread: it raises PropertyChanged, which builds a XAML IconElement in a realized SidebarItem.
+				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				{
+					var bitmapImage = await locationItem.IconData.ToBitmapAsync();
+					if (bitmapImage is not null)
+						locationItem.Icon = bitmapImage;
+				});
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"Error loading icon for {path}: {ex.Message}");
+				App.Logger.LogWarning(ex, $"Error loading icon for {path}");
 			}
 		}
 
@@ -163,8 +168,11 @@ namespace Files.App.Data.Models
 		{
 			try
 			{
-				var defaultIcon = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => UIHelpers.GetSidebarIconResource(Constants.ImageRes.Folder));
-				locationItem.Icon = defaultIcon;
+				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				{
+					var defaultIcon = await UIHelpers.GetSidebarIconResource(Constants.ImageRes.Folder);
+					locationItem.Icon = defaultIcon;
+				});
 			}
 			catch (Exception ex)
 			{
@@ -209,9 +217,27 @@ namespace Files.App.Data.Models
 		/// </summary>
 		public async Task AddAllItemsToSidebarAsync()
 		{
-			if (userSettingsService.GeneralSettingsService.ShowPinnedSection)
-				foreach (string path in PinnedFolders)
-					await AddItemToSidebarAsync(path);
+			if (!userSettingsService.GeneralSettingsService.ShowPinnedSection)
+				return;
+
+			// Build items concurrently to avoid serializing N shell round-trips on the startup path.
+			var locationItems = await Task.WhenAll(PinnedFolders.Select(p => CreateLocationItemFromPathAsync(p)));
+
+			lock (_PinnedFolderItems)
+			{
+				foreach (var locationItem in locationItems)
+				{
+					if (_PinnedFolderItems.Any(x => x.Path == locationItem.Path))
+						continue;
+
+					var lastItem = _PinnedFolderItems.LastOrDefault(x => x.ItemType is NavigationControlItemType.Location);
+					var insertIndex = lastItem is not null ? _PinnedFolderItems.IndexOf(lastItem) + 1 : 0;
+					_PinnedFolderItems.Insert(insertIndex, locationItem);
+				}
+			}
+
+			// One ordered Reset instead of per-item Add events, which can interleave on the dispatcher and land out of order.
+			DataChanged?.Invoke(SectionType.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}
 
 		/// <summary>

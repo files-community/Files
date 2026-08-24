@@ -692,8 +692,8 @@ namespace Files.App.Utils.Storage
 				if (!collisions.TryAdd(itemPathOrName, FileNameConflictResolveOptionType.GenerateNewName))
 				{
 					// Something strange happened, log
-					App.Logger.LogWarning($"Duplicate key when resolving conflicts: {itemPathOrName}, {src.Name}\n" +
-						$"Source: {string.Join(", ", source.Select(x => string.IsNullOrEmpty(x.Path) ? x.Name : x.Path))}");
+					App.Logger.LogWarning($"Duplicate key when resolving conflicts: {LogPathHelper.RedactPath(itemPathOrName)}, {LogPathHelper.RedactPath(src.Name)}\n" +
+						$"Source: {string.Join(", ", source.Select(x => LogPathHelper.RedactPath(string.IsNullOrEmpty(x.Path) ? x.Name : x.Path)))}");
 				}
 
 				// Assume GenerateNewName when source and destination are the same

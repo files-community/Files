@@ -154,9 +154,16 @@ namespace Files.App.Views.Shells
 					_IsCurrentInstance = value;
 
 					if (value)
+					{
 						_IsCurrentInstanceTCS.TrySetResult();
+						_updateDateDisplayTimer?.Start();
+						ShellViewModel?.UpdateDateDisplay();
+					}
 					else
+					{
 						_IsCurrentInstanceTCS = new();
+						_updateDateDisplayTimer?.Stop();
+					}
 
 					NotifyPropertyChanged(nameof(IsCurrentInstance));
 
@@ -217,7 +224,6 @@ namespace Files.App.Views.Shells
 			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
 			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
 			_lastDateTimeFormats = userSettingsService.GeneralSettingsService.DateTimeFormat;
-			_updateDateDisplayTimer.Start();
 
 			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
 		}
@@ -230,7 +236,7 @@ namespace Files.App.Views.Shells
 			// Ticks dispatched during dispatcher queue shutdown crash in CoreMessaging
 			if (App.AppModel.IsMainWindowClosed)
 				_updateDateDisplayTimer?.Stop();
-			else
+			else if (IsCurrentInstance)
 				_updateDateDisplayTimer?.Start();
 		}
 
@@ -296,15 +302,20 @@ namespace Files.App.Views.Shells
 				var isGitFetchCanceled = false;
 				if (!_gitFetch.IsCompleted)
 				{
-					_gitFetchToken.Cancel();
+					var canceledFetch = _gitFetch;
+					var canceledFetchToken = _gitFetchToken;
+					canceledFetchToken.Cancel();
+					_ = canceledFetch.ContinueWith(
+						_ => canceledFetchToken.Dispose(),
+						CancellationToken.None,
+						TaskContinuationOptions.ExecuteSynchronously,
+						TaskScheduler.Default);
 					_gitFetchToken = new CancellationTokenSource();
 					isGitFetchCanceled = true;
 				}
 				if (InstanceViewModel.IsGitRepository && (!GitHelpers.IsExecutingGitAction || isGitFetchCanceled))
 				{
-					_gitFetch = Task.Run(
-						() => GitHelpers.FetchOrigin(InstanceViewModel.GitRepositoryPath, _gitFetchToken.Token),
-						_gitFetchToken.Token);
+					_gitFetch = GitHelpers.FetchOriginAsync(InstanceViewModel.GitRepositoryPath, _gitFetchToken.Token);
 				}
 			}
 
@@ -943,6 +954,13 @@ namespace Files.App.Views.Shells
 				_updateDateDisplayTimer = null;
 			}
 			cancellationTokenSource.Dispose();
+			var gitFetchToken = _gitFetchToken;
+			gitFetchToken.Cancel();
+			_ = _gitFetch.ContinueWith(
+				_ => gitFetchToken.Dispose(),
+				CancellationToken.None,
+				TaskContinuationOptions.ExecuteSynchronously,
+				TaskScheduler.Default);
 		}
 	}
 }
