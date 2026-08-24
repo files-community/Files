@@ -1,4 +1,4 @@
-<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <items:WindowEx
 	x:Class="Files.App.MainWindow"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
