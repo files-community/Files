@@ -169,7 +169,9 @@ namespace Files.App.Utils.Git
 				var viewModel = new DynamicDialogViewModel()
 				{
 					TitleText = Strings.GitError.GetLocalizedResource(),
-					SubtitleText = message,
+					SubtitleText = result is GitOperationResult.UncommittedChangesError
+						? Strings.PullUncommittedChangesError.GetLocalizedResource()
+						: message,
 					CloseButtonText = Strings.Close.GetLocalizedResource(),
 					DynamicButtons = DynamicDialogButtons.Cancel
 				};
