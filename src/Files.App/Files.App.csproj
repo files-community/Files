@@ -45,6 +45,12 @@
         <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(SENTRY_AUTH_TOKEN)' != ''">
+        <SentryOrg>files-org</SentryOrg>
+        <SentryProject>files-app</SentryProject>
+        <SentryUploadSymbols>true</SentryUploadSymbols>
+    </PropertyGroup>
+
     <ItemGroup>
         <DirectPInvoke Include="ADVAPI32" />
         <DirectPInvoke Include="api-ms-win-core-com-l1-1-0" />
