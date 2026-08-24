@@ -487,8 +487,8 @@ namespace Files.App.Utils.Storage
 				var isUrl = FileExtensionHelpers.IsWebLinkFile(itemFindData.cFileName);
 				var shortcutFindData = itemFindData;
 				var isHidden = ((FileAttributes)shortcutFindData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-				Win32PInvoke.FileTimeToSystemTime(ref shortcutFindData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME modifiedTime);
-				Win32PInvoke.FileTimeToSystemTime(ref shortcutFindData.ftCreationTime, out Win32PInvoke.SYSTEMTIME createdTime);
+				Win32PInvoke.FileTimeToSystemTime(in shortcutFindData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME modifiedTime);
+				Win32PInvoke.FileTimeToSystemTime(in shortcutFindData.ftCreationTime, out Win32PInvoke.SYSTEMTIME createdTime);
 				var fileSize = Win32FindDataExtensions.GetSize(shortcutFindData);
 				var itemFileExtension = shortcutFindData.cFileName.Contains('.', StringComparison.Ordinal) ? Path.GetExtension(itemPath)! : string.Empty;
 
@@ -616,8 +616,8 @@ namespace Files.App.Utils.Storage
 			ListedItem? listedItem = null;
 			var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 			var isFolder = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory;
-			Win32PInvoke.FileTimeToSystemTime(ref findData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME systemModifiedTimeOutput);
-			Win32PInvoke.FileTimeToSystemTime(ref findData.ftCreationTime, out Win32PInvoke.SYSTEMTIME systemCreatedTimeOutput);
+			Win32PInvoke.FileTimeToSystemTime(in findData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME systemModifiedTimeOutput);
+			Win32PInvoke.FileTimeToSystemTime(in findData.ftCreationTime, out Win32PInvoke.SYSTEMTIME systemCreatedTimeOutput);
 
 			if (!isFolder)
 			{

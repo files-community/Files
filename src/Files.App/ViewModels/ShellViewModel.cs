@@ -248,7 +248,11 @@ namespace Files.App.ViewModels
 				pathRoot = Path.GetPathRoot(WorkingDirectory);
 			}
 
-			GitDirectory = GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
+			var gitDirectory = await Task.Run(() => GitHelpers.GetGitRepositoryPath(value, pathRoot));
+			if (WorkingDirectory != value)
+				return;
+
+			GitDirectory = gitDirectory;
 			IsValidGitDirectory = !string.IsNullOrEmpty(await GitHelpers.GetRepositoryHeadName(GitDirectory));
 
 			_ = UpdateFolderThumbnailImageSource();
@@ -920,6 +924,9 @@ namespace Files.App.ViewModels
 
 		public void CancelExtendedPropertiesLoading()
 		{
+			if (isDisposed)
+				return;
+
 			loadPropsCTS.Cancel();
 			loadPropsCTS = new CancellationTokenSource();
 		}
@@ -1080,28 +1087,28 @@ namespace Files.App.ViewModels
 				// we have to call BeginBulkOperation to suppress CollectionChanged and call EndBulkOperation
 				// in the end to fire a CollectionChanged event with NotifyCollectionChangedAction.Reset
 				await bulkOperationSemaphore.WaitAsync(addFilesCTS.Token);
+
+				var filter = FilesAndFoldersFilter;
 				var isSemaphoreReleased = false;
 				try
 				{
+					var displayedFilesAndFolders = string.IsNullOrEmpty(filter)
+						? filesAndFoldersLocal
+						: await Task.Run(() => filesAndFoldersLocal.Where(
+							x => x.Name?.Contains(filter, StringComparison.OrdinalIgnoreCase) == true).ToList(), addFilesCTS.Token);
+
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						try
 						{
-							if (addFilesCTS.IsCancellationRequested)
+							if (addFilesCTS.IsCancellationRequested || FilesAndFoldersFilter != filter)
 								return;
 
 							FilesAndFolders.BeginBulkOperation();
 							try
 							{
 								FilesAndFolders.Clear();
-								var filter = FilesAndFoldersFilter;
-								if (string.IsNullOrEmpty(filter))
-									FilesAndFolders.AddRange(filesAndFoldersLocal);
-								else
-									FilesAndFolders.AddRange(filesAndFoldersLocal.Where(x => (x.Name
-										?? throw new InvalidOperationException("A listed item does not have a name.")).Contains(
-										filter,
-										StringComparison.OrdinalIgnoreCase)));
+								FilesAndFolders.AddRange(displayedFilesAndFolders);
 
 								if (folderSettings.DirectoryGroupOption != GroupOption.None)
 									OrderGroups();
@@ -1501,13 +1508,16 @@ namespace Files.App.ViewModels
 			if (item is null)
 				return;
 
+			if (isDisposed)
+				return;
+
 			itemLoadQueue[item.GetRequiredPath()] = false;
 
-			var cts = loadPropsCTS;
+			var token = loadPropsCTS.Token;
 
 			try
 			{
-				cts.Token.ThrowIfCancellationRequested();
+				token.ThrowIfCancellationRequested();
 				if (itemLoadQueue.TryGetValue(item.GetRequiredPath(), out var canceled) && canceled)
 					return;
 
@@ -1527,26 +1537,26 @@ namespace Files.App.ViewModels
 						loadGroupHeaderInfo = gp is not null && !gp.Model.Initialized && gp.GetExtendedGroupHeaderInfo is not null;
 					}
 
-					cts.Token.ThrowIfCancellationRequested();
-					await LoadThumbnailAsync(item, cts.Token);
+					token.ThrowIfCancellationRequested();
+					await LoadThumbnailAsync(item, token);
 
-					cts.Token.ThrowIfCancellationRequested();
+					token.ThrowIfCancellationRequested();
 					if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 					{
 						if (!item.IsShortcut && !FtpHelpers.IsFtpPath(item.ItemPath))
 						{
-							matchingStorageFile = await GetFileFromPathAsync(item.GetRequiredPath(), cts.Token);
+							matchingStorageFile = await GetFileFromPathAsync(item.GetRequiredPath(), token);
 							if (matchingStorageFile is not null)
 							{
-								cts.Token.ThrowIfCancellationRequested();
+								token.ThrowIfCancellationRequested();
 
 								var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
-								var fileTag = FileTagsHelper.ReadFileTag(item.GetRequiredPath());
+								var fileTag = await Task.Run(() => FileTagsHelper.ReadFileTag(item.GetRequiredPath()));
 								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFile.DisplayType;
 								var extraProperties = await GetExtraProperties(matchingStorageFile);
 
-								cts.Token.ThrowIfCancellationRequested();
+								token.ThrowIfCancellationRequested();
 
 								await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 								{
@@ -1593,12 +1603,12 @@ namespace Files.App.ViewModels
 					{
 						if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
 						{
-							BaseStorageFolder? matchingStorageFolder = await GetFolderFromPathAsync(item.GetRequiredPath(), cts.Token);
+							BaseStorageFolder? matchingStorageFolder = await GetFolderFromPathAsync(item.GetRequiredPath(), token);
 							if (matchingStorageFolder is not null)
 							{
 								if (matchingStorageFolder.DisplayName != item.Name && !matchingStorageFolder.DisplayName.StartsWith("$R", StringComparison.Ordinal))
 								{
-									cts.Token.ThrowIfCancellationRequested();
+									token.ThrowIfCancellationRequested();
 									await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 									{
 										item.ItemNameRaw = matchingStorageFolder.DisplayName;
@@ -1611,14 +1621,14 @@ namespace Files.App.ViewModels
 									}
 								}
 
-								cts.Token.ThrowIfCancellationRequested();
+								token.ThrowIfCancellationRequested();
 								var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFolder);
-								var fileTag = FileTagsHelper.ReadFileTag(item.GetRequiredPath());
+								var fileTag = await Task.Run(() => FileTagsHelper.ReadFileTag(item.GetRequiredPath()));
 								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFolder.DisplayType;
 								var extraProperties = await GetExtraProperties(matchingStorageFolder);
 
-								cts.Token.ThrowIfCancellationRequested();
+								token.ThrowIfCancellationRequested();
 
 								await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 								{
@@ -1673,10 +1683,10 @@ namespace Files.App.ViewModels
 				{
 					if (!wasSyncStatusLoaded)
 					{
-						cts.Token.ThrowIfCancellationRequested();
+						token.ThrowIfCancellationRequested();
 						await FilesystemTasks.Wrap(async () =>
 						{
-							var fileTag = FileTagsHelper.ReadFileTag(item.GetRequiredPath());
+							var fileTag = await Task.Run(() => FileTagsHelper.ReadFileTag(item.GetRequiredPath()));
 
 							await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 							{
@@ -1698,8 +1708,8 @@ namespace Files.App.ViewModels
 							_ = Task.Run(async () =>
 							{
 								await Task.Delay(500);
-								cts.Token.ThrowIfCancellationRequested();
-								await LoadThumbnailAsync(item, cts.Token);
+								token.ThrowIfCancellationRequested();
+								await LoadThumbnailAsync(item, token);
 							});
 						}
 					}
@@ -1708,7 +1718,7 @@ namespace Files.App.ViewModels
 					{
 						var group = gp
 							?? throw new InvalidOperationException("The item group is unavailable while loading its header.");
-						cts.Token.ThrowIfCancellationRequested();
+						token.ThrowIfCancellationRequested();
 						await SafetyExtensions.IgnoreExceptions(() =>
 							dispatcherQueue.EnqueueOrInvokeAsync(() =>
 							{
@@ -1780,7 +1790,10 @@ namespace Files.App.ViewModels
 			if (!getStatus && !getCommit)
 				return;
 
-			var cts = loadPropsCTS;
+			if (isDisposed)
+				return;
+
+			var token = loadPropsCTS.Token;
 			var semaphoreEntered = false;
 			var propertiesLoaded = false;
 			if (getStatus)
@@ -1790,26 +1803,26 @@ namespace Files.App.ViewModels
 
 			try
 			{
-				await gitPropertiesSemaphore.WaitAsync(cts.Token);
+				await gitPropertiesSemaphore.WaitAsync(token);
 				semaphoreEntered = true;
 
 				var gitItemModel = await Task.Run(() =>
 				{
-					cts.Token.ThrowIfCancellationRequested();
+					token.ThrowIfCancellationRequested();
 					if (!GitHelpers.IsRepositoryEx(gitItem.ItemPath, out var repositoryPath))
 						return null;
 
 					using var repository = new Repository(repositoryPath);
 					return GitHelpers.GetGitInformationForItem(repository, gitItem.ItemPath, getStatus, getCommit);
-				}, cts.Token);
+				}, token);
 
 				if (gitItemModel is null)
 					return;
 
-				cts.Token.ThrowIfCancellationRequested();
+				token.ThrowIfCancellationRequested();
 				await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
-					cts.Token.ThrowIfCancellationRequested();
+					token.ThrowIfCancellationRequested();
 
 					if (getStatus)
 					{
@@ -1838,7 +1851,7 @@ namespace Files.App.ViewModels
 
 				propertiesLoaded = true;
 			}
-			catch (OperationCanceledException) when (cts.IsCancellationRequested)
+			catch (OperationCanceledException) when (token.IsCancellationRequested)
 			{
 			}
 			catch (Exception ex)
@@ -1915,6 +1928,9 @@ namespace Files.App.ViewModels
 
 		private async Task RapidAddItemsToCollectionAsync(string? path, string? previousDir, Action? postLoadCallback)
 		{
+			if (isDisposed)
+				return;
+
 			IsSearchResults = false;
 			HasNoWatcher = false;
 			IsLocationUnavailable = false;
@@ -2081,7 +2097,7 @@ namespace Files.App.ViewModels
 			{
 				// Special handling for network drives
 				if (!isNetwork)
-					isNetdisk = (new DriveInfo(path).DriveType == System.IO.DriveType.Network);
+					isNetdisk = await Task.Run(() => new DriveInfo(path).DriveType == System.IO.DriveType.Network);
 			}
 			catch { }
 
@@ -2092,7 +2108,7 @@ namespace Files.App.ViewModels
 
 			if (isNetwork || isNetdisk)
 			{
-				var auth = await NetworkService.AuthenticateNetworkShare(path);
+				var auth = await NetworkService.AuthenticateNetworkShare(path, cancellationToken);
 				if (!auth)
 					return -1;
 			}
@@ -2207,10 +2223,10 @@ namespace Files.App.ViewModels
 
 				try
 				{
-					FileTimeToSystemTime(ref findData.ftLastWriteTime, out var systemModifiedTimeOutput);
+					FileTimeToSystemTime(in findData.ftLastWriteTime, out var systemModifiedTimeOutput);
 					itemModifiedDate = systemModifiedTimeOutput.ToDateTime();
 
-					FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedTimeOutput);
+					FileTimeToSystemTime(in findData.ftCreationTime, out SYSTEMTIME systemCreatedTimeOutput);
 					itemCreatedDate = systemCreatedTimeOutput.ToDateTime();
 				}
 				catch (ArgumentException)
@@ -2571,6 +2587,10 @@ namespace Files.App.ViewModels
 
 		private void WatchForDirectoryChanges(string path, CloudDriveSyncStatus syncStatus)
 		{
+			// Enumeration is fire-and-forget; don't set up a watcher on a disposed view model.
+			if (isDisposed)
+				return;
+
 			Debug.WriteLine($"WatchForDirectoryChanges: {path}");
 			var hWatchDir = Win32PInvoke.CreateFileFromApp(path, 1, 1 | 2 | 4,
 				IntPtr.Zero, 3, (uint)Win32PInvoke.File_Attributes.BackupSemantics | (uint)Win32PInvoke.File_Attributes.Overlapped, IntPtr.Zero);
@@ -2685,6 +2705,10 @@ namespace Files.App.ViewModels
 
 		private void WatchForGitChanges()
 		{
+			// Enumeration is fire-and-forget; don't set up a watcher on a disposed view model.
+			if (isDisposed)
+				return;
+
 			var hWatchDir = Win32PInvoke.CreateFileFromApp(
 				GitDirectory!,
 				1,
@@ -3297,10 +3321,12 @@ namespace Files.App.ViewModels
 
 			addFilesCTS.Cancel();
 			loadPropsCTS.Cancel();
-			watcherCTS.Cancel();
 			addFilesCTS.Dispose();
 			loadPropsCTS.Dispose();
-			watcherCTS.Dispose();
+
+			// Cancel but don't dispose: fire-and-forget watcher setup may still read watcherCTS.Token,
+			// which throws once disposed. Cancel() still fires the handle-releasing callbacks.
+			watcherCTS.Cancel();
 			SearchIconBitmapImage = null;
 			currentStorageFolder = null;
 		}

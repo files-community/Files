@@ -221,12 +221,12 @@ namespace Files.App.Utils.Storage
 				this.dateCreated = dateCreated;
 			}
 
-			public override IAsyncOperation<IDictionary<string, object>> RetrievePropertiesAsync(IEnumerable<string> propertiesToRetrieve)
+			public override IAsyncOperation<IDictionary<string, object?>> RetrievePropertiesAsync(IEnumerable<string> propertiesToRetrieve)
 				=> basicProps.RetrievePropertiesAsync(propertiesToRetrieve);
 
 			public override IAsyncAction SavePropertiesAsync()
 				=> basicProps.SavePropertiesAsync();
-			public override IAsyncAction SavePropertiesAsync([HasVariant] IEnumerable<KeyValuePair<string, object>> propertiesToSave)
+			public override IAsyncAction SavePropertiesAsync([HasVariant] IEnumerable<KeyValuePair<string, object?>> propertiesToSave)
 				=> basicProps.SavePropertiesAsync(propertiesToSave);
 		}
 	}

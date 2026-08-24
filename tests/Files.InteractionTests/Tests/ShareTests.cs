@@ -3,9 +3,9 @@
 
 using System;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
+using Windows.Win32;
+using Windows.Win32.Foundation;
 
 namespace Files.InteractionTests.Tests
 {
@@ -75,9 +75,6 @@ namespace Files.InteractionTests.Tests
 			return fileName;
 		}
 
-		[DllImport("user32.dll")] private static extern IntPtr GetForegroundWindow();
-		[DllImport("user32.dll", CharSet = CharSet.Unicode)] private static extern int GetClassName(IntPtr hWnd, StringBuilder text, int count);
-		[DllImport("user32.dll")] private static extern bool PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 		private const uint WM_CLOSE = 0x0010;
 
 		private const string FilesWindowClass = "WinUIDesktopWin32WindowClass";
@@ -86,15 +83,15 @@ namespace Files.InteractionTests.Tests
 		// detected as the foreground window (any window other than Files) and dismissed with WM_CLOSE.
 		private static bool TryCloseShareSheet()
 		{
-			var shareSheet = IntPtr.Zero;
+			HWND shareSheet = default;
 			var deadline = DateTime.UtcNow + TimeSpan.FromSeconds(5);
 			while (DateTime.UtcNow < deadline)
 			{
-				var foreground = GetForegroundWindow();
-				var className = new StringBuilder(256);
-				GetClassName(foreground, className, className.Capacity);
+				var foreground = PInvoke.GetForegroundWindow();
+				var classNameBuffer = new char[256];
+				int classNameLength = PInvoke.GetClassName(foreground, classNameBuffer);
 
-				if (foreground != IntPtr.Zero && className.Length > 0 && className.ToString() != FilesWindowClass)
+				if (!foreground.IsNull && classNameLength > 0 && new string(classNameBuffer, 0, classNameLength) != FilesWindowClass)
 				{
 					shareSheet = foreground;
 					break;
@@ -103,12 +100,12 @@ namespace Files.InteractionTests.Tests
 				Thread.Sleep(200);
 			}
 
-			if (shareSheet == IntPtr.Zero)
+			if (shareSheet.IsNull)
 				return false;
 
 			// Let the sheet finish opening before dismissing it, otherwise WM_CLOSE cancels it mid-open
 			Thread.Sleep(700);
-			PostMessage(shareSheet, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+			PInvoke.PostMessage(shareSheet, WM_CLOSE, default, default);
 			return true;
 		}
 	}
