@@ -72,7 +72,6 @@ jobs:
         -t:Restore `
         -p:Platform=$env:PLATFORM `
         -p:Configuration=$env:CONFIGURATION `
-        -p:PublishReadyToRun=true `
         -v:quiet
 
     - name: Restore NuGet Packages for Launcher Project
@@ -118,6 +117,10 @@ jobs:
 
     - name: Build & package Files
       shell: pwsh
+      env:
+        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        SENTRY_ORG: ${{ vars.SENTRY_ORG }}
+        SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
       run: |
         $platforms = "$env:APPX_BUNDLE_PLATFORMS" -split '\|'
         foreach ($plat in $platforms) {
@@ -126,6 +129,10 @@ jobs:
             -t:Build `
             -p:Platform=$plat `
             -p:Configuration=$env:CONFIGURATION `
+            -p:SentryUploadSymbols=true `
+            -p:SentryOrg="$env:SENTRY_ORG" `
+            -p:SentryProject="$env:SENTRY_PROJECT" `
+            -p:SentryCLIUploadOptions=--wait `
             -p:AppxPackageDir="$env:APPX_PACKAGE_DIR" `
             -p:AppxBundle=Never `
             -p:GenerateAppxPackageOnBuild=true `

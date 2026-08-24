@@ -20,13 +20,8 @@
         <CsWinRTComponent>true</CsWinRTComponent>
         <CsWinRTWindowsMetadata>$(TargetWindowsVersion)</CsWinRTWindowsMetadata>
         <ApplicationManifest>app.manifest</ApplicationManifest>
-        <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
-        <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
-        <PublishReadyToRunComposite Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRunComposite>
-        <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
-        <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
+        <PublishAot>true</PublishAot>
         <CsWinRTEnableLogging>true</CsWinRTEnableLogging>
-        <IsAotCompatible>true</IsAotCompatible>
         <DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
     </PropertyGroup>
 
