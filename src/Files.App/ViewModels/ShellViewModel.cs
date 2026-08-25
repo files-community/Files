@@ -58,6 +58,7 @@ namespace Files.App.ViewModels
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private readonly INetworkService NetworkService = Ioc.Default.GetRequiredService<INetworkService>();
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		private readonly IIconCacheService iconCacheService = Ioc.Default.GetRequiredService<IIconCacheService>();
 		private readonly ISizeProvider folderSizeProvider = Ioc.Default.GetRequiredService<ISizeProvider>();
 		private readonly IStorageCacheService fileListCache = Ioc.Default.GetRequiredService<IStorageCacheService>();
 		private readonly IWindowsSecurityService WindowsSecurityService = Ioc.Default.GetRequiredService<IWindowsSecurityService>();
@@ -1405,30 +1406,25 @@ namespace Files.App.ViewModels
 
 			if (item.PreloadedIconData is not null && item.FileImage is null)
 			{
+				// Fetched at the current layout's size and scale so the placeholder is pixel-identical to the final icon
+				var iconSize = GetPreloadIconSize();
 				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					if (item.FileImage is not null)
 						return;
 
-					// Sharing one decoded BitmapImage per extension lets every row after the first paint its icon synchronously
-					var key = item.IsFolder ? ":folder:" : (item.FileExtension ?? ":noext:");
-					if (!preloadedIconImages.TryGetValue(key, out var image))
-					{
-						image = await item.PreloadedIconData.ToBitmapAsync();
-						if (image is null)
-							return;
-
-						preloadedIconImages[key] = image;
-					}
-
-					if (item.FileImage is null)
+					var image = await iconCacheService.GetIconImageAsync(item.ItemPath, item.FileExtension, item.IsFolder, iconSize, UsesCurrentScale);
+					if (image is not null && item.FileImage is null)
 						item.FileImage = image;
 				});
 			}
 		}
 
-		// UI-thread only; BitmapImage has window thread affinity so the cache lives per view model
-		private readonly Dictionary<string, BitmapImage> preloadedIconImages = new(StringComparer.OrdinalIgnoreCase);
+		private uint GetPreloadIconSize()
+			=> LayoutSizeKindHelper.GetIconSize(folderSettings.LayoutMode);
+
+		private bool UsesCurrentScale
+			=> folderSettings.LayoutMode is FolderLayoutModes.DetailsView or FolderLayoutModes.ListView or FolderLayoutModes.ColumnView or FolderLayoutModes.CardsView;
 
 		private async Task LoadThumbnailAsync(ListedItem item, CancellationToken cancellationToken, bool scheduleTimerRetry = true)
 		{
@@ -2389,7 +2385,7 @@ namespace Files.App.ViewModels
 				{
 					await Task.Run(async () =>
 					{
-						List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, hFile, findData, cancellationToken, -1, intermediateAction: async (intermediateList) =>
+						List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, hFile, findData, cancellationToken, -1, GetPreloadIconSize(), UsesCurrentScale, intermediateAction: async (intermediateList) =>
 						{
 							filesAndFolders.AddRange(intermediateList);
 
@@ -2459,6 +2455,8 @@ namespace Files.App.ViewModels
 						currentStorageFolder,
 						cancellationToken,
 						-1,
+						GetPreloadIconSize(),
+						UsesCurrentScale,
 						async (intermediateList) =>
 						{
 							filesAndFolders.AddRange(intermediateList);

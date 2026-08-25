@@ -24,6 +24,8 @@ namespace Files.App.Utils.Storage
 			Win32PInvoke.WIN32_FIND_DATA findData,
 			CancellationToken cancellationToken,
 			int countLimit,
+			uint iconSize,
+			bool useCurrentScale,
 			Func<List<ListedItem>, Task> intermediateAction
 		)
 		{
@@ -62,7 +64,7 @@ namespace Files.App.Utils.Storage
 							if (file is not null)
 							{
 								var filePath = file.ItemPath!;
-								file.PreloadedIconData = await iconCacheService.GetIconAsync(file.ItemPath, file.FileExtension, false);
+								file.PreloadedIconData = await iconCacheService.GetIconAsync(file.ItemPath, file.FileExtension, false, iconSize, useCurrentScale);
 								tempList.Add(file);
 								++count;
 
@@ -78,7 +80,7 @@ namespace Files.App.Utils.Storage
 								if (folder is not null)
 								{
 									var folderPath = folder.ItemPath!;
-									folder.PreloadedIconData = await iconCacheService.GetIconAsync(folder.ItemPath, null, true);
+									folder.PreloadedIconData = await iconCacheService.GetIconAsync(folder.ItemPath, null, true, iconSize, useCurrentScale);
 									tempList.Add(folder);
 									++count;
 
