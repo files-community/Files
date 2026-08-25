@@ -44,6 +44,33 @@ public partial class PropertiesViewCard
 
 	[GeneratedDependencyProperty(DefaultValue = Orientation.Horizontal)]
 	public partial Orientation Orientation { get; set; }
+
+
+
+
+	#region ContentAlignment for Breakpoints
+
+	[GeneratedDependencyProperty( DefaultValue = HorizontalAlignment.Left )]
+	public partial HorizontalAlignment LeftBreakpointHorizontalContentAlignment {  get; set; }
+
+	[GeneratedDependencyProperty( DefaultValue = HorizontalAlignment.Right )]
+	public partial HorizontalAlignment RightBreakpointHorizontalContentAlignment { get; set; }
+
+	[GeneratedDependencyProperty( DefaultValue = HorizontalAlignment.Stretch )]
+	public partial HorizontalAlignment WrappedBreakpointHorizontalContentAlignment { get; set; }
+
+
+
+	[GeneratedDependencyProperty( DefaultValue = VerticalAlignment.Center )]
+	public partial VerticalAlignment LeftBreakpointVerticalContentAlignment { get; set; }
+
+	[GeneratedDependencyProperty( DefaultValue = VerticalAlignment.Center )]
+	public partial VerticalAlignment RightBreakpointVerticalContentAlignment { get; set; }
+
+	[GeneratedDependencyProperty( DefaultValue = VerticalAlignment.Center )]
+	public partial VerticalAlignment WrappedBreakpointVerticalContentAlignment { get; set; }
+
+	#endregion
 }
 
 public enum PropertiesViewCardContentAlignment

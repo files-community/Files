@@ -326,4 +326,42 @@ public partial class PropertiesViewCard : Button
 	{
 		return value is null or "";
 	}
+
+
+
+
+	#region ContentAlignment for Breakpoint events
+
+	private void OnLeftBreakpointHorizontalContentAlignmentChanged(object sender , DependencyPropertyChangedEventArgs e)
+	{
+	}
+
+	private void OnRightBreakpointHorizontalContentAlignmentChanged(object sender , DependencyPropertyChangedEventArgs e)
+	{
+
+	}
+
+	private void OnWrappedBreakpointHorizontalContentAlignmentChanged(object sender , DependencyPropertyChangedEventArgs e)
+	{
+
+	}
+
+
+
+	private void OnLeftBreakpointVerticalContentAlignmentChanged(object sender , DependencyPropertyChangedEventArgs e)
+	{
+
+	}
+
+	private void OnRightBreakpointVerticalContentAlignmentChanged(object sender , DependencyPropertyChangedEventArgs e)
+	{
+
+	}
+
+	private void OnWrappedBreakpointVerticalContentAlignmentChanged(object sender , DependencyPropertyChangedEventArgs e)
+	{
+
+	}
+
+	#endregion
 }

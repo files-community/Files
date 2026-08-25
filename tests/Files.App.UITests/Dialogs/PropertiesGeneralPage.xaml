@@ -58,7 +58,10 @@
 				<SymbolIcon Symbol="Document" />
 			</controls:PropertiesViewExpander.HeaderIcon>
 			<StackPanel Padding="0,0,0,8" HorizontalAlignment="Stretch">
-				<controls:PropertiesViewCard Header="Name">
+				<controls:PropertiesViewCard
+					Header="Name"
+					LeftBreakpointHorizontalContentAlignment="Stretch"
+					RightBreakpointHorizontalContentAlignment="Stretch">
 					<TextBox
 						Margin="{ThemeResource PropertiesValueTextBoxMargin}"
 						HorizontalAlignment="Stretch"
@@ -180,7 +183,11 @@
 					<TextBlock Text="A simple value here below." TextWrapping="Wrap" />
 				</controls:PropertiesViewCard>
 				<controls:PropertiesViewItemSeparator />
-				<controls:PropertiesViewCard Header="Editable vertical value" Orientation="Vertical">
+				<controls:PropertiesViewCard
+					Header="Editable vertical value"
+					LeftBreakpointHorizontalContentAlignment="Stretch"
+					Orientation="Vertical"
+					RightBreakpointHorizontalContentAlignment="Stretch">
 					<TextBox HorizontalAlignment="Stretch" Text="Item value text" />
 				</controls:PropertiesViewCard>
 				<controls:PropertiesViewItemSeparator />
