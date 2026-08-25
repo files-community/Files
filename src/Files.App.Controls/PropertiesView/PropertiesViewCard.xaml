@@ -118,6 +118,17 @@
 	<Thickness x:Key="PropertiesViewCardContentMargin">0,8,0,8</Thickness>
 	<Thickness x:Key="PropertiesViewCardActionIconMargin">12,0,12,0</Thickness>
 
+	<HorizontalAlignment x:Key="PropertiesViewCardLeftHorizontalAlignment">Left</HorizontalAlignment>
+	<HorizontalAlignment x:Key="PropertiesViewCardRightHorizontalAlignment">Right</HorizontalAlignment>
+	<HorizontalAlignment x:Key="PropertiesViewCardWrappedHorizontalAlignment">Stretch</HorizontalAlignment>
+	<VerticalAlignment x:Key="PropertiesViewCardLeftVerticallignment">Center</VerticalAlignment>
+	<VerticalAlignment x:Key="PropertiesViewCardRightVerticalAlignment">Center</VerticalAlignment>
+	<VerticalAlignment x:Key="PropertiesViewCardWrappedVerticalAlignment">Center</VerticalAlignment>
+
+
+	<HorizontalAlignment x:Key="PropertiesViewCardLabelHorizontalAlignment">Stretch</HorizontalAlignment>
+	<VerticalAlignment x:Key="PropertiesViewCardLabelVerticalAlignment">Center</VerticalAlignment>
+
 	<Style BasedOn="{StaticResource DefaultPropertiesViewCardStyle}" TargetType="local:PropertiesViewCard" />
 
 	<Style x:Key="DefaultPropertiesViewCardStyle" TargetType="local:PropertiesViewCard">
@@ -136,6 +147,12 @@
 		<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
 		<Setter Property="FontWeight" Value="Normal" />
 		<Setter Property="FocusVisualMargin" Value="-3" />
+		<Setter Property="LeftBreakpointHorizontalContentAlignment" Value="{StaticResource PropertiesViewCardLeftHorizontalAlignment}" />
+		<Setter Property="RightBreakpointHorizontalContentAlignment" Value="{StaticResource PropertiesViewCardRightHorizontalAlignment}" />
+		<Setter Property="WrappedBreakpointHorizontalContentAlignment" Value="{StaticResource PropertiesViewCardWrappedHorizontalAlignment}" />
+		<Setter Property="LeftBreakpointVerticalContentAlignment" Value="{StaticResource PropertiesViewCardLeftVerticallignment}" />
+		<Setter Property="RightBreakpointVerticalContentAlignment" Value="{StaticResource PropertiesViewCardRightVerticalAlignment}" />
+		<Setter Property="WrappedBreakpointVerticalContentAlignment" Value="{StaticResource PropertiesViewCardWrappedVerticalAlignment}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:PropertiesViewCard">
@@ -180,8 +197,8 @@
 								Margin="{StaticResource PropertiesViewCardHeaderMargin}"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center"
-								HorizontalContentAlignment="Stretch"
-								VerticalContentAlignment="Center"
+								HorizontalContentAlignment="{StaticResource PropertiesViewCardLabelHorizontalAlignment}"
+								VerticalContentAlignment="{StaticResource PropertiesViewCardLabelVerticalAlignment}"
 								Content="{TemplateBinding Header}"
 								ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
 								FontFamily="{TemplateBinding FontFamily}"
@@ -198,8 +215,8 @@
 								Grid.Column="2"
 								Grid.ColumnSpan="1"
 								Margin="{StaticResource PropertiesViewCardContentMargin}"
-								HorizontalContentAlignment="Stretch"
-								VerticalContentAlignment="Center"
+								HorizontalContentAlignment="{Binding LeftBreakpointHorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}"
+								VerticalContentAlignment="{Binding LeftBreakpointVerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}"
 								Content="{TemplateBinding Content}"
 								Foreground="{TemplateBinding Foreground}"
 								TextWrapping="WrapWholeWords" />
@@ -338,7 +355,8 @@
 										<Setter Target="PART_ContentPresenter.(Grid.ColumnSpan)" Value="3" />
 
 										<Setter Target="PART_ContentPresenter.HorizontalAlignment" Value="Stretch" />
-										<Setter Target="PART_ContentPresenter.HorizontalContentAlignment" Value="Stretch" />
+										<Setter Target="PART_ContentPresenter.HorizontalContentAlignment" Value="{Binding WrappedBreakpointHorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
+										<Setter Target="PART_ContentPresenter.VerticalContentAlignment" Value="{Binding WrappedBreakpointVerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
 									</VisualState.Setters>
 
 								</VisualState>
@@ -354,7 +372,8 @@
 									</VisualState.StateTriggers>
 									<VisualState.Setters>
 										<Setter Target="PART_ContentPresenter.HorizontalAlignment" Value="Stretch" />
-										<Setter Target="PART_ContentPresenter.HorizontalContentAlignment" Value="Right" />
+										<Setter Target="PART_ContentPresenter.HorizontalContentAlignment" Value="{Binding RightBreakpointHorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
+										<Setter Target="PART_ContentPresenter.VerticalContentAlignment" Value="{Binding RightBreakpointVerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
 									</VisualState.Setters>
 
 								</VisualState>
