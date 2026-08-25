@@ -1205,12 +1205,47 @@ namespace Files.App.Views.Layouts
 
 		protected void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
+			HookScrollDeferTracking();
 			RefreshContainer(args.ItemContainer, args.InRecycleQueue);
 			RefreshItem(args.ItemContainer, args.Item, args.InRecycleQueue, args);
 
 			// Set can window to front (#13255)
 			itemDragging = false;
 			MainWindow.Instance.SetCanWindowToFront(true);
+		}
+
+		private ScrollViewer? deferScrollViewer;
+
+		// Hooked lazily from the first container callback, when the list's template is guaranteed realized
+		[DynamicWindowsRuntimeCast(typeof(ScrollViewer))]
+		private void HookScrollDeferTracking()
+		{
+			if (deferScrollViewer is not null)
+				return;
+
+			deferScrollViewer = ItemsControl.FindDescendant<ScrollViewer>();
+			if (deferScrollViewer is not null)
+				deferScrollViewer.ViewChanged += DeferScrollViewer_ViewChanged;
+		}
+
+		private DispatcherQueueTimer? scrollSettleTimer;
+
+		// Rapid successive gestures raise a final ViewChanged between steps; debouncing keeps loads parked through the whole burst
+		private void DeferScrollViewer_ViewChanged(object? sender, ScrollViewerViewChangedEventArgs e)
+		{
+			ParentShellPageInstance?.ShellViewModel?.NotifyScrollStateChanged(true);
+
+			if (scrollSettleTimer is null)
+			{
+				scrollSettleTimer = DispatcherQueue.CreateTimer();
+				scrollSettleTimer.Interval = TimeSpan.FromMilliseconds(200);
+				scrollSettleTimer.IsRepeating = false;
+				scrollSettleTimer.Tick += (_, _) => ParentShellPageInstance?.ShellViewModel?.NotifyScrollStateChanged(false);
+			}
+
+			scrollSettleTimer.Stop();
+			if (!e.IsIntermediate)
+				scrollSettleTimer.Start();
 		}
 
 		private void RefreshContainer(SelectorItem container, bool inRecycleQueue)

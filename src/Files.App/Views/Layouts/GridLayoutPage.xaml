@@ -89,7 +89,6 @@
 					Height="Auto"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Stretch"
-					tui:FrameworkElementExtensions.EnableActualSizeBinding="True"
 					Background="Transparent"
 					IsRightTapEnabled="True"
 					Loaded="Grid_Loaded">
@@ -132,7 +131,6 @@
 							Margin="16"
 							HorizontalAlignment="Left"
 							VerticalAlignment="Bottom"
-							x:Load="True"
 							x:Phase="1"
 							Source="{x:Bind IconOverlay, Mode=OneWay}"
 							Stretch="Uniform" />
@@ -233,10 +231,12 @@
 						Opacity="0"
 						Unchecked="ItemSelected_Unchecked" />
 
-					<Popup x:Name="EditPopup" Grid.Row="1">
+					<Popup
+						x:Name="EditPopup"
+						Grid.Row="1"
+						x:Load="False">
 						<TextBox
 							x:Name="GridViewTextBoxItemName"
-							Width="{Binding ElementName=GridViewBrowserListedItem, Path=(tui:FrameworkElementExtensions.ActualWidth)}"
 							Margin="0"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"
@@ -378,6 +378,7 @@
 						Margin="0"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Center"
+						x:Load="False"
 						BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
 						TextAlignment="Left"
 						TextWrapping="Wrap"
