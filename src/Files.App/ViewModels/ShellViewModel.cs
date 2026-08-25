@@ -929,6 +929,26 @@ namespace Files.App.ViewModels
 
 			loadPropsCTS.Cancel();
 			loadPropsCTS = new CancellationTokenSource();
+
+			// Release parked loads so they can observe the cancellation
+			Interlocked.Exchange(ref scrollSettledTcs, null)?.TrySetResult();
+		}
+
+		private TaskCompletionSource? scrollSettledTcs;
+
+		/// <summary>
+		/// Parks extended-property loads while a scroll gesture is in flight and releases them when it settles.
+		/// </summary>
+		public void NotifyScrollStateChanged(bool isScrolling)
+		{
+			// The unsynchronized field update is only safe while all callers arrive on the UI dispatcher
+			if (!dispatcherQueue.HasThreadAccess)
+				throw new InvalidOperationException($"{nameof(NotifyScrollStateChanged)} must be called from the UI thread.");
+
+			if (isScrolling)
+				scrollSettledTcs ??= new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+			else
+				Interlocked.Exchange(ref scrollSettledTcs, null)?.TrySetResult();
 		}
 
 		public void CancelExtendedPropertiesLoadingForItem(ListedItem item)
@@ -1388,31 +1408,28 @@ namespace Files.App.ViewModels
 				cancellationToken.ThrowIfCancellationRequested();
 			}
 
-			if (result is not null)
-			{
-				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
-				{
-					// Assign FileImage property
-					var image = await result.ToBitmapAsync();
-					if (image is not null)
-						item.FileImage = image;
-				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
-
-				cancellationToken.ThrowIfCancellationRequested();
-			}
-
 			// Get icon overlay
 			var iconOverlay = await FileThumbnailHelper.GetIconOverlayAsync(item.ItemPath, true);
 
 			cancellationToken.ThrowIfCancellationRequested();
 
-			if (iconOverlay is not null)
+			if (result is not null || iconOverlay is not null)
 			{
 				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					item.IconOverlay = await iconOverlay.ToBitmapAsync();
-					item.ShieldIcon = await GetShieldIcon();
-				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
+					if (result is not null)
+					{
+						var image = await result.ToBitmapAsync();
+						if (image is not null)
+							item.FileImage = image;
+					}
+
+					if (iconOverlay is not null)
+					{
+						item.IconOverlay = await iconOverlay.ToBitmapAsync();
+						item.ShieldIcon = await GetShieldIcon();
+					}
+				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 
 				cancellationToken.ThrowIfCancellationRequested();
 			}
@@ -1518,6 +1535,15 @@ namespace Files.App.ViewModels
 			try
 			{
 				token.ThrowIfCancellationRequested();
+
+				// Defer while a scroll gesture is in flight; flung-past items are canceled by their container's recycle before this resumes
+				var settledTask = scrollSettledTcs?.Task;
+				if (settledTask is not null)
+				{
+					await settledTask.WaitAsync(token);
+					token.ThrowIfCancellationRequested();
+				}
+
 				if (itemLoadQueue.TryGetValue(item.GetRequiredPath(), out var canceled) && canceled)
 					return;
 
@@ -1555,6 +1581,8 @@ namespace Files.App.ViewModels
 								var fileTag = await Task.Run(() => FileTagsHelper.ReadFileTag(item.GetRequiredPath()));
 								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFile.DisplayType;
 								var extraProperties = await GetExtraProperties(matchingStorageFile);
+								var syncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+								var isElevationRequired = !syncStatusUI.LoadSyncStatus && await Task.Run(() => CheckElevationRights(item));
 
 								token.ThrowIfCancellationRequested();
 
@@ -1566,10 +1594,10 @@ namespace Files.App.ViewModels
 
 									item.FolderRelativeId = matchingStorageFile.FolderRelativeId;
 									item.ItemType = itemType;
-									item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+									item.SyncStatusUI = syncStatusUI;
 									item.FileFRN = fileFRN;
 									item.FileTags = fileTag;
-									item.IsElevationRequired = CheckElevationRights(item);
+									item.IsElevationRequired = isElevationRequired;
 									item.ImageDimensions = properties?["System.Image.Dimensions"]?.ToString() ?? string.Empty;
 									item.FileVersion = properties?["System.FileVersion"]?.ToString() ?? string.Empty;
 									item.MediaDuration = ulong.TryParse(properties?["System.Media.Duration"]?.ToString(), out ulong duration)
@@ -1594,7 +1622,7 @@ namespace Files.App.ViewModels
 								},
 								Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 
-								SetFileTag(item);
+								await Task.Run(() => SetFileTag(item));
 								wasSyncStatusLoaded = true;
 							}
 						}
@@ -1667,7 +1695,7 @@ namespace Files.App.ViewModels
 								},
 								Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 
-								SetFileTag(item);
+								await Task.Run(() => SetFileTag(item));
 								wasSyncStatusLoaded = true;
 							}
 						}
@@ -1697,7 +1725,7 @@ namespace Files.App.ViewModels
 							},
 							Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 
-							SetFileTag(item);
+							await Task.Run(() => SetFileTag(item));
 						});
 					}
 					else
@@ -1772,9 +1800,6 @@ namespace Files.App.ViewModels
 
 		private bool CheckElevationRights(ListedItem item)
 		{
-			if (item.SyncStatusUI.LoadSyncStatus)
-				return false;
-
 			var targetPath = (item as IShortcutItem)?.TargetPath;
 			return WindowsSecurityService.IsElevationRequired(!string.IsNullOrEmpty(targetPath) ? targetPath : item.ItemPath);
 		}
