@@ -912,7 +912,9 @@ namespace Files.App.Views.Layouts
 			if (parameter is not null && !parameter.IsLayoutSwitch)
 			{
 				var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
-				shellViewModel.CancelLoadAndClearFiles();
+
+				// The incoming page's first batch replaces the visible listing, avoiding an empty flash between folders
+				shellViewModel.CancelLoadAndClearFiles(clearDisplay: false);
 			}
 		}
 
@@ -1539,6 +1541,10 @@ namespace Files.App.Views.Layouts
 
 			if (shellViewModel.FilesAndFolders.IsGrouped)
 			{
+				// Replacing the source rebuilds the list from scratch (a visible empty flash), so keep it when unchanged
+				if (CollectionViewSource.IsSourceGrouped && ReferenceEquals(CollectionViewSource.Source, shellViewModel.FilesAndFolders.GroupedCollection))
+					return;
+
 				var newSource = new CollectionViewSource()
 				{
 					IsSourceGrouped = true,
@@ -1549,6 +1555,9 @@ namespace Files.App.Views.Layouts
 			else
 			{
 				ZoomIn();
+
+				if (!CollectionViewSource.IsSourceGrouped && ReferenceEquals(CollectionViewSource.Source, shellViewModel.FilesAndFolders))
+					return;
 
 				var newSource = new CollectionViewSource()
 				{

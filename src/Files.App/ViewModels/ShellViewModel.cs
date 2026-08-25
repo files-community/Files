@@ -378,6 +378,8 @@ namespace Files.App.ViewModels
 				_ => ("\uE7BA", Strings.DriveUnpluggedDialogTitle.GetLocalizedResource(), message ?? Strings.DriveUnpluggedDialogText.GetLocalizedResource()),
 			};
 
+			// The previous listing stays visible through navigation, so drop it before showing the indicator
+			FilesAndFolders.Clear();
 			IsLocationUnavailable = true;
 		}
 
@@ -895,7 +897,7 @@ namespace Files.App.ViewModels
 
 		private bool IsLoadingCancelled { get; set; }
 
-		public void CancelLoadAndClearFiles()
+		public void CancelLoadAndClearFiles(bool clearDisplay = true)
 		{
 			Debug.WriteLine("CancelLoadAndClearFiles");
 			CloseWatcher();
@@ -921,7 +923,8 @@ namespace Files.App.ViewModels
 			if (filesAndFolders.Count >= 100)
 				AppMemoryHelper.RequestTrim();
 			filesAndFolders.Clear();
-			FilesAndFolders.Clear();
+			if (clearDisplay)
+				FilesAndFolders.Clear();
 			CancelSearch();
 		}
 
@@ -2042,7 +2045,8 @@ namespace Files.App.ViewModels
 			StopWatchingForLocationRestoration();
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
 
-			CancelLoadAndClearFiles();
+			// The outgoing listing stays on screen until the new folder's first batch replaces it, matching File Explorer
+			CancelLoadAndClearFiles(clearDisplay: false);
 
 			if (string.IsNullOrEmpty(path))
 				return;
@@ -2068,7 +2072,6 @@ namespace Files.App.ViewModels
 				IsLoadingItems = true;
 
 				filesAndFolders.Clear();
-				FilesAndFolders.Clear();
 				desktopIniUpdateTask = null;
 
 				ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
