@@ -941,6 +941,10 @@ namespace Files.App.ViewModels
 		/// </summary>
 		public void NotifyScrollStateChanged(bool isScrolling)
 		{
+			// The unsynchronized field update is only safe while all callers arrive on the UI dispatcher
+			if (!dispatcherQueue.HasThreadAccess)
+				throw new InvalidOperationException($"{nameof(NotifyScrollStateChanged)} must be called from the UI thread.");
+
 			if (isScrolling)
 				scrollSettledTcs ??= new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 			else
@@ -1536,7 +1540,7 @@ namespace Files.App.ViewModels
 				var settledTask = scrollSettledTcs?.Task;
 				if (settledTask is not null)
 				{
-					await settledTask;
+					await settledTask.WaitAsync(token);
 					token.ThrowIfCancellationRequested();
 				}
 

@@ -891,6 +891,7 @@ namespace Files.App.Views.Layouts
 
 			// Remove item jumping handler
 			CharacterReceived -= Page_CharacterReceived;
+			UnhookScrollDeferTracking();
 			var folderSettings = FolderSettings
 				?? throw new InvalidOperationException("The layout does not have folder settings.");
 			folderSettings.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
@@ -1228,6 +1229,17 @@ namespace Files.App.Views.Layouts
 				deferScrollViewer.ViewChanged += DeferScrollViewer_ViewChanged;
 		}
 
+		private void UnhookScrollDeferTracking()
+		{
+			scrollSettleTimer?.Stop();
+
+			if (deferScrollViewer is not null)
+			{
+				deferScrollViewer.ViewChanged -= DeferScrollViewer_ViewChanged;
+				deferScrollViewer = null;
+			}
+		}
+
 		private DispatcherQueueTimer? scrollSettleTimer;
 
 		// Rapid successive gestures raise a final ViewChanged between steps; debouncing keeps loads parked through the whole burst
@@ -1501,6 +1513,7 @@ namespace Files.App.Views.Layouts
 
 			isDisposed = true;
 			UnhookBaseEvents();
+			UnhookScrollDeferTracking();
 			StatusBarViewModel.Dispose();
 			dragOverItem = null;
 			hoveredItem = null;
