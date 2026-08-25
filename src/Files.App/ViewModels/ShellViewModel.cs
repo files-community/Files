@@ -733,7 +733,7 @@ namespace Files.App.ViewModels
 			enumFolderSemaphore = new SemaphoreSlim(1, 1);
 			getFileOrFolderSemaphore = new SemaphoreSlim(50);
 			bulkOperationSemaphore = new SemaphoreSlim(1, 1);
-			loadThumbnailSemaphore = new SemaphoreSlim(1, 1);
+			loadThumbnailSemaphore = new SemaphoreSlim(8, 8);
 			gitPropertiesSemaphore = new SemaphoreSlim(1, 1);
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
@@ -1357,6 +1357,66 @@ namespace Files.App.ViewModels
 			return shieldIcon;
 		}
 
+		/// <summary>
+		/// Paints an item's first image at realization: the system-cached thumbnail when one exists, otherwise the preloaded icon.
+		/// </summary>
+		public async Task ApplyCachedThumbnailOrPreloadedIconAsync(ListedItem item)
+		{
+			if (!item.IsFolder
+				&& FileExtensionHelpers.IsImageFile(item.FileExtension)
+				&& UserSettingsService.FoldersSettingsService.ShowThumbnails)
+			{
+				var thumbnailSize = LayoutSizeKindHelper.GetIconSize(folderSettings.LayoutMode);
+				if (thumbnailSize >= 48)
+				{
+					var useCurrentScale = folderSettings.LayoutMode is FolderLayoutModes.DetailsView or FolderLayoutModes.ListView or FolderLayoutModes.ColumnView or FolderLayoutModes.CardsView;
+					var cached = await FileThumbnailHelper.GetIconAsync(
+						item.ItemPath,
+						thumbnailSize,
+						false,
+						IconOptions.ReturnThumbnailOnly | IconOptions.ReturnOnlyIfCached | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
+
+					if (cached is not null && item.FileImage is null)
+					{
+						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+						{
+							var image = await cached.ToBitmapAsync();
+							if (image is not null && item.FileImage is null)
+								item.FileImage = image;
+						});
+
+						return;
+					}
+				}
+			}
+
+			if (item.PreloadedIconData is not null && item.FileImage is null)
+			{
+				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				{
+					if (item.FileImage is not null)
+						return;
+
+					// Sharing one decoded BitmapImage per extension lets every row after the first paint its icon synchronously
+					var key = item.IsFolder ? ":folder:" : (item.FileExtension ?? ":noext:");
+					if (!preloadedIconImages.TryGetValue(key, out var image))
+					{
+						image = await item.PreloadedIconData.ToBitmapAsync();
+						if (image is null)
+							return;
+
+						preloadedIconImages[key] = image;
+					}
+
+					if (item.FileImage is null)
+						item.FileImage = image;
+				});
+			}
+		}
+
+		// UI-thread only; BitmapImage has window thread affinity so the cache lives per view model
+		private readonly Dictionary<string, BitmapImage> preloadedIconImages = new(StringComparer.OrdinalIgnoreCase);
+
 		private async Task LoadThumbnailAsync(ListedItem item, CancellationToken cancellationToken, bool scheduleTimerRetry = true)
 		{
 			var loadNonCachedThumbnail = false;
@@ -1384,7 +1444,12 @@ namespace Files.App.ViewModels
 					loadNonCachedThumbnail = true;
 				}
 
-				if (result is null)
+				// Skip the per-item icon fetch when the preloaded per-extension icon cannot differ from the final icon
+				var preloadedIconIsFinal = item.PreloadedIconData is not null && !item.IsFolder &&
+					(loadNonCachedThumbnail && FileExtensionHelpers.IsImageFile(item.FileExtension) ||
+					returnIconOnly && !item.IsShortcut && !HasPerFileIcon(item.FileExtension));
+
+				if (result is null && !preloadedIconIsFinal)
 				{
 					// Get icon
 					result = await FileThumbnailHelper.GetIconAsync(
@@ -1511,6 +1576,12 @@ namespace Files.App.ViewModels
 				}, cancellationToken);
 			}
 		}
+
+		private static bool HasPerFileIcon(string? extension)
+			=> extension is not null && _perFileIconExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
+
+		// Types whose icon is embedded in the file itself rather than shared by the extension
+		private static readonly string[] _perFileIconExtensions = [".ico", ".cur", ".ani", ".scr", ".msc", ".appref-ms"];
 
 		private static void SetFileTag(ListedItem item)
 		{

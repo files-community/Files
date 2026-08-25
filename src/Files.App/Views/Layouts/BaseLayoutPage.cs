@@ -1305,7 +1305,7 @@ namespace Files.App.Views.Layouts
 				InitializeDrag(container, listedItem);
 
 				if (listedItem.PreloadedIconData is not null && listedItem.FileImage is null)
-					_ = ApplyPreloadedIconAsync(listedItem);
+					_ = ParentShellPageInstance.GetRequiredShellViewModel().ApplyCachedThumbnailOrPreloadedIconAsync(listedItem);
 
 				if (!listedItem.ItemPropertiesInitialized)
 				{
@@ -1348,13 +1348,6 @@ namespace Files.App.Views.Layouts
 			// Set the initial tooltip before hover starts so WinUI doesn't miss the first dwell.
 			if (sender is SelectorItem container && container.Content is ListedItem listedItem)
 				UpdateItemToolTip(container, listedItem.ItemTooltipText);
-		}
-
-		private static async Task ApplyPreloadedIconAsync(ListedItem item)
-		{
-			var image = await item.PreloadedIconData.ToBitmapAsync();
-			if (image is not null)
-				item.FileImage = image;
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(SelectorItem))]

@@ -13,6 +13,58 @@ namespace Files.App.Storage
 	/// </summary>
 	public partial class STATask
 	{
+		private const int PooledThreadCount = 12;
+
+		private static readonly BlockingCollection<Action> _pooledQueue = new();
+		private static int _poolStarted;
+
+		/// <summary>
+		/// Schedules the specified work on a shared pool of persistent STA threads, avoiding per-call thread creation.
+		/// </summary>
+		/// <typeparam name="T">The type of the result returned by the function.</typeparam>
+		/// <param name="func">The work to execute on an STA pool thread.</param>
+		/// <param name="logger">A logger to capture any exception that occurs during execution.</param>
+		/// <returns>A <see cref="Task{T}"/> that represents the scheduled work.</returns>
+		public static Task<T> RunPooled<T>(Func<T> func, ILogger? logger)
+		{
+			if (Interlocked.CompareExchange(ref _poolStarted, 1, 0) == 0)
+			{
+				for (int i = 0; i < PooledThreadCount; i++)
+				{
+					Thread thread =
+						new(() =>
+						{
+							PInvoke.OleInitialize();
+
+							foreach (var work in _pooledQueue.GetConsumingEnumerable())
+								work();
+						});
+
+					thread.IsBackground = true;
+					thread.SetApartmentState(ApartmentState.STA);
+					thread.Name = $"STATask pool {i}";
+					thread.Start();
+				}
+			}
+
+			var tcs = new TaskCompletionSource<T>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+			_pooledQueue.Add(() =>
+			{
+				try
+				{
+					tcs.SetResult(func());
+				}
+				catch (Exception ex)
+				{
+					tcs.SetResult(default!);
+					logger?.LogWarning(ex, "An exception was occurred during the execution within STA.");
+				}
+			});
+
+			return tcs.Task;
+		}
+
 		/// <summary>
 		/// Schedules the specified work to execute in a new background thread initialized with STA state.
 		/// </summary>
