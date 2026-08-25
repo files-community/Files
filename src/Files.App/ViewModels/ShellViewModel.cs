@@ -2392,6 +2392,11 @@ namespace Files.App.ViewModels
 						List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, hFile, findData, cancellationToken, -1, intermediateAction: async (intermediateList) =>
 						{
 							filesAndFolders.AddRange(intermediateList);
+
+							// The stable sort lands new items in final position without reordering visible ones; capped for huge listings
+							if (filesAndFolders.Count <= 10_000)
+								await OrderFilesAndFoldersAsync();
+
 							await ApplyFilesAndFoldersChangesAsync();
 						});
 
@@ -2458,8 +2463,10 @@ namespace Files.App.ViewModels
 						{
 							filesAndFolders.AddRange(intermediateList);
 
-							// Sorting the growing list on every intermediate batch is O(batches x n log n);
-							// append unsorted here (matching the Win32 path) and sort once when enumeration completes.
+							// The stable sort lands new items in final position without reordering visible ones; capped for huge listings
+							if (filesAndFolders.Count <= 10_000)
+								await OrderFilesAndFoldersAsync();
+
 							await ApplyFilesAndFoldersChangesAsync();
 						});
 

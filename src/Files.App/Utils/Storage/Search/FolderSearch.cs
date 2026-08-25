@@ -500,7 +500,6 @@ namespace Files.App.Utils.Storage
 					Opacity = isHidden ? Constants.UI.DimItemOpacity : 1,
 					FileImage = null,
 					LoadFileIcon = false,
-					NeedsPlaceholderGlyph = false,
 					ItemNameRaw = shortcutFindData.cFileName,
 					ItemDateModifiedReal = modifiedTime.ToDateTime(),
 					ItemDateCreatedReal = createdTime.ToDateTime(),
@@ -541,8 +540,6 @@ namespace Files.App.Utils.Storage
 						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 					if (iconResult is not null)
 						shortcutItem.FileImage = await iconResult.ToBitmapAsync();
-					else
-						shortcutItem.NeedsPlaceholderGlyph = true;
 				}
 
 				if (token.IsCancellationRequested)
@@ -708,7 +705,6 @@ namespace Files.App.Utils.Storage
 						ItemDateModifiedReal = props.DateModified,
 						ItemDateCreatedReal = folder.DateCreated,
 						ItemType = folderTypeTextLocalized,
-						NeedsPlaceholderGlyph = false,
 						Opacity = 1,
 						FileSize = props.Size.ToSizeString(),
 						FileSizeBytes = (long)props.Size,
@@ -726,7 +722,6 @@ namespace Files.App.Utils.Storage
 						ItemDateModifiedReal = props.DateModified,
 						ItemDateCreatedReal = folder.DateCreated,
 						ItemType = folderTypeTextLocalized,
-						NeedsPlaceholderGlyph = false,
 						Opacity = 1
 					};
 				}
@@ -761,7 +756,6 @@ namespace Files.App.Utils.Storage
 						ItemDateModifiedReal = props.DateModified,
 						ItemDateCreatedReal = file.DateCreated,
 						ItemType = itemType,
-						NeedsPlaceholderGlyph = false,
 						Opacity = 1,
 						ItemDateDeletedReal = binFile.DateDeleted,
 						ItemOriginalPath = binFile.OriginalPath
@@ -778,7 +772,6 @@ namespace Files.App.Utils.Storage
 						Opacity = 1,
 						FileImage = null,
 						LoadFileIcon = false,
-						NeedsPlaceholderGlyph = false,
 						ItemNameRaw = file.Name,
 						ItemDateModifiedReal = props.DateModified,
 						ItemDateCreatedReal = file.DateCreated,
@@ -822,7 +815,6 @@ namespace Files.App.Utils.Storage
 						ItemDateModifiedReal = props.DateModified,
 						ItemDateCreatedReal = file.DateCreated,
 						ItemType = itemType,
-						NeedsPlaceholderGlyph = false,
 						Opacity = 1
 					};
 				}
@@ -837,8 +829,6 @@ namespace Files.App.Utils.Storage
 
 				if (iconResult is not null)
 					listedItem.FileImage = await iconResult.ToBitmapAsync();
-				else
-					listedItem.NeedsPlaceholderGlyph = true;
 			}
 			return listedItem
 				?? throw new InvalidOperationException($"The search result '{item.Path}' is neither a file nor a folder.");

@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <local:BaseGroupableLayoutPage
 	x:Class="Files.App.Views.Layouts.ColumnLayoutPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -16,7 +16,6 @@
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:wct="using:CommunityToolkit.WinUI"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
-	xmlns:wctlabs="using:CommunityToolkit.Labs.WinUI"
 	x:Name="PageRoot"
 	HighContrastAdjustment="None"
 	mc:Ignorable="d">
@@ -258,12 +257,6 @@
 											Source="{x:Bind FileImage, Mode=OneWay}"
 											Stretch="Uniform" />
 									</ContentPresenter>
-
-									<!--  Loading indicator  -->
-									<wctlabs:Shimmer
-										x:Name="TypeUnknownGlyph"
-										Margin="2"
-										x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
 
 									<Image
 										x:Name="IconOverlayElement"

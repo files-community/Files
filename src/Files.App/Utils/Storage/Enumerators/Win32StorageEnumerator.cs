@@ -28,9 +28,8 @@ namespace Files.App.Utils.Storage
 		)
 		{
 			var sampler = new IntervalSampler(500);
-			// The first flush is time-based only: folders that enumerate faster than the
-			// interval get a single sorted apply, slow folders show content early.
-			var firstBatchSampler = new IntervalSampler(50);
+			// Intermediate flushes merge in sorted, so an early first paint costs no reshuffle later
+			var firstBatchSampler = new IntervalSampler(25);
 			var hasFlushedFirstBatch = false;
 			var tempList = new List<ListedItem>();
 			var count = 0;

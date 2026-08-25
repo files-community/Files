@@ -66,7 +66,6 @@ namespace Files.App.Utils
 		ByteSizeLib.ByteSize MaxSpace { get; set; }
 		string? MediaDuration { get; set; }
 		string? Name { get; }
-		bool NeedsPlaceholderGlyph { get; set; }
 		double Opacity { get; set; }
 		StorageItemTypes PrimaryItemAttribute { get; set; }
 		BitmapImage? ShieldIcon { get; set; }
