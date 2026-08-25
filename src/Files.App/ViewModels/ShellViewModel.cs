@@ -917,6 +917,8 @@ namespace Files.App.ViewModels
 					cts.Dispose();
 				}
 			}
+			if (filesAndFolders.Count >= 100)
+				AppMemoryHelper.RequestTrim();
 			filesAndFolders.Clear();
 			FilesAndFolders.Clear();
 			CancelSearch();
@@ -954,6 +956,17 @@ namespace Files.App.ViewModels
 		public void CancelExtendedPropertiesLoadingForItem(ListedItem item)
 		{
 			itemLoadQueue.TryUpdate(item.GetRequiredPath(), true, false);
+		}
+
+		/// <summary>
+		/// Drops an off-screen item's images so their memory can be reclaimed; they reload when the item is realized again.
+		/// </summary>
+		public void ReleaseExtendedProperties(ListedItem item)
+		{
+			item.ItemPropertiesInitialized = false;
+			item.FileImage = null;
+			item.IconOverlay = null;
+			item.ShieldIcon = null;
 		}
 
 		private bool _isSearchResults;

@@ -1246,13 +1246,20 @@ namespace Files.App.Views.Layouts
 		private void DeferScrollViewer_ViewChanged(object? sender, ScrollViewerViewChangedEventArgs e)
 		{
 			ParentShellPageInstance?.ShellViewModel?.NotifyScrollStateChanged(true);
+			AppMemoryHelper.NotifyActivity();
 
 			if (scrollSettleTimer is null)
 			{
 				scrollSettleTimer = DispatcherQueue.CreateTimer();
 				scrollSettleTimer.Interval = TimeSpan.FromMilliseconds(200);
 				scrollSettleTimer.IsRepeating = false;
-				scrollSettleTimer.Tick += (_, _) => ParentShellPageInstance?.ShellViewModel?.NotifyScrollStateChanged(false);
+				scrollSettleTimer.Tick += (_, _) =>
+				{
+					var shellViewModel = ParentShellPageInstance?.ShellViewModel;
+					shellViewModel?.NotifyScrollStateChanged(false);
+					if (shellViewModel?.FilesAndFolders.Count >= 100)
+						AppMemoryHelper.RequestTrim();
+				};
 			}
 
 			scrollSettleTimer.Stop();
@@ -1295,6 +1302,7 @@ namespace Files.App.Views.Layouts
 				{
 					var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 					shellViewModel.CancelExtendedPropertiesLoadingForItem(recycledItem);
+					shellViewModel.ReleaseExtendedProperties(recycledItem);
 				}
 				return;
 			}
