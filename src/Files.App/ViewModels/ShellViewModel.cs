@@ -1491,7 +1491,7 @@ namespace Files.App.ViewModels
 			}
 
 			// Get icon overlay
-			var iconOverlay = await FileThumbnailHelper.GetIconOverlayAsync(item.ItemPath, true);
+			var iconOverlay = await FileThumbnailHelper.GetIconOverlayAsync(item.ItemPath, thumbnailSize, true);
 
 			cancellationToken.ThrowIfCancellationRequested();
 

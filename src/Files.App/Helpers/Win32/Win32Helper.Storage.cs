@@ -87,7 +87,16 @@ namespace Files.App.Helpers
 		/// <param name="path"></param>
 		/// <param name="isDirectory"></param>
 		/// <returns></returns>
-		public static byte[]? GetIconOverlay(string? path, bool isDirectory)
+		// Maps a target pixel size to a system image list (SHIL_*): 16 -> SMALL, 32 -> LARGE, 48 -> EXTRALARGE, larger -> JUMBO
+		private static int GetImageListForSize(int size) => size switch
+		{
+			<= 16 => 1,
+			<= 32 => 0,
+			<= 48 => 2,
+			_ => 4,
+		};
+
+		public static byte[]? GetIconOverlay(string? path, int size, bool isDirectory)
 		{
 			if (path is null)
 				return null;
@@ -106,7 +115,7 @@ namespace Files.App.Helpers
 
 				lock (_iconOverlayLock)
 				{
-					if (PInvoke.SHGetImageList<IImageList>(0, out var imageList).Failed)
+					if (PInvoke.SHGetImageList<IImageList>(GetImageListForSize(size), out var imageList).Failed)
 						return null;
 
 					var overlayIdx = shFileInfo.iIcon >> 24;
@@ -206,13 +215,7 @@ namespace Files.App.Helpers
 
 					PInvoke.DestroyIcon(shfi.hIcon);
 
-					var imageListSize = size switch
-					{
-						<= 16 => 1,
-						<= 32 => 0,
-						<= 48 => 2,
-						_ => 4,
-					};
+					var imageListSize = GetImageListForSize(size);
 
 					lock (_iconLock)
 					{
