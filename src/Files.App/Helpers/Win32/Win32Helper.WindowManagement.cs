@@ -39,8 +39,8 @@ namespace Files.App.Helpers
 
 			PInvoke.AttachThreadInput(dwCurID, dwMyID, true);
 
-			PInvoke.SetWindowPos(hWnd, (Windows.Win32.Foundation.HWND)(-1), 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_NOSIZE | SET_WINDOW_POS_FLAGS.SWP_NOMOVE);
-			PInvoke.SetWindowPos(hWnd, (Windows.Win32.Foundation.HWND)(-2), 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_SHOWWINDOW | SET_WINDOW_POS_FLAGS.SWP_NOSIZE | SET_WINDOW_POS_FLAGS.SWP_NOMOVE);
+			// Raise to the top of the non-topmost band via HWND_TOP; the old HWND_TOPMOST/HWND_NOTOPMOST toggle shoved real always-on-top windows (e.g. picture-in-picture) behind us (#18893).
+			PInvoke.SetWindowPos(hWnd, Windows.Win32.Foundation.HWND.Null, 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_SHOWWINDOW | SET_WINDOW_POS_FLAGS.SWP_NOSIZE | SET_WINDOW_POS_FLAGS.SWP_NOMOVE);
 			PInvoke.SetForegroundWindow(hWnd);
 			PInvoke.SetFocus(hWnd);
 			PInvoke.SetActiveWindow(hWnd);
