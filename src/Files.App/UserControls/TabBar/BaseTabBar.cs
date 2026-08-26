@@ -161,6 +161,8 @@ namespace Files.App.UserControls.TabBar
 			// Save the updated tab list
 			AppLifecycleHelper.SaveSessionTabs();
 
+			AppMemoryHelper.RequestTrim();
+
 			if (Items.Count == 0)
 				MainWindow.Instance.Close();
 		}

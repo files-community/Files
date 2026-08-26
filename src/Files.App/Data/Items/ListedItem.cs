@@ -67,13 +67,6 @@ namespace Files.App.Utils
 
 		public bool ContainsFilesOrFolders { get; set; } = true;
 
-		private bool needsPlaceholderGlyph = true;
-		public bool NeedsPlaceholderGlyph
-		{
-			get => needsPlaceholderGlyph;
-			set => SetProperty(ref needsPlaceholderGlyph, value);
-		}
-
 		private bool loadFileIcon;
 		public bool LoadFileIcon
 		{
@@ -183,14 +176,8 @@ namespace Files.App.Utils
 			get => fileImage;
 			set
 			{
-				if (SetProperty(ref fileImage, value))
-				{
-					if (value is BitmapImage)
-					{
-						LoadFileIcon = true;
-						NeedsPlaceholderGlyph = false;
-					}
-				}
+				if (SetProperty(ref fileImage, value) && value is BitmapImage)
+					LoadFileIcon = true;
 			}
 		}
 

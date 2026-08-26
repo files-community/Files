@@ -24,13 +24,14 @@ namespace Files.App.Utils.Storage
 			Win32PInvoke.WIN32_FIND_DATA findData,
 			CancellationToken cancellationToken,
 			int countLimit,
+			uint iconSize,
+			bool useCurrentScale,
 			Func<List<ListedItem>, Task> intermediateAction
 		)
 		{
 			var sampler = new IntervalSampler(500);
-			// The first flush is time-based only: folders that enumerate faster than the
-			// interval get a single sorted apply, slow folders show content early.
-			var firstBatchSampler = new IntervalSampler(50);
+			// Intermediate flushes merge in sorted, so an early first paint costs no reshuffle later
+			var firstBatchSampler = new IntervalSampler(25);
 			var hasFlushedFirstBatch = false;
 			var tempList = new List<ListedItem>();
 			var count = 0;
@@ -63,7 +64,7 @@ namespace Files.App.Utils.Storage
 							if (file is not null)
 							{
 								var filePath = file.ItemPath!;
-								file.PreloadedIconData = await iconCacheService.GetIconAsync(file.ItemPath, file.FileExtension, false);
+								file.PreloadedIconData = await iconCacheService.GetIconAsync(file.ItemPath, file.FileExtension, false, iconSize, useCurrentScale);
 								tempList.Add(file);
 								++count;
 
@@ -79,7 +80,7 @@ namespace Files.App.Utils.Storage
 								if (folder is not null)
 								{
 									var folderPath = folder.ItemPath!;
-									folder.PreloadedIconData = await iconCacheService.GetIconAsync(folder.ItemPath, null, true);
+									folder.PreloadedIconData = await iconCacheService.GetIconAsync(folder.ItemPath, null, true, iconSize, useCurrentScale);
 									tempList.Add(folder);
 									++count;
 

@@ -58,6 +58,7 @@ namespace Files.App.ViewModels
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private readonly INetworkService NetworkService = Ioc.Default.GetRequiredService<INetworkService>();
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		private readonly IIconCacheService iconCacheService = Ioc.Default.GetRequiredService<IIconCacheService>();
 		private readonly ISizeProvider folderSizeProvider = Ioc.Default.GetRequiredService<ISizeProvider>();
 		private readonly IStorageCacheService fileListCache = Ioc.Default.GetRequiredService<IStorageCacheService>();
 		private readonly IWindowsSecurityService WindowsSecurityService = Ioc.Default.GetRequiredService<IWindowsSecurityService>();
@@ -377,6 +378,8 @@ namespace Files.App.ViewModels
 				_ => ("\uE7BA", Strings.DriveUnpluggedDialogTitle.GetLocalizedResource(), message ?? Strings.DriveUnpluggedDialogText.GetLocalizedResource()),
 			};
 
+			// The previous listing stays visible through navigation, so drop it before showing the indicator
+			FilesAndFolders.Clear();
 			IsLocationUnavailable = true;
 		}
 
@@ -733,7 +736,7 @@ namespace Files.App.ViewModels
 			enumFolderSemaphore = new SemaphoreSlim(1, 1);
 			getFileOrFolderSemaphore = new SemaphoreSlim(50);
 			bulkOperationSemaphore = new SemaphoreSlim(1, 1);
-			loadThumbnailSemaphore = new SemaphoreSlim(1, 1);
+			loadThumbnailSemaphore = new SemaphoreSlim(8, 8);
 			gitPropertiesSemaphore = new SemaphoreSlim(1, 1);
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
@@ -894,7 +897,7 @@ namespace Files.App.ViewModels
 
 		private bool IsLoadingCancelled { get; set; }
 
-		public void CancelLoadAndClearFiles()
+		public void CancelLoadAndClearFiles(bool clearDisplay = true)
 		{
 			Debug.WriteLine("CancelLoadAndClearFiles");
 			CloseWatcher();
@@ -917,8 +920,11 @@ namespace Files.App.ViewModels
 					cts.Dispose();
 				}
 			}
+			if (filesAndFolders.Count >= 100)
+				AppMemoryHelper.RequestTrim();
 			filesAndFolders.Clear();
-			FilesAndFolders.Clear();
+			if (clearDisplay)
+				FilesAndFolders.Clear();
 			CancelSearch();
 		}
 
@@ -954,6 +960,17 @@ namespace Files.App.ViewModels
 		public void CancelExtendedPropertiesLoadingForItem(ListedItem item)
 		{
 			itemLoadQueue.TryUpdate(item.GetRequiredPath(), true, false);
+		}
+
+		/// <summary>
+		/// Drops an off-screen item's images so their memory can be reclaimed; they reload when the item is realized again.
+		/// </summary>
+		public void ReleaseExtendedProperties(ListedItem item)
+		{
+			item.ItemPropertiesInitialized = false;
+			item.FileImage = null;
+			item.IconOverlay = null;
+			item.ShieldIcon = null;
 		}
 
 		private bool _isSearchResults;
@@ -1357,6 +1374,61 @@ namespace Files.App.ViewModels
 			return shieldIcon;
 		}
 
+		/// <summary>
+		/// Paints an item's first image at realization: the system-cached thumbnail when one exists, otherwise the preloaded icon.
+		/// </summary>
+		public async Task ApplyCachedThumbnailOrPreloadedIconAsync(ListedItem item)
+		{
+			if (!item.IsFolder
+				&& FileExtensionHelpers.IsImageFile(item.FileExtension)
+				&& UserSettingsService.FoldersSettingsService.ShowThumbnails)
+			{
+				var thumbnailSize = LayoutSizeKindHelper.GetIconSize(folderSettings.LayoutMode);
+				if (thumbnailSize >= 48)
+				{
+					var useCurrentScale = folderSettings.LayoutMode is FolderLayoutModes.DetailsView or FolderLayoutModes.ListView or FolderLayoutModes.ColumnView or FolderLayoutModes.CardsView;
+					var cached = await FileThumbnailHelper.GetIconAsync(
+						item.ItemPath,
+						thumbnailSize,
+						false,
+						IconOptions.ReturnThumbnailOnly | IconOptions.ReturnOnlyIfCached | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
+
+					if (cached is not null && item.FileImage is null)
+					{
+						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+						{
+							var image = await cached.ToBitmapAsync();
+							if (image is not null && item.FileImage is null)
+								item.FileImage = image;
+						});
+
+						return;
+					}
+				}
+			}
+
+			if (item.PreloadedIconData is not null && item.FileImage is null)
+			{
+				// Fetched at the current layout's size and scale so the placeholder is pixel-identical to the final icon
+				var iconSize = GetPreloadIconSize();
+				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				{
+					if (item.FileImage is not null)
+						return;
+
+					var image = await iconCacheService.GetIconImageAsync(item.ItemPath, item.FileExtension, item.IsFolder, iconSize, UsesCurrentScale);
+					if (image is not null && item.FileImage is null)
+						item.FileImage = image;
+				});
+			}
+		}
+
+		private uint GetPreloadIconSize()
+			=> LayoutSizeKindHelper.GetIconSize(folderSettings.LayoutMode);
+
+		private bool UsesCurrentScale
+			=> folderSettings.LayoutMode is FolderLayoutModes.DetailsView or FolderLayoutModes.ListView or FolderLayoutModes.ColumnView or FolderLayoutModes.CardsView;
+
 		private async Task LoadThumbnailAsync(ListedItem item, CancellationToken cancellationToken, bool scheduleTimerRetry = true)
 		{
 			var loadNonCachedThumbnail = false;
@@ -1384,7 +1456,12 @@ namespace Files.App.ViewModels
 					loadNonCachedThumbnail = true;
 				}
 
-				if (result is null)
+				// Skip the per-item icon fetch when the preloaded per-extension icon cannot differ from the final icon
+				var preloadedIconIsFinal = item.PreloadedIconData is not null && !item.IsFolder &&
+					(loadNonCachedThumbnail && FileExtensionHelpers.IsImageFile(item.FileExtension) ||
+					returnIconOnly && !item.IsShortcut && !HasPerFileIcon(item.FileExtension));
+
+				if (result is null && !preloadedIconIsFinal)
 				{
 					// Get icon
 					result = await FileThumbnailHelper.GetIconAsync(
@@ -1392,6 +1469,18 @@ namespace Files.App.ViewModels
 							thumbnailSize,
 							item.IsFolder,
 							IconOptions.ReturnIconOnly | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
+
+					cancellationToken.ThrowIfCancellationRequested();
+				}
+				else if (result is null)
+				{
+					// The final icon is the shared per-extension icon; apply it so an image from a previous layout size doesn't linger
+					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+					{
+						var image = await iconCacheService.GetIconImageAsync(item.ItemPath, item.FileExtension, item.IsFolder, thumbnailSize, useCurrentScale);
+						if (image is not null)
+							item.FileImage = image;
+					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 
 					cancellationToken.ThrowIfCancellationRequested();
 				}
@@ -1511,6 +1600,12 @@ namespace Files.App.ViewModels
 				}, cancellationToken);
 			}
 		}
+
+		private static bool HasPerFileIcon(string? extension)
+			=> extension is not null && _perFileIconExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
+
+		// Types whose icon is embedded in the file itself rather than shared by the extension
+		private static readonly string[] _perFileIconExtensions = [".ico", ".cur", ".ani", ".scr", ".msc", ".appref-ms"];
 
 		private static void SetFileTag(ListedItem item)
 		{
@@ -1962,7 +2057,8 @@ namespace Files.App.ViewModels
 			StopWatchingForLocationRestoration();
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
 
-			CancelLoadAndClearFiles();
+			// The outgoing listing stays on screen until the new folder's first batch replaces it, matching File Explorer
+			CancelLoadAndClearFiles(clearDisplay: false);
 
 			if (string.IsNullOrEmpty(path))
 				return;
@@ -1988,7 +2084,6 @@ namespace Files.App.ViewModels
 				IsLoadingItems = true;
 
 				filesAndFolders.Clear();
-				FilesAndFolders.Clear();
 				desktopIniUpdateTask = null;
 
 				ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
@@ -2305,9 +2400,14 @@ namespace Files.App.ViewModels
 				{
 					await Task.Run(async () =>
 					{
-						List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, hFile, findData, cancellationToken, -1, intermediateAction: async (intermediateList) =>
+						List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, hFile, findData, cancellationToken, -1, GetPreloadIconSize(), UsesCurrentScale, intermediateAction: async (intermediateList) =>
 						{
 							filesAndFolders.AddRange(intermediateList);
+
+							// The stable sort lands new items in final position without reordering visible ones; capped for huge listings
+							if (filesAndFolders.Count <= 10_000)
+								await OrderFilesAndFoldersAsync();
+
 							await ApplyFilesAndFoldersChangesAsync();
 						});
 
@@ -2370,12 +2470,16 @@ namespace Files.App.ViewModels
 						currentStorageFolder,
 						cancellationToken,
 						-1,
+						GetPreloadIconSize(),
+						UsesCurrentScale,
 						async (intermediateList) =>
 						{
 							filesAndFolders.AddRange(intermediateList);
 
-							// Sorting the growing list on every intermediate batch is O(batches x n log n);
-							// append unsorted here (matching the Win32 path) and sort once when enumeration completes.
+							// The stable sort lands new items in final position without reordering visible ones; capped for huge listings
+							if (filesAndFolders.Count <= 10_000)
+								await OrderFilesAndFoldersAsync();
+
 							await ApplyFilesAndFoldersChangesAsync();
 						});
 

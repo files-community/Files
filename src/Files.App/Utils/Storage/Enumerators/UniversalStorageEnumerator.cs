@@ -21,6 +21,8 @@ namespace Files.App.Utils.Storage
 			StorageFolderWithPath currentStorageFolder,
 			CancellationToken cancellationToken,
 			int countLimit,
+			uint iconSize,
+			bool useCurrentScale,
 			Func<List<ListedItem>, Task> intermediateAction,
 			Dictionary<string, BitmapImage>? defaultIconPairs = null)
 		{
@@ -92,7 +94,7 @@ namespace Files.App.Utils.Storage
 							if (folder is not null)
 							{
 								var folderPath = folder.ItemPath!;
-								folder.PreloadedIconData = await iconCacheService.GetIconAsync(folder.ItemPath, null, true);
+								folder.PreloadedIconData = await iconCacheService.GetIconAsync(folder.ItemPath, null, true, iconSize, useCurrentScale);
 
 								if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
 									folder.FileImage = defaultIconPairs[string.Empty];
@@ -118,7 +120,7 @@ namespace Files.App.Utils.Storage
 							var fileEntry = await AddFileAsync(item.AsBaseStorageFile()!, currentStorageFolder, cancellationToken);
 							if (fileEntry is not null)
 							{
-								fileEntry.PreloadedIconData = await iconCacheService.GetIconAsync(fileEntry.ItemPath, fileEntry.FileExtension, false);
+								fileEntry.PreloadedIconData = await iconCacheService.GetIconAsync(fileEntry.ItemPath, fileEntry.FileExtension, false, iconSize, useCurrentScale);
 
 								if (defaultIconPairs is not null)
 								{
