@@ -477,7 +477,6 @@ namespace Files.App.Helpers
 				var text = recent.ToString();
 				builder.AppendLine(text[..Math.Min(text.Length, 1024)]);
 
-				// Surface the throw-time stack when the exception carries none of its own
 				if (string.IsNullOrEmpty(recent.StackTrace) && _recentExceptionStacks[slot] is string capturedStack)
 				{
 					builder.AppendLine("-- captured at throw --");
