@@ -1256,13 +1256,7 @@ namespace Files.App.Views.Layouts
 				scrollSettleTimer = DispatcherQueue.CreateTimer();
 				scrollSettleTimer.Interval = TimeSpan.FromMilliseconds(200);
 				scrollSettleTimer.IsRepeating = false;
-				scrollSettleTimer.Tick += (_, _) =>
-				{
-					var shellViewModel = ParentShellPageInstance?.ShellViewModel;
-					shellViewModel?.NotifyScrollStateChanged(false);
-					if (shellViewModel?.FilesAndFolders.Count >= 100)
-						AppMemoryHelper.RequestTrim();
-				};
+				scrollSettleTimer.Tick += (_, _) => ParentShellPageInstance?.ShellViewModel?.NotifyScrollStateChanged(false);
 			}
 
 			scrollSettleTimer.Stop();

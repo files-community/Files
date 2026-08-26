@@ -4,6 +4,7 @@
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Runtime.ExceptionServices;
+using System.Threading.Channels;
 using Windows.Win32;
 
 namespace Files.App.Storage
@@ -15,8 +16,8 @@ namespace Files.App.Storage
 	{
 		private const int PooledThreadCount = 12;
 
-		private static readonly BlockingCollection<Action> _pooledQueue = new();
-		private static int _poolStarted;
+		private static readonly Channel<Action> _pooledQueue = Channel.CreateUnbounded<Action>();
+		private static bool _poolStarted;
 
 		/// <summary>
 		/// Schedules the specified work on a shared pool of persistent STA threads, avoiding per-call thread creation.
@@ -27,7 +28,7 @@ namespace Files.App.Storage
 		/// <returns>A <see cref="Task{T}"/> that represents the scheduled work.</returns>
 		public static Task<T> RunPooled<T>(Func<T> func, ILogger? logger)
 		{
-			if (Interlocked.CompareExchange(ref _poolStarted, 1, 0) == 0)
+			if (!Interlocked.CompareExchange(ref _poolStarted, true, false))
 			{
 				for (int i = 0; i < PooledThreadCount; i++)
 				{
@@ -36,8 +37,11 @@ namespace Files.App.Storage
 						{
 							PInvoke.OleInitialize();
 
-							foreach (var work in _pooledQueue.GetConsumingEnumerable())
-								work();
+							// Consume synchronously: awaiting here would resume on an MTA thread pool thread, losing the STA apartment
+							var reader = _pooledQueue.Reader;
+							while (reader.WaitToReadAsync().AsTask().GetAwaiter().GetResult())
+								while (reader.TryRead(out var work))
+									work();
 						});
 
 					thread.IsBackground = true;
@@ -49,7 +53,7 @@ namespace Files.App.Storage
 
 			var tcs = new TaskCompletionSource<T>(TaskCreationOptions.RunContinuationsAsynchronously);
 
-			_pooledQueue.Add(() =>
+			_pooledQueue.Writer.TryWrite(() =>
 			{
 				try
 				{
