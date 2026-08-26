@@ -74,6 +74,7 @@ GetFileTime
 SetFileTime
 GetFileInformationByHandleEx
 FILE_ID_BOTH_DIR_INFO
+IO_REPARSE_TAG_SYMLINK
 FindFirstStreamW
 FindNextStreamW
 WIN32_FIND_STREAM_DATA
