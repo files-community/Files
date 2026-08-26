@@ -130,6 +130,8 @@ namespace Files.App.Helpers
 			{
 				// The follwing method invokes UI thread, so we run it in a separate task
 				await CheckAppUpdate();
+
+				await PeriodicallyCheckForUpdatesAsync();
 			});
 
 			static Task OptionalTaskAsync(Task task, bool condition)
@@ -170,6 +172,31 @@ namespace Files.App.Helpers
 
 			if (IsAppUpdated)
 				await updateService.CheckAndUpdateFilesLauncherAsync();
+		}
+
+		/// <summary>
+		/// Periodically re-checks for updates while the app keeps running.
+		/// </summary>
+		public static async Task PeriodicallyCheckForUpdatesAsync()
+		{
+			var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
+
+			var interval = AppEnvironment is AppEnvironment.SideloadPreview or AppEnvironment.StorePreview
+				? TimeSpan.FromHours(2)
+				: TimeSpan.FromHours(5);
+
+			using var timer = new PeriodicTimer(interval);
+			while (await timer.WaitForNextTickAsync())
+			{
+				if (updateService.IsUpdateAvailable)
+					break;
+
+				// CheckForUpdatesAsync resets IsUpdateAvailable, so skip while a download is in progress
+				if (updateService.IsUpdating)
+					continue;
+
+				await updateService.CheckForUpdatesAsync();
+			}
 		}
 
 		/// <summary>
