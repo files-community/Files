@@ -1472,6 +1472,18 @@ namespace Files.App.ViewModels
 
 					cancellationToken.ThrowIfCancellationRequested();
 				}
+				else if (result is null)
+				{
+					// The final icon is the shared per-extension icon; apply it so an image from a previous layout size doesn't linger
+					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+					{
+						var image = await iconCacheService.GetIconImageAsync(item.ItemPath, item.FileExtension, item.IsFolder, thumbnailSize, useCurrentScale);
+						if (image is not null)
+							item.FileImage = image;
+					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+
+					cancellationToken.ThrowIfCancellationRequested();
+				}
 			}
 			else
 			{
