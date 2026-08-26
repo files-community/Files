@@ -12,12 +12,8 @@ namespace Files.App.Utils.Shell
 			if (!ShellStorageFolder.IsShellPath(shPath))
 				return shPath;
 
-			var lookupPath = shPath.StartsWith("shell:::", StringComparison.OrdinalIgnoreCase)
-				? shPath.Substring("shell:".Length)
-				: shPath;
-
 			shPath = Constants.UserEnvironmentPaths.ShellPlaces.GetValueOrDefault(
-				lookupPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).ToUpperInvariant(),
+				GetShellPathLookupKey(shPath),
 				shPath);
 
 			if (shPath.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
@@ -34,8 +30,17 @@ namespace Files.App.Utils.Shell
 
 		public static bool IsSupportedShellPath(string shPath)
 		{
-			var resolvedPath = ResolveShellPath(shPath);
-			return Constants.UserEnvironmentPaths.ShellPlaces.Values.Contains(resolvedPath, StringComparer.OrdinalIgnoreCase);
+			return ShellStorageFolder.IsShellPath(shPath) &&
+				Constants.UserEnvironmentPaths.ShellPlaces.ContainsKey(GetShellPathLookupKey(shPath));
+		}
+
+		private static string GetShellPathLookupKey(string shPath)
+		{
+			var lookupPath = shPath.StartsWith("shell:::", StringComparison.OrdinalIgnoreCase)
+				? shPath.Substring("shell:".Length)
+				: shPath;
+
+			return lookupPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).ToUpperInvariant();
 		}
 
 		public static string GetShellNameFromPath(string shPath)
