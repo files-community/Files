@@ -112,7 +112,7 @@ namespace Files.App.ViewModels.Properties
 						filePath,
 						Constants.ShellIconSizes.ExtraLarge,
 						false,
-						IconOptions.UseCurrentScale);
+						IconOptions.None);
 
 					ViewModel.IconData = iconData;
 				}
@@ -137,7 +137,7 @@ namespace Files.App.ViewModels.Properties
 						mediaPath,
 						Constants.ShellIconSizes.ExtraLarge,
 						false,
-						IconOptions.UseCurrentScale | IconOptions.ReturnIconOnly);
+						IconOptions.ReturnIconOnly);
 
 					ViewModel.IconData = iconData;
 				}

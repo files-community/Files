@@ -15,11 +15,6 @@ namespace Files.App.Data.Enums
 		None = 0,
 
 		/// <summary>
-		/// Increase requested size based on the displays DPI setting.
-		/// </summary>
-		UseCurrentScale = 1,
-
-		/// <summary>
 		/// Retrieve only the file icon, even a thumbnail is available. This has the best performance.
 		/// </summary>
 		ReturnIconOnly = 2,

@@ -24,6 +24,7 @@ namespace Files.App.Views.Layouts
 	[WinRT.GeneratedBindableCustomProperty(
 		[
 			nameof(ItemWidthGridView),
+			nameof(GridViewIconSize),
 			nameof(RowHeightListView),
 			nameof(IconBoxSizeListView),
 			nameof(CardsViewOrientation),
@@ -80,6 +81,12 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		public int ItemWidthGridView =>
 			LayoutSizeKindHelper.GetGridViewItemWidth(LayoutSettingsService.GridViewSize);
+
+		/// <summary>
+		/// Gets the icon size for items in the Grid View layout.
+		/// </summary>
+		public int GridViewIconSize =>
+			(int)LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.GridView);
 
 
 
@@ -283,6 +290,8 @@ namespace Files.App.Views.Layouts
 			}
 			if (e.PropertyName == nameof(ILayoutSettingsService.GridViewSize))
 			{
+				NotifyPropertyChanged(nameof(GridViewIconSize));
+
 				// Update the container style to match the item size
 				SetItemContainerStyle();
 				FolderSettings_IconSizeChanged();

@@ -537,7 +537,7 @@ namespace Files.App.Utils.Storage
 						itemPath,
 						Constants.ShellIconSizes.Small,
 						false,
-						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+						IconOptions.ReturnIconOnly);
 					if (iconResult is not null)
 						shortcutItem.FileImage = await iconResult.ToBitmapAsync();
 				}
@@ -668,7 +668,7 @@ namespace Files.App.Utils.Storage
 					listedItem.ItemPath,
 					Constants.ShellIconSizes.Small,
 					isFolder,
-					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale)
+					IconOptions.ReturnIconOnly)
 					.ContinueWith((t) =>
 					{
 						if (t.IsCompletedSuccessfully && t.Result is not null)
@@ -825,7 +825,7 @@ namespace Files.App.Utils.Storage
 					item.Path,
 					Constants.ShellIconSizes.Small,
 					item.IsOfType(StorageItemTypes.Folder),
-					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+					IconOptions.ReturnIconOnly);
 
 				if (iconResult is not null)
 					listedItem.FileImage = await iconResult.ToBitmapAsync();

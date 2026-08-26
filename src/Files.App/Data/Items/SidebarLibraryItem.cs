@@ -54,7 +54,7 @@ namespace Files.App.Data.Items
 				path,
 				Constants.ShellIconSizes.Small,
 				false,
-				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+				IconOptions.ReturnIconOnly);
 
 			var bitmapImage = await result.ToBitmapAsync();
 			if (bitmapImage is not null)

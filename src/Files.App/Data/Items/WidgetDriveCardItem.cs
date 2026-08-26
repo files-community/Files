@@ -28,7 +28,7 @@ namespace Files.App.Data.Items
 				Item.Path,
 				Constants.ShellIconSizes.Large,
 				true,
-				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+				IconOptions.ReturnIconOnly);
 
 			if (result is null)
 			{

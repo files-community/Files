@@ -243,7 +243,7 @@ namespace Files.App.Helpers
 						path,
 						Constants.ShellIconSizes.Small,
 						true,
-						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+						IconOptions.ReturnIconOnly);
 
 					if (result is not null)
 						imageSource = await result.ToBitmapAsync();
@@ -338,7 +338,7 @@ namespace Files.App.Helpers
 					currentPath,
 					Constants.ShellIconSizes.Small,
 					true,
-					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+					IconOptions.ReturnIconOnly);
 
 				if (result is not null)
 					imageIcon.ImageSource = await result.ToBitmapAsync();

@@ -9,14 +9,18 @@ namespace Files.App.Utils.Storage
 {
 	public static class FileThumbnailHelper
 	{
+		// The shell serves these from hand-tuned icon frames and cache buckets; in-between sizes can yield padded or regenerated results
+		private static readonly uint[] _standardSizes = [16, 24, 32, 48, 64, 96, 128, 256];
+
 		/// <summary>
 		/// Returns icon or thumbnail for given file or folder
 		/// </summary>
 		public static async Task<byte[]?> GetIconAsync(string? path, uint requestedSize, bool isFolder, IconOptions iconOptions)
 		{
-			var size = iconOptions.HasFlag(IconOptions.UseCurrentScale) ? requestedSize * App.AppModel.AppWindowDPI : requestedSize;
-			// Ensure size is at least 1 to prevent layout errors
-			size = Math.Max(1, size);
+			var scaledSize = requestedSize * App.AppModel.AppWindowDPI;
+
+			// Snap up to the next standard size; the result is never below the displayed size, so it only ever downscales
+			var size = _standardSizes.FirstOrDefault(s => s >= scaledSize, _standardSizes[^1]);
 
 			if (!isFolder && !iconOptions.HasFlag(IconOptions.ReturnIconOnly) && !iconOptions.HasFlag(IconOptions.ReturnOnlyIfCached))
 			{

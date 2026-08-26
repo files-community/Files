@@ -119,7 +119,7 @@ namespace Files.App.ViewModels.Properties
 				itemPath,
 				Constants.ShellIconSizes.ExtraLarge,
 				false,
-				IconOptions.UseCurrentScale);
+				IconOptions.None);
 
 			if (result is not null)
 			{
