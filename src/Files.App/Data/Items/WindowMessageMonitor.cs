@@ -29,7 +29,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Monitors window messages of an arbitrary window by subclassing its window procedure.
 	/// </summary>
-	public sealed unsafe class WindowMessageMonitor : IDisposable
+	public sealed unsafe partial class WindowMessageMonitor : IDisposable
 	{
 		private readonly HWND _hwnd;
 		private readonly WNDPROC _newWndProc;
