@@ -14,7 +14,7 @@ namespace Files.App.Services
 		private static readonly string _dummyPath = Path.Combine(Path.GetPathRoot(Environment.SystemDirectory)!, "x46696c6573");
 
 		private readonly ConcurrentDictionary<string, byte[]?> _cache = new();
-		private readonly ConcurrentDictionary<(DispatcherQueue, string), BitmapImage> _imageCache = new();
+		private readonly ConcurrentDictionary<string, BitmapImage> _imageCache = new();
 
 		public async Task<byte[]?> GetIconAsync(string? itemPath, string? extension, bool isFolder, uint size, bool useCurrentScale)
 		{
@@ -41,13 +41,12 @@ namespace Files.App.Services
 
 		public async Task<BitmapImage?> GetIconImageAsync(string? itemPath, string? extension, bool isFolder, uint size, bool useCurrentScale)
 		{
-			// BitmapImage has window thread affinity, so decoded images are cached per dispatcher
-			var dispatcher = DispatcherQueue.GetForCurrentThread();
-			if (dispatcher is null)
+			// BitmapImage has thread affinity, so only the main window's dispatcher may use this cache
+			if (DispatcherQueue.GetForCurrentThread() is null)
 				return null;
 
 			var key = $"{(isFolder ? ":folder:" : (extension?.ToLowerInvariant() ?? ":noext:"))}:{size}:{useCurrentScale}";
-			if (_imageCache.TryGetValue((dispatcher, key), out var cached))
+			if (_imageCache.TryGetValue(key, out var cached))
 				return cached;
 
 			var data = await GetIconAsync(itemPath, extension, isFolder, size, useCurrentScale);
@@ -56,7 +55,7 @@ namespace Files.App.Services
 
 			var image = await data.ToBitmapAsync();
 			if (image is not null)
-				_imageCache.TryAdd((dispatcher, key), image);
+				_imageCache.TryAdd(key, image);
 
 			return image;
 		}
