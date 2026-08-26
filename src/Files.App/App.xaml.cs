@@ -281,6 +281,9 @@ namespace Files.App
 		/// </remarks>
 		private async void Window_Closed(object sender, WindowEventArgs args)
 		{
+			// Stop dispatcher timers before the close handler yields and window teardown begins.
+			AppModel.IsMainWindowClosed = true;
+
 			// Save application state and stop any background activity
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			StatusCenterViewModel statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
@@ -335,7 +338,6 @@ namespace Files.App
 
 				// Cache the window instead of closing it
 				MainWindow.Instance.AppWindow.Hide();
-				AppModel.IsMainWindowClosed = true;
 
 				// Close all tabs
 				MainPageViewModel.AppInstances.ForEach(tabItem => tabItem.Unload());
@@ -401,7 +403,6 @@ namespace Files.App
 
 			// Destroy cached properties windows
 			FilePropertiesHelpers.DestroyCachedWindows();
-			AppModel.IsMainWindowClosed = true;
 
 			// Wait for ongoing file operations
 			FileOperationsHelpers.WaitForCompletion();
