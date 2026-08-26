@@ -256,8 +256,11 @@ namespace Files.App.Utils.Storage
 			return expression;
 		}
 
-		private bool MatchesTagExpression(IEnumerable<string> fileTags, TagQueryExpression expression)
+		private bool MatchesTagExpression(IEnumerable<string>? fileTags, TagQueryExpression expression)
 		{
+			// Imported/synced tag entries can deserialize with a null Tags array, which would NRE on fileTags.Contains below.
+			fileTags ??= [];
+
 			foreach (var orGroup in expression.OrGroups)
 			{
 				bool groupMatches = true;
