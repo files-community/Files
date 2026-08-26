@@ -273,7 +273,7 @@ namespace Files.App
 			{
 				if (!string.IsNullOrEmpty(payload))
 				{
-					payload = Constants.UserEnvironmentPaths.ShellPlaces.Get(payload.ToUpperInvariant(), payload) ?? payload;
+					payload = ShellHelpers.ResolveShellPath(payload);
 					var folderResult = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(payload).AsTask());
 					if (folderResult.Result is { } folder && !string.IsNullOrEmpty(folder.Path))
 						payload = folder.Path; // Convert short name to long name (#6190)
