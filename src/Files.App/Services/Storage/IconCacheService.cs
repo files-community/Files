@@ -16,9 +16,9 @@ namespace Files.App.Services
 		private readonly ConcurrentDictionary<string, byte[]?> _cache = new();
 		private readonly ConcurrentDictionary<string, BitmapImage> _imageCache = new();
 
-		public async Task<byte[]?> GetIconAsync(string? itemPath, string? extension, bool isFolder, uint size, bool useCurrentScale)
+		public async Task<byte[]?> GetIconAsync(string? itemPath, string? extension, bool isFolder, uint size)
 		{
-			var key = $"{(isFolder ? ":folder:" : (extension?.ToLowerInvariant() ?? ":noext:"))}:{size}:{useCurrentScale}";
+			var key = $"{(isFolder ? ":folder:" : (extension?.ToLowerInvariant() ?? ":noext:"))}:{size}";
 
 			if (_cache.TryGetValue(key, out var cached))
 				return cached;
@@ -33,23 +33,23 @@ namespace Files.App.Services
 				iconPath,
 				size,
 				isFolder,
-				IconOptions.ReturnIconOnly | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
+				IconOptions.ReturnIconOnly);
 
 			_cache.TryAdd(key, icon);
 			return icon;
 		}
 
-		public async Task<BitmapImage?> GetIconImageAsync(string? itemPath, string? extension, bool isFolder, uint size, bool useCurrentScale)
+		public async Task<BitmapImage?> GetIconImageAsync(string? itemPath, string? extension, bool isFolder, uint size)
 		{
 			// BitmapImage has thread affinity, so only the main window's dispatcher may use this cache
 			if (DispatcherQueue.GetForCurrentThread() is null)
 				return null;
 
-			var key = $"{(isFolder ? ":folder:" : (extension?.ToLowerInvariant() ?? ":noext:"))}:{size}:{useCurrentScale}";
+			var key = $"{(isFolder ? ":folder:" : (extension?.ToLowerInvariant() ?? ":noext:"))}:{size}";
 			if (_imageCache.TryGetValue(key, out var cached))
 				return cached;
 
-			var data = await GetIconAsync(itemPath, extension, isFolder, size, useCurrentScale);
+			var data = await GetIconAsync(itemPath, extension, isFolder, size);
 			if (data is null)
 				return null;
 
