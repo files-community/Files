@@ -913,8 +913,9 @@ namespace Files.App.Views.Layouts
 			{
 				var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 
-				// The incoming page's first batch replaces the visible listing, avoiding an empty flash between folders
-				shellViewModel.CancelLoadAndClearFiles(clearDisplay: false);
+				// The incoming page's first batch replaces the visible listing, avoiding an empty flash between folders.
+				// When the target folder uses a different layout, the old items would re-render in the wrong layout, so drop them instead.
+				shellViewModel.CancelLoadAndClearFiles(clearDisplay: e.SourcePageType != GetType());
 			}
 		}
 
