@@ -44,19 +44,19 @@
 
 			<!--#region Light PropertiesViewInfo-->
 			<StaticResource x:Key="PropertiesViewInfoForeground" ResourceKey="AccentFillColorDefaultBrush" />
-			<StaticResource x:Key="PropertiesViewInfoPointerOverForeground" ResourceKey="AccentFillColorSecondaryBrush" />
-			<StaticResource x:Key="PropertiesViewInfoPressedForeground" ResourceKey="AccentFillColorTertiaryBrush" />
-			<StaticResource x:Key="PropertiesViewInfoDisabledForeground" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPointerOverForeground" ResourceKey="AccentTextFillColorSecondaryBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPressedForeground" ResourceKey="AccentTextFillColorSecondaryBrush" />
+			<StaticResource x:Key="PropertiesViewInfoDisabledForeground" ResourceKey="AccentTextFillColorDisabledBrush" />
 
-			<StaticResource x:Key="PropertiesViewInfoBackground" ResourceKey="SubtleFillColorTransparentBrush" />
-			<StaticResource x:Key="PropertiesViewInfoPointerOverBackground" ResourceKey="SubtleFillColorSecondaryBrush" />
-			<StaticResource x:Key="PropertiesViewInfoPressedBackground" ResourceKey="SubtleFillColorSecondaryBrush" />
-			<StaticResource x:Key="PropertiesViewInfoDisabledBackground" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="PropertiesViewInfoBackground" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPointerOverBackground" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPressedBackground" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="PropertiesViewInfoDisabledBackground" ResourceKey="ControlFillColorTransparentBrush" />
 
-			<StaticResource x:Key="PropertiesViewInfoBorderBrush" ResourceKey="CardStrokeColorDefaultBrush" />
-			<StaticResource x:Key="PropertiesViewInfoPointerOverBorderBrush" ResourceKey="DividerStrokeColorDefaultBrush" />
-			<StaticResource x:Key="PropertiesViewInfoPressedBorderBrush" ResourceKey="DividerStrokeColorDefaultBrush" />
-			<StaticResource x:Key="PropertiesViewInfoDisabledBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="PropertiesViewInfoBorderBrush" ResourceKey="ControlStrokeColorDefaultBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPointerOverBorderBrush" ResourceKey="ControlStrokeColorSecondaryBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPressedBorderBrush" ResourceKey="ControlStrokeColorSecondaryBrush" />
+			<StaticResource x:Key="PropertiesViewInfoDisabledBorderBrush" ResourceKey="ControlFillColorTransparentBrush" />
 			<!--#endregion-->
 		</ResourceDictionary>
 
@@ -97,19 +97,19 @@
 
 			<!--#region Dark PropertiesViewInfo-->
 			<StaticResource x:Key="PropertiesViewInfoForeground" ResourceKey="AccentFillColorDefaultBrush" />
-			<StaticResource x:Key="PropertiesViewInfoPointerOverForeground" ResourceKey="AccentFillColorSecondaryBrush" />
-			<StaticResource x:Key="PropertiesViewInfoPressedForeground" ResourceKey="AccentFillColorTertiaryBrush" />
-			<StaticResource x:Key="PropertiesViewInfoDisabledForeground" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPointerOverForeground" ResourceKey="AccentTextFillColorSecondaryBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPressedForeground" ResourceKey="AccentTextFillColorSecondaryBrush" />
+			<StaticResource x:Key="PropertiesViewInfoDisabledForeground" ResourceKey="AccentTextFillColorDisabledBrush" />
 
-			<StaticResource x:Key="PropertiesViewInfoBackground" ResourceKey="SubtleFillColorTransparentBrush" />
-			<StaticResource x:Key="PropertiesViewInfoPointerOverBackground" ResourceKey="SubtleFillColorSecondaryBrush" />
-			<StaticResource x:Key="PropertiesViewInfoPressedBackground" ResourceKey="SubtleFillColorSecondaryBrush" />
-			<StaticResource x:Key="PropertiesViewInfoDisabledBackground" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="PropertiesViewInfoBackground" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPointerOverBackground" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPressedBackground" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="PropertiesViewInfoDisabledBackground" ResourceKey="ControlFillColorTransparentBrush" />
 
-			<StaticResource x:Key="PropertiesViewInfoBorderBrush" ResourceKey="CardStrokeColorDefaultBrush" />
-			<StaticResource x:Key="PropertiesViewInfoPointerOverBorderBrush" ResourceKey="DividerStrokeColorDefaultBrush" />
-			<StaticResource x:Key="PropertiesViewInfoPressedBorderBrush" ResourceKey="DividerStrokeColorDefaultBrush" />
-			<StaticResource x:Key="PropertiesViewInfoDisabledBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="PropertiesViewInfoBorderBrush" ResourceKey="ControlStrokeColorDefaultBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPointerOverBorderBrush" ResourceKey="ControlStrokeColorSecondaryBrush" />
+			<StaticResource x:Key="PropertiesViewInfoPressedBorderBrush" ResourceKey="ControlStrokeColorSecondaryBrush" />
+			<StaticResource x:Key="PropertiesViewInfoDisabledBorderBrush" ResourceKey="ControlFillColorTransparentBrush" />
 			<!--#endregion-->
 
 		</ResourceDictionary>
