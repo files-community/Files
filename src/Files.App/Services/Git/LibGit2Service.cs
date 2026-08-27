@@ -252,32 +252,48 @@ internal sealed partial class LibGit2Service // : IVersionControl
 			}
 		}
 
-		var result = await DoGitOperationAsync<GitOperationResult>(() =>
+		var statusOperation = new GitStatusCenterOperation(
+			GitStatusCenterOperationKind.Checkout,
+			repositoryPath,
+			canProvideProgress: true,
+			operationTarget: checkoutBranch.FriendlyName);
+		options.OnCheckoutProgress = (path, completed, total) => statusOperation.ReportProgress(
+			completed,
+			total,
+			path);
+		var result = GitOperationResult.GenericError;
+
+		try
 		{
-			try
+			result = await DoGitOperationAsync<GitOperationResult>(() =>
 			{
-				if (checkoutBranch.IsRemote)
-					CheckoutRemoteBranch(repository, checkoutBranch);
-				else
-					LibGit2Sharp.Commands.Checkout(repository, checkoutBranch, options);
-
-				if (isBringingChanges)
+				try
 				{
-					var lastStashIndex = repository.Stashes.Count() - 1;
-					repository.Stashes.Pop(lastStashIndex, new StashApplyOptions());
+					if (checkoutBranch.IsRemote)
+						CheckoutRemoteBranch(repository, checkoutBranch, options);
+					else
+						LibGit2Sharp.Commands.Checkout(repository, checkoutBranch, options);
+
+					if (isBringingChanges)
+						repository.Stashes.Pop(0, new StashApplyOptions());
 				}
-			}
-			catch (Exception)
-			{
-				return GitOperationResult.GenericError;
-			}
+				catch (Exception)
+				{
+					return GitOperationResult.GenericError;
+				}
 
-			return GitOperationResult.Success;
-		});
+				return GitOperationResult.Success;
+			});
 
-		IsExecutingGitAction = false;
-
-		return result is GitOperationResult.Success;
+			return result is GitOperationResult.Success;
+		}
+		finally
+		{
+			statusOperation.Complete(result is GitOperationResult.Success
+				? ReturnResult.Success
+				: ReturnResult.Failed);
+			IsExecutingGitAction = false;
+		}
 	}
 
 	public async Task CreateNewBranchAsync(string repositoryPath, string activeBranch)
@@ -362,13 +378,20 @@ internal sealed partial class LibGit2Service // : IVersionControl
 			branch.FriendlyName.Equals(branchName, StringComparison.OrdinalIgnoreCase));
 	}
 
-	public async Task FetchOriginAsync(string? repositoryPath, CancellationToken cancellationToken = default)
+	public async Task FetchOriginAsync(string? repositoryPath, bool reportProgress, CancellationToken cancellationToken)
 	{
 		if (string.IsNullOrWhiteSpace(repositoryPath))
 			return;
 
+		var statusOperation = reportProgress
+			? new GitStatusCenterOperation(
+				GitStatusCenterOperationKind.Fetch,
+				repositoryPath,
+				canProvideProgress: true)
+			: null;
 		var fetchStarted = false;
 		var fetchCompleted = false;
+		var fetchResult = ReturnResult.Failed;
 		try
 		{
 			cancellationToken.ThrowIfCancellationRequested();
@@ -382,24 +405,39 @@ internal sealed partial class LibGit2Service // : IVersionControl
 				using var repository = new Repository(repositoryPath);
 				var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
 				var token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
-				var fetchOptions = new FetchOptions
-				{
-					Prune = true,
-					OnTransferProgress = _ => !cancellationToken.IsCancellationRequested,
-				};
-				if (signature is not null && !string.IsNullOrWhiteSpace(token))
-				{
-					fetchOptions.CredentialsProvider = (url, user, cred)
-						=> new UsernamePasswordCredentials
-						{
-							Username = signature.Name,
-							Password = token
-						};
-				}
+				var remotes = repository.Network.Remotes.ToArray();
+				var hasFetchFailure = false;
 
-				foreach (var remote in repository.Network.Remotes)
+				for (var remoteIndex = 0; remoteIndex < remotes.Length; remoteIndex++)
 				{
 					cancellationToken.ThrowIfCancellationRequested();
+					var remote = remotes[remoteIndex];
+					var startPercentage = remoteIndex * 100.0 / remotes.Length;
+					var endPercentage = (remoteIndex + 1) * 100.0 / remotes.Length;
+					var fetchOptions = new FetchOptions
+					{
+						Prune = true,
+						OnProgress = _ => !cancellationToken.IsCancellationRequested,
+						OnTransferProgress = progress =>
+						{
+							statusOperation?.ReportProgress(
+								progress.ReceivedObjects,
+								progress.TotalObjects,
+								startPercentage: startPercentage,
+								endPercentage: endPercentage);
+							return !cancellationToken.IsCancellationRequested;
+						},
+					};
+
+					if (signature is not null && !string.IsNullOrWhiteSpace(token))
+					{
+						fetchOptions.CredentialsProvider = (url, user, cred)
+							=> new UsernamePasswordCredentials
+							{
+								Username = signature.Name,
+								Password = token
+							};
+					}
 
 					try
 					{
@@ -413,16 +451,20 @@ internal sealed partial class LibGit2Service // : IVersionControl
 					catch (Exception ex)
 					{
 						cancellationToken.ThrowIfCancellationRequested();
+						hasFetchFailure = true;
 						// An unreachable remote (e.g. a deleted fork answering 401) must not prevent fetching the remaining remotes
 						_logger.LogWarning(ex, "Failed to fetch remote {RemoteName} in {RepositoryPath}", remote.Name, LogPathHelper.RedactPath(repositoryPath));
 					}
 				}
+
+				fetchResult = hasFetchFailure ? ReturnResult.Failed : ReturnResult.Success;
 			}, cancellationToken);
 			cancellationToken.ThrowIfCancellationRequested();
 			fetchCompleted = true;
 		}
 		catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
 		{
+			fetchResult = ReturnResult.Cancelled;
 		}
 		catch (Exception ex)
 		{
@@ -431,11 +473,14 @@ internal sealed partial class LibGit2Service // : IVersionControl
 		finally
 		{
 			if (fetchStarted)
-			{
 				Interlocked.Decrement(ref _activeFetchCount);
+
+			if (fetchStarted || statusOperation is not null)
+			{
 				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
 					IsExecutingGitAction = Volatile.Read(ref _activeFetchCount) > 0;
+					statusOperation?.Complete(fetchResult);
 					if (fetchCompleted && !cancellationToken.IsCancellationRequested)
 						GitFetchCompleted?.Invoke(this, EventArgs.Empty);
 				});
@@ -511,7 +556,7 @@ internal sealed partial class LibGit2Service // : IVersionControl
 		return null;
 	}
 
-	private static void CheckoutRemoteBranch(Repository repository, Branch branch)
+	private static void CheckoutRemoteBranch(Repository repository, Branch branch, CheckoutOptions options)
 	{
 		var uniqueName = branch.FriendlyName.Substring(END_OF_ORIGIN_PREFIX);
 
@@ -526,14 +571,14 @@ internal sealed partial class LibGit2Service // : IVersionControl
 		var newBranch = repository.CreateBranch(uniqueName, branch.Tip);
 		repository.Branches.Update(newBranch, b => b.TrackedBranch = branch.CanonicalName);
 
-		LibGit2Sharp.Commands.Checkout(repository, newBranch);
+		LibGit2Sharp.Commands.Checkout(repository, newBranch, new CheckoutOptions
+		{
+			OnCheckoutProgress = options.OnCheckoutProgress,
+		});
 	}
 
 	private static async Task<T?> DoGitOperationAsync<T>(Func<object> payload)
 	{
 		return (T)await Task.Run(payload);
 	}
-
-	[GeneratedRegex(@"^(?:https?:\/\/)?(?:www\.)?(?<domain>github|gitlab)\.com\/(?<user>[^\/]+)\/(?<repo>[^\/]+?)(?=\.git|\/|$)(?:\.git)?(?:\/)?", RegexOptions.IgnoreCase)]
-	private static partial Regex GitHubRepositoryRegex();
 }

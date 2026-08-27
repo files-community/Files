@@ -115,11 +115,12 @@ namespace Files.App.Data.Contracts
 		/// Fetches updates from remotes.
 		/// </summary>
 		/// <param name="repositoryPath">A path to the repository working directory.</param>
+		/// <param name="reportProgress">Whether to report progress to the status center.</param>
 		/// <param name="cancellationToken">A token used to cancel the operation.</param>
 		/// <remarks>
 		/// Implementations should raise <see cref="GitFetchCompleted"/> when the fetch completes successfully.
 		/// </remarks>
-		Task FetchOriginAsync(string? repositoryPath, CancellationToken cancellationToken = default);
+		Task FetchOriginAsync(string? repositoryPath, bool reportProgress = false, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		/// Pulls from the default remote.

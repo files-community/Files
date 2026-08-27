@@ -315,7 +315,7 @@ namespace Files.App.Views.Shells
 				}
 				if (InstanceViewModel.IsGitRepository && (!GitHelpers.IsExecutingGitAction || isGitFetchCanceled))
 				{
-					_gitFetch = GitHelpers.FetchOriginAsync(InstanceViewModel.GitRepositoryPath, _gitFetchToken.Token);
+					_gitFetch = GitHelpers.FetchOriginAsync(InstanceViewModel.GitRepositoryPath, cancellationToken: _gitFetchToken.Token);
 				}
 			}
 

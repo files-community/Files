@@ -29,7 +29,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			return GitHelpers.FetchOriginAsync(_context.ShellPage!.InstanceViewModel.GitRepositoryPath);
+			return GitHelpers.FetchOriginAsync(_context.ShellPage!.InstanceViewModel.GitRepositoryPath, reportProgress: true);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
