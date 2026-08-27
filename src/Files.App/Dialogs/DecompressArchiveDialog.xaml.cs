@@ -16,7 +16,7 @@ namespace Files.App.Dialogs
 			get => (FrameworkElement)MainWindow.Instance.Content;
 		}
 
-		public DecompressArchiveDialogViewModel ViewModel
+		public required DecompressArchiveDialogViewModel ViewModel
 		{
 			get => (DecompressArchiveDialogViewModel)DataContext;
 			set => DataContext = value;
@@ -29,7 +29,7 @@ namespace Files.App.Dialogs
 
 		private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
 		{
-			if (ViewModel is { IsArchiveEncrypted: true })
+			if (ViewModel.IsArchiveEncrypted)
 				ViewModel.PrimaryButtonClickCommand.Execute(new DisposableArray(Encoding.UTF8.GetBytes(Password.Password)));
 		}
 
