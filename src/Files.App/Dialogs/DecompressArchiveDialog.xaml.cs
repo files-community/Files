@@ -29,7 +29,7 @@ namespace Files.App.Dialogs
 
 		private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
 		{
-			if (ViewModel.IsArchiveEncrypted)
+			if (ViewModel is { IsArchiveEncrypted: true })
 				ViewModel.PrimaryButtonClickCommand.Execute(new DisposableArray(Encoding.UTF8.GetBytes(Password.Password)));
 		}
 
