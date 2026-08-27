@@ -58,7 +58,7 @@ namespace Files.App.Utils.Storage
 				var name = szName.ToString();
 				PInvoke.CoTaskMemFree(szName.Value);
 
-				if (!deviceName.StartsWith(name, StringComparison.OrdinalIgnoreCase))
+				if (name is null || !deviceName.StartsWith(name, StringComparison.OrdinalIgnoreCase))
 					continue;
 
 				pChild.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING, out var szParsing);
