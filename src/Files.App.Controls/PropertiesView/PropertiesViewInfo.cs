@@ -63,61 +63,61 @@ namespace Files.App.Controls
         {
             base.OnPointerPressed( e );
 
-			if ( IsEnabled )
-				VisualStateManager.GoToState( this , PressedStateName , true );
-			else
-				VisualStateManager.GoToState( this , DisabledStateName , true );
-		}
+            if ( IsEnabled )
+                VisualStateManager.GoToState( this , PressedStateName , true );
+            else
+                VisualStateManager.GoToState( this , DisabledStateName , true );
+        }
 
         protected override void OnPointerReleased(PointerRoutedEventArgs e)
         {
             base.OnPointerReleased( e );
 
-			if ( IsEnabled )
-				VisualStateManager.GoToState( this , NormalStateName , true );
-			else
-				VisualStateManager.GoToState( this , DisabledStateName , true );
-		}
+            if ( IsEnabled )
+                VisualStateManager.GoToState( this , NormalStateName , true );
+            else
+                VisualStateManager.GoToState( this , DisabledStateName , true );
+        }
 
         protected override void OnPointerEntered(PointerRoutedEventArgs e)
         {
             base.OnPointerEntered( e );
 
-			if ( IsEnabled )
-				VisualStateManager.GoToState( this , PointerOverStateName , true );
-			else
-				VisualStateManager.GoToState( this , DisabledStateName , true );
-		}
+            if ( IsEnabled )
+                VisualStateManager.GoToState( this , PointerOverStateName , true );
+            else
+                VisualStateManager.GoToState( this , DisabledStateName , true );
+        }
 
         protected override void OnPointerExited(PointerRoutedEventArgs e)
         {
             base.OnPointerExited( e );
 
-			if ( IsEnabled )
-				VisualStateManager.GoToState( this , NormalStateName , true );
-			else
-				VisualStateManager.GoToState( this , DisabledStateName , true );
-		}
+            if ( IsEnabled )
+                VisualStateManager.GoToState( this , NormalStateName , true );
+            else
+                VisualStateManager.GoToState( this , DisabledStateName , true );
+        }
 
         protected override void OnPointerCaptureLost(PointerRoutedEventArgs e)
         {
             base.OnPointerCaptureLost( e );
 
-			if ( IsEnabled )
-				VisualStateManager.GoToState( this , NormalStateName , true );
-			else
-				VisualStateManager.GoToState( this , DisabledStateName , true );
-		}
+            if ( IsEnabled )
+                VisualStateManager.GoToState( this , NormalStateName , true );
+            else
+                VisualStateManager.GoToState( this , DisabledStateName , true );
+        }
 
         protected override void OnPointerCanceled(PointerRoutedEventArgs e)
         {
             base.OnPointerCanceled( e );
 
-			if ( IsEnabled )
-				VisualStateManager.GoToState( this , NormalStateName , true );
-			else
-				VisualStateManager.GoToState( this , DisabledStateName , true );
-		}
+            if ( IsEnabled )
+                VisualStateManager.GoToState( this , NormalStateName , true );
+            else
+                VisualStateManager.GoToState( this , DisabledStateName , true );
+        }
 
         protected override void OnKeyDown(KeyRoutedEventArgs e)
         {
