@@ -789,11 +789,11 @@ namespace Files.App.ViewModels.UserControls
 
 			do
 			{
-				string fileName = findData.cFileName.ToString();
-				if (fileName is "." or "..")
+				if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == 0)
 					continue;
 
-				if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == 0)
+				string fileName = findData.cFileName.ToString();
+				if (fileName is "." or "..")
 					continue;
 
 				bool isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) != 0;

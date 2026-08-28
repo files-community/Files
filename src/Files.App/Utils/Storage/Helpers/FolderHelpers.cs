@@ -73,11 +73,12 @@ namespace Files.App.Utils.Storage
 
 			do
 			{
-				string fileName = findData.cFileName.ToString();
-				if (fileName is "." or "..")
-					continue;
 				var attrs = (FileAttributes)findData.dwFileAttributes;
 				if ((attrs & FileAttributes.Directory) != FileAttributes.Directory)
+					continue;
+
+				string fileName = findData.cFileName.ToString();
+				if (fileName is "." or "..")
 					continue;
 
 				var isHidden = (attrs & FileAttributes.Hidden) == FileAttributes.Hidden;

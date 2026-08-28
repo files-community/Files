@@ -39,12 +39,14 @@ namespace Files.App.Services.SizeProvider
 				if (string.IsNullOrEmpty(path))
 					return 0;
 
-				WIN32_FIND_DATAW findData = default;
 				FindCloseSafeHandle hFile;
+				WIN32_FIND_DATAW findData;
 				unsafe
 				{
+					WIN32_FIND_DATAW initialFindData = default;
 					hFile = PInvoke.FindFirstFileEx($"{path}{Path.DirectorySeparatorChar}*.*", FINDEX_INFO_LEVELS.FindExInfoBasic,
-						&findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, FIND_FIRST_EX_FLAGS.FIND_FIRST_EX_LARGE_FETCH);
+						&initialFindData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, FIND_FIRST_EX_FLAGS.FIND_FIRST_EX_LARGE_FETCH);
+					findData = initialFindData;
 				}
 				using FindCloseSafeHandle findHandleScope = hFile;
 
@@ -56,7 +58,6 @@ namespace Files.App.Services.SizeProvider
 				{
 					do
 					{
-						string fileName = findData.cFileName.ToString();
 						if (((FileAttributes)findData.dwFileAttributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint)
 							// Skip symbolic links and junctions
 							continue;
@@ -66,11 +67,15 @@ namespace Files.App.Services.SizeProvider
 						{
 							size += (ulong)findData.GetSize();
 						}
-						else if (fileName is not "." and not "..")
+						else
 						{
-							localPath = Path.Combine(path, fileName);
-							localSize = await Calculate(localPath, level + 1);
-							size += localSize;
+							string fileName = findData.cFileName.ToString();
+							if (fileName is not "." and not "..")
+							{
+								localPath = Path.Combine(path, fileName);
+								localSize = await Calculate(localPath, level + 1);
+								size += localSize;
+							}
 						}
 
 						if (level <= 3)
