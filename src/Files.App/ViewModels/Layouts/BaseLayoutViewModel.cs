@@ -134,7 +134,7 @@ namespace Files.App.ViewModels.Layouts
 				var workingDirectory = workingDirectoryPath.TrimPath()!;
 				var folderName = Path.IsPathRooted(workingDirectory) && Path.GetPathRoot(workingDirectory) == workingDirectory ? Path.GetPathRoot(workingDirectory) : Path.GetFileName(workingDirectory);
 
-				if (e.DataView.Contains(StandardDataFormats.Uri) && await e.DataView.GetUriAsync() is { } uri)
+				if (e.DataView.Contains(StandardDataFormats.Uri) && await TryGetUriAsync(e.DataView) is { } uri)
 				{
 					if (GitHelpers.IsValidRepoUrl(uri.ToString()))
 					{
@@ -234,7 +234,7 @@ namespace Files.App.ViewModels.Layouts
 			}
 
 			e.Handled = true;
-			if (e.DataView.Contains(StandardDataFormats.Uri) && await e.DataView.GetUriAsync() is { } uri)
+			if (e.DataView.Contains(StandardDataFormats.Uri) && await TryGetUriAsync(e.DataView) is { } uri)
 			{
 				if (GitHelpers.IsValidRepoUrl(uri.ToString()))
 				{
@@ -289,6 +289,19 @@ namespace Files.App.ViewModels.Layouts
 			finally
 			{
 				deferral.Complete();
+			}
+		}
+
+		// Dragged data can carry a malformed URI; GetUriAsync throws UriFormatException for it.
+		private static async Task<Uri?> TryGetUriAsync(DataPackageView dataView)
+		{
+			try
+			{
+				return await dataView.GetUriAsync();
+			}
+			catch (UriFormatException)
+			{
+				return null;
 			}
 		}
 

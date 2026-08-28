@@ -211,6 +211,14 @@ namespace Files.App.Helpers
 			if (preferencesItem is null)
 				return typeof(DetailsLayoutPage);
 
+			// Predicting the adaptive decision at navigation time avoids a post-enumeration page switch
+			if (IsAdaptiveLayoutEnabled && !preferencesItem.IsAdaptiveLayoutOverridden &&
+				AdaptiveLayoutHelpers.TryPredictLayout(path, out var resolvedLayout) &&
+				IsPathUsingDefaultLayout(path))
+			{
+				preferencesItem.LayoutMode = resolvedLayout;
+			}
+
 			if (changeLayoutMode)
 			{
 				IsLayoutModeChanging = LayoutPreferencesItem.LayoutMode != preferencesItem.LayoutMode;

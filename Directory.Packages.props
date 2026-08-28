@@ -8,7 +8,6 @@
     <PackageVersion Include="ColorCode.WinUI" Version="2.0.15" />
     <PackageVersion Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock" Version="0.1.250206-build.2040" />
     <PackageVersion Include="CommunityToolkit.Labs.WinUI.DependencyPropertyGenerator" Version="0.1.250206-build.2040" />
-    <PackageVersion Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.250206-build.2040" />
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageVersion Include="CommunityToolkit.WinUI.Behaviors" Version="8.2.251219" />
     <PackageVersion Include="CommunityToolkit.WinUI.Controls.ColorPicker" Version="8.2.251219" />
@@ -21,14 +20,13 @@
     <PackageVersion Include="CommunityToolkit.WinUI.Triggers" Version="8.2.251219" />
     <PackageVersion Include="DiscUtils.Udf" Version="0.16.13" />
     <PackageVersion Include="FluentFTP" Version="54.2.0" />
-    <!-- Note, 0.31 and 0.32 cause issues with repos cloned via ssh -->
-    <PackageVersion Include="LibGit2Sharp" Version="0.30.0" />
+    <PackageVersion Include="LibGit2Sharp" Version="0.999.32" />
     <PackageVersion Include="MessageFormat" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Data.Sqlite.Core" Version="10.0.11" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.11" />
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.11" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="10.0.11" />
-    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2526" />
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2705" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.1" />
     <PackageVersion Include="OwlCore.Storage" Version="0.15.0" />
     <PackageVersion Include="Sentry" Version="6.9.0" />
@@ -43,7 +41,6 @@
     <PackageVersion Include="Microsoft.Graphics.Win2D" Version="1.4.0" />
     <PackageVersion Include="TagLibSharp" Version="2.3.0" />
     <PackageVersion Include="UTF.Unknown" Version="2.6.0" />
-    <PackageVersion Include="WinUIEx" Version="2.9.3" />
     <PackageVersion Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
     <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.321" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />

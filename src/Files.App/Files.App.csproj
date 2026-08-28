@@ -45,6 +45,12 @@
         <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(SENTRY_AUTH_TOKEN)' != ''">
+        <SentryOrg>files-org</SentryOrg>
+        <SentryProject>files-app</SentryProject>
+        <SentryUploadSymbols>true</SentryUploadSymbols>
+    </PropertyGroup>
+
     <ItemGroup>
         <DirectPInvoke Include="ADVAPI32" />
         <DirectPInvoke Include="api-ms-win-core-com-l1-1-0" />
@@ -94,7 +100,6 @@
         <PackageReference Include="ColorCode.WinUI" />
         <PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock" />
         <PackageReference Include="CommunityToolkit.Labs.WinUI.DependencyPropertyGenerator" />
-        <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" />
         <PackageReference Include="CommunityToolkit.Mvvm" />
         <PackageReference Include="CommunityToolkit.WinUI.Behaviors" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.ColorPicker" />
@@ -124,7 +129,6 @@
         <PackageReference Include="Microsoft.Graphics.Win2D" />
         <PackageReference Include="TagLibSharp" />
         <PackageReference Include="UTF.Unknown" />
-        <PackageReference Include="WinUIEx" />
         <PackageReference Include="Microsoft.Windows.CsWinRT" />
     </ItemGroup>
 

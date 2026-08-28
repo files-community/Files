@@ -159,7 +159,7 @@ namespace Files.App
 						switch (command.Type)
 						{
 							case ParsedCommandType.ExplorerShellCommand:
-								if (!Constants.UserEnvironmentPaths.ShellPlaces.ContainsKey(command.Payload.ToUpperInvariant()))
+								if (!ShellHelpers.IsSupportedShellPath(command.Payload))
 								{
 									OpenShellCommandInExplorer(command.Payload, Environment.ProcessId);
 									return;

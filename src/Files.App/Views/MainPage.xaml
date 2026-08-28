@@ -345,7 +345,6 @@
 			VerticalAlignment="Bottom"
 			ActionButtonCommand="{x:Bind ViewModel.ReviewAppCommand}"
 			ActionButtonContent="{helpers:ResourceString Name=RateUs}"
-			CloseButtonCommand="{x:Bind ViewModel.DismissReviewPromptCommand}"
 			CloseButtonContent="{helpers:ResourceString Name=Dismiss}"
 			IsOpen="{x:Bind ViewModel.ShowReviewPrompt, Mode=OneWay}"
 			Subtitle="{helpers:ResourceString Name=ReviewFilesSubtitle}" />

@@ -140,7 +140,7 @@ namespace Files.App.ViewModels
 
 				var isTargetEnvironment = AppLifecycleHelper.AppEnvironment is AppEnvironment.StoreStable or AppEnvironment.StorePreview;
 				var hasClickedReviewPrompt = UserSettingsService.ApplicationSettingsService.HasClickedReviewPrompt;
-				var launchCountReached = AppLifecycleHelper.TotalLaunchCount == 30;
+				var launchCountReached = AppLifecycleHelper.TotalLaunchCount % 30 == 0;
 
 				hasShownReviewPrompt = isTargetEnvironment && !hasClickedReviewPrompt && launchCountReached;
 				return hasShownReviewPrompt;
@@ -170,7 +170,6 @@ namespace Files.App.ViewModels
 
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; }
 		public ICommand ReviewAppCommand { get; }
-		public ICommand DismissReviewPromptCommand { get; }
 		public ICommand SponsorCommand { get; }
 		public ICommand OpenNetworkSharingSettingsCommand { get; }
 
@@ -180,7 +179,6 @@ namespace Files.App.ViewModels
 		{
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ExecuteNavigateToNumberedTabKeyboardAcceleratorCommand);
 			ReviewAppCommand = new RelayCommand(ExecuteReviewAppCommand);
-			DismissReviewPromptCommand = new RelayCommand(ExecuteDismissReviewPromptCommand);
 			SponsorCommand = new RelayCommand(ExecuteSponsorCommand);
 			OpenNetworkSharingSettingsCommand = new AsyncRelayCommand(ExecuteOpenNetworkSharingSettingsCommand);
 
@@ -366,21 +364,17 @@ namespace Files.App.ViewModels
 
 		private async void ExecuteReviewAppCommand()
 		{
-			UserSettingsService.ApplicationSettingsService.HasClickedReviewPrompt = true;
 			OnPropertyChanged(nameof(ShowReviewPrompt));
 
 			try
 			{
 				var storeContext = StoreContext.GetDefault();
 				InitializeWithWindow.Initialize(storeContext, MainWindow.Instance.WindowHandle);
-				await storeContext.RequestRateAndReviewAppAsync();
+				var result = await storeContext.RequestRateAndReviewAppAsync();
+				if (result.Status is StoreRateAndReviewStatus.Succeeded)
+					UserSettingsService.ApplicationSettingsService.HasClickedReviewPrompt = true;
 			}
 			catch (Exception) { }
-		}
-
-		private void ExecuteDismissReviewPromptCommand()
-		{
-			UserSettingsService.ApplicationSettingsService.HasClickedReviewPrompt = true;
 		}
 
 		private async void ExecuteSponsorCommand()

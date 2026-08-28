@@ -256,8 +256,11 @@ namespace Files.App.Utils.Storage
 			return expression;
 		}
 
-		private bool MatchesTagExpression(IEnumerable<string> fileTags, TagQueryExpression expression)
+		private bool MatchesTagExpression(IEnumerable<string>? fileTags, TagQueryExpression expression)
 		{
+			// Imported/synced tag entries can deserialize with a null Tags array, which would NRE on fileTags.Contains below.
+			fileTags ??= [];
+
 			foreach (var orGroup in expression.OrGroups)
 			{
 				bool groupMatches = true;
@@ -500,7 +503,6 @@ namespace Files.App.Utils.Storage
 					Opacity = isHidden ? Constants.UI.DimItemOpacity : 1,
 					FileImage = null,
 					LoadFileIcon = false,
-					NeedsPlaceholderGlyph = false,
 					ItemNameRaw = shortcutFindData.cFileName,
 					ItemDateModifiedReal = modifiedTime.ToDateTime(),
 					ItemDateCreatedReal = createdTime.ToDateTime(),
@@ -538,11 +540,9 @@ namespace Files.App.Utils.Storage
 						itemPath,
 						Constants.ShellIconSizes.Small,
 						false,
-						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+						IconOptions.ReturnIconOnly);
 					if (iconResult is not null)
 						shortcutItem.FileImage = await iconResult.ToBitmapAsync();
-					else
-						shortcutItem.NeedsPlaceholderGlyph = true;
 				}
 
 				if (token.IsCancellationRequested)
@@ -671,7 +671,7 @@ namespace Files.App.Utils.Storage
 					listedItem.ItemPath,
 					Constants.ShellIconSizes.Small,
 					isFolder,
-					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale)
+					IconOptions.ReturnIconOnly)
 					.ContinueWith((t) =>
 					{
 						if (t.IsCompletedSuccessfully && t.Result is not null)
@@ -708,7 +708,6 @@ namespace Files.App.Utils.Storage
 						ItemDateModifiedReal = props.DateModified,
 						ItemDateCreatedReal = folder.DateCreated,
 						ItemType = folderTypeTextLocalized,
-						NeedsPlaceholderGlyph = false,
 						Opacity = 1,
 						FileSize = props.Size.ToSizeString(),
 						FileSizeBytes = (long)props.Size,
@@ -726,7 +725,6 @@ namespace Files.App.Utils.Storage
 						ItemDateModifiedReal = props.DateModified,
 						ItemDateCreatedReal = folder.DateCreated,
 						ItemType = folderTypeTextLocalized,
-						NeedsPlaceholderGlyph = false,
 						Opacity = 1
 					};
 				}
@@ -761,7 +759,6 @@ namespace Files.App.Utils.Storage
 						ItemDateModifiedReal = props.DateModified,
 						ItemDateCreatedReal = file.DateCreated,
 						ItemType = itemType,
-						NeedsPlaceholderGlyph = false,
 						Opacity = 1,
 						ItemDateDeletedReal = binFile.DateDeleted,
 						ItemOriginalPath = binFile.OriginalPath
@@ -778,7 +775,6 @@ namespace Files.App.Utils.Storage
 						Opacity = 1,
 						FileImage = null,
 						LoadFileIcon = false,
-						NeedsPlaceholderGlyph = false,
 						ItemNameRaw = file.Name,
 						ItemDateModifiedReal = props.DateModified,
 						ItemDateCreatedReal = file.DateCreated,
@@ -822,7 +818,6 @@ namespace Files.App.Utils.Storage
 						ItemDateModifiedReal = props.DateModified,
 						ItemDateCreatedReal = file.DateCreated,
 						ItemType = itemType,
-						NeedsPlaceholderGlyph = false,
 						Opacity = 1
 					};
 				}
@@ -833,12 +828,10 @@ namespace Files.App.Utils.Storage
 					item.Path,
 					Constants.ShellIconSizes.Small,
 					item.IsOfType(StorageItemTypes.Folder),
-					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+					IconOptions.ReturnIconOnly);
 
 				if (iconResult is not null)
 					listedItem.FileImage = await iconResult.ToBitmapAsync();
-				else
-					listedItem.NeedsPlaceholderGlyph = true;
 			}
 			return listedItem
 				?? throw new InvalidOperationException($"The search result '{item.Path}' is neither a file nor a folder.");

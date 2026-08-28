@@ -79,7 +79,7 @@ namespace Files.App.Data.Models
 		{
 			IsShortcut = item.IsShortcut;
 			LoadFileIcon = item.LoadFileIcon;
-			NeedsPlaceholderGlyph = item.NeedsPlaceholderGlyph;
+			NeedsPlaceholderGlyph = item.FileImage is null;
 			ItemPath = item.ItemPath;
 			Name = item.Name!;
 			FileImage = item.FileImage;

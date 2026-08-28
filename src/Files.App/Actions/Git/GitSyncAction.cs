@@ -31,10 +31,9 @@ namespace Files.App.Actions
 		{
 			var instance = _context.ShellPage?.InstanceViewModel;
 
-			return GitHelpers.PullOriginAsync(instance?.GitRepositoryPath)
-				.ContinueWith(t => GitHelpers.PushToOriginAsync(
-					instance?.GitRepositoryPath,
-					instance?.GitBranchName));
+			return GitHelpers.SyncOriginAsync(
+				instance?.GitRepositoryPath,
+				instance?.GitBranchName);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

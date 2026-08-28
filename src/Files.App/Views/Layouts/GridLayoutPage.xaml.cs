@@ -24,6 +24,7 @@ namespace Files.App.Views.Layouts
 	[WinRT.GeneratedBindableCustomProperty(
 		[
 			nameof(ItemWidthGridView),
+			nameof(GridViewIconSize),
 			nameof(RowHeightListView),
 			nameof(IconBoxSizeListView),
 			nameof(CardsViewOrientation),
@@ -80,6 +81,12 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		public int ItemWidthGridView =>
 			LayoutSizeKindHelper.GetGridViewItemWidth(LayoutSettingsService.GridViewSize);
+
+		/// <summary>
+		/// Gets the icon size for items in the Grid View layout.
+		/// </summary>
+		public int GridViewIconSize =>
+			(int)LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.GridView);
 
 
 
@@ -283,6 +290,8 @@ namespace Files.App.Views.Layouts
 			}
 			if (e.PropertyName == nameof(ILayoutSettingsService.GridViewSize))
 			{
+				NotifyPropertyChanged(nameof(GridViewIconSize));
+
 				// Update the container style to match the item size
 				SetItemContainerStyle();
 				FolderSettings_IconSizeChanged();
@@ -408,6 +417,7 @@ namespace Files.App.Views.Layouts
 		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
 		[DynamicWindowsRuntimeCast(typeof(Popup))]
 		[DynamicWindowsRuntimeCast(typeof(TextBox))]
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		override public void StartRenameItem()
 		{
 			RenamingItem = SelectedItem;
@@ -424,17 +434,20 @@ namespace Files.App.Views.Layouts
 
 			TextBox? textBox = null;
 			string editText = ShouldShowExtensionInRename(RenamingItem) ? RenamingItem.ItemNameRaw! : textBlock.Text;
+			var templateRoot = gridViewItem.ContentTemplateRoot as FrameworkElement;
 
 			// Grid View
 			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
-				if (gridViewItem.FindDescendant("EditPopup") is not Popup popup)
+				// FindName from inside the template's namescope realizes the x:Load-deferred popup
+				if (textBlock.FindName("EditPopup") is not Popup popup)
 					return;
 
 				textBox = popup.Child as TextBox;
 				if (textBox is null)
 					return;
 
+				textBox.Width = templateRoot?.ActualWidth ?? gridViewItem.ActualWidth;
 				textBox.Text = editText;
 				textBlock.Opacity = 0;
 				popup.IsOpen = true;
@@ -443,7 +456,8 @@ namespace Files.App.Views.Layouts
 			// List View
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.ListView)
 			{
-				textBox = gridViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
+				// FindName from inside the template's namescope realizes the x:Load-deferred text box
+				textBox = textBlock.FindName("ListViewTextBoxItemName") as TextBox;
 				if (textBox is null)
 					return;
 
@@ -790,11 +804,26 @@ namespace Files.App.Views.Layouts
 			FileList.Focus(FocusState.Programmatic);
 		}
 
+		private readonly System.Runtime.CompilerServices.ConditionalWeakTable<SelectorItem, Tuple<object?, CheckBox>> selectionCheckboxCache = new();
+
+		// The template-root identity check invalidates the cache when a container is re-templated
+		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
+		private CheckBox GetSelectionCheckbox(SelectorItem container)
+		{
+			var root = container.ContentTemplateRoot;
+			if (selectionCheckboxCache.TryGetValue(container, out var cached) && ReferenceEquals(cached.Item1, root))
+				return cached.Item2;
+
+			var checkbox = (CheckBox)container.FindDescendant("SelectionCheckbox")!;
+			selectionCheckboxCache.AddOrUpdate(container, new Tuple<object?, CheckBox>(root, checkbox));
+			return checkbox;
+		}
+
 		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
 		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			var selectionCheckbox = (CheckBox)args.ItemContainer.FindDescendant("SelectionCheckbox")!;
+			var selectionCheckbox = GetSelectionCheckbox(args.ItemContainer);
 
 			selectionCheckbox.PointerEntered -= SelectionCheckbox_PointerEntered;
 			selectionCheckbox.PointerExited -= SelectionCheckbox_PointerExited;
@@ -820,7 +849,7 @@ namespace Files.App.Views.Layouts
 			var container = lviContainer ?? FileList.ContainerFromItem(item) as GridViewItem;
 			if (container is not null)
 			{
-				var checkbox = container.FindDescendant("SelectionCheckbox") as CheckBox;
+				var checkbox = GetSelectionCheckbox(container);
 				if (checkbox is not null)
 				{
 					// Temporarily disable events to avoid selecting wrong items

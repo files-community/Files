@@ -891,6 +891,7 @@ namespace Files.App.Views.Layouts
 
 			// Remove item jumping handler
 			CharacterReceived -= Page_CharacterReceived;
+			UnhookScrollDeferTracking();
 			var folderSettings = FolderSettings
 				?? throw new InvalidOperationException("The layout does not have folder settings.");
 			folderSettings.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
@@ -911,7 +912,10 @@ namespace Files.App.Views.Layouts
 			if (parameter is not null && !parameter.IsLayoutSwitch)
 			{
 				var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
-				shellViewModel.CancelLoadAndClearFiles();
+
+				// The incoming page's first batch replaces the visible listing, avoiding an empty flash between folders.
+				// When the target folder uses a different layout, the old items would re-render in the wrong layout, so drop them instead.
+				shellViewModel.CancelLoadAndClearFiles(clearDisplay: e.SourcePageType != GetType());
 			}
 		}
 
@@ -1205,12 +1209,59 @@ namespace Files.App.Views.Layouts
 
 		protected void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
+			HookScrollDeferTracking();
 			RefreshContainer(args.ItemContainer, args.InRecycleQueue);
 			RefreshItem(args.ItemContainer, args.Item, args.InRecycleQueue, args);
 
 			// Set can window to front (#13255)
 			itemDragging = false;
 			MainWindow.Instance.SetCanWindowToFront(true);
+		}
+
+		private ScrollViewer? deferScrollViewer;
+
+		// Hooked lazily from the first container callback, when the list's template is guaranteed realized
+		[DynamicWindowsRuntimeCast(typeof(ScrollViewer))]
+		private void HookScrollDeferTracking()
+		{
+			if (deferScrollViewer is not null)
+				return;
+
+			deferScrollViewer = ItemsControl.FindDescendant<ScrollViewer>();
+			if (deferScrollViewer is not null)
+				deferScrollViewer.ViewChanged += DeferScrollViewer_ViewChanged;
+		}
+
+		private void UnhookScrollDeferTracking()
+		{
+			scrollSettleTimer?.Stop();
+
+			if (deferScrollViewer is not null)
+			{
+				deferScrollViewer.ViewChanged -= DeferScrollViewer_ViewChanged;
+				deferScrollViewer = null;
+			}
+		}
+
+		private DispatcherQueueTimer? scrollSettleTimer;
+
+		// Rapid successive gestures raise a final ViewChanged between steps; debouncing keeps loads parked through the whole burst
+		private void DeferScrollViewer_ViewChanged(object? sender, ScrollViewerViewChangedEventArgs e)
+		{
+			ParentShellPageInstance?.ShellViewModel?.NotifyScrollStateChanged(true);
+			AppMemoryHelper.NotifyActivity();
+
+			if (scrollSettleTimer is null)
+			{
+				scrollSettleTimer = DispatcherQueue.CreateTimer();
+				scrollSettleTimer.Interval = TimeSpan.FromMilliseconds(200);
+				scrollSettleTimer.IsRepeating = false;
+				scrollSettleTimer.Tick += (_, _) => ParentShellPageInstance?.ShellViewModel?.NotifyScrollStateChanged(false);
+			}
+
+			scrollSettleTimer.Stop();
+			if (!e.IsIntermediate)
+				scrollSettleTimer.Start();
 		}
 
 		private void RefreshContainer(SelectorItem container, bool inRecycleQueue)
@@ -1248,6 +1299,7 @@ namespace Files.App.Views.Layouts
 				{
 					var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 					shellViewModel.CancelExtendedPropertiesLoadingForItem(recycledItem);
+					shellViewModel.ReleaseExtendedProperties(recycledItem);
 				}
 				return;
 			}
@@ -1258,7 +1310,7 @@ namespace Files.App.Views.Layouts
 				InitializeDrag(container, listedItem);
 
 				if (listedItem.PreloadedIconData is not null && listedItem.FileImage is null)
-					_ = ApplyPreloadedIconAsync(listedItem);
+					_ = ParentShellPageInstance.GetRequiredShellViewModel().ApplyCachedThumbnailOrPreloadedIconAsync(listedItem);
 
 				if (!listedItem.ItemPropertiesInitialized)
 				{
@@ -1301,13 +1353,6 @@ namespace Files.App.Views.Layouts
 			// Set the initial tooltip before hover starts so WinUI doesn't miss the first dwell.
 			if (sender is SelectorItem container && container.Content is ListedItem listedItem)
 				UpdateItemToolTip(container, listedItem.ItemTooltipText);
-		}
-
-		private static async Task ApplyPreloadedIconAsync(ListedItem item)
-		{
-			var image = await item.PreloadedIconData.ToBitmapAsync();
-			if (image is not null)
-				item.FileImage = image;
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(SelectorItem))]
@@ -1466,6 +1511,7 @@ namespace Files.App.Views.Layouts
 
 			isDisposed = true;
 			UnhookBaseEvents();
+			UnhookScrollDeferTracking();
 			StatusBarViewModel.Dispose();
 			dragOverItem = null;
 			hoveredItem = null;
@@ -1490,6 +1536,10 @@ namespace Files.App.Views.Layouts
 
 			if (shellViewModel.FilesAndFolders.IsGrouped)
 			{
+				// Replacing the source rebuilds the list from scratch (a visible empty flash), so keep it when unchanged
+				if (CollectionViewSource.IsSourceGrouped && ReferenceEquals(CollectionViewSource.Source, shellViewModel.FilesAndFolders.GroupedCollection))
+					return;
+
 				var newSource = new CollectionViewSource()
 				{
 					IsSourceGrouped = true,
@@ -1500,6 +1550,9 @@ namespace Files.App.Views.Layouts
 			else
 			{
 				ZoomIn();
+
+				if (!CollectionViewSource.IsSourceGrouped && ReferenceEquals(CollectionViewSource.Source, shellViewModel.FilesAndFolders))
+					return;
 
 				var newSource = new CollectionViewSource()
 				{

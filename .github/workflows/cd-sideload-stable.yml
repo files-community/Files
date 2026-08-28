@@ -135,6 +135,17 @@ jobs:
             -p:UapAppxPackageBuildMode=Sideload `
             -v:quiet
         }
+      env:
+        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+
+    - name: Upload debug symbols to Sentry
+      shell: pwsh
+      run: |
+        if (-not $env:SENTRY_AUTH_TOKEN) { Write-Host 'SENTRY_AUTH_TOKEN not set; skipping symbol upload'; exit 0 }
+        npm install --global @sentry/cli
+        sentry-cli debug-files upload --org files-org --project files-app src\Files.App\bin src\Files.App\obj
+      env:
+        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
     - name: Create msixbundle and appinstaller
       shell: pwsh

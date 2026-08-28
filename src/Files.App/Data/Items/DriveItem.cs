@@ -380,7 +380,7 @@ namespace Files.App.Data.Items
 					DeviceID,
 					Constants.ShellIconSizes.Small,
 					false,
-					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+					IconOptions.ReturnIconOnly);
 
 				IconData ??= result;
 			}
