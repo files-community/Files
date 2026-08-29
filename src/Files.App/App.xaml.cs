@@ -301,7 +301,7 @@ namespace Files.App
 			// Persist the final active stretch; it is reported on the next launch
 			ActiveSessionTracker.OnActivationChanged(false);
 
-			// Save the current tab list in case it was overwriten by another instance
+			// Save the current tab list in case it was overwritten by another instance
 			if (userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp || userSettingsService.AppSettingsService.RestoreTabsOnStartup)
 				AppLifecycleHelper.SaveSessionTabs();
 			else
