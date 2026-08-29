@@ -78,6 +78,21 @@ namespace Files.App.Storage.Watchers
 				watcher.Dispose();
 		}
 
+		/// <summary>
+		/// Stops watching the Recycle Bin on the given drive so the watcher's handle can't block ejection.
+		/// </summary>
+		public void StopWatcher(string driveRoot)
+		{
+			for (int i = _watchers.Count - 1; i >= 0; i--)
+			{
+				if (_watchers[i].Path.StartsWith(driveRoot, StringComparison.OrdinalIgnoreCase))
+				{
+					_watchers[i].Dispose();
+					_watchers.RemoveAt(i);
+				}
+			}
+		}
+
 		private void Watcher_Changed(object sender, SystemIO.FileSystemEventArgs e)
 		{
 			// Don't listen changes on files starting with '$I'
