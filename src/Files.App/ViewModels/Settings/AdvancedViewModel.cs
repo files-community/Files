@@ -364,6 +364,22 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool IsTeraCopyAvailable
+			=> TeraCopyHelper.DetectTeraCopyPath() is not null;
+
+		public bool UseTeraCopy
+		{
+			get => UserSettingsService.GeneralSettingsService.UseTeraCopy;
+			set
+			{
+				if (value == UserSettingsService.GeneralSettingsService.UseTeraCopy)
+					return;
+
+				UserSettingsService.GeneralSettingsService.UseTeraCopy = value;
+				OnPropertyChanged();
+			}
+		}
+
 		public bool EnableThumbnailCache
 		{
 			get => UserSettingsService.GeneralSettingsService.EnableThumbnailCache;

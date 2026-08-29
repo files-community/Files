@@ -281,6 +281,11 @@ namespace Files.App.Data.Contracts
 		bool ShowSendToMenu { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether or not to use TeraCopy for copy and move operations when it is installed.
+		/// </summary>
+		bool UseTeraCopy { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating whether or not to leave app running in the background.
 		/// </summary>
 		bool LeaveAppRunning { get; set; }

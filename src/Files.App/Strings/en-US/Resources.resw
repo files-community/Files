@@ -4728,4 +4728,10 @@
   <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
     <value>Are you sure you want to remove tags from the selected items?</value>
   </data>
+  <data name="UseTeraCopy" xml:space="preserve">
+    <value>Copy and move files with TeraCopy</value>
+  </data>
+  <data name="UseTeraCopyDescription" xml:space="preserve">
+    <value>Hand copy and move operations off to TeraCopy, which shows its own progress window and handles conflicts. Requires TeraCopy to be installed.</value>
+  </data>
 </root>

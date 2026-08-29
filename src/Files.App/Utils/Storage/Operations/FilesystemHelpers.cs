@@ -306,6 +306,11 @@ namespace Files.App.Utils.Storage
 			source = await source.ToListAsync();
 			destination = await destination.ToListAsync();
 
+			if (registerHistory &&
+				UserSettingsService.GeneralSettingsService.UseTeraCopy &&
+				TeraCopyHelper.CanRun((IList<IStorageItemWithPath>)source, (IList<string>)destination))
+				return await TeraCopyHelper.RunAsync(FilesystemOperationType.Copy, (IList<IStorageItemWithPath>)source, (IList<string>)destination);
+
 			var returnStatus = ReturnResult.InProgress;
 
 			var banner = StatusCenterHelper.AddCard_Copy(
@@ -448,6 +453,11 @@ namespace Files.App.Utils.Storage
 		{
 			source = await source.ToListAsync();
 			destination = await destination.ToListAsync();
+
+			if (registerHistory &&
+				UserSettingsService.GeneralSettingsService.UseTeraCopy &&
+				TeraCopyHelper.CanRun((IList<IStorageItemWithPath>)source, (IList<string>)destination))
+				return await TeraCopyHelper.RunAsync(FilesystemOperationType.Move, (IList<IStorageItemWithPath>)source, (IList<string>)destination);
 
 			var returnStatus = ReturnResult.InProgress;
 

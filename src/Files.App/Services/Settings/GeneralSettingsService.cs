@@ -293,6 +293,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public bool UseTeraCopy
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
 		public bool ShowOpenInNewTab
 		{
 			get => Get(true);
