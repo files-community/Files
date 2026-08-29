@@ -713,7 +713,10 @@ namespace Files.App.Helpers
 									DisplayApplicationPicker = true
 								});
 								if (!await Launcher.LaunchFileAsync(storageFile, options))
-									await ContextMenu.InvokeVerb("openas", path);
+								{
+									// "openas" is a shell context-menu handler, not a registered verb, and fails for files with no or one association (e.g. dotfiles); OpenWith.exe always shows the picker.
+									await LaunchHelper.LaunchAppAsync("OpenWith.exe", $"\"{path}\"", string.Empty);
+								}
 							}
 							else
 							{
