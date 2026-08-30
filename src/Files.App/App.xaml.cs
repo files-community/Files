@@ -352,6 +352,9 @@ namespace Files.App
 				// Close open content dialogs
 				UIHelpers.CloseAllDialogs();
 
+				// Tear down the shell preview host (prevhost.exe) while the dispatcher still pumps; parking must not keep it attached
+				SafetyExtensions.IgnoreExceptions(() => Ioc.Default.GetRequiredService<InfoPaneViewModel>().UnloadPreview());
+
 				// Close all notification banners except in progress
 				statusCenterViewModel.RemoveAllCompletedItems();
 
