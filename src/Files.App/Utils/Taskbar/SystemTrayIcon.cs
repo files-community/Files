@@ -174,6 +174,27 @@ namespace Files.App.Utils.Taskbar
 			return this;
 		}
 
+		/// <summary>
+		/// Re-adds the notify icon if the shell no longer has it, e.g. after a sibling instance
+		/// sharing the same GUID deleted it on exit. No-op when hidden or still registered.
+		/// </summary>
+		public void EnsureCreated()
+		{
+			if (!IsVisible)
+				return;
+
+			NOTIFYICONIDENTIFIER identifier = default;
+			identifier.cbSize = (uint)Marshal.SizeOf<NOTIFYICONIDENTIFIER>();
+			identifier.guidItem = Id;
+
+			// Icon is still registered with the shell
+			if (PInvoke.Shell_NotifyIconGetRect(in identifier, out _).Succeeded)
+				return;
+
+			_notifyIconCreated = false;
+			CreateOrModifyNotifyIcon();
+		}
+
 		// Private Methods
 
 		private void CreateOrModifyNotifyIcon()
