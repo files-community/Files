@@ -477,8 +477,8 @@ namespace Files.App.UserControls
 			if (e.Key is VirtualKey.Escape)
 			{
 				Omnibar.IsFocused = false;
-				var paneHolder = ContentPageContext.ShellPage.GetRequiredPaneHolder();
-				paneHolder.FocusActivePane();
+				var paneHolder = ContentPageContext.ShellPage?.PaneHolder;
+				paneHolder?.FocusActivePane();
 			}
 			else if (e.Key is VirtualKey.Tab && Omnibar.IsFocused && !InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
 			{
