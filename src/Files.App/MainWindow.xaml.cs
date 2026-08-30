@@ -58,8 +58,8 @@ namespace Files.App
 			if (rootFrame is null)
 				return;
 
-			// Set system backdrop
-			SystemBackdrop = new AppSystemBackdrop();
+			// Reuse the existing backdrop on resume; rebuilding the Mica controller leaves the window on the fallback color for ~1s
+			SystemBackdrop ??= new AppSystemBackdrop();
 
 			switch (activatedEventArgs)
 			{
