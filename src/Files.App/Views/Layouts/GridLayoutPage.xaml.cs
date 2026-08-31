@@ -57,6 +57,10 @@ namespace Files.App.Views.Layouts
 		protected override ListViewBase ListViewBase => FileList;
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
+		[DynamicWindowsRuntimeCast(typeof(ItemsWrapGrid))]
+		protected override (int First, int Last) GetVisibleIndexRange()
+			=> FileList.ItemsPanelRoot is ItemsWrapGrid panel ? (panel.FirstVisibleIndex, panel.LastVisibleIndex) : (-1, -1);
+
 
 		// List View properties
 

@@ -942,6 +942,8 @@ namespace Files.App.ViewModels
 
 		private TaskCompletionSource? scrollSettledTcs;
 
+		public bool IsScrollInFlight => scrollSettledTcs is not null;
+
 		/// <summary>
 		/// Parks extended-property loads while a scroll gesture is in flight and releases them when it settles.
 		/// </summary>
