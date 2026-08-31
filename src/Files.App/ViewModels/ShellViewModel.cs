@@ -2444,8 +2444,9 @@ namespace Files.App.ViewModels
 			if (rootFolder is null)
 				return;
 
+			// Null when a concurrent navigation or dispose cleared the context; this enumeration is stale
 			if (currentStorageFolder is null)
-				throw new InvalidOperationException("The storage-folder context is unavailable.");
+				return;
 
 			if (rootFolder is IPasswordProtectedItem ppis)
 				ppis.PasswordRequestedCallback = async (item) =>
