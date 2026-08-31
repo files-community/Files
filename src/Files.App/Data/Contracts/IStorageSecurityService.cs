@@ -34,6 +34,14 @@ namespace Files.App.Data.Contracts
 		WIN32_ERROR GetAcl(string path, bool isFolder, out AccessControlList acl);
 
 		/// <summary>
+		/// Check whether the current process is allowed to write the DACL of the object specified by the path.
+		/// </summary>
+		/// <param name="path">The file full path</param>
+		/// <param name="isFolder">Whether the path indicates a folder or not</param>
+		/// <returns>False if the write is known to be denied; otherwise, true.</returns>
+		bool CanWriteAcl(string path, bool isFolder);
+
+		/// <summary>
 		/// Add an default Access Control Entry (ACE) to the specified object's DACL
 		/// </summary>
 		/// <param name="path">The object's path to add an new ACE to its DACL</param>
