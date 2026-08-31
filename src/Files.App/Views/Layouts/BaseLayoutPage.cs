@@ -1255,13 +1255,15 @@ namespace Files.App.Views.Layouts
 			if (ParentShellPageInstance?.ShellViewModel is not { } shellViewModel)
 				return;
 
+			// Collected on the UI thread; the container/panel APIs are UI-affine
+			var itemsToLoad = new List<ListedItem>();
 			var (first, last) = GetVisibleIndexRange();
 			if (first >= 0 && last >= first)
 			{
 				for (var i = first; i <= last; i++)
 				{
 					if (ItemsControl.ContainerFromIndex(i) is SelectorItem { Content: ListedItem item } && !item.ItemPropertiesInitialized)
-						_ = LoadItemExtendedPropertiesAsync(item, shellViewModel);
+						itemsToLoad.Add(item);
 				}
 			}
 			else if (ItemsControl.ItemsPanelRoot is { } panel)
@@ -1270,9 +1272,12 @@ namespace Files.App.Views.Layouts
 				foreach (var child in panel.Children)
 				{
 					if (child is SelectorItem { Content: ListedItem item } && !item.ItemPropertiesInitialized)
-						_ = LoadItemExtendedPropertiesAsync(item, shellViewModel);
+						itemsToLoad.Add(item);
 				}
 			}
+
+			if (itemsToLoad.Count is not 0)
+				_ = Parallel.ForEachAsync(itemsToLoad, (item, _) => new ValueTask(LoadItemExtendedPropertiesAsync(item, shellViewModel)));
 		}
 
 		private static async Task LoadItemExtendedPropertiesAsync(ListedItem item, ShellViewModel shellViewModel)
