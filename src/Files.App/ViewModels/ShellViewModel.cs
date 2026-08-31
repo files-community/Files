@@ -2229,7 +2229,8 @@ namespace Files.App.ViewModels
 					return -1;
 			}
 
-			if (!enumFromStorageFolder && FolderHelpers.CheckFolderAccessWithWin32(path))
+			// Runs off the UI thread: FindFirstFileEx blocks until the SMB timeout on an unreachable network share
+			if (!enumFromStorageFolder && await Task.Run(() => FolderHelpers.CheckFolderAccessWithWin32(path)))
 			{
 				// Will enumerate with FindFirstFileExFromApp, rootFolder only used for Bitlocker
 				currentStorageFolder = null;
