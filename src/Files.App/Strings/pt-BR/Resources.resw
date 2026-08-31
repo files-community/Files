@@ -3668,35 +3668,119 @@
   </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
     <value>Clonar {0} para "{1}" cancelado</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
     <value>Clonar {0} de "{1}" para "{2}" cancelado</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
     <value>"{0}" para "{1}" clonado</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
     <value>{0} de "{1}" para "{2}" clonado</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
     <value>Erro ao clonar "{0}" para "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
     <value>Falha ao clonar {0} de "{1}" para "{2}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
     <value>Clonando "{0}" para "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
     <value>Clonando {0} de "{1}" para "{2}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutCanceled_Header" xml:space="preserve">
+    <value>Cancelada a mudança para "{0}" no "{1}"</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutComplete_Header" xml:space="preserve">
+    <value>Alternado para "{0}" em "{1}"</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutFailed_Header" xml:space="preserve">
+    <value>Falha ao alterar para "{0}" em "{1}"</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutInProgress_Header" xml:space="preserve">
+    <value>Alterando para "{0}" em "{1}"</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchCanceled_Header" xml:space="preserve">
+    <value>Cancelada a busca das alterações remotas para "{0}"</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchComplete_Header" xml:space="preserve">
+    <value>Alterações remotas buscadas para "{0}"</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchFailed_Header" xml:space="preserve">
+    <value>Falha ao buscar alterações remotas para "{0}"</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchInProgress_Header" xml:space="preserve">
+    <value>Buscando alterações remotas para "{0}"</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitOperationProgress" xml:space="preserve">
+    <value>{0}% concluído</value>
+    <comment>Shown in Status Center during a Git operation. {0} is the percentage from 0 to 100.</comment>
+  </data>
+  <data name="StatusCenter_GitPullCanceled_Header" xml:space="preserve">
+    <value>Cancelada a inclusão de alterações remotas em "{0}"</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPullComplete_Header" xml:space="preserve">
+    <value>Alterações remotas incluídas em "{0}"</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPullFailed_Header" xml:space="preserve">
+    <value>Falha ao incluir alterações remotas em "{0}"</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPullInProgress_Header" xml:space="preserve">
+    <value>Incluindo alterações remotas em "{0}"</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushCanceled_Header" xml:space="preserve">
+    <value>Cancelado o envio de commits locais de "{0}"</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushComplete_Header" xml:space="preserve">
+    <value>Commits locais enviados de "{0}"</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushFailed_Header" xml:space="preserve">
+    <value>Falha ao enviar commits locais de "{0}"</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushInProgress_Header" xml:space="preserve">
+    <value>Enviando commits locais de "{0}"</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncCanceled_Header" xml:space="preserve">
+    <value>Sincronização de commits locais e remotos cancelada para "{0}"</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncComplete_Header" xml:space="preserve">
+    <value>Commits locais e remotos sincronizados para "{0}"</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncFailed_Header" xml:space="preserve">
+    <value>Falha ao sincronizar commits locais e remotos para "{0}"</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncInProgress_Header" xml:space="preserve">
+    <value>Sincronizando commits locais e remotos para "{0}"</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
     <value>Cancelada a instalação de {0} fontes</value>
