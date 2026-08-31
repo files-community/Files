@@ -3668,35 +3668,119 @@
   </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
     <value>已取消将 {0} 克隆到“{1}”</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
     <value>已取消将 {0} 从“{1}”克隆到“{2}”</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
     <value>已将“{0}”克隆到“{1}”</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
     <value>已将“{0}”从“{1}”克隆到“{2}”</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
     <value>将“{0}”克隆到“{1}”时出错</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
     <value>无法将 {0} 从“{1}”克隆到“{2}”</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
     <value>正在将“{0}”克隆到“{1}”</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
     <value>正在将“{0}”从“{1}”克隆到“{2}”</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutCanceled_Header" xml:space="preserve">
+    <value>已取消将“{1}”切换到“{0}”分支</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutComplete_Header" xml:space="preserve">
+    <value>已将“{1}”切换到“{0}”分支</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutFailed_Header" xml:space="preserve">
+    <value>将“{1}”切换到“{0}”分支失败</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutInProgress_Header" xml:space="preserve">
+    <value>正在将“{1}”切换到“{0}”分支</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchCanceled_Header" xml:space="preserve">
+    <value>已取消获取“{0}”的远程更改</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchComplete_Header" xml:space="preserve">
+    <value>成功获取“{0}”的远程更改</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchFailed_Header" xml:space="preserve">
+    <value>获取“{0}”的远程更改失败</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchInProgress_Header" xml:space="preserve">
+    <value>正在获取“{0}”的远程更改</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitOperationProgress" xml:space="preserve">
+    <value>{0}%完成</value>
+    <comment>Shown in Status Center during a Git operation. {0} is the percentage from 0 to 100.</comment>
+  </data>
+  <data name="StatusCenter_GitPullCanceled_Header" xml:space="preserve">
+    <value>已取消向“{0}”中拉取远程更改</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPullComplete_Header" xml:space="preserve">
+    <value>成功向“{0}”中拉取远程更改</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPullFailed_Header" xml:space="preserve">
+    <value>向“{0}”中拉取远程更改失败</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPullInProgress_Header" xml:space="preserve">
+    <value>正在向“{0}”中拉取远程更改</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushCanceled_Header" xml:space="preserve">
+    <value>已取消推送“{0}”的本地提交</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushComplete_Header" xml:space="preserve">
+    <value>成功推送“{0}”的本地提交</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushFailed_Header" xml:space="preserve">
+    <value>推送“{0}”的本地提交失败</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushInProgress_Header" xml:space="preserve">
+    <value>正在推送“{0}”的本地提交</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncCanceled_Header" xml:space="preserve">
+    <value>已取消同步“{0}”的本地和远程提交</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncComplete_Header" xml:space="preserve">
+    <value>成功同步“{0}”的本地和远程提交</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncFailed_Header" xml:space="preserve">
+    <value>同步“{0}”的本地和远程提交失败</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncInProgress_Header" xml:space="preserve">
+    <value>正在同步“{0}”的本地和远程提交</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
     <value>已取消安装 {0} 个字体</value>
