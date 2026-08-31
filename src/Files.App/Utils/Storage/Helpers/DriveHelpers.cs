@@ -15,18 +15,27 @@ namespace Files.App.Utils.Storage
 	{
 		public static async void EjectDeviceAsync(string path)
 		{
-			await ReleaseDriveHandlesAsync(path);
+			var driveRoot = path.EndsWith('\\') ? path : path + '\\';
+
+			ReleaseDriveHandles(driveRoot);
+
+			// Give the released handles a moment to close before the shell issues the removal query
+			await Task.Delay(300);
+
 			await ContextMenu.InvokeVerb("eject", path);
+
+			// If the volume is still mounted the eject was vetoed; re-arm the Recycle Bin watcher
+			await Task.Delay(2000);
+			if (SystemIO.Directory.Exists(driveRoot))
+				Ioc.Default.GetRequiredService<IStorageTrashBinService>().Watcher.StartWatcher(driveRoot);
 		}
 
 		/// <summary>
 		/// Releases the handles Files itself holds on the drive (directory change watchers, sidebar
 		/// subtree watchers, the Recycle Bin watcher) so they can't veto the device removal.
 		/// </summary>
-		private static async Task ReleaseDriveHandlesAsync(string path)
+		private static void ReleaseDriveHandles(string driveRoot)
 		{
-			var driveRoot = path.EndsWith('\\') ? path : path + '\\';
-
 			// Navigate every pane showing the drive to Home and close its directory watcher
 			var multitaskingContext = Ioc.Default.GetRequiredService<IMultitaskingContext>();
 			foreach (var tab in multitaskingContext.Control?.GetAllTabInstances() ?? [])
@@ -47,14 +56,11 @@ namespace Files.App.Utils.Storage
 
 			// Stop sidebar subtree watchers rooted on the drive
 			var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-			if (drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => string.Equals(x.Path, path, StringComparison.OrdinalIgnoreCase)) is { } driveItem)
+			if (drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => string.Equals(x.Path?.TrimEnd('\\'), driveRoot.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase)) is { } driveItem)
 				driveItem.StopWatchingSubfoldersAndDescendants();
 
 			// Drop the Recycle Bin watcher for this drive
 			Ioc.Default.GetRequiredService<IStorageTrashBinService>().Watcher.StopWatcher(driveRoot);
-
-			// Give the released handles a moment to close before the shell issues the removal query
-			await Task.Delay(300);
 		}
 
 		public static async Task<bool> CheckEmptyDrive(string? drivePath)

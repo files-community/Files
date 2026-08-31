@@ -93,6 +93,10 @@ namespace Files.App.Data.Models
 				Drives.Add(e);
 			}
 
+			// Watch the Recycle Bin on drives that appear after startup (including reinserted ones)
+			if (!string.IsNullOrEmpty(e.Id))
+				Ioc.Default.GetRequiredService<IStorageTrashBinService>().Watcher.StartWatcher(e.Id.EndsWith('\\') ? e.Id : e.Id + '\\');
+
 			Watcher_EnumerationCompleted(null, EventArgs.Empty);
 		}
 

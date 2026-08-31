@@ -39,36 +39,46 @@ namespace Files.App.Storage.Watchers
 		{
 			// NOTE: SHChangeNotifyRegister only works if recycle bin is open in File Explorer.
 
+			foreach (var drive in SystemIO.DriveInfo.GetDrives())
+				StartWatcher(drive.Name);
+		}
+
+		/// <summary>
+		/// Starts watching the Recycle Bin on the given drive if it isn't watched already.
+		/// Re-arms monitoring after a failed eject and when a drive appears after startup.
+		/// </summary>
+		public void StartWatcher(string driveRoot)
+		{
 			// Listen changes only on the Recycle Bin that the current logon user has
 			var sid = WindowsIdentity.GetCurrent().User?.ToString() ?? string.Empty;
 			if (string.IsNullOrEmpty(sid))
 				return;
 
-			foreach (var drive in SystemIO.DriveInfo.GetDrives())
+			// NOTE: Suppressed NullReferenceException caused by EnableRaisingEvents in #15808
+			SafetyExtensions.IgnoreExceptions(() =>
 			{
-				var recyclePath = SystemIO.Path.Combine(drive.Name, "$RECYCLE.BIN", sid);
+				var recyclePath = SystemIO.Path.Combine(driveRoot, "$RECYCLE.BIN", sid);
 
-				if (drive.DriveType is SystemIO.DriveType.Network ||
+				if (new SystemIO.DriveInfo(driveRoot).DriveType is SystemIO.DriveType.Network ||
 					!SystemIO.Directory.Exists(recyclePath))
-					continue;
+					return;
 
-				// NOTE: Suppressed NullReferenceException caused by EnableRaisingEvents in #15808
-				SafetyExtensions.IgnoreExceptions(() =>
+				if (_watchers.Any(x => string.Equals(x.Path, recyclePath, StringComparison.OrdinalIgnoreCase)))
+					return;
+
+				SystemIO.FileSystemWatcher watcher = new()
 				{
-					SystemIO.FileSystemWatcher watcher = new()
-					{
-						Path = recyclePath,
-						Filter = "*.*",
-						NotifyFilter = SystemIO.NotifyFilters.LastWrite | SystemIO.NotifyFilters.FileName | SystemIO.NotifyFilters.DirectoryName
-					};
+					Path = recyclePath,
+					Filter = "*.*",
+					NotifyFilter = SystemIO.NotifyFilters.LastWrite | SystemIO.NotifyFilters.FileName | SystemIO.NotifyFilters.DirectoryName
+				};
 
-					watcher.Created += Watcher_Changed;
-					watcher.Deleted += Watcher_Changed;
-					watcher.EnableRaisingEvents = true;
+				watcher.Created += Watcher_Changed;
+				watcher.Deleted += Watcher_Changed;
+				watcher.EnableRaisingEvents = true;
 
-					_watchers.Add(watcher);
-				});
-			}
+				_watchers.Add(watcher);
+			});
 		}
 
 		/// <inheritdoc/>
