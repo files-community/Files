@@ -3,6 +3,8 @@
 
 using System.Collections.Concurrent;
 using System.IO;
+using Windows.Win32;
+using Windows.Win32.Storage.FileSystem;
 
 namespace Files.App.Services.SizeProvider
 {
@@ -35,18 +37,24 @@ namespace Files.App.Services.SizeProvider
 			async Task<ulong> Calculate(string path, int level = 0)
 			{
 				if (string.IsNullOrEmpty(path))
-				{
 					return 0;
-				}
 
-				IntPtr hFile = Win32PInvoke.FindFirstFileExFromApp($"{path}{Path.DirectorySeparatorChar}*.*", Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic,
-					out Win32PInvoke.WIN32_FIND_DATA findData, Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH);
+				FindCloseSafeHandle hFile;
+				WIN32_FIND_DATAW findData;
+				unsafe
+				{
+					WIN32_FIND_DATAW initialFindData = default;
+					hFile = PInvoke.FindFirstFileEx($"{path}{Path.DirectorySeparatorChar}*.*", FINDEX_INFO_LEVELS.FindExInfoBasic,
+						&initialFindData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, FIND_FIRST_EX_FLAGS.FIND_FIRST_EX_LARGE_FETCH);
+					findData = initialFindData;
+				}
+				using FindCloseSafeHandle findHandleScope = hFile;
 
 				ulong size = 0;
 				ulong localSize = 0;
 				string localPath = string.Empty;
 
-				if (hFile.ToInt64() is not -1)
+				if (!hFile.IsInvalid)
 				{
 					do
 					{
@@ -59,11 +67,15 @@ namespace Files.App.Services.SizeProvider
 						{
 							size += (ulong)findData.GetSize();
 						}
-						else if (findData.cFileName is not "." and not "..")
+						else
 						{
-							localPath = Path.Combine(path, findData.cFileName);
-							localSize = await Calculate(localPath, level + 1);
-							size += localSize;
+							string fileName = findData.cFileName.ToString();
+							if (fileName is not "." and not "..")
+							{
+								localPath = Path.Combine(path, fileName);
+								localSize = await Calculate(localPath, level + 1);
+								size += localSize;
+							}
 						}
 
 						if (level <= 3)
@@ -79,11 +91,8 @@ namespace Files.App.Services.SizeProvider
 						}
 
 						if (cancellationToken.IsCancellationRequested)
-						{
 							break;
-						}
-					} while (Win32PInvoke.FindNextFile(hFile, out findData));
-					Win32PInvoke.FindClose(hFile);
+					} while (PInvoke.FindNextFile(hFile, out findData));
 				}
 				return size;
 			}
