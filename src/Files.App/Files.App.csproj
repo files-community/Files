@@ -39,6 +39,7 @@
         <IsAotCompatible>true</IsAotCompatible>
         <IlcGenerateMstatFile>true</IlcGenerateMstatFile>
         <IlcGenerateDgmlFile>true</IlcGenerateDgmlFile>
+        <FilesAppServerProject>$(MSBuildThisFileDirectory)..\Files.App.Server\Files.App.Server.csproj</FilesAppServerProject>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -171,7 +172,6 @@
 
     <Target Name="PublishFilesAppServerForMsix" BeforeTargets="_ComputeAppxPackagePayload" Condition="'$(AppxPackage)' == 'true'">
         <PropertyGroup>
-            <FilesAppServerProject>$(MSBuildThisFileDirectory)..\Files.App.Server\Files.App.Server.csproj</FilesAppServerProject>
             <FilesAppServerPublishDir>$(MSBuildThisFileDirectory)..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\publish\</FilesAppServerPublishDir>
         </PropertyGroup>
 
