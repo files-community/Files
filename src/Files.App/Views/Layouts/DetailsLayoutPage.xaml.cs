@@ -4,6 +4,7 @@
 using CommunityToolkit.WinUI;
 using Files.App.Controls;
 using Files.App.UserControls.Selection;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -174,22 +175,30 @@ namespace Files.App.Views.Layouts
 				// This is done to workaround a bug where CsWinRT doesn't properly track the memory of the object so that
 				// an invalid memory access can occur when the object is moved.
 				// See https://github.com/microsoft/CsWinRT/issues/1834.
-				ColumnsViewModel.DateCreatedColumn.Update(FolderSettings.ColumnsViewModel.DateCreatedColumn);
-				ColumnsViewModel.DateDeletedColumn.Update(FolderSettings.ColumnsViewModel.DateDeletedColumn);
-				ColumnsViewModel.DateModifiedColumn.Update(FolderSettings.ColumnsViewModel.DateModifiedColumn);
-				ColumnsViewModel.IconColumn.Update(FolderSettings.ColumnsViewModel.IconColumn);
-				ColumnsViewModel.ItemTypeColumn.Update(FolderSettings.ColumnsViewModel.ItemTypeColumn);
-				ColumnsViewModel.NameColumn.Update(FolderSettings.ColumnsViewModel.NameColumn);
-				ColumnsViewModel.PathColumn.Update(FolderSettings.ColumnsViewModel.PathColumn);
-				ColumnsViewModel.OriginalPathColumn.Update(FolderSettings.ColumnsViewModel.OriginalPathColumn);
-				ColumnsViewModel.SizeColumn.Update(FolderSettings.ColumnsViewModel.SizeColumn);
-				ColumnsViewModel.StatusColumn.Update(FolderSettings.ColumnsViewModel.StatusColumn);
-				ColumnsViewModel.TagColumn.Update(FolderSettings.ColumnsViewModel.TagColumn);
-				ColumnsViewModel.GitStatusColumn.Update(FolderSettings.ColumnsViewModel.GitStatusColumn);
-				ColumnsViewModel.GitLastCommitDateColumn.Update(FolderSettings.ColumnsViewModel.GitLastCommitDateColumn);
-				ColumnsViewModel.GitLastCommitMessageColumn.Update(FolderSettings.ColumnsViewModel.GitLastCommitMessageColumn);
-				ColumnsViewModel.GitCommitAuthorColumn.Update(FolderSettings.ColumnsViewModel.GitCommitAuthorColumn);
-				ColumnsViewModel.GitLastCommitShaColumn.Update(FolderSettings.ColumnsViewModel.GitLastCommitShaColumn);
+				try
+				{
+					ColumnsViewModel.DateCreatedColumn.Update(FolderSettings.ColumnsViewModel.DateCreatedColumn);
+					ColumnsViewModel.DateDeletedColumn.Update(FolderSettings.ColumnsViewModel.DateDeletedColumn);
+					ColumnsViewModel.DateModifiedColumn.Update(FolderSettings.ColumnsViewModel.DateModifiedColumn);
+					ColumnsViewModel.IconColumn.Update(FolderSettings.ColumnsViewModel.IconColumn);
+					ColumnsViewModel.ItemTypeColumn.Update(FolderSettings.ColumnsViewModel.ItemTypeColumn);
+					ColumnsViewModel.NameColumn.Update(FolderSettings.ColumnsViewModel.NameColumn);
+					ColumnsViewModel.PathColumn.Update(FolderSettings.ColumnsViewModel.PathColumn);
+					ColumnsViewModel.OriginalPathColumn.Update(FolderSettings.ColumnsViewModel.OriginalPathColumn);
+					ColumnsViewModel.SizeColumn.Update(FolderSettings.ColumnsViewModel.SizeColumn);
+					ColumnsViewModel.StatusColumn.Update(FolderSettings.ColumnsViewModel.StatusColumn);
+					ColumnsViewModel.TagColumn.Update(FolderSettings.ColumnsViewModel.TagColumn);
+					ColumnsViewModel.GitStatusColumn.Update(FolderSettings.ColumnsViewModel.GitStatusColumn);
+					ColumnsViewModel.GitLastCommitDateColumn.Update(FolderSettings.ColumnsViewModel.GitLastCommitDateColumn);
+					ColumnsViewModel.GitLastCommitMessageColumn.Update(FolderSettings.ColumnsViewModel.GitLastCommitMessageColumn);
+					ColumnsViewModel.GitCommitAuthorColumn.Update(FolderSettings.ColumnsViewModel.GitCommitAuthorColumn);
+					ColumnsViewModel.GitLastCommitShaColumn.Update(FolderSettings.ColumnsViewModel.GitLastCommitShaColumn);
+				}
+				catch (Exception ex)
+				{
+					// Same #1834 bug: the Update raises PropertyChanged into a classic Width binding whose ICustomProperty target was moved by the GC, throwing an NRE that would otherwise fail the navigation and take down the app. The persisted widths get reapplied on the next update.
+					App.Logger.LogWarning(ex, "Failed to restore details column widths during navigation");
+				}
 			}
 
 			shellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
