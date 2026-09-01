@@ -179,7 +179,7 @@
         <Error Condition="!Exists('$(FilesAppServerPublishDir)Files.App.Server.exe')" Text="Files.App.Server publish output was not found." />
 
         <ItemGroup>
-            <_FilesAppServerPackageFile Include="$(FilesAppServerPublishDir)**\*" Exclude="$(FilesAppServerPublishDir)**\*.winmd" />
+            <_FilesAppServerPackageFile Include="$(FilesAppServerPublishDir)**\*" Exclude="$(FilesAppServerPublishDir)**\*.winmd;$(FilesAppServerPublishDir)**\*.pdb" />
             <AppxPackagePayload Include="@(_FilesAppServerPackageFile)" TargetPath="Files.App.Server\%(RecursiveDir)%(Filename)%(Extension)" />
         </ItemGroup>
     </Target>
