@@ -94,8 +94,6 @@ namespace Files.App.Helpers
 			else
 			{
 				GC.Collect(GC.MaxGeneration, GCCollectionMode.Optimized, blocking: false);
-				GC.WaitForPendingFinalizers();
-				GC.Collect(GC.MaxGeneration, GCCollectionMode.Optimized, blocking: false);
 			}
 		}
 	}
