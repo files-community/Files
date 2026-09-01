@@ -82,12 +82,19 @@ namespace Files.App.Helpers
 			});
 		}
 
-		// Two passes: the first collect queues finalizers whose CCW/RCW releases only free native memory in the second
 		private static void Collect()
 		{
-			GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, blocking: true, compacting: true);
-			GC.WaitForPendingFinalizers();
-			GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, blocking: true, compacting: true);
+			// While the window is hidden (closing to background) the stop-the-world pause is invisible, so keep the aggressive compacting collection that returns the most memory; otherwise collect in the background so the UI thread isn't suspended
+			if (App.AppModel?.IsMainWindowClosed ?? false)
+			{
+				GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, blocking: true, compacting: true);
+				GC.WaitForPendingFinalizers();
+				GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, blocking: true, compacting: true);
+			}
+			else
+			{
+				GC.Collect(GC.MaxGeneration, GCCollectionMode.Optimized, blocking: false);
+			}
 		}
 	}
 }
