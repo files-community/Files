@@ -166,8 +166,21 @@
     <!-- Files.App.Server is an out-of-process COM server, not a project reference.
          Build it before we resolve assemblies so its .winmd is available for CsWinRT. -->
     <Target Name="BuildFilesAppServer" BeforeTargets="ResolveAssemblyReferences">
-        <MSBuild Projects="..\Files.App.Server\Files.App.Server.csproj"
-                 Targets="Build"
-                 Properties="Configuration=$(Configuration);Platform=$(Platform)" />
+        <MSBuild Projects="$(FilesAppServerProject)" Targets="Build" Properties="Configuration=$(Configuration);Platform=$(Platform)" />
+    </Target>
+
+    <Target Name="PublishFilesAppServerForMsix" BeforeTargets="_ComputeAppxPackagePayload" Condition="'$(AppxPackage)' == 'true'">
+        <PropertyGroup>
+            <FilesAppServerProject>$(MSBuildThisFileDirectory)..\Files.App.Server\Files.App.Server.csproj</FilesAppServerProject>
+            <FilesAppServerPublishDir>$(MSBuildThisFileDirectory)..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\publish\</FilesAppServerPublishDir>
+        </PropertyGroup>
+
+        <MSBuild Projects="$(FilesAppServerProject)" Targets="Publish" Properties="Configuration=$(Configuration);Platform=$(Platform);PublishDir=$(FilesAppServerPublishDir)" />
+        <Error Condition="!Exists('$(FilesAppServerPublishDir)Files.App.Server.exe')" Text="Files.App.Server publish output was not found." />
+
+        <ItemGroup>
+            <_FilesAppServerPackageFile Include="$(FilesAppServerPublishDir)**\*" Exclude="$(FilesAppServerPublishDir)**\*.winmd" />
+            <AppxPackagePayload Include="@(_FilesAppServerPackageFile)" TargetPath="Files.App.Server\%(RecursiveDir)%(Filename)%(Extension)" />
+        </ItemGroup>
     </Target>
 </Project>

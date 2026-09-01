@@ -30,7 +30,7 @@ namespace Files.App.Actions
 		{
 			try
 			{
-				var debugFile = await ApplicationData.Current.LocalFolder.TryGetItemAsync("debug.log") as StorageFile;
+				var debugFile = await ApplicationData.Current.LocalFolder.TryGetItemAsync($"debug_{(Environment.IsPrivilegedProcess ? "privileged" : "unprivileged")}.log") as StorageFile;
 
 				if (debugFile != null && !await Launcher.LaunchFileAsync(debugFile))
 				{
