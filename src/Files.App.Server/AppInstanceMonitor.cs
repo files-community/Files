@@ -23,15 +23,10 @@ public sealed class AppInstanceMonitor
 		{
 			process.Dispose();
 
-			// Delay the exit signal in case of new instances being created in quick succession.
-			Task.Delay(3000)
-				.ContinueWith(_ =>
-				{
-					if (Interlocked.Decrement(ref processCount) == 0)
-					{
-						Program.ExitSignal.TrySetResult(true);
-					}
-				});
+			if (Interlocked.Decrement(ref processCount) == 0)
+			{
+				Program.ExitSignal.TrySetResult(true);
+			}
 		}
 	}
 }
