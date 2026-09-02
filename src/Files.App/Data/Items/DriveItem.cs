@@ -203,6 +203,10 @@ namespace Files.App.Data.Items
 		{
 			get
 			{
+				// CreateIconElement throws a catastrophic 0x8000FFFF on a null source, so wait for the icon to load before building one
+				if (Icon is null)
+					return null;
+
 				var source = new ImageIconSource() { ImageSource = Icon };
 				return source.CreateIconElement();
 			}
