@@ -1178,33 +1178,44 @@ namespace Files.App.Views.Layouts
 
 		protected virtual async void Item_Drop(object sender, DragEventArgs e)
 		{
-			var deferral = e.GetDeferral();
 			e.Handled = true;
+
+			// e.Data is only populated for drags started within this XAML island, drags coming from
+			// another window travel through the shell, so only e.DataView can be read here (#17296)
+			if (e.DataView is null)
+			{
+				e.AcceptedOperation = DataPackageOperation.None;
+				return;
+			}
+
+			DragOperationDeferral? deferral = null;
 
 			try
 			{
-				_ = e.Data.Properties;
-				var exists = e.Data.Properties.TryGetValue("Files_ActionBinder", out var val);
-				_ = val;
-			}
-			catch (NullReferenceException)
-			{
-				// e.Data or e.Data.Properties is null, continue without the property check
-			}
+				deferral = e.GetDeferral();
 
-			// Reset dragged over item
-			dragOverItem = null;
-			var item = GetItemFromElement(sender);
-			if (item is not null)
-			{
-				var parentShellPage = ParentShellPageInstance
-					?? throw new InvalidOperationException("The layout page does not have a parent shell page.");
-				var targetPath = (item as IShortcutItem)?.TargetPath;
-				var destination = !string.IsNullOrEmpty(targetPath) ? targetPath : item.GetRequiredPath();
-				await parentShellPage.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, destination, false, true, item.IsExecutable, item.IsScriptFile);
-			}
+				// Reset dragged over item
+				dragOverItem = null;
 
-			deferral.Complete();
+				var item = GetItemFromElement(sender);
+				if (item is not null)
+				{
+					// This is an async void handler, an escaping exception would take down the window
+					await SafetyExtensions.IgnoreExceptions(async () =>
+					{
+						var parentShellPage = ParentShellPageInstance
+							?? throw new InvalidOperationException("The layout page does not have a parent shell page.");
+						var targetPath = (item as IShortcutItem)?.TargetPath;
+						var destination = !string.IsNullOrEmpty(targetPath) ? targetPath : item.GetRequiredPath();
+						await parentShellPage.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, destination, false, true, item.IsExecutable, item.IsScriptFile);
+					},
+					App.Logger);
+				}
+			}
+			finally
+			{
+				deferral?.Complete();
+			}
 		}
 
 		protected void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
