@@ -104,11 +104,10 @@ namespace Files.App.Views.Layouts
 		{
 			if (ParentShellPageInstance is ModernShellPage parent)
 			{
-				if (shellPage is null)
-					throw new InvalidOperationException("The active column shell page is not available.");
+				// The column shell page and its navigation parameters can be unset mid-navigation; skip until a later change supplies them
+				if (shellPage?.TabBarItemParameter is not { } tabArguments)
+					return;
 
-				var tabArguments = shellPage.TabBarItemParameter
-					?? throw new InvalidOperationException("The column tab navigation arguments are not available.");
 				parent.RaiseContentChanged(shellPage, tabArguments);
 			}
 		}
@@ -335,9 +334,11 @@ namespace Files.App.Views.Layouts
 		private void ColumnViewBase_KeyUp(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
 		{
 			var shPage = ActiveColumnShellPage as ColumnShellPage;
-			if (shPage?.SlimContentPage?.SelectedItem?.PrimaryItemAttribute is not StorageItemTypes.Folder)
-				CloseUnnecessaryColumns(shPage?.ColumnParams
-					?? throw new InvalidOperationException("The active column does not have navigation parameters."));
+
+			// Skip rather than throw when the column's navigation parameters aren't ready during rapid key navigation
+			if (shPage?.SlimContentPage?.SelectedItem?.PrimaryItemAttribute is not StorageItemTypes.Folder &&
+				shPage?.ColumnParams is { } columnParams)
+				CloseUnnecessaryColumns(columnParams);
 		}
 
 		public void NavigateBack()
