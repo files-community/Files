@@ -257,8 +257,8 @@ namespace Files.App.UserControls
 					viewModel.SaveSearchQueryToList(searchQuery);
 				}
 
-				var searchPaneHolder = ContentPageContext.ShellPage.GetRequiredPaneHolder();
-				searchPaneHolder.FocusActivePane();
+				// The shell page can be torn down during the awaited navigation above; skip focusing if its pane holder is gone
+				ContentPageContext.ShellPage?.PaneHolder?.FocusActivePane();
 				return;
 			}
 		}
