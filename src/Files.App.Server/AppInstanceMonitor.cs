@@ -7,7 +7,7 @@ namespace Files.App.Server;
 
 public sealed class AppInstanceMonitor
 {
-	private static int processCount = 0;
+	private static volatile int processCount = 0;
 
 	public static void StartMonitor(int processId)
 	{
