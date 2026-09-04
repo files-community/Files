@@ -20,12 +20,10 @@ namespace Files.App.Controls
 		{
 			if (args.OldFocusedElement is null)
 			{
-				// Window is regaining activation and restoring focus to the TextBox - redirect
-				// to whatever was focused before, so the omnibar doesn't get stuck in edit mode.
-				if (args.InputDevice is FocusInputDeviceKind.None &&
-					_previouslyFocusedElement.TryGetTarget(out var previous) &&
-					previous is not null)
-					args.TrySetNewFocusedElement(previous);
+				// Window is regaining activation and restoring focus to the TextBox. TrySetNewFocusedElement can't
+				// move focus to the previously-focused item (it's often a recycled list item and gets rejected), so
+				// ask the host to move focus to its content instead, keeping the omnibar out of edit mode.
+				FocusRedirectRequested?.Invoke(this, System.EventArgs.Empty);
 				return;
 			}
 

@@ -472,6 +472,13 @@ namespace Files.App.UserControls
 			}
 		}
 
+		private void Omnibar_FocusRedirectRequested(Omnibar sender, EventArgs args)
+		{
+			// The omnibar TextBox regained focus on window reactivation; move focus to the active pane so we don't land in
+			// edit mode. Deferred so it runs after the in-progress focus change settles.
+			DispatcherQueue.TryEnqueue(() => ContentPageContext.ShellPage?.PaneHolder?.FocusActivePane());
+		}
+
 		private async void Omnibar_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (e.Key is VirtualKey.Escape)
