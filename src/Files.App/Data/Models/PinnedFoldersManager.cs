@@ -148,6 +148,16 @@ namespace Files.App.Data.Models
 					isFolder,
 					IconOptions.ReturnIconOnly);
 
+				// Shell icon APIs cannot resolve icons for bare network machine roots (e.g. "\\server"); fall back to the sidebar resource icons like DriveItem does.
+				if (result is null)
+				{
+					var isMachineRoot = path.StartsWith(@"\\", StringComparison.Ordinal) &&
+						path.Split('\\', StringSplitOptions.RemoveEmptyEntries).Length == 1;
+					result = UIHelpers.GetSidebarIconResourceInfo(isMachineRoot
+						? Constants.ImageRes.Network
+						: Constants.ImageRes.Folder)?.IconData;
+				}
+
 				locationItem.IconData = result;
 
 				// Assign Icon on the UI thread: it raises PropertyChanged, which builds a XAML IconElement in a realized SidebarItem.
