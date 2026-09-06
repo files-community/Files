@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using DiscUtils.Udf;
-using System.Collections.Concurrent;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;
@@ -118,28 +117,25 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		// A drive's network status is process-global, so cache it and probe each root once.
-		private readonly static ConcurrentDictionary<string, bool> networkRootCache = new(StringComparer.OrdinalIgnoreCase);
-
-		// Per-item network classification (matches enumeration rules) with a cached drive-root probe, so it's cheap to call per row on a large folder.
-		public static bool IsNetworkStorageItem(string path)
+		// Per-item network classification matching enumeration rules; the drive-type probe runs off the UI thread as it can block on an unreachable drive.
+		public static Task<bool> IsNetworkStorageItemAsync(string path)
 		{
 			if (path.StartsWith(@"\\", StringComparison.Ordinal))
 			{
 				// MTP, WSL and shell-namespace paths aren't network shares
-				return !IsMtpPath(path)
+				return Task.FromResult(!IsMtpPath(path)
 					&& !path.StartsWith(@"\\SHELL\", StringComparison.Ordinal)
 					&& !path.StartsWith(@"\\wsl$\", StringComparison.OrdinalIgnoreCase)
-					&& !path.StartsWith(@"\\wsl.localhost\", StringComparison.OrdinalIgnoreCase);
+					&& !path.StartsWith(@"\\wsl.localhost\", StringComparison.OrdinalIgnoreCase));
 			}
 
 			var root = SystemIO.Path.GetPathRoot(path);
 			if (string.IsNullOrEmpty(root))
-				return false;
+				return Task.FromResult(false);
 
-			return networkRootCache.GetOrAdd(root, static r =>
+			return Task.Run(() =>
 			{
-				try { return new SystemIO.DriveInfo(r).DriveType == SystemIO.DriveType.Network; }
+				try { return new SystemIO.DriveInfo(root).DriveType == SystemIO.DriveType.Network; }
 				catch { return false; }
 			});
 		}

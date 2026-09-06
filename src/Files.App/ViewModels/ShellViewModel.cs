@@ -1704,7 +1704,7 @@ namespace Files.App.ViewModels
 					token.ThrowIfCancellationRequested();
 					await LoadThumbnailAsync(item, token);
 
-					var isItemNetwork = DriveHelpers.IsNetworkStorageItem(item.GetRequiredPath());
+					var isItemNetwork = await DriveHelpers.IsNetworkStorageItemAsync(item.GetRequiredPath());
 
 					token.ThrowIfCancellationRequested();
 					if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
