@@ -199,11 +199,12 @@
 			<!--  List Of Available Key Bindings  -->
 			<ListView
 				x:Name="ValidKeyBindingsListView"
+				MaxHeight="600"
 				ItemsSource="{x:Bind ViewModel.FilteredActionItems, Mode=OneWay}"
 				ScrollViewer.HorizontalScrollBarVisibility="Hidden"
 				ScrollViewer.HorizontalScrollMode="Disabled"
-				ScrollViewer.VerticalScrollBarVisibility="Hidden"
-				ScrollViewer.VerticalScrollMode="Disabled"
+				ScrollViewer.VerticalScrollBarVisibility="Auto"
+				ScrollViewer.VerticalScrollMode="Enabled"
 				SelectionMode="None">
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="dataitems:ModifiableActionItem">
