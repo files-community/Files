@@ -1609,9 +1609,6 @@ namespace Files.App.ViewModels
 			dbInstance.SetTags(item.GetRequiredPath(), item.FileFRN, item.FileTags ?? []);
 		}
 
-		// Set per navigation, read by the deferred per-item loader; volatile as it is written off the UI thread after the drive-type probe.
-		private volatile bool isCurrentPathNetwork;
-
 		// Loads extended file properties off the critical path so a slow per-file read never blocks the row's essentials.
 		private async Task LoadExtendedFilePropertiesInBackgroundAsync(ListedItem item, BaseStorageFile file, CancellationToken token)
 		{
@@ -1707,6 +1704,8 @@ namespace Files.App.ViewModels
 					token.ThrowIfCancellationRequested();
 					await LoadThumbnailAsync(item, token);
 
+					var isItemNetwork = DriveHelpers.IsNetworkStorageItem(item.GetRequiredPath());
+
 					token.ThrowIfCancellationRequested();
 					if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 					{
@@ -1718,13 +1717,13 @@ namespace Files.App.ViewModels
 								token.ThrowIfCancellationRequested();
 
 								// A network share is never a cloud placeholder root, so skip that round-trip
-								var syncStatus = isCurrentPathNetwork ? CloudDriveSyncStatus.Unknown : await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
+								var syncStatus = isItemNetwork ? CloudDriveSyncStatus.Unknown : await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
 								var fileTag = await Task.Run(() => FileTagsHelper.ReadFileTag(item.GetRequiredPath()));
 								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFile.DisplayType;
 
 								// Extended properties open each file; load them in the background on a share
-								var extraProperties = isCurrentPathNetwork ? null : await GetExtraProperties(matchingStorageFile);
+								var extraProperties = isItemNetwork ? null : await GetExtraProperties(matchingStorageFile);
 
 								var syncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 								var isElevationRequired = !syncStatusUI.LoadSyncStatus && await Task.Run(() => CheckElevationRights(item));
@@ -1769,7 +1768,7 @@ namespace Files.App.ViewModels
 
 								await Task.Run(() => SetFileTag(item));
 
-								if (isCurrentPathNetwork)
+								if (isItemNetwork)
 									_ = LoadExtendedFilePropertiesInBackgroundAsync(item, matchingStorageFile, token);
 
 								wasSyncStatusLoaded = true;
@@ -1800,13 +1799,13 @@ namespace Files.App.ViewModels
 
 								token.ThrowIfCancellationRequested();
 								// A network share is never a cloud placeholder root, so skip that round-trip
-								var syncStatus = isCurrentPathNetwork ? CloudDriveSyncStatus.Unknown : await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
+								var syncStatus = isItemNetwork ? CloudDriveSyncStatus.Unknown : await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFolder);
 								var fileTag = await Task.Run(() => FileTagsHelper.ReadFileTag(item.GetRequiredPath()));
 								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFolder.DisplayType;
 
 								// Folder extended properties only carry drive storage details, irrelevant on a network subfolder
-								var extraProperties = isCurrentPathNetwork ? null : await GetExtraProperties(matchingStorageFolder);
+								var extraProperties = isItemNetwork ? null : await GetExtraProperties(matchingStorageFolder);
 
 								token.ThrowIfCancellationRequested();
 
@@ -2277,8 +2276,6 @@ namespace Files.App.ViewModels
 					isNetdisk = await Task.Run(() => new DriveInfo(path).DriveType == System.IO.DriveType.Network);
 			}
 			catch { }
-
-			isCurrentPathNetwork = isNetwork || isNetdisk;
 
 			bool isFtp = FtpHelpers.IsFtpPath(path);
 			bool enumFromStorageFolder = isBoxFolder || isFtp;
