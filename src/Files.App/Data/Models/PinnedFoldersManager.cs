@@ -146,7 +146,7 @@ namespace Files.App.Data.Models
 					path,
 					Constants.ShellIconSizes.Small,
 					isFolder,
-					IconOptions.ReturnIconOnly);
+					IconOptions.ReturnIconOnly | IconOptions.SkipSizeSnapping);
 
 				locationItem.IconData = result;
 
