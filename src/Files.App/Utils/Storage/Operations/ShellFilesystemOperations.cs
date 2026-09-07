@@ -463,7 +463,11 @@ namespace Files.App.Utils.Storage
 					switch (await GetFileInUseDialog(filePath, lockingProcess))
 					{
 						case DialogResult.Primary:
-							return await DeleteItemsAsync(await failedSources.Select(x => source.DistinctBy(x => x.Path).SingleOrDefault(s => s.Path == x.Source)).Where(x => x is not null).ToListAsync(), progress, permanently, cancellationToken);
+							// Shell errors can refer to a child of a selected folder.
+							var sourcesToRetry = source.DistinctBy(item => item.Path).Where(item => failedSources.Any(failed =>
+								item.Path.Equals(failed.Source, StringComparison.OrdinalIgnoreCase) ||
+								item.ItemType == FilesystemItemType.Directory && failed.Source.IsSubPathOf(item.Path)));
+							return await DeleteItemsAsync(await sourcesToRetry.ToListAsync(), progress, permanently, cancellationToken);
 					}
 				}
 				else if (deleteResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
