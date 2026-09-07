@@ -887,6 +887,24 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
+		/// <summary>
+		/// Enumerates item names for batch result verification.
+		/// </summary>
+		private static HashSet<string>? EnumerateItemNames(string directoryPath)
+		{
+			try
+			{
+				return Directory.EnumerateFileSystemEntries(directoryPath)
+					.Select(path => Path.GetFileName(path))
+					.ToHashSet(StringComparer.OrdinalIgnoreCase);
+			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+			{
+				App.Logger?.LogWarning(ex, "Unable to verify Robocopy results in {DirectoryPath}", directoryPath);
+				return null;
+			}
+		}
+
 		private static (Dictionary<(string sourceDir, string destDir), List<string>> fileGroups, List<(string sourcePath, string destPath)> folderItems) GroupFilesAndFolders(
 			string[] filePaths,
 			string[] destinationPaths)
@@ -1122,12 +1140,14 @@ namespace Files.App.Utils.Storage
 							// Robocopy exit codes describe the batch, so verify every requested item before
 							// reporting success. A skipped move otherwise looks successful while its source remains.
 							var batchVerified = true;
+							var destinationNames = EnumerateItemNames(destDir);
+							var remainingSourceNames = isMoveOperation ? EnumerateItemNames(sourceDir) : null;
 							foreach (var itemName in itemNames)
 							{
 								var sourcePath = Path.Combine(sourceDir, itemName);
 								var destinationPath = Path.Combine(destDir, itemName);
-								var itemOk = batchOk && StorageHelpers.Exists(destinationPath) &&
-									(!isMoveOperation || !StorageHelpers.Exists(sourcePath));
+								var itemOk = batchOk && destinationNames is not null && destinationNames.Contains(itemName) &&
+									(!isMoveOperation || remainingSourceNames is not null && !remainingSourceNames.Contains(itemName));
 								batchVerified &= itemOk;
 								shellOperationResult.Items.Add(new ShellOperationItemResult
 								{
