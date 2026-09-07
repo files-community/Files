@@ -2181,7 +2181,7 @@
     <value>Use Robocopy for file operations</value>
   </data>
   <data name="UseRobocopyForFileOperationsDescription" xml:space="preserve">
-    <value>Use multi-threaded Robocopy engine for large copy, move, and delete operations</value>
+    <value>Use multi-threaded Robocopy engine for large copy and move operations</value>
   </data>
   <data name="RobocopyThreads" xml:space="preserve">
     <value>Threads</value>
