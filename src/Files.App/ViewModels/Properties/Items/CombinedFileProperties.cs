@@ -19,8 +19,9 @@ namespace Files.App.ViewModels.Properties
 		{
 			var queries = await Task.WhenAll(List.AsParallel().Select(async item =>
 			{
-				BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath));
-				if (file is null)
+				var itemPath = item.GetRequiredPath();
+				var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(itemPath));
+				if (fileResult.Result is not { } file)
 				{
 					// Could not access file, can't show any other property
 					return null;
@@ -28,17 +29,21 @@ namespace Files.App.ViewModels.Properties
 
 				var list = await FileProperty.RetrieveAndInitializePropertiesAsync(file);
 
-				var latitude = list.Find(x => x.Property == "System.GPS.LatitudeDecimal")?.Value as double?;
-				var longitude = list.Find(x => x.Property == "System.GPS.LongitudeDecimal")?.Value as double?;
-				var addressItem = list.Find(x => x.ID == "address");
+				var latitudeProperty = list.Find(x => x.Property == "System.GPS.LatitudeDecimal")
+					?? throw new InvalidOperationException("The file property definitions do not contain the latitude property.");
+				var longitudeProperty = list.Find(x => x.Property == "System.GPS.LongitudeDecimal")
+					?? throw new InvalidOperationException("The file property definitions do not contain the longitude property.");
+				var addressItem = list.Find(x => x.ID == "address")
+					?? throw new InvalidOperationException("The file property definitions do not contain the address property.");
 
-				if (latitude.HasValue && longitude.HasValue && addressItem != null)
-					addressItem.Value = await LocationHelpers.GetAddressFromCoordinatesAsync(latitude.Value, longitude.Value);
+				addressItem.Value = await LocationHelpers.GetAddressFromCoordinatesAsync(
+					(double?)latitudeProperty.Value,
+					(double?)longitudeProperty.Value);
 
 
 				return list
 					.Where(fileProp => !(fileProp.Value is null && fileProp.IsReadOnly))
-					.GroupBy(fileProp => fileProp.SectionResource)
+					.GroupBy(fileProp => fileProp.SectionResource!)
 					.Select(group => new FilePropertySection(group) { Key = group.Key })
 					.Where(section => !section.All(fileProp => fileProp.Value is null)
 						|| FileProperty.IsSectionApplicableForEmpty(section.Key, item.FileExtension));
@@ -47,19 +52,25 @@ namespace Files.App.ViewModels.Properties
 			if (queries.Any(query => query is null))
 				return;
 
+			var validQueries = queries.WhereNotNull().ToArray();
+			if (validQueries.Length == 0)
+				throw new InvalidOperationException("No selected files were available for property aggregation.");
+
 			// Display only the sections that all files have
-			var keys = queries.Select(query => query!.Select(section => section.Key)).Aggregate((x, y) => x.Intersect(y));
-			var sections = queries[0]!.Where(section => keys.Contains(section.Key)).OrderBy(group => group.Priority).ToArray();
+			var keys = validQueries.Select(query => query.Select(section => section.Key)).Aggregate((x, y) => x.Intersect(y));
+			var sections = validQueries[0].Where(section => keys.Contains(section.Key)).OrderBy(group => group.Priority).ToArray();
 
 			foreach (var group in sections)
 			{
-				var props = queries.SelectMany(query => query!.First(section => section.Key == group.Key));
+				var props = validQueries.SelectMany(query => query.First(section => section.Key == group.Key));
 				foreach (FileProperty prop in group)
 				{
 					if (prop.Property == "System.Media.Duration")
 					{
 						ulong totalDuration = 0;
-						props.Where(x => x.Property == prop.Property).ForEach(x => totalDuration += (ulong)x.Value);
+						props.Where(x => x.Property == prop.Property).ForEach(x =>
+							totalDuration += (ulong)(x.Value
+								?? throw new InvalidOperationException("A media duration property does not have a value.")));
 						prop.Value = totalDuration;
 					}
 					else if (props.Where(x => x.Property == prop.Property).Any(x => !Equals(x.Value, prop.Value)))
@@ -79,10 +90,10 @@ namespace Files.App.ViewModels.Properties
 			var files = new List<BaseStorageFile>();
 			foreach (var item in List)
 			{
-				BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath));
-
 				// Couldn't access the file to save properties
-				if (file is null)
+				var itemPath = item.GetRequiredPath();
+				var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(itemPath));
+				if (fileResult.Result is not { } file)
 					return;
 
 				files.Add(file);
@@ -96,9 +107,11 @@ namespace Files.App.ViewModels.Properties
 				{
 					if (!prop.IsReadOnly && prop.Modified)
 					{
-						var newDict = new Dictionary<string, object>
+						var propertyName = prop.Property
+							?? throw new InvalidOperationException("An editable file property does not have an identifier.");
+						var newDict = new Dictionary<string, object?>
 						{
-							{ prop.Property, prop.Value }
+							{ propertyName, prop.Value }
 						};
 
 						foreach (var file in files)
@@ -131,9 +144,9 @@ namespace Files.App.ViewModels.Properties
 			var files = new List<BaseStorageFile>();
 			foreach (var item in List)
 			{
-				BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath));
-
-				if (file is null)
+				var itemPath = item.GetRequiredPath();
+				var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(itemPath));
+				if (fileResult.Result is not { } file)
 					return;
 
 				files.Add(file);
@@ -145,9 +158,11 @@ namespace Files.App.ViewModels.Properties
 				{
 					if (!prop.IsReadOnly)
 					{
-						var newDict = new Dictionary<string, object>
+						var propertyName = prop.Property
+							?? throw new InvalidOperationException("An editable file property does not have an identifier.");
+						var newDict = new Dictionary<string, object?>
 						{
-							{ prop.Property, null }
+							{ propertyName, null }
 						};
 
 						foreach (var file in files)

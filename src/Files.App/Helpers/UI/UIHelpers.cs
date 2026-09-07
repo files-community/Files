@@ -10,6 +10,8 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
+using System.Runtime.InteropServices;
+using WinRT;
 
 namespace Files.App.Helpers
 {
@@ -22,6 +24,11 @@ namespace Files.App.Helpers
 		/// Used to gate code that programmatically reassigns focus on a background-completion
 		/// callback (e.g. folder-load done), so the user's typing isn't yanked away.
 		/// </summary>
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
+		[DynamicWindowsRuntimeCast(typeof(RichEditBox))]
+		[DynamicWindowsRuntimeCast(typeof(PasswordBox))]
+		[DynamicWindowsRuntimeCast(typeof(AutoSuggestBox))]
+		[DynamicWindowsRuntimeCast(typeof(Frame))]
 		public static bool IsTextInputFocused(XamlRoot? xamlRoot)
 		{
 			if (xamlRoot is null)
@@ -33,8 +40,17 @@ namespace Files.App.Helpers
 			// The Omnibar holds an internal focus DP that stays true while its suggestion popup is
 			// open (the popup root sits outside the omnibar's visual ancestry, so GetFocusedElement
 			// alone misses it). Consult that DP as a fallback.
-			var omnibar = (MainWindow.Instance.Content as Frame)?.FindDescendant<Omnibar>();
-			return omnibar?.IsFocused == true;
+			try
+			{
+				var omnibar = (MainWindow.Instance.Content as Frame)?.FindDescendant<Omnibar>();
+				return omnibar?.IsFocused == true;
+			}
+			// Window.Content throws RO_E_CLOSED when the window was closed while a queued
+			// focus callback (e.g. tab CurrentInstanceChanged) was still in flight
+			catch (COMException)
+			{
+				return false;
+			}
 		}
 
 		private static bool canShowDialog = true;
@@ -98,6 +114,7 @@ namespace Files.App.Helpers
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ContentDialog))]
 		public static async Task<DialogResult> TryShowAsync<TViewModel>(this IDialog<TViewModel> dialog)
 			where TViewModel : class, INotifyPropertyChanged
 		{
@@ -114,6 +131,7 @@ namespace Files.App.Helpers
 			return contentDialog;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ContentDialog))]
 		public static void CloseAllDialogs()
 		{
 			if (MainWindow.Instance?.Content?.XamlRoot == null)
@@ -128,11 +146,11 @@ namespace Files.App.Helpers
 
 		private static IEnumerable<IconFileInfo> SidebarIconResources = LoadSidebarIconResources();
 
-		private static IconFileInfo ShieldIconResource = LoadShieldIconResource();
+		private static IconFileInfo? ShieldIconResource = LoadShieldIconResource();
 
-		private static IconFileInfo SearchIconResource = LoadSearchIconResource();
+		private static IconFileInfo? SearchIconResource = LoadSearchIconResource();
 
-		public static IconFileInfo GetSidebarIconResourceInfo(int index)
+		public static IconFileInfo? GetSidebarIconResourceInfo(int index)
 		{
 			var icons = UIHelpers.SidebarIconResources;
 			return icons?.FirstOrDefault(x => x.Index == index);
@@ -173,7 +191,7 @@ namespace Files.App.Helpers
 			return imageResList;
 		}
 
-		private static IconFileInfo LoadShieldIconResource()
+		private static IconFileInfo? LoadShieldIconResource()
 		{
 			string imageres = Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "imageres.dll");
 			var imageResList = Win32Helper.ExtractSelectedIconsFromDLL(imageres, new List<int>() {
@@ -183,7 +201,7 @@ namespace Files.App.Helpers
 			return imageResList.FirstOrDefault();
 		}
 
-		private static IconFileInfo LoadSearchIconResource()
+		private static IconFileInfo? LoadSearchIconResource()
 		{
 			string imageres = Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "imageres.dll");
 			var imageResList = Win32Helper.ExtractSelectedIconsFromDLL(imageres, new List<int>() {

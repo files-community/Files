@@ -5,6 +5,7 @@ using Files.App.Controls;
 using Files.App.ViewModels.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
+using WinRT;
 
 namespace Files.App.Data.Models
 {
@@ -56,7 +57,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private void Img_ImageOpened(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+		[DynamicWindowsRuntimeCast(typeof(BitmapImage))]
+		private void Img_ImageOpened(object sender, Microsoft.UI.Xaml.RoutedEventArgs? e)
 		{
 			if (sender is BitmapImage image)
 			{
@@ -77,9 +79,9 @@ namespace Files.App.Data.Models
 		{
 			IsShortcut = item.IsShortcut;
 			LoadFileIcon = item.LoadFileIcon;
-			NeedsPlaceholderGlyph = item.NeedsPlaceholderGlyph;
+			NeedsPlaceholderGlyph = item.FileImage is null;
 			ItemPath = item.ItemPath;
-			Name = item.Name;
+			Name = item.Name!;
 			FileImage = item.FileImage;
 		}
 

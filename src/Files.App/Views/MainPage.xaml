@@ -8,7 +8,6 @@
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:tabbar="using:Files.App.UserControls.TabBar"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
@@ -72,69 +71,42 @@
 	</Page.Resources>
 
 	<Page.KeyboardAccelerators>
-		<KeyboardAccelerator Key="Number1" Modifiers="Control">
-			<i:Interaction.Behaviors>
-				<i:EventTriggerBehavior EventName="Invoked">
-					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</i:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="Number2" Modifiers="Control">
-			<i:Interaction.Behaviors>
-				<i:EventTriggerBehavior EventName="Invoked">
-					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</i:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="Number3" Modifiers="Control">
-			<i:Interaction.Behaviors>
-				<i:EventTriggerBehavior EventName="Invoked">
-					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</i:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="Number4" Modifiers="Control">
-			<i:Interaction.Behaviors>
-				<i:EventTriggerBehavior EventName="Invoked">
-					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</i:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="Number5" Modifiers="Control">
-			<i:Interaction.Behaviors>
-				<i:EventTriggerBehavior EventName="Invoked">
-					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</i:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="Number6" Modifiers="Control">
-			<i:Interaction.Behaviors>
-				<i:EventTriggerBehavior EventName="Invoked">
-					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</i:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="Number7" Modifiers="Control">
-			<i:Interaction.Behaviors>
-				<i:EventTriggerBehavior EventName="Invoked">
-					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</i:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="Number8" Modifiers="Control">
-			<i:Interaction.Behaviors>
-				<i:EventTriggerBehavior EventName="Invoked">
-					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</i:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="Number9" Modifiers="Control">
-			<i:Interaction.Behaviors>
-				<i:EventTriggerBehavior EventName="Invoked">
-					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</i:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
+		<KeyboardAccelerator
+			Key="Number1"
+			Invoked="NumberedTabKeyboardAccelerator_Invoked"
+			Modifiers="Control" />
+		<KeyboardAccelerator
+			Key="Number2"
+			Invoked="NumberedTabKeyboardAccelerator_Invoked"
+			Modifiers="Control" />
+		<KeyboardAccelerator
+			Key="Number3"
+			Invoked="NumberedTabKeyboardAccelerator_Invoked"
+			Modifiers="Control" />
+		<KeyboardAccelerator
+			Key="Number4"
+			Invoked="NumberedTabKeyboardAccelerator_Invoked"
+			Modifiers="Control" />
+		<KeyboardAccelerator
+			Key="Number5"
+			Invoked="NumberedTabKeyboardAccelerator_Invoked"
+			Modifiers="Control" />
+		<KeyboardAccelerator
+			Key="Number6"
+			Invoked="NumberedTabKeyboardAccelerator_Invoked"
+			Modifiers="Control" />
+		<KeyboardAccelerator
+			Key="Number7"
+			Invoked="NumberedTabKeyboardAccelerator_Invoked"
+			Modifiers="Control" />
+		<KeyboardAccelerator
+			Key="Number8"
+			Invoked="NumberedTabKeyboardAccelerator_Invoked"
+			Modifiers="Control" />
+		<KeyboardAccelerator
+			Key="Number9"
+			Invoked="NumberedTabKeyboardAccelerator_Invoked"
+			Modifiers="Control" />
 	</Page.KeyboardAccelerators>
 
 	<Grid>
@@ -195,6 +167,7 @@
 			<controls:SidebarView.InnerContent>
 				<Grid
 					x:Name="RootGrid"
+					Padding="0,0,0,8"
 					PreviewKeyDown="RootGrid_PreviewKeyDown"
 					SizeChanged="RootGrid_SizeChanged">
 					<Grid.RowDefinitions>
@@ -206,7 +179,6 @@
 							MinHeight="100" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition x:Name="InfoPaneRowDefinition" Height="Auto" />
-						<RowDefinition Height="Auto" MinHeight="8" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition
@@ -288,22 +260,13 @@
 						Loaded="PreviewPane_Loaded"
 						Unloaded="PreviewPane_Unloaded" />
 
-					<!--  Status Bar  -->
-					<uc:StatusBar
-						x:Name="StatusBar"
-						Grid.Row="5"
-						Grid.ColumnSpan="3"
-						x:Load="False"
-						ShowInfoText="{x:Bind ViewModel.ShowStatusBar, Mode=OneWay}"
-						Visibility="{x:Bind ViewModel.ShowStatusBar, Mode=OneWay}" />
-
 					<!--  Shelf Pane  -->
 					<uc:ShelfPane
 						x:Name="ShelfPane"
 						Grid.Row="0"
-						Grid.RowSpan="6"
+						Grid.RowSpan="5"
 						Grid.Column="3"
-						Margin="4,0,0,8"
+						Margin="4,0,0,0"
 						x:Load="{x:Bind ViewModel.ShowShelfPane, Mode=OneWay}"
 						ClearCommand="{x:Bind ViewModel.ShelfViewModel.ClearItemsCommand}"
 						ItemFocusedCommand="{x:Bind Commands.ClearSelection}"
@@ -382,7 +345,6 @@
 			VerticalAlignment="Bottom"
 			ActionButtonCommand="{x:Bind ViewModel.ReviewAppCommand}"
 			ActionButtonContent="{helpers:ResourceString Name=RateUs}"
-			CloseButtonCommand="{x:Bind ViewModel.DismissReviewPromptCommand}"
 			CloseButtonContent="{helpers:ResourceString Name=Dismiss}"
 			IsOpen="{x:Bind ViewModel.ShowReviewPrompt, Mode=OneWay}"
 			Subtitle="{helpers:ResourceString Name=ReviewFilesSubtitle}" />
@@ -395,7 +357,6 @@
 			VerticalAlignment="Bottom"
 			ActionButtonCommand="{x:Bind ViewModel.SponsorCommand}"
 			ActionButtonContent="{helpers:ResourceString Name=Sponsor}"
-			CloseButtonCommand="{x:Bind ViewModel.DismissSponsorPromptCommand}"
 			CloseButtonContent="{helpers:ResourceString Name=Dismiss}"
 			IsOpen="{x:Bind ViewModel.ShowSponsorPrompt, Mode=OneWay}"
 			Subtitle="{helpers:ResourceString Name=SponsorSubtitle}" />

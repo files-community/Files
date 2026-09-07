@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using WinRT;
 
 namespace Files.App.UserControls.Widgets
 {
@@ -19,6 +20,7 @@ namespace Files.App.UserControls.Widgets
 			InitializeComponent();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Button))]
 		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			if (!e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed ||
@@ -29,6 +31,7 @@ namespace Files.App.UserControls.Widgets
 			await NavigationHelpers.OpenPathInNewTab(path);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Button))]
 		private async void Button_Click(object sender, RoutedEventArgs e)
 		{
 			if (sender is not Button button ||

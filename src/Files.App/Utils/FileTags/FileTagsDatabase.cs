@@ -21,19 +21,23 @@ namespace Files.App.Utils.FileTags
 			if (FileTagsKey is null)
 				return;
 
-			using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, filePath));
-
 			if (tags is [])
 			{
-				SaveValues(filePathKey, null);
+				using var existingFilePathKey = Registry.CurrentUser.OpenSubKey(CombineKeys(FileTagsKey, filePath), writable: true);
+				if (existingFilePathKey is not null)
+					SaveValues(existingFilePathKey, null);
+
 				if (frn is not null)
 				{
-					using var frnKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, "FRN", frn.Value.ToString()));
-					SaveValues(frnKey, null);
+					using var existingFrnKey = Registry.CurrentUser.OpenSubKey(CombineKeys(FileTagsKey, "FRN", frn.Value.ToString()), writable: true);
+					if (existingFrnKey is not null)
+						SaveValues(existingFrnKey, null);
 				}
 
 				return;
 			}
+
+			using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, filePath));
 
 			var newTag = new TaggedFile()
 			{
@@ -57,8 +61,8 @@ namespace Files.App.Utils.FileTags
 
 			if (filePath is not null)
 			{
-				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, filePath));
-				if (filePathKey.ValueCount > 0)
+				using var filePathKey = Registry.CurrentUser.OpenSubKey(CombineKeys(FileTagsKey, filePath), writable: true);
+				if (filePathKey is not null && filePathKey.ValueCount > 0)
 				{
 					var tag = new TaggedFile();
 					BindValues(filePathKey, tag);
@@ -75,8 +79,8 @@ namespace Files.App.Utils.FileTags
 
 			if (frn is not null)
 			{
-				using var frnKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, "FRN", frn.Value.ToString()));
-				if (frnKey.ValueCount > 0)
+				using var frnKey = Registry.CurrentUser.OpenSubKey(CombineKeys(FileTagsKey, "FRN", frn.Value.ToString()), writable: true);
+				if (frnKey is not null && frnKey.ValueCount > 0)
 				{
 					var tag = new TaggedFile();
 					BindValues(frnKey, tag);
@@ -99,8 +103,9 @@ namespace Files.App.Utils.FileTags
 				return;
 
 			var tag = FindTag(oldFilePath, null);
-			using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, oldFilePath));
-			SaveValues(filePathKey, null);
+			using var filePathKey = Registry.CurrentUser.OpenSubKey(CombineKeys(FileTagsKey, oldFilePath), writable: true);
+			if (filePathKey is not null)
+				SaveValues(filePathKey, null);
 
 			if (tag is not null)
 			{
@@ -127,8 +132,9 @@ namespace Files.App.Utils.FileTags
 				return;
 
 			var tag = FindTag(null, oldFrn);
-			using var frnKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, "FRN", oldFrn.ToString()));
-			SaveValues(frnKey, null);
+			using var frnKey = Registry.CurrentUser.OpenSubKey(CombineKeys(FileTagsKey, "FRN", oldFrn.ToString()), writable: true);
+			if (frnKey is not null)
+				SaveValues(frnKey, null);
 
 			if (tag is not null)
 			{
@@ -198,7 +204,7 @@ namespace Files.App.Utils.FileTags
 			if (FileTagsKey is null)
 				return;
 
-			var tags = JsonSerializer.Deserialize<TaggedFile[]>(json);
+			var tags = JsonSerializer.Deserialize(json, AppJsonSerializerContext.Default.TaggedFileArray);
 
 			Registry.CurrentUser.DeleteSubKeyTree(FileTagsKey, false);
 			if (tags is null)
@@ -224,7 +230,7 @@ namespace Files.App.Utils.FileTags
 			if (FileTagsKey is not null)
 				IterateKeys(list, FileTagsKey, 0);
 
-			return JsonSerializer.Serialize(list);
+			return JsonSerializer.Serialize(list, AppJsonSerializerContext.Default.ListTaggedFile);
 		}
 
 		private void IterateKeys(List<TaggedFile> list, string path, int depth)

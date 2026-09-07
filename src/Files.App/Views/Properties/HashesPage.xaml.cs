@@ -6,12 +6,13 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Navigation;
+using WinRT;
 
 namespace Files.App.Views.Properties
 {
 	public sealed partial class HashesPage : BasePropertiesPage
 	{
-		private HashesViewModel HashesViewModel { get; set; }
+		private HashesViewModel? HashesViewModel { get; set; }
 
 		private bool _cancel;
 
@@ -25,11 +26,13 @@ namespace Files.App.Views.Properties
 			var parameter = (PropertiesPageNavigationParameter)e.Parameter;
 
 			if (parameter.Parameter is ListedItem listedItem)
-				HashesViewModel = new(listedItem, parameter.Window.AppWindow);
+				HashesViewModel = new(listedItem,
+					(parameter.Window ?? throw new InvalidOperationException("The properties window has not been initialized.")).AppWindow);
 
 			base.OnNavigatedTo(e);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Button))]
 		private void CopyHashButton_Click(object sender, RoutedEventArgs e)
 		{
 			var item = (HashInfoItem)(((Button)sender).DataContext);
@@ -60,7 +63,7 @@ namespace Files.App.Views.Properties
 
 		public override void Dispose()
 		{
-			HashesViewModel.Dispose();
+			HashesViewModel?.Dispose();
 		}
 	}
 }

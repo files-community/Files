@@ -32,7 +32,7 @@ namespace Files.App.Actions
 
 			try
 			{
-				return WindowsWallpaperService.SetLockScreenWallpaper(selectedItem.ItemPath);
+				return WindowsWallpaperService.SetLockScreenWallpaper(selectedItem.ItemPath!);
 			}
 			catch (Exception ex)
 			{

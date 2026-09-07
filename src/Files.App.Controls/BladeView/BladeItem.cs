@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -35,6 +36,8 @@ namespace Files.App.Controls
 		/// <summary>
 		/// Override default OnApplyTemplate to capture child controls
 		/// </summary>
+		[DynamicWindowsRuntimeCast(typeof(Button))]
+		[DynamicWindowsRuntimeCast(typeof(Border))]
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
@@ -209,6 +212,7 @@ namespace Files.App.Controls
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
 		private List<TextBlock> GetTextBlocksFromVisualTree(DependencyObject parent)
 		{
 			var textBlocks = new List<TextBlock>();
@@ -233,6 +237,7 @@ namespace Files.App.Controls
 			return textBlocks;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void BladeResizer_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			var sidebarResizer = (FrameworkElement)sender;
@@ -241,6 +246,7 @@ namespace Files.App.Controls
 			e.Handled = true;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void BladeResizer_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
 			if (_draggingSidebarResizer)

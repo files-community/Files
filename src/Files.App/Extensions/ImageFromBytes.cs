@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using WinRT;
 
 namespace Files.App.Extensions
 {
@@ -25,6 +26,7 @@ namespace Files.App.Extensions
 				typeof(ImageFromBytes),
 				new PropertyMetadata(null, OnSourceBytesChangedAsync));
 
+		[DynamicWindowsRuntimeCast(typeof(Image))]
 		private static async void OnSourceBytesChangedAsync(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			if (d is Image image)

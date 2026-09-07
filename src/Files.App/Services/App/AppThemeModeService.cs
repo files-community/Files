@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Media;
 using System.Runtime.InteropServices;
 using Windows.UI;
 using Windows.UI.ViewManagement;
+using WinRT;
 
 namespace Files.App.Services
 {
@@ -38,6 +39,7 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public Color DefaultAccentColor
 		{
+			[DynamicWindowsRuntimeCast(typeof(SolidColorBrush))]
 			get => AppThemeMode switch
 			{
 				// these values are from the definition of AccentFillColorDefaultBrush in generic.xaml
@@ -75,6 +77,7 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		public void SetAppThemeMode(Window? window = null, AppWindowTitleBar? titleBar = null, ElementTheme? rootTheme = null, bool callThemeModeChangedEvent = true)
 		{
 			try

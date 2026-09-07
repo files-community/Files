@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Input;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -181,6 +182,7 @@ namespace Files.App.Controls
 		/// <summary>
 		/// The backing <see cref="DependencyProperty"/> for the <see cref="ThemedIcon"/> property.
 		/// </summary>
+		[DynamicWindowsRuntimeCast(typeof(Style))]
 		public static readonly DependencyProperty ThemedIconProperty =
 			DependencyProperty.Register(
 				nameof(ThemedIcon),
@@ -195,6 +197,7 @@ namespace Files.App.Controls
 		/// </summary>
 		public Style ThemedIcon
 		{
+			[DynamicWindowsRuntimeCast(typeof(Style))]
 			get => (Style)GetValue(ThemedIconProperty);
 			set => SetValue(ThemedIconProperty, value);
 		}
@@ -353,6 +356,7 @@ namespace Files.App.Controls
 		/// <summary>
 		/// The backing <see cref="DependencyProperty"/> for the <see cref="Command"/> property.
 		/// </summary>
+		[DynamicWindowsRuntimeCast(typeof(XamlUICommand))]
 		public static readonly DependencyProperty CommandProperty =
 			DependencyProperty.Register(
 				nameof(Command),
@@ -367,6 +371,7 @@ namespace Files.App.Controls
 		/// </summary>
 		public XamlUICommand Command
 		{
+			[DynamicWindowsRuntimeCast(typeof(XamlUICommand))]
 			get => (XamlUICommand)GetValue(CommandProperty);
 			set => SetValue(CommandProperty, value);
 		}

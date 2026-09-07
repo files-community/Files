@@ -8,17 +8,17 @@ namespace Files.App.UserControls.TabBar
 	/// </summary>
 	public interface ITabBar
 	{
-		public event EventHandler<CurrentInstanceChangedEventArgs> CurrentInstanceChanged;
+		public event EventHandler<CurrentInstanceChangedEventArgs>? CurrentInstanceChanged;
 
 		public ObservableCollection<TabBarItem> Items { get; }
 
-		public ITabBarItemContent GetCurrentSelectedTabInstance();
+		public ITabBarItemContent? GetCurrentSelectedTabInstance();
 
-		public List<ITabBarItemContent> GetAllTabInstances();
+		public List<ITabBarItemContent?> GetAllTabInstances();
 
 		public Task ReopenClosedTabAsync();
 
-		public void CloseTab(TabBarItem tabItem);
+		public void CloseTab(TabBarItem? tabItem);
 
 		public void SetLoadingIndicatorStatus(ITabBarItem item, bool loading);
 	}

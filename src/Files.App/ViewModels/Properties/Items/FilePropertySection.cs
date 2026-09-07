@@ -14,13 +14,15 @@ namespace Files.App.ViewModels.Properties
 
 		public Visibility Visibility { get; set; }
 
-		public string Key { get; set; }
+		public string? Key { get; set; }
 
 		public string Title
-			=> Key.GetLocalizedResource();
+			=> (Key ?? throw new InvalidOperationException("The property section key has not been initialized.")).GetLocalizedResource();
 
 		public int Priority
-			=> sectionPriority.TryGetValue(Key, out int priority) ? priority : 0;
+			=> Key is null
+				? throw new InvalidOperationException("The property section key has not been initialized.")
+				: sectionPriority.TryGetValue(Key, out int priority) ? priority : 0;
 
 		/// <summary>
 		/// This list sets the priorities for the sections

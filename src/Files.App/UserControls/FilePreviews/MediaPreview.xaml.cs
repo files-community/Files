@@ -34,6 +34,7 @@ namespace Files.App.UserControls.FilePreviews
 			// The MediaPlayerElement isn't properly disposed by Windows so we set the source to null
 			// to avoid issues the next time the control is used.
 			PlayerContext.Source = null;
+			ViewModel.PreviewControlBase_Unloaded(sender, e);
 
 			PlayerContext.Loaded -= PlayerContext_Loaded;
 			Unloaded -= MediaPreview_Unloaded;
@@ -64,7 +65,7 @@ namespace Files.App.UserControls.FilePreviews
 
 		private void TogglePlaybackAcceleratorInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
 		{
-			TogglePlaybackRequestInvoked(sender, null);
+			TogglePlaybackRequestInvoked(sender, EventArgs.Empty);
 		}
 	}
 }

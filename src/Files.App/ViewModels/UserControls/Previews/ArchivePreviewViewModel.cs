@@ -18,13 +18,20 @@ namespace Files.App.ViewModels.Previews
 		{
 			var details = new List<FileProperty>();
 
-			using SevenZipExtractor zipFile = await FilesystemTasks.Wrap(async () =>
+			var zipResult = await FilesystemTasks.WrapNullable<SevenZipExtractor>(async () =>
 			{
-				var arch = new SevenZipExtractor(await Item.ItemFile.OpenStreamForReadAsync());
+				var arch = new SevenZipExtractor(await PreviewFile.OpenStreamForReadAsync());
 
 				// Force load archive (1665013614u)
-				return arch?.ArchiveFileData is null ? null : arch;
+				if (arch.ArchiveFileData is null)
+				{
+					arch.Dispose();
+					return null;
+				}
+
+				return arch;
 			});
+			using var zipFile = zipResult.Result;
 
 			if (zipFile is null)
 			{

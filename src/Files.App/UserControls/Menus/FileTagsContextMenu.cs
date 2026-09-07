@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
+using WinRT;
 using static Files.App.Helpers.MenuFlyoutHelper;
 
 namespace Files.App.UserControls.Menus
@@ -12,7 +13,7 @@ namespace Files.App.UserControls.Menus
 	public sealed partial class FileTagsContextMenu : MenuFlyout
 	{
 		private IFileTagsSettingsService FileTagsSettingsService { get; } =
-			Ioc.Default.GetService<IFileTagsSettingsService>();
+			Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 		/// <summary>
 		/// Event fired when an item's tags are updated (added/removed).
@@ -43,6 +44,7 @@ namespace Files.App.UserControls.Menus
 			Init();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Geometry))]
 		private void Init()
 		{
 			IEnumerable<IMenuFlyoutItemViewModel> tagItems = FileTagsSettingsService.FileTagList
@@ -91,6 +93,7 @@ namespace Files.App.UserControls.Menus
 				item.IsChecked = false;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ToggleMenuFlyoutItem))]
 		private void TagItem_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
 		{
 			var tagItem = (ToggleMenuFlyoutItem)sender;
@@ -104,6 +107,7 @@ namespace Files.App.UserControls.Menus
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ToggleMenuFlyoutItem))]
 		private void Item_Opening(object? sender, object e)
 		{
 			// Update SelectedItems if using dynamic provider

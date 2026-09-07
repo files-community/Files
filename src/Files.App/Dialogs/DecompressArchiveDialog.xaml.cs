@@ -4,17 +4,21 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Text;
+using WinRT;
 
 namespace Files.App.Dialogs
 {
 	public sealed partial class DecompressArchiveDialog : ContentDialog
 	{
 		private FrameworkElement RootAppElement
-			=> (FrameworkElement)MainWindow.Instance.Content;
-
-		public DecompressArchiveDialogViewModel ViewModel
 		{
-			get => (DecompressArchiveDialogViewModel)DataContext;
+			[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+			get => (FrameworkElement)MainWindow.Instance.Content;
+		}
+
+		public DecompressArchiveDialogViewModel? ViewModel
+		{
+			get => DataContext as DecompressArchiveDialogViewModel;
 			set => DataContext = value;
 		}
 
@@ -25,7 +29,7 @@ namespace Files.App.Dialogs
 
 		private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
 		{
-			if (ViewModel.IsArchiveEncrypted)
+			if (ViewModel is { IsArchiveEncrypted: true })
 				ViewModel.PrimaryButtonClickCommand.Execute(new DisposableArray(Encoding.UTF8.GetBytes(Password.Password)));
 		}
 
@@ -33,7 +37,7 @@ namespace Files.App.Dialogs
 		{
 			if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
 			{
-				ViewModel.UpdateSuggestions(sender.Text);
+				ViewModel?.UpdateSuggestions(sender.Text);
 			}
 		}
 	}

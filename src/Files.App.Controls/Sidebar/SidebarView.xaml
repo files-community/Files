@@ -4,11 +4,26 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="using:Files.App.Controls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	HorizontalAlignment="Stretch"
 	Loaded="SidebarView_Loaded"
 	TabFocusNavigation="Local"
 	mc:Ignorable="d">
+
+	<UserControl.Resources>
+		<DataTemplate
+			x:Key="DefaultSidebarItemTemplate"
+			x:DataType="local:FlatSidebarItem">
+			<local:SidebarItem
+				ContentOpacity="{x:Bind RowOpacity}"
+				DataContext="{x:Bind}"
+				Item="{x:Bind Item}"
+				Margin="{x:Bind SectionGapMargin, Mode=OneWay}"
+				NestingLevel="{x:Bind Depth}"
+				UseItemPresentation="True" />
+		</DataTemplate>
+	</UserControl.Resources>
 
 	<Grid>
 		<Grid.ColumnDefinitions>
@@ -134,9 +149,7 @@
 			ManipulationStarted="SidebarResizer_ManipulationStarted"
 			PointerCanceled="SidebarResizer_PointerExited"
 			PointerEntered="SidebarResizer_PointerEntered"
-			PointerExited="SidebarResizer_PointerExited"
-			RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}"
-			Visibility="{Binding ElementName=PaneRoot, Path=Visibility, Mode=OneWay}">
+			PointerExited="SidebarResizer_PointerExited">
 			<UserControl
 				x:Name="SidebarResizerControl"
 				IsTabStop="True"

@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Net.Http;
 using System.Text;
-using System.Xml.Serialization;
+using System.Xml.Linq;
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;
 using Windows.Storage;
@@ -89,21 +89,25 @@ namespace Files.App.Services
 
 				await using var stream = await _client.GetStreamAsync(_sideloadVersion[PackageName]);
 
-				// Deserialize AppInstaller.
-				XmlSerializer xml = new XmlSerializer(typeof(AppInstaller));
-				var appInstaller = (AppInstaller?)xml.Deserialize(stream);
+				var appInstaller = await XDocument.LoadAsync(stream, LoadOptions.None, default);
+				var root = appInstaller.Root;
+				var mainBundle = root?.Element(root.Name.Namespace + "MainBundle");
+				var remotePackageName = mainBundle?.Attribute("Name")?.Value;
+				var remoteVersionText = root?.Attribute("Version")?.Value;
+				if (string.IsNullOrWhiteSpace(remotePackageName) || string.IsNullOrWhiteSpace(remoteVersionText))
+				{
+					throw new InvalidDataException("The app installer manifest does not identify a package and version.");
+				}
 
-				ArgumentNullException.ThrowIfNull(appInstaller);
-
-				var remoteVersion = new Version(appInstaller.Version);
+				var remoteVersion = new Version(remoteVersionText);
 
 				Logger?.LogInformation($"SIDELOAD: Current Package Name: {PackageName}");
-				Logger?.LogInformation($"SIDELOAD: Remote Package Name: {appInstaller.MainBundle.Name}");
+				Logger?.LogInformation($"SIDELOAD: Remote Package Name: {remotePackageName}");
 				Logger?.LogInformation($"SIDELOAD: Current Version: {PackageVersion}");
 				Logger?.LogInformation($"SIDELOAD: Remote Version: {remoteVersion}");
 
 				// Check details and version number
-				if (appInstaller.MainBundle.Name.Equals(PackageName) && remoteVersion.CompareTo(PackageVersion) > 0)
+				if (remotePackageName.Equals(PackageName) && remoteVersion.CompareTo(PackageVersion) > 0)
 				{
 					Logger?.LogInformation("SIDELOAD: Update found.");
 					MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
@@ -246,33 +250,5 @@ namespace Files.App.Services
 		{
 			_client?.Dispose();
 		}
-	}
-
-	/// <summary>
-	/// AppInstaller class to hold information about remote updates.
-	/// </summary>
-	[XmlRoot(ElementName = "AppInstaller", Namespace = "http://schemas.microsoft.com/appx/appinstaller/2018")]
-	public sealed class AppInstaller
-	{
-		[XmlElement("MainBundle")]
-		public MainBundle MainBundle { get; set; }
-
-		[XmlAttribute("Uri")]
-		public string Uri { get; set; }
-
-		[XmlAttribute("Version")]
-		public string Version { get; set; }
-	}
-
-	public sealed class MainBundle
-	{
-		[XmlAttribute("Name")]
-		public string Name { get; set; }
-
-		[XmlAttribute("Version")]
-		public string Version { get; set; }
-
-		[XmlAttribute("Uri")]
-		public string Uri { get; set; }
 	}
 }

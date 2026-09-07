@@ -12,7 +12,7 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.DeleteItemDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
-		public ActionCategory Category
+		public override ActionCategory Category
 			=> ActionCategory.FileSystem;
 
 		public RichGlyph Glyph

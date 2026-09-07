@@ -94,7 +94,9 @@ namespace Files.App.Utils.Storage
 				RequestedTheme = AppThemeModeService.AppThemeMode
 			};
 
-			if (!WindowCache.TryTake(out var propertiesWindow))
+			// A cached window may have been destroyed without a cancellable close, e.g. by
+			// an aborted session end; its AppWindow property returns null, so discard it
+			if (!WindowCache.TryTake(out var propertiesWindow) || propertiesWindow.AppWindow is null)
 			{
 				propertiesWindow = new(460, 550);
 				propertiesWindow.Closed += PropertiesWindow_Closed;
@@ -121,27 +123,34 @@ namespace Files.App.Utils.Storage
 				typeof(MainPropertiesPage),
 				new PropertiesPageNavigationParameter
 				{
+					CancellationTokenSource = new(),
 					Parameter = item,
 					AppInstance = associatedInstance,
 					Window = propertiesWindow
 				},
 				new SuppressNavigationTransitionInfo());
 
-			// WINUI3: Move window to cursor position
-			PInvoke.GetCursorPos(out var pointerPosition);
-			var displayArea = DisplayArea.GetFromPoint(new PointInt32(pointerPosition.X, pointerPosition.Y), DisplayAreaFallback.Nearest);
-			var appWindowPos = new PointInt32
-			{
-				X = displayArea.WorkArea.X
-					+ Math.Max(0, Math.Min(displayArea.WorkArea.Width - appWindow.Size.Width, pointerPosition.X - displayArea.WorkArea.X)),
-				Y = displayArea.WorkArea.Y
-					+ Math.Max(0, Math.Min(displayArea.WorkArea.Height - appWindow.Size.Height, pointerPosition.Y - displayArea.WorkArea.Y)),
-			};
-
 			if (App.AppModel.IncrementPropertiesWindowCount() == 1)
 				PropertiesWindowsClosingTCS = new();
 
-			appWindow.Move(appWindowPos);
+			// WINUI3: Move window to cursor position
+			PInvoke.GetCursorPos(out var pointerPosition);
+
+			// Null when no display is available, e.g. while monitors are detached
+			var displayArea = DisplayArea.GetFromPoint(new PointInt32(pointerPosition.X, pointerPosition.Y), DisplayAreaFallback.Nearest);
+			if (displayArea is not null)
+			{
+				var appWindowPos = new PointInt32
+				{
+					X = displayArea.WorkArea.X
+						+ Math.Max(0, Math.Min(displayArea.WorkArea.Width - appWindow.Size.Width, pointerPosition.X - displayArea.WorkArea.X)),
+					Y = displayArea.WorkArea.Y
+						+ Math.Max(0, Math.Min(displayArea.WorkArea.Height - appWindow.Size.Height, pointerPosition.Y - displayArea.WorkArea.Y)),
+				};
+
+				appWindow.Move(appWindowPos);
+			}
+
 			appWindow.Show();
 
 			(frame.Content as MainPropertiesPage)?.TryNavigateToPage(defaultPage);
@@ -158,15 +167,13 @@ namespace Files.App.Utils.Storage
 				window.AppWindow.Hide();
 				window.Content = null;
 				WindowCache.Add(window);
-
-				if (App.AppModel.DecrementPropertiesWindowCount() == 0)
-				{
-					PropertiesWindowsClosingTCS!.TrySetResult();
-					PropertiesWindowsClosingTCS = null;
-				}
 			}
-			else
-				App.AppModel.DecrementPropertiesWindowCount();
+
+			if (App.AppModel.DecrementPropertiesWindowCount() == 0)
+			{
+				PropertiesWindowsClosingTCS?.TrySetResult();
+				PropertiesWindowsClosingTCS = null;
+			}
 		}
 
 		/// <summary>

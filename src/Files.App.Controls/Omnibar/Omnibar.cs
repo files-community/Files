@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media.Animation;
 using Windows.Foundation;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -40,6 +41,9 @@ namespace Files.App.Controls
 		public event TypedEventHandler<Omnibar, OmnibarModeChangedEventArgs>? ModeChanged;
 		public event TypedEventHandler<Omnibar, OmnibarIsFocusedChangedEventArgs>? IsFocusedChanged;
 
+		// Raised when the window reactivates and restores focus to the TextBox; the host moves focus elsewhere so the omnibar doesn't get stuck in edit mode
+		public event TypedEventHandler<Omnibar, System.EventArgs>? FocusRedirectRequested;
+
 		// Constructor
 
 		public Omnibar()
@@ -54,6 +58,11 @@ namespace Files.App.Controls
 
 		// Methods
 
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
+		[DynamicWindowsRuntimeCast(typeof(Grid))]
+		[DynamicWindowsRuntimeCast(typeof(Popup))]
+		[DynamicWindowsRuntimeCast(typeof(Border))]
+		[DynamicWindowsRuntimeCast(typeof(ListView))]
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
@@ -115,6 +124,7 @@ namespace Files.App.Controls
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		protected void ChangeMode(OmnibarMode? oldMode, OmnibarMode newMode)
 		{
 			if (_modesHostGrid is null || Modes is null || CurrentSelectedMode is null)
@@ -275,7 +285,7 @@ namespace Files.App.Controls
 			return obj is string text
 				? text
 				: obj is IOmnibarTextMemberPathProvider textMemberPathProvider
-					? textMemberPathProvider.GetTextMemberPath(CurrentSelectedMode.TextMemberPath ?? string.Empty)
+					? textMemberPathProvider.GetTextMemberPath(CurrentSelectedMode.TextMemberPath ?? string.Empty) ?? string.Empty
 					: obj.ToString() ?? string.Empty;
 		}
 

@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Windows.Input;
+using WinRT;
 
 namespace Files.App.Helpers
 {
@@ -18,11 +19,11 @@ namespace Files.App.Helpers
 		{
 			public string Text { get; init; }
 
-			public ICommand Command { get; init; }
+			public ICommand? Command { get; init; }
 
-			public object CommandParameter { get; init; }
+			public object? CommandParameter { get; init; }
 
-			public string Tooltip { get; init; }
+			public string? Tooltip { get; init; }
 
 			public bool IsEnabled { get; set; } = true;
 
@@ -50,13 +51,18 @@ namespace Files.App.Helpers
 				=> Build = factoryFunc;
 		}
 
-		public static IEnumerable<IMenuFlyoutItemViewModel> GetItemsSource(DependencyObject obj) => obj.GetValue(ItemsSourceProperty) as IEnumerable<IMenuFlyoutItemViewModel>;
+		public static IEnumerable<IMenuFlyoutItemViewModel>? GetItemsSource(DependencyObject obj) => obj.GetValue(ItemsSourceProperty) as IEnumerable<IMenuFlyoutItemViewModel>;
 
 		public static void SetItemsSource(DependencyObject obj, IEnumerable<IMenuFlyoutItemViewModel> value) => obj.SetValue(ItemsSourceProperty, value);
 
 		public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.RegisterAttached("ItemsSource", typeof(IEnumerable<IMenuFlyoutItemViewModel>), typeof(MenuFlyoutHelper), new PropertyMetadata(null, ItemsSourceChanged));
 
-		private static void ItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => _ = SetupItemsAsync(d as MenuFlyout);
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyout))]
+		private static void ItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (d is MenuFlyout menu)
+				_ = SetupItemsAsync(menu);
+		}
 
 		public static bool GetIsVisible(DependencyObject d) => (bool)d.GetValue(IsVisibleProperty);
 
@@ -64,6 +70,7 @@ namespace Files.App.Helpers
 
 		public static readonly DependencyProperty IsVisibleProperty = DependencyProperty.RegisterAttached("IsVisible", typeof(bool), typeof(MenuFlyoutHelper), new PropertyMetadata(false, OnIsVisiblePropertyChanged));
 
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyout))]
 		private static void OnIsVisiblePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			if (d is not MenuFlyout flyout)

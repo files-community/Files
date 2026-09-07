@@ -1,5 +1,5 @@
 // Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Graphics.Canvas.Text;
@@ -42,7 +42,7 @@ namespace Files.App.Utils.Storage
 			}
 			catch (Exception ex)
 			{			
-				App.Logger.LogError(ex, $"Exception while getting WinRT thumbnail for {fontPath}.");
+				App.Logger.LogError(ex, $"Exception while getting WinRT thumbnail for {LogPathHelper.RedactPath(fontPath)}.");
 				return null;
 			}
 			finally
@@ -91,7 +91,7 @@ namespace Files.App.Utils.Storage
 			}
 			catch (Exception ex)
 			{
-				App.Logger.LogError(ex, $"Exception while generating font thumbnail for {fontPath}.");
+				App.Logger.LogError(ex, $"Exception while generating font thumbnail for {LogPathHelper.RedactPath(fontPath)}.");
 				return null;
 			}
 		}

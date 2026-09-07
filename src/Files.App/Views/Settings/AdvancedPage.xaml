@@ -6,7 +6,6 @@
 	xmlns:converters="using:CommunityToolkit.WinUI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
 	xmlns:wctcontrols="using:CommunityToolkit.WinUI.Controls"
@@ -93,13 +92,8 @@
 					<ToggleSwitch
 						AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenInLogin}"
 						IsEnabled="{x:Bind ViewModel.CanOpenOnWindowsStartup, Mode=OneWay}"
-						IsOn="{x:Bind ViewModel.OpenOnWindowsStartup, Mode=TwoWay}">
-						<i:Interaction.Behaviors>
-							<i:EventTriggerBehavior EventName="Toggled">
-								<i:InvokeCommandAction Command="{x:Bind ViewModel.OpenFilesOnWindowsStartupCommand, Mode=OneWay}" />
-							</i:EventTriggerBehavior>
-						</i:Interaction.Behaviors>
-					</ToggleSwitch>
+						IsOn="{x:Bind ViewModel.OpenOnWindowsStartup, Mode=TwoWay}"
+						Toggled="OpenFilesOnWindowsStartup_Toggled" />
 				</wctcontrols:SettingsCard>
 			</StackPanel>
 
@@ -134,13 +128,10 @@
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xEC50;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
-				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}" IsOn="{x:Bind ViewModel.IsSetAsDefaultFileManager, Mode=TwoWay}">
-					<i:Interaction.Behaviors>
-						<i:EventTriggerBehavior EventName="Toggled">
-							<i:InvokeCommandAction Command="{x:Bind ViewModel.SetAsDefaultExplorerCommand, Mode=OneWay}" />
-						</i:EventTriggerBehavior>
-					</i:Interaction.Behaviors>
-				</ToggleSwitch>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}"
+					IsOn="{x:Bind ViewModel.IsSetAsDefaultFileManager, Mode=TwoWay}"
+					Toggled="SetAsDefaultExplorer_Toggled" />
 			</wctcontrols:SettingsCard>
 
 			<!--  Replace Open File Dialog  -->
@@ -151,13 +142,10 @@
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE8E5;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
-				<ToggleSwitch IsEnabled="{x:Bind ViewModel.IsSetAsDefaultFileManager, Mode=OneWay}" IsOn="{x:Bind ViewModel.IsSetAsOpenFileDialog, Mode=TwoWay}">
-					<i:Interaction.Behaviors>
-						<i:EventTriggerBehavior EventName="Toggled">
-							<i:InvokeCommandAction Command="{x:Bind ViewModel.SetAsOpenFileDialogCommand, Mode=OneWay}" />
-						</i:EventTriggerBehavior>
-					</i:Interaction.Behaviors>
-				</ToggleSwitch>
+				<ToggleSwitch
+					IsEnabled="{x:Bind ViewModel.IsSetAsDefaultFileManager, Mode=OneWay}"
+					IsOn="{x:Bind ViewModel.IsSetAsOpenFileDialog, Mode=TwoWay}"
+					Toggled="SetAsOpenFileDialog_Toggled" />
 			</wctcontrols:SettingsCard>
 
 			<!--  Thumbnail Caching  -->

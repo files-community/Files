@@ -7,6 +7,8 @@ namespace Files.App.Data.Contexts
 	{
 		bool IsCompactOverlay { get; }
 
+		bool IsFullScreen { get; }
+
 		/// <inheritdoc cref="IWindowsSecurityService.IsAppElevated"/>
 		bool IsRunningAsAdmin { get; }
 

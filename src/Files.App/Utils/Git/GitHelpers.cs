@@ -6,6 +6,7 @@ using Files.App.Services.Git;
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
 using Sentry;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
@@ -19,7 +20,7 @@ namespace Files.App.Utils.Git
 		private static LibGit2Service _implementation = Ioc.Default.GetRequiredService<LibGit2Service>(); // TODO: Replace with IVersionControl abstraction when it is complete
 
 		/// <inheritdoc cref="IVersionControlService.GetGitRepositoryPath(string?,string)"/>
-		public static string? GetGitRepositoryPath(string? path, string root) => _implementation.GetGitRepositoryPath(path, root);
+		public static string? GetGitRepositoryPath(string? path, string? root) => _implementation.GetGitRepositoryPath(path, root);
 
 		/// <inheritdoc cref="IVersionControlService.GetOriginRepositoryName(string?)"/>
 		public static string GetOriginRepositoryName(string? path) => _implementation.GetOriginRepositoryName(path);
@@ -29,6 +30,9 @@ namespace Files.App.Utils.Git
 
 		/// <inheritdoc cref="IVersionControlService.GetRepositoryHead(string?)"/>
 		public static Task<BranchItem?> GetRepositoryHead(string? path) => _implementation.GetRepositoryHead(path);
+
+		/// <inheritdoc cref="IVersionControlService.GetRepositoryHeadName(string?)"/>
+		public static Task<string?> GetRepositoryHeadName(string? path) => _implementation.GetRepositoryHeadName(path);
 
 		/// <inheritdoc cref="IVersionControlService.Checkout(string?, string?)"/>
 		public static Task<bool> Checkout(string? repositoryPath, string? branch) => _implementation.Checkout(repositoryPath, branch);
@@ -42,8 +46,9 @@ namespace Files.App.Utils.Git
 		/// <inheritdoc cref="IVersionControlService.ValidateBranchNameForRepository(string, string)"/>
 		public static bool ValidateBranchNameForRepository(string branchName, string repositoryPath) => _implementation.ValidateBranchNameForRepository(branchName, repositoryPath);
 
-		/// <inheritdoc cref="IVersionControlService.FetchOrigin(string?, CancellationToken)"/>
-		public static async void FetchOrigin(string? repositoryPath, CancellationToken cancellationToken = default) => _implementation.FetchOrigin(repositoryPath, cancellationToken);
+		/// <inheritdoc cref="IVersionControlService.FetchOriginAsync(string?, bool, CancellationToken)"/>
+		public static Task FetchOriginAsync(string? repositoryPath, bool reportProgress = false, CancellationToken cancellationToken = default)
+			=> _implementation.FetchOriginAsync(repositoryPath, reportProgress, cancellationToken);
 
 		/// <inheritdoc cref="IVersionControlService.IsExecutingGitAction"/>
 		public static bool IsExecutingGitAction => _implementation.IsExecutingGitAction;
@@ -63,9 +68,6 @@ namespace Files.App.Utils.Git
 		}
 
 		#region Legacy implementation
-
-		// Property already moved into abstraction
-		private static readonly StatusCenterViewModel StatusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		// Constant already moved into abstraction
 		private const string GIT_RESOURCE_NAME = "Files:https://github.com";
@@ -89,15 +91,6 @@ namespace Files.App.Utils.Git
 		private static readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
 		// Property already moved into abstraction
-		private static readonly FetchOptions _fetchOptions = new()
-		{
-			Prune = true
-		};
-
-		// Property already moved into abstraction
-		private static readonly PullOptions _pullOptions = new();
-
-		// Property already moved into abstraction
 		private static readonly string _clientId = AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev
 				? string.Empty
 				: CLIENT_ID_SECRET;
@@ -110,68 +103,24 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrWhiteSpace(repositoryPath))
 				return;
 
-			using var repository = new Repository(repositoryPath);
-			var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
-			if (signature is null)
-				return;
+			var statusOperation = new GitStatusCenterOperation(
+				GitStatusCenterOperationKind.Pull,
+				repositoryPath,
+				canProvideProgress: true);
+			var result = GitOperationResult.GenericError;
 
-			var token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
-			if (!string.IsNullOrWhiteSpace(token))
+			SetGitActionExecutionState(true);
+			try
 			{
-				_pullOptions.FetchOptions ??= _fetchOptions;
-				_pullOptions.FetchOptions.CredentialsProvider = (url, user, cred)
-					=> new UsernamePasswordCredentials
-					{
-						Username = signature.Name,
-						Password = token
-					};
+				var operationResult = await PullOriginCoreAsync(repositoryPath, statusOperation, 0, 100);
+				result = operationResult.Result;
+				await HandlePullResultAsync(operationResult.Result, operationResult.Message);
 			}
-
-			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+			finally
 			{
-				_implementation.IsExecutingGitAction = true;
-			});
-
-			var result = await DoGitOperationAsync<GitOperationResult>(() =>
-			{
-				try
-				{
-					LibGit2Sharp.Commands.Pull(
-						repository,
-						signature,
-						_pullOptions);
-				}
-				catch (Exception ex)
-				{
-					return IsAuthorizationException(ex)
-						? GitOperationResult.AuthorizationError
-						: GitOperationResult.GenericError;
-				}
-
-				return GitOperationResult.Success;
-			});
-
-			if (result is GitOperationResult.AuthorizationError)
-			{
-				await RequireGitAuthenticationAsync();
+				statusOperation.Complete(ToReturnResult(result));
+				SetGitActionExecutionState(false);
 			}
-			else if (result is GitOperationResult.GenericError)
-			{
-				var viewModel = new DynamicDialogViewModel()
-				{
-					TitleText = Strings.GitError.GetLocalizedResource(),
-					SubtitleText = Strings.PullTimeoutError.GetLocalizedResource(),
-					CloseButtonText = Strings.Close.GetLocalizedResource(),
-					DynamicButtons = DynamicDialogButtons.Cancel
-				};
-				var dialog = new DynamicDialog(viewModel);
-				await dialog.TryShowAsync();
-			}
-
-			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
-			{
-				_implementation.IsExecutingGitAction = false;
-			});
 		}
 
 		public static async Task PushToOriginAsync(string? repositoryPath, string? branchName)
@@ -179,36 +128,203 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrWhiteSpace(repositoryPath) || string.IsNullOrWhiteSpace(branchName))
 				return;
 
-			using var repository = new Repository(repositoryPath);
-			var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
-			if (signature is null)
-				return;
+			var statusOperation = new GitStatusCenterOperation(
+				GitStatusCenterOperationKind.Push,
+				repositoryPath,
+				canProvideProgress: true);
+			var result = GitOperationResult.GenericError;
 
-			var token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
-			if (string.IsNullOrWhiteSpace(token))
-			{
-				await RequireGitAuthenticationAsync();
-				token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
-			}
-
-			var options = new PushOptions()
-			{
-				CredentialsProvider = (url, user, cred)
-					=> new UsernamePasswordCredentials
-					{
-						Username = signature.Name,
-						Password = token
-					}
-			};
-
-			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
-			{
-				_implementation.IsExecutingGitAction = true;
-			});
-
+			SetGitActionExecutionState(true);
 			try
 			{
+				result = await PushToOriginCoreAsync(repositoryPath, branchName, statusOperation, 0, 100);
+				if (result is GitOperationResult.AuthorizationError)
+					await RequireGitAuthenticationAsync();
+			}
+			finally
+			{
+				statusOperation.Complete(ToReturnResult(result));
+				SetGitActionExecutionState(false);
+			}
+		}
+
+		public static async Task SyncOriginAsync(string? repositoryPath, string? branchName)
+		{
+			if (string.IsNullOrWhiteSpace(repositoryPath) || string.IsNullOrWhiteSpace(branchName))
+				return;
+
+			var statusOperation = new GitStatusCenterOperation(
+				GitStatusCenterOperationKind.Sync,
+				repositoryPath,
+				canProvideProgress: true);
+			var result = GitOperationResult.GenericError;
+
+			SetGitActionExecutionState(true);
+			try
+			{
+				var pullResult = await PullOriginCoreAsync(repositoryPath, statusOperation, 0, 50);
+				result = pullResult.Result;
+				await HandlePullResultAsync(pullResult.Result, pullResult.Message);
+
+				if (pullResult.Result is GitOperationResult.Success)
+				{
+					result = await PushToOriginCoreAsync(repositoryPath, branchName, statusOperation, 50, 100);
+					if (result is GitOperationResult.AuthorizationError)
+						await RequireGitAuthenticationAsync();
+				}
+			}
+			finally
+			{
+				statusOperation.Complete(ToReturnResult(result));
+				SetGitActionExecutionState(false);
+			}
+		}
+
+		private static async Task<(GitOperationResult Result, string? Message)> PullOriginCoreAsync(
+			string repositoryPath,
+			GitStatusCenterOperation statusOperation,
+			double startPercentage,
+			double endPercentage)
+		{
+			try
+			{
+				using var repository = new Repository(repositoryPath);
+				var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
+				if (signature is null)
+					return (GitOperationResult.GenericError, null);
+
+				var fetchEndPercentage = startPercentage + (endPercentage - startPercentage) * 0.8;
+				var fetchOptions = new FetchOptions
+				{
+					Prune = true,
+					OnTransferProgress = progress =>
+					{
+						statusOperation.ReportProgress(
+							progress.ReceivedObjects,
+							progress.TotalObjects,
+							startPercentage: startPercentage,
+							endPercentage: fetchEndPercentage);
+						return true;
+					},
+				};
+
+				var token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
+				if (!string.IsNullOrWhiteSpace(token))
+				{
+					fetchOptions.CredentialsProvider = (url, user, cred)
+						=> new UsernamePasswordCredentials
+						{
+							Username = signature.Name,
+							Password = token
+						};
+				}
+
+				var pullOptions = new PullOptions
+				{
+					FetchOptions = fetchOptions,
+					MergeOptions = new MergeOptions
+					{
+						OnCheckoutProgress = (path, completed, total) => statusOperation.ReportProgress(
+							completed,
+							total,
+							path,
+							fetchEndPercentage,
+							endPercentage),
+					},
+				};
+
+				return await DoGitOperationAsync<(GitOperationResult, string?)>(() =>
+				{
+					try
+					{
+						LibGit2Sharp.Commands.Pull(repository, signature, pullOptions);
+					}
+					catch (CheckoutConflictException ex)
+					{
+						return (GitOperationResult.UncommittedChangesError, ex.Message);
+					}
+					catch (Exception ex)
+					{
+						return IsAuthorizationException(ex)
+							? (GitOperationResult.AuthorizationError, ex.Message)
+							: (GitOperationResult.GenericError, ex.Message);
+					}
+
+					return (GitOperationResult.Success, (string?)null);
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.LogWarning(ex.Message);
+				return IsAuthorizationException(ex)
+					? (GitOperationResult.AuthorizationError, ex.Message)
+					: (GitOperationResult.GenericError, ex.Message);
+			}
+		}
+
+		private static async Task<GitOperationResult> PushToOriginCoreAsync(
+			string repositoryPath,
+			string branchName,
+			GitStatusCenterOperation statusOperation,
+			double startPercentage,
+			double endPercentage)
+		{
+			try
+			{
+				using var repository = new Repository(repositoryPath);
+				var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
+				if (signature is null)
+					return GitOperationResult.GenericError;
+
+				var token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
+				if (string.IsNullOrWhiteSpace(token))
+				{
+					await RequireGitAuthenticationAsync();
+					token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
+				}
+
+				var progressRange = endPercentage - startPercentage;
+				var deltafyingStartPercentage = startPercentage + progressRange * 0.25;
+				var transferStartPercentage = startPercentage + progressRange * 0.5;
+				var options = new PushOptions
+				{
+					CredentialsProvider = (url, user, cred)
+						=> new UsernamePasswordCredentials
+						{
+							Username = signature.Name,
+							Password = token
+						},
+					OnPackBuilderProgress = (stage, completed, total) =>
+					{
+						var stageStartPercentage = stage is LibGit2Sharp.Handlers.PackBuilderStage.Counting
+							? startPercentage
+							: deltafyingStartPercentage;
+						var stageEndPercentage = stage is LibGit2Sharp.Handlers.PackBuilderStage.Counting
+							? deltafyingStartPercentage
+							: transferStartPercentage;
+
+						statusOperation.ReportProgress(
+							completed,
+							total,
+							startPercentage: stageStartPercentage,
+							endPercentage: stageEndPercentage);
+						return true;
+					},
+					OnPushTransferProgress = (completed, total, bytes) =>
+					{
+						statusOperation.ReportProgress(
+							completed,
+							total,
+							startPercentage: transferStartPercentage,
+							endPercentage: endPercentage);
+						return true;
+					},
+				};
+
 				var branch = repository.Branches[branchName];
+				if (branch is null)
+					return GitOperationResult.GenericError;
+
 				if (!branch.IsTracking)
 				{
 					var origin = repository.Network.Remotes["origin"];
@@ -218,7 +334,7 @@ namespace Files.App.Utils.Git
 						b => b.UpstreamBranch = branch.CanonicalName);
 				}
 
-				var result = await DoGitOperationAsync<GitOperationResult>(() =>
+				return await DoGitOperationAsync<GitOperationResult>(() =>
 				{
 					try
 					{
@@ -233,18 +349,50 @@ namespace Files.App.Utils.Git
 
 					return GitOperationResult.Success;
 				});
-
-				if (result is GitOperationResult.AuthorizationError)
-					await RequireGitAuthenticationAsync();
 			}
 			catch (Exception ex)
 			{
 				_logger.LogWarning(ex.Message);
+				return IsAuthorizationException(ex)
+					? GitOperationResult.AuthorizationError
+					: GitOperationResult.GenericError;
 			}
+		}
 
+		private static async Task HandlePullResultAsync(GitOperationResult result, string? message)
+		{
+			if (result is GitOperationResult.AuthorizationError)
+			{
+				await RequireGitAuthenticationAsync();
+			}
+			else if (result is GitOperationResult.GenericError or GitOperationResult.UncommittedChangesError)
+			{
+				var viewModel = new DynamicDialogViewModel()
+				{
+					TitleText = Strings.GitError.GetLocalizedResource(),
+					SubtitleText = result is GitOperationResult.UncommittedChangesError
+						? Strings.PullUncommittedChangesError.GetLocalizedResource()
+						: message,
+					CloseButtonText = Strings.Close.GetLocalizedResource(),
+					DynamicButtons = DynamicDialogButtons.Cancel
+				};
+				var dialog = new DynamicDialog(viewModel);
+				await dialog.TryShowAsync();
+			}
+		}
+
+		private static ReturnResult ToReturnResult(GitOperationResult result)
+		{
+			return result is GitOperationResult.Success
+				? ReturnResult.Success
+				: ReturnResult.Failed;
+		}
+
+		private static void SetGitActionExecutionState(bool isExecuting)
+		{
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
-				_implementation.IsExecutingGitAction = false;
+				_implementation.IsExecutingGitAction = isExecuting;
 			});
 		}
 
@@ -268,7 +416,8 @@ namespace Files.App.Utils.Git
 					return;
 				}
 
-				codeJsonContent = await codeResponse.Content.ReadFromJsonAsync<JsonDocument>();
+				await using var codeStream = await codeResponse.Content.ReadAsStreamAsync();
+				codeJsonContent = await JsonDocument.ParseAsync(codeStream);
 				if (codeJsonContent is null)
 				{
 					await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
@@ -308,7 +457,8 @@ namespace Files.App.Utils.Git
 						break;
 					}
 
-					var loginJsonContent = await loginResponse.Content.ReadFromJsonAsync<JsonDocument>();
+					await using var loginStream = await loginResponse.Content.ReadAsStreamAsync();
+					using var loginJsonContent = await JsonDocument.ParseAsync(loginStream);
 					if (loginJsonContent is null)
 					{
 						dialog.Hide();
@@ -352,7 +502,7 @@ namespace Files.App.Utils.Git
 			await loginDialogTask;
 		}
 
-		public static bool IsRepositoryEx(string path, out string repoRootPath)
+		public static bool IsRepositoryEx([NotNullWhen(true)] string? path, [NotNullWhen(true)] out string? repoRootPath)
 		{
 			repoRootPath = path;
 
@@ -376,7 +526,9 @@ namespace Files.App.Utils.Git
 		public static GitItemModel GetGitInformationForItem(Repository repository, string path, bool getStatus = true, bool getCommit = true)
 		{
 			var rootRepoPath = repository.Info.WorkingDirectory;
-			var relativePath = path.Substring(rootRepoPath.Length).Replace('\\', '/');
+			var relativePath = SystemIO.Path.GetRelativePath(rootRepoPath, path).Replace('\\', '/');
+			if (relativePath == ".")
+				relativePath = string.Empty;
 
 			Commit? commit = null;
 			if (getCommit)
@@ -390,10 +542,17 @@ namespace Files.App.Utils.Git
 			if (getStatus)
 			{
 				changeKind = ChangeKind.Unmodified;
-				//foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>())
-				foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>(repository.Commits.FirstOrDefault()?.Tree, DiffTargets.Index | DiffTargets.WorkingDirectory))
+				string[]? pathsToCompare = relativePath.Length == 0 ? null : [relativePath];
+				foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>(
+					repository.Commits.FirstOrDefault()?.Tree,
+					DiffTargets.Index | DiffTargets.WorkingDirectory,
+					pathsToCompare))
 				{
-					if (c.Path.StartsWith(relativePath))
+					if (relativePath.Length == 0 ||
+						c.Path.Equals(relativePath, StringComparison.Ordinal) ||
+						(c.Path.Length > relativePath.Length &&
+						c.Path.StartsWith(relativePath, StringComparison.Ordinal) &&
+						c.Path[relativePath.Length] == '/'))
 					{
 						changeKind = c.Status;
 						break;
@@ -417,7 +576,10 @@ namespace Files.App.Utils.Git
 			{
 				Status = changeKind,
 				StatusHumanized = changeKindHumanized,
-				LastCommit = commit,
+				LastCommitDate = commit?.Author.When,
+				LastCommitMessage = commit?.MessageShort,
+				LastCommitAuthor = commit?.Author.Name,
+				LastCommitSha = commit?.Sha,
 				Path = relativePath,
 			};
 
@@ -556,12 +718,10 @@ namespace Files.App.Utils.Git
 		{
 			if (useSemaphore)
 				await GitOperationSemaphore.WaitAsync();
-			else
-				await Task.Yield();
 
 			try
 			{
-				return (T)payload();
+				return (T)await Task.Run(payload);
 			}
 			finally
 			{
@@ -577,7 +737,7 @@ namespace Files.App.Utils.Git
 		/// <returns></returns>
 		public static (string RepoUrl, string RepoName) GetRepoInfo(string url)
 		{
-			var match = GitHubRepositoryRegex().Match(url);
+			var match = GitHubRepositoryRegex.Match(url);
 
 			if (!match.Success)
 				return (string.Empty, string.Empty);
@@ -597,18 +757,23 @@ namespace Files.App.Utils.Git
 		/// <returns>True if the URL is a valid GitHub URL; otherwise, false.</returns>
 		public static bool IsValidRepoUrl(string url)
 		{
-			return GitHubRepositoryRegex().IsMatch(url);
+			return GitHubRepositoryRegex.IsMatch(url);
 		}
 
 		public static async Task CloneRepoAsync(string repoUrl, string repoName, string targetDirectory)
 		{
-			var banner = StatusCenterHelper.AddCard_GitClone(repoName.CreateEnumerable(), targetDirectory.CreateEnumerable(), ReturnResult.InProgress);
-			var fsProgress = new StatusCenterItemProgressModel(banner.ProgressEventSource, enumerationCompleted: true, FileSystemStatusCode.InProgress);
-			var errorMessage = string.Empty;
+			var statusOperation = new GitStatusCenterOperation(
+				GitStatusCenterOperationKind.Clone,
+				targetDirectory,
+				canProvideProgress: true,
+				operationTarget: repoName,
+				isCancelable: true);
+			var cancellationToken = statusOperation.CancellationToken;
+			var result = ReturnResult.Failed;
 
-			bool isSuccess = await Task.Run(() =>
+			try
 			{
-				try
+				await Task.Run(() =>
 				{
 					var cloneOptions = new CloneOptions
 					{
@@ -616,49 +781,54 @@ namespace Files.App.Utils.Git
 						{
 							OnTransferProgress = progress =>
 							{
-								banner.CancellationToken.ThrowIfCancellationRequested();
-								fsProgress.ItemsCount = progress.TotalObjects;
-								fsProgress.SetProcessedSize(progress.ReceivedBytes);
-								fsProgress.AddProcessedItemsCount(1);
-								fsProgress.Report((int)((progress.ReceivedObjects / (double)progress.TotalObjects) * 100));
+								cancellationToken.ThrowIfCancellationRequested();
+								statusOperation.ReportProgress(
+									progress.ReceivedObjects,
+									progress.TotalObjects,
+									endPercentage: 80,
+									reportTotalItems: true);
 								return true;
 							},
-							OnProgress = _ => !banner.CancellationToken.IsCancellationRequested
+							OnProgress = _ => !cancellationToken.IsCancellationRequested,
 						},
 						OnCheckoutProgress = (path, completed, total) =>
-							banner.CancellationToken.ThrowIfCancellationRequested()
+						{
+							cancellationToken.ThrowIfCancellationRequested();
+							statusOperation.ReportProgress(
+								completed,
+								total,
+								path,
+								80,
+								100);
+						},
 					};
 
 					Repository.Clone(repoUrl, targetDirectory, cloneOptions);
-					return true;
-				}
-				catch (Exception ex)
-				{
-					errorMessage = ex.Message;
-					return false;
-				}
-			}, banner.CancellationToken);
-
-			if (!string.IsNullOrEmpty(errorMessage))
-			{
-				UIHelpers.CloseAllDialogs();
-				await Task.Delay(500);
-				await DynamicDialogFactory.ShowFor_CannotCloneRepo(errorMessage);
+				}, cancellationToken);
+				result = ReturnResult.Success;
 			}
-
-			StatusCenterViewModel.RemoveItem(banner);
-
-			StatusCenterHelper.AddCard_GitClone(
-				repoName.CreateEnumerable(),
-				targetDirectory.CreateEnumerable(),
-				isSuccess ? ReturnResult.Success :
-				banner.CancellationToken.IsCancellationRequested ? ReturnResult.Cancelled :
-				ReturnResult.Failed);
+			catch (Exception ex)
+			{
+				if (cancellationToken.IsCancellationRequested)
+				{
+					result = ReturnResult.Cancelled;
+				}
+				else
+				{
+					UIHelpers.CloseAllDialogs();
+					await Task.Delay(500);
+					await DynamicDialogFactory.ShowFor_CannotCloneRepo(ex.Message);
+				}
+			}
+			finally
+			{
+				statusOperation.Complete(result);
+			}
 		}
 
 		// Method already moved into abstraction
 		[GeneratedRegex(@"^(?:https?:\/\/)?(?:www\.)?(?<domain>github|gitlab)\.com\/(?<user>[^\/]+)\/(?<repo>[^\/]+?)(?=\.git|\/|$)(?:\.git)?(?:\/)?", RegexOptions.IgnoreCase)]
-		private static partial Regex GitHubRepositoryRegex();
+		private static partial Regex GitHubRepositoryRegex { get; }
 
 		#endregion
 	}

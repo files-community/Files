@@ -1,14 +1,19 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.Collections.Concurrent;
+
 namespace Files.App.Utils.Serialization.Implementation
 {
 	internal sealed class CachingJsonSettingsDatabase : DefaultJsonSettingsDatabase
 	{
-		private IDictionary<string, object?>? _settingsCache;
+		private ConcurrentDictionary<string, JsonElement>? _settingsCache;
 
-		public CachingJsonSettingsDatabase(ISettingsSerializer settingsSerializer, IJsonSettingsSerializer jsonSettingsSerializer)
-			: base(settingsSerializer, jsonSettingsSerializer)
+		public CachingJsonSettingsDatabase(
+			ISettingsSerializer settingsSerializer,
+			IJsonSettingsSerializer jsonSettingsSerializer,
+			JsonSerializerContext jsonSerializerContext)
+			: base(settingsSerializer, jsonSettingsSerializer, jsonSerializerContext)
 		{
 		}
 
@@ -18,12 +23,13 @@ namespace Files.App.Utils.Serialization.Implementation
 
 			if (_settingsCache.TryGetValue(key, out var objVal))
 			{
-				return GetValueFromObject<TValue>(objVal) ?? defaultValue;
+				return GetValueFromElement<TValue>(objVal) ?? defaultValue;
 			}
 			else
 			{
-				if (base.SetValue(key, defaultValue))
-					_settingsCache.TryAdd(key, defaultValue);
+				var defaultElement = GetElementFromValue(defaultValue);
+				if (_settingsCache.TryAdd(key, defaultElement) && !SaveSettings(_settingsCache))
+					_settingsCache.TryRemove(key, out _);
 
 				return defaultValue;
 			}
@@ -32,45 +38,23 @@ namespace Files.App.Utils.Serialization.Implementation
 		public override bool SetValue<TValue>(string key, TValue? newValue) where TValue : default
 		{
 			_settingsCache ??= GetFreshSettings();
+			var newElement = GetElementFromValue(newValue);
 
-			if (_settingsCache.TryAdd(key, newValue))
+			if (_settingsCache.TryAdd(key, newElement))
 				return SaveSettings(_settingsCache);
-			else
-				return UpdateValueInCache(_settingsCache[key]);
 
-			bool UpdateValueInCache(object? value)
-			{
-				bool isDifferent;
+			if (JsonElement.DeepEquals(_settingsCache[key], newElement))
+				return false;
 
-				if (newValue is IEnumerable enumerableNewValue && value is IEnumerable enumerableValue)
-				{
-					isDifferent = !enumerableValue.Cast<object>().SequenceEqual(enumerableNewValue.Cast<object>());
-				}
-				else
-				{
-					isDifferent = value != (object?)newValue;
-				}
-
-				if (isDifferent)
-				{
-					// Values are different, update the value and reload the cache.
-					_settingsCache[key] = newValue;
-
-					return SaveSettings(_settingsCache);
-				}
-				else
-				{
-					// The cache does not need to be updated, continue.
-					return false;
-				}
-			}
+			_settingsCache[key] = newElement;
+			return SaveSettings(_settingsCache);
 		}
 
 		public override bool RemoveKey(string key)
 		{
 			_settingsCache ??= GetFreshSettings();
 
-			return _settingsCache.Remove(key) && SaveSettings(_settingsCache);
+			return _settingsCache.TryRemove(key, out _) && SaveSettings(_settingsCache);
 		}
 
 		public override bool ImportSettings(object? import)

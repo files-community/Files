@@ -7,17 +7,11 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
+	Loaded="HomePage_Loaded"
 	mc:Ignorable="d">
-
-	<i:Interaction.Behaviors>
-		<i:EventTriggerBehavior EventName="Loaded">
-			<i:InvokeCommandAction Command="{x:Bind ViewModel.ReloadWidgetsCommand, Mode=OneWay}" />
-		</i:EventTriggerBehavior>
-	</i:Interaction.Behaviors>
 
 	<UserControl.Resources>
 
@@ -84,7 +78,7 @@
 									BackgroundSizing="{TemplateBinding BackgroundSizing}"
 									BorderBrush="{TemplateBinding BorderBrush}"
 									BorderThickness="{StaticResource ExpanderContentDownBorderThickness}"
-									CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BottomCornerRadiusFilterConverter}}"
+									CornerRadius="{Binding Path=CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BottomCornerRadiusFilterConverter}}"
 									Visibility="Collapsed">
 									<ContentPresenter
 										HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -102,7 +96,7 @@
 								<VisualStateGroup x:Name="ExpandStates">
 									<VisualState x:Name="ExpandUp">
 										<VisualState.Setters>
-											<Setter Target="ExpanderHeader.CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BottomCornerRadiusFilterConverter}}" />
+											<Setter Target="ExpanderHeader.CornerRadius" Value="{Binding Path=CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BottomCornerRadiusFilterConverter}}" />
 										</VisualState.Setters>
 										<VisualState.Storyboard>
 											<Storyboard>
@@ -131,7 +125,7 @@
 									</VisualState>
 									<VisualState x:Name="ExpandDown">
 										<VisualState.Setters>
-											<Setter Target="ExpanderHeader.CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TopCornerRadiusFilterConverter}}" />
+											<Setter Target="ExpanderHeader.CornerRadius" Value="{Binding Path=CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TopCornerRadiusFilterConverter}}" />
 										</VisualState.Setters>
 										<VisualState.Storyboard>
 											<Storyboard>
@@ -165,7 +159,7 @@
 										<VisualState.Setters>
 											<Setter Target="ExpanderHeader.Style" Value="{StaticResource ExpanderHeaderUpStyle}" />
 											<Setter Target="ExpanderContent.BorderThickness" Value="{StaticResource ExpanderContentUpBorderThickness}" />
-											<Setter Target="ExpanderContent.CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TopCornerRadiusFilterConverter}}" />
+											<Setter Target="ExpanderContent.CornerRadius" Value="{Binding Path=CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TopCornerRadiusFilterConverter}}" />
 											<Setter Target="ExpanderHeader.(Grid.Row)" Value="1" />
 											<Setter Target="ExpanderContentClip.(Grid.Row)" Value="0" />
 											<Setter Target="Row0.Height" Value="*" />

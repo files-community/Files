@@ -8,7 +8,6 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	d:DesignHeight="300"
 	d:DesignWidth="400"
-	Unloaded="{x:Bind ViewModel.PreviewControlBase_Unloaded}"
 	mc:Ignorable="d">
 
 	<UserControl.KeyboardAccelerators>

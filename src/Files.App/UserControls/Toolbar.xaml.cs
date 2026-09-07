@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Windows.Win32.UI.WindowsAndMessaging;
+using WinRT;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using FlyoutPlacementMode = Microsoft.UI.Xaml.Controls.Primitives.FlyoutPlacementMode;
@@ -27,6 +28,7 @@ namespace Files.App.UserControls
 		private UserControls.Menus.FileTagsContextMenu? editTagsMenu;
 		private OpenWithMenu? openWithMenu;
 		private int openWithFlyoutRequestId;
+		private readonly List<Action> toggleButtonDetachActions = new();
 
 		[GeneratedDependencyProperty]
 		public partial NavigationToolbarViewModel? ViewModel { get; set; }
@@ -52,6 +54,7 @@ namespace Files.App.UserControls
 		private void Toolbar_Unloaded(object sender, RoutedEventArgs e)
 		{
 			foreach (var cmd in Commands) cmd.PropertyChanged -= Command_PropertyChanged;
+			DetachToggleButtons();
 			UserSettingsService.AppearanceSettingsService.PropertyChanged -= AppearanceSettings_PropertyChanged;
 			if (editTagsMenu is not null)
 				editTagsMenu.TagsChanged -= EditTagsMenu_TagsChanged;
@@ -99,8 +102,11 @@ namespace Files.App.UserControls
 
 		private async void EditTagsMenu_TagsChanged(object? sender, EventArgs e)
 		{
-			if (PageContext.ShellPage is not null)
-				await PageContext.ShellPage.ShellViewModel.RefreshTagGroups();
+			if (PageContext.ShellPage is { } shellPage)
+			{
+				var shellViewModel = shellPage.GetRequiredShellViewModel();
+				await shellViewModel.RefreshTagGroups();
+			}
 		}
 
 		private void RequestToolbarRefresh(bool ignoreDebounce)
@@ -111,11 +117,14 @@ namespace Files.App.UserControls
 		private void ContextCommandBar_Loaded(object sender, RoutedEventArgs e)
 			=> RequestToolbarRefresh(true);
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		[DynamicWindowsRuntimeCast(typeof(AppBarSeparator))]
 		private void PopulateToolbarItems()
 		{
 			if (ContextCommandBar is null)
 				return;
 
+			DetachToggleButtons();
 			ContextCommandBar.PrimaryCommands.Clear();
 
 			var active = GetActiveToolbarContexts();
@@ -134,7 +143,7 @@ namespace Files.App.UserControls
 				{
 					if (CreateToolbarElement(entries[i]) is { } el)
 					{
-						if (el is AppBarButton btn && !ToolbarItemDescriptor.IsSeparatorCode(entries[i].CommandCode ?? ""))
+						if (el is FrameworkElement btn and not AppBarSeparator && !ToolbarItemDescriptor.IsSeparatorCode(entries[i].CommandCode ?? ""))
 							AttachContextFlyout(btn, contextId, entries[i], i);
 
 						ContextCommandBar.PrimaryCommands.Add(el);
@@ -164,6 +173,7 @@ namespace Files.App.UserControls
 				? !active.Any(c => c is not ToolbarDefaultsTemplate.AlwaysVisibleContextId and not ToolbarDefaultsTemplate.OtherContextsContextId)
 				: active.Contains(contextId);
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
 		private ICommandBarElement? CreateToolbarElement(ToolbarItemSettingsEntry entry)
 		{
 			if (!string.IsNullOrEmpty(entry.CommandCode) && ToolbarItemDescriptor.IsSeparatorCode(entry.CommandCode))
@@ -200,18 +210,19 @@ namespace Files.App.UserControls
 				}
 				else
 				{
-					btn.Flyout = new MenuFlyout
+					var menuFlyout = new MenuFlyout
 					{
 						Placement = group is NewItemCommandGroup or OpenWithCommandGroup
 						? FlyoutPlacementMode.BottomEdgeAlignedLeft
 						: FlyoutPlacementMode.Bottom
 					};
+					btn.Flyout = menuFlyout;
 
-					((MenuFlyout)btn.Flyout).Opening += async (s, _) =>
+					menuFlyout.Opening += async (s, _) =>
 					{
 						try
 						{
-							await PopulateGroupFlyoutAsync((MenuFlyout)s, group);
+							await PopulateGroupFlyoutAsync(menuFlyout, group);
 						}
 						catch (Exception ex)
 						{
@@ -238,6 +249,9 @@ namespace Files.App.UserControls
 
 				if (!showIcon && !showLabel)
 					return null;
+
+				if (cmd.IsToggle)
+					return CreateToggleButton(cmd, showIcon, showLabel);
 
 				var tooltip = cmd.HotKeyText is null ? cmd.ExtendedLabel : $"{cmd.ExtendedLabel} ({cmd.HotKeyText})";
 				var btn = CreateButton(showIcon, showLabel, cmd.ExtendedLabel, tooltip,
@@ -319,6 +333,77 @@ namespace Files.App.UserControls
 			return button;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(AppBarToggleButton))]
+		private AppBarToggleButton CreateToggleButton(IRichCommand cmd, bool showIcon, bool showLabel)
+		{
+			var button = new AppBarToggleButton
+			{
+				Width = double.NaN,
+				MinWidth = showIcon ? 40 : 0,
+				Label = cmd.ExtendedLabel,
+				LabelPosition = showLabel ? CommandBarLabelPosition.Default : CommandBarLabelPosition.Collapsed,
+				IsChecked = cmd.IsOn,
+				IsEnabled = cmd.IsExecutable,
+			};
+
+			if (showIcon)
+			{
+				if (!string.IsNullOrEmpty(cmd.Glyph.ThemedIconStyle))
+					button.Content = cmd.Glyph.ToIcon();
+
+				// The default AppBarToggleButton template presents Icon rather than Content,
+				// so themed icons need the PathIcon fallback to be visible
+				button.Icon = cmd.Glyph.ToOverflowIcon() ?? cmd.Glyph.ToFontIcon();
+			}
+			else
+			{
+				button.Loaded += CollapseIconViewbox;
+			}
+
+			ToolTipService.SetToolTip(button, cmd.HotKeyText is null ? cmd.ExtendedLabel : $"{cmd.ExtendedLabel} ({cmd.HotKeyText})");
+
+			if (!string.IsNullOrEmpty(cmd.AccessKey))
+			{
+				button.AccessKey = cmd.AccessKey;
+				button.AccessKeyInvoked += AppBarButton_AccessKeyInvoked;
+			}
+
+			if (!string.IsNullOrEmpty(cmd.AutomationId))
+				AutomationProperties.SetAutomationId(button, cmd.AutomationId);
+
+			if (cmd.HotKeyText is { } hotKeyText)
+				button.KeyboardAcceleratorTextOverride = hotKeyText;
+
+			button.Click += async (sender, _) =>
+			{
+				await cmd.ExecuteAsync();
+
+				// Executing may leave the state unchanged (e.g. re-invoking the active sort option),
+				// in which case no IsOn notification arrives to undo the control's automatic toggle
+				((AppBarToggleButton)sender).IsChecked = cmd.IsOn;
+			};
+
+			PropertyChangedEventHandler commandPropertyChanged = (_, e) =>
+			{
+				if (e.PropertyName is nameof(IRichCommand.IsOn))
+					button.IsChecked = cmd.IsOn;
+				else if (e.PropertyName is nameof(IRichCommand.IsExecutable))
+					button.IsEnabled = cmd.IsExecutable;
+			};
+			cmd.PropertyChanged += commandPropertyChanged;
+			toggleButtonDetachActions.Add(() => cmd.PropertyChanged -= commandPropertyChanged);
+
+			return button;
+		}
+
+		private void DetachToggleButtons()
+		{
+			foreach (var detach in toggleButtonDetachActions)
+				detach();
+
+			toggleButtonDetachActions.Clear();
+		}
+
 		internal static void ApplyIcon(AppBarButton button, RichGlyph glyph, bool setContent)
 		{
 			if (setContent)
@@ -327,15 +412,18 @@ namespace Files.App.UserControls
 			button.Icon = glyph.ToFontIcon() ?? glyph.ToOverflowIcon();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		[DynamicWindowsRuntimeCast(typeof(Viewbox))]
 		internal static void CollapseIconViewbox(object sender, RoutedEventArgs e)
 		{
-			var button = (AppBarButton)sender;
+			var button = (FrameworkElement)sender;
 			button.Loaded -= CollapseIconViewbox;
 
 			if (button.FindDescendant("ContentViewbox") is Viewbox vb)
 				vb.Visibility = Visibility.Collapsed;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(AppBarSeparator))]
 		internal static void UpdateCommandBarSeparatorVisibility(IList<ICommandBarElement> commands)
 		{
 			bool prevSep = true;
@@ -357,7 +445,7 @@ namespace Files.App.UserControls
 				last.Visibility = Visibility.Collapsed;
 		}
 
-		private void AttachContextFlyout(AppBarButton button, string contextId, ToolbarItemSettingsEntry entry, int index)
+		private void AttachContextFlyout(FrameworkElement button, string contextId, ToolbarItemSettingsEntry entry, int index)
 		{
 			var customize = new MenuFlyoutItem { Text = Strings.CustomizeToolbar.GetLocalizedResource() };
 			customize.Click += (_, _) => Commands.CustomizeToolbar.Execute(null);
@@ -513,6 +601,8 @@ namespace Files.App.UserControls
 			return item;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSubItem))]
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSeparator))]
 		private void SortGroup_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args)
 		{
 			if (sender is not MenuFlyoutSubItem menu) return;

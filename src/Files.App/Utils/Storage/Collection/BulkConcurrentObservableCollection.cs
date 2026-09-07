@@ -7,7 +7,8 @@ namespace Files.App.Utils.Storage
 {
 	[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
 	[DebuggerDisplay("Count = {Count}")]
-	public class BulkConcurrentObservableCollection<T> : INotifyCollectionChanged, INotifyPropertyChanged, ICollection<T>, IList<T>, ICollection, IList
+	[WinRT.GeneratedWinRTExposedType]
+	public partial class BulkConcurrentObservableCollection<T> : INotifyCollectionChanged, INotifyPropertyChanged, ICollection<T>, IList<T>, ICollection, IList
 	{
 		protected bool isBulkOperationStarted;
 		private readonly object syncRoot = new object();
@@ -81,9 +82,9 @@ namespace Files.App.Utils.Storage
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		private Func<T, string>? itemGroupKeySelector;
+		private Func<T, string?>? itemGroupKeySelector;
 
-		public Func<T, string>? ItemGroupKeySelector
+		public Func<T, string?>? ItemGroupKeySelector
 		{
 			get => itemGroupKeySelector;
 			set
@@ -166,6 +167,13 @@ namespace Files.App.Utils.Storage
 			if (GroupedCollection is null)
 				return;
 
+			var groupsByKey = new Dictionary<string, GroupedCollection<T>>(StringComparer.Ordinal);
+			foreach (var group in GroupedCollection)
+			{
+				if (group.Model.Key is not null)
+					groupsByKey.TryAdd(group.Model.Key, group);
+			}
+
 			foreach (var item in items)
 			{
 				if (token.IsCancellationRequested)
@@ -175,7 +183,7 @@ namespace Files.App.Utils.Storage
 				if (key is null)
 					continue;
 
-				var gp = GroupedCollection?.FirstOrDefault(x => x.Model.Key == key);
+				groupsByKey.TryGetValue(key, out var gp);
 				if (item is IGroupableItem groupable)
 					groupable.Key = key;
 
@@ -197,6 +205,7 @@ namespace Files.App.Utils.Storage
 
 					GroupedCollection?.Add(group);
 					GroupedCollection!.IsSorted = false;
+					groupsByKey[key] = group;
 				}
 			}
 		}
@@ -238,7 +247,7 @@ namespace Files.App.Utils.Storage
 			if (oldGroup.Count == 0)
 				GroupedCollection?.Remove(oldGroup);
 
-			AddItemsToGroup([item]);
+			AddItemsToGroup((T[])[item]);
 
 			return true;
 		}

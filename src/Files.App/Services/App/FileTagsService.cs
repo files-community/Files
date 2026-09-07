@@ -20,10 +20,7 @@ namespace Files.App.Services
 
 		/// <inheritdoc/>
 		public Task<bool> SetFileTagAsync(IStorable storable, string[] tagUids, CancellationToken cancellationToken = default)
-		{
-			FileTagsHelper.WriteFileTag(storable.Id, tagUids);
-			return Task.FromResult(true);
-		}
+			=> FileTagsHelper.WriteFileTagAsync(storable.Id, tagUids, cancellationToken);
 
 		/// <inheritdoc/>
 		public async IAsyncEnumerable<TagViewModel> GetTagsAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)

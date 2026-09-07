@@ -3,6 +3,7 @@
 
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Media;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -38,6 +39,7 @@ namespace Files.App.Controls
 		/// </summary>
 		public Brush CloseButtonForeground
 		{
+			[DynamicWindowsRuntimeCast(typeof(Brush))]
 			get { return (Brush)GetValue(CloseButtonForegroundProperty); }
 			set { SetValue(CloseButtonForegroundProperty, value); }
 		}
@@ -47,6 +49,7 @@ namespace Files.App.Controls
 		/// </summary>
 		public Visibility CloseButtonVisibility
 		{
+			[DynamicWindowsRuntimeCast(typeof(Visibility))]
 			get { return (Visibility)GetValue(CloseButtonVisibilityProperty); }
 			set { SetValue(CloseButtonVisibilityProperty, value); }
 		}
@@ -56,6 +59,7 @@ namespace Files.App.Controls
 		/// </summary>
 		public Brush CloseButtonBackground
 		{
+			[DynamicWindowsRuntimeCast(typeof(Brush))]
 			get { return (Brush)GetValue(CloseButtonBackgroundProperty); }
 			set { SetValue(CloseButtonBackgroundProperty, value); }
 		}

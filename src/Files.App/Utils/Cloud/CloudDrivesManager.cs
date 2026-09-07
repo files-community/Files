@@ -12,7 +12,7 @@ namespace Files.App.Utils.Cloud
 	{
 		private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 		private static readonly ICloudDetector _detector = Ioc.Default.GetRequiredService<ICloudDetector>();
-		public static EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
+		public static EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 		private static readonly List<DriveItem> _Drives = [];
 
 		public static IReadOnlyList<DriveItem> Drives
@@ -28,13 +28,11 @@ namespace Files.App.Utils.Cloud
 
 		public static async Task UpdateDrivesAsync()
 		{
-			var providers = await _detector.DetectCloudProvidersAsync();
-			if (providers is null)
-				return;
-
-			foreach (var provider in providers)
+			// Add each provider as its detector finishes, so a slow one (e.g. Google Drive's virtual
+			// drive) never holds up the rest of the cloud drives or the sidebar.
+			await foreach (var provider in _detector.DetectCloudProvidersProgressiveAsync())
 			{
-				_logger?.LogInformation($"Adding cloud provider \"{provider.Name}\" mapped to {provider.SyncFolder}");
+				_logger?.LogInformation($"Adding cloud provider {provider.ID} mapped to {LogPathHelper.RedactUserName(provider.SyncFolder)}");
 
 				var cloudProviderItem = new DriveItem()
 				{
@@ -42,25 +40,6 @@ namespace Files.App.Utils.Cloud
 					Path = provider.SyncFolder,
 					Type = Data.Items.DriveType.CloudDrive,
 				};
-
-				try
-				{
-					cloudProviderItem.Root = await StorageFolder.GetFolderFromPathAsync(cloudProviderItem.Path);
-
-					_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => cloudProviderItem.UpdatePropertiesAsync());
-				}
-				catch (FileNotFoundException ex)
-				{
-					_logger?.LogInformation(ex, "Failed to find the cloud folder");
-				}
-				catch (UnauthorizedAccessException ex)
-				{
-					_logger?.LogInformation(ex, " Failed to access the cloud folder");
-				}
-				catch (Exception ex)
-				{
-					_logger?.LogWarning(ex, "Cloud provider local folder couldn't be found");
-				}
 
 				cloudProviderItem.MenuOptions = new ContextMenuOptions()
 				{
@@ -82,6 +61,31 @@ namespace Files.App.Utils.Cloud
 					SectionType.CloudDrives,
 					new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, cloudProviderItem)
 				);
+
+				// Resolve the folder + properties off the critical path so a slow provider (e.g. Google Drive's virtual drive) doesn't delay the sidebar
+				_ = SetRootAndUpdatePropertiesAsync(cloudProviderItem);
+			}
+		}
+
+		private static async Task SetRootAndUpdatePropertiesAsync(DriveItem cloudProviderItem)
+		{
+			try
+			{
+				cloudProviderItem.Root = await StorageFolder.GetFolderFromPathAsync(cloudProviderItem.Path);
+
+				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => cloudProviderItem.UpdatePropertiesAsync());
+			}
+			catch (FileNotFoundException ex)
+			{
+				_logger?.LogInformation(ex, "Failed to find the cloud folder");
+			}
+			catch (UnauthorizedAccessException ex)
+			{
+				_logger?.LogInformation(ex, " Failed to access the cloud folder");
+			}
+			catch (Exception ex)
+			{
+				_logger?.LogWarning(ex, "Cloud provider local folder couldn't be found");
 			}
 		}
 
@@ -97,7 +101,7 @@ namespace Files.App.Utils.Cloud
 						provider.SyncFolder,
 						Constants.ShellIconSizes.Small,
 						false,
-						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+						IconOptions.ReturnIconOnly | IconOptions.SkipSizeSnapping);
 
 					iconData = result;
 				}

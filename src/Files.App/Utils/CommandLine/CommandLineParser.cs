@@ -129,7 +129,7 @@ namespace Files.App.Utils.CommandLine
 		/// </summary>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		public static List<KeyValuePair<string, string[]>> Parse(string[] args = null)
+		public static List<KeyValuePair<string, string[]>> Parse(string[]? args = null)
 		{
 			var parsedArgs = new List<KeyValuePair<string, string[]>>();
 
@@ -163,8 +163,12 @@ namespace Files.App.Utils.CommandLine
 				}
 			}
 
-			if (parsedArgs.Count == 0 && args.Length >= 2)
-				parsedArgs.Add(new KeyValuePair<string, string[]>("Cmdless", [string.Join(' ', args.Skip(1)).TrimStart()]));
+			if (parsedArgs.Count == 0)
+			{
+				ArgumentNullException.ThrowIfNull(args);
+				if (args.Length >= 2)
+					parsedArgs.Add(new KeyValuePair<string, string[]>("Cmdless", [string.Join(' ', args.Skip(1)).TrimStart()]));
+			}
 
 			return parsedArgs;
 		}

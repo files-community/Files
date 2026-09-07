@@ -117,7 +117,7 @@ jobs:
           -p:PublishReadyToRun=true `
           -v:quiet
 
-    - if: env.CONFIGURATION != env.AUTOMATED_TESTS_CONFIGURATION || env.ARCHITECTURE != env.AUTOMATED_TESTS_ARCHITECTURE
+    - if: env.CONFIGURATION != env.AUTOMATED_TESTS_CONFIGURATION
       name: Build Files
       run: |
         msbuild `
@@ -152,6 +152,47 @@ jobs:
           -p:PackageCertificateThumbprint="" `
           -v:quiet
 
+    - if: env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION && env.ARCHITECTURE != env.AUTOMATED_TESTS_ARCHITECTURE
+      name: Package Files
+      run: |
+        msbuild `
+          $env:APP_PROJECT_PATH `
+          -t:Build `
+          -p:Configuration=$env:CONFIGURATION `
+          -p:Platform=$env:ARCHITECTURE `
+          -p:AppxBundlePlatforms=$env:ARCHITECTURE `
+          -p:AppxBundle=Always `
+          -p:GenerateAppxPackageOnBuild=true `
+          -p:UapAppxPackageBuildMode=SideloadOnly `
+          -p:AppxPackageDir=$env:APPX_PACKAGE_DIR `
+          -p:AppxPackageSigningEnabled=false `
+          -v:quiet
+
+    - if: env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
+      name: Measure MSIX package size
+      shell: pwsh
+      run: |
+        $packages = Get-ChildItem $env:APPX_PACKAGE_DIR -Recurse -Include *.msixbundle, *.msix |
+          Where-Object { $_.DirectoryName -notmatch '\\Dependencies\\' }
+
+        $totalBytes = 0
+        foreach ($package in $packages)
+        {
+          Write-Host "$($package.Name): $([math]::Round($package.Length / 1MB, 2)) MB"
+          $totalBytes += $package.Length
+        }
+
+        # Persist this architecture's total so the bundle-size job can sum across legs
+        New-Item -ItemType Directory -Force -Path $env:ARTIFACTS_STAGING_DIR | Out-Null
+        "$totalBytes" | Out-File -FilePath (Join-Path $env:ARTIFACTS_STAGING_DIR "msix-size-$env:ARCHITECTURE.txt")
+
+    - if: env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
+      name: Upload MSIX size
+      uses: actions/upload-artifact@v7
+      with:
+        name: 'msix-size-${{ env.ARCHITECTURE }}'
+        path: ${{ env.ARTIFACTS_STAGING_DIR }}\msix-size-${{ env.ARCHITECTURE }}.txt
+
     - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
       name: Build interaction tests
       run: |
@@ -177,6 +218,43 @@ jobs:
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.ARCHITECTURE }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
+
+  report-bundle-size:
+
+    if: github.repository_owner == 'files-community'
+
+    needs: [build]
+    runs-on: windows-2025-vs2026
+
+    steps:
+
+    - name: Download MSIX sizes
+      uses: actions/download-artifact@v8
+      with:
+        pattern: msix-size-*
+        merge-multiple: true
+        path: ${{ github.workspace }}\sizes
+
+    - name: Sum bundle size
+      shell: pwsh
+      run: |
+        $total = 0
+        $rows = @()
+        foreach ($file in Get-ChildItem "$env:WORKING_DIR\sizes" -Filter *.txt)
+        {
+          $arch = $file.BaseName -replace '^msix-size-', ''
+          $bytes = [long]((Get-Content $file.FullName -Raw).Trim())
+          $total += $bytes
+          $rows += "| $arch | $([math]::Round($bytes / 1MB, 2)) MB |"
+        }
+
+        "## Total bundle size" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+        "" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+        "| Architecture | Size |" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+        "| :--- | ---: |" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+        $rows | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+        "| **Bundle total** | **$([math]::Round($total / 1MB, 2)) MB** |" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+        Write-Host "Bundle total: $([math]::Round($total / 1MB, 2)) MB"
 
   test:
 
@@ -253,7 +331,7 @@ jobs:
 
     # Retry integration tests if first attempt fails
     - name: Run interaction tests
-      uses: nick-fields/retry@v3
+      uses: nick-fields/retry@v4
       with:
         timeout_minutes: 20
         max_attempts: 3
@@ -267,7 +345,7 @@ jobs:
             --report-trx-filename testResults.trx
 
     - if: github.event_name == 'pull_request'
-      uses: geekyeggo/delete-artifact@v5
+      uses: geekyeggo/delete-artifact@v6
       with:
         name: '*'
 

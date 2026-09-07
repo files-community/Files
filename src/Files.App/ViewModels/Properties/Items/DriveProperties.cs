@@ -6,11 +6,15 @@ namespace Files.App.ViewModels.Properties
 	{
 		public DriveItem Drive { get; }
 
-		public DriveProperties(SelectedItemsPropertiesViewModel viewModel, DriveItem driveItem, IShellPage instance)
+		public DriveProperties(
+			SelectedItemsPropertiesViewModel viewModel,
+			CancellationTokenSource tokenSource,
+			Microsoft.UI.Dispatching.DispatcherQueue dispatcher,
+			DriveItem driveItem,
+			IShellPage instance)
+			: base(viewModel, tokenSource, dispatcher, instance)
 		{
-			ViewModel = viewModel;
 			Drive = driveItem;
-			AppInstance = instance;
 			GetBaseProperties();
 		}
 
@@ -38,17 +42,20 @@ namespace Files.App.ViewModels.Properties
 		public async override Task GetSpecialPropertiesAsync()
 		{
 			ViewModel.ItemAttributesVisibility = false;
+			var drivePath = Drive.GetRequiredPath();
 
-			var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(Drive.Path));
-			BaseStorageFolder diskRoot = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(Drive.Path, item));
+			var rootResult = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(drivePath));
+			var diskRootResult = await FilesystemTasks.WrapNullable(
+				() => StorageFileExtensions.DangerousGetFolderFromPathAsync(drivePath, rootResult.Result));
+			var diskRoot = diskRootResult.Result;
 
 			if (ViewModel.LoadFileIcon)
 			{
 				var result = await FileThumbnailHelper.GetIconAsync(
-					Drive.Path,
+					drivePath,
 					Constants.ShellIconSizes.ExtraLarge,
 					true,
-					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+					IconOptions.ReturnIconOnly);
 
 				if (result is not null)
 					ViewModel.IconData = result;
@@ -58,7 +65,7 @@ namespace Files.App.ViewModels.Properties
 						Drive.DeviceID,
 						Constants.ShellIconSizes.ExtraLarge,
 						true,
-						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale); // For network shortcuts
+						IconOptions.ReturnIconOnly); // For network shortcuts
 
 					ViewModel.IconData = result;
 				}
@@ -73,7 +80,7 @@ namespace Files.App.ViewModels.Properties
 
 			try
 			{
-				var syncRootStatus = await SyncRootHelpers.GetSyncRootQuotaAsync(Drive.Path);
+				var syncRootStatus = await SyncRootHelpers.GetSyncRootQuotaAsync(drivePath);
 				if (syncRootStatus.Success)
 				{
 					ViewModel.DriveCapacityValue = syncRootStatus.Capacity;
@@ -84,7 +91,7 @@ namespace Files.App.ViewModels.Properties
 			}
 			catch (Exception e)
 			{
-				App.Logger.LogWarning(e, "Failed to get sync root quota for path: {Path}", Drive.Path);
+				App.Logger.LogWarning(e, "Failed to get sync root quota for path: {Path}", LogPathHelper.RedactPath(Drive.Path));
 			}
 
 			try
@@ -93,7 +100,7 @@ namespace Files.App.ViewModels.Properties
 				string capacity = "System.Capacity";
 				string fileSystem = "System.Volume.FileSystem";
 
-				var properties = await diskRoot.Properties.RetrievePropertiesAsync([freeSpace, capacity, fileSystem]);
+				var properties = await diskRoot.Properties.RetrievePropertiesAsync((string[])[freeSpace, capacity, fileSystem]);
 
 				ViewModel.DriveCapacityValue = (ulong)properties[capacity];
 				ViewModel.DriveFreeSpaceValue = (ulong)properties[freeSpace];

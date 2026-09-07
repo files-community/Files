@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Search;
+using WinRT;
 
 namespace Files.App.Utils.Storage
 {
@@ -58,7 +59,7 @@ namespace Files.App.Utils.Storage
 			});
 		}
 
-		public virtual StorageItemQueryResult ToStorageItemQueryResult() => null;
+		public virtual StorageItemQueryResult? ToStorageItemQueryResult() => null;
 	}
 
 	public class BaseStorageFileQueryResult
@@ -110,7 +111,7 @@ namespace Files.App.Utils.Storage
 			});
 		}
 
-		public virtual StorageFileQueryResult ToStorageFileQueryResult() => null;
+		public virtual StorageFileQueryResult? ToStorageFileQueryResult() => null;
 	}
 
 	public class BaseStorageFolderQueryResult
@@ -162,33 +163,50 @@ namespace Files.App.Utils.Storage
 			});
 		}
 
-		public virtual StorageFolderQueryResult ToStorageFolderQueryResult() => null;
+		public virtual StorageFolderQueryResult? ToStorageFolderQueryResult() => null;
 	}
 
 	public sealed class SystemStorageItemQueryResult : BaseStorageItemQueryResult
 	{
 		private StorageItemQueryResult StorageItemQueryResult { get; }
 
-		public SystemStorageItemQueryResult(StorageItemQueryResult sfqr) : base(sfqr.Folder, sfqr.GetCurrentQueryOptions())
+		public SystemStorageItemQueryResult(StorageItemQueryResult sfqr)
+			: base(
+				sfqr.Folder is { } folder ? new SystemStorageFolder(folder) : throw new ArgumentException("The query result has no source folder.", nameof(sfqr)),
+				sfqr.GetCurrentQueryOptions())
 		{
 			StorageItemQueryResult = sfqr;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(StorageFolder))]
+		[DynamicWindowsRuntimeCast(typeof(StorageFile))]
 		public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync(uint startIndex, uint maxNumberOfItems)
 		{
 			return AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken) =>
 			{
 				var items = await StorageItemQueryResult.GetItemsAsync(startIndex, maxNumberOfItems);
-				return items.Select(x => x is StorageFolder ? (IStorageItem)new SystemStorageFolder(x as StorageFolder) : new SystemStorageFile(x as StorageFile)).ToList();
+				return items.Select<IStorageItem, IStorageItem>(x => x switch
+				{
+					StorageFolder folder => new SystemStorageFolder(folder),
+					StorageFile file => new SystemStorageFile(file),
+					_ => throw new InvalidOperationException("The query returned an unsupported storage item."),
+				}).ToList();
 			});
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(StorageFolder))]
+		[DynamicWindowsRuntimeCast(typeof(StorageFile))]
 		public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync()
 		{
 			return AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken) =>
 			{
 				var items = await StorageItemQueryResult.GetItemsAsync();
-				return items.Select(x => x is StorageFolder ? (IStorageItem)new SystemStorageFolder(x as StorageFolder) : new SystemStorageFile(x as StorageFile)).ToList();
+				return items.Select<IStorageItem, IStorageItem>(x => x switch
+				{
+					StorageFolder folder => new SystemStorageFolder(folder),
+					StorageFile file => new SystemStorageFile(file),
+					_ => throw new InvalidOperationException("The query returned an unsupported storage item."),
+				}).ToList();
 			});
 		}
 
@@ -199,7 +217,10 @@ namespace Files.App.Utils.Storage
 	{
 		private StorageFileQueryResult StorageFileQueryResult { get; }
 
-		public SystemStorageFileQueryResult(StorageFileQueryResult sfqr) : base(sfqr.Folder, sfqr.GetCurrentQueryOptions())
+		public SystemStorageFileQueryResult(StorageFileQueryResult sfqr)
+			: base(
+				sfqr.Folder is { } folder ? new SystemStorageFolder(folder) : throw new ArgumentException("The query result has no source folder.", nameof(sfqr)),
+				sfqr.GetCurrentQueryOptions())
 		{
 			StorageFileQueryResult = sfqr;
 		}
@@ -229,7 +250,10 @@ namespace Files.App.Utils.Storage
 	{
 		private StorageFolderQueryResult StorageFolderQueryResult { get; }
 
-		public SystemStorageFolderQueryResult(StorageFolderQueryResult sfqr) : base(sfqr.Folder, sfqr.GetCurrentQueryOptions())
+		public SystemStorageFolderQueryResult(StorageFolderQueryResult sfqr)
+			: base(
+				sfqr.Folder is { } folder ? new SystemStorageFolder(folder) : throw new ArgumentException("The query result has no source folder.", nameof(sfqr)),
+				sfqr.GetCurrentQueryOptions())
 		{
 			StorageFolderQueryResult = sfqr;
 		}

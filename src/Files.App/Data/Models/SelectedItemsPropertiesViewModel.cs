@@ -34,8 +34,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref loadCombinedItemsGlyph, value);
 		}
 
-		private Uri customIconSource;
-		public Uri CustomIconSource
+		private Uri? customIconSource;
+		public Uri? CustomIconSource
 		{
 			get => customIconSource;
 			set => SetProperty(ref customIconSource, value);
@@ -55,15 +55,15 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref loadFileIcon, value);
 		}
 
-		private byte[] iconData;
-		public byte[] IconData
+		private byte[]? iconData;
+		public byte[]? IconData
 		{
 			get => iconData;
 			set => SetProperty(ref iconData, value);
 		}
 
-		private string itemName;
-		public string ItemName
+		private string? itemName;
+		public string? ItemName
 		{
 			get => itemName;
 			set
@@ -73,8 +73,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string originalItemName;
-		public string OriginalItemName
+		private string? originalItemName;
+		public string? OriginalItemName
 		{
 			get => originalItemName;
 			set
@@ -91,8 +91,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref itemNameVisibility, value);
 		}
 
-		private string itemType;
-		public string ItemType
+		private string? itemType;
+		public string? ItemType
 		{
 			get => itemType;
 			set
@@ -109,8 +109,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref itemTypeVisibility, value);
 		}
 
-		private string driveFileSystem;
-		public string DriveFileSystem
+		private string? driveFileSystem;
+		public string? DriveFileSystem
 		{
 			get => driveFileSystem;
 			set
@@ -127,8 +127,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref driveFileSystemVisibility, value);
 		}
 
-		private string itemLocation;
-		public string ItemLocation
+		private string? itemLocation;
+		public string? ItemLocation
 		{
 			get => itemLocation;
 			set
@@ -145,22 +145,22 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref itemLocationVisibility, value);
 		}
 
-		private string itemSize;
-		public string ItemSize
+		private string? itemSize;
+		public string? ItemSize
 		{
 			get => itemSize;
 			set => SetProperty(ref itemSize, value);
 		}
 
-		private string itemSizeOnDisk;
-		public string ItemSizeOnDisk
+		private string? itemSizeOnDisk;
+		public string? ItemSizeOnDisk
 		{
 			get => itemSizeOnDisk;
 			set => SetProperty(ref itemSizeOnDisk, value);
 		}
 
-		private string uncompresseditemSize;
-		public string UncompressedItemSize
+		private string? uncompresseditemSize;
+		public string? UncompressedItemSize
 		{
 			get => uncompresseditemSize;
 			set
@@ -241,8 +241,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref filesCount, value);
 		}
 
-		public string filesAndFoldersCountString;
-		public string FilesAndFoldersCountString
+		public string? filesAndFoldersCountString;
+		public string? FilesAndFoldersCountString
 		{
 			get => filesAndFoldersCountString;
 			set
@@ -274,8 +274,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string driveUsedSpace;
-		public string DriveUsedSpace
+		private string? driveUsedSpace;
+		public string? DriveUsedSpace
 		{
 			get => driveUsedSpace;
 			set
@@ -285,8 +285,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string driveUsedSpaceLongSize;
-		public string DriveUsedSpaceLongSize
+		private string? driveUsedSpaceLongSize;
+		public string? DriveUsedSpaceLongSize
 		{
 			get => driveUsedSpaceLongSize;
 			set
@@ -315,8 +315,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string driveFreeSpace;
-		public string DriveFreeSpace
+		private string? driveFreeSpace;
+		public string? DriveFreeSpace
 		{
 			get => driveFreeSpace;
 			set
@@ -326,8 +326,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string driveFreeSpaceLongSize;
-		public string DriveFreeSpaceLongSize
+		private string? driveFreeSpaceLongSize;
+		public string? DriveFreeSpaceLongSize
 		{
 			get => driveFreeSpaceLongSize;
 			set
@@ -343,7 +343,7 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref driveFreeSpaceVisibility, value);
 		}
 
-		public string ItemCreatedTimestamp { get; private set; }
+		public string? ItemCreatedTimestamp { get; private set; }
 
 		private DateTimeOffset itemCreatedTimestampReal;
 		public DateTimeOffset ItemCreatedTimestampReal
@@ -365,7 +365,7 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref itemCreatedTimestampVisibility, value);
 		}
 
-		public string ItemModifiedTimestamp { get; private set; }
+		public string? ItemModifiedTimestamp { get; private set; }
 
 		private DateTimeOffset itemModifiedTimestampReal;
 		public DateTimeOffset ItemModifiedTimestampReal
@@ -387,7 +387,7 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref itemModifiedTimestampVisibility, value);
 		}
 
-		public string ItemAccessedTimestamp { get; private set; }
+		public string? ItemAccessedTimestamp { get; private set; }
 
 		public DateTimeOffset itemAccessedTimestampReal;
 		public DateTimeOffset ItemAccessedTimestampReal
@@ -429,8 +429,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string driveCapacity;
-		public string DriveCapacity
+		private string? driveCapacity;
+		public string? DriveCapacity
 		{
 			get => driveCapacity;
 			set
@@ -440,8 +440,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string driveCapacityLongSize;
-		public string DriveCapacityLongSize
+		private string? driveCapacityLongSize;
+		public string? DriveCapacityLongSize
 		{
 			get => driveCapacityLongSize;
 			set
@@ -469,8 +469,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref cleanupVisibility, value);
 		}
 
-		private ICommand cleanupDriveCommand;
-		public ICommand CleanupDriveCommand
+		private ICommand? cleanupDriveCommand;
+		public ICommand? CleanupDriveCommand
 		{
 			get => cleanupDriveCommand;
 			set => SetProperty(ref cleanupDriveCommand, value);
@@ -483,22 +483,22 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref formatVisibility, value);
 		}
 
-		private ICommand formatDriveCommand;
-		public ICommand FormatDriveCommand
+		private ICommand? formatDriveCommand;
+		public ICommand? FormatDriveCommand
 		{
 			get => formatDriveCommand;
 			set => SetProperty(ref formatDriveCommand, value);
 		}
 
-		private ICommand editAlbumCoverCommand;
-		public ICommand EditAlbumCoverCommand
+		private ICommand? editAlbumCoverCommand;
+		public ICommand? EditAlbumCoverCommand
 		{
 			get => editAlbumCoverCommand;
 			set => SetProperty(ref editAlbumCoverCommand, value);
 		}
 
-		private ICommand removeAlbumCoverCommand;
-		public ICommand RemoveAlbumCoverCommand
+		private ICommand? removeAlbumCoverCommand;
+		public ICommand? RemoveAlbumCoverCommand
 		{
 			get => removeAlbumCoverCommand;
 			set => SetProperty(ref removeAlbumCoverCommand, value);
@@ -511,8 +511,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref itemAttributesVisibility, value);
 		}
 
-		private string selectedItemsCountString;
-		public string SelectedItemsCountString
+		private string? selectedItemsCountString;
+		public string? SelectedItemsCountString
 		{
 			get => selectedItemsCountString;
 			set => SetProperty(ref selectedItemsCountString, value);
@@ -550,7 +550,7 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref isSelectedItemShortcut, value);
 		}
 
-		public void CheckAllFileExtensions(List<string> itemExtensions)
+		public void CheckAllFileExtensions(List<string?> itemExtensions)
 		{
 			// Checks if all the item extensions are image extensions of some kind.
 			IsCompatibleToSetAsWindowsWallpaper = itemExtensions.TrueForAll(FileExtensionHelpers.IsCompatibleToSetAsWindowsWallpaper);
@@ -558,15 +558,15 @@ namespace Files.App.Data.Models
 			IsSelectedItemShortcut = (itemExtensions.Count == 1) && (itemExtensions.TrueForAll(itemExtension => FileExtensionHelpers.IsShortcutFile(itemExtension)));
 		}
 
-		private string shortcutItemType;
-		public string ShortcutItemType
+		private string? shortcutItemType;
+		public string? ShortcutItemType
 		{
 			get => shortcutItemType;
 			set => SetProperty(ref shortcutItemType, value);
 		}
 
-		private string shortcutItemPath;
-		public string ShortcutItemPath
+		private string? shortcutItemPath;
+		public string? ShortcutItemPath
 		{
 			get => shortcutItemPath;
 			set
@@ -576,8 +576,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string shortcutItemPathEditedValue;
-		public string ShortcutItemPathEditedValue
+		private string? shortcutItemPathEditedValue;
+		public string? ShortcutItemPathEditedValue
 		{
 			get => shortcutItemPathEditedValue;
 			set => SetProperty(ref shortcutItemPathEditedValue, value);
@@ -590,8 +590,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref isShortcutItemPathReadOnly, value);
 		}
 
-		private string shortcutItemWorkingDir;
-		public string ShortcutItemWorkingDir
+		private string? shortcutItemWorkingDir;
+		public string? ShortcutItemWorkingDir
 		{
 			get => shortcutItemWorkingDir;
 			set
@@ -601,8 +601,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string shortcutItemWorkingDirEditedValue;
-		public string ShortcutItemWorkingDirEditedValue
+		private string? shortcutItemWorkingDirEditedValue;
+		public string? ShortcutItemWorkingDirEditedValue
 		{
 			get => shortcutItemWorkingDirEditedValue;
 			set => SetProperty(ref shortcutItemWorkingDirEditedValue, value);
@@ -615,8 +615,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref shortcutItemWorkingDirVisibility, value);
 		}
 
-		private string shortcutItemArguments;
-		public string ShortcutItemArguments
+		private string? shortcutItemArguments;
+		public string? ShortcutItemArguments
 		{
 			get => shortcutItemArguments;
 			set
@@ -626,8 +626,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string shortcutItemArgumentsEditedValue;
-		public string ShortcutItemArgumentsEditedValue
+		private string? shortcutItemArgumentsEditedValue;
+		public string? ShortcutItemArgumentsEditedValue
 		{
 			get => shortcutItemArgumentsEditedValue;
 			set
@@ -650,8 +650,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref shortcutItemWindowArgsVisibility, value);
 		}
 
-		private RelayCommand shortcutItemOpenLinkCommand;
-		public RelayCommand ShortcutItemOpenLinkCommand
+		private RelayCommand? shortcutItemOpenLinkCommand;
+		public RelayCommand? ShortcutItemOpenLinkCommand
 		{
 			get => shortcutItemOpenLinkCommand;
 			set
@@ -796,25 +796,25 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref runAsAdminEnabled, value);
 		}
 
-		private static readonly IReadOnlyDictionary<SHOW_WINDOW_CMD, string> showWindowCommandTypes = new Dictionary<SHOW_WINDOW_CMD, string>
+		private static readonly Dictionary<SHOW_WINDOW_CMD, string> showWindowCommandTypes = new()
 		{
-			{ SHOW_WINDOW_CMD.SW_NORMAL, Strings.NormalWindow.GetLocalizedResource() },
-			{ SHOW_WINDOW_CMD.SW_SHOWMINNOACTIVE, Strings.Minimized.GetLocalizedResource() },
-			{ SHOW_WINDOW_CMD.SW_MAXIMIZE, Strings.Maximized.GetLocalizedResource() }
-		}.AsReadOnly();
+			[SHOW_WINDOW_CMD.SW_NORMAL] = Strings.NormalWindow.GetLocalizedResource(),
+			[SHOW_WINDOW_CMD.SW_SHOWMINNOACTIVE] = Strings.Minimized.GetLocalizedResource(),
+			[SHOW_WINDOW_CMD.SW_MAXIMIZE] = Strings.Maximized.GetLocalizedResource()
+		};
 
 		/// <summary>
 		/// The available show window command types.
 		/// </summary>
-		public IReadOnlyDictionary<SHOW_WINDOW_CMD, string> ShowWindowCommandTypes { get => showWindowCommandTypes; }
+		public Dictionary<SHOW_WINDOW_CMD, string> ShowWindowCommandTypes { get => showWindowCommandTypes; }
 
 		/// <summary>
 		/// The localized string of the currently selected ShowWindowCommand.
 		/// This value can be used for display in the UI.
 		/// </summary>
-		public string SelectedShowWindowCommand
+		public string? SelectedShowWindowCommand
 		{
-			get => ShowWindowCommandTypes.GetValueOrDefault(ShowWindowCommandEditedValue)!;
+			get => ShowWindowCommandTypes.GetValueOrDefault(ShowWindowCommandEditedValue);
 			set => ShowWindowCommandEditedValue = ShowWindowCommandTypes.First(e => e.Value == value).Key;
 		}
 
@@ -881,8 +881,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref isEditAlbumCoverVisible, value);
 		}
 
-		private Picture modifiedAlbumCover;
-		public Picture ModifiedAlbumCover
+		private Picture? modifiedAlbumCover;
+		public Picture? ModifiedAlbumCover
 		{
 			get => modifiedAlbumCover;
 			set => SetProperty(ref modifiedAlbumCover, value);

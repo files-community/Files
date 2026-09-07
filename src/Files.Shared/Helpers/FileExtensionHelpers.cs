@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 
@@ -61,6 +62,16 @@ namespace Files.Shared.Helpers
 		}
 
 		/// <summary>
+		/// Check if the file extension is an image that can be converted to an ICO file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck">The file extension to check.</param>
+		/// <returns><c>true</c> if the fileExtensionToCheck can be converted to an ICO file; otherwise, <c>false</c>.</returns>
+		public static bool IsConvertibleToIcoFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".png", ".bmp", ".jpg", ".jpeg", ".jfif");
+		}
+
+		/// <summary>
 		/// Checks if the file can be set as wallpaper.
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
@@ -95,7 +106,7 @@ namespace Files.Shared.Helpers
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
 		/// <returns><c>true</c> if the fileExtensionToCheck is a PowerShell script; otherwise, <c>false</c>.</returns>
-		public static bool IsPowerShellFile(string fileExtensionToCheck)
+		public static bool IsPowerShellFile(string? fileExtensionToCheck)
 		{
 			return HasExtension(fileExtensionToCheck, ".ps1");
 		}
@@ -105,7 +116,7 @@ namespace Files.Shared.Helpers
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
 		/// <returns><c>true</c> if the fileExtensionToCheck is a Batch file; otherwise, <c>false</c>.</returns>
-		public static bool IsBatchFile(string fileExtensionToCheck)
+		public static bool IsBatchFile(string? fileExtensionToCheck)
 		{
 			return HasExtension(fileExtensionToCheck, ".bat");
 		}
@@ -120,7 +131,7 @@ namespace Files.Shared.Helpers
 			return HasExtension(fileExtensionToCheck, ".zip", ".msix", ".appx", ".msixbundle", ".appxbundle", ".7z", ".rar", ".tar", ".mcpack", ".mcworld", ".mrpack", ".jar", ".gz", ".lzh");
 		}
 
-		public static bool IsBrowsableZipFile(string? filePath, out string? ext)
+		public static bool IsBrowsableZipFile(string? filePath, [NotNullWhen(true)] out string? ext)
 		{
 			if (string.IsNullOrWhiteSpace(filePath))
 			{

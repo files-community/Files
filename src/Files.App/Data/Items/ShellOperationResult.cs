@@ -27,7 +27,7 @@ namespace Files.App.Data.Items
 	{
 		public bool Succeeded { get; set; }
 		public int HResult { get; set; }
-		public string Source { get; set; }
-		public string Destination { get; set; }
+		public string? Source { get; set; }
+		public string? Destination { get; set; }
 	}
 }

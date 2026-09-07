@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Files.Shared.Extensions
@@ -12,6 +13,16 @@ namespace Files.Shared.Extensions
 				return outValue;
 
 			return defaultValue is not null ? defaultValue() : default;
+		}
+
+		public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T?> source)
+			where T : class
+		{
+			foreach (var item in source)
+			{
+				if (item is not null)
+					yield return item;
+			}
 		}
 	}
 }

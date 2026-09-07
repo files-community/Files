@@ -11,8 +11,8 @@ namespace Files.App.ViewModels.Previews
 {
 	public sealed partial class ImagePreviewViewModel : BasePreviewModel
 	{
-		private ImageSource imageSource;
-		public ImageSource ImageSource
+		private ImageSource? imageSource;
+		public ImageSource? ImageSource
 		{
 			get => imageSource;
 			private set => SetProperty(ref imageSource, value);
@@ -25,7 +25,7 @@ namespace Files.App.ViewModels.Previews
 
 		public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
-			using IRandomAccessStream stream = await Item.ItemFile.OpenAsync(FileAccessMode.Read);
+			using IRandomAccessStream stream = await PreviewFile.OpenAsync(FileAccessMode.Read);
 
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{

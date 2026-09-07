@@ -12,12 +12,9 @@ namespace Files.App.ViewModels.Properties
 
 		public LibraryProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource,
 			DispatcherQueue coreDispatcher, LibraryItem item, IShellPage instance)
+			: base(viewModel, tokenSource, coreDispatcher, instance)
 		{
-			ViewModel = viewModel;
-			TokenSource = tokenSource;
-			Dispatcher = coreDispatcher;
 			Library = item;
-			AppInstance = instance;
 
 			GetBaseProperties();
 			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
@@ -46,16 +43,17 @@ namespace Files.App.ViewModels.Properties
 
 		public async override Task GetSpecialPropertiesAsync()
 		{
-			var fileAttributes = Win32Helper.GetFileAttributes(Library.ItemPath);
+			var libraryPath = Library.GetRequiredPath();
+			var fileAttributes = Win32Helper.GetFileAttributes(libraryPath);
 			ViewModel.IsReadOnly = fileAttributes.HasFlag(System.IO.FileAttributes.ReadOnly);
 			ViewModel.IsHidden = fileAttributes.HasFlag(System.IO.FileAttributes.Hidden);
 			ViewModel.CanCompressContent = false;
 
 			var result = await FileThumbnailHelper.GetIconAsync(
-				Library.ItemPath,
+				libraryPath,
 				Constants.ShellIconSizes.ExtraLarge,
 				true,
-				IconOptions.UseCurrentScale);
+				IconOptions.None);
 
 			if (result is not null)
 			{
@@ -64,7 +62,9 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.LoadFileIcon = true;
 			}
 
-			BaseStorageFile libraryFile = await AppInstance.ShellViewModel.GetFileFromPathAsync(Library.ItemPath);
+			var shellViewModel = AppInstance.GetRequiredShellViewModel();
+
+			BaseStorageFile? libraryFile = Library.ItemPath is null ? null : (await shellViewModel.GetFileFromPathAsync(Library.ItemPath)).Result;
 			if (libraryFile is not null)
 			{
 				ViewModel.ItemCreatedTimestampReal = libraryFile.DateCreated;
@@ -81,7 +81,8 @@ namespace Files.App.ViewModels.Properties
 				{
 					foreach (var path in Library.Folders)
 					{
-						BaseStorageFolder folder = await AppInstance.ShellViewModel.GetFolderFromPathAsync(path);
+						var folder = (await shellViewModel.GetFolderFromPathAsync(path)).Result
+							?? throw new InvalidOperationException($"The library folder '{path}' could not be opened.");
 						if (!string.IsNullOrEmpty(folder.Path))
 						{
 							storageFolders.Add(folder);
@@ -138,17 +139,18 @@ namespace Files.App.ViewModels.Properties
 			SetItemsCountString();
 		}
 
-		private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
+			var libraryPath = Library.GetRequiredPath();
 			switch (e.PropertyName)
 			{
 				case "IsReadOnly":
 					if (ViewModel.IsReadOnly is not null)
 					{
 						if ((bool)ViewModel.IsReadOnly)
-							Win32Helper.SetFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
+							Win32Helper.SetFileAttribute(libraryPath, System.IO.FileAttributes.ReadOnly);
 						else
-							Win32Helper.UnsetFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
+							Win32Helper.UnsetFileAttribute(libraryPath, System.IO.FileAttributes.ReadOnly);
 					}
 
 					break;
@@ -157,9 +159,9 @@ namespace Files.App.ViewModels.Properties
 					if (ViewModel.IsHidden is not null)
 					{
 						if ((bool)ViewModel.IsHidden)
-							Win32Helper.SetFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
+							Win32Helper.SetFileAttribute(libraryPath, System.IO.FileAttributes.Hidden);
 						else
-							Win32Helper.UnsetFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
+							Win32Helper.UnsetFileAttribute(libraryPath, System.IO.FileAttributes.Hidden);
 					}
 
 					break;

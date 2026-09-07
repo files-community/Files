@@ -12,6 +12,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Storage;
 using Windows.System;
+using WinRT;
 
 namespace Files.App.ViewModels.Layouts
 {
@@ -42,37 +43,49 @@ namespace Files.App.ViewModels.Layouts
 			_associatedInstance = associatedInstance;
 			_itemManipulationModel = itemManipulationModel;
 
-			CreateNewFileCommand = new RelayCommand<ShellNewEntry>(CreateNewFile);
+			CreateNewFileCommand = new RelayCommand<ShellNewEntry?>(CreateNewFile);
 			ItemPointerPressedCommand = new AsyncRelayCommand<PointerRoutedEventArgs>(ItemPointerPressedAsync);
 			PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(PointerWheelChanged);
 			DragOverCommand = new AsyncRelayCommand<DragEventArgs>(DragOverAsync);
 			DropCommand = new AsyncRelayCommand<DragEventArgs>(DropAsync);
 		}
 
-		private void CreateNewFile(ShellNewEntry f)
+		private void CreateNewFile(ShellNewEntry? f)
 		{
 			_ = UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.File, f, _associatedInstance);
 		}
 
-		private async Task ItemPointerPressedAsync(PointerRoutedEventArgs e)
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		private async Task ItemPointerPressedAsync(PointerRoutedEventArgs? e)
 		{
+			if (e is null)
+				return;
+
 			// If a folder item was clicked, disable middle mouse click to scroll to cancel the mouse scrolling state and re-enable it
 			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed &&
 				e.OriginalSource is FrameworkElement { DataContext: ListedItem Item } &&
 				Item.PrimaryItemAttribute == StorageItemTypes.Folder)
 			{
-				_associatedInstance.SlimContentPage.IsMiddleClickToScrollEnabled = false;
-				_associatedInstance.SlimContentPage.IsMiddleClickToScrollEnabled = true;
+				var contentPage = _associatedInstance.SlimContentPage
+					?? throw new InvalidOperationException("The shell page does not have an active content page.");
+				contentPage.IsMiddleClickToScrollEnabled = false;
+				contentPage.IsMiddleClickToScrollEnabled = true;
 
 				if (Item.IsShortcut)
-					await NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as IShortcutItem)?.TargetPath ?? Item.ItemPath);
+				{
+					var targetPath = ((e.OriginalSource as FrameworkElement)?.DataContext as IShortcutItem)?.TargetPath;
+					await NavigationHelpers.OpenPathInNewTab(!string.IsNullOrEmpty(targetPath) ? targetPath : Item.GetRequiredPath());
+				}
 				else
 					await NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
 			}
 		}
 
-		private void PointerWheelChanged(PointerRoutedEventArgs e)
+		private void PointerWheelChanged(PointerRoutedEventArgs? e)
 		{
+			if (e is null)
+				return;
+
 			if (e.KeyModifiers is VirtualKeyModifiers.Control &&
 				_associatedInstance.IsCurrentInstance)
 			{
@@ -89,8 +102,11 @@ namespace Files.App.ViewModels.Layouts
 			}
 		}
 
-		public async Task DragOverAsync(DragEventArgs e)
+		public async Task DragOverAsync(DragEventArgs? e)
 		{
+			if (e is null)
+				return;
+
 			var deferral = e.GetDeferral();
 
 			if (_associatedInstance.InstanceViewModel.IsPageTypeSearchResults)
@@ -113,10 +129,12 @@ namespace Files.App.ViewModels.Layouts
 			{
 				e.Handled = true;
 
-				var workingDirectory = _associatedInstance.ShellViewModel.WorkingDirectory.TrimPath();
+				var workingDirectoryPath = _associatedInstance.ShellViewModel.WorkingDirectory
+					?? throw new InvalidOperationException("The shell page does not have a working directory.");
+				var workingDirectory = workingDirectoryPath.TrimPath()!;
 				var folderName = Path.IsPathRooted(workingDirectory) && Path.GetPathRoot(workingDirectory) == workingDirectory ? Path.GetPathRoot(workingDirectory) : Path.GetFileName(workingDirectory);
 
-				if (e.DataView.Contains(StandardDataFormats.Uri) && await e.DataView.GetUriAsync() is { } uri)
+				if (e.DataView.Contains(StandardDataFormats.Uri) && await TryGetUriAsync(e.DataView) is { } uri)
 				{
 					if (GitHelpers.IsValidRepoUrl(uri.ToString()))
 					{
@@ -131,7 +149,7 @@ namespace Files.App.ViewModels.Layouts
 				var draggedItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
 				// As long as one file doesn't already belong to this folder
-				if (_associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(_associatedInstance.ShellViewModel.WorkingDirectory))
+				if (_associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(workingDirectoryPath))
 				{
 					e.AcceptedOperation = DataPackageOperation.None;
 				}
@@ -179,7 +197,7 @@ namespace Files.App.ViewModels.Layouts
 							e.DragUIOverride.Caption = string.Format(Strings.CopyToFolderCaptionText.GetLocalizedResource(), folderName);
 							e.AcceptedOperation = DataPackageOperation.Copy;
 						}
-						else if (draggedItems.AreItemsInSameDrive(_associatedInstance.ShellViewModel.WorkingDirectory))
+						else if (draggedItems.AreItemsInSameDrive(workingDirectoryPath))
 						{
 							e.DragUIOverride.Caption = string.Format(Strings.MoveToFolderCaptionText.GetLocalizedResource(), folderName);
 							// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
@@ -203,7 +221,8 @@ namespace Files.App.ViewModels.Layouts
 			deferral.Complete();
 		}
 
-		public async Task DropAsync(DragEventArgs e)
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
+		public async Task DropAsync(DragEventArgs? e)
 		{
 			if (e is null)
 				return;
@@ -215,7 +234,7 @@ namespace Files.App.ViewModels.Layouts
 			}
 
 			e.Handled = true;
-			if (e.DataView.Contains(StandardDataFormats.Uri) && await e.DataView.GetUriAsync() is { } uri)
+			if (e.DataView.Contains(StandardDataFormats.Uri) && await TryGetUriAsync(e.DataView) is { } uri)
 			{
 				if (GitHelpers.IsValidRepoUrl(uri.ToString()))
 				{
@@ -236,24 +255,26 @@ namespace Files.App.ViewModels.Layouts
 			{
 				if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 					return;
+				var workingDirectoryPath = _associatedInstance.ShellViewModel.WorkingDirectory
+					?? throw new InvalidOperationException("The shell page does not have a working directory.");
 
 				if (e.DataView.Properties.TryGetValue("Files_ActionBinder", out var actionBinder) && actionBinder is "Files_ShelfBinder")
 				{
 					if (e.OriginalSource is not UIElement uiElement)
 						return;
 
-					var pwd = _associatedInstance.ShellViewModel.WorkingDirectory.TrimPath();
+					var pwd = workingDirectoryPath.TrimPath();
 					var folderName = Path.IsPathRooted(pwd) && Path.GetPathRoot(pwd) == pwd ? Path.GetPathRoot(pwd) : Path.GetFileName(pwd);
 					var menuFlyout = new MenuFlyout()
 					{
 						Items =
 						{
 							new MenuFlyoutItem() { Text = string.Format(Strings.CopyToFolderCaptionText.GetLocalizedResource(), folderName), Command = new AsyncRelayCommand(async ct =>
-								await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Copy, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true)) },
+								await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Copy, e.DataView, workingDirectoryPath, false, true)) },
 							new MenuFlyoutItem() { Text = string.Format(Strings.MoveToFolderCaptionText.GetLocalizedResource(), folderName), Command = new AsyncRelayCommand(async ct =>
-								await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Move, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true)) },
+								await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Move, e.DataView, workingDirectoryPath, false, true)) },
 							new MenuFlyoutItem() { Text = string.Format(Strings.LinkToFolderCaptionText.GetLocalizedResource(), folderName), Command = new AsyncRelayCommand(async ct =>
-								await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Link, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true)) }
+								await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Link, e.DataView, workingDirectoryPath, false, true)) }
 						}
 					};
 
@@ -261,13 +282,26 @@ namespace Files.App.ViewModels.Layouts
 				}
 				else
 				{
-					await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true);
+					await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, workingDirectoryPath, false, true);
 					await _associatedInstance.RefreshIfNoWatcherExistsAsync();
 				}
 			}
 			finally
 			{
 				deferral.Complete();
+			}
+		}
+
+		// Dragged data can carry a malformed URI; GetUriAsync throws UriFormatException for it.
+		private static async Task<Uri?> TryGetUriAsync(DataPackageView dataView)
+		{
+			try
+			{
+				return await dataView.GetUriAsync();
+			}
+			catch (UriFormatException)
+			{
+				return null;
 			}
 		}
 

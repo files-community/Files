@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
+using WinRT;
 
 namespace Files.App.Converters
 {
@@ -35,48 +36,56 @@ namespace Files.App.Converters
 
 		public SolidColorBrush InProgressBackgroundBrush
 		{
+			[DynamicWindowsRuntimeCast(typeof(SolidColorBrush))]
 			get => (SolidColorBrush)GetValue(InProgressBackgroundBrushProperty);
 			set => SetValue(InProgressBackgroundBrushProperty, value);
 		}
 
 		public SolidColorBrush InProgressForegroundBrush
 		{
+			[DynamicWindowsRuntimeCast(typeof(SolidColorBrush))]
 			get => (SolidColorBrush)GetValue(InProgressForegroundBrushProperty);
 			set => SetValue(InProgressForegroundBrushProperty, value);
 		}
 
 		public SolidColorBrush SuccessfulBackgroundBrush
 		{
+			[DynamicWindowsRuntimeCast(typeof(SolidColorBrush))]
 			get => (SolidColorBrush)GetValue(SuccessfulBackgroundBrushProperty);
 			set => SetValue(SuccessfulBackgroundBrushProperty, value);
 		}
 
 		public SolidColorBrush SuccessfulForegroundBrush
 		{
+			[DynamicWindowsRuntimeCast(typeof(SolidColorBrush))]
 			get => (SolidColorBrush)GetValue(SuccessfulForegroundBrushProperty);
 			set => SetValue(SuccessfulForegroundBrushProperty, value);
 		}
 
 		public SolidColorBrush ErrorBackgroundBrush
 		{
+			[DynamicWindowsRuntimeCast(typeof(SolidColorBrush))]
 			get => (SolidColorBrush)GetValue(ErrorBackgroundBrushProperty);
 			set => SetValue(ErrorBackgroundBrushProperty, value);
 		}
 
 		public SolidColorBrush ErrorForegroundBrush
 		{
+			[DynamicWindowsRuntimeCast(typeof(SolidColorBrush))]
 			get => (SolidColorBrush)GetValue(ErrorForegroundBrushProperty);
 			set => SetValue(ErrorForegroundBrushProperty, value);
 		}
 
 		public SolidColorBrush CanceledBackgroundBrush
 		{
+			[DynamicWindowsRuntimeCast(typeof(SolidColorBrush))]
 			get => (SolidColorBrush)GetValue(CanceledBackgroundBrushProperty);
 			set => SetValue(CanceledBackgroundBrushProperty, value);
 		}
 
 		public SolidColorBrush CanceledForegroundBrush
 		{
+			[DynamicWindowsRuntimeCast(typeof(SolidColorBrush))]
 			get => (SolidColorBrush)GetValue(CanceledForegroundBrushProperty);
 			set => SetValue(CanceledForegroundBrushProperty, value);
 		}

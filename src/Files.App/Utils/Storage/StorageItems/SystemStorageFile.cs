@@ -8,6 +8,7 @@ using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
+using WinRT;
 using IO = System.IO;
 
 namespace Files.App.Utils.Storage
@@ -16,22 +17,26 @@ namespace Files.App.Utils.Storage
 	{
 		public StorageFile File { get; }
 
-		public override string Path => File?.Path;
-		public override string Name => File?.Name;
-		public override string DisplayName => File?.DisplayName;
+		public override string Path => File.Path;
+		public override string Name => File.Name;
+		public override string DisplayName => File.DisplayName;
 		public override string ContentType => File.ContentType;
-		public override string DisplayType => File?.DisplayType;
+		public override string DisplayType => File.DisplayType;
 		public override string FileType => File.FileType;
-		public override string FolderRelativeId => File?.FolderRelativeId;
+		public override string FolderRelativeId => File.FolderRelativeId;
 
 		public override DateTimeOffset DateCreated => File.DateCreated;
 		public override Windows.Storage.FileAttributes Attributes => File.Attributes;
-		public override IStorageItemExtraProperties Properties => File?.Properties;
+		public override IStorageItemExtraProperties Properties => File.Properties;
 
-		public SystemStorageFile(StorageFile file) => File = file;
+		public SystemStorageFile(StorageFile file)
+		{
+			ArgumentNullException.ThrowIfNull(file);
+			File = file;
+		}
 
-		public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
-			=> AsyncInfo.Run<BaseStorageFile>(async (cancellationToken) =>
+		public static IAsyncOperation<BaseStorageFile?> FromPathAsync(string path)
+			=> AsyncInfo.Run<BaseStorageFile?>(async (cancellationToken) =>
 			{
 				try
 				{
@@ -54,25 +59,29 @@ namespace Files.App.Utils.Storage
 		public override bool IsEqual(IStorageItem item) => File.IsEqual(item);
 		public override bool IsOfType(StorageItemTypes type) => File.IsOfType(type);
 
-		public override IAsyncOperation<BaseStorageFolder> GetParentAsync()
-			=> AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken)
-				=> new SystemStorageFolder(await File.GetParentAsync())
-			);
+		public override IAsyncOperation<BaseStorageFolder?> GetParentAsync()
+			=> AsyncInfo.Run<BaseStorageFolder?>(async (cancellationToken) =>
+			{
+				var parent = await File.GetParentAsync()
+					?? throw new InvalidOperationException("The file does not have a parent.");
+				return new SystemStorageFolder(parent);
+			});
 
 		public override IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync()
 			=> AsyncInfo.Run<BaseBasicProperties>(async (cancellationToken)
 				=> new SystemFileBasicProperties(await File.GetBasicPropertiesAsync(), DateCreated)
 			);
 
-		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder)
+		public override IAsyncOperation<BaseStorageFile?> CopyAsync(IStorageFolder destinationFolder)
 			=> CopyAsync(destinationFolder, Name, NameCollisionOption.FailIfExists);
-		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName)
+		public override IAsyncOperation<BaseStorageFile?> CopyAsync(IStorageFolder destinationFolder, string desiredNewName)
 			=> CopyAsync(destinationFolder, desiredNewName, NameCollisionOption.FailIfExists);
-		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
+		public override IAsyncOperation<BaseStorageFile?> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
 		{
-			return AsyncInfo.Run(async (cancellationToken) =>
+			return AsyncInfo.Run<BaseStorageFile?>(async (cancellationToken) =>
 			{
-				var destFolder = destinationFolder.AsBaseStorageFolder(); // Avoid calling IStorageFolder method
+				var destFolder = destinationFolder.AsBaseStorageFolder() ??
+					throw new NotSupportedException("The destination folder type is not supported."); // Avoid calling IStorageFolder method
 				try
 				{
 					if (destFolder is SystemStorageFolder sysFolder)
@@ -87,7 +96,9 @@ namespace Files.App.Utils.Storage
 					}
 					else
 					{
-						var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
+						var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert())
+							?? throw new IOException($"Failed to create destination file '{desiredNewName}'.");
+
 						await using (var inStream = await this.OpenStreamForReadAsync())
 						await using (var outStream = await destFile.OpenStreamForWriteAsync())
 						{
@@ -120,11 +131,11 @@ namespace Files.App.Utils.Storage
 			});
 		}
 
-		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode) => File.OpenAsync(accessMode);
-		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => File.OpenAsync(accessMode, options);
+		public override IAsyncOperation<IRandomAccessStream?> OpenAsync(FileAccessMode accessMode) => File.OpenAsync(accessMode);
+		public override IAsyncOperation<IRandomAccessStream?> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => File.OpenAsync(accessMode, options);
 
-		public override IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadAsync() => File.OpenReadAsync();
-		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync() => File.OpenSequentialReadAsync();
+		public override IAsyncOperation<IRandomAccessStreamWithContentType?> OpenReadAsync() => File.OpenReadAsync();
+		public override IAsyncOperation<IInputStream?> OpenSequentialReadAsync() => File.OpenSequentialReadAsync();
 
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync() => File.OpenTransactedWriteAsync();
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync(StorageOpenOptions options) => File.OpenTransactedWriteAsync(options);
@@ -179,11 +190,11 @@ namespace Files.App.Utils.Storage
 		public override IAsyncAction DeleteAsync() => File.DeleteAsync();
 		public override IAsyncAction DeleteAsync(StorageDeleteOption option) => File.DeleteAsync(option);
 
-		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
+		public override IAsyncOperation<StorageItemThumbnail?> GetThumbnailAsync(ThumbnailMode mode)
 			=> File.GetThumbnailAsync(mode);
-		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize)
+		public override IAsyncOperation<StorageItemThumbnail?> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize)
 			=> File.GetThumbnailAsync(mode, requestedSize);
-		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
+		public override IAsyncOperation<StorageItemThumbnail?> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
 			=> File.GetThumbnailAsync(mode, requestedSize, options);
 
 		private sealed partial class SystemFileBasicProperties : BaseBasicProperties
@@ -191,10 +202,18 @@ namespace Files.App.Utils.Storage
 			private readonly IStorageItemExtraProperties basicProps;
 			private readonly DateTimeOffset? dateCreated;
 
-			public override ulong Size => (basicProps as BasicProperties)?.Size ?? 0;
+			public override ulong Size
+			{
+				[DynamicWindowsRuntimeCast(typeof(BasicProperties))]
+				get => (basicProps as BasicProperties)?.Size ?? 0;
+			}
 
 			public override DateTimeOffset DateCreated => dateCreated ?? DateTimeOffset.Now;
-			public override DateTimeOffset DateModified => (basicProps as BasicProperties)?.DateModified ?? DateTimeOffset.Now;
+			public override DateTimeOffset DateModified
+			{
+				[DynamicWindowsRuntimeCast(typeof(BasicProperties))]
+				get => (basicProps as BasicProperties)?.DateModified ?? DateTimeOffset.Now;
+			}
 
 			public SystemFileBasicProperties(IStorageItemExtraProperties basicProps, DateTimeOffset dateCreated)
 			{
@@ -202,12 +221,12 @@ namespace Files.App.Utils.Storage
 				this.dateCreated = dateCreated;
 			}
 
-			public override IAsyncOperation<IDictionary<string, object>> RetrievePropertiesAsync(IEnumerable<string> propertiesToRetrieve)
+			public override IAsyncOperation<IDictionary<string, object?>> RetrievePropertiesAsync(IEnumerable<string> propertiesToRetrieve)
 				=> basicProps.RetrievePropertiesAsync(propertiesToRetrieve);
 
 			public override IAsyncAction SavePropertiesAsync()
 				=> basicProps.SavePropertiesAsync();
-			public override IAsyncAction SavePropertiesAsync([HasVariant] IEnumerable<KeyValuePair<string, object>> propertiesToSave)
+			public override IAsyncAction SavePropertiesAsync([HasVariant] IEnumerable<KeyValuePair<string, object?>> propertiesToSave)
 				=> basicProps.SavePropertiesAsync(propertiesToSave);
 		}
 	}

@@ -15,6 +15,6 @@ namespace Files.App.Utils.Serialization
 
 		bool ImportSettings(object? import);
 
-		object? ExportSettings();
+		IDictionary<string, JsonElement> ExportSettings();
 	}
 }

@@ -29,7 +29,7 @@ You can also use the preview version alongside the stable release to get early a
       <img src="./assets/StoreBadge-light.png" height="80" /></picture></a>
   &ensp;
   <!-- Classic Installer Badge -->
-  <a style="text-decoration:none" href="https://files.community/appinstallers/Files.stable.appinstaller">
+  <a style="text-decoration:none" href="https://files.community/download">
     <picture>
       <source media="(prefers-color-scheme: light)" srcset="./assets/ClassicInstallerBadge-dark.png" height="80" />
       <img src="./assets/ClassicInstallerBadge-light.png" height="80" /></picture></a>

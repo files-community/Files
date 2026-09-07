@@ -3,6 +3,8 @@
 
 using System.Collections.Concurrent;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Files.App.Utils.Serialization.Implementation
 {
@@ -12,13 +14,22 @@ namespace Files.App.Utils.Serialization.Implementation
 
 		protected IJsonSettingsSerializer JsonSettingsSerializer { get; }
 
-		public DefaultJsonSettingsDatabase(ISettingsSerializer settingsSerializer, IJsonSettingsSerializer jsonSettingsSerializer)
+		private JsonSerializerContext JsonSerializerContext { get; }
+
+		private JsonTypeInfo<ConcurrentDictionary<string, JsonElement>?> SettingsTypeInfo { get; }
+
+		public DefaultJsonSettingsDatabase(
+			ISettingsSerializer settingsSerializer,
+			IJsonSettingsSerializer jsonSettingsSerializer,
+			JsonSerializerContext jsonSerializerContext)
 		{
 			SettingsSerializer = settingsSerializer;
 			JsonSettingsSerializer = jsonSettingsSerializer;
+			JsonSerializerContext = jsonSerializerContext;
+			SettingsTypeInfo = GetRequiredTypeInfo<ConcurrentDictionary<string, JsonElement>>();
 		}
 
-		protected IDictionary<string, object?> GetFreshSettings()
+		protected ConcurrentDictionary<string, JsonElement> GetFreshSettings()
 		{
 			string data = SettingsSerializer.ReadFromFile();
 
@@ -29,19 +40,19 @@ namespace Files.App.Utils.Serialization.Implementation
 
 			try
 			{
-				return JsonSettingsSerializer.DeserializeFromJson<ConcurrentDictionary<string, object?>?>(data) ?? new();
+				return JsonSettingsSerializer.DeserializeFromJson(data, SettingsTypeInfo) ?? [];
 			}
 			catch (Exception)
 			{
 				// Occurs if the settings file has invalid json
 				// TODO Display prompt to notify user #710
-				return JsonSettingsSerializer.DeserializeFromJson<ConcurrentDictionary<string, object?>?>("null") ?? new();
+				return JsonSettingsSerializer.DeserializeFromJson("null", SettingsTypeInfo) ?? [];
 			}
 		}
 
-		protected bool SaveSettings(IDictionary<string, object?> data)
+		protected bool SaveSettings(ConcurrentDictionary<string, JsonElement> data)
 		{
-			var jsonData = JsonSettingsSerializer.SerializeToJson(data);
+			var jsonData = JsonSettingsSerializer.SerializeToJson(data, SettingsTypeInfo);
 
 			return SettingsSerializer.WriteToFile(jsonData);
 		}
@@ -52,7 +63,7 @@ namespace Files.App.Utils.Serialization.Implementation
 
 			if (data.TryGetValue(key, out var objVal))
 			{
-				return GetValueFromObject<TValue>(objVal) ?? defaultValue;
+				return GetValueFromElement<TValue>(objVal) ?? defaultValue;
 			}
 			else
 			{
@@ -64,9 +75,10 @@ namespace Files.App.Utils.Serialization.Implementation
 		public virtual bool SetValue<TValue>(string key, TValue? newValue)
 		{
 			var data = GetFreshSettings();
+			var newElement = GetElementFromValue(newValue);
 
-			if (!data.TryAdd(key, newValue))
-				data[key] = newValue;
+			if (!data.TryAdd(key, newElement))
+				data[key] = newElement;
 
 			return SaveSettings(data);
 		}
@@ -75,7 +87,7 @@ namespace Files.App.Utils.Serialization.Implementation
 		{
 			var data = GetFreshSettings();
 
-			return data.Remove(key) && SaveSettings(data);
+			return data.TryRemove(key, out _) && SaveSettings(data);
 		}
 
 		public bool FlushSettings()
@@ -88,18 +100,15 @@ namespace Files.App.Utils.Serialization.Implementation
 		{
 			try
 			{
-				// Try convert
-				var data = (IDictionary<string, object?>?)import;
-				if (data is null)
+				var data = import switch
 				{
-					return false;
-				}
+					IDictionary<string, JsonElement> jsonElements => new ConcurrentDictionary<string, JsonElement>(jsonElements),
+					IDictionary<string, object?> objects => new ConcurrentDictionary<string, JsonElement>(
+						objects.Select(x => new KeyValuePair<string, JsonElement>(x.Key, GetElementFromObject(x.Value)))),
+					_ => null,
+				};
 
-				// Serialize
-				var serialized = JsonSettingsSerializer.SerializeToJson(data);
-
-				// Write to file
-				return SettingsSerializer.WriteToFile(serialized);
+				return data is not null && SaveSettings(data);
 			}
 			catch (Exception ex)
 			{
@@ -110,28 +119,39 @@ namespace Files.App.Utils.Serialization.Implementation
 			}
 		}
 
-		public object? ExportSettings()
+		public IDictionary<string, JsonElement> ExportSettings()
 		{
 			return GetFreshSettings();
 		}
 
-		protected static TValue? GetValueFromObject<TValue>(object? obj)
+		protected JsonElement GetElementFromValue<TValue>(TValue? value)
 		{
-			if (obj is JsonElement jElem)
-			{
-				try
-				{
-					return jElem.Deserialize<TValue>();
-				}
-				catch (JsonException)
-				{
-					// Deserialization failed (e.g., incompatible type in settings file)
-					// Return null to fall back to the default value
-					return default;
-				}
-			}
+			return JsonSettingsSerializer.SerializeToElement(value, GetRequiredTypeInfo<TValue>());
+		}
 
-			return (TValue?)obj;
+		protected TValue? GetValueFromElement<TValue>(JsonElement element)
+		{
+			try
+			{
+				return JsonSettingsSerializer.DeserializeFromElement(element, GetRequiredTypeInfo<TValue>());
+			}
+			catch (JsonException)
+			{
+				// Deserialization failed (e.g., incompatible type in settings file)
+				// Return null to fall back to the default value
+				return default;
+			}
+		}
+
+		private JsonElement GetElementFromObject(object? value)
+		{
+			return JsonSettingsSerializer.SerializeToElement<object>(value, GetRequiredTypeInfo<object>());
+		}
+
+		private JsonTypeInfo<TValue?> GetRequiredTypeInfo<TValue>()
+		{
+			return JsonSerializerContext.GetTypeInfo(typeof(TValue)) as JsonTypeInfo<TValue?>
+				?? throw new InvalidOperationException($"JSON serialization metadata is missing for {typeof(TValue)}.");
 		}
 	}
 }

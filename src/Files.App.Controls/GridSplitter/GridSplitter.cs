@@ -4,6 +4,7 @@
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Input;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -32,6 +33,7 @@ namespace Files.App.Controls
 		/// </summary>
 		private FrameworkElement TargetControl
 		{
+			[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 			get
 			{
 				if (ParentLevel == 0)
@@ -56,7 +58,11 @@ namespace Files.App.Controls
 		/// <summary>
 		/// Gets GridSplitter Container Grid
 		/// </summary>
-		private Grid? Resizable => TargetControl.Parent as Grid;
+		private Grid? Resizable
+		{
+			[DynamicWindowsRuntimeCast(typeof(Grid))]
+			get => TargetControl.Parent as Grid;
+		}
 
 		/// <summary>
 		/// Gets the current Column definition of the parent Grid

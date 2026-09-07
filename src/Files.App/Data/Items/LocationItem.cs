@@ -14,8 +14,8 @@ namespace Files.App.Data.Items
 {
 	public partial class LocationItem : ExpandableSidebarItemBase, INavigationControlItem, IExpandableSidebarFolder
 	{
-		public BitmapImage icon;
-		public BitmapImage Icon
+		public BitmapImage? icon;
+		public BitmapImage? Icon
 		{
 			get => icon;
 			set
@@ -25,7 +25,7 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public byte[] IconData { get; set; }
+		public byte[]? IconData { get; set; }
 
 		private string text = "";
 		public string Text
@@ -40,22 +40,23 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		private string path;
-		public string Path
+		private string? path;
+		public string? Path
 		{
 			get => path;
 			set
 			{
 				path = value;
-				ToolTip = string.IsNullOrEmpty(Path) ||
-					Path.Contains('?', StringComparison.Ordinal) ||
-					Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) ||
-					Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) ||
-					Path == "Home" ||
-					Path == "ReleaseNotes" ||
-					Path == "Settings"
+				var currentPath = value;
+				ToolTip = string.IsNullOrEmpty(currentPath) ||
+					currentPath.Contains('?', StringComparison.Ordinal) ||
+					currentPath.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) ||
+					currentPath.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) ||
+					currentPath == "Home" ||
+					currentPath == "ReleaseNotes" ||
+					currentPath == "Settings"
 					? Text
-					: Path;
+					: currentPath;
 			}
 		}
 
@@ -77,13 +78,18 @@ namespace Files.App.Data.Items
 		}
 		public BulkConcurrentObservableCollection<INavigationControlItem>? ChildItems { get; set; }
 
-		protected override string ExpansionPath => path;
+		protected override string ExpansionPath
+			=> path ?? throw new InvalidOperationException("The location path has not been initialized.");
 		protected override BulkConcurrentObservableCollection<INavigationControlItem> EnsureChildItems() => ChildItems ??= [];
 
 		public IconElement? IconElement
 		{
 			get
 			{
+				// CreateIconElement throws a catastrophic 0x8000FFFF on a null source, so wait for the icon to load before building one
+				if (icon is null)
+					return null;
+
 				var source = new ImageIconSource()
 				{
 					ImageSource = icon
@@ -91,6 +97,8 @@ namespace Files.App.Data.Items
 				return source.CreateIconElement();
 			}
 		}
+
+		FrameworkElement? ISidebarItemPresentationModel.IconElement => IconElement;
 
 		public bool SelectsOnInvoked { get; set; } = true;
 
@@ -136,7 +144,7 @@ namespace Files.App.Data.Items
 			// FolderHelpers.EnumerateSubfolders / FileThumbnailHelper can throw UnauthorizedAccessException, IOException, or COMException on inaccessible / missing paths. Still run onLoaded on the dispatcher so the caller can clear HasUnrealizedChildren and mark childrenLoaded — otherwise the chevron stays and every subsequent click replays the failing enumeration.
 			catch (Exception ex)
 			{
-				App.Logger?.LogDebug(ex, "Sidebar subfolder enumeration failed for {Path}", enumerationPath);
+				App.Logger?.LogDebug(ex, "Sidebar subfolder enumeration failed for {Path}", LogPathHelper.RedactPath(enumerationPath));
 				await (MainWindow.Instance?.DispatcherQueue).EnqueueOrInvokeAsync(onLoaded);
 			}
 		}
@@ -159,7 +167,7 @@ namespace Files.App.Data.Items
 
 				try
 				{
-					cachedGenericSmallFolderIconBytes = await FileThumbnailHelper.GetIconAsync(genericFolderProbePath, Constants.ShellIconSizes.Small, true, IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+					cachedGenericSmallFolderIconBytes = await FileThumbnailHelper.GetIconAsync(genericFolderProbePath, Constants.ShellIconSizes.Small, true, IconOptions.ReturnIconOnly);
 				}
 				// FileThumbnailHelper.GetIconAsync can throw COMException when the shell handler is in a bad state; leave the cache null so children render without an icon.
 				catch (Exception ex) { App.Logger?.LogDebug(ex, "LocationItem: generic small folder icon load failed"); }
@@ -185,12 +193,12 @@ namespace Files.App.Data.Items
 				try
 				{
 					// Size + scale must match the generic-icon fetch in LoadSubfoldersIntoAsync so the byte-equality skip below is valid.
-					realBytes = await FileThumbnailHelper.GetIconAsync(path, Constants.ShellIconSizes.Small, true, IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+					realBytes = await FileThumbnailHelper.GetIconAsync(path, Constants.ShellIconSizes.Small, true, IconOptions.ReturnIconOnly);
 				}
 				// FileThumbnailHelper.GetIconAsync can throw COMException / UnauthorizedAccessException on inaccessible paths; keep the shared generic icon.
 				catch (Exception ex)
 				{
-					App.Logger?.LogDebug(ex, "LocationItem: real icon load failed for {Path}", path);
+					App.Logger?.LogDebug(ex, "LocationItem: real icon load failed for {Path}", LogPathHelper.RedactPath(path));
 					continue;
 				}
 
@@ -208,7 +216,7 @@ namespace Files.App.Data.Items
 							item.Icon = bmp;
 					}
 					// BitmapImage.SetSourceAsync throws on corrupt bytes; keep the generic icon.
-					catch (Exception ex) { App.Logger?.LogDebug(ex, "LocationItem: real icon decode failed for {Path}", path); }
+					catch (Exception ex) { App.Logger?.LogDebug(ex, "LocationItem: real icon decode failed for {Path}", LogPathHelper.RedactPath(path)); }
 				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 			}
 		}
@@ -222,7 +230,7 @@ namespace Files.App.Data.Items
 				IsExpandableFolder = true,
 				HasUnrealizedChildren = entry.HasSubfolders,
 				IsHidden = entry.IsHidden,
-				Icon = sharedIcon!,
+				Icon = sharedIcon,
 				MenuOptions = new ContextMenuOptions
 				{
 					IsLocationItem = true,
@@ -236,11 +244,11 @@ namespace Files.App.Data.Items
 
 		public bool IsInvalid { get; set; } = false;
 
-		public bool IsPinned => App.QuickAccessManager.Model.PinnedFolders.Contains(path);
+		public bool IsPinned => Enumerable.Contains<string?>(App.QuickAccessManager.Model.PinnedFolders, path);
 
 		public SectionType Section { get; set; }
 
-		public ContextMenuOptions MenuOptions { get; set; }
+		public ContextMenuOptions? MenuOptions { get; set; }
 
 		public bool IsHeader { get; set; }
 
@@ -257,7 +265,12 @@ namespace Files.App.Data.Items
 		public FrameworkElement? ItemDecorator => null;
 
 		public int CompareTo(INavigationControlItem? other)
-			=> Text.CompareTo(other.Text);
+		{
+			var otherText = other?.Text
+				?? throw new ArgumentException("The compared item must have a name.", nameof(other));
+
+			return Text.CompareTo(otherText);
+		}
 
 		public static T Create<T>() where T : LocationItem, new()
 		{

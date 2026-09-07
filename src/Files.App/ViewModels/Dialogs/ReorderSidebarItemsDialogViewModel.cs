@@ -24,7 +24,7 @@ namespace Files.App.ViewModels.Dialogs
 
 		public void SaveChanges()
 		{
-			quickAccessService.SaveAsync(SidebarPinnedFolderItems.Select(x => x.Path).ToArray());
+			quickAccessService.SaveAsync(SidebarPinnedFolderItems.Select(x => x.Path!).ToArray());
 		}
 	}
 }

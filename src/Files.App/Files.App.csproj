@@ -20,11 +20,10 @@
         <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
         <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
         <Nullable>Enable</Nullable>
+        <NoWarn>$(NoWarn);CS8305</NoWarn>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <Platforms>x86;x64;arm64</Platforms>
         <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-        <SelfContained>false</SelfContained>
-        <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
         <UseWinUI>true</UseWinUI>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -36,11 +35,40 @@
         <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
         <PublishReadyToRunComposite Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRunComposite>
         <ApplicationIcon>Assets\AppTiles\Dev\Logo.ico</ApplicationIcon>
+        <IsTrimmable>true</IsTrimmable>
+        <IsAotCompatible>true</IsAotCompatible>
+        <IlcGenerateMstatFile>true</IlcGenerateMstatFile>
+        <IlcGenerateDgmlFile>true</IlcGenerateDgmlFile>
     </PropertyGroup>
 
     <PropertyGroup>
         <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     </PropertyGroup>
+
+    <PropertyGroup Condition="'$(SENTRY_AUTH_TOKEN)' != ''">
+        <SentryOrg>files-org</SentryOrg>
+        <SentryProject>files-app</SentryProject>
+        <SentryUploadSymbols>true</SentryUploadSymbols>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <DirectPInvoke Include="ADVAPI32" />
+        <DirectPInvoke Include="api-ms-win-core-com-l1-1-0" />
+        <DirectPInvoke Include="api-ms-win-core-com-l1-1-1" />
+        <DirectPInvoke Include="api-ms-win-core-winrt-l1-1-0" />
+        <DirectPInvoke Include="api-ms-win-core-winrt-robuffer-l1-1-0" />
+        <DirectPInvoke Include="api-ms-win-core-winrt-string-l1-1-0" />
+        <DirectPInvoke Include="CRYPT32" />
+        <DirectPInvoke Include="GDI32" />
+        <DirectPInvoke Include="KERNEL32.dll" />
+        <DirectPInvoke Include="Microsoft.WindowsAppRuntime.Bootstrap" />
+        <DirectPInvoke Include="OLE32" />
+        <DirectPInvoke Include="OLEAUT32" />
+        <DirectPInvoke Include="USER32" />
+        <_WindowsAppRuntimeBootstrapLibrary Include="@(WindowsAppSdkComponentPackages->'%(FullPath)lib\native\$(Platform)\Microsoft.WindowsAppRuntime.Bootstrap.lib')" />
+        <NativeLibrary Include="runtimeobject.lib" />
+        <NativeLibrary Include="@(_WindowsAppRuntimeBootstrapLibrary->Exists())" />
+    </ItemGroup>
   
     <ItemGroup>
         <Manifest Include="app.manifest" />
@@ -72,7 +100,6 @@
         <PackageReference Include="ColorCode.WinUI" />
         <PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock" />
         <PackageReference Include="CommunityToolkit.Labs.WinUI.DependencyPropertyGenerator" />
-        <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" />
         <PackageReference Include="CommunityToolkit.Mvvm" />
         <PackageReference Include="CommunityToolkit.WinUI.Behaviors" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.ColorPicker" />
@@ -89,28 +116,27 @@
         <PackageReference Include="MessageFormat" />
         <PackageReference Include="Microsoft.Data.Sqlite.Core" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" />
         <PackageReference Include="Microsoft.Extensions.Logging" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" />
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
         <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" />
         <PackageReference Include="Sentry" />
         <PackageReference Include="SevenZipSharp" />
         <PackageReference Include="SharpZipLib" />
         <PackageReference Include="SQLitePCLRaw.bundle_green" />
+        <PackageReference Include="System.Drawing.Common" />
         <PackageReference Include="Microsoft.WindowsAppSDK" />
         <PackageReference Include="Microsoft.Graphics.Win2D" />
         <PackageReference Include="TagLibSharp" />
         <PackageReference Include="UTF.Unknown" />
-        <PackageReference Include="WinUIEx" />
-        <PackageReference Include="Vanara.Windows.Extensions" />
-        <PackageReference Include="Vanara.Windows.Shell" />
         <PackageReference Include="Microsoft.Windows.CsWinRT" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Update="Microsoft.WindowsAppSDK.AI" ExcludeAssets="all" />
-        <PackageReference Update="Microsoft.WindowsAppSDK.ML" ExcludeAssets="all" />
-        <PackageReference Update="Microsoft.WindowsAppSDK.Widgets" ExcludeAssets="all" />
+        <PackageReference Include="Microsoft.WindowsAppSDK.AI" ExcludeAssets="all" />
+        <PackageReference Include="Microsoft.WindowsAppSDK.ML" ExcludeAssets="all" />
+        <PackageReference Include="Microsoft.Windows.AI.MachineLearning" ExcludeAssets="all" />
+        <PackageReference Include="Microsoft.WindowsAppSDK.Widgets" ExcludeAssets="all" />
     </ItemGroup>
 
     <ItemGroup>
@@ -134,15 +160,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <TrimmerRootAssembly Include="Files.App.BackgroundTasks" />
-        <TrimmerRootAssembly Include="Files" />
-        <TrimmerRootAssembly Include="Files.App.Storage" />
-        <TrimmerRootAssembly Include="Files.Core" />
-        <TrimmerRootAssembly Include="Files.Core.Storage" />
-        <TrimmerRootAssembly Include="Files.Shared" />
-    </ItemGroup>
-
-    <ItemGroup>
         <AdditionalFiles Include="Strings\en-US\Resources.resw" />
     </ItemGroup>
 
@@ -153,6 +170,4 @@
                  Targets="Build"
                  Properties="Configuration=$(Configuration);Platform=$(Platform)" />
     </Target>
-
-    <Import Project="..\Satori.targets" Condition=" '$(Platform)' != 'x86' " />
 </Project>

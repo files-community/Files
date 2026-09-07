@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using System.Runtime.InteropServices;
+using WinRT;
 
 namespace Files.App.Actions
 {
@@ -33,6 +34,7 @@ namespace Files.App.Actions
 			return Task.CompletedTask;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(SelectorItem))]
 		private static SelectorItem? GetFocusedElement()
 		{
 			try

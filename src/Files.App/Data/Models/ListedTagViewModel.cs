@@ -33,8 +33,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref _CanCommit, value);
 		}
 
-		private string _NewName;
-		public string NewName
+		private string? _NewName;
+		public string? NewName
 		{
 			get => _NewName;
 			set => SetProperty(ref _NewName, value);
@@ -49,8 +49,8 @@ namespace Files.App.Data.Models
 
 		public ListedTagViewModel(TagViewModel tag)
 		{
-			Tag = tag;
-			NewColor = tag.Color;
+			_Tag = tag;
+			_NewColor = tag.Color;
 		}
 	}
 }

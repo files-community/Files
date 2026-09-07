@@ -6,16 +6,20 @@ using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.IO;
-using Vanara.PInvoke;
-using Vanara.Windows.Shell;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Win32;
 using Windows.Win32.UI.WindowsAndMessaging;
+using FILEOPERATION_FLAGS = Windows.Win32.UI.Shell.FILEOPERATION_FLAGS;
+using HRESULT = Windows.Win32.Foundation.HRESULT;
+using HWND = Windows.Win32.Foundation.HWND;
+using PROPERTYKEY = Windows.Win32.Foundation.PROPERTYKEY;
+using SLR_FLAGS = Windows.Win32.UI.Shell.SLR_FLAGS;
 
 namespace Files.App.Utils.Storage
 {
 	public sealed partial class FileOperationsHelpers
 	{
-		private static readonly Ole32.PROPERTYKEY PKEY_FilePlaceholderStatus = new Ole32.PROPERTYKEY(new Guid("B2F9B9D6-FEC4-4DD5-94D7-8957488C807B"), 2);
+		private static readonly PROPERTYKEY PKEY_FilePlaceholderStatus = new() { fmtid = new("B2F9B9D6-FEC4-4DD5-94D7-8957488C807B"), pid = 2 };
 		private const uint PS_CLOUDFILE_PLACEHOLDER = 8;
 
 		private static IDevToolsSettingsService DevToolsSettingsService => field ??= Ioc.Default.GetRequiredService<IDevToolsSettingsService>();
@@ -27,40 +31,32 @@ namespace Files.App.Utils.Storage
 		{
 			return STATask.Run(() =>
 			{
-				System.Windows.Forms.Clipboard.Clear();
-				var fileList = new System.Collections.Specialized.StringCollection();
-				fileList.AddRange(filesToCopy);
-				MemoryStream dropEffect = new MemoryStream(operation == DataPackageOperation.Copy ?
-					[5, 0, 0, 0] : [2, 0, 0, 0]);
-				var data = new System.Windows.Forms.DataObject();
-				data.SetFileDropList(fileList);
-				data.SetData("Preferred DropEffect", dropEffect);
-				System.Windows.Forms.Clipboard.SetDataObject(data, true);
+				uint preferredDropEffect = (uint)(operation == DataPackageOperation.Copy
+					? DataPackageOperation.Copy | DataPackageOperation.Link
+					: DataPackageOperation.Move);
+				ShellDataObject.SetClipboard(filesToCopy, preferredDropEffect);
 			}, App.Logger);
 		}
 
-		public static Task<(bool, ShellOperationResult)> CreateItemAsync(string filePath, string fileOp, long ownerHwnd, bool asAdmin, string template = "", byte[]? dataBytes = null)
+		public static Task<(bool, ShellOperationResult)> CreateItemAsync(string filePath, string fileOp, long ownerHwnd, bool asAdmin, string? template = null, byte[]? dataBytes = null)
 		{
 			return STATask.Run(async () =>
 			{
 				using var op = new ShellFileOperations2();
 
-				op.Options = ShellFileOperations.OperationFlags.Silent
-							| ShellFileOperations.OperationFlags.NoConfirmMkDir
-							| ShellFileOperations.OperationFlags.RenameOnCollision
-							| ShellFileOperations.OperationFlags.NoErrorUI;
+				op.Options = FILEOPERATION_FLAGS.FOF_SILENT | FILEOPERATION_FLAGS.FOF_NOCONFIRMMKDIR | FILEOPERATION_FLAGS.FOF_RENAMEONCOLLISION | FILEOPERATION_FLAGS.FOF_NOERRORUI;
 				if (asAdmin)
 				{
-					op.Options |= ShellFileOperations.OperationFlags.ShowElevationPrompt
-								| ShellFileOperations.OperationFlags.RequireElevation;
+					op.Options |= FILEOPERATION_FLAGS.FOFX_SHOWELEVATIONPROMPT | FILEOPERATION_FLAGS.FOFX_REQUIREELEVATION;
 				}
-				op.OwnerWindow = (IntPtr)ownerHwnd;
+				op.OwnerWindow = (HWND)(nint)ownerHwnd;
 
 				var shellOperationResult = new ShellOperationResult();
+				var parentPath = Path.GetDirectoryName(filePath);
 
-				if (!SafetyExtensions.IgnoreExceptions(() =>
+				if (parentPath is null || !SafetyExtensions.IgnoreExceptions(() =>
 				{
-					using var shd = new ShellFolder(Path.GetDirectoryName(filePath));
+					using var shd = new ShellFolder(parentPath);
 					op.QueueNewItemOperation(shd, Path.GetFileName(filePath),
 						fileOp == "CreateFolder" ? FileAttributes.Directory : FileAttributes.Normal, template);
 				}))
@@ -94,11 +90,12 @@ namespace Files.App.Utils.Storage
 					createTcs.TrySetResult(false);
 				}
 
-				if (dataBytes is not null && (shellOperationResult.Items.SingleOrDefault()?.Succeeded ?? false))
+				if (dataBytes is not null &&
+					shellOperationResult.Items.SingleOrDefault() is { Succeeded: true, Destination: { } destination })
 				{
 					SafetyExtensions.IgnoreExceptions(() =>
 					{
-						using var fs = new FileStream(shellOperationResult.Items.Single().Destination, FileMode.Open);
+						using var fs = new FileStream(destination, FileMode.Open);
 						fs.Write(dataBytes, 0, dataBytes.Length);
 						fs.Flush();
 					}, App.Logger);
@@ -114,10 +111,8 @@ namespace Files.App.Utils.Storage
 			{
 				using var op = new ShellFileOperations2();
 
-				op.Options = ShellFileOperations.OperationFlags.Silent
-							| ShellFileOperations.OperationFlags.NoConfirmation
-							| ShellFileOperations.OperationFlags.NoErrorUI;
-				op.Options |= ShellFileOperations.OperationFlags.RecycleOnDelete;
+				op.Options = FILEOPERATION_FLAGS.FOF_SILENT | FILEOPERATION_FLAGS.FOF_NOCONFIRMATION | FILEOPERATION_FLAGS.FOF_NOERRORUI;
+				op.Options |= FILEOPERATION_FLAGS.FOFX_RECYCLEONDELETE;
 
 				var shellOperationResult = new ShellOperationResult();
 				var tryDelete = false;
@@ -135,7 +130,7 @@ namespace Files.App.Utils.Storage
 							{
 								Succeeded = false,
 								Source = fileToDeletePath[i],
-								HResult = HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND
+								HResult = (int)HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND
 							});
 						}
 						else
@@ -160,15 +155,15 @@ namespace Files.App.Utils.Storage
 				var deleteTcs = new TaskCompletionSource<bool>();
 				op.PreDeleteItem += [DebuggerHidden] (s, e) =>
 				{
-					if (!e.Flags.HasFlag(ShellFileOperations.TransferFlags.DeleteRecycleIfPossible))
+					if ((e.Flags & Windows.Win32.UI.Shell._TRANSFER_SOURCE_FLAGS.TSF_DELETE_RECYCLE_IF_POSSIBLE) is 0)
 					{
 						shellOperationResult.Items.Add(new ShellOperationItemResult()
 						{
 							Succeeded = false,
 							Source = e.SourceItem.GetParsingPath(),
-							HResult = HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND
+							HResult = (int)HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND
 						});
-						throw new Win32Exception(HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND); // E_FAIL, stops operation
+						throw new Win32Exception((int)HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND); // E_FAIL, stops operation
 					}
 					else
 					{
@@ -176,9 +171,9 @@ namespace Files.App.Utils.Storage
 						{
 							Succeeded = true,
 							Source = e.SourceItem.GetParsingPath(),
-							HResult = HRESULT.COPYENGINE_E_USER_CANCELLED
+							HResult = (int)HRESULT.COPYENGINE_E_USER_CANCELLED
 						});
-						throw new Win32Exception(HRESULT.COPYENGINE_E_USER_CANCELLED); // E_FAIL, stops operation
+						throw new Win32Exception((int)HRESULT.COPYENGINE_E_USER_CANCELLED); // E_FAIL, stops operation
 					}
 				};
 				op.FinishOperations += (s, e) => deleteTcs.TrySetResult(e.Result.Succeeded);
@@ -196,7 +191,7 @@ namespace Files.App.Utils.Storage
 			}, App.Logger);
 		}
 
-		public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string[] fileToDeletePath, bool permanently, long ownerHwnd, bool asAdmin, IProgress<StatusCenterItemProgressModel> progress, string operationID = "")
+		public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string[] fileToDeletePath, bool permanently, long ownerHwnd, bool asAdmin, IProgress<StatusCenterItemProgressModel>? progress, string operationID = "")
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
@@ -231,25 +226,18 @@ namespace Files.App.Utils.Storage
 			{
 				using var op = new ShellFileOperations2();
 
-				op.Options =
-					ShellFileOperations.OperationFlags.Silent |
-					ShellFileOperations.OperationFlags.NoConfirmation |
-					ShellFileOperations.OperationFlags.NoErrorUI;
+				op.Options = FILEOPERATION_FLAGS.FOF_SILENT | FILEOPERATION_FLAGS.FOF_NOCONFIRMATION | FILEOPERATION_FLAGS.FOF_NOERRORUI;
 
 				if (asAdmin)
 				{
-					op.Options |=
-						ShellFileOperations.OperationFlags.ShowElevationPrompt |
-						ShellFileOperations.OperationFlags.RequireElevation;
+					op.Options |= FILEOPERATION_FLAGS.FOFX_SHOWELEVATIONPROMPT | FILEOPERATION_FLAGS.FOFX_REQUIREELEVATION;
 				}
 
-				op.OwnerWindow = (IntPtr)ownerHwnd;
+				op.OwnerWindow = (HWND)(nint)ownerHwnd;
 
 				if (!permanently)
 				{
-					op.Options |=
-						ShellFileOperations.OperationFlags.RecycleOnDelete |
-						ShellFileOperations.OperationFlags.WantNukeWarning;
+					op.Options |= FILEOPERATION_FLAGS.FOFX_RECYCLEONDELETE | FILEOPERATION_FLAGS.FOF_WANTNUKEWARNING;
 				}
 
 				var shellOperationResult = new ShellOperationResult();
@@ -280,25 +268,31 @@ namespace Files.App.Utils.Storage
 				// Right before deleting item
 				op.PreDeleteItem += (s, e) =>
 				{
-					sizeCalculator.ForceComputeFileSize(e.SourceItem.GetParsingPath());
-					fsProgress.FileName = e.SourceItem.Name;
+					if (e.SourceItem is not { } sourceItem)
+						return;
+
+					if (sourceItem.GetParsingPath() is { } sourcePath)
+						sizeCalculator.ForceComputeFileSize(sourcePath);
+					fsProgress.FileName = sourceItem.Name ?? string.Empty;
 					fsProgress.Report();
 				};
 
 				// Right after deleted item
 				op.PostDeleteItem += (s, e) =>
 				{
-					if (!e.SourceItem.IsFolder)
+					var sourceItem = e.SourceItem;
+					var sourcePath = sourceItem?.GetParsingPath();
+					if (sourceItem is { IsFolder: false } && sourcePath is not null)
 					{
-						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.GetParsingPath(), out _))
+						if (sizeCalculator.TryGetComputedFileSize(sourcePath, out _))
 							fsProgress.AddProcessedItemsCount(1);
 					}
 
 					shellOperationResult.Items.Add(new ShellOperationItemResult()
 					{
 						Succeeded = e.Result.Succeeded,
-						Source = e.SourceItem.GetParsingPath(),
-						Destination = e.DestItem.GetParsingPath(),
+						Source = sourcePath,
+						Destination = e.DestItem?.GetParsingPath(),
 						HResult = (int)e.Result
 					});
 
@@ -346,15 +340,13 @@ namespace Files.App.Utils.Storage
 				using var op = new ShellFileOperations2();
 				var shellOperationResult = new ShellOperationResult();
 
-				op.Options = ShellFileOperations.OperationFlags.Silent
-						  | ShellFileOperations.OperationFlags.NoErrorUI;
+				op.Options = FILEOPERATION_FLAGS.FOF_SILENT | FILEOPERATION_FLAGS.FOF_NOERRORUI;
 				if (asAdmin)
 				{
-					op.Options |= ShellFileOperations.OperationFlags.ShowElevationPrompt
-							| ShellFileOperations.OperationFlags.RequireElevation;
+					op.Options |= FILEOPERATION_FLAGS.FOFX_SHOWELEVATIONPROMPT | FILEOPERATION_FLAGS.FOFX_REQUIREELEVATION;
 				}
-				op.OwnerWindow = (IntPtr)ownerHwnd;
-				op.Options |= !overwriteOnRename ? ShellFileOperations.OperationFlags.RenameOnCollision : 0;
+				op.OwnerWindow = (HWND)(nint)ownerHwnd;
+				op.Options |= !overwriteOnRename ? FILEOPERATION_FLAGS.FOF_RENAMEONCOLLISION : 0;
 
 				if (!SafetyExtensions.IgnoreExceptions(() =>
 				{
@@ -376,11 +368,13 @@ namespace Files.App.Utils.Storage
 				var renameTcs = new TaskCompletionSource<bool>();
 				op.PostRenameItem += (s, e) =>
 				{
+					var sourcePath = e.SourceItem.GetParsingPath();
+					var sourceFolderPath = sourcePath is null ? null : Path.GetDirectoryName(sourcePath);
 					shellOperationResult.Items.Add(new ShellOperationItemResult()
 					{
 						Succeeded = e.Result.Succeeded,
-						Source = e.SourceItem.GetParsingPath(),
-						Destination = !string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(e.SourceItem.GetParsingPath()), e.Name) : null,
+						Source = sourcePath,
+						Destination = sourceFolderPath is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(sourceFolderPath, e.Name) : null,
 						HResult = (int)e.Result
 					});
 				};
@@ -438,31 +432,25 @@ namespace Files.App.Utils.Storage
 				using var op = new ShellFileOperations2();
 				var shellOperationResult = new ShellOperationResult();
 
-				op.Options =
-					ShellFileOperations.OperationFlags.NoConfirmMkDir |
-					ShellFileOperations.OperationFlags.Silent |
-					ShellFileOperations.OperationFlags.NoErrorUI;
+				op.Options = FILEOPERATION_FLAGS.FOF_NOCONFIRMMKDIR | FILEOPERATION_FLAGS.FOF_SILENT | FILEOPERATION_FLAGS.FOF_NOERRORUI;
 
 				if (asAdmin)
 				{
-					op.Options |=
-						ShellFileOperations.OperationFlags.ShowElevationPrompt |
-						ShellFileOperations.OperationFlags.RequireElevation;
+					op.Options |= FILEOPERATION_FLAGS.FOFX_SHOWELEVATIONPROMPT | FILEOPERATION_FLAGS.FOFX_REQUIREELEVATION;
 				}
 
-				op.OwnerWindow = (IntPtr)ownerHwnd;
+				op.OwnerWindow = (HWND)(nint)ownerHwnd;
 
-				op.Options |=
-					!overwriteOnMove
-						? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
-						: ShellFileOperations.OperationFlags.NoConfirmation;
+				op.Options |= !overwriteOnMove ? FILEOPERATION_FLAGS.FOFX_PRESERVEFILEEXTENSIONS | FILEOPERATION_FLAGS.FOF_RENAMEONCOLLISION : FILEOPERATION_FLAGS.FOF_NOCONFIRMATION;
 
 				for (var i = 0; i < fileToMovePath.Length; i++)
 				{
 					if (!SafetyExtensions.IgnoreExceptions(() =>
 					{
 						using ShellItem shi = new(fileToMovePath[i]);
-						using ShellFolder shd = new(Path.GetDirectoryName(moveDestination[i]));
+						var destinationFolderPath = Path.GetDirectoryName(moveDestination[i])
+							?? throw new ArgumentException("The move destination must include a parent folder.", nameof(moveDestination));
+						using ShellFolder shd = new(destinationFolderPath);
 
 						op.QueueMoveOperation(shi, shd, Path.GetFileName(moveDestination[i]));
 					}))
@@ -485,24 +473,31 @@ namespace Files.App.Utils.Storage
 
 				op.PreMoveItem += (s, e) =>
 				{
-					sizeCalculator.ForceComputeFileSize(e.SourceItem.GetParsingPath());
-					fsProgress.FileName = e.SourceItem.Name;
+					if (e.SourceItem is not { } sourceItem)
+						return;
+
+					if (sourceItem.GetParsingPath() is { } sourcePath)
+						sizeCalculator.ForceComputeFileSize(sourcePath);
+					fsProgress.FileName = sourceItem.Name ?? string.Empty;
 					fsProgress.Report();
 				};
 
 				op.PostMoveItem += (s, e) =>
 				{
-					if (!e.SourceItem.IsFolder)
+					var sourceItem = e.SourceItem;
+					var sourcePath = sourceItem?.GetParsingPath();
+					if (sourceItem is { IsFolder: false } && sourcePath is not null)
 					{
-						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.GetParsingPath(), out _))
+						if (sizeCalculator.TryGetComputedFileSize(sourcePath, out _))
 							fsProgress.AddProcessedItemsCount(1);
 					}
 
+					var destinationFolderPath = e.DestFolder?.GetParsingPath();
 					shellOperationResult.Items.Add(new ShellOperationItemResult()
 					{
 						Succeeded = e.Result.Succeeded,
-						Source = e.SourceItem.GetParsingPath(),
-						Destination = e.DestFolder.GetParsingPath() is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.GetParsingPath(), e.Name) : null,
+						Source = sourcePath,
+						Destination = destinationFolderPath is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destinationFolderPath, e.Name) : null,
 						HResult = (int)e.Result
 					});
 
@@ -576,31 +571,25 @@ namespace Files.App.Utils.Storage
 
 				var shellOperationResult = new ShellOperationResult();
 
-				op.Options =
-					ShellFileOperations.OperationFlags.NoConfirmMkDir |
-					ShellFileOperations.OperationFlags.Silent |
-					ShellFileOperations.OperationFlags.NoErrorUI;
+				op.Options = FILEOPERATION_FLAGS.FOF_NOCONFIRMMKDIR | FILEOPERATION_FLAGS.FOF_SILENT | FILEOPERATION_FLAGS.FOF_NOERRORUI;
 
 				if (asAdmin)
 				{
-					op.Options |=
-						ShellFileOperations.OperationFlags.ShowElevationPrompt |
-						ShellFileOperations.OperationFlags.RequireElevation;
+					op.Options |= FILEOPERATION_FLAGS.FOFX_SHOWELEVATIONPROMPT | FILEOPERATION_FLAGS.FOFX_REQUIREELEVATION;
 				}
 
-				op.OwnerWindow = (IntPtr)ownerHwnd;
+				op.OwnerWindow = (HWND)(nint)ownerHwnd;
 
-				op.Options |=
-					!overwriteOnCopy
-						? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
-						: ShellFileOperations.OperationFlags.NoConfirmation;
+				op.Options |= !overwriteOnCopy ? FILEOPERATION_FLAGS.FOFX_PRESERVEFILEEXTENSIONS | FILEOPERATION_FLAGS.FOF_RENAMEONCOLLISION : FILEOPERATION_FLAGS.FOF_NOCONFIRMATION;
 
 				for (var i = 0; i < fileToCopyPath.Length; i++)
 				{
 					if (!SafetyExtensions.IgnoreExceptions(() =>
 					{
 						using ShellItem shi = new(fileToCopyPath[i]);
-						using ShellFolder shd = new(Path.GetDirectoryName(copyDestination[i]));
+						var destinationFolderPath = Path.GetDirectoryName(copyDestination[i])
+							?? throw new ArgumentException("The copy destination must include a parent folder.", nameof(copyDestination));
+						using ShellFolder shd = new(destinationFolderPath);
 
 						var fileName = GetIncrementalName(overwriteOnCopy, copyDestination[i], fileToCopyPath[i]);
 						// Perform a copy operation
@@ -625,24 +614,31 @@ namespace Files.App.Utils.Storage
 
 				op.PreCopyItem += (s, e) =>
 				{
-					sizeCalculator.ForceComputeFileSize(e.SourceItem.GetParsingPath());
-					fsProgress.FileName = e.SourceItem.Name;
+					if (e.SourceItem is not { } sourceItem)
+						return;
+
+					if (sourceItem.GetParsingPath() is { } sourcePath)
+						sizeCalculator.ForceComputeFileSize(sourcePath);
+					fsProgress.FileName = sourceItem.Name ?? string.Empty;
 					fsProgress.Report();
 				};
 
 				op.PostCopyItem += (s, e) =>
 				{
-					if (!e.SourceItem.IsFolder)
+					var sourceItem = e.SourceItem;
+					var sourcePath = sourceItem?.GetParsingPath();
+					if (sourceItem is { IsFolder: false } && sourcePath is not null)
 					{
-						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.GetParsingPath(), out _))
+						if (sizeCalculator.TryGetComputedFileSize(sourcePath, out _))
 							fsProgress.AddProcessedItemsCount(1);
 					}
 
+					var destinationFolderPath = e.DestFolder?.GetParsingPath();
 					shellOperationResult.Items.Add(new ShellOperationItemResult()
 					{
 						Succeeded = e.Result.Succeeded,
-						Source = e.SourceItem.GetParsingPath(),
-						Destination = e.DestFolder.GetParsingPath() is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.GetParsingPath(), e.Name) : null,
+						Source = sourcePath,
+						Destination = destinationFolderPath is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destinationFolderPath, e.Name) : null,
 						HResult = (int)e.Result
 					});
 
@@ -1337,7 +1333,12 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		public static async Task<ShellLinkItem?> ParseLinkAsync(string linkPath)
+		/// <param name="resolveTarget">
+		/// Whether to run the shell's link resolution (which may search for moved targets and touch the
+		/// network). Pass <see langword="false"/> when only the data stored in the link file is needed,
+		/// e.g. for listing items.
+		/// </param>
+		public static async Task<ShellLinkItem?> ParseLinkAsync(string linkPath, bool resolveTarget = true)
 		{
 			if (string.IsNullOrEmpty(linkPath))
 				return null;
@@ -1348,19 +1349,23 @@ namespace Files.App.Utils.Storage
 			{
 				if (FileExtensionHelpers.IsShortcutFile(linkPath))
 				{
-					using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
+					using var link = resolveTarget
+						? new ShellLink(linkPath, SLR_FLAGS.SLR_NO_UI_WITH_MSG_PUMP, timeout: TimeSpan.FromMilliseconds(100))
+						: new ShellLink(linkPath, resolve: false);
 					targetPath = link.TargetPath;
+
+					// Broken shortcut (rooted target that's gone) keeps the delete prompt; app/shell targets aren't rooted
+					if (resolveTarget && Path.IsPathRooted(targetPath) &&
+						!targetPath.StartsWith(@"\\", StringComparison.Ordinal) && !Path.Exists(targetPath))
+					{
+						return new ShellLinkItem { TargetPath = targetPath, InvalidTarget = true };
+					}
+
 					return ShellFolderExtensions.GetShellLinkItem(link);
 				}
 				else if (FileExtensionHelpers.IsWebLinkFile(linkPath))
 				{
-					targetPath = await STATask.Run(() =>
-					{
-						var ipf = new Url.IUniformResourceLocator();
-						(ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Load(linkPath, 0);
-						ipf.GetUrl(out var retVal);
-						return retVal;
-					}, App.Logger);
+					targetPath = await STATask.Run(() => InternetShortcut.Load(linkPath), App.Logger);
 					return string.IsNullOrEmpty(targetPath) ?
 						new ShellLinkItem
 						{
@@ -1388,10 +1393,11 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		public static Task<bool> CreateOrUpdateLinkAsync(string linkSavePath, string targetPath, string arguments = "", string workingDirectory = "", bool runAsAdmin = false, SHOW_WINDOW_CMD showWindowCommand = SHOW_WINDOW_CMD.SW_NORMAL)
+		public static Task<bool> CreateOrUpdateLinkAsync(string linkSavePath, string? targetPath, string? arguments = "", string? workingDirectory = "", bool runAsAdmin = false, SHOW_WINDOW_CMD showWindowCommand = SHOW_WINDOW_CMD.SW_NORMAL)
 		{
 			try
 			{
+				ArgumentNullException.ThrowIfNull(targetPath);
 				if (FileExtensionHelpers.IsShortcutFile(linkSavePath))
 				{
 					using var newLink = new ShellLink(targetPath, arguments, workingDirectory);
@@ -1403,7 +1409,7 @@ namespace Files.App.Utils.Storage
 					newLink.SaveAs(linkSavePath); // Overwrite if exists
 
 					// ShowState has to be set after SaveAs has been called, otherwise an UnauthorizedAccessException gets thrown in some cases
-					newLink.ShowState = (ShowWindowCommand)showWindowCommand;
+					newLink.ShowState = showWindowCommand;
 
 					return Task.FromResult(true);
 				}
@@ -1411,9 +1417,7 @@ namespace Files.App.Utils.Storage
 				{
 					return STATask.Run(() =>
 					{
-						var ipf = new Url.IUniformResourceLocator();
-						ipf.SetUrl(targetPath, Url.IURL_SETURL_FLAGS.IURL_SETURL_FL_GUESS_PROTOCOL);
-						(ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Save(linkSavePath, false); // Overwrite if exists
+						InternetShortcut.Save(linkSavePath, targetPath);
 						return true;
 					}, App.Logger);
 				}
@@ -1561,7 +1565,7 @@ namespace Files.App.Utils.Storage
 
 		private static bool TrySetLnkShortcutIcon(string filePath, string iconFile, int iconIndex)
 		{
-			using var link = new ShellLink(filePath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
+			using var link = new ShellLink(filePath, SLR_FLAGS.SLR_NO_UI_WITH_MSG_PUMP, timeout: TimeSpan.FromMilliseconds(100));
 			if (string.IsNullOrWhiteSpace(iconFile))
 			{
 				link.IconLocation = new IconLocation(string.Empty, 0);
@@ -1580,16 +1584,16 @@ namespace Files.App.Utils.Storage
 
 		private static ShellItem? GetFirstFile(ShellItem shi)
 		{
-			if (!shi.IsFolder || shi.Attributes.HasFlag(ShellItemAttribute.Stream))
+			if (!shi.IsFolder || shi.IsStream)
 			{
 				return shi;
 			}
 			using var shf = new ShellFolder(shi);
-			if (shf.FirstOrDefault(x => !x.IsFolder || x.Attributes.HasFlag(ShellItemAttribute.Stream)) is ShellItem item)
+			if (shf.FirstOrDefault(x => !x.IsFolder || x.IsStream) is ShellItem item)
 			{
 				return item;
 			}
-			foreach (var shsfi in shf.Where(x => x.IsFolder && !x.Attributes.HasFlag(ShellItemAttribute.Stream)))
+			foreach (var shsfi in shf.Where(x => x.IsFolder && !x.IsStream))
 			{
 				using var shsf = new ShellFolder(shsfi);
 				if (GetFirstFile(shsf) is ShellItem item2)
@@ -1603,14 +1607,14 @@ namespace Files.App.Utils.Storage
 		private static void UpdateFileTagsDb(ShellFileOperations2.ShellFileOpEventArgs e, string operationType)
 		{
 			var dbInstance = FileTagsHelper.GetDbInstance();
-			if (e.Result.Succeeded)
+			if (e.Result.Succeeded && e.SourceItem.GetParsingPath() is { } sourcePath)
 			{
-				var sourcePath = e.SourceItem.GetParsingPath();
 				var destPath = e.DestFolder.GetParsingPath();
+				var sourceFolderPath = Path.GetDirectoryName(sourcePath);
 				var destination = operationType switch
 				{
 					"delete" => e.DestItem.GetParsingPath(),
-					"rename" => !string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(sourcePath), e.Name) : null,
+					"rename" => sourceFolderPath is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(sourceFolderPath, e.Name) : null,
 					"copy" => destPath is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destPath, e.Name) : null,
 					_ => destPath is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destPath, e.Name) : null
 				};
@@ -1630,7 +1634,7 @@ namespace Files.App.Utils.Storage
 							using var si = new ShellItem(destination);
 							if (si.IsFolder) // File tag is not copied automatically for folders
 							{
-								FileTagsHelper.WriteFileTag(destination, tag);
+								_ = FileTagsHelper.WriteFileTagAsync(destination, tag);
 							}
 						}
 						else
@@ -1757,11 +1761,8 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private static string GetIncrementalName(bool overWriteOnCopy, string? filePathToCheck, string? filePathToCopy)
+		private static string GetIncrementalName(bool overWriteOnCopy, string filePathToCheck, string filePathToCopy)
 		{
-			if (filePathToCheck == null)
-				return null;
-
 			if ((!Path.Exists(filePathToCheck)) || overWriteOnCopy || filePathToCheck == filePathToCopy)
 				return Path.GetFileName(filePathToCheck);
 

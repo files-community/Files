@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
+using WinRT;
 
 namespace Files.App.Views
 {
@@ -17,13 +18,21 @@ namespace Files.App.Views
 
 		// Properties
 
-		private IShellPage AppInstance { get; set; } = null!;
+		private IShellPage? appInstance;
+		private IShellPage AppInstance
+			=> appInstance ?? throw new InvalidOperationException("The home page has not been initialized.");
 
 		// Constructor
 
 		public HomePage()
 		{
 			InitializeComponent();
+		}
+
+		private void HomePage_Loaded(object sender, RoutedEventArgs e)
+		{
+			if (ViewModel.ReloadWidgetsCommand.CanExecute(e))
+				ViewModel.ReloadWidgetsCommand.Execute(e);
 		}
 
 		// Methods
@@ -33,7 +42,8 @@ namespace Files.App.Views
 			if (e.Parameter is not NavigationArguments parameters)
 				return;
 
-			AppInstance = parameters.AssociatedTabInstance!;
+			appInstance = parameters.AssociatedTabInstance!;
+			var shellViewModel = AppInstance.GetRequiredShellViewModel();
 
 			AppInstance.InstanceViewModel.IsPageTypeNotHome = false;
 			AppInstance.InstanceViewModel.IsPageTypeSearchResults = false;
@@ -53,8 +63,8 @@ namespace Files.App.Views
 			AppInstance.ToolbarViewModel.CanNavigateToParent = false;
 
 			// Set path of working directory empty
-			await AppInstance.ShellViewModel.SetWorkingDirectoryAsync("Home");
-			AppInstance.ShellViewModel.CheckForBackgroundImage();
+			await shellViewModel.SetWorkingDirectoryAsync("Home");
+			shellViewModel.CheckForBackgroundImage();
 
 			AppInstance.SlimContentPage?.StatusBarViewModel.UpdateGitInfo(false, string.Empty, null);
 
@@ -80,6 +90,7 @@ namespace Files.App.Views
 			base.OnNavigatedTo(e);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void ScrollViewer_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			if (sender is FrameworkElement element)

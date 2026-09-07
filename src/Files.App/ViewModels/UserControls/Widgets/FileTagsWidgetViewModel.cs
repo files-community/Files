@@ -12,7 +12,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	/// </summary>
 	public sealed partial class FileTagsWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
-		private CancellationTokenSource _updateCTS;
+		private CancellationTokenSource? _updateCTS;
 		private bool _isInitialized;
 
 		// Properties

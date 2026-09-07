@@ -23,7 +23,11 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 				if (SetProperty(ref _CustomName, value))
 				{
 					DestinationDisplayName = value;
-					_DestinationPath = Path.Combine(Path.GetDirectoryName(DestinationPath), value);
+					var destinationPath = DestinationPath ?? throw new ArgumentNullException(nameof(DestinationPath));
+					var customName = value ?? throw new ArgumentNullException(nameof(value));
+					var destinationDirectory = Path.GetDirectoryName(destinationPath)
+						?? throw new InvalidOperationException("The destination path does not have a parent directory.");
+					_DestinationPath = Path.Combine(destinationDirectory, customName);
 				}
 			}
 		}
@@ -46,7 +50,7 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 			set => SetProperty(ref _IsTextBoxVisible, value);
 		}
 
-		public string DestinationDirectoryDisplayName
+		public string? DestinationDirectoryDisplayName
 			=> Path.GetFileName(Path.GetDirectoryName(DestinationPath));
 
 		public bool IsConflict

@@ -18,6 +18,6 @@ namespace Files.App.Data.Contracts
 		/// Gets a list of the available item types
 		/// </summary>
 		/// <returns>List of the available item types</returns>
-		List<ShellNewEntry> GetEntries();
+		List<ShellNewEntry>? GetEntries();
 	}
 }

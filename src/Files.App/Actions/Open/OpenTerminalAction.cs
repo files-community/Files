@@ -128,12 +128,12 @@ namespace Files.App.Actions
 			{
 				return context.SelectedItems!
 					.Where(item => item.PrimaryItemAttribute is StorageItemTypes.Folder && !item.IsArchive)
-					.Select(item => item.ItemPath)
+					.Select(item => item.ItemPath!)
 					.ToArray();
 			}
 			else if (context.Folder is not null)
 			{
-				return [context.Folder.ItemPath];
+				return [context.Folder.ItemPath!];
 			}
 
 			return [];

@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Media;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System;
+using WinRT;
 
 namespace Files.App.Actions
 {
@@ -24,6 +25,7 @@ namespace Files.App.Actions
 		public HotKey HotKey
 			=> new(Keys.OemPeriod, KeyModifiers.Ctrl);
 
+		[DynamicWindowsRuntimeCast(typeof(StorageFile))]
 		public async Task ExecuteAsync(object? parameter = null)
 		{
 			try

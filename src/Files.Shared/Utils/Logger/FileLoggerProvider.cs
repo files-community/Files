@@ -2,28 +2,28 @@
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
+using System;
 
 namespace Files.Shared
 {
 	public sealed class FileLoggerProvider : ILoggerProvider
 	{
-		private readonly string path;
+		private readonly FileLogger logger;
 
 		public FileLoggerProvider(string path)
 		{
-			this.path = path;
+			logger = new FileLogger(path);
 		}
 
 		public ILogger CreateLogger(string categoryName)
-		{
-			var logger = new FileLogger(path);
-			_ = Task.Run(() => logger.PurgeLogs(100));
-			return logger;
-		}
+			=> logger;
+
+		public bool TryCompleteAndFlush(TimeSpan timeout)
+			=> logger.TryCompleteAndFlush(timeout);
 
 		public void Dispose()
 		{
+			logger.Dispose();
 		}
 	}
 }

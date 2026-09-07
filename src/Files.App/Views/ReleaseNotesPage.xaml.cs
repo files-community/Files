@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Web.WebView2.Core;
 using Windows.System;
+using WinRT;
 
 namespace Files.App.Views
 {
@@ -18,9 +19,14 @@ namespace Files.App.Views
 
 
 		private FrameworkElement RootAppElement
-			=> (FrameworkElement)MainWindow.Instance.Content;
+		{
+			[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+			get => (FrameworkElement)MainWindow.Instance.Content;
+		}
 
-		private IShellPage AppInstance { get; set; } = null!;
+		private IShellPage? appInstance;
+		private IShellPage AppInstance
+			=> appInstance ?? throw new InvalidOperationException("The release notes page has not been initialized.");
 
 		public ReleaseNotesPage()
 		{
@@ -32,7 +38,8 @@ namespace Files.App.Views
 			if (e.Parameter is not NavigationArguments parameters)
 				return;
 
-			AppInstance = parameters.AssociatedTabInstance!;
+			appInstance = parameters.AssociatedTabInstance!;
+			var shellViewModel = AppInstance.GetRequiredShellViewModel();
 
 			AppInstance.InstanceViewModel.IsPageTypeNotHome = true;
 			AppInstance.InstanceViewModel.IsPageTypeSearchResults = false;
@@ -51,8 +58,8 @@ namespace Files.App.Views
 			AppInstance.ToolbarViewModel.CanNavigateToParent = false;
 
 			// Set path of working directory empty
-			await AppInstance.ShellViewModel.SetWorkingDirectoryAsync("ReleaseNotes");
-			AppInstance.ShellViewModel.CheckForBackgroundImage();
+			await shellViewModel.SetWorkingDirectoryAsync("ReleaseNotes");
+			shellViewModel.CheckForBackgroundImage();
 
 			AppInstance.SlimContentPage?.StatusBarViewModel.UpdateGitInfo(false, string.Empty, null);
 

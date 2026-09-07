@@ -39,50 +39,56 @@ namespace Files.App.Services
 
 		public Task UnpinFromSidebarAsync(string[] folderPaths) => UnpinFromSidebarAsync(folderPaths, true);
 
-		private async Task UnpinFromSidebarAsync(string[] folderPaths, bool doUpdateQuickAccessWidget)
+		private async Task<bool> UnpinFromSidebarAsync(string[] folderPaths, bool doUpdateQuickAccessWidget)
 		{
-			Type? shellAppType = Type.GetTypeFromProgID("Shell.Application");
-			object? shell = Activator.CreateInstance(shellAppType);
-			dynamic? f2 = shellAppType.InvokeMember("NameSpace", System.Reflection.BindingFlags.InvokeMethod, null, shell, [$"shell:{guid}"]);
+			ShellFileItem[] shellItems = [.. await GetPinnedFoldersAsync()];
 
 			if (folderPaths.Length == 0)
-				folderPaths = (await GetPinnedFoldersAsync())
+				folderPaths = shellItems
 					.Where(link => (bool?)link.Properties["System.Home.IsPinned"] ?? false)
-					.Select(link => link.FilePath).ToArray();
+					.Select(link => link.FilePath!).ToArray();
 
-			foreach (dynamic? fi in f2.Items())
+			foreach (ShellFileItem shellItem in shellItems)
 			{
-				string pathStr = (string)fi.Path;
+				string pathStr = shellItem.FilePath
+					?? throw new InvalidOperationException("The Windows Shell Home namespace returned an item without a path.");
+				bool shouldUnpin = folderPaths.Contains(pathStr);
 
 				if (ShellStorageFolder.IsShellPath(pathStr))
 				{
 					var folder = await ShellStorageFolder.FromPathAsync(pathStr);
 					var path = folder?.Path;
 
-					if (path is not null &&
+					shouldUnpin = shouldUnpin || path is not null &&
 						(folderPaths.Contains(path) ||
-						(path.StartsWith(@"\\SHELL\\") && folderPaths.Any(x => x.StartsWith(@"\\SHELL\\")))))
-					{
-						await STATask.Run(async () =>
-						{
-							fi.InvokeVerb("unpinfromhome");
-						}, App.Logger);
-						continue;
-					}
+						(path.StartsWith(@"\\SHELL\\") && folderPaths.Any(x => x.StartsWith(@"\\SHELL\\"))));
 				}
 
-				if (folderPaths.Contains(pathStr))
+				if (!shouldUnpin)
+					continue;
+
+				byte[] pidl = shellItem.PIDL
+					?? throw new InvalidOperationException("The Windows Shell Home namespace returned an item without a PIDL.");
+
+				var result = await STATask.Run(() =>
 				{
-					await STATask.Run(async () =>
-					{
-						fi.InvokeVerb("unpinfromhome");
-					}, App.Logger);
+					using var item = ShellItem.Open(new ShellPidl(pidl));
+					using var windowsFile = new WindowsFile(item.IShellItem);
+					return windowsFile.TryInvokeContextMenuVerbs(["unpinfromhome", "remove"], true);
+				}, App.Logger);
+
+				if (result.Failed)
+				{
+					await App.QuickAccessManager.Model.LoadAsync();
+					return false;
 				}
 			}
 
 			await App.QuickAccessManager.Model.LoadAsync();
 			if (doUpdateQuickAccessWidget)
 				App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, false));
+
+			return true;
 		}
 
 		public bool IsItemPinned(string folderPath)
@@ -99,7 +105,12 @@ namespace Files.App.Services
 				App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
 
 			// Unpin every item that is below this index and then pin them all in order
-			await UnpinFromSidebarAsync([], false);
+			if (!await UnpinFromSidebarAsync([], false))
+			{
+				if (App.QuickAccessManager.PinnedItemsWatcher is not null)
+					App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;
+				return;
+			}
 
 			await PinToSidebarAsync(items, false);
 			if (App.QuickAccessManager.PinnedItemsWatcher is not null)

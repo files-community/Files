@@ -34,7 +34,7 @@ namespace Files.App.Services.PreviewPopupProviders
 			return _cachedSeerWindowHandle.Value;
 		}
 
-		public unsafe async Task TogglePreviewPopupAsync(string path)
+		public unsafe Task TogglePreviewPopupAsync(string path)
 		{
 			COPYDATASTRUCT data = default;
 			data.dwData = 5000u;
@@ -45,13 +45,14 @@ namespace Files.App.Services.PreviewPopupProviders
 			Marshal.StructureToPtr(data, pData, false);
 
 			HWND hWnd = GetSeerWindowHandle();
-			var result = PInvoke.SendMessage(hWnd, 0x004A /*WM_COPYDATA*/, 0, pData);
+			PInvoke.SendMessage(hWnd, 0x004A /*WM_COPYDATA*/, 0, pData);
 
 			bool isVisible = PInvoke.IsWindowVisible(hWnd);
 			CurrentPath = isVisible ? path : null;
 
 			Marshal.FreeHGlobal((nint)data.lpData);
 			Marshal.FreeHGlobal(pData);
+			return Task.CompletedTask;
 		}
 
 		public async Task SwitchPreviewAsync(string path)

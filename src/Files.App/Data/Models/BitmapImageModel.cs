@@ -9,9 +9,9 @@ namespace Files.App.Data.Models
 	/// <inheritdoc cref="IImage"/>
 	internal sealed class BitmapImageModel : IImage
 	{
-		public BitmapImage Image { get; }
+		public BitmapImage? Image { get; }
 
-		public BitmapImageModel(BitmapImage image)
+		public BitmapImageModel(BitmapImage? image)
 		{
 			Image = image;
 		}

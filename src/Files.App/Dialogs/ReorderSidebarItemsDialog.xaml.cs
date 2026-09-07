@@ -6,13 +6,17 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Windows.ApplicationModel.DataTransfer;
+using WinRT;
 
 namespace Files.App.Dialogs
 {
 	public sealed partial class ReorderSidebarItemsDialog : ContentDialog, IDialog<ReorderSidebarItemsDialogViewModel>
 	{
 		private FrameworkElement RootAppElement
-			=> (FrameworkElement)MainWindow.Instance.Content;
+		{
+			[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+			get => (FrameworkElement)MainWindow.Instance.Content;
+		}
 
 		public ReorderSidebarItemsDialogViewModel ViewModel
 		{
@@ -25,6 +29,7 @@ namespace Files.App.Dialogs
 			InitializeComponent();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FontIcon))]
 		private async void MoveItemAsync(object sender, PointerRoutedEventArgs e)
 		{
 			var properties = e.GetCurrentPoint(null).Properties;
@@ -38,6 +43,7 @@ namespace Files.App.Dialogs
 				await navItem.StartDragAsync(e.GetCurrentPoint(navItem));
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Grid))]
 		private void ListViewItem_DragStarting(object sender, DragStartingEventArgs e)
 		{
 			if (sender is not Grid nav || nav.DataContext is not LocationItem)
@@ -48,6 +54,7 @@ namespace Files.App.Dialogs
 			e.AllowedOperations = DataPackageOperation.Move;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Grid))]
 		private void ListViewItem_DragOver(object sender, DragEventArgs e)
 		{
 			if ((sender as Grid)?.DataContext is not LocationItem locationItem)
@@ -78,6 +85,7 @@ namespace Files.App.Dialogs
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Grid))]
 		private void ListViewItem_Drop(object sender, DragEventArgs e)
 		{
 			if (sender is not Grid navView || navView.DataContext is not LocationItem locationItem)

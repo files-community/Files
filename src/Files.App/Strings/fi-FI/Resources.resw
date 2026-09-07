@@ -181,10 +181,10 @@
     <value>Käytetty:</value>
   </data>
   <data name="RecentItemClearAllText" xml:space="preserve">
-    <value>Clear all items</value>
+    <value>Poista kaikki kohteet</value>
   </data>
   <data name="NavigationToolbarVisiblePathPlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>Anna sen kansion polku, johon haluat siirtyä, tai avaa komentopaletti kirjoittamalla "&gt;"</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Etsi</value>
@@ -199,7 +199,7 @@
     <value>Aiemmin käyttämäsi tiedostot näkyvät tässä</value>
   </data>
   <data name="RecentItemRemoveText" xml:space="preserve">
-    <value>Remove this item</value>
+    <value>Poista tämä kohde</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>GitHub-repositorio</value>
@@ -313,7 +313,7 @@
     <value>Kiinnitä sivupalkkiin</value>
   </data>
   <data name="WelcomeDialogTitle" xml:space="preserve">
-    <value>Welcome to Files!</value>
+    <value>Tervetuloa Files-sovellukseen!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Myönnä käyttöoikeus</value>
@@ -1780,6 +1780,15 @@
   </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
     <value>Anna käyttäjätunnuksesi:</value>
+  </data>
+  <data name="CredentialDialogIncorrectPassword" xml:space="preserve">
+    <value>The password is incorrect. Try again.</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Password required</value>
+  </data>
+  <data name="PasswordRequiredMessage" xml:space="preserve">
+    <value>This location is password protected. Refresh to enter the password.</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Käyttäjätunnus</value>
@@ -3333,6 +3342,9 @@
   <data name="PullTimeoutError" xml:space="preserve">
     <value>git pull epäonnistui aikakatkaisuvirheen vuoksi</value>
   </data>
+  <data name="PullUncommittedChangesError" xml:space="preserve">
+    <value>Can't pull because your uncommitted changes would be overwritten. Commit, stash, or discard your changes, then try again.</value>
+  </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(useita arvoja)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
@@ -3656,35 +3668,119 @@
   </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
     <value>Repon {0} kloonaus peruutettu kansioon "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
     <value>Repon {0} kloonaus peruutettu kansiosta "{1}" kansioon "{2}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
     <value>Repo "{0}" kloonattu kansioon "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
     <value>Repo {0} kloonattu kansiosta "{1}" kansioon "{2}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
     <value>Virhe kloonattaessa Git-repoa "{0}" kansioon "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
     <value>Repon {0} kloonaus epäonnistui kansiosta "{1}" kansioon "{2}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
     <value>Kloonataan repo "{0}" kansioon "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
     <value>Kloonataan repo {0} kansiosta "{1}" kansioon "{2}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutCanceled_Header" xml:space="preserve">
+    <value>Koodivaraston "{1}" haaraan "{0}" vaihtaminen peruutettu</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutComplete_Header" xml:space="preserve">
+    <value>Vaihdettu koodivaraston "{1}" haaraan "{0}"</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutFailed_Header" xml:space="preserve">
+    <value>Koodivaraston "{1}" haaraan "{0}" vaihtaminen epäonnistui</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutInProgress_Header" xml:space="preserve">
+    <value>Vaihdetaan koodivaraston "{1}" haaraan "{0}"</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchCanceled_Header" xml:space="preserve">
+    <value>Koodivaraston "{0}" etämuutosten noutaminen peruutettu</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchComplete_Header" xml:space="preserve">
+    <value>Koodivaraston "{0}" etämuutokset noudettu</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchFailed_Header" xml:space="preserve">
+    <value>Koodivaraston "{0}" etämuutosten noutaminen epäonnistui</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchInProgress_Header" xml:space="preserve">
+    <value>Noudetaan koodivaraston "{0}" etämuutokset</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitOperationProgress" xml:space="preserve">
+    <value>{0} % suoritettu</value>
+    <comment>Shown in Status Center during a Git operation. {0} is the percentage from 0 to 100.</comment>
+  </data>
+  <data name="StatusCenter_GitPullCanceled_Header" xml:space="preserve">
+    <value>Etämuutosten vetäminen koodivarastoon "{0}" peruutettu</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPullComplete_Header" xml:space="preserve">
+    <value>Etämuutokset vedetty koodivarastoon "{0}"</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPullFailed_Header" xml:space="preserve">
+    <value>Etämuutosten vetäminen koodivarastoon "{0}" epäonnistui</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPullInProgress_Header" xml:space="preserve">
+    <value>Etämuutokset vedetään koodivarastoon "{0}"</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushCanceled_Header" xml:space="preserve">
+    <value>Canceled pushing local commits from "{0}"</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushComplete_Header" xml:space="preserve">
+    <value>Pushed local commits from "{0}"</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushFailed_Header" xml:space="preserve">
+    <value>Failed to push local commits from "{0}"</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushInProgress_Header" xml:space="preserve">
+    <value>Pushing local commits from "{0}"</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncCanceled_Header" xml:space="preserve">
+    <value>Canceled syncing local and remote commits for "{0}"</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncComplete_Header" xml:space="preserve">
+    <value>Synced local and remote commits for "{0}"</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncFailed_Header" xml:space="preserve">
+    <value>Failed to sync local and remote commits for "{0}"</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncInProgress_Header" xml:space="preserve">
+    <value>Syncing local and remote commits for "{0}"</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
     <value>{0} fontin asennus peruutettu</value>
@@ -4156,6 +4252,15 @@
   <data name="ImageFiles" xml:space="preserve">
     <value>Kuvatiedostot</value>
     <comment>This is the friendly name for image files.</comment>
+  </data>
+  <data name="AllSupportedFiles" xml:space="preserve">
+    <value>All supported files</value>
+  </data>
+  <data name="ConvertToIconRequiredMessage" xml:space="preserve">
+    <value>This image needs to be converted into an icon file before it can be used. Choose a location to save the converted icon file.</value>
+  </data>
+  <data name="ConvertToIconError" xml:space="preserve">
+    <value>Couldn't convert the image to an icon file</value>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Las</value>

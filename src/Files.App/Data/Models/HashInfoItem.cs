@@ -5,15 +5,15 @@ namespace Files.App.Data.Models
 {
 	public sealed partial class HashInfoItem : ObservableObject
 	{
-		private string _Algorithm;
+		private string? _Algorithm;
 		public string Algorithm
 		{
-			get => _Algorithm;
+			get => _Algorithm ?? throw new InvalidOperationException("The hash algorithm has not been initialized.");
 			set => SetProperty(ref _Algorithm, value);
 		}
 
-		private string _HashValue;
-		public string HashValue
+		private string? _HashValue;
+		public string? HashValue
 		{
 			get => _HashValue;
 			set => SetProperty(ref _HashValue, value);

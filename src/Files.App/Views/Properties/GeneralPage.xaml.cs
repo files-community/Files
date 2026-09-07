@@ -5,9 +5,11 @@ using Files.App.ViewModels.Properties;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Windows.Storage;
 using Windows.Win32;
+using WinRT;
 
 namespace Files.App.Views.Properties
 {
@@ -24,6 +26,14 @@ namespace Files.App.Views.Properties
 			_updateDateDisplayTimer.Start();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
+		private void EditAlbumCoverButton_PointerEntered(object sender, PointerRoutedEventArgs e)
+			=> ((UIElement)sender).Opacity = 1;
+
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
+		private void EditAlbumCoverButton_PointerExited(object sender, PointerRoutedEventArgs e)
+			=> ((UIElement)sender).Opacity = 0;
+
 		private void ItemFileName_GettingFocus(UIElement _, GettingFocusEventArgs e)
 		{
 			ItemFileName.Text = RegexHelpers.DriveLetter().Replace(ItemFileName.Text, string.Empty);
@@ -37,7 +47,9 @@ namespace Files.App.Views.Properties
 				return;
 			}
 
-			var match = RegexHelpers.DriveLetter().Match(ViewModel.OriginalItemName);
+			var originalItemName = ViewModel.OriginalItemName
+				?? throw new InvalidOperationException("The original item name has not been initialized.");
+			var match = RegexHelpers.DriveLetter().Match(originalItemName);
 			if (match.Success)
 				ItemFileName.Text += match.Value;
 		}
@@ -65,13 +77,13 @@ namespace Files.App.Views.Properties
 				_ => throw new UnreachableException()
 			};
 
-			bool GetNewName(out string newName)
+			bool GetNewName([NotNullWhen(true)] out string? newName)
 			{
 				if (ItemFileName is not null)
 				{
 					ViewModel.ItemName = ItemFileName.Text; // Make sure Name is updated
 					newName = ViewModel.ItemName;
-					string oldName = ViewModel.OriginalItemName;
+					string? oldName = ViewModel.OriginalItemName;
 					return !string.IsNullOrWhiteSpace(newName) && newName != oldName;
 				}
 				newName = "";
@@ -87,14 +99,15 @@ namespace Files.App.Views.Properties
 				newName = RegexHelpers.DriveLetter().Replace(newName, string.Empty); // Remove "(C:)" from the new label
 
 				if (drive.Type == Data.Items.DriveType.Network)
-					Win32Helper.SetNetworkDriveLabel(drive.DeviceID, newName);
+					Win32Helper.SetNetworkDriveLabel(drive.DeviceID
+						?? throw new InvalidOperationException("The network drive does not have a device ID."), newName);
 				else
-					Win32Helper.SetVolumeLabel(drive.Path, newName);
+					Win32Helper.SetVolumeLabel(drive.GetRequiredPath(), newName);
 
 				_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await drive.UpdateLabelAsync();
-					await fsVM.SetWorkingDirectoryAsync(drive.Path);
+					await fsVM.SetWorkingDirectoryAsync(drive.GetRequiredPath());
 				});
 				return true;
 			}
@@ -107,11 +120,14 @@ namespace Files.App.Views.Properties
 
 				newName = $"{newName}{ShellLibraryItem.EXTENSION}";
 
-				var file = new StorageFileWithPath(null, library.ItemPath);
-				var renamed = await AppInstance!.FilesystemHelpers.RenameAsync(file, newName, NameCollisionOption.FailIfExists, false, false);
+				var libraryPath = library.GetRequiredPath();
+				var file = new StorageFileWithPath(null, libraryPath);
+				var renamed = await AppInstance.FilesystemHelpers.RenameAsync(file, newName, NameCollisionOption.FailIfExists, false, false);
 				if (renamed is ReturnResult.Success)
 				{
-					var newPath = Path.Combine(Path.GetDirectoryName(library.ItemPath)!, newName);
+					var libraryDirectory = Path.GetDirectoryName(libraryPath)
+						?? throw new InvalidOperationException("The library path does not have a parent directory.");
+					var newPath = Path.Combine(libraryDirectory, newName);
 					_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
 						await fsVM.SetWorkingDirectoryAsync(newPath);
@@ -145,7 +161,7 @@ namespace Files.App.Views.Properties
 
 						if (ViewModel.IsAblumCoverModified)
 						{
-							MediaFileHelper.ChangeAlbumCover(fileOrFolder.ItemPath, ViewModel.ModifiedAlbumCover);
+							MediaFileHelper.ChangeAlbumCover(fileOrFolder.GetRequiredPath(), ViewModel.ModifiedAlbumCover);
 
 							await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 							{
@@ -159,6 +175,7 @@ namespace Files.App.Views.Properties
 
 			async Task<bool> SaveBaseAsync(ListedItem item)
 			{
+				var itemPath = item.GetRequiredPath();
 				// Handle the visibility attribute for a single file
 				var itemMM = AppInstance?.SlimContentPage?.ItemManipulationModel;
 				if (itemMM is not null && ViewModel.IsHiddenEditedValue is not null) // null on homepage
@@ -169,11 +186,11 @@ namespace Files.App.Views.Properties
 				}
 
 				if (ViewModel.IsUnblockFileSelected)
-					PInvoke.DeleteFileFromApp($"{item.ItemPath}:Zone.Identifier");
+					PInvoke.DeleteFileFromApp($"{itemPath}:Zone.Identifier");
 
 				if (ViewModel.IsAblumCoverModified)
 				{
-					MediaFileHelper.ChangeAlbumCover(item.ItemPath, ViewModel.ModifiedAlbumCover);
+					MediaFileHelper.ChangeAlbumCover(itemPath, ViewModel.ModifiedAlbumCover);
 
 					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
@@ -188,8 +205,9 @@ namespace Files.App.Views.Properties
 				if (!GetNewName(out var newName))
 					return true;
 
+				var appInstance = AppInstance!;
 				return await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
-					UIFilesystemHelpers.RenameFileItemAsync(item, ViewModel.ItemName, AppInstance, false)
+					UIFilesystemHelpers.RenameFileItemAsync(item, newName, appInstance, false)
 				);
 			}
 		}

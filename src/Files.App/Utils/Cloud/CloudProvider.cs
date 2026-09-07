@@ -7,9 +7,9 @@ namespace Files.App.Utils.Cloud
 	{
 		public CloudProviders ID { get; }
 
-		public string Name { get; init; } = string.Empty;
+		public string? Name { get; init; } = string.Empty;
 
-		public string SyncFolder { get; init; } = string.Empty;
+		public string? SyncFolder { get; init; } = string.Empty;
 
 		public byte[]? IconData { get; init; }
 

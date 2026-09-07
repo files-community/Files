@@ -10,13 +10,25 @@ namespace Files.App.ViewModels.Properties
 {
 	public abstract class BaseProperties
 	{
-		public IShellPage AppInstance { get; set; } = null;
+		public IShellPage AppInstance { get; }
 
-		public SelectedItemsPropertiesViewModel ViewModel { get; set; }
+		public SelectedItemsPropertiesViewModel ViewModel { get; }
 
-		public CancellationTokenSource TokenSource { get; set; }
+		public CancellationTokenSource TokenSource { get; }
 
-		public DispatcherQueue Dispatcher { get; set; }
+		public DispatcherQueue Dispatcher { get; }
+
+		protected BaseProperties(
+			SelectedItemsPropertiesViewModel viewModel,
+			CancellationTokenSource tokenSource,
+			DispatcherQueue dispatcher,
+			IShellPage appInstance)
+		{
+			ViewModel = viewModel;
+			TokenSource = tokenSource;
+			Dispatcher = dispatcher;
+			AppInstance = appInstance;
+		}
 
 		public abstract void GetBaseProperties();
 

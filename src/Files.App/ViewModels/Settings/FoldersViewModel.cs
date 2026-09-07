@@ -103,7 +103,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedOpenFilesWithSingleClickOption;
+		private string selectedOpenFilesWithSingleClickOption = null!;
 		public string SelectedOpenFilesWithSingleClickOption
 		{
 			get => selectedOpenFilesWithSingleClickOption;
@@ -116,7 +116,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedOpenFoldersWithSingleClickOption;
+		private string selectedOpenFoldersWithSingleClickOption = null!;
 		public string SelectedOpenFoldersWithSingleClickOption
 		{
 			get => selectedOpenFoldersWithSingleClickOption;
@@ -129,7 +129,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedOpenFoldersInColumnsViewWithSingleClickOption;
+		private string selectedOpenFoldersInColumnsViewWithSingleClickOption = null!;
 		public string SelectedOpenFoldersInColumnsViewWithSingleClickOption
 		{
 			get => selectedOpenFoldersInColumnsViewWithSingleClickOption;
@@ -282,7 +282,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string sizeUnitFormat;
+		private string sizeUnitFormat = null!;
 		public string SizeUnitFormat
 		{
 			get => sizeUnitFormat;

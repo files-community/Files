@@ -27,6 +27,7 @@ namespace Files.App.Helpers
 
 		public const uint FILE_APPEND_DATA = 0x0004;
 
+		public const int MNC_CLOSE = 1;
 
 		public const uint FILE_BEGIN = 0;
 		public const uint FILE_END = 2;

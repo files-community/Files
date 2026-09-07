@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Runtime.CompilerServices;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Files.App.Utils.Serialization
 {
@@ -46,7 +47,7 @@ namespace Files.App.Utils.Serialization
 
 		public virtual object ExportSettings()
 		{
-			return JsonSettingsDatabase?.ExportSettings() ?? false;
+			return JsonSettingsDatabase is null ? false : JsonSettingsDatabase.ExportSettings();
 		}
 
 		public virtual bool ImportSettings(object import)
@@ -77,6 +78,7 @@ namespace Files.App.Utils.Serialization
 			IsAvailable = SettingsSerializer?.CreateFile(filePath) ?? false;
 		}
 
+		[return: NotNullIfNotNull(nameof(defaultValue))]
 		protected virtual TValue? Get<TValue>(TValue? defaultValue, [CallerMemberName] string propertyName = "")
 		{
 			if (string.IsNullOrEmpty(propertyName))

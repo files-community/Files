@@ -4,13 +4,17 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Text;
+using WinRT;
 
 namespace Files.App.Dialogs
 {
 	public sealed partial class CredentialDialog : ContentDialog, IDialog<CredentialDialogViewModel>
 	{
 		private FrameworkElement RootAppElement
-			=> (FrameworkElement)MainWindow.Instance.Content;
+		{
+			[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+			get => (FrameworkElement)MainWindow.Instance.Content;
+		}
 
 		public CredentialDialogViewModel ViewModel
 		{
@@ -28,9 +32,43 @@ namespace Files.App.Dialogs
 			return (DialogResult)await base.ShowAsync();
 		}
 
-		private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+		private void ContentDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
 		{
-			ViewModel.PrimaryButtonClickCommand.Execute(new DisposableArray(Encoding.UTF8.GetBytes(Password.Password)));
+			// Focus the first editable input so the user can type without clicking first
+			var target = UserName is { Visibility: Visibility.Visible, IsEnabled: true } ? UserName : (Control)Password;
+			target.Focus(FocusState.Programmatic);
+		}
+
+		private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+		{
+			var password = new DisposableArray(Encoding.UTF8.GetBytes(Password.Password));
+
+			if (ViewModel.PasswordValidator is null)
+			{
+				ViewModel.PrimaryButtonClickCommand.Execute(password);
+				return;
+			}
+
+			var deferral = args.GetDeferral();
+			try
+			{
+				IsPrimaryButtonEnabled = false;
+				if (await ViewModel.PasswordValidator(password))
+				{
+					ViewModel.PrimaryButtonClickCommand.Execute(password);
+				}
+				else
+				{
+					args.Cancel = true;
+					ViewModel.IsWrongPassword = true;
+					password.Dispose();
+				}
+			}
+			finally
+			{
+				IsPrimaryButtonEnabled = true;
+				deferral.Complete();
+			}
 		}
 	}
 }

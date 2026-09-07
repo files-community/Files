@@ -38,17 +38,18 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync(object? parameter = null)
 		{
-			if (context?.ShellPage?.ShellViewModel.WorkingDirectory is null)
+			if (context.ShellPage?.ShellViewModel?.WorkingDirectory is not { } workingDirectory)
 				return;
 
-			var banner = StatusCenterHelper.AddCard_InstallFont(context.ShellPage.ShellViewModel.WorkingDirectory.CreateEnumerable(), ReturnResult.InProgress, context.SelectedItems.Count);
+			var banner = StatusCenterHelper.AddCard_InstallFont(workingDirectory.CreateEnumerable(), ReturnResult.InProgress, context.SelectedItems.Count);
 			banner.IsCancelable = false;
 
-			var paths = context.SelectedItems.Select(item => item.ItemPath).ToArray();
+			var paths = context.SelectedItems.Select(item => item.ItemPath!).ToArray();
 			await Win32Helper.InstallFontsAsync(paths, false);
 
 			StatusCenterViewModel.RemoveItem(banner);
-			StatusCenterHelper.AddCard_InstallFont(context.ShellPage.ShellViewModel.WorkingDirectory.CreateEnumerable(), ReturnResult.Success, context.SelectedItems.Count);
+			var currentWorkingDirectory = context.ShellPage.GetRequiredShellViewModel().WorkingDirectory!;
+			StatusCenterHelper.AddCard_InstallFont(currentWorkingDirectory.CreateEnumerable(), ReturnResult.Success, context.SelectedItems.Count);
 		}
 
 		public void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)

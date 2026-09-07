@@ -8,7 +8,7 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class SignaturesPage : BasePropertiesPage
 	{
-		private SignaturesViewModel SignaturesViewModel { get; set; }
+		private SignaturesViewModel? SignaturesViewModel { get; set; }
 
 		public SignaturesPage()
 		{
@@ -19,7 +19,8 @@ namespace Files.App.Views.Properties
 		{
 			var np = (PropertiesPageNavigationParameter)e.Parameter;
 			if (np.Parameter is ListedItem listedItem)
-				SignaturesViewModel = new(listedItem, np.Window.AppWindow);
+				SignaturesViewModel = new(listedItem,
+					(np.Window ?? throw new InvalidOperationException("The properties window has not been initialized.")).AppWindow);
 
 			base.OnNavigatedTo(e);
 		}
@@ -34,7 +35,7 @@ namespace Files.App.Views.Properties
 
 		public override void Dispose()
 		{
-			SignaturesViewModel.Dispose();
+			SignaturesViewModel?.Dispose();
 		}
 	}
 }

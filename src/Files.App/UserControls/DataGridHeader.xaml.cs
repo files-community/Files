@@ -19,8 +19,8 @@ namespace Files.App.UserControls
 		[GeneratedDependencyProperty]
 		public partial SortDirection? ColumnSortOption { get; set; }
 
-		public ICommand Command { get; set; }
-		public object CommandParameter { get; set; }
+		public ICommand? Command { get; set; }
+		public object? CommandParameter { get; set; }
 
 		partial void OnColumnSortOptionChanged(SortDirection? newValue)
 		{

@@ -1,89 +1,83 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Vanara.PInvoke;
-using Vanara.Windows.Shell;
+using System.Collections;
+using Windows.Win32.UI.Shell;
 
 namespace Files.App.Utils.Shell
 {
-	/// <summary>
-	/// Folders of a <see cref="ShellLibrary"/>.
-	/// </summary>
-	/// <seealso cref="ShellItemArray"/>
-	/// <seealso cref="ICollection{ShellItem}"/>
-	public sealed partial class ShellLibraryFolders : ShellItemArray, ICollection<ShellItem>
+	/// <summary>Represents the child folders contained in a Shell library.</summary>
+	[WinRT.GeneratedWinRTExposedType]
+	public sealed partial class ShellLibraryFolders : ICollection<ShellItem>, IDisposable
 	{
-		private Shell32.IShellLibrary _lib;
+		private IShellLibrary? library;
+		private readonly List<ShellItem> items = [];
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ShellLibraryFolders"/> class.
-		/// </summary>
-		/// <param name="lib">The library.</param>
-		/// <param name="shellItemArray">The shell item array.</param>
-		internal ShellLibraryFolders(Shell32.IShellLibrary lib, Shell32.IShellItemArray shellItemArray) : base(shellItemArray)
+		internal ShellLibraryFolders(IShellLibrary library, IShellItemArray itemArray)
 		{
-			_lib = lib;
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
-		/// </summary>
-		bool ICollection<ShellItem>.IsReadOnly
-			=> false;
-
-		/// <summary>
-		/// Adds the specified location.
-		/// </summary>
-		/// <param name="location">The location.</param>
-		/// <exception cref="ArgumentNullException">location</exception>
-		public void Add(ShellItem location)
-		{
-			ArgumentNullException.ThrowIfNull(location);
-
-			_lib.AddFolder(location.IShellItem);
-		}
-
-		/// <summary>
-		/// Removes the specified location.
-		/// </summary>
-		/// <param name="location">The location.</param>
-		/// <returns><c>true</c> on success.</returns>
-		/// <exception cref="ArgumentNullException">location</exception>
-		public bool Remove(ShellItem location)
-		{
-			ArgumentNullException.ThrowIfNull(location);
-
-			try
+			this.library = library;
+			itemArray.GetCount(out uint count).ThrowOnFailure();
+			for (uint index = 0; index < count; index++)
 			{
-				_lib.RemoveFolder(location.IShellItem);
-
-				return true;
+				itemArray.GetItemAt(index, out IShellItem item).ThrowOnFailure();
+				items.Add(ShellItem.Open(item));
 			}
-			catch
-			{
+		}
+
+		private IShellLibrary Library => library ?? throw new ObjectDisposedException(nameof(ShellLibraryFolders));
+
+		/// <inheritdoc/>
+		public int Count => items.Count;
+
+		/// <inheritdoc/>
+		public bool IsReadOnly => false;
+
+		/// <summary>Adds a folder to the library.</summary>
+		public void Add(ShellItem item)
+		{
+			ArgumentNullException.ThrowIfNull(item);
+			Library.AddFolder(item.IShellItem).ThrowOnFailure();
+			items.Add(ShellItem.Open(item.IShellItem));
+		}
+
+		/// <summary>Removes a folder from the library.</summary>
+		public bool Remove(ShellItem item)
+		{
+			ArgumentNullException.ThrowIfNull(item);
+			if (Library.RemoveFolder(item.IShellItem).Failed)
 				return false;
+
+			int index = items.FindIndex(existing => ReferenceEquals(existing, item) ||
+				existing.IShellItem.Compare(item.IShellItem, (uint)_SICHINTF.SICHINT_CANONICAL, out int order).Succeeded && order is 0);
+			if (index >= 0)
+			{
+				ShellItem cachedItem = items[index];
+				items.RemoveAt(index);
+				// Dispose only the cached wrapper; the caller owns the supplied item.
+				if (!ReferenceEquals(cachedItem, item))
+					cachedItem.Dispose();
 			}
+
+			return true;
 		}
 
-		/// <summary>
-		/// Removes all items from the <see cref="ICollection{ShellItem}"/>.
-		/// </summary>
-		/// <exception cref="NotImplementedException"></exception>
-		void ICollection<ShellItem>.Clear()
-		{
-			throw new NotImplementedException();
-		}
+		public bool Contains(ShellItem item) => items.Contains(item);
 
-		/// <summary>
-		/// Performs application-defined tasks associated with freeing,
-		/// releasing, or resetting unmanaged resources.
-		/// </summary>
-		public override void Dispose()
-		{
-			_lib = null;
+		public void CopyTo(ShellItem[] array, int arrayIndex) => items.CopyTo(array, arrayIndex);
 
-			base.Dispose();
-			GC.SuppressFinalize(this);
+		public IEnumerator<ShellItem> GetEnumerator() => items.GetEnumerator();
+
+		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+		void ICollection<ShellItem>.Clear() => throw new NotSupportedException();
+
+		/// <inheritdoc/>
+		public void Dispose()
+		{
+			foreach (ShellItem item in items)
+				item.Dispose();
+			items.Clear();
+			library = null;
 		}
 	}
 }

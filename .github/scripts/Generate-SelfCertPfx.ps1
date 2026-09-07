@@ -1,5 +1,5 @@
 # Copyright (c) Files Community
-# Licensed under the MIT License.
+# SPDX-License-Identifier: MPL-2.0
 
 # Abstract:
 #  This script generates a self-signed certificate for the temporary packaging as a pfx file.

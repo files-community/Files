@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <dwmapi.h>
 #include <exdisp.h>
 #include <iostream>
 #include <objbase.h>
@@ -10,6 +11,7 @@
 #include <shtypes.h>
 #include <ShlObj_core.h>
 #include <ShObjIdl_core.h>
+#include <tlhelp32.h>
 #include <vector>
 #include <wil/resource.h>
 
@@ -20,11 +22,14 @@
 #pragma comment(lib, "Propsys.lib")
 #pragma comment(lib, "user32.lib")
 #pragma comment(lib, "uuid.lib")
+#pragma comment(lib, "dwmapi.lib")
 
 constexpr auto ID_TIMEREXPIRED = 101;
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 bool OpenInExistingShellWindow(const TCHAR* folderPath);
+bool IsLaunchedByExplorer();
+void WaitForProtocolActivation(HANDLE hProcess);
 void RunFileExplorer(const TCHAR* openDirectory);
 size_t strifind(const std::wstring& strHaystack, const std::wstring& strNeedle);
 bool comparei(std::wstring stringA, std::wstring stringB);
@@ -102,7 +107,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	if (withArgs)
 	{
-		if (OpenInExistingShellWindow(openDirectory))
+		if (IsLaunchedByExplorer() && OpenInExistingShellWindow(openDirectory))
 		{
 			if (_debugStream)
 				fclose(_debugStream);
@@ -121,19 +126,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		wcex.lpszClassName = CLASS_NAME;
 		RegisterClassEx(&wcex);
 
-		OpenInFolder openInFolder;
+		winrt::com_ptr<OpenInFolder> openInFolder;
+		openInFolder.attach(new OpenInFolder());
 
 		// Create the window.
 		HWND hwnd = CreateWindowEx(
-			0,
+			WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE,
 			CLASS_NAME,
 			L"Files Launcher",
 			0,
 			0, 0, 0, 0,
-			HWND_MESSAGE,
+			NULL,
 			NULL,
 			hInstance,
-			&openInFolder
+			openInFolder.get()
 		);
 
 		if (hwnd == NULL)
@@ -146,9 +152,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		SetTimer(hwnd, ID_TIMEREXPIRED, 500, NULL);
 
-		ShowWindow(hwnd, SW_SHOWNORMAL);
-		//UpdateWindow(hwnd);
-
 		MSG msg = { };
 		while (GetMessage(&msg, NULL, 0, 0) > 0)
 		{
@@ -156,43 +159,93 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			DispatchMessage(&msg);
 		}
 
-		auto item = openInFolder.GetResult();
+		auto item = openInFolder->GetResult();
+		if (IsWindow(hwnd))
+			KillTimer(hwnd, ID_TIMEREXPIRED);
 
-		TCHAR args[1024];
-		if (item.empty())
+		auto launchFiles = [&](const wchar_t* verb, const std::wstring& target, bool waitForActivation) -> bool
 		{
-			std::wcout << L"No item selected" << std::endl;
-			//swprintf(args, _countof(args) - 1, L"-directory \"%s\"", openDirectory);
-			swprintf(args, _countof(args) - 1, L"\"%s\" -directory \"%s\"", szBuf, openDirectory);
+			TCHAR args[1024];
+			swprintf(args, _countof(args) - 1, L"\"%s\" %s \"%s\"", szBuf, verb, target.c_str());
+
+			std::wstring uriWithArgs = L"files-dev:?cmd=" + str2wstr(wstring_to_utf8_hex(args));
+
+			std::wcout << L"Invoking: " << args << L" = " << uriWithArgs << std::endl;
+
+			SHELLEXECUTEINFO ShExecInfo = { 0 };
+			ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+			ShExecInfo.fMask = SEE_MASK_NOASYNC | SEE_MASK_FLAG_NO_UI | SEE_MASK_NOCLOSEPROCESS;
+			ShExecInfo.lpFile = uriWithArgs.c_str();
+			ShExecInfo.lpDirectory = openDirectory;
+			ShExecInfo.nShow = SW_SHOW;
+
+			if (!ShellExecuteEx(&ShExecInfo))
+			{
+				std::wcout << L"Protocol error: " << GetLastError() << std::endl;
+				return false;
+			}
+
+			if (waitForActivation)
+				WaitForProtocolActivation(ShExecInfo.hProcess);
+			else if (ShExecInfo.hProcess)
+				CloseHandle(ShExecInfo.hProcess);
+
+			return true;
+		};
+
+		if (!item.empty())
+		{
+			openInFolder->RevokeShellWindow();
+			if (IsWindow(hwnd))
+				DestroyWindow(hwnd);
+
+			std::wcout << L"Item: " << item << std::endl;
+			launchFiles(L"-select", item, true);
+		}
+		else if (OpenInExistingShellWindow(openDirectory))
+		{
+			openInFolder->RevokeShellWindow();
+			if (IsWindow(hwnd))
+				DestroyWindow(hwnd);
+
+			if (_debugStream)
+				fclose(_debugStream);
+
+			return 0;
 		}
 		else
 		{
-			std::wcout << L"Item: " << item << std::endl;
-			//swprintf(args, _countof(args) - 1, L"-select \"%s\"", item.c_str());
-			swprintf(args, _countof(args) - 1, L"\"%s\" -select \"%s\"", szBuf, item.c_str());
-		}
+			// Open the folder right away, but keep the shell window registered and the
+			// message pump running: a SHOpenFolderAndSelectItems caller that is still
+			// probing IShellWindows can deliver its selection after the first timeout,
+			// in which case it is forwarded with a follow-up -select activation.
+			// Pumping here also keeps the process alive while the asynchronous
+			// -directory protocol activation is delivered (#18818).
+			std::wcout << L"No item selected" << std::endl;
 
-		std::wstring uriWithArgs = L"files-dev:?cmd=" + str2wstr(wstring_to_utf8_hex(args));
+			if (launchFiles(L"-directory", openDirectory, false) && IsWindow(hwnd))
+			{
+				SetTimer(hwnd, ID_TIMEREXPIRED, 10000, NULL);
 
-		std::wcout << L"Invoking: " << args << L" = " << uriWithArgs << std::endl;
+				MSG graceMsg = { };
+				while (GetMessage(&graceMsg, NULL, 0, 0) > 0)
+				{
+					TranslateMessage(&graceMsg);
+					DispatchMessage(&graceMsg);
+				}
 
-		SHELLEXECUTEINFO ShExecInfo = { 0 };
-		ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
-		ShExecInfo.fMask = SEE_MASK_NOASYNC | SEE_MASK_FLAG_NO_UI;
-		ShExecInfo.lpFile = uriWithArgs.c_str();
-		ShExecInfo.lpDirectory = openDirectory;
-		ShExecInfo.nShow = SW_SHOW;
+				item = openInFolder->GetResult();
+			}
 
-		if (!ShellExecuteEx(&ShExecInfo))
-		{
-			std::wcout << L"Protocol error: " << GetLastError() << std::endl;
+			openInFolder->RevokeShellWindow();
+			if (IsWindow(hwnd))
+				DestroyWindow(hwnd);
 
-			//ShExecInfo.lpFile = L"files-dev.exe";
-			//ShExecInfo.lpParameters = args;
-			//if (!ShellExecuteEx(&ShExecInfo))
-			//{
-				//std::wcout << L"Command line error: " << GetLastError() << std::endl;
-			//}
+			if (!item.empty())
+			{
+				std::wcout << L"Item: " << item << std::endl;
+				launchFiles(L"-select", item, true);
+			}
 		}
 	}
 	else
@@ -201,7 +254,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		SHELLEXECUTEINFO ShExecInfo = { 0 };
 		ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
-		ShExecInfo.fMask = SEE_MASK_NOASYNC | SEE_MASK_FLAG_NO_UI;
+		ShExecInfo.fMask = SEE_MASK_NOASYNC | SEE_MASK_FLAG_NO_UI | SEE_MASK_NOCLOSEPROCESS;
 		ShExecInfo.lpFile = L"files-dev:";
 		ShExecInfo.nShow = SW_SHOW;
 
@@ -213,6 +266,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//{
 				//std::wcout << L"Command line error: " << GetLastError() << std::endl;
 			//}
+		}
+		else
+		{
+			WaitForProtocolActivation(ShExecInfo.hProcess);
 		}
 	}
 
@@ -241,6 +298,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		pContainer->SetWindow(hwnd);
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pContainer);
+
+		BOOL cloak = TRUE;
+		DwmSetWindowAttribute(hwnd, DWMWA_CLOAK, &cloak, sizeof(cloak));
 		break;
 	}
 
@@ -322,6 +382,23 @@ std::wstring str2wstr(const std::string& str)
 	return L"";
 }
 
+// Packaged-app protocol activations are delivered asynchronously even with
+// SEE_MASK_NOASYNC; exiting before delivery completes discards the activation
+// and Files never opens (#18818). Wait on the activated process when the shell
+// provides one, otherwise give the activation broker a grace period.
+void WaitForProtocolActivation(HANDLE hProcess)
+{
+	if (hProcess)
+	{
+		WaitForInputIdle(hProcess, 5000);
+		CloseHandle(hProcess);
+	}
+	else
+	{
+		Sleep(2000);
+	}
+}
+
 void RunFileExplorer(const TCHAR* openDirectory)
 {
 	// Run explorer
@@ -338,6 +415,30 @@ void RunFileExplorer(const TCHAR* openDirectory)
 
 	ShExecInfo.nShow = SW_SHOW;
 	ShellExecuteEx(&ShExecInfo);
+}
+
+bool IsLaunchedByExplorer()
+{
+	DWORD explorerProcessId = 0;
+	GetWindowThreadProcessId(GetShellWindow(), &explorerProcessId);
+	if (!explorerProcessId)
+		return false;
+
+	wil::unique_handle snapshot(CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0));
+	if (!snapshot)
+		return false;
+
+	PROCESSENTRY32 processEntry{ sizeof(processEntry) };
+	if (!Process32First(snapshot.get(), &processEntry))
+		return false;
+
+	do
+	{
+		if (processEntry.th32ProcessID == GetCurrentProcessId())
+			return processEntry.th32ParentProcessID == explorerProcessId;
+	} while (Process32Next(snapshot.get(), &processEntry));
+
+	return false;
 }
 
 bool OpenInExistingShellWindow(const TCHAR* folderPath)

@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using WinRT;
 
 namespace Files.App.UserControls
 {
@@ -54,6 +55,7 @@ namespace Files.App.UserControls
 
 		private void Root_Unloaded(object sender, RoutedEventArgs e)
 		{
+			ViewModel.UnloadPreview();
 			PreviewControlPresenter.Content = null;
 			Bindings.StopTracking();
 		}
@@ -64,11 +66,13 @@ namespace Files.App.UserControls
 		private void MenuFlyoutItem_Tapped(object sender, TappedRoutedEventArgs e)
 			=> ViewModel?.UpdateSelectedItemPreviewAsync(true);
 
+		[DynamicWindowsRuntimeCast(typeof(UserControl))]
 		private void FileTag_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			VisualStateManager.GoToState((UserControl)sender, "PointerOver", true);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UserControl))]
 		private void FileTag_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
 			VisualStateManager.GoToState((UserControl)sender, "Normal", true);
@@ -84,6 +88,8 @@ namespace Files.App.UserControls
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
+		[DynamicWindowsRuntimeCast(typeof(StackPanel))]
 		private void TagItem_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			var tagName = ((sender as StackPanel)?.Children[1] as TextBlock)?.Text;

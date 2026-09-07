@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Windows.Foundation;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -63,6 +64,9 @@ namespace Files.App.Controls
 		// Methods
 
 		/// <inheritdoc/>
+		[DynamicWindowsRuntimeCast(typeof(Grid))]
+		[DynamicWindowsRuntimeCast(typeof(ColumnDefinition))]
+		[DynamicWindowsRuntimeCast(typeof(Border))]
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();

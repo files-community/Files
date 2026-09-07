@@ -8,7 +8,7 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class CustomizationPage : BasePropertiesPage
 	{
-		private CustomizationViewModel CustomizationViewModel { get; set; }
+		private CustomizationViewModel CustomizationViewModel { get; set; } = null!;
 
 		public CustomizationPage()
 		{
@@ -21,7 +21,10 @@ namespace Files.App.Views.Properties
 
 			base.OnNavigatedTo(e);
 
-			CustomizationViewModel = new(AppInstance, BaseProperties, parameter.Window.AppWindow);
+			CustomizationViewModel = new(
+				AppInstance,
+				BaseProperties ?? throw new InvalidOperationException("The properties model has not been initialized."),
+				(parameter.Window ?? throw new InvalidOperationException("The properties window has not been initialized.")).AppWindow);
 		}
 
 		public override async Task<bool> SaveChangesAsync()

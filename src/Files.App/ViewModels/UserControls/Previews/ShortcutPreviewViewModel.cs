@@ -11,7 +11,9 @@ namespace Files.App.ViewModels.Previews
 
 		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
-			var item = Item as IShortcutItem;
+			if (Item is not IShortcutItem item)
+				throw new InvalidOperationException("The shortcut preview item does not implement the shortcut contract.");
+
 			var details = new List<FileProperty>
 			{
 				GetFileProperty("PropertyParsingPath", item.ItemPath),

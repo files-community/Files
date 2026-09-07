@@ -4,6 +4,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using Microsoft.Win32.SafeHandles;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
 
@@ -11,6 +12,16 @@ namespace Files.App.Helpers
 {
 	public static partial class Win32PInvoke
 	{
+		public sealed partial class SafeFindHandle : SafeHandleZeroOrMinusOneIsInvalid
+		{
+			internal SafeFindHandle(IntPtr handle) : base(true)
+			{
+				SetHandle(handle);
+			}
+
+			protected override bool ReleaseHandle() => FindClose(handle);
+		}
+
 		public delegate void LpoverlappedCompletionRoutine(
 			uint dwErrorCode,
 			uint dwNumberOfBytesTransfered,
@@ -104,7 +115,7 @@ namespace Files.App.Helpers
 
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		public static extern IntPtr CreateFileFromApp(
-			string lpFileName,
+			string? lpFileName,
 			uint dwDesiredAccess,
 			uint dwShareMode,
 			IntPtr SecurityAttributes,
@@ -211,7 +222,7 @@ namespace Files.App.Helpers
 
 		[DllImport("api-ms-win-core-timezone-l1-1-0.dll", SetLastError = true)]
 		public static extern bool FileTimeToSystemTime(
-			ref System.Runtime.InteropServices.ComTypes.FILETIME lpFileTime,
+			in System.Runtime.InteropServices.ComTypes.FILETIME lpFileTime,
 			out SYSTEMTIME lpSystemTime
 		);
 
@@ -224,6 +235,26 @@ namespace Files.App.Helpers
 			IntPtr lpSearchFilter,
 			int dwAdditionalFlags
 		);
+
+		public static SafeFindHandle FindFirstFileExFromAppSafe(
+			string lpFileName,
+			FINDEX_INFO_LEVELS fInfoLevelId,
+			out WIN32_FIND_DATA lpFindFileData,
+			FINDEX_SEARCH_OPS fSearchOp,
+			IntPtr lpSearchFilter,
+			int dwAdditionalFlags
+		)
+		{
+			var handle = FindFirstFileExFromApp(
+				lpFileName,
+				fInfoLevelId,
+				out lpFindFileData,
+				fSearchOp,
+				lpSearchFilter,
+				dwAdditionalFlags);
+
+			return new(handle);
+		}
 
 		[LibraryImport("shell32.dll", EntryPoint = "#865", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]

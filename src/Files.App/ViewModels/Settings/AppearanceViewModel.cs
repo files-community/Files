@@ -11,6 +11,9 @@ namespace Files.App.ViewModels.Settings
 {
 	public sealed partial class AppearanceViewModel : ObservableObject
 	{
+		// Keys the persisted state of the background image picker so it reopens at the last browsed folder
+		private static readonly Guid _backgroundImagePickerClientGuid = new("D3EED455-B484-4400-9232-76C210DA15CE");
+
 		private ICommandManager CommandManager { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
@@ -58,6 +61,7 @@ namespace Files.App.ViewModels.Settings
 			selectedBackdropMaterial = BackdropMaterialTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial];
 
 			AppThemeResources = AppThemeResourceFactory.AppThemeResources;
+			selectedAppThemeResources = AppThemeResources[0];
 
 
 			// Background image fit options
@@ -112,7 +116,7 @@ namespace Files.App.ViewModels.Settings
 				"WEBP", "*.webp",
 			];
 
-			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.MyPictures, out var filePath);
+			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.MyPictures, out var filePath, _backgroundImagePickerClientGuid);
 			if (result)
 				AppThemeBackgroundImageSource = filePath;
 		}
@@ -187,7 +191,7 @@ namespace Files.App.ViewModels.Settings
 			{
 				if (value is not null && SetProperty(ref selectedAppThemeResources, value))
 				{
-					AppThemeBackgroundColor = SelectedAppThemeResources.BackgroundColor;
+					AppThemeBackgroundColor = value.BackgroundColor!;
 					OnPropertyChanged(nameof(selectedAppThemeResources));
 				}
 			}
@@ -293,7 +297,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedImageStretchType;
+		private string selectedImageStretchType = null!;
 		public string SelectedImageStretchType
 		{
 			get => selectedImageStretchType;
@@ -320,7 +324,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedImageVerticalAlignmentType;
+		private string selectedImageVerticalAlignmentType = null!;
 		public string SelectedImageVerticalAlignmentType
 		{
 			get => selectedImageVerticalAlignmentType;
@@ -333,7 +337,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedImageHorizontalAlignmentType;
+		private string selectedImageHorizontalAlignmentType = null!;
 		public string SelectedImageHorizontalAlignmentType
 		{
 			get => selectedImageHorizontalAlignmentType;
@@ -402,7 +406,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedStatusCenterVisibilityOption;
+		private string selectedStatusCenterVisibilityOption = null!;
 		public string SelectedStatusCenterVisibilityOption
 		{
 			get => selectedStatusCenterVisibilityOption;

@@ -9,7 +9,7 @@ namespace Files.App.Helpers
 	{
 		#region Private Members
 
-		private object parameter;
+		private object? parameter;
 
 		#endregion Private Members
 
@@ -27,7 +27,8 @@ namespace Files.App.Helpers
 
 		protected override object ProvideValue()
 		{
-			return parameter;
+			return parameter
+				?? throw new InvalidOperationException("A value must be supplied to the markup extension.");
 		}
 	}
 }

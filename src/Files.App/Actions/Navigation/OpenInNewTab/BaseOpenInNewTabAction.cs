@@ -44,9 +44,11 @@ namespace Files.App.Actions
 			{
 				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
+					var targetPath = (listedItem as IShortcutItem)?.TargetPath;
+					var path = !string.IsNullOrEmpty(targetPath) ? targetPath : listedItem.GetRequiredPath();
 					await NavigationHelpers.AddNewTabByPathAsync(
 						typeof(ShellPanesPage),
-						(listedItem as IShortcutItem)?.TargetPath ?? listedItem.ItemPath,
+						path,
 						false);
 				},
 				Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);

@@ -13,11 +13,9 @@ namespace Files.App.Data.Models
 	/// </summary>
 	public sealed class CompressArchiveModel : ICompressArchiveModel
 	{
-		private StatusCenterItemProgressModel _fileSystemProgress;
+		private StatusCenterItemProgressModel? _fileSystemProgress;
 
-		private FileSizeCalculator _sizeCalculator;
-
-		private IThreadingService _threadingService = Ioc.Default.GetRequiredService<IThreadingService>();
+		private FileSizeCalculator? _sizeCalculator;
 
 		private string ArchiveExtension => FileFormat switch
 		{
@@ -65,16 +63,15 @@ namespace Files.App.Data.Models
 			_ => throw new ArgumentOutOfRangeException(nameof(SplittingSize)),
 		};
 
-		private IProgress<StatusCenterItemProgressModel> _Progress;
-		public IProgress<StatusCenterItemProgressModel> Progress
+		private IProgress<StatusCenterItemProgressModel>? _Progress;
+		public IProgress<StatusCenterItemProgressModel>? Progress
 		{
 			get => _Progress;
 			set
 			{
 				_Progress = value;
-
 				_fileSystemProgress = new(
-					Progress,
+					value,
 					false,
 					FileSystemStatusCode.InProgress);
 
@@ -157,6 +154,9 @@ namespace Files.App.Data.Models
 		/// <inheritdoc/>
 		public async Task<bool> RunCreationAsync()
 		{
+			if (_fileSystemProgress is null)
+				throw new InvalidOperationException("Compression progress must be initialized before archive creation starts.");
+
 			string[] sources = Sources.ToArray();
 
 			var compressor = new SevenZipCompressor()
@@ -239,7 +239,7 @@ namespace Files.App.Data.Models
 				if (skippedItems.Count > 0)
 				{
 					var logger = Ioc.Default.GetRequiredService<ILogger<App>>();
-					logger?.LogWarning($"Skipped {skippedItems.Count} item(s) that could not be archived to {ArchivePath}: {string.Join(", ", skippedItems)}");
+					logger?.LogWarning($"Skipped {skippedItems.Count} item(s) that could not be archived to {LogPathHelper.RedactPath(ArchivePath)}: {string.Join(", ", skippedItems.Select(LogPathHelper.RedactPath))}");
 
 					// Ask the user whether to skip the items or cancel the operation, see #16240
 					var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
@@ -291,7 +291,7 @@ namespace Files.App.Data.Models
 
 							if (directories.Length == 0)
 							{
-								fileDictionary.Add(entryPrefix + directoryInfo.Name, null);
+								AddArchiveEntry(fileDictionary, entryPrefix + directoryInfo.Name, null);
 							}
 							else
 							{
@@ -300,6 +300,10 @@ namespace Files.App.Data.Models
 									AddEntry(fileDictionary, directoryInfo2.FullName, entryPrefix);
 							}
 						}
+
+						// SevenZipSharp uses a null source path to represent an empty directory.
+						static void AddArchiveEntry(IDictionary<string, string> entries, string name, string? sourcePath)
+							=> entries.Add(name, sourcePath!);
 					}
 
 					compressor.CompressionMode = CompressionMode.Append;
@@ -320,7 +324,7 @@ namespace Files.App.Data.Models
 			catch (Exception ex)
 			{
 				var logger = Ioc.Default.GetRequiredService<ILogger<App>>();
-				logger?.LogWarning(ex, $"Error compressing folder: {ArchivePath}");
+				logger?.LogWarning(ex, $"Error compressing folder: {LogPathHelper.RedactPath(ArchivePath)}");
 
 				cts.Cancel();
 
@@ -396,25 +400,25 @@ namespace Files.App.Data.Models
 		private void Compressor_FileCompressionStarted(object? sender, FileNameEventArgs e)
 		{
 			if (CancellationToken.IsCancellationRequested)
-				e.Cancel = true;
-			else
-				_sizeCalculator.ForceComputeFileSize(e.FilePath);
-			_threadingService.ExecuteOnUiThreadAsync(() =>
 			{
-				_fileSystemProgress.FileName = e.FileName;
-				_fileSystemProgress.Report();
-			});
+				e.Cancel = true;
+				return;
+			}
+
+			_sizeCalculator!.ForceComputeFileSize(e.FilePath);
+			_fileSystemProgress!.FileName = e.FileName;
+			_fileSystemProgress.Report();
 		}
 
 		private void Compressor_FileCompressionFinished(object? sender, EventArgs e)
 		{
-			_fileSystemProgress.AddProcessedItemsCount(1);
+			_fileSystemProgress!.AddProcessedItemsCount(1);
 			_fileSystemProgress.Report();
 		}
 
 		private void Compressor_Compressing(object? _, ProgressEventArgs e)
 		{
-			if (_fileSystemProgress.TotalSize > 0)
+			if (_fileSystemProgress!.TotalSize > 0)
 				_fileSystemProgress.Report((_fileSystemProgress.ProcessedSize + e.PercentDelta / 100.0 * e.BytesCount) / _fileSystemProgress.TotalSize * 100);
 		}
 

@@ -43,6 +43,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		private ICommand EjectDeviceCommand { get; } = null!;
 		private ICommand MapNetworkDriveCommand { get; } = null!;
 		private ICommand DisconnectNetworkDriveCommand { get; } = null!;
+		private bool isDisposed;
 
 		// Constructor
 
@@ -214,7 +215,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			if (item is null)
 				return;
 
-			DriveHelpers.EjectDeviceAsync(item.Item.Path);
+			DriveHelpers.EjectDeviceAsync(item.Item.Path!);
 		}
 
 		private Task ExecuteMapNetworkDriveCommand()
@@ -295,6 +296,13 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public void Dispose()
 		{
+			if (isDisposed)
+				return;
+
+			isDisposed = true;
+			DrivesViewModel.Drives.CollectionChanged -= Drives_CollectionChanged;
+			NetworkService.Shortcuts.CollectionChanged -= Shortcuts_CollectionChanged;
+			Items.Clear();
 		}
 	}
 }

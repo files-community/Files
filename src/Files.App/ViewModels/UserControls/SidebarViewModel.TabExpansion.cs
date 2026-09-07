@@ -279,7 +279,7 @@ namespace Files.App.ViewModels.UserControls
 
 		// Restores expansion for the initial pass over sidebarItems and for items realized later (async section sync, lazy-loaded subfolders).
 		private void ApplyTabExpansionState() => ApplyTabStateTo(sidebarItems);
-		private void ApplyTabStateToNewlyAddedItem(INavigationControlItem item) => ApplyTabStateTo([item]);
+		private void ApplyTabStateToNewlyAddedItem(INavigationControlItem item) => ApplyTabStateTo((INavigationControlItem[])[item]);
 
 		private void ApplyTabStateTo(IEnumerable<INavigationControlItem> items)
 		{

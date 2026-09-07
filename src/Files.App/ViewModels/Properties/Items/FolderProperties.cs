@@ -20,12 +20,9 @@ namespace Files.App.ViewModels.Properties
 			DispatcherQueue coreDispatcher,
 			ListedItem item,
 			IShellPage instance)
+			: base(viewModel, tokenSource, coreDispatcher, instance)
 		{
-			ViewModel = viewModel;
-			TokenSource = tokenSource;
-			Dispatcher = coreDispatcher;
 			Item = item;
-			AppInstance = instance;
 
 			GetBaseProperties();
 
@@ -34,56 +31,57 @@ namespace Files.App.ViewModels.Properties
 
 		public override void GetBaseProperties()
 		{
-			if (Item is not null)
-			{
-				ViewModel.ItemName = Item.Name;
-				ViewModel.OriginalItemName = Item.Name;
-				ViewModel.ItemType = Item.ItemType;
-				ViewModel.ItemLocation = (Item as RecycleBinItem)?.ItemOriginalFolder ??
-					(Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath);
-				ViewModel.ItemModifiedTimestampReal = Item.ItemDateModifiedReal;
-				ViewModel.ItemCreatedTimestampReal = Item.ItemDateCreatedReal;
-				ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
-				ViewModel.CustomIconSource = Item.CustomIconSource;
-				ViewModel.LoadFileIcon = Item.LoadFileIcon;
-				ViewModel.ContainsFilesOrFolders = Item.ContainsFilesOrFolders;
+			var itemPath = Item.GetRequiredPath();
+			ViewModel.ItemName = Item.Name;
+			ViewModel.OriginalItemName = Item.Name;
+			ViewModel.ItemType = Item.ItemType;
+			ViewModel.ItemLocation = (Item as RecycleBinItem)?.ItemOriginalFolder ??
+				(Path.IsPathRooted(itemPath) ? Path.GetDirectoryName(itemPath) : itemPath);
+			ViewModel.ItemModifiedTimestampReal = Item.ItemDateModifiedReal;
+			ViewModel.ItemCreatedTimestampReal = Item.ItemDateCreatedReal;
+			ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
+			ViewModel.CustomIconSource = Item.CustomIconSource;
+			ViewModel.LoadFileIcon = Item.LoadFileIcon;
+			ViewModel.ContainsFilesOrFolders = Item.ContainsFilesOrFolders;
 
-				if (Item.IsShortcut && Item is IShortcutItem shortcutItem)
+			if (Item.IsShortcut && Item is IShortcutItem shortcutItem)
+			{
+				ViewModel.ShortcutItemType = Strings.Folder.GetLocalizedResource();
+				ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
+				ViewModel.IsShortcutItemPathReadOnly = false;
+				ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
+				ViewModel.ShowWindowCommand = shortcutItem.ShowWindowCommand;
+				ViewModel.ShortcutItemWorkingDirVisibility = false;
+				ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
+				ViewModel.ShortcutItemArgumentsVisibility = false;
+				ViewModel.ShortcutItemWindowArgsVisibility = false;
+				ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
 				{
-					ViewModel.ShortcutItemType = Strings.Folder.GetLocalizedResource();
-					ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
-					ViewModel.IsShortcutItemPathReadOnly = false;
-					ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
-					ViewModel.ShowWindowCommand = shortcutItem.ShowWindowCommand;
-					ViewModel.ShortcutItemWorkingDirVisibility = false;
-					ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
-					ViewModel.ShortcutItemArgumentsVisibility = false;
-					ViewModel.ShortcutItemWindowArgsVisibility = false;
-					ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
-					{
-						await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(
-							() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(Environment.ExpandEnvironmentVariables(ViewModel.ShortcutItemPath)), true));
-					},
-					() =>
-					{
-						return !string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath);
-					});
-				}
+					var shortcutPath = ViewModel.ShortcutItemPath
+						?? throw new InvalidOperationException("The shortcut does not have a target path.");
+					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(
+						() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(Environment.ExpandEnvironmentVariables(shortcutPath)), true));
+				},
+				() =>
+				{
+					return !string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath);
+				});
 			}
 		}
 
 		public async override Task GetSpecialPropertiesAsync()
 		{
-			var fileAttributes = Win32Helper.GetFileAttributes(Item.ItemPath);
+			var itemPath = Item.GetRequiredPath();
+			var fileAttributes = Win32Helper.GetFileAttributes(itemPath);
 			ViewModel.IsHidden = fileAttributes.HasFlag(FileAttributes.Hidden);
-			ViewModel.CanCompressContent = Win32Helper.CanCompressContent(Item.ItemPath);
+			ViewModel.CanCompressContent = Win32Helper.CanCompressContent(itemPath);
 			ViewModel.IsContentCompressed = fileAttributes.HasFlag(FileAttributes.Compressed);
 
 			var result = await FileThumbnailHelper.GetIconAsync(
-				Item.ItemPath,
+				itemPath,
 				Constants.ShellIconSizes.ExtraLarge,
 				true,
-				IconOptions.UseCurrentScale);
+				IconOptions.None);
 
 			if (result is not null)
 			{
@@ -99,7 +97,7 @@ namespace Files.App.ViewModels.Properties
 
 				// Only load the size for items on the device
 				if (Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline)
-					ViewModel.ItemSizeOnDisk = Win32Helper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
+					ViewModel.ItemSizeOnDisk = Win32Helper.GetFileSizeOnDisk(itemPath)?.ToLongSizeString() ??
 					   string.Empty;
 
 				ViewModel.ItemCreatedTimestampReal = Item.ItemDateCreatedReal;
@@ -111,8 +109,11 @@ namespace Files.App.ViewModels.Properties
 				}
 			}
 
-			string folderPath = (Item as IShortcutItem)?.TargetPath ?? Item.ItemPath;
-			BaseStorageFolder storageFolder = await AppInstance.ShellViewModel.GetFolderFromPathAsync(folderPath);
+			var targetPath = (Item as IShortcutItem)?.TargetPath;
+			string folderPath = !string.IsNullOrEmpty(targetPath) ? targetPath : Item.GetRequiredPath();
+			var shellViewModel = AppInstance.GetRequiredShellViewModel();
+
+			var storageFolder = (await shellViewModel.GetFolderFromPathAsync(folderPath)).Result;
 
 			if (storageFolder is not null)
 			{
@@ -126,7 +127,7 @@ namespace Files.App.ViewModels.Properties
 					CloudDriveSyncStatus.FolderOfflinePartial)
 					_ = GetFolderSizeAsync(storageFolder.Path, TokenSource.Token);
 			}
-			else if (Item.ItemPath.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+			else if (string.Equals(Item.ItemPath, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
 				var recycleBinQuery = StorageTrashBinService.QueryRecycleBin();
 				if (recycleBinQuery.BinSize is long binSize)
@@ -200,22 +201,23 @@ namespace Files.App.ViewModels.Properties
 			SetItemsCountString();
 		}
 
-		private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private async void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
+			var itemPath = Item.GetRequiredPath();
 			switch (e.PropertyName)
 			{
 				case nameof(ViewModel.IsHidden):
 					if (ViewModel.IsHidden is not null)
 					{
 						if ((bool)ViewModel.IsHidden)
-							Win32Helper.SetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+							Win32Helper.SetFileAttribute(itemPath, System.IO.FileAttributes.Hidden);
 						else
-							Win32Helper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+							Win32Helper.UnsetFileAttribute(itemPath, System.IO.FileAttributes.Hidden);
 					}
 					break;
 
 				case nameof(ViewModel.IsContentCompressed):
-					Win32Helper.SetCompressionAttributeIoctl(Item.ItemPath, ViewModel.IsContentCompressed ?? false);
+					Win32Helper.SetCompressionAttributeIoctl(itemPath, ViewModel.IsContentCompressed ?? false);
 					break;
 
 				case nameof(ViewModel.ShortcutItemPath):
@@ -227,7 +229,7 @@ namespace Files.App.ViewModels.Properties
 					if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
 						return;
 
-					await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, shortcutItem.RunAsAdmin, ViewModel.ShowWindowCommand);
+					await FileOperationsHelpers.CreateOrUpdateLinkAsync(itemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, shortcutItem.RunAsAdmin, ViewModel.ShowWindowCommand);
 					break;
 			}
 		}

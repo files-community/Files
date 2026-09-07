@@ -17,12 +17,9 @@ namespace Files.App.ViewModels.Properties
 			DispatcherQueue coreDispatcher,
 			ListedItem item,
 			IShellPage instance)
+			: base(viewModel, tokenSource, coreDispatcher, instance)
 		{
-			ViewModel = viewModel;
-			TokenSource = tokenSource;
-			Dispatcher = coreDispatcher;
 			Item = item;
-			AppInstance = instance;
 
 			GetBaseProperties();
 
@@ -31,20 +28,19 @@ namespace Files.App.ViewModels.Properties
 
 		public override void GetBaseProperties()
 		{
-			if (Item is null)
-				return;
+			var itemPath = Item.GetRequiredPath();
 
 			ViewModel.ItemName = Item.Name;
 			ViewModel.OriginalItemName = Item.Name;
 			ViewModel.ItemType = Item.ItemType;
 			ViewModel.ItemLocation = (Item as RecycleBinItem)?.ItemOriginalFolder ??
-				(Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath);
+				(Path.IsPathRooted(itemPath) ? Path.GetDirectoryName(itemPath) : itemPath);
 			ViewModel.ItemModifiedTimestampReal = Item.ItemDateModifiedReal;
 			ViewModel.ItemCreatedTimestampReal = Item.ItemDateCreatedReal;
 			ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
 			ViewModel.CustomIconSource = Item.CustomIconSource;
 			ViewModel.LoadFileIcon = Item.LoadFileIcon;
-			ViewModel.IsDownloadedFile = Win32Helper.ReadStringFromFile($"{Item.ItemPath}:Zone.Identifier") is not null;
+			ViewModel.IsDownloadedFile = Win32Helper.ReadStringFromFile($"{itemPath}:Zone.Identifier") is not null;
 			ViewModel.IsEditAlbumCoverVisible =
 				Item.FileExtension is not ".avi" && (
 				FileExtensionHelpers.IsVideoFile(Item.FileExtension) ||
@@ -77,14 +73,17 @@ namespace Files.App.ViewModels.Properties
 
 			ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
 			{
+				var shortcutPath = ViewModel.ShortcutItemPath
+					?? throw new InvalidOperationException("The shortcut does not have a target path.");
+
 				if (Item.IsLinkItem)
 				{
-					await Win32Helper.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, AppInstance, ViewModel.ShortcutItemArguments, ViewModel.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
+					await Win32Helper.InvokeWin32ComponentAsync(shortcutPath, AppInstance, ViewModel.ShortcutItemArguments, ViewModel.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
 				}
 				else
 				{
 					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(
-						() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath), true));
+						() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(shortcutPath), true));
 				}
 			},
 			() =>
@@ -95,14 +94,16 @@ namespace Files.App.ViewModels.Properties
 
 		public override async Task GetSpecialPropertiesAsync()
 		{
+			var itemPath = Item.GetRequiredPath();
+
 			// Check if item is on device (not online)
 			var isOnDevice = Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline;
 
 			// Set basic file attributes
-			FileAttributes fileAttributes = Win32Helper.GetFileAttributes(Item.ItemPath);
+			FileAttributes fileAttributes = Win32Helper.GetFileAttributes(itemPath);
 			ViewModel.IsReadOnly = fileAttributes.HasFlag(FileAttributes.ReadOnly);
 			ViewModel.IsHidden = fileAttributes.HasFlag(FileAttributes.Hidden);
-			ViewModel.CanCompressContent = Win32Helper.CanCompressContent(Item.ItemPath);
+			ViewModel.CanCompressContent = Win32Helper.CanCompressContent(itemPath);
 			ViewModel.ItemSizeVisibility = true;
 			ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
 
@@ -110,15 +111,15 @@ namespace Files.App.ViewModels.Properties
 			if (isOnDevice)
 			{
 				ViewModel.IsContentCompressed = fileAttributes.HasFlag(FileAttributes.Compressed);
-				ViewModel.ItemSizeOnDisk = Win32Helper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ?? string.Empty;
+				ViewModel.ItemSizeOnDisk = Win32Helper.GetFileSizeOnDisk(itemPath)?.ToLongSizeString() ?? string.Empty;
 			}
 
 			// Load icon
 			var result = await FileThumbnailHelper.GetIconAsync(
-				Item.ItemPath,
+				itemPath,
 				Constants.ShellIconSizes.ExtraLarge,
 				false,
-				IconOptions.UseCurrentScale);
+				IconOptions.None);
 
 			if (result is not null)
 			{
@@ -141,11 +142,13 @@ namespace Files.App.ViewModels.Properties
 			}
 
 			// Get file for further processing
-			string filePath = (Item as IShortcutItem)?.TargetPath ?? Item.ItemPath;
-			BaseStorageFile file = await AppInstance.ShellViewModel.GetFileFromPathAsync(filePath);
+			var targetPath = (Item as IShortcutItem)?.TargetPath;
+			string filePath = !string.IsNullOrEmpty(targetPath) ? targetPath : itemPath;
+			var shellViewModel = AppInstance.GetRequiredShellViewModel();
 
 			// Couldn't access the file and can't load any other properties
-			if (file is null)
+			var fileResult = await shellViewModel.GetFileFromPathAsync(filePath);
+			if (fileResult.Result is not { } file)
 				return;
 
 			// Can't load any other properties
@@ -155,7 +158,7 @@ namespace Files.App.ViewModels.Properties
 			// Load uncompressed size for browsable zip files on device
 			if (isOnDevice && FileExtensionHelpers.IsBrowsableZipFile(Item.FileExtension, out _))
 			{
-				if (await ZipStorageFolder.FromPathAsync(Item.ItemPath) is ZipStorageFolder zipFolder)
+				if (await ZipStorageFolder.FromPathAsync(itemPath) is ZipStorageFolder zipFolder)
 				{
 					var uncompressedSize = await zipFolder.GetUncompressedSize();
 					ViewModel.UncompressedItemSize = uncompressedSize.ToLongSizeString();
@@ -170,8 +173,9 @@ namespace Files.App.ViewModels.Properties
 
 		public async Task GetSystemFilePropertiesAsync()
 		{
-			BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
-			if (file is null)
+			var itemPath = Item.GetRequiredPath();
+			var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(itemPath));
+			if (fileResult.Result is not { } file)
 			{
 				// Could not access file, can't show any other property
 				return;
@@ -179,14 +183,19 @@ namespace Files.App.ViewModels.Properties
 
 			var list = await FileProperty.RetrieveAndInitializePropertiesAsync(file);
 
-			list.Find(x => x.ID == "address").Value =
-				await LocationHelpers.GetAddressFromCoordinatesAsync((double?)list.Find(
-					x => x.Property == "System.GPS.LatitudeDecimal").Value,
-					(double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+			var addressProperty = list.Find(x => x.ID == "address")
+				?? throw new InvalidOperationException("The file property definitions do not contain the address property.");
+			var latitudeProperty = list.Find(x => x.Property == "System.GPS.LatitudeDecimal")
+				?? throw new InvalidOperationException("The file property definitions do not contain the latitude property.");
+			var longitudeProperty = list.Find(x => x.Property == "System.GPS.LongitudeDecimal")
+				?? throw new InvalidOperationException("The file property definitions do not contain the longitude property.");
+			addressProperty.Value = await LocationHelpers.GetAddressFromCoordinatesAsync(
+				(double?)latitudeProperty.Value,
+				(double?)longitudeProperty.Value);
 
 			var query = list
 				.Where(fileProp => !(fileProp.Value is null && fileProp.IsReadOnly))
-				.GroupBy(fileProp => fileProp.SectionResource)
+				.GroupBy(fileProp => fileProp.SectionResource!)
 				.Select(group => new FilePropertySection(group) { Key = group.Key })
 				.Where(section => !section.All(fileProp => fileProp.Value is null)
 					|| FileProperty.IsSectionApplicableForEmpty(section.Key, Item.FileExtension))
@@ -198,10 +207,10 @@ namespace Files.App.ViewModels.Properties
 
 		public async Task SyncPropertyChangesAsync()
 		{
-			BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
-
 			// Couldn't access the file to save properties
-			if (file is null)
+			var itemPath = Item.GetRequiredPath();
+			var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(itemPath));
+			if (fileResult.Result is not { } file)
 				return;
 
 			var failedProperties = "";
@@ -212,9 +221,11 @@ namespace Files.App.ViewModels.Properties
 				{
 					if (!prop.IsReadOnly && prop.Modified)
 					{
-						var newDict = new Dictionary<string, object>
+						var propertyName = prop.Property
+							?? throw new InvalidOperationException("An editable file property does not have an identifier.");
+						var newDict = new Dictionary<string, object?>
 						{
-							{ prop.Property, prop.Value }
+							{ propertyName, prop.Value }
 						};
 
 						try
@@ -241,9 +252,9 @@ namespace Files.App.ViewModels.Properties
 		public async Task ClearPropertiesAsync()
 		{
 			var failedProperties = new List<string>();
-			BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
-
-			if (file is null)
+			var itemPath = Item.GetRequiredPath();
+			var fileResult = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(itemPath));
+			if (fileResult.Result is not { } file)
 				return;
 
 			foreach (var group in ViewModel.PropertySections)
@@ -252,9 +263,11 @@ namespace Files.App.ViewModels.Properties
 				{
 					if (!prop.IsReadOnly)
 					{
-						var newDict = new Dictionary<string, object>
+						var propertyName = prop.Property
+							?? throw new InvalidOperationException("An editable file property does not have an identifier.");
+						var newDict = new Dictionary<string, object?>
 						{
-							{ prop.Property, null }
+							{ propertyName, null }
 						};
 
 						try
@@ -275,17 +288,19 @@ namespace Files.App.ViewModels.Properties
 			_ = GetSystemFilePropertiesAsync();
 		}
 
-		private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private async void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
+			var itemPath = Item.GetRequiredPath();
+
 			switch (e.PropertyName)
 			{
 				case nameof(ViewModel.IsReadOnly):
 					if (ViewModel.IsReadOnly is not null)
 					{
 						if ((bool)ViewModel.IsReadOnly)
-							Win32Helper.SetFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+							Win32Helper.SetFileAttribute(itemPath, System.IO.FileAttributes.ReadOnly);
 						else
-							Win32Helper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+							Win32Helper.UnsetFileAttribute(itemPath, System.IO.FileAttributes.ReadOnly);
 					}
 
 					break;
@@ -294,15 +309,15 @@ namespace Files.App.ViewModels.Properties
 					if (ViewModel.IsHidden is not null)
 					{
 						if ((bool)ViewModel.IsHidden)
-							Win32Helper.SetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+							Win32Helper.SetFileAttribute(itemPath, System.IO.FileAttributes.Hidden);
 						else
-							Win32Helper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+							Win32Helper.UnsetFileAttribute(itemPath, System.IO.FileAttributes.Hidden);
 					}
 
 					break;
 
 				case nameof(ViewModel.IsContentCompressed):
-					Win32Helper.SetCompressionAttributeIoctl(Item.ItemPath, ViewModel.IsContentCompressed ?? false);
+					Win32Helper.SetCompressionAttributeIoctl(itemPath, ViewModel.IsContentCompressed ?? false);
 					break;
 
 				case nameof(ViewModel.RunAsAdmin):
@@ -313,7 +328,7 @@ namespace Files.App.ViewModels.Properties
 					if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
 						return;
 
-					await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, ViewModel.RunAsAdmin, ViewModel.ShowWindowCommand);
+					await FileOperationsHelpers.CreateOrUpdateLinkAsync(itemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, ViewModel.RunAsAdmin, ViewModel.ShowWindowCommand);
 
 					break;
 			}

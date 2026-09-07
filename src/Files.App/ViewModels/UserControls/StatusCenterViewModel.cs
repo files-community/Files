@@ -98,7 +98,7 @@ namespace Files.App.ViewModels.UserControls
 			bool canProvideProgress = true,
 			long itemsCount = 0,
 			long totalSize = 0,
-			CancellationTokenSource cancellationTokenSource = null)
+			CancellationTokenSource? cancellationTokenSource = null)
 		{
 			var banner = new StatusCenterItem(
 				headerResource,

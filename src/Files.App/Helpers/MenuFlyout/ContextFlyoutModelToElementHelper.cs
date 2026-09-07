@@ -5,6 +5,7 @@ using Files.App.UserControls.Menus;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using WinRT;
 namespace Files.App.Helpers.ContextFlyouts
 {
 	/// <summary>
@@ -12,6 +13,7 @@ namespace Files.App.Helpers.ContextFlyouts
 	/// </summary>
 	public static class ContextFlyoutModelToElementHelper
 	{
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSubItem))]
 		public static List<MenuFlyoutItemBase>? GetMenuFlyoutItemsFromModel(List<ContextMenuFlyoutItemViewModel>? items)
 		{
 			if (items is null)
@@ -22,9 +24,9 @@ namespace Files.App.Helpers.ContextFlyouts
 			{
 				var menuItem = GetMenuItem(i);
 				flyout.Add(menuItem);
-				if (menuItem is MenuFlyoutSubItem menuFlyoutSubItem && menuFlyoutSubItem.Items.Count == 0)
+				if (menuItem is MenuFlyoutSubItem menuFlyoutSubItem && menuFlyoutSubItem.Items.Count == 0 && i.LoadSubMenuAction is null)
 				{
-					// Add a placeholder
+					// Add a placeholder (only for genuinely-empty submenus; lazy shell submenus fill in later).
 					menuItem.Visibility = Visibility.Collapsed;
 
 					var placeholder = new MenuFlyoutItem()
@@ -40,34 +42,6 @@ namespace Files.App.Helpers.ContextFlyouts
 			return flyout;
 		}
 
-		public static (List<ICommandBarElement> primaryElements, List<ICommandBarElement> secondaryElements) GetAppBarItemsFromModel(List<ContextMenuFlyoutItemViewModel> items)
-		{
-			var primaryModels = items.Where(i => i.IsPrimary).ToList();
-			var secondaryModels = items.Except(primaryModels).ToList();
-
-			if (!secondaryModels.IsEmpty() && secondaryModels.Last().ItemType is ContextMenuFlyoutItemType.Separator)
-				secondaryModels.RemoveAt(secondaryModels.Count - 1);
-
-			var primary = new List<ICommandBarElement>();
-			primaryModels.ForEach(i => primary.Add(GetCommandBarItem(i)));
-			var secondary = new List<ICommandBarElement>();
-			secondaryModels.ForEach(i => secondary.Add(GetCommandBarItem(i)));
-
-			return (primary, secondary);
-		}
-
-		/// <summary>
-		/// Same as GetAppBarItemsFromModel, but ignores the IsPrimary property and returns one list
-		/// </summary>
-		/// <param name="items"></param>
-		/// <returns></returns>
-		public static List<ICommandBarElement> GetAppBarButtonsFromModelIgnorePrimary(List<ContextMenuFlyoutItemViewModel> items)
-		{
-			var elements = new List<ICommandBarElement>();
-			items.ForEach(i => elements.Add(GetCommandBarItem(i)));
-			return elements;
-		}
-
 		public static MenuFlyoutItemBase GetMenuItem(ContextMenuFlyoutItemViewModel item)
 		{
 			return item.ItemType switch
@@ -77,6 +51,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			};
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
 		private static MenuFlyoutItemBase GetMenuFlyoutItem(ContextMenuFlyoutItemViewModel item)
 		{
 			if (item.Items is not null)
@@ -100,6 +75,21 @@ namespace Files.App.Helpers.ContextFlyouts
 						Debug.WriteLine(e);
 					}
 				}
+				else if (item.ThemedIconModel is { IsValid: true } themedIcon
+					&& App.Current.Resources[themedIcon.ThemedIconStyle] is Style themedIconStyle)
+				{
+					// MenuFlyoutSubItem is sealed and its Icon must be an IconElement, so a ThemedIcon (a Control)
+					// can't be set as the Icon directly. Draw it via the templated style, mirroring the image path.
+					flyoutSubItem.Style = App.Current.Resources["MenuFlyoutSubItemWithThemedIconStyle"] as Style;
+					MenuFlyoutSubItemCustomProperties.SetThemedIconStyle(flyoutSubItem, themedIconStyle);
+				}
+				else if (!string.IsNullOrEmpty(item.Glyph))
+				{
+					// Glyph-only submenus (Layout, Group by, ...): same custom template for consistent chevron/height, with
+					// the glyph drawn in the icon slot.
+					flyoutSubItem.Style = App.Current.Resources["MenuFlyoutSubItemWithThemedIconStyle"] as Style;
+					flyoutSubItem.Icon = new FontIcon { Glyph = item.Glyph };
+				}
 
 				item.Items.ForEach(i =>
 				{
@@ -109,11 +99,18 @@ namespace Files.App.Helpers.ContextFlyouts
 				flyoutSubItem.IsEnabled = item.IsEnabled;
 				flyoutSubItem.Visibility = item.IsHidden ? Visibility.Collapsed : Visibility.Visible;
 
+				// Shell submenus (Send to, Open with, ...) load their children lazily. Fire the load and fill the
+				// submenu in once it completes, keeping it visible meanwhile.
+				if (item.LoadSubMenuAction is not null && flyoutSubItem.Items.Count == 0)
+					FastContextFlyout.PopulateShellSubMenu(flyoutSubItem, item, static models => models[0].Items);
+
 				return flyoutSubItem;
 			}
 			return GetItem(item);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
+		[DynamicWindowsRuntimeCast(typeof(FontFamily))]
 		private static MenuFlyoutItemBase GetItem(ContextMenuFlyoutItemViewModel i)
 		{
 			if (i.BitmapIcon is not null)
@@ -191,7 +188,12 @@ namespace Files.App.Helpers.ContextFlyouts
 			}
 
 			if (i.KeyboardAccelerator is not null)
+			{
 				flyoutItem.KeyboardAccelerators.Add(i.KeyboardAccelerator);
+				// Fixes #16193: VirtualKey doesn't support OEM keys (e.g. "§"); hide the auto-generated
+				// accelerator text so rendering it can't fault.
+				flyoutItem.KeyboardAcceleratorPlacementMode = Microsoft.UI.Xaml.Input.KeyboardAcceleratorPlacementMode.Hidden;
+			}
 
 			flyoutItem.IsEnabled = i.IsEnabled;
 			flyoutItem.Visibility = i.IsHidden ? Visibility.Collapsed : Visibility.Visible;
@@ -200,127 +202,6 @@ namespace Files.App.Helpers.ContextFlyouts
 				flyoutItem.KeyboardAcceleratorTextOverride = i.KeyboardAcceleratorTextOverride;
 
 			return flyoutItem;
-		}
-
-		public static ICommandBarElement GetCommandBarItem(ContextMenuFlyoutItemViewModel item)
-		{
-			return item.ItemType switch
-			{
-				ContextMenuFlyoutItemType.Separator => new AppBarSeparator()
-				{
-					Tag = item.Tag,
-					Visibility = item.IsHidden ? Visibility.Collapsed : Visibility.Visible,
-				},
-				_ => GetCommandBarButton(item),
-			};
-		}
-
-		private static ICommandBarElement GetCommandBarButton(ContextMenuFlyoutItemViewModel item)
-		{
-			ICommandBarElement element;
-			FontIcon? icon = null;
-			if (!string.IsNullOrEmpty(item.Glyph))
-			{
-				icon = new FontIcon
-				{
-					Glyph = item.Glyph,
-				};
-
-				if (!string.IsNullOrEmpty(item.GlyphFontFamilyName))
-				{
-					var fontFamily = App.Current.Resources[item.GlyphFontFamilyName] as FontFamily;
-					icon.FontFamily = fontFamily;
-				}
-			}
-
-			MenuFlyout? ctxFlyout = null;
-			if ((item.Items is not null && item.Items.Count > 0) || item.ID == "ItemOverflow")
-			{
-				ctxFlyout = new MenuFlyout();
-				GetMenuFlyoutItemsFromModel(item.Items)?.ForEach(i => ctxFlyout.Items.Add(i));
-			}
-
-			UIElement? content = null;
-			if (item.BitmapIcon is not null)
-				content = new Image()
-				{
-					Source = item.BitmapIcon,
-				};
-			else if (item.ThemedIconModel.IsValid)
-				content = item.ThemedIconModel.ToThemedIcon();
-			else if (item.ShowLoadingIndicator)
-				content = new ProgressRing()
-				{
-					IsIndeterminate = true,
-					IsActive = true,
-				};
-
-			if (item.ItemType is ContextMenuFlyoutItemType.Toggle)
-			{
-				element = new AppBarToggleButton()
-				{
-					Label = item.Text,
-					Tag = item.Tag,
-					Command = item.Command,
-					CommandParameter = item.CommandParameter,
-					IsChecked = item.IsChecked,
-					Content = content,
-					LabelPosition = item.IsPrimary || item.CollapseLabel ? CommandBarLabelPosition.Collapsed : CommandBarLabelPosition.Default,
-					IsEnabled = item.IsEnabled,
-					Visibility = item.IsHidden ? Visibility.Collapsed : Visibility.Visible,
-					AccessKey = item.AccessKey,
-				};
-
-				if (element is AppBarToggleButton toggleButton)
-				{
-					if (icon is not null)
-						toggleButton.Icon = icon;
-
-					if (item.IsPrimary || item.CollapseLabel)
-						toggleButton.SetValue(ToolTipService.ToolTipProperty, item.Text);
-
-					if (item.KeyboardAccelerator is not null && item.KeyboardAcceleratorTextOverride is not null)
-					{
-						toggleButton.KeyboardAccelerators.Add(item.KeyboardAccelerator);
-						toggleButton.KeyboardAcceleratorTextOverride = item.KeyboardAcceleratorTextOverride;
-					}
-				}
-			}
-			else
-			{
-				element = new AppBarButton()
-				{
-					Label = item.Text,
-					Tag = item.Tag,
-					Command = item.Command,
-					CommandParameter = item.CommandParameter,
-					Flyout = ctxFlyout,
-					LabelPosition = item.IsPrimary || item.CollapseLabel ? CommandBarLabelPosition.Collapsed : CommandBarLabelPosition.Default,
-					Content = content,
-					IsEnabled = item.IsEnabled,
-					Visibility = item.IsHidden ? Visibility.Collapsed : Visibility.Visible,
-					AccessKey = item.AccessKey,
-				};
-
-				if (element is AppBarButton button)
-				{
-					if (icon is not null)
-						button.Icon = icon;
-
-					if (item.IsPrimary || item.CollapseLabel)
-						button.SetValue(ToolTipService.ToolTipProperty, item.Text);
-
-					if (item.KeyboardAccelerator is not null && item.KeyboardAcceleratorTextOverride is not null)
-					{
-						button.KeyboardAccelerators.Add(item.KeyboardAccelerator);
-						button.KeyboardAcceleratorTextOverride = item.KeyboardAcceleratorTextOverride;
-						// Fixes #16193: VirtualKey does not support OEM keys (e.g "�")
-						button.KeyboardAcceleratorPlacementMode = Microsoft.UI.Xaml.Input.KeyboardAcceleratorPlacementMode.Hidden;
-					}
-				}
-			}
-
-			return element;
 		}
 	}
 }

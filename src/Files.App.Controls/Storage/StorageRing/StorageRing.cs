@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -69,6 +70,7 @@ namespace Files.App.Controls
 
 		// Methods
 
+		[DynamicWindowsRuntimeCast(typeof(Grid))]
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();

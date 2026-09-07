@@ -58,9 +58,9 @@ namespace Files.App.Actions
 			var items = context.SelectedItems.ToList().Where(x => x is RecycleBinItem).Select((item) => new
 			{
 				Source = StorageHelpers.FromPathAndType(
-					item.ItemPath,
+					item.GetRequiredPath(),
 					item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory),
-				Dest = ((RecycleBinItem)item).ItemOriginalPath
+				Dest = ((RecycleBinItem)item).ItemOriginalPath!
 			});
 
 			await context.ShellPage!.FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);

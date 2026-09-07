@@ -8,7 +8,7 @@ namespace Files.App.Helpers
 {
 	public static class LocationHelpers
 	{
-		public static async Task<string> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)
+		public static async Task<string?> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)
 		{
 			if (!Lat.HasValue || !Lon.HasValue)
 				return null;

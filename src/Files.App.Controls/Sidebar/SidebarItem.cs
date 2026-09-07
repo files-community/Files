@@ -10,6 +10,7 @@ using System.Collections.Specialized;
 using System.IO;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -66,6 +67,8 @@ namespace Files.App.Controls
 		}
 
 		// Template-tied work needs to run *here* (not in Loaded) because Loaded can fire while the control is still not measured; template parts may not exist yet. Sub-rows realized later would otherwise keep isWiredUp=true with no handlers attached.
+		[DynamicWindowsRuntimeCast(typeof(Border))]
+		[DynamicWindowsRuntimeCast(typeof(ItemsRepeater))]
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
@@ -90,7 +93,10 @@ namespace Files.App.Controls
 				if (GetTemplateChild("ChevronContainer") is Border chevronContainer)
 					chevronContainer.PointerPressed += ChevronContainer_PointerPressed;
 				if (GetTemplateChild("FlyoutChildrenPresenter") is ItemsRepeater flyoutRepeater)
+				{
 					flyoutRepeater.ElementPrepared += FlyoutChildrenPresenter_ElementPrepared;
+					flyoutRepeater.ItemsSource = Item?.Children;
+				}
 			}
 
 			if (Owner is null)
@@ -124,9 +130,30 @@ namespace Files.App.Controls
 		public void HandleItemChange()
 		{
 			HookupItemChangeListener(null, Item);
+			if (UseItemPresentation)
+				UpdateItemPresentation();
+			UpdateFlyoutChildrenSource();
 			UpdateExpansionState();
 			ReevaluateSelection();
 			CanDrag = Item?.Path is string path && Path.IsPathRooted(path);
+		}
+
+		private void UpdateItemPresentation()
+		{
+			var presentation = Item as ISidebarItemPresentationModel;
+			AutomationProperties.SetAutomationId(this, presentation?.Text ?? string.Empty);
+			Text = presentation?.Text;
+			ToolTip = presentation?.ToolTip;
+			Icon = presentation?.IconElement;
+			Decorator = presentation?.ItemDecorator;
+			IsExpanded = Item?.IsExpanded ?? true;
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(ItemsRepeater))]
+		private void UpdateFlyoutChildrenSource()
+		{
+			if (GetTemplateChild("FlyoutChildrenPresenter") is ItemsRepeater flyoutRepeater)
+				flyoutRepeater.ItemsSource = Item?.Children;
 		}
 
 		private void HookupOwners()
@@ -181,9 +208,46 @@ namespace Files.App.Controls
 		{
 			switch (e.PropertyName)
 			{
+				case null:
+				case "":
+					if (UseItemPresentation)
+						UpdateItemPresentation();
+					UpdateFlyoutChildrenSource();
+					UpdateExpansionState();
+					ReevaluateSelection();
+					break;
+				case nameof(ISidebarItemPresentationModel.Text):
+					if (UseItemPresentation)
+					{
+						var presentation = Item as ISidebarItemPresentationModel;
+						Text = presentation?.Text;
+						AutomationProperties.SetAutomationId(this, presentation?.Text ?? string.Empty);
+					}
+					break;
+				case nameof(ISidebarItemPresentationModel.ToolTip):
+					if (UseItemPresentation)
+						ToolTip = (Item as ISidebarItemPresentationModel)?.ToolTip;
+					break;
+				case nameof(ISidebarItemPresentationModel.IconElement):
+					if (UseItemPresentation)
+						Icon = (Item as ISidebarItemPresentationModel)?.IconElement;
+					break;
+				case nameof(ISidebarItemPresentationModel.ItemDecorator):
+					if (UseItemPresentation)
+						Decorator = (Item as ISidebarItemPresentationModel)?.ItemDecorator;
+					break;
+				case nameof(ISidebarItemModel.IsExpanded):
+					if (UseItemPresentation)
+						IsExpanded = Item?.IsExpanded ?? true;
+					UpdateExpansionState();
+					break;
 				case nameof(ISidebarItemModel.HasUnrealizedChildren):
 				case nameof(ISidebarItemModel.IsLeafWithChildren):
+					UpdateExpansionState();
+					ReevaluateSelection();
+					break;
 				case nameof(ISidebarItemModel.Children):
+					UpdateFlyoutChildrenSource();
 					UpdateExpansionState();
 					ReevaluateSelection();
 					break;
@@ -218,6 +282,7 @@ namespace Files.App.Controls
 			});
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void SetFlyoutOpen(bool isOpen = true)
 		{
 			if (Item?.Children is null) return;
@@ -557,6 +622,7 @@ namespace Files.App.Controls
 			Owner?.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Grid))]
 		private SidebarItemDropPosition DetermineDropTargetPosition(DragEventArgs args)
 		{
 			if (UseReorderDrop)

@@ -117,33 +117,52 @@ namespace Files.App.ViewModels
 			context.PageType is not ContentPageTypes.ReleaseNotes &&
 			context.PageType is not ContentPageTypes.Settings;
 
-		public bool ShowStatusBar =>
-			AppearanceSettingsService.ShowStatusBar &&
-			context.PageType is not ContentPageTypes.Home &&
-			context.PageType is not ContentPageTypes.ReleaseNotes &&
-			context.PageType is not ContentPageTypes.Settings;
+		private bool canShowPrompts;
+
+		public void OnPageLoaded()
+		{
+			if (canShowPrompts)
+				return;
+
+			canShowPrompts = true;
+			OnPropertyChanged(nameof(ShowReviewPrompt));
+			OnPropertyChanged(nameof(ShowSponsorPrompt));
+		}
+
+		private static bool hasShownReviewPrompt;
 
 		public bool ShowReviewPrompt
 		{
 			get
 			{
+				if (!canShowPrompts || hasShownReviewPrompt)
+					return false;
+
 				var isTargetEnvironment = AppLifecycleHelper.AppEnvironment is AppEnvironment.StoreStable or AppEnvironment.StorePreview;
 				var hasClickedReviewPrompt = UserSettingsService.ApplicationSettingsService.HasClickedReviewPrompt;
-				var launchCountReached = AppLifecycleHelper.TotalLaunchCount == 30;
+				var launchCountReached = AppLifecycleHelper.TotalLaunchCount % 30 == 0;
 
-				return isTargetEnvironment && !hasClickedReviewPrompt && launchCountReached;
+				hasShownReviewPrompt = isTargetEnvironment && !hasClickedReviewPrompt && launchCountReached;
+				return hasShownReviewPrompt;
 			}
 		}
+
+		// Ensures the sponsor prompt is only displayed once per app session
+		private static bool hasShownSponsorPrompt;
 
 		public bool ShowSponsorPrompt
 		{
 			get
 			{
+				if (!canShowPrompts || hasShownSponsorPrompt)
+					return false;
+
 				var isTargetEnvironment = AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev or AppEnvironment.SideloadStable or AppEnvironment.SideloadPreview;
 				var hasClickedSponsorPrompt = UserSettingsService.ApplicationSettingsService.HasClickedSponsorPrompt;
-				var launchCountReached = AppLifecycleHelper.TotalLaunchCount == 30;
+				var launchCountReached = AppLifecycleHelper.TotalLaunchCount % 50 == 0;
 
-				return isTargetEnvironment && !hasClickedSponsorPrompt && launchCountReached;
+				hasShownSponsorPrompt = isTargetEnvironment && !hasClickedSponsorPrompt && launchCountReached;
+				return hasShownSponsorPrompt;
 			}
 		}
 
@@ -151,9 +170,7 @@ namespace Files.App.ViewModels
 
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; }
 		public ICommand ReviewAppCommand { get; }
-		public ICommand DismissReviewPromptCommand { get; }
 		public ICommand SponsorCommand { get; }
-		public ICommand DismissSponsorPromptCommand { get; }
 		public ICommand OpenNetworkSharingSettingsCommand { get; }
 
 		// Constructor
@@ -162,9 +179,7 @@ namespace Files.App.ViewModels
 		{
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ExecuteNavigateToNumberedTabKeyboardAcceleratorCommand);
 			ReviewAppCommand = new RelayCommand(ExecuteReviewAppCommand);
-			DismissReviewPromptCommand = new RelayCommand(ExecuteDismissReviewPromptCommand);
 			SponsorCommand = new RelayCommand(ExecuteSponsorCommand);
-			DismissSponsorPromptCommand = new RelayCommand(ExecuteDismissSponsorPromptCommand);
 			OpenNetworkSharingSettingsCommand = new AsyncRelayCommand(ExecuteOpenNetworkSharingSettingsCommand);
 
 			AppearanceSettingsService.PropertyChanged += (s, e) =>
@@ -189,9 +204,6 @@ namespace Files.App.ViewModels
 					case nameof(AppearanceSettingsService.ShowToolbar):
 						OnPropertyChanged(nameof(ShowToolbar));
 						break;
-					case nameof(AppearanceSettingsService.ShowStatusBar):
-						OnPropertyChanged(nameof(ShowStatusBar));
-						break;
 				}
 			};
 
@@ -201,7 +213,6 @@ namespace Files.App.ViewModels
 				{
 					case nameof(context.PageType):
 						OnPropertyChanged(nameof(ShowToolbar));
-						OnPropertyChanged(nameof(ShowStatusBar));
 						break;
 				}
 			};
@@ -353,21 +364,17 @@ namespace Files.App.ViewModels
 
 		private async void ExecuteReviewAppCommand()
 		{
-			UserSettingsService.ApplicationSettingsService.HasClickedReviewPrompt = true;
 			OnPropertyChanged(nameof(ShowReviewPrompt));
 
 			try
 			{
 				var storeContext = StoreContext.GetDefault();
 				InitializeWithWindow.Initialize(storeContext, MainWindow.Instance.WindowHandle);
-				await storeContext.RequestRateAndReviewAppAsync();
+				var result = await storeContext.RequestRateAndReviewAppAsync();
+				if (result.Status is StoreRateAndReviewStatus.Succeeded)
+					UserSettingsService.ApplicationSettingsService.HasClickedReviewPrompt = true;
 			}
 			catch (Exception) { }
-		}
-
-		private void ExecuteDismissReviewPromptCommand()
-		{
-			UserSettingsService.ApplicationSettingsService.HasClickedReviewPrompt = true;
 		}
 
 		private async void ExecuteSponsorCommand()
@@ -377,11 +384,6 @@ namespace Files.App.ViewModels
 			await Launcher.LaunchUriAsync(new Uri(Constants.ExternalUrl.SupportUsUrl)).AsTask();
 		}
 
-		private void ExecuteDismissSponsorPromptCommand()
-		{
-			UserSettingsService.ApplicationSettingsService.HasClickedSponsorPrompt = true;
-		}
-
 		private async Task ExecuteOpenNetworkSharingSettingsCommand()
 		{
 			await NetworkService.OpenNetworkSharingSettingsAsync();
@@ -389,7 +391,10 @@ namespace Files.App.ViewModels
 
 		private async void ExecuteNavigateToNumberedTabKeyboardAcceleratorCommand(KeyboardAcceleratorInvokedEventArgs? e)
 		{
-			var indexToSelect = e!.KeyboardAccelerator.Key switch
+			if (e is null)
+				return;
+
+			var indexToSelect = e.KeyboardAccelerator.Key switch
 			{
 				VirtualKey.Number1 => 0,
 				VirtualKey.Number2 => 1,
@@ -412,7 +417,8 @@ namespace Files.App.ViewModels
 				await Task.Delay(500);
 
 				// Focus the content of the selected tab item (needed for keyboard navigation)
-				context.ShellPage!.PaneHolder.FocusActivePane();
+				var paneHolder = context.ShellPage.GetRequiredPaneHolder();
+				paneHolder.FocusActivePane();
 			}
 
 			e.Handled = true;

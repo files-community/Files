@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
+using WinRT;
 
 namespace Files.App.Data.Commands
 {
@@ -40,6 +41,7 @@ namespace Files.App.Data.Commands
 			return (object?)ToThemedIcon() ?? ToFontIcon();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FontFamily))]
 		public FontIcon? ToFontIcon()
 		{
 			if (IsNone)
@@ -56,6 +58,7 @@ namespace Files.App.Data.Commands
 			return fontIcon;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
 		public ThemedIcon? ToThemedIcon()
 		{
 			if (string.IsNullOrEmpty(ThemedIconStyle))
@@ -67,6 +70,7 @@ namespace Files.App.Data.Commands
 			};
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Geometry))]
 		public IconElement? ToOverflowIcon()
 		{
 			if (ToThemedIconStyle() is not Style style)
@@ -84,6 +88,7 @@ namespace Files.App.Data.Commands
 			};
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
 		public Style? ToThemedIconStyle()
 		{
 			if (string.IsNullOrEmpty(ThemedIconStyle))

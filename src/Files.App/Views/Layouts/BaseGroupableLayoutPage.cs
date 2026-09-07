@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.Win32;
+using WinRT;
 
 namespace Files.App.Views.Layouts
 {
@@ -55,7 +56,10 @@ namespace Files.App.Views.Layouts
 
 		protected override void InitializeCommandsViewModel()
 		{
-			CommandsViewModel = new BaseLayoutViewModel(ParentShellPageInstance, ItemManipulationModel);
+			var parentShellPage = ParentShellPageInstance
+				?? throw new InvalidOperationException("The layout page must be associated with a shell page before its commands are initialized.");
+
+			CommandsViewModel = new BaseLayoutViewModel(parentShellPage, ItemManipulationModel);
 		}
 
 		protected override void HookEvents()
@@ -95,6 +99,10 @@ namespace Files.App.Views.Layouts
 			ItemManipulationModel.RefreshItemsThumbnailInvoked -= ItemManipulationModel_RefreshItemsThumbnail;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		[DynamicWindowsRuntimeCast(typeof(Button))]
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
+		[DynamicWindowsRuntimeCast(typeof(PasswordBox))]
 		protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
 		{
 			if (ParentShellPageInstance is null ||
@@ -129,46 +137,53 @@ namespace Files.App.Views.Layouts
 
 		protected virtual async Task ReloadSelectedItemIconAsync()
 		{
-			if (ParentShellPageInstance?.SlimContentPage?.SelectedItem is null)
+			var parentShellPage = ParentShellPageInstance;
+			var selectedItem = parentShellPage?.SlimContentPage?.SelectedItem;
+			if (selectedItem is null)
 				return;
+			var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 
-			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
-			ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
+			shellViewModel.CancelExtendedPropertiesLoading();
+			selectedItem.ItemPropertiesInitialized = false;
 
-			await ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(ParentShellPageInstance.SlimContentPage.SelectedItem);
+			await shellViewModel.LoadExtendedItemPropertiesAsync(selectedItem);
 
-			if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None &&
-				ParentShellPageInstance.SlimContentPage.SelectedItem is IGitItem gitItem)
+			if (shellViewModel.EnabledGitProperties is not GitProperties.None &&
+				selectedItem is IGitItem gitItem)
 			{
-				await ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
+				await shellViewModel.LoadGitPropertiesAsync(gitItem);
 			}
 		}
 
 		protected virtual async Task ReloadSelectedItemsIconAsync()
 		{
-			if (ParentShellPageInstance?.SlimContentPage?.SelectedItems is null)
+			var parentShellPage = ParentShellPageInstance;
+			var selectedItems = parentShellPage?.SlimContentPage?.SelectedItems;
+			if (selectedItems is null)
 				return;
+			var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 
-			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
+			shellViewModel.CancelExtendedPropertiesLoading();
 
-			foreach (var selectedItem in ParentShellPageInstance.SlimContentPage.SelectedItems)
+			foreach (var selectedItem in selectedItems)
 			{
 				selectedItem.ItemPropertiesInitialized = false;
-				await ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(selectedItem);
+				await shellViewModel.LoadExtendedItemPropertiesAsync(selectedItem);
 			}
 
-			if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None)
+			if (shellViewModel.EnabledGitProperties is not GitProperties.None)
 			{
-				await Task.WhenAll(ParentShellPageInstance.SlimContentPage.SelectedItems.Select(item =>
+				await Task.WhenAll(selectedItems.Select(item =>
 				{
 					if (item is IGitItem gitItem)
-						return ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
+						return shellViewModel.LoadGitPropertiesAsync(gitItem);
 
 					return Task.CompletedTask;
 				}));
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		protected virtual void ItemManipulationModel_FocusFileListInvoked(object? sender, EventArgs e)
 		{
 			try
@@ -264,35 +279,42 @@ namespace Files.App.Views.Layouts
 		protected static bool ShouldShowExtensionInRename(ListedItem item) =>
 			(!item.IsFolder || item.IsArchive) && !item.IsShortcut && item is not AlternateStreamItem;
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		protected virtual void StartRenameItem(string itemNameTextBox)
 		{
 			RenamingItem = SelectedItem;
-			if (RenamingItem is null)
+			var renamingItem = RenamingItem;
+			if (renamingItem is null)
 				return;
 
-			int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
+			int extensionLength = renamingItem.FileExtension?.Length ?? 0;
 
-			ListViewItem? listViewItem = ListViewBase.ContainerFromItem(RenamingItem) as ListViewItem;
+			ListViewItem? listViewItem = ListViewBase.ContainerFromItem(renamingItem) as ListViewItem;
 			if (listViewItem is null)
 				return;
 
-			TextBox? textBox = null;
 			TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
-			textBox = listViewItem.FindDescendant(itemNameTextBox) as TextBox;
-			string editText = ShouldShowExtensionInRename(RenamingItem) ? RenamingItem.ItemNameRaw : textBlock!.Text;
-			textBox!.Text = editText;
+			TextBox? textBox = listViewItem.FindDescendant(itemNameTextBox) as TextBox;
+			if (textBlock is null || textBox is null)
+				throw new InvalidOperationException("The rename controls are not available for the selected item.");
+
+			string editText = ShouldShowExtensionInRename(renamingItem) ? renamingItem.ItemNameRaw! : textBlock.Text;
+			textBox.Text = editText;
 			OldItemName = editText;
-			textBlock!.Visibility = Visibility.Collapsed;
+			textBlock.Visibility = Visibility.Collapsed;
 			textBox.Visibility = Visibility.Visible;
 
-			if (textBox.FindParent<Grid>() is null)
+			var parentGrid = textBox.FindParent<Grid>();
+			if (parentGrid is null)
 			{
 				textBlock.Visibility = Visibility.Visible;
 				textBox.Visibility = Visibility.Collapsed;
 				return;
 			}
 
-			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
+			Grid.SetColumnSpan(parentGrid, 8);
 
 			textBox.Focus(FocusState.Pointer);
 			textBox.LostFocus += RenameTextBox_LostFocus;
@@ -300,7 +322,7 @@ namespace Files.App.Views.Layouts
 
 			int selectedTextLength = editText.Length;
 
-			if (!SelectedItem.IsShortcut && (ShouldShowExtensionInRename(SelectedItem) || UserSettingsService.FoldersSettingsService.ShowFileExtensions))
+			if (!renamingItem.IsShortcut && (ShouldShowExtensionInRename(renamingItem) || UserSettingsService.FoldersSettingsService.ShowFileExtensions))
 				selectedTextLength -= extensionLength;
 
 			textBox.Select(0, selectedTextLength);
@@ -309,12 +331,20 @@ namespace Files.App.Views.Layouts
 
 		protected virtual async Task CommitRenameAsync(TextBox textBox)
 		{
+			var renamingItem = RenamingItem;
+			var parentShellPage = ParentShellPageInstance;
 			EndRename(textBox);
+			if (renamingItem is null || parentShellPage is null)
+				throw new InvalidOperationException("The rename operation does not have an item and shell page.");
+
 			string newItemName = textBox.Text.Trim().TrimEnd('.');
 
-			await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance, nameIsComplete: ShouldShowExtensionInRename(RenamingItem));
+			await UIFilesystemHelpers.RenameFileItemAsync(renamingItem, newItemName, parentShellPage, nameIsComplete: ShouldShowExtensionInRename(renamingItem));
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(AppBarButton))]
+		[DynamicWindowsRuntimeCast(typeof(Popup))]
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		protected virtual async void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			try
@@ -334,6 +364,7 @@ namespace Files.App.Views.Layouts
 
 		// Methods
 
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		protected async void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			var textBox = (TextBox)sender;
@@ -429,6 +460,20 @@ namespace Files.App.Views.Layouts
 		{
 			base.Dispose();
 			UnhookEvents();
+
+			if (ListViewBase.ItemsPanelRoot is Panel itemsPanel)
+			{
+				foreach (var container in itemsPanel.Children.OfType<SelectorItem>())
+				{
+					UninitializeDrag(container);
+					ToolTipService.SetToolTip(container, null);
+					container.DataContext = null;
+					container.Content = null;
+				}
+			}
+
+			ListViewBase.ItemsSource = null;
+			CollectionViewSource = new();
 			CommandsViewModel?.Dispose();
 		}
 	}

@@ -5,33 +5,33 @@ namespace Files.App.Data.Models
 {
 	public sealed class ItemManipulationModel
 	{
-		public event EventHandler FocusFileListInvoked;
+		public event EventHandler? FocusFileListInvoked;
 
-		public event EventHandler SelectAllItemsInvoked;
+		public event EventHandler? SelectAllItemsInvoked;
 
-		public event EventHandler ClearSelectionInvoked;
+		public event EventHandler? ClearSelectionInvoked;
 
-		public event EventHandler InvertSelectionInvoked;
+		public event EventHandler? InvertSelectionInvoked;
 
-		public event EventHandler<ListedItem> AddSelectedItemInvoked;
+		public event EventHandler<ListedItem>? AddSelectedItemInvoked;
 
-		public event EventHandler<ListedItem> RemoveSelectedItemInvoked;
+		public event EventHandler<ListedItem>? RemoveSelectedItemInvoked;
 
-		public event EventHandler FocusSelectedItemsInvoked;
+		public event EventHandler? FocusSelectedItemsInvoked;
 
-		public event EventHandler StartRenameItemInvoked;
+		public event EventHandler? StartRenameItemInvoked;
 
-		public event EventHandler<ListedItem> ScrollIntoViewInvoked;
+		public event EventHandler<ListedItem>? ScrollIntoViewInvoked;
 
-		public event EventHandler ScrollToTopInvoked;
+		public event EventHandler? ScrollToTopInvoked;
 
-		public event EventHandler SetDragModeForItemsInvoked;
+		public event EventHandler? SetDragModeForItemsInvoked;
 
-		public event EventHandler RefreshItemsOpacityInvoked;
+		public event EventHandler? RefreshItemsOpacityInvoked;
 
-		public event EventHandler RefreshItemThumbnailInvoked;
+		public event EventHandler? RefreshItemThumbnailInvoked;
 
-		public event EventHandler RefreshItemsThumbnailInvoked;
+		public event EventHandler? RefreshItemsThumbnailInvoked;
 
 		public void FocusFileList()
 		{

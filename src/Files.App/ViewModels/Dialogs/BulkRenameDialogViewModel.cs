@@ -49,7 +49,7 @@ namespace Files.App.ViewModels.Dialogs
 			{
 				var itemType = item.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
 				await context.ShellPage.FilesystemHelpers.RenameAsync(
-					StorageHelpers.FromPathAndType(item.ItemPath, itemType),
+					StorageHelpers.FromPathAndType(item.GetRequiredPath(), itemType),
 					FileName + item.FileExtension,
 					NameCollisionOption.GenerateUniqueName,
 					true,

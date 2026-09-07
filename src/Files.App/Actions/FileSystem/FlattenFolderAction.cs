@@ -64,63 +64,98 @@ namespace Files.App.Actions
 			if (result != ContentDialogResult.Primary)
 				return;
 
-			FlattenFolder(context.SelectedItem.ItemPath);
+			var rootPath = context.SelectedItem.ItemPath;
+			if (string.IsNullOrWhiteSpace(rootPath))
+				return;
+
+			try
+			{
+				await Task.Run(() => FlattenFolder(rootPath));
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "Failed to flatten folder '{FolderPath}'.", LogPathHelper.RedactPath(rootPath));
+			}
 		}
 
-		private void FlattenFolder(string path)
+		private static void FlattenFolder(string path)
 		{
-			var containedFolders = Directory.GetDirectories(path);
-			var containedFiles = Directory.GetFiles(path);
+			var rootPath = Path.GetFullPath(path);
+			FlattenFolderCore(rootPath, rootPath);
+		}
+
+		private static void FlattenFolderCore(string rootPath, string currentPath)
+		{
+			var containedFolders = Directory.GetDirectories(currentPath);
+			var containedFiles = Directory.GetFiles(currentPath);
 
 			foreach (var containedFolder in containedFolders)
 			{
-				FlattenFolder(containedFolder);
-
 				var folderName = Path.GetFileName(containedFolder);
-				var destinationPath = Path.Combine(context?.SelectedItem?.ItemPath ?? string.Empty, folderName);
-
-				if (Directory.Exists(destinationPath))
-					continue;
-
 				try
 				{
+					if (!IsUnderRoot(rootPath, containedFolder) || IsReparsePoint(containedFolder))
+						continue;
+
+					FlattenFolderCore(rootPath, containedFolder);
+					if (!Directory.Exists(containedFolder))
+						continue;
+
+					var destinationPath = Path.Combine(rootPath, folderName);
+					if (string.Equals(containedFolder, destinationPath, StringComparison.OrdinalIgnoreCase) || Directory.Exists(destinationPath))
+						continue;
+
 					Directory.Move(containedFolder, destinationPath);
 				}
 				catch (Exception ex)
 				{
-					App.Logger.LogWarning(ex.Message, $"Folder '{folderName}' already exists in the destination folder.");
+					App.Logger.LogWarning(ex, "Failed to process folder '{FolderName}'.", LogPathHelper.RedactPath(folderName));
 				}
 			}
 
 			foreach (var containedFile in containedFiles)
 			{
 				var fileName = Path.GetFileName(containedFile);
-				var destinationPath = Path.Combine(context?.SelectedItem?.ItemPath ?? string.Empty, fileName);
-
-				if (File.Exists(destinationPath))
-					continue;
-
 				try
 				{
+					if (!IsUnderRoot(rootPath, containedFile) || IsReparsePoint(containedFile))
+						continue;
+
+					var destinationPath = Path.Combine(rootPath, fileName);
+					if (string.Equals(containedFile, destinationPath, StringComparison.OrdinalIgnoreCase) || File.Exists(destinationPath))
+						continue;
+
 					File.Move(containedFile, destinationPath);
 				}
 				catch (Exception ex)
 				{
-					App.Logger.LogWarning(ex.Message, $"Failed to move file '{fileName}'.");
+					App.Logger.LogWarning(ex, $"Failed to move file '{LogPathHelper.RedactPath(fileName)}'.");
 				}
 			}
 
-			if (Directory.GetFiles(path).Length == 0 && Directory.GetDirectories(path).Length == 0)
+			if (!string.Equals(currentPath, rootPath, StringComparison.OrdinalIgnoreCase) &&
+				!Directory.EnumerateFileSystemEntries(currentPath).Any())
 			{
 				try
 				{
-					Directory.Delete(path);
+					Directory.Delete(currentPath);
 				}
 				catch (Exception ex)
 				{
-					App.Logger.LogWarning(ex.Message, $"Failed to delete folder '{path}'.");
+					App.Logger.LogWarning(ex, "Failed to delete folder '{FolderPath}'.", LogPathHelper.RedactPath(currentPath));
 				}
 			}
+		}
+
+		private static bool IsReparsePoint(string path)
+			=> File.GetAttributes(path).HasFlag(System.IO.FileAttributes.ReparsePoint);
+
+		private static bool IsUnderRoot(string rootPath, string path)
+		{
+			var relativePath = Path.GetRelativePath(rootPath, Path.GetFullPath(path));
+			return !Path.IsPathRooted(relativePath) &&
+				relativePath is not ".." &&
+				!relativePath.StartsWith($"..{Path.DirectorySeparatorChar}", StringComparison.Ordinal);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

@@ -15,7 +15,7 @@ namespace Files.App.Utils.Storage
 		/// <param name="persistenceOptions">Optionally choose not to persist icon-backing item in LocalCache</param>
 		/// <param name="fileExtension">The file type (extension) of the generic icon to retrieve. Leave empty if a directory icon is desired</param>
 		/// <returns></returns>
-		public static async Task<StorageItemThumbnail> GetIconForItemType(uint requestedSize, IconPersistenceOptions persistenceOptions = IconPersistenceOptions.Persist, string fileExtension = null)
+		public static async Task<StorageItemThumbnail> GetIconForItemType(uint requestedSize, IconPersistenceOptions persistenceOptions = IconPersistenceOptions.Persist, string? fileExtension = null)
 		{
 			if (string.IsNullOrEmpty(fileExtension))
 			{

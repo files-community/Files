@@ -9,7 +9,7 @@ namespace Files.App.Helpers
 		/// </summary>
 		/// <param name="filePath">The file path to change the album cover.</param>
 		/// <param name="albumCover">The album cover to use, or <c>null</c> to clear any embedded cover.</param>
-		public static bool ChangeAlbumCover(string filePath, Picture albumCover)
+		public static bool ChangeAlbumCover(string filePath, Picture? albumCover)
 		{
 			try
 			{

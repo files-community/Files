@@ -1,5 +1,5 @@
 // Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -11,6 +11,7 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.UI.WindowsAndMessaging;
+using WinRT;
 using MONITORENUMPROC = Windows.Win32.Extras.ManagedMONITORENUMPROC;
 using WNDPROC = Windows.Win32.Extras.ManagedWNDPROC;
 
@@ -22,7 +23,11 @@ namespace Files.App.Data.Items
 	public unsafe partial class WindowEx : Window, IDisposable
 	{
 		private bool _isInitialized;
-		private readonly WNDPROC _oldWndProc;
+		private bool _isClosing;
+		private bool _isRestoringPlacement;
+		private WINDOWPLACEMENT _lastOverlappedPlacement;
+		private bool _hasOverlappedPlacement;
+		private readonly nint _oldWndProc;
 		private readonly WNDPROC _newWndProc;
 
 		private readonly ApplicationDataContainer _applicationDataContainer = ApplicationData.Current.LocalSettings;
@@ -50,6 +55,7 @@ namespace Files.App.Data.Items
 		public bool IsMaximizable
 		{
 			get => _IsMaximizable;
+			[DynamicWindowsRuntimeCast(typeof(OverlappedPresenter))]
 			set
 			{
 				_IsMaximizable = value;
@@ -66,6 +72,7 @@ namespace Files.App.Data.Items
 		public bool IsMinimizable
 		{
 			get => _IsMinimizable;
+			[DynamicWindowsRuntimeCast(typeof(OverlappedPresenter))]
 			set
 			{
 				_IsMinimizable = value;
@@ -90,16 +97,17 @@ namespace Files.App.Data.Items
 
 			_newWndProc = new(NewWindowProc);
 			var pNewWndProc = Marshal.GetFunctionPointerForDelegate(_newWndProc);
-			var pOldWndProc = PInvoke.SetWindowLongPtr(new(WindowHandle), WINDOW_LONG_PTR_INDEX.GWL_WNDPROC, pNewWndProc);
-			_oldWndProc = Marshal.GetDelegateForFunctionPointer<WNDPROC>(pOldWndProc);
+			_oldWndProc = PInvoke.SetWindowLongPtr(new(WindowHandle), WINDOW_LONG_PTR_INDEX.GWL_WNDPROC, pNewWndProc);
 
 			Closed += WindowEx_Closed;
+			Activated += WindowEx_Activated;
 		}
+
+		protected virtual bool PersistPlacement => false;
 
 		private unsafe void StoreWindowPlacementData()
 		{
-			// Save window placement only for MainWindow
-			if (!GetType().Name.Equals(nameof(MainWindow), StringComparison.OrdinalIgnoreCase))
+			if (!PersistPlacement)
 				return;
 
 			// Store monitor info
@@ -107,8 +115,7 @@ namespace Files.App.Data.Items
 			using var sw = new SystemIO.BinaryWriter(data);
 
 			var monitors = GetAllMonitorInfo();
-			int nMonitors = PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CMONITORS);
-			sw.Write(nMonitors);
+			sw.Write(monitors.Count);
 
 			foreach (var monitor in monitors)
 			{
@@ -120,9 +127,15 @@ namespace Files.App.Data.Items
 			}
 
 			WINDOWPLACEMENT placement = default;
-			PInvoke.GetWindowPlacement(new(WindowHandle), ref placement);
+			if (IsOverlappedPresenter())
+				PInvoke.GetWindowPlacement(new(WindowHandle), ref placement);
+			else if (_hasOverlappedPlacement)
+				// Closing in fullscreen/compact overlay: persist the last overlapped geometry instead
+				placement = _lastOverlappedPlacement;
+			else
+				return;
 
-			int structSize = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
+			int structSize = Marshal.SizeOf<WINDOWPLACEMENT>();
 			IntPtr buffer = Marshal.AllocHGlobal(structSize);
 			Marshal.StructureToPtr(placement, buffer, false);
 			byte[] placementData = new byte[structSize];
@@ -135,15 +148,14 @@ namespace Files.App.Data.Items
 			var values = GetDataStore(out _, true);
 
 			if (_applicationDataContainer.Containers.ContainsKey("WinUIEx"))
-				_applicationDataContainer.Values.Remove("WinUIEx");
+				_applicationDataContainer.DeleteContainer("WinUIEx");
 
 			values["MainWindowPlacementData"] = Convert.ToBase64String(data.ToArray());
 		}
 
 		private void RestoreWindowPlacementData()
 		{
-			// Save window placement only for MainWindow
-			if (!GetType().Name.Equals(nameof(MainWindow), StringComparison.OrdinalIgnoreCase))
+			if (!PersistPlacement)
 				return;
 
 			var values = GetDataStore(out var oldDataExists, false);
@@ -163,8 +175,7 @@ namespace Files.App.Data.Items
 			// Check if monitor layout changed since we stored position
 			var monitors = GetAllMonitorInfo();
 			int monitorCount = br.ReadInt32();
-			int nMonitors = PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CMONITORS);
-			if (monitorCount != nMonitors)
+			if (monitorCount != monitors.Count)
 				return;
 
 			for (int i = 0; i < monitorCount; i++)
@@ -178,11 +189,11 @@ namespace Files.App.Data.Items
 					return;
 			}
 
-			int structSize = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
+			int structSize = Marshal.SizeOf<WINDOWPLACEMENT>();
 			byte[] placementData = br.ReadBytes(structSize);
 			IntPtr buffer = Marshal.AllocHGlobal(structSize);
 			Marshal.Copy(placementData, 0, buffer, structSize);
-			var windowPlacementData = (WINDOWPLACEMENT)Marshal.PtrToStructure(buffer, typeof(WINDOWPLACEMENT))!;
+			var windowPlacementData = Marshal.PtrToStructure<WINDOWPLACEMENT>(buffer);
 
 			Marshal.FreeHGlobal(buffer);
 
@@ -193,9 +204,16 @@ namespace Files.App.Data.Items
 			else if (windowPlacementData.showCmd != SHOW_WINDOW_CMD.SW_MAXIMIZE)
 				windowPlacementData.showCmd = SHOW_WINDOW_CMD.SW_NORMAL;
 
-			PInvoke.SetWindowPlacement(new(WindowHandle), in windowPlacementData);
-
-			return;
+			// Suppress DPI-change reflow and min-size clamping while the persisted placement is applied
+			_isRestoringPlacement = true;
+			try
+			{
+				PInvoke.SetWindowPlacement(new(WindowHandle), in windowPlacementData);
+			}
+			finally
+			{
+				_isRestoringPlacement = false;
+			}
 		}
 
 		private IPropertySet GetDataStore(out bool oldDataExists, bool useNewStore = true)
@@ -251,17 +269,49 @@ namespace Files.App.Data.Items
 			return monitors;
 		}
 
+		// Return true to mark the message handled and skip the original window procedure
+		protected virtual bool OnWindowMessageReceived(uint message, WPARAM wParam, LPARAM lParam, ref LRESULT result)
+		{
+			return false;
+		}
+
+		private bool IsOverlappedPresenter()
+		{
+			// COMException when the AppWindow is queried during window teardown
+			try
+			{
+				return AppWindow?.Presenter?.Kind is AppWindowPresenterKind.Overlapped;
+			}
+			catch (COMException)
+			{
+				return false;
+			}
+		}
+
 		private LRESULT NewWindowProc(HWND param0, uint param1, WPARAM param2, LPARAM param3)
 		{
+			LRESULT overrideResult = default;
+			if (OnWindowMessageReceived(param1, param2, param3, ref overrideResult))
+				return overrideResult;
+
 			switch (param1)
 			{
 				case 0x0018 /*WM_SHOWWINDOW*/ when param2 == (WPARAM)1 && !_isInitialized:
 					{
 						_isInitialized = true;
-						RestoreWindowPlacementData();
+
+						// A malformed persisted blob (FormatException/EndOfStreamException) must not unwind through the native wndproc
+						try
+						{
+							RestoreWindowPlacementData();
+						}
+						catch (Exception)
+						{
+						}
+
 						break;
 					}
-				case 0x0024: /*WM_GETMINMAXINFO*/
+				case 0x0024 /*WM_GETMINMAXINFO*/ when !_isRestoringPlacement:
 					{
 						var dpi = PInvoke.GetDpiForWindow(param0);
 						float scalingFactor = (float)dpi / 96;
@@ -269,25 +319,56 @@ namespace Files.App.Data.Items
 						var minMaxInfo = Marshal.PtrToStructure<MINMAXINFO>(param3);
 						minMaxInfo.ptMinTrackSize.X = (int)(MinWidth * scalingFactor);
 						minMaxInfo.ptMinTrackSize.Y = (int)(MinHeight * scalingFactor);
-						Marshal.StructureToPtr(minMaxInfo, param3, true);
+						Marshal.StructureToPtr(minMaxInfo, param3, false);
+						break;
+					}
+				case 0x02E0 /*WM_DPICHANGED*/ when _isRestoringPlacement:
+					{
+						// Keep the persisted rect: don't let the default handler apply the DPI-suggested rectangle
+						return default;
+					}
+				case 0x0047 /*WM_WINDOWPOSCHANGED*/ when PersistPlacement && IsOverlappedPresenter():
+					{
+						WINDOWPLACEMENT placement = default;
+						PInvoke.GetWindowPlacement(param0, ref placement);
+						_lastOverlappedPlacement = placement;
+						_hasOverlappedPlacement = true;
 						break;
 					}
 			}
 
-			var pWindProc = Marshal.GetFunctionPointerForDelegate(_oldWndProc);
-			var pfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)pWindProc;
+			var pfnOldWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)_oldWndProc;
 
-			return PInvoke.CallWindowProc(pfnWndProc, param0, param1, param2, param3);
+			return PInvoke.CallWindowProc(pfnOldWndProc, param0, param1, param2, param3);
 		}
 
 		private void WindowEx_Closed(object sender, WindowEventArgs args)
 		{
-			StoreWindowPlacementData();
+			_isClosing = true;
+
+			// A LocalSettings write failure (COMException/UnauthorizedAccessException) must not crash the close path
+			try
+			{
+				StoreWindowPlacementData();
+			}
+			catch (Exception)
+			{
+			}
+		}
+
+		private void WindowEx_Activated(object sender, WindowActivatedEventArgs args)
+		{
+			if (args.WindowActivationState is not WindowActivationState.Deactivated)
+				_isClosing = false;
+
+			if (!_isClosing && SystemBackdrop is AppSystemBackdrop appSystemBackdrop)
+				appSystemBackdrop.SetInputActive(args.WindowActivationState is not WindowActivationState.Deactivated);
 		}
 
 		public void Dispose()
 		{
 			Closed -= WindowEx_Closed;
+			Activated -= WindowEx_Activated;
 		}
 	}
 }

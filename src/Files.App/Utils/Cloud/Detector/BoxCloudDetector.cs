@@ -17,9 +17,14 @@ namespace Files.App.Utils.Cloud
 
 			string configPathBoxSync = Path.Combine(UserDataPaths.GetDefault().LocalAppData, @"Box Sync\sync_root_folder.txt");
 
-			StorageFile configFile = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(configPathBoxDrive).AsTask());
+			var configFileResult = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(configPathBoxDrive).AsTask());
+			var configFile = configFileResult.Result;
 
-			configFile ??= await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(configPathBoxSync).AsTask());
+			if (configFile is null)
+			{
+				configFileResult = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(configPathBoxSync).AsTask());
+				configFile = configFileResult.Result;
+			}
 
 			if (configFile is not null)
 			{

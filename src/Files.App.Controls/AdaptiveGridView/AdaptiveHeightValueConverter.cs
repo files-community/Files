@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using Microsoft.UI.Xaml.Data;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -15,6 +16,7 @@ namespace Files.App.Controls
 			set { thickness = value; }
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(GridView))]
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
 			if (value != null)
@@ -42,6 +44,7 @@ namespace Files.App.Controls
 			throw new NotImplementedException();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
 		internal static Thickness GetItemMargin(GridView view, Thickness fallback = default(Thickness))
 		{
 			var setter = view.ItemContainerStyle?.Setters.OfType<Setter>().FirstOrDefault(s => s.Property == FrameworkElement.MarginProperty);

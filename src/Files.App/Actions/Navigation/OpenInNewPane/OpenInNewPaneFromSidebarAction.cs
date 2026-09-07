@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 namespace Files.App.Actions
 {
@@ -8,8 +8,8 @@ namespace Files.App.Actions
 	{
 		public override bool IsExecutable =>
 			SidebarContext.IsItemRightClicked &&
-			SidebarContext.RightClickedItem is not null &&
-			SidebarContext.RightClickedItem.MenuOptions.IsLocationItem &&
+			SidebarContext.RightClickedItem is { } item &&
+			item.MenuOptions!.IsLocationItem &&
 			ContentPageContext.IsMultiPaneAvailable &&
 			!ContentPageContext.IsMultiPaneActive;
 

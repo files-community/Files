@@ -33,6 +33,57 @@
 				<Setter Target="HighContrastAdjustment" Value="None" />
 			</Style>
 
+			<!--  Context menu primary command buttons: transparent, with hover/pressed driven by the menu-item brushes via the template's own visual states  -->
+			<Style x:Key="PrimaryCommandButtonStyle" TargetType="Button">
+				<Setter Property="Background" Value="Transparent" />
+				<Setter Property="BorderThickness" Value="0" />
+				<Setter Property="Width" Value="38" />
+				<Setter Property="Height" Value="38" />
+				<Setter Property="Padding" Value="0" />
+				<Setter Property="CornerRadius" Value="4" />
+				<Setter Property="HorizontalContentAlignment" Value="Center" />
+				<Setter Property="VerticalContentAlignment" Value="Center" />
+				<Setter Property="UseSystemFocusVisuals" Value="True" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="Button">
+							<Grid
+								x:Name="Root"
+								Background="{TemplateBinding Background}"
+								CornerRadius="{TemplateBinding CornerRadius}">
+								<ContentPresenter
+									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+									Content="{TemplateBinding Content}" />
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup x:Name="CommonStates">
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="PointerOver">
+											<VisualState.Setters>
+												<Setter Target="Root.Background" Value="{ThemeResource MenuFlyoutItemBackgroundPointerOver}" />
+											</VisualState.Setters>
+										</VisualState>
+										<VisualState x:Name="Pressed">
+											<VisualState.Setters>
+												<Setter Target="Root.Background" Value="{ThemeResource MenuFlyoutItemBackgroundPressed}" />
+											</VisualState.Setters>
+										</VisualState>
+										<VisualState x:Name="Disabled">
+											<VisualState.Setters>
+												<Setter Target="Root.Opacity" Value="0.4" />
+											</VisualState.Setters>
+										</VisualState>
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Grid>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+			<ControlTemplate x:Key="PrimaryCommandMenuFlyoutItemTemplate" TargetType="MenuFlyoutItem">
+				<ContentPresenter Margin="4,2" Content="{TemplateBinding Tag}" />
+			</ControlTemplate>
 
 			<!--  Workaround for https://github.com/files-community/Files/issues/12026  -->
 			<Style BasedOn="{StaticResource DefaultMenuFlyoutItemStyle}" TargetType="MenuFlyoutItem">
@@ -62,8 +113,8 @@
 				<!--  Styles for the custom icons  -->
 				<ResourceDictionary Source="ms-appx:///Styles/PathIcons.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/TextBlockStyles.xaml" />
-				<ResourceDictionary Source="ms-appx:///Styles/ShimmerStyles.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/MenuFlyoutSubItemWithImageStyle.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/MenuFlyoutSubItemWithThemedIconStyle.xaml" />
 				<ResourceDictionary>
 					<ResourceDictionary.ThemeDictionaries>
 						<ResourceDictionary x:Key="Light">

@@ -1,11 +1,19 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+[assembly: WinRT.GeneratedWinRTExposedExternalType(typeof(Files.App.Utils.Storage.GroupedCollection<Files.App.Utils.ListedItem>))]
+
 namespace Files.App.Utils.Storage
 {
-	public sealed class GroupedCollection<T> : BulkConcurrentObservableCollection<T>, IGroupedCollectionHeader
+	[WinRT.GeneratedWinRTExposedType]
+	public sealed partial class GroupedCollection<T> : BulkConcurrentObservableCollection<T>, IGroupedCollectionHeader
 	{
-		public GroupedHeaderViewModel Model { get; set; }
+		private GroupedHeaderViewModel? model;
+		public GroupedHeaderViewModel Model
+		{
+			get => model ?? throw new InvalidOperationException("The group header model has not been initialized.");
+			set => model = value;
+		}
 
 		public GroupedCollection(IEnumerable<T> items) : base(items)
 		{
@@ -37,7 +45,7 @@ namespace Files.App.Utils.Storage
 			PropertyChanged += GroupedCollection_PropertyChanged;
 		}
 
-		private void GroupedCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		private void GroupedCollection_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == nameof(Count))
 			{

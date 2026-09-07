@@ -41,13 +41,13 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public List<string> TabsOnStartupList
+		public List<string>? TabsOnStartupList
 		{
 			get => Get<List<string>>(null);
 			set => Set(value);
 		}
 
-		public List<string> LastSessionTabList
+		public List<string>? LastSessionTabList
 		{
 			get => Get<List<string>>(null);
 			set => Set(value);
@@ -59,25 +59,25 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public List<string> LastCrashedTabList
+		public List<string>? LastCrashedTabList
 		{
 			get => Get<List<string>>(null);
 			set => Set(value);
 		}
 
-		public List<string> PathHistoryList
+		public List<string>? PathHistoryList
 		{
 			get => Get<List<string>>(null);
 			set => Set(value);
 		}
 
-		public List<string> PreviousSearchQueriesList
+		public List<string>? PreviousSearchQueriesList
 		{
 			get => Get<List<string>>(null);
 			set => Set(value);
 		}
 
-		public List<string> PreviousArchiveExtractionLocations
+		public List<string>? PreviousArchiveExtractionLocations
 		{
 			get => Get<List<string>>(null);
 			set => Set(value);
@@ -393,7 +393,7 @@ namespace Files.App.Services.Settings
 			set => Set((long)value);
 		}
 
-		public Dictionary<string, bool> ShowHashesDictionary
+		public Dictionary<string, bool>? ShowHashesDictionary
 		{
 			get => Get<Dictionary<string, bool>>(null);
 			set => Set(value);

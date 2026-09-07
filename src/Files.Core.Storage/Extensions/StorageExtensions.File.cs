@@ -61,7 +61,12 @@ namespace Files.Core.Storage.Extensions
 		public static async Task CopyContentsToAsync(this IFile source, IFile destination, CancellationToken cancellationToken = default)
 		{
 			await using var sourceStream = await source.OpenStreamAsync(FileAccess.Read, cancellationToken);
-			await using var destinationStream = await destination.OpenStreamAsync(FileAccess.Read, cancellationToken);
+			await using var destinationStream = await destination.OpenStreamAsync(FileAccess.Write, cancellationToken);
+			if (destinationStream.CanSeek)
+			{
+				destinationStream.Position = 0;
+				destinationStream.SetLength(0);
+			}
 			await sourceStream.CopyToAsync(destinationStream, cancellationToken);
 		}
 	}

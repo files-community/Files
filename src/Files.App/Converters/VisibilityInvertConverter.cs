@@ -3,11 +3,13 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
+using WinRT;
 
 namespace Files.App.Converters
 {
 	internal sealed partial class VisibilityInvertConverter : IValueConverter
 	{
+		[DynamicWindowsRuntimeCast(typeof(Visibility))]
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
 			if (value is bool isVisible)

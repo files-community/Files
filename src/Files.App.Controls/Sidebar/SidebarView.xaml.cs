@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Markup;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -236,6 +237,7 @@ namespace Files.App.Controls
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void SidebarResizer_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			if (!CanResizePane)
@@ -247,6 +249,7 @@ namespace Files.App.Controls
 			e.Handled = true;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void SidebarResizer_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
 			if (!CanResizePane || draggingSidebarResizer)

@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Windows.System;
+using WinRT;
 
 namespace Files.App.Views.Settings
 {
@@ -29,6 +30,7 @@ namespace Files.App.Views.Settings
 			InitializeComponent();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			var textBox = (TextBox)sender;
@@ -44,6 +46,9 @@ namespace Files.App.Views.Settings
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		private void EditTag_Click(object sender, RoutedEventArgs e)
 		{
 			if (editingTag is not null)
@@ -53,26 +58,31 @@ namespace Files.App.Views.Settings
 				editingTag.NewColor = editingTag.Tag.Color;
 			}
 
-			editingTag = (ListedTagViewModel)((Button)sender).DataContext;
+			if (sender is not Button { DataContext: ListedTagViewModel tag })
+				return;
+
+			editingTag = tag;
 			editingTag.NewColor = editingTag.Tag.Color;
 			editingTag.NewName = editingTag.Tag.Name;
 			editingTag.IsEditing = true;
 
-			var item = (ListViewItem)TagsList.ContainerFromItem(editingTag);
-			var textBlock = item.FindDescendant("TagName") as TextBlock;
-			var textBox = item.FindDescendant("TagNameTextBox") as TextBox;
+			var item = (TagsList.ContainerFromItem(editingTag) as ListViewItem)!;
+			var textBlock = (item.FindDescendant("TagName") as TextBlock)!;
+			var textBox = (item.FindDescendant("TagNameTextBox") as TextBox)!;
 
-			textBox!.TextChanged += RenameTextBox_TextChanged;
+			textBox.TextChanged += RenameTextBox_TextChanged;
 
-			textBox!.Text = textBlock!.Text;
+			textBox.Text = textBlock.Text;
 			oldTagName = textBlock.Text;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		private void CommitRenameTag_Click(object sender, RoutedEventArgs e)
 		{
-			var item = (ListViewItem)TagsList.ContainerFromItem(editingTag);
+			var item = (TagsList.ContainerFromItem(editingTag) as ListViewItem)!;
 
-			CommitChanges(item.FindDescendant("TagNameTextBox") as TextBox);
+			CommitChanges((item.FindDescendant("TagNameTextBox") as TextBox)!);
 		}
 
 		private void CancelRenameTag_Click(object sender, RoutedEventArgs e)
@@ -80,6 +90,7 @@ namespace Files.App.Views.Settings
 			CloseEdit();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Button))]
 		private void PreRemoveTag_Click(object sender, RoutedEventArgs e)
 		{
 			deleteItemFlyout = ((Button)sender).Flyout;
@@ -90,19 +101,22 @@ namespace Files.App.Views.Settings
 			deleteItemFlyout?.Hide();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Button))]
 		private void RemoveTag_Click(object sender, RoutedEventArgs e)
 		{
 			ViewModel.DeleteExistingTag((ListedTagViewModel)((Button)sender).DataContext);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		private void RenameTextBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
+			var tag = editingTag!;
 			var text = ((TextBox)sender).Text;
 			var isNullOrEmpty = string.IsNullOrEmpty(text);
-			editingTag!.IsNameValid = isNullOrEmpty || (IsNameValid(text) && !ViewModel.Tags.Any(tag => tag.Tag.Name == text && editingTag!.Tag.Name != text));
-			editingTag!.CanCommit = !isNullOrEmpty && editingTag!.IsNameValid && (
-				text != editingTag!.Tag.Name ||
-				editingTag!.NewColor != editingTag!.Tag.Color
+			tag.IsNameValid = isNullOrEmpty || (IsNameValid(text) && !ViewModel.Tags.Any(item => item.Tag.Name == text && tag.Tag.Name != text));
+			tag.CanCommit = !isNullOrEmpty && tag.IsNameValid && (
+				text != tag.Tag.Name ||
+				tag.NewColor != tag.Tag.Color
 			);
 		}
 
@@ -111,12 +125,13 @@ namespace Files.App.Views.Settings
 			if (editingTag is null)
 				return;
 
-			editingTag!.CanCommit = editingTag!.IsNameValid && (
-				editingTag!.NewName != editingTag!.Tag.Name ||
-				CommunityToolkit.WinUI.Helpers.ColorHelper.ToHex(sender.Color) != editingTag!.Tag.Color
+			editingTag.CanCommit = editingTag.IsNameValid && (
+				editingTag.NewName != editingTag.Tag.Name ||
+				CommunityToolkit.WinUI.Helpers.ColorHelper.ToHex(sender.Color) != editingTag.Tag.Color
 			);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		private void NewTagTextBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			var text = ((TextBox)sender).Text;
@@ -135,10 +150,11 @@ namespace Files.App.Views.Settings
 
 		private void CommitChanges(TextBox textBox)
 		{
+			var tag = editingTag!;
 			EndEditing(textBox);
 			string newTagName = textBox.Text.Trim().TrimEnd('.');
-			if (newTagName != oldTagName || editingTag!.NewColor != editingTag.Tag.Color)
-				ViewModel.EditExistingTag(editingTag!, newTagName, editingTag!.NewColor);
+			if (newTagName != oldTagName || tag.NewColor != tag.Tag.Color)
+				ViewModel.EditExistingTag(tag, newTagName, tag.NewColor);
 		}
 
 		private void EndEditing(TextBox textBox)
@@ -147,14 +163,19 @@ namespace Files.App.Views.Settings
 			editingTag!.IsEditing = false;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		private void CloseEdit()
 		{
-			var item = (ListViewItem)TagsList.ContainerFromItem(editingTag);
-			editingTag!.NewColor = editingTag.Tag.Color;
-			editingTag!.IsNameValid = true;
-			editingTag!.CanCommit = false;
+			var tag = editingTag!;
+			var item = (TagsList.ContainerFromItem(tag) as ListViewItem)!;
+			var textBox = (item.FindDescendant("TagNameTextBox") as TextBox)!;
 
-			EndEditing(item.FindDescendant("TagNameTextBox") as TextBox);
+			tag.NewColor = tag.Tag.Color;
+			tag.IsNameValid = true;
+			tag.CanCommit = false;
+
+			EndEditing(textBox);
 		}
 
 		private bool IsNameValid(string name)

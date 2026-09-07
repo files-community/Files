@@ -5,17 +5,23 @@ using Files.App.Controls;
 
 namespace Files.App.Data.Contracts
 {
-	public interface INavigationControlItem : IComparable<INavigationControlItem>, INotifyPropertyChanged, ISidebarItemModel
+	public interface INavigationControlItem : IComparable<INavigationControlItem>, INotifyPropertyChanged, ISidebarItemModel, ISidebarItemPresentationModel
 	{
-		public new string Text { get; }
-
-		public string Path { get; }
-
 		public SectionType Section { get; }
 
 		public NavigationControlItemType ItemType { get; }
 
-		public ContextMenuOptions MenuOptions { get; }
+		public ContextMenuOptions? MenuOptions { get; }
+	}
+
+	internal static class NavigationControlItemExtensions
+	{
+		extension(INavigationControlItem? item)
+		{
+			public string GetRequiredPath()
+			=> item?.Path
+				?? throw new InvalidOperationException("The navigation item does not have a path.");
+		}
 	}
 
 	public enum NavigationControlItemType

@@ -1,5 +1,5 @@
 // Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Win32.UI.Shell;
@@ -45,7 +45,7 @@ namespace Files.App.Data.Items
 		/// <returns></returns>
 		public async Task LoadRecentItemIconAsync()
 		{
-			var result = await FileThumbnailHelper.GetIconAsync(Path, Constants.ShellIconSizes.Small, false, IconOptions.UseCurrentScale);
+			var result = await FileThumbnailHelper.GetIconAsync(Path, Constants.ShellIconSizes.Small, false, IconOptions.None);
 
 			var bitmapImage = await result.ToBitmapAsync();
 			if (bitmapImage is not null)

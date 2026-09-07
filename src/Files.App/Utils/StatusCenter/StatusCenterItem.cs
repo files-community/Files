@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Media;
 using System.Numerics;
 using System.Windows.Input;
+using WinRT;
 
 namespace Files.App.Utils.StatusCenter
 {
@@ -173,6 +174,7 @@ namespace Files.App.Utils.StatusCenter
 
 		public ICommand CancelCommand { get; }
 
+		[DynamicWindowsRuntimeCast(typeof(SolidColorBrush))]
 		public StatusCenterItem(
 			string headerResource,
 			string subHeaderResource,
@@ -207,6 +209,12 @@ namespace Files.App.Utils.StatusCenter
 			Source = source?.Take(1).ToArray();
 			Destination = destination?.Take(1).ToArray();
 
+			if (Operation is FileOperationType.Git)
+			{
+				Message = Strings.StatusCenter_GitOperationProgress.GetLocalizedFormatResource(0);
+				IsDiscovering = false;
+			}
+
 			// Get the graph color
 			if (App.Current.Resources["App.Theme.FillColorAttentionBrush"] is not SolidColorBrush accentBrush)
 				return;
@@ -216,7 +224,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				case ReturnResult.InProgress:
 					{
-						IsSpeedAndProgressAvailable = canProvideProgress;
+						IsSpeedAndProgressAvailable = canProvideProgress && Operation is not FileOperationType.Git;
 						IsInProgress = true;
 						IsIndeterminateProgress = !canProvideProgress;
 						IconBackgroundCircleBorderOpacity = 0.1d;
@@ -233,7 +241,7 @@ namespace Files.App.Utils.StatusCenter
 							FileOperationType.Delete => StatusCenterItemIconKind.Delete,
 							FileOperationType.Recycle => StatusCenterItemIconKind.Recycle,
 							FileOperationType.Compressed => StatusCenterItemIconKind.Compress,
-							FileOperationType.GitClone => StatusCenterItemIconKind.GitClone,
+							FileOperationType.Git => StatusCenterItemIconKind.Git,
 							FileOperationType.InstallFont => StatusCenterItemIconKind.InstallFont,
 							_ => StatusCenterItemIconKind.Delete,
 						};
@@ -267,7 +275,7 @@ namespace Files.App.Utils.StatusCenter
 							FileOperationType.Delete => StatusCenterItemIconKind.Delete,
 							FileOperationType.Recycle => StatusCenterItemIconKind.Recycle,
 							FileOperationType.Compressed => StatusCenterItemIconKind.Compress,
-							FileOperationType.GitClone => StatusCenterItemIconKind.GitClone,
+							FileOperationType.Git => StatusCenterItemIconKind.Git,
 							FileOperationType.InstallFont => StatusCenterItemIconKind.InstallFont,
 							_ => StatusCenterItemIconKind.Delete,
 						};
@@ -298,10 +306,13 @@ namespace Files.App.Utils.StatusCenter
 				{
 					ProgressPercentage = (int)p;
 
-					if (Operation == FileOperationType.Recycle ||
+					if (Operation == FileOperationType.Git)
+					{
+						Message = Strings.StatusCenter_GitOperationProgress.GetLocalizedFormatResource((int)p);
+					}
+					else if (Operation == FileOperationType.Recycle ||
 						Operation == FileOperationType.Delete ||
-						Operation == FileOperationType.Compressed ||
-						Operation == FileOperationType.GitClone)
+						Operation == FileOperationType.Compressed)
 					{
 						Message = string.Format(
 							Strings.StatusCenter_ProcessedItems_Header.GetLocalizedFormatResource(value.ProcessedItemsCount, value.ItemsCount),
@@ -338,6 +349,15 @@ namespace Files.App.Utils.StatusCenter
 			// Update UI for strings
 			StatusCenterHelper.UpdateCardStrings(this, value);
 			OnPropertyChanged(nameof(HeaderTooltip));
+
+			if (Operation is FileOperationType.Git)
+			{
+				if (!IsIndeterminateProgress && value.EnumerationCompleted)
+					Header = $"{Header} ({ProgressPercentage}%)";
+
+				_viewModel.NotifyChanges();
+				return;
+			}
 
 			// Graph item point
 			Vector2 point;

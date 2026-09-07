@@ -16,7 +16,7 @@ namespace Files.App.ViewModels.Settings
 
 		private bool disposed;
 
-		private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;
+		private ReadOnlyCollection<IMenuFlyoutItemViewModel>? addFlyoutItemsSource;
 
 		public RelayCommand ChangePageCommand { get; }
 		public RelayCommand<PageOnStartupViewModel> RemovePageCommand { get; }
@@ -78,7 +78,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public List<DateTimeFormatItem> DateFormats { get; set; }
+		public List<DateTimeFormatItem> DateFormats { get; set; } = null!;
 
 		public ObservableCollection<AppLanguageItem> AppLanguages => AppLanguageHelper.SupportedLanguages;
 
@@ -126,7 +126,7 @@ namespace Files.App.ViewModels.Settings
 			await Launcher.LaunchUriAsync(new Uri("files-dev:"));
 
 			// Closes the current instance
-			Process.GetCurrentProcess().Kill();
+			Environment.Exit(0);
 		}
 
 		private void DoCancelRestart()
@@ -156,7 +156,7 @@ namespace Files.App.ViewModels.Settings
 			recentsItem.Items.Add(new MenuFlyoutItemViewModel(Strings.Browse.GetLocalizedResource()) { Command = AddPageCommand });
 		}
 
-		private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		private void PagesOnStartupList_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			if (PagesOnStartupList.Count > 0)
 				UserSettingsService.GeneralSettingsService.TabsOnStartupList = PagesOnStartupList.Select((p) => p.Path).ToList();
@@ -210,7 +210,7 @@ namespace Files.App.ViewModels.Settings
 
 		public ObservableCollection<PageOnStartupViewModel> PagesOnStartupList { get; set; }
 
-		public ReadOnlyCollection<IMenuFlyoutItemViewModel> AddFlyoutItemsSource
+		public ReadOnlyCollection<IMenuFlyoutItemViewModel>? AddFlyoutItemsSource
 		{
 			get => addFlyoutItemsSource;
 			set => SetProperty(ref addFlyoutItemsSource, value);
@@ -353,12 +353,13 @@ namespace Files.App.ViewModels.Settings
 				PagesOnStartupList[SelectedPageIndex] = new PageOnStartupViewModel(filePath);
 		}
 
-		private void RemovePage(PageOnStartupViewModel page)
+		private void RemovePage(PageOnStartupViewModel? page)
 		{
-			PagesOnStartupList.Remove(page);
+			if (page is not null)
+				PagesOnStartupList.Remove(page);
 		}
 
-		private async Task AddPageAsync(string path = null)
+		private async Task AddPageAsync(string? path = null)
 		{
 			if (string.IsNullOrWhiteSpace(path))
 			{
@@ -575,7 +576,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedShellPaneArrangementType;
+		private string selectedShellPaneArrangementType = null!;
 		public string SelectedShellPaneArrangementType
 		{
 			get => selectedShellPaneArrangementType;

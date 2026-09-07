@@ -12,6 +12,7 @@
 	xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
 	xmlns:usercontrols="using:Files.App.UserControls"
 	DataContext="{x:Bind StatusBarViewModel, Mode=OneWay}"
+	SizeChanged="Content_SizeChanged"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
@@ -25,73 +26,332 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 
-	<Grid Padding="8,0,0,0">
+	<Grid
+		x:Name="RootGrid"
+		MinHeight="32"
+		Padding="8,0,8,0"
+		BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+		BorderThickness="0,1,0,0">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition />
+			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 
 		<!--  Folder and selection info  -->
-		<StackPanel
+		<Grid
+			x:Name="InfoArea"
 			Grid.Column="0"
-			Height="32"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch"
-			Orientation="Horizontal"
-			Spacing="8"
 			Visibility="{x:Bind ShowInfoText, Mode=OneWay}">
 
-			<TextBlock
-				x:Name="DirectoryItemCount"
-				VerticalAlignment="Center"
-				x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
-				Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-				Text="{x:Bind StatusBarViewModel.DirectoryItemCount, Mode=OneWay}" />
+			<StackPanel
+				x:Name="InfoTextPanel"
+				Height="32"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Stretch"
+				Orientation="Horizontal"
+				SizeChanged="Content_SizeChanged"
+				Spacing="8">
 
-			<!--  Divider  -->
-			<Border
-				x:Name="SelectedItemsCountDivider"
-				Width="1"
-				Height="18"
-				x:Load="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}"
-				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
-			<!--  Selected Items Count  -->
-			<TextBlock
-				x:Name="SelectedItemsCountString"
-				VerticalAlignment="Center"
-				x:Load="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}"
-				Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-				Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCountString, Mode=OneWay}" />
+				<TextBlock
+					x:Name="DirectoryItemCount"
+					VerticalAlignment="Center"
+					x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
+					Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+					Text="{x:Bind StatusBarViewModel.DirectoryItemCount, Mode=OneWay}" />
 
-			<!--  Divider  -->
-			<Border
-				x:Name="ItemSizeDivider"
-				Width="1"
-				Height="18"
-				x:Load="{x:Bind SelectedItemsPropertiesViewModel.ItemSizeVisibility, Mode=OneWay}"
-				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
-			<!--  Item Size  -->
-			<TextBlock
-				x:Name="ItemSize"
-				VerticalAlignment="Center"
-				x:Load="{x:Bind SelectedItemsPropertiesViewModel.ItemSizeVisibility, Mode=OneWay}"
-				Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-				Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}" />
-		</StackPanel>
+				<!--  Divider  -->
+				<Border
+					x:Name="SelectedItemsCountDivider"
+					Width="1"
+					Height="18"
+					x:Load="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}"
+					Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+				<!--  Selected Items Count  -->
+				<TextBlock
+					x:Name="SelectedItemsCountString"
+					VerticalAlignment="Center"
+					x:Load="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}"
+					Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+					Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCountString, Mode=OneWay}" />
 
-		<!--  Actions panel  -->
+				<!--  Divider  -->
+				<Border
+					x:Name="ItemSizeDivider"
+					Width="1"
+					Height="18"
+					x:Load="{x:Bind SelectedItemsPropertiesViewModel.ItemSizeVisibility, Mode=OneWay}"
+					Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+				<!--  Item Size  -->
+				<TextBlock
+					x:Name="ItemSize"
+					VerticalAlignment="Center"
+					x:Load="{x:Bind SelectedItemsPropertiesViewModel.ItemSizeVisibility, Mode=OneWay}"
+					Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+					Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}" />
+			</StackPanel>
+
+			<!--  Compact stand-in for the folder and selection info  -->
+			<Button
+				x:Name="StatusButton"
+				Height="24"
+				Padding="8,0,8,0"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Center"
+				AutomationProperties.Name="{helpers:ResourceString Name=Status}"
+				Background="Transparent"
+				BorderBrush="Transparent"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=Status}"
+				Visibility="Collapsed">
+				<StackPanel Orientation="Horizontal" Spacing="8">
+					<controls:ThemedIcon
+						Width="16"
+						Height="16"
+						VerticalAlignment="Center"
+						Style="{StaticResource App.ThemedIcons.Info}" />
+					<TextBlock
+						x:Name="StatusButtonLabel"
+						VerticalAlignment="Center"
+						Text="{helpers:ResourceString Name=Status}" />
+				</StackPanel>
+
+				<Button.Flyout>
+					<Flyout Placement="Top">
+						<StackPanel MinWidth="140" Spacing="8">
+							<TextBlock Text="{x:Bind StatusBarViewModel.DirectoryItemCount, Mode=OneWay}" />
+
+							<!--  Divider  -->
+							<Border
+								Height="1"
+								HorizontalAlignment="Stretch"
+								Background="{ThemeResource DividerStrokeColorDefaultBrush}"
+								Visibility="{x:Bind ToVisibility(SelectedItemsPropertiesViewModel.IsItemSelected), Mode=OneWay, FallbackValue=Collapsed}" />
+							<!--  Selected Items Count  -->
+							<TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCountString, Mode=OneWay}" Visibility="{x:Bind ToVisibility(SelectedItemsPropertiesViewModel.IsItemSelected), Mode=OneWay, FallbackValue=Collapsed}" />
+
+							<!--  Divider  -->
+							<Border
+								Height="1"
+								HorizontalAlignment="Stretch"
+								Background="{ThemeResource DividerStrokeColorDefaultBrush}"
+								Visibility="{x:Bind ToVisibility(SelectedItemsPropertiesViewModel.ItemSizeVisibility), Mode=OneWay, FallbackValue=Collapsed}" />
+							<!--  Item Size  -->
+							<TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}" Visibility="{x:Bind ToVisibility(SelectedItemsPropertiesViewModel.ItemSizeVisibility), Mode=OneWay, FallbackValue=Collapsed}" />
+						</StackPanel>
+					</Flyout>
+				</Button.Flyout>
+			</Button>
+		</Grid>
+
+		<!--  Actions area, collapses into the Git button in the compact states  -->
 		<StackPanel
-			x:Name="GitActionsPanel"
-			Grid.Column="1"
+			x:Name="StandardActions"
+			Grid.Column="2"
 			VerticalAlignment="Center"
 			Orientation="Horizontal"
-			Spacing="4">
+			SizeChanged="Content_SizeChanged">
+
+			<!--  Divider  -->
+			<Border
+				x:Name="EncodingDivider"
+				Width="1"
+				Height="18"
+				Margin="4,0,4,0"
+				Background="{ThemeResource DividerStrokeColorDefaultBrush}"
+				Visibility="{x:Bind GetEncodingDividerVisibility(StatusBarViewModel.IsZipEncodingSelectorVisible, StatusBarViewModel.ShowOpenInIDEButton, StatusBarViewModel.GitBranchDisplayName), Mode=OneWay, FallbackValue=Collapsed}" />
+
+			<!--  Actions panel  -->
+			<StackPanel
+				x:Name="GitActionsPanel"
+				VerticalAlignment="Center"
+				Orientation="Horizontal"
+				Spacing="4">
+
+				<Button
+					x:Name="GitNetworkActions"
+					Height="24"
+					Padding="8,0,8,0"
+					VerticalAlignment="Center"
+					x:Load="{x:Bind StatusBarViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}, FallbackValue=False}"
+					Background="Transparent"
+					BorderBrush="Transparent"
+					ToolTipService.ToolTip="{x:Bind StatusBarViewModel.ExtendedStatusInfo, Mode=OneWay}">
+					<Button.Flyout>
+						<MenuFlyout>
+							<!--  Pull Button  -->
+							<usercontrols:MenuFlyoutItemWithThemedIcon
+								x:Name="GitPullButton"
+								Command="{x:Bind Commands.GitPull}"
+								IsEnabled="{x:Bind Commands.GitPull.IsExecutable, Mode=OneWay}"
+								Text="{x:Bind Commands.GitPull.Label}"
+								ThemedIconStyle="{StaticResource App.ThemedIcons.Git.Pull}"
+								ToolTipService.ToolTip="{x:Bind Commands.GitPull.LabelWithHotKey, Mode=OneWay}" />
+
+							<!--  Push Button  -->
+							<usercontrols:MenuFlyoutItemWithThemedIcon
+								x:Name="GitPushButton"
+								Command="{x:Bind Commands.GitPush}"
+								IsEnabled="{x:Bind Commands.GitPush.IsExecutable, Mode=OneWay}"
+								Text="{x:Bind Commands.GitPush.Label}"
+								ThemedIconStyle="{StaticResource App.ThemedIcons.Git.Push}"
+								ToolTipService.ToolTip="{x:Bind Commands.GitPush.LabelWithHotKey, Mode=OneWay}" />
+
+							<!--  Sync Button  -->
+							<usercontrols:MenuFlyoutItemWithThemedIcon
+								x:Name="GitSyncButton"
+								Command="{x:Bind Commands.GitSync}"
+								IsEnabled="{x:Bind Commands.GitSync.IsExecutable, Mode=OneWay}"
+								Text="{x:Bind Commands.GitSync.Label}"
+								ThemedIconStyle="{StaticResource App.ThemedIcons.Git.Sync}"
+								ToolTipService.ToolTip="{x:Bind Commands.GitSync.LabelWithHotKey, Mode=OneWay}" />
+						</MenuFlyout>
+					</Button.Flyout>
+
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<controls:ThemedIcon
+							Width="16"
+							Height="16"
+							Style="{StaticResource App.ThemedIcons.Git}" />
+
+						<!--  Outgoing / Incoming commits  -->
+						<TextBlock Text="{x:Bind StatusBarViewModel.StatusInfo, Mode=OneWay}" />
+					</StackPanel>
+				</Button>
+				<!--  Divider  -->
+				<Border
+					x:Name="BranchNameDivider"
+					Width="1"
+					Height="18"
+					x:Load="{x:Bind StatusBarViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}, FallbackValue=False}"
+					Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+			</StackPanel>
+
+			<!--  Use visibility because it causes a crash to use a TwoWay x:Bind on an element that is inside an element with x:Load (#12589, #12599)  -->
+			<Button
+				x:Name="GitBranch"
+				Height="24"
+				Margin="4,0,0,0"
+				Padding="8,0,8,0"
+				Background="Transparent"
+				BorderBrush="Transparent"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=ManageBranches}"
+				Visibility="{x:Bind StatusBarViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToVisibilityCollapsedConverter}, FallbackValue=Collapsed}">
+
+				<Button.Content>
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<controls:ThemedIcon
+							Width="16"
+							Height="16"
+							Style="{StaticResource App.ThemedIcons.Git.Branch}" />
+
+						<!--  Branch Name  -->
+						<TextBlock Text="{x:Bind StatusBarViewModel.GitBranchDisplayName, Mode=OneWay}" />
+					</StackPanel>
+				</Button.Content>
+
+				<Button.Flyout>
+					<Flyout
+						x:Name="BranchesFlyout"
+						Closing="BranchesFlyout_Closing"
+						Opening="BranchesFlyout_Opening">
+						<Grid
+							Width="300"
+							Height="340"
+							Margin="-16">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="*" />
+							</Grid.RowDefinitions>
+
+							<!--  Header  -->
+							<Grid
+								Grid.Row="0"
+								Padding="4,8,8,8"
+								Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
+								BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+								BorderThickness="0,0,0,1">
+
+								<!--  Locals and Remotes  -->
+								<toolkit:Segmented
+									Grid.Row="1"
+									HorizontalAlignment="Left"
+									SelectedIndex="0"
+									Style="{StaticResource PivotSegmentedStyle}">
+									<toolkit:SegmentedItem Content="{helpers:ResourceString Name=Locals}" IsSelected="{x:Bind StatusBarViewModel.ShowLocals, Mode=TwoWay}" />
+									<toolkit:SegmentedItem Content="{helpers:ResourceString Name=Remotes}" />
+								</toolkit:Segmented>
+
+								<!--  New Branch Button  -->
+								<Button
+									x:Name="NewBranchButton"
+									Height="24"
+									Padding="8,0"
+									HorizontalAlignment="Right"
+									Command="{x:Bind StatusBarViewModel.NewBranchCommand, Mode=OneWay}"
+									Content="{helpers:ResourceString Name=CreateBranch}"
+									FontSize="12"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=CreateBranch}" />
+							</Grid>
+
+							<!--  Branches List  -->
+							<ListView
+								x:Name="BranchesList"
+								Grid.Row="1"
+								Padding="4"
+								Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+								IsItemClickEnabled="True"
+								ItemClick="BranchesList_ItemClick"
+								ItemsSource="{x:Bind StatusBarViewModel.Branches, Mode=OneWay}"
+								SelectedIndex="{x:Bind StatusBarViewModel.SelectedBranchIndex, Mode=TwoWay}"
+								SelectionMode="Single">
+
+								<ListView.ItemTemplate>
+									<DataTemplate x:DataType="data:BranchItem">
+										<Grid HorizontalAlignment="Stretch">
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition />
+												<ColumnDefinition Width="Auto" />
+											</Grid.ColumnDefinitions>
+
+											<TextBlock
+												VerticalAlignment="Center"
+												Text="{x:Bind Name}"
+												TextTrimming="CharacterEllipsis" />
+											<Button
+												Grid.Column="1"
+												AutomationProperties.Name="{helpers:ResourceString Name=Delete}"
+												Background="Transparent"
+												BorderBrush="Transparent"
+												Click="DeleteBranch_Click"
+												ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}"
+												Visibility="{x:Bind converters:MultiBooleanConverter.NorConvertToVisibility(IsHead, IsRemote)}">
+												<FontIcon FontSize="12" Glyph="&#xE74D;" />
+											</Button>
+										</Grid>
+									</DataTemplate>
+								</ListView.ItemTemplate>
+
+							</ListView>
+						</Grid>
+					</Flyout>
+				</Button.Flyout>
+			</Button>
+
+			<!--  Divider  -->
+			<Border
+				x:Name="VSCodeDivider"
+				Width="1"
+				Height="18"
+				Margin="4,0,0,0"
+				Background="{ThemeResource DividerStrokeColorDefaultBrush}"
+				Visibility="{x:Bind GetOpenRepoInIDEItemVisibility(StatusBarViewModel.ShowOpenInIDEButton, StatusBarViewModel.GitBranchDisplayName), Mode=OneWay, FallbackValue=Collapsed}" />
 
 			<!--  Open in IDE Button  -->
 			<Button
 				x:Name="OpenInIDEButton"
 				Height="24"
+				Margin="4,0,0,0"
 				Padding="8,0,8,0"
 				VerticalAlignment="Center"
 				x:Load="{x:Bind StatusBarViewModel.ShowOpenInIDEButton, Mode=OneWay}"
@@ -126,184 +386,276 @@
 					</MenuFlyout>
 				</Button.Flyout>
 			</Button>
-			<!--  Divider  -->
-			<Border
-				x:Name="VSCodeDivider"
-				Width="1"
-				Height="18"
-				x:Load="{x:Bind StatusBarViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}, FallbackValue=False}"
-				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+		</StackPanel>
+
+		<!--  Compact stand-in for the actions area  -->
+		<Grid
+			x:Name="ActionsCompactArea"
+			Grid.Column="3"
+			Visibility="{x:Bind GetActionsAreaVisibility(StatusBarViewModel.ShowOpenInIDEButton, StatusBarViewModel.GitBranchDisplayName), Mode=OneWay, FallbackValue=Collapsed}">
 
 			<Button
-				x:Name="GitNetworkActions"
+				x:Name="GitOverflowButton"
 				Height="24"
 				Padding="8,0,8,0"
 				VerticalAlignment="Center"
-				x:Load="{x:Bind StatusBarViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}, FallbackValue=False}"
+				AutomationProperties.Name="{helpers:ResourceString Name=Git}"
 				Background="Transparent"
 				BorderBrush="Transparent"
-				ToolTipService.ToolTip="{x:Bind StatusBarViewModel.ExtendedStatusInfo, Mode=OneWay}">
-				<Button.Flyout>
-					<MenuFlyout>
-						<!--  Pull Button  -->
-						<usercontrols:MenuFlyoutItemWithThemedIcon
-							x:Name="GitPullButton"
-							Command="{x:Bind Commands.GitPull}"
-							IsEnabled="{x:Bind Commands.GitPull.IsExecutable, Mode=OneWay}"
-							Text="{x:Bind Commands.GitPull.Label}"
-							ThemedIconStyle="{StaticResource App.ThemedIcons.Git.Pull}"
-							ToolTipService.ToolTip="{x:Bind Commands.GitPull.LabelWithHotKey, Mode=OneWay}" />
-
-						<!--  Push Button  -->
-						<usercontrols:MenuFlyoutItemWithThemedIcon
-							x:Name="GitPushButton"
-							Command="{x:Bind Commands.GitPush}"
-							IsEnabled="{x:Bind Commands.GitPush.IsExecutable, Mode=OneWay}"
-							Text="{x:Bind Commands.GitPush.Label}"
-							ThemedIconStyle="{StaticResource App.ThemedIcons.Git.Push}"
-							ToolTipService.ToolTip="{x:Bind Commands.GitPush.LabelWithHotKey, Mode=OneWay}" />
-
-						<!--  Sync Button  -->
-						<usercontrols:MenuFlyoutItemWithThemedIcon
-							x:Name="GitSyncButton"
-							Command="{x:Bind Commands.GitSync}"
-							IsEnabled="{x:Bind Commands.GitSync.IsExecutable, Mode=OneWay}"
-							Text="{x:Bind Commands.GitSync.Label}"
-							ThemedIconStyle="{StaticResource App.ThemedIcons.Git.Sync}"
-							ToolTipService.ToolTip="{x:Bind Commands.GitSync.LabelWithHotKey, Mode=OneWay}" />
-					</MenuFlyout>
-				</Button.Flyout>
-
+				ToolTipService.ToolTip="{helpers:ResourceString Name=Git}"
+				Visibility="Collapsed">
 				<StackPanel Orientation="Horizontal" Spacing="8">
 					<controls:ThemedIcon
 						Width="16"
 						Height="16"
 						Style="{StaticResource App.ThemedIcons.Git}" />
-
-					<!--  Outgoing / Incoming commits  -->
-					<TextBlock Text="{x:Bind StatusBarViewModel.StatusInfo, Mode=OneWay}" />
+					<TextBlock x:Name="GitOverflowButtonLabel" Text="{helpers:ResourceString Name=Git}" />
 				</StackPanel>
-			</Button>
-			<!--  Divider  -->
-			<Border
-				x:Name="BranchNameDivider"
-				Width="1"
-				Height="18"
-				x:Load="{x:Bind StatusBarViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}, FallbackValue=False}"
-				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
-		</StackPanel>
 
-		<!--  Use visibility because it causes a crash to use a TwoWay x:Bind on an element that is inside an element with x:Load (#12589, #12599)  -->
-		<Button
-			x:Name="GitBranch"
-			Grid.Column="2"
-			Height="24"
-			Margin="4,0,0,0"
-			Padding="8,0,8,0"
-			Background="Transparent"
-			BorderBrush="Transparent"
-			ToolTipService.ToolTip="{helpers:ResourceString Name=ManageBranches}"
-			Visibility="{x:Bind StatusBarViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToVisibilityCollapsedConverter}, FallbackValue=Collapsed}">
+				<Button.Flyout>
+					<Flyout x:Name="ActionsOverflowFlyout" Placement="Top">
+						<Flyout.FlyoutPresenterStyle>
+							<Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+								<Setter Property="Padding" Value="8" />
+							</Style>
+						</Flyout.FlyoutPresenterStyle>
+						<StackPanel MinWidth="220" Spacing="4">
+							<StackPanel.Resources>
+								<SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
+								<SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
+							</StackPanel.Resources>
 
-			<Button.Content>
-				<StackPanel Orientation="Horizontal" Spacing="8">
-					<controls:ThemedIcon
-						Width="16"
-						Height="16"
-						Style="{StaticResource App.ThemedIcons.Git.Branch}" />
+							<!--  Git status and branch  -->
+							<Grid ColumnSpacing="4" Visibility="{x:Bind StatusBarViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToVisibilityCollapsedConverter}, FallbackValue=Collapsed}">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="*" />
+								</Grid.ColumnDefinitions>
 
-					<!--  Branch Name  -->
-					<TextBlock Text="{x:Bind StatusBarViewModel.GitBranchDisplayName, Mode=OneWay}" />
-				</StackPanel>
-			</Button.Content>
+								<Button
+									x:Name="GitNetworkActionsCompact"
+									Grid.Column="0"
+									Height="32"
+									Padding="8,0,8,0"
+									HorizontalAlignment="Stretch"
+									VerticalAlignment="Center"
+									HorizontalContentAlignment="Left"
+									Background="Transparent"
+									BorderBrush="Transparent"
+									Click="GitNetworkActionsCompact_Click"
+									ToolTipService.ToolTip="{x:Bind StatusBarViewModel.ExtendedStatusInfo, Mode=OneWay}">
+									<StackPanel Orientation="Horizontal" Spacing="8">
+										<controls:ThemedIcon
+											Width="16"
+											Height="16"
+											Style="{StaticResource App.ThemedIcons.Git}" />
 
-			<Button.Flyout>
-				<Flyout
-					x:Name="BranchesFlyout"
-					Closing="BranchesFlyout_Closing"
-					Opening="BranchesFlyout_Opening">
-					<Grid
-						Width="300"
-						Height="340"
-						Margin="-16">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="*" />
-						</Grid.RowDefinitions>
+										<!--  Outgoing / Incoming commits  -->
+										<TextBlock Text="{x:Bind StatusBarViewModel.StatusInfo, Mode=OneWay}" />
+									</StackPanel>
+								</Button>
 
-						<!--  Header  -->
-						<Grid
-							Grid.Row="0"
-							Padding="4,8,8,8"
-							Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
-							BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-							BorderThickness="0,0,0,1">
+								<!--  Divider  -->
+								<Border
+									Grid.Column="1"
+									Width="1"
+									Height="18"
+									VerticalAlignment="Center"
+									Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
-							<!--  Locals and Remotes  -->
-							<toolkit:Segmented
-								Grid.Row="1"
-								HorizontalAlignment="Left"
-								SelectedIndex="0"
-								Style="{StaticResource PivotSegmentedStyle}">
-								<toolkit:SegmentedItem Content="{helpers:ResourceString Name=Locals}" IsSelected="{x:Bind StatusBarViewModel.ShowLocals, Mode=TwoWay}" />
-								<toolkit:SegmentedItem Content="{helpers:ResourceString Name=Remotes}" />
-							</toolkit:Segmented>
+								<Button
+									x:Name="GitBranchCompact"
+									Grid.Column="2"
+									Height="32"
+									Padding="8,0,8,0"
+									HorizontalAlignment="Stretch"
+									VerticalAlignment="Center"
+									HorizontalContentAlignment="Right"
+									Background="Transparent"
+									BorderBrush="Transparent"
+									Click="GitBranchCompact_Click"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=ManageBranches}">
+									<StackPanel Orientation="Horizontal" Spacing="8">
+										<controls:ThemedIcon
+											Width="16"
+											Height="16"
+											Style="{StaticResource App.ThemedIcons.Git.Branch}" />
 
-							<!--  New Branch Button  -->
+										<!--  Branch Name  -->
+										<TextBlock Text="{x:Bind StatusBarViewModel.GitBranchDisplayName, Mode=OneWay}" />
+									</StackPanel>
+								</Button>
+							</Grid>
+
+							<!--  Divider  -->
+							<Border
+								Height="1"
+								HorizontalAlignment="Stretch"
+								Background="{ThemeResource DividerStrokeColorDefaultBrush}"
+								Visibility="{x:Bind GetOpenRepoInIDEItemVisibility(StatusBarViewModel.ShowOpenInIDEButton, StatusBarViewModel.GitBranchDisplayName), Mode=OneWay, FallbackValue=Collapsed}" />
+
+							<!--  Open in IDE  -->
 							<Button
-								x:Name="NewBranchButton"
-								Height="24"
-								Padding="8,0"
-								HorizontalAlignment="Right"
-								Command="{x:Bind StatusBarViewModel.NewBranchCommand, Mode=OneWay}"
-								Content="{helpers:ResourceString Name=CreateBranch}"
-								FontSize="12"
-								ToolTipService.ToolTip="{helpers:ResourceString Name=CreateBranch}" />
-						</Grid>
+								x:Name="OpenFolderInIDECompact"
+								Height="32"
+								Padding="8,0,8,0"
+								HorizontalAlignment="Stretch"
+								HorizontalContentAlignment="Left"
+								Background="Transparent"
+								BorderBrush="Transparent"
+								Command="{x:Bind Commands.OpenInIDE}"
+								ToolTipService.ToolTip="{x:Bind Commands.OpenInIDE.LabelWithHotKey, Mode=OneWay}"
+								Visibility="{x:Bind ToVisibility(StatusBarViewModel.ShowOpenInIDEButton), Mode=OneWay, FallbackValue=Collapsed}">
+								<StackPanel Orientation="Horizontal" Spacing="8">
+									<controls:ThemedIcon
+										Width="16"
+										Height="16"
+										Style="{StaticResource App.ThemedIcons.Open}" />
+									<TextBlock Text="{x:Bind Commands.OpenInIDE.Label, Mode=OneWay}" />
+								</StackPanel>
+							</Button>
 
-						<!--  Branches List  -->
-						<ListView
-							x:Name="BranchesList"
-							Grid.Row="1"
-							Padding="4"
-							Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-							IsItemClickEnabled="True"
-							ItemClick="BranchesList_ItemClick"
-							ItemsSource="{x:Bind StatusBarViewModel.Branches, Mode=OneWay}"
-							SelectedIndex="{x:Bind StatusBarViewModel.SelectedBranchIndex, Mode=TwoWay}"
-							SelectionMode="Single">
+							<!--  Open Repo in IDE  -->
+							<Button
+								x:Name="OpenRepoInIDECompact"
+								Height="32"
+								Padding="8,0,8,0"
+								HorizontalAlignment="Stretch"
+								HorizontalContentAlignment="Left"
+								Background="Transparent"
+								BorderBrush="Transparent"
+								Command="{x:Bind Commands.OpenRepoInIDE}"
+								ToolTipService.ToolTip="{x:Bind Commands.OpenRepoInIDE.LabelWithHotKey, Mode=OneWay}"
+								Visibility="{x:Bind GetOpenRepoInIDEItemVisibility(StatusBarViewModel.ShowOpenInIDEButton, StatusBarViewModel.GitBranchDisplayName), Mode=OneWay, FallbackValue=Collapsed}">
+								<StackPanel Orientation="Horizontal" Spacing="8">
+									<controls:ThemedIcon
+										Width="16"
+										Height="16"
+										Style="{StaticResource App.ThemedIcons.Open}" />
+									<TextBlock Text="{x:Bind Commands.OpenRepoInIDE.Label, Mode=OneWay}" />
+								</StackPanel>
+							</Button>
+						</StackPanel>
+					</Flyout>
+				</Button.Flyout>
+			</Button>
+		</Grid>
 
-							<ListView.ItemTemplate>
-								<DataTemplate x:DataType="data:BranchItem">
-									<Grid HorizontalAlignment="Stretch">
-										<Grid.ColumnDefinitions>
-											<ColumnDefinition />
-											<ColumnDefinition Width="Auto" />
-										</Grid.ColumnDefinitions>
+		<!--  ZIP Encoding Selector  -->
+		<Grid
+			x:Name="EncodingArea"
+			Grid.Column="1"
+			Visibility="{x:Bind StatusBarViewModel.IsZipEncodingSelectorVisible, Mode=OneWay}">
+			<Button
+				x:Name="ZipEncodingSelector"
+				Height="24"
+				Padding="8,0,8,0"
+				VerticalAlignment="Center"
+				Background="Transparent"
+				BorderBrush="Transparent"
+				SizeChanged="Content_SizeChanged"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=Encoding}">
 
+				<StackPanel Orientation="Horizontal" Spacing="8">
+					<FontIcon
+						x:Name="ZipEncodingIcon"
+						VerticalAlignment="Center"
+						FontSize="14"
+						Glyph="&#xE774;"
+						Visibility="Collapsed" />
+					<!--  Encoding Name  -->
+					<TextBlock
+						x:Name="ZipEncodingLabel"
+						VerticalAlignment="Center"
+						Text="{x:Bind StatusBarViewModel.SelectedZipEncoding.Name, Mode=OneWay, FallbackValue='', TargetNullValue=''}" />
+				</StackPanel>
+
+				<Button.Flyout>
+					<Flyout x:Name="ZipEncodingFlyout" Opening="ZipEncodingFlyout_Opening">
+						<Grid
+							Width="240"
+							Height="300"
+							Margin="-16">
+
+							<!--  Encodings List  -->
+							<ListView
+								x:Name="ZipEncodingList"
+								Padding="4"
+								Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+								IsItemClickEnabled="True"
+								ItemClick="ZipEncodingList_ItemClick"
+								ItemsSource="{x:Bind StatusBarViewModel.ZipEncodingOptions, Mode=OneWay}"
+								SelectedItem="{x:Bind StatusBarViewModel.SelectedZipEncoding, Mode=TwoWay}"
+								SelectionMode="Single">
+
+								<ListView.ItemTemplate>
+									<DataTemplate x:DataType="data:EncodingItem">
 										<TextBlock
 											VerticalAlignment="Center"
 											Text="{x:Bind Name}"
 											TextTrimming="CharacterEllipsis" />
-										<Button
-											Grid.Column="1"
-											AutomationProperties.Name="{helpers:ResourceString Name=Delete}"
-											Background="Transparent"
-											BorderBrush="Transparent"
-											Click="DeleteBranch_Click"
-											ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}"
-											Visibility="{x:Bind converters:MultiBooleanConverter.NorConvertToVisibility(IsHead, IsRemote)}">
-											<FontIcon FontSize="12" Glyph="&#xE74D;" />
-										</Button>
-									</Grid>
-								</DataTemplate>
-							</ListView.ItemTemplate>
+									</DataTemplate>
+								</ListView.ItemTemplate>
 
-						</ListView>
-					</Grid>
-				</Flyout>
-			</Button.Flyout>
-		</Button>
+							</ListView>
+						</Grid>
+					</Flyout>
+				</Button.Flyout>
+			</Button>
+		</Grid>
 
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup x:Name="ResponsiveStates">
+				<VisualState x:Name="NormalState" />
+				<VisualState x:Name="CompactEncodingState">
+					<VisualState.Setters>
+						<Setter Target="ZipEncodingLabel.Visibility" Value="Collapsed" />
+						<Setter Target="ZipEncodingIcon.Visibility" Value="Visible" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="CompactActionsState">
+					<VisualState.Setters>
+						<Setter Target="ZipEncodingLabel.Visibility" Value="Collapsed" />
+						<Setter Target="ZipEncodingIcon.Visibility" Value="Visible" />
+						<Setter Target="StandardActions.Visibility" Value="Collapsed" />
+						<Setter Target="GitOverflowButton.Visibility" Value="Visible" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="CompactState">
+					<VisualState.Setters>
+						<Setter Target="ZipEncodingLabel.Visibility" Value="Collapsed" />
+						<Setter Target="ZipEncodingIcon.Visibility" Value="Visible" />
+						<Setter Target="StandardActions.Visibility" Value="Collapsed" />
+						<Setter Target="GitOverflowButton.Visibility" Value="Visible" />
+						<Setter Target="InfoTextPanel.Visibility" Value="Collapsed" />
+						<Setter Target="StatusButton.Visibility" Value="Visible" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="CompactIconsState">
+					<VisualState.Setters>
+						<Setter Target="ZipEncodingLabel.Visibility" Value="Collapsed" />
+						<Setter Target="ZipEncodingIcon.Visibility" Value="Visible" />
+						<Setter Target="StandardActions.Visibility" Value="Collapsed" />
+						<Setter Target="GitOverflowButton.Visibility" Value="Visible" />
+						<Setter Target="InfoTextPanel.Visibility" Value="Collapsed" />
+						<Setter Target="StatusButton.Visibility" Value="Visible" />
+						<Setter Target="StatusButtonLabel.Visibility" Value="Collapsed" />
+						<Setter Target="GitOverflowButtonLabel.Visibility" Value="Collapsed" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="MinimalState">
+					<VisualState.Setters>
+						<Setter Target="ZipEncodingSelector.Visibility" Value="Collapsed" />
+						<Setter Target="StandardActions.Visibility" Value="Collapsed" />
+						<Setter Target="GitOverflowButton.Visibility" Value="Visible" />
+						<Setter Target="InfoTextPanel.Visibility" Value="Collapsed" />
+						<Setter Target="StatusButton.Visibility" Value="Visible" />
+						<Setter Target="StatusButtonLabel.Visibility" Value="Collapsed" />
+						<Setter Target="GitOverflowButtonLabel.Visibility" Value="Collapsed" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
 	</Grid>
 </UserControl>

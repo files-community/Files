@@ -7,6 +7,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
+using WinRT;
 
 namespace Files.App.ViewModels.Properties
 {
@@ -44,7 +45,8 @@ namespace Files.App.ViewModels.Properties
 
 		public MainPropertiesViewModel(Window window, Frame mainFrame, BaseProperties baseProperties, PropertiesPageNavigationParameter parameter)
 		{
-			ChangedPropertiesCancellationTokenSource = new();
+			ChangedPropertiesCancellationTokenSource = parameter.CancellationTokenSource
+				?? throw new InvalidOperationException("The properties parameter does not contain a cancellation token source.");
 
 			Window = window;
 			_mainFrame = mainFrame;
@@ -55,11 +57,13 @@ namespace Files.App.ViewModels.Properties
 			SaveChangedPropertiesCommand = new AsyncRelayCommand(ExecuteSaveChangedPropertiesCommandAsync);
 			CancelChangedPropertiesCommand = new RelayCommand(ExecuteCancelChangedPropertiesCommand);
 
-			NavigationItems = PropertiesNavigationItemsFactory.Initialize(parameter.Parameter);
+			NavigationItems = PropertiesNavigationItemsFactory.Initialize(parameter.Parameter
+				?? throw new InvalidOperationException("The properties parameter does not contain an item."));
 			foreach (var navItem in NavigationItems)
 				FlatNavigationItems.Add(new FlatSidebarItem(navItem, 0));
 
-			SelectedNavigationItem = NavigationItems.First(x => x.ItemType == PropertiesNavigationViewItemType.General);
+			_SelectedNavigationItem = NavigationItems.First(x => x.ItemType == PropertiesNavigationViewItemType.General);
+			NavigateToPage(_SelectedNavigationItem);
 		}
 
 		private void NavigateToPage(PropertiesNavigationItem item)
@@ -95,6 +99,7 @@ namespace Files.App.ViewModels.Properties
 			_mainFrame?.Navigate(page, parameter, new EntranceNavigationTransitionInfo());
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Page))]
 		private void ExecuteDoBackwardNavigationCommand()
 		{
 			if (NavigationItems is null ||
@@ -138,7 +143,7 @@ namespace Files.App.ViewModels.Properties
 		}
 	}
 
-	public sealed partial class PropertiesNavigationItem : ObservableObject, ISidebarItemModel
+	public sealed partial class PropertiesNavigationItem : ObservableObject, ISidebarItemModel, ISidebarItemPresentationModel
 	{
 		public PropertiesNavigationViewItemType ItemType { get; }
 		public string Text { get; }
@@ -150,6 +155,8 @@ namespace Files.App.ViewModels.Properties
 
 		public object? ToolTip => Text;
 		public object? ItemDecorator => null;
+		FrameworkElement ISidebarItemPresentationModel.IconElement => IconElement;
+		FrameworkElement? ISidebarItemPresentationModel.ItemDecorator => null;
 
 		public PropertiesNavigationItem(PropertiesNavigationViewItemType itemType, string text, ThemedIcon iconElement)
 		{

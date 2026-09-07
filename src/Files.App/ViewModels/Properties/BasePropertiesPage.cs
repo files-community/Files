@@ -14,9 +14,11 @@ namespace Files.App.ViewModels.Properties
 	{
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
 
-		public IShellPage AppInstance = null;
+		private IShellPage? appInstance;
+		public IShellPage AppInstance
+			=> appInstance ?? throw new InvalidOperationException("The properties page has not been initialized.");
 
-		public BaseProperties BaseProperties { get; set; }
+		public BaseProperties? BaseProperties { get; set; }
 
 		public SelectedItemsPropertiesViewModel ViewModel { get; set; } = new();
 
@@ -28,25 +30,32 @@ namespace Files.App.ViewModels.Properties
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			var np = (PropertiesPageNavigationParameter)e.Parameter;
-			AppInstance = np.AppInstance;
+			var tokenSource = np.CancellationTokenSource
+				?? throw new InvalidOperationException("The properties page does not have a cancellation token source.");
+			var instance = np.AppInstance
+				?? throw new InvalidOperationException("The properties page does not have an associated shell page.");
+			var window = np.Window
+				?? throw new InvalidOperationException("The properties page does not have an associated window.");
+			appInstance = instance;
 
 			// Library
 			if (np.Parameter is LibraryItem library)
-				BaseProperties = new LibraryProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, library, AppInstance);
+				BaseProperties = new LibraryProperties(ViewModel, tokenSource, DispatcherQueue, library, instance);
 			// Drive
 			else if (np.Parameter is DriveItem drive)
 			{
-				var props = new DriveProperties(ViewModel, drive, AppInstance);
+				var props = new DriveProperties(ViewModel, tokenSource, DispatcherQueue, drive, instance);
 				BaseProperties = props;
+				var drivePath = props.Drive.GetRequiredPath();
 
 				ViewModel.CleanupVisibility = props.Drive.Type != DriveType.Network && props.Drive.Type != DriveType.CloudDrive;
 				ViewModel.FormatVisibility = !(props.Drive.Type == DriveType.Network || props.Drive.Type == DriveType.CloudDrive || string.Equals(props.Drive.Path, $@"{Constants.UserEnvironmentPaths.SystemDrivePath}\", StringComparison.OrdinalIgnoreCase));
-				ViewModel.CleanupDriveCommand = new AsyncRelayCommand(() => StorageSenseHelper.OpenStorageSenseAsync(props.Drive.Path));
+				ViewModel.CleanupDriveCommand = new AsyncRelayCommand(() => StorageSenseHelper.OpenStorageSenseAsync(drivePath));
 				ViewModel.FormatDriveCommand = new RelayCommand(async () =>
 				{
 					try
 					{
-						await Win32Helper.OpenFormatDriveDialog(props.Drive.Path);
+						await Win32Helper.OpenFormatDriveDialog(drivePath);
 					}
 					catch (Exception)
 					{
@@ -59,7 +68,7 @@ namespace Files.App.ViewModels.Properties
 				// Selection only contains files
 				if (items.All(item => item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive))
 				{
-					BaseProperties = new CombinedFileProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, items, AppInstance);
+					BaseProperties = new CombinedFileProperties(ViewModel, tokenSource, DispatcherQueue, items, instance);
 
 					ViewModel.IsEditAlbumCoverVisible =
 						items.All(item => item.FileExtension is not ".avi") && (
@@ -68,22 +77,22 @@ namespace Files.App.ViewModels.Properties
 				}
 				// Selection includes folders
 				else
-					BaseProperties = new CombinedProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, items, AppInstance);
+					BaseProperties = new CombinedProperties(ViewModel, tokenSource, DispatcherQueue, items, instance);
 			}
 			// A storage object
 			else if (np.Parameter is ListedItem item)
 			{
 				// File or Archive
 				if (item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
-					BaseProperties = new FileProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, item, AppInstance);
+					BaseProperties = new FileProperties(ViewModel, tokenSource, DispatcherQueue, item, instance);
 				// Folder
 				else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-					BaseProperties = new FolderProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, item, AppInstance);
+					BaseProperties = new FolderProperties(ViewModel, tokenSource, DispatcherQueue, item, instance);
 			}
 
 			ViewModel.EditAlbumCoverCommand = new RelayCommand(async () =>
 			{
-				var hWnd = Microsoft.UI.Win32Interop.GetWindowFromWindowId(np.Window.AppWindow.Id);
+				var hWnd = Microsoft.UI.Win32Interop.GetWindowFromWindowId(window.AppWindow.Id);
 
 				string[] extensions =
 				[
@@ -103,7 +112,7 @@ namespace Files.App.ViewModels.Properties
 						filePath,
 						Constants.ShellIconSizes.ExtraLarge,
 						false,
-						IconOptions.UseCurrentScale);
+						IconOptions.None);
 
 					ViewModel.IconData = iconData;
 				}
@@ -114,7 +123,7 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.IsAblumCoverModified = true;
 				ViewModel.ModifiedAlbumCover = null;
 
-				string mediaPath = np.Parameter switch
+				string? mediaPath = np.Parameter switch
 				{
 					ListedItem singleItem => singleItem.ItemPath,
 					List<ListedItem> items => items.FirstOrDefault()?.ItemPath,
@@ -128,7 +137,7 @@ namespace Files.App.ViewModels.Properties
 						mediaPath,
 						Constants.ShellIconSizes.ExtraLarge,
 						false,
-						IconOptions.UseCurrentScale | IconOptions.ReturnIconOnly);
+						IconOptions.ReturnIconOnly);
 
 					ViewModel.IconData = iconData;
 				}

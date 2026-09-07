@@ -9,9 +9,9 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class SecurityPage : BasePropertiesPage
 	{
-		private SecurityViewModel SecurityViewModel { get; set; }
+		private SecurityViewModel SecurityViewModel { get; set; } = null!;
 
-		private object _parameter;
+		private PropertiesPageNavigationParameter _parameter = null!;
 
 		public SecurityPage()
 		{

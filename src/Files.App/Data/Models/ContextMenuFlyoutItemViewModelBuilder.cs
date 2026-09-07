@@ -28,7 +28,7 @@ namespace Files.App.Data.Models
 
 		public string AccessKey { get; init; } = string.Empty;
 
-		public object Tag { get; init; }
+		public object? Tag { get; init; }
 
 		public bool ShowOnShift { get; init; } = false;
 

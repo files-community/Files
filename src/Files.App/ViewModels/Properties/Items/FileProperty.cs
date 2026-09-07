@@ -6,6 +6,7 @@ using Files.Shared.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using System.Collections.Concurrent;
+using System.IO;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.Properties
@@ -18,40 +19,42 @@ namespace Files.App.ViewModels.Properties
 		/// <summary>
 		/// The name to display
 		/// </summary>
-		public string Name => LocalizedName ?? NameResource.GetLocalizedResource();
+		public string Name => LocalizedName ?? (NameResource
+			?? throw new InvalidOperationException("The file property does not have a name resource."))
+			.GetLocalizedResource();
 
 		/// <summary>
 		/// The name of the string resource for the property name
 		/// </summary>
-		public string NameResource { get; set; }
+		public string? NameResource { get; set; }
 
-		public string LocalizedName { get; set; }
+		public string? LocalizedName { get; set; }
 
 		/// <summary>
 		/// The name of the section to display
 		/// </summary>
-		public string Section
+		public string? Section
 			=> SectionResource?.GetLocalizedResource();
 
 		/// <summary>
 		/// The name of the string resource for the section name
 		/// </summary>
-		public string SectionResource { get; set; }
+		public string? SectionResource { get; set; }
 
 		/// <summary>
 		/// The identifier of the property to get, eg System.Media.Duration
 		/// </summary>
-		public string Property { get; set; }
+		public string? Property { get; set; }
 
 		/// <summary>
 		/// The value of the property
 		/// </summary>
-		public object Value { get; set; }
+		public object? Value { get; set; }
 
 		/// <summary>
 		/// The string value of the property's value
 		/// </summary>
-		public string ValueText
+		public string? ValueText
 		{
 			get => ConvertToString();
 			set
@@ -77,31 +80,33 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		public string PlaceholderText { get; set; }
+		public string? PlaceholderText { get; set; }
 
 		/// <summary>
 		/// This function is run on the value of the property before displaying it.
 		/// Also serves as an alternative to the Converter property
 		/// Note: should only be used on read only properties
 		/// </summary>
-		public Func<object, string> DisplayFunction { get; set; }
+		[JsonIgnore]
+		public Func<object, string>? DisplayFunction { get; set; }
 
 		/// <summary>
 		/// The name of the display function to get from the display dictionary
 		/// </summary>
-		public string DisplayFunctionName { get; set; }
+		public string? DisplayFunctionName { get; set; }
 
 		/// <summary>
 		/// The converter used to convert the property to a string, and vice versa if needed
 		/// </summary>
-		public IValueConverter Converter => GetConverter();
+		[JsonIgnore]
+		public IValueConverter? Converter => GetConverter();
 
 		public bool IsReadOnly { get; set; } = true;
 
 		/// <summary>
 		/// Should be used in instances where a property does not have a "Property" value, but needs to be idenitfiable in a list of properties
 		/// </summary>
-		public string ID { get; set; }
+		public string? ID { get; set; }
 
 		/// <summary>
 		/// True if the property accepts multiple lines of text (e.g., System.Comment)
@@ -121,7 +126,7 @@ namespace Files.App.ViewModels.Properties
 		/// If a property has an enumerated list of strings to display, add a dictionary in the JSON file that has the number as it's key
 		/// and the string resource as its value
 		/// </summary>
-		public Dictionary<int, string> EnumeratedList { get; set; }
+		public Dictionary<int, string>? EnumeratedList { get; set; }
 
 		public FileProperty()
 		{
@@ -150,8 +155,7 @@ namespace Files.App.ViewModels.Properties
 		/// </summary>
 		public void InitializeProperty()
 		{
-			Func<object, string> displayFunction;
-			if (!string.IsNullOrEmpty(DisplayFunctionName) && DisplayFuncs.TryGetValue(DisplayFunctionName, out displayFunction))
+			if (!string.IsNullOrEmpty(DisplayFunctionName) && DisplayFuncs.TryGetValue(DisplayFunctionName, out var displayFunction))
 			{
 				DisplayFunction = displayFunction;
 			}
@@ -168,10 +172,14 @@ namespace Files.App.ViewModels.Properties
 			{
 				return Task.CompletedTask;
 			}
+			if (Property is null)
+				throw new InvalidOperationException("The file property does not have a property identifier.");
+			var converter = Converter
+				?? throw new InvalidOperationException("The file property does not have a value converter.");
 
-			var propsToSave = new Dictionary<string, object>
+			var propsToSave = new Dictionary<string, object?>
 			{
-				{ Property, Converter.ConvertBack(Value, null, null, null) }
+				{ Property, converter.ConvertBack(Value, null, null, null) }
 			};
 
 			return file.Properties.SavePropertiesAsync(propsToSave).AsTask();
@@ -189,7 +197,7 @@ namespace Files.App.ViewModels.Properties
 		/// Call this function just after getting properties to set the property's converter based on the value type.
 		/// For some reason, this does not work for arrays. In the case of arrays, override the converter
 		/// </summary>
-		private IValueConverter GetConverter()
+		private IValueConverter? GetConverter()
 		{
 			if (Value is uint)
 			{
@@ -208,12 +216,12 @@ namespace Files.App.ViewModels.Properties
 
 			if (Value is not null && Value.GetType().IsArray)
 			{
-				if (Value.GetType().GetElementType().Equals(typeof(string)))
+				if (Value.GetType().GetElementType() == typeof(string))
 				{
 					return new StringArrayToStringConverter();
 				}
 
-				if (Value.GetType().GetElementType().Equals(typeof(double)))
+				if (Value.GetType().GetElementType() == typeof(double))
 				{
 					return new DoubleArrayToStringConverter();
 				}
@@ -271,7 +279,7 @@ namespace Files.App.ViewModels.Properties
 		/// </summary>
 		/// <param name="value">The input string</param>
 		/// <returns></returns>
-		private object ConvertBack(string value)
+		private object? ConvertBack(string? value)
 		{
 			if (Converter is not null && value is not null)
 			{
@@ -297,15 +305,15 @@ namespace Files.App.ViewModels.Properties
 		public async static Task<List<FileProperty>> RetrieveAndInitializePropertiesAsync(BaseStorageFile file, string path = Constants.ResourceFilePaths.DetailsPagePropertiesJsonPath)
 		{
 			// cache the contents of the file to avoid repeatedly reading the file
-			string text;
-			if (!cachedPropertiesListFiles.TryGetValue(path, out text))
+			if (!cachedPropertiesListFiles.TryGetValue(path, out var text))
 			{
 				var propertiesJsonFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(path));
 				text = await FileIO.ReadTextAsync(propertiesJsonFile);
 				cachedPropertiesListFiles[path] = text;
 			}
 
-			List<FileProperty> list = JsonSerializer.Deserialize<List<FileProperty>>(text);
+			var list = JsonSerializer.Deserialize(text, AppJsonSerializerContext.Default.ListFileProperty)
+				?? throw new InvalidDataException($"The property definition file '{path}' does not contain a property list.");
 
 			var propsToGet = new List<string>();
 
@@ -319,15 +327,15 @@ namespace Files.App.ViewModels.Properties
 
 #if DEBUG
 			// This makes it much easier to debug issues with the property list
-			var keyValuePairs = new Dictionary<string, object>();
+			var keyValuePairs = new Dictionary<string, object?>();
 			foreach (var prop in propsToGet)
 			{
-				object val = null;
+				object? val = null;
 				try
 				{
 					if (file.Properties is not null)
 					{
-						val = (await file.Properties.RetrievePropertiesAsync([prop])).First().Value;
+						val = (await file.Properties.RetrievePropertiesAsync((string[])[prop])).First().Value;
 					}
 				}
 				catch (ArgumentException e)
@@ -337,18 +345,20 @@ namespace Files.App.ViewModels.Properties
 				keyValuePairs.Add(prop, val);
 			}
 #else
-            IDictionary<string, object> keyValuePairs = new Dictionary<string, object>();
-            if (file.Properties is not null)
-            {
-                keyValuePairs = await file.Properties.RetrievePropertiesAsync(propsToGet);
-            }
+			IDictionary<string, object?> keyValuePairs = new Dictionary<string, object?>();
+			if (file.Properties is not null)
+			{
+				keyValuePairs = (await file.Properties.RetrievePropertiesAsync(propsToGet))
+					.ToDictionary(pair => pair.Key, pair => (object?)pair.Value);
+			}
 #endif
 
 			foreach (var prop in list)
 			{
 				if (!string.IsNullOrEmpty(prop.Property))
 				{
-					prop.Value = keyValuePairs[prop.Property];
+					keyValuePairs.TryGetValue(prop.Property, out var value);
+					prop.Value = value;
 				}
 
 				prop.InitializeProperty();
@@ -357,7 +367,7 @@ namespace Files.App.ViewModels.Properties
 			return list;
 		}
 
-		public static bool IsSectionApplicableForEmpty(string sectionResource, string fileExtension)
+		public static bool IsSectionApplicableForEmpty(string? sectionResource, string? fileExtension)
 		{
 			return sectionResource switch
 			{

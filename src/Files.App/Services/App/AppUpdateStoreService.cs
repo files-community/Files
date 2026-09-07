@@ -252,12 +252,20 @@ namespace Files.App.Services
 				catch { }
 			}
 
-			var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/Files.App.Launcher.exe"));
-			var destFolder = await StorageFolder.GetFolderFromPathAsync(destFolderPath);
+			try
+			{
+				var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/Files.App.Launcher.exe"));
+				var destFolder = await StorageFolder.GetFolderFromPathAsync(destFolderPath);
 
-			await srcExeFile.CopyAsync(destFolder, "Files.App.Launcher.exe", NameCollisionOption.ReplaceExisting);
+				await srcExeFile.CopyAsync(destFolder, "Files.App.Launcher.exe", NameCollisionOption.ReplaceExisting);
 
-			App.Logger.LogInformation("Files.App.Launcher updated.");
+				App.Logger.LogInformation("Files.App.Launcher updated.");
+			}
+			catch (Exception ex)
+			{
+				// COMException 0x80070020 when the launcher exe is locked by a running instance or antivirus scan
+				App.Logger.LogError(ex, ex.Message);
+			}
 		}
 
 		private bool HasUpdates()

@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.App.Helpers.ContextFlyouts;
@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using System.Windows.Input;
+using WinRT;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
@@ -50,6 +51,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		public void BuildItemContextMenu(object sender, RightTappedRoutedEventArgs e)
 		{
 			// Ensure values are not null
@@ -62,65 +64,31 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			// NOTE: This is a workaround for file tags isFolder
 			var fileTagsCardItem = widgetCardItem.DataContext as WidgetFileTagCardItem;
 
-			// Create a new Flyout
-			var itemContextMenuFlyout = new CommandBarFlyout()
-			{
-				Placement = FlyoutPlacementMode.Right,
-				AlwaysExpanded = true
-			};
-
-			// Hook events
-			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-
+			var flyout = new FastContextFlyout();
 			_flyoutItemPath = item.Path;
 
 			// Notify of the change on right clicked item
-			OnRightClickedItemChanged(item, itemContextMenuFlyout);
+			OnRightClickedItemChanged(item, flyout.Flyout);
 
-			// Get items for the flyout
+			// Build the widget's own items
 			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), fileTagsCardItem is not null && fileTagsCardItem.IsFolder);
-			var (primaryElements, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
+			flyout.Build(menuItems);
 
-			// Workaround for WinUI (#5508) - AppBarButtons don't auto-close CommandBarFlyout
-			var closeHandler = new RoutedEventHandler((s, e) => itemContextMenuFlyout.Hide());
-			primaryElements
-				.OfType<AppBarButton>()
-				.ForEach(button => button.Click += closeHandler);
-			primaryElements
-				.OfType<AppBarToggleButton>()
-				.ForEach(button => button.Click += closeHandler);
+			// Convert the Open with / Send to placeholders to their submenu form up-front so the shell load can't
+			// change item heights once the menu is visible; the loader fills their contents.
+			flyout.ConvertPlaceholderToSubMenu("OpenWithPlaceholder", Strings.OpenWith.GetLocalizedResource(), "App.ThemedIcons.OpenWith");
+			flyout.ConvertPlaceholderToSubMenu("SendToPlaceholder", Strings.SendTo.GetLocalizedResource(), null);
 
-			var subMenuItems = secondaryElements
-				.OfType<AppBarButton>()
-				.Select(item => item.Flyout)
-				.OfType<MenuFlyout>()
-				.SelectMany(menu => menu.Items);
-			AddCloseHandlerRecursive(subMenuItems);
-
-			void AddCloseHandlerRecursive(IEnumerable<MenuFlyoutItemBase> menuFlyoutItems)
-			{
-				menuFlyoutItems.OfType<MenuFlyoutItem>()
-					.ForEach(button => button.Click += closeHandler);
-				menuFlyoutItems.OfType<MenuFlyoutSubItem>()
-					.ForEach(menu => AddCloseHandlerRecursive(menu.Items));
-			}
-
-			// Add menu items to the primary flyout
-			primaryElements.ForEach(itemContextMenuFlyout.PrimaryCommands.Add);
-
-			// Set max width of the flyout
-			secondaryElements
-				.OfType<FrameworkElement>()
-				.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
-
-			// Add menu items to the secondary flyout
-			secondaryElements.ForEach(itemContextMenuFlyout.SecondaryCommands.Add);
+			// Pre-add "Show more options" before showing so filling it with shell items never resizes the menu
+			var (moreOptions, moreSeparator) = flyout.AddShowMoreOptionsIfEnabled();
 
 			// Show the flyout
-			itemContextMenuFlyout.ShowAt(widgetCardItem, new() { Position = e.GetPosition(widgetCardItem) });
+			var invocationPosition = e.GetPosition(widgetCardItem);
+			flyout.ResolvePlacement(widgetCardItem, invocationPosition);
+			flyout.Flyout.ShowAt(widgetCardItem, new FlyoutShowOptions() { Position = invocationPosition });
 
-			// Load shell menu items
-			_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(_flyoutItemPath, itemContextMenuFlyout, null, true, true);
+			// Load the shell menu items
+			_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(_flyoutItemPath, flyout, null, moreOptions, moreSeparator, showOpenWithMenu: true, showSendToMenu: true);
 
 			e.Handled = true;
 		}
@@ -137,7 +105,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			await QuickAccessService.UnpinFromSidebarAsync(item?.Path ?? string.Empty);
 		}
 
-		protected void OnRightClickedItemChanged(WidgetCardItem? item, CommandBarFlyout? flyout)
+		protected void OnRightClickedItemChanged(WidgetCardItem? item, FlyoutBase? flyout)
 		{
 			RightClickedItemChanged?.Invoke(this, new WidgetsRightClickedItemChangedEventArgs(item, flyout));
 		}

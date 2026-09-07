@@ -19,6 +19,22 @@ This project is a C#/.NET WinUI 3 desktop app; an alternative to File Explorer.
 - Keep implementation scoped to the requested behavior. Avoid opportunistic refactors, formatting churn, dependency updates, and generated file edits.
 - Treat tool output as evidence. When behavior changes, run the focused build that can prove it and report anything left unverified.
 
+## Code Review Rules
+
+### Native interop
+
+- Reject new uses of `DllImport`. Prefer existing interop wrappers or CsWin32, and use `LibraryImport` only when CsWin32 cannot generate or safely express the required API.
+- Reject new uses of `ComImport`. Prefer CsWin32-generated COM interfaces or `GeneratedComInterface`, and use a focused AOT-safe vtable wrapper only when source-generated COM cannot represent the interface.
+- Add app runtime CsWin32 APIs to `src/Files.App.CsWin32/NativeMethods.txt`, and keep test-only APIs in the relevant test project's `NativeMethods.txt`; do not edit generated CsWin32 output.
+- When introducing a required native module, add the matching `DirectPInvoke` entry to `src/Files.App/Files.App.csproj`. Do not direct-bind optional modules or entry points that are not guaranteed to exist on every supported Windows version.
+
+### Reflection and Native AOT
+
+- Flag new runtime reflection used for member discovery, invocation, dynamic activation, or runtime code generation unless trimming and AOT analysis can statically prove it safe. Simple type inspection such as `obj.GetType().Name` is out of scope.
+- Prefer source generation, static dispatch, or explicitly registered types. When reflection is necessary, use `DynamicallyAccessedMembers`, `DynamicDependency`, or another narrowly justified preservation mechanism as required and keep trimming and AOT diagnostics clean.
+- `RequiresDynamicCode` and `RequiresUnreferencedCode` declare incompatibility; they do not make reflection AOT-safe and are not acceptable exemptions.
+- Keep suppressions of trimming or AOT diagnostics local, document why the reflected members remain available, and verify the relevant AOT build.
+
 ## Codebase Structure
 
 ```text

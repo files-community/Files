@@ -10,15 +10,34 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml.Shapes;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
+using WinRT;
 
 namespace Files.App.Views.Layouts
 {
 	/// <summary>
 	/// Represents the browser page of Grid View
 	/// </summary>
+	[WinRT.GeneratedBindableCustomProperty(
+		[
+			nameof(ItemWidthGridView),
+			nameof(GridViewIconSize),
+			nameof(RowHeightListView),
+			nameof(IconBoxSizeListView),
+			nameof(CardsViewOrientation),
+			nameof(CardsViewIconBoxWidth),
+			nameof(CardsViewIconBoxHeight),
+			nameof(CardsViewIconSize),
+			nameof(CardsViewDetailsBoxWidth),
+			nameof(CardsViewDetailsBoxHeight),
+			nameof(CardsViewItemNameMaxLines),
+			nameof(CardsViewShowContextualProperty),
+			nameof(InstanceViewModel),
+		],
+		[])]
 	public sealed partial class GridLayoutPage : BaseGroupableLayoutPage
 	{
 		// Fields
@@ -37,6 +56,10 @@ namespace Files.App.Views.Layouts
 
 		protected override ListViewBase ListViewBase => FileList;
 		protected override SemanticZoom RootZoom => RootGridZoom;
+
+		[DynamicWindowsRuntimeCast(typeof(ItemsWrapGrid))]
+		protected override (int First, int Last) GetVisibleIndexRange()
+			=> FileList.ItemsPanelRoot is ItemsWrapGrid panel ? (panel.FirstVisibleIndex, panel.LastVisibleIndex) : (-1, -1);
 
 
 		// List View properties
@@ -62,6 +85,12 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		public int ItemWidthGridView =>
 			LayoutSizeKindHelper.GetGridViewItemWidth(LayoutSettingsService.GridViewSize);
+
+		/// <summary>
+		/// Gets the icon size for items in the Grid View layout.
+		/// </summary>
+		public int GridViewIconSize =>
+			(int)LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.GridView);
 
 
 
@@ -169,6 +198,7 @@ namespace Files.App.Views.Layouts
 				ContentScroller?.ChangeView(null, 0, null, true);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
 			if (SelectedItems.Any())
@@ -199,16 +229,22 @@ namespace Files.App.Views.Layouts
 
 			base.OnNavigatedTo(eventArgs);
 
-			currentIconSize = LayoutSizeKindHelper.GetIconSize(FolderSettings.LayoutMode);
+			var parentShellPage = ParentShellPageInstance
+				?? throw new InvalidOperationException("The grid layout must be associated with a shell page.");
+			var shellViewModel = parentShellPage.GetRequiredShellViewModel();
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The grid layout requires folder settings.");
 
-			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
+			currentIconSize = LayoutSizeKindHelper.GetIconSize(folderSettings.LayoutMode);
+
+			folderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+			folderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
 			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
 
 			// Set ItemTemplate
 			SetItemTemplate();
 			SetItemContainerStyle();
-			FileList.ItemsSource ??= ParentShellPageInstance.ShellViewModel.FilesAndFolders;
+			FileList.ItemsSource ??= shellViewModel.FilesAndFolders;
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
@@ -223,6 +259,16 @@ namespace Files.App.Views.Layouts
 				FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
+		}
+
+		public override void Dispose()
+		{
+			Bindings.StopTracking();
+			if (FolderSettings is not null)
+				FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+
+			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
+			base.Dispose();
 		}
 
 		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -248,6 +294,8 @@ namespace Files.App.Views.Layouts
 			}
 			if (e.PropertyName == nameof(ILayoutSettingsService.GridViewSize))
 			{
+				NotifyPropertyChanged(nameof(GridViewIconSize));
+
 				// Update the container style to match the item size
 				SetItemContainerStyle();
 				FolderSettings_IconSizeChanged();
@@ -259,9 +307,12 @@ namespace Files.App.Views.Layouts
 
 		private void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
-			if (FolderSettings.LayoutMode == FolderLayoutModes.ListView
-				|| FolderSettings.LayoutMode == FolderLayoutModes.CardsView
-				|| FolderSettings.LayoutMode == FolderLayoutModes.GridView)
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The grid layout does not have folder settings.");
+
+			if (folderSettings.LayoutMode == FolderLayoutModes.ListView
+				|| folderSettings.LayoutMode == FolderLayoutModes.CardsView
+				|| folderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
 				// SetItemTemplate clears FileList.ItemsSource on style swap, which drops the selection
 				var preservedSelection = SelectedItems?.ToList();
@@ -284,9 +335,13 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
 		private void SetItemTemplate()
 		{
-			var newFileListStyle = FolderSettings.LayoutMode switch
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The grid layout does not have folder settings.");
+
+			var newFileListStyle = folderSettings.LayoutMode switch
 			{
 				FolderLayoutModes.ListView => (Style)Resources["VerticalLayoutGridView"],
 				FolderLayoutModes.CardsView => (Style)Resources["HorizontalLayoutGridView"],
@@ -303,7 +358,7 @@ namespace Files.App.Views.Layouts
 
 			shouldSetVerticalScrollMode = true;
 
-			switch (FolderSettings.LayoutMode)
+			switch (folderSettings.LayoutMode)
 			{
 				case FolderLayoutModes.ListView:
 					FileList.ItemTemplate = ListViewBrowserTemplate;
@@ -362,6 +417,11 @@ namespace Files.App.Views.Layouts
 				SetCheckboxSelectionState(item);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
+		[DynamicWindowsRuntimeCast(typeof(Popup))]
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		override public void StartRenameItem()
 		{
 			RenamingItem = SelectedItem;
@@ -377,18 +437,21 @@ namespace Files.App.Views.Layouts
 				return;
 
 			TextBox? textBox = null;
-			string editText = ShouldShowExtensionInRename(RenamingItem) ? RenamingItem.ItemNameRaw : textBlock.Text;
+			string editText = ShouldShowExtensionInRename(RenamingItem) ? RenamingItem.ItemNameRaw! : textBlock.Text;
+			var templateRoot = gridViewItem.ContentTemplateRoot as FrameworkElement;
 
 			// Grid View
 			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
-				if (gridViewItem.FindDescendant("EditPopup") is not Popup popup)
+				// FindName from inside the template's namescope realizes the x:Load-deferred popup
+				if (textBlock.FindName("EditPopup") is not Popup popup)
 					return;
 
 				textBox = popup.Child as TextBox;
 				if (textBox is null)
 					return;
 
+				textBox.Width = templateRoot?.ActualWidth ?? gridViewItem.ActualWidth;
 				textBox.Text = editText;
 				textBlock.Opacity = 0;
 				popup.IsOpen = true;
@@ -397,7 +460,8 @@ namespace Files.App.Views.Layouts
 			// List View
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.ListView)
 			{
-				textBox = gridViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
+				// FindName from inside the template's namescope realizes the x:Load-deferred text box
+				textBox = textBlock.FindName("ListViewTextBoxItemName") as TextBox;
 				if (textBox is null)
 					return;
 
@@ -431,15 +495,17 @@ namespace Files.App.Views.Layouts
 				}
 			}
 
-			textBox.Focus(FocusState.Pointer);
-			textBox.LostFocus += RenameTextBox_LostFocus;
-			textBox.KeyDown += RenameTextBox_KeyDown;
+			var activeTextBox = textBox
+				?? throw new InvalidOperationException("The rename text box is not available for the selected layout.");
+			activeTextBox.Focus(FocusState.Pointer);
+			activeTextBox.LostFocus += RenameTextBox_LostFocus;
+			activeTextBox.KeyDown += RenameTextBox_KeyDown;
 
 			int selectedTextLength = editText.Length;
 			if (!RenamingItem.IsShortcut && (ShouldShowExtensionInRename(RenamingItem) || UserSettingsService.FoldersSettingsService.ShowFileExtensions))
 				selectedTextLength -= extensionLength;
 
-			textBox.Select(0, selectedTextLength);
+			activeTextBox.Select(0, selectedTextLength);
 			IsRenamingItem = true;
 		}
 
@@ -455,6 +521,9 @@ namespace Files.App.Views.Layouts
 			});
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(Popup))]
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
 		protected override void EndRename(TextBox textBox)
 		{
 			GridViewItem? gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
@@ -463,25 +532,35 @@ namespace Files.App.Views.Layouts
 			{
 				// NOTE: Navigating away, do nothing
 			}
-			else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
+			else
 			{
-				Popup? popup = gridViewItem.FindDescendant("EditPopup") as Popup;
-				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
+				var layoutMode = (FolderSettings
+					?? throw new InvalidOperationException("The grid layout does not have folder settings."))
+					.LayoutMode;
+				if (layoutMode == FolderLayoutModes.GridView)
+				{
+					Popup? popup = gridViewItem.FindDescendant("EditPopup") as Popup;
+					TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
 
-				if (popup is not null)
-					popup.IsOpen = false;
+					if (popup is not null)
+						popup.IsOpen = false;
 
-				if (textBlock is not null)
-					textBlock.Opacity = (textBlock.DataContext as ListedItem)!.Opacity;
-			}
-			else if (FolderSettings.LayoutMode == FolderLayoutModes.CardsView || FolderSettings.LayoutMode == FolderLayoutModes.ListView)
-			{
-				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
+					if (textBlock is not null)
+					{
+						var item = textBlock.DataContext as ListedItem
+							?? throw new InvalidOperationException("The renamed item is not available.");
+						textBlock.Opacity = item.Opacity;
+					}
+				}
+				else if (layoutMode is FolderLayoutModes.CardsView or FolderLayoutModes.ListView)
+				{
+					TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
 
-				textBox.Visibility = Visibility.Collapsed;
+					textBox.Visibility = Visibility.Collapsed;
 
-				if (textBlock is not null)
-					textBlock.Visibility = Visibility.Visible;
+					if (textBlock is not null)
+						textBlock.Visibility = Visibility.Visible;
+				}
 			}
 
 			// Unsubscribe from events
@@ -498,6 +577,8 @@ namespace Files.App.Views.Layouts
 			gridViewItem?.Focus(FocusState.Programmatic);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		[DynamicWindowsRuntimeCast(typeof(HyperlinkButton))]
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (ParentShellPageInstance is null || IsRenamingItem)
@@ -523,16 +604,21 @@ namespace Files.App.Views.Layouts
 
 				if (ctrlPressed && !shiftPressed)
 				{
-					var folders = ParentShellPageInstance?.SlimContentPage.SelectedItems?.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder);
-					foreach (ListedItem? folder in folders)
+					var selectedItems = ParentShellPageInstance?.SlimContentPage?.SelectedItems
+						?? throw new InvalidOperationException("The selected items are not available.");
+
+					foreach (var folder in selectedItems.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder))
 					{
-						if (folder is not null)
-							await NavigationHelpers.OpenPathInNewTab(folder.ItemPath);
+						await NavigationHelpers.OpenPathInNewTab(folder.ItemPath);
 					}
 				}
 				else if (ctrlPressed && shiftPressed)
 				{
-					NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, SelectedItems.FirstOrDefault(item => item.PrimaryItemAttribute == StorageItemTypes.Folder));
+					if (ParentShellPageInstance is { } parentShellPage &&
+						SelectedItems.FirstOrDefault(item => item.PrimaryItemAttribute == StorageItemTypes.Folder) is { } folder)
+					{
+						NavigationHelpers.OpenInSecondaryPane(parentShellPage, folder);
+					}
 				}
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
@@ -565,13 +651,17 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
 		protected override bool CanGetItemFromElement(object element)
 			=> element is GridViewItem;
 
 		private void FolderSettings_IconSizeChanged()
 		{
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The grid layout does not have folder settings.");
+
 			// Check if icons need to be reloaded
-			var newIconSize = LayoutSizeKindHelper.GetIconSize(FolderSettings.LayoutMode);
+			var newIconSize = LayoutSizeKindHelper.GetIconSize(folderSettings.LayoutMode);
 			if (newIconSize != currentIconSize)
 			{
 				currentIconSize = newIconSize;
@@ -581,30 +671,37 @@ namespace Files.App.Views.Layouts
 
 		private async Task ReloadItemIconsAsync()
 		{
-			if (ParentShellPageInstance is null)
+			if (ParentShellPageInstance is not { } parentShellPage)
 				return;
+			var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 
-			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
-			var filesAndFolders = ParentShellPageInstance.ShellViewModel.FilesAndFolders.ToList();
+			shellViewModel.CancelExtendedPropertiesLoading();
+			var filesAndFolders = shellViewModel.FilesAndFolders.ToList();
 			foreach (ListedItem listedItem in filesAndFolders)
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is not null)
-					await ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
+					await shellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
 			}
 
-			if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None)
+			if (shellViewModel.EnabledGitProperties is not GitProperties.None)
 			{
 				await Task.WhenAll(filesAndFolders.Select(item =>
 				{
 					if (item is IGitItem gitItem)
-						return ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
+						return shellViewModel.LoadGitPropertiesAsync(gitItem);
 
 					return Task.CompletedTask;
 				}));
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		[DynamicWindowsRuntimeCast(typeof(Rectangle))]
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
+		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(Popup))]
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
 		{
 			var clickedItem = e.OriginalSource as FrameworkElement;
@@ -642,15 +739,18 @@ namespace Files.App.Views.Layouts
 			{
 				if (clickedItem is TextBlock textBlock && textBlock.Name == "ItemName")
 				{
-					CheckRenameDoubleClick(clickedItem?.DataContext);
+					CheckRenameDoubleClick(textBlock.DataContext);
 				}
 				else if (IsRenamingItem)
 				{
 					if (FileList.ContainerFromItem(RenamingItem) is GridViewItem gridViewItem)
 					{
-						if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
+						var layoutMode = (FolderSettings
+							?? throw new InvalidOperationException("The grid layout does not have folder settings."))
+							.LayoutMode;
+						if (layoutMode == FolderLayoutModes.GridView)
 						{
-							Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
+							Popup? popup = gridViewItem.FindDescendant("EditPopup") as Popup;
 							var textBox = popup?.Child as TextBox;
 
 							if (textBox is not null)
@@ -668,6 +768,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
@@ -681,6 +782,7 @@ namespace Files.App.Views.Layouts
 			ResetRenameDoubleClick();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
 		{
 			if (sender is CheckBox checkBox &&
@@ -689,6 +791,7 @@ namespace Files.App.Views.Layouts
 				FileList.SelectedItems.Add(item);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
 		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
 		{
 			if (sender is not CheckBox checkBox)
@@ -705,15 +808,37 @@ namespace Files.App.Views.Layouts
 			FileList.Focus(FocusState.Programmatic);
 		}
 
+		private readonly System.Runtime.CompilerServices.ConditionalWeakTable<SelectorItem, Tuple<object?, CheckBox>> selectionCheckboxCache = new();
+
+		// The template-root identity check invalidates the cache when a container is re-templated
+		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
+		private CheckBox GetSelectionCheckbox(SelectorItem container)
+		{
+			var root = container.ContentTemplateRoot;
+			if (selectionCheckboxCache.TryGetValue(container, out var cached) && ReferenceEquals(cached.Item1, root))
+				return cached.Item2;
+
+			var checkbox = (CheckBox)container.FindDescendant("SelectionCheckbox")!;
+			selectionCheckboxCache.AddOrUpdate(container, new Tuple<object?, CheckBox>(root, checkbox));
+			return checkbox;
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
+		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			var selectionCheckbox = args.ItemContainer.FindDescendant("SelectionCheckbox")!;
+			var selectionCheckbox = GetSelectionCheckbox(args.ItemContainer);
 
 			selectionCheckbox.PointerEntered -= SelectionCheckbox_PointerEntered;
 			selectionCheckbox.PointerExited -= SelectionCheckbox_PointerExited;
 			selectionCheckbox.PointerCanceled -= SelectionCheckbox_PointerCanceled;
+			selectionCheckbox.Checked -= ItemSelected_Checked;
+			selectionCheckbox.Unchecked -= ItemSelected_Unchecked;
 
 			base.FileList_ContainerContentChanging(sender, args);
+			if (args.InRecycleQueue)
+				return;
+
 			SetCheckboxSelectionState(args.Item, args.ItemContainer as GridViewItem);
 
 			selectionCheckbox.PointerEntered += SelectionCheckbox_PointerEntered;
@@ -721,12 +846,14 @@ namespace Files.App.Views.Layouts
 			selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
 		private void SetCheckboxSelectionState(object item, GridViewItem? lviContainer = null)
 		{
 			var container = lviContainer ?? FileList.ContainerFromItem(item) as GridViewItem;
 			if (container is not null)
 			{
-				var checkbox = container.FindDescendant("SelectionCheckbox") as CheckBox;
+				var checkbox = GetSelectionCheckbox(container);
 				if (checkbox is not null)
 				{
 					// Temporarily disable events to avoid selecting wrong items
@@ -743,6 +870,8 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Grid))]
+		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
 		private void Grid_Loaded(object sender, RoutedEventArgs e)
 		{
 			// This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
@@ -767,16 +896,19 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void SelectionCheckbox_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<GridViewItem>()!, true);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void SelectionCheckbox_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
 			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<GridViewItem>()!, false);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void SelectionCheckbox_PointerCanceled(object sender, PointerRoutedEventArgs e)
 		{
 			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<GridViewItem>()!, false);
@@ -785,7 +917,7 @@ namespace Files.App.Views.Layouts
 		// To avoid crashes, disable scrolling when drag-and-drop if grouped. (#14484)
 		private bool ShouldDisableScrollingWhenDragAndDrop =>
 			FolderSettings?.LayoutMode is FolderLayoutModes.GridView or FolderLayoutModes.CardsView &&
-			(ParentShellPageInstance?.ShellViewModel.FilesAndFolders.IsGrouped ?? false);
+			(ParentShellPageInstance?.ShellViewModel?.FilesAndFolders.IsGrouped ?? false);
 
 		protected override void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
@@ -826,6 +958,7 @@ namespace Files.App.Views.Layouts
 			base.Item_Drop(sender, e);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
 		private void UpdateCheckboxVisibility(object sender, bool isPointerOver)
 		{
 			if (sender is GridViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)

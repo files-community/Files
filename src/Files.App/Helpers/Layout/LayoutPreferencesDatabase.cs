@@ -77,7 +77,7 @@ namespace Files.App.Helpers
 
 		public void Import(string json)
 		{
-			var preferences = JsonSerializer.Deserialize<LayoutPreferencesDatabaseItem[]>(json);
+			var preferences = JsonSerializer.Deserialize(json, AppJsonSerializerContext.Default.LayoutPreferencesDatabaseItemArray);
 			ImportCore(preferences);
 		}
 
@@ -105,7 +105,7 @@ namespace Files.App.Helpers
 		{
 			var list = new List<LayoutPreferencesDatabaseItem>();
 			IterateKeys(list, LayoutSettingsKey, 0);
-			return JsonSerializer.Serialize(list);
+			return JsonSerializer.Serialize(list, AppJsonSerializerContext.Default.ListLayoutPreferencesDatabaseItem);
 		}
 
 		private void IterateKeys(List<LayoutPreferencesDatabaseItem> list, string path, int depth)

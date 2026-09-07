@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Security;
 
@@ -10,6 +11,7 @@ namespace Files.App.Utils.Storage
 	public sealed class StorageCredential
 	{
 		private string _userName = string.Empty;
+		[AllowNull]
 		public string UserName
 		{
 			get => _userName;
@@ -17,6 +19,7 @@ namespace Files.App.Utils.Storage
 		}
 
 		private object? _password;
+		[AllowNull]
 		public string Password
 		{
 			get
@@ -36,6 +39,7 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
+		[AllowNull]
 		public SecureString SecurePassword
 		{
 			get

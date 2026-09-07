@@ -65,7 +65,7 @@ namespace Files.App.Data.Contexts
 					UpdateContent();
 					break;
 				case nameof(IShellPanesPage.ShellPaneArrangement):
-					_ShellPaneArrangement = ActivePane?.PaneHolder.ShellPaneArrangement ?? ShellPaneArrangement.Horizontal;
+					_ShellPaneArrangement = ActivePane?.PaneHolder?.ShellPaneArrangement ?? ShellPaneArrangement.Horizontal;
 					ShellPaneArrangementChanged?.Invoke(this, EventArgs.Empty);
 					break;
 			}
@@ -106,7 +106,7 @@ namespace Files.App.Data.Contexts
 
 			ActivePaneChanged?.Invoke(this, EventArgs.Empty);
 
-			_ShellPaneArrangement = ActivePane?.PaneHolder.ShellPaneArrangement ?? ShellPaneArrangement.Horizontal;
+			_ShellPaneArrangement = ActivePane?.PaneHolder?.ShellPaneArrangement ?? ShellPaneArrangement.Horizontal;
 			ShellPaneArrangementChanged?.Invoke(this, EventArgs.Empty);
 		}
 	}

@@ -18,7 +18,7 @@ namespace Files.App.ViewModels.Dialogs
 		private readonly IStorageFile archive;
 
 		// Properties
-		public BaseStorageFolder DestinationFolder { get; private set; }
+		public BaseStorageFolder? DestinationFolder { get; private set; }
 
 		private string destinationFolderPath;
 		public string DestinationFolderPath
@@ -42,7 +42,7 @@ namespace Files.App.ViewModels.Dialogs
 					if (string.IsNullOrWhiteSpace(DestinationFolderPath))
 						return false;
 
-					string parentDir = Path.GetDirectoryName(DestinationFolderPath);
+					string? parentDir = Path.GetDirectoryName(DestinationFolderPath);
 					string finalSegment = Path.GetFileName(DestinationFolderPath);
 
 					// Check parent directory exists
@@ -113,7 +113,7 @@ namespace Files.App.ViewModels.Dialogs
 		// Commands
 		public IRelayCommand PrimaryButtonClickCommand { get; private set; }
 		public ICommand SelectDestinationCommand { get; private set; }
-		public ICommand QuerySubmittedCommand { get; private set; }
+		public ICommand? QuerySubmittedCommand { get; private set; }
 
 		// Constructor
 		public DecompressArchiveDialogViewModel(IStorageFile archive)
@@ -160,7 +160,7 @@ namespace Files.App.ViewModels.Dialogs
 			{
 				EncodingOptions = EncodingItem.Defaults;
 			}
-			SelectedEncoding = EncodingOptions.FirstOrDefault();
+			SelectedEncoding = EncodingOptions[0];
 		}
 
 		// Public Methods

@@ -2,52 +2,55 @@
 // Licensed under the MIT License.
 
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Vanara.InteropServices;
-using Vanara.PInvoke;
-using Vanara.Windows.Shell;
+using System.Runtime.InteropServices.Marshalling;
+using System.Text;
 using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.Graphics.Gdi;
+using Windows.Win32.System.Memory;
+using Windows.Win32.UI.Shell;
+using Windows.Win32.UI.Shell.Common;
 using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Utils.Shell
 {
 	/// <summary>
-	/// Provides a helper for Win32 context menu.
+	/// Provides a helper for Win32 context menus.
 	/// </summary>
-	public partial class ContextMenu : Win32ContextMenu, IDisposable
+	public sealed partial class ContextMenu : Win32ContextMenu, IDisposable
 	{
-		private Shell32.IContextMenu _cMenu;
+		private const uint CmicMaskUnicode = 0x00004000;
+		private static readonly ImageConverter IconConverter = new();
 
-		private User32.SafeHMENU _hMenu;
+		private IContextMenu? contextMenu;
+		private HMENU menu;
+		private readonly ContextMenuWorkerPool.Worker worker;
+		private readonly Func<string?, bool>? itemFilter;
+		private readonly Dictionary<List<Win32ContextMenuItem>, Action> loadSubMenuActions = [];
+		private bool disposedValue;
 
-		private readonly ThreadWithMessageQueue _owningThread;
+		private ThreadWithMessageQueue OwningThread => worker.Thread;
 
-		private readonly Func<string, bool>? _itemFilter;
-
-		private readonly Dictionary<List<Win32ContextMenuItem>, Action> _loadSubMenuActions;
-
-		// To detect redundant calls
-		private bool disposedValue = false;
+		private IContextMenu Menu => contextMenu ?? throw new ObjectDisposedException(nameof(ContextMenu));
 
 		public List<string> ItemsPath { get; }
 
-		private ContextMenu(Shell32.IContextMenu cMenu, User32.SafeHMENU hMenu, IEnumerable<string> itemsPath, ThreadWithMessageQueue owningThread, Func<string, bool>? itemFilter)
+		private ContextMenu(IContextMenu contextMenu, HMENU menu, IEnumerable<string> itemsPath, ContextMenuWorkerPool.Worker worker, Func<string?, bool>? itemFilter)
 		{
-			_cMenu = cMenu;
-			_hMenu = hMenu;
-			_owningThread = owningThread;
-			_itemFilter = itemFilter;
-			_loadSubMenuActions = [];
-
+			this.contextMenu = contextMenu;
+			this.menu = menu;
+			this.worker = worker;
+			this.itemFilter = itemFilter;
 			ItemsPath = itemsPath.ToList();
 			Items = [];
 		}
 
-		public async static Task<bool> InvokeVerb(string verb, params string[] filePaths)
+		public static async Task<bool> InvokeVerb(string verb, params string?[] filePaths)
 		{
-			using var cMenu = await GetContextMenuForFiles(filePaths, PInvoke.CMF_DEFAULTONLY);
-
-			return cMenu is not null && await cMenu.InvokeVerb(verb);
+			using var contextMenu = await GetContextMenuForFiles(filePaths, PInvoke.CMF_DEFAULTONLY);
+			return contextMenu is not null && await contextMenu.InvokeVerb(verb);
 		}
 
 		public async Task<bool> InvokeVerb(string? verb)
@@ -55,338 +58,325 @@ namespace Files.App.Utils.Shell
 			if (string.IsNullOrEmpty(verb))
 				return false;
 
-			var item = Items.FirstOrDefault(x => x.CommandString == verb);
+			var items = Items ?? throw new InvalidOperationException("The shell context menu has not been initialized.");
+			var item = items.FirstOrDefault(x => x.CommandString == verb);
 			if (item is not null && item.ID >= 0)
-				// Prefer invocation by ID
 				return await InvokeItem(item.ID);
 
 			try
 			{
 				var currentWindows = Win32Helper.GetDesktopWindows();
-
-				var pici = new Shell32.CMINVOKECOMMANDINFOEX
-				{
-					lpVerb = new SafeResourceId(verb, CharSet.Ansi),
-					nShow = ShowWindowCommand.SW_SHOWNORMAL,
-				};
-
-				pici.cbSize = (uint)Marshal.SizeOf(pici);
-
-				await _owningThread.PostMethod(() => _cMenu.InvokeCommand(pici));
+				HRESULT result = await OwningThread.PostMethod(() => InvokeVerbCore(verb));
+				if (result.Failed)
+					return false;
 				Win32Helper.BringToForeground(currentWindows);
-
 				return true;
 			}
 			catch (Exception ex) when (ex is COMException or UnauthorizedAccessException)
 			{
 				Debug.WriteLine(ex);
+				return false;
 			}
-
-			return false;
 		}
 
-		public async Task<bool> InvokeItem(int itemID, string? workingDirectory = null)
+		public async Task<bool> InvokeItem(int itemId, string? workingDirectory = null)
 		{
-			if (itemID < 0)
+			if (itemId < 0)
 				return false;
 
 			try
 			{
 				var currentWindows = Win32Helper.GetDesktopWindows();
-				var pici = new Shell32.CMINVOKECOMMANDINFOEX
-				{
-					lpVerb = Macros.MAKEINTRESOURCE(itemID),
-					nShow = ShowWindowCommand.SW_SHOWNORMAL,
-				};
-
-				pici.cbSize = (uint)Marshal.SizeOf(pici);
-				if (workingDirectory is not null)
-					pici.lpDirectoryW = workingDirectory;
-
-				await _owningThread.PostMethod(() => _cMenu.InvokeCommand(pici));
+				HRESULT result = await OwningThread.PostMethod(() => InvokeItemCore(itemId, workingDirectory));
+				if (result.Failed)
+					return false;
 				Win32Helper.BringToForeground(currentWindows);
-
 				return true;
 			}
 			catch (Exception ex) when (ex is COMException or UnauthorizedAccessException)
 			{
 				Debug.WriteLine(ex);
+				return false;
 			}
-
-			return false;
 		}
 
-		public async static Task<ContextMenu?> GetContextMenuForFiles(string[] filePathList, uint flags, Func<string, bool>? itemFilter = null)
+		private unsafe HRESULT InvokeVerbCore(string verb)
 		{
-			var owningThread = new ThreadWithMessageQueue();
+			byte[] verbBytes = Encoding.ASCII.GetBytes(verb + '\0');
+			fixed (byte* verbPointer = verbBytes)
+			{
+				CMINVOKECOMMANDINFOEX commandInfo = default;
+				commandInfo.cbSize = (uint)sizeof(CMINVOKECOMMANDINFOEX);
+				commandInfo.lpVerb = (PCSTR)verbPointer;
+				commandInfo.nShow = (int)SHOW_WINDOW_CMD.SW_SHOWNORMAL;
+				return Menu.InvokeCommand((CMINVOKECOMMANDINFO*)&commandInfo);
+			}
+		}
 
-			return await owningThread.PostMethod<ContextMenu>(() =>
+		private unsafe HRESULT InvokeItemCore(int itemId, string? workingDirectory)
+		{
+			fixed (char* directory = workingDirectory)
+			{
+				CMINVOKECOMMANDINFOEX commandInfo = default;
+				commandInfo.cbSize = (uint)sizeof(CMINVOKECOMMANDINFOEX);
+				commandInfo.fMask = CmicMaskUnicode;
+				commandInfo.lpVerb = (PCSTR)(byte*)(nuint)(uint)itemId;
+				commandInfo.lpVerbW = (PCWSTR)(char*)(nuint)(uint)itemId;
+				commandInfo.lpDirectoryW = directory;
+				commandInfo.nShow = (int)SHOW_WINDOW_CMD.SW_SHOWNORMAL;
+				return Menu.InvokeCommand((CMINVOKECOMMANDINFO*)&commandInfo);
+			}
+		}
+
+		public static async Task<ContextMenu?> GetContextMenuForFiles(string?[] filePathList, uint flags, Func<string?, bool>? itemFilter = null)
+		{
+			var worker = ContextMenuWorkerPool.Rent();
+			var contextMenu = await worker.Thread.PostMethod<ContextMenu?>(() =>
 			{
 				var shellItems = new List<ShellItem>();
-
 				try
 				{
-					foreach (var filePathItem in filePathList.Where(x => !string.IsNullOrEmpty(x)))
-						shellItems.Add(ShellFolderExtensions.GetShellItemFromPathOrPIDL(filePathItem));
-
-					return GetContextMenuForFiles([.. shellItems], flags, owningThread, itemFilter);
+					foreach (string path in filePathList.WhereNotNull().Where(path => !string.IsNullOrEmpty(path)))
+						shellItems.Add(ShellFolderExtensions.GetShellItemFromPathOrPIDL(path));
+					return Create([.. shellItems], flags, worker, itemFilter);
 				}
 				catch
 				{
-					// Return empty context menu
 					return null;
 				}
 				finally
 				{
-					foreach (var item in shellItems)
+					foreach (ShellItem item in shellItems)
 						item.Dispose();
 				}
 			});
+
+			if (contextMenu is null)
+				ContextMenuWorkerPool.Return(worker);
+			return contextMenu;
 		}
 
-		public async static Task<ContextMenu?> GetContextMenuForFiles(ShellItem[] shellItems, uint flags, Func<string, bool>? itemFilter = null)
+		public static async Task<ContextMenu?> GetContextMenuForFiles(ShellItem[] shellItems, uint flags, Func<string?, bool>? itemFilter = null)
 		{
-			var owningThread = new ThreadWithMessageQueue();
-
-			return await owningThread.PostMethod<ContextMenu>(() => GetContextMenuForFiles(shellItems, flags, owningThread, itemFilter));
+			var worker = ContextMenuWorkerPool.Rent();
+			var contextMenu = await worker.Thread.PostMethod<ContextMenu?>(() => Create(shellItems, flags, worker, itemFilter));
+			if (contextMenu is null)
+				ContextMenuWorkerPool.Return(worker);
+			return contextMenu;
 		}
 
-		private static ContextMenu? GetContextMenuForFiles(ShellItem[] shellItems, uint flags, ThreadWithMessageQueue owningThread, Func<string, bool>? itemFilter = null)
+		private static unsafe ContextMenu? Create(ShellItem[] shellItems, uint flags, ContextMenuWorkerPool.Worker worker, Func<string?, bool>? itemFilter)
 		{
-			if (!shellItems.Any())
+			if (shellItems.Length is 0)
 				return null;
 
+			ITEMIDLIST** pidls = null;
+			HMENU menu = default;
 			try
 			{
-				// NOTE: The items are all in the same folder
-				using var sf = shellItems[0].Parent;
+				pidls = (ITEMIDLIST**)NativeMemory.AllocZeroed((nuint)shellItems.Length, (nuint)sizeof(ITEMIDLIST*));
+				for (int index = 0; index < shellItems.Length; index++)
+					PInvoke.SHGetIDListFromObject(shellItems[index].IShellItem, out pidls[index]).ThrowOnFailure();
 
-				Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItems);
-				var hMenu = User32.CreatePopupMenu();
-				menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, (Shell32.CMF)flags);
-				var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName), owningThread, itemFilter);
-				contextMenu.EnumMenuItems(hMenu, contextMenu.Items);
+				PInvoke.SHCreateShellItemArrayFromIDLists((uint)shellItems.Length, pidls, out IShellItemArray itemArray).ThrowOnFailure();
+				IContextMenu shellContextMenu = BindContextMenu(itemArray);
 
+				menu = PInvoke.CreatePopupMenu();
+				shellContextMenu.QueryContextMenu(menu, 0, 1, 0x7FFF, flags).ThrowOnFailure();
+				var contextMenu = new ContextMenu(shellContextMenu, menu, shellItems.Select(item => item.ParsingName).WhereNotNull(), worker, itemFilter);
+				menu = default;
+				contextMenu.EnumMenuItems(contextMenu.menu, contextMenu.Items!);
 				return contextMenu;
 			}
 			catch (COMException)
 			{
-				// Return empty context menu
 				return null;
+			}
+			finally
+			{
+				if (!menu.IsNull)
+					PInvoke.DestroyMenu(menu);
+				if (pidls is not null)
+				{
+					for (int index = 0; index < shellItems.Length; index++)
+						PInvoke.CoTaskMemFree(pidls[index]);
+					NativeMemory.Free(pidls);
+				}
+			}
+		}
+
+		private static unsafe IContextMenu BindContextMenu(IShellItemArray itemArray)
+		{
+			void* itemArrayPointer = ComInterfaceMarshaller<IShellItemArray>.ConvertToUnmanaged(itemArray);
+			void* contextMenuPointer = null;
+			try
+			{
+				// Bind through the native vtable so the result can use a uniquely owned generated COM wrapper.
+				void** vtable = *(void***)itemArrayPointer;
+				var bindToHandler =
+					(delegate* unmanaged[MemberFunction]<void*, void*, Guid*, Guid*, void**, int>)vtable[3];
+				Guid handlerId = PInvoke.BHID_SFUIObject;
+				Guid interfaceId = typeof(IContextMenu).GUID;
+				HRESULT result = new(bindToHandler(itemArrayPointer, null, &handlerId, &interfaceId, &contextMenuPointer));
+				result.ThrowOnFailure();
+				return UniqueComInterfaceMarshaller<IContextMenu>.ConvertToManaged(contextMenuPointer)
+					?? throw new InvalidOperationException("The shell did not return a context menu.");
+			}
+			finally
+			{
+				UniqueComInterfaceMarshaller<IContextMenu>.Free(contextMenuPointer);
+				ComInterfaceMarshaller<IShellItemArray>.Free(itemArrayPointer);
 			}
 		}
 
 		public static async Task WarmUpQueryContextMenuAsync()
 		{
-			using var cMenu = await GetContextMenuForFiles(new string[] { $@"{Constants.UserEnvironmentPaths.SystemDrivePath}\" }, PInvoke.CMF_NORMAL);
+			using var contextMenu = await GetContextMenuForFiles([$@"{Constants.UserEnvironmentPaths.SystemDrivePath}\"], PInvoke.CMF_NORMAL);
 		}
 
-		private void EnumMenuItems(Vanara.PInvoke.HMENU hMenu, List<Win32ContextMenuItem> menuItemsResult, bool loadSubenus = false)
+		private unsafe void EnumMenuItems(HMENU targetMenu, List<Win32ContextMenuItem> result, bool loadSubmenus = false)
 		{
-			var itemCount = User32.GetMenuItemCount(hMenu);
-
-			var menuItemInfo = new User32.MENUITEMINFO()
-			{
-				fMask =
-					User32.MenuItemInfoMask.MIIM_BITMAP |
-					User32.MenuItemInfoMask.MIIM_FTYPE |
-					User32.MenuItemInfoMask.MIIM_STRING |
-					User32.MenuItemInfoMask.MIIM_ID |
-					User32.MenuItemInfoMask.MIIM_SUBMENU,
-			};
-
-			menuItemInfo.cbSize = (uint)Marshal.SizeOf(menuItemInfo);
+			uint itemCount = unchecked((uint)PInvoke.GetMenuItemCount(targetMenu));
+			if (itemCount is unchecked((uint)-1))
+				return;
 
 			for (uint index = 0; index < itemCount; index++)
 			{
-				var menuItem = new ContextMenuItem();
-				var container = new SafeCoTaskMemString(512);
-				var cMenu2 = _cMenu as Shell32.IContextMenu2;
+				const uint bufferLength = 512;
+				MENUITEMINFOW info = default;
+				info.cbSize = (uint)sizeof(MENUITEMINFOW);
+				info.fMask = MENU_ITEM_MASK.MIIM_BITMAP | MENU_ITEM_MASK.MIIM_FTYPE | MENU_ITEM_MASK.MIIM_STRING | MENU_ITEM_MASK.MIIM_ID | MENU_ITEM_MASK.MIIM_SUBMENU;
+				info.dwTypeData = (char*)NativeMemory.AllocZeroed(bufferLength, sizeof(char));
+				info.cch = bufferLength - 1;
 
-				menuItemInfo.dwTypeData = (IntPtr)container;
-
-				// See also, https://devblogs.microsoft.com/oldnewthing/20040928-00/?p=37723
-				menuItemInfo.cch = (uint)container.Capacity - 1;
-
-				var result = User32.GetMenuItemInfo(hMenu, index, true, ref menuItemInfo);
-				if (!result)
+				try
 				{
-					container.Dispose();
-					continue;
-				}
-
-				menuItem.Type = (MENU_ITEM_TYPE)menuItemInfo.fType;
-
-				// wID - idCmdFirst
-				menuItem.ID = (int)(menuItemInfo.wID - 1);
-
-				if (menuItem.Type == MENU_ITEM_TYPE.MFT_STRING)
-				{
-					Debug.WriteLine("Item {0} ({1}): {2}", index, menuItemInfo.wID, menuItemInfo.dwTypeData);
-
-					menuItem.Label = menuItemInfo.dwTypeData;
-					menuItem.CommandString = GetCommandString(_cMenu, menuItemInfo.wID - 1);
-
-					if (_itemFilter is not null && (_itemFilter(menuItem.CommandString) || _itemFilter(menuItem.Label)))
-					{
-						// Skip items implemented in UWP
-						container.Dispose();
+					if (!PInvoke.GetMenuItemInfo(targetMenu, index, true, &info))
 						continue;
-					}
 
-					if (menuItemInfo.hbmpItem != HBITMAP.NULL && !Enum.IsDefined(typeof(HBITMAP_HMENU), ((IntPtr)menuItemInfo.hbmpItem).ToInt64()))
+					var menuItem = new ContextMenuItem { Type = (MENU_ITEM_TYPE)info.fType, ID = (int)(info.wID - 1) };
+					if (menuItem.Type == MENU_ITEM_TYPE.MFT_STRING)
 					{
-						using var bitmap = Win32Helper.GetBitmapFromHBitmap(menuItemInfo.hbmpItem);
+						menuItem.Label = info.dwTypeData.ToString();
+						menuItem.CommandString = GetCommandString(Menu, info.wID - 1);
+						if (itemFilter is not null && (itemFilter(menuItem.CommandString) || itemFilter(menuItem.Label)))
+							continue;
 
-						if (bitmap is not null)
+						if (!info.hbmpItem.IsNull && !Enum.IsDefined((HBITMAP_HMENU)((IntPtr)info.hbmpItem).ToInt64()))
 						{
-							// Make the icon background transparent
-							bitmap.MakeTransparent();
+							using Bitmap? bitmap = Win32Helper.GetBitmapFromHBitmap(info.hbmpItem);
+							if (bitmap is not null)
+							{
+								bitmap.MakeTransparent();
+								if (IconConverter.ConvertTo(bitmap, typeof(byte[])) is byte[] icon)
+									menuItem.Icon = icon;
+							}
+						}
 
-							byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(bitmap, typeof(byte[]));
-							menuItem.Icon = bitmapData;
+						if (!info.hSubMenu.IsNull)
+						{
+							var subItems = new List<Win32ContextMenuItem>();
+							HMENU subMenu = info.hSubMenu;
+							menuItem.SubItems = subItems;
+							if (loadSubmenus)
+								LoadSubMenu();
+							else
+								loadSubMenuActions.Add(subItems, LoadSubMenu);
+
+							void LoadSubMenu()
+							{
+								try
+								{
+									if (Menu is IContextMenu2 contextMenu2)
+										contextMenu2.HandleMenuMsg(PInvoke.WM_INITMENUPOPUP, (WPARAM)(nuint)subMenu.Value, (LPARAM)(nint)index);
+								}
+								catch (Exception ex) when (ex is InvalidCastException or ArgumentException or COMException or NotImplementedException)
+								{
+									Debug.WriteLine(ex);
+								}
+								EnumMenuItems(subMenu, subItems, true);
+							}
 						}
 					}
 
-					if (menuItemInfo.hSubMenu != Vanara.PInvoke.HMENU.NULL)
-					{
-						Debug.WriteLine("Item {0}: has submenu", index);
-						var subItems = new List<Win32ContextMenuItem>();
-						var hSubMenu = menuItemInfo.hSubMenu;
-
-						if (loadSubenus)
-							LoadSubMenu();
-						else
-							_loadSubMenuActions.Add(subItems, LoadSubMenu);
-
-						menuItem.SubItems = subItems;
-
-						Debug.WriteLine("Item {0}: done submenu", index);
-
-						void LoadSubMenu()
-						{
-							try
-							{
-								cMenu2?.HandleMenuMsg((uint)User32.WindowMessage.WM_INITMENUPOPUP, (IntPtr)hSubMenu, new IntPtr(index));
-							}
-							catch (Exception ex) when (ex is InvalidCastException or ArgumentException)
-							{
-								// TODO: Investigate why this exception happen
-								Debug.WriteLine(ex);
-							}
-							catch (Exception ex) when (ex is COMException or NotImplementedException)
-							{
-								// Only for dynamic/owner drawn? (open with, etc)
-							}
-
-							EnumMenuItems(hSubMenu, subItems, true);
-						}
-					}
+					result.Add(menuItem);
 				}
-				else
+				finally
 				{
-					Debug.WriteLine("Item {0}: {1}", index, menuItemInfo.fType.ToString());
+					NativeMemory.Free(info.dwTypeData);
 				}
-
-				container.Dispose();
-				menuItemsResult.Add(menuItem);
 			}
 		}
 
 		public Task<bool> LoadSubMenu(List<Win32ContextMenuItem> subItems)
 		{
-			if (_loadSubMenuActions.Remove(subItems, out var loadSubMenuAction))
-			{
-				return _owningThread.PostMethod<bool>(() =>
-				{
-					try
-					{
-						loadSubMenuAction!();
-						return true;
-					}
-					catch
-					{
-						return false;
-					}
-				});
-			}
-			else
-			{
+			if (!loadSubMenuActions.Remove(subItems, out Action? loadSubMenu))
 				return Task.FromResult(false);
-			}
+
+			return OwningThread.PostMethod(() =>
+			{
+				try
+				{
+					loadSubMenu();
+					return true;
+				}
+				catch
+				{
+					return false;
+				}
+			});
 		}
 
-		private static string? GetCommandString(Shell32.IContextMenu cMenu, uint offset, Shell32.GCS flags = Shell32.GCS.GCS_VERBW)
+		private static unsafe string? GetCommandString(IContextMenu contextMenu, uint offset)
 		{
-			// A workaround to avoid an AccessViolationException on some items,
-			// notably the "Run with graphic processor" menu item of NVIDIA cards
+			// Avoid an AccessViolationException from handlers that return abnormally large command offsets,
+			// notably the "Run with graphics processor" menu item from NVIDIA.
 			if (offset > 5000)
-			{
 				return null;
-			}
 
-			SafeCoTaskMemString? commandString = null;
-
+			const int capacity = 512;
+			char* buffer = (char*)NativeMemory.AllocZeroed((nuint)capacity, sizeof(char));
 			try
 			{
-				commandString = new SafeCoTaskMemString(512);
-				cMenu.GetCommandString(new IntPtr(offset), flags, IntPtr.Zero, commandString, (uint)commandString.Capacity - 1);
-				Debug.WriteLine("Verb {0}: {1}", offset, commandString);
-
-				return commandString.ToString();
+				return contextMenu.GetCommandString(offset, PInvoke.GCS_VERBW, (PSTR)(byte*)buffer, capacity).Succeeded ? new string(buffer) : null;
 			}
-			catch (Exception ex) when (ex is InvalidCastException or ArgumentException)
+			catch (Exception ex) when (ex is InvalidCastException or ArgumentException or COMException or NotImplementedException)
 			{
-				// TODO: Investigate why this exception happen
 				Debug.WriteLine(ex);
-
-				return null;
-			}
-			catch (Exception ex) when (ex is COMException or NotImplementedException)
-			{
-				// Not every item has an associated verb
 				return null;
 			}
 			finally
 			{
-				commandString?.Dispose();
+				NativeMemory.Free(buffer);
 			}
 		}
 
-		protected virtual void Dispose(bool disposing)
+		private void Dispose(bool disposing)
 		{
-			if (!disposedValue)
+			if (disposedValue)
+				return;
+
+			if (disposing && Items is not null)
 			{
-				if (disposing)
-				{
-					// TODO: Dispose managed state (managed objects)
-					if (Items is not null)
-					{
-						foreach (var si in Items)
-						{
-							(si as IDisposable)?.Dispose();
-						}
-
-						Items = null;
-					}
-				}
-
-				// TODO: Free unmanaged resources (unmanaged objects) and override a finalizer below
-				if (_hMenu is not null)
-				{
-					User32.DestroyMenu(_hMenu);
-					_hMenu = null;
-				}
-				if (_cMenu is not null)
-				{
-					Marshal.ReleaseComObject(_cMenu);
-					_cMenu = null;
-				}
-
-				_owningThread.Dispose();
-
-				disposedValue = true;
+				foreach (Win32ContextMenuItem item in Items)
+					(item as IDisposable)?.Dispose();
 			}
+
+			// Release the native menu on the worker's own STA thread. The message queue is FIFO,
+			// so cleanup completes before work posted by the next renter.
+			HMENU menuToDestroy = menu;
+			IContextMenu? contextMenuToRelease = contextMenu;
+			menu = default;
+			contextMenu = null;
+			OwningThread.PostMethod(() =>
+			{
+				if (!menuToDestroy.IsNull)
+					PInvoke.DestroyMenu(menuToDestroy);
+				if ((object?)contextMenuToRelease is ComObject comObject)
+					comObject.FinalRelease();
+			});
+			ContextMenuWorkerPool.Return(worker);
+			disposedValue = true;
 		}
 
 		public void Dispose()

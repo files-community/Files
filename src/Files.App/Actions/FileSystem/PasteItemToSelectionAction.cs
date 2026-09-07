@@ -39,14 +39,16 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.ShellPage is null)
+			if (context.ShellPage is not { } shellPage)
 				return;
 
-			string path = context.SelectedItem is ListedItem selectedItem
+			string? path = context.SelectedItem is ListedItem selectedItem
 				? selectedItem.ItemPath
-				: context.ShellPage.ShellViewModel.WorkingDirectory;
+				: shellPage.ShellViewModel?.WorkingDirectory;
+			if (path is null)
+				return;
 
-			await UIFilesystemHelpers.PasteItemAsync(path, context.ShellPage);
+			await UIFilesystemHelpers.PasteItemAsync(path, shellPage);
 		}
 
 		public bool GetIsExecutable()

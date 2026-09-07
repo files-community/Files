@@ -5,7 +5,6 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.Converters"
 	xmlns:uc="using:Files.App.UserControls"
@@ -103,6 +102,8 @@
 						Background="Transparent"
 						BorderThickness="0"
 						Opacity="0"
+						PointerEntered="EditAlbumCoverButton_PointerEntered"
+						PointerExited="EditAlbumCoverButton_PointerExited"
 						ToolTipService.ToolTip="{helpers:ResourceString Name=MoreOptions}">
 						<Button.Resources>
 							<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Transparent" />
@@ -131,15 +132,6 @@
 								Foreground="{ThemeResource TextFillColorPrimary}"
 								Glyph="&#xE712;" />
 						</Border>
-
-						<i:Interaction.Behaviors>
-							<i:EventTriggerBehavior EventName="PointerEntered">
-								<i:ChangePropertyAction PropertyName="Opacity" Value="1.0" />
-							</i:EventTriggerBehavior>
-							<i:EventTriggerBehavior EventName="PointerExited">
-								<i:ChangePropertyAction PropertyName="Opacity" Value="0" />
-							</i:EventTriggerBehavior>
-						</i:Interaction.Behaviors>
 					</Button>
 				</Grid>
 
@@ -450,7 +442,7 @@
 									<TextBlock
 										Margin="0"
 										FontWeight="SemiBold"
-										Text="{Binding Value, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0}%', Mode=OneWay}"
+										Text="{Binding Path=Value, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0}%', Mode=OneWay}"
 										TextAlignment="Center" />
 								</StackPanel>
 
@@ -488,7 +480,7 @@
 						Width="16"
 						Height="16"
 						Margin="0,0,12,0"
-						Fill="{Binding Foreground, ElementName=SpaceUserProgressRing}"
+						Fill="{x:Bind SpaceUserProgressRing.Foreground, Mode=OneWay}"
 						RadiusX="2"
 						RadiusY="2"
 						Stroke="{ThemeResource TextControlElevationBorderBrush}" />

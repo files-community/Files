@@ -14,7 +14,7 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Utils.Shell
 {
-	internal sealed class OpenWithMenu : IDisposable
+	internal sealed partial class OpenWithMenu : IDisposable
 	{
 		private static readonly ImageConverter IconConverter = new();
 
@@ -188,7 +188,8 @@ namespace Files.App.Utils.Shell
 						if (bitmap is not null)
 						{
 							bitmap.MakeTransparent();
-							menuItem.Icon = (byte[])IconConverter.ConvertTo(bitmap, typeof(byte[]));
+							if (IconConverter.ConvertTo(bitmap, typeof(byte[])) is byte[] icon)
+								menuItem.Icon = icon;
 						}
 					}
 

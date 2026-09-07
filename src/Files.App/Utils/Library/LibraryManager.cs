@@ -5,10 +5,11 @@ using Files.App.Dialogs;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using Vanara.PInvoke;
-using Vanara.Windows.Shell;
 using Windows.System;
+using Windows.Win32;
+using Windows.Win32.UI.Shell;
 using Visibility = Microsoft.UI.Xaml.Visibility;
 
 namespace Files.App.Utils.Library
@@ -17,7 +18,7 @@ namespace Files.App.Utils.Library
 	{
 		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 
-		private FileSystemWatcher librariesWatcher;
+		private FileSystemWatcher? librariesWatcher;
 		private readonly List<LibraryLocationItem> libraries = [];
 		private static readonly Lazy<LibraryManager> lazy = new(() => new LibraryManager());
 
@@ -76,11 +77,9 @@ namespace Files.App.Utils.Library
 					var libFiles = Directory.EnumerateFiles(ShellLibraryItem.LibrariesPath, "*" + ShellLibraryItem.EXTENSION);
 					foreach (var libFile in libFiles)
 					{
-						using var shellItem = new ShellLibraryEx(Shell32.ShellUtil.GetShellItemForPath(libFile), true);
-						if (shellItem is ShellLibraryEx library)
-						{
-							libraryItems.Add(ShellFolderExtensions.GetShellLibraryItem(library, libFile));
-						}
+						using var libraryFile = ShellItem.Open(libFile);
+						using var library = new ShellLibraryEx(libraryFile.IShellItem, true);
+						libraryItems.Add(ShellFolderExtensions.GetShellLibraryItem(library, libFile));
 					}
 					return libraryItems;
 				}
@@ -113,7 +112,7 @@ namespace Files.App.Utils.Library
 			DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}
 
-		public bool TryGetLibrary(string path, out LibraryLocationItem library)
+		public bool TryGetLibrary(string? path, [NotNullWhen(true)] out LibraryLocationItem? library)
 		{
 			if (string.IsNullOrWhiteSpace(path) || !path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase))
 			{
@@ -134,34 +133,37 @@ namespace Files.App.Utils.Library
 			if (string.IsNullOrWhiteSpace(name) || !CanCreateLibrary(name).result)
 				return false;
 
-			var newLib = new LibraryLocationItem(await STATask.Run(() =>
+			var shellLibrary = await STATask.Run(() =>
 			{
 				try
 				{
-					using var library = new ShellLibraryEx(name, Shell32.KNOWNFOLDERID.FOLDERID_Libraries, false);
+					using var library = new ShellLibraryEx(name, PInvoke.FOLDERID_Libraries, false);
 					library.Folders.Add(ShellItem.Open(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))); // Add default folder so it's not empty
 					library.Commit();
 					library.Reload();
-					return Task.FromResult(ShellFolderExtensions.GetShellLibraryItem(library, library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing)));
+					var libraryPath = library.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING);
+					return Task.FromResult(libraryPath is null
+						? null
+						: ShellFolderExtensions.GetShellLibraryItem(library, libraryPath));
 				}
 				catch (Exception e)
 				{
 					App.Logger.LogWarning(e, null);
 				}
 
-				return Task.FromResult<ShellLibraryItem>(null);
-			}, App.Logger));
+				return Task.FromResult<ShellLibraryItem?>(null);
+			}, App.Logger);
 
-			if (newLib is not null)
+			if (shellLibrary is null)
+				return false;
+
+			var newLib = new LibraryLocationItem(shellLibrary);
+			lock (libraries)
 			{
-				lock (libraries)
-				{
-					libraries.Add(newLib);
-				}
-				DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newLib));
-				return true;
+				libraries.Add(newLib);
 			}
-			return false;
+			DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newLib));
+			return true;
 		}
 
 		/// <summary>
@@ -172,7 +174,7 @@ namespace Files.App.Utils.Library
 		/// <param name="folders">Update the library folders or null to keep current</param>
 		/// <param name="isPinned">Update the library pinned status or null to keep current</param>
 		/// <returns>The new library if successfully updated</returns>
-		public async Task<LibraryLocationItem> UpdateLibrary(string libraryPath, string defaultSaveFolder = null, string[] folders = null, bool? isPinned = null)
+		public async Task<LibraryLocationItem?> UpdateLibrary(string libraryPath, string? defaultSaveFolder = null, string[]? folders = null, bool? isPinned = null)
 		{
 			if (string.IsNullOrWhiteSpace(libraryPath) || (defaultSaveFolder is null && folders is null && isPinned is null))
 				// Nothing to update
@@ -183,20 +185,27 @@ namespace Files.App.Utils.Library
 				try
 				{
 					bool updated = false;
-					using var library = new ShellLibraryEx(Shell32.ShellUtil.GetShellItemForPath(libraryPath), false);
+					using var libraryFile = ShellItem.Open(libraryPath);
+					using var library = new ShellLibraryEx(libraryFile.IShellItem, false);
 					if (folders is not null)
 					{
 						if (folders.Length > 0)
 						{
-							var foldersToRemove = library.Folders.Where(f => !folders.Any(folderPath => string.Equals(folderPath, f.FileSystemPath, StringComparison.OrdinalIgnoreCase)));
+							var foldersToRemove = library.Folders
+								.Where(f => !folders.Any(folderPath => string.Equals(folderPath, f.FileSystemPath, StringComparison.OrdinalIgnoreCase)))
+								.ToList();
 							foreach (var toRemove in foldersToRemove)
 							{
-								library.Folders.Remove(toRemove);
-								updated = true;
+								if (library.Folders.Remove(toRemove))
+								{
+									toRemove.Dispose();
+									updated = true;
+								}
 							}
 							var foldersToAdd = folders.Distinct(StringComparer.OrdinalIgnoreCase)
 													  .Where(folderPath => !library.Folders.Any(f => string.Equals(folderPath, f.FileSystemPath, StringComparison.OrdinalIgnoreCase)))
-													  .Select(ShellItem.Open);
+													  .Select(ShellItem.Open)
+													  .ToList();
 							foreach (var toAdd in foldersToAdd)
 							{
 								library.Folders.Add(toAdd);
@@ -210,7 +219,8 @@ namespace Files.App.Utils.Library
 					}
 					if (defaultSaveFolder is not null)
 					{
-						library.DefaultSaveFolder = ShellItem.Open(defaultSaveFolder);
+						using var saveFolder = ShellItem.Open(defaultSaveFolder);
+						library.DefaultSaveFolder = saveFolder;
 						updated = true;
 					}
 					if (isPinned is not null)
@@ -222,7 +232,7 @@ namespace Files.App.Utils.Library
 					{
 						library.Commit();
 						library.Reload(); // Reload folders list
-						return Task.FromResult(ShellFolderExtensions.GetShellLibraryItem(library, libraryPath));
+						return Task.FromResult<ShellLibraryItem?>(ShellFolderExtensions.GetShellLibraryItem(library, libraryPath));
 					}
 				}
 				catch (Exception e)
@@ -230,7 +240,7 @@ namespace Files.App.Utils.Library
 					App.Logger.LogWarning(e, null);
 				}
 
-				return Task.FromResult<ShellLibraryItem>(null);
+				return Task.FromResult<ShellLibraryItem?>(null);
 			}, App.Logger);
 
 			var newLib = item is not null ? new LibraryLocationItem(item) : null;
@@ -285,12 +295,12 @@ namespace Files.App.Utils.Library
 					await ContextMenu.InvokeVerb("restorelibraries", ShellLibraryItem.LibrariesPath);
 					await App.LibraryManager.UpdateLibrariesAsync();
 				},
-				CloseButtonAction = (vm, e) => vm.HideDialog(),
+				CloseButtonAction = (vm, e) => vm.Hide(),
 				KeyDownAction = (vm, e) =>
 				{
 					if (e.Key == VirtualKey.Escape)
 					{
-						vm.HideDialog();
+						vm.Hide();
 					}
 				},
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
@@ -345,7 +355,7 @@ namespace Files.App.Utils.Library
 				},
 				CloseButtonAction = (vm, e) =>
 				{
-					vm.HideDialog();
+					vm.Hide();
 				},
 				KeyDownAction = async (vm, e) =>
 				{
@@ -355,7 +365,7 @@ namespace Files.App.Utils.Library
 					}
 					else if (e.Key == VirtualKey.Escape)
 					{
-						vm.HideDialog();
+						vm.Hide();
 					}
 				},
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
@@ -363,7 +373,7 @@ namespace Files.App.Utils.Library
 			await dialog.ShowAsync();
 		}
 
-		private void OnLibraryChanged(WatcherChangeTypes changeType, string oldPath, string newPath)
+		private void OnLibraryChanged(WatcherChangeTypes changeType, string? oldPath, string? newPath)
 		{
 			if (newPath is not null && (!newPath.ToLowerInvariant().EndsWith(ShellLibraryItem.EXTENSION, StringComparison.Ordinal) || !File.Exists(newPath)))
 			{
@@ -375,24 +385,31 @@ namespace Files.App.Utils.Library
 
 			if (!changeType.HasFlag(WatcherChangeTypes.Deleted))
 			{
-				var library = SafetyExtensions.IgnoreExceptions(() => new ShellLibraryEx(Shell32.ShellUtil.GetShellItemForPath(newPath), true));
+				if (newPath is null)
+				{
+					App.Logger.LogWarning($"Failed to open library after {changeType}: {LogPathHelper.RedactPath(newPath)}");
+					return;
+				}
+
+				using var libraryFile = SafetyExtensions.IgnoreExceptions(() => ShellItem.Open(newPath));
+				var library = SafetyExtensions.IgnoreExceptions(() => new ShellLibraryEx(libraryFile!.IShellItem, true));
 				if (library is null)
 				{
-					App.Logger.LogWarning($"Failed to open library after {changeType}: {newPath}");
+					App.Logger.LogWarning($"Failed to open library after {changeType}: {LogPathHelper.RedactPath(newPath)}");
 					return;
 				}
 
 				var library1 = SafetyExtensions.IgnoreExceptions(() => ShellFolderExtensions.GetShellLibraryItem(library, newPath));
 				if (library1 is null)
 				{
-					App.Logger.LogWarning($"Failed to open library after {changeType}: {newPath}");
+					App.Logger.LogWarning($"Failed to open library after {changeType}: {LogPathHelper.RedactPath(newPath)}");
 					return;
 				}
 
 				string? path = oldPath;
 				if (string.IsNullOrEmpty(oldPath))
 				{
-					path = library1?.FullPath;
+					path = library1.FullPath;
 				}
 				var changedLibrary = Libraries.FirstOrDefault(l => string.Equals(l.Path, path, StringComparison.OrdinalIgnoreCase));
 				if (changedLibrary is not null)
@@ -404,7 +421,7 @@ namespace Files.App.Utils.Library
 					DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedLibrary));
 				}
 				// library is null in case it was deleted
-				if (library is not null && !Libraries.Any(x => x.Path == library1?.FullPath))
+				if (!Libraries.Any(x => x.Path == library1.FullPath))
 				{
 					var libItem = new LibraryLocationItem(library1);
 					lock (libraries)
@@ -414,7 +431,7 @@ namespace Files.App.Utils.Library
 					DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, libItem));
 				}
 
-				library?.Dispose();
+				library.Dispose();
 			}
 		}
 

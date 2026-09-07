@@ -16,7 +16,7 @@ namespace Files.App.Utils.Taskbar
 	/// </summary>
 	public sealed partial class SystemTrayIconWindow : IDisposable
 	{
-		private SystemTrayIcon _trayIcon;
+		private SystemTrayIcon? _trayIcon;
 
 		private readonly WNDPROC _windowProcedure;
 
@@ -37,7 +37,7 @@ namespace Files.App.Utils.Taskbar
 
 				WNDCLASSEXW param = new()
 				{
-					cbSize = (uint)Marshal.SizeOf(typeof(WNDCLASSEXW)),
+					cbSize = (uint)Marshal.SizeOf<WNDCLASSEXW>(),
 					style = WNDCLASS_STYLES.CS_DBLCLKS,
 					lpfnWndProc = pfnWndProc,
 					cbClsExtra = 0,
@@ -69,7 +69,7 @@ namespace Files.App.Utils.Taskbar
 
 		private LRESULT WindowProc(HWND hWnd, uint uMsg, WPARAM wParam, LPARAM lParam)
 		{
-			return _trayIcon.WindowProc(hWnd, uMsg, wParam, lParam);
+			return _trayIcon!.WindowProc(hWnd, uMsg, wParam, lParam);
 		}
 
 		public void Dispose()

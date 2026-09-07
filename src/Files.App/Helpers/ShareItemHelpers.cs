@@ -68,12 +68,12 @@ namespace Files.App.Helpers
 					}
 					else if (item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsArchive)
 					{
-						if (await StorageHelpers.ToStorageItem<BaseStorageFolder>(item.ItemPath) is BaseStorageFolder folder)
+						if (await StorageHelpers.ToStorageItem<BaseStorageFolder>(item.ItemPath!) is BaseStorageFolder folder)
 							items.Add(folder);
 					}
 					else
 					{
-						if (await StorageHelpers.ToStorageItem<BaseStorageFile>(item.ItemPath) is BaseStorageFile file)
+						if (await StorageHelpers.ToStorageItem<BaseStorageFile>(item.ItemPath!) is BaseStorageFile file)
 							items.Add(file);
 					}
 				}

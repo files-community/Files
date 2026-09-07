@@ -11,22 +11,20 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.ComTypes;
-using Vanara.Extensions;
-using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
+using WinRT;
 using static Files.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.App.Data.Enums.SortDirection;
-using VanaraWindowsShell = Vanara.Windows.Shell;
 
 namespace Files.App.Views.Layouts
 {
@@ -37,9 +35,9 @@ namespace Files.App.Views.Layouts
 	{
 		// Dependency injections
 
-		protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>()!;
-		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
-		protected ILayoutSettingsService LayoutSettingsService { get; } = Ioc.Default.GetService<ILayoutSettingsService>()!;
+		protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		protected ILayoutSettingsService LayoutSettingsService { get; } = Ioc.Default.GetRequiredService<ILayoutSettingsService>();
 		protected ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		public InfoPaneViewModel InfoPaneViewModel { get; } = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
 		protected readonly IWindowContext WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
@@ -54,10 +52,10 @@ namespace Files.App.Views.Layouts
 
 		// Fields
 
-		private readonly DispatcherQueueTimer jumpTimer;
-		private readonly DispatcherQueueTimer dragOverTimer;
-		private readonly DispatcherQueueTimer tapDebounceTimer;
-		private readonly DispatcherQueueTimer hoverTimer;
+		private DispatcherQueueTimer? jumpTimer;
+		private DispatcherQueueTimer? dragOverTimer;
+		private DispatcherQueueTimer? tapDebounceTimer;
+		private DispatcherQueueTimer? hoverTimer;
 
 		private readonly DragEventHandler Item_DragOverEventHandler;
 		public event PropertyChangedEventHandler? PropertyChanged;
@@ -69,6 +67,7 @@ namespace Files.App.Views.Layouts
 
 		private bool shiftPressed;
 		private bool itemDragging;
+		private bool isDisposed;
 
 		protected bool isDraggingSelectionRectangle;
 
@@ -76,10 +75,19 @@ namespace Files.App.Views.Layouts
 		private ListedItem? hoveredItem = null;
 		private ListedItem? preRenamingItem = null;
 
+		// Page-relative point of the pending context-menu invocation, from ContextRequested (fires for every input,
+		// unlike RightTapped which a touch long-press can skip). Invalid for keyboard, which has no pointer point.
+		private Point contextInvocationPosition;
+		private bool contextInvocationValid;
+		private TypedEventHandler<UIElement, ContextRequestedEventArgs>? contextRequestedHandler;
+
 		// Properties
 
 		protected NavigationToolbar? NavToolbar
-			=> (MainWindow.Instance.Content as Frame)?.FindDescendant<NavigationToolbar>();
+		{
+			[DynamicWindowsRuntimeCast(typeof(Frame))]
+			get => (MainWindow.Instance.Content as Frame)?.FindDescendant<NavigationToolbar>();
+		}
 
 		public LayoutPreferencesManager? FolderSettings
 			=> ParentShellPageInstance?.InstanceViewModel.FolderSettings;
@@ -93,19 +101,11 @@ namespace Files.App.Views.Layouts
 		public bool AllowItemDrag
 			=> WindowContext.CanDragAndDrop;
 
-		public CommandBarFlyout ItemContextMenuFlyout { get; set; } = new()
-		{
-			AlwaysExpanded = true,
-			AreOpenCloseAnimationsEnabled = false,
-			Placement = FlyoutPlacementMode.Right,
-		};
+		protected FastContextFlyout ItemContextFlyoutHost { get; } = new();
+		protected FastContextFlyout BaseContextFlyoutHost { get; } = new();
 
-		public CommandBarFlyout BaseContextMenuFlyout { get; set; } = new()
-		{
-			AlwaysExpanded = true,
-			AreOpenCloseAnimationsEnabled = false,
-			Placement = FlyoutPlacementMode.Right,
-		};
+		public MenuFlyout ItemContextMenuFlyout => ItemContextFlyoutHost.Flyout;
+		public MenuFlyout BaseContextMenuFlyout => BaseContextFlyoutHost.Flyout;
 
 		protected abstract ItemsControl ItemsControl { get; }
 
@@ -185,6 +185,7 @@ namespace Files.App.Views.Layouts
 					value = jumpString;
 				if (value != string.Empty)
 				{
+					var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 					ListedItem? jumpedToItem = null;
 					ListedItem? previouslySelectedItem = IsItemSelected ? SelectedItem : null;
 
@@ -192,18 +193,26 @@ namespace Files.App.Views.Layouts
 					if (previouslySelectedItem is not null)
 					{
 						// Use FilesAndFolders because only displayed entries should be jumped to
-						IEnumerable<ListedItem> candidateItems = ParentShellPageInstance!.ShellViewModel.FilesAndFolders.ToList()
+						IEnumerable<ListedItem> candidateItems = shellViewModel.FilesAndFolders.ToList()
 							.SkipWhile(x => x != previouslySelectedItem)
 							.Skip(value.Length == 1 ? 1 : 0) // User is trying to cycle through items starting with the same letter
-							.Where(f => f.Name.Length >= value.Length && string.Equals(f.Name.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
+							.Where(f =>
+							{
+								var name = f.Name ?? throw new InvalidOperationException("A listed item does not have a name.");
+								return name.Length >= value.Length && string.Equals(name.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase);
+							});
 						jumpedToItem = candidateItems.FirstOrDefault();
 					}
 
 					if (jumpedToItem is null)
 					{
 						// Use FilesAndFolders because only displayed entries should be jumped to
-						IEnumerable<ListedItem> candidateItems = ParentShellPageInstance!.ShellViewModel.FilesAndFolders.ToList()
-							.Where(f => f.Name.Length >= value.Length && string.Equals(f.Name.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
+						IEnumerable<ListedItem> candidateItems = shellViewModel.FilesAndFolders.ToList()
+							.Where(f =>
+							{
+								var name = f.Name ?? throw new InvalidOperationException("A listed item does not have a name.");
+								return name.Length >= value.Length && string.Equals(name.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase);
+							});
 						jumpedToItem = candidateItems.FirstOrDefault();
 					}
 
@@ -215,7 +224,7 @@ namespace Files.App.Views.Layouts
 					}
 
 					// Restart the timer
-					jumpTimer.Start();
+					JumpTimer.Start();
 				}
 
 				jumpString = value;
@@ -224,22 +233,27 @@ namespace Files.App.Views.Layouts
 
 		private bool isSelectedItemsSorted = false;
 		private List<ListedItem>? selectedItems = [];
-		public List<ListedItem>? SelectedItems
+		public List<ListedItem> SelectedItems
 		{
 			get
 			{
+				var currentItems = selectedItems
+					?? throw new InvalidOperationException("The selected items collection has not been initialized.");
 				if (!isSelectedItemsSorted)
 				{
-					var orderedItems = SortingHelper.OrderFileList(selectedItems, FolderSettings.DirectorySortOption, FolderSettings.DirectorySortDirection, FolderSettings.SortDirectoriesAlongsideFiles, FolderSettings.SortFilesFirst).ToList();
+					var folderSettings = FolderSettings
+						?? throw new InvalidOperationException("The layout does not have folder settings.");
+					var orderedItems = SortingHelper.OrderFileList(currentItems, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst).ToList();
 					selectedItems = orderedItems;
+					currentItems = orderedItems;
 					isSelectedItemsSorted = true;
 				}
 
-				return SelectedItem is null || !selectedItems!.Contains(SelectedItem)
-					? selectedItems
-					: selectedItems
+				return SelectedItem is null || !currentItems.Contains(SelectedItem)
+					? currentItems
+					: currentItems
 						.SkipWhile(x => x != SelectedItem)
-						.Concat(selectedItems.TakeWhile(x => x != SelectedItem))
+						.Concat(currentItems.TakeWhile(x => x != SelectedItem))
 						.ToList();
 			}
 			internal set
@@ -248,8 +262,9 @@ namespace Files.App.Views.Layouts
 				{
 					isSelectedItemsSorted = false;
 					selectedItems = value;
+					var currentItems = value;
 
-					if (selectedItems?.Count == 0 || selectedItems?[0] is null)
+					if (currentItems.Count == 0)
 					{
 						IsItemSelected = false;
 						SelectedItem = null;
@@ -258,18 +273,18 @@ namespace Files.App.Views.Layouts
 						ResetRenameDoubleClick();
 						UpdateSelectionSize();
 					}
-					else if (selectedItems is not null)
+					else
 					{
 						IsItemSelected = true;
-						SelectedItem = selectedItems.First();
+						SelectedItem = currentItems.First();
 						SelectedItemsPropertiesViewModel.IsItemSelected = true;
 
 						UpdateSelectionSize();
 
-						SelectedItemsPropertiesViewModel.SelectedItemsCount = selectedItems.Count;
-						SelectedItemsPropertiesViewModel.SelectedItemsCountString = Strings.SelectedItems.GetLocalizedFormatResource(selectedItems!.Count);
+						SelectedItemsPropertiesViewModel.SelectedItemsCount = currentItems.Count;
+						SelectedItemsPropertiesViewModel.SelectedItemsCountString = Strings.SelectedItems.GetLocalizedFormatResource(currentItems.Count);
 
-						if (selectedItems.Count == 1)
+						if (currentItems.Count == 1)
 						{
 							DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 							{
@@ -285,7 +300,11 @@ namespace Files.App.Views.Layouts
 					NotifyPropertyChanged(nameof(SelectedItems));
 				}
 				if (!isDraggingSelectionRectangle)
-					ParentShellPageInstance!.ToolbarViewModel.SelectedItems = value;
+				{
+					var parentShellPage = ParentShellPageInstance
+						?? throw new InvalidOperationException("The layout does not have a parent shell page.");
+					parentShellPage.ToolbarViewModel.SelectedItems = value;
+				}
 			}
 		}
 
@@ -304,18 +323,24 @@ namespace Files.App.Views.Layouts
 			HookBaseEvents();
 			HookEvents();
 
-			jumpTimer = DispatcherQueue.CreateTimer();
-			jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
-			jumpTimer.Tick += JumpTimer_Tick;
-
 			Item_DragOverEventHandler = new DragEventHandler(Item_DragOver);
 
 			SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
 			StatusBarViewModel = new StatusBarViewModel();
+		}
 
-			dragOverTimer = DispatcherQueue.CreateTimer();
-			tapDebounceTimer = DispatcherQueue.CreateTimer();
-			hoverTimer = DispatcherQueue.CreateTimer();
+		protected void LayoutPage_PointerPressed(object sender, PointerRoutedEventArgs e)
+		{
+			var command = CommandsViewModel?.ItemPointerPressedCommand;
+			if (command?.CanExecute(e) is true)
+				command.Execute(e);
+		}
+
+		protected void LayoutPage_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
+		{
+			var command = CommandsViewModel?.PointerWheelChangedCommand;
+			if (command?.CanExecute(e) is true)
+				command.Execute(e);
 		}
 
 		// Abstract methods
@@ -335,15 +360,54 @@ namespace Files.App.Views.Layouts
 		private void UnhookBaseEvents()
 		{
 			ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
+			jumpTimer?.Stop();
+			if (jumpTimer is not null)
+			{
+				jumpTimer.Tick -= JumpTimer_Tick;
+			}
+			dragOverTimer?.Stop();
+			tapDebounceTimer?.Stop();
+			hoverTimer?.Stop();
+			jumpTimer = null;
+			dragOverTimer = null;
+			tapDebounceTimer = null;
+			hoverTimer = null;
+
+			shellContextMenuItemCancellationToken?.Cancel();
+			shellContextMenuItemCancellationToken?.Dispose();
+			shellContextMenuItemCancellationToken = null;
+
+			groupingCancellationToken?.Cancel();
+			groupingCancellationToken?.Dispose();
+			groupingCancellationToken = null;
 		}
 
 		private void JumpTimer_Tick(object sender, object e)
 		{
 			jumpString = string.Empty;
-			jumpTimer.Stop();
+			jumpTimer?.Stop();
 		}
 
-		protected IEnumerable<ListedItem>? GetAllItems()
+		private DispatcherQueueTimer JumpTimer
+		{
+			get
+			{
+				if (jumpTimer is null)
+				{
+					jumpTimer = DispatcherQueue.CreateTimer();
+					jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
+					jumpTimer.Tick += JumpTimer_Tick;
+				}
+
+				return jumpTimer;
+			}
+		}
+
+		private DispatcherQueueTimer DragOverTimer => dragOverTimer ??= DispatcherQueue.CreateTimer();
+		private DispatcherQueueTimer TapDebounceTimer => tapDebounceTimer ??= DispatcherQueue.CreateTimer();
+		private DispatcherQueueTimer HoverTimer => hoverTimer ??= DispatcherQueue.CreateTimer();
+
+		protected IEnumerable<ListedItem> GetAllItems()
 		{
 			var items = CollectionViewSource.IsSourceGrouped
 				? (CollectionViewSource.Source as BulkConcurrentObservableCollection<GroupedCollection<ListedItem>>)?.SelectMany(g => g) // add all items from each group to the new list
@@ -365,6 +429,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ContentControl))]
 		protected ListedItem? GetItemFromElement(object element)
 		{
 			if (element is not ContentControl item || !CanGetItemFromElement(element))
@@ -375,31 +440,37 @@ namespace Files.App.Views.Layouts
 
 		protected virtual void BaseFolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
-			if (ParentShellPageInstance?.SlimContentPage is not null)
+			if (ParentShellPageInstance is { SlimContentPage: not null } parentShellPage)
 			{
-				var layoutType = FolderSettings!.GetLayoutType(ParentShellPageInstance.ShellViewModel.WorkingDirectory);
+				var shellViewModel = parentShellPage.GetRequiredShellViewModel();
+				var folderSettings = parentShellPage.InstanceViewModel.FolderSettings;
+				var workingDirectory = shellViewModel.WorkingDirectory
+					?? throw new InvalidOperationException("The shell page does not have a working directory.");
+				var layoutType = folderSettings.GetLayoutType(workingDirectory);
 
-				if (layoutType != ParentShellPageInstance.CurrentPageType)
+				if (layoutType != parentShellPage.CurrentPageType)
 				{
-					FolderSettings!.PendingLayoutSwitchSelection = SelectedItems?.Select(item => item.ItemNameRaw).ToList();
+					var args = navigationArguments
+						?? throw new InvalidOperationException("The layout navigation arguments are not available.");
+					folderSettings.PendingLayoutSwitchSelection = SelectedItems.Select(item => item.ItemNameRaw!).ToList();
 
-					ParentShellPageInstance.NavigateWithArguments(layoutType, new NavigationArguments()
+					parentShellPage.NavigateWithArguments(layoutType, new NavigationArguments()
 					{
-						NavPathParam = navigationArguments!.NavPathParam,
-						IsSearchResultPage = navigationArguments.IsSearchResultPage,
-						SearchPathParam = navigationArguments.SearchPathParam,
-						SearchQuery = navigationArguments.SearchQuery,
+						NavPathParam = args.NavPathParam,
+						IsSearchResultPage = args.IsSearchResultPage,
+						SearchPathParam = args.SearchPathParam,
+						SearchQuery = args.SearchQuery,
 						IsLayoutSwitch = true,
-						AssociatedTabInstance = ParentShellPageInstance
+						AssociatedTabInstance = parentShellPage
 					});
 
 					// Remove old layout from back stack
-					ParentShellPageInstance.RemoveLastPageFromBackStack();
-					ParentShellPageInstance.ResetNavigationStackLayoutMode();
+					parentShellPage.RemoveLastPageFromBackStack();
+					parentShellPage.ResetNavigationStackLayoutMode();
 				}
 
-				ParentShellPageInstance.ShellViewModel.UpdateEmptyTextType();
-				ParentShellPageInstance.ShellViewModel.UpdateNetworkAvailabilityInfoBar();
+				shellViewModel.UpdateEmptyTextType();
+				shellViewModel.UpdateNetworkAvailabilityInfoBar();
 
 				// Focus on the active pane in case it was lost during the layout switch.
 				// Allthough the focus is also set from SetSelectedItemsOnNavigation,
@@ -408,7 +479,10 @@ namespace Files.App.Views.Layouts
 				// Adaptive layout fires this handler on folder-load completion - skip the focus
 				// restore so an in-progress omnibar query isn't lost.
 				if (!UIHelpers.IsTextInputFocused(XamlRoot))
-					ParentShellPageInstance!.PaneHolder.FocusActivePane();
+				{
+					var paneHolder = parentShellPage.GetRequiredPaneHolder();
+					paneHolder.FocusActivePane();
+				}
 			}
 		}
 
@@ -424,107 +498,310 @@ namespace Files.App.Views.Layouts
 			// Add item jumping handler
 			CharacterReceived += Page_CharacterReceived;
 
-			navigationArguments = (NavigationArguments)e.Parameter;
-			ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
+			if (e.Parameter is not NavigationArguments { AssociatedTabInstance: { } parentShellPage } args ||
+				parentShellPage.ShellViewModel is not { } shellViewModel)
+			{
+				throw new InvalidOperationException("Layout navigation requires an initialized shell page.");
+			}
+
+			navigationArguments = args;
+			ParentShellPageInstance = parentShellPage;
+			var folderSettings = parentShellPage.InstanceViewModel.FolderSettings;
 
 			// Git properties are not loaded by default
-			ParentShellPageInstance.ShellViewModel.EnabledGitProperties = GitProperties.None;
+			shellViewModel.EnabledGitProperties = GitProperties.None;
 
 			InitializeCommandsViewModel();
 
 			IsItemSelected = false;
 
-			FolderSettings!.LayoutModeChangeRequested += BaseFolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
-			FolderSettings.GroupDirectionPreferenceUpdated += FolderSettings_GroupDirectionPreferenceUpdated;
-			FolderSettings.GroupByDateUnitPreferenceUpdated += FolderSettings_GroupByDateUnitPreferenceUpdated;
+			folderSettings.LayoutModeChangeRequested += BaseFolderSettings_LayoutModeChangeRequested;
+			folderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
+			folderSettings.GroupDirectionPreferenceUpdated += FolderSettings_GroupDirectionPreferenceUpdated;
+			folderSettings.GroupByDateUnitPreferenceUpdated += FolderSettings_GroupByDateUnitPreferenceUpdated;
 
-			ParentShellPageInstance.ShellViewModel.EmptyTextType = EmptyTextType.None;
-			ParentShellPageInstance.ToolbarViewModel.CanRefresh = true;
+			shellViewModel.EmptyTextType = EmptyTextType.None;
+			parentShellPage.ToolbarViewModel.CanRefresh = true;
 
-			if (!navigationArguments.IsSearchResultPage)
+			if (!args.IsSearchResultPage)
 			{
-				var previousDir = ParentShellPageInstance.ShellViewModel.WorkingDirectory;
-				await ParentShellPageInstance.ShellViewModel.SetWorkingDirectoryAsync(navigationArguments.NavPathParam);
+				var navigationPath = args.NavPathParam;
+				var previousDir = shellViewModel.WorkingDirectory;
+				await shellViewModel.SetWorkingDirectoryAsync(navigationPath);
 
 				// pathRoot will be empty on recycle bin path
-				var workingDir = ParentShellPageInstance.ShellViewModel.WorkingDirectory ?? string.Empty;
+				var workingDir = shellViewModel.WorkingDirectory ?? string.Empty;
 				var pathRoot = GetPathRoot(workingDir);
 
 				var isRecycleBin = workingDir.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal);
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = isRecycleBin;
+				parentShellPage.InstanceViewModel.IsPageTypeRecycleBin = isRecycleBin;
 
 				// Can't go up from recycle bin
-				ParentShellPageInstance.ToolbarViewModel.CanNavigateToParent = !(string.IsNullOrEmpty(pathRoot) || isRecycleBin);
+				parentShellPage.ToolbarViewModel.CanNavigateToParent = !(string.IsNullOrEmpty(pathRoot) || isRecycleBin);
 
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\", StringComparison.Ordinal);
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = LibraryManager.IsLibraryPath(workingDir);
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeReleaseNotes = false;
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeSettings = false;
-				ParentShellPageInstance.ToolbarViewModel.PathControlDisplayText = navigationArguments.NavPathParam;
+				parentShellPage.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\", StringComparison.Ordinal);
+				parentShellPage.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
+				parentShellPage.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
+				parentShellPage.InstanceViewModel.IsPageTypeLibrary = LibraryManager.IsLibraryPath(workingDir);
+				parentShellPage.InstanceViewModel.IsPageTypeSearchResults = false;
+				parentShellPage.InstanceViewModel.IsPageTypeReleaseNotes = false;
+				parentShellPage.InstanceViewModel.IsPageTypeSettings = false;
+				parentShellPage.ToolbarViewModel.PathControlDisplayText = navigationPath;
 
-				if (ParentShellPageInstance.InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.Path)
-					ParentShellPageInstance.InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.Name;
+				if (folderSettings.DirectorySortOption == SortOption.Path)
+					folderSettings.DirectorySortOption = SortOption.Name;
 
-				if (ParentShellPageInstance.InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FolderPath &&
-					!ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary)
-					ParentShellPageInstance.InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.None;
+				if (folderSettings.DirectoryGroupOption == GroupOption.FolderPath &&
+					!parentShellPage.InstanceViewModel.IsPageTypeLibrary)
+					folderSettings.DirectoryGroupOption = GroupOption.None;
 
-				if (!navigationArguments.IsLayoutSwitch || previousDir != workingDir)
-					ParentShellPageInstance.ShellViewModel.RefreshItems(previousDir, SetSelectedItemsOnNavigation);
+				if (!args.IsLayoutSwitch || previousDir != workingDir)
+					shellViewModel.RefreshItems(previousDir, SetSelectedItemsOnNavigation);
 				else
-					ParentShellPageInstance.ToolbarViewModel.CanGoForward = false;
+					parentShellPage.ToolbarViewModel.CanGoForward = false;
 			}
 			else
 			{
-				await ParentShellPageInstance.ShellViewModel.SetWorkingDirectoryAsync(navigationArguments.SearchPathParam);
+				var searchPath = args.SearchPathParam;
+				await shellViewModel.SetWorkingDirectoryAsync(searchPath);
 
-				ParentShellPageInstance.ToolbarViewModel.CanGoForward = false;
+				parentShellPage.ToolbarViewModel.CanGoForward = false;
 
 				// Impose no artificial restrictions on back navigation. Even in a search results page.
-				ParentShellPageInstance.ToolbarViewModel.CanGoBack = true;
+				parentShellPage.ToolbarViewModel.CanGoBack = true;
 
-				ParentShellPageInstance.ToolbarViewModel.CanNavigateToParent = false;
+				parentShellPage.ToolbarViewModel.CanNavigateToParent = false;
 
-				var workingDir = ParentShellPageInstance.ShellViewModel.WorkingDirectory ?? string.Empty;
+				var workingDir = shellViewModel.WorkingDirectory ?? string.Empty;
 
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal);
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\", StringComparison.Ordinal);
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = LibraryManager.IsLibraryPath(workingDir);
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeReleaseNotes = false;
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeSettings = false;
+				parentShellPage.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal);
+				parentShellPage.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\", StringComparison.Ordinal);
+				parentShellPage.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
+				parentShellPage.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
+				parentShellPage.InstanceViewModel.IsPageTypeLibrary = LibraryManager.IsLibraryPath(workingDir);
+				parentShellPage.InstanceViewModel.IsPageTypeSearchResults = true;
+				parentShellPage.InstanceViewModel.IsPageTypeReleaseNotes = false;
+				parentShellPage.InstanceViewModel.IsPageTypeSettings = false;
 
-				if (!navigationArguments.IsLayoutSwitch)
+				if (!args.IsLayoutSwitch)
 				{
-					var displayName = App.LibraryManager.TryGetLibrary(navigationArguments.SearchPathParam, out var lib) ? lib.Text : navigationArguments.SearchPathParam;
-					await ParentShellPageInstance.UpdatePathUIToWorkingDirectoryAsync(null, string.Format(Strings.SearchPagePathBoxOverrideText.GetLocalizedResource(), navigationArguments.SearchQuery, displayName));
+					var displayName = App.LibraryManager.TryGetLibrary(searchPath, out var lib) ? lib.Text : searchPath;
+					await parentShellPage.UpdatePathUIToWorkingDirectoryAsync(null, string.Format(Strings.SearchPagePathBoxOverrideText.GetLocalizedResource(), args.SearchQuery, displayName));
 					var searchInstance = new Utils.Storage.FolderSearch
 					{
-						Query = navigationArguments.SearchQuery,
-						Folder = navigationArguments.SearchPathParam,
+						Query = args.SearchQuery,
+						Folder = searchPath,
 					};
 
-					_ = ParentShellPageInstance.ShellViewModel.SearchAsync(searchInstance);
+					_ = shellViewModel.SearchAsync(searchInstance);
 				}
 			}
 
 			// Show controls that were hidden on the home page
-			ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true;
-			ParentShellPageInstance.ShellViewModel.UpdateGroupOptions();
+			parentShellPage.InstanceViewModel.IsPageTypeNotHome = true;
+			shellViewModel.UpdateGroupOptions();
 
 			UpdateCollectionViewSource();
-			FolderSettings.IsLayoutModeChanging = false;
+			folderSettings.IsLayoutModeChanging = false;
 
 			SetSelectedItemsOnNavigation();
 
 			ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening;
 			BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
+
+			// On the page so it covers item rows and the empty background; handledEventsToo so it still runs after
+			// the built-in flyout handling. The hosts pull the captured point when the menu opens.
+			contextRequestedHandler = OnContextRequestedForPlacement;
+			AddHandler(UIElement.ContextRequestedEvent, contextRequestedHandler, true);
+			ItemContextFlyoutHost.InvocationPointProvider = () => contextInvocationValid ? (this, contextInvocationPosition) : null;
+			BaseContextFlyoutHost.InvocationPointProvider = () => contextInvocationValid ? (this, contextInvocationPosition) : null;
+		}
+
+		private void OnContextRequestedForPlacement(UIElement sender, ContextRequestedEventArgs e)
+		{
+			contextInvocationValid = e.TryGetPosition(this, out contextInvocationPosition);
+		}
+
+		private async Task<IShellPage> EnsurePageIsCurrentAsync()
+		{
+			var parentShellPage = ParentShellPageInstance
+				?? throw new InvalidOperationException("The layout does not have a parent shell page.");
+			if (!parentShellPage.IsCurrentInstance || !parentShellPage.IsCurrentPane)
+			{
+				// Wait until the pane and column become current, then let the page context update
+				await Task.WhenAny(parentShellPage.WhenIsCurrent(), Task.Delay(500));
+				await Task.Delay(10);
+			}
+
+			return parentShellPage;
+		}
+
+		private CancellationToken RenewShellMenuToken()
+		{
+			shellContextMenuItemCancellationToken?.Cancel();
+			shellContextMenuItemCancellationToken = new CancellationTokenSource();
+			return shellContextMenuItemCancellationToken.Token;
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyout))]
+		private async void ItemContextFlyout_Opening(object? sender, object e)
+		{
+			try
+			{
+				var parentShellPage = await EnsurePageIsCurrentAsync();
+				var shellViewModel = parentShellPage.GetRequiredShellViewModel();
+				var commandsViewModel = CommandsViewModel
+					?? throw new InvalidOperationException("The layout commands are not initialized.");
+				var instanceViewModel = parentShellPage.InstanceViewModel;
+
+				// Workaround for item sometimes not getting selected
+				if (!IsItemSelected && (sender as MenuFlyout)?.Target is SelectorItem { Content: ListedItem li })
+					ItemManipulationModel.SetSelectedItem(li);
+
+				if (!IsItemSelected)
+					return;
+
+				var selectedItems = SelectedItems;
+				if (selectedItems is null or { Count: 0 })
+					return;
+
+				shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
+				SelectedItemsPropertiesViewModel.CheckAllFileExtensions(selectedItems.Select(x => x.FileExtension).ToList());
+
+				var items = ContentPageContextFlyoutFactory.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: instanceViewModel, selectedItems: selectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: commandsViewModel, shiftPressed: shiftPressed, itemViewModel: null);
+				var host = ItemContextFlyoutHost;
+				host.Build(items);
+
+				// Edit tags: a submenu of the available tags (FileTagsContextMenu is a standalone MenuFlyout that
+				// can't be nested, so build the tag toggles directly).
+				if (instanceViewModel.CanTagFilesInPage && UserSettingsService.GeneralSettingsService.ShowEditTagsMenu)
+				{
+					host.AddSeparatorIfNeeded();
+					host.Items.Add(BuildEditTagsSubItem(selectedItems));
+				}
+
+				// Shell extensions. Open with / Send to belong in the MAIN menu (they replace placeholders there);
+				// the rest go under a single "Show more options" submenu (Win11) or inline (Win10) per the setting.
+				if (!instanceViewModel.IsPageTypeZipFolder && !instanceViewModel.IsPageTypeFtp)
+				{
+					var token = RenewShellMenuToken();
+
+					// Pre-add "Show more options" (with the synchronously-known built-in overflow items) BEFORE the
+					// async shell fetch so its placeholder shows while the extensions load.
+					var (moreOptions, moreSeparator) = host.AddShowMoreOptionsIfEnabled(items);
+
+					// Open with / Send to: swap the leaf placeholders for their submenus synchronously (before the
+					// menu renders) so the main menu does not reflow when the shell sub-items load - only the submenu
+					// contents fill in. Reverted after the fetch if the shell has no such items.
+					var openWithSwap = host.SwapLeafForSubMenu("OpenWith", "OpenWithOverflow", Strings.OpenWith.GetLocalizedResource(), "App.ThemedIcons.OpenWith");
+					var sendToSwap = UserSettingsService.GeneralSettingsService.ShowSendToMenu
+						? host.SwapLeafForSubMenu("SendTo", "SendToOverflow", null, null)
+						: null;
+
+					// Place the primary row BEFORE the menu renders so it does not jump on an upward open.
+					host.ResolvePlacement();
+
+					var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(
+						shellViewModel.WorkingDirectory, selectedItems, shiftPressed, false, token);
+
+					if (token.IsCancellationRequested)
+						return;
+
+					var openWithModel = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
+					var sendToModel = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
+
+					// BitLocker: replace the placeholders with whichever entries the shell offers (drives)
+					host.ApplyBitLockerModels(shellMenuItems, moreOptions, moreSeparator);
+
+					// Fill the swapped-in submenus off the open path; revert to the leaf form when the shell
+					// offers no such entry.
+					FastContextFlyout.FillOrRevert(openWithSwap, openWithModel, ShellContextFlyoutFactory.GetOpenWithItems);
+					FastContextFlyout.FillOrRevert(sendToSwap, sendToModel, ShellContextFlyoutFactory.GetSendToItems);
+
+					var shellModelsFiltered = shellMenuItems
+						.Where(x => x != openWithModel && x != sendToModel)
+						.ToList();
+					host.AddShellModels(shellModelsFiltered, shiftPressed, moreOptions, moreSeparator);
+				}
+				else
+				{
+					host.ResolvePlacement();
+				}
+
+				host.FinalizePrimaryRowPosition();
+			}
+			catch (Exception error)
+			{
+				Debug.WriteLine(error);
+			}
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(Style))]
+		[DynamicWindowsRuntimeCast(typeof(Geometry))]
+		[DynamicWindowsRuntimeCast(typeof(ToggleMenuFlyoutItem))]
+		private MenuFlyoutSubItem BuildEditTagsSubItem(List<ListedItem> selected)
+		{
+			var subItem = new MenuFlyoutSubItem
+			{
+				Text = Strings.EditTags.GetLocalizedResource(),
+			};
+			if (App.Current.Resources["App.ThemedIcons.TagEdit"] is Style tagEditIconStyle)
+			{
+				subItem.Style = App.Current.Resources["MenuFlyoutSubItemWithThemedIconStyle"] as Style;
+				MenuFlyoutSubItemCustomProperties.SetThemedIconStyle(subItem, tagEditIconStyle);
+			}
+
+			var commonTags = selected
+				.Select(x => (IEnumerable<string>)(x?.FileTags ?? []))
+				.Aggregate((a, b) => a.Intersect(b))
+				.ToHashSet();
+
+			var tagPathData = (string)Application.Current.Resources["App.Theme.PathIcon.FilledTag"];
+
+			foreach (var tag in FileTagsSettingsService.FileTagList)
+			{
+				var toggle = new ToggleMenuFlyoutItem
+				{
+					Text = tag.Name,
+					Tag = tag,
+					IsChecked = commonTags.Contains(tag.Uid),
+					Icon = new Microsoft.UI.Xaml.Controls.PathIcon
+					{
+						Data = (Microsoft.UI.Xaml.Media.Geometry)Microsoft.UI.Xaml.Markup.XamlBindingHelper.ConvertValue(typeof(Microsoft.UI.Xaml.Media.Geometry), tagPathData),
+						Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(ColorHelpers.FromHex(tag.Color)),
+					},
+				};
+				toggle.Click += async (s, _) =>
+				{
+					var toggled = (ToggleMenuFlyoutItem)s;
+					var tv = (TagViewModel)toggled.Tag;
+					foreach (var it in selected.Where(i => i is not null))
+					{
+						var existing = it.FileTags ?? [];
+						it.FileTags = toggled.IsChecked
+							? (existing.Contains(tv.Uid) ? existing : [.. existing, tv.Uid])
+							: existing.Where(u => u != tv.Uid).ToArray();
+					}
+					if (ParentShellPageInstance is { } parentShellPage)
+						await parentShellPage.GetRequiredShellViewModel().RefreshTagGroups();
+				};
+				subItem.Items.Add(toggle);
+			}
+
+			subItem.Items.Add(new MenuFlyoutSeparator());
+			var removeTags = new MenuFlyoutItem
+			{
+				Text = Strings.RemoveTags.GetLocalizedResource(),
+				IsEnabled = selected.Any(x => x?.FileTags is { Length: > 0 }),
+			};
+			removeTags.Click += async (_, _) =>
+			{
+				if (await FileTagsHelper.RemoveTagsAsync(selected) && ParentShellPageInstance is { } parentShellPage)
+					await parentShellPage.GetRequiredShellViewModel().RefreshTagGroups();
+			};
+			subItem.Items.Add(removeTags);
+
+			return subItem;
 		}
 
 		public async void SetSelectedItemsOnNavigation()
@@ -549,9 +826,12 @@ namespace Files.App.Views.Layouts
 					itemsToSelect is not null &&
 					itemsToSelect.Any())
 				{
+					if (ParentShellPageInstance?.ShellViewModel is not { } shellViewModel)
+						return;
+
 					List<ListedItem> listedItemsToSelect =
 					[
-						.. ParentShellPageInstance!.ShellViewModel.FilesAndFolders.ToList().Where((li) => itemsToSelect.Contains(li.ItemNameRaw)),
+						.. shellViewModel.FilesAndFolders.ToList().Where((li) => itemsToSelect.Contains(li.ItemNameRaw)),
 					];
 
 					ItemManipulationModel.SetSelectedItems(listedItemsToSelect);
@@ -563,10 +843,12 @@ namespace Files.App.Views.Layouts
 					if (!UIHelpers.IsTextInputFocused(XamlRoot))
 						ItemManipulationModel.FocusSelectedItems();
 				}
-				else if (navigationArguments is not null && ParentShellPageInstance!.InstanceViewModel.FolderSettings.LayoutMode is not FolderLayoutModes.ColumnView)
+				else if (navigationArguments is not null &&
+					ParentShellPageInstance is { } parentShellPage &&
+					parentShellPage.InstanceViewModel.FolderSettings.LayoutMode is not FolderLayoutModes.ColumnView)
 				{
 					if (!UIHelpers.IsTextInputFocused(XamlRoot))
-						ParentShellPageInstance!.PaneHolder.FocusActivePane();
+						parentShellPage.PaneHolder?.FocusActivePane();
 				}
 			}
 			catch (Exception) { }
@@ -589,16 +871,18 @@ namespace Files.App.Views.Layouts
 
 		private async Task GroupPreferenceUpdatedAsync()
 		{
+			var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
+
 			// Two or more of these running at the same time will cause a crash, so cancel the previous one before beginning
 			groupingCancellationToken?.Cancel();
 			groupingCancellationToken = new CancellationTokenSource();
 			var token = groupingCancellationToken.Token;
 
-			await ParentShellPageInstance!.ShellViewModel.GroupOptionsUpdatedAsync(token);
+			await shellViewModel.GroupOptionsUpdatedAsync(token);
 
 			UpdateCollectionViewSource();
 
-			await ParentShellPageInstance.ShellViewModel.ReloadItemGroupHeaderImagesAsync();
+			await shellViewModel.ReloadItemGroupHeaderImagesAsync();
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -607,132 +891,82 @@ namespace Files.App.Views.Layouts
 
 			// Remove item jumping handler
 			CharacterReceived -= Page_CharacterReceived;
-			FolderSettings!.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
-			FolderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
-			FolderSettings.GroupByDateUnitPreferenceUpdated -= FolderSettings_GroupByDateUnitPreferenceUpdated;
+			UnhookScrollDeferTracking();
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The layout does not have folder settings.");
+			folderSettings.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
+			folderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
+			folderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
+			folderSettings.GroupByDateUnitPreferenceUpdated -= FolderSettings_GroupByDateUnitPreferenceUpdated;
 			ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
 			BaseContextMenuFlyout.Opening -= BaseContextFlyout_Opening;
+			if (contextRequestedHandler is not null)
+			{
+				RemoveHandler(UIElement.ContextRequestedEvent, contextRequestedHandler);
+				contextRequestedHandler = null;
+			}
+			ItemContextFlyoutHost.InvocationPointProvider = null;
+			BaseContextFlyoutHost.InvocationPointProvider = null;
 
 			var parameter = e.Parameter as NavigationArguments;
 			if (parameter is not null && !parameter.IsLayoutSwitch)
-				ParentShellPageInstance!.ShellViewModel.CancelLoadAndClearFiles();
-		}
-
-		private async void ItemContextFlyout_Opening(object? sender, object e)
-		{
-			App.LastOpenedFlyout = sender as CommandBarFlyout;
-
-			try
 			{
-				if (!ParentShellPageInstance!.IsCurrentInstance || !ParentShellPageInstance.IsCurrentPane)
-				{
-					// Wait until the pane and column become current
-					await Task.WhenAny(ParentShellPageInstance.WhenIsCurrent(), Task.Delay(500));
-					// Wait a little longer to ensure the page context is updated
-					await Task.Delay(10);
-				}
+				var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 
-				// Workaround for item sometimes not getting selected
-				if (!IsItemSelected && (sender as CommandBarFlyout)?.Target is ListViewItem { Content: ListedItem li })
-					ItemManipulationModel.SetSelectedItem(li);
-
-				if (IsItemSelected)
-				{
-					// Reset menu max height
-					if (ItemContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
-						itc.MaxHeight = Constants.UI.ContextMenuMaxHeight;
-
-					shellContextMenuItemCancellationToken?.Cancel();
-					shellContextMenuItemCancellationToken = new CancellationTokenSource();
-					SelectedItemsPropertiesViewModel.CheckAllFileExtensions(SelectedItems!.Select(selectedItem => selectedItem?.FileExtension).ToList()!);
-
-					shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-					var items = ContentPageContextFlyoutFactory.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: null);
-
-					ItemContextMenuFlyout.PrimaryCommands.Clear();
-					ItemContextMenuFlyout.SecondaryCommands.Clear();
-
-					var (primaryElements, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(items);
-					AddCloseHandler(ItemContextMenuFlyout, primaryElements, secondaryElements);
-					primaryElements.ForEach(ItemContextMenuFlyout.PrimaryCommands.Add);
-					secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
-					secondaryElements.ForEach(ItemContextMenuFlyout.SecondaryCommands.Add);
-
-					if (InstanceViewModel!.CanTagFilesInPage)
-						AddNewFileTagsToMenu(ItemContextMenuFlyout);
-
-					if (!InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
-					{
-						var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.ShellViewModel.WorkingDirectory, selectedItems: SelectedItems!, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
-						if (shellMenuItems.Any())
-							await AddShellMenuItemsAsync(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
-						else
-							RemoveOverflow(ItemContextMenuFlyout);
-					}
-					else
-					{
-						RemoveOverflow(ItemContextMenuFlyout);
-					}
-				}
-			}
-			catch (Exception error)
-			{
-				Debug.WriteLine(error);
+				// The incoming page's first batch replaces the visible listing, avoiding an empty flash between folders.
+				// When the target folder uses a different layout, the old items would re-render in the wrong layout, so drop them instead.
+				shellViewModel.CancelLoadAndClearFiles(clearDisplay: e.SourcePageType != GetType());
 			}
 		}
 
 		private async void BaseContextFlyout_Opening(object? sender, object e)
 		{
-			App.LastOpenedFlyout = sender as CommandBarFlyout;
-
 			try
 			{
-				if (!ParentShellPageInstance!.IsCurrentInstance || !ParentShellPageInstance.IsCurrentPane)
-				{
-					// Wait until the pane and column become current
-					await Task.WhenAny(ParentShellPageInstance.WhenIsCurrent(), Task.Delay(500));
-					// Wait a little longer to ensure the page context is updated
-					await Task.Delay(10);
-				}
+				var parentShellPage = await EnsurePageIsCurrentAsync();
+				var shellViewModel = parentShellPage.GetRequiredShellViewModel();
+				var commandsViewModel = CommandsViewModel
+					?? throw new InvalidOperationException("The layout commands are not initialized.");
+				var instanceViewModel = parentShellPage.InstanceViewModel;
 
 				ItemManipulationModel.ClearSelection();
-
-				// Reset menu max height
-				if (BaseContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
-					itc.MaxHeight = Constants.UI.ContextMenuMaxHeight;
-
-				shellContextMenuItemCancellationToken?.Cancel();
-				shellContextMenuItemCancellationToken = new CancellationTokenSource();
-
 				shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-				var items = ContentPageContextFlyoutFactory.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: [ParentShellPageInstance!.ShellViewModel.CurrentFolder], commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: ParentShellPageInstance!.ShellViewModel, selectedItemsPropertiesViewModel: null);
+				var currentFolder = shellViewModel.CurrentFolder
+					?? throw new InvalidOperationException("The current folder is not available.");
+				List<ListedItem> contextItems = [currentFolder];
+				var items = ContentPageContextFlyoutFactory.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: instanceViewModel, selectedItems: contextItems, commandsViewModel: commandsViewModel, shiftPressed: shiftPressed, itemViewModel: shellViewModel, selectedItemsPropertiesViewModel: null);
+				var host = BaseContextFlyoutHost;
+				host.Build(items);
 
-				BaseContextMenuFlyout.PrimaryCommands.Clear();
-				BaseContextMenuFlyout.SecondaryCommands.Clear();
-
-				var (primaryElements, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(items);
-
-				AddCloseHandler(BaseContextMenuFlyout, primaryElements, secondaryElements);
-
-				primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
-
-				// Set menu min width
-				secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
-				secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
-
-				if (!InstanceViewModel!.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
+				if (!instanceViewModel.IsPageTypeSearchResults && !instanceViewModel.IsPageTypeZipFolder && !instanceViewModel.IsPageTypeFtp)
 				{
-					var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.ShellViewModel.WorkingDirectory, selectedItems: [], shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
-					if (shellMenuItems.Any())
-						await AddShellMenuItemsAsync(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
-					else
-						RemoveOverflow(BaseContextMenuFlyout);
+					var token = RenewShellMenuToken();
+
+					// Pre-add "Show more options" (with the synchronously-known built-in overflow items) BEFORE the
+					// async shell fetch so its placeholder shows while the extensions load.
+					var (moreOptions, moreSeparator) = host.AddShowMoreOptionsIfEnabled(items);
+
+					host.ResolvePlacement();
+
+					var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: shellViewModel.WorkingDirectory, selectedItems: [], shiftPressed: shiftPressed, showOpenMenu: false, token);
+					if (token.IsCancellationRequested)
+						return;
+
+					// BitLocker: replace the placeholders with whichever entries the shell offers (drives)
+					host.ApplyBitLockerModels(shellMenuItems, moreOptions, moreSeparator);
+
+					// The background menu has no Open with / Send to entries - drop them from the shell list
+					var shellModelsFiltered = shellMenuItems
+						.Where(x => x.Tag is not Win32ContextMenuItem { CommandString: "openas" or "sendto" })
+						.ToList();
+					host.AddShellModels(shellModelsFiltered, shiftPressed, moreOptions, moreSeparator);
 				}
 				else
 				{
-					RemoveOverflow(BaseContextMenuFlyout);
+					host.ResolvePlacement();
 				}
+
+				host.FinalizePrimaryRowPosition();
 			}
 			catch (Exception error)
 			{
@@ -762,289 +996,11 @@ namespace Files.App.Views.Layouts
 			SelectedItemsPropertiesViewModel.ItemSizeVisibility = isSizeKnown;
 		}
 
-		private void AddCloseHandler(CommandBarFlyout flyout, IList<ICommandBarElement> primaryElements, IList<ICommandBarElement> secondaryElements)
-		{
-			// Workaround for WinUI (#5508)
-			var closeHandler = new RoutedEventHandler((s, e) => flyout.Hide());
-
-			primaryElements
-				.OfType<AppBarButton>()
-				.ForEach(button => button.Click += closeHandler);
-
-			var menuFlyoutItems = secondaryElements
-				.OfType<AppBarButton>()
-				.Select(item => item.Flyout)
-				.OfType<MenuFlyout>()
-				.SelectMany(menu => menu.Items);
-
-			addCloseHandler(menuFlyoutItems);
-
-			void addCloseHandler(IEnumerable<MenuFlyoutItemBase> menuFlyoutItems)
-			{
-				menuFlyoutItems.OfType<MenuFlyoutItem>()
-					.ForEach(button => button.Click += closeHandler);
-				menuFlyoutItems.OfType<MenuFlyoutSubItem>()
-					.ForEach(menu => addCloseHandler(menu.Items));
-			}
-		}
-
-		private void AddNewFileTagsToMenu(CommandBarFlyout contextMenu)
-		{
-			var fileTagsContextMenu = new FileTagsContextMenu(SelectedItems!);
-			var overflowSeparator = contextMenu.SecondaryCommands.FirstOrDefault(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator;
-			var index = contextMenu.SecondaryCommands.IndexOf(overflowSeparator);
-			index = index >= 0 ? index : contextMenu.SecondaryCommands.Count;
-
-			// Only show the edit tags flyout if settings is enabled
-			if (!UserSettingsService.GeneralSettingsService.ShowEditTagsMenu)
-				return;
-
-			contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
-			contextMenu.SecondaryCommands.Insert(index + 1, new AppBarButton()
-			{
-				Label = Strings.EditTags.GetLocalizedResource(),
-				Content = new ThemedIcon()
-				{
-					Style = (Style)Application.Current.Resources["App.ThemedIcons.TagEdit"],
-				},
-				Flyout = fileTagsContextMenu
-			});
-
-			fileTagsContextMenu.TagsChanged += RequireTagGroupsUpdate;
-			fileTagsContextMenu.Closed += HandleClosed;
-
-			async void RequireTagGroupsUpdate(object? sender, EventArgs e)
-			{
-				if (ParentShellPageInstance is not null)
-					await ParentShellPageInstance.ShellViewModel.RefreshTagGroups();
-			}
-
-			void HandleClosed(object? sender, object e)
-			{
-				fileTagsContextMenu.TagsChanged -= RequireTagGroupsUpdate;
-				fileTagsContextMenu.Closed -= HandleClosed;
-			}
-		}
-
-		private async Task AddShellMenuItemsAsync(List<ContextMenuFlyoutItemViewModel> shellMenuItems, CommandBarFlyout contextMenuFlyout, bool shiftPressed)
-		{
-			var openWithMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
-			var sendToMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
-			var turnOnBitLockerMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem menuItem && menuItem.CommandString is not null && menuItem.CommandString.StartsWith("encrypt-bde"));
-			var manageBitLockerMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "manage-bde" });
-			var shellMenuItemsFiltered = shellMenuItems.Where(x => x != openWithMenuItem && x != sendToMenuItem && x != turnOnBitLockerMenuItem && x != manageBitLockerMenuItem).ToList();
-			var mainShellMenuItems = shellMenuItemsFiltered.RemoveFrom(!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 0);
-			var overflowShellMenuItemsUnfiltered = shellMenuItemsFiltered.Except(mainShellMenuItems).ToList();
-			var overflowShellMenuItems = overflowShellMenuItemsUnfiltered.Where(
-				(x, i) => (x.ItemType == ContextMenuFlyoutItemType.Separator &&
-				overflowShellMenuItemsUnfiltered[i + 1 < overflowShellMenuItemsUnfiltered.Count ? i + 1 : i].ItemType != ContextMenuFlyoutItemType.Separator)
-				|| x.ItemType != ContextMenuFlyoutItemType.Separator).ToList();
-
-			var subMenuLoadTasks = mainShellMenuItems.Concat(overflowShellMenuItems)
-				.Where(x => x.LoadSubMenuAction is not null)
-				.Select(x => x.LoadSubMenuAction());
-			await Task.WhenAll(subMenuLoadTasks);
-
-			var overflowItems = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
-			var mainItems = ContextFlyoutModelToElementHelper.GetAppBarButtonsFromModelIgnorePrimary(mainShellMenuItems);
-
-			var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(MainWindow.Instance);
-			var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
-
-			var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
-			if (itemsControl is not null && secondaryMenu is not null)
-			{
-				contextMenuFlyout.SetValue(ContextMenuExtensions.ItemsControlProperty, itemsControl);
-
-				var ttv = secondaryMenu.TransformToVisual(MainWindow.Instance.Content);
-				var cMenuPos = ttv.TransformPoint(new Point(0, 0));
-
-				var requiredHeight = contextMenuFlyout.SecondaryCommands.Concat(mainItems).Count(x => x is not AppBarSeparator) * Constants.UI.ContextMenuSecondaryItemsHeight;
-				var availableHeight = MainWindow.Instance.Bounds.Height - cMenuPos.Y - Constants.UI.ContextMenuPrimaryItemsHeight;
-
-				// Set menu max height to current height (Avoid menu repositioning)
-				if (requiredHeight > availableHeight)
-					itemsControl.MaxHeight = Math.Min(Constants.UI.ContextMenuMaxHeight, Math.Max(itemsControl.ActualHeight, Math.Min(availableHeight, requiredHeight)));
-
-				// Set items max width to current menu width (#5555)
-				mainItems.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin);
-			}
-
-			ContentPageContextFlyoutFactory.SwapPlaceholderWithShellOption(
-				contextMenuFlyout,
-				"TurnOnBitLockerPlaceholder",
-				turnOnBitLockerMenuItem,
-				contextMenuFlyout.SecondaryCommands.Count - 2
-			);
-			ContentPageContextFlyoutFactory.SwapPlaceholderWithShellOption(
-				contextMenuFlyout,
-				"ManageBitLockerPlaceholder",
-				manageBitLockerMenuItem,
-				contextMenuFlyout.SecondaryCommands.Count - 2
-			);
-
-			var overflowItem = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
-			if (overflowItem is not null)
-			{
-				var overflowItemFlyout = overflowItem.Flyout as MenuFlyout;
-				if (overflowItemFlyout is not null)
-				{
-					if (overflowItemFlyout.Items.Count > 0)
-						overflowItemFlyout.Items.Insert(0, new MenuFlyoutSeparator());
-
-					var index = contextMenuFlyout.SecondaryCommands.Count - 2;
-					foreach (var i in mainItems)
-					{
-						index++;
-						contextMenuFlyout.SecondaryCommands.Insert(index, i);
-					}
-
-					index = 0;
-					foreach (var i in overflowItems)
-					{
-						overflowItemFlyout.Items.Insert(index, i);
-						index++;
-					}
-
-					if (overflowItemFlyout.Items.Count > 0 && UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
-					{
-						overflowItem.Label = Strings.ShowMoreOptions.GetLocalizedResource();
-						overflowItem.IsEnabled = true;
-					}
-					else
-					{
-						overflowItem.Visibility = Visibility.Collapsed;
-
-						// Hide separators at the end of the menu
-						while (contextMenuFlyout.SecondaryCommands.LastOrDefault(x => x is UIElement element && element.Visibility is Visibility.Visible) is AppBarSeparator separator)
-							separator.Visibility = Visibility.Collapsed;
-					}
-				}
-			}
-			else
-			{
-				mainItems.ForEach(x => contextMenuFlyout.SecondaryCommands.Add(x));
-			}
-
-			// Add items to openwith dropdown
-			var openWithOverflow = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWithOverflow") as AppBarButton;
-
-			var openWith = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWith") as AppBarButton;
-			if (openWithMenuItem?.LoadSubMenuAction is not null && openWithOverflow is not null && openWith is not null)
-			{
-				await openWithMenuItem.LoadSubMenuAction();
-				var openWithSubItems = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(ShellContextFlyoutFactory.GetOpenWithItems(shellMenuItems));
-
-				if (openWithSubItems is not null)
-				{
-					var flyout = (MenuFlyout)openWithOverflow.Flyout;
-
-					flyout.Items.Clear();
-
-					foreach (var item in openWithSubItems)
-						flyout.Items.Add(item);
-
-					openWithOverflow.Flyout = flyout;
-					openWith.Visibility = Visibility.Collapsed;
-					openWithOverflow.Visibility = Visibility.Visible;
-
-					// TODO delete this when https://github.com/microsoft/microsoft-ui-xaml/issues/9409 is resolved
-					openWithOverflow.Content = new ThemedIconModel()
-					{
-						ThemedIconStyle = "App.ThemedIcons.OpenWith"
-					}.ToThemedIcon();
-					openWithOverflow.Label = Strings.OpenWith.GetLocalizedResource();
-				}
-			}
-
-			// Add items to sendto dropdown
-			if (UserSettingsService.GeneralSettingsService.ShowSendToMenu)
-			{
-				var sendToOverflow = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "SendToOverflow") as AppBarButton;
-
-				var sendTo = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "SendTo") as AppBarButton;
-				if (sendToMenuItem?.LoadSubMenuAction is not null && sendToOverflow is not null && sendTo is not null)
-				{
-					await sendToMenuItem.LoadSubMenuAction();
-					var sendToSubItems = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(ShellContextFlyoutFactory.GetSendToItems(shellMenuItems));
-
-					if (sendToSubItems is not null)
-					{
-						var flyout = (MenuFlyout)sendToOverflow.Flyout;
-
-						flyout.Items.Clear();
-
-						foreach (var item in sendToSubItems)
-							flyout.Items.Add(item);
-
-						sendToOverflow.Flyout = flyout;
-						sendTo.Visibility = Visibility.Collapsed;
-						sendToOverflow.Visibility = Visibility.Visible;
-					}
-				}
-			}
-
-			// Filter mainShellMenuItems that have a non-null LoadSubMenuAction
-			var mainItemsWithSubMenu = mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null);
-
-			var mainSubMenuTasks = mainItemsWithSubMenu.Select(async item =>
-			{
-				await item.LoadSubMenuAction();
-				ShellContextFlyoutFactory.AddItemsToMainMenu(mainItems, item);
-			});
-
-			// Filter overflowShellMenuItems that have a non-null LoadSubMenuAction
-			var overflowItemsWithSubMenu = overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null);
-
-			var overflowSubMenuTasks = overflowItemsWithSubMenu.Select(async item =>
-			{
-				await item.LoadSubMenuAction();
-				ShellContextFlyoutFactory.AddItemsToOverflowMenu(overflowItem, item);
-			});
-
-			itemsControl?.Items.OfType<FrameworkElement>().ForEach(item =>
-			{
-				// Enable CharacterEllipsis text trimming for menu items
-				if (item.FindDescendant("OverflowTextLabel") is TextBlock label)
-					label.TextTrimming = TextTrimming.CharacterEllipsis;
-
-				// Close main menu when clicking on subitems (#5508)
-				if ((item as AppBarButton)?.Flyout as MenuFlyout is MenuFlyout flyout)
-				{
-					Action<IList<MenuFlyoutItemBase>> clickAction = null!;
-					clickAction = (items) =>
-					{
-						items.OfType<MenuFlyoutItem>().ForEach(i =>
-						{
-							i.Click += new RoutedEventHandler((s, e) => contextMenuFlyout.Hide());
-						});
-						items.OfType<MenuFlyoutSubItem>().ForEach(i =>
-						{
-							clickAction(i.Items);
-						});
-					};
-
-					clickAction(flyout.Items);
-				}
-			});
-
-			await Task.WhenAll(mainSubMenuTasks.Concat(overflowSubMenuTasks));
-		}
-
-		private void RemoveOverflow(CommandBarFlyout contextMenuFlyout)
-		{
-			var overflowItem = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
-			var overflowSeparator = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarSeparator appBarSeparator && (appBarSeparator.Tag as string) == "OverflowSeparator") as AppBarSeparator;
-
-			if (overflowItem is not null)
-				overflowItem.Visibility = Visibility.Collapsed;
-			if (overflowSeparator is not null)
-				overflowSeparator.Visibility = Visibility.Collapsed;
-		}
-
 		protected virtual void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
 		{
-			if (ParentShellPageInstance!.IsCurrentInstance)
+			var parentShellPage = ParentShellPageInstance
+				?? throw new InvalidOperationException("The layout does not have a parent shell page.");
+			if (parentShellPage.IsCurrentInstance)
 			{
 				char letter = args.Character;
 				JumpString += letter.ToString().ToLowerInvariant();
@@ -1055,29 +1011,44 @@ namespace Files.App.Views.Layouts
 		{
 			try
 			{
+				if (FolderSettings is not { } folderSettings ||
+					InstanceViewModel is not { } instanceViewModel)
+				{
+					e.Cancel = true;
+					return;
+				}
+
 				var itemList = e.Items.OfType<ListedItem>().ToList();
 				var firstItem = itemList.FirstOrDefault();
-				var sortedItems = SortingHelper.OrderFileList(itemList, FolderSettings.DirectorySortOption, FolderSettings.DirectorySortDirection, FolderSettings.SortDirectoriesAlongsideFiles, FolderSettings.SortFilesFirst).ToList();
+				var sortedItems = SortingHelper.OrderFileList(itemList, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst).ToList();
 				var orderedItems = sortedItems.SkipWhile(x => x != firstItem).Concat(sortedItems.TakeWhile(x => x != firstItem)).ToList();
 
-				var shellItemList = SafetyExtensions.IgnoreExceptions(() => orderedItems.Select(x => new VanaraWindowsShell.ShellItem(x.ItemPath)).ToArray());
-				if (shellItemList?[0].FileSystemPath is not null && !InstanceViewModel.IsPageTypeSearchResults)
+				var shellItemList = SafetyExtensions.IgnoreExceptions(() => orderedItems.Select(item => new ShellItem(item.GetRequiredPath())).ToArray());
+				try
 				{
-					var iddo = shellItemList[0].Parent.GetChildrenUIObjects<IDataObject>(HWND.NULL, shellItemList);
-					shellItemList.ForEach(x => x.Dispose());
-
-					var format = System.Windows.Forms.DataFormats.GetFormat("Shell IDList Array");
-					if (iddo.TryGetData<byte[]>((uint)format.Id, out var data))
+					if (shellItemList?[0].FileSystemPath is not null && !instanceViewModel.IsPageTypeSearchResults)
 					{
-						var mem = new MemoryStream(data).AsRandomAccessStream();
-						e.Data.SetData(format.Name, mem);
+						var dataObject = ShellDataObject.Create(shellItemList);
+						if (ShellDataObject.GetShellIdListArray(dataObject) is byte[] data)
+						{
+							var stream = new MemoryStream(data).AsRandomAccessStream();
+							e.Data.SetData(ShellDataObject.ShellIdListArrayFormat, stream);
+						}
+					}
+					else
+					{
+						// Only support IStorageItem capable paths
+						var storageItemList = orderedItems.Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcut)).Select(x => VirtualStorageItem.FromListedItem(x)).ToArray();
+						e.Data.SetStorageItems(storageItemList, false);
 					}
 				}
-				else
+				finally
 				{
-					// Only support IStorageItem capable paths
-					var storageItemList = orderedItems.Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcut)).Select(x => VirtualStorageItem.FromListedItem(x));
-					e.Data.SetStorageItems(storageItemList, false);
+					if (shellItemList is not null)
+					{
+						foreach (ShellItem item in shellItemList)
+							item.Dispose();
+					}
 				}
 
 				// Set can window to front (#13255)
@@ -1159,7 +1130,7 @@ namespace Files.App.Views.Layouts
 							e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
 						}
 						else if (draggedItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
-							|| ZipStorageFolder.IsZipPath(item.ItemPath))
+							|| ZipStorageFolder.IsZipPath(item.ItemPath!))
 						{
 							e.DragUIOverride.Caption = string.Format(Strings.CopyToFolderCaptionText.GetLocalizedResource(), item.Name);
 							e.AcceptedOperation = DataPackageOperation.Copy;
@@ -1181,15 +1152,15 @@ namespace Files.App.Views.Layouts
 				if (dragOverItem != item)
 				{
 					dragOverItem = item;
-					dragOverTimer.Stop();
+					DragOverTimer.Stop();
 
 					if (e.AcceptedOperation != DataPackageOperation.None)
 					{
-						dragOverTimer.Debounce(() =>
+						DragOverTimer.Debounce(() =>
 						{
 							if (dragOverItem is not null && !dragOverItem.IsExecutable)
 							{
-								dragOverTimer.Stop();
+								dragOverTimer?.Stop();
 								ItemManipulationModel.SetSelectedItem(dragOverItem);
 								dragOverItem = null;
 								Commands.OpenItem.ExecuteAsync();
@@ -1207,37 +1178,147 @@ namespace Files.App.Views.Layouts
 
 		protected virtual async void Item_Drop(object sender, DragEventArgs e)
 		{
-			var deferral = e.GetDeferral();
 			e.Handled = true;
+
+			// e.Data is only populated for drags started within this XAML island, drags coming from
+			// another window travel through the shell, so only e.DataView can be read here (#17296)
+			if (e.DataView is null)
+			{
+				e.AcceptedOperation = DataPackageOperation.None;
+				return;
+			}
+
+			DragOperationDeferral? deferral = null;
 
 			try
 			{
-				_ = e.Data.Properties;
-				var exists = e.Data.Properties.TryGetValue("Files_ActionBinder", out var val);
-				_ = val;
+				deferral = e.GetDeferral();
+
+				// Reset dragged over item
+				dragOverItem = null;
+
+				var item = GetItemFromElement(sender);
+				if (item is not null)
+				{
+					// This is an async void handler, an escaping exception would take down the window
+					await SafetyExtensions.IgnoreExceptions(async () =>
+					{
+						var parentShellPage = ParentShellPageInstance
+							?? throw new InvalidOperationException("The layout page does not have a parent shell page.");
+						var targetPath = (item as IShortcutItem)?.TargetPath;
+						var destination = !string.IsNullOrEmpty(targetPath) ? targetPath : item.GetRequiredPath();
+						await parentShellPage.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, destination, false, true, item.IsExecutable, item.IsScriptFile);
+					},
+					App.Logger);
+				}
 			}
-			catch (NullReferenceException)
+			finally
 			{
-				// e.Data or e.Data.Properties is null, continue without the property check
+				deferral?.Complete();
 			}
-
-			// Reset dragged over item
-			dragOverItem = null;
-			var item = GetItemFromElement(sender);
-			if (item is not null)
-				await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as IShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable, item.IsScriptFile);
-
-			deferral.Complete();
 		}
 
 		protected void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
+			HookScrollDeferTracking();
 			RefreshContainer(args.ItemContainer, args.InRecycleQueue);
 			RefreshItem(args.ItemContainer, args.Item, args.InRecycleQueue, args);
 
 			// Set can window to front (#13255)
 			itemDragging = false;
 			MainWindow.Instance.SetCanWindowToFront(true);
+		}
+
+		private ScrollViewer? deferScrollViewer;
+
+		// Hooked lazily from the first container callback, when the list's template is guaranteed realized
+		[DynamicWindowsRuntimeCast(typeof(ScrollViewer))]
+		private void HookScrollDeferTracking()
+		{
+			if (deferScrollViewer is not null)
+				return;
+
+			deferScrollViewer = ItemsControl.FindDescendant<ScrollViewer>();
+			if (deferScrollViewer is not null)
+				deferScrollViewer.ViewChanged += DeferScrollViewer_ViewChanged;
+		}
+
+		private void UnhookScrollDeferTracking()
+		{
+			scrollSettleTimer?.Stop();
+
+			if (deferScrollViewer is not null)
+			{
+				deferScrollViewer.ViewChanged -= DeferScrollViewer_ViewChanged;
+				deferScrollViewer = null;
+			}
+		}
+
+		private DispatcherQueueTimer? scrollSettleTimer;
+
+		// Layouts whose panel exposes a visible range override this so the settle pass can skip off-screen rows
+		protected virtual (int First, int Last) GetVisibleIndexRange() => (-1, -1);
+
+		// Loads extended properties for the rows visible where the scroll stopped; rows scrolled past load when they next come into view
+		[DynamicWindowsRuntimeCast(typeof(SelectorItem))]
+		private void LoadVisibleItemsAfterScrollSettled()
+		{
+			if (ParentShellPageInstance?.ShellViewModel is not { } shellViewModel)
+				return;
+
+			// Collected on the UI thread; the container/panel APIs are UI-affine
+			var itemsToLoad = new List<ListedItem>();
+			var (first, last) = GetVisibleIndexRange();
+			if (first >= 0 && last >= first)
+			{
+				for (var i = first; i <= last; i++)
+				{
+					if (ItemsControl.ContainerFromIndex(i) is SelectorItem { Content: ListedItem item } && !item.ItemPropertiesInitialized)
+						itemsToLoad.Add(item);
+				}
+			}
+			else if (ItemsControl.ItemsPanelRoot is { } panel)
+			{
+				// Without a visible range every realized row loads
+				foreach (var child in panel.Children)
+				{
+					if (child is SelectorItem { Content: ListedItem item } && !item.ItemPropertiesInitialized)
+						itemsToLoad.Add(item);
+				}
+			}
+
+			if (itemsToLoad.Count is not 0)
+				_ = Parallel.ForEachAsync(itemsToLoad, (item, _) => new ValueTask(LoadItemExtendedPropertiesAsync(item, shellViewModel)));
+		}
+
+		private static async Task LoadItemExtendedPropertiesAsync(ListedItem item, ShellViewModel shellViewModel)
+		{
+			await shellViewModel.LoadExtendedItemPropertiesAsync(item);
+			if (shellViewModel.EnabledGitProperties is not GitProperties.None && item is IGitItem gitItem)
+				await shellViewModel.LoadGitPropertiesAsync(gitItem);
+		}
+
+		// Rapid successive gestures raise a final ViewChanged between steps; debouncing keeps loads parked through the whole burst
+		private void DeferScrollViewer_ViewChanged(object? sender, ScrollViewerViewChangedEventArgs e)
+		{
+			ParentShellPageInstance?.ShellViewModel?.NotifyScrollStateChanged(true);
+			AppMemoryHelper.NotifyActivity();
+
+			if (scrollSettleTimer is null)
+			{
+				scrollSettleTimer = DispatcherQueue.CreateTimer();
+				scrollSettleTimer.Interval = TimeSpan.FromMilliseconds(200);
+				scrollSettleTimer.IsRepeating = false;
+				scrollSettleTimer.Tick += (_, _) =>
+				{
+					ParentShellPageInstance?.ShellViewModel?.NotifyScrollStateChanged(false);
+					LoadVisibleItemsAfterScrollSettled();
+				};
+			}
+
+			// Restarted on every change, including intermediate ones, so holding the scrollbar still also settles
+			scrollSettleTimer.Stop();
+			scrollSettleTimer.Start();
 		}
 
 		private void RefreshContainer(SelectorItem container, bool inRecycleQueue)
@@ -1268,35 +1349,44 @@ namespace Files.App.Views.Layouts
 
 		private void RefreshItem(SelectorItem container, object item, bool inRecycleQueue, ContainerContentChangingEventArgs args)
 		{
-			if (item is not ListedItem listedItem)
-				return;
-
 			if (inRecycleQueue)
 			{
 				UpdateItemToolTip(container, null);
-				ParentShellPageInstance!.ShellViewModel.CancelExtendedPropertiesLoadingForItem(listedItem);
+				if (container.Content is ListedItem recycledItem)
+				{
+					var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
+					shellViewModel.CancelExtendedPropertiesLoadingForItem(recycledItem);
+					shellViewModel.ReleaseExtendedProperties(recycledItem);
+				}
+				return;
 			}
-			else
+
+			if (item is ListedItem listedItem)
 			{
 				UpdateItemToolTip(container, listedItem.ItemTooltipText);
 				InitializeDrag(container, listedItem);
 
 				if (listedItem.PreloadedIconData is not null && listedItem.FileImage is null)
-					_ = ApplyPreloadedIconAsync(listedItem);
+					_ = ParentShellPageInstance.GetRequiredShellViewModel().ApplyCachedThumbnailOrPreloadedIconAsync(listedItem);
 
 				if (!listedItem.ItemPropertiesInitialized)
 				{
 					uint callbackPhase = 3;
 					args.RegisterUpdateCallback(callbackPhase, async (s, c) =>
 					{
-						await ParentShellPageInstance!.ShellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
-						if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None && listedItem is IGitItem gitItem)
-							await ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
+						var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
+
+						// Rows realized mid-scroll are mostly flung past before the gesture ends; the settle pass loads the ones still visible
+						if (shellViewModel.IsScrollInFlight)
+							return;
+
+						await LoadItemExtendedPropertiesAsync(listedItem, shellViewModel);
 					});
 				}
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private static void UpdateItemToolTip(SelectorItem container, string? tooltipText)
 		{
 			// Apply the tooltip to both the container and the realized template root so every layout
@@ -1316,6 +1406,7 @@ namespace Files.App.Views.Layouts
 			target.SetValue(ToolTipService.PlacementProperty, PlacementMode.Mouse);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(SelectorItem))]
 		private void FileListItem_Loaded(object sender, RoutedEventArgs e)
 		{
 			// Set the initial tooltip before hover starts so WinUI doesn't miss the first dwell.
@@ -1323,13 +1414,7 @@ namespace Files.App.Views.Layouts
 				UpdateItemToolTip(container, listedItem.ItemTooltipText);
 		}
 
-		private static async Task ApplyPreloadedIconAsync(ListedItem item)
-		{
-			var image = await item.PreloadedIconData.ToBitmapAsync();
-			if (image is not null)
-				item.FileImage = image;
-		}
-
+		[DynamicWindowsRuntimeCast(typeof(SelectorItem))]
 		protected internal void FileListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			// Set can window to front and bring the window to the front if necessary (#13255)
@@ -1359,6 +1444,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(SelectorItem))]
 		protected internal void FileListItem_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			// Set can window to front (#13255)
@@ -1373,13 +1459,13 @@ namespace Files.App.Views.Layouts
 
 			hoveredItem = GetItemFromElement(sender);
 
-			hoverTimer.Stop();
-			hoverTimer.Debounce(() =>
+			HoverTimer.Stop();
+			HoverTimer.Debounce(() =>
 			{
 				if (hoveredItem is null)
 					return;
 
-				hoverTimer.Stop();
+				hoverTimer?.Stop();
 
 				// Selection of multiple individual items with control
 				if (e.KeyModifiers == VirtualKeyModifiers.Control &&
@@ -1421,7 +1507,7 @@ namespace Files.App.Views.Layouts
 			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				return;
 
-			hoverTimer.Stop();
+			hoverTimer?.Stop();
 			hoveredItem = null;
 		}
 
@@ -1439,6 +1525,7 @@ namespace Files.App.Views.Layouts
 				Win32Helper.BringToForegroundEx(new(MainWindow.Instance.WindowHandle));
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(SelectorItem))]
 		protected void FileListItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			// Set can window to front and bring the window to the front if necessary (#13255)
@@ -1478,7 +1565,16 @@ namespace Files.App.Views.Layouts
 
 		public virtual void Dispose()
 		{
+			if (isDisposed)
+				return;
+
+			isDisposed = true;
 			UnhookBaseEvents();
+			UnhookScrollDeferTracking();
+			StatusBarViewModel.Dispose();
+			dragOverItem = null;
+			hoveredItem = null;
+			preRenamingItem = null;
 		}
 
 		protected void ItemsLayout_DragOver(object sender, DragEventArgs e)
@@ -1493,15 +1589,20 @@ namespace Files.App.Views.Layouts
 
 		private void UpdateCollectionViewSource()
 		{
-			if (ParentShellPageInstance is null)
+			if (ParentShellPageInstance is not { } parentShellPage)
 				return;
+			var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 
-			if (ParentShellPageInstance.ShellViewModel.FilesAndFolders.IsGrouped)
+			if (shellViewModel.FilesAndFolders.IsGrouped)
 			{
+				// Replacing the source rebuilds the list from scratch (a visible empty flash), so keep it when unchanged
+				if (CollectionViewSource.IsSourceGrouped && ReferenceEquals(CollectionViewSource.Source, shellViewModel.FilesAndFolders.GroupedCollection))
+					return;
+
 				var newSource = new CollectionViewSource()
 				{
 					IsSourceGrouped = true,
-					Source = ParentShellPageInstance.ShellViewModel.FilesAndFolders.GroupedCollection
+					Source = shellViewModel.FilesAndFolders.GroupedCollection
 				};
 				CollectionViewSource = newSource;
 			}
@@ -1509,10 +1610,13 @@ namespace Files.App.Views.Layouts
 			{
 				ZoomIn();
 
+				if (!CollectionViewSource.IsSourceGrouped && ReferenceEquals(CollectionViewSource.Source, shellViewModel.FilesAndFolders))
+					return;
+
 				var newSource = new CollectionViewSource()
 				{
 					IsSourceGrouped = false,
-					Source = ParentShellPageInstance.ShellViewModel.FilesAndFolders
+					Source = shellViewModel.FilesAndFolders
 				};
 				CollectionViewSource = newSource;
 			}
@@ -1533,6 +1637,7 @@ namespace Files.App.Views.Layouts
 			e.DestinationItem.Item = destination?.FirstOrDefault();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
 		protected void StackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			var element = (sender as UIElement)?.FindAscendant<ListViewBaseHeaderItem>();
@@ -1540,6 +1645,7 @@ namespace Files.App.Views.Layouts
 				VisualStateManager.GoToState(element, "PointerOver", true);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
 		protected void StackPanel_PointerCanceled(object sender, PointerRoutedEventArgs e)
 		{
 			var element = (sender as UIElement)?.FindAscendant<ListViewBaseHeaderItem>();
@@ -1547,6 +1653,7 @@ namespace Files.App.Views.Layouts
 				VisualStateManager.GoToState(element, "Normal", true);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
 		protected void RootPanel_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			var element = (sender as UIElement)?.FindAscendant<ListViewBaseHeaderItem>();
@@ -1579,25 +1686,25 @@ namespace Files.App.Views.Layouts
 		{
 		}
 
-		public void CheckRenameDoubleClick(object clickedItem)
+		public void CheckRenameDoubleClick(object? clickedItem)
 		{
 			if (clickedItem is ListedItem item)
 			{
 				if (item == preRenamingItem)
 				{
-					tapDebounceTimer.Debounce(() =>
+					TapDebounceTimer.Debounce(() =>
 					{
 						if (item == preRenamingItem)
 						{
 							StartRenameItem();
-							tapDebounceTimer.Stop();
+							tapDebounceTimer?.Stop();
 						}
 					},
 					TimeSpan.FromMilliseconds(1500));
 				}
 				else
 				{
-					tapDebounceTimer.Stop();
+					tapDebounceTimer?.Stop();
 					preRenamingItem = item;
 				}
 			}
@@ -1610,7 +1717,7 @@ namespace Files.App.Views.Layouts
 		public void ResetRenameDoubleClick()
 		{
 			preRenamingItem = null;
-			tapDebounceTimer.Stop();
+			tapDebounceTimer?.Stop();
 		}
 
 		protected async Task ValidateItemNameInputTextAsync(TextBox textBox, TextBoxBeforeTextChangingEventArgs args, Action<bool> showError)
@@ -1634,20 +1741,5 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		public sealed class ContextMenuExtensions : DependencyObject
-		{
-			public static ItemsControl GetItemsControl(DependencyObject obj)
-			{
-				return (ItemsControl)obj.GetValue(ItemsControlProperty);
-			}
-
-			public static void SetItemsControl(DependencyObject obj, ItemsControl value)
-			{
-				obj.SetValue(ItemsControlProperty, value);
-			}
-
-			public static readonly DependencyProperty ItemsControlProperty =
-				DependencyProperty.RegisterAttached("ItemsControl", typeof(ItemsControl), typeof(ContextMenuExtensions), new PropertyMetadata(null));
-		}
 	}
 }

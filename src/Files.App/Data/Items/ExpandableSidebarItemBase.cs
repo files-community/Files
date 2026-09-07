@@ -140,7 +140,7 @@ namespace Files.App.Data.Items
 			// FileSystemWatcher ctor throws ArgumentException for invalid paths, UnauthorizedAccessException for protected roots; either way fall back to no live updates for this subtree.
 			catch (Exception ex)
 			{
-				App.Logger?.LogDebug(ex, "Sidebar subfolder watcher start failed for {Path}", ExpansionPath);
+				App.Logger?.LogDebug(ex, "Sidebar subfolder watcher start failed for {Path}", LogPathHelper.RedactPath(ExpansionPath));
 				subfolderWatcher?.Dispose();
 				subfolderWatcher = null;
 			}
@@ -214,7 +214,7 @@ namespace Files.App.Data.Items
 			// EnumerateSubfolders can throw UnauthorizedAccessException / IOException if the folder is in a bad state mid-resync; treat as "no change visible right now" rather than tearing down ChildItems.
 			catch (Exception ex)
 			{
-				App.Logger?.LogDebug(ex, "Sidebar subfolder resync enumeration failed for {Path}", ExpansionPath);
+				App.Logger?.LogDebug(ex, "Sidebar subfolder resync enumeration failed for {Path}", LogPathHelper.RedactPath(ExpansionPath));
 				return;
 			}
 

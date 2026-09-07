@@ -68,7 +68,8 @@ namespace Files.App.Data.Contracts
 		/// Authenticates the specified network share point.
 		/// </summary>
 		/// <param name="path">A path to the network share point.</param>
+		/// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
 		/// <returns>True If succeeds; otherwise, false.</returns>
-		Task<bool> AuthenticateNetworkShare(string path);
+		Task<bool> AuthenticateNetworkShare(string path, CancellationToken cancellationToken);
 	}
 }

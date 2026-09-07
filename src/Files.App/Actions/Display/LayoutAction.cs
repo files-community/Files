@@ -130,6 +130,9 @@ namespace Files.App.Actions
 		public override string Description
 			=> Strings.LayoutAdaptiveDescription.GetLocalizedResource();
 
+		public override bool IsOn
+			=> Context.LayoutType == LayoutTypes.Adaptive;
+
 		public override bool IsExecutable
 			=> Context.IsLayoutAdaptiveEnabled;
 
@@ -138,6 +141,15 @@ namespace Files.App.Actions
 
 		public override HotKey HotKey
 			=> new(Keys.Number6, KeyModifiers.CtrlShift);
+
+		public override Task ExecuteAsync(object? parameter = null)
+		{
+			// Turning adaptive off re-selects the displayed layout as a manual choice,
+			// which overrides the adaptive layout for the folder
+			Context.LayoutType = IsOn ? Context.DisplayedLayoutType : LayoutTypes.Adaptive;
+
+			return Task.CompletedTask;
+		}
 
 		protected override void OnContextChanged(string propertyName)
 		{
@@ -163,8 +175,8 @@ namespace Files.App.Actions
 
 		public abstract HotKey HotKey { get; }
 
-		public bool IsOn
-			=> Context.LayoutType == LayoutType;
+		public virtual bool IsOn
+			=> Context.DisplayedLayoutType == LayoutType;
 
 		public virtual bool IsExecutable
 			=> true;
@@ -176,7 +188,7 @@ namespace Files.App.Actions
 			Context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync(object? parameter = null)
+		public virtual Task ExecuteAsync(object? parameter = null)
 		{
 			Context.LayoutType = LayoutType;
 
@@ -185,7 +197,7 @@ namespace Files.App.Actions
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IDisplayPageContext.LayoutType))
+			if (e.PropertyName is nameof(IDisplayPageContext.LayoutType) or nameof(IDisplayPageContext.DisplayedLayoutType))
 				OnPropertyChanged(nameof(IsOn));
 
 			if (e.PropertyName is not null)

@@ -16,7 +16,7 @@ namespace Files.App.Services
 	public sealed class CommonDialogService : ICommonDialogService
 	{
 		/// <inheritdoc/>
-		public unsafe bool Open_FileOpenDialog(nint hWnd, bool pickFoldersOnly, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath)
+		public unsafe bool Open_FileOpenDialog(nint hWnd, bool pickFoldersOnly, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath, Guid? clientGuid = null)
 		{
 			filePath = string.Empty;
 
@@ -31,24 +31,7 @@ namespace Files.App.Services
 					return false;
 				}
 
-				if (filters.Length is not 0 && filters.Length % 2 is 0)
-				{
-					List<COMDLG_FILTERSPEC> extensions = [];
-
-					for (int i = 1; i < filters.Length; i += 2)
-					{
-						COMDLG_FILTERSPEC extension;
-
-						extension.pszSpec = (char*)Marshal.StringToHGlobalUni(filters[i]);
-						extension.pszName = (char*)Marshal.StringToHGlobalUni(filters[i - 1]);
-
-						// Add to the exclusive extension list
-						extensions.Add(extension);
-					}
-
-					// Set the file type using the extension list
-					pDialog.SetFileTypes(extensions.ToArray());
-				}
+				SetFileTypes(pDialog, filters);
 
 				// Get the default shell folder (My Computer)
 				IShellItem? pDefaultFolderShellItem = null;
@@ -57,7 +40,7 @@ namespace Files.App.Services
 				// Handle shell item creation failure gracefully
 				if (hr.Failed)
 				{
-					App.Logger.LogWarning("Failed to create shell item for default folder '{0}'. HRESULT: 0x{1:X8}. Dialog will open without default folder.", Environment.GetFolderPath(defaultFolder), hr.Value);
+					App.Logger.LogWarning("Failed to create shell item for default folder '{0}'. HRESULT: 0x{1:X8}. Dialog will open without default folder.", defaultFolder, hr.Value);
 					// Continue without setting default folder rather than failing completely
 				}
 				else
@@ -69,10 +52,17 @@ namespace Files.App.Services
 				if (pickFoldersOnly)
 					pDialog.SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
 
+				// Persist dialog state (including the last browsed folder) under the caller's GUID
+				if (clientGuid is { } guid)
+					pDialog.SetClientGuid(in guid);
+
 				// Set the default folder to open in the dialog (only if creation succeeded)
 				if (pDefaultFolderShellItem is not null)
 				{
-					pDialog.SetFolder(pDefaultFolderShellItem);
+					// SetFolder forces the dialog to always open at this folder, which would override the persisted state
+					if (clientGuid is null)
+						pDialog.SetFolder(pDefaultFolderShellItem);
+
 					pDialog.SetDefaultFolder(pDefaultFolderShellItem);
 				}
 
@@ -93,8 +83,14 @@ namespace Files.App.Services
 				if (pResultShellItem is null)
 					throw new COMException("FileOpenDialog returned invalid shell item.");
 				pResultShellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
-				filePath = lpFilePath.ToString();
-				PInvoke.CoTaskMemFree(lpFilePath);
+				try
+				{
+					filePath = lpFilePath.ToString();
+				}
+				finally
+				{
+					PInvoke.CoTaskMemFree(lpFilePath);
+				}
 
 				return true;
 			}
@@ -126,24 +122,7 @@ namespace Files.App.Services
 					return false;
 				}
 
-				if (filters.Length is not 0 && filters.Length % 2 is 0)
-				{
-					List<COMDLG_FILTERSPEC> extensions = [];
-
-					for (int i = 1; i < filters.Length; i += 2)
-					{
-						COMDLG_FILTERSPEC extension;
-
-						extension.pszSpec = (char*)Marshal.StringToHGlobalUni(filters[i]);
-						extension.pszName = (char*)Marshal.StringToHGlobalUni(filters[i - 1]);
-
-						// Add to the exclusive extension list
-						extensions.Add(extension);
-					}
-
-					// Set the file type using the extension list
-					pDialog.SetFileTypes(extensions.ToArray());
-				}
+				SetFileTypes(pDialog, filters);
 
 				// Get the default shell folder (My Computer)
 				IShellItem? pDefaultFolderShellItem = null;
@@ -152,7 +131,7 @@ namespace Files.App.Services
 				// Handle shell item creation failure gracefully
 				if (hr.Failed)
 				{
-					App.Logger.LogWarning("Failed to create shell item for default folder '{0}'. HRESULT: 0x{1:X8}. Dialog will open without default folder.", Environment.GetFolderPath(defaultFolder), hr.Value);
+					App.Logger.LogWarning("Failed to create shell item for default folder '{0}'. HRESULT: 0x{1:X8}. Dialog will open without default folder.", defaultFolder, hr.Value);
 					// Continue without setting default folder rather than failing completely
 				}
 				else
@@ -188,8 +167,14 @@ namespace Files.App.Services
 				if (pResultShellItem is null)
 					throw new COMException("FileSaveDialog returned invalid shell item.");
 				pResultShellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
-				filePath = lpFilePath.ToString();
-				PInvoke.CoTaskMemFree(lpFilePath);
+				try
+				{
+					filePath = lpFilePath.ToString();
+				}
+				finally
+				{
+					PInvoke.CoTaskMemFree(lpFilePath);
+				}
 
 				return true;
 			}
@@ -202,6 +187,36 @@ namespace Files.App.Services
 			{
 				App.Logger.LogError(ex, "Unexpected error while opening FileSaveDialog.");
 				return false;
+			}
+		}
+
+		private static unsafe void SetFileTypes(IFileDialog dialog, string[] filters)
+		{
+			if (filters.Length == 0 || filters.Length % 2 != 0)
+				return;
+
+			var filterSpecs = new COMDLG_FILTERSPEC[filters.Length / 2];
+			var allocations = new nint[filters.Length];
+			try
+			{
+				for (var filterIndex = 0; filterIndex < filterSpecs.Length; filterIndex++)
+				{
+					var sourceIndex = filterIndex * 2;
+					allocations[sourceIndex] = Marshal.StringToHGlobalUni(filters[sourceIndex]);
+					allocations[sourceIndex + 1] = Marshal.StringToHGlobalUni(filters[sourceIndex + 1]);
+					filterSpecs[filterIndex] = new COMDLG_FILTERSPEC
+					{
+						pszName = (char*)allocations[sourceIndex],
+						pszSpec = (char*)allocations[sourceIndex + 1],
+					};
+				}
+
+				dialog.SetFileTypes(filterSpecs);
+			}
+			finally
+			{
+				foreach (var allocation in allocations)
+					Marshal.FreeHGlobal(allocation);
 			}
 		}
 
@@ -218,7 +233,7 @@ namespace Files.App.Services
 			if (hideRestoreConnectionCheckBox)
 				connectDlgOptions.dwFlags |= CONNECTDLGSTRUCT_FLAGS.CONNDLG_HIDE_BOX;
 			if (persistConnectionAtLogon)
-				connectDlgOptions.dwFlags |= (CONNECTDLGSTRUCT_FLAGS.CONNDLG_PERSIST & CONNECTDLGSTRUCT_FLAGS.CONNDLG_NOT_PERSIST);
+				connectDlgOptions.dwFlags |= CONNECTDLGSTRUCT_FLAGS.CONNDLG_PERSIST;
 			if (useMostRecentPath)
 				connectDlgOptions.dwFlags |= CONNECTDLGSTRUCT_FLAGS.CONNDLG_USE_MRU;
 			if (readOnlyPath && !string.IsNullOrEmpty(remoteNetworkName))

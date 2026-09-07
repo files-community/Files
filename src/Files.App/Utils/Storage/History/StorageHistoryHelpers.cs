@@ -5,7 +5,7 @@ namespace Files.App.Utils.Storage
 {
 	public sealed partial class StorageHistoryHelpers : IDisposable
 	{
-		private IStorageHistoryOperations operations;
+		private IStorageHistoryOperations? operations;
 
 		private static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
@@ -14,6 +14,8 @@ namespace Files.App.Utils.Storage
 
 		public async Task<ReturnResult> TryUndo()
 		{
+			var operations = this.operations ?? throw new ObjectDisposedException(nameof(StorageHistoryHelpers));
+
 			if (App.HistoryWrapper.CanUndo())
 			{
 				if (!await semaphore.WaitAsync(0))
@@ -41,6 +43,8 @@ namespace Files.App.Utils.Storage
 
 		public async Task<ReturnResult> TryRedo()
 		{
+			var operations = this.operations ?? throw new ObjectDisposedException(nameof(StorageHistoryHelpers));
+
 			if (App.HistoryWrapper.CanRedo())
 			{
 				if (!await semaphore.WaitAsync(0))

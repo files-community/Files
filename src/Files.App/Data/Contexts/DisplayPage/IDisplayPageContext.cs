@@ -8,6 +8,13 @@ namespace Files.App.Data.Contexts
 		bool IsLayoutAdaptiveEnabled { get; }
 		LayoutTypes LayoutType { get; set; }
 
+		/// <summary>
+		/// Gets the layout the active pane is actually displaying. Unlike <see cref="LayoutType"/>,
+		/// this never returns <see cref="LayoutTypes.Adaptive"/> — when the adaptive layout is active,
+		/// it reports the concrete layout the adaptive logic chose.
+		/// </summary>
+		LayoutTypes DisplayedLayoutType { get; }
+
 		SortOption SortOption { get; set; }
 		SortDirection SortDirection { get; set; }
 

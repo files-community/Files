@@ -7,20 +7,13 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:keyboard="using:Files.App.UserControls.KeyboardShortcut"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	x:Name="PageRoot"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
+	Loaded="ActionsPage_Loaded"
 	mc:Ignorable="d">
-
-	<i:Interaction.Behaviors>
-		<i:EventTriggerBehavior EventName="Loaded">
-			<i:InvokeCommandAction Command="{x:Bind ViewModel.LoadAllActionsCommand, Mode=OneWay}" />
-		</i:EventTriggerBehavior>
-	</i:Interaction.Behaviors>
 
 	<Page.Resources>
 		<ResourceDictionary>
@@ -39,21 +32,6 @@
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///UserControls/KeyboardShortcut/KeyboardShortcut.xaml" />
 			</ResourceDictionary.MergedDictionaries>
-
-			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
-			<wctconverters:EmptyObjectToObjectConverter
-				x:Key="NullToBooleanConverter"
-				EmptyValue="False"
-				NotEmptyValue="True" />
-			<wctconverters:EmptyObjectToObjectConverter
-				x:Key="NullToNegateBooleanConverter"
-				EmptyValue="True"
-				NotEmptyValue="False" />
-			<wctconverters:BoolToVisibilityConverter
-				x:Key="NegationBoolToVisibilityConverter"
-				FalseValue="Visible"
-				TrueValue="Collapsed" />
-
 		</ResourceDictionary>
 	</Page.Resources>
 
@@ -69,269 +47,146 @@
 				Style="{StaticResource App.Theme.SubtitleTextBlockStyle}"
 				Text="{helpers:ResourceString Name=Actions}" />
 
-			<!--  Subtitle  -->
-			<Grid ColumnSpacing="8" RowSpacing="8">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="Auto" />
-				</Grid.ColumnDefinitions>
-
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-
-				<!--  Subtitle Text  -->
-				<TextBlock
-					Margin="0,8,0,4"
-					FontSize="16"
-					FontWeight="Medium"
-					Text="{helpers:ResourceString Name=Commands}" />
-
-				<TextBox
-					x:Name="SearchBox"
-					Grid.Column="1"
-					MinWidth="200"
-					PlaceholderText="{helpers:ResourceString Name=Search}"
-					TextChanged="SearchBox_TextChanged" />
-
-				<StackPanel
-					x:Name="CommandStackPanel"
-					Grid.Column="2"
-					Orientation="Horizontal"
-					Spacing="8">
-					<!--  Add New Action Button  -->
-					<Button
-						x:Name="AddNewGridButton"
-						Command="{x:Bind ViewModel.ShowAddNewKeyBindingBlockCommand, Mode=OneWay}"
-						Content="{helpers:ResourceString Name=AddCommand}"
-						IsEnabled="{x:Bind ViewModel.ShowAddNewKeyBindingBlock, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
-
-					<!--  Restore Defaults Button  -->
-					<Button
-						x:Name="RestoreDefaultsButton"
-						Command="{x:Bind ViewModel.ShowRestoreDefaultsConfirmationCommand, Mode=OneWay}"
-						Content="{helpers:ResourceString Name=RestoreDefaults}" />
-				</StackPanel>
-			</Grid>
-
-			<!--  New Key Binding Block  -->
-			<Grid
-				x:Name="NewKeyBingingBlock"
-				Height="60"
+			<!--  Commands  -->
+			<controls:SettingsExpander
 				Margin="0,4,0,0"
-				Padding="16,12"
-				x:Load="{x:Bind ViewModel.ShowAddNewKeyBindingBlock, Mode=OneWay}"
-				Background="{ThemeResource ExpanderHeaderBackground}"
-				BorderBrush="{ThemeResource ExpanderHeaderBorderBrush}"
-				BorderThickness="1"
-				ColumnSpacing="12"
-				CornerRadius="{StaticResource ControlCornerRadius}">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="32" />
-					<ColumnDefinition Width="32" />
-				</Grid.ColumnDefinitions>
+				HorizontalAlignment="Stretch"
+				Header="{helpers:ResourceString Name=Commands}"
+				IsExpanded="True">
+				<controls:SettingsExpander.HeaderIcon>
+					<FontIcon Glyph="&#xE765;" />
+				</controls:SettingsExpander.HeaderIcon>
 
-				<!--  New Command Selector  -->
-				<uc:ComboBoxEx
-					x:Name="NewKeyBindingItemPickerComboBox"
-					DisplayMemberPath="CommandDescription"
-					DropDownClosed="NewKeyBindingItemPickerComboBox_DropDownClosed"
-					ItemsSource="{x:Bind ViewModel.AllActionItems, Mode=OneWay}"
-					PlaceholderText="{helpers:ResourceString Name=ChooseAnAction}"
-					SelectedIndex="{x:Bind ViewModel.SelectedActionItemIndex, Mode=TwoWay}"
-					SelectedItem="{x:Bind ViewModel.SelectedActionItem, Mode=TwoWay}" />
+				<!--  Add command; Restore defaults lives in the split flyout  -->
+				<SplitButton
+					x:Name="AddCommandSplitButton"
+					Click="AddCommandButton_Click"
+					Content="{helpers:ResourceString Name=AddCommand}">
+					<SplitButton.Flyout>
+						<MenuFlyout Placement="Bottom">
+							<MenuFlyoutItem
+								Command="{x:Bind ViewModel.ShowRestoreDefaultsConfirmationCommand, Mode=OneWay}"
+								Text="{helpers:ResourceString Name=RestoreDefaults}">
+								<MenuFlyoutItem.Icon>
+									<FontIcon Glyph="&#xE777;" />
+								</MenuFlyoutItem.Icon>
+							</MenuFlyoutItem>
+						</MenuFlyout>
+					</SplitButton.Flyout>
+				</SplitButton>
 
-				<!--  Editor (Using PreviewKeyDown to prevent Ctrl+A)  -->
-				<TextBox
-					x:Name="KeyBindingEditorTextBox"
-					Grid.Column="1"
-					Width="144"
-					VerticalAlignment="Center"
-					IsEnabled="{x:Bind ViewModel.SelectedActionItem, Converter={StaticResource NullToBooleanConverter}, Mode=OneWay}"
-					IsReadOnly="True"
-					IsSpellCheckEnabled="False"
-					IsTabStop="True"
-					PreviewKeyDown="KeyBindingEditorTextBox_PreviewKeyDown"
-					Text="{x:Bind ViewModel.SelectedActionItem.LocalizedKeyBindingLabel, Mode=TwoWay}"
-					TextAlignment="Right" />
+				<controls:SettingsExpander.ItemsHeader>
+					<Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
 
-				<!--  Add Button  -->
-				<Button
-					x:Name="AddButton"
-					Grid.Column="2"
-					Width="32"
-					Height="32"
-					Padding="0"
-					AutomationProperties.Name="{helpers:ResourceString Name=Add}"
-					Command="{x:Bind ViewModel.AddNewKeyBindingCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.EnableAddNewKeyBindingButton, Mode=OneWay}"
-					Style="{StaticResource AccentButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Add}">
-					<FontIcon FontSize="14" Glyph="&#xE73E;" />
-				</Button>
+						<!--  List label + search  -->
+						<Grid Padding="16,12" ColumnSpacing="12">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
 
-				<!--  Cancel Button  -->
-				<Button
-					x:Name="CancelButton"
-					Grid.Column="3"
-					Width="32"
-					Height="32"
-					Padding="0"
-					AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
-					Command="{x:Bind ViewModel.HideAddNewKeyBindingBlockCommand, Mode=OneWay}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}">
-					<FontIcon FontSize="14" Glyph="&#xE711;" />
-				</Button>
+							<TextBlock
+								VerticalAlignment="Center"
+								FontWeight="SemiBold"
+								Text="{helpers:ResourceString Name=KeyboardShortcuts}" />
 
-			</Grid>
+							<TextBox
+								x:Name="SearchBox"
+								Grid.Column="1"
+								Width="240"
+								PlaceholderText="{helpers:ResourceString Name=Search}"
+								TextChanged="SearchBox_TextChanged" />
+						</Grid>
 
-			<!--  (Divider)  -->
-			<Border
-				x:Name="NewKeyBindingBlockDividerBorder"
-				Height="1"
-				Margin="0,4"
-				x:Load="{x:Bind ViewModel.ShowAddNewKeyBindingBlock, Mode=OneWay}"
-				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+						<!--  Divider  -->
+						<Border
+							Grid.Row="1"
+							Height="1"
+							Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
-			<!--  List Of Available Key Bindings  -->
-			<ListView
-				x:Name="ValidKeyBindingsListView"
-				ItemsSource="{x:Bind ViewModel.FilteredActionItems, Mode=OneWay}"
-				ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-				ScrollViewer.HorizontalScrollMode="Disabled"
-				ScrollViewer.VerticalScrollBarVisibility="Hidden"
-				ScrollViewer.VerticalScrollMode="Disabled"
-				SelectionMode="None">
-				<ListView.ItemTemplate>
-					<DataTemplate x:DataType="dataitems:ModifiableActionItem">
-						<UserControl PointerEntered="RootGrid_PointerEntered" PointerExited="RootGrid_PointerExited">
-							<Grid x:Name="RootGrid">
-								<controls:SettingsCard Header="{x:Bind CommandDescription}">
-									<controls:SettingsCard.Content>
-										<Grid MinHeight="36" ColumnSpacing="12">
+						<!--  List Of Available Key Bindings (ItemsRepeater virtualizes against the page host scroll)  -->
+						<ItemsRepeater
+							x:Name="ValidKeyBindingsRepeater"
+							Grid.Row="2"
+							Margin="0,4"
+							ItemsSource="{x:Bind ViewModel.FilteredActionItems, Mode=OneWay}">
+							<ItemsRepeater.Layout>
+								<StackLayout />
+							</ItemsRepeater.Layout>
+							<ItemsRepeater.ItemTemplate>
+								<DataTemplate x:DataType="dataitems:ModifiableActionItem">
+									<UserControl PointerEntered="RootGrid_PointerEntered" PointerExited="RootGrid_PointerExited">
+										<!--  Transparent background so the whole row is hit-testable for hover  -->
+										<Grid
+											MinHeight="44"
+											Padding="16,0"
+											Background="Transparent"
+											ColumnSpacing="12">
 											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="*" />
 												<ColumnDefinition Width="Auto" />
-												<ColumnDefinition Width="32" />
-												<ColumnDefinition Width="32" />
-												<ColumnDefinition Width="32" />
+												<!--  Reserve room for the row actions so revealing them shifts nothing  -->
+												<ColumnDefinition Width="72" />
 											</Grid.ColumnDefinitions>
+
+											<!--  Command Description  -->
+											<TextBlock
+												Grid.Column="0"
+												VerticalAlignment="Center"
+												Text="{x:Bind CommandDescription}"
+												TextTrimming="CharacterEllipsis" />
 
 											<!--  Key Binding Control  -->
 											<keyboard:KeyboardShortcut
-												x:Name="KeyboardShortcutControl"
-												Grid.Column="0"
-												HorizontalAlignment="Right"
-												VerticalAlignment="Center"
-												HotKeys="{x:Bind KeyBindings, Mode=OneWay}"
-												Visibility="{x:Bind IsInEditMode, Converter={StaticResource NegationBoolToVisibilityConverter}, Mode=OneWay}" />
-
-											<!--  Editor (Using PreviewKeyDown to prevent Ctrl+A)  -->
-											<TextBox
-												x:Name="KeyBindingEditorTextBox"
-												Grid.Column="0"
-												Width="144"
-												VerticalAlignment="Center"
-												x:Load="{x:Bind IsInEditMode, Mode=OneWay}"
-												IsReadOnly="True"
-												IsSpellCheckEnabled="False"
-												IsTabStop="True"
-												Loaded="KeyBindingEditorTextBox_Loaded"
-												PreviewKeyDown="KeyBindingEditorTextBox_PreviewKeyDown"
-												Text="{x:Bind LocalizedKeyBindingLabel, Mode=TwoWay}"
-												TextAlignment="Right" />
-
-											<!--  Edit Button  -->
-											<Button
-												x:Name="EditButton"
 												Grid.Column="1"
-												Width="32"
-												Height="32"
-												Padding="0"
-												x:Load="{x:Bind IsInEditMode, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-												AutomationProperties.Name="{helpers:ResourceString Name=Edit}"
-												Command="{Binding ElementName=PageRoot, Path=DataContext.EditCommand, Mode=OneWay}"
-												CommandParameter="{x:Bind}"
-												ToolTipService.ToolTip="{helpers:ResourceString Name=Edit}"
-												Visibility="Collapsed">
-												<FontIcon FontSize="14" Glyph="&#xE70F;" />
-											</Button>
+												VerticalAlignment="Center"
+												HotKeys="{x:Bind KeyBindings, Mode=OneWay}" />
 
-											<!--  Save Button  -->
-											<Button
-												x:Name="SaveButton"
-												Grid.Column="1"
-												Width="32"
-												Height="32"
-												Padding="0"
-												x:Load="{x:Bind IsInEditMode, Mode=OneWay}"
-												AutomationProperties.Name="{helpers:ResourceString Name=Save}"
-												Command="{Binding ElementName=PageRoot, Path=DataContext.SaveCommand, Mode=OneWay}"
-												CommandParameter="{x:Bind}"
-												IsEnabled="{x:Bind IsValidKeyBinding, Mode=OneWay}"
-												Style="{StaticResource AccentButtonStyle}"
-												ToolTipService.ToolTip="{helpers:ResourceString Name=Save}">
-												<FontIcon FontSize="14" Glyph="&#xE73E;" />
-											</Button>
-
-											<!--  Cancel Button  -->
-											<Button
-												x:Name="CancelButton"
+											<!--  Row Actions (revealed on pointer over)  -->
+											<StackPanel
+												x:Name="RowActions"
 												Grid.Column="2"
-												Width="32"
-												Height="32"
-												Padding="0"
-												x:Load="{x:Bind IsInEditMode, Mode=OneWay}"
-												AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
-												Command="{Binding ElementName=PageRoot, Path=DataContext.CancelCommand, Mode=OneWay}"
-												CommandParameter="{x:Bind}"
-												IsEnabled="{x:Bind IsInEditMode, Mode=OneWay}"
-												ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}">
-												<FontIcon FontSize="14" Glyph="&#xE711;" />
-											</Button>
+												HorizontalAlignment="Right"
+												Orientation="Horizontal"
+												Spacing="4"
+												Visibility="Collapsed">
+												<!--  Edit Button  -->
+												<Button
+													Width="32"
+													Height="32"
+													Padding="0"
+													AutomationProperties.Name="{helpers:ResourceString Name=Edit}"
+													Click="EditButton_Click"
+													Tag="{x:Bind}"
+													ToolTipService.ToolTip="{helpers:ResourceString Name=Edit}">
+													<FontIcon FontSize="14" Glyph="&#xE70F;" />
+												</Button>
 
-											<!--  Delete Button  -->
-											<Button
-												x:Name="DeleteButton"
-												Grid.Column="3"
-												Width="32"
-												Height="32"
-												Padding="0"
-												x:Load="{x:Bind IsInEditMode, Mode=OneWay}"
-												AutomationProperties.Name="{helpers:ResourceString Name=Delete}"
-												Command="{Binding ElementName=PageRoot, Path=DataContext.DeleteCommand, Mode=OneWay}"
-												CommandParameter="{x:Bind}"
-												IsEnabled="{x:Bind IsInEditMode, Mode=OneWay}"
-												ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}">
-												<FontIcon FontSize="14" Glyph="&#xE74D;" />
-											</Button>
+												<!--  Delete Button (opens a confirmation flyout)  -->
+												<Button
+													Width="32"
+													Height="32"
+													Padding="0"
+													AutomationProperties.Name="{helpers:ResourceString Name=Delete}"
+													Click="DeleteButton_Click"
+													Tag="{x:Bind}"
+													ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}">
+													<FontIcon FontSize="14" Glyph="&#xE74D;" />
+												</Button>
+											</StackPanel>
 										</Grid>
-									</controls:SettingsCard.Content>
-								</controls:SettingsCard>
-							</Grid>
-						</UserControl>
-					</DataTemplate>
-				</ListView.ItemTemplate>
-
-				<ListView.ItemContainerStyle>
-					<Style TargetType="ListViewItem">
-						<Setter Property="Margin" Value="0,2" />
-						<Setter Property="Padding" Value="0" />
-						<Setter Property="MinHeight" Value="48" />
-						<Setter Property="VerticalAlignment" Value="Center" />
-						<Setter Property="HorizontalAlignment" Value="Stretch" />
-						<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-					</Style>
-				</ListView.ItemContainerStyle>
-
-				<!--  Remove All Transitions  -->
-				<ListView.ItemContainerTransitions>
-					<TransitionCollection />
-				</ListView.ItemContainerTransitions>
-			</ListView>
+									</UserControl>
+								</DataTemplate>
+							</ItemsRepeater.ItemTemplate>
+						</ItemsRepeater>
+					</Grid>
+				</controls:SettingsExpander.ItemsHeader>
+			</controls:SettingsExpander>
 
 		</StackPanel>
 
@@ -346,50 +201,17 @@
 			IsOpen="{x:Bind ViewModel.IsResetAllConfirmationTeachingTipOpened, Mode=TwoWay}"
 			PreferredPlacement="BottomLeft"
 			Subtitle="{helpers:ResourceString Name=RestoreDefaultKeybindingsConfirmation}"
-			Target="{x:Bind RestoreDefaultsButton}" />
+			Target="{x:Bind AddCommandSplitButton}" />
 
-		<!--  Already Used TeachingTip  -->
+		<!--  Delete Key Binding Confirmation TeachingTip  -->
 		<TeachingTip
-			x:Name="AlreadyUsedTeachingTip"
-			CloseButtonContent="{helpers:ResourceString Name=OK}"
+			x:Name="DeleteConfirmationTeachingTip"
+			ActionButtonClick="DeleteConfirmationTeachingTip_ActionButtonClick"
+			ActionButtonContent="{helpers:ResourceString Name=Yes}"
+			ActionButtonStyle="{ThemeResource AccentButtonStyle}"
+			CloseButtonContent="{helpers:ResourceString Name=No}"
 			IsLightDismissEnabled="True"
-			IsOpen="{x:Bind ViewModel.IsAlreadyUsedTeachingTipOpened, Mode=TwoWay}"
-			PlacementMargin="20"
-			PreferredPlacement="Auto"
-			Subtitle="{helpers:ResourceString Name=KeybindingAlreadyUsedNotification}" />
-
-		<!--  Invalid Key TeachingTip  -->
-		<TeachingTip
-			x:Name="InvalidKeyTeachingTip"
-			IsLightDismissEnabled="True"
-			IsOpen="{x:Bind ViewModel.IsInvalidKeyTeachingTipOpened, Mode=TwoWay}"
-			PreferredPlacement="Bottom"
-			Subtitle="{helpers:ResourceString Name=KeybindingInvalidKeyNotification}" />
-
-		<VisualStateManager.VisualStateGroups>
-			<VisualStateGroup>
-				<VisualState x:Name="DefaultState">
-					<VisualState.StateTriggers>
-						<AdaptiveTrigger MinWindowWidth="880" />
-					</VisualState.StateTriggers>
-					<VisualState.Setters>
-						<Setter Target="CommandStackPanel.(Grid.Column)" Value="2" />
-						<Setter Target="CommandStackPanel.(Grid.ColumnSpan)" Value="2" />
-						<Setter Target="CommandStackPanel.(Grid.Row)" Value="0" />
-					</VisualState.Setters>
-				</VisualState>
-				<VisualState x:Name="CompactState">
-					<VisualState.StateTriggers>
-						<AdaptiveTrigger MinWindowWidth="0" />
-					</VisualState.StateTriggers>
-					<VisualState.Setters>
-						<Setter Target="CommandStackPanel.(Grid.ColumnSpan)" Value="3" />
-						<Setter Target="CommandStackPanel.(Grid.Column)" Value="0" />
-						<Setter Target="CommandStackPanel.(Grid.Row)" Value="1" />
-						<Setter Target="SearchBox.(Grid.Column)" Value="2" />
-					</VisualState.Setters>
-				</VisualState>
-			</VisualStateGroup>
-		</VisualStateManager.VisualStateGroups>
+			PreferredPlacement="Left"
+			Subtitle="{helpers:ResourceString Name=DeleteKeyBindingConfirmation}" />
 	</Grid>
 </Page>

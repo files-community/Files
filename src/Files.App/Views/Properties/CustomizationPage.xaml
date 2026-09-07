@@ -39,6 +39,7 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
@@ -86,15 +87,27 @@
 					x:Name="PickDllFileButton"
 					Grid.Column="1"
 					Command="{x:Bind CustomizationViewModel.OpenFilePickerCommand, Mode=OneWay}"
-					CommandParameter="{x:Bind XamlRoot, Mode=OneWay}"
 					Content="{helpers:ResourceString Name=Browse}" />
 
 			</Grid>
 
+			<!--  Convert Image To Icon InfoBar  -->
+			<InfoBar
+				Grid.Row="3"
+				Margin="12,0"
+				IsClosable="False"
+				IsOpen="{x:Bind CustomizationViewModel.IsConvertImageInfoBarOpen, Mode=OneWay}"
+				Message="{x:Bind CustomizationViewModel.ConvertImageInfoBarMessage, Mode=OneWay}"
+				Severity="{x:Bind CustomizationViewModel.ConvertImageInfoBarSeverity, Mode=OneWay}">
+				<InfoBar.ActionButton>
+					<Button Command="{x:Bind CustomizationViewModel.ConvertImageToIconCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=Browse}" />
+				</InfoBar.ActionButton>
+			</InfoBar>
+
 			<!--  Dll Icon List  -->
 			<GridView
 				x:Name="IconSelectionGrid"
-				Grid.Row="3"
+				Grid.Row="4"
 				Padding="12"
 				ItemsSource="{x:Bind CustomizationViewModel.DllIcons, Mode=OneWay}"
 				SelectedItem="{x:Bind CustomizationViewModel.SelectedDllIcon, Mode=TwoWay}">

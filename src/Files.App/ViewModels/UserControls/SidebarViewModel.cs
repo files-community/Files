@@ -18,6 +18,7 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
+using WinRT;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -29,20 +30,20 @@ namespace Files.App.ViewModels.UserControls
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private readonly IFileTagsService fileTagsService;
 
-		private IShellPanesPage paneHolder;
-		public IShellPanesPage PaneHolder
+		private IShellPanesPage? paneHolder;
+		public IShellPanesPage? PaneHolder
 		{
 			get => paneHolder;
 			set => SetProperty(ref paneHolder, value);
 		}
 
-		public MenuFlyout PaneFlyout;
+		public MenuFlyout? PaneFlyout;
 
-		public IFilesystemHelpers FilesystemHelpers
+		public IFilesystemHelpers? FilesystemHelpers
 			=> PaneHolder?.FilesystemHelpers;
 
-		private Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue;
-		private INavigationControlItem rightClickedItem;
+		private Microsoft.UI.Dispatching.DispatcherQueue? dispatcherQueue;
+		private INavigationControlItem? rightClickedItem;
 		private readonly UISettings uiSettings = new();
 
 		public object SidebarItems => sidebarItems;
@@ -69,7 +70,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		public delegate void SelectedTagChangedEventHandler(object sender, SelectedTagChangedEventArgs e);
+		public delegate void SelectedTagChangedEventHandler(object? sender, SelectedTagChangedEventArgs e);
 
 		public static event SelectedTagChangedEventHandler? SelectedTagChanged;
 		public static event EventHandler<INavigationControlItem?>? RightClickedItemChanged;
@@ -282,9 +283,9 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		private INavigationControlItem selectedSidebarItem;
+		private INavigationControlItem? selectedSidebarItem;
 
-		public INavigationControlItem SidebarSelectedItem
+		public INavigationControlItem? SidebarSelectedItem
 		{
 			get => selectedSidebarItem;
 			set => SetProperty(ref selectedSidebarItem, value);
@@ -330,11 +331,11 @@ namespace Files.App.ViewModels.UserControls
 			UnpinItemCommand = new RelayCommand(UnpinItem);
 			PinItemCommand = new RelayCommand(PinItem);
 			EjectDeviceCommand = new RelayCommand(EjectDevice);
-			OpenPropertiesCommand = new RelayCommand<CommandBarFlyout>(OpenProperties);
+			OpenPropertiesCommand = new RelayCommand<FlyoutBase>(OpenProperties);
 			ReorderItemsCommand = new AsyncRelayCommand(ReorderItemsAsync);
 		}
 
-		private Task<LocationItem> CreateItemHomeAsync()
+		private Task<LocationItem?> CreateItemHomeAsync()
 		{
 			return CreateSectionAsync(SectionType.Home);
 		}
@@ -363,15 +364,17 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
+		private async void Manager_DataChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
-			if (dispatcherQueue is null)
+			if (dispatcherQueue is null || sender is not SectionType sectionType)
 				return;
 
 			await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				var sectionType = (SectionType)sender;
 				var section = await GetOrCreateSectionAsync(sectionType);
+				if (section is null)
+					return;
+
 				Func<IReadOnlyList<INavigationControlItem>> getElements = () => sectionType switch
 				{
 					SectionType.Pinned => App.QuickAccessManager.Model.PinnedFolderItems,
@@ -381,7 +384,7 @@ namespace Files.App.ViewModels.UserControls
 					SectionType.WSL => WSLDistroManager.Distros,
 					SectionType.Library => App.LibraryManager.Libraries,
 					SectionType.FileTag => App.FileTagsManager.FileTags,
-					_ => null
+					_ => throw new ArgumentOutOfRangeException(nameof(sectionType), sectionType, "The sidebar section type is not supported.")
 				};
 				await SyncSidebarItemsAsync(section, getElements, e);
 			});
@@ -393,19 +396,22 @@ namespace Files.App.ViewModels.UserControls
 
 		private async Task SyncSidebarItemsAsync(LocationItem section, Func<IReadOnlyList<INavigationControlItem>> getElements, NotifyCollectionChangedEventArgs e)
 		{
-			if (section is null)
-			{
-				return;
-			}
+			var childItems = section.ChildItems!;
 
 			switch (e.Action)
 			{
 				case NotifyCollectionChangedAction.Add:
 					{
-						for (int i = 0; i < e.NewItems.Count; i++)
+						if (e.NewItems is not { } newItems)
+							break;
+
+						for (int i = 0; i < newItems.Count; i++)
 						{
+							if (newItems[i] is not INavigationControlItem item)
+								continue;
+
 							var index = e.NewStartingIndex < 0 ? -1 : i + e.NewStartingIndex;
-							await AddElementToSectionAsync((INavigationControlItem)e.NewItems[i], section, index);
+							await AddElementToSectionAsync(item, section, index);
 						}
 
 						break;
@@ -415,15 +421,18 @@ namespace Files.App.ViewModels.UserControls
 				case NotifyCollectionChangedAction.Remove:
 				case NotifyCollectionChangedAction.Replace:
 					{
-						foreach (INavigationControlItem elem in e.OldItems)
+						if (e.OldItems is not { } oldItems)
+							break;
+
+						foreach (var elem in oldItems.OfType<INavigationControlItem>())
 						{
-							var match = section.ChildItems.FirstOrDefault(x => x.Path == elem.Path);
+							var match = childItems.FirstOrDefault(x => x.Path == elem.Path);
 							if (match is null)
 								continue;
 							// Tear down the matched item's watcher + descendants before removing it; without this the orphan keeps a live FileSystemWatcher and would fire resyncs into a detached ChildItems collection.
 							if (match is ExpandableSidebarItemBase expandable)
 								expandable.StopWatchingSubfoldersAndDescendants();
-							section.ChildItems.Remove(match);
+							childItems.Remove(match);
 						}
 						if (e.Action != NotifyCollectionChangedAction.Remove)
 						{
@@ -439,13 +448,13 @@ namespace Files.App.ViewModels.UserControls
 						{
 							await AddElementToSectionAsync(elem, section);
 						}
-						foreach (INavigationControlItem elem in section.ChildItems.ToList())
+						foreach (INavigationControlItem elem in childItems.ToList())
 						{
 							if (!getElements().Any(x => x.Path == elem.Path))
 							{
 								if (elem is ExpandableSidebarItemBase expandable)
 									expandable.StopWatchingSubfoldersAndDescendants();
-								section.ChildItems.Remove(elem);
+								childItems.Remove(elem);
 							}
 						}
 
@@ -459,13 +468,15 @@ namespace Files.App.ViewModels.UserControls
 
 		private async Task AddElementToSectionAsync(INavigationControlItem elem, LocationItem section, int index = -1)
 		{
+			var childItems = section.ChildItems!;
+
 			if (elem is LibraryLocationItem lib)
 			{
 				if (IsLibraryOnSidebar(lib) &&
 					await lib.CheckDefaultSaveFolderAccess() &&
-					!section.ChildItems.Any(x => x.Path == lib.Path))
+					!childItems.Any(x => x.Path == lib.Path))
 				{
-					section.ChildItems.AddSorted(elem);
+					childItems.AddSorted(elem);
 					await lib.LoadLibraryIconAsync();
 				}
 			}
@@ -474,32 +485,33 @@ namespace Files.App.ViewModels.UserControls
 				if (section.Section is SectionType.Network or SectionType.CloudDrives)
 				{
 					// Already sorted
-					if (!section.ChildItems.Any(x => x.Path == drive.Path))
+					if (!childItems.Any(x => x.Path == drive.Path))
 					{
-						section.ChildItems.Insert(index < 0 ? section.ChildItems.Count : Math.Min(index, section.ChildItems.Count), drive);
+						childItems.Insert(index < 0 ? childItems.Count : Math.Min(index, childItems.Count), drive);
 						await drive.LoadThumbnailAsync();
 					}
 				}
 				else
 				{
-					string drivePath = drive.Path;
-					var paths = section.ChildItems.Select(item => item.Path).ToList();
+					string drivePath = drive.GetRequiredPath();
+					var paths = childItems.Select(item => item.Path).ToList();
 
 					if (!paths.Contains(drivePath))
 					{
-						paths.AddSorted(drivePath);
-						int position = paths.IndexOf(drivePath);
+						int position = paths.BinarySearch(drivePath, Comparer<string?>.Default);
+						if (position < 0)
+							position = ~position;
 
-						section.ChildItems.Insert(position, drive);
+						childItems.Insert(position, drive);
 						await drive.LoadThumbnailAsync();
 					}
 				}
 			}
 			else
 			{
-				if (!section.ChildItems.Any(x => x.Path == elem.Path))
+				if (!childItems.Any(x => x.Path == elem.Path))
 				{
-					section.ChildItems.Insert(index < 0 ? section.ChildItems.Count : Math.Min(index, section.ChildItems.Count), elem);
+					childItems.Insert(index < 0 ? childItems.Count : Math.Min(index, childItems.Count), elem);
 				}
 			}
 
@@ -525,10 +537,9 @@ namespace Files.App.ViewModels.UserControls
 			expandable.HasUnrealizedChildren = hasSubfolders;
 		}
 
-		private async Task<LocationItem> GetOrCreateSectionAsync(SectionType sectionType)
+		private async Task<LocationItem?> GetOrCreateSectionAsync(SectionType sectionType)
 		{
-			LocationItem? section = GetSection(sectionType) ?? await CreateSectionAsync(sectionType);
-			return section;
+			return GetSection(sectionType) ?? await CreateSectionAsync(sectionType);
 		}
 
 		private LocationItem? GetSection(SectionType sectionType)
@@ -536,9 +547,9 @@ namespace Files.App.ViewModels.UserControls
 			return sidebarItems.FirstOrDefault(x => x.Section == sectionType) as LocationItem;
 		}
 
-		private Task<LocationItem> CreateSectionAsync(SectionType sectionType)
+		private Task<LocationItem?> CreateSectionAsync(SectionType sectionType)
 		{
-			LocationItem section = null;
+			LocationItem? section = null;
 
 			switch (sectionType)
 			{
@@ -656,7 +667,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		private async void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
+		private async void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
 			{
@@ -759,6 +770,7 @@ namespace Files.App.ViewModels.UserControls
 			};
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		public async void HandleItemContextInvokedAsync(object sender, ItemContextInvokedArgs args)
 		{
 			if (sender is not FrameworkElement sidebarItem)
@@ -767,17 +779,19 @@ namespace Files.App.ViewModels.UserControls
 			if (args.Item is not INavigationControlItem item)
 			{
 				// We are in the pane context requested path
-				PaneFlyout.ShowAt(sender as FrameworkElement, args.Position);
+				PaneFlyout!.ShowAt(sidebarItem, args.Position);
 
 				return;
 			}
 
 			if (item is FileTagItem tagItem)
 			{
+				var fileTag = tagItem.FileTag
+					?? throw new InvalidOperationException("The sidebar tag item does not have a tag.");
 				var cts = new CancellationTokenSource();
 				var items = new List<(string path, bool isFolder)>();
 
-				await foreach (var taggedItem in fileTagsService.GetItemsForTagAsync(tagItem.FileTag.Uid, cts.Token))
+				await foreach (var taggedItem in fileTagsService.GetItemsForTagAsync(fileTag.Uid, cts.Token))
 				{
 					items.Add((
 						taggedItem.Storable.Id,
@@ -790,62 +804,23 @@ namespace Files.App.ViewModels.UserControls
 			rightClickedItem = item;
 			RightClickedItemChanged?.Invoke(this, item);
 
-			var itemContextMenuFlyout = new CommandBarFlyout()
-			{
-				Placement = FlyoutPlacementMode.Right,
-				AlwaysExpanded = true
-			};
+			var menuOptions = item.MenuOptions
+				?? throw new InvalidOperationException("The sidebar item does not have context-menu options.");
+			var flyout = new FastContextFlyout();
+			var menuItems = GetLocationItemMenuItems(item, flyout.Flyout);
+			flyout.Build(menuItems);
 
-			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
+			// Pre-add "Show more options" before showing so filling it with shell items never resizes the menu
+			MenuFlyoutSubItem? moreOptions = null;
+			MenuFlyoutSeparator? moreSeparator = null;
+			if (menuOptions.ShowShellItems)
+				(moreOptions, moreSeparator) = flyout.AddShowMoreOptionsIfEnabled();
 
-			var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
-			var (primaryElements, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
+			flyout.ResolvePlacement(sidebarItem, args.Position);
+			flyout.Flyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = args.Position });
 
-			// Workaround for WinUI (#5508) - AppBarButtons don't auto-close CommandBarFlyout
-			var closeHandler = new RoutedEventHandler((s, e) => itemContextMenuFlyout.Hide());
-			primaryElements
-				.OfType<AppBarButton>()
-				.ForEach(button => button.Click += closeHandler);
-			primaryElements
-				.OfType<AppBarToggleButton>()
-				.ForEach(button => button.Click += closeHandler);
-
-			var subMenuItems = secondaryElements
-				.OfType<AppBarButton>()
-				.Select(item => item.Flyout)
-				.OfType<MenuFlyout>()
-				.SelectMany(menu => menu.Items);
-			AddCloseHandlerRecursive(subMenuItems);
-
-			void AddCloseHandlerRecursive(IEnumerable<MenuFlyoutItemBase> menuFlyoutItems)
-			{
-				menuFlyoutItems.OfType<MenuFlyoutItem>()
-					.ForEach(button => button.Click += closeHandler);
-				menuFlyoutItems.OfType<MenuFlyoutSubItem>()
-					.ForEach(menu => AddCloseHandlerRecursive(menu.Items));
-			}
-
-			primaryElements.ForEach(itemContextMenuFlyout.PrimaryCommands.Add);
-
-			secondaryElements
-				.OfType<FrameworkElement>()
-				.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
-
-			secondaryElements.ForEach(itemContextMenuFlyout.SecondaryCommands.Add);
-
-			if (item.MenuOptions.ShowShellItems)
-				itemContextMenuFlyout.Opened += ItemContextMenuFlyout_Opened;
-
-			itemContextMenuFlyout.ShowAt(sidebarItem, new() { Position = args.Position });
-		}
-
-		private async void ItemContextMenuFlyout_Opened(object? sender, object e)
-		{
-			if (sender is not CommandBarFlyout itemContextMenuFlyout)
-				return;
-
-			itemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
-			await ShellContextFlyoutFactory.LoadShellMenuItemsAsync(rightClickedItem.Path, itemContextMenuFlyout, rightClickedItem.MenuOptions);
+			if (menuOptions.ShowShellItems)
+				await ShellContextFlyoutFactory.LoadShellMenuItemsAsync(item.GetRequiredPath(), flyout, menuOptions, moreOptions, moreSeparator);
 		}
 
 		public async void HandleItemInvokedAsync(object item, PointerUpdateKind pointerUpdateKind)
@@ -906,9 +881,9 @@ namespace Files.App.ViewModels.UserControls
 					}
 
 				case NavigationControlItemType.FileTag:
-					var tagPath = navigationControlItem.Path; // Get the path of the invoked item
 					if (PaneHolder?.ActivePane is IShellPage shp)
 					{
+						var tagPath = navigationControlItem.GetRequiredPath();
 						shp.NavigateToPath(tagPath, new NavigationArguments()
 						{
 							IsSearchResultPage = true,
@@ -949,18 +924,30 @@ namespace Files.App.ViewModels.UserControls
 
 		private void PinItem()
 		{
-			if (rightClickedItem is DriveItem)
-				_ = QuickAccessService.PinToSidebarAsync(new[] { rightClickedItem.Path });
+			if (rightClickedItem is DriveItem drive)
+			{
+				var path = drive.GetRequiredPath();
+				_ = QuickAccessService.PinToSidebarAsync([path]);
+			}
 		}
+
 		private void UnpinItem()
 		{
-			if (rightClickedItem.Section == SectionType.Pinned || rightClickedItem is DriveItem)
-				_ = QuickAccessService.UnpinFromSidebarAsync(rightClickedItem.Path);
+			var item = rightClickedItem
+				?? throw new InvalidOperationException("No sidebar item is selected for unpinning.");
+			if (item.Section == SectionType.Pinned || item is DriveItem)
+			{
+				var path = item.GetRequiredPath();
+				_ = QuickAccessService.UnpinFromSidebarAsync(path);
+			}
 		}
 
 		private void HideSection()
 		{
-			switch (rightClickedItem.Section)
+			var item = rightClickedItem
+				?? throw new InvalidOperationException("No sidebar section is selected for hiding.");
+
+			switch (item.Section)
 			{
 				case SectionType.Pinned:
 					UserSettingsService.GeneralSettingsService.ShowPinnedSection = false;
@@ -993,19 +980,29 @@ namespace Files.App.ViewModels.UserControls
 			var result = await dialogService.ShowDialogAsync(dialog);
 		}
 
-		private void OpenProperties(CommandBarFlyout menu)
+		private void OpenProperties(FlyoutBase? menu)
 		{
-			EventHandler<object> flyoutClosed = null!;
-			flyoutClosed = async (s, e) =>
+			if (menu is null)
+				return;
+
+			menu.Closed += FlyoutClosed;
+
+			async void FlyoutClosed(object? sender, object e)
 			{
-				menu.Closed -= flyoutClosed;
-				if (rightClickedItem is DriveItem)
-					FilePropertiesHelpers.OpenPropertiesWindow(rightClickedItem, PaneHolder.ActivePane);
-				else if (rightClickedItem is LibraryLocationItem library)
-					FilePropertiesHelpers.OpenPropertiesWindow(new LibraryItem(library), PaneHolder.ActivePane);
-				else if (rightClickedItem is LocationItem locationItem)
+				menu.Closed -= FlyoutClosed;
+				var item = rightClickedItem;
+				if (item is not (DriveItem or LibraryLocationItem or LocationItem))
+					return;
+				var activePane = PaneHolder?.ActivePane
+					?? throw new InvalidOperationException("There is no active pane for sidebar properties.");
+
+				if (item is DriveItem)
+					FilePropertiesHelpers.OpenPropertiesWindow(item, activePane);
+				else if (item is LibraryLocationItem library)
+					FilePropertiesHelpers.OpenPropertiesWindow(new LibraryItem(library), activePane);
+				else if (item is LocationItem locationItem)
 				{
-					var listedItem = new ListedItem(null!)
+					var listedItem = new ListedItem(null)
 					{
 						ItemPath = locationItem.Path,
 						ItemNameRaw = locationItem.Text,
@@ -1013,30 +1010,33 @@ namespace Files.App.ViewModels.UserControls
 						ItemType = Strings.Folder.GetLocalizedResource(),
 					};
 
-					if (!string.Equals(locationItem.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+					if (!string.IsNullOrEmpty(locationItem.Path) &&
+						!string.Equals(locationItem.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 					{
-						BaseStorageFolder matchingStorageFolder = await PaneHolder.ActivePane.ShellViewModel.GetFolderFromPathAsync(locationItem.Path);
-						if (matchingStorageFolder is not null)
+						var shellViewModel = activePane.GetRequiredShellViewModel();
+						var matchingStorageFolder = await shellViewModel.GetFolderFromPathAsync(locationItem.Path);
+						if (matchingStorageFolder.Result is { } folder)
 						{
-							var syncStatus = await PaneHolder.ActivePane.ShellViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
+							var syncStatus = await shellViewModel.CheckCloudDriveSyncStatusAsync(folder);
 							listedItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 						}
 					}
 
-					FilePropertiesHelpers.OpenPropertiesWindow(listedItem, PaneHolder.ActivePane);
+					FilePropertiesHelpers.OpenPropertiesWindow(listedItem, activePane);
 				}
-			};
-			menu.Closed += flyoutClosed;
+			}
 		}
 
 		private void EjectDevice()
 		{
-			DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
+			var path = rightClickedItem.GetRequiredPath();
+			DriveHelpers.EjectDeviceAsync(path);
 		}
 
-		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, CommandBarFlyout menu)
+		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, FlyoutBase menu)
 		{
-			var options = item.MenuOptions;
+			var options = item.MenuOptions
+				?? throw new InvalidOperationException("The sidebar item does not have context-menu options.");
 			var isSettingsItem = string.Equals(item.Path, "Settings", StringComparison.OrdinalIgnoreCase);
 
 			var pinnedFolderModel = App.QuickAccessManager.Model;
@@ -1159,7 +1159,7 @@ namespace Files.App.ViewModels.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = string.Format(Strings.SideBarHideSectionFromSideBarText.GetLocalizedResource(), rightClickedItem.Text),
+					Text = string.Format(Strings.SideBarHideSectionFromSideBarText.GetLocalizedResource(), item.Text),
 					Glyph = "\uE77A",
 					Command = HideSectionCommand,
 					ShowItem = options.ShowHideSection
@@ -1228,7 +1228,8 @@ namespace Files.App.ViewModels.UserControls
 			{
 				args.RawEvent.Handled = true;
 
-				var isPathNull = string.IsNullOrEmpty(locationItem.Path);
+				var path = locationItem.Path;
+				var isPathNull = string.IsNullOrEmpty(path);
 				var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
 				var hasStorageItems = storageItems.Any();
 
@@ -1247,10 +1248,10 @@ namespace Files.App.ViewModels.UserControls
 					}
 				}
 				else if (isPathNull ||
-					(hasStorageItems && storageItems.AreItemsAlreadyInFolder(locationItem.Path)) ||
-					locationItem.Path.StartsWith("Home", StringComparison.OrdinalIgnoreCase) ||
-					locationItem.Path.StartsWith("ReleaseNotes", StringComparison.OrdinalIgnoreCase) ||
-					locationItem.Path.StartsWith("Settings", StringComparison.OrdinalIgnoreCase))
+					(hasStorageItems && storageItems.AreItemsAlreadyInFolder(path!)) ||
+					path!.StartsWith("Home", StringComparison.OrdinalIgnoreCase) ||
+					path.StartsWith("ReleaseNotes", StringComparison.OrdinalIgnoreCase) ||
+					path.StartsWith("Settings", StringComparison.OrdinalIgnoreCase))
 				{
 					rawEvent.AcceptedOperation = DataPackageOperation.None;
 				}
@@ -1262,7 +1263,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					string captionText;
 					DataPackageOperation operationType;
-					if (locationItem.Path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
+					if (path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 					{
 						captionText = string.Format(Strings.MoveToFolderCaptionText.GetLocalizedResource(), locationItem.Text);
 						// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
@@ -1290,7 +1291,7 @@ namespace Files.App.ViewModels.UserControls
 						captionText = string.Format(Strings.CopyToFolderCaptionText.GetLocalizedResource(), locationItem.Text);
 						operationType = DataPackageOperation.Copy;
 					}
-					else if (locationItem.IsDefaultLocation || storageItems.AreItemsInSameDrive(locationItem.Path))
+					else if (locationItem.IsDefaultLocation || storageItems.AreItemsInSameDrive(locationItem.Path!))
 					{
 						captionText = string.Format(Strings.MoveToFolderCaptionText.GetLocalizedResource(), locationItem.Text);
 						// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
@@ -1315,9 +1316,10 @@ namespace Files.App.ViewModels.UserControls
 
 			var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
 			var hasStorageItems = storageItems.Any();
+			var drivePath = driveItem.GetRequiredPath();
 
 			if (Strings.Unknown.GetLocalizedResource().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
-				(hasStorageItems && storageItems.AreItemsAlreadyInFolder(driveItem.Path)))
+				(hasStorageItems && storageItems.AreItemsAlreadyInFolder(drivePath)))
 			{
 				args.RawEvent.AcceptedOperation = DataPackageOperation.None;
 			}
@@ -1345,7 +1347,7 @@ namespace Files.App.ViewModels.UserControls
 					// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
 					operationType = DataPackageOperation.Move | DataPackageOperation.Copy;
 				}
-				else if (storageItems.AreItemsInSameDrive(driveItem.Path))
+				else if (storageItems.AreItemsInSameDrive(drivePath))
 				{
 					captionText = string.Format(Strings.MoveToFolderCaptionText.GetLocalizedResource(), driveItem.Text);
 					// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
@@ -1406,14 +1408,20 @@ namespace Files.App.ViewModels.UserControls
 				}
 				else
 				{
-					await FilesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.DroppedItem, locationItem.Path, false, true);
+					var filesystemHelpers = FilesystemHelpers
+						?? throw new InvalidOperationException("The sidebar does not have filesystem helpers.");
+					var path = locationItem.GetRequiredPath();
+					await filesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.DroppedItem, path, false, true);
 				}
 			}
 		}
 
 		private Task<ReturnResult> HandleDriveItemDroppedAsync(DriveItem driveItem, ItemDroppedEventArgs args)
 		{
-			return FilesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.RawEvent.DataView, driveItem.Path, false, true);
+			var drivePath = driveItem.GetRequiredPath();
+			var filesystemHelpers = FilesystemHelpers
+				?? throw new InvalidOperationException("The sidebar does not have filesystem helpers.");
+			return filesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.RawEvent.DataView, drivePath, false, true);
 		}
 
 		private async Task HandleTagItemDroppedAsync(FileTagItem fileTagItem, ItemDroppedEventArgs args)
@@ -1421,23 +1429,32 @@ namespace Files.App.ViewModels.UserControls
 			var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
 			var dbInstance = FileTagsHelper.GetDbInstance();
 			var pathToTags = new Dictionary<string, string[]>();
-			foreach (var item in storageItems.Where(x => !string.IsNullOrEmpty(x.Path)))
+			foreach (var item in storageItems)
 			{
-				var filesTags = FileTagsHelper.ReadFileTag(item.Path);
-				if (!filesTags.Contains(fileTagItem.FileTag.Uid))
+				if (string.IsNullOrEmpty(item.Path))
+					continue;
+
+				var path = item.Path;
+				var fileTag = fileTagItem.FileTag
+					?? throw new InvalidOperationException("The sidebar tag item does not have a tag.");
+				var filesTags = FileTagsHelper.ReadFileTag(path);
+				if (!filesTags.Contains(fileTag.Uid))
 				{
-					filesTags = [.. filesTags, fileTagItem.FileTag.Uid];
+					filesTags = [.. filesTags, fileTag.Uid];
 					var fileFRN = await FileTagsHelper.GetFileFRN(item.Item);
-					dbInstance.SetTags(item.Path, fileFRN, filesTags);
-					FileTagsHelper.WriteFileTag(item.Path, filesTags);
-					pathToTags[item.Path] = filesTags;
+					dbInstance.SetTags(path, fileFRN, filesTags);
+					await FileTagsHelper.WriteFileTagAsync(path, filesTags);
+					pathToTags[path] = filesTags;
 				}
 			}
 
-			if (paneHolder.ActivePane is not null)
+			var paneHolder = PaneHolder
+				?? throw new InvalidOperationException("The sidebar does not have a pane holder.");
+			if (paneHolder.ActivePane is { } activePane)
 			{
-				await paneHolder.ActivePane.ShellViewModel.UpdateItemsTags(pathToTags);
-				await paneHolder.ActivePane.ShellViewModel.RefreshTagGroups();
+				var shellViewModel = activePane.GetRequiredShellViewModel();
+				await shellViewModel.UpdateItemsTags(pathToTags);
+				await shellViewModel.RefreshTagGroups();
 			}
 		}
 

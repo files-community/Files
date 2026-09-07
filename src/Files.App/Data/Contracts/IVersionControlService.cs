@@ -1,8 +1,9 @@
 ﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using LibGit2Sharp;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Files.App.Data.Contracts
 {
@@ -26,7 +27,7 @@ namespace Files.App.Data.Contracts
 		/// This method is used for determining whether a directory is within a repository and, if so,
 		/// which directory should be treated as the repository root.
 		/// </remarks>
-		string? GetGitRepositoryPath(string? path, string root);
+		string? GetGitRepositoryPath(string? path, string? root);
 
 		/// <summary>
 		/// Gets the repository name.
@@ -54,6 +55,18 @@ namespace Files.App.Data.Contracts
 		/// A task producing a <see cref="BranchItem"/> representing the HEAD, or <see langword="null"/> if not available.
 		/// </returns>
 		Task<BranchItem?> GetRepositoryHead(string? path);
+
+		/// <summary>
+		/// Gets the name of the current repository HEAD branch.
+		/// </summary>
+		/// <param name="path">A path to the repository working directory.</param>
+		/// <returns>
+		/// A task producing the HEAD branch name, or <see langword="null"/> if the repository is invalid or has no commits.
+		/// </returns>
+		/// <remarks>
+		/// Unlike <see cref="GetRepositoryHead"/>, this does not compute tracking details, making it suitable for hot paths that only need to know whether a valid HEAD exists.
+		/// </remarks>
+		Task<string?> GetRepositoryHeadName(string? path);
 
 		/// <summary>
 		/// Checks out the specified branch.
@@ -102,11 +115,12 @@ namespace Files.App.Data.Contracts
 		/// Fetches updates from remotes.
 		/// </summary>
 		/// <param name="repositoryPath">A path to the repository working directory.</param>
+		/// <param name="reportProgress">Whether to report progress to the status center.</param>
 		/// <param name="cancellationToken">A token used to cancel the operation.</param>
 		/// <remarks>
 		/// Implementations should raise <see cref="GitFetchCompleted"/> when the fetch completes successfully.
 		/// </remarks>
-		void FetchOrigin(string? repositoryPath, CancellationToken cancellationToken = default);
+		Task FetchOriginAsync(string? repositoryPath, bool reportProgress = false, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		/// Pulls from the default remote.
@@ -137,7 +151,7 @@ namespace Files.App.Data.Contracts
 		/// <returns>
 		/// <see langword="true"/> if a repository was found; otherwise, <see langword="false"/>.
 		/// </returns>
-		bool IsRepositoryEx(string path, out string repoRootPath);
+		bool IsRepositoryEx([NotNullWhen(true)] string? path, [NotNullWhen(true)] out string? repoRootPath);
 
 		/// <summary>
 		/// Gets version control information for a filesystem item.

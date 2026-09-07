@@ -12,7 +12,7 @@ namespace Files.App.Services
 
 		private ISizeProvider provider;
 
-		public event EventHandler<SizeChangedEventArgs> SizeChanged;
+		public event EventHandler<SizeChangedEventArgs>? SizeChanged;
 
 		public UserSizeProvider()
 		{
@@ -43,7 +43,7 @@ namespace Files.App.Services
 		private ISizeProvider GetProvider()
 			=> new DrivesSizeProvider();
 
-		private async void FolderPreferences_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		private async void FolderPreferences_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IFoldersSettingsService.CalculateFolderSizes))
 			{
@@ -54,7 +54,7 @@ namespace Files.App.Services
 			}
 		}
 
-		private void Provider_SizeChanged(object sender, SizeChangedEventArgs e)
+		private void Provider_SizeChanged(object? sender, SizeChangedEventArgs e)
 			=> SizeChanged?.Invoke(this, e);
 	}
 }

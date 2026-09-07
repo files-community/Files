@@ -37,8 +37,10 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync(object? parameter = null)
 		{
+			var workingDirectory = _context.ShellPage?.ShellViewModel?.WorkingDirectory;
+
 			var res = await Win32Helper.RunPowershellCommandAsync(
-				$"& \'{_devToolsSettingsService.IDEPath}\' \'{_context.ShellPage?.ShellViewModel.WorkingDirectory}\'",
+				$"& {Win32Helper.ToPowerShellStringLiteral(_devToolsSettingsService.IDEPath)} {Win32Helper.ToPowerShellStringLiteral(workingDirectory)}",
 				PowerShellExecutionOptions.Hidden
 			);
 

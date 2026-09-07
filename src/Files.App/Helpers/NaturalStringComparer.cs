@@ -6,7 +6,7 @@ namespace Files.App.Helpers
 	// Credit: https://github.com/GihanSoft/NaturalStringComparer
 	public sealed class NaturalStringComparer
 	{
-		public static IComparer<object> GetForProcessor()
+		public static IComparer<object?> GetForProcessor()
 		{
 			return new NaturalComparer(StringComparison.CurrentCultureIgnoreCase);
 		}

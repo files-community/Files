@@ -1,11 +1,12 @@
 // Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using Files.App.Controls;
 using Files.App.ViewModels.Properties;
 using Files.Shared.Helpers;
 using Microsoft.UI.Xaml;
 using Windows.Storage;
+using WinRT;
 
 namespace Files.App.Data.Factories
 {
@@ -61,11 +62,18 @@ namespace Files.App.Data.Factories
 				var isLibrary = listedItem.IsLibrary;
 				var fileExt = listedItem.FileExtension;
 				var isFolder = listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder;
+				var itemPath = listedItem.ItemPath!;
+
+				var isMtpPath = DriveHelpers.IsMtpPath(itemPath);
+				var isNetworkPath = isFolder && DriveHelpers.IsNetworkPath(itemPath);
 
 				var securityItemEnabled = !isLibrary && !listedItem.IsRecycleBinItem;
 				var hashItemEnabled = !(isFolder && !listedItem.IsArchive) && !isLibrary && !listedItem.IsRecycleBinItem;
 				var detailsItemEnabled = !(isFolder && !listedItem.IsArchive) && !isLibrary && !listedItem.IsRecycleBinItem;
-				var customizationItemEnabled = !isLibrary && (isFolder && !listedItem.IsArchive || isShortcut);
+				var customizationItemEnabled =
+					!isLibrary &&
+					(isFolder && !listedItem.IsArchive && !listedItem.IsFtpItem && !listedItem.IsRecycleBinItem && !isMtpPath &&
+						(!isNetworkPath || PolicyHelpers.IsShellShortcutIconRemotePathEnabled()) || isShortcut);
 				var compatibilityItemEnabled = FileExtensionHelpers.IsExecutableFile(listedItem is IShortcutItem sht ? sht.TargetPath : fileExt, true);
 				var signaturesItemEnabled =
 					!isFolder &&
@@ -111,6 +119,7 @@ namespace Files.App.Data.Factories
 			return propertiesNavigationItems;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
 		private static PropertiesNavigationItem CreateNavigationItem(PropertiesNavigationViewItemType itemType, string text, string iconStyleKey)
 		{
 			var iconStyle = (Style)Application.Current.Resources[iconStyleKey];

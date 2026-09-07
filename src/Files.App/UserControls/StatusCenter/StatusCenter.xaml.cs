@@ -4,6 +4,7 @@
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using WinRT;
 
 namespace Files.App.UserControls.StatusCenter
 {
@@ -23,12 +24,14 @@ namespace Files.App.UserControls.StatusCenter
 			ViewModel.RemoveAllCompletedItems();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Button))]
 		private void CloseItemButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (sender is Button button && button.DataContext is StatusCenterItem item)
 				ViewModel.RemoveItem(item);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Button))]
 		private void ExpandCollapseChevronItemButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (sender is Button button && button.DataContext is StatusCenterItem item)

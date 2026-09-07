@@ -7,6 +7,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.Views.Shells"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:uc="using:Files.App.UserControls"
 	xmlns:wct="using:CommunityToolkit.WinUI"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	x:Name="RootPage"
@@ -46,6 +47,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
 		<Image
@@ -161,6 +163,13 @@
 			x:FieldModifier="public"
 			Navigated="ItemDisplayFrame_Navigated"
 			TabIndex="1" />
+
+		<!--  Status Bar  -->
+		<uc:StatusBar
+			x:Name="StatusBar"
+			Grid.Row="3"
+			ShowInfoText="{x:Bind IsStatusBarVisible, Mode=OneWay}"
+			Visibility="{x:Bind IsStatusBarVisible, Mode=OneWay}" />
 
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup x:Name="ShellBorderFocusState">

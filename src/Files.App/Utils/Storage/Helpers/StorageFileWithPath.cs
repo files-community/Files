@@ -9,16 +9,16 @@ namespace Files.App.Utils
 	public sealed class StorageFileWithPath : IStorageItemWithPath
 	{
 		public string Path { get; }
-		public string Name => Item?.Name ?? IO.Path.GetFileName(Path);
+		public string Name => Item?.Name ?? IO.Path.GetFileName(Path)!;
 
-		IStorageItem IStorageItemWithPath.Item => Item;
-		public BaseStorageFile Item { get; }
+		IStorageItem? IStorageItemWithPath.Item => Item;
+		public BaseStorageFile? Item { get; }
 
 		public FilesystemItemType ItemType => FilesystemItemType.File;
 
 		public StorageFileWithPath(BaseStorageFile file)
 			: this(file, file.Path) { }
-		public StorageFileWithPath(BaseStorageFile file, string path)
+		public StorageFileWithPath(BaseStorageFile? file, string path)
 			=> (Item, Path) = (file, path);
 	}
 }
