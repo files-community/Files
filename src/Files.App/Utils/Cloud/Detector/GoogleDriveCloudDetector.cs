@@ -25,6 +25,11 @@ namespace Files.App.Utils.Cloud
 		{
 			// Detect from Google Drive's persisted config only; touching the live shell/DriveFS to validate paths can block for ~19s.
 
+			// The SQLite DB and registry keys are left behind after uninstall, so trusting config alone shows phantom
+			// drives. Gate on the install directory: a fast local check that never touches the virtual drive.
+			if (!IsGoogleDriveInstalled())
+				yield break;
+
 			// Google Drive's sync database can be in a couple different locations. Go find it.
 			string appDataPath = UserDataPaths.GetDefault().LocalAppData;
 
@@ -179,6 +184,19 @@ namespace Files.App.Utils.Cloud
 		// A bare drive letter ("G") stored in the registry must be reformatted as a rooted path ("G:\")
 		private static string ConvertDriveLetterToPath(string path)
 			=> path.Length == 1 ? $@"{path}:\" : path;
+
+		private static bool IsGoogleDriveInstalled()
+		{
+			// The install directory is removed on uninstall (unlike the leftover SQLite/registry config) and lives
+			// on a local disk, so this check can't hang the way touching the mounted virtual drive can.
+			return IsInstalledUnder("ProgramFiles") || IsInstalledUnder("ProgramFiles(x86)");
+
+			static bool IsInstalledUnder(string environmentVariable)
+			{
+				var root = Environment.GetEnvironmentVariable(environmentVariable);
+				return !string.IsNullOrEmpty(root) && Directory.Exists(Path.Combine(root, @"Google\Drive File Stream"));
+			}
+		}
 
 		private static async Task<StorageFile?> GetGoogleDriveIconFileAsync()
 		{
