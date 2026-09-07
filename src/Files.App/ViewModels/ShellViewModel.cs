@@ -1609,6 +1609,53 @@ namespace Files.App.ViewModels
 			dbInstance.SetTags(item.GetRequiredPath(), item.FileFRN, item.FileTags ?? []);
 		}
 
+		// Loads extended file properties off the critical path so a slow per-file read never blocks the row's essentials.
+		private async Task LoadExtendedFilePropertiesInBackgroundAsync(ListedItem item, BaseStorageFile file, CancellationToken token)
+		{
+			try
+			{
+				var extraProperties = await GetExtraProperties(file);
+
+				if (token.IsCancellationRequested)
+					return;
+
+				var properties = extraProperties?.Result;
+				if (properties is null)
+					return;
+
+				await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+				{
+					item.ImageDimensions = properties["System.Image.Dimensions"]?.ToString() ?? string.Empty;
+					item.FileVersion = properties["System.FileVersion"]?.ToString() ?? string.Empty;
+					item.MediaDuration = ulong.TryParse(properties["System.Media.Duration"]?.ToString(), out ulong duration)
+							? TimeSpan.FromTicks((long)duration).ToString(@"hh\:mm\:ss")
+							: string.Empty;
+
+					switch (true)
+					{
+						case var _ when !string.IsNullOrEmpty(item.ImageDimensions):
+							item.ContextualProperty = $"{Strings.PropertyDimensions.GetLocalizedResource()}: {item.ImageDimensions}";
+							break;
+						case var _ when !string.IsNullOrEmpty(item.MediaDuration):
+							item.ContextualProperty = $"{Strings.PropertyDuration.GetLocalizedResource()}: {item.MediaDuration}";
+							break;
+						case var _ when !string.IsNullOrEmpty(item.FileVersion):
+							item.ContextualProperty = $"{Strings.PropertyVersion.GetLocalizedResource()}: {item.FileVersion}";
+							break;
+					}
+				},
+				Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+			}
+			catch (OperationCanceledException)
+			{
+				// Navigation or row recycling cancelled the deferred load
+			}
+			catch (Exception)
+			{
+				// Extended properties are best-effort; ignore failures reading them over the wire
+			}
+		}
+
 		// This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
 		// for file inside the recycle bin (but not on the recycle bin folder itself)
 		public async Task LoadExtendedItemPropertiesAsync(ListedItem item)
@@ -1657,6 +1704,8 @@ namespace Files.App.ViewModels
 					token.ThrowIfCancellationRequested();
 					await LoadThumbnailAsync(item, token);
 
+					var isItemNetwork = await DriveHelpers.IsNetworkStorageItemAsync(item.GetRequiredPath());
+
 					token.ThrowIfCancellationRequested();
 					if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 					{
@@ -1667,11 +1716,15 @@ namespace Files.App.ViewModels
 							{
 								token.ThrowIfCancellationRequested();
 
-								var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
+								// A network share is never a cloud placeholder root, so skip that round-trip
+								var syncStatus = isItemNetwork ? CloudDriveSyncStatus.Unknown : await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
 								var fileTag = await Task.Run(() => FileTagsHelper.ReadFileTag(item.GetRequiredPath()));
 								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFile.DisplayType;
-								var extraProperties = await GetExtraProperties(matchingStorageFile);
+
+								// Extended properties open each file; load them in the background on a share
+								var extraProperties = isItemNetwork ? null : await GetExtraProperties(matchingStorageFile);
+
 								var syncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 								var isElevationRequired = !syncStatusUI.LoadSyncStatus && await Task.Run(() => CheckElevationRights(item));
 
@@ -1714,6 +1767,10 @@ namespace Files.App.ViewModels
 								Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 
 								await Task.Run(() => SetFileTag(item));
+
+								if (isItemNetwork)
+									_ = LoadExtendedFilePropertiesInBackgroundAsync(item, matchingStorageFile, token);
+
 								wasSyncStatusLoaded = true;
 							}
 						}
@@ -1741,11 +1798,14 @@ namespace Files.App.ViewModels
 								}
 
 								token.ThrowIfCancellationRequested();
-								var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
+								// A network share is never a cloud placeholder root, so skip that round-trip
+								var syncStatus = isItemNetwork ? CloudDriveSyncStatus.Unknown : await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFolder);
 								var fileTag = await Task.Run(() => FileTagsHelper.ReadFileTag(item.GetRequiredPath()));
 								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFolder.DisplayType;
-								var extraProperties = await GetExtraProperties(matchingStorageFolder);
+
+								// Folder extended properties only carry drive storage details, irrelevant on a network subfolder
+								var extraProperties = isItemNetwork ? null : await GetExtraProperties(matchingStorageFolder);
 
 								token.ThrowIfCancellationRequested();
 
