@@ -12,9 +12,9 @@ namespace Files.App.Utils.Storage
 	public sealed partial class ShellFilesystemOperations : IFilesystemOperations
 	{
 		/// <summary>
-		/// Operations at or below this item count stay on the shell path to avoid Robocopy process overhead.
+		/// File-only selections at or below this count stay on the shell path to avoid Robocopy process overhead.
 		/// </summary>
-		private const int ROBOCOPY_MIN_ITEM_COUNT = 21;
+		private const int ROBOCOPY_ITEM_COUNT_THRESHOLD = 20;
 
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 		private readonly IDevToolsSettingsService DevToolsSettingsService = Ioc.Default.GetRequiredService<IDevToolsSettingsService>();
@@ -77,14 +77,20 @@ namespace Files.App.Utils.Storage
 			var result = (FilesystemResult)true;
 			var copyResult = new ShellOperationResult();
 
-			// Small operations stay on the shell path to avoid Robocopy process overhead.
-			var canUseRobocopy = source.Count >= ROBOCOPY_MIN_ITEM_COUNT &&
-				DevToolsSettingsService.UseRobocopyForFileOperations;
+			var preferRobocopy = !asAdmin && DevToolsSettingsService.UseRobocopyForFileOperations &&
+				(sourceNoSkip.Count() > ROBOCOPY_ITEM_COUNT_THRESHOLD || sourceNoSkip.Any(item => item.ItemType == FilesystemItemType.Directory));
 
 			if (sourceRename.Any())
 			{
-				// Rename operations always use shell operations for proper incremental naming
-				var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+				var renameItems = sourceRename.Zip(destinationRename, (src, dest) => (src, dest)).ToArray();
+				var canUseRobocopy = preferRobocopy &&
+					renameItems.All(item =>
+						Path.GetFileName(item.src.Path).Equals(Path.GetFileName(item.dest), StringComparison.OrdinalIgnoreCase) &&
+						!StorageHelpers.Exists(item.dest)) &&
+					renameItems.Select(item => item.dest).Distinct(StringComparer.OrdinalIgnoreCase).Count() == renameItems.Length;
+				var resultItem = canUseRobocopy
+					? await FileOperationsHelpers.CopyItemWithRobocopyAsync(renameItems.Select(item => item.src.Path).ToArray(), renameItems.Select(item => item.dest).ToArray(), false, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID, _associatedInstance)
+					: await FileOperationsHelpers.CopyItemAsync(renameItems.Select(item => item.src.Path).ToArray(), renameItems.Select(item => item.dest).ToArray(), false, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
 
 				result &= (FilesystemResult)resultItem.Item1;
 
@@ -93,6 +99,10 @@ namespace Files.App.Utils.Storage
 
 			if (sourceReplace.Any())
 			{
+				var replaceItems = sourceReplace.Zip(destinationReplace, (src, dest) => (src, dest)).ToArray();
+				var canUseRobocopy = preferRobocopy &&
+					replaceItems.All(item => Path.GetFileName(item.src.Path).Equals(Path.GetFileName(item.dest), StringComparison.OrdinalIgnoreCase)) &&
+					replaceItems.Select(item => item.dest).Distinct(StringComparer.OrdinalIgnoreCase).Count() == replaceItems.Length;
 				var resultItem = canUseRobocopy
 					? await FileOperationsHelpers.CopyItemWithRobocopyAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID, _associatedInstance)
 					: await FileOperationsHelpers.CopyItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
@@ -524,9 +534,8 @@ namespace Files.App.Utils.Storage
 			var result = (FilesystemResult)true;
 			var moveResult = new ShellOperationResult();
 
-			// Small operations stay on the shell path to avoid Robocopy process overhead.
-			var preferRobocopy = source.Count >= ROBOCOPY_MIN_ITEM_COUNT &&
-				DevToolsSettingsService.UseRobocopyForFileOperations;
+			var preferRobocopy = !asAdmin && DevToolsSettingsService.UseRobocopyForFileOperations &&
+				(sourceNoSkip.Count() > ROBOCOPY_ITEM_COUNT_THRESHOLD || sourceNoSkip.Any(item => item.ItemType == FilesystemItemType.Directory));
 
 			if (sourceRename.Any())
 			{

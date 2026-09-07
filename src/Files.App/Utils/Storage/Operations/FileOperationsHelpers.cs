@@ -685,6 +685,8 @@ namespace Files.App.Utils.Storage
 				fileToCopyPath,
 				copyDestination,
 				overwriteOnCopy,
+				ownerHwnd,
+				asAdmin,
 				progress,
 				operationID,
 				shellPage,
@@ -697,10 +699,47 @@ namespace Files.App.Utils.Storage
 				fileToMovePath,
 				moveDestination,
 				overwriteOnMove,
+				ownerHwnd,
+				asAdmin,
 				progress,
 				operationID,
 				shellPage,
 				isMoveOperation: true);
+		}
+
+		/// <summary>
+		/// Checks all source descendants for reparse points without following them.
+		/// </summary>
+		private static bool AreRobocopySourcesSafe(IEnumerable<string> sourcePaths, CancellationToken cancellationToken)
+		{
+			try
+			{
+				var pending = new Stack<FileSystemInfo>(sourcePaths.Select<string, FileSystemInfo>(path =>
+					Win32Helper.HasFileAttribute(path, FileAttributes.Directory)
+						? new DirectoryInfo(path)
+						: new FileInfo(path)));
+				while (pending.TryPop(out var item))
+				{
+					cancellationToken.ThrowIfCancellationRequested();
+					if (item.Attributes.HasFlag(FileAttributes.ReparsePoint))
+						return false;
+
+					if (item is DirectoryInfo directory)
+					{
+						foreach (var child in directory.EnumerateFileSystemInfos())
+						{
+							cancellationToken.ThrowIfCancellationRequested();
+							pending.Push(child);
+						}
+					}
+				}
+				return true;
+			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+			{
+				App.Logger?.LogWarning(ex, "Unable to safely enumerate Robocopy sources");
+				return false;
+			}
 		}
 
 		private static async Task<(bool success, int hResult)> RunRobocopyAsync(string arguments, StatusCenterItemProgressModel? progressModel, IReadOnlyCollection<string>? expectedItemNames, string operationID, CancellationToken cancellationToken)
@@ -934,6 +973,8 @@ namespace Files.App.Utils.Storage
 			string[] filePaths,
 			string[] destinationPaths,
 			bool overwriteOnOperation,
+			long ownerHwnd,
+			bool asAdmin,
 			IProgress<StatusCenterItemProgressModel>? progress,
 			string operationID,
 			IShellPage? shellPage,
@@ -950,19 +991,6 @@ namespace Files.App.Utils.Storage
 			robocopyOperationTokens.TryGetValue(operationID, out var previousCts);
 			robocopyOperationTokens[operationID] = cts;
 
-			var sizeCalculator = new FileSizeCalculator(filePaths);
-			var sizeTask = sizeCalculator.ComputeSizeAsync(cts.Token);
-			_ = sizeTask.ContinueWith(task =>
-			{
-				if (!task.IsCompletedSuccessfully)
-					return;
-
-				fsProgress.TotalSize = sizeCalculator.Size;
-				fsProgress.ItemsCount = sizeCalculator.ItemsCount;
-				fsProgress.EnumerationCompleted = true;
-				fsProgress.Report();
-			}, TaskScheduler.Default);
-
 			fsProgress.ItemsCount = filePaths.Length;
 			fsProgress.Report();
 			progressHandler ??= new();
@@ -972,6 +1000,7 @@ namespace Files.App.Utils.Storage
 				var shellOperationResult = new ShellOperationResult();
 				var success = true;
 
+				Task sizeTask = Task.CompletedTask;
 				App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Processing {filePaths.Length} items");
 
 				// Initial progress update
@@ -979,6 +1008,26 @@ namespace Files.App.Utils.Storage
 
 				try
 				{
+					if (asAdmin || !AreRobocopySourcesSafe(filePaths, cts.Token))
+					{
+						return isMoveOperation
+							? await MoveItemAsync(filePaths, destinationPaths, overwriteOnOperation, ownerHwnd, asAdmin, progress!, operationID)
+							: await CopyItemAsync(filePaths, destinationPaths, overwriteOnOperation, ownerHwnd, asAdmin, progress!, operationID);
+					}
+
+					var sizeCalculator = new FileSizeCalculator(filePaths);
+					sizeTask = sizeCalculator.ComputeSizeAsync(cts.Token);
+					_ = sizeTask.ContinueWith(task =>
+					{
+						if (!task.IsCompletedSuccessfully)
+							return;
+
+						fsProgress.TotalSize = sizeCalculator.Size;
+						fsProgress.ItemsCount = sizeCalculator.ItemsCount;
+						fsProgress.EnumerationCompleted = true;
+						fsProgress.Report();
+					}, TaskScheduler.Default);
+
 					progressHandler.AddOperation(operationID);
 
 					// Group files and folders separately
@@ -1120,6 +1169,8 @@ namespace Files.App.Utils.Storage
 							$"\"{sourcePath}\"",
 							$"\"{destPath}\"",
 							"/E",
+							"/XJ",
+							"/SL",
 							"/R:3",
 							"/W:1",
 							"/NJH",
