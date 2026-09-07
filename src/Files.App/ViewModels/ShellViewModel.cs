@@ -249,7 +249,8 @@ namespace Files.App.ViewModels
 				pathRoot = Path.GetPathRoot(WorkingDirectory);
 			}
 
-			var gitDirectory = await Task.Run(() => GitHelpers.GetGitRepositoryPath(value, pathRoot));
+			// Cheap now; run inline to skip thread-pool scheduling latency
+			var gitDirectory = GitHelpers.GetGitRepositoryPath(value, pathRoot);
 			if (WorkingDirectory != value)
 				return;
 
