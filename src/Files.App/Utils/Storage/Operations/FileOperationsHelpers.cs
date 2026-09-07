@@ -742,11 +742,11 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private static async Task<(bool success, int hResult)> RunRobocopyAsync(string arguments, StatusCenterItemProgressModel? progressModel, IReadOnlyCollection<string>? expectedItemNames, string operationID, CancellationToken cancellationToken)
+		private static async Task<(bool success, int hResult)> RunRobocopyAsync(IReadOnlyList<string> arguments, StatusCenterItemProgressModel? progressModel, IReadOnlyCollection<string>? expectedItemNames, string operationID, CancellationToken cancellationToken)
 		{
 			try
 			{
-				App.Logger?.LogInformation($"Robocopy operation {operationID}: Starting with arguments: {arguments}");
+				App.Logger?.LogInformation($"Robocopy operation {operationID}: Starting with arguments: {string.Join(" ", arguments)}");
 
 				// Robocopy writes output using the system OEM code page, not UTF-8.
 				var oemEncoding = System.Text.Encoding.GetEncoding(
@@ -755,7 +755,6 @@ namespace Files.App.Utils.Storage
 				var psi = new ProcessStartInfo
 				{
 					FileName = "robocopy.exe",
-					Arguments = arguments,
 					UseShellExecute = false,
 					RedirectStandardOutput = true,
 					RedirectStandardError = true,
@@ -763,6 +762,8 @@ namespace Files.App.Utils.Storage
 					StandardOutputEncoding = oemEncoding,
 					StandardErrorEncoding = oemEncoding
 				};
+				foreach (var argument in arguments)
+					psi.ArgumentList.Add(argument);
 
 				using var process = new Process { StartInfo = psi };
 				var outputCompleted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -1073,10 +1074,11 @@ namespace Files.App.Utils.Storage
 
 							var argsList = new List<string>
 							{
-								$"\"{sourceDir}\"",
-								$"\"{destDir}\"",
-								string.Join(" ", itemNames.Select(name =>
-									name.Contains(' ') ? $"\"{name}\"" : name)),
+								sourceDir,
+								destDir
+							};
+							argsList.AddRange(itemNames);
+							argsList.AddRange([
 								"/R:3",
 								"/W:1",
 								"/NJH",
@@ -1085,7 +1087,7 @@ namespace Files.App.Utils.Storage
 								"/NP",
 								"/BYTES",
 								$"/MT:{threads}"
-							};
+							]);
 
 							if (!overwriteOnOperation)
 							{
@@ -1104,15 +1106,15 @@ namespace Files.App.Utils.Storage
 							if (isMoveOperation)
 								argsList.Add("/MOV");
 
-							var robocopyArgs = string.Join(" ", argsList);
+							var robocopyArgs = argsList;
 
 							// check if the argsList is longer than 8000 characters
-							if (robocopyArgs.Length > 8000)
+							if (robocopyArgs.Sum(argument => argument.Length + 3) > 8000)
 							{
 								App.Logger?.LogWarning($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Args list is longer than 8000 characters, trying anyway");
 							}
 
-							App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Executing file batch with {itemNames.Count} items, args length: {robocopyArgs.Length}");
+							App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Executing file batch with {itemNames.Count} items, args length: {robocopyArgs.Sum(argument => argument.Length + 3)}");
 							(batchOk, hResult) = await RunRobocopyAsync(robocopyArgs, fsProgress, itemNames, operationID, cts.Token);
 
 							// Robocopy exit codes describe the batch, so verify every requested item before
@@ -1166,8 +1168,8 @@ namespace Files.App.Utils.Storage
 
 						var argsList = new List<string>
 						{
-							$"\"{sourcePath}\"",
-							$"\"{destPath}\"",
+							sourcePath,
+							destPath,
 							"/E",
 							"/XJ",
 							"/SL",
@@ -1198,7 +1200,7 @@ namespace Files.App.Utils.Storage
 						if (isMoveOperation)
 							argsList.Add("/MOVE");
 
-						var robocopyArgs = string.Join(" ", argsList);
+						var robocopyArgs = argsList;
 
 						App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Processing folder {sourcePath} -> {destPath}");
 						(folderOk, hResult) = await RunRobocopyAsync(robocopyArgs, fsProgress, null, operationID, cts.Token);
