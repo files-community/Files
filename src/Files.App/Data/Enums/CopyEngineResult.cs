@@ -14,6 +14,7 @@ namespace Files.App.Data.Enums
 		public const int COPYENGINE_E_ACCESS_DENIED_SRC = -2144927711;
 		public const int COPYENGINE_E_ACCESS_DENIED_DEST = -2144927710;
 		public const int COPYENGINE_E_REQUIRES_ELEVATION = -2144927742;
+		public const int HRESULT_ERROR_ACCESS_DENIED = -2147024891;
 		// Path too long
 		public const int COPYENGINE_E_PATH_TOO_DEEP_SRC = -2144927715;
 		public const int COPYENGINE_E_PATH_TOO_DEEP_DEST = -2144927714;
@@ -66,6 +67,7 @@ namespace Files.App.Data.Enums
 				CopyEngineResult.COPYENGINE_E_USER_CANCELLED => FileSystemStatusCode.Generic,
 				CopyEngineResult.COPYENGINE_E_ACCESS_DENIED_DEST => FileSystemStatusCode.Unauthorized,
 				CopyEngineResult.COPYENGINE_E_REQUIRES_ELEVATION => FileSystemStatusCode.Unauthorized,
+				CopyEngineResult.HRESULT_ERROR_ACCESS_DENIED => FileSystemStatusCode.Unauthorized,
 				CopyEngineResult.COPYENGINE_E_RECYCLE_PATH_TOO_LONG => FileSystemStatusCode.NameTooLong,
 				CopyEngineResult.COPYENGINE_E_NEWFILE_NAME_TOO_LONG => FileSystemStatusCode.NameTooLong,
 				CopyEngineResult.COPYENGINE_E_NEWFOLDER_NAME_TOO_LONG => FileSystemStatusCode.NameTooLong,

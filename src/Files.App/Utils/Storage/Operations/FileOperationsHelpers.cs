@@ -783,6 +783,8 @@ namespace Files.App.Utils.Storage
 
 					if (e.Data.Contains("(0x00000020)", StringComparison.OrdinalIgnoreCase))
 						hResult = CopyEngineResult.HRESULT_ERROR_SHARING_VIOLATION;
+					else if (e.Data.Contains("(0x00000005)", StringComparison.OrdinalIgnoreCase))
+						hResult = CopyEngineResult.HRESULT_ERROR_ACCESS_DENIED;
 
 					var fields = e.Data.Split('\t', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 					var completedItemName = fields.Length > 0 ? Path.GetFileName(fields[^1]) : string.Empty;
@@ -858,9 +860,15 @@ namespace Files.App.Utils.Storage
 				await Task.WhenAll(outputCompleted.Task, errorTask);
 
 				var standardError = await errorTask;
+				if (standardError.Contains("(0x00000020)", StringComparison.OrdinalIgnoreCase))
+					hResult = CopyEngineResult.HRESULT_ERROR_SHARING_VIOLATION;
+				else if (standardError.Contains("(0x00000005)", StringComparison.OrdinalIgnoreCase))
+					hResult = CopyEngineResult.HRESULT_ERROR_ACCESS_DENIED;
+
 				var exitCode = process.ExitCode;
-				// Bit 2 means mismatched files; treating it as success can hide a partial move.
-				var success = exitCode is >= 0 and <= 3;
+				// Bit 4 means mismatched files; treating it as success can hide a partial move.
+				// An inaccessible directory can exhaust retries without setting an exit-code error bit.
+				var success = exitCode is >= 0 and <= 3 && (exitCode != 0 || hResult == -1);
 				if (!success)
 				{
 					App.Logger?.LogWarning($"Robocopy operation {operationID}: Exit code {exitCode}. {standardError}");
