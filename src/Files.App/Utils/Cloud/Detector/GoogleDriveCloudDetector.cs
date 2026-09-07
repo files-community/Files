@@ -23,6 +23,12 @@ namespace Files.App.Utils.Cloud
 
 		protected override async IAsyncEnumerable<ICloudProvider> GetProviders()
 		{
+			// Detect from Google Drive's persisted config only; touching the live shell/DriveFS to validate paths can block for ~19s.
+
+			// Config is left behind after uninstall, so verify the app is actually installed first.
+			if (!IsGoogleDriveInstalled())
+				yield break;
+
 			// Google Drive's sync database can be in a couple different locations. Go find it.
 			string appDataPath = UserDataPaths.GetDefault().LocalAppData;
 
@@ -41,121 +47,58 @@ namespace Files.App.Utils.Cloud
 			await using var cmdRoot = new SqliteCommand("SELECT * FROM roots", database);
 			await using var cmdMedia = new SqliteCommand("SELECT * FROM media WHERE fs_type=10", database);
 
-			// Open the connection and execute the command
 			database.Open();
 
-			var reader = cmdRoot.ExecuteReader(); // Google synced folders
+			var iconFile = await GetGoogleDriveIconFileAsync();
+			var iconData = iconFile is not null ? await iconFile.ToByteArrayAsync() : null;
+
+			// Synced folders (Mirror mode)
+			var reader = cmdRoot.ExecuteReader();
 			while (reader.Read())
 			{
-				// Extract the data from the reader
 				string? path = reader["last_seen_absolute_path"]?.ToString();
 				if (string.IsNullOrWhiteSpace(path))
-				{
 					continue;
-				}
 
-				// By default, the path will be prefixed with "\\?\" (unless another app has explicitly changed it).
-				// \\?\ indicates to Win32 that the filename may be longer than MAX_PATH (see MSDN).
-				// Parts of .NET (e.g. the File class) don't handle this very well, so remove this prefix.
+				// The path is prefixed with "\\?\" by default, which parts of .NET (e.g. the File class) don't handle; strip it.
 				if (path.StartsWith(@"\\?\", StringComparison.Ordinal))
-				{
-					path = path.Substring(@"\\?\".Length);
-				}
-
-				var folderResult = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(path).AsTask());
-				if (!folderResult)
-				{
-					_logger.LogWarning($"Could not access Google Drive path as local storage: {LogPathHelper.RedactUserName(path)}");
-					continue;
-				}
-
-				var folder = folderResult.Result!;
-				string title = reader["title"]?.ToString() ?? folder.Name;
-
-				Debug.WriteLine("YIELD RETURNING from `GoogleDriveCloudDetector.GetProviders()` (roots): ");
-				Debug.WriteLine($"Name: Google Drive ({title}); SyncFolder: {path}");
+					path = path[@"\\?\".Length..];
 
 				yield return new CloudProvider(CloudProviders.GoogleDrive)
 				{
-					Name = $"Google Drive ({title})",
+					Name = $"Google Drive ({reader["title"]?.ToString() ?? Path.GetFileName(path)})",
 					SyncFolder = path,
 				};
 			}
 
-			var iconFile = await GetGoogleDriveIconFileAsync();
-			// Google virtual drive
+			// Virtual drive mount points (File Stream)
 			reader = cmdMedia.ExecuteReader();
-
 			while (reader.Read())
 			{
-				string? path = reader["last_mount_point"]?.ToString();
-				if (string.IsNullOrWhiteSpace(path))
+				string? mount = reader["last_mount_point"]?.ToString();
+				if (string.IsNullOrWhiteSpace(mount))
 					continue;
 
-				if (!AddMyDriveToPathAndValidate(ref path))
-					continue;
-
-				var folderResult = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(path).AsTask());
-				if (!folderResult)
-				{
-					_logger.LogWarning($"Could not access Google Drive path as local storage: {LogPathHelper.RedactUserName(path)}");
-					continue;
-				}
-
-				var folder = folderResult.Result!;
-				string title = reader["name"]?.ToString() ?? folder.Name;
-
-				Debug.WriteLine("YIELD RETURNING from `GoogleDriveCloudDetector.GetProviders` (media): ");
-				Debug.WriteLine($"Name: {title}; SyncFolder: {path}");
-
+				var path = Path.Combine(mount, "My Drive");
 				yield return new CloudProvider(CloudProviders.GoogleDrive)
 				{
-					Name = title,
+					Name = reader["name"]?.ToString() ?? Path.GetFileName(path),
 					SyncFolder = path,
-					IconData = iconFile is not null ? await iconFile.ToByteArrayAsync() : null,
+					IconData = iconData,
 				};
 			}
 
-			// Log the contents of the root_preferences database to the debug output.
-			await Inspect(database, "SELECT * FROM roots", "root_preferences db, roots table");
-			await Inspect(database, "SELECT * FROM media", "root_preferences db, media table");
-			await Inspect(database, "SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY 1", "root_preferences db, all tables");
-
-			// Query the Windows Registry for the base Google Drive path and time the query.
-			var sw = Stopwatch.StartNew();
-			var googleDrivePath = GetRegistryBasePath() ?? string.Empty;
-			sw.Stop();
-			Debug.WriteLine($"Google Drive path registry check took {sw.Elapsed} seconds.");
-
-			// Add "My Drive" to the base GD path; validate; return the resulting cloud provider.
-			if (!AddMyDriveToPathAndValidate(ref googleDrivePath))
-				yield break;
-			yield return new CloudProvider(CloudProviders.GoogleDrive)
+			// Fall back to the base mount path from the registry (deduped downstream by path)
+			var registryBasePath = GetRegistryBasePath();
+			if (!string.IsNullOrEmpty(registryBasePath))
 			{
-				Name = "Google Drive",
-				SyncFolder = googleDrivePath,
-				IconData = iconFile is not null ? await iconFile.ToByteArrayAsync() : null
-			};
-		}
-
-		private static async Task Inspect(SqliteConnection database, string sqlCommand, string targetDescription)
-		{
-			await using var cmdTablesAll = new SqliteCommand(sqlCommand, database);
-			var reader = await cmdTablesAll.ExecuteReaderAsync();
-			var colNamesList = Enumerable.Range(0, reader.FieldCount).Select(i => reader.GetName(i)).ToList();
-
-			Debug.WriteLine($"BEGIN LOGGING of {targetDescription}");
-
-			for (int rowIdx = 0; reader.Read() is not false; rowIdx++)
-			{
-				var colVals = new object[reader.FieldCount];
-				reader.GetValues(colVals);
-
-				colVals.Select((val, colIdx) => $"row {rowIdx}: column {colIdx}: {colNamesList[colIdx]}: {val}")
-					.ToList().ForEach(s => Debug.WriteLine(s));
+				yield return new CloudProvider(CloudProviders.GoogleDrive)
+				{
+					Name = "Google Drive",
+					SyncFolder = Path.Combine(registryBasePath, "My Drive"),
+					IconData = iconData,
+				};
 			}
-
-			Debug.WriteLine($"END LOGGING of {targetDescription} contents");
 		}
 
 		private static JsonDocument? GetGoogleDriveRegValJson()
@@ -210,9 +153,6 @@ namespace Files.App.Utils.Cloud
 				return null;
 			}
 
-			Debug.WriteLine("REGISTRY LOGGING");
-			Debug.WriteLine(googleDriveRegValJsonProperty.ToString());
-
 			var item = googleDriveRegValJsonProperty.Value.EnumerateArray().FirstOrDefault();
 			if (item.ValueKind == JsonValueKind.Undefined)
 			{
@@ -234,43 +174,42 @@ namespace Files.App.Utils.Cloud
 
 			var path = googleDriveRegValPropProp.GetString();
 			if (path is not null)
-				return ConvertDriveLetterToPathAndValidate(ref path) ? path : null;
+				return ConvertDriveLetterToPath(path);
 
 			_logger.LogWarning($"Could not get string from value from {_googleDriveRegValPropPropName}");
 			return null;
 		}
 
-		/// <summary>
-		/// If Google Drive is mounted as a drive, then the path found in the registry will be
-		/// *just* the drive letter (e.g. just "G" as opposed to "G:\"), and therefore must be
-		/// reformatted as a valid path.
-		/// </summary>
-		private static bool ConvertDriveLetterToPathAndValidate(ref string path)
+		// A bare drive letter ("G") stored in the registry must be reformatted as a rooted path ("G:\")
+		private static string ConvertDriveLetterToPath(string path)
+			=> path.Length == 1 ? $@"{path}:\" : path;
+
+		private static bool IsGoogleDriveInstalled()
 		{
-			if (path.Length > 1)
-				return ValidatePath(path);
+			// Check for the main exe, not the folder: uninstall can leave the folder with helper exes until reboot.
+			return IsInstalledUnder("ProgramFiles") || IsInstalledUnder("ProgramFiles(x86)");
 
-			DriveInfo driveInfo;
-			try
+			static bool IsInstalledUnder(string environmentVariable)
 			{
-				driveInfo = new DriveInfo(path);
-			}
-			catch (ArgumentException e)
-			{
-				_logger.LogWarning(e, $"Could not resolve drive letter '{path}' to a valid drive.");
-				return false;
-			}
+				var root = Environment.GetEnvironmentVariable(environmentVariable);
+				if (string.IsNullOrEmpty(root))
+					return false;
 
-			path = driveInfo.RootDirectory.Name;
-			return true;
-		}
+				var installDir = Path.Combine(root, @"Google\Drive File Stream");
+				if (!Directory.Exists(installDir))
+					return false;
 
-		private static bool ValidatePath(string path)
-		{
-			if (Directory.Exists(path))
-				return true;
-			_logger.LogWarning($"Invalid path: {LogPathHelper.RedactUserName(path)}");
-			return false;
+				try
+				{
+					// GoogleDriveFS.exe lives in a versioned subfolder
+					return Directory.EnumerateFiles(installDir, "GoogleDriveFS.exe", SearchOption.AllDirectories).Any();
+				}
+				catch (Exception)
+				{
+					// Access/IO errors enumerating the install dir: treat as not installed rather than throwing
+					return false;
+				}
+			}
 		}
 
 		private static async Task<StorageFile?> GetGoogleDriveIconFileAsync()
@@ -284,29 +223,6 @@ namespace Files.App.Utils.Cloud
 
 			var iconFileResult = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(iconPath).AsTask());
 			return iconFileResult ? iconFileResult.Result : null;
-		}
-
-		private static bool AddMyDriveToPathAndValidate(ref string path)
-		{
-			// If `path` contains a shortcut named "My Drive", store its target in `shellFolderBaseFirst`.
-			// This happens when "My Drive syncing options" is set to "Mirror files".
-			using var rootFolder = ShellFolderExtensions.GetShellItemFromPathOrPIDL(path) as ShellFolder;
-			var myDriveFolder = Environment.ExpandEnvironmentVariables((
-					rootFolder?.FirstOrDefault(si =>
-						si.Name?.Equals("My Drive") ?? false) as ShellLink)?.TargetPath
-				?? string.Empty);
-
-			Debug.WriteLine("SHELL FOLDER LOGGING");
-			rootFolder?.ForEach(si => Debug.WriteLine(si.Name));
-
-			if (!string.IsNullOrEmpty(myDriveFolder))
-			{
-				path = myDriveFolder;
-				return true;
-			}
-
-			path = Path.Combine(path, "My Drive");
-			return ValidatePath(path);
 		}
 	}
 }

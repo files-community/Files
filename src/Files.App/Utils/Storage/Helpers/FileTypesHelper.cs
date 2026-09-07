@@ -16,7 +16,7 @@ namespace Files.App.Utils.Storage
 		// The type name is identical for every file of an extension, so cache it by extension.
 		private static readonly ConcurrentDictionary<string, string> typeNameCache = new(StringComparer.OrdinalIgnoreCase);
 
-		public static unsafe string GetLocalizedTypeName(string extension)
+		public static unsafe string GetLocalizedTypeName(string? extension)
 		{
 			if (string.IsNullOrEmpty(extension))
 				return string.Empty;
