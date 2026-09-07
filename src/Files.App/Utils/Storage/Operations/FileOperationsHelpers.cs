@@ -812,23 +812,22 @@ namespace Files.App.Utils.Storage
 				process.BeginOutputReadLine();
 
 				var errorTask = process.StandardError.ReadToEndAsync();
-				using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-				timeoutCts.CancelAfter(TimeSpan.FromMinutes(30));
-				using var registration = timeoutCts.Token.Register(() =>
+				using var registration = cancellationToken.Register(() =>
 				{
 					try
 					{
 						if (!process.HasExited)
 							process.Kill(entireProcessTree: true);
 					}
-					catch
+					catch (Exception ex)
 					{
+						App.Logger?.LogWarning(ex, "Robocopy operation {OperationId}: Failed to terminate process", operationID);
 					}
 				});
 
 				try
 				{
-					await process.WaitForExitAsync(timeoutCts.Token);
+					await process.WaitForExitAsync(cancellationToken);
 				}
 				catch (OperationCanceledException)
 				{
@@ -837,8 +836,9 @@ namespace Files.App.Utils.Storage
 						if (!process.HasExited)
 							process.Kill(entireProcessTree: true);
 					}
-					catch
+					catch (Exception ex)
 					{
+						App.Logger?.LogWarning(ex, "Robocopy operation {OperationId}: Failed to terminate cancelled process", operationID);
 					}
 
 					try
@@ -846,30 +846,24 @@ namespace Files.App.Utils.Storage
 						await process.WaitForExitAsync(CancellationToken.None).WaitAsync(TimeSpan.FromSeconds(10));
 						await Task.WhenAll(outputCompleted.Task, errorTask).WaitAsync(TimeSpan.FromSeconds(10));
 					}
-					catch
+					catch (Exception ex)
 					{
-						// Do not let a process that resisted termination block later operations.
+						App.Logger?.LogWarning(ex, "Robocopy operation {OperationId}: Process did not finish cleanly after cancellation", operationID);
 					}
 
-					if (cancellationToken.IsCancellationRequested)
-					{
-						App.Logger?.LogWarning($"Robocopy operation {operationID}: Cancelled");
-						return (false, -3);
-					}
-
-					App.Logger?.LogWarning($"Robocopy operation {operationID}: Timed out");
-					return (false, -2);
+					App.Logger?.LogWarning($"Robocopy operation {operationID}: Cancelled");
+					return (false, -3);
 				}
 
 				await Task.WhenAll(outputCompleted.Task, errorTask);
 
+				var standardError = await errorTask;
 				var exitCode = process.ExitCode;
 				// Bit 2 means mismatched files; treating it as success can hide a partial move.
 				var success = exitCode is >= 0 and <= 3;
 				if (!success)
 				{
-					var error = await errorTask;
-					App.Logger?.LogWarning($"Robocopy operation {operationID}: Exit code {exitCode}. {error}");
+					App.Logger?.LogWarning($"Robocopy operation {operationID}: Exit code {exitCode}. {standardError}");
 				}
 				else
 				{
@@ -1265,8 +1259,9 @@ namespace Files.App.Utils.Storage
 					catch (OperationCanceledException)
 					{
 					}
-					catch (TimeoutException)
+					catch (Exception ex)
 					{
+						App.Logger?.LogWarning(ex, "Robocopy size calculation did not finish cleanly");
 					}
 					cts.Dispose();
 				}
@@ -1284,8 +1279,9 @@ namespace Files.App.Utils.Storage
 				{
 					cts.Cancel();
 				}
-				catch
+				catch (Exception ex)
 				{
+					App.Logger?.LogWarning(ex, "Unable to cancel file operation {OperationId}", operationId);
 				}
 			}
 		}
