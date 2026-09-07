@@ -1720,7 +1720,6 @@ namespace Files.App.ViewModels
 								var syncStatus = isItemNetwork ? CloudDriveSyncStatus.Unknown : await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
 								var fileTag = await Task.Run(() => FileTagsHelper.ReadFileTag(item.GetRequiredPath()));
-								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFile.DisplayType;
 
 								// Extended properties open each file; load them in the background on a share
 								var extraProperties = isItemNetwork ? null : await GetExtraProperties(matchingStorageFile);
@@ -1737,7 +1736,6 @@ namespace Files.App.ViewModels
 										throw new InvalidOperationException("A file-property lookup did not return properties.");
 
 									item.FolderRelativeId = matchingStorageFile.FolderRelativeId;
-									item.ItemType = itemType;
 									item.SyncStatusUI = syncStatusUI;
 									item.FileFRN = fileFRN;
 									item.FileTags = fileTag;
@@ -1802,7 +1800,6 @@ namespace Files.App.ViewModels
 								var syncStatus = isItemNetwork ? CloudDriveSyncStatus.Unknown : await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFolder);
 								var fileTag = await Task.Run(() => FileTagsHelper.ReadFileTag(item.GetRequiredPath()));
-								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFolder.DisplayType;
 
 								// Folder extended properties only carry drive storage details, irrelevant on a network subfolder
 								var extraProperties = isItemNetwork ? null : await GetExtraProperties(matchingStorageFolder);
@@ -1812,7 +1809,6 @@ namespace Files.App.ViewModels
 								await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 								{
 									item.FolderRelativeId = matchingStorageFolder.FolderRelativeId;
-									item.ItemType = itemType;
 									item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 									item.FileFRN = fileFRN;
 									item.FileTags = fileTag;
