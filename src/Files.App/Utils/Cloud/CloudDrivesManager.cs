@@ -97,7 +97,7 @@ namespace Files.App.Utils.Cloud
 						provider.SyncFolder,
 						Constants.ShellIconSizes.Small,
 						false,
-						IconOptions.ReturnIconOnly);
+						IconOptions.ReturnIconOnly | IconOptions.SkipSizeSnapping);
 
 					iconData = result;
 				}
