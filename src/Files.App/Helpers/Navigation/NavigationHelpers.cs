@@ -668,7 +668,8 @@ namespace Files.App.Helpers
 
 			if (isShortcut)
 			{
-				if (string.IsNullOrEmpty(shortcutInfo.TargetPath))
+				// Empty or non-rooted shell target (e.g. a shell:appsfolder app): launch the .lnk so the shell activates it
+				if (string.IsNullOrEmpty(shortcutInfo.TargetPath) || !Path.IsPathRooted(shortcutInfo.TargetPath))
 				{
 					await Win32Helper.InvokeWin32ComponentAsync(path, associatedInstance, args);
 				}
