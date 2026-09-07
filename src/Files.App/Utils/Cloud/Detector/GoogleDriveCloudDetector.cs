@@ -25,8 +25,7 @@ namespace Files.App.Utils.Cloud
 		{
 			// Detect from Google Drive's persisted config only; touching the live shell/DriveFS to validate paths can block for ~19s.
 
-			// The SQLite DB and registry keys are left behind after uninstall, so trusting config alone shows phantom
-			// drives. Gate on the install directory: a fast local check that never touches the virtual drive.
+			// Config is left behind after uninstall, so verify the app is actually installed first.
 			if (!IsGoogleDriveInstalled())
 				yield break;
 
@@ -187,14 +186,29 @@ namespace Files.App.Utils.Cloud
 
 		private static bool IsGoogleDriveInstalled()
 		{
-			// The install directory is removed on uninstall (unlike the leftover SQLite/registry config) and lives
-			// on a local disk, so this check can't hang the way touching the mounted virtual drive can.
+			// Check for the main exe, not the folder: uninstall can leave the folder with helper exes until reboot.
 			return IsInstalledUnder("ProgramFiles") || IsInstalledUnder("ProgramFiles(x86)");
 
 			static bool IsInstalledUnder(string environmentVariable)
 			{
 				var root = Environment.GetEnvironmentVariable(environmentVariable);
-				return !string.IsNullOrEmpty(root) && Directory.Exists(Path.Combine(root, @"Google\Drive File Stream"));
+				if (string.IsNullOrEmpty(root))
+					return false;
+
+				var installDir = Path.Combine(root, @"Google\Drive File Stream");
+				if (!Directory.Exists(installDir))
+					return false;
+
+				try
+				{
+					// GoogleDriveFS.exe lives in a versioned subfolder
+					return Directory.EnumerateFiles(installDir, "GoogleDriveFS.exe", SearchOption.AllDirectories).Any();
+				}
+				catch (Exception)
+				{
+					// Access/IO errors enumerating the install dir: treat as not installed rather than throwing
+					return false;
+				}
 			}
 		}
 
