@@ -196,6 +196,9 @@ namespace Files.App.ViewModels
 		private StorageFolderWithPath? currentStorageFolder;
 		private StorageFolderWithPath? workingRoot;
 
+		// Carries the enumeration's cloud sync result to the post-enum switch, avoiding a second query.
+		private CloudDriveSyncStatus? enumeratedCloudSyncStatus;
+
 		public delegate void WorkingDirectoryModifiedEventHandler(object? sender, WorkingDirectoryModifiedEventArgs e);
 
 		public event WorkingDirectoryModifiedEventHandler? WorkingDirectoryModified;
@@ -2193,7 +2196,7 @@ namespace Files.App.ViewModels
 				// Is folder synced to cloud storage?
 				case 0:
 					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
-					var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
+					var syncStatus = enumeratedCloudSyncStatus ?? await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
 
 					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs()
 					{
@@ -2254,6 +2257,8 @@ namespace Files.App.ViewModels
 
 		private async Task<int> EnumerateItemsFromStandardFolderAsync(string path, CancellationToken cancellationToken, LibraryItem? library = null)
 		{
+			enumeratedCloudSyncStatus = null;
+
 			// Flag to use FindFirstFileExFromApp or StorageFolder enumeration - Use storage folder for Box Drive (#4629)
 			var isBoxFolder = CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder && path.StartsWith(boxFolder);
 			bool isWslDistro = path.StartsWith(@"\\wsl$\", StringComparison.OrdinalIgnoreCase) || path.StartsWith(@"\\wsl.localhost\", StringComparison.OrdinalIgnoreCase)
@@ -2286,10 +2291,30 @@ namespace Files.App.ViewModels
 					return -1;
 			}
 
-			// Runs off the UI thread: FindFirstFileEx blocks until the SMB timeout on an unreachable network share
-			if (!enumFromStorageFolder && await Task.Run(() => FolderHelpers.CheckFolderAccessWithWin32(path)))
+			// Off the UI thread: FindFirstFileEx blocks until the SMB timeout on an unreachable share.
+			Win32PInvoke.SafeFindHandle? hFile = null;
+			WIN32_FIND_DATA findData = default;
+			int errorCode = 0;
+			if (!enumFromStorageFolder)
 			{
-				// Will enumerate with FindFirstFileExFromApp, rootFolder only used for Bitlocker
+				(hFile, findData, errorCode) = await Task.Run(() =>
+				{
+					var hFileTsk = FindFirstFileExFromAppSafe(
+						path + "\\*.*",
+						FINDEX_INFO_LEVELS.FindExInfoBasic,
+						out WIN32_FIND_DATA findDataTsk,
+						FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+						IntPtr.Zero,
+						FIND_FIRST_EX_LARGE_FETCH);
+
+					return (hFileTsk, findDataTsk, hFileTsk.IsInvalid ? Marshal.GetLastWin32Error() : 0);
+				})
+				.WithTimeoutAsync(TimeSpan.FromSeconds(5));
+			}
+
+			if (!enumFromStorageFolder && hFile is not null && !hFile.IsInvalid)
+			{
+				// Enumerate with the handle opened above; rootFolder only used for Bitlocker
 				currentStorageFolder = null;
 			}
 			else if (workingRoot is not null)
@@ -2349,6 +2374,9 @@ namespace Files.App.ViewModels
 
 			if (enumFromStorageFolder)
 			{
+				// The handle from the open above is unused on the storage-folder path.
+				hFile?.Dispose();
+
 				var basicProps = await rootFolder?.GetBasicPropertiesAsync();
 				var currentFolder = library ?? new ListedItem(rootFolder?.FolderRelativeId ?? string.Empty)
 				{
@@ -2375,23 +2403,6 @@ namespace Files.App.ViewModels
 			}
 			else
 			{
-				(Win32PInvoke.SafeFindHandle? hFile, WIN32_FIND_DATA findData, int errorCode) = await Task.Run(() =>
-				{
-					var findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-					var additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-
-					var hFileTsk = FindFirstFileExFromAppSafe(
-						path + "\\*.*",
-						findInfoLevel,
-						out WIN32_FIND_DATA findDataTsk,
-						FINDEX_SEARCH_OPS.FindExSearchNameMatch,
-						IntPtr.Zero,
-						additionalFlags);
-
-					return (hFileTsk, findDataTsk, hFileTsk.IsInvalid ? Marshal.GetLastWin32Error() : 0);
-				})
-				.WithTimeoutAsync(TimeSpan.FromSeconds(5));
-
 				var itemModifiedDate = DateTime.Now;
 				var itemCreatedDate = DateTime.Now;
 
@@ -2481,7 +2492,9 @@ namespace Files.App.ViewModels
 						Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					});
 
-					rootFolder ??= await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+					// Cache the resolved folder so the post-enum switch reuses it.
+					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
+					rootFolder ??= currentStorageFolder?.Item;
 					if (rootFolder is not null)
 					{
 						if (rootFolder.DisplayName is not null)
@@ -2489,8 +2502,8 @@ namespace Files.App.ViewModels
 
 						if (!string.Equals(path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 						{
-							var syncStatus = await CheckCloudDriveSyncStatusAsync(rootFolder);
-							currentFolder.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+							enumeratedCloudSyncStatus = await CheckCloudDriveSyncStatusAsync(rootFolder);
+							currentFolder.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(enumeratedCloudSyncStatus.Value);
 						}
 					}
 
