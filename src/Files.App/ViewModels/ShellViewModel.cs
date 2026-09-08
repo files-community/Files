@@ -199,6 +199,12 @@ namespace Files.App.ViewModels
 		// Carries the enumeration's cloud sync result to the post-enum switch, avoiding a second query.
 		private CloudDriveSyncStatus? enumeratedCloudSyncStatus;
 
+		private static readonly ConcurrentDictionary<string, System.IO.DriveType> driveTypeCache = new();
+
+		// Speculative directory open started at navigation request time so it overlaps the frame-navigation window.
+		private sealed record DirectoryOpenPrefetch(string Path, Task<(Win32PInvoke.SafeFindHandle? Handle, WIN32_FIND_DATA Data, int ErrorCode)> Task);
+		private static DirectoryOpenPrefetch? directoryOpenPrefetch;
+
 		public delegate void WorkingDirectoryModifiedEventHandler(object? sender, WorkingDirectoryModifiedEventArgs e);
 
 		public event WorkingDirectoryModifiedEventHandler? WorkingDirectoryModified;
@@ -2255,6 +2261,74 @@ namespace Files.App.ViewModels
 			watcherCTS = new CancellationTokenSource();
 		}
 
+		private static (Win32PInvoke.SafeFindHandle? Handle, WIN32_FIND_DATA Data, int ErrorCode) OpenDirectoryForEnumeration(string path)
+		{
+			var handle = FindFirstFileExFromAppSafe(
+				path + "\\*.*",
+				FINDEX_INFO_LEVELS.FindExInfoBasic,
+				out WIN32_FIND_DATA data,
+				FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+				IntPtr.Zero,
+				FIND_FIRST_EX_LARGE_FETCH);
+
+			return (handle, data, handle.IsInvalid ? Marshal.GetLastWin32Error() : 0);
+		}
+
+		/// <summary>
+		/// Starts the directory open in the background at navigation request time so it overlaps the frame-navigation
+		/// window. Only plain local paths are eligible (the enumerator uses FindFirstFileEx for those).
+		/// </summary>
+		public static void PrefetchDirectoryOpen(string? path)
+		{
+			if (string.IsNullOrEmpty(path) ||
+				!Path.IsPathRooted(path) ||
+				path.StartsWith(@"\\", StringComparison.Ordinal) ||
+				FtpHelpers.IsFtpPath(path) ||
+				path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase))
+				return;
+
+			var task = Task.Run(() => OpenDirectoryForEnumeration(path));
+			var previous = Interlocked.Exchange(ref directoryOpenPrefetch, new DirectoryOpenPrefetch(path, task));
+			DisposePrefetchTask(previous?.Task);
+		}
+
+		// Returns the prefetched open when it matches this path; otherwise clears (and disposes) any stale prefetch.
+		private static Task<(Win32PInvoke.SafeFindHandle? Handle, WIN32_FIND_DATA Data, int ErrorCode)>? TakeDirectoryOpenPrefetch(string path)
+		{
+			var prefetch = Interlocked.Exchange(ref directoryOpenPrefetch, null);
+			if (prefetch is null)
+				return null;
+
+			if (string.Equals(prefetch.Path.TrimEnd('\\'), path.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase))
+				return prefetch.Task;
+
+			DisposePrefetchTask(prefetch.Task);
+			return null;
+		}
+
+		private static void DisposePrefetchTask(Task<(Win32PInvoke.SafeFindHandle? Handle, WIN32_FIND_DATA Data, int ErrorCode)>? task)
+		{
+			// The unconsumed handle must be closed once the open completes, or it leaks
+			_ = task?.ContinueWith(
+				t => { if (t.Result.Handle is { IsInvalid: false } handle) handle.Dispose(); },
+				TaskContinuationOptions.OnlyOnRanToCompletion | TaskContinuationOptions.ExecuteSynchronously);
+		}
+
+		private async Task PromptToUnlockBitlockerIfLockedAsync(string path, string pathRoot)
+		{
+			try
+			{
+				var rootFolder = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+				if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, path))
+					await ContextMenu.InvokeVerb("unlock-bde", pathRoot);
+			}
+			catch (Exception ex)
+			{
+				// Runs detached, so swallow: the property probe or the unlock-bde shell verb can throw (e.g. COMException)
+				App.Logger.LogWarning(ex, ex.Message);
+			}
+		}
+
 		private async Task<int> EnumerateItemsFromStandardFolderAsync(string path, CancellationToken cancellationToken, LibraryItem? library = null)
 		{
 			enumeratedCloudSyncStatus = null;
@@ -2273,9 +2347,16 @@ namespace Files.App.ViewModels
 
 			try
 			{
-				// Special handling for network drives
-				if (!isNetwork)
-					isNetdisk = await Task.Run(() => new DriveInfo(path).DriveType == System.IO.DriveType.Network);
+				// Special handling for network drives; drive type is fixed per volume, so cache it by root.
+				if (!isNetwork && Path.GetPathRoot(path) is string root && !string.IsNullOrEmpty(root))
+				{
+					if (!driveTypeCache.TryGetValue(root, out var driveType))
+					{
+						driveType = await Task.Run(() => new DriveInfo(path).DriveType);
+						driveTypeCache[root] = driveType;
+					}
+					isNetdisk = driveType == System.IO.DriveType.Network;
+				}
 			}
 			catch { }
 
@@ -2292,24 +2373,14 @@ namespace Files.App.ViewModels
 			}
 
 			// Off the UI thread: FindFirstFileEx blocks until the SMB timeout on an unreachable share.
+			// Reuse the open prefetched at navigation request time when it's ready, otherwise open now.
 			Win32PInvoke.SafeFindHandle? hFile = null;
 			WIN32_FIND_DATA findData = default;
 			int errorCode = 0;
 			if (!enumFromStorageFolder)
 			{
-				(hFile, findData, errorCode) = await Task.Run(() =>
-				{
-					var hFileTsk = FindFirstFileExFromAppSafe(
-						path + "\\*.*",
-						FINDEX_INFO_LEVELS.FindExInfoBasic,
-						out WIN32_FIND_DATA findDataTsk,
-						FINDEX_SEARCH_OPS.FindExSearchNameMatch,
-						IntPtr.Zero,
-						FIND_FIRST_EX_LARGE_FETCH);
-
-					return (hFileTsk, findDataTsk, hFileTsk.IsInvalid ? Marshal.GetLastWin32Error() : 0);
-				})
-				.WithTimeoutAsync(TimeSpan.FromSeconds(5));
+				var openTask = TakeDirectoryOpenPrefetch(path) ?? Task.Run(() => OpenDirectoryForEnumeration(path));
+				(hFile, findData, errorCode) = await openTask.WithTimeoutAsync(TimeSpan.FromSeconds(5));
 			}
 
 			if (!enumFromStorageFolder && hFile is not null && !hFile.IsInvalid)
@@ -2363,11 +2434,8 @@ namespace Files.App.ViewModels
 			var pathRoot = Path.GetPathRoot(path);
 			if (Path.IsPathRooted(path) && pathRoot == path)
 			{
-				rootFolder ??= await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
-				if (await FolderHelpers.CheckBitlockerStatusAsync(
-					rootFolder,
-					WorkingDirectory ?? throw new InvalidOperationException("The working directory has not been initialized.")))
-					await ContextMenu.InvokeVerb("unlock-bde", pathRoot);
+				// Off the critical path: a locked drive fails enumeration anyway, so don't block the listing on the BitLocker probe.
+				_ = PromptToUnlockBitlockerIfLockedAsync(path, pathRoot);
 			}
 
 			HasNoWatcher = isFtp || isWslDistro || isMtp || currentStorageFolder?.Item is ZipStorageFolder;
