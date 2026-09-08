@@ -1111,25 +1111,6 @@ namespace Files.App.ViewModels
 		{
 			try
 			{
-				if (filesAndFolders is null || filesAndFolders.Count == 0)
-				{
-					void ClearDisplay()
-					{
-						FilesAndFolders.Clear();
-						UpdateEmptyTextType();
-						UpdateNetworkAvailabilityInfoBar();
-						DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
-					}
-
-					if (dispatcherQueue.HasThreadAccess)
-						ClearDisplay();
-					else
-						await dispatcherQueue.EnqueueOrInvokeAsync(ClearDisplay);
-
-					return;
-				}
-				var filesAndFoldersLocal = filesAndFolders.ToList();
-
 				// CollectionChanged will cause UI update, which may cause significant performance degradation,
 				// so suppress CollectionChanged event here while loading items heavily.
 
@@ -1142,6 +1123,10 @@ namespace Files.App.ViewModels
 				var isSemaphoreReleased = false;
 				try
 				{
+					// Snapshot under the semaphore so a late apply reflects the current list, not a stale pre-lock copy;
+					// concurrent watcher removals (e.g. emptying the Recycle Bin) otherwise leave the last item painted.
+					var filesAndFoldersLocal = filesAndFolders?.ToList() ?? new List<ListedItem>();
+
 					var displayedFilesAndFolders = string.IsNullOrEmpty(filter)
 						? filesAndFoldersLocal
 						: await Task.Run(() => filesAndFoldersLocal.Where(
