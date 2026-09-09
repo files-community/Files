@@ -380,11 +380,6 @@ namespace Files.App.Utils.Shell
 
 		#region IDisposable pattern
 
-		~PreviewHandler()
-		{
-			Dispose();
-		}
-
 		public void Dispose()
 		{
 			if (disposed)
@@ -392,10 +387,25 @@ namespace Files.App.Utils.Shell
 			disposed = true;
 			init = false;
 
-			previewHandler?.Unload();
-			comSite = null;
+			try
+			{
+				previewHandler?.Unload();
 
-			GC.SuppressFinalize(this);
+				// Break the site connection so the handler releases the PreviewHandlerFrame wrapper deterministically
+				if (previewHandler is IObjectWithSite objectWithSite)
+					objectWithSite.SetSite(null!);
+			}
+			catch (COMException)
+			{
+				// RPC errors (e.g. RPC_S_SERVER_UNAVAILABLE) when the prevhost process already exited
+			}
+
+			if ((object?)previewHandler is ComObject comObject)
+				comObject.FinalRelease();
+
+			previewHandler = null;
+			visuals = null;
+			comSite = null;
 		}
 
 		#endregion

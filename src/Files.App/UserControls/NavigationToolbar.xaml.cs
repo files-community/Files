@@ -257,8 +257,8 @@ namespace Files.App.UserControls
 					viewModel.SaveSearchQueryToList(searchQuery);
 				}
 
-				var searchPaneHolder = ContentPageContext.ShellPage.GetRequiredPaneHolder();
-				searchPaneHolder.FocusActivePane();
+				// The shell page can be torn down during the awaited navigation above; skip focusing if its pane holder is gone
+				ContentPageContext.ShellPage?.PaneHolder?.FocusActivePane();
 				return;
 			}
 		}
@@ -472,13 +472,20 @@ namespace Files.App.UserControls
 			}
 		}
 
+		private void Omnibar_FocusRedirectRequested(Omnibar sender, EventArgs args)
+		{
+			// The omnibar TextBox regained focus on window reactivation; move focus to the active pane so we don't land in
+			// edit mode. Deferred so it runs after the in-progress focus change settles.
+			DispatcherQueue.TryEnqueue(() => ContentPageContext.ShellPage?.PaneHolder?.FocusActivePane());
+		}
+
 		private async void Omnibar_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (e.Key is VirtualKey.Escape)
 			{
 				Omnibar.IsFocused = false;
-				var paneHolder = ContentPageContext.ShellPage.GetRequiredPaneHolder();
-				paneHolder.FocusActivePane();
+				var paneHolder = ContentPageContext.ShellPage?.PaneHolder;
+				paneHolder?.FocusActivePane();
 			}
 			else if (e.Key is VirtualKey.Tab && Omnibar.IsFocused && !InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
 			{

@@ -55,7 +55,7 @@ namespace Files.App.ViewModels.Properties
 					drivePath,
 					Constants.ShellIconSizes.ExtraLarge,
 					true,
-					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+					IconOptions.ReturnIconOnly);
 
 				if (result is not null)
 					ViewModel.IconData = result;
@@ -65,7 +65,7 @@ namespace Files.App.ViewModels.Properties
 						Drive.DeviceID,
 						Constants.ShellIconSizes.ExtraLarge,
 						true,
-						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale); // For network shortcuts
+						IconOptions.ReturnIconOnly); // For network shortcuts
 
 					ViewModel.IconData = result;
 				}

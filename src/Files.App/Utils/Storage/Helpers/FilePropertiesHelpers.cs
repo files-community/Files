@@ -167,15 +167,13 @@ namespace Files.App.Utils.Storage
 				window.AppWindow.Hide();
 				window.Content = null;
 				WindowCache.Add(window);
-
-				if (App.AppModel.DecrementPropertiesWindowCount() == 0)
-				{
-					PropertiesWindowsClosingTCS!.TrySetResult();
-					PropertiesWindowsClosingTCS = null;
-				}
 			}
-			else
-				App.AppModel.DecrementPropertiesWindowCount();
+
+			if (App.AppModel.DecrementPropertiesWindowCount() == 0)
+			{
+				PropertiesWindowsClosingTCS?.TrySetResult();
+				PropertiesWindowsClosingTCS = null;
+			}
 		}
 
 		/// <summary>

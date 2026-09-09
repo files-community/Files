@@ -57,7 +57,6 @@ namespace Files.App.Actions
 			var password = string.Empty;
 			Encoding? encoding = null;
 
-			DecompressArchiveDialog decompressArchiveDialog = new();
 			DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
 			{
 				IsArchiveEncrypted = isArchiveEncrypted,
@@ -65,7 +64,7 @@ namespace Files.App.Actions
 				ShowPathSelection = true,
 				DetectedEncoding = detectedEncoding,
 			};
-			decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
+			DecompressArchiveDialog decompressArchiveDialog = new() { ViewModel = decompressArchiveViewModel };
 
 			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 				decompressArchiveDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;

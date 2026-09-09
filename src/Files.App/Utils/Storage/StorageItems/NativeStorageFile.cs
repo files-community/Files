@@ -10,8 +10,6 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 using Windows.Win32;
-using Windows.Win32.Storage.FileSystem;
-using Windows.Win32.UI.Shell;
 using IO = System.IO;
 
 namespace Files.App.Utils.Storage
@@ -47,38 +45,19 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private unsafe string GetDisplayTypeFromShell()
+		private string GetDisplayTypeFromShell()
 		{
-			// Try using SHGetFileInfo to get proper file type description
 			var extension = IO.Path.GetExtension(Name);
-			if (!string.IsNullOrEmpty(extension))
-			{
-				SHFILEINFOW shfi = default;
-				var flags = SHGFI_FLAGS.SHGFI_TYPENAME | SHGFI_FLAGS.SHGFI_USEFILEATTRIBUTES;
-				
-				fixed (char* pExtension = extension)
-				{
-					var result = PInvoke.SHGetFileInfo(
-						pExtension,
-						FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL,
-						&shfi,
-						(uint)sizeof(SHFILEINFOW),
-						flags);
-					
-					if (result != 0 && shfi.szTypeName.Value[0] != '\0')
-					{
-						var typeName = shfi.szTypeName.ToString();
-						if (!string.IsNullOrEmpty(typeName))
-							return typeName;
-					}
-				}
-			}
+
+			var typeName = FileTypesHelper.GetLocalizedTypeName(extension);
+			if (!string.IsNullOrEmpty(typeName))
+				return typeName;
 
 			// Fallback to generic format
 			var itemType = Strings.File.GetLocalizedResource();
 			if (Name.Contains('.', StringComparison.Ordinal))
 				itemType = extension?.Trim('.') + " " + itemType;
-			
+
 			return itemType;
 		}
 

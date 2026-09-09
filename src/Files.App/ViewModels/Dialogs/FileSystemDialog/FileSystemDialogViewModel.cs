@@ -254,7 +254,14 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 
 					await threadingService.ExecuteOnUiThreadAsync(async () =>
 					{
-						item.ItemIcon = await imagingService.GetImageModelFromPathAsync(item.SourcePath!, 64u);
+						try
+						{
+							item.ItemIcon = await imagingService.GetImageModelFromPathAsync(item.SourcePath!, 64u);
+						}
+						catch (Exception)
+						{
+							// Async-void dispatch: an escaping thumbnail-load exception would crash unobserved.
+						}
 					});
 				}
 				catch (Exception ex)

@@ -244,7 +244,7 @@ namespace Files.App.Helpers
 						path,
 						Constants.ShellIconSizes.Small,
 						true,
-						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+						IconOptions.ReturnIconOnly);
 
 					if (result is not null)
 						imageSource = await result.ToBitmapAsync();
@@ -339,7 +339,7 @@ namespace Files.App.Helpers
 					currentPath,
 					Constants.ShellIconSizes.Small,
 					true,
-					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+					IconOptions.ReturnIconOnly);
 
 				if (result is not null)
 					imageIcon.ImageSource = await result.ToBitmapAsync();
@@ -669,7 +669,8 @@ namespace Files.App.Helpers
 
 			if (isShortcut)
 			{
-				if (string.IsNullOrEmpty(shortcutInfo.TargetPath))
+				// Empty or non-rooted shell target (e.g. a shell:appsfolder app): launch the .lnk so the shell activates it
+				if (string.IsNullOrEmpty(shortcutInfo.TargetPath) || !Path.IsPathRooted(shortcutInfo.TargetPath))
 				{
 					await Win32Helper.InvokeWin32ComponentAsync(path, associatedInstance, args);
 				}

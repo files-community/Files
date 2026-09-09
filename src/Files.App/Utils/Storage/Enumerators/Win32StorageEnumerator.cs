@@ -25,7 +25,6 @@ namespace Files.App.Utils.Storage
 			CancellationToken cancellationToken,
 			int countLimit,
 			uint iconSize,
-			bool useCurrentScale,
 			Func<List<ListedItem>, Task> intermediateAction
 		)
 		{
@@ -64,7 +63,7 @@ namespace Files.App.Utils.Storage
 							if (file is not null)
 							{
 								var filePath = file.ItemPath!;
-								file.PreloadedIconData = await iconCacheService.GetIconAsync(file.ItemPath, file.FileExtension, false, iconSize, useCurrentScale);
+								file.PreloadedIconData = await iconCacheService.GetIconAsync(file.ItemPath, file.FileExtension, false, iconSize);
 								tempList.Add(file);
 								++count;
 
@@ -80,7 +79,7 @@ namespace Files.App.Utils.Storage
 								if (folder is not null)
 								{
 									var folderPath = folder.ItemPath!;
-									folder.PreloadedIconData = await iconCacheService.GetIconAsync(folder.ItemPath, null, true, iconSize, useCurrentScale);
+									folder.PreloadedIconData = await iconCacheService.GetIconAsync(folder.ItemPath, null, true, iconSize);
 									tempList.Add(folder);
 									++count;
 
@@ -278,7 +277,12 @@ namespace Files.App.Utils.Storage
 			if (findData.cFileName.Contains('.'))
 			{
 				itemFileExtension = Path.GetExtension(itemPath);
-				itemType = itemFileExtension!.Trim('.') + " " + itemType;
+
+				// Resolve the localized type here (cached by extension) so it's correct from the first paint and sorts right
+				var localizedType = FileTypesHelper.GetLocalizedTypeName(itemFileExtension);
+				itemType = !string.IsNullOrEmpty(localizedType)
+					? localizedType
+					: itemFileExtension!.Trim('.') + " " + itemType;
 			}
 
 			bool itemThumbnailImgVis = false;

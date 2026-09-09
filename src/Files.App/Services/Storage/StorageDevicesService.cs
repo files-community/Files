@@ -17,27 +17,34 @@ namespace Files.App.Services
 
 		public async IAsyncEnumerable<IFolder> GetDrivesAsync()
 		{
-			var list = DriveInfo.GetDrives();
 			var pCloudDrivePath = App.AppModel.PCloudDrivePath;
-			foreach (var drive in list)
+
+			// IsReady/VolumeLabel block until the network timeout for an unreachable mapped drive, so probe off the UI thread.
+			foreach (var drive in await Task.Run(DriveInfo.GetDrives).ConfigureAwait(false))
 			{
-				if (!drive.IsReady)
+				var probe = await Task.Run<(string Label, Data.Items.DriveType Type)?>(() =>
+				{
+					try
+					{
+						return drive.IsReady
+							? (DriveHelpers.GetExtendedDriveLabel(drive), DriveHelpers.GetDriveType(drive))
+							: null;
+					}
+					catch
+					{
+						return null;
+					}
+				});
+
+				if (probe is not { } info)
 					continue;
 
-				var driveLabel = DriveHelpers.GetExtendedDriveLabel(drive);
-				// Filter out cloud drives
-				// We don't want cloud drives to appear in the plain "Drives" sections.
-				if (driveLabel.Equals("Google Drive") || drive.Name.Equals(pCloudDrivePath))
+				// Filter out cloud drives; we don't want them in the plain "Drives" sections.
+				if (info.Label.Equals("Google Drive") || drive.Name.Equals(pCloudDrivePath))
 					continue;
 
 				var res = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Name).AsTask());
-				if (res.ErrorCode is FileSystemStatusCode.Unauthorized)
-				{
-					App.Logger.LogWarning($"{res.ErrorCode}: Attempting to add the device, {drive.Name},"
-						+ " failed at the StorageFolder initialization step. This device will be ignored.");
-					continue;
-				}
-				else if (!res)
+				if (res.ErrorCode is FileSystemStatusCode.Unauthorized || !res)
 				{
 					App.Logger.LogWarning($"{res.ErrorCode}: Attempting to add the device, {drive.Name},"
 						+ " failed at the StorageFolder initialization step. This device will be ignored.");
@@ -46,9 +53,7 @@ namespace Files.App.Services
 
 				var root = res.Result!;
 				using var thumbnail = await DriveHelpers.GetThumbnailAsync(root);
-				var type = DriveHelpers.GetDriveType(drive);
-				var label = DriveHelpers.GetExtendedDriveLabel(drive);
-				var driveItem = await DriveItem.CreateFromPropertiesAsync(root, drive.Name.TrimEnd('\\'), label, type, thumbnail);
+				var driveItem = await DriveItem.CreateFromPropertiesAsync(root, drive.Name.TrimEnd('\\'), info.Label, info.Type, thumbnail);
 
 				App.Logger.LogInformation($"Drive added: {driveItem.Path}, {driveItem.Type}");
 

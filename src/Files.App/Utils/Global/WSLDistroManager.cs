@@ -3,7 +3,6 @@
 
 using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
-using Windows.Storage;
 using static Files.App.Constants;
 
 namespace Files.App.Utils
@@ -24,46 +23,48 @@ namespace Files.App.Utils
 			}
 		}
 
-		public static async Task UpdateDrivesAsync()
+		public static Task UpdateDrivesAsync()
 		{
-			try
+			// Enumerate from the registry; opening \\wsl$\<distro> via the shell would start that distro's VM.
+			return Task.Run(() =>
 			{
-				// Check if WSL is installed
-				const string WslRegistryPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Lxss\MSI";
-				using (var key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(WslRegistryPath))
+				try
 				{
-					if (key is null || key.GetValue("InstallLocation") is null)
+					const string LxssRegistryPath = @"Software\Microsoft\Windows\CurrentVersion\Lxss";
+					using var lxssKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(LxssRegistryPath);
+					if (lxssKey is null)
 						return;
-				}
 
-				var distroFolder = await StorageFolder.GetFolderFromPathAsync(@"\\wsl$\");
-				foreach (StorageFolder folder in await distroFolder.GetFoldersAsync())
-				{
-					Uri logoURI = GetLogoUri(folder.DisplayName);
-
-					var distro = new WslDistroItem
+					foreach (var subKeyName in lxssKey.GetSubKeyNames())
 					{
-						Text = folder.DisplayName,
-						Path = folder.Path,
-						Icon = logoURI,
-						MenuOptions = new ContextMenuOptions { IsLocationItem = true },
-					};
-
-					lock (distros)
-					{
-						if (distros.Any(x => x.Path == folder.Path))
-						{
+						using var distroKey = lxssKey.OpenSubKey(subKeyName);
+						if (distroKey?.GetValue("DistributionName") is not string distroName || string.IsNullOrEmpty(distroName))
 							continue;
+
+						var path = $@"\\wsl$\{distroName}";
+
+						var distro = new WslDistroItem
+						{
+							Text = distroName,
+							Path = path,
+							Icon = GetLogoUri(distroName),
+							MenuOptions = new ContextMenuOptions { IsLocationItem = true },
+						};
+
+						lock (distros)
+						{
+							if (distros.Any(x => x.Path == path))
+								continue;
+							distros.Add(distro);
 						}
-						distros.Add(distro);
+						DataChanged?.Invoke(SectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, distro));
 					}
-					DataChanged?.Invoke(SectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, distro));
 				}
-			}
-			catch (Exception)
-			{
-				// WSL Not Supported/Enabled
-			}
+				catch (Exception)
+				{
+					// WSL not supported/enabled
+				}
+			});
 		}
 
 		public static bool TryGetDistro(string path, [NotNullWhen(true)] out WslDistroItem? distro)

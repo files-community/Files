@@ -52,16 +52,21 @@ namespace Files.App
 
 			if (!isNew)
 			{
-				// Resume cached instance
-				pool.Release();
-
-				// Redirect to the main process
 				var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
 				var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-				RedirectActivationTo(instance, AppInstance.GetCurrent().GetActivatedEventArgs());
 
-				// Kill the current process
-				Environment.Exit(0);
+				// A stale key resolves to this process itself; redirecting to self would drop the activation
+				if (!instance.IsCurrent)
+				{
+					// Resume cached instance
+					pool.Release();
+
+					// Redirect to the main process
+					RedirectActivationTo(instance, AppInstance.GetCurrent().GetActivatedEventArgs());
+
+					// Kill the current process
+					Environment.Exit(0);
+				}
 			}
 
 			pool.Dispose();
@@ -159,7 +164,7 @@ namespace Files.App
 						switch (command.Type)
 						{
 							case ParsedCommandType.ExplorerShellCommand:
-								if (!Constants.UserEnvironmentPaths.ShellPlaces.ContainsKey(command.Payload.ToUpperInvariant()))
+								if (!ShellHelpers.IsSupportedShellPath(command.Payload))
 								{
 									OpenShellCommandInExplorer(command.Payload, Environment.ProcessId);
 									return;

@@ -43,6 +43,7 @@
 				x:Key="NegatedBoolToVisibilityConverter"
 				FalseValue="Visible"
 				TrueValue="Collapsed" />
+			<converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 		</ResourceDictionary>
 	</ContentDialog.Resources>
 
@@ -88,7 +89,7 @@
 		<Border
 			x:Name="LoginSuccessBadge"
 			Grid.Row="1"
-			Visibility="{x:Bind ViewModel.LoginConfirmed, Mode=OneWay}">
+			Visibility="{x:Bind ViewModel.LoginConfirmed, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 			<FontIcon
 				FontSize="85"
 				Foreground="{ThemeResource SystemFillColorSuccessBrush}"

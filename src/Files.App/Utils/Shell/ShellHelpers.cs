@@ -9,6 +9,13 @@ namespace Files.App.Utils.Shell
 	{
 		public static string ResolveShellPath(string shPath)
 		{
+			if (!ShellStorageFolder.IsShellPath(shPath))
+				return shPath;
+
+			shPath = Constants.UserEnvironmentPaths.ShellPlaces.GetValueOrDefault(
+				GetShellPathLookupKey(shPath),
+				shPath);
+
 			if (shPath.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 				return Constants.UserEnvironmentPaths.RecycleBinPath;
 
@@ -19,6 +26,21 @@ namespace Files.App.Utils.Shell
 				return Constants.UserEnvironmentPaths.NetworkFolderPath;
 
 			return shPath;
+		}
+
+		public static bool IsSupportedShellPath(string shPath)
+		{
+			return ShellStorageFolder.IsShellPath(shPath) &&
+				Constants.UserEnvironmentPaths.ShellPlaces.ContainsKey(GetShellPathLookupKey(shPath));
+		}
+
+		private static string GetShellPathLookupKey(string shPath)
+		{
+			var lookupPath = shPath.StartsWith("shell:::", StringComparison.OrdinalIgnoreCase)
+				? shPath.Substring("shell:".Length)
+				: shPath;
+
+			return lookupPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).ToUpperInvariant();
 		}
 
 		public static string GetShellNameFromPath(string shPath)

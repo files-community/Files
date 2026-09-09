@@ -49,6 +49,10 @@ namespace Files.App.Views.Layouts
 		protected override SemanticZoom RootZoom => RootGridZoom;
 		public ScrollViewer? ContentScroller { get; private set; }
 
+		[DynamicWindowsRuntimeCast(typeof(ItemsStackPanel))]
+		protected override (int First, int Last) GetVisibleIndexRange()
+			=> FileList.ItemsPanelRoot is ItemsStackPanel panel ? (panel.FirstVisibleIndex, panel.LastVisibleIndex) : (-1, -1);
+
 		/// <summary>
 		/// Row height in the Columns View
 		/// </summary>

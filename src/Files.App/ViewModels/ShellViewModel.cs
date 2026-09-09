@@ -196,6 +196,9 @@ namespace Files.App.ViewModels
 		private StorageFolderWithPath? currentStorageFolder;
 		private StorageFolderWithPath? workingRoot;
 
+		// Carries the enumeration's cloud sync result to the post-enum switch, avoiding a second query.
+		private CloudDriveSyncStatus? enumeratedCloudSyncStatus;
+
 		public delegate void WorkingDirectoryModifiedEventHandler(object? sender, WorkingDirectoryModifiedEventArgs e);
 
 		public event WorkingDirectoryModifiedEventHandler? WorkingDirectoryModified;
@@ -249,7 +252,8 @@ namespace Files.App.ViewModels
 				pathRoot = Path.GetPathRoot(WorkingDirectory);
 			}
 
-			var gitDirectory = await Task.Run(() => GitHelpers.GetGitRepositoryPath(value, pathRoot));
+			// Cheap now; run inline to skip thread-pool scheduling latency
+			var gitDirectory = GitHelpers.GetGitRepositoryPath(value, pathRoot);
 			if (WorkingDirectory != value)
 				return;
 
@@ -942,6 +946,8 @@ namespace Files.App.ViewModels
 
 		private TaskCompletionSource? scrollSettledTcs;
 
+		public bool IsScrollInFlight => scrollSettledTcs is not null;
+
 		/// <summary>
 		/// Parks extended-property loads while a scroll gesture is in flight and releases them when it settles.
 		/// </summary>
@@ -1085,8 +1091,9 @@ namespace Files.App.ViewModels
 			filterDebounceCS = new CancellationTokenSource();
 			var token = filterDebounceCS.Token;
 
+			// filterDebounceCS is disposed on the next update, so the continuation must not register on its token.
 			_ = Task.Delay(250, token)
-				.ContinueWith(_ => ApplyFilesAndFoldersChangesAsync(), token,
+				.ContinueWith(_ => ApplyFilesAndFoldersChangesAsync(), CancellationToken.None,
 					TaskContinuationOptions.OnlyOnRanToCompletion,
 					TaskScheduler.Default)
 				.Unwrap();
@@ -1386,12 +1393,11 @@ namespace Files.App.ViewModels
 				var thumbnailSize = LayoutSizeKindHelper.GetIconSize(folderSettings.LayoutMode);
 				if (thumbnailSize >= 48)
 				{
-					var useCurrentScale = folderSettings.LayoutMode is FolderLayoutModes.DetailsView or FolderLayoutModes.ListView or FolderLayoutModes.ColumnView or FolderLayoutModes.CardsView;
 					var cached = await FileThumbnailHelper.GetIconAsync(
 						item.ItemPath,
 						thumbnailSize,
 						false,
-						IconOptions.ReturnThumbnailOnly | IconOptions.ReturnOnlyIfCached | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
+						IconOptions.ReturnThumbnailOnly | IconOptions.ReturnOnlyIfCached);
 
 					if (cached is not null && item.FileImage is null)
 					{
@@ -1416,7 +1422,7 @@ namespace Files.App.ViewModels
 					if (item.FileImage is not null)
 						return;
 
-					var image = await iconCacheService.GetIconImageAsync(item.ItemPath, item.FileExtension, item.IsFolder, iconSize, UsesCurrentScale);
+					var image = await iconCacheService.GetIconImageAsync(item.ItemPath, item.FileExtension, item.IsFolder, iconSize);
 					if (image is not null && item.FileImage is null)
 						item.FileImage = image;
 				});
@@ -1426,17 +1432,11 @@ namespace Files.App.ViewModels
 		private uint GetPreloadIconSize()
 			=> LayoutSizeKindHelper.GetIconSize(folderSettings.LayoutMode);
 
-		private bool UsesCurrentScale
-			=> folderSettings.LayoutMode is FolderLayoutModes.DetailsView or FolderLayoutModes.ListView or FolderLayoutModes.ColumnView or FolderLayoutModes.CardsView;
-
 		private async Task LoadThumbnailAsync(ListedItem item, CancellationToken cancellationToken, bool scheduleTimerRetry = true)
 		{
 			var loadNonCachedThumbnail = false;
 			var thumbnailSize = LayoutSizeKindHelper.GetIconSize(folderSettings.LayoutMode);
 			var returnIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
-
-			// TODO Remove this property when all the layouts can support different icon sizes
-			var useCurrentScale = folderSettings.LayoutMode == FolderLayoutModes.DetailsView || folderSettings.LayoutMode == FolderLayoutModes.ListView || folderSettings.LayoutMode == FolderLayoutModes.ColumnView || folderSettings.LayoutMode == FolderLayoutModes.CardsView;
 
 			byte[]? result = null;
 
@@ -1450,7 +1450,7 @@ namespace Files.App.ViewModels
 							item.ItemPath,
 							thumbnailSize,
 							item.IsFolder,
-							IconOptions.ReturnThumbnailOnly | IconOptions.ReturnOnlyIfCached | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
+							IconOptions.ReturnThumbnailOnly | IconOptions.ReturnOnlyIfCached);
 
 					cancellationToken.ThrowIfCancellationRequested();
 					loadNonCachedThumbnail = true;
@@ -1468,7 +1468,7 @@ namespace Files.App.ViewModels
 							item.ItemPath,
 							thumbnailSize,
 							item.IsFolder,
-							IconOptions.ReturnIconOnly | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
+							IconOptions.ReturnIconOnly);
 
 					cancellationToken.ThrowIfCancellationRequested();
 				}
@@ -1477,7 +1477,7 @@ namespace Files.App.ViewModels
 					// The final icon is the shared per-extension icon; apply it so an image from a previous layout size doesn't linger
 					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
-						var image = await iconCacheService.GetIconImageAsync(item.ItemPath, item.FileExtension, item.IsFolder, thumbnailSize, useCurrentScale);
+						var image = await iconCacheService.GetIconImageAsync(item.ItemPath, item.FileExtension, item.IsFolder, thumbnailSize);
 						if (image is not null)
 							item.FileImage = image;
 					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
@@ -1492,13 +1492,13 @@ namespace Files.App.ViewModels
 						item.ItemPath,
 						thumbnailSize,
 						item.IsFolder,
-						(returnIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None) | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
+						(returnIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None));
 
 				cancellationToken.ThrowIfCancellationRequested();
 			}
 
 			// Get icon overlay
-			var iconOverlay = await FileThumbnailHelper.GetIconOverlayAsync(item.ItemPath, true);
+			var iconOverlay = await FileThumbnailHelper.GetIconOverlayAsync(item.ItemPath, thumbnailSize, true);
 
 			cancellationToken.ThrowIfCancellationRequested();
 
@@ -1535,7 +1535,7 @@ namespace Files.App.ViewModels
 								item.ItemPath,
 								thumbnailSize,
 								item.IsFolder,
-								IconOptions.ReturnThumbnailOnly | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
+								IconOptions.ReturnThumbnailOnly);
 					}
 					finally
 					{
@@ -1613,6 +1613,53 @@ namespace Files.App.ViewModels
 			dbInstance.SetTags(item.GetRequiredPath(), item.FileFRN, item.FileTags ?? []);
 		}
 
+		// Loads extended file properties off the critical path so a slow per-file read never blocks the row's essentials.
+		private async Task LoadExtendedFilePropertiesInBackgroundAsync(ListedItem item, BaseStorageFile file, CancellationToken token)
+		{
+			try
+			{
+				var extraProperties = await GetExtraProperties(file);
+
+				if (token.IsCancellationRequested)
+					return;
+
+				var properties = extraProperties?.Result;
+				if (properties is null)
+					return;
+
+				await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+				{
+					item.ImageDimensions = properties["System.Image.Dimensions"]?.ToString() ?? string.Empty;
+					item.FileVersion = properties["System.FileVersion"]?.ToString() ?? string.Empty;
+					item.MediaDuration = ulong.TryParse(properties["System.Media.Duration"]?.ToString(), out ulong duration)
+							? TimeSpan.FromTicks((long)duration).ToString(@"hh\:mm\:ss")
+							: string.Empty;
+
+					switch (true)
+					{
+						case var _ when !string.IsNullOrEmpty(item.ImageDimensions):
+							item.ContextualProperty = $"{Strings.PropertyDimensions.GetLocalizedResource()}: {item.ImageDimensions}";
+							break;
+						case var _ when !string.IsNullOrEmpty(item.MediaDuration):
+							item.ContextualProperty = $"{Strings.PropertyDuration.GetLocalizedResource()}: {item.MediaDuration}";
+							break;
+						case var _ when !string.IsNullOrEmpty(item.FileVersion):
+							item.ContextualProperty = $"{Strings.PropertyVersion.GetLocalizedResource()}: {item.FileVersion}";
+							break;
+					}
+				},
+				Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+			}
+			catch (OperationCanceledException)
+			{
+				// Navigation or row recycling cancelled the deferred load
+			}
+			catch (Exception)
+			{
+				// Extended properties are best-effort; ignore failures reading them over the wire
+			}
+		}
+
 		// This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
 		// for file inside the recycle bin (but not on the recycle bin folder itself)
 		public async Task LoadExtendedItemPropertiesAsync(ListedItem item)
@@ -1661,6 +1708,8 @@ namespace Files.App.ViewModels
 					token.ThrowIfCancellationRequested();
 					await LoadThumbnailAsync(item, token);
 
+					var isItemNetwork = await DriveHelpers.IsNetworkStorageItemAsync(item.GetRequiredPath());
+
 					token.ThrowIfCancellationRequested();
 					if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 					{
@@ -1671,11 +1720,14 @@ namespace Files.App.ViewModels
 							{
 								token.ThrowIfCancellationRequested();
 
-								var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
+								// A network share is never a cloud placeholder root, so skip that round-trip
+								var syncStatus = isItemNetwork ? CloudDriveSyncStatus.Unknown : await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
 								var fileTag = await Task.Run(() => FileTagsHelper.ReadFileTag(item.GetRequiredPath()));
-								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFile.DisplayType;
-								var extraProperties = await GetExtraProperties(matchingStorageFile);
+
+								// Extended properties open each file; load them in the background on a share
+								var extraProperties = isItemNetwork ? null : await GetExtraProperties(matchingStorageFile);
+
 								var syncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 								var isElevationRequired = !syncStatusUI.LoadSyncStatus && await Task.Run(() => CheckElevationRights(item));
 
@@ -1688,7 +1740,6 @@ namespace Files.App.ViewModels
 										throw new InvalidOperationException("A file-property lookup did not return properties.");
 
 									item.FolderRelativeId = matchingStorageFile.FolderRelativeId;
-									item.ItemType = itemType;
 									item.SyncStatusUI = syncStatusUI;
 									item.FileFRN = fileFRN;
 									item.FileTags = fileTag;
@@ -1718,6 +1769,10 @@ namespace Files.App.ViewModels
 								Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 
 								await Task.Run(() => SetFileTag(item));
+
+								if (isItemNetwork)
+									_ = LoadExtendedFilePropertiesInBackgroundAsync(item, matchingStorageFile, token);
+
 								wasSyncStatusLoaded = true;
 							}
 						}
@@ -1745,18 +1800,19 @@ namespace Files.App.ViewModels
 								}
 
 								token.ThrowIfCancellationRequested();
-								var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
+								// A network share is never a cloud placeholder root, so skip that round-trip
+								var syncStatus = isItemNetwork ? CloudDriveSyncStatus.Unknown : await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFolder);
 								var fileTag = await Task.Run(() => FileTagsHelper.ReadFileTag(item.GetRequiredPath()));
-								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFolder.DisplayType;
-								var extraProperties = await GetExtraProperties(matchingStorageFolder);
+
+								// Folder extended properties only carry drive storage details, irrelevant on a network subfolder
+								var extraProperties = isItemNetwork ? null : await GetExtraProperties(matchingStorageFolder);
 
 								token.ThrowIfCancellationRequested();
 
 								await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 								{
 									item.FolderRelativeId = matchingStorageFolder.FolderRelativeId;
-									item.ItemType = itemType;
 									item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 									item.FileFRN = fileFRN;
 									item.FileTags = fileTag;
@@ -2002,7 +2058,7 @@ namespace Files.App.ViewModels
 					item.ItemPath,
 					Constants.ShellIconSizes.Large,
 					false,
-					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+					IconOptions.ReturnIconOnly);
 
 				if (result is not null && !item.IsShortcut)
 					groupImage = await dispatcherQueue.EnqueueOrInvokeAsync(() => result.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
@@ -2140,7 +2196,7 @@ namespace Files.App.ViewModels
 				// Is folder synced to cloud storage?
 				case 0:
 					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
-					var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
+					var syncStatus = enumeratedCloudSyncStatus ?? await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
 
 					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs()
 					{
@@ -2201,6 +2257,8 @@ namespace Files.App.ViewModels
 
 		private async Task<int> EnumerateItemsFromStandardFolderAsync(string path, CancellationToken cancellationToken, LibraryItem? library = null)
 		{
+			enumeratedCloudSyncStatus = null;
+
 			// Flag to use FindFirstFileExFromApp or StorageFolder enumeration - Use storage folder for Box Drive (#4629)
 			var isBoxFolder = CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder && path.StartsWith(boxFolder);
 			bool isWslDistro = path.StartsWith(@"\\wsl$\", StringComparison.OrdinalIgnoreCase) || path.StartsWith(@"\\wsl.localhost\", StringComparison.OrdinalIgnoreCase)
@@ -2233,9 +2291,30 @@ namespace Files.App.ViewModels
 					return -1;
 			}
 
-			if (!enumFromStorageFolder && FolderHelpers.CheckFolderAccessWithWin32(path))
+			// Off the UI thread: FindFirstFileEx blocks until the SMB timeout on an unreachable share.
+			Win32PInvoke.SafeFindHandle? hFile = null;
+			WIN32_FIND_DATA findData = default;
+			int errorCode = 0;
+			if (!enumFromStorageFolder)
 			{
-				// Will enumerate with FindFirstFileExFromApp, rootFolder only used for Bitlocker
+				(hFile, findData, errorCode) = await Task.Run(() =>
+				{
+					var hFileTsk = FindFirstFileExFromAppSafe(
+						path + "\\*.*",
+						FINDEX_INFO_LEVELS.FindExInfoBasic,
+						out WIN32_FIND_DATA findDataTsk,
+						FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+						IntPtr.Zero,
+						FIND_FIRST_EX_LARGE_FETCH);
+
+					return (hFileTsk, findDataTsk, hFileTsk.IsInvalid ? Marshal.GetLastWin32Error() : 0);
+				})
+				.WithTimeoutAsync(TimeSpan.FromSeconds(5));
+			}
+
+			if (!enumFromStorageFolder && hFile is not null && !hFile.IsInvalid)
+			{
+				// Enumerate with the handle opened above; rootFolder only used for Bitlocker
 				currentStorageFolder = null;
 			}
 			else if (workingRoot is not null)
@@ -2295,6 +2374,9 @@ namespace Files.App.ViewModels
 
 			if (enumFromStorageFolder)
 			{
+				// The handle from the open above is unused on the storage-folder path.
+				hFile?.Dispose();
+
 				var basicProps = await rootFolder?.GetBasicPropertiesAsync();
 				var currentFolder = library ?? new ListedItem(rootFolder?.FolderRelativeId ?? string.Empty)
 				{
@@ -2321,23 +2403,6 @@ namespace Files.App.ViewModels
 			}
 			else
 			{
-				(Win32PInvoke.SafeFindHandle? hFile, WIN32_FIND_DATA findData, int errorCode) = await Task.Run(() =>
-				{
-					var findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-					var additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-
-					var hFileTsk = FindFirstFileExFromAppSafe(
-						path + "\\*.*",
-						findInfoLevel,
-						out WIN32_FIND_DATA findDataTsk,
-						FINDEX_SEARCH_OPS.FindExSearchNameMatch,
-						IntPtr.Zero,
-						additionalFlags);
-
-					return (hFileTsk, findDataTsk, hFileTsk.IsInvalid ? Marshal.GetLastWin32Error() : 0);
-				})
-				.WithTimeoutAsync(TimeSpan.FromSeconds(5));
-
 				var itemModifiedDate = DateTime.Now;
 				var itemCreatedDate = DateTime.Now;
 
@@ -2400,7 +2465,7 @@ namespace Files.App.ViewModels
 				{
 					await Task.Run(async () =>
 					{
-						List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, hFile, findData, cancellationToken, -1, GetPreloadIconSize(), UsesCurrentScale, intermediateAction: async (intermediateList) =>
+						List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, hFile, findData, cancellationToken, -1, GetPreloadIconSize(), intermediateAction: async (intermediateList) =>
 						{
 							filesAndFolders.AddRange(intermediateList);
 
@@ -2427,7 +2492,9 @@ namespace Files.App.ViewModels
 						Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					});
 
-					rootFolder ??= await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+					// Cache the resolved folder so the post-enum switch reuses it.
+					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
+					rootFolder ??= currentStorageFolder?.Item;
 					if (rootFolder is not null)
 					{
 						if (rootFolder.DisplayName is not null)
@@ -2435,8 +2502,8 @@ namespace Files.App.ViewModels
 
 						if (!string.Equals(path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 						{
-							var syncStatus = await CheckCloudDriveSyncStatusAsync(rootFolder);
-							currentFolder.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+							enumeratedCloudSyncStatus = await CheckCloudDriveSyncStatusAsync(rootFolder);
+							currentFolder.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(enumeratedCloudSyncStatus.Value);
 						}
 					}
 
@@ -2450,8 +2517,9 @@ namespace Files.App.ViewModels
 			if (rootFolder is null)
 				return;
 
+			// Null when a concurrent navigation or dispose cleared the context; this enumeration is stale
 			if (currentStorageFolder is null)
-				throw new InvalidOperationException("The storage-folder context is unavailable.");
+				return;
 
 			if (rootFolder is IPasswordProtectedItem ppis)
 				ppis.PasswordRequestedCallback = async (item) =>
@@ -2471,7 +2539,6 @@ namespace Files.App.ViewModels
 						cancellationToken,
 						-1,
 						GetPreloadIconSize(),
-						UsesCurrentScale,
 						async (intermediateList) =>
 						{
 							filesAndFolders.AddRange(intermediateList);

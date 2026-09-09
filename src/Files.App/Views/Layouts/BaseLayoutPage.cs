@@ -1178,33 +1178,44 @@ namespace Files.App.Views.Layouts
 
 		protected virtual async void Item_Drop(object sender, DragEventArgs e)
 		{
-			var deferral = e.GetDeferral();
 			e.Handled = true;
+
+			// e.Data is only populated for drags started within this XAML island, drags coming from
+			// another window travel through the shell, so only e.DataView can be read here (#17296)
+			if (e.DataView is null)
+			{
+				e.AcceptedOperation = DataPackageOperation.None;
+				return;
+			}
+
+			DragOperationDeferral? deferral = null;
 
 			try
 			{
-				_ = e.Data.Properties;
-				var exists = e.Data.Properties.TryGetValue("Files_ActionBinder", out var val);
-				_ = val;
-			}
-			catch (NullReferenceException)
-			{
-				// e.Data or e.Data.Properties is null, continue without the property check
-			}
+				deferral = e.GetDeferral();
 
-			// Reset dragged over item
-			dragOverItem = null;
-			var item = GetItemFromElement(sender);
-			if (item is not null)
-			{
-				var parentShellPage = ParentShellPageInstance
-					?? throw new InvalidOperationException("The layout page does not have a parent shell page.");
-				var targetPath = (item as IShortcutItem)?.TargetPath;
-				var destination = !string.IsNullOrEmpty(targetPath) ? targetPath : item.GetRequiredPath();
-				await parentShellPage.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, destination, false, true, item.IsExecutable, item.IsScriptFile);
-			}
+				// Reset dragged over item
+				dragOverItem = null;
 
-			deferral.Complete();
+				var item = GetItemFromElement(sender);
+				if (item is not null)
+				{
+					// This is an async void handler, an escaping exception would take down the window
+					await SafetyExtensions.IgnoreExceptions(async () =>
+					{
+						var parentShellPage = ParentShellPageInstance
+							?? throw new InvalidOperationException("The layout page does not have a parent shell page.");
+						var targetPath = (item as IShortcutItem)?.TargetPath;
+						var destination = !string.IsNullOrEmpty(targetPath) ? targetPath : item.GetRequiredPath();
+						await parentShellPage.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, destination, false, true, item.IsExecutable, item.IsScriptFile);
+					},
+					App.Logger);
+				}
+			}
+			finally
+			{
+				deferral?.Complete();
+			}
 		}
 
 		protected void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
@@ -1245,6 +1256,48 @@ namespace Files.App.Views.Layouts
 
 		private DispatcherQueueTimer? scrollSettleTimer;
 
+		// Layouts whose panel exposes a visible range override this so the settle pass can skip off-screen rows
+		protected virtual (int First, int Last) GetVisibleIndexRange() => (-1, -1);
+
+		// Loads extended properties for the rows visible where the scroll stopped; rows scrolled past load when they next come into view
+		[DynamicWindowsRuntimeCast(typeof(SelectorItem))]
+		private void LoadVisibleItemsAfterScrollSettled()
+		{
+			if (ParentShellPageInstance?.ShellViewModel is not { } shellViewModel)
+				return;
+
+			// Collected on the UI thread; the container/panel APIs are UI-affine
+			var itemsToLoad = new List<ListedItem>();
+			var (first, last) = GetVisibleIndexRange();
+			if (first >= 0 && last >= first)
+			{
+				for (var i = first; i <= last; i++)
+				{
+					if (ItemsControl.ContainerFromIndex(i) is SelectorItem { Content: ListedItem item } && !item.ItemPropertiesInitialized)
+						itemsToLoad.Add(item);
+				}
+			}
+			else if (ItemsControl.ItemsPanelRoot is { } panel)
+			{
+				// Without a visible range every realized row loads
+				foreach (var child in panel.Children)
+				{
+					if (child is SelectorItem { Content: ListedItem item } && !item.ItemPropertiesInitialized)
+						itemsToLoad.Add(item);
+				}
+			}
+
+			if (itemsToLoad.Count is not 0)
+				_ = Parallel.ForEachAsync(itemsToLoad, (item, _) => new ValueTask(LoadItemExtendedPropertiesAsync(item, shellViewModel)));
+		}
+
+		private static async Task LoadItemExtendedPropertiesAsync(ListedItem item, ShellViewModel shellViewModel)
+		{
+			await shellViewModel.LoadExtendedItemPropertiesAsync(item);
+			if (shellViewModel.EnabledGitProperties is not GitProperties.None && item is IGitItem gitItem)
+				await shellViewModel.LoadGitPropertiesAsync(gitItem);
+		}
+
 		// Rapid successive gestures raise a final ViewChanged between steps; debouncing keeps loads parked through the whole burst
 		private void DeferScrollViewer_ViewChanged(object? sender, ScrollViewerViewChangedEventArgs e)
 		{
@@ -1256,12 +1309,16 @@ namespace Files.App.Views.Layouts
 				scrollSettleTimer = DispatcherQueue.CreateTimer();
 				scrollSettleTimer.Interval = TimeSpan.FromMilliseconds(200);
 				scrollSettleTimer.IsRepeating = false;
-				scrollSettleTimer.Tick += (_, _) => ParentShellPageInstance?.ShellViewModel?.NotifyScrollStateChanged(false);
+				scrollSettleTimer.Tick += (_, _) =>
+				{
+					ParentShellPageInstance?.ShellViewModel?.NotifyScrollStateChanged(false);
+					LoadVisibleItemsAfterScrollSettled();
+				};
 			}
 
+			// Restarted on every change, including intermediate ones, so holding the scrollbar still also settles
 			scrollSettleTimer.Stop();
-			if (!e.IsIntermediate)
-				scrollSettleTimer.Start();
+			scrollSettleTimer.Start();
 		}
 
 		private void RefreshContainer(SelectorItem container, bool inRecycleQueue)
@@ -1319,9 +1376,11 @@ namespace Files.App.Views.Layouts
 					{
 						var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 
-						await shellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
-						if (shellViewModel.EnabledGitProperties is not GitProperties.None && listedItem is IGitItem gitItem)
-							await shellViewModel.LoadGitPropertiesAsync(gitItem);
+						// Rows realized mid-scroll are mostly flung past before the gesture ends; the settle pass loads the ones still visible
+						if (shellViewModel.IsScrollInFlight)
+							return;
+
+						await LoadItemExtendedPropertiesAsync(listedItem, shellViewModel);
 					});
 				}
 			}

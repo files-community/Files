@@ -12,6 +12,7 @@ using Microsoft.Win32;
 using Sentry;
 using Sentry.Protocol;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -130,6 +131,8 @@ namespace Files.App.Helpers
 			{
 				// The follwing method invokes UI thread, so we run it in a separate task
 				await CheckAppUpdate();
+
+				await PeriodicallyCheckForUpdatesAsync();
 			});
 
 			static Task OptionalTaskAsync(Task task, bool condition)
@@ -170,6 +173,31 @@ namespace Files.App.Helpers
 
 			if (IsAppUpdated)
 				await updateService.CheckAndUpdateFilesLauncherAsync();
+		}
+
+		/// <summary>
+		/// Periodically re-checks for updates while the app keeps running.
+		/// </summary>
+		public static async Task PeriodicallyCheckForUpdatesAsync()
+		{
+			var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
+
+			var interval = AppEnvironment is AppEnvironment.SideloadPreview or AppEnvironment.StorePreview
+				? TimeSpan.FromHours(2)
+				: TimeSpan.FromHours(5);
+
+			using var timer = new PeriodicTimer(interval);
+			while (await timer.WaitForNextTickAsync())
+			{
+				if (updateService.IsUpdateAvailable)
+					break;
+
+				// CheckForUpdatesAsync resets IsUpdateAvailable, so skip while a download is in progress
+				if (updateService.IsUpdating)
+					continue;
+
+				await updateService.CheckForUpdatesAsync();
+			}
 		}
 
 		/// <summary>
@@ -398,6 +426,7 @@ namespace Files.App.Helpers
 		// so recently thrown exceptions are buffered here to recover their stacks at crash time.
 		private const int RecentExceptionsCapacity = 16;
 		private static readonly Exception?[] _recentExceptions = new Exception?[RecentExceptionsCapacity];
+		private static readonly string?[] _recentExceptionStacks = new string?[RecentExceptionsCapacity];
 		private static int _recentExceptionsNext = -1;
 
 		[ThreadStatic]
@@ -418,8 +447,14 @@ namespace Files.App.Helpers
 				try
 				{
 					// Cancellations are routine app-wide and would evict the faults worth keeping
-					if (e.Exception is not OperationCanceledException)
-						_recentExceptions[(uint)Interlocked.Increment(ref _recentExceptionsNext) % RecentExceptionsCapacity] = e.Exception;
+					if (e.Exception is OperationCanceledException)
+						return;
+
+					var slot = (uint)Interlocked.Increment(ref _recentExceptionsNext) % RecentExceptionsCapacity;
+					_recentExceptions[slot] = e.Exception;
+
+					// COM/SEH exceptions arrive at the crash handler with an empty StackTrace, so snapshot the live stack now.
+					_recentExceptionStacks[slot] = e.Exception is COMException or SEHException ? Environment.StackTrace : null;
 				}
 				finally
 				{
@@ -435,11 +470,19 @@ namespace Files.App.Helpers
 
 			for (var i = Math.Max(0, next - RecentExceptionsCapacity + 1); i <= next; i++)
 			{
-				if (_recentExceptions[(uint)i % RecentExceptionsCapacity] is not Exception recent)
+				var slot = (uint)i % RecentExceptionsCapacity;
+				if (_recentExceptions[slot] is not Exception recent)
 					continue;
 
 				var text = recent.ToString();
 				builder.AppendLine(text[..Math.Min(text.Length, 1024)]);
+
+				if (string.IsNullOrEmpty(recent.StackTrace) && _recentExceptionStacks[slot] is string capturedStack)
+				{
+					builder.AppendLine("-- captured at throw --");
+					builder.AppendLine(capturedStack[..Math.Min(capturedStack.Length, 2048)]);
+				}
+
 				builder.AppendLine("----");
 			}
 

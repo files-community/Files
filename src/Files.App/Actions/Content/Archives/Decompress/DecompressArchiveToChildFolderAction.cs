@@ -43,13 +43,12 @@ namespace Files.App.Actions
 
 				if (await FilesystemTasks.Wrap(() => StorageArchiveService.IsEncryptedAsync(archive.Path)))
 				{
-					DecompressArchiveDialog decompressArchiveDialog = new();
 					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
 					{
 						IsArchiveEncrypted = true,
 						ShowPathSelection = false
 					};
-					decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
+					DecompressArchiveDialog decompressArchiveDialog = new() { ViewModel = decompressArchiveViewModel };
 
 					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 						decompressArchiveDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;

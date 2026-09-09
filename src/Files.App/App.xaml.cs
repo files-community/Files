@@ -265,12 +265,14 @@ namespace Files.App
 			if (args.WindowActivationState != WindowActivationState.Deactivated)
 				AppModel.IsMainWindowClosed = false;
 
-			// TODO(s): Is this code still needed?
-			if (args.WindowActivationState != WindowActivationState.CodeActivated ||
+			if (args.WindowActivationState != WindowActivationState.CodeActivated &&
 				args.WindowActivationState != WindowActivationState.PointerActivated)
 				return;
 
 			ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Environment.ProcessId;
+
+			// Reclaim the tray icon if a sibling instance's exit removed the shared-GUID icon
+			SystemTrayIcon?.EnsureCreated();
 		}
 
 		/// <summary>
@@ -281,6 +283,9 @@ namespace Files.App
 		/// </remarks>
 		private async void Window_Closed(object sender, WindowEventArgs args)
 		{
+			// Stop dispatcher timers before the close handler yields and window teardown begins.
+			AppModel.IsMainWindowClosed = true;
+
 			// Save application state and stop any background activity
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			StatusCenterViewModel statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
@@ -322,20 +327,39 @@ namespace Files.App
 				PInvoke.SetEvent(eventHandle);
 			}
 
+			// Dev, preview and stable all run as "Files"; only this channel's other instances block parking
+			static bool IsSameChannelInstance(Process p)
+			{
+				if (p.Id == Environment.ProcessId)
+					return false;
+
+				try
+				{
+					return p.MainModule?.FileName.StartsWith(Package.Current.EffectivePath, StringComparison.OrdinalIgnoreCase) ?? false;
+				}
+				catch
+				{
+					// Access is denied reading another channel's MainModule
+					return false;
+				}
+			}
+
 			// Continue running the app on the background
 			if (userSettingsService.GeneralSettingsService.LeaveAppRunning &&
 				!AppModel.ForceProcessTermination &&
-				!Process.GetProcessesByName("Files").Any(x => x.Id != Environment.ProcessId))
+				!Process.GetProcessesByName("Files").Any(IsSameChannelInstance))
 			{
 				// Close open content dialogs
 				UIHelpers.CloseAllDialogs();
+
+				// Tear down the shell preview host (prevhost.exe) while the dispatcher still pumps; parking must not keep it attached
+				SafetyExtensions.IgnoreExceptions(() => Ioc.Default.GetRequiredService<InfoPaneViewModel>().UnloadPreview());
 
 				// Close all notification banners except in progress
 				statusCenterViewModel.RemoveAllCompletedItems();
 
 				// Cache the window instead of closing it
 				MainWindow.Instance.AppWindow.Hide();
-				AppModel.IsMainWindowClosed = true;
 
 				// Close all tabs
 				MainPageViewModel.AppInstances.ForEach(tabItem => tabItem.Unload());
@@ -343,6 +367,9 @@ namespace Files.App
 
 				// Wait for all properties windows to close
 				await FilePropertiesHelpers.WaitClosingAll();
+
+				// Claim INSTANCE_ACTIVE before parking; it may still name an already-exited sibling
+				ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Environment.ProcessId;
 
 				// Sleep current instance
 				Program.Pool = new(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance");
@@ -401,7 +428,6 @@ namespace Files.App
 
 			// Destroy cached properties windows
 			FilePropertiesHelpers.DestroyCachedWindows();
-			AppModel.IsMainWindowClosed = true;
 
 			// Wait for ongoing file operations
 			FileOperationsHelpers.WaitForCompletion();

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.Extensions.Logging;
 using Sentry;
 using System.Drawing;
 using System.Runtime.InteropServices;
@@ -173,6 +174,27 @@ namespace Files.App.Utils.Taskbar
 			return this;
 		}
 
+		/// <summary>
+		/// Re-adds the notify icon if the shell no longer has it, e.g. after a sibling instance
+		/// sharing the same GUID deleted it on exit. No-op when hidden or still registered.
+		/// </summary>
+		public void EnsureCreated()
+		{
+			if (!IsVisible)
+				return;
+
+			NOTIFYICONIDENTIFIER identifier = default;
+			identifier.cbSize = (uint)Marshal.SizeOf<NOTIFYICONIDENTIFIER>();
+			identifier.guidItem = Id;
+
+			// Icon is still registered with the shell
+			if (PInvoke.Shell_NotifyIconGetRect(in identifier, out _).Succeeded)
+				return;
+
+			_notifyIconCreated = false;
+			CreateOrModifyNotifyIcon();
+		}
+
 		// Private Methods
 
 		private void CreateOrModifyNotifyIcon()
@@ -328,46 +350,55 @@ namespace Files.App.Utils.Taskbar
 
 		internal LRESULT WindowProc(HWND hWnd, uint uMsg, WPARAM wParam, LPARAM lParam)
 		{
-			switch (uMsg)
+			try
 			{
-				case WM_FILES_UNIQUE_MESSAGE:
-					{
-						switch ((uint)(lParam.Value & 0xFFFF))
+				switch (uMsg)
+				{
+					case WM_FILES_UNIQUE_MESSAGE:
 						{
-							case PInvoke.WM_LBUTTONUP:
-								{
-									PInvoke.SetForegroundWindow(hWnd);
-									OnLeftClicked();
+							switch ((uint)(lParam.Value & 0xFFFF))
+							{
+								case PInvoke.WM_LBUTTONUP:
+									{
+										PInvoke.SetForegroundWindow(hWnd);
+										OnLeftClicked();
 
-									break;
-								}
-							case PInvoke.WM_RBUTTONUP:
-								{
-									ShowContextMenu();
+										break;
+									}
+								case PInvoke.WM_RBUTTONUP:
+									{
+										ShowContextMenu();
 
-									break;
-								}
+										break;
+									}
+							}
+
+							break;
 						}
-
-						break;
-					}
-				case PInvoke.WM_DESTROY:
-					{
-						DeleteNotifyIcon();
-
-						break;
-					}
-				default:
-					{
-						if (uMsg == _taskbarRestartMessageId)
+					case PInvoke.WM_DESTROY:
 						{
 							DeleteNotifyIcon();
-							CreateOrModifyNotifyIcon();
-						}
 
-						return PInvoke.DefWindowProc(hWnd, uMsg, wParam, lParam);
-					}
+							break;
+						}
+					default:
+						{
+							if (uMsg == _taskbarRestartMessageId)
+							{
+								DeleteNotifyIcon();
+								CreateOrModifyNotifyIcon();
+							}
+
+							return PInvoke.DefWindowProc(hWnd, uMsg, wParam, lParam);
+						}
+				}
 			}
+			catch (Exception ex)
+			{
+				// A managed exception escaping this native message-pump callback would crash the process.
+				App.Logger?.LogWarning(ex, "Unhandled exception in the system tray WindowProc.");
+			}
+
 			return default;
 		}
 

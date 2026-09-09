@@ -22,6 +22,13 @@ namespace Files.App.Utils.Cloud
 			}
 		}
 
+		// Leaf detectors are consumed as whole batches by the aggregate; reuse the error-handled path.
+		public async IAsyncEnumerable<ICloudProvider> DetectCloudProvidersProgressiveAsync()
+		{
+			foreach (var provider in await DetectCloudProvidersAsync())
+				yield return provider;
+		}
+
 		protected abstract IAsyncEnumerable<ICloudProvider> GetProviders();
 	}
 }
