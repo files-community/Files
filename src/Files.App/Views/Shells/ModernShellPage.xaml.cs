@@ -317,8 +317,6 @@ namespace Files.App.Views.Shells
 
 		public override void NavigateToPath(string? navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null)
 		{
-			// Kick off the directory open now so it runs during the frame-navigation window
-			Files.App.ViewModels.ShellViewModel.PrefetchDirectoryOpen(navigationPath);
 			var shellViewModel = ShellViewModel!;
 			shellViewModel.FilesAndFoldersFilter = null;
 
