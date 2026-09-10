@@ -514,13 +514,9 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrEmpty(repositoryRootPath))
 				return false;
 
-			if (IsRepoValid(repositoryRootPath))
-			{
-				repoRootPath = repositoryRootPath;
-				return true;
-			}
-
-			return false;
+			// GetGitRepositoryPath only returns a path it already validated, so no second check is needed
+			repoRootPath = repositoryRootPath;
+			return true;
 		}
 
 		public static GitItemModel GetGitInformationForItem(Repository repository, string path, bool getStatus = true, bool getCommit = true)
@@ -612,12 +608,6 @@ namespace Files.App.Utils.Git
 				_logger.LogWarning(ex.Message);
 				await DynamicDialogFactory.GetFor_GitCannotInitializeqRepositoryHere().TryShowAsync();
 			}
-		}
-
-		// Method already moved into abstraction
-		private static bool IsRepoValid(string path)
-		{
-			return SafetyExtensions.IgnoreExceptions(() => Repository.IsValid(path));
 		}
 
 		// Method already moved into abstraction
