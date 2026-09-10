@@ -1,0 +1,193 @@
+<!--  Copyright (c) Files Community. SPDX-License-Identifier: MPL-2.0  -->
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:Files.App.Controls">
+
+	<!--  PROPERTIES VIEW INFO  -->
+	<Style BasedOn="{StaticResource DefaultPropertiesViewInfoStyle}" TargetType="local:PropertiesViewInfo" />
+
+	<Style x:Key="DefaultPropertiesViewInfoStyle" TargetType="local:PropertiesViewInfo">
+		<Setter Property="CornerRadius" Value="{StaticResource PropertiesViewInfoCornerRadius}" />
+		<Setter Property="Height" Value="{StaticResource PropertiesViewInfoSize}" />
+		<Setter Property="Width" Value="{StaticResource PropertiesViewInfoSize}" />
+		<Setter Property="MaxHeight" Value="{StaticResource PropertiesViewInfoSize}" />
+		<Setter Property="MaxWidth" Value="{StaticResource PropertiesViewInfoSize}" />
+		<Setter Property="BorderThickness" Value="{StaticResource PropertiesViewInfoBorderThickness}" />
+		<Setter Property="Background" Value="{ThemeResource PropertiesViewInfoBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource PropertiesViewInfoForeground}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource PropertiesViewInfoBorderBrush}" />
+		<Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:PropertiesViewInfo">
+					<Grid
+						x:Name="RootGrid"
+						Margin="{TemplateBinding Margin}"
+						Padding="{TemplateBinding Padding}">
+						<Border
+							x:Name="HoverVisual"
+							Width="{TemplateBinding Width}"
+							Height="{TemplateBinding Height}"
+							MaxWidth="{TemplateBinding MaxWidth}"
+							MaxHeight="{TemplateBinding MaxHeight}"
+							Background="{TemplateBinding Background}"
+							BackgroundSizing="{TemplateBinding BackgroundSizing}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							CornerRadius="{TemplateBinding CornerRadius}">
+							<Viewbox
+								x:Name="PART_InfoIconPresenterHolder"
+								MaxWidth="{StaticResource PropertiesViewInfoIconSize}"
+								MaxHeight="{StaticResource PropertiesViewInfoIconSize}"
+								Margin="0"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center">
+								<ContentPresenter
+									x:Name="PART_InfoIconPresenter"
+									HorizontalContentAlignment="Center"
+									VerticalContentAlignment="Center"
+									Content="{TemplateBinding InfoIcon}"
+									Foreground="{TemplateBinding Foreground}"
+									HighContrastAdjustment="None" />
+							</Viewbox>
+						</Border>
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal">
+									<VisualState.Setters>
+										<Setter Target="PART_InfoIconPresenter.Foreground" Value="{ThemeResource PropertiesViewInfoForeground}" />
+										<Setter Target="HoverVisual.Background" Value="{ThemeResource PropertiesViewInfoBackground}" />
+										<Setter Target="HoverVisual.BorderBrush" Value="{ThemeResource PropertiesViewInfoBorderBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="PointerOver">
+									<VisualState.Setters>
+										<Setter Target="PART_InfoIconPresenter.Foreground" Value="{ThemeResource PropertiesViewInfoPointerOverForeground}" />
+										<Setter Target="HoverVisual.Background" Value="{ThemeResource PropertiesViewInfoPointerOverBackground}" />
+										<Setter Target="HoverVisual.BorderBrush" Value="{ThemeResource PropertiesViewInfoPointerOverBorderBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Pressed">
+									<VisualState.Setters>
+										<Setter Target="PART_InfoIconPresenter.Foreground" Value="{ThemeResource PropertiesViewInfoPressedForeground}" />
+										<Setter Target="HoverVisual.Background" Value="{ThemeResource PropertiesViewInfoPressedBackground}" />
+										<Setter Target="HoverVisual.BorderBrush" Value="{ThemeResource PropertiesViewInfoPressedBorderBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Disabled">
+									<VisualState.Setters>
+										<Setter Target="PART_InfoIconPresenter.Foreground" Value="{ThemeResource PropertiesViewInfoDisabledForeground}" />
+										<Setter Target="HoverVisual.Background" Value="{ThemeResource PropertiesViewInfoDisabledBackground}" />
+										<Setter Target="HoverVisual.BorderBrush" Value="{ThemeResource PropertiesViewInfoDisabledBorderBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+
+
+	<!--  PROPERTIES VIEW ITEM SEPARATOR  -->
+	<Style BasedOn="{StaticResource DefaultPropertiesViewStyle}" TargetType="local:PropertiesView" />
+
+	<Style TargetType="local:PropertiesViewItemSeparator">
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="Foreground" Value="{ThemeResource PropertiesItemSeparatorForeground}" />
+		<Setter Property="CornerRadius" Value="{StaticResource PropertiessItemSeparatorCornerRadius}" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:PropertiesViewItemSeparator">
+					<Grid
+						Padding="{TemplateBinding Padding}"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch">
+						<Border
+							x:Name="SeparatorHorizontalBorder"
+							Height="{StaticResource PropertiesItemSeparatorStrokeThickness}"
+							Margin="{StaticResource PropertiesItemSeparatorHorizontalMargin}"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Center"
+							Background="{TemplateBinding Foreground}"
+							CornerRadius="{TemplateBinding CornerRadius}" />
+						<Border
+							x:Name="SeparatorVerticalBorder"
+							Width="{StaticResource PropertiesItemSeparatorStrokeThickness}"
+							Margin="{StaticResource PropertiesItemSeparatorVerticalMargin}"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Stretch"
+							Background="{TemplateBinding Foreground}"
+							CornerRadius="{TemplateBinding CornerRadius}"
+							Visibility="Collapsed" />
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="OrientationStateGroup">
+								<VisualState x:Name="HorizontalState" />
+								<VisualState x:Name="VerticalState">
+									<VisualState.Setters>
+										<Setter Target="SeparatorHorizontalBorder.Visibility" Value="Collapsed" />
+										<Setter Target="SeparatorVerticalBorder.Visibility" Value="Visible" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="DefaultPropertiesViewStyle" TargetType="local:PropertiesView">
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="VerticalAlignment" Value="Stretch" />
+		<Setter Property="ItemsPanel">
+			<Setter.Value>
+				<ItemsPanelTemplate>
+					<StackPanel HorizontalAlignment="Stretch" Orientation="Vertical" />
+				</ItemsPanelTemplate>
+			</Setter.Value>
+		</Setter>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:PropertiesView">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="*" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+
+						<ContentPresenter
+							Grid.Row="0"
+							HorizontalContentAlignment="Stretch"
+							VerticalContentAlignment="Stretch"
+							BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+							BorderThickness="0,0,0,1"
+							Content="{TemplateBinding Header}" />
+
+						<ScrollViewer
+							Grid.Row="1"
+							HorizontalScrollBarVisibility="Disabled"
+							HorizontalScrollMode="Disabled"
+							VerticalScrollBarVisibility="Auto"
+							VerticalScrollMode="Auto">
+							<ItemsPresenter Margin="0,0,0,32" />
+						</ScrollViewer>
+
+						<ContentPresenter
+							Grid.Row="2"
+							HorizontalContentAlignment="Stretch"
+							VerticalContentAlignment="Stretch"
+							Content="{TemplateBinding Footer}" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>

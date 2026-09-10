@@ -109,9 +109,7 @@
 									RadiusY="2" />
 
 								<!--  Depth indent spacer (width = NestingLevel * 16)  -->
-								<Border
-									Grid.Column="1"
-									Width="{TemplateBinding IndentWidth}" />
+								<Border Grid.Column="1" Width="{TemplateBinding IndentWidth}" />
 
 								<!--  Own pointer surface so chevron clicks only toggle expansion (no row invoke / selection).  -->
 								<Border
