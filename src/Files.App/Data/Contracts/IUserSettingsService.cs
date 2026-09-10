@@ -24,5 +24,7 @@ namespace Files.App.Data.Contracts
 		ILayoutSettingsService LayoutSettingsService { get; }
 
 		IAppSettingsService AppSettingsService { get; }
+
+		IDevToolsSettingsService DevToolsSettingsService { get; }
 	}
 }

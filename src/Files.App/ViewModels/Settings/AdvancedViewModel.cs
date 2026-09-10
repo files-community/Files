@@ -21,6 +21,33 @@ namespace Files.App.ViewModels.Settings
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
 		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
+		public bool UseRobocopyForFileOperations
+		{
+			get => UserSettingsService.DevToolsSettingsService.UseRobocopyForFileOperations;
+			set
+			{
+				if (value != UserSettingsService.DevToolsSettingsService.UseRobocopyForFileOperations)
+				{
+					UserSettingsService.DevToolsSettingsService.UseRobocopyForFileOperations = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public int RobocopyThreads
+		{
+			get => UserSettingsService.DevToolsSettingsService.RobocopyThreads;
+			set
+			{
+				var clamped = Math.Clamp(value, 1, 128);
+				if (clamped != UserSettingsService.DevToolsSettingsService.RobocopyThreads)
+				{
+					UserSettingsService.DevToolsSettingsService.RobocopyThreads = clamped;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 		public ICommand SetAsDefaultExplorerCommand { get; }
