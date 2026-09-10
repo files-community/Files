@@ -252,13 +252,16 @@ namespace Files.App.ViewModels
 				pathRoot = Path.GetPathRoot(WorkingDirectory);
 			}
 
-			// Cheap now; run inline to skip thread-pool scheduling latency
-			var gitDirectory = GitHelpers.GetGitRepositoryPath(value, pathRoot);
-			if (WorkingDirectory != value)
+			var gitDirectory = await Task.Run(() => GitHelpers.GetGitRepositoryPath(value, pathRoot));
+			if (isDisposed || WorkingDirectory != value)
 				return;
 
 			GitDirectory = gitDirectory;
-			IsValidGitDirectory = !string.IsNullOrEmpty(await GitHelpers.GetRepositoryHeadName(GitDirectory));
+			var headName = await GitHelpers.GetRepositoryHeadName(gitDirectory);
+			if (isDisposed || WorkingDirectory != value)
+				return;
+
+			IsValidGitDirectory = !string.IsNullOrEmpty(headName);
 
 			_ = UpdateFolderThumbnailImageSource();
 
@@ -901,7 +904,7 @@ namespace Files.App.ViewModels
 
 		private bool IsLoadingCancelled { get; set; }
 
-		public void CancelLoadAndClearFiles(bool clearDisplay = true)
+		public void CancelLoadAndClearFiles()
 		{
 			Debug.WriteLine("CancelLoadAndClearFiles");
 			CloseWatcher();
@@ -927,8 +930,7 @@ namespace Files.App.ViewModels
 			if (filesAndFolders.Count >= 100)
 				AppMemoryHelper.RequestTrim();
 			filesAndFolders.Clear();
-			if (clearDisplay)
-				FilesAndFolders.Clear();
+			FilesAndFolders.Clear();
 			CancelSearch();
 		}
 
@@ -2098,8 +2100,7 @@ namespace Files.App.ViewModels
 			StopWatchingForLocationRestoration();
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
 
-			// The outgoing listing stays on screen until the new folder's first batch replaces it, matching File Explorer
-			CancelLoadAndClearFiles(clearDisplay: false);
+			CancelLoadAndClearFiles();
 
 			if (string.IsNullOrEmpty(path))
 				return;

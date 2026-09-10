@@ -47,6 +47,7 @@ namespace Files.App.Views.Layouts
 		/// size changes, even if the layout size changes (since some layout sizes share the same icon size).
 		/// </summary>
 		private uint currentIconSize;
+		private (FolderLayoutModes? Layout, ListViewSizeKind List, CardsViewSizeKind Cards, GridViewSizeKind Grid)? itemContainerLayout;
 
 		private volatile bool shouldSetVerticalScrollMode;
 
@@ -374,6 +375,10 @@ namespace Files.App.Views.Layouts
 
 		private void SetItemContainerStyle()
 		{
+			var layout = (FolderSettings?.LayoutMode, LayoutSettingsService.ListViewSize, LayoutSettingsService.CardsViewSize, LayoutSettingsService.GridViewSize);
+			if (itemContainerLayout == layout)
+				return;
+
 			if (FolderSettings?.LayoutMode == FolderLayoutModes.CardsView || FolderSettings?.LayoutMode == FolderLayoutModes.GridView)
 			{
 				// Toggle style to force item size to update
@@ -401,6 +406,7 @@ namespace Files.App.Views.Layouts
 					FileList.ItemContainerStyle = LocalListItemContainerStyle;
 				}
 			}
+			itemContainerLayout = layout;
 		}
 
 		private void FileList_Loaded(object sender, RoutedEventArgs e)

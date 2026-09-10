@@ -523,11 +523,16 @@ namespace Files.App.Views.Layouts
 			shellViewModel.EmptyTextType = EmptyTextType.None;
 			parentShellPage.ToolbarViewModel.CanRefresh = true;
 
+			// Derived layouts read the page type as soon as navigation yields.
+			parentShellPage.InstanceViewModel.IsPageTypeSearchResults = args.IsSearchResultPage;
+
 			if (!args.IsSearchResultPage)
 			{
 				var navigationPath = args.NavPathParam;
 				var previousDir = shellViewModel.WorkingDirectory;
 				await shellViewModel.SetWorkingDirectoryAsync(navigationPath);
+				if (isDisposed || navigationArguments != args)
+					return;
 
 				// pathRoot will be empty on recycle bin path
 				var workingDir = shellViewModel.WorkingDirectory ?? string.Empty;
@@ -543,7 +548,6 @@ namespace Files.App.Views.Layouts
 				parentShellPage.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
 				parentShellPage.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
 				parentShellPage.InstanceViewModel.IsPageTypeLibrary = LibraryManager.IsLibraryPath(workingDir);
-				parentShellPage.InstanceViewModel.IsPageTypeSearchResults = false;
 				parentShellPage.InstanceViewModel.IsPageTypeReleaseNotes = false;
 				parentShellPage.InstanceViewModel.IsPageTypeSettings = false;
 				parentShellPage.ToolbarViewModel.PathControlDisplayText = navigationPath;
@@ -564,6 +568,8 @@ namespace Files.App.Views.Layouts
 			{
 				var searchPath = args.SearchPathParam;
 				await shellViewModel.SetWorkingDirectoryAsync(searchPath);
+				if (isDisposed || navigationArguments != args)
+					return;
 
 				parentShellPage.ToolbarViewModel.CanGoForward = false;
 
@@ -579,7 +585,6 @@ namespace Files.App.Views.Layouts
 				parentShellPage.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
 				parentShellPage.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
 				parentShellPage.InstanceViewModel.IsPageTypeLibrary = LibraryManager.IsLibraryPath(workingDir);
-				parentShellPage.InstanceViewModel.IsPageTypeSearchResults = true;
 				parentShellPage.InstanceViewModel.IsPageTypeReleaseNotes = false;
 				parentShellPage.InstanceViewModel.IsPageTypeSettings = false;
 
@@ -888,6 +893,7 @@ namespace Files.App.Views.Layouts
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
+			navigationArguments = null;
 
 			// Remove item jumping handler
 			CharacterReceived -= Page_CharacterReceived;
@@ -912,10 +918,7 @@ namespace Files.App.Views.Layouts
 			if (parameter is not null && !parameter.IsLayoutSwitch)
 			{
 				var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
-
-				// The incoming page's first batch replaces the visible listing, avoiding an empty flash between folders.
-				// When the target folder uses a different layout, the old items would re-render in the wrong layout, so drop them instead.
-				shellViewModel.CancelLoadAndClearFiles(clearDisplay: e.SourcePageType != GetType());
+				shellViewModel.CancelLoadAndClearFiles();
 			}
 		}
 
