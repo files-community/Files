@@ -795,9 +795,9 @@ namespace Files.App.Helpers
 				(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE, 0, null, overwrite ? FILE_CREATION_DISPOSITION.CREATE_ALWAYS : FILE_CREATION_DISPOSITION.OPEN_ALWAYS, FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_BACKUP_SEMANTICS, null);
 		}
 
-		public static SafeFileHandle OpenFileForRead(string? filePath, bool readWrite = false, uint flags = 0)
+		public static SafeFileHandle OpenFileForRead(string filePath, bool readWrite = false, uint flags = 0)
 		{
-			return PInvoke.CreateFile(filePath!,
+			return PInvoke.CreateFile(filePath,
 				(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ | (uint)(readWrite ? FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE : 0u), FILE_SHARE_MODE.FILE_SHARE_READ | (readWrite ? 0 : FILE_SHARE_MODE.FILE_SHARE_WRITE), null, FILE_CREATION_DISPOSITION.OPEN_EXISTING, FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_BACKUP_SEMANTICS | (FILE_FLAGS_AND_ATTRIBUTES)flags, null);
 		}
 
@@ -896,13 +896,20 @@ namespace Files.App.Helpers
 
 		public static string? ReadStringFromFile(string filePath)
 		{
-			using SafeFileHandle hFile = OpenFileForRead(filePath);
-			if (hFile.IsInvalid)
-				return null;
+			try
+			{
+				using SafeFileHandle hFile = OpenFileForRead(filePath);
+				if (hFile.IsInvalid)
+					return null;
 
-			using FileStream stream = new(hFile, FileAccess.Read);
-			using StreamReader reader = new(stream, detectEncodingFromByteOrderMarks: true);
-			return reader.ReadToEnd();
+				using FileStream stream = new(hFile, FileAccess.Read);
+				using StreamReader reader = new(stream, detectEncodingFromByteOrderMarks: true);
+				return reader.ReadToEnd();
+			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+			{
+				return null;
+			}
 		}
 
 		public static bool WriteStringToFile(string filePath, string str, FILE_FLAGS_AND_ATTRIBUTES flags = 0)
@@ -927,6 +934,9 @@ namespace Files.App.Helpers
 		// https://www.pinvoke.net/default.aspx/kernel32/GetFileInformationByHandleEx.html
 		public static ulong? GetFolderFRN(string? folderPath)
 		{
+			if (string.IsNullOrEmpty(folderPath))
+				return null;
+
 			using var handle = OpenFileForRead(folderPath);
 			if (!handle.IsInvalid)
 			{
@@ -983,7 +993,7 @@ namespace Files.App.Helpers
 					short subsNameLength = MemoryMarshal.Read<short>(buffer.AsSpan(10));
 					short printNameOffset = MemoryMarshal.Read<short>(buffer.AsSpan(12));
 					short printNameLength = MemoryMarshal.Read<short>(buffer.AsSpan(14));
-					string pathBuffer = Encoding.Unicode.GetString(buffer, 16, (int)bytesReturned - 16);
+					string pathBuffer = Encoding.Unicode.GetString(buffer, 20, (int)bytesReturned - 20);
 					var subsString = pathBuffer.Substring(subsNameOffset / 2, subsNameLength / 2);
 					var printString = pathBuffer.Substring(printNameOffset / 2, printNameLength / 2);
 					var normalisedTarget = printString ?? subsString;
