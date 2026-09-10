@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Package
     xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
@@ -169,7 +169,7 @@
             </InProcessServer>
         </Extension>
         <Extension Category="windows.activatableClass.outOfProcessServer">
-            <OutOfProcessServer ServerName="Files.App.Server" uap5:IdentityType="activateAsPackage" uap5:RunFullTrust="true">
+            <OutOfProcessServer ServerName="Files.App.Server" uap5:IdentityType="activateAsActivator">
                 <Path>Files.App.Server\Files.App.Server.exe</Path>
                 <Instancing>singleInstance</Instancing>
                 <ActivatableClass ActivatableClassId="Files.App.Server.AppInstanceMonitor" />

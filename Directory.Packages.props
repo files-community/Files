@@ -32,15 +32,15 @@
     <PackageVersion Include="Sentry" Version="6.9.0" />
     <PackageVersion Include="SevenZipSharp" Version="1.0.3" />
     <PackageVersion Include="SharpZipLib" Version="1.4.2" />
-    <PackageVersion Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="2.4.0" />
-    <PackageVersion Include="Microsoft.Windows.AI.MachineLearning" Version="2.1.74" />
+    <PackageVersion Include="Microsoft.Windows.AI.MachineLearning" Version="2.3.42" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.AI" Version="2.4.4" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.ML" Version="2.1.74" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.Widgets" Version="2.0.5" />
     <PackageVersion Include="Microsoft.Graphics.Win2D" Version="1.4.0" />
+    <PackageVersion Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
     <PackageVersion Include="TagLibSharp" Version="2.3.0" />
-    <PackageVersion Include="UTF.Unknown" Version="2.6.0" />
+    <PackageVersion Include="UTF.Unknown" Version="2.7.0" />
     <PackageVersion Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
     <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.333" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />

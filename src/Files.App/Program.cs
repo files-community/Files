@@ -84,54 +84,8 @@ namespace Files.App
 			Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 			WinRT.ComWrappersSupport.InitializeComWrappers();
 
-			// We are about to do the first WinRT server call, in case the WinRT server is hanging
-			// we need to kill the server if there are no other Files instances already running
-
-			static bool ProcessPathPredicate(Process p)
-			{
-				try
-				{
-					return p.MainModule?.FileName
-						.StartsWith(Windows.ApplicationModel.Package.Current.EffectivePath, StringComparison.OrdinalIgnoreCase) ?? false;
-				}
-				catch
-				{
-					return false;
-				}
-			}
-
-			// Off the startup path: MainModule reads cost tens of milliseconds per scanned process
-			_ = Task.Run(static () =>
-			{
-				var processes = Process.GetProcessesByName("Files")
-					.Where(ProcessPathPredicate)
-					.Where(p => p.Id != Environment.ProcessId);
-
-				if (!processes.Any())
-				{
-					foreach (var process in Process.GetProcessesByName("Files.App.Server").Where(ProcessPathPredicate))
-					{
-						try
-						{
-							process.Kill();
-						}
-						catch
-						{
-							// ignore any exceptions
-						}
-						finally
-						{
-							process.Dispose();
-						}
-					}
-				}
-			});
-
-			// NOTE:
-			//  This has been commented out since out-of-proc WinRT server seems not to support elevation.
-			//  For more info, see the GitHub issue (#15384).
 			// Now we can do the first WinRT server call
-			//Server.AppInstanceMonitor.StartMonitor(Environment.ProcessId);
+			Server.AppInstanceMonitor.StartMonitor(Environment.ProcessId);
 
 			var OpenTabInExistingInstance = ApplicationData.Current.LocalSettings.Values.Get("OpenTabInExistingInstance", true);
 
