@@ -4,6 +4,8 @@
 using Microsoft.UI.Dispatching;
 using System.IO;
 using Windows.Storage.FileProperties;
+using Windows.Win32;
+using Windows.Win32.Storage.FileSystem;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.ViewModels.Properties
@@ -57,28 +59,31 @@ namespace Files.App.ViewModels.Properties
 			if (string.IsNullOrEmpty(path))
 			{
 				// In MTP devices calculating folder size would be too slow
-				// Also should use StorageFolder methods instead of FindFirstFileExFromApp
+				// Also should use StorageFolder methods instead of FindFirstFileEx
 				return (0, 0);
 			}
 
 			long size = 0;
 			long sizeOnDisk = 0;
-			Win32PInvoke.FINDEX_INFO_LEVELS findInfoLevel = Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic;
-			int additionalFlags = Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH;
-
-			IntPtr hFile = Win32PInvoke.FindFirstFileExFromApp(
-				path + "\\*.*",
-				findInfoLevel,
-				out Win32PInvoke.WIN32_FIND_DATA findData,
-				Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch,
-				IntPtr.Zero,
-				additionalFlags);
+			WIN32_FIND_DATAW findData = default;
+			FindCloseSafeHandle hFile;
+			unsafe
+			{
+				hFile = PInvoke.FindFirstFileEx(
+					path + "\\*.*",
+					FINDEX_INFO_LEVELS.FindExInfoBasic,
+					&findData,
+					FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+					FIND_FIRST_EX_FLAGS.FIND_FIRST_EX_LARGE_FETCH);
+			}
+			using FindCloseSafeHandle findHandleScope = hFile;
 
 			var count = 0;
-			if (hFile.ToInt64() != -1)
+			if (!hFile.IsInvalid)
 			{
 				do
 				{
+					string fileName = findData.cFileName.ToString();
 					if (((FileAttributes)findData.dwFileAttributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint)
 						// Skip symbolic links and junctions
 						continue;
@@ -86,14 +91,14 @@ namespace Files.App.ViewModels.Properties
 					if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
 					{
 						size += findData.GetSize();
-						var fileSizeOnDisk = Win32Helper.GetFileSizeOnDisk(Path.Combine(path, findData.cFileName));
+						var fileSizeOnDisk = Win32Helper.GetFileSizeOnDisk(Path.Combine(path, fileName));
 						sizeOnDisk += fileSizeOnDisk ?? 0;
 						++count;
 						ViewModel.FilesCount++;
 					}
-					else if (findData.cFileName != "." && findData.cFileName != "..")
+					else if (fileName != "." && fileName != "..")
 					{
-						var itemPath = Path.Combine(path, findData.cFileName);
+						var itemPath = Path.Combine(path, fileName);
 
 						var folderSize = await CalculateFolderSizeAsync(itemPath, token);
 						size += folderSize.size;
@@ -118,9 +123,7 @@ namespace Files.App.ViewModels.Properties
 					if (token.IsCancellationRequested)
 						break;
 				}
-				while (Win32PInvoke.FindNextFile(hFile, out findData));
-
-				Win32PInvoke.FindClose(hFile);
+				while (PInvoke.FindNextFile(hFile, out findData));
 
 				return (size, sizeOnDisk);
 			}
