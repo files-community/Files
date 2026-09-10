@@ -528,6 +528,8 @@ namespace Files.App.Views.Layouts
 				var navigationPath = args.NavPathParam;
 				var previousDir = shellViewModel.WorkingDirectory;
 				await shellViewModel.SetWorkingDirectoryAsync(navigationPath);
+				if (isDisposed || navigationArguments != args)
+					return;
 
 				// pathRoot will be empty on recycle bin path
 				var workingDir = shellViewModel.WorkingDirectory ?? string.Empty;
@@ -564,6 +566,8 @@ namespace Files.App.Views.Layouts
 			{
 				var searchPath = args.SearchPathParam;
 				await shellViewModel.SetWorkingDirectoryAsync(searchPath);
+				if (isDisposed || navigationArguments != args)
+					return;
 
 				parentShellPage.ToolbarViewModel.CanGoForward = false;
 
@@ -888,6 +892,7 @@ namespace Files.App.Views.Layouts
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
+			navigationArguments = null;
 
 			// Remove item jumping handler
 			CharacterReceived -= Page_CharacterReceived;

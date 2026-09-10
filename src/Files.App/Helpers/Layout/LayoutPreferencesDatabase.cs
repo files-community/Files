@@ -139,12 +139,12 @@ namespace Files.App.Helpers
 		{
 			if (filePath is not null)
 			{
-				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(LayoutSettingsKey, filePath));
-				if (filePathKey.ValueCount > 0)
+				using var filePathKey = Registry.CurrentUser.OpenSubKey(CombineKeys(LayoutSettingsKey, filePath), writable: true);
+				if (filePathKey is not null && filePathKey.ValueCount > 0)
 				{
 					var preference = new LayoutPreferencesDatabaseItem();
 					BindValues(filePathKey, preference);
-					if (frn is not null)
+					if (frn is not null && preference.Frn != frn)
 					{
 						// Keep entry updated
 						preference.Frn = frn;
@@ -157,12 +157,12 @@ namespace Files.App.Helpers
 
 			if (frn is not null)
 			{
-				using var frnKey = Registry.CurrentUser.CreateSubKey(CombineKeys(LayoutSettingsKey, "FRN", frn.Value.ToString()));
-				if (frnKey.ValueCount > 0)
+				using var frnKey = Registry.CurrentUser.OpenSubKey(CombineKeys(LayoutSettingsKey, "FRN", frn.Value.ToString()), writable: true);
+				if (frnKey is not null && frnKey.ValueCount > 0)
 				{
 					var preference = new LayoutPreferencesDatabaseItem();
 					BindValues(frnKey, preference);
-					if (filePath is not null)
+					if (filePath is not null && preference.FilePath != filePath)
 					{
 						// Keep entry updated
 						preference.FilePath = filePath;

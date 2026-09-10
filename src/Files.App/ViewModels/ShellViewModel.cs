@@ -252,13 +252,16 @@ namespace Files.App.ViewModels
 				pathRoot = Path.GetPathRoot(WorkingDirectory);
 			}
 
-			// Cheap now; run inline to skip thread-pool scheduling latency
-			var gitDirectory = GitHelpers.GetGitRepositoryPath(value, pathRoot);
-			if (WorkingDirectory != value)
+			var gitDirectory = await Task.Run(() => GitHelpers.GetGitRepositoryPath(value, pathRoot));
+			if (isDisposed || WorkingDirectory != value)
 				return;
 
 			GitDirectory = gitDirectory;
-			IsValidGitDirectory = !string.IsNullOrEmpty(await GitHelpers.GetRepositoryHeadName(GitDirectory));
+			var headName = await GitHelpers.GetRepositoryHeadName(gitDirectory);
+			if (isDisposed || WorkingDirectory != value)
+				return;
+
+			IsValidGitDirectory = !string.IsNullOrEmpty(headName);
 
 			_ = UpdateFolderThumbnailImageSource();
 
