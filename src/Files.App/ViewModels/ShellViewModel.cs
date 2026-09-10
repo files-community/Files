@@ -904,7 +904,7 @@ namespace Files.App.ViewModels
 
 		private bool IsLoadingCancelled { get; set; }
 
-		public void CancelLoadAndClearFiles(bool clearDisplay = true)
+		public void CancelLoadAndClearFiles()
 		{
 			Debug.WriteLine("CancelLoadAndClearFiles");
 			CloseWatcher();
@@ -930,8 +930,7 @@ namespace Files.App.ViewModels
 			if (filesAndFolders.Count >= 100)
 				AppMemoryHelper.RequestTrim();
 			filesAndFolders.Clear();
-			if (clearDisplay)
-				FilesAndFolders.Clear();
+			FilesAndFolders.Clear();
 			CancelSearch();
 		}
 
@@ -2101,8 +2100,7 @@ namespace Files.App.ViewModels
 			StopWatchingForLocationRestoration();
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
 
-			// The outgoing listing stays on screen until the new folder's first batch replaces it, matching File Explorer
-			CancelLoadAndClearFiles(clearDisplay: false);
+			CancelLoadAndClearFiles();
 
 			if (string.IsNullOrEmpty(path))
 				return;
