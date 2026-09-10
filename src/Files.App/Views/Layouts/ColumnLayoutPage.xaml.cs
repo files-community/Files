@@ -49,6 +49,10 @@ namespace Files.App.Views.Layouts
 		protected override SemanticZoom RootZoom => RootGridZoom;
 		public ScrollViewer? ContentScroller { get; private set; }
 
+		[DynamicWindowsRuntimeCast(typeof(ItemsStackPanel))]
+		protected override (int First, int Last) GetVisibleIndexRange()
+			=> FileList.ItemsPanelRoot is ItemsStackPanel panel ? (panel.FirstVisibleIndex, panel.LastVisibleIndex) : (-1, -1);
+
 		/// <summary>
 		/// Row height in the Columns View
 		/// </summary>
@@ -70,6 +74,7 @@ namespace Files.App.Views.Layouts
 		/// size changes, even if the layout size changes (since some layout sizes share the same icon size).
 		/// </summary>
 		private uint currentIconSize;
+		private ColumnsViewSizeKind? itemContainerSize;
 
 		private readonly IStorageArchiveService storageArchiveService = Ioc.Default.GetRequiredService<IStorageArchiveService>();
 
@@ -325,22 +330,13 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		private void SetItemContainerStyle()
 		{
-			if (UserSettingsService.LayoutSettingsService.ColumnsViewSize == ColumnsViewSizeKind.Compact)
-			{
-				// Toggle style to force item size to update
-				FileList.ItemContainerStyle = RegularItemContainerStyle;
+			var size = UserSettingsService.LayoutSettingsService.ColumnsViewSize;
+			if (itemContainerSize == size)
+				return;
 
-				// Set correct style
-				FileList.ItemContainerStyle = CompactItemContainerStyle;
-			}
-			else
-			{
-				// Toggle style to force item size to update
-				FileList.ItemContainerStyle = CompactItemContainerStyle;
-
-				// Set correct style
-				FileList.ItemContainerStyle = RegularItemContainerStyle;
-			}
+			FileList.ItemContainerStyle = size == ColumnsViewSizeKind.Compact ? RegularItemContainerStyle : CompactItemContainerStyle;
+			FileList.ItemContainerStyle = size == ColumnsViewSizeKind.Compact ? CompactItemContainerStyle : RegularItemContainerStyle;
+			itemContainerSize = size;
 		}
 
 		public override void Dispose()

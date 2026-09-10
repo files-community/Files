@@ -277,7 +277,12 @@ namespace Files.App.Utils.Storage
 			if (findData.cFileName.Contains('.'))
 			{
 				itemFileExtension = Path.GetExtension(itemPath);
-				itemType = itemFileExtension!.Trim('.') + " " + itemType;
+
+				// Resolve the localized type here (cached by extension) so it's correct from the first paint and sorts right
+				var localizedType = FileTypesHelper.GetLocalizedTypeName(itemFileExtension);
+				itemType = !string.IsNullOrEmpty(localizedType)
+					? localizedType
+					: itemFileExtension!.Trim('.') + " " + itemType;
 			}
 
 			bool itemThumbnailImgVis = false;

@@ -117,6 +117,29 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
+		// Per-item network classification matching enumeration rules; the drive-type probe runs off the UI thread as it can block on an unreachable drive.
+		public static Task<bool> IsNetworkStorageItemAsync(string path)
+		{
+			if (path.StartsWith(@"\\", StringComparison.Ordinal))
+			{
+				// MTP, WSL and shell-namespace paths aren't network shares
+				return Task.FromResult(!IsMtpPath(path)
+					&& !path.StartsWith(@"\\SHELL\", StringComparison.Ordinal)
+					&& !path.StartsWith(@"\\wsl$\", StringComparison.OrdinalIgnoreCase)
+					&& !path.StartsWith(@"\\wsl.localhost\", StringComparison.OrdinalIgnoreCase));
+			}
+
+			var root = SystemIO.Path.GetPathRoot(path);
+			if (string.IsNullOrEmpty(root))
+				return Task.FromResult(false);
+
+			return Task.Run(() =>
+			{
+				try { return new SystemIO.DriveInfo(root).DriveType == SystemIO.DriveType.Network; }
+				catch { return false; }
+			});
+		}
+
 		public static Data.Items.DriveType GetDriveType(System.IO.DriveInfo drive)
 		{
 			if (drive.DriveType is System.IO.DriveType.Unknown)

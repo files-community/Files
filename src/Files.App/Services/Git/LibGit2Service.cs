@@ -1,6 +1,7 @@
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
 using Sentry;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -61,16 +62,22 @@ internal sealed partial class LibGit2Service // : IVersionControl
 
 		try
 		{
-			if (IsRepoValid(path))
-				return path;
-			else
+			// Probe for a ".git" entry (dir or file) cheaply per level; only run the libgit2 check where one exists
+			var current = path;
+			while (!string.IsNullOrWhiteSpace(current) && !current.Equals(root, StringComparison.OrdinalIgnoreCase))
 			{
-				var parentDir = PathNormalization.GetParentDir(path);
-				if (parentDir == path)
-					return null;
-				else
-					return GetGitRepositoryPath(parentDir, root);
+				var gitPath = Path.Combine(current, ".git");
+				if ((Directory.Exists(gitPath) || File.Exists(gitPath)) && IsRepoValid(current))
+					return current;
+
+				var parentDir = PathNormalization.GetParentDir(current);
+				if (parentDir == current)
+					break;
+
+				current = parentDir;
 			}
+
+			return null;
 		}
 		catch (Exception ex) when (ex is LibGit2SharpException or EncoderFallbackException)
 		{

@@ -355,7 +355,8 @@ namespace Files.App.Utils.Shell
 				ushort timeoutMilliseconds = checked((ushort)timeout.TotalMilliseconds);
 				resolveFlags = (resolveFlags & ushort.MaxValue) | ((uint)timeoutMilliseconds << 16);
 			}
-			link.Resolve(window, resolveFlags).ThrowOnFailure();
+			// App-target shortcuts (shell:appsfolder) have no filesystem path, so a failed resolve must not throw
+			_ = link.Resolve(window, resolveFlags);
 		}
 
 		public ShellLink(string targetPath, string? arguments, string? workingDirectory)

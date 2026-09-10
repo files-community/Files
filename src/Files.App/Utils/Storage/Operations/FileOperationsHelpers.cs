@@ -718,6 +718,14 @@ namespace Files.App.Utils.Storage
 						? new ShellLink(linkPath, SLR_FLAGS.SLR_NO_UI_WITH_MSG_PUMP, timeout: TimeSpan.FromMilliseconds(100))
 						: new ShellLink(linkPath, resolve: false);
 					targetPath = link.TargetPath;
+
+					// Broken shortcut (rooted target that's gone) keeps the delete prompt; app/shell targets aren't rooted
+					if (resolveTarget && Path.IsPathRooted(targetPath) &&
+						!targetPath.StartsWith(@"\\", StringComparison.Ordinal) && !Path.Exists(targetPath))
+					{
+						return new ShellLinkItem { TargetPath = targetPath, InvalidTarget = true };
+					}
+
 					return ShellFolderExtensions.GetShellLinkItem(link);
 				}
 				else if (FileExtensionHelpers.IsWebLinkFile(linkPath))

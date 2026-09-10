@@ -8,7 +8,6 @@ namespace Files.App.ViewModels.Settings
 	/// <summary>
 	/// Represents view model of <see cref="Views.Settings.ActionsPage"/>.
 	/// </summary>
-	[WinRT.GeneratedBindableCustomProperty([nameof(EditCommand), nameof(SaveCommand), nameof(CancelCommand), nameof(DeleteCommand)], [])]
 	public sealed partial class ActionsViewModel : ObservableObject
 	{
 		// Dependency injections
@@ -42,34 +41,6 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref _IsAlreadyUsedTeachingTipOpened, value);
 		}
 
-		private bool _IsInvalidKeyTeachingTipOpened;
-		public bool IsInvalidKeyTeachingTipOpened
-		{
-			get => _IsInvalidKeyTeachingTipOpened;
-			set => SetProperty(ref _IsInvalidKeyTeachingTipOpened, value);
-		}
-
-		private bool _ShowAddNewKeyBindingBlock;
-		public bool ShowAddNewKeyBindingBlock
-		{
-			get => _ShowAddNewKeyBindingBlock;
-			set => SetProperty(ref _ShowAddNewKeyBindingBlock, value);
-		}
-
-		private bool _EnableAddNewKeyBindingButton;
-		public bool EnableAddNewKeyBindingButton
-		{
-			get => _EnableAddNewKeyBindingButton;
-			set => SetProperty(ref _EnableAddNewKeyBindingButton, value);
-		}
-
-		private int _SelectedActionItemIndex;
-		public int SelectedActionItemIndex
-		{
-			get => _SelectedActionItemIndex;
-			set => SetProperty(ref _SelectedActionItemIndex, value);
-		}
-
 		private ModifiableActionItem? _SelectedActionItem;
 		public ModifiableActionItem? SelectedActionItem
 		{
@@ -82,14 +53,10 @@ namespace Files.App.ViewModels.Settings
 		// Commands
 
 		public ICommand LoadAllActionsCommand { get; set; }
-		public ICommand ShowAddNewKeyBindingBlockCommand { get; set; }
-		public ICommand HideAddNewKeyBindingBlockCommand { get; set; }
 		public ICommand AddNewKeyBindingCommand { get; set; }
 		public ICommand ShowRestoreDefaultsConfirmationCommand { get; set; }
 		public ICommand RestoreDefaultsCommand { get; set; }
-		public ICommand EditCommand { get; set; }
 		public ICommand SaveCommand { get; set; }
-		public ICommand CancelCommand { get; set; }
 		public ICommand DeleteCommand { get; set; }
 
 		// Constructor
@@ -97,14 +64,10 @@ namespace Files.App.ViewModels.Settings
 		public ActionsViewModel()
 		{
 			LoadAllActionsCommand = new AsyncRelayCommand(ExecuteLoadAllActionsCommand);
-			ShowAddNewKeyBindingBlockCommand = new RelayCommand(ExecuteShowAddNewKeyBindingBlockCommand);
-			HideAddNewKeyBindingBlockCommand = new RelayCommand(ExecuteHideAddNewKeyBindingBlockCommand);
 			AddNewKeyBindingCommand = new RelayCommand(ExecuteAddNewKeyBindingCommand);
 			ShowRestoreDefaultsConfirmationCommand = new RelayCommand(ExecuteShowRestoreDefaultsConfirmationCommand);
 			RestoreDefaultsCommand = new RelayCommand(ExecuteRestoreDefaultsCommand);
-			EditCommand = new RelayCommand<ModifiableActionItem>(ExecuteEditCommand);
 			SaveCommand = new RelayCommand<ModifiableActionItem>(ExecuteSaveCommand);
-			CancelCommand = new RelayCommand<ModifiableActionItem>(ExecuteCancelCommand);
 			DeleteCommand = new RelayCommand<ModifiableActionItem>(ExecuteDeleteCommand);
 		}
 
@@ -160,31 +123,6 @@ namespace Files.App.ViewModels.Settings
 			});
 
 			FilteredActionItems = new ObservableCollection<ModifiableActionItem>(ValidActionItems);
-		}
-
-		private void ExecuteShowAddNewKeyBindingBlockCommand()
-		{
-			ShowAddNewKeyBindingBlock = true;
-			EnableAddNewKeyBindingButton = false;
-
-			// Reset edit mode of every item
-			foreach (var action in ValidActionItems)
-			{
-				action.IsInEditMode = false;
-				action.LocalizedKeyBindingLabel = action.KeyBinding.LocalizedLabel;
-			}
-		}
-
-		private void ExecuteHideAddNewKeyBindingBlockCommand()
-		{
-			ShowAddNewKeyBindingBlock = false;
-			EnableAddNewKeyBindingButton = false;
-
-			if (SelectedActionItem is null)
-				return;
-
-			SelectedActionItem.LocalizedKeyBindingLabel = "";
-			SelectedActionItem = null;
 		}
 
 		private void ExecuteAddNewKeyBindingCommand()
@@ -252,10 +190,6 @@ namespace Files.App.ViewModels.Settings
 				PreviousKeyBinding = HotKey.Parse(SelectedActionItem.LocalizedKeyBindingLabel),
 			};
 
-			// Exit edit mode
-			ShowAddNewKeyBindingBlock = false;
-			SelectedActionItemIndex = -1;
-
 			// Add to existing list
 			ValidActionItems.Insert(0, selectedNewItem);
 
@@ -274,35 +208,6 @@ namespace Files.App.ViewModels.Settings
 			IsResetAllConfirmationTeachingTipOpened = false;
 
 			_ = ExecuteLoadAllActionsCommand();
-		}
-
-		private void ExecuteEditCommand(ModifiableActionItem? item)
-		{
-			if (item is null)
-				return;
-
-			// Hide the add command grid
-			ShowAddNewKeyBindingBlock = false;
-
-			// Clear the selected item
-			if (SelectedActionItem is not null)
-			{
-				SelectedActionItem.LocalizedKeyBindingLabel = "";
-				SelectedActionItem = null;
-			}
-
-			// Reset edit mode of every item
-			foreach (var action in ValidActionItems)
-			{
-				action.IsInEditMode = false;
-				action.LocalizedKeyBindingLabel = action.KeyBinding.LocalizedLabel;
-			}
-
-			// Enter edit mode for the item
-			item.IsInEditMode = true;
-
-			// Mark the key binding as invalid to prevent saving it
-			item.IsValidKeyBinding = false;
 		}
 
 		private void ExecuteSaveCommand(ModifiableActionItem? item)
@@ -379,15 +284,6 @@ namespace Files.App.ViewModels.Settings
 			item.PreviousKeyBinding = newKeyBinding;
 			item.KeyBinding = newKeyBinding;
 			item.IsInEditMode = false;
-		}
-
-		private void ExecuteCancelCommand(ModifiableActionItem? item)
-		{
-			if (item is null)
-				return;
-
-			item.IsInEditMode = false;
-			item.LocalizedKeyBindingLabel = item.KeyBinding.LocalizedLabel;
 		}
 
 		private void ExecuteDeleteCommand(ModifiableActionItem? item)

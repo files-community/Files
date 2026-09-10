@@ -43,6 +43,7 @@ namespace Files.App.Views.Layouts
 		/// size changes, even if the layout size changes (since some layout sizes share the same icon size).
 		/// </summary>
 		private uint currentIconSize;
+		private DetailsViewSizeKind? itemContainerSize;
 
 		private DispatcherQueueTimer? _autoFitColumnsTimer;
 
@@ -50,6 +51,10 @@ namespace Files.App.Views.Layouts
 
 		protected override ListViewBase ListViewBase => FileList;
 		protected override SemanticZoom RootZoom => RootGridZoom;
+
+		[DynamicWindowsRuntimeCast(typeof(ItemsStackPanel))]
+		protected override (int First, int Last) GetVisibleIndexRange()
+			=> FileList.ItemsPanelRoot is ItemsStackPanel panel ? (panel.FirstVisibleIndex, panel.LastVisibleIndex) : (-1, -1);
 
 		public ColumnsViewModel ColumnsViewModel { get; } = new();
 
@@ -307,21 +312,13 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		private void SetItemContainerStyle()
 		{
-			if (UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact)
+			var size = UserSettingsService.LayoutSettingsService.DetailsViewSize;
+			if (itemContainerSize != size)
 			{
-				// Toggle style to force item size to update
-				FileList.ItemContainerStyle = RegularItemContainerStyle;
-
-				// Set correct style
-				FileList.ItemContainerStyle = CompactItemContainerStyle;
-			}
-			else
-			{
-				// Toggle style to force item size to update
-				FileList.ItemContainerStyle = CompactItemContainerStyle;
-
-				// Set correct style
-				FileList.ItemContainerStyle = RegularItemContainerStyle;
+				// Changing size still requires a style refresh, even when both sizes use the same style.
+				FileList.ItemContainerStyle = size == DetailsViewSizeKind.Compact ? RegularItemContainerStyle : CompactItemContainerStyle;
+				FileList.ItemContainerStyle = size == DetailsViewSizeKind.Compact ? CompactItemContainerStyle : RegularItemContainerStyle;
+				itemContainerSize = size;
 			}
 
 			// Set the width of the icon column. The value is increased by 4px to account for icon overlays.

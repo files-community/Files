@@ -196,6 +196,9 @@ namespace Files.App.ViewModels
 		private StorageFolderWithPath? currentStorageFolder;
 		private StorageFolderWithPath? workingRoot;
 
+		// Carries the enumeration's cloud sync result to the post-enum switch, avoiding a second query.
+		private CloudDriveSyncStatus? enumeratedCloudSyncStatus;
+
 		public delegate void WorkingDirectoryModifiedEventHandler(object? sender, WorkingDirectoryModifiedEventArgs e);
 
 		public event WorkingDirectoryModifiedEventHandler? WorkingDirectoryModified;
@@ -250,11 +253,15 @@ namespace Files.App.ViewModels
 			}
 
 			var gitDirectory = await Task.Run(() => GitHelpers.GetGitRepositoryPath(value, pathRoot));
-			if (WorkingDirectory != value)
+			if (isDisposed || WorkingDirectory != value)
 				return;
 
 			GitDirectory = gitDirectory;
-			IsValidGitDirectory = !string.IsNullOrEmpty(await GitHelpers.GetRepositoryHeadName(GitDirectory));
+			var headName = await GitHelpers.GetRepositoryHeadName(gitDirectory);
+			if (isDisposed || WorkingDirectory != value)
+				return;
+
+			IsValidGitDirectory = !string.IsNullOrEmpty(headName);
 
 			_ = UpdateFolderThumbnailImageSource();
 
@@ -897,7 +904,7 @@ namespace Files.App.ViewModels
 
 		private bool IsLoadingCancelled { get; set; }
 
-		public void CancelLoadAndClearFiles(bool clearDisplay = true)
+		public void CancelLoadAndClearFiles()
 		{
 			Debug.WriteLine("CancelLoadAndClearFiles");
 			CloseWatcher();
@@ -923,8 +930,7 @@ namespace Files.App.ViewModels
 			if (filesAndFolders.Count >= 100)
 				AppMemoryHelper.RequestTrim();
 			filesAndFolders.Clear();
-			if (clearDisplay)
-				FilesAndFolders.Clear();
+			FilesAndFolders.Clear();
 			CancelSearch();
 		}
 
@@ -941,6 +947,8 @@ namespace Files.App.ViewModels
 		}
 
 		private TaskCompletionSource? scrollSettledTcs;
+
+		public bool IsScrollInFlight => scrollSettledTcs is not null;
 
 		/// <summary>
 		/// Parks extended-property loads while a scroll gesture is in flight and releases them when it settles.
@@ -1099,25 +1107,6 @@ namespace Files.App.ViewModels
 		{
 			try
 			{
-				if (filesAndFolders is null || filesAndFolders.Count == 0)
-				{
-					void ClearDisplay()
-					{
-						FilesAndFolders.Clear();
-						UpdateEmptyTextType();
-						UpdateNetworkAvailabilityInfoBar();
-						DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
-					}
-
-					if (dispatcherQueue.HasThreadAccess)
-						ClearDisplay();
-					else
-						await dispatcherQueue.EnqueueOrInvokeAsync(ClearDisplay);
-
-					return;
-				}
-				var filesAndFoldersLocal = filesAndFolders.ToList();
-
 				// CollectionChanged will cause UI update, which may cause significant performance degradation,
 				// so suppress CollectionChanged event here while loading items heavily.
 
@@ -1130,6 +1119,10 @@ namespace Files.App.ViewModels
 				var isSemaphoreReleased = false;
 				try
 				{
+					// Snapshot under the semaphore so a late apply reflects the current list, not a stale pre-lock copy;
+					// concurrent watcher removals (e.g. emptying the Recycle Bin) otherwise leave the last item painted.
+					var filesAndFoldersLocal = filesAndFolders?.ToList() ?? new List<ListedItem>();
+
 					var displayedFilesAndFolders = string.IsNullOrEmpty(filter)
 						? filesAndFoldersLocal
 						: await Task.Run(() => filesAndFoldersLocal.Where(
@@ -1607,6 +1600,53 @@ namespace Files.App.ViewModels
 			dbInstance.SetTags(item.GetRequiredPath(), item.FileFRN, item.FileTags ?? []);
 		}
 
+		// Loads extended file properties off the critical path so a slow per-file read never blocks the row's essentials.
+		private async Task LoadExtendedFilePropertiesInBackgroundAsync(ListedItem item, BaseStorageFile file, CancellationToken token)
+		{
+			try
+			{
+				var extraProperties = await GetExtraProperties(file);
+
+				if (token.IsCancellationRequested)
+					return;
+
+				var properties = extraProperties?.Result;
+				if (properties is null)
+					return;
+
+				await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+				{
+					item.ImageDimensions = properties["System.Image.Dimensions"]?.ToString() ?? string.Empty;
+					item.FileVersion = properties["System.FileVersion"]?.ToString() ?? string.Empty;
+					item.MediaDuration = ulong.TryParse(properties["System.Media.Duration"]?.ToString(), out ulong duration)
+							? TimeSpan.FromTicks((long)duration).ToString(@"hh\:mm\:ss")
+							: string.Empty;
+
+					switch (true)
+					{
+						case var _ when !string.IsNullOrEmpty(item.ImageDimensions):
+							item.ContextualProperty = $"{Strings.PropertyDimensions.GetLocalizedResource()}: {item.ImageDimensions}";
+							break;
+						case var _ when !string.IsNullOrEmpty(item.MediaDuration):
+							item.ContextualProperty = $"{Strings.PropertyDuration.GetLocalizedResource()}: {item.MediaDuration}";
+							break;
+						case var _ when !string.IsNullOrEmpty(item.FileVersion):
+							item.ContextualProperty = $"{Strings.PropertyVersion.GetLocalizedResource()}: {item.FileVersion}";
+							break;
+					}
+				},
+				Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+			}
+			catch (OperationCanceledException)
+			{
+				// Navigation or row recycling cancelled the deferred load
+			}
+			catch (Exception)
+			{
+				// Extended properties are best-effort; ignore failures reading them over the wire
+			}
+		}
+
 		// This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
 		// for file inside the recycle bin (but not on the recycle bin folder itself)
 		public async Task LoadExtendedItemPropertiesAsync(ListedItem item)
@@ -1655,6 +1695,8 @@ namespace Files.App.ViewModels
 					token.ThrowIfCancellationRequested();
 					await LoadThumbnailAsync(item, token);
 
+					var isItemNetwork = await DriveHelpers.IsNetworkStorageItemAsync(item.GetRequiredPath());
+
 					token.ThrowIfCancellationRequested();
 					if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 					{
@@ -1665,11 +1707,14 @@ namespace Files.App.ViewModels
 							{
 								token.ThrowIfCancellationRequested();
 
-								var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
+								// A network share is never a cloud placeholder root, so skip that round-trip
+								var syncStatus = isItemNetwork ? CloudDriveSyncStatus.Unknown : await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
 								var fileTag = await Task.Run(() => FileTagsHelper.ReadFileTag(item.GetRequiredPath()));
-								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFile.DisplayType;
-								var extraProperties = await GetExtraProperties(matchingStorageFile);
+
+								// Extended properties open each file; load them in the background on a share
+								var extraProperties = isItemNetwork ? null : await GetExtraProperties(matchingStorageFile);
+
 								var syncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 								var isElevationRequired = !syncStatusUI.LoadSyncStatus && await Task.Run(() => CheckElevationRights(item));
 
@@ -1682,7 +1727,6 @@ namespace Files.App.ViewModels
 										throw new InvalidOperationException("A file-property lookup did not return properties.");
 
 									item.FolderRelativeId = matchingStorageFile.FolderRelativeId;
-									item.ItemType = itemType;
 									item.SyncStatusUI = syncStatusUI;
 									item.FileFRN = fileFRN;
 									item.FileTags = fileTag;
@@ -1712,6 +1756,10 @@ namespace Files.App.ViewModels
 								Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 
 								await Task.Run(() => SetFileTag(item));
+
+								if (isItemNetwork)
+									_ = LoadExtendedFilePropertiesInBackgroundAsync(item, matchingStorageFile, token);
+
 								wasSyncStatusLoaded = true;
 							}
 						}
@@ -1739,18 +1787,19 @@ namespace Files.App.ViewModels
 								}
 
 								token.ThrowIfCancellationRequested();
-								var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
+								// A network share is never a cloud placeholder root, so skip that round-trip
+								var syncStatus = isItemNetwork ? CloudDriveSyncStatus.Unknown : await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFolder);
 								var fileTag = await Task.Run(() => FileTagsHelper.ReadFileTag(item.GetRequiredPath()));
-								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFolder.DisplayType;
-								var extraProperties = await GetExtraProperties(matchingStorageFolder);
+
+								// Folder extended properties only carry drive storage details, irrelevant on a network subfolder
+								var extraProperties = isItemNetwork ? null : await GetExtraProperties(matchingStorageFolder);
 
 								token.ThrowIfCancellationRequested();
 
 								await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 								{
 									item.FolderRelativeId = matchingStorageFolder.FolderRelativeId;
-									item.ItemType = itemType;
 									item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 									item.FileFRN = fileFRN;
 									item.FileTags = fileTag;
@@ -2051,8 +2100,7 @@ namespace Files.App.ViewModels
 			StopWatchingForLocationRestoration();
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
 
-			// The outgoing listing stays on screen until the new folder's first batch replaces it, matching File Explorer
-			CancelLoadAndClearFiles(clearDisplay: false);
+			CancelLoadAndClearFiles();
 
 			if (string.IsNullOrEmpty(path))
 				return;
@@ -2134,7 +2182,7 @@ namespace Files.App.ViewModels
 				// Is folder synced to cloud storage?
 				case 0:
 					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
-					var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
+					var syncStatus = enumeratedCloudSyncStatus ?? await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
 
 					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs()
 					{
@@ -2193,8 +2241,25 @@ namespace Files.App.ViewModels
 			watcherCTS = new CancellationTokenSource();
 		}
 
+		private async Task PromptToUnlockBitlockerIfLockedAsync(string path, string pathRoot)
+		{
+			try
+			{
+				var rootFolder = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+				if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, path))
+					await ContextMenu.InvokeVerb("unlock-bde", pathRoot);
+			}
+			catch (Exception ex)
+			{
+				// Runs detached, so swallow: the property probe or the unlock-bde shell verb can throw (e.g. COMException)
+				App.Logger.LogWarning(ex, ex.Message);
+			}
+		}
+
 		private async Task<int> EnumerateItemsFromStandardFolderAsync(string path, CancellationToken cancellationToken, LibraryItem? library = null)
 		{
+			enumeratedCloudSyncStatus = null;
+
 			// Flag to use FindFirstFileExFromApp or StorageFolder enumeration - Use storage folder for Box Drive (#4629)
 			var isBoxFolder = CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder && path.StartsWith(boxFolder);
 			bool isWslDistro = path.StartsWith(@"\\wsl$\", StringComparison.OrdinalIgnoreCase) || path.StartsWith(@"\\wsl.localhost\", StringComparison.OrdinalIgnoreCase)
@@ -2227,9 +2292,30 @@ namespace Files.App.ViewModels
 					return -1;
 			}
 
-			if (!enumFromStorageFolder && FolderHelpers.CheckFolderAccessWithWin32(path))
+			// Off the UI thread: FindFirstFileEx blocks until the SMB timeout on an unreachable share.
+			Win32PInvoke.SafeFindHandle? hFile = null;
+			WIN32_FIND_DATA findData = default;
+			int errorCode = 0;
+			if (!enumFromStorageFolder)
 			{
-				// Will enumerate with FindFirstFileExFromApp, rootFolder only used for Bitlocker
+				(hFile, findData, errorCode) = await Task.Run(() =>
+				{
+					var hFileTsk = FindFirstFileExFromAppSafe(
+						path + "\\*.*",
+						FINDEX_INFO_LEVELS.FindExInfoBasic,
+						out WIN32_FIND_DATA findDataTsk,
+						FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+						IntPtr.Zero,
+						FIND_FIRST_EX_LARGE_FETCH);
+
+					return (hFileTsk, findDataTsk, hFileTsk.IsInvalid ? Marshal.GetLastWin32Error() : 0);
+				})
+				.WithTimeoutAsync(TimeSpan.FromSeconds(5));
+			}
+
+			if (!enumFromStorageFolder && hFile is not null && !hFile.IsInvalid)
+			{
+				// Enumerate with the handle opened above; rootFolder only used for Bitlocker
 				currentStorageFolder = null;
 			}
 			else if (workingRoot is not null)
@@ -2278,17 +2364,17 @@ namespace Files.App.ViewModels
 			var pathRoot = Path.GetPathRoot(path);
 			if (Path.IsPathRooted(path) && pathRoot == path)
 			{
-				rootFolder ??= await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
-				if (await FolderHelpers.CheckBitlockerStatusAsync(
-					rootFolder,
-					WorkingDirectory ?? throw new InvalidOperationException("The working directory has not been initialized.")))
-					await ContextMenu.InvokeVerb("unlock-bde", pathRoot);
+				// Off the critical path: a locked drive fails enumeration anyway, so don't block the listing on the BitLocker probe.
+				_ = PromptToUnlockBitlockerIfLockedAsync(path, pathRoot);
 			}
 
 			HasNoWatcher = isFtp || isWslDistro || isMtp || currentStorageFolder?.Item is ZipStorageFolder;
 
 			if (enumFromStorageFolder)
 			{
+				// The handle from the open above is unused on the storage-folder path.
+				hFile?.Dispose();
+
 				var basicProps = await rootFolder?.GetBasicPropertiesAsync();
 				var currentFolder = library ?? new ListedItem(rootFolder?.FolderRelativeId ?? string.Empty)
 				{
@@ -2315,23 +2401,6 @@ namespace Files.App.ViewModels
 			}
 			else
 			{
-				(Win32PInvoke.SafeFindHandle? hFile, WIN32_FIND_DATA findData, int errorCode) = await Task.Run(() =>
-				{
-					var findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-					var additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-
-					var hFileTsk = FindFirstFileExFromAppSafe(
-						path + "\\*.*",
-						findInfoLevel,
-						out WIN32_FIND_DATA findDataTsk,
-						FINDEX_SEARCH_OPS.FindExSearchNameMatch,
-						IntPtr.Zero,
-						additionalFlags);
-
-					return (hFileTsk, findDataTsk, hFileTsk.IsInvalid ? Marshal.GetLastWin32Error() : 0);
-				})
-				.WithTimeoutAsync(TimeSpan.FromSeconds(5));
-
 				var itemModifiedDate = DateTime.Now;
 				var itemCreatedDate = DateTime.Now;
 
@@ -2421,7 +2490,9 @@ namespace Files.App.ViewModels
 						Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					});
 
-					rootFolder ??= await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+					// Cache the resolved folder so the post-enum switch reuses it.
+					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
+					rootFolder ??= currentStorageFolder?.Item;
 					if (rootFolder is not null)
 					{
 						if (rootFolder.DisplayName is not null)
@@ -2429,8 +2500,8 @@ namespace Files.App.ViewModels
 
 						if (!string.Equals(path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 						{
-							var syncStatus = await CheckCloudDriveSyncStatusAsync(rootFolder);
-							currentFolder.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+							enumeratedCloudSyncStatus = await CheckCloudDriveSyncStatusAsync(rootFolder);
+							currentFolder.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(enumeratedCloudSyncStatus.Value);
 						}
 					}
 
@@ -2444,8 +2515,9 @@ namespace Files.App.ViewModels
 			if (rootFolder is null)
 				return;
 
+			// Null when a concurrent navigation or dispose cleared the context; this enumeration is stale
 			if (currentStorageFolder is null)
-				throw new InvalidOperationException("The storage-folder context is unavailable.");
+				return;
 
 			if (rootFolder is IPasswordProtectedItem ppis)
 				ppis.PasswordRequestedCallback = async (item) =>

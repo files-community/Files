@@ -3395,7 +3395,7 @@
     <value>Executați git pull și apoi git push</value>
   </data>
   <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
-    <value>{0} ieșiri / {1} comiteri primite</value>
+    <value>{0} commit-uri trimise / {1} commit-uri primite</value>
   </data>
   <data name="ConnectGitHub" xml:space="preserve">
     <value>Conectați-vă la GitHub</value>
@@ -3668,35 +3668,119 @@
   </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
     <value>Clonarea {0} la „{1}” a fost anulată</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
     <value>Clonarea {0} de la „{1}” la „{2}” a fost anulată</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
     <value>Clonat „{0}” la „{1}”</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
     <value>Clonat {0} din „{1}” la „{2}”</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
     <value>Eroare la clonarea „{0}” la „{1}”</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
     <value>Nu s-a putut clona {0} din „{1}” la „{2}”</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
     <value>Se clonează „{0}” la „{1}”</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
     <value>Se clonează {0} din „{1}” la „{2}”</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutCanceled_Header" xml:space="preserve">
+    <value>S-a anulat comutarea la „{0}” în „{1}”</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutComplete_Header" xml:space="preserve">
+    <value>S-a comutat la „{0}” în „{1}”</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutFailed_Header" xml:space="preserve">
+    <value>Nu s-a reușit comutarea la „{0}” în „{1}”</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutInProgress_Header" xml:space="preserve">
+    <value>Se comută la „{0}” în „{1}”</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchCanceled_Header" xml:space="preserve">
+    <value>S-a anulat preluarea modificărilor de la distanță pentru „{0}”</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchComplete_Header" xml:space="preserve">
+    <value>S-au preluat modificările de la distanță pentru „{0}”</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchFailed_Header" xml:space="preserve">
+    <value>Nu s-a reușit preluarea modificărilor de la distanță pentru „{0}”</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchInProgress_Header" xml:space="preserve">
+    <value>Se preiau modificările de la distanță pentru „{0}”</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitOperationProgress" xml:space="preserve">
+    <value>{0}% finalizat</value>
+    <comment>Shown in Status Center during a Git operation. {0} is the percentage from 0 to 100.</comment>
+  </data>
+  <data name="StatusCenter_GitPullCanceled_Header" xml:space="preserve">
+    <value>S-a anulat aducerea modificărilor de la distanță în „{0}”</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPullComplete_Header" xml:space="preserve">
+    <value>S-au adus schimbările de la distanță în „{0}”</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPullFailed_Header" xml:space="preserve">
+    <value>Nu s-a reușit aducerea modificărilor de la distanță în „{0}”</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPullInProgress_Header" xml:space="preserve">
+    <value>Se aduc modificările de la distanță pentru „{0}”</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushCanceled_Header" xml:space="preserve">
+    <value>S-a anulat încărcarea commit-urilor locale din „{0}”</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushComplete_Header" xml:space="preserve">
+    <value>S-au încărcat commit-uri locale din „{0}”</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushFailed_Header" xml:space="preserve">
+    <value>Nu s-a reușit încărcarea commit-urilor locale din „{0}”</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushInProgress_Header" xml:space="preserve">
+    <value>Se încarcă commit-urile locale din „{0}”</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncCanceled_Header" xml:space="preserve">
+    <value>S-a anulat sincronizarea commit-urilor locale și de la distanță pentru „{0}”</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncComplete_Header" xml:space="preserve">
+    <value>S-au sincronizat commit-urile locale și de la distanță pentru „{0}”</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncFailed_Header" xml:space="preserve">
+    <value>Nu s-a reușit sincronizarea commit-urilor locale și de la distanță pentru „{0}”</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncInProgress_Header" xml:space="preserve">
+    <value>Se sincronizează commit-urile locale și de la distanță pentru „{0}”</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
     <value>Instalarea a {0} fonturi a fost anulată</value>

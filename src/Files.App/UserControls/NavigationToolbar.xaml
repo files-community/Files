@@ -227,6 +227,7 @@
 			Grid.Column="1"
 			x:Load="{x:Bind ViewModel.LoadOmnibar, Mode=OneWay}"
 			CurrentSelectedModeName="{x:Bind ViewModel.OmnibarCurrentSelectedModeName, Mode=TwoWay}"
+			FocusRedirectRequested="Omnibar_FocusRedirectRequested"
 			IsFocusedChanged="Omnibar_IsFocusedChanged"
 			ModeChanged="Omnibar_ModeChanged"
 			PreviewKeyDown="Omnibar_PreviewKeyDown"
