@@ -523,6 +523,9 @@ namespace Files.App.Views.Layouts
 			shellViewModel.EmptyTextType = EmptyTextType.None;
 			parentShellPage.ToolbarViewModel.CanRefresh = true;
 
+			// Derived layouts read the page type as soon as navigation yields.
+			parentShellPage.InstanceViewModel.IsPageTypeSearchResults = args.IsSearchResultPage;
+
 			if (!args.IsSearchResultPage)
 			{
 				var navigationPath = args.NavPathParam;
@@ -545,7 +548,6 @@ namespace Files.App.Views.Layouts
 				parentShellPage.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
 				parentShellPage.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
 				parentShellPage.InstanceViewModel.IsPageTypeLibrary = LibraryManager.IsLibraryPath(workingDir);
-				parentShellPage.InstanceViewModel.IsPageTypeSearchResults = false;
 				parentShellPage.InstanceViewModel.IsPageTypeReleaseNotes = false;
 				parentShellPage.InstanceViewModel.IsPageTypeSettings = false;
 				parentShellPage.ToolbarViewModel.PathControlDisplayText = navigationPath;
@@ -583,7 +585,6 @@ namespace Files.App.Views.Layouts
 				parentShellPage.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
 				parentShellPage.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
 				parentShellPage.InstanceViewModel.IsPageTypeLibrary = LibraryManager.IsLibraryPath(workingDir);
-				parentShellPage.InstanceViewModel.IsPageTypeSearchResults = true;
 				parentShellPage.InstanceViewModel.IsPageTypeReleaseNotes = false;
 				parentShellPage.InstanceViewModel.IsPageTypeSettings = false;
 
