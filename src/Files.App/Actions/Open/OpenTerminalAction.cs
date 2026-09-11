@@ -108,7 +108,7 @@ namespace Files.App.Actions
 			};
 		}
 
-		private static unsafe bool IsWindowsTerminalDefault()
+		private static bool IsWindowsTerminalDefault()
 		{
 			try
 			{
@@ -127,7 +127,7 @@ namespace Files.App.Actions
 					// Source: microsoft/terminal src/server/IoDispatchers.cpp.
 					consoleClsid = new("2EACA947-7F5F-4CFA-BA87-8F7FBEEFBE69");
 					Guid markerIid = new("746E6BC0-AB05-4E38-AB14-71E86763141F");
-					return PInvoke.CoCreateInstance(&consoleClsid, null, CLSCTX.CLSCTX_LOCAL_SERVER, &markerIid, out _).Succeeded;
+					return ComHelpers.CanCreateInstance(consoleClsid, CLSCTX.CLSCTX_LOCAL_SERVER, markerIid);
 				}
 
 				return consoleClsid != new Guid("B23D10C0-E52E-411E-9D5B-C09FDF709C7D")
