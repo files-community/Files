@@ -7,6 +7,7 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Security;
 using Windows.Win32.Security.Authorization;
+using Windows.Win32.Storage.FileSystem;
 using Windows.Win32.System.Memory;
 using SystemSecurity = System.Security.AccessControl;
 
@@ -79,9 +80,17 @@ namespace Files.App.Services
 				// Run PowerShell as Admin
 				if (result is not WIN32_ERROR.ERROR_SUCCESS)
 				{
-					return Win32Helper.RunPowershellCommand(
-						$"-command \"try {{ $path = {Win32Helper.ToPowerShellStringLiteral(path)}; $ID = new-object System.Security.Principal.SecurityIdentifier({Win32Helper.ToPowerShellStringLiteral(sid)}); $acl = get-acl -LiteralPath $path; $acl.SetOwner($ID); set-acl -LiteralPath $path -aclObject $acl }} catch {{ exit 1; }}\"",
+					var script = SetOwnerScript
+						.Replace("__PATH__", Win32Helper.ToPowerShellStringLiteral(path))
+						.Replace("__SID__", Win32Helper.ToPowerShellStringLiteral(sid));
+
+					var encodedScript = Convert.ToBase64String(System.Text.Encoding.Unicode.GetBytes(script));
+
+					Win32Helper.RunPowershellCommand(
+						$"-NoProfile -EncodedCommand {encodedScript}",
 						PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
+
+					return string.Equals(GetOwner(path), sid, StringComparison.OrdinalIgnoreCase);
 				}
 
 				return true;
@@ -91,6 +100,89 @@ namespace Files.App.Services
 				Marshal.FreeHGlobal((nint)pSid.Value);
 			}
 		}
+
+		private const string SetOwnerScript = """
+			Add-Type -TypeDefinition @'
+			using System;
+			using System.Runtime.InteropServices;
+
+			public static class FilesSetOwner
+			{
+				[StructLayout(LayoutKind.Sequential)]
+				public struct LUID { public uint LowPart; public int HighPart; }
+
+				[StructLayout(LayoutKind.Sequential)]
+				public struct LUID_AND_ATTRIBUTES { public LUID Luid; public uint Attributes; }
+
+				[StructLayout(LayoutKind.Sequential)]
+				public struct TOKEN_PRIVILEGES { public uint PrivilegeCount; public LUID_AND_ATTRIBUTES Privilege; }
+
+				private const int SE_FILE_OBJECT = 1;
+				private const uint OWNER_SECURITY_INFORMATION = 0x00000001;
+
+				[DllImport("kernel32.dll")]
+				private static extern IntPtr GetCurrentProcess();
+
+				[DllImport("kernel32.dll")]
+				private static extern IntPtr LocalFree(IntPtr handle);
+
+				[DllImport("kernel32.dll")]
+				private static extern bool CloseHandle(IntPtr handle);
+
+				[DllImport("advapi32.dll", SetLastError = true)]
+				private static extern bool OpenProcessToken(IntPtr process, uint access, out IntPtr token);
+
+				[DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+				private static extern bool LookupPrivilegeValue(string host, string name, out LUID luid);
+
+				[DllImport("advapi32.dll", SetLastError = true)]
+				private static extern bool AdjustTokenPrivileges(IntPtr token, bool disableAll, ref TOKEN_PRIVILEGES state, uint length, IntPtr previous, IntPtr returnLength);
+
+				[DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+				private static extern bool ConvertStringSidToSid(string sid, out IntPtr pSid);
+
+				[DllImport("advapi32.dll", CharSet = CharSet.Unicode)]
+				private static extern uint SetNamedSecurityInfo(string objectName, int objectType, uint securityInformation, IntPtr owner, IntPtr group, IntPtr dacl, IntPtr sacl);
+
+				public static uint Run(string path, string sid)
+				{
+					IntPtr token;
+					if (OpenProcessToken(GetCurrentProcess(), 0x0020 | 0x0008, out token))
+					{
+						string[] names = new string[] { "SeTakeOwnershipPrivilege", "SeRestorePrivilege" };
+
+						foreach (string name in names)
+						{
+							LUID luid;
+							if (!LookupPrivilegeValue(null, name, out luid))
+								continue;
+
+							TOKEN_PRIVILEGES privileges = new TOKEN_PRIVILEGES();
+							privileges.PrivilegeCount = 1;
+							privileges.Privilege.Luid = luid;
+							privileges.Privilege.Attributes = 0x0002;
+
+							AdjustTokenPrivileges(token, false, ref privileges, (uint)Marshal.SizeOf(privileges), IntPtr.Zero, IntPtr.Zero);
+						}
+
+						CloseHandle(token);
+					}
+
+					IntPtr pSid;
+					if (!ConvertStringSidToSid(sid, out pSid))
+						return 87;
+
+					uint result = SetNamedSecurityInfo(path, SE_FILE_OBJECT, OWNER_SECURITY_INFORMATION, pSid, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+
+					LocalFree(pSid);
+
+					return result;
+				}
+			}
+			'@
+
+			exit [FilesSetOwner]::Run(__PATH__, __SID__)
+			""";
 
 		/// <inheritdoc/>
 		public unsafe WIN32_ERROR GetAcl(string path, bool isFolder, out AccessControlList acl)
@@ -197,6 +289,26 @@ namespace Files.App.Services
 			{
 				Marshal.FreeHGlobal((nint)pSecurityDescriptor.Value);
 			}
+		}
+
+		/// <inheritdoc/>
+		public bool CanWriteAcl(string path, bool isFolder)
+		{
+			using var handle = PInvoke.CreateFile(
+				path,
+				(uint)FILE_ACCESS_RIGHTS.WRITE_DAC,
+				FILE_SHARE_MODE.FILE_SHARE_READ | FILE_SHARE_MODE.FILE_SHARE_WRITE | FILE_SHARE_MODE.FILE_SHARE_DELETE,
+				null,
+				FILE_CREATION_DISPOSITION.OPEN_EXISTING,
+				isFolder ? FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_BACKUP_SEMANTICS : FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL,
+				null);
+
+			if (!handle.IsInvalid)
+				return true;
+
+			// Only an explicit denial proves the write would fail. Any other failure is
+			// inconclusive, so let the attempt through and report the real error instead
+			return (WIN32_ERROR)Marshal.GetLastPInvokeError() != WIN32_ERROR.ERROR_ACCESS_DENIED;
 		}
 
 		/// <inheritdoc/>
