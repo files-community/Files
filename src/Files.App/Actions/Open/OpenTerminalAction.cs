@@ -3,6 +3,8 @@
 
 using Microsoft.Win32;
 using Windows.Storage;
+using Windows.Win32;
+using Windows.Win32.System.Com;
 
 namespace Files.App.Actions
 {
@@ -14,11 +16,10 @@ namespace Files.App.Actions
 		// DelegationTerminal CLSIDs registered by Windows Terminal. When one of these
 		// is the user's default, launching wt.exe gives the user's chosen profile and
 		// supports multi-tab. Source: microsoft/terminal policies/WindowsTerminal.admx.
-		private static readonly string[] WindowsTerminalDelegationClsids =
+		private static readonly Guid[] WindowsTerminalDelegationClsids =
 		[
-			"{E12CFF52-A866-4C77-9A90-F570A7AA2C6B}", // Windows Terminal (stable)
-			"{86633F1F-6454-40EC-89CE-DA4EBA977EE2}", // Windows Terminal Preview
-			"{00000000-0000-0000-0000-000000000000}", // Default
+			new("E12CFF52-A866-4C77-9A90-F570A7AA2C6B"), // Windows Terminal (stable)
+			new("86633F1F-6454-40EC-89CE-DA4EBA977EE2"), // Windows Terminal Preview
 		];
 
 		public virtual string Label
@@ -98,8 +99,7 @@ namespace Files.App.Actions
 				return startInfo;
 			}
 
-			// Fall back to launching cmd.exe; the system hosts it in whichever
-			// terminal the user has configured (Console Host, or "Let Windows decide").
+			// Launch cmd.exe when Windows Terminal is not the effective default host.
 			return new()
 			{
 				FileName = "cmd.exe",
@@ -108,13 +108,30 @@ namespace Files.App.Actions
 			};
 		}
 
-		private static bool IsWindowsTerminalDefault()
+		private static unsafe bool IsWindowsTerminalDefault()
 		{
 			try
 			{
 				using var key = Registry.CurrentUser.OpenSubKey(@"Console\%%Startup");
-				if (key?.GetValue("DelegationTerminal") is string clsid)
-					return WindowsTerminalDelegationClsids.Contains(clsid, StringComparer.OrdinalIgnoreCase);
+				var consoleClsid = Guid.TryParse(key?.GetValue("DelegationConsole") as string, out var consoleClsidResult) ? consoleClsidResult : Guid.Empty;
+				var terminalClsid = Guid.TryParse(key?.GetValue("DelegationTerminal") as string, out var terminalClsidResult) ? terminalClsidResult : Guid.Empty;
+
+				// Windows treats either missing or zero CLSID as "Let Windows decide".
+				if (consoleClsid == Guid.Empty || terminalClsid == Guid.Empty)
+				{
+					// Windows 11 22H2 introduced Terminal as the automatic default.
+					if (!OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22621))
+						return false;
+
+					// Match conhost's IDefaultTerminalMarker probe on the stable console server.
+					// Source: microsoft/terminal src/server/IoDispatchers.cpp.
+					consoleClsid = new("2EACA947-7F5F-4CFA-BA87-8F7FBEEFBE69");
+					Guid markerIid = new("746E6BC0-AB05-4E38-AB14-71E86763141F");
+					return PInvoke.CoCreateInstance(&consoleClsid, null, CLSCTX.CLSCTX_LOCAL_SERVER, &markerIid, out _).Succeeded;
+				}
+
+				return consoleClsid != new Guid("B23D10C0-E52E-411E-9D5B-C09FDF709C7D")
+					&& WindowsTerminalDelegationClsids.Contains(terminalClsid);
 			}
 			catch
 			{
