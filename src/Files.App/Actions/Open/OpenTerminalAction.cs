@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Microsoft.Win32;
-using System.Text;
 using Windows.Storage;
 
 namespace Files.App.Actions
@@ -19,6 +18,7 @@ namespace Files.App.Actions
 		[
 			"{E12CFF52-A866-4C77-9A90-F570A7AA2C6B}", // Windows Terminal (stable)
 			"{86633F1F-6454-40EC-89CE-DA4EBA977EE2}", // Windows Terminal Preview
+			"{00000000-0000-0000-0000-000000000000}", // Default
 		];
 
 		public virtual string Label
@@ -80,21 +80,22 @@ namespace Files.App.Actions
 
 			if (IsWindowsTerminalDefault())
 			{
-				var path = paths[0] + (paths[0].EndsWith('\\') ? "\\" : "");
-
-				var args = new StringBuilder($"-d \"{path}\"");
-				for (int i = 1; i < paths.Length; i++)
-				{
-					path = paths[i] + (paths[i].EndsWith('\\') ? "\\" : "");
-					args.Append($" ; nt -d \"{path}\"");
-				}
-
-				return new()
+				var startInfo = new ProcessStartInfo
 				{
 					FileName = "wt.exe",
-					Arguments = args.ToString(),
-					UseShellExecute = false
+					UseShellExecute = false,
+					ArgumentList = { "-d", paths[0] }
 				};
+
+				for (int i = 1; i < paths.Length; i++)
+				{
+					startInfo.ArgumentList.Add(";");
+					startInfo.ArgumentList.Add("nt");
+					startInfo.ArgumentList.Add("-d");
+					startInfo.ArgumentList.Add(paths[i]);
+				}
+
+				return startInfo;
 			}
 
 			// Fall back to launching cmd.exe; the system hosts it in whichever
