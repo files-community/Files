@@ -34,6 +34,31 @@ namespace Files.App.Data.Enums
 		OutputPath,
 
 		/// <summary>
+		/// Title the host application provided for the file dialog.
+		/// </summary>
+		PickModeTitle,
+
+		/// <summary>
+		/// Name of the process that requested the file dialog.
+		/// </summary>
+		PickModeHost,
+
+		/// <summary>
+		/// Filter list the host application provided, encoded as "Display name=spec|Display name=spec".
+		/// </summary>
+		PickModeFilter,
+
+		/// <summary>
+		/// Default file name the host application provided.
+		/// </summary>
+		PickModeFileName,
+
+		/// <summary>
+		/// Flag telling whether the host application allows selecting multiple items.
+		/// </summary>
+		PickModeAllowMultiSelect,
+
+		/// <summary>
 		/// Select path command type
 		/// </summary>
 		SelectItem,

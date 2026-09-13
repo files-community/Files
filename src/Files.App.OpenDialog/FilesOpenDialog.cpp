@@ -149,7 +149,7 @@ STDAPICALL CFilesOpenDialog::Show(HWND hwndOwner)
 
 	PWSTR pszPath = NULL;
 	WCHAR szBuf[MAX_PATH];
-	TCHAR args[1024] = { 0 };
+	TCHAR args[2048] = { 0 };
 	ExpandEnvironmentStringsW(L"%LOCALAPPDATA%\\Microsoft\\WindowsApps\\files-dev.exe", szBuf, MAX_PATH - 1);
 
 	HANDLE closeEvent = CreateEvent(NULL, FALSE, FALSE, TEXT("FILEDIALOG"));
@@ -163,6 +163,49 @@ STDAPICALL CFilesOpenDialog::Show(HWND hwndOwner)
 	else
 	{
 		swprintf(args, _countof(args) - 1, L"\"%s\" -outputpath \"%s\"", szBuf, _outputPath.c_str());
+	}
+
+	// Forward the host-provided dialog context (title, owner process, filter list, default name) to the Files side.
+	{
+		std::wstring extras;
+
+		if (!_pickTitle.empty())
+			extras += L" -picktitle \"" + _pickTitle + L"\"";
+
+		if (hwndOwner != nullptr)
+		{
+			DWORD ownerPid = 0;
+			GetWindowThreadProcessId(hwndOwner, &ownerPid);
+			if (ownerPid != 0)
+			{
+				HANDLE ownerProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, ownerPid);
+				if (ownerProcess != nullptr)
+				{
+					WCHAR ownerPath[MAX_PATH] = { 0 };
+					DWORD ownerPathSize = MAX_PATH;
+					if (QueryFullProcessImageNameW(ownerProcess, 0, ownerPath, &ownerPathSize))
+					{
+						std::wstring ownerFull(ownerPath);
+						size_t ownerSlash = ownerFull.find_last_of(L"\\/");
+						std::wstring ownerName = (ownerSlash == std::wstring::npos) ? ownerFull : ownerFull.substr(ownerSlash + 1);
+						extras += L" -pickhost \"" + ownerName + L"\"";
+					}
+					CloseHandle(ownerProcess);
+				}
+			}
+		}
+
+		if (!_pickFileName.empty())
+			extras += L" -pickname \"" + _pickFileName + L"\"";
+
+		if (!_pickFilter.empty())
+			extras += L" -pickfilter \"" + _pickFilter + L"\"";
+
+		if (_pickAllowMultiSelect)
+			extras += L" -pickmulti";
+
+		if (!extras.empty())
+			wcsncat_s(args, _countof(args), extras.c_str(), _TRUNCATE);
 	}
 
 	std::wstring uriWithArgs = L"files-dev:?cmd=" + str2wstr(wstring_to_utf8_hex(args));
@@ -232,6 +275,17 @@ STDAPICALL CFilesOpenDialog::SetFileTypes(UINT cFileTypes, const COMDLG_FILTERSP
 #ifdef SYSTEMDIALOG
 	return _systemDialog->SetFileTypes(cFileTypes, rgFilterSpec);
 #endif
+	// Keep the host-provided filter list so the Files side can show it and filter the listing.
+	// Encoded as: Display name=*.png;*.jpg|Another name=*.*
+	_pickFilter.clear();
+	for (UINT i = 0; rgFilterSpec != nullptr && i < cFileTypes; i++)
+	{
+		if (i > 0)
+			_pickFilter += L"|";
+		_pickFilter += (rgFilterSpec[i].pszName != nullptr ? rgFilterSpec[i].pszName : L"");
+		_pickFilter += L"=";
+		_pickFilter += (rgFilterSpec[i].pszSpec != nullptr ? rgFilterSpec[i].pszSpec : L"");
+	}
 	return S_OK;
 }
 
@@ -282,6 +336,7 @@ STDAPICALL CFilesOpenDialog::SetOptions(FILEOPENDIALOGOPTIONS fos)
 	return _systemDialog->SetOptions(fos);
 #endif
 	_fos = fos;
+	_pickAllowMultiSelect = (fos & FOS_ALLOWMULTISELECT) != 0;
 	return S_OK;
 }
 
@@ -350,6 +405,7 @@ STDAPICALL CFilesOpenDialog::SetFileName(LPCWSTR pszName)
 #ifdef SYSTEMDIALOG
 	return _systemDialog->SetFileName(pszName);
 #endif
+	_pickFileName = (pszName != nullptr) ? pszName : L"";
 	return S_OK;
 }
 
@@ -368,6 +424,7 @@ STDAPICALL CFilesOpenDialog::SetTitle(LPCWSTR pszTitle)
 #ifdef SYSTEMDIALOG
 	return _systemDialog->SetTitle(pszTitle);
 #endif
+	_pickTitle = (pszTitle != nullptr) ? pszTitle : L"";
 	return S_OK;
 }
 

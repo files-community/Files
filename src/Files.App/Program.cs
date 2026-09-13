@@ -171,6 +171,11 @@ namespace Files.App
 								}
 								break;
 
+							case ParsedCommandType.OpenDirectory:
+								// Remember the folder the file dialog should open at
+								App.PickModeStartDirectory = command.Payload;
+								break;
+
 							default:
 								break;
 						}

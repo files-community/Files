@@ -64,6 +64,10 @@ END_COM_MAP()
 
 	std::vector<std::wstring> _selectedItems;
 	std::wstring _outputPath;
+	std::wstring _pickTitle;
+	std::wstring _pickFilter;
+	std::wstring _pickFileName;
+	bool _pickAllowMultiSelect = false;
 	CComPtr<IShellItem> _initFolder;
 	CComPtr<IFileDialogEvents> _dialogEvents;
 

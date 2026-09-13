@@ -59,6 +59,26 @@ namespace Files.App.Utils.CommandLine
 						command.Type = ParsedCommandType.OutputPath;
 						break;
 
+					case string s when "PickTitle".Equals(s, StringComparison.OrdinalIgnoreCase):
+						command.Type = ParsedCommandType.PickModeTitle;
+						break;
+
+					case string s when "PickHost".Equals(s, StringComparison.OrdinalIgnoreCase):
+						command.Type = ParsedCommandType.PickModeHost;
+						break;
+
+					case string s when "PickFilter".Equals(s, StringComparison.OrdinalIgnoreCase):
+						command.Type = ParsedCommandType.PickModeFilter;
+						break;
+
+					case string s when "PickName".Equals(s, StringComparison.OrdinalIgnoreCase):
+						command.Type = ParsedCommandType.PickModeFileName;
+						break;
+
+					case string s when "PickMulti".Equals(s, StringComparison.OrdinalIgnoreCase):
+						command.Type = ParsedCommandType.PickModeAllowMultiSelect;
+						break;
+
 					case string s when "Select".Equals(s, StringComparison.OrdinalIgnoreCase):
 						command.Type = ParsedCommandType.SelectItem;
 						break;

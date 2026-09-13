@@ -377,6 +377,26 @@ namespace Files.App
 					case ParsedCommandType.OutputPath:
 						App.OutputPath = command.Payload;
 						break;
+
+					case ParsedCommandType.PickModeTitle:
+						App.PickModeTitle = command.Payload;
+						break;
+
+					case ParsedCommandType.PickModeHost:
+						App.PickModeHost = command.Payload;
+						break;
+
+					case ParsedCommandType.PickModeFilter:
+						App.PickModeFilter = command.Payload;
+						break;
+
+					case ParsedCommandType.PickModeFileName:
+						App.PickModeFileName = command.Payload;
+						break;
+
+					case ParsedCommandType.PickModeAllowMultiSelect:
+						App.PickModeAllowMultiSelect = true;
+						break;
 				}
 			}
 		}
