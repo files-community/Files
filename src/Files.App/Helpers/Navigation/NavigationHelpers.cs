@@ -367,7 +367,16 @@ namespace Files.App.Helpers
 					(windowTitle, _, _) = await GetSelectedTabInfoAsync(pathArgs);
 
 				if (navigationArg == MainPageViewModel.SelectedTabItem?.NavigationParameter?.NavigationParameter)
-					MainWindow.Instance.AppWindow.Title = $"{windowTitle} - Files";
+				{
+					// While picking a file for another app, the window advertises what the user is doing
+					var pickTitle = App.IsPickMode
+						? (string.IsNullOrWhiteSpace(App.PickModeTitle) ? Strings.PickModeDefaultTitle.GetLocalizedResource() : App.PickModeTitle)
+						: null;
+
+					MainWindow.Instance.AppWindow.Title = pickTitle is null
+						? $"{windowTitle} - Files"
+						: $"{pickTitle} - Files";
+				}
 			});
 		}
 

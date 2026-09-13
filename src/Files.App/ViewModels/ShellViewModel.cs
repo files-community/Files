@@ -222,7 +222,7 @@ namespace Files.App.ViewModels
 				return;
 			
 			if (value != WorkingDirectory)
-				FilesAndFoldersFilter = null;
+				FilesAndFoldersFilter = App.GetPickModeListingFilter();
 
 			var isLibrary = false;
 			string? name = null;
@@ -1082,6 +1082,35 @@ namespace Files.App.ViewModels
 			}
 		}
 
+		/// <summary>
+		/// Matches an item against the listing filter. A filter that looks like an extension pattern list
+		/// (for example "*.png;*.jpg", used by the file dialog pick mode) matches on file extensions and always
+		/// keeps folders visible; any other filter keeps the plain name-contains behavior.
+		/// </summary>
+		private static bool MatchesFilesAndFoldersFilter(ListedItem item, string filter)
+		{
+			if (filter.Contains('*') || filter.Contains(';'))
+			{
+				// Folders stay reachable so the user can navigate while a filter is active
+				if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
+					return true;
+
+				foreach (var pattern in filter.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+				{
+					var extension = pattern.TrimStart('*');
+					if (extension.Length == 0 || extension == ".")
+						return true; // "All files (*.*)"
+
+					if (item.Name?.EndsWith(extension, StringComparison.OrdinalIgnoreCase) == true)
+						return true;
+				}
+
+				return false;
+			}
+
+			return item.Name?.Contains(filter, StringComparison.OrdinalIgnoreCase) == true;
+		}
+
 		private void FilesAndFolderFilterUpdated()
 		{
 			if (filterDebounceCS is not null)
@@ -1125,8 +1154,7 @@ namespace Files.App.ViewModels
 
 					var displayedFilesAndFolders = string.IsNullOrEmpty(filter)
 						? filesAndFoldersLocal
-						: await Task.Run(() => filesAndFoldersLocal.Where(
-							x => x.Name?.Contains(filter, StringComparison.OrdinalIgnoreCase) == true).ToList(), addFilesCTS.Token);
+						: await Task.Run(() => filesAndFoldersLocal.Where(x => MatchesFilesAndFoldersFilter(x, filter)).ToList(), addFilesCTS.Token);
 
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{

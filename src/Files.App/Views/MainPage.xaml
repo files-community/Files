@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Page
 	x:Class="Files.App.Views.MainPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -107,6 +107,13 @@
 			Key="Number9"
 			Invoked="NumberedTabKeyboardAccelerator_Invoked"
 			Modifiers="Control" />
+		<!--  File dialog pick mode: Enter accepts, Escape cancels  -->
+		<KeyboardAccelerator
+			Key="Enter"
+			Invoked="FilePickConfirm_Invoked" />
+		<KeyboardAccelerator
+			Key="Escape"
+			Invoked="FilePickCancel_Invoked" />
 	</Page.KeyboardAccelerators>
 
 	<Grid>
@@ -114,11 +121,12 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
 		<!--  Background Image  -->
 		<Image
-			Grid.RowSpan="3"
+			Grid.RowSpan="4"
 			HorizontalAlignment="{x:Bind ViewModel.AppThemeBackgroundImageHorizontalAlignment, Mode=OneWay}"
 			VerticalAlignment="{x:Bind ViewModel.AppThemeBackgroundImageVerticalAlignment, Mode=OneWay}"
 			Opacity="{x:Bind ViewModel.AppThemeBackgroundImageOpacity, Mode=OneWay}"
@@ -360,6 +368,90 @@
 			CloseButtonContent="{helpers:ResourceString Name=Dismiss}"
 			IsOpen="{x:Bind ViewModel.ShowSponsorPrompt, Mode=OneWay}"
 			Subtitle="{helpers:ResourceString Name=SponsorSubtitle}" />
+
+		<!--  File dialog (pick) mode bar  -->
+		<Border
+			x:Name="FilePickModeBar"
+			Grid.Row="3"
+			Margin="8,4,8,8"
+			Padding="12,10"
+			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+			BorderThickness="1"
+			CornerRadius="8"
+			Visibility="Collapsed">
+			<Grid ColumnSpacing="10" RowSpacing="8">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+
+				<!--  What the host application asked for  -->
+				<StackPanel
+					Grid.Row="0"
+					Grid.Column="0"
+					Orientation="Horizontal"
+					Spacing="10">
+					<FontIcon
+						FontSize="18"
+						Glyph="&#xE8E5;" />
+					<StackPanel Spacing="1">
+						<TextBlock
+							x:Name="FilePickModeTitleText"
+							FontWeight="SemiBold"
+							TextWrapping="Wrap" />
+						<TextBlock
+							x:Name="FilePickModeSubText"
+							Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+							TextWrapping="Wrap" />
+					</StackPanel>
+				</StackPanel>
+
+				<Button
+					Grid.Row="0"
+					Grid.Column="1"
+					VerticalAlignment="Top"
+					Click="FilePickCancel_Click"
+					Content="{helpers:ResourceString Name=Cancel}" />
+				<Button
+					x:Name="FilePickConfirmButton"
+					Grid.Row="0"
+					Grid.Column="2"
+					VerticalAlignment="Top"
+					Click="FilePickConfirm_Click"
+					Content="{helpers:ResourceString Name=Open}"
+					Style="{StaticResource AccentButtonStyle}" />
+
+				<!--  File name and file type, like a real dialog footer  -->
+				<StackPanel
+					Grid.Row="1"
+					Grid.Column="0"
+					Grid.ColumnSpan="3"
+					Orientation="Horizontal"
+					Spacing="8">
+					<TextBlock
+						VerticalAlignment="Center"
+						Text="{helpers:ResourceString Name=PickModeFileNameLabel}" />
+					<TextBox
+						x:Name="FilePickModeNameBox"
+						MinWidth="280"
+						PlaceholderText="{helpers:ResourceString Name=PickModeFileNamePlaceholder}" />
+					<TextBlock
+						Margin="8,0,0,0"
+						VerticalAlignment="Center"
+						Text="{helpers:ResourceString Name=PickModeFilterLabel}" />
+					<ComboBox
+						x:Name="FilePickModeFilterBox"
+						MinWidth="240"
+						SelectionChanged="FilePickModeFilterBox_SelectionChanged" />
+				</StackPanel>
+			</Grid>
+		</Border>
 
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup x:Name="SidebarWidthStates">

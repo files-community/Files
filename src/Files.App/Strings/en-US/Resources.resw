@@ -4734,4 +4734,28 @@
   <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
     <value>Are you sure you want to remove tags from the selected items?</value>
   </data>
+  <data name="FilePickModeMessage" xml:space="preserve">
+    <value>Picking a file for another app — select an item, then click Open; click Cancel to go back.</value>
+  </data>
+  <data name="PickModeDefaultTitle" xml:space="preserve">
+    <value>Open file</value>
+  </data>
+  <data name="PickModeRequestedBy" xml:space="preserve">
+    <value>Requested by {0}</value>
+  </data>
+  <data name="PickModeMultiSelectHint" xml:space="preserve">
+    <value>Select multiple items with Ctrl or Shift</value>
+  </data>
+  <data name="PickModeFileNameLabel" xml:space="preserve">
+    <value>File name</value>
+  </data>
+  <data name="PickModeFileNamePlaceholder" xml:space="preserve">
+    <value>Type a file name or path</value>
+  </data>
+  <data name="PickModeFilterLabel" xml:space="preserve">
+    <value>File type</value>
+  </data>
+  <data name="PickModeAllFiles" xml:space="preserve">
+    <value>All files (*.*)</value>
+  </data>
 </root>

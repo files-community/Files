@@ -248,7 +248,7 @@ namespace Files.App.ViewModels
 				try
 				{
 					// add last session tabs to closed tabs stack if those tabs are not about to be opened
-					if (!UserSettingsService.AppSettingsService.RestoreTabsOnStartup && !UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp && UserSettingsService.GeneralSettingsService.LastSessionTabList != null)
+					if (!App.IsPickMode && !UserSettingsService.AppSettingsService.RestoreTabsOnStartup && !UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp && UserSettingsService.GeneralSettingsService.LastSessionTabList != null)
 					{
 						var items = UserSettingsService.GeneralSettingsService.LastSessionTabList
 							.Where(tab => !string.IsNullOrEmpty(tab))

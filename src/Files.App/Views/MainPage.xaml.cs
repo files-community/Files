@@ -62,7 +62,7 @@ namespace Files.App.Views
 
 			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
+			ContentPageContext.PropertyChanged += FilePickModeContext_PropertyChanged;
 
 			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
 			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
@@ -322,6 +322,186 @@ namespace Files.App.Views
 			keyReleased = true;
 		}
 
+		/// <summary>
+		/// Applies the host-provided dialog context (title, owner app, filter list, default name) and turns this
+		/// window into a file dialog when the instance was launched to pick files for another app.
+		/// </summary>
+		private void UpdateFilePickModeBar()
+		{
+			if (FilePickModeBar is null)
+				return;
+
+			if (!App.IsPickMode)
+			{
+				FilePickModeBar.Visibility = Visibility.Collapsed;
+				return;
+			}
+
+			FilePickModeBar.Visibility = Visibility.Visible;
+
+			// NOTE: do not collapse SidebarControl. The file area lives inside its InnerContent,
+			// so collapsing it hides the listing as well. Hiding the sidebar pane itself is left
+			// alone on purpose: its visibility is bound to the user's sidebar setting.
+
+
+			FilePickModeTitleText.Text = string.IsNullOrWhiteSpace(App.PickModeTitle)
+				? Strings.PickModeDefaultTitle.GetLocalizedResource()
+				: App.PickModeTitle;
+
+			var subtitleParts = new List<string>();
+			if (!string.IsNullOrWhiteSpace(App.PickModeHost))
+				subtitleParts.Add(string.Format(Strings.PickModeRequestedBy.GetLocalizedResource(), App.PickModeHost));
+			if (App.PickModeAllowMultiSelect)
+				subtitleParts.Add(Strings.PickModeMultiSelectHint.GetLocalizedResource());
+			FilePickModeSubText.Text = string.Join(" · ", subtitleParts);
+			FilePickModeSubText.Visibility = subtitleParts.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+
+			// Filter list provided by the host, encoded as "Display name=*.png;*.jpg|Display name=*.*"
+			_pickModeFilters.Clear();
+			FilePickModeFilterBox.Items.Clear();
+			foreach (var entry in ParsePickModeFilters(App.PickModeFilter))
+			{
+				_pickModeFilters.Add(entry);
+				FilePickModeFilterBox.Items.Add(entry.Name);
+			}
+
+			if (_pickModeFilters.Count > 0)
+			{
+				FilePickModeFilterBox.Visibility = Visibility.Visible;
+				FilePickModeFilterBox.SelectedIndex = 0;
+				ApplyPickModeFilter(_pickModeFilters[0].Spec);
+			}
+			else
+			{
+				FilePickModeFilterBox.Visibility = Visibility.Collapsed;
+			}
+
+			FilePickModeNameBox.Text = App.PickModeFileName ?? string.Empty;
+
+			ContentPageContext.PropertyChanged -= FilePickModeContext_PropertyChanged;
+			ContentPageContext.PropertyChanged += FilePickModeContext_PropertyChanged;
+
+			UpdateFilePickConfirmLabel();
+		}
+
+		private sealed record PickModeFilter(string Name, string Spec);
+
+		private readonly List<PickModeFilter> _pickModeFilters = [];
+
+		private static IEnumerable<PickModeFilter> ParsePickModeFilters(string? encoded)
+		{
+			if (string.IsNullOrWhiteSpace(encoded))
+				yield break;
+
+			foreach (var group in encoded.Split('|', StringSplitOptions.RemoveEmptyEntries))
+			{
+				var separator = group.IndexOf('=');
+				if (separator <= 0)
+					continue;
+
+				var name = group[..separator].Trim();
+				var spec = group[(separator + 1)..].Trim();
+				yield return new PickModeFilter(string.IsNullOrEmpty(name) ? spec : name, spec);
+			}
+		}
+
+		private void ApplyPickModeFilter(string? spec)
+		{
+			App.PickModeActiveFilter = string.IsNullOrWhiteSpace(spec) ? null : spec;
+
+			var shellViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn?.ShellViewModel;
+			if (shellViewModel is not null)
+				shellViewModel.FilesAndFoldersFilter = App.PickModeActiveFilter;
+		}
+
+		private void FilePickModeFilterBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (FilePickModeFilterBox?.SelectedIndex is not int index || index < 0 || index >= _pickModeFilters.Count)
+				return;
+
+			ApplyPickModeFilter(_pickModeFilters[index].Spec);
+		}
+
+		private void FilePickModeContext_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (!App.IsPickMode)
+				return;
+
+			if (e.PropertyName is nameof(IContentPageContext.SelectedItems))
+				UpdateFilePickConfirmLabel();
+		}
+
+		private void UpdateFilePickConfirmLabel()
+		{
+			if (FilePickConfirmButton is null)
+				return;
+
+			var count = ContentPageContext.SelectedItems?.Count ?? 0;
+			var label = Strings.Open.GetLocalizedResource();
+
+			// Multi-select dialogs show how many items will be returned
+			if (App.PickModeAllowMultiSelect && count > 1)
+				label = $"{label} ({count})";
+
+			FilePickConfirmButton.Content = label;
+		}
+
+		private void FilePickConfirm_Click(object sender, RoutedEventArgs e) => ConfirmFilePick();
+
+		private void FilePickCancel_Click(object sender, RoutedEventArgs e) => CancelFilePick();
+
+		private void FilePickConfirm_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs e)
+		{
+			if (!App.IsPickMode)
+				return;
+
+			e.Handled = true;
+			ConfirmFilePick();
+		}
+
+		private void FilePickCancel_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs e)
+		{
+			if (!App.IsPickMode)
+				return;
+
+			e.Handled = true;
+			CancelFilePick();
+		}
+
+		private void ConfirmFilePick()
+		{
+			App.CompleteFileDialogRequest(true, ResolveTypedFilePickPaths());
+			App.Current.Exit();
+		}
+
+		private void CancelFilePick()
+		{
+			App.CompleteFileDialogRequest(false);
+			App.Current.Exit();
+		}
+
+		/// <summary>
+		/// Resolves what the user typed in the file name box, when it differs from the host-provided default.
+		/// </summary>
+		/// <returns>The resolved paths, or null to fall back to the browsing selection.</returns>
+		private IEnumerable<string>? ResolveTypedFilePickPaths()
+		{
+			var typed = FilePickModeNameBox?.Text?.Trim();
+			if (string.IsNullOrEmpty(typed) || typed == App.PickModeFileName)
+				return null;
+
+			if (System.IO.Path.IsPathRooted(typed))
+				return System.IO.File.Exists(typed) || System.IO.Directory.Exists(typed) ? [typed] : null;
+
+			var workingDirectory = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn?.ShellViewModel?.WorkingDirectory;
+			if (string.IsNullOrWhiteSpace(workingDirectory))
+				return null;
+
+			var candidate = System.IO.Path.GetFullPath(System.IO.Path.Combine(workingDirectory, typed));
+
+			return System.IO.File.Exists(candidate) || System.IO.Directory.Exists(candidate) ? [candidate] : null;
+		}
+
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
 			ViewModel.OnPageLoaded();
@@ -332,6 +512,10 @@ namespace Files.App.Views
 			FindName(nameof(InnerNavigationToolbar));
 			FindName(nameof(TabControl));
 			FindName(nameof(NavToolbar));
+
+			// Shows the file dialog bar when this instance is picking files for another app.
+			// Must run after the deferred controls above are realized so the tab bar can be hidden.
+			UpdateFilePickModeBar();
 
 			// Notify user that drag and drop is disabled
 			// Prompt is disabled in the dev environment to prevent issues with the automation testing 

@@ -4728,4 +4728,28 @@
   <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
     <value>您确定要从所选项目中删除标签吗？</value>
   </data>
+  <data name="FilePickModeMessage" xml:space="preserve">
+    <value>正在为其他程序打开文件 —— 选中文件后点「打开」，或点「取消」返回原程序。</value>
+  </data>
+  <data name="PickModeDefaultTitle" xml:space="preserve">
+    <value>打开文件</value>
+  </data>
+  <data name="PickModeRequestedBy" xml:space="preserve">
+    <value>由 {0} 请求</value>
+  </data>
+  <data name="PickModeMultiSelectHint" xml:space="preserve">
+    <value>可多选（Ctrl / Shift）</value>
+  </data>
+  <data name="PickModeFileNameLabel" xml:space="preserve">
+    <value>文件名</value>
+  </data>
+  <data name="PickModeFileNamePlaceholder" xml:space="preserve">
+    <value>输入文件名或路径</value>
+  </data>
+  <data name="PickModeFilterLabel" xml:space="preserve">
+    <value>文件类型</value>
+  </data>
+  <data name="PickModeAllFiles" xml:space="preserve">
+    <value>所有文件 (*.*)</value>
+  </data>
 </root>
