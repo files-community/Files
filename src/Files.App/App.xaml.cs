@@ -28,6 +28,53 @@ namespace Files.App
 		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
 		public static string? OutputPath { get; set; }
 
+		/// <summary>
+		/// Gets or sets the title the host application provided for the file dialog.
+		/// </summary>
+		public static string? PickModeTitle { get; set; }
+
+		/// <summary>
+		/// Gets or sets the name of the process that requested the file dialog.
+		/// </summary>
+		public static string? PickModeHost { get; set; }
+
+		/// <summary>
+		/// Gets or sets the filter list the host application provided, encoded as "Display name=spec|Display name=spec".
+		/// </summary>
+		public static string? PickModeFilter { get; set; }
+
+		/// <summary>
+		/// Gets or sets the default file name the host application provided.
+		/// </summary>
+		public static string? PickModeFileName { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether the host application allows selecting multiple items.
+		/// </summary>
+		public static bool PickModeAllowMultiSelect { get; set; }
+
+		/// <summary>
+		/// Gets or sets the filter spec currently applied in pick mode (for example "*.png;*.jpg").
+		/// </summary>
+		public static string? PickModeActiveFilter { get; set; }
+
+		/// <summary>
+		/// Gets or sets the folder the host application asked the file dialog to open at.
+		/// </summary>
+		public static string? PickModeStartDirectory { get; set; }
+
+		/// <summary>
+		/// Gets a value indicating whether this instance is picking files for another application.
+		/// </summary>
+		public static bool IsPickMode => OutputPath is not null;
+
+		/// <summary>
+		/// Gets the listing filter that must be (re)applied while picking files for another application.
+		/// </summary>
+		/// <returns>The filter spec, or null when no pick filter is active.</returns>
+		public static string? GetPickModeListingFilter()
+			=> IsPickMode ? PickModeActiveFilter : null;
+
 		private static FlyoutBase? _LastOpenedFlyout;
 		public static FlyoutBase? LastOpenedFlyout
 		{
@@ -276,6 +323,49 @@ namespace Files.App
 		}
 
 		/// <summary>
+		/// Completes a pending "Files as file dialog" request: writes the current selection to the output
+		/// path requested by the host process and signals it to continue. An empty result means cancelled.
+		/// </summary>
+		public static void CompleteFileDialogRequest(bool accept, IEnumerable<string>? explicitPaths = null)
+		{
+			var outputPath = OutputPath;
+			if (outputPath is null)
+				return;
+
+			// Clear it first so the window close handler cannot complete the same request twice
+			OutputPath = null;
+			PickModeTitle = null;
+			PickModeHost = null;
+			PickModeFilter = null;
+			PickModeFileName = null;
+			PickModeAllowMultiSelect = false;
+			PickModeActiveFilter = null;
+			PickModeStartDirectory = null;
+
+			var results = new List<string>();
+			if (accept)
+			{
+				if (explicitPaths is not null)
+				{
+					// Paths typed in the file name box win over the browsing selection
+					results = explicitPaths.Where(x => !string.IsNullOrWhiteSpace(x)).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+				}
+				else
+				{
+					var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.TabItemContent?.IsCurrentInstance ?? false);
+					var items = (instance?.TabItemContent as ShellPanesPage)?.ActivePane?.SlimContentPage?.SelectedItems;
+					if (items is not null)
+						results = items.Select(x => x.ItemPath!).ToList();
+				}
+			}
+
+			SafetyExtensions.IgnoreExceptions(() => System.IO.File.WriteAllLines(outputPath, results));
+
+			using var eventHandle = PInvoke.CreateEvent(null, false, false, "FILEDIALOG");
+			PInvoke.SetEvent(eventHandle);
+		}
+
+		/// <summary>
 		/// Gets invoked when the application execution is closed.
 		/// </summary>
 		/// <remarks>
@@ -303,29 +393,16 @@ namespace Files.App
 			// Persist the final active stretch; it is reported on the next launch
 			ActiveSessionTracker.OnActivationChanged(false);
 
-			// Save the current tab list in case it was overwriten by another instance
-			if (userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp || userSettingsService.AppSettingsService.RestoreTabsOnStartup)
+			// Save the current tab list in case it was overwriten by another instance.
+			// A file dialog instance must never overwrite the user's real session tabs.
+			if (!App.IsPickMode &&
+				(userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp || userSettingsService.AppSettingsService.RestoreTabsOnStartup))
 				AppLifecycleHelper.SaveSessionTabs();
 			else
 				await commandManager.CloseAllTabs.ExecuteAsync();
 
-			if (OutputPath is not null)
-			{
-				var instance = MainPageViewModel.AppInstances.FirstOrDefault(x =>
-					(x.TabItemContent ?? throw new InvalidOperationException("A tab does not have content.")).IsCurrentInstance);
-				if (instance is null)
-					return;
-
-				var items = (instance.TabItemContent as ShellPanesPage)?.ActivePane?.SlimContentPage?.SelectedItems;
-				if (items is null)
-					return;
-
-				var results = items.Select(x => x.ItemPath!).ToList();
-				System.IO.File.WriteAllLines(OutputPath, results);
-
-				using var eventHandle = PInvoke.CreateEvent(null, false, false, "FILEDIALOG");
-				PInvoke.SetEvent(eventHandle);
-			}
+			// Closing the window implicitly accepts a pending file dialog request
+			CompleteFileDialogRequest(true);
 
 			// Dev, preview and stable all run as "Files"; only this channel's other instances block parking
 			static bool IsSameChannelInstance(Process p)
