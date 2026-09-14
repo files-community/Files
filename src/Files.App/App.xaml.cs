@@ -454,14 +454,8 @@ namespace Files.App
 				Timeout.InfiniteTimeSpan,
 				executeOnlyOnce: true);
 
-			try
-			{
-				await tcs.Task;
-			}
-			finally
-			{
-				registration.Unregister(null);
-			}
+			await tcs.Task;
+			registration.Unregister(null);
 		}
 
 		private static void TryEmptyWorkingSetWhenIdle(CancellationToken cancellationToken)
