@@ -74,6 +74,7 @@ GetFileTime
 SetFileTime
 GetFileInformationByHandleEx
 FILE_ID_BOTH_DIR_INFO
+FSCTL_GET_REPARSE_POINT
 IO_REPARSE_TAG_SYMLINK
 FindFirstStreamW
 FindNextStreamW
