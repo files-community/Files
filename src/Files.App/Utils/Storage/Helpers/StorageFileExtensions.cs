@@ -76,7 +76,7 @@ namespace Files.App.Utils.Storage
 			try
 			{
 				var trimmedPath = destinationPath.TrimPath();
-				return itemsPath.All(itemPath => string.Equals(Path.GetDirectoryName(itemPath), trimmedPath, StringComparison.OrdinalIgnoreCase));
+				return itemsPath.All(itemPath => string.Equals(Path.GetDirectoryName(itemPath).TrimPath(), trimmedPath, StringComparison.OrdinalIgnoreCase));
 			}
 			catch
 			{
