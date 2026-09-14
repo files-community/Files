@@ -1,9 +1,11 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
+using System.Runtime.InteropServices;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -35,6 +37,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// TODO: Replace with IMutableFolder.GetWatcherAsync() once it gets implemented in IWindowsStorable
 		private readonly SystemIO.FileSystemWatcher? _quickAccessFolderWatcher;
+		private readonly EventHandler<ModifyQuickAccessEventArgs> _quickAccessWidgetUpdatedHandler;
 		private bool isDisposed;
 
 		// Constructor
@@ -46,6 +49,15 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			OpenPropertiesCommand = new RelayCommand<WidgetFolderCardItem>(ExecuteOpenPropertiesCommand);
 			PinToSidebarCommand = new AsyncRelayCommand<WidgetFolderCardItem>(ExecutePinToSidebarCommand);
 			UnpinFromSidebarCommand = new AsyncRelayCommand<WidgetFolderCardItem>(ExecuteUnpinFromSidebarCommand);
+
+			_quickAccessWidgetUpdatedHandler = async (s, e) =>
+			{
+				if (e.Reorder)
+				{
+					await SafetyExtensions.IgnoreExceptions(() => RefreshWidgetAsync(bypassSuspend: true), App.Logger, typeof(COMException));
+				}
+			};
+			App.QuickAccessManager.UpdateQuickAccessWidget += _quickAccessWidgetUpdatedHandler;
 
 			var automaticDestinationsPath = SystemIO.Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Recent", "AutomaticDestinations");
 			if (!SystemIO.Directory.Exists(automaticDestinationsPath))
@@ -68,30 +80,77 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		private async void QuickAccessFolderWatcher_Changed(object sender, SystemIO.FileSystemEventArgs e)
 		{
 			if (!isDisposed)
-				await RefreshWidgetAsync();
+				await SafetyExtensions.IgnoreExceptions(RefreshWidgetAsync, App.Logger, typeof(COMException));
 		}
 
 		public Task RefreshWidgetAsync()
 		{
+			return RefreshWidgetAsync(false);
+		}
+
+		public Task RefreshWidgetAsync(bool bypassSuspend)
+		{
+			if (!bypassSuspend && App.QuickAccessManager.Model.IsSyncSuspended)
+				return Task.CompletedTask;
+
 			return MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				foreach (var item in Items)
-					item.Dispose();
-
-				Items.Clear();
+				var newItems = new List<(IWindowsStorable folder, string name, bool isPinned, string tooltip, string path)>();
 
 				await foreach (IWindowsStorable folder in HomePageContext.HomeFolder.GetQuickAccessFolderAsync(default))
 				{
 					folder.GetPropertyValue<bool>("System.Home.IsPinned", out var isPinned);
 					folder.TryGetShellTooltip(out var tooltip);
 
+					var name = folder.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI);
+					var path = folder.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING);
+
+					newItems.Add((folder, name, isPinned, tooltip ?? string.Empty, path));
+				}
+
+				var currentPaths = Items.Select(i => i.Path ?? string.Empty).ToList();
+				var newPaths = newItems.Select(i => i.path).ToList();
+
+				if (currentPaths.Count == newPaths.Count &&
+					new HashSet<string>(currentPaths, StringComparer.OrdinalIgnoreCase)
+						.SetEquals(newPaths))
+				{
+					foreach (var ni in newItems)
+						ni.folder.Dispose();
+
+					for (int targetIdx = 0; targetIdx < newPaths.Count; targetIdx++)
+					{
+						var currentIdx = -1;
+						for (int j = targetIdx; j < Items.Count; j++)
+						{
+							if (string.Equals(Items[j].Path, newPaths[targetIdx], StringComparison.OrdinalIgnoreCase))
+							{
+								currentIdx = j;
+								break;
+							}
+						}
+
+						if (currentIdx >= 0 && currentIdx != targetIdx)
+							Items.Move(currentIdx, targetIdx);
+					}
+
+					return;
+				}
+
+				foreach (var item in Items)
+					item.Dispose();
+
+				Items.Clear();
+
+				foreach (var (folder, name, isPinned, tooltip, path) in newItems)
+				{
 					Items.Insert(
 						Items.Count,
 						new WidgetFolderCardItem(
 							folder,
-							folder.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI),
+							name,
 							isPinned,
-							tooltip ?? string.Empty));
+							tooltip));
 				}
 			});
 		}
@@ -331,6 +390,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				return;
 
 			isDisposed = true;
+			App.QuickAccessManager.UpdateQuickAccessWidget -= _quickAccessWidgetUpdatedHandler;
 			Items.CollectionChanged -= Items_CollectionChanged;
 			if (_quickAccessFolderWatcher is not null)
 			{
