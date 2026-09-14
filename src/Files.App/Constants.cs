@@ -224,6 +224,10 @@ namespace Files.App
 
 			public static readonly string RecentItemsPath = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
 
+			public static readonly string AutomaticDestinationsPath = System.IO.Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Recent", "AutomaticDestinations");
+
+			public const string QuickAccessDestinationsFileName = "f01b4d95cf55d32a.automaticDestinations-ms";
+
 			public static readonly string SystemDrivePath;
 
 			static UserEnvironmentPaths()
