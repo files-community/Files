@@ -7,6 +7,8 @@ namespace Files.App.Data.Contracts
 {
 	public interface INavigationControlItem : IComparable<INavigationControlItem>, INotifyPropertyChanged, ISidebarItemModel, ISidebarItemPresentationModel
 	{
+		bool ISidebarItemModel.CanReorder => Section == SectionType.Pinned;
+
 		public SectionType Section { get; }
 
 		public NavigationControlItemType ItemType { get; }
