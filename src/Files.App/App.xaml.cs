@@ -220,17 +220,19 @@ namespace Files.App
 						SystemTrayIcon.Show();
 
 					// Sleep current instance
-					Program.Pool = new(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance");
+					var pool = new Semaphore(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance");
+					Program.Pool = pool;
 
 					var cts = new CancellationTokenSource();
 					TryEmptyWorkingSetWhenIdle(cts.Token);
 
-					await WaitOneAsync(Program.Pool);
+					await WaitOneAsync(pool);
 
 					cts.Cancel();
-					// Resume the instance
-					Program.Pool.Dispose();
-					Program.Pool = null;
+					// Resume the instance; a rapid close-reopen-close may have already replaced the semaphore
+					pool.Dispose();
+					if (ReferenceEquals(Program.Pool, pool))
+						Program.Pool = null;
 				}
 
 				await AppLifecycleHelper.InitializeAppComponentsAsync();
@@ -379,7 +381,8 @@ namespace Files.App
 				ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Environment.ProcessId;
 
 				// Sleep current instance
-				Program.Pool = new(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance");
+				var pool = new Semaphore(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance");
+				Program.Pool = pool;
 
 				// Displays a notification the first time the app goes to the background
 				if (userSettingsService.AppSettingsService.ShowBackgroundRunningNotification)
@@ -396,12 +399,13 @@ namespace Files.App
 				TryEmptyWorkingSetWhenIdle(cts.Token);
 
 				// Waiting must not block the dispatcher; WinRT wrapper finalizers stall until it pumps again
-				await WaitOneAsync(Program.Pool);
+				await WaitOneAsync(pool);
 
 				cts.Cancel();
-				// Resume the instance
-				Program.Pool.Dispose();
-				Program.Pool = null;
+				// Resume the instance; a rapid close-reopen-close may have already replaced the semaphore
+				pool.Dispose();
+				if (ReferenceEquals(Program.Pool, pool))
+					Program.Pool = null;
 
 				if (!AppModel.ForceProcessTermination)
 				{
@@ -437,7 +441,7 @@ namespace Files.App
 			FileOperationsHelpers.WaitForCompletion();
 
 			// Close the still-alive window for real now that teardown is done
-			if (isClosedToBackground)
+			if (isClosedToBackground && !_isWindowTeardownCompleted)
 			{
 				_isWindowTeardownCompleted = true;
 				MainWindow.Instance.Close();
