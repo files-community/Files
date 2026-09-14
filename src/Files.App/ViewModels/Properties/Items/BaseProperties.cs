@@ -36,6 +36,19 @@ namespace Files.App.ViewModels.Properties
 
 		public abstract Task GetSpecialPropertiesAsync();
 
+		private static unsafe (FindCloseSafeHandle Handle, WIN32_FIND_DATAW Data) FindFirstFile(string path)
+		{
+			WIN32_FIND_DATAW findData = default;
+			FindCloseSafeHandle hFile = PInvoke.FindFirstFileEx(
+				path,
+				FINDEX_INFO_LEVELS.FindExInfoBasic,
+				&findData,
+				FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+				FIND_FIRST_EX_FLAGS.FIND_FIRST_EX_LARGE_FETCH);
+
+			return (hFile, findData);
+		}
+
 		public async Task GetOtherPropertiesAsync(IStorageItemExtraProperties properties)
 		{
 			string dateAccessedProperty = "System.DateAccessed";
@@ -65,17 +78,7 @@ namespace Files.App.ViewModels.Properties
 
 			long size = 0;
 			long sizeOnDisk = 0;
-			WIN32_FIND_DATAW findData = default;
-			FindCloseSafeHandle hFile;
-			unsafe
-			{
-				hFile = PInvoke.FindFirstFileEx(
-					path + "\\*.*",
-					FINDEX_INFO_LEVELS.FindExInfoBasic,
-					&findData,
-					FINDEX_SEARCH_OPS.FindExSearchNameMatch,
-					FIND_FIRST_EX_FLAGS.FIND_FIRST_EX_LARGE_FETCH);
-			}
+			var (hFile, findData) = FindFirstFile(path + "\\*.*");
 			using FindCloseSafeHandle findHandleScope = hFile;
 
 			var count = 0;
