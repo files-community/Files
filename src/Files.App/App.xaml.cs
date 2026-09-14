@@ -29,6 +29,7 @@ namespace Files.App
 		public static string? OutputPath { get; set; }
 
 		private static FlyoutBase? _LastOpenedFlyout;
+		private static bool _isWindowTeardownCompleted;
 		public static FlyoutBase? LastOpenedFlyout
 		{
 			set
@@ -221,18 +222,15 @@ namespace Files.App
 					// Sleep current instance
 					Program.Pool = new(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance");
 
-					Thread.Yield();
-
 					var cts = new CancellationTokenSource();
 					TryEmptyWorkingSetWhenIdle(cts.Token);
 
-					if (Program.Pool.WaitOne())
-					{
-						cts.Cancel();
-						// Resume the instance
-						Program.Pool.Dispose();
-						Program.Pool = null;
-					}
+					await WaitOneAsync(Program.Pool);
+
+					cts.Cancel();
+					// Resume the instance
+					Program.Pool.Dispose();
+					Program.Pool = null;
 				}
 
 				await AppLifecycleHelper.InitializeAppComponentsAsync();
@@ -283,6 +281,10 @@ namespace Files.App
 		/// </remarks>
 		private async void Window_Closed(object sender, WindowEventArgs args)
 		{
+			// Let the final close after background teardown proceed
+			if (_isWindowTeardownCompleted)
+				return;
+
 			// Stop dispatcher timers before the close handler yields and window teardown begins.
 			AppModel.IsMainWindowClosed = true;
 
@@ -345,10 +347,15 @@ namespace Files.App
 			}
 
 			// Continue running the app on the background
+			var isClosedToBackground = false;
 			if (userSettingsService.GeneralSettingsService.LeaveAppRunning &&
 				!AppModel.ForceProcessTermination &&
 				!Process.GetProcessesByName("Files").Any(IsSameChannelInstance))
 			{
+				// Handled set after an await is read too late to cancel the close
+				args.Handled = true;
+				isClosedToBackground = true;
+
 				// Close open content dialogs
 				UIHelpers.CloseAllDialogs();
 
@@ -374,8 +381,6 @@ namespace Files.App
 				// Sleep current instance
 				Program.Pool = new(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance");
 
-				Thread.Yield();
-
 				// Displays a notification the first time the app goes to the background
 				if (userSettingsService.AppSettingsService.ShowBackgroundRunningNotification)
 				{
@@ -390,19 +395,18 @@ namespace Files.App
 				var cts = new CancellationTokenSource();
 				TryEmptyWorkingSetWhenIdle(cts.Token);
 
-				if (Program.Pool.WaitOne())
-				{
-					cts.Cancel();
-					// Resume the instance
-					Program.Pool.Dispose();
-					Program.Pool = null;
+				// Waiting must not block the dispatcher; WinRT wrapper finalizers stall until it pumps again
+				await WaitOneAsync(Program.Pool);
 
-					if (!AppModel.ForceProcessTermination)
-					{
-						args.Handled = true;
-						_ = AppLifecycleHelper.CheckAppUpdate();
-						return;
-					}
+				cts.Cancel();
+				// Resume the instance
+				Program.Pool.Dispose();
+				Program.Pool = null;
+
+				if (!AppModel.ForceProcessTermination)
+				{
+					_ = AppLifecycleHelper.CheckAppUpdate();
+					return;
 				}
 			}
 
@@ -431,6 +435,33 @@ namespace Files.App
 
 			// Wait for ongoing file operations
 			FileOperationsHelpers.WaitForCompletion();
+
+			// Close the still-alive window for real now that teardown is done
+			if (isClosedToBackground)
+			{
+				_isWindowTeardownCompleted = true;
+				MainWindow.Instance.Close();
+			}
+		}
+
+		private static async Task WaitOneAsync(WaitHandle handle)
+		{
+			var tcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+			var registration = ThreadPool.RegisterWaitForSingleObject(
+				handle,
+				static (state, _) => ((TaskCompletionSource)state!).TrySetResult(),
+				tcs,
+				Timeout.InfiniteTimeSpan,
+				executeOnlyOnce: true);
+
+			try
+			{
+				await tcs.Task;
+			}
+			finally
+			{
+				registration.Unregister(null);
+			}
 		}
 
 		private static void TryEmptyWorkingSetWhenIdle(CancellationToken cancellationToken)
