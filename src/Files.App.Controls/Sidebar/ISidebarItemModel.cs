@@ -44,5 +44,10 @@ namespace Files.App.Controls
 		/// Expansion participant that keeps the regular row appearance (icon + normal text) instead of the section-header style.
 		/// </summary>
 		bool IsLeafWithChildren => false;
+
+		/// <summary>
+		/// Indicates whether the item can be reordered via drag and drop.
+		/// </summary>
+		bool CanReorder => false;
 	}
 }
