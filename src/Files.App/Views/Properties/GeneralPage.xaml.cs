@@ -36,22 +36,45 @@ namespace Files.App.Views.Properties
 
 		private void ItemFileName_GettingFocus(UIElement _, GettingFocusEventArgs e)
 		{
-			ItemFileName.Text = RegexHelpers.DriveLetter().Replace(ItemFileName.Text, string.Empty);
+			if (GetDriveLetterToken() is { } letterToken)
+				ItemFileName.Text = RemoveDriveLetterToken(ItemFileName.Text, letterToken);
 		}
 
 		private void ItemFileName_LosingFocus(UIElement _, LosingFocusEventArgs e)
 		{
 			if (string.IsNullOrWhiteSpace(ItemFileName.Text))
 			{
-				ItemFileName.Text = ViewModel.ItemName;
+				ItemFileName.Text = ViewModel.OriginalItemName ?? ViewModel.ItemName ?? string.Empty;
 				return;
 			}
 
+			if (GetDriveLetterToken() is not { } letterToken)
+				return;
+
 			var originalItemName = ViewModel.OriginalItemName
 				?? throw new InvalidOperationException("The original item name has not been initialized.");
-			var match = RegexHelpers.DriveLetter().Match(originalItemName);
-			if (match.Success)
-				ItemFileName.Text += match.Value;
+
+			// Put the drive letter back on the side it came from
+			if (originalItemName.StartsWith(letterToken, StringComparison.OrdinalIgnoreCase))
+				ItemFileName.Text = $"{letterToken} {ItemFileName.Text}";
+			else if (originalItemName.EndsWith(letterToken, StringComparison.OrdinalIgnoreCase))
+				ItemFileName.Text = $"{ItemFileName.Text} {letterToken}";
+		}
+
+		// The system can show the drive letter before or after the label, e.g. "(C:) Local Disk" or "Local Disk (C:)"
+		private string? GetDriveLetterToken()
+			=> BaseProperties is DriveProperties properties
+				? $"({properties.Drive.GetRequiredPath().TrimEnd('\\')})"
+				: null;
+
+		private static string RemoveDriveLetterToken(string name, string letterToken)
+		{
+			if (name.StartsWith(letterToken, StringComparison.OrdinalIgnoreCase))
+				return name[letterToken.Length..].TrimStart();
+			if (name.EndsWith(letterToken, StringComparison.OrdinalIgnoreCase))
+				return name[..^letterToken.Length].TrimEnd();
+
+			return name;
 		}
 
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)
@@ -96,7 +119,7 @@ namespace Files.App.Views.Properties
 				if (!GetNewName(out var newName) || fsVM is null)
 					return false;
 
-				newName = RegexHelpers.DriveLetter().Replace(newName, string.Empty); // Remove "(C:)" from the new label
+				newName = RemoveDriveLetterToken(newName, $"({drive.GetRequiredPath().TrimEnd('\\')})"); // Remove "(C:)" from the new label
 
 				if (drive.Type == Data.Items.DriveType.Network)
 					Win32Helper.SetNetworkDriveLabel(drive.DeviceID
