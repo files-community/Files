@@ -106,7 +106,7 @@ namespace Files.App.Storage
 				wndClass.hInstance = PInvoke.GetModuleHandle(default(PCWSTR));
 				wndClass.lpszClassName = pszWndClassName;
 				wndClass.lpfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)
-					Marshal.GetFunctionPointerForDelegate(_wndProc);
+					Marshal.GetFunctionPointerForDelegate<WNDPROC>(_wndProc);
 
 				PInvoke.RegisterClassEx(&wndClass);
 
