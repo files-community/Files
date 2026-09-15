@@ -2784,6 +2784,12 @@ namespace Files.App.ViewModels
 			});
 		}
 
+		private void RefreshAfterWatcherFailure()
+		{
+			if (!isDisposed)
+				_ = dispatcherQueue.EnqueueOrInvokeAsync(() => RefreshItems(null));
+		}
+
 		private unsafe void WatchForDirectoryChanges(string path, CloudDriveSyncStatus syncStatus)
 		{
 			// Enumeration is fire-and-forget; don't set up a watcher on a disposed view model.
@@ -2800,8 +2806,19 @@ namespace Files.App.ViewModels
 			}
 
 			var hasSyncStatus = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown;
+			var cancellationToken = watcherCTS.Token;
+			var watcherLock = new object();
 
-			aProcessQueueAction ??= Task.Run(() => ProcessOperationQueueAsync(watcherCTS.Token, hasSyncStatus));
+			void CancelWatcher()
+			{
+				lock (watcherLock)
+				{
+					if (!hWatchDir.IsClosed)
+						PInvoke.CancelIoEx(hWatchDir, null);
+				}
+			}
+
+			aProcessQueueAction ??= Task.Run(() => ProcessOperationQueueAsync(cancellationToken, hasSyncStatus));
 
 			var aWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>
 			{
@@ -2815,15 +2832,20 @@ namespace Files.App.ViewModels
 				var overlapped = new NativeOverlapped();
 				using var eventHandle = PInvoke.CreateEvent(null, false, false, null);
 				overlapped.EventHandle = eventHandle.DangerousGetHandle();
-				const uint INFINITE = 0xFFFFFFFF;
 
-				while (x.Status != AsyncStatus.Canceled)
+				try
 				{
-					// The buffer must remain pinned until the overlapped read completes.
-					fixed (byte* pinnedBuffer = buff)
+					while (!cancellationToken.IsCancellationRequested)
 					{
-						if (x.Status != AsyncStatus.Canceled)
+						uint bytesTransferred = 0;
+						var refreshAfterFailure = false;
+
+						// The buffer must remain pinned until the overlapped read completes.
+						fixed (byte* pinnedBuffer = buff)
 						{
+							if (cancellationToken.IsCancellationRequested)
+								break;
+
 							PInvoke.ReadDirectoryChanges(
 								(HANDLE)hWatchDir.DangerousGetHandle(),
 								pinnedBuffer,
@@ -2833,36 +2855,74 @@ namespace Files.App.ViewModels
 								null,
 								&overlapped,
 								null);
+
+							if (cancellationToken.IsCancellationRequested)
+							{
+								CancelWatcher();
+								break;
+							}
+
+							Debug.WriteLine("waiting: {0}", rand);
+							if (!PInvoke.GetOverlappedResult(
+								hWatchDir,
+								in overlapped,
+								out bytesTransferred,
+								true))
+							{
+								if (!cancellationToken.IsCancellationRequested)
+								{
+									App.Logger.LogWarning("Directory watcher completion failed with error {ErrorCode}.", Marshal.GetLastWin32Error());
+									refreshAfterFailure = true;
+								}
+
+								break;
+							}
+
+							Debug.WriteLine("wait done: {0}", rand);
+							if (bytesTransferred == 0 || bytesTransferred > (uint)buff.Length)
+							{
+								refreshAfterFailure = !cancellationToken.IsCancellationRequested;
+								break;
+							}
 						}
-						else
+
+						if (cancellationToken.IsCancellationRequested)
+							break;
+
+						if (refreshAfterFailure)
 						{
+							RefreshAfterWatcherFailure();
 							break;
 						}
 
-						Debug.WriteLine("waiting: {0}", rand);
-						PInvoke.WaitForSingleObjectEx(eventHandle, INFINITE, true);
-						Debug.WriteLine("wait done: {0}", rand);
+						foreach ((uint action, string fileName) in ParseDirectoryChanges(buff.AsSpan(0, (int)bytesTransferred)))
+						{
+							Debug.WriteLine("action: {0}", action);
+							operationQueue.Enqueue((action, Path.Combine(path, fileName)));
+						}
+
+						operationEvent.Set();
+						Debug.WriteLine("Task running...");
 					}
-
-					if (x.Status == AsyncStatus.Canceled)
-						break;
-
-					foreach ((uint action, string fileName) in ParseDirectoryChanges(buff))
-					{
-						Debug.WriteLine("action: {0}", action);
-						operationQueue.Enqueue((action, Path.Combine(path, fileName)));
-					}
-
-					operationEvent.Set();
-					Debug.WriteLine("Task running...");
 				}
+				finally
+				{
+					operationQueue.Clear();
 
-				operationQueue.Clear();
+					lock (watcherLock)
+					{
+						if (!hWatchDir.IsClosed)
+						{
+							PInvoke.CancelIoEx(hWatchDir, null);
+							hWatchDir.Dispose();
+						}
+					}
 
-				Debug.WriteLine("aWatcherAction done: {0}", rand);
+					Debug.WriteLine("aWatcherAction done: {0}", rand);
+				}
 			});
 
-			watcherCTS.Token.Register(() =>
+			cancellationToken.Register(() =>
 			{
 				if (aWatcherAction is not null)
 				{
@@ -2874,8 +2934,7 @@ namespace Files.App.ViewModels
 					Debug.WriteLine("watcher canceled");
 				}
 
-				PInvoke.CancelIoEx(hWatchDir, null);
-				hWatchDir.Dispose();
+				CancelWatcher();
 			});
 		}
 
@@ -2900,7 +2959,19 @@ namespace Files.App.ViewModels
 				return;
 			}
 
-			gitProcessQueueAction ??= Task.Run(() => ProcessGitChangesQueueAsync(watcherCTS.Token));
+			var cancellationToken = watcherCTS.Token;
+			var watcherLock = new object();
+
+			void CancelWatcher()
+			{
+				lock (watcherLock)
+				{
+					if (!hWatchDir.IsClosed)
+						PInvoke.CancelIoEx(hWatchDir, null);
+				}
+			}
+
+			gitProcessQueueAction ??= Task.Run(() => ProcessGitChangesQueueAsync(cancellationToken));
 
 			var gitWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>
 			{
@@ -2911,42 +2982,89 @@ namespace Files.App.ViewModels
 				var overlapped = new NativeOverlapped();
 				using var eventHandle = PInvoke.CreateEvent(null, false, false, null);
 				overlapped.EventHandle = eventHandle.DangerousGetHandle();
-				const uint INFINITE = 0xFFFFFFFF;
 
-				while (x.Status != AsyncStatus.Canceled)
+				try
 				{
-					// The buffer must remain pinned until the overlapped read completes.
-					fixed (byte* pinnedBuffer = buff)
+					while (!cancellationToken.IsCancellationRequested)
 					{
-						if (x.Status == AsyncStatus.Canceled)
+						uint bytesTransferred = 0;
+						var refreshAfterFailure = false;
+
+						// The buffer must remain pinned until the overlapped read completes.
+						fixed (byte* pinnedBuffer = buff)
+						{
+							if (cancellationToken.IsCancellationRequested)
+								break;
+
+							PInvoke.ReadDirectoryChanges(
+								(HANDLE)hWatchDir.DangerousGetHandle(),
+								pinnedBuffer,
+								(uint)buff.Length,
+								true,
+								notifyFilters,
+								null,
+								&overlapped,
+								null);
+
+							if (cancellationToken.IsCancellationRequested)
+							{
+								CancelWatcher();
+								break;
+							}
+
+							if (!PInvoke.GetOverlappedResult(
+								hWatchDir,
+								in overlapped,
+								out bytesTransferred,
+								true))
+							{
+								if (!cancellationToken.IsCancellationRequested)
+								{
+									App.Logger.LogWarning("Git watcher completion failed with error {ErrorCode}.", Marshal.GetLastWin32Error());
+									refreshAfterFailure = true;
+								}
+
+								break;
+							}
+
+							if (bytesTransferred == 0 || bytesTransferred > (uint)buff.Length)
+							{
+								refreshAfterFailure = !cancellationToken.IsCancellationRequested;
+								break;
+							}
+						}
+
+						if (cancellationToken.IsCancellationRequested)
 							break;
 
-						PInvoke.ReadDirectoryChanges(
-							(HANDLE)hWatchDir.DangerousGetHandle(),
-							pinnedBuffer,
-							(uint)buff.Length,
-							true,
-							notifyFilters,
-							null,
-							&overlapped,
-							null);
+						if (refreshAfterFailure)
+						{
+							RefreshAfterWatcherFailure();
+							break;
+						}
 
-						PInvoke.WaitForSingleObjectEx(eventHandle, INFINITE, true);
+						foreach ((uint action, _) in ParseDirectoryChanges(buff.AsSpan(0, (int)bytesTransferred)))
+							gitChangesQueue.Enqueue(action);
+
+						gitChangedEvent.Set();
 					}
-
-					if (x.Status == AsyncStatus.Canceled)
-						break;
-
-					foreach ((uint action, _) in ParseDirectoryChanges(buff))
-						gitChangesQueue.Enqueue(action);
-
-					gitChangedEvent.Set();
 				}
+				finally
+				{
+					gitChangesQueue.Clear();
 
-				gitChangesQueue.Clear();
+					lock (watcherLock)
+					{
+						if (!hWatchDir.IsClosed)
+						{
+							PInvoke.CancelIoEx(hWatchDir, null);
+							hWatchDir.Dispose();
+						}
+					}
+				}
 			});
 
-			watcherCTS.Token.Register(() =>
+			cancellationToken.Register(() =>
 			{
 				if (gitWatcherAction is not null)
 				{
@@ -2956,8 +3074,7 @@ namespace Files.App.ViewModels
 					gitWatcherAction = null;
 				}
 
-				PInvoke.CancelIoEx(hWatchDir, null);
-				hWatchDir.Dispose();
+				CancelWatcher();
 			});
 		}
 
