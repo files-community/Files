@@ -148,7 +148,7 @@ namespace Files.App.ViewModels.Previews
 			_pszClassName = (char*)Marshal.StringToHGlobalUni(szClassName);
 
 			_windProc = new(WndProc);
-			var pWindProc = Marshal.GetFunctionPointerForDelegate(_windProc);
+			var pWindProc = Marshal.GetFunctionPointerForDelegate<WNDPROC>(_windProc);
 			var pfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)pWindProc;
 
 			_windowClass = new WNDCLASSEXW()

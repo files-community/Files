@@ -96,7 +96,7 @@ namespace Files.App.Data.Items
 			IsMinimizable = true;
 
 			_newWndProc = new(NewWindowProc);
-			var pNewWndProc = Marshal.GetFunctionPointerForDelegate(_newWndProc);
+			var pNewWndProc = Marshal.GetFunctionPointerForDelegate<WNDPROC>(_newWndProc);
 			_oldWndProc = PInvoke.SetWindowLongPtr(new(WindowHandle), WINDOW_LONG_PTR_INDEX.GWL_WNDPROC, pNewWndProc);
 
 			Closed += WindowEx_Closed;
@@ -258,7 +258,7 @@ namespace Files.App.Data.Items
 				return true;
 			});
 
-			var pMonitorEnumProc = Marshal.GetFunctionPointerForDelegate(monitorEnumProc);
+			var pMonitorEnumProc = Marshal.GetFunctionPointerForDelegate<MONITORENUMPROC>(monitorEnumProc);
 			var pfnMonitorEnumProc = (delegate* unmanaged[Stdcall]<HMONITOR, HDC, RECT*, LPARAM, BOOL>)pMonitorEnumProc;
 
 			LPARAM lParam = default;
