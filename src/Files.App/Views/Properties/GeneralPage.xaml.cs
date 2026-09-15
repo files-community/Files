@@ -107,7 +107,12 @@ namespace Files.App.Views.Properties
 				_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await drive.UpdateLabelAsync();
-					await fsVM.SetWorkingDirectoryAsync(drive.GetRequiredPath());
+
+					// Refresh the path display only when this instance is browsing the renamed drive
+					var workingDirectory = fsVM.WorkingDirectory;
+					if (Path.IsPathRooted(workingDirectory) &&
+						string.Equals(Path.GetPathRoot(workingDirectory), Path.GetPathRoot(drive.GetRequiredPath()), StringComparison.OrdinalIgnoreCase))
+						await fsVM.SetWorkingDirectoryAsync(workingDirectory);
 				});
 				return true;
 			}
