@@ -502,12 +502,16 @@ namespace Files.App.Helpers
 		// Without this the shell keeps serving the cached display name
 		private static unsafe void NotifyShellOfItemChange(string path)
 		{
+			// The shell parser doesn't accept extended length paths
+			if (path.StartsWith(@"\\?\", StringComparison.Ordinal))
+				path = path[4..];
+
 			// A bare "U:" means the current directory on that drive rather than the volume root
 			if (path.Length == 2 && path[1] == ':')
 				path += '\\';
 
 			fixed (char* pszPath = path)
-				PInvoke.SHChangeNotify(SHCNE_ID.SHCNE_UPDATEITEM, SHCNF_FLAGS.SHCNF_PATHW | SHCNF_FLAGS.SHCNF_FLUSH, pszPath, null);
+				PInvoke.SHChangeNotify(SHCNE_ID.SHCNE_UPDATEITEM, SHCNF_FLAGS.SHCNF_PATHW | SHCNF_FLAGS.SHCNF_FLUSHNOWAIT, pszPath, null);
 		}
 
 		public static Task<bool> MountVhdDisk(string vhdPath)
