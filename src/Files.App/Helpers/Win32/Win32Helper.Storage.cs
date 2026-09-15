@@ -488,11 +488,26 @@ namespace Files.App.Helpers
 		{
 			// Rename requires elevation
 			RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"kernel32.dll\\\", SetLastError = false)]public static extern bool SetVolumeLabel(string lpRootPathName, string lpVolumeName);'; $SetVolumeLabel = Add-Type -MemberDefinition $Signature -Name \"Win32SetVolumeLabel\" -Namespace Win32Functions -PassThru; $SetVolumeLabel::SetVolumeLabel({ToPowerShellStringLiteral(drivePath)}, {ToPowerShellStringLiteral(newLabel)})\"", PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
+
+			NotifyShellOfItemChange(drivePath);
 		}
 
 		public static void SetNetworkDriveLabel(string driveName, string newLabel)
 		{
 			RunPowershellCommand($"-command \"(New-Object -ComObject Shell.Application).NameSpace({ToPowerShellStringLiteral(driveName)}).Self.Name={ToPowerShellStringLiteral(newLabel)}\"", PowerShellExecutionOptions.Hidden);
+
+			NotifyShellOfItemChange(driveName);
+		}
+
+		// Without this the shell keeps serving the cached display name
+		private static unsafe void NotifyShellOfItemChange(string path)
+		{
+			// A bare "U:" means the current directory on that drive rather than the volume root
+			if (path.Length == 2 && path[1] == ':')
+				path += '\\';
+
+			fixed (char* pszPath = path)
+				PInvoke.SHChangeNotify(SHCNE_ID.SHCNE_UPDATEITEM, SHCNF_FLAGS.SHCNF_PATHW | SHCNF_FLAGS.SHCNF_FLUSH, pszPath, null);
 		}
 
 		public static Task<bool> MountVhdDisk(string vhdPath)
