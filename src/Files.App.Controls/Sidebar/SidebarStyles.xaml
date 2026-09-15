@@ -183,6 +183,17 @@
 									Opacity="{TemplateBinding ContentOpacity}"
 									Visibility="Collapsed" />
 
+								<!--  Drop-into target highlight  -->
+								<Border
+									x:Name="DragOnTopIndicator"
+									Grid.ColumnSpan="6"
+									Margin="-1"
+									BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+									BorderThickness="1"
+									CornerRadius="{ThemeResource ControlCornerRadius}"
+									IsHitTestVisible="False"
+									Visibility="Collapsed" />
+
 								<!--  Overflow  -->
 								<FlyoutBase.AttachedFlyout>
 									<Flyout x:Name="ChildrenFlyout" Placement="Right">
@@ -337,6 +348,7 @@
 								<VisualState x:Name="DragOnTop">
 									<VisualState.Setters>
 										<Setter Target="ElementGrid.Background" Value="{ThemeResource ControlFillColorTertiaryBrush}" />
+										<Setter Target="DragOnTopIndicator.Visibility" Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
