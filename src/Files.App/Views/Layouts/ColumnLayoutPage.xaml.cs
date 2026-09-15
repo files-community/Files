@@ -537,6 +537,8 @@ namespace Files.App.Views.Layouts
 
 			var clickedItem = e.OriginalSource as FrameworkElement;
 
+			CancelRenameOnDoubleClick(clickedItem?.DataContext as ListedItem);
+
 			if (clickedItem?.DataContext is ListedItem item)
 			{
 				switch (item.PrimaryItemAttribute)
@@ -617,6 +619,20 @@ namespace Files.App.Views.Layouts
 			}
 			else if (item is not null)
 			{
+				if (IsWithinRenameDoubleClickWindow && item == RenamingItem)
+				{
+					// A tap this soon after the tap that started renaming is the second click of a double click
+					CancelRenameOnDoubleClick(item);
+					ResetRenameDoubleClick();
+
+					if (isItemFile)
+						await Commands.OpenItem.ExecuteAsync();
+					else if (isItemFolder)
+						ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = item is IShortcutItem { TargetPath.Length: > 0 } shortcut ? shortcut.TargetPath : item.ItemPath, ListView = FileList }, EventArgs.Empty);
+
+					return;
+				}
+
 				var clickedItem = e.OriginalSource as FrameworkElement;
 				if (clickedItem is TextBlock textBlock && textBlock.Name == "ItemName")
 				{

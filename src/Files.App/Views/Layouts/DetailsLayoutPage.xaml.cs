@@ -703,7 +703,14 @@ namespace Files.App.Views.Layouts
 			}
 			else
 			{
-				if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "ItemName")
+				if (IsWithinRenameDoubleClickWindow && item == RenamingItem)
+				{
+					// A tap this soon after the tap that started renaming is the second click of a double click
+					CancelRenameOnDoubleClick(item);
+					ResetRenameDoubleClick();
+					await OpenItem(item);
+				}
+				else if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "ItemName")
 				{
 					CheckRenameDoubleClick(clickedItem.DataContext);
 				}
@@ -749,6 +756,8 @@ namespace Files.App.Views.Layouts
 			ListedItem? item = dataContext as ListedItem;
 			if (item == null && sender is ListView listView && listView.SelectedItem is ListedItem selectedItem)
 				item = selectedItem;
+
+			CancelRenameOnDoubleClick(item);
 
 			if (item != null && item.PrimaryItemAttribute == StorageItemTypes.File && !UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))
 				await OpenItem(item);

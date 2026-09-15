@@ -77,6 +77,11 @@ namespace Files.App
 			public const double MaximumSidebarWidth = 500;
 
 			public const double MultiplePaneWidthThreshold = 750;
+
+			/// <summary>
+			/// How long after a click-started rename begins that a straggling double click can still cancel it.
+			/// </summary>
+			public const int RenameDoubleClickGuardDurationMs = 150;
 		}
 
 		public static class Appearance

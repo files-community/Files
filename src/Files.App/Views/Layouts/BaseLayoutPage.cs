@@ -21,6 +21,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
+using Windows.Win32;
 using WinRT;
 using static Files.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
@@ -74,6 +75,9 @@ namespace Files.App.Views.Layouts
 		private ListedItem? dragOverItem = null;
 		private ListedItem? hoveredItem = null;
 		private ListedItem? preRenamingItem = null;
+		private DateTime renameGuardStartTime;
+
+		protected bool guardRenameFromDoubleClick;
 
 		// Page-relative point of the pending context-menu invocation, from ContextRequested (fires for every input,
 		// unlike RightTapped which a touch long-press can skip). Invalid for keyboard, which has no pointer point.
@@ -113,6 +117,15 @@ namespace Files.App.Views.Layouts
 
 		public bool IsRenamingItem { get; set; }
 		public bool LockPreviewPaneContent { get; set; }
+
+		protected static TimeSpan RenameDoubleClickGuardDuration
+			=> TimeSpan.FromMilliseconds(Constants.UI.RenameDoubleClickGuardDurationMs);
+
+		protected bool IsWithinRenameDoubleClickWindow
+			=> DateTime.UtcNow - renameGuardStartTime <= RenameDoubleClickGuardDuration;
+
+		protected bool IsRenameDoubleClickGuardActive
+			=> IsRenamingItem && IsWithinRenameDoubleClickWindow;
 
 		public ListedItem? RenamingItem { get; set; }
 		public ListedItem? SelectedItem { get; private set; }
@@ -1695,15 +1708,19 @@ namespace Files.App.Views.Layouts
 			{
 				if (item == preRenamingItem)
 				{
+					if (IsRenamingItem && item == RenamingItem)
+						return;
+
+					// Wait out the double click window so a double click cancels the pending rename before anything shows
 					TapDebounceTimer.Debounce(() =>
 					{
-						if (item == preRenamingItem)
+						if (item == preRenamingItem && !IsRenamingItem)
 						{
-							StartRenameItem();
+							StartRenameItemFromTap();
 							tapDebounceTimer?.Stop();
 						}
 					},
-					TimeSpan.FromMilliseconds(1500));
+					TimeSpan.FromMilliseconds(PInvoke.GetDoubleClickTime()));
 				}
 				else
 				{
@@ -1714,6 +1731,21 @@ namespace Files.App.Views.Layouts
 			else
 			{
 				ResetRenameDoubleClick();
+			}
+		}
+
+		private void StartRenameItemFromTap()
+		{
+			guardRenameFromDoubleClick = true;
+			renameGuardStartTime = DateTime.UtcNow;
+
+			try
+			{
+				StartRenameItem();
+			}
+			finally
+			{
+				guardRenameFromDoubleClick = false;
 			}
 		}
 
