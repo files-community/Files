@@ -149,6 +149,11 @@ namespace Files.App.Views
 
 			_titleBarMessageMonitor = new WindowMessageMonitor(titleBarHwnd);
 			_titleBarMessageMonitor.WindowMessageReceived += TitleBar_WindowMessageReceived;
+
+			// The caption is a separate window, so XAML drop handlers never see drags over it.
+			// XAML initializes COM but not OLE on this thread.
+			PInvoke.OleInitialize();
+			PInvoke.RegisterDragDrop(titleBarHwnd, new TabDropTarget(TabControl));
 		}
 
 		private void TitleBar_WindowMessageReceived(object? sender, WindowMessageEventArgs e)

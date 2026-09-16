@@ -69,7 +69,10 @@
 		x:Name="TitlebarArea"
 		HorizontalAlignment="Stretch"
 		x:FieldModifier="public"
-		Background="Transparent">
+		AllowDrop="True"
+		Background="Transparent"
+		DragOver="TitlebarArea_DragOver"
+		Drop="TitlebarArea_Drop">
 
 		<!--  TabBar + Draggable Right Padding  -->
 		<TabView

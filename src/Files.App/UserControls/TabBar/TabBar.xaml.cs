@@ -153,6 +153,7 @@ namespace Files.App.UserControls.TabBar
 
 			args.Data.Properties.Add(TabPathIdentifier, tabViewItemArgs.Serialize());
 			args.Data.RequestedOperation = DataPackageOperation.Move;
+			IsDraggingOwnTab = true;
 
 			// Get cursor position & time to track how far the tab was dragged.
 			PInvoke.GetCursorPos(out dragStartPoint);
@@ -184,6 +185,7 @@ namespace Files.App.UserControls.TabBar
 				e.DragUIOverride.Caption = Strings.TabStripDragAndDropUIOverrideCaption.GetLocalizedResource();
 				e.DragUIOverride.IsCaptionVisible = true;
 				e.DragUIOverride.IsGlyphVisible = false;
+				e.Handled = true;
 			}
 			else
 			{
@@ -191,29 +193,39 @@ namespace Files.App.UserControls.TabBar
 			}
 		}
 
+		// The tab list marks its own drag events handled, so only the rest of the title bar reaches these
+		private void TitlebarArea_DragOver(object sender, DragEventArgs e)
+		{
+			if (!IsDraggingOwnTab)
+				TabView_TabStripDragOver(sender, e);
+		}
+
 		private void TabView_DragLeave(object sender, DragEventArgs e)
 		{
 			HorizontalTabView.CanReorderTabs = WindowContext.CanDragAndDrop;
 		}
 
-		[DynamicWindowsRuntimeCast(typeof(TabView))]
-		[DynamicWindowsRuntimeCast(typeof(TabViewItem))]
 		private async void TabView_TabStripDrop(object sender, DragEventArgs e)
 		{
 			HorizontalTabView.CanReorderTabs = WindowContext.CanDragAndDrop;
+			e.Handled = true;
+			await OpenDroppedTabAsync(e);
+		}
 
-			if (!(sender is TabView tabStrip))
-				return;
+		private void TitlebarArea_Drop(object sender, DragEventArgs e)
+		{
+			if (!IsDraggingOwnTab)
+				TabView_TabStripDrop(sender, e);
+		}
 
-			if (!e.DataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) ||
-				tabViewItemPathObj is not string tabViewItemString)
-				return;
-
+		[DynamicWindowsRuntimeCast(typeof(TabViewItem))]
+		private Task OpenDroppedTabAsync(DragEventArgs e)
+		{
 			var index = -1;
 
-			for (int i = 0; i < tabStrip.TabItems.Count; i++)
+			for (int i = 0; i < HorizontalTabView.TabItems.Count; i++)
 			{
-				var item = (tabStrip.ContainerFromIndex(i) as TabViewItem)!;
+				var item = (HorizontalTabView.ContainerFromIndex(i) as TabViewItem)!;
 
 				if (e.GetPosition(item).X - item.ActualWidth < 0)
 				{
@@ -221,6 +233,15 @@ namespace Files.App.UserControls.TabBar
 					break;
 				}
 			}
+
+			return OpenDroppedTabAsync(e.DataView, index);
+		}
+
+		public async Task OpenDroppedTabAsync(DataPackageView dataView, int index = -1)
+		{
+			if (!dataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) ||
+				tabViewItemPathObj is not string tabViewItemString)
+				return;
 
 			TabBarItemParameter tabViewItemArgs;
 			try
@@ -240,6 +261,7 @@ namespace Files.App.UserControls.TabBar
 		{
 			// Unsubscribe from the key down event, it's only needed when a tab is actively being dragged
 			PreviewKeyDown -= TabDragging_PreviewKeyDown;
+			IsDraggingOwnTab = false;
 
 			TabDragCompleted?.Invoke(this, args.Item as TabBarItem);
 
@@ -256,6 +278,7 @@ namespace Files.App.UserControls.TabBar
 		{
 			// Unsubscribe from the key down event, it's only needed when a tab is actively being dragged
 			PreviewKeyDown -= TabDragging_PreviewKeyDown;
+			IsDraggingOwnTab = false;
 
 			if (isCancelingDragOperation)
 				return;

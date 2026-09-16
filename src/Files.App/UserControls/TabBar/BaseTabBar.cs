@@ -23,6 +23,9 @@ namespace Files.App.UserControls.TabBar
 
 		public const string TabPathIdentifier = "FilesTabViewItemPath";
 
+		// True in the window whose tab is being dragged
+		public static bool IsDraggingOwnTab { get; protected set; }
+
 		// RecentlyClosedTabs is shared between all multitasking controls
 		public static Stack<TabBarItemParameter[]> RecentlyClosedTabs { get; private set; } = new();
 
