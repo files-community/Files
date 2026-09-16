@@ -511,7 +511,7 @@ namespace Files.App.Helpers
 				path += '\\';
 
 			fixed (char* pszPath = path)
-				PInvoke.SHChangeNotify(SHCNE_ID.SHCNE_UPDATEITEM, SHCNF_FLAGS.SHCNF_PATHW | SHCNF_FLAGS.SHCNF_FLUSHNOWAIT, pszPath, null);
+				PInvoke.SHChangeNotify(SHCNE_ID.SHCNE_UPDATEITEM, SHCNF_FLAGS.SHCNF_PATHW | SHCNF_FLAGS.SHCNF_FLUSH, pszPath, null);
 		}
 
 		public static Task<bool> MountVhdDisk(string vhdPath)
