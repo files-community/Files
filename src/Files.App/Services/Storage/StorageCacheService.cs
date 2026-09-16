@@ -8,6 +8,8 @@ namespace Files.App.Utils.Storage
 	/// <inheritdoc cref="IStorageCacheService"/>
 	internal sealed class StorageCacheService : IStorageCacheService
 	{
+		private const int MaxEntries = 10_000;
+
 		private readonly ConcurrentDictionary<string, string> cachedDictionary = new();
 
 		/// <inheritdoc/>
@@ -27,6 +29,9 @@ namespace Files.App.Utils.Storage
 				cachedDictionary.TryRemove(path, out _);
 				return ValueTask.CompletedTask;
 			}
+
+			if (cachedDictionary.Count >= MaxEntries && !cachedDictionary.ContainsKey(path))
+				return ValueTask.CompletedTask;
 
 			cachedDictionary[path] = displayName;
 

@@ -495,6 +495,43 @@ namespace Files.App.Helpers
 			RunPowershellCommand($"-command \"(New-Object -ComObject Shell.Application).NameSpace({ToPowerShellStringLiteral(driveName)}).Self.Name={ToPowerShellStringLiteral(newLabel)}\"", PowerShellExecutionOptions.Hidden);
 		}
 
+		/// <summary>
+		/// Returns the localized display name from the folder's desktop.ini, or null when there is none.
+		/// </summary>
+		public static unsafe string? GetLocalizedName(string path)
+		{
+			Span<char> resModule = stackalloc char[260];
+			int resId;
+
+			fixed (char* pszPath = path)
+			fixed (char* pszResModule = resModule)
+			{
+				if (PInvoke.SHGetLocalizedName(pszPath, pszResModule, (uint)resModule.Length, &resId).Failed)
+					return null;
+			}
+
+			int moduleLength = resModule.IndexOf('\0');
+			if (moduleLength <= 0)
+				return null;
+
+			// A zero resource id means desktop.ini held a literal name rather than a resource reference
+			if (resId == 0)
+				return resModule[..moduleLength].ToString();
+
+			// SHLoadIndirectString expands environment variables in the module path
+			var source = $"@{resModule[..moduleLength]},-{resId}";
+			Span<char> buffer = stackalloc char[512];
+			fixed (char* pszSource = source)
+			fixed (char* pszBuffer = buffer)
+			{
+				if (PInvoke.SHLoadIndirectString(pszSource, pszBuffer, (uint)buffer.Length, null).Failed)
+					return null;
+			}
+
+			int length = buffer.IndexOf('\0');
+			return length > 0 ? buffer[..length].ToString() : null;
+		}
+
 		public static Task<bool> MountVhdDisk(string vhdPath)
 		{
 			// Mounting requires elevation
