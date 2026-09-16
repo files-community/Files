@@ -58,7 +58,7 @@ namespace Files.App.Actions
 			{
 				var banner = StatusCenterHelper.AddCard_EmptyRecycleBin(ReturnResult.InProgress);
 
-				bool result = await Task.Run(StorageTrashBinService.EmptyTrashBin);
+				bool result = await StorageTrashBinService.EmptyTrashBinAsync();
 
 				StatusCenterViewModel.RemoveItem(banner);
 

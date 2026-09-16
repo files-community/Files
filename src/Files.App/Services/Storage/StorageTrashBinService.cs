@@ -97,16 +97,36 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public bool EmptyTrashBin()
+		public async Task<bool> EmptyTrashBinAsync()
 		{
-			// TODO: Use IFileOperation instead of its wrapper for the operation status to be reported.
-			var fRes = PInvoke.SHEmptyRecycleBin(
+			var fRes = await Task.Run(() => PInvoke.SHEmptyRecycleBin(
 				new(),
 				string.Empty,
 				0x00000001 | 0x00000002 /* SHERB_NOCONFIRMATION | SHERB_NOPROGRESSUI */)
-			.Succeeded;
+			.Succeeded);
+
+			// Refresh the desktop icon in the background so it doesn't hold up the operation's result
+			_ = RefreshDesktopIconAsync();
 
 			return fRes;
+		}
+
+		// SHEmptyRecycleBin from the packaged app doesn't refresh the desktop Recycle Bin icon. Running the same
+		// recycle check the delete dialog performs (it aborts without deleting anything) makes the shell refresh it.
+		private static async Task RefreshDesktopIconAsync()
+		{
+			// TestRecycleAsync aborts without deleting the probe, so a single dedicated file can be reused
+			var probeFile = Path.Combine(Path.GetTempPath(), "Files.RecycleBinRefreshProbe.dat");
+			try
+			{
+				if (!File.Exists(probeFile))
+					await File.WriteAllTextAsync(probeFile, string.Empty);
+
+				await FileOperationsHelpers.TestRecycleAsync([probeFile]);
+			}
+			catch
+			{
+			}
 		}
 
 		/// <inheritdoc/>
