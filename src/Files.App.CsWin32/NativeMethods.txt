@@ -247,6 +247,8 @@ SetFileAttributes
 INVALID_FILE_ATTRIBUTES
 SHDefExtractIconW
 GdipCreateBitmapFromHICON
+SHGetLocalizedName
+SHLoadIndirectString
 SHGetSetFolderCustomSettings
 FCSM_ICONFILE
 FCS_FORCEWRITE

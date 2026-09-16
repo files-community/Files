@@ -194,7 +194,15 @@ namespace Files.App.Utils.Storage
 
 			string itemName = await fileListCache.GetDisplayName(itemPath, cancellationToken);
 			if (string.IsNullOrEmpty(itemName))
+			{
 				itemName = findData.cFileName;
+
+				// The shell only reads desktop.ini for folders marked ReadOnly or System, and keeps the raw name for junctions
+				const FileAttributes desktopIniFlags = FileAttributes.ReadOnly | FileAttributes.System;
+				var attributes = (FileAttributes)findData.dwFileAttributes;
+				if ((attributes & desktopIniFlags) != 0 && (attributes & FileAttributes.ReparsePoint) == 0)
+					itemName = Win32Helper.GetLocalizedName(itemPath) ?? itemName;
+			}
 
 			bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
 			double opacity = 1;
