@@ -33,7 +33,8 @@ namespace Files.App.Actions
 			context.HasSelection &&
 			context.SelectedItems.Count is 1 &&
 			context.SelectedItem is not null &&
-			context.SelectedItem.PrimaryItemAttribute is StorageItemTypes.Folder;
+			context.SelectedItem.PrimaryItemAttribute is StorageItemTypes.Folder &&
+			!context.SelectedItem.IsArchive;
 
 		public FlattenFolderAction()
 		{
