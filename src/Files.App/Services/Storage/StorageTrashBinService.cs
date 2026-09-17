@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
@@ -97,36 +98,39 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public async Task<bool> EmptyTrashBinAsync()
+		public bool EmptyTrashBin()
 		{
-			var fRes = await Task.Run(() => PInvoke.SHEmptyRecycleBin(
+			IShellView? recycleBinView = null;
+			try
+			{
+				PInvoke.SHGetKnownFolderItem(FOLDERID.FOLDERID_RecycleBinFolder, KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, null, out IShellItem recycleBinFolder).ThrowOnFailure();
+				recycleBinFolder.BindToHandler(null, PInvoke.BHID_SFViewObject, out recycleBinView).ThrowOnFailure();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "Failed to create the Recycle Bin shell view.");
+			}
+
+			// TODO: Use IFileOperation instead of its wrapper for the operation status to be reported.
+			var fRes = PInvoke.SHEmptyRecycleBin(
 				new(),
 				string.Empty,
 				0x00000001 | 0x00000002 /* SHERB_NOCONFIRMATION | SHERB_NOPROGRESSUI */)
-			.Succeeded);
+			.Succeeded;
 
-			// Refresh the desktop icon in the background so it doesn't hold up the operation's result
-			_ = RefreshDesktopIconAsync();
+			if (fRes)
+			{
+				PInvoke.SHUpdateRecycleBinIcon();
+
+				if (recycleBinView is not null)
+				{
+					HRESULT hr = recycleBinView.Refresh();
+					if (hr.Failed)
+						App.Logger.LogWarning("Failed to refresh the Recycle Bin shell view. HRESULT: 0x{HResult:X8}", hr.Value);
+				}
+			}
 
 			return fRes;
-		}
-
-		// SHEmptyRecycleBin from the packaged app doesn't refresh the desktop Recycle Bin icon. Running the same
-		// recycle check the delete dialog performs (it aborts without deleting anything) makes the shell refresh it.
-		private static async Task RefreshDesktopIconAsync()
-		{
-			// TestRecycleAsync aborts without deleting the probe, so a single dedicated file can be reused
-			var probeFile = Path.Combine(Path.GetTempPath(), "Files.RecycleBinRefreshProbe.dat");
-			try
-			{
-				if (!File.Exists(probeFile))
-					await File.WriteAllTextAsync(probeFile, string.Empty);
-
-				await FileOperationsHelpers.TestRecycleAsync([probeFile]);
-			}
-			catch
-			{
-			}
 		}
 
 		/// <inheritdoc/>

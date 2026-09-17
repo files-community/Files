@@ -190,6 +190,8 @@ FILE_ACCESS_RIGHTS
 SHAddToRecentDocs
 SHARD
 BHID_EnumItems
+BHID_SFViewObject
+IShellView
 FOLDERID_RecycleBinFolder
 CoTaskMemFree
 SHGetIDListFromObject
