@@ -42,8 +42,20 @@ When completing a pull request, we will generally squash your changes into a sin
 let us know if your pull request needs to be merged as separate commits.
 
 ## Running interaction tests (optional)
-First, you will need to install WinAppDriver. You can download the latest version from [here](https://github.com/microsoft/WinAppDriver/releases).
-After installing WinAppDriver, you will need to run the Files.Package at least once to have the debug version be registered on your machine.
+The tests drive the app through [Appium](https://appium.io), which automates it using WinAppDriver.
+Install WinAppDriver, and Node.js to run Appium on:
+```powershell
+winget install Microsoft.WindowsApplicationDriver
+winget install OpenJS.NodeJS
+```
+Then install Appium and the Windows driver it automates through:
+```powershell
+npm install --global appium
+appium driver install --source=npm appium-windows-driver
+```
+The tests launch Appium themselves when it is not already running, so keep it on your `PATH`.
+
+Finally, you will need to run the Files.Package at least once to have the debug version be registered on your machine.
 Once you have the debug version registered, you can run the tests from the test explorer in Visual Studio.
 
 ## Review Process
