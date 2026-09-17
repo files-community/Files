@@ -4158,6 +4158,12 @@
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>Comanda rapidă pe care ați ales-o nu poate fii folosită, vă rugăm să încercați o altă comandă rapidă.</value>
   </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>Comenzi rapide tastatură</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>Sunteți sigur că doriți să eliminați această comandă rapidă?</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>Personalizat</value>
   </data>
