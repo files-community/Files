@@ -482,7 +482,8 @@ namespace Files.App.ViewModels.UserControls
 
 			var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
-			if (!storageItems.Any(storageItem =>
+			if (storageItems.ContainsDestinationOrAncestor(pathBoxItem.Path) ||
+				!storageItems.Any(storageItem =>
 					!string.IsNullOrEmpty(storageItem?.Path) &&
 					storageItem.Path.Replace(pathBoxItem.Path, string.Empty, StringComparison.Ordinal)
 						.Trim(Path.DirectorySeparatorChar)

@@ -1111,7 +1111,12 @@ namespace Files.App.Views.Layouts
 
 					var draggedItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
-					if (draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
+					// Dropping onto an executable or a script opens the dragged items with it, so only the item itself is rejected there
+					var isOpenWithTarget = item.IsExecutable || item.IsScriptFile;
+
+					if (isOpenWithTarget
+						? draggedItems.ContainsDestinationPath(item.ItemPath)
+						: draggedItems.ContainsDestinationOrAncestor(item.ItemPath))
 					{
 						e.AcceptedOperation = DataPackageOperation.None;
 					}

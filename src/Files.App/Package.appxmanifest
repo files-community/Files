@@ -196,7 +196,7 @@
         <rescap:Capability Name="unvirtualizedResources" />
         <!--
             The packageManagement capability is used to download updates in the sideload version of Files.
-            We only use this capability in the sideload version and remove it when compiling the store vesion in Azure DevOps.
+            We only use this capability in the sideload version and remove it when compiling the store version.
         -->
         <rescap:Capability Name="packageManagement" />
         <uap:Capability Name="removableStorage" />
