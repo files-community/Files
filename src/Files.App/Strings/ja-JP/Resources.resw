@@ -319,7 +319,7 @@
     <value>付与された権限</value>
   </data>
   <data name="WelcomeDialogTextBlockText" xml:space="preserve">
-    <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </value>
+    <value>開始するには、ファイル システムへのアクセスを許可してください。Windows の設定が開き、アクセス許可の付与を選択できます。設定の完了後、アプリケーションを再起動する必要があります。 </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>表示</value>
@@ -385,16 +385,16 @@
     <value>アプリの背景に設定</value>
   </data>
   <data name="AccessDeniedDeleteDialogText" xml:space="preserve">
-    <value>We weren't able to delete this item</value>
+    <value>このアイテムを削除できませんでした</value>
   </data>
   <data name="DriveUnpluggedDialogText" xml:space="preserve">
-    <value>Please insert the necessary drive to access this item.</value>
+    <value>このアイテムにアクセスするためにはドライブを挿入してください。</value>
   </data>
   <data name="DriveUnpluggedDialogTitle" xml:space="preserve">
     <value>Drive unplugged</value>
   </data>
   <data name="FileNotFoundDialogText" xml:space="preserve">
-    <value>The file you are attempting to access may have been moved or deleted.</value>
+    <value>このファイルは移動または削除された可能性があります。</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
     <value>このファイルのプロパティを開けません</value>
@@ -403,13 +403,13 @@
     <value>アクセスしようとしているファイルは移動または削除された可能性があります。</value>
   </data>
   <data name="FileNotFoundDialogTitle" xml:space="preserve">
-    <value>File Not Found</value>
+    <value>ファイルが見つかりません</value>
   </data>
   <data name="FolderNotFoundDialogText" xml:space="preserve">
-    <value>The folder you are attempting to access may have been moved or deleted.</value>
+    <value>このフォルダは移動または削除された可能性があります。</value>
   </data>
   <data name="FolderNotFoundDialogTitle" xml:space="preserve">
-    <value>Did you delete this folder?</value>
+    <value>このフォルダーを削除しましたか？</value>
   </data>
   <data name="FileInUseByDialogText" xml:space="preserve">
     <value>The file you are attempting to access is currently being used by {0}</value>
@@ -648,7 +648,7 @@
     <value>Item no longer exists</value>
   </data>
   <data name="RenameErrorNameInvalidText" xml:space="preserve">
-    <value>The name specified was invalid. Please check the desired item name and try again.</value>
+    <value>指定した名前は無効です。別の名前を試してください。</value>
   </data>
   <data name="RenameErrorNameInvalidTitle" xml:space="preserve">
     <value>Invalid item name</value>
@@ -4158,6 +4158,12 @@
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>選択したキーの割り当ては使用できません。異なるキーの割り当てを使用して再度試してください。</value>
+  </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>Keyboard shortcuts</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>Are you sure you want to remove this key binding?</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>カスタマイズされています</value>
