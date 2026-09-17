@@ -1209,7 +1209,7 @@
     <value>Nicht berechnet</value>
   </data>
   <data name="ViewSize" xml:space="preserve">
-    <value>Ansichtsgröße</value>
+    <value>Größe berechnen</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Unbekannt</value>
@@ -4157,6 +4157,12 @@
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>Die von dir gewählte Tastenbelegung kann nicht verwendet werden. Bitte versuche es erneut mit einer anderen Tastenbelegung.</value>
+  </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>Keyboard shortcuts</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>Are you sure you want to remove this key binding?</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Benutzerdefiniert</value>
