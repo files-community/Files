@@ -4158,6 +4158,12 @@
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>A chave vinculada que você escolheu não pode ser usada, por favor tente novamente utilizando uma chave vinculativa diferente.</value>
   </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>Atalhos do teclado</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>Tem certeza de que deseja remover este atalho de teclado?</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>Personalizado</value>
   </data>
