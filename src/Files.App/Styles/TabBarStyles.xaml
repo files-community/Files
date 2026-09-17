@@ -201,6 +201,17 @@
 								Style="{ThemeResource TabBarCloseButtonStyle}" />
 						</Grid>
 
+						<!--  Drop-into target highlight  -->
+						<Border
+							x:Name="StorageItemDragOverIndicator"
+							Grid.Column="1"
+							Margin="{Binding ElementName=TabContainer, Path=Margin}"
+							BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+							BorderThickness="2"
+							CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CornerRadius, Converter={StaticResource TopCornerRadiusFilterConverter}}"
+							IsHitTestVisible="False"
+							Visibility="Collapsed" />
+
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
 								<VisualState x:Name="Normal" />
@@ -481,6 +492,15 @@
 									<VisualState.Setters>
 										<Setter Target="LoadingIndicator.Visibility" Value="Visible" />
 										<Setter Target="IconBox.Visibility" Value="Collapsed" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+							<VisualStateGroup x:Name="StorageItemDropStates">
+								<VisualState x:Name="NoStorageItemDragOver" />
+								<VisualState x:Name="StorageItemDragOver">
+									<VisualState.Setters>
+										<Setter Target="StorageItemDragOverIndicator.Visibility" Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
