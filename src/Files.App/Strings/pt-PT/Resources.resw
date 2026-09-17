@@ -263,7 +263,7 @@
     <value>Abrir um novo separador</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Abrir uma ou várias páginas específicas</value>
+    <value>Abrir uma ou mais páginas específicas</value>
   </data>
   <data name="Desktop" xml:space="preserve">
     <value>Ambiente de trabalho</value>
@@ -1210,7 +1210,7 @@
     <value>Não calculado</value>
   </data>
   <data name="ViewSize" xml:space="preserve">
-    <value>Tamanho de exibição</value>
+    <value>Mostrar tamanho</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Desconhecido</value>
@@ -1258,7 +1258,7 @@
     <value>Mapear unidade de rede</value>
   </data>
   <data name="Pinned" xml:space="preserve">
-    <value>Afixada</value>
+    <value>Afixado</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Bibliotecas</value>
@@ -1843,7 +1843,7 @@
     <value>Etiqueta</value>
   </data>
   <data name="OpenFilesWithOneClick" xml:space="preserve">
-    <value>Abrir ficheiros com um só clique</value>
+    <value>Abrir ficheiros com um clique</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Caminho da pasta</value>
@@ -2158,10 +2158,10 @@
     <value>Abrir pastas com um clique</value>
   </data>
   <data name="OpenFolderWithOneClickInColumnsView" xml:space="preserve">
-    <value>Abrir pastas com um só clique na Vista em Colunas</value>
+    <value>Abrir pastas com um clique na vista em Colunas</value>
   </data>
   <data name="SingleClickToOpen" xml:space="preserve">
-    <value>Abrir itens com um só clique</value>
+    <value>Abrir itens com um clique</value>
   </data>
   <data name="SingleClickFoldersInColumnsViewHeader" xml:space="preserve">
     <value>Pastas na Vista em Colunas</value>
@@ -2374,7 +2374,7 @@
     <value>Definições</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>Clique duas vezes num espaço em branco para subir uma pasta</value>
+    <value>Dois cliques num espaço em branco para subir uma pasta</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
     <value>Ver mais</value>
@@ -3314,7 +3314,7 @@
     <value>Remotos</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
-    <value>Traduzir no Crowdin</value>
+    <value>Traduzir em Crowdin</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
     <value>Fetch</value>
@@ -4159,6 +4159,12 @@
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>Não pode utilizar a associação de teclas escolhida. Por favor escolha outra associação.</value>
   </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>Teclas de atalho</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>Tem a certeza de que deseja eliminar esta associação de teclas?</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>Personalizado</value>
   </data>
@@ -4295,16 +4301,16 @@
     <value>Menu de ações em separadores</value>
   </data>
   <data name="SplitPaneVertically" xml:space="preserve">
-    <value>Dividir verticalmente</value>
+    <value>Separar na vertical</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Divide o painel na vertical</value>
+    <value>Separar painel na vertical</value>
   </data>
   <data name="SplitPaneHorizontally" xml:space="preserve">
-    <value>Dividir horizontalmente</value>
+    <value>Separar na horizontal</value>
   </data>
   <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
-    <value>Dividir o painel na horizontal</value>
+    <value>Separar painel na horizontal</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Organizar verticalmente</value>
@@ -4319,7 +4325,7 @@
     <value>Organizar painéis horizontalmente</value>
   </data>
   <data name="SplitPane" xml:space="preserve">
-    <value>Dividir painel</value>
+    <value>Separar painel</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>Mostrar botão para ações de separador na barra de título</value>
@@ -4328,7 +4334,7 @@
     <value>Organizar painéis</value>
   </data>
   <data name="DualPaneSplitDirection" xml:space="preserve">
-    <value>Direção predefinida da divisão do painel duplo</value>
+    <value>Direção predefinida da separação de painel duplo</value>
   </data>
   <data name="DualPane" xml:space="preserve">
     <value>Modo de painel duplo</value>
@@ -4613,19 +4619,19 @@
     <value>Deslocamento</value>
   </data>
   <data name="ShowPinToSideBar" xml:space="preserve">
-    <value>Mostrar opção para Afixar em Acesso rápido</value>
+    <value>Mostrar opção Afixar em Acesso rápido</value>
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
-    <value>Mostrar opção para Afixar em Iniciar</value>
+    <value>Mostrar opção Afixar no menu Iniciar</value>
   </data>
   <data name="Toolbar" xml:space="preserve">
     <value>Barra de ferramentas</value>
   </data>
   <data name="CustomizeToolbar" xml:space="preserve">
-    <value>Personalizar a barra de ferramentas</value>
+    <value>Personalizar barra de ferramentas</value>
   </data>
   <data name="CustomizeToolbarDescription" xml:space="preserve">
-    <value>Personalizar os botões da barra de ferramentas</value>
+    <value>Personalizar botões da barra de ferramentas</value>
   </data>
   <data name="ChooseToolbarModeToCustomize" xml:space="preserve">
     <value>Escolher o modo da barra de ferramentas a personalizar</value>

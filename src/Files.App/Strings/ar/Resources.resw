@@ -4159,6 +4159,12 @@
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>ارتباط المفتاح الذي اخترته لا يمكن استخدامه، حاول مجدداً باستخدام ارتباط مختلف.</value>
   </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>Keyboard shortcuts</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>Are you sure you want to remove this key binding?</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>مخصص</value>
   </data>

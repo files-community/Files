@@ -124,7 +124,7 @@
     <value>کپی کردن مسیر</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>کپی مسیر آیتم</value>
+    <value>کپی کردن مسیر آیتم</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>کپی مسیر با نقل قول</value>
@@ -181,25 +181,25 @@
     <value>دسترسی یافته:</value>
   </data>
   <data name="RecentItemClearAllText" xml:space="preserve">
-    <value>Clear all items</value>
+    <value>پاک‌کردن همه موارد</value>
   </data>
   <data name="NavigationToolbarVisiblePathPlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>مسیری را برای پیمایش وارد کنید یا «&gt;» را تایپ کنید تا صفحه فرمان باز شود</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>جستجو</value>
   </data>
   <data name="SearchSettings" xml:space="preserve">
-    <value>Search settings...</value>
+    <value>جستجو تنظیمات...</value>
   </data>
   <data name="NoSearchResults" xml:space="preserve">
-    <value>No settings match your search.</value>
+    <value>هیچ تنظیماتی با جستجوی شما مطابقت ندارد.</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>فایل‌های مورد استفاده‌ی قبلی در اینجا نمایش داده می‌شوند</value>
   </data>
   <data name="RecentItemRemoveText" xml:space="preserve">
-    <value>Remove this item</value>
+    <value>حذف این مورد</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>منبع GitHub</value>
@@ -217,7 +217,7 @@
     <value>تم</value>
   </data>
   <data name="Font" xml:space="preserve">
-    <value>Font</value>
+    <value>قلم</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>نشان دادن پسوند فایل های شناخته شده</value>
@@ -238,22 +238,22 @@
     <value>پیشرفته</value>
   </data>
   <data name="CacheThumbnails" xml:space="preserve">
-    <value>Cache thumbnails</value>
+    <value>کش تصاویر بندانگشتی</value>
   </data>
   <data name="CacheSizeLimitDescription" xml:space="preserve">
-    <value>Maximum disk space to use for thumbnail cache (100-5000 MiB).</value>
+    <value>حداکثر فضای دیسک برای استفاده توسط حافظه پنهان تصاویر بندانگشتی (۱۰۰ تا ۵۰۰۰ مگابایت).</value>
   </data>
   <data name="CacheSizeLimit" xml:space="preserve">
-    <value>Cache size limit</value>
+    <value>محدودیت اندازه حافظه پنهان</value>
   </data>
   <data name="ClearCachedThumbnails" xml:space="preserve">
-    <value>Clear cached thumbnails to free up space</value>
+    <value>پاکسازی تصاویر بندانگشتی کش شده برای آزاد کردن فضا</value>
   </data>
   <data name="CurrentCacheSize" xml:space="preserve">
-    <value>Current cache size: </value>
+    <value>اندازه فعلی کش </value>
   </data>
   <data name="ClearCache" xml:space="preserve">
-    <value>Clear cache</value>
+    <value>پاکسازی حافظه موقت</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>ادامه دادن ازجائی که ترک کرده اید</value>
@@ -313,13 +313,13 @@
     <value>چسباندن به نوار کناری</value>
   </data>
   <data name="WelcomeDialogTitle" xml:space="preserve">
-    <value>Welcome to Files!</value>
+    <value>به فایل ها خوش آمدید!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>اجازه دادن</value>
   </data>
   <data name="WelcomeDialogTextBlockText" xml:space="preserve">
-    <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </value>
+    <value>برای شروع، شما باید به ما اجازه نمایش فایل‌هایتان را بدهید. با این کار، یک صفحه تنظیمات باز می شود که در آن می توانید این مجوز را به ما بدهید. پس از تکمیل این مرحله، باید برنامه را دوباره باز کنید. </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>نمایش</value>
@@ -337,7 +337,7 @@
     <value>تاریک</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
-    <value>System Theme</value>
+    <value>پوسته سیستم</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>استفاده از تنظیمات سیستم</value>
@@ -385,16 +385,16 @@
     <value>تنظیم بعنوان تصویر زمینه‌ی برنامه</value>
   </data>
   <data name="AccessDeniedDeleteDialogText" xml:space="preserve">
-    <value>We weren't able to delete this item</value>
+    <value>نتوانستیم این مورد را حذف کنیم</value>
   </data>
   <data name="DriveUnpluggedDialogText" xml:space="preserve">
-    <value>Please insert the necessary drive to access this item.</value>
+    <value>لطفا درایو لازم برای دسترسی به این آیتم را وارد یا متصل کنید.</value>
   </data>
   <data name="DriveUnpluggedDialogTitle" xml:space="preserve">
-    <value>Drive unplugged</value>
+    <value>درایو قطع شد</value>
   </data>
   <data name="FileNotFoundDialogText" xml:space="preserve">
-    <value>The file you are attempting to access may have been moved or deleted.</value>
+    <value>فایلی که می خواهید به آن دسترسی پیدا کنید ممکن است منتقل یا حذف شده باشد.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
     <value>نمیتوان جزئیات این فایل را باز کرد</value>
@@ -403,28 +403,28 @@
     <value>فایلی که می خواهید به آن دسترسی پیدا کنید ممکن است منتقل یا حذف شده باشد.</value>
   </data>
   <data name="FileNotFoundDialogTitle" xml:space="preserve">
-    <value>File Not Found</value>
+    <value>فایل یافت نشد</value>
   </data>
   <data name="FolderNotFoundDialogText" xml:space="preserve">
-    <value>The folder you are attempting to access may have been moved or deleted.</value>
+    <value>پوشه ای که می خواهید به آن دسترسی پیدا کنید ممکن است منتقل یا حذف شده باشد.</value>
   </data>
   <data name="FolderNotFoundDialogTitle" xml:space="preserve">
-    <value>Did you delete this folder?</value>
+    <value>آیا این پوشه را پاک کردید؟</value>
   </data>
   <data name="FileInUseByDialogText" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>فایلی که می‌خواهید به آن دسترسی پیدا کنید در حال حاضر توسط {0} استفاده می‌شود</value>
   </data>
   <data name="FileInUseDialogText" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>فایلی که می‌خواهید به آن دسترسی پیدا کنید، در حال حاضر توسط برنامه دیگری درحال استفاده است</value>
   </data>
   <data name="FileInUseDialogTitle" xml:space="preserve">
-    <value>File is in use</value>
+    <value>فایل درحال استفاده است</value>
   </data>
   <data name="CannotRunFileDialogTitle" xml:space="preserve">
-    <value>This app can't run on your PC</value>
+    <value>این برنامه روی رایانه شما اجرا نمی‌شود</value>
   </data>
   <data name="CannotRunFileDialogText" xml:space="preserve">
-    <value>To find a version for your PC, check with the software publisher.</value>
+    <value>برای یافتن نسخه‌ای مناسب رایانه خود، با ناشر نرم‌افزار بررسی کنید.</value>
   </data>
   <data name="Layout" xml:space="preserve">
     <value>چیدمان</value>
@@ -531,7 +531,7 @@
     <value>{0, number}{0, plural, one { فایل } other { فایل }}{1, number}{1, plural, one { پوشه } other { پوشه }}{2, number}{2, plural, one { مکان} other { مکان}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUserText" xml:space="preserve">
-    <value>Run as another user</value>
+    <value>اجرا به عنوان کاربر دیگر</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
     <value>همه نوع {0}</value>
@@ -642,22 +642,22 @@
     <value>درحال اشتراک {0} {1}</value>
   </data>
   <data name="RenameErrorItemDeletedText" xml:space="preserve">
-    <value>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</value>
+    <value>موردی که می‌خواهید نام آن را تغییر دهید دیگر وجود ندارد. لطفاً مکان صحیح آن را که می‌خواهید تغییر‌نام دهید را بررسی کنید.</value>
   </data>
   <data name="RenameErrorItemDeletedTitle" xml:space="preserve">
-    <value>Item no longer exists</value>
+    <value>مورد دیگر وجود ندارد</value>
   </data>
   <data name="RenameErrorNameInvalidText" xml:space="preserve">
-    <value>The name specified was invalid. Please check the desired item name and try again.</value>
+    <value>نام مشخص شده نامعتبر بود. لطفاً نام مورد نظر را بررسی کرده و دوباره امتحان کنید.</value>
   </data>
   <data name="RenameErrorNameInvalidTitle" xml:space="preserve">
-    <value>Invalid item name</value>
+    <value>نام مورد نامعتبر است</value>
   </data>
   <data name="RenameErrorTooLongText" xml:space="preserve">
-    <value>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</value>
+    <value>طول نام مورد نظر از حداکثر محدودیت کارکترها بیشتر است. لطفا نام مورد نظر را بررسی کنید و دوباره امتحان کنید.</value>
   </data>
   <data name="RenameErrorTooLongTitle" xml:space="preserve">
-    <value>Item name was too long</value>
+    <value>اسم مورد زیادی طولانی است</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
     <value>نمایش گزینه‌های بیشتر</value>
@@ -669,13 +669,13 @@
     <value>ما را در GitHub حمایت کنید</value>
   </data>
   <data name="AccessDeniedCreateDialogText" xml:space="preserve">
-    <value>We weren't able to create this item</value>
+    <value>ما قادر به ایجاد این مورد نیستیم</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>دسترسی رد شده است</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsText" xml:space="preserve">
-    <value>Set as</value>
+    <value>تنظیم تحت</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>لغو</value>
@@ -690,7 +690,7 @@
     <value>فایل</value>
   </data>
   <data name="Files" xml:space="preserve">
-    <value>Files</value>
+    <value>پرونده‌ها</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>ایجاد یک فایل خالی</value>
@@ -699,7 +699,7 @@
     <value>پوشه</value>
   </data>
   <data name="Folders" xml:space="preserve">
-    <value>Folders</value>
+    <value>پوشه‌ها</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>ایجاد یک پوشه خالی</value>
@@ -717,10 +717,10 @@
     <value>نمایش کادر تایید برای پاک کردن آیتم ها</value>
   </data>
   <data name="PropertySaveErrorMessageText" xml:space="preserve">
-    <value>There was an issue saving some properties.</value>
+    <value>مشکلی در ذخیره‌سازی بعضی از مشخصات وجود دارد.</value>
   </data>
   <data name="PropertySaveErrorDialogTitle" xml:space="preserve">
-    <value>Error</value>
+    <value>خطا</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>به هر حال ببند</value>
@@ -1104,10 +1104,10 @@
     <value>باز کردن در پنل جدید</value>
   </data>
   <data name="OpenInOtherPane" xml:space="preserve">
-    <value>Open in other pane</value>
+    <value>بازکردن در پنل دیگر</value>
   </data>
   <data name="OpenCurrentFolderInOtherPane" xml:space="preserve">
-    <value>Open current folder in other pane</value>
+    <value>بازکردن پوشهٔ جاری در پنل دیگر</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>فایل‌ها و پوشه‌ها</value>
@@ -1140,19 +1140,19 @@
     <value>نمایش جداره‌ی اطلاعات</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle visibility of the detail/preview panes</value>
+    <value>تغییر وضعیت نمایش پنل‌های جزئیات/پیش‌نمایش</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
     <value>جعبه ابزار</value>
   </data>
   <data name="ToggleToolbarDescription" xml:space="preserve">
-    <value>Toggle visibility of the toolbar</value>
+    <value>تغییر وضعیت نمایش نوار ابزار</value>
   </data>
   <data name="ToggleFilterHeader" xml:space="preserve">
     <value>فعالسازی فیلتر نام</value>
   </data>
   <data name="ToggleFilterHeaderDescription" xml:space="preserve">
-    <value>Toggle visibility of the filter header</value>
+    <value>تغییر وضعیت نمایش سربرگ فیلتر</value>
   </data>
   <data name="ToggleDualPane" xml:space="preserve">
     <value>Toggle dual pane</value>
@@ -1167,7 +1167,7 @@
     <value>نام آیتم</value>
   </data>
   <data name="Unpin" xml:space="preserve">
-    <value>Unpin</value>
+    <value>حذف سنجاق</value>
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>جدا کردن از نوار کناری</value>
@@ -1209,7 +1209,7 @@
     <value>محاسبه نشده</value>
   </data>
   <data name="ViewSize" xml:space="preserve">
-    <value>View size</value>
+    <value>مشاهده اندازه</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>نامشخص</value>
@@ -1323,7 +1323,7 @@
     <value>Open the Storage Sense page in Windows Settings</value>
   </data>
   <data name="Cleanup" xml:space="preserve">
-    <value>Cleanup</value>
+    <value>پاک‌سازی</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>کپی</value>
@@ -1920,16 +1920,16 @@
     <value>ثبت این برنامه برای راه‌اندازی مجدد</value>
   </data>
   <data name="StartWindow" xml:space="preserve">
-    <value>Start window</value>
+    <value>شروع پنجره</value>
   </data>
   <data name="NormalWindow" xml:space="preserve">
-    <value>Normal window</value>
+    <value>پنجره معمولی</value>
   </data>
   <data name="Minimized" xml:space="preserve">
-    <value>Minimized</value>
+    <value>کوچک‌شده</value>
   </data>
   <data name="Maximized" xml:space="preserve">
-    <value>Maximized</value>
+    <value>حداکثر شده</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>اجرا به عنوان مدیر</value>
@@ -1953,7 +1953,7 @@
     <value>بدون کاهش رنگ</value>
   </data>
   <data name="ThirdPartyLibraries" xml:space="preserve">
-    <value>Third party libraries</value>
+    <value>کتابخانه‌های شخص ثالث</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>این گزینه، رجیستری سیستم (ثبّات سیستم) را تغییر می‌دهد و می‌تواند عوارض جانبی غیرمنتظره‌ای روی دستگاه شما داشته باشد. با مسئولیت خود ادامه دهید.</value>
@@ -2040,7 +2040,7 @@
     <value>بستن سایر زبانه ها</value>
   </data>
   <data name="CloseAllTabs" xml:space="preserve">
-    <value>Close all tabs</value>
+    <value>بستن همه زبانه‌ها</value>
   </data>
   <data name="Music" xml:space="preserve">
     <value>موسیقی</value>
@@ -2076,7 +2076,7 @@
     <value>سفارشی</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
-    <value>Slideshow</value>
+    <value>نمایش نمابرگ</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
     <value>تنظیم به عنوان اسلایدشو دسکتاپ</value>
@@ -2085,13 +2085,13 @@
     <value>تناسب سایز همه‌ی ستون‌ها</value>
   </data>
   <data name="AutoFitColumns" xml:space="preserve">
-    <value>Auto-fit columns</value>
+    <value>تنظیم خودکار عرض ستون‌ها</value>
   </data>
   <data name="AutoFitColumnsDescription" xml:space="preserve">
-    <value>Resize columns to fit their content</value>
+    <value>تغییر اندازه ستون‌ها متناسب با محتوای آن‌ها</value>
   </data>
   <data name="AutoSizeColumnsInDetailsLayout" xml:space="preserve">
-    <value>Automatically fit columns to content</value>
+    <value>تنظیم خودکار اندازه ستون‌ها متناسب با محتوا</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>چیدمان تطبیقی</value>
@@ -2109,22 +2109,22 @@
     <value>رفتارها</value>
   </data>
   <data name="Hello" xml:space="preserve">
-    <value>Hello!</value>
+    <value>سلام!</value>
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
-    <value>Enjoying Files? Please consider reviewing in the Microsoft Store.</value>
+    <value>از برنامه فایل‌ها لذت می‌برید؟ لطفاً ثبت نظر در مایکروسافت استور را در نظر بگیرید.</value>
   </data>
   <data name="SponsorSubtitle" xml:space="preserve">
-    <value>Enjoying Files? Please consider supporting the project on GitHub.</value>
+    <value>از فایل‌ها لذت می‌برید؟ لطفاً حمایت از این پروژه در گیت‌هاب را در نظر بگیرید.</value>
   </data>
   <data name="Sponsor" xml:space="preserve">
-    <value>Sponsor</value>
+    <value>حامی مالی</value>
   </data>
   <data name="RateUs" xml:space="preserve">
-    <value>Rate us</value>
+    <value>به ما رای دهید</value>
   </data>
   <data name="Dismiss" xml:space="preserve">
-    <value>Dismiss</value>
+    <value>رد کردن</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>تنظیم بعنوان پس زمینه</value>
@@ -2175,10 +2175,10 @@
     <value>Move all contents from subfolders into the selected location</value>
   </data>
   <data name="FlattenFolder" xml:space="preserve">
-    <value>Flatten folder</value>
+    <value>پوشه مسطح</value>
   </data>
   <data name="Flatten" xml:space="preserve">
-    <value>Flatten</value>
+    <value>مسطح</value>
   </data>
   <data name="FlattenFolderDialogContent" xml:space="preserve">
     <value>Flattening a folder will move all contents from its subfolders to the selected location. This operation is permanent and cannot be undone. By using this experimental feature, you acknowledge the risk and agree not to hold the Files team responsible for any data loss.</value>
@@ -2220,7 +2220,7 @@
     <value>رمز آرشیو</value>
   </data>
   <data name="Encoding" xml:space="preserve">
-    <value>Encoding</value>
+    <value>رمزگذاری</value>
   </data>
   <data name="EncodingDetected" xml:space="preserve">
     <value>{0} (detected)</value>
@@ -2241,10 +2241,10 @@
     <value>The following {0, plural, one {item} other {items}} can''t be compressed. Would you like to skip {0, plural, one {this item} other {these items}}?</value>
   </data>
   <data name="CompressIntoZip" xml:space="preserve">
-    <value>Create zip archive</value>
+    <value>ایجاد آرشیو زیپ</value>
   </data>
   <data name="CompressIntoSevenZip" xml:space="preserve">
-    <value>Create 7z archive</value>
+    <value>ایجاد آرشیو 7z</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>ايجاد</value>
@@ -2280,22 +2280,22 @@
     <value>اندازه تقسیم</value>
   </data>
   <data name="DoNotSplit" xml:space="preserve">
-    <value>Do not split</value>
+    <value>تفکیک نشود</value>
   </data>
   <data name="Auto" xml:space="preserve">
-    <value>Auto</value>
+    <value>خودکار</value>
   </data>
   <data name="DictionarySize" xml:space="preserve">
-    <value>Dictionary size</value>
+    <value>اندازه فرهنگ لغت</value>
   </data>
   <data name="WordSize" xml:space="preserve">
-    <value>Word size</value>
+    <value>اندازهٔ واژه</value>
   </data>
   <data name="EstimatedMemoryUsage" xml:space="preserve">
-    <value>Estimated memory usage: {0}</value>
+    <value>میزان تخمینی مصرف حافظه: {0}</value>
   </data>
   <data name="AvailableMemory" xml:space="preserve">
-    <value>Available memory: {0}</value>
+    <value>حافظهٔ موجود: {0}</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>سی‌دی</value>
@@ -2352,13 +2352,13 @@
     <value>ویرایش فایل تنظیمات</value>
   </data>
   <data name="EditSettingsFileDescription" xml:space="preserve">
-    <value>Open settings file in your default editor</value>
+    <value>بازکردن فایل تنظیمات در ویرایشگر پیش‌فرض</value>
   </data>
   <data name="ReleaseNotes" xml:space="preserve">
-    <value>Release Notes</value>
+    <value>یادداشت‌های انتشار</value>
   </data>
   <data name="ReleaseNotesDescription" xml:space="preserve">
-    <value>Open Release Notes</value>
+    <value>باز کردن یادداشت‌های انتشار</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>ایجاد میانبر در این مکان نیاز به مجوز های سرپرست دارد</value>
@@ -2406,7 +2406,7 @@
     <value>مشخصات مرا به خاطر بسپار</value>
   </data>
   <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
-    <value>Network folder error</value>
+    <value>خطای پوشه شبکه</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
     <value>نسخه برنامه</value>
@@ -2439,7 +2439,7 @@
     <value>گزینه‌های منوی زمینه</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>File extensions</value>
+    <value>پسوند فایل</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
     <value>فرمت</value>
@@ -2448,16 +2448,16 @@
     <value>راهنما</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Full screen</value>
+    <value>تمام‌صفحه</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
-    <value>Are you sure you want to delete this tag?</value>
+    <value>آیا مطمئن هستید که می خواهید این برچسب را حذف کنید؟</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Play All</value>
+    <value>پخش همه</value>
   </data>
   <data name="Play" xml:space="preserve">
-    <value>Play</value>
+    <value>پخش</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>ارتفاع</value>
@@ -2691,13 +2691,13 @@
     <value>Set selected picture as the app background</value>
   </data>
   <data name="InstallFont" xml:space="preserve">
-    <value>Install font</value>
+    <value>نصب قلم</value>
   </data>
   <data name="InstallDriver" xml:space="preserve">
-    <value>Install driver</value>
+    <value>نصب درایور</value>
   </data>
   <data name="InstallCertificate" xml:space="preserve">
-    <value>Install certificate</value>
+    <value>نصب گواهی</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Install selected {0, plural, one {font} other {fonts}}</value>
@@ -3115,13 +3115,13 @@
     <value>بدون برچسب</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Previous tab</value>
+    <value>برگه قبلي</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Next tab</value>
+    <value>برگه بعدی</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Close tab</value>
+    <value>بستن برگه</value>
   </data>
   <data name="EditPath" xml:space="preserve">
     <value>ویرایش مسیر</value>
@@ -3190,7 +3190,7 @@
     <value>ماه</value>
   </data>
   <data name="Day" xml:space="preserve">
-    <value>Day</value>
+    <value>روز</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Toggle unit for grouping by date</value>
@@ -3374,7 +3374,7 @@
     <value>میکا -گونه دیگر</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Backdrop</value>
+    <value>پس زمینه</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>پیوسته</value>
@@ -3407,7 +3407,7 @@
     <value>Files cannot access GitHub right now.</value>
   </data>
   <data name="OpenInIDE" xml:space="preserve">
-    <value>Open folder in {0}</value>
+    <value>باز کردن پوشه در {0}</value>
   </data>
   <data name="OpenInIDEDescription" xml:space="preserve">
     <value>Open the current directory in {0}</value>
@@ -4158,6 +4158,12 @@
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>The key binding you choose cannot be used, please try again using a different key binding.</value>
   </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>Keyboard shortcuts</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>Are you sure you want to remove this key binding?</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>Customized</value>
   </data>
@@ -4609,7 +4615,7 @@
     <value>Enable smooth scrolling</value>
   </data>
   <data name="Scrolling" xml:space="preserve">
-    <value>Scrolling</value>
+    <value>پیمایش</value>
   </data>
   <data name="ShowPinToSideBar" xml:space="preserve">
     <value>Show option to Pin to Sidebar</value>
@@ -4618,10 +4624,10 @@
     <value>Show option to Pin to the Start Menu</value>
   </data>
   <data name="Toolbar" xml:space="preserve">
-    <value>Toolbar</value>
+    <value>نوار ابزار</value>
   </data>
   <data name="CustomizeToolbar" xml:space="preserve">
-    <value>Customize toolbar</value>
+    <value>شخصی سازی نوار ابزار</value>
   </data>
   <data name="CustomizeToolbarDescription" xml:space="preserve">
     <value>Customize toolbar buttons</value>
@@ -4630,79 +4636,79 @@
     <value>Choose toolbar mode to customize</value>
   </data>
   <data name="AlwaysVisible" xml:space="preserve">
-    <value>Always visible</value>
+    <value>همیشه نمایان</value>
   </data>
   <data name="ArchiveFiles" xml:space="preserve">
-    <value>Archive files</value>
+    <value>فایل‌های فشرده</value>
   </data>
   <data name="BatchFiles" xml:space="preserve">
-    <value>Batch files</value>
+    <value>فایل‌های دسته‌ای</value>
   </data>
   <data name="PowerShellFiles" xml:space="preserve">
-    <value>PowerShell files</value>
+    <value>فایل‌های پاورشل</value>
   </data>
   <data name="MediaFiles" xml:space="preserve">
-    <value>Media files</value>
+    <value>فایل‌های رسانه</value>
   </data>
   <data name="FontFiles" xml:space="preserve">
-    <value>Font files</value>
+    <value>فایل‌های قلم</value>
   </data>
   <data name="DriverFiles" xml:space="preserve">
-    <value>Driver files</value>
+    <value>فایل‌های درایور</value>
   </data>
   <data name="CertificateFiles" xml:space="preserve">
-    <value>Certificate files</value>
+    <value>فایل‌های گواهی‌</value>
   </data>
   <data name="OtherContexts" xml:space="preserve">
-    <value>Other contexts</value>
+    <value>سایر زمینه‌ها</value>
   </data>
   <data name="Archive" xml:space="preserve">
-    <value>Archive</value>
+    <value>آرشیو</value>
   </data>
   <data name="Run" xml:space="preserve">
-    <value>Run</value>
+    <value>اجرا</value>
   </data>
   <data name="Start" xml:space="preserve">
-    <value>Start</value>
+    <value>آغاز</value>
   </data>
   <data name="Selection" xml:space="preserve">
-    <value>Selection</value>
+    <value>انتخاب</value>
   </data>
   <data name="Show" xml:space="preserve">
-    <value>Show</value>
+    <value>نمایش</value>
   </data>
   <data name="Navigation" xml:space="preserve">
-    <value>Navigation</value>
+    <value>پیمایش</value>
   </data>
   <data name="FileSystem" xml:space="preserve">
-    <value>File system</value>
+    <value>سیستم فایل</value>
   </data>
   <data name="Window" xml:space="preserve">
-    <value>Window</value>
+    <value>پنجره</value>
   </data>
   <data name="DualPaneCategory" xml:space="preserve">
     <value>Dual Pane</value>
   </data>
   <data name="ResetDefaults" xml:space="preserve">
-    <value>Reset defaults</value>
+    <value>بازنشانی به پیش‌فرض‌ها</value>
   </data>
   <data name="Separator" xml:space="preserve">
-    <value>Separator</value>
+    <value>جداکننده</value>
   </data>
   <data name="Icon" xml:space="preserve">
-    <value>Icon</value>
+    <value>نماد</value>
   </data>
   <data name="Label" xml:space="preserve">
-    <value>Label</value>
+    <value>برچسب</value>
   </data>
   <data name="ShowToolbarLabels" xml:space="preserve">
-    <value>Show label</value>
+    <value>نمایش برچسب</value>
   </data>
   <data name="ShowToolbarIconOnly" xml:space="preserve">
-    <value>Show icon</value>
+    <value>نمایش نماد</value>
   </data>
   <data name="AvailableToolbarItems" xml:space="preserve">
-    <value>Available items</value>
+    <value>موارد دردسترس</value>
   </data>
   <data name="AddedToolbarItems" xml:space="preserve">
     <value>Added items</value>
@@ -4720,7 +4726,7 @@
     <value>Add or remove file tags</value>
   </data>
   <data name="RemoveTags" xml:space="preserve">
-    <value>Remove tags</value>
+    <value>حذف برچسب‌ها</value>
   </data>
   <data name="RemoveTagsDescription" xml:space="preserve">
     <value>Remove tags from the selected items</value>
