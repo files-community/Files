@@ -28,6 +28,12 @@ namespace Files.App.UserControls.TabBar
 
 		private TabViewItem? hoveredTabViewItem;
 
+		// Tab that currently shows the drop indicator
+		private TabViewItem? dropTargetTabViewItem;
+
+		// Used to discard drag over results that resolved after the pointer already left the tab
+		private int dragOverRevision;
+
 		private bool _lockDropOperation = false;
 
 		// Starting position when dragging a tab
@@ -110,6 +116,9 @@ namespace Files.App.UserControls.TabBar
 			if (sender is not TabViewItem { DataContext: TabBarItem { TabItemContent: { } tabContent } })
 				return;
 
+			dragOverRevision++;
+			SetDropTargetTabViewItem(null);
+
 			await tabContent.TabItemDrop(sender, e);
 			HorizontalTabView.CanReorderTabs = true;
 			tabHoverTimer.Stop();
@@ -120,19 +129,42 @@ namespace Files.App.UserControls.TabBar
 			if (sender is not TabViewItem { DataContext: TabBarItem { TabItemContent: { } tabContent } } tabViewItem)
 				return;
 
+			var revision = ++dragOverRevision;
+
 			await tabContent.TabItemDragOver(sender, e);
+
+			if (revision != dragOverRevision)
+				return;
+
 			if (e.AcceptedOperation != DataPackageOperation.None)
 			{
 				HorizontalTabView.CanReorderTabs = false;
 				tabHoverTimer.Start();
 				hoveredTabViewItem = tabViewItem;
+				SetDropTargetTabViewItem(tabViewItem);
 			}
 		}
 
 		private void TabViewItem_DragLeave(object sender, DragEventArgs e)
 		{
+			dragOverRevision++;
 			tabHoverTimer.Stop();
 			hoveredTabViewItem = null;
+			SetDropTargetTabViewItem(null);
+		}
+
+		private void SetDropTargetTabViewItem(TabViewItem? tabViewItem)
+		{
+			if (dropTargetTabViewItem == tabViewItem)
+				return;
+
+			if (dropTargetTabViewItem is not null)
+				VisualStateManager.GoToState(dropTargetTabViewItem, "NoStorageItemDragOver", true);
+
+			dropTargetTabViewItem = tabViewItem;
+
+			if (tabViewItem is not null)
+				VisualStateManager.GoToState(tabViewItem, "StorageItemDragOver", true);
 		}
 
 		// Select tab that is hovered over for a certain duration
@@ -194,6 +226,8 @@ namespace Files.App.UserControls.TabBar
 		private void TabView_DragLeave(object sender, DragEventArgs e)
 		{
 			HorizontalTabView.CanReorderTabs = WindowContext.CanDragAndDrop;
+			dragOverRevision++;
+			SetDropTargetTabViewItem(null);
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(TabView))]
