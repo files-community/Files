@@ -3699,7 +3699,7 @@
     <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCheckoutCanceled_Header" xml:space="preserve">
-    <value>Canceled switching to "{0}" in "{1}"</value>
+    <value>Anulowano przełączenie na "{0}" w "{1}"</value>
     <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitCheckoutComplete_Header" xml:space="preserve">
@@ -4157,6 +4157,12 @@
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>Wybrany przez ciebie skrót klawiszowy nie może być użyty. Spróbuj ponownie, wybierając inny.</value>
+  </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>Keyboard shortcuts</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>Czy na pewno chcesz usunąć ten skrót klawiszowy?</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Dostosuj</value>
