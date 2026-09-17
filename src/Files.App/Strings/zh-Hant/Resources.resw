@@ -181,7 +181,7 @@
     <value>存取日期：</value>
   </data>
   <data name="RecentItemClearAllText" xml:space="preserve">
-    <value>Clear all items</value>
+    <value>清除所有項目</value>
   </data>
   <data name="NavigationToolbarVisiblePathPlaceholderText" xml:space="preserve">
     <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
@@ -199,7 +199,7 @@
     <value>您最近開啟過的檔案和資料夾將顯示在此處</value>
   </data>
   <data name="RecentItemRemoveText" xml:space="preserve">
-    <value>Remove this item</value>
+    <value>移除這個項目</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>GitHub 軟體源</value>
@@ -250,7 +250,7 @@
     <value>清除縮圖快取以釋放空間</value>
   </data>
   <data name="CurrentCacheSize" xml:space="preserve">
-    <value>當前快取大小： </value>
+    <value>目前快取大小：</value>
   </data>
   <data name="ClearCache" xml:space="preserve">
     <value>清除快取</value>
@@ -313,7 +313,7 @@
     <value>釘選至側邊欄</value>
   </data>
   <data name="WelcomeDialogTitle" xml:space="preserve">
-    <value>Welcome to Files!</value>
+    <value>歡迎使用 Files！</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>取得權限</value>
@@ -385,7 +385,7 @@
     <value>設定為應用程式背景</value>
   </data>
   <data name="AccessDeniedDeleteDialogText" xml:space="preserve">
-    <value>We weren't able to delete this item</value>
+    <value>我們無法刪除這個項目</value>
   </data>
   <data name="DriveUnpluggedDialogText" xml:space="preserve">
     <value>Please insert the necessary drive to access this item.</value>
@@ -403,13 +403,13 @@
     <value>目標檔案可能已被移動或刪除。</value>
   </data>
   <data name="FileNotFoundDialogTitle" xml:space="preserve">
-    <value>File Not Found</value>
+    <value>找不到檔案</value>
   </data>
   <data name="FolderNotFoundDialogText" xml:space="preserve">
     <value>The folder you are attempting to access may have been moved or deleted.</value>
   </data>
   <data name="FolderNotFoundDialogTitle" xml:space="preserve">
-    <value>Did you delete this folder?</value>
+    <value>你刪除這個資料夾了嗎？</value>
   </data>
   <data name="FileInUseByDialogText" xml:space="preserve">
     <value>The file you are attempting to access is currently being used by {0}</value>
@@ -418,10 +418,10 @@
     <value>The file you are attempting to access is currently being used by another application</value>
   </data>
   <data name="FileInUseDialogTitle" xml:space="preserve">
-    <value>File is in use</value>
+    <value>檔案使用中</value>
   </data>
   <data name="CannotRunFileDialogTitle" xml:space="preserve">
-    <value>This app can't run on your PC</value>
+    <value>此應用程式無法在您的電腦上執行</value>
   </data>
   <data name="CannotRunFileDialogText" xml:space="preserve">
     <value>To find a version for your PC, check with the software publisher.</value>
@@ -720,7 +720,7 @@
     <value>There was an issue saving some properties.</value>
   </data>
   <data name="PropertySaveErrorDialogTitle" xml:space="preserve">
-    <value>Error</value>
+    <value>錯誤</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>仍要關閉</value>
@@ -1209,7 +1209,7 @@
     <value>未計算</value>
   </data>
   <data name="ViewSize" xml:space="preserve">
-    <value>View size</value>
+    <value>檢視大小</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>未知</value>
@@ -1542,7 +1542,7 @@
     <value>擁有者：</value>
   </data>
   <data name="SecurityUnknownOwnerTextText" xml:space="preserve">
-    <value>Unknown owner</value>
+    <value>未知的擁有者</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>解壓縮檔案</value>
@@ -1623,31 +1623,31 @@
     <value>Append data</value>
   </data>
   <data name="SecurityChangePermissionsLabelText" xml:space="preserve">
-    <value>Change permission</value>
+    <value>變更權限</value>
   </data>
   <data name="SecurityCreateDirectoriesLabelText" xml:space="preserve">
-    <value>Create folders</value>
+    <value>建立資料夾</value>
   </data>
   <data name="SecurityCreateFilesLabelText" xml:space="preserve">
-    <value>Create files</value>
+    <value>建立檔案</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabelText" xml:space="preserve">
-    <value>Delete subdirectories and files</value>
+    <value>刪除子資料夾和檔案</value>
   </data>
   <data name="SecurityExecuteFileLabelText" xml:space="preserve">
-    <value>Execute files</value>
+    <value>執行檔案</value>
   </data>
   <data name="SecurityReadAttributesLabelText" xml:space="preserve">
     <value>Read attributes</value>
   </data>
   <data name="SecurityReadDataLabelText" xml:space="preserve">
-    <value>Read data</value>
+    <value>讀取資料</value>
   </data>
   <data name="SecurityReadExtendedAttributesLabelText" xml:space="preserve">
     <value>Read extended attributes</value>
   </data>
   <data name="SecurityReadPermissionsLabelText" xml:space="preserve">
-    <value>Read permissions</value>
+    <value>讀取權限</value>
   </data>
   <data name="SecurityTakeOwnershipLabelText" xml:space="preserve">
     <value>Take ownership</value>
@@ -3464,7 +3464,7 @@
     <value>在分割畫面另一側開啟選取的目錄</value>
   </data>
   <data name="OpenCurrentFolderInOtherPaneDescription" xml:space="preserve">
-    <value>Open the current folder in the other pane</value>
+    <value>在另一欄中開啟目前資料夾</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>在分頁中開啟選取的目錄</value>
@@ -3731,7 +3731,7 @@
     <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitOperationProgress" xml:space="preserve">
-    <value>{0}% complete</value>
+    <value>{0}% 完成</value>
     <comment>Shown in Status Center during a Git operation. {0} is the percentage from 0 to 100.</comment>
   </data>
   <data name="StatusCenter_GitPullCanceled_Header" xml:space="preserve">
@@ -4158,6 +4158,12 @@
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>此按鍵組合無法使用，請使用其他按鍵組合</value>
   </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>鍵盤快速鍵</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>Are you sure you want to remove this key binding?</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>自訂</value>
   </data>
@@ -4254,7 +4260,7 @@
     <comment>This is the friendly name for image files.</comment>
   </data>
   <data name="AllSupportedFiles" xml:space="preserve">
-    <value>All supported files</value>
+    <value>所有支援的檔案</value>
   </data>
   <data name="ConvertToIconRequiredMessage" xml:space="preserve">
     <value>This image needs to be converted into an icon file before it can be used. Choose a location to save the converted icon file.</value>
