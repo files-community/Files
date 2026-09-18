@@ -17,7 +17,6 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Windows.CsWin32" PrivateAssets="all" />
-        <PackageReference Include="Dongle.GuidRVAGen" />
     </ItemGroup>
 
     <ItemGroup>
