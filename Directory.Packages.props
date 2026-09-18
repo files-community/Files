@@ -19,36 +19,36 @@
     <PackageVersion Include="CommunityToolkit.WinUI.Helpers" Version="8.2.251219" />
     <PackageVersion Include="CommunityToolkit.WinUI.Triggers" Version="8.2.251219" />
     <PackageVersion Include="DiscUtils.Udf" Version="0.16.13" />
-    <PackageVersion Include="FluentFTP" Version="54.2.0" />
+    <PackageVersion Include="FluentFTP" Version="55.0.0" />
     <PackageVersion Include="LibGit2Sharp" Version="0.999.32" />
     <PackageVersion Include="MessageFormat" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.Data.Sqlite.Core" Version="10.0.11" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.11" />
-    <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.11" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="10.0.11" />
+    <PackageVersion Include="Microsoft.Data.Sqlite.Core" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2705" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.1" />
     <PackageVersion Include="OwlCore.Storage" Version="0.15.0" />
-    <PackageVersion Include="Sentry" Version="6.9.0" />
+    <PackageVersion Include="Sentry" Version="6.11.0" />
     <PackageVersion Include="SevenZipSharp" Version="1.0.3" />
     <PackageVersion Include="SharpZipLib" Version="1.4.2" />
-    <PackageVersion Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
+    <PackageVersion Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="2.5.1" />
-    <PackageVersion Include="Microsoft.Windows.AI.MachineLearning" Version="2.1.74" />
+    <PackageVersion Include="Microsoft.Windows.AI.MachineLearning" Version="2.3.42" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.AI" Version="2.5.5" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.ML" Version="2.1.94" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.Widgets" Version="2.0.5" />
     <PackageVersion Include="Microsoft.Graphics.Win2D" Version="1.4.0" />
     <PackageVersion Include="TagLibSharp" Version="2.3.0" />
-    <PackageVersion Include="UTF.Unknown" Version="2.6.0" />
+    <PackageVersion Include="UTF.Unknown" Version="2.7.0" />
     <PackageVersion Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
     <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.333" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="5.9.0" />
     <PackageVersion Include="PolySharp" Version="1.16.0" />
-    <PackageVersion Include="System.Drawing.Common" Version="10.0.11" />
+    <PackageVersion Include="System.Drawing.Common" Version="10.0.12" />
     <PackageVersion Include="System.Text.Json" Version="10.0.12" />
-    <PackageVersion Include="System.IO.Hashing" Version="10.0.11" />
+    <PackageVersion Include="System.IO.Hashing" Version="10.0.12" />
     <PackageVersion Include="Appium.WebDriver" Version="9.0.0" />
     <PackageVersion Include="Axe.Windows" Version="2.4.2" />
     <PackageVersion Include="MSTest.TestAdapter" Version="4.4.1" />
