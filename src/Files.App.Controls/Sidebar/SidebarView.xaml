@@ -12,14 +12,12 @@
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
-		<DataTemplate
-			x:Key="DefaultSidebarItemTemplate"
-			x:DataType="local:FlatSidebarItem">
+		<DataTemplate x:Key="DefaultSidebarItemTemplate" x:DataType="local:FlatSidebarItem">
 			<local:SidebarItem
+				Margin="{x:Bind SectionGapMargin, Mode=OneWay}"
 				ContentOpacity="{x:Bind RowOpacity}"
 				DataContext="{x:Bind}"
 				Item="{x:Bind Item}"
-				Margin="{x:Bind SectionGapMargin, Mode=OneWay}"
 				NestingLevel="{x:Bind Depth}"
 				UseItemPresentation="True" />
 		</DataTemplate>

@@ -1,0 +1,51 @@
+<!--  Copyright (c) Files Community. SPDX-License-Identifier: MPL-2.0  -->
+<controls:WindowedDialog
+	x:Class="Files.App.UITests.Dialogs.PropertiesDialog"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="using:Files.App.UITests.Dialogs"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Title="Properties"
+	mc:Ignorable="d">
+
+
+	<controls:WindowedDialog.Header>
+		<SelectorBar Padding="12,4" SelectionChanged="SelectorBar_SelectionChanged">
+			<SelectorBarItem
+				IsSelected="True"
+				Tag="PropertiesGeneralPage"
+				Text="General" />
+			<SelectorBarItem Tag="PropertiesSignaturesPage" Text="Signatures" />
+			<SelectorBarItem Tag="PropertiesSecurityPage" Text="Security" />
+			<SelectorBarItem Tag="PropertiesDetailsPage" Text="Details" />
+			<SelectorBarItem Tag="PropertiesHashesPage" Text="Hashes" />
+			<SelectorBarItem Tag="PropertiesCompatibilityPage" Text="Compatibility" />
+		</SelectorBar>
+	</controls:WindowedDialog.Header>
+
+	<Frame x:Name="MainContentFrame" IsNavigationStackEnabled="False" />
+
+	<controls:WindowedDialog.Footer>
+		<Grid ColumnSpacing="8">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<Button
+				Grid.Column="0"
+				HorizontalAlignment="Stretch"
+				Content="Apply"
+				Style="{ThemeResource AccentButtonStyle}" />
+
+			<Button
+				Grid.Column="1"
+				HorizontalAlignment="Stretch"
+				Content="Cancel" />
+
+		</Grid>
+	</controls:WindowedDialog.Footer>
+
+</controls:WindowedDialog>
