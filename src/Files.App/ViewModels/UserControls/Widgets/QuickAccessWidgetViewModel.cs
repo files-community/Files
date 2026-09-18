@@ -83,7 +83,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				await foreach (IWindowsStorable folder in HomePageContext.HomeFolder.GetQuickAccessFolderAsync(default))
 				{
 					folder.GetPropertyValue<bool>("System.Home.IsPinned", out var isPinned);
-					folder.TryGetShellTooltip(out var tooltip);
+					var tooltip = await STATask.RunPooled(() => folder.TryGetShellTooltip(out var t).Succeeded ? t : null, App.Logger);
 
 					Items.Insert(
 						Items.Count,
