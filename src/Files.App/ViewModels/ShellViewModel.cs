@@ -2874,16 +2874,13 @@ namespace Files.App.ViewModels
 									App.Logger.LogWarning("Directory watcher completion failed with error {ErrorCode}.", Marshal.GetLastWin32Error());
 									refreshAfterFailure = true;
 								}
-
-								break;
 							}
-
-							Debug.WriteLine("wait done: {0}", rand);
-							if (bytesTransferred == 0 || bytesTransferred > (uint)buff.Length)
+							else if (bytesTransferred == 0 || bytesTransferred > (uint)buff.Length)
 							{
 								refreshAfterFailure = !cancellationToken.IsCancellationRequested;
-								break;
 							}
+							else
+								Debug.WriteLine("wait done: {0}", rand);
 						}
 
 						if (cancellationToken.IsCancellationRequested)
@@ -3023,14 +3020,10 @@ namespace Files.App.ViewModels
 									App.Logger.LogWarning("Git watcher completion failed with error {ErrorCode}.", Marshal.GetLastWin32Error());
 									refreshAfterFailure = true;
 								}
-
-								break;
 							}
-
-							if (bytesTransferred == 0 || bytesTransferred > (uint)buff.Length)
+							else if (bytesTransferred == 0 || bytesTransferred > (uint)buff.Length)
 							{
 								refreshAfterFailure = !cancellationToken.IsCancellationRequested;
-								break;
 							}
 						}
 
@@ -3299,15 +3292,23 @@ namespace Files.App.ViewModels
 			enumFolderSemaphore.Release();
 		}
 
-		private async Task<ListedItem?> AddFileOrFolderAsync(string fileOrFolderPath)
+		private static FindCloseSafeHandle FindFirstFileExWithData(string path, out WIN32_FIND_DATAW findData)
 		{
-			WIN32_FIND_DATAW findData = default;
+			WIN32_FIND_DATAW initialFindData = default;
 			FindCloseSafeHandle hFile;
 			unsafe
 			{
-				hFile = PInvoke.FindFirstFileEx(fileOrFolderPath, FINDEX_INFO_LEVELS.FindExInfoBasic, &findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+				hFile = PInvoke.FindFirstFileEx(path, FINDEX_INFO_LEVELS.FindExInfoBasic, &initialFindData, FINDEX_SEARCH_OPS.FindExSearchNameMatch,
 					FIND_FIRST_EX_FLAGS.FIND_FIRST_EX_CASE_SENSITIVE);
 			}
+
+			findData = initialFindData;
+			return hFile;
+		}
+
+		private async Task<ListedItem?> AddFileOrFolderAsync(string fileOrFolderPath)
+		{
+			var hFile = FindFirstFileExWithData(fileOrFolderPath, out var findData);
 			using FindCloseSafeHandle findHandleScope = hFile;
 			if (hFile.IsInvalid)
 			{
