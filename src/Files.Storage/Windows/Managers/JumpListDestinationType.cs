@@ -1,4 +1,4 @@
-﻿namespace Files.App.Storage
+﻿namespace Files.Storage
 {
 	public enum JumpListDestinationType
 	{

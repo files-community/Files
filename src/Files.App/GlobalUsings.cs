@@ -64,19 +64,15 @@ global using global::Files.App.ViewModels.Dialogs.AddItemDialog;
 global using global::Files.App.ViewModels.Dialogs.FileSystemDialog;
 global using global::Files.App.Utils.CommandLine;
 
-// Files.Core.Storage
+// Files.Storage
 
-global using global::Files.Core.Storage;
-global using global::Files.Core.Storage.Enums;
-global using global::Files.Core.Storage.EventArguments;
-global using global::Files.Core.Storage.Extensions;
+global using global::Files.Storage;
+global using global::Files.Storage.Enums;
+global using global::Files.Storage.EventArguments;
+global using global::Files.Storage.Extensions;
 global using global::OwlCore.Storage;
-
-// Files.App.Storage
-
-global using global::Files.App.Storage;
-global using global::Files.App.Storage.Storables;
-global using global::Files.App.Storage.Watchers;
+global using global::Files.Storage.Storables;
+global using global::Files.Storage.Watchers;
 
 // Files.Shared
 global using global::Files.Shared;

@@ -3,7 +3,7 @@
 
 using System.IO;
 
-namespace Files.App.Storage
+namespace Files.Storage
 {
 	public sealed class FtpStorageFile : FtpStorable, IChildFile
 	{

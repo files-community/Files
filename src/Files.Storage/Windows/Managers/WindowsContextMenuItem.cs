@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-namespace Files.App.Storage
+namespace Files.Storage
 {
 	/// <summary>
 	/// Represents a Windows Shell ContextMenu item.

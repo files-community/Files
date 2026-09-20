@@ -9,7 +9,7 @@ using Windows.Win32.UI.Shell.Common;
 using Windows.Win32.UI.WindowsAndMessaging;
 using WNDPROC = Windows.Win32.Extras.ManagedWNDPROC;
 
-namespace Files.App.Storage
+namespace Files.Storage
 {
 	internal unsafe sealed class WindowsFolderChangeWatcher : IDisposable
 	{

@@ -8,7 +8,7 @@ using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
 using WNDPROC = Windows.Win32.Extras.ManagedWNDPROC;
 
-namespace Files.App.Storage
+namespace Files.Storage
 {
 	/// <summary>
 	/// Exposes a manager to create or delete an system tray icon you provide.

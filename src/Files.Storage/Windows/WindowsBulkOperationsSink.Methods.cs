@@ -5,7 +5,7 @@ using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
 using System.Runtime.InteropServices.Marshalling;
 
-namespace Files.App.Storage
+namespace Files.Storage
 {
 	public sealed partial class WindowsBulkOperations : IDisposable
 	{

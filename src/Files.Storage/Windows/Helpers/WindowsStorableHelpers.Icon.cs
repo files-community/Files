@@ -11,7 +11,7 @@ using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
 
-namespace Files.App.Storage
+namespace Files.Storage
 {
 	public static partial class WindowsStorableHelpers
 	{

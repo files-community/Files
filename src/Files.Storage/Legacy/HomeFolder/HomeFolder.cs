@@ -5,7 +5,7 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using Windows.Win32;
 
-namespace Files.App.Storage.Storables
+namespace Files.Storage.Storables
 {
 	public unsafe partial class HomeFolder : IHomeFolder
 	{

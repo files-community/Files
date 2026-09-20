@@ -13,7 +13,7 @@ using Windows.Win32.UI.Shell.Common;
 using Windows.Win32.UI.Shell.PropertiesSystem;
 using Windows.Win32.UI.WindowsAndMessaging;
 
-namespace Files.App.Storage
+namespace Files.Storage
 {
 	public unsafe static partial class WindowsStorableHelpers
 	{
