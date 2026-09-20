@@ -1,12 +1,5 @@
 # Files Development Guidelines
 
-- Treat native interop as an ABI and lifetime contract: verify generated signatures, structure layout, pointer width, offsets, ownership, and error behavior against authoritative definitions.
-- Never retain or pass the address of a local from an async method across suspension; the async state machine can move it during GC and cause memory corruption.
-- Perform pointer-taking native calls in a synchronous helper using a local native struct, then copy or return the result before entering async code.
-- Preserve nullability and exception contracts at interop boundaries; a migration must not turn an expected failure into an unhandled exception or application crash.
-- Treat overlapped I/O cancellation, completion, and handle disposal as one synchronized lifetime; avoid races that can leave a thread blocked, access a closed handle, or leak a native resource.
-- Parse native buffers only within the completed byte count and documented offsets; failed or zero-byte completions must never cause stale or uninitialized data to be interpreted.
-
 This project is a C#/.NET WinUI 3 desktop app; an alternative to File Explorer.
 
 - Protect context usage. Any command with unknown or potentially large output must be capped. Prefer targeted commands such as `rg`, `Get-Content -TotalCount`, `Select-Object -First`, or focused `git diff -- <path>`; for example, `COMMAND 2>&1 | Select-Object -First 200`. If a line cap is still too noisy, narrow the query instead of dumping full output.
@@ -25,6 +18,12 @@ This project is a C#/.NET WinUI 3 desktop app; an alternative to File Explorer.
 - Read nearby code before adding new abstractions. Prefer existing WinUI, MVVM, service, command, and storage patterns.
 - Keep implementation scoped to the requested behavior. Avoid opportunistic refactors, formatting churn, dependency updates, and generated file edits.
 - Treat tool output as evidence. When behavior changes, run the focused build that can prove it and report anything left unverified.
+- Treat native interop as an ABI and lifetime contract: verify generated signatures, structure layout, pointer width, offsets, ownership, and error behavior against authoritative definitions.
+- Never take the address of a local or parameter directly inside an async method, even before the first await; perform pointer-taking native calls in a synchronous helper and copy or return the result before entering async code.
+- Perform pointer-taking native calls in a synchronous helper using a local native struct, then copy or return the result before entering async code.
+- Preserve nullability and exception contracts at interop boundaries; a migration must not turn an expected failure into an unhandled exception or application crash.
+- Treat overlapped I/O cancellation, completion, and handle disposal as one synchronized lifetime; avoid races that can leave a thread blocked, access a closed handle, or leak a native resource.
+- Parse native buffers only within the completed byte count and documented offsets; failed or zero-byte completions must never cause stale or uninitialized data to be interpreted.
 
 ## Code Review Rules
 
