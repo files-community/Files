@@ -7,7 +7,7 @@ using Windows.Win32.Storage.FileSystem;
 using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;
 
-namespace Files.App.Storage
+namespace Files.Storage
 {
 	/// <summary>
 	/// Handles bulk file operations in Windows, such as copy, move, delete, create, and rename, supporting progress tracking and event notifications.

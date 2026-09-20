@@ -4,7 +4,7 @@
 using System.IO;
 using Windows.Win32.UI.Shell;
 
-namespace Files.App.Storage
+namespace Files.Storage
 {
 	[DebuggerDisplay("{" + nameof(ToString) + "()}")]
 	public class WindowsFile : WindowsStorable, IWindowsFile

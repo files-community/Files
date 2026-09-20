@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License.
 
-namespace Files.Core.Storage.Contracts
+namespace Files.Storage.Contracts
 {
 	/// <summary>
 	/// A disposable object which can notify of changes to the folder.

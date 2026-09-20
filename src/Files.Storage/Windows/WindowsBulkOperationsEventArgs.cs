@@ -4,7 +4,7 @@
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
 
-namespace Files.App.Storage
+namespace Files.Storage
 {
 	[DebuggerDisplay("{" + nameof(ToString) + "()}")]
 	public class WindowsBulkOperationsEventArgs(_TRANSFER_SOURCE_FLAGS flags = _TRANSFER_SOURCE_FLAGS.TSF_NORMAL, WindowsStorable? sourceItem = null, WindowsFolder? destinationFolder = null, WindowsStorable? newlyCreated = null, string? name = null, string? templateName = null, HRESULT result = default)

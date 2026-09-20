@@ -3,7 +3,7 @@
 
 using Windows.Win32.UI.Shell;
 
-namespace Files.App.Storage
+namespace Files.Storage
 {
 	public interface IWindowsFolder : IWindowsStorable, IChildFolder
 	{

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.Core.Storage.Storables
+namespace Files.Storage.Storables
 {
 	/// <summary>
 	/// Provides direct copy operation of storage objects.

@@ -15,17 +15,12 @@ global using global::System.Text.Json;
 global using global::System.Text.Json.Serialization;
 global using SystemIO = global::System.IO;
 
-// Files.Core.Storage
+// Files.Storage
 
-global using global::Files.Core.Storage;
-global using global::Files.Core.Storage.Contracts;
-global using global::Files.Core.Storage.Storables;
-global using global::Files.Core.Storage.Enums;
-global using global::Files.Core.Storage.EventArguments;
-global using global::Files.Core.Storage.Extensions;
+global using global::Files.Storage;
+global using global::Files.Storage.Contracts;
+global using global::Files.Storage.Storables;
+global using global::Files.Storage.Enums;
+global using global::Files.Storage.EventArguments;
+global using global::Files.Storage.Extensions;
 global using global::OwlCore.Storage;
-
-// Files.App.Storage
-
-global using global::Files.App.Storage;
-global using global::Files.App.Storage.Storables;

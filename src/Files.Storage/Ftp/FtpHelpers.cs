@@ -4,7 +4,7 @@
 using FluentFTP;
 using System.Net;
 
-namespace Files.App.Storage
+namespace Files.Storage
 {
 	internal static class FtpHelpers
 	{

@@ -3,7 +3,7 @@
 
 using FluentFTP;
 
-namespace Files.App.Storage
+namespace Files.Storage
 {
 	public abstract class FtpStorable : IStorableChild
 	{

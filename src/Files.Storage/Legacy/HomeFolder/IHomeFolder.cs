@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-namespace Files.App.Storage.Storables
+namespace Files.Storage.Storables
 {
 	public partial interface IHomeFolder : IFolder
 	{

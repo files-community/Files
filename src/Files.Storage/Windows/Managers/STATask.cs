@@ -7,7 +7,7 @@ using System.Runtime.ExceptionServices;
 using System.Threading.Channels;
 using Windows.Win32;
 
-namespace Files.App.Storage
+namespace Files.Storage
 {
 	/// <summary>
 	/// Represents a work scheduled to execute on a STA thread.
