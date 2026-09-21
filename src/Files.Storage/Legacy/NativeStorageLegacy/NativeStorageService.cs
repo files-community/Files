@@ -3,7 +3,7 @@
 
 using OwlCore.Storage.System.IO;
 
-namespace Files.Storage.Storables
+namespace Files.Storage
 {
 	/// <inheritdoc cref="IStorageService"/>
 	[Obsolete("Use the new WindowsStorable")]

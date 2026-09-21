@@ -5,7 +5,7 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using Windows.Win32;
 
-namespace Files.Storage.Storables
+namespace Files.Storage
 {
 	public unsafe partial class HomeFolder : IHomeFolder
 	{
@@ -88,12 +88,5 @@ namespace Files.Storage.Storables
 			return folder.GetItemsAsync(StorableType.Folder, cancellationToken);
 		}
 
-		/// <inheritdoc/>
-		public IAsyncEnumerable<IStorableChild> GetRecentFilesAsync(CancellationToken cancellationToken = default)
-		{
-			Guid FOLDERID_NetHood = new("{AE50C081-EBD2-438A-8655-8A092E34987A}");
-			IFolder folder = new WindowsFolder(FOLDERID_NetHood);
-			return folder.GetItemsAsync(StorableType.Folder, cancellationToken);
-		}
 	}
 }

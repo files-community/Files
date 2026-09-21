@@ -18,9 +18,4 @@ global using SystemIO = global::System.IO;
 // Files.Storage
 
 global using global::Files.Storage;
-global using global::Files.Storage.Contracts;
-global using global::Files.Storage.Storables;
-global using global::Files.Storage.Enums;
-global using global::Files.Storage.EventArguments;
-global using global::Files.Storage.Extensions;
 global using global::OwlCore.Storage;

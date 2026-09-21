@@ -16,9 +16,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentFTP" />
         <PackageReference Include="Microsoft.Windows.CsWin32" PrivateAssets="all" />
-        <PackageReference Include="Dongle.GuidRVAGen" />
         <PackageReference Include="OwlCore.Storage" />
     </ItemGroup>
 

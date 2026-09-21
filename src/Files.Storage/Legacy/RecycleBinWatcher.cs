@@ -4,7 +4,7 @@
 using Files.Shared.Extensions;
 using System.Security.Principal;
 
-namespace Files.Storage.Watchers
+namespace Files.Storage
 {
 	[Obsolete]
 	public class RecycleBinWatcher : ITrashWatcher

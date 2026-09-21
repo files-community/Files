@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.Storage.EventArguments
+namespace Files.Storage
 {
 	public sealed class DeviceEventArgs : EventArgs
 	{

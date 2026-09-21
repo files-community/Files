@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-namespace Files.Storage.Storables
+namespace Files.Storage
 {
 	public partial interface IHomeFolder : IFolder
 	{
@@ -26,11 +26,5 @@ namespace Files.Storage.Storables
 		/// <returns>A list of the collection.</returns>
 		public IAsyncEnumerable<IStorableChild> GetNetworkLocationsAsync(CancellationToken cancellationToken = default);
 
-		/// <summary>
-		/// Gets recent files.
-		/// </summary>
-		/// <param name="cancellationToken">The cancellation token.</param>
-		/// <returns>A list of the collection.</returns>
-		public IAsyncEnumerable<IStorableChild> GetRecentFilesAsync(CancellationToken cancellationToken = default);
 	}
 }
