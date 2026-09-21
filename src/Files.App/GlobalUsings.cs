@@ -67,12 +67,7 @@ global using global::Files.App.Utils.CommandLine;
 // Files.Storage
 
 global using global::Files.Storage;
-global using global::Files.Storage.Enums;
-global using global::Files.Storage.EventArguments;
-global using global::Files.Storage.Extensions;
 global using global::OwlCore.Storage;
-global using global::Files.Storage.Storables;
-global using global::Files.Storage.Watchers;
 
 // Files.Shared
 global using global::Files.Shared;

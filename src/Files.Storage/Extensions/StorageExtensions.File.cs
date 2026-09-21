@@ -4,7 +4,7 @@
 using OwlCore.Storage.System.IO;
 using System.IO;
 
-namespace Files.Storage.Extensions
+namespace Files.Storage
 {
 	public static partial class StorageExtensions
 	{

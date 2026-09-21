@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License.
 
-namespace Files.Storage.Contracts
+namespace Files.Storage
 {
 	public interface ITrashWatcher : IWatcher
 	{
