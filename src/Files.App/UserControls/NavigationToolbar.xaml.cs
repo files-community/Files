@@ -253,6 +253,12 @@ namespace Files.App.UserControls
 						? x.Name
 						: args.Text;
 
+					if (await NaturalLanguageSearch.TryTranslateToAqsAsync(searchQuery) is { } aqs)
+					{
+						searchQuery = $"${aqs}";
+						viewModel.OmnibarSearchModeText = searchQuery;
+					}
+
 					shellPage?.SubmitSearch(searchQuery); // use the resolved shellPage for consistency
 					viewModel.SaveSearchQueryToList(searchQuery);
 				}
