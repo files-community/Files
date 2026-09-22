@@ -354,6 +354,17 @@ jobs:
       with:
         name: '*'
 
+    # Uploaded after the cleanup step above so a failed run keeps its diagnostics
+    - if: failure()
+      name: Upload the test diagnostics to the Artifacts
+      uses: actions/upload-artifact@v7
+      with:
+        name: 'Test Diagnostics (${{ env.CONFIGURATION }}, ${{ env.AUTOMATED_TESTS_ARCHITECTURE }})'
+        if-no-files-found: warn
+        path: |
+          ${{ env.AUTOMATED_TESTS_ASSEMBLY_DIR }}\appium.log
+          ${{ env.AUTOMATED_TESTS_ASSEMBLY_DIR }}\testResults.trx
+
     # - name: Generate markdown from the tests result
     #   shell: pwsh
     #   run: |
