@@ -109,9 +109,7 @@
 									RadiusY="2" />
 
 								<!--  Depth indent spacer (width = NestingLevel * 16)  -->
-								<Border
-									Grid.Column="1"
-									Width="{TemplateBinding IndentWidth}" />
+								<Border Grid.Column="1" Width="{TemplateBinding IndentWidth}" />
 
 								<!--  Own pointer surface so chevron clicks only toggle expansion (no row invoke / selection).  -->
 								<Border
@@ -181,6 +179,17 @@
 									BorderThickness="0"
 									Content="{TemplateBinding Decorator}"
 									Opacity="{TemplateBinding ContentOpacity}"
+									Visibility="Collapsed" />
+
+								<!--  Drop-into target highlight  -->
+								<Border
+									x:Name="DragOnTopIndicator"
+									Grid.ColumnSpan="6"
+									Margin="-1"
+									BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+									BorderThickness="2"
+									CornerRadius="{ThemeResource ControlCornerRadius}"
+									IsHitTestVisible="False"
 									Visibility="Collapsed" />
 
 								<!--  Overflow  -->
@@ -337,6 +346,7 @@
 								<VisualState x:Name="DragOnTop">
 									<VisualState.Setters>
 										<Setter Target="ElementGrid.Background" Value="{ThemeResource ControlFillColorTertiaryBrush}" />
+										<Setter Target="DragOnTopIndicator.Visibility" Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
