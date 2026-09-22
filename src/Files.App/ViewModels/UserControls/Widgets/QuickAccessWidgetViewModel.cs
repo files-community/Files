@@ -93,19 +93,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 							isPinned,
 							tooltip ?? string.Empty));
 				}
-
-				DisambiguateDuplicateAutomationNames();
 			});
-		}
-
-		/// <summary>
-		/// Qualifies cards that share a leaf name with their path, so no two cards read the same.
-		/// </summary>
-		private void DisambiguateDuplicateAutomationNames()
-		{
-			foreach (var group in Items.GroupBy(item => item.Text ?? string.Empty, StringComparer.OrdinalIgnoreCase).Where(group => group.Count() > 1))
-				foreach (var item in group)
-					item.AutomationProperties = string.IsNullOrEmpty(item.Path) ? item.Text : $"{item.Text} ({item.Path})";
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)

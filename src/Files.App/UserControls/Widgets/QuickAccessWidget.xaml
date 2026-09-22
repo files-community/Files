@@ -31,7 +31,7 @@
 						VerticalAlignment="Stretch"
 						HorizontalContentAlignment="Stretch"
 						VerticalContentAlignment="Stretch"
-						AutomationProperties.Name="{x:Bind AutomationProperties, Mode=OneWay}"
+						AutomationProperties.Name="{x:Bind AutomationProperties}"
 						Click="Button_Click"
 						CornerRadius="{StaticResource ControlCornerRadius}"
 						DataContext="{x:Bind}"

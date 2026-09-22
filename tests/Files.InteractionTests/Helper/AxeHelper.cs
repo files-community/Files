@@ -56,8 +56,10 @@ namespace Files.InteractionTests.Helper
 
 		private static string BuildAssertMessage(ScanResult result)
 		{
-			// e.g., "Element Button(50000) violated rule 'The Name property of a focusable element must not be null.'."
-			return $"Element {result.Element.Properties["ControlType"]} at ({ParseBoundingRectangle(result.Element.Properties["BoundingRectangle"])}) violated rule \"{result.Rule.Description}\".";
+			// e.g., "Element Button(50000) "Documents" violated rule 'The Name property of a focusable element must not be null.'."
+			result.Element.Properties.TryGetValue("Name", out var name);
+
+			return $"Element {result.Element.Properties["ControlType"]} \"{name}\" at ({ParseBoundingRectangle(result.Element.Properties["BoundingRectangle"])}) violated rule \"{result.Rule.Description}\".";
 		}
 
 		private static string ParseBoundingRectangle(string boundingRectangle)
