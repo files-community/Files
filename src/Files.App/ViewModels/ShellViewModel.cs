@@ -1173,7 +1173,9 @@ namespace Files.App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				App.Logger.LogWarning(ex, ex.Message);
+				// A newer load cancelled this one or disposed its token source, which is not worth reporting
+				if (ex is not (OperationCanceledException or ObjectDisposedException))
+					App.Logger.LogWarning(ex, ex.Message);
 			}
 		}
 

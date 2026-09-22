@@ -4,12 +4,18 @@
 using Microsoft.Extensions.Logging;
 using System.Collections.Specialized;
 using System.IO;
+using System.Runtime.InteropServices;
 using Windows.Storage;
 
 namespace Files.App.Utils.Cloud
 {
 	public static class CloudDrivesManager
 	{
+		// HRESULT_FROM_WIN32 of ERROR_FILE_NOT_FOUND, ERROR_PATH_NOT_FOUND and ERROR_INVALID_DRIVE
+		private const int FileNotFoundHResult = unchecked((int)0x80070002);
+		private const int PathNotFoundHResult = unchecked((int)0x80070003);
+		private const int InvalidDriveHResult = unchecked((int)0x8007000F);
+
 		private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 		private static readonly ICloudDetector _detector = Ioc.Default.GetRequiredService<ICloudDetector>();
 		public static EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
@@ -77,6 +83,11 @@ namespace Files.App.Utils.Cloud
 			}
 			catch (FileNotFoundException ex)
 			{
+				_logger?.LogInformation(ex, "Failed to find the cloud folder");
+			}
+			catch (COMException ex) when (ex.HResult is FileNotFoundHResult or PathNotFoundHResult or InvalidDriveHResult)
+			{
+				// A cloud folder whose drive or path is gone surfaces from the shell as an HRESULT instead
 				_logger?.LogInformation(ex, "Failed to find the cloud folder");
 			}
 			catch (UnauthorizedAccessException ex)
