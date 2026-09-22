@@ -347,6 +347,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public bool EnableNaturalLanguageSearch
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		public bool ShowSystemTrayIcon
 		{
 			get => Get(true);

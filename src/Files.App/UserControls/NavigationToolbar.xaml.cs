@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using WinRT;
 
 namespace Files.App.UserControls
@@ -27,6 +28,8 @@ namespace Files.App.UserControls
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		private (OmnibarMode Mode, string Text)? _pendingOmnibarText;
+
+		private static readonly AccessibilitySettings AccessibilitySettings = new();
 
 		// Properties
 
@@ -639,6 +642,24 @@ namespace Files.App.UserControls
 
 			flyout.ShowAt(element, new FlyoutShowOptions { Position = e.GetPosition(element) });
 			e.Handled = true;
+		}
+
+		private ThemedIcon GetSearchModeIcon(bool isNaturalLanguageSearchAvailable, bool isActive)
+		{
+			var icon = new ThemedIcon()
+			{
+				Style = (Style)Application.Current.Resources[isNaturalLanguageSearchAvailable ? "App.ThemedIcons.Omnibar.Search.Advanced" : "App.ThemedIcons.Omnibar.Search"],
+				IsFilled = isActive,
+				IconType = ThemedIconTypes.Outline,
+			};
+
+			if (isNaturalLanguageSearchAvailable && !AccessibilitySettings.HighContrast)
+			{
+				icon.IconColorType = ThemedIconColorType.Custom;
+				icon.Color = (Brush)Resources["NaturalLanguageSearchIconBrush"];
+			}
+
+			return icon;
 		}
 	}
 }
