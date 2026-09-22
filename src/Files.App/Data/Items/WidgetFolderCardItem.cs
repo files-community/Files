@@ -11,7 +11,8 @@ namespace Files.App.Data.Items
 	{
 		// Properties
 
-		public string? AutomationProperties { get; set; }
+		private string? _AutomationProperties;
+		public string? AutomationProperties { get => _AutomationProperties; set => SetProperty(ref _AutomationProperties, value); }
 
 		public new IWindowsStorable Item { get; private set; }
 

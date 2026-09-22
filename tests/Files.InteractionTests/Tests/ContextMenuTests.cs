@@ -48,7 +48,7 @@ namespace Files.InteractionTests.Tests
 		{
 			// Close any menu a failed assertion may have left open. Navigation state is left as-is;
 			// each test navigates only when it needs a different page.
-			TestHelper.SendEscKey();
+			TestHelper.CloseOpenMenus();
 		}
 
 		/// <summary>
@@ -159,15 +159,13 @@ namespace Files.InteractionTests.Tests
 			AssertSubMenuLoadsItems("Show more options", () => TestHelper.ContextClickElementByName(folderName));
 
 			// Close the menu
-			TestHelper.SendEscKey();
-			Thread.Sleep(200);
+			CloseMenu();
 
 			// Keyboard invocation: Shift+F10 on the selected item must open the same menu
 			TestHelper.InvokeButtonByName(folderName);
 			TestHelper.SendKeyCombination(VIRTUAL_KEY.VK_SHIFT, VIRTUAL_KEY.VK_F10);
 			TestHelper.WaitForElementByName("Open");
-			TestHelper.SendEscKey();
-			Thread.Sleep(200);
+			CloseMenu();
 		}
 
 		/// <summary>
@@ -192,8 +190,7 @@ namespace Files.InteractionTests.Tests
 			AssertSubMenuLoadsItems("Set as", () => TestHelper.ContextClickElementByName(fileName));
 
 			AxeHelper.AssertNoAccessibilityErrors();
-			TestHelper.SendEscKey();
-			Thread.Sleep(200);
+			CloseMenu();
 		}
 
 		/// <summary>
@@ -220,8 +217,7 @@ namespace Files.InteractionTests.Tests
 			AssertSubMenuLoadsItems("Send to", () => TestHelper.ContextClickElementByName(fileName), allowLeafFallback: true);
 
 			// Close the menu
-			TestHelper.SendEscKey();
-			Thread.Sleep(200);
+			CloseMenu();
 		}
 
 		/// <summary>
@@ -371,12 +367,7 @@ namespace Files.InteractionTests.Tests
 		/// Fully closes an open context menu (a first Esc may only close an open submenu).
 		/// </summary>
 		private static void CloseMenu()
-		{
-			TestHelper.SendEscKey();
-			Thread.Sleep(120);
-			TestHelper.SendEscKey();
-			Thread.Sleep(180);
-		}
+			=> Assert.IsTrue(TestHelper.CloseOpenMenus(), "A context menu stayed open after pressing Esc.");
 
 		/// <summary>
 		/// Creates an item via the toolbar's New flyout ("InnerNavigationToolbarNewFolderButton"

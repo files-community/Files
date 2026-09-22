@@ -4,6 +4,7 @@
 using OpenQA.Selenium.Appium;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using Windows.Win32.UI.Input.KeyboardAndMouse;
 
@@ -13,13 +14,21 @@ namespace Files.InteractionTests.Helper
 	{
 		private static readonly TimeSpan DefaultFindTimeout = TimeSpan.FromSeconds(20);
 		private static readonly TimeSpan DefaultRetryInterval = TimeSpan.FromMilliseconds(500);
+		private static readonly TimeSpan MenuDismissTimeout = TimeSpan.FromSeconds(5);
 
 		/// <summary>
-		/// Root folder that holds everything the tests create on disk, kept outside the user
-		/// profile so test runs never touch personal folders such as Desktop or Documents.
+		/// Folder that holds every run folder, kept outside the user profile so test runs never
+		/// touch personal folders such as Desktop or Documents.
+		/// </summary>
+		public static readonly string TestDataContainerPath = @"C:\Temp\Files.InteractionTests";
+
+		/// <summary>
+		/// Root folder that holds everything this run creates on disk. The name is unique per run
+		/// so a retry never reuses a path the shell still lists under Quick Access.
 		/// SessionManager creates it when the test run starts and deletes it when it ends.
 		/// </summary>
-		public static readonly string TestDataRootPath = @"C:\Temp\Files.InteractionTests";
+		public static readonly string TestDataRootPath =
+			Path.Combine(TestDataContainerPath, $"Run {DateTime.UtcNow:yyyyMMddHHmmssfff}");
 
 		public static ICollection<AppiumElement> GetElementsOfType(string elementType)
 		{
@@ -307,6 +316,34 @@ namespace Files.InteractionTests.Helper
 
 		public static void SendEscKey()
 			=> SendKeyCombination(VIRTUAL_KEY.VK_ESCAPE);
+
+		/// <summary>
+		/// Presses Esc until no menu is left open, one level per press, and returns whether the
+		/// last one closed. A menu that outlives its test fails the next accessibility scan: its
+		/// light dismiss layer is reported as a button covering the whole window.
+		/// </summary>
+		public static bool CloseOpenMenus()
+		{
+			var deadline = DateTime.UtcNow + MenuDismissTimeout;
+
+			try
+			{
+				while (GetElementsOfType("MenuItem").Count != 0)
+				{
+					if (DateTime.UtcNow > deadline)
+						return false;
+
+					SendEscKey();
+					Thread.Sleep(150);
+				}
+			}
+			catch (OpenQA.Selenium.WebDriverException)
+			{
+				// The menu window went away while it was being inspected, so nothing is left to close
+			}
+
+			return true;
+		}
 
 		/// <summary>
 		/// Presses the given keys together as one shortcut: held down in order, released in reverse.

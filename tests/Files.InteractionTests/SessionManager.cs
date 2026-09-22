@@ -77,6 +77,7 @@ namespace Files.InteractionTests
 		[AssemblyInitialize]
 		public static void CreateSession(TestContext _)
 		{
+			DeleteLeftoverRunFolders();
 			Directory.CreateDirectory(TestHelper.TestDataRootPath);
 
 			if (_session is null)
@@ -159,6 +160,9 @@ namespace Files.InteractionTests
 				try
 				{
 					Directory.Delete(TestHelper.TestDataRootPath, true);
+
+					// Only succeeds once the last run folder is gone
+					Directory.Delete(TestHelper.TestDataContainerPath);
 				}
 				catch (DirectoryNotFoundException)
 				{
@@ -167,7 +171,28 @@ namespace Files.InteractionTests
 				catch (IOException)
 				{
 					// The closing app can briefly keep a change-watcher handle on a test folder;
-					// the next run deletes the leftovers when its own cleanup runs
+					// the next run deletes the leftovers before it starts
+				}
+			}
+		}
+
+		/// <summary>
+		/// Removes run folders a previous run left behind, so a crashed or killed run does not
+		/// leave its test items on disk and in the shell's recent folder list.
+		/// </summary>
+		private static void DeleteLeftoverRunFolders()
+		{
+			if (!Directory.Exists(TestHelper.TestDataContainerPath))
+				return;
+
+			foreach (var leftover in Directory.GetDirectories(TestHelper.TestDataContainerPath))
+			{
+				try
+				{
+					Directory.Delete(leftover, true);
+				}
+				catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
+				{
 				}
 			}
 		}
