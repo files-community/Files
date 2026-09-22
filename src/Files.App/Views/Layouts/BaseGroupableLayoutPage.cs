@@ -28,6 +28,7 @@ namespace Files.App.Views.Layouts
 		// Fields
 
 		protected int NextRenameIndex = 0;
+		protected TextBox? renameTextBox;
 
 		// Properties
 
@@ -327,6 +328,28 @@ namespace Files.App.Views.Layouts
 
 			textBox.Select(0, selectedTextLength);
 			IsRenamingItem = true;
+
+			renameTextBox = textBox;
+			if (guardRenameFromDoubleClick)
+				DeferRenameTextBoxHitTesting(textBox);
+		}
+
+		protected async void DeferRenameTextBoxHitTesting(TextBox textBox)
+		{
+			// Lets a double click pass through to the list so it opens the item instead of landing in the text box
+			textBox.IsHitTestVisible = false;
+			await Task.Delay(RenameDoubleClickGuardDuration);
+			textBox.IsHitTestVisible = true;
+		}
+
+		protected void CancelRenameOnDoubleClick(ListedItem? item)
+		{
+			if (item is null || item != RenamingItem || renameTextBox is null || !IsRenameDoubleClickGuardActive)
+				return;
+
+			renameTextBox.LostFocus -= RenameTextBox_LostFocus;
+			renameTextBox.Text = OldItemName;
+			EndRename(renameTextBox);
 		}
 
 		protected virtual async Task CommitRenameAsync(TextBox textBox)

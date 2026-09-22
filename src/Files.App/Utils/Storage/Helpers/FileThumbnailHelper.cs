@@ -19,8 +19,11 @@ namespace Files.App.Utils.Storage
 		{
 			var scaledSize = requestedSize * App.AppModel.AppWindowDPI;
 
-			// Snap up to the next standard size; the result is never below the displayed size, so it only ever downscales
-			var size = _standardSizes.FirstOrDefault(s => s >= scaledSize, _standardSizes[^1]);
+			// Snap up to the next standard size; the result is never below the displayed size, so it only ever downscales.
+			// Callers can opt out (sidebar) because snapping a small icon up makes the shell return a folder-style variant.
+			var size = iconOptions.HasFlag(IconOptions.SkipSizeSnapping)
+				? Math.Max(1u, (uint)Math.Round(scaledSize))
+				: _standardSizes.FirstOrDefault(s => s >= scaledSize, _standardSizes[^1]);
 
 			if (!isFolder && !iconOptions.HasFlag(IconOptions.ReturnIconOnly) && !iconOptions.HasFlag(IconOptions.ReturnOnlyIfCached))
 			{

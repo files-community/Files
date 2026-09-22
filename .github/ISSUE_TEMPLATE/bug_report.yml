@@ -76,4 +76,4 @@ body:
       label: Log File
     validations:
       required: true
-      accept: ".png,.jpg,.log,.txt"
+      accept: ".log"

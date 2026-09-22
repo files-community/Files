@@ -1,0 +1,59 @@
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<ContentDialog
+	x:Class="Files.App.Dialogs.KeyBindingEditorDialog"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:uc="using:Files.App.UserControls"
+	CloseButtonText="{helpers:ResourceString Name=Cancel}"
+	DefaultButton="Primary"
+	Style="{StaticResource DefaultContentDialogStyle}"
+	mc:Ignorable="d">
+
+	<StackPanel Width="320" Spacing="12">
+
+		<!--  Command picker (Add mode only)  -->
+		<uc:ComboBoxEx
+			x:Name="ActionPickerComboBox"
+			x:Load="{x:Bind IsAddMode, Mode=OneTime}"
+			HorizontalAlignment="Stretch"
+			ItemsSource="{x:Bind AllActionItems, Mode=OneTime}"
+			PlaceholderText="{helpers:ResourceString Name=ChooseAnAction}"
+			SelectionChanged="ActionPickerComboBox_SelectionChanged">
+			<uc:ComboBoxEx.ItemTemplate>
+				<DataTemplate x:DataType="dataitems:ModifiableActionItem">
+					<TextBlock Text="{x:Bind CommandDescription, Mode=OneWay}" />
+				</DataTemplate>
+			</uc:ComboBoxEx.ItemTemplate>
+		</uc:ComboBoxEx>
+
+		<!--  Command name (Edit mode only)  -->
+		<TextBlock
+			x:Name="CommandNameTextBlock"
+			x:Load="{x:Bind IsEditMode, Mode=OneTime}"
+			FontWeight="SemiBold"
+			Text="{x:Bind CommandDescription, Mode=OneTime}" />
+
+		<!--  Key binding editor (Using PreviewKeyDown to prevent Ctrl+A)  -->
+		<TextBox
+			x:Name="KeyBindingEditorTextBox"
+			HorizontalAlignment="Stretch"
+			IsReadOnly="True"
+			IsSpellCheckEnabled="False"
+			IsTabStop="True"
+			Loaded="KeyBindingEditorTextBox_Loaded"
+			PreviewKeyDown="KeyBindingEditorTextBox_PreviewKeyDown"
+			TextAlignment="Left" />
+
+		<!--  Validation message  -->
+		<InfoBar
+			x:Name="ValidationInfoBar"
+			IsClosable="False"
+			IsOpen="False"
+			Severity="Error" />
+
+	</StackPanel>
+</ContentDialog>

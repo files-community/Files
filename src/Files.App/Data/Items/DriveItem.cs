@@ -203,6 +203,10 @@ namespace Files.App.Data.Items
 		{
 			get
 			{
+				// CreateIconElement throws a catastrophic 0x8000FFFF on a null source, so wait for the icon to load before building one
+				if (Icon is null)
+					return null;
+
 				var source = new ImageIconSource() { ImageSource = Icon };
 				return source.CreateIconElement();
 			}
@@ -273,19 +277,6 @@ namespace Files.App.Data.Items
 			return item;
 		}
 
-		public async Task UpdateLabelAsync()
-		{
-			try
-			{
-				var root = Root!;
-				var properties = await root.Properties.RetrievePropertiesAsync((string[])["System.ItemNameDisplay"])
-					.AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
-				Text = (string?)properties!["System.ItemNameDisplay"];
-			}
-			catch (NullReferenceException)
-			{
-			}
-		}
 
 		public async Task UpdatePropertiesAsync()
 		{

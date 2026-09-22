@@ -21,6 +21,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
+using Windows.Win32;
 using WinRT;
 using static Files.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
@@ -74,6 +75,9 @@ namespace Files.App.Views.Layouts
 		private ListedItem? dragOverItem = null;
 		private ListedItem? hoveredItem = null;
 		private ListedItem? preRenamingItem = null;
+		private DateTime renameGuardStartTime;
+
+		protected bool guardRenameFromDoubleClick;
 
 		// Page-relative point of the pending context-menu invocation, from ContextRequested (fires for every input,
 		// unlike RightTapped which a touch long-press can skip). Invalid for keyboard, which has no pointer point.
@@ -113,6 +117,15 @@ namespace Files.App.Views.Layouts
 
 		public bool IsRenamingItem { get; set; }
 		public bool LockPreviewPaneContent { get; set; }
+
+		protected static TimeSpan RenameDoubleClickGuardDuration
+			=> TimeSpan.FromMilliseconds(Constants.UI.RenameDoubleClickGuardDurationMs);
+
+		protected bool IsWithinRenameDoubleClickWindow
+			=> DateTime.UtcNow - renameGuardStartTime <= RenameDoubleClickGuardDuration;
+
+		protected bool IsRenameDoubleClickGuardActive
+			=> IsRenamingItem && IsWithinRenameDoubleClickWindow;
 
 		public ListedItem? RenamingItem { get; set; }
 		public ListedItem? SelectedItem { get; private set; }
@@ -523,11 +536,16 @@ namespace Files.App.Views.Layouts
 			shellViewModel.EmptyTextType = EmptyTextType.None;
 			parentShellPage.ToolbarViewModel.CanRefresh = true;
 
+			// Derived layouts read the page type as soon as navigation yields.
+			parentShellPage.InstanceViewModel.IsPageTypeSearchResults = args.IsSearchResultPage;
+
 			if (!args.IsSearchResultPage)
 			{
 				var navigationPath = args.NavPathParam;
 				var previousDir = shellViewModel.WorkingDirectory;
 				await shellViewModel.SetWorkingDirectoryAsync(navigationPath);
+				if (isDisposed || navigationArguments != args)
+					return;
 
 				// pathRoot will be empty on recycle bin path
 				var workingDir = shellViewModel.WorkingDirectory ?? string.Empty;
@@ -543,7 +561,6 @@ namespace Files.App.Views.Layouts
 				parentShellPage.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
 				parentShellPage.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
 				parentShellPage.InstanceViewModel.IsPageTypeLibrary = LibraryManager.IsLibraryPath(workingDir);
-				parentShellPage.InstanceViewModel.IsPageTypeSearchResults = false;
 				parentShellPage.InstanceViewModel.IsPageTypeReleaseNotes = false;
 				parentShellPage.InstanceViewModel.IsPageTypeSettings = false;
 				parentShellPage.ToolbarViewModel.PathControlDisplayText = navigationPath;
@@ -564,6 +581,8 @@ namespace Files.App.Views.Layouts
 			{
 				var searchPath = args.SearchPathParam;
 				await shellViewModel.SetWorkingDirectoryAsync(searchPath);
+				if (isDisposed || navigationArguments != args)
+					return;
 
 				parentShellPage.ToolbarViewModel.CanGoForward = false;
 
@@ -579,7 +598,6 @@ namespace Files.App.Views.Layouts
 				parentShellPage.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
 				parentShellPage.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
 				parentShellPage.InstanceViewModel.IsPageTypeLibrary = LibraryManager.IsLibraryPath(workingDir);
-				parentShellPage.InstanceViewModel.IsPageTypeSearchResults = true;
 				parentShellPage.InstanceViewModel.IsPageTypeReleaseNotes = false;
 				parentShellPage.InstanceViewModel.IsPageTypeSettings = false;
 
@@ -888,6 +906,7 @@ namespace Files.App.Views.Layouts
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
+			navigationArguments = null;
 
 			// Remove item jumping handler
 			CharacterReceived -= Page_CharacterReceived;
@@ -912,10 +931,7 @@ namespace Files.App.Views.Layouts
 			if (parameter is not null && !parameter.IsLayoutSwitch)
 			{
 				var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
-
-				// The incoming page's first batch replaces the visible listing, avoiding an empty flash between folders.
-				// When the target folder uses a different layout, the old items would re-render in the wrong layout, so drop them instead.
-				shellViewModel.CancelLoadAndClearFiles(clearDisplay: e.SourcePageType != GetType());
+				shellViewModel.CancelLoadAndClearFiles();
 			}
 		}
 
@@ -1095,7 +1111,12 @@ namespace Files.App.Views.Layouts
 
 					var draggedItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
-					if (draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
+					// Dropping onto an executable or a script opens the dragged items with it, so only the item itself is rejected there
+					var isOpenWithTarget = item.IsExecutable || item.IsScriptFile;
+
+					if (isOpenWithTarget
+						? draggedItems.ContainsDestinationPath(item.ItemPath)
+						: draggedItems.ContainsDestinationOrAncestor(item.ItemPath))
 					{
 						e.AcceptedOperation = DataPackageOperation.None;
 					}
@@ -1178,33 +1199,44 @@ namespace Files.App.Views.Layouts
 
 		protected virtual async void Item_Drop(object sender, DragEventArgs e)
 		{
-			var deferral = e.GetDeferral();
 			e.Handled = true;
+
+			// e.Data is only populated for drags started within this XAML island, drags coming from
+			// another window travel through the shell, so only e.DataView can be read here (#17296)
+			if (e.DataView is null)
+			{
+				e.AcceptedOperation = DataPackageOperation.None;
+				return;
+			}
+
+			DragOperationDeferral? deferral = null;
 
 			try
 			{
-				_ = e.Data.Properties;
-				var exists = e.Data.Properties.TryGetValue("Files_ActionBinder", out var val);
-				_ = val;
-			}
-			catch (NullReferenceException)
-			{
-				// e.Data or e.Data.Properties is null, continue without the property check
-			}
+				deferral = e.GetDeferral();
 
-			// Reset dragged over item
-			dragOverItem = null;
-			var item = GetItemFromElement(sender);
-			if (item is not null)
-			{
-				var parentShellPage = ParentShellPageInstance
-					?? throw new InvalidOperationException("The layout page does not have a parent shell page.");
-				var targetPath = (item as IShortcutItem)?.TargetPath;
-				var destination = !string.IsNullOrEmpty(targetPath) ? targetPath : item.GetRequiredPath();
-				await parentShellPage.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, destination, false, true, item.IsExecutable, item.IsScriptFile);
-			}
+				// Reset dragged over item
+				dragOverItem = null;
 
-			deferral.Complete();
+				var item = GetItemFromElement(sender);
+				if (item is not null)
+				{
+					// This is an async void handler, an escaping exception would take down the window
+					await SafetyExtensions.IgnoreExceptions(async () =>
+					{
+						var parentShellPage = ParentShellPageInstance
+							?? throw new InvalidOperationException("The layout page does not have a parent shell page.");
+						var targetPath = (item as IShortcutItem)?.TargetPath;
+						var destination = !string.IsNullOrEmpty(targetPath) ? targetPath : item.GetRequiredPath();
+						await parentShellPage.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, destination, false, true, item.IsExecutable, item.IsScriptFile);
+					},
+					App.Logger);
+				}
+			}
+			finally
+			{
+				deferral?.Complete();
+			}
 		}
 
 		protected void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
@@ -1681,15 +1713,19 @@ namespace Files.App.Views.Layouts
 			{
 				if (item == preRenamingItem)
 				{
+					if (IsRenamingItem && item == RenamingItem)
+						return;
+
+					// Wait out the double click window so a double click cancels the pending rename before anything shows
 					TapDebounceTimer.Debounce(() =>
 					{
-						if (item == preRenamingItem)
+						if (item == preRenamingItem && !IsRenamingItem)
 						{
-							StartRenameItem();
+							StartRenameItemFromTap();
 							tapDebounceTimer?.Stop();
 						}
 					},
-					TimeSpan.FromMilliseconds(1500));
+					TimeSpan.FromMilliseconds(PInvoke.GetDoubleClickTime()));
 				}
 				else
 				{
@@ -1700,6 +1736,21 @@ namespace Files.App.Views.Layouts
 			else
 			{
 				ResetRenameDoubleClick();
+			}
+		}
+
+		private void StartRenameItemFromTap()
+		{
+			guardRenameFromDoubleClick = true;
+			renameGuardStartTime = DateTime.UtcNow;
+
+			try
+			{
+				StartRenameItem();
+			}
+			finally
+			{
+				guardRenameFromDoubleClick = false;
 			}
 		}
 

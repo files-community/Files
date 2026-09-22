@@ -70,5 +70,9 @@ namespace Files.App.UserControls.FilePreviews
 		{
 			ViewModel.PointerEntered(ReferenceEquals(sender, contentPresenter));
 		}
+
+		// Lets callers tear the preview host down right away instead of waiting on the Unloaded event
+		public void UnloadPreview()
+			=> ViewModel.UnloadPreview();
 	}
 }

@@ -41,6 +41,9 @@ namespace Files.App.Controls
 		public event TypedEventHandler<Omnibar, OmnibarModeChangedEventArgs>? ModeChanged;
 		public event TypedEventHandler<Omnibar, OmnibarIsFocusedChangedEventArgs>? IsFocusedChanged;
 
+		// Raised when the window reactivates and restores focus to the TextBox; the host moves focus elsewhere so the omnibar doesn't get stuck in edit mode
+		public event TypedEventHandler<Omnibar, System.EventArgs>? FocusRedirectRequested;
+
 		// Constructor
 
 		public Omnibar()

@@ -159,5 +159,5 @@ jobs:
     - name: Upload the packages to GitHub Actions
       uses: actions/upload-artifact@v7
       with:
-        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
+        archive: false
         path: ${{ env.APPX_PACKAGE_DIR }}*.msixupload

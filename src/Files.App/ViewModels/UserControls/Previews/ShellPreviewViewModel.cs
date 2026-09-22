@@ -41,6 +41,7 @@ namespace Files.App.ViewModels.Previews
 		WNDPROC _windProc = null!;
 		HWND _hWnd = HWND.Null;
 		bool _isOfficePreview = false;
+		bool _unloaded;
 		unsafe char* _pszClassName;
 
 		// Constructor
@@ -147,7 +148,7 @@ namespace Files.App.ViewModels.Previews
 			_pszClassName = (char*)Marshal.StringToHGlobalUni(szClassName);
 
 			_windProc = new(WndProc);
-			var pWindProc = Marshal.GetFunctionPointerForDelegate(_windProc);
+			var pWindProc = Marshal.GetFunctionPointerForDelegate<WNDPROC>(_windProc);
 			var pfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)pWindProc;
 
 			_windowClass = new WNDCLASSEXW()
@@ -257,10 +258,16 @@ namespace Files.App.ViewModels.Previews
 
 		public unsafe void UnloadPreview()
 		{
+			// Called both when closing to background and from Unloaded, so ignore the second call
+			if (_unloaded)
+				return;
+			_unloaded = true;
+
 			if (_hWnd != HWND.Null)
 			{
 				PInvoke.DestroyWindow(_hWnd);
 				App.Logger.LogInformation($"ShellPreview.UnloadPreview: HWND={((nint)_hWnd)}, Item={LogPathHelper.RedactPath(Item?.ItemPath)}");
+				_hWnd = HWND.Null;
 			}
 			else
 				App.Logger.LogInformation($"ShellPreview.UnloadPreview: HWND=, Item={LogPathHelper.RedactPath(Item?.ItemPath)}");

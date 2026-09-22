@@ -5,6 +5,8 @@ using Files.Shared.Helpers;
 using System.Runtime.InteropServices;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Windows.Win32;
+using Windows.Win32.Storage.FileSystem;
 
 namespace Files.App.Helpers
 {
@@ -32,11 +34,12 @@ namespace Files.App.Helpers
 			}
 
 			// Fast get attributes
-			bool exists = Win32PInvoke.GetFileAttributesExFromApp(path, Win32PInvoke.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out Win32PInvoke.WIN32_FILE_ATTRIBUTE_DATA itemAttributes);
+			uint itemAttributes = PInvoke.GetFileAttributes(path);
+			bool exists = itemAttributes != PInvoke.INVALID_FILE_ATTRIBUTES;
 			if (exists) // Exists on local storage
 			{
 				// Directory
-				if (itemAttributes.dwFileAttributes.HasFlag(System.IO.FileAttributes.Directory))
+				if ((itemAttributes & (uint)FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_DIRECTORY) != 0)
 				{
 					if (typeof(IStorageFile).IsAssignableFrom(typeof(TRequested))) // Wanted file
 					{
@@ -160,7 +163,7 @@ namespace Files.App.Helpers
 
 		public static bool Exists(string path)
 		{
-			return Win32PInvoke.GetFileAttributesExFromApp(path, Win32PInvoke.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out _);
+			return PInvoke.GetFileAttributes(path) != PInvoke.INVALID_FILE_ATTRIBUTES;
 		}
 
 		public static IStorageItemWithPath? FromStorageItem(this IStorageItem? item, string? customPath = null, FilesystemItemType? itemType = null)

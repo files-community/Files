@@ -4,8 +4,10 @@
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
 using System.Threading;
 
 namespace Files.InteractionTests
@@ -13,7 +15,7 @@ namespace Files.InteractionTests
 	[TestClass]
 	public sealed class SessionManager
 	{
-		private const string WindowsApplicationDriverUrl = "http://127.0.0.1:4723";
+		private const string AppiumServerUrl = "http://127.0.0.1:4723";
 		private static string[] FilesAppIDs = [
 			"FilesDev_ykqwq8d6ps0ag!App", // Needed to run on the local end and/or the CI
 			"FilesDev_9bhem8es8z4gp!App", // Needed to run on the local end and/or the CI
@@ -22,8 +24,8 @@ namespace Files.InteractionTests
 
 		private static uint appIdIndex = 0;
 
-		private static WindowsDriver<WindowsElement> _session;
-		public static WindowsDriver<WindowsElement> Session
+		private static WindowsDriver _session;
+		public static WindowsDriver Session
 		{
 			get
 			{
@@ -38,11 +40,12 @@ namespace Files.InteractionTests
 		private static void tryInitializeSession()
 		{
 			AppiumOptions appiumOptions = new AppiumOptions();
-			appiumOptions.AddAdditionalCapability("app", FilesAppIDs[appIdIndex]);
-			appiumOptions.AddAdditionalCapability("deviceName", "WindowsPC");
+			appiumOptions.AutomationName = "Windows";
+			appiumOptions.App = FilesAppIDs[appIdIndex];
+			appiumOptions.DeviceName = "WindowsPC";
 			try
 			{
-				_session = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appiumOptions);
+				_session = new WindowsDriver(new Uri(AppiumServerUrl), appiumOptions);
 			}
 			catch (OpenQA.Selenium.WebDriverException exc)
 			{
@@ -58,6 +61,19 @@ namespace Files.InteractionTests
 			}
 		}
 
+		private static bool IsAppiumServerRunning()
+		{
+			try
+			{
+				using var client = new HttpClient();
+				return client.GetAsync($"{AppiumServerUrl}/status").GetAwaiter().GetResult().IsSuccessStatusCode;
+			}
+			catch (HttpRequestException)
+			{
+				return false;
+			}
+		}
+
 		[AssemblyInitialize]
 		public static void CreateSession(TestContext _)
 		{
@@ -69,25 +85,29 @@ namespace Files.InteractionTests
 				int timeoutCount = 50;
 
 				tryInitializeSession();
-				if (_session is null)
+				if (_session is null && !IsAppiumServerRunning())
 				{
-					// WinAppDriver is probably not running, so lets start it!
-					var driverPath = $@"{Environment.GetEnvironmentVariable("ProgramFiles(x86)")}\Windows Application Driver\WinAppDriver.exe";
-					if (!File.Exists(driverPath))
-						driverPath = $@"{Environment.GetEnvironmentVariable("ProgramFiles")}\Windows Application Driver\WinAppDriver.exe";
-					if (!File.Exists(driverPath))
-						throw new Exception("Unable to start WinAppDriver since no suitable location was found.");
-
-					// Shell-executed + hidden so the driver gets its own (hidden) console instead
+					// Appium is not running, so lets start it!
+					// Shell-executed + hidden so the server gets its own (hidden) console instead
 					// of spamming its per-request log into the test output
-					Process.Start(new ProcessStartInfo
+					try
 					{
-						FileName = driverPath,
-						UseShellExecute = true,
-						WindowStyle = ProcessWindowStyle.Hidden,
-					});
+						Process.Start(new ProcessStartInfo
+						{
+							FileName = "appium.cmd",
+							UseShellExecute = true,
+							WindowStyle = ProcessWindowStyle.Hidden,
+						});
+					}
+					catch (Win32Exception)
+					{
+						throw new Exception("Unable to start Appium since it was not found on the PATH.");
+					}
 
-					Thread.Sleep(2000);
+					var serverDeadline = DateTime.UtcNow + TimeSpan.FromSeconds(30);
+					while (!IsAppiumServerRunning() && DateTime.UtcNow < serverDeadline)
+						Thread.Sleep(250);
+
 					tryInitializeSession();
 				}
 
@@ -106,7 +126,7 @@ namespace Files.InteractionTests
 				// If the disclaimer is not found, this throws an exception, so lets catch that
 				try
 				{
-					_session.FindElementByName("Disclaimer").FindElementByName("Accept").Click();
+					_session.FindElement(MobileBy.Name("Disclaimer")).FindElement(MobileBy.Name("Accept")).Click();
 				}
 				catch (OpenQA.Selenium.WebDriverException) { }
 

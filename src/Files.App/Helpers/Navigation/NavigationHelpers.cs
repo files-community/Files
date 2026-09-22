@@ -10,6 +10,7 @@ using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.System;
 using WinRT;
+using Windows.Win32;
 
 namespace Files.App.Helpers
 {
@@ -543,7 +544,7 @@ namespace Files.App.Helpers
 			{
 				if (!isDirectory &&
 					Win32Helper.GetWin32FindDataForPath(path, out var findData) &&
-					findData.dwReserved0 == Win32PInvoke.IO_REPARSE_TAG_SYMLINK)
+					findData.dwReserved0 == PInvoke.IO_REPARSE_TAG_SYMLINK)
 				{
 					shortcutInfo.TargetPath = Win32Helper.ParseSymLink(path);
 				}
@@ -566,7 +567,7 @@ namespace Files.App.Helpers
 					break;
 
 				case FilesystemItemType.Directory:
-					opened = await OpenDirectory(path, associatedInstance, selectItems, shortcutInfo, forceOpenInNewTab);
+					opened = await OpenDirectory(path, associatedInstance, selectItems, shortcutInfo, forceOpenInNewTab, fileAttributes.HasFlag(System.IO.FileAttributes.Hidden));
 					break;
 
 				case FilesystemItemType.File:
@@ -608,12 +609,11 @@ namespace Files.App.Helpers
 			return opened;
 		}
 
-		private static async Task<FilesystemResult> OpenDirectory(string path, IShellPage associatedInstance, IEnumerable<string>? selectItems, ShellLinkItem shortcutInfo, bool forceOpenInNewTab)
+		private static async Task<FilesystemResult> OpenDirectory(string path, IShellPage associatedInstance, IEnumerable<string>? selectItems, ShellLinkItem shortcutInfo, bool forceOpenInNewTab, bool isHiddenItem)
 		{
 			IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 			var opened = (FilesystemResult)false;
-			bool isHiddenItem = Win32Helper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
 			bool isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path);
 
 			if (isShortcut)
@@ -639,18 +639,23 @@ namespace Files.App.Helpers
 				if (associatedInstance.ShellViewModel is not null)
 				{
 					opened = await associatedInstance.ShellViewModel.GetFolderWithPathFromPathAsync(path)
-						.OnSuccess((childFolder) =>
+						.OnSuccess(async (childFolder) =>
 						{
 							var folder = childFolder!;
 							// Add location to Recent Items List.
 							// File.Exists distinguishes an archive root (real file on disk) from an inner path like "archive.zip\sub".
-							if (folder.Item is SystemStorageFolder ||
-								(folder.Item is ZipStorageFolder && File.Exists(folder.Path)))
-								WindowsRecentItemsService.Add(folder.Path);
+							await STATask.RunPooled(() =>
+							{
+								if (folder.Item is SystemStorageFolder ||
+									(folder.Item is ZipStorageFolder && File.Exists(folder.Path)))
+									return WindowsRecentItemsService.Add(folder.Path);
+
+								return false;
+							}, App.Logger);
 						});
 				}
 				if (!opened)
-					opened = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path);
+					opened = (FilesystemResult)await Task.Run(() => FolderHelpers.CheckFolderAccessWithWin32(path));
 
 				if (opened)
 					await OpenPath(forceOpenInNewTab, UserSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, associatedInstance, selectItems);
@@ -668,7 +673,8 @@ namespace Files.App.Helpers
 
 			if (isShortcut)
 			{
-				if (string.IsNullOrEmpty(shortcutInfo.TargetPath))
+				// Empty or non-rooted shell target (e.g. a shell:appsfolder app): launch the .lnk so the shell activates it
+				if (string.IsNullOrEmpty(shortcutInfo.TargetPath) || !Path.IsPathRooted(shortcutInfo.TargetPath))
 				{
 					await Win32Helper.InvokeWin32ComponentAsync(path, associatedInstance, args);
 				}

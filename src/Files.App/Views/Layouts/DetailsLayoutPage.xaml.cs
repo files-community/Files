@@ -43,6 +43,7 @@ namespace Files.App.Views.Layouts
 		/// size changes, even if the layout size changes (since some layout sizes share the same icon size).
 		/// </summary>
 		private uint currentIconSize;
+		private DetailsViewSizeKind? itemContainerSize;
 
 		private DispatcherQueueTimer? _autoFitColumnsTimer;
 
@@ -311,21 +312,13 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		private void SetItemContainerStyle()
 		{
-			if (UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact)
+			var size = UserSettingsService.LayoutSettingsService.DetailsViewSize;
+			if (itemContainerSize != size)
 			{
-				// Toggle style to force item size to update
-				FileList.ItemContainerStyle = RegularItemContainerStyle;
-
-				// Set correct style
-				FileList.ItemContainerStyle = CompactItemContainerStyle;
-			}
-			else
-			{
-				// Toggle style to force item size to update
-				FileList.ItemContainerStyle = CompactItemContainerStyle;
-
-				// Set correct style
-				FileList.ItemContainerStyle = RegularItemContainerStyle;
+				// Changing size still requires a style refresh, even when both sizes use the same style.
+				FileList.ItemContainerStyle = size == DetailsViewSizeKind.Compact ? RegularItemContainerStyle : CompactItemContainerStyle;
+				FileList.ItemContainerStyle = size == DetailsViewSizeKind.Compact ? CompactItemContainerStyle : RegularItemContainerStyle;
+				itemContainerSize = size;
 			}
 
 			// Set the width of the icon column. The value is increased by 4px to account for icon overlays.
@@ -710,7 +703,14 @@ namespace Files.App.Views.Layouts
 			}
 			else
 			{
-				if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "ItemName")
+				if (IsWithinRenameDoubleClickWindow && item == RenamingItem)
+				{
+					// A tap this soon after the tap that started renaming is the second click of a double click
+					CancelRenameOnDoubleClick(item);
+					ResetRenameDoubleClick();
+					await OpenItem(item);
+				}
+				else if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "ItemName")
 				{
 					CheckRenameDoubleClick(clickedItem.DataContext);
 				}
@@ -756,6 +756,8 @@ namespace Files.App.Views.Layouts
 			ListedItem? item = dataContext as ListedItem;
 			if (item == null && sender is ListView listView && listView.SelectedItem is ListedItem selectedItem)
 				item = selectedItem;
+
+			CancelRenameOnDoubleClick(item);
 
 			if (item != null && item.PrimaryItemAttribute == StorageItemTypes.File && !UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))
 				await OpenItem(item);

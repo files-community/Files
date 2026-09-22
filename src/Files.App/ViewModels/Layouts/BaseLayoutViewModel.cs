@@ -148,8 +148,9 @@ namespace Files.App.ViewModels.Layouts
 
 				var draggedItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
-				// As long as one file doesn't already belong to this folder
-				if (_associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(workingDirectoryPath))
+				// As long as one file doesn't already belong to this folder, and this folder isn't one of the dragged items or inside one
+				if (_associatedInstance.InstanceViewModel.IsPageTypeSearchResults ||
+					draggedItems.Any() && (draggedItems.AreItemsAlreadyInFolder(workingDirectoryPath) || draggedItems.ContainsDestinationOrAncestor(workingDirectoryPath)))
 				{
 					e.AcceptedOperation = DataPackageOperation.None;
 				}

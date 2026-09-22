@@ -4158,6 +4158,12 @@
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>De sneltoets die je koos kan niet worden gebruikt, gelieve opnieuw te proberen met een andere sneltoets.</value>
   </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>Keyboard shortcuts</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>Are you sure you want to remove this key binding?</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>Aangepast</value>
   </data>

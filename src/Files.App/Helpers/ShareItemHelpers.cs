@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 
@@ -25,7 +24,7 @@ namespace Files.App.Helpers
 			IntPtr result = interop.GetForWindow(MainWindow.Instance.WindowHandle, Win32PInvoke.DataTransferManagerInteropIID);
 
 			var manager = WinRT.MarshalInterface<DataTransferManager>.FromAbi(result);
-			manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
+			manager.DataRequested += Manager_DataRequested;
 
 			try
 			{
@@ -33,6 +32,8 @@ namespace Files.App.Helpers
 			}
 			catch (Exception ex)
 			{
+				manager.DataRequested -= Manager_DataRequested;
+
 				var errorDialog = new ContentDialog()
 				{
 					Title = Strings.FaildToShareItems.GetLocalizedResource(),
@@ -48,6 +49,8 @@ namespace Files.App.Helpers
 
 			async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
 			{
+				sender.DataRequested -= Manager_DataRequested;
+
 				DataRequestDeferral dataRequestDeferral = args.Request.GetDeferral();
 				List<IStorageItem> items = [];
 				DataRequest dataRequest = args.Request;

@@ -4158,6 +4158,12 @@
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>La combinació de tecles escollida no es pot utilitzar. Torneu-ho a provar amb una combinació de tecles diferent.</value>
   </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>Dreceres del teclat</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>Esteu segur que voleu eliminar aquesta combinació de tecles?</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>Personalitzat</value>
   </data>

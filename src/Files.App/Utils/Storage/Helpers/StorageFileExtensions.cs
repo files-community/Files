@@ -76,7 +76,7 @@ namespace Files.App.Utils.Storage
 			try
 			{
 				var trimmedPath = destinationPath.TrimPath();
-				return itemsPath.All(itemPath => string.Equals(Path.GetDirectoryName(itemPath), trimmedPath, StringComparison.OrdinalIgnoreCase));
+				return itemsPath.All(itemPath => string.Equals(Path.GetDirectoryName(itemPath).TrimPath(), trimmedPath, StringComparison.OrdinalIgnoreCase));
 			}
 			catch
 			{
@@ -87,6 +87,47 @@ namespace Files.App.Utils.Storage
 			=> storageItems.Select(x => x.Path).AreItemsAlreadyInFolder(destinationPath);
 		public static bool AreItemsAlreadyInFolder(this IEnumerable<IStorageItemWithPath> storageItems, string destinationPath)
 			=> storageItems.Select(x => x.Path).AreItemsAlreadyInFolder(destinationPath);
+
+		public static bool ContainsDestinationPath(this IEnumerable<string> itemsPath, string? destinationPath)
+		{
+			var trimmedPath = destinationPath.TrimPath();
+			if (string.IsNullOrEmpty(trimmedPath))
+				return false;
+
+			return itemsPath.Any(itemPath => string.Equals(itemPath.TrimPath(), trimmedPath, StringComparison.OrdinalIgnoreCase));
+		}
+		public static bool ContainsDestinationPath(this IEnumerable<IStorageItem> storageItems, string? destinationPath)
+			=> storageItems.Select(x => x.Path).ContainsDestinationPath(destinationPath);
+		public static bool ContainsDestinationPath(this IEnumerable<IStorageItemWithPath> storageItems, string? destinationPath)
+			=> storageItems.Select(x => x.Path).ContainsDestinationPath(destinationPath);
+
+		public static bool ContainsDestinationOrAncestor(this IEnumerable<string> itemsPath, string? destinationPath)
+		{
+			var trimmedPath = destinationPath.TrimPath();
+			if (string.IsNullOrEmpty(trimmedPath))
+				return false;
+
+			return itemsPath.Any(itemPath => IsSamePathOrAncestor(itemPath.TrimPath(), trimmedPath));
+		}
+		public static bool ContainsDestinationOrAncestor(this IEnumerable<IStorageItem> storageItems, string? destinationPath)
+			=> storageItems.Select(x => x.Path).ContainsDestinationOrAncestor(destinationPath);
+		public static bool ContainsDestinationOrAncestor(this IEnumerable<IStorageItemWithPath> storageItems, string? destinationPath)
+			=> storageItems.Select(x => x.Path).ContainsDestinationOrAncestor(destinationPath);
+
+		private static bool IsSamePathOrAncestor(string? trimmedItemPath, string trimmedDestinationPath)
+		{
+			if (string.IsNullOrEmpty(trimmedItemPath))
+				return false;
+
+			if (string.Equals(trimmedItemPath, trimmedDestinationPath, StringComparison.OrdinalIgnoreCase))
+				return true;
+
+			// Match the separator too, so C:\folder isn't treated as an ancestor of C:\folder2
+			return trimmedDestinationPath.Length > trimmedItemPath.Length &&
+				trimmedDestinationPath.StartsWith(trimmedItemPath, StringComparison.OrdinalIgnoreCase) &&
+				(trimmedDestinationPath[trimmedItemPath.Length] == Path.DirectorySeparatorChar ||
+				trimmedDestinationPath[trimmedItemPath.Length] == Path.AltDirectorySeparatorChar);
+		}
 
 		[DynamicWindowsRuntimeCast(typeof(StorageFolder))]
 		public static BaseStorageFolder? AsBaseStorageFolder(this IStorageItem? item)

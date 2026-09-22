@@ -1,12 +1,14 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using CommunityToolkit.WinUI;
 using Files.App.Controls;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
@@ -959,8 +961,13 @@ namespace Files.App.Views
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(UIElement))]
+		[DynamicWindowsRuntimeCast(typeof(ButtonBase))]
 		private void Pane_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
+			// A button cancels its press once it loses focus, so leave focus alone while one is being pressed
+			if ((e.OriginalSource as DependencyObject)?.FindAscendantOrSelf<ButtonBase>() is not null)
+				return;
+
 			// Focus pane if interaction suggests intent to focus:
 			// 1. Sender is not the currently active pane (user is switching panes), or the sender is the active pane,
 			// but the user is refocusing the pane (e.g. user taps pane to refocus while the Omnibar flyout is open)

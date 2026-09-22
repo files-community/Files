@@ -207,14 +207,15 @@ namespace Files.App.Helpers
 
 		public Type GetLayoutType(string? path, bool changeLayoutMode = true)
 		{
-			var preferencesItem = GetLayoutPreferencesForPath(path);
+			var preferencesItem = GetLayoutPreferencesForPath(path, out var isDefaultLayout);
 			if (preferencesItem is null)
 				return typeof(DetailsLayoutPage);
 
 			// Predicting the adaptive decision at navigation time avoids a post-enumeration page switch
 			if (IsAdaptiveLayoutEnabled && !preferencesItem.IsAdaptiveLayoutOverridden &&
+				isDefaultLayout is not false &&
 				AdaptiveLayoutHelpers.TryPredictLayout(path, out var resolvedLayout) &&
-				IsPathUsingDefaultLayout(path))
+				(isDefaultLayout ?? IsPathUsingDefaultLayout(path)))
 			{
 				preferencesItem.LayoutMode = resolvedLayout;
 			}
@@ -241,7 +242,7 @@ namespace Files.App.Helpers
 			if (string.IsNullOrWhiteSpace(path))
 				return;
 
-			var preferencesItem = GetLayoutPreferencesForPath(path);
+			var preferencesItem = GetLayoutPreferencesForPath(path, out _);
 			if (preferencesItem is null)
 				return;
 
@@ -321,7 +322,7 @@ namespace Files.App.Helpers
 
 		public void OnDefaultPreferencesChanged(string? path, string settingsName)
 		{
-			var preferencesItem = GetLayoutPreferencesForPath(path);
+			var preferencesItem = GetLayoutPreferencesForPath(path, out _);
 			if (preferencesItem is null)
 				return;
 
@@ -495,8 +496,10 @@ namespace Files.App.Helpers
 			}
 		}
 
-		private static LayoutPreferencesItem? GetLayoutPreferencesForPath(string? path)
+		private static LayoutPreferencesItem? GetLayoutPreferencesForPath(string? path, out bool? isDefaultLayout)
 		{
+			isDefaultLayout = null;
+
 			// Guard against null
 			if (path is null)
 				return null;
@@ -528,20 +531,35 @@ namespace Files.App.Helpers
 			if (!UserSettingsService.LayoutSettingsService.SyncFolderPreferencesAcrossDirectories)
 			{
 				path = path.TrimPath() ?? string.Empty;
+				bool? usesDefaultLayout = null;
 
-				return SafetyExtensions.IgnoreExceptions(() =>
+				var preferencesItem = SafetyExtensions.IgnoreExceptions(() =>
 				{
 					if (path.StartsWith("tag:", StringComparison.Ordinal))
 						return GetLayoutPreferencesFromDatabase("Home", null);
 
 					var folderFRN = Win32Helper.GetFolderFRN(path);
 
-					return GetLayoutPreferencesFromDatabase(path, folderFRN)
-						?? GetLayoutPreferencesFromAds(path, folderFRN);
-				}, App.Logger)
-					?? GetDefaultLayoutPreferences(path);
+					var preferences = GetLayoutPreferencesFromDatabase(path, folderFRN);
+					if (preferences is not null)
+					{
+						usesDefaultLayout = false;
+						return preferences;
+					}
+
+					// A legacy ADS migration needs the usual database check before applying a prediction.
+					preferences = GetLayoutPreferencesFromAds(path, folderFRN);
+					if (preferences is null)
+						usesDefaultLayout = true;
+
+					return preferences;
+				}, App.Logger);
+
+				isDefaultLayout = usesDefaultLayout;
+				return preferencesItem ?? GetDefaultLayoutPreferences(path);
 			}
 
+			isDefaultLayout = true;
 			return new LayoutPreferencesItem();
 		}
 

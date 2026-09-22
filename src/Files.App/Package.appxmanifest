@@ -11,22 +11,28 @@
     xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
     xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
     xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
-    IgnorableNamespaces="mp rescap desktop desktop4 desktop6 uap uap5">
+    xmlns:virtualization="http://schemas.microsoft.com/appx/manifest/virtualization/windows10"
+    IgnorableNamespaces="mp rescap desktop desktop4 desktop6 uap uap5 virtualization">
 
     <Identity
         Name="FilesDev"
         Publisher="CN=Files"
-        Version="4.2.26.0" />
+        Version="4.2.37.0" />
 
     <Properties>
         <DisplayName>Files - Dev</DisplayName>
         <PublisherDisplayName>Yair A</PublisherDisplayName>
         <Logo>Assets\AppTiles\Dev\StoreLogo.png</Logo>
         <desktop6:FileSystemWriteVirtualization>disabled</desktop6:FileSystemWriteVirtualization>
+        <virtualization:RegistryWriteVirtualization>
+            <virtualization:ExcludedKeys>
+                <virtualization:ExcludedKey>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\DefaultIcon</virtualization:ExcludedKey>
+            </virtualization:ExcludedKeys>
+        </virtualization:RegistryWriteVirtualization>
     </Properties>
 
     <Dependencies>
-        <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.22621.0" />
+        <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.26100.0" />
     </Dependencies>
 
     <Resources>
@@ -185,12 +191,12 @@
         <rescap:Capability Name="broadFileSystemAccess" />
         <rescap:Capability Name="allowElevation" />
         <!--
-            The unvirtualizedResources capability is used to support file operations in the AppData directory.
+            The unvirtualizedResources capability supports AppData file operations and shared Recycle Bin icon state.
         -->
         <rescap:Capability Name="unvirtualizedResources" />
         <!--
             The packageManagement capability is used to download updates in the sideload version of Files.
-            We only use this capability in the sideload version and remove it when compiling the store vesion in Azure DevOps.
+            We only use this capability in the sideload version and remove it when compiling the store version.
         -->
         <rescap:Capability Name="packageManagement" />
         <uap:Capability Name="removableStorage" />

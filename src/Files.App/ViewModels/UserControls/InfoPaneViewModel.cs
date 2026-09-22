@@ -552,6 +552,11 @@ namespace Files.App.ViewModels.UserControls
 		public void UnloadPreview()
 		{
 			CancelPreviewLoad();
+
+			// Tear the preview host down here since the control's Unloaded event won't reliably fire while we're closing to background
+			if (previewPaneContent is ShellPreview shellPreview)
+				shellPreview.UnloadPreview();
+
 			PreviewPaneContent = null;
 		}
 

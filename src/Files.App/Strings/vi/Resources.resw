@@ -4158,6 +4158,12 @@
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>Không thể sử dụng tổ hợp phím này, vui lòng chọn tổ hợp khác.</value>
   </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>Lối tắt bàn phím</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>Bạn có chắc chắn muốn xóa gán phím này không?</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>Tùy chỉnh</value>
   </data>

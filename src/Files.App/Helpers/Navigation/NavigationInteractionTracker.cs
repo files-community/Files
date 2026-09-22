@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Input;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Numerics;
 
 namespace Files.App.Helpers
@@ -142,9 +143,11 @@ namespace Files.App.Helpers
 			var compositor = _rootVisual.Compositor;
 
 			var resistance = CompositionConditionalValue.Create(compositor);
-			var resistanceCondition = compositor.CreateExpressionAnimation($"tracker.Position.X > {minValue} && tracker.Position.X < {maxValue}");
+
+			// Force InvariantCulture: some cultures render the minus sign as U+2212, which the expression parser rejects
+			var resistanceCondition = compositor.CreateExpressionAnimation(string.Create(CultureInfo.InvariantCulture, $"tracker.Position.X > {minValue} && tracker.Position.X < {maxValue}"));
 			resistanceCondition.SetReferenceParameter("tracker", _tracker);
-			var resistanceValue = compositor.CreateExpressionAnimation($"source.DeltaPosition.X * (1 - sqrt(1 - square((tracker.Position.X / {minValue + maxValue}) - 1)))");
+			var resistanceValue = compositor.CreateExpressionAnimation(string.Create(CultureInfo.InvariantCulture, $"source.DeltaPosition.X * (1 - sqrt(1 - square((tracker.Position.X / {minValue + maxValue}) - 1)))"));
 			resistanceValue.SetReferenceParameter("source", _source);
 			resistanceValue.SetReferenceParameter("tracker", _tracker);
 			resistance.Condition = resistanceCondition;

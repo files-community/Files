@@ -161,10 +161,17 @@ namespace Files.App.Helpers
 				updateService.AreReleaseNotesAvailable &&
 				!ViewedReleaseNotes)
 			{
-				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				ViewedReleaseNotes = true;
+
+				// Open after the startup tabs have loaded so the release notes tab doesn't disturb the restored session order
+				_ = Task.Run(async () =>
 				{
-					await Ioc.Default.GetRequiredService<ICommandManager>().OpenReleaseNotes.ExecuteAsync();
-					ViewedReleaseNotes = true;
+					await MainPageViewModel.StartupTabsLoadedTask;
+
+					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+					{
+						await Ioc.Default.GetRequiredService<ICommandManager>().OpenReleaseNotes.ExecuteAsync();
+					});
 				});
 			}
 
