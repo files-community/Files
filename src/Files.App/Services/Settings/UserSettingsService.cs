@@ -34,6 +34,7 @@ namespace Files.App.Services.Settings
 	[JsonSerializable(typeof(VerticalAlignment))]
 	[JsonSerializable(typeof(HorizontalAlignment))]
 	[JsonSerializable(typeof(StatusCenterVisibility))]
+	[JsonSerializable(typeof(StatusBarItemCountFormat))]
 	[JsonSerializable(typeof(InfoPaneTabs))]
 	[JsonSerializable(typeof(DetailsViewSizeKind))]
 	[JsonSerializable(typeof(ListViewSizeKind))]
