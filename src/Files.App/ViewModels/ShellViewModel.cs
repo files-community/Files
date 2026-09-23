@@ -68,6 +68,9 @@ namespace Files.App.ViewModels
 		// Only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
 
+		// Number of folders in FilesAndFolders
+		public int FoldersCount { get; private set; }
+
 		private readonly LayoutPreferencesManager folderSettings;
 
 		private ListedItem? currentFolder;
@@ -387,6 +390,7 @@ namespace Files.App.ViewModels
 
 			// The previous listing stays visible through navigation, so drop it before showing the indicator
 			FilesAndFolders.Clear();
+			FoldersCount = 0;
 			IsLocationUnavailable = true;
 		}
 
@@ -931,6 +935,7 @@ namespace Files.App.ViewModels
 				AppMemoryHelper.RequestTrim();
 			filesAndFolders.Clear();
 			FilesAndFolders.Clear();
+			FoldersCount = 0;
 			CancelSearch();
 		}
 
@@ -1128,6 +1133,8 @@ namespace Files.App.ViewModels
 						: await Task.Run(() => filesAndFoldersLocal.Where(
 							x => x.Name?.Contains(filter, StringComparison.OrdinalIgnoreCase) == true).ToList(), addFilesCTS.Token);
 
+					var displayedFoldersCount = displayedFilesAndFolders.Count(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive);
+
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						try
@@ -1140,6 +1147,7 @@ namespace Files.App.ViewModels
 							{
 								FilesAndFolders.Clear();
 								FilesAndFolders.AddRange(displayedFilesAndFolders);
+								FoldersCount = displayedFoldersCount;
 
 								if (folderSettings.DirectoryGroupOption != GroupOption.None)
 									OrderGroups();

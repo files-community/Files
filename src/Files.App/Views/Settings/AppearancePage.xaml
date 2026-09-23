@@ -299,15 +299,26 @@
 			</wctcontrols:SettingsExpander>
 
 			<!--  Show Status Bar  -->
-			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowStatusBar}">
-				<wctcontrols:SettingsCard.HeaderIcon>
+			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=ShowStatusBar}">
+				<wctcontrols:SettingsExpander.HeaderIcon>
 					<PathIcon Data="{StaticResource App.Theme.PathIcon.StatusBar}" />
-				</wctcontrols:SettingsCard.HeaderIcon>
+				</wctcontrols:SettingsExpander.HeaderIcon>
+
 				<ToggleSwitch
 					AutomationProperties.AutomationControlType="Custom"
 					AutomationProperties.Name="{helpers:ResourceString Name=ShowStatusBar}"
 					IsOn="{x:Bind ViewModel.ShowStatusBar, Mode=TwoWay}" />
-			</wctcontrols:SettingsCard>
+
+				<wctcontrols:SettingsExpander.Items>
+					<!--  Item count format  -->
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ItemCountFormat}" IsEnabled="{x:Bind ViewModel.ShowStatusBar, Mode=OneWay}">
+						<uc:ComboBoxEx
+							AutomationProperties.Name="{helpers:ResourceString Name=ItemCountFormat}"
+							ItemsSource="{x:Bind ViewModel.StatusBarItemCountFormats.Values}"
+							SelectedItem="{x:Bind ViewModel.SelectedStatusBarItemCountFormat, Mode=TwoWay}" />
+					</wctcontrols:SettingsCard>
+				</wctcontrols:SettingsExpander.Items>
+			</wctcontrols:SettingsExpander>
 		</StackPanel>
 	</Grid>
 </Page>

@@ -30,6 +30,7 @@ namespace Files.App.ViewModels.Settings
 		public Dictionary<HorizontalAlignment, string> ImageHorizontalAlignmentTypes { get; private set; } = [];
 
 		public Dictionary<StatusCenterVisibility, string> StatusCenterVisibilityOptions { get; private set; } = [];
+		public Dictionary<StatusBarItemCountFormat, string> StatusBarItemCountFormats { get; private set; } = [];
 
 		public Dictionary<string, string> AppThemeFontFamilyOptions { get; private set; } = [];
 
@@ -86,6 +87,11 @@ namespace Files.App.ViewModels.Settings
 			SelectedImageHorizontalAlignmentType = ImageHorizontalAlignmentTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageHorizontalAlignment];
 
 			UpdateSelectedResource();
+
+			// StatusBarItemCountFormat
+			StatusBarItemCountFormats.Add(StatusBarItemCountFormat.Total, $"12 {Strings.Items.GetLocalizedFormatResource(12)}");
+			StatusBarItemCountFormats.Add(StatusBarItemCountFormat.FilesAndFolders, Strings.PropertiesFilesAndFoldersCountString.GetLocalizedFormatResource(8, 4));
+			SelectedStatusBarItemCountFormat = StatusBarItemCountFormats[UserSettingsService.AppearanceSettingsService.StatusBarItemCountFormat];
 
 			// StatusCenterVisibility
 			StatusCenterVisibilityOptions.Add(StatusCenterVisibility.Always, Strings.Always.GetLocalizedResource());
@@ -402,6 +408,19 @@ namespace Files.App.ViewModels.Settings
 					UserSettingsService.AppearanceSettingsService.ShowShelfPaneToggleButton = value;
 
 					OnPropertyChanged();
+				}
+			}
+		}
+
+		private string selectedStatusBarItemCountFormat = null!;
+		public string SelectedStatusBarItemCountFormat
+		{
+			get => selectedStatusBarItemCountFormat;
+			set
+			{
+				if (SetProperty(ref selectedStatusBarItemCountFormat, value))
+				{
+					UserSettingsService.AppearanceSettingsService.StatusBarItemCountFormat = StatusBarItemCountFormats.First(e => e.Value == value).Key;
 				}
 			}
 		}
