@@ -540,6 +540,8 @@ namespace Files.App.Controls
 			if (pointerUpdateKind == PointerUpdateKind.LeftButtonReleased ||
 				pointerUpdateKind == PointerUpdateKind.MiddleButtonReleased)
 			{
+				// Rows don't take focus on click, which would leave an open Omnibar in edit mode
+				(GetTemplateChild("ElementGrid") as UIElement)?.Focus(FocusState.Pointer);
 				Clicked(pointerUpdateKind);
 			}
 		}
