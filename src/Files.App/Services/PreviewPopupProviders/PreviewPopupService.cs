@@ -12,6 +12,8 @@ namespace Files.App.Services.PreviewPopupProviders
 				return await Task.FromResult<IPreviewPopupProvider>(QuickLookProvider.Instance);
 			if (await SeerProProvider.Instance.DetectAvailability())
 				return await Task.FromResult<IPreviewPopupProvider>(SeerProProvider.Instance);
+			if (await GlanceProvider.Instance.DetectAvailability())
+				return await Task.FromResult<IPreviewPopupProvider>(GlanceProvider.Instance);
 			if (await PowerToysPeekProvider.Instance.DetectAvailability())
 				return await Task.FromResult<IPreviewPopupProvider>(PowerToysPeekProvider.Instance);
 			else
