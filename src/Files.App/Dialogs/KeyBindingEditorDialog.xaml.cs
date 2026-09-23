@@ -53,8 +53,13 @@ namespace Files.App.Dialogs
 		private void ActionPickerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			_viewModel.SelectedActionItem = ActionPickerComboBox.SelectedItem as ModifiableActionItem;
-			KeyBindingEditorTextBox.Focus(FocusState.Programmatic);
 			UpdatePrimaryEnabled();
+		}
+
+		private void ActionPickerComboBox_DropDownClosed(object sender, object e)
+		{
+			if (ActionPickerComboBox.SelectedItem is not null)
+				DispatcherQueue.TryEnqueue(() => KeyBindingEditorTextBox.Focus(FocusState.Programmatic));
 		}
 
 		private void KeyBindingEditorTextBox_Loaded(object sender, RoutedEventArgs e)
