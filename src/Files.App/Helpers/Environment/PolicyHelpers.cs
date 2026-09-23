@@ -8,6 +8,7 @@ namespace Files.App.Helpers
 	internal static class PolicyHelpers
 	{
 		private const string ExplorerPolicyRegistryKey = @"SOFTWARE\Policies\Microsoft\Windows\Explorer";
+		private const string FilesPolicyRegistryKey = @"SOFTWARE\Policies\Files Community\Files";
 
 		public static bool IsShellShortcutIconRemotePathEnabled()
 		{
@@ -21,6 +22,33 @@ namespace Files.App.Helpers
 			{
 				return false;
 			}
+		}
+
+		public static bool IsSettingsEnabled { get; } = GetFilesPolicyValue("ShowSettingsButton") is not int value || value != 0;
+
+		public static string? GetImportSettingsFilePath()
+		{
+			return GetFilesPolicyValue("ImportSettingsFile") is string path && !string.IsNullOrWhiteSpace(path)
+				? Environment.ExpandEnvironmentVariables(path.Trim().Trim('"'))
+				: null;
+		}
+
+		private static object? GetFilesPolicyValue(string name)
+		{
+			foreach (var hive in (RegistryKey[])[Registry.LocalMachine, Registry.CurrentUser])
+			{
+				try
+				{
+					using var policySubkey = hive.OpenSubKey(FilesPolicyRegistryKey);
+					if (policySubkey?.GetValue(name) is { } value)
+						return value;
+				}
+				catch
+				{
+				}
+			}
+
+			return null;
 		}
 	}
 }

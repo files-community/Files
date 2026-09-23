@@ -162,35 +162,7 @@ namespace Files.App.ViewModels.Settings
 
 			try
 			{
-				var file = await StorageHelpers.ToStorageItem<BaseStorageFile>(filePath);
-				if (file is null)
-					throw new IOException($"The selected settings file '{filePath}' could not be read.");
-
-				if (await ZipStorageFolder.FromStorageFileAsync(file) is not ZipStorageFolder zipFolder)
-					return;
-
-				var localFolderPath = ApplicationData.Current.LocalFolder.Path;
-				var settingsFolder = await StorageFolder.GetFolderFromPathAsync(Path.Combine(localFolderPath, Constants.LocalSettings.SettingsFolderName));
-
-				// Import user settings
-				var userSettingsFile = await zipFolder.GetFileAsync(Constants.LocalSettings.UserSettingsFileName);
-				string importSettings = await userSettingsFile.ReadTextAsync();
-				UserSettingsService.ImportSettings(importSettings);
-
-				// Import file tags list and DB
-				var fileTagsList = await zipFolder.GetFileAsync(Constants.LocalSettings.FileTagSettingsFileName);
-				string importTags = await fileTagsList.ReadTextAsync();
-				fileTagsSettingsService.ImportSettings(importTags);
-				var fileTagsDB = await zipFolder.GetFileAsync(Constants.LocalSettings.FileTagSettingsDatabaseFileName);
-				string importTagsDB = await fileTagsDB.ReadTextAsync();
-				var tagDbInstance = FileTagsHelper.GetDbInstance();
-				tagDbInstance.Import(importTagsDB);
-
-				// Import layout preferences and DB
-				var layoutPrefsDB = await zipFolder.GetFileAsync(Constants.LocalSettings.UserSettingsDatabaseFileName);
-				string importPrefsDB = await layoutPrefsDB.ReadTextAsync();
-				var layoutDbInstance = LayoutPreferencesManager.GetDatabaseManagerInstance();
-				layoutDbInstance.Import(importPrefsDB);
+				await AppSettingsImportHelper.ImportFromZipAsync(filePath);
 			}
 			catch (Exception ex)
 			{

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<policyDefinitionResources xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" revision="1.0" schemaVersion="1.0" xmlns="http://schemas.microsoft.com/GroupPolicy/2006/07/PolicyDefinitions">
+  <displayName>Files</displayName>
+  <description>Policies for the Files app.</description>
+  <resources>
+    <stringTable>
+      <string id="SUPPORTED_Files">Files</string>
+      <string id="Files">Files</string>
+      <string id="ShowSettingsButton">Settings button</string>
+      <string id="ShowSettingsButton_Explain">If you enable or don't configure this policy, the Settings button is shown and users can open Settings.
+
+If you disable this policy, the Settings button is hidden and users can't open Settings or the settings file from the sidebar, the command palette, keyboard shortcuts or the address bar.</string>
+      <string id="ImportSettingsFile">Import settings file on open</string>
+      <string id="ImportSettingsFile_Explain">If you enable this policy and specify the path to a settings file exported from Files (.zip), the settings in that file are imported every time Files starts.
+
+If you disable or don't configure this policy, or the file is missing or invalid, no settings are imported.</string>
+    </stringTable>
+    <presentationTable>
+      <presentation id="ImportSettingsFile">
+        <textBox refId="ImportSettingsFilePath">
+          <label>Settings file path:</label>
+        </textBox>
+      </presentation>
+    </presentationTable>
+  </resources>
+</policyDefinitionResources>

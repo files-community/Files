@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<policyDefinitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" revision="1.0" schemaVersion="1.0" xmlns="http://schemas.microsoft.com/GroupPolicy/2006/07/PolicyDefinitions">
+  <policyNamespaces>
+    <target prefix="files" namespace="FilesCommunity.Policies.Files" />
+    <using prefix="windows" namespace="Microsoft.Policies.Windows" />
+  </policyNamespaces>
+  <resources minRequiredRevision="1.0" />
+  <supportedOn>
+    <definitions>
+      <definition name="SUPPORTED_Files" displayName="$(string.SUPPORTED_Files)" />
+    </definitions>
+  </supportedOn>
+  <categories>
+    <category name="Files" displayName="$(string.Files)" />
+  </categories>
+  <policies>
+    <policy name="ShowSettingsButton" class="Both" displayName="$(string.ShowSettingsButton)" explainText="$(string.ShowSettingsButton_Explain)" key="SOFTWARE\Policies\Files Community\Files" valueName="ShowSettingsButton">
+      <parentCategory ref="Files" />
+      <supportedOn ref="SUPPORTED_Files" />
+      <enabledValue>
+        <decimal value="1" />
+      </enabledValue>
+      <disabledValue>
+        <decimal value="0" />
+      </disabledValue>
+    </policy>
+    <policy name="ImportSettingsFile" class="Both" displayName="$(string.ImportSettingsFile)" explainText="$(string.ImportSettingsFile_Explain)" presentation="$(presentation.ImportSettingsFile)" key="SOFTWARE\Policies\Files Community\Files">
+      <parentCategory ref="Files" />
+      <supportedOn ref="SUPPORTED_Files" />
+      <elements>
+        <text id="ImportSettingsFilePath" valueName="ImportSettingsFile" required="true" expandable="true" />
+      </elements>
+    </policy>
+  </policies>
+</policyDefinitions>

@@ -300,7 +300,10 @@
 
 			<!--  Footer  -->
 			<controls:SidebarView.Footer>
-				<StackPanel Padding="4,2,4,2" Spacing="2">
+				<StackPanel
+					Padding="4,2,4,2"
+					Spacing="2"
+					Visibility="{x:Bind helpers:PolicyHelpers.IsSettingsEnabled}">
 					<Border
 						Height="1"
 						HorizontalAlignment="Stretch"

@@ -161,6 +161,18 @@ namespace Files.App
 				if (AppLifecycleHelper.AppEnvironment is not AppEnvironment.Dev)
 					AppLifecycleHelper.ConfigureSentry();
 
+				if (PolicyHelpers.GetImportSettingsFilePath() is { } policySettingsFilePath)
+				{
+					try
+					{
+						await AppSettingsImportHelper.ImportFromZipAsync(policySettingsFilePath);
+					}
+					catch (Exception ex)
+					{
+						Ioc.Default.GetRequiredService<ILogger<App>>().LogWarning(ex, "Error importing the settings file set by policy");
+					}
+				}
+
 				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 				var isLeaveAppRunning = userSettingsService.GeneralSettingsService.LeaveAppRunning;
 

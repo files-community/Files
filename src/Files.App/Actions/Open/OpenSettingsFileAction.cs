@@ -27,6 +27,9 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new("\uE8DA");
 
+		public bool IsExecutable
+			=> PolicyHelpers.IsSettingsEnabled;
+
 		public async Task ExecuteAsync(object? parameter = null)
 		{
 			try

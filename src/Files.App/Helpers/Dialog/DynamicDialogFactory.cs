@@ -501,7 +501,7 @@ namespace Files.App.Helpers
 				SubtitleText = string.Format(Strings.IDENotLocatedContent.GetLocalizedResource(), friendlyName),
 				PrimaryButtonText = Strings.OpenSettings.GetLocalizedResource(),
 				SecondaryButtonText = Strings.Close.GetLocalizedResource(),
-				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary,
+				DynamicButtons = commands.OpenSettings.IsExecutable ? DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary : DynamicDialogButtons.Secondary,
 			});
 
 			await dialog.TryShowAsync();

@@ -23,6 +23,9 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Settings");
 
+		public override bool IsExecutable
+			=> PolicyHelpers.IsSettingsEnabled && base.IsExecutable;
+
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			var settingsPage = (parameter as SettingsNavigationParams)?.PageKind.ToString();

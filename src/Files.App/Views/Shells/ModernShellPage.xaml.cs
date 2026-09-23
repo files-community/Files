@@ -304,6 +304,12 @@ namespace Files.App.Views.Shells
 
 		public override void NavigateToSettings(string? selectItem = null)
 		{
+			if (!PolicyHelpers.IsSettingsEnabled)
+			{
+				NavigateHome();
+				return;
+			}
+
 			ItemDisplayFrame.Navigate(
 				typeof(SettingsPage),
 				new NavigationArguments()
