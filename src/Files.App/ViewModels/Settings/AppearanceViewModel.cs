@@ -30,7 +30,11 @@ namespace Files.App.ViewModels.Settings
 		public Dictionary<HorizontalAlignment, string> ImageHorizontalAlignmentTypes { get; private set; } = [];
 
 		public Dictionary<StatusCenterVisibility, string> StatusCenterVisibilityOptions { get; private set; } = [];
-		public Dictionary<StatusBarItemCountFormat, string> StatusBarItemCountFormats { get; private set; } = [];
+		public List<StatusBarItemCountFormatItem> StatusBarItemCountFormats { get; } =
+		[
+			new(Strings.Total.GetLocalizedResource(), $"12 {Strings.Items.GetLocalizedFormatResource(12)}"),
+			new(Strings.FilesAndFolders.GetLocalizedResource(), Strings.PropertiesFilesAndFoldersCountString.GetLocalizedFormatResource(8, 4)),
+		];
 
 		public Dictionary<string, string> AppThemeFontFamilyOptions { get; private set; } = [];
 
@@ -87,11 +91,6 @@ namespace Files.App.ViewModels.Settings
 			SelectedImageHorizontalAlignmentType = ImageHorizontalAlignmentTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageHorizontalAlignment];
 
 			UpdateSelectedResource();
-
-			// StatusBarItemCountFormat
-			StatusBarItemCountFormats.Add(StatusBarItemCountFormat.Total, $"12 {Strings.Items.GetLocalizedFormatResource(12)}");
-			StatusBarItemCountFormats.Add(StatusBarItemCountFormat.FilesAndFolders, Strings.PropertiesFilesAndFoldersCountString.GetLocalizedFormatResource(8, 4));
-			SelectedStatusBarItemCountFormat = StatusBarItemCountFormats[UserSettingsService.AppearanceSettingsService.StatusBarItemCountFormat];
 
 			// StatusCenterVisibility
 			StatusCenterVisibilityOptions.Add(StatusCenterVisibility.Always, Strings.Always.GetLocalizedResource());
@@ -412,15 +411,16 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedStatusBarItemCountFormat = null!;
-		public string SelectedStatusBarItemCountFormat
+		public int SelectedStatusBarItemCountFormatIndex
 		{
-			get => selectedStatusBarItemCountFormat;
+			get => (int)UserSettingsService.AppearanceSettingsService.StatusBarItemCountFormat;
 			set
 			{
-				if (SetProperty(ref selectedStatusBarItemCountFormat, value))
+				if (value >= 0 && value != (int)UserSettingsService.AppearanceSettingsService.StatusBarItemCountFormat)
 				{
-					UserSettingsService.AppearanceSettingsService.StatusBarItemCountFormat = StatusBarItemCountFormats.First(e => e.Value == value).Key;
+					UserSettingsService.AppearanceSettingsService.StatusBarItemCountFormat = (StatusBarItemCountFormat)value;
+
+					OnPropertyChanged();
 				}
 			}
 		}
@@ -442,5 +442,12 @@ namespace Files.App.ViewModels.Settings
 		{
 			get => AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;
 		}
+	}
+
+	public sealed class StatusBarItemCountFormatItem(string label, string sample)
+	{
+		public string Label { get; } = label;
+
+		public string Sample { get; } = sample;
 	}
 }
