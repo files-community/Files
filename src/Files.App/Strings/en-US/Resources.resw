@@ -4611,6 +4611,12 @@
   <data name="ItemCountFormat" xml:space="preserve">
     <value>Item count format</value>
   </data>
+  <data name="TotalCount" xml:space="preserve">
+    <value>Total count</value>
+  </data>
+  <data name="SeparateFileAndFolderCounts" xml:space="preserve">
+    <value>Separate file and folder counts</value>
+  </data>
   <data name="OnlyForTouch" xml:space="preserve">
     <value>When using touch</value>
   </data>

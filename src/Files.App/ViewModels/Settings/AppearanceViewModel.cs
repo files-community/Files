@@ -32,8 +32,8 @@ namespace Files.App.ViewModels.Settings
 		public Dictionary<StatusCenterVisibility, string> StatusCenterVisibilityOptions { get; private set; } = [];
 		public List<StatusBarItemCountFormatItem> StatusBarItemCountFormats { get; } =
 		[
-			new(Strings.Total.GetLocalizedResource(), $"12 {Strings.Items.GetLocalizedFormatResource(12)}"),
-			new(Strings.FilesAndFolders.GetLocalizedResource(), Strings.PropertiesFilesAndFoldersCountString.GetLocalizedFormatResource(8, 4)),
+			new(Strings.TotalCount.GetLocalizedResource(), $"12 {Strings.Items.GetLocalizedFormatResource(12)}"),
+			new(Strings.SeparateFileAndFolderCounts.GetLocalizedResource(), Strings.PropertiesFilesAndFoldersCountString.GetLocalizedFormatResource(8, 4)),
 		];
 
 		public Dictionary<string, string> AppThemeFontFamilyOptions { get; private set; } = [];
