@@ -30,10 +30,6 @@
 			<converters:NullToVisibilityCollapsedConverter x:Key="NullToVisibilityCollapsedConverter" />
 			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<converters:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
-			<converters1:BoolToObjectConverter
-				x:Key="SearchSuggestionGlyphConverter"
-				FalseValue="&#xE7C3;"
-				TrueValue="&#xE81C;" />
 
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///UserControls/KeyboardShortcut/KeyboardShortcut.xaml" />
@@ -239,6 +235,7 @@
 				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Path}, IsFilled=True}"
 				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Path}, IconType=Outline}"
 				IsDefault="True"
+				IsFirstSuggestionAutoSelected="{x:Bind ViewModel.IsPathModeSuggestionAutoSelected, Mode=OneWay}"
 				ItemsSource="{x:Bind ViewModel.PathModeSuggestionItems, Mode=OneWay}"
 				ModeName="{x:Bind Commands.EditPath.LabelWithHotKey, Mode=OneWay}"
 				PlaceholderText="{helpers:ResourceString Name=OmnibarPathModeTextPlaceholder}"
@@ -280,7 +277,18 @@
 				</controls:OmnibarMode.ContentOnInactive>
 				<controls:OmnibarMode.ItemTemplate>
 					<DataTemplate x:DataType="datamodels:OmnibarPathModeSuggestionModel">
-						<TextBlock Text="{x:Bind DisplayName, Mode=OneTime}" />
+						<Grid ColumnSpacing="12">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<TextBlock MinWidth="{x:Bind NameMinWidth, Mode=OneTime}" Text="{x:Bind DisplayName, Mode=OneTime}" />
+							<TextBlock
+								Grid.Column="1"
+								Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+								Text="{x:Bind Description, Mode=OneTime}"
+								TextTrimming="CharacterEllipsis" />
+						</Grid>
 					</DataTemplate>
 				</controls:OmnibarMode.ItemTemplate>
 			</controls:OmnibarMode>
@@ -290,6 +298,7 @@
 				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IsFilled=True}"
 				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IconType=Outline}"
 				IsAutoFocusEnabled="True"
+				IsFirstSuggestionAutoSelected="True"
 				ItemsSource="{x:Bind ViewModel.OmnibarCommandPaletteModeSuggestionItems, Mode=OneWay}"
 				ModeName="{x:Bind Commands.OpenCommandPalette.LabelWithHotKey, Mode=OneWay}"
 				PlaceholderText="{helpers:ResourceString Name=OmnibarCommandPaletteModeTextPlaceholder}"
@@ -346,6 +355,7 @@
 				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IsFilled=True}"
 				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IconType=Outline}"
 				IsAutoFocusEnabled="True"
+				IsFirstSuggestionAutoSelected="True"
 				ItemsSource="{x:Bind ViewModel.OmnibarSearchModeSuggestionItems, Mode=OneWay}"
 				ModeName="{x:Bind Commands.Search.LabelWithHotKey, Mode=OneWay}"
 				PlaceholderText="{x:Bind ViewModel.OmnibarSearchModePlaceholder, Mode=OneWay}"
@@ -374,7 +384,7 @@
 									x:Name="EmptyIconGlyph"
 									x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
 									FontSize="14"
-									Glyph="{x:Bind IsRecentSearch, Mode=OneTime, Converter={StaticResource SearchSuggestionGlyphConverter}}" />
+									Glyph="{x:Bind PlaceholderGlyph, Mode=OneTime}" />
 								<Viewbox
 									x:Name="ShortcutGlyphElement"
 									Width="10"
@@ -386,7 +396,7 @@
 								</Viewbox>
 							</Grid>
 							<StackPanel Grid.Column="1" VerticalAlignment="Center">
-								<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+								<TextBlock Text="{x:Bind DisplayName, Mode=OneTime}" />
 								<TextBlock
 									FontSize="12"
 									Foreground="{ThemeResource TextFillColorSecondaryBrush}"

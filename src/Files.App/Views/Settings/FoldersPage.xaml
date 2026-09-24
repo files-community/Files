@@ -4,6 +4,7 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
@@ -210,6 +211,145 @@
 						Severity="Warning" />
 				</wctcontrols:SettingsExpander.ItemsHeader>
 			</wctcontrols:SettingsExpander>
+
+			<!--  Folder aliases  -->
+			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=FolderAliases}">
+				<wctcontrols:SettingsExpander.HeaderIcon>
+					<FontIcon Glyph="&#xE71B;" />
+				</wctcontrols:SettingsExpander.HeaderIcon>
+
+				<!--  Add alias; Restore defaults lives in the split flyout  -->
+				<SplitButton
+					x:Name="AddAliasSplitButton"
+					Click="AddAliasButton_Click"
+					Content="{helpers:ResourceString Name=AddAlias}">
+					<SplitButton.Flyout>
+						<MenuFlyout Placement="Bottom">
+							<MenuFlyoutItem Click="RestoreDefaultAliasesMenuItem_Click" Text="{helpers:ResourceString Name=RestoreDefaults}">
+								<MenuFlyoutItem.Icon>
+									<FontIcon Glyph="&#xE777;" />
+								</MenuFlyoutItem.Icon>
+							</MenuFlyoutItem>
+						</MenuFlyout>
+					</SplitButton.Flyout>
+				</SplitButton>
+
+				<wctcontrols:SettingsExpander.ItemsHeader>
+					<Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+
+						<!--  Empty state  -->
+						<InfoBar
+							CornerRadius="0"
+							IsClosable="False"
+							IsIconVisible="True"
+							IsOpen="{x:Bind AliasesViewModel.IsEmpty, Mode=OneWay}"
+							Message="{helpers:ResourceString Name=FolderAliasesEmptyState}"
+							Severity="Informational" />
+
+						<ItemsRepeater Margin="0,4" ItemsSource="{x:Bind AliasesViewModel.Aliases, Mode=OneWay}">
+							<ItemsRepeater.Layout>
+								<StackLayout />
+							</ItemsRepeater.Layout>
+							<ItemsRepeater.ItemTemplate>
+								<DataTemplate x:DataType="dataitems:FolderAliasItem">
+									<UserControl PointerEntered="AliasRow_PointerEntered" PointerExited="AliasRow_PointerExited">
+										<Grid
+											MinHeight="44"
+											Padding="16,0"
+											Background="Transparent"
+											ColumnSpacing="12">
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="*" />
+												<ColumnDefinition Width="2*" />
+												<ColumnDefinition Width="72" />
+											</Grid.ColumnDefinitions>
+
+											<VisualStateManager.VisualStateGroups>
+												<VisualStateGroup x:Name="PointerStates">
+													<VisualState x:Name="Normal" />
+													<VisualState x:Name="PointerOver">
+														<VisualState.Setters>
+															<Setter Target="RowActions.Visibility" Value="Visible" />
+														</VisualState.Setters>
+													</VisualState>
+												</VisualStateGroup>
+											</VisualStateManager.VisualStateGroups>
+
+											<!--  Name  -->
+											<TextBlock
+												VerticalAlignment="Center"
+												Text="{x:Bind Name}"
+												TextTrimming="CharacterEllipsis" />
+
+											<!--  Folder  -->
+											<TextBlock
+												Grid.Column="1"
+												VerticalAlignment="Center"
+												Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+												Text="{x:Bind Path}"
+												TextTrimming="CharacterEllipsis"
+												ToolTipService.ToolTip="{x:Bind Path}" />
+
+											<!--  Row actions  -->
+											<StackPanel
+												x:Name="RowActions"
+												Grid.Column="2"
+												HorizontalAlignment="Right"
+												Orientation="Horizontal"
+												Spacing="4"
+												Visibility="Collapsed">
+												<Button
+													Width="32"
+													Height="32"
+													Padding="0"
+													AutomationProperties.Name="{helpers:ResourceString Name=Edit}"
+													Click="EditAliasButton_Click"
+													Tag="{x:Bind}"
+													ToolTipService.ToolTip="{helpers:ResourceString Name=Edit}">
+													<FontIcon FontSize="14" Glyph="&#xE70F;" />
+												</Button>
+												<Button
+													Width="32"
+													Height="32"
+													Padding="0"
+													AutomationProperties.Name="{helpers:ResourceString Name=Delete}"
+													Click="DeleteAliasButton_Click"
+													Tag="{x:Bind}"
+													ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}">
+													<FontIcon FontSize="14" Glyph="&#xE74D;" />
+												</Button>
+											</StackPanel>
+										</Grid>
+									</UserControl>
+								</DataTemplate>
+							</ItemsRepeater.ItemTemplate>
+						</ItemsRepeater>
+					</Grid>
+				</wctcontrols:SettingsExpander.ItemsHeader>
+			</wctcontrols:SettingsExpander>
 		</StackPanel>
+
+		<!--  Restore default aliases confirmation  -->
+		<TeachingTip
+			x:Name="RestoreDefaultAliasesTeachingTip"
+			ActionButtonClick="RestoreDefaultAliasesTeachingTip_ActionButtonClick"
+			ActionButtonContent="{helpers:ResourceString Name=Yes}"
+			ActionButtonStyle="{ThemeResource AccentButtonStyle}"
+			CloseButtonContent="{helpers:ResourceString Name=No}"
+			IsLightDismissEnabled="True"
+			PreferredPlacement="BottomLeft"
+			Subtitle="{helpers:ResourceString Name=RestoreDefaultFolderAliasesConfirmation}"
+			Target="{x:Bind AddAliasSplitButton}" />
+
+		<!--  Delete alias confirmation  -->
+		<TeachingTip
+			x:Name="DeleteAliasConfirmationTeachingTip"
+			ActionButtonClick="DeleteAliasConfirmationTeachingTip_ActionButtonClick"
+			ActionButtonContent="{helpers:ResourceString Name=Yes}"
+			ActionButtonStyle="{ThemeResource AccentButtonStyle}"
+			CloseButtonContent="{helpers:ResourceString Name=No}"
+			IsLightDismissEnabled="True"
+			PreferredPlacement="Left"
+			Subtitle="{helpers:ResourceString Name=DeleteFolderAliasConfirmation}" />
 	</Grid>
 </Page>

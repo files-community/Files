@@ -252,7 +252,8 @@ namespace Files.App.Utils.Storage
 			var fullPath = (parentFolder is not null && !FtpHelpers.IsFtpPath(value) && !Path.IsPathRooted(value) && !ShellStorageFolder.IsShellPath(value)) // "::{" not a valid root
 				? Path.GetFullPath(Path.Combine(parentFolder.Path, value)) // Relative path
 				: value;
-			var item = await BaseStorageFile.GetFileFromPathAsync(fullPath);
+			var item = await BaseStorageFile.GetFileFromPathAsync(fullPath)
+				?? throw new FileNotFoundException(null, fullPath);
 
 			if (parentFolder is not null && parentFolder.Item is IPasswordProtectedItem ppis && item is IPasswordProtectedItem ppid)
 				ppid.Credentials = ppis.Credentials;
