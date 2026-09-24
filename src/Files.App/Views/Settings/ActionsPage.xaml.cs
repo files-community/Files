@@ -1,12 +1,10 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI;
 using Files.App.Dialogs;
 using Files.App.ViewModels.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 using WinRT;
 
 namespace Files.App.Views.Settings
@@ -16,8 +14,6 @@ namespace Files.App.Views.Settings
 	/// </summary>
 	public sealed partial class ActionsPage : Page
 	{
-		private readonly string PART_RowActions = "RowActions";
-
 		private ModifiableActionItem? _itemPendingDeletion;
 
 		private ActionsViewModel ViewModel { get; set; } = new();
@@ -31,22 +27,6 @@ namespace Files.App.Views.Settings
 		{
 			if (ViewModel.LoadAllActionsCommand.CanExecute(e))
 				ViewModel.LoadAllActionsCommand.Execute(e);
-		}
-
-		[DynamicWindowsRuntimeCast(typeof(UserControl))]
-		private void RootGrid_PointerEntered(object sender, PointerRoutedEventArgs e)
-		{
-			// Reveal the edit and delete buttons on pointer in
-			if (sender is UserControl userControl && userControl.FindChild(PART_RowActions) is FrameworkElement rowActions)
-				rowActions.Visibility = Visibility.Visible;
-		}
-
-		[DynamicWindowsRuntimeCast(typeof(UserControl))]
-		private void RootGrid_PointerExited(object sender, PointerRoutedEventArgs e)
-		{
-			// Hide the edit and delete buttons on pointer out
-			if (sender is UserControl userControl && userControl.FindChild(PART_RowActions) is FrameworkElement rowActions)
-				rowActions.Visibility = Visibility.Collapsed;
 		}
 
 		private async void AddCommandButton_Click(SplitButton sender, SplitButtonClickEventArgs e)

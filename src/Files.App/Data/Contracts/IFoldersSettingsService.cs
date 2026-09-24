@@ -94,5 +94,10 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating which format to use when displaying item sizes.
 		/// </summary>
 		SizeUnitTypes SizeUnitFormat { get; set; }
+
+		/// <summary>
+		/// Gets or sets the user defined folder aliases that can be typed in the Omnibar as "/name".
+		/// </summary>
+		List<FolderAliasItem>? FolderAliases { get; set; }
 	}
 }

@@ -162,6 +162,33 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		/// <inheritdoc/>
+		public List<FolderAliasItem>? FolderAliases
+		{
+			get => Get(_defaultFolderAliases ??= CreateDefaultFolderAliases());
+			set => Set(value);
+		}
+
+		private static List<FolderAliasItem>? _defaultFolderAliases;
+
+		private static List<FolderAliasItem> CreateDefaultFolderAliases()
+		{
+			var paths = Windows.Storage.UserDataPaths.GetDefault();
+
+			return
+			[
+				new(GetDefaultAliasName(Strings.Desktop), paths.Desktop),
+				new(GetDefaultAliasName(Strings.Documents), paths.Documents),
+				new(GetDefaultAliasName(Strings.Downloads), paths.Downloads),
+				new(GetDefaultAliasName(Strings.Pictures), paths.Pictures),
+				new(GetDefaultAliasName(Strings.Music), paths.Music),
+				new(GetDefaultAliasName(Strings.Videos), paths.Videos),
+			];
+
+			static string GetDefaultAliasName(string resourceKey)
+				=> resourceKey.GetLocalizedResource().ToLower(System.Globalization.CultureInfo.CurrentUICulture);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			base.RaiseOnSettingChangedEvent(sender, e);
