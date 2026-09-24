@@ -133,16 +133,19 @@
 			Loaded="HorizontalMultitaskingControl_Loaded"
 			TabIndex="0" />
 
-		<!--  Address Bar  -->
-		<uc:NavigationToolbar
-			x:Name="NavToolbar"
-			Grid.Row="1"
-			HorizontalAlignment="Stretch"
-			HorizontalContentAlignment="Stretch"
-			x:Load="False"
-			Loaded="NavToolbar_Loaded"
-			ShowOngoingTasks="True"
-			TabIndex="1" />
+		<!--  Address Bar and Bookmarks Bar  -->
+		<StackPanel Grid.Row="1">
+			<uc:NavigationToolbar
+				x:Name="NavToolbar"
+				HorizontalAlignment="Stretch"
+				HorizontalContentAlignment="Stretch"
+				x:Load="False"
+				Loaded="NavToolbar_Loaded"
+				ShowOngoingTasks="True"
+				TabIndex="1" />
+
+			<uc:BookmarksBar />
+		</StackPanel>
 
 		<!--  Content Area  -->
 		<controls:SidebarView

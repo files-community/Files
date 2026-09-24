@@ -371,11 +371,13 @@ namespace Files.App.Helpers
 					.AddSingleton<IStorageArchiveService, StorageArchiveService>()
 					.AddSingleton<IStorageSecurityService, StorageSecurityService>()
 					.AddSingleton<IWindowsCompatibilityService, WindowsCompatibilityService>()
+					.AddSingleton<IBookmarksService, BookmarksService>()
 					.AddSingleton</*IVersionControlService,*/ LibGit2Service>()
 					// ViewModels
 					.AddSingleton<MainPageViewModel>()
 					.AddSingleton<InfoPaneViewModel>()
 					.AddSingleton<SidebarViewModel>()
+					.AddSingleton<BookmarksBarViewModel>()
 					.AddSingleton<DrivesViewModel>()
 					.AddSingleton<ShelfViewModel>()
 					.AddSingleton<StatusCenterViewModel>()
