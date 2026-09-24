@@ -30,6 +30,7 @@ namespace Files.App.Controls
 
 		private string _userInput = string.Empty;
 		private OmnibarTextChangeReason _textChangeReason = OmnibarTextChangeReason.None;
+		private bool _placeCaretAtEndOnFocus;
 
 		private WeakReference<UIElement?> _previouslyFocusedElement = new(null);
 
@@ -213,6 +214,18 @@ namespace Files.App.Controls
 		internal protected void FocusTextBox()
 		{
 			_textBox.Focus(FocusState.Keyboard);
+		}
+
+		public void FocusWithCaretAtEnd()
+		{
+			if (_textBox is null)
+				return;
+
+			_placeCaretAtEndOnFocus = true;
+			if (_textBox.FocusState is FocusState.Unfocused)
+				_textBox.Focus(FocusState.Programmatic);
+			else
+				_textBox.Select(_textBox.Text.Length, 0);
 		}
 
 		internal protected bool TryToggleIsSuggestionsPopupOpen(bool wantToOpen)

@@ -23,6 +23,7 @@ namespace Files.App.Controls
 				// Window is regaining activation and restoring focus to the TextBox. TrySetNewFocusedElement can't
 				// move focus to the previously-focused item (it's often a recycled list item and gets rejected), so
 				// ask the host to move focus to its content instead, keeping the omnibar out of edit mode.
+				_placeCaretAtEndOnFocus = false;
 				FocusRedirectRequested?.Invoke(this, System.EventArgs.Empty);
 				return;
 			}
@@ -58,7 +59,13 @@ namespace Files.App.Controls
 			IsFocused = true;
 			IsFocusedChanged?.Invoke(this, new(IsFocused));
 
-			_textBox.SelectAll();
+			if (_placeCaretAtEndOnFocus)
+			{
+				_placeCaretAtEndOnFocus = false;
+				_textBox.Select(_textBox.Text.Length, 0);
+			}
+			else
+				_textBox.SelectAll();
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(FlyoutBase))]
@@ -72,6 +79,7 @@ namespace Files.App.Controls
 
 			GlobalHelper.WriteDebugStringForOmnibar("The TextBox lost the focus.");
 
+			_placeCaretAtEndOnFocus = false;
 			IsFocused = false;
 			IsFocusedChanged?.Invoke(this, new(IsFocused));
 		}
