@@ -4740,4 +4740,40 @@
   <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
     <value>Are you sure you want to remove tags from the selected items?</value>
   </data>
+  <data name="FolderAliases" xml:space="preserve">
+    <value>Folder aliases</value>
+  </data>
+  <data name="AddAlias" xml:space="preserve">
+    <value>Add alias</value>
+  </data>
+  <data name="FolderAliasNameInvalid" xml:space="preserve">
+    <value>Name can't contain \ or /.</value>
+  </data>
+  <data name="FolderAliasesEmptyState" xml:space="preserve">
+    <value>There are no folder aliases. Add one, then type / followed by its name in the Omnibar to go to the folder.</value>
+  </data>
+  <data name="NoFolderAliasesSuggestion" xml:space="preserve">
+    <value>There are no folder aliases. Open Settings to add one.</value>
+  </data>
+  <data name="RestoreDefaultFolderAliasesConfirmation" xml:space="preserve">
+    <value>Are you sure you want to restore the default aliases? This action cannot be undone.</value>
+  </data>
+  <data name="DeleteFolderAliasConfirmation" xml:space="preserve">
+    <value>Are you sure you want to delete this alias?</value>
+  </data>
+  <data name="FolderAliasNameInUse" xml:space="preserve">
+    <value>An alias with this name already exists.</value>
+  </data>
+  <data name="EnterFolderPath" xml:space="preserve">
+    <value>Enter a folder path</value>
+  </data>
+  <data name="SearchForQuery" xml:space="preserve">
+    <value>Search for `{0}`</value>
+  </data>
+  <data name="GoToFolderAlias" xml:space="preserve">
+    <value>Go to folder alias</value>
+  </data>
+  <data name="GoToFolderAliasDescription" xml:space="preserve">
+    <value>Go to a folder alias in the Omnibar</value>
+  </data>
 </root>

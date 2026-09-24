@@ -199,6 +199,13 @@ namespace Files.App.ViewModels.UserControls
 		private Style? _LayoutThemedIcon;
 		public Style? LayoutThemedIcon { get => _LayoutThemedIcon; set => SetProperty(ref _LayoutThemedIcon, value); }
 
+		private bool _IsPathModeSuggestionAutoSelected;
+		public bool IsPathModeSuggestionAutoSelected { get => _IsPathModeSuggestionAutoSelected; set => SetProperty(ref _IsPathModeSuggestionAutoSelected, value); }
+
+		private string? _pendingPathModeInput;
+
+		private TextBlock? _suggestionMeasureTextBlock;
+
 		// SetProperty doesn't seem to properly notify the binding in path bar
 		private string? _PathText;
 		public string? PathText
@@ -549,6 +556,15 @@ namespace Files.App.ViewModels.UserControls
 			var shellViewModel = shellPage.ShellViewModel
 				?? throw new InvalidOperationException("The current shell page does not have a view model.");
 
+			if (FolderAliasHelpers.IsAliasQuery(path) && FolderAliasHelpers.Aliases.Count is 0)
+			{
+				shellPage.NavigateToSettings(nameof(SettingsPageKind.FoldersPage));
+				return true;
+			}
+
+			if (FolderAliasHelpers.TryResolve(path, out var aliasPath))
+				path = aliasPath;
+
 			var currentPath = PathComponents.LastOrDefault()?.Path;
 			var isFtp = FtpHelpers.IsFtpPath(path);
 			var normalizedInput = NormalizePathInput(path, isFtp);
@@ -696,6 +712,23 @@ namespace Files.App.ViewModels.UserControls
 			OmnibarCurrentSelectedModeName = OmnibarPathModeName;
 			omnibar?.Focus(FocusState.Programmatic);
 			(omnibar ?? throw new InvalidOperationException("The omnibar is not available.")).IsFocused = true;
+		}
+
+		public async Task SwitchToPathModeWithInputAsync(string input)
+		{
+			if (AddressToolbar?.FindDescendant("Omnibar") is not Omnibar omnibar)
+				return;
+
+			_pendingPathModeInput = input;
+			await SwitchToPathMode();
+			omnibar.FocusWithCaretAtEnd();
+		}
+
+		public string? TakePendingPathModeInput()
+		{
+			var input = _pendingPathModeInput;
+			_pendingPathModeInput = null;
+			return input;
 		}
 
 		public void UpdateAdditionalActions()
@@ -997,6 +1030,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				List<OmnibarPathModeSuggestionModel> newSuggestions = [];
 				var pathText = this.PathText;
+				IsPathModeSuggestionAutoSelected = pathText is not null && FolderAliasHelpers.IsAliasQuery(pathText);
 
 				// If the current input is special, populate navigation history instead.
 				if (string.IsNullOrWhiteSpace(pathText) ||
@@ -1008,8 +1042,29 @@ namespace Files.App.ViewModels.UserControls
 						newSuggestions.AddRange(pathHistoryList.Select(x => new OmnibarPathModeSuggestionModel(x, x)));
 					}
 				}
+				else if (pathText is [FolderAliasHelpers.Prefix])
+				{
+					PathModeSuggestionItems.Clear();
+					return true;
+				}
+				else if (FolderAliasHelpers.IsAliasQuery(pathText))
+				{
+					var aliases = FolderAliasHelpers.Aliases;
+					if (aliases.Count is 0)
+						newSuggestions.Add(new(FolderAliasHelpers.Prefix.ToString(), Strings.NoFolderAliasesSuggestion.GetLocalizedResource()));
+					else
+					{
+						var nameWidth = aliases.Max(x => MeasureSuggestionTextWidth(x.Name));
+						newSuggestions.AddRange(FolderAliasHelpers.GetMatches(aliases, pathText)
+							.Take(MaxSuggestionsCount)
+							.Select(x => new OmnibarPathModeSuggestionModel($"{FolderAliasHelpers.Prefix}{x.Name}", x.Name, x.Path, NameMinWidth: nameWidth)));
+					}
+				}
 				else
 				{
+					if (FolderAliasHelpers.TryResolve(pathText, out var aliasPath))
+						pathText = aliasPath;
+
 					var isFtp = FtpHelpers.IsFtpPath(pathText);
 					pathText = NormalizePathInput(pathText, isFtp);
 					var expandedPath = StorageFileExtensions.GetResolvedPath(pathText, isFtp);
@@ -1077,6 +1132,9 @@ namespace Files.App.ViewModels.UserControls
 						else
 							PathModeSuggestionItems.Insert(index, newSuggestions[index]);
 					}
+
+					while (PathModeSuggestionItems.Count > newSuggestions.Count)
+						PathModeSuggestionItems.RemoveAt(PathModeSuggestionItems.Count - 1);
 				}
 
 				return true;
@@ -1092,6 +1150,7 @@ namespace Files.App.ViewModels.UserControls
 
 			void AddNoResultsItem()
 			{
+				IsPathModeSuggestionAutoSelected = false;
 				PathModeSuggestionItems.Clear();
 				
 				// Use null-safe access to avoid NullReferenceException during app lifecycle transitions
@@ -1101,7 +1160,8 @@ namespace Files.App.ViewModels.UserControls
 				
 				PathModeSuggestionItems.Add(new(
 					workingDirectory,
-					Strings.NavigationToolbarVisiblePathNoResults.GetLocalizedResource()));
+					Strings.NavigationToolbarVisiblePathNoResults.GetLocalizedResource(),
+					IsPlaceholder: true));
 			}
 		}
 
@@ -1197,6 +1257,8 @@ namespace Files.App.ViewModels.UserControls
 			_suggestSearchCTS = new CancellationTokenSource();
 			var token = _suggestSearchCTS.Token;
 
+			UpdateSearchQuerySuggestion();
+
 			List<SuggestionModel> newSuggestions = [];
 
 			if (string.IsNullOrWhiteSpace(OmnibarSearchModeText))
@@ -1235,7 +1297,7 @@ namespace Files.App.ViewModels.UserControls
 
 			// Remove outdated suggestions
 			var toRemove = OmnibarSearchModeSuggestionItems
-				.Where(existing => !newSuggestions.Any(newItem => newItem.ItemPath == existing.ItemPath))
+				.Where(existing => !existing.IsSearchQuery && !newSuggestions.Any(newItem => newItem.ItemPath == existing.ItemPath))
 				.ToList();
 
 			foreach (var item in toRemove)
@@ -1249,12 +1311,46 @@ namespace Files.App.ViewModels.UserControls
 				OmnibarSearchModeSuggestionItems.Add(item);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Microsoft.UI.Xaml.Media.FontFamily))]
+		private double MeasureSuggestionTextWidth(string text)
+		{
+			_suggestionMeasureTextBlock ??= new()
+			{
+				FontFamily = (Microsoft.UI.Xaml.Media.FontFamily)Application.Current.Resources["ContentControlThemeFontFamily"],
+				FontSize = (double)Application.Current.Resources["ControlContentThemeFontSize"],
+			};
+
+			_suggestionMeasureTextBlock.Text = text;
+			_suggestionMeasureTextBlock.Measure(new(double.PositiveInfinity, double.PositiveInfinity));
+			return Math.Ceiling(_suggestionMeasureTextBlock.DesiredSize.Width);
+		}
+
+		private void UpdateSearchQuerySuggestion()
+		{
+			var hasQueryItem = OmnibarSearchModeSuggestionItems.FirstOrDefault() is { IsSearchQuery: true };
+			if (string.IsNullOrWhiteSpace(OmnibarSearchModeText))
+			{
+				if (hasQueryItem)
+					OmnibarSearchModeSuggestionItems.RemoveAt(0);
+
+				return;
+			}
+
+			var queryItem = new SuggestionModel(OmnibarSearchModeText, false) { IsSearchQuery = true };
+			if (hasQueryItem)
+				OmnibarSearchModeSuggestionItems[0] = queryItem;
+			else
+				OmnibarSearchModeSuggestionItems.Insert(0, queryItem);
+		}
+
 		private void PopulateOmnibarSuggestionsForSettingsSearch()
 		{
 			OmnibarSearchModeSuggestionItems.Clear();
 
 			if (string.IsNullOrWhiteSpace(OmnibarSearchModeText))
 				return;
+
+			UpdateSearchQuerySuggestion();
 
 			_settingsSearchIndex ??= SettingsSearchIndexer.BuildIndex();
 			var terms = OmnibarSearchModeText.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);

@@ -1,0 +1,55 @@
+﻿<!--  Copyright (c) Files Community. SPDX-License-Identifier: MPL-2.0  -->
+<ContentDialog
+	x:Class="Files.App.Dialogs.FolderAliasEditorDialog"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	CloseButtonText="{helpers:ResourceString Name=Cancel}"
+	DefaultButton="Primary"
+	Style="{StaticResource DefaultContentDialogStyle}"
+	mc:Ignorable="d">
+
+	<StackPanel Width="360" Spacing="12">
+
+		<!--  Alias name  -->
+		<StackPanel Spacing="4">
+			<TextBox
+				x:Name="NameTextBox"
+				Header="{helpers:ResourceString Name=Name}"
+				IsSpellCheckEnabled="False"
+				PlaceholderText="{helpers:ResourceString Name=EnterName}"
+				TextChanged="InputTextBox_TextChanged" />
+
+			<TextBlock
+				x:Name="NameErrorTextBlock"
+				Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+				Style="{StaticResource CaptionTextBlockStyle}"
+				TextWrapping="Wrap"
+				Visibility="Collapsed" />
+		</StackPanel>
+
+		<!--  Target folder  -->
+		<Grid ColumnSpacing="8">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+
+			<TextBox
+				x:Name="PathTextBox"
+				Header="{helpers:ResourceString Name=Folder}"
+				IsSpellCheckEnabled="False"
+				PlaceholderText="{helpers:ResourceString Name=EnterFolderPath}"
+				TextChanged="InputTextBox_TextChanged" />
+
+			<Button
+				Grid.Column="1"
+				VerticalAlignment="Bottom"
+				Click="BrowseButton_Click"
+				Content="{helpers:ResourceString Name=Browse}" />
+		</Grid>
+
+	</StackPanel>
+</ContentDialog>
