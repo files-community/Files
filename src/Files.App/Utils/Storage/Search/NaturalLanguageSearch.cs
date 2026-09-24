@@ -163,7 +163,7 @@ namespace Files.App.Utils.Storage
 		}
 
 		/// <summary>
-		/// Joins repeated properties with OR, since "ext:.jpg ext:.png" would require both to match.
+		/// Joins repeated single-valued properties with OR, since "ext:.jpg ext:.png" would require both to match.
 		/// </summary>
 		private static string GroupRepeatedProperties(string aqs)
 		{
@@ -172,7 +172,9 @@ namespace Files.App.Utils.Storage
 
 			var groups = aqs.Split(' ', StringSplitOptions.RemoveEmptyEntries)
 				.GroupBy(term => term.Split(':')[0], StringComparer.OrdinalIgnoreCase)
-				.Select(group => group.Count() > 1 ? $"({string.Join(" OR ", group)})" : group.First());
+				.Select(group => group.Count() > 1 && group.Key.ToLowerInvariant() is "ext" or "kind"
+					? $"({string.Join(" OR ", group)})"
+					: string.Join(' ', group));
 
 			return string.Join(' ', groups);
 		}
