@@ -242,5 +242,25 @@ namespace Files.App.Helpers
 
 			return imageResList.FirstOrDefault();
 		}
+
+		private static TextBlock? _measureTextBlock;
+
+		/// <summary>
+		/// Measures the width of a single line of text in the default control font.
+		/// </summary>
+		[DynamicWindowsRuntimeCast(typeof(FontFamily))]
+		public static double MeasureTextWidth(string text, Windows.UI.Text.FontWeight fontWeight)
+		{
+			_measureTextBlock ??= new()
+			{
+				FontFamily = (FontFamily)Microsoft.UI.Xaml.Application.Current.Resources["ContentControlThemeFontFamily"],
+				FontSize = (double)Microsoft.UI.Xaml.Application.Current.Resources["ControlContentThemeFontSize"],
+			};
+
+			_measureTextBlock.FontWeight = fontWeight;
+			_measureTextBlock.Text = text;
+			_measureTextBlock.Measure(new(double.PositiveInfinity, double.PositiveInfinity));
+			return Math.Ceiling(_measureTextBlock.DesiredSize.Width);
+		}
 	}
 }
