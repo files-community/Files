@@ -5,7 +5,7 @@ using Files.App.Controls;
 
 namespace Files.App.Data.Models
 {
-	internal record OmnibarPathModeSuggestionModel(string Path, string DisplayName) : IOmnibarTextMemberPathProvider
+	internal record OmnibarPathModeSuggestionModel(string Path, string DisplayName, string? Description = null, bool IsPlaceholder = false, double NameMinWidth = 0) : IOmnibarTextMemberPathProvider
 	{
 		public string GetTextMemberPath(string textMemberPath)
 		{

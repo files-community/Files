@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 
 using Microsoft.UI.Xaml.Input;
+using Windows.Foundation.Collections;
 using Windows.System;
 using WinRT;
 
@@ -80,6 +81,7 @@ namespace Files.App.Controls
 			GlobalHelper.WriteDebugStringForOmnibar("The TextBox lost the focus.");
 
 			_placeCaretAtEndOnFocus = false;
+			_isTextTypedByUser = false;
 			IsFocused = false;
 			IsFocusedChanged?.Invoke(this, new(IsFocused));
 		}
@@ -161,6 +163,8 @@ namespace Files.App.Controls
 				_userInput = _textBox.Text;
 			}
 
+			_isTextTypedByUser = _textChangeReason is OmnibarTextChangeReason.UserInput;
+
 			TextChanged?.Invoke(this, new(CurrentSelectedMode, _textChangeReason));
 
 			// Reset
@@ -191,6 +195,26 @@ namespace Files.App.Controls
 		private void AutoSuggestBoxSuggestionsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			_textBoxSuggestionsListView.ScrollIntoView(_textBoxSuggestionsListView.SelectedItem);
+		}
+
+		private void AutoSuggestBoxSuggestionsListView_ItemsVectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs e)
+		{
+			if (_isFirstSuggestionSelectionQueued)
+				return;
+
+			// Suggestions update in several steps, so select once after the batch lands
+			_isFirstSuggestionSelectionQueued = true;
+			DispatcherQueue.TryEnqueue(() =>
+			{
+				_isFirstSuggestionSelectionQueued = false;
+
+				var selectFirst = CurrentSelectedMode?.IsFirstSuggestionAutoSelected is true &&
+					_isTextTypedByUser &&
+					!string.IsNullOrEmpty(_textBox.Text) &&
+					_textBoxSuggestionsListView.Items.Count > 0;
+
+				_textBoxSuggestionsListView.SelectedIndex = selectFirst ? 0 : -1;
+			});
 		}
 	}
 }

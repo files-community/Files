@@ -13,6 +13,8 @@ namespace Files.App.Data.Models
 	{
 		public bool IsRecentSearch { get; set; } = false;
 
+		public bool IsSearchQuery { get; set; } = false;
+
 		public bool IsShortcut { get; set; } = false;
 
 		public bool LoadFileIcon { get; set; } = false;
@@ -26,6 +28,10 @@ namespace Files.App.Data.Models
 		public string? Description { get; set; }
 
 		public Visibility DescriptionVisibility => string.IsNullOrEmpty(Description) ? Visibility.Collapsed : Visibility.Visible;
+
+		public string DisplayName => IsSearchQuery ? string.Format(Strings.SearchForQuery.GetLocalizedResource(), Name) : Name;
+
+		public string PlaceholderGlyph => IsSearchQuery ? "\uE721" : IsRecentSearch ? "\uE81C" : "\uE7C3";
 
 		public SettingsSearchResult? SettingsResult { get; set; }
 
