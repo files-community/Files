@@ -1,0 +1,67 @@
+$\xEF\xBB\xBF<UserControl
+	x:Class="Files.App.UserControls.BookmarksBar"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:items="using:Files.App.Data.Items">
+
+	<Grid
+		MinHeight="32"
+		Padding="8,0"
+		AllowDrop="True"
+		Background="Transparent"
+		DragOver="RootGrid_DragOver"
+		Drop="RootGrid_Drop">
+
+		<TextBlock
+			x:Uid="BookmarksBarEmptyHint"
+			VerticalAlignment="Center"
+			Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+			Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />
+
+		<ScrollViewer
+			HorizontalScrollBarVisibility="Hidden"
+			HorizontalScrollMode="Enabled"
+			VerticalScrollBarVisibility="Disabled"
+			VerticalScrollMode="Disabled">
+
+			<ItemsControl ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<StackPanel Orientation="Horizontal" Spacing="2" />
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+
+				<ItemsControl.ItemTemplate>
+					<DataTemplate x:DataType="items:BookmarkItem">
+						<Button
+							Padding="8,4"
+							Background="Transparent"
+							BorderThickness="0"
+							Click="BookmarkButton_Click">
+
+							<Button.ContextFlyout>
+								<MenuFlyout>
+									<MenuFlyoutItem
+										x:Uid="BookmarkRemove"
+										Click="RemoveBookmark_Click"
+										Tag="{x:Bind}" />
+								</MenuFlyout>
+							</Button.ContextFlyout>
+
+							<StackPanel Orientation="Horizontal" Spacing="6">
+								<FontIcon
+									FontFamily="{ThemeResource SymbolThemeFontFamily}"
+									FontSize="14"
+									Glyph="{x:Bind Glyph}" />
+								<TextBlock
+									MaxWidth="160"
+									Text="{x:Bind Title}"
+									TextTrimming="CharacterEllipsis" />
+							</StackPanel>
+						</Button>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+	</Grid>
+</UserControl>

@@ -4740,4 +4740,16 @@
   <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
     <value>Are you sure you want to remove tags from the selected items?</value>
   </data>
+  <data name="AddBookmark" xml:space="preserve">
+    <value>Add bookmark</value>
+  </data>
+  <data name="AddBookmarkDescription" xml:space="preserve">
+    <value>Add the current folder to the bookmarks bar</value>
+  </data>
+  <data name="BookmarkRemove.Text" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="BookmarksBarEmptyHint.Text" xml:space="preserve">
+    <value>Drag folders, files or apps here to bookmark them</value>
+  </data>
 </root>
