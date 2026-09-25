@@ -108,6 +108,11 @@ namespace Files.App.Data.Contracts
 		bool ShowStatusBar { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating how the status bar displays the item count.
+		/// </summary>
+		StatusBarItemCountFormat StatusBarItemCountFormat { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value whether the tab actions button should be displayed.
 		/// </summary>
 		bool ShowTabActions { get; set; }
