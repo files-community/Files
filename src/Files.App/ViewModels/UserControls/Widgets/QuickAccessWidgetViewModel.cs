@@ -36,6 +36,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		// TODO: Replace with IMutableFolder.GetWatcherAsync() once it gets implemented in IWindowsStorable
 		private readonly SystemIO.FileSystemWatcher? _quickAccessFolderWatcher;
 		private bool isDisposed;
+		private int _refreshGeneration;
 
 		// Constructor
 
@@ -73,26 +74,41 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public Task RefreshWidgetAsync()
 		{
+			var generation = Interlocked.Increment(ref _refreshGeneration);
+
 			return MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				foreach (var item in Items)
-					item.Dispose();
-
-				Items.Clear();
+				List<WidgetFolderCardItem> cards = [];
 
 				await foreach (IWindowsStorable folder in HomePageContext.HomeFolder.GetQuickAccessFolderAsync(default))
 				{
 					folder.GetPropertyValue<bool>("System.Home.IsPinned", out var isPinned);
 					var tooltip = await STATask.RunPooled(() => folder.TryGetShellTooltip(out var t).Succeeded ? t : null, App.Logger);
 
-					Items.Insert(
-						Items.Count,
+					cards.Add(
 						new WidgetFolderCardItem(
 							folder,
 							folder.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI),
 							isPinned,
 							tooltip ?? string.Empty));
 				}
+
+				// A newer refresh started while this one was enumerating, so it owns the collection
+				if (generation != Volatile.Read(ref _refreshGeneration))
+				{
+					foreach (var card in cards)
+						card.Dispose();
+
+					return;
+				}
+
+				foreach (var item in Items)
+					item.Dispose();
+
+				Items.Clear();
+
+				foreach (var card in cards)
+					Items.Add(card);
 			});
 		}
 
