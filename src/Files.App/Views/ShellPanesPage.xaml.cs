@@ -962,6 +962,7 @@ namespace Files.App.Views
 
 		[DynamicWindowsRuntimeCast(typeof(UIElement))]
 		[DynamicWindowsRuntimeCast(typeof(ButtonBase))]
+		[DynamicWindowsRuntimeCast(typeof(DependencyObject))]
 		private void Pane_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			// A button cancels its press once it loses focus, so leave focus alone while one is being pressed

@@ -19,6 +19,38 @@ namespace Files.App.Helpers
 	{
 		public static event PropertyChangedEventHandler? PropertyChanged;
 
+		public static void RunAfterNextRender(this FrameworkElement element, Action action)
+		{
+			if (!element.IsLoaded)
+				return;
+
+			var canceled = false;
+			element.Unloaded += OnUnloaded;
+			CompositionTarget.Rendered += OnRendered;
+
+			void OnUnloaded(object sender, RoutedEventArgs e)
+			{
+				canceled = true;
+				element.Unloaded -= OnUnloaded;
+				CompositionTarget.Rendered -= OnRendered;
+			}
+
+			void OnRendered(object? sender, RenderedEventArgs e)
+			{
+				CompositionTarget.Rendered -= OnRendered;
+				// Keep the deferred work outside the rendering callback itself.
+				if (!element.DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+				{
+					element.Unloaded -= OnUnloaded;
+					if (!canceled && element.IsLoaded)
+						action();
+				}))
+				{
+					element.Unloaded -= OnUnloaded;
+				}
+			}
+		}
+
 		/// <summary>
 		/// True if a user-editable text input currently owns keyboard focus within the given XamlRoot.
 		/// Used to gate code that programmatically reassigns focus on a background-completion

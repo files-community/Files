@@ -51,6 +51,9 @@ namespace Files.App.UserControls
 
 		// Methods
 
+		private void NavToolbar_Loaded(object sender, RoutedEventArgs e)
+			=> this.RunAfterNextRender(() => FindName(nameof(ListaryIntegration)));
+
 		private void NavToolbar_Loading(FrameworkElement _, object e)
 		{
 			Loading -= NavToolbar_Loading;

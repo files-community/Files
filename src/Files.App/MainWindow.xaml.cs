@@ -24,6 +24,7 @@ namespace Files.App
 
 		private bool CanWindowToFront { get; set; } = true;
 		private readonly Lock _canWindowToFrontLock = new();
+		private bool _isWindowIconInitialized;
 
 		protected override bool PersistPlacement => true;
 
@@ -37,10 +38,15 @@ namespace Files.App
 			AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonPressedBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonHoverBackgroundColor = Colors.Transparent;
+		}
 
-			// Deferred: reads the .ico from disk
-			DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-				AppWindow.SetIcon(AppLifecycleHelper.AppIconPath));
+		private void InitializeWindowIcon()
+		{
+			if (_isWindowIconInitialized)
+				return;
+
+			AppWindow.SetIcon(AppLifecycleHelper.AppIconPath);
+			_isWindowIconInitialized = true;
 		}
 
 		public void ShowSplashScreen()
@@ -67,7 +73,7 @@ namespace Files.App
 					if (launchArgs.Arguments is not null &&
 						(CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"files-dev.exe", StringComparison.OrdinalIgnoreCase)
 						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"files-dev", StringComparison.OrdinalIgnoreCase)
-						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].Equals(Path.Join(Package.Current.InstalledLocation.Path, "Files.exe"), StringComparison.OrdinalIgnoreCase)))
+						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].Equals(Path.Join(Package.Current.InstalledPath, "Files.exe"), StringComparison.OrdinalIgnoreCase)))
 					{
 						// WINUI3: When launching from commandline the argument is not ICommandLineActivatedEventArgs (#10370)
 						var ppm = CommandLineParser.ParseUntrustedCommands(launchArgs.Arguments);
@@ -250,6 +256,11 @@ namespace Files.App
 				{
 					// Create a Frame to act as the navigation context and navigate to the first page
 					rootFrame = new() { CacheSize = 1 };
+					rootFrame.Loaded += (_, _) =>
+					{
+						if (!_isWindowIconInitialized)
+							rootFrame.RunAfterNextRender(InitializeWindowIcon);
+					};
 					rootFrame.NavigationFailed += (s, e) =>
 					{
 						throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
