@@ -4,7 +4,9 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -49,6 +51,40 @@ namespace Files.App
 			_isWindowIconInitialized = true;
 		}
 
+		internal async Task<bool> ActivateWithBackdropAsync()
+		{
+			var rootFrame = EnsureWindowIsInitialized();
+			if (rootFrame is null)
+				return false;
+
+			// Submit the lightweight backdrop before showing the window with its normal animation.
+			await CompositionTarget.GetCompositorForCurrentThread().RequestCommitAsync();
+
+			var firstFrame = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+			CompositionTarget.Rendered += OnRendered;
+			Closed += OnClosed;
+			try
+			{
+				Activate();
+				// Let the backdrop paint before main-page construction occupies the UI thread.
+				return await firstFrame.Task;
+			}
+			finally
+			{
+				CompositionTarget.Rendered -= OnRendered;
+				Closed -= OnClosed;
+			}
+
+			void OnRendered(object? sender, RenderedEventArgs args)
+			{
+				if (rootFrame.IsLoaded)
+					firstFrame.TrySetResult(true);
+			}
+
+			void OnClosed(object sender, WindowEventArgs args)
+				=> firstFrame.TrySetResult(false);
+		}
+
 		public void ShowSplashScreen()
 		{
 			var rootFrame = EnsureWindowIsInitialized();
@@ -63,9 +99,6 @@ namespace Files.App
 
 			if (rootFrame is null)
 				return;
-
-			// Reuse the existing backdrop on resume; rebuilding the Mica controller leaves the window on the fallback color for ~1s
-			SystemBackdrop ??= new AppSystemBackdrop();
 
 			switch (activatedEventArgs)
 			{
@@ -268,6 +301,15 @@ namespace Files.App
 
 					// Place the frame in the current Window
 					Instance.Content = rootFrame;
+					Ioc.Default.GetRequiredService<IAppThemeModeService>().SetAppThemeMode(this, callThemeModeChangedEvent: false);
+				}
+
+				if (SystemBackdrop is null)
+				{
+					// Initialize the active material directly instead of transitioning from its inactive fallback.
+					var backdrop = new AppSystemBackdrop();
+					backdrop.SetInputActive(true);
+					SystemBackdrop = backdrop;
 				}
 
 				return rootFrame;
