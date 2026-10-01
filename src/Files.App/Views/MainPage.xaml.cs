@@ -133,18 +133,24 @@ namespace Files.App.Views
 		private int SetTitleBarDragRegion(InputNonClientPointerSource source, SizeInt32 size, double scaleFactor, Func<UIElement, RectInt32?, RectInt32> getScaledRect)
 		{
 			var height = (int)TabControl.ActualHeight;
+			int scaledHeight = (int)(height * scaleFactor);
 
-			// 1. Указываем стандартную область заголовка для перетаскивания окна по всей ширине
+			int rightOffset = (int)(140 * scaleFactor);
+			int leftOffset = (int)(6 * scaleFactor);
+			int totalWidth = size.Width;
+
+			// Dynamically calculate the top grab area height (e.g., 30% of the total tab control height)
+			// to place the window dragging zone right above the tab content.
+			int topOffset = (int)(scaledHeight * 0.3);
+
+			// 1. Top portion acts as a Caption zone for window dragging.
 			source.SetRegionRects(NonClientRegionKind.Caption, [
-				new RectInt32(0, 0, size.Width, (int)(height * scaleFactor))
+				new RectInt32(leftOffset, 0, Math.Max(0, totalWidth - leftOffset - rightOffset), topOffset)
 			]);
 
-			// 2. Поверх капчи накладываем Pasровский прямоугольник строго по размеру самой рабочей зоны вкладок,
-			// чтобы она перекрывала капчу и принимала Drag & Drop, не давая системе глушить события.
-			// (Тут исключаем правую часть с кнопками управления окном/плюсиком, оставляя зону вкладок свободной)
-			var tabAreaWidth = (int)((TabControl.ActualWidth - 120) * scaleFactor); // 120px оставляем под системные кнопки справа
+			// 2. Bottom portion handles tabs and Drag & Drop functionality via Passthrough.
 			source.SetRegionRects(NonClientRegionKind.Passthrough, [
-				new RectInt32(0, 0, Math.Max(0, tabAreaWidth), (int)(height * scaleFactor))
+				new RectInt32(leftOffset, topOffset, Math.Max(0, totalWidth - leftOffset - rightOffset), Math.Max(0, scaledHeight - topOffset))
 			]);
 
 			AttachTitleBarMessageMonitor();
