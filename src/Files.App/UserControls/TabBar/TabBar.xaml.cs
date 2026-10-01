@@ -2,10 +2,13 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
+using Files.App.Data.Commands;
+using Files.App.Data.Items;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Shapes;
+using System.Text.Json;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Win32;
@@ -45,8 +48,6 @@ namespace Files.App.UserControls.TabBar
 		// Indicates if drag operation should be canceled.
 		// This value gets reset at the start of the drag operation
 		private bool isCancelingDragOperation;
-
-		//private string[] _droppableArchiveTypes = { "zip", "rar", "7z", "tar" };
 
 		// Properties
 
@@ -360,36 +361,35 @@ namespace Files.App.UserControls.TabBar
 
 			_lockDropOperation = true;
 
-			//|| _droppableArchiveTypes.Contains(x.Name.Split('.').Last().ToLower())
-			var items = (await FilesystemHelpers.GetDraggedStorageItems(e.DataView))
-				.Where(x => x.ItemType is FilesystemItemType.Directory);
-
 			var deferral = e.GetDeferral();
 			try
 			{
+				var items = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 				foreach (var item in items)
-					await NavigationHelpers.OpenPathInNewTab(item.Path, true);
+				{
+					if (item is not null)
+					{
+						var path = item.ItemType is FilesystemItemType.Directory
+							? item.Path
+							: System.IO.Path.GetDirectoryName(item.Path);
+
+						if (!string.IsNullOrEmpty(path))
+							await NavigationHelpers.OpenPathInNewTab(path, true);
+					}
+				}
 
 				deferral.Complete();
 			}
 			catch { }
-
-			_lockDropOperation = false;
+			finally
+			{
+				_lockDropOperation = false;
+			}
 		}
 
 		private async void TabBarAddNewTabButton_DragOver(object sender, DragEventArgs e)
 		{
 			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
-			{
-				e.AcceptedOperation = DataPackageOperation.None;
-				return;
-			}
-
-			//|| _droppableArchiveTypes.Contains(x.Name.Split('.').Last().ToLower())
-			bool hasValidDraggedItems =
-				(await FilesystemHelpers.GetDraggedStorageItems(e.DataView)).Any(x => x.ItemType is FilesystemItemType.Directory);
-
-			if (!hasValidDraggedItems)
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 				return;
@@ -405,6 +405,107 @@ namespace Files.App.UserControls.TabBar
 				deferral.Complete();
 			}
 			catch { }
+		}
+
+		private void DragAreaRectangle_DragOver(object sender, DragEventArgs e)
+		{
+			bool isTabDrag = e.DataView.Properties.ContainsKey(TabPathIdentifier);
+			bool isFileDrag = FilesystemHelpers.HasDraggedStorageItems(e.DataView);
+
+			if (!isTabDrag && !isFileDrag)
+			{
+				e.AcceptedOperation = DataPackageOperation.None;
+				return;
+			}
+
+			try
+			{
+				e.Handled = true;
+				var deferral = e.GetDeferral();
+				e.DragUIOverride.IsCaptionVisible = true;
+
+				if (isTabDrag)
+				{
+					e.DragUIOverride.Caption = Strings.TabStripDragAndDropUIOverrideCaption.GetLocalizedResource();
+					e.DragUIOverride.IsGlyphVisible = false;
+					e.AcceptedOperation = DataPackageOperation.Move;
+				}
+				else
+				{
+					e.DragUIOverride.Caption = string.Format(Strings.OpenInNewTab.GetLocalizedResource());
+					e.AcceptedOperation = DataPackageOperation.Link;
+				}
+
+				deferral.Complete();
+			}
+			catch { }
+		}
+
+		private async void DragAreaRectangle_Drop(object sender, DragEventArgs e)
+		{
+			if (_lockDropOperation)
+				return;
+
+			// Обработка сброса вкладки из другого окна на пустое место
+			if (e.DataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) &&
+				tabViewItemPathObj is string tabViewItemString)
+			{
+				_lockDropOperation = true;
+				var deferral = e.GetDeferral();
+				try
+				{
+					TabBarItemParameter tabViewItemArgs;
+					try
+					{
+						tabViewItemArgs = TabBarItemParameter.Deserialize(tabViewItemString);
+					}
+					catch (JsonException)
+					{
+						return;
+					}
+
+					ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
+					await NavigationHelpers.AddNewTabByParamAsync(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationParameter, -1);
+					deferral.Complete();
+				}
+				catch { }
+				finally
+				{
+					_lockDropOperation = false;
+				}
+				return;
+			}
+
+			// Обработка сброса файлов
+			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+				return;
+
+			_lockDropOperation = true;
+
+			var deferralDrop = e.GetDeferral();
+			try
+			{
+				var items = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+				foreach (var item in items)
+				{
+					if (item is not null)
+					{
+						var path = item.ItemType is FilesystemItemType.Directory
+							? item.Path
+							: System.IO.Path.GetDirectoryName(item.Path);
+
+						if (!string.IsNullOrEmpty(path))
+							await NavigationHelpers.OpenPathInNewTab(path, true);
+					}
+				}
+
+				deferralDrop.Complete();
+			}
+			catch { }
+			finally
+			{
+				_lockDropOperation = false;
+			}
 		}
 
 		public override DependencyObject ContainerFromItem(ITabBarItem item)
