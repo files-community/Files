@@ -119,6 +119,7 @@ namespace Files.App.Views
 
 		private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
 		{
+			// Убираем лишний второй аргумент TabControl.DragArea, чтобы не было ошибки компиляции
 			TabControl.DragArea.SizeChanged += (_, _) => MainWindow.Instance.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
 			TabControl.SizeChanged += (_, _) => MainWindow.Instance.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
 			if (ViewModel.MultitaskingControl is not TabBar)
@@ -132,7 +133,20 @@ namespace Files.App.Views
 		private int SetTitleBarDragRegion(InputNonClientPointerSource source, SizeInt32 size, double scaleFactor, Func<UIElement, RectInt32?, RectInt32> getScaledRect)
 		{
 			var height = (int)TabControl.ActualHeight;
-			source.SetRegionRects(NonClientRegionKind.Passthrough, [getScaledRect(this, new RectInt32(0, 0, (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth), height))]);
+
+			// 1. Указываем стандартную область заголовка для перетаскивания окна по всей ширине
+			source.SetRegionRects(NonClientRegionKind.Caption, [
+				new RectInt32(0, 0, size.Width, (int)(height * scaleFactor))
+			]);
+
+			// 2. Поверх капчи накладываем Pasровский прямоугольник строго по размеру самой рабочей зоны вкладок,
+			// чтобы она перекрывала капчу и принимала Drag & Drop, не давая системе глушить события.
+			// (Тут исключаем правую часть с кнопками управления окном/плюсиком, оставляя зону вкладок свободной)
+			var tabAreaWidth = (int)((TabControl.ActualWidth - 120) * scaleFactor); // 120px оставляем под системные кнопки справа
+			source.SetRegionRects(NonClientRegionKind.Passthrough, [
+				new RectInt32(0, 0, Math.Max(0, tabAreaWidth), (int)(height * scaleFactor))
+			]);
+
 			AttachTitleBarMessageMonitor();
 			return height;
 		}
