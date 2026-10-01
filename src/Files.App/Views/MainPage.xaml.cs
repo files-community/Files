@@ -156,6 +156,7 @@ namespace Files.App.Views
 			AttachTitleBarMessageMonitor();
 			return height;
 		}
+		}
 
 		// Caption regions live in a dedicated child window
 		private void AttachTitleBarMessageMonitor()
