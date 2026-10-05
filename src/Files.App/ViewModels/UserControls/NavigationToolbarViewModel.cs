@@ -1051,7 +1051,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					var aliases = FolderAliasHelpers.Aliases;
 					if (aliases.Count is 0)
-						newSuggestions.Add(new(FolderAliasHelpers.Prefix.ToString(), Strings.NoFolderAliasesSuggestion.GetLocalizedResource()));
+						newSuggestions.Add(new(pathText, Strings.NoFolderAliasesSuggestion.GetLocalizedResource(), IsPlaceholder: true));
 					else
 					{
 						var nameWidth = aliases.Max(x => MeasureSuggestionTextWidth(x.Name, Microsoft.UI.Text.FontWeights.SemiBold));
