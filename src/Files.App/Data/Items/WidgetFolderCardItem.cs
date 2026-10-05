@@ -3,6 +3,8 @@
 
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Win32;
+using Windows.Win32.System.Com;
+using Windows.Win32.System.WinRT;
 using Windows.Win32.UI.Shell;
 
 namespace Files.App.Data.Items
@@ -23,16 +25,17 @@ namespace Files.App.Data.Items
 
 		private BitmapImage? _Thumbnail;
 		public BitmapImage? Thumbnail { get => _Thumbnail; set => SetProperty(ref _Thumbnail, value); }
+		private bool _isDisposed;
 
 		// Constructor
 
-		public WidgetFolderCardItem(IWindowsStorable item, string text, bool isPinned, string tooltip)
+		public WidgetFolderCardItem(IWindowsStorable item, string text, string path, bool isPinned, string tooltip)
 		{
 			AutomationProperties = text;
 			Item = item;
 			Text = text;
 			IsPinned = isPinned;
-			Path = item.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING);
+			Path = path;
 			Tooltip = tooltip;
 		}
 
@@ -40,21 +43,36 @@ namespace Files.App.Data.Items
 
 		public async Task LoadCardThumbnailAsync()
 		{
-			if (string.IsNullOrEmpty(Path))
+			if (_isDisposed || string.IsNullOrEmpty(Path))
 				return;
 
 			var thumbnailSize = (int)(Constants.ShellIconSizes.Large * App.AppModel.AppWindowDPI);
 			// Ensure thumbnail size is at least 1 to prevent layout errors
 			thumbnailSize = Math.Max(1, thumbnailSize);
-			Item.TryGetThumbnail(thumbnailSize, SIIGBF.SIIGBF_ICONONLY, out var rawThumbnailData);
-			if (rawThumbnailData is null)
+			var hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, typeof(IShellItem).GUID, Item.ThisPtr, out IAgileReference shellItemReference);
+			if (hr.ThrowIfFailedOnDebug().Failed)
 				return;
 
-			Thumbnail = await rawThumbnailData.ToBitmapAsync();
+			var rawThumbnailData = await STATask.RunPooled(() =>
+			{
+				if (shellItemReference.Resolve(out IShellItem shellItem).ThrowIfFailedOnDebug().Failed)
+					return null;
+
+				using var folder = new WindowsFolder(shellItem);
+				folder.TryGetThumbnail(thumbnailSize, SIIGBF.SIIGBF_ICONONLY, out var data);
+				return data;
+			}, App.Logger);
+			if (_isDisposed || rawThumbnailData is null)
+				return;
+
+			var thumbnail = await rawThumbnailData.ToBitmapAsync();
+			if (!_isDisposed)
+				Thumbnail = thumbnail;
 		}
 
 		public void Dispose()
 		{
+			_isDisposed = true;
 			Item.Dispose();
 		}
 	}

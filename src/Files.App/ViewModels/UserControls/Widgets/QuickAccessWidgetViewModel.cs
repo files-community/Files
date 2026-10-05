@@ -36,6 +36,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		// TODO: Replace with IMutableFolder.GetWatcherAsync() once it gets implemented in IWindowsStorable
 		private readonly SystemIO.FileSystemWatcher? _quickAccessFolderWatcher;
 		private bool isDisposed;
+		private int _refreshVersion;
+
+		private sealed record FolderSnapshot(IAgileReference ShellItem, string Text, string Path, bool IsPinned, string Tooltip);
 
 		// Constructor
 
@@ -75,23 +78,47 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			return MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
+				if (isDisposed)
+					return;
+
+				var refreshVersion = ++_refreshVersion;
+				var homeFolder = HomePageContext.HomeFolder;
+				var folders = await STATask.RunPooled(() =>
+				{
+					List<FolderSnapshot> result = [];
+					// The Shell enumerator and its metadata reads stay on this persistent STA.
+					foreach (IWindowsStorable folder in homeFolder.GetQuickAccessFolderAsync().ToBlockingEnumerable())
+					{
+						using (folder)
+						{
+							folder.GetPropertyValue<bool>("System.Home.IsPinned", out var isPinned);
+							folder.TryGetShellTooltip(out var tooltip);
+							var text = folder.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI);
+							var path = folder.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING);
+							var hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, typeof(IShellItem).GUID, folder.ThisPtr, out IAgileReference shellItem);
+							if (hr.ThrowIfFailedOnDebug().Failed)
+								continue;
+
+							result.Add(new(shellItem, text, path, isPinned, tooltip ?? string.Empty));
+						}
+					}
+					return result;
+				}, App.Logger);
+
+				if (isDisposed || refreshVersion != _refreshVersion || folders is null)
+					return;
+
 				foreach (var item in Items)
 					item.Dispose();
 
 				Items.Clear();
 
-				await foreach (IWindowsStorable folder in HomePageContext.HomeFolder.GetQuickAccessFolderAsync(default))
+				foreach (var folder in folders)
 				{
-					folder.GetPropertyValue<bool>("System.Home.IsPinned", out var isPinned);
-					var tooltip = await STATask.RunPooled(() => folder.TryGetShellTooltip(out var t).Succeeded ? t : null, App.Logger);
+					if (folder.ShellItem.Resolve(out IShellItem shellItem).ThrowIfFailedOnDebug().Failed)
+						continue;
 
-					Items.Insert(
-						Items.Count,
-						new WidgetFolderCardItem(
-							folder,
-							folder.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI),
-							isPinned,
-							tooltip ?? string.Empty));
+					Items.Add(new WidgetFolderCardItem(new WindowsFolder(shellItem), folder.Text, folder.Path, folder.IsPinned, folder.Tooltip));
 				}
 			});
 		}

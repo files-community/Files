@@ -28,8 +28,8 @@ namespace Files.App.Utils.Serialization.Implementation
 			else
 			{
 				var defaultElement = GetElementFromValue(defaultValue);
-				if (_settingsCache.TryAdd(key, defaultElement) && !SaveSettings(_settingsCache))
-					_settingsCache.TryRemove(key, out _);
+				// Persist cached defaults with the next settings change, not during reads.
+				_settingsCache.TryAdd(key, defaultElement);
 
 				return defaultValue;
 			}

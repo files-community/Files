@@ -4,7 +4,9 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -24,6 +26,7 @@ namespace Files.App
 
 		private bool CanWindowToFront { get; set; } = true;
 		private readonly Lock _canWindowToFrontLock = new();
+		private bool _isWindowIconInitialized;
 
 		protected override bool PersistPlacement => true;
 
@@ -37,10 +40,49 @@ namespace Files.App
 			AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonPressedBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonHoverBackgroundColor = Colors.Transparent;
+		}
 
-			// Deferred: reads the .ico from disk
-			DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-				AppWindow.SetIcon(AppLifecycleHelper.AppIconPath));
+		private void InitializeWindowIcon()
+		{
+			if (_isWindowIconInitialized)
+				return;
+
+			AppWindow.SetIcon(AppLifecycleHelper.AppIconPath);
+			_isWindowIconInitialized = true;
+		}
+
+		internal async Task<bool> ActivateWithBackdropAsync()
+		{
+			var rootFrame = EnsureWindowIsInitialized();
+			if (rootFrame is null)
+				return false;
+
+			// Submit the lightweight backdrop before showing the window with its normal animation.
+			await CompositionTarget.GetCompositorForCurrentThread().RequestCommitAsync();
+
+			var firstFrame = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+			CompositionTarget.Rendered += OnRendered;
+			Closed += OnClosed;
+			try
+			{
+				Activate();
+				// Let the backdrop paint before main-page construction occupies the UI thread.
+				return await firstFrame.Task;
+			}
+			finally
+			{
+				CompositionTarget.Rendered -= OnRendered;
+				Closed -= OnClosed;
+			}
+
+			void OnRendered(object? sender, RenderedEventArgs args)
+			{
+				if (rootFrame.IsLoaded)
+					firstFrame.TrySetResult(true);
+			}
+
+			void OnClosed(object sender, WindowEventArgs args)
+				=> firstFrame.TrySetResult(false);
 		}
 
 		public void ShowSplashScreen()
@@ -58,16 +100,13 @@ namespace Files.App
 			if (rootFrame is null)
 				return;
 
-			// Reuse the existing backdrop on resume; rebuilding the Mica controller leaves the window on the fallback color for ~1s
-			SystemBackdrop ??= new AppSystemBackdrop();
-
 			switch (activatedEventArgs)
 			{
 				case ILaunchActivatedEventArgs launchArgs:
 					if (launchArgs.Arguments is not null &&
 						(CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"files-dev.exe", StringComparison.OrdinalIgnoreCase)
 						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"files-dev", StringComparison.OrdinalIgnoreCase)
-						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].Equals(Path.Join(Package.Current.InstalledLocation.Path, "Files.exe"), StringComparison.OrdinalIgnoreCase)))
+						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].Equals(Path.Join(Package.Current.InstalledPath, "Files.exe"), StringComparison.OrdinalIgnoreCase)))
 					{
 						// WINUI3: When launching from commandline the argument is not ICommandLineActivatedEventArgs (#10370)
 						var ppm = CommandLineParser.ParseUntrustedCommands(launchArgs.Arguments);
@@ -250,6 +289,11 @@ namespace Files.App
 				{
 					// Create a Frame to act as the navigation context and navigate to the first page
 					rootFrame = new() { CacheSize = 1 };
+					rootFrame.Loaded += (_, _) =>
+					{
+						if (!_isWindowIconInitialized)
+							rootFrame.RunAfterNextRender(InitializeWindowIcon);
+					};
 					rootFrame.NavigationFailed += (s, e) =>
 					{
 						throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
@@ -257,6 +301,15 @@ namespace Files.App
 
 					// Place the frame in the current Window
 					Instance.Content = rootFrame;
+					Ioc.Default.GetRequiredService<IAppThemeModeService>().SetAppThemeMode(this, callThemeModeChangedEvent: false);
+				}
+
+				if (SystemBackdrop is null)
+				{
+					// Initialize the active material directly instead of transitioning from its inactive fallback.
+					var backdrop = new AppSystemBackdrop();
+					backdrop.SetInputActive(true);
+					SystemBackdrop = backdrop;
 				}
 
 				return rootFrame;

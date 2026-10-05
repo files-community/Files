@@ -21,6 +21,7 @@
 	xmlns:ucs="using:Files.App.UserControls.StatusCenter"
 	xmlns:vm="using:Files.App.ViewModels.UserControls"
 	x:Name="NavToolbar"
+	Loaded="NavToolbar_Loaded"
 	Loading="NavToolbar_Loading"
 	mc:Ignorable="d">
 
@@ -73,7 +74,11 @@
 		</Grid.ColumnDefinitions>
 
 		<!--  Listary Integration  -->
-		<Grid Width="0" Height="0">
+		<Grid
+			x:Name="ListaryIntegration"
+			Width="0"
+			Height="0"
+			x:Load="False">
 			<!--  Contains the current path  -->
 			<TextBox AutomationProperties.AutomationId="CurrentPathGet" Text="{x:Bind ViewModel.PathControlDisplayText, Mode=OneWay}" />
 
