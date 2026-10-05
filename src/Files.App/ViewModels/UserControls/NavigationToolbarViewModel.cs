@@ -1054,10 +1054,17 @@ namespace Files.App.ViewModels.UserControls
 						newSuggestions.Add(new(FolderAliasHelpers.Prefix.ToString(), Strings.NoFolderAliasesSuggestion.GetLocalizedResource()));
 					else
 					{
-						var nameWidth = aliases.Max(x => MeasureSuggestionTextWidth(x.Name));
+						var nameWidth = aliases.Max(x => MeasureSuggestionTextWidth(x.Name, Microsoft.UI.Text.FontWeights.SemiBold));
+						var query = pathText.TrimStart(FolderAliasHelpers.Prefix);
 						newSuggestions.AddRange(FolderAliasHelpers.GetMatches(aliases, pathText)
 							.Take(MaxSuggestionsCount)
-							.Select(x => new OmnibarPathModeSuggestionModel($"{FolderAliasHelpers.Prefix}{x.Name}", x.Name, x.Path, NameMinWidth: nameWidth)));
+							.Select(x => new OmnibarPathModeSuggestionModel(
+								$"{FolderAliasHelpers.Prefix}{x.Name}",
+								x.Name,
+								x.Path,
+								NameMinWidth: nameWidth,
+								MatchStart: Math.Max(0, x.Name.IndexOf(query, StringComparison.OrdinalIgnoreCase)),
+								MatchLength: query.Length)));
 					}
 				}
 				else
@@ -1312,7 +1319,7 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(Microsoft.UI.Xaml.Media.FontFamily))]
-		private double MeasureSuggestionTextWidth(string text)
+		private double MeasureSuggestionTextWidth(string text, Windows.UI.Text.FontWeight fontWeight)
 		{
 			_suggestionMeasureTextBlock ??= new()
 			{
@@ -1320,6 +1327,7 @@ namespace Files.App.ViewModels.UserControls
 				FontSize = (double)Application.Current.Resources["ControlContentThemeFontSize"],
 			};
 
+			_suggestionMeasureTextBlock.FontWeight = fontWeight;
 			_suggestionMeasureTextBlock.Text = text;
 			_suggestionMeasureTextBlock.Measure(new(double.PositiveInfinity, double.PositiveInfinity));
 			return Math.Ceiling(_suggestionMeasureTextBlock.DesiredSize.Width);

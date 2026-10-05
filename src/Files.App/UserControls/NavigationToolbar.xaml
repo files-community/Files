@@ -282,7 +282,9 @@
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition Width="*" />
 							</Grid.ColumnDefinitions>
-							<TextBlock MinWidth="{x:Bind NameMinWidth, Mode=OneTime}" Text="{x:Bind DisplayName, Mode=OneTime}" />
+							<TextBlock MinWidth="{x:Bind NameMinWidth, Mode=OneTime}">
+								<Run Text="{x:Bind DisplayNameBeforeMatch, Mode=OneTime}" /><Run FontWeight="SemiBold" Text="{x:Bind DisplayNameMatch, Mode=OneTime}" /><Run Text="{x:Bind DisplayNameAfterMatch, Mode=OneTime}" />
+							</TextBlock>
 							<TextBlock
 								Grid.Column="1"
 								Foreground="{ThemeResource TextFillColorSecondaryBrush}"
