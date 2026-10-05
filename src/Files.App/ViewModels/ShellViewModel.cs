@@ -32,6 +32,8 @@ namespace Files.App.ViewModels
 	/// </summary>
 	public sealed partial class ShellViewModel : ObservableObject, IDisposable
 	{
+		private const int MaxSearchResultsAppendedPerTick = 500;
+
 		private readonly SemaphoreSlim enumFolderSemaphore;
 		private readonly SemaphoreSlim getFileOrFolderSemaphore;
 		private readonly SemaphoreSlim bulkOperationSemaphore;
@@ -52,6 +54,10 @@ namespace Files.App.ViewModels
 
 		// Files and folders list for manipulating
 		private ConcurrentCollection<ListedItem> filesAndFolders;
+
+		// Search results waiting to be displayed, only accessed on the UI thread
+		private readonly Queue<ListedItem> pendingSearchResults = new();
+
 		private readonly IWindowsIniService WindowsIniService = Ioc.Default.GetRequiredService<IWindowsIniService>();
 		private readonly IWindowsJumpListService jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
 		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
@@ -1102,6 +1108,9 @@ namespace Files.App.ViewModels
 		}
 
 
+		private static bool MatchesFilter(ListedItem item, string? filter)
+			=> string.IsNullOrEmpty(filter) || item.Name?.Contains(filter, StringComparison.OrdinalIgnoreCase) == true;
+
 		// Apply changes immediately after manipulating on filesAndFolders completed
 		public async Task ApplyFilesAndFoldersChangesAsync()
 		{
@@ -1125,8 +1134,7 @@ namespace Files.App.ViewModels
 
 					var displayedFilesAndFolders = string.IsNullOrEmpty(filter)
 						? filesAndFoldersLocal
-						: await Task.Run(() => filesAndFoldersLocal.Where(
-							x => x.Name?.Contains(filter, StringComparison.OrdinalIgnoreCase) == true).ToList(), addFilesCTS.Token);
+						: await Task.Run(() => filesAndFoldersLocal.Where(x => MatchesFilter(x, filter)).ToList(), addFilesCTS.Token);
 
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
@@ -1134,6 +1142,8 @@ namespace Files.App.ViewModels
 						{
 							if (addFilesCTS.IsCancellationRequested || FilesAndFoldersFilter != filter)
 								return;
+
+							pendingSearchResults.Clear();
 
 							FilesAndFolders.BeginBulkOperation();
 							try
@@ -3436,7 +3446,8 @@ namespace Files.App.ViewModels
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
 
 			CancelSearch();
-			searchCTS = new CancellationTokenSource();
+			var currentSearchCTS = searchCTS = new CancellationTokenSource();
+			var token = currentSearchCTS.Token;
 			filesAndFolders.Clear();
 			IsLoadingItems = true;
 			IsSearchResults = true;
@@ -3453,23 +3464,88 @@ namespace Files.App.ViewModels
 
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
 
+			// Stops late ticks from appending after the final apply
+			using var tickCTS = CancellationTokenSource.CreateLinkedTokenSource(token);
+			var tickToken = tickCTS.Token;
+			void Search_SearchTick(object? sender, IReadOnlyList<ListedItem> newItems) => _ = AppendSearchResultsAsync(newItems, tickToken);
+
 			var results = new List<ListedItem>();
-			search.SearchTick += async (s, e) =>
+			search.DispatcherQueue = dispatcherQueue;
+			search.SearchTick += Search_SearchTick;
+			await search.SearchAsync(results, token);
+			search.SearchTick -= Search_SearchTick;
+			tickCTS.Cancel();
+
+			if (!token.IsCancellationRequested)
 			{
+				await PreloadIconsAsync(results);
 				filesAndFolders = new ConcurrentCollection<ListedItem>(results);
+
 				await OrderFilesAndFoldersAsync();
 				await ApplyFilesAndFoldersChangesAsync();
-			};
+			}
 
-			await search.SearchAsync(results, searchCTS.Token);
+			// A newer search owns the loading state
+			if (ReferenceEquals(searchCTS, currentSearchCTS))
+			{
+				ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete });
+				IsLoadingItems = false;
+			}
+		}
 
-			filesAndFolders = new ConcurrentCollection<ListedItem>(results);
+		private async Task AppendSearchResultsAsync(IReadOnlyList<ListedItem> newItems, CancellationToken token)
+		{
+			try
+			{
+				await bulkOperationSemaphore.WaitAsync(token);
+			}
+			catch (OperationCanceledException)
+			{
+				return;
+			}
 
-			await OrderFilesAndFoldersAsync();
-			await ApplyFilesAndFoldersChangesAsync();
+			try
+			{
+				await PreloadIconsAsync(newItems);
+				await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+				{
+					if (token.IsCancellationRequested)
+						return;
 
-			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete });
-			IsLoadingItems = false;
+					filesAndFolders.AddRange(newItems);
+					foreach (var item in newItems)
+						pendingSearchResults.Enqueue(item);
+
+					var filter = FilesAndFoldersFilter;
+					var appendedCount = 0;
+					while (appendedCount < MaxSearchResultsAppendedPerTick && pendingSearchResults.TryDequeue(out var item))
+					{
+						if (!MatchesFilter(item, filter))
+							continue;
+
+						FilesAndFolders.Add(item);
+						appendedCount++;
+					}
+
+					UpdateEmptyTextType();
+					DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
+				});
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, ex.Message);
+			}
+			finally
+			{
+				bulkOperationSemaphore.Release();
+			}
+		}
+
+		private async Task PreloadIconsAsync(IEnumerable<ListedItem> items)
+		{
+			var iconSize = GetPreloadIconSize();
+			foreach (var item in items)
+				item.PreloadedIconData ??= await iconCacheService.GetIconAsync(item.ItemPath, item.IsFolder ? null : item.FileExtension, item.IsFolder, iconSize);
 		}
 
 		public void CancelSearch()
