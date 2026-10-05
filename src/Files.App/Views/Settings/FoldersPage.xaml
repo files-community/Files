@@ -264,17 +264,6 @@
 												<ColumnDefinition Width="72" />
 											</Grid.ColumnDefinitions>
 
-											<VisualStateManager.VisualStateGroups>
-												<VisualStateGroup x:Name="PointerStates">
-													<VisualState x:Name="Normal" />
-													<VisualState x:Name="PointerOver">
-														<VisualState.Setters>
-															<Setter Target="RowActions.Visibility" Value="Visible" />
-														</VisualState.Setters>
-													</VisualState>
-												</VisualStateGroup>
-											</VisualStateManager.VisualStateGroups>
-
 											<!--  Name  -->
 											<TextBlock
 												VerticalAlignment="Center"
@@ -319,6 +308,17 @@
 													<FontIcon FontSize="14" Glyph="&#xE74D;" />
 												</Button>
 											</StackPanel>
+
+											<VisualStateManager.VisualStateGroups>
+												<VisualStateGroup x:Name="PointerStates">
+													<VisualState x:Name="Normal" />
+													<VisualState x:Name="PointerOver">
+														<VisualState.Setters>
+															<Setter Target="RowActions.Visibility" Value="Visible" />
+														</VisualState.Setters>
+													</VisualState>
+												</VisualStateGroup>
+											</VisualStateManager.VisualStateGroups>
 										</Grid>
 									</UserControl>
 								</DataTemplate>
