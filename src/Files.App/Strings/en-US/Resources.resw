@@ -4755,6 +4755,15 @@
   <data name="NoFolderAliasesSuggestion" xml:space="preserve">
     <value>There are no folder aliases. Open Settings to add one.</value>
   </data>
+  <data name="NoMatchingFolderAliasesSuggestion" xml:space="preserve">
+    <value>No matching folder aliases</value>
+  </data>
+  <data name="FolderAliasNotFoundDialogTitle" xml:space="preserve">
+    <value>Folder alias not found</value>
+  </data>
+  <data name="FolderAliasNotFoundDialogContent" xml:space="preserve">
+    <value>There's no folder alias named "{0}".</value>
+  </data>
   <data name="RestoreDefaultFolderAliasesConfirmation" xml:space="preserve">
     <value>Are you sure you want to restore the default aliases? This action cannot be undone.</value>
   </data>

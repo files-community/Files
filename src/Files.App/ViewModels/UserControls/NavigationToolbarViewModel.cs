@@ -564,6 +564,12 @@ namespace Files.App.ViewModels.UserControls
 
 			if (FolderAliasHelpers.TryResolve(path, out var aliasPath))
 				path = aliasPath;
+			else if (FolderAliasHelpers.IsAliasQuery(path))
+			{
+				await DialogDisplayHelper.ShowDialogAsync(Strings.FolderAliasNotFoundDialogTitle.GetLocalizedResource(),
+					string.Format(Strings.FolderAliasNotFoundDialogContent.GetLocalizedResource(), path[1..]));
+				return false;
+			}
 
 			var currentPath = PathComponents.LastOrDefault()?.Path;
 			var isFtp = FtpHelpers.IsFtpPath(path);
@@ -1065,6 +1071,12 @@ namespace Files.App.ViewModels.UserControls
 								NameMinWidth: nameWidth,
 								MatchStart: Math.Max(0, x.Name.IndexOf(query, StringComparison.OrdinalIgnoreCase)),
 								MatchLength: query.Length)));
+
+						if (newSuggestions.Count is 0)
+						{
+							IsPathModeSuggestionAutoSelected = false;
+							newSuggestions.Add(new(pathText, Strings.NoMatchingFolderAliasesSuggestion.GetLocalizedResource(), IsPlaceholder: true));
+						}
 					}
 				}
 				else
