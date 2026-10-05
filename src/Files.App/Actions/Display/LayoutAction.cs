@@ -73,7 +73,7 @@ namespace Files.App.Actions
 			=> Strings.LayoutGridDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(themedIconStyle: "App.ThemedIcons.IconSize.Small");
+			=> new(themedIconStyle: "App.ThemedIcons.IconLayout.Grid");
 
 		public override HotKey HotKey
 			=> new(Keys.Number4, KeyModifiers.CtrlShift);
