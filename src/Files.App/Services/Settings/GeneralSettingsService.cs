@@ -401,7 +401,17 @@ namespace Files.App.Services.Settings
 
 		public string UserId
 		{
-			get => Get(Guid.NewGuid().ToString());
+			get
+			{
+				var userId = Get<string>(null);
+				if (userId is null)
+				{
+					userId = Guid.NewGuid().ToString();
+					Set(userId);
+				}
+
+				return userId;
+			}
 			set => Set(value);
 		}
 
