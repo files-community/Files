@@ -281,6 +281,8 @@ SHCreateShellItemArrayFromShellItem
 IDataObject
 IShellExtInit
 IContextMenu2
+IExplorerCommand
+IEnumExplorerCommand
 GetSubMenu
 GetMenuItemCount
 GetMenuItemInfo

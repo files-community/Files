@@ -103,11 +103,26 @@ namespace Files.App.Helpers
 				return filterMenuItemsImpl;
 			}
 
+			var itemFilter = FilterMenuItems(showOpenMenu);
+
+			// Windows 11 context menu commands, queried alongside the classic menu
+			var explorerCommandMenuTask = ExplorerCommandMenu.GetExplorerCommandMenuAsync(filePaths, selectedItems is not { Count: > 0 }, itemFilter, cancellationToken);
+
 			var contextMenu = await ContextMenu.GetContextMenuForFiles(filePaths,
-				shiftPressed ? PInvoke.CMF_EXTENDEDVERBS : PInvoke.CMF_NORMAL, FilterMenuItems(showOpenMenu));
+				shiftPressed ? PInvoke.CMF_EXTENDEDVERBS : PInvoke.CMF_NORMAL, itemFilter);
+
+			var explorerCommandMenu = await explorerCommandMenuTask;
 
 			if (contextMenu is not null)
+			{
+				if (explorerCommandMenu is not null)
+					contextMenu.Items!.RemoveAll(explorerCommandMenu.IsDuplicate);
+
 				await LoadMenuFlyoutItemAsync(menuItemsList, contextMenu, contextMenu.Items!, cancellationToken, true);
+			}
+
+			if (explorerCommandMenu is not null)
+				menuItemsList.InsertRange(0, await GetExplorerCommandModelsAsync(explorerCommandMenu, explorerCommandMenu.Items, cancellationToken));
 
 			if (cancellationToken.IsCancellationRequested)
 				menuItemsList.Clear();
@@ -163,13 +178,7 @@ namespace Files.App.Helpers
 				if ((menuFlyoutItem.Type == MENU_ITEM_TYPE.MFT_SEPARATOR) && (menuItemsListLocal.FirstOrDefault()?.ItemType == ContextMenuFlyoutItemType.Separator))
 					continue;
 
-				BitmapImage? image = null;
-				if (showIcons && menuFlyoutItem.Icon is { Length: > 0 })
-				{
-					image = new BitmapImage();
-					using var ms = new MemoryStream(menuFlyoutItem.Icon);
-					await image.SetSourceAsync(ms.AsRandomAccessStream());
-				}
+				BitmapImage? image = showIcons ? await GetBitmapAsync(menuFlyoutItem.Icon) : null;
 
 				if (menuFlyoutItem.Type is MENU_ITEM_TYPE.MFT_SEPARATOR)
 				{
@@ -254,6 +263,47 @@ namespace Files.App.Helpers
 
 				//contextMenu.Dispose(); // Prevents some menu items from working (TBC)
 			}
+		}
+
+		private static async Task<BitmapImage?> GetBitmapAsync(byte[]? icon)
+		{
+			if (icon is not { Length: > 0 })
+				return null;
+
+			var image = new BitmapImage();
+			using var ms = new MemoryStream(icon);
+			await image.SetSourceAsync(ms.AsRandomAccessStream());
+			return image;
+		}
+
+		private static async Task<List<ContextMenuFlyoutItemViewModel>> GetExplorerCommandModelsAsync(
+			ExplorerCommandMenu explorerCommandMenu,
+			IEnumerable<Win32ContextMenuItem> menuItems,
+			CancellationToken cancellationToken)
+		{
+			var models = new List<ContextMenuFlyoutItemViewModel>();
+			foreach (var menuItem in menuItems)
+			{
+				if (cancellationToken.IsCancellationRequested)
+					break;
+
+				if (menuItem.Type is MENU_ITEM_TYPE.MFT_SEPARATOR)
+				{
+					models.Add(new() { ItemType = ContextMenuFlyoutItemType.Separator, Tag = menuItem });
+					continue;
+				}
+
+				var model = CreateShellMenuItem(menuItem, await GetBitmapAsync(menuItem.Icon));
+				model.IsEnabled = menuItem is not ExplorerCommandMenuItem { IsEnabled: false };
+				if (menuItem.SubItems is not null)
+					model.Items = await GetExplorerCommandModelsAsync(explorerCommandMenu, menuItem.SubItems, cancellationToken);
+				else if (menuItem is ExplorerCommandMenuItem explorerCommandItem)
+					model.Command = new AsyncRelayCommand(() => explorerCommandMenu.InvokeItem(explorerCommandItem));
+
+				models.Add(model);
+			}
+
+			return models;
 		}
 
 		public static List<ContextMenuFlyoutItemViewModel>? GetOpenWithItems(List<ContextMenuFlyoutItemViewModel> flyout)

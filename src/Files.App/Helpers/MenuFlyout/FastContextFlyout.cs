@@ -224,15 +224,19 @@ namespace Files.App.Helpers.ContextFlyouts
 		/// <summary>
 		/// Adds the (already filtered) shell models: everything inline when there is no overflow submenu, the
 		/// first 6 inline while shift is held, the rest inside "Show more options" - above its built-in commands
-		/// when <paramref name="aboveExisting"/> is set, appended otherwise.
+		/// when <paramref name="aboveExisting"/> is set, appended otherwise. Windows 11 context menu commands
+		/// always go inline, as in File Explorer.
 		/// </summary>
 		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSeparator))]
 		public void AddShellModels(List<ContextMenuFlyoutItemViewModel> models, bool shiftPressed, MenuFlyoutSubItem? overflowSubMenu, MenuFlyoutSeparator? overflowSeparator, bool aboveExisting = true)
 		{
+			var explorerCommandModels = models.Where(x => x.Tag is ExplorerCommandMenuItem).ToList();
+			var classicModels = models.Where(x => x.Tag is not ExplorerCommandMenuItem).ToList();
 			List<ContextMenuFlyoutItemViewModel> mainModels = overflowSubMenu is null
-				? models
-				: shiftPressed ? models.Take(6).ToList() : [];
-			var overflowModels = models.Skip(mainModels.Count).ToList();
+				? classicModels
+				: shiftPressed ? classicModels.Take(6).ToList() : [];
+			var overflowModels = classicModels.Skip(mainModels.Count).ToList();
+			mainModels = [.. explorerCommandModels, .. mainModels];
 			TrimSeparators(mainModels);
 			TrimSeparators(overflowModels);
 
