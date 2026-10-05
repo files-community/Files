@@ -496,6 +496,8 @@ namespace Files.App.UserControls
 
 			if (mode == OmnibarPathMode)
 				_ = DispatcherQueue.EnqueueOrInvokeAsync(viewModel.PopulateOmnibarSuggestionsForPathMode);
+			else if (mode == OmnibarCommandPaletteMode)
+				_ = DispatcherQueue.EnqueueOrInvokeAsync(viewModel.PopulateOmnibarSuggestionsForCommandPaletteMode);
 		}
 
 		private string? TakePendingOmnibarText(OmnibarMode mode)
