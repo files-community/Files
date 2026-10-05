@@ -493,6 +493,9 @@ namespace Files.App.UserControls
 				viewModel.OmnibarCommandPaletteModeText = text;
 
 			Omnibar.FocusWithCaretAtEnd();
+
+			if (mode == OmnibarPathMode)
+				_ = DispatcherQueue.EnqueueOrInvokeAsync(viewModel.PopulateOmnibarSuggestionsForPathMode);
 		}
 
 		private string? TakePendingOmnibarText(OmnibarMode mode)
