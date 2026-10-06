@@ -2494,12 +2494,7 @@ namespace Files.App.ViewModels
 						// after the final list update, which would delay load completion and watcher setup.
 						// The desktop.ini task is awaited before applying the adaptive layout, which reads DesktopIni.
 						_ = dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-						desktopIniUpdateTask = dispatcherQueue.EnqueueOrInvokeAsync(() =>
-						{
-							GetDesktopIniFileData();
-							CheckForBackgroundImage();
-						},
-						Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+						desktopIniUpdateTask = UpdateDesktopIniAsync(path, cancellationToken);
 					});
 
 					// Cache the resolved folder so the post-enum switch reuses it.
@@ -2584,12 +2579,18 @@ namespace Files.App.ViewModels
 				.FirstOrDefault()?.ItemPath;
 		}
 
-		private void GetDesktopIniFileData()
+		private async Task UpdateDesktopIniAsync(string directoryPath, CancellationToken cancellationToken)
 		{
-			var workingDirectory = WorkingDirectory
-				?? throw new InvalidOperationException("The working directory has not been initialized.");
-			var path = Path.Combine(workingDirectory, "desktop.ini");
-			DesktopIni = WindowsIniService.GetData(path);
+			// File.Exists and ReadLines can wait for the SMB timeout on an unavailable share.
+			var data = await Task.Run(() => WindowsIniService.GetData(Path.Combine(directoryPath, "desktop.ini")));
+			await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+			{
+				if (cancellationToken.IsCancellationRequested || WorkingDirectory != directoryPath)
+					return;
+
+				DesktopIni = data;
+				CheckForBackgroundImage();
+			}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 		}
 
 		public void CheckForBackgroundImage()
