@@ -192,8 +192,7 @@ namespace Files.App.ViewModels
 		{
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				await Task.WhenAll(WidgetItems.Select(x => x.WidgetItemModel).ToList()
-					.Select(viewModel => viewModel.RefreshWidgetAsync()));
+				await Task.WhenAll(WidgetItems.Select(x => x.WidgetItemModel.RefreshWidgetAsync()));
 			});
 		}
 
