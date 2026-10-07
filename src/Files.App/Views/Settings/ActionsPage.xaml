@@ -64,9 +64,7 @@
 					Content="{helpers:ResourceString Name=AddCommand}">
 					<SplitButton.Flyout>
 						<MenuFlyout Placement="Bottom">
-							<MenuFlyoutItem
-								Command="{x:Bind ViewModel.ShowRestoreDefaultsConfirmationCommand, Mode=OneWay}"
-								Text="{helpers:ResourceString Name=RestoreDefaults}">
+							<MenuFlyoutItem Command="{x:Bind ViewModel.ShowRestoreDefaultsConfirmationCommand, Mode=OneWay}" Text="{helpers:ResourceString Name=RestoreDefaults}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon Glyph="&#xE777;" />
 								</MenuFlyoutItem.Icon>
