@@ -10,7 +10,7 @@ This project is a C#/.NET WinUI 3 desktop app; an alternative to File Explorer.
 - Prefer targeted search over full file reads.
 - Touch only what you must. Clean up only files you created or changed for the task.
 - Treat file operations, shell integration, drag/drop, preview handlers, archive actions, settings persistence, and localization as high-risk areas.
-- For Win32, COM, Shell, clipboard, hotkey, and file operation interop, prefer `src/Files.App.CsWin32`, `NativeMethods.txt`, and existing wrappers/helpers.
+- For Win32, COM, Shell, clipboard, hotkey, and file operation interop, prefer `src/Files.Storage`, `NativeMethods.txt`, and existing wrappers/helpers.
 - Avoid ad hoc P/Invoke declarations when CsWin32 or existing interop code can cover the API.
 - Do not edit generated CsWin32 output directly. Update source declarations, wrappers, or generator inputs instead.
 - For UI work, use existing XAML resources, controls, converters, commands, and localization patterns. Avoid one-off styles or hard-coded user-visible strings.
@@ -25,7 +25,7 @@ This project is a C#/.NET WinUI 3 desktop app; an alternative to File Explorer.
 
 - Reject new uses of `DllImport`. Prefer existing interop wrappers or CsWin32, and use `LibraryImport` only when CsWin32 cannot generate or safely express the required API.
 - Reject new uses of `ComImport`. Prefer CsWin32-generated COM interfaces or `GeneratedComInterface`, and use a focused AOT-safe vtable wrapper only when source-generated COM cannot represent the interface.
-- Add app runtime CsWin32 APIs to `src/Files.App.CsWin32/NativeMethods.txt`, and keep test-only APIs in the relevant test project's `NativeMethods.txt`; do not edit generated CsWin32 output.
+- Add app runtime CsWin32 APIs to `src/Files.Storage/NativeMethods.txt` or the owning app project's `NativeMethods.txt`, and keep test-only APIs in the relevant test project's `NativeMethods.txt`; do not edit generated CsWin32 output.
 - When introducing a required native module, add the matching `DirectPInvoke` entry to `src/Files.App/Files.App.csproj`. Do not direct-bind optional modules or entry points that are not guaranteed to exist on every supported Windows version.
 
 ### Reflection and Native AOT
@@ -41,12 +41,10 @@ This project is a C#/.NET WinUI 3 desktop app; an alternative to File Explorer.
 /src
 ├── Files.App                    Main WinUI app
 ├── Files.App.Controls           Shared app controls
-├── Files.App.Storage            App storage abstractions and implementations
-├── Files.App.CsWin32            Generated/native Win32 interop project
+├── Files.Storage                Storage, implementations, and shared app Win32 interop
 ├── Files.App.BackgroundTasks    Background task project
 ├── Files.App.Server             App service/server project
 ├── Files.Core.SourceGenerator   Roslyn source generators and analyzers
-├── Files.Core.Storage           Core storage abstractions
 └── Files.Shared                 Shared attributes, extensions, and common code
 ```
 

@@ -672,6 +672,27 @@ namespace Files.App.Utils.Storage
 		public static bool IsValidForFilename(string name)
 			=> !string.IsNullOrWhiteSpace(name) && !ContainsRestrictedCharacters(name) && !ContainsRestrictedFileName(name);
 
+		private static async Task<bool> FtpFileExistsAsync(string path)
+		{
+			try
+			{
+				var normalizedPath = path.Replace('\\', '/');
+				var parentPath = PathNormalization.GetParentDir(normalizedPath);
+				if (string.IsNullOrEmpty(parentPath) || parentPath.Length + 1 >= normalizedPath.Length)
+					return false;
+
+				if (await FtpStorageFolder.FromPathAsync(parentPath) is not FtpStorageFolder parent)
+					return false;
+
+				var fileName = normalizedPath[(parentPath.Length + 1)..];
+				return await parent.GetFileAsync(fileName) is not null;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
 		private static async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation, IEnumerable<IFileSystemDialogConflictItemViewModel>)> GetCollisions(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
 		{
 			var nonConflictingItems = new List<BaseFileSystemDialogItemViewModel>();
@@ -702,7 +723,7 @@ namespace Files.App.Utils.Storage
 					// Same item names in both directories
 					if (StorageHelpers.Exists(dest) ||
 						(FtpHelpers.IsFtpPath(dest) &&
-						await Ioc.Default.GetRequiredService<IFtpStorageService>().TryGetFileAsync(dest) is not null))
+						await FtpFileExistsAsync(dest)))
 					{
 						incomingItem.ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName;
 						conflictingItems.Add(incomingItem);

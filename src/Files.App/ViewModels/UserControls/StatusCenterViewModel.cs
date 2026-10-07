@@ -5,7 +5,7 @@ namespace Files.App.ViewModels.UserControls
 {
 	public sealed partial class StatusCenterViewModel : ObservableObject
 	{
-		private readonly Files.App.Storage.TaskbarManager _taskbar = Files.App.Storage.TaskbarManager.Default;
+		private readonly Files.Storage.TaskbarManager _taskbar = Files.Storage.TaskbarManager.Default;
 
 		public ObservableCollection<StatusCenterItem> StatusCenterItems { get; } = [];
 
