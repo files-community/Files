@@ -2270,6 +2270,8 @@ namespace Files.App.ViewModels
 
 		private async Task<int> EnumerateItemsFromStandardFolderAsync(string path, CancellationToken cancellationToken, LibraryItem? library = null)
 		{
+			var workingDirectory = WorkingDirectory
+				?? throw new InvalidOperationException("The working directory has not been initialized.");
 			enumeratedCloudSyncStatus = null;
 
 			// Flag to use FindFirstFileExFromApp or StorageFolder enumeration - Use storage folder for Box Drive (#4629)
@@ -2494,7 +2496,7 @@ namespace Files.App.ViewModels
 						// after the final list update, which would delay load completion and watcher setup.
 						// The desktop.ini task is awaited before applying the adaptive layout, which reads DesktopIni.
 						_ = dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-						desktopIniUpdateTask = UpdateDesktopIniAsync(path, cancellationToken);
+						desktopIniUpdateTask = UpdateDesktopIniAsync(workingDirectory, cancellationToken);
 					});
 
 					// Cache the resolved folder so the post-enum switch reuses it.
