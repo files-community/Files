@@ -52,7 +52,7 @@
     <PackageVersion Include="Appium.WebDriver" Version="9.0.0" />
     <PackageVersion Include="Axe.Windows" Version="2.4.2" />
     <PackageVersion Include="MSTest.TestAdapter" Version="4.4.1" />
-    <PackageVersion Include="MSTest.TestFramework" Version="4.4.1" />
+    <PackageVersion Include="MSTest.TestFramework" Version="4.5.1" />
     <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.5.1" />
   </ItemGroup>
 </Project>
