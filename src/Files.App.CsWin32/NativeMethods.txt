@@ -283,6 +283,8 @@ IShellExtInit
 IContextMenu2
 IExplorerCommand
 IEnumExplorerCommand
+IServiceProvider
+IFolderView
 GetSubMenu
 GetMenuItemCount
 GetMenuItemInfo

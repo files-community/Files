@@ -8,6 +8,7 @@ using System.Runtime.InteropServices.Marshalling;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
+using Windows.Win32.System.Ole;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
 
@@ -63,20 +64,23 @@ namespace Files.App.Utils.Shell
 			public List<object> ComObjects { get; } = [];
 
 			public IShellItemArray? ItemArray { get; set; }
+
+			public ExplorerCommandSite? Site { get; set; }
 		}
 
 		private ExplorerCommandMenu()
 		{
 		}
 
-		public static async Task<ExplorerCommandMenu?> GetExplorerCommandMenuAsync(string[] filePaths, bool isBackground, Func<string?, bool>? itemFilter, CancellationToken cancellationToken)
+		/// <param name="folderPath">The folder the menu was opened in, which the commands get through their site.</param>
+		public static async Task<ExplorerCommandMenu?> GetExplorerCommandMenuAsync(string[] filePaths, bool isBackground, string folderPath, Func<string?, bool>? itemFilter, CancellationToken cancellationToken)
 		{
 			var verbs = await ExplorerCommandCatalog.GetVerbsAsync();
 			if (verbs.Count is 0 || filePaths.Length is 0 || cancellationToken.IsCancellationRequested)
 				return null;
 
 			var menu = new ExplorerCommandMenu();
-			var load = menu.LoadAsync(filePaths, isBackground, verbs, itemFilter, cancellationToken);
+			var load = menu.LoadAsync(filePaths, isBackground, folderPath, verbs, itemFilter, cancellationToken);
 			if (await Task.WhenAny(load, Task.Delay(QueryTimeout, cancellationToken)) != load)
 			{
 				// The workers stay out of the pool until the hanging calls return.
@@ -130,7 +134,7 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
-		private async Task<bool> LoadAsync(string[] filePaths, bool isBackground, IReadOnlyList<ExplorerCommandCatalog.Verb> verbs, Func<string?, bool>? itemFilter, CancellationToken cancellationToken)
+		private async Task<bool> LoadAsync(string[] filePaths, bool isBackground, string folderPath, IReadOnlyList<ExplorerCommandCatalog.Verb> verbs, Func<string?, bool>? itemFilter, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -146,7 +150,7 @@ namespace Files.App.Utils.Shell
 				for (int index = 1; index < Math.Min(MaxLanes, clsids.Count); index++)
 					queryLanes.Add(AddLane());
 
-				await Task.WhenAll(queryLanes.Select(lane => lane.Worker.Thread.PostMethod(() => QueryCommands(lane, filePaths, queue, results, itemFilter))));
+				await Task.WhenAll(queryLanes.Select(lane => lane.Worker.Thread.PostMethod(() => QueryCommands(lane, filePaths, folderPath, queue, results, itemFilter))));
 
 				Items.AddRange(results.WhereNotNull());
 				return Items.Count > 0;
@@ -200,10 +204,12 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
-		private static void QueryCommands(Lane lane, string[] filePaths, ConcurrentQueue<(int Index, Guid Clsid)> queue, ExplorerCommandMenuItem?[] results, Func<string?, bool>? itemFilter)
+		private static void QueryCommands(Lane lane, string[] filePaths, string folderPath, ConcurrentQueue<(int Index, Guid Clsid)> queue, ExplorerCommandMenuItem?[] results, Func<string?, bool>? itemFilter)
 		{
 			try
 			{
+				lane.Site = ExplorerCommandSite.Create(folderPath);
+
 				if (lane.ItemArray is null)
 				{
 					var shellItems = GetShellItems(filePaths);
@@ -259,6 +265,12 @@ namespace Files.App.Utils.Shell
 				return null;
 
 			lane.ComObjects.Add(command);
+
+			// As File Explorer does, before anything else: some commands capture the site when they enumerate
+			// their subcommands.
+			if (lane.Site is not null && command is IObjectWithSite objectWithSite)
+				objectWithSite.SetSite(lane.Site);
+
 			return command;
 		}
 
@@ -414,13 +426,16 @@ namespace Files.App.Utils.Shell
 				{
 					var objectsToRelease = lane.ComObjects.ToArray();
 					var itemArrayToRelease = lane.ItemArray;
+					var siteToRelease = lane.Site;
 					lane.ComObjects.Clear();
 					lane.ItemArray = null;
+					lane.Site = null;
 					lane.Worker.Thread.PostMethod(() =>
 					{
 						foreach (var comObject in objectsToRelease)
 							(comObject as ComObject)?.FinalRelease();
 						((object?)itemArrayToRelease as ComObject)?.FinalRelease();
+						siteToRelease?.Release();
 					});
 					ContextMenuWorkerPool.Return(lane.Worker);
 				}

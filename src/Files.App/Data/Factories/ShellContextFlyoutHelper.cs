@@ -109,8 +109,9 @@ namespace Files.App.Helpers
 
 			var itemFilter = FilterMenuItems(showOpenMenu);
 
-			// Windows 11 context menu commands, queried alongside the classic menu
-			var explorerCommandMenuTask = ExplorerCommandMenu.GetExplorerCommandMenuAsync(filePaths, selectedItems is not { Count: > 0 }, itemFilter, cancellationToken);
+			// Windows 11 context menu commands, queried alongside the classic menu. Without a working directory
+			// (sidebar, widgets) the menu is for a location, which is then the folder the commands act in.
+			var explorerCommandMenuTask = ExplorerCommandMenu.GetExplorerCommandMenuAsync(filePaths, selectedItems is not { Count: > 0 }, workingDirectory ?? filePaths[0], itemFilter, cancellationToken);
 
 			if (explorerCommandsLoaded is not null)
 				_ = ShowExplorerCommandsAsync();
