@@ -121,7 +121,8 @@ namespace Files.App.Helpers
 				//Start the tasks separately to reduce resource contention
 				await Task.WhenAll(
 					addItemService.InitializeAsync(),
-					ContextMenu.WarmUpQueryContextMenuAsync()
+					ContextMenu.WarmUpQueryContextMenuAsync(),
+					ExplorerCommandCatalog.GetVerbsAsync()
 				);
 			});
 

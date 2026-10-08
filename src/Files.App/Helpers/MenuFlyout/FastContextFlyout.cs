@@ -237,21 +237,9 @@ namespace Files.App.Helpers.ContextFlyouts
 				: shiftPressed ? classicModels.Take(6).ToList() : [];
 			var overflowModels = classicModels.Skip(mainModels.Count).ToList();
 			mainModels = [.. explorerCommandModels, .. mainModels];
-			TrimSeparators(mainModels);
 			TrimSeparators(overflowModels);
 
-			if (mainModels.Count > 0)
-			{
-				var mainElements = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(mainModels);
-				if (mainElements is { Count: > 0 })
-				{
-					var insertAt = GetOverflowInsertIndex(overflowSubMenu, overflowSeparator);
-					if (insertAt > 0 && Items[insertAt - 1] is not MenuFlyoutSeparator)
-						Items.Insert(insertAt++, new MenuFlyoutSeparator());
-					foreach (var element in mainElements)
-						Items.Insert(insertAt++, element);
-				}
-			}
+			InsertBeforeOverflow(mainModels, overflowSubMenu, overflowSeparator);
 
 			if (overflowSubMenu is null)
 				return;
@@ -271,6 +259,30 @@ namespace Files.App.Helpers.ContextFlyouts
 				}
 			}
 			RemoveIfEmpty(overflowSubMenu, overflowSeparator);
+		}
+
+		/// <summary>
+		/// Adds the Windows 11 context menu commands inline, above "Show more options", as soon as they load;
+		/// the classic shell models added later go below them.
+		/// </summary>
+		public void AddExplorerCommandModels(List<ContextMenuFlyoutItemViewModel> models, MenuFlyoutSubItem? overflowSubMenu, MenuFlyoutSeparator? overflowSeparator)
+		{
+			InsertBeforeOverflow(models, overflowSubMenu, overflowSeparator);
+			FinalizePrimaryRowPosition();
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSeparator))]
+		private void InsertBeforeOverflow(List<ContextMenuFlyoutItemViewModel> models, MenuFlyoutSubItem? overflowSubMenu, MenuFlyoutSeparator? overflowSeparator)
+		{
+			TrimSeparators(models);
+			if (models.Count is 0 || ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(models) is not { Count: > 0 } elements)
+				return;
+
+			var insertAt = GetOverflowInsertIndex(overflowSubMenu, overflowSeparator);
+			if (insertAt > 0 && Items[insertAt - 1] is not MenuFlyoutSeparator)
+				Items.Insert(insertAt++, new MenuFlyoutSeparator());
+			foreach (var element in elements)
+				Items.Insert(insertAt++, element);
 		}
 
 		public MenuFlyoutItemBase? FindByTag(string tag)

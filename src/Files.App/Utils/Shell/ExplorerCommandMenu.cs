@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.Collections.Concurrent;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
@@ -20,6 +21,11 @@ namespace Files.App.Utils.Shell
 		internal IExplorerCommand? Command { get; init; }
 
 		/// <summary>
+		/// The worker the command was created on, which must also invoke it.
+		/// </summary>
+		internal ExplorerCommandMenu.Lane? Lane { get; init; }
+
+		/// <summary>
 		/// The class registered in the package manifest; set on top-level items only.
 		/// </summary>
 		public Guid Clsid { get; internal set; }
@@ -35,19 +41,32 @@ namespace Files.App.Utils.Shell
 	{
 		private const int MaxDepth = 4;
 
+		// Each command runs in its own server process: query them on several workers, so that a slow one
+		// does not hold up the others.
+		private const int MaxLanes = 4;
+
 		// Each command runs out of process; give up on the whole menu if one of them hangs.
 		private static readonly TimeSpan QueryTimeout = TimeSpan.FromSeconds(5);
 
-		private readonly ContextMenuWorkerPool.Worker worker;
-		private readonly List<object> comObjects = [];
-		private IShellItemArray? itemArray;
+		private readonly List<Lane> lanes = [];
 		private bool disposedValue;
 
 		public List<ExplorerCommandMenuItem> Items { get; } = [];
 
-		private ExplorerCommandMenu(ContextMenuWorkerPool.Worker worker)
+		/// <summary>
+		/// A worker thread with the COM objects created on it.
+		/// </summary>
+		internal sealed class Lane(ContextMenuWorkerPool.Worker worker)
 		{
-			this.worker = worker;
+			public ContextMenuWorkerPool.Worker Worker { get; } = worker;
+
+			public List<object> ComObjects { get; } = [];
+
+			public IShellItemArray? ItemArray { get; set; }
+		}
+
+		private ExplorerCommandMenu()
+		{
 		}
 
 		public static async Task<ExplorerCommandMenu?> GetExplorerCommandMenuAsync(string[] filePaths, bool isBackground, Func<string?, bool>? itemFilter, CancellationToken cancellationToken)
@@ -56,11 +75,11 @@ namespace Files.App.Utils.Shell
 			if (verbs.Count is 0 || filePaths.Length is 0 || cancellationToken.IsCancellationRequested)
 				return null;
 
-			var menu = new ExplorerCommandMenu(ContextMenuWorkerPool.Rent());
-			var load = menu.worker.Thread.PostMethod(() => menu.Load(filePaths, isBackground, verbs, itemFilter));
+			var menu = new ExplorerCommandMenu();
+			var load = menu.LoadAsync(filePaths, isBackground, verbs, itemFilter, cancellationToken);
 			if (await Task.WhenAny(load, Task.Delay(QueryTimeout, cancellationToken)) != load)
 			{
-				// The worker stays out of the pool until the hanging call returns.
+				// The workers stay out of the pool until the hanging calls return.
 				_ = load.ContinueWith(_ => menu.Dispose(), TaskScheduler.Default);
 				return null;
 			}
@@ -92,13 +111,13 @@ namespace Files.App.Utils.Shell
 
 		public async Task<bool> InvokeItem(ExplorerCommandMenuItem item)
 		{
-			if (item.Command is not { } command || disposedValue)
+			if (item.Command is not { } command || item.Lane is not { } lane || disposedValue)
 				return false;
 
 			try
 			{
 				var currentWindows = Win32Helper.GetDesktopWindows();
-				HRESULT result = await worker.Thread.PostMethod(() => command.Invoke(itemArray, null));
+				HRESULT result = await lane.Worker.Thread.PostMethod(() => command.Invoke(lane.ItemArray, null));
 				if (result.Failed)
 					return false;
 				Win32Helper.BringToForeground(currentWindows);
@@ -111,38 +130,25 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
-		private bool Load(string[] filePaths, bool isBackground, IReadOnlyList<ExplorerCommandCatalog.Verb> verbs, Func<string?, bool>? itemFilter)
+		private async Task<bool> LoadAsync(string[] filePaths, bool isBackground, IReadOnlyList<ExplorerCommandCatalog.Verb> verbs, Func<string?, bool>? itemFilter, CancellationToken cancellationToken)
 		{
-			var shellItems = new List<ShellItem>();
 			try
 			{
-				foreach (string path in filePaths.Where(path => !string.IsNullOrEmpty(path)))
-					shellItems.Add(ShellFolderExtensions.GetShellItemFromPathOrPIDL(path));
-				if (shellItems.Count is 0)
+				var firstLane = AddLane();
+				var clsids = await firstLane.Worker.Thread.PostMethod(() => GetApplicableCommands(firstLane, filePaths, isBackground, verbs, itemFilter));
+				if (clsids.Count is 0 || cancellationToken.IsCancellationRequested)
 					return false;
 
-				var selection = shellItems.Select(item => GetSelectedItem(item, isBackground)).ToList();
-				itemArray = ContextMenu.CreateShellItemArray([.. shellItems]);
+				// Every worker takes the next command from a shared queue; the results keep the catalog's order.
+				var queue = new ConcurrentQueue<(int Index, Guid Clsid)>(clsids.Select((clsid, index) => (index, clsid)));
+				var results = new ExplorerCommandMenuItem?[clsids.Count];
+				var queryLanes = new List<Lane> { firstLane };
+				for (int index = 1; index < Math.Min(MaxLanes, clsids.Count); index++)
+					queryLanes.Add(AddLane());
 
-				// A command applies when each selected item matches one of the types it is registered for.
-				var clsids = verbs
-					.GroupBy(verb => verb.Clsid)
-					.Where(group => selection.All(item => group.Any(verb => Matches(verb.ItemType, item))))
-					.Select(group => group.Key);
+				await Task.WhenAll(queryLanes.Select(lane => lane.Worker.Thread.PostMethod(() => QueryCommands(lane, filePaths, queue, results, itemFilter))));
 
-				foreach (var clsid in clsids)
-				{
-					if (itemFilter?.Invoke(clsid.ToString("B").ToUpperInvariant()) is true)
-						continue;
-
-					var command = CreateCommand(clsid);
-					if (command is not null && Describe(command, itemFilter, 0) is ExplorerCommandMenuItem item)
-					{
-						item.Clsid = clsid;
-						Items.Add(item);
-					}
-				}
-
+				Items.AddRange(results.WhereNotNull());
 				return Items.Count > 0;
 			}
 			catch (Exception ex)
@@ -151,6 +157,42 @@ namespace Files.App.Utils.Shell
 				Debug.WriteLine(ex);
 				return false;
 			}
+		}
+
+		private Lane AddLane()
+		{
+			lock (lanes)
+			{
+				var lane = new Lane(ContextMenuWorkerPool.Rent());
+				lanes.Add(lane);
+				return lane;
+			}
+		}
+
+		private static List<Guid> GetApplicableCommands(Lane lane, string[] filePaths, bool isBackground, IReadOnlyList<ExplorerCommandCatalog.Verb> verbs, Func<string?, bool>? itemFilter)
+		{
+			var shellItems = GetShellItems(filePaths);
+			try
+			{
+				if (shellItems.Count is 0)
+					return [];
+
+				var selection = shellItems.Select(item => GetSelectedItem(item, isBackground)).ToList();
+				lane.ItemArray = ContextMenu.CreateShellItemArray([.. shellItems]);
+
+				// A command applies when each selected item matches one of the types it is registered for.
+				return verbs
+					.GroupBy(verb => verb.Clsid)
+					.Where(group => selection.All(item => group.Any(verb => Matches(verb.ItemType, item))))
+					.Select(group => group.Key)
+					.Where(clsid => itemFilter?.Invoke(clsid.ToString("B").ToUpperInvariant()) is not true)
+					.ToList();
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+				return [];
+			}
 			finally
 			{
 				foreach (var item in shellItems)
@@ -158,22 +200,73 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
-		private IExplorerCommand? CreateCommand(Guid clsid)
+		private static void QueryCommands(Lane lane, string[] filePaths, ConcurrentQueue<(int Index, Guid Clsid)> queue, ExplorerCommandMenuItem?[] results, Func<string?, bool>? itemFilter)
+		{
+			try
+			{
+				if (lane.ItemArray is null)
+				{
+					var shellItems = GetShellItems(filePaths);
+					try
+					{
+						lane.ItemArray = ContextMenu.CreateShellItemArray([.. shellItems]);
+					}
+					finally
+					{
+						foreach (var item in shellItems)
+							item.Dispose();
+					}
+				}
+
+				while (queue.TryDequeue(out var entry))
+				{
+					if (CreateCommand(lane, entry.Clsid) is { } command && Describe(lane, command, itemFilter, 0) is { } item)
+					{
+						item.Clsid = entry.Clsid;
+						results[entry.Index] = item;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				// The other workers go on with the remaining commands.
+				Debug.WriteLine(ex);
+			}
+		}
+
+		private static List<ShellItem> GetShellItems(string[] filePaths)
+		{
+			var shellItems = new List<ShellItem>();
+			try
+			{
+				foreach (string path in filePaths.Where(path => !string.IsNullOrEmpty(path)))
+					shellItems.Add(ShellFolderExtensions.GetShellItemFromPathOrPIDL(path));
+				return shellItems;
+			}
+			catch
+			{
+				foreach (var item in shellItems)
+					item.Dispose();
+				throw;
+			}
+		}
+
+		private static IExplorerCommand? CreateCommand(Lane lane, Guid clsid)
 		{
 			// Activate out of process only, so a third-party handler cannot load into Files.
 			HRESULT result = PInvoke.CoCreateInstance(clsid, null, CLSCTX.CLSCTX_LOCAL_SERVER, out IExplorerCommand? command);
 			if (result.Failed || command is null)
 				return null;
 
-			comObjects.Add(command);
+			lane.ComObjects.Add(command);
 			return command;
 		}
 
-		private ExplorerCommandMenuItem? Describe(IExplorerCommand command, Func<string?, bool>? itemFilter, int depth)
+		private static ExplorerCommandMenuItem? Describe(Lane lane, IExplorerCommand command, Func<string?, bool>? itemFilter, int depth)
 		{
 			try
 			{
-				if (command.GetState(itemArray, true, out var state).Failed || state.HasFlag(_EXPCMDSTATE.ECS_HIDDEN))
+				if (command.GetState(lane.ItemArray, true, out var state).Failed || state.HasFlag(_EXPCMDSTATE.ECS_HIDDEN))
 					return null;
 
 				if (command.GetFlags(out var flags).Failed)
@@ -182,7 +275,7 @@ namespace Files.App.Utils.Shell
 				if (flags.HasFlag(_EXPCMDFLAGS.ECF_ISSEPARATOR))
 					return new() { Type = MENU_ITEM_TYPE.MFT_SEPARATOR };
 
-				var title = TakeString(command.GetTitle(itemArray, out var titlePointer), titlePointer);
+				var title = TakeString(command.GetTitle(lane.ItemArray, out var titlePointer), titlePointer);
 				if (string.IsNullOrWhiteSpace(title) || itemFilter?.Invoke(title) is true)
 					return null;
 
@@ -191,13 +284,14 @@ namespace Files.App.Utils.Shell
 					Type = MENU_ITEM_TYPE.MFT_STRING,
 					Label = title,
 					Command = command,
+					Lane = lane,
 					IsEnabled = !state.HasFlag(_EXPCMDSTATE.ECS_DISABLED),
-					Icon = GetIcon(TakeString(command.GetIcon(itemArray, out var iconPointer), iconPointer)),
+					Icon = GetIcon(TakeString(command.GetIcon(lane.ItemArray, out var iconPointer), iconPointer)),
 				};
 
 				if (flags.HasFlag(_EXPCMDFLAGS.ECF_HASSUBCOMMANDS))
 				{
-					item.SubItems = depth < MaxDepth ? DescribeSubCommands(command, itemFilter, depth) : [];
+					item.SubItems = depth < MaxDepth ? DescribeSubCommands(lane, command, itemFilter, depth) : [];
 					if (!item.SubItems.Any(x => x.Type is MENU_ITEM_TYPE.MFT_STRING))
 						return null;
 				}
@@ -212,17 +306,17 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
-		private List<Win32ContextMenuItem> DescribeSubCommands(IExplorerCommand command, Func<string?, bool>? itemFilter, int depth)
+		private static List<Win32ContextMenuItem> DescribeSubCommands(Lane lane, IExplorerCommand command, Func<string?, bool>? itemFilter, int depth)
 		{
 			var subItems = new List<Win32ContextMenuItem>();
 			if (command.EnumSubCommands(out var enumerator).Failed || enumerator is null)
 				return subItems;
 
-			comObjects.Add(enumerator);
+			lane.ComObjects.Add(enumerator);
 			while (NextCommand(enumerator) is { } subCommand)
 			{
-				comObjects.Add(subCommand);
-				if (Describe(subCommand, itemFilter, depth + 1) is { } subItem)
+				lane.ComObjects.Add(subCommand);
+				if (Describe(lane, subCommand, itemFilter, depth + 1) is { } subItem)
 					subItems.Add(subItem);
 			}
 
@@ -313,18 +407,27 @@ namespace Files.App.Utils.Shell
 			if (disposedValue)
 				return;
 
-			// Release the COM objects on the worker's own STA thread, then give the worker back.
-			var objectsToRelease = comObjects.ToArray();
-			var itemArrayToRelease = itemArray;
-			comObjects.Clear();
-			itemArray = null;
-			worker.Thread.PostMethod(() =>
+			// Release the COM objects on each worker's own STA thread, then give the worker back.
+			lock (lanes)
 			{
-				foreach (var comObject in objectsToRelease)
-					(comObject as ComObject)?.FinalRelease();
-				((object?)itemArrayToRelease as ComObject)?.FinalRelease();
-			});
-			ContextMenuWorkerPool.Return(worker);
+				foreach (var lane in lanes)
+				{
+					var objectsToRelease = lane.ComObjects.ToArray();
+					var itemArrayToRelease = lane.ItemArray;
+					lane.ComObjects.Clear();
+					lane.ItemArray = null;
+					lane.Worker.Thread.PostMethod(() =>
+					{
+						foreach (var comObject in objectsToRelease)
+							(comObject as ComObject)?.FinalRelease();
+						((object?)itemArrayToRelease as ComObject)?.FinalRelease();
+					});
+					ContextMenuWorkerPool.Return(lane.Worker);
+				}
+
+				lanes.Clear();
+			}
+
 			disposedValue = true;
 		}
 

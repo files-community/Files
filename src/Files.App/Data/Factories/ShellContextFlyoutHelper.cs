@@ -72,7 +72,11 @@ namespace Files.App.Helpers
 			};
 		}
 
-		public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string? workingDirectory, List<ListedItem>? selectedItems, CancellationToken cancellationToken)
+		/// <param name="explorerCommandsLoaded">
+		/// Receives the Windows 11 context menu commands as soon as they load, usually well before the classic shell
+		/// menu; they are then left out of the returned list. When null, they are returned first in the list.
+		/// </param>
+		public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string? workingDirectory, List<ListedItem>? selectedItems, CancellationToken cancellationToken, Action<List<ContextMenuFlyoutItemViewModel>>? explorerCommandsLoaded = null)
 		{
 			var menuItemsList = new List<ContextMenuFlyoutItemViewModel>();
 			var filePaths = selectedItems is { Count: > 0 }
@@ -108,9 +112,28 @@ namespace Files.App.Helpers
 			// Windows 11 context menu commands, queried alongside the classic menu
 			var explorerCommandMenuTask = ExplorerCommandMenu.GetExplorerCommandMenuAsync(filePaths, selectedItems is not { Count: > 0 }, itemFilter, cancellationToken);
 
+			if (explorerCommandsLoaded is not null)
+				_ = ShowExplorerCommandsAsync();
+
+			async Task ShowExplorerCommandsAsync()
+			{
+				try
+				{
+					if (await explorerCommandMenuTask is not { } explorerCommandMenu)
+						return;
+
+					var models = await GetExplorerCommandModelsAsync(explorerCommandMenu, explorerCommandMenu.Items, cancellationToken);
+					if (!cancellationToken.IsCancellationRequested && models.Count > 0)
+						explorerCommandsLoaded(models);
+				}
+				catch (Exception ex)
+				{
+					Debug.WriteLine(ex);
+				}
+			}
+
 			var contextMenu = await ContextMenu.GetContextMenuForFiles(filePaths,
 				shiftPressed ? PInvoke.CMF_EXTENDEDVERBS : PInvoke.CMF_NORMAL, itemFilter);
-
 			var explorerCommandMenu = await explorerCommandMenuTask;
 
 			if (contextMenu is not null)
@@ -121,7 +144,7 @@ namespace Files.App.Helpers
 				await LoadMenuFlyoutItemAsync(menuItemsList, contextMenu, contextMenu.Items!, cancellationToken, true);
 			}
 
-			if (explorerCommandMenu is not null)
+			if (explorerCommandMenu is not null && explorerCommandsLoaded is null)
 				menuItemsList.InsertRange(0, await GetExplorerCommandModelsAsync(explorerCommandMenu, explorerCommandMenu.Items, cancellationToken));
 
 			if (cancellationToken.IsCancellationRequested)
@@ -353,7 +376,8 @@ namespace Files.App.Helpers
 					[new ListedItem(null) { ItemPath = path }],
 					shiftPressed: shiftPressed,
 					showOpenMenu: false,
-					default);
+					default,
+					models => flyout.AddExplorerCommandModels(models, overflowSubMenu, overflowSeparator));
 
 				// Open with / Send to / BitLocker get their own main-menu entries; everything else is overflow.
 				var openWithItem = showOpenWithMenu ? shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" }) : null;
