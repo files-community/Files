@@ -62,8 +62,8 @@ RM_PROCESS_INFO
 CreateEvent
 SetEvent
 CancelIoEx
-WaitForSingleObjectEx
 ReadDirectoryChangesW
+GetOverlappedResult
 CreateFileFromAppW
 GetFileAttributesExFromApp
 SetFileAttributesFromApp
