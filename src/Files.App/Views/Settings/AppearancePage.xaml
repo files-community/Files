@@ -299,15 +299,40 @@
 			</wctcontrols:SettingsExpander>
 
 			<!--  Show Status Bar  -->
-			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowStatusBar}">
-				<wctcontrols:SettingsCard.HeaderIcon>
+			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=ShowStatusBar}">
+				<wctcontrols:SettingsExpander.HeaderIcon>
 					<PathIcon Data="{StaticResource App.Theme.PathIcon.StatusBar}" />
-				</wctcontrols:SettingsCard.HeaderIcon>
+				</wctcontrols:SettingsExpander.HeaderIcon>
+
 				<ToggleSwitch
 					AutomationProperties.AutomationControlType="Custom"
 					AutomationProperties.Name="{helpers:ResourceString Name=ShowStatusBar}"
 					IsOn="{x:Bind ViewModel.ShowStatusBar, Mode=TwoWay}" />
-			</wctcontrols:SettingsCard>
+
+				<wctcontrols:SettingsExpander.Items>
+					<!--  Item count format  -->
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ItemCountFormat}" IsEnabled="{x:Bind ViewModel.ShowStatusBar, Mode=OneWay}">
+						<uc:ComboBoxEx
+							x:Name="ItemCountFormatChooser"
+							AutomationProperties.Name="{helpers:ResourceString Name=ItemCountFormat}"
+							ItemsSource="{x:Bind ViewModel.StatusBarItemCountFormats}"
+							SelectedIndex="{x:Bind ViewModel.SelectedStatusBarItemCountFormatIndex, Mode=TwoWay}">
+							<uc:ComboBoxEx.ItemTemplate>
+								<DataTemplate xmlns:vm="using:Files.App.ViewModels.Settings" x:DataType="vm:StatusBarItemCountFormatItem">
+									<StackPanel Orientation="Vertical">
+										<TextBlock Text="{x:Bind Label}" />
+										<TextBlock
+											FontSize="12"
+											FontWeight="Light"
+											Text="{x:Bind Sample}"
+											Visibility="{Binding Path=IsDropDownOpen, ElementName=ItemCountFormatChooser}" />
+									</StackPanel>
+								</DataTemplate>
+							</uc:ComboBoxEx.ItemTemplate>
+						</uc:ComboBoxEx>
+					</wctcontrols:SettingsCard>
+				</wctcontrols:SettingsExpander.Items>
+			</wctcontrols:SettingsExpander>
 		</StackPanel>
 	</Grid>
 </Page>

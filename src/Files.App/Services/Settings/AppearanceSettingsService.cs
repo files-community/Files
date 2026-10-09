@@ -146,6 +146,13 @@ namespace Files.App.Services.Settings
 		}
 
 		/// <inheritdoc/>
+		public StatusBarItemCountFormat StatusBarItemCountFormat
+		{
+			get => Get(StatusBarItemCountFormat.Total);
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
 		public bool ShowTabActions
 		{
 			get => Get(true);
