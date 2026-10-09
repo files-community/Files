@@ -65,8 +65,18 @@ namespace Files.App.Actions
 				return
 					item.PrimaryItemAttribute is StorageItemTypes.Folder &&
 					!item.IsArchive &&
-					!pinnedFolders.Contains(item.ItemPath!);
+					!pinnedFolders.Contains(item.ItemPath!) &&
+					!IsLibrariesRoot(item.ItemPath);
 			}
+		}
+
+		/// <summary>
+		/// Check if the path is the libraries root. Windows ignores requests to pin the Libraries root without an error.
+		/// </summary>
+		private static bool IsLibrariesRoot(string? path)
+		{
+			return !string.IsNullOrEmpty(path) &&
+				string.Equals(path, ShellLibraryItem.LibrariesPath, StringComparison.OrdinalIgnoreCase);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
