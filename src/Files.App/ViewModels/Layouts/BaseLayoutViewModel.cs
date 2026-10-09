@@ -234,6 +234,20 @@ namespace Files.App.ViewModels.Layouts
 				return;
 			}
 
+			try
+			{
+				if (!e.DataView.Contains(StandardDataFormats.StorageItems) && !FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+				{
+					e.AcceptedOperation = DataPackageOperation.None;
+					return;
+				}
+			}
+			catch
+			{
+				e.AcceptedOperation = DataPackageOperation.None;
+				return;
+			}
+
 			e.Handled = true;
 			if (e.DataView.Contains(StandardDataFormats.Uri) && await TryGetUriAsync(e.DataView) is { } uri)
 			{
