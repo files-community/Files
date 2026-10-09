@@ -123,18 +123,20 @@ namespace Files.App.Utils.Shell
 				if (hr.ThrowIfFailedOnDebug().Failed)
 					return null;
 
+				// With few associations the shell puts entries flat on the root menu instead of inside a submenu; enumerate whichever holds the items.
 				HMENU hSubMenu = PInvoke.GetSubMenu(hMenu, 0);
-				if (hSubMenu.IsNull)
+				HMENU hItemsMenu = hSubMenu.IsNull && PInvoke.GetMenuItemCount(hMenu) > 0 ? hMenu : hSubMenu;
+				if (hItemsMenu.IsNull)
 					return null;
 
-				hr = openWithContextMenu2.HandleMenuMsg(PInvoke.WM_INITMENUPOPUP, (WPARAM)(nuint)hSubMenu.Value, 0);
+				hr = openWithContextMenu2.HandleMenuMsg(PInvoke.WM_INITMENUPOPUP, (WPARAM)(nuint)hItemsMenu.Value, 0);
 				if (hr.ThrowIfFailedOnDebug().Failed)
 					return null;
 
 				var openWithMenu = new OpenWithMenu(openWithContextMenu, hMenu, owningThread);
 				openWithContextMenu = null;
 				hMenu = default;
-				openWithMenu.EnumMenuItems(hSubMenu);
+				openWithMenu.EnumMenuItems(hItemsMenu);
 
 				return openWithMenu;
 			}
