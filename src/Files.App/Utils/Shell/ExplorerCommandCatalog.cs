@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Win32;
 using System.IO;
 using System.Xml;
 using Windows.ApplicationModel;
@@ -16,6 +17,8 @@ namespace Files.App.Utils.Shell
 	internal static class ExplorerCommandCatalog
 	{
 		internal sealed record Verb(Guid Clsid, string ItemType);
+
+		private const string BlockedShellExtensionsKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked";
 
 		private static readonly Lock _lock = new();
 		private static Task<IReadOnlyList<Verb>>? _verbs;
@@ -69,6 +72,10 @@ namespace Files.App.Utils.Shell
 				{
 					try
 					{
+						// Skip packages that cannot be used right now, e.g. while they are being serviced or after they were tampered with.
+						if (!package.Status.VerifyIsOK())
+							continue;
+
 						var manifestPath = Path.Combine(package.InstalledPath, "AppxManifest.xml");
 						if (File.Exists(manifestPath))
 							ReadManifest(manifestPath, verbs);
@@ -84,7 +91,34 @@ namespace Files.App.Utils.Shell
 				App.Logger.LogWarning(ex, "Failed to list packaged context menu commands.");
 			}
 
+			// Like File Explorer, leave out the commands listed as blocked shell extensions.
+			var blocked = GetBlockedClsids();
+			verbs.RemoveAll(verb => blocked.Contains(verb.Clsid));
+
 			return verbs;
+		}
+
+		private static HashSet<Guid> GetBlockedClsids()
+		{
+			var blocked = new HashSet<Guid>();
+			foreach (var hive in new[] { Registry.LocalMachine, Registry.CurrentUser })
+			{
+				try
+				{
+					using var key = hive.OpenSubKey(BlockedShellExtensionsKey);
+					foreach (var name in key?.GetValueNames() ?? [])
+					{
+						if (Guid.TryParse(name, out var clsid))
+							blocked.Add(clsid);
+					}
+				}
+				catch (Exception ex)
+				{
+					Debug.WriteLine(ex);
+				}
+			}
+
+			return blocked;
 		}
 
 		private static void ReadManifest(string manifestPath, List<Verb> verbs)
