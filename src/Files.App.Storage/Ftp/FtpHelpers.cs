@@ -43,11 +43,30 @@ namespace Files.App.Storage
 
 		public static AsyncFtpClient GetFtpClient(string ftpPath)
 		{
-			var host = GetFtpHost(ftpPath);
-			var port = GetFtpPort(ftpPath);
-			var credentials = FtpManager.Credentials.GetValueOrDefault(host) ?? FtpManager.Anonymous;
+			var uri = new Uri(GetFtpAuthority(ftpPath), UriKind.Absolute);
+			var host = uri.DnsSafeHost;
+			var port = uri.IsDefaultPort
+				? uri.Scheme.Equals("ftps", StringComparison.OrdinalIgnoreCase) ? (ushort)990 : (ushort)21
+				: checked((ushort)uri.Port);
+			var credentials = GetUriCredentials(uri)
+				?? FtpManager.Credentials.GetValueOrDefault(host)
+				?? FtpManager.Anonymous;
 
 			return new(host, credentials, port);
+		}
+
+		private static NetworkCredential? GetUriCredentials(Uri uri)
+		{
+			if (string.IsNullOrEmpty(uri.UserInfo))
+				return null;
+
+			var separator = uri.UserInfo.IndexOf(':');
+			var userName = separator < 0 ? uri.UserInfo : uri.UserInfo[..separator];
+			var password = separator < 0 ? string.Empty : uri.UserInfo[(separator + 1)..];
+
+			return new NetworkCredential(
+				Uri.UnescapeDataString(userName),
+				Uri.UnescapeDataString(password));
 		}
 
 		private static string GetFtpAuthority(string path)
