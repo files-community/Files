@@ -15,7 +15,8 @@ namespace Files.App.Utils.Shell
 		// isolation the old thread-per-menu model gave for free: a shell extension that hangs or
 		// corrupts its apartment is confined to a single worker and cannot permanently degrade
 		// every future menu.
-		private const int MaxIdleWorkers = 3;
+		// A right-click uses one worker for the classic menu and up to four for the Windows 11 commands.
+		private const int MaxIdleWorkers = 5;
 		private const int MaxUsesPerWorker = 50;
 
 		private static PoolState _idleWorkers = PoolState.Empty;

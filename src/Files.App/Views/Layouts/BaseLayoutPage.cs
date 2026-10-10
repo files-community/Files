@@ -720,7 +720,8 @@ namespace Files.App.Views.Layouts
 					host.ResolvePlacement();
 
 					var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(
-						shellViewModel.WorkingDirectory, selectedItems, shiftPressed, false, token);
+						shellViewModel.WorkingDirectory, selectedItems, shiftPressed, false, token,
+						models => host.AddExplorerCommandModels(models, moreOptions, moreSeparator));
 
 					if (token.IsCancellationRequested)
 						return;
@@ -964,7 +965,8 @@ namespace Files.App.Views.Layouts
 
 					host.ResolvePlacement();
 
-					var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: shellViewModel.WorkingDirectory, selectedItems: [], shiftPressed: shiftPressed, showOpenMenu: false, token);
+					var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: shellViewModel.WorkingDirectory, selectedItems: [], shiftPressed: shiftPressed, showOpenMenu: false, token,
+						models => host.AddExplorerCommandModels(models, moreOptions, moreSeparator));
 					if (token.IsCancellationRequested)
 						return;
 
