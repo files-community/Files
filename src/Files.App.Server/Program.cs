@@ -14,7 +14,7 @@ class Program
 {
 	internal static readonly TaskCompletionSource<bool> ExitSignal = new(TaskCreationOptions.RunContinuationsAsynchronously);
 	private static readonly CancellationTokenSource cancellationTokenSource = new();
-	private static readonly StreamWriter logWriter = new(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug_server.log"), append: true) { AutoFlush = true };
+	private static readonly StreamWriter logWriter = new(Path.Combine(ApplicationData.Current.LocalFolder.Path, $"debug_server_{(Environment.IsPrivilegedProcess ? "privileged" : "unprivileged")}.log"), append: true) { AutoFlush = true };
 
 	static Type[] GetActivatableTypes() => [typeof(AppInstanceMonitor)];
 
@@ -82,6 +82,7 @@ class Program
 
 	private static void OnFirstChanceException(object? sender, FirstChanceExceptionEventArgs e)
 	{
-		logWriter.WriteLine($"{DateTime.Now}|{e.Exception}");
+		// logWriter can be null if the exception is thrown before the logWriter is initialized
+		logWriter?.WriteLine($"{DateTime.Now}|{e.Exception}");
 	}
 }
