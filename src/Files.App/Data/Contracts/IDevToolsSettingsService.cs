@@ -19,5 +19,15 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets the name of the chosen IDE.
 		/// </summary>
 		string IDEName { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether to use Robocopy for file operations.
+		/// </summary>
+		bool UseRobocopyForFileOperations { get; set; }
+
+		/// <summary>
+		/// Gets or sets the number of threads to use with Robocopy.
+		/// </summary>
+		int RobocopyThreads { get; set; }
 	}
 }

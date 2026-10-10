@@ -88,6 +88,12 @@ namespace Files.App.Services.Settings
 			get => GetSettingsService(ref _AppSettingsService);
 		}
 
+		private IDevToolsSettingsService? _DevToolsSettingsService;
+		public IDevToolsSettingsService DevToolsSettingsService
+		{
+			get => GetSettingsService(ref _DevToolsSettingsService);
+		}
+
 		public UserSettingsService()
 		{
 			var settingsSerializer = new DefaultSettingsSerializer();
