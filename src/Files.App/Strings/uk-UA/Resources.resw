@@ -339,6 +339,12 @@
   <data name="DefaultTheme" xml:space="preserve">
     <value>Системна тема</value>
   </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>Світла тема</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>Темна тема</value>
+  </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Використовувати системні налаштування</value>
   </data>
