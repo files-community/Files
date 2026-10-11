@@ -339,6 +339,12 @@
   <data name="DefaultTheme" xml:space="preserve">
     <value>Tema sustava</value>
   </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>Svijetla tema</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>Tamna tema</value>
+  </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Koristi postavke sustava</value>
   </data>
