@@ -339,6 +339,12 @@
   <data name="DefaultTheme" xml:space="preserve">
     <value>Giao diện hệ thống</value>
   </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>Chủ đề sáng</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>Chủ đề tối</value>
+  </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Dùng cài đặt hệ thống</value>
   </data>
