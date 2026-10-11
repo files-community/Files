@@ -339,6 +339,12 @@
   <data name="DefaultTheme" xml:space="preserve">
     <value>系统主题</value>
   </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>浅色主题</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>深色主题</value>
+  </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>使用系统设置</value>
   </data>

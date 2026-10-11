@@ -339,6 +339,12 @@
   <data name="DefaultTheme" xml:space="preserve">
     <value>Tema di sistema</value>
   </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>Tema chiaro</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>Tema scuro</value>
+  </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Usa le impostazioni di sistema</value>
   </data>
@@ -2238,7 +2244,7 @@
     <value>Impossibile comprimere alcuni elmenti</value>
   </data>
   <data name="CompressSkippedItemsDialogText" xml:space="preserve">
-    <value>The following {0, plural, one {item} other {items}} can''t be compressed. Would you like to skip {0, plural, one {this item} other {these items}}?</value>
+    <value>Impossibile comprimere {0, plural, one {il seguente elemento} other {i seguenti elementi}}. Vuoi saltare {0, plural, one {questo elemento} other {questi elementi}}?</value>
   </data>
   <data name="CompressIntoZip" xml:space="preserve">
     <value>Crea archivio zip</value>
@@ -3343,7 +3349,7 @@
     <value>git pull non riuscito a causa di un errore di timeout</value>
   </data>
   <data name="PullUncommittedChangesError" xml:space="preserve">
-    <value>Can't pull because your uncommitted changes would be overwritten. Commit, stash, or discard your changes, then try again.</value>
+    <value>Impossibile eseguire il pull in quanto le modifiche senza commit verrebbero sovrascritte. Esegui il commit, lo stash, o scarta le modifiche, quindi riprova.</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(valori multipli)</value>
@@ -3699,87 +3705,87 @@
     <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCheckoutCanceled_Header" xml:space="preserve">
-    <value>Canceled switching to "{0}" in "{1}"</value>
+    <value>Annullato il passaggio a "{0}" in "{1}"</value>
     <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitCheckoutComplete_Header" xml:space="preserve">
-    <value>Switched to "{0}" in "{1}"</value>
+    <value>Passato a "{0}" in "{1}"</value>
     <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitCheckoutFailed_Header" xml:space="preserve">
-    <value>Failed to switch to "{0}" in "{1}"</value>
+    <value>Impossibile passare a "{0}" in "{1}"</value>
     <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitCheckoutInProgress_Header" xml:space="preserve">
-    <value>Switching to "{0}" in "{1}"</value>
+    <value>Passaggio a "{0}" in "{1}"</value>
     <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitFetchCanceled_Header" xml:space="preserve">
-    <value>Canceled fetching remote changes for "{0}"</value>
+    <value>Recupero delle modifiche remote per "{0}" annullato</value>
     <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitFetchComplete_Header" xml:space="preserve">
-    <value>Fetched remote changes for "{0}"</value>
+    <value>Modifiche remote per "{0}" recuperate</value>
     <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitFetchFailed_Header" xml:space="preserve">
-    <value>Failed to fetch remote changes for "{0}"</value>
+    <value>Impossibile recuperare le modifiche remote per "{0}"</value>
     <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitFetchInProgress_Header" xml:space="preserve">
-    <value>Fetching remote changes for "{0}"</value>
+    <value>Recupero modifiche remote per "{0}"</value>
     <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitOperationProgress" xml:space="preserve">
-    <value>{0}% complete</value>
+    <value>{0}% completato</value>
     <comment>Shown in Status Center during a Git operation. {0} is the percentage from 0 to 100.</comment>
   </data>
   <data name="StatusCenter_GitPullCanceled_Header" xml:space="preserve">
-    <value>Canceled pulling remote changes into "{0}"</value>
+    <value>Pull delle modifiche remote in "{0}" annullato</value>
     <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitPullComplete_Header" xml:space="preserve">
-    <value>Pulled remote changes into "{0}"</value>
+    <value>Effettuato il pull delle modifiche remote in "{0}"</value>
     <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitPullFailed_Header" xml:space="preserve">
-    <value>Failed to pull remote changes into "{0}"</value>
+    <value>Impossibile eseguire il pull delle modifiche remote in "{0}"</value>
     <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitPullInProgress_Header" xml:space="preserve">
-    <value>Pulling remote changes into "{0}"</value>
+    <value>Esecuzione del pull delle modifiche remote in "{0}"</value>
     <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitPushCanceled_Header" xml:space="preserve">
-    <value>Canceled pushing local commits from "{0}"</value>
+    <value>Push dei commit locali da "{0}" annullato</value>
     <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitPushComplete_Header" xml:space="preserve">
-    <value>Pushed local commits from "{0}"</value>
+    <value>Eseguito il push dei commit locali da "{0}"</value>
     <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitPushFailed_Header" xml:space="preserve">
-    <value>Failed to push local commits from "{0}"</value>
+    <value>Impossibile eseguire il push dei commit locali da "{0}"</value>
     <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitPushInProgress_Header" xml:space="preserve">
-    <value>Pushing local commits from "{0}"</value>
+    <value>Esecuzione del push dei commit locali da "{0}"</value>
     <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitSyncCanceled_Header" xml:space="preserve">
-    <value>Canceled syncing local and remote commits for "{0}"</value>
+    <value>Sincronizzazione dei commit locali e remoti per "{0}" annullata</value>
     <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitSyncComplete_Header" xml:space="preserve">
-    <value>Synced local and remote commits for "{0}"</value>
+    <value>Sincronizzati commit locali e remoti per "{0}"</value>
     <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitSyncFailed_Header" xml:space="preserve">
-    <value>Failed to sync local and remote commits for "{0}"</value>
+    <value>Impossibile sincronizzare commit locali e remoti per "{0}"</value>
     <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitSyncInProgress_Header" xml:space="preserve">
-    <value>Syncing local and remote commits for "{0}"</value>
+    <value>Sincronizzazione dei commit locali e remoti per "{0}"</value>
     <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
@@ -4159,10 +4165,10 @@
     <value>L'associazione di tasti che hai scelto non può essere usata, riprova usando una combinazione di tasti diversa.</value>
   </data>
   <data name="KeyboardShortcuts" xml:space="preserve">
-    <value>Keyboard shortcuts</value>
+    <value>Scorciatoie da tastiera</value>
   </data>
   <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
-    <value>Are you sure you want to remove this key binding?</value>
+    <value>Sei sicuro/a di voler rimuovere questa combinazione di tasti?</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Personalizzato</value>
@@ -4260,13 +4266,13 @@
     <comment>This is the friendly name for image files.</comment>
   </data>
   <data name="AllSupportedFiles" xml:space="preserve">
-    <value>All supported files</value>
+    <value>Tutti i file supportati</value>
   </data>
   <data name="ConvertToIconRequiredMessage" xml:space="preserve">
-    <value>This image needs to be converted into an icon file before it can be used. Choose a location to save the converted icon file.</value>
+    <value>Questa immagine deve essere convertita in un file icona prima di poter essere utilizzata. Scegli una posizione in cui salvare il file icona convertito.</value>
   </data>
   <data name="ConvertToIconError" xml:space="preserve">
-    <value>Couldn't convert the image to an icon file</value>
+    <value>Impossibile convertire l'immagine in un file icona</value>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Num</value>

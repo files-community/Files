@@ -339,6 +339,12 @@
   <data name="DefaultTheme" xml:space="preserve">
     <value>Sistem Teması</value>
   </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>Açık Tema</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>Koyu Tema</value>
+  </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Sistem ayarını kullan</value>
   </data>

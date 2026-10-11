@@ -339,6 +339,12 @@
   <data name="DefaultTheme" xml:space="preserve">
     <value>Temă de sistem</value>
   </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>Temă luminoasă</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>Temă întunecată</value>
+  </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Utilizați setările de sistem</value>
   </data>

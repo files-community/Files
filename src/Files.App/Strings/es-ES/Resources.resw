@@ -339,8 +339,14 @@
   <data name="DefaultTheme" xml:space="preserve">
     <value>Tema del sistema</value>
   </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>Tema claro</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>Tema oscuro</value>
+  </data>
   <data name="UseSystemSetting" xml:space="preserve">
-    <value>Utilizar la configuración del sistema</value>
+    <value>Utilizar configuración del sistema</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Aplicación</value>
@@ -1836,7 +1842,7 @@
     <value>Establecer Files como administrador de archivos predeterminado</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
-    <value>Usar Files como diálogo de apertura de archivos</value>
+    <value>Utilizar Files como diálogo de apertura de archivos</value>
   </data>
   <data name="Tag" xml:space="preserve">
     <value>Etiqueta</value>
@@ -1938,7 +1944,7 @@
     <value>Ejecutar el solucionador de problemas de compatibilidad</value>
   </data>
   <data name="CompatibilityUseDPISettings" xml:space="preserve">
-    <value>Usar la configuración DPI del monitor principal</value>
+    <value>Utilizar configuración DPI del monitor principal</value>
   </data>
   <data name="CompatibilityDoNotAdjustDPI" xml:space="preserve">
     <value>No ajustar DPI</value>
@@ -3065,11 +3071,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPlayPause" xml:space="preserve">
-    <value>Pausar Reproductor</value>
+    <value>Reproducir Pausar</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaStop" xml:space="preserve">
-    <value>Parar Multimedia</value>
+    <value>Detener Multimedia</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPreviousTrack" xml:space="preserve">
