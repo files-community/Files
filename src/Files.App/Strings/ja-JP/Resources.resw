@@ -339,6 +339,12 @@
   <data name="DefaultTheme" xml:space="preserve">
     <value>システムテーマ</value>
   </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>Light Theme</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>Dark Theme</value>
+  </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>システム設定を使用</value>
   </data>
@@ -424,7 +430,7 @@
     <value>This app can't run on your PC</value>
   </data>
   <data name="CannotRunFileDialogText" xml:space="preserve">
-    <value>To find a version for your PC, check with the software publisher.</value>
+    <value>使用中のバージョンを確認するには、開発者に確認してください。</value>
   </data>
   <data name="Layout" xml:space="preserve">
     <value>レイアウト</value>
