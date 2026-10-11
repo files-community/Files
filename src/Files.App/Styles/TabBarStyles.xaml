@@ -168,6 +168,7 @@
 								MaxWidth="{ThemeResource TabViewItemHeaderIconSize}"
 								MaxHeight="{ThemeResource TabViewItemHeaderIconSize}"
 								Margin="{ThemeResource TabViewItemHeaderIconMargin}"
+								IsActive="False"
 								Visibility="Collapsed" />
 
 							<!--
@@ -490,6 +491,7 @@
 								<VisualState x:Name="NotLoading" />
 								<VisualState x:Name="Loading">
 									<VisualState.Setters>
+										<Setter Target="LoadingIndicator.IsActive" Value="True" />
 										<Setter Target="LoadingIndicator.Visibility" Value="Visible" />
 										<Setter Target="IconBox.Visibility" Value="Collapsed" />
 									</VisualState.Setters>
