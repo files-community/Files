@@ -106,13 +106,14 @@ namespace Files.App.Controls
 				var currentIndex = _textBoxSuggestionsListView.SelectedIndex;
 				var nextIndex = currentIndex;
 				var suggestionsCount = _textBoxSuggestionsListView.Items.Count;
+				var isAutoSelected = !_isSuggestionSelectedByUser && currentIndex is not -1;
 				_isSuggestionSelectedByUser = true;
 
 				if (e.Key is VirtualKey.Up)
 				{
 					nextIndex--;
 				}
-				else if (e.Key is VirtualKey.Down)
+				else if (e.Key is VirtualKey.Down && !isAutoSelected)
 				{
 					nextIndex++;
 				}

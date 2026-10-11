@@ -49,6 +49,9 @@ namespace Files.App.ViewModels.UserControls
 		private bool _lockFlag;
 		private PointerRoutedEventArgs? _pointerRoutedEventArgs;
 		private CancellationTokenSource _suggestSearchCTS = new();
+		private int _pathModeSuggestionsVersion;
+		private IReadOnlyList<FolderAliasItem>? _measuredAliases;
+		private double _aliasNameWidth;
 
 		// Events
 
@@ -1031,6 +1034,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task PopulateOmnibarSuggestionsForPathMode()
 		{
+			var version = ++_pathModeSuggestionsVersion;
 			var result = await SafetyExtensions.IgnoreExceptions((Func<Task<bool>>)(async () =>
 			{
 				List<OmnibarPathModeSuggestionModel> newSuggestions = [];
@@ -1059,7 +1063,13 @@ namespace Files.App.ViewModels.UserControls
 						newSuggestions.Add(new(pathText, Strings.NoFolderAliasesSuggestion.GetLocalizedResource(), IsPlaceholder: true));
 					else
 					{
-						var nameWidth = aliases.Max(x => UIHelpers.MeasureTextWidth(x.Name, Microsoft.UI.Text.FontWeights.SemiBold));
+						if (!ReferenceEquals(_measuredAliases, aliases))
+						{
+							_aliasNameWidth = aliases.Max(x => UIHelpers.MeasureTextWidth(x.Name, Microsoft.UI.Text.FontWeights.SemiBold));
+							_measuredAliases = aliases;
+						}
+
+						var nameWidth = _aliasNameWidth;
 						var query = FolderAliasHelpers.GetQuery(pathText);
 						newSuggestions.AddRange(FolderAliasHelpers.GetMatches(aliases, pathText)
 							.Take(MaxSuggestionsCount)
@@ -1109,6 +1119,10 @@ namespace Files.App.ViewModels.UserControls
 							PathNormalization.Combine(firstDisplayName, x.Item!.DisplayName))));
 					}
 				}
+
+				// Drop results superseded by a newer input
+				if (version != _pathModeSuggestionsVersion)
+					return true;
 
 				// If there are no suggestions, show "No suggestions"
 				if (newSuggestions.Count is 0)
@@ -1160,7 +1174,7 @@ namespace Files.App.ViewModels.UserControls
 					=> new(folder.Path, folder.Item!.DisplayName);
 			}));
 
-			if (!result)
+			if (!result && version == _pathModeSuggestionsVersion)
 			{
 				AddNoResultsItem();
 			}

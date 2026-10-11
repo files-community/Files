@@ -12,8 +12,30 @@ namespace Files.App.Helpers
 
 		private static readonly char[] Separators = ['\\', '/'];
 
+		private static IReadOnlyList<FolderAliasItem>? _aliases;
+
+		private static bool _isSubscribed;
+
+		/// <summary>
+		/// Gets the configured aliases, cached until the setting changes.
+		/// </summary>
 		public static IReadOnlyList<FolderAliasItem> Aliases
-			=> Ioc.Default.GetRequiredService<IFoldersSettingsService>().FolderAliases ?? [];
+		{
+			get
+			{
+				if (_aliases is { } aliases)
+					return aliases;
+
+				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+				if (!_isSubscribed)
+				{
+					userSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+					_isSubscribed = true;
+				}
+
+				return _aliases = userSettingsService.FoldersSettingsService.FolderAliases ?? [];
+			}
+		}
 
 		/// <summary>
 		/// Gets whether the input is a bare alias query such as "/pro", with no sub path.
@@ -55,9 +77,15 @@ namespace Files.App.Helpers
 			if (alias is null)
 				return false;
 
-			var subPath = separatorIndex < 0 ? string.Empty : input[(separatorIndex + 1)..];
+			var subPath = separatorIndex < 0 ? string.Empty : input[(separatorIndex + 1)..].TrimStart(Separators);
 			resolvedPath = string.IsNullOrEmpty(subPath) ? alias.Path : Path.Combine(alias.Path, subPath);
 			return true;
+		}
+
+		private static void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
+		{
+			if (e.SettingName is nameof(IFoldersSettingsService.FolderAliases))
+				_aliases = null;
 		}
 	}
 }
