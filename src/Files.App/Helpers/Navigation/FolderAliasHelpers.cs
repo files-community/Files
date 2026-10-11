@@ -21,12 +21,18 @@ namespace Files.App.Helpers
 		public static bool IsAliasQuery(string input)
 			=> input.Length > 1 && input[0] == Prefix && input.IndexOfAny(Separators, 1) < 0;
 
+		/// <summary>
+		/// Gets the alias name typed after the prefix, ignoring surrounding spaces.
+		/// </summary>
+		public static string GetQuery(string input)
+			=> input[1..].Trim();
+
 		public static bool IsValidName(string name)
 			=> !string.IsNullOrWhiteSpace(name) && name.IndexOfAny(Separators) < 0;
 
 		public static IEnumerable<FolderAliasItem> GetMatches(IEnumerable<FolderAliasItem> aliases, string input)
 		{
-			var query = input.TrimStart(Prefix);
+			var query = GetQuery(input);
 
 			return aliases
 				.Where(x => x.Name.StartsWith(query, StringComparison.OrdinalIgnoreCase))
@@ -44,7 +50,7 @@ namespace Files.App.Helpers
 				return false;
 
 			var separatorIndex = input.IndexOfAny(Separators, 1);
-			var name = separatorIndex < 0 ? input[1..] : input[1..separatorIndex];
+			var name = (separatorIndex < 0 ? input[1..] : input[1..separatorIndex]).Trim();
 			var alias = aliases.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
 			if (alias is null)
 				return false;

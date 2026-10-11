@@ -566,7 +566,7 @@ namespace Files.App.ViewModels.UserControls
 			else if (FolderAliasHelpers.IsAliasQuery(path))
 			{
 				await DialogDisplayHelper.ShowDialogAsync(Strings.FolderAliasNotFoundDialogTitle.GetLocalizedResource(),
-					string.Format(Strings.FolderAliasNotFoundDialogContent.GetLocalizedResource(), path[1..]));
+					string.Format(Strings.FolderAliasNotFoundDialogContent.GetLocalizedResource(), FolderAliasHelpers.GetQuery(path)));
 				return false;
 			}
 
@@ -1060,7 +1060,7 @@ namespace Files.App.ViewModels.UserControls
 					else
 					{
 						var nameWidth = aliases.Max(x => UIHelpers.MeasureTextWidth(x.Name, Microsoft.UI.Text.FontWeights.SemiBold));
-						var query = pathText.TrimStart(FolderAliasHelpers.Prefix);
+						var query = FolderAliasHelpers.GetQuery(pathText);
 						newSuggestions.AddRange(FolderAliasHelpers.GetMatches(aliases, pathText)
 							.Take(MaxSuggestionsCount)
 							.Select(x => new OmnibarPathModeSuggestionModel(
