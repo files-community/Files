@@ -59,7 +59,14 @@ namespace Files.App
 				if (!instance.IsCurrent)
 				{
 					// Resume cached instance
-					pool.Release();
+					try
+					{
+						pool.Release();
+					}
+					catch (SemaphoreFullException)
+					{
+						// Another launch already queued a wake-up for the cached instance
+					}
 
 					// Redirect to the main process
 					RedirectActivationTo(instance, AppInstance.GetCurrent().GetActivatedEventArgs());
