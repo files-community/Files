@@ -122,7 +122,7 @@ namespace Files.App.Helpers
 				await Task.WhenAll(
 					addItemService.InitializeAsync(),
 					ContextMenu.WarmUpQueryContextMenuAsync(),
-					ExplorerCommandCatalog.GetVerbsAsync()
+					ExplorerCommandCatalog.WarmUpAsync()
 				);
 			});
 

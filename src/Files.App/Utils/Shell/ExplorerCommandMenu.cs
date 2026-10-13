@@ -75,7 +75,7 @@ namespace Files.App.Utils.Shell
 		/// <param name="folderPath">The folder the menu was opened in, which the commands get through their site.</param>
 		public static async Task<ExplorerCommandMenu?> GetExplorerCommandMenuAsync(string[] filePaths, bool isBackground, string folderPath, Func<string?, bool>? itemFilter, CancellationToken cancellationToken)
 		{
-			var verbs = await ExplorerCommandCatalog.GetVerbsAsync();
+			var verbs = await ExplorerCommandCatalog.GetVerbsAsync(ExplorerCommandCatalog.GetItemTypes(filePaths, isBackground));
 			if (verbs.Count is 0 || filePaths.Length is 0 || cancellationToken.IsCancellationRequested)
 				return null;
 

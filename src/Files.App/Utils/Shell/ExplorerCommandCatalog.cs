@@ -2,11 +2,9 @@
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
-using Microsoft.Win32;
 using System.IO;
-using System.Xml;
-using Windows.ApplicationModel;
-using Windows.Management.Deployment;
+using Windows.Win32;
+using Windows.Win32.System.WinRT;
 
 namespace Files.App.Utils.Shell
 {
@@ -14,103 +12,59 @@ namespace Files.App.Utils.Shell
 	/// Lists the context menu commands that installed packages register with the
 	/// <c>windows.fileExplorerContextMenus</c> extension, i.e. the items of the Windows 11 context menu.
 	/// </summary>
+	/// <remarks>
+	/// The registrations come from <c>Windows.Internal.FileExplorerAppExtension</c>, the undocumented class File Explorer
+	/// reads them from; its interface revision is picked by querying for it, and if the class is missing no command is listed.
+	/// It already leaves out the commands listed as blocked shell extensions. It reads the registrations once per process,
+	/// so packages installed or removed while Files is running are only reflected after a restart.
+	/// </remarks>
 	internal static class ExplorerCommandCatalog
 	{
 		internal sealed record Verb(Guid Clsid, string ItemType);
 
-		private const string BlockedShellExtensionsKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked";
+		private const string RuntimeClassName = "Windows.Internal.FileExplorerAppExtension";
 
-		private static readonly Lock _lock = new();
-		private static Task<IReadOnlyList<Verb>>? _verbs;
-		private static PackageCatalog? _packageCatalog;
+		// Wait until the registrations have been read, instead of returning what has been read so far.
+		private const uint WaitForRegistrations = 1;
 
-		public static Task<IReadOnlyList<Verb>> GetVerbsAsync()
+		private static readonly Lazy<IFileExplorerAppExtensionStatics?> _statics = new(GetStatics);
+
+		/// <summary>
+		/// Reads the registrations, which takes a few hundred milliseconds the first time.
+		/// </summary>
+		public static Task WarmUpAsync()
+			=> GetVerbsAsync(["*"]);
+
+		/// <summary>
+		/// Gets the commands registered for the given item types, e.g. <c>*</c>, <c>.txt</c>, <c>Directory</c> or <c>Directory\Background</c>.
+		/// </summary>
+		public static Task<IReadOnlyList<Verb>> GetVerbsAsync(string[] itemTypes)
+			=> Task.Run(() => GetVerbs(itemTypes));
+
+		/// <summary>
+		/// Gets the item types a selection can match: each extension and every kind of item, since the selection is not
+		/// inspected yet. Whether a command applies to each item is decided once the items are known.
+		/// </summary>
+		public static string[] GetItemTypes(string[] filePaths, bool isBackground)
 		{
-			lock (_lock)
-			{
-				if (_verbs is null)
-				{
-					WatchPackageChanges();
-					_verbs = Task.Run(LoadVerbs);
-				}
-				return _verbs;
-			}
+			if (isBackground)
+				return ["Directory\\Background"];
+
+			var extensions = filePaths.Select(Path.GetExtension).Where(extension => !string.IsNullOrEmpty(extension)).Cast<string>();
+			return [.. extensions, "*", "Directory", "Drive", "Folder"];
 		}
 
-		private static void Invalidate()
-		{
-			lock (_lock)
-				_verbs = null;
-		}
-
-		private static void WatchPackageChanges()
-		{
-			if (_packageCatalog is not null)
-				return;
-
-			try
-			{
-				_packageCatalog = PackageCatalog.OpenForCurrentUser();
-				_packageCatalog.PackageInstalling += (_, e) => { if (e.IsComplete) Invalidate(); };
-				_packageCatalog.PackageUninstalling += (_, e) => { if (e.IsComplete) Invalidate(); };
-				_packageCatalog.PackageUpdating += (_, e) => { if (e.IsComplete) Invalidate(); };
-				_packageCatalog.PackageStatusChanged += (_, _) => Invalidate();
-			}
-			catch (Exception ex)
-			{
-				App.Logger.LogWarning(ex, "Failed to watch package changes for context menu commands.");
-			}
-		}
-
-		private static IReadOnlyList<Verb> LoadVerbs()
+		private static IReadOnlyList<Verb> GetVerbs(string[] itemTypes)
 		{
 			var verbs = new List<Verb>();
-			try
-			{
-				var packages = new PackageManager().FindPackagesForUserWithPackageTypes(string.Empty, PackageTypes.Main | PackageTypes.Optional);
-				foreach (var package in packages)
-				{
-					try
-					{
-						// Skip packages that cannot be used right now, e.g. while they are being serviced or after they were tampered with.
-						if (!package.Status.VerifyIsOK())
-							continue;
+			if (_statics.Value is not { } statics)
+				return verbs;
 
-						var manifestPath = Path.Combine(package.InstalledPath, "AppxManifest.xml");
-						if (File.Exists(manifestPath))
-							ReadManifest(manifestPath, verbs);
-					}
-					catch (Exception ex)
-					{
-						Debug.WriteLine(ex);
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				App.Logger.LogWarning(ex, "Failed to list packaged context menu commands.");
-			}
-
-			// Like File Explorer, leave out the commands listed as blocked shell extensions.
-			var blocked = GetBlockedClsids();
-			verbs.RemoveAll(verb => blocked.Contains(verb.Clsid));
-
-			return verbs;
-		}
-
-		private static HashSet<Guid> GetBlockedClsids()
-		{
-			var blocked = new HashSet<Guid>();
-			foreach (var hive in new[] { Registry.LocalMachine, Registry.CurrentUser })
+			foreach (var itemType in itemTypes.Distinct(StringComparer.OrdinalIgnoreCase))
 			{
 				try
 				{
-					using var key = hive.OpenSubKey(BlockedShellExtensionsKey);
-					foreach (var name in key?.GetValueNames() ?? [])
-					{
-						if (Guid.TryParse(name, out var clsid))
-							blocked.Add(clsid);
-					}
+					AppendVerbs(statics, itemType, verbs);
 				}
 				catch (Exception ex)
 				{
@@ -118,35 +72,65 @@ namespace Files.App.Utils.Shell
 				}
 			}
 
-			return blocked;
+			return verbs;
 		}
 
-		private static void ReadManifest(string manifestPath, List<Verb> verbs)
+		private static IFileExplorerAppExtensionStatics? GetStatics()
 		{
-			var text = File.ReadAllText(manifestPath);
-			if (!text.Contains("FileExplorerContextMenus", StringComparison.Ordinal))
-				return;
-
-			var document = new XmlDocument();
-			document.LoadXml(text);
-
-			// Match by local name: the elements live in the desktop4, desktop5 or desktop10 namespaces.
-			var menus = document.SelectNodes("//*[local-name()='FileExplorerContextMenus']");
-			if (menus is null)
-				return;
-
-			foreach (XmlNode menu in menus)
+			try
 			{
-				foreach (XmlNode itemType in menu.ChildNodes)
+				PInvoke.WindowsCreateString(RuntimeClassName, (uint)RuntimeClassName.Length, out var className).ThrowOnFailure();
+				using (className)
 				{
-					if (itemType.LocalName != "ItemType" || itemType.Attributes?["Type"]?.Value is not { Length: > 0 } type)
-						continue;
+					PInvoke.RoGetActivationFactory(className, out IFileExplorerAppExtensionStatics statics).ThrowOnFailure();
+					return statics;
+				}
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "Windows 11 context menu commands are not available on this version of Windows.");
+				return null;
+			}
+		}
 
-					foreach (XmlNode verb in itemType.ChildNodes)
-					{
-						if (verb.LocalName == "Verb" && Guid.TryParse(verb.Attributes?["Clsid"]?.Value, out var clsid))
-							verbs.Add(new(clsid, type));
-					}
+		private static void AppendVerbs(IFileExplorerAppExtensionStatics statics, string itemType, List<Verb> verbs)
+		{
+			if (statics.GetExtensions(itemType, WaitForRegistrations, out var extensions).Failed)
+				return;
+
+			// Newer builds of Windows return the second revision of the interfaces; the first one has no GetIsL1Default.
+			if (extensions is IFileExplorerAppExtensionVectorView2 vector2 && vector2.GetSize(out var count2).Succeeded)
+			{
+				for (uint i = 0; i < count2; i++)
+				{
+					if (vector2.GetAt(i, out var extension).Succeeded && extension?.GetVerbs(WaitForRegistrations, out var extensionVerbs).Succeeded is true)
+						AppendVerbs(extensionVerbs, itemType, verbs);
+				}
+			}
+			else if (extensions is IFileExplorerAppExtensionVectorView vector && vector.GetSize(out var count).Succeeded)
+			{
+				for (uint i = 0; i < count; i++)
+				{
+					if (vector.GetAt(i, out var extension).Succeeded && extension?.GetVerbs(WaitForRegistrations, out var extensionVerbs).Succeeded is true)
+						AppendVerbs(extensionVerbs, itemType, verbs);
+				}
+			}
+		}
+
+		private static void AppendVerbs(IPropertySetVectorView? extensionVerbs, string itemType, List<Verb> verbs)
+		{
+			if (extensionVerbs is null || extensionVerbs.GetSize(out var count).Failed)
+				return;
+
+			for (uint i = 0; i < count; i++)
+			{
+				if (extensionVerbs.GetAt(i, out var verb).Succeeded &&
+					verb is IStringInspectableMap properties &&
+					properties.Lookup("Verb", out var value).Succeeded &&
+					value is IPropertyValue propertyValue &&
+					propertyValue.GetGuid(out var clsid).Succeeded)
+				{
+					verbs.Add(new(clsid, itemType));
 				}
 			}
 		}
