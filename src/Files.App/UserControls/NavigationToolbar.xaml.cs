@@ -259,7 +259,7 @@ namespace Files.App.UserControls
 					await NavigationHelpers.OpenPath(item.ItemPath, shellPage);
 				else
 				{
-					var searchQuery = args.Item is SuggestionModel x && !string.IsNullOrWhiteSpace(x.Name)
+					var searchQuery = args.Item is SuggestionModel { IsSearchQuery: false } x && !string.IsNullOrWhiteSpace(x.Name)
 						? x.Name
 						: args.Text;
 
