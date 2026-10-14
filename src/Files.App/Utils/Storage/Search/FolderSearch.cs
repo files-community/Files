@@ -4,9 +4,11 @@
 using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
+using System.Collections.Concurrent;
 using System.IO;
 using System.IO.Enumeration;
 using System.Text.RegularExpressions;
+using System.Threading;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
@@ -48,6 +50,7 @@ namespace Files.App.Utils.Storage
 		private readonly HashSet<string> indexedResultPaths = new(StringComparer.OrdinalIgnoreCase);
 		private readonly List<ShortcutItem> shortcutResults = [];
 		private List<ListedItem> pendingResults = [];
+		private readonly object resultsLock = new();
 		private bool hasRaisedTick;
 
 		private bool IsAQSQuery => Query is not null && (Query.StartsWith('$') || Query.Contains(':', StringComparison.Ordinal));
@@ -138,10 +141,19 @@ namespace Files.App.Utils.Storage
 			}
 			else
 			{
-				foreach (var drive in drivesViewModel.Drives.ToList().Cast<DriveItem>().Where(x => !x.IsNetwork))
-				{
-					await AddItemsAsync(drive.Path!, results, token);
-				}
+				var localDrives = drivesViewModel.Drives.ToList().Cast<DriveItem>().Where(x => !x.IsNetwork).ToList();
+				await Parallel.ForEachAsync(
+					localDrives,
+					new ParallelOptions
+					{
+						CancellationToken = token,
+						MaxDegreeOfParallelism = Math.Clamp(Environment.ProcessorCount, 2, 8)
+					},
+					async (drive, ct) =>
+					{
+						if (drive.Path is not null)
+							await AddItemsAsync(drive.Path, results, ct);
+					});
 			}
 		}
 
@@ -177,12 +189,18 @@ namespace Files.App.Utils.Storage
 			if (token.IsCancellationRequested)
 				return;
 
-			results.Add(item);
-			pendingResults.Add(item);
-			if (item is ShortcutItem shortcutItem)
-				shortcutResults.Add(shortcutItem);
+			lock (resultsLock)
+			{
+				if (token.IsCancellationRequested || results.Count >= UsedMaxItemCount)
+					return;
 
-			RaiseSearchTickIfDue(token);
+				results.Add(item);
+				pendingResults.Add(item);
+				if (item is ShortcutItem shortcutItem)
+					shortcutResults.Add(shortcutItem);
+
+				RaiseSearchTickIfDue(token);
+			}
 		}
 
 		private void RaiseSearchTickIfDue(CancellationToken token)
@@ -198,7 +216,12 @@ namespace Files.App.Utils.Storage
 		}
 
 		private uint GetRemainingItemCount(IList<ListedItem> results)
-			=> results.Count >= UsedMaxItemCount ? 0 : UsedMaxItemCount - (uint)results.Count;
+		{
+			lock (resultsLock)
+			{
+				return results.Count >= UsedMaxItemCount ? 0 : UsedMaxItemCount - (uint)results.Count;
+			}
+		}
 
 		private async Task SearchAsync(BaseStorageFolder folder, IList<ListedItem> results, CancellationToken token)
 		{
@@ -228,7 +251,12 @@ namespace Files.App.Utils.Storage
 							var listedItem = await GetListedItemAsync(item);
 							AddResult(results, listedItem, token);
 							if (listedItem.ItemPath is not null)
-								indexedResultPaths.Add(listedItem.ItemPath);
+							{
+								lock (resultsLock)
+								{
+									indexedResultPaths.Add(listedItem.ItemPath);
+								}
+							}
 						}
 					}
 					catch (Exception ex)
@@ -299,10 +327,17 @@ namespace Files.App.Utils.Storage
 
 		private async Task AddItemsForLibraryAsync(LibraryLocationItem library, IList<ListedItem> results, CancellationToken token)
 		{
-			foreach (var folder in library.Folders)
-			{
-				await AddItemsAsync(folder, results, token);
-			}
+			await Parallel.ForEachAsync(
+				library.Folders,
+				new ParallelOptions
+				{
+					CancellationToken = token,
+					MaxDegreeOfParallelism = Math.Clamp(Environment.ProcessorCount, 2, 8)
+				},
+				async (folder, ct) =>
+				{
+					await AddItemsAsync(folder, results, ct);
+				});
 		}
 
 		private bool IsTagQuery(string query)
@@ -554,63 +589,118 @@ namespace Files.App.Utils.Storage
 			var showProtectedSystemFiles = UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles;
 			var showDotFiles = UserSettingsService.FoldersSettingsService.ShowDotFiles;
 
-			var pendingFolders = new Queue<(string Path, bool UseFindTimeout)>();
+			var pendingFolders = new ConcurrentQueue<(string Path, bool UseFindTimeout)>();
 			pendingFolders.Enqueue((root, RequiresFindTimeout(root)));
 
-			while (pendingFolders.TryDequeue(out var pendingFolder))
+			int activeWorkers = 0;
+			using var workSignal = new AutoResetEvent(false);
+			int maxParallelism = Math.Clamp(Environment.ProcessorCount, 2, 8);
+
+			Parallel.For(0, maxParallelism, new ParallelOptions { CancellationToken = token }, _ =>
 			{
-				var (folder, useFindTimeout) = pendingFolder;
-				if (token.IsCancellationRequested || results.Count >= UsedMaxItemCount)
-					return;
-
-				using (var findHandle = FindFirstFile(folder, useFindTimeout, out var findData, token))
+				while (!token.IsCancellationRequested)
 				{
-					if (findHandle is null || findHandle.IsInvalid)
-						continue;
-
-					do
+					lock (resultsLock)
 					{
-						var fileName = findData.cFileName.ToString();
-						if (fileName is "." or "..")
-							continue;
+						if (results.Count >= UsedMaxItemCount)
+							return;
+					}
 
-						var attributes = (FileAttributes)findData.dwFileAttributes;
-						var isDirectory = attributes.HasFlag(FileAttributes.Directory);
-						var reparseTag = attributes.HasFlag(FileAttributes.ReparsePoint) ? findData.dwReserved0 : 0;
+					if (!pendingFolders.TryDequeue(out var pendingFolder))
+					{
+						if (Volatile.Read(ref activeWorkers) == 0)
+							break;
 
-						if (isDirectory && !IsNameSurrogateReparseTag(reparseTag))
-							pendingFolders.Enqueue((Path.Combine(folder, fileName), useFindTimeout || IsCloudFilesReparseTag(reparseTag)));
+						workSignal.WaitOne(10);
+						continue;
+					}
 
-						if (!FileSystemName.MatchesWin32Expression(expression, fileName))
-							continue;
+					Interlocked.Increment(ref activeWorkers);
+					try
+					{
+						var (folder, useFindTimeout) = pendingFolder;
+						if (token.IsCancellationRequested)
+							return;
 
-						var isSystem = attributes.HasFlag(FileAttributes.System);
-						var isHidden = attributes.HasFlag(FileAttributes.Hidden);
-						var startWithDot = fileName.StartsWith('.');
-						var isShortcut = !isDirectory && FileExtensionHelpers.IsShortcutOrUrlFile(fileName);
-
-						bool shouldBeListed = (hiddenOnly ?
-							(!isHidden && isShortcut) || (isHidden && showHiddenItems && (!isSystem || showProtectedSystemFiles)) :
-							!isHidden || (showHiddenItems && (!isSystem || showProtectedSystemFiles))) &&
-							(!startWithDot || showDotFiles);
-
-						var itemPath = Path.Combine(folder, fileName);
-						if (!shouldBeListed || (hiddenOnly && indexedResultPaths.Contains(itemPath)))
-							continue;
-
-						try
+						lock (resultsLock)
 						{
-							if ((isShortcut ? GetShortcutItem(itemPath, findData) : GetListedItemAsync(itemPath, findData)) is { } item)
-								AddResult(results, item, token);
+							if (results.Count >= UsedMaxItemCount)
+								return;
 						}
-						catch (Exception ex)
+
+						using var findHandle = FindFirstFile(folder, useFindTimeout, out var findData, token);
+						if (findHandle is null || findHandle.IsInvalid)
+							continue;
+
+						bool enqueuedSubfolders = false;
+						do
 						{
-							App.Logger.LogWarning(ex, "Error creating ListedItem from Win32 find data");
+							// Skip . and .. without string allocations
+							if (findData.cFileName[0] == '.' && (findData.cFileName[1] == '\0' || (findData.cFileName[1] == '.' && findData.cFileName[2] == '\0')))
+								continue;
+
+							var attributes = (FileAttributes)findData.dwFileAttributes;
+							var isDirectory = attributes.HasFlag(FileAttributes.Directory);
+							var reparseTag = attributes.HasFlag(FileAttributes.ReparsePoint) ? findData.dwReserved0 : 0;
+
+							var fileName = findData.cFileName.ToString();
+
+							if (isDirectory && !IsNameSurrogateReparseTag(reparseTag))
+							{
+								pendingFolders.Enqueue((Path.Combine(folder, fileName), useFindTimeout || IsCloudFilesReparseTag(reparseTag)));
+								enqueuedSubfolders = true;
+							}
+
+							if (!FileSystemName.MatchesWin32Expression(expression, fileName))
+								continue;
+
+							var isSystem = attributes.HasFlag(FileAttributes.System);
+							var isHidden = attributes.HasFlag(FileAttributes.Hidden);
+							var startWithDot = fileName.StartsWith('.');
+							var isShortcut = !isDirectory && FileExtensionHelpers.IsShortcutOrUrlFile(fileName);
+
+							bool shouldBeListed = (hiddenOnly ?
+								(!isHidden && isShortcut) || (isHidden && showHiddenItems && (!isSystem || showProtectedSystemFiles)) :
+								!isHidden || (showHiddenItems && (!isSystem || showProtectedSystemFiles))) &&
+								(!startWithDot || showDotFiles);
+
+							var itemPath = Path.Combine(folder, fileName);
+
+							bool alreadyIndexed;
+							lock (resultsLock)
+							{
+								alreadyIndexed = hiddenOnly && indexedResultPaths.Contains(itemPath);
+							}
+							if (!shouldBeListed || alreadyIndexed)
+								continue;
+
+							try
+							{
+								if ((isShortcut ? GetShortcutItem(itemPath, findData) : GetListedItemAsync(itemPath, findData)) is { } item)
+									AddResult(results, item, token);
+							}
+							catch (Exception ex)
+							{
+								App.Logger.LogWarning(ex, "Error creating ListedItem from Win32 find data");
+							}
+						}
+						while (!token.IsCancellationRequested && PInvoke.FindNextFile(findHandle, out findData));
+
+						if (enqueuedSubfolders)
+						{
+							workSignal.Set();
 						}
 					}
-					while (!token.IsCancellationRequested && results.Count < UsedMaxItemCount && PInvoke.FindNextFile(findHandle, out findData));
+					finally
+					{
+						Interlocked.Decrement(ref activeWorkers);
+						workSignal.Set();
+					}
 				}
+			});
 
+			lock (resultsLock)
+			{
 				RaiseSearchTickIfDue(token);
 			}
 		}

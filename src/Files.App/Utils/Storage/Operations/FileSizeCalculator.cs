@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Extensions;
 using System.Collections.Concurrent;
 using System.IO;
 using Windows.Win32;
@@ -75,15 +76,14 @@ namespace Files.App.Utils.Storage.Operations
 											// Skip symbolic links and junctions
 											continue;
 
-										var itemPath = Path.Combine(directory, findData.cFileName.ToString());
-
-										// Skip current and parent directory entries
-										var fileName = findData.cFileName.ToString();
-										if (fileName.Equals(".", StringComparison.OrdinalIgnoreCase) ||
-											fileName.Equals("..", StringComparison.OrdinalIgnoreCase))
+										// Skip current and parent directory entries without string allocations
+										if (findData.cFileName[0] == '.' && (findData.cFileName[1] == '\0' || (findData.cFileName[1] == '.' && findData.cFileName[2] == '\0')))
 										{
 											continue;
 										}
+
+										var fileName = findData.cFileName.ToString();
+										var itemPath = Path.Combine(directory, fileName);
 
 										if (attributes.HasFlag(FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_DIRECTORY))
 										{
@@ -91,7 +91,13 @@ namespace Files.App.Utils.Storage.Operations
 										}
 										else
 										{
-											ComputeFileSize(itemPath);
+											// Use the size already retrieved from WIN32_FIND_DATAW instead of opening an expensive file handle
+											long fileSize = findData.GetSize();
+											if (_computedFiles.TryAdd(itemPath, fileSize))
+											{
+												Interlocked.Add(ref _size, fileSize);
+												ItemsCountChanged?.Invoke(_computedFiles.Count);
+											}
 										}
 
 										if (token.IsCancellationRequested)
