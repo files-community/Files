@@ -94,7 +94,7 @@ namespace Files.App
 						Ioc.Default.ConfigureServices(provider);
 
 						// Load the appearance settings needed for the first frame off the UI thread.
-						_ = provider.GetRequiredService<IGeneralSettingsService>().LeaveAppRunning;
+						_ = provider.GetRequiredService<IGeneralSettingsService>().CloseToBackground;
 						var appearanceSettings = provider.GetRequiredService<IAppearanceSettingsService>();
 						_ = appearanceSettings.AppThemeMode;
 						_ = appearanceSettings.AppThemeBackdropMaterial;
@@ -155,7 +155,7 @@ namespace Files.App
 				}
 
 				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-				var isLeaveAppRunning = userSettingsService.GeneralSettingsService.LeaveAppRunning;
+				var isLeaveAppRunning = userSettingsService.GeneralSettingsService.CloseToBackground;
 
 				if (!isStartupTask || !isLeaveAppRunning)
 				{
@@ -346,7 +346,7 @@ namespace Files.App
 
 			// Continue running the app on the background
 			var isClosedToBackground = false;
-			if (userSettingsService.GeneralSettingsService.LeaveAppRunning &&
+			if (userSettingsService.GeneralSettingsService.CloseToBackground &&
 				!AppModel.ForceProcessTermination &&
 				!Process.GetProcessesByName("Files").Any(IsSameChannelInstance))
 			{
