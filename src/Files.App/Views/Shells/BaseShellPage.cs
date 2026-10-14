@@ -13,6 +13,7 @@ using Windows.System;
 using Windows.UI.Core;
 using WinRT;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
+using Microsoft.Extensions.Logging;
 
 namespace Files.App.Views.Shells
 {
@@ -807,12 +808,20 @@ namespace Files.App.Views.Shells
 				drivesViewModel.ShowUserConsentOnInit = false;
 				await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
+					if (MainWindow.Instance?.Content?.XamlRoot is null)
+						return;
+
 					var dialog = DynamicDialogFactory.GetFor_ConsentDialog();
+					dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
-					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-						dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
-
-					await dialog.ShowAsync();
+					try
+					{
+						await dialog.ShowAsync();
+					}
+					catch (Exception ex)
+					{
+						App.Logger.LogWarning(ex, "Failed to display filesystem consent dialog.");
+					}
 				});
 			}
 		}

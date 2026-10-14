@@ -92,7 +92,14 @@ namespace Files.App
 			WinRT.ComWrappersSupport.InitializeComWrappers();
 
 			// Now we can do the first WinRT server call
-			Server.AppInstanceMonitor.StartMonitor(Environment.ProcessId);
+			try
+			{
+				Server.AppInstanceMonitor.StartMonitor(Environment.ProcessId);
+			}
+			catch (Exception)
+			{
+				// Out-of-process server activation may be restricted in dev sideloading
+			}
 
 			var OpenTabInExistingInstance = ApplicationData.Current.LocalSettings.Values.Get("OpenTabInExistingInstance", true);
 

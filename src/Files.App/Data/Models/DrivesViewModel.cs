@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.App.Services.SizeProvider;
@@ -127,7 +127,7 @@ namespace Files.App.Data.Models
 
 					bool isOsDriveMissing;
 					lock (Drives)
-						isOsDriveMissing = Drives.All(x => string.IsNullOrEmpty(x.Id) || !Path.GetFullPath(x.Id).Equals(osDrivePath, StringComparison.OrdinalIgnoreCase));
+						isOsDriveMissing = Drives.All(x => string.IsNullOrEmpty(x.Id) || !Path.GetFullPath(x.Id.EndsWith(Path.DirectorySeparatorChar) ? x.Id : $"{x.Id}{Path.DirectorySeparatorChar}").Equals(osDrivePath, StringComparison.OrdinalIgnoreCase));
 
 					if (isOsDriveMissing)
 						ShowUserConsentOnInit = true;
