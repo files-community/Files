@@ -64,9 +64,7 @@
 					Content="{helpers:ResourceString Name=AddCommand}">
 					<SplitButton.Flyout>
 						<MenuFlyout Placement="Bottom">
-							<MenuFlyoutItem
-								Command="{x:Bind ViewModel.ShowRestoreDefaultsConfirmationCommand, Mode=OneWay}"
-								Text="{helpers:ResourceString Name=RestoreDefaults}">
+							<MenuFlyoutItem Command="{x:Bind ViewModel.ShowRestoreDefaultsConfirmationCommand, Mode=OneWay}" Text="{helpers:ResourceString Name=RestoreDefaults}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon Glyph="&#xE777;" />
 								</MenuFlyoutItem.Icon>
@@ -120,67 +118,60 @@
 							</ItemsRepeater.Layout>
 							<ItemsRepeater.ItemTemplate>
 								<DataTemplate x:DataType="dataitems:ModifiableActionItem">
-									<UserControl PointerEntered="RootGrid_PointerEntered" PointerExited="RootGrid_PointerExited">
-										<!--  Transparent background so the whole row is hit-testable for hover  -->
-										<Grid
-											MinHeight="44"
-											Padding="16,0"
-											Background="Transparent"
-											ColumnSpacing="12">
-											<Grid.ColumnDefinitions>
-												<ColumnDefinition Width="*" />
-												<ColumnDefinition Width="Auto" />
-												<!--  Reserve room for the row actions so revealing them shifts nothing  -->
-												<ColumnDefinition Width="72" />
-											</Grid.ColumnDefinitions>
+									<Grid
+										MinHeight="44"
+										Padding="16,0"
+										ColumnSpacing="12">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="Auto" />
+										</Grid.ColumnDefinitions>
 
-											<!--  Command Description  -->
-											<TextBlock
-												Grid.Column="0"
-												VerticalAlignment="Center"
-												Text="{x:Bind CommandDescription}"
-												TextTrimming="CharacterEllipsis" />
+										<!--  Command Description  -->
+										<TextBlock
+											Grid.Column="0"
+											VerticalAlignment="Center"
+											Text="{x:Bind CommandDescription}"
+											TextTrimming="CharacterEllipsis" />
 
-											<!--  Key Binding Control  -->
-											<keyboard:KeyboardShortcut
-												Grid.Column="1"
-												VerticalAlignment="Center"
-												HotKeys="{x:Bind KeyBindings, Mode=OneWay}" />
+										<!--  Key Binding Control  -->
+										<keyboard:KeyboardShortcut
+											Grid.Column="1"
+											VerticalAlignment="Center"
+											HotKeys="{x:Bind KeyBindings, Mode=OneWay}" />
 
-											<!--  Row Actions (revealed on pointer over)  -->
-											<StackPanel
-												x:Name="RowActions"
-												Grid.Column="2"
-												HorizontalAlignment="Right"
-												Orientation="Horizontal"
-												Spacing="4"
-												Visibility="Collapsed">
-												<!--  Edit Button  -->
-												<Button
-													Width="32"
-													Height="32"
-													Padding="0"
-													AutomationProperties.Name="{helpers:ResourceString Name=Edit}"
-													Click="EditButton_Click"
-													Tag="{x:Bind}"
-													ToolTipService.ToolTip="{helpers:ResourceString Name=Edit}">
-													<FontIcon FontSize="14" Glyph="&#xE70F;" />
-												</Button>
+										<!--  Row Actions  -->
+										<StackPanel
+											Grid.Column="2"
+											HorizontalAlignment="Right"
+											Orientation="Horizontal"
+											Spacing="4">
+											<!--  Edit Button  -->
+											<Button
+												Width="32"
+												Height="32"
+												Padding="0"
+												AutomationProperties.Name="{helpers:ResourceString Name=Edit}"
+												Click="EditButton_Click"
+												Tag="{x:Bind}"
+												ToolTipService.ToolTip="{helpers:ResourceString Name=Edit}">
+												<FontIcon FontSize="14" Glyph="&#xE70F;" />
+											</Button>
 
-												<!--  Delete Button (opens a confirmation flyout)  -->
-												<Button
-													Width="32"
-													Height="32"
-													Padding="0"
-													AutomationProperties.Name="{helpers:ResourceString Name=Delete}"
-													Click="DeleteButton_Click"
-													Tag="{x:Bind}"
-													ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}">
-													<FontIcon FontSize="14" Glyph="&#xE74D;" />
-												</Button>
-											</StackPanel>
-										</Grid>
-									</UserControl>
+											<!--  Delete Button (opens a confirmation flyout)  -->
+											<Button
+												Width="32"
+												Height="32"
+												Padding="0"
+												AutomationProperties.Name="{helpers:ResourceString Name=Delete}"
+												Click="DeleteButton_Click"
+												Tag="{x:Bind}"
+												ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}">
+												<FontIcon FontSize="14" Glyph="&#xE74D;" />
+											</Button>
+										</StackPanel>
+									</Grid>
 								</DataTemplate>
 							</ItemsRepeater.ItemTemplate>
 						</ItemsRepeater>
