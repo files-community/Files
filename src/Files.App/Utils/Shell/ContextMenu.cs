@@ -170,15 +170,10 @@ namespace Files.App.Utils.Shell
 			if (shellItems.Length is 0)
 				return null;
 
-			ITEMIDLIST** pidls = null;
 			HMENU menu = default;
 			try
 			{
-				pidls = (ITEMIDLIST**)NativeMemory.AllocZeroed((nuint)shellItems.Length, (nuint)sizeof(ITEMIDLIST*));
-				for (int index = 0; index < shellItems.Length; index++)
-					PInvoke.SHGetIDListFromObject(shellItems[index].IShellItem, out pidls[index]).ThrowOnFailure();
-
-				PInvoke.SHCreateShellItemArrayFromIDLists((uint)shellItems.Length, pidls, out IShellItemArray itemArray).ThrowOnFailure();
+				IShellItemArray itemArray = CreateShellItemArray(shellItems);
 				IContextMenu shellContextMenu = BindContextMenu(itemArray);
 
 				menu = PInvoke.CreatePopupMenu();
@@ -196,6 +191,23 @@ namespace Files.App.Utils.Shell
 			{
 				if (!menu.IsNull)
 					PInvoke.DestroyMenu(menu);
+			}
+		}
+
+		internal static unsafe IShellItemArray CreateShellItemArray(ShellItem[] shellItems)
+		{
+			ITEMIDLIST** pidls = null;
+			try
+			{
+				pidls = (ITEMIDLIST**)NativeMemory.AllocZeroed((nuint)shellItems.Length, (nuint)sizeof(ITEMIDLIST*));
+				for (int index = 0; index < shellItems.Length; index++)
+					PInvoke.SHGetIDListFromObject(shellItems[index].IShellItem, out pidls[index]).ThrowOnFailure();
+
+				PInvoke.SHCreateShellItemArrayFromIDLists((uint)shellItems.Length, pidls, out IShellItemArray itemArray).ThrowOnFailure();
+				return itemArray;
+			}
+			finally
+			{
 				if (pidls is not null)
 				{
 					for (int index = 0; index < shellItems.Length; index++)
