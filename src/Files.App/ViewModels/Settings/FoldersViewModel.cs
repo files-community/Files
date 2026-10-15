@@ -15,6 +15,8 @@ namespace Files.App.ViewModels.Settings
 		{
 			SelectedDeleteConfirmationPolicyIndex = (int)DeleteConfirmationPolicy;
 
+			_ = DetectNaturalLanguageSearchSupportAsync();
+
 			// Size unit format
 			SizeUnitsOptions.Add(SizeUnitTypes.BinaryUnits, Strings.Binary.GetLocalizedResource());
 			SizeUnitsOptions.Add(SizeUnitTypes.DecimalUnits, Strings.Decimal.GetLocalizedResource());
@@ -280,6 +282,32 @@ namespace Files.App.ViewModels.Settings
 					OnPropertyChanged();
 				}
 			}
+		}
+
+		private bool isNaturalLanguageSearchSupported;
+		public bool IsNaturalLanguageSearchSupported
+		{
+			get => isNaturalLanguageSearchSupported;
+			private set => SetProperty(ref isNaturalLanguageSearchSupported, value);
+		}
+
+		public bool EnableNaturalLanguageSearch
+		{
+			get => UserSettingsService.GeneralSettingsService.EnableNaturalLanguageSearch;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.EnableNaturalLanguageSearch)
+				{
+					UserSettingsService.GeneralSettingsService.EnableNaturalLanguageSearch = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private async Task DetectNaturalLanguageSearchSupportAsync()
+		{
+			IsNaturalLanguageSearchSupported = await Task.Run(NaturalLanguageSearch.IsAvailable);
 		}
 
 		private string sizeUnitFormat = null!;

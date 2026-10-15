@@ -12,7 +12,8 @@
     xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
     xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
     xmlns:virtualization="http://schemas.microsoft.com/appx/manifest/virtualization/windows10"
-    IgnorableNamespaces="mp rescap desktop desktop4 desktop6 uap uap5 virtualization">
+    xmlns:systemai="http://schemas.microsoft.com/appx/manifest/systemai/windows10"
+    IgnorableNamespaces="mp rescap desktop desktop4 desktop6 uap uap5 virtualization systemai">
 
     <Identity
         Name="FilesDev"
@@ -32,7 +33,7 @@
     </Properties>
 
     <Dependencies>
-        <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.26100.0" />
+        <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.26226.0" />
     </Dependencies>
 
     <Resources>
@@ -202,6 +203,7 @@
         <uap:Capability Name="removableStorage" />
         <Capability Name="internetClient" />
         <Capability Name="privateNetworkClientServer" />
+        <systemai:Capability Name="systemAIModels" />
     </Capabilities>
 
 </Package>

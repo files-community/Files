@@ -16,6 +16,8 @@ namespace Files.App
 			public const string BingMapsSecret = "bingmapskey.secret";
 
 			public const string SentrySecret = "sentry.secret";
+
+			public const string LanguageModelLafToken = "languagemodellaftoken.secret";
 		}
 
 		public static class KnownImageFormats
