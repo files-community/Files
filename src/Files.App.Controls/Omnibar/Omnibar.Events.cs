@@ -166,7 +166,7 @@ namespace Files.App.Controls
 				_userInput = _textBox.Text;
 			}
 
-			_isTextTypedByUser = _textChangeReason is OmnibarTextChangeReason.UserInput;
+			_isTextTypedByUser = _textChangeReason is OmnibarTextChangeReason.UserInput or OmnibarTextChangeReason.None;
 			if (_isTextTypedByUser)
 				_isSuggestionSelectedByUser = false;
 
