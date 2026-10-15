@@ -9,6 +9,9 @@ namespace Files.App.Controls
 {
 	public record ItemInvokedEventArgs(PointerUpdateKind PointerUpdateKind) { }
 	public record ItemDroppedEventArgs(object DropTarget, DataPackageView DroppedItem, SidebarItemDropPosition dropPosition, DragEventArgs RawEvent) { }
-	public record ItemDragOverEventArgs(object DropTarget, DataPackageView DroppedItem, SidebarItemDropPosition dropPosition, DragEventArgs RawEvent) { }
+	public record ItemDragOverEventArgs(object DropTarget, DataPackageView DroppedItem, SidebarItemDropPosition dropPosition, DragEventArgs RawEvent)
+	{
+		public Task Completion { get; set; } = Task.CompletedTask;
+	}
 	public record ItemContextInvokedArgs(object? Item, Point Position) { }
 }

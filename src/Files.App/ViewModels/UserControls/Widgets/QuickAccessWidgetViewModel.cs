@@ -4,6 +4,7 @@
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
+using System.Runtime.InteropServices;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -35,6 +36,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// TODO: Replace with IMutableFolder.GetWatcherAsync() once it gets implemented in IWindowsStorable
 		private readonly SystemIO.FileSystemWatcher? _quickAccessFolderWatcher;
+		private readonly EventHandler<ModifyQuickAccessEventArgs> _quickAccessWidgetUpdatedHandler;
 		private bool isDisposed;
 		private int _refreshVersion;
 
@@ -50,7 +52,16 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			PinToSidebarCommand = new AsyncRelayCommand<WidgetFolderCardItem>(ExecutePinToSidebarCommand);
 			UnpinFromSidebarCommand = new AsyncRelayCommand<WidgetFolderCardItem>(ExecuteUnpinFromSidebarCommand);
 
-			var automaticDestinationsPath = SystemIO.Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Recent", "AutomaticDestinations");
+			_quickAccessWidgetUpdatedHandler = async (s, e) =>
+			{
+				if (e.Reorder)
+				{
+					await SafetyExtensions.IgnoreExceptions(() => RefreshWidgetAsync(bypassSuspend: true), App.Logger, typeof(COMException));
+				}
+			};
+			App.QuickAccessManager.UpdateQuickAccessWidget += _quickAccessWidgetUpdatedHandler;
+
+			var automaticDestinationsPath =SystemIO.Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Recent", "AutomaticDestinations");
 			if (!SystemIO.Directory.Exists(automaticDestinationsPath))
 				return;
 
@@ -71,11 +82,19 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		private async void QuickAccessFolderWatcher_Changed(object sender, SystemIO.FileSystemEventArgs e)
 		{
 			if (!isDisposed)
-				await RefreshWidgetAsync();
+				await SafetyExtensions.IgnoreExceptions(RefreshWidgetAsync, App.Logger, typeof(COMException));
 		}
 
 		public Task RefreshWidgetAsync()
 		{
+			return RefreshWidgetAsync(false);
+		}
+
+		public Task RefreshWidgetAsync(bool bypassSuspend)
+		{
+			if (!bypassSuspend && App.QuickAccessManager.Model.IsSyncSuspended)
+				return Task.CompletedTask;
+
 			return MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
 				if (isDisposed)
@@ -107,6 +126,30 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 				if (isDisposed || refreshVersion != _refreshVersion || folders is null)
 					return;
+
+				var newPaths = folders.Select(f => f.Path).ToList();
+				if (Items.Count == newPaths.Count &&
+					new HashSet<string>(Items.Select(i => i.Path ?? string.Empty), StringComparer.OrdinalIgnoreCase).SetEquals(newPaths) &&
+					Items.All(item => folders.Any(f => string.Equals(f.Path, item.Path, StringComparison.OrdinalIgnoreCase) && f.IsPinned == item.IsPinned)))
+				{
+					for (int targetIdx = 0; targetIdx < newPaths.Count; targetIdx++)
+					{
+						var currentIdx = -1;
+						for (int j = targetIdx; j < Items.Count; j++)
+						{
+							if (string.Equals(Items[j].Path, newPaths[targetIdx], StringComparison.OrdinalIgnoreCase))
+							{
+								currentIdx = j;
+								break;
+							}
+						}
+
+						if (currentIdx >= 0 && currentIdx != targetIdx)
+							Items.Move(currentIdx, targetIdx);
+					}
+
+					return;
+				}
 
 				foreach (var item in Items)
 					item.Dispose();
@@ -358,6 +401,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				return;
 
 			isDisposed = true;
+			App.QuickAccessManager.UpdateQuickAccessWidget -= _quickAccessWidgetUpdatedHandler;
 			Items.CollectionChanged -= Items_CollectionChanged;
 			if (_quickAccessFolderWatcher is not null)
 			{

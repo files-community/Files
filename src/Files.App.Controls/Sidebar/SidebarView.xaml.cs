@@ -4,8 +4,10 @@
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Markup;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.System;
+using System.Runtime.InteropServices;
 using Windows.UI.Core;
 using WinRT;
 
@@ -52,13 +54,36 @@ namespace Files.App.Controls
 		internal void RaiseItemDropped(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
 		{
 			if (sideBarItem.Item is null) return;
-			ItemDropped?.Invoke(this, new(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
+
+			if (TryGetDataView(rawEvent) is not { } dataView) return;
+
+			ItemDropped?.Invoke(this, new(sideBarItem.Item, dataView, dropPosition, rawEvent));
 		}
 
-		internal void RaiseItemDragOver(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
+		internal long LastDragOverTick;
+
+		internal Task RaiseItemDragOver(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
 		{
-			if (sideBarItem.Item is null) return;
-			ItemDragOver?.Invoke(this, new(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
+			if (sideBarItem.Item is null) return Task.CompletedTask;
+
+			if (TryGetDataView(rawEvent) is not { } dataView) return Task.CompletedTask;
+
+			var args = new ItemDragOverEventArgs(sideBarItem.Item, dataView, dropPosition, rawEvent);
+			ItemDragOver?.Invoke(this, args);
+			return args.Completion;
+		}
+
+		private static DataPackageView? TryGetDataView(DragEventArgs rawEvent)
+		{
+			try
+			{
+				return rawEvent.DataView;
+			}
+			// Reading DataView fails when the OLE drag payload is stale
+			catch (COMException)
+			{
+				return null;
+			}
 		}
 
 		private void UpdateMinimalMode()

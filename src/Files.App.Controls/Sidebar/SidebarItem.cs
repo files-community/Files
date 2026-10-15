@@ -4,10 +4,15 @@
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
+using System.Collections;
 using System.Collections.Specialized;
 using System.IO;
+using System.Runtime.InteropServices;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using WinRT;
@@ -32,6 +37,8 @@ namespace Files.App.Controls
 		private bool isTemplateWired;
 		private DispatcherQueueTimer? dragOverTimer;
 		private DispatcherQueueTimer? dragOverExpandTimer;
+		private bool isInDragVisualState;
+		private bool maskNextDragOverFrame = true;
 
 		public SidebarItem()
 		{
@@ -135,7 +142,17 @@ namespace Files.App.Controls
 			UpdateFlyoutChildrenSource();
 			UpdateExpansionState();
 			ReevaluateSelection();
-			CanDrag = Item?.Path is string path && Path.IsPathRooted(path);
+
+			if (Item is not null)
+			{
+				CanDrag = IsValidDropPath(Item.Path);
+				UseReorderDrop = !IsGroupHeader && CanDrag && Item.CanReorder;
+			}
+			else
+			{
+				CanDrag = false;
+				UseReorderDrop = false;
+			}
 		}
 
 		private void UpdateItemPresentation()
@@ -254,32 +271,53 @@ namespace Files.App.Controls
 			}
 		}
 
+		private static bool IsValidDropPath(string? path)
+			=> path is not null &&
+				(System.IO.Path.IsPathRooted(path) ||
+				path.StartsWith("Shell:", StringComparison.OrdinalIgnoreCase) ||
+				path.StartsWith("::{", StringComparison.Ordinal));
+
 		private void SidebarItem_DragStarting(UIElement sender, DragStartingEventArgs args)
 		{
-			if (Item?.Path is not string dragPath || !Path.IsPathRooted(dragPath))
+			if (Item?.Path is not string dragPath || !IsValidDropPath(dragPath))
 				return;
 
-			args.Data.SetData(StandardDataFormats.Text, dragPath);
-			args.Data.RequestedOperation = DataPackageOperation.Move | DataPackageOperation.Copy | DataPackageOperation.Link;
-			args.Data.SetDataProvider(StandardDataFormats.StorageItems, async request =>
+			try
 			{
-				var deferral = request.GetDeferral();
-				try
+				args.Data.SetData(StandardDataFormats.Text, dragPath);
+				args.Data.RequestedOperation = DataPackageOperation.Move | DataPackageOperation.Copy | DataPackageOperation.Link;
+				args.Data.SetDataProvider(StandardDataFormats.StorageItems, async request =>
 				{
-					if (Directory.Exists(dragPath))
+					DataProviderDeferral? deferral = null;
+					try
 					{
-						var folder = await StorageFolder.GetFolderFromPathAsync(dragPath);
-						request.SetData(new IStorageItem[] { folder });
+						deferral = request.GetDeferral();
+						if (Directory.Exists(dragPath))
+						{
+							var folder = await StorageFolder.GetFolderFromPathAsync(dragPath);
+							request.SetData(new IStorageItem[] { folder });
+						}
 					}
-				}
-				catch
-				{
-				}
-				finally
-				{
-					deferral.Complete();
-				}
-			});
+					catch (COMException)
+					{
+					}
+					finally
+					{
+						try
+						{
+							deferral?.Complete();
+						}
+						// Completing the deferral throws if the payload was already revoked
+						catch (COMException)
+						{
+						}
+					}
+				});
+			}
+			// The OLE drag payload can be revoked by the source mid-operation
+			catch (COMException)
+			{
+			}
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
@@ -459,6 +497,11 @@ namespace Files.App.Controls
 
 		private void UpdatePointerState(bool isPointerDown = false)
 		{
+			if (isInDragVisualState)
+				return;
+
+			VisualStateManager.GoToState(this, "DragInsertNone", false);
+
 			var useSelectedState = ShouldShowSelectionIndicator();
 			if (isPointerDown)
 			{
@@ -503,6 +546,7 @@ namespace Files.App.Controls
 		private void ItemBorder_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
 			isPointerOver = true;
+			isInDragVisualState = false;
 			UpdatePointerState();
 		}
 
@@ -548,58 +592,121 @@ namespace Files.App.Controls
 
 		private async void ItemBorder_DragOver(object sender, DragEventArgs e)
 		{
-			var insertsAbove = DetermineDropTargetPosition(e);
-			if (insertsAbove == SidebarItemDropPosition.Center)
+			DragOperationDeferral? deferral = null;
+			try
 			{
-				VisualStateManager.GoToState(this, "DragOnTop", true);
+				deferral = e.GetDeferral();
 			}
-			else if (insertsAbove == SidebarItemDropPosition.Top)
+			// Getting the deferral fails when the OLE drag payload is stale
+			catch (COMException)
 			{
-				VisualStateManager.GoToState(this, "DragInsertAbove", true);
-			}
-			else if (insertsAbove == SidebarItemDropPosition.Bottom)
-			{
-				VisualStateManager.GoToState(this, "DragInsertBelow", true);
 			}
 
-			Owner?.RaiseItemDragOver(this, insertsAbove, e);
+			try
+			{
+				var dropPosition = DetermineDropTargetPosition(e);
 
-			var openDelay = Owner?.HoverToOpenDelay ?? TimeSpan.Zero;
-			var expandDelay = Owner?.HoverToExpandDelay ?? TimeSpan.Zero;
-			var isCenter = insertsAbove == SidebarItemDropPosition.Center;
-			var canHoverOpen = openDelay > TimeSpan.Zero && isCenter && Item is not null && (!IsGroupHeader || Item.IsLeafWithChildren);
-			var canHoverExpand = expandDelay > TimeSpan.Zero && isCenter && HasChildren && CollapseEnabled;
-			if (canHoverExpand)
-			{
-				dragOverExpandTimer ??= DispatcherQueue.CreateTimer();
-				dragOverExpandTimer.Debounce(
-					() =>
-					{
-						dragOverExpandTimer!.Stop();
-						IsExpanded = true;
-					},
-					expandDelay,
-					false);
+				if (Owner is not null)
+					await Owner.RaiseItemDragOver(this, dropPosition, e);
+
+				bool isHandled = false;
+				DataPackageOperation acceptedOperation = DataPackageOperation.None;
+				bool propertiesRead = true;
+
+				try
+				{
+					isHandled = e.Handled;
+					acceptedOperation = e.AcceptedOperation;
+				}
+				// Reading the event properties fails when the OLE drag payload is stale
+				catch (COMException)
+				{
+					propertiesRead = false;
+				}
+
+				var now = Environment.TickCount64;
+				var isSessionWarm = Owner is not null && now - Owner.LastDragOverTick < 500;
+				if (Owner is not null)
+					Owner.LastDragOverTick = now;
+
+				if (maskNextDragOverFrame && !isSessionWarm)
+				{
+					acceptedOperation = DataPackageOperation.None;
+				}
+				maskNextDragOverFrame = false;
+
+				var isAccepted = propertiesRead && isHandled && acceptedOperation != DataPackageOperation.None;
+
+				var openDelay = Owner?.HoverToOpenDelay ?? TimeSpan.Zero;
+				var expandDelay = Owner?.HoverToExpandDelay ?? TimeSpan.Zero;
+				var isCenter = dropPosition == SidebarItemDropPosition.Center;
+				var canHoverOpen = openDelay > TimeSpan.Zero && isCenter && isAccepted && !IsSelected && Item is not null && (!IsGroupHeader || Item.IsLeafWithChildren);
+				var canHoverExpand = expandDelay > TimeSpan.Zero && isCenter && HasChildren && CollapseEnabled;
+				if (canHoverExpand)
+				{
+					dragOverExpandTimer ??= DispatcherQueue.CreateTimer();
+					dragOverExpandTimer.Debounce(
+						() =>
+						{
+							dragOverExpandTimer!.Stop();
+							IsExpanded = true;
+						},
+						expandDelay,
+						false);
+				}
+				else
+				{
+					dragOverExpandTimer?.Stop();
+				}
+				if (canHoverOpen)
+				{
+					dragOverTimer ??= DispatcherQueue.CreateTimer();
+					dragOverTimer.Debounce(
+						() =>
+						{
+							dragOverTimer!.Stop();
+							RaiseItemInvoked(PointerUpdateKind.Other);
+						},
+						openDelay,
+						false);
+				}
+				else
+				{
+					dragOverTimer?.Stop();
+				}
+				if (!isAccepted)
+				{
+					isInDragVisualState = false;
+					UpdatePointerState();
+					return;
+				}
+
+				isInDragVisualState = true;
+				if (dropPosition == SidebarItemDropPosition.Center)
+				{
+					VisualStateManager.GoToState(this, "DragInsertNone", true);
+					VisualStateManager.GoToState(this, "DragOnTop", true);
+				}
+				else
+				{
+					var useSelectedState = ShouldShowSelectionIndicator();
+					VisualStateManager.GoToState(this, isPointerOver ? (useSelectedState ? "PointerOverSelected" : "PointerOver") : (useSelectedState ? "NormalSelected" : "Normal"), false);
+					VisualStateManager.GoToState(this, dropPosition == SidebarItemDropPosition.Top ? "DragInsertAbove" : "DragInsertBelow", true);
+				}
 			}
-			else
+			catch (COMException)
 			{
-				dragOverExpandTimer?.Stop();
 			}
-			if (canHoverOpen)
+			finally
 			{
-				dragOverTimer ??= DispatcherQueue.CreateTimer();
-				dragOverTimer.Debounce(
-					() =>
-					{
-						dragOverTimer!.Stop();
-						RaiseItemInvoked(PointerUpdateKind.Other);
-					},
-					openDelay,
-					false);
-			}
-			else
-			{
-				dragOverTimer?.Stop();
+				try
+				{
+					deferral?.Complete();
+				}
+				// Completing the deferral throws if the payload was already revoked
+				catch (COMException)
+				{
+				}
 			}
 		}
 
@@ -613,6 +720,8 @@ namespace Files.App.Controls
 		{
 			dragOverTimer?.Stop();
 			dragOverExpandTimer?.Stop();
+			isInDragVisualState = false;
+			maskNextDragOverFrame = true;
 			UpdatePointerState();
 		}
 
@@ -620,6 +729,10 @@ namespace Files.App.Controls
 		{
 			dragOverTimer?.Stop();
 			dragOverExpandTimer?.Stop();
+			isInDragVisualState = false;
+			maskNextDragOverFrame = true;
+			if (Owner is not null)
+				Owner.LastDragOverTick = 0;
 			UpdatePointerState();
 			Owner?.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
 		}
