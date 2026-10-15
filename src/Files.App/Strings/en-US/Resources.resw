@@ -4740,4 +4740,7 @@
   <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
     <value>Are you sure you want to remove tags from the selected items?</value>
   </data>
+  <data name="SearchForQuery" xml:space="preserve">
+    <value>Search for `{0}`</value>
+  </data>
 </root>

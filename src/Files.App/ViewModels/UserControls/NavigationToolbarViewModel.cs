@@ -1197,6 +1197,8 @@ namespace Files.App.ViewModels.UserControls
 			_suggestSearchCTS = new CancellationTokenSource();
 			var token = _suggestSearchCTS.Token;
 
+			UpdateSearchQuerySuggestion();
+
 			List<SuggestionModel> newSuggestions = [];
 
 			if (string.IsNullOrWhiteSpace(OmnibarSearchModeText))
@@ -1235,7 +1237,7 @@ namespace Files.App.ViewModels.UserControls
 
 			// Remove outdated suggestions
 			var toRemove = OmnibarSearchModeSuggestionItems
-				.Where(existing => !newSuggestions.Any(newItem => newItem.ItemPath == existing.ItemPath))
+				.Where(existing => !existing.IsSearchQuery && !newSuggestions.Any(newItem => newItem.ItemPath == existing.ItemPath))
 				.ToList();
 
 			foreach (var item in toRemove)
@@ -1249,12 +1251,32 @@ namespace Files.App.ViewModels.UserControls
 				OmnibarSearchModeSuggestionItems.Add(item);
 		}
 
+		private void UpdateSearchQuerySuggestion()
+		{
+			var hasQueryItem = OmnibarSearchModeSuggestionItems.FirstOrDefault() is { IsSearchQuery: true };
+			if (string.IsNullOrWhiteSpace(OmnibarSearchModeText))
+			{
+				if (hasQueryItem)
+					OmnibarSearchModeSuggestionItems.RemoveAt(0);
+
+				return;
+			}
+
+			var queryItem = new SuggestionModel(OmnibarSearchModeText, false) { IsSearchQuery = true };
+			if (hasQueryItem)
+				OmnibarSearchModeSuggestionItems[0] = queryItem;
+			else
+				OmnibarSearchModeSuggestionItems.Insert(0, queryItem);
+		}
+
 		private void PopulateOmnibarSuggestionsForSettingsSearch()
 		{
 			OmnibarSearchModeSuggestionItems.Clear();
 
 			if (string.IsNullOrWhiteSpace(OmnibarSearchModeText))
 				return;
+
+			UpdateSearchQuerySuggestion();
 
 			_settingsSearchIndex ??= SettingsSearchIndexer.BuildIndex();
 			var terms = OmnibarSearchModeText.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);

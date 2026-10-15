@@ -25,6 +25,7 @@
 
 	<Style x:Key="DefaultOmnibarStyle" TargetType="local:Omnibar">
 
+		<Setter Property="Foreground" Value="{ThemeResource TextControlForeground}" />
 		<Setter Property="Background" Value="{ThemeResource ControlFillColorDefaultBrush}" />
 		<Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
 		<Setter Property="BorderBrush" Value="{ThemeResource CircleElevationBorderBrush}" />
