@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.App.Helpers.Application;
@@ -574,13 +574,14 @@ namespace Files.App.Helpers
 				formattedException.AppendLine("---------------------------------------");
 
 				Debug.WriteLine(formattedException.ToString());
+				SafetyExtensions.IgnoreExceptions(() => App.Logger?.LogError(ex, "{FormattedException}", formattedException.ToString()));
 
 				// Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
-				Debugger.Break();
+				if (Debugger.IsAttached)
+					Debugger.Break();
 
 				// Save the current tab list in case it was overwriten by another instance
 				SafetyExtensions.IgnoreExceptions(SaveSessionTabs);
-				SafetyExtensions.IgnoreExceptions(() => App.Logger?.LogError(ex, ex?.Message ?? "An unhandled error occurred."));
 
 				if (!showToastNotification)
 					return;
