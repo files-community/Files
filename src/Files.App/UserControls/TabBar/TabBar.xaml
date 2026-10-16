@@ -261,6 +261,9 @@
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
 						Fill="Transparent"
+						AllowDrop="True"
+						DragOver="DragAreaRectangle_DragOver"
+						Drop="DragAreaRectangle_Drop"
 						Loaded="DragAreaRectangle_Loaded" />
 
 				</Grid>

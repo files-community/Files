@@ -124,6 +124,7 @@ namespace Files.App.Views
 
 		private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
 		{
+			// Убираем лишний второй аргумент TabControl.DragArea, чтобы не было ошибки компиляции
 			TabControl.DragArea.SizeChanged += (_, _) => MainWindow.Instance.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
 			TabControl.SizeChanged += (_, _) => MainWindow.Instance.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
 			if (ViewModel.MultitaskingControl is not TabBar)
@@ -140,9 +141,29 @@ namespace Files.App.Views
 				return -1;
 
 			var height = (int)TabControl.ActualHeight;
-			source.SetRegionRects(NonClientRegionKind.Passthrough, [getScaledRect(this, new RectInt32(0, 0, (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth), height))]);
+			int scaledHeight = (int)(height * scaleFactor);
+
+			int rightOffset = (int)(140 * scaleFactor);
+			int leftOffset = (int)(6 * scaleFactor);
+			int totalWidth = size.Width;
+
+			// Dynamically calculate the top grab area height (e.g., 30% of the total tab control height)
+			// to place the window dragging zone right above the tab content.
+			int topOffset = (int)(scaledHeight * 0.3);
+
+			// 1. Top portion acts as a Caption zone for window dragging.
+			source.SetRegionRects(NonClientRegionKind.Caption, [
+				new RectInt32(leftOffset, 0, Math.Max(0, totalWidth - leftOffset - rightOffset), topOffset)
+			]);
+
+			// 2. Bottom portion handles tabs and Drag & Drop functionality via Passthrough.
+			source.SetRegionRects(NonClientRegionKind.Passthrough, [
+				new RectInt32(leftOffset, topOffset, Math.Max(0, totalWidth - leftOffset - rightOffset), Math.Max(0, scaledHeight - topOffset))
+			]);
+
 			AttachTitleBarMessageMonitor();
 			return height;
+		}
 		}
 
 		// Caption regions live in a dedicated child window
