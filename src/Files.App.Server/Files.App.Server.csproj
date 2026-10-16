@@ -26,6 +26,7 @@
         <PublishAot>true</PublishAot>
         <SelfContained>true</SelfContained>
         <CsWin32RunAsBuildTask>true</CsWin32RunAsBuildTask>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 
     <ItemGroup>
