@@ -13,6 +13,7 @@
         <IsAotCompatible>true</IsAotCompatible>
         <DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
         <CsWin32RunAsBuildTask>true</CsWin32RunAsBuildTask>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 
     <ItemGroup>
