@@ -22,6 +22,8 @@ namespace Files.App.Views.Shells
 
 		private DateTimeFormats _lastDateTimeFormats;
 
+		private (StatusBarViewModel?, int, int, StatusBarItemCountFormat) _lastStatusBarItemCountState;
+
 		private Task _gitFetch = Task.CompletedTask;
 
 		private CancellationTokenSource _gitFetchToken = new CancellationTokenSource();
@@ -255,6 +257,8 @@ namespace Files.App.Views.Shells
 		{
 			if (e.PropertyName is nameof(IAppearanceSettingsService.ShowStatusBar))
 				NotifyPropertyChanged(nameof(IsStatusBarVisible));
+			else if (e.PropertyName is nameof(IAppearanceSettingsService.StatusBarItemCountFormat) && ContentPage is { } contentPage && ShellViewModel is { } shellViewModel)
+				UpdateStatusBarItemCount(contentPage, shellViewModel);
 		}
 
 		protected void FilesystemViewModel_PageTypeUpdated(object? sender, PageTypeUpdatedEventArgs e)
@@ -331,9 +335,26 @@ namespace Files.App.Views.Shells
 					headBranch);
 			}
 
-			contentPage.StatusBarViewModel.DirectoryItemCount = $"{shellViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
 			contentPage.InfoPaneViewModel.DirectoryItemCount = $"{shellViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
+			UpdateStatusBarItemCount(contentPage, shellViewModel);
 			contentPage.UpdateSelectionSize();
+		}
+
+		private void UpdateStatusBarItemCount(IBaseLayoutPage contentPage, ShellViewModel shellViewModel)
+		{
+			var itemsCount = shellViewModel.FilesAndFolders.Count;
+			var format = itemsCount == 0 ? StatusBarItemCountFormat.Total : userSettingsService.AppearanceSettingsService.StatusBarItemCountFormat;
+
+			// Most updates only report folder size progress
+			var state = (contentPage.StatusBarViewModel, itemsCount, shellViewModel.FoldersCount, format);
+			if (state == _lastStatusBarItemCountState)
+				return;
+
+			_lastStatusBarItemCountState = state;
+
+			contentPage.StatusBarViewModel.DirectoryItemCount = format is StatusBarItemCountFormat.FilesAndFolders
+				? Strings.PropertiesFilesAndFoldersCountString.GetLocalizedFormatResource(itemsCount - shellViewModel.FoldersCount, shellViewModel.FoldersCount)
+				: $"{itemsCount} {Strings.Items.GetLocalizedFormatResource(itemsCount)}";
 		}
 
 		protected async void FilesystemViewModel_GitDirectoryUpdated(object? sender, EventArgs e)
