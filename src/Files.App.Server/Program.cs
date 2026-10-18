@@ -3,6 +3,7 @@
 
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
+using Microsoft.Extensions.Logging;
 using Windows.Storage;
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -14,9 +15,10 @@ class Program
 {
 	internal static readonly TaskCompletionSource<bool> ExitSignal = new(TaskCreationOptions.RunContinuationsAsynchronously);
 	private static readonly CancellationTokenSource cancellationTokenSource = new();
-	private static readonly StreamWriter logWriter = new(Path.Combine(ApplicationData.Current.LocalFolder.Path, $"debug_server_{(Environment.IsPrivilegedProcess ? "privileged" : "unprivileged")}.log"), append: true) { AutoFlush = true };
+	private static readonly FileLoggerProvider logProvider = new(Path.Combine(ApplicationData.Current.LocalFolder.Path, $"debug_server_{(Environment.IsPrivilegedProcess ? "privileged" : "unprivileged")}.log"));
+	internal static readonly ILogger Logger = logProvider.CreateLogger(nameof(Program));
 
-	static Type[] GetActivatableTypes() => [typeof(AppInstanceMonitor)];
+	static Type[] GetActivatableTypes() => [typeof(AppService)];
 
 	static async Task Main()
 	{
@@ -25,6 +27,7 @@ class Program
 		RO_REGISTRATION_COOKIE cookie = default;
 
 		_ = PInvoke.RoInitialize(RO_INIT_TYPE.RO_INIT_MULTITHREADED);
+		ServerHost.Initialize();
 
 		var classIds = GetActivatableTypes()
 			.Select(t =>
@@ -77,12 +80,13 @@ class Program
 			{
 				PInvoke.RoRevokeActivationFactories(cookie);
 			}
+			await ServerHost.ShutdownAsync();
+			logProvider.Dispose();
 		}
 	}
 
 	private static void OnFirstChanceException(object? sender, FirstChanceExceptionEventArgs e)
 	{
-		// logWriter can be null if the exception is thrown before the logWriter is initialized
-		logWriter?.WriteLine($"{DateTime.Now}|{e.Exception}");
+		Logger?.LogDebug(e.Exception, "Server exception");
 	}
 }

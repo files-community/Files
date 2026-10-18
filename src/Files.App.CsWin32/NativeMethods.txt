@@ -151,6 +151,11 @@ GetMonitorInfo
 CLASS_E_CLASSNOTAVAILABLE
 E_INVALIDARG
 RoInitialize
+RegNotifyChangeKeyValue
+ShowWindow
+PostMessage
+UnregisterClass
+NIN_SELECT
 RoRegisterActivationFactories
 RoRevokeActivationFactories
 WindowsCreateString

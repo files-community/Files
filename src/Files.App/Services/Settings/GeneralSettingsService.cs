@@ -343,7 +343,7 @@ namespace Files.App.Services.Settings
 
 		public bool CloseToBackground
 		{
-			get => Get(false);
+			get => Get(true);
 			set => Set(value);
 		}
 

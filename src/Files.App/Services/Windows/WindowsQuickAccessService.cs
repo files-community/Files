@@ -1,19 +1,21 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 namespace Files.App.Services
 {
 	internal sealed class QuickAccessService : IQuickAccessService
 	{
-		// Quick access shell folder (::{679f85cb-0220-4080-b29b-5540cc05aab6}) contains recent files
-		// which are unnecessary for getting pinned folders, so we use frequent places shell folder instead.
-		private readonly static string guid = "::{3936e9e4-d92c-4eee-a85a-bc16d5ea0819}";
-
 		public async Task<IEnumerable<ShellFileItem>> GetPinnedFoldersAsync()
 		{
-			var result = (await Win32Helper.GetShellFolderAsync(guid, false, true, 0, int.MaxValue, "System.Home.IsPinned")).Enumerate
-				.Where(link => link.IsFolder);
-			return result;
+			var folders = await Server.AppService.GetPinnedFoldersAsync();
+			return folders.Select(folder => new ShellFileItem
+			{
+				IsFolder = true,
+				FileName = folder.Name,
+				FilePath = folder.Path,
+				PIDL = folder.Pidl,
+				Properties = new() { ["System.Home.IsPinned"] = folder.IsPinned },
+			});
 		}
 
 		public Task PinToSidebarAsync(string folderPath) => PinToSidebarAsync(new[] { folderPath });
@@ -30,6 +32,7 @@ namespace Files.App.Services
 					await ContextMenu.InvokeVerb("pintohome", folderPath);
 			}
 
+			Server.AppService.InvalidatePinnedFolders();
 			await App.QuickAccessManager.Model.LoadAsync();
 			if (doUpdateQuickAccessWidget)
 				App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, true));
@@ -79,11 +82,13 @@ namespace Files.App.Services
 
 				if (result.Failed)
 				{
+					Server.AppService.InvalidatePinnedFolders();
 					await App.QuickAccessManager.Model.LoadAsync();
 					return false;
 				}
 			}
 
+			Server.AppService.InvalidatePinnedFolders();
 			await App.QuickAccessManager.Model.LoadAsync();
 			if (doUpdateQuickAccessWidget)
 				App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, false));

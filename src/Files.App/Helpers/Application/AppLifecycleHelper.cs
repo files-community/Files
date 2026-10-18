@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.App.Helpers.Application;
@@ -111,20 +111,20 @@ namespace Files.App.Helpers
 			// Start non-critical tasks without waiting; pinned loads alongside the others so its shell enumeration doesn't block them.
 			_ = Task.Run(async () =>
 			{
-				await Task.WhenAll(
+				await SafetyExtensions.IgnoreExceptions(() => Task.WhenAll(
 					App.QuickAccessManager.InitializeAsync(),
 					OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
 					App.LibraryManager.UpdateLibrariesAsync(),
 					OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
 					OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
 					jumpListService.InitializeAsync()
-				);
+				), App.Logger);
 
 				//Start the tasks separately to reduce resource contention
-				await Task.WhenAll(
+				await SafetyExtensions.IgnoreExceptions(() => Task.WhenAll(
 					addItemService.InitializeAsync(),
 					ContextMenu.WarmUpQueryContextMenuAsync()
-				);
+				), App.Logger);
 			});
 
 			_ = Task.Run(FileTagsHelper.UpdateTagsDb);
@@ -145,7 +145,6 @@ namespace Files.App.Helpers
 				return Task.CompletedTask;
 			}
 
-			generalSettingsService.PropertyChanged += GeneralSettingsService_PropertyChanged;
 		}
 
 		/// <summary>
@@ -627,21 +626,5 @@ namespace Files.App.Helpers
 			}
 		}
 
-		/// <summary>
-		/// Updates the visibility of the system tray icon
-		/// </summary>
-		private static void GeneralSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			if (sender is not IGeneralSettingsService generalSettingsService)
-				return;
-
-			if (e.PropertyName == nameof(IGeneralSettingsService.ShowSystemTrayIcon))
-			{
-				if (generalSettingsService.ShowSystemTrayIcon)
-					App.SystemTrayIcon?.Show();
-				else
-					App.SystemTrayIcon?.Hide();
-			}
-		}
 	}
 }

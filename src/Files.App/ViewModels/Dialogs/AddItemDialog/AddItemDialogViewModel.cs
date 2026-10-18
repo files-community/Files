@@ -75,9 +75,9 @@ namespace Files.App.ViewModels.Dialogs.AddItemDialog
 			{
 				IImage? imageModel = null;
 
-				if (!string.IsNullOrEmpty(itemType.IconBase64))
+				if (itemType.IconData is { Length: > 0 })
 				{
-					byte[] bitmapData = Convert.FromBase64String(itemType.IconBase64);
+					byte[] bitmapData = itemType.IconData;
 					imageModel = await _imagingService.GetImageModelFromDataAsync(bitmapData);
 				}
 

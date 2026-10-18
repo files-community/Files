@@ -5,12 +5,12 @@ using Microsoft.Data.Sqlite;
 using System.IO;
 using Windows.Storage;
 
-namespace Files.App.Utils.Cloud
+namespace Files.App.Server.Cloud
 {
 	/// <summary>
 	/// Provides an utility for Synology Drive Cloud detection.
 	/// </summary>
-	public sealed class SynologyDriveCloudDetector : AbstractCloudDetector
+	internal sealed class SynologyDriveCloudDetector : AbstractCloudDetector
 	{
 		protected override async IAsyncEnumerable<ICloudProvider> GetProviders()
 		{
@@ -24,15 +24,12 @@ namespace Files.App.Utils.Cloud
 			// "sync_folder", which has the local folder to sync.
 
 			string appDataPath = UserDataPaths.GetDefault().LocalAppData;
-
-			var configFile = await StorageFile.GetFileFromPathAsync(Path.Combine(appDataPath, @"SynologyDrive\data\db\sys.sqlite"));
-			await configFile.CopyAsync(ApplicationData.Current.TemporaryFolder, "synology_drive.db", NameCollisionOption.ReplaceExisting);
-
-			var syncDbPath = Path.Combine(ApplicationData.Current.TemporaryFolder.Path, "synology_drive.db");
+			var databasePath = Path.Combine(appDataPath, @"SynologyDrive\data\db\sys.sqlite");
+			if (!File.Exists(databasePath))
+				yield break;
 
 			// Build the connection and SQL command
-			SQLitePCL.Batteries_V2.Init();
-			await using var database = new SqliteConnection($"Data Source='{syncDbPath}'");
+			await using var database = CreateReadOnlyConnection(databasePath);
 			await using var cmdConnection = new SqliteCommand("SELECT * FROM connection_table", database);
 			await using var cmdTable = new SqliteCommand("SELECT * FROM session_table", database);
 
@@ -40,36 +37,36 @@ namespace Files.App.Utils.Cloud
 			database.Open();
 			var connections = new Dictionary<string, (string? ConnectionType, string? HostName)>();
 
-			var reader = cmdConnection.ExecuteReader();
-			while (reader.Read())
+			using (var reader = cmdConnection.ExecuteReader())
 			{
-				var connection =
-				(
-					ConnectionType: reader["conn_type"]?.ToString(),
-					HostName: reader["host_name"]?.ToString()
-				);
+				while (reader.Read())
+				{
+					var connection =
+					(
+						ConnectionType: reader["conn_type"]?.ToString(),
+						HostName: reader["host_name"]?.ToString()
+					);
 
-				connections.Add(reader["id"]?.ToString()!, connection);
+					connections.Add(reader["id"]?.ToString()!, connection);
+				}
 			}
 
-			reader = cmdTable.ExecuteReader();
-			while (reader.Read())
+			using var sessions = cmdTable.ExecuteReader();
+			while (sessions.Read())
 			{
 				// Extract the data from the reader
-				var connectionId = reader["conn_id"]?.ToString()!;
-				if (connections[connectionId].ConnectionType is "1")
+				var connectionId = sessions["conn_id"]?.ToString()!;
+				if (connections.TryGetValue(connectionId, out var connection) && connection.ConnectionType is "1")
 				{
-					string? path = reader["sync_folder"]?.ToString();
+					string? path = sessions["sync_folder"]?.ToString();
 
 					if (string.IsNullOrWhiteSpace(path))
 						continue;
 
-					var folder = await StorageFolder.GetFolderFromPathAsync(path);
-
 					yield return new CloudProvider(CloudProviders.SynologyDrive)
 					{
 						SyncFolder = path,
-						Name = $"Synology Drive - {connections[connectionId].HostName} ({folder.Name})",
+						Name = $"Synology Drive - {connection.HostName} ({Path.GetFileName(Path.TrimEndingDirectorySeparator(path))})",
 					};
 				}
 			}

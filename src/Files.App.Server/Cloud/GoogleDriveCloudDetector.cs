@@ -7,14 +7,14 @@ using Microsoft.Win32;
 using System.IO;
 using Windows.Storage;
 
-namespace Files.App.Utils.Cloud
+namespace Files.App.Server.Cloud
 {
 	/// <summary>
 	/// Provides a utility for Google Drive Cloud detection.
 	/// </summary>
-	public sealed class GoogleDriveCloudDetector : AbstractCloudDetector
+	internal sealed class GoogleDriveCloudDetector : AbstractCloudDetector
 	{
-		private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+		private static readonly ILogger _logger = Program.Logger;
 
 		private const string _googleDriveRegKeyName = @"Software\Google\DriveFS";
 		private const string _googleDriveRegValName = "PerAccountPreferences";
@@ -32,60 +32,53 @@ namespace Files.App.Utils.Cloud
 			// Google Drive's sync database can be in a couple different locations. Go find it.
 			string appDataPath = UserDataPaths.GetDefault().LocalAppData;
 
-			await StorageFile.GetFileFromPathAsync(Path.Combine(appDataPath, @"Google\DriveFS\root_preference_sqlite.db")).AsTask()
-				.AndThen(c => c.CopyAsync(ApplicationData.Current.TemporaryFolder, "google_drive.db", NameCollisionOption.ReplaceExisting).AsTask());
-
-			// The wal file may not exist but that's ok
-			await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Path.Combine(appDataPath, @"Google\DriveFS\root_preference_sqlite.db-wal")).AsTask()
-				.AndThen(c => c.CopyAsync(ApplicationData.Current.TemporaryFolder, "google_drive.db-wal", NameCollisionOption.ReplaceExisting).AsTask()));
-
-			var syncDbPath = Path.Combine(ApplicationData.Current.TemporaryFolder.Path, "google_drive.db");
-
-			// Build the connection and sql command
-			SQLitePCL.Batteries_V2.Init();
-			await using var database = new SqliteConnection($"Data Source='{syncDbPath}'");
-			await using var cmdRoot = new SqliteCommand("SELECT * FROM roots", database);
-			await using var cmdMedia = new SqliteCommand("SELECT * FROM media WHERE fs_type=10", database);
-
-			database.Open();
-
+			var databasePath = Path.Combine(appDataPath, @"Google\DriveFS\root_preference_sqlite.db");
 			var iconFile = await GetGoogleDriveIconFileAsync();
-			var iconData = iconFile is not null ? await iconFile.ToByteArrayAsync() : null;
+			var iconData = iconFile is not null ? await File.ReadAllBytesAsync(iconFile.Path) : null;
 
-			// Synced folders (Mirror mode)
-			var reader = cmdRoot.ExecuteReader();
-			while (reader.Read())
+			if (File.Exists(databasePath))
 			{
-				string? path = reader["last_seen_absolute_path"]?.ToString();
-				if (string.IsNullOrWhiteSpace(path))
-					continue;
+				await using var database = CreateReadOnlyConnection(databasePath);
+				await using var cmdRoot = new SqliteCommand("SELECT * FROM roots", database);
+				await using var cmdMedia = new SqliteCommand("SELECT * FROM media WHERE fs_type=10", database);
+				database.Open();
 
-				// The path is prefixed with "\\?\" by default, which parts of .NET (e.g. the File class) don't handle; strip it.
-				if (path.StartsWith(@"\\?\", StringComparison.Ordinal))
-					path = path[@"\\?\".Length..];
-
-				yield return new CloudProvider(CloudProviders.GoogleDrive)
+				// Synced folders (Mirror mode)
+				using (var reader = cmdRoot.ExecuteReader())
 				{
-					Name = $"Google Drive ({reader["title"]?.ToString() ?? Path.GetFileName(path)})",
-					SyncFolder = path,
-				};
-			}
+					while (reader.Read())
+					{
+						string? path = reader["last_seen_absolute_path"]?.ToString();
+						if (string.IsNullOrWhiteSpace(path))
+							continue;
 
-			// Virtual drive mount points (File Stream)
-			reader = cmdMedia.ExecuteReader();
-			while (reader.Read())
-			{
-				string? mount = reader["last_mount_point"]?.ToString();
-				if (string.IsNullOrWhiteSpace(mount))
-					continue;
+						if (path.StartsWith(@"\\?\", StringComparison.Ordinal))
+							path = path[@"\\?\".Length..];
 
-				var path = Path.Combine(mount, "My Drive");
-				yield return new CloudProvider(CloudProviders.GoogleDrive)
+						yield return new CloudProvider(CloudProviders.GoogleDrive)
+						{
+							Name = $"Google Drive ({reader["title"]?.ToString() ?? Path.GetFileName(path)})",
+							SyncFolder = path,
+						};
+					}
+				}
+
+				// Virtual drive mount points (File Stream)
+				using var media = cmdMedia.ExecuteReader();
+				while (media.Read())
 				{
-					Name = reader["name"]?.ToString() ?? Path.GetFileName(path),
-					SyncFolder = path,
-					IconData = iconData,
-				};
+					string? mount = media["last_mount_point"]?.ToString();
+					if (string.IsNullOrWhiteSpace(mount))
+						continue;
+
+					var path = Path.Combine(mount, "My Drive");
+					yield return new CloudProvider(CloudProviders.GoogleDrive)
+					{
+						Name = media["name"]?.ToString() ?? Path.GetFileName(path),
+						SyncFolder = path,
+						IconData = iconData,
+					};
+				}
 			}
 
 			// Fall back to the base mount path from the registry (deduped downstream by path)
@@ -136,7 +129,7 @@ namespace Files.App.Utils.Cloud
 		/// </remarks>
 		public static string? GetRegistryBasePath()
 		{
-			var googleDriveRegValJson = GetGoogleDriveRegValJson();
+			using var googleDriveRegValJson = GetGoogleDriveRegValJson();
 
 			if (googleDriveRegValJson is null)
 				return null;
@@ -220,9 +213,10 @@ namespace Files.App.Utils.Cloud
 				return null;
 
 			var iconPath = Path.Combine(programFilesEnvVar, "Google", "Drive File Stream", "drive_fs.ico");
+			if (!File.Exists(iconPath))
+				return null;
 
-			var iconFileResult = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(iconPath).AsTask());
-			return iconFileResult ? iconFileResult.Result : null;
+			return await SafetyExtensions.IgnoreExceptions(() => StorageFile.GetFileFromPathAsync(iconPath).AsTask());
 		}
 	}
 }

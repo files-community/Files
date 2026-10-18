@@ -400,7 +400,7 @@ namespace Files.App.Utils.Shell
 		/// Reads the target's directory attribute from the find data persisted inside the link file,
 		/// without opening the target. Returns <see langword="null"/> when the link stores no attributes.
 		/// </summary>
-		internal bool? StoredTargetIsFolder()
+		public bool? StoredTargetIsFolder()
 		{
 			Span<char> path = stackalloc char[32768];
 			path.Clear();
@@ -411,7 +411,7 @@ namespace Files.App.Utils.Shell
 			return null;
 		}
 
-		internal bool IsTargetFolder(string expandedTargetPath)
+		public bool IsTargetFolder(string expandedTargetPath)
 		{
 			using ShellItem? targetItem = TryOpenTarget();
 			if (targetItem is not null)

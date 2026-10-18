@@ -200,13 +200,14 @@ namespace Files.App.Services
 			IsUpdating = true;
 
 			DeploymentResult? result = null;
+			var serverUpdateStarted = false;
 
 			try
 			{
 				PackageManager packageManager = new PackageManager();
 
 				var restartStatus = PInvoke.RegisterApplicationRestart(null, (REGISTER_APPLICATION_RESTART_FLAGS)0);
-				App.AppModel.ForceProcessTermination = true;
+				serverUpdateStarted = SafetyExtensions.IgnoreExceptions(Server.AppService.BeginUpdate, Logger);
 
 				Logger?.LogInformation($"Register for restart: {restartStatus}");
 
@@ -239,6 +240,9 @@ namespace Files.App.Services
 			}
 			finally
 			{
+				if (serverUpdateStarted)
+					SafetyExtensions.IgnoreExceptions(Server.AppService.EndUpdate, Logger);
+
 				// Reset fields
 				IsUpdating = false;
 				IsUpdateAvailable = false;

@@ -178,7 +178,7 @@
             <OutOfProcessServer ServerName="Files.App.Server" uap5:IdentityType="activateAsActivator">
                 <Path>Files.App.Server\Files.App.Server.exe</Path>
                 <Instancing>singleInstance</Instancing>
-                <ActivatableClass ActivatableClassId="Files.App.Server.AppInstanceMonitor" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.AppService" />
             </OutOfProcessServer>
         </Extension>
     </Extensions>
