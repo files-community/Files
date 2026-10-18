@@ -291,7 +291,7 @@ namespace Files.App.Data.Items
 		{
 			return MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				SpaceUsed = await Task.Run(() => StorageTrashBinService.GetSize());
+				SpaceUsed = await StorageTrashBinService.GetSizeAsync();
 			});
 		}
 

@@ -67,9 +67,9 @@ namespace Files.App.Views.Properties
 			RemoveLocationCommand = new RelayCommand(RemoveLocation);
 		}
 
-		protected override void Properties_Loaded(object sender, RoutedEventArgs e)
+		protected override async Task LoadPropertiesAsync()
 		{
-			base.Properties_Loaded(sender, e);
+			await base.LoadPropertiesAsync();
 
 			if (BaseProperties is LibraryProperties props)
 			{

@@ -31,8 +31,11 @@ namespace Files.App.Views
 
 		private void HomePage_Loaded(object sender, RoutedEventArgs e)
 		{
-			if (ViewModel.ReloadWidgetsCommand.CanExecute(e))
-				ViewModel.ReloadWidgetsCommand.Execute(e);
+			DispatcherQueue.TryEnqueue(() =>
+			{
+				if (IsLoaded && ViewModel.ReloadWidgetsCommand.CanExecute(e))
+					ViewModel.ReloadWidgetsCommand.Execute(e);
+			});
 		}
 
 		// Methods

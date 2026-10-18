@@ -388,9 +388,22 @@ namespace Files.App.ViewModels.UserControls
 			return control ?? null;
 		}
 
-		public async Task UpdateSelectedItemPreviewAsync(bool downloadItem = false)
+		private int previewRequestVersion;
+
+		public Task UpdateSelectedItemPreviewAsync(bool downloadItem = false)
 		{
 			CancelPreviewLoad();
+			var version = ++previewRequestVersion;
+			return App.UiDispatcher.EnqueueDeferredAsync(() =>
+			{
+				if (version != previewRequestVersion || App.AppModel.IsMainWindowClosed)
+					return Task.CompletedTask;
+				return UpdateSelectedItemPreviewCoreAsync(downloadItem);
+			});
+		}
+
+		private async Task UpdateSelectedItemPreviewCoreAsync(bool downloadItem)
+		{
 			if (contentPageContext.PageType is ContentPageTypes.ReleaseNotes || contentPageContext.PageType is ContentPageTypes.Settings)
 			{
 				PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
@@ -551,6 +564,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public void UnloadPreview()
 		{
+			previewRequestVersion++;
 			CancelPreviewLoad();
 
 			// Tear the preview host down here since the control's Unloaded event won't reliably fire while we're closing to background

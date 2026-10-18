@@ -19,7 +19,7 @@ public sealed class WindowsJumpListService : IWindowsJumpListService
 		=> await SafetyExtensions.IgnoreExceptions(async () => await Server.AppService.RemoveJumpListFolderAsync(path), App.Logger);
 
 	public async Task<IEnumerable<string>> GetFoldersAsync()
-		=> await Server.AppService.GetJumpListFoldersAsync();
+		=> (await Server.AppService.GetJumpListFoldersAsync()).ToArray();
 
 	public async Task RefreshPinnedFoldersAsync()
 		=> await SafetyExtensions.IgnoreExceptions(async () => await Server.AppService.RefreshJumpListAsync(), App.Logger);

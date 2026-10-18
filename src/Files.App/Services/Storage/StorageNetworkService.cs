@@ -87,7 +87,7 @@ namespace Files.App.Services
 				Type = DriveType.Network,
 				ItemType = NavigationControlItemType.Drive,
 				MenuOptions = new ContextMenuOptions { IsLocationItem = true, ShowShellItems = true, ShowProperties = true },
-			});
+			}).ToArray();
 		}
 
 		/// <inheritdoc/>

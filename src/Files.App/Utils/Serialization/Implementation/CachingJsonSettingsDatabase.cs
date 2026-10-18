@@ -13,7 +13,8 @@ internal sealed class CachingJsonSettingsDatabase : IJsonSettingsDatabase
 	private readonly JsonSerializerContext context;
 	private readonly Dictionary<string, JsonElement> defaults = [];
 	private readonly Lock gate = new();
-	private Dictionary<string, JsonElement>? cache;
+	private Dictionary<string, JsonElement> cache;
+	private int cacheVersion;
 	internal event Action<string, JsonElement>? Changed;
 
 	public CachingJsonSettingsDatabase(string fileName, IJsonSettingsSerializer serializer, JsonSerializerContext context)
@@ -21,6 +22,7 @@ internal sealed class CachingJsonSettingsDatabase : IJsonSettingsDatabase
 		this.fileName = fileName;
 		this.serializer = serializer;
 		this.context = context;
+		cache = ReadValues();
 		App.ServerChanged += OnServerChanged;
 	}
 
@@ -30,7 +32,6 @@ internal sealed class CachingJsonSettingsDatabase : IJsonSettingsDatabase
 	{
 		lock (gate)
 		{
-			cache ??= ReadValues();
 			if (cache.TryGetValue(key, out var value))
 				return GetValueFromElement<TValue>(value) ?? defaultValue;
 			if (defaults.TryGetValue(key, out var fallback))
@@ -43,12 +44,12 @@ internal sealed class CachingJsonSettingsDatabase : IJsonSettingsDatabase
 	public bool SetValue<TValue>(string key, TValue? value)
 	{
 		var element = GetElementFromValue(value);
+		var changed = Server.AppService.SetSetting(fileName, key, SettingsValueCodec.Encode(element));
 		lock (gate)
 		{
-			var changed = Server.AppService.SetSetting(fileName, key, SettingsValueCodec.Encode(element));
-			cache ??= ReadValues();
 			var localChanged = !cache.TryGetValue(key, out var old) || !JsonElement.DeepEquals(old, element);
 			cache[key] = element;
+			cacheVersion++;
 			defaults.Remove(key);
 			return changed || localChanged;
 		}
@@ -58,7 +59,10 @@ internal sealed class CachingJsonSettingsDatabase : IJsonSettingsDatabase
 	{
 		var changed = Server.AppService.RemoveSetting(fileName, key);
 		lock (gate)
-			cache?.Remove(key);
+		{
+			cache.Remove(key);
+			cacheVersion++;
+		}
 		return changed;
 	}
 
@@ -73,8 +77,12 @@ internal sealed class CachingJsonSettingsDatabase : IJsonSettingsDatabase
 		if (values is null)
 			return false;
 		var changed = Server.AppService.ImportSettings(fileName, SettingsValueCodec.EncodeObject(values));
+		var fresh = ReadValues();
 		lock (gate)
-			cache = null;
+		{
+			cache = fresh;
+			cacheVersion++;
+		}
 		return changed;
 	}
 
@@ -107,15 +115,23 @@ internal sealed class CachingJsonSettingsDatabase : IJsonSettingsDatabase
 		{
 			var differences = await Task.Run(() =>
 			{
-				lock (gate)
+				while (true)
 				{
+					int version;
+					lock (gate)
+						version = cacheVersion;
 					var fresh = ReadValues();
-					var previous = cache;
-					cache = fresh;
-					var changes = fresh.Where(pair => previous is null || !previous.TryGetValue(pair.Key, out var old) || !JsonElement.DeepEquals(old, pair.Value)).ToList();
-					if (previous is not null)
+					lock (gate)
+					{
+						if (version != cacheVersion)
+							continue;
+						var previous = cache;
+						cache = fresh;
+						cacheVersion++;
+						var changes = fresh.Where(pair => !previous.TryGetValue(pair.Key, out var old) || !JsonElement.DeepEquals(old, pair.Value)).ToList();
 						changes.AddRange(previous.Keys.Except(fresh.Keys).Select(key => new KeyValuePair<string, JsonElement>(key, default)));
-					return changes.ToArray();
+						return changes.ToArray();
+					}
 				}
 			});
 			foreach (var pair in differences)

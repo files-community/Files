@@ -22,10 +22,17 @@ namespace Files.App.ViewModels.Properties
 
 		public SelectedItemsPropertiesViewModel ViewModel { get; set; } = new();
 
-		protected virtual void Properties_Loaded(object sender, RoutedEventArgs e)
+		protected void Properties_Loaded(object sender, RoutedEventArgs e)
 		{
-			BaseProperties?.GetSpecialPropertiesAsync();
+			var properties = BaseProperties;
+			DispatcherQueue.TryEnqueue(() =>
+			{
+				if (IsLoaded && ReferenceEquals(BaseProperties, properties))
+					_ = SafetyExtensions.IgnoreExceptions(LoadPropertiesAsync, App.Logger);
+			});
 		}
+
+		protected virtual Task LoadPropertiesAsync() => BaseProperties?.GetSpecialPropertiesAsync() ?? Task.CompletedTask;
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{

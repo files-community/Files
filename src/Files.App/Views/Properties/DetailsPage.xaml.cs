@@ -22,9 +22,9 @@ namespace Files.App.Views.Properties
 			_updateDateDisplayTimer.Start();
 		}
 
-		protected override async void Properties_Loaded(object sender, RoutedEventArgs e)
+		protected override async Task LoadPropertiesAsync()
 		{
-			base.Properties_Loaded(sender, e);
+			await base.LoadPropertiesAsync();
 
 			if (BaseProperties is IFileProperties fileProps)
 			{

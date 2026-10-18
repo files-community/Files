@@ -107,6 +107,7 @@ namespace Files.App
 
 						// Configure Ioc here so Ioc.Default-dependent constructions warm off-thread too
 						Ioc.Default.ConfigureServices(provider);
+						_ = provider.GetRequiredService<IFileTagsSettingsService>();
 
 						// Load the appearance settings needed for the first frame off the UI thread.
 						if (isStartupTask && provider.GetRequiredService<IGeneralSettingsService>().CloseToBackground)

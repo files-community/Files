@@ -18,6 +18,32 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public Files.Core.Storage.Contracts.ITrashWatcher Watcher { get; } = new ServerTrashWatcher();
 
+		public event EventHandler? StateChanged;
+		private bool hasItems;
+		private int refreshVersion;
+
+		public StorageTrashBinService()
+		{
+			Watcher.RefreshRequested += (_, _) => QueueRefresh();
+			QueueRefresh();
+		}
+
+		private void QueueRefresh()
+		{
+			App.UiDispatcher?.TryEnqueue(() =>
+			{
+				_ = SafetyExtensions.IgnoreExceptions(async () =>
+				{
+					var version = ++refreshVersion;
+					var value = await Server.AppService.HasRecycleBinItemsAsync();
+					if (version != refreshVersion || hasItems == value)
+						return;
+					hasItems = value;
+					StateChanged?.Invoke(this, EventArgs.Empty);
+				}, App.Logger);
+			});
+		}
+
 		/// <inheritdoc/>
 		public async Task<List<ShellFileItem>> GetAllRecycleBinFoldersAsync()
 		{
@@ -25,20 +51,20 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public (bool HasRecycleBin, long NumItems, long BinSize) QueryRecycleBin(string drive = "")
+		public async Task<(bool HasRecycleBin, long NumItems, long BinSize)> QueryRecycleBinAsync(string drive = "")
 		{
-			var info = Server.AppService.QueryRecycleBinAsync(drive).AsTask().GetAwaiter().GetResult();
+			var info = await Server.AppService.QueryRecycleBinAsync(drive);
 			return (info.Available, info.Count, info.Size);
 		}
 
 		/// <inheritdoc/>
-		public ulong GetSize()
+		public async Task<ulong> GetSizeAsync()
 		{
-			return (ulong)QueryRecycleBin().BinSize;
+			return (ulong)(await QueryRecycleBinAsync()).BinSize;
 		}
 
 		/// <inheritdoc/>
-		public bool HasItems() => Server.AppService.HasRecycleBinItemsAsync().AsTask().GetAwaiter().GetResult();
+		public bool HasItems() => hasItems;
 
 		/// <inheritdoc/>
 		public bool IsUnderTrashBin(string? path)

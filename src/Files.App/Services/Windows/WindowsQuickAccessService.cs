@@ -15,7 +15,7 @@ namespace Files.App.Services
 				FilePath = folder.Path,
 				PIDL = folder.Pidl,
 				Properties = new() { ["System.Home.IsPinned"] = folder.IsPinned },
-			});
+			}).ToArray();
 		}
 
 		public Task PinToSidebarAsync(string folderPath) => PinToSidebarAsync(new[] { folderPath });

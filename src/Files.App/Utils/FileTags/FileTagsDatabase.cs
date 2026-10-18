@@ -160,19 +160,25 @@ namespace Files.App.Utils.FileTags
 			return FindTag(filePath, frn)?.Tags ?? [];
 		}
 
-		public IEnumerable<TaggedFile> GetAll()
+		public async Task<IEnumerable<TaggedFile>> GetAllAsync()
 		{
-			var items = Server.AppService.GetTaggedFilesAsync().AsTask().GetAwaiter().GetResult();
+			var items = await Server.AppService.GetTaggedFilesAsync();
 			return items.Select(item => new TaggedFile { FilePath = item.Path, Frn = item.FileId, Tags = item.Tags }).ToArray();
 		}
 
 		public IEnumerable<TaggedFile> GetAllUnderPath(string folderPath)
 		{
+			return GetAllUnderPathAsync(folderPath).GetAwaiter().GetResult();
+		}
+
+		public async Task<IEnumerable<TaggedFile>> GetAllUnderPathAsync(string folderPath)
+		{
+			var items = await GetAllAsync();
 			if (string.IsNullOrEmpty(folderPath))
-				return GetAll();
+				return items;
 			var folder = folderPath.Replace('/', '\\').TrimEnd('\\');
 			var prefix = folder + "\\";
-			return GetAll().Where(item => item.FilePath.Equals(folder, StringComparison.OrdinalIgnoreCase)
+			return items.Where(item => item.FilePath.Equals(folder, StringComparison.OrdinalIgnoreCase)
 				|| item.FilePath.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
 		}
 
