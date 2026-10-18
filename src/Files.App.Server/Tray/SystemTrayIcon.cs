@@ -137,15 +137,20 @@ namespace Files.App.Server
 			var assetFolder = appEnvironment.Contains("preview", StringComparison.Ordinal) ? "Preview"
 				: appEnvironment.Contains("stable", StringComparison.Ordinal) ? "Release" : "Dev";
 			_Icon = new(System.IO.Path.Combine(Package.Current.InstalledPath, "Assets", "AppTiles", assetFolder, "Logo.ico"));
-			_Tooltip = Package.Current.DisplayName;
+			_Tooltip = $"{Package.Current.DisplayName}{(Environment.IsPrivilegedProcess ? $" ({resources.GetString("FilesRunningAsAdmin")})" : string.Empty)}";
 			_taskbarRestartMessageId = PInvoke.RegisterWindowMessage("TaskbarCreated");
 
-			Id = appEnvironment switch
+			Id = (appEnvironment, Environment.IsPrivilegedProcess) switch
 			{
-				"sideloadpreview" => new("684F2832-AC2B-4630-98C2-73D6AEBD4002"),
-				"storepreview" => new("684F2832-AC2B-4630-98C2-73D6AEBD4003"),
-				"sideloadstable" => new("684F2832-AC2B-4630-98C2-73D6AEBD4004"),
-				"storestable" => new("684F2832-AC2B-4630-98C2-73D6AEBD4005"),
+				("sideloadpreview", false) => new("684F2832-AC2B-4630-98C2-73D6AEBD4002"),
+				("storepreview", false) => new("684F2832-AC2B-4630-98C2-73D6AEBD4003"),
+				("sideloadstable", false) => new("684F2832-AC2B-4630-98C2-73D6AEBD4004"),
+				("storestable", false) => new("684F2832-AC2B-4630-98C2-73D6AEBD4005"),
+				("sideloadpreview", true) => new("684F2832-AC2B-4630-98C2-73D6AEBD5002"),
+				("storepreview", true) => new("684F2832-AC2B-4630-98C2-73D6AEBD5003"),
+				("sideloadstable", true) => new("684F2832-AC2B-4630-98C2-73D6AEBD5004"),
+				("storestable", true) => new("684F2832-AC2B-4630-98C2-73D6AEBD5005"),
+				(_, true) => new("684F2832-AC2B-4630-98C2-73D6AEBD5001"),
 				_ => new("684F2832-AC2B-4630-98C2-73D6AEBD4001"),
 			};
 			_IconWindow = new SystemTrayIconWindow(this);
