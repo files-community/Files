@@ -16,6 +16,8 @@
 
     <ItemGroup>
         <PackageReference Include="FluentFTP" />
+        <PackageReference Include="DiscUtils.Udf" />
+        <PackageReference Include="System.Drawing.Common" />
     </ItemGroup>
 
     <ItemGroup>

@@ -13,7 +13,6 @@ namespace Files.App.Services
 	{
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
 
-		private readonly static string guid = "::{f02c1a0d-be21-4350-88b0-7367fc96ef3c}";
 
 		// Virtual disk path prefixes that don't work with Windows networking APIs
 		private readonly static string[] VirtualDiskPrefixes =
@@ -45,6 +44,7 @@ namespace Files.App.Services
 		/// </summary>
 		public NetworkService()
 		{
+			App.ServerChanged += OnServerChanged;
 			var networkItem = new DriveItem()
 			{
 				DeviceID = "network-folder",
@@ -66,81 +66,27 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public async Task<IEnumerable<IFolder>> GetComputersAsync()
+		private async void OnServerChanged(object? sender, string name)
 		{
-			var result = await Win32Helper.GetShellFolderAsync(guid, false, true, 0, int.MaxValue);
-
-			return result.Enumerate.Where(item => item.IsFolder).Select(item =>
-			{
-				var networkItem = new DriveItem()
-				{
-					Text = item.FileName,
-					Path = item.FilePath,
-					DeviceID = item.FilePath,
-					Type = DriveType.Network,
-					ItemType = NavigationControlItemType.Drive,
-				};
-
-				networkItem.MenuOptions = new ContextMenuOptions()
-				{
-					IsLocationItem = true,
-					ShowEjectDevice = networkItem.IsRemovable,
-					ShowShellItems = true,
-					ShowProperties = true,
-				};
-
-				return networkItem;
-			});
+			if (name == "Network")
+				await SafetyExtensions.IgnoreExceptions(UpdateShortcutsAsync, App.Logger);
 		}
 
-		/// <inheritdoc/>
-		public async Task<IEnumerable<IFolder>> GetShortcutsAsync()
+		public Task<IEnumerable<IFolder>> GetComputersAsync() => GetLocationsAsync(false);
+
+		public Task<IEnumerable<IFolder>> GetShortcutsAsync() => GetLocationsAsync(true);
+
+		private static async Task<IEnumerable<IFolder>> GetLocationsAsync(bool shortcuts)
 		{
-			var networkLocations = await STATask.Run(() =>
+			var locations = await Server.AppService.GetNetworkLocationsAsync(shortcuts);
+			return locations.Select(item => new DriveItem
 			{
-				var locations = new List<ShellLinkItem>();
-				using (var netHood = new ShellFolder(PInvoke.FOLDERID_NetHood))
-				{
-					foreach (var item in netHood)
-					{
-						if (item is ShellLink link)
-						{
-							if (ShellFolderExtensions.GetShellLinkItem(link) is { } linkItem)
-								locations.Add(linkItem);
-						}
-						else
-						{
-							var linkPath = item.Properties["System.Link.TargetParsingPath"] as string;
-							if (linkPath is not null &&
-								ShellFolderExtensions.GetShellFileItem(item) is { } linkItem)
-							{
-								locations.Add(new(linkItem) { TargetPath = linkPath });
-							}
-						}
-					}
-				}
-				return locations;
-			}, App.Logger);
-
-			return (networkLocations ?? Enumerable.Empty<ShellLinkItem>()).Select(item =>
-			{
-				var networkItem = new DriveItem()
-				{
-					Text = item.FileName,
-					Path = item.TargetPath,
-					DeviceID = item.FilePath,
-					Type = DriveType.Network,
-					ItemType = NavigationControlItemType.Drive,
-				};
-
-				networkItem.MenuOptions = new ContextMenuOptions()
-				{
-					IsLocationItem = true,
-					ShowEjectDevice = networkItem.IsRemovable,
-					ShowShellItems = true,
-					ShowProperties = true,
-				};
-				return networkItem;
+				Text = item.Name,
+				Path = item.Path,
+				DeviceID = item.Identity,
+				Type = DriveType.Network,
+				ItemType = NavigationControlItemType.Drive,
+				MenuOptions = new ContextMenuOptions { IsLocationItem = true, ShowShellItems = true, ShowProperties = true },
 			});
 		}
 

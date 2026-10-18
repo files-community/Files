@@ -34,11 +34,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		// Fields
 
 		// TODO: Replace with IMutableFolder.GetWatcherAsync() once it gets implemented in IWindowsStorable
-		private readonly SystemIO.FileSystemWatcher? _quickAccessFolderWatcher;
 		private bool isDisposed;
 		private int _refreshVersion;
 
-		private sealed record FolderSnapshot(IAgileReference ShellItem, string Text, string Path, bool IsPinned, string Tooltip);
 
 		// Constructor
 
@@ -50,28 +48,15 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			PinToSidebarCommand = new AsyncRelayCommand<WidgetFolderCardItem>(ExecutePinToSidebarCommand);
 			UnpinFromSidebarCommand = new AsyncRelayCommand<WidgetFolderCardItem>(ExecuteUnpinFromSidebarCommand);
 
-			var automaticDestinationsPath = SystemIO.Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Recent", "AutomaticDestinations");
-			if (!SystemIO.Directory.Exists(automaticDestinationsPath))
-				return;
-
-			_quickAccessFolderWatcher = new()
-			{
-				Path = automaticDestinationsPath,
-				Filter = "f01b4d95cf55d32a.automaticDestinations-ms",
-				NotifyFilter = SystemIO.NotifyFilters.LastAccess | SystemIO.NotifyFilters.LastWrite | SystemIO.NotifyFilters.FileName
-			};
-
-			_quickAccessFolderWatcher.Changed += QuickAccessFolderWatcher_Changed;
-
-			_quickAccessFolderWatcher.EnableRaisingEvents = true;
+			App.ServerChanged += OnServerChanged;
 		}
 
 		// Methods
 
-		private async void QuickAccessFolderWatcher_Changed(object sender, SystemIO.FileSystemEventArgs e)
+		private async void OnServerChanged(object? sender, string name)
 		{
-			if (!isDisposed)
-				await RefreshWidgetAsync();
+			if (!isDisposed && name == "PinnedFolders")
+				await SafetyExtensions.IgnoreExceptions(RefreshWidgetAsync, App.Logger);
 		}
 
 		public Task RefreshWidgetAsync()
@@ -82,28 +67,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					return;
 
 				var refreshVersion = ++_refreshVersion;
-				var homeFolder = HomePageContext.HomeFolder;
-				var folders = await STATask.RunPooled(() =>
-				{
-					List<FolderSnapshot> result = [];
-					// The Shell enumerator and its metadata reads stay on this persistent STA.
-					foreach (IWindowsStorable folder in homeFolder.GetQuickAccessFolderAsync().ToBlockingEnumerable())
-					{
-						using (folder)
-						{
-							folder.GetPropertyValue<bool>("System.Home.IsPinned", out var isPinned);
-							folder.TryGetShellTooltip(out var tooltip);
-							var text = folder.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI);
-							var path = folder.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING);
-							var hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, typeof(IShellItem).GUID, folder.ThisPtr, out IAgileReference shellItem);
-							if (hr.ThrowIfFailedOnDebug().Failed)
-								continue;
-
-							result.Add(new(shellItem, text, path, isPinned, tooltip ?? string.Empty));
-						}
-					}
-					return result;
-				}, App.Logger);
+				var folders = await Server.AppService.GetPinnedFoldersAsync();
 
 				if (isDisposed || refreshVersion != _refreshVersion || folders is null)
 					return;
@@ -115,10 +79,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 				foreach (var folder in folders)
 				{
-					if (folder.ShellItem.Resolve(out IShellItem shellItem).ThrowIfFailedOnDebug().Failed)
-						continue;
-
-					Items.Add(new WidgetFolderCardItem(new WindowsFolder(shellItem), folder.Text, folder.Path, folder.IsPinned, folder.Tooltip));
+					using var shellItem = ShellItem.Open(new ShellPidl(folder.Pidl));
+					Items.Add(new WidgetFolderCardItem(new WindowsFolder(shellItem.IShellItem), folder.Name, folder.ParsingPath, folder.IsPinned, folder.Tooltip));
 				}
 			});
 		}
@@ -359,12 +321,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			isDisposed = true;
 			Items.CollectionChanged -= Items_CollectionChanged;
-			if (_quickAccessFolderWatcher is not null)
-			{
-				_quickAccessFolderWatcher.EnableRaisingEvents = false;
-				_quickAccessFolderWatcher.Changed -= QuickAccessFolderWatcher_Changed;
-				_quickAccessFolderWatcher.Dispose();
-			}
+			App.ServerChanged -= OnServerChanged;
 
 			foreach (var item in Items)
 				item.Dispose();

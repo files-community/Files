@@ -38,63 +38,16 @@ namespace Files.App.Data.Models
 			drives = [];
 
 			watcher = removableDrivesService.CreateWatcher();
-			watcher.DeviceAdded += Watcher_DeviceAdded;
-			watcher.DeviceRemoved += Watcher_DeviceRemoved;
-			watcher.DeviceModified += Watcher_DeviceModified;
-			watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
+			watcher.Changed += Watcher_Changed;
 		}
 
-		private async void Watcher_EnumerationCompleted(object? sender, System.EventArgs e)
+		private async void Watcher_Changed(object? sender, EventArgs e)
 		{
-			logger.LogDebug("Watcher_EnumerationCompleted");
-			await folderSizeProvider.CleanAsync();
-		}
-
-		private async void Watcher_DeviceModified(object? sender, string e)
-		{
-			var matchingDriveEjected = Drives.FirstOrDefault(x => Path.GetFullPath(x.Id).Equals(Path.GetFullPath(e), StringComparison.OrdinalIgnoreCase));
-			if (matchingDriveEjected != null)
-				await removableDrivesService.UpdateDrivePropertiesAsync(matchingDriveEjected);
-		}
-
-		private void Watcher_DeviceRemoved(object? sender, string e)
-		{
-			logger.LogInformation($"Drive removed: {e}");
-			lock (Drives)
+			await SafetyExtensions.IgnoreExceptions(async () =>
 			{
-				// Depending on the event source, drives are identified by a drive letter
-				// or a device interface ID, so match on either.
-				var drive = Drives.FirstOrDefault(x =>
-					(x as DriveItem)?.DeviceID == e ||
-					x.Id.TrimEnd('\\').Equals(e.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase));
-				if (drive is not null)
-					Drives.Remove(drive);
-			}
-
-			// Update the collection on the ui-thread.
-			Watcher_EnumerationCompleted(null, EventArgs.Empty);
-		}
-
-		private void Watcher_DeviceAdded(object? sender, IFolder e)
-		{
-			lock (Drives)
-			{
-				// If drive already in list, remove it first.
-				var matchingDrive = Drives.FirstOrDefault(x =>
-					(x as DriveItem)?.DeviceID == (e as DriveItem)?.DeviceID ||
-					(string.IsNullOrEmpty(e.Id)
-						? x.Id.Contains(e.Name, StringComparison.OrdinalIgnoreCase)
-						: Path.GetFullPath(x.Id).Equals(Path.GetFullPath(e.Id), StringComparison.OrdinalIgnoreCase))
-				);
-
-				if (matchingDrive is not null)
-					Drives.Remove(matchingDrive);
-
-				logger.LogInformation($"Drive added: {e.Id}");
-				InsertSorted(e);
-			}
-
-			Watcher_EnumerationCompleted(null, EventArgs.Empty);
+				await UpdateDrivesAsync();
+				await folderSizeProvider.CleanAsync();
+			}, logger);
 		}
 
 		public async Task UpdateDrivesAsync()
@@ -174,10 +127,7 @@ namespace Files.App.Data.Models
 		public void Dispose()
 		{
 			watcher.Stop();
-			watcher.DeviceAdded -= Watcher_DeviceAdded;
-			watcher.DeviceRemoved -= Watcher_DeviceRemoved;
-			watcher.DeviceModified -= Watcher_DeviceModified;
-			watcher.EnumerationCompleted -= Watcher_EnumerationCompleted;
+			watcher.Changed -= Watcher_Changed;
 		}
 	}
 }

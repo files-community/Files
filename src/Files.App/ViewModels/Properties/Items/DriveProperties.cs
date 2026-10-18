@@ -80,12 +80,13 @@ namespace Files.App.ViewModels.Properties
 
 			try
 			{
-				var syncRootStatus = await SyncRootHelpers.GetSyncRootQuotaAsync(drivePath);
-				if (syncRootStatus.Success)
+				var syncRootStatus = await Server.AppService.GetDrivePropertiesAsync(drivePath, true);
+				if (syncRootStatus.Available)
 				{
+					ViewModel.DriveFileSystem = syncRootStatus.FileSystem;
 					ViewModel.DriveCapacityValue = syncRootStatus.Capacity;
-					ViewModel.DriveUsedSpaceValue = syncRootStatus.Used;
-					ViewModel.DriveFreeSpaceValue = syncRootStatus.Capacity - syncRootStatus.Used;
+					ViewModel.DriveUsedSpaceValue = (syncRootStatus.Capacity - syncRootStatus.FreeSpace);
+					ViewModel.DriveFreeSpaceValue = syncRootStatus.Capacity - (syncRootStatus.Capacity - syncRootStatus.FreeSpace);
 					return;
 				}
 			}

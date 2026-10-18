@@ -91,17 +91,14 @@ namespace Files.App.Services.Settings
 
 		public UserSettingsService()
 		{
-			var settingsSerializer = new DefaultSettingsSerializer();
-			SettingsSerializer = settingsSerializer;
-
-			Initialize(Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.UserSettingsFileName));
-
-			var jsonSettingsSerializer = new DefaultJsonSettingsSerializer();
-			JsonSettingsSerializer = jsonSettingsSerializer;
-			JsonSettingsDatabase = new CachingJsonSettingsDatabase(
-				settingsSerializer,
-				jsonSettingsSerializer,
-				UserSettingsJsonSerializationContext.Default);
+			JsonSettingsSerializer = new DefaultJsonSettingsSerializer();
+			var database = new CachingJsonSettingsDatabase(Constants.LocalSettings.UserSettingsFileName, JsonSettingsSerializer, UserSettingsJsonSerializationContext.Default);
+			JsonSettingsDatabase = database;
+			IsAvailable = true;
+			database.Changed += (name, value) =>
+			{
+				RaiseOnSettingChangedEvent(this, new SettingChangedEventArgs(name, value));
+			};
 		}
 
 		public override object ExportSettings()

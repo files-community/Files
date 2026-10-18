@@ -3,12 +3,8 @@
 
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
-using System.IO;
-using System.Net.Http;
-using System.Text;
 using Windows.Foundation.Metadata;
 using Windows.Services.Store;
-using Windows.Storage;
 using WinRT.Interop;
 
 namespace Files.App.Services
@@ -56,6 +52,7 @@ namespace Files.App.Services
 		public StoreUpdateService()
 		{
 			_updatePackages = [];
+			App.ServerChanged += OnServerChanged;
 		}
 
 		public async Task DownloadUpdatesAsync()
@@ -131,17 +128,7 @@ namespace Files.App.Services
 
 		public async Task CheckForReleaseNotesAsync()
 		{
-			using var client = new HttpClient();
-
-			try
-			{
-				var response = await client.GetAsync(Constants.ExternalUrl.ReleaseNotesUrl);
-				AreReleaseNotesAvailable = response.IsSuccessStatusCode;
-			}
-			catch
-			{
-				AreReleaseNotesAvailable = false;
-			}
+			AreReleaseNotesAvailable = await SafetyExtensions.IgnoreExceptions(async () => await Server.AppService.CheckReleaseNotesAsync(), App.Logger);
 		}
 
 		private async Task DownloadAndInstallAsync()
@@ -153,7 +140,9 @@ namespace Files.App.Services
 
 			try
 			{
-				var downloadOperation = _storeContext?.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
+				_storeContext ??= StoreContext.GetDefault();
+				InitializeWithWindow.Initialize(_storeContext, MainWindow.Instance.WindowHandle);
+				var downloadOperation = _storeContext.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
 
 				if (downloadOperation is null)
 					return;
@@ -183,18 +172,18 @@ namespace Files.App.Services
 		{
 			try
 			{
-				_storeContext ??= await Task.Run(StoreContext.GetDefault);
-
-				InitializeWithWindow.Initialize(_storeContext, MainWindow.Instance.WindowHandle);
-
-				var updateList = await _storeContext.GetAppAndOptionalStorePackageUpdatesAsync();
-				_updatePackages = updateList?.ToList();
+				_updatePackages = (await Server.AppService.GetStoreUpdatesAsync()).ToList();
 			}
 			catch (Exception ex)
 			{
-				// GetAppAndOptionalStorePackageUpdatesAsync throws for unknown reasons.
-				App.Logger.LogWarning(ex, ex.Message);
+				App.Logger.LogWarning(ex, "Could not check Store updates.");
 			}
+		}
+
+		private async void OnServerChanged(object? sender, string name)
+		{
+			if (name == "Updates" && !IsUpdating)
+				await SafetyExtensions.IgnoreExceptions(CheckForUpdatesAsync, App.Logger);
 		}
 
 		private static async Task<bool> ShowDialogAsync()
@@ -218,49 +207,7 @@ namespace Files.App.Services
 
 		public async Task CheckAndUpdateFilesLauncherAsync()
 		{
-			var destFolderPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, "Files");
-			var destExeFilePath = Path.Combine(destFolderPath, "Files.App.Launcher.exe");
-			var branchFilePath = Path.Combine(destFolderPath, "Branch.txt");
-
-			// If Files.App.Launcher.exe doesn't exist, no need to update it.
-			if (!File.Exists(destExeFilePath))
-				return;
-
-			// Check if the launcher file is associated with the current branch of the app.
-			if (File.Exists(branchFilePath))
-			{
-				try
-				{
-					var branch = await File.ReadAllTextAsync(branchFilePath, Encoding.UTF8);
-					if (!string.Equals(branch.Trim(), "files-dev", StringComparison.OrdinalIgnoreCase))
-						return;
-				}
-				catch { }
-			}
-			else
-			{
-				try
-				{
-					// Create branch file for users updating from versions earlier than v4.0.20.
-					await File.WriteAllTextAsync(branchFilePath, "files-dev", Encoding.UTF8);
-				}
-				catch { }
-			}
-
-			try
-			{
-				var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/Files.App.Launcher.exe"));
-				var destFolder = await StorageFolder.GetFolderFromPathAsync(destFolderPath);
-
-				await srcExeFile.CopyAsync(destFolder, "Files.App.Launcher.exe", NameCollisionOption.ReplaceExisting);
-
-				App.Logger.LogInformation("Files.App.Launcher updated.");
-			}
-			catch (Exception ex)
-			{
-				// COMException 0x80070020 when the launcher exe is locked by a running instance or antivirus scan
-				App.Logger.LogError(ex, ex.Message);
-			}
+			await SafetyExtensions.IgnoreExceptions(async () => await Server.AppService.UpdateLauncherAsync(), App.Logger);
 		}
 
 		private bool HasUpdates()

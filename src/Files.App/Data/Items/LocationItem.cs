@@ -315,6 +315,7 @@ namespace Files.App.Data.Items
 		{
 			StorageTrashBinService.Watcher.ItemAdded += RefreshSpaceUsed;
 			StorageTrashBinService.Watcher.ItemDeleted += RefreshSpaceUsed;
+			StorageTrashBinService.Watcher.RefreshRequested += RefreshSpaceUsed;
 
 			_ = RefreshSpaceUsedAsync();
 		}

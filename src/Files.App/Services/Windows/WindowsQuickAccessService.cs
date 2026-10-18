@@ -106,20 +106,13 @@ namespace Files.App.Services
 			if (Equals(items, App.QuickAccessManager.Model.PinnedFolders.ToArray()))
 				return;
 
-			if (App.QuickAccessManager.PinnedItemsWatcher is not null)
-				App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
-
 			// Unpin every item that is below this index and then pin them all in order
 			if (!await UnpinFromSidebarAsync([], false))
 			{
-				if (App.QuickAccessManager.PinnedItemsWatcher is not null)
-					App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;
 				return;
 			}
 
 			await PinToSidebarAsync(items, false);
-			if (App.QuickAccessManager.PinnedItemsWatcher is not null)
-				App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;
 
 			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(items, true)
 			{

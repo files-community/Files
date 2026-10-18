@@ -179,9 +179,19 @@
             <ProxyStub ClassId="00000355-0000-0000-C000-000000000046">
                 <Path>Files.App.Server.winmd</Path>
                 <Interface Name="Windows.Foundation.Collections.IIterable`1&lt;Files.App.Server.ShellNewEntryInfo&gt;" InterfaceId="f84606bf-a1f7-52dd-a029-d07684e16d31" />
+                <Interface Name="Windows.Foundation.Collections.IIterator`1&lt;Files.App.Server.ShellNewEntryInfo&gt;" InterfaceId="a8fb8429-971b-527d-b989-86b48406ee5f" />
                 <Interface Name="Windows.Foundation.Collections.IIterable`1&lt;Files.App.Server.PinnedFolderInfo&gt;" InterfaceId="f063ac3f-49df-561b-8072-a923b6d44fec" />
+                <Interface Name="Windows.Foundation.Collections.IIterator`1&lt;Files.App.Server.PinnedFolderInfo&gt;" InterfaceId="e60393f0-1f35-5d30-85a3-acac426e7d2f" />
                 <Interface Name="Windows.Foundation.Collections.IIterable`1&lt;Files.App.Server.CloudProviderInfo&gt;" InterfaceId="641709d3-d091-5427-a93b-789cd4eabe73" />
+                <Interface Name="Windows.Foundation.Collections.IIterator`1&lt;Files.App.Server.CloudProviderInfo&gt;" InterfaceId="c2755e73-7dd9-540f-882a-9da3d64a8125" />
                 <Interface Name="Windows.Foundation.Collections.IIterable`1&lt;Files.App.Server.LibraryInfo&gt;" InterfaceId="1e6b2a4a-8e22-5e39-96d8-532fe4a50b60" />
+                <Interface Name="Windows.Foundation.Collections.IIterator`1&lt;Files.App.Server.LibraryInfo&gt;" InterfaceId="7cd1cab2-0275-5a0d-aa21-8c9da450165b" />
+                <Interface Name="Windows.Foundation.Collections.IIterable`1&lt;Files.App.Server.TaggedFileInfo&gt;" InterfaceId="185d3db2-725b-5285-b93f-a845caa21ab1" />
+                <Interface Name="Windows.Foundation.Collections.IIterator`1&lt;Files.App.Server.TaggedFileInfo&gt;" InterfaceId="b4830ec0-3e8f-5254-b368-08bfa05fbbca" />
+                <Interface Name="Windows.Foundation.Collections.IIterable`1&lt;Files.App.Server.MenuEntryInfo&gt;" InterfaceId="666946c3-08c8-50d8-a955-5ac019e395e4" />
+                <Interface Name="Windows.Foundation.Collections.IIterator`1&lt;Files.App.Server.MenuEntryInfo&gt;" InterfaceId="fae943cd-1ffd-58ff-8b1e-ee4b62fbdb28" />
+                <Interface Name="Windows.Foundation.Collections.IIterable`1&lt;Files.App.Server.ShellLocationInfo&gt;" InterfaceId="25081955-244a-5976-8d48-c767882169d7" />
+                <Interface Name="Windows.Foundation.Collections.IIterator`1&lt;Files.App.Server.ShellLocationInfo&gt;" InterfaceId="0de9fdd7-56fd-5b0b-9c45-3d02d5b65b39" />
                 <Interface Name="Windows.Foundation.Collections.IIterable`1&lt;String&gt;" InterfaceId="e2fcc7c1-3bfc-5a0b-b2b0-72e769d1cb7e" />
             </ProxyStub>
         </Extension>

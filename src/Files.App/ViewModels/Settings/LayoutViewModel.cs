@@ -23,6 +23,43 @@ namespace Files.App.ViewModels.Settings
 			// Grouping options
 			SelectedDefaultGroupingIndex = UserSettingsService.LayoutSettingsService.DefaultGroupOption == GroupOption.FileTag ? FileTagGroupingIndex : (int)UserSettingsService.LayoutSettingsService.DefaultGroupOption;
 			SelectedDefaultGroupByDateUnitIndex = (int)UserSettingsService.LayoutSettingsService.DefaultGroupByDateUnit;
+			UserSettingsService.OnSettingChangedEvent += OnSharedSettingChanged;
+		}
+
+		private void OnSharedSettingChanged(object? sender, SettingChangedEventArgs e)
+		{
+			if (e.NewValue is not JsonElement)
+				return;
+
+			var settings = UserSettingsService.LayoutSettingsService;
+			switch (e.SettingName)
+			{
+				case nameof(ILayoutSettingsService.DefaultLayoutMode):
+					SetProperty(ref selectedDefaultLayoutModeIndex, (int)settings.DefaultLayoutMode, nameof(SelectedDefaultLayoutModeIndex));
+					break;
+				case nameof(ILayoutSettingsService.DefaultSortOption):
+					SetProperty(ref selectedDefaultSortingIndex, settings.DefaultSortOption == SortOption.FileTag ? FileTagSortingIndex : (int)settings.DefaultSortOption, nameof(SelectedDefaultSortingIndex));
+					break;
+				case nameof(ILayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
+				case nameof(ILayoutSettingsService.DefaultSortFilesFirst):
+					SetProperty(ref selectedDefaultSortPriorityIndex, settings.DefaultSortDirectoriesAlongsideFiles ? 2 : settings.DefaultSortFilesFirst ? 1 : 0, nameof(SelectedDefaultSortPriorityIndex));
+					break;
+				case nameof(ILayoutSettingsService.DefaultGroupOption):
+					SetProperty(ref selectedDefaultGroupingIndex, settings.DefaultGroupOption == GroupOption.FileTag ? FileTagGroupingIndex : (int)settings.DefaultGroupOption, nameof(SelectedDefaultGroupingIndex));
+					OnPropertyChanged(nameof(IsDefaultGrouped));
+					OnPropertyChanged(nameof(IsGroupByDate));
+					break;
+				case nameof(ILayoutSettingsService.DefaultGroupByDateUnit):
+					SetProperty(ref defaultGroupByDateUnitIndex, (int)settings.DefaultGroupByDateUnit, nameof(SelectedDefaultGroupByDateUnitIndex));
+					break;
+				case nameof(ILayoutSettingsService.DefaultDirectorySortDirection):
+					OnPropertyChanged(nameof(SortInDescendingOrder));
+					break;
+				case nameof(ILayoutSettingsService.DefaultDirectoryGroupDirection):
+					OnPropertyChanged(nameof(GroupInDescendingOrder));
+					break;
+			}
+			OnPropertyChanged(e.SettingName);
 		}
 
 		// Properties

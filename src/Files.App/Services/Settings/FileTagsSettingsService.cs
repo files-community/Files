@@ -35,18 +35,16 @@ namespace Files.App.Services.Settings
 
 		public FileTagsSettingsService()
 		{
-			var settingsSerializer = new DefaultSettingsSerializer();
-			SettingsSerializer = settingsSerializer;
-
-			Initialize(Path.Combine(ApplicationData.Current.LocalFolder.Path,
-				Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.FileTagSettingsFileName));
-
-			var jsonSettingsSerializer = new DefaultJsonSettingsSerializer();
-			JsonSettingsSerializer = jsonSettingsSerializer;
-			JsonSettingsDatabase = new CachingJsonSettingsDatabase(
-				settingsSerializer,
-				jsonSettingsSerializer,
-				FileTagsSettingsJsonSerializationContext.Default);
+			JsonSettingsSerializer = new DefaultJsonSettingsSerializer();
+			var database = new CachingJsonSettingsDatabase(Constants.LocalSettings.FileTagSettingsFileName, JsonSettingsSerializer, FileTagsSettingsJsonSerializationContext.Default);
+			JsonSettingsDatabase = database;
+			IsAvailable = true;
+			database.Changed += (name, value) =>
+			{
+				RaiseOnSettingChangedEvent(this, new SettingChangedEventArgs(name, value));
+				if (name == nameof(FileTagList))
+					OnTagsUpdated?.Invoke(this, EventArgs.Empty);
+			};
 		}
 
 		public IList<TagViewModel> FileTagList

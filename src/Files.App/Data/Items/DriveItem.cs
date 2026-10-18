@@ -248,6 +248,29 @@ namespace Files.App.Data.Items
 			DriveHelpers.EjectDeviceAsync(drivePath);
 		}
 
+		internal static DriveItem FromServer(Server.DriveItemInfo info)
+		{
+			var icon = info.Icon;
+			var item = new DriveItem
+			{
+				Text = info.Name,
+				Type = (DriveType)info.Kind,
+				Path = string.IsNullOrEmpty(info.Root.Path) ? $"\\\\?\\{info.Root.Name}\\" : info.Root.Path,
+				DeviceID = info.Id.TrimEnd('\\'),
+				Root = info.Root,
+				IconData = icon.Length == 0 ? null : icon,
+			};
+			item.MenuOptions = new ContextMenuOptions
+			{
+				IsLocationItem = true,
+				ShowEjectDevice = item.IsRemovable,
+				ShowShellItems = true,
+				ShowProperties = true,
+			};
+			_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(item.UpdatePropertiesAsync);
+			return item;
+		}
+
 		public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, string label, DriveType type, IRandomAccessStream? imageStream = null)
 		{
 			var item = new DriveItem();
@@ -282,57 +305,13 @@ namespace Files.App.Data.Items
 		{
 			try
 			{
-				// For cloud drives, try to get quota from the sync root provider first
-				if (Type == DriveType.CloudDrive)
-				{
-					try
-					{
-						var drivePath = Path
-							?? throw new InvalidOperationException("The drive path has not been initialized.");
-						var syncRootStatus = await SyncRootHelpers.GetSyncRootQuotaAsync(drivePath);
-						if (syncRootStatus.Success)
-						{
-							MaxSpace = ByteSize.FromBytes(syncRootStatus.Capacity);
-							SpaceUsed = ByteSize.FromBytes(syncRootStatus.Used);
-							FreeSpace = MaxSpace - SpaceUsed;
-
-							SpaceText = GetSizeString();
-
-							if (MaxSpace.Bytes > 0)
-								PercentageUsed = 100.0f - (float)(FreeSpace.Bytes / MaxSpace.Bytes) * 100.0f;
-
-							OnPropertyChanged(nameof(ShowDriveDetails));
-							return;
-						}
-					}
-					catch { }
-				}
-
-				var root = Root ?? throw new InvalidOperationException("The drive root has not been initialized.");
-				var properties = await root.Properties.RetrievePropertiesAsync((string[])["System.FreeSpace", "System.Capacity", "System.Volume.FileSystem"])
-					.AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
-
-				if (properties is not null && properties["System.Capacity"] is not null && properties["System.FreeSpace"] is not null)
-				{
-					MaxSpace = ByteSize.FromBytes((ulong)properties["System.Capacity"]);
-					FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
-					SpaceUsed = MaxSpace - FreeSpace;
-
-					SpaceText = GetSizeString();
-
-					if (MaxSpace.Bytes > 0 && FreeSpace.Bytes > 0) // Make sure we don't divide by 0
-						PercentageUsed = 100.0f - (float)(FreeSpace.Bytes / MaxSpace.Bytes) * 100.0f;
-				}
-				else
-				{
-					SpaceText = Strings.Unknown.GetLocalizedResource();
-					MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
-				}
-
-				if (properties is not null && properties["System.Volume.FileSystem"] is not null)
-					Filesystem = (string)properties["System.Volume.FileSystem"];
-				else
-					Filesystem = string.Empty;
+				var properties = await Server.AppService.GetDrivePropertiesAsync(Path ?? Root?.Path ?? string.Empty, Type == DriveType.CloudDrive);
+				MaxSpace = ByteSize.FromBytes(properties.Capacity);
+				FreeSpace = ByteSize.FromBytes(properties.FreeSpace);
+				SpaceUsed = MaxSpace - FreeSpace;
+				SpaceText = properties.Available ? GetSizeString() : Strings.Unknown.GetLocalizedResource();
+				PercentageUsed = MaxSpace.Bytes > 0 ? 100.0f - (float)(FreeSpace.Bytes / MaxSpace.Bytes) * 100.0f : 0;
+				Filesystem = properties.FileSystem;
 
 				OnPropertyChanged(nameof(ShowDriveDetails));
 			}

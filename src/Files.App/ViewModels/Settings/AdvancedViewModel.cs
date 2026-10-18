@@ -45,6 +45,11 @@ namespace Files.App.ViewModels.Settings
 
 			_ = DetectOpenFilesAtStartupAsync();
 			_ = UpdateCacheSizeAsync();
+			UserSettingsService.OnSettingChangedEvent += (_, e) =>
+			{
+				if (e.NewValue is JsonElement)
+					OnPropertyChanged(e.SettingName);
+			};
 		}
 
 		private async Task SetAsDefaultExplorerAsync()

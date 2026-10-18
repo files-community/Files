@@ -107,6 +107,18 @@ namespace Files.App.ViewModels.Settings
 			StartEditingIDECommand = new RelayCommand(DoStartEditingIDE);
 			OpenFilePickerForIDECommand = new RelayCommand(DoOpenFilePickerForIDE);
 			TestIDECommand = new RelayCommand(DoTestIDE);
+			DevToolsSettingsService.PropertyChanged += (_, e) =>
+			{
+				if (e.PropertyName == nameof(IDevToolsSettingsService.OpenInIDEOption))
+					SetProperty(ref selectedOpenInIDEOption, OpenInIDEOptions[DevToolsSettingsService.OpenInIDEOption], nameof(SelectedOpenInIDEOption));
+				else if (!IsEditingIDEConfig)
+				{
+					if (e.PropertyName == nameof(IDevToolsSettingsService.IDEPath))
+						IDEPath = DevToolsSettingsService.IDEPath;
+					else if (e.PropertyName == nameof(IDevToolsSettingsService.IDEName))
+						IDEName = DevToolsSettingsService.IDEName;
+				}
+			};
 		}
 
 		private string selectedOpenInIDEOption = null!;

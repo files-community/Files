@@ -69,6 +69,11 @@ namespace Files.App.ViewModels.Settings
 			RestoreDefaultsCommand = new RelayCommand(ExecuteRestoreDefaultsCommand);
 			SaveCommand = new RelayCommand<ModifiableActionItem>(ExecuteSaveCommand);
 			DeleteCommand = new RelayCommand<ModifiableActionItem>(ExecuteDeleteCommand);
+			Ioc.Default.GetRequiredService<IUserSettingsService>().OnSettingChangedEvent += async (_, e) =>
+			{
+				if (e.NewValue is JsonElement && e.SettingName == nameof(IActionsSettingsService.ActionsV2))
+					await SafetyExtensions.IgnoreExceptions(ExecuteLoadAllActionsCommand, App.Logger);
+			};
 		}
 
 		// Command methods

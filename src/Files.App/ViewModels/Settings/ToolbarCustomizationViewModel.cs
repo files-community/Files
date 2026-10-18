@@ -51,6 +51,11 @@ namespace Files.App.ViewModels.Settings
 			}
 			SelectedToolbarContextId = ToolbarDefaultsTemplate.AlwaysVisibleContextId;
 			LoadToolbarItems();
+			UserSettingsService.OnSettingChangedEvent += (_, e) =>
+			{
+				if (e.NewValue is JsonElement && e.SettingName == nameof(IAppearanceSettingsService.CustomToolbarItems) && !isSessionActive)
+					LoadToolbarItems();
+			};
 		}
 
 		public void BeginToolbarCustomizationSession()

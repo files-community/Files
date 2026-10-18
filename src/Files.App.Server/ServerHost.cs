@@ -103,6 +103,7 @@ internal static class ServerHost
 			process = client.Process;
 		}
 		process.Dispose();
+		ServerEvents.RemoveClient(id);
 		if (!Program.ExitSignal.Task.IsCompleted)
 		{
 			settings.Refresh();
@@ -140,6 +141,8 @@ internal static class ServerHost
 			});
 		}
 	}
+
+	internal static nint GetDialogWindowHandle() => (tray ??= new SystemTrayIcon()).WindowHandle;
 
 	internal static bool ActivateWindow()
 	{
@@ -179,7 +182,7 @@ internal static class ServerHost
 		ExitIfIdle();
 	}
 
-	private static Task InvokeAsync(Action action)
+	internal static Task InvokeAsync(Action action)
 	{
 		var completion = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 		if (!controller.DispatcherQueue.TryEnqueue(() =>
@@ -203,6 +206,7 @@ internal static class ServerHost
 		settings.Dispose();
 		await InvokeAsync(() =>
 		{
+			StartupServices.Stop();
 			tray?.Dispose();
 			tray = null;
 		});

@@ -162,41 +162,18 @@ namespace Files.App.Utils.FileTags
 
 		public IEnumerable<TaggedFile> GetAll()
 		{
-			var list = new List<TaggedFile>();
-
-			if (FileTagsKey is not null)
-			{
-				try
-				{
-					IterateKeys(list, FileTagsKey, 0);
-				}
-				catch (SecurityException)
-				{
-					// Handle edge case where IterateKeys results in SecurityException
-				}
-			}
-
-			return list;
+			var items = Server.AppService.GetTaggedFilesAsync().AsTask().GetAwaiter().GetResult();
+			return items.Select(item => new TaggedFile { FilePath = item.Path, Frn = item.FileId, Tags = item.Tags }).ToArray();
 		}
 
 		public IEnumerable<TaggedFile> GetAllUnderPath(string folderPath)
 		{
-			folderPath = folderPath.Replace('/', '\\').TrimStart('\\');
-			var list = new List<TaggedFile>();
-
-			if (FileTagsKey is not null)
-			{
-				try
-				{
-					IterateKeys(list, CombineKeys(FileTagsKey, folderPath), 0);
-				}
-				catch (SecurityException)
-				{
-					// Handle edge case where IterateKeys results in SecurityException
-				}
-			}
-
-			return list;
+			if (string.IsNullOrEmpty(folderPath))
+				return GetAll();
+			var folder = folderPath.Replace('/', '\\').TrimEnd('\\');
+			var prefix = folder + "\\";
+			return GetAll().Where(item => item.FilePath.Equals(folder, StringComparison.OrdinalIgnoreCase)
+				|| item.FilePath.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
 		}
 
 		public void Import(string json)

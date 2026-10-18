@@ -112,6 +112,44 @@ namespace Files.App.ViewModels.Settings
 			SelectedShellPaneArrangementType = ShellPaneArrangementTypes[UserSettingsService.GeneralSettingsService.ShellPaneArrangementOption];
 
 			InitStartupSettingsRecentFoldersFlyout();
+			UserSettingsService.OnSettingChangedEvent += OnSharedSettingChanged;
+		}
+
+		private void OnSharedSettingChanged(object? sender, SettingChangedEventArgs e)
+		{
+			if (e.NewValue is not JsonElement)
+				return;
+
+			var settings = UserSettingsService.GeneralSettingsService;
+			switch (e.SettingName)
+			{
+				case nameof(IGeneralSettingsService.DateTimeFormat):
+					SetProperty(ref selectedDateTimeFormatIndex, (int)settings.DateTimeFormat, nameof(SelectedDateTimeFormatIndex));
+					OnPropertyChanged(nameof(DateFormatSample));
+					break;
+				case nameof(IGeneralSettingsService.ShellPaneArrangementOption):
+					SetProperty(ref selectedShellPaneArrangementType, ShellPaneArrangementTypes[settings.ShellPaneArrangementOption], nameof(SelectedShellPaneArrangementType));
+					break;
+				case nameof(IGeneralSettingsService.ReverseTabScrollDirection):
+					OnPropertyChanged(nameof(SelectedTabScrollDirectionIndex));
+					break;
+				case nameof(IGeneralSettingsService.OpenNewTabOnStartup):
+				case nameof(IGeneralSettingsService.OpenSpecificPageOnStartup):
+				case nameof(IGeneralSettingsService.ContinueLastSessionOnStartUp):
+					OnPropertyChanged(nameof(OpenNewTabPageOnStartup));
+					OnPropertyChanged(nameof(OpenASpecificPageOnStartup));
+					OnPropertyChanged(nameof(SelectedStartupSettingIndex));
+					break;
+				case nameof(IGeneralSettingsService.TabsOnStartupList):
+					PagesOnStartupList.CollectionChanged -= PagesOnStartupList_CollectionChanged;
+					PagesOnStartupList.Clear();
+					foreach (var path in settings.TabsOnStartupList ?? [])
+						PagesOnStartupList.Add(new PageOnStartupViewModel(path));
+					PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
+					SelectedPageIndex = -1;
+					break;
+			}
+			OnPropertyChanged(e.SettingName);
 		}
 
 		private async void DoRestartAsync()
@@ -608,6 +646,7 @@ namespace Files.App.ViewModels.Settings
 			if (!disposed)
 			{
 				disposed = true;
+				UserSettingsService.OnSettingChangedEvent -= OnSharedSettingChanged;
 
 				GC.SuppressFinalize(this);
 			}

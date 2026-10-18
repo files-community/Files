@@ -3,6 +3,7 @@
 
 using Files.Shared.Helpers;
 using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Storage.FileProperties;
 
 namespace Files.App.Utils.Storage
@@ -45,11 +46,8 @@ namespace Files.App.Utils.Storage
 				}
 			}
 
-			var resolvedPath = path is not null && path.StartsWith(@"\\?\", StringComparison.Ordinal)
-				? MtpHelpers.ResolveMtpShellPath(path) ?? path
-				: path;
-
-			return await STATask.RunPooled(() => Win32Helper.GetIcon(resolvedPath, (int)size, isFolder, iconOptions), App.Logger);
+			var buffer = await Server.AppService.GetIconAsync(path ?? string.Empty, (int)size, isFolder, (uint)iconOptions, false);
+			return buffer.Length == 0 ? null : buffer.ToArray();
 		}
 
 		/// <summary>
@@ -62,7 +60,8 @@ namespace Files.App.Utils.Storage
 		{
 			// Overlays render at 32px in thumbnail layouts and 16px in details/columns; scale by DPI so the badge isn't upscaled at fractional scaling
 			var overlaySize = (requestedSize >= 48 ? 32u : 16u) * App.AppModel.AppWindowDPI;
-			return await STATask.RunPooled(() => Win32Helper.GetIconOverlay(path, (int)overlaySize, isFolder), App.Logger);
+			var buffer = await Server.AppService.GetIconAsync(path ?? string.Empty, (int)overlaySize, isFolder, 0, true);
+			return buffer.Length == 0 ? null : buffer.ToArray();
 		}
 
 		[Obsolete]

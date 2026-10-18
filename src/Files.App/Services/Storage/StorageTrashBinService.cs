@@ -16,7 +16,7 @@ namespace Files.App.Services
 	public class StorageTrashBinService : IStorageTrashBinService
 	{
 		/// <inheritdoc/>
-		public RecycleBinWatcher Watcher { get; private set; } = new();
+		public Files.Core.Storage.Contracts.ITrashWatcher Watcher { get; } = new ServerTrashWatcher();
 
 		/// <inheritdoc/>
 		public async Task<List<ShellFileItem>> GetAllRecycleBinFoldersAsync()
@@ -27,13 +27,8 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public (bool HasRecycleBin, long NumItems, long BinSize) QueryRecycleBin(string drive = "")
 		{
-			SHQUERYRBINFO queryBinInfo = default;
-			queryBinInfo.cbSize = (uint)Marshal.SizeOf(queryBinInfo);
-
-			var hRes = PInvoke.SHQueryRecycleBin(drive, ref queryBinInfo);
-			return hRes == HRESULT.S_OK
-				? (true, queryBinInfo.i64NumItems, queryBinInfo.i64Size)
-				: (false, 0, 0);
+			var info = Server.AppService.QueryRecycleBinAsync(drive).AsTask().GetAwaiter().GetResult();
+			return (info.Available, info.Count, info.Size);
 		}
 
 		/// <inheritdoc/>
@@ -43,37 +38,7 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public bool HasItems()
-		{
-			var sid = WindowsIdentity.GetCurrent().User?.Value;
-			if (string.IsNullOrEmpty(sid))
-				return false;
-
-			foreach (DriveInfo drive in DriveInfo.GetDrives())
-			{
-				if (!drive.IsReady || drive.DriveType == System.IO.DriveType.Network)
-					continue;
-
-				string recyclePath = Path.Combine(drive.RootDirectory.FullName, "$RECYCLE.BIN", sid);
-				if (!Directory.Exists(recyclePath))
-					continue;
-
-				try
-				{
-					var files = Directory.EnumerateFiles(recyclePath, "$I*", SearchOption.TopDirectoryOnly);
-					if (files.Any())
-						return true;
-				}
-				catch (UnauthorizedAccessException)
-				{
-				}
-				catch (IOException)
-				{
-				}
-			}
-
-			return false;
-		}
+		public bool HasItems() => Server.AppService.HasRecycleBinItemsAsync().AsTask().GetAwaiter().GetResult();
 
 		/// <inheritdoc/>
 		public bool IsUnderTrashBin(string? path)

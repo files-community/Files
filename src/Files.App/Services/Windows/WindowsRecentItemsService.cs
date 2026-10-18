@@ -22,7 +22,6 @@ namespace Files.App.Services
 
 		// Fields
 
-		private readonly SystemIO.FileSystemWatcher? _watcher;
 
 		// Properties
 
@@ -58,46 +57,23 @@ namespace Files.App.Services
 
 		// Constructor
 
-		public WindowsRecentItemsService()
-		{
-			var automaticDestinationsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Recent), "AutomaticDestinations");
-			
-			// Only create the file system watcher if the AutomaticDestinations directory exists
-			if (Directory.Exists(automaticDestinationsPath))
-			{
-				_watcher = new()
-				{
-					Path = automaticDestinationsPath,
-					Filter = "5f7b5f1e01b83767.automaticDestinations-ms",
-					NotifyFilter = SystemIO.NotifyFilters.DirectoryName | SystemIO.NotifyFilters.FileName | SystemIO.NotifyFilters.LastWrite,
-				};
+		public WindowsRecentItemsService() => App.ServerChanged += OnServerChanged;
 
-				_watcher.Changed += Watcher_Changed;
-				_watcher.Deleted += Watcher_Changed;
-				_watcher.EnableRaisingEvents = true;
-			}
-			// If the directory doesn't exist, _watcher remains null and the service will function without file system monitoring
+		private void OnServerChanged(object? sender, string name)
+		{
+			if (name != "RecentItems")
+				return;
+			_ = SafetyExtensions.IgnoreExceptions(UpdateRecentFilesAsync, App.Logger);
+			_ = SafetyExtensions.IgnoreExceptions(UpdateRecentFoldersAsync, App.Logger);
 		}
 
 		// Methods
 
 		/// <inheritdoc/>
-		public async Task<bool> UpdateRecentFilesAsync()
-		{
-			return await Task.Run(() =>
-			{
-				return UpdateRecentItems(false);
-			});
-		}
+		public Task<bool> UpdateRecentFilesAsync() => UpdateRecentItemsAsync(false);
 
 		/// <inheritdoc/>
-		public async Task<bool> UpdateRecentFoldersAsync()
-		{
-			return await Task.Run(() =>
-			{
-				return UpdateRecentItems(true);
-			});
-		}
+		public Task<bool> UpdateRecentFoldersAsync() => UpdateRecentItemsAsync(true);
 
 		/// <inheritdoc/>
 		public unsafe bool Add(string path)
@@ -121,7 +97,8 @@ namespace Files.App.Services
 		{
 			try
 			{
-				HRESULT hr = item.ShellItem.BindToHandler(null, PInvoke.BHID_SFUIObject, out IContextMenu? pContextMenu);
+				using var shellItem = ShellItem.Open(new ShellPidl(item.Pidl));
+				HRESULT hr = shellItem.IShellItem.BindToHandler(null, PInvoke.BHID_SFUIObject, out IContextMenu? pContextMenu);
 				if (hr.Failed || pContextMenu is null)
 					return false;
 
@@ -185,128 +162,30 @@ namespace Files.App.Services
 			}
 		}
 
-		private unsafe bool UpdateRecentItems(bool isFolder)
+		private async Task<bool> UpdateRecentItemsAsync(bool folders)
 		{
-			try
+			var entries = await Server.AppService.GetRecentItemsAsync(folders);
+			var items = entries.Select(entry => new RecentItem
 			{
-				HRESULT hr = default;
-
-				string szFolderShellPath =
-					isFolder
-						? "Shell:::{22877A6D-37A1-461A-91B0-DBDA5AAEBC99}"  // Recent Places folder (recent folders)
-						: "Shell:::{679F85CB-0220-4080-B29B-5540CC05AAB6}"; // Quick Access folder (recent files)
-
-				// Get IShellItem of the shell folder
-				hr = PInvoke.SHCreateItemFromParsingName(szFolderShellPath, null, out IShellItem pFolderShellItem);
-				if (hr.Failed)
-					return false;
-
-				// Get IEnumShellItems of the quick access shell folder
-				hr = pFolderShellItem.BindToHandler(null, PInvoke.BHID_EnumItems, out IEnumShellItems? pEnumShellItems);
-				if (hr.Failed || pEnumShellItems is null)
-					return false;
-
-				// Enumerate recent items and populate the list
-				int index = 0;
-				List<RecentItem> recentItems = [];
-				IShellItem[] pShellItems = new IShellItem[1];
-				while (pEnumShellItems.Next(1, pShellItems, null) == HRESULT.S_OK)
-				{
-					IShellItem shellItem = pShellItems[0];
-
-					// Get top 20 items
-					if (index is 20)
-						break;
-
-					// Exclude folders, but keep archives (ZIP/7z/RAR) which the shell reports as both folder and stream.
-					if (shellItem.GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER | SFGAO_FLAGS.SFGAO_STREAM, out var attribute).Succeeded &&
-						(attribute & SFGAO_FLAGS.SFGAO_FOLDER) == SFGAO_FLAGS.SFGAO_FOLDER &&
-						(attribute & SFGAO_FLAGS.SFGAO_STREAM) == 0)
-						continue;
-
-					// Get the target path
-					shellItem.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEEDITING, out var szDisplayName);
-					var targetPath = szDisplayName.ToString();
-					PInvoke.CoTaskMemFree(szDisplayName.Value);
-
-					// Get the display name
-					shellItem.GetDisplayName(SIGDN.SIGDN_NORMALDISPLAY, out szDisplayName);
-					var fileName = szDisplayName.ToString();
-					PInvoke.CoTaskMemFree(szDisplayName.Value);
-
-					// Strip the file extension except when the file name only contains extension (e.g. ".gitignore")
-					if (!FoldersSettingsService.ShowFileExtensions &&
-						SystemIO.Path.GetFileNameWithoutExtension(fileName) is string fileNameWithoutExtension)
-						fileName = string.IsNullOrEmpty(fileNameWithoutExtension) ? SystemIO.Path.GetFileName(fileName) : fileNameWithoutExtension;
-
-					// Get the date last modified
-					DateTime lastModified = DateTime.MinValue;
-
-					if (shellItem is IShellItem2 shellItem2 &&
-						PInvoke.PSGetPropertyKeyFromName("System.DateModified", out var propertyKey).Succeeded)
-					{
-						hr = shellItem2.GetString(propertyKey, out var szPropertyValue);
-						if (hr.Succeeded)
-						{
-							if (!DateTime.TryParse(szPropertyValue.ToString(), out lastModified))
-								lastModified = DateTime.MinValue;
-
-							PInvoke.CoTaskMemFree(szPropertyValue);
-						}
-					}
-
-					recentItems.Add(new()
-					{
-						Path = targetPath,
-						Name = fileName,
-						ShellItem = shellItem,
-						LastModified = lastModified,
-					});
-
-					index++;
-				}
-
-				if (recentItems.Count is 0)
-					return false;
-
-				var snapshot = isFolder ? RecentFolders : RecentFiles;
-
-				if (isFolder)
-				{
-					lock (_RecentFolders)
-					{
-						_RecentFolders.Clear();
-						_RecentFolders.AddRange(recentItems);
-					}
-				}
-				else
-				{
-					lock (_RecentFiles)
-					{
-						_RecentFiles.Clear();
-						_RecentFiles.AddRange(recentItems);
-					}
-				}
-
-				var eventArgs = GetChangedActionEventArgs(snapshot, recentItems);
-
-				if (isFolder)
-					RecentFoldersChanged?.Invoke(this, eventArgs);
-				else
-					RecentFilesChanged?.Invoke(this, eventArgs);
-
-				return true;
-			}
-			catch
+				Path = entry.Path,
+				Name = FoldersSettingsService.ShowFileExtensions || string.IsNullOrEmpty(Path.GetFileNameWithoutExtension(entry.Name))
+					? entry.Name : Path.GetFileNameWithoutExtension(entry.Name),
+				LastModified = entry.Modified == DateTimeOffset.MinValue ? DateTime.MinValue : entry.Modified.LocalDateTime,
+				Pidl = entry.Pidl,
+			}).ToList();
+			var previous = folders ? RecentFolders : RecentFiles;
+			var target = folders ? _RecentFolders : _RecentFiles;
+			lock (target)
 			{
-				return false;
+				target.Clear();
+				target.AddRange(items);
 			}
-		}
-
-		private void Watcher_Changed(object sender, SystemIO.FileSystemEventArgs e)
-		{
-			_ = UpdateRecentFilesAsync();
-			_ = UpdateRecentFoldersAsync();
+			var change = GetChangedActionEventArgs(previous, items);
+			if (folders)
+				RecentFoldersChanged?.Invoke(this, change);
+			else
+				RecentFilesChanged?.Invoke(this, change);
+			return true;
 		}
 
 		private NotifyCollectionChangedEventArgs GetChangedActionEventArgs(IReadOnlyList<RecentItem> oldItems, IList<RecentItem> newItems)

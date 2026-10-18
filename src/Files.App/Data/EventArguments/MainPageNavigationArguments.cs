@@ -8,5 +8,7 @@ namespace Files.App.Data.EventArguments
 		public object? Parameter { get; set; }
 
 		public bool IgnoreStartupSettings { get; set; }
+
+		public bool DeferInitialization { get; set; }
 	}
 }

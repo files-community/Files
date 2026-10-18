@@ -27,6 +27,37 @@ namespace Files.App.ViewModels.Settings
 			SelectedOpenFilesWithSingleClickOption = SingleClickOpenModeOptions[UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick];
 			SelectedOpenFoldersWithSingleClickOption = SingleClickOpenModeOptions[UserSettingsService.FoldersSettingsService.OpenFoldersWithSingleClick];
 			SelectedOpenFoldersInColumnsViewWithSingleClickOption = SingleClickOpenModeOptions[UserSettingsService.FoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick];
+			UserSettingsService.OnSettingChangedEvent += OnSharedSettingChanged;
+		}
+
+		private void OnSharedSettingChanged(object? sender, SettingChangedEventArgs e)
+		{
+			if (e.NewValue is not JsonElement)
+				return;
+
+			var settings = UserSettingsService.FoldersSettingsService;
+			switch (e.SettingName)
+			{
+				case nameof(IFoldersSettingsService.DeleteConfirmationPolicy):
+					SetProperty(ref selectedDeleteConfirmationPolicyIndex, (int)settings.DeleteConfirmationPolicy, nameof(SelectedDeleteConfirmationPolicyIndex));
+					break;
+				case nameof(IFoldersSettingsService.OpenFilesWithSingleClick):
+					SetProperty(ref selectedOpenFilesWithSingleClickOption, SingleClickOpenModeOptions[settings.OpenFilesWithSingleClick], nameof(SelectedOpenFilesWithSingleClickOption));
+					break;
+				case nameof(IFoldersSettingsService.OpenFoldersWithSingleClick):
+					SetProperty(ref selectedOpenFoldersWithSingleClickOption, SingleClickOpenModeOptions[settings.OpenFoldersWithSingleClick], nameof(SelectedOpenFoldersWithSingleClickOption));
+					break;
+				case nameof(IFoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick):
+					SetProperty(ref selectedOpenFoldersInColumnsViewWithSingleClickOption, SingleClickOpenModeOptions[settings.OpenFoldersInColumnsViewWithSingleClick], nameof(SelectedOpenFoldersInColumnsViewWithSingleClickOption));
+					break;
+				case nameof(IFoldersSettingsService.SizeUnitFormat):
+					SetProperty(ref sizeUnitFormat, SizeUnitsOptions[settings.SizeUnitFormat], nameof(SizeUnitFormat));
+					break;
+				case nameof(IFoldersSettingsService.OpenFoldersInNewTab):
+					OnPropertyChanged(nameof(OpenFoldersNewTab));
+					break;
+			}
+			OnPropertyChanged(e.SettingName);
 		}
 
 		// Properties

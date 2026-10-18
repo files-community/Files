@@ -11,7 +11,7 @@ namespace Files.App.Data.Contracts
 		/// <summary>
 		/// Gets the watcher of Recycle Bin folder.
 		/// </summary>
-		RecycleBinWatcher Watcher { get; }
+		Files.Core.Storage.Contracts.ITrashWatcher Watcher { get; }
 
 		/// <summary>
 		/// Gets all Recycle Bin shell folders.

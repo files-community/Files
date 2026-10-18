@@ -53,6 +53,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="..\Files.App.Server\Initialization\SettingsValueCodec.cs" Link="Utils\Serialization\SettingsValueCodec.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
         <DirectPInvoke Include="ADVAPI32" />
         <DirectPInvoke Include="api-ms-win-core-com-l1-1-0" />
         <DirectPInvoke Include="api-ms-win-core-com-l1-1-1" />
@@ -70,7 +74,7 @@
         <_WindowsAppRuntimeBootstrapLibrary Include="@(WindowsAppSdkComponentPackages->'%(FullPath)lib\native\$(Platform)\Microsoft.WindowsAppRuntime.Bootstrap.lib')" />
         <NativeLibrary Include="runtimeobject.lib" />
         <NativeLibrary Include="mpr.lib" />
-        <NativeLibrary Include="@(_WindowsAppRuntimeBootstrapLibrary->Exists())" />
+        <NativeLibrary Include="@(_WindowsAppRuntimeBootstrapLibrary-&gt;Exists())" />
     </ItemGroup>
   
     <ItemGroup>
