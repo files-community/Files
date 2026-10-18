@@ -174,6 +174,17 @@
                 <ActivatableClass ActivatableClassId="Files.App.BackgroundTasks.UpdateTask" ThreadingModel="both" />
             </InProcessServer>
         </Extension>
+        <!-- Register iterable interfaces for metadata-based cross-process marshalling. -->
+        <Extension Category="windows.activatableClass.proxyStub">
+            <ProxyStub ClassId="00000355-0000-0000-C000-000000000046">
+                <Path>Files.App.Server.winmd</Path>
+                <Interface Name="Windows.Foundation.Collections.IIterable`1&lt;Files.App.Server.ShellNewEntryInfo&gt;" InterfaceId="f84606bf-a1f7-52dd-a029-d07684e16d31" />
+                <Interface Name="Windows.Foundation.Collections.IIterable`1&lt;Files.App.Server.PinnedFolderInfo&gt;" InterfaceId="f063ac3f-49df-561b-8072-a923b6d44fec" />
+                <Interface Name="Windows.Foundation.Collections.IIterable`1&lt;Files.App.Server.CloudProviderInfo&gt;" InterfaceId="641709d3-d091-5427-a93b-789cd4eabe73" />
+                <Interface Name="Windows.Foundation.Collections.IIterable`1&lt;Files.App.Server.LibraryInfo&gt;" InterfaceId="1e6b2a4a-8e22-5e39-96d8-532fe4a50b60" />
+                <Interface Name="Windows.Foundation.Collections.IIterable`1&lt;String&gt;" InterfaceId="e2fcc7c1-3bfc-5a0b-b2b0-72e769d1cb7e" />
+            </ProxyStub>
+        </Extension>
         <Extension Category="windows.activatableClass.outOfProcessServer">
             <OutOfProcessServer ServerName="Files.App.Server" uap5:IdentityType="activateAsActivator">
                 <Path>Files.App.Server\Files.App.Server.exe</Path>
