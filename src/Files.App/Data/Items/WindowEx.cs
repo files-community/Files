@@ -263,6 +263,7 @@ namespace Files.App.Data.Items
 
 			LPARAM lParam = default;
 			BOOL fRes = PInvoke.EnumDisplayMonitors(new(nint.Zero), (RECT*)null, pfnMonitorEnumProc, lParam);
+			GC.KeepAlive(monitorEnumProc);
 			if (!fRes)
 				Marshal.ThrowExceptionForHR(Marshal.GetLastWin32Error());
 

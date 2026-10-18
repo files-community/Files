@@ -23,7 +23,15 @@ namespace Files.App.Helpers
 			var interop = DataTransferManager.As<IDataTransferManagerInterop>();
 			IntPtr result = interop.GetForWindow(MainWindow.Instance.WindowHandle, Win32PInvoke.DataTransferManagerInteropIID);
 
-			var manager = WinRT.MarshalInterface<DataTransferManager>.FromAbi(result);
+			DataTransferManager manager;
+			try
+			{
+				manager = WinRT.MarshalInterface<DataTransferManager>.FromAbi(result);
+			}
+			finally
+			{
+				WinRT.MarshalInterface<DataTransferManager>.DisposeAbi(result);
+			}
 			manager.DataRequested += Manager_DataRequested;
 
 			try

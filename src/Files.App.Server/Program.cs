@@ -29,39 +29,47 @@ class Program
 		_ = PInvoke.RoInitialize(RO_INIT_TYPE.RO_INIT_MULTITHREADED);
 		ServerHost.Initialize();
 
-		var classIds = GetActivatableTypes()
-			.Select(t =>
+		var types = GetActivatableTypes();
+		var classIds = new HSTRING[types.Length];
+		var classIdHandles = new WindowsDeleteStringSafeHandle[types.Length];
+		try
+		{
+			for (int i = 0; i < types.Length; i++)
 			{
-				var name = t.FullName!;
-				if (PInvoke.WindowsCreateString(name, (uint)name.Length, out var classId) is HRESULT hr && hr.Value is not 0)
+				var name = types[i].FullName!;
+				var hr = PInvoke.WindowsCreateString(name, (uint)name.Length, out var classId);
+				classIdHandles[i] = classId;
+				if (hr.Value != 0)
 				{
 					Marshal.ThrowExceptionForHR(hr);
 				}
 
-				return new HSTRING(classId.DangerousGetHandle());
-			})
-			.ToArray();
-
-		unsafe
-		{
-			delegate* unmanaged[Stdcall]<HSTRING, IActivationFactory_unmanaged**, HRESULT>[] callbacks = new delegate* unmanaged[Stdcall]<HSTRING, IActivationFactory_unmanaged**, HRESULT>[classIds.Length];
-			for (int i = 0; i < callbacks.Length; i++)
-			{
-				callbacks[i] = &Helpers.GetActivationFactory;
+				classIds[i] = new HSTRING(classId.DangerousGetHandle());
 			}
 
-			fixed (delegate* unmanaged[Stdcall]<HSTRING, IActivationFactory_unmanaged**, HRESULT>* pCallbacks = callbacks)
+			unsafe
 			{
-				if (PInvoke.RoRegisterActivationFactories(classIds, pCallbacks, out cookie) is HRESULT hr && hr.Value != 0)
+				delegate* unmanaged[Stdcall]<HSTRING, IActivationFactory_unmanaged**, HRESULT>[] callbacks = new delegate* unmanaged[Stdcall]<HSTRING, IActivationFactory_unmanaged**, HRESULT>[classIds.Length];
+				for (int i = 0; i < callbacks.Length; i++)
 				{
-					Marshal.ThrowExceptionForHR(hr);
+					callbacks[i] = &Helpers.GetActivationFactory;
+				}
+
+				fixed (delegate* unmanaged[Stdcall]<HSTRING, IActivationFactory_unmanaged**, HRESULT>* pCallbacks = callbacks)
+				{
+					if (PInvoke.RoRegisterActivationFactories(classIds, pCallbacks, out cookie) is HRESULT hr && hr.Value != 0)
+					{
+						Marshal.ThrowExceptionForHR(hr);
+					}
 				}
 			}
 		}
-
-		foreach (var str in classIds)
+		finally
 		{
-			_ = PInvoke.WindowsDeleteString(str);
+			foreach (var classId in classIdHandles)
+			{
+				classId?.Dispose();
+			}
 		}
 
 		AppDomain.CurrentDomain.ProcessExit += (_, _) => cancellationTokenSource.Cancel();
