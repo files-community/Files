@@ -48,11 +48,17 @@ internal static class ServerHost
 		uint processId = 0;
 		if (!window.IsNull)
 			PInvoke.GetWindowThreadProcessId(window, out processId);
+		var clientWindow = new ClientWindow(window, processId);
+		bool closeWindow;
 		lock (gate)
 		{
-			if (clients.ContainsKey(id))
-				clients[id] = new(window, processId);
+			if (!clients.ContainsKey(id))
+				return;
+			clients[id] = clientWindow;
+			closeWindow = quitting;
 		}
+		if (closeWindow && IsClientWindow(clientWindow))
+			PInvoke.PostMessage(window, PInvoke.WM_CLOSE, default, default);
 	}
 
 	internal static void BeginUpdate()

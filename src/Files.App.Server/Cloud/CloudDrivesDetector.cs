@@ -14,21 +14,22 @@ namespace Files.App.Server.Cloud
 
 		public static async Task<IEnumerable<ICloudProvider>> DetectCloudDrives()
 		{
-			var tasks = new Task<IEnumerable<ICloudProvider>>[]
+			var tasks = new Task<IEnumerable<ICloudProvider>?>[]
 			{
-				DetectOneDrive(),
-				DetectSharepoint(),
-				DetectGenericCloudDrive(),
-				DetectYandexDisk(),
-				DetectpCloudDrive(),
-				DetectNutstoreDrive(),
-				DetectSeadriveDrive(),
-				DetectAutodeskDrive(),
+				SafetyExtensions.IgnoreExceptions(DetectOneDrive, Program.Logger),
+				SafetyExtensions.IgnoreExceptions(DetectSharepoint, Program.Logger),
+				SafetyExtensions.IgnoreExceptions(DetectGenericCloudDrive, Program.Logger),
+				SafetyExtensions.IgnoreExceptions(DetectYandexDisk, Program.Logger),
+				SafetyExtensions.IgnoreExceptions(DetectpCloudDrive, Program.Logger),
+				SafetyExtensions.IgnoreExceptions(DetectNutstoreDrive, Program.Logger),
+				SafetyExtensions.IgnoreExceptions(DetectSeadriveDrive, Program.Logger),
+				SafetyExtensions.IgnoreExceptions(DetectAutodeskDrive, Program.Logger),
 			};
 
 			var results = await Task.WhenAll(tasks);
 
 			return results
+				.WhereNotNull()
 				.SelectMany(providers => providers)
 				.OrderBy(o => o.ID.ToString())
 				.ThenBy(o => o.Name)
