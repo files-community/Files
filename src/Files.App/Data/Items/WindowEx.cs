@@ -22,6 +22,8 @@ namespace Files.App.Data.Items
 	/// </summary>
 	public unsafe partial class WindowEx : Window, IDisposable
 	{
+		private static readonly HashSet<WindowEx> windows = [];
+
 		private bool _isInitialized;
 		private bool _isClosing;
 		private bool _isRestoringPlacement;
@@ -101,9 +103,20 @@ namespace Files.App.Data.Items
 
 			Closed += WindowEx_Closed;
 			Activated += WindowEx_Activated;
+			AppWindow.Destroying += (_, _) => windows.Remove(this);
+			windows.Add(this);
 		}
 
 		protected virtual bool PersistPlacement => false;
+
+		internal void CloseOtherWindows()
+		{
+			foreach (var window in windows.ToArray())
+			{
+				if (window != this)
+					window.Close();
+			}
+		}
 
 		private unsafe void StoreWindowPlacementData()
 		{

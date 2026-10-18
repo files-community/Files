@@ -235,7 +235,7 @@ namespace Files.App
 
 			ActiveSessionTracker.OnActivationChanged(args.WindowActivationState != WindowActivationState.Deactivated);
 
-			if (args.WindowActivationState != WindowActivationState.Deactivated)
+			if (!_isWindowClosing && args.WindowActivationState != WindowActivationState.Deactivated)
 				AppModel.IsMainWindowClosed = false;
 		}
 
@@ -270,6 +270,9 @@ namespace Files.App
 
 			try
 			{
+				FilePropertiesHelpers.DestroyCachedWindows();
+				MainWindow.Instance.CloseOtherWindows();
+
 				var settings = Ioc.Default.GetRequiredService<IUserSettingsService>();
 				var commands = Ioc.Default.GetRequiredService<ICommandManager>();
 				if (settings.GeneralSettingsService.ContinueLastSessionOnStartUp || settings.AppSettingsService.RestoreTabsOnStartup)
@@ -308,7 +311,6 @@ namespace Files.App
 						Clipboard.Flush();
 				}, Logger);
 
-				FilePropertiesHelpers.DestroyCachedWindows();
 				await Task.Run(FileOperationsHelpers.WaitForCompletion);
 			}
 			catch (Exception ex)
