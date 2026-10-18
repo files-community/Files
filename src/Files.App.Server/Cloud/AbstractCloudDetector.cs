@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Logging;
 
 namespace Files.App.Server.Cloud
 {
@@ -21,8 +22,15 @@ namespace Files.App.Server.Cloud
 		{
 			var providers = new List<ICloudProvider>();
 
-			await foreach (var provider in GetProviders())
-				providers.Add(provider);
+			try
+			{
+				await foreach (var provider in GetProviders())
+					providers.Add(provider);
+			}
+			catch (Exception ex) when (providers.Count > 0)
+			{
+				Program.Logger.LogWarning(ex, "Cloud discovery was incomplete for {Detector}.", GetType().Name);
+			}
 
 			return providers;
 		}

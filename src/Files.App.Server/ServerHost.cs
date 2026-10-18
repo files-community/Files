@@ -103,8 +103,11 @@ internal static class ServerHost
 			process = client.Process;
 		}
 		process.Dispose();
-		if (!Program.ExitSignal.Task.IsCompleted && settings.Refresh())
+		if (!Program.ExitSignal.Task.IsCompleted)
+		{
+			settings.Refresh();
 			controller.DispatcherQueue.TryEnqueue(ExitIfIdle);
+		}
 	}
 
 	private static void ExitIfIdle()
