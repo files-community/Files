@@ -4,6 +4,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Windows.AI;
 using Microsoft.Windows.AI.Text;
+using System.Globalization;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Windows.ApplicationModel;
@@ -26,6 +27,7 @@ namespace Files.App.Utils.Storage
 			Use created only when the request is about when files were created, downloaded or added; otherwise use modified.
 			Leave out fields the request doesn't mention.
 			Today is {Today}.
+			The request is in {Language}. Keep nameContains in the language of the request.
 
 			Request: pdfs from last month over 5 mb
 			{"extensions":[".pdf"],"modified":["lastmonth"],"size":[">5MB"]}
@@ -47,6 +49,7 @@ namespace Files.App.Utils.Storage
 		private static LanguageModel? _model;
 		private static volatile LanguageModelContext? _context;
 		private static DateOnly _contextDate;
+		private static string? _contextLanguage;
 		private static volatile Availability _availability;
 
 		private enum Availability
@@ -191,15 +194,18 @@ namespace Files.App.Utils.Storage
 			var model = _model ??= await LanguageModel.CreateAsync();
 
 			var today = DateOnly.FromDateTime(DateTime.Now);
-			if (_context is null || _contextDate != today)
+			var language = CultureInfo.CurrentUICulture.EnglishName;
+			if (_context is null || _contextDate != today || _contextLanguage != language)
 			{
 				var prompt = SystemPromptTemplate
 					.Replace("{Today}", today.ToString("yyyy-MM-dd"), StringComparison.Ordinal)
-					.Replace("{Year}", today.ToString("yyyy"), StringComparison.Ordinal);
+					.Replace("{Year}", today.ToString("yyyy"), StringComparison.Ordinal)
+					.Replace("{Language}", language, StringComparison.Ordinal);
 
 				_context?.Dispose();
 				_context = await Task.Run(() => model.CreateContext(prompt));
 				_contextDate = today;
+				_contextLanguage = language;
 			}
 
 			return (model, _context);
