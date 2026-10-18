@@ -63,7 +63,7 @@ namespace Files.App.Server.Cloud
 
 			foreach (var subKeyName in namespaceKey?.GetSubKeyNames() ?? [])
 			{
-				using var clsidSubKey = clsidKey?.OpenSubKey(subKeyName);
+				using var clsidSubKey = SafetyExtensions.IgnoreExceptions(() => clsidKey?.OpenSubKey(subKeyName), Program.Logger);
 				if (clsidSubKey is not null && (int?)clsidSubKey.GetValue("System.IsPinnedToNameSpaceTree") is 1)
 				{
 					using var namespaceSubKey = namespaceKey?.OpenSubKey(subKeyName);

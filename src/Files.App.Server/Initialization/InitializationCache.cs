@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 
 using Files.App.Server.Cloud;
+using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
+using System.Runtime.InteropServices;
 using Windows.Storage;
 using Windows.Win32.UI.Shell;
 
@@ -69,32 +71,39 @@ internal static class InitializationCache
 		using var folder = new ShellFolder("shell:::{3936e9e4-d92c-4eee-a85a-bc16d5ea0819}");
 		foreach (var item in folder)
 		{
-			using (item)
+			try
 			{
-				var isFolder = item is Files.App.Utils.Shell.ShellLink link
-					? link.StoredTargetIsFolder() ?? link.IsTargetFolder(Environment.ExpandEnvironmentVariables(link.TargetPath))
-					: item.IsFolder && !item.IsStream;
-				if (!isFolder)
-					continue;
-
-				var parsingPath = item.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING) ?? item.FileSystemPath;
-				if (string.IsNullOrEmpty(parsingPath) || !Path.IsPathRooted(parsingPath))
+				using (item)
 				{
-					parsingPath = parsingPath switch
+					var isFolder = item is Files.App.Utils.Shell.ShellLink link
+						? link.StoredTargetIsFolder() ?? link.IsTargetFolder(Environment.ExpandEnvironmentVariables(link.TargetPath))
+						: item.IsFolder && !item.IsStream;
+					if (!isFolder)
+						continue;
+
+					var parsingPath = item.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING) ?? item.FileSystemPath;
+					if (string.IsNullOrEmpty(parsingPath) || !Path.IsPathRooted(parsingPath))
 					{
-						"::{645FF040-5081-101B-9F08-00AA002F954E}" => "Shell:RecycleBinFolder",
-						"::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" or "::{208D2C60-3AEA-1069-A2D7-08002B30309D}" => "Shell:NetworkPlacesFolder",
-						"::{20D04FE0-3AEA-1069-A2D8-08002B30309D}" => "Shell:MyComputerFolder",
-						{ } path when path.StartsWith("::{031E4825-7B94-4DC3-B131-E946B44C8DD5}\\", StringComparison.OrdinalIgnoreCase)
-							=> Path.Combine(ShellLibraryItem.LibrariesPath, Path.GetFileName(path)),
-						_ => $@"\\SHELL\{string.Join("\\", item.PIDL.Select(segment => Convert.ToBase64String(segment.GetBytes()).Replace('/', '_')))}"
-					};
+						parsingPath = parsingPath switch
+						{
+							"::{645FF040-5081-101B-9F08-00AA002F954E}" => "Shell:RecycleBinFolder",
+							"::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" or "::{208D2C60-3AEA-1069-A2D7-08002B30309D}" => "Shell:NetworkPlacesFolder",
+							"::{20D04FE0-3AEA-1069-A2D8-08002B30309D}" => "Shell:MyComputerFolder",
+							{ } path when path.StartsWith("::{031E4825-7B94-4DC3-B131-E946B44C8DD5}\\", StringComparison.OrdinalIgnoreCase)
+								=> Path.Combine(ShellLibraryItem.LibrariesPath, Path.GetFileName(path)),
+							_ => $@"\\SHELL\{string.Join("\\", item.PIDL.Select(segment => Convert.ToBase64String(segment.GetBytes()).Replace('/', '_')))}"
+						};
+					}
+					result.Add(new PinnedFolderInfo(
+						Path.IsPathRooted(item.Name) ? item.Name! : parsingPath,
+						item.GetDisplayName(SIGDN.SIGDN_NORMALDISPLAY) ?? string.Empty,
+						item.PIDL.GetBytes(),
+						(bool?)SafetyExtensions.IgnoreExceptions(() => item.Properties["System.Home.IsPinned"], Program.Logger) ?? false));
 				}
-				result.Add(new PinnedFolderInfo(
-					Path.IsPathRooted(item.Name) ? item.Name! : parsingPath,
-					item.GetDisplayName(SIGDN.SIGDN_NORMALDISPLAY) ?? string.Empty,
-					item.PIDL.GetBytes(),
-					(bool?)item.Properties["System.Home.IsPinned"] ?? false));
+			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or COMException)
+			{
+				Program.Logger.LogWarning(ex, "Could not read a pinned folder.");
 			}
 		}
 		return result.AsReadOnly();

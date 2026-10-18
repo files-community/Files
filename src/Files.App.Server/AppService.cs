@@ -8,11 +8,12 @@ namespace Files.App.Server;
 
 public sealed partial class AppService : IDisposable
 {
-	private readonly long clientId = ServerHost.AddClient();
+	private readonly long clientId;
 	private int disposed;
 
-	public AppService()
+	public AppService(int processId)
 	{
+		clientId = ServerHost.AddClient(processId);
 	}
 
 	~AppService() => Dispose();

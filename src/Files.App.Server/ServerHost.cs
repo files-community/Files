@@ -3,6 +3,7 @@
 
 using Windows.System;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
@@ -14,7 +15,7 @@ internal static class ServerHost
 	private static readonly Lock gate = new();
 	private readonly record struct ClientWindow(HWND Handle, uint ProcessId);
 
-	private static readonly Dictionary<long, ClientWindow> clients = [];
+	private static readonly Dictionary<long, (Process Process, ClientWindow Window)> clients = [];
 	private static long nextClient;
 	private static bool hadClient;
 	private static bool quitting;
@@ -31,14 +32,30 @@ internal static class ServerHost
 		OnSettingsChanged();
 	}
 
-	internal static long AddClient()
+	internal static long AddClient(int processId)
 	{
 		lock (gate)
 		{
+			if (Program.ExitSignal.Task.IsCompleted)
+				throw new InvalidOperationException("The server is shutting down.");
+
 			var id = ++nextClient;
 			hadClient = true;
-			clients.Add(id, default);
-			return id;
+			Process? process = null;
+			try
+			{
+				process = Process.GetProcessById(processId);
+				process.Exited += (_, _) => controller.DispatcherQueue.TryEnqueue(() => RemoveClient(id));
+				process.EnableRaisingEvents = true;
+				clients.Add(id, (process, default));
+				return id;
+			}
+			catch
+			{
+				process?.Dispose();
+				controller.DispatcherQueue.TryEnqueue(ExitIfIdle);
+				throw;
+			}
 		}
 	}
 
@@ -52,9 +69,11 @@ internal static class ServerHost
 		bool closeWindow;
 		lock (gate)
 		{
-			if (!clients.ContainsKey(id))
+			if (!clients.TryGetValue(id, out var client))
 				return;
-			clients[id] = clientWindow;
+			if (!window.IsNull && processId != client.Process.Id)
+				return;
+			clients[id] = (client.Process, clientWindow);
 			closeWindow = quitting;
 		}
 		if (closeWindow && IsClientWindow(clientWindow))
@@ -76,8 +95,14 @@ internal static class ServerHost
 
 	internal static void RemoveClient(long id)
 	{
+		Process process;
 		lock (gate)
-			clients.Remove(id);
+		{
+			if (!clients.Remove(id, out var client))
+				return;
+			process = client.Process;
+		}
+		process.Dispose();
 		if (!Program.ExitSignal.Task.IsCompleted && settings.Refresh())
 			controller.DispatcherQueue.TryEnqueue(ExitIfIdle);
 	}
@@ -117,7 +142,7 @@ internal static class ServerHost
 	{
 		ClientWindow[] windows;
 		lock (gate)
-			windows = clients.Values.ToArray();
+			windows = clients.Values.Select(client => client.Window).ToArray();
 		foreach (var window in windows)
 		{
 			if (!IsClientWindow(window))
@@ -140,7 +165,7 @@ internal static class ServerHost
 		lock (gate)
 		{
 			quitting = true;
-			windows = clients.Values.ToArray();
+			windows = clients.Values.Select(client => client.Window).ToArray();
 		}
 		tray?.Hide();
 		foreach (var window in windows)

@@ -28,7 +28,7 @@ namespace Files.App
 		private static FlyoutBase? _LastOpenedFlyout;
 		private static bool _isWindowTeardownCompleted;
 		private static bool _isWindowClosing;
-		private static readonly Task<Server.AppService> serverSession = Task.Run(() => new Server.AppService());
+		private static readonly Task<Server.AppService> serverSession = Task.Run(() => new Server.AppService(Environment.ProcessId));
 		public static FlyoutBase? LastOpenedFlyout
 		{
 			set
