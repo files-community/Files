@@ -343,14 +343,14 @@ namespace Files.App.Services.Settings
 
 		public bool CloseToBackground
 		{
-			get => Get(true);
-			set => Set(value);
+			get => Get(BackgroundSettings.CloseToBackgroundDefault, BackgroundSettings.CloseToBackgroundKey);
+			set => Set(value, BackgroundSettings.CloseToBackgroundKey);
 		}
 
 		public bool ShowSystemTrayIcon
 		{
-			get => Get(true);
-			set => Set(value);
+			get => Get(BackgroundSettings.ShowSystemTrayIconDefault, BackgroundSettings.ShowSystemTrayIconKey);
+			set => Set(value, BackgroundSettings.ShowSystemTrayIconKey);
 		}
 
 		public FileNameConflictResolveOptionType ConflictsResolveOption

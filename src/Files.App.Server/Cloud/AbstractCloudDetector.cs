@@ -27,7 +27,7 @@ namespace Files.App.Server.Cloud
 				await foreach (var provider in GetProviders())
 					providers.Add(provider);
 			}
-			catch (Exception ex) when (providers.Count > 0)
+			catch (Exception ex)
 			{
 				Program.Logger.LogWarning(ex, "Cloud discovery was incomplete for {Detector}.", GetType().Name);
 			}

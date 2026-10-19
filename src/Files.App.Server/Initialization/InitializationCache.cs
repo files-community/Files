@@ -12,15 +12,14 @@ namespace Files.App.Server;
 
 internal static class InitializationCache
 {
-	private static readonly RegistryChangeMonitor userClasses = new(Registry.CurrentUser, @"Software\Classes");
-	private static readonly RegistryChangeMonitor machineClasses = new(Registry.LocalMachine, @"Software\Classes");
+	private static readonly ShellNewRegistryMonitor shellNewRegistry = new();
 	private static readonly RegistryChangeMonitor wslRegistry = new(Registry.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\Lxss");
 	private static readonly TimeSpan lifetime = TimeSpan.FromMinutes(5);
 
 	// Arrays of runtime classes have no WinRT runtime class name for cross-process marshaling.
 	internal static readonly CachedTask<IReadOnlyList<ShellNewEntryInfo>> ShellNew = new(async () =>
 		(await ShellNewMenuHelper.GetNewContextMenuEntries()).Select(entry => new ShellNewEntryInfo(entry)).ToList().AsReadOnly(),
-		lifetime, () => userClasses.HasChanged() | machineClasses.HasChanged());
+		lifetime, shellNewRegistry.HasChanged);
 
 	internal static readonly CachedTask<IReadOnlyList<string>> Wsl = new(() =>
 	{
@@ -164,7 +163,7 @@ internal static class InitializationCache
 	}
 
 	internal static Task InitializeAsync() => Task.WhenAll(
-		[ShellNew.GetAsync(), Wsl.GetAsync(), Libraries.GetAsync(), PinnedFolders.GetAsync(), .. CloudProviders.Select(cache => cache.GetAsync())]);
+		[ShellNew.GetAsync(), Libraries.GetAsync(), PinnedFolders.GetAsync()]);
 }
 
 internal sealed class FileStampMonitor(Func<IEnumerable<string>> getPaths)

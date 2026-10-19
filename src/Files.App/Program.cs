@@ -101,13 +101,8 @@ namespace Files.App
 				if (parsedCommands is null || !parsedCommands.Any(x => x.Type == ParsedCommandType.OutputPath) &&
 					(OpenTabInExistingInstance || parsedCommands.Any(x => x.Type == ParsedCommandType.TagFiles)))
 				{
-					var instance = FindExistingInstance();
-
-					if (instance is not null)
-					{
-						RedirectActivationTo(instance, activatedArgs);
+					if (TryRedirectActivationToExistingInstance(activatedArgs))
 						return;
-					}
 				}
 			}
 			else if (activatedArgs.Data is ILaunchActivatedEventArgs tileArgs)
@@ -127,34 +122,22 @@ namespace Files.App
 			{
 				if (activatedArgs.Data is ILaunchActivatedEventArgs launchArgs)
 				{
-					var instance = FindExistingInstance();
-					if (instance is not null && !string.IsNullOrWhiteSpace(launchArgs.Arguments))
-					{
-						RedirectActivationTo(instance, activatedArgs);
+					if (!string.IsNullOrWhiteSpace(launchArgs.Arguments) && TryRedirectActivationToExistingInstance(activatedArgs))
 						return;
-					}
 				}
 				else if (activatedArgs.Data is IProtocolActivatedEventArgs protocolArgs)
 				{
 					var parsedArgs = protocolArgs.Uri.Query.TrimStart('?').Split('=');
 					if (parsedArgs.Length == 1)
 					{
-						var instance = FindExistingInstance();
-						if (instance is not null)
-						{
-							RedirectActivationTo(instance, activatedArgs);
+						if (TryRedirectActivationToExistingInstance(activatedArgs))
 							return;
-						}
 					}
 				}
 				else if (activatedArgs.Data is IFileActivatedEventArgs)
 				{
-					var instance = FindExistingInstance();
-					if (instance is not null)
-					{
-						RedirectActivationTo(instance, activatedArgs);
+					if (TryRedirectActivationToExistingInstance(activatedArgs))
 						return;
-					}
 				}
 			}
 
@@ -174,12 +157,6 @@ namespace Files.App
 
 				_ = new App();
 			});
-		}
-
-		private static AppInstance? FindExistingInstance()
-		{
-			return AppInstance.GetInstances().FirstOrDefault(instance =>
-				!instance.IsCurrent && instance.Key.StartsWith("Files.Window.", StringComparison.Ordinal));
 		}
 
 		internal static void RegisterCurrentInstance()
@@ -220,14 +197,25 @@ namespace Files.App
 		}
 
 		/// <summary>
-		/// Redirects the activation to the main process.
+		/// Attempts redirection, allowing a normal launch if the existing instance has exited.
 		/// </summary>
-		/// <remarks>
-		/// Redirects on another thread and uses a non-blocking wait method to wait for the redirection to complete.
-		/// </remarks>
-		public static void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
+		private static bool TryRedirectActivationToExistingInstance(AppActivationArguments args)
 		{
-			keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
+			try
+			{
+				var instance = AppInstance.GetInstances().FirstOrDefault(instance =>
+					!instance.IsCurrent && instance.Key.StartsWith("Files.Window.", StringComparison.Ordinal));
+				if (instance is null)
+					return false;
+
+				instance.RedirectActivationToAsync(args).AsTask().GetAwaiter().GetResult();
+				return true;
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+				return false;
+			}
 		}
 
 		public static void OpenShellCommandInExplorer(string shellCommand, int pid)

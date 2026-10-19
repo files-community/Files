@@ -242,8 +242,6 @@ namespace Files.App.Server.Cloud
 					?? throw new InvalidOperationException("The ProgramFiles environment variable is not set."), "pCloud Drive", "pCloud.exe");
 				var iconFile = ServerIconHelper.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }, 32).FirstOrDefault();
 
-
-
 				results.Add(new CloudProvider(CloudProviders.pCloud)
 				{
 					Name = $"pCloud Drive",

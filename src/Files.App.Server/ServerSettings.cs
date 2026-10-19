@@ -15,8 +15,8 @@ internal sealed partial class ServerSettings : IDisposable
 	private bool disposed;
 	private int readFailures;
 
-	internal bool KeepRunning { get; private set; } = true;
-	internal bool ShowTrayIcon { get; private set; } = true;
+	internal bool KeepRunning { get; private set; } = BackgroundSettings.CloseToBackgroundDefault;
+	internal bool ShowTrayIcon { get; private set; } = BackgroundSettings.ShowSystemTrayIconDefault;
 	internal event Action? Changed;
 
 	internal ServerSettings()
@@ -67,13 +67,13 @@ internal sealed partial class ServerSettings : IDisposable
 					var text = File.ReadAllText(path);
 					using var document = JsonDocument.Parse(string.IsNullOrWhiteSpace(text) ? "null" : text);
 					var root = document.RootElement;
-					KeepRunning = root.ValueKind is not JsonValueKind.Object || !root.TryGetProperty("CloseToBackground", out var keep) || keep.ValueKind is not JsonValueKind.False;
-					ShowTrayIcon = root.ValueKind is not JsonValueKind.Object || !root.TryGetProperty("ShowSystemTrayIcon", out var show) || show.ValueKind is not JsonValueKind.False;
+					KeepRunning = ReadBoolean(root, BackgroundSettings.CloseToBackgroundKey, BackgroundSettings.CloseToBackgroundDefault);
+					ShowTrayIcon = ReadBoolean(root, BackgroundSettings.ShowSystemTrayIconKey, BackgroundSettings.ShowSystemTrayIconDefault);
 				}
 				else
 				{
-					KeepRunning = true;
-					ShowTrayIcon = true;
+					KeepRunning = BackgroundSettings.CloseToBackgroundDefault;
+					ShowTrayIcon = BackgroundSettings.ShowSystemTrayIconDefault;
 				}
 				readFailures = 0;
 			}
@@ -88,6 +88,10 @@ internal sealed partial class ServerSettings : IDisposable
 		Changed?.Invoke();
 		return true;
 	}
+
+	private static bool ReadBoolean(JsonElement root, string key, bool defaultValue)
+		=> root.ValueKind is JsonValueKind.Object && root.TryGetProperty(key, out var value) &&
+			value.ValueKind is JsonValueKind.True or JsonValueKind.False ? value.GetBoolean() : defaultValue;
 
 	public void Dispose()
 	{

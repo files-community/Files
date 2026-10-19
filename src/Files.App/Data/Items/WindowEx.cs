@@ -22,6 +22,7 @@ namespace Files.App.Data.Items
 	/// </summary>
 	public unsafe partial class WindowEx : Window, IDisposable
 	{
+		// Window creation, destruction, and enumeration run on the UI thread.
 		private static readonly HashSet<WindowEx> windows = [];
 
 		private bool _isInitialized;
