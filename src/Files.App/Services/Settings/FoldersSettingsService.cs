@@ -165,11 +165,9 @@ namespace Files.App.Services.Settings
 		/// <inheritdoc/>
 		public List<FolderAliasItem>? FolderAliases
 		{
-			get => Get(_defaultFolderAliases ??= CreateDefaultFolderAliases());
+			get => Get(CreateDefaultFolderAliases());
 			set => Set(value);
 		}
-
-		private static List<FolderAliasItem>? _defaultFolderAliases;
 
 		private static List<FolderAliasItem> CreateDefaultFolderAliases()
 		{

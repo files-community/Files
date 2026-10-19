@@ -557,20 +557,32 @@ namespace Files.App.ViewModels.UserControls
 			var shellViewModel = shellPage.ShellViewModel
 				?? throw new InvalidOperationException("The current shell page does not have a view model.");
 
-			var aliases = path.StartsWith(FolderAliasHelpers.Prefix) ? FolderAliasHelpers.Aliases : [];
-			if (FolderAliasHelpers.IsAliasQuery(path) && aliases.Count is 0)
+			if (FolderAliasHelpers.HasPrefix(path))
 			{
-				shellPage.NavigateToSettings(nameof(SettingsPageKind.FoldersPage));
-				return true;
-			}
+				var aliases = FolderAliasHelpers.Aliases;
+				if (FolderAliasHelpers.TryResolve(path, aliases, out var aliasPath))
+					path = aliasPath;
+				else if (aliases.Count is 0 && FolderAliasHelpers.IsAliasQuery(path))
+				{
+					var openSettings = await DialogDisplayHelper.ShowDialogAsync(
+						Strings.FolderAliases.GetLocalizedResource(),
+						Strings.NoFolderAliasesDialogContent.GetLocalizedResource(),
+						Strings.OpenSettings.GetLocalizedResource(),
+						Strings.Cancel.GetLocalizedResource());
 
-			if (FolderAliasHelpers.TryResolve(path, aliases, out var aliasPath))
-				path = aliasPath;
-			else if (FolderAliasHelpers.IsAliasQuery(path))
-			{
-				await DialogDisplayHelper.ShowDialogAsync(Strings.FolderAliasNotFoundDialogTitle.GetLocalizedResource(),
-					string.Format(Strings.FolderAliasNotFoundDialogContent.GetLocalizedResource(), FolderAliasHelpers.GetQuery(path)));
-				return false;
+					if (openSettings)
+						shellPage.NavigateToSettings(nameof(SettingsPageKind.FoldersPage));
+
+					return openSettings;
+				}
+				else if (FolderAliasHelpers.IsAliasQuery(path))
+				{
+					await DialogDisplayHelper.ShowDialogAsync(
+						Strings.FolderAliasNotFoundDialogTitle.GetLocalizedResource(),
+						string.Format(Strings.FolderAliasNotFoundDialogContent.GetLocalizedResource(), FolderAliasHelpers.GetQuery(path)));
+
+					return false;
+				}
 			}
 
 			var currentPath = PathComponents.LastOrDefault()?.Path;
@@ -1032,6 +1044,31 @@ namespace Files.App.ViewModels.UserControls
 			);
 		}
 
+		private List<OmnibarPathModeSuggestionModel> GetFolderAliasSuggestions(string pathText)
+		{
+			var aliases = FolderAliasHelpers.Aliases;
+			if (aliases.Count is 0)
+				return [new(pathText, Strings.NoFolderAliasesSuggestion.GetLocalizedResource(), IsPlaceholder: true)];
+
+			if (!ReferenceEquals(_measuredAliases, aliases))
+			{
+				_aliasNameWidth = aliases.Max(x => UIHelpers.MeasureTextWidth(x.Name, Microsoft.UI.Text.FontWeights.SemiBold));
+				_measuredAliases = aliases;
+			}
+
+			var matchLength = FolderAliasHelpers.GetQuery(pathText).Length;
+			List<OmnibarPathModeSuggestionModel> suggestions =
+			[
+				.. FolderAliasHelpers.GetMatches(aliases, pathText)
+					.Take(MaxSuggestionsCount)
+					.Select(x => new FolderAliasSuggestionModel(x.Name, x.Path, matchLength, _aliasNameWidth))
+			];
+
+			return suggestions.Count is 0
+				? [new(pathText, Strings.NoMatchingFolderAliasesSuggestion.GetLocalizedResource(), IsPlaceholder: true)]
+				: suggestions;
+		}
+
 		public async Task PopulateOmnibarSuggestionsForPathMode()
 		{
 			var version = ++_pathModeSuggestionsVersion;
@@ -1039,7 +1076,6 @@ namespace Files.App.ViewModels.UserControls
 			{
 				List<OmnibarPathModeSuggestionModel> newSuggestions = [];
 				var pathText = this.PathText;
-				IsPathModeSuggestionAutoSelected = pathText is not null && FolderAliasHelpers.IsAliasQuery(pathText);
 
 				// If the current input is special, populate navigation history instead.
 				if (string.IsNullOrWhiteSpace(pathText) ||
@@ -1051,45 +1087,13 @@ namespace Files.App.ViewModels.UserControls
 						newSuggestions.AddRange(pathHistoryList.Select(x => new OmnibarPathModeSuggestionModel(x, x)));
 					}
 				}
-				else if (pathText is [FolderAliasHelpers.Prefix])
-				{
-					PathModeSuggestionItems.Clear();
-					return true;
-				}
 				else if (FolderAliasHelpers.IsAliasQuery(pathText))
 				{
-					var aliases = FolderAliasHelpers.Aliases;
-					if (aliases.Count is 0)
-						newSuggestions.Add(new(pathText, Strings.NoFolderAliasesSuggestion.GetLocalizedResource(), IsPlaceholder: true));
-					else
-					{
-						if (!ReferenceEquals(_measuredAliases, aliases))
-						{
-							_aliasNameWidth = aliases.Max(x => UIHelpers.MeasureTextWidth(x.Name, Microsoft.UI.Text.FontWeights.SemiBold));
-							_measuredAliases = aliases;
-						}
-
-						var nameWidth = _aliasNameWidth;
-						var query = FolderAliasHelpers.GetQuery(pathText);
-						newSuggestions.AddRange(FolderAliasHelpers.GetMatches(aliases, pathText)
-							.Take(MaxSuggestionsCount)
-							.Select(x => new OmnibarPathModeSuggestionModel(
-								$"{FolderAliasHelpers.Prefix}{x.Name}",
-								x.Name,
-								x.Path,
-								NameMinWidth: nameWidth,
-								MatchLength: query.Length)));
-
-						if (newSuggestions.Count is 0)
-						{
-							IsPathModeSuggestionAutoSelected = false;
-							newSuggestions.Add(new(pathText, Strings.NoMatchingFolderAliasesSuggestion.GetLocalizedResource(), IsPlaceholder: true));
-						}
-					}
+					newSuggestions.AddRange(GetFolderAliasSuggestions(pathText));
 				}
 				else
 				{
-					if (pathText.StartsWith(FolderAliasHelpers.Prefix) && FolderAliasHelpers.TryResolve(pathText, FolderAliasHelpers.Aliases, out var aliasPath))
+					if (FolderAliasHelpers.HasPrefix(pathText) && FolderAliasHelpers.TryResolve(pathText, FolderAliasHelpers.Aliases, out var aliasPath))
 						pathText = aliasPath;
 
 					var isFtp = FtpHelpers.IsFtpPath(pathText);
@@ -1123,6 +1127,8 @@ namespace Files.App.ViewModels.UserControls
 				// Drop results superseded by a newer input
 				if (version != _pathModeSuggestionsVersion)
 					return true;
+
+				IsPathModeSuggestionAutoSelected = newSuggestions is [FolderAliasSuggestionModel, ..];
 
 				// If there are no suggestions, show "No suggestions"
 				if (newSuggestions.Count is 0)

@@ -96,7 +96,7 @@ namespace Files.App.Data.Contracts
 		SizeUnitTypes SizeUnitFormat { get; set; }
 
 		/// <summary>
-		/// Gets or sets the user defined folder aliases that can be typed in the Omnibar as "/name".
+		/// Gets or sets the user defined folder aliases that can be typed in the Omnibar as "alias:name".
 		/// </summary>
 		List<FolderAliasItem>? FolderAliases { get; set; }
 	}

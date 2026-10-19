@@ -5,11 +5,15 @@ using Files.App.Controls;
 
 namespace Files.App.Data.Models
 {
-	internal record OmnibarPathModeSuggestionModel(string Path, string DisplayName, string? Description = null, bool IsPlaceholder = false, double NameMinWidth = 0, int MatchLength = 0) : IOmnibarTextMemberPathProvider
+	internal record OmnibarPathModeSuggestionModel(string Path, string DisplayName, bool IsPlaceholder = false) : IOmnibarTextMemberPathProvider
 	{
-		public string DisplayNameMatch => DisplayName[..MatchLength];
+		public virtual string DisplayNameMatch => string.Empty;
 
-		public string DisplayNameAfterMatch => DisplayName[MatchLength..];
+		public virtual string DisplayNameAfterMatch => DisplayName;
+
+		public virtual string? Description => null;
+
+		public virtual double NameMinWidth => 0;
 
 		public string GetTextMemberPath(string textMemberPath)
 		{
@@ -20,5 +24,17 @@ namespace Files.App.Data.Models
 				_ => string.Empty
 			};
 		}
+	}
+
+	internal sealed record FolderAliasSuggestionModel(string Name, string Folder, int MatchLength, double NameWidth)
+		: OmnibarPathModeSuggestionModel($"{FolderAliasHelpers.Prefix}{Name}", Name)
+	{
+		public override string DisplayNameMatch => Name[..Math.Min(MatchLength, Name.Length)];
+
+		public override string DisplayNameAfterMatch => Name[DisplayNameMatch.Length..];
+
+		public override string? Description => Folder;
+
+		public override double NameMinWidth => NameWidth;
 	}
 }

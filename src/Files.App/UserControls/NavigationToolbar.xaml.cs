@@ -187,13 +187,13 @@ namespace Files.App.UserControls
 			if (mode == OmnibarPathMode)
 			{
 				var submittedText = args.Text;
-				var typedPath = FolderAliasHelpers.IsAliasQuery(submittedText)
-					? $"{FolderAliasHelpers.Prefix}{FolderAliasHelpers.GetQuery(submittedText)}"
-					: submittedText;
-				var targetPath = args.Item is OmnibarPathModeSuggestionModel { IsPlaceholder: false } suggestion &&
-					suggestion.Path.StartsWith(typedPath, StringComparison.OrdinalIgnoreCase)
-						? suggestion.Path
-						: submittedText;
+				var targetPath = submittedText;
+				if (FolderAliasHelpers.IsAliasQuery(submittedText) &&
+					args.Item is OmnibarPathModeSuggestionModel { IsPlaceholder: false } suggestion &&
+					suggestion.Path.StartsWith($"{FolderAliasHelpers.Prefix}{FolderAliasHelpers.GetQuery(submittedText)}", StringComparison.OrdinalIgnoreCase))
+				{
+					targetPath = suggestion.Path;
+				}
 
 				if (!await viewModel.HandleItemNavigationAsync(targetPath))
 				{

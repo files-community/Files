@@ -4753,7 +4753,13 @@
     <value>Name can't contain \ or /.</value>
   </data>
   <data name="FolderAliasesEmptyState" xml:space="preserve">
-    <value>There are no folder aliases. Add one, then type / followed by its name in the Omnibar to go to the folder.</value>
+    <value>There are no folder aliases. Add one, then type alias: followed by its name in the Omnibar to go to the folder.</value>
+  </data>
+  <data name="NoFolderAliasesDialogContent" xml:space="preserve">
+    <value>There are no folder aliases. Do you want to open Settings to add one?</value>
+  </data>
+  <data name="FolderAliasPathNotFound" xml:space="preserve">
+    <value>This folder doesn't exist.</value>
   </data>
   <data name="NoFolderAliasesSuggestion" xml:space="preserve">
     <value>There are no folder aliases. Open Settings to add one.</value>

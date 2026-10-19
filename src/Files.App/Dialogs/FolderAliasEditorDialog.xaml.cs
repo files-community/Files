@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
+using System.IO;
 using Files.App.ViewModels.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -15,7 +16,7 @@ namespace Files.App.Dialogs
 		private readonly FolderAliasItem? _editingItem;
 
 		private string AliasName
-			=> NameTextBox.Text.Trim().TrimStart(FolderAliasHelpers.Prefix);
+			=> NameTextBox.Text.Trim();
 
 		private string AliasPath
 			=> PathTextBox.Text.Trim().Trim('"');
@@ -33,8 +34,6 @@ namespace Files.App.Dialogs
 			NameTextBox.Text = itemToEdit?.Name ?? string.Empty;
 			PathTextBox.Text = itemToEdit?.Path ?? string.Empty;
 			Validate();
-
-			PrimaryButtonClick += FolderAliasEditorDialog_PrimaryButtonClick;
 		}
 
 		private void InputTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -57,18 +56,37 @@ namespace Files.App.Dialogs
 				_viewModel.IsNameInUse(name, _editingItem) ? Strings.FolderAliasNameInUse.GetLocalizedResource() :
 				null;
 
+			PathErrorTextBlock.Visibility = Visibility.Collapsed;
+
 			NameErrorTextBlock.Text = error ?? string.Empty;
 			NameErrorTextBlock.Visibility = error is null ? Visibility.Collapsed : Visibility.Visible;
 			IsPrimaryButtonEnabled = error is null && name.Length > 0 && AliasPath.Length > 0;
 		}
 
-		private void FolderAliasEditorDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+		private async void FolderAliasEditorDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
 		{
-			var newItem = new FolderAliasItem(AliasName, AliasPath);
-			if (_editingItem is null)
-				_viewModel.Add(newItem);
-			else
-				_viewModel.Replace(_editingItem, newItem);
+			var deferral = args.GetDeferral();
+			try
+			{
+				var path = AliasPath;
+				if (!await Task.Run(() => Directory.Exists(path)))
+				{
+					PathErrorTextBlock.Text = Strings.FolderAliasPathNotFound.GetLocalizedResource();
+					PathErrorTextBlock.Visibility = Visibility.Visible;
+					args.Cancel = true;
+					return;
+				}
+
+				var newItem = new FolderAliasItem(AliasName, path);
+				if (_editingItem is null)
+					_viewModel.Add(newItem);
+				else
+					_viewModel.Replace(_editingItem, newItem);
+			}
+			finally
+			{
+				deferral.Complete();
+			}
 		}
 	}
 }

@@ -8,6 +8,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	CloseButtonText="{helpers:ResourceString Name=Cancel}"
 	DefaultButton="Primary"
+	PrimaryButtonClick="FolderAliasEditorDialog_PrimaryButtonClick"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 
@@ -31,25 +32,34 @@
 		</StackPanel>
 
 		<!--  Target folder  -->
-		<Grid ColumnSpacing="8">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="Auto" />
-			</Grid.ColumnDefinitions>
+		<StackPanel Spacing="4">
+			<Grid ColumnSpacing="8">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
 
-			<TextBox
-				x:Name="PathTextBox"
-				Header="{helpers:ResourceString Name=Folder}"
-				IsSpellCheckEnabled="False"
-				PlaceholderText="{helpers:ResourceString Name=EnterFolderPath}"
-				TextChanged="InputTextBox_TextChanged" />
+				<TextBox
+					x:Name="PathTextBox"
+					Header="{helpers:ResourceString Name=Folder}"
+					IsSpellCheckEnabled="False"
+					PlaceholderText="{helpers:ResourceString Name=EnterFolderPath}"
+					TextChanged="InputTextBox_TextChanged" />
 
-			<Button
-				Grid.Column="1"
-				VerticalAlignment="Bottom"
-				Click="BrowseButton_Click"
-				Content="{helpers:ResourceString Name=Browse}" />
-		</Grid>
+				<Button
+					Grid.Column="1"
+					VerticalAlignment="Bottom"
+					Click="BrowseButton_Click"
+					Content="{helpers:ResourceString Name=Browse}" />
+			</Grid>
+
+			<TextBlock
+				x:Name="PathErrorTextBlock"
+				Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+				Style="{StaticResource CaptionTextBlockStyle}"
+				TextWrapping="Wrap"
+				Visibility="Collapsed" />
+		</StackPanel>
 
 	</StackPanel>
 </ContentDialog>
