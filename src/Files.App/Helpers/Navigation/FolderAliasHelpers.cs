@@ -8,7 +8,7 @@ namespace Files.App.Helpers
 {
 	public static class FolderAliasHelpers
 	{
-		public const string Prefix = "alias:";
+		public const string Prefix = "@";
 
 		private static readonly char[] Separators = ['\\', '/'];
 
@@ -41,7 +41,7 @@ namespace Files.App.Helpers
 			=> input.StartsWith(Prefix, StringComparison.OrdinalIgnoreCase);
 
 		/// <summary>
-		/// Gets whether the input is a bare alias query such as "alias:pro", with no sub path.
+		/// Gets whether the input is a bare alias query such as "@pro", with no sub path.
 		/// </summary>
 		public static bool IsAliasQuery(string input)
 			=> HasPrefix(input) && input.IndexOfAny(Separators, Prefix.Length) < 0;
@@ -65,7 +65,7 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Resolves "alias:name" or "alias:name\sub\path" to the aliased folder, keeping any sub path.
+		/// Resolves "@name" or "@name\sub\path" to the aliased folder, keeping any sub path.
 		/// </summary>
 		public static bool TryResolve(string input, IReadOnlyList<FolderAliasItem> aliases, [NotNullWhen(true)] out string? resolvedPath)
 		{

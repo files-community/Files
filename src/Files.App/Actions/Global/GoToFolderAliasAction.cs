@@ -20,10 +20,7 @@ namespace Files.App.Actions
 			=> ActionCategory.Navigation;
 
 		public HotKey HotKey
-			=> GetSlashHotKey();
-
-		public HotKey SecondHotKey
-			=> new(Keys.Divide);
+			=> GetAtHotKey();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Shortcut");
@@ -34,13 +31,23 @@ namespace Files.App.Actions
 				?? Task.CompletedTask;
 		}
 
-		private static HotKey GetSlashHotKey()
+		private static HotKey GetAtHotKey()
 		{
 			// The low byte is the virtual key and the high byte the modifiers it needs
-			var scan = PInvoke.VkKeyScan('/');
+			var scan = PInvoke.VkKeyScan('@');
+			if (scan is -1)
+				return HotKey.None;
 
-			return scan is not -1 && scan >> 8 is 0
-				? new((Keys)(scan & 0xFF))
+			var modifier = (scan >> 8) switch
+			{
+				0 => KeyModifiers.None,
+				1 => KeyModifiers.Shift,
+				6 => KeyModifiers.CtrlAlt,
+				_ => (KeyModifiers?)null,
+			};
+
+			return modifier is { } m
+				? new((Keys)(scan & 0xFF), m)
 				: HotKey.None;
 		}
 	}
