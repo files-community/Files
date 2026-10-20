@@ -1,7 +1,9 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Utils.Cloud
+using System;
+
+namespace Files.Shared.Cloud
 {
 	public sealed class CloudProvider : ICloudProvider
 	{

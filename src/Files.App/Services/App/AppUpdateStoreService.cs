@@ -149,9 +149,7 @@ namespace Files.App.Services
 			// Save the updated tab list before installing the update
 			AppLifecycleHelper.SaveSessionTabs();
 
-			App.AppModel.ForceProcessTermination = true;
-
-			StorePackageUpdateResult? result = null;
+			var serverUpdateStarted = SafetyExtensions.IgnoreExceptions(Server.AppService.BeginUpdate, App.Logger);
 
 			try
 			{
@@ -168,7 +166,7 @@ namespace Files.App.Services
 					});
 				};
 
-				result = await downloadOperation.AsTask();
+				await downloadOperation.AsTask();
 			}
 			catch (Exception ex)
 			{
@@ -176,11 +174,8 @@ namespace Files.App.Services
 			}
 			finally
 			{
-				// Only keep ForceProcessTermination set when the Store actually completed
-				// the install — otherwise the app would hard-exit on next close instead of
-				// going to background.
-				if (result is null || result.OverallState != StorePackageUpdateState.Completed)
-					App.AppModel.ForceProcessTermination = false;
+				if (serverUpdateStarted)
+					SafetyExtensions.IgnoreExceptions(Server.AppService.EndUpdate, App.Logger);
 			}
 		}
 

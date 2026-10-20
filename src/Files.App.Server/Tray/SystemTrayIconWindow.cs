@@ -1,24 +1,26 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using System.Runtime.InteropServices;
+using System.ComponentModel;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
 using WNDPROC = Windows.Win32.Extras.ManagedWNDPROC;
 
-namespace Files.App.Utils.Taskbar
+namespace Files.App.Server
 {
 	/// <summary>
 	/// Represents an icon window of Notification Area so-called System Tray.
 	/// <br/>
 	/// This is provided to handle context menu and retrieve mouse events, not a regular window class.
 	/// </summary>
-	public sealed partial class SystemTrayIconWindow : IDisposable
+	internal sealed partial class SystemTrayIconWindow : IDisposable
 	{
 		private SystemTrayIcon? _trayIcon;
 
 		private readonly WNDPROC _windowProcedure;
+		private readonly string className;
 
 		private HWND _windowHandle;
 		internal HWND WindowHandle
@@ -28,9 +30,9 @@ namespace Files.App.Utils.Taskbar
 		{
 			_windowProcedure = WindowProc;
 			_trayIcon = icon;
-			string text = "FilesTrayIcon_" + _trayIcon.Id;
+			className = "FilesTrayIcon_" + _trayIcon.Id;
 
-			fixed (char* ptr = text)
+			fixed (char* ptr = className)
 			{
 				var pWindProc = Marshal.GetFunctionPointerForDelegate<WNDPROC>(_windowProcedure);
 				var pfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)pWindProc;
@@ -46,12 +48,13 @@ namespace Files.App.Utils.Taskbar
 					lpszClassName = ptr
 				};
 
-				PInvoke.RegisterClassEx(in param);
+				if (PInvoke.RegisterClassEx(in param) == 0)
+					throw new Win32Exception(Marshal.GetLastPInvokeError());
 			}
 
 			_windowHandle = PInvoke.CreateWindowEx(
 				WINDOW_EX_STYLE.WS_EX_LEFT,
-				text,
+				className,
 				string.Empty,
 				WINDOW_STYLE.WS_OVERLAPPED,
 				0,
@@ -64,12 +67,22 @@ namespace Files.App.Utils.Taskbar
 				null);
 
 			if (_windowHandle == default)
-				throw new Win32Exception("ERR: Message window handle was not a valid pointer.");
+			{
+				var error = Marshal.GetLastPInvokeError();
+				UnregisterClass();
+				throw new Win32Exception(error);
+			}
 		}
 
 		private LRESULT WindowProc(HWND hWnd, uint uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			return _trayIcon!.WindowProc(hWnd, uMsg, wParam, lParam);
+		}
+
+		private unsafe void UnregisterClass()
+		{
+			fixed (char* name = className)
+				PInvoke.UnregisterClass(name, PInvoke.GetModuleHandle(default(PCWSTR)));
 		}
 
 		public void Dispose()
@@ -78,6 +91,7 @@ namespace Files.App.Utils.Taskbar
 			{
 				PInvoke.DestroyWindow(_windowHandle);
 				_windowHandle = default;
+				UnregisterClass();
 			}
 
 			_trayIcon = null;

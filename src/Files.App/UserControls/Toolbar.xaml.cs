@@ -593,9 +593,9 @@ namespace Files.App.UserControls
 
 		private static async Task<MenuFlyoutItem> CreateShellNewEntryMenuItemAsync(ShellNewEntry entry)
 		{
-			if (!string.IsNullOrEmpty(entry.IconBase64))
+			if (entry.IconData is { Length: > 0 })
 			{
-				using var ms = new MemoryStream(Convert.FromBase64String(entry.IconBase64));
+				using var ms = new MemoryStream(entry.IconData);
 				var image = new BitmapImage();
 				await image.SetSourceAsync(ms.AsRandomAccessStream());
 				return new MenuFlyoutItemWithImage { Text = entry.Name, BitmapIcon = image };

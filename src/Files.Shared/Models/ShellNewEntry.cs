@@ -1,7 +1,7 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Data.Items
+namespace Files.Shared
 {
 	public sealed class ShellNewEntry
 	{
@@ -11,7 +11,7 @@ namespace Files.App.Data.Items
 
 		public string? Command { get; set; }
 
-		public string? IconBase64 { get; set; }
+		public byte[]? IconData { get; set; }
 
 		public byte[]? Data { get; set; }
 

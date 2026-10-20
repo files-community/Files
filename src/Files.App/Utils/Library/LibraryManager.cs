@@ -68,30 +68,25 @@ namespace Files.App.Utils.Library
 		/// <returns>List of library items</returns>
 		public static async Task<List<LibraryLocationItem>> ListUserLibraries()
 		{
-			var libraries = await STATask.Run(() =>
+			try
 			{
-				try
+				var libraries = await Server.AppService.GetLibrariesAsync();
+				return libraries.Select(library => new LibraryLocationItem(new ShellLibraryItem
 				{
-					var libraryItems = new List<ShellLibraryItem>();
-					// https://learn.microsoft.com/windows/win32/search/-search-win7-development-scenarios#library-descriptions
-					var libFiles = Directory.EnumerateFiles(ShellLibraryItem.LibrariesPath, "*" + ShellLibraryItem.EXTENSION);
-					foreach (var libFile in libFiles)
-					{
-						using var libraryFile = ShellItem.Open(libFile);
-						using var library = new ShellLibraryEx(libraryFile.IShellItem, true);
-						libraryItems.Add(ShellFolderExtensions.GetShellLibraryItem(library, libFile));
-					}
-					return libraryItems;
-				}
-				catch (Exception e)
-				{
-					App.Logger.LogWarning(e, null);
-				}
-
+					FullPath = library.FullPath,
+					AbsolutePath = library.AbsolutePath,
+					RelativePath = library.RelativePath,
+					DisplayName = library.DisplayName,
+					IsPinned = library.IsPinned,
+					DefaultSaveFolder = library.DefaultSaveFolder,
+					Folders = library.Folders,
+				})).ToList();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "Could not load libraries from the background server.");
 				return [];
-			}, App.Logger);
-
-			return libraries.Select(lib => new LibraryLocationItem(lib)).ToList();
+			}
 		}
 
 		public async Task UpdateLibrariesAsync()

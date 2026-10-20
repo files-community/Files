@@ -4,12 +4,12 @@
 using System.IO;
 using Windows.Storage;
 
-namespace Files.App.Utils.Cloud
+namespace Files.App.Server.Cloud
 {
 	/// <summary>
 	/// Provides an utility for Box Cloud detection.
 	/// </summary>
-	public sealed class BoxCloudDetector : AbstractCloudDetector
+	internal sealed class BoxCloudDetector : AbstractCloudDetector
 	{
 		protected override async IAsyncEnumerable<ICloudProvider> GetProviders()
 		{
@@ -17,18 +17,10 @@ namespace Files.App.Utils.Cloud
 
 			string configPathBoxSync = Path.Combine(UserDataPaths.GetDefault().LocalAppData, @"Box Sync\sync_root_folder.txt");
 
-			var configFileResult = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(configPathBoxDrive).AsTask());
-			var configFile = configFileResult.Result;
-
-			if (configFile is null)
+			var configPath = File.Exists(configPathBoxDrive) ? configPathBoxDrive : configPathBoxSync;
+			if (File.Exists(configPath))
 			{
-				configFileResult = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(configPathBoxSync).AsTask());
-				configFile = configFileResult.Result;
-			}
-
-			if (configFile is not null)
-			{
-				string syncPath = await FileIO.ReadTextAsync(configFile);
+				string syncPath = await File.ReadAllTextAsync(configPath);
 
 				if (!string.IsNullOrEmpty(syncPath))
 				{

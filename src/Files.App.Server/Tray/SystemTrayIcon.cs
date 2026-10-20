@@ -1,11 +1,12 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
-using Sentry;
+
 using System.Drawing;
 using System.Runtime.InteropServices;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.System;
 using Windows.Win32;
@@ -13,32 +14,23 @@ using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
 
-namespace Files.App.Utils.Taskbar
+namespace Files.App.Server
 {
 	/// <summary>
 	/// Represents a tray icon of Notification Area so-called System Tray.
 	/// </summary>
-	public sealed partial class SystemTrayIcon : IDisposable
+	internal sealed partial class SystemTrayIcon : IDisposable
 	{
 		// Constants
 
 		private const uint WM_FILES_UNIQUE_MESSAGE = 2048u;
 		private const uint WM_FILES_CONTEXTMENU_DOCSLINK = 1u;
-		private const uint WM_FILES_CONTEXTMENU_RESTART = 2u;
 		private const uint WM_FILES_CONTEXTMENU_QUIT = 3u;
 
 		// Fields
 
-		private readonly static Guid _trayIconGuid = AppLifecycleHelper.AppEnvironment switch
-		{
-			AppEnvironment.Dev => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4001"),
-			AppEnvironment.SideloadPreview => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4002"),
-			AppEnvironment.StorePreview => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4003"),
-			AppEnvironment.SideloadStable => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4004"),
-			AppEnvironment.StoreStable => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4005"),
-			_ => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4001")
-		};
-
+		private static readonly string appEnvironment = "cd_app_env_placeholder".ToLowerInvariant();
+		private readonly ResourceLoader resources = ResourceLoader.GetForViewIndependentUse();
 
 		private readonly SystemTrayIconWindow _IconWindow;
 
@@ -142,11 +134,25 @@ namespace Files.App.Utils.Taskbar
 		/// </remarks>
 		public SystemTrayIcon()
 		{
-			_Icon = new(AppLifecycleHelper.AppIconPath);
-			_Tooltip = Package.Current.DisplayName;
+			var assetFolder = appEnvironment.Contains("preview", StringComparison.Ordinal) ? "Preview"
+				: appEnvironment.Contains("stable", StringComparison.Ordinal) ? "Release" : "Dev";
+			_Icon = new(System.IO.Path.Combine(Package.Current.InstalledPath, "Assets", "AppTiles", assetFolder, "Logo.ico"));
+			_Tooltip = $"{Package.Current.DisplayName}{(Environment.IsPrivilegedProcess ? $" ({resources.GetString("FilesRunningAsAdmin")})" : string.Empty)}";
 			_taskbarRestartMessageId = PInvoke.RegisterWindowMessage("TaskbarCreated");
 
-			Id = _trayIconGuid;
+			Id = (appEnvironment, Environment.IsPrivilegedProcess) switch
+			{
+				("sideloadpreview", false) => new("684F2832-AC2B-4630-98C2-73D6AEBD4002"),
+				("storepreview", false) => new("684F2832-AC2B-4630-98C2-73D6AEBD4003"),
+				("sideloadstable", false) => new("684F2832-AC2B-4630-98C2-73D6AEBD4004"),
+				("storestable", false) => new("684F2832-AC2B-4630-98C2-73D6AEBD4005"),
+				("sideloadpreview", true) => new("684F2832-AC2B-4630-98C2-73D6AEBD5002"),
+				("storepreview", true) => new("684F2832-AC2B-4630-98C2-73D6AEBD5003"),
+				("sideloadstable", true) => new("684F2832-AC2B-4630-98C2-73D6AEBD5004"),
+				("storestable", true) => new("684F2832-AC2B-4630-98C2-73D6AEBD5005"),
+				(_, true) => new("684F2832-AC2B-4630-98C2-73D6AEBD5001"),
+				_ => new("684F2832-AC2B-4630-98C2-73D6AEBD4001"),
+			};
 			_IconWindow = new SystemTrayIconWindow(this);
 
 			CreateOrModifyNotifyIcon();
@@ -172,27 +178,6 @@ namespace Files.App.Utils.Taskbar
 			IsVisible = false;
 
 			return this;
-		}
-
-		/// <summary>
-		/// Re-adds the notify icon if the shell no longer has it, e.g. after a sibling instance
-		/// sharing the same GUID deleted it on exit. No-op when hidden or still registered.
-		/// </summary>
-		public void EnsureCreated()
-		{
-			if (!IsVisible)
-				return;
-
-			NOTIFYICONIDENTIFIER identifier = default;
-			identifier.cbSize = (uint)Marshal.SizeOf<NOTIFYICONIDENTIFIER>();
-			identifier.guidItem = Id;
-
-			// Icon is still registered with the shell
-			if (PInvoke.Shell_NotifyIconGetRect(in identifier, out _).Succeeded)
-				return;
-
-			_notifyIconCreated = false;
-			CreateOrModifyNotifyIcon();
 		}
 
 		// Private Methods
@@ -257,13 +242,12 @@ namespace Files.App.Utils.Taskbar
 		{
 			PInvoke.GetCursorPos(out var lpPoint);
 
-			DestroyMenuSafeHandle hMenu = PInvoke.CreatePopupMenu_SafeHandle();
+			using DestroyMenuSafeHandle hMenu = PInvoke.CreatePopupMenu_SafeHandle();
 
 			// Generate the classic context menu
-			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_DOCSLINK, Strings.Documentation.GetLocalizedResource());
+			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_DOCSLINK, resources.GetString("Documentation"));
 			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_SEPARATOR, 0u, string.Empty);
-			//PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_RESTART, "Restart".GetLocalizedResource());
-			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_QUIT, Strings.Quit.GetLocalizedResource());
+			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_QUIT, resources.GetString("Quit"));
 			PInvoke.SetForegroundWindow(_IconWindow.WindowHandle);
 
 			TRACK_POPUP_MENU_FLAGS tRACK_POPUP_MENU_FLAGS =
@@ -277,9 +261,6 @@ namespace Files.App.Utils.Taskbar
 				case 1:
 					OnDocumentationClicked();
 					break;
-				case 2:
-					OnRestartClicked();
-					break;
 				case 3:
 					OnQuitClicked();
 					break;
@@ -288,65 +269,20 @@ namespace Files.App.Utils.Taskbar
 
 		private void OnLeftClicked()
 		{
-			// Prevents duplicate launch
 			if (DateTime.Now - _lastLaunchDate < TimeSpan.FromSeconds(1))
 				return;
 
-			if (Program.Pool is not null)
-			{
-				_lastLaunchDate = DateTime.Now;
-
-				_ = Launcher.LaunchUriAsync(new Uri("files-dev:"));
-			}
-			else
-				MainWindow.Instance.Activate();
+			_lastLaunchDate = DateTime.Now;
+			if (!ServerHost.ActivateWindow())
+				_ = SafetyExtensions.IgnoreExceptions(() => Launcher.LaunchUriAsync(new Uri("files-dev:")).AsTask(), Program.Logger);
 		}
 
 		private void OnDocumentationClicked()
 		{
-			Launcher.LaunchUriAsync(new Uri(Constants.ExternalUrl.DocumentationUrl)).AsTask();
+			_ = SafetyExtensions.IgnoreExceptions(() => Launcher.LaunchUriAsync(new Uri("https://files.community/docs")).AsTask(), Program.Logger);
 		}
 
-		private void OnRestartClicked()
-		{
-			Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
-
-			var pool = new Semaphore(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance", out var isNew);
-			if (!isNew)
-				pool.Release();
-
-			Environment.Exit(0);
-		}
-
-		private void OnQuitClicked()
-		{
-			try
-			{
-				Hide();
-
-				App.AppModel.ForceProcessTermination = true;
-
-				var pool = new Semaphore(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance", out var isNew);
-				if (!isNew)
-					pool.Release();
-				else
-					App.Current.Exit();
-			}
-			catch (Exception ex)
-			{
-				SentrySdk.CaptureException(ex, scope =>
-				{
-					scope.Level = SentryLevel.Fatal;
-					scope.SetTag("location", "SystemTrayIcon.OnQuitClicked");
-					scope.SetExtra("AppModelIsNull", App.AppModel is null);
-					scope.SetExtra("AppCurrentIsNull", App.Current is null);
-					scope.SetExtra("ProgramPoolIsNull", Program.Pool is null);
-				});
-
-				// The user requested quit; force termination as a last resort
-				Environment.Exit(0);
-			}
-		}
+		private void OnQuitClicked() => ServerHost.RequestQuit();
 
 		internal LRESULT WindowProc(HWND hWnd, uint uMsg, WPARAM wParam, LPARAM lParam)
 		{
@@ -359,6 +295,8 @@ namespace Files.App.Utils.Taskbar
 							switch ((uint)(lParam.Value & 0xFFFF))
 							{
 								case PInvoke.WM_LBUTTONUP:
+								case PInvoke.NIN_SELECT:
+								case PInvoke.NIN_SELECT | 1:
 									{
 										PInvoke.SetForegroundWindow(hWnd);
 										OnLeftClicked();
@@ -366,6 +304,7 @@ namespace Files.App.Utils.Taskbar
 										break;
 									}
 								case PInvoke.WM_RBUTTONUP:
+								case PInvoke.WM_CONTEXTMENU:
 									{
 										ShowContextMenu();
 
@@ -396,7 +335,7 @@ namespace Files.App.Utils.Taskbar
 			catch (Exception ex)
 			{
 				// A managed exception escaping this native message-pump callback would crash the process.
-				App.Logger?.LogWarning(ex, "Unhandled exception in the system tray WindowProc.");
+				Program.Logger?.LogWarning(ex, "Unhandled exception in the system tray WindowProc.");
 			}
 
 			return default;
@@ -405,6 +344,7 @@ namespace Files.App.Utils.Taskbar
 		public void Dispose()
 		{
 			_IconWindow.Dispose();
+			_Icon.Dispose();
 		}
 	}
 }

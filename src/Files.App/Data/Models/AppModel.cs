@@ -101,13 +101,6 @@ namespace Files.App.Data.Models
 			return result;
 		}
 
-		private bool _ForceProcessTermination = false;
-		public bool ForceProcessTermination
-		{
-			get => _ForceProcessTermination;
-			set => SetProperty(ref _ForceProcessTermination, value);
-		}
-
 		private string _GoogleDrivePath = string.Empty;
 		/// <summary>
 		/// Gets or sets a value indicating the path for Google Drive.

@@ -38,6 +38,8 @@ namespace Files.App.Utils.Cloud
 			// drive) never holds up the rest of the cloud drives or the sidebar.
 			await foreach (var provider in _detector.DetectCloudProvidersProgressiveAsync())
 			{
+				if (provider.ID is CloudProviders.pCloud)
+					App.AppModel.PCloudDrivePath = provider.SyncFolder ?? string.Empty;
 				_logger?.LogInformation($"Adding cloud provider {provider.ID} mapped to {LogPathHelper.RedactUserName(provider.SyncFolder)}");
 
 				var cloudProviderItem = new DriveItem()

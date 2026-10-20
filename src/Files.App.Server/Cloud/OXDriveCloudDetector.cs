@@ -1,16 +1,16 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
 using Microsoft.Win32;
 using System.IO;
 using Windows.Storage;
 
-namespace Files.App.Utils.Cloud
+namespace Files.App.Server.Cloud
 {
 	/// <summary>
 	/// Provides an utility for OX Drive Cloud detection.
 	/// </summary>
-	public sealed class OXDriveCloudDetector : AbstractCloudDetector
+	internal sealed class OXDriveCloudDetector : AbstractCloudDetector
 	{
 		protected override async IAsyncEnumerable<ICloudProvider> GetProviders()
 		{
@@ -70,7 +70,7 @@ namespace Files.App.Utils.Cloud
 			}
 
 			// Extract the icon from the OXDrive executable (though it is executable, it contains icons)
-			var icons = Win32Helper.ExtractSelectedIconsFromDLL(oxDriveFilePath, new List<int> { 0 }, 32);
+			var icons = ServerIconHelper.ExtractSelectedIconsFromDLL(oxDriveFilePath, new List<int> { 0 }, 32);
 			return icons.FirstOrDefault();
 		}
 	}
