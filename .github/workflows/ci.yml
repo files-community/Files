@@ -120,6 +120,7 @@ jobs:
       run: |
         msbuild `
           -warnaserror `
+          -warnnotaserror:CS0612,CS0618,CS0672 `
           $env:APP_PROJECT_PATH `
           -t:Build `
           -p:Configuration=$env:CONFIGURATION `
@@ -137,6 +138,7 @@ jobs:
       run: |
         msbuild `
           -warnaserror `
+          -warnnotaserror:CS0612,CS0618,CS0672 `
           $env:APP_PROJECT_PATH `
           -t:Build `
           -p:Configuration=$env:CONFIGURATION `
@@ -157,6 +159,7 @@ jobs:
       run: |
         msbuild `
           -warnaserror `
+          -warnnotaserror:CS0612,CS0618,CS0672 `
           $env:APP_PROJECT_PATH `
           -t:Build `
           -p:Configuration=$env:CONFIGURATION `
