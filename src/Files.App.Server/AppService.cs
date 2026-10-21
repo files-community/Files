@@ -11,9 +11,11 @@ public sealed partial class AppService : IDisposable
 	private readonly long clientId;
 	private int disposed;
 
+	public bool CanRestorePreviousSession { get; }
+
 	public AppService(int processId)
 	{
-		clientId = ServerHost.AddClient(processId);
+		(clientId, CanRestorePreviousSession) = ServerHost.AddClient(processId);
 	}
 
 	~AppService() => Dispose();

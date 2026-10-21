@@ -184,7 +184,7 @@
 											VerticalAlignment="Center"
 											Orientation="Horizontal"
 											Spacing="8"
-											ToolTipService.ToolTip="{x:Bind Tag.Name}">
+											ToolTipService.ToolTip="{x:Bind Tag.Name, Mode=OneWay}">
 											<PathIcon
 												VerticalAlignment="Center"
 												Data="{StaticResource App.Theme.PathIcon.FilledTag}"
@@ -194,7 +194,7 @@
 												MaxWidth="200"
 												VerticalAlignment="Center"
 												LineHeight="18"
-												Text="{x:Bind Tag.Name}"
+												Text="{x:Bind Tag.Name, Mode=OneWay}"
 												TextTrimming="CharacterEllipsis" />
 										</StackPanel>
 
@@ -209,6 +209,7 @@
 												VerticalAlignment="Center"
 												KeyDown="RenameTextBox_KeyDown"
 												Text="{x:Bind NewName, Mode=TwoWay}"
+												TextChanged="RenameTextBox_TextChanged"
 												Visibility="{x:Bind IsEditing, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
 												<TextBox.Resources>
 													<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />

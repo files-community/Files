@@ -14,8 +14,7 @@ namespace Files.App.Views.Settings
 	public sealed partial class TagsPage : Page
 	{
 		private readonly IWindowContext WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
-
-		private string oldTagName = string.Empty;
+		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 		// Will be null unless the user has edited any tag
 		private ListedTagViewModel? editingTag;
@@ -28,6 +27,37 @@ namespace Files.App.Views.Settings
 		public TagsPage()
 		{
 			InitializeComponent();
+			Loaded += OnLoaded;
+			Unloaded += OnUnloaded;
+		}
+
+		private void OnLoaded(object sender, RoutedEventArgs e)
+		{
+			fileTagsSettingsService.OnTagsUpdated += OnTagsUpdated;
+			RefreshTags();
+		}
+
+		private void OnUnloaded(object sender, RoutedEventArgs e)
+		{
+			fileTagsSettingsService.OnTagsUpdated -= OnTagsUpdated;
+		}
+
+		private void OnTagsUpdated(object? sender, EventArgs e)
+		{
+			// Reorder saves originate inside CollectionChanged; refresh after that event returns.
+			DispatcherQueue.TryEnqueue(() =>
+			{
+				if (IsLoaded)
+					RefreshTags();
+			});
+		}
+
+		private void RefreshTags()
+		{
+			var tags = fileTagsSettingsService.FileTagList;
+			if (editingTag is not null && !tags.Any(tag => tag.Uid == editingTag.Tag.Uid))
+				CloseEdit();
+			ViewModel.UpdateTags(tags);
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(TextBox))]
@@ -46,17 +76,10 @@ namespace Files.App.Views.Settings
 			}
 		}
 
-		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
-		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
-		[DynamicWindowsRuntimeCast(typeof(TextBox))]
+		[DynamicWindowsRuntimeCast(typeof(Button))]
 		private void EditTag_Click(object sender, RoutedEventArgs e)
 		{
-			if (editingTag is not null)
-			{
-				editingTag.IsEditing = false;
-				editingTag.NewName = editingTag.Tag.Name;
-				editingTag.NewColor = editingTag.Tag.Color;
-			}
+			CloseEdit();
 
 			if (sender is not Button { DataContext: ListedTagViewModel tag })
 				return;
@@ -65,15 +88,6 @@ namespace Files.App.Views.Settings
 			editingTag.NewColor = editingTag.Tag.Color;
 			editingTag.NewName = editingTag.Tag.Name;
 			editingTag.IsEditing = true;
-
-			var item = (TagsList.ContainerFromItem(editingTag) as ListViewItem)!;
-			var textBlock = (item.FindDescendant("TagName") as TextBlock)!;
-			var textBox = (item.FindDescendant("TagNameTextBox") as TextBox)!;
-
-			textBox.TextChanged += RenameTextBox_TextChanged;
-
-			textBox.Text = textBlock.Text;
-			oldTagName = textBlock.Text;
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
@@ -110,8 +124,10 @@ namespace Files.App.Views.Settings
 		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		private void RenameTextBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
-			var tag = editingTag!;
-			var text = ((TextBox)sender).Text;
+			var textBox = (TextBox)sender;
+			if (editingTag is not { } tag || !ReferenceEquals(textBox.DataContext, tag))
+				return;
+			var text = textBox.Text;
 			var isNullOrEmpty = string.IsNullOrEmpty(text);
 			tag.IsNameValid = isNullOrEmpty || (IsNameValid(text) && !ViewModel.Tags.Any(item => item.Tag.Name == text && tag.Tag.Name != text));
 			tag.CanCommit = !isNullOrEmpty && tag.IsNameValid && (
@@ -122,7 +138,7 @@ namespace Files.App.Views.Settings
 
 		private void EditColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
 		{
-			if (editingTag is null)
+			if (editingTag is null || !ReferenceEquals(sender.DataContext, editingTag))
 				return;
 
 			editingTag.CanCommit = editingTag.IsNameValid && (
@@ -151,31 +167,27 @@ namespace Files.App.Views.Settings
 		private void CommitChanges(TextBox textBox)
 		{
 			var tag = editingTag!;
-			EndEditing(textBox);
+			EndEditing();
 			string newTagName = textBox.Text.Trim().TrimEnd('.');
-			if (newTagName != oldTagName || tag.NewColor != tag.Tag.Color)
+			if (newTagName != tag.Tag.Name || tag.NewColor != tag.Tag.Color)
 				ViewModel.EditExistingTag(tag, newTagName, tag.NewColor);
 		}
 
-		private void EndEditing(TextBox textBox)
+		private void EndEditing()
 		{
-			textBox.TextChanged -= RenameTextBox_TextChanged;
 			editingTag!.IsEditing = false;
+			editingTag = null;
 		}
 
-		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
-		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		private void CloseEdit()
 		{
-			var tag = editingTag!;
-			var item = (TagsList.ContainerFromItem(tag) as ListViewItem)!;
-			var textBox = (item.FindDescendant("TagNameTextBox") as TextBox)!;
-
+			if (editingTag is not { } tag)
+				return;
 			tag.NewColor = tag.Tag.Color;
 			tag.IsNameValid = true;
 			tag.CanCommit = false;
 
-			EndEditing(textBox);
+			EndEditing();
 		}
 
 		private bool IsNameValid(string name)

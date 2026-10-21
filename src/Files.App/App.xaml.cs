@@ -31,6 +31,7 @@ namespace Files.App
 		private static readonly Task<Server.AppService> serverSession = Task.Run(() =>
 		{
 			var server = new Server.AppService(Environment.ProcessId);
+			CanRestorePreviousSession = server.CanRestorePreviousSession;
 			server.Changed += (_, name) => UiDispatcher?.TryEnqueue(() =>
 			{
 				if (ServerChanged is not { } handlers)
@@ -42,6 +43,7 @@ namespace Files.App
 		});
 
 		internal static event EventHandler<string>? ServerChanged;
+		internal static bool CanRestorePreviousSession { get; private set; }
 		public static FlyoutBase? LastOpenedFlyout
 		{
 			set
@@ -200,7 +202,11 @@ namespace Files.App
 				}
 
 				_ = SafetyExtensions.IgnoreExceptions(async () => (await serverSession).SetWindowHandle(MainWindow.Instance.WindowHandle), Logger);
-				_ = SafetyExtensions.IgnoreExceptions(() => MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data), Logger);
+				_ = SafetyExtensions.IgnoreExceptions(async () =>
+				{
+					await serverSession;
+					await MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
+				}, Logger);
 
 				await telemetryInitialization;
 				await AppLifecycleHelper.InitializeAppComponentsAsync();

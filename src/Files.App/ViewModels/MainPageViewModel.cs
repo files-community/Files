@@ -262,7 +262,8 @@ namespace Files.App.ViewModels
 					try
 					{
 						// add last session tabs to closed tabs stack if those tabs are not about to be opened
-						if (!UserSettingsService.AppSettingsService.RestoreTabsOnStartup && !UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp && UserSettingsService.GeneralSettingsService.LastSessionTabList != null)
+						if (App.CanRestorePreviousSession && !UserSettingsService.AppSettingsService.RestoreTabsOnStartup &&
+							!UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp && UserSettingsService.GeneralSettingsService.LastSessionTabList != null)
 						{
 							var items = UserSettingsService.GeneralSettingsService.LastSessionTabList
 								.Where(tab => !string.IsNullOrEmpty(tab))
@@ -292,7 +293,12 @@ namespace Files.App.ViewModels
 							UserSettingsService.GeneralSettingsService.LastSessionTabList is not null)
 						{
 							if (AppInstances.Count == 0)
-								await RestoreSessionTabsAsync(UserSettingsService.GeneralSettingsService.LastSessionTabList);
+							{
+								if (App.CanRestorePreviousSession)
+									await RestoreSessionTabsAsync(UserSettingsService.GeneralSettingsService.LastSessionTabList);
+								else
+									await NavigationHelpers.AddNewTabAsync();
+							}
 						}
 						else
 						{
@@ -316,7 +322,7 @@ namespace Files.App.ViewModels
 								foreach (string path in UserSettingsService.GeneralSettingsService.TabsOnStartupList)
 									await NavigationHelpers.AddNewTabByPathAsync(typeof(ShellPanesPage), path, true);
 							}
-							else if (UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
+							else if (App.CanRestorePreviousSession && UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
 								UserSettingsService.GeneralSettingsService.LastSessionTabList is not null &&
 								AppInstances.Count == 0)
 							{
