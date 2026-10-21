@@ -51,6 +51,8 @@ namespace Files.App.Data.Items
 				ToolTip = string.IsNullOrEmpty(currentPath) ||
 					currentPath.Contains('?', StringComparison.Ordinal) ||
 					currentPath.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) ||
+					currentPath.StartsWith("::{", StringComparison.Ordinal) ||
+					currentPath.StartsWith(@"\\SHELL\", StringComparison.OrdinalIgnoreCase) ||
 					currentPath.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) ||
 					currentPath == "Home" ||
 					currentPath == "ReleaseNotes" ||

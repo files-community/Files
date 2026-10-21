@@ -408,6 +408,27 @@ namespace Files.App.Utils.Storage
 			UpdateGroups(e);
 		}
 
+		public void Move(int oldIndex, int newIndex)
+		{
+			ArgumentOutOfRangeException.ThrowIfNegative(newIndex);
+
+			lock (syncRoot)
+			{
+				ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(newIndex, collection.Count);
+				if (oldIndex == newIndex)
+					return;
+
+				var item = collection[oldIndex];
+				collection.RemoveAt(oldIndex);
+				collection.Insert(newIndex, item);
+
+				OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item, newIndex, oldIndex), false);
+			}
+
+			if (IsGrouped)
+				ResetGroups();
+		}
+
 		public void AddRange(IEnumerable<T> items)
 		{
 			if (!items.Any())
