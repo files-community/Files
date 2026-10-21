@@ -13,6 +13,8 @@ namespace Files.App.Utils.Storage
 	{
 		private static readonly ConcurrentDictionary<string, string?> _deviceParsingNames = new(StringComparer.OrdinalIgnoreCase);
 
+		public static void ClearCache() => _deviceParsingNames.Clear();
+
 		/// <summary>
 		/// Resolves a <c>\\?\DeviceName\path</c> to a shell Portable Devices namespace path
 		/// so that shell APIs like <see cref="IShellItemImageFactory"/> work correctly.
