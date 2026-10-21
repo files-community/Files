@@ -52,7 +52,7 @@ public static class ShellImage
 
 	public static byte[]? GetIconOverlay(string? path, int size, bool isDirectory)
 	{
-		if (path is null)
+		if (string.IsNullOrEmpty(path))
 			return null;
 
 		SHFILEINFOW shFileInfo = default;
