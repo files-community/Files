@@ -32,6 +32,12 @@
 			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<converters:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
 
+			<LinearGradientBrush x:Key="NaturalLanguageSearchIconBrush" StartPoint="0,0" EndPoint="1,1">
+				<GradientStop Offset="0" Color="#2D7FF9" />
+				<GradientStop Offset="0.5" Color="#A855F7" />
+				<GradientStop Offset="1" Color="#F2649E" />
+			</LinearGradientBrush>
+
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///UserControls/KeyboardShortcut/KeyboardShortcut.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/StatusCenterInfoBadgeStyles.xaml" />
@@ -345,8 +351,8 @@
 
 			<controls:OmnibarMode
 				x:Name="OmnibarSearchMode"
-				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IsFilled=True}"
-				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IconType=Outline}"
+				IconOnActive="{x:Bind GetSearchModeIcon(ViewModel.IsNaturalLanguageSearchAvailable, x:True), Mode=OneWay}"
+				IconOnInactive="{x:Bind GetSearchModeIcon(ViewModel.IsNaturalLanguageSearchAvailable, x:False), Mode=OneWay}"
 				IsAutoFocusEnabled="True"
 				IsFirstSuggestionAutoSelected="True"
 				ItemsSource="{x:Bind ViewModel.OmnibarSearchModeSuggestionItems, Mode=OneWay}"

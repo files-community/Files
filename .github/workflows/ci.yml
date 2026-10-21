@@ -119,6 +119,8 @@ jobs:
       name: Build Files
       run: |
         msbuild `
+          -warnaserror `
+          -warnnotaserror:CS0612,CS0618,CS0672 `
           $env:APP_PROJECT_PATH `
           -t:Build `
           -p:Configuration=$env:CONFIGURATION `
@@ -135,6 +137,8 @@ jobs:
       name: Build & package Files
       run: |
         msbuild `
+          -warnaserror `
+          -warnnotaserror:CS0612,CS0618,CS0672 `
           $env:APP_PROJECT_PATH `
           -t:Build `
           -p:Configuration=$env:CONFIGURATION `
@@ -154,6 +158,8 @@ jobs:
       name: Package Files
       run: |
         msbuild `
+          -warnaserror `
+          -warnnotaserror:CS0612,CS0618,CS0672 `
           $env:APP_PROJECT_PATH `
           -t:Build `
           -p:Configuration=$env:CONFIGURATION `

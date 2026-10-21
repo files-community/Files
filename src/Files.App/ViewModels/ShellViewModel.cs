@@ -3477,6 +3477,10 @@ namespace Files.App.ViewModels
 
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
 
+			if (UserSettingsService.GeneralSettingsService.EnableNaturalLanguageSearch &&
+				search.Query is { } query && await NaturalLanguageSearch.TryTranslateToAqsAsync(query, token) is { } aqs)
+				search.Query = $"${aqs}";
+
 			// Stops late ticks from appending after the final apply
 			using var tickCTS = CancellationTokenSource.CreateLinkedTokenSource(token);
 			var tickToken = tickCTS.Token;
