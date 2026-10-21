@@ -644,6 +644,8 @@ namespace Files.App.UserControls
 			e.Handled = true;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
+		[DynamicWindowsRuntimeCast(typeof(Brush))]
 		private ThemedIcon GetSearchModeIcon(bool isNaturalLanguageSearchAvailable, bool isActive)
 		{
 			var icon = new ThemedIcon()
