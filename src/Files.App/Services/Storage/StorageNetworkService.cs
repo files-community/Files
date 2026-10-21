@@ -65,13 +65,13 @@ namespace Files.App.Services
 				_Computers.Add(networkItem);
 		}
 
-		/// <inheritdoc/>
 		private async void OnServerChanged(object? sender, string name)
 		{
 			if (name == "Network")
 				await SafetyExtensions.IgnoreExceptions(UpdateShortcutsAsync, App.Logger);
 		}
 
+		/// <inheritdoc/>
 		public Task<IEnumerable<IFolder>> GetComputersAsync() => GetLocationsAsync(false);
 
 		public Task<IEnumerable<IFolder>> GetShortcutsAsync() => GetLocationsAsync(true);

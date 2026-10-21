@@ -105,7 +105,6 @@ namespace Files.App.Utils.Storage
 					{
 						binItems ??= await StorageTrashBinService.GetAllRecycleBinFoldersAsync();
 
-						// Might still be null because we're deserializing the list from Json
 						if (!binItems.IsEmpty())
 						{
 							// Get original file name

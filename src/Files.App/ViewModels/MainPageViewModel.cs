@@ -251,7 +251,7 @@ namespace Files.App.ViewModels
 				ignoreStartupSettings = mainPageNavigationArguments.IgnoreStartupSettings;
 			}
 
-			// Re-arm the signal when tabs load again after closing to the background
+			// Reset the signal when tabs are loaded again.
 			if (startupTabsTcs.Task.IsCompleted)
 				startupTabsTcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
 

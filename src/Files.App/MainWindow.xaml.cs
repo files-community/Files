@@ -260,7 +260,6 @@ namespace Files.App
 			var appWindow = AppWindow;
 			if (appWindow is not null && !appWindow.IsVisible)
 			{
-				// When resuming the cached instance
 				appWindow.Show();
 				Activate();
 

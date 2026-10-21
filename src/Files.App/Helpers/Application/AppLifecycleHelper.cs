@@ -375,7 +375,7 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Saves saves all opened tabs to the app cache.
+		/// Saves the open tabs and selected index to the shared settings.
 		/// </summary>
 		public static void SaveSessionTabs()
 		{

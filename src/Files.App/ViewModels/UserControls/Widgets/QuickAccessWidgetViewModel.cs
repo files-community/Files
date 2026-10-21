@@ -33,7 +33,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Fields
 
-		// TODO: Replace with IMutableFolder.GetWatcherAsync() once it gets implemented in IWindowsStorable
 		private bool isDisposed;
 		private int _refreshVersion;
 
@@ -239,7 +238,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				return windowsFile.TryInvokeContextMenuVerb("pintohome");
 			}, App.Logger);
 
-			// The file watcher will update the collection automatically
+			// Server notifications update the collection.
 		}
 
 		public override async Task ExecuteUnpinFromSidebarCommand(WidgetCardItem? item)
@@ -268,7 +267,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return;
 
-			// The file watcher will update the collection automatically
+			// Server notifications update the collection.
 		}
 
 		private void ExecuteOpenPropertiesCommand(WidgetFolderCardItem? item)

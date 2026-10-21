@@ -567,7 +567,7 @@ namespace Files.App.ViewModels.UserControls
 			previewRequestVersion++;
 			CancelPreviewLoad();
 
-			// Tear the preview host down here since the control's Unloaded event won't reliably fire while we're closing to background
+			// Release the native preview host before clearing its view.
 			if (previewPaneContent is ShellPreview shellPreview)
 				shellPreview.UnloadPreview();
 

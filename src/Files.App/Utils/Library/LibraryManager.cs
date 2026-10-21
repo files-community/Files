@@ -50,7 +50,7 @@ namespace Files.App.Utils.Library
 		}
 
 		/// <summary>
-		/// Get libraries of the current user with the help of the FullTrust process.
+		/// Gets the current user's libraries from the server cache.
 		/// </summary>
 		/// <returns>List of library items</returns>
 		public static async Task<List<LibraryLocationItem>> ListUserLibraries()
