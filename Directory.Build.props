@@ -10,6 +10,7 @@
     <WindowsTargetFramework>$(TargetFrameworkVersion)-windows$(TargetWindowsVersion)</WindowsTargetFramework>
     <LangVersion>preview</LangVersion>
     <WarningsAsErrors>nullable</WarningsAsErrors>
+    <NoWarn>$(NoWarn);CS0067</NoWarn>
 
     <!--  Use Microsoft.Testing.Platform  -->
     <EnableMSTestRunner>true</EnableMSTestRunner>
