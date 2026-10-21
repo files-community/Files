@@ -254,7 +254,7 @@ namespace Files.App.Data.Items
 			var item = new DriveItem
 			{
 				Text = info.Name,
-				Type = (DriveType)info.Kind,
+				Type = info.Kind,
 				Path = string.IsNullOrEmpty(info.Root.Path) ? $"\\\\?\\{info.Root.Name}\\" : info.Root.Path,
 				DeviceID = info.Id.TrimEnd('\\'),
 				Root = info.Root,
@@ -376,19 +376,5 @@ namespace Files.App.Data.Items
 				FreeSpace.ToSizeString(),
 				MaxSpace.ToSizeString());
 		}
-	}
-
-	public enum DriveType
-	{
-		Fixed,
-		Removable,
-		Network,
-		Ram,
-		CDRom,
-		FloppyDisk,
-		Unknown,
-		NoRootDirectory,
-		VirtualDrive,
-		CloudDrive,
 	}
 }

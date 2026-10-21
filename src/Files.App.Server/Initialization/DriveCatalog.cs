@@ -71,7 +71,7 @@ internal static class DriveCatalog
 			var isPortable = portable.ContainsKey(id);
 			StorageFolder root;
 			string label = string.Empty;
-			var kind = 1;
+			var kind = DriveType.Removable;
 			if (isPortable)
 			{
 				root = StorageDevice.FromId(id);
@@ -92,17 +92,17 @@ internal static class DriveCatalog
 				label = info.Label;
 				kind = info.Type switch
 				{
-					System.IO.DriveType.Fixed => 0,
-					System.IO.DriveType.Removable => 1,
-					System.IO.DriveType.Network => 2,
-					System.IO.DriveType.Ram => 3,
-					System.IO.DriveType.CDRom => 4,
-					System.IO.DriveType.NoRootDirectory => 7,
-					_ => id.TrimEnd('\\') is "A:" or "B:" ? 5 : 6,
+					System.IO.DriveType.Fixed => DriveType.Fixed,
+					System.IO.DriveType.Removable => DriveType.Removable,
+					System.IO.DriveType.Network => DriveType.Network,
+					System.IO.DriveType.Ram => DriveType.Ram,
+					System.IO.DriveType.CDRom => DriveType.CDRom,
+					System.IO.DriveType.NoRootDirectory => DriveType.NoRootDirectory,
+					_ => id.TrimEnd('\\') is "A:" or "B:" ? DriveType.FloppyDisk : DriveType.Unknown,
 				};
 				root = await StorageFolder.GetFolderFromPathAsync(id);
 			}
-			var name = kind == 4 && label.Length > 0 ? root.DisplayName.Replace(label[..Math.Min(32, label.Length)], label) : root.DisplayName;
+			var name = kind == DriveType.CDRom && label.Length > 0 ? root.DisplayName.Replace(label[..Math.Min(32, label.Length)], label) : root.DisplayName;
 			var icon = await STATask.RunPooled(() =>
 			{
 				var path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
@@ -154,10 +154,10 @@ public sealed partial class DriveItemInfo
 	public StorageFolder Root { get; }
 	public string Name { get; }
 	public string Label { get; }
-	public int Kind { get; }
+	public DriveType Kind { get; }
 	public byte[] Icon { get; }
 
-	internal DriveItemInfo(string id, StorageFolder root, string name, string label, int kind, byte[] icon)
+	internal DriveItemInfo(string id, StorageFolder root, string name, string label, DriveType kind, byte[] icon)
 	{
 		Id = id;
 		Root = root;

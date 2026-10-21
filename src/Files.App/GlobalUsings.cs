@@ -22,6 +22,7 @@ global using global::CommunityToolkit.Mvvm.Input;
 global using global::CommunityToolkit.Mvvm.Messaging;
 
 // Files.App
+global using DriveType = global::Files.App.Server.DriveType;
 global using global::Files.App.Helpers;
 global using global::Files.App.Extensions;
 global using global::Files.App.Utils;

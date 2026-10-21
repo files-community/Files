@@ -105,9 +105,9 @@ namespace Files.App.Helpers
 		/// <param name="type">Type of drive to eject</param>
 		/// <param name="result">Only true implies a successful device ejection</param>
 		/// <returns></returns>
-		public static async Task ShowDeviceEjectResultAsync(Data.Items.DriveType type, bool result)
+		public static async Task ShowDeviceEjectResultAsync(DriveType type, bool result)
 		{
-			if (type != Data.Items.DriveType.CDRom && result)
+			if (type != DriveType.CDRom && result)
 			{
 				Debug.WriteLine("Device successfully ejected");
 

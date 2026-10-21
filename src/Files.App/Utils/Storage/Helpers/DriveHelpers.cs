@@ -24,7 +24,7 @@ namespace Files.App.Utils.Storage
 			var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 			var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => drivePath.StartsWith(x.Path!, StringComparison.Ordinal));
-			if (matchingDrive is null || matchingDrive.Type != Data.Items.DriveType.CDRom || matchingDrive.MaxSpace != ByteSizeLib.ByteSize.FromBytes(0))
+			if (matchingDrive is null || matchingDrive.Type != DriveType.CDRom || matchingDrive.MaxSpace != ByteSizeLib.ByteSize.FromBytes(0))
 				return false;
 
 			var ejectButton = await DialogDisplayHelper.ShowDialogAsync(
@@ -108,7 +108,7 @@ namespace Files.App.Utils.Storage
 			try
 			{
 				return path.StartsWith(@"\\", StringComparison.Ordinal) ||
-					GetDriveType(new SystemIO.DriveInfo(path)) is Data.Items.DriveType.Network;
+					GetDriveType(new SystemIO.DriveInfo(path)) is DriveType.Network;
 			}
 			catch
 			{
@@ -139,25 +139,25 @@ namespace Files.App.Utils.Storage
 			});
 		}
 
-		public static Data.Items.DriveType GetDriveType(System.IO.DriveInfo drive)
+		public static DriveType GetDriveType(System.IO.DriveInfo drive)
 		{
 			if (drive.DriveType is System.IO.DriveType.Unknown)
 			{
 				string path = PathNormalization.NormalizePath(drive.Name);
 
 				if (path is "A:" or "B:")
-					return Data.Items.DriveType.FloppyDisk;
+					return DriveType.FloppyDisk;
 			}
 
 			return drive.DriveType switch
 			{
-				SystemIO.DriveType.CDRom => Data.Items.DriveType.CDRom,
-				SystemIO.DriveType.Fixed => Data.Items.DriveType.Fixed,
-				SystemIO.DriveType.Network => Data.Items.DriveType.Network,
-				SystemIO.DriveType.NoRootDirectory => Data.Items.DriveType.NoRootDirectory,
-				SystemIO.DriveType.Ram => Data.Items.DriveType.Ram,
-				SystemIO.DriveType.Removable => Data.Items.DriveType.Removable,
-				_ => Data.Items.DriveType.Unknown,
+				SystemIO.DriveType.CDRom => DriveType.CDRom,
+				SystemIO.DriveType.Fixed => DriveType.Fixed,
+				SystemIO.DriveType.Network => DriveType.Network,
+				SystemIO.DriveType.NoRootDirectory => DriveType.NoRootDirectory,
+				SystemIO.DriveType.Ram => DriveType.Ram,
+				SystemIO.DriveType.Removable => DriveType.Removable,
+				_ => DriveType.Unknown,
 			};
 		}
 
