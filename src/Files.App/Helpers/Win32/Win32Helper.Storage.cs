@@ -79,71 +79,8 @@ namespace Files.App.Helpers
 			}
 		}
 
-		private static readonly Lock _iconOverlayLock = new();
+		public static byte[]? GetIconOverlay(string? path, int size, bool isDirectory) => ShellImage.GetIconOverlay(path, size, isDirectory);
 
-		/// <summary>
-		/// Returns overlay for given file or folder
-		/// </summary>
-		/// <param name="path"></param>
-		/// <param name="isDirectory"></param>
-		/// <returns></returns>
-		// Maps a target pixel size to a system image list (SHIL_*): 16 -> SMALL, 32 -> LARGE, 48 -> EXTRALARGE, larger -> JUMBO
-		private static int GetImageListForSize(int size) => size switch
-		{
-			<= 16 => 1,
-			<= 32 => 0,
-			<= 48 => 2,
-			_ => 4,
-		};
-
-		public static byte[]? GetIconOverlay(string? path, int size, bool isDirectory)
-		{
-			if (path is null)
-				return null;
-
-			SHFILEINFOW shFileInfo = default;
-			const SHGFI_FLAGS flags = SHGFI_FLAGS.SHGFI_OVERLAYINDEX | SHGFI_FLAGS.SHGFI_ICON | SHGFI_FLAGS.SHGFI_SYSICONINDEX | SHGFI_FLAGS.SHGFI_ICONLOCATION;
-			byte[]? overlayData = null;
-
-			try
-			{
-				nuint result = PInvoke.SHGetFileInfo(path, isDirectory ? FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_DIRECTORY : 0, ref shFileInfo, flags);
-				if (result is 0)
-					return null;
-
-				PInvoke.DestroyIcon(shFileInfo.hIcon);
-
-				lock (_iconOverlayLock)
-				{
-					if (PInvoke.SHGetImageList<IImageList>(GetImageListForSize(size), out var imageList).Failed)
-						return null;
-
-					var overlayIdx = shFileInfo.iIcon >> 24;
-					if (overlayIdx != 0)
-					{
-						imageList.GetOverlayImage(overlayIdx, out int overlayImage).ThrowOnFailure();
-						imageList.GetIcon(overlayImage, 1, out var overlayHandle).ThrowOnFailure();
-						using var hOverlay = overlayHandle;
-
-						if (!hOverlay.IsClosed && !hOverlay.IsInvalid)
-						{
-							using var image = GetBitmapFromHIcon(hOverlay);
-							if (image is null)
-								return null;
-							overlayData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
-						}
-					}
-				}
-			}
-			catch (Exception)
-			{
-				return null;
-			}
-
-			return overlayData;
-		}
-
-		private static readonly Lock _iconLock = new();
 
 		/// <summary>
 		/// Returns an icon if returnIconOnly is true, otherwise a thumbnail will be returned if available.
@@ -153,117 +90,7 @@ namespace Files.App.Helpers
 		/// <param name="isFolder"></param>
 		/// <param name="iconOptions"></param>
 		/// <returns></returns>
-		public static unsafe byte[]? GetIcon(
-			string? path,
-			int size,
-			bool isFolder,
-			IconOptions iconOptions)
-		{
-			if (string.IsNullOrWhiteSpace(path))
-				return null;
-
-			byte[]? iconData = null;
-
-			try
-			{
-				// Attempt to get file icon/thumbnail using IShellItemImageFactory GetImage
-				using var shellItem = SafetyExtensions.IgnoreExceptions(()
-					=> ShellFolderExtensions.GetShellItemFromPathOrPIDL(path));
-
-				if (shellItem is not null && shellItem.IShellItem is IShellItemImageFactory shellFactory)
-				{
-					var flags = SIIGBF.SIIGBF_BIGGERSIZEOK;
-
-					if (iconOptions.HasFlag(IconOptions.ReturnIconOnly))
-						flags |= SIIGBF.SIIGBF_ICONONLY;
-
-					if (iconOptions.HasFlag(IconOptions.ReturnThumbnailOnly))
-						flags |= SIIGBF.SIIGBF_THUMBNAILONLY;
-
-					if (iconOptions.HasFlag(IconOptions.ReturnOnlyIfCached))
-						flags |= SIIGBF.SIIGBF_INCACHEONLY;
-
-					HBITMAP hbitmap = default;
-					var hres = shellFactory.GetImage(new(size, size), flags, &hbitmap);
-					try
-					{
-						if (hres == HRESULT.S_OK)
-						{
-							using var image = GetBitmapFromHBitmap(hbitmap);
-							if (image is not null)
-								iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
-						}
-					}
-					finally
-					{
-						if (!hbitmap.IsNull)
-							PInvoke.DeleteObject(hbitmap);
-					}
-				}
-
-				if (iconData is not null || iconOptions.HasFlag(IconOptions.ReturnThumbnailOnly))
-					return iconData;
-				else
-				{
-					SHFILEINFOW shfi = default;
-					const SHGFI_FLAGS flags = SHGFI_FLAGS.SHGFI_OVERLAYINDEX | SHGFI_FLAGS.SHGFI_ICON | SHGFI_FLAGS.SHGFI_SYSICONINDEX | SHGFI_FLAGS.SHGFI_ICONLOCATION | SHGFI_FLAGS.SHGFI_USEFILEATTRIBUTES;
-
-					// Cannot access file, use file attributes
-					var ret = PInvoke.SHGetFileInfo(path, isFolder ? FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_DIRECTORY : 0, ref shfi, flags);
-					if (ret is 0)
-						return iconData;
-
-					PInvoke.DestroyIcon(shfi.hIcon);
-
-					var imageListSize = GetImageListForSize(size);
-
-					lock (_iconLock)
-					{
-						if (PInvoke.SHGetImageList<IImageList>(imageListSize, out var imageList).Failed)
-							return iconData;
-
-						if (iconData is null)
-						{
-							var iconIdx = shfi.iIcon & 0xFFFFFF;
-							if (iconIdx != 0)
-							{
-								// Could not fetch thumbnail, load simple icon
-								imageList.GetIcon(iconIdx, 1, out var iconHandle).ThrowOnFailure();
-								using var hIcon = iconHandle;
-								if (!hIcon.IsClosed && !hIcon.IsInvalid)
-								{
-									using (var image = GetBitmapFromHIcon(hIcon))
-									{
-										if (image is not null)
-											iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
-									}
-								}
-							}
-							else if (isFolder)
-							{
-								// Could not icon, load generic icon
-								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "imageres.dll"), [2], size);
-								var generic = icons.SingleOrDefault(x => x.Index == 2);
-								iconData = generic?.IconData;
-							}
-							else
-							{
-								// Could not icon, load generic icon
-								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll"), [1], size);
-								var generic = icons.SingleOrDefault(x => x.Index == 1);
-								iconData = generic?.IconData;
-							}
-						}
-					}
-
-					return iconData;
-				}
-			}
-			finally
-			{
-
-			}
-		}
+		public static byte[]? GetIcon(string? path, int size, bool isFolder, IconOptions iconOptions) => ShellImage.GetIcon(path, size, isFolder, iconOptions);
 
 		public static async Task<bool> RunPowershellCommandAsync(string command, PowerShellExecutionOptions options, string? workingDirectory = null)
 		{
@@ -326,10 +153,7 @@ namespace Files.App.Helpers
 				}
 				else
 				{
-					// This is merely to pass into the function and is unneeded otherwise
-					var result = PInvoke.SHDefExtractIcon(file, -1 * index, 0, out var largeIcon, out var smallIcon, Convert.ToUInt32(iconSize));
-					using var icon = largeIcon;
-					using var icon2 = smallIcon;
+					using var icon = ShellImage.ExtractIconHandle(file, index, Convert.ToUInt32(iconSize), out var result);
 					if (result == HRESULT.S_OK)
 					{
 						using var image = GetBitmapFromHIcon(icon);
@@ -557,52 +381,9 @@ namespace Files.App.Helpers
 			return RunPowershellCommandAsync($"-command \"Mount-DiskImage -ImagePath {ToPowerShellStringLiteral(vhdPath)}\"", PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
 		}
 
-		public static Bitmap? GetBitmapFromHBitmap(HBITMAP hBitmap)
-		{
-			try
-			{
-				Bitmap bmp = Image.FromHbitmap((IntPtr)hBitmap);
-				if (Image.GetPixelFormatSize(bmp.PixelFormat) < 32)
-					return bmp;
+		public static Bitmap? GetBitmapFromHBitmap(HBITMAP bitmap) => ShellImage.GetBitmapFromHBitmap(bitmap);
 
-				Rectangle bmBounds = new Rectangle(0, 0, bmp.Width, bmp.Height);
-				var bmpData = bmp.LockBits(bmBounds, ImageLockMode.ReadOnly, bmp.PixelFormat);
-
-				if (IsAlphaBitmap(bmpData))
-				{
-					var alpha = GetAlphaBitmapFromBitmapData(bmpData);
-
-					bmp.UnlockBits(bmpData);
-					bmp.Dispose();
-
-					return alpha;
-				}
-
-				bmp.UnlockBits(bmpData);
-
-				return bmp;
-			}
-			catch
-			{
-				return null;
-			}
-		}
-
-		private static Bitmap? GetBitmapFromHIcon(SafeHandle iconHandle)
-		{
-			if (iconHandle.IsInvalid || iconHandle.IsClosed)
-				return null;
-
-			try
-			{
-				using var icon = (Icon)Icon.FromHandle(iconHandle.DangerousGetHandle()).Clone();
-				return icon.ToBitmap();
-			}
-			catch
-			{
-				return null;
-			}
-		}
+		private static Bitmap? GetBitmapFromHIcon(SafeHandle icon) => ShellImage.GetBitmapFromHIcon(icon);
 
 		public static ITaskbarList4? CreateTaskbarObject()
 		{
@@ -617,36 +398,6 @@ namespace Files.App.Helpers
 				// explorer.exe is not running as a shell
 				return null;
 			}
-		}
-
-		private static Bitmap GetAlphaBitmapFromBitmapData(BitmapData bmpData)
-		{
-			using var tmp = new Bitmap(bmpData.Width, bmpData.Height, bmpData.Stride, PixelFormat.Format32bppArgb, bmpData.Scan0);
-			Bitmap clone = new Bitmap(tmp.Width, tmp.Height, tmp.PixelFormat);
-
-			using (Graphics gr = Graphics.FromImage(clone))
-			{
-				gr.DrawImage(tmp, new Rectangle(0, 0, clone.Width, clone.Height));
-			}
-
-			return clone;
-		}
-
-		private static bool IsAlphaBitmap(BitmapData bmpData)
-		{
-			for (int y = 0; y <= bmpData.Height - 1; y++)
-			{
-				for (int x = 0; x <= bmpData.Width - 1; x++)
-				{
-					Color pixelColor = Color.FromArgb(
-						Marshal.ReadInt32(bmpData.Scan0, (bmpData.Stride * y) + (4 * x)));
-
-					if (pixelColor.A < 255)
-						return true;
-				}
-			}
-
-			return false;
 		}
 
 		public static IEnumerable<HWND> GetDesktopWindows()
@@ -708,26 +459,7 @@ namespace Files.App.Helpers
 		/// <param name="volumeHint">Drive containing the file (e.g. "C:\")</param>
 		/// <returns>File path or null</returns>
 		public static string? PathFromFileId(ulong frn, string volumeHint)
-		{
-			string? volumePath = Path.GetPathRoot(volumeHint);
-			if (string.IsNullOrEmpty(volumePath))
-				return null;
-
-			using var volumeHandle = PInvoke.CreateFile(volumePath, (uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ, FILE_SHARE_MODE.FILE_SHARE_READ, null, FILE_CREATION_DISPOSITION.OPEN_EXISTING, FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_BACKUP_SEMANTICS, null);
-			if (volumeHandle.IsInvalid)
-				return null;
-
-			FILE_ID_DESCRIPTOR fileId = new() { dwSize = (uint)Marshal.SizeOf<FILE_ID_DESCRIPTOR>(), Type = FILE_ID_TYPE.FileIdType };
-			fileId.FileId = (long)frn;
-
-			using var hFile = PInvoke.OpenFileById(volumeHandle, fileId, (uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ, FILE_SHARE_MODE.FILE_SHARE_READ, null, FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_BACKUP_SEMANTICS);
-			if (hFile.IsInvalid)
-				return null;
-
-			Span<char> path = stackalloc char[4096];
-			uint length = PInvoke.GetFinalPathNameByHandle(hFile, path, GETFINALPATHNAMEBYHANDLE_FLAGS.FILE_NAME_NORMALIZED | GETFINALPATHNAMEBYHANDLE_FLAGS.VOLUME_NAME_DOS);
-			return length is > 0 and < 4096 ? path[..(int)length].ToString() : null;
-		}
+			=> FileIdentity.PathFromFileId(frn, volumeHint);
 
 		public static unsafe void OpenFolderInExistingShellWindow(string folderPath)
 		{
@@ -1003,21 +735,7 @@ namespace Files.App.Helpers
 			return null;
 		}
 
-		public static unsafe ulong? GetFileFRN(string filePath)
-		{
-			using var handle = OpenFileForRead(filePath);
-			if (!handle.IsInvalid)
-			{
-				try
-				{
-					FILE_ID_INFO fileId = default;
-					if (PInvoke.GetFileInformationByHandleEx(handle, FILE_INFO_BY_HANDLE_CLASS.FileIdInfo, MemoryMarshal.AsBytes(new Span<FILE_ID_INFO>(ref fileId))))
-						return BitConverter.ToUInt64(fileId.FileId.Identifier.AsReadOnlySpan());
-				}
-				catch { }
-			}
-			return null;
-		}
+		public static ulong? GetFileFRN(string filePath) => FileIdentity.GetFileFRN(filePath);
 
 		public static long? GetFileSizeOnDisk(string filePath)
 		{
