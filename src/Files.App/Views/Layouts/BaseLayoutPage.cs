@@ -1388,23 +1388,39 @@ namespace Files.App.Views.Layouts
 				InitializeDrag(container, listedItem);
 
 				if (listedItem.PreloadedIconData is not null && listedItem.FileImage is null)
-					_ = ParentShellPageInstance.GetRequiredShellViewModel().ApplyCachedThumbnailOrPreloadedIconAsync(listedItem);
+					EnqueueItemLoad(container, listedItem, shellViewModel => shellViewModel.ApplyCachedThumbnailOrPreloadedIconAsync(listedItem));
 
 				if (!listedItem.ItemPropertiesInitialized)
 				{
 					uint callbackPhase = 3;
-					args.RegisterUpdateCallback(callbackPhase, async (s, c) =>
+					args.RegisterUpdateCallback(callbackPhase, (s, c) => EnqueueItemLoad(container, listedItem, shellViewModel =>
 					{
-						var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
-
 						// Rows realized mid-scroll are mostly flung past before the gesture ends; the settle pass loads the ones still visible
-						if (shellViewModel.IsScrollInFlight)
-							return;
+						if (shellViewModel.IsScrollInFlight || listedItem.ItemPropertiesInitialized)
+							return Task.CompletedTask;
 
-						await LoadItemExtendedPropertiesAsync(listedItem, shellViewModel);
-					});
+						return LoadItemExtendedPropertiesAsync(listedItem, shellViewModel);
+					}));
 				}
 			}
+		}
+
+		private void EnqueueItemLoad(SelectorItem container, ListedItem item, Func<ShellViewModel, Task> load)
+		{
+			if (ParentShellPageInstance?.ShellViewModel is not { } shellViewModel)
+				return;
+
+			// Always enqueue: loaders can pump COM messages and must run after container realization returns.
+			DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+			{
+				_ = SafetyExtensions.IgnoreExceptions(async () =>
+				{
+					if (ParentShellPageInstance?.ShellViewModel != shellViewModel || !ReferenceEquals(ItemsControl.ItemFromContainer(container), item))
+						return;
+
+					await load(shellViewModel);
+				}, App.Logger);
+			});
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]

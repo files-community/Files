@@ -28,7 +28,20 @@ namespace Files.App
 		private static FlyoutBase? _LastOpenedFlyout;
 		private static bool _isWindowTeardownCompleted;
 		private static bool _isWindowClosing;
-		private static readonly Task<Server.AppService> serverSession = Task.Run(() => new Server.AppService(Environment.ProcessId));
+		private static readonly Task<Server.AppService> serverSession = Task.Run(() =>
+		{
+			var server = new Server.AppService(Environment.ProcessId);
+			server.Changed += (_, name) => UiDispatcher?.TryEnqueue(() =>
+			{
+				if (ServerChanged is not { } handlers)
+					return;
+				foreach (EventHandler<string> handler in handlers.GetInvocationList())
+					SafetyExtensions.IgnoreExceptions(() => handler(null, name), Logger);
+			});
+			return server;
+		});
+
+		internal static event EventHandler<string>? ServerChanged;
 		public static FlyoutBase? LastOpenedFlyout
 		{
 			set
