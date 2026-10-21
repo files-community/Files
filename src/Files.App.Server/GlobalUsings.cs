@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 global using Files.App.Data.Items;
-global using Files.App.Storage;
+global using Files.Storage;
 global using Files.App.Utils.Shell;
 global using Files.Shared;
 global using Files.Shared.Cloud;
