@@ -258,7 +258,7 @@ namespace Files.App.ViewModels.Previews
 
 		public unsafe void UnloadPreview()
 		{
-			// Called both when closing to background and from Unloaded, so ignore the second call
+			// Main-window teardown and Unloaded can both request cleanup.
 			if (_unloaded)
 				return;
 			_unloaded = true;
