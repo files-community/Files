@@ -14,6 +14,7 @@ global using global::System.Diagnostics;
 global using global::System.Text.Json;
 global using global::System.Text.Json.Serialization;
 global using SystemIO = global::System.IO;
+global using DriveType = global::Files.App.Data.Items.DriveType;
 
 // CommunityToolkit.Mvvm
 global using global::CommunityToolkit.Mvvm.ComponentModel;
