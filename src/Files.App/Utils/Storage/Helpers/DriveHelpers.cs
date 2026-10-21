@@ -142,7 +142,8 @@ namespace Files.App.Utils.Storage
 
 		public static Data.Items.DriveType GetDriveType(System.IO.DriveInfo drive)
 		{
-			if (drive.DriveType is System.IO.DriveType.Unknown)
+			// Floppy drives are usually reported as Removable, so check A: and B: for both types
+			if (drive.DriveType is System.IO.DriveType.Unknown or System.IO.DriveType.Removable)
 			{
 				string path = PathNormalization.NormalizePath(drive.Name);
 
