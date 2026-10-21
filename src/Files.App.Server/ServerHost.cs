@@ -180,7 +180,7 @@ internal static class ServerHost
 		ExitIfIdle();
 	}
 
-	private static Task InvokeAsync(Action action)
+	internal static Task InvokeAsync(Action action)
 	{
 		var completion = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 		if (!controller.DispatcherQueue.TryEnqueue(() =>
