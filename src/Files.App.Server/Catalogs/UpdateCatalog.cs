@@ -57,7 +57,7 @@ internal static class UpdateCatalog
 			await SafetyExtensions.IgnoreExceptions(SideloadUpdate.GetAsync, Program.Logger);
 		else if (environment is "storestable" or "storepreview")
 			await SafetyExtensions.IgnoreExceptions(StoreUpdates.GetAsync, Program.Logger);
-		ServerEvents.Notify("Updates");
+		ServerEvents.Notify(ServerChangeNames.Updates);
 	}
 
 	internal static void Invalidate()

@@ -83,7 +83,7 @@ namespace Files.App.Utils.Storage
 			// Network share
 			else if (
 						  (devicePath.StartsWith(@"\\", StringComparison.Ordinal) ||
-							 GetDriveType(new SystemIO.DriveInfo(devicePath)) is DriveType.Network) &&
+							 new SystemIO.DriveInfo(devicePath).DriveType is SystemIO.DriveType.Network) &&
 						  !devicePath.StartsWith(@"\\SHELL\", StringComparison.Ordinal)
 					)
 			{
@@ -108,7 +108,7 @@ namespace Files.App.Utils.Storage
 			try
 			{
 				return path.StartsWith(@"\\", StringComparison.Ordinal) ||
-					GetDriveType(new SystemIO.DriveInfo(path)) is DriveType.Network;
+					new SystemIO.DriveInfo(path).DriveType is SystemIO.DriveType.Network;
 			}
 			catch
 			{
@@ -138,30 +138,6 @@ namespace Files.App.Utils.Storage
 				catch { return false; }
 			});
 		}
-
-		public static DriveType GetDriveType(System.IO.DriveInfo drive)
-		{
-			if (drive.DriveType is System.IO.DriveType.Unknown)
-			{
-				string path = PathNormalization.NormalizePath(drive.Name);
-
-				if (path is "A:" or "B:")
-					return DriveType.FloppyDisk;
-			}
-
-			return drive.DriveType switch
-			{
-				SystemIO.DriveType.CDRom => DriveType.CDRom,
-				SystemIO.DriveType.Fixed => DriveType.Fixed,
-				SystemIO.DriveType.Network => DriveType.Network,
-				SystemIO.DriveType.NoRootDirectory => DriveType.NoRootDirectory,
-				SystemIO.DriveType.Ram => DriveType.Ram,
-				SystemIO.DriveType.Removable => DriveType.Removable,
-				_ => DriveType.Unknown,
-			};
-		}
-
-		public static string GetExtendedDriveLabel(SystemIO.DriveInfo drive) => DriveLabel.GetExtendedDriveLabel(drive);
 
 		public static async Task<StorageItemThumbnail?> GetThumbnailAsync(StorageFolder folder)
 			=> await FilesystemTasks.Wrap(()

@@ -29,11 +29,17 @@ public static class ShellImage
 		_ => 4,
 	};
 
+	/// <summary>Extracts an icon resource. The caller owns the returned handle.</summary>
+	public static SafeHandle ExtractIconHandle(string file, int index, uint size, out HRESULT result)
+	{
+		result = PInvoke.SHDefExtractIcon(file, -index, 0, out var large, out var small, size);
+		using var smallIcon = small;
+		return large;
+	}
+
 	private static byte[]? ExtractIcon(string file, int index, int size)
 	{
-		var hr = PInvoke.SHDefExtractIcon(file, -index, 0, out var large, out var small, (uint)size);
-		using var largeIcon = large;
-		using var smallIcon = small;
+		using var largeIcon = ExtractIconHandle(file, index, (uint)size, out var hr);
 		if (hr.Failed || largeIcon.IsInvalid)
 			return null;
 		using var bitmap = GetBitmapFromHIcon(largeIcon);

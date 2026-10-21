@@ -36,7 +36,7 @@ namespace Files.App.Services.Settings
 		public FileTagsSettingsService()
 		{
 			JsonSettingsSerializer = new DefaultJsonSettingsSerializer();
-			var database = new CachingJsonSettingsDatabase(Constants.LocalSettings.FileTagSettingsFileName, JsonSettingsSerializer, FileTagsSettingsJsonSerializationContext.Default);
+			var database = new ServerSettingsDatabase(Constants.LocalSettings.FileTagSettingsFileName, JsonSettingsSerializer, FileTagsSettingsJsonSerializationContext.Default);
 			JsonSettingsDatabase = database;
 			IsAvailable = true;
 			database.Changed += (name, value) =>

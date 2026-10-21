@@ -68,7 +68,7 @@ namespace Files.App.Services
 
 		private async void OnServerChanged(object? sender, string name)
 		{
-			if (name == "Updates" && !IsUpdating)
+			if (name == ServerChangeNames.Updates && !IsUpdating)
 				await SafetyExtensions.IgnoreExceptions(CheckForUpdatesAsync, Logger);
 		}
 

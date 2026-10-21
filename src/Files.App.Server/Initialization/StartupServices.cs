@@ -9,7 +9,7 @@ internal static class StartupServices
 
 	internal static async Task InitializeAsync()
 	{
-		StartupWatchers.Initialize();
+		CatalogWatchers.Initialize();
 		await Task.WhenAll(
 			SafetyExtensions.IgnoreExceptions(InitializationCache.InitializeAsync, Program.Logger),
 			SafetyExtensions.IgnoreExceptions(TagCatalog.InitializeAsync, Program.Logger),
@@ -33,7 +33,7 @@ internal static class StartupServices
 	{
 		UpdateCatalog.Stop();
 		SettingsStore.Stop();
-		StartupWatchers.Dispose();
+		CatalogWatchers.Dispose();
 		DriveCatalog.Stop();
 	}
 }

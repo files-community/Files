@@ -153,10 +153,7 @@ namespace Files.App.Helpers
 				}
 				else
 				{
-					// This is merely to pass into the function and is unneeded otherwise
-					var result = PInvoke.SHDefExtractIcon(file, -1 * index, 0, out var largeIcon, out var smallIcon, Convert.ToUInt32(iconSize));
-					using var icon = largeIcon;
-					using var icon2 = smallIcon;
+					using var icon = ShellImage.ExtractIconHandle(file, index, Convert.ToUInt32(iconSize), out var result);
 					if (result == HRESULT.S_OK)
 					{
 						using var image = GetBitmapFromHIcon(icon);

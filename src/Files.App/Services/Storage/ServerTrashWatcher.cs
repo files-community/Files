@@ -27,7 +27,7 @@ internal sealed partial class ServerTrashWatcher : ITrashWatcher
 
 	private void OnServerChanged(object? sender, string name)
 	{
-		if (name == "RecycleBin")
+		if (name == ServerChangeNames.RecycleBin)
 			RefreshRequested?.Invoke(this, new FileSystemEventArgs(WatcherChangeTypes.All, string.Empty, string.Empty));
 	}
 }

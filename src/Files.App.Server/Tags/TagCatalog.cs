@@ -7,11 +7,11 @@ namespace Files.App.Server;
 
 internal static class TagCatalog
 {
-	private static readonly FileTagsDatabase database = new();
+	private static readonly FileTagRegistryStore database = new();
 	private static readonly RegistryChangeMonitor monitor = new(Registry.CurrentUser,
 		@$"Software\Files Community\{Windows.ApplicationModel.Package.Current.Id.Name}\v1\FileTags");
 	internal static readonly CachedTask<IReadOnlyList<TaggedFileInfo>> Items = new(() => Task.FromResult<IReadOnlyList<TaggedFileInfo>>(
-		database.GetAll().Select(item => new TaggedFileInfo(item)).ToList().AsReadOnly()), TimeSpan.FromMinutes(5), monitor.HasChanged);
+		database.GetAll(ignoreAccessErrors: true).Select(item => new TaggedFileInfo(item)).ToList().AsReadOnly()), TimeSpan.FromMinutes(5), monitor.HasChanged);
 	private static readonly CachedTask<bool> maintenance = new(() => Task.Run(() =>
 	{
 		Reconcile();
@@ -41,7 +41,7 @@ internal static class TagCatalog
 
 	private static void Reconcile()
 	{
-		foreach (var file in database.GetAll())
+		foreach (var file in database.GetAll(ignoreAccessErrors: true))
 		{
 			SafetyExtensions.IgnoreExceptions(() =>
 			{
@@ -66,18 +66,4 @@ internal static class TagCatalog
 		}
 	}
 
-}
-
-public sealed partial class TaggedFileInfo
-{
-	public string Path { get; }
-	public ulong? FileId { get; }
-	public string[] Tags { get; }
-
-	internal TaggedFileInfo(TaggedFile item)
-	{
-		Path = item.FilePath;
-		FileId = item.Frn;
-		Tags = item.Tags;
-	}
 }

@@ -40,7 +40,7 @@ internal static class DriveCatalog
 			Changed(item.Id);
 		};
 		watcher.Updated += (_, item) => Changed(item.Id);
-		watcher.EnumerationCompleted += (_, _) => ServerEvents.Notify("Drives");
+		watcher.EnumerationCompleted += (_, _) => ServerEvents.Notify(ServerChangeNames.Drives);
 		watcher.Start();
 		WindowsDriveManager.Default.DeviceAdded += OnDriveChanged;
 		WindowsDriveManager.Default.DeviceRemoved += OnDriveChanged;
@@ -58,7 +58,7 @@ internal static class DriveCatalog
 		foreach (var pair in portableRoots.Where(pair => pair.Value.Id == id))
 			portableRoots.TryRemove(pair.Key, out _);
 		properties.Clear();
-		ServerEvents.Notify("Drives");
+		ServerEvents.Notify(ServerChangeNames.Drives);
 	}
 
 	internal static Task<DriveItemInfo?> GetAsync(string id) => drives.GetOrAdd(id,
@@ -145,41 +145,5 @@ internal static class DriveCatalog
 		WindowsDriveManager.Default.DeviceInserted -= OnDriveChanged;
 		WindowsDriveManager.Default.DeviceEjected -= OnDriveChanged;
 		WindowsDriveManager.Default.Dispose();
-	}
-}
-
-public sealed partial class DriveItemInfo
-{
-	public string Id { get; }
-	public StorageFolder Root { get; }
-	public string Name { get; }
-	public string Label { get; }
-	public DriveType Kind { get; }
-	public byte[] Icon { get; }
-
-	internal DriveItemInfo(string id, StorageFolder root, string name, string label, DriveType kind, byte[] icon)
-	{
-		Id = id;
-		Root = root;
-		Name = name;
-		Label = label;
-		Kind = kind;
-		Icon = icon;
-	}
-}
-
-public sealed partial class DrivePropertiesInfo
-{
-	public bool Available { get; }
-	public ulong Capacity { get; }
-	public ulong FreeSpace { get; }
-	public string FileSystem { get; }
-
-	internal DrivePropertiesInfo(bool available, ulong capacity, ulong freeSpace, string fileSystem)
-	{
-		Available = available;
-		Capacity = capacity;
-		FreeSpace = freeSpace;
-		FileSystem = fileSystem;
 	}
 }

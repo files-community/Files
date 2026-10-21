@@ -1,9 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Utils;
+namespace Files.App.Services;
 
-public sealed class WindowsStorageDeviceWatcher : IStorageDeviceWatcher
+public sealed class ServerDriveWatcher : IStorageDeviceWatcher
 {
 	public event EventHandler? Changed;
 	private bool started;
@@ -20,7 +20,7 @@ public sealed class WindowsStorageDeviceWatcher : IStorageDeviceWatcher
 
 	private void OnServerChanged(object? sender, string name)
 	{
-		if (name == "Drives")
+		if (name == ServerChangeNames.Drives)
 			Changed?.Invoke(this, EventArgs.Empty);
 	}
 

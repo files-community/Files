@@ -7,7 +7,7 @@ using System.IO.Enumeration;
 
 namespace Files.App.Server;
 
-internal static class StartupWatchers
+internal static class CatalogWatchers
 {
 	private static readonly List<FileSystemWatcher> watchers = [];
 	private static readonly Lazy<bool> initialized = new(Start);
@@ -22,23 +22,23 @@ internal static class StartupWatchers
 		{
 			InitializationCache.PinnedFolders.Invalidate();
 			JumpListCatalog.Invalidate();
-			ServerEvents.Notify("PinnedFolders");
+			ServerEvents.Notify(ServerChangeNames.PinnedFolders);
 		});
 		Watch(recent, "5f7b5f1e01b83767.automaticDestinations-ms", () =>
 		{
 			LocationCatalog.RecentFiles.Invalidate();
 			LocationCatalog.RecentFolders.Invalidate();
-			ServerEvents.Notify("RecentItems");
+			ServerEvents.Notify(ServerChangeNames.RecentItems);
 		});
 		Watch(ShellLibraryItem.LibrariesPath, "*.library-ms", () =>
 		{
 			InitializationCache.Libraries.Invalidate();
-			ServerEvents.Notify("Libraries");
+			ServerEvents.Notify(ServerChangeNames.Libraries);
 		});
 		Watch(Environment.GetFolderPath(Environment.SpecialFolder.NetworkShortcuts), "*", () =>
 		{
 			LocationCatalog.NetworkShortcuts.Invalidate();
-			ServerEvents.Notify("Network");
+			ServerEvents.Notify(ServerChangeNames.Network);
 		});
 		recycleBin = SafetyExtensions.IgnoreExceptions(() => new RecycleBinWatcher(), Program.Logger);
 		if (recycleBin is null)
@@ -54,7 +54,7 @@ internal static class StartupWatchers
 	private static void OnRecycleBinChanged(object? sender, FileSystemEventArgs e)
 	{
 		RecycleBinCatalog.Invalidate();
-		ServerEvents.Notify("RecycleBin");
+		ServerEvents.Notify(ServerChangeNames.RecycleBin);
 	}
 
 	private static void Watch(string directory, string filter, Action changed)

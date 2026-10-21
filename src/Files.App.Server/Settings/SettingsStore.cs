@@ -52,7 +52,7 @@ internal sealed class SettingsStore
 		lock (gate)
 			invalidated = true;
 		Changed?.Invoke(fileName);
-		ServerEvents.Notify($"Settings:{fileName}");
+		ServerEvents.Notify(ServerChangeNames.Settings(fileName));
 	}
 
 	private Dictionary<string, JsonElement> Read(bool fresh = false)
@@ -171,7 +171,7 @@ internal sealed class SettingsStore
 			}
 		}
 		Changed?.Invoke(fileName);
-		ServerEvents.Notify($"Settings:{fileName}");
+		ServerEvents.Notify(ServerChangeNames.Settings(fileName));
 		return true;
 	}
 

@@ -92,7 +92,7 @@ namespace Files.App.Services.Settings
 		public UserSettingsService()
 		{
 			JsonSettingsSerializer = new DefaultJsonSettingsSerializer();
-			var database = new CachingJsonSettingsDatabase(Constants.LocalSettings.UserSettingsFileName, JsonSettingsSerializer, UserSettingsJsonSerializationContext.Default);
+			var database = new ServerSettingsDatabase(Constants.LocalSettings.UserSettingsFileName, JsonSettingsSerializer, UserSettingsJsonSerializationContext.Default);
 			JsonSettingsDatabase = database;
 			IsAvailable = true;
 			database.Changed += (name, value) =>

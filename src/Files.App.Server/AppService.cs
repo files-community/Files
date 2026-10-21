@@ -50,7 +50,7 @@ public sealed partial class AppService : IDisposable
 	{
 		InitializationCache.PinnedFolders.Invalidate();
 		JumpListCatalog.Invalidate();
-		ServerEvents.Notify("PinnedFolders");
+		ServerEvents.Notify(ServerChangeNames.PinnedFolders);
 	}
 
 	public static IAsyncOperation<IReadOnlyList<CloudProviderInfo>> GetCloudProvidersAsync(int group)

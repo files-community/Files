@@ -1,20 +1,22 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.Shared.Extensions;
 using Microsoft.Win32;
 using System.Runtime.CompilerServices;
 using System.Security;
 using Windows.ApplicationModel;
-using static Files.App.Server.TagRegistry;
-using static Files.App.Server.TaggedFileRegistry;
-using Files.Shared.Attributes;
+using static Files.App.Storage.RegistryHelpers;
+using static Files.App.Storage.TaggedFileRegistry;
 
-namespace Files.App.Server
+namespace Files.App.Storage
 {
-	internal sealed class FileTagsDatabase
+	public sealed class FileTagRegistryStore
 	{
 		private static string? _FileTagsKey;
 		private string? FileTagsKey => _FileTagsKey ??= SafetyExtensions.IgnoreExceptions(() => @$"Software\Files Community\{Package.Current.Id.Name}\v1\FileTags");
+
+		public bool IsAvailable => FileTagsKey is not null;
 
 		public void SetTags(string filePath, ulong? frn, string[] tags)
 		{
@@ -160,7 +162,7 @@ namespace Files.App.Server
 			return FindTag(filePath, frn)?.Tags ?? [];
 		}
 
-		public IEnumerable<TaggedFile> GetAll()
+		public List<TaggedFile> GetAll(bool ignoreAccessErrors = false)
 		{
 			var list = new List<TaggedFile>();
 
@@ -170,33 +172,35 @@ namespace Files.App.Server
 				{
 					IterateKeys(list, FileTagsKey, 0);
 				}
-				catch (SecurityException)
+				catch (SecurityException) when (ignoreAccessErrors)
 				{
-					// Handle edge case where IterateKeys results in SecurityException
+					// Keep the entries read before access was denied.
 				}
 			}
 
 			return list;
 		}
 
-		public IEnumerable<TaggedFile> GetAllUnderPath(string folderPath)
+		public void ReplaceAll(TaggedFile[]? tags)
 		{
-			folderPath = folderPath.Replace('/', '\\').TrimStart('\\');
-			var list = new List<TaggedFile>();
+			if (FileTagsKey is null)
+				return;
 
-			if (FileTagsKey is not null)
+			Registry.CurrentUser.DeleteSubKeyTree(FileTagsKey, false);
+			if (tags is null)
 			{
-				try
+				return;
+			}
+			foreach (var tag in tags)
+			{
+				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, tag.FilePath));
+				SaveValues(filePathKey, tag);
+				if (tag.Frn is not null)
 				{
-					IterateKeys(list, CombineKeys(FileTagsKey, folderPath), 0);
-				}
-				catch (SecurityException)
-				{
-					// Handle edge case where IterateKeys results in SecurityException
+					using var frnKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, "FRN", tag.Frn.Value.ToString()));
+					SaveValues(frnKey, tag);
 				}
 			}
-
-			return list;
 		}
 
 		private void IterateKeys(List<TaggedFile> list, string path, int depth)

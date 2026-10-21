@@ -54,7 +54,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		private async void OnServerChanged(object? sender, string name)
 		{
-			if (!isDisposed && name == "PinnedFolders")
+			if (!isDisposed && name == ServerChangeNames.PinnedFolders)
 				await SafetyExtensions.IgnoreExceptions(RefreshWidgetAsync, App.Logger);
 		}
 

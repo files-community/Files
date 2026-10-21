@@ -67,7 +67,7 @@ namespace Files.App.Services
 
 		private async void OnServerChanged(object? sender, string name)
 		{
-			if (name == "Network")
+			if (name == ServerChangeNames.Network)
 				await SafetyExtensions.IgnoreExceptions(UpdateShortcutsAsync, App.Logger);
 		}
 

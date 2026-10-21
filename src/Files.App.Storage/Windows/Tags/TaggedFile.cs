@@ -1,7 +1,9 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Utils.FileTags
+using Files.Shared.Attributes;
+
+namespace Files.App.Storage
 {
 	[RegistrySerializable]
 	public sealed class TaggedFile

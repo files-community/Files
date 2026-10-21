@@ -12,7 +12,7 @@ namespace Files.App.Services
 	{
 		public IStorageDeviceWatcher CreateWatcher()
 		{
-			return new WindowsStorageDeviceWatcher();
+			return new ServerDriveWatcher();
 		}
 
 		public async IAsyncEnumerable<IFolder> GetDrivesAsync()

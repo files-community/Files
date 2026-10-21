@@ -6,7 +6,7 @@ using System.Text.Json.Serialization.Metadata;
 
 namespace Files.App.Utils.Serialization.Implementation;
 
-internal sealed class CachingJsonSettingsDatabase : IJsonSettingsDatabase
+internal sealed class ServerSettingsDatabase : IJsonSettingsDatabase
 {
 	private readonly string fileName;
 	private readonly IJsonSettingsSerializer serializer;
@@ -17,7 +17,7 @@ internal sealed class CachingJsonSettingsDatabase : IJsonSettingsDatabase
 	private int cacheVersion;
 	internal event Action<string, JsonElement>? Changed;
 
-	public CachingJsonSettingsDatabase(string fileName, IJsonSettingsSerializer serializer, JsonSerializerContext context)
+	public ServerSettingsDatabase(string fileName, IJsonSettingsSerializer serializer, JsonSerializerContext context)
 	{
 		this.fileName = fileName;
 		this.serializer = serializer;
@@ -109,7 +109,7 @@ internal sealed class CachingJsonSettingsDatabase : IJsonSettingsDatabase
 
 	private async void OnServerChanged(object? sender, string name)
 	{
-		if (name != $"Settings:{fileName}")
+		if (name != ServerChangeNames.Settings(fileName))
 			return;
 		await SafetyExtensions.IgnoreExceptions(async () =>
 		{

@@ -45,7 +45,7 @@ namespace Files.App.Utils.Library
 
 		private async void OnServerChanged(object? sender, string name)
 		{
-			if (name == "Libraries")
+			if (name == ServerChangeNames.Libraries)
 				await SafetyExtensions.IgnoreExceptions(UpdateLibrariesAsync, App.Logger);
 		}
 

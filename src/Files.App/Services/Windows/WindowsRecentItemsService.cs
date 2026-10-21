@@ -61,7 +61,7 @@ namespace Files.App.Services
 
 		private void OnServerChanged(object? sender, string name)
 		{
-			if (name != "RecentItems")
+			if (name != ServerChangeNames.RecentItems)
 				return;
 			_ = SafetyExtensions.IgnoreExceptions(UpdateRecentFilesAsync, App.Logger);
 			_ = SafetyExtensions.IgnoreExceptions(UpdateRecentFoldersAsync, App.Logger);

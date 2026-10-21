@@ -22,12 +22,12 @@ internal static class ServerHost
 	private static int pendingUpdates;
 	private static SystemTrayIcon? tray;
 	private static DispatcherQueueController controller = null!;
-	private static ServerSettings settings = null!;
+	private static BackgroundSettingsMonitor settings = null!;
 
 	internal static void Initialize()
 	{
 		controller = DispatcherQueueController.CreateOnDedicatedThread();
-		settings = new ServerSettings();
+		settings = new BackgroundSettingsMonitor();
 		settings.Changed += OnSettingsChanged;
 		OnSettingsChanged();
 	}

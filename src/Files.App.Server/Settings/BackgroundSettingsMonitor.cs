@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Files.App.Server;
 
-internal sealed partial class ServerSettings : IDisposable
+internal sealed partial class BackgroundSettingsMonitor : IDisposable
 {
 	private readonly Lock gate = new();
 	private readonly Timer reloadTimer;
@@ -16,7 +16,7 @@ internal sealed partial class ServerSettings : IDisposable
 	internal bool ShowTrayIcon { get; private set; } = BackgroundSettings.ShowSystemTrayIconDefault;
 	internal event Action? Changed;
 
-	internal ServerSettings()
+	internal BackgroundSettingsMonitor()
 	{
 		reloadTimer = new Timer(_ => Refresh(), null, Timeout.Infinite, Timeout.Infinite);
 		SettingsStore.Changed += OnChanged;

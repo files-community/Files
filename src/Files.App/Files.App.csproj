@@ -53,7 +53,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="..\Files.App.Server\Initialization\SettingsValueCodec.cs" Link="Utils\Serialization\SettingsValueCodec.cs" />
+        <Compile Include="..\Files.App.Server\Settings\SettingsValueCodec.cs" Link="Utils\Serialization\SettingsValueCodec.cs" />
     </ItemGroup>
 
     <ItemGroup>
