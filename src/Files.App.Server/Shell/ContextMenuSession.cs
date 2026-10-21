@@ -62,7 +62,8 @@ public sealed partial class ContextMenuSession : IDisposable
 		try
 		{
 			ObjectDisposedException.ThrowIf(disposed != 0, this);
-			return await menu.InvokeItem(id, workingDirectory);
+			// WinRT represents null strings as empty; the shell needs null for an omitted directory.
+			return await menu.InvokeItem(id, string.IsNullOrEmpty(workingDirectory) ? null : workingDirectory);
 		}
 		finally
 		{
