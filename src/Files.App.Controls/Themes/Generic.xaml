@@ -75,6 +75,16 @@
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/BreadcrumbBar/BreadcrumbBar.xaml" />
 		<!--#endregion-->
 
-	</ResourceDictionary.MergedDictionaries>
+		<!--#region Dialog Resources-->
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/PropertiesView/PropertiesView.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/PropertiesView/PropertiesView.ThemeResources.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/PropertiesView/PropertiesViewCard.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/PropertiesView/PropertiesViewExpander.xaml" />
+		<!--#endregion-->
 
+		<!--#region WindowedDialog-->
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/WindowedDialog/WindowedDialogRoot.xaml" />
+		<!--#endregion-->
+
+	</ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

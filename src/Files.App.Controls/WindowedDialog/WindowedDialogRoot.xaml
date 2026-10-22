@@ -1,0 +1,77 @@
+<!--  Copyright (c) Files Community. SPDX-License-Identifier: MPL-2.0  -->
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:Files.App.Controls">
+
+	<Style BasedOn="{StaticResource DefaultWindowedDialogRootStyle}" TargetType="local:WindowedDialogRoot" />
+
+	<Style x:Key="DefaultWindowedDialogRootStyle" TargetType="local:WindowedDialogRoot">
+		<Setter Property="VerticalAlignment" Value="Stretch" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="VerticalContentAlignment" Value="Stretch" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="Background" Value="{ThemeResource SolidBackgroundFillColorBaseBrush}" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:WindowedDialogRoot">
+					<Grid Background="{TemplateBinding Background}">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+
+						<Border
+							Grid.Row="0"
+							Padding="0,24,0,0"
+							Background="{ThemeResource LayerFillColorAltBrush}"
+							BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+							BorderThickness="0,0,0,1">
+
+							<Grid HorizontalAlignment="Stretch">
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="*" />
+								</Grid.RowDefinitions>
+
+								<TextBlock
+									Grid.Row="0"
+									Margin="24,0"
+									Style="{ThemeResource SubtitleTextBlockStyle}"
+									Text="{TemplateBinding Title}" />
+
+								<ContentPresenter
+									Grid.Row="1"
+									HorizontalContentAlignment="Stretch"
+									VerticalContentAlignment="Stretch"
+									Content="{TemplateBinding Header}" />
+
+								<ContentPresenter
+									Grid.Row="2"
+									HorizontalContentAlignment="Stretch"
+									VerticalContentAlignment="Stretch"
+									BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+									BorderThickness="0,1,0,0"
+									Content="{TemplateBinding Content}" />
+
+							</Grid>
+
+						</Border>
+
+						<ContentPresenter
+							Grid.Row="1"
+							Padding="24,24,24,24"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"
+							HorizontalContentAlignment="Stretch"
+							VerticalContentAlignment="Stretch"
+							Content="{TemplateBinding Footer}" />
+
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>
