@@ -3,7 +3,7 @@
 
 using System.Collections.Concurrent;
 
-namespace Files.App.Utils.Shell
+namespace Files.Storage
 {
 	public sealed partial class ThreadWithMessageQueue : Disposable
 	{

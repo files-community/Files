@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 using Windows.Win32.System.SystemServices;
 using Windows.Win32.UI.Shell;
+using ShellLink = Files.Storage.ShellLink;
 
 namespace Files.App.Utils.Shell
 {

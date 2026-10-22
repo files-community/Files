@@ -5,7 +5,7 @@ using Windows.Win32;
 using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;
 
-namespace Files.App.Utils.Shell
+namespace Files.Storage
 {
 	/// <summary>
 	/// Represents a Windows Shell library backed by source-generated COM interop.

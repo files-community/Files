@@ -1,9 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Utils.Shell;
-
-namespace Files.App.Storage;
+namespace Files.Storage;
 
 public static class ShellPath
 {

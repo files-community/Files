@@ -1,9 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Enums;
-using Files.App.Data.Items;
-using Files.App.Utils.Shell;
 using Files.Shared.Extensions;
 using System.Collections.Concurrent;
 using System.Drawing;
