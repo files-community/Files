@@ -14,7 +14,7 @@ using Windows.Win32.Storage.FileSystem;
 using Windows.Win32.UI.Controls;
 using Windows.Win32.UI.Shell;
 
-namespace Files.App.Storage;
+namespace Files.Storage;
 
 public static class ShellImage
 {

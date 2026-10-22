@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.Storage.FileSystem;
 
-namespace Files.App.Storage;
+namespace Files.Storage;
 
 public static class FileIdentity
 {

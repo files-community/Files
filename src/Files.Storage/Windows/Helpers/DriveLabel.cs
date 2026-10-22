@@ -5,7 +5,7 @@ using DiscUtils.Udf;
 using Files.Shared.Extensions;
 using Windows.Win32;
 
-namespace Files.App.Storage;
+namespace Files.Storage;
 
 public static class DriveLabel
 {
