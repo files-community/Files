@@ -2,8 +2,10 @@
 // Licensed under the MIT License.
 
 using Files.App.Data.Enums;
+using Files.App.Data.Items;
 using Files.App.Utils.Shell;
 using Files.Shared.Extensions;
+using System.Collections.Concurrent;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -19,6 +21,7 @@ namespace Files.App.Storage;
 
 public static class ShellImage
 {
+	private static readonly ConcurrentDictionary<(string File, int Index, int Size), IconFileInfo> _iconCache = new();
 	private static readonly Lock _iconLock = new();
 	private static readonly Lock _iconOverlayLock = new();
 	private static int GetImageListForSize(int size) => size switch
@@ -37,19 +40,36 @@ public static class ShellImage
 		return large;
 	}
 
-	private static byte[]? ExtractIcon(string file, int index, int size)
+	public static IList<IconFileInfo> ExtractSelectedIconsFromDLL(string file, IList<int> indexes, int iconSize = 48)
 	{
-		using var largeIcon = ExtractIconHandle(file, index, (uint)size, out var hr);
-		if (hr.Failed || largeIcon.IsInvalid)
-			return null;
-		using var bitmap = GetBitmapFromHIcon(largeIcon);
-		if (bitmap is null)
-			return null;
-		using var stream = new MemoryStream();
-		bitmap.Save(stream, ImageFormat.Png);
-		return stream.ToArray();
+		var iconsList = new List<IconFileInfo>();
+
+		foreach (int index in indexes)
+		{
+			if (_iconCache.TryGetValue((file, index, iconSize), out var iconInfo))
+			{
+				iconsList.Add(iconInfo);
+			}
+			else
+			{
+				using var icon = ExtractIconHandle(file, index, Convert.ToUInt32(iconSize), out var result);
+				if (result == HRESULT.S_OK)
+				{
+					using var image = GetBitmapFromHIcon(icon);
+					if (image is null)
+						continue;
+					byte[] bitmapData = (byte[])(new ImageConverter().ConvertTo(image, typeof(byte[])) ?? Array.Empty<byte>());
+					iconInfo = new IconFileInfo(bitmapData, index);
+					_iconCache[(file, index, iconSize)] = iconInfo;
+					iconsList.Add(iconInfo);
+				}
+			}
+		}
+
+		return iconsList;
 	}
 
+	/// <summary>Returns the icon overlay for a file or folder.</summary>
 	public static byte[]? GetIconOverlay(string? path, int size, bool isDirectory)
 	{
 		if (string.IsNullOrEmpty(path))
@@ -97,6 +117,7 @@ public static class ShellImage
 		return overlayData;
 	}
 
+	/// <summary>Returns an icon, or a thumbnail when available and permitted by the options.</summary>
 	public static unsafe byte[]? GetIcon(
 		string? path,
 		int size,
@@ -108,100 +129,93 @@ public static class ShellImage
 
 		byte[]? iconData = null;
 
-		try
+		// Attempt to get file icon/thumbnail using IShellItemImageFactory GetImage
+		using var shellItem = SafetyExtensions.IgnoreExceptions(()
+			=> ShellPath.Open(path));
+
+		if (shellItem is not null && shellItem.IShellItem is IShellItemImageFactory shellFactory)
 		{
-			// Attempt to get file icon/thumbnail using IShellItemImageFactory GetImage
-			using var shellItem = SafetyExtensions.IgnoreExceptions(()
-				=> ShellPath.Open(path));
+			var flags = SIIGBF.SIIGBF_BIGGERSIZEOK;
 
-			if (shellItem is not null && shellItem.IShellItem is IShellItemImageFactory shellFactory)
+			if (iconOptions.HasFlag(IconOptions.ReturnIconOnly))
+				flags |= SIIGBF.SIIGBF_ICONONLY;
+
+			if (iconOptions.HasFlag(IconOptions.ReturnThumbnailOnly))
+				flags |= SIIGBF.SIIGBF_THUMBNAILONLY;
+
+			if (iconOptions.HasFlag(IconOptions.ReturnOnlyIfCached))
+				flags |= SIIGBF.SIIGBF_INCACHEONLY;
+
+			HBITMAP hbitmap = default;
+			var hres = shellFactory.GetImage(new(size, size), flags, &hbitmap);
+			try
 			{
-				var flags = SIIGBF.SIIGBF_BIGGERSIZEOK;
-
-				if (iconOptions.HasFlag(IconOptions.ReturnIconOnly))
-					flags |= SIIGBF.SIIGBF_ICONONLY;
-
-				if (iconOptions.HasFlag(IconOptions.ReturnThumbnailOnly))
-					flags |= SIIGBF.SIIGBF_THUMBNAILONLY;
-
-				if (iconOptions.HasFlag(IconOptions.ReturnOnlyIfCached))
-					flags |= SIIGBF.SIIGBF_INCACHEONLY;
-
-				HBITMAP hbitmap = default;
-				var hres = shellFactory.GetImage(new(size, size), flags, &hbitmap);
-				try
+				if (hres == HRESULT.S_OK)
 				{
-					if (hres == HRESULT.S_OK)
-					{
-						using var image = GetBitmapFromHBitmap(hbitmap);
-						if (image is not null)
-							iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
-					}
-				}
-				finally
-				{
-					if (!hbitmap.IsNull)
-						PInvoke.DeleteObject(hbitmap);
+					using var image = GetBitmapFromHBitmap(hbitmap);
+					if (image is not null)
+						iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
 				}
 			}
-
-			if (iconData is not null || iconOptions.HasFlag(IconOptions.ReturnThumbnailOnly))
-				return iconData;
-			else
+			finally
 			{
-				SHFILEINFOW shfi = default;
-				const SHGFI_FLAGS flags = SHGFI_FLAGS.SHGFI_OVERLAYINDEX | SHGFI_FLAGS.SHGFI_ICON | SHGFI_FLAGS.SHGFI_SYSICONINDEX | SHGFI_FLAGS.SHGFI_ICONLOCATION | SHGFI_FLAGS.SHGFI_USEFILEATTRIBUTES;
-
-				// Cannot access file, use file attributes
-				var ret = PInvoke.SHGetFileInfo(path, isFolder ? FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_DIRECTORY : 0, ref shfi, flags);
-				if (ret is 0)
-					return iconData;
-
-				PInvoke.DestroyIcon(shfi.hIcon);
-
-				var imageListSize = GetImageListForSize(size);
-
-				lock (_iconLock)
-				{
-					if (PInvoke.SHGetImageList<IImageList>(imageListSize, out var imageList).Failed)
-						return iconData;
-
-					if (iconData is null)
-					{
-						var iconIdx = shfi.iIcon & 0xFFFFFF;
-						if (iconIdx != 0)
-						{
-							// Could not fetch thumbnail, load simple icon
-							imageList.GetIcon(iconIdx, 1, out var iconHandle).ThrowOnFailure();
-							using var hIcon = iconHandle;
-							if (!hIcon.IsClosed && !hIcon.IsInvalid)
-							{
-								using (var image = GetBitmapFromHIcon(hIcon))
-								{
-									if (image is not null)
-										iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
-								}
-							}
-						}
-						else if (isFolder)
-						{
-							// Could not icon, load generic icon
-							iconData = ExtractIcon(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "imageres.dll"), 2, size);
-						}
-						else
-						{
-							// Could not icon, load generic icon
-							iconData = ExtractIcon(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll"), 1, size);
-						}
-					}
-				}
-
-				return iconData;
+				if (!hbitmap.IsNull)
+					PInvoke.DeleteObject(hbitmap);
 			}
 		}
-		finally
-		{
 
+		if (iconData is not null || iconOptions.HasFlag(IconOptions.ReturnThumbnailOnly))
+			return iconData;
+		else
+		{
+			SHFILEINFOW shfi = default;
+			const SHGFI_FLAGS flags = SHGFI_FLAGS.SHGFI_OVERLAYINDEX | SHGFI_FLAGS.SHGFI_ICON | SHGFI_FLAGS.SHGFI_SYSICONINDEX | SHGFI_FLAGS.SHGFI_ICONLOCATION | SHGFI_FLAGS.SHGFI_USEFILEATTRIBUTES;
+
+			// Cannot access file, use file attributes
+			var ret = PInvoke.SHGetFileInfo(path, isFolder ? FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_DIRECTORY : 0, ref shfi, flags);
+			if (ret is 0)
+				return iconData;
+
+			PInvoke.DestroyIcon(shfi.hIcon);
+
+			var imageListSize = GetImageListForSize(size);
+
+			lock (_iconLock)
+			{
+				if (PInvoke.SHGetImageList<IImageList>(imageListSize, out var imageList).Failed)
+					return iconData;
+
+				if (iconData is null)
+				{
+					var iconIdx = shfi.iIcon & 0xFFFFFF;
+					if (iconIdx != 0)
+					{
+						// Could not fetch thumbnail, load simple icon
+						imageList.GetIcon(iconIdx, 1, out var iconHandle).ThrowOnFailure();
+						using var hIcon = iconHandle;
+						if (!hIcon.IsClosed && !hIcon.IsInvalid)
+						{
+							using (var image = GetBitmapFromHIcon(hIcon))
+							{
+								if (image is not null)
+									iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
+							}
+						}
+					}
+					else if (isFolder)
+					{
+						// Could not icon, load generic icon
+						iconData = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "imageres.dll"), [2], size).FirstOrDefault()?.IconData;
+					}
+					else
+					{
+						// Could not icon, load generic icon
+						iconData = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll"), [1], size).FirstOrDefault()?.IconData;
+					}
+				}
+			}
+
+			return iconData;
 		}
 	}
 
