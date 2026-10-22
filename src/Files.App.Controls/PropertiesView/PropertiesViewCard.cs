@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Input;
 using Windows.System;
+using WinRT;
 
 namespace Files.App.Controls;
 
@@ -248,6 +249,7 @@ public partial class PropertiesViewCard : Button
 		VisualStateManager.GoToState(this, IsEnabled ? NormalStateName : DisabledStateName, useTransitions);
 	}
 
+	[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 	private void UpdateActionIcon()
 	{
 		if (GetTemplateChild(ActionIconPresenterHolderName) is FrameworkElement presenter)
@@ -256,6 +258,7 @@ public partial class PropertiesViewCard : Button
 				: Visibility.Collapsed;
 	}
 
+	[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 	private void UpdateHeader()
 	{
 		if (GetTemplateChild(HeaderPresenterName) is FrameworkElement presenter)
@@ -309,6 +312,9 @@ public partial class PropertiesViewCard : Button
 			useTransitions);
 	}
 
+	[DynamicWindowsRuntimeCast(typeof(UIElement))]
+	[DynamicWindowsRuntimeCast(typeof(ButtonBase))]
+	[DynamicWindowsRuntimeCast(typeof(TextBlock))]
 	private void SetAccessibleContentName()
 	{
 		if (Header is not string { Length: > 0 } header ||

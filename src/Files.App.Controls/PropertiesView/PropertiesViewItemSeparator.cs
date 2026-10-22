@@ -38,6 +38,7 @@ public sealed partial class PropertiesViewItemSeparator : Control
 		UpdateOrientationState(Orientation);
 	}
 
+	[DynamicWindowsRuntimeCast(typeof(Orientation))]
 	private static void OnOrientationChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs eventArgs)
 	{
 		var separator = (PropertiesViewItemSeparator)dependencyObject;
