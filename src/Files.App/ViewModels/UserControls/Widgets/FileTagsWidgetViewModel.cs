@@ -26,11 +26,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public bool ShowMenuFlyout => false;
 		public MenuFlyoutItem? MenuFlyoutItem => null;
 
-		// Events
-
-		public static event EventHandler<IEnumerable<WidgetFileTagCardItem>>? SelectedTaggedItemsChanged;
-
-
 		// Constructor
 
 		public FileTagsWidgetViewModel()
