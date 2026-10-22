@@ -6,7 +6,7 @@ using Windows.Storage;
 
 namespace Files.App.Server;
 
-internal sealed partial class ServerSettings : IDisposable
+internal sealed partial class BackgroundSettingsMonitor : IDisposable
 {
 	private readonly Lock gate = new();
 	private readonly string path = Path.Combine(ApplicationData.Current.LocalFolder.Path, "settings", "user_settings.json");
@@ -19,7 +19,7 @@ internal sealed partial class ServerSettings : IDisposable
 	internal bool ShowTrayIcon { get; private set; } = BackgroundSettings.ShowSystemTrayIconDefault;
 	internal event Action? Changed;
 
-	internal ServerSettings()
+	internal BackgroundSettingsMonitor()
 	{
 		reloadTimer = new Timer(_ => Refresh(), null, Timeout.Infinite, Timeout.Infinite);
 		watcher = new FileSystemWatcher(ApplicationData.Current.LocalFolder.Path, "user_settings.json")

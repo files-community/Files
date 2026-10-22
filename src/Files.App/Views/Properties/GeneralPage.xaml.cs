@@ -122,7 +122,7 @@ namespace Files.App.Views.Properties
 				if (GetDriveLetterToken() is { } letterToken)
 					newName = RemoveDriveLetterToken(newName, letterToken); // Remove "(C:)" from the new label
 
-				if (drive.Type == Data.Items.DriveType.Network)
+				if (drive.Type == DriveType.Network)
 					Win32Helper.SetNetworkDriveLabel(drive.DeviceID
 						?? throw new InvalidOperationException("The network drive does not have a device ID."), newName);
 				else

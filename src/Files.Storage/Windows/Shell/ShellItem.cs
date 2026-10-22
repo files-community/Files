@@ -18,7 +18,7 @@ using Windows.Win32.UI.Shell.PropertiesSystem;
 using Windows.Win32.UI.WindowsAndMessaging;
 using Win32ShellLink = Windows.Win32.UI.Shell.ShellLink;
 
-namespace Files.App.Utils.Shell
+namespace Files.Storage
 {
 	public readonly record struct IconLocation(string Path, int Index)
 	{

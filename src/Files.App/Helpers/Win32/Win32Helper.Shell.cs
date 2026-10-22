@@ -51,7 +51,7 @@ namespace Files.App.Helpers
 						{
 							try
 							{
-								var shellFileItem = folderItem is Files.App.Utils.Shell.ShellLink link ?
+								var shellFileItem = folderItem is Files.Storage.ShellLink link ?
 									ShellFolderExtensions.GetShellLinkItem(link) :
 									ShellFolderExtensions.GetShellFileItem(folderItem);
 								if (shellFileItem is null)
