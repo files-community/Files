@@ -30,12 +30,6 @@ namespace Files.App.Data.Contexts
 		public HomePageContext()
 		{
 			BaseWidgetViewModel.RightClickedItemChanged += HomePageWidget_RightClickedItemChanged;
-			FileTagsWidgetViewModel.SelectedTaggedItemsChanged += FileTagsWidget_SelectedTaggedItemsChanged;
-		}
-
-		private void FileTagsWidget_SelectedTaggedItemsChanged(object? sender, IEnumerable<WidgetFileTagCardItem> e)
-		{
-			SetProperty(ref selectedTaggedItems, e.ToList());
 		}
 
 		private void HomePageWidget_RightClickedItemChanged(object? sender, WidgetsRightClickedItemChangedEventArgs e)

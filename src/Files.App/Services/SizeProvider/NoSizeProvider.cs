@@ -5,7 +5,9 @@ namespace Files.App.Services.SizeProvider
 {
 	public sealed partial class NoSizeProvider : ISizeProvider
 	{
+#pragma warning disable CS0067
 		public event EventHandler<SizeChangedEventArgs>? SizeChanged;
+#pragma warning restore CS0067
 
 		public Task CleanAsync() => Task.CompletedTask;
 		public Task ClearAsync() => Task.CompletedTask;

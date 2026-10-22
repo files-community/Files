@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Utils.Shell
+namespace Files.Storage
 {
 	/// <summary>
 	/// Represents an abstracted implementation for IDisposable

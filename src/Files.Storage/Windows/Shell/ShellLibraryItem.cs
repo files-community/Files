@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Data.Items
+namespace Files.Storage
 {
 	public sealed class ShellLibraryItem
 	{
