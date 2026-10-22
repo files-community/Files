@@ -10,6 +10,10 @@ namespace Files.App.Storage;
 
 public static class FileIdentity
 {
+	/// <summary>Gets a file path from its file reference number.</summary>
+	/// <param name="frn">File reference number.</param>
+	/// <param name="volumeHint">Drive containing the file (e.g. "C:\").</param>
+	/// <returns>The file path, or null if it cannot be resolved.</returns>
 	public static string? PathFromFileId(ulong frn, string volumeHint)
 	{
 		string? volumePath = Path.GetPathRoot(volumeHint);
@@ -34,7 +38,7 @@ public static class FileIdentity
 
 	public static unsafe ulong? GetFileFRN(string filePath)
 	{
-		using var handle = PInvoke.CreateFile(filePath, (uint)FILE_ACCESS_RIGHTS.FILE_READ_ATTRIBUTES, FILE_SHARE_MODE.FILE_SHARE_READ | FILE_SHARE_MODE.FILE_SHARE_WRITE | FILE_SHARE_MODE.FILE_SHARE_DELETE, null, FILE_CREATION_DISPOSITION.OPEN_EXISTING, FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_BACKUP_SEMANTICS, null);
+		using var handle = PInvoke.CreateFile(filePath, (uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ, FILE_SHARE_MODE.FILE_SHARE_READ | FILE_SHARE_MODE.FILE_SHARE_WRITE, null, FILE_CREATION_DISPOSITION.OPEN_EXISTING, FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_BACKUP_SEMANTICS, null);
 		if (!handle.IsInvalid)
 		{
 			try

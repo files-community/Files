@@ -142,33 +142,7 @@ namespace Files.App.Helpers
 		private static readonly ConcurrentDictionary<(string File, int Index, int Size), IconFileInfo> _iconCache = new();
 
 		public static IList<IconFileInfo> ExtractSelectedIconsFromDLL(string file, IList<int> indexes, int iconSize = 48)
-		{
-			var iconsList = new List<IconFileInfo>();
-
-			foreach (int index in indexes)
-			{
-				if (_iconCache.TryGetValue((file, index, iconSize), out var iconInfo))
-				{
-					iconsList.Add(iconInfo);
-				}
-				else
-				{
-					using var icon = ShellImage.ExtractIconHandle(file, index, Convert.ToUInt32(iconSize), out var result);
-					if (result == HRESULT.S_OK)
-					{
-						using var image = GetBitmapFromHIcon(icon);
-						if (image is null)
-							continue;
-						byte[] bitmapData = (byte[])(new ImageConverter().ConvertTo(image, typeof(byte[])) ?? Array.Empty<byte>());
-						iconInfo = new IconFileInfo(bitmapData, index);
-						_iconCache[(file, index, iconSize)] = iconInfo;
-						iconsList.Add(iconInfo);
-					}
-				}
-			}
-
-			return iconsList;
-		}
+			=> ShellImage.ExtractSelectedIconsFromDLL(file, indexes, iconSize);
 
 		public static IList<IconFileInfo>? ExtractIconsFromDLL(string file)
 		{

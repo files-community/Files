@@ -4,13 +4,12 @@
 using DiscUtils.Udf;
 using Files.Shared.Extensions;
 using Windows.Win32;
-using Windows.Win32.Foundation;
 
 namespace Files.App.Storage;
 
 public static class DriveLabel
 {
-	public static unsafe string GetExtendedDriveLabel(SystemIO.DriveInfo drive)
+	public static string GetExtendedDriveLabel(SystemIO.DriveInfo drive)
 	{
 		return SafetyExtensions.IgnoreExceptions(() =>
 		{
@@ -19,22 +18,11 @@ public static class DriveLabel
 
 			return SafetyExtensions.IgnoreExceptions(() =>
 			{
-				string dosDevicePath = "";
-
-				fixed (char* cDeviceName = drive.Name)
-				{
-					var cch = PInvoke.QueryDosDevice(cDeviceName, null, 0u);
-
-					fixed (char* cTargetPath = new char[cch])
-					{
-						PWSTR pszTargetPath = new(cTargetPath);
-						PInvoke.QueryDosDevice(cDeviceName, pszTargetPath, 0u);
-						dosDevicePath = pszTargetPath.ToString();
-					}
-				}
-
-				if (string.IsNullOrEmpty(dosDevicePath))
+				Span<char> targetPath = stackalloc char[4096];
+				if (PInvoke.QueryDosDevice(drive.Name.TrimEnd('\\'), targetPath) is 0)
 					return drive.VolumeLabel;
+
+				string dosDevicePath = targetPath[..targetPath.IndexOf('\0')].ToString();
 
 				using var driveStream = new SystemIO.FileStream(
 					dosDevicePath.Replace(@"\Device\", @"\\.\"),
