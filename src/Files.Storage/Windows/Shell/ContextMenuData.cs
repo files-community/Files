@@ -3,7 +3,7 @@
 
 using Windows.Win32.UI.WindowsAndMessaging;
 
-namespace Files.App.Data.Items
+namespace Files.Storage
 {
 	public enum HBITMAP_HMENU : long
 	{

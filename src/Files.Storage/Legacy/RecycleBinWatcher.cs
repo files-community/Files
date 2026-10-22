@@ -18,9 +18,11 @@ namespace Files.Storage
 		public event EventHandler<SystemIO.FileSystemEventArgs>? ItemDeleted;
 
 		/// <inheritdoc/>
-#pragma warning disable CS0067
-		public event EventHandler<SystemIO.FileSystemEventArgs>? ItemChanged;
-#pragma warning restore CS0067
+		public event EventHandler<SystemIO.FileSystemEventArgs>? ItemChanged
+		{
+			add { }
+			remove { }
+		}
 
 		/// <inheritdoc/>
 		public event EventHandler<SystemIO.FileSystemEventArgs>? ItemRenamed;

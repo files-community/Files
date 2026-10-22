@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Data.Enums
+namespace Files.Storage
 {
 	/// <summary>
 	/// Behavior used to retrieve and adjust icons
