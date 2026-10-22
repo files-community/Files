@@ -355,7 +355,7 @@ namespace Files.App.Utils.Storage
 
 		public async Task<IStorageHistory?> DeleteItemsAsync(IList<IStorageItemWithPath> source, IProgress<StatusCenterItemProgressModel>? progress, bool permanently, CancellationToken cancellationToken, bool asAdmin = false)
 		{
-			if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x.Path)))
+			if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x.Path) || ZipStorageFolder.IsZipPath(x.Path, false)))
 			{
 				// Fallback to built-in file operations
 				return await _filesystemOperations.DeleteItemsAsync(source, progress, permanently, cancellationToken);
