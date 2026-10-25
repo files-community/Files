@@ -72,7 +72,7 @@ namespace Files.App.ViewModels
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		// Only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
-		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
+		public GroupableBulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
 
 		// Number of folders in FilesAndFolders
 		public int FoldersCount { get; private set; }
