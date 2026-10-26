@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Page
 	x:Class="Files.App.Views.Settings.GeneralPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -336,6 +336,17 @@
 					<FontIcon Glyph="&#xE712;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsContextMenuOverflow}" IsOn="{x:Bind ViewModel.MoveShellExtensionsToSubMenu, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
+
+			<!--  Shell Extensions Pinned To Main Menu  -->
+			<wctcontrols:SettingsCard
+				Header="{helpers:ResourceString Name=SettingsContextMenuPinnedExtensions}"
+				Description="{helpers:ResourceString Name=SettingsContextMenuPinnedExtensionsDescription}">
+				<TextBox
+					MinWidth="240"
+					AutomationProperties.Name="{helpers:ResourceString Name=SettingsContextMenuPinnedExtensions}"
+					PlaceholderText="{helpers:ResourceString Name=SettingsContextMenuPinnedExtensionsPlaceholder}"
+					Text="{x:Bind ViewModel.PinnedShellExtensions, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
 			<!--  Scrolling  -->

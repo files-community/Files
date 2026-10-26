@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 namespace Files.App.Data.Contracts
@@ -209,6 +209,11 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating whether or not to move shell extensions into a sub menu.
 		/// </summary>
 		bool MoveShellExtensionsToSubMenu { get; set; }
+
+		/// <summary>
+		/// Gets or sets the comma-separated list of shell extension names that stay in the main menu even when moved to a sub menu.
+		/// </summary>
+		string PinnedShellExtensions { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to show the edit tags menu.

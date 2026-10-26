@@ -458,6 +458,19 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public string PinnedShellExtensions
+		{
+			get => UserSettingsService.GeneralSettingsService.PinnedShellExtensions;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.PinnedShellExtensions)
+				{
+					UserSettingsService.GeneralSettingsService.PinnedShellExtensions = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public bool ShowPinToSideBar
 		{
 			get => UserSettingsService.GeneralSettingsService.ShowPinToSideBar;

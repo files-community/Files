@@ -257,6 +257,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public string PinnedShellExtensions
+		{
+			get => Get(string.Empty);
+			set => Set(value);
+		}
+
 		public bool ShowPinToSideBar
 		{
 			get => Get(true);

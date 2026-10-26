@@ -229,10 +229,17 @@ namespace Files.App.Helpers.ContextFlyouts
 		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSeparator))]
 		public void AddShellModels(List<ContextMenuFlyoutItemViewModel> models, bool shiftPressed, MenuFlyoutSubItem? overflowSubMenu, MenuFlyoutSeparator? overflowSeparator, bool aboveExisting = true)
 		{
+			userSettingsService ??= Ioc.Default.GetRequiredService<IUserSettingsService>();
+			var pinnedModels = overflowSubMenu is null
+				? []
+				: models.Where(IsPinnedToMainMenu).ToList();
+			var remainingModels = models.Except(pinnedModels).ToList();
+
 			List<ContextMenuFlyoutItemViewModel> mainModels = overflowSubMenu is null
-				? models
-				: shiftPressed ? models.Take(6).ToList() : [];
-			var overflowModels = models.Skip(mainModels.Count).ToList();
+				? remainingModels
+				: shiftPressed ? remainingModels.Take(6).ToList() : [];
+			mainModels = pinnedModels.Concat(mainModels).ToList();
+			var overflowModels = remainingModels.Skip(mainModels.Count - pinnedModels.Count).ToList();
 			TrimSeparators(mainModels);
 			TrimSeparators(overflowModels);
 
@@ -267,6 +274,24 @@ namespace Files.App.Helpers.ContextFlyouts
 				}
 			}
 			RemoveIfEmpty(overflowSubMenu, overflowSeparator);
+		}
+
+		/// <summary>
+		/// Returns true when the shell menu item matches one of the user-pinned names (comma/semicolon separated,
+		/// matched case-insensitively against the item label) and should stay in the main menu.
+		/// </summary>
+		private static bool IsPinnedToMainMenu(ContextMenuFlyoutItemViewModel item)
+		{
+			if (item.ItemType == ContextMenuFlyoutItemType.Separator || string.IsNullOrWhiteSpace(item.Text))
+				return false;
+
+			var pinned = userSettingsService?.GeneralSettingsService.PinnedShellExtensions;
+			if (string.IsNullOrWhiteSpace(pinned))
+				return false;
+
+			return pinned
+				.Split([',', ';', '\r', '\n'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+				.Any(name => item.Text.Contains(name, StringComparison.OrdinalIgnoreCase));
 		}
 
 		public MenuFlyoutItemBase? FindByTag(string tag)

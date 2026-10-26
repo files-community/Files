@@ -719,6 +719,15 @@
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Move shell extensions into a sub menu</value>
   </data>
+  <data name="SettingsContextMenuPinnedExtensions" xml:space="preserve">
+    <value>Shell extensions kept in the main menu</value>
+  </data>
+  <data name="SettingsContextMenuPinnedExtensionsDescription" xml:space="preserve">
+    <value>Names of shell extension menu items that stay in the main menu even when the others are moved into a sub menu. Separate multiple names with commas.</value>
+  </data>
+  <data name="SettingsContextMenuPinnedExtensionsPlaceholder" xml:space="preserve">
+    <value>e.g. 7-Zip, TortoiseGit</value>
+  </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>Show confirmation dialog when deleting items</value>
   </data>
