@@ -9,7 +9,7 @@ using Windows.Win32.UI.Shell;
 
 namespace Files.App.Data.Models
 {
-	public sealed class PinnedFoldersManager
+	public sealed partial class PinnedFoldersManager
 	{
 		private IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
@@ -33,7 +33,7 @@ namespace Files.App.Data.Models
 			return new SyncSuspensionScope(this);
 		}
 
-		private sealed class SyncSuspensionScope(PinnedFoldersManager owner) : IDisposable
+		private sealed partial class SyncSuspensionScope(PinnedFoldersManager owner) : IDisposable
 		{
 			private int _disposed;
 
