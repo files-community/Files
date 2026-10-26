@@ -23,6 +23,7 @@ namespace Files.App.Services.Settings
 	[JsonSerializable(typeof(List<string>))]
 	[JsonSerializable(typeof(Dictionary<string, bool>))]
 	[JsonSerializable(typeof(List<ActionWithParameterItem>))]
+	[JsonSerializable(typeof(List<FolderAliasItem>))]
 	[JsonSerializable(typeof(Dictionary<string, List<ToolbarItemSettingsEntry>>))]
 	[JsonSerializable(typeof(Dictionary<string, List<string>>))]
 	[JsonSerializable(typeof(DateTimeFormats))]
