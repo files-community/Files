@@ -68,8 +68,8 @@ namespace Files.App.Dialogs
 			var deferral = args.GetDeferral();
 			try
 			{
-				var path = AliasPath;
-				if (!await Task.Run(() => Directory.Exists(path)))
+				var resolvedPath = StorageFileExtensions.GetResolvedPath(AliasPath, false);
+				if (!Path.IsPathFullyQualified(resolvedPath) || !await Task.Run(() => Directory.Exists(resolvedPath)))
 				{
 					PathErrorTextBlock.Text = Strings.FolderAliasPathNotFound.GetLocalizedResource();
 					PathErrorTextBlock.Visibility = Visibility.Visible;
@@ -77,7 +77,7 @@ namespace Files.App.Dialogs
 					return;
 				}
 
-				var newItem = new FolderAliasItem(AliasName, path);
+				var newItem = new FolderAliasItem(AliasName, resolvedPath);
 				if (_editingItem is null)
 					_viewModel.Add(newItem);
 				else

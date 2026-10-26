@@ -49,7 +49,7 @@ namespace Files.App.ViewModels.UserControls
 		private bool _lockFlag;
 		private PointerRoutedEventArgs? _pointerRoutedEventArgs;
 		private CancellationTokenSource _suggestSearchCTS = new();
-		private int _pathModeSuggestionsVersion;
+		private CancellationTokenSource _pathModeSuggestionsCTS = new();
 		private IReadOnlyList<FolderAliasItem>? _measuredAliases;
 		private double _aliasNameWidth;
 
@@ -630,11 +630,19 @@ namespace Files.App.ViewModels.UserControls
 
 					return openSettings;
 				}
-				else if (FolderAliasHelpers.IsAliasQuery(path))
+				else if (FolderAliasHelpers.GetName(path) is { Length: > 0 } name)
 				{
 					await DialogDisplayHelper.ShowDialogAsync(
 						Strings.FolderAliasNotFoundDialogTitle.GetLocalizedResource(),
-						string.Format(Strings.FolderAliasNotFoundDialogContent.GetLocalizedResource(), FolderAliasHelpers.GetQuery(path)));
+						string.Format(Strings.FolderAliasNotFoundDialogContent.GetLocalizedResource(), name));
+
+					return false;
+				}
+				else
+				{
+					await DialogDisplayHelper.ShowDialogAsync(
+						Strings.FolderAliases.GetLocalizedResource(),
+						Strings.FolderAliasNameRequiredDialogContent.GetLocalizedResource());
 
 					return false;
 				}
@@ -1126,7 +1134,10 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task PopulateOmnibarSuggestionsForPathMode()
 		{
-			var version = ++_pathModeSuggestionsVersion;
+			_pathModeSuggestionsCTS.Cancel();
+			_pathModeSuggestionsCTS = new CancellationTokenSource();
+			var token = _pathModeSuggestionsCTS.Token;
+
 			var result = await SafetyExtensions.IgnoreExceptions((Func<Task<bool>>)(async () =>
 			{
 				List<OmnibarPathModeSuggestionModel> newSuggestions = [];
@@ -1158,11 +1169,17 @@ namespace Files.App.ViewModels.UserControls
 					var shellViewModel = ContentPageContext.ShellPage?.ShellViewModel
 						?? throw new InvalidOperationException("The current shell page does not have a view model.");
 
-					var folderResult = await shellViewModel.GetFolderWithPathFromPathAsync(folderPath);
+					var folderResult = await shellViewModel.GetFolderWithPathFromPathAsync(folderPath, token);
+					if (token.IsCancellationRequested)
+						return true;
+
 					if (folderResult.Result is not { } folder)
 						return false;
 
 					var currPath = (await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), MaxSuggestionsCount))!;
+					if (token.IsCancellationRequested)
+						return true;
+
 					if (currPath.Count >= MaxSuggestionsCount)
 					{
 						newSuggestions.AddRange(currPath.Select(CreateSuggestion));
@@ -1180,7 +1197,7 @@ namespace Files.App.ViewModels.UserControls
 				}
 
 				// Drop results superseded by a newer input
-				if (version != _pathModeSuggestionsVersion)
+				if (token.IsCancellationRequested)
 					return true;
 
 				IsPathModeSuggestionAutoSelected = newSuggestions is [FolderAliasSuggestionModel, ..];
@@ -1235,7 +1252,7 @@ namespace Files.App.ViewModels.UserControls
 					=> new(folder.Path, folder.Item!.DisplayName);
 			}));
 
-			if (!result && version == _pathModeSuggestionsVersion)
+			if (!result && !token.IsCancellationRequested)
 			{
 				AddNoResultsItem();
 			}
@@ -1486,6 +1503,7 @@ namespace Files.App.ViewModels.UserControls
 			_isDisposed = true;
 			_suggestSearchCTS.Cancel();
 			_suggestSearchCTS.Dispose();
+			_pathModeSuggestionsCTS.Cancel();
 			_dragOverTimer?.Stop();
 			_dragOverTimer = null;
 			InstanceViewModel = null!;

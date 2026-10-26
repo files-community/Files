@@ -192,10 +192,14 @@ namespace Files.App.UserControls
 				var submittedText = args.Text;
 				var targetPath = submittedText;
 				if (FolderAliasHelpers.IsAliasQuery(submittedText) &&
-					args.Item is OmnibarPathModeSuggestionModel { IsPlaceholder: false } suggestion &&
-					suggestion.Path.StartsWith($"{FolderAliasHelpers.Prefix}{FolderAliasHelpers.GetQuery(submittedText)}", StringComparison.OrdinalIgnoreCase))
+					args.Item is OmnibarPathModeSuggestionModel { IsPlaceholder: false } suggestion)
 				{
-					targetPath = suggestion.Path;
+					// The selection can lag behind the last keystroke
+					targetPath = suggestion.Path.StartsWith($"{FolderAliasHelpers.Prefix}{FolderAliasHelpers.GetQuery(submittedText)}", StringComparison.OrdinalIgnoreCase)
+						? suggestion.Path
+						: FolderAliasHelpers.GetMatches(FolderAliasHelpers.Aliases, submittedText).FirstOrDefault() is { } match
+							? $"{FolderAliasHelpers.Prefix}{match.Name}"
+							: submittedText;
 				}
 
 				if (!await viewModel.HandleItemNavigationAsync(targetPath))
@@ -498,16 +502,17 @@ namespace Files.App.UserControls
 			if (Omnibar.CurrentSelectedMode != mode)
 				Omnibar.CurrentSelectedMode = mode;
 			else if (mode == OmnibarPathMode)
+			{
 				viewModel.PathText = text;
+				_ = DispatcherQueue.EnqueueOrInvokeAsync(viewModel.PopulateOmnibarSuggestionsForPathMode);
+			}
 			else if (mode == OmnibarCommandPaletteMode)
+			{
 				viewModel.OmnibarCommandPaletteModeText = text;
+				_ = DispatcherQueue.EnqueueOrInvokeAsync(viewModel.PopulateOmnibarSuggestionsForCommandPaletteMode);
+			}
 
 			Omnibar.FocusWithCaretAtEnd();
-
-			if (mode == OmnibarPathMode)
-				_ = DispatcherQueue.EnqueueOrInvokeAsync(viewModel.PopulateOmnibarSuggestionsForPathMode);
-			else if (mode == OmnibarCommandPaletteMode)
-				_ = DispatcherQueue.EnqueueOrInvokeAsync(viewModel.PopulateOmnibarSuggestionsForCommandPaletteMode);
 		}
 
 		private string? TakePendingOmnibarText(OmnibarMode mode)
