@@ -23,6 +23,7 @@ namespace Files.App.Data.Models
 			nameof(DateDeletedColumn),
 			nameof(DateCreatedColumn),
 			nameof(SizeColumn),
+			nameof(OrderedColumns),
 		],
 		[])]
 	public sealed partial class ColumnsViewModel : ObservableObject
@@ -161,23 +162,96 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref sizeColumn, value);
 		}
 
+		private string[] _ColumnOrder = [];
+		public string[] ColumnOrder
+		{
+			get => _ColumnOrder;
+			set
+			{
+				value ??= [];
+				if (_ColumnOrder.SequenceEqual(value))
+					return;
+
+				_ColumnOrder = value;
+				_OrderedColumns = null;
+				OnPropertyChanged(nameof(ColumnOrder));
+				OnPropertyChanged(nameof(OrderedColumns));
+			}
+		}
+
+		private DetailsLayoutColumnOrder? _OrderedColumns;
+		[RegistryIgnore, JsonIgnore]
+		public DetailsLayoutColumnOrder OrderedColumns => _OrderedColumns ??= new(_ColumnOrder);
+
+		public void MoveColumn(string id, string targetId, bool after)
+		{
+			if (id == targetId || id == DetailsLayoutColumnIds.Icon || targetId == DetailsLayoutColumnIds.Icon)
+				return;
+
+			var ids = OrderedColumns.Ids.ToList();
+			ids.Remove(id);
+
+			var targetIndex = ids.IndexOf(targetId);
+			if (targetIndex < 0)
+				return;
+
+			ids.Insert(after ? targetIndex + 1 : targetIndex, id);
+			ColumnOrder = [.. ids.Where(x => x != DetailsLayoutColumnIds.Icon)];
+		}
+
+		public void MoveColumn(string id, int direction)
+		{
+			if (FindVisibleNeighbor(id, direction) is { } neighborId)
+				MoveColumn(id, neighborId, direction > 0);
+		}
+
+		public bool CanMoveColumn(string id, int direction)
+		{
+			return FindVisibleNeighbor(id, direction) is not null;
+		}
+
+		private string? FindVisibleNeighbor(string id, int direction)
+		{
+			var ids = OrderedColumns.Ids;
+			var index = OrderedColumns.IndexOf(id);
+			if (index <= 0)
+				return null;
+
+			for (int i = index + direction; i > 0 && i < ids.Count; i += direction)
+			{
+				if (GetColumn(ids[i]).Visibility == Visibility.Visible)
+					return ids[i];
+			}
+
+			return null;
+		}
+
 		public double TotalWidth =>
-			IconColumn.Length.Value +
-			GitStatusColumn.Length.Value +
-			GitLastCommitDateColumn.Length.Value +
-			GitLastCommitMessageColumn.Length.Value +
-			GitCommitAuthorColumn.Length.Value +
-			GitLastCommitShaColumn.Length.Value +
-			TagColumn.Length.Value +
-			NameColumn.Length.Value +
-			DateModifiedColumn.Length.Value +
-			PathColumn.Length.Value +
-			OriginalPathColumn.Length.Value +
-			ItemTypeColumn.Length.Value +
-			DateDeletedColumn.Length.Value +
-			DateCreatedColumn.Length.Value +
-			SizeColumn.Length.Value +
-			StatusColumn.Length.Value;
+			DetailsLayoutColumnIds.All.Sum(id => GetColumn(id).Length.Value);
+
+		public DetailsLayoutColumnItem GetColumn(string id)
+		{
+			return id switch
+			{
+				DetailsLayoutColumnIds.Icon => IconColumn,
+				DetailsLayoutColumnIds.Name => NameColumn,
+				DetailsLayoutColumnIds.GitStatus => GitStatusColumn,
+				DetailsLayoutColumnIds.GitLastCommitDate => GitLastCommitDateColumn,
+				DetailsLayoutColumnIds.GitLastCommitMessage => GitLastCommitMessageColumn,
+				DetailsLayoutColumnIds.GitCommitAuthor => GitCommitAuthorColumn,
+				DetailsLayoutColumnIds.GitLastCommitSha => GitLastCommitShaColumn,
+				DetailsLayoutColumnIds.Tag => TagColumn,
+				DetailsLayoutColumnIds.Path => PathColumn,
+				DetailsLayoutColumnIds.OriginalPath => OriginalPathColumn,
+				DetailsLayoutColumnIds.DateDeleted => DateDeletedColumn,
+				DetailsLayoutColumnIds.DateModified => DateModifiedColumn,
+				DetailsLayoutColumnIds.DateCreated => DateCreatedColumn,
+				DetailsLayoutColumnIds.ItemType => ItemTypeColumn,
+				DetailsLayoutColumnIds.Size => SizeColumn,
+				DetailsLayoutColumnIds.Status => StatusColumn,
+				_ => throw new ArgumentOutOfRangeException(nameof(id), id, null),
+			};
+		}
 
 		public override bool Equals(object? obj)
 		{
@@ -189,22 +263,13 @@ namespace Files.App.Data.Models
 
 			if (obj is ColumnsViewModel model)
 			{
-				return
-					model.DateCreatedColumn.Equals(DateCreatedColumn) &&
-					model.DateDeletedColumn.Equals(DateDeletedColumn) &&
-					model.DateModifiedColumn.Equals(DateModifiedColumn) &&
-					model.ItemTypeColumn.Equals(ItemTypeColumn) &&
-					model.NameColumn.Equals(NameColumn) &&
-					model.PathColumn.Equals(PathColumn) &&
-					model.OriginalPathColumn.Equals(OriginalPathColumn) &&
-					model.SizeColumn.Equals(SizeColumn) &&
-					model.StatusColumn.Equals(StatusColumn) &&
-					model.TagColumn.Equals(TagColumn) &&
-					model.GitStatusColumn.Equals(GitStatusColumn) &&
-					model.GitLastCommitDateColumn.Equals(GitLastCommitDateColumn) &&
-					model.GitLastCommitMessageColumn.Equals(GitLastCommitMessageColumn) &&
-					model.GitCommitAuthorColumn.Equals(GitCommitAuthorColumn) &&
-					model.GitLastCommitShaColumn.Equals(GitLastCommitShaColumn);
+				foreach (var id in DetailsLayoutColumnIds.All)
+				{
+					if (id != DetailsLayoutColumnIds.Icon && !model.GetColumn(id).Equals(GetColumn(id)))
+						return false;
+				}
+
+				return model.OrderedColumns.Ids.SequenceEqual(OrderedColumns.Ids);
 			}
 
 			return base.Equals(obj);
@@ -212,21 +277,15 @@ namespace Files.App.Data.Models
 
 		public override int GetHashCode()
 		{
-			var hashCode = DateCreatedColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ DateDeletedColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ DateModifiedColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ ItemTypeColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ NameColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ PathColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ OriginalPathColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ SizeColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ StatusColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ TagColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ GitStatusColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ GitLastCommitDateColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ GitLastCommitMessageColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ GitCommitAuthorColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ GitLastCommitShaColumn.GetHashCode();
+			var hashCode = 0;
+			foreach (var id in DetailsLayoutColumnIds.All)
+			{
+				if (id != DetailsLayoutColumnIds.Icon)
+					hashCode = (hashCode * 397) ^ GetColumn(id).GetHashCode();
+			}
+
+			foreach (var id in OrderedColumns.Ids)
+				hashCode = (hashCode * 397) ^ id.GetHashCode();
 
 			return hashCode;
 		}

@@ -265,12 +265,24 @@
 							Padding="24,0,0,0"
 							BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 							BorderThickness="0,0,0,1"
+							ContextRequested="HeaderGrid_ContextRequested"
 							DoubleTapped="FileListHeader_DoubleTapped"
 							PointerPressed="Grid_PointerPressed">
 
 							<!--  Header Grid MenuFlyout  -->
 							<Grid.ContextFlyout>
-								<MenuFlyout>
+								<MenuFlyout Opening="HeaderGridMenuFlyout_Opening">
+
+									<!--  Move Column  -->
+									<MenuFlyoutItem
+										x:Name="MoveColumnLeftMenuFlyoutItem"
+										Click="MoveColumnLeft_Click"
+										Text="{helpers:ResourceString Name=MoveLeft}" />
+									<MenuFlyoutItem
+										x:Name="MoveColumnRightMenuFlyoutItem"
+										Click="MoveColumnRight_Click"
+										Text="{helpers:ResourceString Name=MoveRight}" />
+									<MenuFlyoutSeparator x:Name="MoveColumnMenuFlyoutSeparator" />
 
 									<!--  All Columns To Fit  -->
 									<MenuFlyoutItem
@@ -564,6 +576,21 @@
 
 							</Grid.ColumnDefinitions>
 
+							<!--  Column Reorder Indicator  -->
+							<Rectangle
+								x:Name="ColumnReorderIndicator"
+								Grid.ColumnSpan="33"
+								Width="2"
+								HorizontalAlignment="Left"
+								Canvas.ZIndex="2"
+								Fill="{ThemeResource AccentFillColorDefaultBrush}"
+								IsHitTestVisible="False"
+								Visibility="Collapsed">
+								<Rectangle.RenderTransform>
+									<TranslateTransform x:Name="ColumnReorderIndicatorTransform" />
+								</Rectangle.RenderTransform>
+							</Rectangle>
+
 							<!--  Select All Check Box  -->
 							<CheckBox
 								x:Name="SelectAllCheckbox"
@@ -586,6 +613,7 @@
 								x:Name="NameHeader"
 								Grid.Column="2"
 								Margin="4,0,-4,0"
+								ext:DetailsLayoutColumnExtensions.Id="Name"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="Name"
 								Header="{helpers:ResourceString Name=Name}" />
@@ -593,6 +621,7 @@
 							<!--  (Divider)  -->
 							<controls:GridSplitter
 								Grid.Column="3"
+								ext:DetailsLayoutColumnExtensions.Id="Name"
 								AutomationProperties.Name="NameColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -606,6 +635,7 @@
 							<uc:DataGridHeader
 								x:Name="GitStatusHeader"
 								Grid.Column="4"
+								ext:DetailsLayoutColumnExtensions.Id="GitStatus"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="GitStatus"
 								Header="{helpers:ResourceString Name=GitStatus}"
@@ -614,6 +644,7 @@
 							<!--  (Divider)  -->
 							<controls:GridSplitter
 								Grid.Column="5"
+								ext:DetailsLayoutColumnExtensions.Id="GitStatus"
 								AutomationProperties.Name="GitStatusColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -628,6 +659,7 @@
 							<uc:DataGridHeader
 								x:Name="GitLastCommitDateHeader"
 								Grid.Column="6"
+								ext:DetailsLayoutColumnExtensions.Id="GitLastCommitDate"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="ItemLastCommitDate"
 								Header="{helpers:ResourceString Name=DateCommitted}"
@@ -636,6 +668,7 @@
 							<!--  (Divider)  -->
 							<controls:GridSplitter
 								Grid.Column="7"
+								ext:DetailsLayoutColumnExtensions.Id="GitLastCommitDate"
 								AutomationProperties.Name="GitLastCommitDateHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -650,6 +683,7 @@
 							<uc:DataGridHeader
 								x:Name="GitLastCommitMessageHeader"
 								Grid.Column="8"
+								ext:DetailsLayoutColumnExtensions.Id="GitLastCommitMessage"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="ItemLastCommitMessage"
 								Header="{helpers:ResourceString Name=CommitMessage}"
@@ -658,6 +692,7 @@
 							<!--  (Divider)  -->
 							<controls:GridSplitter
 								Grid.Column="9"
+								ext:DetailsLayoutColumnExtensions.Id="GitLastCommitMessage"
 								AutomationProperties.Name="GitLastCommitMessageHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -672,6 +707,7 @@
 							<uc:DataGridHeader
 								x:Name="GitCommitAuthorHeader"
 								Grid.Column="10"
+								ext:DetailsLayoutColumnExtensions.Id="GitCommitAuthor"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="ItemLastCommitAuthor"
 								Header="{helpers:ResourceString Name=Author}"
@@ -680,6 +716,7 @@
 							<!--  (Divider)  -->
 							<controls:GridSplitter
 								Grid.Column="11"
+								ext:DetailsLayoutColumnExtensions.Id="GitCommitAuthor"
 								AutomationProperties.Name="GitCommitAuthorHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -694,6 +731,7 @@
 							<uc:DataGridHeader
 								x:Name="GitLastCommitShaHeader"
 								Grid.Column="12"
+								ext:DetailsLayoutColumnExtensions.Id="GitLastCommitSha"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="ItemLastCommitSha"
 								Header="{helpers:ResourceString Name=CommitSha}"
@@ -702,6 +740,7 @@
 							<!--  (Divider)  -->
 							<controls:GridSplitter
 								Grid.Column="13"
+								ext:DetailsLayoutColumnExtensions.Id="GitLastCommitSha"
 								AutomationProperties.Name="GitLastCommitShaHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -716,6 +755,7 @@
 							<uc:DataGridHeader
 								x:Name="TagHeader"
 								Grid.Column="14"
+								ext:DetailsLayoutColumnExtensions.Id="Tag"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="FileTag"
 								Header="{helpers:ResourceString Name=Tag}"
@@ -724,6 +764,7 @@
 							<!--  (Divider)  -->
 							<controls:GridSplitter
 								Grid.Column="15"
+								ext:DetailsLayoutColumnExtensions.Id="Tag"
 								AutomationProperties.Name="TagColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -738,6 +779,7 @@
 							<uc:DataGridHeader
 								x:Name="PathHeader"
 								Grid.Column="16"
+								ext:DetailsLayoutColumnExtensions.Id="Path"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="Path"
 								Header="{helpers:ResourceString Name=Path}"
@@ -746,6 +788,7 @@
 							<!--  (Divider)  -->
 							<controls:GridSplitter
 								Grid.Column="17"
+								ext:DetailsLayoutColumnExtensions.Id="Path"
 								AutomationProperties.Name="PathColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -760,6 +803,7 @@
 							<uc:DataGridHeader
 								x:Name="OriginalPathHeader"
 								Grid.Column="18"
+								ext:DetailsLayoutColumnExtensions.Id="OriginalPath"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="OriginalFolder"
 								Header="{helpers:ResourceString Name=OriginalPath}"
@@ -768,6 +812,7 @@
 							<!--  (Divider)  -->
 							<controls:GridSplitter
 								Grid.Column="19"
+								ext:DetailsLayoutColumnExtensions.Id="OriginalPath"
 								AutomationProperties.Name="OriginalPathColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -782,6 +827,7 @@
 							<uc:DataGridHeader
 								x:Name="DateDeletedHeader"
 								Grid.Column="20"
+								ext:DetailsLayoutColumnExtensions.Id="DateDeleted"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateDeleted"
 								Header="{helpers:ResourceString Name=DateDeleted}"
@@ -790,6 +836,7 @@
 							<!--  (Divider)  -->
 							<controls:GridSplitter
 								Grid.Column="21"
+								ext:DetailsLayoutColumnExtensions.Id="DateDeleted"
 								AutomationProperties.Name="DateDeletedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -804,6 +851,7 @@
 							<uc:DataGridHeader
 								x:Name="DateModifiedHeader"
 								Grid.Column="22"
+								ext:DetailsLayoutColumnExtensions.Id="DateModified"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateModified"
 								Header="{helpers:ResourceString Name=DateModifiedLowerCase}"
@@ -812,6 +860,7 @@
 							<!--  (Divider)  -->
 							<controls:GridSplitter
 								Grid.Column="23"
+								ext:DetailsLayoutColumnExtensions.Id="DateModified"
 								AutomationProperties.Name="DateModifiedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -826,6 +875,7 @@
 							<uc:DataGridHeader
 								x:Name="DateCreatedHeader"
 								Grid.Column="24"
+								ext:DetailsLayoutColumnExtensions.Id="DateCreated"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateCreated"
 								Header="{helpers:ResourceString Name=DateCreated}"
@@ -834,6 +884,7 @@
 							<!--  (Divider)  -->
 							<controls:GridSplitter
 								Grid.Column="25"
+								ext:DetailsLayoutColumnExtensions.Id="DateCreated"
 								AutomationProperties.Name="DateCreatedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -848,6 +899,7 @@
 							<uc:DataGridHeader
 								x:Name="FileTypeHeader"
 								Grid.Column="26"
+								ext:DetailsLayoutColumnExtensions.Id="ItemType"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="FileType"
 								Header="{helpers:ResourceString Name=Type}"
@@ -856,6 +908,7 @@
 							<!--  (Divider)  -->
 							<controls:GridSplitter
 								Grid.Column="27"
+								ext:DetailsLayoutColumnExtensions.Id="ItemType"
 								AutomationProperties.Name="ItemTypeColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -870,6 +923,7 @@
 							<uc:DataGridHeader
 								x:Name="ItemSizeHeader"
 								Grid.Column="28"
+								ext:DetailsLayoutColumnExtensions.Id="Size"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="Size"
 								Header="{helpers:ResourceString Name=Size}"
@@ -878,6 +932,7 @@
 							<!--  (Divider)  -->
 							<controls:GridSplitter
 								Grid.Column="29"
+								ext:DetailsLayoutColumnExtensions.Id="Size"
 								AutomationProperties.Name="SizeColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -894,6 +949,7 @@
 								Grid.Column="30"
 								HorizontalAlignment="Stretch"
 								HorizontalContentAlignment="Left"
+								ext:DetailsLayoutColumnExtensions.Id="Status"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="SyncStatus"
 								Header="{helpers:ResourceString Name=Status}"
@@ -902,6 +958,7 @@
 							<!--  (Divider)  -->
 							<controls:GridSplitter
 								Grid.Column="31"
+								ext:DetailsLayoutColumnExtensions.Id="Status"
 								AutomationProperties.Name="StatusColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -919,18 +976,19 @@
 					<ListView.ItemTemplate>
 						<DataTemplate x:DataType="filesystem:ListedItem">
 							<UserControl>
-								<StackPanel
+								<local:DetailsLayoutRowPanel
 									Height="{Binding Path=RowHeight, ElementName=PageRoot, Mode=OneWay}"
 									HorizontalAlignment="Stretch"
 									AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
+									ColumnOrder="{Binding Path=ColumnsViewModel.OrderedColumns, ElementName=PageRoot, Mode=OneWay}"
 									IsRightTapEnabled="True"
-									Loaded="StackPanel_Loaded"
-									Orientation="Horizontal">
+									Loaded="RowPanel_Loaded">
 									<!--  Item Thumbnail  -->
 									<Grid
 										Width="{Binding Path=ColumnsViewModel.IconColumn.LengthPixels, ElementName=PageRoot, Mode=OneWay}"
 										HorizontalAlignment="Left"
-										VerticalAlignment="Stretch">
+										VerticalAlignment="Stretch"
+										ext:DetailsLayoutColumnExtensions.Id="Icon">
 
 										<!--  Thumbnail  -->
 										<Grid
@@ -1006,6 +1064,7 @@
 										Padding="12,0,0,0"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Center"
+										ext:DetailsLayoutColumnExtensions.Id="Name"
 										Canvas.ZIndex="6">
 										<Grid.ColumnDefinitions>
 											<ColumnDefinition Width="*" />
@@ -1041,6 +1100,7 @@
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										ext:DetailsLayoutColumnExtensions.Id="GitStatus"
 										x:Load="{x:Bind IsGitItem}">
 										<controls:ThemedIcon
 											Width="16"
@@ -1058,6 +1118,7 @@
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										ext:DetailsLayoutColumnExtensions.Id="GitLastCommitDate"
 										x:Load="{x:Bind IsGitItem}"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
@@ -1072,6 +1133,7 @@
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										ext:DetailsLayoutColumnExtensions.Id="GitLastCommitMessage"
 										x:Load="{x:Bind IsGitItem}"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
@@ -1086,6 +1148,7 @@
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										ext:DetailsLayoutColumnExtensions.Id="GitCommitAuthor"
 										x:Load="{x:Bind IsGitItem}"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
@@ -1100,6 +1163,7 @@
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										ext:DetailsLayoutColumnExtensions.Id="GitLastCommitSha"
 										x:Load="{x:Bind IsGitItem}"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsGitItem.GitLastCommitSha, Mode=OneWay}"
@@ -1113,6 +1177,7 @@
 										Padding="12,0,12,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										ext:DetailsLayoutColumnExtensions.Id="Tag"
 										Visibility="{Binding Path=ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
 										<ItemsRepeater
 											x:Name="TagsRepeater"
@@ -1187,6 +1252,7 @@
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										ext:DetailsLayoutColumnExtensions.Id="Path"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
@@ -1200,6 +1266,7 @@
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										ext:DetailsLayoutColumnExtensions.Id="OriginalPath"
 										x:Load="{x:Bind IsRecycleBinItem}"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
@@ -1214,6 +1281,7 @@
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										ext:DetailsLayoutColumnExtensions.Id="DateDeleted"
 										x:Load="{x:Bind IsRecycleBinItem}"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
@@ -1228,6 +1296,7 @@
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										ext:DetailsLayoutColumnExtensions.Id="DateModified"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
@@ -1241,6 +1310,7 @@
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										ext:DetailsLayoutColumnExtensions.Id="DateCreated"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
@@ -1254,6 +1324,7 @@
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										ext:DetailsLayoutColumnExtensions.Id="ItemType"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
@@ -1267,8 +1338,10 @@
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										ext:DetailsLayoutColumnExtensions.Id="Size"
 										Visibility="{Binding Path=ColumnsViewModel.SizeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
 										<TextBlock
+											x:Name="ItemSizeTextBlock"
 											DataContextChanged="TextBlock_DataContextChanged"
 											IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 											Style="{StaticResource ColumnContentTextBlock}"
@@ -1293,6 +1366,7 @@
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										ext:DetailsLayoutColumnExtensions.Id="Status"
 										AutomationProperties.Name="{x:Bind SyncStatusString, Mode=OneWay}"
 										Background="Transparent"
 										ToolTipService.ToolTip="{x:Bind SyncStatusUI.SyncStatusString, Mode=OneWay}"
@@ -1316,7 +1390,7 @@
 											</VisualState>
 										</VisualStateGroup>
 									</VisualStateManager.VisualStateGroups>
-								</StackPanel>
+								</local:DetailsLayoutRowPanel>
 							</UserControl>
 						</DataTemplate>
 					</ListView.ItemTemplate>

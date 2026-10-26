@@ -4755,4 +4755,10 @@
   <data name="SearchForQuery" xml:space="preserve">
     <value>Search for `{0}`</value>
   </data>
+  <data name="MoveLeft" xml:space="preserve">
+    <value>Move left</value>
+  </data>
+  <data name="MoveRight" xml:space="preserve">
+    <value>Move right</value>
+  </data>
 </root>
