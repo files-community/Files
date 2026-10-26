@@ -49,6 +49,9 @@ namespace Files.App.ViewModels.UserControls
 		private bool _lockFlag;
 		private PointerRoutedEventArgs? _pointerRoutedEventArgs;
 		private CancellationTokenSource _suggestSearchCTS = new();
+		private int _pathModeSuggestionsVersion;
+		private IReadOnlyList<FolderAliasItem>? _measuredAliases;
+		private double _aliasNameWidth;
 
 		// Events
 
@@ -198,6 +201,11 @@ namespace Files.App.ViewModels.UserControls
 
 		private Style? _LayoutThemedIcon;
 		public Style? LayoutThemedIcon { get => _LayoutThemedIcon; set => SetProperty(ref _LayoutThemedIcon, value); }
+
+		private bool _IsPathModeSuggestionAutoSelected;
+		public bool IsPathModeSuggestionAutoSelected { get => _IsPathModeSuggestionAutoSelected; set => SetProperty(ref _IsPathModeSuggestionAutoSelected, value); }
+
+		private string? _pendingPathModeInput;
 
 		// SetProperty doesn't seem to properly notify the binding in path bar
 		private string? _PathText;
@@ -604,6 +612,34 @@ namespace Files.App.ViewModels.UserControls
 			var shellViewModel = shellPage.ShellViewModel
 				?? throw new InvalidOperationException("The current shell page does not have a view model.");
 
+			if (FolderAliasHelpers.HasPrefix(path))
+			{
+				var aliases = FolderAliasHelpers.Aliases;
+				if (FolderAliasHelpers.TryResolve(path, aliases, out var aliasPath))
+					path = aliasPath;
+				else if (aliases.Count is 0 && FolderAliasHelpers.IsAliasQuery(path))
+				{
+					var openSettings = await DialogDisplayHelper.ShowDialogAsync(
+						Strings.FolderAliases.GetLocalizedResource(),
+						Strings.NoFolderAliasesDialogContent.GetLocalizedResource(),
+						Strings.OpenSettings.GetLocalizedResource(),
+						Strings.Cancel.GetLocalizedResource());
+
+					if (openSettings)
+						shellPage.NavigateToSettings(nameof(SettingsPageKind.FoldersPage));
+
+					return openSettings;
+				}
+				else if (FolderAliasHelpers.IsAliasQuery(path))
+				{
+					await DialogDisplayHelper.ShowDialogAsync(
+						Strings.FolderAliasNotFoundDialogTitle.GetLocalizedResource(),
+						string.Format(Strings.FolderAliasNotFoundDialogContent.GetLocalizedResource(), FolderAliasHelpers.GetQuery(path)));
+
+					return false;
+				}
+			}
+
 			var currentPath = PathComponents.LastOrDefault()?.Path;
 			var isFtp = FtpHelpers.IsFtpPath(path);
 			var normalizedInput = NormalizePathInput(path, isFtp);
@@ -751,6 +787,23 @@ namespace Files.App.ViewModels.UserControls
 			OmnibarCurrentSelectedModeName = OmnibarPathModeName;
 			omnibar?.Focus(FocusState.Programmatic);
 			(omnibar ?? throw new InvalidOperationException("The omnibar is not available.")).IsFocused = true;
+		}
+
+		public async Task SwitchToPathModeWithInputAsync(string input)
+		{
+			if (AddressToolbar?.FindDescendant("Omnibar") is not Omnibar omnibar)
+				return;
+
+			_pendingPathModeInput = input;
+			await SwitchToPathMode();
+			omnibar.FocusWithCaretAtEnd();
+		}
+
+		public string? TakePendingPathModeInput()
+		{
+			var input = _pendingPathModeInput;
+			_pendingPathModeInput = null;
+			return input;
 		}
 
 		public void UpdateAdditionalActions()
@@ -1046,8 +1099,34 @@ namespace Files.App.ViewModels.UserControls
 			);
 		}
 
+		private List<OmnibarPathModeSuggestionModel> GetFolderAliasSuggestions(string pathText)
+		{
+			var aliases = FolderAliasHelpers.Aliases;
+			if (aliases.Count is 0)
+				return [new(pathText, Strings.NoFolderAliasesSuggestion.GetLocalizedResource(), IsPlaceholder: true)];
+
+			if (!ReferenceEquals(_measuredAliases, aliases))
+			{
+				_aliasNameWidth = aliases.Max(x => UIHelpers.MeasureTextWidth(x.Name, Microsoft.UI.Text.FontWeights.SemiBold));
+				_measuredAliases = aliases;
+			}
+
+			var matchLength = FolderAliasHelpers.GetQuery(pathText).Length;
+			List<OmnibarPathModeSuggestionModel> suggestions =
+			[
+				.. FolderAliasHelpers.GetMatches(aliases, pathText)
+					.Take(MaxSuggestionsCount)
+					.Select(x => new FolderAliasSuggestionModel(x.Name, x.Path, matchLength, _aliasNameWidth))
+			];
+
+			return suggestions.Count is 0
+				? [new(pathText, Strings.NoMatchingFolderAliasesSuggestion.GetLocalizedResource(), IsPlaceholder: true)]
+				: suggestions;
+		}
+
 		public async Task PopulateOmnibarSuggestionsForPathMode()
 		{
+			var version = ++_pathModeSuggestionsVersion;
 			var result = await SafetyExtensions.IgnoreExceptions((Func<Task<bool>>)(async () =>
 			{
 				List<OmnibarPathModeSuggestionModel> newSuggestions = [];
@@ -1063,8 +1142,15 @@ namespace Files.App.ViewModels.UserControls
 						newSuggestions.AddRange(pathHistoryList.Select(x => new OmnibarPathModeSuggestionModel(x, x)));
 					}
 				}
+				else if (FolderAliasHelpers.IsAliasQuery(pathText))
+				{
+					newSuggestions.AddRange(GetFolderAliasSuggestions(pathText));
+				}
 				else
 				{
+					if (FolderAliasHelpers.HasPrefix(pathText) && FolderAliasHelpers.TryResolve(pathText, FolderAliasHelpers.Aliases, out var aliasPath))
+						pathText = aliasPath;
+
 					var isFtp = FtpHelpers.IsFtpPath(pathText);
 					pathText = NormalizePathInput(pathText, isFtp);
 					var expandedPath = StorageFileExtensions.GetResolvedPath(pathText, isFtp);
@@ -1092,6 +1178,12 @@ namespace Files.App.ViewModels.UserControls
 							PathNormalization.Combine(firstDisplayName, x.Item!.DisplayName))));
 					}
 				}
+
+				// Drop results superseded by a newer input
+				if (version != _pathModeSuggestionsVersion)
+					return true;
+
+				IsPathModeSuggestionAutoSelected = newSuggestions is [FolderAliasSuggestionModel, ..];
 
 				// If there are no suggestions, show "No suggestions"
 				if (newSuggestions.Count is 0)
@@ -1132,6 +1224,9 @@ namespace Files.App.ViewModels.UserControls
 						else
 							PathModeSuggestionItems.Insert(index, newSuggestions[index]);
 					}
+
+					while (PathModeSuggestionItems.Count > newSuggestions.Count)
+						PathModeSuggestionItems.RemoveAt(PathModeSuggestionItems.Count - 1);
 				}
 
 				return true;
@@ -1140,13 +1235,14 @@ namespace Files.App.ViewModels.UserControls
 					=> new(folder.Path, folder.Item!.DisplayName);
 			}));
 
-			if (!result)
+			if (!result && version == _pathModeSuggestionsVersion)
 			{
 				AddNoResultsItem();
 			}
 
 			void AddNoResultsItem()
 			{
+				IsPathModeSuggestionAutoSelected = false;
 				PathModeSuggestionItems.Clear();
 				
 				// Use null-safe access to avoid NullReferenceException during app lifecycle transitions
@@ -1156,7 +1252,8 @@ namespace Files.App.ViewModels.UserControls
 				
 				PathModeSuggestionItems.Add(new(
 					workingDirectory,
-					Strings.NavigationToolbarVisiblePathNoResults.GetLocalizedResource()));
+					Strings.NavigationToolbarVisiblePathNoResults.GetLocalizedResource(),
+					IsPlaceholder: true));
 			}
 		}
 

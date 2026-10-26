@@ -413,3 +413,4 @@ SBSP_ABSOLUTE
 K32EmptyWorkingSet
 GetDoubleClickTime
 SHChangeNotify
+VkKeyScan
