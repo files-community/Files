@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using System.Runtime.CompilerServices;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.Foundation;
@@ -60,6 +61,27 @@ namespace Files.App.Views.Layouts
 
 		private RelayCommand<string>? UpdateSortOptionsCommand { get; set; }
 
+		private Dictionary<string, (ColumnDefinition Column, ColumnDefinition Divider)>? _headerColumnDefinitions;
+		private ColumnDefinition[] _fixedHeaderColumnDefinitions = [];
+		private Dictionary<string, int>? _headerColumnIndices;
+
+		private const double ColumnReorderDragThreshold = 6;
+		private const double ColumnReorderTouchDragThreshold = 16;
+		private const double ColumnReorderScrollMargin = 32;
+		private const double ColumnReorderScrollStep = 16;
+		private static readonly TimeSpan ColumnReorderAnimationDuration = TimeSpan.FromMilliseconds(150);
+		private Dictionary<string, (FrameworkElement Header, Files.App.Controls.GridSplitter Splitter)> _headerElements = [];
+		private double _reorderGhostLeft;
+		private List<(string Id, double Left, double Right)>? _reorderColumnBounds;
+		private FrameworkElement? _reorderHeader;
+		private string? _reorderColumnId;
+		private string? _reorderTargetId;
+		private bool _reorderAfterTarget;
+		private bool _isReorderingColumn;
+		private bool _suppressHeaderSort;
+		private uint _reorderPointerId;
+		private double _reorderStartX;
+
 		public ScrollViewer? ContentScroller { get; private set; }
 
 		private double maxWidthForRenameTextbox;
@@ -91,13 +113,20 @@ namespace Files.App.Views.Layouts
 		{
 			InitializeComponent();
 			DataContext = this;
+			ColumnsViewModel.PropertyChanged += ColumnsViewModel_PropertyChanged;
+			HeaderGrid.ManipulationMode = ManipulationModes.TranslateX;
+			HeaderGrid.AddHandler(UIElement.PointerPressedEvent, new PointerEventHandler(HeaderGrid_ReorderPointerPressed), true);
+			HeaderGrid.AddHandler(UIElement.PointerMovedEvent, new PointerEventHandler(HeaderGrid_ReorderPointerMoved), true);
+			HeaderGrid.AddHandler(UIElement.PointerReleasedEvent, new PointerEventHandler(HeaderGrid_ReorderPointerReleased), true);
+			HeaderGrid.AddHandler(UIElement.PointerCaptureLostEvent, new PointerEventHandler(HeaderGrid_ReorderPointerCaptureLost), true);
+			HeaderGrid.AddHandler(UIElement.KeyDownEvent, new KeyEventHandler(HeaderGrid_ReorderKeyDown), true);
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 
 			UpdateSortOptionsCommand = new RelayCommand<string>(x =>
 			{
-				if (!Enum.TryParse<SortOption>(x, out var val))
+				if (_suppressHeaderSort || !Enum.TryParse<SortOption>(x, out var val))
 					return;
 				var folderSettings = FolderSettings
 					?? throw new InvalidOperationException("The details layout does not have folder settings.");
@@ -175,22 +204,10 @@ namespace Files.App.Views.Layouts
 				// This is done to workaround a bug where CsWinRT doesn't properly track the memory of the object so that
 				// an invalid memory access can occur when the object is moved.
 				// See https://github.com/microsoft/CsWinRT/issues/1834.
-				ColumnsViewModel.DateCreatedColumn.Update(FolderSettings.ColumnsViewModel.DateCreatedColumn);
-				ColumnsViewModel.DateDeletedColumn.Update(FolderSettings.ColumnsViewModel.DateDeletedColumn);
-				ColumnsViewModel.DateModifiedColumn.Update(FolderSettings.ColumnsViewModel.DateModifiedColumn);
-				ColumnsViewModel.IconColumn.Update(FolderSettings.ColumnsViewModel.IconColumn);
-				ColumnsViewModel.ItemTypeColumn.Update(FolderSettings.ColumnsViewModel.ItemTypeColumn);
-				ColumnsViewModel.NameColumn.Update(FolderSettings.ColumnsViewModel.NameColumn);
-				ColumnsViewModel.PathColumn.Update(FolderSettings.ColumnsViewModel.PathColumn);
-				ColumnsViewModel.OriginalPathColumn.Update(FolderSettings.ColumnsViewModel.OriginalPathColumn);
-				ColumnsViewModel.SizeColumn.Update(FolderSettings.ColumnsViewModel.SizeColumn);
-				ColumnsViewModel.StatusColumn.Update(FolderSettings.ColumnsViewModel.StatusColumn);
-				ColumnsViewModel.TagColumn.Update(FolderSettings.ColumnsViewModel.TagColumn);
-				ColumnsViewModel.GitStatusColumn.Update(FolderSettings.ColumnsViewModel.GitStatusColumn);
-				ColumnsViewModel.GitLastCommitDateColumn.Update(FolderSettings.ColumnsViewModel.GitLastCommitDateColumn);
-				ColumnsViewModel.GitLastCommitMessageColumn.Update(FolderSettings.ColumnsViewModel.GitLastCommitMessageColumn);
-				ColumnsViewModel.GitCommitAuthorColumn.Update(FolderSettings.ColumnsViewModel.GitCommitAuthorColumn);
-				ColumnsViewModel.GitLastCommitShaColumn.Update(FolderSettings.ColumnsViewModel.GitLastCommitShaColumn);
+				foreach (var id in DetailsLayoutColumnIds.BuiltIn)
+					ColumnsViewModel.GetColumn(id).Update(FolderSettings.ColumnsViewModel.GetColumn(id));
+
+				ColumnsViewModel.ColumnOrder = FolderSettings.ColumnsViewModel.ColumnOrder;
 			}
 
 			shellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
@@ -462,20 +479,9 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
-		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		override public void StartRenameItem()
 		{
 			StartRenameItem("ItemNameTextBox");
-
-			if (FileList.ContainerFromItem(RenamingItem) is not ListViewItem listViewItem)
-				return;
-
-			var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-			if (textBox is null || textBox.FindParent<Grid>() is null)
-				return;
-
-			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
 		}
 
 		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
@@ -494,9 +500,6 @@ namespace Files.App.Views.Layouts
 		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
 		protected override void EndRename(TextBox textBox)
 		{
-			if (textBox is not null && textBox.FindParent<Grid>() is FrameworkElement parent)
-				Grid.SetColumnSpan(parent, 1);
-
 			ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
 
 			if (textBox is null || listViewItem is null)
@@ -769,13 +772,12 @@ namespace Files.App.Views.Layouts
 			ResetRenameDoubleClick();
 		}
 
-		[DynamicWindowsRuntimeCast(typeof(StackPanel))]
 		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
-		private void StackPanel_Loaded(object sender, RoutedEventArgs e)
+		private void RowPanel_Loaded(object sender, RoutedEventArgs e)
 		{
 			// This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
 			// because you can't use bindings in the setters
-			DependencyObject item = VisualTreeHelper.GetParent(sender as StackPanel);
+			DependencyObject item = VisualTreeHelper.GetParent(sender as DetailsLayoutRowPanel);
 			while (item is not ListViewItem)
 				item = VisualTreeHelper.GetParent(item);
 			if (item is ListViewItem itemContainer)
@@ -862,8 +864,8 @@ namespace Files.App.Views.Layouts
 
 		private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
-			var columnToResize = Grid.GetColumn(sender as Files.App.Controls.GridSplitter) / 2 + 1;
-			ResizeColumnToFit(columnToResize);
+			if (sender is Files.App.Controls.GridSplitter splitter && DetailsLayoutColumnExtensions.GetId(splitter) is { } columnId)
+				ResizeColumnToFit(columnId);
 
 			e.Handled = true;
 		}
@@ -878,10 +880,8 @@ namespace Files.App.Views.Layouts
 			if (!FileList.Items.Any())
 				return;
 
-			// Scale to whatever DetailsLayoutColumnItem properties exist on ColumnsViewModel so new columns don't need a code change here.
-			int totalColumnCount = typeof(ColumnsViewModel).GetProperties().Count(prop => prop.PropertyType == typeof(DetailsLayoutColumnItem));
-			for (int columnIndex = 1; columnIndex <= totalColumnCount; columnIndex++)
-				ResizeColumnToFit(columnIndex);
+			foreach (var columnId in DetailsLayoutColumnIds.BuiltIn)
+				ResizeColumnToFit(columnId);
 		}
 
 		private void AutoFitColumnsIfEnabled()
@@ -913,28 +913,28 @@ namespace Files.App.Views.Layouts
 			AutoFitColumnsIfEnabled();
 		}
 
-		private void ResizeColumnToFit(int columnToResize)
+		private void ResizeColumnToFit(string columnId)
 		{
 			if (!FileList.Items.Any())
 				return;
 
-			var maxItemLength = columnToResize switch
+			var maxItemLength = columnId switch
 			{
-				1 => 40, // Check all items columns
-				2 => FileList.Items.Cast<ListedItem>().Select(x => x.Name?.Length ?? 0).Max(), // file name column
-				4 => FileList.Items.Cast<ListedItem>().Select(x => (x as IGitItem)?.GitLastCommitDateHumanized?.Length ?? 0).Max(), // git
-				5 => FileList.Items.Cast<ListedItem>().Select(x => (x as IGitItem)?.GitLastCommitMessage?.Length ?? 0).Max(), // git
-				6 => FileList.Items.Cast<ListedItem>().Select(x => (x as IGitItem)?.GitLastCommitAuthor?.Length ?? 0).Max(), // git
-				7 => FileList.Items.Cast<ListedItem>().Select(x => (x as IGitItem)?.GitLastCommitSha?.Length ?? 0).Max(), // git
-				8 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.Sum(x => x?.Name?.Length ?? 0) ?? 0).Max(), // file tag column
-				9 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemPath?.Length ?? 0).Max(), // path column
-				10 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemOriginalPath?.Length ?? 0).Max(), // original path column
-				11 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
-				12 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
-				13 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(), // date created column
-				14 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
-				15 => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(), // item size column
-				_ => 20 // cloud status column
+				DetailsLayoutColumnIds.Icon => 40, // Check all items columns
+				DetailsLayoutColumnIds.Name => FileList.Items.Cast<ListedItem>().Select(x => x.Name?.Length ?? 0).Max(),
+				DetailsLayoutColumnIds.GitLastCommitDate => FileList.Items.Cast<ListedItem>().Select(x => (x as IGitItem)?.GitLastCommitDateHumanized?.Length ?? 0).Max(),
+				DetailsLayoutColumnIds.GitLastCommitMessage => FileList.Items.Cast<ListedItem>().Select(x => (x as IGitItem)?.GitLastCommitMessage?.Length ?? 0).Max(),
+				DetailsLayoutColumnIds.GitCommitAuthor => FileList.Items.Cast<ListedItem>().Select(x => (x as IGitItem)?.GitLastCommitAuthor?.Length ?? 0).Max(),
+				DetailsLayoutColumnIds.GitLastCommitSha => FileList.Items.Cast<ListedItem>().Select(x => (x as IGitItem)?.GitLastCommitSha?.Length ?? 0).Max(),
+				DetailsLayoutColumnIds.Tag => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.Sum(x => x?.Name?.Length ?? 0) ?? 0).Max(),
+				DetailsLayoutColumnIds.Path => FileList.Items.Cast<ListedItem>().Select(x => x.ItemPath?.Length ?? 0).Max(),
+				DetailsLayoutColumnIds.OriginalPath => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemOriginalPath?.Length ?? 0).Max(),
+				DetailsLayoutColumnIds.DateDeleted => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemDateDeleted?.Length ?? 0).Max(),
+				DetailsLayoutColumnIds.DateModified => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(),
+				DetailsLayoutColumnIds.DateCreated => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(),
+				DetailsLayoutColumnIds.ItemType => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(),
+				DetailsLayoutColumnIds.Size => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(),
+				_ => 0 // git status and sync status columns only show icons
 			};
 
 			// if called programmatically, the column could be hidden
@@ -942,30 +942,13 @@ namespace Files.App.Views.Layouts
 			if (maxItemLength == 0)
 				return;
 
-			var columnSizeToFit = MeasureColumnEstimate(columnToResize, 5, maxItemLength);
+			var columnSizeToFit = MeasureColumnEstimate(columnId, 5, maxItemLength);
 
 			if (columnSizeToFit > 1)
 			{
-				var column = columnToResize switch
-				{
-					2 => ColumnsViewModel.NameColumn,
-					3 => ColumnsViewModel.GitStatusColumn,
-					4 => ColumnsViewModel.GitLastCommitDateColumn,
-					5 => ColumnsViewModel.GitLastCommitMessageColumn,
-					6 => ColumnsViewModel.GitCommitAuthorColumn,
-					7 => ColumnsViewModel.GitLastCommitShaColumn,
-					8 => ColumnsViewModel.TagColumn,
-					9 => ColumnsViewModel.PathColumn,
-					10 => ColumnsViewModel.OriginalPathColumn,
-					11 => ColumnsViewModel.DateDeletedColumn,
-					12 => ColumnsViewModel.DateModifiedColumn,
-					13 => ColumnsViewModel.DateCreatedColumn,
-					14 => ColumnsViewModel.ItemTypeColumn,
-					15 => ColumnsViewModel.SizeColumn,
-					_ => ColumnsViewModel.StatusColumn
-				};
+				var column = ColumnsViewModel.GetColumn(columnId);
 
-				if (columnToResize == 2) // file name column
+				if (columnId == DetailsLayoutColumnIds.Name)
 					columnSizeToFit += 20;
 
 				var minFitLength = Math.Max(columnSizeToFit, column.NormalMinLength);
@@ -979,22 +962,19 @@ namespace Files.App.Views.Layouts
 			folderSettings.ColumnsViewModel = ColumnsViewModel;
 		}
 
-		private double MeasureColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
+		private double MeasureColumnEstimate(string columnId, int measureItemsCount, int maxItemLength)
 		{
-			if (columnIndex == 15) // sync status
-				return maxItemLength;
+			if (columnId == DetailsLayoutColumnIds.Tag)
+				return MeasureTagColumnEstimate(columnId);
 
-			if (columnIndex == 8) // file tag
-				return MeasureTagColumnEstimate(columnIndex);
-
-			return MeasureTextColumnEstimate(columnIndex, measureItemsCount, maxItemLength);
+			return MeasureTextColumnEstimate(columnId, measureItemsCount, maxItemLength);
 		}
 
-		private double MeasureTagColumnEstimate(int columnIndex)
+		private double MeasureTagColumnEstimate(string columnId)
 		{
 			var grids = DependencyObjectHelpers
 				.FindChildren<Grid>(FileList.ItemsPanelRoot)
-				.Where(grid => IsCorrectColumn(grid, columnIndex));
+				.Where(grid => IsCorrectColumn(grid, columnId));
 
 			// Get the list of stack panels with the most letters
 			var stackPanels = grids
@@ -1016,11 +996,11 @@ namespace Files.App.Views.Layouts
 			return mesuredSize;
 		}
 
-		private double MeasureTextColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
+		private double MeasureTextColumnEstimate(string columnId, int measureItemsCount, int maxItemLength)
 		{
 			var tbs = DependencyObjectHelpers
 				.FindChildren<TextBlock>(FileList.ItemsPanelRoot)
-				.Where(tb => IsCorrectColumn(tb, columnIndex));
+				.Where(tb => IsCorrectColumn(tb, columnId));
 
 			// heuristic: usually, text with more letters are wider than shorter text with wider letters
 			// with this, we can calculate avg width using longest text(s) to avoid overshooting the width
@@ -1044,29 +1024,28 @@ namespace Files.App.Views.Layouts
 			return weightedAvg * maxItemLength;
 		}
 
-		private bool IsCorrectColumn(FrameworkElement element, int columnIndex)
+		private bool IsCorrectColumn(FrameworkElement element, string columnId)
 		{
-			int columnIndexFromName = element.Name switch
+			string? columnIdFromName = element.Name switch
 			{
-				"ItemName" => 2,
-				"ItemGitStatusTextBlock" => 3,
-				"ItemGitLastCommitDateTextBlock" => 4,
-				"ItemGitLastCommitMessageTextBlock" => 5,
-				"ItemGitCommitAuthorTextBlock" => 6,
-				"ItemGitLastCommitShaTextBlock" => 7,
-				"ItemTagGrid" => 8,
-				"ItemPathTextBlock" => 9,
-				"ItemOriginalPath" => 10,
-				"ItemDateDeleted" => 11,
-				"ItemDateModifiedTextBlock" => 12,
-				"ItemDateCreatedTextBlock" => 13,
-				"ItemTypeTextBlock" => 14,
-				"ItemSize" => 15,
-				"ItemStatus" => 16,
-				_ => -1,
+				"ItemName" => DetailsLayoutColumnIds.Name,
+				"ItemGitStatusTextBlock" => DetailsLayoutColumnIds.GitStatus,
+				"ItemGitLastCommitDateTextBlock" => DetailsLayoutColumnIds.GitLastCommitDate,
+				"ItemGitLastCommitMessageTextBlock" => DetailsLayoutColumnIds.GitLastCommitMessage,
+				"ItemGitCommitAuthorTextBlock" => DetailsLayoutColumnIds.GitCommitAuthor,
+				"ItemGitLastCommitShaTextBlock" => DetailsLayoutColumnIds.GitLastCommitSha,
+				"ItemTagGrid" => DetailsLayoutColumnIds.Tag,
+				"ItemPathTextBlock" => DetailsLayoutColumnIds.Path,
+				"ItemOriginalPath" => DetailsLayoutColumnIds.OriginalPath,
+				"ItemDateDeleted" => DetailsLayoutColumnIds.DateDeleted,
+				"ItemDateModifiedTextBlock" => DetailsLayoutColumnIds.DateModified,
+				"ItemDateCreatedTextBlock" => DetailsLayoutColumnIds.DateCreated,
+				"ItemTypeTextBlock" => DetailsLayoutColumnIds.ItemType,
+				"ItemSizeTextBlock" => DetailsLayoutColumnIds.Size,
+				_ => null,
 			};
 
-			return columnIndexFromName != -1 && columnIndexFromName == columnIndex;
+			return columnIdFromName == columnId;
 		}
 
 		private void FileList_Loaded(object sender, RoutedEventArgs e)
@@ -1085,6 +1064,326 @@ namespace Files.App.Views.Layouts
 				}
 				scroller.ViewChanged += OnZoomScrolled;
 			};
+		}
+
+		private void ColumnsViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(ColumnsViewModel.OrderedColumns))
+				ApplyHeaderColumnOrder();
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		private void ApplyHeaderColumnOrder()
+		{
+			var definitions = HeaderGrid.ColumnDefinitions;
+			if (_headerColumnDefinitions is null)
+			{
+				var movableIds = DetailsLayoutColumnIds.BuiltIn.Skip(1).ToArray();
+				if (definitions.Count != movableIds.Length * 2 + 3)
+					return;
+
+				_headerColumnDefinitions = new(movableIds.Length);
+				for (int i = 0; i < movableIds.Length; i++)
+					_headerColumnDefinitions[movableIds[i]] = (definitions[i * 2 + 2], definitions[i * 2 + 3]);
+
+				_fixedHeaderColumnDefinitions = [definitions[0], definitions[1], definitions[definitions.Count - 1]];
+
+				var headers = new Dictionary<string, FrameworkElement>();
+				var splitters = new Dictionary<string, Files.App.Controls.GridSplitter>();
+				foreach (var child in HeaderGrid.Children)
+				{
+					if (child is not FrameworkElement element || DetailsLayoutColumnExtensions.GetId(element) is not { } id)
+						continue;
+
+					if (element is Files.App.Controls.GridSplitter splitter)
+						splitters[id] = splitter;
+					else
+						headers[id] = element;
+				}
+
+				_headerElements = headers
+					.Where(pair => splitters.ContainsKey(pair.Key))
+					.ToDictionary(pair => pair.Key, pair => (pair.Value, splitters[pair.Key]));
+			}
+
+			var columnIndices = new Dictionary<string, int>(_headerColumnDefinitions.Count);
+			definitions.Clear();
+			definitions.Add(_fixedHeaderColumnDefinitions[0]);
+			definitions.Add(_fixedHeaderColumnDefinitions[1]);
+			foreach (var id in ColumnsViewModel.OrderedColumns.Ids)
+			{
+				if (!_headerColumnDefinitions.TryGetValue(id, out var pair))
+					continue;
+
+				columnIndices[id] = definitions.Count;
+				definitions.Add(pair.Column);
+				definitions.Add(pair.Divider);
+			}
+			definitions.Add(_fixedHeaderColumnDefinitions[2]);
+			_headerColumnIndices = columnIndices;
+			Grid.SetColumnSpan(ColumnReorderGhost, definitions.Count);
+
+			foreach (var child in HeaderGrid.Children)
+			{
+				if (child is FrameworkElement element &&
+					DetailsLayoutColumnExtensions.GetId(element) is { } id &&
+					columnIndices.TryGetValue(id, out var columnIndex))
+				{
+					Grid.SetColumn(element, element is Files.App.Controls.GridSplitter ? columnIndex + 1 : columnIndex);
+					if (element is DataGridHeader header)
+						header.TabIndex = columnIndex;
+				}
+			}
+		}
+
+		private void SaveColumnLayout()
+		{
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The details layout does not have folder settings.");
+			folderSettings.ColumnsViewModel = ColumnsViewModel;
+		}
+
+		private List<(string Id, double Left, double Right)> GetHeaderColumnBounds()
+		{
+			if (_headerColumnIndices is null)
+				ApplyHeaderColumnOrder();
+
+			var bounds = new List<(string Id, double Left, double Right)>();
+			if (_headerColumnIndices is null)
+				return bounds;
+
+			var definitions = HeaderGrid.ColumnDefinitions;
+			var offsets = new double[definitions.Count + 1];
+			for (int i = 0; i < definitions.Count; i++)
+				offsets[i + 1] = offsets[i] + definitions[i].ActualWidth;
+
+			foreach (var id in ColumnsViewModel.OrderedColumns.Ids)
+			{
+				if (_headerColumnIndices.TryGetValue(id, out var index) && ColumnsViewModel.GetColumn(id).Visibility == Visibility.Visible)
+					bounds.Add((id, offsets[index], offsets[index + 2]));
+			}
+
+			return bounds;
+		}
+
+		private double GetHeaderContentX(PointerRoutedEventArgs e)
+		{
+			return e.GetCurrentPoint(HeaderGrid).Position.X - HeaderGrid.Padding.Left;
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		[DynamicWindowsRuntimeCast(typeof(DependencyObject))]
+		private void HeaderGrid_ReorderPointerPressed(object sender, PointerRoutedEventArgs e)
+		{
+			EndColumnReorder();
+			_suppressHeaderSort = false;
+
+			if (!e.GetCurrentPoint(HeaderGrid).Properties.IsLeftButtonPressed)
+				return;
+
+			for (var element = e.OriginalSource as DependencyObject; element is not null && element != HeaderGrid; element = VisualTreeHelper.GetParent(element))
+			{
+				if (element is Files.App.Controls.GridSplitter)
+					return;
+			}
+
+			var bounds = GetHeaderColumnBounds();
+			var x = GetHeaderContentX(e);
+			foreach (var (id, left, right) in bounds)
+			{
+				if (x < left || x >= right)
+					continue;
+
+				foreach (var child in HeaderGrid.Children)
+				{
+					if (child is FrameworkElement element && element is not Files.App.Controls.GridSplitter && DetailsLayoutColumnExtensions.GetId(element) == id)
+						_reorderHeader = element;
+				}
+
+				_reorderColumnBounds = bounds;
+				_reorderColumnId = id;
+				_reorderPointerId = e.Pointer.PointerId;
+				_reorderStartX = x;
+				return;
+			}
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
+		[DynamicWindowsRuntimeCast(typeof(DependencyObject))]
+		private void HeaderGrid_ReorderPointerMoved(object sender, PointerRoutedEventArgs e)
+		{
+			if (_reorderHeader is null || _reorderColumnBounds is null || e.Pointer.PointerId != _reorderPointerId)
+				return;
+
+			var x = GetHeaderContentX(e);
+			if (!_isReorderingColumn)
+			{
+				if (Math.Abs(x - _reorderStartX) < (e.Pointer.PointerDeviceType == PointerDeviceType.Touch ? ColumnReorderTouchDragThreshold : ColumnReorderDragThreshold))
+					return;
+
+				for (var element = e.OriginalSource as DependencyObject; element is not null && element != HeaderGrid; element = VisualTreeHelper.GetParent(element))
+					(element as UIElement)?.ReleasePointerCapture(e.Pointer);
+
+				HeaderGrid.CapturePointer(e.Pointer);
+				_isReorderingColumn = true;
+				_suppressHeaderSort = true;
+
+				var draggedBound = _reorderColumnBounds.First(bound => bound.Id == _reorderColumnId);
+				_reorderGhostLeft = draggedBound.Left;
+				ColumnReorderGhost.Width = draggedBound.Right - draggedBound.Left;
+				ColumnReorderGhostImage.Source = null;
+				ColumnReorderGhost.Visibility = Visibility.Visible;
+				_ = CaptureColumnReorderGhostAsync(_reorderHeader);
+			}
+
+			var maxGhostLeft = Math.Max(0, _reorderColumnBounds[^1].Right - ColumnReorderGhost.Width);
+			ColumnReorderGhostTransform.X = Math.Clamp(_reorderGhostLeft + x - _reorderStartX, 0, maxGhostLeft);
+			ScrollHeaderWhileReordering(e);
+
+			ReflowHeadersWhileReordering(x);
+			e.Handled = true;
+		}
+
+		private void ReflowHeadersWhileReordering(double x)
+		{
+			if (_reorderColumnBounds is not { } bounds)
+				return;
+
+			var draggedIndex = bounds.FindIndex(bound => bound.Id == _reorderColumnId);
+			if (draggedIndex < 0)
+				return;
+
+			var draggedWidth = bounds[draggedIndex].Right - bounds[draggedIndex].Left;
+			_reorderTargetId = null;
+			for (int i = 0; i < bounds.Count; i++)
+			{
+				if (i == draggedIndex)
+					continue;
+
+				var (id, left, right) = bounds[i];
+				var center = (left + right) / 2;
+				var offset = 0d;
+				if (i > draggedIndex && x > center)
+				{
+					offset = -draggedWidth;
+					(_reorderTargetId, _reorderAfterTarget) = (id, true);
+				}
+				else if (i < draggedIndex && x < center)
+				{
+					offset = draggedWidth;
+					if (_reorderTargetId is null)
+						(_reorderTargetId, _reorderAfterTarget) = (id, false);
+				}
+
+				SetColumnHeaderOffset(id, offset, animate: true);
+			}
+		}
+
+		private void SetColumnHeaderOffset(string id, double offset, bool animate)
+		{
+			if (!_headerElements.TryGetValue(id, out var elements))
+				return;
+
+			foreach (var element in (UIElement[])[elements.Header, elements.Splitter])
+			{
+				element.TranslationTransition = animate ? element.TranslationTransition ?? new Vector3Transition { Duration = ColumnReorderAnimationDuration } : null;
+				element.Translation = new((float)offset, 0, 0);
+			}
+		}
+
+		private void HeaderGrid_ReorderPointerReleased(object sender, PointerRoutedEventArgs e)
+		{
+			if (_reorderHeader is null || e.Pointer.PointerId != _reorderPointerId)
+				return;
+
+			var isCommitted = false;
+			if (_isReorderingColumn)
+			{
+				if (_reorderColumnId is { } columnId && _reorderTargetId is { } targetId)
+				{
+					ColumnsViewModel.MoveColumn(columnId, targetId, _reorderAfterTarget);
+					SaveColumnLayout();
+					isCommitted = true;
+				}
+
+				e.Handled = true;
+			}
+
+			EndColumnReorder(isCommitted);
+			HeaderGrid.ReleasePointerCapture(e.Pointer);
+			_suppressHeaderSort = false;
+		}
+
+		private void HeaderGrid_ReorderPointerCaptureLost(object sender, PointerRoutedEventArgs e)
+		{
+			if (_isReorderingColumn && e.Pointer.PointerId == _reorderPointerId && ReferenceEquals(e.OriginalSource, HeaderGrid))
+				EndColumnReorder();
+		}
+
+		private void HeaderGrid_ReorderKeyDown(object sender, KeyRoutedEventArgs e)
+		{
+			if (_isReorderingColumn && e.Key == VirtualKey.Escape)
+			{
+				EndColumnReorder();
+				HeaderGrid.ReleasePointerCaptures();
+				e.Handled = true;
+			}
+		}
+
+		private void EndColumnReorder(bool isCommitted = false)
+		{
+			if (_reorderHeader is not null && _isReorderingColumn)
+			{
+				// Headers of a committed move reset without animating
+				var animate = !isCommitted;
+				foreach (var id in _headerElements.Keys)
+					SetColumnHeaderOffset(id, 0, animate);
+
+				SetReorderedHeaderOpacity(1);
+				ColumnReorderGhost.Visibility = Visibility.Collapsed;
+			}
+
+			_reorderHeader = null;
+			_reorderColumnBounds = null;
+			_reorderColumnId = null;
+			_reorderTargetId = null;
+			_isReorderingColumn = false;
+		}
+
+		private async Task CaptureColumnReorderGhostAsync(FrameworkElement header)
+		{
+			var bitmap = new RenderTargetBitmap();
+			await bitmap.RenderAsync(header);
+			if (!_isReorderingColumn || _reorderHeader != header)
+				return;
+
+			ColumnReorderGhostImage.Width = header.ActualWidth;
+			ColumnReorderGhostImage.Height = header.ActualHeight;
+			ColumnReorderGhostImage.Source = bitmap;
+			SetReorderedHeaderOpacity(0);
+		}
+
+		private void SetReorderedHeaderOpacity(double opacity)
+		{
+			if (_reorderColumnId is not null && _headerElements.TryGetValue(_reorderColumnId, out var elements))
+			{
+				elements.Header.Opacity = opacity;
+				elements.Splitter.Opacity = opacity;
+			}
+		}
+
+		private void ScrollHeaderWhileReordering(PointerRoutedEventArgs e)
+		{
+			if (ContentScroller is not { } scroller || scroller.ScrollableWidth <= 0)
+				return;
+
+			var x = e.GetCurrentPoint(scroller).Position.X;
+			var offset = x < ColumnReorderScrollMargin
+				? -ColumnReorderScrollStep
+				: x > scroller.ViewportWidth - ColumnReorderScrollMargin ? ColumnReorderScrollStep : 0;
+
+			if (offset != 0)
+				scroller.ChangeView(Math.Clamp(scroller.HorizontalOffset + offset, 0, scroller.ScrollableWidth), null, null, true);
 		}
 
 		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
