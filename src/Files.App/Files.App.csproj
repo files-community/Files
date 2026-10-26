@@ -71,7 +71,7 @@
         <_WindowsAppRuntimeBootstrapLibrary Include="@(WindowsAppSdkComponentPackages->'%(FullPath)lib\native\$(Platform)\Microsoft.WindowsAppRuntime.Bootstrap.lib')" />
         <NativeLibrary Include="runtimeobject.lib" />
         <NativeLibrary Include="mpr.lib" />
-        <NativeLibrary Include="@(_WindowsAppRuntimeBootstrapLibrary-&gt;Exists())" />
+        <NativeLibrary Include="@(_WindowsAppRuntimeBootstrapLibrary->Exists())" />
     </ItemGroup>
   
     <ItemGroup>
