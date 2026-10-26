@@ -288,6 +288,7 @@ namespace Files.App.Utils.Storage
 		{
 			ArgumentOutOfRangeException.ThrowIfNegative(newIndex);
 
+			NotifyCollectionChangedEventArgs e;
 			lock (syncRoot)
 			{
 				ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(newIndex, collection.Count);
@@ -298,11 +299,11 @@ namespace Files.App.Utils.Storage
 				collection.RemoveAt(oldIndex);
 				collection.Insert(newIndex, item);
 
-				OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item, newIndex, oldIndex), false);
+				e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item, newIndex, oldIndex);
+				OnCollectionChanged(e, false);
 			}
 
-			if (IsGrouped)
-				ResetGroups();
+			UpdateGroups(e);
 		}
 
 		public void AddRange(IEnumerable<T> items)

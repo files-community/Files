@@ -368,13 +368,13 @@ namespace Files.App.Utils.Shell
 			IContextMenu? contextMenuToRelease = contextMenu;
 			menu = default;
 			contextMenu = null;
-			OwningThread.PostMethod(() =>
+			_ = SafetyExtensions.IgnoreExceptions(() => OwningThread.PostMethod(() =>
 			{
 				if (!menuToDestroy.IsNull)
 					PInvoke.DestroyMenu(menuToDestroy);
 				if ((object?)contextMenuToRelease is ComObject comObject)
 					comObject.FinalRelease();
-			});
+			}), App.Logger);
 			ContextMenuWorkerPool.Return(worker);
 			disposedValue = true;
 		}

@@ -19,6 +19,8 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.Windows.CsWin32" PrivateAssets="all" />
         <PackageReference Include="OwlCore.Storage" />
+        <PackageReference Include="DiscUtils.Udf" />
+        <PackageReference Include="System.Drawing.Common" />
     </ItemGroup>
 
     <ItemGroup>
