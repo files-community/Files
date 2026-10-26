@@ -52,6 +52,12 @@ namespace Files.App.Utils.Storage
 		{
 			if (IsGrouped)
 			{
+				if (e.Action is NotifyCollectionChangedAction.Move)
+				{
+					ResetGroups();
+					return;
+				}
+
 				if (e.NewItems is not null)
 					AddItemsToGroup(e.NewItems.Cast<T>());
 
