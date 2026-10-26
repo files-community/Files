@@ -52,6 +52,15 @@ namespace Files.App.Helpers
 		public static string GetQuery(string input)
 			=> input[Prefix.Length..].Trim();
 
+		/// <summary>
+		/// Gets the alias name in "@name" or "@name\sub\path".
+		/// </summary>
+		public static string GetName(string input)
+		{
+			var separatorIndex = input.IndexOfAny(Separators, Prefix.Length);
+			return (separatorIndex < 0 ? input[Prefix.Length..] : input[Prefix.Length..separatorIndex]).Trim();
+		}
+
 		public static bool IsValidName(string name)
 			=> !string.IsNullOrWhiteSpace(name) && name.IndexOfAny(Separators) < 0;
 
@@ -74,12 +83,12 @@ namespace Files.App.Helpers
 			if (!HasPrefix(input))
 				return false;
 
-			var separatorIndex = input.IndexOfAny(Separators, Prefix.Length);
-			var name = (separatorIndex < 0 ? input[Prefix.Length..] : input[Prefix.Length..separatorIndex]).Trim();
+			var name = GetName(input);
 			var alias = aliases.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
 			if (alias is null)
 				return false;
 
+			var separatorIndex = input.IndexOfAny(Separators, Prefix.Length);
 			var subPath = separatorIndex < 0 ? string.Empty : input[(separatorIndex + 1)..].TrimStart(Separators);
 			resolvedPath = string.IsNullOrEmpty(subPath) ? alias.Path : Path.Join(alias.Path, subPath);
 			return true;

@@ -4785,6 +4785,9 @@
   <data name="FolderAliasNotFoundDialogContent" xml:space="preserve">
     <value>There's no folder alias named "{0}".</value>
   </data>
+  <data name="FolderAliasNameRequiredDialogContent" xml:space="preserve">
+    <value>Type a folder alias name after @.</value>
+  </data>
   <data name="RestoreDefaultFolderAliasesConfirmation" xml:space="preserve">
     <value>Are you sure you want to restore the default aliases? This action cannot be undone.</value>
   </data>

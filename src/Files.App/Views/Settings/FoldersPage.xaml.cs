@@ -18,8 +18,16 @@ namespace Files.App.Views.Settings
 		public FoldersPage()
 		{
 			InitializeComponent();
-			Loaded += (_, _) => ViewModel.StartListening();
-			Unloaded += (_, _) => ViewModel.StopListening();
+			Loaded += (_, _) =>
+			{
+				ViewModel.StartListening();
+				AliasesViewModel.StartWatching();
+			};
+			Unloaded += (_, _) =>
+			{
+				ViewModel.StopListening();
+				AliasesViewModel.StopWatching();
+			};
 		}
 
 		private async void AddAliasButton_Click(SplitButton sender, SplitButtonClickEventArgs e)

@@ -20,7 +20,7 @@ namespace Files.App.Actions
 			=> ActionCategory.Navigation;
 
 		public HotKey HotKey
-			=> GetAtHotKey();
+			=> GetAtHotKey() is { Modifier: not KeyModifiers.CtrlAlt } hotKey ? hotKey : HotKey.None;
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Shortcut");
@@ -30,6 +30,12 @@ namespace Files.App.Actions
 			return context.ShellPage?.ToolbarViewModel.SwitchToPathModeWithInputAsync(FolderAliasHelpers.Prefix)
 				?? Task.CompletedTask;
 		}
+
+		/// <summary>
+		/// Gets whether the hot key types "@" on the current keyboard layout.
+		/// </summary>
+		public static bool IsAtHotKey(HotKey hotKey)
+			=> GetAtHotKey() is { IsNone: false } at && at.Key == hotKey.Key && at.Modifier == hotKey.Modifier;
 
 		private static HotKey GetAtHotKey()
 		{
