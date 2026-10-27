@@ -67,10 +67,8 @@ namespace Files.App.Views.Properties
 			RemoveLocationCommand = new RelayCommand(RemoveLocation);
 		}
 
-		protected override void Properties_Loaded(object sender, RoutedEventArgs e)
+		protected override async Task LoadPropertiesAsync()
 		{
-			base.Properties_Loaded(sender, e);
-
 			if (BaseProperties is LibraryProperties props)
 			{
 				Folders.Clear();
@@ -87,6 +85,8 @@ namespace Files.App.Views.Properties
 					NotifyPropertyChanged(nameof(IsLibraryEmpty));
 				}
 			}
+
+			await base.LoadPropertiesAsync();
 		}
 
 		private async Task AddLocationAsync()
