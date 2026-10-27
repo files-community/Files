@@ -33,6 +33,8 @@ namespace Files.App.ViewModels.Settings
 				var option => (int)option,
 			};
 			SelectedDefaultGroupByDateUnitIndex = (int)UserSettingsService.LayoutSettingsService.DefaultGroupByDateUnit;
+
+			LoadDefaultDetailsColumns();
 		}
 
 		internal void StartListening()
@@ -275,74 +277,55 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public bool ShowFileTagColumn
-		{
-			get => UserSettingsService.LayoutSettingsService.ShowFileTagColumn;
-			set
-			{
-				if (value != UserSettingsService.LayoutSettingsService.ShowFileTagColumn)
-				{
-					UserSettingsService.LayoutSettingsService.ShowFileTagColumn = value;
+		public ObservableCollection<DetailsLayoutColumnSettingItem> DefaultDetailsColumns { get; } = [];
 
-					OnPropertyChanged();
-				}
-			}
+		private void LoadDefaultDetailsColumns()
+		{
+			foreach (var id in DetailsLayoutColumnDefaults.GetColumns())
+				DefaultDetailsColumns.Add(new(id, GetColumnDisplayName(id, null)));
+
+			DefaultDetailsColumns.CollectionChanged += (_, _) => DetailsLayoutColumnDefaults.SetColumns(DefaultDetailsColumns.Select(column => column.Id));
+			_ = UpdateDefaultDetailsColumnNamesAsync();
 		}
 
-		public bool ShowSizeColumn
+		private async Task UpdateDefaultDetailsColumnNamesAsync()
 		{
-			get => UserSettingsService.LayoutSettingsService.ShowSizeColumn;
-			set
-			{
-				if (value != UserSettingsService.LayoutSettingsService.ShowSizeColumn)
-				{
-					UserSettingsService.LayoutSettingsService.ShowSizeColumn = value;
-
-					OnPropertyChanged();
-				}
-			}
+			var catalog = await ShellPropertyCatalog.GetAsync();
+			foreach (var column in DefaultDetailsColumns)
+				column.DisplayName = GetColumnDisplayName(column.Id, catalog);
 		}
 
-		public bool ShowTypeColumn
+		public static string GetColumnDisplayName(string id, IReadOnlyDictionary<string, ShellPropertyColumnInfo>? catalog)
 		{
-			get => UserSettingsService.LayoutSettingsService.ShowTypeColumn;
-			set
-			{
-				if (value != UserSettingsService.LayoutSettingsService.ShowTypeColumn)
-				{
-					UserSettingsService.LayoutSettingsService.ShowTypeColumn = value;
+			if (!ColumnValueHelper.IsShellPropertyColumn(id))
+				return DetailsLayoutColumnDefaults.GetBuiltInDisplayName(id);
 
-					OnPropertyChanged();
-				}
-			}
+			return catalog is not null && catalog.TryGetValue(id, out var info) ? info.DisplayName : id;
 		}
 
-		public bool ShowDateCreatedColumn
+		public bool HasDefaultDetailsColumn(string id)
 		{
-			get => UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn;
-			set
-			{
-				if (value != UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn)
-				{
-					UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn = value;
-
-					OnPropertyChanged();
-				}
-			}
+			return DefaultDetailsColumns.Any(column => column.Id == id);
 		}
 
-		public bool ShowDateColumn
+		public void AddDefaultDetailsColumn(string id, string displayName)
 		{
-			get => UserSettingsService.LayoutSettingsService.ShowDateColumn;
-			set
-			{
-				if (value != UserSettingsService.LayoutSettingsService.ShowDateColumn)
-				{
-					UserSettingsService.LayoutSettingsService.ShowDateColumn = value;
+			if (!HasDefaultDetailsColumn(id))
+				DefaultDetailsColumns.Add(new(id, displayName));
+		}
 
-					OnPropertyChanged();
-				}
-			}
+		public void RemoveDefaultDetailsColumn(DetailsLayoutColumnSettingItem column)
+		{
+			if (column.CanRemove)
+				DefaultDetailsColumns.Remove(column);
+		}
+
+		public void MoveDefaultDetailsColumn(DetailsLayoutColumnSettingItem column, int offset)
+		{
+			var index = DefaultDetailsColumns.IndexOf(column);
+			var newIndex = index + offset;
+			if (index >= 0 && newIndex >= 0 && newIndex < DefaultDetailsColumns.Count)
+				DefaultDetailsColumns.Move(index, newIndex);
 		}
 
 		private bool _ShowAdaptiveDisabledTeachingTip;

@@ -4901,6 +4901,15 @@
     <value>Unspecified</value>
     <comment>Name of the group for items that have no value when grouping by a property, such as music files without an artist.</comment>
   </data>
+  <data name="AddColumn" xml:space="preserve">
+    <value>Add column</value>
+  </data>
+  <data name="MoveUp" xml:space="preserve">
+    <value>Move up</value>
+  </data>
+  <data name="MoveDown" xml:space="preserve">
+    <value>Move down</value>
+  </data>
   <data name="Unrated" xml:space="preserve">
     <value>Unrated</value>
     <comment>Name of the group for items without a rating when grouping by rating.</comment>
