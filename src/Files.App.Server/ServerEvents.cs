@@ -11,6 +11,7 @@ internal static class ServerEvents
 	private static readonly HashSet<string> pending = [];
 	private static readonly Timer timer = new(_ => Flush(), null, Timeout.Infinite, Timeout.Infinite);
 	private static readonly Dictionary<long, EventHandler<string>?> handlers = [];
+	private static bool flushScheduled;
 
 	internal static void Add(long client, EventHandler<string> handler)
 	{
@@ -41,8 +42,16 @@ internal static class ServerEvents
 		lock (gate)
 		{
 			pending.Add(name);
-			timer.Change(150, Timeout.Infinite);
+			ScheduleFlush();
 		}
+	}
+
+	private static void ScheduleFlush()
+	{
+		if (flushScheduled)
+			return;
+		flushScheduled = true;
+		timer.Change(150, Timeout.Infinite);
 	}
 
 	private static void Flush()
@@ -50,6 +59,7 @@ internal static class ServerEvents
 		string[] names;
 		lock (gate)
 		{
+			flushScheduled = false;
 			names = pending.ToArray();
 			pending.Clear();
 		}
