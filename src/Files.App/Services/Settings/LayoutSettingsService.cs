@@ -29,6 +29,12 @@ namespace Files.App.Services.Settings
 			set => Set((long)value);
 		}
 
+		public string DefaultSortColumnId
+		{
+			get => Get(string.Empty) ?? string.Empty;
+			set => Set(value);
+		}
+
 		public SortDirection DefaultDirectorySortDirection
 		{
 			get => (SortDirection)Get((long)SortDirection.Ascending);
@@ -51,6 +57,12 @@ namespace Files.App.Services.Settings
 		{
 			get => (GroupOption)Get((long)GroupOption.None);
 			set => Set((long)value);
+		}
+
+		public string DefaultGroupColumnId
+		{
+			get => Get(string.Empty) ?? string.Empty;
+			set => Set(value);
 		}
 
 		public SortDirection DefaultDirectoryGroupDirection

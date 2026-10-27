@@ -67,6 +67,7 @@ namespace Files.App.Views.Layouts
 		private IReadOnlyDictionary<string, ShellPropertyColumnInfo>? _shellPropertyCatalog;
 		private readonly List<ToggleMenuFlyoutItem> _propertyColumnMenuItems = [];
 		private readonly List<(MenuFlyoutItem Item, MenuFlyoutSubItem Group)> _toggleAllMenuItems = [];
+		private string? _contextColumnId;
 
 		private const double ColumnReorderDragThreshold = 6;
 		private const double ColumnReorderTouchDragThreshold = 16;
@@ -126,11 +127,23 @@ namespace Files.App.Views.Layouts
 
 			UpdateSortOptionsCommand = new RelayCommand<string>(x =>
 			{
-				if (_suppressHeaderSort || !Enum.TryParse<SortOption>(x, out var val))
+				if (_suppressHeaderSort || string.IsNullOrEmpty(x))
 					return;
 				var folderSettings = FolderSettings
 					?? throw new InvalidOperationException("The details layout does not have folder settings.");
-				if (folderSettings.DirectorySortOption == val)
+				if (!Enum.TryParse<SortOption>(x, out var val) || val == SortOption.Property)
+				{
+					if (folderSettings.DirectorySortOption == SortOption.Property && folderSettings.DirectorySortPropertyId == x)
+					{
+						folderSettings.DirectorySortDirection = (SortDirection)(((int)folderSettings.DirectorySortDirection + 1) % 2);
+					}
+					else
+					{
+						folderSettings.SetSortProperty(x);
+						folderSettings.DirectorySortDirection = SortDirection.Ascending;
+					}
+				}
+				else if (folderSettings.DirectorySortOption == val)
 				{
 					folderSettings.DirectorySortDirection = (SortDirection)(((int)folderSettings.DirectorySortDirection + 1) % 2);
 				}
@@ -380,6 +393,15 @@ namespace Files.App.Views.Layouts
 			FileTypeHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.FileType ? folderSettings.DirectorySortDirection : null;
 			ItemSizeHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.Size ? folderSettings.DirectorySortDirection : null;
 			SyncStatusHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.SyncStatus ? folderSettings.DirectorySortDirection : null;
+
+			var sortPropertyId = folderSettings.DirectorySortOption == SortOption.Property ? folderSettings.DirectorySortPropertyId : null;
+			GitStatusHeader.ColumnSortOption = sortPropertyId == DetailsLayoutColumnIds.GitStatus ? folderSettings.DirectorySortDirection : null;
+			GitLastCommitDateHeader.ColumnSortOption = sortPropertyId == DetailsLayoutColumnIds.GitLastCommitDate ? folderSettings.DirectorySortDirection : null;
+			GitLastCommitMessageHeader.ColumnSortOption = sortPropertyId == DetailsLayoutColumnIds.GitLastCommitMessage ? folderSettings.DirectorySortDirection : null;
+			GitCommitAuthorHeader.ColumnSortOption = sortPropertyId == DetailsLayoutColumnIds.GitCommitAuthor ? folderSettings.DirectorySortDirection : null;
+			GitLastCommitShaHeader.ColumnSortOption = sortPropertyId == DetailsLayoutColumnIds.GitLastCommitSha ? folderSettings.DirectorySortDirection : null;
+			foreach (var (id, propertyHeader) in _propertyColumnHeaders)
+				propertyHeader.Header.ColumnSortOption = sortPropertyId == id ? folderSettings.DirectorySortDirection : null;
 		}
 
 		private void FilesystemViewModel_PageTypeUpdated(object? sender, PageTypeUpdatedEventArgs e)
@@ -1155,6 +1177,9 @@ namespace Files.App.Views.Layouts
 
 				propertyHeader.Attach(ColumnsViewModel.GetColumn(id));
 			}
+
+			if (FolderSettings is not null)
+				UpdateSortIndicator();
 		}
 
 		private PropertyColumnHeader CreatePropertyColumnHeader(string id)
@@ -1285,6 +1310,20 @@ namespace Files.App.Views.Layouts
 			var folderSettings = FolderSettings
 				?? throw new InvalidOperationException("The details layout does not have folder settings.");
 			folderSettings.ColumnsViewModel = ColumnsViewModel;
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(DependencyObject))]
+		private void HeaderGrid_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
+		{
+			_contextColumnId = null;
+			for (var element = args.OriginalSource as DependencyObject; element is not null && element != sender; element = VisualTreeHelper.GetParent(element))
+			{
+				if (DetailsLayoutColumnExtensions.GetId(element) is { } id)
+				{
+					_contextColumnId = id;
+					break;
+				}
+			}
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(MenuFlyout))]

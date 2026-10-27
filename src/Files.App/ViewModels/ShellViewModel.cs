@@ -39,6 +39,7 @@ namespace Files.App.ViewModels
 		private readonly SemaphoreSlim bulkOperationSemaphore;
 		private readonly SemaphoreSlim loadThumbnailSemaphore;
 		private readonly SemaphoreSlim gitPropertiesSemaphore;
+		private readonly ConcurrentDictionary<IGitItem, byte> pendingGitLoads = new();
 		private readonly ConcurrentDictionary<string, CancellationTokenSource> thumbnailRetryDebounce;
 		private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
 		private readonly ConcurrentQueue<uint> gitChangesQueue;
@@ -1216,7 +1217,7 @@ namespace Files.App.ViewModels
 			});
 		}
 
-		private Task OrderFilesAndFoldersAsync()
+		private async Task OrderFilesAndFoldersAsync()
 		{
 			void OrderEntries()
 			{
@@ -1224,15 +1225,35 @@ namespace Files.App.ViewModels
 					return;
 
 				filesAndFolders = new ConcurrentCollection<ListedItem>(SortingHelper.OrderFileList(filesAndFolders.ToList(), folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection,
-					folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst));
+					folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst, folderSettings.DirectorySortPropertyId));
 			}
 
+			await LoadColumnValuesAsync(
+				folderSettings.DirectoryGroupOption == GroupOption.Property ? folderSettings.DirectoryGroupPropertyId : null,
+				folderSettings.DirectorySortOption == SortOption.Property ? folderSettings.DirectorySortPropertyId : null);
+
 			if (dispatcherQueue.HasThreadAccess)
-				return Task.Run(OrderEntries);
+			{
+				await Task.Run(OrderEntries);
+				return;
+			}
 
 			OrderEntries();
+		}
 
-			return Task.CompletedTask;
+		private async Task LoadColumnValuesAsync(params string?[] columnIds)
+		{
+			var propertyIds = columnIds.Where(ColumnValueHelper.IsShellPropertyColumn).Distinct().Cast<string>().ToArray();
+			var gitProperties = columnIds.Where(ColumnValueHelper.IsGitColumn)
+				.Aggregate(GitProperties.None, (properties, id) => properties | (id == DetailsLayoutColumnIds.GitStatus ? GitProperties.Status : GitProperties.Commit));
+			if (propertyIds.Length == 0 && gitProperties is GitProperties.None)
+				return;
+
+			var token = loadPropsCTS.Token;
+			var items = filesAndFolders.ToList();
+			await Task.WhenAll(
+				ShellPropertyValueLoader.LoadAsync(items, propertyIds, token),
+				LoadGitPropertiesAsync(items.OfType<IGitItem>().ToArray(), gitProperties, token));
 		}
 
 		private void OrderGroups(CancellationToken token = default)
@@ -1247,7 +1268,7 @@ namespace Files.App.ViewModels
 					return;
 
 				gp.Order(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection,
-					folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst));
+					folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst, folderSettings.DirectorySortPropertyId));
 			}
 
 			if (FilesAndFolders.GroupedCollection is null || FilesAndFolders.GroupedCollection.IsSorted)
@@ -1260,7 +1281,7 @@ namespace Files.App.ViewModels
 					FilesAndFolders.GroupedCollection.Order(x => x.OrderBy(y => y.First().PrimaryItemAttribute != StorageItemTypes.Folder || y.First().IsArchive)
 						.ThenBy(y => y.Model.SortIndexOverride).ThenBy(y => y.Model.Text));
 				else
-					FilesAndFolders.GroupedCollection.Order(x => x.OrderBy(y => y.Model.SortIndexOverride).ThenBy(y => y.Model.Text));
+					FilesAndFolders.GroupedCollection.Order(x => x.OrderBy(y => y.Model.SortIndexOverride == GroupingHelper.EmptyPropertyGroupIndex).ThenBy(y => y.Model.SortIndexOverride).ThenBy(y => y.Model.Text));
 			}
 			else
 			{
@@ -1269,7 +1290,7 @@ namespace Files.App.ViewModels
 					FilesAndFolders.GroupedCollection.Order(x => x.OrderBy(y => y.First().PrimaryItemAttribute != StorageItemTypes.Folder || y.First().IsArchive)
 						.ThenByDescending(y => y.Model.SortIndexOverride).ThenByDescending(y => y.Model.Text));
 				else
-					FilesAndFolders.GroupedCollection.Order(x => x.OrderByDescending(y => y.Model.SortIndexOverride).ThenByDescending(y => y.Model.Text));
+					FilesAndFolders.GroupedCollection.Order(x => x.OrderBy(y => y.Model.SortIndexOverride == GroupingHelper.EmptyPropertyGroupIndex).ThenByDescending(y => y.Model.SortIndexOverride).ThenByDescending(y => y.Model.Text));
 			}
 
 			FilesAndFolders.GroupedCollection.IsSorted = true;
@@ -1290,7 +1311,11 @@ namespace Files.App.ViewModels
 
 			try
 			{
+				if (folderSettings.DirectoryGroupOption == GroupOption.Property)
+					await LoadColumnValuesAsync(folderSettings.DirectoryGroupPropertyId);
+
 				await bulkOperationSemaphore.WaitAsync(token);
+
 				var isSemaphoreReleased = false;
 				try
 				{
@@ -1368,8 +1393,8 @@ namespace Files.App.ViewModels
 
 		public void UpdateGroupOptions()
 		{
-			FilesAndFolders.ItemGroupKeySelector = GroupingHelper.GetItemGroupKeySelector(folderSettings.DirectoryGroupOption, folderSettings.DirectoryGroupByDateUnit);
-			var groupInfoSelector = GroupingHelper.GetGroupInfoSelector(folderSettings.DirectoryGroupOption, folderSettings.DirectoryGroupByDateUnit);
+			FilesAndFolders.ItemGroupKeySelector = GroupingHelper.GetItemGroupKeySelector(folderSettings.DirectoryGroupOption, folderSettings.DirectoryGroupByDateUnit, folderSettings.DirectoryGroupPropertyId);
+			var groupInfoSelector = GroupingHelper.GetGroupInfoSelector(folderSettings.DirectoryGroupOption, folderSettings.DirectoryGroupByDateUnit, folderSettings.DirectoryGroupPropertyId);
 			FilesAndFolders.GetGroupHeaderInfo = groupInfoSelector.Item1;
 			FilesAndFolders.GetExtendedGroupHeaderInfo = groupInfoSelector.Item2;
 		}
@@ -1962,7 +1987,6 @@ namespace Files.App.ViewModels
 			return WindowsSecurityService.IsElevationRequired(!string.IsNullOrEmpty(targetPath) ? targetPath : item.ItemPath);
 		}
 
-		[WinRT.DynamicWindowsRuntimeCast(typeof(Style))]
 		public async Task LoadGitPropertiesAsync(IGitItem gitItem)
 		{
 			var getStatus = EnabledGitProperties is (GitProperties.All or GitProperties.Status) &&
@@ -1983,6 +2007,7 @@ namespace Files.App.ViewModels
 				gitItem.StatusPropertiesInitialized = true;
 			if (getCommit)
 				gitItem.CommitPropertiesInitialized = true;
+			pendingGitLoads.TryAdd(gitItem, 0);
 
 			try
 			{
@@ -2006,30 +2031,7 @@ namespace Files.App.ViewModels
 				await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
 					token.ThrowIfCancellationRequested();
-
-					if (getStatus)
-					{
-						gitItem.UnmergedGitStatusIcon = gitItemModel.Status switch
-						{
-							ChangeKind.Added => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["App.ThemedIcons.Status.Added"],
-							ChangeKind.Deleted => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["App.ThemedIcons.Status.Removed"],
-							ChangeKind.Modified => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["App.ThemedIcons.Status.Modified"],
-							ChangeKind.Untracked => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["App.ThemedIcons.Status.Removed"],
-							_ => null,
-						};
-						gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
-					}
-
-					if (getCommit)
-					{
-						gitItem.GitLastCommitDate = gitItemModel.LastCommitDate;
-						gitItem.GitLastCommitMessage = gitItemModel.LastCommitMessage;
-						gitItem.GitLastCommitAuthor = gitItemModel.LastCommitAuthor;
-						gitItem.GitLastCommitSha = gitItemModel.LastCommitSha is { Length: >= 7 } sha
-							? sha[..7]
-							: gitItemModel.LastCommitSha;
-						gitItem.GitLastCommitFullSha = gitItemModel.LastCommitSha;
-					}
+					ApplyGitProperties(gitItem, gitItemModel, getStatus, getCommit);
 				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 
 				propertiesLoaded = true;
@@ -2051,8 +2053,128 @@ namespace Files.App.ViewModels
 						gitItem.CommitPropertiesInitialized = false;
 				}
 
+				pendingGitLoads.TryRemove(gitItem, out _);
 				if (semaphoreEntered)
 					gitPropertiesSemaphore.Release();
+			}
+		}
+
+		private async Task LoadGitPropertiesAsync(IReadOnlyList<IGitItem> gitItems, GitProperties properties, CancellationToken token)
+		{
+			if (properties is GitProperties.None || isDisposed)
+				return;
+
+			(IGitItem Item, bool GetStatus, bool GetCommit)[] loads = [];
+			var loaded = new HashSet<IGitItem>();
+			var semaphoreEntered = false;
+			try
+			{
+				await gitPropertiesSemaphore.WaitAsync(token);
+				semaphoreEntered = true;
+
+				// Items with a single load still waiting are read here too
+				loads = gitItems
+					.Select(gitItem => (Item: gitItem,
+						GetStatus: properties is (GitProperties.All or GitProperties.Status) && (!gitItem.StatusPropertiesInitialized || pendingGitLoads.ContainsKey(gitItem)),
+						GetCommit: properties is (GitProperties.All or GitProperties.Commit) && (!gitItem.CommitPropertiesInitialized || pendingGitLoads.ContainsKey(gitItem))))
+					.Where(load => load.GetStatus || load.GetCommit)
+					.ToArray();
+
+				foreach (var (gitItem, getStatus, getCommit) in loads)
+				{
+					gitItem.StatusPropertiesInitialized |= getStatus;
+					gitItem.CommitPropertiesInitialized |= getCommit;
+				}
+
+				if (loads.Length == 0)
+					return;
+
+				var models = await Task.Run(() =>
+				{
+					var repositories = new Dictionary<string, Repository>(StringComparer.OrdinalIgnoreCase);
+					try
+					{
+						var results = new GitItemModel?[loads.Length];
+						for (var i = 0; i < loads.Length; i++)
+						{
+							token.ThrowIfCancellationRequested();
+							var (gitItem, getStatus, getCommit) = loads[i];
+							if (!GitHelpers.IsRepositoryEx(gitItem.ItemPath, out var repositoryPath))
+								continue;
+
+							if (!repositories.TryGetValue(repositoryPath, out var repository))
+								repositories[repositoryPath] = repository = new Repository(repositoryPath);
+
+							results[i] = GitHelpers.GetGitInformationForItem(repository, gitItem.ItemPath, getStatus, getCommit);
+						}
+
+						return results;
+					}
+					finally
+					{
+						foreach (var repository in repositories.Values)
+							repository.Dispose();
+					}
+				}, token);
+
+				await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+				{
+					for (var i = 0; i < loads.Length && !token.IsCancellationRequested; i++)
+					{
+						if (models[i] is { } model)
+							ApplyGitProperties(loads[i].Item, model, loads[i].GetStatus, loads[i].GetCommit);
+
+						loaded.Add(loads[i].Item);
+					}
+				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+			}
+			catch (OperationCanceledException) when (token.IsCancellationRequested)
+			{
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "Failed to load Git properties.");
+			}
+			finally
+			{
+				foreach (var (gitItem, getStatus, getCommit) in loads.Where(load => !loaded.Contains(load.Item)))
+				{
+					if (getStatus)
+						gitItem.StatusPropertiesInitialized = false;
+					if (getCommit)
+						gitItem.CommitPropertiesInitialized = false;
+				}
+
+				if (semaphoreEntered)
+					gitPropertiesSemaphore.Release();
+			}
+		}
+
+		[WinRT.DynamicWindowsRuntimeCast(typeof(Style))]
+		private static void ApplyGitProperties(IGitItem gitItem, GitItemModel gitItemModel, bool getStatus, bool getCommit)
+		{
+			if (getStatus)
+			{
+				gitItem.UnmergedGitStatusIcon = gitItemModel.Status switch
+				{
+					ChangeKind.Added => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["App.ThemedIcons.Status.Added"],
+					ChangeKind.Deleted => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["App.ThemedIcons.Status.Removed"],
+					ChangeKind.Modified => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["App.ThemedIcons.Status.Modified"],
+					ChangeKind.Untracked => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["App.ThemedIcons.Status.Removed"],
+					_ => null,
+				};
+				gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
+			}
+
+			if (getCommit)
+			{
+				gitItem.GitLastCommitDate = gitItemModel.LastCommitDate;
+				gitItem.GitLastCommitMessage = gitItemModel.LastCommitMessage;
+				gitItem.GitLastCommitAuthor = gitItemModel.LastCommitAuthor;
+				gitItem.GitLastCommitSha = gitItemModel.LastCommitSha is { Length: >= 7 } sha
+					? sha[..7]
+					: gitItemModel.LastCommitSha;
+				gitItem.GitLastCommitFullSha = gitItemModel.LastCommitSha;
 			}
 		}
 

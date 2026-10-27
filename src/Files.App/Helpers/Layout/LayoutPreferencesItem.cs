@@ -23,10 +23,23 @@ namespace Files.App.Helpers
 		public FolderLayoutModes LayoutMode { get; set; }
 
 		public SortOption DirectorySortOption { get; set; }
+		private string _DirectorySortPropertyId = string.Empty;
+		public string DirectorySortPropertyId
+		{
+			get => _DirectorySortPropertyId;
+			set => _DirectorySortPropertyId = value ?? string.Empty;
+		}
 		public SortDirection DirectorySortDirection { get; set; }
 		public SortDirection DirectoryGroupDirection { get; set; }
 
 		public GroupOption DirectoryGroupOption { get; set; }
+
+		private string _DirectoryGroupPropertyId = string.Empty;
+		public string DirectoryGroupPropertyId
+		{
+			get => _DirectoryGroupPropertyId;
+			set => _DirectoryGroupPropertyId = value ?? string.Empty;
+		}
 		public GroupByDateUnit DirectoryGroupByDateUnit { get; set; }
 
 		// Constructor
@@ -37,7 +50,9 @@ namespace Files.App.Helpers
 
 			LayoutMode = defaultLayout is FolderLayoutModes.Adaptive ? FolderLayoutModes.DetailsView : defaultLayout;
 			DirectorySortOption = UserSettingsService.LayoutSettingsService.DefaultSortOption;
+			DirectorySortPropertyId = UserSettingsService.LayoutSettingsService.DefaultSortColumnId;
 			DirectoryGroupOption = UserSettingsService.LayoutSettingsService.DefaultGroupOption;
+			DirectoryGroupPropertyId = UserSettingsService.LayoutSettingsService.DefaultGroupColumnId;
 			DirectorySortDirection = UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection;
 			DirectoryGroupDirection = UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection;
 			DirectoryGroupByDateUnit = UserSettingsService.LayoutSettingsService.DefaultGroupByDateUnit;
@@ -93,7 +108,9 @@ namespace Files.App.Helpers
 				return (
 					item.LayoutMode == LayoutMode &&
 					item.DirectoryGroupOption == DirectoryGroupOption &&
+					item.DirectoryGroupPropertyId == DirectoryGroupPropertyId &&
 					item.DirectorySortOption == DirectorySortOption &&
+					item.DirectorySortPropertyId == DirectorySortPropertyId &&
 					item.DirectorySortDirection == DirectorySortDirection &&
 					item.DirectoryGroupDirection == DirectoryGroupDirection &&
 					item.DirectoryGroupByDateUnit == DirectoryGroupByDateUnit &&
@@ -111,7 +128,9 @@ namespace Files.App.Helpers
 
 			hash.Add(LayoutMode);
 			hash.Add(DirectoryGroupOption);
+			hash.Add(DirectoryGroupPropertyId);
 			hash.Add(DirectorySortOption);
+			hash.Add(DirectorySortPropertyId);
 			hash.Add(DirectorySortDirection);
 			hash.Add(DirectoryGroupDirection);
 			hash.Add(DirectoryGroupByDateUnit);
