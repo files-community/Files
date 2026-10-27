@@ -21,14 +21,15 @@ namespace Files.App.Data.Items
 			Columns = columns;
 
 			var ids = savedOrder
-				.Where(id => id != DetailsLayoutColumnIds.Icon && (DetailsLayoutColumnIds.All.Contains(id) || propertyColumnIds.Contains(id)))
+				.Where(id => !IsFixed(id) && (DetailsLayoutColumnDefinitions.IsBuiltIn(id) || propertyColumnIds.Contains(id)))
 				.Distinct()
 				.ToList();
 
-			for (int i = 1; i < DetailsLayoutColumnIds.All.Count; i++)
+			var movableIds = DetailsLayoutColumnIds.All.Where(id => !IsFixed(id)).ToArray();
+			for (int i = 0; i < movableIds.Length; i++)
 			{
-				if (!ids.Contains(DetailsLayoutColumnIds.All[i]))
-					ids.Insert(Math.Min(i - 1, ids.Count), DetailsLayoutColumnIds.All[i]);
+				if (!ids.Contains(movableIds[i]))
+					ids.Insert(Math.Min(i, ids.Count), movableIds[i]);
 			}
 
 			foreach (var id in propertyColumnIds)
@@ -37,12 +38,20 @@ namespace Files.App.Data.Items
 					ids.Add(id);
 			}
 
-			ids.Insert(0, DetailsLayoutColumnIds.Icon);
+			ids.InsertRange(0, [DetailsLayoutColumnIds.Icon, DetailsLayoutColumnIds.Name]);
 
 			Ids = ids;
 			_indices = new(ids.Count);
 			for (int i = 0; i < ids.Count; i++)
 				_indices[ids[i]] = i;
+		}
+
+		/// <summary>
+		/// Gets whether the column always keeps its position at the start of the row.
+		/// </summary>
+		public static bool IsFixed(string? id)
+		{
+			return id is DetailsLayoutColumnIds.Icon or DetailsLayoutColumnIds.Name;
 		}
 
 		public int IndexOf(string? id)

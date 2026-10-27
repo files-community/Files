@@ -60,18 +60,21 @@ namespace Files.App.Views.Layouts
 
 		private RelayCommand<string>? UpdateSortOptionsCommand { get; set; }
 
-		private Dictionary<string, (ColumnDefinition Column, ColumnDefinition Divider)>? _headerColumnDefinitions;
 		private ColumnDefinition[] _fixedHeaderColumnDefinitions = [];
 		private Dictionary<string, int>? _headerColumnIndices;
-		private readonly Dictionary<string, PropertyColumnHeader> _propertyColumnHeaders = [];
+		private readonly Dictionary<string, ColumnHeader> _columnHeaders = [];
 		private IReadOnlyDictionary<string, ShellPropertyColumnInfo>? _shellPropertyCatalog;
 		private readonly HashSet<ListedItem> _shellPropertyLoads = [];
-		private readonly List<ToggleMenuFlyoutItem> _propertyColumnMenuItems = [];
+		private readonly List<ToggleMenuFlyoutItem> _columnMenuItems = [];
 		private readonly List<(MenuFlyoutItem Item, MenuFlyoutSubItem Group)> _toggleAllMenuItems = [];
+		private bool _isShellColumnMenuPopulated;
 		private string? _contextColumnId;
 
 		private const double ColumnReorderDragThreshold = 6;
 		private const double ColumnReorderTouchDragThreshold = 16;
+		private const double ColumnReorderScrollMargin = 32;
+		private const double ColumnReorderScrollStep = 16;
+		private double _reorderGhostLeft;
 		private List<(string Id, double Left, double Right)>? _reorderColumnBounds;
 		private FrameworkElement? _reorderHeader;
 		private string? _reorderColumnId;
@@ -114,6 +117,8 @@ namespace Files.App.Views.Layouts
 			InitializeComponent();
 			DataContext = this;
 			ColumnsViewModel.PropertyChanged += ColumnsViewModel_PropertyChanged;
+			foreach (var id in DetailsLayoutColumnIds.All)
+				ColumnsViewModel.GetColumn(id).PropertyChanged += ColumnItem_PropertyChanged;
 			HeaderGrid.ManipulationMode = ManipulationModes.TranslateX;
 			HeaderGrid.AddHandler(UIElement.PointerPressedEvent, new PointerEventHandler(HeaderGrid_ReorderPointerPressed), true);
 			HeaderGrid.AddHandler(UIElement.PointerMovedEvent, new PointerEventHandler(HeaderGrid_ReorderPointerMoved), true);
@@ -154,6 +159,9 @@ namespace Files.App.Views.Layouts
 					folderSettings.DirectorySortDirection = SortDirection.Ascending;
 				}
 			});
+
+			ApplyHeaderColumnOrder();
+			ActualThemeChanged += (_, _) => RecreateColumnHeaders();
 		}
 
 		// Methods
@@ -218,11 +226,9 @@ namespace Files.App.Views.Layouts
 				// This is done to workaround a bug where CsWinRT doesn't properly track the memory of the object so that
 				// an invalid memory access can occur when the object is moved.
 				// See https://github.com/microsoft/CsWinRT/issues/1834.
-				foreach (var id in DetailsLayoutColumnIds.All)
-					ColumnsViewModel.GetColumn(id).Update(FolderSettings.ColumnsViewModel.GetColumn(id));
-
-				ColumnsViewModel.PropertyColumns = FolderSettings.ColumnsViewModel.PropertyColumns;
+				ColumnsViewModel.Columns = FolderSettings.ColumnsViewModel.Columns;
 				ColumnsViewModel.ColumnOrder = FolderSettings.ColumnsViewModel.ColumnOrder;
+				ApplyHeaderColumnOrder();
 			}
 
 			shellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
@@ -315,26 +321,10 @@ namespace Files.App.Views.Layouts
 			{
 				var settings = sender as ILayoutSettingsService;
 				var isDefaultPath = FolderSettings?.IsPathUsingDefaultLayout(ParentShellPageInstance?.ShellViewModel?.CurrentFolder?.ItemPath);
-				if (settings is not null && (isDefaultPath ?? true))
+				if (settings is not null && (isDefaultPath ?? true) && e.PropertyName is nameof(ILayoutSettingsService.DetailsLayoutColumns))
 				{
-					switch (e.PropertyName)
-					{
-						case nameof(ILayoutSettingsService.ShowFileTagColumn):
-							ColumnsViewModel.TagColumn.UserCollapsed = !settings.ShowFileTagColumn;
-							break;
-						case nameof(ILayoutSettingsService.ShowSizeColumn):
-							ColumnsViewModel.SizeColumn.UserCollapsed = !settings.ShowSizeColumn;
-							break;
-						case nameof(ILayoutSettingsService.ShowTypeColumn):
-							ColumnsViewModel.ItemTypeColumn.UserCollapsed = !settings.ShowTypeColumn;
-							break;
-						case nameof(ILayoutSettingsService.ShowDateCreatedColumn):
-							ColumnsViewModel.DateCreatedColumn.UserCollapsed = !settings.ShowDateCreatedColumn;
-							break;
-						case nameof(ILayoutSettingsService.ShowDateColumn):
-							ColumnsViewModel.DateModifiedColumn.UserCollapsed = !settings.ShowDateColumn;
-							break;
-					}
+					DetailsLayoutColumnDefaults.Apply(ColumnsViewModel);
+					LoadShellPropertiesForRealizedItems();
 				}
 			}
 		}
@@ -384,66 +374,34 @@ namespace Files.App.Views.Layouts
 			var folderSettings = FolderSettings
 				?? throw new InvalidOperationException("The details layout does not have folder settings.");
 
-			NameHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.Name ? folderSettings.DirectorySortDirection : null;
-			TagHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.FileTag ? folderSettings.DirectorySortDirection : null;
-			PathHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.Path ? folderSettings.DirectorySortDirection : null;
-			OriginalPathHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.OriginalFolder ? folderSettings.DirectorySortDirection : null;
-			DateDeletedHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.DateDeleted ? folderSettings.DirectorySortDirection : null;
-			DateModifiedHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.DateModified ? folderSettings.DirectorySortDirection : null;
-			DateCreatedHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.DateCreated ? folderSettings.DirectorySortDirection : null;
-			FileTypeHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.FileType ? folderSettings.DirectorySortDirection : null;
-			ItemSizeHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.Size ? folderSettings.DirectorySortDirection : null;
-			SyncStatusHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.SyncStatus ? folderSettings.DirectorySortDirection : null;
+			foreach (var (id, columnHeader) in _columnHeaders)
+			{
+				var isSorted = folderSettings.DirectorySortOption == SortOption.Column
+					? folderSettings.DirectorySortColumnId == id
+					: DetailsLayoutColumnDefinitions.Get(id)?.SortOption == folderSettings.DirectorySortOption;
 
-			var sortColumnId = folderSettings.DirectorySortOption == SortOption.Column ? folderSettings.DirectorySortColumnId : null;
-			GitStatusHeader.ColumnSortOption = sortColumnId == DetailsLayoutColumnIds.GitStatus ? folderSettings.DirectorySortDirection : null;
-			GitLastCommitDateHeader.ColumnSortOption = sortColumnId == DetailsLayoutColumnIds.GitLastCommitDate ? folderSettings.DirectorySortDirection : null;
-			GitLastCommitMessageHeader.ColumnSortOption = sortColumnId == DetailsLayoutColumnIds.GitLastCommitMessage ? folderSettings.DirectorySortDirection : null;
-			GitCommitAuthorHeader.ColumnSortOption = sortColumnId == DetailsLayoutColumnIds.GitCommitAuthor ? folderSettings.DirectorySortDirection : null;
-			GitLastCommitShaHeader.ColumnSortOption = sortColumnId == DetailsLayoutColumnIds.GitLastCommitSha ? folderSettings.DirectorySortDirection : null;
-			foreach (var (id, propertyHeader) in _propertyColumnHeaders)
-				propertyHeader.Header.ColumnSortOption = sortColumnId == id ? folderSettings.DirectorySortDirection : null;
+				columnHeader.Header.ColumnSortOption = isSorted ? folderSettings.DirectorySortDirection : null;
+			}
 		}
 
 		private void FilesystemViewModel_PageTypeUpdated(object? sender, PageTypeUpdatedEventArgs e)
 		{
-			if (e.IsTypeRecycleBin)
+			foreach (var definition in DetailsLayoutColumnDefinitions.All)
 			{
-				ColumnsViewModel.OriginalPathColumn.Show();
-				ColumnsViewModel.DateDeletedColumn.Show();
-			}
-			else
-			{
-				ColumnsViewModel.OriginalPathColumn.Hide();
-				ColumnsViewModel.DateDeletedColumn.Hide();
-			}
+				var isAvailable = definition.Id switch
+				{
+					DetailsLayoutColumnIds.OriginalPath or DetailsLayoutColumnIds.DateDeleted => e.IsTypeRecycleBin,
+					DetailsLayoutColumnIds.Status => e.IsTypeCloudDrive,
+					DetailsLayoutColumnIds.Path => e.IsTypeSearchResults,
+					_ when definition.IsGitColumn => e.IsTypeGitRepository && !e.IsTypeSearchResults,
+					_ => true,
+				};
 
-			if (e.IsTypeCloudDrive)
-				ColumnsViewModel.StatusColumn.Show();
-			else
-				ColumnsViewModel.StatusColumn.Hide();
-
-			if (e.IsTypeGitRepository && !e.IsTypeSearchResults)
-			{
-				ColumnsViewModel.GitCommitAuthorColumn.Show();
-				ColumnsViewModel.GitLastCommitDateColumn.Show();
-				ColumnsViewModel.GitLastCommitMessageColumn.Show();
-				ColumnsViewModel.GitLastCommitShaColumn.Show();
-				ColumnsViewModel.GitStatusColumn.Show();
+				if (isAvailable)
+					ColumnsViewModel.GetColumn(definition.Id).Show();
+				else
+					ColumnsViewModel.GetColumn(definition.Id).Hide();
 			}
-			else
-			{
-				ColumnsViewModel.GitCommitAuthorColumn.Hide();
-				ColumnsViewModel.GitLastCommitDateColumn.Hide();
-				ColumnsViewModel.GitLastCommitMessageColumn.Hide();
-				ColumnsViewModel.GitLastCommitShaColumn.Hide();
-				ColumnsViewModel.GitStatusColumn.Hide();
-			}
-
-			if (e.IsTypeSearchResults)
-				ColumnsViewModel.PathColumn.Show();
-			else
-				ColumnsViewModel.PathColumn.Hide();
 
 			UpdateSortIndicator();
 		}
@@ -832,28 +790,12 @@ namespace Files.App.Views.Layouts
 
 		private void UpdateColumnLayout()
 		{
-			ColumnsViewModel.IconColumn.UserLength = Column2.Width;
-			ColumnsViewModel.NameColumn.UserLength = Column3.Width;
-
-			// Git
-			ColumnsViewModel.GitStatusColumn.UserLength = GitStatusColumnDefinition.Width;
-			ColumnsViewModel.GitLastCommitDateColumn.UserLength = GitLastCommitDateColumnDefinition.Width;
-			ColumnsViewModel.GitLastCommitMessageColumn.UserLength = GitLastCommitMessageColumnDefinition.Width;
-			ColumnsViewModel.GitCommitAuthorColumn.UserLength = GitCommitAuthorColumnDefinition.Width;
-			ColumnsViewModel.GitLastCommitShaColumn.UserLength = GitLastCommitShaColumnDefinition.Width;
-
-			ColumnsViewModel.TagColumn.UserLength = Column4.Width;
-			ColumnsViewModel.PathColumn.UserLength = Column5.Width;
-			ColumnsViewModel.OriginalPathColumn.UserLength = Column6.Width;
-			ColumnsViewModel.DateDeletedColumn.UserLength = Column7.Width;
-			ColumnsViewModel.DateModifiedColumn.UserLength = Column8.Width;
-			ColumnsViewModel.DateCreatedColumn.UserLength = Column9.Width;
-			ColumnsViewModel.ItemTypeColumn.UserLength = Column10.Width;
-			ColumnsViewModel.SizeColumn.UserLength = Column11.Width;
-			ColumnsViewModel.StatusColumn.UserLength = Column12.Width;
-
-			foreach (var (id, propertyHeader) in _propertyColumnHeaders)
-				ColumnsViewModel.GetColumn(id).UserLength = propertyHeader.Column.Width;
+			foreach (var (id, columnHeader) in _columnHeaders)
+			{
+				var column = ColumnsViewModel.GetColumn(id);
+				if (column.Visibility == Visibility.Visible)
+					column.UserLength = columnHeader.Column.Width;
+			}
 		}
 
 		private void RootGrid_SizeChanged(object? sender, SizeChangedEventArgs? e)
@@ -880,11 +822,9 @@ namespace Files.App.Views.Layouts
 			(sender as UIElement)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 		}
 
-		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+		private void SaveColumnVisibility()
 		{
-			var folderSettings = FolderSettings
-				?? throw new InvalidOperationException("The details layout does not have folder settings.");
-			folderSettings.ColumnsViewModel = ColumnsViewModel;
+			SaveColumnLayout();
 			var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 			shellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
 		}
@@ -949,20 +889,10 @@ namespace Files.App.Views.Layouts
 			{
 				DetailsLayoutColumnIds.Icon => 40, // Check all items columns
 				DetailsLayoutColumnIds.Name => FileList.Items.Cast<ListedItem>().Select(x => x.Name?.Length ?? 0).Max(),
-				DetailsLayoutColumnIds.GitLastCommitDate => FileList.Items.Cast<ListedItem>().Select(x => (x as IGitItem)?.GitLastCommitDateHumanized?.Length ?? 0).Max(),
-				DetailsLayoutColumnIds.GitLastCommitMessage => FileList.Items.Cast<ListedItem>().Select(x => (x as IGitItem)?.GitLastCommitMessage?.Length ?? 0).Max(),
-				DetailsLayoutColumnIds.GitCommitAuthor => FileList.Items.Cast<ListedItem>().Select(x => (x as IGitItem)?.GitLastCommitAuthor?.Length ?? 0).Max(),
-				DetailsLayoutColumnIds.GitLastCommitSha => FileList.Items.Cast<ListedItem>().Select(x => (x as IGitItem)?.GitLastCommitSha?.Length ?? 0).Max(),
 				DetailsLayoutColumnIds.Tag => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.Sum(x => x?.Name?.Length ?? 0) ?? 0).Max(),
-				DetailsLayoutColumnIds.Path => FileList.Items.Cast<ListedItem>().Select(x => x.ItemPath?.Length ?? 0).Max(),
-				DetailsLayoutColumnIds.OriginalPath => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemOriginalPath?.Length ?? 0).Max(),
-				DetailsLayoutColumnIds.DateDeleted => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemDateDeleted?.Length ?? 0).Max(),
-				DetailsLayoutColumnIds.DateModified => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(),
-				DetailsLayoutColumnIds.DateCreated => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(),
-				DetailsLayoutColumnIds.ItemType => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(),
 				DetailsLayoutColumnIds.Size => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(),
-				_ when ColumnsViewModel.HasPropertyColumn(columnId) => FileList.Items.Cast<ListedItem>().Select(x => x.ShellPropertyValues is { } values && values.TryGetValue(columnId, out var value) ? value.Text?.Length ?? 0 : 0).Max(),
-				_ => 0 // git status and sync status columns only show icons
+				DetailsLayoutColumnIds.GitStatus or DetailsLayoutColumnIds.Status => 0, // these columns only show icons
+				_ => FileList.Items.Cast<ListedItem>().Select(x => ColumnValueHelper.GetText(x, columnId)?.Length ?? 0).Max(),
 			};
 
 			// if called programmatically, the column could be hidden
@@ -1057,20 +987,9 @@ namespace Files.App.Views.Layouts
 			string? columnIdFromName = element.Name switch
 			{
 				"ItemName" => DetailsLayoutColumnIds.Name,
-				"ItemGitStatusTextBlock" => DetailsLayoutColumnIds.GitStatus,
-				"ItemGitLastCommitDateTextBlock" => DetailsLayoutColumnIds.GitLastCommitDate,
-				"ItemGitLastCommitMessageTextBlock" => DetailsLayoutColumnIds.GitLastCommitMessage,
-				"ItemGitCommitAuthorTextBlock" => DetailsLayoutColumnIds.GitCommitAuthor,
-				"ItemGitLastCommitShaTextBlock" => DetailsLayoutColumnIds.GitLastCommitSha,
 				"ItemTagGrid" => DetailsLayoutColumnIds.Tag,
-				"ItemPathTextBlock" => DetailsLayoutColumnIds.Path,
-				"ItemOriginalPath" => DetailsLayoutColumnIds.OriginalPath,
-				"ItemDateDeleted" => DetailsLayoutColumnIds.DateDeleted,
-				"ItemDateModifiedTextBlock" => DetailsLayoutColumnIds.DateModified,
-				"ItemDateCreatedTextBlock" => DetailsLayoutColumnIds.DateCreated,
-				"ItemTypeTextBlock" => DetailsLayoutColumnIds.ItemType,
 				"ItemSizeTextBlock" => DetailsLayoutColumnIds.Size,
-				_ => DetailsLayoutColumnExtensions.GetId(element) is { } id && ColumnsViewModel.HasPropertyColumn(id) ? id : null,
+				_ => element is TextBlock ? DetailsLayoutColumnExtensions.GetId(element) : null,
 			};
 
 			return columnIdFromName == columnId;
@@ -1094,104 +1013,118 @@ namespace Files.App.Views.Layouts
 			};
 		}
 
+		private void ColumnItem_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(DetailsLayoutColumnItem.LengthIncludingGridSplitter))
+				ColumnsViewModel.NotifyLayoutChanged();
+		}
+
 		private void ColumnsViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == nameof(ColumnsViewModel.OrderedColumns))
 				ApplyHeaderColumnOrder();
 		}
 
-		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void ApplyHeaderColumnOrder()
 		{
 			var definitions = HeaderGrid.ColumnDefinitions;
-			if (_headerColumnDefinitions is null)
+			if (_fixedHeaderColumnDefinitions.Length == 0)
 			{
-				var movableIds = DetailsLayoutColumnIds.All.Skip(1).ToArray();
-				if (definitions.Count != movableIds.Length * 2 + 3)
+				if (definitions.Count != 3)
 					return;
 
-				_headerColumnDefinitions = new(movableIds.Length);
-				for (int i = 0; i < movableIds.Length; i++)
-					_headerColumnDefinitions[movableIds[i]] = (definitions[i * 2 + 2], definitions[i * 2 + 3]);
-
-				_fixedHeaderColumnDefinitions = [definitions[0], definitions[1], definitions[definitions.Count - 1]];
+				_fixedHeaderColumnDefinitions = [definitions[0], definitions[1], definitions[2]];
 			}
 
-			SyncPropertyColumnHeaders();
+			SyncColumnHeaders();
 
-			var columnIndices = new Dictionary<string, int>(_headerColumnDefinitions.Count + _propertyColumnHeaders.Count);
+			var columnIndices = new Dictionary<string, int>(_columnHeaders.Count);
 			definitions.Clear();
 			definitions.Add(_fixedHeaderColumnDefinitions[0]);
 			definitions.Add(_fixedHeaderColumnDefinitions[1]);
 			foreach (var id in ColumnsViewModel.OrderedColumns.Ids)
 			{
-				ColumnDefinition column, divider;
-				if (_headerColumnDefinitions.TryGetValue(id, out var pair))
-					(column, divider) = pair;
-				else if (_propertyColumnHeaders.TryGetValue(id, out var propertyHeader))
-					(column, divider) = (propertyHeader.Column, propertyHeader.Divider);
-				else
+				if (!_columnHeaders.TryGetValue(id, out var columnHeader))
 					continue;
 
 				columnIndices[id] = definitions.Count;
-				definitions.Add(column);
-				definitions.Add(divider);
+				definitions.Add(columnHeader.Column);
+				definitions.Add(columnHeader.Divider);
 			}
 			definitions.Add(_fixedHeaderColumnDefinitions[2]);
 			_headerColumnIndices = columnIndices;
 			Grid.SetColumnSpan(ColumnReorderIndicator, definitions.Count);
+			Grid.SetColumnSpan(ColumnReorderGhost, definitions.Count);
 
-			foreach (var child in HeaderGrid.Children)
+			foreach (var (id, columnHeader) in _columnHeaders)
 			{
-				if (child is FrameworkElement element &&
-					DetailsLayoutColumnExtensions.GetId(element) is { } id &&
-					columnIndices.TryGetValue(id, out var columnIndex))
-				{
-					Grid.SetColumn(element, element is Files.App.Controls.GridSplitter ? columnIndex + 1 : columnIndex);
-					if (element is DataGridHeader header)
-						header.TabIndex = columnIndex;
-				}
+				if (!columnIndices.TryGetValue(id, out var columnIndex))
+					continue;
+
+				Grid.SetColumn(columnHeader.Header, columnIndex);
+				Grid.SetColumn(columnHeader.Splitter, columnIndex + 1);
+				columnHeader.Header.TabIndex = columnIndex;
 			}
 		}
 
-		private void SyncPropertyColumnHeaders()
+		/// <summary>
+		/// Recreates the headers created in code so that they pick up the current theme.
+		/// </summary>
+		private void RecreateColumnHeaders()
 		{
-			var propertyColumnIds = ColumnsViewModel.PropertyColumnIds;
-			foreach (var id in _propertyColumnHeaders.Keys.Where(id => !propertyColumnIds.Contains(id)).ToArray())
+			EndColumnReorder();
+			foreach (var columnHeader in _columnHeaders.Values)
 			{
-				var propertyHeader = _propertyColumnHeaders[id];
-				propertyHeader.Attach(null);
-				HeaderGrid.Children.Remove(propertyHeader.Header);
-				HeaderGrid.Children.Remove(propertyHeader.Splitter);
-				_propertyColumnHeaders.Remove(id);
+				columnHeader.Attach(null);
+				HeaderGrid.Children.Remove(columnHeader.Header);
+				HeaderGrid.Children.Remove(columnHeader.Splitter);
 			}
 
-			foreach (var id in propertyColumnIds)
+			_columnHeaders.Clear();
+			ApplyHeaderColumnOrder();
+		}
+
+		private void SyncColumnHeaders()
+		{
+			var columnIds = ColumnsViewModel.AllColumnIds.Where(id => id != DetailsLayoutColumnIds.Icon).ToHashSet();
+			foreach (var id in _columnHeaders.Keys.Where(id => !columnIds.Contains(id)).ToArray())
 			{
-				if (!_propertyColumnHeaders.TryGetValue(id, out var propertyHeader))
+				var columnHeader = _columnHeaders[id];
+				columnHeader.Attach(null);
+				HeaderGrid.Children.Remove(columnHeader.Header);
+				HeaderGrid.Children.Remove(columnHeader.Splitter);
+				_columnHeaders.Remove(id);
+			}
+
+			foreach (var id in columnIds)
+			{
+				if (!_columnHeaders.TryGetValue(id, out var columnHeader))
 				{
-					propertyHeader = CreatePropertyColumnHeader(id);
-					_propertyColumnHeaders[id] = propertyHeader;
-					HeaderGrid.Children.Add(propertyHeader.Header);
-					HeaderGrid.Children.Add(propertyHeader.Splitter);
+					columnHeader = CreateColumnHeader(id);
+					_columnHeaders[id] = columnHeader;
+					HeaderGrid.Children.Add(columnHeader.Header);
+					HeaderGrid.Children.Add(columnHeader.Splitter);
 				}
 
-				propertyHeader.Attach(ColumnsViewModel.GetColumn(id));
+				columnHeader.Attach(ColumnsViewModel.GetColumn(id));
 			}
 
 			if (FolderSettings is not null)
 				UpdateSortIndicator();
 		}
 
-		private PropertyColumnHeader CreatePropertyColumnHeader(string id)
+		private ColumnHeader CreateColumnHeader(string id)
 		{
+			var definition = DetailsLayoutColumnDefinitions.Get(id);
 			var header = new DataGridHeader
 			{
-				Header = GetPropertyColumnDisplayName(id),
+				Header = GetColumnDisplayName(id),
 				Command = UpdateSortOptionsCommand,
-				CommandParameter = id,
+				CommandParameter = definition?.SortOption?.ToString() ?? id,
 			};
 			DetailsLayoutColumnExtensions.SetId(header, id);
+			if (id == DetailsLayoutColumnIds.Name)
+				header.Margin = new(4, 0, -4, 0);
 
 			var splitter = new Files.App.Controls.GridSplitter
 			{
@@ -1206,38 +1139,32 @@ namespace Files.App.Views.Layouts
 			splitter.ManipulationCompleted += GridSplitter_ManipulationCompleted;
 			splitter.PreviewKeyUp += GridSplitter_PreviewKeyUp;
 
-			return new(new ColumnDefinition(), new ColumnDefinition { Width = GridLength.Auto }, header, splitter);
+			return new(new ColumnDefinition(), new ColumnDefinition { Width = GridLength.Auto }, header, splitter, ColumnsViewModel.NotifyLayoutChanged);
 		}
 
-		private string GetPropertyColumnDisplayName(string id)
+		private string GetColumnDisplayName(string id)
 		{
-			return _shellPropertyCatalog is not null && _shellPropertyCatalog.TryGetValue(id, out var info) ? info.DisplayName : id;
+			return DetailsLayoutColumnDefaults.GetDisplayName(id, _shellPropertyCatalog);
 		}
 
 		private async Task LoadShellPropertyCatalogAsync()
 		{
 			_shellPropertyCatalog = await ShellPropertyCatalog.GetAsync();
-			foreach (var (id, propertyHeader) in _propertyColumnHeaders)
-				propertyHeader.Header.Header = GetPropertyColumnDisplayName(id);
+			foreach (var (id, columnHeader) in _columnHeaders)
+				columnHeader.Header.Header = GetColumnDisplayName(id);
 		}
 
-		private void SetPropertyColumnVisibility(string id, bool isVisible)
+		private void SetColumnVisibility(string id, bool isVisible)
 		{
-			if (isVisible == ColumnsViewModel.HasPropertyColumn(id))
+			if (isVisible == ColumnsViewModel.IsColumnVisible(id))
 				return;
 
+			var width = _shellPropertyCatalog is not null && _shellPropertyCatalog.TryGetValue(id, out var info) ? info.DefaultWidth : 150;
+			ColumnsViewModel.SetColumnVisibility(id, isVisible, width);
 			if (isVisible)
-			{
-				var width = _shellPropertyCatalog is not null && _shellPropertyCatalog.TryGetValue(id, out var info) ? info.DefaultWidth : 150;
-				ColumnsViewModel.AddPropertyColumn(id, width);
 				LoadShellPropertiesForRealizedItems();
-			}
-			else
-			{
-				ColumnsViewModel.RemovePropertyColumn(id);
-			}
 
-			SaveColumnLayout();
+			SaveColumnVisibility();
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(SelectorItem))]
@@ -1280,7 +1207,7 @@ namespace Files.App.Views.Layouts
 				}
 
 				item.ShellPropertyValues = values;
-				RefreshShellPropertyCells(item);
+				RefreshGeneratedCells(item);
 			}
 			finally
 			{
@@ -1290,16 +1217,16 @@ namespace Files.App.Views.Layouts
 
 		[DynamicWindowsRuntimeCast(typeof(SelectorItem))]
 		[DynamicWindowsRuntimeCast(typeof(UserControl))]
-		private void RefreshShellPropertyCells(ListedItem item)
+		private void RefreshGeneratedCells(ListedItem item)
 		{
 			if (FileList.ContainerFromItem(item) is SelectorItem container &&
 				container.ContentTemplateRoot is UserControl { Content: DetailsLayoutRowPanel panel })
 			{
-				panel.RefreshPropertyCells();
+				panel.RefreshGeneratedCells();
 			}
 		}
 
-		private sealed class PropertyColumnHeader(ColumnDefinition column, ColumnDefinition divider, DataGridHeader header, Files.App.Controls.GridSplitter splitter)
+		private sealed class ColumnHeader(ColumnDefinition column, ColumnDefinition divider, DataGridHeader header, Files.App.Controls.GridSplitter splitter, Action layoutChanged)
 		{
 			private DetailsLayoutColumnItem? _item;
 
@@ -1324,22 +1251,27 @@ namespace Files.App.Views.Layouts
 					return;
 
 				_item.PropertyChanged += Item_PropertyChanged;
-				UpdateWidth();
+				UpdateLayout();
 			}
 
 			private void Item_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
 			{
-				if (e.PropertyName is nameof(DetailsLayoutColumnItem.Length) or nameof(DetailsLayoutColumnItem.MaxLength))
-					UpdateWidth();
+				if (e.PropertyName is nameof(DetailsLayoutColumnItem.Length) or nameof(DetailsLayoutColumnItem.MaxLength) or nameof(DetailsLayoutColumnItem.Visibility))
+					UpdateLayout();
+				else if (e.PropertyName is nameof(DetailsLayoutColumnItem.LengthIncludingGridSplitter))
+					layoutChanged();
 			}
 
-			private void UpdateWidth()
+			private void UpdateLayout()
 			{
 				if (_item is null)
 					return;
 
 				Column.Width = _item.Length;
 				Column.MaxWidth = _item.MaxLength;
+				Column.MinWidth = _item.MinLength;
+				Header.Visibility = _item.Visibility;
+				Splitter.Visibility = _item.IsResizable ? _item.Visibility : Visibility.Collapsed;
 			}
 		}
 
@@ -1366,8 +1298,9 @@ namespace Files.App.Views.Layouts
 		private void HeaderGridMenuFlyout_Opening(object sender, object e)
 		{
 			var visibility = _contextColumnId is not null ? Visibility.Visible : Visibility.Collapsed;
-			MoveColumnLeftMenuFlyoutItem.Visibility = visibility;
-			MoveColumnRightMenuFlyoutItem.Visibility = visibility;
+			var moveVisibility = _contextColumnId is not null && !DetailsLayoutColumnOrder.IsFixed(_contextColumnId) ? Visibility.Visible : Visibility.Collapsed;
+			MoveColumnLeftMenuFlyoutItem.Visibility = moveVisibility;
+			MoveColumnRightMenuFlyoutItem.Visibility = moveVisibility;
 			MoveColumnMenuFlyoutSeparator.Visibility = visibility;
 			GroupByColumnMenuFlyoutItem.Visibility = visibility;
 			if (_contextColumnId is { } groupColumnId && FolderSettings is { } groupSettings)
@@ -1380,26 +1313,39 @@ namespace Files.App.Views.Layouts
 			}
 
 			if (sender is MenuFlyout menuFlyout)
-				PopulatePropertyColumnMenu(menuFlyout);
+				PopulateColumnMenu(menuFlyout);
 
-			foreach (var item in _propertyColumnMenuItems)
-				item.IsChecked = item.Tag is string name && ColumnsViewModel.HasPropertyColumn(name);
+			foreach (var item in _columnMenuItems)
+			{
+				if (item.Tag is not string name)
+					continue;
+
+				item.IsChecked = ColumnsViewModel.IsColumnVisible(name);
+				item.Visibility = ColumnsViewModel.FindColumn(name)?.IsHidden is true ? Visibility.Collapsed : Visibility.Visible;
+			}
 
 			UpdateToggleAllMenuItems();
 		}
 
-		private void PopulatePropertyColumnMenu(MenuFlyout menuFlyout)
+		private void PopulateColumnMenu(MenuFlyout menuFlyout)
 		{
 			if (_toggleAllMenuItems.Count == 0)
 			{
+				foreach (var definition in DetailsLayoutColumnDefinitions.All.Where(definition => !DetailsLayoutColumnOrder.IsFixed(definition.Id)))
+				{
+					var group = definition.IsGitColumn ? GitColumnsVisibilityMenuFlyoutSubItem : GeneralColumnsMenuFlyoutSubItem;
+					group.Items.Add(CreateColumnMenuItem(definition.Id, DetailsLayoutColumnDefinitions.GetHeader(definition.Id)));
+				}
+
 				AddToggleAllMenuItem(GeneralColumnsMenuFlyoutSubItem);
 				AddToggleAllMenuItem(GitColumnsVisibilityMenuFlyoutSubItem);
 			}
 
 			MoreColumnsMenuFlyoutItem.IsEnabled = _shellPropertyCatalog is not null;
-			if (_shellPropertyCatalog is null || _propertyColumnMenuItems.Count > 0)
+			if (_shellPropertyCatalog is null || _isShellColumnMenuPopulated)
 				return;
 
+			_isShellColumnMenuPopulated = true;
 			var insertIndex = menuFlyout.Items.IndexOf(GitColumnsVisibilityMenuFlyoutSubItem) + 1;
 			foreach (var (resourceKey, propertyNames) in ShellPropertyCatalog.MenuCategories)
 			{
@@ -1425,7 +1371,7 @@ namespace Files.App.Views.Layouts
 				}
 
 				foreach (var info in infos)
-					subItem.Items.Add(CreatePropertyColumnMenuItem(info));
+					subItem.Items.Add(CreateColumnMenuItem(info.Name, info.DisplayName));
 			}
 		}
 
@@ -1458,6 +1404,7 @@ namespace Files.App.Views.Layouts
 		{
 			var toggles = GetVisibleColumnToggles(group);
 			var isVisible = !toggles.All(toggle => toggle.IsChecked);
+			var changes = new List<(string Id, bool IsVisible)>();
 			foreach (var toggle in toggles)
 			{
 				if (toggle.IsChecked == isVisible)
@@ -1465,10 +1412,10 @@ namespace Files.App.Views.Layouts
 
 				toggle.IsChecked = isVisible;
 				if (toggle.Tag is string name)
-					SetPropertyColumnVisibility(name, isVisible);
+					changes.Add((name, isVisible));
 			}
 
-			ToggleMenuFlyoutItem_Click(group, new());
+			SetColumnsVisibility(changes);
 		}
 
 		private async void MoreColumns_Click(object sender, RoutedEventArgs e)
@@ -1478,14 +1425,15 @@ namespace Files.App.Views.Layouts
 			var groups = new List<(StackPanel Panel, CheckBox[] CheckBoxes, Action UpdateToggleAll)>();
 
 			var catalogGroups = catalog.Values
+				.Where(info => !DetailsLayoutColumnOrder.IsFixed(info.Name))
 				.GroupBy(info => ShellPropertyCatalog.GetGroupDisplayName(info.Group))
 				.OrderBy(group => group.Key, StringComparer.CurrentCultureIgnoreCase);
 
 			foreach (var catalogGroup in catalogGroups)
 			{
 				var checkBoxes = catalogGroup
-					.OrderBy(info => info.DisplayName, StringComparer.CurrentCultureIgnoreCase)
-					.Select(info => new CheckBox { Content = info.DisplayName, Tag = info.Name, IsChecked = ColumnsViewModel.HasPropertyColumn(info.Name) })
+					.OrderBy(info => GetColumnDisplayName(info.Name), StringComparer.CurrentCultureIgnoreCase)
+					.Select(info => new CheckBox { Content = GetColumnDisplayName(info.Name), Tag = info.Name, IsChecked = ColumnsViewModel.IsColumnVisible(info.Name) })
 					.ToArray();
 
 				var toggleAllButton = new HyperlinkButton { HorizontalAlignment = HorizontalAlignment.Right };
@@ -1560,29 +1508,44 @@ namespace Files.App.Views.Layouts
 			if (await dialog.TryShowAsync() != ContentDialogResult.Primary)
 				return;
 
-			foreach (var (_, checkBoxes, _) in groups)
-			{
-				foreach (var checkBox in checkBoxes)
-				{
-					if (checkBox.Tag is string name)
-						SetPropertyColumnVisibility(name, checkBox.IsChecked is true);
-				}
-			}
+			SetColumnsVisibility(groups
+				.SelectMany(group => group.CheckBoxes)
+				.Where(checkBox => checkBox.Tag is string)
+				.Select(checkBox => ((string)checkBox.Tag, checkBox.IsChecked is true)));
 		}
 
-		private ToggleMenuFlyoutItem CreatePropertyColumnMenuItem(ShellPropertyColumnInfo info)
+		private void SetColumnsVisibility(IEnumerable<(string Id, bool IsVisible)> changes)
 		{
-			var item = new ToggleMenuFlyoutItem { Text = info.DisplayName, Tag = info.Name };
-			item.Click += PropertyColumnMenuItem_Click;
-			_propertyColumnMenuItems.Add(item);
+			var hasNewColumns = false;
+			foreach (var (id, isVisible) in changes)
+			{
+				if (isVisible == ColumnsViewModel.IsColumnVisible(id))
+					continue;
+
+				var width = _shellPropertyCatalog is not null && _shellPropertyCatalog.TryGetValue(id, out var info) ? info.DefaultWidth : 150;
+				ColumnsViewModel.SetColumnVisibility(id, isVisible, width);
+				hasNewColumns |= isVisible;
+			}
+
+			if (hasNewColumns)
+				LoadShellPropertiesForRealizedItems();
+
+			SaveColumnVisibility();
+		}
+
+		private ToggleMenuFlyoutItem CreateColumnMenuItem(string id, string text)
+		{
+			var item = new ToggleMenuFlyoutItem { Text = text, Tag = id };
+			item.Click += ColumnMenuItem_Click;
+			_columnMenuItems.Add(item);
 			return item;
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(ToggleMenuFlyoutItem))]
-		private void PropertyColumnMenuItem_Click(object sender, RoutedEventArgs e)
+		private void ColumnMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			if (sender is ToggleMenuFlyoutItem { Tag: string name } item)
-				SetPropertyColumnVisibility(name, item.IsChecked);
+				SetColumnVisibility(name, item.IsChecked);
 		}
 
 		private void GroupByColumn_Click(object sender, RoutedEventArgs e)
@@ -1657,7 +1620,7 @@ namespace Files.App.Views.Layouts
 
 			foreach (var id in ColumnsViewModel.OrderedColumns.Ids)
 			{
-				if (_headerColumnIndices.TryGetValue(id, out var index) && ColumnsViewModel.GetColumn(id).Visibility == Visibility.Visible)
+				if (!DetailsLayoutColumnOrder.IsFixed(id) && _headerColumnIndices.TryGetValue(id, out var index) && ColumnsViewModel.GetColumn(id).Visibility == Visibility.Visible)
 					bounds.Add((id, offsets[index], offsets[index + 2]));
 			}
 
@@ -1722,13 +1685,19 @@ namespace Files.App.Views.Layouts
 				HeaderGrid.CapturePointer(e.Pointer);
 				_isReorderingColumn = true;
 				_suppressHeaderSort = true;
-				_reorderHeader.RenderTransform = new TranslateTransform();
-				_reorderHeader.Opacity = 0.7;
-				Canvas.SetZIndex(_reorderHeader, 1);
+
+				var draggedBound = _reorderColumnBounds.First(bound => bound.Id == _reorderColumnId);
+				_reorderGhostLeft = draggedBound.Left;
+				ColumnReorderGhost.Width = draggedBound.Right - draggedBound.Left;
+				ColumnReorderGhostText.Text = (_reorderHeader as DataGridHeader)?.Header;
+				ColumnReorderGhost.Visibility = Visibility.Visible;
 				ColumnReorderIndicator.Visibility = Visibility.Visible;
+				_reorderHeader.Opacity = 0.4;
 			}
 
-			((TranslateTransform)_reorderHeader.RenderTransform).X = x - _reorderStartX;
+			var maxGhostLeft = Math.Max(0, _reorderColumnBounds[^1].Right - ColumnReorderGhost.Width);
+			ColumnReorderGhostTransform.X = Math.Clamp(_reorderGhostLeft + x - _reorderStartX, 0, maxGhostLeft);
+			ScrollHeaderWhileReordering(e);
 
 			var target = _reorderColumnBounds[^1];
 			foreach (var bound in _reorderColumnBounds)
@@ -1788,9 +1757,8 @@ namespace Files.App.Views.Layouts
 		{
 			if (_reorderHeader is not null && _isReorderingColumn)
 			{
-				_reorderHeader.RenderTransform = null;
 				_reorderHeader.Opacity = 1;
-				_reorderHeader.ClearValue(Canvas.ZIndexProperty);
+				ColumnReorderGhost.Visibility = Visibility.Collapsed;
 				ColumnReorderIndicator.Visibility = Visibility.Collapsed;
 			}
 
@@ -1799,6 +1767,20 @@ namespace Files.App.Views.Layouts
 			_reorderColumnId = null;
 			_reorderTargetId = null;
 			_isReorderingColumn = false;
+		}
+
+		private void ScrollHeaderWhileReordering(PointerRoutedEventArgs e)
+		{
+			if (ContentScroller is not { } scroller || scroller.ScrollableWidth <= 0)
+				return;
+
+			var x = e.GetCurrentPoint(scroller).Position.X;
+			var offset = x < ColumnReorderScrollMargin
+				? -ColumnReorderScrollStep
+				: x > scroller.ViewportWidth - ColumnReorderScrollMargin ? ColumnReorderScrollStep : 0;
+
+			if (offset != 0)
+				scroller.ChangeView(Math.Clamp(scroller.HorizontalOffset + offset, 0, scroller.ScrollableWidth), null, null, true);
 		}
 
 		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
@@ -2034,11 +2016,13 @@ namespace Files.App.Views.Layouts
 
 		private static GitProperties GetEnabledGitProperties(ColumnsViewModel columnsViewModel)
 		{
-			var enableStatus = !columnsViewModel.GitStatusColumn.IsHidden && !columnsViewModel.GitStatusColumn.UserCollapsed;
-			var enableCommit = !columnsViewModel.GitLastCommitDateColumn.IsHidden && !columnsViewModel.GitLastCommitDateColumn.UserCollapsed
-				|| !columnsViewModel.GitLastCommitMessageColumn.IsHidden && !columnsViewModel.GitLastCommitMessageColumn.UserCollapsed
-				|| !columnsViewModel.GitCommitAuthorColumn.IsHidden && !columnsViewModel.GitCommitAuthorColumn.UserCollapsed
-				|| !columnsViewModel.GitLastCommitShaColumn.IsHidden && !columnsViewModel.GitLastCommitShaColumn.UserCollapsed;
+			bool IsShown(string id) => columnsViewModel.GetColumn(id) is { IsHidden: false, UserCollapsed: false };
+
+			var enableStatus = IsShown(DetailsLayoutColumnIds.GitStatus);
+			var enableCommit = IsShown(DetailsLayoutColumnIds.GitLastCommitDate)
+				|| IsShown(DetailsLayoutColumnIds.GitLastCommitMessage)
+				|| IsShown(DetailsLayoutColumnIds.GitCommitAuthor)
+				|| IsShown(DetailsLayoutColumnIds.GitLastCommitSha);
 			return (enableStatus, enableCommit) switch
 			{
 				(true, true) => GitProperties.All,

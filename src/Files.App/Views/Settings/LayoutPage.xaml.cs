@@ -47,7 +47,7 @@ namespace Files.App.Views.Settings
 
 			var moreColumns = new MenuFlyoutSubItem { Text = Strings.MoreColumns.GetLocalizedResource() };
 			var catalogGroups = catalog.Values
-				.Where(info => !ViewModel.HasDefaultDetailsColumn(info.Name))
+				.Where(info => !DetailsLayoutColumnDefinitions.IsBuiltIn(info.Name) && !ViewModel.HasDefaultDetailsColumn(info.Name))
 				.GroupBy(info => ShellPropertyCatalog.GetGroupDisplayName(info.Group))
 				.OrderBy(group => group.Key, StringComparer.CurrentCultureIgnoreCase);
 

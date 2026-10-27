@@ -62,22 +62,6 @@ namespace Files.App.Helpers
 
 			ColumnsViewModel = new ColumnsViewModel();
 			DetailsLayoutColumnDefaults.Apply(ColumnsViewModel);
-
-			ColumnsViewModel.NameColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.NameColumnWidth;
-			ColumnsViewModel.DateModifiedColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.DateModifiedColumnWidth;
-			ColumnsViewModel.DateCreatedColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.DateCreatedColumnWidth;
-			ColumnsViewModel.ItemTypeColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.TypeColumnWidth;
-			ColumnsViewModel.SizeColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.SizeColumnWidth;
-			ColumnsViewModel.GitStatusColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.GitStatusColumnWidth;
-			ColumnsViewModel.GitLastCommitDateColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.GitLastCommitDateColumnWidth;
-			ColumnsViewModel.GitLastCommitMessageColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.GitLastCommitMessageColumnWidth;
-			ColumnsViewModel.GitCommitAuthorColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.GitCommitAuthorColumnWidth;
-			ColumnsViewModel.GitLastCommitShaColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.GitLastCommitShaColumnWidth;
-			ColumnsViewModel.TagColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.TagColumnWidth;
-			ColumnsViewModel.DateDeletedColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.DateDeletedColumnWidth;
-			ColumnsViewModel.PathColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.PathColumnWidth;
-			ColumnsViewModel.OriginalPathColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.OriginalPathColumnWidth;
-			ColumnsViewModel.StatusColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.SyncStatusColumnWidth;
 		}
 
 		// Overridden methods

@@ -22,21 +22,6 @@ namespace Files.App.Utils.Shell
 		private const double MinColumnWidth = 60;
 		private const double MaxColumnWidth = 400;
 
-		// Shown by the built-in columns of the details layout.
-		private static readonly HashSet<string> BuiltInPropertyNames =
-		[
-			"System.ItemNameDisplay",
-			"System.DateModified",
-			"System.DateCreated",
-			"System.ItemTypeText",
-			"System.Size",
-			"System.ItemFolderPathDisplay",
-			"System.ItemPathDisplay",
-			"System.Recycle.DeletedFrom",
-			"System.Recycle.DateDeleted",
-			"System.StorageProviderUIStatus",
-		];
-
 		/// <summary>
 		/// Gets the commonly used properties shown directly in the column menu, by category resource key.
 		/// </summary>
@@ -77,8 +62,7 @@ namespace Files.App.Utils.Shell
 					try
 					{
 						if (ComInterfaceMarshaller<IPropertyDescription>.ConvertToManaged(descriptionPointer) is { } description &&
-							CreateInfo(description) is { } info &&
-							!BuiltInPropertyNames.Contains(info.Name))
+							CreateInfo(description) is { } info)
 						{
 							properties.TryAdd(info.Name, info);
 						}

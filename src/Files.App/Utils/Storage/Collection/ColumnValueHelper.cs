@@ -10,7 +10,7 @@ namespace Files.App.Utils.Storage
 	{
 		public static bool IsShellPropertyColumn(string? columnId)
 		{
-			return columnId is not null && columnId.Contains('.');
+			return !string.IsNullOrEmpty(columnId) && !DetailsLayoutColumnDefinitions.IsBuiltIn(columnId);
 		}
 
 		public static bool IsGitColumn(string? columnId)
@@ -50,15 +50,10 @@ namespace Files.App.Utils.Storage
 			if (IsShellPropertyColumn(columnId))
 				return item.ShellPropertyValues is { } values && values.TryGetValue(columnId, out var value) ? value.Text : null;
 
-			return columnId switch
-			{
-				DetailsLayoutColumnIds.DateModified => item.ItemDateModified,
-				DetailsLayoutColumnIds.DateCreated => item.ItemDateCreated,
-				DetailsLayoutColumnIds.Size => item.FileSize,
-				DetailsLayoutColumnIds.GitLastCommitDate => (item as IGitItem)?.GitLastCommitDateHumanized,
-				DetailsLayoutColumnIds.DateDeleted => (item as RecycleBinItem)?.ItemDateDeleted,
-				_ => GetValue(item, columnId)?.ToString(),
-			};
+			if (DetailsLayoutColumnDefinitions.Get(columnId)?.GetText is { } getText)
+				return getText(item);
+
+			return columnId == DetailsLayoutColumnIds.Size ? item.FileSize : GetValue(item, columnId)?.ToString();
 		}
 
 		public static bool IsEmpty(object? value)
