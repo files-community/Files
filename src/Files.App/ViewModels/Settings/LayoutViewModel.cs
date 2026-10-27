@@ -281,7 +281,7 @@ namespace Files.App.ViewModels.Settings
 
 		private void LoadDefaultDetailsColumns()
 		{
-			foreach (var id in DetailsLayoutColumnDefaults.GetColumns())
+			foreach (var id in DetailsLayoutColumnDefaults.GetColumns().Where(id => !DetailsLayoutColumnOrder.IsFixed(id)))
 				DefaultDetailsColumns.Add(new(id, GetColumnDisplayName(id, null)));
 
 			DefaultDetailsColumns.CollectionChanged += (_, _) => DetailsLayoutColumnDefaults.SetColumns(DefaultDetailsColumns.Select(column => column.Id));
@@ -297,10 +297,7 @@ namespace Files.App.ViewModels.Settings
 
 		public static string GetColumnDisplayName(string id, IReadOnlyDictionary<string, ShellPropertyColumnInfo>? catalog)
 		{
-			if (!ColumnValueHelper.IsShellPropertyColumn(id))
-				return DetailsLayoutColumnDefaults.GetBuiltInDisplayName(id);
-
-			return catalog is not null && catalog.TryGetValue(id, out var info) ? info.DisplayName : id;
+			return DetailsLayoutColumnDefaults.GetDisplayName(id, catalog);
 		}
 
 		public bool HasDefaultDetailsColumn(string id)

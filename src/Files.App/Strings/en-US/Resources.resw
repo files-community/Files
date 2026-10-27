@@ -2090,6 +2090,10 @@
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>Size all columns to fit</value>
   </data>
+  <data name="FileExplorerTags" xml:space="preserve">
+    <value>Tags (File Explorer)</value>
+    <comment>Header of the Windows Tags column, named this way to tell it apart from the Files Tags column.</comment>
+  </data>
   <data name="AutoFitColumns" xml:space="preserve">
     <value>Auto-fit columns</value>
   </data>

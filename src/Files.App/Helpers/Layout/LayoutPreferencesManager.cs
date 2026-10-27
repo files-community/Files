@@ -391,37 +391,6 @@ namespace Files.App.Helpers
 
 		public static void SetDefaultLayoutPreferences(ColumnsViewModel columns)
 		{
-			UserSettingsService.LayoutSettingsService.ShowDateColumn = !columns.DateModifiedColumn.UserCollapsed;
-			UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn = !columns.DateCreatedColumn.UserCollapsed;
-			UserSettingsService.LayoutSettingsService.ShowTypeColumn = !columns.ItemTypeColumn.UserCollapsed;
-			UserSettingsService.LayoutSettingsService.ShowSizeColumn = !columns.SizeColumn.UserCollapsed;
-			UserSettingsService.LayoutSettingsService.ShowFileTagColumn = !columns.TagColumn.UserCollapsed;
-			UserSettingsService.LayoutSettingsService.ShowGitStatusColumn = !columns.GitStatusColumn.UserCollapsed;
-			UserSettingsService.LayoutSettingsService.ShowGitLastCommitDateColumn = !columns.GitLastCommitDateColumn.UserCollapsed;
-			UserSettingsService.LayoutSettingsService.ShowGitLastCommitMessageColumn = !columns.GitLastCommitMessageColumn.UserCollapsed;
-			UserSettingsService.LayoutSettingsService.ShowGitCommitAuthorColumn = !columns.GitCommitAuthorColumn.UserCollapsed;
-			UserSettingsService.LayoutSettingsService.ShowGitLastCommitShaColumn = !columns.GitLastCommitShaColumn.UserCollapsed;
-			UserSettingsService.LayoutSettingsService.ShowDateDeletedColumn = !columns.DateDeletedColumn.UserCollapsed;
-			UserSettingsService.LayoutSettingsService.ShowPathColumn = !columns.PathColumn.UserCollapsed;
-			UserSettingsService.LayoutSettingsService.ShowOriginalPathColumn = !columns.OriginalPathColumn.UserCollapsed;
-			UserSettingsService.LayoutSettingsService.ShowSyncStatusColumn = !columns.StatusColumn.UserCollapsed;
-
-			UserSettingsService.LayoutSettingsService.NameColumnWidth = columns.NameColumn.UserLengthPixels;
-			UserSettingsService.LayoutSettingsService.DateModifiedColumnWidth = columns.DateModifiedColumn.UserLengthPixels;
-			UserSettingsService.LayoutSettingsService.DateCreatedColumnWidth = columns.DateCreatedColumn.UserLengthPixels;
-			UserSettingsService.LayoutSettingsService.TypeColumnWidth = columns.ItemTypeColumn.UserLengthPixels;
-			UserSettingsService.LayoutSettingsService.SizeColumnWidth = columns.SizeColumn.UserLengthPixels;
-			UserSettingsService.LayoutSettingsService.TagColumnWidth = columns.TagColumn.UserLengthPixels;
-			UserSettingsService.LayoutSettingsService.GitStatusColumnWidth = columns.GitStatusColumn.UserLengthPixels;
-			UserSettingsService.LayoutSettingsService.GitLastCommitDateColumnWidth = columns.GitLastCommitDateColumn.UserLengthPixels;
-			UserSettingsService.LayoutSettingsService.GitLastCommitMessageColumnWidth = columns.GitLastCommitMessageColumn.UserLengthPixels;
-			UserSettingsService.LayoutSettingsService.GitCommitAuthorColumnWidth = columns.GitCommitAuthorColumn.UserLengthPixels;
-			UserSettingsService.LayoutSettingsService.GitLastCommitShaColumnWidth = columns.GitLastCommitShaColumn.UserLengthPixels;
-			UserSettingsService.LayoutSettingsService.DateDeletedColumnWidth = columns.DateDeletedColumn.UserLengthPixels;
-			UserSettingsService.LayoutSettingsService.PathColumnWidth = columns.PathColumn.UserLengthPixels;
-			UserSettingsService.LayoutSettingsService.OriginalPathColumnWidth = columns.OriginalPathColumn.UserLengthPixels;
-			UserSettingsService.LayoutSettingsService.SyncStatusColumnWidth = columns.StatusColumn.UserLengthPixels;
-
 			DetailsLayoutColumnDefaults.Save(columns);
 		}
 
@@ -462,79 +431,6 @@ namespace Files.App.Helpers
 				UserSettingsService.LayoutSettingsService.DefaultGroupByDateUnit = preferencesItem.DirectoryGroupByDateUnit;
 				UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = preferencesItem.SortDirectoriesAlongsideFiles;
 				UserSettingsService.LayoutSettingsService.DefaultSortFilesFirst = preferencesItem.SortFilesFirst;
-
-				UserSettingsService.LayoutSettingsService.NameColumnWidth = preferencesItem.ColumnsViewModel.NameColumn.UserLengthPixels;
-
-				if (!preferencesItem.ColumnsViewModel.DateModifiedColumn.IsHidden)
-				{
-					UserSettingsService.LayoutSettingsService.ShowDateColumn = !preferencesItem.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
-					UserSettingsService.LayoutSettingsService.DateModifiedColumnWidth = preferencesItem.ColumnsViewModel.DateModifiedColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.DateCreatedColumn.IsHidden)
-				{
-					UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn = !preferencesItem.ColumnsViewModel.DateCreatedColumn.UserCollapsed;
-					UserSettingsService.LayoutSettingsService.DateCreatedColumnWidth = preferencesItem.ColumnsViewModel.DateCreatedColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.ItemTypeColumn.IsHidden)
-				{
-					UserSettingsService.LayoutSettingsService.ShowTypeColumn = !preferencesItem.ColumnsViewModel.ItemTypeColumn.UserCollapsed;
-					UserSettingsService.LayoutSettingsService.TypeColumnWidth = preferencesItem.ColumnsViewModel.ItemTypeColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.SizeColumn.IsHidden)
-				{
-					UserSettingsService.LayoutSettingsService.ShowSizeColumn = !preferencesItem.ColumnsViewModel.SizeColumn.UserCollapsed;
-					UserSettingsService.LayoutSettingsService.SizeColumnWidth = preferencesItem.ColumnsViewModel.SizeColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.TagColumn.IsHidden)
-				{
-					UserSettingsService.LayoutSettingsService.ShowFileTagColumn = !preferencesItem.ColumnsViewModel.TagColumn.UserCollapsed;
-					UserSettingsService.LayoutSettingsService.TagColumnWidth = preferencesItem.ColumnsViewModel.TagColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.GitStatusColumn.IsHidden)
-				{
-					UserSettingsService.LayoutSettingsService.ShowGitStatusColumn = !preferencesItem.ColumnsViewModel.GitStatusColumn.UserCollapsed;
-					UserSettingsService.LayoutSettingsService.GitStatusColumnWidth = preferencesItem.ColumnsViewModel.GitStatusColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.GitLastCommitDateColumn.IsHidden)
-				{
-					UserSettingsService.LayoutSettingsService.ShowGitLastCommitDateColumn = !preferencesItem.ColumnsViewModel.GitLastCommitDateColumn.UserCollapsed;
-					UserSettingsService.LayoutSettingsService.GitLastCommitDateColumnWidth = preferencesItem.ColumnsViewModel.GitLastCommitDateColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.GitLastCommitMessageColumn.IsHidden)
-				{
-					UserSettingsService.LayoutSettingsService.ShowGitLastCommitMessageColumn = !preferencesItem.ColumnsViewModel.GitLastCommitMessageColumn.UserCollapsed;
-					UserSettingsService.LayoutSettingsService.GitLastCommitMessageColumnWidth = preferencesItem.ColumnsViewModel.GitLastCommitMessageColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.GitCommitAuthorColumn.IsHidden)
-				{
-					UserSettingsService.LayoutSettingsService.ShowGitCommitAuthorColumn = !preferencesItem.ColumnsViewModel.GitCommitAuthorColumn.UserCollapsed;
-					UserSettingsService.LayoutSettingsService.GitCommitAuthorColumnWidth = preferencesItem.ColumnsViewModel.GitCommitAuthorColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.GitLastCommitShaColumn.IsHidden)
-				{
-					UserSettingsService.LayoutSettingsService.ShowGitLastCommitShaColumn = !preferencesItem.ColumnsViewModel.GitLastCommitShaColumn.UserCollapsed;
-					UserSettingsService.LayoutSettingsService.GitLastCommitShaColumnWidth = preferencesItem.ColumnsViewModel.GitLastCommitShaColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.DateDeletedColumn.IsHidden)
-				{
-					UserSettingsService.LayoutSettingsService.ShowDateDeletedColumn = !preferencesItem.ColumnsViewModel.DateDeletedColumn.UserCollapsed;
-					UserSettingsService.LayoutSettingsService.DateDeletedColumnWidth = preferencesItem.ColumnsViewModel.DateDeletedColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.PathColumn.IsHidden)
-				{
-					UserSettingsService.LayoutSettingsService.ShowPathColumn = !preferencesItem.ColumnsViewModel.PathColumn.UserCollapsed;
-					UserSettingsService.LayoutSettingsService.PathColumnWidth = preferencesItem.ColumnsViewModel.PathColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.OriginalPathColumn.IsHidden)
-				{
-					UserSettingsService.LayoutSettingsService.ShowOriginalPathColumn = !preferencesItem.ColumnsViewModel.OriginalPathColumn.UserCollapsed;
-					UserSettingsService.LayoutSettingsService.OriginalPathColumnWidth = preferencesItem.ColumnsViewModel.OriginalPathColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.StatusColumn.IsHidden)
-				{
-					UserSettingsService.LayoutSettingsService.ShowSyncStatusColumn = !preferencesItem.ColumnsViewModel.StatusColumn.UserCollapsed;
-					UserSettingsService.LayoutSettingsService.SyncStatusColumnWidth = preferencesItem.ColumnsViewModel.StatusColumn.UserLengthPixels;
-				}
 
 				DetailsLayoutColumnDefaults.Save(preferencesItem.ColumnsViewModel);
 			}
