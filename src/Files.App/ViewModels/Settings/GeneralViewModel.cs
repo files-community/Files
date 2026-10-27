@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Collections.Specialized;
+using System.ComponentModel;
 using Windows.Storage;
 using Windows.System;
 using static Files.App.Helpers.MenuFlyoutHelper;
@@ -23,6 +24,8 @@ namespace Files.App.ViewModels.Settings
 		public RelayCommand<string> AddPageCommand { get; }
 		public RelayCommand RestartCommand { get; }
 		public RelayCommand CancelRestartCommand { get; }
+		public RelayCommand AddShellExtensionCommand { get; }
+		public RelayCommand<ShellExtensionOptionViewModel> RemoveShellExtensionCommand { get; }
 
 		private bool showRestartControl;
 		public bool ShowRestartControl
@@ -91,6 +94,8 @@ namespace Files.App.ViewModels.Settings
 			AddPageCommand = new RelayCommand<string>(async (path) => await AddPageAsync(path));
 			RestartCommand = new RelayCommand(DoRestartAsync);
 			CancelRestartCommand = new RelayCommand(DoCancelRestart);
+			AddShellExtensionCommand = new RelayCommand(AddShellExtension);
+			RemoveShellExtensionCommand = new RelayCommand<ShellExtensionOptionViewModel>(RemoveShellExtension);
 
 			selectedAppLanguageIndex = AppLanguageHelper.SupportedLanguages.IndexOf(AppLanguageHelper.PreferredLanguage);
 
@@ -112,6 +117,8 @@ namespace Files.App.ViewModels.Settings
 			SelectedShellPaneArrangementType = ShellPaneArrangementTypes[UserSettingsService.GeneralSettingsService.ShellPaneArrangementOption];
 
 			InitStartupSettingsRecentFoldersFlyout();
+
+			LoadShellExtensionOptions();
 		}
 
 		private async void DoRestartAsync()
@@ -458,18 +465,136 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public string PinnedShellExtensions
+		private string shellExtensionSearchText = string.Empty;
+		public string ShellExtensionSearchText
 		{
-			get => UserSettingsService.GeneralSettingsService.PinnedShellExtensions;
+			get => shellExtensionSearchText;
 			set
 			{
-				if (value != UserSettingsService.GeneralSettingsService.PinnedShellExtensions)
-				{
-					UserSettingsService.GeneralSettingsService.PinnedShellExtensions = value;
-					OnPropertyChanged();
-				}
+				if (SetProperty(ref shellExtensionSearchText, value))
+					RebuildShellExtensionOptions();
 			}
 		}
+
+		public ObservableCollection<ShellExtensionOptionViewModel> ShellExtensionOptions { get; private set; } = [];
+
+		private List<ShellExtensionOptionViewModel> allShellExtensionOptions = [];
+
+		public bool HasShellExtensionCandidates => allShellExtensionOptions.Count > 0;
+
+		public string PinnedShellExtensionsSummary { get; private set; } = string.Empty;
+
+		public string ShellExtensionOptionsHint => HasShellExtensionCandidates
+			? string.Empty
+			: Strings.ShellExtensionsEmptyHint.GetLocalizedResource();
+
+		private void LoadShellExtensionOptions()
+		{
+			var pinned = GetExtensionNameSet(UserSettingsService.GeneralSettingsService.PinnedShellExtensions);
+			var known = GetExtensionNameSet(UserSettingsService.GeneralSettingsService.KnownShellExtensionNames);
+
+			allShellExtensionOptions = known
+				.Union(pinned, StringComparer.OrdinalIgnoreCase)
+				.OrderBy(name => name, StringComparer.CurrentCulture)
+				.Select(name => CreateShellExtensionOption(name, pinned.Contains(name)))
+				.ToList();
+
+			RebuildShellExtensionOptions();
+			UpdatePinnedShellExtensionsSummary();
+		}
+
+		private ShellExtensionOptionViewModel CreateShellExtensionOption(string name, bool isSelected)
+		{
+			var item = new ShellExtensionOptionViewModel(name, isSelected);
+			item.PropertyChanged += ShellExtensionOption_PropertyChanged;
+			return item;
+		}
+
+		private void RebuildShellExtensionOptions()
+		{
+			var filtered = string.IsNullOrWhiteSpace(ShellExtensionSearchText)
+				? allShellExtensionOptions
+				: allShellExtensionOptions.Where(x => x.Name.Contains(ShellExtensionSearchText.Trim(), StringComparison.OrdinalIgnoreCase)).ToList();
+
+			ShellExtensionOptions = new ObservableCollection<ShellExtensionOptionViewModel>(filtered);
+			OnPropertyChanged(nameof(ShellExtensionOptions));
+			OnPropertyChanged(nameof(HasShellExtensionCandidates));
+			OnPropertyChanged(nameof(ShellExtensionOptionsHint));
+		}
+
+		private void ShellExtensionOption_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is not nameof(ShellExtensionOptionViewModel.IsSelected) || sender is not ShellExtensionOptionViewModel item)
+				return;
+
+			var pinned = GetExtensionNameSet(UserSettingsService.GeneralSettingsService.PinnedShellExtensions);
+			if (item.IsSelected)
+				pinned.Add(item.Name);
+			else
+				pinned.Remove(item.Name);
+
+			SavePinnedExtensionNames(pinned);
+			UpdatePinnedShellExtensionsSummary();
+		}
+
+		private void AddShellExtension()
+		{
+			var name = ShellExtensionSearchText.Trim();
+			if (string.IsNullOrEmpty(name))
+				return;
+
+			var existing = allShellExtensionOptions.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+			if (existing is not null)
+			{
+				existing.IsSelected = true;
+			}
+			else
+			{
+				var item = CreateShellExtensionOption(name, isSelected: true);
+				allShellExtensionOptions.Add(item);
+
+				SavePinnedExtensionNames(GetExtensionNameSet(UserSettingsService.GeneralSettingsService.PinnedShellExtensions).Union([name], StringComparer.OrdinalIgnoreCase));
+				UserSettingsService.GeneralSettingsService.KnownShellExtensionNames = string.Join(", ", allShellExtensionOptions.Select(x => x.Name));
+				UpdatePinnedShellExtensionsSummary();
+			}
+
+			ShellExtensionSearchText = string.Empty;
+			RebuildShellExtensionOptions();
+		}
+
+		private void RemoveShellExtension(ShellExtensionOptionViewModel? item)
+		{
+			if (item is null)
+				return;
+
+			item.PropertyChanged -= ShellExtensionOption_PropertyChanged;
+			allShellExtensionOptions.Remove(item);
+
+			var pinned = GetExtensionNameSet(UserSettingsService.GeneralSettingsService.PinnedShellExtensions);
+			pinned.Remove(item.Name);
+			SavePinnedExtensionNames(pinned);
+
+			UserSettingsService.GeneralSettingsService.KnownShellExtensionNames = string.Join(", ", allShellExtensionOptions.Select(x => x.Name));
+			UpdatePinnedShellExtensionsSummary();
+			RebuildShellExtensionOptions();
+		}
+
+		private void SavePinnedExtensionNames(IEnumerable<string> names)
+			=> UserSettingsService.GeneralSettingsService.PinnedShellExtensions = string.Join(", ", names);
+
+		private void UpdatePinnedShellExtensionsSummary()
+		{
+			var pinned = GetExtensionNameSet(UserSettingsService.GeneralSettingsService.PinnedShellExtensions);
+			PinnedShellExtensionsSummary = pinned.Count == 0
+				? Strings.SettingsContextMenuPinnedExtensionsNone.GetLocalizedResource()
+				: string.Format(Strings.SettingsContextMenuPinnedExtensionsSummaryFormat.GetLocalizedResource(), pinned.Count);
+			OnPropertyChanged(nameof(PinnedShellExtensionsSummary));
+		}
+
+		private static HashSet<string> GetExtensionNameSet(string? value)
+			=> new(
+				value?.Split([',', ';', '\r', '\n', '，', '、'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries) ?? [],
+				StringComparer.OrdinalIgnoreCase);
 
 		public bool ShowPinToSideBar
 		{

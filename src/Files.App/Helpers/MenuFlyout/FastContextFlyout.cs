@@ -229,6 +229,7 @@ namespace Files.App.Helpers.ContextFlyouts
 		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSeparator))]
 		public void AddShellModels(List<ContextMenuFlyoutItemViewModel> models, bool shiftPressed, MenuFlyoutSubItem? overflowSubMenu, MenuFlyoutSeparator? overflowSeparator, bool aboveExisting = true)
 		{
+			RecordKnownShellExtensions(models);
 			userSettingsService ??= Ioc.Default.GetRequiredService<IUserSettingsService>();
 			var pinnedModels = overflowSubMenu is null
 				? []
@@ -290,8 +291,39 @@ namespace Files.App.Helpers.ContextFlyouts
 				return false;
 
 			return pinned
-				.Split([',', ';', '\r', '\n'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+				.Split([',', ';', '\r', '\n', '，', '、'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
 				.Any(name => item.Text.Contains(name, StringComparison.OrdinalIgnoreCase));
+		}
+
+		/// <summary>
+		/// Merges the labels of the given shell menu items (top level and one nested level) into the known
+		/// shell extension names setting, so the Settings page can offer them as selectable candidates.
+		/// </summary>
+		private static void RecordKnownShellExtensions(List<ContextMenuFlyoutItemViewModel> models)
+		{
+			userSettingsService ??= Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+			var observed = models
+				.Where(x => x.ItemType != ContextMenuFlyoutItemType.Separator && !string.IsNullOrWhiteSpace(x.Text))
+				.SelectMany(x => x.Items is { Count: > 0 } items
+					? items.Prepend(x)
+					: new[] { x })
+				.Where(x => x.ItemType != ContextMenuFlyoutItemType.Separator && !string.IsNullOrWhiteSpace(x.Text))
+				.Select(x => x.Text!.Trim())
+				.ToList();
+
+			if (observed.Count == 0)
+				return;
+
+			var known = userSettingsService.GeneralSettingsService.KnownShellExtensionNames
+				.Split([',', ';', '\r', '\n', '，', '、'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+				.ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+			foreach (var name in observed)
+				if (known.Count < 100)
+					known.Add(name);
+
+			userSettingsService.GeneralSettingsService.KnownShellExtensionNames = string.Join(", ", known);
 		}
 
 		public MenuFlyoutItemBase? FindByTag(string tag)

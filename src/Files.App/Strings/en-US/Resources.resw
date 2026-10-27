@@ -723,10 +723,22 @@
     <value>Shell extensions kept in the main menu</value>
   </data>
   <data name="SettingsContextMenuPinnedExtensionsDescription" xml:space="preserve">
-    <value>Names of shell extension menu items that stay in the main menu even when the others are moved into a sub menu. Separate multiple names with commas.</value>
+    <value>Choose which shell extensions stay in the main menu when the others are moved into a sub menu. Search the list, check items to pin them, or type a name to add your own. Candidates are collected while you right-click items in Files.</value>
   </data>
-  <data name="SettingsContextMenuPinnedExtensionsPlaceholder" xml:space="preserve">
-    <value>e.g. 7-Zip, TortoiseGit</value>
+  <data name="SettingsContextMenuPinnedExtensionsSummaryFormat" xml:space="preserve">
+    <value>{0} selected</value>
+  </data>
+  <data name="SettingsContextMenuPinnedExtensionsNone" xml:space="preserve">
+    <value>None selected</value>
+  </data>
+  <data name="SettingsContextMenuPinnedExtensionsAddLabel" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="ShellExtensionsSearchPlaceholder" xml:space="preserve">
+    <value>Search, or type a name to add</value>
+  </data>
+  <data name="ShellExtensionsEmptyHint" xml:space="preserve">
+    <value>No shell extensions detected yet. Right-click items in Files and they will show up here.</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>Show confirmation dialog when deleting items</value>

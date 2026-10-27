@@ -723,10 +723,22 @@
     <value>保留在主菜单中的 Shell 扩展</value>
   </data>
   <data name="SettingsContextMenuPinnedExtensionsDescription" xml:space="preserve">
-    <value>其他扩展移入子菜单时，仍直接显示在主菜单中的 Shell 扩展名称，多个名称用逗号分隔。</value>
+    <value>勾选移入子菜单时仍直接显示在主菜单中的 Shell 扩展，可搜索筛选，也可输入名称自行添加。候选列表会在你右键文件时自动收集。</value>
   </data>
-  <data name="SettingsContextMenuPinnedExtensionsPlaceholder" xml:space="preserve">
-    <value>例如：7-Zip、TortoiseGit</value>
+  <data name="SettingsContextMenuPinnedExtensionsSummaryFormat" xml:space="preserve">
+    <value>已选 {0} 项</value>
+  </data>
+  <data name="SettingsContextMenuPinnedExtensionsNone" xml:space="preserve">
+    <value>未选择</value>
+  </data>
+  <data name="SettingsContextMenuPinnedExtensionsAddLabel" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="ShellExtensionsSearchPlaceholder" xml:space="preserve">
+    <value>搜索，或输入名称后添加</value>
+  </data>
+  <data name="ShellExtensionsEmptyHint" xml:space="preserve">
+    <value>暂未发现 Shell 扩展。在 Files 中右键文件后，检测到的扩展会出现在这里。</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>删除项目时显示确认对话框</value>

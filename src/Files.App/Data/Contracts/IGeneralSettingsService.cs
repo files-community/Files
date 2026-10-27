@@ -216,6 +216,11 @@ namespace Files.App.Data.Contracts
 		string PinnedShellExtensions { get; set; }
 
 		/// <summary>
+		/// Gets or sets the comma-separated list of shell extension names observed in shell context menus, used as candidates for the pinned extensions list.
+		/// </summary>
+		string KnownShellExtensionNames { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating whether or not to show the edit tags menu.
 		/// </summary>
 		bool ShowEditTagsMenu { get; set; }

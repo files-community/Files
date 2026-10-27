@@ -263,6 +263,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public string KnownShellExtensionNames
+		{
+			get => Get(string.Empty);
+			set => Set(value);
+		}
+
 		public bool ShowPinToSideBar
 		{
 			get => Get(true);

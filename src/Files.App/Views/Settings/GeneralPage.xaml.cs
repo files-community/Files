@@ -20,5 +20,14 @@ namespace Files.App.Views.Settings
 			if (sender is FrameworkElement { DataContext: PageOnStartupViewModel page })
 				ViewModel.RemovePageCommand.Execute(page);
 		}
+
+		private void RemoveShellExtensionClick(object sender, RoutedEventArgs e)
+		{
+			if (sender is FrameworkElement { DataContext: ShellExtensionOptionViewModel option })
+				ViewModel.RemoveShellExtensionCommand.Execute(option);
+		}
+
+		private Visibility HasShellExtensionCandidatesToVisibility(bool hasCandidates)
+			=> hasCandidates ? Visibility.Collapsed : Visibility.Visible;
 	}
 }

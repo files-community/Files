@@ -339,15 +339,94 @@
 			</wctcontrols:SettingsCard>
 
 			<!--  Shell Extensions Pinned To Main Menu  -->
-			<wctcontrols:SettingsCard
+			<wctcontrols:SettingsExpander
 				Header="{helpers:ResourceString Name=SettingsContextMenuPinnedExtensions}"
 				Description="{helpers:ResourceString Name=SettingsContextMenuPinnedExtensionsDescription}">
-				<TextBox
-					MinWidth="240"
+				<wctcontrols:SettingsExpander.HeaderIcon>
+					<FontIcon Glyph="&#xE712;" />
+				</wctcontrols:SettingsExpander.HeaderIcon>
+				<TextBlock
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsContextMenuPinnedExtensions}"
-					PlaceholderText="{helpers:ResourceString Name=SettingsContextMenuPinnedExtensionsPlaceholder}"
-					Text="{x:Bind ViewModel.PinnedShellExtensions, Mode=TwoWay}" />
-			</wctcontrols:SettingsCard>
+					Text="{x:Bind ViewModel.PinnedShellExtensionsSummary, Mode=OneWay}"
+					TextTrimming="CharacterEllipsis" />
+				<wctcontrols:SettingsExpander.ItemsHeader>
+					<Grid
+						Padding="8"
+						HorizontalAlignment="Stretch"
+						Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+						RowSpacing="8">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+						<Grid Grid.Row="0" ColumnSpacing="8">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+							<TextBox
+								MinWidth="200"
+								VerticalAlignment="Center"
+								AutomationProperties.Name="{helpers:ResourceString Name=SettingsContextMenuPinnedExtensions}"
+								PlaceholderText="{helpers:ResourceString Name=ShellExtensionsSearchPlaceholder}"
+								Text="{x:Bind ViewModel.ShellExtensionSearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+							<Button
+								Grid.Column="1"
+								Padding="8"
+								VerticalAlignment="Center"
+								AutomationProperties.Name="{helpers:ResourceString Name=SettingsContextMenuPinnedExtensionsAddLabel}"
+								Command="{x:Bind ViewModel.AddShellExtensionCommand}"
+								ToolTipService.ToolTip="{helpers:ResourceString Name=SettingsContextMenuPinnedExtensionsAddLabel}">
+								<FontIcon FontSize="16" Glyph="&#xE710;" />
+							</Button>
+						</Grid>
+						<TextBlock
+							Grid.Row="1"
+							Opacity="0.7"
+							Text="{x:Bind ViewModel.ShellExtensionOptionsHint, Mode=OneWay}"
+							TextWrapping="Wrap"
+							Visibility="{x:Bind HasShellExtensionCandidatesToVisibility(ViewModel.HasShellExtensionCandidates), Mode=OneWay}" />
+						<ListView
+							Grid.Row="2"
+							MaxHeight="240"
+							HorizontalAlignment="Stretch"
+							ItemsSource="{x:Bind ViewModel.ShellExtensionOptions, Mode=OneWay}"
+							SelectionMode="None">
+							<ListView.ItemContainerStyle>
+								<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+									<Setter Property="Margin" Value="0" />
+									<Setter Property="Padding" Value="4,0" />
+									<Setter Property="MinHeight" Value="36" />
+								</Style>
+							</ListView.ItemContainerStyle>
+							<ListView.ItemTemplate>
+								<DataTemplate x:DataType="vm:ShellExtensionOptionViewModel">
+									<Grid HorizontalAlignment="Stretch" ColumnSpacing="8">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+										</Grid.ColumnDefinitions>
+										<CheckBox
+											VerticalAlignment="Center"
+											Content="{x:Bind Name}"
+											IsChecked="{x:Bind IsSelected, Mode=TwoWay}" />
+										<Button
+											Grid.Column="1"
+											Padding="6"
+											VerticalAlignment="Center"
+											AutomationProperties.Name="{helpers:ResourceString Name=Remove}"
+											Click="RemoveShellExtensionClick"
+											ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}">
+											<FontIcon FontSize="14" Glyph="&#xE74D;" />
+										</Button>
+									</Grid>
+								</DataTemplate>
+							</ListView.ItemTemplate>
+						</ListView>
+					</Grid>
+				</wctcontrols:SettingsExpander.ItemsHeader>
+			</wctcontrols:SettingsExpander>
 
 			<!--  Scrolling  -->
 			<TextBlock
