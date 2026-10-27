@@ -27,7 +27,7 @@ namespace Files.App.Utils.Shell
 			{
 				using var shellItem = new ShellItem(path);
 				foreach (var name in propertyNames)
-					values[name] = new(shellItem.Properties.GetPropertyString(name), shellItem.Properties[name]);
+					values[name] = new(shellItem.Properties.GetPropertyString(name), Normalize(shellItem.Properties[name]));
 			}
 			catch (Exception ex)
 			{
@@ -37,6 +37,13 @@ namespace Files.App.Utils.Shell
 			}
 
 			return values;
+		}
+
+		private static object? Normalize(object? value)
+		{
+			return value is System.Runtime.InteropServices.ComTypes.FILETIME fileTime
+				? DateTimeOffset.FromFileTime(((long)fileTime.dwHighDateTime << 32) | (uint)fileTime.dwLowDateTime)
+				: value;
 		}
 	}
 }

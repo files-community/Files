@@ -282,6 +282,10 @@
 										x:Name="MoveColumnRightMenuFlyoutItem"
 										Click="MoveColumnRight_Click"
 										Text="{helpers:ResourceString Name=MoveRight}" />
+									<ToggleMenuFlyoutItem
+										x:Name="GroupByColumnMenuFlyoutItem"
+										Click="GroupByColumn_Click"
+										Text="{helpers:ResourceString Name=GroupByThisColumn}" />
 									<MenuFlyoutSeparator x:Name="MoveColumnMenuFlyoutSeparator" />
 
 									<!--  All Columns To Fit  -->

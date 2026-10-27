@@ -4851,4 +4851,10 @@
   <data name="PropertyGroupVolume" xml:space="preserve">
     <value>Volume</value>
   </data>
+  <data name="Unspecified" xml:space="preserve">
+    <value>Unspecified</value>
+  </data>
+  <data name="GroupByThisColumn" xml:space="preserve">
+    <value>Group by this column</value>
+  </data>
 </root>

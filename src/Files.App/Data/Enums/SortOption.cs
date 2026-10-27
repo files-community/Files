@@ -65,6 +65,11 @@ namespace Files.App.Data.Enums
 		/// <remarks>
 		/// Preserved for search results.
 		/// </remarks>
-		Path = 9
+		Path = 9,
+
+		/// <summary>
+		/// Sort by the column stored in the folder preferences.
+		/// </summary>
+		Column = 10
 	}
 }

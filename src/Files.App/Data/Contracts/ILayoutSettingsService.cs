@@ -21,6 +21,11 @@ namespace Files.App.Data.Contracts
 		SortOption DefaultSortOption { get; set; }
 
 		/// <summary>
+		/// Gets or sets the column used for sorting when the default sorting option is a column.
+		/// </summary>
+		string DefaultSortColumnId { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating the default sorting direction.
 		/// </summary>
 		SortDirection DefaultDirectorySortDirection { get; set; }
@@ -39,6 +44,11 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating the default grouping option.
 		/// </summary>
 		GroupOption DefaultGroupOption { get; set; }
+
+		/// <summary>
+		/// Gets or sets the column used for grouping when the default grouping option is a column.
+		/// </summary>
+		string DefaultGroupColumnId { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating the default grouping direction.

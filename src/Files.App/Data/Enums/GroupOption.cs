@@ -71,5 +71,10 @@ namespace Files.App.Data.Enums
 		/// Preserved for libraries.
 		/// </remarks>
 		FolderPath = 10,
+
+		/// <summary>
+		/// Group by the column stored in the folder preferences.
+		/// </summary>
+		Column = 11,
 	}
 }

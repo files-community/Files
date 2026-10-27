@@ -679,6 +679,10 @@ namespace Files.Storage
 					VARENUM.VT_UI4 => value.ulVal,
 					VARENUM.VT_UI8 => value.uhVal,
 					VARENUM.VT_I4 => value.lVal,
+					VARENUM.VT_I2 => value.iVal,
+					VARENUM.VT_UI2 => value.uiVal,
+					VARENUM.VT_I8 => value.hVal,
+					VARENUM.VT_R8 => value.dblVal,
 					VARENUM.VT_FILETIME => value.filetime,
 					_ => null,
 				};
