@@ -33,8 +33,6 @@ namespace Files.App.ViewModels.Settings
 				var option => (int)option,
 			};
 			SelectedDefaultGroupByDateUnitIndex = (int)UserSettingsService.LayoutSettingsService.DefaultGroupByDateUnit;
-
-			LoadDefaultDetailsColumns();
 		}
 
 		internal void StartListening()
@@ -275,54 +273,6 @@ namespace Files.App.ViewModels.Settings
 					OnPropertyChanged();
 				}
 			}
-		}
-
-		public ObservableCollection<DetailsLayoutColumnSettingItem> DefaultDetailsColumns { get; } = [];
-
-		private void LoadDefaultDetailsColumns()
-		{
-			foreach (var id in DetailsLayoutColumnDefaults.GetColumns().Where(id => !DetailsLayoutColumnOrder.IsFixed(id)))
-				DefaultDetailsColumns.Add(new(id, GetColumnDisplayName(id, null)));
-
-			DefaultDetailsColumns.CollectionChanged += (_, _) => DetailsLayoutColumnDefaults.SetColumns(DefaultDetailsColumns.Select(column => column.Id));
-			_ = UpdateDefaultDetailsColumnNamesAsync();
-		}
-
-		private async Task UpdateDefaultDetailsColumnNamesAsync()
-		{
-			var catalog = await ShellPropertyCatalog.GetAsync();
-			foreach (var column in DefaultDetailsColumns)
-				column.DisplayName = GetColumnDisplayName(column.Id, catalog);
-		}
-
-		public static string GetColumnDisplayName(string id, IReadOnlyDictionary<string, ShellPropertyColumnInfo>? catalog)
-		{
-			return DetailsLayoutColumnDefaults.GetDisplayName(id, catalog);
-		}
-
-		public bool HasDefaultDetailsColumn(string id)
-		{
-			return DefaultDetailsColumns.Any(column => column.Id == id);
-		}
-
-		public void AddDefaultDetailsColumn(string id, string displayName)
-		{
-			if (!HasDefaultDetailsColumn(id))
-				DefaultDetailsColumns.Add(new(id, displayName));
-		}
-
-		public void RemoveDefaultDetailsColumn(DetailsLayoutColumnSettingItem column)
-		{
-			if (column.CanRemove)
-				DefaultDetailsColumns.Remove(column);
-		}
-
-		public void MoveDefaultDetailsColumn(DetailsLayoutColumnSettingItem column, int offset)
-		{
-			var index = DefaultDetailsColumns.IndexOf(column);
-			var newIndex = index + offset;
-			if (index >= 0 && newIndex >= 0 && newIndex < DefaultDetailsColumns.Count)
-				DefaultDetailsColumns.Move(index, newIndex);
 		}
 
 		private bool _ShowAdaptiveDisabledTeachingTip;

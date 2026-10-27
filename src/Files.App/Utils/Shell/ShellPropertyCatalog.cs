@@ -11,7 +11,7 @@ namespace Files.App.Utils.Shell
 	/// <summary>
 	/// Represents a shell property that can be shown as a column in <see cref="DetailsLayoutPage"/>.
 	/// </summary>
-	public sealed record ShellPropertyColumnInfo(string Name, string DisplayName, string Group, double DefaultWidth, PROPDESC_DISPLAYTYPE DisplayType);
+	public sealed record ShellPropertyColumnInfo(string Name, string DisplayName, double DefaultWidth);
 
 	/// <summary>
 	/// Provides the shell properties Windows allows to be shown as columns.
@@ -21,18 +21,6 @@ namespace Files.App.Utils.Shell
 		private const double PixelsPerCharacter = 7;
 		private const double MinColumnWidth = 60;
 		private const double MaxColumnWidth = 400;
-
-		/// <summary>
-		/// Gets the commonly used properties shown directly in the column menu, by category resource key.
-		/// </summary>
-		public static IReadOnlyList<(string ResourceKey, IReadOnlyList<string> PropertyNames)> MenuCategories { get; } =
-		[
-			(Strings.General, ["System.FileOwner", "System.FileAttributes", "System.DateAccessed", "System.Rating"]),
-			(Strings.Music, ["System.Music.Artist", "System.Music.AlbumArtist", "System.Music.AlbumTitle", "System.Music.Genre", "System.Media.Year", "System.Music.TrackNumber", "System.Media.Duration", "System.Audio.EncodingBitrate"]),
-			(Strings.Pictures, ["System.Photo.DateTaken", "System.Image.Dimensions", "System.Photo.CameraManufacturer", "System.Photo.CameraModel", "System.Photo.ExposureTime", "System.Photo.FNumber", "System.Photo.ISOSpeed"]),
-			(Strings.Videos, ["System.Media.Duration", "System.Video.FrameWidth", "System.Video.FrameHeight", "System.Video.FrameRate", "System.Video.TotalBitrate"]),
-			(Strings.Documents, ["System.Author", "System.Title", "System.Company", "System.Document.PageCount", "System.Document.WordCount", "System.Document.DateSaved", "System.Comment"]),
-		];
 
 		private static Task<IReadOnlyDictionary<string, ShellPropertyColumnInfo>>? _loadTask;
 
@@ -97,12 +85,9 @@ namespace Files.App.Utils.Shell
 
 				description.GetDefaultColumnWidth(out uint characters);
 
-				PROPDESC_DISPLAYTYPE displayType = default;
-				description.GetDisplayType(&displayType);
-
 				var width = Math.Clamp(characters * PixelsPerCharacter + 24, MinColumnWidth, MaxColumnWidth);
 
-				return new(nameText, displayNameText, GetGroup(nameText), width, displayType);
+				return new(nameText, displayNameText, width);
 			}
 			finally
 			{
@@ -111,21 +96,6 @@ namespace Files.App.Utils.Shell
 				if (displayName.Value is not null)
 					PInvoke.CoTaskMemFree(displayName);
 			}
-		}
-
-		public static string GetGroupDisplayName(string group)
-		{
-			if (string.IsNullOrEmpty(group))
-				return Strings.General.GetLocalizedResource();
-
-			var displayName = $"PropertyGroup{group}".GetLocalizedResource();
-			return string.IsNullOrEmpty(displayName) ? group : displayName;
-		}
-
-		private static string GetGroup(string name)
-		{
-			var parts = name.Split('.');
-			return parts.Length > 2 ? parts[1] : string.Empty;
 		}
 	}
 }

@@ -4761,95 +4761,8 @@
   <data name="MoveRight" xml:space="preserve">
     <value>Move right</value>
   </data>
-  <data name="MoreColumns" xml:space="preserve">
-    <value>More columns</value>
-  </data>
   <data name="MoreColumnsEllipsis" xml:space="preserve">
     <value>More columns…</value>
-  </data>
-  <data name="ShowAll" xml:space="preserve">
-    <value>Show all</value>
-  </data>
-  <data name="HideAll" xml:space="preserve">
-    <value>Hide all</value>
-  </data>
-  <data name="PropertyGroupAudio" xml:space="preserve">
-    <value>Audio</value>
-  </data>
-  <data name="PropertyGroupCalendar" xml:space="preserve">
-    <value>Calendar</value>
-  </data>
-  <data name="PropertyGroupCommunication" xml:space="preserve">
-    <value>Communication</value>
-  </data>
-  <data name="PropertyGroupComputer" xml:space="preserve">
-    <value>Computer</value>
-  </data>
-  <data name="PropertyGroupContact" xml:space="preserve">
-    <value>Contact</value>
-  </data>
-  <data name="PropertyGroupDevice" xml:space="preserve">
-    <value>Device</value>
-  </data>
-  <data name="PropertyGroupDocument" xml:space="preserve">
-    <value>Document</value>
-  </data>
-  <data name="PropertyGroupDRM" xml:space="preserve">
-    <value>DRM</value>
-  </data>
-  <data name="PropertyGroupGPS" xml:space="preserve">
-    <value>GPS</value>
-  </data>
-  <data name="PropertyGroupIdentity" xml:space="preserve">
-    <value>Identity</value>
-  </data>
-  <data name="PropertyGroupImage" xml:space="preserve">
-    <value>Image</value>
-  </data>
-  <data name="PropertyGroupJournal" xml:space="preserve">
-    <value>Journal</value>
-  </data>
-  <data name="PropertyGroupLink" xml:space="preserve">
-    <value>Link</value>
-  </data>
-  <data name="PropertyGroupMedia" xml:space="preserve">
-    <value>Media</value>
-  </data>
-  <data name="PropertyGroupMessage" xml:space="preserve">
-    <value>Message</value>
-  </data>
-  <data name="PropertyGroupMusic" xml:space="preserve">
-    <value>Music</value>
-  </data>
-  <data name="PropertyGroupNote" xml:space="preserve">
-    <value>Note</value>
-  </data>
-  <data name="PropertyGroupPhoto" xml:space="preserve">
-    <value>Photo</value>
-  </data>
-  <data name="PropertyGroupRecordedTV" xml:space="preserve">
-    <value>Recorded TV</value>
-  </data>
-  <data name="PropertyGroupSearch" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="PropertyGroupShell" xml:space="preserve">
-    <value>Shell</value>
-  </data>
-  <data name="PropertyGroupSoftware" xml:space="preserve">
-    <value>Software</value>
-  </data>
-  <data name="PropertyGroupSync" xml:space="preserve">
-    <value>Sync</value>
-  </data>
-  <data name="PropertyGroupTask" xml:space="preserve">
-    <value>Task</value>
-  </data>
-  <data name="PropertyGroupVideo" xml:space="preserve">
-    <value>Video</value>
-  </data>
-  <data name="PropertyGroupVolume" xml:space="preserve">
-    <value>Volume</value>
   </data>
   <data name="Unspecified" xml:space="preserve">
     <value>Unspecified</value>
@@ -4857,13 +4770,34 @@
   <data name="GroupByThisColumn" xml:space="preserve">
     <value>Group by this column</value>
   </data>
-  <data name="AddColumn" xml:space="preserve">
-    <value>Add column</value>
+  <data name="SizeColumnToFit" xml:space="preserve">
+    <value>Size column to fit</value>
   </data>
-  <data name="MoveUp" xml:space="preserve">
-    <value>Move up</value>
+  <data name="SearchColumns" xml:space="preserve">
+    <value>Search columns</value>
   </data>
-  <data name="MoveDown" xml:space="preserve">
-    <value>Move down</value>
+  <data name="DefaultColumns" xml:space="preserve">
+    <value>Default columns</value>
+  </data>
+  <data name="CustomizeColumns" xml:space="preserve">
+    <value>Customize columns</value>
+  </data>
+  <data name="CustomizeColumnsEllipsis" xml:space="preserve">
+    <value>Customize columns…</value>
+  </data>
+  <data name="AvailableColumns" xml:space="preserve">
+    <value>Available columns</value>
+  </data>
+  <data name="ShownColumns" xml:space="preserve">
+    <value>Shown columns</value>
+  </data>
+  <data name="OtherColumns" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="CustomizeDefaultColumns" xml:space="preserve">
+    <value>Customize default columns</value>
+  </data>
+  <data name="CustomizeDefaultColumnsDescription" xml:space="preserve">
+    <value>These columns are used for folders that don't have their own column settings.</value>
   </data>
 </root>

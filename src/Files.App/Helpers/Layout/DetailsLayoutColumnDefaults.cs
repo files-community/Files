@@ -30,6 +30,15 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
+		/// Restores the built-in default columns and widths.
+		/// </summary>
+		public static void Reset()
+		{
+			LayoutSettingsService.DetailsLayoutColumns = null;
+			LayoutSettingsService.DetailsLayoutColumnWidths = null;
+		}
+
+		/// <summary>
 		/// Applies the default columns to the specified columns.
 		/// </summary>
 		public static void Apply(ColumnsViewModel columns)

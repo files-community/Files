@@ -4,6 +4,8 @@
 using CommunityToolkit.WinUI;
 using Files.App.Controls;
 using Files.App.UserControls.Selection;
+using Files.App.ViewModels.Settings;
+using Files.App.Views.Settings;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -11,6 +13,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using System.Runtime.CompilerServices;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.Foundation;
@@ -65,14 +68,12 @@ namespace Files.App.Views.Layouts
 		private readonly Dictionary<string, ColumnHeader> _columnHeaders = [];
 		private IReadOnlyDictionary<string, ShellPropertyColumnInfo>? _shellPropertyCatalog;
 		private readonly HashSet<ListedItem> _shellPropertyLoads = [];
-		private readonly List<ToggleMenuFlyoutItem> _columnMenuItems = [];
-		private readonly List<(MenuFlyoutItem Item, MenuFlyoutSubItem Group)> _toggleAllMenuItems = [];
-		private bool _isShellColumnMenuPopulated;
 		private string? _contextColumnId;
 
 		private const double ColumnReorderDragThreshold = 6;
 		private const double ColumnReorderTouchDragThreshold = 16;
 		private const double ColumnReorderScrollMargin = 32;
+		private static readonly TimeSpan ColumnReorderAnimationDuration = TimeSpan.FromMilliseconds(150);
 		private const double ColumnReorderScrollStep = 16;
 		private double _reorderGhostLeft;
 		private List<(string Id, double Left, double Right)>? _reorderColumnBounds;
@@ -1053,7 +1054,6 @@ namespace Files.App.Views.Layouts
 			}
 			definitions.Add(_fixedHeaderColumnDefinitions[2]);
 			_headerColumnIndices = columnIndices;
-			Grid.SetColumnSpan(ColumnReorderIndicator, definitions.Count);
 			Grid.SetColumnSpan(ColumnReorderGhost, definitions.Count);
 
 			foreach (var (id, columnHeader) in _columnHeaders)
@@ -1297,221 +1297,74 @@ namespace Files.App.Views.Layouts
 
 		private void HeaderGridMenuFlyout_Opening(object sender, object e)
 		{
-			var visibility = _contextColumnId is not null ? Visibility.Visible : Visibility.Collapsed;
+			var contextColumn = _contextColumnId is { } contextColumnId ? ColumnsViewModel.FindColumn(contextColumnId) : null;
 			var moveVisibility = _contextColumnId is not null && !DetailsLayoutColumnOrder.IsFixed(_contextColumnId) ? Visibility.Visible : Visibility.Collapsed;
+			ColumnToFitMenuFlyoutItem.Visibility = contextColumn is { IsResizable: true } ? Visibility.Visible : Visibility.Collapsed;
 			MoveColumnLeftMenuFlyoutItem.Visibility = moveVisibility;
 			MoveColumnRightMenuFlyoutItem.Visibility = moveVisibility;
-			MoveColumnMenuFlyoutSeparator.Visibility = visibility;
-			GroupByColumnMenuFlyoutItem.Visibility = visibility;
-			if (_contextColumnId is { } groupColumnId && FolderSettings is { } groupSettings)
-				GroupByColumnMenuFlyoutItem.IsChecked = IsGroupedByColumn(groupSettings, groupColumnId);
+			GroupByColumnMenuFlyoutItem.Visibility = _contextColumnId is not null ? Visibility.Visible : Visibility.Collapsed;
 
 			if (_contextColumnId is { } id)
 			{
 				MoveColumnLeftMenuFlyoutItem.IsEnabled = ColumnsViewModel.CanMoveColumn(id, -1);
 				MoveColumnRightMenuFlyoutItem.IsEnabled = ColumnsViewModel.CanMoveColumn(id, 1);
+				if (FolderSettings is { } folderSettings)
+					GroupByColumnMenuFlyoutItem.IsChecked = IsGroupedByColumn(folderSettings, id);
 			}
 
 			if (sender is MenuFlyout menuFlyout)
-				PopulateColumnMenu(menuFlyout);
-
-			foreach (var item in _columnMenuItems)
-			{
-				if (item.Tag is not string name)
-					continue;
-
-				item.IsChecked = ColumnsViewModel.IsColumnVisible(name);
-				item.Visibility = ColumnsViewModel.FindColumn(name)?.IsHidden is true ? Visibility.Collapsed : Visibility.Visible;
-			}
-
-			UpdateToggleAllMenuItems();
+				UpdateColumnMenuItems(menuFlyout);
 		}
 
-		private void PopulateColumnMenu(MenuFlyout menuFlyout)
+		private void UpdateColumnMenuItems(MenuFlyout menuFlyout)
 		{
-			if (_toggleAllMenuItems.Count == 0)
+			var items = menuFlyout.Items;
+			var startIndex = items.IndexOf(ColumnTogglesStartSeparator) + 1;
+			for (var index = items.IndexOf(ColumnTogglesEndSeparator) - 1; index >= startIndex; index--)
+				items.RemoveAt(index);
+
+			// Lists the columns that apply to this folder in display order, like the column menu of File Explorer.
+			var columnIds = ColumnsViewModel.OrderedColumns.Ids.Where(id =>
+				!DetailsLayoutColumnOrder.IsFixed(id) &&
+				ColumnsViewModel.GetColumn(id) is { IsHidden: false } column &&
+				(DetailsLayoutColumnDefinitions.IsBuiltIn(id) || !column.UserCollapsed));
+
+			foreach (var id in columnIds)
 			{
-				foreach (var definition in DetailsLayoutColumnDefinitions.All.Where(definition => !DetailsLayoutColumnOrder.IsFixed(definition.Id)))
+				var item = new ToggleMenuFlyoutItem
 				{
-					var group = definition.IsGitColumn ? GitColumnsVisibilityMenuFlyoutSubItem : GeneralColumnsMenuFlyoutSubItem;
-					group.Items.Add(CreateColumnMenuItem(definition.Id, DetailsLayoutColumnDefinitions.GetHeader(definition.Id)));
-				}
-
-				AddToggleAllMenuItem(GeneralColumnsMenuFlyoutSubItem);
-				AddToggleAllMenuItem(GitColumnsVisibilityMenuFlyoutSubItem);
+					Text = GetColumnDisplayName(id),
+					Tag = id,
+					IsChecked = ColumnsViewModel.IsColumnVisible(id),
+				};
+				item.Click += ColumnMenuItem_Click;
+				items.Insert(startIndex++, item);
 			}
-
-			MoreColumnsMenuFlyoutItem.IsEnabled = _shellPropertyCatalog is not null;
-			if (_shellPropertyCatalog is null || _isShellColumnMenuPopulated)
-				return;
-
-			_isShellColumnMenuPopulated = true;
-			var insertIndex = menuFlyout.Items.IndexOf(GitColumnsVisibilityMenuFlyoutSubItem) + 1;
-			foreach (var (resourceKey, propertyNames) in ShellPropertyCatalog.MenuCategories)
-			{
-				var infos = propertyNames
-					.Select(name => _shellPropertyCatalog.TryGetValue(name, out var info) ? info : null)
-					.OfType<ShellPropertyColumnInfo>()
-					.ToArray();
-
-				if (infos.Length == 0)
-					continue;
-
-				MenuFlyoutSubItem subItem;
-				if (resourceKey == Strings.General)
-				{
-					subItem = GeneralColumnsMenuFlyoutSubItem;
-					subItem.Items.Add(new MenuFlyoutSeparator());
-				}
-				else
-				{
-					subItem = new MenuFlyoutSubItem { Text = resourceKey.GetLocalizedResource() };
-					menuFlyout.Items.Insert(insertIndex++, subItem);
-					AddToggleAllMenuItem(subItem);
-				}
-
-				foreach (var info in infos)
-					subItem.Items.Add(CreateColumnMenuItem(info.Name, info.DisplayName));
-			}
-		}
-
-		private void AddToggleAllMenuItem(MenuFlyoutSubItem group)
-		{
-			var item = new MenuFlyoutItem();
-			item.Click += (_, _) => ToggleAllColumns(group);
-			group.Items.Insert(0, item);
-			group.Items.Insert(1, new MenuFlyoutSeparator());
-			_toggleAllMenuItems.Add((item, group));
-		}
-
-		[DynamicWindowsRuntimeCast(typeof(ToggleMenuFlyoutItem))]
-		private static ToggleMenuFlyoutItem[] GetVisibleColumnToggles(MenuFlyoutSubItem group)
-		{
-			return group.Items.OfType<ToggleMenuFlyoutItem>().Where(toggle => toggle.Visibility == Visibility.Visible).ToArray();
-		}
-
-		private void UpdateToggleAllMenuItems()
-		{
-			foreach (var (item, group) in _toggleAllMenuItems)
-			{
-				item.Text = GetVisibleColumnToggles(group).All(toggle => toggle.IsChecked)
-					? Strings.HideAll.GetLocalizedResource()
-					: Strings.ShowAll.GetLocalizedResource();
-			}
-		}
-
-		private void ToggleAllColumns(MenuFlyoutSubItem group)
-		{
-			var toggles = GetVisibleColumnToggles(group);
-			var isVisible = !toggles.All(toggle => toggle.IsChecked);
-			var changes = new List<(string Id, bool IsVisible)>();
-			foreach (var toggle in toggles)
-			{
-				if (toggle.IsChecked == isVisible)
-					continue;
-
-				toggle.IsChecked = isVisible;
-				if (toggle.Tag is string name)
-					changes.Add((name, isVisible));
-			}
-
-			SetColumnsVisibility(changes);
 		}
 
 		private async void MoreColumns_Click(object sender, RoutedEventArgs e)
 		{
 			var catalog = _shellPropertyCatalog ?? await ShellPropertyCatalog.GetAsync();
-			var groupsPanel = new StackPanel { Spacing = 16 };
-			var groups = new List<(StackPanel Panel, CheckBox[] CheckBoxes, Action UpdateToggleAll)>();
+			var availableColumns = DetailsLayoutColumnIds.All
+				.Where(id => !DetailsLayoutColumnOrder.IsFixed(id) && !ColumnsViewModel.GetColumn(id).IsHidden)
+				.Concat(catalog.Keys.Where(id => !DetailsLayoutColumnDefinitions.IsBuiltIn(id)))
+				.ToArray();
 
-			var catalogGroups = catalog.Values
-				.Where(info => !DetailsLayoutColumnOrder.IsFixed(info.Name))
-				.GroupBy(info => ShellPropertyCatalog.GetGroupDisplayName(info.Group))
-				.OrderBy(group => group.Key, StringComparer.CurrentCultureIgnoreCase);
+			var shownColumns = ColumnsViewModel.OrderedColumns.Ids.Where(id => ColumnsViewModel.IsColumnVisible(id) && !ColumnsViewModel.GetColumn(id).IsHidden);
+			var defaultColumns = DetailsLayoutColumnDefaults.GetColumns().Where(availableColumns.Contains);
 
-			foreach (var catalogGroup in catalogGroups)
+			var viewModel = new ColumnCustomizationViewModel(shownColumns, availableColumns, defaultColumns, GetColumnDisplayName, Strings.CustomizeColumns.GetLocalizedResource());
+			viewModel.Saved += (_, columns) =>
 			{
-				var checkBoxes = catalogGroup
-					.OrderBy(info => GetColumnDisplayName(info.Name), StringComparer.CurrentCultureIgnoreCase)
-					.Select(info => new CheckBox { Content = GetColumnDisplayName(info.Name), Tag = info.Name, IsChecked = ColumnsViewModel.IsColumnVisible(info.Name) })
-					.ToArray();
+				if (!IsLoaded)
+					return;
 
-				var toggleAllButton = new HyperlinkButton { HorizontalAlignment = HorizontalAlignment.Right };
-				void UpdateToggleAll()
-				{
-					toggleAllButton.Content = checkBoxes.Where(checkBox => checkBox.Visibility == Visibility.Visible).All(checkBox => checkBox.IsChecked is true)
-						? Strings.HideAll.GetLocalizedResource()
-						: Strings.ShowAll.GetLocalizedResource();
-				}
-
-				toggleAllButton.Click += (_, _) =>
-				{
-					var visibleCheckBoxes = checkBoxes.Where(checkBox => checkBox.Visibility == Visibility.Visible).ToArray();
-					var isChecked = !visibleCheckBoxes.All(checkBox => checkBox.IsChecked is true);
-					foreach (var checkBox in visibleCheckBoxes)
-						checkBox.IsChecked = isChecked;
-
-					UpdateToggleAll();
-				};
-
-				var header = new Grid();
-				header.Children.Add(new TextBlock { Text = catalogGroup.Key, Style = (Style)Application.Current.Resources["BodyStrongTextBlockStyle"], VerticalAlignment = VerticalAlignment.Center });
-				header.Children.Add(toggleAllButton);
-
-				var groupPanel = new StackPanel();
-				groupPanel.Children.Add(header);
-				foreach (var checkBox in checkBoxes)
-				{
-					checkBox.Click += (_, _) => UpdateToggleAll();
-					groupPanel.Children.Add(checkBox);
-				}
-
-				UpdateToggleAll();
-				groupsPanel.Children.Add(groupPanel);
-				groups.Add((groupPanel, checkBoxes, UpdateToggleAll));
-			}
-
-			var searchBox = new TextBox { PlaceholderText = Strings.Search.GetLocalizedResource(), Margin = new(0, 0, 0, 12) };
-			searchBox.TextChanged += (_, _) =>
-			{
-				var query = searchBox.Text.Trim();
-				foreach (var (panel, checkBoxes, updateToggleAll) in groups)
-				{
-					foreach (var checkBox in checkBoxes)
-					{
-						checkBox.Visibility = query.Length == 0 || (checkBox.Content as string)?.Contains(query, StringComparison.CurrentCultureIgnoreCase) is true
-							? Visibility.Visible
-							: Visibility.Collapsed;
-					}
-
-					panel.Visibility = checkBoxes.Any(checkBox => checkBox.Visibility == Visibility.Visible) ? Visibility.Visible : Visibility.Collapsed;
-					updateToggleAll();
-				}
+				SetColumnsVisibility(availableColumns.Select(id => (id, columns.Contains(id))));
+				ColumnsViewModel.ColumnOrder = [.. columns, .. ColumnsViewModel.OrderedColumns.Ids.Where(id => !columns.Contains(id) && !DetailsLayoutColumnOrder.IsFixed(id))];
+				SaveColumnLayout();
 			};
 
-			var scrollViewer = new ScrollViewer { Content = groupsPanel, MaxHeight = 480, Padding = new(0, 0, 16, 0) };
-			var content = new Grid { RowDefinitions = { new() { Height = GridLength.Auto }, new() { Height = new(1, GridUnitType.Star) } } };
-			Grid.SetRow(scrollViewer, 1);
-			content.Children.Add(searchBox);
-			content.Children.Add(scrollViewer);
-
-			var dialog = new ContentDialog
-			{
-				Title = Strings.MoreColumns.GetLocalizedResource(),
-				Content = content,
-				PrimaryButtonText = Strings.OK.GetLocalizedResource(),
-				CloseButtonText = Strings.Cancel.GetLocalizedResource(),
-				DefaultButton = ContentDialogButton.Primary,
-				XamlRoot = XamlRoot,
-			};
-
-			if (await dialog.TryShowAsync() != ContentDialogResult.Primary)
-				return;
-
-			SetColumnsVisibility(groups
-				.SelectMany(group => group.CheckBoxes)
-				.Where(checkBox => checkBox.Tag is string)
-				.Select(checkBox => ((string)checkBox.Tag, checkBox.IsChecked is true)));
+			ColumnCustomizationWindow.Show(viewModel);
 		}
 
 		private void SetColumnsVisibility(IEnumerable<(string Id, bool IsVisible)> changes)
@@ -1533,19 +1386,17 @@ namespace Files.App.Views.Layouts
 			SaveColumnVisibility();
 		}
 
-		private ToggleMenuFlyoutItem CreateColumnMenuItem(string id, string text)
-		{
-			var item = new ToggleMenuFlyoutItem { Text = text, Tag = id };
-			item.Click += ColumnMenuItem_Click;
-			_columnMenuItems.Add(item);
-			return item;
-		}
-
 		[DynamicWindowsRuntimeCast(typeof(ToggleMenuFlyoutItem))]
 		private void ColumnMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			if (sender is ToggleMenuFlyoutItem { Tag: string name } item)
 				SetColumnVisibility(name, item.IsChecked);
+		}
+
+		private void SizeColumnToFit_Click(object sender, RoutedEventArgs e)
+		{
+			if (_contextColumnId is { } id)
+				ResizeColumnToFit(id);
 		}
 
 		private void GroupByColumn_Click(object sender, RoutedEventArgs e)
@@ -1689,31 +1540,64 @@ namespace Files.App.Views.Layouts
 				var draggedBound = _reorderColumnBounds.First(bound => bound.Id == _reorderColumnId);
 				_reorderGhostLeft = draggedBound.Left;
 				ColumnReorderGhost.Width = draggedBound.Right - draggedBound.Left;
-				ColumnReorderGhostText.Text = (_reorderHeader as DataGridHeader)?.Header;
+				ColumnReorderGhostImage.Source = null;
 				ColumnReorderGhost.Visibility = Visibility.Visible;
-				ColumnReorderIndicator.Visibility = Visibility.Visible;
-				_reorderHeader.Opacity = 0.4;
+				_ = CaptureColumnReorderGhostAsync(_reorderHeader);
 			}
 
 			var maxGhostLeft = Math.Max(0, _reorderColumnBounds[^1].Right - ColumnReorderGhost.Width);
 			ColumnReorderGhostTransform.X = Math.Clamp(_reorderGhostLeft + x - _reorderStartX, 0, maxGhostLeft);
 			ScrollHeaderWhileReordering(e);
 
-			var target = _reorderColumnBounds[^1];
-			foreach (var bound in _reorderColumnBounds)
-			{
-				if (x < bound.Right)
-				{
-					target = bound;
-					break;
-				}
-			}
-
-			_reorderTargetId = target.Id;
-			_reorderAfterTarget = x >= (target.Left + target.Right) / 2;
-			ColumnReorderIndicatorTransform.X = (_reorderAfterTarget ? target.Right : target.Left) - ColumnReorderIndicator.Width / 2;
-
+			ReflowHeadersWhileReordering(x);
 			e.Handled = true;
+		}
+
+		private void ReflowHeadersWhileReordering(double x)
+		{
+			if (_reorderColumnBounds is not { } bounds)
+				return;
+
+			var draggedIndex = bounds.FindIndex(bound => bound.Id == _reorderColumnId);
+			if (draggedIndex < 0)
+				return;
+
+			var draggedWidth = bounds[draggedIndex].Right - bounds[draggedIndex].Left;
+			_reorderTargetId = null;
+			for (int i = 0; i < bounds.Count; i++)
+			{
+				if (i == draggedIndex)
+					continue;
+
+				var (id, left, right) = bounds[i];
+				var center = (left + right) / 2;
+				var offset = 0d;
+				if (i > draggedIndex && x > center)
+				{
+					offset = -draggedWidth;
+					(_reorderTargetId, _reorderAfterTarget) = (id, true);
+				}
+				else if (i < draggedIndex && x < center)
+				{
+					offset = draggedWidth;
+					if (_reorderTargetId is null)
+						(_reorderTargetId, _reorderAfterTarget) = (id, false);
+				}
+
+				SetColumnHeaderOffset(id, offset, animate: true);
+			}
+		}
+
+		private void SetColumnHeaderOffset(string id, double offset, bool animate)
+		{
+			if (!_columnHeaders.TryGetValue(id, out var columnHeader))
+				return;
+
+			foreach (var element in (UIElement[])[columnHeader.Header, columnHeader.Splitter])
+			{
+				element.TranslationTransition = animate ? element.TranslationTransition ?? new Vector3Transition { Duration = ColumnReorderAnimationDuration } : null;
+				element.Translation = new((float)offset, 0, 0);
+			}
 		}
 
 		private void HeaderGrid_ReorderPointerReleased(object sender, PointerRoutedEventArgs e)
@@ -1721,18 +1605,20 @@ namespace Files.App.Views.Layouts
 			if (_reorderHeader is null || e.Pointer.PointerId != _reorderPointerId)
 				return;
 
+			var isCommitted = false;
 			if (_isReorderingColumn)
 			{
 				if (_reorderColumnId is { } columnId && _reorderTargetId is { } targetId)
 				{
 					ColumnsViewModel.MoveColumn(columnId, targetId, _reorderAfterTarget);
 					SaveColumnLayout();
+					isCommitted = true;
 				}
 
 				e.Handled = true;
 			}
 
-			EndColumnReorder();
+			EndColumnReorder(isCommitted);
 			HeaderGrid.ReleasePointerCapture(e.Pointer);
 			_suppressHeaderSort = false;
 		}
@@ -1753,13 +1639,17 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		private void EndColumnReorder()
+		private void EndColumnReorder(bool isCommitted = false)
 		{
 			if (_reorderHeader is not null && _isReorderingColumn)
 			{
-				_reorderHeader.Opacity = 1;
+				// Headers that already moved to their new columns must not animate back.
+				var animate = !isCommitted;
+				foreach (var id in _columnHeaders.Keys)
+					SetColumnHeaderOffset(id, 0, animate);
+
+				SetReorderedHeaderOpacity(1);
 				ColumnReorderGhost.Visibility = Visibility.Collapsed;
-				ColumnReorderIndicator.Visibility = Visibility.Collapsed;
 			}
 
 			_reorderHeader = null;
@@ -1767,6 +1657,28 @@ namespace Files.App.Views.Layouts
 			_reorderColumnId = null;
 			_reorderTargetId = null;
 			_isReorderingColumn = false;
+		}
+
+		private async Task CaptureColumnReorderGhostAsync(FrameworkElement header)
+		{
+			var bitmap = new RenderTargetBitmap();
+			await bitmap.RenderAsync(header);
+			if (!_isReorderingColumn || _reorderHeader != header)
+				return;
+
+			ColumnReorderGhostImage.Width = header.ActualWidth;
+			ColumnReorderGhostImage.Height = header.ActualHeight;
+			ColumnReorderGhostImage.Source = bitmap;
+			SetReorderedHeaderOpacity(0);
+		}
+
+		private void SetReorderedHeaderOpacity(double opacity)
+		{
+			if (_reorderColumnId is not null && _columnHeaders.TryGetValue(_reorderColumnId, out var columnHeader))
+			{
+				columnHeader.Header.Opacity = opacity;
+				columnHeader.Splitter.Opacity = opacity;
+			}
 		}
 
 		private void ScrollHeaderWhileReordering(PointerRoutedEventArgs e)
