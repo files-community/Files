@@ -3347,8 +3347,9 @@ namespace Files.App.ViewModels
 
 			try
 			{
-				var matchingItems = filesAndFolders.ToList().Where(x => paths.Any(p => p.Equals(x.ItemPath, StringComparison.OrdinalIgnoreCase)));
+				var matchingItems = filesAndFolders.ToList().Where(x => paths.Any(p => p.Equals(x.ItemPath, StringComparison.OrdinalIgnoreCase))).ToList();
 				var results = await Task.WhenAll(matchingItems.Select(x => GetFileOrFolderUpdateInfoAsync(x, hasSyncStatus)));
+				await Task.WhenAll(matchingItems.Select(ShellPropertyValueLoader.ReloadAsync));
 
 				await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
