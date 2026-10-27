@@ -6,7 +6,6 @@
 	xmlns:converters="using:CommunityToolkit.WinUI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:items="using:Files.App.Data.Items"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
@@ -154,68 +153,13 @@
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=AutoSizeColumnsInDetailsLayout}" IsOn="{x:Bind ViewModel.AutoSizeColumnsInDetailsLayout, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
-			<!--  Columns  -->
-			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=Columns}">
-				<wctcontrols:SettingsExpander.HeaderIcon>
+			<!--  Default Columns  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=DefaultColumns}">
+				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE71D;" />
-				</wctcontrols:SettingsExpander.HeaderIcon>
-				<DropDownButton Content="{helpers:ResourceString Name=AddColumn}">
-					<DropDownButton.Flyout>
-						<MenuFlyout Opening="AddColumnMenuFlyout_Opening" Placement="BottomEdgeAlignedRight" />
-					</DropDownButton.Flyout>
-				</DropDownButton>
-				<wctcontrols:SettingsExpander.Items>
-					<wctcontrols:SettingsCard HorizontalContentAlignment="Stretch" ContentAlignment="Left">
-						<ListView
-							AllowDrop="True"
-							CanReorderItems="True"
-							ItemsSource="{x:Bind ViewModel.DefaultDetailsColumns}"
-							SelectionMode="None">
-							<ListView.ItemTemplate>
-								<DataTemplate x:DataType="items:DetailsLayoutColumnSettingItem">
-									<Grid ColumnSpacing="4">
-										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="*" />
-											<ColumnDefinition Width="Auto" />
-											<ColumnDefinition Width="Auto" />
-											<ColumnDefinition Width="Auto" />
-										</Grid.ColumnDefinitions>
-										<TextBlock VerticalAlignment="Center" Text="{x:Bind DisplayName, Mode=OneWay}" />
-										<Button
-											Grid.Column="1"
-											AutomationProperties.Name="{helpers:ResourceString Name=MoveUp}"
-											Background="Transparent"
-											BorderThickness="0"
-											Click="MoveColumnUp_Click"
-											ToolTipService.ToolTip="{helpers:ResourceString Name=MoveUp}">
-											<FontIcon FontSize="12" Glyph="&#xE70E;" />
-										</Button>
-										<Button
-											Grid.Column="2"
-											AutomationProperties.Name="{helpers:ResourceString Name=MoveDown}"
-											Background="Transparent"
-											BorderThickness="0"
-											Click="MoveColumnDown_Click"
-											ToolTipService.ToolTip="{helpers:ResourceString Name=MoveDown}">
-											<FontIcon FontSize="12" Glyph="&#xE70D;" />
-										</Button>
-										<Button
-											Grid.Column="3"
-											AutomationProperties.Name="{helpers:ResourceString Name=Remove}"
-											Background="Transparent"
-											BorderThickness="0"
-											Click="RemoveColumn_Click"
-											IsEnabled="{x:Bind CanRemove}"
-											ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}">
-											<FontIcon FontSize="12" Glyph="&#xE711;" />
-										</Button>
-									</Grid>
-								</DataTemplate>
-							</ListView.ItemTemplate>
-						</ListView>
-					</wctcontrols:SettingsCard>
-				</wctcontrols:SettingsExpander.Items>
-			</wctcontrols:SettingsExpander>
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<Button Click="CustomizeColumns_Click" Content="{helpers:ResourceString Name=CustomizeColumnsEllipsis}" />
+			</wctcontrols:SettingsCard>
 
 		</StackPanel>
 

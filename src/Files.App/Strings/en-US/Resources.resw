@@ -4810,109 +4810,103 @@
   <data name="GoToFolderAliasDescription" xml:space="preserve">
     <value>Go to a folder alias in the Omnibar</value>
   </data>
-  <data name="MoreColumns" xml:space="preserve">
-    <value>More columns</value>
-  </data>
   <data name="MoreColumnsEllipsis" xml:space="preserve">
     <value>More columns…</value>
     <comment>Item in the Details layout column header menu that opens the window for choosing columns.</comment>
-  </data>
-  <data name="ShowAll" xml:space="preserve">
-    <value>Show all</value>
-  </data>
-  <data name="HideAll" xml:space="preserve">
-    <value>Hide all</value>
-  </data>
-  <data name="PropertyGroupAudio" xml:space="preserve">
-    <value>Audio</value>
-  </data>
-  <data name="PropertyGroupCalendar" xml:space="preserve">
-    <value>Calendar</value>
-  </data>
-  <data name="PropertyGroupCommunication" xml:space="preserve">
-    <value>Communication</value>
-  </data>
-  <data name="PropertyGroupComputer" xml:space="preserve">
-    <value>Computer</value>
-  </data>
-  <data name="PropertyGroupContact" xml:space="preserve">
-    <value>Contact</value>
-  </data>
-  <data name="PropertyGroupDevice" xml:space="preserve">
-    <value>Device</value>
-  </data>
-  <data name="PropertyGroupDocument" xml:space="preserve">
-    <value>Document</value>
-  </data>
-  <data name="PropertyGroupDRM" xml:space="preserve">
-    <value>DRM</value>
-  </data>
-  <data name="PropertyGroupGPS" xml:space="preserve">
-    <value>GPS</value>
-  </data>
-  <data name="PropertyGroupIdentity" xml:space="preserve">
-    <value>Identity</value>
-  </data>
-  <data name="PropertyGroupImage" xml:space="preserve">
-    <value>Image</value>
-  </data>
-  <data name="PropertyGroupJournal" xml:space="preserve">
-    <value>Journal</value>
-  </data>
-  <data name="PropertyGroupLink" xml:space="preserve">
-    <value>Link</value>
-  </data>
-  <data name="PropertyGroupMedia" xml:space="preserve">
-    <value>Media</value>
-  </data>
-  <data name="PropertyGroupMessage" xml:space="preserve">
-    <value>Message</value>
-  </data>
-  <data name="PropertyGroupMusic" xml:space="preserve">
-    <value>Music</value>
-  </data>
-  <data name="PropertyGroupNote" xml:space="preserve">
-    <value>Note</value>
-  </data>
-  <data name="PropertyGroupPhoto" xml:space="preserve">
-    <value>Photo</value>
-  </data>
-  <data name="PropertyGroupRecordedTV" xml:space="preserve">
-    <value>Recorded TV</value>
-  </data>
-  <data name="PropertyGroupSearch" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="PropertyGroupShell" xml:space="preserve">
-    <value>Shell</value>
-  </data>
-  <data name="PropertyGroupSoftware" xml:space="preserve">
-    <value>Software</value>
-  </data>
-  <data name="PropertyGroupSync" xml:space="preserve">
-    <value>Sync</value>
-  </data>
-  <data name="PropertyGroupTask" xml:space="preserve">
-    <value>Task</value>
-  </data>
-  <data name="PropertyGroupVideo" xml:space="preserve">
-    <value>Video</value>
-  </data>
-  <data name="PropertyGroupVolume" xml:space="preserve">
-    <value>Volume</value>
   </data>
   <data name="Unspecified" xml:space="preserve">
     <value>Unspecified</value>
     <comment>Name of the group for items that have no value when grouping by a property, such as music files without an artist.</comment>
   </data>
-  <data name="AddColumn" xml:space="preserve">
-    <value>Add column</value>
+  <data name="SizeColumnToFit" xml:space="preserve">
+    <value>Size column to fit</value>
   </data>
-  <data name="MoveUp" xml:space="preserve">
-    <value>Move up</value>
+  <data name="SearchColumns" xml:space="preserve">
+    <value>Search columns</value>
+    <comment>Placeholder of the search box in the window for choosing Details layout columns.</comment>
   </data>
-  <data name="MoveDown" xml:space="preserve">
-    <value>Move down</value>
+  <data name="DefaultColumns" xml:space="preserve">
+    <value>Default columns</value>
+  </data>
+  <data name="CustomizeColumns" xml:space="preserve">
+    <value>Customize columns</value>
+  </data>
+  <data name="CustomizeColumnsEllipsis" xml:space="preserve">
+    <value>Customize columns…</value>
+  </data>
+  <data name="OtherColumns" xml:space="preserve">
+    <value>Other</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, with columns that fit no other group.</comment>
+  </data>
+  <data name="Dates" xml:space="preserve">
+    <value>Dates</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, with dates such as date accessed.</comment>
+  </data>
+  <data name="LocationColumns" xml:space="preserve">
+    <value>Location</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, with folder paths and GPS location.</comment>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, such as title, rating and comments.</comment>
+  </data>
+  <data name="Origin" xml:space="preserve">
+    <value>Origin</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, about where a file came from, such as authors and copyright.</comment>
+  </data>
+  <data name="Sharing" xml:space="preserve">
+    <value>Sharing</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, with sharing and sync status.</comment>
+  </data>
+  <data name="Camera" xml:space="preserve">
+    <value>Camera</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, with photo camera settings.</comment>
+  </data>
+  <data name="Media" xml:space="preserve">
+    <value>Media</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, with details shared by audio and video, such as length.</comment>
+  </data>
+  <data name="RecordedTV" xml:space="preserve">
+    <value>Recorded TV</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, with recorded TV program details.</comment>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, with email message details.</comment>
+  </data>
+  <data name="Calendar" xml:space="preserve">
+    <value>Calendar</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, with calendar event details.</comment>
+  </data>
+  <data name="Tasks" xml:space="preserve">
+    <value>Tasks</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, with task and flag details.</comment>
+  </data>
+  <data name="Contacts" xml:space="preserve">
+    <value>Contacts</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, with contact names and personal details.</comment>
+  </data>
+  <data name="PhoneAndEmail" xml:space="preserve">
+    <value>Phone and email</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, with contact phone numbers and email addresses.</comment>
+  </data>
+  <data name="Addresses" xml:space="preserve">
+    <value>Addresses</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, with contact addresses.</comment>
+  </data>
+  <data name="Business" xml:space="preserve">
+    <value>Business</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, with contact work details.</comment>
+  </data>
+  <data name="DevicesAndDrives" xml:space="preserve">
+    <value>Devices and drives</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, with device and drive details such as free space.</comment>
+  </data>
+  <data name="CustomizeDefaultColumns" xml:space="preserve">
+    <value>Customize default columns</value>
+  </data>
+  <data name="CustomizeDefaultColumnsDescription" xml:space="preserve">
+    <value>These columns are used for folders that don't have their own column settings.</value>
   </data>
   <data name="Unrated" xml:space="preserve">
     <value>Unrated</value>

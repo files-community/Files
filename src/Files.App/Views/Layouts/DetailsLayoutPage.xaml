@@ -273,34 +273,22 @@
 							<Grid.ContextFlyout>
 								<MenuFlyout Opening="HeaderGridMenuFlyout_Opening">
 
-									<MenuFlyoutSeparator x:Name="MoveColumnMenuFlyoutSeparator" />
-
-									<!--  All Columns To Fit  -->
+									<!--  Size To Fit  -->
+									<MenuFlyoutItem
+										x:Name="ColumnToFitMenuFlyoutItem"
+										Click="SizeColumnToFit_Click"
+										Text="{helpers:ResourceString Name=SizeColumnToFit}" />
 									<MenuFlyoutItem
 										x:Name="AllColumnsToFitMenuflyoutItem"
 										Click="SizeAllColumnsToFit_Click"
 										Text="{helpers:ResourceString Name=SizeAllColumnsToFit}" />
 
-									<!--  (Divider)  -->
-									<MenuFlyoutSeparator />
-
-									<!--  General Columns  -->
-									<MenuFlyoutSubItem x:Name="GeneralColumnsMenuFlyoutSubItem" Text="{helpers:ResourceString Name=General}" />
-
-									<!--  Git Columns  -->
-									<MenuFlyoutSubItem
-										x:Name="GitColumnsVisibilityMenuFlyoutSubItem"
-										Text="{helpers:ResourceString Name=Git}"
-										Visibility="{x:Bind InstanceViewModel.IsGitRepository, Mode=OneWay}" />
+									<!--  Columns  -->
+									<MenuFlyoutSeparator x:Name="ColumnTogglesStartSeparator" />
+									<MenuFlyoutSeparator x:Name="ColumnTogglesEndSeparator" />
 
 									<!--  More Columns  -->
-									<MenuFlyoutItem
-										x:Name="MoreColumnsMenuFlyoutItem"
-										Click="MoreColumns_Click"
-										Text="{helpers:ResourceString Name=MoreColumnsEllipsis}" />
-
-									<!--  (Divider)  -->
-									<MenuFlyoutSeparator />
+									<MenuFlyoutItem Click="MoreColumns_Click" Text="{helpers:ResourceString Name=MoreColumnsEllipsis}" />
 
 									<!--  Set Current Columns As Default  -->
 									<MenuFlyoutItem
@@ -329,45 +317,21 @@
 							<!--  Column Reorder Ghost  -->
 							<Border
 								x:Name="ColumnReorderGhost"
-								Margin="0,4"
-								Padding="12,0"
 								HorizontalAlignment="Left"
-								Background="{ThemeResource SolidBackgroundFillColorTertiaryBrush}"
-								BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
-								BorderThickness="1"
+								Background="{ThemeResource SolidBackgroundFillColorSecondaryBrush}"
 								Canvas.ZIndex="2"
-								CornerRadius="{ThemeResource ControlCornerRadius}"
 								IsHitTestVisible="False"
-								Opacity="0.9"
+								Opacity="0.85"
 								Visibility="Collapsed">
 								<Border.RenderTransform>
 									<TranslateTransform x:Name="ColumnReorderGhostTransform" />
 								</Border.RenderTransform>
-								<TextBlock
-									x:Name="ColumnReorderGhostText"
-									VerticalAlignment="Center"
-									FontSize="12"
-									FontWeight="SemiBold"
-									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-									TextTrimming="CharacterEllipsis" />
+								<Image
+									x:Name="ColumnReorderGhostImage"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Top"
+									Stretch="Fill" />
 							</Border>
-
-							<!--  Column Reorder Indicator  -->
-							<Rectangle
-								x:Name="ColumnReorderIndicator"
-								Width="3"
-								Margin="0,6"
-								HorizontalAlignment="Left"
-								Canvas.ZIndex="3"
-								Fill="{ThemeResource AccentFillColorDefaultBrush}"
-								IsHitTestVisible="False"
-								RadiusX="1.5"
-								RadiusY="1.5"
-								Visibility="Collapsed">
-								<Rectangle.RenderTransform>
-									<TranslateTransform x:Name="ColumnReorderIndicatorTransform" />
-								</Rectangle.RenderTransform>
-							</Rectangle>
 
 							<!--  Select All Check Box  -->
 							<CheckBox
