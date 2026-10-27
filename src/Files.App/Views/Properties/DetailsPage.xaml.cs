@@ -29,12 +29,17 @@ namespace Files.App.Views.Properties
 		{
 			if (BaseProperties is IFileProperties fileProps)
 			{
-				Stopwatch stopwatch = Stopwatch.StartNew();
-				await fileProps.GetSystemFilePropertiesAsync();
-				stopwatch.Stop();
-				Debug.WriteLine($"System file properties were obtained in {stopwatch.ElapsedMilliseconds} milliseconds");
-
-				ViewModel.IsPropertiesLoaded = true;
+				try
+				{
+					Stopwatch stopwatch = Stopwatch.StartNew();
+					await fileProps.GetSystemFilePropertiesAsync();
+					stopwatch.Stop();
+					Debug.WriteLine($"System file properties were obtained in {stopwatch.ElapsedMilliseconds} milliseconds");
+				}
+				finally
+				{
+					ViewModel.IsPropertiesLoaded = true;
+				}
 			}
 		}
 
