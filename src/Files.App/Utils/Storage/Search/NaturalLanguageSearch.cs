@@ -7,6 +7,7 @@ using Microsoft.Windows.AI.Text;
 using System.Globalization;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using Windows.ApplicationModel;
 
 namespace Files.App.Utils.Storage
 {
@@ -35,6 +36,11 @@ namespace Files.App.Utils.Storage
 			Request: photos from july
 			{"kinds":["picture"],"modified":["{Year}-07-01..{Year}-07-31"]}
 			""";
+
+		private const string LanguageModelFeatureId = "com.microsoft.windows.ai.languagemodel";
+
+		// FilesDev token; release builds use the one injected by the CI workflow
+		private const string DevLafToken = "RapDMzls5MTMoiKTQZZ3mg==";
 
 		private static readonly TimeSpan LockTimeout = TimeSpan.FromMilliseconds(500);
 
@@ -65,6 +71,12 @@ namespace Files.App.Utils.Storage
 
 			try
 			{
+				if (!TryUnlockFeature())
+				{
+					_availability = Availability.Unavailable;
+					return false;
+				}
+
 				var readyState = LanguageModel.GetReadyState();
 				if (readyState is AIFeatureReadyState.NotReady)
 					return false;
@@ -158,6 +170,22 @@ namespace Files.App.Utils.Storage
 					Volatile.Write(ref _isPrewarming, 0);
 				}
 			});
+		}
+
+		private static bool TryUnlockFeature()
+		{
+			var packageId = Package.Current.Id;
+			var publisherId = packageId.FamilyName[(packageId.FamilyName.IndexOf('_') + 1)..];
+			var access = LimitedAccessFeatures.TryUnlockFeature(
+				LanguageModelFeatureId,
+				packageId.Name is "FilesDev" ? DevLafToken : Constants.AutomatedWorkflowInjectionKeys.LanguageModelLafToken,
+				$"{publisherId} has registered their use of {LanguageModelFeatureId} with Microsoft and agrees to the terms of use.");
+
+			if (access.Status is LimitedAccessFeatureStatus.Available or LimitedAccessFeatureStatus.AvailableWithoutToken)
+				return true;
+
+			App.Logger.LogInformation("Language model feature unlock failed: {Status}", access.Status);
+			return false;
 		}
 
 		// Callers must hold _modelLock
