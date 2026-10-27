@@ -22,10 +22,11 @@ namespace Files.App.Views.Properties
 			_updateDateDisplayTimer.Start();
 		}
 
-		protected override async Task LoadPropertiesAsync()
-		{
-			await base.LoadPropertiesAsync();
+		protected override Task LoadPropertiesAsync()
+			=> Task.WhenAll(base.LoadPropertiesAsync(), LoadDetailsAsync());
 
+		private async Task LoadDetailsAsync()
+		{
 			if (BaseProperties is IFileProperties fileProps)
 			{
 				Stopwatch stopwatch = Stopwatch.StartNew();

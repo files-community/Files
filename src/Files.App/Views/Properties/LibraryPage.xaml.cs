@@ -69,8 +69,6 @@ namespace Files.App.Views.Properties
 
 		protected override async Task LoadPropertiesAsync()
 		{
-			await base.LoadPropertiesAsync();
-
 			if (BaseProperties is LibraryProperties props)
 			{
 				Folders.Clear();
@@ -87,6 +85,8 @@ namespace Files.App.Views.Properties
 					NotifyPropertyChanged(nameof(IsLibraryEmpty));
 				}
 			}
+
+			await base.LoadPropertiesAsync();
 		}
 
 		private async Task AddLocationAsync()
