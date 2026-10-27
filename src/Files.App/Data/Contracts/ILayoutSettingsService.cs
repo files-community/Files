@@ -51,6 +51,11 @@ namespace Files.App.Data.Contracts
 		string DefaultGroupColumnId { get; set; }
 
 		/// <summary>
+		/// Gets or sets the visible default columns of the details layout in display order.
+		/// </summary>
+		List<string>? DetailsLayoutColumns { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating the default grouping direction.
 		/// </summary>
 		SortDirection DefaultDirectoryGroupDirection { get; set; }

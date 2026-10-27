@@ -65,6 +65,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public List<string>? DetailsLayoutColumns
+		{
+			get => Get<List<string>>(null);
+			set => Set(value);
+		}
+
 		public SortDirection DefaultDirectoryGroupDirection
 		{
 			get => (SortDirection)Get((long)SortDirection.Ascending);

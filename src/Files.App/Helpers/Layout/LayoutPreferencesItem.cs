@@ -61,20 +61,7 @@ namespace Files.App.Helpers
 			IsAdaptiveLayoutOverridden = defaultLayout is not FolderLayoutModes.Adaptive;
 
 			ColumnsViewModel = new ColumnsViewModel();
-			ColumnsViewModel.DateCreatedColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn;
-			ColumnsViewModel.DateModifiedColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowDateColumn;
-			ColumnsViewModel.ItemTypeColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowTypeColumn;
-			ColumnsViewModel.SizeColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowSizeColumn;
-			ColumnsViewModel.GitStatusColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowGitStatusColumn;
-			ColumnsViewModel.GitLastCommitDateColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowGitLastCommitDateColumn;
-			ColumnsViewModel.GitLastCommitMessageColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowGitLastCommitMessageColumn;
-			ColumnsViewModel.GitCommitAuthorColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowGitCommitAuthorColumn;
-			ColumnsViewModel.GitLastCommitShaColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowGitLastCommitShaColumn;
-			ColumnsViewModel.TagColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowFileTagColumn;
-			ColumnsViewModel.DateDeletedColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowDateDeletedColumn;
-			ColumnsViewModel.PathColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowPathColumn;
-			ColumnsViewModel.OriginalPathColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowOriginalPathColumn;
-			ColumnsViewModel.StatusColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowSyncStatusColumn;
+			DetailsLayoutColumnDefaults.Apply(ColumnsViewModel);
 
 			ColumnsViewModel.NameColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.NameColumnWidth;
 			ColumnsViewModel.DateModifiedColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.DateModifiedColumnWidth;

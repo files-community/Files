@@ -4857,4 +4857,13 @@
   <data name="GroupByThisColumn" xml:space="preserve">
     <value>Group by this column</value>
   </data>
+  <data name="AddColumn" xml:space="preserve">
+    <value>Add column</value>
+  </data>
+  <data name="MoveUp" xml:space="preserve">
+    <value>Move up</value>
+  </data>
+  <data name="MoveDown" xml:space="preserve">
+    <value>Move down</value>
+  </data>
 </root>

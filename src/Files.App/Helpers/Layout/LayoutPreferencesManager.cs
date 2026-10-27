@@ -421,6 +421,8 @@ namespace Files.App.Helpers
 			UserSettingsService.LayoutSettingsService.PathColumnWidth = columns.PathColumn.UserLengthPixels;
 			UserSettingsService.LayoutSettingsService.OriginalPathColumnWidth = columns.OriginalPathColumn.UserLengthPixels;
 			UserSettingsService.LayoutSettingsService.SyncStatusColumnWidth = columns.StatusColumn.UserLengthPixels;
+
+			DetailsLayoutColumnDefaults.Save(columns);
 		}
 
 		public static void SetLayoutPreferencesForPath(string? path, LayoutPreferencesItem preferencesItem)
@@ -533,6 +535,8 @@ namespace Files.App.Helpers
 					UserSettingsService.LayoutSettingsService.ShowSyncStatusColumn = !preferencesItem.ColumnsViewModel.StatusColumn.UserCollapsed;
 					UserSettingsService.LayoutSettingsService.SyncStatusColumnWidth = preferencesItem.ColumnsViewModel.StatusColumn.UserLengthPixels;
 				}
+
+				DetailsLayoutColumnDefaults.Save(preferencesItem.ColumnsViewModel);
 			}
 		}
 
