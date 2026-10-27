@@ -80,7 +80,8 @@ internal static class InitializationCache
 					if (!isFolder)
 						continue;
 
-					var parsingPath = item.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING) ?? item.FileSystemPath;
+					var parsingName = item.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING);
+					var parsingPath = parsingName ?? item.FileSystemPath;
 					if (string.IsNullOrEmpty(parsingPath) || !Path.IsPathRooted(parsingPath))
 					{
 						parsingPath = parsingPath switch
@@ -93,15 +94,12 @@ internal static class InitializationCache
 							_ => $@"\\SHELL\{string.Join("\\", item.PIDL.Select(segment => Convert.ToBase64String(segment.GetBytes()).Replace('/', '_')))}"
 						};
 					}
-					var storable = new WindowsFolder(item.IShellItem);
-					string? tooltip = null;
-					SafetyExtensions.IgnoreExceptions(() => storable.TryGetShellTooltip(out tooltip), Program.Logger);
 					result.Add(new PinnedFolderInfo(
 						Path.IsPathRooted(item.Name) ? item.Name! : parsingPath,
 						item.GetDisplayName(SIGDN.SIGDN_NORMALDISPLAY) ?? string.Empty,
 						item.PIDL.GetBytes(),
 						(bool?)SafetyExtensions.IgnoreExceptions(() => item.Properties["System.Home.IsPinned"], Program.Logger) ?? false,
-						item.ParsingName ?? parsingPath, tooltip ?? string.Empty));
+						parsingName ?? parsingPath, string.Empty));
 				}
 			}
 			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or COMException)
