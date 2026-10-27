@@ -293,6 +293,81 @@
 									<!--  (Divider)  -->
 									<MenuFlyoutSeparator />
 
+									<!--  General Columns  -->
+									<MenuFlyoutSubItem x:Name="GeneralColumnsMenuFlyoutSubItem" Text="{helpers:ResourceString Name=General}">
+										<!--  File Tag  -->
+										<ToggleMenuFlyoutItem
+											x:Name="FileTagColumnVisibilityToggleMenuFlyoutItem"
+											Click="ToggleMenuFlyoutItem_Click"
+											IsChecked="{x:Bind ColumnsViewModel.TagColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+											Text="{helpers:ResourceString Name=Tag}"
+											Visibility="{x:Bind ColumnsViewModel.TagColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+										<!--  Item Path  -->
+										<ToggleMenuFlyoutItem
+											x:Name="PathColumnVisibilityToggleMenuFlyoutItem"
+											Click="ToggleMenuFlyoutItem_Click"
+											IsChecked="{x:Bind ColumnsViewModel.PathColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+											Text="{helpers:ResourceString Name=PathColumn}"
+											Visibility="{x:Bind ColumnsViewModel.PathColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+										<!--  Item Original Path  -->
+										<ToggleMenuFlyoutItem
+											x:Name="OriginalPathColumnVisibilityToggleMenuFlyoutItem"
+											Click="ToggleMenuFlyoutItem_Click"
+											IsChecked="{x:Bind ColumnsViewModel.OriginalPathColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+											Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowOriginalPath/Text}"
+											Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+										<!--  Item Date Deleted  -->
+										<ToggleMenuFlyoutItem
+											x:Name="DateDeletedColumnVisibilityToggleMenuFlyoutItem"
+											Click="ToggleMenuFlyoutItem_Click"
+											IsChecked="{x:Bind ColumnsViewModel.DateDeletedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+											Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateDeleted/Text}"
+											Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+										<!--  Item Date Modified  -->
+										<ToggleMenuFlyoutItem
+											x:Name="DateModifiedColumnVisibilityToggleMenuFlyoutItem"
+											Click="ToggleMenuFlyoutItem_Click"
+											IsChecked="{x:Bind ColumnsViewModel.DateModifiedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+											Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateModified/Text}"
+											Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+										<!--  Item Date Created  -->
+										<ToggleMenuFlyoutItem
+											x:Name="DateCreatedColumnVisibilityToggleMenuFlyoutItem"
+											Click="ToggleMenuFlyoutItem_Click"
+											IsChecked="{x:Bind ColumnsViewModel.DateCreatedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+											Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateCreated/Text}"
+											Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+										<!--  Item Type  -->
+										<ToggleMenuFlyoutItem
+											x:Name="TypeColumnVisibilityToggleMenuFlyoutItem"
+											Click="ToggleMenuFlyoutItem_Click"
+											IsChecked="{x:Bind ColumnsViewModel.ItemTypeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+											Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowItemType/Text}"
+											Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+										<!--  Item Size  -->
+										<ToggleMenuFlyoutItem
+											x:Name="SizeColumnVisibilityToggleMenuFlyoutItem"
+											Click="ToggleMenuFlyoutItem_Click"
+											IsChecked="{x:Bind ColumnsViewModel.SizeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+											Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowItemSize/Text}"
+											Visibility="{x:Bind ColumnsViewModel.SizeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+										<!--  Cloud Sync Status  -->
+										<ToggleMenuFlyoutItem
+											x:Name="CloudSyncStatusColumnVisibilityToggleMenuFlyoutItem"
+											Click="ToggleMenuFlyoutItem_Click"
+											IsChecked="{x:Bind ColumnsViewModel.StatusColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+											Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowSyncStatus/Text}"
+											Visibility="{x:Bind ColumnsViewModel.StatusColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+									</MenuFlyoutSubItem>
+
 									<!--  Git Columns  -->
 									<MenuFlyoutSubItem
 										x:Name="GitColumnsVisibilityMenuFlyoutSubItem"
@@ -341,77 +416,11 @@
 
 									</MenuFlyoutSubItem>
 
-									<!--  File Tag  -->
-									<ToggleMenuFlyoutItem
-										x:Name="FileTagColumnVisibilityToggleMenuFlyoutItem"
-										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.TagColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-										Text="{helpers:ResourceString Name=Tag}"
-										Visibility="{x:Bind ColumnsViewModel.TagColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
-
-									<!--  Item Path  -->
-									<ToggleMenuFlyoutItem
-										x:Name="PathColumnVisibilityToggleMenuFlyoutItem"
-										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.PathColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-										Text="{helpers:ResourceString Name=PathColumn}"
-										Visibility="{x:Bind ColumnsViewModel.PathColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
-
-									<!--  Item Original Path  -->
-									<ToggleMenuFlyoutItem
-										x:Name="OriginalPathColumnVisibilityToggleMenuFlyoutItem"
-										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.OriginalPathColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowOriginalPath/Text}"
-										Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
-
-									<!--  Item Date Deleted  -->
-									<ToggleMenuFlyoutItem
-										x:Name="DateDeletedColumnVisibilityToggleMenuFlyoutItem"
-										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.DateDeletedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateDeleted/Text}"
-										Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
-
-									<!--  Item Date Modified  -->
-									<ToggleMenuFlyoutItem
-										x:Name="DateModifiedColumnVisibilityToggleMenuFlyoutItem"
-										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.DateModifiedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateModified/Text}"
-										Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
-
-									<!--  Item Date Created  -->
-									<ToggleMenuFlyoutItem
-										x:Name="DateCreatedColumnVisibilityToggleMenuFlyoutItem"
-										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.DateCreatedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateCreated/Text}"
-										Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
-
-									<!--  Item Type  -->
-									<ToggleMenuFlyoutItem
-										x:Name="TypeColumnVisibilityToggleMenuFlyoutItem"
-										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.ItemTypeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowItemType/Text}"
-										Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
-
-									<!--  Item Size  -->
-									<ToggleMenuFlyoutItem
-										x:Name="SizeColumnVisibilityToggleMenuFlyoutItem"
-										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.SizeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowItemSize/Text}"
-										Visibility="{x:Bind ColumnsViewModel.SizeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
-
-									<!--  Cloud Sync Status  -->
-									<ToggleMenuFlyoutItem
-										x:Name="CloudSyncStatusColumnVisibilityToggleMenuFlyoutItem"
-										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.StatusColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowSyncStatus/Text}"
-										Visibility="{x:Bind ColumnsViewModel.StatusColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+									<!--  More Columns  -->
+									<MenuFlyoutItem
+										x:Name="MoreColumnsMenuFlyoutItem"
+										Click="MoreColumns_Click"
+										Text="{helpers:ResourceString Name=MoreColumnsEllipsis}" />
 
 									<!--  (Divider)  -->
 									<MenuFlyoutSeparator />
@@ -982,7 +991,8 @@
 									AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
 									ColumnOrder="{Binding Path=ColumnsViewModel.OrderedColumns, ElementName=PageRoot, Mode=OneWay}"
 									IsRightTapEnabled="True"
-									Loaded="RowPanel_Loaded">
+									Loaded="RowPanel_Loaded"
+									PropertyCellStyle="{StaticResource ColumnContentTextBlock}">
 									<!--  Item Thumbnail  -->
 									<Grid
 										Width="{Binding Path=ColumnsViewModel.IconColumn.LengthPixels, ElementName=PageRoot, Mode=OneWay}"

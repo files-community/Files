@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
 using Windows.Foundation;
 
 namespace Files.App.Views.Layouts
@@ -12,6 +13,7 @@ namespace Files.App.Views.Layouts
 	/// </summary>
 	public sealed partial class DetailsLayoutRowPanel : Panel
 	{
+		private readonly Dictionary<string, TextBlock> _propertyCells = [];
 		private UIElement[] _orderedChildren = [];
 		private int[] _orderKeys = [];
 
@@ -20,12 +22,77 @@ namespace Files.App.Views.Layouts
 				nameof(ColumnOrder),
 				typeof(object),
 				typeof(DetailsLayoutRowPanel),
-				new PropertyMetadata(null, (d, _) => ((DetailsLayoutRowPanel)d).InvalidateArrange()));
+				new PropertyMetadata(null, (d, _) => ((DetailsLayoutRowPanel)d).OnColumnOrderChanged()));
 
 		public object? ColumnOrder
 		{
 			get => GetValue(ColumnOrderProperty);
 			set => SetValue(ColumnOrderProperty, value);
+		}
+
+		public static readonly DependencyProperty PropertyCellStyleProperty =
+			DependencyProperty.Register(
+				nameof(PropertyCellStyle),
+				typeof(Style),
+				typeof(DetailsLayoutRowPanel),
+				new PropertyMetadata(null));
+
+		public Style? PropertyCellStyle
+		{
+			get => (Style?)GetValue(PropertyCellStyleProperty);
+			set => SetValue(PropertyCellStyleProperty, value);
+		}
+
+		public DetailsLayoutRowPanel()
+		{
+			DataContextChanged += (_, _) => RefreshPropertyCells();
+		}
+
+		public void RefreshPropertyCells()
+		{
+			if (_propertyCells.Count == 0)
+				return;
+
+			var values = (DataContext as ListedItem)?.ShellPropertyValues;
+			foreach (var (id, cell) in _propertyCells)
+				cell.Text = values is not null && values.TryGetValue(id, out var value) ? value.Text ?? string.Empty : string.Empty;
+		}
+
+		private void OnColumnOrderChanged()
+		{
+			var columns = (ColumnOrder as DetailsLayoutColumnOrder)?.Columns;
+			var propertyColumnIds = columns?.PropertyColumnIds ?? [];
+
+			foreach (var id in _propertyCells.Keys.Where(id => !propertyColumnIds.Contains(id)).ToArray())
+			{
+				Children.Remove(_propertyCells[id]);
+				_propertyCells.Remove(id);
+			}
+
+			if (columns is not null)
+			{
+				foreach (var id in propertyColumnIds)
+				{
+					if (!_propertyCells.TryGetValue(id, out var cell))
+					{
+						cell = new() { Padding = new(10, 0, 0, 0), Style = PropertyCellStyle };
+						DetailsLayoutColumnExtensions.SetId(cell, id);
+						_propertyCells[id] = cell;
+						Children.Add(cell);
+					}
+
+					cell.SetBinding(WidthProperty, new Binding
+					{
+						Source = columns.GetColumn(id),
+						Path = new PropertyPath(nameof(DetailsLayoutColumnItem.LengthIncludingGridSplitterPixels)),
+						Mode = BindingMode.OneWay,
+					});
+				}
+
+				RefreshPropertyCells();
+			}
+
+			InvalidateMeasure();
 		}
 
 		protected override Size MeasureOverride(Size availableSize)

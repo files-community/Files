@@ -63,6 +63,11 @@ namespace Files.App.Views.Layouts
 		private Dictionary<string, (ColumnDefinition Column, ColumnDefinition Divider)>? _headerColumnDefinitions;
 		private ColumnDefinition[] _fixedHeaderColumnDefinitions = [];
 		private Dictionary<string, int>? _headerColumnIndices;
+		private readonly Dictionary<string, PropertyColumnHeader> _propertyColumnHeaders = [];
+		private IReadOnlyDictionary<string, ShellPropertyColumnInfo>? _shellPropertyCatalog;
+		private readonly HashSet<ListedItem> _shellPropertyLoads = [];
+		private readonly List<ToggleMenuFlyoutItem> _propertyColumnMenuItems = [];
+		private readonly List<(MenuFlyoutItem Item, MenuFlyoutSubItem Group)> _toggleAllMenuItems = [];
 		private string? _contextColumnId;
 
 		private const double ColumnReorderDragThreshold = 6;
@@ -115,6 +120,8 @@ namespace Files.App.Views.Layouts
 			HeaderGrid.AddHandler(UIElement.PointerReleasedEvent, new PointerEventHandler(HeaderGrid_ReorderPointerReleased), true);
 			HeaderGrid.AddHandler(UIElement.PointerCaptureLostEvent, new PointerEventHandler(HeaderGrid_ReorderPointerCaptureLost), true);
 			HeaderGrid.AddHandler(UIElement.KeyDownEvent, new KeyEventHandler(HeaderGrid_ReorderKeyDown), true);
+			FileList.ContainerContentChanging += FileList_ShellPropertyContainerContentChanging;
+			_ = LoadShellPropertyCatalogAsync();
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
@@ -202,6 +209,7 @@ namespace Files.App.Views.Layouts
 				foreach (var id in DetailsLayoutColumnIds.All)
 					ColumnsViewModel.GetColumn(id).Update(FolderSettings.ColumnsViewModel.GetColumn(id));
 
+				ColumnsViewModel.PropertyColumns = FolderSettings.ColumnsViewModel.PropertyColumns;
 				ColumnsViewModel.ColumnOrder = FolderSettings.ColumnsViewModel.ColumnOrder;
 			}
 
@@ -822,6 +830,9 @@ namespace Files.App.Views.Layouts
 			ColumnsViewModel.ItemTypeColumn.UserLength = Column10.Width;
 			ColumnsViewModel.SizeColumn.UserLength = Column11.Width;
 			ColumnsViewModel.StatusColumn.UserLength = Column12.Width;
+
+			foreach (var (id, propertyHeader) in _propertyColumnHeaders)
+				ColumnsViewModel.GetColumn(id).UserLength = propertyHeader.Column.Width;
 		}
 
 		private void RootGrid_SizeChanged(object? sender, SizeChangedEventArgs? e)
@@ -875,7 +886,7 @@ namespace Files.App.Views.Layouts
 			if (!FileList.Items.Any())
 				return;
 
-			foreach (var columnId in DetailsLayoutColumnIds.All)
+			foreach (var columnId in ColumnsViewModel.AllColumnIds.ToArray())
 				ResizeColumnToFit(columnId);
 		}
 
@@ -929,6 +940,7 @@ namespace Files.App.Views.Layouts
 				DetailsLayoutColumnIds.DateCreated => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(),
 				DetailsLayoutColumnIds.ItemType => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(),
 				DetailsLayoutColumnIds.Size => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(),
+				_ when ColumnsViewModel.HasPropertyColumn(columnId) => FileList.Items.Cast<ListedItem>().Select(x => x.ShellPropertyValues is { } values && values.TryGetValue(columnId, out var value) ? value.Text?.Length ?? 0 : 0).Max(),
 				_ => 0 // git status and sync status columns only show icons
 			};
 
@@ -1037,7 +1049,7 @@ namespace Files.App.Views.Layouts
 				"ItemDateCreatedTextBlock" => DetailsLayoutColumnIds.DateCreated,
 				"ItemTypeTextBlock" => DetailsLayoutColumnIds.ItemType,
 				"ItemSizeTextBlock" => DetailsLayoutColumnIds.Size,
-				_ => null,
+				_ => DetailsLayoutColumnExtensions.GetId(element) is { } id && ColumnsViewModel.HasPropertyColumn(id) ? id : null,
 			};
 
 			return columnIdFromName == columnId;
@@ -1084,21 +1096,29 @@ namespace Files.App.Views.Layouts
 				_fixedHeaderColumnDefinitions = [definitions[0], definitions[1], definitions[definitions.Count - 1]];
 			}
 
-			var columnIndices = new Dictionary<string, int>(_headerColumnDefinitions.Count);
+			SyncPropertyColumnHeaders();
+
+			var columnIndices = new Dictionary<string, int>(_headerColumnDefinitions.Count + _propertyColumnHeaders.Count);
 			definitions.Clear();
 			definitions.Add(_fixedHeaderColumnDefinitions[0]);
 			definitions.Add(_fixedHeaderColumnDefinitions[1]);
 			foreach (var id in ColumnsViewModel.OrderedColumns.Ids)
 			{
-				if (!_headerColumnDefinitions.TryGetValue(id, out var pair))
+				ColumnDefinition column, divider;
+				if (_headerColumnDefinitions.TryGetValue(id, out var pair))
+					(column, divider) = pair;
+				else if (_propertyColumnHeaders.TryGetValue(id, out var propertyHeader))
+					(column, divider) = (propertyHeader.Column, propertyHeader.Divider);
+				else
 					continue;
 
 				columnIndices[id] = definitions.Count;
-				definitions.Add(pair.Column);
-				definitions.Add(pair.Divider);
+				definitions.Add(column);
+				definitions.Add(divider);
 			}
 			definitions.Add(_fixedHeaderColumnDefinitions[2]);
 			_headerColumnIndices = columnIndices;
+			Grid.SetColumnSpan(ColumnReorderIndicator, definitions.Count);
 
 			foreach (var child in HeaderGrid.Children)
 			{
@@ -1110,6 +1130,192 @@ namespace Files.App.Views.Layouts
 					if (element is DataGridHeader header)
 						header.TabIndex = columnIndex;
 				}
+			}
+		}
+
+		private void SyncPropertyColumnHeaders()
+		{
+			var propertyColumnIds = ColumnsViewModel.PropertyColumnIds;
+			foreach (var id in _propertyColumnHeaders.Keys.Where(id => !propertyColumnIds.Contains(id)).ToArray())
+			{
+				var propertyHeader = _propertyColumnHeaders[id];
+				propertyHeader.Attach(null);
+				HeaderGrid.Children.Remove(propertyHeader.Header);
+				HeaderGrid.Children.Remove(propertyHeader.Splitter);
+				_propertyColumnHeaders.Remove(id);
+			}
+
+			foreach (var id in propertyColumnIds)
+			{
+				if (!_propertyColumnHeaders.TryGetValue(id, out var propertyHeader))
+				{
+					propertyHeader = CreatePropertyColumnHeader(id);
+					_propertyColumnHeaders[id] = propertyHeader;
+					HeaderGrid.Children.Add(propertyHeader.Header);
+					HeaderGrid.Children.Add(propertyHeader.Splitter);
+				}
+
+				propertyHeader.Attach(ColumnsViewModel.GetColumn(id));
+			}
+		}
+
+		private PropertyColumnHeader CreatePropertyColumnHeader(string id)
+		{
+			var header = new DataGridHeader
+			{
+				Header = GetPropertyColumnDisplayName(id),
+				Command = UpdateSortOptionsCommand,
+				CommandParameter = id,
+			};
+			DetailsLayoutColumnExtensions.SetId(header, id);
+
+			var splitter = new Files.App.Controls.GridSplitter
+			{
+				Style = (Style)Resources["HeaderGridSplitterStyle"],
+			};
+			DetailsLayoutColumnExtensions.SetId(splitter, id);
+			Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(splitter, $"{id}HeaderGridSplitter");
+			splitter.DoubleTapped += GridSplitter_DoubleTapped;
+			splitter.Loaded += GridSplitter_Loaded;
+			splitter.ManipulationStarted += GridSplitter_ManipulationStarted;
+			splitter.ManipulationDelta += GridSplitter_ManipulationDelta;
+			splitter.ManipulationCompleted += GridSplitter_ManipulationCompleted;
+			splitter.PreviewKeyUp += GridSplitter_PreviewKeyUp;
+
+			return new(new ColumnDefinition(), new ColumnDefinition { Width = GridLength.Auto }, header, splitter);
+		}
+
+		private string GetPropertyColumnDisplayName(string id)
+		{
+			return _shellPropertyCatalog is not null && _shellPropertyCatalog.TryGetValue(id, out var info) ? info.DisplayName : id;
+		}
+
+		private async Task LoadShellPropertyCatalogAsync()
+		{
+			_shellPropertyCatalog = await ShellPropertyCatalog.GetAsync();
+			foreach (var (id, propertyHeader) in _propertyColumnHeaders)
+				propertyHeader.Header.Header = GetPropertyColumnDisplayName(id);
+		}
+
+		private void SetPropertyColumnVisibility(string id, bool isVisible)
+		{
+			if (isVisible == ColumnsViewModel.HasPropertyColumn(id))
+				return;
+
+			if (isVisible)
+			{
+				var width = _shellPropertyCatalog is not null && _shellPropertyCatalog.TryGetValue(id, out var info) ? info.DefaultWidth : 150;
+				ColumnsViewModel.AddPropertyColumn(id, width);
+				LoadShellPropertiesForRealizedItems();
+			}
+			else
+			{
+				ColumnsViewModel.RemovePropertyColumn(id);
+			}
+
+			SaveColumnLayout();
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(SelectorItem))]
+		private void LoadShellPropertiesForRealizedItems()
+		{
+			if (FileList.ItemsPanelRoot is not { } panel)
+				return;
+
+			foreach (var child in panel.Children)
+			{
+				if (child is SelectorItem container && FileList.ItemFromContainer(container) is ListedItem item)
+					_ = LoadShellPropertiesAsync(item);
+			}
+		}
+
+		private void FileList_ShellPropertyContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+		{
+			if (!args.InRecycleQueue && args.Item is ListedItem item)
+				_ = LoadShellPropertiesAsync(item);
+		}
+
+		private async Task LoadShellPropertiesAsync(ListedItem item)
+		{
+			var propertyColumnIds = ColumnsViewModel.PropertyColumnIds;
+			if (propertyColumnIds.Count == 0 || string.IsNullOrEmpty(item.ItemPath))
+				return;
+
+			var existing = item.ShellPropertyValues;
+			var missing = propertyColumnIds.Where(id => existing is null || !existing.ContainsKey(id)).ToArray();
+			if (missing.Length == 0 || !_shellPropertyLoads.Add(item))
+				return;
+
+			try
+			{
+				var values = await ShellPropertyReader.ReadAsync(item.ItemPath, missing);
+				if (item.ShellPropertyValues is { } current)
+				{
+					foreach (var (id, value) in current)
+						values.TryAdd(id, value);
+				}
+
+				item.ShellPropertyValues = values;
+				RefreshShellPropertyCells(item);
+			}
+			finally
+			{
+				_shellPropertyLoads.Remove(item);
+			}
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(SelectorItem))]
+		[DynamicWindowsRuntimeCast(typeof(UserControl))]
+		private void RefreshShellPropertyCells(ListedItem item)
+		{
+			if (FileList.ContainerFromItem(item) is SelectorItem container &&
+				container.ContentTemplateRoot is UserControl { Content: DetailsLayoutRowPanel panel })
+			{
+				panel.RefreshPropertyCells();
+			}
+		}
+
+		private sealed class PropertyColumnHeader(ColumnDefinition column, ColumnDefinition divider, DataGridHeader header, Files.App.Controls.GridSplitter splitter)
+		{
+			private DetailsLayoutColumnItem? _item;
+
+			public ColumnDefinition Column { get; } = column;
+
+			public ColumnDefinition Divider { get; } = divider;
+
+			public DataGridHeader Header { get; } = header;
+
+			public Files.App.Controls.GridSplitter Splitter { get; } = splitter;
+
+			public void Attach(DetailsLayoutColumnItem? item)
+			{
+				if (ReferenceEquals(_item, item))
+					return;
+
+				if (_item is not null)
+					_item.PropertyChanged -= Item_PropertyChanged;
+
+				_item = item;
+				if (_item is null)
+					return;
+
+				_item.PropertyChanged += Item_PropertyChanged;
+				UpdateWidth();
+			}
+
+			private void Item_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+			{
+				if (e.PropertyName is nameof(DetailsLayoutColumnItem.Length) or nameof(DetailsLayoutColumnItem.MaxLength))
+					UpdateWidth();
+			}
+
+			private void UpdateWidth()
+			{
+				if (_item is null)
+					return;
+
+				Column.Width = _item.Length;
+				Column.MaxWidth = _item.MaxLength;
 			}
 		}
 
@@ -1145,6 +1351,211 @@ namespace Files.App.Views.Layouts
 				MoveColumnLeftMenuFlyoutItem.IsEnabled = ColumnsViewModel.CanMoveColumn(id, -1);
 				MoveColumnRightMenuFlyoutItem.IsEnabled = ColumnsViewModel.CanMoveColumn(id, 1);
 			}
+
+			if (sender is MenuFlyout menuFlyout)
+				PopulatePropertyColumnMenu(menuFlyout);
+
+			foreach (var item in _propertyColumnMenuItems)
+				item.IsChecked = item.Tag is string name && ColumnsViewModel.HasPropertyColumn(name);
+
+			UpdateToggleAllMenuItems();
+		}
+
+		private void PopulatePropertyColumnMenu(MenuFlyout menuFlyout)
+		{
+			if (_toggleAllMenuItems.Count == 0)
+			{
+				AddToggleAllMenuItem(GeneralColumnsMenuFlyoutSubItem);
+				AddToggleAllMenuItem(GitColumnsVisibilityMenuFlyoutSubItem);
+			}
+
+			MoreColumnsMenuFlyoutItem.IsEnabled = _shellPropertyCatalog is not null;
+			if (_shellPropertyCatalog is null || _propertyColumnMenuItems.Count > 0)
+				return;
+
+			var insertIndex = menuFlyout.Items.IndexOf(GitColumnsVisibilityMenuFlyoutSubItem) + 1;
+			foreach (var (resourceKey, propertyNames) in ShellPropertyCatalog.MenuCategories)
+			{
+				var infos = propertyNames
+					.Select(name => _shellPropertyCatalog.TryGetValue(name, out var info) ? info : null)
+					.OfType<ShellPropertyColumnInfo>()
+					.ToArray();
+
+				if (infos.Length == 0)
+					continue;
+
+				MenuFlyoutSubItem subItem;
+				if (resourceKey == Strings.General)
+				{
+					subItem = GeneralColumnsMenuFlyoutSubItem;
+					subItem.Items.Add(new MenuFlyoutSeparator());
+				}
+				else
+				{
+					subItem = new MenuFlyoutSubItem { Text = resourceKey.GetLocalizedResource() };
+					menuFlyout.Items.Insert(insertIndex++, subItem);
+					AddToggleAllMenuItem(subItem);
+				}
+
+				foreach (var info in infos)
+					subItem.Items.Add(CreatePropertyColumnMenuItem(info));
+			}
+		}
+
+		private void AddToggleAllMenuItem(MenuFlyoutSubItem group)
+		{
+			var item = new MenuFlyoutItem();
+			item.Click += (_, _) => ToggleAllColumns(group);
+			group.Items.Insert(0, item);
+			group.Items.Insert(1, new MenuFlyoutSeparator());
+			_toggleAllMenuItems.Add((item, group));
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(ToggleMenuFlyoutItem))]
+		private static ToggleMenuFlyoutItem[] GetVisibleColumnToggles(MenuFlyoutSubItem group)
+		{
+			return group.Items.OfType<ToggleMenuFlyoutItem>().Where(toggle => toggle.Visibility == Visibility.Visible).ToArray();
+		}
+
+		private void UpdateToggleAllMenuItems()
+		{
+			foreach (var (item, group) in _toggleAllMenuItems)
+			{
+				item.Text = GetVisibleColumnToggles(group).All(toggle => toggle.IsChecked)
+					? Strings.HideAll.GetLocalizedResource()
+					: Strings.ShowAll.GetLocalizedResource();
+			}
+		}
+
+		private void ToggleAllColumns(MenuFlyoutSubItem group)
+		{
+			var toggles = GetVisibleColumnToggles(group);
+			var isVisible = !toggles.All(toggle => toggle.IsChecked);
+			foreach (var toggle in toggles)
+			{
+				if (toggle.IsChecked == isVisible)
+					continue;
+
+				toggle.IsChecked = isVisible;
+				if (toggle.Tag is string name)
+					SetPropertyColumnVisibility(name, isVisible);
+			}
+
+			ToggleMenuFlyoutItem_Click(group, new());
+		}
+
+		private async void MoreColumns_Click(object sender, RoutedEventArgs e)
+		{
+			var catalog = _shellPropertyCatalog ?? await ShellPropertyCatalog.GetAsync();
+			var groupsPanel = new StackPanel { Spacing = 16 };
+			var groups = new List<(StackPanel Panel, CheckBox[] CheckBoxes, Action UpdateToggleAll)>();
+
+			var catalogGroups = catalog.Values
+				.GroupBy(info => ShellPropertyCatalog.GetGroupDisplayName(info.Group))
+				.OrderBy(group => group.Key, StringComparer.CurrentCultureIgnoreCase);
+
+			foreach (var catalogGroup in catalogGroups)
+			{
+				var checkBoxes = catalogGroup
+					.OrderBy(info => info.DisplayName, StringComparer.CurrentCultureIgnoreCase)
+					.Select(info => new CheckBox { Content = info.DisplayName, Tag = info.Name, IsChecked = ColumnsViewModel.HasPropertyColumn(info.Name) })
+					.ToArray();
+
+				var toggleAllButton = new HyperlinkButton { HorizontalAlignment = HorizontalAlignment.Right };
+				void UpdateToggleAll()
+				{
+					toggleAllButton.Content = checkBoxes.Where(checkBox => checkBox.Visibility == Visibility.Visible).All(checkBox => checkBox.IsChecked is true)
+						? Strings.HideAll.GetLocalizedResource()
+						: Strings.ShowAll.GetLocalizedResource();
+				}
+
+				toggleAllButton.Click += (_, _) =>
+				{
+					var visibleCheckBoxes = checkBoxes.Where(checkBox => checkBox.Visibility == Visibility.Visible).ToArray();
+					var isChecked = !visibleCheckBoxes.All(checkBox => checkBox.IsChecked is true);
+					foreach (var checkBox in visibleCheckBoxes)
+						checkBox.IsChecked = isChecked;
+
+					UpdateToggleAll();
+				};
+
+				var header = new Grid();
+				header.Children.Add(new TextBlock { Text = catalogGroup.Key, Style = (Style)Application.Current.Resources["BodyStrongTextBlockStyle"], VerticalAlignment = VerticalAlignment.Center });
+				header.Children.Add(toggleAllButton);
+
+				var groupPanel = new StackPanel();
+				groupPanel.Children.Add(header);
+				foreach (var checkBox in checkBoxes)
+				{
+					checkBox.Click += (_, _) => UpdateToggleAll();
+					groupPanel.Children.Add(checkBox);
+				}
+
+				UpdateToggleAll();
+				groupsPanel.Children.Add(groupPanel);
+				groups.Add((groupPanel, checkBoxes, UpdateToggleAll));
+			}
+
+			var searchBox = new TextBox { PlaceholderText = Strings.Search.GetLocalizedResource(), Margin = new(0, 0, 0, 12) };
+			searchBox.TextChanged += (_, _) =>
+			{
+				var query = searchBox.Text.Trim();
+				foreach (var (panel, checkBoxes, updateToggleAll) in groups)
+				{
+					foreach (var checkBox in checkBoxes)
+					{
+						checkBox.Visibility = query.Length == 0 || (checkBox.Content as string)?.Contains(query, StringComparison.CurrentCultureIgnoreCase) is true
+							? Visibility.Visible
+							: Visibility.Collapsed;
+					}
+
+					panel.Visibility = checkBoxes.Any(checkBox => checkBox.Visibility == Visibility.Visible) ? Visibility.Visible : Visibility.Collapsed;
+					updateToggleAll();
+				}
+			};
+
+			var scrollViewer = new ScrollViewer { Content = groupsPanel, MaxHeight = 480, Padding = new(0, 0, 16, 0) };
+			var content = new Grid { RowDefinitions = { new() { Height = GridLength.Auto }, new() { Height = new(1, GridUnitType.Star) } } };
+			Grid.SetRow(scrollViewer, 1);
+			content.Children.Add(searchBox);
+			content.Children.Add(scrollViewer);
+
+			var dialog = new ContentDialog
+			{
+				Title = Strings.MoreColumns.GetLocalizedResource(),
+				Content = content,
+				PrimaryButtonText = Strings.OK.GetLocalizedResource(),
+				CloseButtonText = Strings.Cancel.GetLocalizedResource(),
+				DefaultButton = ContentDialogButton.Primary,
+				XamlRoot = XamlRoot,
+			};
+
+			if (await dialog.TryShowAsync() != ContentDialogResult.Primary)
+				return;
+
+			foreach (var (_, checkBoxes, _) in groups)
+			{
+				foreach (var checkBox in checkBoxes)
+				{
+					if (checkBox.Tag is string name)
+						SetPropertyColumnVisibility(name, checkBox.IsChecked is true);
+				}
+			}
+		}
+
+		private ToggleMenuFlyoutItem CreatePropertyColumnMenuItem(ShellPropertyColumnInfo info)
+		{
+			var item = new ToggleMenuFlyoutItem { Text = info.DisplayName, Tag = info.Name };
+			item.Click += PropertyColumnMenuItem_Click;
+			_propertyColumnMenuItems.Add(item);
+			return item;
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(ToggleMenuFlyoutItem))]
+		private void PropertyColumnMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			if (sender is ToggleMenuFlyoutItem { Tag: string name } item)
+				SetPropertyColumnVisibility(name, item.IsChecked);
 		}
 
 		private void MoveColumnLeft_Click(object sender, RoutedEventArgs e)

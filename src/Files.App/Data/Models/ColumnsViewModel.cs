@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml;
+using System.Globalization;
 
 namespace Files.App.Data.Models
 {
@@ -181,7 +182,87 @@ namespace Files.App.Data.Models
 
 		private DetailsLayoutColumnOrder? _OrderedColumns;
 		[RegistryIgnore, JsonIgnore]
-		public DetailsLayoutColumnOrder OrderedColumns => _OrderedColumns ??= new(_ColumnOrder);
+		public DetailsLayoutColumnOrder OrderedColumns => _OrderedColumns ??= new(_ColumnOrder, _propertyColumnIds, this);
+
+		private readonly List<string> _propertyColumnIds = [];
+		private readonly Dictionary<string, DetailsLayoutColumnItem> _propertyColumns = [];
+
+		/// <summary>
+		/// Gets or sets the shell property columns as "canonical name|width" entries.
+		/// </summary>
+		public string[] PropertyColumns
+		{
+			get => [.. _propertyColumnIds.Select(id => $"{id}|{_propertyColumns[id].UserLengthPixels.ToString(CultureInfo.InvariantCulture)}")];
+			set
+			{
+				value ??= [];
+				if (PropertyColumns.SequenceEqual(value))
+					return;
+
+				_propertyColumnIds.Clear();
+				_propertyColumns.Clear();
+				foreach (var entry in value)
+				{
+					var separatorIndex = entry.LastIndexOf('|');
+					var id = separatorIndex < 0 ? entry : entry[..separatorIndex];
+					if (string.IsNullOrEmpty(id) || _propertyColumns.ContainsKey(id))
+						continue;
+
+					var column = CreatePropertyColumn();
+					if (separatorIndex >= 0 && double.TryParse(entry[(separatorIndex + 1)..], NumberStyles.Float, CultureInfo.InvariantCulture, out var width))
+						column.UserLengthPixels = width;
+
+					_propertyColumnIds.Add(id);
+					_propertyColumns[id] = column;
+				}
+
+				OnColumnSetChanged();
+			}
+		}
+
+		[RegistryIgnore, JsonIgnore]
+		public IReadOnlyList<string> PropertyColumnIds => _propertyColumnIds;
+
+		[RegistryIgnore, JsonIgnore]
+		public IEnumerable<string> AllColumnIds => DetailsLayoutColumnIds.All.Concat(_propertyColumnIds);
+
+		public bool HasPropertyColumn(string id)
+		{
+			return _propertyColumns.ContainsKey(id);
+		}
+
+		public void AddPropertyColumn(string id, double width)
+		{
+			if (_propertyColumns.ContainsKey(id))
+				return;
+
+			var column = CreatePropertyColumn();
+			column.UserLengthPixels = width;
+			_propertyColumnIds.Add(id);
+			_propertyColumns[id] = column;
+			OnColumnSetChanged();
+		}
+
+		public void RemovePropertyColumn(string id)
+		{
+			if (!_propertyColumns.Remove(id))
+				return;
+
+			_propertyColumnIds.Remove(id);
+			OnColumnSetChanged();
+		}
+
+		private static DetailsLayoutColumnItem CreatePropertyColumn()
+		{
+			return new() { NormalMaxLength = 1000 };
+		}
+
+		private void OnColumnSetChanged()
+		{
+			_OrderedColumns = null;
+			OnPropertyChanged(nameof(PropertyColumns));
+			OnPropertyChanged(nameof(OrderedColumns));
+		}
 
 		public void MoveColumn(string id, string targetId, bool after)
 		{
@@ -249,7 +330,7 @@ namespace Files.App.Data.Models
 				DetailsLayoutColumnIds.ItemType => ItemTypeColumn,
 				DetailsLayoutColumnIds.Size => SizeColumn,
 				DetailsLayoutColumnIds.Status => StatusColumn,
-				_ => throw new ArgumentOutOfRangeException(nameof(id), id, null),
+				_ => _propertyColumns.TryGetValue(id, out var column) ? column : throw new ArgumentOutOfRangeException(nameof(id), id, null),
 			};
 		}
 
@@ -269,7 +350,7 @@ namespace Files.App.Data.Models
 						return false;
 				}
 
-				return model.OrderedColumns.Ids.SequenceEqual(OrderedColumns.Ids);
+				return model.OrderedColumns.Ids.SequenceEqual(OrderedColumns.Ids) && model.PropertyColumns.SequenceEqual(PropertyColumns);
 			}
 
 			return base.Equals(obj);
