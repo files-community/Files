@@ -138,8 +138,8 @@ internal static class ServerHost
 	{
 		lock (gate)
 		{
-			if (clients.Count == 0 && (quitting || (!hadClient && startupGraceExpired) ||
-				(hadClient && (!settings.KeepRunning || pendingUpdates > 0))))
+			if (clients.Count == 0 && (quitting || (hadClient && pendingUpdates > 0) ||
+				(!settings.KeepRunning && (hadClient || startupGraceExpired))))
 				Program.ExitSignal.TrySetResult(true);
 		}
 	}
