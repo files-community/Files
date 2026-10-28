@@ -13,6 +13,7 @@ public sealed partial class AppService : IDisposable
 	internal bool IsDisposed => disposed != 0;
 
 	public bool CanRestorePreviousSession { get; }
+	public int ProcessId => Environment.ProcessId;
 	public PinnedFoldersService PinnedFolders { get; }
 	public RecycleBinService RecycleBin { get; }
 

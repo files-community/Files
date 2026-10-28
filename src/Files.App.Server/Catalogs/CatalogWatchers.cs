@@ -9,10 +9,11 @@ namespace Files.App.Server;
 
 internal static class CatalogWatchers
 {
-	private static readonly List<DirectoryChangeMonitor> watchers = [];
+	private static List<DirectoryChangeMonitor> watchers = [];
 	private static readonly Lazy<bool> initialized = new(Start);
 	private static readonly Lock recycleBinGate = new();
-	private static readonly List<DirectoryChangeMonitor> recycleBins = [];
+	private static List<DirectoryChangeMonitor> recycleBins = [];
+	private static long recycleBinVersion;
 	private static bool stopped;
 
 	internal static void Initialize() => _ = initialized.Value;
@@ -48,13 +49,16 @@ internal static class CatalogWatchers
 
 	internal static void RefreshRecycleBinWatcher()
 	{
+		long version;
 		lock (recycleBinGate)
 		{
 			if (stopped)
 				return;
-			foreach (var watcher in recycleBins)
-				watcher.Dispose();
-			recycleBins.Clear();
+			version = ++recycleBinVersion;
+		}
+		var replacements = new List<DirectoryChangeMonitor>();
+		try
+		{
 			using var identity = WindowsIdentity.GetCurrent();
 			var sid = identity.User?.Value;
 			if (!string.IsNullOrEmpty(sid))
@@ -66,11 +70,29 @@ internal static class CatalogWatchers
 					var watcher = SafetyExtensions.IgnoreExceptions(() => new DirectoryChangeMonitor(
 						Path.Combine(drive.Name, "$RECYCLE.BIN", sid), "*", false, OnRecycleBinChanged), Program.Logger);
 					if (watcher is not null)
-						recycleBins.Add(watcher);
+						replacements.Add(watcher);
 				}
 			}
-			RecycleBinCatalog.RecordChange(new FileSystemEventArgs(WatcherChangeTypes.All, string.Empty, string.Empty), refresh: true);
 		}
+		catch
+		{
+			foreach (var watcher in replacements)
+				watcher.Dispose();
+			throw;
+		}
+		List<DirectoryChangeMonitor> previous;
+		bool installed;
+		lock (recycleBinGate)
+		{
+			installed = !stopped && version == recycleBinVersion;
+			previous = installed ? recycleBins : replacements;
+			if (installed)
+				recycleBins = replacements;
+		}
+		foreach (var watcher in previous)
+			watcher.Dispose();
+		if (installed)
+			RecycleBinCatalog.RecordChange(new FileSystemEventArgs(WatcherChangeTypes.All, string.Empty, string.Empty), refresh: true);
 	}
 
 	private static void OnRecycleBinChanged(FileSystemEventArgs e)
@@ -96,7 +118,16 @@ internal static class CatalogWatchers
 			return;
 		try
 		{
-			watchers.Add(new DirectoryChangeMonitor(directory, filter, true, _ => changed()));
+			var watcher = new DirectoryChangeMonitor(directory, filter, true, _ => changed());
+			lock (recycleBinGate)
+			{
+				if (!stopped)
+				{
+					watchers.Add(watcher);
+					return;
+				}
+			}
+			watcher.Dispose();
 		}
 		catch (Exception ex)
 		{
@@ -106,14 +137,18 @@ internal static class CatalogWatchers
 
 	internal static void Dispose()
 	{
-		foreach (var watcher in watchers)
-			watcher.Dispose();
+		List<DirectoryChangeMonitor> previous;
+		List<DirectoryChangeMonitor> previousBins;
 		lock (recycleBinGate)
 		{
 			stopped = true;
-			foreach (var watcher in recycleBins)
-				watcher.Dispose();
-			recycleBins.Clear();
+			recycleBinVersion++;
+			previous = watchers;
+			previousBins = recycleBins;
+			watchers = [];
+			recycleBins = [];
 		}
+		foreach (var watcher in previous.Concat(previousBins))
+			watcher.Dispose();
 	}
 }

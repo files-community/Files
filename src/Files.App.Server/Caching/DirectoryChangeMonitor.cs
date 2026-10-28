@@ -9,6 +9,7 @@ namespace Files.App.Server;
 internal sealed partial class DirectoryChangeMonitor : IDisposable
 {
 	private readonly Lock gate = new();
+	private readonly Lock configureGate = new();
 	private readonly string directory;
 	private readonly string filter;
 	private readonly bool recursive;
@@ -17,6 +18,7 @@ internal sealed partial class DirectoryChangeMonitor : IDisposable
 	private FileSystemWatcher? parentWatcher;
 	private bool watchingTarget;
 	private bool disposed;
+	private long configurationVersion;
 
 	internal DirectoryChangeMonitor(string directory, string filter, bool recursive, Action<FileSystemEventArgs> changed)
 	{
@@ -24,12 +26,18 @@ internal sealed partial class DirectoryChangeMonitor : IDisposable
 		this.filter = filter;
 		this.recursive = recursive;
 		this.changed = changed;
-		lock (gate)
-			Configure();
+		Configure();
 	}
 
 	private void Configure()
 	{
+		long version;
+		lock (gate)
+		{
+			if (disposed)
+				return;
+			version = ++configurationVersion;
+		}
 		var existing = directory;
 		var next = directory;
 		while (!Directory.Exists(existing))
@@ -54,13 +62,29 @@ internal sealed partial class DirectoryChangeMonitor : IDisposable
 			replacement.Dispose();
 			throw;
 		}
-		var previous = watcher;
-		var previousParent = parentWatcher;
-		watcher = replacement;
-		parentWatcher = replacementParent;
-		watchingTarget = targetExists;
+		FileSystemWatcher? previous;
+		FileSystemWatcher? previousParent;
+		lock (gate)
+		{
+			if (disposed || version != configurationVersion)
+			{
+				previous = replacement;
+				previousParent = replacementParent;
+			}
+			else
+			{
+				previous = watcher;
+				previousParent = parentWatcher;
+				watcher = replacement;
+				parentWatcher = replacementParent;
+				watchingTarget = targetExists;
+			}
+		}
 		previous?.Dispose();
 		previousParent?.Dispose();
+		// The missing component may have appeared before its parent watch was enabled.
+		if (!targetExists && Directory.Exists(next))
+			Configure();
 	}
 
 	private FileSystemWatcher CreateWatcher(string path, string pattern, bool includeSubdirectories, NotifyFilters notifyFilter)
@@ -95,19 +119,23 @@ internal sealed partial class DirectoryChangeMonitor : IDisposable
 
 	private void OnChanged(object sender, FileSystemEventArgs args)
 	{
+		bool reconfigure;
 		lock (gate)
 		{
 			if (disposed || (!ReferenceEquals(sender, watcher) && !ReferenceEquals(sender, parentWatcher)))
 				return;
-			if (ReferenceEquals(sender, parentWatcher) || !watchingTarget || !Directory.Exists(directory))
-			{
-				Reconfigure();
-				args = new FileSystemEventArgs(WatcherChangeTypes.All, directory, string.Empty);
-			}
-			else if (!Relevant(args.FullPath) && !(args is RenamedEventArgs renamed && Relevant(renamed.OldFullPath)))
-				return;
+			reconfigure = ReferenceEquals(sender, parentWatcher) || !watchingTarget;
 		}
-		changed(args);
+		if (reconfigure || !Directory.Exists(directory))
+		{
+			if (!Reconfigure(sender))
+				return;
+			args = new FileSystemEventArgs(WatcherChangeTypes.All, directory, string.Empty);
+		}
+		else if (!Relevant(args.FullPath) && !(args is RenamedEventArgs renamed && Relevant(renamed.OldFullPath)))
+			return;
+		if (!Volatile.Read(ref disposed))
+			changed(args);
 	}
 
 	private void OnError(object sender, ErrorEventArgs args)
@@ -116,33 +144,48 @@ internal sealed partial class DirectoryChangeMonitor : IDisposable
 		{
 			if (disposed || (!ReferenceEquals(sender, watcher) && !ReferenceEquals(sender, parentWatcher)))
 				return;
-			if (args.GetException() is not InternalBufferOverflowException)
-				Reconfigure();
 		}
-		changed(new FileSystemEventArgs(WatcherChangeTypes.All, directory, string.Empty));
+		if (args.GetException() is not InternalBufferOverflowException && !Reconfigure(sender))
+			return;
+		if (!Volatile.Read(ref disposed))
+			changed(new FileSystemEventArgs(WatcherChangeTypes.All, directory, string.Empty));
 	}
 
-	private void Reconfigure()
+	private bool Reconfigure(object sender)
 	{
-		try
+		lock (configureGate)
 		{
-			Configure();
-		}
-		catch (Exception ex)
-		{
-			Program.Logger.LogWarning(ex, "Could not update a directory watch.");
+			lock (gate)
+			{
+				if (disposed || (!ReferenceEquals(sender, watcher) && !ReferenceEquals(sender, parentWatcher)))
+					return false;
+			}
+			try
+			{
+				Configure();
+			}
+			catch (Exception ex)
+			{
+				Program.Logger.LogWarning(ex, "Could not update a directory watch.");
+			}
+			return !Volatile.Read(ref disposed);
 		}
 	}
 
 	public void Dispose()
 	{
+		FileSystemWatcher? previous;
+		FileSystemWatcher? previousParent;
 		lock (gate)
 		{
 			disposed = true;
-			watcher?.Dispose();
+			configurationVersion++;
+			previous = watcher;
+			previousParent = parentWatcher;
 			watcher = null;
-			parentWatcher?.Dispose();
 			parentWatcher = null;
 		}
+		previous?.Dispose();
+		previousParent?.Dispose();
 	}
 }

@@ -28,23 +28,6 @@ namespace Files.App
 		private static FlyoutBase? _LastOpenedFlyout;
 		private static bool _isWindowTeardownCompleted;
 		private static bool _isWindowClosing;
-		private static readonly Task<Server.AppService> serverSession = Task.Run(() =>
-		{
-			var server = new Server.AppService(Environment.ProcessId);
-			CanRestorePreviousSession = server.CanRestorePreviousSession;
-			server.Changed += (_, name) => UiDispatcher?.TryEnqueue(() =>
-			{
-				if (ServerChanged is not { } handlers)
-					return;
-				foreach (EventHandler<string> handler in handlers.GetInvocationList())
-					SafetyExtensions.IgnoreExceptions(() => handler(null, name), Logger);
-			});
-			return server;
-		});
-
-		internal static event EventHandler<string>? ServerChanged;
-		internal static bool CanRestorePreviousSession { get; private set; }
-		internal static Task<Server.AppService> ServerSession => serverSession;
 		public static FlyoutBase? LastOpenedFlyout
 		{
 			set
@@ -88,6 +71,7 @@ namespace Files.App
 		protected override void OnLaunched(LaunchActivatedEventArgs e)
 		{
 			UiDispatcher = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
+			_ = ServerSession;
 
 			// Constructed on the UI thread: the ctor subscribes the UI-thread-only Clipboard.ContentChanged
 			AppModel = new AppModel();
@@ -148,13 +132,13 @@ namespace Files.App
 				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 				var serverInitialization = SafetyExtensions.IgnoreExceptions(async () =>
 				{
-					await serverSession;
+					await ServerSession;
 					await Server.AppService.InitializeAsync();
 				}, Logger);
 				if (isStartupTask && userSettingsService.GeneralSettingsService.CloseToBackground)
 				{
 					await serverInitialization;
-					await SafetyExtensions.IgnoreExceptions(async () => (await serverSession).Dispose(), Logger);
+					StopServerSession();
 					Exit();
 					return;
 				}
@@ -202,10 +186,10 @@ namespace Files.App
 					SplashScreenLoadingTCS = null;
 				}
 
-				_ = SafetyExtensions.IgnoreExceptions(async () => (await serverSession).SetWindowHandle(MainWindow.Instance.WindowHandle), Logger);
+				_ = SafetyExtensions.IgnoreExceptions(() => SetServerWindowHandleAsync(MainWindow.Instance.WindowHandle), Logger);
 				_ = SafetyExtensions.IgnoreExceptions(async () =>
 				{
-					await serverSession;
+					await ServerSession;
 					await MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
 				}, Logger);
 
@@ -265,8 +249,7 @@ namespace Files.App
 
 			_isWindowClosing = true;
 			AppModel.IsMainWindowClosed = true;
-			if (serverSession.IsCompletedSuccessfully)
-				SafetyExtensions.IgnoreExceptions(() => serverSession.Result.SetWindowHandle(0), Logger);
+			ClearServerWindowHandle();
 			Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().UnregisterKey();
 			ActiveSessionTracker.OnActivationChanged(false);
 
@@ -321,7 +304,7 @@ namespace Files.App
 			}
 			finally
 			{
-				await SafetyExtensions.IgnoreExceptions(async () => (await serverSession).Dispose(), Logger);
+				StopServerSession();
 				_isWindowTeardownCompleted = true;
 				MainWindow.Instance.Close();
 			}
