@@ -84,8 +84,11 @@ namespace Files.App.Services
 
 		public async Task CheckForUpdatesAsync()
 		{
-			var available = await SafetyExtensions.IgnoreExceptions(async () => await Server.UpdateService.CheckSideloadUpdatesAsync(), Logger);
-			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => IsUpdateAvailable = available);
+			await SafetyExtensions.IgnoreExceptions(async () =>
+			{
+				var available = await Server.UpdateService.CheckSideloadUpdatesAsync();
+				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => IsUpdateAvailable = available);
+			}, Logger);
 		}
 
 		public async Task CheckAndUpdateFilesLauncherAsync()

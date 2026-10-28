@@ -65,7 +65,7 @@ namespace Files.App.Helpers
 			var tabItem = new TabBarItem()
 			{
 				Header = GetInitialTabHeader(path),
-				IconSource = null,
+				IconSource = GetInitialTabIcon(path),
 				Description = GetInitialTabHeader(path),
 				ToolTipText = path,
 				NavigationParameter = new TabBarItemParameter()
@@ -92,7 +92,7 @@ namespace Files.App.Helpers
 			var tabItem = new Files.App.UserControls.TabBar.TabBarItem()
 			{
 				Header = GetInitialTabHeader(tabViewItemArgs),
-				IconSource = null,
+				IconSource = GetInitialTabIcon(tabViewItemArgs),
 				Description = GetInitialTabHeader(tabViewItemArgs),
 				ToolTipText = tabViewItemArgs as string
 			};
@@ -123,13 +123,36 @@ namespace Files.App.Helpers
 				return GetInitialTabHeader(panes.LeftPaneNavPathParam ?? panes.RightPaneNavPathParam);
 			}
 
+			if (navigationArg is string libraryPath && libraryPath.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase))
+			{
+				var name = Path.GetFileNameWithoutExtension(libraryPath);
+				var localizedName = name.GetLocalizedResource();
+				return string.IsNullOrEmpty(localizedName) ? name : localizedName;
+			}
+
 			return navigationArg switch
 			{
 				null or "" or "Home" => Strings.Home.GetLocalizedResource(),
 				"Settings" => Strings.Settings.GetLocalizedResource(),
 				"ReleaseNotes" => Strings.ReleaseNotes.GetLocalizedResource(),
-				string path => Path.GetFileName(path.TrimEnd('\\', '/')) is { Length: > 0 } name ? name : path,
+				string path => ShellHelpers.GetShellNameFromPath(Path.GetFileName(path.TrimEnd('\\', '/')) is { Length: > 0 } name ? name : path),
 				_ => string.Empty,
+			};
+		}
+
+		private static IconSource GetInitialTabIcon(object? navigationArg)
+		{
+			if (navigationArg is PaneNavigationArguments panes)
+				return GetInitialTabIcon(string.IsNullOrEmpty(panes.LeftPaneNavPathParam) ? panes.RightPaneNavPathParam : panes.LeftPaneNavPathParam);
+
+			return new FontIconSource
+			{
+				Glyph = navigationArg switch
+				{
+					null or "" or "Home" => "\uE80F",
+					"Settings" => "\uE713",
+					_ => "\uE8B7",
+				},
 			};
 		}
 
@@ -364,7 +387,7 @@ namespace Files.App.Helpers
 					imageIcon.ImageSource = await result.ToBitmapAsync();
 			}
 
-			return (tabLocationHeader, iconSource, toolTipText);
+			return (tabLocationHeader, iconSource is ImageIconSource { ImageSource: null } ? GetInitialTabIcon(currentPath) : iconSource, toolTipText);
 		}
 
 		public static async Task UpdateInstancePropertiesAsync(object? navigationArg)

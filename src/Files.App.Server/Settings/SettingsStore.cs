@@ -137,7 +137,7 @@ internal sealed class SettingsStore
 		bool changed;
 		lock (gate)
 		{
-			var data = values ?? Read();
+			var data = Read();
 			changed = remove ? data.Remove(key) : !data.TryGetValue(key, out var old) || !JsonElement.DeepEquals(old, element);
 			if (changed)
 			{
