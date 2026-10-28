@@ -774,7 +774,6 @@
 								<Grid.RowDefinitions>
 									<RowDefinition Height="Auto" />
 									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
 								</Grid.RowDefinitions>
 
 								<!--  Show Hidden Files  -->
@@ -811,28 +810,6 @@
 									IsOn="{x:Bind Commands.ToggleShowFileExtensions.IsOn, Mode=TwoWay}"
 									Rotation="1"
 									ToolTipService.ToolTip="{x:Bind Commands.ToggleShowFileExtensions.HotKeyText, Mode=OneWay}" />
-
-								<!--  Adaptive Layout  -->
-								<TextBlock
-									x:Name="AdaptiveLayoutTextBlock"
-									Grid.Row="2"
-									Grid.Column="0"
-									VerticalAlignment="Center"
-									x:Load="{x:Bind Commands.LayoutAdaptive.IsExecutable, Mode=OneWay}"
-									Text="{x:Bind Commands.LayoutAdaptive.Label}" />
-
-								<ToggleSwitch
-									x:Name="AdaptiveLayoutToggleSwitch"
-									Grid.Row="2"
-									Grid.Column="1"
-									MinWidth="68"
-									HorizontalAlignment="Right"
-									x:Load="{x:Bind Commands.LayoutAdaptive.IsExecutable, Mode=OneWay}"
-									AutomationProperties.Name="{x:Bind Commands.LayoutAdaptive.AutomationName}"
-									IsEnabled="{x:Bind Commands.LayoutAdaptive.IsExecutable, Mode=OneWay}"
-									IsOn="{x:Bind Commands.LayoutAdaptive.IsOn, Mode=TwoWay}"
-									Rotation="1"
-									ToolTipService.ToolTip="{x:Bind Commands.LayoutAdaptive.LabelWithHotKey, Mode=OneWay}" />
 							</Grid>
 
 						</StackPanel>

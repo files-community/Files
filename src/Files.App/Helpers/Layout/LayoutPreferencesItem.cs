@@ -8,17 +8,17 @@ namespace Files.App.Helpers
 	/// </summary>
 	public sealed class LayoutPreferencesItem
 	{
-		// Dependency injections
-
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
 		// Properties
 
 		public ColumnsViewModel ColumnsViewModel { get; set; }
 
 		public bool SortDirectoriesAlongsideFiles { get; set; }
 		public bool SortFilesFirst { get; set; }
-		public bool IsAdaptiveLayoutOverridden { get; set; }
+
+		/// <summary>
+		/// Gets or sets the id of the layout template these preferences were created from.
+		/// </summary>
+		public string TemplateId { get; set; } = string.Empty;
 
 		public FolderLayoutModes LayoutMode { get; set; }
 
@@ -42,26 +42,53 @@ namespace Files.App.Helpers
 		}
 		public GroupByDateUnit DirectoryGroupByDateUnit { get; set; }
 
-		// Constructor
+		// Constructors
 
 		public LayoutPreferencesItem()
+			: this(Ioc.Default.GetRequiredService<ILayoutTemplatesService>().DefaultTemplate)
 		{
-			var defaultLayout = UserSettingsService.LayoutSettingsService.DefaultLayoutMode;
+		}
 
-			LayoutMode = defaultLayout is FolderLayoutModes.Adaptive ? FolderLayoutModes.DetailsView : defaultLayout;
-			DirectorySortOption = UserSettingsService.LayoutSettingsService.DefaultSortOption;
-			DirectorySortColumnId = UserSettingsService.LayoutSettingsService.DefaultSortColumnId;
-			DirectoryGroupOption = UserSettingsService.LayoutSettingsService.DefaultGroupOption;
-			DirectoryGroupColumnId = UserSettingsService.LayoutSettingsService.DefaultGroupColumnId;
-			DirectorySortDirection = UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection;
-			DirectoryGroupDirection = UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection;
-			DirectoryGroupByDateUnit = UserSettingsService.LayoutSettingsService.DefaultGroupByDateUnit;
-			SortDirectoriesAlongsideFiles = UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
-			SortFilesFirst = UserSettingsService.LayoutSettingsService.DefaultSortFilesFirst;
-			IsAdaptiveLayoutOverridden = defaultLayout is not FolderLayoutModes.Adaptive;
+		private LayoutPreferencesItem(LayoutTemplate template)
+		{
+			TemplateId = template.Id;
+			LayoutMode = template.LayoutMode;
+			DirectorySortOption = template.SortOption;
+			DirectorySortColumnId = template.SortColumnId;
+			DirectorySortDirection = template.SortDirection;
+			SortDirectoriesAlongsideFiles = template.SortDirectoriesAlongsideFiles;
+			SortFilesFirst = template.SortFilesFirst;
+			DirectoryGroupOption = template.GroupOption;
+			DirectoryGroupColumnId = template.GroupColumnId;
+			DirectoryGroupDirection = template.GroupDirection;
+			DirectoryGroupByDateUnit = template.GroupByDateUnit;
 
 			ColumnsViewModel = new ColumnsViewModel();
-			DetailsLayoutColumnDefaults.Apply(ColumnsViewModel);
+			DetailsLayoutColumnDefaults.Apply(ColumnsViewModel, template);
+		}
+
+		// Methods
+
+		public static LayoutPreferencesItem FromTemplate(LayoutTemplate template)
+			=> new(template);
+
+		/// <summary>
+		/// Copies these preferences to the specified template.
+		/// </summary>
+		public void SaveToTemplate(LayoutTemplate template)
+		{
+			template.LayoutMode = LayoutMode;
+			template.SortOption = DirectorySortOption;
+			template.SortColumnId = DirectorySortColumnId;
+			template.SortDirection = DirectorySortDirection;
+			template.SortDirectoriesAlongsideFiles = SortDirectoriesAlongsideFiles;
+			template.SortFilesFirst = SortFilesFirst;
+			template.GroupOption = DirectoryGroupOption;
+			template.GroupColumnId = DirectoryGroupColumnId;
+			template.GroupDirection = DirectoryGroupDirection;
+			template.GroupByDateUnit = DirectoryGroupByDateUnit;
+
+			DetailsLayoutColumnDefaults.Save(ColumnsViewModel, template);
 		}
 
 		// Overridden methods
@@ -87,7 +114,6 @@ namespace Files.App.Helpers
 					item.DirectoryGroupByDateUnit == DirectoryGroupByDateUnit &&
 					item.SortDirectoriesAlongsideFiles == SortDirectoriesAlongsideFiles &&
 					item.SortFilesFirst == SortFilesFirst &&
-					item.IsAdaptiveLayoutOverridden == IsAdaptiveLayoutOverridden &&
 					item.ColumnsViewModel.Equals(ColumnsViewModel));
 			}
 			return base.Equals(obj);
@@ -107,7 +133,6 @@ namespace Files.App.Helpers
 			hash.Add(DirectoryGroupByDateUnit);
 			hash.Add(SortDirectoriesAlongsideFiles);
 			hash.Add(SortFilesFirst);
-			hash.Add(IsAdaptiveLayoutOverridden);
 			hash.Add(ColumnsViewModel);
 
 			return hash.ToHashCode();

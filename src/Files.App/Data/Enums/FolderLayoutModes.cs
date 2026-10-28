@@ -28,11 +28,6 @@ namespace Files.App.Data.Enums
 		/// <summary>
 		/// Grid view 
 		/// </summary>
-		GridView = 4,
-
-		/// <summary>
-		/// Adaptive view 
-		/// </summary>
-		Adaptive = 5
+		GridView = 4
 	}
 }

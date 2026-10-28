@@ -6,45 +6,44 @@ using System.Globalization;
 namespace Files.App.Helpers
 {
 	/// <summary>
-	/// Provides the default columns of <see cref="DetailsLayoutPage"/> for folders without saved preferences.
+	/// Provides the columns of <see cref="DetailsLayoutPage"/> saved in layout templates.
 	/// </summary>
 	public static class DetailsLayoutColumnDefaults
 	{
-		private static ILayoutSettingsService LayoutSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>().LayoutSettingsService;
-
 		/// <summary>
-		/// Gets the visible default columns in display order.
+		/// Gets the visible columns of the specified template in display order.
 		/// </summary>
-		public static IReadOnlyList<string> GetColumns()
+		public static IReadOnlyList<string> GetColumns(LayoutTemplate template)
 		{
-			var columns = LayoutSettingsService.DetailsLayoutColumns is { } savedColumns
+			var columns = template.Columns is { } savedColumns
 				? savedColumns.Where(IsConfigurableColumn).Distinct()
-				: DetailsLayoutColumnDefinitions.All.Where(definition => definition.IsVisibleByDefault && IsConfigurableColumn(definition.Id)).Select(definition => definition.Id);
+				: GetBuiltInColumns();
 
 			return [DetailsLayoutColumnIds.Name, .. columns];
 		}
 
-		public static void SetColumns(IEnumerable<string> columns)
+		/// <summary>
+		/// Gets the columns that the specified template had before the user changed them.
+		/// </summary>
+		public static IReadOnlyList<string> GetOriginalColumns(LayoutTemplate template)
 		{
-			LayoutSettingsService.DetailsLayoutColumns = [.. columns.Where(IsConfigurableColumn).Distinct()];
+			return LayoutTemplateIds.IsBuiltIn(template.Id)
+				? GetColumns(LayoutTemplateIds.CreateBuiltIn(template.Id))
+				: [DetailsLayoutColumnIds.Name, .. GetBuiltInColumns()];
+		}
+
+		public static void SetColumns(LayoutTemplate template, IEnumerable<string> columns)
+		{
+			template.Columns = [.. columns.Where(IsConfigurableColumn).Distinct()];
 		}
 
 		/// <summary>
-		/// Restores the built-in default columns and widths.
+		/// Applies the columns of the specified template to the specified columns.
 		/// </summary>
-		public static void Reset()
+		public static void Apply(ColumnsViewModel columns, LayoutTemplate template)
 		{
-			LayoutSettingsService.DetailsLayoutColumns = null;
-			LayoutSettingsService.DetailsLayoutColumnWidths = null;
-		}
-
-		/// <summary>
-		/// Applies the default columns to the specified columns.
-		/// </summary>
-		public static void Apply(ColumnsViewModel columns)
-		{
-			var visibleColumns = GetColumns();
-			var widths = GetWidths();
+			var visibleColumns = GetColumns(template);
+			var widths = GetWidths(template);
 			var catalog = ShellPropertyCatalog.GetAsync() is { IsCompletedSuccessfully: true } loadTask ? loadTask.Result : null;
 
 			columns.Columns = [.. DetailsLayoutColumnDefinitions.All
@@ -64,28 +63,28 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Saves the specified columns as the default columns.
+		/// Saves the specified columns to the specified template.
 		/// </summary>
 		/// <remarks>
-		/// Columns hidden because they don't apply to the current folder keep their previous default state.
+		/// Columns hidden because they don't apply to the current folder keep their state in the template.
 		/// </remarks>
-		public static void Save(ColumnsViewModel columns)
+		public static void Save(ColumnsViewModel columns, LayoutTemplate template)
 		{
-			var previousColumns = GetColumns();
-			SetColumns(columns.OrderedColumns.Ids.Where(id =>
+			var previousColumns = GetColumns(template);
+			SetColumns(template, columns.OrderedColumns.Ids.Where(id =>
 			{
 				var column = columns.GetColumn(id);
 				return column.IsHidden ? previousColumns.Contains(id) : !column.UserCollapsed;
 			}));
 
-			var widths = GetWidths();
+			var widths = GetWidths(template);
 			foreach (var id in columns.AllColumnIds)
 			{
 				if (IsConfigurableColumn(id) || id == DetailsLayoutColumnIds.Name)
 					widths[id] = columns.GetColumn(id).UserLengthPixels;
 			}
 
-			LayoutSettingsService.DetailsLayoutColumnWidths = [.. widths.Select(pair => $"{pair.Key}|{pair.Value.ToString(CultureInfo.InvariantCulture)}")];
+			template.ColumnWidths = [.. widths.Select(pair => $"{pair.Key}|{pair.Value.ToString(CultureInfo.InvariantCulture)}")];
 		}
 
 		public static string GetDisplayName(string id, IReadOnlyDictionary<string, ShellPropertyColumnInfo>? catalog)
@@ -96,10 +95,17 @@ namespace Files.App.Helpers
 			return catalog is not null && catalog.TryGetValue(id, out var info) ? info.DisplayName : id;
 		}
 
-		private static Dictionary<string, double> GetWidths()
+		private static IEnumerable<string> GetBuiltInColumns()
+		{
+			return DetailsLayoutColumnDefinitions.All
+				.Where(definition => definition.IsVisibleByDefault && IsConfigurableColumn(definition.Id))
+				.Select(definition => definition.Id);
+		}
+
+		private static Dictionary<string, double> GetWidths(LayoutTemplate template)
 		{
 			var widths = new Dictionary<string, double>();
-			foreach (var entry in LayoutSettingsService.DetailsLayoutColumnWidths ?? [])
+			foreach (var entry in template.ColumnWidths ?? [])
 			{
 				var separatorIndex = entry.LastIndexOf('|');
 				if (separatorIndex > 0 && double.TryParse(entry[(separatorIndex + 1)..], NumberStyles.Float, CultureInfo.InvariantCulture, out var width))

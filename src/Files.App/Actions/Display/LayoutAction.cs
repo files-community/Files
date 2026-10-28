@@ -118,46 +118,6 @@ namespace Files.App.Actions
 		}
 	}
 
-	[GeneratedRichCommand]
-	internal sealed partial class LayoutAdaptiveAction : ToggleLayoutAction
-	{
-		protected override LayoutTypes LayoutType
-			=> LayoutTypes.Adaptive;
-
-		public override string Label
-			=> Strings.Adaptive.GetLocalizedResource();
-
-		public override string Description
-			=> Strings.LayoutAdaptiveDescription.GetLocalizedResource();
-
-		public override bool IsOn
-			=> Context.LayoutType == LayoutTypes.Adaptive;
-
-		public override bool IsExecutable
-			=> Context.IsLayoutAdaptiveEnabled;
-
-		public override RichGlyph Glyph
-			=> new(themedIconStyle: "App.ThemedIcons.IconLayout.Auto");
-
-		public override HotKey HotKey
-			=> new(Keys.Number6, KeyModifiers.CtrlShift);
-
-		public override Task ExecuteAsync(object? parameter = null)
-		{
-			// Turning adaptive off re-selects the displayed layout as a manual choice,
-			// which overrides the adaptive layout for the folder
-			Context.LayoutType = IsOn ? Context.DisplayedLayoutType : LayoutTypes.Adaptive;
-
-			return Task.CompletedTask;
-		}
-
-		protected override void OnContextChanged(string propertyName)
-		{
-			if (propertyName is nameof(IDisplayPageContext.IsLayoutAdaptiveEnabled))
-				OnPropertyChanged(nameof(IsExecutable));
-		}
-	}
-
 	internal abstract class ToggleLayoutAction : ObservableObject, IToggleAction
 	{
 		protected readonly IDisplayPageContext Context;
@@ -176,7 +136,7 @@ namespace Files.App.Actions
 		public abstract HotKey HotKey { get; }
 
 		public virtual bool IsOn
-			=> Context.DisplayedLayoutType == LayoutType;
+			=> Context.LayoutType == LayoutType;
 
 		public virtual bool IsExecutable
 			=> true;
@@ -197,7 +157,7 @@ namespace Files.App.Actions
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IDisplayPageContext.LayoutType) or nameof(IDisplayPageContext.DisplayedLayoutType))
+			if (e.PropertyName is nameof(IDisplayPageContext.LayoutType))
 				OnPropertyChanged(nameof(IsOn));
 
 			if (e.PropertyName is not null)
@@ -377,23 +337,23 @@ namespace Files.App.Actions
 				{
 					case FolderLayoutModes.DetailsView:
 						settings.DetailsViewSize = forward ? DetailsViewSizeKind.Compact : DetailsViewSizeKind.ExtraLarge;
-						folderSettings.ToggleLayoutModeDetailsView(true);
+						folderSettings.ToggleLayoutModeDetailsView();
 						return;
 					case FolderLayoutModes.ListView:
 						settings.ListViewSize = forward ? ListViewSizeKind.Compact : ListViewSizeKind.ExtraLarge;
-						folderSettings.ToggleLayoutModeList(true);
+						folderSettings.ToggleLayoutModeList();
 						return;
 					case FolderLayoutModes.CardsView:
 						settings.CardsViewSize = forward ? CardsViewSizeKind.Small : CardsViewSizeKind.ExtraLarge;
-						folderSettings.ToggleLayoutModeCards(true);
+						folderSettings.ToggleLayoutModeCards();
 						return;
 					case FolderLayoutModes.GridView:
 						settings.GridViewSize = forward ? GridViewSizeKind.Small : GridViewSizeKind.ExtraLarge;
-						folderSettings.ToggleLayoutModeGridView(true);
+						folderSettings.ToggleLayoutModeGridView();
 						return;
 					case FolderLayoutModes.ColumnView:
 						settings.ColumnsViewSize = forward ? ColumnsViewSizeKind.Compact : ColumnsViewSizeKind.ExtraLarge;
-						folderSettings.ToggleLayoutModeColumnView(true);
+						folderSettings.ToggleLayoutModeColumnView();
 						return;
 				}
 			}

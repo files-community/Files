@@ -2054,6 +2054,18 @@
   <data name="Pictures" xml:space="preserve">
     <value>Pictures</value>
   </data>
+  <data name="FilesByDate" xml:space="preserve">
+    <value>Files by date</value>
+  </data>
+  <data name="ImagesAndVideos" xml:space="preserve">
+    <value>Images and videos</value>
+  </data>
+  <data name="AudioFiles" xml:space="preserve">
+    <value>Audio files</value>
+  </data>
+  <data name="DeletedFiles" xml:space="preserve">
+    <value>Deleted files</value>
+  </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Update Files</value>
   </data>
@@ -2098,9 +2110,6 @@
   </data>
   <data name="AutoSizeColumnsInDetailsLayout" xml:space="preserve">
     <value>Automatically fit columns to content</value>
-  </data>
-  <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive layout</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Adaptive layout (Ctrl+Shift+7)</value>
@@ -2785,9 +2794,6 @@
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>Switch to columns view</value>
-  </data>
-  <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Switch views adaptively</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
     <value>Sort items by name</value>
@@ -4176,9 +4182,6 @@
   <data name="Customized" xml:space="preserve">
     <value>Customized</value>
   </data>
-  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
-    <value>Adaptive layout is not available when preferences are synced, the default layout has been changed to Details.</value>
-  </data>
   <data name="BackgroundImage" xml:space="preserve">
     <value>Background image</value>
   </data>
@@ -4794,10 +4797,10 @@
   <data name="OtherColumns" xml:space="preserve">
     <value>Other</value>
   </data>
-  <data name="CustomizeDefaultColumns" xml:space="preserve">
-    <value>Customize default columns</value>
+  <data name="CustomizeTemplateColumns" xml:space="preserve">
+    <value>{0} columns</value>
   </data>
-  <data name="CustomizeDefaultColumnsDescription" xml:space="preserve">
-    <value>These columns are used for folders that don't have their own column settings.</value>
+  <data name="TemplateColumnsDescription" xml:space="preserve">
+    <value>Folders that use this template show these columns.</value>
   </data>
 </root>

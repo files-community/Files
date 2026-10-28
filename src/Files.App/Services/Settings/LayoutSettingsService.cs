@@ -17,76 +17,35 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public FolderLayoutModes DefaultLayoutMode
+		public List<LayoutTemplate>? LayoutTemplates
 		{
-			get => (FolderLayoutModes)Get((long)FolderLayoutModes.Adaptive);
-			set => Set((long)value);
-		}
-
-		public SortOption DefaultSortOption
-		{
-			get => (SortOption)Get((long)SortOption.Name);
-			set => Set((long)value);
-		}
-
-		public string DefaultSortColumnId
-		{
-			get => Get(string.Empty) ?? string.Empty;
+			get => Get<List<LayoutTemplate>>(null);
 			set => Set(value);
 		}
 
-		public SortDirection DefaultDirectorySortDirection
+		public List<LayoutRule>? LayoutRules
 		{
-			get => (SortDirection)Get((long)SortDirection.Ascending);
-			set => Set((long)value);
-		}
-
-		public bool DefaultSortDirectoriesAlongsideFiles
-		{
-			get => Get(false);
+			get => Get<List<LayoutRule>>(null);
 			set => Set(value);
 		}
 
-		public bool DefaultSortFilesFirst
+		public IReadOnlyDictionary<string, JsonElement> TakeLegacySettings(IEnumerable<string> names)
 		{
-			get => Get(false);
-			set => Set(value);
-		}
+			var settings = JsonSettingsDatabase?.ExportSettings();
+			if (settings is null)
+				return new Dictionary<string, JsonElement>();
 
-		public GroupOption DefaultGroupOption
-		{
-			get => (GroupOption)Get((long)GroupOption.None);
-			set => Set((long)value);
-		}
+			var values = new Dictionary<string, JsonElement>();
+			foreach (var name in names)
+			{
+				if (settings.TryGetValue(name, out var value))
+				{
+					values[name] = value.Clone();
+					JsonSettingsDatabase!.RemoveKey(name);
+				}
+			}
 
-		public string DefaultGroupColumnId
-		{
-			get => Get(string.Empty) ?? string.Empty;
-			set => Set(value);
-		}
-
-		public List<string>? DetailsLayoutColumns
-		{
-			get => Get<List<string>>(null);
-			set => Set(value);
-		}
-
-		public List<string>? DetailsLayoutColumnWidths
-		{
-			get => Get<List<string>>(null);
-			set => Set(value);
-		}
-
-		public SortDirection DefaultDirectoryGroupDirection
-		{
-			get => (SortDirection)Get((long)SortDirection.Ascending);
-			set => Set((long)value);
-		}
-
-		public GroupByDateUnit DefaultGroupByDateUnit
-		{
-			get => (GroupByDateUnit)Get((long)GroupByDateUnit.Year);
-			set => Set((long)value);
+			return values;
 		}
 
 		public bool AutoSizeColumnsInDetailsLayout
