@@ -148,7 +148,7 @@ namespace Files.App.ViewModels.Previews
 			_pszClassName = (char*)Marshal.StringToHGlobalUni(szClassName);
 
 			_windProc = new(WndProc);
-			var pWindProc = Marshal.GetFunctionPointerForDelegate(_windProc);
+			var pWindProc = Marshal.GetFunctionPointerForDelegate<WNDPROC>(_windProc);
 			var pfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)pWindProc;
 
 			_windowClass = new WNDCLASSEXW()
@@ -258,7 +258,7 @@ namespace Files.App.ViewModels.Previews
 
 		public unsafe void UnloadPreview()
 		{
-			// Called both when closing to background and from Unloaded, so ignore the second call
+			// Main-window teardown and Unloaded can both request cleanup.
 			if (_unloaded)
 				return;
 			_unloaded = true;

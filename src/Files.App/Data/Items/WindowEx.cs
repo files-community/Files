@@ -22,6 +22,9 @@ namespace Files.App.Data.Items
 	/// </summary>
 	public unsafe partial class WindowEx : Window, IDisposable
 	{
+		// Window creation, destruction, and enumeration run on the UI thread.
+		private static readonly HashSet<WindowEx> windows = [];
+
 		private bool _isInitialized;
 		private bool _isClosing;
 		private bool _isRestoringPlacement;
@@ -96,14 +99,25 @@ namespace Files.App.Data.Items
 			IsMinimizable = true;
 
 			_newWndProc = new(NewWindowProc);
-			var pNewWndProc = Marshal.GetFunctionPointerForDelegate(_newWndProc);
+			var pNewWndProc = Marshal.GetFunctionPointerForDelegate<WNDPROC>(_newWndProc);
 			_oldWndProc = PInvoke.SetWindowLongPtr(new(WindowHandle), WINDOW_LONG_PTR_INDEX.GWL_WNDPROC, pNewWndProc);
 
 			Closed += WindowEx_Closed;
 			Activated += WindowEx_Activated;
+			AppWindow.Destroying += (_, _) => windows.Remove(this);
+			windows.Add(this);
 		}
 
 		protected virtual bool PersistPlacement => false;
+
+		internal void CloseOtherWindows()
+		{
+			foreach (var window in windows.ToArray())
+			{
+				if (window != this)
+					window.Close();
+			}
+		}
 
 		private unsafe void StoreWindowPlacementData()
 		{
@@ -258,11 +272,12 @@ namespace Files.App.Data.Items
 				return true;
 			});
 
-			var pMonitorEnumProc = Marshal.GetFunctionPointerForDelegate(monitorEnumProc);
+			var pMonitorEnumProc = Marshal.GetFunctionPointerForDelegate<MONITORENUMPROC>(monitorEnumProc);
 			var pfnMonitorEnumProc = (delegate* unmanaged[Stdcall]<HMONITOR, HDC, RECT*, LPARAM, BOOL>)pMonitorEnumProc;
 
 			LPARAM lParam = default;
 			BOOL fRes = PInvoke.EnumDisplayMonitors(new(nint.Zero), (RECT*)null, pfnMonitorEnumProc, lParam);
+			GC.KeepAlive(monitorEnumProc);
 			if (!fRes)
 				Marshal.ThrowExceptionForHR(Marshal.GetLastWin32Error());
 

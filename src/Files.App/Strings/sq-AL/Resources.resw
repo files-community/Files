@@ -339,6 +339,12 @@
   <data name="DefaultTheme" xml:space="preserve">
     <value>System Theme</value>
   </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>Light Theme</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>Dark Theme</value>
+  </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>PÃ«rdor cilÃ«simin e sistemit</value>
   </data>
@@ -4157,6 +4163,12 @@
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>Lidhja e çelësit që zgjidhni nuk mund të përdoret, ju lutemi provoni përsëri duke përdorur një lidhje tjetër çelësi.</value>
+  </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>Keyboard shortcuts</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>Are you sure you want to remove this key binding?</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Të personalizuara</value>

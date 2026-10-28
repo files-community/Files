@@ -339,6 +339,12 @@
   <data name="DefaultTheme" xml:space="preserve">
     <value>Tema do sistema</value>
   </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>Tema claro</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>Tema escuro</value>
+  </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Usar configuração do sistema</value>
   </data>
@@ -4157,6 +4163,12 @@
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>A chave vinculada que você escolheu não pode ser usada, por favor tente novamente utilizando uma chave vinculativa diferente.</value>
+  </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>Atalhos do teclado</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>Tem certeza de que deseja remover este atalho de teclado?</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Personalizado</value>

@@ -46,6 +46,7 @@ namespace Files.App.UserControls
 
 		private void Toolbar_Loaded(object sender, RoutedEventArgs e)
 		{
+			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
 			foreach (var cmd in Commands) cmd.PropertyChanged += Command_PropertyChanged;
 			RequestToolbarRefresh(true);
 			UserSettingsService.AppearanceSettingsService.PropertyChanged += AppearanceSettings_PropertyChanged;
@@ -53,12 +54,25 @@ namespace Files.App.UserControls
 
 		private void Toolbar_Unloaded(object sender, RoutedEventArgs e)
 		{
+			toolbarRefreshTimer.Stop();
+			App.AppModel.PropertyChanged -= AppModel_PropertyChanged;
 			foreach (var cmd in Commands) cmd.PropertyChanged -= Command_PropertyChanged;
 			DetachToggleButtons();
 			UserSettingsService.AppearanceSettingsService.PropertyChanged -= AppearanceSettings_PropertyChanged;
 			if (editTagsMenu is not null)
 				editTagsMenu.TagsChanged -= EditTagsMenu_TagsChanged;
 			openWithMenu?.Dispose();
+		}
+
+		private void AppModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName != nameof(AppModel.IsMainWindowClosed))
+				return;
+
+			if (App.AppModel.IsMainWindowClosed)
+				toolbarRefreshTimer.Stop();
+			else
+				RequestToolbarRefresh(true);
 		}
 
 		partial void OnViewModelChanged(NavigationToolbarViewModel? newValue)
@@ -111,6 +125,9 @@ namespace Files.App.UserControls
 
 		private void RequestToolbarRefresh(bool ignoreDebounce)
 		{
+			if (App.AppModel.IsMainWindowClosed || !IsLoaded)
+				return;
+
 			toolbarRefreshTimer.Debounce(PopulateToolbarItems, TimeSpan.FromMilliseconds(100), ignoreDebounce);
 		}
 
@@ -121,7 +138,7 @@ namespace Files.App.UserControls
 		[DynamicWindowsRuntimeCast(typeof(AppBarSeparator))]
 		private void PopulateToolbarItems()
 		{
-			if (ContextCommandBar is null)
+			if (App.AppModel.IsMainWindowClosed || !IsLoaded || ContextCommandBar is null)
 				return;
 
 			DetachToggleButtons();
@@ -576,9 +593,9 @@ namespace Files.App.UserControls
 
 		private static async Task<MenuFlyoutItem> CreateShellNewEntryMenuItemAsync(ShellNewEntry entry)
 		{
-			if (!string.IsNullOrEmpty(entry.IconBase64))
+			if (entry.IconData is { Length: > 0 })
 			{
-				using var ms = new MemoryStream(Convert.FromBase64String(entry.IconBase64));
+				using var ms = new MemoryStream(entry.IconData);
 				var image = new BitmapImage();
 				await image.SetSourceAsync(ms.AsRandomAccessStream());
 				return new MenuFlyoutItemWithImage { Text = entry.Name, BitmapIcon = image };

@@ -21,6 +21,9 @@ namespace Files.App.Views.Settings
 		[DynamicWindowsRuntimeCast(typeof(Frame))]
 		public static void Show()
 		{
+			if (App.AppModel.IsMainWindowClosed)
+				return;
+
 			var themeService = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 			var window = customizationWindow ??= CreateCustomizationWindow(themeService);
 			if (window.Content is Frame frame) frame.RequestedTheme = themeService.AppThemeMode;

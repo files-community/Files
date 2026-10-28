@@ -7,7 +7,6 @@
 	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:uc="using:Files.App.UserControls"
 	CloseButtonText="{helpers:ResourceString Name=Cancel}"
 	DefaultButton="Primary"
 	Style="{StaticResource DefaultContentDialogStyle}"
@@ -16,26 +15,27 @@
 	<StackPanel Width="320" Spacing="12">
 
 		<!--  Command picker (Add mode only)  -->
-		<uc:ComboBoxEx
+		<ComboBox
 			x:Name="ActionPickerComboBox"
-			x:Load="{x:Bind IsAddMode, Mode=OneTime}"
 			HorizontalAlignment="Stretch"
+			DropDownClosed="ActionPickerComboBox_DropDownClosed"
 			ItemsSource="{x:Bind AllActionItems, Mode=OneTime}"
 			PlaceholderText="{helpers:ResourceString Name=ChooseAnAction}"
-			SelectionChanged="ActionPickerComboBox_SelectionChanged">
-			<uc:ComboBoxEx.ItemTemplate>
+			SelectionChanged="ActionPickerComboBox_SelectionChanged"
+			Visibility="{x:Bind IsAddMode, Mode=OneTime}">
+			<ComboBox.ItemTemplate>
 				<DataTemplate x:DataType="dataitems:ModifiableActionItem">
 					<TextBlock Text="{x:Bind CommandDescription, Mode=OneWay}" />
 				</DataTemplate>
-			</uc:ComboBoxEx.ItemTemplate>
-		</uc:ComboBoxEx>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
 
 		<!--  Command name (Edit mode only)  -->
 		<TextBlock
 			x:Name="CommandNameTextBlock"
-			x:Load="{x:Bind IsEditMode, Mode=OneTime}"
 			FontWeight="SemiBold"
-			Text="{x:Bind CommandDescription, Mode=OneTime}" />
+			Text="{x:Bind CommandDescription, Mode=OneTime}"
+			Visibility="{x:Bind IsEditMode, Mode=OneTime}" />
 
 		<!--  Key binding editor (Using PreviewKeyDown to prevent Ctrl+A)  -->
 		<TextBox

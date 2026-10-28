@@ -21,6 +21,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
+using Windows.Win32;
 using WinRT;
 using static Files.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
@@ -74,6 +75,9 @@ namespace Files.App.Views.Layouts
 		private ListedItem? dragOverItem = null;
 		private ListedItem? hoveredItem = null;
 		private ListedItem? preRenamingItem = null;
+		private DateTime renameGuardStartTime;
+
+		protected bool guardRenameFromDoubleClick;
 
 		// Page-relative point of the pending context-menu invocation, from ContextRequested (fires for every input,
 		// unlike RightTapped which a touch long-press can skip). Invalid for keyboard, which has no pointer point.
@@ -113,6 +117,15 @@ namespace Files.App.Views.Layouts
 
 		public bool IsRenamingItem { get; set; }
 		public bool LockPreviewPaneContent { get; set; }
+
+		protected static TimeSpan RenameDoubleClickGuardDuration
+			=> TimeSpan.FromMilliseconds(Constants.UI.RenameDoubleClickGuardDurationMs);
+
+		protected bool IsWithinRenameDoubleClickWindow
+			=> DateTime.UtcNow - renameGuardStartTime <= RenameDoubleClickGuardDuration;
+
+		protected bool IsRenameDoubleClickGuardActive
+			=> IsRenamingItem && IsWithinRenameDoubleClickWindow;
 
 		public ListedItem? RenamingItem { get; set; }
 		public ListedItem? SelectedItem { get; private set; }
@@ -1098,7 +1111,12 @@ namespace Files.App.Views.Layouts
 
 					var draggedItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
-					if (draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
+					// Dropping onto an executable or a script opens the dragged items with it, so only the item itself is rejected there
+					var isOpenWithTarget = item.IsExecutable || item.IsScriptFile;
+
+					if (isOpenWithTarget
+						? draggedItems.ContainsDestinationPath(item.ItemPath)
+						: draggedItems.ContainsDestinationOrAncestor(item.ItemPath))
 					{
 						e.AcceptedOperation = DataPackageOperation.None;
 					}
@@ -1370,23 +1388,39 @@ namespace Files.App.Views.Layouts
 				InitializeDrag(container, listedItem);
 
 				if (listedItem.PreloadedIconData is not null && listedItem.FileImage is null)
-					_ = ParentShellPageInstance.GetRequiredShellViewModel().ApplyCachedThumbnailOrPreloadedIconAsync(listedItem);
+					EnqueueItemLoad(container, listedItem, shellViewModel => shellViewModel.ApplyCachedThumbnailOrPreloadedIconAsync(listedItem));
 
 				if (!listedItem.ItemPropertiesInitialized)
 				{
 					uint callbackPhase = 3;
-					args.RegisterUpdateCallback(callbackPhase, async (s, c) =>
+					args.RegisterUpdateCallback(callbackPhase, (s, c) => EnqueueItemLoad(container, listedItem, shellViewModel =>
 					{
-						var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
-
 						// Rows realized mid-scroll are mostly flung past before the gesture ends; the settle pass loads the ones still visible
-						if (shellViewModel.IsScrollInFlight)
-							return;
+						if (shellViewModel.IsScrollInFlight || listedItem.ItemPropertiesInitialized)
+							return Task.CompletedTask;
 
-						await LoadItemExtendedPropertiesAsync(listedItem, shellViewModel);
-					});
+						return LoadItemExtendedPropertiesAsync(listedItem, shellViewModel);
+					}));
 				}
 			}
+		}
+
+		private void EnqueueItemLoad(SelectorItem container, ListedItem item, Func<ShellViewModel, Task> load)
+		{
+			if (ParentShellPageInstance?.ShellViewModel is not { } shellViewModel)
+				return;
+
+			// Always enqueue: loaders can pump COM messages and must run after container realization returns.
+			DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+			{
+				_ = SafetyExtensions.IgnoreExceptions(async () =>
+				{
+					if (ParentShellPageInstance?.ShellViewModel != shellViewModel || !ReferenceEquals(ItemsControl.ItemFromContainer(container), item))
+						return;
+
+					await load(shellViewModel);
+				}, App.Logger);
+			});
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
@@ -1695,15 +1729,19 @@ namespace Files.App.Views.Layouts
 			{
 				if (item == preRenamingItem)
 				{
+					if (IsRenamingItem && item == RenamingItem)
+						return;
+
+					// Wait out the double click window so a double click cancels the pending rename before anything shows
 					TapDebounceTimer.Debounce(() =>
 					{
-						if (item == preRenamingItem)
+						if (item == preRenamingItem && !IsRenamingItem)
 						{
-							StartRenameItem();
+							StartRenameItemFromTap();
 							tapDebounceTimer?.Stop();
 						}
 					},
-					TimeSpan.FromMilliseconds(1500));
+					TimeSpan.FromMilliseconds(PInvoke.GetDoubleClickTime()));
 				}
 				else
 				{
@@ -1714,6 +1752,21 @@ namespace Files.App.Views.Layouts
 			else
 			{
 				ResetRenameDoubleClick();
+			}
+		}
+
+		private void StartRenameItemFromTap()
+		{
+			guardRenameFromDoubleClick = true;
+			renameGuardStartTime = DateTime.UtcNow;
+
+			try
+			{
+				StartRenameItem();
+			}
+			finally
+			{
+				guardRenameFromDoubleClick = false;
 			}
 		}
 

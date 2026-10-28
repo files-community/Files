@@ -339,6 +339,12 @@
   <data name="DefaultTheme" xml:space="preserve">
     <value>Tema del sistema</value>
   </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>Tema clar</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>Tema fosc</value>
+  </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Utilitza la configuració del sistema</value>
   </data>
@@ -4157,6 +4163,12 @@
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>La combinació de tecles escollida no es pot utilitzar. Torneu-ho a provar amb una combinació de tecles diferent.</value>
+  </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>Dreceres del teclat</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>Esteu segur que voleu eliminar aquesta combinació de tecles?</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Personalitzat</value>

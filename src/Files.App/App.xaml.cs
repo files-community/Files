@@ -9,7 +9,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.Windows.AppLifecycle;
-using System.Runtime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -23,12 +22,26 @@ namespace Files.App
 	/// </summary>
 	public partial class App : Application
 	{
-		public static SystemTrayIcon? SystemTrayIcon { get; private set; }
-
 		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
 		public static string? OutputPath { get; set; }
 
 		private static FlyoutBase? _LastOpenedFlyout;
+		private static bool _isWindowTeardownCompleted;
+		private static bool _isWindowClosing;
+		private static readonly Task<Server.AppService> serverSession = Task.Run(() =>
+		{
+			var server = new Server.AppService(Environment.ProcessId);
+			server.Changed += (_, name) => UiDispatcher?.TryEnqueue(() =>
+			{
+				if (ServerChanged is not { } handlers)
+					return;
+				foreach (EventHandler<string> handler in handlers.GetInvocationList())
+					SafetyExtensions.IgnoreExceptions(() => handler(null, name), Logger);
+			});
+			return server;
+		});
+
+		internal static event EventHandler<string>? ServerChanged;
 		public static FlyoutBase? LastOpenedFlyout
 		{
 			set
@@ -80,8 +93,12 @@ namespace Files.App
 
 			async Task ActivateAsync()
 			{
+				var appActivationArguments = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
+				var isStartupTask = appActivationArguments.Data is Windows.ApplicationModel.Activation.IStartupTaskActivatedEventArgs;
+
 				// Build the DI container off-thread while the window initializes
 				var appModel = AppModel;
+				Task commandsWarmupTask = Task.CompletedTask;
 				var servicesTask = Task.Run(() =>
 				{
 					try
@@ -91,31 +108,37 @@ namespace Files.App
 						// Configure Ioc here so Ioc.Default-dependent constructions warm off-thread too
 						Ioc.Default.ConfigureServices(provider);
 
-						// Warm the settings file reads off the UI thread
-						_ = provider.GetRequiredService<IGeneralSettingsService>().LeaveAppRunning;
-						_ = provider.GetRequiredService<IAppearanceSettingsService>().AppThemeBackdropMaterial;
+						// Load the appearance settings needed for the first frame off the UI thread.
+						if (isStartupTask && provider.GetRequiredService<IGeneralSettingsService>().CloseToBackground)
+							return provider;
+						var appearanceSettings = provider.GetRequiredService<IAppearanceSettingsService>();
+						_ = appearanceSettings.AppThemeMode;
+						_ = appearanceSettings.AppThemeBackdropMaterial;
 
-						// Read through these statics by the action/context ctors warmed below
-						QuickAccessManager = provider.GetRequiredService<QuickAccessManager>();
-						HistoryWrapper = provider.GetRequiredService<StorageHistoryWrapper>();
-						FileTagsManager = provider.GetRequiredService<FileTagsManager>();
-						LibraryManager = provider.GetRequiredService<LibraryManager>();
+						// Commands are needed for the main page, not for the initial window and backdrop.
+						commandsWarmupTask = Task.Run(() =>
+						{
+							var previousPriority = Thread.CurrentThread.Priority;
+							Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
+							try
+							{
+								// Action and context constructors access these statics.
+								QuickAccessManager = provider.GetRequiredService<QuickAccessManager>();
+								HistoryWrapper = provider.GetRequiredService<StorageHistoryWrapper>();
+								FileTagsManager = provider.GetRequiredService<FileTagsManager>();
+								LibraryManager = provider.GetRequiredService<LibraryManager>();
 
-						// Warm every command and hotkey off-thread, below normal so window creation wins the cores
-						var previousPriority = Thread.CurrentThread.Priority;
-						Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
-						try
-						{
-							_ = provider.GetRequiredService<ICommandManager>();
-						}
-						catch (Exception)
-						{
-							// A command ctor that needs the UI thread aborts the warm-up; it runs on first use instead
-						}
-						finally
-						{
-							Thread.CurrentThread.Priority = previousPriority;
-						}
+								_ = provider.GetRequiredService<ICommandManager>();
+							}
+							catch (Exception)
+							{
+								// UI-thread-only constructors run on first use instead.
+							}
+							finally
+							{
+								Thread.CurrentThread.Priority = previousPriority;
+							}
+						});
 
 						return provider;
 					}
@@ -126,26 +149,13 @@ namespace Files.App
 					}
 				});
 
-				// Get AppActivationArguments
-				var appActivationArguments = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
-				var isStartupTask = appActivationArguments.Data is Windows.ApplicationModel.Activation.IStartupTaskActivatedEventArgs;
-
 				// IsDynamicCodeSupported is false on Native AOT, where startup is fast enough to skip the splash screen
 				var showSplashScreen = System.Runtime.CompilerServices.RuntimeFeature.IsDynamicCodeSupported;
 
 				if (!isStartupTask)
 				{
-					// Initialize and activate MainWindow
-					MainWindow.Instance.Activate();
-
-					if (showSplashScreen)
-					{
-						// Wait for the Window to initialize
-						await Task.Delay(10);
-
-						SplashScreenLoadingTCS = new TaskCompletionSource();
-						MainWindow.Instance.ShowSplashScreen();
-					}
+					// Construct the window while appearance settings are loaded.
+					_ = MainWindow.Instance;
 				}
 
 				// Configure the DI (dependency injection) container
@@ -156,27 +166,37 @@ namespace Files.App
 					Ioc.Default.ConfigureServices(serviceProvider);
 				}
 
+				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+				var serverInitialization = SafetyExtensions.IgnoreExceptions(async () =>
+				{
+					await serverSession;
+					await Server.AppService.InitializeAsync();
+				}, Logger);
+				if (isStartupTask && userSettingsService.GeneralSettingsService.CloseToBackground)
+				{
+					await serverInitialization;
+					await SafetyExtensions.IgnoreExceptions(async () => (await serverSession).Dispose(), Logger);
+					Exit();
+					return;
+				}
+
+				if (isStartupTask)
+					Program.RegisterCurrentInstance();
+
+				if (showSplashScreen)
+				{
+					SplashScreenLoadingTCS = new TaskCompletionSource();
+					MainWindow.Instance.ShowSplashScreen();
+				}
+
+				if (!await MainWindow.Instance.ActivateWithBackdropAsync())
+					return;
+
+				await commandsWarmupTask;
+
 				// Configure Sentry
 				if (AppLifecycleHelper.AppEnvironment is not AppEnvironment.Dev)
 					AppLifecycleHelper.ConfigureSentry();
-
-				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-				var isLeaveAppRunning = userSettingsService.GeneralSettingsService.LeaveAppRunning;
-
-				if (isStartupTask && !isLeaveAppRunning)
-				{
-					// Initialize and activate MainWindow
-					MainWindow.Instance.Activate();
-
-					if (showSplashScreen)
-					{
-						// Wait for the Window to initialize
-						await Task.Delay(10);
-
-						SplashScreenLoadingTCS = new TaskCompletionSource();
-						MainWindow.Instance.ShowSplashScreen();
-					}
-				}
 
 				// TODO: Replace with DI
 				QuickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
@@ -192,48 +212,14 @@ namespace Files.App
 
 				Logger.LogInformation($"App launched. Launch args type: {appActivationArguments.Data.GetType().Name}");
 
-				if (!(isStartupTask && isLeaveAppRunning))
+				if (SplashScreenLoadingTCS is not null)
 				{
-					if (SplashScreenLoadingTCS is not null)
-					{
-						// Wait for the UI to update
-						await SplashScreenLoadingTCS.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
-						SplashScreenLoadingTCS = null;
-					}
-
-					// Deferred so the first frame renders first
-					MainWindow.Instance.DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-					{
-						SystemTrayIcon = new SystemTrayIcon();
-						if (userSettingsService.GeneralSettingsService.ShowSystemTrayIcon)
-							SystemTrayIcon.Show();
-					});
-
-					_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
+					await SplashScreenLoadingTCS.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
+					SplashScreenLoadingTCS = null;
 				}
-				else
-				{
-					// Create a system tray icon
-					SystemTrayIcon = new SystemTrayIcon();
-					if (userSettingsService.GeneralSettingsService.ShowSystemTrayIcon)
-						SystemTrayIcon.Show();
 
-					// Sleep current instance
-					Program.Pool = new(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance");
-
-					Thread.Yield();
-
-					var cts = new CancellationTokenSource();
-					TryEmptyWorkingSetWhenIdle(cts.Token);
-
-					if (Program.Pool.WaitOne())
-					{
-						cts.Cancel();
-						// Resume the instance
-						Program.Pool.Dispose();
-						Program.Pool = null;
-					}
-				}
+				_ = SafetyExtensions.IgnoreExceptions(async () => (await serverSession).SetWindowHandle(MainWindow.Instance.WindowHandle), Logger);
+				_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
 
 				await AppLifecycleHelper.InitializeAppComponentsAsync();
 			}
@@ -262,17 +248,8 @@ namespace Files.App
 
 			ActiveSessionTracker.OnActivationChanged(args.WindowActivationState != WindowActivationState.Deactivated);
 
-			if (args.WindowActivationState != WindowActivationState.Deactivated)
+			if (!_isWindowClosing && args.WindowActivationState != WindowActivationState.Deactivated)
 				AppModel.IsMainWindowClosed = false;
-
-			if (args.WindowActivationState != WindowActivationState.CodeActivated &&
-				args.WindowActivationState != WindowActivationState.PointerActivated)
-				return;
-
-			ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Environment.ProcessId;
-
-			// Reclaim the tray icon if a sibling instance's exit removed the shared-GUID icon
-			SystemTrayIcon?.EnsureCreated();
 		}
 
 		/// <summary>
@@ -283,191 +260,82 @@ namespace Files.App
 		/// </remarks>
 		private async void Window_Closed(object sender, WindowEventArgs args)
 		{
-			// Stop dispatcher timers before the close handler yields and window teardown begins.
-			AppModel.IsMainWindowClosed = true;
+			if (_isWindowTeardownCompleted)
+				return;
 
-			// Save application state and stop any background activity
-			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			StatusCenterViewModel statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
-			ICommandManager commandManager = Ioc.Default.GetRequiredService<ICommandManager>();
+			args.Handled = true;
+			if (_isWindowClosing)
+				return;
 
-			// A Workaround for the crash (#10110)
 			if (_LastOpenedFlyout?.IsOpen ?? false)
 			{
-				args.Handled = true;
-				_LastOpenedFlyout.Closed += (sender, e) => App.Current.Exit();
+				_LastOpenedFlyout.Closed += (_, _) => MainWindow.Instance.Close();
 				_LastOpenedFlyout.Hide();
 				return;
 			}
 
-			// Persist the final active stretch; it is reported on the next launch
+			_isWindowClosing = true;
+			AppModel.IsMainWindowClosed = true;
+			if (serverSession.IsCompletedSuccessfully)
+				SafetyExtensions.IgnoreExceptions(() => serverSession.Result.SetWindowHandle(0), Logger);
+			Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().UnregisterKey();
 			ActiveSessionTracker.OnActivationChanged(false);
 
-			// Save the current tab list in case it was overwriten by another instance
-			if (userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp || userSettingsService.AppSettingsService.RestoreTabsOnStartup)
-				AppLifecycleHelper.SaveSessionTabs();
-			else
-				await commandManager.CloseAllTabs.ExecuteAsync();
-
-			if (OutputPath is not null)
+			try
 			{
-				var instance = MainPageViewModel.AppInstances.FirstOrDefault(x =>
-					(x.TabItemContent ?? throw new InvalidOperationException("A tab does not have content.")).IsCurrentInstance);
-				if (instance is null)
-					return;
+				FilePropertiesHelpers.DestroyCachedWindows();
+				MainWindow.Instance.CloseOtherWindows();
 
-				var items = (instance.TabItemContent as ShellPanesPage)?.ActivePane?.SlimContentPage?.SelectedItems;
-				if (items is null)
-					return;
+				var settings = Ioc.Default.GetRequiredService<IUserSettingsService>();
+				var commands = Ioc.Default.GetRequiredService<ICommandManager>();
+				if (settings.GeneralSettingsService.ContinueLastSessionOnStartUp || settings.AppSettingsService.RestoreTabsOnStartup)
+					AppLifecycleHelper.SaveSessionTabs();
+				else
+					await commands.CloseAllTabs.ExecuteAsync();
 
-				var results = items.Select(x => x.ItemPath!).ToList();
-				System.IO.File.WriteAllLines(OutputPath, results);
-
-				using var eventHandle = PInvoke.CreateEvent(null, false, false, "FILEDIALOG");
-				PInvoke.SetEvent(eventHandle);
-			}
-
-			// Dev, preview and stable all run as "Files"; only this channel's other instances block parking
-			static bool IsSameChannelInstance(Process p)
-			{
-				if (p.Id == Environment.ProcessId)
-					return false;
-
-				try
+				if (OutputPath is not null)
 				{
-					return p.MainModule?.FileName.StartsWith(Package.Current.EffectivePath, StringComparison.OrdinalIgnoreCase) ?? false;
+					var instance = MainPageViewModel.AppInstances.FirstOrDefault(tab => tab.TabItemContent?.IsCurrentInstance == true);
+					var items = (instance?.TabItemContent as ShellPanesPage)?.ActivePane?.SlimContentPage?.SelectedItems;
+					if (items is not null)
+					{
+						System.IO.File.WriteAllLines(OutputPath, items.Select(item => item.ItemPath!));
+						using var eventHandle = PInvoke.CreateEvent(null, false, false, "FILEDIALOG");
+						PInvoke.SetEvent(eventHandle);
+					}
 				}
-				catch
-				{
-					// Access is denied reading another channel's MainModule
-					return false;
-				}
-			}
 
-			// Continue running the app on the background
-			if (userSettingsService.GeneralSettingsService.LeaveAppRunning &&
-				!AppModel.ForceProcessTermination &&
-				!Process.GetProcessesByName("Files").Any(IsSameChannelInstance))
-			{
-				// Close open content dialogs
-				UIHelpers.CloseAllDialogs();
-
-				// Tear down the shell preview host (prevhost.exe) while the dispatcher still pumps; parking must not keep it attached
+				MainWindow.Instance.AppWindow.Hide();
 				SafetyExtensions.IgnoreExceptions(() => Ioc.Default.GetRequiredService<InfoPaneViewModel>().UnloadPreview());
 
-				// Close all notification banners except in progress
-				statusCenterViewModel.RemoveAllCompletedItems();
-
-				// Cache the window instead of closing it
-				MainWindow.Instance.AppWindow.Hide();
-
-				// Close all tabs
-				MainPageViewModel.AppInstances.ForEach(tabItem => tabItem.Unload());
-				MainPageViewModel.AppInstances.Clear();
-
-				// Wait for all properties windows to close
-				await FilePropertiesHelpers.WaitClosingAll();
-
-				// Claim INSTANCE_ACTIVE before parking; it may still name an already-exited sibling
-				ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Environment.ProcessId;
-
-				// Sleep current instance
-				Program.Pool = new(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance");
-
-				Thread.Yield();
-
-				// Displays a notification the first time the app goes to the background
-				if (userSettingsService.AppSettingsService.ShowBackgroundRunningNotification)
+				if (settings.GeneralSettingsService.CloseToBackground && settings.AppSettingsService.ShowBackgroundRunningNotification)
 				{
 					SafetyExtensions.IgnoreExceptions(() =>
 					{
 						AppToastNotificationHelper.ShowBackgroundRunningToast();
-
-						userSettingsService.AppSettingsService.ShowBackgroundRunningNotification = false;
+						settings.AppSettingsService.ShowBackgroundRunningNotification = false;
 					});
 				}
 
-				var cts = new CancellationTokenSource();
-				TryEmptyWorkingSetWhenIdle(cts.Token);
-
-				if (Program.Pool.WaitOne())
+				SafetyExtensions.IgnoreExceptions(() =>
 				{
-					cts.Cancel();
-					// Resume the instance
-					Program.Pool.Dispose();
-					Program.Pool = null;
-
-					if (!AppModel.ForceProcessTermination)
-					{
-						args.Handled = true;
-						_ = AppLifecycleHelper.CheckAppUpdate();
-						return;
-					}
-				}
-			}
-
-			// Stop the tray icon's hidden window before continuing teardown so a late "Quit"
-			// click can't dispatch into OnQuitClicked once Application.Current is null.
-			SystemTrayIcon?.Dispose();
-			SystemTrayIcon = null;
-
-			// Method can take a long time, make sure the window is hidden
-			await Task.Yield();
-
-			// Try to maintain clipboard data after app close
-			SafetyExtensions.IgnoreExceptions(() =>
-			{
-				var dataPackage = Clipboard.GetContent();
-				if (dataPackage.Properties.PackageFamilyName == Package.Current.Id.FamilyName)
-				{
-					if (dataPackage.Contains(StandardDataFormats.StorageItems))
+					var dataPackage = Clipboard.GetContent();
+					if (dataPackage.Properties.PackageFamilyName == Package.Current.Id.FamilyName && dataPackage.Contains(StandardDataFormats.StorageItems))
 						Clipboard.Flush();
-				}
-			},
-			Logger);
+				}, Logger);
 
-			// Destroy cached properties windows
-			FilePropertiesHelpers.DestroyCachedWindows();
-
-			// Wait for ongoing file operations
-			FileOperationsHelpers.WaitForCompletion();
-		}
-
-		private static void TryEmptyWorkingSetWhenIdle(CancellationToken cancellationToken)
-		{
-			static void AggressiveGC(Windows.Win32.Foundation.HANDLE processHandle, CancellationToken cancellationToken)
-			{
-				GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
-				GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, true, true);
-				GC.WaitForPendingFinalizers();
-				GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, true, true);
-				Thread.Sleep(1000);
-
-				if (cancellationToken.IsCancellationRequested)
-					return;
-
-				PInvoke.K32EmptyWorkingSet(processHandle);
+				await Task.Run(FileOperationsHelpers.WaitForCompletion);
 			}
-
-			new Thread(() =>
+			catch (Exception ex)
 			{
-				using var process = Process.GetCurrentProcess();
-				var processHandle = new Windows.Win32.Foundation.HANDLE(process.Handle);
-
-				// Try to empty the working set
-				AggressiveGC(processHandle, cancellationToken);
-
-				if (cancellationToken.IsCancellationRequested)
-					return;
-
-				FileOperationsHelpers.WaitForCompletion();
-				if (cancellationToken.IsCancellationRequested)
-					return;
-
-				// After all pending file operations are completed, try to empty the working set again
-				AggressiveGC(processHandle, cancellationToken);
-			})
-			{ IsBackground = true }.Start();
+				Logger.LogWarning(ex, "Failed to finish window teardown.");
+			}
+			finally
+			{
+				await SafetyExtensions.IgnoreExceptions(async () => (await serverSession).Dispose(), Logger);
+				_isWindowTeardownCompleted = true;
+				MainWindow.Instance.Close();
+			}
 		}
 
 		/// <summary>

@@ -11,6 +11,7 @@
         <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
         <AppxDefaultResourceQualifiers>Language=en-US;af;ar;be-BY;bg;ca;cs-CZ;da;de-DE;el;en-GB;es-ES;es-419;fa-IR;fi-FI;fil-PH;fr-FR;he-IL;hi-IN;hr-HR;hu-HU;hy-AM;id-ID;it-IT;ja-JP;ka;km-KH;ko-KR;lt-LT;lv-LV;ms-MY;nb-NO;nl-NL;pl-PL;pt-BR;pt-PT;ro-RO;ru-RU;sk-SK;sq-AL;sr-Cyrl;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
         <TargetPlatformMinVersion>$(MinimalWindowsVersion)</TargetPlatformMinVersion>
+        <AppxAddDefaultTargetDeviceFamilyItem>false</AppxAddDefaultTargetDeviceFamilyItem>
         <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
         <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
         <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
@@ -39,6 +40,7 @@
         <IsAotCompatible>true</IsAotCompatible>
         <IlcGenerateMstatFile>true</IlcGenerateMstatFile>
         <IlcGenerateDgmlFile>true</IlcGenerateDgmlFile>
+        <FilesAppServerProject>$(MSBuildThisFileDirectory)..\Files.App.Server\Files.App.Server.csproj</FilesAppServerProject>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -65,8 +67,10 @@
         <DirectPInvoke Include="OLE32" />
         <DirectPInvoke Include="OLEAUT32" />
         <DirectPInvoke Include="USER32" />
+        <DirectPInvoke Include="MPR" />
         <_WindowsAppRuntimeBootstrapLibrary Include="@(WindowsAppSdkComponentPackages->'%(FullPath)lib\native\$(Platform)\Microsoft.WindowsAppRuntime.Bootstrap.lib')" />
         <NativeLibrary Include="runtimeobject.lib" />
+        <NativeLibrary Include="mpr.lib" />
         <NativeLibrary Include="@(_WindowsAppRuntimeBootstrapLibrary->Exists())" />
     </ItemGroup>
   
@@ -123,7 +127,7 @@
         <PackageReference Include="Sentry" />
         <PackageReference Include="SevenZipSharp" />
         <PackageReference Include="SharpZipLib" />
-        <PackageReference Include="SQLitePCLRaw.bundle_green" />
+        <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" />
         <PackageReference Include="System.Drawing.Common" />
         <PackageReference Include="Microsoft.WindowsAppSDK" />
         <PackageReference Include="Microsoft.Graphics.Win2D" />
@@ -133,7 +137,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.WindowsAppSDK.AI" ExcludeAssets="all" />
+        <TargetDeviceFamily Include="Windows.Desktop">
+            <TargetPlatformMinVersion>$(TargetPlatformMinVersion)</TargetPlatformMinVersion>
+            <TargetPlatformVersion>10.0.26226.0</TargetPlatformVersion>
+        </TargetDeviceFamily>
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Microsoft.WindowsAppSDK.ML" ExcludeAssets="all" />
         <PackageReference Include="Microsoft.Windows.AI.MachineLearning" ExcludeAssets="all" />
         <PackageReference Include="Microsoft.WindowsAppSDK.Widgets" ExcludeAssets="all" />
@@ -150,11 +160,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Files.App.CsWin32\Files.App.CsWin32.csproj" />
         <ProjectReference Include="..\Files.App.BackgroundTasks\Files.App.BackgroundTasks.csproj" />
         <ProjectReference Include="..\Files.App.Controls\Files.App.Controls.csproj" />
-        <ProjectReference Include="..\Files.App.Storage\Files.App.Storage.csproj" />
-        <ProjectReference Include="..\Files.Core.Storage\Files.Core.Storage.csproj" />
+        <ProjectReference Include="..\Files.Storage\Files.Storage.csproj" />
         <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
         <ProjectReference Include="..\Files.Core.SourceGenerator\Files.Core.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
@@ -166,8 +174,20 @@
     <!-- Files.App.Server is an out-of-process COM server, not a project reference.
          Build it before we resolve assemblies so its .winmd is available for CsWinRT. -->
     <Target Name="BuildFilesAppServer" BeforeTargets="ResolveAssemblyReferences">
-        <MSBuild Projects="..\Files.App.Server\Files.App.Server.csproj"
-                 Targets="Build"
-                 Properties="Configuration=$(Configuration);Platform=$(Platform)" />
+        <MSBuild Projects="$(FilesAppServerProject)" Targets="Build" Properties="Configuration=$(Configuration);Platform=$(Platform)" />
+    </Target>
+
+    <Target Name="PublishFilesAppServerForMsix" BeforeTargets="_ComputeAppxPackagePayload" Condition="'$(AppxPackage)' == 'true'">
+        <PropertyGroup>
+            <FilesAppServerPublishDir>$(MSBuildThisFileDirectory)..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\publish\</FilesAppServerPublishDir>
+        </PropertyGroup>
+
+        <MSBuild Projects="$(FilesAppServerProject)" Targets="Publish" Properties="Configuration=$(Configuration);Platform=$(Platform);PublishDir=$(FilesAppServerPublishDir)" />
+        <Error Condition="!Exists('$(FilesAppServerPublishDir)Files.App.Server.exe')" Text="Files.App.Server publish output was not found." />
+
+        <ItemGroup>
+            <_FilesAppServerPackageFile Include="$(FilesAppServerPublishDir)**\*" Exclude="$(FilesAppServerPublishDir)**\*.winmd;$(FilesAppServerPublishDir)**\*.pdb" />
+            <AppxPackagePayload Include="@(_FilesAppServerPackageFile)" TargetPath="Files.App.Server\%(RecursiveDir)%(Filename)%(Extension)" />
+        </ItemGroup>
     </Target>
 </Project>

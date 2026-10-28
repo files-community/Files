@@ -16,6 +16,7 @@ namespace Files.App.Helpers
 		private XamlRoot? root;
 		private SystemBackdropConfiguration? configuration;
 		private SystemBackdropTheme? prevTheme = null;
+		private bool? isInputActive;
 
 		public AppSystemBackdrop(bool isSecondaryWindow = false)
 		{
@@ -33,6 +34,8 @@ namespace Files.App.Helpers
 			this.target = connectedTarget;
 			this.root = xamlRoot;
 			configuration = GetDefaultSystemBackdropConfiguration(connectedTarget, xamlRoot);
+			if (isInputActive is bool active)
+				configuration.IsInputActive = active;
 			controller = GetSystemBackdropController(userSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial, configuration.Theme);
 			controller?.SetSystemBackdropConfiguration(configuration);
 			controller?.AddSystemBackdropTarget(connectedTarget);
@@ -82,6 +85,8 @@ namespace Files.App.Helpers
 					controller?.RemoveAllSystemBackdropTargets();
 					controller?.Dispose();
 					configuration = GetDefaultSystemBackdropConfiguration(target, root);
+					if (isInputActive is bool active)
+						configuration.IsInputActive = active;
 					var newController = GetSystemBackdropController(userSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial, configuration.Theme);
 					newController?.SetSystemBackdropConfiguration(configuration);
 					newController?.AddSystemBackdropTarget(target);
@@ -93,6 +98,7 @@ namespace Files.App.Helpers
 		// Driven from the window's Activated event since the default configuration doesn't reliably flip IsInputActive on pointerless activation (e.g. taskbar).
 		public void SetInputActive(bool isInputActive)
 		{
+			this.isInputActive = isInputActive;
 			if (configuration is not null)
 				configuration.IsInputActive = isInputActive;
 		}

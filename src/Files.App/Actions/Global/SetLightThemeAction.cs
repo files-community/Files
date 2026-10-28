@@ -9,7 +9,7 @@ namespace Files.App.Actions
 	internal sealed partial class SetLightThemeAction : BaseAppThemeAction, IAction
 	{
 		public string Label
-			=> $"{Strings.LightTheme.GetLocalizedResource()} Theme";
+			=> Strings.LightThemeLabel.GetLocalizedResource();
 
 		public string Description
 			=> Strings.SwitchToLightThemeDescription.GetLocalizedResource();

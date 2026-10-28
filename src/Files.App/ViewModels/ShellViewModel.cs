@@ -32,6 +32,8 @@ namespace Files.App.ViewModels
 	/// </summary>
 	public sealed partial class ShellViewModel : ObservableObject, IDisposable
 	{
+		private const int MaxSearchResultsAppendedPerTick = 500;
+
 		private readonly SemaphoreSlim enumFolderSemaphore;
 		private readonly SemaphoreSlim getFileOrFolderSemaphore;
 		private readonly SemaphoreSlim bulkOperationSemaphore;
@@ -52,6 +54,10 @@ namespace Files.App.ViewModels
 
 		// Files and folders list for manipulating
 		private ConcurrentCollection<ListedItem> filesAndFolders;
+
+		// Search results waiting to be displayed, only accessed on the UI thread
+		private readonly Queue<ListedItem> pendingSearchResults = new();
+
 		private readonly IWindowsIniService WindowsIniService = Ioc.Default.GetRequiredService<IWindowsIniService>();
 		private readonly IWindowsJumpListService jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
 		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
@@ -66,7 +72,10 @@ namespace Files.App.ViewModels
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		// Only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
-		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
+		public GroupableBulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
+
+		// Number of folders in FilesAndFolders
+		public int FoldersCount { get; private set; }
 
 		private readonly LayoutPreferencesManager folderSettings;
 
@@ -387,6 +396,7 @@ namespace Files.App.ViewModels
 
 			// The previous listing stays visible through navigation, so drop it before showing the indicator
 			FilesAndFolders.Clear();
+			FoldersCount = 0;
 			IsLocationUnavailable = true;
 		}
 
@@ -931,6 +941,7 @@ namespace Files.App.ViewModels
 				AppMemoryHelper.RequestTrim();
 			filesAndFolders.Clear();
 			FilesAndFolders.Clear();
+			FoldersCount = 0;
 			CancelSearch();
 		}
 
@@ -1102,6 +1113,9 @@ namespace Files.App.ViewModels
 		}
 
 
+		private static bool MatchesFilter(ListedItem item, string? filter)
+			=> string.IsNullOrEmpty(filter) || item.Name?.Contains(filter, StringComparison.OrdinalIgnoreCase) == true;
+
 		// Apply changes immediately after manipulating on filesAndFolders completed
 		public async Task ApplyFilesAndFoldersChangesAsync()
 		{
@@ -1125,8 +1139,9 @@ namespace Files.App.ViewModels
 
 					var displayedFilesAndFolders = string.IsNullOrEmpty(filter)
 						? filesAndFoldersLocal
-						: await Task.Run(() => filesAndFoldersLocal.Where(
-							x => x.Name?.Contains(filter, StringComparison.OrdinalIgnoreCase) == true).ToList(), addFilesCTS.Token);
+						: await Task.Run(() => filesAndFoldersLocal.Where(x => MatchesFilter(x, filter)).ToList(), addFilesCTS.Token);
+
+					var displayedFoldersCount = displayedFilesAndFolders.Count(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive);
 
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
@@ -1135,11 +1150,14 @@ namespace Files.App.ViewModels
 							if (addFilesCTS.IsCancellationRequested || FilesAndFoldersFilter != filter)
 								return;
 
+							pendingSearchResults.Clear();
+
 							FilesAndFolders.BeginBulkOperation();
 							try
 							{
 								FilesAndFolders.Clear();
 								FilesAndFolders.AddRange(displayedFilesAndFolders);
+								FoldersCount = displayedFoldersCount;
 
 								if (folderSettings.DirectoryGroupOption != GroupOption.None)
 									OrderGroups();
@@ -1173,7 +1191,9 @@ namespace Files.App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				App.Logger.LogWarning(ex, ex.Message);
+				// A newer load cancelled this one or disposed its token source, which is not worth reporting
+				if (ex is not (OperationCanceledException or ObjectDisposedException))
+					App.Logger.LogWarning(ex, ex.Message);
 			}
 		}
 
@@ -2258,6 +2278,8 @@ namespace Files.App.ViewModels
 
 		private async Task<int> EnumerateItemsFromStandardFolderAsync(string path, CancellationToken cancellationToken, LibraryItem? library = null)
 		{
+			var workingDirectory = WorkingDirectory
+				?? throw new InvalidOperationException("The working directory has not been initialized.");
 			enumeratedCloudSyncStatus = null;
 
 			// Flag to use FindFirstFileExFromApp or StorageFolder enumeration - Use storage folder for Box Drive (#4629)
@@ -2482,12 +2504,7 @@ namespace Files.App.ViewModels
 						// after the final list update, which would delay load completion and watcher setup.
 						// The desktop.ini task is awaited before applying the adaptive layout, which reads DesktopIni.
 						_ = dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-						desktopIniUpdateTask = dispatcherQueue.EnqueueOrInvokeAsync(() =>
-						{
-							GetDesktopIniFileData();
-							CheckForBackgroundImage();
-						},
-						Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+						desktopIniUpdateTask = UpdateDesktopIniAsync(workingDirectory, cancellationToken);
 					});
 
 					// Cache the resolved folder so the post-enum switch reuses it.
@@ -2572,12 +2589,18 @@ namespace Files.App.ViewModels
 				.FirstOrDefault()?.ItemPath;
 		}
 
-		private void GetDesktopIniFileData()
+		private async Task UpdateDesktopIniAsync(string directoryPath, CancellationToken cancellationToken)
 		{
-			var workingDirectory = WorkingDirectory
-				?? throw new InvalidOperationException("The working directory has not been initialized.");
-			var path = Path.Combine(workingDirectory, "desktop.ini");
-			DesktopIni = WindowsIniService.GetData(path);
+			// File.Exists and ReadLines can wait for the SMB timeout on an unavailable share.
+			var data = await Task.Run(() => WindowsIniService.GetData(Path.Combine(directoryPath, "desktop.ini")));
+			await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+			{
+				if (cancellationToken.IsCancellationRequested || WorkingDirectory != directoryPath)
+					return;
+
+				DesktopIni = data;
+				CheckForBackgroundImage();
+			}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 		}
 
 		public void CheckForBackgroundImage()
@@ -3436,7 +3459,8 @@ namespace Files.App.ViewModels
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
 
 			CancelSearch();
-			searchCTS = new CancellationTokenSource();
+			var currentSearchCTS = searchCTS = new CancellationTokenSource();
+			var token = currentSearchCTS.Token;
 			filesAndFolders.Clear();
 			IsLoadingItems = true;
 			IsSearchResults = true;
@@ -3453,23 +3477,92 @@ namespace Files.App.ViewModels
 
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
 
+			if (UserSettingsService.GeneralSettingsService.EnableNaturalLanguageSearch &&
+				search.Query is { } query && await NaturalLanguageSearch.TryTranslateToAqsAsync(query, token) is { } aqs)
+				search.Query = $"${aqs}";
+
+			// Stops late ticks from appending after the final apply
+			using var tickCTS = CancellationTokenSource.CreateLinkedTokenSource(token);
+			var tickToken = tickCTS.Token;
+			void Search_SearchTick(object? sender, IReadOnlyList<ListedItem> newItems) => _ = AppendSearchResultsAsync(newItems, tickToken);
+
 			var results = new List<ListedItem>();
-			search.SearchTick += async (s, e) =>
+			search.DispatcherQueue = dispatcherQueue;
+			search.SearchTick += Search_SearchTick;
+			await search.SearchAsync(results, token);
+			search.SearchTick -= Search_SearchTick;
+			tickCTS.Cancel();
+
+			if (!token.IsCancellationRequested)
 			{
+				await PreloadIconsAsync(results);
 				filesAndFolders = new ConcurrentCollection<ListedItem>(results);
+
 				await OrderFilesAndFoldersAsync();
 				await ApplyFilesAndFoldersChangesAsync();
-			};
+			}
 
-			await search.SearchAsync(results, searchCTS.Token);
+			// A newer search owns the loading state
+			if (ReferenceEquals(searchCTS, currentSearchCTS))
+			{
+				ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete });
+				IsLoadingItems = false;
+			}
+		}
 
-			filesAndFolders = new ConcurrentCollection<ListedItem>(results);
+		private async Task AppendSearchResultsAsync(IReadOnlyList<ListedItem> newItems, CancellationToken token)
+		{
+			try
+			{
+				await bulkOperationSemaphore.WaitAsync(token);
+			}
+			catch (OperationCanceledException)
+			{
+				return;
+			}
 
-			await OrderFilesAndFoldersAsync();
-			await ApplyFilesAndFoldersChangesAsync();
+			try
+			{
+				await PreloadIconsAsync(newItems);
+				await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+				{
+					if (token.IsCancellationRequested)
+						return;
 
-			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete });
-			IsLoadingItems = false;
+					filesAndFolders.AddRange(newItems);
+					foreach (var item in newItems)
+						pendingSearchResults.Enqueue(item);
+
+					var filter = FilesAndFoldersFilter;
+					var appendedCount = 0;
+					while (appendedCount < MaxSearchResultsAppendedPerTick && pendingSearchResults.TryDequeue(out var item))
+					{
+						if (!MatchesFilter(item, filter))
+							continue;
+
+						FilesAndFolders.Add(item);
+						appendedCount++;
+					}
+
+					UpdateEmptyTextType();
+					DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
+				});
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, ex.Message);
+			}
+			finally
+			{
+				bulkOperationSemaphore.Release();
+			}
+		}
+
+		private async Task PreloadIconsAsync(IEnumerable<ListedItem> items)
+		{
+			var iconSize = GetPreloadIconSize();
+			foreach (var item in items)
+				item.PreloadedIconData ??= await iconCacheService.GetIconAsync(item.ItemPath, item.IsFolder ? null : item.FileExtension, item.IsFolder, iconSize);
 		}
 
 		public void CancelSearch()

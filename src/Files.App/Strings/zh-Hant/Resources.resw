@@ -181,10 +181,10 @@
     <value>存取日期：</value>
   </data>
   <data name="RecentItemClearAllText" xml:space="preserve">
-    <value>Clear all items</value>
+    <value>清除所有項目</value>
   </data>
   <data name="NavigationToolbarVisiblePathPlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>輸入路徑或是 "&gt;" 來開啟命令列</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>搜尋</value>
@@ -199,7 +199,7 @@
     <value>您最近開啟過的檔案和資料夾將顯示在此處</value>
   </data>
   <data name="RecentItemRemoveText" xml:space="preserve">
-    <value>Remove this item</value>
+    <value>移除這個項目</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>GitHub 軟體源</value>
@@ -313,13 +313,13 @@
     <value>釘選至側邊欄</value>
   </data>
   <data name="WelcomeDialogTitle" xml:space="preserve">
-    <value>Welcome to Files!</value>
+    <value>歡迎使用 Files！</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>取得權限</value>
   </data>
   <data name="WelcomeDialogTextBlockText" xml:space="preserve">
-    <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </value>
+    <value>請授權我們使用您的檔案系统。待「設定」開啟後您就可以授權給我們。您需要在完成設定後重新啟動應用程式。 </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>顯示</value>
@@ -338,6 +338,12 @@
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>系統主題</value>
+  </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>淺色主題</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>深色主題</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>使用系統設定</value>
@@ -385,16 +391,16 @@
     <value>設定為應用程式背景</value>
   </data>
   <data name="AccessDeniedDeleteDialogText" xml:space="preserve">
-    <value>We weren't able to delete this item</value>
+    <value>我們無法刪除這個項目</value>
   </data>
   <data name="DriveUnpluggedDialogText" xml:space="preserve">
-    <value>Please insert the necessary drive to access this item.</value>
+    <value>請插入所需的磁碟機以存取此項目。</value>
   </data>
   <data name="DriveUnpluggedDialogTitle" xml:space="preserve">
-    <value>Drive unplugged</value>
+    <value>已中斷與裝置的連接</value>
   </data>
   <data name="FileNotFoundDialogText" xml:space="preserve">
-    <value>The file you are attempting to access may have been moved or deleted.</value>
+    <value>欲存取的檔案可能已被移動或刪除。</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
     <value>無法開啟該檔案的內容</value>
@@ -403,28 +409,28 @@
     <value>目標檔案可能已被移動或刪除。</value>
   </data>
   <data name="FileNotFoundDialogTitle" xml:space="preserve">
-    <value>File Not Found</value>
+    <value>找不到檔案</value>
   </data>
   <data name="FolderNotFoundDialogText" xml:space="preserve">
-    <value>The folder you are attempting to access may have been moved or deleted.</value>
+    <value>欲存取的資料夾可能已被移動或刪除。</value>
   </data>
   <data name="FolderNotFoundDialogTitle" xml:space="preserve">
-    <value>Did you delete this folder?</value>
+    <value>你刪除這個資料夾了嗎？</value>
   </data>
   <data name="FileInUseByDialogText" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>您試圖存取的檔案正在被 {0} 使用</value>
   </data>
   <data name="FileInUseDialogText" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>您試圖存取的檔案正在被其他應用程式使用</value>
   </data>
   <data name="FileInUseDialogTitle" xml:space="preserve">
-    <value>File is in use</value>
+    <value>檔案使用中</value>
   </data>
   <data name="CannotRunFileDialogTitle" xml:space="preserve">
-    <value>This app can't run on your PC</value>
+    <value>此應用程式無法在您的電腦上執行</value>
   </data>
   <data name="CannotRunFileDialogText" xml:space="preserve">
-    <value>To find a version for your PC, check with the software publisher.</value>
+    <value>要為您的電腦查詢版本，請與軟體釋出者核實。</value>
   </data>
   <data name="Layout" xml:space="preserve">
     <value>版面配置</value>
@@ -531,7 +537,7 @@
     <value>{0, number} 個{0, plural, other {檔案}}，{1, number} 個{1, plural,  other {資料夾}}，從 {2, number} 個{2, plural, other {位置}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUserText" xml:space="preserve">
-    <value>Run as another user</value>
+    <value>以另一名使用者之身分執行</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
     <value>全為 {0}</value>
@@ -642,22 +648,22 @@
     <value>正在分享 {0} {1}</value>
   </data>
   <data name="RenameErrorItemDeletedText" xml:space="preserve">
-    <value>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</value>
+    <value>您欲重新命名的項目不存在。請確認您要重新命名的項目的位置。</value>
   </data>
   <data name="RenameErrorItemDeletedTitle" xml:space="preserve">
-    <value>Item no longer exists</value>
+    <value>項目不存在</value>
   </data>
   <data name="RenameErrorNameInvalidText" xml:space="preserve">
-    <value>The name specified was invalid. Please check the desired item name and try again.</value>
+    <value>無效的檔名。請確認其有效性並再次命名。</value>
   </data>
   <data name="RenameErrorNameInvalidTitle" xml:space="preserve">
-    <value>Invalid item name</value>
+    <value>無效的檔名</value>
   </data>
   <data name="RenameErrorTooLongText" xml:space="preserve">
-    <value>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</value>
+    <value>新檔名的字數過長。請確認其有效性並再次命名。</value>
   </data>
   <data name="RenameErrorTooLongTitle" xml:space="preserve">
-    <value>Item name was too long</value>
+    <value>檔名過長</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
     <value>顯示更多選項</value>
@@ -669,13 +675,13 @@
     <value>在 GitHub 上贊助我們</value>
   </data>
   <data name="AccessDeniedCreateDialogText" xml:space="preserve">
-    <value>We weren't able to create this item</value>
+    <value>我們無法建立此項目</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>拒絕存取</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsText" xml:space="preserve">
-    <value>Set as</value>
+    <value>設為</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>取消</value>
@@ -717,10 +723,10 @@
     <value>刪除項目時顯示確認訊息框</value>
   </data>
   <data name="PropertySaveErrorMessageText" xml:space="preserve">
-    <value>There was an issue saving some properties.</value>
+    <value>儲存屬性時發生錯誤。</value>
   </data>
   <data name="PropertySaveErrorDialogTitle" xml:space="preserve">
-    <value>Error</value>
+    <value>錯誤</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>仍要關閉</value>
@@ -1107,7 +1113,7 @@
     <value>在分割畫面另一側開啟</value>
   </data>
   <data name="OpenCurrentFolderInOtherPane" xml:space="preserve">
-    <value>Open current folder in other pane</value>
+    <value>在新分割視窗中開啟目前資料夾</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>檔案與資料夾</value>
@@ -1209,13 +1215,13 @@
     <value>未計算</value>
   </data>
   <data name="ViewSize" xml:space="preserve">
-    <value>View size</value>
+    <value>檢視大小</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>未知</value>
   </data>
   <data name="RenameFileDialogText" xml:space="preserve">
-    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
+    <value>如果您變更副檔名，檔案可能會變成無法使用。您確定要變更嗎？</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>CD ROM 光碟機</value>
@@ -1254,7 +1260,7 @@
     <value>更多選項...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItemText" xml:space="preserve">
-    <value>Map network drive</value>
+    <value>映射網路磁碟機</value>
   </data>
   <data name="Pinned" xml:space="preserve">
     <value>已釘選</value>
@@ -1287,10 +1293,10 @@
     <value>清單（Ctrl + Shift + 6）</value>
   </data>
   <data name="PinItemToStartText" xml:space="preserve">
-    <value>Pin to the Start Menu</value>
+    <value>釘選至開始功能表</value>
   </data>
   <data name="UnpinItemFromStartText" xml:space="preserve">
-    <value>Unpin from the Start Menu</value>
+    <value>從開始功能表取消釘選</value>
   </data>
   <data name="Library" xml:space="preserve">
     <value>媒體櫃</value>
@@ -1536,13 +1542,13 @@
     <value>帳戶名稱不詳</value>
   </data>
   <data name="SecurityCannotReadPropertiesText" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
+    <value>您沒有權限查看此項目的安全性設定。點擊「進階」以繼續。</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>擁有者：</value>
   </data>
   <data name="SecurityUnknownOwnerTextText" xml:space="preserve">
-    <value>Unknown owner</value>
+    <value>未知的擁有者</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>解壓縮檔案</value>
@@ -1554,10 +1560,10 @@
     <value>解壓縮至 {0}\</value>
   </data>
   <data name="SideBarCreateNewLibraryText" xml:space="preserve">
-    <value>Create new library</value>
+    <value>新增媒體櫃</value>
   </data>
   <data name="SideBarRestoreLibrariesText" xml:space="preserve">
-    <value>Restore default libraries</value>
+    <value>重置預設媒體櫃</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
     <value>是否要重置媒體櫃？您所有的檔案都會保留下來。</value>
@@ -1569,7 +1575,7 @@
     <value>擁有者</value>
   </data>
   <data name="SecuritySpecialLabelText" xml:space="preserve">
-    <value>Special</value>
+    <value>特殊權限</value>
   </data>
   <data name="Access" xml:space="preserve">
     <value>存取</value>
@@ -1596,7 +1602,7 @@
     <value>權限</value>
   </data>
   <data name="SecurityAdvancedCannotReadPropertiesText" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
+    <value>您沒有權限查看此項目的安全性設定。您可以嘗試獲取此項目的所有權。</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>此資料夾及檔案</value>
@@ -1620,49 +1626,49 @@
     <value>此資料夾及子資料夾</value>
   </data>
   <data name="SecurityAppendDataLabelText" xml:space="preserve">
-    <value>Append data</value>
+    <value>附加資料</value>
   </data>
   <data name="SecurityChangePermissionsLabelText" xml:space="preserve">
-    <value>Change permission</value>
+    <value>變更權限</value>
   </data>
   <data name="SecurityCreateDirectoriesLabelText" xml:space="preserve">
-    <value>Create folders</value>
+    <value>建立資料夾</value>
   </data>
   <data name="SecurityCreateFilesLabelText" xml:space="preserve">
-    <value>Create files</value>
+    <value>建立檔案</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabelText" xml:space="preserve">
-    <value>Delete subdirectories and files</value>
+    <value>刪除子資料夾和檔案</value>
   </data>
   <data name="SecurityExecuteFileLabelText" xml:space="preserve">
-    <value>Execute files</value>
+    <value>執行檔案</value>
   </data>
   <data name="SecurityReadAttributesLabelText" xml:space="preserve">
-    <value>Read attributes</value>
+    <value>讀取屬性</value>
   </data>
   <data name="SecurityReadDataLabelText" xml:space="preserve">
-    <value>Read data</value>
+    <value>讀取資料</value>
   </data>
   <data name="SecurityReadExtendedAttributesLabelText" xml:space="preserve">
-    <value>Read extended attributes</value>
+    <value>讀取延伸屬性</value>
   </data>
   <data name="SecurityReadPermissionsLabelText" xml:space="preserve">
-    <value>Read permissions</value>
+    <value>讀取權限</value>
   </data>
   <data name="SecurityTakeOwnershipLabelText" xml:space="preserve">
-    <value>Take ownership</value>
+    <value>取得擁有權</value>
   </data>
   <data name="SecurityTraverseLabelText" xml:space="preserve">
-    <value>Visit folder</value>
+    <value>查看資料夾</value>
   </data>
   <data name="SecurityWriteAttributesLabelText" xml:space="preserve">
-    <value>Write attributes</value>
+    <value>寫入屬性</value>
   </data>
   <data name="SecurityWriteDataLabelText" xml:space="preserve">
-    <value>Write data</value>
+    <value>寫入資料</value>
   </data>
   <data name="SecurityWriteExtendedAttributesLabelText" xml:space="preserve">
-    <value>Write extended attributes</value>
+    <value>寫入延伸屬性</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
     <value>將繼承的權限轉換成此物件中的明確權限</value>
@@ -1680,7 +1686,7 @@
     <value>覆蓋所有子物件的權限為此父物件的可繼承權限</value>
   </data>
   <data name="CloseActivePane" xml:space="preserve">
-    <value>關閉活動窗格</value>
+    <value>關閉分割視窗</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>進入精簡懸浮模式</value>
@@ -1749,7 +1755,7 @@
     <value>解壓縮完畢！</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolderText" xml:space="preserve">
-    <value>Open parent folder</value>
+    <value>開啟父資料夾</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>未知</value>
@@ -1764,10 +1770,10 @@
     <value>開啟磁碟機</value>
   </data>
   <data name="InsertDiscDialogText" xml:space="preserve">
-    <value>Please insert a disc into drive {0}</value>
+    <value>請將光碟放入磁碟機 {0} 中</value>
   </data>
   <data name="InsertDiscDialogTitle" xml:space="preserve">
-    <value>Insert a disc</value>
+    <value>插入光碟</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>確定</value>
@@ -1782,13 +1788,13 @@
     <value>請提供您的憑證：</value>
   </data>
   <data name="CredentialDialogIncorrectPassword" xml:space="preserve">
-    <value>The password is incorrect. Try again.</value>
+    <value>密碼錯誤。請重試。</value>
   </data>
   <data name="PasswordRequired" xml:space="preserve">
-    <value>Password required</value>
+    <value>請輸入密碼</value>
   </data>
   <data name="PasswordRequiredMessage" xml:space="preserve">
-    <value>This location is password protected. Refresh to enter the password.</value>
+    <value>此路徑受到密碼保護。請重新整理並輸入密碼。</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>使用者名稱</value>
@@ -2235,10 +2241,10 @@
     <value>建立壓縮檔案</value>
   </data>
   <data name="CompressSkippedItemsDialogTitle" xml:space="preserve">
-    <value>Some items can't be compressed</value>
+    <value>有些項目無法壓縮</value>
   </data>
   <data name="CompressSkippedItemsDialogText" xml:space="preserve">
-    <value>The following {0, plural, one {item} other {items}} can''t be compressed. Would you like to skip {0, plural, one {this item} other {these items}}?</value>
+    <value>以下{0, plural, other {項目}}無法壓縮。 你想跳過{0, plural, other {這些項目}}嗎？</value>
   </data>
   <data name="CompressIntoZip" xml:space="preserve">
     <value>建立 zip 壓縮檔案</value>
@@ -3464,7 +3470,7 @@
     <value>在分割畫面另一側開啟選取的目錄</value>
   </data>
   <data name="OpenCurrentFolderInOtherPaneDescription" xml:space="preserve">
-    <value>Open the current folder in the other pane</value>
+    <value>在另一欄中開啟目前資料夾</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>在分頁中開啟選取的目錄</value>
@@ -3731,7 +3737,7 @@
     <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitOperationProgress" xml:space="preserve">
-    <value>{0}% complete</value>
+    <value>{0}% 完成</value>
     <comment>Shown in Status Center during a Git operation. {0} is the percentage from 0 to 100.</comment>
   </data>
   <data name="StatusCenter_GitPullCanceled_Header" xml:space="preserve">
@@ -4158,6 +4164,12 @@
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>此按鍵組合無法使用，請使用其他按鍵組合</value>
   </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>鍵盤快速鍵</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>Are you sure you want to remove this key binding?</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>自訂</value>
   </data>
@@ -4254,7 +4266,7 @@
     <comment>This is the friendly name for image files.</comment>
   </data>
   <data name="AllSupportedFiles" xml:space="preserve">
-    <value>All supported files</value>
+    <value>所有支援的檔案</value>
   </data>
   <data name="ConvertToIconRequiredMessage" xml:space="preserve">
     <value>This image needs to be converted into an icon file before it can be used. Choose a location to save the converted icon file.</value>
@@ -4306,16 +4318,16 @@
     <value>分隔成上、下面板</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
-    <value>調整為上下分割模式</value>
+    <value>調整為左右分割模式</value>
   </data>
   <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
     <value>上下分割畫面</value>
   </data>
   <data name="ArrangePanesHorizontally" xml:space="preserve">
-    <value>調整為左右分割模式</value>
+    <value>調整為上下分割模式</value>
   </data>
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
-    <value>左右分割畫面</value>
+    <value>上下分割畫面</value>
   </data>
   <data name="SplitPane" xml:space="preserve">
     <value>分割面板</value>
@@ -4336,7 +4348,7 @@
     <value>左右排列</value>
   </data>
   <data name="Vertical" xml:space="preserve">
-    <value>上下分割</value>
+    <value>左右分割</value>
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>在系統匣顯示 Files 圖示</value>

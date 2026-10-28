@@ -76,7 +76,6 @@ namespace Files.App.ViewModels.Settings
 				new ("https://github.com/microsoft/CsWin32", "CsWin32"),
 				new ("https://github.com/microsoft/CsWinRT", "CsWinRT"),
 				new ("https://github.com/GihanSoft/NaturalStringComparer", "NaturalStringComparer"),
-				new ("https://github.com/dongle-the-gadget/GuidRVAGen", "Dongle.GuidRVAGen"),
 				new ("https://github.com/leeqwind/PESignAnalyzer", "PESignAnalyzer"),
 			];
 

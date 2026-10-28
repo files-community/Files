@@ -219,7 +219,27 @@ namespace Files.App.ViewModels.UserControls
 		public string? OmnibarCommandPaletteModeText { get => _OmnibarCommandPaletteModeText; set => SetProperty(ref _OmnibarCommandPaletteModeText, value); }
 
 		private string? _OmnibarSearchModeText;
-		public string? OmnibarSearchModeText { get => _OmnibarSearchModeText; set => SetProperty(ref _OmnibarSearchModeText, value); }
+		public string? OmnibarSearchModeText
+		{
+			get => _OmnibarSearchModeText;
+			set
+			{
+				if (!SetProperty(ref _OmnibarSearchModeText, value) ||
+					value is null ||
+					!UserSettingsService.GeneralSettingsService.EnableNaturalLanguageSearch ||
+					!NaturalLanguageSearch.IsNaturalLanguageQuery(value))
+					return;
+
+				if (_isNaturalLanguageSearchSupported)
+					NaturalLanguageSearch.Prewarm();
+				else
+					_ = CheckNaturalLanguageSearchSupportAsync();
+			}
+		}
+
+		private bool _isNaturalLanguageSearchSupported;
+		private int _isCheckingNaturalLanguageSearchSupport;
+		public bool IsNaturalLanguageSearchAvailable => _isNaturalLanguageSearchSupported && UserSettingsService.GeneralSettingsService.EnableNaturalLanguageSearch && _InstanceViewModel?.IsPageTypeSettings != true;
 
 		public string OmnibarSearchModePlaceholder => _InstanceViewModel?.IsPageTypeSettings == true
 			? Strings.SearchSettings.GetLocalizedResource()
@@ -248,6 +268,7 @@ namespace Files.App.ViewModels.UserControls
 					value.FolderSettings.PropertyChanged += FolderSettings_PropertyChanged;
 					value.PropertyChanged += InstanceViewModel_PropertyChanged;
 					OnPropertyChanged(nameof(OmnibarSearchModePlaceholder));
+					OnPropertyChanged(nameof(IsNaturalLanguageSearchAvailable));
 				}
 			}
 		}
@@ -257,6 +278,7 @@ namespace Files.App.ViewModels.UserControls
 			if (e.PropertyName is nameof(CurrentInstanceViewModel.IsPageTypeSettings))
 			{
 				OnPropertyChanged(nameof(OmnibarSearchModePlaceholder));
+				OnPropertyChanged(nameof(IsNaturalLanguageSearchAvailable));
 
 				// Suggestion source differs between settings and file search — drop stale items.
 				OmnibarSearchModeSuggestionItems.Clear();
@@ -303,6 +325,39 @@ namespace Files.App.ViewModels.UserControls
 			Commands.DecompressArchiveToChildFolder.PropertyChanged += DecompressCommand_PropertyChanged;
 			AppearanceSettingsService.PropertyChanged += AppearanceSettingsService_PropertyChanged;
 			OngoingTasksViewModel.PropertyChanged += OngoingTasksViewModel_PropertyChanged;
+
+			UserSettingsService.GeneralSettingsService.PropertyChanged += GeneralSettingsService_PropertyChanged;
+
+			_ = CheckNaturalLanguageSearchSupportAsync();
+		}
+
+		private async Task CheckNaturalLanguageSearchSupportAsync()
+		{
+			if (Interlocked.Exchange(ref _isCheckingNaturalLanguageSearchSupport, 1) is 1)
+				return;
+
+			try
+			{
+				var isSupported = await Task.Run(NaturalLanguageSearch.IsAvailable);
+				if (isSupported == _isNaturalLanguageSearchSupported)
+					return;
+
+				await _dispatcherQueue.EnqueueOrInvokeAsync(() =>
+				{
+					_isNaturalLanguageSearchSupported = isSupported;
+					OnPropertyChanged(nameof(IsNaturalLanguageSearchAvailable));
+				});
+			}
+			finally
+			{
+				Volatile.Write(ref _isCheckingNaturalLanguageSearchSupport, 0);
+			}
+		}
+
+		private void GeneralSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(IGeneralSettingsService.EnableNaturalLanguageSearch))
+				OnPropertyChanged(nameof(IsNaturalLanguageSearchAvailable));
 		}
 
 		// Methods
@@ -482,7 +537,8 @@ namespace Files.App.ViewModels.UserControls
 
 			var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
-			if (!storageItems.Any(storageItem =>
+			if (storageItems.ContainsDestinationOrAncestor(pathBoxItem.Path) ||
+				!storageItems.Any(storageItem =>
 					!string.IsNullOrEmpty(storageItem?.Path) &&
 					storageItem.Path.Replace(pathBoxItem.Path, string.Empty, StringComparison.Ordinal)
 						.Trim(Path.DirectorySeparatorChar)
@@ -539,11 +595,11 @@ namespace Files.App.ViewModels.UserControls
 			ToolbarPathItemInvoked?.Invoke(this, new() { ItemPath = path });
 		}
 
-		public async Task HandleItemNavigationAsync(string path)
+		public async Task<bool> HandleItemNavigationAsync(string path)
 		{
 			var shellPage = ContentPageContext.ShellPage;
 			if (shellPage is null)
-				return;
+				return true;
 
 			var shellViewModel = shellPage.ShellViewModel
 				?? throw new InvalidOperationException("The current shell page does not have a view model.");
@@ -553,12 +609,12 @@ namespace Files.App.ViewModels.UserControls
 			var normalizedInput = NormalizePathInput(path, isFtp);
 			if (currentPath is not null && currentPath.Equals(normalizedInput, StringComparison.OrdinalIgnoreCase) ||
 				string.IsNullOrWhiteSpace(normalizedInput))
-				return;
+				return true;
 
 			if (normalizedInput.Equals(shellViewModel.WorkingDirectory) &&
 				shellPage.CurrentPageType != typeof(HomePage) &&
 				!shellViewModel.IsSearchResults)
-				return;
+				return true;
 
 			if (normalizedInput.Equals("Home", StringComparison.OrdinalIgnoreCase) ||
 				normalizedInput.Equals(Strings.Home.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
@@ -582,7 +638,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				normalizedInput = StorageFileExtensions.GetResolvedPath(normalizedInput, isFtp);
 				if (currentPath is not null && currentPath.Equals(normalizedInput, StringComparison.OrdinalIgnoreCase))
-					return;
+					return true;
 
 				var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(normalizedInput));
 
@@ -601,7 +657,7 @@ namespace Files.App.ViewModels.UserControls
 						bool ejectButton = await DialogDisplayHelper.ShowDialogAsync(Strings.InsertDiscDialogTitle.GetLocalizedResource(), string.Format(Strings.InsertDiscDialogText.GetLocalizedResource(), drivePath), Strings.InsertDiscDialog_OpenDriveButton.GetLocalizedResource(), Strings.Close.GetLocalizedResource());
 						if (ejectButton)
 							DriveHelpers.EjectDeviceAsync(drivePath);
-						return;
+						return true;
 					}
 
 					var pathToNavigate = resFolder.Result?.Path ?? normalizedInput;
@@ -639,18 +695,22 @@ namespace Files.App.ViewModels.UserControls
 							?? throw new InvalidOperationException("The navigation path has not been initialized.");
 
 						if (await LaunchApplicationFromPath(pathText, workingDir))
-							return;
+							return true;
 
+						var isValid = false;
 						try
 						{
-							if (!await Windows.System.Launcher.LaunchUriAsync(new Uri(pathText)))
-								await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidItemDialogTitle.GetLocalizedResource(),
-									string.Format(Strings.InvalidItemDialogContent.GetLocalizedResource(), Environment.NewLine, resFolder.ErrorCode.ToString()));
+							isValid = await Windows.System.Launcher.LaunchUriAsync(new Uri(pathText));
 						}
 						catch (Exception ex) when (ex is UriFormatException || ex is ArgumentException)
 						{
+						}
+
+						if (!isValid)
+						{
 							await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidItemDialogTitle.GetLocalizedResource(),
 								string.Format(Strings.InvalidItemDialogContent.GetLocalizedResource(), Environment.NewLine, resFolder.ErrorCode.ToString()));
+							return false;
 						}
 					}
 				}
@@ -661,6 +721,7 @@ namespace Files.App.ViewModels.UserControls
 			shellViewModel = shellPage.ShellViewModel
 				?? throw new InvalidOperationException("The current shell page does not have a view model.");
 			PathControlDisplayText = shellViewModel.WorkingDirectory;
+			return true;
 		}
 
 		public void SwitchToCommandPaletteMode()
@@ -1191,6 +1252,8 @@ namespace Files.App.ViewModels.UserControls
 			_suggestSearchCTS = new CancellationTokenSource();
 			var token = _suggestSearchCTS.Token;
 
+			UpdateSearchQuerySuggestion();
+
 			List<SuggestionModel> newSuggestions = [];
 
 			if (string.IsNullOrWhiteSpace(OmnibarSearchModeText))
@@ -1229,7 +1292,7 @@ namespace Files.App.ViewModels.UserControls
 
 			// Remove outdated suggestions
 			var toRemove = OmnibarSearchModeSuggestionItems
-				.Where(existing => !newSuggestions.Any(newItem => newItem.ItemPath == existing.ItemPath))
+				.Where(existing => !existing.IsSearchQuery && !newSuggestions.Any(newItem => newItem.ItemPath == existing.ItemPath))
 				.ToList();
 
 			foreach (var item in toRemove)
@@ -1243,12 +1306,32 @@ namespace Files.App.ViewModels.UserControls
 				OmnibarSearchModeSuggestionItems.Add(item);
 		}
 
+		private void UpdateSearchQuerySuggestion()
+		{
+			var hasQueryItem = OmnibarSearchModeSuggestionItems.FirstOrDefault() is { IsSearchQuery: true };
+			if (string.IsNullOrWhiteSpace(OmnibarSearchModeText))
+			{
+				if (hasQueryItem)
+					OmnibarSearchModeSuggestionItems.RemoveAt(0);
+
+				return;
+			}
+
+			var queryItem = new SuggestionModel(OmnibarSearchModeText, false) { IsSearchQuery = true };
+			if (hasQueryItem)
+				OmnibarSearchModeSuggestionItems[0] = queryItem;
+			else
+				OmnibarSearchModeSuggestionItems.Insert(0, queryItem);
+		}
+
 		private void PopulateOmnibarSuggestionsForSettingsSearch()
 		{
 			OmnibarSearchModeSuggestionItems.Clear();
 
 			if (string.IsNullOrWhiteSpace(OmnibarSearchModeText))
 				return;
+
+			UpdateSearchQuerySuggestion();
 
 			_settingsSearchIndex ??= SettingsSearchIndexer.BuildIndex();
 			var terms = OmnibarSearchModeText.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
@@ -1317,6 +1400,7 @@ namespace Files.App.ViewModels.UserControls
 			Commands.DecompressArchiveHereSmart.PropertyChanged -= DecompressCommand_PropertyChanged;
 			Commands.DecompressArchiveToChildFolder.PropertyChanged -= DecompressCommand_PropertyChanged;
 			AppearanceSettingsService.PropertyChanged -= AppearanceSettingsService_PropertyChanged;
+			UserSettingsService.GeneralSettingsService.PropertyChanged -= GeneralSettingsService_PropertyChanged;
 			OngoingTasksViewModel.PropertyChanged -= OngoingTasksViewModel_PropertyChanged;
 		}
 	}

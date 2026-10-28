@@ -23,48 +23,28 @@ namespace Files.App.Utils
 			}
 		}
 
-		public static Task UpdateDrivesAsync()
+		public static async Task UpdateDrivesAsync()
 		{
-			// Enumerate from the registry; opening \\wsl$\<distro> via the shell would start that distro's VM.
-			return Task.Run(() =>
+			try
 			{
-				try
+				var names = await Server.AppService.GetWslDistributionsAsync();
+				lock (distros)
 				{
-					const string LxssRegistryPath = @"Software\Microsoft\Windows\CurrentVersion\Lxss";
-					using var lxssKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(LxssRegistryPath);
-					if (lxssKey is null)
-						return;
-
-					foreach (var subKeyName in lxssKey.GetSubKeyNames())
+					distros.Clear();
+					distros.AddRange(names.Select(name => new WslDistroItem
 					{
-						using var distroKey = lxssKey.OpenSubKey(subKeyName);
-						if (distroKey?.GetValue("DistributionName") is not string distroName || string.IsNullOrEmpty(distroName))
-							continue;
-
-						var path = $@"\\wsl$\{distroName}";
-
-						var distro = new WslDistroItem
-						{
-							Text = distroName,
-							Path = path,
-							Icon = GetLogoUri(distroName),
-							MenuOptions = new ContextMenuOptions { IsLocationItem = true },
-						};
-
-						lock (distros)
-						{
-							if (distros.Any(x => x.Path == path))
-								continue;
-							distros.Add(distro);
-						}
-						DataChanged?.Invoke(SectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, distro));
-					}
+						Text = name,
+						Path = $@"\\wsl$\{name}",
+						Icon = GetLogoUri(name),
+						MenuOptions = new ContextMenuOptions { IsLocationItem = true },
+					}));
 				}
-				catch (Exception)
-				{
-					// WSL not supported/enabled
-				}
-			});
+				DataChanged?.Invoke(SectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			}
+			catch (Exception)
+			{
+				// WSL may be unavailable on this system.
+			}
 		}
 
 		public static bool TryGetDistro(string path, [NotNullWhen(true)] out WslDistroItem? distro)

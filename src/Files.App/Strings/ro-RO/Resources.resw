@@ -339,6 +339,12 @@
   <data name="DefaultTheme" xml:space="preserve">
     <value>Temă de sistem</value>
   </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>Temă luminoasă</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>Temă întunecată</value>
+  </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Utilizați setările de sistem</value>
   </data>
@@ -4157,6 +4163,12 @@
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>Comanda rapidă pe care ați ales-o nu poate fii folosită, vă rugăm să încercați o altă comandă rapidă.</value>
+  </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>Comenzi rapide tastatură</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>Sunteți sigur că doriți să eliminați această comandă rapidă?</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Personalizat</value>

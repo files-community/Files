@@ -21,6 +21,7 @@
 	xmlns:ucs="using:Files.App.UserControls.StatusCenter"
 	xmlns:vm="using:Files.App.ViewModels.UserControls"
 	x:Name="NavToolbar"
+	Loaded="NavToolbar_Loaded"
 	Loading="NavToolbar_Loading"
 	mc:Ignorable="d">
 
@@ -30,10 +31,12 @@
 			<converters:NullToVisibilityCollapsedConverter x:Key="NullToVisibilityCollapsedConverter" />
 			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<converters:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
-			<converters1:BoolToObjectConverter
-				x:Key="SearchSuggestionGlyphConverter"
-				FalseValue="&#xE7C3;"
-				TrueValue="&#xE81C;" />
+
+			<LinearGradientBrush x:Key="NaturalLanguageSearchIconBrush" StartPoint="0,0" EndPoint="1,1">
+				<GradientStop Offset="0" Color="#2D7FF9" />
+				<GradientStop Offset="0.5" Color="#A855F7" />
+				<GradientStop Offset="1" Color="#F2649E" />
+			</LinearGradientBrush>
 
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///UserControls/KeyboardShortcut/KeyboardShortcut.xaml" />
@@ -73,7 +76,11 @@
 		</Grid.ColumnDefinitions>
 
 		<!--  Listary Integration  -->
-		<Grid Width="0" Height="0">
+		<Grid
+			x:Name="ListaryIntegration"
+			Width="0"
+			Height="0"
+			x:Load="False">
 			<!--  Contains the current path  -->
 			<TextBox AutomationProperties.AutomationId="CurrentPathGet" Text="{x:Bind ViewModel.PathControlDisplayText, Mode=OneWay}" />
 
@@ -290,6 +297,7 @@
 				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IsFilled=True}"
 				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IconType=Outline}"
 				IsAutoFocusEnabled="True"
+				IsFirstSuggestionAutoSelected="True"
 				ItemsSource="{x:Bind ViewModel.OmnibarCommandPaletteModeSuggestionItems, Mode=OneWay}"
 				ModeName="{x:Bind Commands.OpenCommandPalette.LabelWithHotKey, Mode=OneWay}"
 				PlaceholderText="{helpers:ResourceString Name=OmnibarCommandPaletteModeTextPlaceholder}"
@@ -343,9 +351,10 @@
 
 			<controls:OmnibarMode
 				x:Name="OmnibarSearchMode"
-				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IsFilled=True}"
-				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IconType=Outline}"
+				IconOnActive="{x:Bind GetSearchModeIcon(ViewModel.IsNaturalLanguageSearchAvailable, x:True), Mode=OneWay}"
+				IconOnInactive="{x:Bind GetSearchModeIcon(ViewModel.IsNaturalLanguageSearchAvailable, x:False), Mode=OneWay}"
 				IsAutoFocusEnabled="True"
+				IsFirstSuggestionAutoSelected="True"
 				ItemsSource="{x:Bind ViewModel.OmnibarSearchModeSuggestionItems, Mode=OneWay}"
 				ModeName="{x:Bind Commands.Search.LabelWithHotKey, Mode=OneWay}"
 				PlaceholderText="{x:Bind ViewModel.OmnibarSearchModePlaceholder, Mode=OneWay}"
@@ -374,7 +383,7 @@
 									x:Name="EmptyIconGlyph"
 									x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
 									FontSize="14"
-									Glyph="{x:Bind IsRecentSearch, Mode=OneTime, Converter={StaticResource SearchSuggestionGlyphConverter}}" />
+									Glyph="{x:Bind PlaceholderGlyph, Mode=OneTime}" />
 								<Viewbox
 									x:Name="ShortcutGlyphElement"
 									Width="10"
@@ -386,7 +395,7 @@
 								</Viewbox>
 							</Grid>
 							<StackPanel Grid.Column="1" VerticalAlignment="Center">
-								<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+								<TextBlock Text="{x:Bind DisplayName, Mode=OneTime}" />
 								<TextBlock
 									FontSize="12"
 									Foreground="{ThemeResource TextFillColorSecondaryBrush}"

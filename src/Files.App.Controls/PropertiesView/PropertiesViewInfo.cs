@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -137,7 +138,8 @@ namespace Files.App.Controls
             UpdateInfoIcon();
         }
 
-        private void UpdateInfoIcon()
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		private void UpdateInfoIcon()
         {
             if ( GetTemplateChild( InfoIconPresenterHolderName ) is FrameworkElement presenter )
                 presenter.Visibility = InfoIcon is not null

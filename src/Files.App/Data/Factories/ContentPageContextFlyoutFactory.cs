@@ -708,10 +708,10 @@ namespace Files.App.Data.Factories
 				var cachedNewContextMenuEntries = AddItemService.GetEntries();
 				cachedNewContextMenuEntries?.ForEach(i =>
 				{
-					if (!string.IsNullOrEmpty(i.IconBase64))
+					if (i.IconData is { Length: > 0 })
 					{
 						// loading the bitmaps takes a while, so this caches them
-						byte[] bitmapData = Convert.FromBase64String(i.IconBase64);
+						byte[] bitmapData = i.IconData;
 						using var ms = new MemoryStream(bitmapData);
 						var bitmap = new BitmapImage();
 						_ = bitmap.SetSourceAsync(ms.AsRandomAccessStream());

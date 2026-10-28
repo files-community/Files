@@ -11,7 +11,7 @@ namespace Files.App.UserControls.Widgets
 	/// <summary>
 	/// Represents group of control displays a list of quick access folders with <see cref="WidgetFolderCardItem"/>.
 	/// </summary>
-	public sealed partial class QuickAccessWidget : UserControl
+	public sealed partial class QuickAccessWidget : UserControl, IDisposable
 	{
 		public QuickAccessWidgetViewModel ViewModel { get; set; } = Ioc.Default.GetRequiredService<QuickAccessWidgetViewModel>();
 
@@ -44,6 +44,13 @@ namespace Files.App.UserControls.Widgets
 		private void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			ViewModel.BuildItemContextMenu(sender, e);
+		}
+
+		public void Dispose()
+		{
+			// Detach discarded Home pages from the shared collection.
+			Bindings.StopTracking();
+			QuickAccessItemsRepeater.ItemsSource = null;
 		}
 	}
 }

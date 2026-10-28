@@ -87,7 +87,10 @@ namespace Files.App.Helpers
 			void UpdateDialogState()
 			{
 				var isInputValid = FilesystemHelpers.IsValidForFilename(inputText.Text);
-				((CreateItemDialogViewModel)warning.DataContext).IsNameInvalid = !string.IsNullOrEmpty(inputText.Text) && !isInputValid;
+
+				// An unparented TeachingTip can only open once it has a XamlRoot, so keep the warning closed until then
+				warning.XamlRoot ??= inputText.XamlRoot;
+				((CreateItemDialogViewModel)warning.DataContext).IsNameInvalid = warning.XamlRoot is not null && !string.IsNullOrEmpty(inputText.Text) && !isInputValid;
 				dialog!.ViewModel.DynamicButtonsEnabled = isInputValid
 														? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 														: DynamicDialogButtons.Cancel;
@@ -111,6 +114,8 @@ namespace Files.App.Helpers
 				},
 				DisplayControlOnLoaded = async (vm, e) =>
 				{
+					UpdateDialogState();
+
 					// The dialog asynchronously moves initial focus to its default button on an
 					// unpredictable schedule, so keep refocusing until focus verifiably sticks
 					for (int i = 0; i < 20; i++)
@@ -138,7 +143,7 @@ namespace Files.App.Helpers
 			if (itemType.Equals("Folder", StringComparison.OrdinalIgnoreCase))
 				inputText.Text = Strings.NewFolder.GetLocalizedResource();
 			else if (itemName is not null)
-				inputText.Text = string.Format(Strings.CreateNewFile.GetLocalizedResource(), itemName);
+				inputText.Text = FilesystemHelpers.FilterRestrictedCharacters(string.Format(Strings.CreateNewFile.GetLocalizedResource(), itemName));
 
 			// TextChanged is not raised for text set while the box is not loaded yet,
 			// so apply the initial validation state directly

@@ -93,8 +93,7 @@ namespace Files.InteractionTests.Tests
 			foreach (var (name, content) in files)
 			{
 				var extractedFilePath = Path.Combine(testFolderPath, name);
-				WaitForCondition(() => File.Exists(extractedFilePath), $"'{name}' to be extracted");
-				Assert.AreEqual(content, File.ReadAllText(extractedFilePath), $"The extracted file '{name}' does not match the original content.");
+				Assert.AreEqual(content, ReadWhenAvailable(extractedFilePath), $"The extracted file '{name}' does not match the original content.");
 			}
 
 			// The extracted files also show up in the file area
@@ -136,6 +135,27 @@ namespace Files.InteractionTests.Tests
 				// The menu likely got dismissed; close any leftover state and retry
 				TestHelper.SendEscKey();
 				Thread.Sleep(200);
+			}
+		}
+
+		/// <summary>
+		/// Reads a file the extractor may still be writing. The entry appears on disk before its
+		/// write handle is closed, so both the missing file and the sharing violation are retried.
+		/// </summary>
+		private static string ReadWhenAvailable(string path)
+		{
+			var deadline = DateTime.UtcNow + TimeSpan.FromSeconds(30);
+
+			while (true)
+			{
+				try
+				{
+					return File.ReadAllText(path);
+				}
+				catch (IOException) when (DateTime.UtcNow < deadline)
+				{
+					Thread.Sleep(300);
+				}
 			}
 		}
 

@@ -15,6 +15,8 @@ namespace Files.App.Utils.Storage
 			set => model = value;
 		}
 
+		public Action<GroupedCollection<T>>? GetExtendedGroupHeaderInfo { get; set; }
+
 		public GroupedCollection(IEnumerable<T> items) : base(items)
 		{
 			AddEvents();

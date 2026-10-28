@@ -23,6 +23,7 @@ namespace Files.App.Data.Models
 
 		private bool showUserConsentOnInit;
 		private ObservableCollection<IFolder> drives;
+		private readonly SemaphoreSlim updateDrivesGate = new(1, 1);
 		private readonly IRemovableDrivesService removableDrivesService;
 		private readonly ISizeProvider folderSizeProvider;
 		private readonly IStorageDeviceWatcher watcher;
@@ -51,7 +52,7 @@ namespace Files.App.Data.Models
 
 		private async void Watcher_DeviceModified(object? sender, string e)
 		{
-			var matchingDriveEjected = Drives.FirstOrDefault(x => Path.GetFullPath(x.Id) == Path.GetFullPath(e));
+			var matchingDriveEjected = Drives.FirstOrDefault(x => Path.GetFullPath(x.Id).Equals(Path.GetFullPath(e), StringComparison.OrdinalIgnoreCase));
 			if (matchingDriveEjected != null)
 				await removableDrivesService.UpdateDrivePropertiesAsync(matchingDriveEjected);
 		}
@@ -83,14 +84,14 @@ namespace Files.App.Data.Models
 					(x as DriveItem)?.DeviceID == (e as DriveItem)?.DeviceID ||
 					(string.IsNullOrEmpty(e.Id)
 						? x.Id.Contains(e.Name, StringComparison.OrdinalIgnoreCase)
-						: Path.GetFullPath(x.Id) == Path.GetFullPath(e.Id))
+						: Path.GetFullPath(x.Id).Equals(Path.GetFullPath(e.Id), StringComparison.OrdinalIgnoreCase))
 				);
 
 				if (matchingDrive is not null)
 					Drives.Remove(matchingDrive);
 
 				logger.LogInformation($"Drive added: {e.Id}");
-				Drives.Add(e);
+				InsertSorted(e);
 			}
 
 			Watcher_EnumerationCompleted(null, EventArgs.Empty);
@@ -98,31 +99,76 @@ namespace Files.App.Data.Models
 
 		public async Task UpdateDrivesAsync()
 		{
-			Drives.Clear();
-			await foreach (IFolder item in removableDrivesService.GetDrivesAsync())
-			{
-				Drives.AddIfNotPresent(item);
-			}
+			await updateDrivesGate.WaitAsync();
 
-			var osDrive = await removableDrivesService.GetPrimaryDriveAsync();
-
-			// Show consent dialog if the OS drive could not be accessed
-			if (osDrive is null)
+			try
 			{
-				ShowUserConsentOnInit = true;
-			}
-			else
-			{
-				var osDrivePath = osDrive.Id.EndsWith(Path.DirectorySeparatorChar)
-					? osDrive.Id
-					: $"{osDrive.Id}{Path.DirectorySeparatorChar}";
+				lock (Drives)
+					Drives.Clear();
 
-				if (Drives.All(x => Path.GetFullPath(x.Id) != osDrivePath))
+				await foreach (IFolder item in removableDrivesService.GetDrivesAsync())
+				{
+					lock (Drives)
+						InsertSorted(item);
+				}
+
+				var osDrive = await removableDrivesService.GetPrimaryDriveAsync();
+
+				// Show consent dialog if the OS drive could not be accessed
+				if (osDrive is null)
+				{
 					ShowUserConsentOnInit = true;
+				}
+				else
+				{
+					var osDrivePath = osDrive.Id.EndsWith(Path.DirectorySeparatorChar)
+						? osDrive.Id
+						: $"{osDrive.Id}{Path.DirectorySeparatorChar}";
+
+					bool isOsDriveMissing;
+					lock (Drives)
+						isOsDriveMissing = Drives.All(x => string.IsNullOrEmpty(x.Id) || !Path.GetFullPath(x.Id).Equals(osDrivePath, StringComparison.OrdinalIgnoreCase));
+
+					if (isOsDriveMissing)
+						ShowUserConsentOnInit = true;
+				}
+
+				if (watcher.CanBeStarted)
+					watcher.Start();
+			}
+			finally
+			{
+				updateDrivesGate.Release();
+			}
+		}
+
+		// Callers must hold the Drives lock
+		private void InsertSorted(IFolder item)
+		{
+			if (string.IsNullOrEmpty(item.Id))
+			{
+				Drives.Add(item);
+				return;
 			}
 
-			if (watcher.CanBeStarted)
-				watcher.Start();
+			var path = Path.GetFullPath(item.Id);
+			var index = 0;
+
+			foreach (var drive in Drives)
+			{
+				var comparison = string.IsNullOrEmpty(drive.Id)
+					? 1
+					: string.Compare(Path.GetFullPath(drive.Id), path, StringComparison.OrdinalIgnoreCase);
+
+				if (comparison == 0)
+					return;
+				if (comparison > 0)
+					break;
+
+				index++;
+			}
+
+			Drives.Insert(index, item);
 		}
 
 		public void Dispose()

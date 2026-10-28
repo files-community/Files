@@ -66,5 +66,7 @@ namespace Files.App.Data.Items
 				}
 			}
 		}
+
+		public override string ToString() => CommandDescription;
 	}
 }

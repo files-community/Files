@@ -322,14 +322,14 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref canOpenOnWindowsStartup, value);
 		}
 
-		public bool LeaveAppRunning
+		public bool CloseToBackground
 		{
-			get => UserSettingsService.GeneralSettingsService.LeaveAppRunning;
+			get => UserSettingsService.GeneralSettingsService.CloseToBackground;
 			set
 			{
-				if (value != UserSettingsService.GeneralSettingsService.LeaveAppRunning)
+				if (value != UserSettingsService.GeneralSettingsService.CloseToBackground)
 				{
-					UserSettingsService.GeneralSettingsService.LeaveAppRunning = value;
+					UserSettingsService.GeneralSettingsService.CloseToBackground = value;
 
 					OnPropertyChanged();
 				}

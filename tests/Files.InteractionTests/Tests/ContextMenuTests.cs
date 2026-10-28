@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: MPL-2.0
 
 using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
 using System;
 using System.IO;
 using System.Threading;
+using Windows.Win32.UI.Input.KeyboardAndMouse;
 
 namespace Files.InteractionTests.Tests
 {
@@ -164,7 +164,7 @@ namespace Files.InteractionTests.Tests
 
 			// Keyboard invocation: Shift+F10 on the selected item must open the same menu
 			TestHelper.InvokeButtonByName(folderName);
-			new Actions(SessionManager.Session).KeyDown(Keys.Shift).SendKeys(Keys.F10).KeyUp(Keys.Shift).Perform();
+			TestHelper.SendKeyCombination(VIRTUAL_KEY.VK_SHIFT, VIRTUAL_KEY.VK_F10);
 			TestHelper.WaitForElementByName("Open");
 			TestHelper.SendEscKey();
 			Thread.Sleep(200);
@@ -255,11 +255,7 @@ namespace Files.InteractionTests.Tests
 			var windowRect = SessionManager.Session.Manage().Window;
 			var bottomClickY = windowRect.Position.Y + windowRect.Size.Height - 120;
 			var itemCenterY = item.Location.Y + item.Size.Height / 2;
-			new Actions(SessionManager.Session)
-				.MoveToElement(item)
-				.MoveByOffset(0, bottomClickY - itemCenterY)
-				.ContextClick()
-				.Perform();
+			TestHelper.ContextClickElement(item, item.Size.Width / 2, item.Size.Height / 2 + bottomClickY - itemCenterY);
 			TestHelper.WaitForElementByName("Layout");
 			var propertiesButton = TestHelper.GetElementById("ContextMenuPrimaryButton_Properties");
 			var propertiesCenterY = propertiesButton.Location.Y + propertiesButton.Size.Height / 2;
@@ -288,7 +284,7 @@ namespace Files.InteractionTests.Tests
 			TestHelper.WaitForElementByName("Open");
 
 			// Press the Rename accelerator (F2) while the menu is open
-			new Actions(SessionManager.Session).SendKeys(Keys.F2).Perform();
+			TestHelper.SendKeyCombination(VIRTUAL_KEY.VK_F2);
 
 			// The command ran (inline rename started) and the menu is gone
 			var renameBox = TestHelper.GetElementById("ItemNameTextBox");

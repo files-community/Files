@@ -339,6 +339,12 @@
   <data name="DefaultTheme" xml:space="preserve">
     <value>系统主题</value>
   </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>浅色主题</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>深色主题</value>
+  </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>使用系统设置</value>
   </data>
@@ -4157,6 +4163,12 @@
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>所选的按键绑定无法使用，请用其他按键绑定重试。</value>
+  </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>快捷键</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>确定要删除此快捷键吗？</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>自定义</value>

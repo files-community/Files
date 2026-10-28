@@ -1,10 +1,11 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using OpenQA.Selenium.Appium.Windows;
+using OpenQA.Selenium.Appium;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using Windows.Win32.UI.Input.KeyboardAndMouse;
 
 namespace Files.InteractionTests.Helper
 {
@@ -20,18 +21,18 @@ namespace Files.InteractionTests.Helper
 		/// </summary>
 		public static readonly string TestDataRootPath = @"C:\Temp\Files.InteractionTests";
 
-		public static ICollection<WindowsElement> GetElementsOfType(string elementType)
+		public static ICollection<AppiumElement> GetElementsOfType(string elementType)
 		{
 			try
 			{
-				return SessionManager.Session.FindElementsByTagName(elementType);
+				return SessionManager.Session.FindElements(MobileBy.TagName(elementType));
 			}
 			catch (OpenQA.Selenium.WebDriverException)
 			{
 				// The session can be left pointing at a closed popup window (context menus are
 				// top-level windows); re-anchor to the app window and retry
 				TryRecoverWindow();
-				return SessionManager.Session.FindElementsByTagName(elementType);
+				return SessionManager.Session.FindElements(MobileBy.TagName(elementType));
 			}
 		}
 
@@ -72,13 +73,13 @@ namespace Files.InteractionTests.Helper
 			}
 		}
 
-		public static List<WindowsElement> GetElementsOfTypeWithContent(string elementType, string content)
+		public static List<AppiumElement> GetElementsOfTypeWithContent(string elementType, string content)
 			=> GetItemsWithContent(GetElementsOfType(elementType), content);
 
-		public static List<WindowsElement> GetItemsWithContent(ICollection<WindowsElement> elements, string content)
+		public static List<AppiumElement> GetItemsWithContent(ICollection<AppiumElement> elements, string content)
 		{
-			List<WindowsElement> elementsToReturn = [];
-			foreach (WindowsElement element in elements)
+			List<AppiumElement> elementsToReturn = [];
+			foreach (AppiumElement element in elements)
 			{
 				if (element.Text.Contains(content, StringComparison.OrdinalIgnoreCase))
 				{
@@ -86,8 +87,7 @@ namespace Files.InteractionTests.Helper
 					continue;
 				}
 				// Check children if we did not find it in the items name
-				System.Collections.ObjectModel.ReadOnlyCollection<OpenQA.Selenium.Appium.AppiumWebElement> children = element.FindElementsByTagName("Text");
-				foreach (OpenQA.Selenium.Appium.AppiumWebElement child in children)
+				foreach (AppiumElement child in element.FindElements(MobileBy.TagName("Text")))
 				{
 					if (child.Text.Contains(content, StringComparison.OrdinalIgnoreCase))
 					{
@@ -135,10 +135,10 @@ namespace Files.InteractionTests.Helper
 		public static void WaitForElementByName(string uiaName)
 			=> FindElementByNameWithRetry(uiaName);
 
-		public static WindowsElement GetElementById(string automationId)
+		public static AppiumElement GetElementById(string automationId)
 			=> FindElementByIdWithRetry(automationId);
 
-		public static WindowsElement GetElementByName(string uiaName)
+		public static AppiumElement GetElementByName(string uiaName)
 			=> FindElementByNameWithRetry(uiaName);
 
 		/// <summary>
@@ -168,15 +168,11 @@ namespace Files.InteractionTests.Helper
 			// the keystroke is lost when the window does not have input focus yet
 			while (true)
 			{
-				new OpenQA.Selenium.Interactions.Actions(SessionManager.Session)
-					.KeyDown(OpenQA.Selenium.Keys.Control)
-					.SendKeys("l")
-					.KeyUp(OpenQA.Selenium.Keys.Control)
-					.Perform();
+				SendKeyCombination(VIRTUAL_KEY.VK_CONTROL, VIRTUAL_KEY.VK_L);
 
 				try
 				{
-					SessionManager.Session.FindElementByAccessibilityId("PART_TextBox");
+					SessionManager.Session.FindElement(MobileBy.AccessibilityId("PART_TextBox"));
 					break;
 				}
 				catch (OpenQA.Selenium.WebDriverException)
@@ -214,7 +210,7 @@ namespace Files.InteractionTests.Helper
 		{
 			try
 			{
-				return SessionManager.Session.FindElementByAccessibilityId("CurrentPathGet").Text;
+				return SessionManager.Session.FindElement(MobileBy.AccessibilityId("CurrentPathGet")).Text;
 			}
 			catch (OpenQA.Selenium.WebDriverException)
 			{
@@ -227,7 +223,7 @@ namespace Files.InteractionTests.Helper
 		/// Returns the first card-shaped button on the Home page in tree order, which is the first
 		/// item of the topmost (pinned) widget.
 		/// </summary>
-		public static WindowsElement GetFirstWidgetCard()
+		public static AppiumElement GetFirstWidgetCard()
 			=> GetWidgetCard(static text => !string.IsNullOrEmpty(text));
 
 		public static void ContextClickElementByName(string uiaName)
@@ -236,8 +232,24 @@ namespace Files.InteractionTests.Helper
 		public static void ContextClickElementById(string automationId)
 			=> InteractWithRetry(() => ContextClickElement(FindElementByIdWithRetry(automationId)), $"right-click element id '{automationId}'");
 
-		public static void ContextClickElement(WindowsElement element)
-			=> new OpenQA.Selenium.Interactions.Actions(SessionManager.Session).ContextClick(element).Perform();
+		public static void ContextClickElement(AppiumElement element)
+			=> SessionManager.Session.ExecuteScript("windows: click", new Dictionary<string, object>
+			{
+				["elementId"] = element.Id,
+				["button"] = "right",
+			});
+
+		/// <summary>
+		/// Right-clicks at the given offset from the top left corner of the element.
+		/// </summary>
+		public static void ContextClickElement(AppiumElement element, int offsetX, int offsetY)
+			=> SessionManager.Session.ExecuteScript("windows: click", new Dictionary<string, object>
+			{
+				["elementId"] = element.Id,
+				["x"] = offsetX,
+				["y"] = offsetY,
+				["button"] = "right",
+			});
 
 		/// <summary>
 		/// Returns whether an element with the given UIA name exists within the given timeout.
@@ -251,7 +263,7 @@ namespace Files.InteractionTests.Helper
 			{
 				try
 				{
-					SessionManager.Session.FindElementByName(uiaName);
+					SessionManager.Session.FindElement(MobileBy.Name(uiaName));
 					return true;
 				}
 				catch (Exception)
@@ -267,16 +279,16 @@ namespace Files.InteractionTests.Helper
 		/// <summary>
 		/// Returns the first card-shaped Home page button whose text contains the given content.
 		/// </summary>
-		public static WindowsElement GetWidgetCardByName(string content)
+		public static AppiumElement GetWidgetCardByName(string content)
 			=> GetWidgetCard(text => text.Contains(content, StringComparison.OrdinalIgnoreCase));
 
 		/// <summary>
 		/// Returns the first card-shaped Home page button whose text matches. The size bounds exclude
 		/// toolbar buttons (smaller) and the full-width widget expander headers, whose center is empty space.
 		/// </summary>
-		private static WindowsElement GetWidgetCard(Func<string, bool> textMatches)
+		private static AppiumElement GetWidgetCard(Func<string, bool> textMatches)
 		{
-			foreach (WindowsElement element in GetElementsOfType("Button"))
+			foreach (AppiumElement element in GetElementsOfType("Button"))
 			{
 				try
 				{
@@ -294,7 +306,21 @@ namespace Files.InteractionTests.Helper
 		}
 
 		public static void SendEscKey()
-			=> new OpenQA.Selenium.Interactions.Actions(SessionManager.Session).SendKeys(OpenQA.Selenium.Keys.Escape).Perform();
+			=> SendKeyCombination(VIRTUAL_KEY.VK_ESCAPE);
+
+		/// <summary>
+		/// Presses the given keys together as one shortcut: held down in order, released in reverse.
+		/// </summary>
+		internal static void SendKeyCombination(params VIRTUAL_KEY[] keys)
+		{
+			var actions = new List<object>();
+			foreach (var key in keys)
+				actions.Add(new Dictionary<string, object> { ["virtualKeyCode"] = (int)key, ["down"] = true });
+			for (var i = keys.Length - 1; i >= 0; i--)
+				actions.Add(new Dictionary<string, object> { ["virtualKeyCode"] = (int)keys[i], ["down"] = false });
+
+			SessionManager.Session.ExecuteScript("windows: keys", new Dictionary<string, object> { ["actions"] = actions });
+		}
 
 		/// <summary>
 		/// Returns whether the menu item with the given name is a leaf item, i.e. has no submenu
@@ -304,7 +330,7 @@ namespace Files.InteractionTests.Helper
 		{
 			try
 			{
-				var value = SessionManager.Session.FindElementByName(uiaName).GetAttribute("IsExpandCollapsePatternAvailable");
+				var value = SessionManager.Session.FindElement(MobileBy.Name(uiaName)).GetAttribute("IsExpandCollapsePatternAvailable");
 				return string.Equals(value, "False", StringComparison.OrdinalIgnoreCase);
 			}
 			catch (Exception)
@@ -322,7 +348,7 @@ namespace Files.InteractionTests.Helper
 		{
 			try
 			{
-				var value = SessionManager.Session.FindElementByName(uiaName).GetAttribute("ExpandCollapse.ExpandCollapseState");
+				var value = SessionManager.Session.FindElement(MobileBy.Name(uiaName)).GetAttribute("ExpandCollapse.ExpandCollapseState");
 				return string.Equals(value, "Expanded", StringComparison.OrdinalIgnoreCase) || value == "1";
 			}
 			catch (Exception)
@@ -341,7 +367,7 @@ namespace Files.InteractionTests.Helper
 			try
 			{
 				var names = new List<string>();
-				foreach (WindowsElement element in GetElementsOfType("MenuItem"))
+				foreach (AppiumElement element in GetElementsOfType("MenuItem"))
 				{
 					try
 					{
@@ -369,15 +395,15 @@ namespace Files.InteractionTests.Helper
 		/// "element is not pointer- or keyboard interactable".
 		/// </summary>
 		public static void WaitUntilElementGoneById(string automationId)
-			=> WaitUntilElementGone(() => SessionManager.Session.FindElementByAccessibilityId(automationId));
+			=> WaitUntilElementGone(() => SessionManager.Session.FindElement(MobileBy.AccessibilityId(automationId)));
 
 		/// <summary>
 		/// Waits until the element with the given UIA name is gone, e.g. an item being deleted.
 		/// </summary>
 		public static void WaitUntilElementGoneByName(string uiaName)
-			=> WaitUntilElementGone(() => SessionManager.Session.FindElementByName(uiaName));
+			=> WaitUntilElementGone(() => SessionManager.Session.FindElement(MobileBy.Name(uiaName)));
 
-		private static void WaitUntilElementGone(Func<WindowsElement> find)
+		private static void WaitUntilElementGone(Func<AppiumElement> find)
 		{
 			var deadline = DateTime.UtcNow + TimeSpan.FromSeconds(5);
 
@@ -400,7 +426,7 @@ namespace Files.InteractionTests.Helper
 		/// actually landed there, retrying until it does. Raw keyboard input can be lost when
 		/// focus is not where the sender assumes, so the write is confirmed by reading back.
 		/// </summary>
-		public static WindowsElement SetTextById(string automationId, string text)
+		public static AppiumElement SetTextById(string automationId, string text)
 		{
 			Exception lastException = null;
 			var deadline = DateTime.UtcNow + DefaultFindTimeout;
@@ -443,13 +469,13 @@ namespace Files.InteractionTests.Helper
 			}
 		}
 
-		private static WindowsElement FindElementByNameWithRetry(string name)
-			=> FindWithRetry(() => SessionManager.Session.FindElementByName(name), $"element name '{name}'");
+		private static AppiumElement FindElementByNameWithRetry(string name)
+			=> FindWithRetry(() => SessionManager.Session.FindElement(MobileBy.Name(name)), $"element name '{name}'");
 
-		private static WindowsElement FindElementByIdWithRetry(string id)
-			=> FindWithRetry(() => SessionManager.Session.FindElementByAccessibilityId(id), $"element id '{id}'");
+		private static AppiumElement FindElementByIdWithRetry(string id)
+			=> FindWithRetry(() => SessionManager.Session.FindElement(MobileBy.AccessibilityId(id)), $"element id '{id}'");
 
-		private static WindowsElement FindWithRetry(Func<WindowsElement> find, string description)
+		private static AppiumElement FindWithRetry(Func<AppiumElement> find, string description)
 		{
 			Exception lastException = null;
 			var deadline = DateTime.UtcNow + DefaultFindTimeout;

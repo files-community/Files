@@ -52,11 +52,12 @@
 							x:Name="DragTargetIndicator"
 							Grid.ColumnSpan="3"
 							Height="2"
-							Margin="4,-2"
+							Margin="4,-1"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Top"
 							AutomationProperties.AccessibilityView="Raw"
 							Fill="{ThemeResource AccentFillColorDefaultBrush}"
+							IsHitTestVisible="False"
 							RadiusX="4"
 							RadiusY="4"
 							Visibility="Collapsed" />
@@ -181,6 +182,17 @@
 									Opacity="{TemplateBinding ContentOpacity}"
 									Visibility="Collapsed" />
 
+								<!--  Drop-into target highlight  -->
+								<Border
+									x:Name="DragOnTopIndicator"
+									Grid.ColumnSpan="6"
+									Margin="-1"
+									BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+									BorderThickness="2"
+									CornerRadius="{ThemeResource ControlCornerRadius}"
+									IsHitTestVisible="False"
+									Visibility="Collapsed" />
+
 								<!--  Overflow  -->
 								<FlyoutBase.AttachedFlyout>
 									<Flyout x:Name="ChildrenFlyout" Placement="Right">
@@ -279,8 +291,6 @@
 								<VisualState x:Name="Selected">
 									<VisualState.Setters>
 										<Setter Target="SelectionIndicator.Opacity" Value="1" />
-										<Setter Target="ElementGrid.BorderBrush" Value="{ThemeResource ButtonBorderBrush}" />
-										<Setter Target="ElementGrid.Background" Value="{ThemeResource ControlFillColorDefaultBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -318,23 +328,26 @@
 									</VisualState.Setters>
 								</VisualState>
 
+								<VisualState x:Name="DragOnTop">
+									<VisualState.Setters>
+										<Setter Target="ElementGrid.Background" Value="{ThemeResource ControlFillColorTertiaryBrush}" />
+										<Setter Target="DragOnTopIndicator.Visibility" Value="Visible" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+							<VisualStateGroup x:Name="DragInsertStates">
+								<VisualState x:Name="DragInsertNone" />
 								<VisualState x:Name="DragInsertAbove">
 									<VisualState.Setters>
 										<Setter Target="DragTargetIndicator.Visibility" Value="Visible" />
 										<Setter Target="DragTargetIndicator.VerticalAlignment" Value="Top" />
-										<Setter Target="ElementGrid.Margin" Value="4,-2" />
-										<Setter Target="ElementGrid.Height" Value="34" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="DragInsertBelow">
 									<VisualState.Setters>
 										<Setter Target="DragTargetIndicator.Visibility" Value="Visible" />
 										<Setter Target="DragTargetIndicator.VerticalAlignment" Value="Bottom" />
-									</VisualState.Setters>
-								</VisualState>
-								<VisualState x:Name="DragOnTop">
-									<VisualState.Setters>
-										<Setter Target="ElementGrid.Background" Value="{ThemeResource ControlFillColorTertiaryBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>

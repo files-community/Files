@@ -86,7 +86,7 @@ namespace Files.App.Utils.Storage
 		/// <param name="defaultPage">The page to show when opening the window</param>
 		public static void OpenPropertiesWindow(object item, IShellPage associatedInstance, PropertiesNavigationViewItemType defaultPage = PropertiesNavigationViewItemType.General)
 		{
-			if (item is null)
+			if (item is null || App.AppModel.IsMainWindowClosed)
 				return;
 
 			var frame = new Frame

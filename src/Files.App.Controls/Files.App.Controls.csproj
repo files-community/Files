@@ -12,6 +12,7 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <DefineConstants>$(DefineConstants);OMNIBAR_DEBUG</DefineConstants>
         <IsAotCompatible>true</IsAotCompatible>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 
     <ItemGroup>

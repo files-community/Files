@@ -339,6 +339,12 @@
   <data name="DefaultTheme" xml:space="preserve">
     <value>System Theme</value>
   </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>Light Theme</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>Dark Theme</value>
+  </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Use system setting</value>
   </data>
@@ -3524,6 +3530,9 @@
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
     <value>Due to a limitation with Windows and WinAppSdk, drag and drop isn't available when running Files as admin. If you wish to use drag and drop, you can work around this limitation by opening UAC (User Account Control) from the Start Menu and selecting the third level, and restarting Windows. Otherwise, you can keep using Files without drag &amp; drop.</value>
   </data>
+  <data name="SettingsNaturalLanguageSearch" xml:space="preserve">
+    <value>Use natural language search</value>
+  </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Leave app running in the background when the window is closed</value>
   </data>
@@ -4602,6 +4611,15 @@
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Show status bar</value>
   </data>
+  <data name="ItemCountFormat" xml:space="preserve">
+    <value>Item count format</value>
+  </data>
+  <data name="TotalCount" xml:space="preserve">
+    <value>Total count</value>
+  </data>
+  <data name="SeparateFileAndFolderCounts" xml:space="preserve">
+    <value>Separate file and folder counts</value>
+  </data>
   <data name="OnlyForTouch" xml:space="preserve">
     <value>When using touch</value>
   </data>
@@ -4733,5 +4751,8 @@
   </data>
   <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
     <value>Are you sure you want to remove tags from the selected items?</value>
+  </data>
+  <data name="SearchForQuery" xml:space="preserve">
+    <value>Search for `{0}`</value>
   </data>
 </root>

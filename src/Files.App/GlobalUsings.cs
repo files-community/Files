@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 // System
@@ -14,6 +14,7 @@ global using global::System.Diagnostics;
 global using global::System.Text.Json;
 global using global::System.Text.Json.Serialization;
 global using SystemIO = global::System.IO;
+global using DriveType = global::Files.App.Data.Items.DriveType;
 
 // CommunityToolkit.Mvvm
 global using global::CommunityToolkit.Mvvm.ComponentModel;
@@ -33,7 +34,6 @@ global using global::Files.App.Utils.Serialization;
 global using global::Files.App.Utils.Shell;
 global using global::Files.App.Utils.StatusCenter;
 global using global::Files.App.Utils.Storage;
-global using global::Files.App.Utils.Taskbar;
 global using global::Files.App.Data.Behaviors;
 global using global::Files.App.Data.Commands;
 global using global::Files.App.Data.Contexts;
@@ -64,21 +64,14 @@ global using global::Files.App.ViewModels.Dialogs.AddItemDialog;
 global using global::Files.App.ViewModels.Dialogs.FileSystemDialog;
 global using global::Files.App.Utils.CommandLine;
 
-// Files.Core.Storage
+// Files.Storage
 
-global using global::Files.Core.Storage;
-global using global::Files.Core.Storage.Enums;
-global using global::Files.Core.Storage.EventArguments;
-global using global::Files.Core.Storage.Extensions;
+global using global::Files.Storage;
 global using global::OwlCore.Storage;
-
-// Files.App.Storage
-
-global using global::Files.App.Storage;
-global using global::Files.App.Storage.Storables;
-global using global::Files.App.Storage.Watchers;
 
 // Files.Shared
 global using global::Files.Shared;
 global using global::Files.Shared.Attributes;
 global using global::Files.Shared.Extensions;
+
+global using global::Files.Shared.Cloud;

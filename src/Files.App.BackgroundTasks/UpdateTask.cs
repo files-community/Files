@@ -32,6 +32,7 @@ namespace Files.App.BackgroundTasks
 		{
 			File.Delete(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log"));
 			File.Delete(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug_fulltrust.log"));
+			File.Delete(Path.Combine(ApplicationData.Current.LocalFolder.Path, $"debug_{(Environment.IsPrivilegedProcess ? "privileged" : "unprivileged")}.log"));
 		}
 
 		private async Task RefreshJumpListAsync()

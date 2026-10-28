@@ -341,20 +341,22 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool LeaveAppRunning
+		public bool CloseToBackground
 		{
-#if RELEASE
+			get => Get(BackgroundSettings.CloseToBackgroundDefault, BackgroundSettings.CloseToBackgroundKey);
+			set => Set(value, BackgroundSettings.CloseToBackgroundKey);
+		}
+
+		public bool EnableNaturalLanguageSearch
+		{
 			get => Get(true);
-#else
-			get => Get(false);
-#endif
 			set => Set(value);
 		}
 
 		public bool ShowSystemTrayIcon
 		{
-			get => Get(true);
-			set => Set(value);
+			get => Get(BackgroundSettings.ShowSystemTrayIconDefault, BackgroundSettings.ShowSystemTrayIconKey);
+			set => Set(value, BackgroundSettings.ShowSystemTrayIconKey);
 		}
 
 		public FileNameConflictResolveOptionType ConflictsResolveOption
@@ -401,7 +403,17 @@ namespace Files.App.Services.Settings
 
 		public string UserId
 		{
-			get => Get(Guid.NewGuid().ToString());
+			get
+			{
+				var userId = Get<string>(null);
+				if (userId is null)
+				{
+					userId = Guid.NewGuid().ToString();
+					Set(userId);
+				}
+
+				return userId;
+			}
 			set => Set(value);
 		}
 

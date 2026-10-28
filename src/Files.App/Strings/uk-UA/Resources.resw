@@ -339,6 +339,12 @@
   <data name="DefaultTheme" xml:space="preserve">
     <value>Системна тема</value>
   </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>Світла тема</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>Темна тема</value>
+  </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Використовувати системні налаштування</value>
   </data>
@@ -4157,6 +4163,12 @@
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>Прив'язка клавіш, яку ви обираєте, не можна використати, будь ласка, спробуйте ще раз, використовуючи інше прив’язування клавіш.</value>
+  </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>Комбінації клавіш</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>Упевнені, що хочете видалити цю комбінацію клавіш?</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Модифікований</value>

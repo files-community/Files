@@ -8,6 +8,26 @@ namespace Files.App.Extensions
 	// We don't know why, but as a workaround, we invoke the function directly if DispatcherQueue is null.
 	public static class DispatcherQueueExtensions
 	{
+		// Always queue so loading cannot start inside a layout or binding callback.
+		public static Task EnqueueDeferredAsync(this DispatcherQueue? dispatcher, Func<Task> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
+		{
+			var completion = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+			if (dispatcher?.TryEnqueue(priority, async () =>
+			{
+				try
+				{
+					await function();
+					completion.TrySetResult();
+				}
+				catch (Exception ex)
+				{
+					completion.TrySetException(ex);
+				}
+			}) is not true)
+				completion.TrySetResult();
+			return completion.Task;
+		}
+
 		public static Task EnqueueOrInvokeAsync(this DispatcherQueue? dispatcher, Func<Task> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
 		{
 			return SafetyExtensions.IgnoreExceptions(async () =>

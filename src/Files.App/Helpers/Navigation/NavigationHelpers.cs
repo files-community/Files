@@ -10,6 +10,7 @@ using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.System;
 using WinRT;
+using Windows.Win32;
 
 namespace Files.App.Helpers
 {
@@ -543,7 +544,7 @@ namespace Files.App.Helpers
 			{
 				if (!isDirectory &&
 					Win32Helper.GetWin32FindDataForPath(path, out var findData) &&
-					findData.dwReserved0 == Win32PInvoke.IO_REPARSE_TAG_SYMLINK)
+					findData.dwReserved0 == PInvoke.IO_REPARSE_TAG_SYMLINK)
 				{
 					shortcutInfo.TargetPath = Win32Helper.ParseSymLink(path);
 				}

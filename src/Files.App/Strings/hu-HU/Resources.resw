@@ -339,6 +339,12 @@
   <data name="DefaultTheme" xml:space="preserve">
     <value>Rendszertéma</value>
   </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>Light Theme</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>Dark Theme</value>
+  </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Rendszerbeállítás használata</value>
   </data>
@@ -424,7 +430,7 @@
     <value>This app can't run on your PC</value>
   </data>
   <data name="CannotRunFileDialogText" xml:space="preserve">
-    <value>To find a version for your PC, check with the software publisher.</value>
+    <value>Hogy megtalálja a számítógépe verzióját, ellenőrizze a szoftver kibocsátóját.</value>
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Elrendezés</value>
@@ -540,7 +546,7 @@
     <value>Különböző típusok</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>Minden az {0}-ben</value>
+    <value>Minden ebben {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Foglalt:</value>
@@ -576,7 +582,7 @@
     <value>Másolás ide: {0}</value>
   </data>
   <data name="CloneToFolderCaptionText" xml:space="preserve">
-    <value>Klónozás ide: {0}</value>
+    <value>Klónozás ide {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
     <value>Parancsikon létrehozása</value>
@@ -666,7 +672,7 @@
     <value>A Files újraindítása szükséges a nyelv beállítás érvénybe lépéséhez. Szeretné most újraindítani?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Támogass minket GitHub-on</value>
+    <value>Támogass minket GitHubon</value>
   </data>
   <data name="AccessDeniedCreateDialogText" xml:space="preserve">
     <value>We weren't able to create this item</value>
@@ -711,7 +717,7 @@
     <value>Nyelv</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Shell bővítmények elemei áthelyezése almenübe</value>
+    <value>Héjbővítmények áthelyezése egy almenübe</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>Megerősítés kérése törlésekor</value>
@@ -780,7 +786,7 @@
     <value>GPS hosszúság</value>
   </data>
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
-    <value>GPS szélesség</value>
+    <value>Szélesség decimális</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
     <value>GPS magasság</value>
@@ -1464,7 +1470,7 @@
     <value>Utolsó év</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>{0}. Ev</value>
+    <value>Év {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} elem</value>
@@ -1491,7 +1497,7 @@
     <value>Eltávolítás</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Widgetek</value>
+    <value>Felületi elemek</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Szinkronizálás állapota</value>
@@ -1710,7 +1716,7 @@
     <value>Elem letöltése a felhőből, majd előnézet betöltése</value>
   </data>
   <data name="DetailsArchiveItems" xml:space="preserve">
-    <value>{0, plural, one {# elem} other {# elem}} ({1, plural, one {# fájl} other {# fájl}}, {2, plural, one {# mapa} other {# mapa}})</value>
+    <value>{0, plural, one {# elem} other {# elem}} ({1, plural, one {# fájl} other {# fájl}}, {2, plural, one {# mappa} other {# mappa}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Tömörítetlen méret</value>
@@ -1875,7 +1881,7 @@
     <value>Visszaállítás</value>
   </data>
   <data name="OpenTabInExistingInstance" xml:space="preserve">
-    <value>Új lap megnyitása egy meglévő ablakban amikor másik alkalmazásból nyitja meg a Files-t</value>
+    <value>Új lap megnyitása egy meglévő ablakban, amikor másik alkalmazásból nyitja meg a Files alkalmazást</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Indítás</value>
@@ -1911,7 +1917,7 @@
     <value>Futtatás 640 x 480-as képernyőfelbontásban</value>
   </data>
   <data name="CompatibilityOverrideHighDPIBehavior" xml:space="preserve">
-    <value>Nagy DIP-beállítások módosítása</value>
+    <value>Nagy DPI beállítások módosítása</value>
   </data>
   <data name="CompatibilityReducedColorMode" xml:space="preserve">
     <value>Csökkentett színmód</value>
@@ -1923,7 +1929,7 @@
     <value>Kezdő ablak</value>
   </data>
   <data name="NormalWindow" xml:space="preserve">
-    <value>Normál abalk</value>
+    <value>Normál ablak</value>
   </data>
   <data name="Minimized" xml:space="preserve">
     <value>Kis méretű</value>
@@ -1938,13 +1944,13 @@
     <value>Kompatibilitási hibaelhárító futtatása</value>
   </data>
   <data name="CompatibilityUseDPISettings" xml:space="preserve">
-    <value>A főmonitor DPI-beállításainak használata</value>
+    <value>A főmonitor DPI beállításainak használata</value>
   </data>
   <data name="CompatibilityDoNotAdjustDPI" xml:space="preserve">
     <value>Ne állítsa be a DPI-t</value>
   </data>
   <data name="CompatibilityDoNotOverrideDPI" xml:space="preserve">
-    <value>Ne írja felül a DPI-t</value>
+    <value>Ne írja felül a DPI értékét</value>
   </data>
   <data name="CompatibilityMode" xml:space="preserve">
     <value>Kompatibilis üzemmód</value>
@@ -2058,7 +2064,7 @@
     <value>Univerzális</value>
   </data>
   <data name="DateFormatSample" xml:space="preserve">
-    <value>pl: {0}, {1}</value>
+    <value>például: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
     <value>Miniatűrök megjelenítése</value>
@@ -2097,7 +2103,7 @@
     <value>Adaptív elrendezés</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptív (Ctrl+Shift+7)</value>
+    <value>Adaptív elrendezés (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
@@ -2211,7 +2217,7 @@
     <value>A parancsikon nem nyitható meg</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>Nem található az elem, amire a parancsikon mutat ({0}). Szeretné eltávolítani a parancsikont?</value>
+    <value>Nem található az elem, amire a parancsikon mutat {0}. Szeretné eltávolítani a parancsikont?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
     <value>Nincs engedélyed hozzáférni ehhez a mappához.</value>
@@ -2238,7 +2244,7 @@
     <value>Some items can't be compressed</value>
   </data>
   <data name="CompressSkippedItemsDialogText" xml:space="preserve">
-    <value>The following {0, plural, one {item} other {items}} can''t be compressed. Would you like to skip {0, plural, one {this item} other {these items}}?</value>
+    <value>A következő {0, plural, one {elem} other {elem}} nem tömöríthetők. Szeretnéd kihagyni a {0, plural, one {ezt az elemet} other {ezeket az elemeket}}?</value>
   </data>
   <data name="CompressIntoZip" xml:space="preserve">
     <value>Zip archívum létrehozása</value>
@@ -2277,7 +2283,7 @@
     <value>Nincs</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
-    <value>Max. fájlméret</value>
+    <value>Méretfelosztás</value>
   </data>
   <data name="DoNotSplit" xml:space="preserve">
     <value>Feldarabolás nélkül</value>
@@ -2361,7 +2367,7 @@
     <value>Változások megnyitása</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
-    <value>Rendszergazdai jogosultságok szükségesek parancsikon lérehozásához ezen a helyen</value>
+    <value>Rendszergazdai jogosultságok szükségesek parancsikon létrehozásához ezen a helyen</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
     <value>Szeretné inkább az Asztalon létrehozni a parancsikont?</value>
@@ -2583,7 +2589,7 @@
     <value>Oldalsáv megjelenítésének ki-/bekapcsolása</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Kiválasztott {0, plural, one {elem} other {elemek}} másolása</value>
+    <value>Kiválasztott {0, plural, one {elem} other {elem}} másolása</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
     <value>Aktuális könyvtár elérési útjának másolása</value>
@@ -2598,7 +2604,7 @@
     <value>Aktuális könyvtár elérési útjának másolása idézőjelekkel</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Kiválasztott {0, plural, one {elem} other {elemek}} kivágása</value>
+    <value>Kiválasztott {0, plural, one {elem} other {elem}} kivágása</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Elemek beillesztése az aktuális mappába</value>
@@ -2619,7 +2625,7 @@
     <value>Új mappa létrehozása</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Új {0, plural, one {shortcut} other {shortcuts}} létrehozása a kiválasztott {0, plural, one {item} other {items}} elemhez</value>
+    <value>Új {0, plural, one {parancsikon} other {parancsikon}} létrehozása a kiválasztott {0, plural, one {elem} other {elem}}</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
     <value>Új parancsikon létrehozása</value>
@@ -2631,16 +2637,16 @@
     <value>A "Meghajtó Formázása" menü megnyitása a kiválasztott elemhez</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Kijelölt {0, plural, one {item} other {items}} visszaállítása a lomtárból</value>
+    <value>Kijelölt {0, plural, one {elem} other {elem}} visszaállítása a lomtárból</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
     <value>Minden elem visszaállítása a lomtárból</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Megnyit {0, plural, one {item} other {items}}</value>
+    <value>Megnyit {0, plural, one {elem} other {elem}}</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>{0, plural, one {Elem} other {Elemek}} megnyitása a kiválasztott alkalmazással</value>
+    <value>{0, plural, one {elem} other {elem}} megnyitása a kiválasztott alkalmazással</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
     <value>A keresett elem forrás mappájának megnyitása</value>
@@ -2664,19 +2670,19 @@
     <value>Elem kiválasztás ki-/bekapcsolása</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>Kijelölt {0, plural, one {fájl} other {fájlok}} megosztása</value>
+    <value>Kijelölt {0, plural, one {fájl} other {fájl}} megosztása</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>{0, plural, one {Elem} other {Elemek}} kitűzése a Start menübe</value>
+    <value>{0, plural, one {elem} other {elem}} kitűzése a Start menübe</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>{0, plural, one {Elem} other {Elemek}} levétele a Start menüről</value>
+    <value>{0, plural, one {elem} other {elem}} levétele a Start menüről</value>
   </data>
   <data name="PinFolderToSidebarDescription" xml:space="preserve">
-    <value>{0, plural, one {Elem} other {Elemek}} kitűzése az Oldalsávba</value>
+    <value>{0, plural, one {elem} other {elem}} kitűzése az Oldalsávba</value>
   </data>
   <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
-    <value>{0, plural, one {Elem} other {Elemek}} levétele az Oldalsávról</value>
+    <value>{0, plural, one {elem} other {elem}} levétele az Oldalsávról</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>Kiválasztott kép beállítása háttérképként</value>
@@ -2703,7 +2709,7 @@
     <value>Kiválasztott {0, plural, one {betűtípus} other {betűtípusok}} telepítése</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>{0, plural, one {Illesztőprogram} other {Illesztőprogramok}} telepítése a kiválasztott .inf {0, plural, one {fájllal} other {fájlokkal}}</value>
+    <value>{0, plural, one {illesztőprogram} other {illesztőprogramok}} telepítése a kiválasztott inf {0, plural, one {fájllal} other {fájlokkal}}</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
     <value>Kiválasztott {0, plural, one {tanúsítvány} other {tanúsítványok}} telepítése</value>
@@ -2760,10 +2766,10 @@
     <value>Az elem méretének növelése az aktuális nézetben</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
-    <value>Váltás a részletetes nézetre</value>
+    <value>Váltás a részletes nézetre</value>
   </data>
   <data name="LayoutCardsDescription" xml:space="preserve">
-    <value>Válts csempés nézetre</value>
+    <value>Váltás csempés nézetre</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>Váltás lista nézetre</value>
@@ -2778,10 +2784,10 @@
     <value>Váltás rács nézetre</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
-    <value>Váltás az oszlopos nézetre</value>
+    <value>Váltás oszlopos nézetre</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Adaptív nézet</value>
+    <value>Váltás adaptív nézetre</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
     <value>Elemek rendezése név alapján</value>
@@ -2880,7 +2886,7 @@
     <value>Lapok bezárása a kiválasztott lap bal oldalán</value>
   </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
-    <value>Lapok bezárása a kiválasztott lap job oldalán</value>
+    <value>Lapok bezárása a kiválasztott lap jobb oldalán</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>A kiválasztotton kívüli lapok bezárása</value>
@@ -2989,11 +2995,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Separator" xml:space="preserve">
-    <value>Sep</value>
+    <value>Elválasztó</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Pause" xml:space="preserve">
-    <value>Pause</value>
+    <value>Szünet</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Sleep" xml:space="preserve">
@@ -3017,7 +3023,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Mouse5" xml:space="preserve">
-    <value>Mouse5</value>
+    <value>Egér5</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Application" xml:space="preserve">
@@ -3065,7 +3071,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPlayPause" xml:space="preserve">
-    <value>PlayPause</value>
+    <value>Lejátszás szünet</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaStop" xml:space="preserve">
@@ -3081,7 +3087,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaSelect" xml:space="preserve">
-    <value>MediaSelect</value>
+    <value>Média választás</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaMute" xml:space="preserve">
@@ -3093,7 +3099,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaVolumeUp" xml:space="preserve">
-    <value>HangerőLa</value>
+    <value>Hangerő le</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Change" xml:space="preserve">
@@ -3163,7 +3169,7 @@
     <value>Elem helyének megnyitása</value>
   </data>
   <data name="DeletePermanently" xml:space="preserve">
-    <value>Törlés végelgesen</value>
+    <value>Törlés véglegesen</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
     <value>Kiválasztott {0, plural, one {elem} other {elemek}} törlése véglegesen</value>
@@ -3479,7 +3485,7 @@
     <value>Összes kijelölt elem megnyitása</value>
   </data>
   <data name="DriveWithLetter" xml:space="preserve">
-    <value>{0} meghajtó</value>
+    <value>({0}) meghajtó</value>
     <comment>{0} is the drive letter.</comment>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
@@ -3703,7 +3709,7 @@
     <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitCheckoutComplete_Header" xml:space="preserve">
-    <value>Switched to "{0}" in "{1}"</value>
+    <value>Átváltott erre: „{0}” itt: „{1}”</value>
     <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitCheckoutFailed_Header" xml:space="preserve">
@@ -4157,6 +4163,12 @@
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>A választott billentyűkiosztás nem használható, kérjük, próbálkozzon újra másik billentyűkiosztással.</value>
+  </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>Keyboard shortcuts</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>Are you sure you want to remove this key binding?</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Testreszabva</value>

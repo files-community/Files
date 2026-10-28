@@ -39,15 +39,15 @@ namespace Files.App.Services.SizeProvider
 				if (string.IsNullOrEmpty(path))
 					return 0;
 
-				FindCloseSafeHandle hFile;
-				WIN32_FIND_DATAW findData;
-				unsafe
+				static unsafe (FindCloseSafeHandle, WIN32_FIND_DATAW) FindFirstFileEx(string path)
 				{
 					WIN32_FIND_DATAW initialFindData = default;
-					hFile = PInvoke.FindFirstFileEx($"{path}{Path.DirectorySeparatorChar}*.*", FINDEX_INFO_LEVELS.FindExInfoBasic,
+					var hFile = PInvoke.FindFirstFileEx($"{path}{Path.DirectorySeparatorChar}*.*", FINDEX_INFO_LEVELS.FindExInfoBasic,
 						&initialFindData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, FIND_FIRST_EX_FLAGS.FIND_FIRST_EX_LARGE_FETCH);
-					findData = initialFindData;
+					var findData = initialFindData;
+					return (hFile, findData);
 				}
+				(FindCloseSafeHandle hFile, WIN32_FIND_DATAW findData) = FindFirstFileEx(path);
 				using FindCloseSafeHandle findHandleScope = hFile;
 
 				ulong size = 0;

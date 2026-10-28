@@ -43,7 +43,7 @@ namespace Files.App.Data.Items
 			_hwnd = hwnd;
 
 			_newWndProc = new(NewWindowProc);
-			var pNewWndProc = Marshal.GetFunctionPointerForDelegate(_newWndProc);
+			var pNewWndProc = Marshal.GetFunctionPointerForDelegate<WNDPROC>(_newWndProc);
 			_oldWndProc = PInvoke.SetWindowLongPtr(hwnd, WINDOW_LONG_PTR_INDEX.GWL_WNDPROC, pNewWndProc);
 		}
 

@@ -102,7 +102,7 @@
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE8E6;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
-				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsLeaveAppRunning}" IsOn="{x:Bind ViewModel.LeaveAppRunning, Mode=TwoWay}" />
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsLeaveAppRunning}" IsOn="{x:Bind ViewModel.CloseToBackground, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
 			<!--  System Tray Icon  -->

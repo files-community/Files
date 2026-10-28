@@ -513,6 +513,10 @@ namespace Files.App.Views.Layouts
 
 			activeTextBox.Select(0, selectedTextLength);
 			IsRenamingItem = true;
+
+			renameTextBox = activeTextBox;
+			if (guardRenameFromDoubleClick)
+				DeferRenameTextBoxHitTesting(activeTextBox);
 		}
 
 		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
@@ -743,7 +747,14 @@ namespace Files.App.Views.Layouts
 			}
 			else
 			{
-				if (clickedItem is TextBlock textBlock && textBlock.Name == "ItemName")
+				if (IsWithinRenameDoubleClickWindow && item == RenamingItem)
+				{
+					// A tap this soon after the tap that started renaming is the second click of a double click
+					CancelRenameOnDoubleClick(item);
+					ResetRenameDoubleClick();
+					await Commands.OpenItem.ExecuteAsync();
+				}
+				else if (clickedItem is TextBlock textBlock && textBlock.Name == "ItemName")
 				{
 					CheckRenameDoubleClick(textBlock.DataContext);
 				}
@@ -777,12 +788,16 @@ namespace Files.App.Views.Layouts
 		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
+			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
+
+			CancelRenameOnDoubleClick(item);
+
 			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item &&
+			if (item is not null &&
 				((item.PrimaryItemAttribute == StorageItemTypes.File && !UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType)) ||
 				 (item.PrimaryItemAttribute == StorageItemTypes.Folder && !UserSettingsService.FoldersSettingsService.OpenFoldersWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))))
 				await Commands.OpenItem.ExecuteAsync();
-			else if ((e.OriginalSource as FrameworkElement)?.DataContext is not ListedItem && UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
+			else if (item is null && UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 				await Commands.NavigateUp.ExecuteAsync();
 
 			ResetRenameDoubleClick();

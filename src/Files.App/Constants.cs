@@ -16,6 +16,8 @@ namespace Files.App
 			public const string BingMapsSecret = "bingmapskey.secret";
 
 			public const string SentrySecret = "sentry.secret";
+
+			public const string LanguageModelLafToken = "languagemodellaftoken.secret";
 		}
 
 		public static class KnownImageFormats
@@ -77,6 +79,11 @@ namespace Files.App
 			public const double MaximumSidebarWidth = 500;
 
 			public const double MultiplePaneWidthThreshold = 750;
+
+			/// <summary>
+			/// How long after a click-started rename begins that a straggling double click can still cancel it.
+			/// </summary>
+			public const int RenameDoubleClickGuardDurationMs = 150;
 		}
 
 		public static class Appearance
@@ -216,6 +223,10 @@ namespace Files.App
 			public static readonly string SystemRootPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
 
 			public static readonly string RecentItemsPath = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
+
+			public static readonly string AutomaticDestinationsPath = System.IO.Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Recent", "AutomaticDestinations");
+
+			public const string QuickAccessDestinationsFileName = "f01b4d95cf55d32a.automaticDestinations-ms";
 
 			public static readonly string SystemDrivePath;
 

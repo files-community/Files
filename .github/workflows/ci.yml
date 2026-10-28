@@ -39,8 +39,6 @@ env:
   ARTIFACTS_STAGING_DIR: '${{ github.workspace }}\artifacts'
   APPX_PACKAGE_DIR: '${{ github.workspace }}\artifacts\AppxPackages\'
   APPX_SELFSIGNED_CERT_PATH: '${{ github.workspace }}\.github\workflows\FilesApp_SelfSigned.pfx'
-  WINAPPDRIVER_EXE86_PATH: 'C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe'
-  WINAPPDRIVER_EXE64_PATH: 'C:\Program Files\Windows Application Driver\WinAppDriver.exe'
 
 jobs:
 
@@ -121,6 +119,8 @@ jobs:
       name: Build Files
       run: |
         msbuild `
+          -warnaserror `
+          -warnnotaserror:CS0612,CS0618,CS0672,IL2104 `
           $env:APP_PROJECT_PATH `
           -t:Build `
           -p:Configuration=$env:CONFIGURATION `
@@ -137,6 +137,8 @@ jobs:
       name: Build & package Files
       run: |
         msbuild `
+          -warnaserror `
+          -warnnotaserror:CS0612,CS0618,CS0672,IL2104 `
           $env:APP_PROJECT_PATH `
           -t:Build `
           -p:Configuration=$env:CONFIGURATION `
@@ -156,6 +158,8 @@ jobs:
       name: Package Files
       run: |
         msbuild `
+          -warnaserror `
+          -warnnotaserror:CS0612,CS0618,CS0672,IL2104 `
           $env:APP_PROJECT_PATH `
           -t:Build `
           -p:Configuration=$env:CONFIGURATION `
@@ -325,9 +329,16 @@ jobs:
     - name: Set full HD resolution
       run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
 
-    - name: Start WinAppDriver process
+    # Appium drives the tests and starts the WinAppDriver installed on the runner itself
+    - name: Install Appium
       shell: pwsh
-      run: Start-Process -FilePath "$env:WINAPPDRIVER_EXE86_PATH"
+      run: |
+        npm install --global appium@3
+        appium driver install --source=npm appium-windows-driver@6
+
+    - name: Start Appium server
+      shell: pwsh
+      run: Start-Process -FilePath "appium.cmd" -ArgumentList "--log","$env:AUTOMATED_TESTS_ASSEMBLY_DIR\appium.log"
 
     # Retry integration tests if first attempt fails
     - name: Run interaction tests
@@ -348,6 +359,17 @@ jobs:
       uses: geekyeggo/delete-artifact@v6
       with:
         name: '*'
+
+    # Uploaded after the cleanup step above so a failed run keeps its diagnostics
+    - if: failure()
+      name: Upload the test diagnostics to the Artifacts
+      uses: actions/upload-artifact@v7
+      with:
+        name: 'Test Diagnostics (${{ env.CONFIGURATION }}, ${{ env.AUTOMATED_TESTS_ARCHITECTURE }})'
+        if-no-files-found: warn
+        path: |
+          ${{ env.AUTOMATED_TESTS_ASSEMBLY_DIR }}\appium.log
+          ${{ env.AUTOMATED_TESTS_ASSEMBLY_DIR }}\testResults.trx
 
     # - name: Generate markdown from the tests result
     #   shell: pwsh

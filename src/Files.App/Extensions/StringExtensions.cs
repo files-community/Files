@@ -55,26 +55,29 @@ namespace Files.App.Extensions
 			return result;
 		}
 
-		private static readonly ResourceMap resourcesTree = new ResourceManager().MainResourceMap.TryGetSubtree("Resources");
+		private static readonly ResourceManager resourceManager = new();
+		private static readonly ResourceMap resourcesTree = resourceManager.MainResourceMap.TryGetSubtree("Resources");
+		private static readonly Lock resourceLookupLock = new();
+		private static ResourceContext? resourceContext;
 
 		private static readonly ConcurrentDictionary<string, string> cachedResources = new();
 
 		private static readonly Dictionary<string, string> abbreviations = new()
 		{
-			{ ByteSize.KiloByteSymbol, Strings.KiloByteSymbol.GetLocalizedResource() },
-			{ ByteSize.MegaByteSymbol, Strings.MegaByteSymbol.GetLocalizedResource() },
-			{ ByteSize.GigaByteSymbol, Strings.GigaByteSymbol.GetLocalizedResource() },
-			{ ByteSize.TeraByteSymbol, Strings.TeraByteSymbol.GetLocalizedResource() },
-			{ ByteSize.PetaByteSymbol, Strings.PetaByteSymbol.GetLocalizedResource() },
-			{ ByteSize.BitSymbol, Strings.ByteSymbol.GetLocalizedResource() },
-			{ ByteSize.ByteSymbol, Strings.ByteSymbol.GetLocalizedResource() }
+			{ ByteSize.KiloByteSymbol, Strings.KiloByteSymbol },
+			{ ByteSize.MegaByteSymbol, Strings.MegaByteSymbol },
+			{ ByteSize.GigaByteSymbol, Strings.GigaByteSymbol },
+			{ ByteSize.TeraByteSymbol, Strings.TeraByteSymbol },
+			{ ByteSize.PetaByteSymbol, Strings.PetaByteSymbol },
+			{ ByteSize.BitSymbol, Strings.ByteSymbol },
+			{ ByteSize.ByteSymbol, Strings.ByteSymbol }
 		};
 
 		public static string ConvertSizeAbbreviation(this string value)
 		{
 			foreach (var item in abbreviations)
 			{
-				value = value.Replace(item.Key, item.Value, StringComparison.Ordinal);
+				value = value.Replace(item.Key, item.Value.GetLocalizedResource(), StringComparison.Ordinal);
 			}
 
 			return value;
@@ -102,9 +105,24 @@ namespace Files.App.Extensions
 				return value;
 			}
 
-			value = resourcesTree?.TryGetValue(resourceKey)?.ValueAsString;
+			lock (resourceLookupLock)
+			{
+				if (cachedResources.TryGetValue(resourceKey, out value))
+					return value;
 
-			return cachedResources[resourceKey] = value ?? string.Empty;
+				resourceContext ??= resourceManager.CreateResourceContext();
+				value = resourcesTree?.TryGetValue(resourceKey, resourceContext)?.ValueAsString;
+				return cachedResources[resourceKey] = value ?? string.Empty;
+			}
+		}
+
+		internal static void ResetLocalizedResources()
+		{
+			lock (resourceLookupLock)
+			{
+				resourceContext = null;
+				cachedResources.Clear();
+			}
 		}
 	}
 }

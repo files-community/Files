@@ -84,7 +84,7 @@ namespace Files.App.Helpers
 
 		private static void Collect()
 		{
-			// While the window is hidden (closing to background) the stop-the-world pause is invisible, so keep the aggressive compacting collection that returns the most memory; otherwise collect in the background so the UI thread isn't suspended
+			// Compact synchronously during shutdown; use background collection while the window is active.
 			if (App.AppModel?.IsMainWindowClosed ?? false)
 			{
 				GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, blocking: true, compacting: true);

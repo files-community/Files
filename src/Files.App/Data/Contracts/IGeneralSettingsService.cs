@@ -283,7 +283,12 @@ namespace Files.App.Data.Contracts
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to leave app running in the background.
 		/// </summary>
-		bool LeaveAppRunning { get; set; }
+		bool CloseToBackground { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to translate natural language searches into filters.
+		/// </summary>
+		bool EnableNaturalLanguageSearch { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to show Files in the system tray.

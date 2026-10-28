@@ -23,8 +23,22 @@ namespace Files.App.Utils.Cloud
 
 		public async IAsyncEnumerable<ICloudProvider> DetectCloudProvidersProgressiveAsync()
 		{
-			var pending = EnumerateDetectors()
-				.Select(detector => detector.DetectCloudProvidersAsync())
+			var groupCount = Server.AppService.CloudProviderGroupCount;
+			var pending = Enumerable.Range(0, groupCount)
+				.Select(group => SafetyExtensions.IgnoreExceptions(async () =>
+				{
+					var providers = await Server.AppService.GetCloudProvidersAsync(group);
+					return providers.Select(provider =>
+					{
+						var icon = provider.IconData;
+						return new CloudProvider((CloudProviders)provider.Id)
+						{
+							Name = provider.Name,
+							SyncFolder = provider.SyncFolder,
+							IconData = icon.Length == 0 ? null : icon,
+						};
+					}).ToArray();
+				}, App.Logger))
 				.ToList();
 
 			// Yield each detector's results the moment it finishes, so a slow one (for example Google
@@ -34,19 +48,10 @@ namespace Files.App.Utils.Cloud
 				var finished = await Task.WhenAny(pending);
 				pending.Remove(finished);
 
-				foreach (var provider in await finished)
+				foreach (var provider in await finished ?? [])
 					yield return provider;
 			}
 		}
 
-		private static IEnumerable<ICloudDetector> EnumerateDetectors()
-		{
-			yield return new GoogleDriveCloudDetector();
-			yield return new DropBoxCloudDetector();
-			yield return new BoxCloudDetector();
-			yield return new GenericCloudDetector();
-			yield return new SynologyDriveCloudDetector();
-			yield return new OXDriveCloudDetector();
-		}
 	}
 }
