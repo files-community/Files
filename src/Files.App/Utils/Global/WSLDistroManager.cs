@@ -27,7 +27,7 @@ namespace Files.App.Utils
 		{
 			try
 			{
-				var names = await Server.AppService.GetWslDistributionsAsync();
+				var names = await Server.DriveService.GetWslDistributionsAsync();
 				lock (distros)
 				{
 					distros.Clear();

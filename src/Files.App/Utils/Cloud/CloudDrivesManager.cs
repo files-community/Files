@@ -46,7 +46,7 @@ namespace Files.App.Utils.Cloud
 				{
 					Text = provider.Name,
 					Path = provider.SyncFolder,
-					Type = Data.Items.DriveType.CloudDrive,
+					Type = DriveType.CloudDrive,
 				};
 
 				cloudProviderItem.MenuOptions = new ContextMenuOptions()

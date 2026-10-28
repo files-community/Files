@@ -1,7 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using DiscUtils.Udf;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;
@@ -25,7 +24,7 @@ namespace Files.App.Utils.Storage
 			var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 			var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => drivePath.StartsWith(x.Path!, StringComparison.Ordinal));
-			if (matchingDrive is null || matchingDrive.Type != Data.Items.DriveType.CDRom || matchingDrive.MaxSpace != ByteSizeLib.ByteSize.FromBytes(0))
+			if (matchingDrive is null || matchingDrive.Type != DriveType.CDRom || matchingDrive.MaxSpace != ByteSizeLib.ByteSize.FromBytes(0))
 				return false;
 
 			var ejectButton = await DialogDisplayHelper.ShowDialogAsync(
@@ -84,7 +83,7 @@ namespace Files.App.Utils.Storage
 			// Network share
 			else if (
 						  (devicePath.StartsWith(@"\\", StringComparison.Ordinal) ||
-							 GetDriveType(new SystemIO.DriveInfo(devicePath)) is DriveType.Network) &&
+							 new SystemIO.DriveInfo(devicePath).DriveType is SystemIO.DriveType.Network) &&
 						  !devicePath.StartsWith(@"\\SHELL\", StringComparison.Ordinal)
 					)
 			{
@@ -109,7 +108,7 @@ namespace Files.App.Utils.Storage
 			try
 			{
 				return path.StartsWith(@"\\", StringComparison.Ordinal) ||
-					GetDriveType(new SystemIO.DriveInfo(path)) is Data.Items.DriveType.Network;
+					new SystemIO.DriveInfo(path).DriveType is SystemIO.DriveType.Network;
 			}
 			catch
 			{
@@ -139,30 +138,6 @@ namespace Files.App.Utils.Storage
 				catch { return false; }
 			});
 		}
-
-		public static Data.Items.DriveType GetDriveType(System.IO.DriveInfo drive)
-		{
-			if (drive.DriveType is System.IO.DriveType.Unknown)
-			{
-				string path = PathNormalization.NormalizePath(drive.Name);
-
-				if (path is "A:" or "B:")
-					return Data.Items.DriveType.FloppyDisk;
-			}
-
-			return drive.DriveType switch
-			{
-				SystemIO.DriveType.CDRom => Data.Items.DriveType.CDRom,
-				SystemIO.DriveType.Fixed => Data.Items.DriveType.Fixed,
-				SystemIO.DriveType.Network => Data.Items.DriveType.Network,
-				SystemIO.DriveType.NoRootDirectory => Data.Items.DriveType.NoRootDirectory,
-				SystemIO.DriveType.Ram => Data.Items.DriveType.Ram,
-				SystemIO.DriveType.Removable => Data.Items.DriveType.Removable,
-				_ => Data.Items.DriveType.Unknown,
-			};
-		}
-
-		public static string GetExtendedDriveLabel(SystemIO.DriveInfo drive) => DriveLabel.GetExtendedDriveLabel(drive);
 
 		public static async Task<StorageItemThumbnail?> GetThumbnailAsync(StorageFolder folder)
 			=> await FilesystemTasks.Wrap(()

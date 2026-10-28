@@ -651,7 +651,7 @@ namespace Files.App.ViewModels.UserControls
 					var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(normalizedInput).StartsWith(
 						PathNormalization.NormalizePath(x.GetRequiredPath()),
 						StringComparison.Ordinal));
-					if (matchingDrive is not null && matchingDrive.Type == Data.Items.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
+					if (matchingDrive is not null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
 					{
 						var drivePath = matchingDrive.GetRequiredPath();
 						bool ejectButton = await DialogDisplayHelper.ShowDialogAsync(Strings.InsertDiscDialogTitle.GetLocalizedResource(), string.Format(Strings.InsertDiscDialogText.GetLocalizedResource(), drivePath), Strings.InsertDiscDialog_OpenDriveButton.GetLocalizedResource(), Strings.Close.GetLocalizedResource());
@@ -958,7 +958,7 @@ namespace Files.App.ViewModels.UserControls
 						var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(normalizedInput).StartsWith(
 							PathNormalization.NormalizePath(x.GetRequiredPath()),
 							StringComparison.Ordinal));
-						if (matchingDrive is not null && matchingDrive.Type == Data.Items.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
+						if (matchingDrive is not null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
 						{
 							var drivePath = matchingDrive.GetRequiredPath();
 							bool ejectButton = await DialogDisplayHelper.ShowDialogAsync(Strings.InsertDiscDialogTitle.GetLocalizedResource(), string.Format(Strings.InsertDiscDialogText.GetLocalizedResource(), drivePath), Strings.InsertDiscDialog_OpenDriveButton.GetLocalizedResource(), Strings.Close.GetLocalizedResource());

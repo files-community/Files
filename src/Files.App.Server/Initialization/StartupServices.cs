@@ -5,17 +5,29 @@ namespace Files.App.Server;
 
 internal static class StartupServices
 {
+	private static readonly Lazy<Task> menuInitialization = new(() => SafetyExtensions.IgnoreExceptions(ContextMenu.WarmUpQueryContextMenuAsync, Program.Logger));
+
 	internal static async Task InitializeAsync()
 	{
 		_ = SafetyExtensions.IgnoreExceptions(UpdateCatalog.InitializeAsync, Program.Logger);
 		await Task.WhenAll(
 			SafetyExtensions.IgnoreExceptions(InitializationCache.InitializeAsync, Program.Logger),
-			SafetyExtensions.IgnoreExceptions(TagCatalog.InitializeAsync, Program.Logger));
+			SafetyExtensions.IgnoreExceptions(TagCatalog.InitializeAsync, Program.Logger),
+			WarmDrivesAsync(),
+			menuInitialization.Value);
+	}
+
+	private static async Task WarmDrivesAsync()
+	{
+		var ids = await SafetyExtensions.IgnoreExceptions(DriveCatalog.GetIdsAsync, Program.Logger);
+		foreach (var id in ids ?? Array.Empty<string>())
+			_ = SafetyExtensions.IgnoreExceptions(() => DriveCatalog.GetAsync(id), Program.Logger);
 	}
 
 	internal static void Stop()
 	{
 		UpdateCatalog.Stop();
 		SettingsStore.Stop();
+		DriveCatalog.Stop();
 	}
 }

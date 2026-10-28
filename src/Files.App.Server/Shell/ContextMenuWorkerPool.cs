@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-namespace Files.App.Utils.Shell
+namespace Files.App.Server
 {
 	/// <summary>
 	/// Pools STA <see cref="ThreadWithMessageQueue"/> workers used to query Win32 shell context menus.

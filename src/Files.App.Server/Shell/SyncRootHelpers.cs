@@ -6,7 +6,7 @@ using Windows.Win32;
 using Windows.Win32.System.Com;
 using Windows.Win32.System.WinRT;
 
-namespace Files.App.Utils.Storage
+namespace Files.App.Server
 {
 	internal static class SyncRootHelpers
 	{
