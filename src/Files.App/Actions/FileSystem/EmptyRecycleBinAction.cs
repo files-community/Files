@@ -36,6 +36,7 @@ namespace Files.App.Actions
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 			context.PropertyChanged += Context_PropertyChanged;
+			StorageTrashBinService.StateChanged += (_, _) => OnPropertyChanged(nameof(IsExecutable));
 		}
 
 		public async Task ExecuteAsync(object? parameter = null)

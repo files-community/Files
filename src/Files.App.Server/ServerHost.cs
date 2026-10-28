@@ -50,6 +50,7 @@ internal static class ServerHost
 				// Decide under the registration lock so simultaneous launches cannot both restore.
 				var canRestorePreviousSession = clients.Values.All(client => client.Process.HasExited);
 				clients.Add(id, (process, default));
+				RecycleBinCatalog.AddClient(id);
 				return (id, canRestorePreviousSession);
 			}
 			catch
@@ -95,6 +96,16 @@ internal static class ServerHost
 		controller.DispatcherQueue.TryEnqueue(ExitIfIdle);
 	}
 
+	internal static void BeginPinnedFoldersUpdate(long id)
+	{
+		lock (gate)
+		{
+			if (!clients.ContainsKey(id))
+				throw new ObjectDisposedException(nameof(AppService));
+			ServerEvents.BeginPinnedFoldersUpdate(id);
+		}
+	}
+
 	internal static void RemoveClient(long id)
 	{
 		Process process;
@@ -106,6 +117,7 @@ internal static class ServerHost
 		}
 		process.Dispose();
 		ServerEvents.RemoveClient(id);
+		RecycleBinCatalog.RemoveClient(id);
 		if (!Program.ExitSignal.Task.IsCompleted)
 		{
 			settings.Refresh();

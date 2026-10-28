@@ -7,9 +7,7 @@ namespace Files.App.Utils
 {
 	public sealed class QuickAccessManager
 	{
-		public FileSystemWatcher? PinnedItemsWatcher;
 
-		public event FileSystemEventHandler? PinnedItemsModified;
 
 		public EventHandler<ModifyQuickAccessEventArgs>? UpdateQuickAccessWidget;
 
@@ -23,37 +21,16 @@ namespace Files.App.Utils
 			Initialize();
 		}
 
-		public void Initialize()
+		public void Initialize() => App.ServerChanged += OnServerChanged;
+
+		private async void OnServerChanged(object? sender, string name)
 		{
-			var automaticDestinationsPath = Constants.UserEnvironmentPaths.AutomaticDestinationsPath;
-
-			// Only initialize FileSystemWatcher if the directory exists
-			// This handles cases where AppData is redirected to network locations that don't contain Windows system directories
-			if (Directory.Exists(automaticDestinationsPath))
-			{
-				PinnedItemsWatcher = new()
-				{
-					Path = automaticDestinationsPath,
-					Filter = Constants.UserEnvironmentPaths.QuickAccessDestinationsFileName,
-					NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName
-				};
-
-				PinnedItemsWatcher.Changed += PinnedItemsWatcher_Changed;
-			}
-			else
-			{
-				// If the directory doesn't exist (e.g., redirected AppData), skip FileSystemWatcher initialization
-				// The app will still function, but won't receive automatic updates when pinned items change externally
-				PinnedItemsWatcher = null;
-			}
+			if (name == ServerChangeNames.PinnedFolders)
+				await SafetyExtensions.IgnoreExceptions(Model.LoadAsync, App.Logger);
 		}
-
-		private void PinnedItemsWatcher_Changed(object sender, FileSystemEventArgs e)
-			=> PinnedItemsModified?.Invoke(this, e);
 
 		public async Task InitializeAsync()
 		{
-			PinnedItemsModified += Model.LoadAsync;
 			await Model.LoadAsync();
 
 			if (!Model.PinnedFolders.Contains(Constants.UserEnvironmentPaths.RecycleBinPath) && AppLifecycleHelper.IsFirstRun)

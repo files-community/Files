@@ -151,7 +151,7 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		// Dummy-path trick (matches IconCacheService) makes the shell return the generic folder icon, not anything path-specific. Cached process-wide so every sidebar expansion reuses the same bytes.
+		// A dummy path requests the generic folder icon. Cache it locally for sidebar expansion.
 		private static byte[]? cachedGenericSmallFolderIconBytes;
 		private static readonly SemaphoreSlim genericSmallFolderIconLock = new(1, 1);
 		private static readonly string genericFolderProbePath = System.IO.Path.Combine(System.IO.Path.GetPathRoot(Environment.SystemDirectory)!, "x46696c6573");
@@ -293,7 +293,7 @@ namespace Files.App.Data.Items
 		{
 			return MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				SpaceUsed = await Task.Run(() => StorageTrashBinService.GetSize());
+				SpaceUsed = await StorageTrashBinService.GetSizeAsync();
 			});
 		}
 
@@ -317,6 +317,7 @@ namespace Files.App.Data.Items
 		{
 			StorageTrashBinService.Watcher.ItemAdded += RefreshSpaceUsed;
 			StorageTrashBinService.Watcher.ItemDeleted += RefreshSpaceUsed;
+			StorageTrashBinService.Watcher.RefreshRequested += RefreshSpaceUsed;
 
 			_ = RefreshSpaceUsedAsync();
 		}

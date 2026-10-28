@@ -44,6 +44,7 @@ namespace Files.App
 
 		internal static event EventHandler<string>? ServerChanged;
 		internal static bool CanRestorePreviousSession { get; private set; }
+		internal static Task<Server.AppService> ServerSession => serverSession;
 		public static FlyoutBase? LastOpenedFlyout
 		{
 			set

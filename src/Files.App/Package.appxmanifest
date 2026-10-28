@@ -191,6 +191,8 @@
                 <Interface Name="Windows.Foundation.Collections.IIterator`1&lt;Files.App.Server.MenuEntryInfo&gt;" InterfaceId="fae943cd-1ffd-58ff-8b1e-ee4b62fbdb28" />
                 <Interface Name="Windows.Foundation.Collections.IIterable`1&lt;Files.App.Server.TaggedFileInfo&gt;" InterfaceId="185d3db2-725b-5285-b93f-a845caa21ab1" />
                 <Interface Name="Windows.Foundation.Collections.IIterator`1&lt;Files.App.Server.TaggedFileInfo&gt;" InterfaceId="b4830ec0-3e8f-5254-b368-08bfa05fbbca" />
+                <Interface Name="Windows.Foundation.Collections.IIterable`1&lt;Files.App.Server.ShellLocationInfo&gt;" InterfaceId="25081955-244a-5976-8d48-c767882169d7" />
+                <Interface Name="Windows.Foundation.Collections.IIterator`1&lt;Files.App.Server.ShellLocationInfo&gt;" InterfaceId="0de9fdd7-56fd-5b0b-9c45-3d02d5b65b39" />
                 <Interface Name="Windows.Foundation.Collections.IIterable`1&lt;String&gt;" InterfaceId="e2fcc7c1-3bfc-5a0b-b2b0-72e769d1cb7e" />
             </ProxyStub>
         </Extension>
@@ -202,6 +204,10 @@
                 <ActivatableClass ActivatableClassId="Files.App.Server.DriveService" />
                 <ActivatableClass ActivatableClassId="Files.App.Server.FileTagsService" />
                 <ActivatableClass ActivatableClassId="Files.App.Server.IconService" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.JumpListService" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.LocationService" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.PinnedFoldersService" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.RecycleBinService" />
                 <ActivatableClass ActivatableClassId="Files.App.Server.SettingsService" />
                 <ActivatableClass ActivatableClassId="Files.App.Server.ShellService" />
                 <ActivatableClass ActivatableClassId="Files.App.Server.UpdateService" />

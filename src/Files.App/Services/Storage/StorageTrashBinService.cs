@@ -16,7 +16,37 @@ namespace Files.App.Services
 	public class StorageTrashBinService : IStorageTrashBinService
 	{
 		/// <inheritdoc/>
-		public RecycleBinWatcher Watcher { get; private set; } = new();
+		public Files.Storage.ITrashWatcher Watcher { get; } = new ServerTrashWatcher();
+
+		public event EventHandler? StateChanged;
+		private bool hasItems;
+		private int refreshVersion;
+
+		public StorageTrashBinService()
+		{
+			Watcher.RefreshRequested += (_, _) => QueueRefresh();
+			Watcher.ItemAdded += (_, _) => QueueRefresh();
+			Watcher.ItemDeleted += (_, _) => QueueRefresh();
+			Watcher.ItemChanged += (_, _) => QueueRefresh();
+			Watcher.ItemRenamed += (_, _) => QueueRefresh();
+			QueueRefresh();
+		}
+
+		private void QueueRefresh()
+		{
+			App.UiDispatcher?.TryEnqueue(() =>
+			{
+				_ = SafetyExtensions.IgnoreExceptions(async () =>
+				{
+					var version = ++refreshVersion;
+					var value = await Server.RecycleBinService.HasRecycleBinItemsAsync();
+					if (version != refreshVersion || hasItems == value)
+						return;
+					hasItems = value;
+					StateChanged?.Invoke(this, EventArgs.Empty);
+				}, App.Logger);
+			});
+		}
 
 		/// <inheritdoc/>
 		public async Task<List<ShellFileItem>> GetAllRecycleBinFoldersAsync()
@@ -25,55 +55,20 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public (bool HasRecycleBin, long NumItems, long BinSize) QueryRecycleBin(string drive = "")
+		public async Task<(bool HasRecycleBin, long NumItems, long BinSize)> QueryRecycleBinAsync(string drive = "")
 		{
-			SHQUERYRBINFO queryBinInfo = default;
-			queryBinInfo.cbSize = (uint)Marshal.SizeOf(queryBinInfo);
-
-			var hRes = PInvoke.SHQueryRecycleBin(drive, ref queryBinInfo);
-			return hRes == HRESULT.S_OK
-				? (true, queryBinInfo.i64NumItems, queryBinInfo.i64Size)
-				: (false, 0, 0);
+			var info = await Server.RecycleBinService.QueryRecycleBinAsync(drive);
+			return (info.Available, info.Count, info.Size);
 		}
 
 		/// <inheritdoc/>
-		public ulong GetSize()
+		public async Task<ulong> GetSizeAsync()
 		{
-			return (ulong)QueryRecycleBin().BinSize;
+			return (ulong)(await QueryRecycleBinAsync()).BinSize;
 		}
 
 		/// <inheritdoc/>
-		public bool HasItems()
-		{
-			var sid = WindowsIdentity.GetCurrent().User?.Value;
-			if (string.IsNullOrEmpty(sid))
-				return false;
-
-			foreach (DriveInfo drive in DriveInfo.GetDrives())
-			{
-				if (!drive.IsReady || drive.DriveType == System.IO.DriveType.Network)
-					continue;
-
-				string recyclePath = Path.Combine(drive.RootDirectory.FullName, "$RECYCLE.BIN", sid);
-				if (!Directory.Exists(recyclePath))
-					continue;
-
-				try
-				{
-					var files = Directory.EnumerateFiles(recyclePath, "$I*", SearchOption.TopDirectoryOnly);
-					if (files.Any())
-						return true;
-				}
-				catch (UnauthorizedAccessException)
-				{
-				}
-				catch (IOException)
-				{
-				}
-			}
-
-			return false;
-		}
+		public bool HasItems() => hasItems;
 
 		/// <inheritdoc/>
 		public bool IsUnderTrashBin(string? path)
