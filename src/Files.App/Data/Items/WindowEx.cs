@@ -306,7 +306,8 @@ namespace Files.App.Data.Items
 		private LRESULT NewWindowProc(HWND param0, uint param1, WPARAM param2, LPARAM param3)
 		{
 			LRESULT overrideResult = default;
-			if (OnWindowMessageReceived(param1, param2, param3, ref overrideResult))
+			if (TryHandleModernSystemMenuMessage(param1, param2, param3) ||
+				OnWindowMessageReceived(param1, param2, param3, ref overrideResult))
 				return overrideResult;
 
 			switch (param1)
