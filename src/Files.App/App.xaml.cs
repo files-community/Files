@@ -31,6 +31,7 @@ namespace Files.App
 		private static readonly Task<Server.AppService> serverSession = Task.Run(() =>
 		{
 			var server = new Server.AppService(Environment.ProcessId);
+			CanRestorePreviousSession = server.CanRestorePreviousSession;
 			server.Changed += (_, name) => UiDispatcher?.TryEnqueue(() =>
 			{
 				if (ServerChanged is not { } handlers)
@@ -42,6 +43,7 @@ namespace Files.App
 		});
 
 		internal static event EventHandler<string>? ServerChanged;
+		internal static bool CanRestorePreviousSession { get; private set; }
 		public static FlyoutBase? LastOpenedFlyout
 		{
 			set
@@ -93,12 +95,12 @@ namespace Files.App
 
 			async Task ActivateAsync()
 			{
+				var startup = Stopwatch.StartNew();
 				var appActivationArguments = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
 				var isStartupTask = appActivationArguments.Data is Windows.ApplicationModel.Activation.IStartupTaskActivatedEventArgs;
 
 				// Build the DI container off-thread while the window initializes
 				var appModel = AppModel;
-				Task commandsWarmupTask = Task.CompletedTask;
 				var servicesTask = Task.Run(() =>
 				{
 					try
@@ -107,6 +109,7 @@ namespace Files.App
 
 						// Configure Ioc here so Ioc.Default-dependent constructions warm off-thread too
 						Ioc.Default.ConfigureServices(provider);
+						_ = provider.GetRequiredService<IFileTagsSettingsService>();
 
 						// Load the appearance settings needed for the first frame off the UI thread.
 						if (isStartupTask && provider.GetRequiredService<IGeneralSettingsService>().CloseToBackground)
@@ -114,31 +117,6 @@ namespace Files.App
 						var appearanceSettings = provider.GetRequiredService<IAppearanceSettingsService>();
 						_ = appearanceSettings.AppThemeMode;
 						_ = appearanceSettings.AppThemeBackdropMaterial;
-
-						// Commands are needed for the main page, not for the initial window and backdrop.
-						commandsWarmupTask = Task.Run(() =>
-						{
-							var previousPriority = Thread.CurrentThread.Priority;
-							Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
-							try
-							{
-								// Action and context constructors access these statics.
-								QuickAccessManager = provider.GetRequiredService<QuickAccessManager>();
-								HistoryWrapper = provider.GetRequiredService<StorageHistoryWrapper>();
-								FileTagsManager = provider.GetRequiredService<FileTagsManager>();
-								LibraryManager = provider.GetRequiredService<LibraryManager>();
-
-								_ = provider.GetRequiredService<ICommandManager>();
-							}
-							catch (Exception)
-							{
-								// UI-thread-only constructors run on first use instead.
-							}
-							finally
-							{
-								Thread.CurrentThread.Priority = previousPriority;
-							}
-						});
 
 						return provider;
 					}
@@ -149,7 +127,7 @@ namespace Files.App
 					}
 				});
 
-				// IsDynamicCodeSupported is false on Native AOT, where startup is fast enough to skip the splash screen
+				// Native AOT opens the main page directly; JIT builds retain the splash screen.
 				var showSplashScreen = System.Runtime.CompilerServices.RuntimeFeature.IsDynamicCodeSupported;
 
 				if (!isStartupTask)
@@ -183,21 +161,6 @@ namespace Files.App
 				if (isStartupTask)
 					Program.RegisterCurrentInstance();
 
-				if (showSplashScreen)
-				{
-					SplashScreenLoadingTCS = new TaskCompletionSource();
-					MainWindow.Instance.ShowSplashScreen();
-				}
-
-				if (!await MainWindow.Instance.ActivateWithBackdropAsync())
-					return;
-
-				await commandsWarmupTask;
-
-				// Configure Sentry
-				if (AppLifecycleHelper.AppEnvironment is not AppEnvironment.Dev)
-					AppLifecycleHelper.ConfigureSentry();
-
 				// TODO: Replace with DI
 				QuickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
 				HistoryWrapper = Ioc.Default.GetRequiredService<StorageHistoryWrapper>();
@@ -206,9 +169,29 @@ namespace Files.App
 				Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 				AppModel = Ioc.Default.GetRequiredService<AppModel>();
 
-				// Hook events for the window
 				MainWindow.Instance.Closed += Window_Closed;
 				MainWindow.Instance.Activated += Window_Activated;
+
+				if (showSplashScreen)
+				{
+					SplashScreenLoadingTCS = new TaskCompletionSource();
+					MainWindow.Instance.ShowSplashScreen();
+				}
+				else
+				{
+					MainWindow.Instance.ShowMainPage();
+				}
+
+				if (!await MainWindow.Instance.ActivateWithBackdropAsync())
+					return;
+
+				Logger.LogInformation("Startup: initial content rendered after {Elapsed} ms", startup.ElapsedMilliseconds);
+				_ = serviceProvider.GetRequiredService<ICommandManager>();
+
+				var telemetryInitialization = AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev
+					? Task.CompletedTask
+					: Task.Run(AppLifecycleHelper.ConfigureSentry);
+
 
 				Logger.LogInformation($"App launched. Launch args type: {appActivationArguments.Data.GetType().Name}");
 
@@ -219,8 +202,13 @@ namespace Files.App
 				}
 
 				_ = SafetyExtensions.IgnoreExceptions(async () => (await serverSession).SetWindowHandle(MainWindow.Instance.WindowHandle), Logger);
-				_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
+				_ = SafetyExtensions.IgnoreExceptions(async () =>
+				{
+					await serverSession;
+					await MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
+				}, Logger);
 
+				await telemetryInitialization;
 				await AppLifecycleHelper.InitializeAppComponentsAsync();
 			}
 		}

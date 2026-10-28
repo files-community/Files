@@ -31,8 +31,6 @@ namespace Files.App.Services
 			set
 			{
 				UserSettingsService.AppearanceSettingsService.AppThemeMode = value.ToString();
-
-				SetAppThemeMode();
 			}
 		}
 
@@ -60,6 +58,7 @@ namespace Files.App.Services
 		{
 			// Set the desired theme based on what is set in the application settings
 			SetAppThemeMode();
+			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 
 			// Registering to color changes, so that we can notice when changed system theme mode
 			UISettings.ColorValuesChanged += UISettings_ColorValuesChanged;
@@ -122,6 +121,12 @@ namespace Files.App.Services
 			{
 				App.Logger.LogWarning(ex, "Failed to change theme mode of the app.");
 			}
+		}
+
+		private void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
+		{
+			if (e.SettingName == nameof(IAppearanceSettingsService.AppThemeMode))
+				SetAppThemeMode();
 		}
 
 		private async void UISettings_ColorValuesChanged(UISettings sender, object args)

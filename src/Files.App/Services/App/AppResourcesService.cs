@@ -17,6 +17,31 @@ namespace Files.App.Services
 			SetScrollInertiaEnabled(UserSettingsService.GeneralSettingsService.EnableSmoothScrolling);
 
 			UserSettingsService.GeneralSettingsService.PropertyChanged += GeneralSettingsService_PropertyChanged;
+			UserSettingsService.OnSettingChangedEvent += OnSharedSettingChanged;
+		}
+
+		private void OnSharedSettingChanged(object? sender, SettingChangedEventArgs e)
+		{
+			if (e.NewValue is not JsonElement || e.SettingName is not (
+				nameof(IAppearanceSettingsService.AppThemeBackgroundColor) or
+				nameof(IAppearanceSettingsService.AppThemeAddressBarBackgroundColor) or
+				nameof(IAppearanceSettingsService.AppThemeToolbarBackgroundColor) or
+				nameof(IAppearanceSettingsService.AppThemeSidebarBackgroundColor) or
+				nameof(IAppearanceSettingsService.AppThemeFileAreaBackgroundColor) or
+				nameof(IAppearanceSettingsService.AppThemeFileAreaSecondaryBackgroundColor) or
+				nameof(IAppearanceSettingsService.AppThemeInfoPaneBackgroundColor) or
+				nameof(IAppearanceSettingsService.AppThemeFontFamily)))
+				return;
+
+			// Remove local overrides so resetting a shared setting restores the theme defaults too.
+			foreach (var key in new[]
+			{
+				"App.Theme.BackgroundBrush", "App.Theme.AddressBar.BackgroundBrush", "TabViewItemHeaderBackgroundSelected",
+				"App.Theme.Toolbar.BackgroundBrush", "App.Theme.Sidebar.BackgroundBrush", "App.Theme.FileArea.BackgroundBrush",
+				"App.Theme.FileArea.SecondaryBackgroundBrush", "App.Theme.InfoPane.BackgroundBrush", "ContentControlThemeFontFamily",
+			})
+				Application.Current.Resources.Remove(key);
+			this.LoadAppResources(UserSettingsService.AppearanceSettingsService);
 		}
 
 		private void GeneralSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)

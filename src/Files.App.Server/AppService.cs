@@ -1,34 +1,37 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 
 namespace Files.App.Server;
 
 public sealed partial class AppService : IDisposable
 {
-	private readonly long clientId;
 	private int disposed;
+
+	internal long ClientId { get; }
+	internal bool IsDisposed => disposed != 0;
+
+	public bool CanRestorePreviousSession { get; }
 
 	public AppService(int processId)
 	{
-		clientId = ServerHost.AddClient(processId);
+		(ClientId, CanRestorePreviousSession) = ServerHost.AddClient(processId);
 	}
 
 	~AppService() => Dispose();
 
 	public event EventHandler<string> Changed
 	{
-		add => ServerEvents.Add(clientId, value);
-		remove => ServerEvents.Remove(clientId, value);
+		add => ServerEvents.Add(ClientId, value);
+		remove => ServerEvents.Remove(ClientId, value);
 	}
 
-	public static int CloudProviderGroupCount => InitializationCache.CloudProviders.Length;
-
-	public void SetWindowHandle(long handle) => ServerHost.SetWindow(clientId, handle);
+	public void SetWindowHandle(long handle) => ServerHost.SetWindow(ClientId, handle);
 
 	public static IAsyncAction InitializeAsync() => ServerAsync.Run(token => StartupServices.InitializeAsync().WaitAsync(token));
+
+	public static int CloudProviderGroupCount => InitializationCache.CloudProviders.Length;
 
 	public static IAsyncOperation<IReadOnlyList<ShellNewEntryInfo>> GetShellNewEntriesAsync() => ServerAsync.Run(token => InitializationCache.ShellNew.GetAsync().WaitAsync(token));
 
@@ -57,14 +60,10 @@ public sealed partial class AppService : IDisposable
 		return ServerAsync.Run(token => InitializationCache.CloudProviders[group].GetAsync().WaitAsync(token));
 	}
 
-	public static void BeginUpdate() => ServerHost.BeginUpdate();
-
-	public static void EndUpdate() => ServerHost.EndUpdate();
-
 	public void Dispose()
 	{
 		if (Interlocked.Exchange(ref disposed, 1) == 0)
-			ServerHost.RemoveClient(clientId);
+			ServerHost.RemoveClient(ClientId);
 		GC.SuppressFinalize(this);
 	}
 }

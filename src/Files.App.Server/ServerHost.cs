@@ -32,7 +32,7 @@ internal static class ServerHost
 		OnSettingsChanged();
 	}
 
-	internal static long AddClient(int processId)
+	internal static (long Id, bool CanRestorePreviousSession) AddClient(int processId)
 	{
 		lock (gate)
 		{
@@ -47,8 +47,10 @@ internal static class ServerHost
 				process = Process.GetProcessById(processId);
 				process.Exited += (_, _) => controller.DispatcherQueue.TryEnqueue(() => RemoveClient(id));
 				process.EnableRaisingEvents = true;
+				// Decide under the registration lock so simultaneous launches cannot both restore.
+				var canRestorePreviousSession = clients.Values.All(client => client.Process.HasExited);
 				clients.Add(id, (process, default));
-				return id;
+				return (id, canRestorePreviousSession);
 			}
 			catch
 			{
@@ -142,6 +144,8 @@ internal static class ServerHost
 		}
 	}
 
+	internal static nint GetDialogWindowHandle() => (tray ??= new SystemTrayIcon()).WindowHandle;
+
 	internal static bool ActivateWindow()
 	{
 		ClientWindow[] windows;
@@ -204,6 +208,7 @@ internal static class ServerHost
 		settings.Dispose();
 		await InvokeAsync(() =>
 		{
+			StartupServices.Stop();
 			tray?.Dispose();
 			tray = null;
 		});

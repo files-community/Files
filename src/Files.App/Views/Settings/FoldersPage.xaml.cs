@@ -10,6 +10,8 @@ namespace Files.App.Views.Settings
 		public FoldersPage()
 		{
 			InitializeComponent();
+			Loaded += (_, _) => ViewModel.StartListening();
+			Unloaded += (_, _) => ViewModel.StopListening();
 		}
 	}
 }
