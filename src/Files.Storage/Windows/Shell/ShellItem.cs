@@ -268,6 +268,8 @@ namespace Files.Storage
 			try
 			{
 				var link = new ShellLink(path!);
+				// Keep namespace metadata, such as the original name of a recycled shortcut.
+				link.Initialize(item.IShellItem);
 				item.Dispose();
 				return link;
 			}

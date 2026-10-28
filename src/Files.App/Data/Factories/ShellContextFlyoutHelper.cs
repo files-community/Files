@@ -76,7 +76,7 @@ namespace Files.App.Helpers
 		{
 			var menuItemsList = new List<ContextMenuFlyoutItemViewModel>();
 			var filePaths = selectedItems is { Count: > 0 }
-				? selectedItems.Select(x => x.ItemPath!).ToArray()
+				? selectedItems.Select(x => x.IsRecycleBinItem ? ShellPath.GetRecycleBinParsingName(x.ItemPath!) : x.ItemPath!).ToArray()
 				: [workingDirectory ?? throw new ArgumentException("A working directory is required when no items are selected.", nameof(workingDirectory))];
 
 			Func<string?, bool> FilterMenuItems(bool showOpenMenu)

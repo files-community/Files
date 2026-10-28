@@ -799,7 +799,7 @@ namespace Files.App.ViewModels
 			if (!Constants.UserEnvironmentPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
 
-			using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(e.FullPath));
+			using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(ShellPath.GetRecycleBinParsingName(e.FullPath)));
 			if (folderItem is null)
 				return;
 
