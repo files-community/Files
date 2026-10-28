@@ -34,7 +34,7 @@
     <RootNamespace>FilesAppLauncher</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <EnableNativePackageReferenceSupport>true</EnableNativePackageReferenceSupport>
-    <MinimumVisualStudioVersion>18.11</MinimumVisualStudioVersion>
+    <MinimumVisualStudioVersion>18.7</MinimumVisualStudioVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
