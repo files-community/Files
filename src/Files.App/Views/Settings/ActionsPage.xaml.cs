@@ -21,6 +21,8 @@ namespace Files.App.Views.Settings
 		public ActionsPage()
 		{
 			InitializeComponent();
+			Loaded += (_, _) => ViewModel.StartListening();
+			Unloaded += (_, _) => ViewModel.StopListening();
 		}
 
 		private void ActionsPage_Loaded(object sender, RoutedEventArgs e)

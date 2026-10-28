@@ -37,9 +37,40 @@ namespace Files.App.ViewModels.Settings
 
 			Tags = [];
 			Tags.CollectionChanged += Tags_CollectionChanged;
-			fileTagsSettingsService.FileTagList?.ForEach(tag => Tags.Add(new ListedTagViewModel(tag)));
+			UpdateTags(fileTagsSettingsService.FileTagList);
+		}
 
-			isBulkOperation = false;
+		internal void UpdateTags(IList<TagViewModel> tags)
+		{
+			isBulkOperation = true;
+			try
+			{
+				for (int index = 0; index < tags.Count; index++)
+				{
+					var tag = tags[index];
+					var item = Tags.FirstOrDefault(item => item.Tag.Uid == tag.Uid);
+					if (item is null)
+					{
+						Tags.Insert(index, new ListedTagViewModel(tag));
+						continue;
+					}
+
+					var oldIndex = Tags.IndexOf(item);
+					if (oldIndex != index)
+						Tags.Move(oldIndex, index);
+					item.Tag = tag;
+					if (!item.IsEditing)
+						item.NewColor = tag.Color;
+				}
+
+				while (Tags.Count > tags.Count)
+					Tags.RemoveAt(Tags.Count - 1);
+			}
+			finally
+			{
+				isDragStarting = true;
+				isBulkOperation = false;
+			}
 		}
 
 		private void Tags_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -70,11 +101,6 @@ namespace Files.App.ViewModels.Settings
 			IsCreatingNewTag = false;
 
 			fileTagsSettingsService.CreateNewTag(NewTag.Name, NewTag.Color);
-
-			isBulkOperation = true;
-			Tags.Clear();
-			fileTagsSettingsService.FileTagList?.ForEach(tag => Tags.Add(new ListedTagViewModel(tag)));
-			isBulkOperation = false;
 		}
 
 		private void DoCancelNewTag()
@@ -85,19 +111,10 @@ namespace Files.App.ViewModels.Settings
 		public void EditExistingTag(ListedTagViewModel item, string newName, string color)
 		{
 			fileTagsSettingsService.EditTag(item.Tag.Uid, newName, color);
-
-			isBulkOperation = true;
-			Tags.Clear();
-			fileTagsSettingsService.FileTagList?.ForEach(tag => Tags.Add(new ListedTagViewModel(tag)));
-			isBulkOperation = false;
 		}
 
 		public void DeleteExistingTag(ListedTagViewModel item)
 		{
-			isBulkOperation = true;
-			Tags.Remove(item);
-			isBulkOperation = false;
-
 			fileTagsSettingsService.DeleteTag(item.Tag.Uid);
 		}
 	}

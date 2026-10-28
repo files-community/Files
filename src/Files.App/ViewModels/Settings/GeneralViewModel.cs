@@ -114,6 +114,58 @@ namespace Files.App.ViewModels.Settings
 			InitStartupSettingsRecentFoldersFlyout();
 		}
 
+		internal void StartListening()
+		{
+			UserSettingsService.OnSettingChangedEvent -= OnSharedSettingChanged;
+			UserSettingsService.OnSettingChangedEvent += OnSharedSettingChanged;
+			RefreshSettings();
+		}
+
+		internal void StopListening() => UserSettingsService.OnSettingChangedEvent -= OnSharedSettingChanged;
+
+		private void OnSharedSettingChanged(object? sender, SettingChangedEventArgs e)
+		{
+			if (e.NewValue is JsonElement)
+				RefreshSettings(e.SettingName);
+		}
+
+		private void RefreshSettings(string? name = null)
+		{
+			var settings = UserSettingsService.GeneralSettingsService;
+			if (name is null or nameof(IGeneralSettingsService.DateTimeFormat))
+			{
+				SetProperty(ref selectedDateTimeFormatIndex, (int)settings.DateTimeFormat, nameof(SelectedDateTimeFormatIndex));
+				OnPropertyChanged(nameof(DateFormatSample));
+			}
+			if (name is null or nameof(IGeneralSettingsService.ShellPaneArrangementOption))
+			{
+				SetProperty(ref selectedShellPaneArrangementType, ShellPaneArrangementTypes[settings.ShellPaneArrangementOption], nameof(SelectedShellPaneArrangementType));
+			}
+			if (name is null or nameof(IGeneralSettingsService.ReverseTabScrollDirection))
+			{
+				OnPropertyChanged(nameof(SelectedTabScrollDirectionIndex));
+			}
+			if (name is null or nameof(IGeneralSettingsService.OpenNewTabOnStartup) or nameof(IGeneralSettingsService.OpenSpecificPageOnStartup) or nameof(IGeneralSettingsService.ContinueLastSessionOnStartUp))
+			{
+				OnPropertyChanged(nameof(OpenNewTabPageOnStartup));
+				OnPropertyChanged(nameof(OpenASpecificPageOnStartup));
+				OnPropertyChanged(nameof(SelectedStartupSettingIndex));
+			}
+			if (name is null or nameof(IGeneralSettingsService.TabsOnStartupList))
+			{
+				if (name is not null || !PagesOnStartupList.Select(page => page.Path).SequenceEqual(settings.TabsOnStartupList ?? []))
+				{
+					PagesOnStartupList.CollectionChanged -= PagesOnStartupList_CollectionChanged;
+					PagesOnStartupList.Clear();
+					foreach (var path in settings.TabsOnStartupList ?? [])
+						PagesOnStartupList.Add(new PageOnStartupViewModel(path));
+					PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
+					SelectedPageIndex = -1;
+				}
+			}
+			OnPropertyChanged(name ?? string.Empty);
+		}
+
 		private async void DoRestartAsync()
 		{
 			// Tells the app to restore tabs when it's next launched
@@ -608,6 +660,7 @@ namespace Files.App.ViewModels.Settings
 			if (!disposed)
 			{
 				disposed = true;
+				UserSettingsService.OnSettingChangedEvent -= OnSharedSettingChanged;
 
 				GC.SuppressFinalize(this);
 			}

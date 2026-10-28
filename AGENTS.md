@@ -35,6 +35,10 @@ This project is a C#/.NET WinUI 3 desktop app; an alternative to File Explorer.
 - `RequiresDynamicCode` and `RequiresUnreferencedCode` declare incompatibility; they do not make reflection AOT-safe and are not acceptable exemptions.
 - Keep suppressions of trimming or AOT diagnostics local, document why the reflected members remain available, and verify the relevant AOT build.
 
+### WinRT server and client boundaries
+
+Before changing a server feature, its WinRT contract, or client code that calls it, read [src/AGENTS.md](src/AGENTS.md). Its rules cover async completion, WinUI reentrancy, COM ownership, Native AOT exposure, `IIterable<T>`/`IIterator<T>` proxy registration, and shared server state. Apply them to refactors as well as new features.
+
 ## Codebase Structure
 
 ```text

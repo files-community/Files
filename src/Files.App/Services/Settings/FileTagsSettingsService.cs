@@ -35,18 +35,16 @@ namespace Files.App.Services.Settings
 
 		public FileTagsSettingsService()
 		{
-			var settingsSerializer = new DefaultSettingsSerializer();
-			SettingsSerializer = settingsSerializer;
-
-			Initialize(Path.Combine(ApplicationData.Current.LocalFolder.Path,
-				Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.FileTagSettingsFileName));
-
-			var jsonSettingsSerializer = new DefaultJsonSettingsSerializer();
-			JsonSettingsSerializer = jsonSettingsSerializer;
-			JsonSettingsDatabase = new CachingJsonSettingsDatabase(
-				settingsSerializer,
-				jsonSettingsSerializer,
-				FileTagsSettingsJsonSerializationContext.Default);
+			JsonSettingsSerializer = new DefaultJsonSettingsSerializer();
+			var database = new ServerSettingsDatabase(Constants.LocalSettings.FileTagSettingsFileName, JsonSettingsSerializer, FileTagsSettingsJsonSerializationContext.Default);
+			JsonSettingsDatabase = database;
+			IsAvailable = true;
+			database.Changed += (name, value) =>
+			{
+				RaiseOnSettingChangedEvent(this, new SettingChangedEventArgs(name, value));
+				if (name == nameof(FileTagList))
+					OnTagsUpdated?.Invoke(this, EventArgs.Empty);
+			};
 		}
 
 		public IList<TagViewModel> FileTagList
@@ -69,18 +67,37 @@ namespace Files.App.Services.Settings
 
 		public TagViewModel? GetTagById(string uid)
 		{
-			if (FileTagList.Any(x => x.Uid is null))
+			var tags = FileTagList;
+			var repair = tags.Any(x => x.Uid is null);
+			if (repair)
 			{
 				App.Logger.LogWarning("Tags file is invalid, regenerate");
-				FileTagList = DefaultFileTags;
+				tags = DefaultFileTags;
 			}
 
-			var tag = FileTagList.SingleOrDefault(x => x.Uid == uid);
+			var tag = tags.SingleOrDefault(x => x.Uid == uid);
+			TagViewModel? discoveredTag = null;
 
 			if (!string.IsNullOrEmpty(uid) && tag is null)
 			{
 				tag = new TagViewModel(Strings.Unknown.GetLocalizedResource(), "#9ea3a1", uid);
-				FileTagList = FileTagList.Append(tag).ToList();
+				discoveredTag = tag;
+			}
+
+			// This lookup is called by FileTagsUI bindings; persistence must wait until they return.
+			if (repair || discoveredTag is not null)
+			{
+				App.UiDispatcher?.TryEnqueue(() =>
+				{
+					var current = FileTagList;
+					if (current.Any(x => x.Uid is null))
+						current = DefaultFileTags;
+					else if (discoveredTag is null || current.Any(x => x.Uid == uid))
+						return;
+					if (discoveredTag is not null && current.All(x => x.Uid != uid))
+						current = current.Append(discoveredTag).ToList();
+					FileTagList = current;
+				});
 			}
 
 			return tag;
@@ -131,7 +148,7 @@ namespace Files.App.Services.Settings
 			var oldTags = FileTagList.ToList();
 			oldTags.RemoveAt(index);
 			FileTagList = oldTags;
-			UntagAllFiles(uid);
+			_ = SafetyExtensions.IgnoreExceptions(() => UntagAllFilesAsync(uid), App.Logger);
 		}
 
 		public override bool ImportSettings(object import)
@@ -151,7 +168,8 @@ namespace Files.App.Services.Settings
 
 			if (FileTagList is not null)
 			{
-				FlushSettings();
+				if (!FlushSettings())
+					return false;
 				OnSettingImportedEvent?.Invoke(this, EventArgs.Empty);
 				return true;
 			}
@@ -181,11 +199,11 @@ namespace Files.App.Services.Settings
 			return -1;
 		}
 
-		private void UntagAllFiles(string uid)
+		private async Task UntagAllFilesAsync(string uid)
 		{
 			var tagDoDelete = new string[] { uid };
 
-			foreach (var item in FileTagsHelper.GetDbInstance().GetAll())
+			foreach (var item in await FileTagsHelper.GetDbInstance().GetAllAsync())
 			{
 				if (item.Tags.Contains(uid))
 				{

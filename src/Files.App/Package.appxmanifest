@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Package
     xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
@@ -187,6 +187,8 @@
                 <Interface Name="Windows.Foundation.Collections.IIterator`1&lt;Files.App.Server.CloudProviderInfo&gt;" InterfaceId="c2755e73-7dd9-540f-882a-9da3d64a8125" />
                 <Interface Name="Windows.Foundation.Collections.IIterable`1&lt;Files.App.Server.LibraryInfo&gt;" InterfaceId="1e6b2a4a-8e22-5e39-96d8-532fe4a50b60" />
                 <Interface Name="Windows.Foundation.Collections.IIterator`1&lt;Files.App.Server.LibraryInfo&gt;" InterfaceId="7cd1cab2-0275-5a0d-aa21-8c9da450165b" />
+                <Interface Name="Windows.Foundation.Collections.IIterable`1&lt;Files.App.Server.TaggedFileInfo&gt;" InterfaceId="185d3db2-725b-5285-b93f-a845caa21ab1" />
+                <Interface Name="Windows.Foundation.Collections.IIterator`1&lt;Files.App.Server.TaggedFileInfo&gt;" InterfaceId="b4830ec0-3e8f-5254-b368-08bfa05fbbca" />
                 <Interface Name="Windows.Foundation.Collections.IIterable`1&lt;String&gt;" InterfaceId="e2fcc7c1-3bfc-5a0b-b2b0-72e769d1cb7e" />
             </ProxyStub>
         </Extension>
@@ -195,6 +197,9 @@
                 <Path>Files.App.Server\Files.App.Server.exe</Path>
                 <Instancing>singleInstance</Instancing>
                 <ActivatableClass ActivatableClassId="Files.App.Server.AppService" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.FileTagsService" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.SettingsService" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.UpdateService" />
             </OutOfProcessServer>
         </Extension>
     </Extensions>

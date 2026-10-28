@@ -64,10 +64,10 @@ namespace Files.App.Helpers
 
 			var tabItem = new TabBarItem()
 			{
-				Header = null,
+				Header = GetInitialTabHeader(path),
 				IconSource = null,
-				Description = null,
-				ToolTipText = null,
+				Description = GetInitialTabHeader(path),
+				ToolTipText = path,
 				NavigationParameter = new TabBarItemParameter()
 				{
 					InitialPageType = type,
@@ -77,24 +77,24 @@ namespace Files.App.Helpers
 
 			tabItem.ContentChanged += Control_ContentChanged;
 
-			await UpdateTabInfoAsync(tabItem, path);
-
 			var index = atIndex == -1 ? MainPageViewModel.AppInstances.Count : atIndex;
 
 			MainPageViewModel.AppInstances.Insert(index, tabItem);
 
 			if (switchToNewTab)
 				App.AppModel.TabStripSelectedIndex = index;
+
+			await SafetyExtensions.IgnoreExceptions(() => UpdateTabInfoAsync(tabItem, path), App.Logger);
 		}
 
 		public static async Task AddNewTabByParamAsync(Type type, object? tabViewItemArgs, int atIndex = -1, bool switchToNewTab = true)
 		{
 			var tabItem = new Files.App.UserControls.TabBar.TabBarItem()
 			{
-				Header = null,
+				Header = GetInitialTabHeader(tabViewItemArgs),
 				IconSource = null,
-				Description = null,
-				ToolTipText = null
+				Description = GetInitialTabHeader(tabViewItemArgs),
+				ToolTipText = tabViewItemArgs as string
 			};
 
 			tabItem.NavigationParameter = new TabBarItemParameter()
@@ -105,13 +105,32 @@ namespace Files.App.Helpers
 
 			tabItem.ContentChanged += Control_ContentChanged;
 
-			await UpdateTabInfoAsync(tabItem, tabViewItemArgs);
-
 			var index = atIndex == -1 ? MainPageViewModel.AppInstances.Count : atIndex;
 			MainPageViewModel.AppInstances.Insert(index, tabItem);
 
 			if (switchToNewTab)
 				App.AppModel.TabStripSelectedIndex = index;
+
+			await SafetyExtensions.IgnoreExceptions(() => UpdateTabInfoAsync(tabItem, tabViewItemArgs), App.Logger);
+		}
+
+		private static string GetInitialTabHeader(object? navigationArg)
+		{
+			if (navigationArg is PaneNavigationArguments panes)
+			{
+				if (!string.IsNullOrEmpty(panes.LeftPaneNavPathParam) && !string.IsNullOrEmpty(panes.RightPaneNavPathParam))
+					return $"{GetInitialTabHeader(panes.LeftPaneNavPathParam)} | {GetInitialTabHeader(panes.RightPaneNavPathParam)}";
+				return GetInitialTabHeader(panes.LeftPaneNavPathParam ?? panes.RightPaneNavPathParam);
+			}
+
+			return navigationArg switch
+			{
+				null or "" or "Home" => Strings.Home.GetLocalizedResource(),
+				"Settings" => Strings.Settings.GetLocalizedResource(),
+				"ReleaseNotes" => Strings.ReleaseNotes.GetLocalizedResource(),
+				string path => Path.GetFileName(path.TrimEnd('\\', '/')) is { Length: > 0 } name ? name : path,
+				_ => string.Empty,
+			};
 		}
 
 		private static async Task UpdateTabInfoAsync(TabBarItem tabItem, object? navigationArg)
@@ -145,7 +164,7 @@ namespace Files.App.Helpers
 			}
 
 			// Don't update tabItem if the contents of the tab have already changed
-			if (result.Item1 is not null)
+			if (result.Item1 is not null && tabItem.ContentFrame is not null)
 			{
 				var navigationParameter = tabItem.NavigationParameter?.NavigationParameter
 					?? throw new InvalidOperationException("The tab does not have a navigation parameter.");

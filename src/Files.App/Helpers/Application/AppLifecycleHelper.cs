@@ -76,7 +76,6 @@ namespace Files.App.Helpers
 				? appEnvironment
 				: AppEnvironment.Dev;
 
-
 		/// <summary>
 		/// Gets application package version.
 		/// </summary>
@@ -113,34 +112,30 @@ namespace Files.App.Helpers
 			{
 				await SafetyExtensions.IgnoreExceptions(() => Task.WhenAll(
 					App.QuickAccessManager.InitializeAsync(),
-					OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
+					OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync, generalSettingsService.ShowCloudDrivesSection),
 					App.LibraryManager.UpdateLibrariesAsync(),
-					OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
-					OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
+					OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync, generalSettingsService.ShowWslSection),
+					OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync, generalSettingsService.ShowFileTagsSection),
 					jumpListService.InitializeAsync()
 				), App.Logger);
 
-				//Start the tasks separately to reduce resource contention
 				await SafetyExtensions.IgnoreExceptions(() => Task.WhenAll(
 					addItemService.InitializeAsync(),
 					ContextMenu.WarmUpQueryContextMenuAsync()
 				), App.Logger);
 			});
 
-			_ = Task.Run(FileTagsHelper.UpdateTagsDb);
-
 			_ = Task.Run(async () =>
 			{
 				// The follwing method invokes UI thread, so we run it in a separate task
 				await CheckAppUpdate();
 
-				await PeriodicallyCheckForUpdatesAsync();
 			});
 
-			static Task OptionalTaskAsync(Task task, bool condition)
+			static Task OptionalTaskAsync(Func<Task> task, bool condition)
 			{
 				if (condition)
-					return task;
+					return task();
 
 				return Task.CompletedTask;
 			}
@@ -181,31 +176,6 @@ namespace Files.App.Helpers
 
 			if (IsAppUpdated)
 				await updateService.CheckAndUpdateFilesLauncherAsync();
-		}
-
-		/// <summary>
-		/// Periodically re-checks for updates while the app keeps running.
-		/// </summary>
-		public static async Task PeriodicallyCheckForUpdatesAsync()
-		{
-			var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
-
-			var interval = AppEnvironment is AppEnvironment.SideloadPreview or AppEnvironment.StorePreview
-				? TimeSpan.FromHours(2)
-				: TimeSpan.FromHours(5);
-
-			using var timer = new PeriodicTimer(interval);
-			while (await timer.WaitForNextTickAsync())
-			{
-				if (updateService.IsUpdateAvailable)
-					break;
-
-				// CheckForUpdatesAsync resets IsUpdateAvailable, so skip while a download is in progress
-				if (updateService.IsUpdating)
-					continue;
-
-				await updateService.CheckForUpdatesAsync();
-			}
 		}
 
 		/// <summary>
@@ -407,7 +377,7 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Saves saves all opened tabs to the app cache.
+		/// Saves the open tabs and selected index to the shared settings.
 		/// </summary>
 		public static void SaveSessionTabs()
 		{

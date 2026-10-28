@@ -25,7 +25,6 @@ namespace Files.App.ViewModels
 		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 		private INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private IResourcesService ResourcesService { get; } = Ioc.Default.GetRequiredService<IResourcesService>();
 		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		public ShelfViewModel ShelfViewModel { get; } = Ioc.Default.GetRequiredService<ShelfViewModel>();
 
@@ -246,11 +245,13 @@ namespace Files.App.ViewModels
 			var ignoreStartupSettings = false;
 			if (parameter is MainPageNavigationArguments mainPageNavigationArguments)
 			{
+				if (mainPageNavigationArguments.DeferInitialization)
+					return;
 				parameter = mainPageNavigationArguments.Parameter;
 				ignoreStartupSettings = mainPageNavigationArguments.IgnoreStartupSettings;
 			}
 
-			// Re-arm the signal when tabs load again after closing to the background
+			// Reset the signal when tabs are loaded again.
 			if (startupTabsTcs.Task.IsCompleted)
 				startupTabsTcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -261,7 +262,8 @@ namespace Files.App.ViewModels
 					try
 					{
 						// add last session tabs to closed tabs stack if those tabs are not about to be opened
-						if (!UserSettingsService.AppSettingsService.RestoreTabsOnStartup && !UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp && UserSettingsService.GeneralSettingsService.LastSessionTabList != null)
+						if (App.CanRestorePreviousSession && !UserSettingsService.AppSettingsService.RestoreTabsOnStartup &&
+							!UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp && UserSettingsService.GeneralSettingsService.LastSessionTabList != null)
 						{
 							var items = UserSettingsService.GeneralSettingsService.LastSessionTabList
 								.Where(tab => !string.IsNullOrEmpty(tab))
@@ -291,7 +293,12 @@ namespace Files.App.ViewModels
 							UserSettingsService.GeneralSettingsService.LastSessionTabList is not null)
 						{
 							if (AppInstances.Count == 0)
-								await RestoreSessionTabsAsync(UserSettingsService.GeneralSettingsService.LastSessionTabList);
+							{
+								if (App.CanRestorePreviousSession)
+									await RestoreSessionTabsAsync(UserSettingsService.GeneralSettingsService.LastSessionTabList);
+								else
+									await NavigationHelpers.AddNewTabAsync();
+							}
 						}
 						else
 						{
@@ -315,7 +322,7 @@ namespace Files.App.ViewModels
 								foreach (string path in UserSettingsService.GeneralSettingsService.TabsOnStartupList)
 									await NavigationHelpers.AddNewTabByPathAsync(typeof(ShellPanesPage), path, true);
 							}
-							else if (UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
+							else if (App.CanRestorePreviousSession && UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
 								UserSettingsService.GeneralSettingsService.LastSessionTabList is not null &&
 								AppInstances.Count == 0)
 							{
@@ -337,9 +344,6 @@ namespace Files.App.ViewModels
 			{
 				startupTabsTcs.TrySetResult();
 			}
-
-			// Load the app theme resources
-			ResourcesService.LoadAppResources(AppearanceSettingsService);
 
 			await Task.WhenAll(
 				DrivesViewModel.UpdateDrivesAsync(),
