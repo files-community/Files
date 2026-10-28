@@ -7,13 +7,6 @@ namespace Files.App.Data.Contexts
 	{
 		private readonly IMultiPanesContext context = Ioc.Default.GetRequiredService<IMultiPanesContext>();
 		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
-		private readonly ILayoutSettingsService layoutSettingsService = Ioc.Default.GetRequiredService<ILayoutSettingsService>();
-
-		public bool IsLayoutAdaptiveEnabled => !layoutSettingsService.SyncFolderPreferencesAcrossDirectories;
-
-		private LayoutTypes _DisplayedLayoutType = LayoutTypes.None;
-		public LayoutTypes DisplayedLayoutType => _DisplayedLayoutType;
-
 		private LayoutTypes _LayoutType = LayoutTypes.None;
 		public LayoutTypes LayoutType
 		{
@@ -27,22 +20,19 @@ namespace Files.App.Data.Contexts
 				switch (value)
 				{
 					case LayoutTypes.Details:
-						viewModel.ToggleLayoutModeDetailsView(true);
+						viewModel.ToggleLayoutModeDetailsView();
 						break;
 					case LayoutTypes.List:
-						viewModel.ToggleLayoutModeList(true);
+						viewModel.ToggleLayoutModeList();
 						break;
 					case LayoutTypes.Cards:
-						viewModel.ToggleLayoutModeCards(true);
+						viewModel.ToggleLayoutModeCards();
 						break;
 					case LayoutTypes.Grid:
-						viewModel.ToggleLayoutModeGridView(true);
+						viewModel.ToggleLayoutModeGridView();
 						break;
 					case LayoutTypes.Columns:
-						viewModel.ToggleLayoutModeColumnView(true);
-						break;
-					case LayoutTypes.Adaptive:
-						viewModel.ToggleLayoutModeAdaptive();
+						viewModel.ToggleLayoutModeColumnView();
 						break;
 				}
 			}
@@ -131,7 +121,6 @@ namespace Files.App.Data.Contexts
 		{
 			context.ActivePaneChanging += Context_Changing;
 			context.ActivePaneChanged += Context_Changed;
-			layoutSettingsService.PropertyChanged += Settings_PropertyChanged;
 		}
 
 		private void Context_Changing(object? sender, EventArgs e)
@@ -158,9 +147,7 @@ namespace Files.App.Data.Contexts
 			switch (e.PropertyName)
 			{
 				case nameof(LayoutPreferencesManager.LayoutMode):
-				case nameof(LayoutPreferencesManager.IsAdaptiveLayoutEnabled):
 					SetProperty(ref _LayoutType, GetLayoutType(), nameof(LayoutType));
-					SetProperty(ref _DisplayedLayoutType, GetDisplayedLayoutType(), nameof(DisplayedLayoutType));
 					break;
 				case nameof(LayoutPreferencesManager.DirectorySortOption):
 					SetProperty(ref _SortOption, viewModel.DirectorySortOption, nameof(SortOption));
@@ -186,22 +173,12 @@ namespace Files.App.Data.Contexts
 			}
 		}
 
-		private void Settings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName is nameof(ILayoutSettingsService.SyncFolderPreferencesAcrossDirectories))
-			{
-				OnPropertyChanged(nameof(IsLayoutAdaptiveEnabled));
-				SetProperty(ref _LayoutType, GetLayoutType(), nameof(LayoutType));
-			}
-		}
-
 		private void Update()
 		{
 			var viewModel = FolderSettings;
 			if (viewModel is null)
 			{
 				SetProperty(ref _LayoutType, LayoutTypes.None, nameof(LayoutType));
-				SetProperty(ref _DisplayedLayoutType, LayoutTypes.None, nameof(DisplayedLayoutType));
 				SetProperty(ref _SortOption, SortOption.Name, nameof(SortOption));
 				SetProperty(ref _SortDirection, SortDirection.Ascending, nameof(SortDirection));
 				SetProperty(ref _GroupOption, GroupOption.None, nameof(GroupOption));
@@ -211,7 +188,6 @@ namespace Files.App.Data.Contexts
 			else
 			{
 				SetProperty(ref _LayoutType, GetLayoutType(), nameof(LayoutType));
-				SetProperty(ref _DisplayedLayoutType, GetDisplayedLayoutType(), nameof(DisplayedLayoutType));
 				SetProperty(ref _SortOption, viewModel.DirectorySortOption, nameof(SortOption));
 				SetProperty(ref _SortDirection, viewModel.DirectorySortDirection, nameof(SortDirection));
 				SetProperty(ref _GroupOption, viewModel.DirectoryGroupOption, nameof(GroupOption));
@@ -223,19 +199,6 @@ namespace Files.App.Data.Contexts
 		}
 
 		private LayoutTypes GetLayoutType()
-		{
-			var viewModel = FolderSettings;
-			if (viewModel is null)
-				return LayoutTypes.None;
-
-			bool isAdaptive = IsLayoutAdaptiveEnabled && viewModel.IsAdaptiveLayoutEnabled && !viewModel.IsLayoutModeFixed;
-			if (isAdaptive)
-				return LayoutTypes.Adaptive;
-
-			return GetDisplayedLayoutType();
-		}
-
-		private LayoutTypes GetDisplayedLayoutType()
 		{
 			var viewModel = FolderSettings;
 			if (viewModel is null)

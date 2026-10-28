@@ -202,6 +202,10 @@ BHID_EnumItems
 BHID_SFViewObject
 IShellView
 FOLDERID_RecycleBinFolder
+FOLDERID_Downloads
+FOLDERID_Pictures
+FOLDERID_Videos
+FOLDERID_Music
 CoTaskMemFree
 SHGetIDListFromObject
 SHCreateItemFromIDList
