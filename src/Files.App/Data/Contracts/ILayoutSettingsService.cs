@@ -6,11 +6,6 @@ namespace Files.App.Data.Contracts
 	public interface ILayoutSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
 		/// <summary>
-		/// Sync folder preferences across all directories
-		/// </summary>
-		bool SyncFolderPreferencesAcrossDirectories { get; set; }
-
-		/// <summary>
 		/// Gets or sets the layout templates, or null for the built-in templates.
 		/// </summary>
 		List<LayoutTemplate>? LayoutTemplates { get; set; }

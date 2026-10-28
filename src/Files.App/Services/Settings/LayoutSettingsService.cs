@@ -11,12 +11,6 @@ namespace Files.App.Services.Settings
 			RegisterSettingsContext(settingsSharingContext);
 		}
 
-		public bool SyncFolderPreferencesAcrossDirectories
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
 		public List<LayoutTemplate>? LayoutTemplates
 		{
 			get => Get<List<LayoutTemplate>>(null);
