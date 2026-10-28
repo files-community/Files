@@ -78,7 +78,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					return;
 
 				var refreshVersion = ++_refreshVersion;
-				var folders = await Server.PinnedFoldersService.GetPinnedFoldersAsync();
+				var folders = (await Server.PinnedFoldersService.GetPinnedFoldersAsync())?.ToArray();
 
 				if (isDisposed || refreshVersion != _refreshVersion || folders is null)
 					return;
@@ -107,16 +107,25 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					return;
 				}
 
-				foreach (var item in Items)
-					item.Dispose();
-
-				Items.Clear();
-
+				var replacements = new List<WidgetFolderCardItem>();
 				foreach (var folder in folders)
 				{
-					using var shellItem = ShellItem.Open(new ShellPidl(folder.Pidl));
-					Items.Add(new WidgetFolderCardItem(new WindowsFolder(shellItem.IShellItem), folder.Name, folder.ParsingPath, folder.IsPinned, folder.Tooltip));
+					SafetyExtensions.IgnoreExceptions(() =>
+					{
+						var name = folder.Name;
+						var path = folder.ParsingPath;
+						var isPinned = folder.IsPinned;
+						var tooltip = folder.Tooltip;
+						using var shellItem = ShellItem.Open(new ShellPidl(folder.Pidl));
+						replacements.Add(new WidgetFolderCardItem(new WindowsFolder(shellItem.IShellItem), name, path, isPinned, tooltip));
+					}, App.Logger);
 				}
+
+				foreach (var item in Items)
+					item.Dispose();
+				Items.Clear();
+				foreach (var item in replacements)
+					Items.Add(item);
 			});
 		}
 

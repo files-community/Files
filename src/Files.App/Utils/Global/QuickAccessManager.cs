@@ -26,7 +26,7 @@ namespace Files.App.Utils
 		private async void OnServerChanged(object? sender, string name)
 		{
 			if (name == ServerChangeNames.PinnedFolders)
-				await SafetyExtensions.IgnoreExceptions(Model.LoadAsync, App.Logger);
+				await SafetyExtensions.IgnoreExceptions(Model.ReloadAsync, App.Logger);
 		}
 
 		public async Task InitializeAsync()

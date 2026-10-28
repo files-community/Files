@@ -3,16 +3,16 @@
 
 using Files.Storage;
 using Microsoft.Extensions.Logging;
-using System.IO.Enumeration;
+using System.Security.Principal;
 
 namespace Files.App.Server;
 
 internal static class CatalogWatchers
 {
-	private static readonly List<FileSystemWatcher> watchers = [];
+	private static readonly List<DirectoryChangeMonitor> watchers = [];
 	private static readonly Lazy<bool> initialized = new(Start);
 	private static readonly Lock recycleBinGate = new();
-	private static Files.Storage.ITrashWatcher? recycleBin;
+	private static readonly List<DirectoryChangeMonitor> recycleBins = [];
 	private static bool stopped;
 
 	internal static void Initialize() => _ = initialized.Value;
@@ -52,27 +52,43 @@ internal static class CatalogWatchers
 		{
 			if (stopped)
 				return;
-			recycleBin?.Dispose();
-#pragma warning disable CS0612 // Retain the existing Recycle Bin watcher implementation.
-			recycleBin = SafetyExtensions.IgnoreExceptions(() => new RecycleBinWatcher(), Program.Logger);
-#pragma warning restore CS0612
-			if (recycleBin is not null)
+			foreach (var watcher in recycleBins)
+				watcher.Dispose();
+			recycleBins.Clear();
+			using var identity = WindowsIdentity.GetCurrent();
+			var sid = identity.User?.Value;
+			if (!string.IsNullOrEmpty(sid))
 			{
-				recycleBin.ItemAdded += OnRecycleBinChanged;
-				recycleBin.ItemDeleted += OnRecycleBinChanged;
-				recycleBin.ItemChanged += OnRecycleBinChanged;
-				recycleBin.ItemRenamed += OnRecycleBinChanged;
-				recycleBin.RefreshRequested += OnRecycleBinRefreshRequested;
+				foreach (var drive in System.IO.DriveInfo.GetDrives())
+				{
+					if (drive.DriveType == System.IO.DriveType.Network)
+						continue;
+					var watcher = SafetyExtensions.IgnoreExceptions(() => new DirectoryChangeMonitor(
+						Path.Combine(drive.Name, "$RECYCLE.BIN", sid), "*", false, OnRecycleBinChanged), Program.Logger);
+					if (watcher is not null)
+						recycleBins.Add(watcher);
+				}
 			}
 			RecycleBinCatalog.RecordChange(new FileSystemEventArgs(WatcherChangeTypes.All, string.Empty, string.Empty), refresh: true);
 		}
 	}
 
-	private static void OnRecycleBinChanged(object? sender, FileSystemEventArgs e)
-		=> RecycleBinCatalog.RecordChange(e, refresh: false);
-
-	private static void OnRecycleBinRefreshRequested(object? sender, FileSystemEventArgs e)
-		=> RecycleBinCatalog.RecordChange(e, refresh: true);
+	private static void OnRecycleBinChanged(FileSystemEventArgs e)
+	{
+		if (e.ChangeType == WatcherChangeTypes.All)
+			RecycleBinCatalog.RecordChange(e, refresh: true);
+		else if (e.ChangeType is WatcherChangeTypes.Created or WatcherChangeTypes.Deleted && !string.IsNullOrEmpty(e.Name))
+		{
+			if (e.Name.StartsWith("$I", StringComparison.Ordinal))
+			{
+				// Availability depends on metadata files, but they aren't items to display in the view.
+				RecycleBinCatalog.Invalidate();
+				ServerEvents.Notify(ServerChangeNames.RecycleBin);
+			}
+			else
+				RecycleBinCatalog.RecordChange(e, refresh: false);
+		}
+	}
 
 	private static void Watch(string directory, string filter, Action changed)
 	{
@@ -80,37 +96,7 @@ internal static class CatalogWatchers
 			return;
 		try
 		{
-			var existing = directory;
-			while (!Directory.Exists(existing))
-			{
-				existing = Path.GetDirectoryName(existing);
-				if (string.IsNullOrEmpty(existing))
-					return;
-			}
-			var watcher = new FileSystemWatcher(existing, existing == directory ? filter : "*")
-			{
-				IncludeSubdirectories = true,
-				NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.LastWrite,
-			};
-			bool Relevant(string path) => path.Equals(directory, StringComparison.OrdinalIgnoreCase)
-				|| (path.StartsWith(directory.TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)
-					&& FileSystemName.MatchesSimpleExpression(filter, Path.GetFileName(path), ignoreCase: true));
-			void OnChanged(object sender, FileSystemEventArgs e)
-			{
-				if (Relevant(e.FullPath))
-					changed();
-			}
-			watcher.Changed += OnChanged;
-			watcher.Created += OnChanged;
-			watcher.Deleted += OnChanged;
-			watcher.Renamed += (_, e) =>
-			{
-				if (Relevant(e.FullPath) || Relevant(e.OldFullPath))
-					changed();
-			};
-			watcher.Error += (_, _) => changed();
-			watcher.EnableRaisingEvents = true;
-			watchers.Add(watcher);
+			watchers.Add(new DirectoryChangeMonitor(directory, filter, true, _ => changed()));
 		}
 		catch (Exception ex)
 		{
@@ -125,8 +111,9 @@ internal static class CatalogWatchers
 		lock (recycleBinGate)
 		{
 			stopped = true;
-			recycleBin?.Dispose();
-			recycleBin = null;
+			foreach (var watcher in recycleBins)
+				watcher.Dispose();
+			recycleBins.Clear();
 		}
 	}
 }

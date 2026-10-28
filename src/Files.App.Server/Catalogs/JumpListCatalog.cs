@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Resources.Core;
+using Windows.Globalization;
 using Windows.UI.StartScreen;
 using Windows.Win32;
 
@@ -37,7 +39,8 @@ internal static class JumpListCatalog
 			using var item = ShellPath.Open(path);
 			return item.Name ?? Path.GetFileName(path.TrimEnd('\\'));
 		}, Program.Logger);
-		await ModifyAsync(list => Add(list, path, name ?? path, RecentGroup));
+		var fallback = Path.GetFileName(path.TrimEnd('\\', '/'));
+		await ModifyAsync(list => Add(list, path, name ?? (string.IsNullOrEmpty(fallback) ? path : fallback), RecentGroup));
 	}
 
 	internal static Task RemoveAsync(string path) => ModifyAsync(list =>
@@ -55,6 +58,20 @@ internal static class JumpListCatalog
 
 	private static void Add(JumpList list, string path, string name, string group)
 	{
+		var resource = GetNameResource(path);
+		if (resource is not null)
+		{
+			if (resource is "Desktop" or "Downloads")
+				name = $"ms-resource:///Resources/{resource}";
+			else
+			{
+				var context = new ResourceContext();
+				var language = ApplicationLanguages.PrimaryLanguageOverride;
+				if (!string.IsNullOrEmpty(language))
+					context.Languages = new[] { language };
+				name = ResourceManager.Current.MainResourceMap.GetValue($"Resources/{resource}", context).ValueAsString;
+			}
+		}
 		if (path.EndsWith('\\'))
 			path += '?';
 		if (Path.GetExtension(path).Equals(".library-ms", StringComparison.OrdinalIgnoreCase))
@@ -77,6 +94,22 @@ internal static class JumpListCatalog
 		}
 		else
 			list.Items.Insert(list.Items.Count(old => old.GroupName == PinnedGroup), item);
+	}
+
+	private static string? GetNameResource(string path)
+	{
+		if (path.StartsWith(@"\\SHELL\", StringComparison.OrdinalIgnoreCase) || path.Equals("Shell:MyComputerFolder", StringComparison.OrdinalIgnoreCase))
+			return "ThisPC";
+		if (path.Equals("Shell:NetworkPlacesFolder", StringComparison.OrdinalIgnoreCase))
+			return "Network";
+		if (path.Equals("Shell:RecycleBinFolder", StringComparison.OrdinalIgnoreCase))
+			return "RecycleBin";
+		var userPaths = Windows.Storage.UserDataPaths.GetDefault();
+		if (path.Equals(userPaths.Desktop, StringComparison.OrdinalIgnoreCase))
+			return "Desktop";
+		if (path.Equals(userPaths.Downloads, StringComparison.OrdinalIgnoreCase))
+			return "Downloads";
+		return null;
 	}
 
 	private static async Task ModifyAsync(Action<JumpList> action, bool save = true)

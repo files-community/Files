@@ -16,7 +16,8 @@ namespace Files.App.Services
 	public class StorageTrashBinService : IStorageTrashBinService
 	{
 		/// <inheritdoc/>
-		public Files.Storage.ITrashWatcher Watcher { get; } = new ServerTrashWatcher();
+		public Files.Storage.ITrashWatcher Watcher => watcher;
+		private readonly ServerTrashWatcher watcher = new();
 
 		public event EventHandler? StateChanged;
 		private bool hasItems;
@@ -24,11 +25,7 @@ namespace Files.App.Services
 
 		public StorageTrashBinService()
 		{
-			Watcher.RefreshRequested += (_, _) => QueueRefresh();
-			Watcher.ItemAdded += (_, _) => QueueRefresh();
-			Watcher.ItemDeleted += (_, _) => QueueRefresh();
-			Watcher.ItemChanged += (_, _) => QueueRefresh();
-			Watcher.ItemRenamed += (_, _) => QueueRefresh();
+			watcher.BatchReceived += (_, _) => QueueRefresh();
 			QueueRefresh();
 		}
 
@@ -40,9 +37,10 @@ namespace Files.App.Services
 				{
 					var version = ++refreshVersion;
 					var value = await Server.RecycleBinService.HasRecycleBinItemsAsync();
-					if (version != refreshVersion || hasItems == value)
+					if (version != refreshVersion)
 						return;
 					hasItems = value;
+					// Size consumers also need notification when availability stays the same.
 					StateChanged?.Invoke(this, EventArgs.Empty);
 				}, App.Logger);
 			});
