@@ -1,9 +1,9 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Windows.Win32.UI.WindowsAndMessaging;
 
-namespace Files.App.Data.Items
+namespace Files.Storage
 {
 	public enum HBITMAP_HMENU : long
 	{

@@ -4,7 +4,7 @@
 using System.Collections;
 using Windows.Win32.UI.Shell;
 
-namespace Files.App.Utils.Shell
+namespace Files.Storage
 {
 	/// <summary>Represents the child folders contained in a Shell library.</summary>
 	[WinRT.GeneratedWinRTExposedType]

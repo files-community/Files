@@ -5,7 +5,7 @@ using Microsoft.Win32;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
 using static Files.App.Helpers.LayoutPreferencesDatabaseItemRegistry;
-using static Files.App.Helpers.RegistryHelpers;
+using static Files.Storage.RegistryHelpers;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Files.App.Helpers

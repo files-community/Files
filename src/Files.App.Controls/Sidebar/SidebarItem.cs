@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 using System.Collections.Specialized;
 using System.IO;
+using System.Runtime.InteropServices;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using WinRT;
@@ -17,6 +18,7 @@ namespace Files.App.Controls
 	public sealed partial class SidebarItem : Control
 	{
 		private const double DROP_REPOSITION_THRESHOLD = 0.2; // Percentage of top/bottom at which we consider a drop to be a reposition/insertion
+		private const long DRAG_SESSION_TIMEOUT_MS = 500;
 
 		public bool HasChildren => (Item?.Children is IList enumerable && enumerable.Count > 0) || (Item?.HasUnrealizedChildren ?? false);
 		public bool IsGroupHeader => Item?.Children is not null;
@@ -32,6 +34,8 @@ namespace Files.App.Controls
 		private bool isTemplateWired;
 		private DispatcherQueueTimer? dragOverTimer;
 		private DispatcherQueueTimer? dragOverExpandTimer;
+		private bool isInDragVisualState;
+		private bool maskNextDragOverFrame = true;
 
 		public SidebarItem()
 		{
@@ -57,6 +61,7 @@ namespace Files.App.Controls
 				}
 			};
 			DragStarting += SidebarItem_DragStarting;
+			DropCompleted += SidebarItem_DropCompleted;
 
 			Loaded += SidebarItem_Loaded;
 		}
@@ -135,7 +140,17 @@ namespace Files.App.Controls
 			UpdateFlyoutChildrenSource();
 			UpdateExpansionState();
 			ReevaluateSelection();
-			CanDrag = Item?.Path is string path && Path.IsPathRooted(path);
+
+			if (Item is not null)
+			{
+				CanDrag = IsDraggablePath(Item.Path);
+				UseReorderDrop = !IsGroupHeader && CanDrag && Item.CanReorder;
+			}
+			else
+			{
+				CanDrag = false;
+				UseReorderDrop = false;
+			}
 		}
 
 		private void UpdateItemPresentation()
@@ -254,32 +269,60 @@ namespace Files.App.Controls
 			}
 		}
 
+		private static bool IsDraggablePath(string? path)
+			=> path is not null &&
+				(Path.IsPathRooted(path) ||
+				path.StartsWith("Shell:", StringComparison.OrdinalIgnoreCase) ||
+				path.StartsWith("::{", StringComparison.Ordinal));
+
 		private void SidebarItem_DragStarting(UIElement sender, DragStartingEventArgs args)
 		{
-			if (Item?.Path is not string dragPath || !Path.IsPathRooted(dragPath))
+			if (Item?.Path is not string dragPath || !IsDraggablePath(dragPath))
 				return;
 
-			args.Data.SetData(StandardDataFormats.Text, dragPath);
-			args.Data.RequestedOperation = DataPackageOperation.Move | DataPackageOperation.Copy | DataPackageOperation.Link;
-			args.Data.SetDataProvider(StandardDataFormats.StorageItems, async request =>
+			if (Owner is not null)
+				Owner.IsReorderDragActive = UseReorderDrop;
+
+			try
 			{
-				var deferral = request.GetDeferral();
-				try
+				args.Data.SetData(StandardDataFormats.Text, dragPath);
+				args.Data.RequestedOperation = DataPackageOperation.Move | DataPackageOperation.Copy | DataPackageOperation.Link;
+				args.Data.SetDataProvider(StandardDataFormats.StorageItems, async request =>
 				{
-					if (Directory.Exists(dragPath))
+					DataProviderDeferral? deferral = null;
+					try
 					{
-						var folder = await StorageFolder.GetFolderFromPathAsync(dragPath);
-						request.SetData(new IStorageItem[] { folder });
+						deferral = request.GetDeferral();
+						if (Directory.Exists(dragPath))
+						{
+							var folder = await StorageFolder.GetFolderFromPathAsync(dragPath);
+							request.SetData(new IStorageItem[] { folder });
+						}
 					}
-				}
-				catch
-				{
-				}
-				finally
-				{
-					deferral.Complete();
-				}
-			});
+					catch (COMException)
+					{
+					}
+					finally
+					{
+						try
+						{
+							deferral?.Complete();
+						}
+						catch (COMException)
+						{
+						}
+					}
+				});
+			}
+			catch (COMException)
+			{
+			}
+		}
+
+		private void SidebarItem_DropCompleted(UIElement sender, DropCompletedEventArgs args)
+		{
+			if (Owner is not null)
+				Owner.IsReorderDragActive = false;
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
@@ -459,19 +502,23 @@ namespace Files.App.Controls
 
 		private void UpdatePointerState(bool isPointerDown = false)
 		{
+			if (isInDragVisualState)
+				return;
+
+			VisualStateManager.GoToState(this, "DragInsertNone", false);
+			VisualStateManager.GoToState(this, GetPointerStateName(isPointerDown), false);
+		}
+
+		private string GetPointerStateName(bool isPointerDown = false)
+		{
 			var useSelectedState = ShouldShowSelectionIndicator();
 			if (isPointerDown)
-			{
-				VisualStateManager.GoToState(this, useSelectedState ? "PressedSelected" : "Pressed", false);
-			}
-			else if (isPointerOver)
-			{
-				VisualStateManager.GoToState(this, useSelectedState ? "PointerOverSelected" : "PointerOver", false);
-			}
-			else
-			{
-				VisualStateManager.GoToState(this, useSelectedState ? "NormalSelected" : "Normal", false);
-			}
+				return useSelectedState ? "PressedSelected" : "Pressed";
+
+			if (isPointerOver)
+				return useSelectedState ? "PointerOverSelected" : "PointerOver";
+
+			return useSelectedState ? "NormalSelected" : "Normal";
 		}
 
 		private void UpdateExpansionState()
@@ -503,6 +550,7 @@ namespace Files.App.Controls
 		private void ItemBorder_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
 			isPointerOver = true;
+			isInDragVisualState = false;
 			UpdatePointerState();
 		}
 
@@ -549,27 +597,75 @@ namespace Files.App.Controls
 
 		private async void ItemBorder_DragOver(object sender, DragEventArgs e)
 		{
-			var insertsAbove = DetermineDropTargetPosition(e);
-			if (insertsAbove == SidebarItemDropPosition.Center)
+			DragOperationDeferral? deferral = null;
+			try
 			{
-				VisualStateManager.GoToState(this, "DragOnTop", true);
+				deferral = e.GetDeferral();
 			}
-			else if (insertsAbove == SidebarItemDropPosition.Top)
+			catch (COMException)
 			{
-				VisualStateManager.GoToState(this, "DragInsertAbove", true);
-			}
-			else if (insertsAbove == SidebarItemDropPosition.Bottom)
-			{
-				VisualStateManager.GoToState(this, "DragInsertBelow", true);
 			}
 
-			Owner?.RaiseItemDragOver(this, insertsAbove, e);
+			try
+			{
+				var dropPosition = DetermineDropTargetPosition(e);
 
+				if (Owner is not null)
+					await Owner.RaiseItemDragOver(this, dropPosition, e);
+
+				var isFirstFrameMasked = ConsumeFirstDragFrameMask();
+				var isAccepted = !isFirstFrameMasked && IsDragAccepted(e);
+
+				UpdateDragHoverTimers(dropPosition, isAccepted);
+				UpdateDragVisualState(dropPosition, isAccepted);
+			}
+			catch (COMException)
+			{
+			}
+			finally
+			{
+				try
+				{
+					deferral?.Complete();
+				}
+				catch (COMException)
+				{
+				}
+			}
+		}
+
+		private static bool IsDragAccepted(DragEventArgs e)
+		{
+			try
+			{
+				return e.Handled && e.AcceptedOperation != DataPackageOperation.None;
+			}
+			catch (COMException)
+			{
+				return false;
+			}
+		}
+
+		private bool ConsumeFirstDragFrameMask()
+		{
+			var now = Environment.TickCount64;
+			var isSessionWarm = Owner is not null && now - Owner.LastDragOverTick < DRAG_SESSION_TIMEOUT_MS;
+			if (Owner is not null)
+				Owner.LastDragOverTick = now;
+
+			var isMasked = maskNextDragOverFrame && !isSessionWarm;
+			maskNextDragOverFrame = false;
+			return isMasked;
+		}
+
+		private void UpdateDragHoverTimers(SidebarItemDropPosition dropPosition, bool isAccepted)
+		{
 			var openDelay = Owner?.HoverToOpenDelay ?? TimeSpan.Zero;
 			var expandDelay = Owner?.HoverToExpandDelay ?? TimeSpan.Zero;
-			var isCenter = insertsAbove == SidebarItemDropPosition.Center;
-			var canHoverOpen = openDelay > TimeSpan.Zero && isCenter && Item is not null && (!IsGroupHeader || Item.IsLeafWithChildren);
+			var isCenter = dropPosition == SidebarItemDropPosition.Center;
+			var canHoverOpen = openDelay > TimeSpan.Zero && isCenter && isAccepted && !IsSelected && Item is not null && (!IsGroupHeader || Item.IsLeafWithChildren);
 			var canHoverExpand = expandDelay > TimeSpan.Zero && isCenter && HasChildren && CollapseEnabled;
+
 			if (canHoverExpand)
 			{
 				dragOverExpandTimer ??= DispatcherQueue.CreateTimer();
@@ -586,6 +682,7 @@ namespace Files.App.Controls
 			{
 				dragOverExpandTimer?.Stop();
 			}
+
 			if (canHoverOpen)
 			{
 				dragOverTimer ??= DispatcherQueue.CreateTimer();
@@ -604,6 +701,28 @@ namespace Files.App.Controls
 			}
 		}
 
+		private void UpdateDragVisualState(SidebarItemDropPosition dropPosition, bool isAccepted)
+		{
+			if (!isAccepted)
+			{
+				isInDragVisualState = false;
+				UpdatePointerState();
+				return;
+			}
+
+			isInDragVisualState = true;
+			if (dropPosition == SidebarItemDropPosition.Center)
+			{
+				VisualStateManager.GoToState(this, "DragInsertNone", true);
+				VisualStateManager.GoToState(this, "DragOnTop", true);
+			}
+			else
+			{
+				VisualStateManager.GoToState(this, GetPointerStateName(), false);
+				VisualStateManager.GoToState(this, dropPosition == SidebarItemDropPosition.Top ? "DragInsertAbove" : "DragInsertBelow", true);
+			}
+		}
+
 		private void ItemBorder_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
 		{
 			Owner?.RaiseContextRequested(this, args.TryGetPosition(this, out var point) ? point : default);
@@ -614,6 +733,8 @@ namespace Files.App.Controls
 		{
 			dragOverTimer?.Stop();
 			dragOverExpandTimer?.Stop();
+			isInDragVisualState = false;
+			maskNextDragOverFrame = true;
 			UpdatePointerState();
 		}
 
@@ -621,8 +742,18 @@ namespace Files.App.Controls
 		{
 			dragOverTimer?.Stop();
 			dragOverExpandTimer?.Stop();
+			isInDragVisualState = false;
+			maskNextDragOverFrame = true;
 			UpdatePointerState();
-			Owner?.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
+
+			var dropPosition = DetermineDropTargetPosition(e);
+			if (Owner is not null)
+			{
+				Owner.LastDragOverTick = 0;
+				Owner.IsReorderDragActive = false;
+			}
+
+			Owner?.RaiseItemDropped(this, dropPosition, e);
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(Grid))]
@@ -633,6 +764,11 @@ namespace Files.App.Controls
 				if (GetTemplateChild("ElementGrid") is Grid grid)
 				{
 					var position = args.GetPosition(grid);
+
+					// Reorder drags have no center zone so they can never drop into a folder
+					if (Owner?.IsReorderDragActive is true)
+						return position.Y < grid.ActualHeight / 2 ? SidebarItemDropPosition.Top : SidebarItemDropPosition.Bottom;
+
 					if (position.Y < grid.ActualHeight * DROP_REPOSITION_THRESHOLD)
 					{
 						return SidebarItemDropPosition.Top;

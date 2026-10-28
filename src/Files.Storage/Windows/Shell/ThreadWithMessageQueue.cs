@@ -3,7 +3,7 @@
 
 using System.Collections.Concurrent;
 
-namespace Files.App.Utils.Shell
+namespace Files.Storage
 {
 	public sealed partial class ThreadWithMessageQueue : Disposable
 	{
@@ -75,7 +75,14 @@ namespace Files.App.Utils.Shell
 
 			public void Invoke()
 			{
-				taskCompletionSource.SetResult(payload());
+				try
+				{
+					taskCompletionSource.SetResult(payload());
+				}
+				catch (Exception ex)
+				{
+					taskCompletionSource.SetException(ex);
+				}
 			}
 		}
 
@@ -94,8 +101,15 @@ namespace Files.App.Utils.Shell
 
 			public void Invoke()
 			{
-				payload();
-				taskCompletionSource.SetResult();
+				try
+				{
+					payload();
+					taskCompletionSource.SetResult();
+				}
+				catch (Exception ex)
+				{
+					taskCompletionSource.SetException(ex);
+				}
 			}
 		}
 	}

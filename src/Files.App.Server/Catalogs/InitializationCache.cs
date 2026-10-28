@@ -74,13 +74,14 @@ internal static class InitializationCache
 			{
 				using (item)
 				{
-					var isFolder = item is Files.App.Utils.Shell.ShellLink link
+					var isFolder = item is Files.Storage.ShellLink link
 						? link.StoredTargetIsFolder() ?? link.IsTargetFolder(Environment.ExpandEnvironmentVariables(link.TargetPath))
 						: item.IsFolder && !item.IsStream;
 					if (!isFolder)
 						continue;
 
-					var parsingPath = item.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING) ?? item.FileSystemPath;
+					var parsingName = item.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING);
+					var parsingPath = parsingName ?? item.FileSystemPath;
 					if (string.IsNullOrEmpty(parsingPath) || !Path.IsPathRooted(parsingPath))
 					{
 						parsingPath = parsingPath switch
@@ -97,7 +98,8 @@ internal static class InitializationCache
 						Path.IsPathRooted(item.Name) ? item.Name! : parsingPath,
 						item.GetDisplayName(SIGDN.SIGDN_NORMALDISPLAY) ?? string.Empty,
 						item.PIDL.GetBytes(),
-						(bool?)SafetyExtensions.IgnoreExceptions(() => item.Properties["System.Home.IsPinned"], Program.Logger) ?? false));
+						(bool?)SafetyExtensions.IgnoreExceptions(() => item.Properties["System.Home.IsPinned"], Program.Logger) ?? false,
+						parsingName ?? parsingPath, string.Empty));
 				}
 			}
 			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or COMException)
@@ -164,32 +166,4 @@ internal static class InitializationCache
 
 	internal static Task InitializeAsync() => Task.WhenAll(
 		[ShellNew.GetAsync(), Libraries.GetAsync(), PinnedFolders.GetAsync()]);
-}
-
-internal sealed class FileStampMonitor(Func<IEnumerable<string>> getPaths)
-{
-	private string? previous;
-
-	internal bool HasChanged()
-	{
-		try
-		{
-			var stamp = string.Join("|", getPaths().Order(StringComparer.OrdinalIgnoreCase).Select(path =>
-			{
-				var file = new FileInfo(path);
-				return $"{path}:{(file.Exists ? file.LastWriteTimeUtc.Ticks : 0)}:{(file.Exists ? file.Length : 0)}";
-			}));
-			var changed = stamp != previous;
-			previous = stamp;
-			return changed;
-		}
-		catch (IOException)
-		{
-			return true;
-		}
-		catch (UnauthorizedAccessException)
-		{
-			return true;
-		}
-	}
 }

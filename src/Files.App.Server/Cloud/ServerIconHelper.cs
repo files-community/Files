@@ -3,11 +3,8 @@
 
 using System.Drawing;
 using System.Drawing.Imaging;
-using Windows.Win32;
 
 namespace Files.App.Server.Cloud;
-
-internal sealed record IconFileInfo(byte[] IconData, int Index);
 
 internal static class ServerIconHelper
 {
@@ -16,9 +13,7 @@ internal static class ServerIconHelper
 		var result = new List<IconFileInfo>();
 		foreach (var index in indexes)
 		{
-			var hr = PInvoke.SHDefExtractIcon(file, -index, 0, out var large, out var small, (uint)iconSize);
-			using var largeIcon = large;
-			using var smallIcon = small;
+			using var largeIcon = ShellImage.ExtractIconHandle(file, index, (uint)iconSize, out var hr);
 			if (hr.Failed || largeIcon.IsInvalid)
 				continue;
 

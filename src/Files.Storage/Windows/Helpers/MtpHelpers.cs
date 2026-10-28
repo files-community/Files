@@ -7,11 +7,13 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
 
-namespace Files.App.Utils.Storage
+namespace Files.Storage
 {
 	public static class MtpHelpers
 	{
 		private static readonly ConcurrentDictionary<string, string?> _deviceParsingNames = new(StringComparer.OrdinalIgnoreCase);
+
+		public static void ClearCache() => _deviceParsingNames.Clear();
 
 		/// <summary>
 		/// Resolves a <c>\\?\DeviceName\path</c> to a shell Portable Devices namespace path

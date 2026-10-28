@@ -4,6 +4,7 @@
 using Files.App.Controls;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -11,6 +12,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
@@ -51,6 +53,15 @@ namespace Files.App.ViewModels.UserControls
 		public LocationItem SettingsSidebarItem { get; }
 		public PinnedFoldersManager SidebarPinnedModel => App.QuickAccessManager.Model;
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+
+		private const long EDGE_DRAG_PAYLOAD_LIFETIME_MS = 500;
+
+		private readonly record struct EdgeDragPayload(string? DragPath, bool IsReorderDrag, bool HasFoldersToPin);
+
+		private bool isReordering;
+
+		private EdgeDragPayload? edgeDragPayload;
+		private long lastEdgeDragOverTick;
 
 		private SidebarDisplayMode sidebarDisplayMode;
 		public SidebarDisplayMode SidebarDisplayMode
@@ -332,7 +343,6 @@ namespace Files.App.ViewModels.UserControls
 			PinItemCommand = new RelayCommand(PinItem);
 			EjectDeviceCommand = new RelayCommand(EjectDevice);
 			OpenPropertiesCommand = new RelayCommand<FlyoutBase>(OpenProperties);
-			ReorderItemsCommand = new AsyncRelayCommand(ReorderItemsAsync);
 		}
 
 		private Task<LocationItem?> CreateItemHomeAsync()
@@ -418,6 +428,27 @@ namespace Files.App.ViewModels.UserControls
 					}
 
 				case NotifyCollectionChangedAction.Move:
+					{
+						var newIndex = e.NewStartingIndex;
+						if (e.OldItems is { Count: 1 } oldItems && oldItems[0] is INavigationControlItem item &&
+							newIndex >= 0 && newIndex < childItems.Count &&
+							childItems.FirstOrDefault(x => string.Equals(x.Path, item.Path, StringComparison.OrdinalIgnoreCase)) is { } match)
+						{
+							var oldIndex = childItems.IndexOf(match);
+							if (oldIndex != newIndex)
+								childItems.Move(oldIndex, newIndex);
+
+							return;
+						}
+
+						childItems.Clear();
+						foreach (INavigationControlItem elem in getElements())
+						{
+							await AddElementToSectionAsync(elem, section);
+						}
+						return;
+					}
+
 				case NotifyCollectionChangedAction.Remove:
 				case NotifyCollectionChangedAction.Replace:
 					{
@@ -920,8 +951,6 @@ namespace Files.App.ViewModels.UserControls
 
 		private ICommand OpenPropertiesCommand { get; }
 
-		private ICommand ReorderItemsCommand { get; }
-
 		private void PinItem()
 		{
 			if (rightClickedItem is DriveItem drive)
@@ -971,13 +1000,6 @@ namespace Files.App.ViewModels.UserControls
 					UserSettingsService.GeneralSettingsService.ShowFileTagsSection = false;
 					break;
 			}
-		}
-
-		private async Task ReorderItemsAsync()
-		{
-			var dialog = new ReorderSidebarItemsDialogViewModel();
-			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-			var result = await dialogService.ShowDialogAsync(dialog);
 		}
 
 		private void OpenProperties(FlyoutBase? menu)
@@ -1152,13 +1174,6 @@ namespace Files.App.ViewModels.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = Strings.ReorderSidebarItemsDialogText.GetLocalizedResource(),
-					Glyph = "\uE8D8",
-					Command = ReorderItemsCommand,
-					ShowItem = isPinnedItem || item.Section is SectionType.Pinned
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
 					Text = string.Format(Strings.SideBarHideSectionFromSideBarText.GetLocalizedResource(), item.Text),
 					Glyph = "\uE77A",
 					Command = HideSectionCommand,
@@ -1210,8 +1225,18 @@ namespace Files.App.ViewModels.UserControls
 			}.Where(x => x.ShowItem).ToList();
 		}
 
+		private static bool IsPinnedEdgeDrop(object dropTarget, SidebarItemDropPosition dropPosition)
+			=> dropPosition != SidebarItemDropPosition.Center && dropTarget is LocationItem { Section: SectionType.Pinned };
+
 		public async Task HandleItemDragOverAsync(ItemDragOverEventArgs args)
 		{
+			// Reject new reorder drags while a reorder is still persisting
+			if (isReordering && IsPinnedEdgeDrop(args.DropTarget, args.dropPosition))
+			{
+				SetDragOverResult(args.RawEvent, DataPackageOperation.None);
+				return;
+			}
+
 			if (args.DropTarget is LocationItem locationItem)
 				await HandleLocationItemDragOverAsync(locationItem, args);
 			else if (args.DropTarget is DriveItem driveItem)
@@ -1220,9 +1245,71 @@ namespace Files.App.ViewModels.UserControls
 				await HandleTagItemDragOverAsync(fileTagItem, args);
 		}
 
+		private static async Task<string?> TryGetDraggedTextAsync(DataPackageView droppedItem)
+		{
+			return await SafetyExtensions.IgnoreExceptions(async () =>
+			{
+				if (!droppedItem.Contains(StandardDataFormats.Text))
+					return null;
+
+				return await droppedItem.GetTextAsync();
+			}, App.Logger, typeof(COMException));
+		}
+
+		/// <summary>
+		/// Evaluates the drag payload for edge drops on the pinned section. The payload cannot
+		/// change during a drag, so the result is cached while drag-over events keep arriving.
+		/// </summary>
+		private async Task<EdgeDragPayload> GetEdgeDragPayloadAsync(DataPackageView droppedItem)
+		{
+			var now = Environment.TickCount64;
+			if (edgeDragPayload is { } cached && now - lastEdgeDragOverTick < EDGE_DRAG_PAYLOAD_LIFETIME_MS)
+			{
+				lastEdgeDragOverTick = now;
+				return cached;
+			}
+
+			var dragPath = await TryGetDraggedTextAsync(droppedItem);
+			var isReorderDrag = dragPath is not null && SidebarPinnedModel.PinnedFolderItems.Any(x => string.Equals(x.Path, dragPath, StringComparison.OrdinalIgnoreCase));
+			var hasFoldersToPin = !isReorderDrag && (await GetFoldersToPinAsync(droppedItem, dragPath)).Length > 0;
+
+			var payload = new EdgeDragPayload(dragPath, isReorderDrag, hasFoldersToPin);
+			edgeDragPayload = payload;
+			lastEdgeDragOverTick = Environment.TickCount64;
+			return payload;
+		}
+
+		private static void SetDragOverResult(DragEventArgs rawEvent, DataPackageOperation acceptedOperation, string? caption = null)
+		{
+			SafetyExtensions.IgnoreExceptions(() =>
+			{
+				rawEvent.Handled = true;
+				rawEvent.AcceptedOperation = acceptedOperation;
+				if (caption is not null)
+				{
+					rawEvent.DragUIOverride.IsCaptionVisible = true;
+					rawEvent.DragUIOverride.Caption = caption;
+				}
+			}, App.Logger, typeof(COMException));
+		}
+
 		private async Task HandleLocationItemDragOverAsync(LocationItem locationItem, ItemDragOverEventArgs args)
 		{
 			var rawEvent = args.RawEvent;
+
+			// Edge drops on pinned rows only reorder or pin; reject the rest so they never act on the folder itself
+			if (IsPinnedEdgeDrop(locationItem, args.dropPosition))
+			{
+				var payload = await GetEdgeDragPayloadAsync(args.DroppedItem);
+				if (payload.IsReorderDrag)
+					SetDragOverResult(rawEvent, DataPackageOperation.Move, Strings.ReorderSidebarItemsDialogText.GetLocalizedResource());
+				else if (payload.HasFoldersToPin)
+					SetDragOverResult(rawEvent, DataPackageOperation.Move, Strings.PinFolderToSidebar.GetLocalizedResource());
+				else
+					SetDragOverResult(rawEvent, DataPackageOperation.None);
+
+				return;
+			}
 
 			if (Utils.Storage.FilesystemHelpers.HasDraggedStorageItems(args.DroppedItem))
 			{
@@ -1385,6 +1472,8 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task HandleItemDroppedAsync(ItemDroppedEventArgs args)
 		{
+			edgeDragPayload = null;
+
 			if (args.DropTarget is LocationItem locationItem)
 				await HandleLocationItemDroppedAsync(locationItem, args);
 			else if (args.DropTarget is DriveItem driveItem)
@@ -1395,6 +1484,15 @@ namespace Files.App.ViewModels.UserControls
 
 		private async Task HandleLocationItemDroppedAsync(LocationItem locationItem, ItemDroppedEventArgs args)
 		{
+			// Edge drops on pinned rows only reorder or pin at position, never move/copy into the folder
+			if (IsPinnedEdgeDrop(locationItem, args.dropPosition))
+			{
+				if (!isReordering)
+					await HandlePinnedEdgeDropAsync(locationItem, args);
+
+				return;
+			}
+
 			if (Utils.Storage.FilesystemHelpers.HasDraggedStorageItems(args.DroppedItem))
 			{
 				if (string.IsNullOrEmpty(locationItem.Path) && SectionType.Pinned.Equals(locationItem.Section)) // Pin to "Pinned" section
@@ -1414,6 +1512,122 @@ namespace Files.App.ViewModels.UserControls
 					await filesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.DroppedItem, path, false, true);
 				}
 			}
+		}
+
+		private async Task HandlePinnedEdgeDropAsync(LocationItem targetItem, ItemDroppedEventArgs args)
+		{
+			if (sidebarItems.FirstOrDefault(x => x.Section == SectionType.Pinned) is not LocationItem { ChildItems: { } pinnedItems })
+				return;
+
+			var dragPath = await TryGetDraggedTextAsync(args.DroppedItem);
+			var sourceItem = dragPath is null ? null : pinnedItems.FirstOrDefault(x => string.Equals(x.Path, dragPath, StringComparison.OrdinalIgnoreCase));
+
+			isReordering = true;
+			try
+			{
+				if (sourceItem is not null)
+					await MovePinnedItemAsync(pinnedItems, sourceItem, targetItem, args.dropPosition);
+				else
+					await PinFoldersAtPositionAsync(pinnedItems, await GetFoldersToPinAsync(args.DroppedItem, dragPath), targetItem, args.dropPosition);
+			}
+			finally
+			{
+				isReordering = false;
+			}
+		}
+
+		private async Task MovePinnedItemAsync(BulkConcurrentObservableCollection<INavigationControlItem> pinnedItems, INavigationControlItem sourceItem, LocationItem targetItem, SidebarItemDropPosition dropPosition)
+		{
+			var sourceIndex = pinnedItems.IndexOf(sourceItem);
+			var targetIndex = pinnedItems.IndexOf(targetItem);
+			if (sourceIndex < 0 || targetIndex < 0)
+				return;
+
+			if (dropPosition == SidebarItemDropPosition.Bottom)
+				targetIndex++;
+
+			if (sourceIndex < targetIndex)
+				targetIndex--;
+
+			if (sourceIndex == targetIndex || targetIndex < 0 || targetIndex >= pinnedItems.Count)
+				return;
+
+			pinnedItems.Move(sourceIndex, targetIndex);
+			await PersistPinnedOrderAsync(GetUserPinnedPaths(pinnedItems));
+		}
+
+		private async Task PinFoldersAtPositionAsync(BulkConcurrentObservableCollection<INavigationControlItem> pinnedItems, string[] foldersToPin, LocationItem targetItem, SidebarItemDropPosition dropPosition)
+		{
+			if (foldersToPin.Length == 0)
+				return;
+
+			var order = GetUserPinnedPaths(pinnedItems).ToList();
+			var insertAt = order.FindIndex(path => string.Equals(path, targetItem.Path, StringComparison.OrdinalIgnoreCase));
+			if (insertAt < 0)
+				insertAt = order.Count;
+			else if (dropPosition == SidebarItemDropPosition.Bottom)
+				insertAt++;
+
+			order.InsertRange(insertAt, foldersToPin);
+			await PersistPinnedOrderAsync([.. order], () => SidebarPinnedModel.InsertItemsAsync(foldersToPin, insertAt));
+		}
+
+		/// <summary>
+		/// Returns the unpinned folders in the drag payload: the dragged text path when it is a
+		/// folder or shell location, otherwise the dragged storage folders.
+		/// </summary>
+		private async Task<string[]> GetFoldersToPinAsync(DataPackageView droppedItem, string? dragPath)
+		{
+			if (dragPath is not null)
+			{
+				var canPin = !IsPinnedFolder(dragPath) &&
+					(ShellStorageFolder.IsShellPath(dragPath) || await Task.Run(() => SystemIO.Directory.Exists(dragPath)));
+				return canPin ? [dragPath] : [];
+			}
+
+			if (!Utils.Storage.FilesystemHelpers.HasDraggedStorageItems(droppedItem))
+				return [];
+
+			var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(droppedItem);
+			return storageItems
+				.Where(x => x.ItemType == FilesystemItemType.Directory && !string.IsNullOrEmpty(x.Path) && !IsPinnedFolder(x.Path))
+				.Select(x => x.Path)
+				.ToArray();
+		}
+
+		private bool IsPinnedFolder(string path)
+			=> SidebarPinnedModel.PinnedFolders.Contains(path, StringComparer.OrdinalIgnoreCase);
+
+		private static string[] GetUserPinnedPaths(IEnumerable<INavigationControlItem> pinnedItems)
+		{
+			return pinnedItems
+				.OfType<LocationItem>()
+				.Where(x => !x.IsDefaultLocation && !string.IsNullOrEmpty(x.Path))
+				.Select(x => x.Path!)
+				.ToArray();
+		}
+
+		private async Task PersistPinnedOrderAsync(string[] newOrder, Func<Task>? applyToSidebar = null)
+		{
+			try
+			{
+				using (SidebarPinnedModel.SuspendSync())
+				{
+					if (applyToSidebar is not null)
+						await applyToSidebar();
+
+					await QuickAccessService.SaveAsync(newOrder);
+				}
+			}
+			finally
+			{
+				await SidebarPinnedModel.UpdateItemsWithExplorerAsync();
+			}
+
+			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs([.. SidebarPinnedModel.PinnedFolders], true)
+			{
+				Reorder = true
+			});
 		}
 
 		private Task<ReturnResult> HandleDriveItemDroppedAsync(DriveItem driveItem, ItemDroppedEventArgs args)
