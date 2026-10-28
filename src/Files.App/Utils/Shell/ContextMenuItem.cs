@@ -8,6 +8,8 @@ namespace Files.App.Utils.Shell
 	/// </summary>
 	public partial class ContextMenuItem : Win32ContextMenuItem, IDisposable
 	{
+		internal int SubmenuId { get; init; }
+
 		public void Dispose()
 		{
 			Dispose(true);

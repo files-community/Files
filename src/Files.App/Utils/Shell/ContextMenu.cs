@@ -15,36 +15,51 @@ public sealed partial class ContextMenu : Win32ContextMenu, IDisposable
 
 	public List<string> ItemsPath { get; }
 
-	private ContextMenu(Server.ContextMenuSession session, IEnumerable<string> paths, Func<string?, bool>? filter)
+	private ContextMenu(Server.ContextMenuSession session, IEnumerable<string> paths, List<ContextMenuItem> entries, Func<string?, bool>? filter)
 	{
 		this.session = session;
 		this.filter = filter;
 		ItemsPath = paths.ToList();
-		Items = Convert(session.GetItems());
+		Items = Convert(entries);
 	}
 
-	private List<Win32ContextMenuItem> Convert(IReadOnlyList<Server.MenuEntryInfo> entries)
+	private List<Win32ContextMenuItem> Convert(List<ContextMenuItem> entries)
 	{
 		var result = new List<Win32ContextMenuItem>();
+		foreach (var item in entries)
+		{
+			if (item.Type == MENU_ITEM_TYPE.MFT_STRING && filter is not null && (filter(item.CommandString) || filter(item.Label)))
+				continue;
+			if (item.SubmenuId != 0)
+			{
+				item.SubItems = [];
+				submenus.Add(item.SubItems, item.SubmenuId);
+			}
+			result.Add(item);
+		}
+		return result;
+	}
+
+	private static async Task<List<ContextMenuItem>> ReadItemsAsync(Server.ContextMenuSession session, int? submenuId = null)
+	{
+		// Collection enumeration and DTO getters are RPCs, even after an async query completes.
+		await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+		var entries = submenuId is { } id
+			? await session.LoadSubmenuAsync(id).AsTask().ConfigureAwait(false)
+			: session.GetItems();
+		var result = new List<ContextMenuItem>();
 		foreach (var entry in entries)
 		{
-			if ((MENU_ITEM_TYPE)entry.Type == MENU_ITEM_TYPE.MFT_STRING && filter is not null && (filter(entry.Command) || filter(entry.Label)))
-				continue;
 			var icon = entry.Icon;
-			var item = new ContextMenuItem
+			result.Add(new ContextMenuItem
 			{
 				ID = entry.Id,
 				Type = (MENU_ITEM_TYPE)entry.Type,
 				Label = entry.Label,
 				CommandString = entry.Command,
 				Icon = icon.Length == 0 ? null : icon,
-			};
-			if (entry.Submenu != 0)
-			{
-				item.SubItems = [];
-				submenus.Add(item.SubItems, entry.Submenu);
-			}
-			result.Add(item);
+				SubmenuId = entry.Submenu,
+			});
 		}
 		return result;
 	}
@@ -57,7 +72,8 @@ public sealed partial class ContextMenu : Win32ContextMenu, IDisposable
 			return null;
 		try
 		{
-			return new ContextMenu(session, validPaths, itemFilter);
+			var entries = await ReadItemsAsync(session);
+			return new ContextMenu(session, validPaths, entries, itemFilter);
 		}
 		catch
 		{
@@ -94,7 +110,7 @@ public sealed partial class ContextMenu : Win32ContextMenu, IDisposable
 	{
 		if (!submenus.Remove(items, out var id))
 			return false;
-		items.AddRange(Convert(await session.LoadSubmenuAsync(id)));
+		items.AddRange(Convert(await ReadItemsAsync(session, id)));
 		return true;
 	}
 

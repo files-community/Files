@@ -17,17 +17,25 @@ namespace Files.App.Services
 
 		public async IAsyncEnumerable<IFolder> GetDrivesAsync()
 		{
-			var ids = await Server.DriveService.GetDriveIdsAsync();
-			var pending = ids.Select(id => Server.DriveService.GetDriveAsync(id).AsTask()).ToArray();
+			// Start the per-drive RPCs off the UI thread, including when the ID list is cached.
+			var ids = await Server.DriveService.GetDriveIdsAsync().AsTask().ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+			var pending = ids.Select(GetDriveItemAsync).ToArray();
 			await foreach (var completed in Task.WhenEach(pending))
 			{
-				var info = await SafetyExtensions.IgnoreExceptions(() => completed, App.Logger);
+				var item = await SafetyExtensions.IgnoreExceptions(() => completed, App.Logger);
 				var pCloudDrivePath = App.AppModel.PCloudDrivePath;
-				if (info is null || info.Label == "Google Drive" ||
-					(!string.IsNullOrEmpty(pCloudDrivePath) && info.Root.Path.Equals(pCloudDrivePath, StringComparison.OrdinalIgnoreCase)))
+				if (item is null ||
+					(!string.IsNullOrEmpty(pCloudDrivePath) && string.Equals(item.Path, pCloudDrivePath, StringComparison.OrdinalIgnoreCase)))
 					continue;
-				yield return DriveItem.FromServer(info);
+				yield return item;
 			}
+		}
+
+		private static async Task<DriveItem?> GetDriveItemAsync(string id)
+		{
+			// Read the remote DTO into an unpublished local item before returning to the UI.
+			var info = await Server.DriveService.GetDriveAsync(id).AsTask().ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+			return info is null || info.Label == "Google Drive" ? null : DriveItem.FromServer(info);
 		}
 
 		public Task<IFolder?> GetPrimaryDriveAsync()

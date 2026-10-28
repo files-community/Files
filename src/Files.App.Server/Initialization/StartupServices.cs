@@ -10,11 +10,11 @@ internal static class StartupServices
 	internal static async Task InitializeAsync()
 	{
 		_ = SafetyExtensions.IgnoreExceptions(UpdateCatalog.InitializeAsync, Program.Logger);
+		_ = menuInitialization.Value;
 		await Task.WhenAll(
 			SafetyExtensions.IgnoreExceptions(InitializationCache.InitializeAsync, Program.Logger),
 			SafetyExtensions.IgnoreExceptions(TagCatalog.InitializeAsync, Program.Logger),
-			WarmDrivesAsync(),
-			menuInitialization.Value);
+			WarmDrivesAsync());
 	}
 
 	private static async Task WarmDrivesAsync()
