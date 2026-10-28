@@ -62,21 +62,29 @@ namespace Files.App.Services
 
 			OnUpdateInProgress();
 
-			// double check for Mandatory
-			if (IsMandatory)
+			try
 			{
-				// Show dialog
-				var dialog = await ShowDialogAsync();
-				if (!dialog)
+				// double check for Mandatory
+				if (IsMandatory)
 				{
-					// User rejected mandatory update.
-					OnUpdateCancelled();
-					return;
+					// Show dialog
+					var dialog = await ShowDialogAsync();
+					if (!dialog)
+					{
+						// User rejected mandatory update.
+						OnUpdateCancelled();
+						return;
+					}
 				}
-			}
 
-			await DownloadAndInstallAsync();
-			OnUpdateCompleted();
+				await DownloadAndInstallAsync();
+				OnUpdateCompleted();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "STORE: Update flow failed.");
+				OnUpdateCancelled();
+			}
 		}
 
 		public async Task DownloadMandatoryUpdatesAsync()
