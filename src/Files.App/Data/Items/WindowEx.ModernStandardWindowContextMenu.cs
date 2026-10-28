@@ -1,5 +1,6 @@
-// Copyright (c) Files Community
-// SPDX-License-Identifier: MPL-2.0
+// Ported from WinUIEssentials' ModernStandardWindowContextMenu and WindowContextMenuBase.
+// Copyright (c) 2023 HO-COOH
+// SPDX-License-Identifier: MIT
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
