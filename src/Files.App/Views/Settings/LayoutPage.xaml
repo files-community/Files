@@ -27,18 +27,6 @@
 				Style="{StaticResource App.Theme.SubtitleTextBlockStyle}"
 				Text="{helpers:ResourceString Name=Layout}" />
 
-			<!--  Folder Overrides  -->
-			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=SyncFolderPreferencesAcrossDirectories}">
-				<wctcontrols:SettingsCard.HeaderIcon>
-					<FontIcon Glyph="&#xE621;" />
-				</wctcontrols:SettingsCard.HeaderIcon>
-
-				<ToggleSwitch
-					x:Name="SyncPreferencesToggleSwitch"
-					AutomationProperties.Name="{helpers:ResourceString Name=SyncFolderPreferencesAcrossDirectories}"
-					IsOn="{x:Bind ViewModel.SyncFolderPreferencesAcrossDirectories, Mode=TwoWay}" />
-			</wctcontrols:SettingsCard>
-
 			<!--  Layout Type  -->
 			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=LayoutType}">
 				<wctcontrols:SettingsCard.HeaderIcon>

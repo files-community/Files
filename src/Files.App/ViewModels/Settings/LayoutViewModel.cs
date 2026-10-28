@@ -32,28 +32,11 @@ namespace Files.App.ViewModels.Settings
 		{
 			if (name is null or nameof(ILayoutSettingsService.LayoutTemplates))
 				DefaultTemplate.Refresh();
-			if (name is null or nameof(ILayoutSettingsService.SyncFolderPreferencesAcrossDirectories))
-				OnPropertyChanged(nameof(SyncFolderPreferencesAcrossDirectories));
 			if (name is null or nameof(ILayoutSettingsService.AutoSizeColumnsInDetailsLayout))
 				OnPropertyChanged(nameof(AutoSizeColumnsInDetailsLayout));
 		}
 
 		// Properties
-
-		public bool SyncFolderPreferencesAcrossDirectories
-		{
-			get => UserSettingsService.LayoutSettingsService.SyncFolderPreferencesAcrossDirectories;
-			set
-			{
-				if (value != UserSettingsService.LayoutSettingsService.SyncFolderPreferencesAcrossDirectories)
-				{
-					UserSettingsService.LayoutSettingsService.SyncFolderPreferencesAcrossDirectories = value;
-
-					ResetLayoutPreferences();
-					OnPropertyChanged();
-				}
-			}
-		}
 
 		/// <summary>
 		/// Gets the template of folders that no rule matches.
@@ -74,16 +57,6 @@ namespace Files.App.ViewModels.Settings
 					OnPropertyChanged();
 				}
 			}
-		}
-
-		// Methods
-
-		public void ResetLayoutPreferences()
-		{
-			// Is this proper practice?
-			var dbInstance = LayoutPreferencesManager.GetDatabaseManagerInstance();
-
-			dbInstance.ResetAll();
 		}
 	}
 }

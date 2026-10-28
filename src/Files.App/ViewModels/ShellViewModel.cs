@@ -918,9 +918,6 @@ namespace Files.App.ViewModels
 							RefreshItems(null);
 					});
 					break;
-				case nameof(UserSettingsService.LayoutSettingsService.SyncFolderPreferencesAcrossDirectories):
-					await dispatcherQueue.EnqueueOrInvokeAsync(ReloadLayoutPreferences);
-					break;
 				case nameof(UserSettingsService.GeneralSettingsService.ShowFilterHeader):
 					OnPropertyChanged(nameof(ShowFilterHeader));
 					break;

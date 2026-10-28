@@ -4,34 +4,21 @@
 namespace Files.App.Data.Items
 {
 	/// <summary>
-	/// Represents a rule that chooses the layout template of the folders it matches.
+	/// Represents a rule that chooses a layout template for folders that mostly contain certain file types.
 	/// </summary>
 	public sealed partial class LayoutRule
 	{
-		public LayoutRuleKind Kind { get; set; }
-
 		/// <summary>
-		/// Gets or sets the path of the folder matched by a <see cref="LayoutRuleKind.Folder"/> rule.
-		/// </summary>
-		public string Path { get; set; } = string.Empty;
-
-		public bool IncludeSubfolders { get; set; }
-
-		/// <summary>
-		/// Gets or sets the file extensions matched by a <see cref="LayoutRuleKind.FileTypes"/> rule, separated by commas.
+		/// Gets or sets the file extensions the rule matches, separated by commas.
 		/// </summary>
 		public string Extensions { get; set; } = string.Empty;
 
 		/// <summary>
-		/// Gets or sets the share of items, in percent, that <see cref="LayoutRuleKind.FileTypes"/> rules require.
+		/// Gets or sets the share of items, in percent, that the rule requires.
 		/// </summary>
 		public int Threshold { get; set; } = 60;
 
 		public string TemplateId { get; set; } = string.Empty;
-
-		[JsonIgnore]
-		public bool IsContentRule
-			=> Kind is LayoutRuleKind.FileTypes;
 
 		/// <summary>
 		/// Gets the extensions of <see cref="Extensions"/>, each starting with a dot.

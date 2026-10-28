@@ -36,8 +36,8 @@ namespace Files.App.Helpers
 						// Check if we need to update preferences for this pane
 						if ((isNotCurrentTab || !ReferenceEquals(pane, shPage.ActivePane)) &&
 							path.Equals(activePath, StringComparison.OrdinalIgnoreCase))
-							if (pane.SlimContentPage is BaseLayoutPage page)
-								page.FolderSettings?.ReloadPreferences(path);
+							if (pane.SlimContentPage is BaseLayoutPage page && pane.ShellViewModel is { } shellViewModel)
+								page.FolderSettings?.ReloadPreferences(path, () => FolderContentHelpers.GetContent(shellViewModel.FilesAndFolders.ToList()));
 					}
 				}
 			}

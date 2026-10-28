@@ -1070,9 +1070,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Show protected system files</value>
   </data>
-  <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Sync layout and sorting preferences across directories</value>
-  </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Customize the right click context menu</value>
   </data>

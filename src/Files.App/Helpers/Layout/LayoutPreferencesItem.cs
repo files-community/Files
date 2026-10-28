@@ -20,6 +20,11 @@ namespace Files.App.Helpers
 		/// </summary>
 		public string TemplateId { get; set; } = string.Empty;
 
+		/// <summary>
+		/// Gets or sets whether the folder uses its template as is, instead of its own preferences.
+		/// </summary>
+		public bool FollowsTemplate { get; set; }
+
 		public FolderLayoutModes LayoutMode { get; set; }
 
 		public SortOption DirectorySortOption { get; set; }
@@ -70,7 +75,7 @@ namespace Files.App.Helpers
 		// Methods
 
 		public static LayoutPreferencesItem FromTemplate(LayoutTemplate template)
-			=> new(template);
+			=> new(template) { FollowsTemplate = true };
 
 		/// <summary>
 		/// Copies these preferences to the specified template.

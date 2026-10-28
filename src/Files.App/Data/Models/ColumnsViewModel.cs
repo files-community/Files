@@ -154,6 +154,18 @@ namespace Files.App.Data.Models
 			return _columns.TryGetValue(id, out var column) ? column : throw new ArgumentOutOfRangeException(nameof(id), id, null);
 		}
 
+		/// <summary>
+		/// Uses the widths of the specified columns for the columns both have.
+		/// </summary>
+		public void ApplyWidths(ColumnsViewModel source)
+		{
+			foreach (var id in AllColumnIds)
+			{
+				if (source.FindColumn(id) is { } column)
+					GetColumn(id).UserLengthPixels = column.UserLengthPixels;
+			}
+		}
+
 		public DetailsLayoutColumnItem? FindColumn(string id)
 		{
 			return _columns.GetValueOrDefault(id);

@@ -795,7 +795,7 @@ namespace Files.App.Views.Layouts
 				UpdateColumnLayout();
 				var folderSettings = FolderSettings
 					?? throw new InvalidOperationException("The details layout does not have folder settings.");
-				folderSettings.ColumnsViewModel = ColumnsViewModel;
+				folderSettings.SaveColumnWidths(ColumnsViewModel);
 			}
 		}
 
@@ -823,7 +823,7 @@ namespace Files.App.Views.Layouts
 		{
 			var folderSettings = FolderSettings
 				?? throw new InvalidOperationException("The details layout does not have folder settings.");
-			folderSettings.ColumnsViewModel = ColumnsViewModel;
+			folderSettings.SaveColumnWidths(ColumnsViewModel);
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
@@ -854,12 +854,15 @@ namespace Files.App.Views.Layouts
 		}
 
 		public void AutoFitColumns()
+			=> AutoFitColumns(true);
+
+		private void AutoFitColumns(bool save)
 		{
 			if (!FileList.Items.Any())
 				return;
 
 			foreach (var columnId in ColumnsViewModel.AllColumnIds.Where(id => ColumnsViewModel.GetColumn(id).Visibility == Visibility.Visible).ToArray())
-				ResizeColumnToFit(columnId);
+				ResizeColumnToFit(columnId, save);
 		}
 
 		private void AutoFitColumnsIfEnabled()
@@ -870,7 +873,7 @@ namespace Files.App.Views.Layouts
 			// Trailing debounce so bursts of item adds and extended-property updates during a folder load collapse into one resize.
 			_autoFitColumnsTimer ??= DispatcherQueue.CreateTimer();
 			_autoFitColumnsTimer.Debounce(
-				() => _ = Commands.AutoFitColumns.ExecuteAsync(),
+				() => AutoFitColumns(false),
 				TimeSpan.FromMilliseconds(250));
 		}
 
@@ -891,7 +894,7 @@ namespace Files.App.Views.Layouts
 			AutoFitColumnsIfEnabled();
 		}
 
-		private void ResizeColumnToFit(string columnId)
+		private void ResizeColumnToFit(string columnId, bool save = true)
 		{
 			if (!FileList.Items.Any())
 				return;
@@ -926,9 +929,12 @@ namespace Files.App.Views.Layouts
 				column.UserLength = new GridLength(maxFitLength, GridUnitType.Pixel);
 			}
 
+			if (!save)
+				return;
+
 			var folderSettings = FolderSettings
 				?? throw new InvalidOperationException("The details layout does not have folder settings.");
-			folderSettings.ColumnsViewModel = ColumnsViewModel;
+			folderSettings.SaveColumnWidths(ColumnsViewModel);
 		}
 
 		private double MeasureColumnEstimate(string columnId, int measureItemsCount, int maxItemLength)

@@ -24,9 +24,9 @@ namespace Files.App.Data.Contracts
 		LayoutTemplate DefaultTemplate { get; }
 
 		/// <summary>
-		/// Gets whether any rule depends on the items of a folder.
+		/// Gets whether any rule chooses templates by the items of a folder.
 		/// </summary>
-		bool HasContentRules { get; }
+		bool HasRules { get; }
 
 		/// <summary>
 		/// Occurs when a template is changed, with the id of the template.
@@ -60,6 +60,16 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		void ResetTemplate(string id);
 
+		/// <summary>
+		/// Finishes setting up the templates on the first run, such as assigning the built-in templates to their folders, if that's still pending.
+		/// </summary>
+		void CompleteFirstRun();
+
+		/// <summary>
+		/// Moves the layout settings of an imported backup made before layout templates existed to the templates.
+		/// </summary>
+		void MigrateImportedSettings();
+
 		void SaveRules(IEnumerable<LayoutRule> rules);
 
 		/// <summary>
@@ -68,5 +78,10 @@ namespace Files.App.Data.Contracts
 		/// <param name="path">The path of the folder.</param>
 		/// <param name="getContent">Gets the items of the folder, or null when they aren't known yet. Content rules are skipped when it returns null.</param>
 		LayoutTemplate GetTemplateForPath(string? path, Func<LayoutFolderContent?>? getContent = null);
+
+		/// <summary>
+		/// Gets the template the specified location gets when Files first runs, or null when it gets none.
+		/// </summary>
+		string? GetBuiltInTemplateId(string path);
 	}
 }

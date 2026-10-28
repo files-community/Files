@@ -20,6 +20,7 @@ namespace Files.App.Services.Settings
 			"DefaultGroupOption",
 			"DefaultDirectoryGroupDirection",
 			"DefaultGroupByDateUnit",
+			"SyncFolderPreferencesAcrossDirectories",
 		];
 
 		private const long LegacyAdaptiveLayoutMode = 5;
@@ -32,6 +33,10 @@ namespace Files.App.Services.Settings
 
 		private LayoutTemplate[] _templates;
 		private LayoutRule[] _rules;
+		private bool _clearFolderPreferences;
+		private (LayoutTemplate Template, int Threshold, string[] Extensions)[]? _ruleMatchers;
+		private volatile bool _isFirstRunPending;
+		private readonly Lock _firstRunLock = new();
 
 		public IReadOnlyList<LayoutTemplate> Templates
 			=> _templates;
@@ -42,8 +47,8 @@ namespace Files.App.Services.Settings
 		public LayoutTemplate DefaultTemplate
 			=> GetTemplate(LayoutTemplateIds.Default) ?? _templates[0];
 
-		public bool HasContentRules
-			=> _rules.Any(rule => rule.IsContentRule);
+		public bool HasRules
+			=> _rules.Length > 0;
 
 		public event EventHandler<string>? TemplateChanged;
 
@@ -62,7 +67,7 @@ namespace Files.App.Services.Settings
 			}
 			else if (settings.HasSavedLayoutTemplates)
 			{
-				// Templates that can't be read are kept instead of being replaced by the built-in ones
+				// Saved templates that can't be read aren't overwritten
 				_templates = [.. LayoutTemplateIds.BuiltIn.Select(LayoutTemplateIds.CreateBuiltIn)];
 				_rules = settings.LayoutRules is { } rules ? [.. rules] : CreateBuiltInRules(true);
 			}
@@ -72,9 +77,12 @@ namespace Files.App.Services.Settings
 				_rules = MigrateLegacySettings();
 				settings.LayoutTemplates = [.. _templates];
 				settings.LayoutRules = [.. _rules];
+				_isFirstRunPending = true;
 			}
 
 			_dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+			if (_isFirstRunPending)
+				_dispatcherQueue?.TryEnqueue(CompleteFirstRun);
 			Ioc.Default.GetRequiredService<IUserSettingsService>().OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 		}
 
@@ -129,6 +137,7 @@ namespace Files.App.Services.Settings
 		public void SaveRules(IEnumerable<LayoutRule> rules)
 		{
 			_rules = [.. rules.Select(rule => rule.Clone())];
+			_ruleMatchers = null;
 			_settings.LayoutRules = [.. _rules];
 			OnPropertyChanged(nameof(Rules));
 			RulesChanged?.Invoke(this, EventArgs.Empty);
@@ -139,21 +148,26 @@ namespace Files.App.Services.Settings
 			if (string.IsNullOrEmpty(path))
 				return DefaultTemplate;
 
-			// Places are more specific than content, so they're checked first, in template order
-			var rules = _templates.SelectMany(template => _rules.Where(rule => rule.TemplateId == template.Id)).ToArray();
-			if (rules.FirstOrDefault(rule => !rule.IsContentRule && MatchesPath(rule, path)) is { } pathRule)
-				return GetTemplate(pathRule.TemplateId)!;
-
-			if (getContent is null || !rules.Any(rule => rule.IsContentRule) || getContent() is not { } content)
+			var matchers = _ruleMatchers ??= [.. _templates.SelectMany(template => _rules
+				.Where(rule => rule.TemplateId == template.Id)
+				.Select(rule => (template, rule.Threshold, rule.GetExtensions().ToArray())))];
+			if (getContent is null || matchers.Length == 0 || getContent() is not { Total: > 0 } content)
 				return DefaultTemplate;
 
 			// The template whose file types fill more of the folder wins
-			var contentRule = rules
-				.Where(rule => rule.IsContentRule && MatchesContent(rule, content))
-				.OrderByDescending(rule => CountMatchingFiles(rule, content))
-				.FirstOrDefault();
+			var bestTemplate = DefaultTemplate;
+			var bestCount = 0;
+			foreach (var (template, threshold, extensions) in matchers)
+			{
+				var count = extensions.Sum(extension => content.ExtensionCounts.GetValueOrDefault(extension));
+				if (count > bestCount && count * 100 >= threshold * content.Total)
+				{
+					bestTemplate = template;
+					bestCount = count;
+				}
+			}
 
-			return contentRule is not null ? GetTemplate(contentRule.TemplateId)! : DefaultTemplate;
+			return bestTemplate;
 		}
 
 		private void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
@@ -168,6 +182,7 @@ namespace Files.App.Services.Settings
 				{
 					var ids = _templates.Select(template => template.Id).Union(templates.Select(template => template.Id)).ToArray();
 					_templates = [.. templates];
+					_ruleMatchers = null;
 					OnPropertyChanged(nameof(Templates));
 					OnPropertyChanged(nameof(DefaultTemplate));
 					foreach (var id in ids)
@@ -176,6 +191,7 @@ namespace Files.App.Services.Settings
 				else if (e.SettingName is nameof(ILayoutSettingsService.LayoutRules))
 				{
 					_rules = [.. _settings.LayoutRules ?? []];
+					_ruleMatchers = null;
 					OnPropertyChanged(nameof(Rules));
 					RulesChanged?.Invoke(this, EventArgs.Empty);
 				}
@@ -185,43 +201,10 @@ namespace Files.App.Services.Settings
 				Reload();
 		}
 
-		private static bool MatchesPath(LayoutRule rule, string path)
-		{
-			switch (rule.Kind)
-			{
-				case LayoutRuleKind.Folder:
-					var folder = rule.Path.TrimEnd('\\');
-					if (string.IsNullOrEmpty(folder))
-						return false;
-
-					var trimmedPath = path.TrimEnd('\\');
-					return trimmedPath.Equals(folder, StringComparison.OrdinalIgnoreCase) ||
-						rule.IncludeSubfolders && trimmedPath.StartsWith(folder + '\\', StringComparison.OrdinalIgnoreCase);
-				case LayoutRuleKind.RecycleBin:
-					return path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase);
-				case LayoutRuleKind.Libraries:
-					return LibraryManager.IsLibraryPath(path);
-				case LayoutRuleKind.Network:
-					return path.StartsWith(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase) ||
-						SystemIO.Path.IsPathRooted(path) && DriveHelpers.IsNetworkPath(path);
-				default:
-					return false;
-			}
-		}
-
-		private static int CountMatchingFiles(LayoutRule rule, LayoutFolderContent content)
-			=> rule.GetExtensions().Sum(extension => content.ExtensionCounts.GetValueOrDefault(extension));
-
-		private static bool MatchesContent(LayoutRule rule, LayoutFolderContent content)
-		{
-			var count = CountMatchingFiles(rule, content);
-
-			return content.Total > 0 && count * 100 >= rule.Threshold * content.Total;
-		}
-
 		private void SetTemplates(LayoutTemplate[] templates)
 		{
 			_templates = templates;
+			_ruleMatchers = null;
 			_settings.LayoutTemplates = [.. templates];
 			OnPropertyChanged(nameof(Templates));
 			OnPropertyChanged(nameof(DefaultTemplate));
@@ -234,6 +217,25 @@ namespace Files.App.Services.Settings
 				uniqueName = $"{name} ({i})";
 
 			return uniqueName;
+		}
+
+		// TODO: Remove in v5
+		public void MigrateImportedSettings()
+		{
+			if (_settings.HasSavedLayoutTemplates)
+				return;
+
+			var ids = _templates.Select(template => template.Id).Union(LayoutTemplateIds.BuiltIn).ToArray();
+			_templates = [.. LayoutTemplateIds.BuiltIn.Select(LayoutTemplateIds.CreateBuiltIn)];
+			_ruleMatchers = null;
+			var rules = MigrateLegacySettings();
+			SetTemplates(_templates);
+			SaveRules(rules);
+			foreach (var id in ids)
+				TemplateChanged?.Invoke(this, id);
+
+			_isFirstRunPending = true;
+			CompleteFirstRun();
 		}
 
 		// TODO: Remove in v5
@@ -269,6 +271,8 @@ namespace Files.App.Services.Settings
 			if (TryGetNumber("DefaultGroupByDateUnit") is { } groupByDateUnit)
 				defaultTemplate.GroupByDateUnit = (GroupByDateUnit)groupByDateUnit;
 
+			_clearFolderPreferences = TryGetBoolean("SyncFolderPreferencesAcrossDirectories") is true;
+
 			var isAdaptiveLayoutEnabled = TryGetNumber("DefaultLayoutMode") is null or LegacyAdaptiveLayoutMode;
 			return CreateBuiltInRules(isAdaptiveLayoutEnabled);
 
@@ -281,24 +285,69 @@ namespace Files.App.Services.Settings
 
 		private static LayoutRule[] CreateBuiltInRules(bool includeMediaRules)
 		{
-			LayoutRule[] rules =
-			[
-				new() { Kind = LayoutRuleKind.Folder, Path = Win32Helper.GetFolderFromKnownFolderGUID(PInvoke.FOLDERID_Downloads), TemplateId = LayoutTemplateIds.GroupedByDate },
-				new() { Kind = LayoutRuleKind.RecycleBin, TemplateId = LayoutTemplateIds.RecycleBin },
-			];
+			return includeMediaRules
+				?
+				[
+					new() { Extensions = PictureAndVideoExtensions, TemplateId = LayoutTemplateIds.PicturesAndVideos },
+					new() { Extensions = MusicExtensions, TemplateId = LayoutTemplateIds.Music },
+				]
+				: [];
+		}
 
-			if (!includeMediaRules)
-				return rules;
+		public string? GetBuiltInTemplateId(string path)
+		{
+			var trimmedPath = path.TrimPath();
+			return GetBuiltInLocations().FirstOrDefault(location => string.Equals(location.Path.TrimPath(), trimmedPath, StringComparison.OrdinalIgnoreCase)).TemplateId;
+		}
 
+		private static (string Path, string TemplateId)[] GetBuiltInLocations()
+		{
 			return
 			[
-				.. rules,
-				new() { Kind = LayoutRuleKind.Folder, Path = Win32Helper.GetFolderFromKnownFolderGUID(PInvoke.FOLDERID_Pictures), IncludeSubfolders = true, TemplateId = LayoutTemplateIds.PicturesAndVideos },
-				new() { Kind = LayoutRuleKind.Folder, Path = Win32Helper.GetFolderFromKnownFolderGUID(PInvoke.FOLDERID_Music), IncludeSubfolders = true, TemplateId = LayoutTemplateIds.Music },
-				new() { Kind = LayoutRuleKind.Folder, Path = Win32Helper.GetFolderFromKnownFolderGUID(PInvoke.FOLDERID_Videos), IncludeSubfolders = true, TemplateId = LayoutTemplateIds.PicturesAndVideos },
-				new() { Kind = LayoutRuleKind.FileTypes, Extensions = PictureAndVideoExtensions, TemplateId = LayoutTemplateIds.PicturesAndVideos },
-				new() { Kind = LayoutRuleKind.FileTypes, Extensions = MusicExtensions, TemplateId = LayoutTemplateIds.Music },
+				(Constants.UserEnvironmentPaths.RecycleBinPath, LayoutTemplateIds.RecycleBin),
+				(Win32Helper.GetFolderFromKnownFolderGUID(PInvoke.FOLDERID_Downloads), LayoutTemplateIds.GroupedByDate),
+				(Win32Helper.GetFolderFromKnownFolderGUID(PInvoke.FOLDERID_Pictures), LayoutTemplateIds.PicturesAndVideos),
+				(Win32Helper.GetFolderFromKnownFolderGUID(PInvoke.FOLDERID_Videos), LayoutTemplateIds.PicturesAndVideos),
 			];
+		}
+
+		public void CompleteFirstRun()
+		{
+			if (!_isFirstRunPending)
+				return;
+
+			lock (_firstRunLock)
+			{
+				if (!_isFirstRunPending)
+					return;
+
+				if (_clearFolderPreferences)
+					SafetyExtensions.IgnoreExceptions(LayoutPreferencesManager.GetDatabaseManagerInstance().ResetAll, App.Logger);
+
+				AssignBuiltInTemplates();
+				_isFirstRunPending = false;
+			}
+		}
+
+		/// <summary>
+		/// Makes the matching locations use the built-in templates, as if the user chose them, unless they have their own layout.
+		/// </summary>
+		private void AssignBuiltInTemplates()
+		{
+			var database = LayoutPreferencesManager.GetDatabaseManagerInstance();
+			foreach (var (path, templateId) in GetBuiltInLocations())
+			{
+				SafetyExtensions.IgnoreExceptions(() =>
+				{
+					var trimmedPath = path.TrimPath();
+					if (string.IsNullOrEmpty(trimmedPath) || GetTemplate(templateId) is not { } template)
+						return;
+
+					var folderFRN = Win32Helper.GetFolderFRN(trimmedPath);
+					if (database.GetPreferences(trimmedPath, folderFRN) is null)
+						database.SetPreferences(trimmedPath, folderFRN, LayoutPreferencesItem.FromTemplate(template));
+				}, App.Logger);
+			}
 		}
 	}
 }
