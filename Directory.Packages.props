@@ -33,7 +33,7 @@
     <PackageVersion Include="SevenZipSharp" Version="1.0.3" />
     <PackageVersion Include="SharpZipLib" Version="1.4.2" />
     <PackageVersion Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="2.5.1" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="2.6.4" />
     <PackageVersion Include="Microsoft.Windows.AI.MachineLearning" Version="2.3.42" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.AI" Version="2.5.5" />
     <PackageVersion Include="Microsoft.WindowsAppSDK.ML" Version="2.1.94" />
