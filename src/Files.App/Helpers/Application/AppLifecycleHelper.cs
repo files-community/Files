@@ -353,6 +353,7 @@ namespace Files.App.Helpers
 					.AddSingleton<ToolbarCustomizationViewModel>()
 					.AddTransient<HomeViewModel>()
 					.AddSingleton<QuickAccessWidgetViewModel>()
+					.AddSingleton<BookmarksBarViewModel>()
 					.AddSingleton<DrivesWidgetViewModel>()
 					.AddSingleton<NetworkLocationsWidgetViewModel>()
 					.AddSingleton<FileTagsWidgetViewModel>()

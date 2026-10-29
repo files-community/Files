@@ -298,6 +298,17 @@
 				</wctcontrols:SettingsExpander.Items>
 			</wctcontrols:SettingsExpander>
 
+			<!--  Show Bookmarks Bar  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowBookmarksBar}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE8A4;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<ToggleSwitch
+					AutomationProperties.AutomationControlType="Custom"
+					AutomationProperties.Name="{helpers:ResourceString Name=ShowBookmarksBar}"
+					IsOn="{x:Bind ViewModel.ShowBookmarksBar, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
+
 			<!--  Show Status Bar  -->
 			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=ShowStatusBar}">
 				<wctcontrols:SettingsExpander.HeaderIcon>

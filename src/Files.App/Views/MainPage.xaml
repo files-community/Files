@@ -113,12 +113,13 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
 		<!--  Background Image  -->
 		<Image
-			Grid.RowSpan="3"
+			Grid.RowSpan="4"
 			HorizontalAlignment="{x:Bind ViewModel.AppThemeBackgroundImageHorizontalAlignment, Mode=OneWay}"
 			VerticalAlignment="{x:Bind ViewModel.AppThemeBackgroundImageVerticalAlignment, Mode=OneWay}"
 			Opacity="{x:Bind ViewModel.AppThemeBackgroundImageOpacity, Mode=OneWay}"
@@ -144,10 +145,17 @@
 			ShowOngoingTasks="True"
 			TabIndex="1" />
 
+		<!--  Bookmarks Bar  -->
+		<uc:BookmarksBar
+			x:Name="BookmarksBarControl"
+			Grid.Row="2"
+			x:Load="{x:Bind ViewModel.ShowBookmarksBar, Mode=OneWay}"
+			TabIndex="2" />
+
 		<!--  Content Area  -->
 		<controls:SidebarView
 			x:Name="SidebarControl"
-			Grid.Row="2"
+			Grid.Row="3"
 			HorizontalAlignment="Stretch"
 			HorizontalContentAlignment="Stretch"
 			DisplayMode="{x:Bind SidebarAdaptiveViewModel.SidebarDisplayMode, Mode=TwoWay}"

@@ -123,6 +123,12 @@ namespace Files.App.ViewModels
 			context.PageType is not ContentPageTypes.ReleaseNotes &&
 			context.PageType is not ContentPageTypes.Settings;
 
+		public bool ShowBookmarksBar =>
+			AppearanceSettingsService.ShowBookmarksBar &&
+			context.PageType is not ContentPageTypes.Home &&
+			context.PageType is not ContentPageTypes.ReleaseNotes &&
+			context.PageType is not ContentPageTypes.Settings;
+
 		private bool canShowPrompts;
 
 		public void OnPageLoaded()
@@ -210,6 +216,9 @@ namespace Files.App.ViewModels
 					case nameof(AppearanceSettingsService.ShowToolbar):
 						OnPropertyChanged(nameof(ShowToolbar));
 						break;
+					case nameof(AppearanceSettingsService.ShowBookmarksBar):
+						OnPropertyChanged(nameof(ShowBookmarksBar));
+						break;
 				}
 			};
 
@@ -219,6 +228,7 @@ namespace Files.App.ViewModels
 				{
 					case nameof(context.PageType):
 						OnPropertyChanged(nameof(ShowToolbar));
+						OnPropertyChanged(nameof(ShowBookmarksBar));
 						break;
 				}
 			};

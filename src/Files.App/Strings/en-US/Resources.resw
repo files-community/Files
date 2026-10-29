@@ -4611,6 +4611,14 @@
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Show status bar</value>
   </data>
+  <data name="ShowBookmarksBar" xml:space="preserve">
+    <value>Show bookmarks bar</value>
+    <comment>Setting that controls if the horizontal bookmarks bar is shown below the address bar</comment>
+  </data>
+  <data name="BookmarksBarEmptyHint" xml:space="preserve">
+    <value>Pin folders to the sidebar to see them here</value>
+    <comment>Hint shown in the bookmarks bar when no folders are pinned</comment>
+  </data>
   <data name="ItemCountFormat" xml:space="preserve">
     <value>Item count format</value>
   </data>

@@ -422,6 +422,20 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool ShowBookmarksBar
+		{
+			get => UserSettingsService.AppearanceSettingsService.ShowBookmarksBar;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.ShowBookmarksBar)
+				{
+					UserSettingsService.AppearanceSettingsService.ShowBookmarksBar = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public bool ShowTabActions
 		{
 			get => UserSettingsService.AppearanceSettingsService.ShowTabActions;

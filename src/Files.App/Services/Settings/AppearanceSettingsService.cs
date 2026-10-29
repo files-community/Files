@@ -146,6 +146,13 @@ namespace Files.App.Services.Settings
 		}
 
 		/// <inheritdoc/>
+		public bool ShowBookmarksBar
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
 		public StatusBarItemCountFormat StatusBarItemCountFormat
 		{
 			get => Get(StatusBarItemCountFormat.Total);
