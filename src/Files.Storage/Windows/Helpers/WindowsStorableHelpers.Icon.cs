@@ -17,9 +17,28 @@ namespace Files.Storage
 	{
 		// Fields
 
-		private static readonly Lazy<(Guid Format, Guid Encoder)[]> GdiEncoders = new(() =>
-			System.Drawing.Imaging.ImageCodecInfo.GetImageEncoders().Select(encoder => (encoder.FormatID, encoder.Clsid)).ToArray());
+		private static (Guid Format, Guid Encorder)[]? GdiEncoders;
 		private static ConcurrentDictionary<(string, int, int), byte[]>? DllIconCache;
+
+		private readonly ref struct GdiPlusScope
+		{
+			private readonly nuint token;
+			public bool IsInitialized { get; }
+
+			public unsafe GdiPlusScope()
+			{
+				var input = new GdiplusStartupInput { GdiplusVersion = 1 };
+				nuint value = 0;
+				IsInitialized = PInvoke.GdiplusStartup(&value, &input, null) == Status.Ok;
+				token = value;
+			}
+
+			public void Dispose()
+			{
+				if (IsInitialized)
+					PInvoke.GdiplusShutdown(token);
+			}
+		}
 
 		// Methods
 
@@ -48,8 +67,10 @@ namespace Files.Storage
 			if (storable.ThisPtr is not IShellItemImageFactory pShellItemImageFactory)
 				return HRESULT.E_NOINTERFACE;
 
-			// Loading the codecs initializes GDI+ before the native image-conversion calls.
-			_ = GdiEncoders.Value;
+			using var gdiplus = new GdiPlusScope();
+			if (!gdiplus.IsInitialized)
+				return HRESULT.E_FAIL;
+
 			HBITMAP hBitmap = default;
 			try
 			{
@@ -115,7 +136,10 @@ namespace Files.Storage
 			}
 			else
 			{
-				_ = GdiEncoders.Value;
+				using var gdiplus = new GdiPlusScope();
+				if (!gdiplus.IsInitialized)
+					return HRESULT.E_FAIL;
+
 				HICON hIcon = default;
 				HRESULT hr = default;
 
@@ -206,13 +230,39 @@ namespace Files.Storage
 
 			Guid GetEncoderClsid(Guid format)
 			{
-				foreach ((Guid Format, Guid Encoder) in GdiEncoders.Value)
+				foreach ((Guid Format, Guid Encoder) in GetGdiEncoders())
 					if (Format == format)
 						return Encoder;
 
 				return Guid.Empty;
 			}
 
+			(Guid Format, Guid Encorder)[] GetGdiEncoders()
+			{
+				if (GdiEncoders is not null)
+					return GdiEncoders;
+
+				if (PInvoke.GdipGetImageEncodersSize(out var numEncoders, out var size) is not Status.Ok)
+					return [];
+
+				ImageCodecInfo* pImageCodecInfo = (ImageCodecInfo*)NativeMemory.Alloc(size);
+				try
+				{
+					if (PInvoke.GdipGetImageEncoders(numEncoders, size, pImageCodecInfo) is not Status.Ok)
+						return [];
+
+					ReadOnlySpan<ImageCodecInfo> codecs = new(pImageCodecInfo, (int)numEncoders);
+					var encoders = new (Guid Format, Guid Encoder)[codecs.Length];
+					for (int index = 0; index < codecs.Length; index++)
+						encoders[index] = (codecs[index].FormatID, codecs[index].Clsid);
+
+					return GdiEncoders = encoders;
+				}
+				finally
+				{
+					NativeMemory.Free(pImageCodecInfo);
+				}
+			}
 		}
 
 		public unsafe static HRESULT TrySetFolderIcon(this IWindowsStorable storable, IWindowsStorable iconFile, int index)
