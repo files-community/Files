@@ -2156,9 +2156,6 @@
   <data name="SetAsBackground" xml:space="preserve">
     <value>Set as desktop background</value>
   </data>
-  <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
-  </data>
   <data name="DateColumn" xml:space="preserve">
     <value>Date column</value>
   </data>
@@ -4915,6 +4912,25 @@
   </data>
   <data name="TemplateColumnsDescription" xml:space="preserve">
     <value>Folders that use this template show these columns.</value>
+  </data>
+  <data name="LayoutTemplate" xml:space="preserve">
+    <value>Layout template</value>
+  </data>
+  <data name="EditTemplate" xml:space="preserve">
+    <value>Edit template</value>
+  </data>
+  <data name="SaveLayoutAsTemplate" xml:space="preserve">
+    <value>Save layout as template</value>
+  </data>
+  <data name="RestoreDefaultView" xml:space="preserve">
+    <value>Restore default view</value>
+  </data>
+  <data name="MoreViewOptions" xml:space="preserve">
+    <value>More view options</value>
+  </data>
+  <data name="NewTemplate" xml:space="preserve">
+    <value>New template</value>
+    <comment>Default name of a layout template the user creates.</comment>
   </data>
   <data name="Unrated" xml:space="preserve">
     <value>Unrated</value>

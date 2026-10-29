@@ -37,6 +37,7 @@ namespace Files.App.ViewModels.UserControls
 		private readonly IUpdateService UpdateService = Ioc.Default.GetRequiredService<IUpdateService>();
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly ILayoutTemplatesService LayoutTemplatesService = Ioc.Default.GetRequiredService<ILayoutTemplatesService>();
 		private readonly StatusCenterViewModel OngoingTasksViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		// Fields
@@ -116,6 +117,24 @@ namespace Files.App.ViewModels.UserControls
 		public bool IsGridLayout => _InstanceViewModel?.FolderSettings.LayoutMode is FolderLayoutModes.GridView;
 		public bool IsDetailsLayout => _InstanceViewModel?.FolderSettings.LayoutMode is FolderLayoutModes.DetailsView;
 		public bool IsListLayout => _InstanceViewModel?.FolderSettings.LayoutMode is FolderLayoutModes.ListView;
+
+		/// <summary>
+		/// Gets whether the layout button shows as selected, which it doesn't when the layout comes from a template.
+		/// </summary>
+		public bool IsCardsLayoutChecked => IsCardsLayout && !IsLayoutTemplateApplied;
+		public bool IsColumnLayoutChecked => IsColumnLayout && !IsLayoutTemplateApplied;
+		public bool IsGridLayoutChecked => IsGridLayout && !IsLayoutTemplateApplied;
+		public bool IsDetailsLayoutChecked => IsDetailsLayout && !IsLayoutTemplateApplied;
+		public bool IsListLayoutChecked => IsListLayout && !IsLayoutTemplateApplied;
+
+		/// <summary>
+		/// Gets whether the layout is the current one and comes from the template of the folder.
+		/// </summary>
+		public bool IsCardsLayoutFromTemplate => IsCardsLayout && IsLayoutTemplateApplied;
+		public bool IsColumnLayoutFromTemplate => IsColumnLayout && IsLayoutTemplateApplied;
+		public bool IsGridLayoutFromTemplate => IsGridLayout && IsLayoutTemplateApplied;
+		public bool IsDetailsLayoutFromTemplate => IsDetailsLayout && IsLayoutTemplateApplied;
+		public bool IsListLayoutFromTemplate => IsListLayout && IsLayoutTemplateApplied;
 
 		public bool IsLayoutSizeCompact =>
 			(IsDetailsLayout && UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact) ||
@@ -273,6 +292,7 @@ namespace Files.App.ViewModels.UserControls
 				if (SetProperty(ref _InstanceViewModel, value) && value is not null)
 				{
 					FolderSettings_PropertyChanged(this, new PropertyChangedEventArgs(nameof(LayoutPreferencesManager.LayoutMode)));
+					UpdateLayoutTemplateProperties();
 					value.FolderSettings.PropertyChanged += FolderSettings_PropertyChanged;
 					value.PropertyChanged += InstanceViewModel_PropertyChanged;
 					OnPropertyChanged(nameof(OmnibarSearchModePlaceholder));
@@ -319,6 +339,38 @@ namespace Files.App.ViewModels.UserControls
 		public ICommand? Share { get; set; }
 		public ICommand? UpdateCommand { get; set; }
 
+		private static readonly LayoutTemplate NoLayoutTemplate = new() { Name = Strings.None.GetLocalizedResource() };
+
+		public List<LayoutTemplate> LayoutTemplates
+			=> [NoLayoutTemplate, .. LayoutTemplatesService.Templates.Where(template => template.Id != LayoutTemplateIds.Default)];
+
+		/// <summary>
+		/// Gets or sets the template the current folder uses, or the "No template selected" choice when it uses the default layout or has its own changes.
+		/// </summary>
+		public LayoutTemplate SelectedLayoutTemplate
+		{
+			get => _InstanceViewModel?.FolderSettings is { IsCustomized: false, TemplateId: { } id } && id != LayoutTemplateIds.Default ? LayoutTemplatesService.GetTemplate(id) ?? NoLayoutTemplate : NoLayoutTemplate;
+			set
+			{
+				if (value is null || value.Id == SelectedLayoutTemplate.Id)
+					return;
+
+				if (value == NoLayoutTemplate)
+					_InstanceViewModel?.FolderSettings.DetachFromTemplate();
+				else
+					RunLayoutTemplateAction(path => LayoutPreferencesManager.SetTemplateForPath(path, value.Id));
+			}
+		}
+
+		public bool IsLayoutTemplateApplied
+			=> SelectedLayoutTemplate != NoLayoutTemplate;
+
+		public IAsyncRelayCommand SaveAsNewLayoutTemplateCommand { get; }
+
+		public IAsyncRelayCommand EditLayoutTemplateCommand { get; }
+
+		public IRelayCommand RestoreDefaultViewCommand { get; }
+
 		// Constructor
 
 		public NavigationToolbarViewModel()
@@ -326,6 +378,11 @@ namespace Files.App.ViewModels.UserControls
 			_dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			UpdateService.PropertyChanged += UpdateService_OnPropertyChanged;
+			LayoutTemplatesService.PropertyChanged += LayoutTemplatesService_PropertyChanged;
+
+			SaveAsNewLayoutTemplateCommand = new RelayCommand(SaveAsNewLayoutTemplate, () => !IsLayoutTemplateApplied);
+			EditLayoutTemplateCommand = new AsyncRelayCommand(() => Commands.OpenSettings.ExecuteAsync(new SettingsNavigationParams() { PageKind = SettingsPageKind.LayoutPage }), () => IsLayoutTemplateApplied);
+			RestoreDefaultViewCommand = new RelayCommand(() => RunLayoutTemplateAction(LayoutPreferencesManager.ResetPreferencesForPath));
 
 			Commands.DecompressArchive.PropertyChanged += DecompressCommand_PropertyChanged;
 			Commands.DecompressArchiveHere.PropertyChanged += DecompressCommand_PropertyChanged;
@@ -1478,13 +1535,59 @@ namespace Files.App.ViewModels.UserControls
 					OnPropertyChanged(nameof(IsColumnLayout));
 					OnPropertyChanged(nameof(IsGridLayout));
 					OnPropertyChanged(nameof(IsDetailsLayout));
+					OnPropertyChangedForLayoutButtons();
 					OnPropertyChanged(nameof(IsLayoutSizeCompact));
 					OnPropertyChanged(nameof(IsLayoutSizeSmall));
 					OnPropertyChanged(nameof(IsLayoutSizeMedium));
 					OnPropertyChanged(nameof(IsLayoutSizeLarge));
 					OnPropertyChanged(nameof(IsLayoutSizeExtraLarge));
 					break;
+				case nameof(LayoutPreferencesManager.TemplateId):
+				case nameof(LayoutPreferencesManager.IsCustomized):
+					UpdateLayoutTemplateProperties();
+					break;
 			}
+		}
+
+		private void LayoutTemplatesService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(ILayoutTemplatesService.Templates))
+			{
+				OnPropertyChanged(nameof(LayoutTemplates));
+				UpdateLayoutTemplateProperties();
+			}
+		}
+
+		private void OnPropertyChangedForLayoutButtons()
+		{
+			foreach (var name in (string[])[nameof(IsCardsLayoutChecked), nameof(IsColumnLayoutChecked), nameof(IsGridLayoutChecked), nameof(IsDetailsLayoutChecked), nameof(IsListLayoutChecked),
+				nameof(IsCardsLayoutFromTemplate), nameof(IsColumnLayoutFromTemplate), nameof(IsGridLayoutFromTemplate), nameof(IsDetailsLayoutFromTemplate), nameof(IsListLayoutFromTemplate)])
+				OnPropertyChanged(name);
+		}
+
+		private void UpdateLayoutTemplateProperties()
+		{
+			OnPropertyChangedForLayoutButtons();
+			OnPropertyChanged(nameof(SelectedLayoutTemplate));
+			OnPropertyChanged(nameof(IsLayoutTemplateApplied));
+			EditLayoutTemplateCommand.NotifyCanExecuteChanged();
+			SaveAsNewLayoutTemplateCommand.NotifyCanExecuteChanged();
+		}
+
+		private void SaveAsNewLayoutTemplate()
+		{
+			var name = ContentPageContext.ShellPage?.ShellViewModel?.CurrentFolder?.Name;
+			RunLayoutTemplateAction(path => LayoutPreferencesManager.SaveAsNewTemplateFromPath(path, string.IsNullOrEmpty(name) ? Strings.NewTemplate.GetLocalizedResource() : name));
+		}
+
+		private void RunLayoutTemplateAction(Action<string> action)
+		{
+			if (ContentPageContext.ShellPage is not { ShellViewModel: { WorkingDirectory: { Length: > 0 } path } shellViewModel } shellPage)
+				return;
+
+			action(path);
+			shellPage.InstanceViewModel.FolderSettings.ReloadPreferences(path, () => FolderContentHelpers.GetContent(shellViewModel.FilesAndFolders.ToList()));
+			LayoutHelpers.ReloadPreferences(path);
 		}
 
 		public void CancelSuggestionSearch()
@@ -1509,6 +1612,7 @@ namespace Files.App.ViewModels.UserControls
 			InstanceViewModel = null!;
 			SelectedItems = null;
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+			LayoutTemplatesService.PropertyChanged -= LayoutTemplatesService_PropertyChanged;
 			UpdateService.PropertyChanged -= UpdateService_OnPropertyChanged;
 			Commands.DecompressArchive.PropertyChanged -= DecompressCommand_PropertyChanged;
 			Commands.DecompressArchiveHere.PropertyChanged -= DecompressCommand_PropertyChanged;

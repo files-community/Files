@@ -289,12 +289,6 @@
 
 									<!--  More Columns  -->
 									<MenuFlyoutItem Click="MoreColumns_Click" Text="{helpers:ResourceString Name=MoreColumnsEllipsis}" />
-
-									<!--  Set Current Columns As Default  -->
-									<MenuFlyoutItem
-										x:Name="SetCurrentColumnsAsDefaultMenuFlyoutItem"
-										Click="SetDetailsColumnsAsDefault_Click"
-										Text="{helpers:ResourceString Name=SetAsDefault}" />
 								</MenuFlyout>
 							</Grid.ContextFlyout>
 

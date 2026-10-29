@@ -7,6 +7,7 @@
 	xmlns:controls="using:Files.App.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -50,6 +51,64 @@
 				<Setter Target="Width" Value="76" />
 				<Setter Target="Height" Value="72" />
 				<Setter Target="MinWidth" Value="0" />
+				<Setter Target="Background" Value="Transparent" />
+				<Setter Target="BorderBrush" Value="Transparent" />
+			</Style>
+
+			<Style x:Key="Local.FlyoutRowButtonStyle" TargetType="Button">
+				<Setter Property="HorizontalAlignment" Value="Stretch" />
+				<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+				<Setter Property="VerticalContentAlignment" Value="Center" />
+				<Setter Property="Padding" Value="11,4,11,7" />
+				<Setter Property="Background" Value="Transparent" />
+				<Setter Property="Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+				<Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+				<Setter Property="UseSystemFocusVisuals" Value="True" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="Button">
+							<Grid
+								x:Name="RootGrid"
+								Padding="{TemplateBinding Padding}"
+								Background="{TemplateBinding Background}"
+								CornerRadius="{TemplateBinding CornerRadius}">
+								<ContentPresenter
+									x:Name="ContentPresenter"
+									HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+									VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+									Content="{TemplateBinding Content}"
+									ContentTemplate="{TemplateBinding ContentTemplate}"
+									Foreground="{TemplateBinding Foreground}" />
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup x:Name="CommonStates">
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="PointerOver">
+											<VisualState.Setters>
+												<Setter Target="RootGrid.Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
+											</VisualState.Setters>
+										</VisualState>
+										<VisualState x:Name="Pressed">
+											<VisualState.Setters>
+												<Setter Target="RootGrid.Background" Value="{ThemeResource SubtleFillColorTertiaryBrush}" />
+												<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+											</VisualState.Setters>
+										</VisualState>
+										<VisualState x:Name="Disabled">
+											<VisualState.Setters>
+												<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextFillColorDisabledBrush}" />
+											</VisualState.Setters>
+										</VisualState>
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Grid>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+			<Style x:Key="Local.TemplateLayoutLabelStyle" TargetType="TextBlock">
+				<Setter Property="FontWeight" Value="SemiBold" />
+				<Setter Property="Foreground" Value="{ThemeResource AccentTextFillColorPrimaryBrush}" />
 			</Style>
 		</ResourceDictionary>
 	</UserControl.Resources>
@@ -278,13 +337,70 @@
 				<controls:ThemedIcon Style="{x:Bind ViewModel.LayoutThemedIcon, Mode=OneWay}" />
 
 				<AppBarButton.Flyout>
-					<Flyout
-						x:Name="LayoutFlyout"
-						contract8Present:ShouldConstrainToRootBounds="False"
-						Placement="Bottom">
+					<Flyout x:Name="LayoutFlyout" Placement="Bottom">
 						<StackPanel Spacing="12">
 
-							<!--  Header  -->
+							<!--  Template Header  -->
+							<TextBlock FontWeight="Medium" Text="{helpers:ResourceString Name=LayoutTemplate}" />
+
+							<!--  Templates  -->
+							<Grid ColumnSpacing="8">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+
+								<ComboBox
+									HorizontalAlignment="Stretch"
+									AllowFocusOnInteraction="True"
+									AutomationProperties.Name="{helpers:ResourceString Name=LayoutTemplate}"
+									DropDownClosed="LayoutTemplates_DropDownClosed"
+									DropDownOpened="LayoutTemplates_DropDownOpened"
+									ItemsSource="{x:Bind ViewModel.LayoutTemplates, Mode=OneWay}"
+									SelectedItem="{x:Bind ViewModel.SelectedLayoutTemplate, Mode=TwoWay}">
+									<ComboBox.ItemTemplate>
+										<DataTemplate x:DataType="dataitems:LayoutTemplate">
+											<TextBlock Text="{x:Bind DisplayName}" TextTrimming="CharacterEllipsis" />
+										</DataTemplate>
+									</ComboBox.ItemTemplate>
+								</ComboBox>
+
+								<!--  Edit Template  -->
+								<Button
+									Grid.Column="1"
+									Width="32"
+									Height="32"
+									Padding="0"
+									AutomationProperties.Name="{helpers:ResourceString Name=EditTemplate}"
+									Click="LayoutButton_Click"
+									Command="{x:Bind ViewModel.EditLayoutTemplateCommand, Mode=OneWay}"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=EditTemplate}">
+									<FontIcon FontSize="16" Glyph="&#xE70F;" />
+								</Button>
+
+								<!--  Save Layout As Template  -->
+								<Button
+									Grid.Column="2"
+									Width="32"
+									Height="32"
+									Padding="0"
+									AutomationProperties.Name="{helpers:ResourceString Name=SaveLayoutAsTemplate}"
+									Click="LayoutButton_Click"
+									Command="{x:Bind ViewModel.SaveAsNewLayoutTemplateCommand, Mode=OneWay}"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=SaveLayoutAsTemplate}">
+									<FontIcon FontSize="16" Glyph="&#xE74E;" />
+								</Button>
+							</Grid>
+
+							<!--  (Divider)  -->
+							<Border
+								Margin="-20,0"
+								HorizontalAlignment="Stretch"
+								BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+								BorderThickness=".5" />
+
+							<!--  Layout Header  -->
 							<TextBlock FontWeight="Medium" Text="{helpers:ResourceString Name=Layout}" />
 
 							<!--  Layout  -->
@@ -296,18 +412,21 @@
 									Click="LayoutButton_Click"
 									Command="{x:Bind Commands.LayoutDetails}"
 									GroupName="LayoutRadio"
-									IsChecked="{x:Bind ViewModel.IsDetailsLayout, Mode=OneWay}"
+									IsChecked="{x:Bind ViewModel.IsDetailsLayoutChecked, Mode=OneWay}"
 									Style="{StaticResource Local.RadioToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutDetails.LabelWithHotKey, Mode=OneWay}">
 									<StackPanel Spacing="4">
 										<controls:ThemedIcon
 											Width="28"
 											Height="28"
+											IconColorType="{x:Bind GetLayoutIconColor(ViewModel.IsDetailsLayoutFromTemplate), Mode=OneWay}"
+											IsFilled="{x:Bind ViewModel.IsDetailsLayoutFromTemplate, Mode=OneWay}"
 											Style="{StaticResource App.ThemedIcons.IconLayout.Details.28}" />
 
 										<TextBlock
 											HorizontalAlignment="Center"
 											FontSize="12"
+											Style="{x:Bind GetLayoutLabelStyle(ViewModel.IsDetailsLayoutFromTemplate), Mode=OneWay}"
 											Text="{x:Bind Commands.LayoutDetails.Label}"
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap" />
@@ -320,7 +439,7 @@
 									Click="LayoutButton_Click"
 									Command="{x:Bind Commands.LayoutList}"
 									GroupName="LayoutRadio"
-									IsChecked="{x:Bind ViewModel.IsListLayout, Mode=OneWay}"
+									IsChecked="{x:Bind ViewModel.IsListLayoutChecked, Mode=OneWay}"
 									Style="{StaticResource Local.RadioToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutList.LabelWithHotKey, Mode=OneWay}">
 
@@ -328,11 +447,14 @@
 										<controls:ThemedIcon
 											Width="28"
 											Height="28"
+											IconColorType="{x:Bind GetLayoutIconColor(ViewModel.IsListLayoutFromTemplate), Mode=OneWay}"
+											IsFilled="{x:Bind ViewModel.IsListLayoutFromTemplate, Mode=OneWay}"
 											Style="{StaticResource App.ThemedIcons.IconLayout.List.28}" />
 
 										<TextBlock
 											HorizontalAlignment="Center"
 											FontSize="12"
+											Style="{x:Bind GetLayoutLabelStyle(ViewModel.IsListLayoutFromTemplate), Mode=OneWay}"
 											Text="{x:Bind Commands.LayoutList.Label}"
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap" />
@@ -345,7 +467,7 @@
 									Click="LayoutButton_Click"
 									Command="{x:Bind Commands.LayoutCards}"
 									GroupName="LayoutRadio"
-									IsChecked="{x:Bind ViewModel.IsCardsLayout, Mode=OneWay}"
+									IsChecked="{x:Bind ViewModel.IsCardsLayoutChecked, Mode=OneWay}"
 									Style="{StaticResource Local.RadioToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutCards.LabelWithHotKey, Mode=OneWay}">
 
@@ -353,11 +475,14 @@
 										<controls:ThemedIcon
 											Width="28"
 											Height="28"
+											IconColorType="{x:Bind GetLayoutIconColor(ViewModel.IsCardsLayoutFromTemplate), Mode=OneWay}"
+											IsFilled="{x:Bind ViewModel.IsCardsLayoutFromTemplate, Mode=OneWay}"
 											Style="{StaticResource App.ThemedIcons.IconLayout.Tiles.28}" />
 
 										<TextBlock
 											HorizontalAlignment="Center"
 											FontSize="12"
+											Style="{x:Bind GetLayoutLabelStyle(ViewModel.IsCardsLayoutFromTemplate), Mode=OneWay}"
 											Text="{x:Bind Commands.LayoutCards.Label}"
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap" />
@@ -370,7 +495,7 @@
 									Click="LayoutButton_Click"
 									Command="{x:Bind Commands.LayoutGrid}"
 									GroupName="LayoutRadio"
-									IsChecked="{x:Bind ViewModel.IsGridLayout, Mode=OneWay}"
+									IsChecked="{x:Bind ViewModel.IsGridLayoutChecked, Mode=OneWay}"
 									Style="{StaticResource Local.RadioToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutGrid.LabelWithHotKey, Mode=OneWay}">
 
@@ -378,11 +503,14 @@
 										<controls:ThemedIcon
 											Width="28"
 											Height="28"
+											IconColorType="{x:Bind GetLayoutIconColor(ViewModel.IsGridLayoutFromTemplate), Mode=OneWay}"
+											IsFilled="{x:Bind ViewModel.IsGridLayoutFromTemplate, Mode=OneWay}"
 											Style="{StaticResource App.ThemedIcons.IconLayout.Grid.28}" />
 
 										<TextBlock
 											HorizontalAlignment="Center"
 											FontSize="12"
+											Style="{x:Bind GetLayoutLabelStyle(ViewModel.IsGridLayoutFromTemplate), Mode=OneWay}"
 											Text="{x:Bind Commands.LayoutGrid.Label}"
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap" />
@@ -395,7 +523,7 @@
 									Click="LayoutButton_Click"
 									Command="{x:Bind Commands.LayoutColumns}"
 									GroupName="LayoutRadio"
-									IsChecked="{x:Bind ViewModel.IsColumnLayout, Mode=OneWay}"
+									IsChecked="{x:Bind ViewModel.IsColumnLayoutChecked, Mode=OneWay}"
 									Style="{StaticResource Local.RadioToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutColumns.LabelWithHotKey, Mode=OneWay}">
 
@@ -403,11 +531,14 @@
 										<controls:ThemedIcon
 											Width="28"
 											Height="28"
+											IconColorType="{x:Bind GetLayoutIconColor(ViewModel.IsColumnLayoutFromTemplate), Mode=OneWay}"
+											IsFilled="{x:Bind ViewModel.IsColumnLayoutFromTemplate, Mode=OneWay}"
 											Style="{StaticResource App.ThemedIcons.IconLayout.Columns.28}" />
 
 										<TextBlock
 											HorizontalAlignment="Center"
 											FontSize="12"
+											Style="{x:Bind GetLayoutLabelStyle(ViewModel.IsColumnLayoutFromTemplate), Mode=OneWay}"
 											Text="{x:Bind Commands.LayoutColumns.Label}"
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap" />
@@ -765,52 +896,57 @@
 								BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 								BorderThickness=".5" />
 
-							<!--  Toggle Options  -->
-							<Grid RowSpacing="4">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="Auto" />
-								</Grid.ColumnDefinitions>
-								<Grid.RowDefinitions>
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-								</Grid.RowDefinitions>
+							<!--  View Options  -->
+							<StackPanel Margin="-8,0" Spacing="4">
 
-								<!--  Show Hidden Files  -->
-								<TextBlock
-									Grid.Row="0"
-									Grid.Column="0"
-									VerticalAlignment="Center"
-									Text="{x:Bind Commands.ToggleShowHiddenItems.Label}" />
+								<!--  Restore Default View  -->
+								<Button
+									Click="LayoutButton_Click"
+									Command="{x:Bind ViewModel.RestoreDefaultViewCommand, Mode=OneWay}"
+									Content="{helpers:ResourceString Name=RestoreDefaultView}"
+									PointerEntered="RestoreDefaultView_PointerEntered"
+									Style="{StaticResource Local.FlyoutRowButtonStyle}" />
 
-								<ToggleSwitch
-									Grid.Row="0"
-									Grid.Column="1"
-									MinWidth="68"
-									HorizontalAlignment="Right"
-									AccessKey="H"
-									AutomationProperties.Name="{x:Bind Commands.ToggleShowHiddenItems.AutomationName}"
-									IsOn="{x:Bind Commands.ToggleShowHiddenItems.IsOn, Mode=TwoWay}"
-									ToolTipService.ToolTip="{x:Bind Commands.ToggleShowHiddenItems.HotKeyText, Mode=OneWay}" />
+								<!--  More View Options  -->
+								<Button
+									AutomationProperties.Name="{helpers:ResourceString Name=MoreViewOptions}"
+									PointerEntered="MoreViewOptions_PointerEntered"
+									Style="{StaticResource Local.FlyoutRowButtonStyle}">
+									<Grid ColumnSpacing="8">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+										</Grid.ColumnDefinitions>
+										<TextBlock Text="{helpers:ResourceString Name=MoreViewOptions}" />
+										<FontIcon
+											Grid.Column="1"
+											AutomationProperties.AccessibilityView="Raw"
+											FontSize="12"
+											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+											Glyph="&#xE974;" />
+									</Grid>
+									<Button.Flyout>
+										<MenuFlyout
+											x:Name="MoreViewOptionsMenu"
+											contract8Present:ShouldConstrainToRootBounds="False"
+											Placement="RightEdgeAlignedTop">
+											<!--  Show Hidden Files  -->
+											<ToggleMenuFlyoutItem
+												AccessKey="H"
+												Click="LayoutButton_Click"
+												IsChecked="{x:Bind Commands.ToggleShowHiddenItems.IsOn, Mode=TwoWay}"
+												Text="{x:Bind Commands.ToggleShowHiddenItems.Label}" />
 
-								<!--  Show File Extensions  -->
-								<TextBlock
-									Grid.Row="1"
-									Grid.Column="0"
-									VerticalAlignment="Center"
-									Text="{x:Bind Commands.ToggleShowFileExtensions.Label}" />
-
-								<ToggleSwitch
-									Grid.Row="1"
-									Grid.Column="1"
-									MinWidth="68"
-									HorizontalAlignment="Right"
-									AccessKey="E"
-									AutomationProperties.Name="{x:Bind Commands.ToggleShowFileExtensions.AutomationName}"
-									IsOn="{x:Bind Commands.ToggleShowFileExtensions.IsOn, Mode=TwoWay}"
-									Rotation="1"
-									ToolTipService.ToolTip="{x:Bind Commands.ToggleShowFileExtensions.HotKeyText, Mode=OneWay}" />
-							</Grid>
+											<!--  Show File Extensions  -->
+											<ToggleMenuFlyoutItem
+												AccessKey="E"
+												Click="LayoutButton_Click"
+												IsChecked="{x:Bind Commands.ToggleShowFileExtensions.IsOn, Mode=TwoWay}"
+												Text="{x:Bind Commands.ToggleShowFileExtensions.Label}" />
+										</MenuFlyout>
+									</Button.Flyout>
+								</Button>
+							</StackPanel>
 
 						</StackPanel>
 					</Flyout>

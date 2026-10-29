@@ -5,6 +5,23 @@ namespace Files.App.Helpers
 {
 	static class LayoutHelpers
 	{
+		/// <summary>
+		/// Reloads the layout preferences of the open panes that show the specified folder.
+		/// </summary>
+		public static void ReloadPreferences(string path)
+		{
+			var tabs = Ioc.Default.GetRequiredService<IMultitaskingContext>().Control?.GetAllTabInstances();
+			if (tabs is null)
+				return;
+
+			foreach (var pane in tabs.OfType<ShellPanesPage>().SelectMany(page => page.GetPanes()))
+			{
+				if (pane.ShellViewModel is { } shellViewModel &&
+					string.Equals(shellViewModel.WorkingDirectory.TrimPath(), path.TrimPath(), StringComparison.OrdinalIgnoreCase))
+					pane.InstanceViewModel.FolderSettings.ReloadPreferences(shellViewModel.WorkingDirectory, () => FolderContentHelpers.GetContent(shellViewModel.FilesAndFolders.ToList()));
+			}
+		}
+
 		public static void UpdateOpenTabsPreferences()
 		{
 			// Services
