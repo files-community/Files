@@ -15,6 +15,8 @@ public sealed partial class DriveService
 
 	public static IAsyncOperation<DriveItemInfo?> GetDriveAsync(string id) => ServerAsync.Run(token => DriveCatalog.GetAsync(id).WaitAsync(token));
 
+	public static void InvalidateDrive(string id) => DriveCatalog.Invalidate(id);
+
 	public static IAsyncOperation<DrivePropertiesInfo> GetDrivePropertiesAsync(string path, bool cloud) => ServerAsync.Run(token => DriveCatalog.GetPropertiesAsync(path, cloud).WaitAsync(token));
 
 	public static IAsyncOperation<IReadOnlyList<string>> GetWslDistributionsAsync() => ServerAsync.Run(token => InitializationCache.Wsl.GetAsync().WaitAsync(token));

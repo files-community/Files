@@ -62,6 +62,21 @@ internal static class DriveCatalog
 		ServerEvents.Notify(ServerChangeNames.Drives);
 	}
 
+	internal static void Invalidate(string id)
+	{
+		if (drives.TryGetValue(id, out var drive))
+			drive.Invalidate();
+
+		// Portable-device IDs can cache a snapshot of the same filesystem drive.
+		foreach (var portableId in portable.Keys)
+		{
+			if (drives.TryGetValue(portableId, out var portableDrive))
+				portableDrive.Invalidate();
+		}
+
+		ServerEvents.Notify(ServerChangeNames.Drives);
+	}
+
 	internal static Task<DriveItemInfo?> GetAsync(string id) => drives.GetOrAdd(id,
 		key => new CachedTask<DriveItemInfo?>(() => LoadAsync(key), TimeSpan.FromMinutes(1), allowNull: true)).GetAsync();
 
