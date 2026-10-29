@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Files.App.Helpers.Application;
-using Microsoft.Extensions.Logging;
 using System.Runtime.InteropServices;
 
 namespace Files.App;
@@ -12,7 +11,6 @@ public partial class App
 	private static readonly Lock serverSessionGate = new();
 	private static readonly CancellationTokenSource serverSessionStopping = new();
 	private static Task<Server.AppService>? serverSession;
-	private static Server.AppService? activeServerSession;
 	private static Process? serverProcess;
 	private static long serverWindowHandle;
 	private static bool receivedStartupSession;
@@ -60,12 +58,6 @@ public partial class App
 				lock (serverSessionGate)
 				{
 					serverSessionStopping.Token.ThrowIfCancellationRequested();
-					activeServerSession = session;
-				}
-				ApplyServerWindowHandle(session);
-				lock (serverSessionGate)
-				{
-					serverSessionStopping.Token.ThrowIfCancellationRequested();
 					if (process.HasExited)
 						throw new COMException("The server exited during registration.", unchecked((int)0x80010108));
 					if (!receivedStartupSession)
@@ -79,13 +71,6 @@ public partial class App
 			}
 			catch (Exception ex)
 			{
-				lock (serverSessionGate)
-				{
-					if (ReferenceEquals(serverProcess, process))
-						serverProcess = null;
-					if (ReferenceEquals(activeServerSession, session))
-						activeServerSession = null;
-				}
 				process?.Dispose();
 				if (session is not null)
 					SafetyExtensions.IgnoreExceptions(session.Dispose, Logger);
@@ -117,13 +102,14 @@ public partial class App
 				return;
 			serverProcess = null;
 			serverSession = null;
-			activeServerSession = null;
 			ServerFactoryCache.Clear();
 		}
 		(sender as Process)?.Dispose();
 		_ = SafetyExtensions.IgnoreExceptions(async () =>
 		{
-			await ServerSession.ConfigureAwait(false);
+			var session = await ServerSession.ConfigureAwait(false);
+			serverSessionStopping.Token.ThrowIfCancellationRequested();
+			ApplyServerWindowHandle(session);
 			_ = SafetyExtensions.IgnoreExceptions(async () => await Server.AppService.InitializeAsync(), Logger);
 			foreach (var name in new[]
 			{
@@ -137,57 +123,46 @@ public partial class App
 
 	private static async Task SetServerWindowHandleAsync(long handle)
 	{
-		lock (serverSessionGate)
-			serverWindowHandle = handle;
+		Volatile.Write(ref serverWindowHandle, handle);
 		var session = await ServerSession;
 		ApplyServerWindowHandle(session);
 	}
 
 	private static void ApplyServerWindowHandle(Server.AppService session)
 	{
-		while (true)
+		long handle;
+		do
 		{
-			long handle;
-			lock (serverSessionGate)
-			{
-				if (!ReferenceEquals(session, activeServerSession))
-					return;
-				handle = serverWindowHandle;
-			}
+			handle = Volatile.Read(ref serverWindowHandle);
 			session.SetWindowHandle(handle);
-			lock (serverSessionGate)
-				if (handle == serverWindowHandle)
-					return;
 		}
+		while (handle != Volatile.Read(ref serverWindowHandle));
 	}
 
 	private static void ClearServerWindowHandle()
 	{
-		Server.AppService? session;
+		Volatile.Write(ref serverWindowHandle, 0);
+		Task<Server.AppService>? session;
 		lock (serverSessionGate)
-		{
-			serverWindowHandle = 0;
-			session = activeServerSession;
-		}
-		if (session is not null)
-			SafetyExtensions.IgnoreExceptions(() => ApplyServerWindowHandle(session), Logger);
+			session = serverSession;
+		if (session?.IsCompletedSuccessfully == true)
+			SafetyExtensions.IgnoreExceptions(() => ApplyServerWindowHandle(session.Result), Logger);
 	}
 
 	private static void StopServerSession()
 	{
-		Server.AppService? session;
+		Task<Server.AppService>? session;
 		Process? process;
 		lock (serverSessionGate)
 		{
 			serverSessionStopping.Cancel();
-			session = activeServerSession;
+			session = serverSession;
 			process = serverProcess;
 			serverSession = null;
 			serverProcess = null;
-			activeServerSession = null;
 		}
 		process?.Dispose();
 		if (session is not null)
-			SafetyExtensions.IgnoreExceptions(session.Dispose, Logger);
+			_ = SafetyExtensions.IgnoreExceptions(async () => (await session.ConfigureAwait(false)).Dispose(), Logger);
 	}
 }
