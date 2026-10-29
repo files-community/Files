@@ -3,37 +3,39 @@
 
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace Files.App.Services
 {
 	internal sealed class IconCacheService : IIconCacheService
 	{
-		// Dummy path to generate generic icons for folders, executables, and shortcuts.
-		private static readonly string _dummyPath = Path.Combine(Path.GetPathRoot(Environment.SystemDirectory)!, "x46696c6573");
-
 		private readonly ConcurrentDictionary<string, byte[]?> _cache = new();
 		private readonly ConcurrentDictionary<string, BitmapImage> _imageCache = new();
 
 		public async Task<byte[]?> GetIconAsync(string? itemPath, string? extension, bool isFolder, uint size)
 		{
-			var key = $"{(isFolder ? ":folder:" : (extension?.ToLowerInvariant() ?? ":noext:"))}:{size}";
+			var key = $"{(isFolder ? ":folder:" : (extension?.ToLowerInvariant() ?? ":noext:"))}:{size}:{App.AppModel.AppWindowDPI}";
 
 			if (_cache.TryGetValue(key, out var cached))
 				return cached;
 
-			// Always use the dummy path so the shell resolves the generic type icon from the
-			// extension alone. This works correctly for all path types (local, MTP, FTP, network,
-			// cloud, etc.) because the cache is keyed by extension anyway, not by item identity.
-			// Folders use a real path so the exact-size extraction succeeds and matches per-item icons.
-			var iconPath = isFolder ? Environment.SystemDirectory : (string.IsNullOrEmpty(extension) ? _dummyPath : _dummyPath + extension);
-
-			var icon = await FileThumbnailHelper.GetIconAsync(
-				iconPath,
-				size,
-				isFolder,
-				IconOptions.ReturnIconOnly);
+			var scaledSize = size * App.AppModel.AppWindowDPI;
+			var pixels = new[] { 16, 24, 32, 48, 64, 96, 128, 256 }.FirstOrDefault(value => value >= scaledSize, 256);
+			byte[]? icon;
+			try
+			{
+				var buffer = await Server.IconService.GetGenericIconAsync(extension ?? string.Empty, isFolder, pixels);
+				icon = buffer.Length == 0 ? null : buffer.ToArray();
+			}
+			catch (COMException ex)
+			{
+				App.Logger.LogInformation(ex, "Could not load a generic icon from the server.");
+				return null;
+			}
 
 			_cache.TryAdd(key, icon);
 			return icon;
@@ -45,7 +47,7 @@ namespace Files.App.Services
 			if (DispatcherQueue.GetForCurrentThread() is null)
 				return null;
 
-			var key = $"{(isFolder ? ":folder:" : (extension?.ToLowerInvariant() ?? ":noext:"))}:{size}";
+			var key = $"{(isFolder ? ":folder:" : (extension?.ToLowerInvariant() ?? ":noext:"))}:{size}:{App.AppModel.AppWindowDPI}";
 			if (_imageCache.TryGetValue(key, out var cached))
 				return cached;
 

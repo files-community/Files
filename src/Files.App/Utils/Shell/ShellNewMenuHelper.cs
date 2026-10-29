@@ -7,7 +7,7 @@ public static class ShellNewMenuHelper
 {
 	public static async Task<List<ShellNewEntry>> GetNewContextMenuEntries()
 	{
-		var entries = await Server.AppService.GetShellNewEntriesAsync();
+		var entries = await Server.ShellService.GetShellNewEntriesAsync();
 		return entries.Select(ToEntry).ToList();
 	}
 
@@ -15,7 +15,7 @@ public static class ShellNewMenuHelper
 	{
 		if (string.IsNullOrEmpty(extension))
 			return null;
-		var entry = await Server.AppService.GetShellNewEntryAsync(extension);
+		var entry = await Server.ShellService.GetShellNewEntryAsync(extension);
 		return entry is null ? null : ToEntry(entry);
 	}
 

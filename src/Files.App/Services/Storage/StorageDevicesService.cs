@@ -12,65 +12,30 @@ namespace Files.App.Services
 	{
 		public IStorageDeviceWatcher CreateWatcher()
 		{
-			return new WindowsStorageDeviceWatcher();
+			return new ServerDriveWatcher();
 		}
 
 		public async IAsyncEnumerable<IFolder> GetDrivesAsync()
 		{
-			var pCloudDrivePath = App.AppModel.PCloudDrivePath;
-			var drives = await Task.Run(DriveInfo.GetDrives).ConfigureAwait(false);
-
-			// Probe drives in parallel so one slow drive doesn't delay the rest
-			var pending = drives.Select(drive => GetDriveItemAsync(drive, pCloudDrivePath)).ToList();
-
+			// Start the per-drive RPCs off the UI thread, including when the ID list is cached.
+			var ids = await Server.DriveService.GetDriveIdsAsync().AsTask().ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+			var pending = ids.Select(GetDriveItemAsync).ToArray();
 			await foreach (var completed in Task.WhenEach(pending))
 			{
-				if (await completed is { } driveItem)
-					yield return driveItem;
+				var item = await SafetyExtensions.IgnoreExceptions(() => completed, App.Logger);
+				var pCloudDrivePath = App.AppModel.PCloudDrivePath;
+				if (item is null ||
+					(!string.IsNullOrEmpty(pCloudDrivePath) && string.Equals(item.Path, pCloudDrivePath, StringComparison.OrdinalIgnoreCase)))
+					continue;
+				yield return item;
 			}
 		}
 
-		private static async Task<IFolder?> GetDriveItemAsync(DriveInfo drive, string pCloudDrivePath)
+		private static async Task<DriveItem?> GetDriveItemAsync(string id)
 		{
-			try
-			{
-				// IsReady and the label read can block for a long time, so give each probe its own thread
-				var probe = await Task.Factory.StartNew<(string Label, Data.Items.DriveType Type)?>(
-					() => drive.IsReady
-						? (DriveHelpers.GetExtendedDriveLabel(drive), DriveHelpers.GetDriveType(drive))
-						: null,
-					CancellationToken.None,
-					TaskCreationOptions.LongRunning,
-					TaskScheduler.Default);
-
-				if (probe is not { } info)
-					return null;
-
-				// Filter out cloud drives; we don't want them in the plain "Drives" sections.
-				if (info.Label.Equals("Google Drive") || drive.Name.Equals(pCloudDrivePath))
-					return null;
-
-				var res = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Name).AsTask());
-				if (res.ErrorCode is FileSystemStatusCode.Unauthorized || !res)
-				{
-					App.Logger.LogWarning($"{res.ErrorCode}: Attempting to add the device, {drive.Name},"
-						+ " failed at the StorageFolder initialization step. This device will be ignored.");
-					return null;
-				}
-
-				var root = res.Result!;
-				using var thumbnail = await DriveHelpers.GetThumbnailAsync(root);
-				var driveItem = await DriveItem.CreateFromPropertiesAsync(root, drive.Name.TrimEnd('\\'), info.Label, info.Type, thumbnail);
-
-				App.Logger.LogInformation($"Drive added: {driveItem.Path}, {driveItem.Type}");
-
-				return driveItem;
-			}
-			catch (Exception ex)
-			{
-				App.Logger.LogWarning(ex, $"Failed to load the drive {drive.Name}");
-				return null;
-			}
+			// Read the remote DTO into an unpublished local item before returning to the UI.
+			var info = await Server.DriveService.GetDriveAsync(id).AsTask().ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+			return info is null || info.Label == "Google Drive" ? null : DriveItem.FromServer(info);
 		}
 
 		public Task<IFolder?> GetPrimaryDriveAsync()
