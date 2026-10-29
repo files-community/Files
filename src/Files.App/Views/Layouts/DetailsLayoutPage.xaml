@@ -307,12 +307,6 @@
 										Click="GroupByColumn_Click"
 										Text="{helpers:ResourceString Name=GroupByThisColumn}" />
 
-									<!--  Set Current Columns As Default  -->
-									<MenuFlyoutItem
-										x:Name="SetCurrentColumnsAsDefaultMenuFlyoutItem"
-										Click="SetDetailsColumnsAsDefault_Click"
-										Text="{helpers:ResourceString Name=SetAsDefault}" />
-
 								</MenuFlyout>
 							</Grid.ContextFlyout>
 

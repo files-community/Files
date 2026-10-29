@@ -1712,11 +1712,6 @@ namespace Files.App.Views.Layouts
 				scroller.ChangeView(Math.Clamp(scroller.HorizontalOffset + offset, 0, scroller.ScrollableWidth), null, null, true);
 		}
 
-		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
-		{
-			FolderSettings?.SaveColumnsToTemplate();
-		}
-
 		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
 		{

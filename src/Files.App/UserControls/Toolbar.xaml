@@ -7,6 +7,7 @@
 	xmlns:controls="using:Files.App.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -286,6 +287,68 @@
 
 							<!--  Header  -->
 							<TextBlock FontWeight="Medium" Text="{helpers:ResourceString Name=Layout}" />
+
+							<!--  Template  -->
+							<Grid ColumnSpacing="8" RowSpacing="4">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+								</Grid.RowDefinitions>
+
+								<!--  Optimize For  -->
+								<TextBlock VerticalAlignment="Center" Text="{helpers:ResourceString Name=OptimizeFor}" />
+
+								<!--  Templates  -->
+								<ComboBox
+									Grid.Column="1"
+									HorizontalAlignment="Stretch"
+									AutomationProperties.Name="{helpers:ResourceString Name=OptimizeFor}"
+									ItemsSource="{x:Bind ViewModel.LayoutTemplates, Mode=OneWay}"
+									SelectedItem="{x:Bind ViewModel.SelectedLayoutTemplate, Mode=TwoWay}">
+									<ComboBox.ItemTemplate>
+										<DataTemplate x:DataType="dataitems:LayoutTemplate">
+											<TextBlock Text="{x:Bind DisplayName}" TextTrimming="CharacterEllipsis" />
+										</DataTemplate>
+									</ComboBox.ItemTemplate>
+								</ComboBox>
+
+								<!--  Template Options  -->
+								<Button
+									Grid.Column="2"
+									Width="32"
+									Height="32"
+									Padding="0"
+									AutomationProperties.Name="{helpers:ResourceString Name=MoreOptions}"
+									Background="Transparent"
+									BorderThickness="0"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=MoreOptions}">
+									<FontIcon FontSize="16" Glyph="&#xE712;" />
+									<Button.Flyout>
+										<MenuFlyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
+											<MenuFlyoutItem Command="{x:Bind ViewModel.UpdateLayoutTemplateCommand}" Text="{helpers:ResourceString Name=UpdateTemplate}" />
+											<MenuFlyoutItem Command="{x:Bind ViewModel.SaveAsNewLayoutTemplateCommand}" Text="{helpers:ResourceString Name=SaveAsNewTemplate}" />
+											<MenuFlyoutItem Command="{x:Bind ViewModel.ResetLayoutTemplateCommand}" Text="{helpers:ResourceString Name=ResetToTemplate}" />
+											<MenuFlyoutSeparator />
+											<MenuFlyoutItem Command="{x:Bind ViewModel.ManageLayoutTemplatesCommand}" Text="{helpers:ResourceString Name=ManageTemplates}" />
+										</MenuFlyout>
+									</Button.Flyout>
+								</Button>
+
+								<!--  Folder Has Own Changes  -->
+								<TextBlock
+									Grid.Row="1"
+									Grid.ColumnSpan="3"
+									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+									Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
+									Text="{helpers:ResourceString Name=FolderHasOwnChanges}"
+									TextWrapping="WrapWholeWords"
+									Visibility="{x:Bind ViewModel.IsLayoutCustomized, Mode=OneWay}" />
+							</Grid>
 
 							<!--  Layout  -->
 							<StackPanel Orientation="Horizontal" Spacing="8">

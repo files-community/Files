@@ -2144,9 +2144,6 @@
   <data name="SetAsBackground" xml:space="preserve">
     <value>Set as desktop background</value>
   </data>
-  <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
-  </data>
   <data name="DateColumn" xml:space="preserve">
     <value>Date column</value>
   </data>
@@ -4799,5 +4796,26 @@
   </data>
   <data name="TemplateColumnsDescription" xml:space="preserve">
     <value>Folders that use this template show these columns.</value>
+  </data>
+  <data name="OptimizeFor" xml:space="preserve">
+    <value>Optimize for</value>
+  </data>
+  <data name="UpdateTemplate" xml:space="preserve">
+    <value>Update template</value>
+  </data>
+  <data name="SaveAsNewTemplate" xml:space="preserve">
+    <value>Save as new template</value>
+  </data>
+  <data name="ResetToTemplate" xml:space="preserve">
+    <value>Reset to template</value>
+  </data>
+  <data name="ManageTemplates" xml:space="preserve">
+    <value>Manage templates</value>
+  </data>
+  <data name="FolderHasOwnChanges" xml:space="preserve">
+    <value>This folder has its own changes</value>
+  </data>
+  <data name="NewTemplate" xml:space="preserve">
+    <value>New template</value>
   </data>
 </root>
