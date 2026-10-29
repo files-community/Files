@@ -229,6 +229,7 @@ IShellFolder
 FILE_FLAGS_AND_ATTRIBUTES
 GetLogicalDrives
 IShellItemImageFactory
+FileIconInit
 GdipCreateBitmapFromHBITMAP
 GdiplusStartup
 GdiplusShutdown

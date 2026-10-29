@@ -17,6 +17,7 @@ namespace Files.Storage
 	{
 		// Fields
 
+		private static readonly Lazy<bool> SystemImageListInitialized = new(() => PInvoke.FileIconInit(true));
 		private static (Guid Format, Guid Encorder)[]? GdiEncoders;
 		private static ConcurrentDictionary<(string, int, int), byte[]>? DllIconCache;
 
@@ -69,6 +70,10 @@ namespace Files.Storage
 
 			using var gdiplus = new GdiPlusScope();
 			if (!gdiplus.IsInitialized)
+				return HRESULT.E_FAIL;
+
+			// Concurrent first requests can return E_PENDING while the Shell image list is initializing.
+			if (!SystemImageListInitialized.Value)
 				return HRESULT.E_FAIL;
 
 			HBITMAP hBitmap = default;
