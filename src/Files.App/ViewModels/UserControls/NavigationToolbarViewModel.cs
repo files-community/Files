@@ -349,7 +349,7 @@ namespace Files.App.ViewModels.UserControls
 		/// </summary>
 		public LayoutTemplate SelectedLayoutTemplate
 		{
-			get => _InstanceViewModel?.FolderSettings is { IsCustomized: false, TemplateId: { } id } && id != LayoutTemplateIds.Default ? LayoutTemplatesService.GetTemplate(id) ?? NoLayoutTemplate : NoLayoutTemplate;
+			get => LayoutHelpers.GetAppliedTemplate(_InstanceViewModel?.FolderSettings) ?? NoLayoutTemplate;
 			set
 			{
 				if (value is null || value.Id == SelectedLayoutTemplate.Id)
@@ -358,7 +358,7 @@ namespace Files.App.ViewModels.UserControls
 				if (value == NoLayoutTemplate)
 					_InstanceViewModel?.FolderSettings.DetachFromTemplate();
 				else
-					RunLayoutTemplateAction(path => LayoutPreferencesManager.SetTemplateForPath(path, value.Id));
+					LayoutHelpers.ChangeFolderPreferences(ContentPageContext.ShellPage, path => LayoutPreferencesManager.SetTemplateForPath(path, value.Id));
 			}
 		}
 
@@ -369,7 +369,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public IAsyncRelayCommand EditLayoutTemplateCommand { get; }
 
-		public IRelayCommand RestoreDefaultViewCommand { get; }
+		public IAsyncRelayCommand RestoreDefaultViewCommand { get; }
 
 		// Constructor
 
@@ -380,9 +380,9 @@ namespace Files.App.ViewModels.UserControls
 			UpdateService.PropertyChanged += UpdateService_OnPropertyChanged;
 			LayoutTemplatesService.PropertyChanged += LayoutTemplatesService_PropertyChanged;
 
-			SaveAsNewLayoutTemplateCommand = new RelayCommand(SaveAsNewLayoutTemplate, () => !IsLayoutTemplateApplied);
-			EditLayoutTemplateCommand = new AsyncRelayCommand(() => Commands.OpenSettings.ExecuteAsync(new SettingsNavigationParams() { PageKind = SettingsPageKind.LayoutPage }), () => IsLayoutTemplateApplied);
-			RestoreDefaultViewCommand = new RelayCommand(() => RunLayoutTemplateAction(LayoutPreferencesManager.ResetPreferencesForPath));
+			SaveAsNewLayoutTemplateCommand = new AsyncRelayCommand(() => Commands.SaveLayoutAsTemplate.ExecuteAsync(), () => !IsLayoutTemplateApplied);
+			EditLayoutTemplateCommand = new AsyncRelayCommand(() => EditLayoutTemplateAsync(SelectedLayoutTemplate.Id), () => IsLayoutTemplateApplied);
+			RestoreDefaultViewCommand = new AsyncRelayCommand(() => Commands.RestoreDefaultView.ExecuteAsync());
 
 			Commands.DecompressArchive.PropertyChanged += DecompressCommand_PropertyChanged;
 			Commands.DecompressArchiveHere.PropertyChanged += DecompressCommand_PropertyChanged;
@@ -1574,21 +1574,8 @@ namespace Files.App.ViewModels.UserControls
 			SaveAsNewLayoutTemplateCommand.NotifyCanExecuteChanged();
 		}
 
-		private void SaveAsNewLayoutTemplate()
-		{
-			var name = ContentPageContext.ShellPage?.ShellViewModel?.CurrentFolder?.Name;
-			RunLayoutTemplateAction(path => LayoutPreferencesManager.SaveAsNewTemplateFromPath(path, string.IsNullOrEmpty(name) ? Strings.NewTemplate.GetLocalizedResource() : name));
-		}
-
-		private void RunLayoutTemplateAction(Action<string> action)
-		{
-			if (ContentPageContext.ShellPage is not { ShellViewModel: { WorkingDirectory: { Length: > 0 } path } shellViewModel } shellPage)
-				return;
-
-			action(path);
-			shellPage.InstanceViewModel.FolderSettings.ReloadPreferences(path, () => FolderContentHelpers.GetContent(shellViewModel.FilesAndFolders.ToList()));
-			LayoutHelpers.ReloadPreferences(path);
-		}
+		private Task EditLayoutTemplateAsync(string id)
+			=> Commands.OpenSettings.ExecuteAsync(new SettingsNavigationParams() { PageKind = SettingsPageKind.LayoutPage, LayoutTemplateId = id });
 
 		public void CancelSuggestionSearch()
 		{

@@ -6,5 +6,7 @@ namespace Files.App.Data.Parameters
 	public sealed class SettingsNavigationParams
 	{
 		public SettingsPageKind PageKind { get; set; }
+
+		public string? LayoutTemplateId { get; set; }
 	}
 }

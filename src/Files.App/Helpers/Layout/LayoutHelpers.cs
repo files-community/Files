@@ -22,6 +22,29 @@ namespace Files.App.Helpers
 			}
 		}
 
+		/// <summary>
+		/// Gets the template the folder follows, or null when it uses the default layout or its own.
+		/// </summary>
+		public static LayoutTemplate? GetAppliedTemplate(LayoutPreferencesManager? folderSettings)
+		{
+			return folderSettings is { IsCustomized: false, TemplateId: { } id } && id != LayoutTemplateIds.Default
+				? Ioc.Default.GetRequiredService<ILayoutTemplatesService>().GetTemplate(id)
+				: null;
+		}
+
+		/// <summary>
+		/// Changes the layout preferences of the folder shown in the specified pane and reloads the panes that show it.
+		/// </summary>
+		public static void ChangeFolderPreferences(IShellPage? shellPage, Action<string> change)
+		{
+			if (shellPage is not { ShellViewModel: { WorkingDirectory: { Length: > 0 } path } shellViewModel })
+				return;
+
+			change(path);
+			shellPage.InstanceViewModel.FolderSettings.ReloadPreferences(path, () => FolderContentHelpers.GetContent(shellViewModel.FilesAndFolders.ToList()));
+			ReloadPreferences(path);
+		}
+
 		public static void UpdateOpenTabsPreferences()
 		{
 			// Services

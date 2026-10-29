@@ -56,9 +56,9 @@ namespace Files.App.Data.Contracts
 		void DeleteTemplate(string id);
 
 		/// <summary>
-		/// Restores the built-in settings of a built-in template.
+		/// Gets the rule a built-in template comes with, or null when it has none.
 		/// </summary>
-		void ResetTemplate(string id);
+		LayoutRule? GetBuiltInRule(string templateId);
 
 		/// <summary>
 		/// Finishes setting up the templates on the first run, such as assigning the built-in templates to their folders, if that's still pending.
