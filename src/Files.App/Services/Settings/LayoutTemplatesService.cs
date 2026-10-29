@@ -128,6 +128,17 @@ namespace Files.App.Services.Settings
 			}
 		}
 
+		public void ResetTemplates()
+		{
+			var ids = _templates.Select(template => template.Id).Union(LayoutTemplateIds.BuiltIn).ToArray();
+			SetTemplates([.. LayoutTemplateIds.BuiltIn.Select(LayoutTemplateIds.CreateBuiltIn)]);
+			SaveRules(CreateBuiltInRules(true));
+			AssignBuiltInTemplates(true, true);
+
+			foreach (var id in ids)
+				TemplateChanged?.Invoke(this, id);
+		}
+
 		public void SaveRules(IEnumerable<LayoutRule> rules)
 		{
 			_rules = [.. rules.Select(rule => rule.Clone())];

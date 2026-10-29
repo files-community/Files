@@ -4773,14 +4773,8 @@
   <data name="SearchColumns" xml:space="preserve">
     <value>Search columns</value>
   </data>
-  <data name="DefaultColumns" xml:space="preserve">
-    <value>Default columns</value>
-  </data>
   <data name="CustomizeColumns" xml:space="preserve">
     <value>Customize columns</value>
-  </data>
-  <data name="CustomizeColumnsEllipsis" xml:space="preserve">
-    <value>Customize columns…</value>
   </data>
   <data name="AvailableColumns" xml:space="preserve">
     <value>Available columns</value>
@@ -4791,15 +4785,6 @@
   <data name="OtherColumns" xml:space="preserve">
     <value>Other</value>
   </data>
-  <data name="CustomizeTemplateColumns" xml:space="preserve">
-    <value>{0} columns</value>
-  </data>
-  <data name="TemplateColumnsDescription" xml:space="preserve">
-    <value>Folders that use this template show these columns.</value>
-  </data>
-  <data name="OptimizeFor" xml:space="preserve">
-    <value>Optimize for</value>
-  </data>
   <data name="UpdateTemplate" xml:space="preserve">
     <value>Update template</value>
   </data>
@@ -4809,6 +4794,9 @@
   <data name="ResetToTemplate" xml:space="preserve">
     <value>Reset to template</value>
   </data>
+  <data name="OptimizeFor" xml:space="preserve">
+    <value>Optimize for</value>
+  </data>
   <data name="ManageTemplates" xml:space="preserve">
     <value>Manage templates</value>
   </data>
@@ -4817,5 +4805,74 @@
   </data>
   <data name="NewTemplate" xml:space="preserve">
     <value>New template</value>
+  </data>
+  <data name="AddTemplate" xml:space="preserve">
+    <value>Add template</value>
+  </data>
+  <data name="EditTemplate" xml:space="preserve">
+    <value>Edit template</value>
+  </data>
+  <data name="LayoutTemplates" xml:space="preserve">
+    <value>Layout templates</value>
+  </data>
+  <data name="DeleteTemplateConfirmation" xml:space="preserve">
+    <value>Folders that use the {0} template will switch to the {1} template.</value>
+  </data>
+  <data name="ResetTemplates" xml:space="preserve">
+    <value>Restore default templates</value>
+  </data>
+  <data name="ResetTemplatesConfirmationTitle" xml:space="preserve">
+    <value>Restore default templates?</value>
+  </data>
+  <data name="ResetTemplatesConfirmation" xml:space="preserve">
+    <value>The built-in templates will go back to their original settings and rules, and templates you created will be removed.</value>
+  </data>
+  <data name="TemplateName" xml:space="preserve">
+    <value>Template name</value>
+  </data>
+  <data name="EditNamed" xml:space="preserve">
+    <value>Edit {0}</value>
+  </data>
+  <data name="DeleteNamed" xml:space="preserve">
+    <value>Delete {0}</value>
+  </data>
+  <data name="SortDirection" xml:space="preserve">
+    <value>Sort direction</value>
+  </data>
+  <data name="GroupDirection" xml:space="preserve">
+    <value>Group direction</value>
+  </data>
+  <data name="DeleteTemplate" xml:space="preserve">
+    <value>Delete template</value>
+  </data>
+  <data name="RenameTemplate" xml:space="preserve">
+    <value>Rename template</value>
+  </data>
+  <data name="RenameNamed" xml:space="preserve">
+    <value>Rename {0}</value>
+  </data>
+  <data name="FileTypes" xml:space="preserve">
+    <value>File types</value>
+  </data>
+  <data name="DeleteTemplateConfirmationTitle" xml:space="preserve">
+    <value>Delete template?</value>
+  </data>
+  <data name="UseForFileTypes" xml:space="preserve">
+    <value>Automatically use this template for folders with certain file types</value>
+  </data>
+  <data name="EditFileTypes" xml:space="preserve">
+    <value>Edit file types</value>
+  </data>
+  <data name="FileTypesThreshold" xml:space="preserve">
+    <value>Use when at least this percentage of files match</value>
+  </data>
+  <data name="FileTypeAlreadyUsed" xml:space="preserve">
+    <value>{0} is already used by the {1} template.</value>
+  </data>
+  <data name="ManageColumns" xml:space="preserve">
+    <value>Manage columns</value>
+  </data>
+  <data name="FileExtensions" xml:space="preserve">
+    <value>File extensions</value>
   </data>
 </root>

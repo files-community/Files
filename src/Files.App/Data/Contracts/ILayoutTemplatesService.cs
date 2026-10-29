@@ -60,6 +60,11 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		void ResetTemplate(string id);
 
+		/// <summary>
+		/// Replaces all templates and their conditions with the built-in ones.
+		/// </summary>
+		void ResetTemplates();
+
 		void SaveRules(IEnumerable<LayoutRule> rules);
 
 		/// <summary>

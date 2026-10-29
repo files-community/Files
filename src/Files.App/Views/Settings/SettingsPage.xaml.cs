@@ -118,7 +118,7 @@ namespace Files.App.Views
 
 			ViewModel.ClearSearch();
 
-			if (ViewModel.SelectedPage == navItem.PageKind)
+			if (ViewModel.SelectedPage == navItem.PageKind && SettingsContentFrame.SourcePageType == GetPageType(navItem.PageKind))
 				return;
 
 			ViewModel.SetSelectedPage(navItem.PageKind);
@@ -128,7 +128,12 @@ namespace Files.App.Views
 
 		private void NavigateToPage(SettingsPageKind selectedPage)
 		{
-			var pageType = selectedPage switch
+			SettingsContentFrame.Navigate(GetPageType(selectedPage), null, new SuppressNavigationTransitionInfo());
+		}
+
+		private static Type GetPageType(SettingsPageKind page)
+		{
+			return page switch
 			{
 				SettingsPageKind.GeneralPage => typeof(GeneralPage),
 				SettingsPageKind.AppearancePage => typeof(AppearancePage),
@@ -141,8 +146,6 @@ namespace Files.App.Views
 				SettingsPageKind.AboutPage => typeof(AboutPage),
 				_ => typeof(GeneralPage),
 			};
-
-			SettingsContentFrame.Navigate(pageType, null, new SuppressNavigationTransitionInfo());
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
