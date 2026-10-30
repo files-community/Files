@@ -17,10 +17,44 @@ namespace Files.Storage
 	{
 		// Fields
 
+		private static readonly Lock SystemImageListGate = new();
+		private static bool SystemImageListInitialized;
 		private static (Guid Format, Guid Encorder)[]? GdiEncoders;
 		private static ConcurrentDictionary<(string, int, int), byte[]>? DllIconCache;
 
+		private static readonly Lock GdiPlusGate = new();
+		private static nuint GdiPlusToken;
+
 		// Methods
+
+		/// <summary>Initializes the Shell image list before concurrent thumbnail requests begin.</summary>
+		public static bool InitializeShellImageList()
+		{
+			lock (SystemImageListGate)
+			{
+				if (!SystemImageListInitialized)
+					SystemImageListInitialized = PInvoke.FileIconInit(true);
+				return SystemImageListInitialized;
+			}
+		}
+
+		private static unsafe bool EnsureGdiPlusInitialized()
+		{
+			lock (GdiPlusGate)
+			{
+				if (GdiPlusToken != 0)
+					return true;
+
+				var input = new GdiplusStartupInput { GdiplusVersion = 1 };
+				nuint token = 0;
+				if (PInvoke.GdiplusStartup(&token, &input, null) != Status.Ok)
+					return false;
+
+				// Keep GDI+ alive for the process lifetime, including in-flight conversions during exit.
+				GdiPlusToken = token;
+				return true;
+			}
+		}
 
 		/// <inheritdoc cref="TryGetThumbnail"/>
 		public static async Task<byte[]?> GetThumbnailAsync(this IWindowsStorable storable, int size, SIIGBF options)
@@ -46,6 +80,12 @@ namespace Files.Storage
 
 			if (storable.ThisPtr is not IShellItemImageFactory pShellItemImageFactory)
 				return HRESULT.E_NOINTERFACE;
+
+			if (!EnsureGdiPlusInitialized())
+				return HRESULT.E_FAIL;
+
+			if (!InitializeShellImageList())
+				return HRESULT.E_FAIL;
 
 			HBITMAP hBitmap = default;
 			try
@@ -112,6 +152,9 @@ namespace Files.Storage
 			}
 			else
 			{
+				if (!EnsureGdiPlusInitialized())
+					return HRESULT.E_FAIL;
+
 				HICON hIcon = default;
 				HRESULT hr = default;
 

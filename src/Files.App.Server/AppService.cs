@@ -13,10 +13,15 @@ public sealed partial class AppService : IDisposable
 	internal bool IsDisposed => disposed != 0;
 
 	public bool CanRestorePreviousSession { get; }
+	public int ProcessId => Environment.ProcessId;
+	public PinnedFoldersService PinnedFolders { get; }
+	public RecycleBinService RecycleBin { get; }
 
 	public AppService(int processId)
 	{
 		(ClientId, CanRestorePreviousSession) = ServerHost.AddClient(processId);
+		PinnedFolders = new(this);
+		RecycleBin = new(this);
 	}
 
 	~AppService() => Dispose();
@@ -30,16 +35,6 @@ public sealed partial class AppService : IDisposable
 	public void SetWindowHandle(long handle) => ServerHost.SetWindow(ClientId, handle);
 
 	public static IAsyncAction InitializeAsync() => ServerAsync.Run(token => StartupServices.InitializeAsync().WaitAsync(token));
-
-	public static IAsyncOperation<IReadOnlyList<LibraryInfo>> GetLibrariesAsync() => ServerAsync.Run(token => InitializationCache.Libraries.GetAsync().WaitAsync(token));
-
-	public static IAsyncOperation<IReadOnlyList<PinnedFolderInfo>> GetPinnedFoldersAsync() => ServerAsync.Run(token => InitializationCache.PinnedFolders.GetAsync().WaitAsync(token));
-
-	public static void InvalidatePinnedFolders()
-	{
-		InitializationCache.PinnedFolders.Invalidate();
-		ServerEvents.Notify(ServerChangeNames.PinnedFolders);
-	}
 
 	public void Dispose()
 	{

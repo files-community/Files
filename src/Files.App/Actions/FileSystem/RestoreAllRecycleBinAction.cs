@@ -27,6 +27,11 @@ namespace Files.App.Actions
 			UIHelpers.CanShowDialog &&
 			StorageTrashBinService.HasItems();
 
+		public RestoreAllRecycleBinAction()
+		{
+			StorageTrashBinService.StateChanged += (_, _) => OnPropertyChanged(nameof(IsExecutable));
+		}
+
 		public async Task ExecuteAsync(object? parameter = null)
 		{
 			// TODO: Use AppDialogService

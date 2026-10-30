@@ -129,7 +129,7 @@ namespace Files.App.ViewModels.Properties
 			}
 			else if (string.Equals(Item.ItemPath, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
-				var recycleBinQuery = StorageTrashBinService.QueryRecycleBin();
+				var recycleBinQuery = await StorageTrashBinService.QueryRecycleBinAsync();
 				if (recycleBinQuery.BinSize is long binSize)
 				{
 					ViewModel.ItemSizeBytes = binSize;

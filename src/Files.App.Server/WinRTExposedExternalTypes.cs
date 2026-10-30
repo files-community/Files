@@ -13,6 +13,7 @@ using WinRT;
 [assembly: GeneratedWinRTExposedExternalType(typeof(ReadOnlyCollection<MenuEntryInfo>))]
 [assembly: GeneratedWinRTExposedExternalType(typeof(ReadOnlyCollection<TaggedFileInfo>))]
 [assembly: GeneratedWinRTExposedExternalType(typeof(ReadOnlyCollection<Windows.Services.Store.StorePackageUpdate>))]
+[assembly: GeneratedWinRTExposedExternalType(typeof(ReadOnlyCollection<ShellLocationInfo>))]
 
 [assembly: GeneratedWinRTExposedExternalType(typeof(ServerAsyncOperation<bool>))]
 [assembly: GeneratedWinRTExposedExternalType(typeof(ServerAsyncOperation<ShellNewEntryInfo>))]
@@ -20,6 +21,7 @@ using WinRT;
 [assembly: GeneratedWinRTExposedExternalType(typeof(ServerAsyncOperation<Windows.Storage.Streams.IBuffer>))]
 [assembly: GeneratedWinRTExposedExternalType(typeof(ServerAsyncOperation<DriveItemInfo>))]
 [assembly: GeneratedWinRTExposedExternalType(typeof(ServerAsyncOperation<DrivePropertiesInfo>))]
+[assembly: GeneratedWinRTExposedExternalType(typeof(ServerAsyncOperation<RecycleBinInfo>))]
 [assembly: GeneratedWinRTExposedExternalType(typeof(ServerAsyncOperation<IReadOnlyList<string>>))]
 [assembly: GeneratedWinRTExposedExternalType(typeof(ServerAsyncOperation<IReadOnlyList<ShellNewEntryInfo>>))]
 [assembly: GeneratedWinRTExposedExternalType(typeof(ServerAsyncOperation<IReadOnlyList<PinnedFolderInfo>>))]
@@ -28,3 +30,4 @@ using WinRT;
 [assembly: GeneratedWinRTExposedExternalType(typeof(ServerAsyncOperation<IReadOnlyList<MenuEntryInfo>>))]
 [assembly: GeneratedWinRTExposedExternalType(typeof(ServerAsyncOperation<IReadOnlyList<TaggedFileInfo>>))]
 [assembly: GeneratedWinRTExposedExternalType(typeof(ServerAsyncOperation<IReadOnlyList<Windows.Services.Store.StorePackageUpdate>>))]
+[assembly: GeneratedWinRTExposedExternalType(typeof(ServerAsyncOperation<IReadOnlyList<ShellLocationInfo>>))]

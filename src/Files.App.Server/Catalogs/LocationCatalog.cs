@@ -1,0 +1,67 @@
+// Copyright (c) Files Community
+// Licensed under the MIT License.
+
+using Microsoft.Extensions.Logging;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.UI.Shell;
+
+namespace Files.App.Server;
+
+internal static class LocationCatalog
+{
+	internal static readonly CachedTask<IReadOnlyList<ShellLocationInfo>> RecentFiles = new(() => ReadAsync("shell:::{679F85CB-0220-4080-B29B-5540CC05AAB6}", false, 20), TimeSpan.FromMinutes(5));
+	internal static readonly CachedTask<IReadOnlyList<ShellLocationInfo>> RecentFolders = new(() => ReadAsync("shell:::{22877A6D-37A1-461A-91B0-DBDA5AAEBC99}", false, 20), TimeSpan.FromMinutes(5));
+	internal static readonly CachedTask<IReadOnlyList<ShellLocationInfo>> NetworkComputers = new(() => ReadAsync("shell:::{f02c1a0d-be21-4350-88b0-7367fc96ef3c}", true, int.MaxValue), TimeSpan.FromSeconds(30));
+	internal static readonly CachedTask<IReadOnlyList<ShellLocationInfo>> NetworkShortcuts = new(() => ReadAsync(() => new ShellFolder(PInvoke.FOLDERID_NetHood), true, int.MaxValue, true), TimeSpan.FromMinutes(5));
+
+	internal static void InvalidateRecentItems()
+	{
+		RecentFiles.Invalidate();
+		RecentFolders.Invalidate();
+		ServerEvents.Notify(ServerChangeNames.RecentItems);
+	}
+
+	private static Task<IReadOnlyList<ShellLocationInfo>> ReadAsync(string path, bool foldersOnly, int limit, bool links = false)
+		=> ReadAsync(() => new ShellFolder(path), foldersOnly, limit, links);
+
+	private static Task<IReadOnlyList<ShellLocationInfo>> ReadAsync(Func<ShellFolder> open, bool foldersOnly, int limit, bool links = false)
+		=> STATask.Run<IReadOnlyList<ShellLocationInfo>>(() =>
+		{
+			var result = new List<ShellLocationInfo>();
+			using var folder = open();
+			foreach (var item in folder)
+			{
+				using (item)
+				{
+					try
+					{
+						if (!links && (foldersOnly ? !item.IsFolder : item.IsFolder && !item.IsStream))
+							continue;
+						var identity = item.ParsingName ?? item.FileSystemPath ?? string.Empty;
+						var target = links
+							? item is Files.Storage.ShellLink link ? Environment.ExpandEnvironmentVariables(link.TargetPath) : item.Properties["System.Link.TargetParsingPath"] as string
+							: item.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEEDITING);
+						if (string.IsNullOrEmpty(target))
+							continue;
+						var date = SafetyExtensions.IgnoreExceptions(() => item.Properties["System.DateModified"], Program.Logger);
+						DateTimeOffset? modified = date switch
+						{
+							DateTimeOffset value => value,
+							DateTime value => new DateTimeOffset(value),
+							FILETIME value => DateTimeOffset.FromFileTime(((long)value.dwHighDateTime << 32) | value.dwLowDateTime).ToUniversalTime(),
+							_ => null,
+						};
+						result.Add(new ShellLocationInfo(target, identity, item.Name ?? string.Empty, item.PIDL.GetBytes(), modified));
+						if (result.Count >= limit)
+							break;
+					}
+					catch (Exception ex)
+					{
+						Program.Logger.LogDebug(ex, "Could not read a shell location.");
+					}
+				}
+			}
+			return result.AsReadOnly();
+		}, Program.Logger);
+}

@@ -380,7 +380,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		public async void LoadAsync(object? sender, FileSystemEventArgs e)
+		public async Task ReloadAsync()
 		{
 			if (IsSyncSuspended)
 				return;
