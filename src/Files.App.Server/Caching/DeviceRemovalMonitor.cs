@@ -55,6 +55,16 @@ internal sealed partial class DeviceRemovalMonitor : IDisposable
 				changed(true);
 			else if (action == CM_NOTIFY_ACTION.CM_NOTIFY_ACTION_DEVICEQUERYREMOVEFAILED)
 				changed(false);
+			else if (action == CM_NOTIFY_ACTION.CM_NOTIFY_ACTION_DEVICECUSTOMEVENT && data is not null &&
+				data->FilterType == CM_NOTIFY_FILTER_TYPE.CM_NOTIFY_FILTER_TYPE_DEVICEHANDLE)
+			{
+				var eventGuid = data->u.DeviceHandle.EventGuid;
+				if (eventGuid == PInvoke.GUID_IO_VOLUME_LOCK || eventGuid == PInvoke.GUID_IO_VOLUME_DISMOUNT)
+					changed(true);
+				else if (eventGuid == PInvoke.GUID_IO_VOLUME_LOCK_FAILED || eventGuid == PInvoke.GUID_IO_VOLUME_DISMOUNT_FAILED ||
+					eventGuid == PInvoke.GUID_IO_VOLUME_UNLOCK || eventGuid == PInvoke.GUID_IO_VOLUME_MOUNT)
+					changed(false);
+			}
 		}
 		catch (Exception ex)
 		{

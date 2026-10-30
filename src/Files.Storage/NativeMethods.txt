@@ -232,6 +232,12 @@ IShellItemImageFactory
 FileIconInit
 CM_Register_Notification
 CM_Unregister_Notification
+GUID_IO_VOLUME_LOCK
+GUID_IO_VOLUME_LOCK_FAILED
+GUID_IO_VOLUME_UNLOCK
+GUID_IO_VOLUME_DISMOUNT
+GUID_IO_VOLUME_DISMOUNT_FAILED
+GUID_IO_VOLUME_MOUNT
 GdipCreateBitmapFromHBITMAP
 GdiplusStartup
 GdipGetImageEncodersSize
