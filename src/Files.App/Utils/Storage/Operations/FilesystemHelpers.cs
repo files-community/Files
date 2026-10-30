@@ -160,9 +160,10 @@ namespace Files.App.Utils.Storage
 			if (!permanently && registerHistory && history is not null)
 				App.HistoryWrapper.AddHistory(history);
 
-			// Execute removal tasks concurrently in background
-			var sourcePaths = source.Select(x => x.Path);
-			_ = Task.WhenAll(sourcePaths.Select(jumpListService.RemoveFolderAsync));
+			var deletedFolderPaths = source
+				.Where(item => item.ItemType == FilesystemItemType.Directory)
+				.Select(item => item.Path);
+			await jumpListService.RemoveFoldersAsync(deletedFolderPaths);
 
 			var itemsCount = banner.TotalItemsCount;
 
@@ -501,9 +502,11 @@ namespace Files.App.Utils.Storage
 				App.HistoryWrapper.AddHistory(history);
 			}
 
-			// Execute removal tasks concurrently in background
-			var sourcePaths = source.Select(x => x.Path);
-			_ = Task.WhenAll(sourcePaths.Select(jumpListService.RemoveFolderAsync));
+			// A single Jump List update avoids a burst of concurrent COM calls after bulk moves.
+			var movedFolderPaths = source
+				.Where(item => item.ItemType == FilesystemItemType.Directory)
+				.Select(item => item.Path);
+			await jumpListService.RemoveFoldersAsync(movedFolderPaths);
 
 			var itemsCount = banner.TotalItemsCount;
 
