@@ -50,6 +50,9 @@ namespace Files.App.Utils.Git
 		public static Task FetchOriginAsync(string? repositoryPath, bool reportProgress = false, CancellationToken cancellationToken = default)
 			=> _implementation.FetchOriginAsync(repositoryPath, reportProgress, cancellationToken);
 
+		/// <inheritdoc cref="IVersionControlService.CloneRepoAsync(string, string, string)"/>
+		public static Task CloneRepoAsync(string repoUrl, string repoName, string targetDirectory) => _implementation.CloneRepoAsync(repoUrl, repoName, targetDirectory);
+
 		/// <inheritdoc cref="IVersionControlService.IsExecutingGitAction"/>
 		public static bool IsExecutingGitAction => _implementation.IsExecutingGitAction;
 
@@ -748,72 +751,6 @@ namespace Files.App.Utils.Git
 		public static bool IsValidRepoUrl(string url)
 		{
 			return GitHubRepositoryRegex.IsMatch(url);
-		}
-
-		public static async Task CloneRepoAsync(string repoUrl, string repoName, string targetDirectory)
-		{
-			var statusOperation = new GitStatusCenterOperation(
-				GitStatusCenterOperationKind.Clone,
-				targetDirectory,
-				canProvideProgress: true,
-				operationTarget: repoName,
-				isCancelable: true);
-			var cancellationToken = statusOperation.CancellationToken;
-			var result = ReturnResult.Failed;
-
-			try
-			{
-				await Task.Run(() =>
-				{
-					var cloneOptions = new CloneOptions
-					{
-						FetchOptions =
-						{
-							OnTransferProgress = progress =>
-							{
-								cancellationToken.ThrowIfCancellationRequested();
-								statusOperation.ReportProgress(
-									progress.ReceivedObjects,
-									progress.TotalObjects,
-									endPercentage: 80,
-									reportTotalItems: true);
-								return true;
-							},
-							OnProgress = _ => !cancellationToken.IsCancellationRequested,
-						},
-						OnCheckoutProgress = (path, completed, total) =>
-						{
-							cancellationToken.ThrowIfCancellationRequested();
-							statusOperation.ReportProgress(
-								completed,
-								total,
-								path,
-								80,
-								100);
-						},
-					};
-
-					Repository.Clone(repoUrl, targetDirectory, cloneOptions);
-				}, cancellationToken);
-				result = ReturnResult.Success;
-			}
-			catch (Exception ex)
-			{
-				if (cancellationToken.IsCancellationRequested)
-				{
-					result = ReturnResult.Cancelled;
-				}
-				else
-				{
-					UIHelpers.CloseAllDialogs();
-					await Task.Delay(500);
-					await DynamicDialogFactory.ShowFor_CannotCloneRepo(ex.Message);
-				}
-			}
-			finally
-			{
-				statusOperation.Complete(result);
-			}
 		}
 
 		// Method already moved into abstraction
