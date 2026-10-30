@@ -29,11 +29,13 @@ namespace Files.App.ViewModels.Properties
 
 		public bool IsAddAccessControlEntryButtonEnabled =>
 			AccessControlList is not null &&
-			AccessControlList.IsValid;
+			AccessControlList.IsValid &&
+			CurrentInstanceCanChangePermissions;
 
 		public bool IsDeleteAccessControlEntryButtonEnabled =>
 			AccessControlList is not null &&
 			AccessControlList.IsValid &&
+			CurrentInstanceCanChangePermissions &&
 			SelectedAccessControlEntry is not null &&
 			SelectedAccessControlEntry.IsInherited is false;
 
@@ -98,6 +100,43 @@ namespace Files.App.ViewModels.Properties
 		{
 			get => _ErrorMessage;
 			set => SetProperty(ref _ErrorMessage, value);
+		}
+
+		private bool _IsPermissionChangeInfoBarOpen;
+		public bool IsPermissionChangeInfoBarOpen
+		{
+			get => _IsPermissionChangeInfoBarOpen;
+			set => SetProperty(ref _IsPermissionChangeInfoBarOpen, value);
+		}
+
+		private bool _IsUnableToChangePermissionsInfoBarOpen;
+		public bool IsUnableToChangePermissionsInfoBarOpen
+		{
+			get => _IsUnableToChangePermissionsInfoBarOpen;
+			set => SetProperty(ref _IsUnableToChangePermissionsInfoBarOpen, value);
+		}
+
+		private bool _IsChangingOwner;
+		public bool IsChangingOwner
+		{
+			get => _IsChangingOwner;
+			set
+			{
+				if (SetProperty(ref _IsChangingOwner, value))
+					OnPropertyChanged(nameof(IsOwnerDisplayed));
+			}
+		}
+
+		public bool IsOwnerDisplayed =>
+			!IsChangingOwner &&
+			AccessControlList is not null &&
+			AccessControlList.Owner.IsValid;
+
+		private string _PermissionChangeInfoBarMessage = string.Empty;
+		public string PermissionChangeInfoBarMessage
+		{
+			get => _PermissionChangeInfoBarMessage;
+			set => SetProperty(ref _PermissionChangeInfoBarMessage, value);
 		}
 
 		private GridLength _ColumnTypeGridLength = new(64d);
@@ -182,6 +221,7 @@ namespace Files.App.ViewModels.Properties
 			OnPropertyChanged(nameof(AccessControlList));
 
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
+			OnPropertyChanged(nameof(IsOwnerDisplayed));
 
 			if (!AccessControlList.IsValid)
 			{
@@ -206,7 +246,13 @@ namespace Files.App.ViewModels.Properties
 			{
 				DisplayElements = true;
 				ErrorMessage = string.Empty;
+
+				CurrentInstanceCanChangePermissions = StorageSecurityService.CanWriteAcl(_path, _isFolder);
+				IsUnableToChangePermissionsInfoBarOpen = !CurrentInstanceCanChangePermissions;
 			}
+
+			OnPropertyChanged(nameof(IsAddAccessControlEntryButtonEnabled));
+			OnPropertyChanged(nameof(IsDeleteAccessControlEntryButtonEnabled));
 		}
 
 		private async Task ExecuteChangeOwnerCommandAsync()
@@ -215,10 +261,30 @@ namespace Files.App.ViewModels.Properties
 			if (string.IsNullOrEmpty(sid))
 				return;
 
+			IsChangingOwner = true;
+
+			bool setOwnerResult;
+
+			try
+			{
+				setOwnerResult = await Task.Run(() => StorageSecurityService.SetOwner(_path, sid));
+			}
+			finally
+			{
+				IsChangingOwner = false;
+			}
+
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
-				// Set owner
-				StorageSecurityService.SetOwner(_path, sid);
+				if (!setOwnerResult)
+				{
+					PermissionChangeInfoBarMessage = Strings.SecurityFailedToChangeOwner.GetLocalizedResource();
+					IsPermissionChangeInfoBarOpen = true;
+
+					return;
+				}
+
+				ClearPermissionChangeError();
 
 				// Reload
 				LoadAccessControlEntry();
@@ -236,6 +302,14 @@ namespace Files.App.ViewModels.Properties
 			{
 				// Run Win32API
 				var win32Result = StorageSecurityService.AddAce(_path, _isFolder, sid);
+
+				if (win32Result != WIN32_ERROR.ERROR_SUCCESS)
+				{
+					SetPermissionChangeError(Strings.SecurityFailedToAddAccessControlEntry.GetLocalizedResource(), win32Result);
+					return;
+				}
+
+				ClearPermissionChangeError();
 
 				// Add a new ACE to the ACL
 				var ace = AccessControlEntry.GetDefault(_isFolder, sid);
@@ -256,6 +330,14 @@ namespace Files.App.ViewModels.Properties
 				// Run Win32API
 				var win32Result = StorageSecurityService.DeleteAce(_path, (uint)index);
 
+				if (win32Result != WIN32_ERROR.ERROR_SUCCESS)
+				{
+					SetPermissionChangeError(Strings.SecurityFailedToRemoveAccessControlEntry.GetLocalizedResource(), win32Result);
+					return;
+				}
+
+				ClearPermissionChangeError();
+
 				// Remove the ACE
 				AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);
 
@@ -265,6 +347,18 @@ namespace Files.App.ViewModels.Properties
 				// Re-select item
 				SelectedAccessControlEntry = AccessControlList.AccessControlEntries.First();
 			});
+		}
+
+		private void SetPermissionChangeError(string message, WIN32_ERROR error)
+		{
+			PermissionChangeInfoBarMessage = message + "\r\n\r\n" + error.ToString();
+			IsPermissionChangeInfoBarOpen = true;
+		}
+
+		private void ClearPermissionChangeError()
+		{
+			PermissionChangeInfoBarMessage = string.Empty;
+			IsPermissionChangeInfoBarOpen = false;
 		}
 	}
 }
