@@ -348,7 +348,15 @@ namespace Files.App.Utils.Storage
 				if (!SafetyExtensions.IgnoreExceptions(() =>
 				{
 					using var shi = new ShellItem(fileToRenamePath);
-					op.QueueRenameOperation(shi, newName);
+
+					// Generate an incremental name (e.g. "file (2).txt") instead of letting the shell append a localized "Copy" suffix.
+					// A case-only rename targets the same item, so it must be left untouched.
+					var renameTargetPath = Path.Combine(Path.GetDirectoryName(fileToRenamePath) ?? string.Empty, newName);
+					var finalName = !overwriteOnRename && !string.Equals(fileToRenamePath, renameTargetPath, StringComparison.OrdinalIgnoreCase)
+						? GetIncrementalName(false, renameTargetPath, fileToRenamePath)
+						: newName;
+
+					op.QueueRenameOperation(shi, finalName);
 				}))
 				{
 					shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -449,7 +457,9 @@ namespace Files.App.Utils.Storage
 							?? throw new ArgumentException("The move destination must include a parent folder.", nameof(moveDestination));
 						using ShellFolder shd = new(destinationFolderPath);
 
-						op.QueueMoveOperation(shi, shd, Path.GetFileName(moveDestination[i]));
+						// Generate an incremental name (e.g. "file (2).txt") instead of letting the shell append a localized "Copy" suffix
+						var moveFileName = GetIncrementalName(overwriteOnMove, moveDestination[i], fileToMovePath[i]);
+						op.QueueMoveOperation(shi, shd, moveFileName);
 					}))
 					{
 						shellOperationResult.Items.Add(new ShellOperationItemResult()
