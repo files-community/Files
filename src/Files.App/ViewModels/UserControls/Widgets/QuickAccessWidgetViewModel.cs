@@ -115,9 +115,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 						var name = folder.Name;
 						var path = folder.ParsingPath;
 						var isPinned = folder.IsPinned;
-						var tooltip = folder.Tooltip;
 						using var shellItem = ShellItem.Open(new ShellPidl(folder.Pidl));
-						replacements.Add(new WidgetFolderCardItem(new WindowsFolder(shellItem.IShellItem), name, path, isPinned, tooltip));
+						replacements.Add(new WidgetFolderCardItem(new WindowsFolder(shellItem.IShellItem), name, path, isPinned));
 					}, App.Logger);
 				}
 

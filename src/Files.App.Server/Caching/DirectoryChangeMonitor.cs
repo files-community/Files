@@ -14,19 +14,31 @@ internal sealed partial class DirectoryChangeMonitor : IDisposable
 	private readonly string filter;
 	private readonly bool recursive;
 	private readonly Action<FileSystemEventArgs> changed;
+	private readonly DeviceRemovalMonitor? deviceRemoval;
 	private FileSystemWatcher? watcher;
 	private FileSystemWatcher? parentWatcher;
 	private bool watchingTarget;
 	private bool disposed;
+	private bool suspended;
 	private long configurationVersion;
 
-	internal DirectoryChangeMonitor(string directory, string filter, bool recursive, Action<FileSystemEventArgs> changed)
+	internal DirectoryChangeMonitor(string directory, string filter, bool recursive, Action<FileSystemEventArgs> changed, bool watchDeviceRemoval = false)
 	{
 		this.directory = Path.TrimEndingDirectorySeparator(Path.GetFullPath(directory));
 		this.filter = filter;
 		this.recursive = recursive;
 		this.changed = changed;
-		Configure();
+		try
+		{
+			if (watchDeviceRemoval)
+				deviceRemoval = new DeviceRemovalMonitor(Path.GetPathRoot(this.directory)!, OnDeviceRemoval);
+			Configure();
+		}
+		catch
+		{
+			Dispose();
+			throw;
+		}
 	}
 
 	private void Configure()
@@ -34,7 +46,7 @@ internal sealed partial class DirectoryChangeMonitor : IDisposable
 		long version;
 		lock (gate)
 		{
-			if (disposed)
+			if (disposed || suspended)
 				return;
 			version = ++configurationVersion;
 		}
@@ -66,22 +78,35 @@ internal sealed partial class DirectoryChangeMonitor : IDisposable
 		FileSystemWatcher? previousParent;
 		lock (gate)
 		{
-			if (disposed || version != configurationVersion)
+			if (disposed || suspended || version != configurationVersion)
 			{
 				previous = replacement;
 				previousParent = replacementParent;
 			}
 			else
 			{
+				try
+				{
+					// Serialize opening handles with the device-removal callback that closes them.
+					replacement.EnableRaisingEvents = true;
+					if (replacementParent is not null)
+						replacementParent.EnableRaisingEvents = true;
+				}
+				catch
+				{
+					replacement.Dispose();
+					replacementParent?.Dispose();
+					throw;
+				}
 				previous = watcher;
 				previousParent = parentWatcher;
 				watcher = replacement;
 				parentWatcher = replacementParent;
 				watchingTarget = targetExists;
 			}
+			previous?.Dispose();
+			previousParent?.Dispose();
 		}
-		previous?.Dispose();
-		previousParent?.Dispose();
 		// The missing component may have appeared before its parent watch was enabled.
 		if (!targetExists && Directory.Exists(next))
 			Configure();
@@ -101,7 +126,6 @@ internal sealed partial class DirectoryChangeMonitor : IDisposable
 			replacement.Changed += OnChanged;
 			replacement.Renamed += OnChanged;
 			replacement.Error += OnError;
-			replacement.EnableRaisingEvents = true;
 		}
 		catch
 		{
@@ -109,6 +133,35 @@ internal sealed partial class DirectoryChangeMonitor : IDisposable
 			throw;
 		}
 		return replacement;
+	}
+
+	private void OnDeviceRemoval(bool removing)
+	{
+		FileSystemWatcher? previous;
+		FileSystemWatcher? previousParent;
+		lock (gate)
+		{
+			if (disposed)
+				return;
+			suspended = removing;
+			configurationVersion++;
+			previous = watcher;
+			previousParent = parentWatcher;
+			watcher = null;
+			parentWatcher = null;
+			previous?.Dispose();
+			previousParent?.Dispose();
+		}
+		if (!removing)
+		{
+			// Reopening a device can block, so do it after returning from the PnP callback.
+			ThreadPool.QueueUserWorkItem(_ =>
+			{
+				SafetyExtensions.IgnoreExceptions(Configure, Program.Logger);
+				if (!Volatile.Read(ref disposed))
+					changed(new FileSystemEventArgs(WatcherChangeTypes.All, directory, string.Empty));
+			});
+		}
 	}
 
 	private bool Relevant(string path)
@@ -178,14 +231,17 @@ internal sealed partial class DirectoryChangeMonitor : IDisposable
 		FileSystemWatcher? previousParent;
 		lock (gate)
 		{
+			if (disposed)
+				return;
 			disposed = true;
 			configurationVersion++;
 			previous = watcher;
 			previousParent = parentWatcher;
 			watcher = null;
 			parentWatcher = null;
+			previous?.Dispose();
+			previousParent?.Dispose();
 		}
-		previous?.Dispose();
-		previousParent?.Dispose();
+		deviceRemoval?.Dispose();
 	}
 }

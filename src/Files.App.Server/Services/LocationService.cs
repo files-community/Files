@@ -11,7 +11,19 @@ public sealed partial class LocationService
 
 	public static IAsyncOperation<IReadOnlyList<LibraryInfo>> GetLibrariesAsync() => ServerAsync.Run(token => InitializationCache.Libraries.GetAsync().WaitAsync(token));
 
-	public static IAsyncOperation<IReadOnlyList<ShellLocationInfo>> GetRecentItemsAsync(bool folders) => ServerAsync.Run(token => (folders ? LocationCatalog.RecentFolders : LocationCatalog.RecentFiles).GetAsync().WaitAsync(token));
+	public static IAsyncOperation<IReadOnlyList<ShellLocationInfo>> GetRecentItemsAsync(bool folders, bool refresh) => ServerAsync.Run(token =>
+	{
+		var cache = folders ? LocationCatalog.RecentFolders : LocationCatalog.RecentFiles;
+		if (refresh)
+			cache.Invalidate();
+		return cache.GetAsync().WaitAsync(token);
+	});
 
-	public static IAsyncOperation<IReadOnlyList<ShellLocationInfo>> GetNetworkLocationsAsync(bool shortcuts) => ServerAsync.Run(token => (shortcuts ? LocationCatalog.NetworkShortcuts : LocationCatalog.NetworkComputers).GetAsync().WaitAsync(token));
+	public static IAsyncOperation<IReadOnlyList<ShellLocationInfo>> GetNetworkLocationsAsync(bool shortcuts, bool refresh) => ServerAsync.Run(token =>
+	{
+		var cache = shortcuts ? LocationCatalog.NetworkShortcuts : LocationCatalog.NetworkComputers;
+		if (refresh)
+			cache.Invalidate();
+		return cache.GetAsync().WaitAsync(token);
+	});
 }

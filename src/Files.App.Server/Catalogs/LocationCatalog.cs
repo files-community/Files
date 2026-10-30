@@ -15,6 +15,13 @@ internal static class LocationCatalog
 	internal static readonly CachedTask<IReadOnlyList<ShellLocationInfo>> NetworkComputers = new(() => ReadAsync("shell:::{f02c1a0d-be21-4350-88b0-7367fc96ef3c}", true, int.MaxValue), TimeSpan.FromSeconds(30));
 	internal static readonly CachedTask<IReadOnlyList<ShellLocationInfo>> NetworkShortcuts = new(() => ReadAsync(() => new ShellFolder(PInvoke.FOLDERID_NetHood), true, int.MaxValue, true), TimeSpan.FromMinutes(5));
 
+	internal static void InvalidateRecentItems()
+	{
+		RecentFiles.Invalidate();
+		RecentFolders.Invalidate();
+		ServerEvents.Notify(ServerChangeNames.RecentItems);
+	}
+
 	private static Task<IReadOnlyList<ShellLocationInfo>> ReadAsync(string path, bool foldersOnly, int limit, bool links = false)
 		=> ReadAsync(() => new ShellFolder(path), foldersOnly, limit, links);
 
@@ -33,7 +40,7 @@ internal static class LocationCatalog
 							continue;
 						var identity = item.ParsingName ?? item.FileSystemPath ?? string.Empty;
 						var target = links
-							? item is Files.Storage.ShellLink link ? link.TargetPath : item.Properties["System.Link.TargetParsingPath"] as string
+							? item is Files.Storage.ShellLink link ? Environment.ExpandEnvironmentVariables(link.TargetPath) : item.Properties["System.Link.TargetParsingPath"] as string
 							: item.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEEDITING);
 						if (string.IsNullOrEmpty(target))
 							continue;

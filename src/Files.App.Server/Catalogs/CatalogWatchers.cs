@@ -20,19 +20,17 @@ internal static class CatalogWatchers
 
 	private static bool Start()
 	{
-		var recent = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Recent), "AutomaticDestinations");
+		var recentFolder = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
+		var recent = Path.Combine(recentFolder, "AutomaticDestinations");
+		Watch(recentFolder, "*.lnk", LocationCatalog.InvalidateRecentItems);
 		Watch(recent, "f01b4d95cf55d32a.automaticDestinations-ms", () =>
 		{
 			InitializationCache.PinnedFolders.Invalidate();
 			JumpListCatalog.Invalidate();
 			ServerEvents.Notify(ServerChangeNames.PinnedFolders);
+			LocationCatalog.InvalidateRecentItems();
 		});
-		Watch(recent, "5f7b5f1e01b83767.automaticDestinations-ms", () =>
-		{
-			LocationCatalog.RecentFiles.Invalidate();
-			LocationCatalog.RecentFolders.Invalidate();
-			ServerEvents.Notify(ServerChangeNames.RecentItems);
-		});
+		Watch(recent, "5f7b5f1e01b83767.automaticDestinations-ms", LocationCatalog.InvalidateRecentItems);
 		Watch(ShellLibraryItem.LibrariesPath, "*.library-ms", () =>
 		{
 			InitializationCache.Libraries.Invalidate();
@@ -68,7 +66,7 @@ internal static class CatalogWatchers
 					if (drive.DriveType == System.IO.DriveType.Network)
 						continue;
 					var watcher = SafetyExtensions.IgnoreExceptions(() => new DirectoryChangeMonitor(
-						Path.Combine(drive.Name, "$RECYCLE.BIN", sid), "*", false, OnRecycleBinChanged), Program.Logger);
+						Path.Combine(drive.Name, "$RECYCLE.BIN", sid), "*", false, OnRecycleBinChanged, watchDeviceRemoval: true), Program.Logger);
 					if (watcher is not null)
 						replacements.Add(watcher);
 				}

@@ -68,7 +68,7 @@ namespace Files.App.Services
 		private async void OnServerChanged(object? sender, string name)
 		{
 			if (name == ServerChangeNames.Network)
-				await SafetyExtensions.IgnoreExceptions(UpdateShortcutsAsync, App.Logger);
+				await SafetyExtensions.IgnoreExceptions(() => UpdateShortcutsAsync(false), App.Logger);
 		}
 
 		/// <inheritdoc/>
@@ -76,9 +76,12 @@ namespace Files.App.Services
 
 		public Task<IEnumerable<IFolder>> GetShortcutsAsync() => GetLocationsAsync(true);
 
-		private static async Task<IEnumerable<IFolder>> GetLocationsAsync(bool shortcuts)
+		private static async Task<IEnumerable<IFolder>> GetLocationsAsync(bool shortcuts, bool refresh = true)
 		{
-			var locations = await Server.LocationService.GetNetworkLocationsAsync(shortcuts);
+			var locations = await SafetyExtensions.IgnoreExceptions(async () => await Server.LocationService.GetNetworkLocationsAsync(shortcuts, refresh), App.Logger);
+			if (locations is null)
+				return [];
+
 			return locations.Select(item => new DriveItem
 			{
 				Text = item.Name,
@@ -113,11 +116,13 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public async Task UpdateShortcutsAsync()
+		public Task UpdateShortcutsAsync() => UpdateShortcutsAsync(true);
+
+		private async Task UpdateShortcutsAsync(bool refresh)
 		{
 			var unsortedDrives = new List<IFolder>();
 
-			foreach (var item in await GetShortcutsAsync())
+			foreach (var item in await GetLocationsAsync(true, refresh))
 				unsortedDrives.Add(item);
 
 			var orderedDrives =

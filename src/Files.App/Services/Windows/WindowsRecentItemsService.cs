@@ -63,8 +63,8 @@ namespace Files.App.Services
 		{
 			if (name != ServerChangeNames.RecentItems)
 				return;
-			_ = SafetyExtensions.IgnoreExceptions(UpdateRecentFilesAsync, App.Logger);
-			_ = SafetyExtensions.IgnoreExceptions(UpdateRecentFoldersAsync, App.Logger);
+			_ = SafetyExtensions.IgnoreExceptions(() => UpdateRecentItemsAsync(false, false), App.Logger);
+			_ = SafetyExtensions.IgnoreExceptions(() => UpdateRecentItemsAsync(true, false), App.Logger);
 		}
 
 		// Methods
@@ -162,9 +162,12 @@ namespace Files.App.Services
 			}
 		}
 
-		private async Task<bool> UpdateRecentItemsAsync(bool folders)
+		private async Task<bool> UpdateRecentItemsAsync(bool folders, bool refresh = true)
 		{
-			var entries = await Server.LocationService.GetRecentItemsAsync(folders);
+			var entries = await SafetyExtensions.IgnoreExceptions(async () => await Server.LocationService.GetRecentItemsAsync(folders, refresh), App.Logger);
+			if (entries is null)
+				return false;
+
 			var items = entries.Select(entry => new RecentItem
 			{
 				Path = entry.Path,
