@@ -234,7 +234,6 @@ CM_Register_Notification
 CM_Unregister_Notification
 GdipCreateBitmapFromHBITMAP
 GdiplusStartup
-GdiplusShutdown
 GdipGetImageEncodersSize
 GdipGetImageEncoders
 ImageFormatPNG

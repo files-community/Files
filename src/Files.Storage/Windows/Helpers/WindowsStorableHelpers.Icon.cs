@@ -22,27 +22,28 @@ namespace Files.Storage
 		private static (Guid Format, Guid Encorder)[]? GdiEncoders;
 		private static ConcurrentDictionary<(string, int, int), byte[]>? DllIconCache;
 
-		private readonly ref struct GdiPlusScope
-		{
-			private readonly nuint token;
-			public bool IsInitialized { get; }
-
-			public unsafe GdiPlusScope()
-			{
-				var input = new GdiplusStartupInput { GdiplusVersion = 1 };
-				nuint value = 0;
-				IsInitialized = PInvoke.GdiplusStartup(&value, &input, null) == Status.Ok;
-				token = value;
-			}
-
-			public void Dispose()
-			{
-				if (IsInitialized)
-					PInvoke.GdiplusShutdown(token);
-			}
-		}
+		private static readonly Lock GdiPlusGate = new();
+		private static nuint GdiPlusToken;
 
 		// Methods
+
+		private static unsafe bool EnsureGdiPlusInitialized()
+		{
+			lock (GdiPlusGate)
+			{
+				if (GdiPlusToken != 0)
+					return true;
+
+				var input = new GdiplusStartupInput { GdiplusVersion = 1 };
+				nuint token = 0;
+				if (PInvoke.GdiplusStartup(&token, &input, null) != Status.Ok)
+					return false;
+
+				// Keep GDI+ alive for the process lifetime, including in-flight conversions during exit.
+				GdiPlusToken = token;
+				return true;
+			}
+		}
 
 		/// <inheritdoc cref="TryGetThumbnail"/>
 		public static async Task<byte[]?> GetThumbnailAsync(this IWindowsStorable storable, int size, SIIGBF options)
@@ -69,8 +70,7 @@ namespace Files.Storage
 			if (storable.ThisPtr is not IShellItemImageFactory pShellItemImageFactory)
 				return HRESULT.E_NOINTERFACE;
 
-			using var gdiplus = new GdiPlusScope();
-			if (!gdiplus.IsInitialized)
+			if (!EnsureGdiPlusInitialized())
 				return HRESULT.E_FAIL;
 
 			// Concurrent first requests can return E_PENDING while the Shell image list is initializing.
@@ -145,8 +145,7 @@ namespace Files.Storage
 			}
 			else
 			{
-				using var gdiplus = new GdiPlusScope();
-				if (!gdiplus.IsInitialized)
+				if (!EnsureGdiPlusInitialized())
 					return HRESULT.E_FAIL;
 
 				HICON hIcon = default;
