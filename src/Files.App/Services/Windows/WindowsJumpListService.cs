@@ -16,6 +16,11 @@ namespace Files.App.Services
 		// the shell's cap, so the recent group must stay bounded. The taskbar displays at most ~13 entries.
 		private const int MaxRecentItemsCount = 20;
 
+		// The Windows Jump List is a single shared resource. Load -> modify -> Save sequences must never overlap,
+		// otherwise concurrent navigations (fire-and-forget calls from ShellViewModel) race on the native list and
+		// fail with COMException (ERROR_SHARING_VIOLATION / ERROR_ALREADY_EXISTS) or crash the app.
+		private static readonly SemaphoreSlim jumpListLock = new(1, 1);
+
 		public async Task InitializeAsync()
 		{
 			try
@@ -33,6 +38,10 @@ namespace Files.App.Services
 
 		public async Task AddFolderAsync(string path)
 		{
+			if (string.IsNullOrWhiteSpace(path))
+				return;
+
+			await jumpListLock.WaitAsync();
 			try
 			{
 				if (JumpList.IsSupported())
@@ -54,12 +63,17 @@ namespace Files.App.Services
 			{
 				App.Logger.LogWarning(ex, ex.Message);
 			}
+			finally
+			{
+				jumpListLock.Release();
+			}
 		}
 
 		public async Task<IEnumerable<string>> GetFoldersAsync()
 		{
 			if (JumpList.IsSupported())
 			{
+				await jumpListLock.WaitAsync();
 				try
 				{
 					var instance = await JumpList.LoadCurrentAsync();
@@ -72,6 +86,10 @@ namespace Files.App.Services
 				{
 					return [];
 				}
+				finally
+				{
+					jumpListLock.Release();
+				}
 			}
 			else
 			{
@@ -81,6 +99,7 @@ namespace Files.App.Services
 
 		public async Task RefreshPinnedFoldersAsync()
 		{
+			await jumpListLock.WaitAsync();
 			try
 			{
 				if (App.QuickAccessManager.PinnedItemsWatcher is not null)
@@ -108,6 +127,8 @@ namespace Files.App.Services
 			{
 				if (App.QuickAccessManager.PinnedItemsWatcher is not null)
 					SafetyExtensions.IgnoreExceptions(() => App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true);
+
+				jumpListLock.Release();
 			}
 		}
 
@@ -115,17 +136,25 @@ namespace Files.App.Services
 		{
 			if (JumpList.IsSupported())
 			{
+				await jumpListLock.WaitAsync();
 				try
 				{
 					var instance = await JumpList.LoadCurrentAsync();
 					// Disable automatic jumplist. It doesn't work.
 					instance.SystemGroupKind = JumpListSystemGroupKind.None;
 
-					var itemToRemove = instance.Items.Where(x => x.Arguments == path).Select(x => x).FirstOrDefault();
+					var itemToRemove = instance.Items.FirstOrDefault(x => x.Arguments == path);
+					if (itemToRemove is null)
+						return;
+
 					instance.Items.Remove(itemToRemove);
 					await instance.SaveAsync();
 				}
 				catch { }
+				finally
+				{
+					jumpListLock.Release();
+				}
 			}
 		}
 
@@ -143,7 +172,8 @@ namespace Files.App.Services
 					var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 					// Jumplist item argument can't end with a slash so append a character that can't exist in a directory name to support listing drives.
-					var drive = drivesViewModel.Drives.FirstOrDefault(drive => drive.Id == path);
+					// Drives is a UI-bound collection that can change while we run on a background thread, so snapshot it.
+					var drive = drivesViewModel.Drives.ToArray().FirstOrDefault(drive => drive.Id == path);
 					if (drive is null)
 						return;
 
@@ -184,7 +214,10 @@ namespace Files.App.Services
 				if (string.Equals(group, JumpListRecentGroupHeader, StringComparison.OrdinalIgnoreCase))
 				{
 					// Keep newer items at the top.
-					instance.Items.Remove(instance.Items.FirstOrDefault(x => x.Arguments.Equals(path, StringComparison.OrdinalIgnoreCase)));
+					var existingItem = instance.Items.FirstOrDefault(x => string.Equals(x.Arguments, path, StringComparison.OrdinalIgnoreCase));
+					if (existingItem is not null)
+						instance.Items.Remove(existingItem);
+
 					instance.Items.Insert(0, jumplistItem);
 
 					var excessRecentItems = instance.Items
