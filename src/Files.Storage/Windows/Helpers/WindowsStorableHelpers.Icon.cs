@@ -27,6 +27,17 @@ namespace Files.Storage
 
 		// Methods
 
+		/// <summary>Initializes the Shell image list before concurrent thumbnail requests begin.</summary>
+		public static bool InitializeShellImageList()
+		{
+			lock (SystemImageListGate)
+			{
+				if (!SystemImageListInitialized)
+					SystemImageListInitialized = PInvoke.FileIconInit(true);
+				return SystemImageListInitialized;
+			}
+		}
+
 		private static unsafe bool EnsureGdiPlusInitialized()
 		{
 			lock (GdiPlusGate)
@@ -73,12 +84,8 @@ namespace Files.Storage
 			if (!EnsureGdiPlusInitialized())
 				return HRESULT.E_FAIL;
 
-			// Concurrent first requests can return E_PENDING while the Shell image list is initializing.
-			lock (SystemImageListGate)
-			{
-				if (!SystemImageListInitialized && !(SystemImageListInitialized = PInvoke.FileIconInit(true)))
-					return HRESULT.E_FAIL;
-			}
+			if (!InitializeShellImageList())
+				return HRESULT.E_FAIL;
 
 			HBITMAP hBitmap = default;
 			try

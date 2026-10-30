@@ -143,6 +143,9 @@ namespace Files.App
 					return;
 				}
 
+				// WinRT thumbnails can initialize the same Shell cache outside our icon helpers.
+				await STATask.RunPooled(WindowsStorableHelpers.InitializeShellImageList, Logger);
+
 				if (isStartupTask)
 					Program.RegisterCurrentInstance();
 
