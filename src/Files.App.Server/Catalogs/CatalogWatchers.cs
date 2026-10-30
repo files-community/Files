@@ -12,7 +12,7 @@ internal static class CatalogWatchers
 	private static List<DirectoryChangeMonitor> watchers = [];
 	private static readonly Lazy<bool> initialized = new(Start);
 	private static readonly Lock recycleBinGate = new();
-	private static List<DirectoryChangeMonitor> recycleBins = [];
+	private static Dictionary<string, DirectoryChangeMonitor> recycleBins = new(StringComparer.OrdinalIgnoreCase);
 	private static long recycleBinVersion;
 	private static bool stopped;
 
@@ -54,7 +54,8 @@ internal static class CatalogWatchers
 				return;
 			version = ++recycleBinVersion;
 		}
-		var replacements = new List<DirectoryChangeMonitor>();
+		var replacements = new Dictionary<string, DirectoryChangeMonitor>(StringComparer.OrdinalIgnoreCase);
+		var unavailableDrives = new List<string>();
 		try
 		{
 			using var identity = WindowsIdentity.GetCurrent();
@@ -68,26 +69,36 @@ internal static class CatalogWatchers
 					var watcher = SafetyExtensions.IgnoreExceptions(() => new DirectoryChangeMonitor(
 						Path.Combine(drive.Name, "$RECYCLE.BIN", sid), "*", false, OnRecycleBinChanged, watchDeviceRemoval: true), Program.Logger);
 					if (watcher is not null)
-						replacements.Add(watcher);
+						replacements.Add(drive.Name, watcher);
+					else
+						unavailableDrives.Add(drive.Name);
 				}
 			}
 		}
 		catch
 		{
-			foreach (var watcher in replacements)
+			foreach (var watcher in replacements.Values)
 				watcher.Dispose();
 			throw;
 		}
-		List<DirectoryChangeMonitor> previous;
+		Dictionary<string, DirectoryChangeMonitor> previous;
 		bool installed;
 		lock (recycleBinGate)
 		{
 			installed = !stopped && version == recycleBinVersion;
 			previous = installed ? recycleBins : replacements;
 			if (installed)
+			{
+				// A locked volume still needs its existing registration to receive the unlock event.
+				foreach (var drive in unavailableDrives)
+				{
+					if (previous.Remove(drive, out var watcher))
+						replacements.Add(drive, watcher);
+				}
 				recycleBins = replacements;
+			}
 		}
-		foreach (var watcher in previous)
+		foreach (var watcher in previous.Values)
 			watcher.Dispose();
 		if (installed)
 			RecycleBinCatalog.RecordChange(new FileSystemEventArgs(WatcherChangeTypes.All, string.Empty, string.Empty), refresh: true);
@@ -136,7 +147,7 @@ internal static class CatalogWatchers
 	internal static void Dispose()
 	{
 		List<DirectoryChangeMonitor> previous;
-		List<DirectoryChangeMonitor> previousBins;
+		Dictionary<string, DirectoryChangeMonitor> previousBins;
 		lock (recycleBinGate)
 		{
 			stopped = true;
@@ -144,9 +155,9 @@ internal static class CatalogWatchers
 			previous = watchers;
 			previousBins = recycleBins;
 			watchers = [];
-			recycleBins = [];
+			recycleBins = new(StringComparer.OrdinalIgnoreCase);
 		}
-		foreach (var watcher in previous.Concat(previousBins))
+		foreach (var watcher in previous.Concat(previousBins.Values))
 			watcher.Dispose();
 	}
 }
