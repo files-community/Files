@@ -3634,6 +3634,10 @@
   <data name="AddPage" xml:space="preserve">
     <value>Add page</value>
   </data>
+  <data name="StatusCenter_CompressedInputProgress" xml:space="preserve">
+    <value>{0}% of compressed data read</value>
+    <comment>Shown while extracting an archive with an unknown uncompressed size. The percentage measures compressed input read, not output size or elapsed time.</comment>
+  </data>
   <data name="ProcessingItems" xml:space="preserve">
     <value>Processing items...</value>
   </data>

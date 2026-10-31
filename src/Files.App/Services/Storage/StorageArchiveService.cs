@@ -130,9 +130,23 @@ namespace Files.App.Services
 				string.IsNullOrEmpty(destinationFolderPath))
 				return false;
 
-			using var zipFile = await GetSevenZipExtractorAsync(archiveFilePath, password);
-			if (zipFile is null)
+			Action<double>? reportProgress = null;
+			bool reportCompressedProgress = archiveFilePath.EndsWith(".bz2", StringComparison.OrdinalIgnoreCase);
+			var archiveStream = reportCompressedProgress
+				? (await FilesystemTasks.WrapNullable<Stream>(() => Task.Run<Stream?>(() => File.OpenRead(archiveFilePath)))).Result
+				: null;
+			if (reportCompressedProgress && archiveStream is null)
 				return false;
+
+			using var progressStream = archiveStream is null ? null : new ArchiveReadProgressStream(archiveStream, percentage => reportProgress?.Invoke(percentage), CancellationToken.None);
+			using var zipFile = await GetSevenZipExtractorAsync(archiveFilePath, password, progressStream);
+			if (zipFile is null)
+			{
+				if (reportCompressedProgress)
+					StatusCenterHelper.AddCard_Decompress(archiveFilePath.CreateEnumerable(), destinationFolderPath.CreateEnumerable(), ReturnResult.Failed);
+
+				return false;
+			}
 
 			// Initialize a new in-progress status card
 			var statusCard = StatusCenterHelper.AddCard_Decompress(
@@ -151,7 +165,13 @@ namespace Files.App.Services
 				zipFile.ArchiveFileData.Count(x => !x.IsDirectory));
 
 			fsProgress.TotalSize = zipFile.ArchiveFileData.Select(x => (long)x.Size).Sum();
+			fsProgress.IsCompressedInputProgress = reportCompressedProgress;
 			fsProgress.Report();
+			reportProgress = percentage =>
+			{
+				statusCard.CancellationToken.ThrowIfCancellationRequested();
+				fsProgress.Report(percentage);
+			};
 
 			zipFile.Extracting += (s, e) =>
 			{
@@ -181,6 +201,7 @@ namespace Files.App.Services
 			};
 
 			bool isSuccess = false;
+			string? incompleteFilePath = null;
 
 			try
 			{
@@ -192,7 +213,12 @@ namespace Files.App.Services
 					// ExtractArchive would write the entry's "[no name]" placeholder to disk
 					var destinationPath = ValidateAndGetSafeExtractionPath(destinationFolderPath, resolvedName);
 					Directory.CreateDirectory(Path.GetDirectoryName(destinationPath)!);
+					bool destinationExisted = File.Exists(destinationPath);
 					await using var destinationStream = File.Create(destinationPath);
+					if (reportCompressedProgress && !destinationExisted)
+						incompleteFilePath = destinationPath;
+
+					progressStream?.StartReporting();
 					await zipFile.ExtractFileAsync(files[0].Index, destinationStream);
 				}
 				else
@@ -201,6 +227,7 @@ namespace Files.App.Services
 						_ = ValidateAndGetSafeExtractionPath(destinationFolderPath, archiveEntry.FileName, archiveEntry.IsDirectory);
 
 					// TODO: Get this method return result
+					progressStream?.StartReporting();
 					await zipFile.ExtractArchiveAsync(destinationFolderPath);
 				}
 
@@ -214,6 +241,9 @@ namespace Files.App.Services
 			}
 			finally
 			{
+				if (!isSuccess && incompleteFilePath is not null)
+					await FilesystemTasks.Wrap(() => Task.Run(() => File.Delete(incompleteFilePath)));
+
 				// Remove the in-progress status card
 				StatusCenterViewModel.RemoveItem(statusCard);
 
@@ -484,6 +514,9 @@ namespace Files.App.Services
 
 		/// <inheritdoc/>
 		public async Task<SevenZipExtractor?> GetSevenZipExtractorAsync(string archiveFilePath, string password = "")
+			=> await GetSevenZipExtractorAsync(archiveFilePath, password, null);
+
+		private async Task<SevenZipExtractor?> GetSevenZipExtractorAsync(string archiveFilePath, string password, Stream? archiveStream)
 		{
 			return await FilesystemTasks.WrapNullable(async () =>
 			{
@@ -491,7 +524,9 @@ namespace Files.App.Services
 				if (archive is null)
 					return null;
 
-				var extractor = string.IsNullOrEmpty(password)
+				var extractor = archiveStream is not null
+					? ArchiveExtractorHelpers.Create(archiveStream, archiveFilePath, password)
+					: string.IsNullOrEmpty(password)
 					? new SevenZipExtractor(archive.Path)
 					: new SevenZipExtractor(archive.Path, password);
 

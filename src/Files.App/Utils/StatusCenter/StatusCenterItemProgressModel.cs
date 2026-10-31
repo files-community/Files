@@ -114,6 +114,8 @@ namespace Files.App.Utils.StatusCenter
 		/// </summary>
 		public double? Percentage { get; private set; }
 
+		internal bool IsCompressedInputProgress { get; set; }
+
 		public event PropertyChangedEventHandler? PropertyChanged;
 
 		public StatusCenterItemProgressModel(IProgress<StatusCenterItemProgressModel>? progress, bool enumerationCompleted = false, FileSystemStatusCode? status = null, long itemsCount = 0, int samplerInterval = 100)

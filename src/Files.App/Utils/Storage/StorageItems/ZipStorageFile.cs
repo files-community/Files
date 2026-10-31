@@ -360,13 +360,22 @@ namespace Files.App.Utils.Storage
 		public override IAsyncOperation<BaseStorageFile?> CopyAsync(IStorageFolder destinationFolder, string desiredNewName)
 			=> CopyAsync(destinationFolder, desiredNewName, NameCollisionOption.FailIfExists);
 		public override IAsyncOperation<BaseStorageFile?> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
+			=> AsyncInfo.Run(cancellationToken => CopyAsync(destinationFolder, desiredNewName, option, null, cancellationToken));
+
+		internal Task<BaseStorageFile?> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option, Action<double>? reportProgress, CancellationToken cancellationToken)
 		{
 			if (CurrentEncoding is not null && Path != containerPath)
-				return CopyWithEncodingAsync(destinationFolder, desiredNewName, option);
+				return CopyWithEncodingAsync(destinationFolder, desiredNewName, option).AsTask(cancellationToken);
 
-			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<BaseStorageFile?>(async () =>
+			return SafetyExtensions.Wrap<BaseStorageFile?>(async () =>
 			{
-				using SevenZipExtractor? zipFile = await OpenZipFileAsync();
+				bool reportCompressedProgress = reportProgress is not null && containerPath.EndsWith(".bz2", StringComparison.OrdinalIgnoreCase);
+				var archiveStream = reportCompressedProgress ? await OpenZipFileAsync(FileAccessMode.Read) : null;
+				if (reportCompressedProgress && archiveStream is null)
+					return null;
+
+				using var progressStream = archiveStream is null ? null : new ArchiveReadProgressStream(archiveStream, reportProgress!, cancellationToken);
+				using SevenZipExtractor? zipFile = progressStream is null ? await OpenZipFileAsync() : ArchiveExtractorHelpers.Create(progressStream, containerPath, Password);
 				if (zipFile is null || zipFile.ArchiveFileData is null)
 				{
 					return null;
@@ -384,10 +393,12 @@ namespace Files.App.Utils.Storage
 
 				if (destFolder is ICreateFileWithStream cwsf)
 				{
-					var ms = new MemoryStream();
+					using var ms = new MemoryStream();
+					progressStream?.StartReporting();
 					await zipFile.ExtractFileAsync(entry.Index, ms);
 					ms.Position = 0;
-					using var inStream = new NonSeekableRandomAccessStreamForRead(ms, entry.Size);
+					using var inStream = new NonSeekableRandomAccessStreamForRead(ms, (ulong)ms.Length);
+					cancellationToken.ThrowIfCancellationRequested();
 					return await cwsf.CreateFileAsync(inStream.AsStreamForRead(), desiredNewName, option.Convert());
 				}
 				else
@@ -395,15 +406,22 @@ namespace Files.App.Utils.Storage
 					var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert())
 						?? throw new IOException($"Failed to create destination file '{desiredNewName}'.");
 
-					await using var outStream = await destFile.OpenStreamForWriteAsync();
-					await SafetyExtensions.WrapAsync(() => zipFile.ExtractFileAsync(entry.Index, outStream), async (_, exception) =>
+					try
+					{
+						await using var outStream = await destFile.OpenStreamForWriteAsync();
+						progressStream?.StartReporting();
+						await zipFile.ExtractFileAsync(entry.Index, outStream);
+						cancellationToken.ThrowIfCancellationRequested();
+					}
+					catch
 					{
 						await destFile.DeleteAsync();
-						throw exception;
-					});
+						throw;
+					}
+
 					return destFile;
 				}
-			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync);
 		}
 
 		private IAsyncOperation<BaseStorageFile?> CopyWithEncodingAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
@@ -638,7 +656,8 @@ namespace Files.App.Utils.Storage
 				{
 					return false;
 				}
-				using (SevenZipExtractor zipFile = new SevenZipExtractor(new FileStream(hFile, FileAccess.Read)))
+				using var stream = new FileStream(hFile, FileAccess.Read);
+				using (SevenZipExtractor zipFile = ArchiveExtractorHelpers.Create(stream, path))
 				{
 					//zipFile.IsStreamOwner = true;
 					return zipFile.ArchiveFileData is not null;
@@ -719,7 +738,7 @@ namespace Files.App.Utils.Storage
 			return AsyncInfo.Run<SevenZipExtractor?>(async (cancellationToken) =>
 			{
 				var zipFile = await OpenZipFileAsync(FileAccessMode.Read);
-				return zipFile is not null ? new SevenZipExtractor(zipFile, Password) : null;
+				return zipFile is not null ? ArchiveExtractorHelpers.Create(zipFile, containerPath, Password) : null;
 			});
 		}
 

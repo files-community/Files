@@ -256,6 +256,20 @@ namespace Files.App.Utils.Storage
 							ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
 
 						var fsResultCopy = new FilesystemResult<BaseStorageFile>(null, FileSystemStatusCode.Generic);
+						fsProgress.FileName = file.Name;
+
+						Task<BaseStorageFile?> CopyFileAsync(string name, NameCollisionOption option)
+						{
+							if (file is ZipStorageFile archiveFile)
+								return archiveFile.CopyAsync(destinationFolder, name, option, percentage =>
+								{
+									fsProgress.IsCompressedInputProgress = true;
+									fsProgress.Report(percentage);
+								}, cancellationToken);
+
+							return file.CopyAsync(destinationFolder, name, option).AsTask();
+						}
+
 						if (string.IsNullOrEmpty(file.Path) && collision == NameCollisionOption.GenerateUniqueName)
 						{
 							// If collision is GenerateUniqueName we will manually check for existing file and generate a new name
@@ -268,13 +282,13 @@ namespace Files.App.Utils.Storage
 
 							do
 							{
-								fsResultCopy = await FilesystemTasks.WrapNullable(() => file.CopyAsync(destinationFolder, desiredNewName, NameCollisionOption.FailIfExists).AsTask());
+								fsResultCopy = await FilesystemTasks.WrapNullable(() => CopyFileAsync(desiredNewName, NameCollisionOption.FailIfExists));
 								desiredNewName = $"{nameWithoutExt} ({attempt}){extension}";
 							} while (fsResultCopy.ErrorCode == FileSystemStatusCode.AlreadyExists && ++attempt < 1024);
 						}
 						else
 						{
-							fsResultCopy = await FilesystemTasks.WrapNullable(() => file.CopyAsync(destinationFolder, Path.GetFileName(file.Name)!, collision).AsTask());
+							fsResultCopy = await FilesystemTasks.WrapNullable(() => CopyFileAsync(Path.GetFileName(file.Name)!, collision));
 						}
 
 						if (file is IPasswordProtectedItem ppiu)
@@ -943,16 +957,30 @@ namespace Files.App.Utils.Storage
 
 				if (collisions[i] != FileNameConflictResolveOptionType.Skip)
 				{
+					int completedItems = i;
+					var itemProgress = new Progress<StatusCenterItemProgressModel>(value =>
+					{
+						if (value.Status is { } status && status is not FileSystemStatusCode.InProgress and not FileSystemStatusCode.Success)
+							fsProgress.ReportStatus(status);
+
+						if (value.IsCompressedInputProgress && value.Percentage is double percentage)
+						{
+							fsProgress.IsCompressedInputProgress = true;
+							fsProgress.FileName = value.FileName;
+							fsProgress.Report(Math.Min(99d, (completedItems + percentage / 100d) * 100d / source.Count));
+						}
+					});
+
 					rawStorageHistory.Add(await CopyAsync(
 						source[i],
 						destination[i],
 						collisions[i].Convert(),
-						null,
+						itemProgress,
 						token));
 				}
 
 				fsProgress.AddProcessedItemsCount(1);
-				fsProgress.Report();
+				fsProgress.Report(fsProgress.IsCompressedInputProgress ? Math.Min(99d, (i + 1) * 100d / source.Count) : null);
 
 			}
 

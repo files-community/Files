@@ -357,6 +357,18 @@ namespace Files.App.Utils.StatusCenter
 				return;
 			}
 
+			if (value.IsCompressedInputProgress && value.Percentage is double compressedPercentage)
+			{
+				ProgressPercentage = Math.Clamp((int)compressedPercentage, 0, 100);
+				CurrentProcessingItemName = value.FileName;
+				Message = Strings.StatusCenter_CompressedInputProgress.GetLocalizedFormatResource(ProgressPercentage);
+				IsSpeedAndProgressAvailable = false;
+				IsExpanded = false;
+				Header = $"{Header} ({ProgressPercentage}%)";
+				_viewModel.NotifyChanges();
+				return;
+			}
+
 			// Graph item point
 			Vector2 point;
 
