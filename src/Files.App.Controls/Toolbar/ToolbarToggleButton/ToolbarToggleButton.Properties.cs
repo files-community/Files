@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using WinRT;
+
 namespace Files.App.Controls
 {
 	public partial class ToolbarToggleButton : ToggleButton, IToolbarItemSet
@@ -45,6 +47,7 @@ namespace Files.App.Controls
 		/// <summary>
 		/// The backing <see cref="DependencyProperty"/> for the <see cref="ThemedIcon"/> property.
 		/// </summary>
+		[DynamicWindowsRuntimeCast(typeof(Style))]
 		public static readonly DependencyProperty ThemedIconProperty =
 			DependencyProperty.Register(
 				nameof(ThemedIcon),
@@ -59,6 +62,7 @@ namespace Files.App.Controls
 		/// </summary>
 		public Style ThemedIcon
 		{
+			[DynamicWindowsRuntimeCast(typeof(Style))]
 			get => (Style)GetValue(ThemedIconProperty);
 			set => SetValue(ThemedIconProperty, value);
 		}

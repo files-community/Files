@@ -2,19 +2,21 @@
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using System.Diagnostics.CodeAnalysis;
 using Windows.UI;
+using WinRT;
 
 namespace Files.App.Helpers
 {
 	internal sealed partial class AppSystemBackdrop : SystemBackdrop
 	{
-		private bool isSecondaryWindow;
-		private IUserSettingsService userSettingsService;
+		private readonly bool isSecondaryWindow;
+		private readonly IUserSettingsService userSettingsService;
 		private ISystemBackdropControllerWithTargets? controller;
-		private ICompositionSupportsSystemBackdrop target;
-		private XamlRoot root;
+		private ICompositionSupportsSystemBackdrop? target;
+		private XamlRoot? root;
+		private SystemBackdropConfiguration? configuration;
 		private SystemBackdropTheme? prevTheme = null;
+		private bool? isInputActive;
 
 		public AppSystemBackdrop(bool isSecondaryWindow = false)
 		{
@@ -23,7 +25,6 @@ namespace Files.App.Helpers
 			userSettingsService.OnSettingChangedEvent += OnSettingChanged;
 		}
 
-		[MemberNotNull(nameof(target), nameof(root))]
 		protected override void OnTargetConnected(ICompositionSupportsSystemBackdrop connectedTarget, XamlRoot xamlRoot)
 		{
 			if (target is not null)
@@ -32,12 +33,15 @@ namespace Files.App.Helpers
 			base.OnTargetConnected(connectedTarget, xamlRoot);
 			this.target = connectedTarget;
 			this.root = xamlRoot;
-			var configuration = GetDefaultSystemBackdropConfiguration(connectedTarget, xamlRoot);
+			configuration = GetDefaultSystemBackdropConfiguration(connectedTarget, xamlRoot);
+			if (isInputActive is bool active)
+				configuration.IsInputActive = active;
 			controller = GetSystemBackdropController(userSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial, configuration.Theme);
 			controller?.SetSystemBackdropConfiguration(configuration);
 			controller?.AddSystemBackdropTarget(connectedTarget);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(DesktopAcrylicController))]
 		protected override void OnDefaultSystemBackdropConfigurationChanged(ICompositionSupportsSystemBackdrop target, XamlRoot xamlRoot)
 		{
 			base.OnDefaultSystemBackdropConfigurationChanged(target, xamlRoot);
@@ -52,8 +56,9 @@ namespace Files.App.Helpers
 		protected override void OnTargetDisconnected(ICompositionSupportsSystemBackdrop disconnectedTarget)
 		{
 			base.OnTargetDisconnected(disconnectedTarget);
-			this.target = null!;
-			this.root = null!;
+			this.target = null;
+			this.root = null;
+			this.configuration = null;
 
 
 			try
@@ -71,7 +76,7 @@ namespace Files.App.Helpers
 
 		private void OnSettingChanged(object? sender, SettingChangedEventArgs e)
 		{
-			if (target is null)
+			if (target is null || root is null)
 				return;
 
 			switch (e.SettingName)
@@ -79,13 +84,23 @@ namespace Files.App.Helpers
 				case nameof(IAppearanceSettingsService.AppThemeBackdropMaterial):
 					controller?.RemoveAllSystemBackdropTargets();
 					controller?.Dispose();
-					var configuration = GetDefaultSystemBackdropConfiguration(target, root);
+					configuration = GetDefaultSystemBackdropConfiguration(target, root);
+					if (isInputActive is bool active)
+						configuration.IsInputActive = active;
 					var newController = GetSystemBackdropController(userSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial, configuration.Theme);
 					newController?.SetSystemBackdropConfiguration(configuration);
 					newController?.AddSystemBackdropTarget(target);
 					controller = newController;
 					break;
 			}
+		}
+
+		// Driven from the window's Activated event since the default configuration doesn't reliably flip IsInputActive on pointerless activation (e.g. taskbar).
+		public void SetInputActive(bool isInputActive)
+		{
+			this.isInputActive = isInputActive;
+			if (configuration is not null)
+				configuration.IsInputActive = isInputActive;
 		}
 
 		private ISystemBackdropControllerWithTargets? GetSystemBackdropController(BackdropMaterialType backdropType, SystemBackdropTheme theme)

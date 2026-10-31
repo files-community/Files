@@ -1,16 +1,17 @@
 ﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
 
 namespace Files.App.Data.Contracts
 {
-	[ComImport]
+	[GeneratedComInterface]
 	[Guid("3A3DCD6C-3EAB-43DC-BCDE-45671CE800C8")]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-	interface IDataTransferManagerInterop
+	internal partial interface IDataTransferManagerInterop
 	{
-		IntPtr GetForWindow([In] IntPtr appWindow, [In] ref Guid riid);
+		IntPtr GetForWindow(IntPtr appWindow, in Guid riid);
 
 		void ShowShareUIForWindow(IntPtr appWindow);
 	}

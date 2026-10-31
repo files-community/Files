@@ -22,14 +22,13 @@ namespace Files.App.Services
 				{ typeof(CredentialDialogViewModel), () => new CredentialDialog() },
 				{ typeof(ElevateConfirmDialogViewModel), () => new ElevateConfirmDialog() },
 				{ typeof(FileSystemDialogViewModel), () => new FilesystemOperationDialog() },
-				{ typeof(DecompressArchiveDialogViewModel), () => new DecompressArchiveDialog() },
 				{ typeof(CreateShortcutDialogViewModel), () => new CreateShortcutDialog() },
-				{ typeof(ReorderSidebarItemsDialogViewModel), () => new ReorderSidebarItemsDialog() },
 				{ typeof(AddBranchDialogViewModel), () => new AddBranchDialog() },
 				{ typeof(GitHubLoginDialogViewModel), () => new GitHubLoginDialog() },
 				{ typeof(FileTooLargeDialogViewModel), () => new FileTooLargeDialog() },
 				{ typeof(BulkRenameDialogViewModel), () => new BulkRenameDialog() },
 				{ typeof(CloneRepoDialogViewModel), () => new CloneRepoDialog() },
+				{ typeof(CompressSkippedItemsDialogViewModel), () => new CompressSkippedItemsDialog() },
 			}.ToFrozenDictionary();
 		}
 

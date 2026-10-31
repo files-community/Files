@@ -4,43 +4,85 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using System.IO;
 using System.Runtime.InteropServices;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
+using Windows.Win32.Foundation;
+using WinRT;
 using IO = System.IO;
 
 namespace Files.App
 {
-	public sealed partial class MainWindow : WinUIEx.WindowEx
+	public sealed partial class MainWindow : WindowEx
 	{
 		private static MainWindow? _Instance;
 		public static MainWindow Instance => _Instance ??= new();
 
-		public nint WindowHandle { get; }
 		private bool CanWindowToFront { get; set; } = true;
-		private readonly object _canWindowToFrontLock = new();
+		private readonly Lock _canWindowToFrontLock = new();
+		private bool _isWindowIconInitialized;
 
-		public MainWindow()
+		protected override bool PersistPlacement => true;
+
+		public MainWindow() : base(416, 316)
 		{
 			InitializeComponent();
 
-			WindowHandle = WinUIEx.WindowExtensions.GetWindowHandle(this);
-			MinHeight = 316;
-			MinWidth = 416;
 			ExtendsContentIntoTitleBar = true;
 			Title = "Files";
-			PersistenceId = "FilesMainWindow";
 			AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonPressedBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonHoverBackgroundColor = Colors.Transparent;
-			AppWindow.SetIcon(AppLifecycleHelper.AppIconPath);
+		}
 
-			WinUIEx.WindowManager.Get(this).WindowMessageReceived += WindowManager_WindowMessageReceived;
+		private void InitializeWindowIcon()
+		{
+			if (_isWindowIconInitialized)
+				return;
+
+			AppWindow.SetIcon(AppLifecycleHelper.AppIconPath);
+			_isWindowIconInitialized = true;
+		}
+
+		internal async Task<bool> ActivateWithBackdropAsync()
+		{
+			var rootFrame = EnsureWindowIsInitialized();
+			if (rootFrame is null)
+				return false;
+
+			// Submit the initial content and backdrop before the window's normal show animation.
+			await CompositionTarget.GetCompositorForCurrentThread().RequestCommitAsync();
+
+			var firstFrame = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+			CompositionTarget.Rendered += OnRendered;
+			Closed += OnClosed;
+			try
+			{
+				Activate();
+				// Let the initial content paint before starting the remaining initialization.
+				return await firstFrame.Task;
+			}
+			finally
+			{
+				CompositionTarget.Rendered -= OnRendered;
+				Closed -= OnClosed;
+			}
+
+			void OnRendered(object? sender, RenderedEventArgs args)
+			{
+				if (rootFrame.IsLoaded)
+					firstFrame.TrySetResult(true);
+			}
+
+			void OnClosed(object sender, WindowEventArgs args)
+				=> firstFrame.TrySetResult(false);
 		}
 
 		public void ShowSplashScreen()
@@ -50,15 +92,19 @@ namespace Files.App
 			rootFrame?.Navigate(typeof(SplashScreenPage));
 		}
 
-		public async Task InitializeApplicationAsync(object activatedEventArgs)
+		internal void ShowMainPage()
+		{
+			EnsureWindowIsInitialized()?.Navigate(typeof(MainPage),
+				new MainPageNavigationArguments { DeferInitialization = true }, new SuppressNavigationTransitionInfo());
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(OverlappedPresenter))]
+		public async Task InitializeApplicationAsync(object? activatedEventArgs)
 		{
 			var rootFrame = EnsureWindowIsInitialized();
 
 			if (rootFrame is null)
 				return;
-
-			// Set system backdrop
-			SystemBackdrop = new AppSystemBackdrop();
 
 			switch (activatedEventArgs)
 			{
@@ -66,14 +112,14 @@ namespace Files.App
 					if (launchArgs.Arguments is not null &&
 						(CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"files-dev.exe", StringComparison.OrdinalIgnoreCase)
 						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"files-dev", StringComparison.OrdinalIgnoreCase)
-						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].Equals(Path.Join(Package.Current.InstalledLocation.Path, "Files.exe"), StringComparison.OrdinalIgnoreCase)))
+						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].Equals(Path.Join(Package.Current.InstalledPath, "Files.exe"), StringComparison.OrdinalIgnoreCase)))
 					{
 						// WINUI3: When launching from commandline the argument is not ICommandLineActivatedEventArgs (#10370)
 						var ppm = CommandLineParser.ParseUntrustedCommands(launchArgs.Arguments);
 						if (ppm.IsEmpty())
 							rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 						else
-							await InitializeFromCmdLineArgsAsync(rootFrame, ppm, Environment.CurrentDirectory);
+							await InitializeFromCmdLineArgsAsync(rootFrame, ppm, Program.ConsumeLaunchCwd());
 					}
 					else if (rootFrame.Content is null || rootFrame.Content is SplashScreenPage || !MainPageViewModel.AppInstances.Any())
 					{
@@ -108,9 +154,13 @@ namespace Files.App
 					else
 					{
 						var parsedArgs = eventArgs.Uri.Query.TrimStart('?').Split('=');
-						var unescapedValue = Uri.UnescapeDataString(parsedArgs[1]);
-						var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(unescapedValue).AsTask());
-						if (folder is not null && !string.IsNullOrEmpty(folder.Path))
+						var unescapedValue = Uri.UnescapeDataString(parsedArgs[1].Split('&')[0]);
+						if (parsedArgs[0] == "tab" && parsedArgs.Length > 3 &&
+							int.TryParse(parsedArgs[2].Split('&')[0], out var dx) &&
+							int.TryParse(parsedArgs[3], out var dy))
+							AppWindow?.Move(new(dx - 100, dy - 16));
+						var folderResult = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(unescapedValue).AsTask());
+						if (folderResult.Result is { } folder && !string.IsNullOrEmpty(folder.Path))
 						{
 							// Convert short name to long name (#6190)
 							unescapedValue = folder.Path;
@@ -210,7 +260,6 @@ namespace Files.App
 			var appWindow = AppWindow;
 			if (appWindow is not null && !appWindow.IsVisible)
 			{
-				// When resuming the cached instance
 				appWindow.Show();
 				Activate();
 
@@ -218,16 +267,22 @@ namespace Files.App
 				Win32Helper.BringToForegroundEx(new(WindowHandle));
 			}
 
-			if (Windows.Win32.PInvoke.IsIconic(new(WindowHandle)))
-				WinUIEx.WindowExtensions.Restore(Instance); // Restore window if minimized
+			if (Windows.Win32.PInvoke.IsIconic(new(WindowHandle)) && appWindow?.Presenter is OverlappedPresenter overlapped)
+				overlapped.Restore();
 		}
 
 		private async Task EnsureContentHasKeyboardFocusAsync()
 		{
 			await Task.Delay(100);
-			Ioc.Default.GetService<IContentPageContext>()?.ShellPage?.PaneHolder.FocusActivePane();
+			var shellPage = Ioc.Default.GetService<IContentPageContext>()?.ShellPage;
+			if (shellPage is not null)
+			{
+				var paneHolder = shellPage.GetRequiredPaneHolder();
+				paneHolder.FocusActivePane();
+			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Frame))]
 		private Frame? EnsureWindowIsInitialized()
 		{
 			try
@@ -239,6 +294,11 @@ namespace Files.App
 				{
 					// Create a Frame to act as the navigation context and navigate to the first page
 					rootFrame = new() { CacheSize = 1 };
+					rootFrame.Loaded += (_, _) =>
+					{
+						if (!_isWindowIconInitialized)
+							rootFrame.RunAfterNextRender(InitializeWindowIcon);
+					};
 					rootFrame.NavigationFailed += (s, e) =>
 					{
 						throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
@@ -246,6 +306,16 @@ namespace Files.App
 
 					// Place the frame in the current Window
 					Instance.Content = rootFrame;
+					Ioc.Default.GetRequiredService<IAppThemeModeService>().SetAppThemeMode(this, callThemeModeChangedEvent: false);
+					Ioc.Default.GetRequiredService<IResourcesService>().LoadAppResources(Ioc.Default.GetRequiredService<IAppearanceSettingsService>());
+				}
+
+				if (SystemBackdrop is null)
+				{
+					// Initialize the active material directly instead of transitioning from its inactive fallback.
+					var backdrop = new AppSystemBackdrop();
+					backdrop.SetInputActive(true);
+					SystemBackdrop = backdrop;
 				}
 
 				return rootFrame;
@@ -258,13 +328,13 @@ namespace Files.App
 
 		private async Task InitializeFromCmdLineArgsAsync(Frame rootFrame, ParsedCommands parsedCommands, string activationPath = "")
 		{
-			async Task PerformNavigationAsync(string payload, string selectItem = null)
+			async Task PerformNavigationAsync(string? payload, string? selectItem = null)
 			{
 				if (!string.IsNullOrEmpty(payload))
 				{
-					payload = Constants.UserEnvironmentPaths.ShellPlaces.Get(payload.ToUpperInvariant(), payload);
-					var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(payload).AsTask());
-					if (folder is not null && !string.IsNullOrEmpty(folder.Path))
+					payload = ShellHelpers.ResolveShellPath(payload);
+					var folderResult = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(payload).AsTask());
+					if (folderResult.Result is { } folder && !string.IsNullOrEmpty(folder.Path))
 						payload = folder.Path; // Convert short name to long name (#6190)
 				}
 
@@ -299,7 +369,7 @@ namespace Files.App
 					var existingTabIndex = MainPageViewModel.AppInstances
 						.Select((tabItem, idx) => new { tabItem, idx })
 						.FirstOrDefault(x =>
-							x.tabItem.NavigationParameter.NavigationParameter is PaneNavigationArguments paneArgs &&
+							x.tabItem.NavigationParameter!.NavigationParameter is PaneNavigationArguments paneArgs &&
 							(paneNavigationArgs.LeftPaneNavPathParam == paneArgs.LeftPaneNavPathParam ||
 							paneNavigationArgs.LeftPaneNavPathParam == paneArgs.RightPaneNavPathParam))?.idx ?? -1;
 
@@ -328,7 +398,7 @@ namespace Files.App
 						break;
 
 					case ParsedCommandType.TagFiles:
-						var tagService = Ioc.Default.GetService<IFileTagsSettingsService>();
+						var tagService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 						var tag = tagService.GetTagsByName(command.Payload).FirstOrDefault();
 						foreach (var file in command.Args.Skip(1))
 						{
@@ -339,7 +409,7 @@ namespace Files.App
 								var tagUid = tag is not null ? new[] { tag.Uid } : [];
 								var dbInstance = FileTagsHelper.GetDbInstance();
 								dbInstance.SetTags(file, fileFRN, tagUid);
-								FileTagsHelper.WriteFileTag(file, tagUid);
+								await FileTagsHelper.WriteFileTagAsync(file, tagUid);
 							}
 						}
 						break;
@@ -383,13 +453,20 @@ namespace Files.App
 			}
 		}
 
-		private void WindowManager_WindowMessageReceived(object? sender, WinUIEx.Messaging.WindowMessageEventArgs e)
+		protected override bool OnWindowMessageReceived(uint message, WPARAM wParam, LPARAM lParam, ref LRESULT result)
 		{
-			if ((!CanWindowToFront) && e.Message.MessageId == Windows.Win32.PInvoke.WM_WINDOWPOSCHANGING)
+			if ((!CanWindowToFront) && message == Windows.Win32.PInvoke.WM_WINDOWPOSCHANGING)
 			{
-				Win32Helper.ForceWindowPosition(e.Message.LParam);
-				e.Handled = true;
+				Win32Helper.ForceWindowPosition(lParam.Value);
+				return true;
 			}
+			else if (message == Windows.Win32.PInvoke.WM_MENUCHAR && (wParam.Value & 0xFFFF) == '\r')
+			{
+				result = new(Win32PInvoke.MNC_CLOSE << 16);
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

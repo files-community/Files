@@ -66,12 +66,17 @@ namespace Files.App.Data.Contracts
 		/// <summary>
 		/// Archiving progress.
 		/// </summary>
-		IProgress<StatusCenterItemProgressModel> Progress { get; set; }
+		IProgress<StatusCenterItemProgressModel>? Progress { get; set; }
 
 		/// <summary>
 		/// Cancellation request.
 		/// </summary>
 		CancellationToken CancellationToken { get; set; }
+
+		/// <summary>
+		/// Whether the creation was cancelled by the user, e.g. by declining to skip items that cannot be archived.
+		/// </summary>
+		bool IsCancelled { get; }
 
 		/// <summary>
 		/// Get path which target will be archived to.

@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using WinRT;
+
 namespace Files.App.Controls
 {
 	public partial class Toolbar : Control
@@ -78,6 +80,7 @@ namespace Files.App.Controls
 		/// <summary>
 		/// The backing <see cref="DependencyProperty"/> for the <see cref="ItemTemplate"/> property.
 		/// </summary>
+		[DynamicWindowsRuntimeCast(typeof(DataTemplate))]
 		public static readonly DependencyProperty ItemTemplateProperty =
 			DependencyProperty.Register(
 				nameof(ItemTemplate),
@@ -92,6 +95,7 @@ namespace Files.App.Controls
 		/// </summary>
 		public DataTemplate ItemTemplate
 		{
+			[DynamicWindowsRuntimeCast(typeof(DataTemplate))]
 			get => (DataTemplate)GetValue(ItemTemplateProperty);
 			set => SetValue(ItemTemplateProperty, value);
 		}

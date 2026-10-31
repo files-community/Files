@@ -19,6 +19,11 @@ namespace Files.App.Data.Enums
 		AuthorizationError,
 
 		/// <summary>
+		/// Operation failed because uncommitted changes would be overwritten.
+		/// </summary>
+		UncommittedChangesError,
+
+		/// <summary>
 		/// Operation failed.
 		/// </summary>
 		GenericError

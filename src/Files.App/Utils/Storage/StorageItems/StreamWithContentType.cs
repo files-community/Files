@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
+using System.Runtime.InteropServices.Marshalling;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Storage.Streams;
+using Windows.Win32;
+using Windows.Win32.System.Com;
 
 namespace Files.App.Utils.Storage
 {
@@ -14,7 +15,7 @@ namespace Files.App.Utils.Storage
 	{
 		private Stream stream;
 		private IInputStream iStream;
-		public Action DisposeCallback { get; set; }
+		public Action? DisposeCallback { get; set; }
 
 		public InputStreamWithDisposeCallback(Stream stream)
 		{
@@ -43,7 +44,7 @@ namespace Files.App.Utils.Storage
 		private ulong byteSize;
 		private bool isWritten;
 
-		public Action DisposeCallback { get; set; }
+		public Action? DisposeCallback { get; set; }
 
 		public NonSeekableRandomAccessStreamForWrite(Stream stream)
 		{
@@ -139,7 +140,7 @@ namespace Files.App.Utils.Storage
 		private ulong readToByte;
 		private ulong byteSize;
 
-		public Action DisposeCallback { get; set; }
+		public Action? DisposeCallback { get; set; }
 
 		public NonSeekableRandomAccessStreamForRead(Stream baseStream, ulong size)
 		{
@@ -271,13 +272,23 @@ namespace Files.App.Utils.Storage
 
 	public sealed partial class ComStreamWrapper : Stream
 	{
-		private IStream iStream;
+		private IStream? iStream;
 		private STATSTG iStreamStat;
+		private STGMEDIUM medium;
 
-		public ComStreamWrapper(IStream stream)
+		public ComStreamWrapper(IStream stream, STGMEDIUM medium)
 		{
 			iStream = stream;
-			iStream.Stat(out iStreamStat, 0);
+			this.medium = medium;
+			try
+			{
+				iStream.Stat(out iStreamStat, STATFLAG.STATFLAG_NONAME).ThrowOnFailure();
+			}
+			catch
+			{
+				ReleaseResources();
+				throw;
+			}
 		}
 
 		public override bool CanRead => true;
@@ -286,7 +297,7 @@ namespace Files.App.Utils.Storage
 
 		public override bool CanWrite => false;
 
-		public override long Length => iStreamStat.cbSize;
+		public override long Length => checked((long)iStreamStat.cbSize);
 
 		public override long Position
 		{
@@ -300,24 +311,16 @@ namespace Files.App.Utils.Storage
 
 		public override int Read(byte[] buffer, int offset, int count)
 		{
-			if (offset != 0)
-				throw new NotSupportedException();
-			unsafe
-			{
-				int newPos = 0;
-				iStream.Read(buffer, count, new IntPtr(&newPos));
-				return (int)newPos;
-			}
+			ObjectDisposedException.ThrowIf(iStream is null, this);
+			iStream.Read(buffer.AsSpan(offset, count), out uint bytesRead).ThrowOnFailure();
+			return checked((int)bytesRead);
 		}
 
 		public override long Seek(long offset, SeekOrigin origin)
 		{
-			unsafe
-			{
-				long newPos = 0;
-				iStream.Seek(0, (int)origin, new IntPtr(&newPos));
-				return newPos;
-			}
+			ObjectDisposedException.ThrowIf(iStream is null, this);
+			iStream.Seek(offset, origin, out ulong newPosition).ThrowOnFailure();
+			return checked((long)newPosition);
 		}
 
 		public override void SetLength(long value)
@@ -332,8 +335,27 @@ namespace Files.App.Utils.Storage
 
 		protected override void Dispose(bool disposing)
 		{
+			if (iStream is null)
+				return;
+
 			base.Dispose(disposing);
-			Marshal.ReleaseComObject(iStream);
+			ReleaseResources();
+		}
+
+		private void ReleaseResources()
+		{
+			IStream? stream = iStream;
+			iStream = null;
+			try
+			{
+				if ((object?)stream is ComObject comObject)
+					comObject.FinalRelease();
+			}
+			finally
+			{
+				PInvoke.ReleaseStgMedium(ref medium);
+				medium = default;
+			}
 		}
 	}
 }

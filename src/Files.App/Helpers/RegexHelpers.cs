@@ -25,6 +25,4 @@ public static partial class RegexHelpers
 	[GeneratedRegex(@"\s+")]
 	public static partial Regex WhitespaceAtLeastOnce();
 
-	[GeneratedRegex(@"\s*\(\w:\)$")]
-	public static partial Regex DriveLetter();
 }

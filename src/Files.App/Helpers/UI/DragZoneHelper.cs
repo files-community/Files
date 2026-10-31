@@ -24,10 +24,7 @@ namespace Files.App.Helpers
 				return;
 			// UIElement.RasterizationScale is always 1
 			var source = InputNonClientPointerSource.GetForWindowId(window.AppWindow.Id);
-			var uiElement = window.Content;
-			var xamlRoot = uiElement?.XamlRoot;
-
-			if (xamlRoot is null)
+			if (window.Content is not UIElement { XamlRoot: { } xamlRoot } uiElement)
 				return;
 
 			var scaleFactor = xamlRoot.RasterizationScale;

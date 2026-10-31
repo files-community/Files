@@ -44,6 +44,12 @@ namespace Files.App.Data.Contracts
 		public void OpenSecondaryPane(string path = "", ShellPaneArrangement arrangement = ShellPaneArrangement.None);
 
 		/// <summary>
+		/// Navigates the inactive pane to the specified path. Requires multi-pane to be active.
+		/// </summary>
+		/// <param name="path">The path to open in the other pane.</param>
+		public void OpenInOtherPane(string path);
+
+		/// <summary>
 		/// Arranges panes with the specified arrangement.
 		/// </summary>
 		/// <param name="arrangement">The arrangement to set.</param>

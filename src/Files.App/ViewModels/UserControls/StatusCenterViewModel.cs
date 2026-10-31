@@ -5,7 +5,7 @@ namespace Files.App.ViewModels.UserControls
 {
 	public sealed partial class StatusCenterViewModel : ObservableObject
 	{
-		private readonly Files.App.Storage.TaskbarManager _taskbar = Files.App.Storage.TaskbarManager.Default;
+		private readonly Files.Storage.TaskbarManager _taskbar = Files.Storage.TaskbarManager.Default;
 
 		public ObservableCollection<StatusCenterItem> StatusCenterItems { get; } = [];
 
@@ -98,7 +98,7 @@ namespace Files.App.ViewModels.UserControls
 			bool canProvideProgress = true,
 			long itemsCount = 0,
 			long totalSize = 0,
-			CancellationTokenSource cancellationTokenSource = null)
+			CancellationTokenSource? cancellationTokenSource = null)
 		{
 			var banner = new StatusCenterItem(
 				headerResource,

@@ -1,5 +1,5 @@
 # Copyright (c) Files Community
-# Licensed under the MIT License.
+# SPDX-License-Identifier: MPL-2.0
 
 param(
     [string]$Branch = "", # This has to correspond with one of the AppEnvironment enum values
@@ -8,7 +8,8 @@ param(
     [string]$WorkingDir = "",
     [string]$SecretBingMapsKey = "",
     [string]$SecretSentry = "",
-    [string]$SecretGitHubOAuthClientId = ""
+    [string]$SecretGitHubOAuthClientId = "",
+    [string]$SecretLanguageModelLafToken = ""
 )
 
 # Load Package.appxmanifest
@@ -179,5 +180,11 @@ Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `
 Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `
 { `
     (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "githubclientid.secret", "$SecretGitHubOAuthClientId" }) | `
+    Set-Content $_ -NoNewline `
+}
+
+Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `
+{ `
+    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "languagemodellaftoken.secret", "$SecretLanguageModelLafToken" }) | `
     Set-Content $_ -NoNewline `
 }

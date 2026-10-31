@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Media;
 using System.Runtime.InteropServices;
 using Windows.UI;
 using Windows.UI.ViewManagement;
+using WinRT;
 
 namespace Files.App.Services
 {
@@ -30,14 +31,13 @@ namespace Files.App.Services
 			set
 			{
 				UserSettingsService.AppearanceSettingsService.AppThemeMode = value.ToString();
-
-				SetAppThemeMode();
 			}
 		}
 
 		/// <inheritdoc/>
 		public Color DefaultAccentColor
 		{
+			[DynamicWindowsRuntimeCast(typeof(SolidColorBrush))]
 			get => AppThemeMode switch
 			{
 				// these values are from the definition of AccentFillColorDefaultBrush in generic.xaml
@@ -58,6 +58,7 @@ namespace Files.App.Services
 		{
 			// Set the desired theme based on what is set in the application settings
 			SetAppThemeMode();
+			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 
 			// Registering to color changes, so that we can notice when changed system theme mode
 			UISettings.ColorValuesChanged += UISettings_ColorValuesChanged;
@@ -75,12 +76,13 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		public void SetAppThemeMode(Window? window = null, AppWindowTitleBar? titleBar = null, ElementTheme? rootTheme = null, bool callThemeModeChangedEvent = true)
 		{
 			try
 			{
 				window ??= MainWindow.Instance;
-				titleBar ??= MainWindow.Instance.AppWindow?.TitleBar;
+				titleBar ??= window.AppWindow?.TitleBar;
 				rootTheme ??= AppThemeMode;
 
 				if (window.Content is FrameworkElement rootElement)
@@ -119,6 +121,12 @@ namespace Files.App.Services
 			{
 				App.Logger.LogWarning(ex, "Failed to change theme mode of the app.");
 			}
+		}
+
+		private void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
+		{
+			if (e.SettingName == nameof(IAppearanceSettingsService.AppThemeMode))
+				SetAppThemeMode();
 		}
 
 		private async void UISettings_ColorValuesChanged(UISettings sender, object args)

@@ -5,6 +5,26 @@ using Microsoft.UI.Xaml;
 
 namespace Files.App.Data.Models
 {
+	[WinRT.GeneratedBindableCustomProperty(
+		[
+			nameof(IconColumn),
+			nameof(GitStatusColumn),
+			nameof(GitLastCommitDateColumn),
+			nameof(GitLastCommitMessageColumn),
+			nameof(GitCommitAuthorColumn),
+			nameof(GitLastCommitShaColumn),
+			nameof(TagColumn),
+			nameof(NameColumn),
+			nameof(StatusColumn),
+			nameof(DateModifiedColumn),
+			nameof(PathColumn),
+			nameof(OriginalPathColumn),
+			nameof(ItemTypeColumn),
+			nameof(DateDeletedColumn),
+			nameof(DateCreatedColumn),
+			nameof(SizeColumn),
+		],
+		[])]
 	public sealed partial class ColumnsViewModel : ObservableObject
 	{
 		private DetailsLayoutColumnItem iconColumn = new()

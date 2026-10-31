@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Web.WebView2.Core;
 using Windows.System;
+using WinRT;
 
 namespace Files.App.Views
 {
@@ -14,12 +15,18 @@ namespace Files.App.Views
 	{
 		// Dependency injections
 		public ReleaseNotesViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<ReleaseNotesViewModel>();
+		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
 
 		private FrameworkElement RootAppElement
-			=> (FrameworkElement)MainWindow.Instance.Content;
+		{
+			[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+			get => (FrameworkElement)MainWindow.Instance.Content;
+		}
 
-		private IShellPage AppInstance { get; set; } = null!;
+		private IShellPage? appInstance;
+		private IShellPage AppInstance
+			=> appInstance ?? throw new InvalidOperationException("The release notes page has not been initialized.");
 
 		public ReleaseNotesPage()
 		{
@@ -31,7 +38,8 @@ namespace Files.App.Views
 			if (e.Parameter is not NavigationArguments parameters)
 				return;
 
-			AppInstance = parameters.AssociatedTabInstance!;
+			appInstance = parameters.AssociatedTabInstance!;
+			var shellViewModel = AppInstance.GetRequiredShellViewModel();
 
 			AppInstance.InstanceViewModel.IsPageTypeNotHome = true;
 			AppInstance.InstanceViewModel.IsPageTypeSearchResults = false;
@@ -50,8 +58,8 @@ namespace Files.App.Views
 			AppInstance.ToolbarViewModel.CanNavigateToParent = false;
 
 			// Set path of working directory empty
-			await AppInstance.ShellViewModel.SetWorkingDirectoryAsync("ReleaseNotes");
-			AppInstance.ShellViewModel.CheckForBackgroundImage();
+			await shellViewModel.SetWorkingDirectoryAsync("ReleaseNotes");
+			shellViewModel.CheckForBackgroundImage();
 
 			AppInstance.SlimContentPage?.StatusBarViewModel.UpdateGitInfo(false, string.Empty, null);
 
@@ -109,6 +117,16 @@ namespace Files.App.Views
 							window.chrome.webview.postMessage(target.href);
 						}
 					});
+					document.addEventListener('keydown', function(event) {
+						if (event.repeat) return;
+						if (event.key === 'Shift' || event.key === 'Control' || event.key === 'Alt' || event.key === 'Meta') return;
+						window.chrome.webview.postMessage(
+							'hotkey:' + event.keyCode + ':' +
+							(event.ctrlKey ? 1 : 0) + ':' +
+							(event.altKey ? 1 : 0) + ':' +
+							(event.shiftKey ? 1 : 0) + ':' +
+							(event.metaKey ? 1 : 0));
+					});
 				";
 
 				await sender.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(script);
@@ -130,6 +148,12 @@ namespace Files.App.Views
 
 				var message = args.TryGetWebMessageAsString();
 
+				if (message is not null && message.StartsWith("hotkey:", StringComparison.Ordinal))
+				{
+					await TryExecuteForwardedHotKeyAsync(message);
+					return;
+				}
+
 				// Open link in web browser
 				if (Uri.TryCreate(message, UriKind.Absolute, out Uri? uri))
 					await Launcher.LaunchUriAsync(uri);
@@ -142,6 +166,24 @@ namespace Files.App.Views
 			{
 				App.Logger.LogWarning(ex, ex.Message);
 			}
+		}
+
+		private async Task TryExecuteForwardedHotKeyAsync(string message)
+		{
+			// Format: "hotkey:<keyCode>:<ctrl>:<alt>:<shift>:<meta>" produced by the keydown listener injected into the WebView2 content.
+			var parts = message.Split(':');
+			if (parts.Length < 6 || !int.TryParse(parts[1], out var keyCode))
+				return;
+
+			var modifiers = KeyModifiers.None;
+			if (parts[2] == "1") modifiers |= KeyModifiers.Ctrl;
+			if (parts[3] == "1") modifiers |= KeyModifiers.Alt;
+			if (parts[4] == "1") modifiers |= KeyModifiers.Shift;
+			if (parts[5] == "1") modifiers |= KeyModifiers.Win;
+
+			var command = Commands[new HotKey((Keys)keyCode, modifiers)];
+			if (command.Code is not CommandCodes.None && command.IsExecutable)
+				await command.ExecuteAsync();
 		}
 
 		public void Dispose()

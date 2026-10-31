@@ -9,10 +9,10 @@ namespace Files.App.ViewModels.Previews
 {
 	public sealed partial class MediaPreviewViewModel : BasePreviewModel
 	{
-		public event EventHandler TogglePlaybackRequested;
+		public event EventHandler? TogglePlaybackRequested;
 
-		private MediaSource source;
-		public MediaSource Source
+		private MediaSource? source;
+		public MediaSource? Source
 		{
 			get => source;
 			private set => SetProperty(ref source, value);
@@ -21,18 +21,22 @@ namespace Files.App.ViewModels.Previews
 		public MediaPreviewViewModel(ListedItem item) : base(item) { }
 
 		public void TogglePlayback()
-			=> TogglePlaybackRequested?.Invoke(this, null);
+			=> TogglePlaybackRequested?.Invoke(this, null!);
 
 		public override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
-			Source = MediaSource.CreateFromStorageFile(Item.ItemFile);
+			var itemFile = Item.ItemFile
+				?? throw new InvalidOperationException("The media preview item does not have a storage file.");
+			Source = MediaSource.CreateFromStorageFile(itemFile);
 
 			return Task.FromResult(new List<FileProperty>());
 		}
 
-		public override void PreviewControlBase_Unloaded(object sender, RoutedEventArgs e)
+		public override void PreviewControlBase_Unloaded(object? sender, RoutedEventArgs e)
 		{
+			var mediaSource = Source;
 			Source = null;
+			mediaSource?.Dispose();
 
 			base.PreviewControlBase_Unloaded(sender, e);
 		}

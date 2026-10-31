@@ -2,14 +2,15 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml;
+using WinRT;
 
 namespace Files.App.Utils.Cloud
 {
 	public sealed partial class CloudDriveSyncStatusUI : ObservableObject
 	{
-		public string Glyph { get; }
+		public string? Glyph { get; }
 
-		public Style ThemedIconStyle { get; }
+		public Style? ThemedIconStyle { get; }
 
 		public CloudDriveSyncStatus SyncStatus { get; }
 
@@ -36,6 +37,7 @@ namespace Files.App.Utils.Cloud
 			SyncStatusString = SyncStatusStringKey.GetLocalizedResource();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
 		public static CloudDriveSyncStatusUI FromCloudDriveSyncStatus(CloudDriveSyncStatus syncStatus) => syncStatus switch
 		{
 			// File

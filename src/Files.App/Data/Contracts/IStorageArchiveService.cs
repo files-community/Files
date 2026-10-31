@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using SevenZip;
 using System.Text;
@@ -31,6 +31,18 @@ namespace Files.App.Data.Contracts
 		/// <param name="creator">A valid instance of <see cref="ICompressArchiveModel"/>.</param>
 		/// <returns>True if the compression has done successfully; otherwise, false.</returns>
 		Task<bool> CompressAsync(ICompressArchiveModel compressionModel);
+
+		/// <summary>
+		/// Whether the archive at <paramref name="archivePath"/> is currently being written by an
+		/// in-flight <see cref="CompressAsync"/> call.
+		/// </summary>
+		bool IsCompressionInProgress(string archivePath);
+
+		/// <summary>
+		/// Raised after <see cref="CompressAsync"/> finishes successfully, with the archive's path.
+		/// Subscribers should not assume any particular thread.
+		/// </summary>
+		event EventHandler<string>? CompressionCompleted;
 
 		/// <summary>
 		/// Decompresses the archive file specified by the path to the path specified by the path with password if applicable.

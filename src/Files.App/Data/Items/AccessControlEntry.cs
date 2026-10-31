@@ -75,7 +75,7 @@ namespace Files.App.Data.Items
 					accessMaskStrings.Add(Strings.Write.GetLocalizedResource());
 
 				if (SpecialAccess)
-					accessMaskStrings.Add(Strings.SecuritySpecialLabel_Text.GetLocalizedResource());
+					accessMaskStrings.Add(Strings.SecuritySpecialLabelText.GetLocalizedResource());
 
 				return string.Join(", ", accessMaskStrings);
 			}

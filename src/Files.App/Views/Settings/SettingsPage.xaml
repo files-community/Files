@@ -1,4 +1,4 @@
-<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) Files Community. SPDX-License-Identifier: MPL-2.0  -->
 <Page
 	x:Class="Files.App.Views.SettingsPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -53,7 +53,7 @@
 			x:Name="SettingsSidebar"
 			CanResizePane="False"
 			ItemInvoked="SettingsSidebar_ItemInvoked"
-			MenuItemsSource="{x:Bind ViewModel.NavigationItems}"
+			MenuItemsSource="{x:Bind ViewModel.FlatNavigationItems}"
 			OpenPaneLength="240">
 
 			<controls:SidebarView.Header>
@@ -89,6 +89,7 @@
 									<DataTemplate x:DataType="vm:SettingsSearchResult">
 										<wctcontrols:SettingsCard
 											Click="SearchResultCard_Click"
+											DataContext="{x:Bind}"
 											Description="{x:Bind DisplayPath}"
 											Header="{x:Bind HeaderText}"
 											IsClickEnabled="True" />

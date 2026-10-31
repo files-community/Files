@@ -180,25 +180,25 @@
   <data name="Accessed" xml:space="preserve">
     <value>Ostatnio używany:</value>
   </data>
-  <data name="RecentItemClearAll.Text" xml:space="preserve">
+  <data name="RecentItemClearAllText" xml:space="preserve">
     <value>Wyczyść wszystkie elementy</value>
   </data>
-  <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarVisiblePathPlaceholderText" xml:space="preserve">
     <value>Wprowadź ścieżkę nawigacji lub wpisz "&gt;", aby otworzyć paletę poleceń</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Szukaj</value>
   </data>
   <data name="SearchSettings" xml:space="preserve">
-    <value>Search settings...</value>
+    <value>Ustawienia wyszukiwania...</value>
   </data>
   <data name="NoSearchResults" xml:space="preserve">
-    <value>No settings match your search.</value>
+    <value>Brak ustawień pasujących do Twojego wyszukiwania.</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Tutaj pojawią się wcześniej otwierane pliki</value>
   </data>
-  <data name="RecentItemRemove.Text" xml:space="preserve">
+  <data name="RecentItemRemoveText" xml:space="preserve">
     <value>Usuń ten element</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
@@ -217,7 +217,7 @@
     <value>Motyw</value>
   </data>
   <data name="Font" xml:space="preserve">
-    <value>Font</value>
+    <value>Czcionka</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Pokaż rozszerzenia dla znanych typów plików</value>
@@ -238,22 +238,22 @@
     <value>Zaawansowane</value>
   </data>
   <data name="CacheThumbnails" xml:space="preserve">
-    <value>Cache thumbnails</value>
+    <value>Przechowuj miniatury</value>
   </data>
   <data name="CacheSizeLimitDescription" xml:space="preserve">
-    <value>Maximum disk space to use for thumbnail cache (100-5000 MiB).</value>
+    <value>Maksymalna ilość miejsca na dysku dla pamięci podręcznej miniatur (100-5000 MiB).</value>
   </data>
   <data name="CacheSizeLimit" xml:space="preserve">
-    <value>Cache size limit</value>
+    <value>Limit rozmiaru pamięci cache</value>
   </data>
   <data name="ClearCachedThumbnails" xml:space="preserve">
-    <value>Clear cached thumbnails to free up space</value>
+    <value>Wyczyść buforowane miniatury, aby zwolnić miejsce</value>
   </data>
   <data name="CurrentCacheSize" xml:space="preserve">
-    <value>Current cache size: </value>
+    <value>Aktualny rozmiar pamięci podręcznej: </value>
   </data>
   <data name="ClearCache" xml:space="preserve">
-    <value>Clear cache</value>
+    <value>Wyczyść pamięć podręczną</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Przywróć poprzednią sesję</value>
@@ -312,13 +312,13 @@
   <data name="PinFolderToSidebar" xml:space="preserve">
     <value>Przypnij do panelu bocznego</value>
   </data>
-  <data name="WelcomeDialog.Title" xml:space="preserve">
+  <data name="WelcomeDialogTitle" xml:space="preserve">
     <value>Witamy w Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Przyznaj uprawnienia</value>
   </data>
-  <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
+  <data name="WelcomeDialogTextBlockText" xml:space="preserve">
     <value>Aby rozpocząć, musisz przyznać uprawnienia do odczytu Twoich plików. Spowoduje to otwarcie strony w Ustawieniach, na której możesz to wykonać. Po wprowadzeniu zmian należy ponownie otworzyć aplikację. </value>
   </data>
   <data name="Display" xml:space="preserve">
@@ -337,7 +337,13 @@
     <value>Ciemny</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
-    <value>System Theme</value>
+    <value>Motyw systemowy</value>
+  </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>Light Theme</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>Dark Theme</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Użyj ustawień systemowych</value>
@@ -384,16 +390,16 @@
   <data name="SetAsAppBackground" xml:space="preserve">
     <value>Ustaw jako tło aplikacji</value>
   </data>
-  <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
+  <data name="AccessDeniedDeleteDialogText" xml:space="preserve">
     <value>Nie mogliśmy usunąć tego elementu</value>
   </data>
-  <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
+  <data name="DriveUnpluggedDialogText" xml:space="preserve">
     <value>Włóż właściwy dysk, aby uzyskać dostęp do tego elementu.</value>
   </data>
-  <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
+  <data name="DriveUnpluggedDialogTitle" xml:space="preserve">
     <value>Dysk odłączony</value>
   </data>
-  <data name="FileNotFoundDialog.Text" xml:space="preserve">
+  <data name="FileNotFoundDialogText" xml:space="preserve">
     <value>Plik, do którego próbujesz uzyskać dostęp, mógł zostać przeniesiony lub usunięty.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
@@ -402,23 +408,29 @@
   <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>Plik, do którego próbujesz uzyskać dostęp, mógł zostać przeniesiony lub usunięty.</value>
   </data>
-  <data name="FileNotFoundDialog.Title" xml:space="preserve">
+  <data name="FileNotFoundDialogTitle" xml:space="preserve">
     <value>Nie można odnaleźć pliku</value>
   </data>
-  <data name="FolderNotFoundDialog.Text" xml:space="preserve">
+  <data name="FolderNotFoundDialogText" xml:space="preserve">
     <value>Folder, do którego próbujesz uzyskać dostęp, mógł zostać przeniesiony lub usunięty.</value>
   </data>
-  <data name="FolderNotFoundDialog.Title" xml:space="preserve">
+  <data name="FolderNotFoundDialogTitle" xml:space="preserve">
     <value>Czy usunąłeś ten folder?</value>
   </data>
-  <data name="FileInUseByDialog.Text" xml:space="preserve">
+  <data name="FileInUseByDialogText" xml:space="preserve">
     <value>Plik, do którego próbujesz uzyskać dostęp, jest obecnie używany przez {0}</value>
   </data>
-  <data name="FileInUseDialog.Text" xml:space="preserve">
+  <data name="FileInUseDialogText" xml:space="preserve">
     <value>Plik, do którego próbujesz uzyskać dostęp jest obecnie używany przez inną aplikację</value>
   </data>
-  <data name="FileInUseDialog.Title" xml:space="preserve">
+  <data name="FileInUseDialogTitle" xml:space="preserve">
     <value>Plik jest w użyciu</value>
+  </data>
+  <data name="CannotRunFileDialogTitle" xml:space="preserve">
+    <value>Ta aplikacja nie może działać na Twoim komputerze</value>
+  </data>
+  <data name="CannotRunFileDialogText" xml:space="preserve">
+    <value>Aby znaleźć wersję dla tego komputera, sprawdź u wydawcy oprogramowania.</value>
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Układ</value>
@@ -524,7 +536,7 @@
   <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
     <value>{0, number} {0, plural, one {plik} few {pliki} other {plików}}, {1, number} {1, plural, one {folder} few {foldery} other {folderów}} z {2, number} {2, plural, one {lokacji} other {lokacji}}</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUserText" xml:space="preserve">
     <value>Uruchom jako inny użytkownik</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
@@ -635,22 +647,22 @@
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
     <value>Udostępnianie {0} {1}</value>
   </data>
-  <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
-    <value>Element, którego nazwę próbujesz zmienić, już nie istnieje. Sprawdź poprawność lokalizacji elementu.</value>
+  <data name="RenameErrorItemDeletedText" xml:space="preserve">
+    <value>Element, którego nazwę próbujesz zmienić, już nie istnieje. Sprawdź faktyczne położenie elementu.</value>
   </data>
-  <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
+  <data name="RenameErrorItemDeletedTitle" xml:space="preserve">
     <value>Element już nie istnieje</value>
   </data>
-  <data name="RenameError.NameInvalid.Text" xml:space="preserve">
+  <data name="RenameErrorNameInvalidText" xml:space="preserve">
     <value>Podana nazwa jest nieprawidłowa. Sprawdź żądaną nazwę elementu i spróbuj ponownie.</value>
   </data>
-  <data name="RenameError.NameInvalid.Title" xml:space="preserve">
+  <data name="RenameErrorNameInvalidTitle" xml:space="preserve">
     <value>Nieprawidłowa nazwa elementu</value>
   </data>
-  <data name="RenameError.TooLong.Text" xml:space="preserve">
+  <data name="RenameErrorTooLongText" xml:space="preserve">
     <value>Długość podanej nazwy elementu przekracza maksymalny limit. Sprawdź żądaną nazwę i spróbuj ponownie.</value>
   </data>
-  <data name="RenameError.TooLong.Title" xml:space="preserve">
+  <data name="RenameErrorTooLongTitle" xml:space="preserve">
     <value>Nazwa elementu była za długa</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
@@ -662,13 +674,13 @@
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>Wesprzyj nas na GitHub</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
+  <data name="AccessDeniedCreateDialogText" xml:space="preserve">
     <value>Nie udało się nam utworzyć tego elementu</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>Odmowa dostępu</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAsText" xml:space="preserve">
     <value>Ustaw jako</value>
   </data>
   <data name="Cancel" xml:space="preserve">
@@ -684,7 +696,7 @@
     <value>Plik</value>
   </data>
   <data name="Files" xml:space="preserve">
-    <value>Files</value>
+    <value>Pliki</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Tworzy pusty plik</value>
@@ -693,7 +705,7 @@
     <value>Folder</value>
   </data>
   <data name="Folders" xml:space="preserve">
-    <value>Folders</value>
+    <value>Foldery</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Tworzy pusty folder</value>
@@ -710,10 +722,10 @@
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>Pokaż komunikat potwierdzenia przy usuwaniu elementów</value>
   </data>
-  <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
+  <data name="PropertySaveErrorMessageText" xml:space="preserve">
     <value>Wystąpił problem przy zapisywaniu niektórych właściwości.</value>
   </data>
-  <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
+  <data name="PropertySaveErrorDialogTitle" xml:space="preserve">
     <value>Błąd</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
@@ -1097,6 +1109,12 @@
   <data name="OpenInNewPane" xml:space="preserve">
     <value>Otwórz w nowym panelu</value>
   </data>
+  <data name="OpenInOtherPane" xml:space="preserve">
+    <value>Otwórz w innym panelu</value>
+  </data>
+  <data name="OpenCurrentFolderInOtherPane" xml:space="preserve">
+    <value>Otwórz bieżący folder w innym panelu</value>
+  </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Pliki i foldery</value>
   </data>
@@ -1155,7 +1173,7 @@
     <value>Nazwa elementu</value>
   </data>
   <data name="Unpin" xml:space="preserve">
-    <value>Unpin</value>
+    <value>Odepnij</value>
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Odepnij z panelu bocznego</value>
@@ -1196,10 +1214,13 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Nie obliczono</value>
   </data>
+  <data name="ViewSize" xml:space="preserve">
+    <value>Wyświetl rozmiar</value>
+  </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Nieznany</value>
   </data>
-  <data name="RenameFileDialog.Text" xml:space="preserve">
+  <data name="RenameFileDialogText" xml:space="preserve">
     <value>Jeżeli zmienisz rozszerzenie, plik może stać się nieużywalny. Czy na pewno chcesz to zrobić?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
@@ -1238,7 +1259,7 @@
   <data name="MoreOptions" xml:space="preserve">
     <value>Więcej opcji...</value>
   </data>
-  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItemText" xml:space="preserve">
     <value>Mapuj dysk sieciowy</value>
   </data>
   <data name="Pinned" xml:space="preserve">
@@ -1271,10 +1292,10 @@
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>Kolumny (Ctrl+Shift+6)</value>
   </data>
-  <data name="PinItemToStart.Text" xml:space="preserve">
+  <data name="PinItemToStartText" xml:space="preserve">
     <value>Przypnij do menu Start</value>
   </data>
-  <data name="UnpinItemFromStart.Text" xml:space="preserve">
+  <data name="UnpinItemFromStartText" xml:space="preserve">
     <value>Odepnij od menu Start</value>
   </data>
   <data name="Library" xml:space="preserve">
@@ -1362,7 +1383,7 @@
     <value>Utwórz folder z zaznaczonych</value>
   </data>
   <data name="CreateShortcutWithSelection" xml:space="preserve">
-    <value>Create shortcuts with selection</value>
+    <value>Utwórz skrót z zaznaczonych</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>Typ:</value>
@@ -1372,6 +1393,9 @@
   </data>
   <data name="OpenWith" xml:space="preserve">
     <value>Otwórz za pomocą</value>
+  </data>
+  <data name="ChooseAnotherApp" xml:space="preserve">
+    <value>Wybierz inną aplikację</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Ikona pliku</value>
@@ -1517,13 +1541,13 @@
   <data name="SecurityUnknownAccount" xml:space="preserve">
     <value>Nieznane konto</value>
   </data>
-  <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
+  <data name="SecurityCannotReadPropertiesText" xml:space="preserve">
     <value>Nie masz uprawnień do przeglądania zabezpieczeń tego obiektu. Kliknij "Uprawnienia zaawansowane" aby kontynuować.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Właściciel:</value>
   </data>
-  <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
+  <data name="SecurityUnknownOwnerTextText" xml:space="preserve">
     <value>Nieznany właściciel</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
@@ -1535,10 +1559,10 @@
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
     <value>Wypakuj do: {0}\</value>
   </data>
-  <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
+  <data name="SideBarCreateNewLibraryText" xml:space="preserve">
     <value>Utwórz nową bibliotekę</value>
   </data>
-  <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
+  <data name="SideBarRestoreLibrariesText" xml:space="preserve">
     <value>Przywróć domyślne biblioteki</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
@@ -1550,8 +1574,8 @@
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Właściciel</value>
   </data>
-  <data name="SecuritySpecialLabel.Text" xml:space="preserve">
-    <value>Specjalne</value>
+  <data name="SecuritySpecialLabelText" xml:space="preserve">
+    <value>Uprawnienia specjalne</value>
   </data>
   <data name="Access" xml:space="preserve">
     <value>Dostęp</value>
@@ -1577,7 +1601,7 @@
   <data name="Permissions" xml:space="preserve">
     <value>Uprawnienia</value>
   </data>
-  <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
+  <data name="SecurityAdvancedCannotReadPropertiesText" xml:space="preserve">
     <value>Nie masz uprawnień do przeglądania właściwości zabezpieczeń tego obiektu. Możesz spróbować przejąć własność nad tym obiektem.</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
@@ -1601,50 +1625,50 @@
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
     <value>Ten folder i podfoldery</value>
   </data>
-  <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
+  <data name="SecurityAppendDataLabelText" xml:space="preserve">
     <value>Dołącz dane</value>
   </data>
-  <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
+  <data name="SecurityChangePermissionsLabelText" xml:space="preserve">
     <value>Zmień uprawnienie</value>
   </data>
-  <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
+  <data name="SecurityCreateDirectoriesLabelText" xml:space="preserve">
     <value>Tworzenie folderów</value>
   </data>
-  <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
-    <value>Tworzenie plików</value>
+  <data name="SecurityCreateFilesLabelText" xml:space="preserve">
+    <value>Stwórz plik</value>
   </data>
-  <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
+  <data name="SecurityDeleteSubdirectoriesAndFilesLabelText" xml:space="preserve">
     <value>Usuń podfoldery i pliki</value>
   </data>
-  <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
-    <value>Wykonywanie plików</value>
+  <data name="SecurityExecuteFileLabelText" xml:space="preserve">
+    <value>Uruchom plik</value>
   </data>
-  <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
-    <value>Odczyt atrybutów</value>
+  <data name="SecurityReadAttributesLabelText" xml:space="preserve">
+    <value>Czytaj atrybuty</value>
   </data>
-  <data name="SecurityReadDataLabel.Text" xml:space="preserve">
-    <value>Odczyt danych</value>
+  <data name="SecurityReadDataLabelText" xml:space="preserve">
+    <value>Czytaj pliki data</value>
   </data>
-  <data name="SecurityReadExtendedAttributesLabel.Text" xml:space="preserve">
+  <data name="SecurityReadExtendedAttributesLabelText" xml:space="preserve">
     <value>Odczyt atrybutów rozszerzonych</value>
   </data>
-  <data name="SecurityReadPermissionsLabel.Text" xml:space="preserve">
-    <value>Uprawnienia do odczytu</value>
+  <data name="SecurityReadPermissionsLabelText" xml:space="preserve">
+    <value>Uprawnienia odczytu</value>
   </data>
-  <data name="SecurityTakeOwnershipLabel.Text" xml:space="preserve">
+  <data name="SecurityTakeOwnershipLabelText" xml:space="preserve">
     <value>Przejmij własność</value>
   </data>
-  <data name="SecurityTraverseLabel.Text" xml:space="preserve">
+  <data name="SecurityTraverseLabelText" xml:space="preserve">
     <value>Odwiedź folder</value>
   </data>
-  <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
-    <value>Zapis atrybutów</value>
+  <data name="SecurityWriteAttributesLabelText" xml:space="preserve">
+    <value>Zapisz atrybuty</value>
   </data>
-  <data name="SecurityWriteDataLabel.Text" xml:space="preserve">
-    <value>Zapis danych</value>
+  <data name="SecurityWriteDataLabelText" xml:space="preserve">
+    <value>Zapisz dane</value>
   </data>
-  <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
-    <value>Zapis atrybutów rozszerzonych</value>
+  <data name="SecurityWriteExtendedAttributesLabelText" xml:space="preserve">
+    <value>Zapisz rozszerzone atrybuty</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
     <value>Konwertuj uprawnienia odziedziczone na uprawnienia jawne</value>
@@ -1700,8 +1724,8 @@
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
   </data>
-  <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
-    <value>Ukryj sekcję {0}</value>
+  <data name="SideBarHideSectionFromSideBarText" xml:space="preserve">
+    <value>Ukryj {0} sekcji</value>
   </data>
   <data name="AddFile" xml:space="preserve">
     <value>Dodaj plik</value>
@@ -1730,7 +1754,7 @@
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>Wypakowywanie ukończone!</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenParentFolderText" xml:space="preserve">
     <value>Otwórz folder nadrzędny</value>
   </data>
   <data name="Unknown" xml:space="preserve">
@@ -1745,10 +1769,10 @@
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>Otwórz dysk</value>
   </data>
-  <data name="InsertDiscDialog.Text" xml:space="preserve">
+  <data name="InsertDiscDialogText" xml:space="preserve">
     <value>Włóż dysk do napędu {0}</value>
   </data>
-  <data name="InsertDiscDialog.Title" xml:space="preserve">
+  <data name="InsertDiscDialogTitle" xml:space="preserve">
     <value>Włóż dysk</value>
   </data>
   <data name="OK" xml:space="preserve">
@@ -1762,6 +1786,15 @@
   </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
     <value>Wprowadź Twoje poświadczenie:</value>
+  </data>
+  <data name="CredentialDialogIncorrectPassword" xml:space="preserve">
+    <value>Nieprawidłowe hasło. Spróbuj ponownie.</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Wymagane hasło</value>
+  </data>
+  <data name="PasswordRequiredMessage" xml:space="preserve">
+    <value>Ta lokalizacja jest chroniona hasłem. Odśwież, aby wprowadzić hasło.</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Nazwa użytkownika</value>
@@ -1815,7 +1848,7 @@
     <value>Tag pliku</value>
   </data>
   <data name="OpenFilesWithOneClick" xml:space="preserve">
-    <value>Open files with a single click</value>
+    <value>Otwieraj pliki jednym kliknięciem</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Lokalizacja folderu</value>
@@ -2049,13 +2082,22 @@
     <value>Niestandardowy</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
-    <value>Slideshow</value>
+    <value>Pokaz slajdów</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
     <value>Ustaw jako pokaz slajdów na pulpicie</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>Dopasuj rozmiar wszystkich kolumn</value>
+  </data>
+  <data name="AutoFitColumns" xml:space="preserve">
+    <value>Automatyczne dopasowanie kolumn</value>
+  </data>
+  <data name="AutoFitColumnsDescription" xml:space="preserve">
+    <value>Zmień rozmiar kolumn, by dostosować je do zawartości</value>
+  </data>
+  <data name="AutoSizeColumnsInDetailsLayout" xml:space="preserve">
+    <value>Automatycznie dopasuj kolumny do zawartości</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Automatycznie wybierz najlepszy układ</value>
@@ -2121,13 +2163,13 @@
     <value>Otwieraj foldery pojedynczym kliknięciem</value>
   </data>
   <data name="OpenFolderWithOneClickInColumnsView" xml:space="preserve">
-    <value>Open folders with a single click in Columns View</value>
+    <value>Otwórz foldery jednym kliknięciem</value>
   </data>
   <data name="SingleClickToOpen" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>Otwórz elementy jednym kliknięciem</value>
   </data>
   <data name="SingleClickFoldersInColumnsViewHeader" xml:space="preserve">
-    <value>Folders in Columns View</value>
+    <value>Foldery w widoku kolumn</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Otwieranie elementów</value>
@@ -2198,11 +2240,17 @@
   <data name="CreateArchive" xml:space="preserve">
     <value>Utwórz archiwum</value>
   </data>
+  <data name="CompressSkippedItemsDialogTitle" xml:space="preserve">
+    <value>Niektóre elementy nie mogą zostać skompresowane</value>
+  </data>
+  <data name="CompressSkippedItemsDialogText" xml:space="preserve">
+    <value>Następujące elementy {0, plural, one {item} other {items}} nie można skompresować, czy cgcesz pominąć pliki {0, plural, one {this item} other {these items}}?</value>
+  </data>
   <data name="CompressIntoZip" xml:space="preserve">
-    <value>Create zip archive</value>
+    <value>Utwórz archiwum zip</value>
   </data>
   <data name="CompressIntoSevenZip" xml:space="preserve">
-    <value>Create 7z archive</value>
+    <value>Utwórz archiwum 7z</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Utwórz</value>
@@ -2247,10 +2295,10 @@
     <value>Rozmiar słownika</value>
   </data>
   <data name="WordSize" xml:space="preserve">
-    <value>Word size</value>
+    <value>Wielkość znaków</value>
   </data>
   <data name="EstimatedMemoryUsage" xml:space="preserve">
-    <value>Estimated memory usage: {0}</value>
+    <value>Szacowane zużycie pamięci: {0}</value>
   </data>
   <data name="AvailableMemory" xml:space="preserve">
     <value>Dostępna pamięć: {0}</value>
@@ -2412,6 +2460,9 @@
     <value>Na pewno chcesz usunąć ten tag?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
+    <value>Odtwórz wszystkie</value>
+  </data>
+  <data name="Play" xml:space="preserve">
     <value>Odtwórz</value>
   </data>
   <data name="Height" xml:space="preserve">
@@ -2505,19 +2556,19 @@
     <value>Przełącz tryb kompaktowy</value>
   </data>
   <data name="ToggleTheme" xml:space="preserve">
-    <value>Toggle Theme</value>
+    <value>Przełącz styl</value>
   </data>
   <data name="ToggleThemeDescription" xml:space="preserve">
-    <value>Toggle the app theme</value>
+    <value>Przełącz styl aplikacji</value>
   </data>
   <data name="SwitchToLightThemeDescription" xml:space="preserve">
-    <value>Switch to Light Theme</value>
+    <value>Przełącz na jasny styl</value>
   </data>
   <data name="SwitchToDarkThemeDescription" xml:space="preserve">
-    <value>Switch to Dark Theme</value>
+    <value>Przełącz na ciemny styl</value>
   </data>
   <data name="SwitchToDefaultThemeDescription" xml:space="preserve">
-    <value>Switch to System Theme</value>
+    <value>Przełącz na systemowy styl</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>Rozpocznij wyszukiwanie w OmniBar</value>
@@ -3297,6 +3348,9 @@
   <data name="PullTimeoutError" xml:space="preserve">
     <value>Błąd git pull z powodu przekroczenia limitu czasu</value>
   </data>
+  <data name="PullUncommittedChangesError" xml:space="preserve">
+    <value>Nie można ściągnąć, ponieważ Twoje niezatwierdzone zmiany zostaną nadpisane. Wykonaj commit, stash, lub odrzuć zmiany, a następnie spróbuj ponownie.</value>
+  </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(wiele wartości)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
@@ -3411,6 +3465,12 @@
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
     <value>Otwórz zaznaczony folder w nowym panelu</value>
+  </data>
+  <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
+    <value>Otwórz zaznaczony folder w nowym panelu</value>
+  </data>
+  <data name="OpenCurrentFolderInOtherPaneDescription" xml:space="preserve">
+    <value>Otwórz bieżący folder w innym panelu</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Otwórz wybrany katalog w nowej karcie</value>
@@ -3614,35 +3674,119 @@
   </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
     <value>Anulowano klonowanie {0} do "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
     <value>Anulowano klonowanie {0} z "{1}" do "{2}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
     <value>Sklonowano "{0}" do "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
     <value>Sklonowano {0} z "{1}" do "{2}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
     <value>Błąd klonowania "{0}" do "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
     <value>Nie udało się sklonować {0} z "{1}" do "{2}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
     <value>Klonowanie "{0}" do "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
     <value>Klonowanie {0} z "{1}" do "{2}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutCanceled_Header" xml:space="preserve">
+    <value>Anulowano przełączenie na "{0}" w "{1}"</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutComplete_Header" xml:space="preserve">
+    <value>Switched to "{0}" in "{1}"</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutFailed_Header" xml:space="preserve">
+    <value>Failed to switch to "{0}" in "{1}"</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutInProgress_Header" xml:space="preserve">
+    <value>Switching to "{0}" in "{1}"</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchCanceled_Header" xml:space="preserve">
+    <value>Canceled fetching remote changes for "{0}"</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchComplete_Header" xml:space="preserve">
+    <value>Fetched remote changes for "{0}"</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchFailed_Header" xml:space="preserve">
+    <value>Failed to fetch remote changes for "{0}"</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchInProgress_Header" xml:space="preserve">
+    <value>Fetching remote changes for "{0}"</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitOperationProgress" xml:space="preserve">
+    <value>{0}% complete</value>
+    <comment>Shown in Status Center during a Git operation. {0} is the percentage from 0 to 100.</comment>
+  </data>
+  <data name="StatusCenter_GitPullCanceled_Header" xml:space="preserve">
+    <value>Canceled pulling remote changes into "{0}"</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPullComplete_Header" xml:space="preserve">
+    <value>Pulled remote changes into "{0}"</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPullFailed_Header" xml:space="preserve">
+    <value>Failed to pull remote changes into "{0}"</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPullInProgress_Header" xml:space="preserve">
+    <value>Pulling remote changes into "{0}"</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushCanceled_Header" xml:space="preserve">
+    <value>Canceled pushing local commits from "{0}"</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushComplete_Header" xml:space="preserve">
+    <value>Pushed local commits from "{0}"</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushFailed_Header" xml:space="preserve">
+    <value>Failed to push local commits from "{0}"</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushInProgress_Header" xml:space="preserve">
+    <value>Pushing local commits from "{0}"</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncCanceled_Header" xml:space="preserve">
+    <value>Canceled syncing local and remote commits for "{0}"</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncComplete_Header" xml:space="preserve">
+    <value>Synced local and remote commits for "{0}"</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncFailed_Header" xml:space="preserve">
+    <value>Failed to sync local and remote commits for "{0}"</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncInProgress_Header" xml:space="preserve">
+    <value>Syncing local and remote commits for "{0}"</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
     <value>Anulowano instalację {0} czcionki/-ek</value>
@@ -3773,27 +3917,27 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
-    <value>Moved {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Przeniesiono {0, plural, one {# przedmiot} few {# przedmiotów} many {# przedmiotów} other {# przedmiotów}} do "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
-    <value>Moved {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Przeniesiono {0, plural, one {# przedmiot} few {# przedmiotów} many {# przedmiotów} other {# przedmiotów}} z "{1}" do "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
-    <value>Moving {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Przenoszenie {0, plural, one {# przedmiot} few {# przedmiotów} many {# przedmiotów} other {# przedmiotów}} do "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
-    <value>Moving {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Przenoszenie {0, plural, one {# przedmiot} few {# przedmiotów} many {# przedmiotów} other {# przedmiotów}} z "{1}" do "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
-    <value>Error moving {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Błąd podczas przenoszenia {0, plural, one {# przedmiotu} few {# przedmiotów} many {# przedmiotów} other {# przedmiotów}} do "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
-    <value>Failed to move {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Nie udało się przenieść {0, plural, one {# przedmiotu} few {# przedmiotów} many {# przedmiotów} other {# przedmiotów}} z "{1}" do "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
@@ -3821,7 +3965,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1, plural, one {# item} other {# items}} processed</value>
+    <value>{0}/{1, plural, one {# przedmioty} few {# przedmiotów} many {# przedmiotów} other {# przedmiotów}} przetworzone</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -3914,6 +4058,9 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Zmień okładkę albumu</value>
   </data>
+  <data name="RemoveAlbumCover" xml:space="preserve">
+    <value>Usuń okładkę albumu</value>
+  </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>Nie udało się zmienić nazwy pliku</value>
   </data>
@@ -3994,7 +4141,7 @@
     <value>Akcje</value>
   </data>
   <data name="Action" xml:space="preserve">
-    <value>Action</value>
+    <value>Operacja</value>
   </data>
   <data name="Commands" xml:space="preserve">
     <value>Polecenia</value>
@@ -4016,6 +4163,12 @@
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>Wybrany przez ciebie skrót klawiszowy nie może być użyty. Spróbuj ponownie, wybierając inny.</value>
+  </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>Keyboard shortcuts</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>Czy na pewno chcesz usunąć ten skrót klawiszowy?</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Dostosuj</value>
@@ -4112,6 +4265,15 @@
     <value>Pliki obrazów</value>
     <comment>This is the friendly name for image files.</comment>
   </data>
+  <data name="AllSupportedFiles" xml:space="preserve">
+    <value>Wszystkie obsługiwane pliki</value>
+  </data>
+  <data name="ConvertToIconRequiredMessage" xml:space="preserve">
+    <value>Ten obraz musi być przekonwertowany do pliku ikony, zanim będzie mógł być użyty. Wybierz lokalizację, aby zapisać plik z ikonami.</value>
+  </data>
+  <data name="ConvertToIconError" xml:space="preserve">
+    <value>Nie można przekonwertować obrazu na plik ikony</value>
+  </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Nr.</value>
   </data>
@@ -4147,13 +4309,13 @@
     <value>Podziel w pionie</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Split pane vertically</value>
+    <value>Podziel w pionie</value>
   </data>
   <data name="SplitPaneHorizontally" xml:space="preserve">
     <value>Podziel w poziomie</value>
   </data>
   <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
-    <value>Split pane horizontally</value>
+    <value>Podziel w poziomie</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Ułóż pionowo</value>
@@ -4177,10 +4339,10 @@
     <value>Ułóż strony</value>
   </data>
   <data name="DualPaneSplitDirection" xml:space="preserve">
-    <value>Default dual pane split direction</value>
+    <value>Domyślny kierunek podziału paneli podwójnych</value>
   </data>
   <data name="DualPane" xml:space="preserve">
-    <value>Dual pane mode</value>
+    <value>Tryb dwupanelowy</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
     <value>Poziomo</value>
@@ -4198,7 +4360,7 @@
     <value>Przejdź do strony głównej</value>
   </data>
   <data name="AddressBar" xml:space="preserve">
-    <value>Address bar</value>
+    <value>Pasek adresu</value>
   </data>
   <data name="UserID" xml:space="preserve">
     <value>ID użytkownika</value>
@@ -4245,11 +4407,20 @@
   <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
     <value>Zawsze przełącz fokus na nowo utworzoną kartę</value>
   </data>
+  <data name="ReverseTabScrollDirection" xml:space="preserve">
+    <value>Odwróć kierunek przewijania karty</value>
+  </data>
+  <data name="DownMotionScrollsLeft" xml:space="preserve">
+    <value>Przesunięcie w dół w lewo</value>
+  </data>
+  <data name="DownMotionScrollsRight" xml:space="preserve">
+    <value>Przesunięcie w dół w prawo</value>
+  </data>
   <data name="ToggleShelfPane" xml:space="preserve">
-    <value>Toggle shelf pane</value>
+    <value>Przełącz tryb dwupanelowy</value>
   </data>
   <data name="ToggleShelfPaneDescription" xml:space="preserve">
-    <value>Toggle the visibility of the shelf pane</value>
+    <value>Przełącz widoczność panelu bocznego</value>
   </data>
   <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
     <value>Pokaż przełącznik panelu półki na pasku adresu</value>
@@ -4260,6 +4431,9 @@
   </data>
   <data name="ClearItems" xml:space="preserve">
     <value>Wyczyść zawartość</value>
+  </data>
+  <data name="BatchAction" xml:space="preserve">
+    <value>Operacja zbiorcza</value>
   </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>Usuń z półki</value>
@@ -4297,6 +4471,15 @@
   </data>
   <data name="OpenSettings" xml:space="preserve">
     <value>Otwórz ustawienia</value>
+  </data>
+  <data name="NetworkDiscoveryTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Wyszukiwanie sieci jest wyłączone. Komputery sieciowe i urządzenia sieciowe nie są widoczne.</value>
+  </data>
+  <data name="FileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Udostępnianie plików jest wyłączone. Niektóre komputery sieciowe i urządzenia mogą być niewidoczne.</value>
+  </data>
+  <data name="NetworkDiscoveryAndFileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Wykrywanie sieci i udostępnianie plików są wyłączone. Komputery i urządzenia sieciowe nie są widoczne.</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
@@ -4352,13 +4535,13 @@
     <value>Szukaj plików i folderów...</value>
   </data>
   <data name="DuringOngoingFileOperations" xml:space="preserve">
-    <value>During file operations</value>
+    <value>Podczas operacji plików</value>
   </data>
   <data name="ShowStatusCenterButton" xml:space="preserve">
-    <value>Show status center button</value>
+    <value>Pokaż przycisk statusu</value>
   </data>
   <data name="StatusCenterProgressRing" xml:space="preserve">
-    <value>Status center progress ring</value>
+    <value>Pierścień do postępu statusu</value>
     <comment>Screen reader name for the status center progress ring</comment>
   </data>
   <data name="IconFiles" xml:space="preserve">
@@ -4366,7 +4549,7 @@
     <comment>This is the friendly name for a variety of different icon files.</comment>
   </data>
   <data name="BreadcrumbBarEllipsisButtonToolTip" xml:space="preserve">
-    <value>Show collapsed path breadcrumbs</value>
+    <value>Pokaż zwinięte elementy ścieżki</value>
   </data>
   <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
     <value>Pokaż foldery w {0}</value>
@@ -4426,76 +4609,76 @@
     <value>Pokaż pasek statusu</value>
   </data>
   <data name="OnlyForTouch" xml:space="preserve">
-    <value>When using touch</value>
+    <value>Przy używaniu dotyku</value>
   </data>
   <data name="OnlyForMouse" xml:space="preserve">
-    <value>When using mouse</value>
+    <value>Przy używaniu myszy</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>Nowy {0}</value>
   </data>
   <data name="EnableSmoothScrolling" xml:space="preserve">
-    <value>Enable smooth scrolling</value>
+    <value>Włącz płynne przewijanie</value>
   </data>
   <data name="Scrolling" xml:space="preserve">
-    <value>Scrolling</value>
+    <value>Przewijanie</value>
   </data>
   <data name="ShowPinToSideBar" xml:space="preserve">
-    <value>Show option to Pin to Sidebar</value>
+    <value>Pokaż opcję przypinania do paska bocznego</value>
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
-    <value>Show option to Pin to the Start Menu</value>
+    <value>Pokaż opcję przypięcia do menu startowego</value>
   </data>
   <data name="Toolbar" xml:space="preserve">
-    <value>Toolbar</value>
+    <value>Pasek narzędzi</value>
   </data>
   <data name="CustomizeToolbar" xml:space="preserve">
-    <value>Customize toolbar</value>
+    <value>Dostosuj pasek narzędzi</value>
   </data>
   <data name="CustomizeToolbarDescription" xml:space="preserve">
-    <value>Customize toolbar buttons</value>
+    <value>Dostosuj przyciski paska narzędzi</value>
   </data>
   <data name="ChooseToolbarModeToCustomize" xml:space="preserve">
-    <value>Choose toolbar mode to customize</value>
+    <value>Wybierz tryb paska narzędzi do dostosowania</value>
   </data>
   <data name="AlwaysVisible" xml:space="preserve">
-    <value>Always visible</value>
+    <value>Zawsze widoczne</value>
   </data>
   <data name="ArchiveFiles" xml:space="preserve">
-    <value>Archive files</value>
+    <value>Pliki archiwalne</value>
   </data>
   <data name="BatchFiles" xml:space="preserve">
-    <value>Batch files</value>
+    <value>Pliki wsadowe</value>
   </data>
   <data name="PowerShellFiles" xml:space="preserve">
-    <value>PowerShell files</value>
+    <value>Pliki PowerShell</value>
   </data>
   <data name="MediaFiles" xml:space="preserve">
-    <value>Media files</value>
+    <value>Pliki multimedialne</value>
   </data>
   <data name="FontFiles" xml:space="preserve">
-    <value>Font files</value>
+    <value>Pliki czcionki</value>
   </data>
   <data name="DriverFiles" xml:space="preserve">
-    <value>Driver files</value>
+    <value>Pliki sterowników</value>
   </data>
   <data name="CertificateFiles" xml:space="preserve">
-    <value>Certificate files</value>
+    <value>Pliki certyfikatów</value>
   </data>
   <data name="OtherContexts" xml:space="preserve">
-    <value>Other contexts</value>
+    <value>Inne konteksty</value>
   </data>
   <data name="Archive" xml:space="preserve">
-    <value>Archive</value>
+    <value>Archiwum</value>
   </data>
   <data name="Run" xml:space="preserve">
     <value>Uruchom</value>
   </data>
   <data name="Start" xml:space="preserve">
-    <value>Start</value>
+    <value>Rozpocznij</value>
   </data>
   <data name="Selection" xml:space="preserve">
-    <value>Selection</value>
+    <value>Wybór</value>
   </data>
   <data name="Show" xml:space="preserve">
     <value>Pokaż</value>
@@ -4510,42 +4693,51 @@
     <value>Okno</value>
   </data>
   <data name="DualPaneCategory" xml:space="preserve">
-    <value>Dual Pane</value>
+    <value>Podwójny widok</value>
   </data>
   <data name="ResetDefaults" xml:space="preserve">
-    <value>Reset defaults</value>
+    <value>Przywróć domyślne</value>
   </data>
   <data name="Separator" xml:space="preserve">
     <value>Separator</value>
   </data>
   <data name="Icon" xml:space="preserve">
-    <value>Icon</value>
+    <value>Ikona</value>
   </data>
   <data name="Label" xml:space="preserve">
-    <value>Label</value>
+    <value>Etykieta</value>
   </data>
   <data name="ShowToolbarLabels" xml:space="preserve">
-    <value>Show label</value>
+    <value>Wyświetl etykietę</value>
   </data>
   <data name="ShowToolbarIconOnly" xml:space="preserve">
-    <value>Show icon</value>
+    <value>Pokaż ikonę</value>
   </data>
   <data name="AvailableToolbarItems" xml:space="preserve">
-    <value>Available items</value>
+    <value>Dostępne elementy</value>
   </data>
   <data name="AddedToolbarItems" xml:space="preserve">
-    <value>Added items</value>
+    <value>Dodane elementy</value>
   </data>
   <data name="ExtractGroupDescription" xml:space="preserve">
-    <value>Extract compressed archives</value>
+    <value>Wypakuj skompresowane archiwa</value>
   </data>
   <data name="SetAsGroupDescription" xml:space="preserve">
-    <value>Set image as wallpaper or background</value>
+    <value>Ustaw obraz jako tapetę lub tło</value>
   </data>
   <data name="NewItemGroupDescription" xml:space="preserve">
-    <value>Create new files and folders</value>
+    <value>Utwórz nowe pliki i foldery</value>
   </data>
   <data name="EditTagsGroupDescription" xml:space="preserve">
-    <value>Add or remove file tags</value>
+    <value>Dodaj lub usuń tagi plików</value>
+  </data>
+  <data name="RemoveTags" xml:space="preserve">
+    <value>Usuń tagi</value>
+  </data>
+  <data name="RemoveTagsDescription" xml:space="preserve">
+    <value>Usuń tagi z zaznaczonych elementów</value>
+  </data>
+  <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
+    <value>Czy na pewno chcesz usunąć tagi z zaznaczonych elementów?</value>
   </data>
 </root>

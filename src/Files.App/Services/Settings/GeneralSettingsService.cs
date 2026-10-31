@@ -41,37 +41,43 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public List<string> TabsOnStartupList
+		public List<string>? TabsOnStartupList
 		{
 			get => Get<List<string>>(null);
 			set => Set(value);
 		}
 
-		public List<string> LastSessionTabList
+		public List<string>? LastSessionTabList
 		{
 			get => Get<List<string>>(null);
 			set => Set(value);
 		}
 
-		public List<string> LastCrashedTabList
+		public int LastSessionSelectedTabIndex
+		{
+			get => Get(-1);
+			set => Set(value);
+		}
+
+		public List<string>? LastCrashedTabList
 		{
 			get => Get<List<string>>(null);
 			set => Set(value);
 		}
 
-		public List<string> PathHistoryList
+		public List<string>? PathHistoryList
 		{
 			get => Get<List<string>>(null);
 			set => Set(value);
 		}
 
-		public List<string> PreviousSearchQueriesList
+		public List<string>? PreviousSearchQueriesList
 		{
 			get => Get<List<string>>(null);
 			set => Set(value);
 		}
 
-		public List<string> PreviousArchiveExtractionLocations
+		public List<string>? PreviousArchiveExtractionLocations
 		{
 			get => Get<List<string>>(null);
 			set => Set(value);
@@ -90,6 +96,12 @@ namespace Files.App.Services.Settings
 		}
 
 		public bool AlwaysSwitchToNewlyOpenedTab
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
+		public bool ReverseTabScrollDirection
 		{
 			get => Get(false);
 			set => Set(value);
@@ -161,19 +173,7 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool IsPinnedSectionExpanded
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
 		public bool ShowLibrarySection
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool IsLibrarySectionExpanded
 		{
 			get => Get(false);
 			set => Set(value);
@@ -185,25 +185,49 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool IsDriveSectionExpanded
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
 		public bool ShowCloudDrivesSection
 		{
 			get => Get(true);
 			set => Set(value);
 		}
 
-		public bool IsCloudDriveSectionExpanded
+		public bool ShowNetworkSection
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowWslSection
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowFileTagsSection
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool IsPinnedSectionExpanded
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool IsLibrarySectionExpanded
 		{
 			get => Get(false);
 			set => Set(value);
 		}
 
-		public bool ShowNetworkSection
+		public bool IsDriveSectionExpanded
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool IsCloudDriveSectionExpanded
 		{
 			get => Get(true);
 			set => Set(value);
@@ -215,21 +239,9 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool ShowWslSection
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
 		public bool IsWslSectionExpanded
 		{
 			get => Get(false);
-			set => Set(value);
-
-		}
-		public bool ShowFileTagsSection
-		{
-			get => Get(true);
 			set => Set(value);
 		}
 
@@ -329,20 +341,22 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool LeaveAppRunning
+		public bool CloseToBackground
 		{
-#if RELEASE
+			get => Get(BackgroundSettings.CloseToBackgroundDefault, BackgroundSettings.CloseToBackgroundKey);
+			set => Set(value, BackgroundSettings.CloseToBackgroundKey);
+		}
+
+		public bool EnableNaturalLanguageSearch
+		{
 			get => Get(true);
-#else
-			get => Get(false);
-#endif
 			set => Set(value);
 		}
 
 		public bool ShowSystemTrayIcon
 		{
-			get => Get(true);
-			set => Set(value);
+			get => Get(BackgroundSettings.ShowSystemTrayIconDefault, BackgroundSettings.ShowSystemTrayIconKey);
+			set => Set(value, BackgroundSettings.ShowSystemTrayIconKey);
 		}
 
 		public bool IsTerminalIntegrationEnabled
@@ -387,7 +401,7 @@ namespace Files.App.Services.Settings
 			set => Set((long)value);
 		}
 
-		public Dictionary<string, bool> ShowHashesDictionary
+		public Dictionary<string, bool>? ShowHashesDictionary
 		{
 			get => Get<Dictionary<string, bool>>(null);
 			set => Set(value);
@@ -395,7 +409,17 @@ namespace Files.App.Services.Settings
 
 		public string UserId
 		{
-			get => Get(Guid.NewGuid().ToString());
+			get
+			{
+				var userId = Get<string>(null);
+				if (userId is null)
+				{
+					userId = Guid.NewGuid().ToString();
+					Set(userId);
+				}
+
+				return userId;
+			}
 			set => Set(value);
 		}
 

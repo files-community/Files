@@ -1,5 +1,5 @@
 # Copyright (c) Files Community
-# Licensed under the MIT License.
+# SPDX-License-Identifier: MPL-2.0
 
 # Creates an .msixbundle from individual per-platform .msix packages produced
 # by single-project MSIX packaging. Optionally generates an .appinstaller file

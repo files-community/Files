@@ -5,6 +5,8 @@ using Files.Shared.Helpers;
 using System.Runtime.InteropServices;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Windows.Win32;
+using Windows.Win32.Storage.FileSystem;
 
 namespace Files.App.Helpers
 {
@@ -13,15 +15,15 @@ namespace Files.App.Helpers
 	/// </summary>
 	public static class StorageHelpers
 	{
-		public static async Task<IStorageItem> ToStorageItem(this IStorageItemWithPath item)
+		public static async Task<IStorageItem?> ToStorageItem(this IStorageItemWithPath item)
 		{
 			return (await item.ToStorageItemResult()).Result;
 		}
 
-		public static async Task<TRequested> ToStorageItem<TRequested>(string path) where TRequested : IStorageItem
+		public static async Task<TRequested?> ToStorageItem<TRequested>(string path) where TRequested : IStorageItem
 		{
-			FilesystemResult<BaseStorageFile> file = null;
-			FilesystemResult<BaseStorageFolder> folder = null;
+			FilesystemResult<BaseStorageFile>? file = null;
+			FilesystemResult<BaseStorageFolder>? folder = null;
 
 			if (FileExtensionHelpers.IsShortcutOrUrlFile(path))
 			{
@@ -32,11 +34,12 @@ namespace Files.App.Helpers
 			}
 
 			// Fast get attributes
-			bool exists = Win32PInvoke.GetFileAttributesExFromApp(path, Win32PInvoke.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out Win32PInvoke.WIN32_FILE_ATTRIBUTE_DATA itemAttributes);
+			uint itemAttributes = PInvoke.GetFileAttributes(path);
+			bool exists = itemAttributes != PInvoke.INVALID_FILE_ATTRIBUTES;
 			if (exists) // Exists on local storage
 			{
 				// Directory
-				if (itemAttributes.dwFileAttributes.HasFlag(System.IO.FileAttributes.Directory))
+				if ((itemAttributes & (uint)FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_DIRECTORY) != 0)
 				{
 					if (typeof(IStorageFile).IsAssignableFrom(typeof(TRequested))) // Wanted file
 					{
@@ -80,11 +83,11 @@ namespace Files.App.Helpers
 						await GetFileAsync();
 					}
 
-					if (!file || file.Result is null) // Possibly a folder
+					if (file?.Result is null) // Possibly a folder
 					{
 						await GetFolderAsync();
 
-						if (file is null && (!folder || folder.Result is null))
+						if (file is null && folder?.Result is null)
 						{
 							// Try file because it wasn't checked
 							await GetFileAsync();
@@ -93,13 +96,13 @@ namespace Files.App.Helpers
 				}
 			}
 
-			if (file is not null && file)
+			if (file?.Result is TRequested requestedFile)
 			{
-				return (TRequested)(IStorageItem)file.Result;
+				return requestedFile;
 			}
-			else if (folder is not null && folder)
+			else if (folder?.Result is TRequested requestedFolder)
 			{
-				return (TRequested)(IStorageItem)folder.Result;
+				return requestedFolder;
 			}
 
 			return default;
@@ -108,14 +111,14 @@ namespace Files.App.Helpers
 
 			async Task GetFileAsync()
 			{
-				var rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(path));
-				file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path, rootItem));
+				var rootItem = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(path));
+				file = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path, rootItem.Result));
 			}
 
 			async Task GetFolderAsync()
 			{
-				var rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(path));
-				folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, rootItem));
+				var rootItem = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(path));
+				folder = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, rootItem.Result));
 			}
 		}
 
@@ -128,14 +131,14 @@ namespace Files.App.Helpers
 		public static async Task<FilesystemResult<IStorageItem>> ToStorageItemResult(this IStorageItemWithPath item)
 		{
 			var returnedItem = new FilesystemResult<IStorageItem>(null, FileSystemStatusCode.Generic);
-			var rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(item.Path));
+			var rootItem = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(item.Path));
 			if (!string.IsNullOrEmpty(item.Path))
 			{
 				returnedItem = (item.ItemType == FilesystemItemType.File) ?
 					ToType<IStorageItem, BaseStorageFile>(
-						await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path, rootItem))) :
+						await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path, rootItem))) :
 					ToType<IStorageItem, BaseStorageFolder>(
-						await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(item.Path, rootItem)));
+						await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(item.Path, rootItem)));
 			}
 			if (returnedItem.Result is null && item.Item is not null)
 				returnedItem = new FilesystemResult<IStorageItem>(item.Item, FileSystemStatusCode.Success);
@@ -153,31 +156,37 @@ namespace Files.App.Helpers
 
 		public static async Task<FilesystemItemType> GetTypeFromPath(string path)
 		{
-			IStorageItem item = await ToStorageItem<IStorageItem>(path);
+			IStorageItem? item = await ToStorageItem<IStorageItem>(path);
 
 			return item is null ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File);
 		}
 
 		public static bool Exists(string path)
 		{
-			return Win32PInvoke.GetFileAttributesExFromApp(path, Win32PInvoke.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out _);
+			return PInvoke.GetFileAttributes(path) != PInvoke.INVALID_FILE_ATTRIBUTES;
 		}
 
-		public static IStorageItemWithPath FromStorageItem(this IStorageItem item, string customPath = null, FilesystemItemType? itemType = null)
+		public static IStorageItemWithPath? FromStorageItem(this IStorageItem? item, string? customPath = null, FilesystemItemType? itemType = null)
 		{
 			if (item is null)
 			{
-				return FromPathAndType(customPath, itemType);
+				return FromPathAndType(customPath
+					?? throw new InvalidOperationException("A path is required when converting a missing storage item."), itemType);
 			}
 			else if (item.IsOfType(StorageItemTypes.File))
 			{
-				return new StorageFileWithPath(item.AsBaseStorageFile(), string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
+				return new StorageFileWithPath(item.AsBaseStorageFile(), GetPath(item, customPath));
 			}
 			else if (item.IsOfType(StorageItemTypes.Folder))
 			{
-				return new StorageFolderWithPath(item.AsBaseStorageFolder(), string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
+				return new StorageFolderWithPath(item.AsBaseStorageFolder(), GetPath(item, customPath));
 			}
 			return null;
+
+			static string GetPath(IStorageItem item, string? customPath)
+				=> !string.IsNullOrEmpty(item.Path)
+					? item.Path
+					: customPath ?? string.Empty;
 		}
 
 		public static FilesystemResult<T> ToType<T, V>(FilesystemResult<V> result) where T : class

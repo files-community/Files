@@ -26,6 +26,14 @@ namespace Files.App.Helpers
 		public static unsafe void BringToForegroundEx(Windows.Win32.Foundation.HWND hWnd)
 		{
 			var hCurWnd = PInvoke.GetForegroundWindow();
+
+			// Nothing to do if we already are the foreground window. Running the rest
+			// unconditionally calls SetFocus(hWnd) on the top-level HWND, which drops
+			// XAML focus to the window root and breaks arrow-key navigation after a
+			// click on a non-name column of a selected Details-layout row.
+			if (hCurWnd == hWnd)
+				return;
+
 			var dwMyID = PInvoke.GetCurrentThreadId();
 			var dwCurID = PInvoke.GetWindowThreadProcessId(hCurWnd);
 
@@ -48,6 +56,17 @@ namespace Files.App.Helpers
 			var windowPos = Marshal.PtrToStructure<WINDOWPOS>(lParam);
 			windowPos.flags |= SET_WINDOW_POS_FLAGS.SWP_NOZORDER;
 			Marshal.StructureToPtr(windowPos, lParam, false);
+		}
+
+		/// <summary>
+		/// Applies the WS_EX_LAYOUTRTL extended style so the window's non-client area is mirrored.
+		/// </summary>
+		/// <param name="hWnd">The window handle.</param>
+		public static void EnableRtlLayout(nint hWnd)
+		{
+			var hwnd = new Windows.Win32.Foundation.HWND(hWnd);
+			var exStyle = PInvoke.GetWindowLongPtr(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
+			PInvoke.SetWindowLongPtr(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, exStyle | (nint)WINDOW_EX_STYLE.WS_EX_LAYOUTRTL);
 		}
 	}
 }

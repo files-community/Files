@@ -32,15 +32,16 @@ namespace Files.App.Actions
 			var items =
 				context.SelectedItems.Select(item =>
 					StorageHelpers.FromPathAndType(
-						item.ItemPath,
+						item.GetRequiredPath(),
 						item.PrimaryItemAttribute is StorageItemTypes.File
 							? FilesystemItemType.File
 							: FilesystemItemType.Directory));
 
-			if (context.ShellPage is IShellPage shellPage)
+			if (context.ShellPage is { } shellPage)
 			{
 				await shellPage.FilesystemHelpers.DeleteItemsAsync(items, settings.DeleteConfirmationPolicy, permanently, true);
-				await shellPage.ShellViewModel.ApplyFilesAndFoldersChangesAsync();
+				var shellViewModel = shellPage.GetRequiredShellViewModel();
+				await shellViewModel.ApplyFilesAndFoldersChangesAsync();
 			}
 		}
 

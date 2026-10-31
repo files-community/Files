@@ -72,24 +72,21 @@ namespace Files.App.Helpers
 			};
 		}
 
-		public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string workingDirectory, List<ListedItem>? selectedItems, CancellationToken cancellationToken)
+		public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string? workingDirectory, List<ListedItem>? selectedItems, CancellationToken cancellationToken)
 		{
-			bool IsItemSelected = selectedItems?.Count > 0;
-
 			var menuItemsList = new List<ContextMenuFlyoutItemViewModel>();
+			var filePaths = selectedItems is { Count: > 0 }
+				? selectedItems.Select(x => x.ItemPath!).ToArray()
+				: [workingDirectory ?? throw new ArgumentException("A working directory is required when no items are selected.", nameof(workingDirectory))];
 
-			var filePaths = IsItemSelected
-				? selectedItems!.Select(x => x.ItemPath).ToArray()
-				: new[] { workingDirectory };
-
-			Func<string, bool> FilterMenuItems(bool showOpenMenu)
+			Func<string?, bool> FilterMenuItems(bool showOpenMenu)
 			{
 				var knownItems = new HashSet<string>()
 				{
 					"opennew", "opencontaining", "opennewprocess",
 					"runas", "runasuser", "pintohome", "PinToStartScreen",
 					"cut", "copy", "paste", "delete", "properties", "link",
-					"Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
+					"Windows.ModernShare", "setdesktopwallpaper",
 					"eject", "rename", "explore", "openinfiles", "extract",
 					"copyaspath", "undelete", "empty", "format", "rotate90", "rotate270",
 					Win32Helper.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
@@ -100,7 +97,7 @@ namespace Files.App.Helpers
 					"{9F156763-7844-4DC4-B2B1-901F640F5155}", // Open in Terminal
 				};
 
-				bool filterMenuItemsImpl(string menuItem) => !string.IsNullOrEmpty(menuItem)
+				bool filterMenuItemsImpl(string? menuItem) => !string.IsNullOrEmpty(menuItem)
 					&& (knownItems.Contains(menuItem) || (!showOpenMenu && menuItem.Equals("open", StringComparison.OrdinalIgnoreCase)));
 
 				return filterMenuItemsImpl;
@@ -110,7 +107,7 @@ namespace Files.App.Helpers
 				shiftPressed ? PInvoke.CMF_EXTENDEDVERBS : PInvoke.CMF_NORMAL, FilterMenuItems(showOpenMenu));
 
 			if (contextMenu is not null)
-				LoadMenuFlyoutItem(menuItemsList, contextMenu, contextMenu.Items, cancellationToken, true);
+				await LoadMenuFlyoutItemAsync(menuItemsList, contextMenu, contextMenu.Items!, cancellationToken, true);
 
 			if (cancellationToken.IsCancellationRequested)
 				menuItemsList.Clear();
@@ -118,7 +115,7 @@ namespace Files.App.Helpers
 			return menuItemsList;
 		}
 
-		private static void LoadMenuFlyoutItem(
+		private static async Task LoadMenuFlyoutItemAsync(
 			List<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
 			ContextMenu contextMenu,
 			IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
@@ -143,12 +140,14 @@ namespace Files.App.Helpers
 						Text = Strings.ShowMoreOptions.GetLocalizedResource(),
 						Glyph = "\xE712",
 					};
-					LoadMenuFlyoutItem(menuLayoutSubItem.Items, contextMenu, overflowItems, cancellationToken, showIcons);
+					await LoadMenuFlyoutItemAsync(menuLayoutSubItem.Items
+						?? throw new InvalidOperationException("The shell overflow menu has not been initialized."), contextMenu, overflowItems, cancellationToken, showIcons);
 					menuItemsListLocal.Insert(0, menuLayoutSubItem);
 				}
 				else
 				{
-					LoadMenuFlyoutItem(moreItem.Items, contextMenu, overflowItems, cancellationToken, showIcons);
+					await LoadMenuFlyoutItemAsync(moreItem.Items
+						?? throw new InvalidOperationException("The shell overflow menu has not been initialized."), contextMenu, overflowItems, cancellationToken, showIcons);
 				}
 			}
 
@@ -169,7 +168,7 @@ namespace Files.App.Helpers
 				{
 					image = new BitmapImage();
 					using var ms = new MemoryStream(menuFlyoutItem.Icon);
-					image.SetSourceAsync(ms.AsRandomAccessStream()).AsTask().Wait(10);
+					await image.SetSourceAsync(ms.AsRandomAccessStream());
 				}
 
 				if (menuFlyoutItem.Type is MENU_ITEM_TYPE.MFT_SEPARATOR)
@@ -191,14 +190,14 @@ namespace Files.App.Helpers
 
 					if (menuFlyoutItem.SubItems.Any())
 					{
-						LoadMenuFlyoutItem(menuLayoutSubItem.Items, contextMenu, menuFlyoutItem.SubItems, cancellationToken, showIcons);
+						await LoadMenuFlyoutItemAsync(menuLayoutSubItem.Items, contextMenu, menuFlyoutItem.SubItems, cancellationToken, showIcons);
 					}
 					else
 					{
 						menuLayoutSubItem.LoadSubMenuAction = async () =>
 						{
 							if (await contextMenu.LoadSubMenu(menuFlyoutItem.SubItems))
-								LoadMenuFlyoutItem(menuLayoutSubItem.Items, contextMenu, menuFlyoutItem.SubItems, cancellationToken, showIcons);
+								await LoadMenuFlyoutItemAsync(menuLayoutSubItem.Items, contextMenu, menuFlyoutItem.SubItems, cancellationToken, showIcons);
 						};
 					}
 
@@ -275,17 +274,28 @@ namespace Files.App.Helpers
 			return item?.Items;
 		}
 
+		/// <summary>
+		/// Loads the shell menu items into a FastContextFlyout-based menu (sidebar, widgets): fills the
+		/// pre-added "Show more options" submenu (or appends inline per the setting) and swaps the
+		/// Open with / Send to / BitLocker placeholders.
+		/// </summary>
 		public static async Task LoadShellMenuItemsAsync(
 			string path,
-			CommandBarFlyout itemContextMenuFlyout,
+			FastContextFlyout flyout,
 			ContextMenuOptions? options = null,
+			MenuFlyoutSubItem? overflowSubMenu = null,
+			MenuFlyoutSeparator? overflowSeparator = null,
 			bool showOpenWithMenu = false,
 			bool showSendToMenu = false)
 		{
 			try
 			{
 				if (options is not null && !options.IsLocationItem)
+				{
+					if (overflowSubMenu is not null)
+						flyout.RemoveIfEmpty(overflowSubMenu, overflowSeparator);
 					return;
+				}
 
 				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 				var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(
@@ -295,174 +305,43 @@ namespace Files.App.Helpers
 					showOpenMenu: false,
 					default);
 
-				var openWithItem = showOpenWithMenu ? shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.CommandString == "openas").ToList().FirstOrDefault() : null;
+				// Open with / Send to / BitLocker get their own main-menu entries; everything else is overflow.
+				var openWithItem = showOpenWithMenu ? shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" }) : null;
 				if (openWithItem is not null)
 					shellMenuItems.Remove(openWithItem);
 
-				var sendToItem = shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.CommandString == "sendto").ToList().FirstOrDefault();
-				if (sendToItem is not null &&
-					(showSendToMenu || !UserSettingsService.GeneralSettingsService.ShowSendToMenu))
+				var sendToItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
+				if (sendToItem is not null && (showSendToMenu || !UserSettingsService.GeneralSettingsService.ShowSendToMenu))
 					shellMenuItems.Remove(sendToItem);
-
-				var turnOnBitLocker = shellMenuItems.FirstOrDefault(x =>
-					x.Tag is Win32ContextMenuItem menuItem &&
-					(menuItem.CommandString?.StartsWith("encrypt-bde") ?? false));
-
-				if (turnOnBitLocker is not null)
-					shellMenuItems.Remove(turnOnBitLocker);
-
-				ContentPageContextFlyoutFactory.SwapPlaceholderWithShellOption(
-					itemContextMenuFlyout,
-					"TurnOnBitLockerPlaceholder",
-					turnOnBitLocker,
-					itemContextMenuFlyout.SecondaryCommands.Count - 2
-				);
-
-				var manageBitLocker = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "manage-bde" });
-				if (manageBitLocker is not null)
-					shellMenuItems.Remove(manageBitLocker);
-
-				var lastItem = shellMenuItems.LastOrDefault();
-				while (lastItem?.ItemType is ContextMenuFlyoutItemType.Separator)
-				{
-					shellMenuItems.Remove(lastItem);
-					lastItem = shellMenuItems.LastOrDefault();
-				}
-
-				ContentPageContextFlyoutFactory.SwapPlaceholderWithShellOption(
-					itemContextMenuFlyout,
-					"ManageBitLockerPlaceholder",
-					manageBitLocker,
-					itemContextMenuFlyout.SecondaryCommands.Count - 2
-				);
-
 				sendToItem = showSendToMenu && UserSettingsService.GeneralSettingsService.ShowSendToMenu ? sendToItem : null;
 
-				if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
+				// BitLocker: replace the placeholders with whichever entries the shell offers (drives)
+				flyout.ApplyBitLockerModels(shellMenuItems, overflowSubMenu, overflowSeparator);
+
+				// The rest fill the pre-added "Show more options", or render inline per the setting
+				flyout.AddShellModels(shellMenuItems, shiftPressed: false, overflowSubMenu, overflowSeparator, aboveExisting: false);
+
+				// Open with / Send to: the placeholders were converted to their submenu form before the menu was
+				// shown (stable heights); fill their contents now, or drop them if the shell has no such entries.
+				void FillOrRemove(MenuFlyoutSubItem? subMenu, ContextMenuFlyoutItemViewModel? item, Func<List<ContextMenuFlyoutItemViewModel>, List<ContextMenuFlyoutItemViewModel>?> getter)
 				{
-					var (_, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(shellMenuItems);
-					if (secondaryElements.Any())
-					{
-						var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(MainWindow.Instance);
-						var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
-
-						var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
-						if (itemsControl is not null)
-						{
-							var maxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin;
-							secondaryElements.OfType<FrameworkElement>()
-											 .ForEach(x => x.MaxWidth = maxWidth); // Set items max width to current menu width (#5555)
-						}
-
-						secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-					}
-					else if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarSeparator appBarSeparator && (appBarSeparator.Tag as string) == "OverflowSeparator") is AppBarSeparator overflowSeparator)
-					{
-						overflowSeparator.Visibility = Visibility.Collapsed;
-					}
-
-					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is AppBarButton overflowItem)
-						overflowItem.Visibility = Visibility.Collapsed;
-				}
-				else
-				{
-					var overflowItems = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(shellMenuItems);
-					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is not AppBarButton overflowItem
-						|| itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarSeparator appBarSeparator && (appBarSeparator.Tag as string) == "OverflowSeparator") is not AppBarSeparator overflowSeparator)
+					if (subMenu is null)
 						return;
 
-					var flyoutItems = (overflowItem.Flyout as MenuFlyout)?.Items;
-					if (flyoutItems is not null)
-						overflowItems?.ForEach(i => flyoutItems.Add(i));
-					overflowItem.Visibility = overflowItems?.Any() ?? false ? Visibility.Visible : Visibility.Collapsed;
-					overflowSeparator.Visibility = overflowItems?.Any() ?? false ? Visibility.Visible : Visibility.Collapsed;
-
-					overflowItem.Label = Strings.ShowMoreOptions.GetLocalizedResource();
-					overflowItem.IsEnabled = true;
+					if (item?.LoadSubMenuAction is not null)
+						FastContextFlyout.PopulateShellSubMenu(subMenu, item, getter, () => flyout.Items.Remove(subMenu));
+					else
+						flyout.Items.Remove(subMenu);
 				}
 
-				// Add items to openwith dropdown
-				if (openWithItem?.LoadSubMenuAction is not null)
-				{
-					await openWithItem.LoadSubMenuAction();
+				FillOrRemove(flyout.ConvertPlaceholderToSubMenu("OpenWithPlaceholder", Strings.OpenWith.GetLocalizedResource(), "App.ThemedIcons.OpenWith"), openWithItem, GetOpenWithItems);
+				FillOrRemove(flyout.ConvertPlaceholderToSubMenu("SendToPlaceholder", Strings.SendTo.GetLocalizedResource(), null), sendToItem, GetSendToItems);
 
-					openWithItem.ThemedIconModel = new ThemedIconModel()
-					{
-						ThemedIconStyle = "App.ThemedIcons.OpenWith",
-					};
-					var (_, openWithItems) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel([openWithItem]);
-					var index = 0;
-					var placeholder = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => Equals((x as AppBarButton)?.Tag, "OpenWithPlaceholder")) as AppBarButton;
-					if (placeholder is not null)
-					{
-						placeholder.Visibility = Visibility.Collapsed;
-						index = itemContextMenuFlyout.SecondaryCommands.IndexOf(placeholder);
-					}
-					itemContextMenuFlyout.SecondaryCommands.Insert(index, openWithItems.FirstOrDefault());
-				}
-
-				// Add items to sendto dropdown
-				if (sendToItem?.LoadSubMenuAction is not null)
-				{
-					await sendToItem.LoadSubMenuAction();
-
-					var (_, sendToItems) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel([sendToItem]);
-					var index = 1;
-					var placeholder = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => Equals((x as AppBarButton)?.Tag, "SendToPlaceholder")) as AppBarButton;
-					if (placeholder is not null)
-					{
-						placeholder.Visibility = Visibility.Collapsed;
-						index = itemContextMenuFlyout.SecondaryCommands.IndexOf(placeholder);
-					}
-					itemContextMenuFlyout.SecondaryCommands.Insert(index, sendToItems.FirstOrDefault());
-				}
-
-				// Add items to shell submenu
-				var itemsWithSubMenu = shellMenuItems.Where(x => x.LoadSubMenuAction is not null);
-				var subMenuTasks = itemsWithSubMenu.Select(async item =>
-				{
-					await item.LoadSubMenuAction();
-					if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
-					{
-						AddItemsToMainMenu(itemContextMenuFlyout.SecondaryCommands, item);
-					}
-					else if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton
-								 && appBarButton.Tag as string == "ItemOverflow") is AppBarButton overflowItem)
-					{
-						AddItemsToOverflowMenu(overflowItem, item);
-					}
-				});
-
-				await Task.WhenAll(subMenuTasks);
+				flyout.FinalizePrimaryRowPosition();
 			}
-			catch { }
-		}
-
-		public static void AddItemsToMainMenu(IEnumerable<ICommandBarElement> mainMenu, ContextMenuFlyoutItemViewModel viewModel)
-		{
-			var appBarButton = mainMenu.FirstOrDefault(x => (x as AppBarButton)?.Tag == viewModel.Tag) as AppBarButton;
-
-			if (appBarButton is not null)
+			catch (Exception ex)
 			{
-				var ctxFlyout = new MenuFlyout();
-				ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(viewModel.Items)?.ForEach(i => ctxFlyout.Items.Add(i));
-				appBarButton.Flyout = ctxFlyout;
-				appBarButton.Visibility = Visibility.Collapsed;
-				appBarButton.Visibility = Visibility.Visible;
-			}
-		}
-
-		public static void AddItemsToOverflowMenu(AppBarButton? overflowItem, ContextMenuFlyoutItemViewModel viewModel)
-		{
-			if (overflowItem?.Flyout is MenuFlyout flyout)
-			{
-				var flyoutSubItem = flyout.Items.FirstOrDefault(x => x.Tag == viewModel.Tag) as MenuFlyoutSubItem;
-				if (flyoutSubItem is not null)
-				{
-					viewModel.Items.ForEach(i => flyoutSubItem.Items.Add(ContextFlyoutModelToElementHelper.GetMenuItem(i)));
-					flyout.Items[flyout.Items.IndexOf(flyoutSubItem) + 1].Visibility = Visibility.Collapsed;
-					flyoutSubItem.Visibility = Visibility.Visible;
-				}
+				Debug.WriteLine(ex);
 			}
 		}
 	}

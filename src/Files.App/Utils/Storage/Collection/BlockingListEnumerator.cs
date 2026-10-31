@@ -3,13 +3,14 @@
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class BlockingListEnumerator<T> : IEnumerator<T>
+	[WinRT.GeneratedWinRTExposedType]
+	public sealed partial class BlockingListEnumerator<T> : IEnumerator<T>
 	{
 		private readonly IList<T> m_Inner;
 
 		private readonly object m_Lock;
 
-		private T m_Current;
+		private T m_Current = default!;
 
 		private int m_Pos;
 
@@ -22,7 +23,7 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		object IEnumerator.Current
+		object? IEnumerator.Current
 			=> Current;
 
 		public BlockingListEnumerator(IList<T> inner, object @lock)

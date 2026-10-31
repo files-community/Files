@@ -1,5 +1,5 @@
 // Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using CommunityToolkit.WinUI.Controls;
 using Files.App.Controls;
@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
+using WinRT;
 
 namespace Files.App.Views
 {
@@ -19,7 +20,9 @@ namespace Files.App.Views
 
 		public SettingsPageViewModel ViewModel { get; } = new();
 
-		private IShellPage AppInstance { get; set; } = null!;
+		private IShellPage? appInstance;
+		private IShellPage AppInstance
+			=> appInstance ?? throw new InvalidOperationException("The settings page has not been initialized.");
 
 		public SettingsPage()
 		{
@@ -36,7 +39,8 @@ namespace Files.App.Views
 			if (e.Parameter is not NavigationArguments navArgs)
 				return;
 
-			AppInstance = navArgs.AssociatedTabInstance!;
+			appInstance = navArgs.AssociatedTabInstance!;
+			var shellViewModel = AppInstance.GetRequiredShellViewModel();
 
 			AppInstance.InstanceViewModel.IsPageTypeNotHome = true;
 			AppInstance.InstanceViewModel.IsPageTypeSearchResults = false;
@@ -55,8 +59,8 @@ namespace Files.App.Views
 			AppInstance.ToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
 			AppInstance.ToolbarViewModel.CanNavigateToParent = false;
 
-			await AppInstance.ShellViewModel.SetWorkingDirectoryAsync("Settings");
-			AppInstance.ShellViewModel.CheckForBackgroundImage();
+			await shellViewModel.SetWorkingDirectoryAsync("Settings");
+			shellViewModel.CheckForBackgroundImage();
 
 			AppInstance.SlimContentPage?.StatusBarViewModel.UpdateGitInfo(false, string.Empty, null);
 			AppInstance.SlimContentPage?.InfoPaneViewModel.UpdateSelectedItemPreviewAsync();
@@ -141,6 +145,7 @@ namespace Files.App.Views
 			SettingsContentFrame.Navigate(pageType, null, new SuppressNavigationTransitionInfo());
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void Grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			if (sender is FrameworkElement element)
@@ -167,6 +172,7 @@ namespace Files.App.Views
 				await JumpToSearchResultAsync(result);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		public async Task JumpToSearchResultAsync(SettingsSearchResult result)
 		{
 			ViewModel.ClearSearch();

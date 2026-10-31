@@ -1,8 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using DiscUtils.Udf;
-using Microsoft.Management.Infrastructure;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;
@@ -19,39 +17,27 @@ namespace Files.App.Utils.Storage
 			await ContextMenu.InvokeVerb("eject", path);
 		}
 
-		public static string GetVolumeId(string driveName)
-		{
-			string name = driveName.ToUpperInvariant();
-			string query = $"SELECT DeviceID FROM Win32_Volume WHERE DriveLetter = '{name}'";
-
-			using var cimSession = CimSession.Create(null);
-			foreach (var item in cimSession.QueryInstances(@"root\cimv2", "WQL", query)) // max 1 result because DriveLetter is unique.
-				return (string?)item.CimInstanceProperties["DeviceID"]?.Value ?? string.Empty;
-
-			return string.Empty;
-		}
-
 		public static async Task<bool> CheckEmptyDrive(string? drivePath)
 		{
 			if (string.IsNullOrWhiteSpace(drivePath))
 				return false;
 			var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
-			var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
-			if (matchingDrive is null || matchingDrive.Type != Data.Items.DriveType.CDRom || matchingDrive.MaxSpace != ByteSizeLib.ByteSize.FromBytes(0))
+			var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => drivePath.StartsWith(x.Path!, StringComparison.Ordinal));
+			if (matchingDrive is null || matchingDrive.Type != DriveType.CDRom || matchingDrive.MaxSpace != ByteSizeLib.ByteSize.FromBytes(0))
 				return false;
 
 			var ejectButton = await DialogDisplayHelper.ShowDialogAsync(
-				Strings.InsertDiscDialog_Title.GetLocalizedResource(),
-				string.Format(Strings.InsertDiscDialog_Text.GetLocalizedResource(), matchingDrive.Path),
+				Strings.InsertDiscDialogTitle.GetLocalizedResource(),
+				string.Format(Strings.InsertDiscDialogText.GetLocalizedResource(), matchingDrive.Path),
 				Strings.InsertDiscDialog_OpenDriveButton.GetLocalizedResource(),
 				Strings.Close.GetLocalizedResource());
 			if (ejectButton)
-				EjectDeviceAsync(matchingDrive.Path);
+				EjectDeviceAsync(matchingDrive.Path!);
 			return true;
 		}
 
-		public static async Task<StorageFolderWithPath> GetRootFromPathAsync(string devicePath)
+		public static async Task<StorageFolderWithPath?> GetRootFromPathAsync(string? devicePath)
 		{
 			if (!SystemIO.Path.IsPathRooted(devicePath))
 				return null;
@@ -59,10 +45,13 @@ namespace Files.App.Utils.Storage
 			var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 			var rootPath = SystemIO.Path.GetPathRoot(devicePath);
+			if (rootPath is null)
+				return null;
+
 			if (devicePath.StartsWith(@"\\?\", StringComparison.Ordinal)) // USB device
 			{
 				// Check among already discovered drives
-				StorageFolder matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
+				StorageFolder? matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
 					Helpers.PathNormalization.NormalizePath(x.Path) == Helpers.PathNormalization.NormalizePath(rootPath))?.Root;
 				if (matchingDrive is null)
 				{
@@ -94,7 +83,7 @@ namespace Files.App.Utils.Storage
 			// Network share
 			else if (
 						  (devicePath.StartsWith(@"\\", StringComparison.Ordinal) ||
-							 GetDriveType(new SystemIO.DriveInfo(devicePath)) is DriveType.Network) &&
+							 new SystemIO.DriveInfo(devicePath).DriveType is SystemIO.DriveType.Network) &&
 						  !devicePath.StartsWith(@"\\SHELL\", StringComparison.Ordinal)
 					)
 			{
@@ -106,69 +95,52 @@ namespace Files.App.Utils.Storage
 			return null;
 		}
 
-		public static Data.Items.DriveType GetDriveType(System.IO.DriveInfo drive)
+		public static bool IsMtpPath(string path)
 		{
-			if (drive.DriveType is System.IO.DriveType.Unknown)
-			{
-				string path = PathNormalization.NormalizePath(drive.Name);
+			return path.StartsWith(@"\\?\", StringComparison.Ordinal);
+		}
 
-				if (path is "A:" or "B:")
-					return Data.Items.DriveType.FloppyDisk;
+		public static bool IsNetworkPath(string path)
+		{
+			if (IsMtpPath(path))
+				return false;
+
+			try
+			{
+				return path.StartsWith(@"\\", StringComparison.Ordinal) ||
+					new SystemIO.DriveInfo(path).DriveType is SystemIO.DriveType.Network;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
+		// Per-item network classification matching enumeration rules; the drive-type probe runs off the UI thread as it can block on an unreachable drive.
+		public static Task<bool> IsNetworkStorageItemAsync(string path)
+		{
+			if (path.StartsWith(@"\\", StringComparison.Ordinal))
+			{
+				// MTP, WSL and shell-namespace paths aren't network shares
+				return Task.FromResult(!IsMtpPath(path)
+					&& !path.StartsWith(@"\\SHELL\", StringComparison.Ordinal)
+					&& !path.StartsWith(@"\\wsl$\", StringComparison.OrdinalIgnoreCase)
+					&& !path.StartsWith(@"\\wsl.localhost\", StringComparison.OrdinalIgnoreCase));
 			}
 
-			return drive.DriveType switch
+			var root = SystemIO.Path.GetPathRoot(path);
+			if (string.IsNullOrEmpty(root))
+				return Task.FromResult(false);
+
+			return Task.Run(() =>
 			{
-				SystemIO.DriveType.CDRom => Data.Items.DriveType.CDRom,
-				SystemIO.DriveType.Fixed => Data.Items.DriveType.Fixed,
-				SystemIO.DriveType.Network => Data.Items.DriveType.Network,
-				SystemIO.DriveType.NoRootDirectory => Data.Items.DriveType.NoRootDirectory,
-				SystemIO.DriveType.Ram => Data.Items.DriveType.Ram,
-				SystemIO.DriveType.Removable => Data.Items.DriveType.Removable,
-				_ => Data.Items.DriveType.Unknown,
-			};
+				try { return new SystemIO.DriveInfo(root).DriveType == SystemIO.DriveType.Network; }
+				catch { return false; }
+			});
 		}
 
-		public static unsafe string GetExtendedDriveLabel(SystemIO.DriveInfo drive)
-		{
-			return SafetyExtensions.IgnoreExceptions(() =>
-			{
-				if (drive.DriveType is not SystemIO.DriveType.CDRom || drive.DriveFormat is not "UDF")
-					return drive.VolumeLabel;
-
-				return SafetyExtensions.IgnoreExceptions(() =>
-				{
-					string dosDevicePath = "";
-
-					fixed (char* cDeviceName = drive.Name)
-					{
-						var cch = PInvoke.QueryDosDevice(cDeviceName, null, 0u);
-
-						fixed (char* cTargetPath = new char[cch])
-						{
-							PWSTR pszTargetPath = new(cTargetPath);
-							PInvoke.QueryDosDevice(cDeviceName, pszTargetPath, 0u);
-							dosDevicePath = pszTargetPath.ToString();
-						}
-					}
-
-					if (string.IsNullOrEmpty(dosDevicePath))
-						return drive.VolumeLabel;
-
-					using var driveStream = new SystemIO.FileStream(
-						dosDevicePath.Replace(@"\Device\", @"\\.\"),
-						SystemIO.FileMode.Open,
-						SystemIO.FileAccess.Read);
-
-					using var udf = new UdfReader(driveStream);
-
-					return udf.VolumeLabel;
-				}) ?? drive.VolumeLabel;
-
-			}) ?? "";
-		}
-
-		public static async Task<StorageItemThumbnail> GetThumbnailAsync(StorageFolder folder)
-			=> (StorageItemThumbnail)await FilesystemTasks.Wrap(()
+		public static async Task<StorageItemThumbnail?> GetThumbnailAsync(StorageFolder folder)
+			=> await FilesystemTasks.Wrap(()
 				=> folder.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask()
 			);
 	}

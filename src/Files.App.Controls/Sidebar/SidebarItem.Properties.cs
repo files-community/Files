@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -13,7 +14,14 @@ namespace Files.App.Controls
 			set { SetValue(OwnerProperty, value); }
 		}
 		public static readonly DependencyProperty OwnerProperty =
-			DependencyProperty.Register(nameof(Owner), typeof(SidebarView), typeof(SidebarItem), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(Owner), typeof(SidebarView), typeof(SidebarItem), new PropertyMetadata(null, OnOwnerChanged));
+
+		// Owner is assigned by the hosting ItemsRepeater's ElementPrepared (top-level rows) or by the parent row (flyout children) — recycled containers can carry a stale Owner across realizations, so the chevron-column visual state must re-apply whenever Owner flips.
+		private static void OnOwnerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (d is SidebarItem item && item.Owner is { } owner)
+				VisualStateManager.GoToState(item, owner.SupportsExpansion ? "OwnerSupportsExpansion" : "OwnerDoesNotSupportExpansion", false);
+		}
 
 		public bool IsSelected
 		{
@@ -31,6 +39,37 @@ namespace Files.App.Controls
 		public static readonly DependencyProperty IsExpandedProperty =
 			DependencyProperty.Register(nameof(IsExpanded), typeof(bool), typeof(SidebarItem), new PropertyMetadata(true, OnPropertyChanged));
 
+		public int NestingLevel
+		{
+			get { return (int)GetValue(NestingLevelProperty); }
+			set { SetValue(NestingLevelProperty, value); }
+		}
+		public static readonly DependencyProperty NestingLevelProperty =
+			DependencyProperty.Register(nameof(NestingLevel), typeof(int), typeof(SidebarItem), new PropertyMetadata(0, OnNestingLevelChanged));
+
+		public double IndentWidth
+		{
+			get { return (double)GetValue(IndentWidthProperty); }
+			set { SetValue(IndentWidthProperty, value); }
+		}
+		public static readonly DependencyProperty IndentWidthProperty =
+			DependencyProperty.Register(nameof(IndentWidth), typeof(double), typeof(SidebarItem), new PropertyMetadata(0d));
+
+		private static void OnNestingLevelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (d is SidebarItem item && e.NewValue is int level)
+				item.IndentWidth = level * 16d;
+		}
+
+		// Dims icon + text + chevron + decorator only; the selection indicator and pointer-over fill stay at full opacity so a selected hidden row still reads as selected.
+		public double ContentOpacity
+		{
+			get { return (double)GetValue(ContentOpacityProperty); }
+			set { SetValue(ContentOpacityProperty, value); }
+		}
+		public static readonly DependencyProperty ContentOpacityProperty =
+			DependencyProperty.Register(nameof(ContentOpacity), typeof(double), typeof(SidebarItem), new PropertyMetadata(1.0));
+
 		public bool IsInFlyout
 		{
 			get { return (bool)GetValue(IsInFlyoutProperty); }
@@ -39,22 +78,21 @@ namespace Files.App.Controls
 		public static readonly DependencyProperty IsInFlyoutProperty =
 			DependencyProperty.Register(nameof(IsInFlyout), typeof(bool), typeof(SidebarItem), new PropertyMetadata(false));
 
-		public double ChildrenPresenterHeight
-		{
-			get { return (double)GetValue(ChildrenPresenterHeightProperty); }
-			set { SetValue(ChildrenPresenterHeightProperty, value); }
-		}
-		// Using 30 as a default in case something goes wrong
-		public static readonly DependencyProperty ChildrenPresenterHeightProperty =
-			DependencyProperty.Register(nameof(ChildrenPresenterHeight), typeof(double), typeof(SidebarItem), new PropertyMetadata(30d));
-
 		public ISidebarItemModel? Item
 		{
 			get { return (ISidebarItemModel)GetValue(ItemProperty); }
 			set { SetValue(ItemProperty, value); }
 		}
 		public static readonly DependencyProperty ItemProperty =
-			DependencyProperty.Register(nameof(Item), typeof(ISidebarItemModel), typeof(SidebarItem), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(Item), typeof(ISidebarItemModel), typeof(SidebarItem), new PropertyMetadata(null, OnPropertyChanged));
+
+		public bool UseItemPresentation
+		{
+			get { return (bool)GetValue(UseItemPresentationProperty); }
+			set { SetValue(UseItemPresentationProperty, value); }
+		}
+		public static readonly DependencyProperty UseItemPresentationProperty =
+			DependencyProperty.Register(nameof(UseItemPresentation), typeof(bool), typeof(SidebarItem), new PropertyMetadata(false, OnPropertyChanged));
 
 		public bool UseReorderDrop
 		{
@@ -66,6 +104,7 @@ namespace Files.App.Controls
 
 		public FrameworkElement? Icon
 		{
+			[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 			get { return (FrameworkElement?)GetValue(IconProperty); }
 			set { SetValue(IconProperty, value); }
 		}
@@ -74,6 +113,7 @@ namespace Files.App.Controls
 
 		public FrameworkElement? Decorator
 		{
+			[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 			get { return (FrameworkElement?)GetValue(DecoratorProperty); }
 			set { SetValue(DecoratorProperty, value); }
 		}
@@ -94,17 +134,6 @@ namespace Files.App.Controls
 		[GeneratedDependencyProperty]
 		public partial object? ToolTip { get; set; }
 
-		public static void SetTemplateRoot(DependencyObject target, FrameworkElement value)
-		{
-			target.SetValue(TemplateRootProperty, value);
-		}
-		public static FrameworkElement GetTemplateRoot(DependencyObject target)
-		{
-			return (FrameworkElement)target.GetValue(TemplateRootProperty);
-		}
-		public static readonly DependencyProperty TemplateRootProperty =
-			DependencyProperty.Register("TemplateRoot", typeof(FrameworkElement), typeof(SidebarItem), new PropertyMetadata(null));
-
 		public static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{
 			if (sender is not SidebarItem item) return;
@@ -118,11 +147,17 @@ namespace Files.App.Controls
 			}
 			else if (e.Property == IsExpandedProperty)
 			{
+				if (item.UseItemPresentation && item.Item is { } model && model.IsExpanded != item.IsExpanded)
+					model.IsExpanded = item.IsExpanded;
 				item.UpdateExpansionState();
 			}
 			else if (e.Property == ItemProperty)
 			{
 				item.HandleItemChange();
+			}
+			else if (e.Property == UseItemPresentationProperty && item.UseItemPresentation)
+			{
+				item.UpdateItemPresentation();
 			}
 			else
 			{

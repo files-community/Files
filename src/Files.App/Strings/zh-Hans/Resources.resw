@@ -180,26 +180,26 @@
   <data name="Accessed" xml:space="preserve">
     <value>访问日期：</value>
   </data>
-  <data name="RecentItemClearAll.Text" xml:space="preserve">
+  <data name="RecentItemClearAllText" xml:space="preserve">
     <value>清空所有项目</value>
   </data>
-  <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarVisiblePathPlaceholderText" xml:space="preserve">
     <value>输入要定位到的路径，或键入"&gt;"以打开命令面板</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>搜索</value>
   </data>
   <data name="SearchSettings" xml:space="preserve">
-    <value>Search settings...</value>
+    <value>搜索设置……</value>
   </data>
   <data name="NoSearchResults" xml:space="preserve">
-    <value>No settings match your search.</value>
+    <value>没有匹配您搜索的设置。</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>以前访问过的文件和文件夹将显示在此处</value>
   </data>
-  <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>移除此项</value>
+  <data name="RecentItemRemoveText" xml:space="preserve">
+    <value>删除此项目</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>GitHub 仓库</value>
@@ -217,16 +217,16 @@
     <value>主题</value>
   </data>
   <data name="Font" xml:space="preserve">
-    <value>Font</value>
+    <value>字体</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>显示已知文件类型的扩展名</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>显示隐藏的文件或文件夹</value>
+    <value>显示隐藏的文件和文件夹</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>显示以英文句点开头的文件</value>
+    <value>显示以英文句点 (.) 开头的文件</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>外观</value>
@@ -238,22 +238,22 @@
     <value>高级选项</value>
   </data>
   <data name="CacheThumbnails" xml:space="preserve">
-    <value>Cache thumbnails</value>
+    <value>缓存缩略图</value>
   </data>
   <data name="CacheSizeLimitDescription" xml:space="preserve">
-    <value>Maximum disk space to use for thumbnail cache (100-5000 MiB).</value>
+    <value>用于缩略图缓存的最大磁盘空间(100-5000 MiB)。</value>
   </data>
   <data name="CacheSizeLimit" xml:space="preserve">
-    <value>Cache size limit</value>
+    <value>缓存大小限制</value>
   </data>
   <data name="ClearCachedThumbnails" xml:space="preserve">
-    <value>Clear cached thumbnails to free up space</value>
+    <value>清除缓存的缩略图以释放空间</value>
   </data>
   <data name="CurrentCacheSize" xml:space="preserve">
-    <value>Current cache size: </value>
+    <value>当前缓存大小： </value>
   </data>
   <data name="ClearCache" xml:space="preserve">
-    <value>Clear cache</value>
+    <value>清除缓存</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>从离开的位置继续</value>
@@ -312,13 +312,13 @@
   <data name="PinFolderToSidebar" xml:space="preserve">
     <value>固定到侧边栏</value>
   </data>
-  <data name="WelcomeDialog.Title" xml:space="preserve">
+  <data name="WelcomeDialogTitle" xml:space="preserve">
     <value>欢迎使用 Files！</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>授予权限</value>
   </data>
-  <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
+  <data name="WelcomeDialogTextBlockText" xml:space="preserve">
     <value>使用此应用需授予我们访问文件系统的权限。你可在稍后打开的设置页面中授权。完成设置后，需重启应用程序。 </value>
   </data>
   <data name="Display" xml:space="preserve">
@@ -338,6 +338,12 @@
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>系统主题</value>
+  </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>浅色主题</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>深色主题</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>使用系统设置</value>
@@ -384,16 +390,16 @@
   <data name="SetAsAppBackground" xml:space="preserve">
     <value>设置为应用程序背景</value>
   </data>
-  <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
-    <value>该项目无法删除</value>
+  <data name="AccessDeniedDeleteDialogText" xml:space="preserve">
+    <value>无法删除此项目</value>
   </data>
-  <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
-    <value>要打开此项，请插入所需的驱动器。</value>
+  <data name="DriveUnpluggedDialogText" xml:space="preserve">
+    <value>请插入访问此项目所需的驱动器。</value>
   </data>
-  <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
+  <data name="DriveUnpluggedDialogTitle" xml:space="preserve">
     <value>驱动器已弹出</value>
   </data>
-  <data name="FileNotFoundDialog.Text" xml:space="preserve">
+  <data name="FileNotFoundDialogText" xml:space="preserve">
     <value>要访问的文件可能已被移动或删除。</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
@@ -402,23 +408,29 @@
   <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>要访问的文件可能已被移动或删除。</value>
   </data>
-  <data name="FileNotFoundDialog.Title" xml:space="preserve">
-    <value>找不到文件</value>
+  <data name="FileNotFoundDialogTitle" xml:space="preserve">
+    <value>未找到文件</value>
   </data>
-  <data name="FolderNotFoundDialog.Text" xml:space="preserve">
+  <data name="FolderNotFoundDialogText" xml:space="preserve">
     <value>要访问的文件夹可能已被移动或删除。</value>
   </data>
-  <data name="FolderNotFoundDialog.Title" xml:space="preserve">
+  <data name="FolderNotFoundDialogTitle" xml:space="preserve">
     <value>此文件夹是否已被删除？</value>
   </data>
-  <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>此文件正被 {0} 使用</value>
+  <data name="FileInUseByDialogText" xml:space="preserve">
+    <value>{0}正在使用您尝试访问的文件</value>
   </data>
-  <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>此文件正被另一程序使用</value>
+  <data name="FileInUseDialogText" xml:space="preserve">
+    <value>另一程序正在使用您尝试访问的文件</value>
   </data>
-  <data name="FileInUseDialog.Title" xml:space="preserve">
+  <data name="FileInUseDialogTitle" xml:space="preserve">
     <value>文件正在使用中</value>
+  </data>
+  <data name="CannotRunFileDialogTitle" xml:space="preserve">
+    <value>此应用程序无法在您的电脑上运行</value>
+  </data>
+  <data name="CannotRunFileDialogText" xml:space="preserve">
+    <value>若要查找您的 PC版本，请与软件发行商联系。</value>
   </data>
   <data name="Layout" xml:space="preserve">
     <value>布局</value>
@@ -524,7 +536,7 @@
   <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
     <value>{0, number} {0, plural, other {个文件}}, {1, number} {1, plural, other {个文件夹}}, 来自 {2, number} {2, plural, other {个位置}}</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUserText" xml:space="preserve">
     <value>以其他用户身份运行</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
@@ -635,22 +647,22 @@
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
     <value>正在共享 {0} {1}</value>
   </data>
-  <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
-    <value>要重命名的项不存在。请确认需重命名的项目位置是否正确。</value>
+  <data name="RenameErrorItemDeletedText" xml:space="preserve">
+    <value>您试图重命名的项目已不存在。请确认要重命名的项目的位置。</value>
   </data>
-  <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
-    <value>该项不存在</value>
+  <data name="RenameErrorItemDeletedTitle" xml:space="preserve">
+    <value>该项目不存在</value>
   </data>
-  <data name="RenameError.NameInvalid.Text" xml:space="preserve">
-    <value>指定的名称无效。请检查目标项目名称并重试。</value>
+  <data name="RenameErrorNameInvalidText" xml:space="preserve">
+    <value>指定的名称无效。请检查所需的项目名称并重试。</value>
   </data>
-  <data name="RenameError.NameInvalid.Title" xml:space="preserve">
-    <value>项目名称错误</value>
+  <data name="RenameErrorNameInvalidTitle" xml:space="preserve">
+    <value>无效的项目名称</value>
   </data>
-  <data name="RenameError.TooLong.Text" xml:space="preserve">
-    <value>指定的名称长度超出最大限制。请检查名称并重试。</value>
+  <data name="RenameErrorTooLongText" xml:space="preserve">
+    <value>指定项目的名称长度超出最大限制。请检查名称并重试。</value>
   </data>
-  <data name="RenameError.TooLong.Title" xml:space="preserve">
+  <data name="RenameErrorTooLongTitle" xml:space="preserve">
     <value>项目名称过长</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
@@ -662,13 +674,13 @@
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>在 GitHub 上赞助我们</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
-    <value>无法创建此项</value>
+  <data name="AccessDeniedCreateDialogText" xml:space="preserve">
+    <value>无法创建此项目</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>拒绝访问</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAsText" xml:space="preserve">
     <value>设为</value>
   </data>
   <data name="Cancel" xml:space="preserve">
@@ -684,7 +696,7 @@
     <value>文件</value>
   </data>
   <data name="Files" xml:space="preserve">
-    <value>Files</value>
+    <value>文件</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>创建空文件</value>
@@ -693,7 +705,7 @@
     <value>文件夹</value>
   </data>
   <data name="Folders" xml:space="preserve">
-    <value>Folders</value>
+    <value>文件夹</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>创建空文件夹</value>
@@ -710,10 +722,10 @@
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>删除项目时显示确认对话框</value>
   </data>
-  <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
+  <data name="PropertySaveErrorMessageText" xml:space="preserve">
     <value>保存某些属性时出现错误。</value>
   </data>
-  <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
+  <data name="PropertySaveErrorDialogTitle" xml:space="preserve">
     <value>错误</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
@@ -1080,7 +1092,7 @@
     <value>以双窗格模式打开标签页</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>显示“在新面板中打开”</value>
+    <value>显示“在新面板中打开”选项</value>
   </data>
   <data name="ShowCopyPath" xml:space="preserve">
     <value>显示“复制路径”选项</value>
@@ -1096,6 +1108,12 @@
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
     <value>在新面板中打开</value>
+  </data>
+  <data name="OpenInOtherPane" xml:space="preserve">
+    <value>在其他窗格中打开</value>
+  </data>
+  <data name="OpenCurrentFolderInOtherPane" xml:space="preserve">
+    <value>在其他窗格中打开当前文件夹</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>文件和文件夹</value>
@@ -1196,10 +1214,13 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>未计算</value>
   </data>
+  <data name="ViewSize" xml:space="preserve">
+    <value>查看大小</value>
+  </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>未知</value>
   </data>
-  <data name="RenameFileDialog.Text" xml:space="preserve">
+  <data name="RenameFileDialogText" xml:space="preserve">
     <value>如果改变文件扩展名，可能会导致文件不可用。确定要更改吗？</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
@@ -1238,7 +1259,7 @@
   <data name="MoreOptions" xml:space="preserve">
     <value>更多选项...</value>
   </data>
-  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItemText" xml:space="preserve">
     <value>映射网络驱动器</value>
   </data>
   <data name="Pinned" xml:space="preserve">
@@ -1271,10 +1292,10 @@
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>列 (Ctrl+Shift+6)</value>
   </data>
-  <data name="PinItemToStart.Text" xml:space="preserve">
+  <data name="PinItemToStartText" xml:space="preserve">
     <value>固定到开始菜单</value>
   </data>
-  <data name="UnpinItemFromStart.Text" xml:space="preserve">
+  <data name="UnpinItemFromStartText" xml:space="preserve">
     <value>从开始菜单取消固定</value>
   </data>
   <data name="Library" xml:space="preserve">
@@ -1362,7 +1383,7 @@
     <value>用选中的项目创建文件夹</value>
   </data>
   <data name="CreateShortcutWithSelection" xml:space="preserve">
-    <value>Create shortcuts with selection</value>
+    <value>创建所选项目的快捷方式</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>类型：</value>
@@ -1372,6 +1393,9 @@
   </data>
   <data name="OpenWith" xml:space="preserve">
     <value>打开方式</value>
+  </data>
+  <data name="ChooseAnotherApp" xml:space="preserve">
+    <value>选择另一个应用程序</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>文件图标</value>
@@ -1517,13 +1541,13 @@
   <data name="SecurityUnknownAccount" xml:space="preserve">
     <value>未知帐户</value>
   </data>
-  <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
+  <data name="SecurityCannotReadPropertiesText" xml:space="preserve">
     <value>你无权查看此对象的安全属性。 单击“高级权限”继续。</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>所有者：</value>
   </data>
-  <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
+  <data name="SecurityUnknownOwnerTextText" xml:space="preserve">
     <value>未知所有者</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
@@ -1535,11 +1559,11 @@
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
     <value>解压缩到 {0}\</value>
   </data>
-  <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
+  <data name="SideBarCreateNewLibraryText" xml:space="preserve">
     <value>新建库</value>
   </data>
-  <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
-    <value>恢复为默认库</value>
+  <data name="SideBarRestoreLibrariesText" xml:space="preserve">
+    <value>恢复默认库</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
     <value>确定要恢复为默认库吗？ 所有文件都将保留在存储空间中。</value>
@@ -1550,7 +1574,7 @@
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>所有者</value>
   </data>
-  <data name="SecuritySpecialLabel.Text" xml:space="preserve">
+  <data name="SecuritySpecialLabelText" xml:space="preserve">
     <value>特殊</value>
   </data>
   <data name="Access" xml:space="preserve">
@@ -1577,7 +1601,7 @@
   <data name="Permissions" xml:space="preserve">
     <value>权限</value>
   </data>
-  <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
+  <data name="SecurityAdvancedCannotReadPropertiesText" xml:space="preserve">
     <value>你无权查看此对象的安全属性。 你可以尝试获取此对象的所有权。</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
@@ -1601,49 +1625,49 @@
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
     <value>此文件夹和子文件夹</value>
   </data>
-  <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
+  <data name="SecurityAppendDataLabelText" xml:space="preserve">
     <value>追加数据</value>
   </data>
-  <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
+  <data name="SecurityChangePermissionsLabelText" xml:space="preserve">
     <value>更改权限</value>
   </data>
-  <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
+  <data name="SecurityCreateDirectoriesLabelText" xml:space="preserve">
     <value>创建文件夹</value>
   </data>
-  <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
+  <data name="SecurityCreateFilesLabelText" xml:space="preserve">
     <value>创建文件</value>
   </data>
-  <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
-    <value>删除子目录和文件</value>
+  <data name="SecurityDeleteSubdirectoriesAndFilesLabelText" xml:space="preserve">
+    <value>删除子文件夹和文件</value>
   </data>
-  <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
+  <data name="SecurityExecuteFileLabelText" xml:space="preserve">
     <value>执行文件</value>
   </data>
-  <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
+  <data name="SecurityReadAttributesLabelText" xml:space="preserve">
     <value>读取属性</value>
   </data>
-  <data name="SecurityReadDataLabel.Text" xml:space="preserve">
+  <data name="SecurityReadDataLabelText" xml:space="preserve">
     <value>读取数据</value>
   </data>
-  <data name="SecurityReadExtendedAttributesLabel.Text" xml:space="preserve">
+  <data name="SecurityReadExtendedAttributesLabelText" xml:space="preserve">
     <value>读取扩展属性</value>
   </data>
-  <data name="SecurityReadPermissionsLabel.Text" xml:space="preserve">
+  <data name="SecurityReadPermissionsLabelText" xml:space="preserve">
     <value>读取权限</value>
   </data>
-  <data name="SecurityTakeOwnershipLabel.Text" xml:space="preserve">
+  <data name="SecurityTakeOwnershipLabelText" xml:space="preserve">
     <value>取得所有权</value>
   </data>
-  <data name="SecurityTraverseLabel.Text" xml:space="preserve">
+  <data name="SecurityTraverseLabelText" xml:space="preserve">
     <value>访问文件夹</value>
   </data>
-  <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
+  <data name="SecurityWriteAttributesLabelText" xml:space="preserve">
     <value>写入属性</value>
   </data>
-  <data name="SecurityWriteDataLabel.Text" xml:space="preserve">
+  <data name="SecurityWriteDataLabelText" xml:space="preserve">
     <value>写入数据</value>
   </data>
-  <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
+  <data name="SecurityWriteExtendedAttributesLabelText" xml:space="preserve">
     <value>写入扩展属性</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
@@ -1700,7 +1724,7 @@
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
   </data>
-  <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
+  <data name="SideBarHideSectionFromSideBarText" xml:space="preserve">
     <value>隐藏 {0} 部分</value>
   </data>
   <data name="AddFile" xml:space="preserve">
@@ -1730,8 +1754,8 @@
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>解压完成。</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
-    <value>打开上级目录</value>
+  <data name="BaseLayoutItemContextFlyoutOpenParentFolderText" xml:space="preserve">
+    <value>打开上级文件夹</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>未知</value>
@@ -1745,11 +1769,11 @@
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>打开驱动器</value>
   </data>
-  <data name="InsertDiscDialog.Text" xml:space="preserve">
-    <value>请将盘片插入驱动器 {0}</value>
+  <data name="InsertDiscDialogText" xml:space="preserve">
+    <value>请将碟片插入驱动器{0}</value>
   </data>
-  <data name="InsertDiscDialog.Title" xml:space="preserve">
-    <value>插入盘片</value>
+  <data name="InsertDiscDialogTitle" xml:space="preserve">
+    <value>请插入碟片</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>确定</value>
@@ -1762,6 +1786,15 @@
   </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
     <value>请提供你的访问凭据</value>
+  </data>
+  <data name="CredentialDialogIncorrectPassword" xml:space="preserve">
+    <value>密码错误，请重试。</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>需要密码</value>
+  </data>
+  <data name="PasswordRequiredMessage" xml:space="preserve">
+    <value>此位置受密码保护。刷新以输入密码。</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>用户名</value>
@@ -1815,7 +1848,7 @@
     <value>文件标签</value>
   </data>
   <data name="OpenFilesWithOneClick" xml:space="preserve">
-    <value>Open files with a single click</value>
+    <value>单击打开文件</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>文件夹路径</value>
@@ -2057,6 +2090,15 @@
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>自动调整所有列宽</value>
   </data>
+  <data name="AutoFitColumns" xml:space="preserve">
+    <value>自动调整列宽</value>
+  </data>
+  <data name="AutoFitColumnsDescription" xml:space="preserve">
+    <value>根据内容调整列宽</value>
+  </data>
+  <data name="AutoSizeColumnsInDetailsLayout" xml:space="preserve">
+    <value>列宽自动适配内容</value>
+  </data>
   <data name="Adaptive" xml:space="preserve">
     <value>自适应布局</value>
   </data>
@@ -2076,10 +2118,10 @@
     <value>您好！</value>
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
-    <value>喜欢Files吗？请考虑在 Microsoft Store 中给我们写评价。</value>
+    <value>喜欢 Files 吗？请考虑在 Microsoft Store 中给我们写评价。</value>
   </data>
   <data name="SponsorSubtitle" xml:space="preserve">
-    <value>喜欢Files吗？请考虑在 Github 上支持该项目。</value>
+    <value>喜欢 Files 吗？请考虑在 GitHub上支持该项目。</value>
   </data>
   <data name="Sponsor" xml:space="preserve">
     <value>赞助</value>
@@ -2121,13 +2163,13 @@
     <value>单击打开文件夹</value>
   </data>
   <data name="OpenFolderWithOneClickInColumnsView" xml:space="preserve">
-    <value>Open folders with a single click in Columns View</value>
+    <value>在列视图下单击打开文件夹</value>
   </data>
   <data name="SingleClickToOpen" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>单击打开文件夹</value>
   </data>
   <data name="SingleClickFoldersInColumnsViewHeader" xml:space="preserve">
-    <value>Folders in Columns View</value>
+    <value>仅在列视图时</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>打开项目</value>
@@ -2197,6 +2239,12 @@
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>创建压缩文件</value>
+  </data>
+  <data name="CompressSkippedItemsDialogTitle" xml:space="preserve">
+    <value>有些项目无法压缩</value>
+  </data>
+  <data name="CompressSkippedItemsDialogText" xml:space="preserve">
+    <value>以下{0, plural, other {项目}}不能被压缩。你想跳过{0, plural, other {这些项目}}吗？</value>
   </data>
   <data name="CompressIntoZip" xml:space="preserve">
     <value>创建 zip 压缩文件</value>
@@ -2412,6 +2460,9 @@
     <value>确定要删除此标签吗？</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
+    <value>全部播放</value>
+  </data>
+  <data name="Play" xml:space="preserve">
     <value>播放</value>
   </data>
   <data name="Height" xml:space="preserve">
@@ -3297,6 +3348,9 @@
   <data name="PullTimeoutError" xml:space="preserve">
     <value>由于超时错误，git pull 失败</value>
   </data>
+  <data name="PullUncommittedChangesError" xml:space="preserve">
+    <value>无法拉取，因为您未提交的更改将被覆盖。请提交、栈暂存或放弃您的更改，然后重试。</value>
+  </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(多个值)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
@@ -3411,6 +3465,12 @@
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
     <value>在新窗格中打开选中的目录</value>
+  </data>
+  <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
+    <value>在另一个窗格中打开选定的目录</value>
+  </data>
+  <data name="OpenCurrentFolderInOtherPaneDescription" xml:space="preserve">
+    <value>在另一个窗格中打开当前文件夹</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>在新标签页中打开选中的目录</value>
@@ -3614,35 +3674,119 @@
   </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
     <value>已取消将 {0} 克隆到“{1}”</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
     <value>已取消将 {0} 从“{1}”克隆到“{2}”</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
     <value>已将“{0}”克隆到“{1}”</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
     <value>已将“{0}”从“{1}”克隆到“{2}”</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
     <value>将“{0}”克隆到“{1}”时出错</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
     <value>无法将 {0} 从“{1}”克隆到“{2}”</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
     <value>正在将“{0}”克隆到“{1}”</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
     <value>正在将“{0}”从“{1}”克隆到“{2}”</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutCanceled_Header" xml:space="preserve">
+    <value>已取消将“{1}”切换到“{0}”分支</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutComplete_Header" xml:space="preserve">
+    <value>已将“{1}”切换到“{0}”分支</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutFailed_Header" xml:space="preserve">
+    <value>将“{1}”切换到“{0}”分支失败</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutInProgress_Header" xml:space="preserve">
+    <value>正在将“{1}”切换到“{0}”分支</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchCanceled_Header" xml:space="preserve">
+    <value>已取消获取“{0}”的远程更改</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchComplete_Header" xml:space="preserve">
+    <value>成功获取“{0}”的远程更改</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchFailed_Header" xml:space="preserve">
+    <value>获取“{0}”的远程更改失败</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchInProgress_Header" xml:space="preserve">
+    <value>正在获取“{0}”的远程更改</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitOperationProgress" xml:space="preserve">
+    <value>{0}%完成</value>
+    <comment>Shown in Status Center during a Git operation. {0} is the percentage from 0 to 100.</comment>
+  </data>
+  <data name="StatusCenter_GitPullCanceled_Header" xml:space="preserve">
+    <value>已取消向“{0}”中拉取远程更改</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPullComplete_Header" xml:space="preserve">
+    <value>成功向“{0}”中拉取远程更改</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPullFailed_Header" xml:space="preserve">
+    <value>向“{0}”中拉取远程更改失败</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPullInProgress_Header" xml:space="preserve">
+    <value>正在向“{0}”中拉取远程更改</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushCanceled_Header" xml:space="preserve">
+    <value>已取消推送“{0}”的本地提交</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushComplete_Header" xml:space="preserve">
+    <value>成功推送“{0}”的本地提交</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushFailed_Header" xml:space="preserve">
+    <value>推送“{0}”的本地提交失败</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushInProgress_Header" xml:space="preserve">
+    <value>正在推送“{0}”的本地提交</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncCanceled_Header" xml:space="preserve">
+    <value>已取消同步“{0}”的本地和远程提交</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncComplete_Header" xml:space="preserve">
+    <value>成功同步“{0}”的本地和远程提交</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncFailed_Header" xml:space="preserve">
+    <value>同步“{0}”的本地和远程提交失败</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncInProgress_Header" xml:space="preserve">
+    <value>正在同步“{0}”的本地和远程提交</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
     <value>已取消安装 {0} 个字体</value>
@@ -3914,6 +4058,9 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>更改专辑封面</value>
   </data>
+  <data name="RemoveAlbumCover" xml:space="preserve">
+    <value>删除专辑封面</value>
+  </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>重命名项目失败</value>
   </data>
@@ -4017,6 +4164,12 @@
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>所选的按键绑定无法使用，请用其他按键绑定重试。</value>
   </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>快捷键</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>确定要删除此快捷键吗？</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>自定义</value>
   </data>
@@ -4111,6 +4264,15 @@
   <data name="ImageFiles" xml:space="preserve">
     <value>图片文件</value>
     <comment>This is the friendly name for image files.</comment>
+  </data>
+  <data name="AllSupportedFiles" xml:space="preserve">
+    <value>所有支持的文件</value>
+  </data>
+  <data name="ConvertToIconRequiredMessage" xml:space="preserve">
+    <value>此图像需要转换为图标文件后才能使用。请选择保存转换的图标文件的位置。</value>
+  </data>
+  <data name="ConvertToIconError" xml:space="preserve">
+    <value>无法将图像转换为图标文件</value>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>小键盘</value>
@@ -4210,7 +4372,7 @@
     <value>压缩内容</value>
   </data>
   <data name="ShowCreateAlternateDataStream" xml:space="preserve">
-    <value>显示创建备用数据流 (Alternate Data Stream) 的选项</value>
+    <value>显示“创建备用数据流 (Alternate Data Stream)”选项</value>
   </data>
   <data name="CreateAlternateDataStream" xml:space="preserve">
     <value>创建备用数据流</value>
@@ -4245,6 +4407,15 @@
   <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
     <value>总是切换到新创建的标签页</value>
   </data>
+  <data name="ReverseTabScrollDirection" xml:space="preserve">
+    <value>反转标签页滚轮切换方向</value>
+  </data>
+  <data name="DownMotionScrollsLeft" xml:space="preserve">
+    <value>向下滚动切换至左侧标签页</value>
+  </data>
+  <data name="DownMotionScrollsRight" xml:space="preserve">
+    <value>向下滚动切换至右侧标签页</value>
+  </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>显示/隐藏中转站窗格</value>
   </data>
@@ -4260,6 +4431,9 @@
   </data>
   <data name="ClearItems" xml:space="preserve">
     <value>清除所有项目</value>
+  </data>
+  <data name="BatchAction" xml:space="preserve">
+    <value>批量操作</value>
   </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>从中转站移除</value>
@@ -4297,6 +4471,15 @@
   </data>
   <data name="OpenSettings" xml:space="preserve">
     <value>打开设置</value>
+  </data>
+  <data name="NetworkDiscoveryTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>已关闭网络发现，网络计算机和设备不可见。</value>
+  </data>
+  <data name="FileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>已关闭文件共享，部分网络计算机和设备可能无法看到。</value>
+  </data>
+  <data name="NetworkDiscoveryAndFileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>已关闭网络发现与文件共享，网络计算机和设备不可见。</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
@@ -4426,10 +4609,10 @@
     <value>显示状态栏</value>
   </data>
   <data name="OnlyForTouch" xml:space="preserve">
-    <value>When using touch</value>
+    <value>使用触摸时</value>
   </data>
   <data name="OnlyForMouse" xml:space="preserve">
-    <value>When using mouse</value>
+    <value>使用鼠标时</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>新建 {0}</value>
@@ -4441,10 +4624,10 @@
     <value>翻页</value>
   </data>
   <data name="ShowPinToSideBar" xml:space="preserve">
-    <value>显示固定选项到侧边栏</value>
+    <value>显示“固定到侧边栏”选项</value>
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
-    <value>显示固定选项到“开始菜单”</value>
+    <value>显示“固定到开始菜单”选项</value>
   </data>
   <data name="Toolbar" xml:space="preserve">
     <value>工具栏</value>
@@ -4547,5 +4730,14 @@
   </data>
   <data name="EditTagsGroupDescription" xml:space="preserve">
     <value>添加或移除文件标签</value>
+  </data>
+  <data name="RemoveTags" xml:space="preserve">
+    <value>删除标签</value>
+  </data>
+  <data name="RemoveTagsDescription" xml:space="preserve">
+    <value>从所选项目中删除标签</value>
+  </data>
+  <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
+    <value>您确定要从所选项目中删除标签吗？</value>
   </data>
 </root>

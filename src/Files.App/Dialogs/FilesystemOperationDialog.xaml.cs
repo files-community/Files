@@ -5,13 +5,17 @@ using CommunityToolkit.WinUI;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using WinRT;
 
 namespace Files.App.Dialogs
 {
 	public sealed partial class FilesystemOperationDialog : ContentDialog, IDialog<FileSystemDialogViewModel>
 	{
 		private FrameworkElement RootAppElement
-			=> (FrameworkElement)MainWindow.Instance.Content;
+		{
+			[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+			get => (FrameworkElement)MainWindow.Instance.Content;
+		}
 
 		public FileSystemDialogViewModel ViewModel
 		{
@@ -69,6 +73,7 @@ namespace Files.App.Dialogs
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Button))]
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
@@ -78,6 +83,7 @@ namespace Files.App.Dialogs
 				primaryButton.GotFocus += PrimaryButton_GotFocus;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Button))]
 		private void PrimaryButton_GotFocus(object sender, RoutedEventArgs e)
 		{
 			if (sender is Button btn)
@@ -98,6 +104,7 @@ namespace Files.App.Dialogs
 			ViewModel.CancelCts();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void NameStackPanel_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
 		{
 			if (sender is FrameworkElement element &&
@@ -108,12 +115,14 @@ namespace Files.App.Dialogs
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void NameEdit_LostFocus(object sender, RoutedEventArgs e)
 		{
 			if ((sender as FrameworkElement)?.DataContext is FileSystemDialogConflictItemViewModel conflictItem)
 				EndRename(conflictItem);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		private void NameEdit_Loaded(object sender, RoutedEventArgs e)
 		{
 			(sender as TextBox)?.Focus(FocusState.Programmatic);
@@ -124,6 +133,7 @@ namespace Files.App.Dialogs
 			UpdateDialogLayout();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void NameEdit_PreviewKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
 		{
 			if (sender is not FrameworkElement element || element.DataContext is not FileSystemDialogConflictItemViewModel currentItem)
@@ -172,14 +182,14 @@ namespace Files.App.Dialogs
 
 		private void EndRename(FileSystemDialogConflictItemViewModel conflictItem)
 		{
-			conflictItem.CustomName = FilesystemHelpers.FilterRestrictedCharacters(conflictItem.CustomName);
+			conflictItem.CustomName = FilesystemHelpers.FilterRestrictedCharacters(conflictItem.CustomName!);
 
 			if (ViewModel.IsNameAvailableForItem(conflictItem, conflictItem.CustomName!))
 				conflictItem.IsTextBoxVisible = false;
 			else
 				ViewModel.PrimaryButtonEnabled = false;
 
-			if (conflictItem.CustomName.Equals(conflictItem.DisplayName))
+			if (conflictItem.CustomName!.Equals(conflictItem.DisplayName))
 			{
 				var savedName = conflictItem.DestinationDisplayName;
 				conflictItem.DestinationDisplayName = savedName;

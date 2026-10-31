@@ -12,7 +12,7 @@ namespace Files.App.Data.Contracts
 		/// <inheritdoc/>
 		public async Task<IImage?> GetIconAsync(IStorable storable, CancellationToken cancellationToken)
 		{
-			var iconData = await FileThumbnailHelper.GetIconAsync(storable.Id, Constants.ShellIconSizes.Small, storable is IFolder, IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+			var iconData = await FileThumbnailHelper.GetIconAsync(storable.Id, Constants.ShellIconSizes.Small, storable is IFolder, IconOptions.ReturnIconOnly);
 			if (iconData is null)
 				return null;
 

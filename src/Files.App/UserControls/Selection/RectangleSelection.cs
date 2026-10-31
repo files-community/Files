@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.Foundation;
+using WinRT;
 
 namespace Files.App.UserControls.Selection
 {
@@ -19,8 +20,9 @@ namespace Files.App.UserControls.Selection
 		protected Rectangle selectionRectangle;
 		protected SelectionState selectionState;
 
-		protected RectangleSelection()
+		protected RectangleSelection(Rectangle selectionRectangle)
 		{
+			this.selectionRectangle = selectionRectangle;
 		}
 
 		/// <summary>
@@ -30,11 +32,12 @@ namespace Files.App.UserControls.Selection
 		/// <param name="selectionRectangle">Rectangle inside a Canvas</param>
 		/// <param name="selectionChanged">SelectionChanged event associated with uiElement</param>
 		/// <returns></returns>
-		public static RectangleSelection Create(FrameworkElement uiElement, Rectangle selectionRectangle, SelectionChangedEventHandler selectionChanged = null)
+		[DynamicWindowsRuntimeCast(typeof(ListViewBase))]
+		public static RectangleSelection Create(FrameworkElement uiElement, Rectangle selectionRectangle, SelectionChangedEventHandler? selectionChanged = null)
 		{
-			if (uiElement is ListViewBase)
+			if (uiElement is ListViewBase listView)
 			{
-				return new RectangleSelection_ListViewBase(uiElement as ListViewBase, selectionRectangle, selectionChanged);
+				return new RectangleSelection_ListViewBase(listView, selectionRectangle, selectionChanged);
 			}
 			else
 			{
@@ -44,9 +47,9 @@ namespace Files.App.UserControls.Selection
 
 		public delegate void SelectionStatusHandler(object sender, EventArgs e);
 
-		public event SelectionStatusHandler SelectionStarted;
+		public event SelectionStatusHandler? SelectionStarted;
 
-		public event SelectionStatusHandler SelectionEnded;
+		public event SelectionStatusHandler? SelectionEnded;
 
 		protected void OnSelectionStarted()
 		{

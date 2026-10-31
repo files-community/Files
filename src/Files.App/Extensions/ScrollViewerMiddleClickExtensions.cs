@@ -1,5 +1,5 @@
 // Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using CommunityToolkit.WinUI;
 using Files.App.Controls;
@@ -13,6 +13,7 @@ using System.Runtime.CompilerServices;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
+using WinRT;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.Extensions
@@ -41,6 +42,7 @@ namespace Files.App.Extensions
 				typeof(ScrollViewerMiddleClickExtensions),
 				new PropertyMetadata(false, OnEnableMiddleClickScrollingChanged));
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private static void OnEnableMiddleClickScrollingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			if (d is not FrameworkElement element)
@@ -65,7 +67,7 @@ namespace Files.App.Extensions
 			private static readonly InputSystemCursor DefaultCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
 
 			private readonly FrameworkElement _element;
-			private readonly DispatcherQueueTimer _scrollTimer;
+			private DispatcherQueueTimer? _scrollTimer;
 			private readonly PointerEventHandler _rootPointerMovedHandler;
 			private readonly PointerEventHandler _rootPointerPressedHandler;
 			private readonly PointerEventHandler _rootPointerReleasedHandler;
@@ -87,10 +89,6 @@ namespace Files.App.Extensions
 			public MiddleClickScrollController(FrameworkElement element)
 			{
 				_element = element;
-
-				_scrollTimer = _element.DispatcherQueue.CreateTimer();
-				_scrollTimer.Interval = TimeSpan.FromMilliseconds(16);
-				_scrollTimer.Tick += ScrollTimer_Tick;
 
 				_rootPointerMovedHandler = new PointerEventHandler(RootElement_PointerMoved);
 				_rootPointerPressedHandler = new PointerEventHandler(RootElement_PointerPressed);
@@ -120,6 +118,7 @@ namespace Files.App.Extensions
 				_isEnabled = false;
 				StopAutoScroll();
 				DetachFromVisualTree();
+				ReleaseScrollTimer();
 
 				_element.Loaded -= Element_Loaded;
 				_element.Unloaded -= Element_Unloaded;
@@ -135,6 +134,7 @@ namespace Files.App.Extensions
 			{
 				StopAutoScroll();
 				DetachFromVisualTree();
+				ReleaseScrollTimer();
 			}
 
 			private void AttachToVisualTree()
@@ -178,6 +178,7 @@ namespace Files.App.Extensions
 				_rootElement?.RemoveHandler(UIElement.KeyDownEvent, _rootKeyDownHandler);
 			}
 
+			[DynamicWindowsRuntimeCast(typeof(UIElement))]
 			private void Element_PointerPressed(object sender, PointerRoutedEventArgs e)
 			{
 				if (!_isEnabled)
@@ -209,11 +210,12 @@ namespace Files.App.Extensions
 				_activationPressTimestamp = point.Timestamp;
 				_ignoreActivationMiddleRelease = true;
 				_holdScrollDetected = false;
-				_scrollTimer.Start();
+				GetScrollTimer().Start();
 				ApplyCursor(GetAutoScrollCursor(_scrollViewer), e.OriginalSource as UIElement);
 				e.Handled = true;
 			}
 
+			[DynamicWindowsRuntimeCast(typeof(UIElement))]
 			private void RootElement_PointerMoved(object sender, PointerRoutedEventArgs e)
 			{
 				if (!_isAutoScrollActive)
@@ -344,11 +346,33 @@ namespace Files.App.Extensions
 				_activationPressTimestamp = 0;
 				_ignoreActivationMiddleRelease = false;
 				_holdScrollDetected = false;
-				if (_scrollTimer.IsRunning)
+				if (_scrollTimer?.IsRunning is true)
 					_scrollTimer.Stop();
 
 				if (wasAutoScrollActive)
 					ResetCursor();
+			}
+
+			private DispatcherQueueTimer GetScrollTimer()
+			{
+				if (_scrollTimer is null)
+				{
+					_scrollTimer = _element.DispatcherQueue.CreateTimer();
+					_scrollTimer.Interval = TimeSpan.FromMilliseconds(16);
+					_scrollTimer.Tick += ScrollTimer_Tick;
+				}
+
+				return _scrollTimer;
+			}
+
+			private void ReleaseScrollTimer()
+			{
+				if (_scrollTimer is null)
+					return;
+
+				_scrollTimer.Stop();
+				_scrollTimer.Tick -= ScrollTimer_Tick;
+				_scrollTimer = null;
 			}
 
 			private void ApplyCursor(InputCursor cursor, UIElement? cursorTarget = null)

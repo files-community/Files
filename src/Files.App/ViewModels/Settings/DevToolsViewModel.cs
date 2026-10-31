@@ -53,7 +53,7 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref _IsIDENameValid, value);
 		}
 
-		private string _IDEPath;
+		private string _IDEPath = null!;
 		public string IDEPath
 		{
 			get => _IDEPath;
@@ -72,7 +72,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string _IDEName;
+		private string _IDEName = null!;
 		public string IDEName
 		{
 			get => _IDEName;
@@ -109,7 +109,31 @@ namespace Files.App.ViewModels.Settings
 			TestIDECommand = new RelayCommand(DoTestIDE);
 		}
 
-		private string selectedOpenInIDEOption;
+		internal void StartListening()
+		{
+			DevToolsSettingsService.PropertyChanged -= OnSharedSettingChanged;
+			DevToolsSettingsService.PropertyChanged += OnSharedSettingChanged;
+			RefreshSettings();
+		}
+
+		internal void StopListening() => DevToolsSettingsService.PropertyChanged -= OnSharedSettingChanged;
+
+		private void OnSharedSettingChanged(object? sender, PropertyChangedEventArgs e) => RefreshSettings(e.PropertyName);
+
+		private void RefreshSettings(string? name = null)
+		{
+			if (name is null or nameof(IDevToolsSettingsService.OpenInIDEOption))
+				SetProperty(ref selectedOpenInIDEOption, OpenInIDEOptions[DevToolsSettingsService.OpenInIDEOption], nameof(SelectedOpenInIDEOption));
+			if (!IsEditingIDEConfig)
+			{
+				if (name is null or nameof(IDevToolsSettingsService.IDEPath))
+					IDEPath = DevToolsSettingsService.IDEPath;
+				if (name is null or nameof(IDevToolsSettingsService.IDEName))
+					IDEName = DevToolsSettingsService.IDEName;
+			}
+		}
+
+		private string selectedOpenInIDEOption = null!;
 		public string SelectedOpenInIDEOption
 		{
 			get => selectedOpenInIDEOption;
@@ -177,7 +201,7 @@ namespace Files.App.ViewModels.Settings
 		private async void DoTestIDE()
 		{
 			IsIDEPathValid = await Win32Helper.RunPowershellCommandAsync(
-				$"& \'{IDEPath}\'",
+				$"& {Win32Helper.ToPowerShellStringLiteral(IDEPath)}",
 				PowerShellExecutionOptions.Hidden
 			);
 		}

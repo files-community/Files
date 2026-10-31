@@ -12,6 +12,10 @@ namespace Files.App.Services
 		private const string JumpListRecentGroupHeader = "ms-resource:///Resources/JumpListRecentGroupHeader";
 		private const string JumpListPinnedGroupHeader = "ms-resource:///Resources/JumpListPinnedGroupHeader";
 
+		// SaveAsync throws ArgumentException ("Maximum number of items exceeded") once the list grows past
+		// the shell's cap, so the recent group must stay bounded. The taskbar displays at most ~13 entries.
+		private const int MaxRecentItemsCount = 20;
+
 		public async Task InitializeAsync()
 		{
 			try
@@ -159,7 +163,7 @@ namespace Files.App.Services
 						displayName = Strings.RecycleBin.GetLocalizedResource();
 					else if (path.Equals(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
 						displayName = Strings.ThisPC.GetLocalizedResource();
-					else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
+					else if (App.LibraryManager.TryGetLibrary(path, out var library))
 					{
 						var libName = Path.GetFileNameWithoutExtension(library.Path);
 						displayName = libName switch
@@ -182,6 +186,14 @@ namespace Files.App.Services
 					// Keep newer items at the top.
 					instance.Items.Remove(instance.Items.FirstOrDefault(x => x.Arguments.Equals(path, StringComparison.OrdinalIgnoreCase)));
 					instance.Items.Insert(0, jumplistItem);
+
+					var excessRecentItems = instance.Items
+						.Where(x => string.Equals(x.GroupName, JumpListRecentGroupHeader, StringComparison.OrdinalIgnoreCase))
+						.Skip(MaxRecentItemsCount)
+						.ToList();
+
+					foreach (var item in excessRecentItems)
+						instance.Items.Remove(item);
 				}
 				else
 				{

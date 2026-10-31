@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
+using WinRT;
 
 namespace Files.App.Converters
 {
@@ -13,6 +14,7 @@ namespace Files.App.Converters
 			return (value as bool?) ?? false ? ListViewSelectionMode.Multiple : ListViewSelectionMode.Extended;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewSelectionMode))]
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
 		{
 			return ((value as ListViewSelectionMode?) ?? ListViewSelectionMode.Extended) == ListViewSelectionMode.Multiple;

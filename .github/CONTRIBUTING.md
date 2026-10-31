@@ -25,7 +25,7 @@ improvements which address the top issues reported by Files users. Some general 
    pull request.
 * **DO** write a good description for your pull request. More detail is better. Describe *why* the change is being 
    made and *why* you have chosen a particular solution. Describe any manual testing you performed to validate your change.
-* **DO NOT** submit a PR unless it the connected issue is marked as ready to build or approved indirectly by an org member. 
+* **DO NOT** submit a PR unless the connected issue is marked as ready to build or approved by an org member.
    This enables us to have a discussion on the idea before anyone invests time on the implementation.
 * **DO NOT** merge multiple changes into one PR unless they have the same root cause.
 
@@ -42,8 +42,20 @@ When completing a pull request, we will generally squash your changes into a sin
 let us know if your pull request needs to be merged as separate commits.
 
 ## Running interaction tests (optional)
-First, you will need to install WinAppDriver. You can download the latest version from [here](https://github.com/microsoft/WinAppDriver/releases).
-After installing WinAppDriver, you will need to run the Files.Package at least once to have the debug version be registered on your machine.
+The tests drive the app through [Appium](https://appium.io), which automates it using WinAppDriver.
+Install WinAppDriver, and Node.js to run Appium on:
+```powershell
+winget install Microsoft.WindowsApplicationDriver
+winget install OpenJS.NodeJS
+```
+Then install Appium and the Windows driver it automates through:
+```powershell
+npm install --global appium
+appium driver install --source=npm appium-windows-driver
+```
+The tests launch Appium themselves when it is not already running, so keep it on your `PATH`.
+
+Finally, you will need to run the Files.Package at least once to have the debug version be registered on your machine.
 Once you have the debug version registered, you can run the tests from the test explorer in Visual Studio.
 
 ## Review Process
@@ -51,6 +63,6 @@ After submitting a pull request, members of the Files team will review your code
 participate in the review, but at least one member of the Files team will ultimately approve
 the request.
 
-Often, multiple iterations will be needed to responding to feedback from reviewers. Try looking at
+Often, multiple iterations will be needed to respond to feedback from reviewers. Try looking at
 [past pull requests](https://github.com/files-community/Files/pulls?q=is%3Apr+is%3Aclosed) to see
 what the experience might be like.

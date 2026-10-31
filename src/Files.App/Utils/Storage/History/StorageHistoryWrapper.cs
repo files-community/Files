@@ -45,7 +45,8 @@ namespace Files.App.Utils.Storage
 
 		public void Dispose()
 		{
-			histories = null;
+			histories.Clear();
+			index = -1;
 		}
 	}
 }

@@ -6,11 +6,14 @@ using Files.App.Controls;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
+using WinRT;
 
 namespace Files.App.UserControls
 {
@@ -23,6 +26,10 @@ namespace Files.App.UserControls
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly StatusCenterViewModel OngoingTasksViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+
+		private (OmnibarMode Mode, string Text)? _pendingOmnibarText;
+
+		private static readonly AccessibilitySettings AccessibilitySettings = new();
 
 		// Properties
 
@@ -46,6 +53,9 @@ namespace Files.App.UserControls
 		}
 
 		// Methods
+
+		private void NavToolbar_Loaded(object sender, RoutedEventArgs e)
+			=> this.RunAfterNextRender(() => FindName(nameof(ListaryIntegration)));
 
 		private void NavToolbar_Loading(FrameworkElement _, object e)
 		{
@@ -168,15 +178,25 @@ namespace Files.App.UserControls
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private async void Omnibar_QuerySubmitted(Omnibar sender, OmnibarQuerySubmittedEventArgs args)
 		{
+			if (ViewModel is not { } viewModel)
+				return;
+
 			var mode = Omnibar.CurrentSelectedMode;
 
 			// Path mode
 			if (mode == OmnibarPathMode)
 			{
-				await ViewModel.HandleItemNavigationAsync(args.Text);
-				ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
+				var submittedText = args.Text;
+				if (!await viewModel.HandleItemNavigationAsync(submittedText))
+				{
+					RestoreOmnibarText(viewModel, OmnibarPathMode, submittedText);
+					return;
+				}
+
+				ContentPageContext.ShellPage?.PaneHolder?.FocusActivePane();
 				return;
 			}
 
@@ -196,14 +216,16 @@ namespace Files.App.UserControls
 						continue;
 
 					await command.ExecuteAsync();
-					ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
+					var paneHolder = ContentPageContext.ShellPage.GetRequiredPaneHolder();
+					paneHolder.FocusActivePane();
 					return;
 				}
 
+				var submittedCommand = args.Text;
 				await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidCommand.GetLocalizedResource(),
-					string.Format(Strings.InvalidCommandContent.GetLocalizedResource(), args.Text));
+					string.Format(Strings.InvalidCommandContent.GetLocalizedResource(), submittedCommand));
 
-				ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
+				RestoreOmnibarText(viewModel, OmnibarCommandPaletteMode, submittedCommand);
 				return;
 			}
 
@@ -213,7 +235,7 @@ namespace Files.App.UserControls
 				var shellPage = ContentPageContext.ShellPage;
 
 				// Settings search: jump to the matching card, or apply the query in-page.
-				if (ViewModel.InstanceViewModel?.IsPageTypeSettings == true)
+				if (viewModel.InstanceViewModel.IsPageTypeSettings)
 				{
 					var settingsPage = (MainWindow.Instance.Content as FrameworkElement)?.FindDescendant<Files.App.Views.SettingsPage>();
 
@@ -226,9 +248,13 @@ namespace Files.App.UserControls
 						settingsPage?.ApplySearchQuery(args.Text);
 					}
 
-					ViewModel.OmnibarSearchModeText = string.Empty;
+					viewModel.OmnibarSearchModeText = string.Empty;
 					Omnibar.IsFocused = false;
-					shellPage?.PaneHolder.FocusActivePane();
+					if (shellPage is not null)
+					{
+						var paneHolder = shellPage.GetRequiredPaneHolder();
+						paneHolder.FocusActivePane();
+					}
 					return;
 				}
 
@@ -236,15 +262,16 @@ namespace Files.App.UserControls
 					await NavigationHelpers.OpenPath(item.ItemPath, shellPage);
 				else
 				{
-					var searchQuery = args.Item is SuggestionModel x && !string.IsNullOrWhiteSpace(x.Name)
+					var searchQuery = args.Item is SuggestionModel { IsSearchQuery: false } x && !string.IsNullOrWhiteSpace(x.Name)
 						? x.Name
 						: args.Text;
 
 					shellPage?.SubmitSearch(searchQuery); // use the resolved shellPage for consistency
-					ViewModel.SaveSearchQueryToList(searchQuery);
+					viewModel.SaveSearchQueryToList(searchQuery);
 				}
 
-				ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
+				// The shell page can be torn down during the awaited navigation above; skip focusing if its pane holder is gone
+				ContentPageContext.ShellPage?.PaneHolder?.FocusActivePane();
 				return;
 			}
 		}
@@ -254,40 +281,46 @@ namespace Files.App.UserControls
 			if (args.Reason is not OmnibarTextChangeReason.UserInput)
 				return;
 
+			if (ViewModel is not { } viewModel)
+				return;
+
 			if (Omnibar.CurrentSelectedMode == OmnibarPathMode)
 			{
-				await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForPathMode);
+				await DispatcherQueue.EnqueueOrInvokeAsync(viewModel.PopulateOmnibarSuggestionsForPathMode);
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
 			{
-				await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode);
+				await DispatcherQueue.EnqueueOrInvokeAsync(viewModel.PopulateOmnibarSuggestionsForCommandPaletteMode);
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
 			{
-				await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForSearchMode);
+				await DispatcherQueue.EnqueueOrInvokeAsync(viewModel.PopulateOmnibarSuggestionsForSearchMode);
 			}
 		}
 
 		private async void BreadcrumbBar_ItemClicked(Controls.BreadcrumbBar sender, Controls.BreadcrumbBarItemClickedEventArgs args)
 		{
+			var viewModel = ViewModel
+				?? throw new InvalidOperationException("The navigation toolbar does not have a view model.");
+
 			if (args.IsRootItem)
 			{
-				await ViewModel.HandleItemNavigationAsync("Home");
+				await viewModel.HandleItemNavigationAsync("Home");
 				return;
 			}
 
 			// Validate index before accessing the collection
-			if (args.Index < 0 || args.Index >= ViewModel.PathComponents.Count)
+			if (args.Index < 0 || args.Index >= viewModel.PathComponents.Count)
 				return;
 
 			// Navigation to the current folder should not happen
-			if (args.Index == ViewModel.PathComponents.Count - 1 ||
-				ViewModel.PathComponents[args.Index].Path is not { } path)
+			if (args.Index == viewModel.PathComponents.Count - 1 ||
+				viewModel.PathComponents[args.Index].Path is not { } path)
 				return;
 
 			// If user clicked the item with middle mouse button, open it in new tab
 			var openInNewTab = args.PointerRoutedEventArgs?.GetCurrentPoint(null).Properties.PointerUpdateKind is PointerUpdateKind.MiddleButtonReleased;
-			await ViewModel.HandleFolderNavigationAsync(path, openInNewTab);
+			await viewModel.HandleFolderNavigationAsync(path, openInNewTab);
 		}
 
 		private async void BreadcrumbBar_ItemDropDownFlyoutOpening(object sender, BreadcrumbBarItemDropDownFlyoutEventArgs e)
@@ -321,7 +354,11 @@ namespace Files.App.UserControls
 					flyoutItem.Click += (sender, args) =>
 					{
 						// NOTE: We should not pass a path string but pass the storable object itself in the future.
-						contentPageContext.ShellPage!.NavigateToPath((string)flyoutItem.DataContext);
+						var path = flyoutItem.DataContext as string
+							?? throw new InvalidOperationException("The breadcrumb item does not have a navigation path.");
+						var shellPage = contentPageContext.ShellPage
+							?? throw new InvalidOperationException("There is no active shell page for breadcrumb navigation.");
+						shellPage.NavigateToPath(path);
 					};
 				}
 
@@ -349,14 +386,23 @@ namespace Files.App.UserControls
 					flyoutItem.Click += (sender, args) =>
 					{
 						// NOTE: We should not pass a path string but pass the storable object itself in the future.
-						contentPageContext.ShellPage!.NavigateToPath((string)flyoutItem.DataContext);
+						var path = flyoutItem.DataContext as string
+							?? throw new InvalidOperationException("The breadcrumb item does not have a navigation path.");
+						var shellPage = contentPageContext.ShellPage
+							?? throw new InvalidOperationException("There is no active shell page for breadcrumb navigation.");
+						shellPage.NavigateToPath(path);
 					};
 				}
 
 				return;
 			}
 
-			await ViewModel.SetPathBoxDropDownFlyoutAsync(e.Flyout, ViewModel.PathComponents[e.Index]);
+			var viewModel = ViewModel
+				?? throw new InvalidOperationException("The navigation toolbar does not have a view model.");
+			if (e.Index < 0 || e.Index >= viewModel.PathComponents.Count)
+				return;
+
+			await viewModel.SetPathBoxDropDownFlyoutAsync(e.Flyout, viewModel.PathComponents[e.Index]);
 		}
 
 		private void BreadcrumbBar_ItemDropDownFlyoutClosed(object sender, BreadcrumbBarItemDropDownFlyoutEventArgs e)
@@ -372,31 +418,34 @@ namespace Files.App.UserControls
 		/// </summary>
 		private async void Omnibar_ModeChanged(object sender, OmnibarModeChangedEventArgs e)
 		{
+			if (ViewModel is not { } viewModel)
+				return;
+
+			var pendingText = TakePendingOmnibarText(e.NewMode);
+
 			if (e.NewMode == OmnibarPathMode)
 			{
 				// Initialize with current working directory or fallback to home path
-				ViewModel.PathText = string.IsNullOrEmpty(ContentPageContext.ShellPage?.ShellViewModel?.WorkingDirectory)
-					? Constants.UserEnvironmentPaths.HomePath
-					: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
+				viewModel.PathText = pendingText ?? GetDefaultPathText();
 
-				await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForPathMode);
+				await DispatcherQueue.EnqueueOrInvokeAsync(viewModel.PopulateOmnibarSuggestionsForPathMode);
 			}
 			else if (e.NewMode == OmnibarCommandPaletteMode)
 			{
-				// Clear text and load command suggestions
-				ViewModel.OmnibarCommandPaletteModeText = string.Empty;
+				// Restore rejected input or clear text, then load command suggestions
+				viewModel.OmnibarCommandPaletteModeText = pendingText ?? string.Empty;
 
-				await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode);
+				await DispatcherQueue.EnqueueOrInvokeAsync(viewModel.PopulateOmnibarSuggestionsForCommandPaletteMode);
 			}
 			else if (e.NewMode == OmnibarSearchMode)
 			{
 				// Preserve existing search query or clear for new search
-				if (!ViewModel.InstanceViewModel.IsPageTypeSearchResults)
-					ViewModel.OmnibarSearchModeText = string.Empty;
+				if (!viewModel.InstanceViewModel.IsPageTypeSearchResults)
+					viewModel.OmnibarSearchModeText = string.Empty;
 				else
-					ViewModel.OmnibarSearchModeText = ViewModel.InstanceViewModel.CurrentSearchQuery;
+					viewModel.OmnibarSearchModeText = viewModel.InstanceViewModel.CurrentSearchQuery;
 
-				await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForSearchMode);
+				await DispatcherQueue.EnqueueOrInvokeAsync(viewModel.PopulateOmnibarSuggestionsForSearchMode);
 			}
 		}
 
@@ -409,21 +458,66 @@ namespace Files.App.UserControls
 		{
 			if (args.IsFocused)
 			{
+				if (ViewModel is not { } viewModel)
+					return;
+
 				// Path Mode needs special handling when gaining focus since it has an unfocused state
 				if (Omnibar.CurrentSelectedMode == OmnibarPathMode)
 				{
-					ViewModel.PathText = string.IsNullOrEmpty(ContentPageContext.ShellPage?.ShellViewModel?.WorkingDirectory)
-						? Constants.UserEnvironmentPaths.HomePath
-						: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
+					viewModel.PathText = TakePendingOmnibarText(OmnibarPathMode) ?? GetDefaultPathText();
 
-					await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForPathMode);
+					await DispatcherQueue.EnqueueOrInvokeAsync(viewModel.PopulateOmnibarSuggestionsForPathMode);
 				}
 			}
 			else
 			{
+				_pendingOmnibarText = null;
+
+				if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
+				{
+					ViewModel?.CancelSuggestionSearch();
+				}
+
 				// When Omnibar loses focus, revert to Path Mode to display BreadcrumbBar
 				Omnibar.CurrentSelectedMode = OmnibarPathMode;
 			}
+		}
+
+		private void RestoreOmnibarText(NavigationToolbarViewModel viewModel, OmnibarMode mode, string text)
+		{
+			_pendingOmnibarText = (mode, text);
+
+			if (Omnibar.CurrentSelectedMode != mode)
+				Omnibar.CurrentSelectedMode = mode;
+			else if (mode == OmnibarPathMode)
+				viewModel.PathText = text;
+			else if (mode == OmnibarCommandPaletteMode)
+				viewModel.OmnibarCommandPaletteModeText = text;
+
+			Omnibar.FocusWithCaretAtEnd();
+		}
+
+		private string? TakePendingOmnibarText(OmnibarMode mode)
+		{
+			var pending = _pendingOmnibarText;
+			_pendingOmnibarText = null;
+			return pending?.Mode == mode ? pending.Value.Text : null;
+		}
+
+		private string GetDefaultPathText()
+		{
+			var workingDirectory = ContentPageContext.ShellPage?.ShellViewModel?.WorkingDirectory;
+			return string.IsNullOrEmpty(workingDirectory)
+				? Constants.UserEnvironmentPaths.HomePath
+				: workingDirectory;
+		}
+
+		private void Omnibar_FocusRedirectRequested(Omnibar sender, EventArgs args)
+		{
+			// The omnibar TextBox regained focus on window reactivation; move focus to the active pane so we don't land in
+			// edit mode. Deferred so it runs after the in-progress focus change settles.
+			_pendingOmnibarText = null;
+			DispatcherQueue.TryEnqueue(() => ContentPageContext.ShellPage?.PaneHolder?.FocusActivePane());
 		}
 
 		private async void Omnibar_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -431,7 +525,8 @@ namespace Files.App.UserControls
 			if (e.Key is VirtualKey.Escape)
 			{
 				Omnibar.IsFocused = false;
-				ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
+				var paneHolder = ContentPageContext.ShellPage?.PaneHolder;
+				paneHolder?.FocusActivePane();
 			}
 			else if (e.Key is VirtualKey.Tab && Omnibar.IsFocused && !InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
 			{
@@ -448,6 +543,7 @@ namespace Files.App.UserControls
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		private void NavigationButtonOverflowFlyoutButton_LosingFocus(UIElement sender, LosingFocusEventArgs args)
 		{
 			// Prevent the Omnibar from taking focus if the overflow button is hidden while the button is focused
@@ -457,17 +553,115 @@ namespace Files.App.UserControls
 
 		private void BreadcrumbBarItem_DragLeave(object sender, DragEventArgs e)
 		{
-			ViewModel.PathBoxItem_DragLeave(sender, e);
+			var viewModel = ViewModel
+				?? throw new InvalidOperationException("The navigation toolbar does not have a view model.");
+			viewModel.PathBoxItem_DragLeave(sender, e);
 		}
 
 		private async void BreadcrumbBarItem_DragOver(object sender, DragEventArgs e)
 		{
-			await ViewModel.PathBoxItem_DragOver(sender, e);
+			var viewModel = ViewModel
+				?? throw new InvalidOperationException("The navigation toolbar does not have a view model.");
+			await viewModel.PathBoxItem_DragOver(sender, e);
 		}
 
 		private async void BreadcrumbBarItem_Drop(object sender, DragEventArgs e)
 		{
-			await ViewModel.PathBoxItem_Drop(sender, e);
+			var viewModel = ViewModel
+				?? throw new InvalidOperationException("The navigation toolbar does not have a view model.");
+			await viewModel.PathBoxItem_Drop(sender, e);
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		[DynamicWindowsRuntimeCast(typeof(Style))]
+		private void BreadcrumbBarItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			if (sender is not FrameworkElement element || element.DataContext is not PathBoxItem pathBoxItem)
+				return;
+
+			var path = pathBoxItem.Path;
+			if (string.IsNullOrEmpty(path))
+				return;
+
+			var flyout = new MenuFlyout();
+
+			var openInNewTabItem = new MenuFlyoutItemWithThemedIcon
+			{
+				Text = Strings.OpenInNewTab.GetLocalizedResource(),
+				ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.OpenInTab"],
+			};
+			openInNewTabItem.Click += async (_, _) =>
+				await NavigationHelpers.AddNewTabByPathAsync(typeof(ShellPanesPage), path, true);
+
+			var openInNewWindowItem = new MenuFlyoutItemWithThemedIcon
+			{
+				Text = Strings.OpenInNewWindow.GetLocalizedResource(),
+				ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.OpenInWindow"],
+			};
+			openInNewWindowItem.Click += async (_, _) =>
+				await NavigationHelpers.OpenPathInNewWindowAsync(path);
+
+			flyout.Items.Add(openInNewTabItem);
+			flyout.Items.Add(openInNewWindowItem);
+
+			var paneHolder = ContentPageContext.ShellPage?.PaneHolder;
+			if (userSettingsService.GeneralSettingsService.ShowOpenInNewPane && paneHolder is not null)
+			{
+				if (ContentPageContext.IsMultiPaneActive)
+				{
+					var openInOtherPaneItem = new MenuFlyoutItem
+					{
+						Text = Strings.OpenInOtherPane.GetLocalizedResource(),
+					};
+					openInOtherPaneItem.Click += (_, _) => paneHolder.OpenInOtherPane(path);
+					flyout.Items.Add(openInOtherPaneItem);
+				}
+				else if (ContentPageContext.IsMultiPaneAvailable)
+				{
+					var openInNewPaneSubItem = new MenuFlyoutSubItem
+					{
+						Text = Strings.OpenInNewPane.GetLocalizedResource(),
+					};
+
+					MenuFlyoutItemWithThemedIcon CreateOpenInPaneItem(string text, string iconStyle, ShellPaneArrangement arrangement)
+					{
+						var item = new MenuFlyoutItemWithThemedIcon
+						{
+							Text = text,
+							ThemedIconStyle = (Style)Application.Current.Resources[iconStyle],
+						};
+						item.Click += (_, _) => paneHolder.OpenSecondaryPane(path, arrangement);
+						return item;
+					}
+
+					openInNewPaneSubItem.Items.Add(CreateOpenInPaneItem(Strings.SplitPaneVertically.GetLocalizedResource(), "App.ThemedIcons.OpenInPaneVertical", ShellPaneArrangement.Vertical));
+					openInNewPaneSubItem.Items.Add(CreateOpenInPaneItem(Strings.SplitPaneHorizontally.GetLocalizedResource(), "App.ThemedIcons.OpenInPaneHorizontal", ShellPaneArrangement.Horizontal));
+					flyout.Items.Add(openInNewPaneSubItem);
+				}
+			}
+
+			flyout.ShowAt(element, new FlyoutShowOptions { Position = e.GetPosition(element) });
+			e.Handled = true;
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(Style))]
+		[DynamicWindowsRuntimeCast(typeof(Brush))]
+		private ThemedIcon GetSearchModeIcon(bool isNaturalLanguageSearchAvailable, bool isActive)
+		{
+			var icon = new ThemedIcon()
+			{
+				Style = (Style)Application.Current.Resources[isNaturalLanguageSearchAvailable ? "App.ThemedIcons.Omnibar.Search.Advanced" : "App.ThemedIcons.Omnibar.Search"],
+				IsFilled = isActive,
+				IconType = ThemedIconTypes.Outline,
+			};
+
+			if (isNaturalLanguageSearchAvailable && !AccessibilitySettings.HighContrast)
+			{
+				icon.IconColorType = ThemedIconColorType.Custom;
+				icon.Color = (Brush)Resources["NaturalLanguageSearchIconBrush"];
+			}
+
+			return icon;
 		}
 	}
 }

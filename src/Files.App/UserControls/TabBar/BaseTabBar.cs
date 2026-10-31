@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Runtime.CompilerServices;
+using WinRT;
 
 namespace Files.App.UserControls.TabBar
 {
@@ -12,7 +13,7 @@ namespace Files.App.UserControls.TabBar
 	/// </summary>
 	public abstract class BaseTabBar : UserControl, ITabBar, INotifyPropertyChanged
 	{
-		protected ITabBarItemContent CurrentSelectedAppInstance;
+		protected ITabBarItemContent? CurrentSelectedAppInstance;
 
 		public static event EventHandler<ITabBar>? OnLoaded;
 		public static event PropertyChangedEventHandler? StaticPropertyChanged;
@@ -28,7 +29,7 @@ namespace Files.App.UserControls.TabBar
 		public ObservableCollection<TabBarItem> Items
 			=> MainPageViewModel.AppInstances;
 
-		public event EventHandler<CurrentInstanceChangedEventArgs> CurrentInstanceChanged;
+		public event EventHandler<CurrentInstanceChangedEventArgs>? CurrentInstanceChanged;
 
 		private static bool _IsRestoringClosedTab;
 		public static bool IsRestoringClosedTab
@@ -46,14 +47,14 @@ namespace Files.App.UserControls.TabBar
 			Loaded += TabView_Loaded;
 		}
 
-		public virtual DependencyObject ContainerFromItem(ITabBarItem item)
+		public virtual DependencyObject? ContainerFromItem(ITabBarItem item)
 		{
 			return null;
 		}
 
-		private void TabView_CurrentInstanceChanged(object sender, CurrentInstanceChangedEventArgs e)
+		private void TabView_CurrentInstanceChanged(object? sender, CurrentInstanceChangedEventArgs e)
 		{
-			foreach (ITabBarItemContent instance in e.PageInstances)
+			foreach (ITabBarItemContent? instance in e.PageInstances!)
 			{
 				if (instance is not null)
 				{
@@ -62,7 +63,7 @@ namespace Files.App.UserControls.TabBar
 			}
 		}
 
-		protected void TabView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected void TabView_SelectionChanged(object? sender, SelectionChangedEventArgs? e)
 		{
 			if (App.AppModel.TabStripSelectedIndex >= 0 && App.AppModel.TabStripSelectedIndex < Items.Count)
 			{
@@ -81,7 +82,10 @@ namespace Files.App.UserControls.TabBar
 
 		protected void TabView_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
 		{
-			CloseTab(args.Item as TabBarItem);
+			var tabItem = args.Item as TabBarItem;
+
+			// Defer: removing inside the close-requested callback trips ObservableCollection reentrancy.
+			DispatcherQueue.TryEnqueue(() => CloseTab(tabItem));
 		}
 
 		protected void OnCurrentInstanceChanged(CurrentInstanceChangedEventArgs args)
@@ -100,7 +104,7 @@ namespace Files.App.UserControls.TabBar
 			OnLoaded?.Invoke(null, this);
 		}
 
-		public ITabBarItemContent GetCurrentSelectedTabInstance()
+		public ITabBarItemContent? GetCurrentSelectedTabInstance()
 		{
 			return MainPageViewModel.AppInstances[App.AppModel.TabStripSelectedIndex].TabItemContent;
 		}
@@ -116,7 +120,7 @@ namespace Files.App.UserControls.TabBar
 			StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(RecentlyClosedTabs)));
 		}
 
-		public List<ITabBarItemContent> GetAllTabInstances()
+		public List<ITabBarItemContent?> GetAllTabInstances()
 		{
 			return MainPageViewModel.AppInstances.Select(x => x.TabItemContent).ToList();
 		}
@@ -136,30 +140,37 @@ namespace Files.App.UserControls.TabBar
 
 		public async void MoveTabToNewWindowAsync(object sender, RoutedEventArgs e)
 		{
-			await MultitaskingTabsHelpers.MoveTabToNewWindow(((FrameworkElement)sender).DataContext as TabBarItem, this);
+			if (sender is not FrameworkElement { DataContext: TabBarItem tabItem })
+				return;
+
+			await MultitaskingTabsHelpers.MoveTabToNewWindow(tabItem, this);
 		}
 
-		public void CloseTab(TabBarItem tabItem)
+		[DynamicWindowsRuntimeCast(typeof(Frame))]
+		public void CloseTab(TabBarItem? tabItem)
 		{
 			if (tabItem is null)
 				return;
+
+			if (MainWindow.Instance.Content is Frame rootFrame && rootFrame.Content is Files.App.Views.MainPage mainPage)
+				mainPage.DetachTabContent(tabItem);
 
 			Items.Remove(tabItem);
 			tabItem.Unload();
 
 			// Dispose and save tab arguments
-			PushRecentTab(
-			[
-				tabItem.NavigationParameter,
-			]);
+			PushRecentTab([tabItem.NavigationParameter!]);
 
 			// Save the updated tab list
 			AppLifecycleHelper.SaveSessionTabs();
+
+			AppMemoryHelper.RequestTrim();
 
 			if (Items.Count == 0)
 				MainWindow.Instance.Close();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Control))]
 		public void SetLoadingIndicatorStatus(ITabBarItem item, bool loading)
 		{
 			if (ContainerFromItem(item) is not Control tabItem)

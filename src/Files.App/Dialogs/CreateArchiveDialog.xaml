@@ -94,10 +94,8 @@
 					Grid.Row="0"
 					Grid.Column="1"
 					Width="160"
-					DisplayMemberPath="Label"
 					ItemsSource="{x:Bind ViewModel.FileFormats}"
-					SelectedItem="{x:Bind ViewModel.FileFormat, Mode=TwoWay}"
-					SelectedValuePath="Key" />
+					SelectedItem="{x:Bind ViewModel.FileFormat, Mode=TwoWay}" />
 
 				<!--  Compression Level  -->
 				<TextBlock
@@ -111,10 +109,8 @@
 					Grid.Column="1"
 					Width="160"
 					HorizontalAlignment="Right"
-					DisplayMemberPath="Label"
 					ItemsSource="{x:Bind ViewModel.CompressionLevels}"
-					SelectedItem="{x:Bind ViewModel.CompressionLevel, Mode=TwoWay}"
-					SelectedValuePath="Key" />
+					SelectedItem="{x:Bind ViewModel.CompressionLevel, Mode=TwoWay}" />
 
 				<!--  Splitting Size  -->
 				<TextBlock
@@ -130,14 +126,13 @@
 					HorizontalAlignment="Right"
 					IsEnabled="{x:Bind ViewModel.CanSplit, Mode=OneWay}"
 					ItemsSource="{x:Bind ViewModel.SplittingSizes}"
-					SelectedItem="{x:Bind ViewModel.SplittingSize, Mode=TwoWay}"
-					SelectedValuePath="Key">
+					SelectedItem="{x:Bind ViewModel.SplittingSize, Mode=TwoWay}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate x:DataType="local:SplittingSizeItem">
 							<StackPanel Orientation="Horizontal" Spacing="4">
 								<TextBlock Text="{x:Bind Label}" />
-								<TextBlock Text="{x:Bind Separator}" Visibility="{Binding IsDropDownOpen, ElementName=SplittingSizeSelector}" />
-								<TextBlock Text="{x:Bind Description}" Visibility="{Binding IsDropDownOpen, ElementName=SplittingSizeSelector}" />
+								<TextBlock Text="{x:Bind Separator}" Visibility="{Binding Path=IsDropDownOpen, ElementName=SplittingSizeSelector}" />
+								<TextBlock Text="{x:Bind Description}" Visibility="{Binding Path=IsDropDownOpen, ElementName=SplittingSizeSelector}" />
 							</StackPanel>
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
@@ -155,11 +150,9 @@
 					Grid.Column="1"
 					Width="160"
 					HorizontalAlignment="Right"
-					DisplayMemberPath="Label"
 					IsEnabled="{x:Bind ViewModel.CanSplit, Mode=OneWay}"
 					ItemsSource="{x:Bind ViewModel.DictionarySizes}"
-					SelectedItem="{x:Bind ViewModel.DictionarySize, Mode=TwoWay}"
-					SelectedValuePath="Key" />
+					SelectedItem="{x:Bind ViewModel.DictionarySize, Mode=TwoWay}" />
 
 				<!--  Word Size  -->
 				<TextBlock
@@ -173,11 +166,9 @@
 					Grid.Column="1"
 					Width="160"
 					HorizontalAlignment="Right"
-					DisplayMemberPath="Label"
 					IsEnabled="{x:Bind ViewModel.CanSplit, Mode=OneWay}"
 					ItemsSource="{x:Bind ViewModel.WordSizes}"
-					SelectedItem="{x:Bind ViewModel.WordSize, Mode=TwoWay}"
-					SelectedValuePath="Key" />
+					SelectedItem="{x:Bind ViewModel.WordSize, Mode=TwoWay}" />
 
 				<!--  CPU Threads  -->
 				<TextBlock

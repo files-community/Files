@@ -97,14 +97,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				},
 				new()
 				{
-					Text = Strings.RecentItemRemove_Text.GetLocalizedResource(),
+					Text = Strings.RecentItemRemoveText.GetLocalizedResource(),
 					Glyph = "\uE738",
 					Command = RemoveRecentItemCommand,
 					CommandParameter = item
 				},
 				new()
 				{
-					Text = Strings.RecentItemClearAll_Text.GetLocalizedResource(),
+					Text = Strings.RecentItemClearAllText.GetLocalizedResource(),
 					Glyph = "\uE74D",
 					Command = ClearAllItemsCommand
 				},
@@ -307,17 +307,21 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			if (item is null)
 				return;
+			var itemPathValue = item.Path
+				?? throw new InvalidOperationException("The recent item does not have a path.");
+			var shellPage = ContentPageContext.ShellPage
+				?? throw new InvalidOperationException("The shell page is not available for opening the file location.");
 
-			var itemPath = Directory.GetParent(item.Path)?.FullName ?? string.Empty;
-			var itemName = Path.GetFileName(item.Path);
+			var itemPath = Directory.GetParent(itemPathValue)?.FullName ?? string.Empty;
+			var itemName = Path.GetFileName(itemPathValue);
 
-			ContentPageContext.ShellPage!.NavigateWithArguments(
-				ContentPageContext.ShellPage!.InstanceViewModel.FolderSettings.GetLayoutType(itemPath),
+			shellPage.NavigateWithArguments(
+				shellPage.InstanceViewModel.FolderSettings.GetLayoutType(itemPath),
 				new NavigationArguments()
 				{
 					NavPathParam = itemPath,
 					SelectItems = new[] { itemName },
-					AssociatedTabInstance = ContentPageContext.ShellPage!
+					AssociatedTabInstance = shellPage
 				});
 		}
 
@@ -327,13 +331,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			if (item is null || flyout is null)
 				return;
+			var itemPath = item.Path
+				?? throw new InvalidOperationException("The recent item does not have a path.");
 
-			EventHandler<object> flyoutClosed = null!;
-			flyoutClosed = async (s, e) =>
+			async void FlyoutClosed(object? sender, object args)
 			{
-				flyout!.Closed -= flyoutClosed;
+				flyout.Closed -= FlyoutClosed;
 
-				BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path));
+				BaseStorageFile? file = await FilesystemTasks.WrapNullable(() => StorageFileExtensions.DangerousGetFileFromPathAsync(itemPath));
 				if (file is null)
 				{
 					ContentDialog dialog = new()
@@ -350,12 +355,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				}
 				else
 				{
-					var listedItem = await UniversalStorageEnumerator.AddFileAsync(file, null!, default);
-					FilePropertiesHelpers.OpenPropertiesWindow(listedItem, ContentPageContext.ShellPage!);
+					var listedItem = await UniversalStorageEnumerator.AddFileAsync(file, null, default);
+					var shellPage = ContentPageContext.ShellPage
+						?? throw new InvalidOperationException("The shell page is not available for opening properties.");
+					FilePropertiesHelpers.OpenPropertiesWindow(listedItem!, shellPage);
 				}
-			};
+			}
 
-			flyout!.Closed += flyoutClosed;
+			flyout.Closed += FlyoutClosed;
 		}
 
 		// Disposer

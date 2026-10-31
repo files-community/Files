@@ -210,6 +210,14 @@
 						Severity="Warning" />
 				</wctcontrols:SettingsExpander.ItemsHeader>
 			</wctcontrols:SettingsExpander>
+
+			<!--  Natural language search  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=SettingsNaturalLanguageSearch}" Visibility="{x:Bind ViewModel.IsNaturalLanguageSearchSupported, Mode=OneWay}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<PathIcon Data="{StaticResource App.Theme.PathIcon.SearchAdvanced}" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsNaturalLanguageSearch}" IsOn="{x:Bind ViewModel.EnableNaturalLanguageSearch, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
 		</StackPanel>
 	</Grid>
 </Page>

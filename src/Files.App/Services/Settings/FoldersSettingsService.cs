@@ -17,7 +17,7 @@ namespace Files.App.Services.Settings
 		// are removed after migration so subsequent launches no-op.
 		private void MigrateLegacySingleClickSettings()
 		{
-			if (JsonSettingsDatabase?.ExportSettings() is not IDictionary<string, object?> data)
+			if (JsonSettingsDatabase?.ExportSettings() is not IDictionary<string, JsonElement> data)
 				return;
 
 			if (data.ContainsKey("OpenItemsWithOneClick"))

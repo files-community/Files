@@ -216,7 +216,7 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 			return viewModel;
 		}
 
-		public static FileSystemDialogViewModel GetDialogViewModel(List<BaseFileSystemDialogItemViewModel> nonConflictingItems, string titleText, string descriptionText, string primaryButtonText, string secondaryButtonText)
+		public static FileSystemDialogViewModel GetDialogViewModel(List<BaseFileSystemDialogItemViewModel> nonConflictingItems, string titleText, string? descriptionText, string? primaryButtonText, string? secondaryButtonText, string? closeButtonText = null)
 		{
 			var viewModel = new FileSystemDialogViewModel(
 				new()
@@ -230,6 +230,7 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 				Description = descriptionText,
 				PrimaryButtonText = primaryButtonText,
 				SecondaryButtonText = secondaryButtonText,
+				CloseButtonText = closeButtonText,
 				DeletePermanently = false,
 				IsDeletePermanentlyEnabled = false
 			};
@@ -253,7 +254,14 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 
 					await threadingService.ExecuteOnUiThreadAsync(async () =>
 					{
-						item.ItemIcon = await imagingService.GetImageModelFromPathAsync(item.SourcePath!, 64u);
+						try
+						{
+							item.ItemIcon = await imagingService.GetImageModelFromPathAsync(item.SourcePath!, 64u);
+						}
+						catch (Exception)
+						{
+							// Async-void dispatch: an escaping thumbnail-load exception would crash unobserved.
+						}
 					});
 				}
 				catch (Exception ex)

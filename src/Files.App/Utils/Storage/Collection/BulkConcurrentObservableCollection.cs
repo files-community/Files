@@ -7,14 +7,13 @@ namespace Files.App.Utils.Storage
 {
 	[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
 	[DebuggerDisplay("Count = {Count}")]
-	public class BulkConcurrentObservableCollection<T> : INotifyCollectionChanged, INotifyPropertyChanged, ICollection<T>, IList<T>, ICollection, IList
+	[WinRT.GeneratedWinRTExposedType]
+	public partial class BulkConcurrentObservableCollection<T> : INotifyCollectionChanged, INotifyPropertyChanged, ICollection<T>, IList<T>, ICollection, IList
 	{
 		protected bool isBulkOperationStarted;
 		private readonly object syncRoot = new object();
 		private readonly List<T> collection = [];
 
-		// When 'GroupOption' is set to 'None' or when a folder is opened, 'GroupedCollection' is assigned 'null' by 'ItemGroupKeySelector'
-		public BulkConcurrentObservableCollection<GroupedCollection<T>>? GroupedCollection { get; private set; }
 		public bool IsSorted { get; set; }
 
 		public int Count
@@ -36,7 +35,7 @@ namespace Files.App.Utils.Storage
 
 		public object SyncRoot => syncRoot;
 
-		public bool IsGrouped => ItemGroupKeySelector is not null;
+		protected List<T> Items => collection;
 
 		object? IList.this[int index]
 		{
@@ -81,21 +80,6 @@ namespace Files.App.Utils.Storage
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		private Func<T, string>? itemGroupKeySelector;
-
-		public Func<T, string>? ItemGroupKeySelector
-		{
-			get => itemGroupKeySelector;
-			set
-			{
-				itemGroupKeySelector = value;
-				if (value is not null)
-					GroupedCollection ??= [];
-				else
-					GroupedCollection = null;
-			}
-		}
-
 		private Func<T, object>? itemSortKeySelector;
 
 		public Func<T, object>? ItemSortKeySelector
@@ -103,9 +87,6 @@ namespace Files.App.Utils.Storage
 			get => itemSortKeySelector;
 			set => itemSortKeySelector = value;
 		}
-
-		public Action<GroupedCollection<T>>? GetGroupHeaderInfo { get; set; }
-		public Action<GroupedCollection<T>>? GetExtendedGroupHeaderInfo { get; set; }
 
 		public BulkConcurrentObservableCollection()
 		{
@@ -121,8 +102,7 @@ namespace Files.App.Utils.Storage
 			lock (syncRoot)
 			{
 				isBulkOperationStarted = true;
-				GroupedCollection?.ForEach(gp => gp.BeginBulkOperation());
-				GroupedCollection?.BeginBulkOperation();
+				OnBulkOperationStarted();
 			}
 		}
 
@@ -138,90 +118,20 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		protected void UpdateGroups(NotifyCollectionChangedEventArgs e)
+		protected virtual void UpdateGroups(NotifyCollectionChangedEventArgs e)
 		{
-			if (IsGrouped)
-			{
-				if (e.NewItems is not null)
-					AddItemsToGroup(e.NewItems.Cast<T>());
-
-				if (e.OldItems is not null)
-					RemoveItemsFromGroup(e.OldItems.Cast<T>());
-			}
 		}
 
-		public void ResetGroups(CancellationToken token = default)
+		protected virtual void OnBulkOperationStarted()
 		{
-			if (!IsGrouped)
-				return;
-
-			// Prevents any unwanted errors caused by bindings updating
-			GroupedCollection?.ForEach(x => x.Model.PausePropertyChangedNotifications());
-			GroupedCollection?.Clear();
-			AddItemsToGroup(collection, token);
 		}
 
-		private void AddItemsToGroup(IEnumerable<T> items, CancellationToken token = default)
+		protected virtual void OnBulkOperationEnded()
 		{
-			if (GroupedCollection is null)
-				return;
-
-			foreach (var item in items)
-			{
-				if (token.IsCancellationRequested)
-					return;
-
-				var key = GetGroupKeyForItem(item);
-				if (key is null)
-					continue;
-
-				var groups = GroupedCollection?.Where(x => x.Model.Key == key);
-				if (item is IGroupableItem groupable)
-					groupable.Key = key;
-
-				if (groups is not null &&
-					groups.Any())
-				{
-					var gp = groups.First();
-					gp.Add(item);
-					gp.IsSorted = false;
-				}
-				else
-				{
-					var group = new GroupedCollection<T>(key)
-					{
-						item
-					};
-
-					group.GetExtendedGroupHeaderInfo = GetExtendedGroupHeaderInfo;
-					if (GetGroupHeaderInfo is not null)
-						GetGroupHeaderInfo.Invoke(group);
-
-					GroupedCollection?.Add(group);
-					GroupedCollection!.IsSorted = false;
-				}
-			}
 		}
 
-		private void RemoveItemsFromGroup(IEnumerable<T> items)
+		protected virtual void OnCleared()
 		{
-			foreach (var item in items)
-			{
-				var key = GetGroupKeyForItem(item);
-
-				var group = GroupedCollection?.Where(x => x.Model.Key == key).FirstOrDefault();
-				if (group is not null)
-				{
-					group.Remove(item);
-					if (group.Count == 0)
-						GroupedCollection?.Remove(group);
-				}
-			}
-		}
-
-		private string? GetGroupKeyForItem(T item)
-		{
-			return ItemGroupKeySelector?.Invoke(item);
 		}
 
 		public virtual void EndBulkOperation()
@@ -232,8 +142,7 @@ namespace Files.App.Utils.Storage
 					return;
 
 				isBulkOperationStarted = false;
-				GroupedCollection?.ForEach(gp => gp.EndBulkOperation());
-				GroupedCollection?.EndBulkOperation();
+				OnBulkOperationEnded();
 
 				OnCollectionChanged(EventArgsCache.ResetCollectionChanged);
 			}
@@ -266,7 +175,7 @@ namespace Files.App.Utils.Storage
 			lock (syncRoot)
 			{
 				collection.Clear();
-				GroupedCollection?.Clear();
+				OnCleared();
 
 				OnCollectionChanged(EventArgsCache.ResetCollectionChanged);
 			}
@@ -370,6 +279,28 @@ namespace Files.App.Utils.Storage
 
 				e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index);
 				OnCollectionChanged(e);
+			}
+
+			UpdateGroups(e);
+		}
+
+		public void Move(int oldIndex, int newIndex)
+		{
+			ArgumentOutOfRangeException.ThrowIfNegative(newIndex);
+
+			NotifyCollectionChangedEventArgs e;
+			lock (syncRoot)
+			{
+				ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(newIndex, collection.Count);
+				if (oldIndex == newIndex)
+					return;
+
+				var item = collection[oldIndex];
+				collection.RemoveAt(oldIndex);
+				collection.Insert(newIndex, item);
+
+				e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item, newIndex, oldIndex);
+				OnCollectionChanged(e, false);
 			}
 
 			UpdateGroups(e);

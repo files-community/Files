@@ -36,8 +36,9 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
+			var itemPath = context.ShellPage?.SlimContentPage?.SelectedItem?.ItemPath;
 			return Win32Helper.RunPowershellCommandAsync(
-				$"& '{context.ShellPage?.SlimContentPage?.SelectedItem?.ItemPath}'",
+				$"& {Win32Helper.ToPowerShellStringLiteral(itemPath)}",
 				PowerShellExecutionOptions.None,
 				context.Folder?.ItemPath
 			);

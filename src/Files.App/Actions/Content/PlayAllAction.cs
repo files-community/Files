@@ -11,7 +11,9 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> Strings.PlayAll.GetLocalizedResource();
+			=> context.SelectedItems.Count > 1
+				? Strings.PlayAll.GetLocalizedResource()
+				: Strings.Play.GetLocalizedResource();
 
 		public string Description
 			=> Strings.PlayAllDescription.GetLocalizedResource();
@@ -24,7 +26,7 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			context.PageType != ContentPageTypes.RecycleBin &&
-			context.SelectedItems.Count > 1 &&
+			context.SelectedItems.Count > 0 &&
 			context.SelectedItems.All(item => FileExtensionHelpers.IsMediaFile(item.FileExtension));
 
 		public PlayAllAction()
@@ -46,6 +48,7 @@ namespace Files.App.Actions
 				case nameof(IContentPageContext.PageType):
 				case nameof(IContentPageContext.SelectedItems):
 					OnPropertyChanged(nameof(IsExecutable));
+					OnPropertyChanged(nameof(Label));
 					break;
 			}
 		}

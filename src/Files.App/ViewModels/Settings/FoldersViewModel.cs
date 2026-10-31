@@ -15,6 +15,8 @@ namespace Files.App.ViewModels.Settings
 		{
 			SelectedDeleteConfirmationPolicyIndex = (int)DeleteConfirmationPolicy;
 
+			_ = DetectNaturalLanguageSearchSupportAsync();
+
 			// Size unit format
 			SizeUnitsOptions.Add(SizeUnitTypes.BinaryUnits, Strings.Binary.GetLocalizedResource());
 			SizeUnitsOptions.Add(SizeUnitTypes.DecimalUnits, Strings.Decimal.GetLocalizedResource());
@@ -27,6 +29,51 @@ namespace Files.App.ViewModels.Settings
 			SelectedOpenFilesWithSingleClickOption = SingleClickOpenModeOptions[UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick];
 			SelectedOpenFoldersWithSingleClickOption = SingleClickOpenModeOptions[UserSettingsService.FoldersSettingsService.OpenFoldersWithSingleClick];
 			SelectedOpenFoldersInColumnsViewWithSingleClickOption = SingleClickOpenModeOptions[UserSettingsService.FoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick];
+		}
+
+		internal void StartListening()
+		{
+			UserSettingsService.OnSettingChangedEvent -= OnSharedSettingChanged;
+			UserSettingsService.OnSettingChangedEvent += OnSharedSettingChanged;
+			RefreshSettings();
+		}
+
+		internal void StopListening() => UserSettingsService.OnSettingChangedEvent -= OnSharedSettingChanged;
+
+		private void OnSharedSettingChanged(object? sender, SettingChangedEventArgs e)
+		{
+			if (e.NewValue is JsonElement)
+				RefreshSettings(e.SettingName);
+		}
+
+		private void RefreshSettings(string? name = null)
+		{
+			var settings = UserSettingsService.FoldersSettingsService;
+			if (name is null or nameof(IFoldersSettingsService.DeleteConfirmationPolicy))
+			{
+				SetProperty(ref selectedDeleteConfirmationPolicyIndex, (int)settings.DeleteConfirmationPolicy, nameof(SelectedDeleteConfirmationPolicyIndex));
+			}
+			if (name is null or nameof(IFoldersSettingsService.OpenFilesWithSingleClick))
+			{
+				SetProperty(ref selectedOpenFilesWithSingleClickOption, SingleClickOpenModeOptions[settings.OpenFilesWithSingleClick], nameof(SelectedOpenFilesWithSingleClickOption));
+			}
+			if (name is null or nameof(IFoldersSettingsService.OpenFoldersWithSingleClick))
+			{
+				SetProperty(ref selectedOpenFoldersWithSingleClickOption, SingleClickOpenModeOptions[settings.OpenFoldersWithSingleClick], nameof(SelectedOpenFoldersWithSingleClickOption));
+			}
+			if (name is null or nameof(IFoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick))
+			{
+				SetProperty(ref selectedOpenFoldersInColumnsViewWithSingleClickOption, SingleClickOpenModeOptions[settings.OpenFoldersInColumnsViewWithSingleClick], nameof(SelectedOpenFoldersInColumnsViewWithSingleClickOption));
+			}
+			if (name is null or nameof(IFoldersSettingsService.SizeUnitFormat))
+			{
+				SetProperty(ref sizeUnitFormat, SizeUnitsOptions[settings.SizeUnitFormat], nameof(SizeUnitFormat));
+			}
+			if (name is null or nameof(IFoldersSettingsService.OpenFoldersInNewTab))
+			{
+				OnPropertyChanged(nameof(OpenFoldersNewTab));
+			}
+			OnPropertyChanged(name ?? string.Empty);
 		}
 
 		// Properties
@@ -103,7 +150,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedOpenFilesWithSingleClickOption;
+		private string selectedOpenFilesWithSingleClickOption = null!;
 		public string SelectedOpenFilesWithSingleClickOption
 		{
 			get => selectedOpenFilesWithSingleClickOption;
@@ -116,7 +163,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedOpenFoldersWithSingleClickOption;
+		private string selectedOpenFoldersWithSingleClickOption = null!;
 		public string SelectedOpenFoldersWithSingleClickOption
 		{
 			get => selectedOpenFoldersWithSingleClickOption;
@@ -129,7 +176,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedOpenFoldersInColumnsViewWithSingleClickOption;
+		private string selectedOpenFoldersInColumnsViewWithSingleClickOption = null!;
 		public string SelectedOpenFoldersInColumnsViewWithSingleClickOption
 		{
 			get => selectedOpenFoldersInColumnsViewWithSingleClickOption;
@@ -282,7 +329,33 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string sizeUnitFormat;
+		private bool isNaturalLanguageSearchSupported;
+		public bool IsNaturalLanguageSearchSupported
+		{
+			get => isNaturalLanguageSearchSupported;
+			private set => SetProperty(ref isNaturalLanguageSearchSupported, value);
+		}
+
+		public bool EnableNaturalLanguageSearch
+		{
+			get => UserSettingsService.GeneralSettingsService.EnableNaturalLanguageSearch;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.EnableNaturalLanguageSearch)
+				{
+					UserSettingsService.GeneralSettingsService.EnableNaturalLanguageSearch = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private async Task DetectNaturalLanguageSearchSupportAsync()
+		{
+			IsNaturalLanguageSearchSupported = await Task.Run(NaturalLanguageSearch.IsAvailable);
+		}
+
+		private string sizeUnitFormat = null!;
 		public string SizeUnitFormat
 		{
 			get => sizeUnitFormat;

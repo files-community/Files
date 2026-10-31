@@ -30,7 +30,7 @@ namespace Files.App.Actions
 		public override Task ExecuteAsync(object? parameter = null)
 		{
 			if (IsExecutable && ContentPageContext.SelectedItem is ListedItem selectedItem)
-				AppearanceSettingsService.AppThemeBackgroundImageSource = selectedItem.ItemPath;
+				AppearanceSettingsService.AppThemeBackgroundImageSource = selectedItem.ItemPath!;
 
 			return Task.CompletedTask;
 		}

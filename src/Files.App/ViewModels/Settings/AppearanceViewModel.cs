@@ -11,6 +11,9 @@ namespace Files.App.ViewModels.Settings
 {
 	public sealed partial class AppearanceViewModel : ObservableObject
 	{
+		// Keys the persisted state of the background image picker so it reopens at the last browsed folder
+		private static readonly Guid _backgroundImagePickerClientGuid = new("D3EED455-B484-4400-9232-76C210DA15CE");
+
 		private ICommandManager CommandManager { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
@@ -27,6 +30,11 @@ namespace Files.App.ViewModels.Settings
 		public Dictionary<HorizontalAlignment, string> ImageHorizontalAlignmentTypes { get; private set; } = [];
 
 		public Dictionary<StatusCenterVisibility, string> StatusCenterVisibilityOptions { get; private set; } = [];
+		public List<StatusBarItemCountFormatItem> StatusBarItemCountFormats { get; } =
+		[
+			new(Strings.TotalCount.GetLocalizedResource(), $"12 {Strings.Items.GetLocalizedFormatResource(12)}"),
+			new(Strings.SeparateFileAndFolderCounts.GetLocalizedResource(), Strings.PropertiesFilesAndFoldersCountString.GetLocalizedFormatResource(8, 4)),
+		];
 
 		public Dictionary<string, string> AppThemeFontFamilyOptions { get; private set; } = [];
 
@@ -41,6 +49,11 @@ namespace Files.App.ViewModels.Settings
 			UserSettingsService = userSettingsService;
 			ResourcesService = resourcesService;
 			selectedThemeIndex = (int)Enum.Parse<ElementTheme>(AppThemeModeService.AppThemeMode.ToString());
+			AppThemeModeService.AppThemeModeChanged += (_, _) =>
+			{
+				if (SetProperty(ref selectedThemeIndex, (int)AppThemeModeService.AppThemeMode, nameof(SelectedThemeIndex)))
+					OnPropertyChanged(nameof(SelectedElementTheme));
+			};
 
 			Themes =
 			[
@@ -58,6 +71,7 @@ namespace Files.App.ViewModels.Settings
 			selectedBackdropMaterial = BackdropMaterialTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial];
 
 			AppThemeResources = AppThemeResourceFactory.AppThemeResources;
+			selectedAppThemeResources = AppThemeResources[0];
 
 
 			// Background image fit options
@@ -93,6 +107,40 @@ namespace Files.App.ViewModels.Settings
 			SelectImageCommand = new RelayCommand(SelectBackgroundImage);
 			RemoveImageCommand = new RelayCommand(RemoveBackgroundImage);
 			CustomizeToolbarCommand = new AsyncRelayCommand(() => CommandManager.CustomizeToolbar.ExecuteAsync());
+			UserSettingsService.AppearanceSettingsService.PropertyChanged += OnAppearanceSettingChanged;
+		}
+
+		private void OnAppearanceSettingChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			var settings = UserSettingsService.AppearanceSettingsService;
+			switch (e.PropertyName)
+			{
+				case nameof(IAppearanceSettingsService.AppThemeBackgroundColor):
+					UpdateSelectedResource();
+					break;
+				case nameof(IAppearanceSettingsService.AppThemeBackdropMaterial):
+					SetProperty(ref selectedBackdropMaterial, BackdropMaterialTypes[settings.AppThemeBackdropMaterial], nameof(SelectedBackdropMaterial));
+					break;
+				case nameof(IAppearanceSettingsService.AppThemeFontFamily):
+					OnPropertyChanged(nameof(SelectedAppThemeFontFamilyOption));
+					break;
+				case nameof(IAppearanceSettingsService.AppThemeBackgroundImageFit):
+					SetProperty(ref selectedImageStretchType, ImageStretchTypes[settings.AppThemeBackgroundImageFit], nameof(SelectedImageStretchType));
+					break;
+				case nameof(IAppearanceSettingsService.AppThemeBackgroundImageVerticalAlignment):
+					SetProperty(ref selectedImageVerticalAlignmentType, ImageVerticalAlignmentTypes[settings.AppThemeBackgroundImageVerticalAlignment], nameof(SelectedImageVerticalAlignmentType));
+					break;
+				case nameof(IAppearanceSettingsService.AppThemeBackgroundImageHorizontalAlignment):
+					SetProperty(ref selectedImageHorizontalAlignmentType, ImageHorizontalAlignmentTypes[settings.AppThemeBackgroundImageHorizontalAlignment], nameof(SelectedImageHorizontalAlignmentType));
+					break;
+				case nameof(IAppearanceSettingsService.StatusCenterVisibility):
+					SetProperty(ref selectedStatusCenterVisibilityOption, StatusCenterVisibilityOptions[settings.StatusCenterVisibility], nameof(SelectedStatusCenterVisibilityOption));
+					break;
+				case nameof(IAppearanceSettingsService.StatusBarItemCountFormat):
+					OnPropertyChanged(nameof(SelectedStatusBarItemCountFormatIndex));
+					break;
+			}
+			OnPropertyChanged(e.PropertyName);
 		}
 
 		/// <summary>
@@ -112,7 +160,7 @@ namespace Files.App.ViewModels.Settings
 				"WEBP", "*.webp",
 			];
 
-			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.MyPictures, out var filePath);
+			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.MyPictures, out var filePath, _backgroundImagePickerClientGuid);
 			if (result)
 				AppThemeBackgroundImageSource = filePath;
 		}
@@ -187,7 +235,7 @@ namespace Files.App.ViewModels.Settings
 			{
 				if (value is not null && SetProperty(ref selectedAppThemeResources, value))
 				{
-					AppThemeBackgroundColor = SelectedAppThemeResources.BackgroundColor;
+					AppThemeBackgroundColor = value.BackgroundColor!;
 					OnPropertyChanged(nameof(selectedAppThemeResources));
 				}
 			}
@@ -293,7 +341,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedImageStretchType;
+		private string selectedImageStretchType = null!;
 		public string SelectedImageStretchType
 		{
 			get => selectedImageStretchType;
@@ -320,7 +368,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedImageVerticalAlignmentType;
+		private string selectedImageVerticalAlignmentType = null!;
 		public string SelectedImageVerticalAlignmentType
 		{
 			get => selectedImageVerticalAlignmentType;
@@ -333,7 +381,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedImageHorizontalAlignmentType;
+		private string selectedImageHorizontalAlignmentType = null!;
 		public string SelectedImageHorizontalAlignmentType
 		{
 			get => selectedImageHorizontalAlignmentType;
@@ -402,7 +450,21 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedStatusCenterVisibilityOption;
+		public int SelectedStatusBarItemCountFormatIndex
+		{
+			get => (int)UserSettingsService.AppearanceSettingsService.StatusBarItemCountFormat;
+			set
+			{
+				if (value >= 0 && value != (int)UserSettingsService.AppearanceSettingsService.StatusBarItemCountFormat)
+				{
+					UserSettingsService.AppearanceSettingsService.StatusBarItemCountFormat = (StatusBarItemCountFormat)value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private string selectedStatusCenterVisibilityOption = null!;
 		public string SelectedStatusCenterVisibilityOption
 		{
 			get => selectedStatusCenterVisibilityOption;
@@ -419,5 +481,12 @@ namespace Files.App.ViewModels.Settings
 		{
 			get => AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;
 		}
+	}
+
+	public sealed class StatusBarItemCountFormatItem(string label, string sample)
+	{
+		public string Label { get; } = label;
+
+		public string Sample { get; } = sample;
 	}
 }

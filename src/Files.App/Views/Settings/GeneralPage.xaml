@@ -70,12 +70,12 @@
 									FontSize="12"
 									FontWeight="Light"
 									Text="{x:Bind Sample1}"
-									Visibility="{Binding IsDropDownOpen, ElementName=DateFormatChooser}" />
+									Visibility="{Binding Path=IsDropDownOpen, ElementName=DateFormatChooser}" />
 								<TextBlock
 									FontSize="12"
 									FontWeight="Light"
 									Text="{x:Bind Sample2}"
-									Visibility="{Binding IsDropDownOpen, ElementName=DateFormatChooser}" />
+									Visibility="{Binding Path=IsDropDownOpen, ElementName=DateFormatChooser}" />
 							</StackPanel>
 						</DataTemplate>
 					</uc:ComboBoxEx.ItemTemplate>
@@ -351,6 +351,20 @@
 					<FontIcon Glyph="&#xEC8F;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=EnableSmoothScrolling}" IsOn="{x:Bind ViewModel.EnableSmoothScrolling, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
+
+			<!--  Reverse tab scroll direction  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ReverseTabScrollDirection}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xECE7;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<uc:ComboBoxEx
+					HorizontalAlignment="Left"
+					AutomationProperties.Name="{helpers:ResourceString Name=ReverseTabScrollDirection}"
+					SelectedIndex="{x:Bind ViewModel.SelectedTabScrollDirectionIndex, Mode=TwoWay}">
+					<ComboBoxItem Content="{helpers:ResourceString Name=DownMotionScrollsLeft}" />
+					<ComboBoxItem Content="{helpers:ResourceString Name=DownMotionScrollsRight}" />
+				</uc:ComboBoxEx>
 			</wctcontrols:SettingsCard>
 		</StackPanel>
 

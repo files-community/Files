@@ -6,8 +6,10 @@ using Microsoft.UI.Windowing;
 namespace Files.App.Actions
 {
 	[GeneratedRichCommand]
-	internal sealed class ToggleFullScreenAction : IToggleAction
+	internal sealed partial class ToggleFullScreenAction : ObservableObject, IToggleAction
 	{
+		private readonly IWindowContext windowContext;
+
 		public string Label
 			=> Strings.FullScreen.GetLocalizedResource();
 
@@ -21,12 +23,13 @@ namespace Files.App.Actions
 			=> new(Keys.F11);
 
 		public bool IsOn
+			=> windowContext.IsFullScreen;
+
+		public ToggleFullScreenAction()
 		{
-			get
-			{
-				var appWindow = MainWindow.Instance.AppWindow;
-				return appWindow.Presenter.Kind is AppWindowPresenterKind.FullScreen;
-			}
+			windowContext = Ioc.Default.GetRequiredService<IWindowContext>();
+
+			windowContext.PropertyChanged += WindowContext_PropertyChanged;
 		}
 
 		public Task ExecuteAsync(object? parameter = null)
@@ -38,6 +41,12 @@ namespace Files.App.Actions
 
 			appWindow.SetPresenter(newKind);
 			return Task.CompletedTask;
+		}
+
+		private void WindowContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(IWindowContext.IsFullScreen))
+				OnPropertyChanged(nameof(IsOn));
 		}
 	}
 }

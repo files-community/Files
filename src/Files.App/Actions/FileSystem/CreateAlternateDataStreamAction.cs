@@ -49,14 +49,15 @@ namespace Files.App.Actions
 			var userInput = nameDialog.ViewModel.AdditionalData as string;
 			await Task.WhenAll(context.SelectedItems.Select(async selectedItem =>
 			{
-				var isDateOk = Win32Helper.GetFileDateModified(selectedItem.ItemPath, out var dateModified);
-				var isReadOnly = Win32Helper.HasFileAttribute(selectedItem.ItemPath, System.IO.FileAttributes.ReadOnly);
+				var itemPath = selectedItem.ItemPath!;
+				var isDateOk = Win32Helper.GetFileDateModified(itemPath, out var dateModified);
+				var isReadOnly = Win32Helper.HasFileAttribute(itemPath, System.IO.FileAttributes.ReadOnly);
 
 				// Unset read-only attribute (#7534)
 				if (isReadOnly)
-					Win32Helper.UnsetFileAttribute(selectedItem.ItemPath, System.IO.FileAttributes.ReadOnly);
+					Win32Helper.UnsetFileAttribute(itemPath, System.IO.FileAttributes.ReadOnly);
 
-				if (!Win32Helper.WriteStringToFile($"{selectedItem.ItemPath}:{userInput}", ""))
+				if (!Win32Helper.WriteStringToFile($"{itemPath}:{userInput}", ""))
 				{
 					var dialog = new ContentDialog
 					{
@@ -73,11 +74,11 @@ namespace Files.App.Actions
 
 				// Restore read-only attribute (#7534)
 				if (isReadOnly)
-					Win32Helper.SetFileAttribute(selectedItem.ItemPath, System.IO.FileAttributes.ReadOnly);
+					Win32Helper.SetFileAttribute(itemPath, System.IO.FileAttributes.ReadOnly);
 
 				// Restore date modified
 				if (isDateOk)
-					Win32Helper.SetFileDateModified(selectedItem.ItemPath, dateModified);
+					Win32Helper.SetFileDateModified(itemPath, dateModified);
 			}));
 
 			if (context.ShellPage is null)

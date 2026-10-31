@@ -1,13 +1,11 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI;
+using Files.App.Dialogs;
 using Files.App.ViewModels.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
-using System.Text;
-using Windows.System;
+using WinRT;
 
 namespace Files.App.Views.Settings
 {
@@ -16,149 +14,71 @@ namespace Files.App.Views.Settings
 	/// </summary>
 	public sealed partial class ActionsPage : Page
 	{
-		private readonly string PART_EditButton = "EditButton";
-		private readonly string NormalState = "Normal";
-		private readonly string PointerOverState = "PointerOver";
+		private ModifiableActionItem? _itemPendingDeletion;
 
 		private ActionsViewModel ViewModel { get; set; } = new();
 
 		public ActionsPage()
 		{
 			InitializeComponent();
+			Loaded += (_, _) => ViewModel.StartListening();
+			Unloaded += (_, _) => ViewModel.StopListening();
 		}
 
-		private void RootGrid_PointerEntered(object sender, PointerRoutedEventArgs e)
+		private void ActionsPage_Loaded(object sender, RoutedEventArgs e)
 		{
-			VisualStateManager.GoToState((UserControl)sender, PointerOverState, true);
-
-			// Make edit button visible on pointer in
-			if (sender is UserControl userControl &&
-				userControl.FindChild(PART_EditButton) is Button editButton &&
-				userControl.DataContext is ModifiableActionItem item &&
-				!item.IsInEditMode)
-				editButton.Visibility = Visibility.Visible;
+			if (ViewModel.LoadAllActionsCommand.CanExecute(e))
+				ViewModel.LoadAllActionsCommand.Execute(e);
 		}
 
-		private void RootGrid_PointerExited(object sender, PointerRoutedEventArgs e)
+		private async void AddCommandButton_Click(SplitButton sender, SplitButtonClickEventArgs e)
 		{
-			VisualStateManager.GoToState((UserControl)sender, NormalState, true);
-
-			// Make edit button invisible on pointer out
-			if (sender is UserControl userControl &&
-				userControl.FindChild(PART_EditButton) is Button editButton &&
-				userControl.DataContext is ModifiableActionItem item &&
-				!item.IsInEditMode)
-				editButton.Visibility = Visibility.Collapsed;
+			await ShowKeyBindingEditorDialogAsync(null);
 		}
 
-		private void KeyBindingEditorTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		private async void EditButton_Click(object sender, RoutedEventArgs e)
 		{
-			// Ensure the sender is a TextBox
-			if (sender is not TextBox textBox)
+			// ItemsRepeater doesn't set DataContext on realized rows; the item comes through Tag
+			if (sender is FrameworkElement { Tag: ModifiableActionItem item })
+				await ShowKeyBindingEditorDialogAsync(item);
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		private void DeleteButton_Click(object sender, RoutedEventArgs e)
+		{
+			// ItemsRepeater doesn't set DataContext on realized rows; the item comes through Tag
+			if (sender is not FrameworkElement { Tag: ModifiableActionItem item } target)
 				return;
 
-			// Cast the DataContext of the TextBox to a ModifiableActionItem if possible, or null if the cast fails
-			var item = textBox.DataContext as ModifiableActionItem;
+			// Confirm before removing, anchored to the delete button
+			_itemPendingDeletion = item;
+			DeleteConfirmationTeachingTip.Target = target;
+			DeleteConfirmationTeachingTip.IsOpen = true;
+		}
 
-			var pressedKey = e.OriginalKey;
-			var pressedKeyValue = HotKey.LocalizedKeys.GetValueOrDefault((Keys)pressedKey);
-			var buffer = new StringBuilder();
+		private void DeleteConfirmationTeachingTip_ActionButtonClick(TeachingTip sender, object args)
+		{
+			sender.IsOpen = false;
 
-			// Define invalid keys that shouldn't be processed
-			var invalidKeys = new HashSet<VirtualKey>
+			if (_itemPendingDeletion is not null)
 			{
-				VirtualKey.CapitalLock,
-				VirtualKey.NumberKeyLock,
-				VirtualKey.Scroll,
+				ViewModel.DeleteCommand.Execute(_itemPendingDeletion);
+				_itemPendingDeletion = null;
+			}
+		}
+
+		private async Task ShowKeyBindingEditorDialogAsync(ModifiableActionItem? itemToEdit)
+		{
+			var dialog = new KeyBindingEditorDialog(ViewModel, itemToEdit)
+			{
+				XamlRoot = XamlRoot,
 			};
 
-			// Define modifier keys
-			var modifierKeys = new HashSet<VirtualKey>
-			{
-				VirtualKey.Shift,
-				VirtualKey.Control,
-				VirtualKey.Menu,
-				VirtualKey.LeftWindows,
-				VirtualKey.RightWindows,
-				VirtualKey.LeftShift,
-				VirtualKey.LeftControl,
-				VirtualKey.RightControl,
-				VirtualKey.LeftMenu,
-				VirtualKey.RightMenu
-			};
-
-			// Determine if the pressed key is invalid or a modifier
-			var isInvalidKey = invalidKeys.Contains(pressedKey) || string.IsNullOrEmpty(pressedKeyValue);
-			var isModifierKey = modifierKeys.Contains(pressedKey);
-
-			// Handle invalid keys that are not modifiers
-			if (isInvalidKey && !isModifierKey)
-			{
-				InvalidKeyTeachingTip.Target = textBox;
-				ViewModel.IsInvalidKeyTeachingTipOpened = true;
-			}
-
-			// Check if the pressed key is invalid, a modifier, or has no value; Don't show it in the TextBox yet
-			if (isInvalidKey || isModifierKey)
-			{
-				// Set the text of the TextBox to the empty buffer
-				textBox.Text = buffer.ToString();
-
-				// Update UI state based on the context item
-				if (item is null)
-					ViewModel.EnableAddNewKeyBindingButton = false;
-				else
-					item.IsValidKeyBinding = false;
-
-				// Prevent key down event in other UIElements from getting invoked
-				e.Handled = true;
-				return;
-			}
-
-			// Get the currently pressed modifier keys
-			var pressedModifiers = HotKeyHelpers.GetCurrentKeyModifiers();
-
-			// Append modifier keys to the buffer
-			if (pressedModifiers.HasFlag(KeyModifiers.Ctrl))
-				buffer.Append($"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Ctrl)}+");
-			if (pressedModifiers.HasFlag(KeyModifiers.Alt))
-				buffer.Append($"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Alt)}+");
-			if (pressedModifiers.HasFlag(KeyModifiers.Shift))
-				buffer.Append($"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Shift)}+");
-
-			// Append the pressed key to the buffer
-			buffer.Append(pressedKeyValue);
-
-			// Set the text of the TextBox to the constructed key combination
-			textBox.Text = buffer.ToString();
-
-			// Update UI state based on the context item
-			if (item is null)
-				ViewModel.EnableAddNewKeyBindingButton = true;
-			else
-				item.IsValidKeyBinding = true;
-
-			// Prevent key down event in other UIElements from getting invoked
-			e.Handled = true;
+			await dialog.ShowAsync();
 		}
 
-		private void KeyBindingEditorTextBox_Loaded(object sender, RoutedEventArgs e)
-		{
-			// Focus the editor TextBox
-			TextBox keyboardShortcutEditorTextBox = (TextBox)sender;
-			keyboardShortcutEditorTextBox.Focus(FocusState.Programmatic);
-		}
-
-		private void NewKeyBindingItemPickerComboBox_DropDownClosed(object sender, object e)
-		{
-			// Check if a new action is selected
-			if (ViewModel.SelectedActionItem is null)
-				return;
-
-			// Focus the editor TextBox
-			KeyBindingEditorTextBox.Focus(FocusState.Programmatic);
-		}
-
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			var query = ((TextBox)sender).Text;

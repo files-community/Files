@@ -1,9 +1,10 @@
 // Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using CommunityToolkit.WinUI.Controls;
 using Files.App.Views.Settings;
 using Microsoft.UI.Xaml.Controls;
+using WinRT;
 
 namespace Files.App.ViewModels.Settings
 {
@@ -42,6 +43,7 @@ namespace Files.App.ViewModels.Settings
 			return results;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Panel))]
 		private static void Walk(object? node, SettingsPageKind kind, string pageName, string? parentHeader, List<SettingsSearchResult> results)
 		{
 			switch (node)

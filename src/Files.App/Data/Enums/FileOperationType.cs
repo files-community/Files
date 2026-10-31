@@ -64,9 +64,9 @@ namespace Files.App.Data.Enums
 		Compressed = 11,
 
 		/// <summary>
-		/// A git repo has been cloned
+		/// A Git operation has been performed
 		/// </summary>
-		GitClone = 12,
+		Git = 12,
 
 		/// <summary>
 		/// A font has been installed

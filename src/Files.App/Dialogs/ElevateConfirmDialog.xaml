@@ -25,7 +25,7 @@
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal" Spacing="5">
 							<FontIcon FontSize="14" Glyph="&#xEA18;" />
-							<TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+							<TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
 						</StackPanel>
 					</DataTemplate>
 				</Setter.Value>

@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 
@@ -61,6 +62,16 @@ namespace Files.Shared.Helpers
 		}
 
 		/// <summary>
+		/// Check if the file extension is an image that can be converted to an ICO file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck">The file extension to check.</param>
+		/// <returns><c>true</c> if the fileExtensionToCheck can be converted to an ICO file; otherwise, <c>false</c>.</returns>
+		public static bool IsConvertibleToIcoFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".png", ".bmp", ".jpg", ".jpeg", ".jfif");
+		}
+
+		/// <summary>
 		/// Checks if the file can be set as wallpaper.
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
@@ -95,7 +106,7 @@ namespace Files.Shared.Helpers
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
 		/// <returns><c>true</c> if the fileExtensionToCheck is a PowerShell script; otherwise, <c>false</c>.</returns>
-		public static bool IsPowerShellFile(string fileExtensionToCheck)
+		public static bool IsPowerShellFile(string? fileExtensionToCheck)
 		{
 			return HasExtension(fileExtensionToCheck, ".ps1");
 		}
@@ -105,7 +116,7 @@ namespace Files.Shared.Helpers
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
 		/// <returns><c>true</c> if the fileExtensionToCheck is a Batch file; otherwise, <c>false</c>.</returns>
-		public static bool IsBatchFile(string fileExtensionToCheck)
+		public static bool IsBatchFile(string? fileExtensionToCheck)
 		{
 			return HasExtension(fileExtensionToCheck, ".bat");
 		}
@@ -120,7 +131,7 @@ namespace Files.Shared.Helpers
 			return HasExtension(fileExtensionToCheck, ".zip", ".msix", ".appx", ".msixbundle", ".appxbundle", ".7z", ".rar", ".tar", ".mcpack", ".mcworld", ".mrpack", ".jar", ".gz", ".lzh");
 		}
 
-		public static bool IsBrowsableZipFile(string? filePath, out string? ext)
+		public static bool IsBrowsableZipFile(string? filePath, [NotNullWhen(true)] out string? ext)
 		{
 			if (string.IsNullOrWhiteSpace(filePath))
 			{
@@ -259,7 +270,8 @@ namespace Files.Shared.Helpers
 		{
 			return HasExtension(
 				filePathToCheck, ".mp4", ".m4v", ".mp4v", ".3g2", ".3gp2", ".3gp", ".3gpp",
-				".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".mkv", ".ogg", ".avi", ".wmv", ".mov", ".qt");
+				".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".mkv", ".ogg", ".avi", ".wmv", ".mov", ".qt",
+				".mp3", ".m4a", ".oga", ".wav", ".wma", ".aac", ".flac");
 		}
 
 		/// <summary>
@@ -336,6 +348,36 @@ namespace Files.Shared.Helpers
 		public static bool IsRichTextFile(string? fileExtensionToCheck)
 		{
 			return HasExtension(fileExtensionToCheck, ".rtf");
+		}
+
+		/// <summary>
+		/// Check if the file extension is a PDF file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck"></param>
+		/// <returns><c>true</c> if the fileExtensionToCheck is a PDF file; otherwise, <c>false</c>.</returns>
+		public static bool IsPdfFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".pdf");
+		}
+
+		/// <summary>
+		/// Check if the file extension is an HTML file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck"></param>
+		/// <returns><c>true</c> if the fileExtensionToCheck is an HTML file; otherwise, <c>false</c>.</returns>
+		public static bool IsHtmlFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".htm", ".html", ".svg");
+		}
+
+		/// <summary>
+		/// Check if the file extension is supported by the image preview pane.
+		/// </summary>
+		/// <param name="fileExtensionToCheck"></param>
+		/// <returns><c>true</c> if the fileExtensionToCheck can be image-previewed; otherwise, <c>false</c>.</returns>
+		public static bool IsImagePreviewFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tiff", ".ico", ".webp", ".jxr");
 		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.App.Helpers;
@@ -8,6 +8,7 @@ using Microsoft.UI.Content;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Direct3D;
@@ -19,6 +20,7 @@ using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
 using WinRT;
+using WNDPROC = Windows.Win32.Extras.ManagedWNDPROC;
 
 #pragma warning disable CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
 
@@ -30,10 +32,16 @@ namespace Files.App.ViewModels.Previews
 
 		ContentExternalOutputLink? _contentExternalOutputLink;
 		PreviewHandler? _previewHandler;
+		ID3D11Device? _d3d11Device;
+		ID3D11DeviceContext? _d3d11DeviceContext;
+		IDCompositionDevice? _dCompositionDevice;
+		IDCompositionVisual? _childVisual;
+		object? _controlSurface;
 		WNDCLASSEXW _windowClass;
 		WNDPROC _windProc = null!;
 		HWND _hWnd = HWND.Null;
 		bool _isOfficePreview = false;
+		bool _unloaded;
 		unsafe char* _pszClassName;
 
 		// Constructor
@@ -96,7 +104,7 @@ namespace Files.App.ViewModels.Previews
 		{
 			if (msg is PInvoke.WM_CREATE)
 			{
-				var clsid = FindPreviewHandlerFor(Item.FileExtension, hwnd);
+				var clsid = FindPreviewHandlerFor(Item.FileExtension!, hwnd);
 
 				_isOfficePreview = new Guid?[]
 				{
@@ -108,7 +116,7 @@ namespace Files.App.ViewModels.Previews
 				try
 				{
 					_previewHandler = new PreviewHandler(clsid!.Value, hwnd);
-					_previewHandler.InitWithFileWithEveryWay(Item.ItemPath);
+					_previewHandler.InitWithFileWithEveryWay(Item.ItemPath!);
 					_previewHandler.DoPreview();
 				}
 				catch
@@ -130,7 +138,7 @@ namespace Files.App.ViewModels.Previews
 
 		public unsafe void LoadPreview(UIElement presenter)
 		{
-			App.Logger.LogInformation($"ShellPreview.LoadPreview: Item={LogPathHelper.GetPathIdentifier(Item?.ItemPath)}");
+			App.Logger.LogInformation($"ShellPreview.LoadPreview: Item={LogPathHelper.RedactPath(Item?.ItemPath)}");
 
 			var parent = MainWindow.Instance.WindowHandle;
 			var hInst = PInvoke.GetModuleHandle(default(PWSTR));
@@ -140,7 +148,7 @@ namespace Files.App.ViewModels.Previews
 			_pszClassName = (char*)Marshal.StringToHGlobalUni(szClassName);
 
 			_windProc = new(WndProc);
-			var pWindProc = Marshal.GetFunctionPointerForDelegate(_windProc);
+			var pWindProc = Marshal.GetFunctionPointerForDelegate<WNDPROC>(_windProc);
 			var pfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)pWindProc;
 
 			_windowClass = new WNDCLASSEXW()
@@ -186,45 +194,41 @@ namespace Files.App.ViewModels.Previews
 			];
 
 			HRESULT hr = default;
-			Guid IID_IDCompositionDevice = typeof(IDCompositionDevice).GUID;
-			using ComPtr<ID3D11Device> pD3D11Device = default;
-			using ComPtr<ID3D11DeviceContext> pD3D11DeviceContext = default;
-			using ComPtr<IDXGIDevice> pDXGIDevice = default;
-			using ComPtr<IDCompositionDevice> pDCompositionDevice = default;
-			using ComPtr<IUnknown> pControlSurface = default;
-			ComPtr<IDCompositionVisual> pChildVisual = default; // Don't dispose this one, it's used by the compositor
 
 			// Create the D3D11 device
 			foreach (var driverType in driverTypes)
 			{
 				hr = PInvoke.D3D11CreateDevice(
-					null, driverType, new(nint.Zero),
+					null!, driverType, new(nint.Zero),
 					D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_BGRA_SUPPORT,
-					null, /* FeatureLevels */ 0, /* SDKVersion */ 7,
-					pD3D11Device.GetAddressOf(), null,
-					pD3D11DeviceContext.GetAddressOf());
+					ReadOnlySpan<D3D_FEATURE_LEVEL>.Empty, /* SDKVersion */ 7,
+					out _d3d11Device,
+					out _d3d11DeviceContext);
 
 				if (hr.Succeeded)
 					break;
 			}
 
-			if (pD3D11Device.IsNull)
+			if (_d3d11Device is null)
 				return false;
 
 			// Create the DComp device
-			pDXGIDevice.Attach((IDXGIDevice*)pD3D11Device.Get());
-			hr = PInvoke.DCompositionCreateDevice(
-				pDXGIDevice.Get(),
-				&IID_IDCompositionDevice,
-				(void**)pDCompositionDevice.GetAddressOf());
-			if (hr.Failed)
+			var pDXGIDevice = (IDXGIDevice)_d3d11Device;
+			hr = PInvoke.DCompositionCreateDevice(pDXGIDevice, out _dCompositionDevice);
+			if (hr.Failed || _dCompositionDevice is null)
 				return false;
 
 			// Create the visual
-			hr = pDCompositionDevice.Get()->CreateVisual(pChildVisual.GetAddressOf());
-			hr = pDCompositionDevice.Get()->CreateSurfaceFromHwnd(_hWnd, pControlSurface.GetAddressOf());
-			hr = pChildVisual.Get()->SetContent(pControlSurface.Get());
-			if (pChildVisual.IsNull || pControlSurface.IsNull)
+			hr = _dCompositionDevice.CreateVisual(out _childVisual);
+			if (hr.Failed)
+				return false;
+
+			hr = _dCompositionDevice.CreateSurfaceFromHwnd(_hWnd, out _controlSurface);
+			if (hr.Failed)
+				return false;
+
+			hr = _childVisual.SetContent(_controlSurface);
+			if (hr.Failed || _childVisual is null || _controlSurface is null)
 				return false;
 
 			// Get the compositor and set the visual on it
@@ -232,14 +236,14 @@ namespace Files.App.ViewModels.Previews
 			_contentExternalOutputLink = ContentExternalOutputLink.Create(compositor);
 
 			var target = _contentExternalOutputLink.As<Windows.Win32.Extras.IDCompositionTarget>();
-			target.SetRoot((nint)pChildVisual.Get());
+			target.SetRoot(_childVisual);
 
 			_contentExternalOutputLink.PlacementVisual.Size = new(0, 0);
 			_contentExternalOutputLink.PlacementVisual.Scale = new(1 / (float)presenter.XamlRoot.RasterizationScale);
 			ElementCompositionPreview.SetElementChildVisual(presenter, _contentExternalOutputLink.PlacementVisual);
 
 			// Commit the all pending DComp commands
-			pDCompositionDevice.Get()->Commit();
+			_dCompositionDevice.Commit();
 
 			var dwAttrib = Convert.ToUInt32(true);
 
@@ -254,17 +258,30 @@ namespace Files.App.ViewModels.Previews
 
 		public unsafe void UnloadPreview()
 		{
+			// Main-window teardown and Unloaded can both request cleanup.
+			if (_unloaded)
+				return;
+			_unloaded = true;
+
 			if (_hWnd != HWND.Null)
 			{
 				PInvoke.DestroyWindow(_hWnd);
-				App.Logger.LogInformation($"ShellPreview.UnloadPreview: HWND={((nint)_hWnd)}, Item={LogPathHelper.GetPathIdentifier(Item?.ItemPath)}");
+				App.Logger.LogInformation($"ShellPreview.UnloadPreview: HWND={((nint)_hWnd)}, Item={LogPathHelper.RedactPath(Item?.ItemPath)}");
+				_hWnd = HWND.Null;
 			}
 			else
-				App.Logger.LogInformation($"ShellPreview.UnloadPreview: HWND=, Item={LogPathHelper.GetPathIdentifier(Item?.ItemPath)}");
+				App.Logger.LogInformation($"ShellPreview.UnloadPreview: HWND=, Item={LogPathHelper.RedactPath(Item?.ItemPath)}");
 
 
 			_contentExternalOutputLink?.Dispose();
 			_contentExternalOutputLink = null;
+
+			// Release the composition chain leaf-to-root so nothing is left for finalizer-thread teardown
+			ReleaseComObject(ref _childVisual);
+			ReleaseComObject(ref _controlSurface);
+			ReleaseComObject(ref _dCompositionDevice);
+			ReleaseComObject(ref _d3d11DeviceContext);
+			ReleaseComObject(ref _d3d11Device);
 
 			PInvoke.UnregisterClass(_windowClass.lpszClassName, PInvoke.GetModuleHandle(default(PWSTR)));
 
@@ -273,6 +290,14 @@ namespace Files.App.ViewModels.Previews
 				Marshal.FreeHGlobal((nint)_pszClassName);
 				_pszClassName = null;
 			}
+		}
+
+		private static void ReleaseComObject<T>(ref T? comInterface) where T : class
+		{
+			if ((object?)comInterface is ComObject comObject)
+				comObject.FinalRelease();
+
+			comInterface = null;
 		}
 
 		public unsafe void PointerEntered(bool onPreview)

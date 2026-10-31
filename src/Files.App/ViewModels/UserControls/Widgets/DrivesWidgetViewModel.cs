@@ -30,6 +30,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		private ICommand EjectDeviceCommand { get; } = null!;
 		private ICommand DisconnectNetworkDriveCommand { get; } = null!;
+		private bool isDisposed;
 
 		// Constructor
 
@@ -104,9 +105,32 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				{
 					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow && CommandManager.OpenInNewWindowFromHome.IsExecutable
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewPaneFromHome)
+				new ContextMenuFlyoutItemViewModel()
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && CommandManager.OpenInNewPaneFromHome.IsExecutable
+					Text = Strings.OpenInNewPane.GetLocalizedResource(),
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && CommandManager.OpenInNewPaneFromHome.IsExecutable,
+					IsEnabled = CommandManager.OpenInNewPaneFromHome.IsExecutable,
+					Items =
+					[
+						new ContextMenuFlyoutItemViewModel()
+						{
+							Text = Strings.SplitPaneVertically.GetLocalizedResource(),
+							ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.OpenInPaneVertical" },
+							Command = CommandManager.OpenInNewPaneFromHome,
+							CommandParameter = ShellPaneArrangement.Vertical,
+						},
+						new ContextMenuFlyoutItemViewModel()
+						{
+							Text = Strings.SplitPaneHorizontally.GetLocalizedResource(),
+							ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.OpenInPaneHorizontal" },
+							Command = CommandManager.OpenInNewPaneFromHome,
+							CommandParameter = ShellPaneArrangement.Horizontal,
+						},
+					]
+				},
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInOtherPaneFromHome)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && CommandManager.OpenInOtherPaneFromHome.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.CopyItemFromHome)
 				{
@@ -193,7 +217,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			if (item is null)
 				return;
 
-			DriveHelpers.EjectDeviceAsync(item.Item.Path);
+			DriveHelpers.EjectDeviceAsync(item.Item.Path!);
 		}
 
 		private void ExecuteOpenPropertiesCommand(WidgetDriveCardItem? item)
@@ -250,6 +274,13 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public void Dispose()
 		{
+			if (isDisposed)
+				return;
+
+			isDisposed = true;
+			DrivesViewModel.Drives.CollectionChanged -= Drives_CollectionChanged;
+			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+			Items.Clear();
 		}
 	}
 }

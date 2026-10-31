@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using WinRT;
 
 namespace Files.App.Data.Models
 {
@@ -17,7 +18,7 @@ namespace Files.App.Data.Models
 		}
 
 		// TODO: Refactor this method
-		public void Clipboard_ContentChanged(object sender, object e)
+		public void Clipboard_ContentChanged(object? sender, object e)
 		{
 			try
 			{
@@ -34,6 +35,7 @@ namespace Files.App.Data.Models
 		public int TabStripSelectedIndex
 		{
 			get => _TabStripSelectedIndex;
+			[DynamicWindowsRuntimeCast(typeof(Frame))]
 			set
 			{
 				try
@@ -97,13 +99,6 @@ namespace Files.App.Data.Models
 			var result = Interlocked.Decrement(ref _PropertiesWindowCount);
 			OnPropertyChanged(nameof(PropertiesWindowCount));
 			return result;
-		}
-
-		private bool _ForceProcessTermination = false;
-		public bool ForceProcessTermination
-		{
-			get => _ForceProcessTermination;
-			set => SetProperty(ref _ForceProcessTermination, value);
 		}
 
 		private string _GoogleDrivePath = string.Empty;

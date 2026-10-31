@@ -3,16 +3,27 @@
 
 using Files.App.Utils.Serialization.Implementation;
 using Microsoft.Extensions.Logging;
+using System.Collections.Concurrent;
 using System.IO;
 using Windows.Storage;
 
 namespace Files.App.Services.Settings
 {
+	[JsonSourceGenerationOptions(WriteIndented = true)]
+	[JsonSerializable(typeof(object))]
+	[JsonSerializable(typeof(ConcurrentDictionary<string, JsonElement>))]
+	[JsonSerializable(typeof(List<TagViewModel>))]
+	[JsonSerializable(typeof(IList<TagViewModel>))]
+	[JsonSerializable(typeof(Dictionary<string, IList<TagViewModel>>))]
+	internal sealed partial class FileTagsSettingsJsonSerializationContext : JsonSerializerContext
+	{
+	}
+
 	internal sealed class FileTagsSettingsService : BaseJsonSettings, IFileTagsSettingsService
 	{
-		public event EventHandler OnSettingImportedEvent;
+		public event EventHandler? OnSettingImportedEvent;
 
-		public event EventHandler OnTagsUpdated;
+		public event EventHandler? OnTagsUpdated;
 
 		private static readonly List<TagViewModel> DefaultFileTags =
 		[
@@ -24,22 +35,25 @@ namespace Files.App.Services.Settings
 
 		public FileTagsSettingsService()
 		{
-			SettingsSerializer = new DefaultSettingsSerializer();
-
-			Initialize(Path.Combine(ApplicationData.Current.LocalFolder.Path,
-				Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.FileTagSettingsFileName));
-
 			JsonSettingsSerializer = new DefaultJsonSettingsSerializer();
-			JsonSettingsDatabase = new CachingJsonSettingsDatabase(SettingsSerializer, JsonSettingsSerializer);
+			var database = new ServerSettingsDatabase(Constants.LocalSettings.FileTagSettingsFileName, JsonSettingsSerializer, FileTagsSettingsJsonSerializationContext.Default);
+			JsonSettingsDatabase = database;
+			IsAvailable = true;
+			database.Changed += (name, value) =>
+			{
+				RaiseOnSettingChangedEvent(this, new SettingChangedEventArgs(name, value));
+				if (name == nameof(FileTagList))
+					OnTagsUpdated?.Invoke(this, EventArgs.Empty);
+			};
 		}
 
 		public IList<TagViewModel> FileTagList
 		{
 			get
 			{
-				var tags = Get<List<TagViewModel>>(DefaultFileTags);
+				var tags = Get<List<TagViewModel>>(DefaultFileTags) ?? DefaultFileTags;
 
-				foreach (var tag in tags!)
+				foreach (var tag in tags)
 					tag.Color = ColorHelpers.FromHex(tag.Color).ToString();
 
 				return tags;
@@ -47,34 +61,53 @@ namespace Files.App.Services.Settings
 			set
 			{
 				Set(value);
-				OnTagsUpdated.Invoke(this, EventArgs.Empty);
+				OnTagsUpdated?.Invoke(this, EventArgs.Empty);
 			}
 		}
 
-		public TagViewModel GetTagById(string uid)
+		public TagViewModel? GetTagById(string uid)
 		{
-			if (FileTagList.Any(x => x.Uid is null))
+			var tags = FileTagList;
+			var repair = tags.Any(x => x.Uid is null);
+			if (repair)
 			{
 				App.Logger.LogWarning("Tags file is invalid, regenerate");
-				FileTagList = DefaultFileTags;
+				tags = DefaultFileTags;
 			}
 
-			var tag = FileTagList.SingleOrDefault(x => x.Uid == uid);
+			var tag = tags.SingleOrDefault(x => x.Uid == uid);
+			TagViewModel? discoveredTag = null;
 
 			if (!string.IsNullOrEmpty(uid) && tag is null)
 			{
 				tag = new TagViewModel(Strings.Unknown.GetLocalizedResource(), "#9ea3a1", uid);
-				FileTagList = FileTagList.Append(tag).ToList();
+				discoveredTag = tag;
+			}
+
+			// This lookup is called by FileTagsUI bindings; persistence must wait until they return.
+			if (repair || discoveredTag is not null)
+			{
+				App.UiDispatcher?.TryEnqueue(() =>
+				{
+					var current = FileTagList;
+					if (current.Any(x => x.Uid is null))
+						current = DefaultFileTags;
+					else if (discoveredTag is null || current.Any(x => x.Uid == uid))
+						return;
+					if (discoveredTag is not null && current.All(x => x.Uid != uid))
+						current = current.Append(discoveredTag).ToList();
+					FileTagList = current;
+				});
 			}
 
 			return tag;
 		}
 
-		public IList<TagViewModel>? GetTagsByIds(string[] uids)
+		public IList<TagViewModel>? GetTagsByIds(string[]? uids)
 		{
 			return uids is null || uids.Length == 0
 				? null
-				: uids.Select(x => GetTagById(x)).Where(x => x is not null).ToList();
+				: uids.Select(GetTagById).WhereNotNull().ToList();
 		}
 
 		public IEnumerable<TagViewModel> GetTagsByName(string tagName)
@@ -115,18 +148,18 @@ namespace Files.App.Services.Settings
 			var oldTags = FileTagList.ToList();
 			oldTags.RemoveAt(index);
 			FileTagList = oldTags;
-			UntagAllFiles(uid);
+			_ = SafetyExtensions.IgnoreExceptions(() => UntagAllFilesAsync(uid), App.Logger);
 		}
 
 		public override bool ImportSettings(object import)
 		{
 			if (import is string importString)
 			{
-				var settings = JsonSettingsSerializer.DeserializeFromJson<Dictionary<string, List<TagViewModel>>>(importString);
+				var settings = GetJsonSettingsSerializer().DeserializeFromJson(importString, FileTagsSettingsJsonSerializationContext.Default.DictionaryStringIListTagViewModel);
 				if (settings is not null && settings.TryGetValue("FileTagList", out var importedTags))
 					FileTagList = importedTags;
 			}
-			else if (import is List<TagViewModel> importList)
+			else if (import is IList<TagViewModel> importList)
 			{
 				FileTagList = importList;
 			}
@@ -135,8 +168,9 @@ namespace Files.App.Services.Settings
 
 			if (FileTagList is not null)
 			{
-				FlushSettings();
-				OnSettingImportedEvent?.Invoke(this, null);
+				if (!FlushSettings())
+					return false;
+				OnSettingImportedEvent?.Invoke(this, EventArgs.Empty);
 				return true;
 			}
 
@@ -145,13 +179,13 @@ namespace Files.App.Services.Settings
 
 		public override object ExportSettings()
 		{
-			var settings = new Dictionary<string, object>
+			var settings = new Dictionary<string, IList<TagViewModel>>
 			{
 				{ "FileTagList", FileTagList }
 			};
 
 			// Serialize settings to JSON format
-			return JsonSettingsSerializer.SerializeToJson(settings);
+			return GetJsonSettingsSerializer().SerializeToJson(settings, FileTagsSettingsJsonSerializationContext.Default.DictionaryStringIListTagViewModel);
 		}
 
 		private int GetTagIndex(string uid)
@@ -165,19 +199,25 @@ namespace Files.App.Services.Settings
 			return -1;
 		}
 
-		private void UntagAllFiles(string uid)
+		private async Task UntagAllFilesAsync(string uid)
 		{
 			var tagDoDelete = new string[] { uid };
 
-			foreach (var item in FileTagsHelper.GetDbInstance().GetAll())
+			foreach (var item in await FileTagsHelper.GetDbInstance().GetAllAsync())
 			{
 				if (item.Tags.Contains(uid))
 				{
-					FileTagsHelper.WriteFileTag(
+					_ = FileTagsHelper.WriteFileTagAsync(
 						item.FilePath,
 						item.Tags.Except(tagDoDelete).ToArray());
 				}
 			}
+		}
+
+		private IJsonSettingsSerializer GetJsonSettingsSerializer()
+		{
+			return JsonSettingsSerializer
+				?? throw new InvalidOperationException("The JSON settings serializer has not been initialized.");
 		}
 	}
 }

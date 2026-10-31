@@ -1,4 +1,4 @@
-<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) Files Community. SPDX-License-Identifier: MPL-2.0  -->
 <Page
 	x:Class="Files.App.Views.Settings.ToolbarCustomizationPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -10,6 +10,7 @@
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
+	xmlns:vm="using:Files.App.ViewModels.Settings"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	x:Name="PageRoot"
 	mc:Ignorable="d">
@@ -91,10 +92,14 @@
 					Width="240"
 					HorizontalAlignment="Left"
 					AutomationProperties.Name="{helpers:ResourceString Name=ChooseToolbarModeToCustomize}"
-					DisplayMemberPath="Value"
 					ItemsSource="{x:Bind ViewModel.ToolbarContexts, Mode=OneWay}"
-					SelectedValue="{x:Bind ViewModel.SelectedToolbarContextId, Mode=TwoWay}"
-					SelectedValuePath="Key" />
+					SelectedItem="{x:Bind ViewModel.SelectedToolbarContext, Mode=TwoWay}">
+					<uc:ComboBoxEx.ItemTemplate>
+						<DataTemplate x:DataType="vm:ToolbarContextItem">
+							<TextBlock Text="{x:Bind Value}" />
+						</DataTemplate>
+					</uc:ComboBoxEx.ItemTemplate>
+				</uc:ComboBoxEx>
 			</StackPanel>
 		</Grid>
 
@@ -122,43 +127,55 @@
 				Style="{StaticResource HeaderTextStyle}"
 				Text="{helpers:ResourceString Name=AddedToolbarItems}" />
 
-			<!--  Available items tree  -->
-			<Border
+			<!--  Available items search + tree  -->
+			<Grid
 				Grid.Row="1"
 				Grid.Column="0"
-				Background="{ThemeResource LayerFillColorDefaultBrush}"
-				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-				BorderThickness="1"
-				CornerRadius="8">
-				<ScrollViewer
-					Padding="0,4,0,4"
-					HorizontalScrollBarVisibility="Auto"
-					HorizontalScrollMode="Enabled"
-					VerticalScrollBarVisibility="Auto"
-					VerticalScrollMode="Enabled">
-					<TreeView
-						AllowDrop="False"
-						CanDragItems="True"
-						DragItemsCompleted="AvailableToolbarItemsTree_DragItemsCompleted"
-						DragItemsStarting="AvailableToolbarItemsTree_DragItemsStarting"
-						ItemInvoked="AvailableToolbarItemsTree_ItemInvoked"
-						ItemsSource="{x:Bind ViewModel.AvailableToolbarTreeItems, Mode=OneWay}"
-						SelectionMode="Single">
-						<TreeView.ItemContainerStyle>
-							<Style TargetType="TreeViewItem">
-								<Setter Property="Padding" Value="0,0,8,0" />
-							</Style>
-						</TreeView.ItemContainerStyle>
-						<TreeView.ItemTemplate>
-							<DataTemplate x:DataType="dataitem:ToolbarAvailableTreeItem">
-								<TreeViewItem ItemsSource="{x:Bind Children}">
-									<TextBlock VerticalAlignment="Center" Text="{x:Bind DisplayName}" />
-								</TreeViewItem>
-							</DataTemplate>
-						</TreeView.ItemTemplate>
-					</TreeView>
-				</ScrollViewer>
-			</Border>
+				RowSpacing="8">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
+				<TextBox
+					x:Name="AvailableToolbarItemsSearchBox"
+					PlaceholderText="{helpers:ResourceString Name=Search}"
+					Text="{x:Bind ViewModel.SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+				<Border
+					Grid.Row="1"
+					Background="{ThemeResource LayerFillColorDefaultBrush}"
+					BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+					BorderThickness="1"
+					CornerRadius="8">
+					<ScrollViewer
+						Padding="0,4,0,4"
+						HorizontalScrollBarVisibility="Auto"
+						HorizontalScrollMode="Enabled"
+						VerticalScrollBarVisibility="Auto"
+						VerticalScrollMode="Enabled">
+						<TreeView
+							AllowDrop="False"
+							CanDragItems="True"
+							DragItemsCompleted="AvailableToolbarItemsTree_DragItemsCompleted"
+							DragItemsStarting="AvailableToolbarItemsTree_DragItemsStarting"
+							ItemInvoked="AvailableToolbarItemsTree_ItemInvoked"
+							ItemsSource="{x:Bind ViewModel.AvailableToolbarTreeItems, Mode=OneWay}"
+							SelectionMode="Single">
+							<TreeView.ItemContainerStyle>
+								<Style TargetType="TreeViewItem">
+									<Setter Property="Padding" Value="0,0,8,0" />
+								</Style>
+							</TreeView.ItemContainerStyle>
+							<TreeView.ItemTemplate>
+								<DataTemplate x:DataType="dataitem:ToolbarAvailableTreeItem">
+									<TreeViewItem ItemsSource="{x:Bind Children}">
+										<TextBlock VerticalAlignment="Center" Text="{x:Bind DisplayName}" />
+									</TreeViewItem>
+								</DataTemplate>
+							</TreeView.ItemTemplate>
+						</TreeView>
+					</ScrollViewer>
+				</Border>
+			</Grid>
 
 			<!--  Added items list  -->
 			<Border

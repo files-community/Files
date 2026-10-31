@@ -34,7 +34,8 @@ namespace Files.App.Actions
 				if (page is null)
 					return false;
 
-				int itemCount = page.ShellViewModel.FilesAndFolders.Count;
+				var shellViewModel = page.GetRequiredShellViewModel();
+				int itemCount = shellViewModel.FilesAndFolders.Count;
 				int selectedItemCount = context.SelectedItems.Count;
 				if (itemCount == selectedItemCount)
 					return false;

@@ -21,7 +21,7 @@ namespace Files.App.Data.Contracts
 		IStorageDeviceWatcher CreateWatcher();
 
 		/// <summary>
-		/// Enumerates all removable drives
+		/// Enumerates all removable drives, yielded in the order their probing completes
 		/// </summary>
 		/// <returns>A collection of removable storage devices</returns>
 		IAsyncEnumerable<IFolder> GetDrivesAsync();

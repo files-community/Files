@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using CommunityToolkit.WinUI;
 
@@ -42,6 +42,9 @@ namespace Files.App.Controls
 
 		[GeneratedDependencyProperty]
 		public partial bool IsAutoFocusEnabled { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial bool IsFirstSuggestionAutoSelected { get; set; }
 
 		partial void OnTextChanged(string? newValue)
 		{

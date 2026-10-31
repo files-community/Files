@@ -5,6 +5,7 @@ using Files.App.Actions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Sentry;
 
 namespace Files.App.Data.Commands
 {
@@ -44,14 +45,20 @@ namespace Files.App.Data.Commands
 		public RichGlyph Glyph
 			=> Action.Glyph;
 
+		private object? icon;
 		/// <inheritdoc/>
-		public object? Icon { get; }
+		public object? Icon
+			=> icon ??= Action.Glyph.ToIcon();
 
+		private FontIcon? fontIcon;
 		/// <inheritdoc/>
-		public FontIcon? FontIcon { get; }
+		public FontIcon? FontIcon
+			=> fontIcon ??= Action.Glyph.ToFontIcon();
 
+		private Style? themedIconStyle;
 		/// <inheritdoc/>
-		public Style? ThemedIconStyle { get; }
+		public Style? ThemedIconStyle
+			=> themedIconStyle ??= Action.Glyph.ToThemedIconStyle();
 
 		private bool isCustomHotKeys = false;
 		/// <inheritdoc/>
@@ -127,9 +134,6 @@ namespace Files.App.Data.Commands
 		{
 			Code = code;
 			Action = action;
-			Icon = action.Glyph.ToIcon();
-			FontIcon = action.Glyph.ToFontIcon();
-			ThemedIconStyle = action.Glyph.ToThemedIconStyle();
 			hotKeys = GetDefaultKeyBindings(action);
 			DefaultHotKeys = GetDefaultKeyBindings(action);
 
@@ -161,8 +165,7 @@ namespace Files.App.Data.Commands
 		{
 			if (IsExecutable)
 			{
-				// Re-enable when Metris feature is available again
-				// SentrySdk.Metrics.Increment("actions", tags: new Dictionary<string, string> { { "command", Code.ToString() } });
+				SentrySdk.Metrics.EmitCounter("actions", 1, [new KeyValuePair<string, object>("command", Code.ToString())]);
 				return Action.ExecuteAsync(parameter);
 			}
 

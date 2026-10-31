@@ -25,18 +25,6 @@ namespace Files.Core.SourceGenerator
 				isEnabledByDefault: true);
 
 			/// <summary>
-			/// Diagnostic descriptor for a refactoring suggestion to replace string literals with constants from the Strings class.
-			/// </summary>
-			internal static readonly DiagnosticDescriptor FSG1002 = new(
-				id: nameof(FSG1002),
-				title: "String literal can be replaced with constant",
-				messageFormat: $"Replace '{{0}}' with '{StringsPropertyGenerator.StringsClassName}.{{1}}'",
-				category: "Refactoring",
-				defaultSeverity: DiagnosticSeverity.Warning,
-				isEnabledByDefault: true,
-				description: $"Detects string literals that can be replaced with constants from the {StringsPropertyGenerator.StringsClassName} class.");
-
-			/// <summary>
 			/// Diagnostic descriptor for a scenario where multiple files with the same name are detected.
 			/// </summary>
 			internal static readonly DiagnosticDescriptor FSG1003 = new(
@@ -73,25 +61,6 @@ namespace Files.Core.SourceGenerator
 			/// The fully qualified name of the generated metadata class that contains string constants.
 			/// </summary>
 			internal const string StringsMetadataName = $"{SourceGeneratorHelper.HelperNamespace}{StringsClassName}";
-
-			/// <summary>
-			/// The name of the property that represents the name of the constant.
-			/// </summary>
-			internal const string ConstantNameProperty = nameof(ConstantNameProperty);
-
-			/// <summary>
-			/// A collection of method names that are considered localized methods.
-			/// These methods are used to identify string literals that can be replaced with constants from the Strings class.
-			/// </summary>
-			internal static HashSet<string> LocalizedMethodNames = [
-				/* TODO: Future use only this */ "ToLocalized",
-				/* TODO: Rewrite with ToLocalized */ "GetLocalizedResource",
-				/* TODO: Rewrite with ToLocalized */ "GetLocalizedFormatResource"];
-
-			/// <summary>
-			/// The title of the code fix provider that suggests replacing string literals with constants from the Strings class.
-			/// </summary>
-			internal const string CodeFixProviderTitle = $"Replace with constant from {StringsClassName}";
 
 			/// <summary>
 			/// Represents a character used as a separator in constant names.

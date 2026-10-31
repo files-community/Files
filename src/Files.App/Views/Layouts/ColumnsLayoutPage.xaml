@@ -5,18 +5,13 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:controls="using:Files.App.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:local="using:Files.App.Views.Layouts"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	x:Name="PageRoot"
 	HighContrastAdjustment="None"
+	PointerPressed="LayoutPage_PointerPressed"
+	PointerWheelChanged="LayoutPage_PointerWheelChanged"
 	mc:Ignorable="d">
-
-	<i:Interaction.Behaviors>
-		<i:EventTriggerBehavior EventName="PointerPressed">
-			<i:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
-		</i:EventTriggerBehavior>
-	</i:Interaction.Behaviors>
 
 	<local:BaseLayoutPage.Resources>
 		<Style TargetType="controls:BladeItem">

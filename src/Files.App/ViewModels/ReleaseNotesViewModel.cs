@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 namespace Files.App.ViewModels
 {
@@ -7,6 +7,9 @@ namespace Files.App.ViewModels
 	{
 		public string BlogPostUrl =>
 			Constants.ExternalUrl.ReleaseNotesUrl;
+
+		public string SupportUsUrl =>
+			Constants.ExternalUrl.SupportUsUrl;
 
 		public ReleaseNotesViewModel()
 		{

@@ -13,7 +13,7 @@ namespace Files.App.Actions
 		public IContentPageContext context;
 
 		public string Label
-			=> Strings.PinItemToStart_Text.GetLocalizedResource();
+			=> Strings.PinItemToStartText.GetLocalizedResource();
 
 		public string Description
 			=> Strings.PinToStartDescription.GetLocalizedFormatResource(context.HasSelection ? context.SelectedItems.Count : 1);
@@ -40,10 +40,14 @@ namespace Files.App.Actions
 				{
 					await SafetyExtensions.IgnoreExceptions(async () =>
 					{
-						IStorable storable = listedItem.IsFolder switch
+						var itemPath = listedItem.GetRequiredPath();
+						IStorable storable = listedItem switch
 						{
-							true => await StorageService.GetFolderAsync(listedItem.ItemPath),
-							_ => await StorageService.GetFileAsync((listedItem as IShortcutItem)?.TargetPath ?? listedItem.ItemPath)
+							// Archives are marked as folders when browsable in-app but are files on disk
+							{ IsFolder: true, IsArchive: false } => await StorageService.GetFolderAsync(itemPath),
+							_ => await StorageService.GetFileAsync((listedItem as IShortcutItem)?.TargetPath is { Length: > 0 } targetPath
+								? targetPath
+								: itemPath)
 						};
 						await StartMenuService.PinAsync(storable, listedItem.Name);
 					});
@@ -54,9 +58,12 @@ namespace Files.App.Actions
 				await SafetyExtensions.IgnoreExceptions(async () =>
 				{
 					var currentFolder = context.ShellPage.ShellViewModel.CurrentFolder;
-					var folder = await StorageService.GetFolderAsync(currentFolder.ItemPath);
+					var currentFolderPath = currentFolder.GetRequiredPath();
+					IStorable storable = context.PageType is ContentPageTypes.ZipFolder
+						? await StorageService.GetFileAsync(currentFolderPath)
+						: await StorageService.GetFolderAsync(currentFolderPath);
 
-					await StartMenuService.PinAsync(folder, currentFolder.Name);
+					await StartMenuService.PinAsync(storable, currentFolder.Name);
 				});
 			}
 		}

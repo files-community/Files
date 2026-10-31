@@ -12,7 +12,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	/// </summary>
 	public sealed partial class FileTagsWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
-		private CancellationTokenSource _updateCTS;
+		private CancellationTokenSource? _updateCTS;
 		private bool _isInitialized;
 
 		// Properties
@@ -25,11 +25,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowFileTagsWidget;
 		public bool ShowMenuFlyout => false;
 		public MenuFlyoutItem? MenuFlyoutItem => null;
-
-		// Events
-
-		public static event EventHandler<IEnumerable<WidgetFileTagCardItem>>? SelectedTaggedItemsChanged;
-
 
 		// Constructor
 
@@ -118,9 +113,32 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				{
 					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow && CommandManager.OpenInNewWindowFromHome.IsExecutable
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewPaneFromHome)
+				new ContextMenuFlyoutItemViewModel()
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && CommandManager.OpenInNewPaneFromHome.IsExecutable
+					Text = Strings.OpenInNewPane.GetLocalizedResource(),
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && isFolder && CommandManager.OpenInNewPaneFromHome.IsExecutable,
+					IsEnabled = CommandManager.OpenInNewPaneFromHome.IsExecutable,
+					Items =
+					[
+						new ContextMenuFlyoutItemViewModel()
+						{
+							Text = Strings.SplitPaneVertically.GetLocalizedResource(),
+							ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.OpenInPaneVertical" },
+							Command = CommandManager.OpenInNewPaneFromHome,
+							CommandParameter = ShellPaneArrangement.Vertical,
+						},
+						new ContextMenuFlyoutItemViewModel()
+						{
+							Text = Strings.SplitPaneHorizontally.GetLocalizedResource(),
+							ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.OpenInPaneHorizontal" },
+							Command = CommandManager.OpenInNewPaneFromHome,
+							CommandParameter = ShellPaneArrangement.Horizontal,
+						},
+					]
+				},
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInOtherPaneFromHome)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && isFolder && CommandManager.OpenInOtherPaneFromHome.IsExecutable
 				}.Build(),
 				new()
 				{

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Collections.Immutable;
 
 namespace Files.App.Data.Contexts
@@ -17,8 +17,8 @@ namespace Files.App.Data.Contexts
 		private WidgetCardItem? rightClickedItem = null;
 		public WidgetCardItem? RightClickedItem => rightClickedItem;
 
-		private CommandBarFlyout? itemContextFlyoutMenu = null;
-		public CommandBarFlyout? ItemContextFlyoutMenu => itemContextFlyoutMenu;
+		private FlyoutBase? itemContextFlyoutMenu = null;
+		public FlyoutBase? ItemContextFlyoutMenu => itemContextFlyoutMenu;
 
 		private IReadOnlyList<WidgetFileTagCardItem> selectedTaggedItems = emptyTaggedItems;
 		public IReadOnlyList<WidgetFileTagCardItem> SelectedTaggedItems
@@ -30,12 +30,6 @@ namespace Files.App.Data.Contexts
 		public HomePageContext()
 		{
 			BaseWidgetViewModel.RightClickedItemChanged += HomePageWidget_RightClickedItemChanged;
-			FileTagsWidgetViewModel.SelectedTaggedItemsChanged += FileTagsWidget_SelectedTaggedItemsChanged;
-		}
-
-		private void FileTagsWidget_SelectedTaggedItemsChanged(object? sender, IEnumerable<WidgetFileTagCardItem> e)
-		{
-			SetProperty(ref selectedTaggedItems, e.ToList());
 		}
 
 		private void HomePageWidget_RightClickedItemChanged(object? sender, WidgetsRightClickedItemChangedEventArgs e)

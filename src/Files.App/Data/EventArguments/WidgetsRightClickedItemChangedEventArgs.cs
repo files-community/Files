@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Files.App.Data.EventArguments
 {
@@ -9,9 +9,9 @@ namespace Files.App.Data.EventArguments
 	{
 		public WidgetCardItem? Item { get; set; }
 
-		public CommandBarFlyout? Flyout { get; set; }
+		public FlyoutBase? Flyout { get; set; }
 
-		public WidgetsRightClickedItemChangedEventArgs(WidgetCardItem? item = null, CommandBarFlyout? flyout = null)
+		public WidgetsRightClickedItemChangedEventArgs(WidgetCardItem? item = null, FlyoutBase? flyout = null)
 		{
 			Item = item;
 			Flyout = flyout;

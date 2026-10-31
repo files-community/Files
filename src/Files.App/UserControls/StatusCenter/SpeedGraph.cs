@@ -28,19 +28,19 @@ namespace Files.App.UserControls.StatusCenter
 
 		Compositor compositor;
 
-		ContainerVisual rootVisual;
+		ContainerVisual? rootVisual;
 
-		CompositionPathGeometry graphGeometry;
-		InsetClip graphClip;
+		CompositionPathGeometry? graphGeometry;
+		InsetClip? graphClip;
 
-		SpriteVisual line;
+		SpriteVisual? line;
 
-		CompositionColorBrush backgroundBrush;
-		CompositionColorGradientStop graphFillBottom;
-		CompositionColorGradientStop graphFillTop;
-		CompositionColorBrush graphStrokeBrush;
+		CompositionColorBrush? backgroundBrush;
+		CompositionColorGradientStop? graphFillBottom;
+		CompositionColorGradientStop? graphFillTop;
+		CompositionColorBrush? graphStrokeBrush;
 
-		LinearEasingFunction linearEasing;
+		LinearEasingFunction? linearEasing;
 
 		bool initialized;
 
@@ -197,17 +197,17 @@ namespace Files.App.UserControls.StatusCenter
 		void UpdateGraph()
 		{
 			var path = CreatePathFromPoints();
-			graphGeometry.Path = path;
+			graphGeometry!.Path = path;
 
 			using var lineAnim = compositor.CreateScalarKeyFrameAnimation();
-			lineAnim.InsertKeyFrame(1f, YValue(Points[^1].Y), linearEasing);
+			lineAnim.InsertKeyFrame(1f, YValue(Points[^1].Y), linearEasing!);
 			lineAnim.Duration = TimeSpan.FromMilliseconds(72);
-			line.StartAnimation("Offset.Y", lineAnim);
+			line!.StartAnimation("Offset.Y", lineAnim);
 
 			using var clipAnim = compositor.CreateScalarKeyFrameAnimation();
-			clipAnim.InsertKeyFrame(1f, width - (width * Points[^1].X / 100f) - 1, linearEasing);
+			clipAnim.InsertKeyFrame(1f, width - (width * Points[^1].X / 100f) - 1, linearEasing!);
 			clipAnim.Duration = TimeSpan.FromMilliseconds(72);
-			graphClip.StartAnimation("RightInset", clipAnim);
+			graphClip!.StartAnimation("RightInset", clipAnim);
 		}
 
 		CompositionPath CreatePathFromPoints()
@@ -241,12 +241,12 @@ namespace Files.App.UserControls.StatusCenter
 				_ => accentColor with { A = 0x7f }
 			};
 
-			backgroundBrush.Color = veryLightColor;
+			backgroundBrush!.Color = veryLightColor;
 
-			graphFillTop.Color = slightlyDarkerColor;
-			graphFillBottom.Color = veryLightColor;
+			graphFillTop!.Color = slightlyDarkerColor;
+			graphFillBottom!.Color = veryLightColor;
 
-			graphStrokeBrush.Color = accentColor;
+			graphStrokeBrush!.Color = accentColor;
 		}
 	}
 }

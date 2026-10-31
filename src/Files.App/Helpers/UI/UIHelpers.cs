@@ -1,17 +1,89 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using CommunityToolkit.WinUI;
+using Files.App.Controls;
 using Files.App.Helpers.Application;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
+using System.Runtime.InteropServices;
+using WinRT;
 
 namespace Files.App.Helpers
 {
 	public static class UIHelpers
 	{
 		public static event PropertyChangedEventHandler? PropertyChanged;
+
+		public static void RunAfterNextRender(this FrameworkElement element, Action action)
+		{
+			if (!element.IsLoaded)
+				return;
+
+			var canceled = false;
+			element.Unloaded += OnUnloaded;
+			CompositionTarget.Rendered += OnRendered;
+
+			void OnUnloaded(object sender, RoutedEventArgs e)
+			{
+				canceled = true;
+				element.Unloaded -= OnUnloaded;
+				CompositionTarget.Rendered -= OnRendered;
+			}
+
+			void OnRendered(object? sender, RenderedEventArgs e)
+			{
+				CompositionTarget.Rendered -= OnRendered;
+				// Keep the deferred work outside the rendering callback itself.
+				if (!element.DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+				{
+					element.Unloaded -= OnUnloaded;
+					if (!canceled && element.IsLoaded)
+						action();
+				}))
+				{
+					element.Unloaded -= OnUnloaded;
+				}
+			}
+		}
+
+		/// <summary>
+		/// True if a user-editable text input currently owns keyboard focus within the given XamlRoot.
+		/// Used to gate code that programmatically reassigns focus on a background-completion
+		/// callback (e.g. folder-load done), so the user's typing isn't yanked away.
+		/// </summary>
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
+		[DynamicWindowsRuntimeCast(typeof(RichEditBox))]
+		[DynamicWindowsRuntimeCast(typeof(PasswordBox))]
+		[DynamicWindowsRuntimeCast(typeof(AutoSuggestBox))]
+		[DynamicWindowsRuntimeCast(typeof(Frame))]
+		public static bool IsTextInputFocused(XamlRoot? xamlRoot)
+		{
+			if (xamlRoot is null)
+				return false;
+
+			if (FocusManager.GetFocusedElement(xamlRoot) is TextBox or RichEditBox or PasswordBox or AutoSuggestBox)
+				return true;
+
+			// The Omnibar holds an internal focus DP that stays true while its suggestion popup is
+			// open (the popup root sits outside the omnibar's visual ancestry, so GetFocusedElement
+			// alone misses it). Consult that DP as a fallback.
+			try
+			{
+				var omnibar = (MainWindow.Instance.Content as Frame)?.FindDescendant<Omnibar>();
+				return omnibar?.IsFocused == true;
+			}
+			// Window.Content throws RO_E_CLOSED when the window was closed while a queued
+			// focus callback (e.g. tab CurrentInstanceChanged) was still in flight
+			catch (COMException)
+			{
+				return false;
+			}
+		}
 
 		private static bool canShowDialog = true;
 		public static bool CanShowDialog
@@ -33,9 +105,9 @@ namespace Files.App.Helpers
 		/// <param name="type">Type of drive to eject</param>
 		/// <param name="result">Only true implies a successful device ejection</param>
 		/// <returns></returns>
-		public static async Task ShowDeviceEjectResultAsync(Data.Items.DriveType type, bool result)
+		public static async Task ShowDeviceEjectResultAsync(DriveType type, bool result)
 		{
-			if (type != Data.Items.DriveType.CDRom && result)
+			if (type != DriveType.CDRom && result)
 			{
 				Debug.WriteLine("Device successfully ejected");
 
@@ -74,6 +146,7 @@ namespace Files.App.Helpers
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ContentDialog))]
 		public static async Task<DialogResult> TryShowAsync<TViewModel>(this IDialog<TViewModel> dialog)
 			where TViewModel : class, INotifyPropertyChanged
 		{
@@ -90,6 +163,7 @@ namespace Files.App.Helpers
 			return contentDialog;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ContentDialog))]
 		public static void CloseAllDialogs()
 		{
 			if (MainWindow.Instance?.Content?.XamlRoot == null)
@@ -104,11 +178,11 @@ namespace Files.App.Helpers
 
 		private static IEnumerable<IconFileInfo> SidebarIconResources = LoadSidebarIconResources();
 
-		private static IconFileInfo ShieldIconResource = LoadShieldIconResource();
+		private static IconFileInfo? ShieldIconResource = LoadShieldIconResource();
 
-		private static IconFileInfo SearchIconResource = LoadSearchIconResource();
+		private static IconFileInfo? SearchIconResource = LoadSearchIconResource();
 
-		public static IconFileInfo GetSidebarIconResourceInfo(int index)
+		public static IconFileInfo? GetSidebarIconResourceInfo(int index)
 		{
 			var icons = UIHelpers.SidebarIconResources;
 			return icons?.FirstOrDefault(x => x.Index == index);
@@ -143,17 +217,13 @@ namespace Files.App.Helpers
 			var imageResList = Win32Helper.ExtractSelectedIconsFromDLL(imageres, new List<int>() {
 					Constants.ImageRes.RecycleBin,
 					Constants.ImageRes.Network,
-					Constants.ImageRes.Libraries,
-					Constants.ImageRes.ThisPC,
-					Constants.ImageRes.CloudDrives,
-					Constants.ImageRes.Folder,
-					Constants.ImageRes.OneDrive
+					Constants.ImageRes.Folder
 				}, 32);
 
 			return imageResList;
 		}
 
-		private static IconFileInfo LoadShieldIconResource()
+		private static IconFileInfo? LoadShieldIconResource()
 		{
 			string imageres = Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "imageres.dll");
 			var imageResList = Win32Helper.ExtractSelectedIconsFromDLL(imageres, new List<int>() {
@@ -163,7 +233,7 @@ namespace Files.App.Helpers
 			return imageResList.FirstOrDefault();
 		}
 
-		private static IconFileInfo LoadSearchIconResource()
+		private static IconFileInfo? LoadSearchIconResource()
 		{
 			string imageres = Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "imageres.dll");
 			var imageResList = Win32Helper.ExtractSelectedIconsFromDLL(imageres, new List<int>() {

@@ -55,25 +55,27 @@ namespace Files.App.Actions
 			if (context.SelectedItems.Count is 0)
 				return;
 
-			foreach (var selectedItem in context.SelectedItems)
+			var selectedItems = context.SelectedItems.ToList();
+			var currentFolderPath = context.ShellPage?.ShellViewModel?.CurrentFolder?.ItemPath ?? string.Empty;
+			BaseStorageFolder? currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(currentFolderPath);
+
+			foreach (var selectedItem in selectedItems)
 			{
 				var password = string.Empty;
-				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
-				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(context.ShellPage?.ShellViewModel.CurrentFolder?.ItemPath ?? string.Empty);
+				BaseStorageFile? archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath!);
 
 				if (archive?.Path is null)
 					return;
 
 				if (await FilesystemTasks.Wrap(() => StorageArchiveService.IsEncryptedAsync(archive.Path)))
 				{
-					DecompressArchiveDialog decompressArchiveDialog = new();
 					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
 					{
 						IsArchiveEncrypted = true,
 						ShowPathSelection = false
 					};
 
-					decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
+					DecompressArchiveDialog decompressArchiveDialog = new() { ViewModel = decompressArchiveViewModel };
 
 					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 						decompressArchiveDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
@@ -94,21 +96,50 @@ namespace Files.App.Actions
 					if (zipFile is null)
 						return true;
 
-					return zipFile.ArchiveFileData.Select(file =>
+					static ReadOnlySpan<char> GetFirstMeaningfulSegment(ReadOnlySpan<char> path)
 					{
-						var pathCharIndex = file.FileName.IndexOfAny(['/', '\\']);
-						if (pathCharIndex == -1)
-							return file.FileName;
-						else
-							return file.FileName.Substring(0, pathCharIndex);
-					})
-					.Distinct().Count() > 1;
+						while (!path.IsEmpty)
+						{
+							while (!path.IsEmpty && (path[0] == '/' || path[0] == '\\'))
+								path = path[1..];
+
+							if (path.IsEmpty)
+								break;
+
+							int sep = path.IndexOfAny('/', '\\');
+							ReadOnlySpan<char> seg = sep < 0 ? path : path[..sep];
+
+							path = sep < 0 ? ReadOnlySpan<char>.Empty : path[(sep + 1)..];
+
+							if (seg.SequenceEqual(".") || seg.SequenceEqual(".."))
+								continue;
+
+							return seg;
+						}
+
+						return default;
+					}
+
+					string? firstTopLevel = null;
+					foreach (var file in zipFile.ArchiveFileData)
+					{
+						var segment = GetFirstMeaningfulSegment(file.FileName);
+						if (segment.IsEmpty)
+							continue;
+
+						if (firstTopLevel is null)
+							firstTopLevel = segment.ToString();
+						else if (!segment.SequenceEqual(firstTopLevel))
+							return true;
+					}
+
+					return false;
 				});
 
 				if (smart && currentFolder is not null && isMultipleItems)
 				{
 					destinationFolder =
-						await FilesystemTasks.Wrap(() =>
+						await FilesystemTasks.WrapNullable(() =>
 							currentFolder.CreateFolderAsync(
 								SystemIO.Path.GetFileNameWithoutExtension(archive.Path),
 								CreationCollisionOption.GenerateUniqueName).AsTask());
@@ -120,7 +151,7 @@ namespace Files.App.Actions
 
 				// Operate decompress
 				var result = await FilesystemTasks.Wrap(() =>
-					StorageArchiveService.DecompressAsync(selectedItem.ItemPath, destinationFolder?.Path ?? string.Empty, password));
+					StorageArchiveService.DecompressAsync(selectedItem.ItemPath!, destinationFolder?.Path ?? string.Empty, password));
 			}
 		}
 

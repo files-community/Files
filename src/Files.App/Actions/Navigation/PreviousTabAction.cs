@@ -44,8 +44,9 @@ namespace Files.App.Actions
 			// Small delay for the UI to load
 			await Task.Delay(500);
 
-			// Focus the content of the selected tab item (needed for keyboard navigation)
-			contentPageContext.ShellPage!.PaneHolder.FocusActivePane();
+			// Focus the content of the selected tab item (needed for keyboard navigation).
+			// The tab can be gone by the time the delay elapses, and focusing it is best effort
+			contentPageContext.ShellPage?.PaneHolder?.FocusActivePane();
 		}
 
 		private void MultitaskingContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)

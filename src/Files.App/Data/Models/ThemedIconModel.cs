@@ -1,8 +1,9 @@
 ﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using Files.App.Controls;
 using Microsoft.UI.Xaml;
+using WinRT;
 
 namespace Files.App.Data.Models
 {
@@ -10,6 +11,7 @@ namespace Files.App.Data.Models
 	{
 		public string ThemedIconStyle { get; set; }
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
 		public readonly ThemedIcon ToThemedIcon()
 		{
 			return new()

@@ -36,17 +36,6 @@
 		<Setter Target="Padding" Value="0" />
 	</Style>
 
-	<DataTemplate x:Key="DefaultSidebarItemTemplate">
-		<local:SidebarItem
-			AutomationProperties.AutomationId="{Binding Text}"
-			Decorator="{Binding ItemDecorator}"
-			Icon="{Binding IconElement}"
-			IsExpanded="{Binding IsExpanded, Mode=TwoWay}"
-			Item="{Binding}"
-			Text="{Binding Text}"
-			ToolTip="{Binding ToolTip}" />
-	</DataTemplate>
-
 	<Style TargetType="local:SidebarItem">
 		<Setter Property="IsTabStop" Value="False" />
 		<Setter Property="Template">
@@ -63,11 +52,12 @@
 							x:Name="DragTargetIndicator"
 							Grid.ColumnSpan="3"
 							Height="2"
-							Margin="4,-2"
+							Margin="4,-1"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Top"
 							AutomationProperties.AccessibilityView="Raw"
 							Fill="{ThemeResource AccentFillColorDefaultBrush}"
+							IsHitTestVisible="False"
 							RadiusX="4"
 							RadiusY="4"
 							Visibility="Collapsed" />
@@ -93,6 +83,10 @@
 								<Grid.ColumnDefinitions>
 									<!--  Selection Indicator  -->
 									<ColumnDefinition Width="3" />
+									<!--  Tree-view depth indent (content-only; row background still spans full width)  -->
+									<ColumnDefinition Width="Auto" />
+									<!--  Chevron. Fixed 16px so expandable and non-expandable rows stay aligned; the OwnerDoesNotSupportExpansion and Compact visual states collapse it to 0 when the chevron isn't applicable.  -->
+									<ColumnDefinition x:Name="ChevronColumnDefinition" Width="16" />
 									<!--  Icon  -->
 									<ColumnDefinition Width="Auto" />
 									<!--  Text  -->
@@ -115,28 +109,62 @@
 									RadiusX="2"
 									RadiusY="2" />
 
+								<!--  Depth indent spacer (width = NestingLevel * 16)  -->
+								<Border Grid.Column="1" Width="{TemplateBinding IndentWidth}" />
+
+								<!--  Own pointer surface so chevron clicks only toggle expansion (no row invoke / selection).  -->
+								<Border
+									x:Name="ChevronContainer"
+									Grid.Column="2"
+									HorizontalAlignment="Stretch"
+									VerticalAlignment="Stretch"
+									Background="Transparent"
+									Opacity="{TemplateBinding ContentOpacity}">
+									<!--  Chevron (rotates from right → down on expand).  -->
+									<FontIcon
+										x:Name="ExpandCollapseChevron"
+										Width="12"
+										Height="12"
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center"
+										AutomationProperties.AccessibilityView="Raw"
+										FontFamily="{StaticResource SymbolThemeFontFamily}"
+										FontSize="10"
+										Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+										Glyph="&#xE76C;"
+										IsTextScaleFactorEnabled="False"
+										RenderTransformOrigin="0.5,0.5"
+										Visibility="Collapsed">
+										<FontIcon.RenderTransform>
+											<RotateTransform x:Name="ExpandCollapseChevronRotateTransform" Angle="0" />
+										</FontIcon.RenderTransform>
+									</FontIcon>
+								</Border>
+
 								<!--  Icon  -->
 								<ContentPresenter
 									x:Name="IconPresenter"
-									Grid.Column="1"
+									Grid.Column="3"
 									Width="16"
 									Height="16"
-									Margin="8,0,0,0"
+									Margin="4,0,0,0"
 									HorizontalAlignment="Center"
 									VerticalAlignment="Center"
 									AutomationProperties.AccessibilityView="Raw"
-									Content="{TemplateBinding Icon}" />
+									Content="{TemplateBinding Icon}"
+									Opacity="{TemplateBinding ContentOpacity}" />
 
 								<!--  Text  -->
 								<TextBlock
 									x:Name="ItemNameTextBlock"
-									Grid.Column="2"
+									Grid.Column="4"
 									Margin="12,0,12,2"
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Center"
 									AutomationProperties.AccessibilityView="Raw"
 									FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 									LineHeight="16"
+									Opacity="{TemplateBinding ContentOpacity}"
 									Text="{TemplateBinding Text}"
 									TextTrimming="CharacterEllipsis"
 									TextWrapping="NoWrap" />
@@ -144,41 +172,26 @@
 								<!--  Decorator  -->
 								<ContentPresenter
 									x:Name="ItemDecoratorPresenter"
-									Grid.Column="3"
+									Grid.Column="5"
 									Width="28"
 									Margin="0"
 									HorizontalContentAlignment="Center"
 									VerticalContentAlignment="Center"
 									BorderThickness="0"
 									Content="{TemplateBinding Decorator}"
+									Opacity="{TemplateBinding ContentOpacity}"
 									Visibility="Collapsed" />
 
-								<!--  Chevron  -->
-								<AnimatedIcon
-									x:Name="ExpandCollapseChevron"
-									Grid.Column="3"
-									Width="{StaticResource ExpanderChevronGlyphSize}"
-									Height="{StaticResource ExpanderChevronGlyphSize}"
-									Margin="0,0,8,0"
-									HorizontalAlignment="Center"
-									VerticalAlignment="Center"
-									AnimatedIcon.State="NormalOff"
-									AutomationProperties.AccessibilityView="Raw"
-									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-									RenderTransformOrigin="0.5, 0.5"
-									Visibility="Collapsed">
-									<animatedvisuals:AnimatedChevronUpDownSmallVisualSource />
-									<AnimatedIcon.FallbackIconSource>
-										<FontIconSource
-											FontFamily="{StaticResource SymbolThemeFontFamily}"
-											FontSize="12"
-											Glyph="{StaticResource ExpanderChevronDownGlyph}"
-											IsTextScaleFactorEnabled="False" />
-									</AnimatedIcon.FallbackIconSource>
-									<AnimatedIcon.RenderTransform>
-										<RotateTransform x:Name="ExpandCollapseChevronRotateTransform" Angle="0" />
-									</AnimatedIcon.RenderTransform>
-								</AnimatedIcon>
+								<!--  Drop-into target highlight  -->
+								<Border
+									x:Name="DragOnTopIndicator"
+									Grid.ColumnSpan="6"
+									Margin="-1"
+									BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+									BorderThickness="2"
+									CornerRadius="{ThemeResource ControlCornerRadius}"
+									IsHitTestVisible="False"
+									Visibility="Collapsed" />
 
 								<!--  Overflow  -->
 								<FlyoutBase.AttachedFlyout>
@@ -193,21 +206,14 @@
 										<ItemsRepeater
 											x:Name="FlyoutChildrenPresenter"
 											HorizontalAlignment="Stretch"
-											local:SidebarItem.TemplateRoot="{Binding ElementName=RootPanel}"
 											AutomationProperties.AccessibilityView="Content"
-											ItemsSource="{Binding Children, Mode=OneWay}"
 											XYFocusKeyboardNavigation="Enabled">
 											<ItemsRepeater.ItemTemplate>
 												<DataTemplate>
 													<local:SidebarItem
-														AutomationProperties.AutomationId="{Binding Text}"
-														Decorator="{Binding ItemDecorator}"
-														Icon="{Binding IconElement}"
-														IsExpanded="{Binding IsExpanded, Mode=TwoWay}"
 														IsInFlyout="True"
 														Item="{Binding}"
-														Text="{Binding Text}"
-														ToolTip="{Binding ToolTip}" />
+														UseItemPresentation="True" />
 												</DataTemplate>
 											</ItemsRepeater.ItemTemplate>
 										</ItemsRepeater>
@@ -215,23 +221,6 @@
 								</FlyoutBase.AttachedFlyout>
 							</Grid>
 						</Border>
-
-						<!--  Children  -->
-						<ItemsRepeater
-							x:Name="ChildrenPresenter"
-							Grid.Row="2"
-							Margin="-4,2"
-							HorizontalAlignment="Stretch"
-							local:SidebarItem.TemplateRoot="{Binding ElementName=RootPanel}"
-							AutomationProperties.AccessibilityView="Content"
-							ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
-							ItemsSource="{Binding Children, Mode=OneWay}"
-							Visibility="Collapsed"
-							XYFocusKeyboardNavigation="Enabled">
-							<ItemsRepeater.Layout>
-								<StackLayout />
-							</ItemsRepeater.Layout>
-						</ItemsRepeater>
 
 						<VisualStateManager.VisualStateGroups>
 
@@ -243,159 +232,56 @@
 									</VisualState.Setters>
 								</VisualState>
 
-								<VisualState x:Name="NoExpansionWithPadding">
-									<VisualState.Setters>
-										<Setter Target="RootPanel.Margin" Value="0,0,0,12" />
-										<Setter Target="ItemDecoratorPresenter.Visibility" Value="Visible" />
-									</VisualState.Setters>
-								</VisualState>
-
 								<VisualState x:Name="NoChildren">
 									<VisualState.Setters>
-										<Setter Target="IconPresenter.Visibility" Value="Collapsed" />
 										<Setter Target="ItemNameTextBlock.Margin" Value="8,0,12,0" />
-										<Setter Target="ItemNameTextBlock.FontSize" Value="12" />
 										<Setter Target="ItemNameTextBlock.FontWeight" Value="SemiBold" />
-										<Setter Target="ItemNameTextBlock.Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 
 								<VisualState x:Name="Expanded">
 									<VisualState.Setters>
-										<Setter Target="RootPanel.Margin" Value="0,0,0,12" />
-										<Setter Target="ChildrenPresenter.Visibility" Value="Visible" />
-										<Setter Target="IconPresenter.Visibility" Value="Collapsed" />
 										<Setter Target="ExpandCollapseChevron.Visibility" Value="Visible" />
 										<Setter Target="ItemNameTextBlock.Margin" Value="8,0,12,0" />
-										<Setter Target="ItemNameTextBlock.FontSize" Value="12" />
 										<Setter Target="ItemNameTextBlock.FontWeight" Value="SemiBold" />
-										<Setter Target="ItemNameTextBlock.Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 
 								<VisualState x:Name="Collapsed">
 									<VisualState.Setters>
-										<Setter Target="IconPresenter.Visibility" Value="Collapsed" />
 										<Setter Target="ExpandCollapseChevron.Visibility" Value="Visible" />
 										<Setter Target="ItemNameTextBlock.Margin" Value="8,0,12,0" />
-										<Setter Target="ItemNameTextBlock.FontSize" Value="12" />
 										<Setter Target="ItemNameTextBlock.FontWeight" Value="SemiBold" />
-										<Setter Target="ItemNameTextBlock.Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 
-								<VisualStateGroup.Transitions>
-									<VisualTransition From="Collapsed" To="Expanded">
-										<Storyboard>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ChildrenPresenter" Storyboard.TargetProperty="Visibility">
-												<DiscreteObjectKeyFrame Value="Visible" />
-											</ObjectAnimationUsingKeyFrames>
-											<DoubleAnimationUsingKeyFrames
-												EnableDependentAnimation="True"
-												Storyboard.TargetName="ChildrenPresenter"
-												Storyboard.TargetProperty="MaxHeight">
-												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0" />
-												<SplineDoubleKeyFrame
-													KeySpline="0.1,0.9 0.2,1.0"
-													KeyTime="0:0:0.35"
-													Value="{Binding ChildrenPresenterHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
-											</DoubleAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootPanel" Storyboard.TargetProperty="Margin">
-												<DiscreteObjectKeyFrame Value="0,0,0,12" />
-											</ObjectAnimationUsingKeyFrames>
-										</Storyboard>
-									</VisualTransition>
-
-									<VisualTransition From="Expanded">
-										<Storyboard>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ChildrenPresenter" Storyboard.TargetProperty="Visibility">
-												<DiscreteObjectKeyFrame Value="Visible" />
-											</ObjectAnimationUsingKeyFrames>
-											<DoubleAnimationUsingKeyFrames
-												EnableDependentAnimation="True"
-												Storyboard.TargetName="ChildrenPresenter"
-												Storyboard.TargetProperty="MaxHeight">
-												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ChildrenPresenterHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
-												<SplineDoubleKeyFrame
-													KeySpline="0.1,0.9 0.2,1.0"
-													KeyTime="0:0:0.35"
-													Value="0" />
-											</DoubleAnimationUsingKeyFrames>
-										</Storyboard>
-									</VisualTransition>
-
-									<VisualTransition From="NoExpansion" To="Expanded">
-										<Storyboard>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ChildrenPresenter" Storyboard.TargetProperty="Visibility">
-												<DiscreteObjectKeyFrame Value="Visible" />
-											</ObjectAnimationUsingKeyFrames>
-											<DoubleAnimationUsingKeyFrames
-												EnableDependentAnimation="True"
-												Storyboard.TargetName="ChildrenPresenter"
-												Storyboard.TargetProperty="MaxHeight">
-												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0" />
-												<SplineDoubleKeyFrame
-													KeySpline="0.1,0.9 0.2,1.0"
-													KeyTime="0:0:0.35"
-													Value="{Binding ChildrenPresenterHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
-											</DoubleAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="IconPresenter" Storyboard.TargetProperty="Visibility">
-												<DiscreteObjectKeyFrame Value="Collapsed" />
-											</ObjectAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExpandCollapseChevron" Storyboard.TargetProperty="Visibility">
-												<DiscreteObjectKeyFrame Value="Visible" />
-											</ObjectAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ItemNameTextBlock" Storyboard.TargetProperty="Margin">
-												<DiscreteObjectKeyFrame Value="8,0,12,0" />
-											</ObjectAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ItemNameTextBlock" Storyboard.TargetProperty="FontWeight">
-												<DiscreteObjectKeyFrame Value="Semibold" />
-											</ObjectAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ItemNameTextBlock" Storyboard.TargetProperty="Foreground">
-												<DiscreteObjectKeyFrame Value="{ThemeResource TextFillColorTertiaryBrush}" />
-											</ObjectAnimationUsingKeyFrames>
-										</Storyboard>
-									</VisualTransition>
-
-									<VisualTransition From="NoExpansion" To="Compact">
-										<Storyboard>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ChildrenPresenter" Storyboard.TargetProperty="Visibility">
-												<DiscreteObjectKeyFrame Value="Visible" />
-											</ObjectAnimationUsingKeyFrames>
-											<DoubleAnimationUsingKeyFrames
-												EnableDependentAnimation="True"
-												Storyboard.TargetName="ChildrenPresenter"
-												Storyboard.TargetProperty="MaxHeight">
-												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0" />
-												<SplineDoubleKeyFrame
-													KeySpline="0.1,0.9 0.2,1.0"
-													KeyTime="0:0:0.35"
-													Value="{Binding ChildrenPresenterHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
-											</DoubleAnimationUsingKeyFrames>
-										</Storyboard>
-									</VisualTransition>
-								</VisualStateGroup.Transitions>
+								<!--  Tree-view folder rows: chevron toggle but keep regular item styling (icon visible, normal text). Children render in the outer flat list, not nested.  -->
+								<VisualState x:Name="LeafWithChildren">
+									<VisualState.Setters>
+										<Setter Target="ExpandCollapseChevron.Visibility" Value="Visible" />
+									</VisualState.Setters>
+								</VisualState>
 							</VisualStateGroup>
 
 							<VisualStateGroup x:Name="ExpansionIconStates">
 								<VisualState x:Name="ExpandedIconNormal">
 									<VisualState.Setters>
-										<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="NormalOn" />
+										<Setter Target="ExpandCollapseChevronRotateTransform.Angle" Value="90" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="ExpandedIconPressed">
 									<VisualState.Setters>
-										<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="PressedOn" />
+										<Setter Target="ExpandCollapseChevronRotateTransform.Angle" Value="90" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="CollapsedIconNormal">
 									<VisualState.Setters>
-										<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="NormalOff" />
+										<Setter Target="ExpandCollapseChevronRotateTransform.Angle" Value="0" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="CollapsedIconPressed">
 									<VisualState.Setters>
-										<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="PressedOff" />
+										<Setter Target="ExpandCollapseChevronRotateTransform.Angle" Value="0" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -405,8 +291,6 @@
 								<VisualState x:Name="Selected">
 									<VisualState.Setters>
 										<Setter Target="SelectionIndicator.Opacity" Value="1" />
-										<Setter Target="ElementGrid.BorderBrush" Value="{ThemeResource ButtonBorderBrush}" />
-										<Setter Target="ElementGrid.Background" Value="{ThemeResource ControlFillColorDefaultBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -444,23 +328,26 @@
 									</VisualState.Setters>
 								</VisualState>
 
+								<VisualState x:Name="DragOnTop">
+									<VisualState.Setters>
+										<Setter Target="ElementGrid.Background" Value="{ThemeResource ControlFillColorTertiaryBrush}" />
+										<Setter Target="DragOnTopIndicator.Visibility" Value="Visible" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+							<VisualStateGroup x:Name="DragInsertStates">
+								<VisualState x:Name="DragInsertNone" />
 								<VisualState x:Name="DragInsertAbove">
 									<VisualState.Setters>
 										<Setter Target="DragTargetIndicator.Visibility" Value="Visible" />
 										<Setter Target="DragTargetIndicator.VerticalAlignment" Value="Top" />
-										<Setter Target="ElementGrid.Margin" Value="4,-2" />
-										<Setter Target="ElementGrid.Height" Value="34" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="DragInsertBelow">
 									<VisualState.Setters>
 										<Setter Target="DragTargetIndicator.Visibility" Value="Visible" />
 										<Setter Target="DragTargetIndicator.VerticalAlignment" Value="Bottom" />
-									</VisualState.Setters>
-								</VisualState>
-								<VisualState x:Name="DragOnTop">
-									<VisualState.Setters>
-										<Setter Target="ElementGrid.Background" Value="{ThemeResource ControlFillColorTertiaryBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -472,6 +359,19 @@
 										<Setter Target="RootPanel.MaxWidth" Value="48" />
 										<Setter Target="ItemNameTextBlock.Visibility" Value="Collapsed" />
 										<Setter Target="ItemDecoratorPresenter.Width" Value="0" />
+										<Setter Target="ChevronColumnDefinition.Width" Value="0" />
+										<Setter Target="IconPresenter.Margin" Value="8,0,0,0" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+							<!--  Owner-level toggle. Separate from per-row ExpansionStates so a leaf inside a tree (which is NoExpansion) still reserves the 16px chevron column for alignment with expandable siblings, while a Settings-style sidebar (SupportsExpansion=false) collapses it for every row.  -->
+							<VisualStateGroup x:Name="OwnerExpansionSupport">
+								<VisualState x:Name="OwnerSupportsExpansion" />
+								<VisualState x:Name="OwnerDoesNotSupportExpansion">
+									<VisualState.Setters>
+										<Setter Target="ChevronColumnDefinition.Width" Value="0" />
+										<Setter Target="IconPresenter.Margin" Value="8,0,0,0" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>

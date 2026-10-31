@@ -1,11 +1,12 @@
 ﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using Files.Shared.Helpers;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Extensions.Logging;
 using SevenZip;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Text;
 using UtfUnknown;
@@ -18,7 +19,18 @@ namespace Files.App.Services
 	public class StorageArchiveService : IStorageArchiveService
 	{
 		private StatusCenterViewModel StatusCenterViewModel { get; } = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
-		private IThreadingService ThreadingService { get; } = Ioc.Default.GetRequiredService<IThreadingService>();
+
+		// Archive paths currently being written. ConcurrentDictionary used as a set; the byte value
+		// is unused. Lookups are case-insensitive to match Windows path semantics.
+		private readonly ConcurrentDictionary<string, byte> inProgressArchives =
+			new(StringComparer.OrdinalIgnoreCase);
+
+		/// <inheritdoc/>
+		public event EventHandler<string>? CompressionCompleted;
+
+		/// <inheritdoc/>
+		public bool IsCompressionInProgress(string archivePath)
+			=> inProgressArchives.ContainsKey(archivePath);
 
 		/// <inheritdoc/>
 		public bool CanCompress(IReadOnlyList<ListedItem> items)
@@ -60,7 +72,17 @@ namespace Files.App.Services
 			compressionModel.Progress = banner.ProgressEventSource;
 			compressionModel.CancellationToken = banner.CancellationToken;
 
-			bool isSuccess = await compressionModel.RunCreationAsync();
+			inProgressArchives.TryAdd(archivePath, 0);
+
+			bool isSuccess;
+			try
+			{
+				isSuccess = await compressionModel.RunCreationAsync();
+			}
+			finally
+			{
+				inProgressArchives.TryRemove(archivePath, out _);
+			}
 
 			StatusCenterViewModel.RemoveItem(banner);
 
@@ -71,6 +93,8 @@ namespace Files.App.Services
 					archivePath.CreateEnumerable(),
 					ReturnResult.Success,
 					compressionModel.Sources.Count());
+
+				CompressionCompleted?.Invoke(this, archivePath);
 			}
 			else
 			{
@@ -79,7 +103,7 @@ namespace Files.App.Services
 				StatusCenterHelper.AddCard_Compress(
 					compressionModel.Sources,
 					archivePath.CreateEnumerable(),
-					compressionModel.CancellationToken.IsCancellationRequested
+					compressionModel.CancellationToken.IsCancellationRequested || compressionModel.IsCancelled
 						? ReturnResult.Cancelled
 						: ReturnResult.Failed,
 					compressionModel.Sources.Count());
@@ -142,11 +166,8 @@ namespace Files.App.Services
 
 				if (!e.FileInfo.IsDirectory)
 				{
-					ThreadingService.ExecuteOnUiThreadAsync(() =>
-					{
-						fsProgress.FileName = e.FileInfo.FileName;
-						fsProgress.Report();
-					});
+					fsProgress.FileName = ArchiveEntryHelpers.GetEntryName(e.FileInfo, archiveFilePath);
+					fsProgress.Report();
 				}
 			};
 
@@ -163,8 +184,25 @@ namespace Files.App.Services
 
 			try
 			{
-				// TODO: Get this method return result
-				await zipFile.ExtractArchiveAsync(destinationFolderPath);
+				var files = zipFile.ArchiveFileData.Where(x => !x.IsDirectory).ToList();
+				var resolvedName = files.Count is 1 ? ArchiveEntryHelpers.GetEntryName(files[0], archiveFilePath) : null;
+
+				if (resolvedName is not null && resolvedName != files[0].FileName)
+				{
+					// ExtractArchive would write the entry's "[no name]" placeholder to disk
+					var destinationPath = ValidateAndGetSafeExtractionPath(destinationFolderPath, resolvedName);
+					Directory.CreateDirectory(Path.GetDirectoryName(destinationPath)!);
+					await using var destinationStream = File.Create(destinationPath);
+					await zipFile.ExtractFileAsync(files[0].Index, destinationStream);
+				}
+				else
+				{
+					foreach (var archiveEntry in zipFile.ArchiveFileData)
+						_ = ValidateAndGetSafeExtractionPath(destinationFolderPath, archiveEntry.FileName, archiveEntry.IsDirectory);
+
+					// TODO: Get this method return result
+					await zipFile.ExtractArchiveAsync(destinationFolderPath);
+				}
 
 				if (!statusCard.CancellationToken.IsCancellationRequested)
 					isSuccess = true;
@@ -238,7 +276,7 @@ namespace Files.App.Services
 			{
 				long processedBytes = 0;
 				int processedFiles = 0;
-				await Task.Run(async () =>
+				await Task.Run(() =>
 				{
 					foreach (ZipEntry zipEntry in zipFile)
 					{
@@ -254,10 +292,10 @@ namespace Files.App.Services
 						}
 
 						string entryFileName = zipEntry.Name;
-						string fullZipToPath = Path.Combine(destinationFolderPath, entryFileName);
-						string directoryName = Path.GetDirectoryName(fullZipToPath);
+						string fullZipToPath = ValidateAndGetSafeExtractionPath(destinationFolderPath, entryFileName);
+						string? directoryName = Path.GetDirectoryName(fullZipToPath);
 
-						if (!Directory.Exists(directoryName))
+						if (directoryName is not null && !Directory.Exists(directoryName))
 						{
 							Directory.CreateDirectory(directoryName);
 						}
@@ -266,11 +304,8 @@ namespace Files.App.Services
 						using (Stream zipStream = zipFile.GetInputStream(zipEntry))
 						using (FileStream streamWriter = File.Create(fullZipToPath))
 						{
-							await ThreadingService.ExecuteOnUiThreadAsync(() =>
-							{
-								fsProgress.FileName = entryFileName;
-								fsProgress.Report();
-							});
+							fsProgress.FileName = entryFileName;
+							fsProgress.Report();
 
 							StreamUtils.Copy(zipStream, streamWriter, buffer);
 						}
@@ -327,6 +362,44 @@ namespace Files.App.Services
 			return isSuccess;
 		}
 
+		private static string ValidateAndGetSafeExtractionPath(string destinationFolderPath, string entryName, bool allowDestinationRoot = false)
+		{
+			var destinationRoot = Path.TrimEndingDirectorySeparator(Path.GetFullPath(destinationFolderPath));
+			var destinationPrefix = Path.EndsInDirectorySeparator(destinationRoot)
+				? destinationRoot
+				: destinationRoot + Path.DirectorySeparatorChar;
+			var normalizedEntryName = entryName.Replace('/', Path.DirectorySeparatorChar);
+			var destinationPath = Path.GetFullPath(Path.Combine(destinationPrefix, normalizedEntryName));
+
+			if (string.Equals(destinationPath, destinationRoot, StringComparison.Ordinal))
+			{
+				return allowDestinationRoot
+					? destinationPath
+					: throw new InvalidDataException($"Archive entry '{entryName}' resolves to the destination folder instead of a file path.");
+			}
+
+			if (!destinationPath.StartsWith(destinationPrefix, StringComparison.Ordinal))
+				throw new InvalidDataException($"Archive entry '{entryName}' resolves outside the destination folder.");
+
+			var currentPath = destinationRoot;
+			var relativePath = Path.GetRelativePath(destinationRoot, destinationPath);
+			foreach (var pathSegment in relativePath.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
+			{
+				currentPath = Path.Combine(currentPath, pathSegment);
+				try
+				{
+					if (File.GetAttributes(currentPath).HasFlag(System.IO.FileAttributes.ReparsePoint))
+						throw new InvalidDataException($"Archive entry '{entryName}' traverses a reparse point.");
+				}
+				catch (Exception ex) when (ex is FileNotFoundException or DirectoryNotFoundException)
+				{
+					break;
+				}
+			}
+
+			return destinationPath;
+		}
+
 
 		/// <inheritdoc/>
 		public string GenerateArchiveNameFromItems(IReadOnlyList<ListedItem> items)
@@ -361,7 +434,9 @@ namespace Files.App.Services
 			{
 				using (ZipFile zipFile = new ZipFile(archiveFilePath))
 				{
-					return !zipFile.Cast<ZipEntry>().All(entry => entry.IsUnicodeText);
+					return !zipFile.Cast<ZipEntry>().All(
+						entry => entry.IsUnicodeText || entry.Name.All(c => char.IsAscii(c))
+					);
 				}
 			}
 			catch (Exception ex)
@@ -410,15 +485,18 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public async Task<SevenZipExtractor?> GetSevenZipExtractorAsync(string archiveFilePath, string password = "")
 		{
-			return await FilesystemTasks.Wrap(async () =>
+			return await FilesystemTasks.WrapNullable(async () =>
 			{
-				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(archiveFilePath);
+				BaseStorageFile? archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(archiveFilePath);
+				if (archive is null)
+					return null;
+
 				var extractor = string.IsNullOrEmpty(password)
 					? new SevenZipExtractor(archive.Path)
 					: new SevenZipExtractor(archive.Path, password);
 
 				// Force to load archive (1665013614u)
-				return extractor?.ArchiveFileData is null ? null : extractor;
+				return extractor.ArchiveFileData is null ? null : extractor;
 			});
 		}
 	}

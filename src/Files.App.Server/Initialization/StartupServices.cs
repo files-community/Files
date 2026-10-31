@@ -1,0 +1,33 @@
+// Copyright (c) Files Community
+// Licensed under the MIT License.
+
+namespace Files.App.Server;
+
+internal static class StartupServices
+{
+	private static readonly Lazy<Task> menuInitialization = new(() => SafetyExtensions.IgnoreExceptions(ContextMenu.WarmUpQueryContextMenuAsync, Program.Logger));
+
+	internal static async Task InitializeAsync()
+	{
+		_ = SafetyExtensions.IgnoreExceptions(UpdateCatalog.InitializeAsync, Program.Logger);
+		_ = menuInitialization.Value;
+		await Task.WhenAll(
+			SafetyExtensions.IgnoreExceptions(InitializationCache.InitializeAsync, Program.Logger),
+			SafetyExtensions.IgnoreExceptions(TagCatalog.InitializeAsync, Program.Logger),
+			WarmDrivesAsync());
+	}
+
+	private static async Task WarmDrivesAsync()
+	{
+		var ids = await SafetyExtensions.IgnoreExceptions(DriveCatalog.GetIdsAsync, Program.Logger);
+		foreach (var id in ids ?? Array.Empty<string>())
+			_ = SafetyExtensions.IgnoreExceptions(() => DriveCatalog.GetAsync(id), Program.Logger);
+	}
+
+	internal static void Stop()
+	{
+		UpdateCatalog.Stop();
+		SettingsStore.Stop();
+		DriveCatalog.Stop();
+	}
+}

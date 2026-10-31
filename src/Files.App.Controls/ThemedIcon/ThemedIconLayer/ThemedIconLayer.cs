@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -34,6 +35,7 @@ namespace Files.App.Controls
 			UpdateIconLayerState();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Canvas))]
 		private void LayerPathDataChanged(string pathData)
 		{
 			if (GetTemplateChild(LayerCanvasPart) is not Canvas layerCanvas)
@@ -101,6 +103,9 @@ namespace Files.App.Controls
 					true);
 			}
 		}
+
+		[DynamicWindowsRuntimeCast(typeof(Geometry))]
+		[DynamicWindowsRuntimeCast(typeof(Path))]
 		private void SetPathData(string pathData, FrameworkElement element)
 		{
 			// Code to take the PathData string, and convert it to an actual path
@@ -112,8 +117,9 @@ namespace Files.App.Controls
 			if (string.IsNullOrEmpty(pathData))
 				return;
 
-			var geometry = (Geometry)XamlReader.Load(
-				$"<Geometry xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'>{pathData}</Geometry>");
+			// Parse the path mini-language directly instead of booting the full XAML parser (XamlReader.Load).
+			// Same geometry, much faster - a layered icon parses one of these per layer.
+			var geometry = (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), pathData);
 
 			if (GetTemplateChild(LayerPathPart) is Path path)
 			{

@@ -1,5 +1,5 @@
 // Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using Microsoft.UI.Xaml.Media.Imaging;
 
@@ -9,7 +9,7 @@ namespace Files.App.Data.Contracts
 	{
 		T Item { get; }
 
-		BitmapImage Thumbnail { get; }
+		BitmapImage? Thumbnail { get; }
 
 		Task LoadCardThumbnailAsync();
 	}

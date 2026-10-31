@@ -8,8 +8,8 @@ namespace Files.App.ViewModels.Previews
 {
 	public sealed partial class MarkdownPreviewViewModel : BasePreviewModel
 	{
-		private string textValue;
-		public string TextValue
+		private string? textValue;
+		public string? TextValue
 		{
 			get => textValue;
 			private set => SetProperty(ref textValue, value);
@@ -22,7 +22,7 @@ namespace Files.App.ViewModels.Previews
 
 		public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
-			var text = await ReadFileAsTextAsync(Item.ItemFile);
+			var text = await ReadFileAsTextAsync(PreviewFile);
 			TextValue = EscapeRawHtml(text.Left(Constants.PreviewPane.TextCharacterLimit));
 
 			return [];

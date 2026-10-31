@@ -12,9 +12,9 @@ namespace Files.App.ViewModels.Previews
 		private readonly InfoPaneViewModel infoPaneViewModel = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
 		public ListedItem Item { get; }
 
-		public BitmapImage Thumbnail { get; set; } = new();
+		public BitmapImage? Thumbnail { get; set; } = new();
 
-		private BaseStorageFolder Folder { get; set; }
+		private BaseStorageFolder? Folder { get; set; }
 
 		public FolderPreviewViewModel(ListedItem item)
 			=> Item = item;
@@ -24,9 +24,12 @@ namespace Files.App.ViewModels.Previews
 
 		private async Task LoadPreviewAndDetailsAsync()
 		{
-			var rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(Item.ItemPath));
-			Folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(Item.ItemPath, rootItem);
-			var items = await Folder.GetItemsAsync();
+			var itemPath = Item.ItemPath!;
+			var rootItem = await FilesystemTasks.WrapNullable(() => DriveHelpers.GetRootFromPathAsync(itemPath));
+			var folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(itemPath, rootItem.Result)
+				?? throw new InvalidOperationException("The preview folder could not be opened.");
+
+			Folder = folder;
 
 			var result = await FileThumbnailHelper.GetIconAsync(
 				Item.ItemPath,
@@ -43,20 +46,20 @@ namespace Files.App.ViewModels.Previews
 			if (Item.IsDriveRoot || infoPaneViewModel?.SelectedDriveItem is not null)
 				return;
 
-			var info = await Folder.GetBasicPropertiesAsync();
+			var info = await folder.GetBasicPropertiesAsync();
 
 			Item.FileDetails =
 			[
 				GetFileProperty("PropertyItemCount", infoPaneViewModel?.DirectoryItemCount),
 				GetFileProperty("PropertyDateModified", info.DateModified),
 				GetFileProperty("PropertyDateCreated", info.DateCreated),
-				GetFileProperty("PropertyParsingPath", Folder.Path),
+				GetFileProperty("PropertyParsingPath", folder.Path),
 			];
 
 			if (GitHelpers.IsRepositoryEx(Item.ItemPath, out var repoPath) &&
 				!string.IsNullOrEmpty(repoPath))
 			{
-				var gitDirectory = GitHelpers.GetGitRepositoryPath(Folder.Path, Path.GetPathRoot(Folder.Path));
+				var gitDirectory = GitHelpers.GetGitRepositoryPath(folder.Path, Path.GetPathRoot(folder.Path));
 				var headName = (await GitHelpers.GetRepositoryHead(gitDirectory))?.Name ?? string.Empty;
 				var repositoryName = GitHelpers.GetOriginRepositoryName(gitDirectory);
 
@@ -68,7 +71,7 @@ namespace Files.App.ViewModels.Previews
 			}
 		}
 
-		private static FileProperty GetFileProperty(string nameResource, object value)
+		private static FileProperty GetFileProperty(string nameResource, object? value)
 			=> new() { NameResource = nameResource, Value = value };
 	}
 }

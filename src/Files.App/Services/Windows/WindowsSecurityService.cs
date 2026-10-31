@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 namespace Files.App.Services
 {
@@ -21,7 +21,7 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public bool IsElevationRequired(string path)
+		public bool IsElevationRequired(string? path)
 		{
 			if (string.IsNullOrEmpty(path))
 				return false;

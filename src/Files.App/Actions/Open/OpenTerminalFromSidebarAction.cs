@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 namespace Files.App.Actions
 {
@@ -16,9 +16,9 @@ namespace Files.App.Actions
 
 		public override bool IsExecutable =>
 			SidebarContext.IsItemRightClicked &&
-			SidebarContext.RightClickedItem is not null &&
-			SidebarContext.RightClickedItem.MenuOptions.ShowShellItems &&
-			!SidebarContext.RightClickedItem.MenuOptions.ShowEmptyRecycleBin;
+			SidebarContext.RightClickedItem is { } item &&
+			item.MenuOptions!.ShowShellItems &&
+			!item.MenuOptions.ShowEmptyRecycleBin;
 
 		public override bool IsAccessibleGlobally
 			=> false;
@@ -29,7 +29,10 @@ namespace Files.App.Actions
 		protected override string[] GetPaths()
 		{
 			if (SidebarContext.IsItemRightClicked && SidebarContext.RightClickedItem is not null)
-				return [SidebarContext.RightClickedItem.Path];
+				return
+				[
+					SidebarContext.RightClickedItem.GetRequiredPath()
+				];
 
 			return [];
 		}

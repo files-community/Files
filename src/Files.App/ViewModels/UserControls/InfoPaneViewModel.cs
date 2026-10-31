@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
 using System.Runtime.InteropServices;
 using Windows.Storage;
+using WinRT;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -19,7 +20,7 @@ namespace Files.App.ViewModels.UserControls
 		private IContentPageContext contentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private DrivesViewModel drivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
-		private CancellationTokenSource loadCancellationTokenSource;
+		private CancellationTokenSource? loadCancellationTokenSource;
 		private Files.App.UserControls.Menus.FileTagsContextMenu? cachedTagsContextMenu;
 
 		/// <summary>
@@ -121,8 +122,8 @@ namespace Files.App.ViewModels.UserControls
 			set => SetProperty(ref showCloudItemButton, value);
 		}
 
-		private UIElement previewPaneContent;
-		public UIElement PreviewPaneContent
+		private UIElement? previewPaneContent;
+		public UIElement? PreviewPaneContent
 		{
 			get => previewPaneContent;
 			set
@@ -166,6 +167,7 @@ namespace Files.App.ViewModels.UserControls
 			});
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Frame))]
 		private async void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
@@ -208,7 +210,11 @@ namespace Files.App.ViewModels.UserControls
 
 		private async Task LoadPreviewControlAsync(CancellationToken token, bool downloadItem)
 		{
-			if (SelectedItem.IsHiddenItem && !SelectedItem.ItemPath.EndsWith('\\'))
+			var item = SelectedItem;
+			if (item is null)
+				throw new InvalidOperationException("The preview pane does not have a selected item.");
+
+			if (item.IsHiddenItem && !item.ItemPath!.EndsWith('\\'))
 			{
 				PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
 
@@ -216,7 +222,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 
-			var control = await GetBuiltInPreviewControlAsync(SelectedItem, downloadItem);
+			var control = await GetBuiltInPreviewControlAsync(item, downloadItem);
 
 			if (token.IsCancellationRequested)
 				return;
@@ -228,7 +234,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 
-			var basicModel = new BasicPreviewViewModel(SelectedItem);
+			var basicModel = new BasicPreviewViewModel(item);
 			await basicModel.LoadAsync();
 
 			control = new BasicPreview(basicModel);
@@ -240,7 +246,7 @@ namespace Files.App.ViewModels.UserControls
 			PreviewPaneState = SelectedDriveItem is not null ? PreviewPaneStates.DriveStorageDetailsAvailable : PreviewPaneStates.PreviewAndDetailsAvailable;
 		}
 
-		private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item, bool downloadItem)
+		private async Task<UserControl?> GetBuiltInPreviewControlAsync(ListedItem item, bool downloadItem)
 		{
 			ShowCloudItemButton = false;
 
@@ -284,7 +290,7 @@ namespace Files.App.ViewModels.UserControls
 				await model.LoadAsync();
 
 				if (contentPageContext.SelectedItems.Count == 0)
-					item.FileTags ??= FileTagsHelper.ReadFileTag(item.ItemPath);
+					item.FileTags ??= FileTagsHelper.ReadFileTag(item.ItemPath!);
 
 				return new FolderPreview(model);
 			}
@@ -319,7 +325,7 @@ namespace Files.App.ViewModels.UserControls
 				return new MarkdownPreview(model);
 			}
 
-			if (ImagePreviewViewModel.ContainsExtension(ext))
+			if (FileExtensionHelpers.IsImagePreviewFile(ext))
 			{
 				var model = new ImagePreviewViewModel(item);
 				await model.LoadAsync();
@@ -335,7 +341,7 @@ namespace Files.App.ViewModels.UserControls
 				return new TextPreview(model);
 			}
 
-			/*if (PDFPreviewViewModel.ContainsExtension(ext))
+			/*if (FileExtensionHelpers.IsPdfFile(ext))
 			{
 				var model = new PDFPreviewViewModel(item);
 				await model.LoadAsync();
@@ -343,7 +349,7 @@ namespace Files.App.ViewModels.UserControls
 				return new PDFPreview(model);
 			}*/
 
-			/*if (HtmlPreviewViewModel.ContainsExtension(ext))
+			/*if (FileExtensionHelpers.IsHtmlFile(ext))
 			{
 				var model = new HtmlPreviewViewModel(item);
 				await model.LoadAsync();
@@ -359,7 +365,7 @@ namespace Files.App.ViewModels.UserControls
 				return new RichTextPreview(model);
 			}
 
-			if (CodePreviewViewModel.ContainsExtension(ext))
+			if (CodePreviewViewModel.IsCodeFile(ext))
 			{
 				var model = new CodePreviewViewModel(item);
 				await model.LoadAsync();
@@ -382,9 +388,22 @@ namespace Files.App.ViewModels.UserControls
 			return control ?? null;
 		}
 
-		public async Task UpdateSelectedItemPreviewAsync(bool downloadItem = false)
+		private int previewRequestVersion;
+
+		public Task UpdateSelectedItemPreviewAsync(bool downloadItem = false)
 		{
-			loadCancellationTokenSource?.Cancel();
+			CancelPreviewLoad();
+			var version = ++previewRequestVersion;
+			return App.UiDispatcher.EnqueueDeferredAsync(() =>
+			{
+				if (version != previewRequestVersion || App.AppModel.IsMainWindowClosed)
+					return Task.CompletedTask;
+				return UpdateSelectedItemPreviewCoreAsync(downloadItem);
+			});
+		}
+
+		private async Task UpdateSelectedItemPreviewCoreAsync(bool downloadItem)
+		{
 			if (contentPageContext.PageType is ContentPageTypes.ReleaseNotes || contentPageContext.PageType is ContentPageTypes.Settings)
 			{
 				PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
@@ -394,6 +413,7 @@ namespace Files.App.ViewModels.UserControls
 			else if (SelectedItem is not null && contentPageContext.SelectedItems.Count == 1)
 			{
 				SelectedItem?.FileDetails?.Clear();
+				var token = CreatePreviewLoadToken();
 
 				try
 				{
@@ -402,25 +422,26 @@ namespace Files.App.ViewModels.UserControls
 					if (SelectedTab == InfoPaneTabs.Preview ||
 						SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
 					{
-						loadCancellationTokenSource = new CancellationTokenSource();
-						await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
+						await LoadPreviewControlAsync(token, downloadItem);
 					}
 					else
 					{
-						await LoadBasicPreviewAsync();
+						await LoadBasicPreviewAsync(token);
 						return;
 					}
 				}
 				catch (Exception e)
 				{
 					Debug.WriteLine(e);
-					loadCancellationTokenSource?.Cancel();
+
+					if (token.IsCancellationRequested)
+						return;
 
 					// If initial loading fails, attempt to load a basic preview (thumbnail and details only)
 					// If that fails, revert to no preview/details available as long as the item is not a shortcut or folder
 					if (SelectedItem is not null && !SelectedItem.IsShortcut && SelectedItem.PrimaryItemAttribute != StorageItemTypes.Folder)
 					{
-						await LoadBasicPreviewAsync();
+						await LoadBasicPreviewAsync(token);
 						return;
 					}
 
@@ -445,18 +466,21 @@ namespace Files.App.ViewModels.UserControls
 					return;
 				}
 
+				var token = CreatePreviewLoadToken();
+
 				try
 				{
 					PreviewPaneState = PreviewPaneStates.LoadingPreview;
-					loadCancellationTokenSource = new CancellationTokenSource();
 
 					SelectedItem = currentFolder;
-					await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
+					await LoadPreviewControlAsync(token, downloadItem);
 				}
 				catch (Exception e)
 				{
 					Debug.WriteLine(e);
-					loadCancellationTokenSource?.Cancel();
+
+					if (token.IsCancellationRequested)
+						return;
 
 					PreviewPaneContent = null;
 					PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
@@ -473,6 +497,7 @@ namespace Files.App.ViewModels.UserControls
 			});
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Frame))]
 		private async void PreviewSettingsService_OnPropertyChangedEvent(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(infoPaneSettingsService.SelectedTab))
@@ -480,7 +505,9 @@ namespace Files.App.ViewModels.UserControls
 				OnPropertyChanged(nameof(SelectedTab));
 
 				// The preview will need refreshing as the file details won't be accurate
-				await UpdateSelectedItemPreviewAsync();
+				var shouldUpdatePreview = ((MainWindow.Instance.Content as Frame)?.Content as MainPage)?.ViewModel.ShouldPreviewPaneBeActive;
+				if (shouldUpdatePreview == true)
+					await UpdateSelectedItemPreviewAsync();
 			}
 			else if (e.PropertyName is nameof(infoPaneSettingsService.IsInfoPaneEnabled))
 			{
@@ -488,18 +515,26 @@ namespace Files.App.ViewModels.UserControls
 				if (isEnabled != newEnablingStatus)
 				{
 					isEnabled = newEnablingStatus;
-					_ = UpdateSelectedItemPreviewAsync();
+					if (!isEnabled)
+						UnloadPreview();
+
 					OnPropertyChanged(nameof(IsEnabled));
 				}
 			}
 		}
 
-		private async Task LoadBasicPreviewAsync()
+		private async Task LoadBasicPreviewAsync(CancellationToken token)
 		{
 			try
 			{
-				var basicModel = new BasicPreviewViewModel(SelectedItem);
+				if (SelectedItem is not { } selectedItem)
+					throw new InvalidOperationException("The preview pane does not have a selected item.");
+
+				var basicModel = new BasicPreviewViewModel(selectedItem);
 				await basicModel.LoadAsync();
+
+				if (token.IsCancellationRequested)
+					return;
 
 				PreviewPaneContent = new BasicPreview(basicModel);
 				PreviewPaneState = SelectedDriveItem is not null ? PreviewPaneStates.DriveStorageDetailsAvailable : PreviewPaneStates.PreviewAndDetailsAvailable;
@@ -508,6 +543,35 @@ namespace Files.App.ViewModels.UserControls
 			{
 				Debug.WriteLine(ex);
 			}
+		}
+
+		private CancellationToken CreatePreviewLoadToken()
+		{
+			CancelPreviewLoad();
+			loadCancellationTokenSource = new CancellationTokenSource();
+
+			return loadCancellationTokenSource.Token;
+		}
+
+		private void CancelPreviewLoad()
+		{
+			var cancellationTokenSource = loadCancellationTokenSource;
+			loadCancellationTokenSource = null;
+
+			cancellationTokenSource?.Cancel();
+			cancellationTokenSource?.Dispose();
+		}
+
+		public void UnloadPreview()
+		{
+			previewRequestVersion++;
+			CancelPreviewLoad();
+
+			// Release the native preview host before clearing its view.
+			if (previewPaneContent is ShellPreview shellPreview)
+				shellPreview.UnloadPreview();
+
+			PreviewPaneContent = null;
 		}
 
 		private void SelectedItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -523,23 +587,24 @@ namespace Files.App.ViewModels.UserControls
 			try
 			{
 				Items.Clear();
-
-				SelectedItem?.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
+				var selectedItem = SelectedItem;
+				selectedItem?.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
+				ListedItem[] selectedItems = selectedItem is null ? [] : [selectedItem];
 
 				// Create menu once and reuse it for subsequent selections
 				if (cachedTagsContextMenu is null)
 				{
-					cachedTagsContextMenu = new Files.App.UserControls.Menus.FileTagsContextMenu(new List<ListedItem>() { SelectedItem });
+					cachedTagsContextMenu = new Files.App.UserControls.Menus.FileTagsContextMenu(selectedItems);
 					cachedTagsContextMenu.TagsChanged += async (s, e) =>
 					{
-						if (contentPageContext.ShellPage is not null)
-							await contentPageContext.ShellPage.ShellViewModel.RefreshTagGroups();
+						if (contentPageContext.ShellPage is { } shellPage)
+							await shellPage.GetRequiredShellViewModel().RefreshTagGroups();
 					};
 				}
 				else
 				{
 					// Reset menu for new selection
-					cachedTagsContextMenu.ResetForItems(new List<ListedItem>() { SelectedItem });
+					cachedTagsContextMenu.ResetForItems(selectedItems);
 				}
 
 				Items.Add(new FlyoutItem(cachedTagsContextMenu));
@@ -560,7 +625,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 
-			var normalizedPath = PathNormalization.NormalizePath(selectedItem.ItemPath);
+			var normalizedPath = PathNormalization.NormalizePath(selectedItem.ItemPath!);
 
 			SelectedDriveItem = drivesViewModel.Drives
 				.OfType<DriveItem>()
@@ -571,7 +636,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public void Dispose()
 		{
-			loadCancellationTokenSource?.Cancel();
+			UnloadPreview();
 			infoPaneSettingsService.PropertyChanged -= PreviewSettingsService_OnPropertyChangedEvent;
 			contentPageContext.PropertyChanged -= ContentPageContext_PropertyChanged;
 			CloudDrivesManager.DataChanged -= CloudDrivesManager_DataChanged;

@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using WinRT;
 
 namespace Files.App.Dialogs
 {
@@ -11,7 +12,10 @@ namespace Files.App.Dialogs
 		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 
 		private FrameworkElement RootAppElement
-			=> (FrameworkElement)MainWindow.Instance.Content;
+		{
+			[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+			get => (FrameworkElement)MainWindow.Instance.Content;
+		}
 
 		public AddItemDialogViewModel ViewModel
 		{
@@ -31,7 +35,10 @@ namespace Files.App.Dialogs
 
 		private void ListView_ItemClick(object sender, ItemClickEventArgs e)
 		{
-			ViewModel.ResultType = (e.ClickedItem as AddItemDialogListItemViewModel).ItemResult;
+			if (e.ClickedItem is not AddItemDialogListItemViewModel { ItemResult: { } itemResult })
+				throw new InvalidOperationException("The selected entry does not describe an item type.");
+
+			ViewModel.ResultType = itemResult;
 
 			Hide();
 		}
@@ -39,7 +46,7 @@ namespace Files.App.Dialogs
 		private async void AddItemDialog_Loaded(object sender, RoutedEventArgs e)
 		{
 			var itemTypes = addItemService.GetEntries();
-			await ViewModel.AddItemsToListAsync(itemTypes);
+			await ViewModel.AddItemsToListAsync(itemTypes!);
 
 			// Focus on the list view so users can use keyboard navigation
 			AddItemsListView.Focus(FocusState.Programmatic);

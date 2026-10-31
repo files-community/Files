@@ -215,6 +215,7 @@
 				Visibility="Collapsed" />
 			<ProgressRing
 				x:Name="PreviewLoadingIndicator"
+				IsActive="False"
 				IsIndeterminate="True"
 				Visibility="Collapsed" />
 		</Grid>
@@ -396,7 +397,7 @@
 											Height="28"
 											Padding="12,0,12,0"
 											VerticalAlignment="Center"
-											x:Load="{x:Bind IsTag, Mode=OneWay}"
+											x:Load="{x:Bind IsTag, Mode=OneTime}"
 											AutomationProperties.Name="{x:Bind AsTag.Tag.Name, Mode=OneWay}"
 											Orientation="Horizontal"
 											Spacing="8"
@@ -425,11 +426,11 @@
 											Height="28"
 											Padding="12,0,12,0"
 											VerticalAlignment="Center"
-											x:Load="{x:Bind IsFlyout, Mode=OneWay}"
+											x:Load="{x:Bind IsFlyout, Mode=OneTime}"
 											AutomationProperties.Name="{helpers:ResourceString Name=EditTags}"
 											Background="Transparent"
 											BorderThickness="0"
-											Flyout="{x:Bind AsFlyout.Flyout, Mode=OneWay}"
+											Flyout="{x:Bind AsFlyout.Flyout, Mode=OneTime}"
 											ToolTipService.ToolTip="{helpers:ResourceString Name=EditTags}">
 											<Button.Resources>
 												<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Transparent" />
@@ -550,6 +551,7 @@
 						<Setter Target="DetailsOpenProperties.Visibility" Value="Collapsed" />
 						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
+						<Setter Target="PreviewLoadingIndicator.IsActive" Value="True" />
 						<Setter Target="PreviewLoadingIndicator.Visibility" Value="Visible" />
 					</VisualState.Setters>
 				</VisualState>

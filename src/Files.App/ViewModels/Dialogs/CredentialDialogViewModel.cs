@@ -33,6 +33,18 @@ namespace Files.App.ViewModels.Dialogs
 			set => SetProperty(ref _CanBeAnonymous, value);
 		}
 
+		private bool _IsWrongPassword;
+		public bool IsWrongPassword
+		{
+			get => _IsWrongPassword;
+			set => SetProperty(ref _IsWrongPassword, value);
+		}
+
+		/// <summary>
+		/// When set, the dialog stays open on OK until the entered password passes validation.
+		/// </summary>
+		public Func<DisposableArray, Task<bool>>? PasswordValidator { get; set; }
+
 		public DisposableArray? Password { get; private set; }
 
 		public IRelayCommand PrimaryButtonClickCommand { get; }

@@ -22,10 +22,10 @@ namespace Files.App.UserControls.Widgets
 
 		private void RecentFilesListView_ItemClick(object sender, ItemClickEventArgs e)
 		{
-			if (e.ClickedItem is not RecentItem item)
+			if (e.ClickedItem is not RecentItem { Path: { Length: > 0 } path })
 				return;
 
-			ViewModel.NavigateToPath(item.Path);
+			ViewModel.NavigateToPath(path);
 		}
 
 		private void RecentFilesListView_RightTapped(object sender, RightTappedRoutedEventArgs e)

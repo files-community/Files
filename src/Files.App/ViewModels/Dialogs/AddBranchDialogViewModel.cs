@@ -56,7 +56,7 @@
 
 		public async Task LoadBranches()
 		{
-			Branches = (await GitHelpers.GetBranchesNames(_repositoryPath)).Select(b => b.Name).ToArray();
+			Branches = (await GitHelpers.GetBranchNames(_repositoryPath)).Select(b => b.Name).ToArray();
 			OnPropertyChanged(nameof(Branches));
 		}
 	}

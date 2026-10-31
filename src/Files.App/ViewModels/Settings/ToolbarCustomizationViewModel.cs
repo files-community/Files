@@ -1,5 +1,5 @@
 // Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 namespace Files.App.ViewModels.Settings
 {
@@ -7,6 +7,7 @@ namespace Files.App.ViewModels.Settings
 	/// ViewModel for toolbar customization. Manages item reordering, addition/removal,
 	/// preview updates, and save/cancel/reset workflow.
 	/// </summary>
+	[WinRT.GeneratedBindableCustomProperty([nameof(RemoveToolbarItemCommand)], [])]
 	public sealed partial class ToolbarCustomizationViewModel : ObservableObject
 	{
 		private readonly IUserSettingsService UserSettingsService;
@@ -16,16 +17,24 @@ namespace Files.App.ViewModels.Settings
 		private IEnumerable<string> ContextKeys => ToolbarContexts.Select(c => c.Key);
 		private bool isApplyingItems;
 		private bool isSessionActive;
+		private int searchGeneration;
 
-		public ObservableCollection<KeyValuePair<string, string>> ToolbarContexts { get; } = [];
+		public ObservableCollection<ToolbarContextItem> ToolbarContexts { get; } = [];
 		public ObservableCollection<ToolbarAvailableTreeItem> AvailableToolbarTreeItems { get; } = [];
 		public ObservableCollection<ToolbarItemDescriptor> ToolbarItems => GetOrCreateItems(ResolveContextId());
 		public ObservableCollection<ToolbarItemDescriptor> AlwaysVisibleToolbarItems => GetOrCreateItems(ToolbarDefaultsTemplate.AlwaysVisibleContextId);
 		public string SelectedToolbarContextName => ToolbarItemDescriptor.GetContextDisplayName(ResolveContextId());
 		public bool IsSelectedContextAlwaysVisible => ResolveContextId() == ToolbarDefaultsTemplate.AlwaysVisibleContextId;
+		public IRelayCommand RemoveToolbarItemCommand { get; }
+		public ToolbarContextItem? SelectedToolbarContext
+		{
+			get => ToolbarContexts.FirstOrDefault(context => context.Key == SelectedToolbarContextId);
+			set => SelectedToolbarContextId = value?.Key;
+		}
 
 		[ObservableProperty] public partial string? SelectedToolbarContextId { get; set; }
 		[ObservableProperty] public partial bool HasToolbarChanges { get; set; }
+		[ObservableProperty] public partial string SearchQuery { get; set; } = string.Empty;
 
 		public event EventHandler? CloseRequested;
 		public event EventHandler? PreviewChanged;
@@ -34,6 +43,7 @@ namespace Files.App.ViewModels.Settings
 		{
 			UserSettingsService = userSettingsService;
 			CommandManager = commandManager;
+			RemoveToolbarItemCommand = new RelayCommand<ToolbarItemDescriptor?>(RemoveToolbarItem);
 			foreach (var ctxId in ToolbarItemDescriptor.BuildKnownContextIds(CommandManager))
 			{
 				ToolbarContexts.Add(new(ctxId, ToolbarItemDescriptor.GetContextDisplayName(ctxId)));
@@ -41,6 +51,11 @@ namespace Files.App.ViewModels.Settings
 			}
 			SelectedToolbarContextId = ToolbarDefaultsTemplate.AlwaysVisibleContextId;
 			LoadToolbarItems();
+			UserSettingsService.OnSettingChangedEvent += (_, e) =>
+			{
+				if (e.NewValue is JsonElement && e.SettingName == nameof(IAppearanceSettingsService.CustomToolbarItems) && !isSessionActive)
+					LoadToolbarItems();
+			};
 		}
 
 		public void BeginToolbarCustomizationSession()
@@ -62,7 +77,19 @@ namespace Files.App.ViewModels.Settings
 			HasToolbarChanges = false;
 		}
 
-		partial void OnSelectedToolbarContextIdChanged(string? value) => RefreshAvailableAndNotify(notifyPreview: true);
+		partial void OnSelectedToolbarContextIdChanged(string? value)
+		{
+			OnPropertyChanged(nameof(SelectedToolbarContext));
+			RefreshAvailableAndNotify(notifyPreview: true);
+		}
+
+		partial void OnSearchQueryChanged(string value) => _ = DebouncedRefreshAsync(++searchGeneration);
+
+		private async Task DebouncedRefreshAsync(int generation)
+		{
+			await Task.Delay(250);
+			if (generation == searchGeneration) RefreshAvailableAndNotify();
+		}
 
 		private void LoadToolbarItems()
 		{
@@ -100,8 +127,11 @@ namespace Files.App.ViewModels.Settings
 		private void RefreshAvailableAndNotify(bool notifyPreview = false)
 		{
 			AvailableToolbarTreeItems.Clear();
-			foreach (var node in ToolbarItemDescriptor.BuildAvailableTree(
-				ToolbarItemDescriptor.GetAvailableItems(ResolveContextId(), CommandManager)))
+			var query = SearchQuery.Trim();
+			var items = ToolbarItemDescriptor.GetAvailableItems(ResolveContextId(), CommandManager)
+				.Where(i => query.Length == 0
+					|| i.ExtendedDisplayName.Contains(query, StringComparison.OrdinalIgnoreCase));
+			foreach (var node in ToolbarItemDescriptor.BuildAvailableTree(items, flat: query.Length > 0))
 				AvailableToolbarTreeItems.Add(node);
 			OnPropertyChanged(nameof(ToolbarItems));
 			OnPropertyChanged(nameof(SelectedToolbarContextName));
@@ -158,7 +188,6 @@ namespace Files.App.ViewModels.Settings
 			items.Insert(Math.Clamp(index, 0, items.Count), clone);
 		}
 
-		[RelayCommand]
 		private void RemoveToolbarItem(ToolbarItemDescriptor? item)
 		{
 			if (item is not null)
@@ -200,5 +229,17 @@ namespace Files.App.ViewModels.Settings
 		private string ResolveContextId()
 			=> ToolbarDefaultsTemplate.NormalizeContextId(SelectedToolbarContextId,
 				nullFallback: ToolbarDefaultsTemplate.AlwaysVisibleContextId);
+	}
+
+	public sealed class ToolbarContextItem
+	{
+		public string Key { get; }
+		public string Value { get; }
+
+		public ToolbarContextItem(string key, string value)
+		{
+			Key = key;
+			Value = value;
+		}
 	}
 }

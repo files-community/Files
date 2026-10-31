@@ -3,13 +3,17 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using WinRT;
 
 namespace Files.App.Dialogs
 {
 	public sealed partial class CloneRepoDialog : ContentDialog, IDialog<CloneRepoDialogViewModel>
 	{
 		private FrameworkElement RootAppElement
-			=> (FrameworkElement)MainWindow.Instance.Content;
+		{
+			[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+			get => (FrameworkElement)MainWindow.Instance.Content;
+		}
 
 		public CloneRepoDialogViewModel ViewModel
 		{

@@ -9,12 +9,16 @@
     <WindowsSdkPackageVersion>10.0.26100.67-preview</WindowsSdkPackageVersion>
     <WindowsTargetFramework>$(TargetFrameworkVersion)-windows$(TargetWindowsVersion)</WindowsTargetFramework>
     <LangVersion>preview</LangVersion>
+    <WarningsAsErrors>nullable</WarningsAsErrors>
 
     <!--  Use Microsoft.Testing.Platform  -->
     <EnableMSTestRunner>true</EnableMSTestRunner>
 
     <!--  Use strict Roslyn compilation mode  -->
     <Features>strict</Features>
+
+    <!--  Enable all C#/WinRT trimming and NativeAOT diagnostics  -->
+    <CsWinRTAotWarningLevel>3</CsWinRTAotWarningLevel>
 
   </PropertyGroup>
 </Project>

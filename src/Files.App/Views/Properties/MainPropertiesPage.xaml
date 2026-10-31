@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <vm:BasePropertiesPage
 	x:Class="Files.App.Views.Properties.MainPropertiesPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -6,12 +6,9 @@
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:controls="using:Files.App.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	DataContext="{x:Bind MainPropertiesViewModel, Mode=OneWay}"
 	HighContrastAdjustment="None"
@@ -21,20 +18,7 @@
 	mc:Ignorable="d">
 
 	<vm:BasePropertiesPage.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="ms-appx:///Styles/PropertiesStyles.xaml" />
-				<ResourceDictionary Source="ms-appx:///Styles/NavigationViewItemButtonStyle.xaml" />
-			</ResourceDictionary.MergedDictionaries>
-
-			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
-			<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-			<wctconverters:BoolToVisibilityConverter
-				x:Key="BoolToVisibilityInverseConverter"
-				FalseValue="Visible"
-				TrueValue="Collapsed" />
-
-		</ResourceDictionary>
+		<ResourceDictionary Source="ms-appx:///Styles/PropertiesStyles.xaml" />
 	</vm:BasePropertiesPage.Resources>
 
 	<Grid x:Name="RootGrid">
@@ -98,58 +82,23 @@
 
 		</Grid>
 
-		<!--  Main NavigationView  -->
-		<NavigationView
-			x:Name="MainPropertiesWindowNavigationView"
+		<!--  Main Sidebar  -->
+		<controls:SidebarView
+			x:Name="PropertiesSidebar"
 			Grid.Row="1"
-			IsBackButtonVisible="Collapsed"
-			IsPaneToggleButtonVisible="False"
-			IsSettingsVisible="False"
-			IsTitleBarAutoPaddingEnabled="False"
-			MenuItemsSource="{x:Bind MainPropertiesViewModel.NavigationViewItems, Mode=OneWay}"
-			OpenPaneLength="168"
-			PaneDisplayMode="Left"
-			SelectedItem="{x:Bind MainPropertiesViewModel.SelectedNavigationViewItem, Mode=TwoWay}">
+			CanResizePane="False"
+			ItemInvoked="PropertiesSidebar_ItemInvoked"
+			MenuItemsSource="{x:Bind MainPropertiesViewModel.FlatNavigationItems, Mode=OneWay}"
+			OpenPaneLength="200"
+			SelectedItem="{x:Bind MainPropertiesViewModel.SelectedNavigationItem, Mode=OneWay}">
 
-			<!--  Item Template  -->
-			<NavigationView.MenuItemTemplate>
-				<DataTemplate x:DataType="dataitems:NavigationViewItemButtonStyleItem">
-					<NavigationViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}" Tag="{x:Bind ItemType, Mode=OneWay}">
-						<NavigationViewItem.Content>
-							<Grid>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="Auto" />
-									<ColumnDefinition Width="*" />
-								</Grid.ColumnDefinitions>
-
-								<!--  Icon  -->
-								<Viewbox
-									Width="16"
-									Height="16"
-									VerticalAlignment="Center">
-									<controls:ThemedIcon IsFilled="{x:Bind IsSelected, Mode=OneWay}" Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
-								</Viewbox>
-
-								<!--  Label  -->
-								<TextBlock
-									x:Name="ItemNameLabelTextBlock"
-									Grid.Column="1"
-									Margin="8,0,0,0"
-									VerticalAlignment="Center"
-									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-									Style="{StaticResource App.Theme.BodyTextBlockStyle}"
-									Text="{x:Bind Name, Mode=OneWay}"
-									Visibility="{x:Bind IsCompact, Converter={StaticResource BoolToVisibilityInverseConverter}, Mode=OneWay}" />
-
-							</Grid>
-						</NavigationViewItem.Content>
-					</NavigationViewItem>
-				</DataTemplate>
-			</NavigationView.MenuItemTemplate>
-
-			<!--  NavigationView Content, Save/Cancel buttons  -->
-			<NavigationView.Content>
-				<Grid>
+			<controls:SidebarView.InnerContent>
+				<Grid
+					Margin="0,0,-8,0"
+					Background="{ThemeResource LayerFillColorDefaultBrush}"
+					BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+					BorderThickness="1,1,0,0"
+					CornerRadius="8,0,0,0">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="*" />
 						<RowDefinition Height="52" />
@@ -187,20 +136,20 @@
 					</Grid>
 
 				</Grid>
-			</NavigationView.Content>
+			</controls:SidebarView.InnerContent>
 
-		</NavigationView>
+		</controls:SidebarView>
 
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup x:Name="NavigationStates">
 				<VisualState x:Name="Narrow">
 					<VisualState.Setters>
-						<Setter Target="MainPropertiesWindowNavigationView.PaneDisplayMode" Value="LeftCompact" />
+						<Setter Target="PropertiesSidebar.DisplayMode" Value="Compact" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="Wide">
 					<VisualState.Setters>
-						<Setter Target="MainPropertiesWindowNavigationView.PaneDisplayMode" Value="Left" />
+						<Setter Target="PropertiesSidebar.DisplayMode" Value="Expanded" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>

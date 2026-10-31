@@ -7,13 +7,15 @@ namespace Files.App.Utils.Storage
 {
 	public static class GroupingHelper
 	{
-		private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
+		private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
 
-		public static Func<ListedItem, string> GetItemGroupKeySelector(GroupOption option, GroupByDateUnit unit)
+		public static Func<ListedItem, string?>? GetItemGroupKeySelector(GroupOption option, GroupByDateUnit unit)
 		{
 			return option switch
 			{
-				GroupOption.Name => x => new string(x.Name.Take(1).ToArray()).ToUpperInvariant(),
+				GroupOption.Name => x => new string((x.Name
+					?? throw new InvalidOperationException("The grouped item does not have a name."))
+					.Take(1).ToArray()).ToUpperInvariant(),
 				GroupOption.Size => x => x.PrimaryItemAttribute != StorageItemTypes.Folder || x.IsArchive ? GetGroupSizeKey(x.FileSizeBytes) : x.FileSizeDisplay,
 				GroupOption.DateCreated => x => dateTimeFormatter.ToTimeSpanLabel(x.ItemDateCreatedReal, unit).Text,
 				GroupOption.DateModified => x => dateTimeFormatter.ToTimeSpanLabel(x.ItemDateModifiedReal, unit).Text,
@@ -22,12 +24,12 @@ namespace Files.App.Utils.Storage
 				GroupOption.FileTag => x => x.FileTags?.FirstOrDefault() ?? "Untagged",
 				GroupOption.OriginalFolder => x => (x as RecycleBinItem)?.ItemOriginalFolder,
 				GroupOption.DateDeleted => x => dateTimeFormatter.ToTimeSpanLabel((x as RecycleBinItem)?.ItemDateDeletedReal ?? DateTimeOffset.Now, unit).Text,
-				GroupOption.FolderPath => x => PathNormalization.GetParentDir(x.ItemPath.TrimPath()),
+				GroupOption.FolderPath => x => PathNormalization.GetParentDir(x.GetRequiredPath().TrimPath()),
 				_ => null,
 			};
 		}
 
-		public static (Action<GroupedCollection<ListedItem>>, Action<GroupedCollection<ListedItem>>) GetGroupInfoSelector(GroupOption option, GroupByDateUnit unit)
+		public static (Action<GroupedCollection<ListedItem>>?, Action<GroupedCollection<ListedItem>>?) GetGroupInfoSelector(GroupOption option, GroupByDateUnit unit)
 		{
 			return option switch
 			{
@@ -85,12 +87,12 @@ namespace Files.App.Utils.Storage
 					ListedItem first = x.First();
 					x.Model.ShowCountTextBelow = true;
 					x.Model.Text = first.SyncStatusString;
-					x.Model.Icon = first?.SyncStatusUI.Glyph;
+					x.Model.Icon = first.SyncStatusUI.Glyph;
 				}, null),
 
 				GroupOption.FileTag => (x =>
 				{
-					ListedItem first = x.FirstOrDefault();
+					ListedItem first = x.First();
 					x.Model.ShowCountTextBelow = true;
 					x.Model.Text = first.FileTagsUI?.FirstOrDefault()?.Name ?? Strings.Untagged.GetLocalizedResource();
 					//x.Model.Icon = first.FileTagsUI?.FirstOrDefault()?.Color;
@@ -99,9 +101,9 @@ namespace Files.App.Utils.Storage
 				GroupOption.DateDeleted => (x =>
 					{
 						var vals = dateTimeFormatter.ToTimeSpanLabel((x.First() as RecycleBinItem)?.ItemDateDeletedReal ?? DateTimeOffset.Now, unit);
-						x.Model.Subtext = vals?.Text;
-						x.Model.Icon = vals?.Glyph;
-						x.Model.SortIndexOverride = vals?.Index ?? 0;
+						x.Model.Subtext = vals.Text;
+						x.Model.Icon = vals.Glyph;
+						x.Model.SortIndexOverride = vals.Index;
 					}, null),
 
 				GroupOption.OriginalFolder => (x =>
@@ -119,7 +121,7 @@ namespace Files.App.Utils.Storage
 					ListedItem first = x.First();
 					var model = x.Model;
 					model.ShowCountTextBelow = true;
-					var parentPath = PathNormalization.GetParentDir(first.ItemPath.TrimPath());
+					var parentPath = PathNormalization.GetParentDir(first.GetRequiredPath().TrimPath());
 					model.Text = GetFolderName(parentPath);
 					model.Subtext = parentPath;
 				}, null),
@@ -166,10 +168,11 @@ namespace Files.App.Utils.Storage
 			(16000, Strings.ItemSizeText_Small.GetLocalizedResource(), "16 KiB".ConvertSizeAbbreviation()),
 		];
 
-		private static string GetFolderName(string path)
+		private static string? GetFolderName(string? path)
 		{
-			if (path == null)
+			if (path is null)
 				return null;
+
 			return path.Substring(path.LastIndexOf('\\') + 1);
 		}
 	}

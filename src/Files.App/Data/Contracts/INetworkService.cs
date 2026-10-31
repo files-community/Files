@@ -40,6 +40,18 @@ namespace Files.App.Data.Contracts
 		Task UpdateShortcutsAsync();
 
 		/// <summary>
+		/// Gets the enabled network discovery and file sharing capabilities.
+		/// </summary>
+		/// <returns>The enabled capabilities, or null if the status couldn't be determined.</returns>
+		Task<NetworkAvailability?> GetNetworkAvailabilityAsync();
+
+		/// <summary>
+		/// Opens Windows advanced sharing settings.
+		/// </summary>
+		/// <returns></returns>
+		Task OpenNetworkSharingSettingsAsync();
+
+		/// <summary>
 		/// Displays the operating system dialog for connecting to a network storage device
 		/// </summary>
 		/// <returns></returns>
@@ -56,7 +68,8 @@ namespace Files.App.Data.Contracts
 		/// Authenticates the specified network share point.
 		/// </summary>
 		/// <param name="path">A path to the network share point.</param>
+		/// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
 		/// <returns>True If succeeds; otherwise, false.</returns>
-		Task<bool> AuthenticateNetworkShare(string path);
+		Task<bool> AuthenticateNetworkShare(string path, CancellationToken cancellationToken);
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Windows.Graphics;
 using Microsoft.UI.Windowing;
 using Windows.Win32;
+using WinRT;
 
 namespace Files.App.Views.Settings
 {
@@ -17,8 +18,12 @@ namespace Files.App.Views.Settings
 	{
 		private static WindowEx? customizationWindow;
 
+		[DynamicWindowsRuntimeCast(typeof(Frame))]
 		public static void Show()
 		{
+			if (App.AppModel.IsMainWindowClosed)
+				return;
+
 			var themeService = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 			var window = customizationWindow ??= CreateCustomizationWindow(themeService);
 			if (window.Content is Frame frame) frame.RequestedTheme = themeService.AppThemeMode;

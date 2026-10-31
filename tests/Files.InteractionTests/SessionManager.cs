@@ -4,8 +4,10 @@
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
 using System.Threading;
 
 namespace Files.InteractionTests
@@ -13,7 +15,7 @@ namespace Files.InteractionTests
 	[TestClass]
 	public sealed class SessionManager
 	{
-		private const string WindowsApplicationDriverUrl = "http://127.0.0.1:4723";
+		private const string AppiumServerUrl = "http://127.0.0.1:4723";
 		private static string[] FilesAppIDs = [
 			"FilesDev_ykqwq8d6ps0ag!App", // Needed to run on the local end and/or the CI
 			"FilesDev_9bhem8es8z4gp!App", // Needed to run on the local end and/or the CI
@@ -22,8 +24,8 @@ namespace Files.InteractionTests
 
 		private static uint appIdIndex = 0;
 
-		private static WindowsDriver<WindowsElement> _session;
-		public static WindowsDriver<WindowsElement> Session
+		private static WindowsDriver _session;
+		public static WindowsDriver Session
 		{
 			get
 			{
@@ -38,11 +40,12 @@ namespace Files.InteractionTests
 		private static void tryInitializeSession()
 		{
 			AppiumOptions appiumOptions = new AppiumOptions();
-			appiumOptions.AddAdditionalCapability("app", FilesAppIDs[appIdIndex]);
-			appiumOptions.AddAdditionalCapability("deviceName", "WindowsPC");
+			appiumOptions.AutomationName = "Windows";
+			appiumOptions.App = FilesAppIDs[appIdIndex];
+			appiumOptions.DeviceName = "WindowsPC";
 			try
 			{
-				_session = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appiumOptions);
+				_session = new WindowsDriver(new Uri(AppiumServerUrl), appiumOptions);
 			}
 			catch (OpenQA.Selenium.WebDriverException exc)
 			{
@@ -58,32 +61,53 @@ namespace Files.InteractionTests
 			}
 		}
 
+		private static bool IsAppiumServerRunning()
+		{
+			try
+			{
+				using var client = new HttpClient();
+				return client.GetAsync($"{AppiumServerUrl}/status").GetAwaiter().GetResult().IsSuccessStatusCode;
+			}
+			catch (HttpRequestException)
+			{
+				return false;
+			}
+		}
+
 		[AssemblyInitialize]
 		public static void CreateSession(TestContext _)
 		{
+			Directory.CreateDirectory(TestHelper.TestDataRootPath);
+
 			if (_session is null)
 			{
 
 				int timeoutCount = 50;
 
 				tryInitializeSession();
-				if (_session is null)
+				if (_session is null && !IsAppiumServerRunning())
 				{
-					// WinAppDriver is probably not running, so lets start it!
-					if (File.Exists($@"{Environment.GetEnvironmentVariable("ProgramFiles(x86)")}\Windows Application Driver\WinAppDriver.exe"))
+					// Appium is not running, so lets start it!
+					// Shell-executed + hidden so the server gets its own (hidden) console instead
+					// of spamming its per-request log into the test output
+					try
 					{
-						Process.Start($@"{Environment.GetEnvironmentVariable("ProgramFiles(x86)")}\Windows Application Driver\WinAppDriver.exe");
+						Process.Start(new ProcessStartInfo
+						{
+							FileName = "appium.cmd",
+							UseShellExecute = true,
+							WindowStyle = ProcessWindowStyle.Hidden,
+						});
 					}
-					else if (File.Exists($@"{Environment.GetEnvironmentVariable("ProgramFiles")}\Windows Application Driver\WinAppDriver.exe"))
+					catch (Win32Exception)
 					{
-						Process.Start($@"{Environment.GetEnvironmentVariable("ProgramFiles")}\Windows Application Driver\WinAppDriver.exe");
-					}
-					else
-					{
-						throw new Exception("Unable to start WinAppDriver since no suitable location was found.");
+						throw new Exception("Unable to start Appium since it was not found on the PATH.");
 					}
 
-					Thread.Sleep(10000);
+					var serverDeadline = DateTime.UtcNow + TimeSpan.FromSeconds(30);
+					while (!IsAppiumServerRunning() && DateTime.UtcNow < serverDeadline)
+						Thread.Sleep(250);
+
 					tryInitializeSession();
 				}
 
@@ -94,7 +118,7 @@ namespace Files.InteractionTests
 					timeoutCount *= 2;
 				}
 
-				Thread.Sleep(3000);
+				Thread.Sleep(1000);
 				Assert.IsNotNull(_session);
 				Assert.IsNotNull(_session.SessionId);
 
@@ -102,12 +126,21 @@ namespace Files.InteractionTests
 				// If the disclaimer is not found, this throws an exception, so lets catch that
 				try
 				{
-					_session.FindElementByName("Disclaimer").FindElementByName("Accept").Click();
+					_session.FindElement(MobileBy.Name("Disclaimer")).FindElement(MobileBy.Name("Accept")).Click();
 				}
 				catch (OpenQA.Selenium.WebDriverException) { }
 
-				// Wait if something is still animating in the visual tree
-				_session.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+				// The window the session attached to (splash or disclaimer) may have closed since;
+				// anchor to the first open window so the tests start against the main window
+				try
+				{
+					_session.SwitchTo().Window(_session.WindowHandles[0]);
+				}
+				catch (OpenQA.Selenium.WebDriverException) { }
+
+				// Kept short: the helpers retry their finds client-side, and a long implicit wait
+				// stalls every negative lookup (absence checks, gone-waits) by its full duration
+				_session.Manage().Timeouts().ImplicitWait = TimeSpan.FromMilliseconds(500);
 				_session.Manage().Window.Maximize();
 
 				AxeHelper.InitializeAxe();
@@ -117,15 +150,50 @@ namespace Files.InteractionTests
 		[AssemblyCleanup()]
 		public static void TestRunTearDown()
 		{
-			TearDown();
+			try
+			{
+				TearDown();
+			}
+			finally
+			{
+				try
+				{
+					Directory.Delete(TestHelper.TestDataRootPath, true);
+				}
+				catch (DirectoryNotFoundException)
+				{
+					// The run created nothing on disk
+				}
+				catch (IOException)
+				{
+					// The closing app can briefly keep a change-watcher handle on a test folder;
+					// the next run deletes the leftovers when its own cleanup runs
+				}
+			}
 		}
 
 		public static void TearDown()
 		{
 			if (_session is not null)
 			{
-				_session.CloseApp();
-				_session.Quit();
+				try
+				{
+					_session.CloseApp();
+				}
+				catch (OpenQA.Selenium.WebDriverException)
+				{
+					// The app already exited (or crashed); still quit to dispose the session
+				}
+
+				try
+				{
+					_session.Quit();
+				}
+				catch (OpenQA.Selenium.WebDriverException)
+				{
+					// The driver may already have dropped the session
+				}
+
 				_session = null;
 			}
 		}

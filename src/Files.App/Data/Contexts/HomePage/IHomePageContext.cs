@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
-using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Files.App.Data.Contexts
 {
@@ -15,7 +15,7 @@ namespace Files.App.Data.Contexts
 		/// <summary>
 		/// The last opened widget's context menu instance
 		/// </summary>
-		CommandBarFlyout? ItemContextFlyoutMenu { get; }
+		FlyoutBase? ItemContextFlyoutMenu { get; }
 
 		/// <summary>
 		/// An list containing all the selected tagged items

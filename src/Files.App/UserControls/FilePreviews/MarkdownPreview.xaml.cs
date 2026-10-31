@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Windows.System;
+using WinRT;
 
 namespace Files.App.UserControls.FilePreviews
 {
@@ -14,6 +15,7 @@ namespace Files.App.UserControls.FilePreviews
 	{
 		private MarkdownPreviewViewModel ViewModel { get; set; }
 
+		[DynamicWindowsRuntimeCast(typeof(Brush))]
 		public MarkdownPreview(MarkdownPreviewViewModel model)
 		{
 			ViewModel = model;

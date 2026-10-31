@@ -7,6 +7,14 @@ using Windows.Win32.Foundation;
 
 namespace Files.App.ViewModels.Properties
 {
+	[WinRT.GeneratedBindableCustomProperty(
+		[
+			nameof(ColumnTypeGridLength),
+			nameof(ColumnPrincipalGridLength),
+			nameof(ColumnAccessGridLength),
+			nameof(ColumnInheritedGridLength),
+		],
+		[])]
 	public sealed partial class SecurityAdvancedViewModel : ObservableObject
 	{
 		private readonly IStorageSecurityService StorageSecurityService = Ioc.Default.GetRequiredService<IStorageSecurityService>();
@@ -50,10 +58,11 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		private AccessControlList _AccessControlList;
+		private AccessControlList? _AccessControlList;
 		public AccessControlList AccessControlList
 		{
-			get => _AccessControlList;
+			get => _AccessControlList
+				?? throw new InvalidOperationException("The access control list has not been loaded.");
 			set => SetProperty(ref _AccessControlList, value);
 		}
 
@@ -126,27 +135,25 @@ namespace Files.App.ViewModels.Properties
 		public SecurityAdvancedViewModel(PropertiesPageNavigationParameter parameter)
 		{
 			_navigationParameter = parameter;
-			_window = parameter.Window;
+			_window = parameter.Window
+				?? throw new InvalidOperationException("The security page does not have an associated window.");
 
 			switch (parameter.Parameter)
 			{
 				case ListedItem listedItem:
-					_path = listedItem.ItemPath;
+					_path = listedItem.GetRequiredPath();
 					_isFolder = listedItem.PrimaryItemAttribute == StorageItemTypes.Folder && !listedItem.IsShortcut;
 					break;
 				case DriveItem driveItem:
-					_path = driveItem.Path;
+					_path = driveItem.GetRequiredPath();
 					_isFolder = true;
 					break;
 				default:
-					var defaultlistedItem = (ListedItem)parameter.Parameter;
-					_path = defaultlistedItem.ItemPath;
-					_isFolder = defaultlistedItem.PrimaryItemAttribute == StorageItemTypes.Folder && !defaultlistedItem.IsShortcut;
-					break;
+					throw new ArgumentException("The security page requires a listed item or drive.", nameof(parameter));
 			}
 			;
 
-			LoadShieldIconResource();
+			ShieldIconFileInfo = LoadShieldIconResource();
 
 			LoadAccessControlEntry();
 
@@ -155,7 +162,7 @@ namespace Files.App.ViewModels.Properties
 			RemoveAccessControlEntryCommand = new AsyncRelayCommand(ExecuteRemoveAccessControlEntryCommandAsync);
 		}
 
-		private void LoadShieldIconResource()
+		private IconFileInfo LoadShieldIconResource()
 		{
 			string imageres = System.IO.Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "imageres.dll");
 
@@ -164,12 +171,14 @@ namespace Files.App.ViewModels.Properties
 				new List<int>() { Constants.ImageRes.ShieldIcon },
 				16);
 
-			ShieldIconFileInfo = imageResList.First();
+			return imageResList.First();
 		}
 
 		private void LoadAccessControlEntry()
 		{
-			var error = StorageSecurityService.GetAcl(_path, _isFolder, out _AccessControlList);
+			var error = StorageSecurityService.GetAcl(_path, _isFolder, out var accessControlList);
+			AccessControlList = accessControlList
+				?? throw new InvalidOperationException("The security service did not return an access control list.");
 			OnPropertyChanged(nameof(AccessControlList));
 
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();

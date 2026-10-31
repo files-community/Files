@@ -25,8 +25,8 @@ namespace Files.App.Utils
 
 		public void Initialize()
 		{
-			var automaticDestinationsPath = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Recent", "AutomaticDestinations");
-			
+			var automaticDestinationsPath = Constants.UserEnvironmentPaths.AutomaticDestinationsPath;
+
 			// Only initialize FileSystemWatcher if the directory exists
 			// This handles cases where AppData is redirected to network locations that don't contain Windows system directories
 			if (Directory.Exists(automaticDestinationsPath))
@@ -34,7 +34,7 @@ namespace Files.App.Utils
 				PinnedItemsWatcher = new()
 				{
 					Path = automaticDestinationsPath,
-					Filter = "f01b4d95cf55d32a.automaticDestinations-ms",
+					Filter = Constants.UserEnvironmentPaths.QuickAccessDestinationsFileName,
 					NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName
 				};
 

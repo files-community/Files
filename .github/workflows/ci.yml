@@ -39,8 +39,6 @@ env:
   ARTIFACTS_STAGING_DIR: '${{ github.workspace }}\artifacts'
   APPX_PACKAGE_DIR: '${{ github.workspace }}\artifacts\AppxPackages\'
   APPX_SELFSIGNED_CERT_PATH: '${{ github.workspace }}\.github\workflows\FilesApp_SelfSigned.pfx'
-  WINAPPDRIVER_EXE86_PATH: 'C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe'
-  WINAPPDRIVER_EXE64_PATH: 'C:\Program Files\Windows Application Driver\WinAppDriver.exe'
 
 jobs:
 
@@ -117,10 +115,12 @@ jobs:
           -p:PublishReadyToRun=true `
           -v:quiet
 
-    - if: env.CONFIGURATION != env.AUTOMATED_TESTS_CONFIGURATION || env.ARCHITECTURE != env.AUTOMATED_TESTS_ARCHITECTURE
+    - if: env.CONFIGURATION != env.AUTOMATED_TESTS_CONFIGURATION
       name: Build Files
       run: |
         msbuild `
+          -warnaserror `
+          -warnnotaserror:CS0612,CS0618,CS0672,IL2104 `
           $env:APP_PROJECT_PATH `
           -t:Build `
           -p:Configuration=$env:CONFIGURATION `
@@ -137,6 +137,8 @@ jobs:
       name: Build & package Files
       run: |
         msbuild `
+          -warnaserror `
+          -warnnotaserror:CS0612,CS0618,CS0672,IL2104 `
           $env:APP_PROJECT_PATH `
           -t:Build `
           -p:Configuration=$env:CONFIGURATION `
@@ -151,6 +153,49 @@ jobs:
           -p:PackageCertificatePassword="" `
           -p:PackageCertificateThumbprint="" `
           -v:quiet
+
+    - if: env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION && env.ARCHITECTURE != env.AUTOMATED_TESTS_ARCHITECTURE
+      name: Package Files
+      run: |
+        msbuild `
+          -warnaserror `
+          -warnnotaserror:CS0612,CS0618,CS0672,IL2104 `
+          $env:APP_PROJECT_PATH `
+          -t:Build `
+          -p:Configuration=$env:CONFIGURATION `
+          -p:Platform=$env:ARCHITECTURE `
+          -p:AppxBundlePlatforms=$env:ARCHITECTURE `
+          -p:AppxBundle=Always `
+          -p:GenerateAppxPackageOnBuild=true `
+          -p:UapAppxPackageBuildMode=SideloadOnly `
+          -p:AppxPackageDir=$env:APPX_PACKAGE_DIR `
+          -p:AppxPackageSigningEnabled=false `
+          -v:quiet
+
+    - if: env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
+      name: Measure MSIX package size
+      shell: pwsh
+      run: |
+        $packages = Get-ChildItem $env:APPX_PACKAGE_DIR -Recurse -Include *.msixbundle, *.msix |
+          Where-Object { $_.DirectoryName -notmatch '\\Dependencies\\' }
+
+        $totalBytes = 0
+        foreach ($package in $packages)
+        {
+          Write-Host "$($package.Name): $([math]::Round($package.Length / 1MB, 2)) MB"
+          $totalBytes += $package.Length
+        }
+
+        # Persist this architecture's total so the bundle-size job can sum across legs
+        New-Item -ItemType Directory -Force -Path $env:ARTIFACTS_STAGING_DIR | Out-Null
+        "$totalBytes" | Out-File -FilePath (Join-Path $env:ARTIFACTS_STAGING_DIR "msix-size-$env:ARCHITECTURE.txt")
+
+    - if: env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
+      name: Upload MSIX size
+      uses: actions/upload-artifact@v7
+      with:
+        name: 'msix-size-${{ env.ARCHITECTURE }}'
+        path: ${{ env.ARTIFACTS_STAGING_DIR }}\msix-size-${{ env.ARCHITECTURE }}.txt
 
     - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
       name: Build interaction tests
@@ -177,6 +222,43 @@ jobs:
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.ARCHITECTURE }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
+
+  report-bundle-size:
+
+    if: github.repository_owner == 'files-community'
+
+    needs: [build]
+    runs-on: windows-2025-vs2026
+
+    steps:
+
+    - name: Download MSIX sizes
+      uses: actions/download-artifact@v8
+      with:
+        pattern: msix-size-*
+        merge-multiple: true
+        path: ${{ github.workspace }}\sizes
+
+    - name: Sum bundle size
+      shell: pwsh
+      run: |
+        $total = 0
+        $rows = @()
+        foreach ($file in Get-ChildItem "$env:WORKING_DIR\sizes" -Filter *.txt)
+        {
+          $arch = $file.BaseName -replace '^msix-size-', ''
+          $bytes = [long]((Get-Content $file.FullName -Raw).Trim())
+          $total += $bytes
+          $rows += "| $arch | $([math]::Round($bytes / 1MB, 2)) MB |"
+        }
+
+        "## Total bundle size" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+        "" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+        "| Architecture | Size |" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+        "| :--- | ---: |" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+        $rows | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+        "| **Bundle total** | **$([math]::Round($total / 1MB, 2)) MB** |" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+        Write-Host "Bundle total: $([math]::Round($total / 1MB, 2)) MB"
 
   test:
 
@@ -223,12 +305,14 @@ jobs:
           -CertStoreLocation Cert:\LocalMachine\Root `
           -Password (New-Object System.Security.SecureString)
 
-        # Install Windows App Runtime (derive major.minor from Directory.Packages.props)
+        # Install Windows App Runtime matching the SDK NuGet — pin to the exact version because
+        # aka.ms/windowsappsdk/<major.minor>/latest can lag behind the latest servicing release,
+        # leaving the runtime below the package's MinVersion and failing Add-AppxPackage with 0x80073CF3.
         [xml]$pkgProps = Get-Content "$env:WORKING_DIR\Directory.Packages.props"
         $sdkVer = ($pkgProps.Project.ItemGroup.PackageVersion | Where-Object Include -eq 'Microsoft.WindowsAppSDK').Version
         $majorMinor = ($sdkVer -split '\.')[0..1] -join '.'
         $installer = Join-Path $env:TEMP "windowsappruntimeinstall-x64.exe"
-        Invoke-WebRequest -Uri "https://aka.ms/windowsappsdk/$majorMinor/latest/windowsappruntimeinstall-x64.exe" -OutFile $installer
+        Invoke-WebRequest -Uri "https://aka.ms/windowsappsdk/$majorMinor/$sdkVer/windowsappruntimeinstall-x64.exe" -OutFile $installer
         Start-Process $installer -ArgumentList "--quiet","--force" -Wait -NoNewWindow
 
         # Install the app package (with any sideload dependencies)
@@ -245,13 +329,20 @@ jobs:
     - name: Set full HD resolution
       run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
 
-    - name: Start WinAppDriver process
+    # Appium drives the tests and starts the WinAppDriver installed on the runner itself
+    - name: Install Appium
       shell: pwsh
-      run: Start-Process -FilePath "$env:WINAPPDRIVER_EXE86_PATH"
+      run: |
+        npm install --global appium@3
+        appium driver install --source=npm appium-windows-driver@6
+
+    - name: Start Appium server
+      shell: pwsh
+      run: Start-Process -FilePath "appium.cmd" -ArgumentList "--log","$env:AUTOMATED_TESTS_ASSEMBLY_DIR\appium.log"
 
     # Retry integration tests if first attempt fails
     - name: Run interaction tests
-      uses: nick-fields/retry@v3
+      uses: nick-fields/retry@v4
       with:
         timeout_minutes: 20
         max_attempts: 3
@@ -265,9 +356,20 @@ jobs:
             --report-trx-filename testResults.trx
 
     - if: github.event_name == 'pull_request'
-      uses: geekyeggo/delete-artifact@v5
+      uses: geekyeggo/delete-artifact@v6
       with:
         name: '*'
+
+    # Uploaded after the cleanup step above so a failed run keeps its diagnostics
+    - if: failure()
+      name: Upload the test diagnostics to the Artifacts
+      uses: actions/upload-artifact@v7
+      with:
+        name: 'Test Diagnostics (${{ env.CONFIGURATION }}, ${{ env.AUTOMATED_TESTS_ARCHITECTURE }})'
+        if-no-files-found: warn
+        path: |
+          ${{ env.AUTOMATED_TESTS_ASSEMBLY_DIR }}\appium.log
+          ${{ env.AUTOMATED_TESTS_ASSEMBLY_DIR }}\testResults.trx
 
     # - name: Generate markdown from the tests result
     #   shell: pwsh

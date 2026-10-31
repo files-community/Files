@@ -1,12 +1,12 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using System.IO;
-using Vanara.PInvoke;
-using Vanara.Windows.Shell;
 using Windows.Win32;
+using Windows.Win32.Storage.FileSystem;
+using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;
 
 namespace Files.App.Utils.Shell
@@ -18,17 +18,16 @@ namespace Files.App.Utils.Shell
 	{
 		public unsafe static void LaunchSettings(string page)
 		{
-			using ComPtr<IApplicationActivationManager> pApplicationActivationManager = default;
-			pApplicationActivationManager.CoCreateInstance(CLSID.CLSID_ApplicationActivationManager);
+			PInvoke.CoCreateInstance(typeof(ApplicationActivationManager).GUID, null, CLSCTX.CLSCTX_LOCAL_SERVER, out IApplicationActivationManager? pApplicationActivationManager);
 
-			pApplicationActivationManager.Get()->ActivateApplication(
+			pApplicationActivationManager!.ActivateApplication(
 				"windows.immersivecontrolpanel_cw5n1h2txyewy!microsoft.windows.immersivecontrolpanel",
 				page,
 				ACTIVATEOPTIONS.AO_NONE,
 				out _);
 		}
 
-		public static Task<bool> LaunchAppAsync(string application, string arguments, string workingDirectory)
+		public static Task<bool> LaunchAppAsync(string application, string? arguments, string? workingDirectory)
 		{
 			return HandleApplicationLaunch(application, arguments, workingDirectory);
 		}
@@ -54,7 +53,7 @@ namespace Files.App.Utils.Shell
 			return HandleApplicationLaunch("MSDT.exe", $"/id PCWDiagnostic /af \"{compatibilityTroubleshooterAnswerFile}\"", "");
 		}
 
-		private static async Task<bool> HandleApplicationLaunch(string application, string arguments, string workingDirectory)
+		private static async Task<bool> HandleApplicationLaunch(string application, string? arguments, string? workingDirectory)
 		{
 			var currentWindows = Win32Helper.GetDesktopWindows();
 
@@ -107,14 +106,14 @@ namespace Files.App.Utils.Shell
 						string key = (string)ent.Key;
 
 						// Skip USERNAME to avoid issues where files were executed as SYSTEM user (#12139)
-						if (string.Equals(key, "USERNAME", StringComparison.OrdinalIgnoreCase)) 
+						if (string.Equals(key, "USERNAME", StringComparison.OrdinalIgnoreCase))
 							continue;
 
-						process.StartInfo.EnvironmentVariables[key] = (string)ent.Value;
+						process.StartInfo.EnvironmentVariables[key] = (string)ent.Value!;
 					}
 
 					foreach (DictionaryEntry ent in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.User))
-						process.StartInfo.EnvironmentVariables[(string)ent.Key] = (string)ent.Value;
+						process.StartInfo.EnvironmentVariables[(string)ent.Key] = (string)ent.Value!;
 
 					process.StartInfo.EnvironmentVariables["PATH"] = string.Join(';',
 						Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine),
@@ -127,6 +126,13 @@ namespace Files.App.Utils.Shell
 				Win32Helper.BringToForeground(currentWindows);
 
 				return true;
+			}
+			catch (Win32Exception ex) when (ex.NativeErrorCode is 193 or 216 && FileExtensionHelpers.IsExecutableFile(application, exeOnly: true))
+			{
+				// ERROR_EXE_MACHINE_TYPE_MISMATCH (216)
+				// "This app can't run on your PC"
+				await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_CannotRunFileDialog());
+				return false;
 			}
 			catch (Win32Exception)
 			{
@@ -148,7 +154,7 @@ namespace Files.App.Utils.Shell
 				catch (Win32Exception ex) when (ex.NativeErrorCode == 50)
 				{
 					// ShellExecute return code 50 (ERROR_NOT_SUPPORTED) for some exes (#15179)
-					return Win32Helper.RunPowershellCommand($"\"{application}\"", PowerShellExecutionOptions.Hidden);
+					return Win32Helper.RunPowershellCommand($"& {Win32Helper.ToPowerShellStringLiteral(application)}", PowerShellExecutionOptions.Hidden);
 				}
 				catch (Win32Exception)
 				{
@@ -156,30 +162,31 @@ namespace Files.App.Utils.Shell
 					{
 						var opened = await STATask.Run(async () =>
 						{
-							var split = application.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => GetMtpPath(x));
-							if (split.Count() == 1)
+							var split = application.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(GetMtpPath).ToArray();
+							if (split.Length == 1)
 							{
-								Process.Start(split.First());
+								Process.Start(split[0]);
 
 								Win32Helper.BringToForeground(currentWindows);
 							}
 							else
 							{
-								var groups = split.GroupBy(x => new
+								var pathsWithAssociations = new List<(string Path, string? Directory, string Association)>(split.Length);
+								foreach (var path in split)
 								{
-									Dir = Path.GetDirectoryName(x),
-									Prog = Win32Helper.GetDefaultFileAssociationAsync(x).Result ?? Path.GetExtension(x)
-								});
+									var association = await Win32Helper.GetDefaultFileAssociationAsync(path) ?? Path.GetExtension(path);
+									pathsWithAssociations.Add((path, Path.GetDirectoryName(path), association));
+								}
 
-								foreach (var group in groups)
+								foreach (var group in pathsWithAssociations.GroupBy(x => new { x.Directory, x.Association }))
 								{
 									if (!group.Any())
 										continue;
 
-									using var cMenu = await ContextMenu.GetContextMenuForFiles(group.ToArray(), PInvoke.CMF_DEFAULTONLY);
+									using var cMenu = await ContextMenu.GetContextMenuForFiles(group.Select(x => x.Path).ToArray(), PInvoke.CMF_DEFAULTONLY);
 
 									if (cMenu is not null)
-										await cMenu.InvokeVerb(Shell32.CMDSTR_OPEN);
+										await cMenu.InvokeVerb("open");
 								}
 							}
 
@@ -195,7 +202,11 @@ namespace Files.App.Utils.Shell
 									using var cMenu = await ContextMenu.GetContextMenuForFiles(new[] { application }, PInvoke.CMF_DEFAULTONLY);
 
 									if (cMenu is not null)
-										await cMenu.InvokeItem(cMenu.Items.FirstOrDefault()?.ID ?? -1);
+									{
+										var menuItems = cMenu.Items
+											?? throw new InvalidOperationException("The shell context menu has no item collection.");
+										await cMenu.InvokeItem(menuItems.FirstOrDefault()?.ID ?? -1);
+									}
 
 									return true;
 								}, App.Logger);
@@ -207,24 +218,59 @@ namespace Files.App.Utils.Shell
 							var isAlternateStream = RegexHelpers.AlternateStream().IsMatch(application);
 							if (isAlternateStream)
 							{
-								var basePath = Path.Combine(Environment.GetEnvironmentVariable("TEMP"), Guid.NewGuid().ToString("n"));
-								Kernel32.CreateDirectory(basePath);
+								var basePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("n"));
+								Directory.CreateDirectory(basePath);
 
 								var tempPath = Path.Combine(basePath, new string(Path.GetFileName(application).SkipWhile(x => x != ':').Skip(1).ToArray()));
-								using var hFileSrc = Kernel32.CreateFile(application, Kernel32.FileAccess.GENERIC_READ, FileShare.ReadWrite, null, FileMode.Open, FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL);
-								using var hFileDst = Kernel32.CreateFile(tempPath, Kernel32.FileAccess.GENERIC_WRITE, 0, null, FileMode.Create, FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL | FileFlagsAndAttributes.FILE_ATTRIBUTE_READONLY);
-
-								if (!hFileSrc.IsInvalid && !hFileDst.IsInvalid)
+								try
 								{
-									// Copy ADS to temp folder and open
-									await using (var inStream = new FileStream(hFileSrc.DangerousGetHandle(), FileAccess.Read))
-									await using (var outStream = new FileStream(hFileDst.DangerousGetHandle(), FileAccess.Write))
+									using var hFileSrc = PInvoke.CreateFile(application, (uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ, FILE_SHARE_MODE.FILE_SHARE_READ | FILE_SHARE_MODE.FILE_SHARE_WRITE, null, FILE_CREATION_DISPOSITION.OPEN_EXISTING, FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL, null);
+									using var hFileDst = PInvoke.CreateFile(tempPath, (uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE, 0, null, FILE_CREATION_DISPOSITION.CREATE_ALWAYS, FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL | FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_READONLY, null);
+
+									if (!hFileSrc.IsInvalid && !hFileDst.IsInvalid)
 									{
-										await inStream.CopyToAsync(outStream);
-										await outStream.FlushAsync();
+										// Copy ADS to temp folder and open
+										await using (var inStream = new FileStream(hFileSrc, FileAccess.Read))
+										await using (var outStream = new FileStream(hFileDst, FileAccess.Write))
+										{
+											await inStream.CopyToAsync(outStream);
+											await outStream.FlushAsync();
+										}
+
+										opened = await HandleApplicationLaunch(tempPath, arguments, workingDirectory);
+									}
+								}
+								finally
+								{
+									void DeleteTemporaryCopy()
+									{
+										if (File.Exists(tempPath))
+											File.SetAttributes(tempPath, FileAttributes.Normal);
+										Directory.Delete(basePath, true);
 									}
 
-									opened = await HandleApplicationLaunch(tempPath, arguments, workingDirectory);
+									if (!opened)
+									{
+										SafetyExtensions.IgnoreExceptions(DeleteTemporaryCopy, App.Logger);
+									}
+									else
+									{
+										_ = Task.Run(async () =>
+										{
+											for (var attempt = 0; attempt < 3; attempt++)
+											{
+												var delay = attempt switch
+												{
+													0 => TimeSpan.FromMinutes(1),
+													1 => TimeSpan.FromMinutes(5),
+													_ => TimeSpan.FromMinutes(30),
+												};
+												await Task.Delay(delay);
+												if (SafetyExtensions.IgnoreExceptions(DeleteTemporaryCopy, App.Logger))
+													return;
+											}
+										});
+									}
 								}
 							}
 						}
@@ -251,7 +297,7 @@ namespace Files.App.Utils.Shell
 			catch (Exception ex)
 			{
 				// Generic error, log
-				App.Logger.LogWarning(ex, $"Error launching: {application}");
+				App.Logger.LogWarning(ex, $"Error launching: {LogPathHelper.RedactPath(application)}");
 				return false;
 			}
 		}
@@ -260,8 +306,12 @@ namespace Files.App.Utils.Shell
 		{
 			if (executable.StartsWith("\\\\?\\", StringComparison.Ordinal))
 			{
-				using var computer = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_ComputerFolder);
-				using var device = computer.FirstOrDefault(i => executable.Replace("\\\\?\\", "", StringComparison.Ordinal).StartsWith(i.Name, StringComparison.Ordinal));
+				using var computer = new ShellFolder(FOLDERID.FOLDERID_ComputerFolder);
+				using var device = computer.FirstOrDefault(i =>
+				{
+					return i.Name is { } name &&
+						executable.Replace("\\\\?\\", "", StringComparison.Ordinal).StartsWith(name, StringComparison.Ordinal);
+				});
 				var deviceId = device?.ParsingName;
 				var itemPath = RegexHelpers.WindowsPath().Replace(executable, "");
 				return deviceId is not null ? Path.Combine(deviceId, itemPath) : executable;

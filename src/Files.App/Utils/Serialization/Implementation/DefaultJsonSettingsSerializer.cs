@@ -1,23 +1,30 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.Text.Json.Serialization.Metadata;
+
 namespace Files.App.Utils.Serialization.Implementation
 {
 	internal sealed class DefaultJsonSettingsSerializer : IJsonSettingsSerializer
 	{
-		public static readonly JsonSerializerOptions Options = new JsonSerializerOptions
+		public string SerializeToJson<T>(T? obj, JsonTypeInfo<T?> typeInfo)
 		{
-			WriteIndented = true
-		};
-
-		public string? SerializeToJson(object? obj)
-		{
-			return JsonSerializer.Serialize(obj, Options);
+			return JsonSerializer.Serialize(obj, typeInfo);
 		}
 
-		public T? DeserializeFromJson<T>(string json)
+		public JsonElement SerializeToElement<T>(T? obj, JsonTypeInfo<T?> typeInfo)
 		{
-			return JsonSerializer.Deserialize<T?>(json);
+			return JsonSerializer.SerializeToElement(obj, typeInfo);
+		}
+
+		public T? DeserializeFromJson<T>(string json, JsonTypeInfo<T?> typeInfo)
+		{
+			return JsonSerializer.Deserialize(json, typeInfo);
+		}
+
+		public T? DeserializeFromElement<T>(JsonElement element, JsonTypeInfo<T?> typeInfo)
+		{
+			return element.Deserialize(typeInfo);
 		}
 	}
 }

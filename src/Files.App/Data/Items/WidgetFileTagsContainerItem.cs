@@ -114,7 +114,7 @@ namespace Files.App.Data.Items
 
 		private Task OpenAll()
 		{
-			SelectedTagChanged?.Invoke(this, new(Tags.Select(tag => (tag.Path, tag.IsFolder))));
+			SelectedTagChanged?.Invoke(this, new(Tags.Select(tag => (tag.Path!, tag.IsFolder))));
 
 			return Commands.OpenAllTagged.ExecuteAsync();
 		}

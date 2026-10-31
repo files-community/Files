@@ -4,9 +4,12 @@
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Markup;
+using System.Runtime.InteropServices;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -24,6 +27,10 @@ namespace Files.App.Controls
 		private bool draggingSidebarResizer;
 		private double preManipulationSidebarWidth = 0;
 
+		internal long LastDragOverTick { get; set; }
+
+		internal bool IsReorderDragActive { get; set; }
+
 		public SidebarView()
 		{
 			InitializeComponent();
@@ -36,8 +43,8 @@ namespace Files.App.Controls
 
 		internal void RaiseItemInvoked(SidebarItem item, PointerUpdateKind pointerUpdateKind)
 		{
-			// Only leaves can be selected
-			if (item.Item is null || item.IsGroupHeader) return;
+			// Only true group headers (e.g. Pinned, Drives) suppress selection; leaves-with-children (tree-view folder rows) navigate AND get selected.
+			if (item.Item is null || (item.IsGroupHeader && item.Item.IsLeafWithChildren != true)) return;
 
 			SelectedItem = item.Item;
 			ItemInvoked?.Invoke(item, new(pointerUpdateKind));
@@ -51,13 +58,33 @@ namespace Files.App.Controls
 		internal void RaiseItemDropped(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
 		{
 			if (sideBarItem.Item is null) return;
-			ItemDropped?.Invoke(this, new(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
+
+			if (TryGetDataView(rawEvent) is not { } dataView) return;
+
+			ItemDropped?.Invoke(this, new(sideBarItem.Item, dataView, dropPosition, rawEvent));
 		}
 
-		internal void RaiseItemDragOver(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
+		internal Task RaiseItemDragOver(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
 		{
-			if (sideBarItem.Item is null) return;
-			ItemDragOver?.Invoke(this, new(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
+			if (sideBarItem.Item is null) return Task.CompletedTask;
+
+			if (TryGetDataView(rawEvent) is not { } dataView) return Task.CompletedTask;
+
+			var args = new ItemDragOverEventArgs(sideBarItem.Item, dataView, dropPosition, rawEvent);
+			ItemDragOver?.Invoke(this, args);
+			return args.WhenDeferralsCompleted();
+		}
+
+		private static DataPackageView? TryGetDataView(DragEventArgs rawEvent)
+		{
+			try
+			{
+				return rawEvent.DataView;
+			}
+			catch (COMException)
+			{
+				return null;
+			}
 		}
 
 		private void UpdateMinimalMode()
@@ -134,6 +161,13 @@ namespace Files.App.Controls
 			UpdateDisplayMode();
 			UpdateResizerAvailability();
 			PaneColumnGrid.Translation = new System.Numerics.Vector3(0, 0, 32);
+		}
+
+		public double VerticalScrollOffset => MenuItemHostScrollViewer?.VerticalOffset ?? 0;
+
+		public void ScrollToVerticalOffset(double offset)
+		{
+			MenuItemHostScrollViewer?.ChangeView(null, offset, null, true);
 		}
 
 		private void SidebarResizer_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
@@ -229,6 +263,7 @@ namespace Files.App.Controls
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void SidebarResizer_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			if (!CanResizePane)
@@ -240,6 +275,7 @@ namespace Files.App.Controls
 			e.Handled = true;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void SidebarResizer_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
 			if (!CanResizePane || draggingSidebarResizer)
@@ -268,6 +304,8 @@ namespace Files.App.Controls
 		{
 			if (args.Element is SidebarItem sidebarItem)
 			{
+				// Assign Owner from the hosting SidebarView rather than letting the row's HookupOwners FindAscendant walk resolve it: that walk picks up the WRONG SidebarView when this view is the nested SettingsSidebar inside SidebarControl.InnerContent (and a stale Owner from a prior realization can persist across container recycling). Owner drives both the click-routing target and the chevron-column visual state.
+				sidebarItem.Owner = this;
 				sidebarItem.HandleItemChange();
 			}
 		}

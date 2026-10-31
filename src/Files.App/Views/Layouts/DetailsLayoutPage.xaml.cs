@@ -7,13 +7,19 @@ using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using System.Runtime.CompilerServices;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml.Shapes;
 using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
+using WinRT;
+using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.App.Data.Enums.SortDirection;
 
 namespace Files.App.Views.Layouts
@@ -21,6 +27,7 @@ namespace Files.App.Views.Layouts
 	/// <summary>
 	/// Represents the browser page of Details View
 	/// </summary>
+	[WinRT.GeneratedBindableCustomProperty([nameof(RowHeight), nameof(ColumnsViewModel), nameof(MaxWidthForRenameTextbox)], [])]
 	public sealed partial class DetailsLayoutPage : BaseGroupableLayoutPage
 	{
 		// Constants
@@ -36,11 +43,18 @@ namespace Files.App.Views.Layouts
 		/// size changes, even if the layout size changes (since some layout sizes share the same icon size).
 		/// </summary>
 		private uint currentIconSize;
+		private DetailsViewSizeKind? itemContainerSize;
+
+		private DispatcherQueueTimer? _autoFitColumnsTimer;
 
 		// Properties
 
 		protected override ListViewBase ListViewBase => FileList;
 		protected override SemanticZoom RootZoom => RootGridZoom;
+
+		[DynamicWindowsRuntimeCast(typeof(ItemsStackPanel))]
+		protected override (int First, int Last) GetVisibleIndexRange()
+			=> FileList.ItemsPanelRoot is ItemsStackPanel panel ? (panel.FirstVisibleIndex, panel.LastVisibleIndex) : (-1, -1);
 
 		public ColumnsViewModel ColumnsViewModel { get; } = new();
 
@@ -78,20 +92,23 @@ namespace Files.App.Views.Layouts
 			InitializeComponent();
 			DataContext = this;
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
+			selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 
 			UpdateSortOptionsCommand = new RelayCommand<string>(x =>
 			{
 				if (!Enum.TryParse<SortOption>(x, out var val))
 					return;
-				if (FolderSettings.DirectorySortOption == val)
+				var folderSettings = FolderSettings
+					?? throw new InvalidOperationException("The details layout does not have folder settings.");
+				if (folderSettings.DirectorySortOption == val)
 				{
-					FolderSettings.DirectorySortDirection = (SortDirection)(((int)FolderSettings.DirectorySortDirection + 1) % 2);
+					folderSettings.DirectorySortDirection = (SortDirection)(((int)folderSettings.DirectorySortDirection + 1) % 2);
 				}
 				else
 				{
-					FolderSettings.DirectorySortOption = val;
-					FolderSettings.DirectorySortDirection = SortDirection.Ascending;
+					folderSettings.DirectorySortOption = val;
+					folderSettings.DirectorySortDirection = SortDirection.Ascending;
 				}
 			});
 		}
@@ -109,6 +126,7 @@ namespace Files.App.Views.Layouts
 			ContentScroller?.ChangeView(null, 0, null, true);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
 			if (SelectedItems?.Any() ?? false)
@@ -143,6 +161,12 @@ namespace Files.App.Views.Layouts
 
 			base.OnNavigatedTo(eventArgs);
 
+			var parentShellPage = ParentShellPageInstance
+				?? throw new InvalidOperationException("The details layout must be associated with a shell page.");
+			var shellViewModel = parentShellPage.GetRequiredShellViewModel();
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The details layout requires folder settings.");
+
 			currentIconSize = LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.DetailsView);
 
 			if (FolderSettings?.ColumnsViewModel is not null)
@@ -169,13 +193,15 @@ namespace Files.App.Views.Layouts
 				ColumnsViewModel.GitLastCommitShaColumn.Update(FolderSettings.ColumnsViewModel.GitLastCommitShaColumn);
 			}
 
-			ParentShellPageInstance.ShellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
+			shellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
 
-			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
-			FolderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
-			ParentShellPageInstance.ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+			folderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
+			folderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
+			folderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
+			shellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+			shellViewModel.ItemLoadStatusChanged += ShellViewModel_ItemLoadStatusChanged;
 			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
+			FileList.Items.VectorChanged += FileListItems_VectorChanged;
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
@@ -197,11 +223,37 @@ namespace Files.App.Views.Layouts
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
-			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
-			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
-			ParentShellPageInstance.ShellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The details layout does not have folder settings.");
+			folderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+			folderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
+			folderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
+			var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
+			shellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+			shellViewModel.ItemLoadStatusChanged -= ShellViewModel_ItemLoadStatusChanged;
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
+			FileList.Items.VectorChanged -= FileListItems_VectorChanged;
+			_autoFitColumnsTimer?.Stop();
+		}
+
+		public override void Dispose()
+		{
+			Bindings.StopTracking();
+			if (FolderSettings is { } folderSettings)
+			{
+				folderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+				folderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
+				folderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
+			}
+			if (ParentShellPageInstance?.ShellViewModel is { } shellViewModel)
+			{
+				shellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+				shellViewModel.ItemLoadStatusChanged -= ShellViewModel_ItemLoadStatusChanged;
+			}
+			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
+			FileList.Items.VectorChanged -= FileListItems_VectorChanged;
+			_autoFitColumnsTimer?.Stop();
+			base.Dispose();
 		}
 
 		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -230,7 +282,7 @@ namespace Files.App.Views.Layouts
 			else
 			{
 				var settings = sender as ILayoutSettingsService;
-				var isDefaultPath = FolderSettings?.IsPathUsingDefaultLayout(ParentShellPageInstance?.ShellViewModel.CurrentFolder?.ItemPath);
+				var isDefaultPath = FolderSettings?.IsPathUsingDefaultLayout(ParentShellPageInstance?.ShellViewModel?.CurrentFolder?.ItemPath);
 				if (settings is not null && (isDefaultPath ?? true))
 				{
 					switch (e.PropertyName)
@@ -260,25 +312,22 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		private void SetItemContainerStyle()
 		{
-			if (UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact)
+			var size = UserSettingsService.LayoutSettingsService.DetailsViewSize;
+			if (itemContainerSize != size)
 			{
-				// Toggle style to force item size to update
-				FileList.ItemContainerStyle = RegularItemContainerStyle;
-
-				// Set correct style
-				FileList.ItemContainerStyle = CompactItemContainerStyle;
-			}
-			else
-			{
-				// Toggle style to force item size to update
-				FileList.ItemContainerStyle = CompactItemContainerStyle;
-
-				// Set correct style
-				FileList.ItemContainerStyle = RegularItemContainerStyle;
+				// Changing size still requires a style refresh, even when both sizes use the same style.
+				FileList.ItemContainerStyle = size == DetailsViewSizeKind.Compact ? RegularItemContainerStyle : CompactItemContainerStyle;
+				FileList.ItemContainerStyle = size == DetailsViewSizeKind.Compact ? CompactItemContainerStyle : RegularItemContainerStyle;
+				itemContainerSize = size;
 			}
 
 			// Set the width of the icon column. The value is increased by 4px to account for icon overlays.
 			ColumnsViewModel.IconColumn.UserLength = new GridLength(LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.DetailsView) + 4);
+
+			// Compact rows use a -2px ItemContainer margin, so the header checkbox needs an extra
+			// left offset to stay aligned with row checkboxes.
+			var leftOffset = UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact ? -4 : 0;
+			SelectAllCheckbox.Margin = new Thickness(leftOffset, 14, 0, 0);
 		}
 
 		private void FileList_LayoutUpdated(object? sender, object e)
@@ -300,16 +349,19 @@ namespace Files.App.Views.Layouts
 
 		private void UpdateSortIndicator()
 		{
-			NameHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Name ? FolderSettings.DirectorySortDirection : null;
-			TagHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileTag ? FolderSettings.DirectorySortDirection : null;
-			PathHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Path ? FolderSettings.DirectorySortDirection : null;
-			OriginalPathHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.OriginalFolder ? FolderSettings.DirectorySortDirection : null;
-			DateDeletedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateDeleted ? FolderSettings.DirectorySortDirection : null;
-			DateModifiedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateModified ? FolderSettings.DirectorySortDirection : null;
-			DateCreatedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateCreated ? FolderSettings.DirectorySortDirection : null;
-			FileTypeHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileType ? FolderSettings.DirectorySortDirection : null;
-			ItemSizeHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Size ? FolderSettings.DirectorySortDirection : null;
-			SyncStatusHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.SyncStatus ? FolderSettings.DirectorySortDirection : null;
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The details layout does not have folder settings.");
+
+			NameHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.Name ? folderSettings.DirectorySortDirection : null;
+			TagHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.FileTag ? folderSettings.DirectorySortDirection : null;
+			PathHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.Path ? folderSettings.DirectorySortDirection : null;
+			OriginalPathHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.OriginalFolder ? folderSettings.DirectorySortDirection : null;
+			DateDeletedHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.DateDeleted ? folderSettings.DirectorySortDirection : null;
+			DateModifiedHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.DateModified ? folderSettings.DirectorySortDirection : null;
+			DateCreatedHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.DateCreated ? folderSettings.DirectorySortDirection : null;
+			FileTypeHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.FileType ? folderSettings.DirectorySortDirection : null;
+			ItemSizeHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.Size ? folderSettings.DirectorySortDirection : null;
+			SyncStatusHeader.ColumnSortOption = folderSettings.DirectorySortOption == SortOption.SyncStatus ? folderSettings.DirectorySortDirection : null;
 		}
 
 		private void FilesystemViewModel_PageTypeUpdated(object? sender, PageTypeUpdatedEventArgs e)
@@ -360,20 +412,58 @@ namespace Files.App.Views.Layouts
 
 		}
 
-		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected override void OnSelectionChanged(SelectionChangedEventArgs e)
 		{
-			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+			foreach (var item in e.AddedItems)
+				SetCheckboxSelectionState(item);
 
-			if (e != null)
+			foreach (var item in e.RemovedItems)
+				SetCheckboxSelectionState(item);
+
+			UpdateSelectAllCheckboxState();
+		}
+
+		private bool _suppressSelectAllCheckboxEvents;
+
+		private void SelectAllCheckbox_Checked(object sender, RoutedEventArgs e)
+		{
+			if (_suppressSelectAllCheckboxEvents)
+				return;
+
+			ItemManipulationModel.SelectAllItems();
+		}
+
+		private void SelectAllCheckbox_Unchecked(object sender, RoutedEventArgs e)
+		{
+			if (_suppressSelectAllCheckboxEvents)
+				return;
+
+			ItemManipulationModel.ClearSelection();
+		}
+
+		private void UpdateSelectAllCheckboxState()
+		{
+			var selectedCount = FileList.SelectedItems.Count;
+			bool? newState = selectedCount == 0
+				? false
+				: selectedCount == FileList.Items.Count ? true : null;
+
+			if (SelectAllCheckbox.IsChecked == newState)
+				return;
+
+			_suppressSelectAllCheckboxEvents = true;
+			try
 			{
-				foreach (var item in e.AddedItems)
-					SetCheckboxSelectionState(item);
-
-				foreach (var item in e.RemovedItems)
-					SetCheckboxSelectionState(item);
+				SelectAllCheckbox.IsChecked = newState;
+			}
+			finally
+			{
+				_suppressSelectAllCheckboxEvents = false;
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		override public void StartRenameItem()
 		{
 			StartRenameItem("ItemNameTextBox");
@@ -400,6 +490,8 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
 		protected override void EndRename(TextBox textBox)
 		{
 			if (textBox is not null && textBox.FindParent<Grid>() is FrameworkElement parent)
@@ -432,6 +524,9 @@ namespace Files.App.Views.Layouts
 			listViewItem?.Focus(FocusState.Programmatic);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		[DynamicWindowsRuntimeCast(typeof(HyperlinkButton))]
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (ParentShellPageInstance is null || IsRenamingItem)
@@ -520,38 +615,45 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		protected override bool CanGetItemFromElement(object element)
 			=> element is ListViewItem;
 
 		private async Task ReloadItemIconsAsync()
 		{
-			if (ParentShellPageInstance is null)
+			if (ParentShellPageInstance is not { } parentShellPage)
 				return;
+			var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 
-			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
-			var filesAndFolders = ParentShellPageInstance.ShellViewModel.FilesAndFolders.ToList();
+			shellViewModel.CancelExtendedPropertiesLoading();
+			var filesAndFolders = shellViewModel.FilesAndFolders.ToList();
 
 			await Task.WhenAll(filesAndFolders.Select(listedItem =>
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is not null)
-					return ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
+					return shellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
 				else
 					return Task.CompletedTask;
 			}));
 
-			if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None)
+			if (shellViewModel.EnabledGitProperties is not GitProperties.None)
 			{
 				await Task.WhenAll(filesAndFolders.Select(item =>
 				{
 					if (item is IGitItem gitItem)
-						return ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
+						return shellViewModel.LoadGitPropertiesAsync(gitItem);
 
 					return Task.CompletedTask;
 				}));
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
+		[DynamicWindowsRuntimeCast(typeof(Rectangle))]
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
 		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
 		{
 			var clickedItem = e.OriginalSource as FrameworkElement;
@@ -601,7 +703,14 @@ namespace Files.App.Views.Layouts
 			}
 			else
 			{
-				if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "ItemName")
+				if (IsWithinRenameDoubleClickWindow && item == RenamingItem)
+				{
+					// A tap this soon after the tap that started renaming is the second click of a double click
+					CancelRenameOnDoubleClick(item);
+					ResetRenameDoubleClick();
+					await OpenItem(item);
+				}
+				else if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "ItemName")
 				{
 					CheckRenameDoubleClick(clickedItem.DataContext);
 				}
@@ -623,8 +732,11 @@ namespace Files.App.Views.Layouts
 			if (!Commands.OpenItem.IsExecutable)
 			{
 				// Fallback if the command is not executable. It occurs only when search is performed from the columns view.
+				if (ParentShellPageInstance is not { } parentShellPage)
+					throw new InvalidOperationException("The details layout does not have a parent shell page.");
+
 				var itemType = item.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
-				await NavigationHelpers.OpenPath(item.ItemPath, ParentShellPageInstance, itemType);
+				await NavigationHelpers.OpenPath(item.ItemPath!, parentShellPage, itemType);
 			}
 			else
 			{
@@ -632,6 +744,8 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		[DynamicWindowsRuntimeCast(typeof(ListView))]
 		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
@@ -643,6 +757,8 @@ namespace Files.App.Views.Layouts
 			if (item == null && sender is ListView listView && listView.SelectedItem is ListedItem selectedItem)
 				item = selectedItem;
 
+			CancelRenameOnDoubleClick(item);
+
 			if (item != null && item.PrimaryItemAttribute == StorageItemTypes.File && !UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))
 				await OpenItem(item);
 			else if (item != null && item.PrimaryItemAttribute == StorageItemTypes.Folder && !UserSettingsService.FoldersSettingsService.OpenFoldersWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))
@@ -653,6 +769,8 @@ namespace Files.App.Views.Layouts
 			ResetRenameDoubleClick();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(StackPanel))]
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		private void StackPanel_Loaded(object sender, RoutedEventArgs e)
 		{
 			// This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
@@ -680,7 +798,9 @@ namespace Files.App.Views.Layouts
 			if (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right)
 			{
 				UpdateColumnLayout();
-				FolderSettings.ColumnsViewModel = ColumnsViewModel;
+				var folderSettings = FolderSettings
+					?? throw new InvalidOperationException("The details layout does not have folder settings.");
+				folderSettings.ColumnsViewModel = ColumnsViewModel;
 			}
 		}
 
@@ -719,10 +839,13 @@ namespace Files.App.Views.Layouts
 
 		private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
-			FolderSettings.ColumnsViewModel = ColumnsViewModel;
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The details layout does not have folder settings.");
+			folderSettings.ColumnsViewModel = ColumnsViewModel;
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
 		private void GridSplitter_Loaded(object sender, RoutedEventArgs e)
 		{
 			(sender as UIElement)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
@@ -730,8 +853,11 @@ namespace Files.App.Views.Layouts
 
 		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
 		{
-			FolderSettings.ColumnsViewModel = ColumnsViewModel;
-			ParentShellPageInstance.ShellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The details layout does not have folder settings.");
+			folderSettings.ColumnsViewModel = ColumnsViewModel;
+			var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
+			shellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
 		}
 
 		private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -744,14 +870,47 @@ namespace Files.App.Views.Layouts
 
 		private void SizeAllColumnsToFit_Click(object sender, RoutedEventArgs e)
 		{
-			// If there aren't items, do not make columns fit
+			_ = Commands.AutoFitColumns.ExecuteAsync();
+		}
+
+		public void AutoFitColumns()
+		{
 			if (!FileList.Items.Any())
 				return;
 
-			// For scalability, just count the # of public `ColumnViewModel` properties in ColumnsViewModel
-			int totalColumnCount = ColumnsViewModel.GetType().GetProperties().Count(prop => prop.PropertyType == typeof(DetailsLayoutColumnItem));
+			// Scale to whatever DetailsLayoutColumnItem properties exist on ColumnsViewModel so new columns don't need a code change here.
+			int totalColumnCount = typeof(ColumnsViewModel).GetProperties().Count(prop => prop.PropertyType == typeof(DetailsLayoutColumnItem));
 			for (int columnIndex = 1; columnIndex <= totalColumnCount; columnIndex++)
 				ResizeColumnToFit(columnIndex);
+		}
+
+		private void AutoFitColumnsIfEnabled()
+		{
+			if (!UserSettingsService.LayoutSettingsService.AutoSizeColumnsInDetailsLayout)
+				return;
+
+			// Trailing debounce so bursts of item adds and extended-property updates during a folder load collapse into one resize.
+			_autoFitColumnsTimer ??= DispatcherQueue.CreateTimer();
+			_autoFitColumnsTimer.Debounce(
+				() => _ = Commands.AutoFitColumns.ExecuteAsync(),
+				TimeSpan.FromMilliseconds(250));
+		}
+
+		private void ShellViewModel_ItemLoadStatusChanged(object? sender, ItemLoadStatusChangedEventArgs e)
+		{
+			if (e.Status == ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete)
+				AutoFitColumnsIfEnabled();
+		}
+
+		private void FileListItems_VectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs e)
+		{
+			AutoFitColumnsIfEnabled();
+		}
+
+		protected override async Task CommitRenameAsync(TextBox textBox)
+		{
+			await base.CommitRenameAsync(textBox);
+			AutoFitColumnsIfEnabled();
 		}
 
 		private void ResizeColumnToFit(int columnToResize)
@@ -815,7 +974,9 @@ namespace Files.App.Views.Layouts
 				column.UserLength = new GridLength(maxFitLength, GridUnitType.Pixel);
 			}
 
-			FolderSettings.ColumnsViewModel = ColumnsViewModel;
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The details layout does not have folder settings.");
+			folderSettings.ColumnsViewModel = ColumnsViewModel;
 		}
 
 		private double MeasureColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
@@ -894,12 +1055,12 @@ namespace Files.App.Views.Layouts
 				"ItemGitCommitAuthorTextBlock" => 6,
 				"ItemGitLastCommitShaTextBlock" => 7,
 				"ItemTagGrid" => 8,
-				"ItemPath" => 9,
+				"ItemPathTextBlock" => 9,
 				"ItemOriginalPath" => 10,
 				"ItemDateDeleted" => 11,
-				"ItemDateModified" => 12,
-				"ItemDateCreated" => 13,
-				"ItemType" => 14,
+				"ItemDateModifiedTextBlock" => 12,
+				"ItemDateCreatedTextBlock" => 13,
+				"ItemTypeTextBlock" => 14,
 				"ItemSize" => 15,
 				"ItemStatus" => 16,
 				_ => -1,
@@ -915,8 +1076,7 @@ namespace Files.App.Views.Layouts
 
 			RootGridZoom.ViewChangeStarted += (_, args) =>
 			{
-				var scroller = ContentScroller;
-				if (args.IsSourceZoomedInView || scroller is null)
+				if (args.IsSourceZoomedInView || ContentScroller is not { } scroller)
 					return;
 				void OnZoomScrolled(object? s, ScrollViewerViewChangedEventArgs ve)
 				{
@@ -932,12 +1092,14 @@ namespace Files.App.Views.Layouts
 			LayoutPreferencesManager.SetDefaultLayoutPreferences(ColumnsViewModel);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
 		{
 			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && !FileList.SelectedItems.Contains(item))
 				FileList.SelectedItems.Add(item);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
 		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
 		{
 			if (sender is not CheckBox checkBox)
@@ -954,15 +1116,22 @@ namespace Files.App.Views.Layouts
 			FileList.Focus(FocusState.Programmatic);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			var selectionCheckbox = args.ItemContainer.FindDescendant("SelectionCheckbox")!;
+			var selectionCheckbox = GetSelectionCheckbox(args.ItemContainer);
 
 			selectionCheckbox.PointerEntered -= SelectionCheckbox_PointerEntered;
 			selectionCheckbox.PointerExited -= SelectionCheckbox_PointerExited;
 			selectionCheckbox.PointerCanceled -= SelectionCheckbox_PointerCanceled;
+			selectionCheckbox.Checked -= ItemSelected_Checked;
+			selectionCheckbox.Unchecked -= ItemSelected_Unchecked;
 
 			base.FileList_ContainerContentChanging(sender, args);
+			if (args.InRecycleQueue)
+				return;
+
 			SetCheckboxSelectionState(args.Item, args.ItemContainer as ListViewItem);
 
 			selectionCheckbox.PointerEntered += SelectionCheckbox_PointerEntered;
@@ -970,6 +1139,23 @@ namespace Files.App.Views.Layouts
 			selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
 		}
 
+		private readonly ConditionalWeakTable<SelectorItem, Tuple<object?, CheckBox>> selectionCheckboxCache = new();
+
+		// The template-root identity check invalidates the cache when a container is re-templated
+		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
+		private CheckBox GetSelectionCheckbox(SelectorItem container)
+		{
+			var root = container.ContentTemplateRoot;
+			if (selectionCheckboxCache.TryGetValue(container, out var cached) && ReferenceEquals(cached.Item1, root))
+				return cached.Item2;
+
+			var checkbox = (CheckBox)container.FindDescendant("SelectionCheckbox")!;
+			selectionCheckboxCache.AddOrUpdate(container, new Tuple<object?, CheckBox>(root, checkbox));
+			return checkbox;
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
 		private void SetCheckboxSelectionState(object item, ListViewItem? lviContainer = null)
 		{
 			var container = lviContainer ?? FileList.ContainerFromItem(item) as ListViewItem;
@@ -991,6 +1177,8 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
+		[DynamicWindowsRuntimeCast(typeof(StackPanel))]
 		private void TagItem_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			var tagName = ((sender as StackPanel)?.Children[TAG_TEXT_BLOCK] as TextBlock)?.Text;
@@ -1000,16 +1188,21 @@ namespace Files.App.Views.Layouts
 			ParentShellPageInstance?.SubmitSearch(FolderSearch.FormatTagQuery(tagName));
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UserControl))]
 		private void FileTag_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			VisualStateManager.GoToState((UserControl)sender, "PointerOver", true);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UserControl))]
 		private void FileTag_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
 			VisualStateManager.GoToState((UserControl)sender, "Normal", true);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(StackPanel))]
+		[DynamicWindowsRuntimeCast(typeof(FontIcon))]
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
 		private async void RemoveTagIcon_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			var parent = (sender as FontIcon)?.Parent as StackPanel;
@@ -1022,32 +1215,41 @@ namespace Files.App.Views.Layouts
 
 			if (tagId is not null)
 			{
-				item.FileTags = item.FileTags
-					.Except([tagId])
+				var fileTags = item.FileTags
+					?? throw new InvalidOperationException("The selected item does not have initialized tags.");
+				item.FileTags = fileTags
+					.Except((string[])[tagId])
 					.ToArray();
 
 				if (ParentShellPageInstance is not null)
-					await ParentShellPageInstance.ShellViewModel.RefreshTagGroups();
+				{
+					var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
+					await shellViewModel.RefreshTagGroups();
+				}
 			}
 
 			e.Handled = true;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void SelectionCheckbox_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, true);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void SelectionCheckbox_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
 			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, false);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void SelectionCheckbox_PointerCanceled(object sender, PointerRoutedEventArgs e)
 		{
 			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, false);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		private void UpdateCheckboxVisibility(object sender, bool isPointerOver)
 		{
 			if (sender is ListViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
@@ -1069,6 +1271,7 @@ namespace Files.App.Views.Layouts
 			SetToolTip(sender);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
 		private void TextBlock_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs e)
 		{
 			if (sender is TextBlock textBlock)
@@ -1078,6 +1281,28 @@ namespace Files.App.Views.Layouts
 		private void SetToolTip(TextBlock textBlock)
 		{
 			ToolTipService.SetToolTip(textBlock, textBlock.IsTextTrimmed ? textBlock.Text : null);
+		}
+
+		private async void ViewSizeButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (sender is not FrameworkElement { DataContext: ListedItem item })
+				return;
+
+			item.IsCalculatingSize = true;
+			var sizeProvider = Ioc.Default.GetRequiredService<Services.SizeProvider.ISizeProvider>();
+			var updateTask = Task.Run(() => sizeProvider.UpdateAsync(item.ItemPath!, default));
+
+			try
+			{
+				if (await Task.WhenAny(updateTask, Task.Delay(300)) != updateTask)
+					item.ShowCalculatingText = true;
+				await updateTask;
+			}
+			finally
+			{
+				item.ShowCalculatingText = false;
+				item.IsCalculatingSize = false;
+			}
 		}
 
 		private void FileList_LosingFocus(UIElement sender, LosingFocusEventArgs args)

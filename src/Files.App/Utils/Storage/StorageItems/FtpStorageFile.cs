@@ -40,9 +40,9 @@ namespace Files.App.Utils.Storage
 		public override Windows.Storage.FileAttributes Attributes { get; } = Windows.Storage.FileAttributes.Normal;
 		public override IStorageItemExtraProperties Properties => new BaseBasicStorageItemExtraProperties(this);
 
-		public StorageCredential Credentials { get; set; }
+		public StorageCredential? Credentials { get; set; }
 
-		public Func<IPasswordProtectedItem, Task<StorageCredential>> PasswordRequestedCallback { get; set; }
+		public Func<IPasswordProtectedItem, Task<StorageCredential>>? PasswordRequestedCallback { get; set; }
 
 		public FtpStorageFile(string path, string name, DateTimeOffset dateCreated)
 		{
@@ -65,10 +65,10 @@ namespace Files.App.Utils.Storage
 			FtpPath = FtpHelpers.GetFtpPath(item.Path);
 		}
 
-		public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
+		public static IAsyncOperation<BaseStorageFile?> FromPathAsync(string path)
 			=> FtpHelpers.IsFtpPath(path) && FtpHelpers.VerifyFtpPath(path)
-				? Task.FromResult<BaseStorageFile>(new FtpStorageFile(new StorageFileWithPath(null, path))).AsAsyncOperation()
-				: Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
+				? Task.FromResult<BaseStorageFile?>(new FtpStorageFile(new StorageFileWithPath(null, path))).AsAsyncOperation()
+				: Task.FromResult<BaseStorageFile?>(null).AsAsyncOperation();
 
 		public override IAsyncOperation<StorageFile> ToStorageFileAsync()
 			=> StorageFile.CreateStreamedFileAsync(Name, FtpDataStreamingHandlerAsync, null);
@@ -76,7 +76,7 @@ namespace Files.App.Utils.Storage
 		public override bool IsEqual(IStorageItem item) => item?.Path == Path;
 		public override bool IsOfType(StorageItemTypes type) => type is StorageItemTypes.File;
 
-		public override IAsyncOperation<BaseStorageFolder> GetParentAsync() => throw new NotSupportedException();
+		public override IAsyncOperation<BaseStorageFolder?> GetParentAsync() => throw new NotSupportedException();
 
 		public override IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync()
 		{
@@ -93,9 +93,9 @@ namespace Files.App.Utils.Storage
 			}, (_, _) => Task.FromResult(new BaseBasicProperties())));
 		}
 
-		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode)
+		public override IAsyncOperation<IRandomAccessStream?> OpenAsync(FileAccessMode accessMode)
 		{
-			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IRandomAccessStream>(async () =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IRandomAccessStream?>(async () =>
 			{
 				var ftpClient = GetFtpClient();
 				if (!await ftpClient.EnsureConnectedAsync())
@@ -117,11 +117,11 @@ namespace Files.App.Utils.Storage
 				};
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
-		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => OpenAsync(accessMode);
+		public override IAsyncOperation<IRandomAccessStream?> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => OpenAsync(accessMode);
 
-		public override IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadAsync()
+		public override IAsyncOperation<IRandomAccessStreamWithContentType?> OpenReadAsync()
 		{
-			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IRandomAccessStreamWithContentType>(async () =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IRandomAccessStreamWithContentType?>(async () =>
 			{
 				var ftpClient = GetFtpClient();
 				if (!await ftpClient.EnsureConnectedAsync())
@@ -134,9 +134,9 @@ namespace Files.App.Utils.Storage
 				return new StreamWithContentType(nsStream);
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
-		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync()
+		public override IAsyncOperation<IInputStream?> OpenSequentialReadAsync()
 		{
-			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IInputStream>(async () =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IInputStream?>(async () =>
 			{
 				var ftpClient = GetFtpClient();
 				if (!await ftpClient.EnsureConnectedAsync())
@@ -152,13 +152,13 @@ namespace Files.App.Utils.Storage
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync() => throw new NotSupportedException();
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync(StorageOpenOptions options) => throw new NotSupportedException();
 
-		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder)
+		public override IAsyncOperation<BaseStorageFile?> CopyAsync(IStorageFolder destinationFolder)
 			=> CopyAsync(destinationFolder, Name, NameCollisionOption.FailIfExists);
-		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName)
+		public override IAsyncOperation<BaseStorageFile?> CopyAsync(IStorageFolder destinationFolder, string desiredNewName)
 			=> CopyAsync(destinationFolder, desiredNewName, NameCollisionOption.FailIfExists);
-		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
+		public override IAsyncOperation<BaseStorageFile?> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
 		{
-			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<BaseStorageFile>(async () =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<BaseStorageFile?>(async () =>
 			{
 				using var ftpClient = GetFtpClient();
 				if (!await ftpClient.EnsureConnectedAsync())
@@ -166,7 +166,8 @@ namespace Files.App.Utils.Storage
 					return null;
 				}
 
-				BaseStorageFolder destFolder = destinationFolder.AsBaseStorageFolder();
+				var destFolder = destinationFolder.AsBaseStorageFolder()
+					?? throw new NotSupportedException("The destination folder type is not supported.");
 
 				if (destFolder is ICreateFileWithStream cwsf)
 				{
@@ -175,7 +176,9 @@ namespace Files.App.Utils.Storage
 				}
 				else
 				{
-					BaseStorageFile file = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
+					var file = await destFolder.CreateFileAsync(desiredNewName, option.Convert())
+						?? throw new IOException($"Failed to create destination file '{desiredNewName}'.");
+
 					await using var stream = await file.OpenStreamForWriteAsync();
 					return await ftpClient.DownloadStream(stream, FtpPath, token: cancellationToken) ? file : null;
 				}
@@ -194,7 +197,7 @@ namespace Files.App.Utils.Storage
 				if (!await ftpClient.EnsureConnectedAsync())
 					throw new IOException($"Failed to connect to FTP server.");
 
-				BaseStorageFolder destFolder = destinationFolder.AsBaseStorageFolder();
+				var destFolder = destinationFolder.AsBaseStorageFolder();
 
 				if (destFolder is FtpStorageFolder ftpFolder)
 				{
@@ -249,12 +252,12 @@ namespace Files.App.Utils.Storage
 		}
 		public override IAsyncAction DeleteAsync(StorageDeleteOption option) => DeleteAsync();
 
-		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
-			=> Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
-		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize)
-			=> Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
-		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
-			=> Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
+		public override IAsyncOperation<StorageItemThumbnail?> GetThumbnailAsync(ThumbnailMode mode)
+			=> Task.FromResult<StorageItemThumbnail?>(null).AsAsyncOperation();
+		public override IAsyncOperation<StorageItemThumbnail?> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize)
+			=> Task.FromResult<StorageItemThumbnail?>(null).AsAsyncOperation();
+		public override IAsyncOperation<StorageItemThumbnail?> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
+			=> Task.FromResult<StorageItemThumbnail?>(null).AsAsyncOperation();
 
 		private AsyncFtpClient GetFtpClient()
 		{

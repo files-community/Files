@@ -1,8 +1,9 @@
 // Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using Files.App.Controls;
 using Microsoft.UI.Xaml;
+using WinRT;
 
 namespace Files.App.ViewModels.Settings
 {
@@ -10,18 +11,21 @@ namespace Files.App.ViewModels.Settings
 	{
 		public ObservableCollection<SettingsNavigationItem> NavigationItems { get; } = [];
 
+		// Wrapped projection of NavigationItems for binding to SidebarView.MenuItemsSource (which renders FlatSidebarItem rows). Settings is a flat list so every entry sits at Depth=0.
+		public ObservableCollection<FlatSidebarItem> FlatNavigationItems { get; } = [];
+
 		public ObservableCollection<SettingsSearchResult> SearchResults { get; } = [];
 
 		private List<SettingsSearchResult>? _searchIndex;
 
 		[ObservableProperty]
-		private SettingsPageKind _selectedPage = SettingsPageKind.GeneralPage;
+		public partial SettingsPageKind SelectedPage { get; set; } = SettingsPageKind.GeneralPage;
 
 		[ObservableProperty]
 		[NotifyPropertyChangedFor(nameof(IsSearchActive))]
 		[NotifyPropertyChangedFor(nameof(HasNoSearchResults))]
 		[NotifyPropertyChangedFor(nameof(SearchHeading))]
-		private string _searchQuery = string.Empty;
+		public partial string SearchQuery { get; set; } = string.Empty;
 
 		public bool IsSearchActive => !string.IsNullOrWhiteSpace(SearchQuery);
 
@@ -42,6 +46,9 @@ namespace Files.App.ViewModels.Settings
 			NavigationItems.Add(CreateNavigationItem(SettingsPageKind.DevToolsPage, "SettingsItemDevTools", Strings.DevTools.GetLocalizedResource(), "App.ThemedIcons.Settings.DevTools"));
 			NavigationItems.Add(CreateNavigationItem(SettingsPageKind.AdvancedPage, "SettingsItemAdvanced", Strings.Advanced.GetLocalizedResource(), "App.ThemedIcons.Settings.Advanced"));
 			NavigationItems.Add(CreateNavigationItem(SettingsPageKind.AboutPage, "SettingsItemAbout", Strings.About.GetLocalizedResource(), "App.ThemedIcons.Info"));
+
+			foreach (var navItem in NavigationItems)
+				FlatNavigationItems.Add(new FlatSidebarItem(navItem, 0));
 
 			SetSelectedPage(SettingsPageKind.GeneralPage);
 		}
@@ -85,6 +92,7 @@ namespace Files.App.ViewModels.Settings
 			SearchQuery = string.Empty;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
 		private static SettingsNavigationItem CreateNavigationItem(SettingsPageKind pageKind, string automationId, string text, string iconStyleKey)
 		{
 			var iconStyle = (Style)Application.Current.Resources[iconStyleKey];
@@ -100,7 +108,7 @@ namespace Files.App.ViewModels.Settings
 		}
 	}
 
-	public sealed partial class SettingsNavigationItem : ObservableObject, ISidebarItemModel
+	public sealed partial class SettingsNavigationItem : ObservableObject, ISidebarItemModel, ISidebarItemPresentationModel
 	{
 		public SettingsPageKind PageKind { get; }
 		public string AutomationId { get; }
@@ -109,13 +117,14 @@ namespace Files.App.ViewModels.Settings
 
 		// ISidebarItemModel
 		public object? Children => null;
-		public bool PaddedItem => false;
 		public string? Path => null;
-		[ObservableProperty] private bool _isExpanded;
+		[ObservableProperty] public partial bool IsExpanded { get; set; }
 
-		// DefaultSidebarItemTemplate bindings
+		// Sidebar presentation
 		public object? ToolTip => Text;
 		public object? ItemDecorator => null;
+		FrameworkElement ISidebarItemPresentationModel.IconElement => IconElement;
+		FrameworkElement? ISidebarItemPresentationModel.ItemDecorator => null;
 
 		public SettingsNavigationItem(SettingsPageKind pageKind, string automationId, string text, ThemedIcon iconElement)
 		{

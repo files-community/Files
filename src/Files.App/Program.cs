@@ -4,6 +4,7 @@
 using Files.Shared.Helpers;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Settings;
 using Microsoft.Windows.AppLifecycle;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -22,27 +23,20 @@ namespace Files.App
 	/// </remarks>
 	internal sealed class Program
 	{
-		public static Semaphore? Pool { get; set; }
+		private const string LaunchCwdKey = "LastLaunchCwd";
 
-		static Program()
+		/// <summary>
+		/// Reads and clears the working directory captured by the source process
+		/// in <see cref="Main"/>, falling back to the current process's working
+		/// directory if no value is pending. (#16982)
+		/// </summary>
+		public static string ConsumeLaunchCwd()
 		{
-			var pool = new Semaphore(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance", out var isNew);
-
-			if (!isNew)
-			{
-				// Resume cached instance
-				pool.Release();
-
-				// Redirect to the main process
-				var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-				var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-				RedirectActivationTo(instance, AppInstance.GetCurrent().GetActivatedEventArgs());
-
-				// Kill the current process
-				Environment.Exit(0);
-			}
-
-			pool.Dispose();
+			var values = ApplicationData.Current.LocalSettings.Values;
+			var cwd = values.TryGetValue(LaunchCwdKey, out var raw) ? raw as string : null;
+			if (cwd is not null)
+				values.Remove(LaunchCwdKey);
+			return string.IsNullOrEmpty(cwd) ? Environment.CurrentDirectory : cwd;
 		}
 
 		/// <summary>
@@ -57,50 +51,7 @@ namespace Files.App
 			Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 			WinRT.ComWrappersSupport.InitializeComWrappers();
 
-			// We are about to do the first WinRT server call, in case the WinRT server is hanging
-			// we need to kill the server if there are no other Files instances already running
-
-			static bool ProcessPathPredicate(Process p)
-			{
-				try
-				{
-					return p.MainModule?.FileName
-						.StartsWith(Windows.ApplicationModel.Package.Current.EffectivePath, StringComparison.OrdinalIgnoreCase) ?? false;
-				}
-				catch
-				{
-					return false;
-				}
-			}
-
-			var processes = Process.GetProcessesByName("Files")
-				.Where(ProcessPathPredicate)
-				.Where(p => p.Id != Environment.ProcessId);
-
-			if (!processes.Any())
-			{
-				foreach (var process in Process.GetProcessesByName("Files.App.Server").Where(ProcessPathPredicate))
-				{
-					try
-					{
-						process.Kill();
-					}
-					catch
-					{
-						// ignore any exceptions
-					}
-					finally
-					{
-						process.Dispose();
-					}
-				}
-			}
-
-			// NOTE:
-			//  This has been commented out since out-of-proc WinRT server seems not to support elevation.
-			//  For more info, see the GitHub issue (#15384).
-			// Now we can do the first WinRT server call
-			//Server.AppInstanceMonitor.StartMonitor(Environment.ProcessId);
+			ApplicationData.Current.LocalSettings.Values[LaunchCwdKey] = Environment.CurrentDirectory;
 
 			var OpenTabInExistingInstance = ApplicationData.Current.LocalSettings.Values.Get("OpenTabInExistingInstance", true);
 
@@ -133,7 +84,7 @@ namespace Files.App
 						switch (command.Type)
 						{
 							case ParsedCommandType.ExplorerShellCommand:
-								if (!Constants.UserEnvironmentPaths.ShellPlaces.ContainsKey(command.Payload.ToUpperInvariant()))
+								if (!ShellHelpers.IsSupportedShellPath(command.Payload))
 								{
 									OpenShellCommandInExplorer(command.Payload, Environment.ProcessId);
 									return;
@@ -150,14 +101,8 @@ namespace Files.App
 				if (parsedCommands is null || !parsedCommands.Any(x => x.Type == ParsedCommandType.OutputPath) &&
 					(OpenTabInExistingInstance || parsedCommands.Any(x => x.Type == ParsedCommandType.TagFiles)))
 				{
-					var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-					var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-
-					if (!instance.IsCurrent)
-					{
-						RedirectActivationTo(instance, activatedArgs);
+					if (TryRedirectActivationToExistingInstance(activatedArgs))
 						return;
-					}
 				}
 			}
 			else if (activatedArgs.Data is ILaunchActivatedEventArgs tileArgs)
@@ -177,45 +122,33 @@ namespace Files.App
 			{
 				if (activatedArgs.Data is ILaunchActivatedEventArgs launchArgs)
 				{
-					var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-					var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-					if (!instance.IsCurrent && !string.IsNullOrWhiteSpace(launchArgs.Arguments))
-					{
-						RedirectActivationTo(instance, activatedArgs);
+					if (!string.IsNullOrWhiteSpace(launchArgs.Arguments) && TryRedirectActivationToExistingInstance(activatedArgs))
 						return;
-					}
 				}
 				else if (activatedArgs.Data is IProtocolActivatedEventArgs protocolArgs)
 				{
 					var parsedArgs = protocolArgs.Uri.Query.TrimStart('?').Split('=');
 					if (parsedArgs.Length == 1)
 					{
-						var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-						var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-						if (!instance.IsCurrent)
-						{
-							RedirectActivationTo(instance, activatedArgs);
+						if (TryRedirectActivationToExistingInstance(activatedArgs))
 							return;
-						}
 					}
 				}
 				else if (activatedArgs.Data is IFileActivatedEventArgs)
 				{
-					var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-					var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-					if (!instance.IsCurrent)
-					{
-						RedirectActivationTo(instance, activatedArgs);
+					if (TryRedirectActivationToExistingInstance(activatedArgs))
 						return;
-					}
 				}
 			}
 
-			var currentInstance = AppInstance.FindOrRegisterForKey((-Environment.ProcessId).ToString());
-			if (currentInstance.IsCurrent)
-				currentInstance.Activated += OnActivated;
+			if (activatedArgs.Data is not IStartupTaskActivatedEventArgs)
+				RegisterCurrentInstance();
 
-			ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Environment.ProcessId;
+			// Optional XAML performance changes must be opted into before XAML initialization
+			XamlOptionalChanges.EnableChange(XamlChangeId.DefaultStyleOptimizations);
+			XamlOptionalChanges.EnableChange(XamlChangeId.OptimizeApplyStyles);
+			XamlOptionalChanges.EnableChange(XamlChangeId.IconNoGridOptimization);
+			XamlOptionalChanges.EnableChange(XamlChangeId.DeferContextFlyoutInit);
 
 			Application.Start((p) =>
 			{
@@ -224,6 +157,13 @@ namespace Files.App
 
 				_ = new App();
 			});
+		}
+
+		internal static void RegisterCurrentInstance()
+		{
+			var instance = AppInstance.FindOrRegisterForKey($"Files.Window.{Environment.ProcessId}");
+			if (instance.IsCurrent)
+				instance.Activated += OnActivated;
 		}
 
 		/// <summary>
@@ -257,14 +197,25 @@ namespace Files.App
 		}
 
 		/// <summary>
-		/// Redirects the activation to the main process.
+		/// Attempts redirection, allowing a normal launch if the existing instance has exited.
 		/// </summary>
-		/// <remarks>
-		/// Redirects on another thread and uses a non-blocking wait method to wait for the redirection to complete.
-		/// </remarks>
-		public static void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
+		private static bool TryRedirectActivationToExistingInstance(AppActivationArguments args)
 		{
-			keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
+			try
+			{
+				var instance = AppInstance.GetInstances().FirstOrDefault(instance =>
+					!instance.IsCurrent && instance.Key.StartsWith("Files.Window.", StringComparison.Ordinal));
+				if (instance is null)
+					return false;
+
+				instance.RedirectActivationToAsync(args).AsTask().GetAwaiter().GetResult();
+				return true;
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+				return false;
+			}
 		}
 
 		public static void OpenShellCommandInExplorer(string shellCommand, int pid)

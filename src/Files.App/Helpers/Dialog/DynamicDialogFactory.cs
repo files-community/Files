@@ -19,8 +19,8 @@ namespace Files.App.Helpers
 		{
 			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
-				TitleText = Strings.PropertySaveErrorDialog_Title.GetLocalizedResource(),
-				SubtitleText = Strings.PropertySaveErrorMessage_Text.GetLocalizedResource(), // We can use subtitle here as our content
+				TitleText = Strings.PropertySaveErrorDialogTitle.GetLocalizedResource(),
+				SubtitleText = Strings.PropertySaveErrorMessageText.GetLocalizedResource(), // We can use subtitle here as our content
 				PrimaryButtonText = Strings.Retry.GetLocalizedResource(),
 				SecondaryButtonText = Strings.PropertySaveErrorDialog_SecondaryButtonText.GetLocalizedResource(),
 				CloseButtonText = Strings.Cancel.GetLocalizedResource(),
@@ -33,8 +33,8 @@ namespace Files.App.Helpers
 		{
 			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
-				TitleText = Strings.WelcomeDialog_Title.GetLocalizedResource(),
-				SubtitleText = Strings.WelcomeDialogTextBlock_Text.GetLocalizedResource(), // We can use subtitle here as our content
+				TitleText = Strings.WelcomeDialogTitle.GetLocalizedResource(),
+				SubtitleText = Strings.WelcomeDialogTextBlockText.GetLocalizedResource(), // We can use subtitle here as our content
 				PrimaryButtonText = Strings.WelcomeDialog_PrimaryButtonText.GetLocalizedResource(),
 				PrimaryButtonAction = async (vm, e) => await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess")),
 				DynamicButtons = DynamicDialogButtons.Primary
@@ -42,7 +42,7 @@ namespace Files.App.Helpers
 			return dialog;
 		}
 
-		public static DynamicDialog GetFor_ShortcutNotFound(string targetPath)
+		public static DynamicDialog GetFor_ShortcutNotFound(string? targetPath)
 		{
 			DynamicDialog dialog = new(new DynamicDialogViewModel
 			{
@@ -63,6 +63,8 @@ namespace Files.App.Helpers
 				PlaceholderText = Strings.EnterAnItemName.GetLocalizedResource()
 			};
 
+			Microsoft.UI.Xaml.Automation.AutomationProperties.SetAutomationId(inputText, "CreateItemDialogNameTextBox");
+
 			TeachingTip warning = new()
 			{
 				Title = Strings.InvalidFilename_Text.GetLocalizedResource(),
@@ -82,32 +84,21 @@ namespace Files.App.Helpers
 
 			inputText.Resources.Add("InvalidNameWarningTip", warning);
 
-			inputText.TextChanged += (textBox, args) =>
+			void UpdateDialogState()
 			{
 				var isInputValid = FilesystemHelpers.IsValidForFilename(inputText.Text);
-				((CreateItemDialogViewModel)warning.DataContext).IsNameInvalid = !string.IsNullOrEmpty(inputText.Text) && !isInputValid;
+
+				// An unparented TeachingTip can only open once it has a XamlRoot, so keep the warning closed until then
+				warning.XamlRoot ??= inputText.XamlRoot;
+				((CreateItemDialogViewModel)warning.DataContext).IsNameInvalid = warning.XamlRoot is not null && !string.IsNullOrEmpty(inputText.Text) && !isInputValid;
 				dialog!.ViewModel.DynamicButtonsEnabled = isInputValid
 														? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 														: DynamicDialogButtons.Cancel;
 				if (isInputValid)
 					dialog.ViewModel.AdditionalData = inputText.Text;
-			};
+			}
 
-			inputText.Loaded += (s, e) =>
-			{
-				// Dispatching to the UI thread fixes an issue where the primary dialog button would steal focus
-				_ = inputText.DispatcherQueue.EnqueueOrInvokeAsync(() =>
-				{
-					// Prefill text box with default name #17845
-					if (itemType.Equals("Folder", StringComparison.OrdinalIgnoreCase))
-						inputText.Text = Strings.NewFolder.GetLocalizedResource();
-					else if (itemName is not null)
-						inputText.Text = string.Format(Strings.CreateNewFile.GetLocalizedResource(), itemName);
-
-					inputText.Focus(FocusState.Programmatic);
-					inputText.SelectAll();
-				});
-			};
+			inputText.TextChanged += (textBox, args) => UpdateDialogState();
 
 			dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
@@ -121,15 +112,42 @@ namespace Files.App.Helpers
 						inputText
 					}
 				},
+				DisplayControlOnLoaded = async (vm, e) =>
+				{
+					UpdateDialogState();
+
+					// The dialog asynchronously moves initial focus to its default button on an
+					// unpredictable schedule, so keep refocusing until focus verifiably sticks
+					for (int i = 0; i < 20; i++)
+					{
+						if (inputText.XamlRoot is not null &&
+							Equals(Microsoft.UI.Xaml.Input.FocusManager.GetFocusedElement(inputText.XamlRoot), inputText))
+							return;
+
+						inputText.Focus(FocusState.Programmatic);
+						inputText.SelectAll();
+						await Task.Delay(50);
+					}
+				},
 				PrimaryButtonAction = (vm, e) =>
 				{
-					vm.HideDialog(); // Rename successful
+					vm.Hide(); // Rename successful
 				},
 				PrimaryButtonText = Strings.Create.GetLocalizedResource(),
 				CloseButtonText = Strings.Cancel.GetLocalizedResource(),
 				DynamicButtonsEnabled = DynamicDialogButtons.Cancel,
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 			});
+
+			// Prefill text box with default name #17845
+			if (itemType.Equals("Folder", StringComparison.OrdinalIgnoreCase))
+				inputText.Text = Strings.NewFolder.GetLocalizedResource();
+			else if (itemName is not null)
+				inputText.Text = FilesystemHelpers.FilterRestrictedCharacters(string.Format(Strings.CreateNewFile.GetLocalizedResource(), itemName));
+
+			// TextChanged is not raised for text set while the box is not loaded yet,
+			// so apply the initial validation state directly
+			UpdateDialogState();
 
 			dialog.Closing += (s, e) =>
 			{
@@ -139,15 +157,27 @@ namespace Files.App.Helpers
 			return dialog;
 		}
 
-		public static DynamicDialog GetFor_FileInUseDialog(List<Win32Process> lockingProcess = null)
+		public static DynamicDialog GetFor_CannotRunFileDialog()
+		{
+			return new DynamicDialog(new DynamicDialogViewModel()
+			{
+				TitleText = Strings.CannotRunFileDialogTitle.GetLocalizedResource(),
+				SubtitleText = Strings.CannotRunFileDialogText.GetLocalizedResource(),
+				PrimaryButtonText = Strings.OK.GetLocalizedResource(),
+				DynamicButtons = DynamicDialogButtons.Primary
+			});
+		}
+
+		public static DynamicDialog GetFor_FileInUseDialog(List<Win32Process>? lockingProcess = null)
 		{
 			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
-				TitleText = Strings.FileInUseDialog_Title.GetLocalizedResource(),
-				SubtitleText = lockingProcess.IsEmpty() ? Strings.FileInUseDialog_Text.GetLocalizedResource() :
-					string.Format(Strings.FileInUseByDialog_Text.GetLocalizedResource(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})"))),
-				PrimaryButtonText = "OK",
-				DynamicButtons = DynamicDialogButtons.Primary
+				TitleText = Strings.FileInUseDialogTitle.GetLocalizedResource(),
+				SubtitleText = lockingProcess.IsEmpty() ? Strings.FileInUseDialogText.GetLocalizedResource() :
+					string.Format(Strings.FileInUseByDialogText.GetLocalizedResource(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})"))),
+				PrimaryButtonText = Strings.Retry.GetLocalizedResource(),
+				SecondaryButtonText = Strings.Skip.GetLocalizedResource(),
+				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary | DynamicDialogButtons.Cancel
 			});
 			return dialog;
 		}
@@ -175,25 +205,25 @@ namespace Files.App.Helpers
 			inputUsername.TextChanged += (textBox, args) =>
 			{
 				userAndPass[0] = inputUsername.Text;
-				dialog.ViewModel.AdditionalData = userAndPass;
+				dialog!.ViewModel.AdditionalData = userAndPass;
 			};
 
 			inputPassword.PasswordChanged += (textBox, args) =>
 			{
 				userAndPass[1] = inputPassword.Password;
-				dialog.ViewModel.AdditionalData = userAndPass;
+				dialog!.ViewModel.AdditionalData = userAndPass;
 			};
 
 			saveCreds.Checked += (textBox, args) =>
 			{
 				userAndPass[2] = "y";
-				dialog.ViewModel.AdditionalData = userAndPass;
+				dialog!.ViewModel.AdditionalData = userAndPass;
 			};
 
 			saveCreds.Unchecked += (textBox, args) =>
 			{
 				userAndPass[2] = "n";
-				dialog.ViewModel.AdditionalData = userAndPass;
+				dialog!.ViewModel.AdditionalData = userAndPass;
 			};
 
 			dialog = new DynamicDialog(new DynamicDialogViewModel()
@@ -221,8 +251,8 @@ namespace Files.App.Helpers
 				},
 				CloseButtonAction = (vm, e) =>
 				{
-					dialog.ViewModel.AdditionalData = null;
-					vm.HideDialog();
+					vm.AdditionalData = null;
+					vm.Hide();
 				}
 
 			});
@@ -268,8 +298,8 @@ namespace Files.App.Helpers
 				AdditionalData = GitCheckoutOptions.BringChanges,
 				CloseButtonAction = (vm, e) =>
 				{
-					dialog.ViewModel.AdditionalData = GitCheckoutOptions.None;
-					vm.HideDialog();
+					vm.AdditionalData = GitCheckoutOptions.None;
+					vm.Hide();
 				}
 			});
 
@@ -315,8 +345,8 @@ namespace Files.App.Helpers
 				AdditionalData = GitCheckoutOptions.AbortMerge,
 				CloseButtonAction = (vm, e) =>
 				{
-					dialog.ViewModel.AdditionalData = GitCheckoutOptions.None;
-					vm.HideDialog();
+					vm.AdditionalData = GitCheckoutOptions.None;
+					vm.Hide();
 				}
 			});
 
@@ -358,8 +388,8 @@ namespace Files.App.Helpers
 				AdditionalData = true,
 				CloseButtonAction = (vm, e) =>
 				{
-					dialog.ViewModel.AdditionalData = false;
-					vm.HideDialog();
+					vm.AdditionalData = false;
+					vm.Hide();
 				}
 			});
 
@@ -378,7 +408,7 @@ namespace Files.App.Helpers
 				SecondaryButtonAction = (vm, e) =>
 				{
 					var context = Ioc.Default.GetRequiredService<IContentPageContext>();
-					var item = context.ShellPage?.ShellViewModel.FilesAndFolders.FirstOrDefault(li => li.ItemPath.Equals(path));
+					var item = context.ShellPage?.ShellViewModel?.FilesAndFolders.FirstOrDefault(li => li.ItemPath!.Equals(path));
 
 					if (context.ShellPage is not null && item is not null)
 						FilePropertiesHelpers.OpenPropertiesWindow(item, context.ShellPage, PropertiesNavigationViewItemType.Security);
@@ -446,7 +476,7 @@ namespace Files.App.Helpers
 				},
 				PrimaryButtonAction = (vm, e) =>
 				{
-					vm.HideDialog();
+					vm.Hide();
 				},
 				PrimaryButtonText = Strings.Create.GetLocalizedResource(),
 				CloseButtonText = Strings.Cancel.GetLocalizedResource(),

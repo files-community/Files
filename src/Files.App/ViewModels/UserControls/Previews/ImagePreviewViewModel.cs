@@ -11,8 +11,8 @@ namespace Files.App.ViewModels.Previews
 {
 	public sealed partial class ImagePreviewViewModel : BasePreviewModel
 	{
-		private ImageSource imageSource;
-		public ImageSource ImageSource
+		private ImageSource? imageSource;
+		public ImageSource? ImageSource
 		{
 			get => imageSource;
 			private set => SetProperty(ref imageSource, value);
@@ -23,13 +23,9 @@ namespace Files.App.ViewModels.Previews
 		{
 		}
 
-		// TODO: Use existing helper mothods
-		public static bool ContainsExtension(string extension)
-			=> extension is ".png" or ".jpg" or ".jpeg" or ".bmp" or ".gif" or ".tiff" or ".ico" or ".webp" or ".jxr";
-
 		public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
-			using IRandomAccessStream stream = await Item.ItemFile.OpenAsync(FileAccessMode.Read);
+			using IRandomAccessStream stream = await PreviewFile.OpenAsync(FileAccessMode.Read);
 
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{

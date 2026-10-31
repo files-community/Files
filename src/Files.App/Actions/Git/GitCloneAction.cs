@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 namespace Files.App.Actions
 {
@@ -29,11 +29,12 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			if (pageContext.ShellPage is null)
+			if (pageContext.ShellPage is not { } shellPage)
 				return Task.CompletedTask;
 
+			var shellViewModel = shellPage.GetRequiredShellViewModel();
 			var repoUrl = parameter?.ToString() ?? string.Empty;
-			var viewModel = new CloneRepoDialogViewModel(repoUrl, pageContext.ShellPage.ShellViewModel.WorkingDirectory);
+			var viewModel = new CloneRepoDialogViewModel(repoUrl, shellViewModel.WorkingDirectory!);
 			return dialogService.ShowDialogAsync(viewModel);
 		}
 

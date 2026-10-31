@@ -145,6 +145,14 @@
 				FontWeight="Medium"
 				Text="{helpers:ResourceString Name=DetailsView}" />
 
+			<!--  Auto-fit Columns  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=AutoSizeColumnsInDetailsLayout}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE784;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=AutoSizeColumnsInDetailsLayout}" IsOn="{x:Bind ViewModel.AutoSizeColumnsInDetailsLayout, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
+
 			<!--  Columns  -->
 			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=Columns}">
 				<wctcontrols:SettingsExpander.HeaderIcon>

@@ -6,7 +6,7 @@ namespace Files.App.Data.Models
 	/// <summary>
 	/// Represents a model for Git items
 	/// </summary>
-	internal sealed class GitItemModel
+	public sealed class GitItemModel
 	{
 		/// <summary>
 		/// Gets or initializes file change kind
@@ -29,9 +29,24 @@ namespace Files.App.Data.Models
 		public string? StatusHumanized { get; init; }
 
 		/// <summary>
-		/// Gets or initializes file last commit information including author, committed date, and SHA.
+		/// Gets or initializes the date of the last commit affecting the item.
 		/// </summary>
-		public Commit? LastCommit { get; init; }
+		public DateTimeOffset? LastCommitDate { get; init; }
+
+		/// <summary>
+		/// Gets or initializes the message of the last commit affecting the item.
+		/// </summary>
+		public string? LastCommitMessage { get; init; }
+
+		/// <summary>
+		/// Gets or initializes the author of the last commit affecting the item.
+		/// </summary>
+		public string? LastCommitAuthor { get; init; }
+
+		/// <summary>
+		/// Gets or initializes the SHA of the last commit affecting the item.
+		/// </summary>
+		public string? LastCommitSha { get; init; }
 
 		/// <summary>
 		/// Gets or initializes file path

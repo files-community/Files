@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using System;
+using WinRT;
 
 namespace Files.App.UITests
 {
@@ -14,6 +15,7 @@ namespace Files.App.UITests
 		private static MainWindow? _Instance;
 		public static MainWindow Instance => _Instance ??= new();
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private MainWindow()
 		{
 			InitializeComponent();
@@ -37,6 +39,7 @@ namespace Files.App.UITests
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(NavigationViewItem))]
 		private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
 		{
 			if (args.SelectedItem is not NavigationViewItem item || item.Tag is not string tag)
@@ -58,6 +61,8 @@ namespace Files.App.UITests
 			MainNavigationView.Header = item.Content.ToString();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ToggleButton))]
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void AppThemeChangeToggleButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (sender is not ToggleButton toggleButton ||

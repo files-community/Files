@@ -28,10 +28,10 @@ namespace Files.App.Utils.Storage
 		/// <br/>
 		/// May contain more that one item
 		/// </summary>
-		IList<IStorageItemWithPath> Destination { get; }
+		IList<IStorageItemWithPath>? Destination { get; }
 
 		void Modify(IStorageHistory newHistory);
-		void Modify(FileOperationType operationType, IStorageItemWithPath source, IStorageItemWithPath destination);
-		void Modify(FileOperationType operationType, IList<IStorageItemWithPath> source, IList<IStorageItemWithPath> destination);
+		void Modify(FileOperationType operationType, IStorageItemWithPath source, IStorageItemWithPath? destination);
+		void Modify(FileOperationType operationType, IList<IStorageItemWithPath> source, IList<IStorageItemWithPath>? destination);
 	}
 }

@@ -18,8 +18,8 @@ namespace Files.App.Views.Shells
 
 		private NavigationInteractionTracker _navigationInteractionTracker;
 
-		private NavigationParams _NavParams;
-		public NavigationParams NavParams
+		private NavigationParams? _NavParams;
+		public NavigationParams? NavParams
 		{
 			get => _NavParams;
 			set
@@ -50,11 +50,13 @@ namespace Files.App.Views.Shells
 			ToolbarViewModel.PathControlDisplayText = Strings.Home.GetLocalizedResource();
 			ToolbarViewModel.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
 
+			ContentChanged += ModernShellPage_ContentChanged;
+
 			_navigationInteractionTracker = new NavigationInteractionTracker(this, BackIcon, ForwardIcon);
 			_navigationInteractionTracker.NavigationRequested += OverscrollNavigationRequested;
 		}
 
-		private async void ShellViewModel_FocusFilterHeader(object sender, EventArgs e)
+		private async void ShellViewModel_FocusFilterHeader(object? sender, EventArgs e)
 		{
 			// Delay to ensure the UI is ready for focus
 			await Task.Delay(100);
@@ -62,10 +64,31 @@ namespace Files.App.Views.Shells
 				FilterTextBox.Focus(FocusState.Programmatic);
 		}
 
-		private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
+		private void ModernShellPage_RefreshWidgetsRequested(object? sender, EventArgs e)
 		{
 			if (ItemDisplayFrame?.Content is HomePage currentPage)
 				currentPage.ViewModel.RefreshWidgetList();
+		}
+
+		private void ModernShellPage_ContentChanged(object? sender, TabBarItemParameter e)
+		{
+			UpdateStatusBarProperties();
+			NotifyPropertyChanged(nameof(IsStatusBarVisible));
+		}
+
+		private void UpdateStatusBarProperties()
+		{
+			var contentPage = SlimContentPage is ColumnsLayoutPage columnsLayoutPage
+				? columnsLayoutPage.ActiveColumnShellPage?.SlimContentPage
+				: SlimContentPage;
+
+			StatusBar.StatusBarViewModel = contentPage?.StatusBarViewModel;
+			StatusBar.SelectedItemsPropertiesViewModel = contentPage?.SelectedItemsPropertiesViewModel;
+
+			// The view model's own triggers can all fire before this page's content is
+			// assigned (e.g. restoring a session inside an archive), so re-evaluate the
+			// ZIP encoding selector once the content page is wired up
+			_ = contentPage?.StatusBarViewModel.UpdateZipEncodingStateAsync();
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -90,37 +113,38 @@ namespace Files.App.Views.Shells
 
 		protected override void OnNavigationParamsChanged()
 		{
-			if (string.IsNullOrEmpty(NavParams?.NavPath) || NavParams.NavPath == "Home")
+			var navParams = NavParams;
+			if (string.IsNullOrEmpty(navParams?.NavPath) || navParams.NavPath == "Home")
 			{
 				NavigateHome();
 			}
-			else if (NavParams.NavPath == "ReleaseNotes")
+			else if (navParams.NavPath == "ReleaseNotes")
 			{
 				NavigateToReleaseNotes();
 			}
-			else if (NavParams.NavPath == "Settings")
+			else if (navParams.NavPath == "Settings")
 			{
-				NavigateToSettings(NavParams?.SelectItem);
+				NavigateToSettings(navParams.SelectItem);
 			}
 			else
 			{
-				var isTagSearch = NavParams.NavPath.StartsWith("tag:");
+				var isTagSearch = navParams.NavPath.StartsWith("tag:");
 
 				ItemDisplayFrame.Navigate(
-					InstanceViewModel.FolderSettings.GetLayoutType(NavParams.NavPath),
+					InstanceViewModel.FolderSettings.GetLayoutType(navParams.NavPath),
 					new NavigationArguments()
 					{
-						NavPathParam = NavParams.NavPath,
-						SelectItems = !string.IsNullOrWhiteSpace(NavParams?.SelectItem) ? new[] { NavParams.SelectItem } : null,
+						NavPathParam = navParams.NavPath,
+						SelectItems = !string.IsNullOrWhiteSpace(navParams.SelectItem) ? (string[])[navParams.SelectItem] : null,
 						IsSearchResultPage = isTagSearch,
 						SearchPathParam = isTagSearch ? "Home" : null,
-						SearchQuery = isTagSearch ? NavParams.NavPath : null,
+						SearchQuery = isTagSearch ? navParams.NavPath : null,
 						AssociatedTabInstance = this
 					});
 			}
 		}
 
-		protected override async void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
+		protected override async void ViewModel_WorkingDirectoryModified(object? sender, WorkingDirectoryModifiedEventArgs e)
 		{
 			if (e is null || string.IsNullOrWhiteSpace(e.Path))
 				return;
@@ -136,14 +160,14 @@ namespace Files.App.Views.Shells
 			ContentPage = await GetContentOrNullAsync();
 
 			ToolbarViewModel.UpdateAdditionalActions();
-			if (ItemDisplayFrame.CurrentSourcePageType == (typeof(DetailsLayoutPage))
-				|| ItemDisplayFrame.CurrentSourcePageType == typeof(GridLayoutPage))
+			if (ItemDisplayFrame.CurrentSourcePageType == typeof(DetailsLayoutPage) ||
+				ItemDisplayFrame.CurrentSourcePageType == typeof(GridLayoutPage))
 			{
 				// Reset DataGrid Rows that may be in "cut" command mode
-				ContentPage.ResetItemOpacity();
+				ContentPage!.ResetItemOpacity();
 			}
 
-			var parameters = e.Parameter as NavigationArguments;
+			var parameters = (e.Parameter as NavigationArguments)!;
 			var isTagSearch = parameters.NavPathParam is not null && parameters.NavPathParam.StartsWith("tag:");
 			TabBarItemParameter = new()
 			{
@@ -157,7 +181,7 @@ namespace Files.App.Views.Shells
 			// Update the ShellViewModel with the current working directory
 			// Fixes https://github.com/files-community/Files/issues/17469
 			if (parameters.IsSearchResultPage == false)
-				ShellViewModel.IsSearchResults = false;
+				ShellViewModel!.IsSearchResults = false;
 
 			_navigationInteractionTracker.CanNavigateBackward = CanNavigateBackward;
 			_navigationInteractionTracker.CanNavigateForward = CanNavigateForward;
@@ -242,7 +266,12 @@ namespace Files.App.Views.Shells
 
 		public override void Dispose()
 		{
+			Bindings.StopTracking();
+			ContentChanged -= ModernShellPage_ContentChanged;
 			ToolbarViewModel.RefreshWidgetsRequested -= ModernShellPage_RefreshWidgetsRequested;
+			if (ShellViewModel is not null)
+				ShellViewModel.FocusFilterHeader -= ShellViewModel_FocusFilterHeader;
+			ItemDisplayFrame.Navigated -= ItemDisplayFrame_Navigated;
 			_navigationInteractionTracker.NavigationRequested -= OverscrollNavigationRequested;
 			_navigationInteractionTracker.Dispose();
 
@@ -288,7 +317,8 @@ namespace Files.App.Views.Shells
 
 		public override void NavigateToPath(string? navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null)
 		{
-			ShellViewModel.FilesAndFoldersFilter = null;
+			var shellViewModel = ShellViewModel!;
+			shellViewModel.FilesAndFoldersFilter = null;
 
 			if (sourcePageType is null && !string.IsNullOrEmpty(navigationPath))
 				sourcePageType = InstanceViewModel.FolderSettings.GetLayoutType(navigationPath);
@@ -303,9 +333,9 @@ namespace Files.App.Views.Shells
 			else
 			{
 				if ((string.IsNullOrEmpty(navigationPath) ||
-					string.IsNullOrEmpty(ShellViewModel?.WorkingDirectory) ||
+					string.IsNullOrEmpty(shellViewModel.WorkingDirectory) ||
 					navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
-						ShellViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
+						shellViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
 						StringComparison.OrdinalIgnoreCase)) &&
 					(TabBarItemParameter?.NavigationParameter is not string navArg ||
 					string.IsNullOrEmpty(navArg) ||
@@ -330,7 +360,7 @@ namespace Files.App.Views.Shells
 					new SuppressNavigationTransitionInfo());
 			}
 
-			ToolbarViewModel.PathControlDisplayText = ShellViewModel.WorkingDirectory;
+			ToolbarViewModel.PathControlDisplayText = shellViewModel.WorkingDirectory;
 		}
 
 		private void FilterTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)

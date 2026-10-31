@@ -1,7 +1,8 @@
 // Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using Microsoft.UI.Xaml;
+using WinRT;
 
 namespace Files.App.Actions
 {
@@ -19,6 +20,7 @@ namespace Files.App.Actions
 				? ElementTheme.Dark
 				: ElementTheme.Light;
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		protected ElementTheme GetEffectiveTheme()
 		{
 			var requestedTheme = AppThemeModeService.AppThemeMode;

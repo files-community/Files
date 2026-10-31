@@ -23,8 +23,8 @@ namespace Files.App.Views.Shells
 		protected override Frame ItemDisplay
 			=> ItemDisplayFrame;
 
-		private ColumnParam _ColumnParams;
-		public ColumnParam ColumnParams
+		private ColumnParam? _ColumnParams;
+		public ColumnParam? ColumnParams
 		{
 			get => _ColumnParams;
 			set
@@ -66,38 +66,32 @@ namespace Files.App.Views.Shells
 
 			if (ColumnParams.NavPathParam is not null)
 				// This method call is required to load the sorting preferences.
-				InstanceViewModel?.FolderSettings?.GetLayoutType(ColumnParams.NavPathParam);
+				InstanceViewModel.FolderSettings.GetLayoutType(ColumnParams.NavPathParam);
 
 			// Add null check for ItemDisplayFrame
-			if (ItemDisplayFrame != null)
-			{
-				ItemDisplayFrame.Navigate(
-					typeof(ColumnLayoutPage),
-					new NavigationArguments()
-					{
-						IsSearchResultPage = ColumnParams.IsSearchResultPage,
-						SearchQuery = ColumnParams.SearchQuery,
-						NavPathParam = ColumnParams.NavPathParam,
-						SearchPathParam = ColumnParams.SearchPathParam,
-						AssociatedTabInstance = this,
-						SelectItems = ColumnParams.SelectItems
-					});
-			}
+			ItemDisplayFrame.Navigate(
+				typeof(ColumnLayoutPage),
+				new NavigationArguments()
+				{
+					IsSearchResultPage = ColumnParams.IsSearchResultPage,
+					SearchQuery = ColumnParams.SearchQuery,
+					NavPathParam = ColumnParams.NavPathParam,
+					SearchPathParam = ColumnParams.SearchPathParam,
+					AssociatedTabInstance = this,
+					SelectItems = ColumnParams.SelectItems
+				});
 		}
 
 		protected override void Page_Loaded(object sender, RoutedEventArgs e)
 		{
 			// Add null check for InstanceViewModel
-			if (InstanceViewModel?.FolderSettings != null)
-			{
-				ShellViewModel = new ShellViewModel(InstanceViewModel.FolderSettings);
-				ShellViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
-				ShellViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
-				ShellViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
-				ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
-				ShellViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
-				ShellViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
-			}
+			ShellViewModel = new ShellViewModel(InstanceViewModel.FolderSettings);
+			ShellViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
+			ShellViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
+			ShellViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
+			ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+			ShellViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
+			ShellViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
 
 			PaneHolder = this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.PaneHolder;
 
@@ -120,12 +114,12 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		protected override async void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
+		protected override async void ViewModel_WorkingDirectoryModified(object? sender, WorkingDirectoryModifiedEventArgs e)
 		{
 			// Add null check for e and e.Path
 			if (e == null) return;
 
-			string value = e.Path;
+			string? value = e.Path;
 			if (!string.IsNullOrWhiteSpace(value))
 				await UpdatePathUIToWorkingDirectoryAsync(value);
 		}
@@ -149,6 +143,12 @@ namespace Files.App.Views.Shells
 					NavigationParameter = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
 				};
 			}
+		}
+
+		public override void Dispose()
+		{
+			ItemDisplayFrame.Navigated -= ItemDisplayFrame_Navigated;
+			base.Dispose();
 		}
 
 		public override void Back_Click()
@@ -181,7 +181,7 @@ namespace Files.App.Views.Shells
 			this.FindAscendant<ColumnsLayoutPage>()?.NavigateUp();
 		}
 
-		public override void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
+		public override void NavigateToPath(string? navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null)
 		{
 			if (string.IsNullOrEmpty(navigationPath))
 				return;

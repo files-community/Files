@@ -12,47 +12,30 @@ namespace Files.App.Services
 	{
 		public IStorageDeviceWatcher CreateWatcher()
 		{
-			return new WindowsStorageDeviceWatcher();
+			return new ServerDriveWatcher();
 		}
 
 		public async IAsyncEnumerable<IFolder> GetDrivesAsync()
 		{
-			var list = DriveInfo.GetDrives();
-			var pCloudDrivePath = App.AppModel.PCloudDrivePath;
-			foreach (var drive in list)
+			// Start the per-drive RPCs off the UI thread, including when the ID list is cached.
+			var ids = await Server.DriveService.GetDriveIdsAsync().AsTask().ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+			var pending = ids.Select(GetDriveItemAsync).ToArray();
+			await foreach (var completed in Task.WhenEach(pending))
 			{
-				if (!drive.IsReady)
+				var item = await SafetyExtensions.IgnoreExceptions(() => completed, App.Logger);
+				var pCloudDrivePath = App.AppModel.PCloudDrivePath;
+				if (item is null ||
+					(!string.IsNullOrEmpty(pCloudDrivePath) && string.Equals(item.Path, pCloudDrivePath, StringComparison.OrdinalIgnoreCase)))
 					continue;
-
-				var driveLabel = DriveHelpers.GetExtendedDriveLabel(drive);
-				// Filter out cloud drives
-				// We don't want cloud drives to appear in the plain "Drives" sections.
-				if (driveLabel.Equals("Google Drive") || drive.Name.Equals(pCloudDrivePath))
-					continue;
-
-				var res = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Name).AsTask());
-				if (res.ErrorCode is FileSystemStatusCode.Unauthorized)
-				{
-					App.Logger.LogWarning($"{res.ErrorCode}: Attempting to add the device, {drive.Name},"
-						+ " failed at the StorageFolder initialization step. This device will be ignored.");
-					continue;
-				}
-				else if (!res)
-				{
-					App.Logger.LogWarning($"{res.ErrorCode}: Attempting to add the device, {drive.Name},"
-						+ " failed at the StorageFolder initialization step. This device will be ignored.");
-					continue;
-				}
-
-				using var thumbnail = await DriveHelpers.GetThumbnailAsync(res.Result);
-				var type = DriveHelpers.GetDriveType(drive);
-				var label = DriveHelpers.GetExtendedDriveLabel(drive);
-				var driveItem = await DriveItem.CreateFromPropertiesAsync(res.Result, drive.Name.TrimEnd('\\'), label, type, thumbnail);
-
-				App.Logger.LogInformation($"Drive added: {driveItem.Path}, {driveItem.Type}");
-
-				yield return driveItem;
+				yield return item;
 			}
+		}
+
+		private static async Task<DriveItem?> GetDriveItemAsync(string id)
+		{
+			// Read the remote DTO into an unpublished local item before returning to the UI.
+			var info = await Server.DriveService.GetDriveAsync(id).AsTask().ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+			return info is null || info.Label == "Google Drive" ? null : DriveItem.FromServer(info);
 		}
 
 		public Task<IFolder?> GetPrimaryDriveAsync()
@@ -72,10 +55,11 @@ namespace Files.App.Services
 			var rootModified = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Id).AsTask());
 			if (rootModified && drive is DriveItem matchingDriveEjected)
 			{
+				var root = rootModified.Result!;
 				_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
-					matchingDriveEjected.Root = rootModified.Result;
-					matchingDriveEjected.Text = rootModified.Result.DisplayName;
+					matchingDriveEjected.Root = root;
+					matchingDriveEjected.Text = root.DisplayName;
 					return matchingDriveEjected.UpdatePropertiesAsync();
 				});
 			}

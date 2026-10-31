@@ -1,8 +1,9 @@
 ﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using Microsoft.UI.Xaml.Input;
 using Windows.System;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -19,12 +20,19 @@ namespace Files.App.Controls
 				FlyoutBase.ShowAttachedFlyout(_itemChevronButton);
 		}
 
+		private void ItemChevronButton_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			// Stop bubbling so the BreadcrumbBarItem's RightTapped doesn't open a context menu over the chevron.
+			e.Handled = true;
+		}
+
 		private void ItemContentButton_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (e.Key == VirtualKey.Down)
 				FlyoutBase.ShowAttachedFlyout(_itemChevronButton);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyout))]
 		private void ChevronDropDownMenuFlyout_Opening(object? sender, object e)
 		{
 			if (_ownerRef is null ||
@@ -40,6 +48,7 @@ namespace Files.App.Controls
 			VisualStateManager.GoToState(this, "ChevronNormalOn", true);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyout))]
 		private void ChevronDropDownMenuFlyout_Closed(object? sender, object e)
 		{
 			if (_ownerRef is null ||

@@ -1,5 +1,5 @@
-﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// Copyright (c) Files Community
+// SPDX-License-Identifier: MPL-2.0
 
 namespace Files.App.Actions
 {
@@ -22,7 +22,9 @@ namespace Files.App.Actions
 		public virtual bool IsExecutable =>
 			ContentPageContext.PageType != ContentPageTypes.RecycleBin &&
 			ContentPageContext.SelectedItem is not null &&
-			ContentPageContext.SelectedItem.IsFolder;
+			ContentPageContext.SelectedItem.IsFolder &&
+			ContentPageContext.IsMultiPaneAvailable &&
+			!ContentPageContext.IsMultiPaneActive;
 
 		public virtual bool IsAccessibleGlobally
 			=> true;
@@ -34,9 +36,14 @@ namespace Files.App.Actions
 
 		public virtual Task ExecuteAsync(object? parameter = null)
 		{
+			if (ContentPageContext.ShellPage is not { } shellPage ||
+				shellPage.SlimContentPage?.SelectedItems?.FirstOrDefault() is not { } selectedItem)
+				return Task.CompletedTask;
+
 			NavigationHelpers.OpenInSecondaryPane(
-				ContentPageContext.ShellPage,
-				ContentPageContext.ShellPage.SlimContentPage.SelectedItems.FirstOrDefault());
+				shellPage,
+				selectedItem,
+				parameter as ShellPaneArrangement? ?? ShellPaneArrangement.None);
 
 			return Task.CompletedTask;
 		}
@@ -49,6 +56,8 @@ namespace Files.App.Actions
 				case nameof(IContentPageContext.PageType):
 				case nameof(IContentPageContext.HasSelection):
 				case nameof(IContentPageContext.SelectedItems):
+				case nameof(IContentPageContext.IsMultiPaneActive):
+				case nameof(IContentPageContext.IsMultiPaneAvailable):
 					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}

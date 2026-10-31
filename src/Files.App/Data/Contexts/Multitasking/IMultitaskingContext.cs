@@ -9,10 +9,10 @@ namespace Files.App.Data.Contexts
 
 		ushort TabCount { get; }
 
-		TabBarItem CurrentTabItem { get; }
+		TabBarItem? CurrentTabItem { get; }
 		ushort CurrentTabIndex { get; }
 
-		TabBarItem SelectedTabItem { get; }
+		TabBarItem? SelectedTabItem { get; }
 		ushort SelectedTabIndex { get; }
 	}
 }

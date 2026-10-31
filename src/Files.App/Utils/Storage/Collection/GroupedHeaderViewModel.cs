@@ -2,35 +2,37 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Media;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Files.App.Utils.Storage
 {
 	public sealed partial class GroupedHeaderViewModel : ObservableObject
 	{
-		public string Key { get; set; }
+		public string? Key { get; set; }
 		public bool Initialized { get; set; }
 		public int SortIndexOverride { get; set; }
 
-		private string text;
+		private string? text;
 
+		[AllowNull]
 		public string Text
 		{
 			get => text ?? ""; // Text is bound to AutomationProperties.Name and can't be null
 			set => SetPropertyWithUpdateDelay(ref text, value);
 		}
 
-		private string subtext;
+		private string? subtext;
 
-		public string Subtext
+		public string? Subtext
 		{
 			get => subtext;
 			set => SetPropertyWithUpdateDelay(ref subtext, value);
 		}
 
-		private string countText;
+		private string? countText;
 
-		public string CountText
+		public string? CountText
 		{
 			get => countText;
 			set => SetPropertyWithUpdateDelay(ref countText, value);
@@ -44,23 +46,23 @@ namespace Files.App.Utils.Storage
 			set => SetProperty(ref showCountTextBelow, value);
 		}
 
-		private ImageSource imageSource;
+		private ImageSource? imageSource;
 
-		public ImageSource ImageSource
+		public ImageSource? ImageSource
 		{
 			get => imageSource;
 			set => SetPropertyWithUpdateDelay(ref imageSource, value);
 		}
 
-		private string icon;
+		private string? icon;
 
-		public string Icon
+		public string? Icon
 		{
 			get => icon;
 			set => SetPropertyWithUpdateDelay(ref icon, value);
 		}
 
-		private void SetPropertyWithUpdateDelay<T>(ref T field, T newVal, [CallerMemberName] string propName = null)
+		private void SetPropertyWithUpdateDelay<T>(ref T field, T newVal, [CallerMemberName] string? propName = null)
 		{
 			if (propName is null)
 			{

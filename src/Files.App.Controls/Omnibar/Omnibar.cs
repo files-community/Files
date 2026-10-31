@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media.Animation;
 using Windows.Foundation;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -29,6 +30,10 @@ namespace Files.App.Controls
 
 		private string _userInput = string.Empty;
 		private OmnibarTextChangeReason _textChangeReason = OmnibarTextChangeReason.None;
+		private bool _placeCaretAtEndOnFocus;
+		private bool _isFirstSuggestionSelectionQueued;
+		private bool _isTextTypedByUser;
+		private bool _isSuggestionSelectedByUser;
 
 		private WeakReference<UIElement?> _previouslyFocusedElement = new(null);
 
@@ -39,6 +44,9 @@ namespace Files.App.Controls
 		public event TypedEventHandler<Omnibar, OmnibarTextChangedEventArgs>? TextChanged;
 		public event TypedEventHandler<Omnibar, OmnibarModeChangedEventArgs>? ModeChanged;
 		public event TypedEventHandler<Omnibar, OmnibarIsFocusedChangedEventArgs>? IsFocusedChanged;
+
+		// Raised when the window reactivates and restores focus to the TextBox; the host moves focus elsewhere so the omnibar doesn't get stuck in edit mode
+		public event TypedEventHandler<Omnibar, System.EventArgs>? FocusRedirectRequested;
 
 		// Constructor
 
@@ -54,6 +62,11 @@ namespace Files.App.Controls
 
 		// Methods
 
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
+		[DynamicWindowsRuntimeCast(typeof(Grid))]
+		[DynamicWindowsRuntimeCast(typeof(Popup))]
+		[DynamicWindowsRuntimeCast(typeof(Border))]
+		[DynamicWindowsRuntimeCast(typeof(ListView))]
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
@@ -82,6 +95,7 @@ namespace Files.App.Controls
 			_textBoxSuggestionsPopup.Opened += AutoSuggestBoxSuggestionsPopup_Opened;
 			_textBoxSuggestionsListView.ItemClick += AutoSuggestBoxSuggestionsListView_ItemClick;
 			_textBoxSuggestionsListView.SelectionChanged += AutoSuggestBoxSuggestionsListView_SelectionChanged;
+			_textBoxSuggestionsListView.Items.VectorChanged += AutoSuggestBoxSuggestionsListView_ItemsVectorChanged;
 
 			// Set the default width
 			_textBoxSuggestionsContainerBorder.Width = ActualWidth;
@@ -115,6 +129,7 @@ namespace Files.App.Controls
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		protected void ChangeMode(OmnibarMode? oldMode, OmnibarMode newMode)
 		{
 			if (_modesHostGrid is null || Modes is null || CurrentSelectedMode is null)
@@ -154,6 +169,8 @@ namespace Files.App.Controls
 			// Set the correct AutoSuggestBox cursor position
 			AutoSuggestBoxPadding = new(leftPadding, 0, rightPadding, 0);
 
+			_isTextTypedByUser = false;
+			_isSuggestionSelectedByUser = false;
 			_textChangeReason = OmnibarTextChangeReason.ProgrammaticChange;
 			ChangeTextBoxText(newMode.Text ?? string.Empty);
 
@@ -203,6 +220,18 @@ namespace Files.App.Controls
 		internal protected void FocusTextBox()
 		{
 			_textBox.Focus(FocusState.Keyboard);
+		}
+
+		public void FocusWithCaretAtEnd()
+		{
+			if (_textBox is null)
+				return;
+
+			_placeCaretAtEndOnFocus = true;
+			if (_textBox.FocusState is FocusState.Unfocused)
+				_textBox.Focus(FocusState.Programmatic);
+			else
+				_textBox.Select(_textBox.Text.Length, 0);
 		}
 
 		internal protected bool TryToggleIsSuggestionsPopupOpen(bool wantToOpen)
@@ -275,7 +304,7 @@ namespace Files.App.Controls
 			return obj is string text
 				? text
 				: obj is IOmnibarTextMemberPathProvider textMemberPathProvider
-					? textMemberPathProvider.GetTextMemberPath(CurrentSelectedMode.TextMemberPath ?? string.Empty)
+					? textMemberPathProvider.GetTextMemberPath(CurrentSelectedMode.TextMemberPath ?? string.Empty) ?? string.Empty
 					: obj.ToString() ?? string.Empty;
 		}
 

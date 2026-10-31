@@ -8,15 +8,16 @@ namespace Files.App.Utils.Storage
 {
 	public interface IPasswordProtectedItem
 	{
-		StorageCredential Credentials { get; set; }
+		StorageCredential? Credentials { get; set; }
 
-		Func<IPasswordProtectedItem, Task<StorageCredential>> PasswordRequestedCallback { get; set; }
+		Func<IPasswordProtectedItem, Task<StorageCredential>>? PasswordRequestedCallback { get; set; }
 
 		async Task<TOut> RetryWithCredentialsAsync<TOut>(Func<Task<TOut>> func, Exception exception)
 		{
 			var handled = exception is SevenZipOpenFailedException szofex && szofex.Result is OperationResult.WrongPassword ||
 				exception is ExtractionFailedException efex && efex.Result is OperationResult.WrongPassword ||
-				exception is FtpAuthenticationException;
+				exception is FtpAuthenticationException ||
+				exception is ICSharpCode.SharpZipLib.Zip.ZipException szlzex && szlzex.Message.Contains("password");
 
 			if (!handled || PasswordRequestedCallback is null)
 				throw exception;
@@ -30,7 +31,8 @@ namespace Files.App.Utils.Storage
 		{
 			var handled = exception is SevenZipOpenFailedException szofex && szofex.Result is OperationResult.WrongPassword ||
 				exception is ExtractionFailedException efex && efex.Result is OperationResult.WrongPassword ||
-				exception is FtpAuthenticationException;
+				exception is FtpAuthenticationException ||
+				exception is ICSharpCode.SharpZipLib.Zip.ZipException szlzex && szlzex.Message.Contains("password");
 
 			if (!handled || PasswordRequestedCallback is null)
 				throw exception;

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Runtime.CompilerServices;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Files.App.Utils.Serialization
 {
@@ -13,13 +14,6 @@ namespace Files.App.Utils.Serialization
 		private ISettingsSharingContext? _settingsSharingContext;
 
 		public bool IsAvailable { get; protected set; }
-
-		private ISettingsSerializer? _SettingsSerializer;
-		protected ISettingsSerializer? SettingsSerializer
-		{
-			get => _settingsSharingContext?.Instance?.SettingsSerializer ?? _SettingsSerializer;
-			set => _SettingsSerializer = value;
-		}
 
 		private IJsonSettingsSerializer? _JsonSettingsSerializer;
 		protected IJsonSettingsSerializer? JsonSettingsSerializer
@@ -46,7 +40,7 @@ namespace Files.App.Utils.Serialization
 
 		public virtual object ExportSettings()
 		{
-			return JsonSettingsDatabase?.ExportSettings() ?? false;
+			return JsonSettingsDatabase is null ? false : JsonSettingsDatabase.ExportSettings();
 		}
 
 		public virtual bool ImportSettings(object import)
@@ -61,6 +55,11 @@ namespace Files.App.Utils.Serialization
 				// Can register only once
 				_settingsSharingContext = settingsSharingContext;
 				IsAvailable = settingsSharingContext.Instance.IsAvailable;
+				settingsSharingContext.Instance.OnSettingChangedEvent += (_, e) =>
+				{
+					if (e.NewValue is JsonElement)
+						OnSharedSettingChanged(e.SettingName);
+				};
 				return true;
 			}
 
@@ -72,11 +71,8 @@ namespace Files.App.Utils.Serialization
 			return _settingsSharingContext ?? this;
 		}
 
-		protected virtual void Initialize(string filePath)
-		{
-			IsAvailable = SettingsSerializer?.CreateFile(filePath) ?? false;
-		}
 
+		[return: NotNullIfNotNull(nameof(defaultValue))]
 		protected virtual TValue? Get<TValue>(TValue? defaultValue, [CallerMemberName] string propertyName = "")
 		{
 			if (string.IsNullOrEmpty(propertyName))
@@ -104,6 +100,8 @@ namespace Files.App.Utils.Serialization
 
 			return false;
 		}
+
+		protected virtual void OnSharedSettingChanged(string name) { }
 
 		protected virtual void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{

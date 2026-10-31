@@ -3,6 +3,7 @@
 
 using System.Globalization;
 using Windows.Globalization;
+using StringExtensions = Files.App.Extensions.StringExtensions;
 
 namespace Files.App.Helpers
 {
@@ -87,6 +88,7 @@ namespace Files.App.Helpers
 
 			// Update the primary language override
 			ApplicationLanguages.PrimaryLanguageOverride = index == 0 ? _defaultCode : PreferredLanguage.Code;
+			StringExtensions.ResetLocalizedResources();
 			return true;
 		}
 
@@ -117,6 +119,7 @@ namespace Files.App.Helpers
 
 			// Update the primary language override
 			ApplicationLanguages.PrimaryLanguageOverride = index == 0 ? _defaultCode : PreferredLanguage.Code;
+			StringExtensions.ResetLocalizedResources();
 			return true;
 		}
 	}

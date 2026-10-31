@@ -2,13 +2,10 @@
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
-using System.IO;
-using System.Net.Http;
-using System.Text;
-using System.Xml.Serialization;
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;
-using Windows.Storage;
+using Windows.Win32;
+using Windows.Win32.System.Recovery;
 
 namespace Files.App.Services
 {
@@ -17,7 +14,6 @@ namespace Files.App.Services
 		private const string SIDELOAD_STABLE = "https://cdn.files.community/files/stable/Files.Package.appinstaller";
 		private const string SIDELOAD_PREVIEW = "https://cdn.files.community/files/preview/Files.Package.appinstaller";
 
-		private readonly HttpClient _client = new(new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan.FromMinutes(3) });
 
 		private readonly Dictionary<string, string> _sideloadVersion = new()
 		{
@@ -68,6 +64,14 @@ namespace Files.App.Services
 			private set => SetProperty(ref _areReleaseNotesAvailable, value);
 		}
 
+		public SideloadUpdateService() => App.ServerChanged += OnServerChanged;
+
+		private async void OnServerChanged(object? sender, string name)
+		{
+			if (name == ServerChangeNames.Updates && !IsUpdating)
+				await SafetyExtensions.IgnoreExceptions(CheckForUpdatesAsync, Logger);
+		}
+
 		public async Task DownloadUpdatesAsync()
 		{
 			await ApplyPackageUpdateAsync();
@@ -80,110 +84,21 @@ namespace Files.App.Services
 
 		public async Task CheckForUpdatesAsync()
 		{
-			IsUpdateAvailable = false;
-			try
+			await SafetyExtensions.IgnoreExceptions(async () =>
 			{
-				Logger?.LogInformation($"SIDELOAD: Checking for updates...");
-
-				await using var stream = await _client.GetStreamAsync(_sideloadVersion[PackageName]);
-
-				// Deserialize AppInstaller.
-				XmlSerializer xml = new XmlSerializer(typeof(AppInstaller));
-				var appInstaller = (AppInstaller?)xml.Deserialize(stream);
-
-				ArgumentNullException.ThrowIfNull(appInstaller);
-
-				var remoteVersion = new Version(appInstaller.Version);
-
-				Logger?.LogInformation($"SIDELOAD: Current Package Name: {PackageName}");
-				Logger?.LogInformation($"SIDELOAD: Remote Package Name: {appInstaller.MainBundle.Name}");
-				Logger?.LogInformation($"SIDELOAD: Current Version: {PackageVersion}");
-				Logger?.LogInformation($"SIDELOAD: Remote Version: {remoteVersion}");
-
-				// Check details and version number
-				if (appInstaller.MainBundle.Name.Equals(PackageName) && remoteVersion.CompareTo(PackageVersion) > 0)
-				{
-					Logger?.LogInformation("SIDELOAD: Update found.");
-					MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
-					{
-						IsUpdateAvailable = true;
-					});
-				}
-				else
-				{
-					Logger?.LogWarning("SIDELOAD: Update not found.");
-				}
-			}
-			catch (HttpRequestException ex)
-			{
-				Logger?.LogDebug(ex, ex.Message);
-			}
-			catch (Exception ex)
-			{
-				Logger?.LogError(ex, ex.Message);
-			}
+				var available = await Server.UpdateService.CheckSideloadUpdatesAsync();
+				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => IsUpdateAvailable = available);
+			}, Logger);
 		}
 
 		public async Task CheckAndUpdateFilesLauncherAsync()
 		{
-			try
-			{
-				var destFolderPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, "Files");
-				var destExeFilePath = Path.Combine(destFolderPath, "Files.App.Launcher.exe");
-				var branchFilePath = Path.Combine(destFolderPath, "Branch.txt");
-
-				// If Files.App.Launcher.exe doesn't exist, no need to update it.
-				if (!File.Exists(destExeFilePath))
-					return;
-
-				// Check if the launcher file is associated with the current branch of the app.
-				if (File.Exists(branchFilePath))
-				{
-					try
-					{
-						var branch = await File.ReadAllTextAsync(branchFilePath, Encoding.UTF8);
-						if (!string.Equals(branch.Trim(), "files-dev", StringComparison.OrdinalIgnoreCase))
-							return;
-					}
-					catch { }
-				}
-				else
-				{
-					try
-					{
-						// Create branch file for users updating from versions earlier than v4.0.20.
-						await File.WriteAllTextAsync(branchFilePath, "files-dev", Encoding.UTF8);
-					}
-					catch { }
-				}
-
-				var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/Files.App.Launcher.exe"));
-				var destFolder = await StorageFolder.GetFolderFromPathAsync(destFolderPath);
-
-				await srcExeFile.CopyAsync(destFolder, "Files.App.Launcher.exe", NameCollisionOption.ReplaceExisting);
-
-				App.Logger.LogInformation("Files.App.Launcher updated.");
-			}
-			catch (Exception ex)
-			{
-				Logger?.LogError(ex, ex.Message);
-				return;
-			}
+			await SafetyExtensions.IgnoreExceptions(async () => await Server.UpdateService.UpdateLauncherAsync(), App.Logger);
 		}
 
 		public async Task CheckForReleaseNotesAsync()
 		{
-			using var client = new HttpClient();
-
-			try
-			{
-				var response = await client.GetAsync(Constants.ExternalUrl.ReleaseNotesUrl);
-				AreReleaseNotesAvailable = response.IsSuccessStatusCode;
-			}
-			catch
-			{
-				AreReleaseNotesAvailable = false;
-			}
+			AreReleaseNotesAvailable = await SafetyExtensions.IgnoreExceptions(async () => await Server.UpdateService.CheckReleaseNotesAsync(), App.Logger);
 		}
 
 		private async Task ApplyPackageUpdateAsync()
@@ -194,13 +109,16 @@ namespace Files.App.Services
 			IsUpdating = true;
 
 			DeploymentResult? result = null;
+			var serverUpdateStarted = false;
 
 			try
 			{
 				PackageManager packageManager = new PackageManager();
+				if (!Server.SettingsService.FlushAllSettings())
+					throw new System.IO.IOException("Could not save settings before installing the update.");
 
-				var restartStatus = Win32PInvoke.RegisterApplicationRestart(null, 0);
-				App.AppModel.ForceProcessTermination = true;
+				var restartStatus = PInvoke.RegisterApplicationRestart(null, (REGISTER_APPLICATION_RESTART_FLAGS)0);
+				serverUpdateStarted = SafetyExtensions.IgnoreExceptions(Server.UpdateService.BeginUpdate, Logger);
 
 				Logger?.LogInformation($"Register for restart: {restartStatus}");
 
@@ -233,6 +151,9 @@ namespace Files.App.Services
 			}
 			finally
 			{
+				if (serverUpdateStarted)
+					SafetyExtensions.IgnoreExceptions(Server.UpdateService.EndUpdate, Logger);
+
 				// Reset fields
 				IsUpdating = false;
 				IsUpdateAvailable = false;
@@ -242,35 +163,7 @@ namespace Files.App.Services
 
 		public void Dispose()
 		{
-			_client?.Dispose();
+			App.ServerChanged -= OnServerChanged;
 		}
-	}
-
-	/// <summary>
-	/// AppInstaller class to hold information about remote updates.
-	/// </summary>
-	[XmlRoot(ElementName = "AppInstaller", Namespace = "http://schemas.microsoft.com/appx/appinstaller/2018")]
-	public sealed class AppInstaller
-	{
-		[XmlElement("MainBundle")]
-		public MainBundle MainBundle { get; set; }
-
-		[XmlAttribute("Uri")]
-		public string Uri { get; set; }
-
-		[XmlAttribute("Version")]
-		public string Version { get; set; }
-	}
-
-	public sealed class MainBundle
-	{
-		[XmlAttribute("Name")]
-		public string Name { get; set; }
-
-		[XmlAttribute("Version")]
-		public string Version { get; set; }
-
-		[XmlAttribute("Uri")]
-		public string Uri { get; set; }
 	}
 }

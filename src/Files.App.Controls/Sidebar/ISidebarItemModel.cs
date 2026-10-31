@@ -1,10 +1,24 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.UI.Xaml;
+
 namespace Files.App.Controls
 {
+	public interface ISidebarItemPresentationModel
+	{
+		string? Text { get; }
+
+		object? ToolTip { get; }
+
+		FrameworkElement? IconElement { get; }
+
+		FrameworkElement? ItemDecorator { get; }
+	}
+
 	public interface ISidebarItemModel : INotifyPropertyChanged
 	{
+
 		/// <summary>
 		/// The children of this item that will be rendered as child elements of the SidebarItem
 		/// </summary>
@@ -17,13 +31,23 @@ namespace Files.App.Controls
 		bool IsExpanded { get; set; }
 
 		/// <summary>
-		/// Indicates whether the children should have an indentation or not.
-		/// </summary>
-		bool PaddedItem { get; }
-
-		/// <summary>
 		/// Optional path associated with this sidebar item for drag/drop scenarios.
 		/// </summary>
 		string? Path { get; }
+
+		/// <summary>
+		/// Renders as expandable even when Children is empty (children load lazily on first expansion).
+		/// </summary>
+		bool HasUnrealizedChildren => false;
+
+		/// <summary>
+		/// Expansion participant that keeps the regular row appearance (icon + normal text) instead of the section-header style.
+		/// </summary>
+		bool IsLeafWithChildren => false;
+
+		/// <summary>
+		/// Indicates whether the item can be reordered via drag and drop.
+		/// </summary>
+		bool CanReorder => false;
 	}
 }

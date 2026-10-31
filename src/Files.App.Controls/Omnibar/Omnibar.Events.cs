@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using Microsoft.UI.Xaml.Input;
+using Windows.Foundation.Collections;
 using Windows.System;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -14,18 +16,34 @@ namespace Files.App.Controls
 			_textBoxSuggestionsContainerBorder.Width = ActualWidth;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(UIElement))]
 		private void AutoSuggestBox_GettingFocus(UIElement sender, GettingFocusEventArgs args)
 		{
 			if (args.OldFocusedElement is null)
+			{
+				// Window is regaining activation and restoring focus to the TextBox. TrySetNewFocusedElement can't
+				// move focus to the previously-focused item (it's often a recycled list item and gets rejected), so
+				// ask the host to move focus to its content instead, keeping the omnibar out of edit mode.
+				_placeCaretAtEndOnFocus = false;
+				FocusRedirectRequested?.Invoke(this, System.EventArgs.Empty);
 				return;
-
-			GlobalHelper.WriteDebugStringForOmnibar("The TextBox is getting the focus.");
+			}
 
 			_previouslyFocusedElement = new(args.OldFocusedElement as UIElement);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Button))]
 		private void AutoSuggestBox_LosingFocus(UIElement sender, LosingFocusEventArgs args)
 		{
+			// Programmatic focus moves (InputDevice == None) while the user is typing in the
+			// Omnibar - typically a post-folder-load FocusActivePane / FocusFileList - should not
+			// pull focus away and clear the in-progress query. User gestures still pass through.
+			if (args.InputDevice is FocusInputDeviceKind.None && args.FocusState is FocusState.Programmatic)
+			{
+				args.TryCancel();
+				return;
+			}
+
 			// Prevent the TextBox from losing focus when the ModeButton is focused
 			if (args.NewFocusedElement is not Button button ||
 				args.InputDevice is FocusInputDeviceKind.Keyboard ||
@@ -42,9 +60,17 @@ namespace Files.App.Controls
 			IsFocused = true;
 			IsFocusedChanged?.Invoke(this, new(IsFocused));
 
-			_textBox.SelectAll();
+			if (_placeCaretAtEndOnFocus)
+			{
+				_placeCaretAtEndOnFocus = false;
+				_textBox.Select(_textBox.Text.Length, 0);
+			}
+			else
+				_textBox.SelectAll();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FlyoutBase))]
+		[DynamicWindowsRuntimeCast(typeof(Popup))]
 		private void AutoSuggestBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			// TextBox still has focus if the context menu for selected text is open
@@ -54,16 +80,11 @@ namespace Files.App.Controls
 
 			GlobalHelper.WriteDebugStringForOmnibar("The TextBox lost the focus.");
 
+			_placeCaretAtEndOnFocus = false;
+			_isTextTypedByUser = false;
+			_isSuggestionSelectedByUser = false;
 			IsFocused = false;
 			IsFocusedChanged?.Invoke(this, new(IsFocused));
-
-			// Workaround to prevent an issue where if the window loses focus and then regains focus,
-			// the AutoSuggestBox will regain focus and the suggestions popup will open again.
-			if (element is TextBox)
-			{
-				_previouslyFocusedElement.TryGetTarget(out var previouslyFocusedElement);
-				previouslyFocusedElement?.Focus(FocusState.Programmatic);
-			}
 		}
 
 		private async void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -85,12 +106,14 @@ namespace Files.App.Controls
 				var currentIndex = _textBoxSuggestionsListView.SelectedIndex;
 				var nextIndex = currentIndex;
 				var suggestionsCount = _textBoxSuggestionsListView.Items.Count;
+				var isAutoSelected = !_isSuggestionSelectedByUser && currentIndex is not -1;
+				_isSuggestionSelectedByUser = true;
 
 				if (e.Key is VirtualKey.Up)
 				{
 					nextIndex--;
 				}
-				else if (e.Key is VirtualKey.Down)
+				else if (e.Key is VirtualKey.Down && !isAutoSelected)
 				{
 					nextIndex++;
 				}
@@ -143,6 +166,10 @@ namespace Files.App.Controls
 				_userInput = _textBox.Text;
 			}
 
+			_isTextTypedByUser = _textChangeReason is OmnibarTextChangeReason.UserInput or OmnibarTextChangeReason.None;
+			if (_isTextTypedByUser)
+				_isSuggestionSelectedByUser = false;
+
 			TextChanged?.Invoke(this, new(CurrentSelectedMode, _textChangeReason));
 
 			// Reset
@@ -173,6 +200,27 @@ namespace Files.App.Controls
 		private void AutoSuggestBoxSuggestionsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			_textBoxSuggestionsListView.ScrollIntoView(_textBoxSuggestionsListView.SelectedItem);
+		}
+
+		private void AutoSuggestBoxSuggestionsListView_ItemsVectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs e)
+		{
+			if (_isFirstSuggestionSelectionQueued || _isSuggestionSelectedByUser)
+				return;
+
+			_isFirstSuggestionSelectionQueued = true;
+			DispatcherQueue.TryEnqueue(() =>
+			{
+				_isFirstSuggestionSelectionQueued = false;
+				if (_isSuggestionSelectedByUser)
+					return;
+
+				var selectFirst = CurrentSelectedMode?.IsFirstSuggestionAutoSelected is true &&
+					_isTextTypedByUser &&
+					!string.IsNullOrEmpty(_textBox.Text) &&
+					_textBoxSuggestionsListView.Items.Count > 0;
+
+				_textBoxSuggestionsListView.SelectedIndex = selectFirst ? 0 : -1;
+			});
 		}
 	}
 }

@@ -11,27 +11,27 @@ namespace Files.App.Data.Models
 	{
 		public bool ShowItem { get; set; } = true;
 
-		public ICommand Command { get; set; }
+		public ICommand? Command { get; set; }
 
-		public object CommandParameter { get; set; }
+		public object? CommandParameter { get; set; }
 
-		public string Glyph { get; set; }
+		public string? Glyph { get; set; }
 
-		public string GlyphFontFamilyName { get; set; }
+		public string? GlyphFontFamilyName { get; set; }
 
-		public string KeyboardAcceleratorTextOverride { get; set; }
+		public string? KeyboardAcceleratorTextOverride { get; set; }
 
-		public string Text { get; set; }
+		public string? Text { get; set; }
 
-		public object Tag { get; set; }
+		public object? Tag { get; set; }
 
 		public ContextMenuFlyoutItemType ItemType { get; set; }
 
-		public Func<Task> LoadSubMenuAction { get; set; }
+		public Func<Task>? LoadSubMenuAction { get; set; }
 
-		public List<ContextMenuFlyoutItemViewModel> Items { get; set; }
+		public List<ContextMenuFlyoutItemViewModel>? Items { get; set; }
 
-		public BitmapImage BitmapIcon { get; set; }
+		public BitmapImage? BitmapIcon { get; set; }
 
 		public bool ShowOnShift { get; set; }
 
@@ -45,13 +45,13 @@ namespace Files.App.Data.Models
 
 		public bool ShowInZipPage { get; set; }
 
-		public KeyboardAccelerator KeyboardAccelerator { get; set; }
+		public KeyboardAccelerator? KeyboardAccelerator { get; set; }
 
 		public bool IsChecked { get; set; }
 
 		public bool IsEnabled { get; set; } = true;
 
-		public string ID { get; set; }
+		public string? ID { get; set; }
 
 		public bool IsPrimary { get; set; }
 

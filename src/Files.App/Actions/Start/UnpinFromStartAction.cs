@@ -13,7 +13,7 @@ namespace Files.App.Actions
 		public IContentPageContext context;
 
 		public string Label
-			=> Strings.UnpinItemFromStart_Text.GetLocalizedResource();
+			=> Strings.UnpinItemFromStartText.GetLocalizedResource();
 
 		public string Description
 			=> Strings.UnpinFromStartDescription.GetLocalizedFormatResource(context.HasSelection ? context.SelectedItems.Count : 1);
@@ -33,14 +33,20 @@ namespace Files.App.Actions
 		{
 			if (context.SelectedItems.Count > 0)
 			{
-				foreach (ListedItem listedItem in context.ShellPage?.SlimContentPage.SelectedItems)
+				var selectedItems = context.ShellPage?.SlimContentPage?.SelectedItems
+					?? throw new InvalidOperationException("The active file-list selection is not available.");
+				foreach (ListedItem listedItem in selectedItems)
 				{
 					await SafetyExtensions.IgnoreExceptions(async () =>
 					{
-						IStorable storable = listedItem.IsFolder switch
+						var itemPath = listedItem.GetRequiredPath();
+						IStorable storable = listedItem switch
 						{
-							true => await StorageService.GetFolderAsync(listedItem.ItemPath),
-							_ => await StorageService.GetFileAsync((listedItem as IShortcutItem)?.TargetPath ?? listedItem.ItemPath)
+							// Archives are marked as folders when browsable in-app but are files on disk
+							{ IsFolder: true, IsArchive: false } => await StorageService.GetFolderAsync(itemPath),
+							_ => await StorageService.GetFileAsync((listedItem as IShortcutItem)?.TargetPath is { Length: > 0 } targetPath
+								? targetPath
+								: itemPath)
 						};
 						await StartMenuService.UnpinAsync(storable);
 					});
@@ -50,10 +56,14 @@ namespace Files.App.Actions
 			{
 				await SafetyExtensions.IgnoreExceptions(async () =>
 				{
-					var currentFolder = context.ShellPage.ShellViewModel.CurrentFolder;
-					var folder = await StorageService.GetFolderAsync(currentFolder.ItemPath);
+					var currentFolder = context.ShellPage?.ShellViewModel?.CurrentFolder
+						?? throw new InvalidOperationException("The current folder is not available.");
+					var currentFolderPath = currentFolder.GetRequiredPath();
+					IStorable storable = context.PageType is ContentPageTypes.ZipFolder
+						? await StorageService.GetFileAsync(currentFolderPath)
+						: await StorageService.GetFolderAsync(currentFolderPath);
 
-					await StartMenuService.UnpinAsync(folder);
+					await StartMenuService.UnpinAsync(storable);
 				});
 			}
 		}

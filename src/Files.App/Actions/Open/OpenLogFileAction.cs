@@ -1,11 +1,12 @@
 ﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System;
+using WinRT;
 
 namespace Files.App.Actions
 {
@@ -24,11 +25,12 @@ namespace Files.App.Actions
 		public HotKey HotKey
 			=> new(Keys.OemPeriod, KeyModifiers.Ctrl);
 
+		[DynamicWindowsRuntimeCast(typeof(StorageFile))]
 		public async Task ExecuteAsync(object? parameter = null)
 		{
 			try
 			{
-				var debugFile = await ApplicationData.Current.LocalFolder.TryGetItemAsync("debug.log") as StorageFile;
+				var debugFile = await ApplicationData.Current.LocalFolder.TryGetItemAsync($"debug_{(Environment.IsPrivilegedProcess ? "privileged" : "unprivileged")}.log") as StorageFile;
 
 				if (debugFile != null && !await Launcher.LaunchFileAsync(debugFile))
 				{

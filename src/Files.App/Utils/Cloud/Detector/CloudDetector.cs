@@ -10,28 +10,48 @@ namespace Files.App.Utils.Cloud
 	{
 		public async Task<IEnumerable<ICloudProvider>> DetectCloudProvidersAsync()
 		{
-			var tasks = new List<Task<IEnumerable<ICloudProvider>>>();
+			var providers = new List<ICloudProvider>();
 
-			foreach (var detector in EnumerateDetectors())
-				tasks.Add(detector.DetectCloudProvidersAsync());
+			await foreach (var provider in DetectCloudProvidersProgressiveAsync())
+				providers.Add(provider);
 
-			await Task.WhenAll(tasks);
-
-			return tasks
-				.SelectMany(task => task.Result)
-				.OrderBy(task => task.ID.ToString())
-				.ThenBy(task => task.Name)
+			return providers
+				.OrderBy(provider => provider.ID.ToString())
+				.ThenBy(provider => provider.Name)
 				.Distinct();
 		}
 
-		private static IEnumerable<ICloudDetector> EnumerateDetectors()
+		public async IAsyncEnumerable<ICloudProvider> DetectCloudProvidersProgressiveAsync()
 		{
-			yield return new GoogleDriveCloudDetector();
-			yield return new DropBoxCloudDetector();
-			yield return new BoxCloudDetector();
-			yield return new GenericCloudDetector();
-			yield return new SynologyDriveCloudDetector();
-			yield return new OXDriveCloudDetector();
+			var groupCount = Server.DriveService.CloudProviderGroupCount;
+			var pending = Enumerable.Range(0, groupCount)
+				.Select(group => SafetyExtensions.IgnoreExceptions(async () =>
+				{
+					var providers = await Server.DriveService.GetCloudProvidersAsync(group);
+					return providers.Select(provider =>
+					{
+						var icon = provider.IconData;
+						return new CloudProvider((CloudProviders)provider.Id)
+						{
+							Name = provider.Name,
+							SyncFolder = provider.SyncFolder,
+							IconData = icon.Length == 0 ? null : icon,
+						};
+					}).ToArray();
+				}, App.Logger))
+				.ToList();
+
+			// Yield each detector's results the moment it finishes, so a slow one (for example Google
+			// Drive's virtual-drive enumeration) never holds up the rest of the cloud drives.
+			while (pending.Count > 0)
+			{
+				var finished = await Task.WhenAny(pending);
+				pending.Remove(finished);
+
+				foreach (var provider in await finished ?? [])
+					yield return provider;
+			}
 		}
+
 	}
 }

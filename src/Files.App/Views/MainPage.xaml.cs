@@ -15,7 +15,9 @@ using System.Runtime.InteropServices;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
 using Windows.UI.Input;
-using WinUIEx;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using WinRT;
 using GridSplitter = Files.App.Controls.GridSplitter;
 using VirtualKey = Windows.System.VirtualKey;
 
@@ -31,10 +33,17 @@ namespace Files.App.Views
 		public SidebarViewModel SidebarAdaptiveViewModel { get; }
 		public MainPageViewModel ViewModel { get; }
 
+		private const int HTCAPTION = 2;
+
 		private bool keyReleased = true;
 
 		private DispatcherQueueTimer _updateDateDisplayTimer;
+		private WindowMessageMonitor? _titleBarMessageMonitor;
 
+		private readonly Dictionary<TabBarItem, double> _sidebarScrollByTab = new();
+		private TabBarItem? _previousSidebarTab;
+
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyout))]
 		public MainPage()
 		{
 			InitializeComponent();
@@ -47,18 +56,32 @@ namespace Files.App.Views
 
 			if (AppLanguageHelper.IsPreferredLanguageRtl)
 			{
-				MainWindow.Instance.SetExtendedWindowStyle(ExtendedWindowStyle.LayoutRtl);
+				Win32Helper.EnableRtlLayout(MainWindow.Instance.WindowHandle);
 				FlowDirection = FlowDirection.RightToLeft;
 			}
 
 			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
 
 			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
 			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
 			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
+			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
 
 			ApplySidebarWidthState();
+
+			// Realize the navigation controls before the first measure pass.
+			FindName(nameof(InnerNavigationToolbar));
+			FindName(nameof(TabControl));
+			FindName(nameof(NavToolbar));
+		}
+
+		private void NumberedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs e)
+		{
+			var command = ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand;
+			if (command.CanExecute(e))
+				command.Execute(e);
 		}
 
 		private async Task AppRunningAsAdminPromptAsync()
@@ -113,9 +136,40 @@ namespace Files.App.Views
 
 		private int SetTitleBarDragRegion(InputNonClientPointerSource source, SizeInt32 size, double scaleFactor, Func<UIElement, RectInt32?, RectInt32> getScaledRect)
 		{
+			if (TabControl is null)
+				return -1;
+
 			var height = (int)TabControl.ActualHeight;
 			source.SetRegionRects(NonClientRegionKind.Passthrough, [getScaledRect(this, new RectInt32(0, 0, (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth), height))]);
+			AttachTitleBarMessageMonitor();
 			return height;
+		}
+
+		// Caption regions live in a dedicated child window
+		private void AttachTitleBarMessageMonitor()
+		{
+			if (_titleBarMessageMonitor is not null)
+				return;
+
+			var titleBarHwnd = PInvoke.FindWindowEx(new(MainWindow.Instance.WindowHandle), HWND.Null, "InputNonClientPointerSource", null);
+			if (titleBarHwnd.IsNull)
+				return;
+
+			_titleBarMessageMonitor = new WindowMessageMonitor(titleBarHwnd);
+			_titleBarMessageMonitor.WindowMessageReceived += TitleBar_WindowMessageReceived;
+		}
+
+		private void TitleBar_WindowMessageReceived(object? sender, WindowMessageEventArgs e)
+		{
+			if (e.Message.MessageId is not (PInvoke.WM_NCMBUTTONDOWN or PInvoke.WM_NCMBUTTONDBLCLK) ||
+				(int)e.Message.WParam != HTCAPTION || TabControl is null)
+				return;
+
+			// Deferred because this runs inside the window procedure
+			DispatcherQueue.TryEnqueue(async () => await Commands.NewTab.ExecuteAsync());
+
+			e.Result = 0;
+			e.Handled = true;
 		}
 
 		public async void TabItemContent_ContentChanged(object? sender, TabBarItemParameter e)
@@ -127,7 +181,6 @@ namespace Files.App.Views
 			SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ?
 				paneArgs?.LeftPaneNavPathParam : paneArgs?.RightPaneNavPathParam);
 
-			UpdateStatusBarProperties();
 			LoadPaneChanged();
 			UpdateNavToolbarProperties();
 			await NavigationHelpers.UpdateInstancePropertiesAsync(paneArgs);
@@ -162,7 +215,6 @@ namespace Files.App.Views
 			if (statusBarViewModel is not null)
 				statusBarViewModel.ShowLocals = true;
 
-			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
 
@@ -179,28 +231,26 @@ namespace Files.App.Views
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane?.TabBarItemParameter?.NavigationParameter?.ToString());
-			UpdateStatusBarProperties();
+			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.TabBarItemParameter?.NavigationParameter?.ToString());
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
 		}
 
-		private void UpdateStatusBarProperties()
+		private void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (StatusBar is not null)
-			{
-				StatusBar.StatusBarViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.StatusBarViewModel;
-				StatusBar.SelectedItemsPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.SelectedItemsPropertiesViewModel;
-			}
+			if (e.PropertyName is nameof(IContentPageContext.PageType))
+				LoadPaneChanged();
 		}
 
 		private void UpdateNavToolbarProperties()
 		{
+			var toolbarViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn!.ToolbarViewModel;
+
 			if (NavToolbar is not null)
-				NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
+				NavToolbar.ViewModel = toolbarViewModel;
 
 			if (InnerNavigationToolbar is not null)
-				InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
+				InnerNavigationToolbar.ViewModel = toolbarViewModel;
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -210,6 +260,9 @@ namespace Files.App.Views
 
 		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e) => await OnPreviewKeyDownAsync(e);
 
+		[DynamicWindowsRuntimeCast(typeof(DependencyObject))]
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private async Task OnPreviewKeyDownAsync(KeyRoutedEventArgs e)
 		{
 			base.OnPreviewKeyDown(e);
@@ -279,13 +332,11 @@ namespace Files.App.Views
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
+			ViewModel.OnPageLoaded();
+
 			MainWindow.Instance.AppWindow.Changed += (_, _) => MainWindow.Instance.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
 
-			// Defers the status bar loading until after the page has loaded to improve startup perf
-			FindName(nameof(StatusBar));
-			FindName(nameof(InnerNavigationToolbar));
-			FindName(nameof(TabControl));
-			FindName(nameof(NavToolbar));
+			MainWindow.Instance.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
 
 			// Notify user that drag and drop is disabled
 			// Prompt is disabled in the dev environment to prevent issues with the automation testing 
@@ -319,6 +370,18 @@ namespace Files.App.Views
 				App.Logger.LogWarning("UpdateDateDisplayTimer_Tick: Timer firing after window closed!");
 		}
 
+		private void AppModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName != nameof(AppModel.IsMainWindowClosed))
+				return;
+
+			// Ticks dispatched during dispatcher queue shutdown crash in CoreMessaging
+			if (App.AppModel.IsMainWindowClosed)
+				_updateDateDisplayTimer.Stop();
+			else if (InfoPane is not null && InfoPane.IsLoaded)
+				_updateDateDisplayTimer.Start();
+		}
+
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
 			switch (InfoPane?.Position)
@@ -338,6 +401,15 @@ namespace Files.App.Views
 		{
 			// Set the correct tab margin on startup
 			SidebarAdaptiveViewModel.UpdateTabControlMargin();
+			SidebarAdaptiveViewModel.EnsureTabExpansionTrackingInitialized();
+
+			SidebarControl.HoverToOpenDelay = TimeSpan.FromMilliseconds(Constants.DragAndDrop.HoverToOpenTimespan);
+			SidebarControl.HoverToExpandDelay = TimeSpan.FromMilliseconds(Constants.DragAndDrop.HoverToExpandTimespan);
+
+			// VM.SidebarDisplayMode rejects Minimal (it only tracks user preference) so the flat tree mirrors SidebarView.DisplayMode separately.
+			SidebarAdaptiveViewModel.ActualDisplayMode = SidebarControl.DisplayMode;
+			SidebarControl.RegisterPropertyChangedCallback(SidebarView.DisplayModeProperty, (_, _) =>
+				SidebarAdaptiveViewModel.ActualDisplayMode = SidebarControl.DisplayMode);
 		}
 
 		private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e) => LoadPaneChanged();
@@ -408,7 +480,6 @@ namespace Files.App.Views
 
 				ViewModel.ShouldPreviewPaneBeDisplayed = ((!isHomePage && !isReleaseNotesPage && !isSettingsPage) || isMultiPane) && isBigEnough;
 				ViewModel.ShouldPreviewPaneBeActive = UserSettingsService.InfoPaneSettingsService.IsInfoPaneEnabled && ViewModel.ShouldPreviewPaneBeDisplayed;
-				ViewModel.ShouldViewControlBeDisplayed = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
 
 				UpdatePositioning();
 			}
@@ -423,8 +494,42 @@ namespace Files.App.Views
 
 		private async void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == nameof(ViewModel.ShouldPreviewPaneBeActive) && ViewModel.ShouldPreviewPaneBeActive)
-				await Ioc.Default.GetRequiredService<InfoPaneViewModel>().UpdateSelectedItemPreviewAsync();
+			if (e.PropertyName == nameof(ViewModel.ShouldPreviewPaneBeActive))
+			{
+				var infoPaneViewModel = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
+				if (ViewModel.ShouldPreviewPaneBeActive)
+					await infoPaneViewModel.UpdateSelectedItemPreviewAsync();
+				else
+					infoPaneViewModel.UnloadPreview();
+			}
+			else if (e.PropertyName == nameof(ViewModel.SelectedTabItem))
+				HandleSidebarTabChange();
+		}
+
+		private void HandleSidebarTabChange()
+		{
+			if (_previousSidebarTab is not null)
+				_sidebarScrollByTab[_previousSidebarTab] = SidebarControl.VerticalScrollOffset;
+
+			var newTab = ViewModel.SelectedTabItem;
+			_previousSidebarTab = newTab;
+
+			if (newTab is null)
+				return;
+
+			var savedOffset = _sidebarScrollByTab.GetValueOrDefault(newTab);
+			// Defer to after the flat-tree's tab-state restoration dispatcher work so the content extent has caught up before scrolling.
+			DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () => SidebarControl.ScrollToVerticalOffset(savedOffset));
+		}
+
+		internal void DetachTabContent(TabBarItem tabItem)
+		{
+			if (ReferenceEquals(PageContent.Content, tabItem.ContentFrame))
+				PageContent.Content = null;
+
+			_sidebarScrollByTab.Remove(tabItem);
+			if (ReferenceEquals(_previousSidebarTab, tabItem))
+				_previousSidebarTab = null;
 		}
 
 		private void RootGrid_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -467,7 +572,7 @@ namespace Files.App.Views
 		{
 			// Workaround for issue where clicking an empty area in the window (toolbar, title bar etc) prevents keyboard
 			// shortcuts from working properly, see https://github.com/microsoft/microsoft-ui-xaml/issues/6467
-			DispatcherQueue.TryEnqueue(() => ContentPageContext.ShellPage?.PaneHolder.FocusActivePane());
+			DispatcherQueue.TryEnqueue(() => ContentPageContext.ShellPage?.PaneHolder?.FocusActivePane());
 		}
 
 		private void SidebarControl_ItemContextInvoked(object sender, ItemContextInvokedArgs e)
@@ -475,28 +580,26 @@ namespace Files.App.Views
 			SidebarAdaptiveViewModel.HandleItemContextInvokedAsync(sender, e);
 		}
 
-		private async void SidebarControl_ItemDragOver(object sender, ItemDragOverEventArgs e)
+		private void SidebarControl_ItemDragOver(object sender, ItemDragOverEventArgs e)
 		{
-			var deferral = e.RawEvent.GetDeferral();
-
-			await SafetyExtensions.IgnoreExceptions(async () =>
+			e.DeferUntil(SafetyExtensions.IgnoreExceptions(async () =>
 			{
 				await SidebarAdaptiveViewModel.HandleItemDragOverAsync(e);
-			}, App.Logger);
-
-			deferral.Complete();
+			}, App.Logger));
 		}
 
 		private async void SidebarControl_ItemDropped(object sender, ItemDroppedEventArgs e)
 		{
-			var deferral = e.RawEvent.GetDeferral();
+			// GetDeferral()/Complete() can throw COMException if the underlying drag operation has already been released (e.g. canceled by the system or window closed)
+			var deferral = SafetyExtensions.IgnoreExceptions(() => e.RawEvent.GetDeferral(), App.Logger);
 
 			await SafetyExtensions.IgnoreExceptions(async () =>
 			{
 				await SidebarAdaptiveViewModel.HandleItemDroppedAsync(e);
 			}, App.Logger);
 
-			deferral.Complete();
+			if (deferral is not null)
+				SafetyExtensions.IgnoreExceptions(() => deferral.Complete(), App.Logger);
 		}
 
 		private void SidebarControl_ItemInvoked(object sender, ItemInvokedEventArgs e)

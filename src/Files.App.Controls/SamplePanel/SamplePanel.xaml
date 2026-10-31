@@ -33,7 +33,7 @@
 						<TextBlock
 							Grid.Row="0"
 							Style="{StaticResource BodyStrongTextBlockStyle}"
-							Text="{Binding Header, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+							Text="{TemplateBinding Header}" />
 
 						<Grid
 							x:Name="PART_RootPanel"
@@ -50,7 +50,7 @@
 							<ContentPresenter
 								Grid.Column="0"
 								Padding="{TemplateBinding Padding}"
-								Content="{Binding MainContent, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+								Content="{TemplateBinding MainContent}" />
 
 							<StackPanel
 								Grid.Column="1"
@@ -74,7 +74,7 @@
 									</SelectorBarItem>
 								</SelectorBar>
 
-								<ContentPresenter Margin="0,12,0,0" Content="{Binding SideContent, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+								<ContentPresenter Margin="0,12,0,0" Content="{TemplateBinding SideContent}" />
 
 								<TextBlock
 									x:Name="PART_NothingToShowTextBlock"

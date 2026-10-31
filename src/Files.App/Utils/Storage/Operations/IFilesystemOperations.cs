@@ -25,7 +25,7 @@ namespace Files.App.Utils.Storage
 		/// <br/>
 		/// Destination: null
 		/// </returns>
-		Task<(IStorageHistory, IStorageItem)> CreateAsync(
+		Task<(IStorageHistory?, IStorageItem?)> CreateAsync(
 			IStorageItemWithPath source,
 			IProgress<StatusCenterItemProgressModel> process,
 			CancellationToken cancellationToken,
@@ -51,7 +51,7 @@ namespace Files.App.Utils.Storage
 		/// <br/>
 		/// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> was copied
 		/// </returns>
-		Task<IStorageHistory> CopyAsync(
+		Task<IStorageHistory?> CopyAsync(
 			IStorageItem source,
 			string destination,
 			NameCollisionOption collision,
@@ -72,7 +72,7 @@ namespace Files.App.Utils.Storage
 		/// <br/>
 		/// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> was copied
 		/// </returns>
-		Task<IStorageHistory> CopyAsync(
+		Task<IStorageHistory?> CopyAsync(
 			IStorageItemWithPath source,
 			string destination,
 			NameCollisionOption collision,
@@ -82,7 +82,7 @@ namespace Files.App.Utils.Storage
 		/// <summary>
 		/// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
 		/// </summary>
-		Task<IStorageHistory> CopyItemsAsync(
+		Task<IStorageHistory?> CopyItemsAsync(
 			IList<IStorageItem> source,
 			IList<string> destination,
 			IList<FileNameConflictResolveOptionType> collisions,
@@ -92,7 +92,7 @@ namespace Files.App.Utils.Storage
 		/// <summary>
 		/// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
 		/// </summary>
-		Task<IStorageHistory> CopyItemsAsync(
+		Task<IStorageHistory?> CopyItemsAsync(
 			IList<IStorageItemWithPath> source,
 			IList<string> destination,
 			IList<FileNameConflictResolveOptionType> collisions,
@@ -114,7 +114,7 @@ namespace Files.App.Utils.Storage
 		/// <br/>
 		/// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> was moved
 		/// </returns>
-		Task<IStorageHistory> MoveAsync(
+		Task<IStorageHistory?> MoveAsync(
 			IStorageItem source,
 			string destination,
 			NameCollisionOption collision,
@@ -135,7 +135,7 @@ namespace Files.App.Utils.Storage
 		/// <br/>
 		/// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> was moved
 		/// </returns>
-		Task<IStorageHistory> MoveAsync(
+		Task<IStorageHistory?> MoveAsync(
 			IStorageItemWithPath source,
 			string destination,
 			NameCollisionOption collision,
@@ -145,7 +145,7 @@ namespace Files.App.Utils.Storage
 		/// <summary>
 		/// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
 		/// </summary>
-		Task<IStorageHistory> MoveItemsAsync(
+		Task<IStorageHistory?> MoveItemsAsync(
 			IList<IStorageItem> source,
 			IList<string> destination,
 			IList<FileNameConflictResolveOptionType> collisions,
@@ -155,7 +155,7 @@ namespace Files.App.Utils.Storage
 		/// <summary>
 		/// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
 		/// </summary>
-		Task<IStorageHistory> MoveItemsAsync(
+		Task<IStorageHistory?> MoveItemsAsync(
 			IList<IStorageItemWithPath> source,
 			IList<string> destination,
 			IList<FileNameConflictResolveOptionType> collisions,
@@ -180,7 +180,7 @@ namespace Files.App.Utils.Storage
 		/// <br/>
 		/// If <paramref name="permanently"/> was false, returns path to recycled item
 		/// </returns>
-		Task<IStorageHistory> DeleteAsync(
+		Task<IStorageHistory?> DeleteAsync(
 			IStorageItem source,
 			IProgress<StatusCenterItemProgressModel> progress,
 			bool permanently,
@@ -203,7 +203,7 @@ namespace Files.App.Utils.Storage
 		/// <br/>
 		/// If <paramref name="permanently"/> was false, returns path to recycled item
 		/// </returns>
-		Task<IStorageHistory> DeleteAsync(
+		Task<IStorageHistory?> DeleteAsync(
 			IStorageItemWithPath source,
 			IProgress<StatusCenterItemProgressModel> progress,
 			bool permanently,
@@ -212,7 +212,7 @@ namespace Files.App.Utils.Storage
 		/// <summary>
 		/// Deletes provided <paramref name="source"/>
 		/// </summary>
-		Task<IStorageHistory> DeleteItemsAsync(
+		Task<IStorageHistory?> DeleteItemsAsync(
 			IList<IStorageItem> source,
 			IProgress<StatusCenterItemProgressModel> progress,
 			bool permanently,
@@ -221,7 +221,7 @@ namespace Files.App.Utils.Storage
 		/// <summary>
 		/// Deletes provided <paramref name="source"/>
 		/// </summary>
-		Task<IStorageHistory> DeleteItemsAsync(
+		Task<IStorageHistory?> DeleteItemsAsync(
 			IList<IStorageItemWithPath> source,
 			IProgress<StatusCenterItemProgressModel> progress,
 			bool permanently,
@@ -241,7 +241,7 @@ namespace Files.App.Utils.Storage
 		/// <br/>
 		/// Destination: The renamed item fullPath (as <see cref="PathWithType"/>)
 		/// </returns>
-		Task<IStorageHistory> RenameAsync(
+		Task<IStorageHistory?> RenameAsync(
 			IStorageItem source,
 			string newName,
 			NameCollisionOption collision,
@@ -261,7 +261,7 @@ namespace Files.App.Utils.Storage
 		/// <br/>
 		/// Destination: The renamed item fullPath (as <see cref="PathWithType"/>)
 		/// </returns>
-		Task<IStorageHistory> RenameAsync(
+		Task<IStorageHistory?> RenameAsync(
 			IStorageItemWithPath source,
 			string newName,
 			NameCollisionOption collision,
@@ -282,7 +282,7 @@ namespace Files.App.Utils.Storage
 		/// <br/>
 		/// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> has been restored
 		/// </returns>
-		Task<IStorageHistory> RestoreItemsFromTrashAsync(
+		Task<IStorageHistory?> RestoreItemsFromTrashAsync(
 			IList<IStorageItem> source,
 			IList<string> destination,
 			IProgress<StatusCenterItemProgressModel> progress,
@@ -301,7 +301,7 @@ namespace Files.App.Utils.Storage
 		/// <br/>
 		/// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> has been restored
 		/// </returns>
-		Task<IStorageHistory> RestoreFromTrashAsync(
+		Task<IStorageHistory?> RestoreFromTrashAsync(
 			IStorageItem source,
 			string destination,
 			IProgress<StatusCenterItemProgressModel> progress,
@@ -320,7 +320,7 @@ namespace Files.App.Utils.Storage
 		/// <br/>
 		/// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> has been restored
 		/// </returns>
-		Task<IStorageHistory> RestoreItemsFromTrashAsync(
+		Task<IStorageHistory?> RestoreItemsFromTrashAsync(
 			IList<IStorageItemWithPath> source,
 			IList<string> destination,
 			IProgress<StatusCenterItemProgressModel> progress,
@@ -340,7 +340,7 @@ namespace Files.App.Utils.Storage
 		/// <br/>
 		/// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> has been restored
 		/// </returns>
-		Task<IStorageHistory> RestoreFromTrashAsync(
+		Task<IStorageHistory?> RestoreFromTrashAsync(
 			IStorageItemWithPath source,
 			string destination,
 			IProgress<StatusCenterItemProgressModel> progress,

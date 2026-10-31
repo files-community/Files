@@ -1,17 +1,18 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.App.Helpers.Application;
+using Files.App.Services.Git;
 using Files.App.Services.SizeProvider;
 using Files.App.Utils.Logger;
 using Files.App.ViewModels.Settings;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Sentry;
 using Sentry.Protocol;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -75,7 +76,6 @@ namespace Files.App.Helpers
 				? appEnvironment
 				: AppEnvironment.Dev;
 
-
 		/// <summary>
 		/// Gets application package version.
 		/// </summary>
@@ -85,13 +85,15 @@ namespace Files.App.Helpers
 		/// <summary>
 		/// Gets application icon path.
 		/// </summary>
-		public static string AppIconPath { get; } =
-			SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, AppEnvironment switch
+		public static string AppIconPath => _appIconPath.Value;
+
+		private static readonly Lazy<string> _appIconPath = new(() =>
+			SystemIO.Path.Combine(Package.Current.InstalledPath, AppEnvironment switch
 			{
 				AppEnvironment.Dev => Constants.AssetPaths.DevLogo,
 				AppEnvironment.SideloadPreview or AppEnvironment.StorePreview => Constants.AssetPaths.PreviewLogo,
 				_ => Constants.AssetPaths.StableLogo
-			});
+			}));
 
 		/// <summary>
 		/// Initializes the app components.
@@ -103,35 +105,28 @@ namespace Files.App.Helpers
 			var generalSettingsService = userSettingsService.GeneralSettingsService;
 			var jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
 
-			// Start off a list of tasks we need to run before we can continue startup
-			await Task.WhenAll(
-				App.QuickAccessManager.InitializeAsync()
-			);
+			ActiveSessionTracker.ReportPersistedTime();
 
-			// Start non-critical tasks without waiting for them to complete
+			// Start non-critical tasks without waiting; pinned loads alongside the others so its shell enumeration doesn't block them.
 			_ = Task.Run(async () =>
 			{
-				await Task.WhenAll(
+				await SafetyExtensions.IgnoreExceptions(() => Task.WhenAll(
+					App.QuickAccessManager.InitializeAsync(),
 					OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
 					App.LibraryManager.UpdateLibrariesAsync(),
 					OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
 					OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
 					jumpListService.InitializeAsync()
-				);
+				), App.Logger);
 
-				//Start the tasks separately to reduce resource contention
-				await Task.WhenAll(
-					addItemService.InitializeAsync(),
-					ContextMenu.WarmUpQueryContextMenuAsync()
-				);
+				await SafetyExtensions.IgnoreExceptions(addItemService.InitializeAsync, App.Logger);
 			});
-
-			FileTagsHelper.UpdateTagsDb();
 
 			_ = Task.Run(async () =>
 			{
 				// The follwing method invokes UI thread, so we run it in a separate task
 				await CheckAppUpdate();
+
 			});
 
 			static Task OptionalTaskAsync(Task task, bool condition)
@@ -142,7 +137,6 @@ namespace Files.App.Helpers
 				return Task.CompletedTask;
 			}
 
-			generalSettingsService.PropertyChanged += GeneralSettingsService_PropertyChanged;
 		}
 
 		/// <summary>
@@ -160,10 +154,17 @@ namespace Files.App.Helpers
 				updateService.AreReleaseNotesAvailable &&
 				!ViewedReleaseNotes)
 			{
-				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				ViewedReleaseNotes = true;
+
+				// Open after the startup tabs have loaded so the release notes tab doesn't disturb the restored session order
+				_ = Task.Run(async () =>
 				{
-					await Ioc.Default.GetRequiredService<ICommandManager>().OpenReleaseNotes.ExecuteAsync();
-					ViewedReleaseNotes = true;
+					await MainPageViewModel.StartupTabsLoadedTask;
+
+					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+					{
+						await Ioc.Default.GetRequiredService<ICommandManager>().OpenReleaseNotes.ExecuteAsync();
+					});
 				});
 			}
 
@@ -185,30 +186,103 @@ namespace Files.App.Helpers
 				options.AutoSessionTracking = true;
 				var packageVersion = Package.Current.Id.Version;
 				options.Release = $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}";
-				options.TracesSampleRate = 0.80;
-				options.ProfilesSampleRate = 0.40;
+				options.TracesSampleRate = 0.10;
+				// Active-session reports must not be sampled away or their sums undercount;
+				// returning null falls back to TracesSampleRate for everything else
+				options.TracesSampler = context =>
+					context.TransactionContext.Operation == ActiveSessionTracker.TransactionOperation ? 1.0 : null;
+				options.ProfilesSampleRate = 0.05;
 				options.Environment = AppEnvironment == AppEnvironment.StorePreview || AppEnvironment == AppEnvironment.SideloadPreview ? "preview" : "production";
+				options.CacheDirectoryPath = ApplicationData.Current.LocalFolder.Path;
 
 				options.DisableWinUiUnhandledExceptionIntegration();
+
+				options.SetBeforeSend(sentryEvent =>
+				{
+					if (sentryEvent.Message is { } message)
+					{
+						message.Message = SanitizeSentryText(message.Message);
+						message.Formatted = SanitizeSentryText(message.Formatted);
+					}
+
+					if (sentryEvent.SentryExceptions is { } sentryExceptions)
+					{
+						foreach (var sentryException in sentryExceptions)
+						{
+							sentryException.Value = SanitizeSentryText(sentryException.Value);
+
+							if (sentryException.Stacktrace?.Frames is { } frames)
+							{
+								foreach (var frame in frames)
+								{
+									frame.FileName = LogPathHelper.RedactUserName(frame.FileName);
+									frame.AbsolutePath = LogPathHelper.RedactUserName(frame.AbsolutePath);
+								}
+							}
+						}
+					}
+
+					foreach (var key in sentryEvent.Extra.Keys.ToList())
+					{
+						if (sentryEvent.Extra[key] is string text)
+							sentryEvent.SetExtra(key, SanitizeSentryText(text) ?? string.Empty);
+					}
+
+					return sentryEvent;
+				});
+
+				options.SetBeforeBreadcrumb(breadcrumb =>
+				{
+					var message = SanitizeSentryText(breadcrumb.Message);
+
+					Dictionary<string, string>? sanitizedData = null;
+					if (breadcrumb.Data is { } data)
+					{
+						foreach (var (key, value) in data)
+						{
+							var sanitizedValue = SanitizeSentryText(value);
+							if (sanitizedValue != value)
+							{
+								sanitizedData ??= new(data);
+								sanitizedData[key] = sanitizedValue ?? string.Empty;
+							}
+						}
+					}
+
+					if (message == breadcrumb.Message && sanitizedData is null)
+						return breadcrumb;
+
+					return new Breadcrumb(message!, breadcrumb.Type!, sanitizedData ?? breadcrumb.Data, breadcrumb.Category, breadcrumb.Level);
+				});
 			});
+		}
+
+		/// <summary>
+		/// Scrubs user names and file system paths from text before it is attached to a Sentry event.
+		/// </summary>
+		private static string? SanitizeSentryText(string? text)
+		{
+			return text is null ? null : LogPathHelper.SanitizeMessage(text);
 		}
 
 		/// <summary>
 		/// Configures DI (dependency injection) container.
 		/// </summary>
-		public static IHost ConfigureHost()
+		/// <param name="appModel">Constructed on the UI thread by the caller (its ctor is UI-thread-only).</param>
+		public static IServiceProvider ConfigureHost(AppModel appModel)
 		{
-			var builder = Host.CreateDefaultBuilder()
-				.UseContentRoot(Package.Current.InstalledLocation.Path)
-				.UseEnvironment(AppLifecycleHelper.AppEnvironment.ToString())
-				.ConfigureLogging(builder => builder
-					.ClearProviders()
-					.AddConsole()
+			var services = new ServiceCollection();
+			var fileLoggerProvider = new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, $"debug_{(Environment.IsPrivilegedProcess ? "privileged" : "unprivileged")}.log"));
+
+			services.AddSingleton(fileLoggerProvider);
+
+			services.AddLogging(builder => builder
 					.AddDebug()
-					.AddProvider(new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log")))
+					.AddProvider(fileLoggerProvider)
 					.AddProvider(new SentryLoggerProvider())
-					.SetMinimumLevel(LogLevel.Information))
-				.ConfigureServices(services => services
+					.SetMinimumLevel(LogLevel.Information));
+
+			services
 					// Settings services
 					.AddSingleton<IUserSettingsService, UserSettingsService>()
 					.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>(sp => new AppearanceSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
@@ -247,7 +321,6 @@ namespace Files.App.Helpers
 					.AddSingleton<ICommandManager, CommandManager>()
 					.AddSingleton<IModifiableCommandManager, ModifiableCommandManager>()
 					.AddSingleton<IStorageService, NativeStorageLegacyService>()
-					.AddSingleton<IFtpStorageService, FtpStorageService>()
 					.AddSingleton<IAddItemService, AddItemService>()
 					.AddSingleton<IPreviewPopupService, PreviewPopupService>()
 					.AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
@@ -265,6 +338,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IStorageArchiveService, StorageArchiveService>()
 					.AddSingleton<IStorageSecurityService, StorageSecurityService>()
 					.AddSingleton<IWindowsCompatibilityService, WindowsCompatibilityService>()
+					.AddSingleton</*IVersionControlService,*/ LibGit2Service>()
 					// ViewModels
 					.AddSingleton<MainPageViewModel>()
 					.AddSingleton<InfoPaneViewModel>()
@@ -286,22 +360,21 @@ namespace Files.App.Helpers
 					.AddSingleton<StorageHistoryWrapper>()
 					.AddSingleton<FileTagsManager>()
 					.AddSingleton<LibraryManager>()
-					.AddSingleton<AppModel>()
-				);
+					.AddSingleton(appModel);
 
 			// Conditional DI
 			if (AppEnvironment is AppEnvironment.SideloadPreview or AppEnvironment.SideloadStable)
-				builder.ConfigureServices(s => s.AddSingleton<IUpdateService, SideloadUpdateService>());
+				services.AddSingleton<IUpdateService, SideloadUpdateService>();
 			else if (AppEnvironment is AppEnvironment.StorePreview or AppEnvironment.StoreStable)
-				builder.ConfigureServices(s => s.AddSingleton<IUpdateService, StoreUpdateService>());
+				services.AddSingleton<IUpdateService, StoreUpdateService>();
 			else
-				builder.ConfigureServices(s => s.AddSingleton<IUpdateService, DummyUpdateService>());
+				services.AddSingleton<IUpdateService, DummyUpdateService>();
 
-			return builder.Build();
+			return services.BuildServiceProvider();
 		}
 
 		/// <summary>
-		/// Saves saves all opened tabs to the app cache.
+		/// Saves the open tabs and selected index to the shared settings.
 		/// </summary>
 		public static void SaveSessionTabs()
 		{
@@ -319,17 +392,86 @@ namespace Files.App.Helpers
 				}
 			})
 			.ToList();
+
+			userSettingsService.GeneralSettingsService.LastSessionSelectedTabIndex = App.AppModel.TabStripSelectedIndex;
+		}
+
+		// XAML delivers Application.UnhandledException with the managed stack already stripped,
+		// so recently thrown exceptions are buffered here to recover their stacks at crash time.
+		private const int RecentExceptionsCapacity = 16;
+		private static readonly Exception?[] _recentExceptions = new Exception?[RecentExceptionsCapacity];
+		private static readonly string?[] _recentExceptionStacks = new string?[RecentExceptionsCapacity];
+		private static int _recentExceptionsNext = -1;
+
+		[ThreadStatic]
+		private static bool _isRecordingException;
+
+		/// <summary>
+		/// Starts recording thrown exceptions into a fixed-size buffer included in crash reports.
+		/// </summary>
+		public static void RecordFirstChanceExceptions()
+		{
+			AppDomain.CurrentDomain.FirstChanceException += (_, e) =>
+			{
+				// A throw inside this handler would raise FirstChanceException again on the same thread
+				if (_isRecordingException)
+					return;
+
+				_isRecordingException = true;
+				try
+				{
+					// Cancellations are routine app-wide and would evict the faults worth keeping
+					if (e.Exception is OperationCanceledException)
+						return;
+
+					var slot = (uint)Interlocked.Increment(ref _recentExceptionsNext) % RecentExceptionsCapacity;
+					_recentExceptions[slot] = e.Exception;
+
+					// COM/SEH exceptions arrive at the crash handler with an empty StackTrace, so snapshot the live stack now.
+					_recentExceptionStacks[slot] = e.Exception is COMException or SEHException ? Environment.StackTrace : null;
+				}
+				finally
+				{
+					_isRecordingException = false;
+				}
+			};
+		}
+
+		private static string FormatRecentExceptions()
+		{
+			StringBuilder builder = new();
+			var next = Volatile.Read(ref _recentExceptionsNext);
+
+			for (var i = Math.Max(0, next - RecentExceptionsCapacity + 1); i <= next; i++)
+			{
+				var slot = (uint)i % RecentExceptionsCapacity;
+				if (_recentExceptions[slot] is not Exception recent)
+					continue;
+
+				var text = recent.ToString();
+				builder.AppendLine(text[..Math.Min(text.Length, 1024)]);
+
+				if (string.IsNullOrEmpty(recent.StackTrace) && _recentExceptionStacks[slot] is string capturedStack)
+				{
+					builder.AppendLine("-- captured at throw --");
+					builder.AppendLine(capturedStack[..Math.Min(capturedStack.Length, 2048)]);
+				}
+
+				builder.AppendLine("----");
+			}
+
+			return builder.ToString();
 		}
 
 		/// <summary>
 		/// Shows exception on the Debug Output and sends Toast Notification to the Windows Notification Center.
 		/// </summary>
-		public static void HandleAppUnhandledException(Exception? ex, bool showToastNotification)
+		public static void HandleAppUnhandledException(Exception? ex, bool showToastNotification, string mechanism = "Application.UnhandledException", string? unhandledMessage = null)
 		{
 			try
 			{
 				// IoC may not be configured yet if the exception happened during early startup
-				var generalSettingsService = Ioc.Default.GetService<IGeneralSettingsService>();
+				var generalSettingsService = SafetyExtensions.IgnoreExceptions(Ioc.Default.GetService<IGeneralSettingsService>);
 
 				StringBuilder formattedException = new()
 				{
@@ -341,7 +483,7 @@ namespace Files.App.Helpers
 				if (ex is not null)
 				{
 					ex.Data[Mechanism.HandledKey] = false;
-					ex.Data[Mechanism.MechanismKey] = "Application.UnhandledException";
+					ex.Data[Mechanism.MechanismKey] = mechanism;
 
 					SafetyExtensions.IgnoreExceptions(() =>
 					{
@@ -349,10 +491,24 @@ namespace Files.App.Helpers
 						{
 							scope.User.Id = generalSettingsService?.UserId;
 							scope.Level = SentryLevel.Fatal;
+							scope.SetTag("hresult", $"0x{ex.HResult:X8}");
+
+							if (!string.IsNullOrEmpty(unhandledMessage))
+								scope.SetExtra("unhandled_message", unhandledMessage);
+
+							// Exception.ToString of a buffered exception may run a throwing override
+							if (string.IsNullOrEmpty(ex.StackTrace))
+								scope.SetExtra("recent_exceptions", SafetyExtensions.IgnoreExceptions(FormatRecentExceptions));
 						});
 					});
 
 					formattedException.AppendLine($">>>> HRESULT: {ex.HResult}");
+
+					if (unhandledMessage is not null)
+					{
+						formattedException.AppendLine("--- UNHANDLED MESSAGE ---");
+						formattedException.AppendLine(unhandledMessage);
+					}
 
 					if (ex.Message is not null)
 					{
@@ -405,7 +561,8 @@ namespace Files.App.Helpers
 
 					var lastSessionTabList = userSettingsService.GeneralSettingsService.LastSessionTabList;
 
-					if (userSettingsService.GeneralSettingsService.LastCrashedTabList?.SequenceEqual(lastSessionTabList) ?? false)
+					if (lastSessionTabList is null ||
+						userSettingsService.GeneralSettingsService.LastCrashedTabList?.SequenceEqual(lastSessionTabList) is true)
 					{
 						// Avoid infinite restart loop
 						userSettingsService.GeneralSettingsService.LastSessionTabList = null;
@@ -424,27 +581,16 @@ namespace Files.App.Helpers
 					}
 				});
 			}
+			catch
+			{
+				// Swallow any exception escaping the handler so it can't re-enter
+				// Application.UnhandledException before the process terminates.
+			}
 			finally
 			{
-				Process.GetCurrentProcess().Kill();
+				Environment.Exit(ex?.HResult ?? 1);
 			}
 		}
 
-		/// <summary>
-		/// Updates the visibility of the system tray icon
-		/// </summary>
-		private static void GeneralSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			if (sender is not IGeneralSettingsService generalSettingsService)
-				return;
-
-			if (e.PropertyName == nameof(IGeneralSettingsService.ShowSystemTrayIcon))
-			{
-				if (generalSettingsService.ShowSystemTrayIcon)
-					App.SystemTrayIcon?.Show();
-				else
-					App.SystemTrayIcon?.Hide();
-			}
-		}
 	}
 }

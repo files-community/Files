@@ -10,7 +10,7 @@
 	mc:Ignorable="d">
 
 	<Grid>
-		<ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
+		<ItemsRepeater x:Name="QuickAccessItemsRepeater" ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
 
 			<ItemsRepeater.Layout>
 				<UniformGridLayout

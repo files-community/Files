@@ -36,7 +36,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.ShellPage?.ShellViewModel is null)
+			if (context.ShellPage?.ShellViewModel is not { } shellViewModel)
 				return;
 
 			var item = context.SelectedItem as IShortcutItem;
@@ -46,20 +46,25 @@ namespace Files.App.Actions
 
 			// Check if destination path exists
 			var folderPath = Path.GetDirectoryName(item.TargetPath);
-			var destFolder = await context.ShellPage.ShellViewModel.GetFolderWithPathFromPathAsync(folderPath);
+			FilesystemResult<StorageFolderWithPath> destFolder = folderPath is null
+				? new(null, FileSystemStatusCode.Generic)
+				: await shellViewModel.GetFolderWithPathFromPathAsync(folderPath);
 
 			if (destFolder)
 			{
-				context.ShellPage?.NavigateWithArguments(context.ShellPage.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
+				if (context.ShellPage is not { } shellPage)
+					return;
+
+				shellPage.NavigateWithArguments(shellPage.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
 				{
 					NavPathParam = folderPath,
-					SelectItems = [Path.GetFileName(item.TargetPath.TrimPath())],
-					AssociatedTabInstance = context.ShellPage
+					SelectItems = (string[])[Path.GetFileName(item.TargetPath.TrimPath())!],
+					AssociatedTabInstance = shellPage
 				});
 			}
 			else if (destFolder == FileSystemStatusCode.NotFound)
 			{
-				await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialog_Title.GetLocalizedResource(), Strings.FileNotFoundDialog_Text.GetLocalizedResource());
+				await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialogTitle.GetLocalizedResource(), Strings.FileNotFoundDialogText.GetLocalizedResource());
 			}
 			else
 			{

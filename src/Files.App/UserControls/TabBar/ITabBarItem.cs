@@ -10,14 +10,14 @@ namespace Files.App.UserControls.TabBar
 	/// </summary>
 	public interface ITabBarItem
 	{
-		IconSource IconSource { get; }
+		IconSource? IconSource { get; }
 
-		string Header { get; }
+		string? Header { get; }
 
-		string Description { get; }
+		string? Description { get; }
 
 		bool AllowStorageItemDrop { get; }
 
-		public TabBarItemParameter NavigationParameter { get; }
+		public TabBarItemParameter? NavigationParameter { get; }
 	}
 }

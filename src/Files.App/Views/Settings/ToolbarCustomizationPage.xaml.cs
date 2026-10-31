@@ -1,5 +1,5 @@
 // Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 using Files.App.UserControls;
 using Files.App.ViewModels.Settings;
@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
+using WinRT;
 
 namespace Files.App.Views.Settings
 {
@@ -62,6 +63,7 @@ namespace Files.App.Views.Settings
 				ViewModel.FinishCustomizationSession(persistChanges: false);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Style))]
 		private void RebuildPreview(object? sender = null, EventArgs? e = null)
 		{
 			PreviewCommandBar.PrimaryCommands.Clear();
@@ -81,6 +83,7 @@ namespace Files.App.Views.Settings
 				QueueRefreshColumnWidths();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		private void ToolbarItemsList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
 			if (args.ItemContainer is ListViewItem container)
@@ -103,6 +106,7 @@ namespace Files.App.Views.Settings
 			});
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		private void RefreshColumnWidths()
 		{
 			actionColumnMinWidth = ComputeActionColumnMinWidth();
@@ -112,6 +116,7 @@ namespace Files.App.Views.Settings
 					SyncRowColumnWidths(container);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Grid))]
 		private double ComputeActionColumnMinWidth()
 		{
 			double maxWidth = 0;
@@ -178,6 +183,8 @@ namespace Files.App.Views.Settings
 		private void AddedToolbarItemsList_DragOver(object sender, DragEventArgs e)
 			=> e.AcceptedOperation = DataPackageOperation.Copy;
 
+		[DynamicWindowsRuntimeCast(typeof(ListView))]
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		private void AddedToolbarItemsList_Drop(object sender, DragEventArgs e)
 		{
 			if (draggedAvailableItem is null || sender is not ListView list)
@@ -202,6 +209,7 @@ namespace Files.App.Views.Settings
 			hostWindow?.Close();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(TreeViewItem))]
 		private void AvailableToolbarItemsTree_ItemInvoked(TreeView sender, TreeViewItemInvokedEventArgs args)
 		{
 			if (args.InvokedItem is not ToolbarAvailableTreeItem { Children.Count: > 0 } item)

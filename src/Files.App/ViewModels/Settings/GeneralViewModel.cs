@@ -16,7 +16,7 @@ namespace Files.App.ViewModels.Settings
 
 		private bool disposed;
 
-		private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;
+		private ReadOnlyCollection<IMenuFlyoutItemViewModel>? addFlyoutItemsSource;
 
 		public RelayCommand ChangePageCommand { get; }
 		public RelayCommand<PageOnStartupViewModel> RemovePageCommand { get; }
@@ -78,7 +78,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public List<DateTimeFormatItem> DateFormats { get; set; }
+		public List<DateTimeFormatItem> DateFormats { get; set; } = null!;
 
 		public ObservableCollection<AppLanguageItem> AppLanguages => AppLanguageHelper.SupportedLanguages;
 
@@ -114,6 +114,58 @@ namespace Files.App.ViewModels.Settings
 			InitStartupSettingsRecentFoldersFlyout();
 		}
 
+		internal void StartListening()
+		{
+			UserSettingsService.OnSettingChangedEvent -= OnSharedSettingChanged;
+			UserSettingsService.OnSettingChangedEvent += OnSharedSettingChanged;
+			RefreshSettings();
+		}
+
+		internal void StopListening() => UserSettingsService.OnSettingChangedEvent -= OnSharedSettingChanged;
+
+		private void OnSharedSettingChanged(object? sender, SettingChangedEventArgs e)
+		{
+			if (e.NewValue is JsonElement)
+				RefreshSettings(e.SettingName);
+		}
+
+		private void RefreshSettings(string? name = null)
+		{
+			var settings = UserSettingsService.GeneralSettingsService;
+			if (name is null or nameof(IGeneralSettingsService.DateTimeFormat))
+			{
+				SetProperty(ref selectedDateTimeFormatIndex, (int)settings.DateTimeFormat, nameof(SelectedDateTimeFormatIndex));
+				OnPropertyChanged(nameof(DateFormatSample));
+			}
+			if (name is null or nameof(IGeneralSettingsService.ShellPaneArrangementOption))
+			{
+				SetProperty(ref selectedShellPaneArrangementType, ShellPaneArrangementTypes[settings.ShellPaneArrangementOption], nameof(SelectedShellPaneArrangementType));
+			}
+			if (name is null or nameof(IGeneralSettingsService.ReverseTabScrollDirection))
+			{
+				OnPropertyChanged(nameof(SelectedTabScrollDirectionIndex));
+			}
+			if (name is null or nameof(IGeneralSettingsService.OpenNewTabOnStartup) or nameof(IGeneralSettingsService.OpenSpecificPageOnStartup) or nameof(IGeneralSettingsService.ContinueLastSessionOnStartUp))
+			{
+				OnPropertyChanged(nameof(OpenNewTabPageOnStartup));
+				OnPropertyChanged(nameof(OpenASpecificPageOnStartup));
+				OnPropertyChanged(nameof(SelectedStartupSettingIndex));
+			}
+			if (name is null or nameof(IGeneralSettingsService.TabsOnStartupList))
+			{
+				if (name is not null || !PagesOnStartupList.Select(page => page.Path).SequenceEqual(settings.TabsOnStartupList ?? []))
+				{
+					PagesOnStartupList.CollectionChanged -= PagesOnStartupList_CollectionChanged;
+					PagesOnStartupList.Clear();
+					foreach (var path in settings.TabsOnStartupList ?? [])
+						PagesOnStartupList.Add(new PageOnStartupViewModel(path));
+					PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
+					SelectedPageIndex = -1;
+				}
+			}
+			OnPropertyChanged(name ?? string.Empty);
+		}
+
 		private async void DoRestartAsync()
 		{
 			// Tells the app to restore tabs when it's next launched
@@ -126,7 +178,7 @@ namespace Files.App.ViewModels.Settings
 			await Launcher.LaunchUriAsync(new Uri("files-dev:"));
 
 			// Closes the current instance
-			Process.GetCurrentProcess().Kill();
+			Environment.Exit(0);
 		}
 
 		private void DoCancelRestart()
@@ -156,7 +208,7 @@ namespace Files.App.ViewModels.Settings
 			recentsItem.Items.Add(new MenuFlyoutItemViewModel(Strings.Browse.GetLocalizedResource()) { Command = AddPageCommand });
 		}
 
-		private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		private void PagesOnStartupList_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			if (PagesOnStartupList.Count > 0)
 				UserSettingsService.GeneralSettingsService.TabsOnStartupList = PagesOnStartupList.Select((p) => p.Path).ToList();
@@ -210,7 +262,7 @@ namespace Files.App.ViewModels.Settings
 
 		public ObservableCollection<PageOnStartupViewModel> PagesOnStartupList { get; set; }
 
-		public ReadOnlyCollection<IMenuFlyoutItemViewModel> AddFlyoutItemsSource
+		public ReadOnlyCollection<IMenuFlyoutItemViewModel>? AddFlyoutItemsSource
 		{
 			get => addFlyoutItemsSource;
 			set => SetProperty(ref addFlyoutItemsSource, value);
@@ -331,6 +383,21 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public int SelectedTabScrollDirectionIndex
+		{
+			get => UserSettingsService.GeneralSettingsService.ReverseTabScrollDirection ? 1 : 0;
+			set
+			{
+				var reverse = value == 1;
+				if (reverse != UserSettingsService.GeneralSettingsService.ReverseTabScrollDirection)
+				{
+					UserSettingsService.GeneralSettingsService.ReverseTabScrollDirection = reverse;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		private void ChangePageAsync()
 		{
 			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, true, [], Environment.SpecialFolder.Desktop, out var filePath);
@@ -338,12 +405,13 @@ namespace Files.App.ViewModels.Settings
 				PagesOnStartupList[SelectedPageIndex] = new PageOnStartupViewModel(filePath);
 		}
 
-		private void RemovePage(PageOnStartupViewModel page)
+		private void RemovePage(PageOnStartupViewModel? page)
 		{
-			PagesOnStartupList.Remove(page);
+			if (page is not null)
+				PagesOnStartupList.Remove(page);
 		}
 
-		private async Task AddPageAsync(string path = null)
+		private async Task AddPageAsync(string? path = null)
 		{
 			if (string.IsNullOrWhiteSpace(path))
 			{
@@ -560,7 +628,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string selectedShellPaneArrangementType;
+		private string selectedShellPaneArrangementType = null!;
 		public string SelectedShellPaneArrangementType
 		{
 			get => selectedShellPaneArrangementType;
@@ -592,6 +660,7 @@ namespace Files.App.ViewModels.Settings
 			if (!disposed)
 			{
 				disposed = true;
+				UserSettingsService.OnSettingChangedEvent -= OnSharedSettingChanged;
 
 				GC.SuppressFinalize(this);
 			}

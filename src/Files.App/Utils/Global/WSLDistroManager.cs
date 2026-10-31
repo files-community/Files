@@ -3,14 +3,13 @@
 
 using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
-using Windows.Storage;
 using static Files.App.Constants;
 
 namespace Files.App.Utils
 {
 	public static class WSLDistroManager
 	{
-		public static EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
+		public static EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 
 		private static readonly List<WslDistroItem> distros = [];
 		public static IReadOnlyList<WslDistroItem> Distros
@@ -28,48 +27,30 @@ namespace Files.App.Utils
 		{
 			try
 			{
-				// Check if WSL is installed
-				const string WslRegistryPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Lxss\MSI";
-				using (var key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(WslRegistryPath))
+				var names = await Server.DriveService.GetWslDistributionsAsync();
+				lock (distros)
 				{
-					if (key is null || key.GetValue("InstallLocation") is null)
-						return;
-				}
-
-				var distroFolder = await StorageFolder.GetFolderFromPathAsync(@"\\wsl$\");
-				foreach (StorageFolder folder in await distroFolder.GetFoldersAsync())
-				{
-					Uri logoURI = GetLogoUri(folder.DisplayName);
-
-					var distro = new WslDistroItem
+					distros.Clear();
+					distros.AddRange(names.Select(name => new WslDistroItem
 					{
-						Text = folder.DisplayName,
-						Path = folder.Path,
-						Icon = logoURI,
+						Text = name,
+						Path = $@"\\wsl$\{name}",
+						Icon = GetLogoUri(name),
 						MenuOptions = new ContextMenuOptions { IsLocationItem = true },
-					};
-
-					lock (distros)
-					{
-						if (distros.Any(x => x.Path == folder.Path))
-						{
-							continue;
-						}
-						distros.Add(distro);
-					}
-					DataChanged?.Invoke(SectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, distro));
+					}));
 				}
+				DataChanged?.Invoke(SectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			}
 			catch (Exception)
 			{
-				// WSL Not Supported/Enabled
+				// WSL may be unavailable on this system.
 			}
 		}
 
 		public static bool TryGetDistro(string path, [NotNullWhen(true)] out WslDistroItem? distro)
 		{
 			var normalizedPath = PathNormalization.NormalizePath(path);
-			distro = Distros.FirstOrDefault(x => normalizedPath.StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
+			distro = Distros.FirstOrDefault(x => normalizedPath.StartsWith(PathNormalization.NormalizePath(x.Path!), StringComparison.OrdinalIgnoreCase));
 
 			return distro is not null;
 		}

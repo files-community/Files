@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
+// SPDX-License-Identifier: MPL-2.0
 
 namespace Files.App.Controls
 {
@@ -15,6 +15,6 @@ namespace Files.App.Controls
 		/// Retrieves the path of the text member as a string. This path can be used to identify the location of the text member.
 		/// </summary>
 		/// <returns>Returns a string representing the path of the text member.</returns>
-		string GetTextMemberPath(string textMemberPath);
+		string? GetTextMemberPath(string textMemberPath);
 	}
 }

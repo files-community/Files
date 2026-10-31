@@ -295,6 +295,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public bool AutoSizeColumnsInDetailsLayout
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
 		public DetailsViewSizeKind DetailsViewSize
 		{
 			get => Get(DetailsViewSizeKind.Small);

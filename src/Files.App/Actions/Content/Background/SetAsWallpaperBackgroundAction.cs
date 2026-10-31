@@ -32,7 +32,7 @@ namespace Files.App.Actions
 
 			try
 			{
-				WindowsWallpaperService.SetDesktopWallpaper(selectedItem.ItemPath);
+				WindowsWallpaperService.SetDesktopWallpaper(selectedItem.ItemPath!);
 			}
 			catch (Exception ex)
 			{

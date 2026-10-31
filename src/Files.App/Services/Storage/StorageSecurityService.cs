@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Runtime.InteropServices;
+using System.Security.Principal;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Security;
@@ -17,7 +18,7 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public unsafe string GetOwner(string path)
 		{
-			PInvoke.GetNamedSecurityInfo(
+			var result = PInvoke.GetNamedSecurityInfo(
 				path,
 				SE_OBJECT_TYPE.SE_FILE_OBJECT,
 				OBJECT_SECURITY_INFORMATION.OWNER_SECURITY_INFORMATION,
@@ -25,11 +26,28 @@ namespace Files.App.Services
 				out _,
 				out _,
 				out _,
-				out _);
+				out var pSecurityDescriptor);
+			if (result is not WIN32_ERROR.ERROR_SUCCESS)
+				return string.Empty;
 
-			PInvoke.ConvertSidToStringSid(pSidOwner, out var sid);
+			try
+			{
+				if (!PInvoke.ConvertSidToStringSid(pSidOwner, out var sid))
+					return string.Empty;
 
-			return sid.ToString();
+				try
+				{
+					return sid.ToString();
+				}
+				finally
+				{
+					Marshal.FreeHGlobal((nint)sid.Value);
+				}
+			}
+			finally
+			{
+				Marshal.FreeHGlobal((nint)pSecurityDescriptor.Value);
+			}
 		}
 
 		/// <inheritdoc/>
@@ -39,37 +57,45 @@ namespace Files.App.Services
 
 			// Get SID
 			fixed (char* cSid = sid)
-				PInvoke.ConvertStringSidToSid(new PCWSTR(cSid), &pSid);
-
-			WIN32_ERROR result = default;
-
-			fixed (char* cPath = path)
 			{
-				// Change owner
-				result = PInvoke.SetNamedSecurityInfo(
-					new PWSTR(cPath),
-					SE_OBJECT_TYPE.SE_FILE_OBJECT,
-					OBJECT_SECURITY_INFORMATION.OWNER_SECURITY_INFORMATION,
-					pSid,
-					new PSID((void*)0));
+				if (!PInvoke.ConvertStringSidToSid(new PCWSTR(cSid), &pSid))
+					return false;
 			}
 
-			// Run PowerShell as Admin
-			if (result is not WIN32_ERROR.ERROR_SUCCESS)
+			try
 			{
-				return Win32Helper.RunPowershellCommand(
-					$"-command \"try {{ $path = '{path}'; $ID = new-object System.Security.Principal.SecurityIdentifier('{sid}'); $acl = get-acl $path; $acl.SetOwner($ID); set-acl -path $path -aclObject $acl }} catch {{ exit 1; }}\"",
-					PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
-			}
+				WIN32_ERROR result;
+				fixed (char* cPath = path)
+				{
+					// Change owner
+					result = PInvoke.SetNamedSecurityInfo(
+						new PWSTR(cPath),
+						SE_OBJECT_TYPE.SE_FILE_OBJECT,
+						OBJECT_SECURITY_INFORMATION.OWNER_SECURITY_INFORMATION,
+						pSid,
+						new PSID((void*)0));
+				}
 
-			return true;
+				// Run PowerShell as Admin
+				if (result is not WIN32_ERROR.ERROR_SUCCESS)
+				{
+					return Win32Helper.RunPowershellCommand(
+						$"-command \"try {{ $path = {Win32Helper.ToPowerShellStringLiteral(path)}; $ID = new-object System.Security.Principal.SecurityIdentifier({Win32Helper.ToPowerShellStringLiteral(sid)}); $acl = get-acl -LiteralPath $path; $acl.SetOwner($ID); set-acl -LiteralPath $path -aclObject $acl }} catch {{ exit 1; }}\"",
+						PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
+				}
+
+				return true;
+			}
+			finally
+			{
+				Marshal.FreeHGlobal((nint)pSid.Value);
+			}
 		}
 
 		/// <inheritdoc/>
 		public unsafe WIN32_ERROR GetAcl(string path, bool isFolder, out AccessControlList acl)
 		{
 			acl = new();
-			ACL* pDACL = default;
 
 			// Get DACL
 			var result = PInvoke.GetNamedSecurityInfo(
@@ -78,102 +104,104 @@ namespace Files.App.Services
 				OBJECT_SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | OBJECT_SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
 				out _,
 				out _,
-				out pDACL,
+				out ACL* pDACL,
 				out _,
-				out _);
+				out var pSecurityDescriptor);
 
-			if (result is not WIN32_ERROR.ERROR_SUCCESS || pDACL == null)
+			if (result is not WIN32_ERROR.ERROR_SUCCESS)
 				return result;
 
-			ACL_SIZE_INFORMATION aclSizeInfo = default;
-
-			// Get ACL size info
-			bool bResult = PInvoke.GetAclInformation(
-				pDACL,
-				&aclSizeInfo,
-				(uint)Marshal.SizeOf<ACL_SIZE_INFORMATION>(),
-				ACL_INFORMATION_CLASS.AclSizeInformation);
-
-			if (!bResult)
-				return (WIN32_ERROR)Marshal.GetLastPInvokeError();
-
-			// Get owner
-			var szOwnerSid = GetOwner(path);
-			var principal = new AccessControlPrincipal(szOwnerSid);
-
-			var isValidAcl = PInvoke.IsValidAcl(pDACL);
-
-			List<AccessControlEntry> aces = [];
-
-			// Get ACEs
-			for (uint i = 0; i < aclSizeInfo.AceCount; i++)
+			try
 			{
-				bResult = PInvoke.GetAce(*pDACL, i, out var pAce);
+				if (pDACL == null)
+					return WIN32_ERROR.ERROR_SUCCESS;
+
+				ACL_SIZE_INFORMATION aclSizeInfo = default;
+
+				// Get ACL size info
+				bool bResult = PInvoke.GetAclInformation(
+					pDACL,
+					&aclSizeInfo,
+					(uint)Marshal.SizeOf<ACL_SIZE_INFORMATION>(),
+					ACL_INFORMATION_CLASS.AclSizeInformation);
+
 				if (!bResult)
 					return (WIN32_ERROR)Marshal.GetLastPInvokeError();
 
-				if (pAce is null)
-					continue;
+				// Get owner
+				var szOwnerSid = GetOwner(path);
+				var principal = new AccessControlPrincipal(szOwnerSid);
 
-				var ace = Marshal.PtrToStructure<ACCESS_ALLOWED_ACE>((nint)pAce);
+				var isValidAcl = PInvoke.IsValidAcl(pDACL);
+				List<AccessControlEntry> aces = [];
 
-				PWSTR pszSid = default;
-
-				var offset = Marshal.SizeOf(typeof(ACE_HEADER)) + sizeof(uint);
-
-				//if (pAce.IsObjectAce())
-				//	offset += sizeof(uint) + Marshal.SizeOf(typeof(Guid)) * 2;
-
-				nint pAcePtr = new((long)pAce + offset);
-				PInvoke.ConvertSidToStringSid((PSID)pAcePtr, &pszSid);
-
-				AccessControlEntryType type;
-				AccessControlEntryFlags inheritanceFlags = AccessControlEntryFlags.None;
-				AccessMaskFlags accessMaskFlags = (AccessMaskFlags)ace.Mask;
-
-				var header = ace.Header;
-				type = (SystemSecurity.AceType)header.AceType switch
+				// Get ACEs
+				for (uint i = 0; i < aclSizeInfo.AceCount; i++)
 				{
-					SystemSecurity.AceType.AccessAllowed => AccessControlEntryType.Allow,
-					_ => AccessControlEntryType.Deny
-				};
+					bResult = PInvoke.GetAce(*pDACL, i, out var pAce);
+					if (!bResult)
+						return (WIN32_ERROR)Marshal.GetLastPInvokeError();
 
-				var flags = (SystemSecurity.AceFlags)header.AceFlags;
+					if (pAce is null)
+						continue;
 
-				bool isInherited = flags.HasFlag(SystemSecurity.AceFlags.InheritanceFlags);
+					var ace = Marshal.PtrToStructure<ACCESS_ALLOWED_ACE>((nint)pAce);
+					var offset = Marshal.SizeOf<ACE_HEADER>() + sizeof(uint);
+					nint pAcePtr = new((long)pAce + offset);
+					if (!PInvoke.ConvertSidToStringSid((PSID)pAcePtr, out var pszSid))
+						return (WIN32_ERROR)Marshal.GetLastPInvokeError();
 
-				if (flags.HasFlag(SystemSecurity.AceFlags.ContainerInherit))
-					inheritanceFlags |= AccessControlEntryFlags.ContainerInherit;
-				if (flags.HasFlag(SystemSecurity.AceFlags.ObjectInherit))
-					inheritanceFlags |= AccessControlEntryFlags.ObjectInherit;
-				if (flags.HasFlag(SystemSecurity.AceFlags.NoPropagateInherit))
-					inheritanceFlags |= AccessControlEntryFlags.NoPropagateInherit;
-				if (flags.HasFlag(SystemSecurity.AceFlags.InheritOnly))
-					inheritanceFlags |= AccessControlEntryFlags.InheritOnly;
+					try
+					{
+						AccessControlEntryType type;
+						AccessControlEntryFlags inheritanceFlags = AccessControlEntryFlags.None;
+						AccessMaskFlags accessMaskFlags = (AccessMaskFlags)ace.Mask;
 
-				// Initialize an ACE
-				aces.Add(new(isFolder, pszSid.ToString(), type, accessMaskFlags, isInherited, inheritanceFlags));
+						var header = ace.Header;
+						type = (SystemSecurity.AceType)header.AceType switch
+						{
+							SystemSecurity.AceType.AccessAllowed => AccessControlEntryType.Allow,
+							_ => AccessControlEntryType.Deny
+						};
+
+						var flags = (SystemSecurity.AceFlags)header.AceFlags;
+						bool isInherited = flags.HasFlag(SystemSecurity.AceFlags.Inherited);
+
+						if (flags.HasFlag(SystemSecurity.AceFlags.ContainerInherit))
+							inheritanceFlags |= AccessControlEntryFlags.ContainerInherit;
+						if (flags.HasFlag(SystemSecurity.AceFlags.ObjectInherit))
+							inheritanceFlags |= AccessControlEntryFlags.ObjectInherit;
+						if (flags.HasFlag(SystemSecurity.AceFlags.NoPropagateInherit))
+							inheritanceFlags |= AccessControlEntryFlags.NoPropagateInherit;
+						if (flags.HasFlag(SystemSecurity.AceFlags.InheritOnly))
+							inheritanceFlags |= AccessControlEntryFlags.InheritOnly;
+
+						aces.Add(new(isFolder, pszSid.ToString(), type, accessMaskFlags, isInherited, inheritanceFlags));
+					}
+					finally
+					{
+						Marshal.FreeHGlobal((nint)pszSid.Value);
+					}
+				}
+
+				// Initialize with proper data
+				acl = new AccessControlList(path, isFolder, principal, isValidAcl);
+
+				// Set access control entries
+				foreach (var ace in aces)
+					acl.AccessControlEntries.Add(ace);
+
+				return WIN32_ERROR.ERROR_SUCCESS;
 			}
-
-			// Initialize with proper data
-			acl = new AccessControlList(path, isFolder, principal, isValidAcl);
-
-			// Set access control entries
-			foreach (var ace in aces)
-				acl.AccessControlEntries.Add(ace);
-
-			return (WIN32_ERROR)Marshal.GetLastPInvokeError();
+			finally
+			{
+				Marshal.FreeHGlobal((nint)pSecurityDescriptor.Value);
+			}
 		}
 
 		/// <inheritdoc/>
 		public unsafe WIN32_ERROR AddAce(string szPath, bool isFolder, string szSid)
 		{
-			ACL* pDACL = default;
-			ACL* pNewDACL = default;
-			PSID pSid = default;
-			ACL_SIZE_INFORMATION aclSizeInfo = default;
-			ACCESS_ALLOWED_ACE* pTempAce = default;
-
 			// Get DACL for the specified object
 			var result = PInvoke.GetNamedSecurityInfo(
 				szPath,
@@ -181,76 +209,100 @@ namespace Files.App.Services
 				OBJECT_SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | OBJECT_SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
 				out _,
 				out _,
-				out pDACL,
+				out ACL* pDACL,
 				out _,
-				out _);
+				out var pSecurityDescriptor);
 
 			if (result is not WIN32_ERROR.ERROR_SUCCESS)
 				return result;
 
-			// Get ACL size info
-			bool bResult = PInvoke.GetAclInformation(
-				pDACL,
-				&aclSizeInfo,
-				(uint)Marshal.SizeOf<ACL_SIZE_INFORMATION>(),
-				ACL_INFORMATION_CLASS.AclSizeInformation);
-
-			if (!bResult)
-				return (WIN32_ERROR)Marshal.GetLastPInvokeError();
-
-			var cbNewDACL = aclSizeInfo.AclBytesInUse + aclSizeInfo.AclBytesFree + Marshal.SizeOf<ACCESS_ALLOWED_ACE>() + 1024;
-
-			pNewDACL = (ACL*)PInvoke.LocalAlloc(LOCAL_ALLOC_FLAGS.LPTR, (nuint)cbNewDACL);
-			if (pNewDACL == default)
-				return (WIN32_ERROR)Marshal.GetLastPInvokeError();
-
-			// Initialize the new DACL
-			PInvoke.InitializeAcl(pNewDACL, (uint)cbNewDACL, ACE_REVISION.ACL_REVISION);
-
-			// Copy ACEs from the old DACL
-			for (uint dwAceIndex = 0u; dwAceIndex < aclSizeInfo.AceCount; dwAceIndex++)
+			try
 			{
-				bResult = PInvoke.GetAce(pDACL, dwAceIndex, (void**)&pTempAce);
-				PInvoke.AddAce(pNewDACL, ACE_REVISION.ACL_REVISION, uint.MaxValue, pTempAce, pTempAce->Header.AceSize);
+				if (pDACL == null)
+					return WIN32_ERROR.ERROR_INVALID_ACL;
+
+				ACL_SIZE_INFORMATION aclSizeInfo = default;
+				bool bResult = PInvoke.GetAclInformation(
+					pDACL,
+					&aclSizeInfo,
+					(uint)Marshal.SizeOf<ACL_SIZE_INFORMATION>(),
+					ACL_INFORMATION_CLASS.AclSizeInformation);
+				if (!bResult)
+					return (WIN32_ERROR)Marshal.GetLastPInvokeError();
+
+				PSID pSid = default;
+				fixed (char* cSid = szSid)
+				{
+					if (!PInvoke.ConvertStringSidToSid(new PCWSTR(cSid), &pSid))
+						return (WIN32_ERROR)Marshal.GetLastPInvokeError();
+				}
+
+				try
+				{
+					var sidLength = (uint)new SecurityIdentifier(szSid).BinaryLength;
+					var cbNewDACL = checked(
+						aclSizeInfo.AclBytesInUse +
+						(uint)Marshal.SizeOf<ACCESS_ALLOWED_ACE>() +
+						sidLength -
+						(uint)sizeof(uint));
+					var pNewDACL = (ACL*)PInvoke.LocalAlloc(LOCAL_ALLOC_FLAGS.LPTR, (nuint)cbNewDACL);
+					if (pNewDACL == null)
+						return (WIN32_ERROR)Marshal.GetLastPInvokeError();
+
+					try
+					{
+						if (!PInvoke.InitializeAcl(pNewDACL, cbNewDACL, ACE_REVISION.ACL_REVISION))
+							return (WIN32_ERROR)Marshal.GetLastPInvokeError();
+
+						// Copy ACEs from the old DACL
+						for (uint dwAceIndex = 0; dwAceIndex < aclSizeInfo.AceCount; dwAceIndex++)
+						{
+							ACCESS_ALLOWED_ACE* pTempAce = default;
+							if (!PInvoke.GetAce(pDACL, dwAceIndex, (void**)&pTempAce))
+								return (WIN32_ERROR)Marshal.GetLastPInvokeError();
+							if (!PInvoke.AddAce(pNewDACL, ACE_REVISION.ACL_REVISION, uint.MaxValue, pTempAce, pTempAce->Header.AceSize))
+								return (WIN32_ERROR)Marshal.GetLastPInvokeError();
+						}
+
+						bResult = PInvoke.AddAccessAllowedAceEx(
+							pNewDACL,
+							ACE_REVISION.ACL_REVISION,
+							isFolder ? ACE_FLAGS.CONTAINER_INHERIT_ACE | ACE_FLAGS.OBJECT_INHERIT_ACE : ACE_FLAGS.NO_INHERITANCE,
+							0x20000000 | 0x80000000 /* GENERIC_EXECUTE and GENERIC_READ */,
+							pSid);
+						if (!bResult)
+							return (WIN32_ERROR)Marshal.GetLastPInvokeError();
+
+						fixed (char* cPath = szPath)
+						{
+							return PInvoke.SetNamedSecurityInfo(
+								new PWSTR(cPath),
+								SE_OBJECT_TYPE.SE_FILE_OBJECT,
+								OBJECT_SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | OBJECT_SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
+								new PSID((void*)0),
+								new PSID((void*)0),
+								pNewDACL);
+						}
+					}
+					finally
+					{
+						Marshal.FreeHGlobal((nint)pNewDACL);
+					}
+				}
+				finally
+				{
+					Marshal.FreeHGlobal((nint)pSid.Value);
+				}
 			}
-
-			// Get the principal's SID of the new ACE
-			fixed (char* cSid = szSid)
-				PInvoke.ConvertStringSidToSid(new PCWSTR(cSid), &pSid);
-
-			bResult = PInvoke.AddAccessAllowedAceEx(
-				pNewDACL,
-				ACE_REVISION.ACL_REVISION,
-				isFolder ? ACE_FLAGS.CONTAINER_INHERIT_ACE | ACE_FLAGS.OBJECT_INHERIT_ACE : ACE_FLAGS.NO_INHERITANCE,
-				0x20000000 | 0x80000000 /* GENERIC_EXECUTE and GENERIC_READ */,
-				pSid);
-
-			if (!bResult)
-				return (WIN32_ERROR)Marshal.GetLastPInvokeError();
-
-			fixed (char* cPath = szPath)
+			finally
 			{
-				// Set the new ACL
-				result = PInvoke.SetNamedSecurityInfo(
-					new PWSTR(cPath),
-					SE_OBJECT_TYPE.SE_FILE_OBJECT,
-					OBJECT_SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | OBJECT_SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
-					new PSID((void*)0),
-					new PSID((void*)0),
-					pNewDACL);
+				Marshal.FreeHGlobal((nint)pSecurityDescriptor.Value);
 			}
-
-			if (result is not WIN32_ERROR.ERROR_SUCCESS)
-				return result;
-
-			return result;
 		}
 
 		/// <inheritdoc/>
 		public unsafe WIN32_ERROR DeleteAce(string szPath, uint dwAceIndex)
 		{
-			ACL* pDACL = default;
-
 			// Get DACL for the specified object
 			var result = PInvoke.GetNamedSecurityInfo(
 				szPath,
@@ -258,34 +310,36 @@ namespace Files.App.Services
 				OBJECT_SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | OBJECT_SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
 				out _,
 				out _,
-				out pDACL,
+				out ACL* pDACL,
 				out _,
-				out _);
+				out var pSecurityDescriptor);
 
 			if (result is not WIN32_ERROR.ERROR_SUCCESS)
 				return result;
 
-			// Remove an ACE
-			bool bResult = PInvoke.DeleteAce(pDACL, dwAceIndex);
-
-			if (!bResult)
-				return (WIN32_ERROR)Marshal.GetLastPInvokeError();
-
-			fixed (char* cPath = szPath)
+			try
 			{
-				// Set the new ACL
-				result = PInvoke.SetNamedSecurityInfo(
-					new PWSTR(cPath),
-					SE_OBJECT_TYPE.SE_FILE_OBJECT,
-					OBJECT_SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | OBJECT_SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
-					new PSID((void*)0),
-					new PSID((void*)0),
-					pDACL);
+				if (pDACL == null)
+					return WIN32_ERROR.ERROR_INVALID_ACL;
 
-				if (result is not WIN32_ERROR.ERROR_SUCCESS)
-					return result;
+				// Remove an ACE
+				if (!PInvoke.DeleteAce(pDACL, dwAceIndex))
+					return (WIN32_ERROR)Marshal.GetLastPInvokeError();
 
-				return result;
+				fixed (char* cPath = szPath)
+				{
+					return PInvoke.SetNamedSecurityInfo(
+						new PWSTR(cPath),
+						SE_OBJECT_TYPE.SE_FILE_OBJECT,
+						OBJECT_SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | OBJECT_SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
+						new PSID((void*)0),
+						new PSID((void*)0),
+						pDACL);
+				}
+			}
+			finally
+			{
+				Marshal.FreeHGlobal((nint)pSecurityDescriptor.Value);
 			}
 		}
 	}

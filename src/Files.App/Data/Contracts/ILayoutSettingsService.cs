@@ -196,6 +196,12 @@ namespace Files.App.Data.Contracts
 		double OriginalPathColumnWidth { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether or not columns in the Details layout should
+		/// automatically resize to fit content on navigation, item add/remove, and rename.
+		/// </summary>
+		bool AutoSizeColumnsInDetailsLayout { get; set; }
+
+		/// <summary>
 		/// Item size in the Details View
 		/// </summary>
 		DetailsViewSizeKind DetailsViewSize { get; set; }

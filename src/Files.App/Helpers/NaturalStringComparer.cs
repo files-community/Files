@@ -6,7 +6,7 @@ namespace Files.App.Helpers
 	// Credit: https://github.com/GihanSoft/NaturalStringComparer
 	public sealed class NaturalStringComparer
 	{
-		public static IComparer<object> GetForProcessor()
+		public static IComparer<object?> GetForProcessor()
 		{
 			return new NaturalComparer(StringComparison.CurrentCultureIgnoreCase);
 		}
@@ -112,6 +112,10 @@ namespace Files.App.Helpers
 						y = yOut;
 						continue;
 					}
+
+					// Identical characters always compare equal, skip the expensive culture-aware comparison
+					if (x[i] == y[i])
+						continue;
 
 					var charCompareResult = x.Slice(i, 1).CompareTo(y.Slice(i, 1), stringComparison);
 					if (charCompareResult != 0) return charCompareResult;

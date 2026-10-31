@@ -9,7 +9,7 @@ namespace Files.App.Data.Parameters
 	{
 		public int Column { get; set; }
 
-		public ListView ListView { get; set; }
+		public ListView? ListView { get; set; }
 
 		public ColumnLayoutPage? Source { get; set; }
 	}

@@ -20,10 +20,7 @@ namespace Files.App.Services
 
 		/// <inheritdoc/>
 		public Task<bool> SetFileTagAsync(IStorable storable, string[] tagUids, CancellationToken cancellationToken = default)
-		{
-			FileTagsHelper.WriteFileTag(storable.Id, tagUids);
-			return Task.FromResult(true);
-		}
+			=> FileTagsHelper.WriteFileTagAsync(storable.Id, tagUids, cancellationToken);
 
 		/// <inheritdoc/>
 		public async IAsyncEnumerable<TagViewModel> GetTagsAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
@@ -37,7 +34,7 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public async IAsyncEnumerable<TaggedItemModel> GetItemsForTagAsync(string tagUid, [EnumeratorCancellation] CancellationToken cancellationToken = default)
 		{
-			foreach (var item in FileTagsHelper.GetDbInstance().GetAll())
+			foreach (var item in await FileTagsHelper.GetDbInstance().GetAllAsync())
 			{
 				if (!item.Tags.Contains(tagUid) || StorageTrashBinService.IsUnderTrashBin(item.FilePath))
 					continue;
@@ -55,7 +52,7 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public async IAsyncEnumerable<TaggedItemModel> GetAllFileTagsAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
 		{
-			foreach (var item in FileTagsHelper.GetDbInstance().GetAll())
+			foreach (var item in await FileTagsHelper.GetDbInstance().GetAllAsync())
 			{
 				var storable = await StorageService.TryGetStorableAsync(item.FilePath, cancellationToken);
 				if (storable is null)
@@ -70,7 +67,7 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public async Task<ILookup<string, TaggedItemModel>> GetAllItemsGroupedByTagAsync(CancellationToken cancellationToken = default)
 		{
-			var allDbItems = FileTagsHelper.GetDbInstance().GetAll().ToList();
+			var allDbItems = await FileTagsHelper.GetDbInstance().GetAllAsync();
 			var result = new List<(string TagUid, TaggedItemModel Model)>();
 
 			foreach (var dbItem in allDbItems)

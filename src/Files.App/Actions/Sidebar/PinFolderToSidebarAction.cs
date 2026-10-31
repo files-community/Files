@@ -39,13 +39,13 @@ namespace Files.App.Actions
 		{
 			if (context.HasSelection)
 			{
-				var items = context.SelectedItems.Select(x => x.ItemPath).ToArray();
+				var items = context.SelectedItems.Select(x => x.ItemPath!).ToArray();
 
 				await service.PinToSidebarAsync(items);
 			}
 			else if (context.Folder is not null)
 			{
-				await service.PinToSidebarAsync(context.Folder.ItemPath);
+				await service.PinToSidebarAsync(context.Folder.ItemPath!);
 			}
 		}
 
@@ -64,7 +64,8 @@ namespace Files.App.Actions
 			{
 				return
 					item.PrimaryItemAttribute is StorageItemTypes.Folder &&
-					!pinnedFolders.Contains(item.ItemPath);
+					!item.IsArchive &&
+					!pinnedFolders.Contains(item.ItemPath!);
 			}
 		}
 

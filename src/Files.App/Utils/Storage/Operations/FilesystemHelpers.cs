@@ -5,13 +5,13 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
-using Vanara.PInvoke;
-using Vanara.Windows.Shell;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.Win32;
+using Windows.Win32.Storage.FileSystem;
+using Windows.Win32.UI.Shell;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Utils.Storage
@@ -105,7 +105,6 @@ namespace Files.App.Utils.Storage
 					{
 						binItems ??= await StorageTrashBinService.GetAllRecycleBinFoldersAsync();
 
-						// Might still be null because we're deserializing the list from Json
 						if (!binItems.IsEmpty())
 						{
 							// Get original file name
@@ -154,11 +153,11 @@ namespace Files.App.Utils.Storage
 			var sw = new Stopwatch();
 			sw.Start();
 
-			IStorageHistory history = await filesystemOperations.DeleteItemsAsync((IList<IStorageItemWithPath>)source, banner.ProgressEventSource, permanently, token);
+			IStorageHistory? history = await filesystemOperations.DeleteItemsAsync((IList<IStorageItemWithPath>)source, banner.ProgressEventSource, permanently, token);
 			banner.Progress.ReportStatus(FileSystemStatusCode.Success);
 			await Task.Yield();
 
-			if (!permanently && registerHistory)
+			if (!permanently && registerHistory && history is not null)
 				App.HistoryWrapper.AddHistory(history);
 
 			// Execute removal tasks concurrently in background
@@ -184,16 +183,20 @@ namespace Files.App.Utils.Storage
 			=> DeleteItemsAsync(source.CreateEnumerable(), showDialog, permanently, registerHistory);
 
 		public Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItem> source, DeleteConfirmationPolicies showDialog, bool permanently, bool registerHistory)
-			=> DeleteItemsAsync(source.Select((item) => item.FromStorageItem()), showDialog, permanently, registerHistory);
+			=> DeleteItemsAsync(source.Select(item => item.FromStorageItem()
+				?? throw new InvalidOperationException("A storage item could not be converted for deletion.")), showDialog, permanently, registerHistory);
 
 		public Task<ReturnResult> DeleteItemAsync(IStorageItem source, DeleteConfirmationPolicies showDialog, bool permanently, bool registerHistory)
-			=> DeleteItemAsync(source.FromStorageItem(), showDialog, permanently, registerHistory);
+			=> DeleteItemAsync(source.FromStorageItem()
+				?? throw new InvalidOperationException("The storage item could not be converted for deletion."), showDialog, permanently, registerHistory);
 
 		public Task<ReturnResult> RestoreItemFromTrashAsync(IStorageItem source, string destination, bool registerHistory)
-			=> RestoreItemFromTrashAsync(source.FromStorageItem(), destination, registerHistory);
+			=> RestoreItemFromTrashAsync(source.FromStorageItem()
+				?? throw new InvalidOperationException("The storage item could not be converted for restoration."), destination, registerHistory);
 
 		public Task<ReturnResult> RestoreItemsFromTrashAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
-			=> RestoreItemsFromTrashAsync(source.Select((item) => item.FromStorageItem()), destination, registerHistory);
+			=> RestoreItemsFromTrashAsync(source.Select(item => item.FromStorageItem()
+				?? throw new InvalidOperationException("A storage item could not be converted for restoration.")), destination, registerHistory);
 
 		public Task<ReturnResult> RestoreItemFromTrashAsync(IStorageItemWithPath source, string destination, bool registerHistory)
 			=> RestoreItemsFromTrashAsync(source.CreateEnumerable(), destination.CreateEnumerable(), registerHistory);
@@ -210,10 +213,10 @@ namespace Files.App.Utils.Storage
 			var sw = new Stopwatch();
 			sw.Start();
 
-			IStorageHistory history = await filesystemOperations.RestoreItemsFromTrashAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, progress, cancellationToken);
+			IStorageHistory? history = await filesystemOperations.RestoreItemsFromTrashAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, progress, cancellationToken);
 			await Task.Yield();
 
-			if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
+			if (registerHistory && history is not null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
 			{
 				App.HistoryWrapper.AddHistory(history);
 			}
@@ -276,15 +279,26 @@ namespace Files.App.Utils.Storage
 			}
 			finally
 			{
-				packageView.ReportOperationCompleted(packageView.RequestedOperation);
+				try
+				{
+					packageView.ReportOperationCompleted(packageView.RequestedOperation);
+				}
+				// The source app owns the data object behind packageView; RequestedOperation and
+				// ReportOperationCompleted throw COMException if it revoked the data object or
+				// exited while the operation was running
+				catch (COMException)
+				{
+				}
 			}
 		}
 
 		public Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
-			=> CopyItemsAsync(source.Select((item) => item.FromStorageItem()), destination, showDialog, registerHistory);
+			=> CopyItemsAsync(source.Select(item => item.FromStorageItem()
+				?? throw new InvalidOperationException("A storage item could not be converted for copying.")), destination, showDialog, registerHistory);
 
 		public Task<ReturnResult> CopyItemAsync(IStorageItem source, string destination, bool showDialog, bool registerHistory)
-			=> CopyItemAsync(source.FromStorageItem(), destination, showDialog, registerHistory);
+			=> CopyItemAsync(source.FromStorageItem()
+				?? throw new InvalidOperationException("The storage item could not be converted for copying."), destination, showDialog, registerHistory);
 
 		public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
 		{
@@ -313,20 +327,24 @@ namespace Files.App.Utils.Storage
 
 			itemManipulationModel?.ClearSelection();
 
-			IStorageHistory history = await filesystemOperations.CopyItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.ProgressEventSource, token);
+			IStorageHistory? history = await filesystemOperations.CopyItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.ProgressEventSource, token);
 
-			banner.Progress.ReportStatus(FileSystemStatusCode.Success);
+			if (returnStatus == ReturnResult.InProgress || returnStatus == ReturnResult.Success)
+				banner.Progress.ReportStatus(FileSystemStatusCode.Success);
 
-			if (registerHistory && history is not null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
+			if (registerHistory &&
+				history?.Destination is { } historyDestinations &&
+				source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
 			{
-				foreach (var (histSrcItem, histDestItem) in history.Source.Zip(history.Destination))
+				foreach (var (histSrcItem, histDestItem) in history.Source.Zip(historyDestinations))
 				{
 					foreach (var conflictItem in itemsResult)
 					{
 						if (!string.IsNullOrEmpty(conflictItem.CustomName) && conflictItem.SourcePath == histSrcItem.Path && Path.GetFileName(conflictItem.SourcePath) != conflictItem.CustomName)
 						{
 							var renameHistory = await filesystemOperations.RenameAsync(histDestItem, conflictItem.CustomName, NameCollisionOption.FailIfExists, banner.ProgressEventSource, token);
-							history.Destination[history.Source.IndexOf(histSrcItem)] = renameHistory.Destination[0];
+							if (renameHistory?.Destination is { Count: > 0 } renameDestinations)
+								historyDestinations[history.Source.IndexOf(histSrcItem)] = renameDestinations[0];
 						}
 					}
 				}
@@ -390,6 +408,9 @@ namespace Files.App.Utils.Storage
 					var imgSource = await packageView.GetBitmapAsync();
 					using var imageStream = await imgSource.OpenReadAsync();
 					var folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(destination);
+					if (folder is null)
+						return ReturnResult.Failed;
+
 					// Set the name of the file to be the current time and date
 					var file = await folder.CreateFileAsync($"{DateTime.Now:MM-dd-yy-HHmmss}.png", CreationCollisionOption.GenerateUniqueName);
 
@@ -415,10 +436,12 @@ namespace Files.App.Utils.Storage
 		}
 
 		public Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
-			=> MoveItemsAsync(source.Select((item) => item.FromStorageItem()), destination, showDialog, registerHistory);
+			=> MoveItemsAsync(source.Select(item => item.FromStorageItem()
+				?? throw new InvalidOperationException("A storage item could not be converted for moving.")), destination, showDialog, registerHistory);
 
 		public Task<ReturnResult> MoveItemAsync(IStorageItem source, string destination, bool showDialog, bool registerHistory)
-			=> MoveItemAsync(source.FromStorageItem(), destination, showDialog, registerHistory);
+			=> MoveItemAsync(source.FromStorageItem()
+				?? throw new InvalidOperationException("The storage item could not be converted for moving."), destination, showDialog, registerHistory);
 
 		public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
 		{
@@ -451,23 +474,26 @@ namespace Files.App.Utils.Storage
 
 			itemManipulationModel?.ClearSelection();
 
-			IStorageHistory history = await filesystemOperations.MoveItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.ProgressEventSource, token);
+			IStorageHistory? history = await filesystemOperations.MoveItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.ProgressEventSource, token);
 
 			if (returnStatus == ReturnResult.InProgress || returnStatus == ReturnResult.Success)
 				banner.Progress.ReportStatus(FileSystemStatusCode.Success);
 
 			await Task.Yield();
 
-			if (registerHistory && history is not null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
+			if (registerHistory &&
+				history?.Destination is { } historyDestinations &&
+				source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
 			{
-				foreach (var (histSrcItem, histDestItem) in history.Source.Zip(history.Destination))
+				foreach (var (histSrcItem, histDestItem) in history.Source.Zip(historyDestinations))
 				{
 					foreach (var conflictItem in itemsResult)
 					{
 						if (!string.IsNullOrEmpty(conflictItem.CustomName) && conflictItem.SourcePath == histSrcItem.Path)
 						{
 							var renameHistory = await filesystemOperations.RenameAsync(histDestItem, conflictItem.CustomName, NameCollisionOption.FailIfExists, banner.ProgressEventSource, token);
-							history.Destination[history.Source.IndexOf(histSrcItem)] = renameHistory.Destination[0];
+							if (renameHistory?.Destination is { Count: > 0 } renameDestinations)
+								historyDestinations[history.Source.IndexOf(histSrcItem)] = renameDestinations[0];
 						}
 					}
 				}
@@ -532,7 +558,8 @@ namespace Files.App.Utils.Storage
 		}
 
 		public Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory, bool showExtensionDialog = true)
-			=> RenameAsync(source.FromStorageItem(), newName, collision, registerHistory, showExtensionDialog);
+			=> RenameAsync(source.FromStorageItem()
+				?? throw new InvalidOperationException("The storage item could not be converted for renaming."), newName, collision, registerHistory, showExtensionDialog);
 
 		public async Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory, bool showExtensionDialog = true)
 		{
@@ -565,7 +592,7 @@ namespace Files.App.Utils.Storage
 						UserSettingsService.FoldersSettingsService.ShowFileExtensionWarning
 					)
 					{
-						var yesSelected = await DialogDisplayHelper.ShowDialogAsync(Strings.Rename.GetLocalizedResource(), Strings.RenameFileDialog_Text.GetLocalizedResource(), Strings.Yes.GetLocalizedResource(), Strings.No.GetLocalizedResource());
+						var yesSelected = await DialogDisplayHelper.ShowDialogAsync(Strings.Rename.GetLocalizedResource(), Strings.RenameFileDialogText.GetLocalizedResource(), Strings.Yes.GetLocalizedResource(), Strings.No.GetLocalizedResource());
 						if (yesSelected)
 						{
 							history = await filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);
@@ -644,6 +671,27 @@ namespace Files.App.Utils.Storage
 		public static bool IsValidForFilename(string name)
 			=> !string.IsNullOrWhiteSpace(name) && !ContainsRestrictedCharacters(name) && !ContainsRestrictedFileName(name);
 
+		private static async Task<bool> FtpFileExistsAsync(string path)
+		{
+			try
+			{
+				var normalizedPath = path.Replace('\\', '/');
+				var parentPath = PathNormalization.GetParentDir(normalizedPath);
+				if (string.IsNullOrEmpty(parentPath) || parentPath.Length + 1 >= normalizedPath.Length)
+					return false;
+
+				if (await FtpStorageFolder.FromPathAsync(parentPath) is not FtpStorageFolder parent)
+					return false;
+
+				var fileName = normalizedPath[(parentPath.Length + 1)..];
+				return await parent.GetFileAsync(fileName) is not null;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
 		private static async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation, IEnumerable<IFileSystemDialogConflictItemViewModel>)> GetCollisions(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
 		{
 			var nonConflictingItems = new List<BaseFileSystemDialogItemViewModel>();
@@ -652,7 +700,7 @@ namespace Files.App.Utils.Storage
 
 			foreach (var (src, dest) in source.Zip(destination))
 			{
-				string itemPathOrName = string.IsNullOrEmpty(src.Path) ? src.Item.Name : src.Path;
+				string itemPathOrName = string.IsNullOrEmpty(src.Path) ? src.Name : src.Path;
 				var incomingItem = new FileSystemDialogConflictItemViewModel
 				{
 					ConflictResolveOption = FileNameConflictResolveOptionType.None,
@@ -664,8 +712,8 @@ namespace Files.App.Utils.Storage
 				if (!collisions.TryAdd(itemPathOrName, FileNameConflictResolveOptionType.GenerateNewName))
 				{
 					// Something strange happened, log
-					App.Logger.LogWarning($"Duplicate key when resolving conflicts: {itemPathOrName}, {src.Name}\n" +
-						$"Source: {string.Join(", ", source.Select(x => string.IsNullOrEmpty(x.Path) ? x.Item.Name : x.Path))}");
+					App.Logger.LogWarning($"Duplicate key when resolving conflicts: {LogPathHelper.RedactPath(itemPathOrName)}, {LogPathHelper.RedactPath(src.Name)}\n" +
+						$"Source: {string.Join(", ", source.Select(x => LogPathHelper.RedactPath(string.IsNullOrEmpty(x.Path) ? x.Name : x.Path)))}");
 				}
 
 				// Assume GenerateNewName when source and destination are the same
@@ -674,7 +722,7 @@ namespace Files.App.Utils.Storage
 					// Same item names in both directories
 					if (StorageHelpers.Exists(dest) ||
 						(FtpHelpers.IsFtpPath(dest) &&
-						await Ioc.Default.GetRequiredService<IFtpStorageService>().TryGetFileAsync(dest) is not null))
+						await FtpFileExistsAsync(dest)))
 					{
 						incomingItem.ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName;
 						conflictingItems.Add(incomingItem);
@@ -712,7 +760,8 @@ namespace Files.App.Utils.Storage
 				collisions.Clear();
 				foreach (var item in itemsResult)
 				{
-					collisions.TryAdd(item.SourcePath!, item.ConflictResolveOption);
+					if (!string.IsNullOrEmpty(item.SourcePath))
+						collisions.TryAdd(item.SourcePath, item.ConflictResolveOption);
 				}
 			}
 
@@ -721,7 +770,7 @@ namespace Files.App.Utils.Storage
 
 			foreach (var src in source)
 			{
-				var itemPathOrName = string.IsNullOrEmpty(src.Path) ? src.Item.Name : src.Path;
+				var itemPathOrName = string.IsNullOrEmpty(src.Path) ? src.Name : src.Path;
 				bool found = collisions.TryGetValue(itemPathOrName, out var match);
 				var fileNameConflictResolveOptionType = found ? match : FileNameConflictResolveOptionType.Skip;
 				newCollisions.Add(fileNameConflictResolveOptionType);
@@ -745,7 +794,8 @@ namespace Files.App.Utils.Storage
 				try
 				{
 					var source = await packageView.GetStorageItemsAsync();
-					itemsList.AddRange(source.Select(x => x.FromStorageItem()));
+					itemsList.AddRange(source.Select(item => item.FromStorageItem()
+						?? throw new InvalidOperationException("A dragged storage item could not be converted.")));
 				}
 				catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
 				{
@@ -763,15 +813,20 @@ namespace Files.App.Utils.Storage
 			{
 				if (hasVirtualItems && packageView.Contains("FileContents"))
 				{
-					var descriptor = NativeClipboard.CurrentDataObject.GetData<Shell32.FILEGROUPDESCRIPTOR>("FileGroupDescriptorW");
-					for (var ii = 0; ii < descriptor.cItems; ii++)
+					var dataObject = ShellDataObject.GetClipboard();
+					if (dataObject is null)
+						return itemsList;
+
+					var descriptors = ShellDataObject.GetFileDescriptors(dataObject);
+					for (var ii = 0; ii < descriptors.Count; ii++)
 					{
-						if (descriptor.fgd[ii].dwFileAttributes.HasFlag(FileFlagsAndAttributes.FILE_ATTRIBUTE_DIRECTORY))
-							itemsList.Add(new VirtualStorageFolder(descriptor.fgd[ii].cFileName).FromStorageItem());
-						else if (NativeClipboard.CurrentDataObject.GetData("FileContents", DVASPECT.DVASPECT_CONTENT, ii) is IStream stream)
+						var descriptor = descriptors[ii];
+						if (descriptor.Attributes.HasFlag(FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_DIRECTORY))
+							itemsList.Add(new VirtualStorageFolder(descriptor.Name).FromStorageItem()!);
+						else if (ShellDataObject.TryGetFileContents(dataObject, ii, out var stream, out var medium))
 						{
-							var streamContent = new ComStreamWrapper(stream);
-							itemsList.Add(new VirtualStorageFile(streamContent, descriptor.fgd[ii].cFileName).FromStorageItem());
+							var streamContent = new ComStreamWrapper(stream!, medium);
+							itemsList.Add(new VirtualStorageFile(streamContent, descriptor.Name).FromStorageItem()!);
 						}
 					}
 				}
@@ -812,17 +867,17 @@ namespace Files.App.Utils.Storage
 							HDROP dropStructHandle = new(dropStructPointer);
 
 							var itemPaths = new List<string>();
-							uint filesCount = Shell32.DragQueryFile(dropStructHandle, 0xffffffff, null, 0);
+							uint filesCount = PInvoke.DragQueryFile(dropStructHandle, uint.MaxValue, Span<char>.Empty);
 							for (uint i = 0; i < filesCount; i++)
 							{
-								uint charsNeeded = Shell32.DragQueryFile(dropStructHandle, i, null, 0);
+								uint charsNeeded = PInvoke.DragQueryFile(dropStructHandle, i, Span<char>.Empty);
 								uint bufferSpaceRequired = charsNeeded + 1; // include space for terminating null character
-								string buffer = new('\0', (int)bufferSpaceRequired);
-								uint charsCopied = Shell32.DragQueryFile(dropStructHandle, i, buffer, bufferSpaceRequired);
+								char[] buffer = new char[bufferSpaceRequired];
+								uint charsCopied = PInvoke.DragQueryFile(dropStructHandle, i, buffer);
 
 								if (charsCopied > 0)
 								{
-									string path = buffer[..(int)charsCopied];
+									string path = new(buffer, 0, (int)charsCopied);
 									itemPaths.Add(Path.GetFullPath(path));
 								}
 							}
@@ -841,7 +896,7 @@ namespace Files.App.Utils.Storage
 				}
 			}
 
-			itemsList = itemsList.DistinctBy(x => string.IsNullOrEmpty(x.Path) ? x.Item.Name : x.Path).ToList();
+			itemsList = itemsList.DistinctBy(x => string.IsNullOrEmpty(x.Path) ? x.Name : x.Path).ToList();
 			return itemsList;
 		}
 
@@ -875,7 +930,7 @@ namespace Files.App.Utils.Storage
 		/// <summary>
 		/// Gets the shortcut naming template from File Explorer
 		/// </summary>
-		public static string GetShortcutNamingPreference(string itemName)
+		public static string GetShortcutNamingPreference(string? itemName)
 		{
 			var keyName = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\NamingTemplates";
 			var value = Registry.GetValue(keyName, "ShortcutNameTemplate", null);

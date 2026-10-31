@@ -16,6 +16,8 @@ namespace Files.App
 			public const string BingMapsSecret = "bingmapskey.secret";
 
 			public const string SentrySecret = "sentry.secret";
+
+			public const string LanguageModelLafToken = "languagemodellaftoken.secret";
 		}
 
 		public static class KnownImageFormats
@@ -35,12 +37,8 @@ namespace Files.App
 			public const int Videos = 189;
 			public const int GenericDiskDrive = 35;
 			public const int WindowsDrive = 36;
-			public const int ThisPC = 109;
 			public const int Network = 25;
 			public const int RecycleBin = 55;
-			public const int CloudDrives = 1040;
-			public const int OneDrive = 1043;
-			public const int Libraries = 1023;
 			public const int Folder = 3;
 			public const int ShieldIcon = 78;
 			public const int SearchIcon = 177;
@@ -50,14 +48,6 @@ namespace Files.App
 		{
 			// See shell32.dll for more icon indexes to add
 			public const int QuickAccess = 51380;
-		}
-
-		public static class FluentIconsPaths
-		{
-			public const string CloudDriveIcon = "ms-appx:///Assets/FluentIcons/CloudDrive.png";
-			public const string StarIcon = "ms-appx:///Assets/FluentIcons/Star.png";
-			public const string FileTagsIcon = "ms-appx:///Assets/FluentIcons/FileTags.png";
-			public const string HomeIcon = "ms-appx:///Assets/FluentIcons/Home.png";
 		}
 
 		public static class WslIconsPaths
@@ -88,22 +78,12 @@ namespace Files.App
 
 			public const double MaximumSidebarWidth = 500;
 
-			// For contextmenu hacks, must match WinUI style
-			public const double ContextMenuMaxHeight = 480;
-
-			// For contextmenu hacks, must match WinUI style
-			public const double ContextMenuSecondaryItemsHeight = 32;
-
-			// For contextmenu hacks, must match WinUI style
-			public const double ContextMenuPrimaryItemsHeight = 48;
-
-			// For contextmenu hacks
-			public const double ContextMenuLabelMargin = 10;
-
-			// For contextmenu hacks
-			public const double ContextMenuItemsMaxWidth = 250;
-
 			public const double MultiplePaneWidthThreshold = 750;
+
+			/// <summary>
+			/// How long after a click-started rename begins that a straggling double click can still cancel it.
+			/// </summary>
+			public const int RenameDoubleClickGuardDurationMs = 150;
 		}
 
 		public static class Appearance
@@ -197,10 +177,10 @@ namespace Files.App
 			public const string GitHubRepoUrl = @"https://github.com/files-community/Files";
 			public const string DocumentationUrl = @"https://files.community/docs";
 			public const string DiscordUrl = @"https://discord.gg/files";
-			public const string FeatureRequestUrl = @"https://github.com/files-community/Files/issues/new?labels=feature+request&template=feature_request.yml";
+			public const string FeatureRequestUrl = @"https://discord.gg/files";
 			public const string BugReportUrl = @"https://github.com/files-community/Files/issues/new?labels=bug&template=bug_report.yml";
 			public const string PrivacyPolicyUrl = @"https://files.community/privacy";
-			public const string SupportUsUrl = @"https://github.com/files-community/Files?sponsor";
+			public const string SupportUsUrl = @"https://files.community/sponsor";
 			public const string CrowdinUrl = @"https://crowdin.com/project/files-app";
 			public static readonly string ReleaseNotesUrl = $"https://files.community/blog/posts/v{Package.Current.Id.Version.Major}-{Package.Current.Id.Version.Minor}-{Package.Current.Id.Version.Build}?minimal";
 		}
@@ -218,6 +198,7 @@ namespace Files.App
 		public static class DragAndDrop
 		{
 			public const Int32 HoverToOpenTimespan = 1300;
+			public const Int32 HoverToExpandTimespan = 500;
 		}
 
 		public static class UserEnvironmentPaths
@@ -242,6 +223,10 @@ namespace Files.App
 			public static readonly string SystemRootPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
 
 			public static readonly string RecentItemsPath = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
+
+			public static readonly string AutomaticDestinationsPath = System.IO.Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Recent", "AutomaticDestinations");
+
+			public const string QuickAccessDestinationsFileName = "f01b4d95cf55d32a.automaticDestinations-ms";
 
 			public static readonly string SystemDrivePath;
 

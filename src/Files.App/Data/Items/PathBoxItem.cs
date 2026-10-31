@@ -10,5 +10,11 @@ namespace Files.App.Data.Items
 		public string? Path { get; set; }
 
 		public string? ChevronToolTip { get; set; }
+
+		// Only enumerable for fully qualified filesystem paths and FTP paths. Excludes the search-results
+		// placeholder (Path == null), shell virtual locations ("Shell:..." / "Home" / "Settings"
+		// / "ReleaseNotes"), and other entries that SetPathBoxDropDownFlyoutAsync can't enumerate.
+		public bool IsChevronVisible =>
+			!string.IsNullOrEmpty(Path) && (SystemIO.Path.IsPathFullyQualified(Path) || FtpHelpers.IsFtpPath(Path));
 	}
 }

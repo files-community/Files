@@ -39,7 +39,11 @@
 
 	<ContentDialog.Resources>
 		<ResourceDictionary>
-			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<converters:BoolToVisibilityConverter
+				x:Key="NegatedBoolToVisibilityConverter"
+				FalseValue="Visible"
+				TrueValue="Collapsed" />
+			<converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 		</ResourceDictionary>
 	</ContentDialog.Resources>
 
@@ -65,7 +69,7 @@
 			Grid.Row="1"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
-			x:Load="{x:Bind ViewModel.LoginConfirmed, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}">
+			Visibility="{x:Bind ViewModel.LoginConfirmed, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}">
 
 			<HyperlinkButton
 				x:Name="LoginUrl"
@@ -85,7 +89,7 @@
 		<Border
 			x:Name="LoginSuccessBadge"
 			Grid.Row="1"
-			x:Load="{x:Bind ViewModel.LoginConfirmed, Mode=OneWay}">
+			Visibility="{x:Bind ViewModel.LoginConfirmed, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 			<FontIcon
 				FontSize="85"
 				Foreground="{ThemeResource SystemFillColorSuccessBrush}"

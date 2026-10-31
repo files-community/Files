@@ -19,6 +19,8 @@ namespace Files.App.Utils.Serialization
 			return true;
 		}
 
+		protected override void OnSharedSettingChanged(string name) => OnPropertyChanged(name);
+
 		protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
 			=> PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 	}

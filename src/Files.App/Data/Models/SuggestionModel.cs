@@ -5,12 +5,17 @@ using Files.App.Controls;
 using Files.App.ViewModels.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
+using WinRT;
 
 namespace Files.App.Data.Models
 {
 	public sealed partial class SuggestionModel : ObservableObject, IOmnibarTextMemberPathProvider
 	{
 		public bool IsRecentSearch { get; set; } = false;
+
+		public bool IsSearchQuery { get; set; } = false;
+
+		public bool IsShortcut { get; set; } = false;
 
 		public bool LoadFileIcon { get; set; } = false;
 
@@ -23,6 +28,10 @@ namespace Files.App.Data.Models
 		public string? Description { get; set; }
 
 		public Visibility DescriptionVisibility => string.IsNullOrEmpty(Description) ? Visibility.Collapsed : Visibility.Visible;
+
+		public string DisplayName => IsSearchQuery ? string.Format(Strings.SearchForQuery.GetLocalizedResource(), Name) : Name;
+
+		public string PlaceholderGlyph => IsSearchQuery ? "\uE721" : IsRecentSearch ? "\uE81C" : "\uE7C3";
 
 		public SettingsSearchResult? SettingsResult { get; set; }
 
@@ -54,7 +63,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private void Img_ImageOpened(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+		[DynamicWindowsRuntimeCast(typeof(BitmapImage))]
+		private void Img_ImageOpened(object sender, Microsoft.UI.Xaml.RoutedEventArgs? e)
 		{
 			if (sender is BitmapImage image)
 			{
@@ -73,10 +83,11 @@ namespace Files.App.Data.Models
 
 		public SuggestionModel(ListedItem item)
 		{
+			IsShortcut = item.IsShortcut;
 			LoadFileIcon = item.LoadFileIcon;
-			NeedsPlaceholderGlyph = item.NeedsPlaceholderGlyph;
+			NeedsPlaceholderGlyph = item.FileImage is null;
 			ItemPath = item.ItemPath;
-			Name = item.Name;
+			Name = item.Name!;
 			FileImage = item.FileImage;
 		}
 

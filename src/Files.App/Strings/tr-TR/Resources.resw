@@ -180,26 +180,26 @@
   <data name="Accessed" xml:space="preserve">
     <value>Erişim:</value>
   </data>
-  <data name="RecentItemClearAll.Text" xml:space="preserve">
+  <data name="RecentItemClearAllText" xml:space="preserve">
     <value>Tüm ögeleri temizle</value>
   </data>
-  <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarVisiblePathPlaceholderText" xml:space="preserve">
     <value>Gidilecek dosya yolunu girin veya komut paletini açmak için "&gt;" yazın</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Ara</value>
   </data>
   <data name="SearchSettings" xml:space="preserve">
-    <value>Search settings...</value>
+    <value>Ayarlarda ara...</value>
   </data>
   <data name="NoSearchResults" xml:space="preserve">
-    <value>No settings match your search.</value>
+    <value>Aramanızla eşleşen ayar yok.</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Daha önce eriştiğiniz dosya ve dizinler burada görüntülenir</value>
   </data>
-  <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>Bu ögeyi kaldır</value>
+  <data name="RecentItemRemoveText" xml:space="preserve">
+    <value>Bu ögeyi sil</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>GitHub deposu</value>
@@ -312,13 +312,13 @@
   <data name="PinFolderToSidebar" xml:space="preserve">
     <value>Hızlı erişime sabitle</value>
   </data>
-  <data name="WelcomeDialog.Title" xml:space="preserve">
+  <data name="WelcomeDialogTitle" xml:space="preserve">
     <value>Files'a hoş geldiniz!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>İzin ver</value>
   </data>
-  <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
+  <data name="WelcomeDialogTextBlockText" xml:space="preserve">
     <value>Başlamak için uygulamaya dosyalarınızı görüntüleme izni vermelisiniz. Bu aşamada bu izni verebileceğiniz bir Ayarlar sayfası açılacak. Bu adımı tamamladıktan sonra uygulamayı yeniden başlatmalısınız. </value>
   </data>
   <data name="Display" xml:space="preserve">
@@ -338,6 +338,12 @@
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>Sistem Teması</value>
+  </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>Açık Tema</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>Koyu Tema</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Sistem ayarını kullan</value>
@@ -384,16 +390,16 @@
   <data name="SetAsAppBackground" xml:space="preserve">
     <value>Uygulama arka planı olarak ayarla</value>
   </data>
-  <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
+  <data name="AccessDeniedDeleteDialogText" xml:space="preserve">
     <value>Bu öge silinemedi</value>
   </data>
-  <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
+  <data name="DriveUnpluggedDialogText" xml:space="preserve">
     <value>Lütfen bu ögeye erişmek için gerekli sürücüyü takın.</value>
   </data>
-  <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
+  <data name="DriveUnpluggedDialogTitle" xml:space="preserve">
     <value>Sürücü çıkarıldı</value>
   </data>
-  <data name="FileNotFoundDialog.Text" xml:space="preserve">
+  <data name="FileNotFoundDialogText" xml:space="preserve">
     <value>Erişmeye çalıştığınız dosya taşınmış ya da silinmiş olabilir.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
@@ -402,23 +408,29 @@
   <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>Erişmeye çalıştığınız dosya taşınmış ya da silinmiş olabilir.</value>
   </data>
-  <data name="FileNotFoundDialog.Title" xml:space="preserve">
+  <data name="FileNotFoundDialogTitle" xml:space="preserve">
     <value>Dosya Bulunamadı</value>
   </data>
-  <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>Erişmeye çalıştığınız klasör taşınmış ya da silinmiş olabilir.</value>
+  <data name="FolderNotFoundDialogText" xml:space="preserve">
+    <value>Erişmeye çalıştığınız dizin taşınmış ya da silinmiş olabilir.</value>
   </data>
-  <data name="FolderNotFoundDialog.Title" xml:space="preserve">
+  <data name="FolderNotFoundDialogTitle" xml:space="preserve">
     <value>Bu klasörü sildiniz mi?</value>
   </data>
-  <data name="FileInUseByDialog.Text" xml:space="preserve">
+  <data name="FileInUseByDialogText" xml:space="preserve">
     <value>Erişmeye çalıştığınız dosya şu anda {0} tarafından kullanılıyor</value>
   </data>
-  <data name="FileInUseDialog.Text" xml:space="preserve">
+  <data name="FileInUseDialogText" xml:space="preserve">
     <value>Erişmeye çalıştığınız dosya şu anda başka bir uygulama tarafından kullanılıyor</value>
   </data>
-  <data name="FileInUseDialog.Title" xml:space="preserve">
+  <data name="FileInUseDialogTitle" xml:space="preserve">
     <value>Dosya kullanımda</value>
+  </data>
+  <data name="CannotRunFileDialogTitle" xml:space="preserve">
+    <value>Bu uygulama bilgisayarınızda çalıştırılamaz</value>
+  </data>
+  <data name="CannotRunFileDialogText" xml:space="preserve">
+    <value>Bilgisayarınıza uygun bir sürüm bulmak için yazılım yayıncısına başvurun.</value>
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Sayfa düzeni</value>
@@ -524,7 +536,7 @@
   <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
     <value>{2, number} {2, plural, one {konumdan} other {konumdan}} {0, number} {0, plural, one {dosya} other {dosya}}, {1, number} {1, plural, one {klasör} other {klasör}}</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUserText" xml:space="preserve">
     <value>Farklı kullanıcı olarak çalıştır</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
@@ -635,22 +647,22 @@
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
     <value>{0} {1} paylaşılıyor</value>
   </data>
-  <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
+  <data name="RenameErrorItemDeletedText" xml:space="preserve">
     <value>Yeniden adlandırmak istediğiniz öge bulunamadı. Lütfen yeniden adlandırmak istediğiniz ögenin konumunu doğrulayın.</value>
   </data>
-  <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
+  <data name="RenameErrorItemDeletedTitle" xml:space="preserve">
     <value>Öge artık yok</value>
   </data>
-  <data name="RenameError.NameInvalid.Text" xml:space="preserve">
+  <data name="RenameErrorNameInvalidText" xml:space="preserve">
     <value>Belirtilen ad geçersiz. Lütfen yeni öge adını denetleyip yeniden deneyin.</value>
   </data>
-  <data name="RenameError.NameInvalid.Title" xml:space="preserve">
+  <data name="RenameErrorNameInvalidTitle" xml:space="preserve">
     <value>Öge adı geçersiz</value>
   </data>
-  <data name="RenameError.TooLong.Text" xml:space="preserve">
+  <data name="RenameErrorTooLongText" xml:space="preserve">
     <value>Belirtilen öge adı olabilecek en uzun ad sınırını aşıyor. Lütfen yeni adı kontrol edip yeniden deneyin.</value>
   </data>
-  <data name="RenameError.TooLong.Title" xml:space="preserve">
+  <data name="RenameErrorTooLongTitle" xml:space="preserve">
     <value>Öge adı çok uzun</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
@@ -662,13 +674,13 @@
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>Bizi GitHub'ta destekleyin</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
+  <data name="AccessDeniedCreateDialogText" xml:space="preserve">
     <value>Bu öge oluşturulamadı</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>Erişim Engellendi</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAsText" xml:space="preserve">
     <value>Ayarla</value>
   </data>
   <data name="Cancel" xml:space="preserve">
@@ -684,7 +696,7 @@
     <value>Dosya</value>
   </data>
   <data name="Files" xml:space="preserve">
-    <value>Files</value>
+    <value>Dosyalar</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Boş bir dosya oluşturur</value>
@@ -693,7 +705,7 @@
     <value>Klasör</value>
   </data>
   <data name="Folders" xml:space="preserve">
-    <value>Folders</value>
+    <value>Klasörler</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Boş bir klasör oluşturur</value>
@@ -710,10 +722,10 @@
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>Ögeleri silmeden önce onay kutusu göster</value>
   </data>
-  <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
+  <data name="PropertySaveErrorMessageText" xml:space="preserve">
     <value>Bazı özellikler kaydedilirken bir sorun çıktı.</value>
   </data>
-  <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
+  <data name="PropertySaveErrorDialogTitle" xml:space="preserve">
     <value>Hata</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
@@ -1097,6 +1109,12 @@
   <data name="OpenInNewPane" xml:space="preserve">
     <value>Yeni bölmede aç</value>
   </data>
+  <data name="OpenInOtherPane" xml:space="preserve">
+    <value>Diğer bölmede aç</value>
+  </data>
+  <data name="OpenCurrentFolderInOtherPane" xml:space="preserve">
+    <value>Geçerli klasörü diğer bölmede aç</value>
+  </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Dosyalar &amp; klasörler</value>
   </data>
@@ -1196,10 +1214,13 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Hesaplanmamış</value>
   </data>
+  <data name="ViewSize" xml:space="preserve">
+    <value>Boyutu görüntüle</value>
+  </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Bilinmiyor</value>
   </data>
-  <data name="RenameFileDialog.Text" xml:space="preserve">
+  <data name="RenameFileDialogText" xml:space="preserve">
     <value>Uzantısı değiştirilen dosyalar kullanılamaz hale gelebilir. Değiştirmek istediğinden emin misin?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
@@ -1238,7 +1259,7 @@
   <data name="MoreOptions" xml:space="preserve">
     <value>Diğer seçenekler...</value>
   </data>
-  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItemText" xml:space="preserve">
     <value>Ağ sürücüsüne bağlan</value>
   </data>
   <data name="Pinned" xml:space="preserve">
@@ -1271,10 +1292,10 @@
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>Sütun Görünümü (Ctrl+Shift+6)</value>
   </data>
-  <data name="PinItemToStart.Text" xml:space="preserve">
+  <data name="PinItemToStartText" xml:space="preserve">
     <value>Başlat menüsüne sabitle</value>
   </data>
-  <data name="UnpinItemFromStart.Text" xml:space="preserve">
+  <data name="UnpinItemFromStartText" xml:space="preserve">
     <value>Başlat menüsünden sabitlemeyi kaldır</value>
   </data>
   <data name="Library" xml:space="preserve">
@@ -1372,6 +1393,9 @@
   </data>
   <data name="OpenWith" xml:space="preserve">
     <value>Şununla aç:</value>
+  </data>
+  <data name="ChooseAnotherApp" xml:space="preserve">
+    <value>Başka bir uygulama seçin</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Dosya simgesi</value>
@@ -1517,13 +1541,13 @@
   <data name="SecurityUnknownAccount" xml:space="preserve">
     <value>Bilinmeyen hesap</value>
   </data>
-  <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>Bu nesnenin güvenlik özelliklerini görüntüleme izniniz yok. Devam etmek için "Gelişmiş izinler" i tıklayın.</value>
+  <data name="SecurityCannotReadPropertiesText" xml:space="preserve">
+    <value>Bu nesnenin güvenlik özelliklerini görüntüleme izniniz yok. Devam etmek için "Gelişmiş izinler"e tıklayın.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Sahip:</value>
   </data>
-  <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
+  <data name="SecurityUnknownOwnerTextText" xml:space="preserve">
     <value>Bilinmeyen sahip</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
@@ -1535,10 +1559,10 @@
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
     <value>{0}\ dizinine çıkar</value>
   </data>
-  <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
+  <data name="SideBarCreateNewLibraryText" xml:space="preserve">
     <value>Yeni kitaplık oluştur</value>
   </data>
-  <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
+  <data name="SideBarRestoreLibrariesText" xml:space="preserve">
     <value>Varsayılan kitaplıkları geri yükle</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
@@ -1550,7 +1574,7 @@
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Sahip</value>
   </data>
-  <data name="SecuritySpecialLabel.Text" xml:space="preserve">
+  <data name="SecuritySpecialLabelText" xml:space="preserve">
     <value>Özel</value>
   </data>
   <data name="Access" xml:space="preserve">
@@ -1577,7 +1601,7 @@
   <data name="Permissions" xml:space="preserve">
     <value>İzinler</value>
   </data>
-  <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
+  <data name="SecurityAdvancedCannotReadPropertiesText" xml:space="preserve">
     <value>Bu nesnenin güvenlik özelliklerini görüntüleme izniniz yok. Bu nesnenin sahipliğini almayı deneyebilirsiniz.</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
@@ -1601,49 +1625,49 @@
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
     <value>Bu klasör ve alt klasörler</value>
   </data>
-  <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
+  <data name="SecurityAppendDataLabelText" xml:space="preserve">
     <value>Veriyi sona ekle</value>
   </data>
-  <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
+  <data name="SecurityChangePermissionsLabelText" xml:space="preserve">
     <value>İzni değiştir</value>
   </data>
-  <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
+  <data name="SecurityCreateDirectoriesLabelText" xml:space="preserve">
     <value>Klasör oluştur</value>
   </data>
-  <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
+  <data name="SecurityCreateFilesLabelText" xml:space="preserve">
     <value>Dosya oluştur</value>
   </data>
-  <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
+  <data name="SecurityDeleteSubdirectoriesAndFilesLabelText" xml:space="preserve">
     <value>Alt dizinleri ve dosyaları silin</value>
   </data>
-  <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
-    <value>Dosyaları yürütün</value>
+  <data name="SecurityExecuteFileLabelText" xml:space="preserve">
+    <value>Dosyaları çalıştır</value>
   </data>
-  <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
+  <data name="SecurityReadAttributesLabelText" xml:space="preserve">
     <value>Nitelikleri oku</value>
   </data>
-  <data name="SecurityReadDataLabel.Text" xml:space="preserve">
+  <data name="SecurityReadDataLabelText" xml:space="preserve">
     <value>Verileri oku</value>
   </data>
-  <data name="SecurityReadExtendedAttributesLabel.Text" xml:space="preserve">
+  <data name="SecurityReadExtendedAttributesLabelText" xml:space="preserve">
     <value>Genişletilmiş özellikleri oku</value>
   </data>
-  <data name="SecurityReadPermissionsLabel.Text" xml:space="preserve">
+  <data name="SecurityReadPermissionsLabelText" xml:space="preserve">
     <value>İzinleri oku</value>
   </data>
-  <data name="SecurityTakeOwnershipLabel.Text" xml:space="preserve">
+  <data name="SecurityTakeOwnershipLabelText" xml:space="preserve">
     <value>Sahipliğini al</value>
   </data>
-  <data name="SecurityTraverseLabel.Text" xml:space="preserve">
-    <value>Klasörü ziyaret et</value>
+  <data name="SecurityTraverseLabelText" xml:space="preserve">
+    <value>Dizini ziyaret et</value>
   </data>
-  <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
+  <data name="SecurityWriteAttributesLabelText" xml:space="preserve">
     <value>Nitelikleri yaz</value>
   </data>
-  <data name="SecurityWriteDataLabel.Text" xml:space="preserve">
+  <data name="SecurityWriteDataLabelText" xml:space="preserve">
     <value>Veri yaz</value>
   </data>
-  <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
+  <data name="SecurityWriteExtendedAttributesLabelText" xml:space="preserve">
     <value>Genişletilmiş nitelikleri yaz</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
@@ -1700,7 +1724,7 @@
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
   </data>
-  <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
+  <data name="SideBarHideSectionFromSideBarText" xml:space="preserve">
     <value>{0} bölümünü gizle</value>
   </data>
   <data name="AddFile" xml:space="preserve">
@@ -1730,8 +1754,8 @@
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>Çıkarma tamamlandı!</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
-    <value>Ana klasörü aç</value>
+  <data name="BaseLayoutItemContextFlyoutOpenParentFolderText" xml:space="preserve">
+    <value>Ana dizini aç</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>Bilinmeyen</value>
@@ -1745,10 +1769,10 @@
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>Sürücüyü aç</value>
   </data>
-  <data name="InsertDiscDialog.Text" xml:space="preserve">
+  <data name="InsertDiscDialogText" xml:space="preserve">
     <value>Lütfen {0} sürücüsüne bir disk yerleştirin</value>
   </data>
-  <data name="InsertDiscDialog.Title" xml:space="preserve">
+  <data name="InsertDiscDialogTitle" xml:space="preserve">
     <value>Bir disk yerlestirin</value>
   </data>
   <data name="OK" xml:space="preserve">
@@ -1762,6 +1786,15 @@
   </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
     <value>Kimlik bilgilerinizi sağlayın:</value>
+  </data>
+  <data name="CredentialDialogIncorrectPassword" xml:space="preserve">
+    <value>Parola doğru değil. Tekrar deneyin.</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Parola gerekli</value>
+  </data>
+  <data name="PasswordRequiredMessage" xml:space="preserve">
+    <value>Bu konum şifre korumalıdır. Şifreyi girmek için yenileyin.</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Kullanıcı adı</value>
@@ -1815,7 +1848,7 @@
     <value>Dosya etiketi</value>
   </data>
   <data name="OpenFilesWithOneClick" xml:space="preserve">
-    <value>Open files with a single click</value>
+    <value>Dosyaları tek tıklamayla aç</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Klasör yolu</value>
@@ -2057,6 +2090,15 @@
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>Tüm Sütunları Sığacak Şekilde Boyutlandır</value>
   </data>
+  <data name="AutoFitColumns" xml:space="preserve">
+    <value>Sütunları otomatik sığdır</value>
+  </data>
+  <data name="AutoFitColumnsDescription" xml:space="preserve">
+    <value>Sütunları içeriğine sığacak şekilde yeniden boyutlandır</value>
+  </data>
+  <data name="AutoSizeColumnsInDetailsLayout" xml:space="preserve">
+    <value>Sütunları içeriğe otomatik olarak sığdır</value>
+  </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Uyarlanabilir düzen</value>
   </data>
@@ -2121,13 +2163,13 @@
     <value>Klasörleri tek tıklamayla açın</value>
   </data>
   <data name="OpenFolderWithOneClickInColumnsView" xml:space="preserve">
-    <value>Open folders with a single click in Columns View</value>
+    <value>Sütun görünümündeyken dosyaları tek tıklamayla aç</value>
   </data>
   <data name="SingleClickToOpen" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>Öğeleri tek tıklamayla aç</value>
   </data>
   <data name="SingleClickFoldersInColumnsViewHeader" xml:space="preserve">
-    <value>Folders in Columns View</value>
+    <value>Sütun görünümündeki Klasörler</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Açılış öğeleri</value>
@@ -2197,6 +2239,12 @@
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>Arşiv oluştur</value>
+  </data>
+  <data name="CompressSkippedItemsDialogTitle" xml:space="preserve">
+    <value>Bazı ögeler sıkıştırılamaz</value>
+  </data>
+  <data name="CompressSkippedItemsDialogText" xml:space="preserve">
+    <value>Aşağıdaki {0, plural, one {öğe} other {öğeler}} sıkıştırılamaz. {0, plural, one {bu öğeyi} other {bu öğeleri}} atlamak ister misiniz?</value>
   </data>
   <data name="CompressIntoZip" xml:space="preserve">
     <value>Zip arşivi oluştur</value>
@@ -2412,6 +2460,9 @@
     <value>Bu etiketi silmek istediğinize emin misiniz?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
+    <value>Hepsini Oynat</value>
+  </data>
+  <data name="Play" xml:space="preserve">
     <value>Oynat</value>
   </data>
   <data name="Height" xml:space="preserve">
@@ -3297,6 +3348,9 @@
   <data name="PullTimeoutError" xml:space="preserve">
     <value>zaman aşımı hatası nedeniyle git pull başarısız oldu</value>
   </data>
+  <data name="PullUncommittedChangesError" xml:space="preserve">
+    <value>Çekme işlemi yapılamıyor çünkü kaydedilmemiş değişikliklerinizin üzerine yazılacak. Değişikliklerinizi kaydedin, saklayın veya iptal edin, ardından tekrar deneyin.</value>
+  </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(birden fazla değer)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
@@ -3411,6 +3465,12 @@
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
     <value>Seçili dizini yeni bir bölme üstünde aç</value>
+  </data>
+  <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
+    <value>Seçili dizini diğer bölmede aç</value>
+  </data>
+  <data name="OpenCurrentFolderInOtherPaneDescription" xml:space="preserve">
+    <value>Mevcut klasörü diğer bölmede aç</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Seçili dizini yeni bir sekmede aç</value>
@@ -3614,35 +3674,119 @@
   </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
     <value>{0} öğesinin "{1}" öğesine klonlanması iptal edildi</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
     <value>{0} öğesinin "{1}" öğesinden "{2}" öğesine klonlanması iptal edildi</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
     <value>"{0}" öğesi "{1}" öğesine klonlandı</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
     <value>{0} öğesi "{1}" öğesinden "{2}" öğesine klonlandı</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
     <value>"{0}", "{1}" öğesine klonlanırken hata oluştu</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
     <value>{0} öğesi "{1}" öğesinden "{2}" öğesine klonlanamadı</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
     <value>"{0}", "{1}" öğesine klonlanıyor</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
     <value>{0}, "{1}" öğesinden "{2}" öğesine klonlanıyor</value>
-    <comment>Shown in a StatusCenter card.</comment>
+    <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutCanceled_Header" xml:space="preserve">
+    <value>"{1}" içinde "{0}"'a geçiş iptal edildi</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutComplete_Header" xml:space="preserve">
+    <value>"{1}" içinde "{0}" olarak geçiş yapıldı</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutFailed_Header" xml:space="preserve">
+    <value>"{1}" içinde "{0}"'a geçiş yapılamadı</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitCheckoutInProgress_Header" xml:space="preserve">
+    <value>"{1}" içinde "{0}" olarak geçiş yapılıyor</value>
+    <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchCanceled_Header" xml:space="preserve">
+    <value>"{0}" için uzak değişiklikleri alma işlemi iptal edildi</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchComplete_Header" xml:space="preserve">
+    <value>"{0}" için uzak değişiklikler alındı</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchFailed_Header" xml:space="preserve">
+    <value>"{0}" için uzak değişiklikler alınamadı</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchInProgress_Header" xml:space="preserve">
+    <value>"{0}" için uzak değişiklikler alınıyor</value>
+    <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitOperationProgress" xml:space="preserve">
+    <value>%{0} tamamlandı</value>
+    <comment>Shown in Status Center during a Git operation. {0} is the percentage from 0 to 100.</comment>
+  </data>
+  <data name="StatusCenter_GitPullCanceled_Header" xml:space="preserve">
+    <value>"{0}" içine uzak değişiklikleri çekme işlemi iptal edildi</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPullComplete_Header" xml:space="preserve">
+    <value>"{0}" içine uzak değişiklikler çekildi</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPullFailed_Header" xml:space="preserve">
+    <value>"{0}" içine uzak değişiklikleri çekme başarısız oldu</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPullInProgress_Header" xml:space="preserve">
+    <value>"{0}" içine uzak değişiklikler çekiliyor</value>
+    <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushCanceled_Header" xml:space="preserve">
+    <value>"{0}"'den yerel commit'lerin gönderilmesi iptal edildi</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushComplete_Header" xml:space="preserve">
+    <value>"{0}"'den yerel commit'ler gönderildi</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushFailed_Header" xml:space="preserve">
+    <value>"{0}" dizininden yerel commit'ler gönderilemedi</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitPushInProgress_Header" xml:space="preserve">
+    <value>"{0}"'den yerel commit'ler gönderiliyor</value>
+    <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncCanceled_Header" xml:space="preserve">
+    <value>"{0}" için yerel ve uzak commit'lerin senkronizasyonu iptal edildi</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncComplete_Header" xml:space="preserve">
+    <value>"{0}" için yerel ve uzak commit'ler senkronize edildi</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncFailed_Header" xml:space="preserve">
+    <value>"{0}" için yerel ve uzak commitler senkronize edilemedi</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
+  </data>
+  <data name="StatusCenter_GitSyncInProgress_Header" xml:space="preserve">
+    <value>"{0}" için yerel ve uzak commit'ler senkronize ediliyor</value>
+    <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
     <value>{0} yazı tipi yüklemesi iptal edildi</value>
@@ -3914,6 +4058,9 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Albüm kapağını değiştir</value>
   </data>
+  <data name="RemoveAlbumCover" xml:space="preserve">
+    <value>Albüm kapağını kaldır</value>
+  </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>Öğenin adı değiştirilemedi</value>
   </data>
@@ -4017,6 +4164,12 @@
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>Seçtiğiniz tuş ataması kullanılamaz, lütfen başka bir tuş ataması kullanarak yeniden deneyin.</value>
   </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>Klavye kısayolları</value>
+  </data>
+  <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
+    <value>Bu tuş atamasını kaldırmak istediğinizden emin misiniz?</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>Özelleştirilmiş</value>
   </data>
@@ -4111,6 +4264,15 @@
   <data name="ImageFiles" xml:space="preserve">
     <value>Resim Dosyaları</value>
     <comment>This is the friendly name for image files.</comment>
+  </data>
+  <data name="AllSupportedFiles" xml:space="preserve">
+    <value>Desteklenen tüm dosyaları</value>
+  </data>
+  <data name="ConvertToIconRequiredMessage" xml:space="preserve">
+    <value>Bu resim, kullanılmadan önce bir simge dosyasına dönüştürülmelidir. Dönüştürülen simge dosyasını kaydetmek için bir konum seçin.</value>
+  </data>
+  <data name="ConvertToIconError" xml:space="preserve">
+    <value>Resim simge dosyasına dönüştürülemedi</value>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Sayı</value>
@@ -4245,6 +4407,15 @@
   <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
     <value>Her zaman yeni oluşturulan sekmeye odaklan</value>
   </data>
+  <data name="ReverseTabScrollDirection" xml:space="preserve">
+    <value>Sekme kaydırma yönünü tersine çevir</value>
+  </data>
+  <data name="DownMotionScrollsLeft" xml:space="preserve">
+    <value>Aşağı hareket sola kaydırır</value>
+  </data>
+  <data name="DownMotionScrollsRight" xml:space="preserve">
+    <value>Aşağı hareket sağa kaydırır</value>
+  </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>Raf bölmesini değiştir</value>
   </data>
@@ -4260,6 +4431,9 @@
   </data>
   <data name="ClearItems" xml:space="preserve">
     <value>Öğeleri Sil</value>
+  </data>
+  <data name="BatchAction" xml:space="preserve">
+    <value>Toplu işlemler</value>
   </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>Raftan kaldır</value>
@@ -4297,6 +4471,15 @@
   </data>
   <data name="OpenSettings" xml:space="preserve">
     <value>Ayarları aç</value>
+  </data>
+  <data name="NetworkDiscoveryTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Ağ keşfi kapalı. Ağdaki bilgisayarlar ve cihazlar görünür değil.</value>
+  </data>
+  <data name="FileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Dosya paylaşımı kapalı. Bazı ağ bilgisayarları ve cihazlar görünmeyebilir.</value>
+  </data>
+  <data name="NetworkDiscoveryAndFileSharingTurnedOffInfoBarMessage" xml:space="preserve">
+    <value>Ağ keşfi ve dosya paylaşımı kapalı. Ağdaki bilgisayarlar ve cihazlar görünür değil.</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
@@ -4426,10 +4609,10 @@
     <value>Durum çubuğunu göster</value>
   </data>
   <data name="OnlyForTouch" xml:space="preserve">
-    <value>When using touch</value>
+    <value>Dokunmatik kullanırken</value>
   </data>
   <data name="OnlyForMouse" xml:space="preserve">
-    <value>When using mouse</value>
+    <value>Fare kullanırken</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>Yeni '{0}'</value>
@@ -4547,5 +4730,14 @@
   </data>
   <data name="EditTagsGroupDescription" xml:space="preserve">
     <value>Dosya etiketlerini ekle veya kaldır</value>
+  </data>
+  <data name="RemoveTags" xml:space="preserve">
+    <value>Etiketleri kaldır</value>
+  </data>
+  <data name="RemoveTagsDescription" xml:space="preserve">
+    <value>Seçilen ögelerden etiketleri kaldır</value>
+  </data>
+  <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
+    <value>Seçilen öğelerdeki etiketleri kaldırmak istediğinizden emin misiniz?</value>
   </data>
 </root>

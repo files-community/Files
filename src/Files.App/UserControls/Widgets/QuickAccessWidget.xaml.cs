@@ -4,13 +4,14 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using WinRT;
 
 namespace Files.App.UserControls.Widgets
 {
 	/// <summary>
 	/// Represents group of control displays a list of quick access folders with <see cref="WidgetFolderCardItem"/>.
 	/// </summary>
-	public sealed partial class QuickAccessWidget : UserControl
+	public sealed partial class QuickAccessWidget : UserControl, IDisposable
 	{
 		public QuickAccessWidgetViewModel ViewModel { get; set; } = Ioc.Default.GetRequiredService<QuickAccessWidgetViewModel>();
 
@@ -19,6 +20,7 @@ namespace Files.App.UserControls.Widgets
 			InitializeComponent();
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Button))]
 		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			if (!e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed ||
@@ -29,6 +31,7 @@ namespace Files.App.UserControls.Widgets
 			await NavigationHelpers.OpenPathInNewTab(path);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Button))]
 		private async void Button_Click(object sender, RoutedEventArgs e)
 		{
 			if (sender is not Button button ||
@@ -41,6 +44,13 @@ namespace Files.App.UserControls.Widgets
 		private void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			ViewModel.BuildItemContextMenu(sender, e);
+		}
+
+		public void Dispose()
+		{
+			// Detach discarded Home pages from the shared collection.
+			Bindings.StopTracking();
+			QuickAccessItemsRepeater.ItemsSource = null;
 		}
 	}
 }

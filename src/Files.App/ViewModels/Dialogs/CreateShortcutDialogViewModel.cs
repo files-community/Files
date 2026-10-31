@@ -4,8 +4,9 @@
 using Files.Shared.Helpers;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows.Input;
+using Windows.Win32;
+using Windows.Win32.UI.Shell;
 
 namespace Files.App.ViewModels.Dialogs
 {
@@ -27,16 +28,16 @@ namespace Files.App.ViewModels.Dialogs
 		public string ShortcutCompleteName { get; private set; } = string.Empty;
 
 		// Full path of the destination item
-		public string FullPath { get; private set; }
+		public string? FullPath { get; private set; }
 
 		// Arguments to be passed to the destination item if it's an executable
-		public string Arguments { get; private set; }
+		public string? Arguments { get; private set; }
 
 		// Previous path of the destination item
-		private string _previousShortcutTargetPath;
+		private string? _previousShortcutTargetPath;
 
-		private string _shortcutName;
-		public string ShortcutName
+		private string? _shortcutName;
+		public string? ShortcutName
 		{
 			get => _shortcutName;
 			set
@@ -204,7 +205,8 @@ namespace Files.App.ViewModels.Dialogs
 
 		public bool ShowWarningTip => !string.IsNullOrEmpty(ShortcutTarget) && !_isLocationValid;
 
-		public bool ShowNameWarningTip => !string.IsNullOrEmpty(_shortcutTarget) && !FilesystemHelpers.IsValidForFilename(_shortcutName);
+		public bool ShowNameWarningTip => !string.IsNullOrEmpty(_shortcutTarget) &&
+			!FilesystemHelpers.IsValidForFilename(_shortcutName ?? string.Empty);
 
 		public bool IsShortcutValid => _isLocationValid && !ShowNameWarningTip && !string.IsNullOrEmpty(_shortcutTarget);
 
@@ -228,20 +230,34 @@ namespace Files.App.ViewModels.Dialogs
 			return Path.Exists(path) && Path.IsPathFullyQualified(path) && path != Path.GetPathRoot(path);
 		}
 
-		private Task SelectDestination()
+		private unsafe Task SelectDestination()
 		{
-			Win32PInvoke.BROWSEINFO bi = new Win32PInvoke.BROWSEINFO();
-			bi.ulFlags = 0x00004000;
-			bi.lpszTitle = "Select a folder";
-			nint pidl = Win32PInvoke.SHBrowseForFolder(ref bi);
-			if (pidl != nint.Zero)
+			BROWSEINFOW bi = new()
 			{
-				StringBuilder path = new StringBuilder(260);
-				if (Win32PInvoke.SHGetPathFromIDList(pidl, path))
+				ulFlags = 0x00004000
+			};
+
+			Span<char> displayName = stackalloc char[260];
+			fixed (char* displayNameBuffer = displayName)
+			fixed (char* title = "Select a folder")
+			{
+				bi.pszDisplayName = displayNameBuffer;
+				bi.lpszTitle = title;
+				var pidl = PInvoke.SHBrowseForFolder(in bi);
+				if (pidl is not null)
 				{
-					ShortcutTarget = path.ToString();
+					Span<char> path = stackalloc char[260];
+					fixed (char* pathBuffer = path)
+					{
+						if (PInvoke.SHGetPathFromIDList(pidl, pathBuffer))
+						{
+							var length = path.IndexOf('\0');
+							ShortcutTarget = path[..(length < 0 ? path.Length : length)].ToString();
+						}
+					}
+
+					Marshal.FreeCoTaskMem((nint)pidl);
 				}
-				Marshal.FreeCoTaskMem(pidl);
 			}
 
 			return Task.CompletedTask;
@@ -277,7 +293,8 @@ namespace Files.App.ViewModels.Dialogs
 					if (string.IsNullOrEmpty(FullPath))
 					{
 
-						var destinationPath = FullPath.Replace('/', '\\');
+						var destinationPath = (FullPath
+							?? throw new InvalidOperationException("The shortcut target path has not been set.")).Replace('/', '\\');
 
 						if (destinationPath.EndsWith('\\'))
 							destinationPath = destinationPath.Substring(0, destinationPath.Length - 1);

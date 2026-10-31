@@ -3,11 +3,12 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System.Windows.Input;
-using Vanara.PInvoke;
-using Vanara.Windows.Shell;
-using Windows.ApplicationModel.DataTransfer;
 using Microsoft.UI.Xaml.Input;
+using System.Runtime.InteropServices;
+using System.Windows.Input;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Win32.System.Com;
+using Windows.Win32.UI.Shell;
 using WinRT;
 using DragEventArgs = Microsoft.UI.Xaml.DragEventArgs;
 using Visibility = Microsoft.UI.Xaml.Visibility;
@@ -69,26 +70,27 @@ namespace Files.App.UserControls
 
 		private void ListView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
-			var apidl = SafetyExtensions.IgnoreExceptions(() => e.Items
-				.Cast<ShelfItem>()
-				.Select(x => new ShellItem(x.Inner.Id).PIDL)
-				.ToArray());
-
-			if (apidl is null)
+			string[] paths = e.Items.Cast<ShelfItem>().Select(item => item.Inner.Id).ToArray();
+			if (paths.Length is 0)
 				return;
 
-			if (!Shell32.SHGetDesktopFolder(out var pDesktop).Succeeded)
-				return;
-
-			if (!Shell32.SHGetIDListFromObject(pDesktop, out var pDesktopPidl).Succeeded)
-				return;
-
-			e.Data.Properties["Files_ActionBinder"] = "Files_ShelfBinder";
-			if (!Shell32.SHCreateDataObject(pDesktopPidl, apidl, null, out var ppDataObject).Succeeded)
-				return;
-
-			var dataObjectProvider = e.Data.As<Shell32.IDataObjectProvider>();
-			dataObjectProvider.SetDataObject(ppDataObject);
+			var items = new List<ShellItem>(paths.Length);
+			try
+			{
+				items.AddRange(paths.Select(path => new ShellItem(path)));
+				IDataObject dataObject = ShellDataObject.Create(items);
+				e.Data.Properties["Files_ActionBinder"] = "Files_ShelfBinder";
+				e.Data.As<IDataObjectProvider>().SetDataObject(dataObject).ThrowOnFailure();
+			}
+			catch (COMException exception)
+			{
+				Debug.WriteLine(exception);
+			}
+			finally
+			{
+				foreach (ShellItem item in items)
+					item.Dispose();
+			}
 		}
 
 		private void ShelfItemsList_RightTapped(object sender, Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs e)
@@ -132,7 +134,7 @@ namespace Files.App.UserControls
 			{
 				menuFlyout.Items.Add(new MenuFlyoutItem
 				{
-					Text = Strings.BaseLayoutItemContextFlyoutOpenParentFolder_Text.GetLocalizedResource(),
+					Text = Strings.BaseLayoutItemContextFlyoutOpenParentFolderText.GetLocalizedResource(),
 					Icon = new FontIcon() { Glyph = "\uE838" },
 					Command = item.ViewInFolderCommand
 				});
@@ -153,6 +155,7 @@ namespace Files.App.UserControls
 			ItemFocusedCommand?.Execute(null);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void HyperlinkBatch_Click(object sender, RoutedEventArgs e)
 		{
 			if (sender is not FrameworkElement element)

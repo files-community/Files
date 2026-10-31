@@ -137,36 +137,24 @@
 								<VisualState x:Name="Safe" />
 
 								<VisualState x:Name="Caution">
-									<Storyboard>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ValueBar" Storyboard.TargetProperty="Background">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource StorageBarValueCautionBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_TrackBar" Storyboard.TargetProperty="Background">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource StorageBarTrackCautionBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-									</Storyboard>
+									<VisualState.Setters>
+										<Setter Target="PART_ValueBar.Background" Value="{ThemeResource StorageBarValueCautionBrush}" />
+										<Setter Target="PART_TrackBar.Background" Value="{ThemeResource StorageBarTrackCautionBrush}" />
+									</VisualState.Setters>
 								</VisualState>
 
 								<VisualState x:Name="Critical">
-									<Storyboard>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ValueBar" Storyboard.TargetProperty="Background">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource StorageBarValueCriticalBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_TrackBar" Storyboard.TargetProperty="Background">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource StorageBarTrackCriticalBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-									</Storyboard>
+									<VisualState.Setters>
+										<Setter Target="PART_ValueBar.Background" Value="{ThemeResource StorageBarValueCriticalBrush}" />
+										<Setter Target="PART_TrackBar.Background" Value="{ThemeResource StorageBarTrackCriticalBrush}" />
+									</VisualState.Setters>
 								</VisualState>
 
 								<VisualState x:Name="Disabled">
-									<Storyboard>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ValueBar" Storyboard.TargetProperty="Background">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource StorageBarValueDisabledBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_TrackBar" Storyboard.TargetProperty="Background">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource StorageBarTrackDisabledBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-									</Storyboard>
+									<VisualState.Setters>
+										<Setter Target="PART_ValueBar.Background" Value="{ThemeResource StorageBarValueDisabledBrush}" />
+										<Setter Target="PART_TrackBar.Background" Value="{ThemeResource StorageBarTrackDisabledBrush}" />
+									</VisualState.Setters>
 								</VisualState>
 
 							</VisualStateGroup>

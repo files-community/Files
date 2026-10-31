@@ -11,7 +11,7 @@ namespace Files.App.Utils.Storage
 
 		public string Path { get; }
 
-		public IStorageItem Item { get; }
+		public IStorageItem? Item { get; }
 
 		public FilesystemItemType ItemType { get; }
 	}

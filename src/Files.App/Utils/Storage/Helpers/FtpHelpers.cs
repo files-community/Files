@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using FluentFTP;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Files.App.Utils.Storage
 {
@@ -17,7 +18,7 @@ namespace Files.App.Utils.Storage
 			return true;
 		}
 
-		public static bool IsFtpPath(string path)
+		public static bool IsFtpPath([NotNullWhen(true)] string? path)
 		{
 			if (!string.IsNullOrEmpty(path))
 			{

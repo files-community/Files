@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Controls;
+using WinRT;
 
 namespace Files.App.UserControls.KeyboardShortcut
 {
@@ -22,6 +23,7 @@ namespace Files.App.UserControls.KeyboardShortcut
 		{
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ItemsControl))]
 		private async void OnHotKeysChanged()
 		{
 			var keyboardShortcutItemsControl = GetTemplateChild(KeyboardShortcutItemsControl) as ItemsControl;

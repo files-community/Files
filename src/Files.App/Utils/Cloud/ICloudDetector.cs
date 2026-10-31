@@ -6,5 +6,7 @@ namespace Files.App.Utils.Cloud
 	public interface ICloudDetector
 	{
 		Task<IEnumerable<ICloudProvider>> DetectCloudProvidersAsync();
+
+		IAsyncEnumerable<ICloudProvider> DetectCloudProvidersProgressiveAsync();
 	}
 }

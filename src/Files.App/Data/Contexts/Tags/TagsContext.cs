@@ -32,7 +32,7 @@ namespace Files.App.Data.Contexts
 			SidebarViewModel.SelectedTagChanged += SelectedTagsChanged;
 		}
 
-		private void SelectedTagsChanged(object _, SelectedTagChangedEventArgs e)
+		private void SelectedTagsChanged(object? _, SelectedTagChangedEventArgs e)
 		{
 			TaggedItems = e.Items;
 		}
