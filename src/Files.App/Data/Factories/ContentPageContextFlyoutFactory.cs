@@ -157,46 +157,7 @@ namespace Files.App.Data.Factories
 					ShowInZipPage = true,
 					Items =
 					[
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.SortByName)
-						{
-							IsToggle = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.SortByDateModified)
-						{
-							IsToggle = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.SortByDateCreated)
-						{
-							IsToggle = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.SortByType)
-						{
-							IsToggle = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.SortBySize)
-						{
-							IsToggle = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.SortBySyncStatus)
-						{
-							IsToggle = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.SortByTag)
-						{
-							IsToggle = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.SortByPath)
-						{
-							IsToggle = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.SortByOriginalFolder)
-						{
-							IsToggle = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.SortByDateDeleted)
-						{
-							IsToggle = true
-						}.Build(),
+						.. GetSortMenuItems(currentInstanceViewModel.FolderSettings, itemViewModel),
 						new ContextMenuFlyoutItemViewModel
 						{
 							ItemType = ContextMenuFlyoutItemType.Separator,
@@ -226,105 +187,7 @@ namespace Files.App.Data.Factories
 					ShowInZipPage = true,
 					Items =
 					[
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.GroupByNone)
-						{
-							IsToggle = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.GroupByName)
-						{
-							IsToggle = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModel()
-						{
-							Text = Strings.DateModifiedLowerCase.GetLocalizedResource(),
-							ShowInRecycleBin = true,
-							ShowInSearchPage = true,
-							ShowInFtpPage = true,
-							ShowInZipPage = true,
-							Items =
-							[
-								new ContextMenuFlyoutItemViewModelBuilder(Commands.GroupByDateModifiedYear)
-								{
-									IsToggle = true
-								}.Build(),
-								new ContextMenuFlyoutItemViewModelBuilder(Commands.GroupByDateModifiedMonth)
-								{
-									IsToggle = true
-								}.Build(),
-								new ContextMenuFlyoutItemViewModelBuilder(Commands.GroupByDateModifiedDay)
-								{
-									IsToggle = true
-								}.Build(),
-							],
-						},
-						new ContextMenuFlyoutItemViewModel()
-						{
-							Text = Strings.DateCreated.GetLocalizedResource(),
-							ShowInRecycleBin = true,
-							ShowInSearchPage = true,
-							ShowInFtpPage = true,
-							ShowInZipPage = true,
-							Items =
-							[
-								new ContextMenuFlyoutItemViewModelBuilder(Commands.GroupByDateCreatedYear)
-								{
-									IsToggle = true
-								}.Build(),
-								new ContextMenuFlyoutItemViewModelBuilder(Commands.GroupByDateCreatedMonth)
-								{
-									IsToggle = true
-								}.Build(),
-								new ContextMenuFlyoutItemViewModelBuilder(Commands.GroupByDateCreatedDay)
-								{
-									IsToggle = true
-								}.Build(),
-							],
-						},
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.GroupByType)
-						{
-							IsToggle = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.GroupBySize)
-						{
-							IsToggle = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.GroupBySyncStatus)
-						{
-							IsToggle = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.GroupByTag)
-						{
-							IsToggle = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.GroupByOriginalFolder)
-						{
-							IsToggle = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModel()
-						{
-							Text = Strings.DateDeleted.GetLocalizedResource(),
-							ShowInRecycleBin = true,
-							IsHidden = !currentInstanceViewModel.IsPageTypeRecycleBin,
-							Items =
-							[
-								new ContextMenuFlyoutItemViewModelBuilder(Commands.GroupByDateDeletedYear)
-								{
-									IsToggle = true
-								}.Build(),
-								new ContextMenuFlyoutItemViewModelBuilder(Commands.GroupByDateDeletedMonth)
-								{
-									IsToggle = true
-								}.Build(),
-								new ContextMenuFlyoutItemViewModelBuilder(Commands.GroupByDateDeletedDay)
-								{
-									IsToggle = true
-								}.Build(),
-							],
-						},
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.GroupByFolderPath)
-						{
-							IsToggle = true
-						}.Build(),
+						.. GetGroupMenuItems(currentInstanceViewModel.FolderSettings, itemViewModel),
 						new ContextMenuFlyoutItemViewModel
 						{
 							ItemType = ContextMenuFlyoutItemType.Separator,
@@ -733,6 +596,67 @@ namespace Files.App.Data.Factories
 			}
 
 			return list;
+		}
+
+		/// <summary>
+		/// Gets the items of the sort menus for the specified folder, shared by the context menu and the toolbar.
+		/// </summary>
+		public static List<ContextMenuFlyoutItemViewModel> GetSortMenuItems(LayoutPreferencesManager folderSettings, ShellViewModel? shellViewModel)
+			=> GetOptionMenuItems(LayoutSortGroupOptions.GetSortOptions(folderSettings, shellViewModel), option => LayoutSortGroupOptions.SortBy(folderSettings, option.PropertyId!));
+
+		/// <summary>
+		/// Gets the items of the group menus for the specified folder, shared by the context menu and the toolbar.
+		/// </summary>
+		public static List<ContextMenuFlyoutItemViewModel> GetGroupMenuItems(LayoutPreferencesManager folderSettings, ShellViewModel? shellViewModel)
+			=> GetOptionMenuItems(LayoutSortGroupOptions.GetGroupOptions(folderSettings, shellViewModel), option => LayoutSortGroupOptions.GroupBy(folderSettings, option.PropertyId!, option.DateUnit));
+
+		private static List<ContextMenuFlyoutItemViewModel> GetOptionMenuItems(IReadOnlyList<LayoutSortGroupOption> options, Action<LayoutSortGroupOption> selectOption)
+		{
+			return [.. options.Select(option => CreateOptionMenuItem(option, selectOption))];
+		}
+
+		private static ContextMenuFlyoutItemViewModel CreateOptionMenuItem(LayoutSortGroupOption option, Action<LayoutSortGroupOption> selectOption)
+		{
+			if (option.IsSeparator)
+			{
+				return new ContextMenuFlyoutItemViewModel()
+				{
+					ItemType = ContextMenuFlyoutItemType.Separator,
+					ShowInRecycleBin = true,
+					ShowInSearchPage = true,
+					ShowInFtpPage = true,
+					ShowInZipPage = true,
+				};
+			}
+
+			if (option.BuiltInCommand is { } command)
+			{
+				var commandItem = new ContextMenuFlyoutItemViewModelBuilder(command) { IsToggle = true }.Build();
+				commandItem.Text = option.Label;
+				return commandItem;
+			}
+
+			var item = new ContextMenuFlyoutItemViewModel()
+			{
+				Text = option.Label,
+				ShowInRecycleBin = true,
+				ShowInSearchPage = true,
+				ShowInFtpPage = true,
+				ShowInZipPage = true,
+			};
+
+			if (option.Items is { } items)
+			{
+				item.Items = GetOptionMenuItems(items, selectOption);
+			}
+			else if (option.PropertyId is not null)
+			{
+				item.ItemType = ContextMenuFlyoutItemType.Toggle;
+				item.IsChecked = option.IsChecked;
+				item.Command = new RelayCommand(() => selectOption(option));
+			}
+
+			return item;
 		}
 	}
 }

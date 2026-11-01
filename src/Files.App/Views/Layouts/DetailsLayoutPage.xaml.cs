@@ -35,7 +35,6 @@ namespace Files.App.Views.Layouts
 	{
 		// Dependency injections
 
-		private ILayoutTemplatesService LayoutTemplatesService { get; } = Ioc.Default.GetRequiredService<ILayoutTemplatesService>();
 
 		// Constants
 
@@ -1294,13 +1293,7 @@ namespace Files.App.Views.Layouts
 			for (var index = items.IndexOf(ColumnTogglesEndSeparator) - 1; index >= startIndex; index--)
 				items.RemoveAt(index);
 
-			// Lists the columns that apply to this folder in display order, like the column menu of File Explorer.
-			var columnIds = ColumnsViewModel.OrderedColumns.Ids.Where(id =>
-				!DetailsLayoutColumnOrder.IsFixed(id) &&
-				ColumnsViewModel.GetColumn(id) is { IsHidden: false } column &&
-				(DetailsLayoutColumnDefinitions.IsBuiltIn(id) || !column.UserCollapsed));
-
-			foreach (var id in columnIds)
+			foreach (var id in ColumnsViewModel.GetMenuColumnIds(LayoutSortGroupOptions.GetLocationColumnIds(ParentShellPageInstance?.ShellViewModel)))
 			{
 				var item = new ToggleMenuFlyoutItem
 				{
@@ -1315,47 +1308,27 @@ namespace Files.App.Views.Layouts
 
 		private async void MoreColumns_Click(object sender, RoutedEventArgs e)
 		{
-			var catalog = _shellPropertyCatalog ?? await ShellPropertyCatalog.GetAsync();
-			var availableColumns = DetailsLayoutColumnIds.BuiltIn
-				.Where(id => !DetailsLayoutColumnOrder.IsFixed(id) && !ColumnsViewModel.GetColumn(id).IsHidden)
-				.Concat(catalog.Keys.Where(id => !DetailsLayoutColumnDefinitions.IsBuiltIn(id)))
-				.ToArray();
+			await CustomizeColumnsAsync();
+		}
 
-			var shownColumns = ColumnsViewModel.OrderedColumns.Ids.Where(id => ColumnsViewModel.IsColumnVisible(id) && !ColumnsViewModel.GetColumn(id).IsHidden);
-			var template = LayoutTemplatesService.GetTemplate(FolderSettings?.TemplateId) ?? LayoutTemplatesService.DefaultTemplate;
-			var defaultColumns = DetailsLayoutColumnDefaults.GetColumns(template).Where(id => DetailsLayoutColumnOrder.IsRequired(id) || availableColumns.Contains(id));
-
-			var viewModel = new ColumnCustomizationViewModel(shownColumns, availableColumns, defaultColumns, GetColumnDisplayName, Strings.CustomizeColumns.GetLocalizedResource());
+		/// <summary>
+		/// Opens the window that chooses the shown columns.
+		/// </summary>
+		public async Task CustomizeColumnsAsync()
+		{
+			var viewModel = await ColumnCustomizationViewModel.CreateForFolderAsync(ColumnsViewModel, ParentShellPageInstance.GetRequiredShellViewModel().WorkingDirectory, FolderSettings?.TemplateId, GetColumnDisplayName);
 			viewModel.Saved += (_, columns) =>
 			{
 				if (!IsLoaded)
 					return;
 
-				SetColumnsVisibility(availableColumns.Select(id => (id, columns.Contains(id))));
-				ColumnsViewModel.ColumnOrder = [.. columns, .. ColumnsViewModel.OrderedColumns.Ids.Where(id => !columns.Contains(id) && !DetailsLayoutColumnOrder.IsFixed(id))];
-				SaveColumnLayout();
+				if (viewModel.ApplyToFolder(columns))
+					LoadShellPropertiesForRealizedItems();
+
+				SaveColumnVisibility();
 			};
 
 			ColumnCustomizationWindow.Show(viewModel);
-		}
-
-		private void SetColumnsVisibility(IEnumerable<(string Id, bool IsVisible)> changes)
-		{
-			var hasNewColumns = false;
-			foreach (var (id, isVisible) in changes)
-			{
-				if (isVisible == ColumnsViewModel.IsColumnVisible(id))
-					continue;
-
-				var width = _shellPropertyCatalog is not null && _shellPropertyCatalog.TryGetValue(id, out var info) ? info.DefaultWidth : 150;
-				ColumnsViewModel.SetColumnVisibility(id, isVisible, width);
-				hasNewColumns |= isVisible;
-			}
-
-			if (hasNewColumns)
-				LoadShellPropertiesForRealizedItems();
-
-			SaveColumnVisibility();
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(ToggleMenuFlyoutItem))]

@@ -242,6 +242,64 @@ namespace Files.App.Data.Models
 			ColumnOrder = [.. ids.Where(x => !DetailsLayoutColumnOrder.IsFixed(x))];
 		}
 
+		/// <summary>
+		/// Gets the columns the user can choose from for a folder, and the ones shown now in display order.
+		/// </summary>
+		/// <summary>
+		/// Gets the columns for the column menu in display order, followed by the other columns the location offers, like File Explorer.
+		/// </summary>
+		public IEnumerable<string> GetMenuColumnIds(IEnumerable<string> locationColumnIds)
+		{
+			var columnIds = OrderedColumns.Ids.Where(id =>
+				!DetailsLayoutColumnOrder.IsRequired(id) &&
+				GetColumn(id) is { IsHidden: false } column &&
+				(DetailsLayoutColumnDefinitions.IsBuiltIn(id) || !column.UserCollapsed));
+
+			return columnIds
+				.Concat(locationColumnIds.Where(id => !DetailsLayoutColumnDefinitions.IsBuiltIn(id) && ColumnValueHelper.IsShellPropertyColumn(id)))
+				.Distinct();
+		}
+
+		public (string[] Available, string[] Shown) GetCustomizationColumns(IReadOnlyList<ShellFolderColumn> folderColumns, IReadOnlyDictionary<string, ShellPropertyColumnInfo> catalog)
+		{
+			var propertyColumns = folderColumns.Count > 0
+				? folderColumns.Select(column => column.Id).Where(catalog.ContainsKey).Concat(OrderedColumns.Ids.Where(IsColumnVisible))
+				: catalog.Keys;
+
+			var available = DetailsLayoutColumnIds.BuiltIn
+				.Where(id => !DetailsLayoutColumnOrder.IsFixed(id) && !GetColumn(id).IsHidden)
+				.Concat(propertyColumns.Where(id => !DetailsLayoutColumnDefinitions.IsBuiltIn(id)))
+				.Distinct()
+				.ToArray();
+
+			var shown = OrderedColumns.Ids.Where(id => IsColumnVisible(id) && !GetColumn(id).IsHidden).ToArray();
+
+			return (available, shown);
+		}
+
+		/// <summary>
+		/// Shows the specified columns in their order and hides the other available ones.
+		/// </summary>
+		/// <returns>Whether a column was added, whose values may need loading.</returns>
+		public bool ApplyCustomization(IReadOnlyList<string> shownColumns, IEnumerable<string> availableColumns, IReadOnlyDictionary<string, ShellPropertyColumnInfo>? catalog)
+		{
+			var hasNewColumns = false;
+			foreach (var id in availableColumns)
+			{
+				var isVisible = shownColumns.Contains(id);
+				if (isVisible == IsColumnVisible(id))
+					continue;
+
+				var width = catalog is not null && catalog.TryGetValue(id, out var info) ? info.DefaultWidth : DefaultPropertyColumnWidth;
+				SetColumnVisibility(id, isVisible, width);
+				hasNewColumns |= isVisible;
+			}
+
+			ColumnOrder = [.. shownColumns, .. OrderedColumns.Ids.Where(id => !shownColumns.Contains(id) && !DetailsLayoutColumnOrder.IsFixed(id))];
+
+			return hasNewColumns;
+		}
+
 		public double TotalWidth =>
 			AllColumnIds.Sum(id => GetColumn(id).Length.Value);
 

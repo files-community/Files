@@ -649,6 +649,27 @@ namespace Files.App.UserControls
 				DispatcherQueue.TryEnqueue(() => button.IsChecked = ViewModel?.IsLayoutTemplateApplied is false);
 		}
 
+		private void SortMenu_Opening(object sender, object e)
+		{
+			if (ViewModel?.InstanceViewModel?.FolderSettings is not { } folderSettings)
+				return;
+
+			var shellViewModel = PageContext.ShellPage?.ShellViewModel;
+			SetOptionMenuItems(SortByMenu, ContentPageContextFlyoutFactory.GetSortMenuItems(folderSettings, shellViewModel));
+			SetOptionMenuItems(GroupByMenu, ContentPageContextFlyoutFactory.GetGroupMenuItems(folderSettings, shellViewModel));
+		}
+
+		private static void SetOptionMenuItems(MenuFlyoutSubItem menu, List<ContextMenuFlyoutItemViewModel> items)
+		{
+			for (var index = menu.Items.IndexOf(menu.Items.OfType<MenuFlyoutSeparator>().First()) - 1; index >= 0; index--)
+				menu.Items.RemoveAt(index);
+
+			var elements = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(items) ?? [];
+			for (var index = 0; index < elements.Count; index++)
+				menu.Items.Insert(index, elements[index]);
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(ComboBox))]
 		private void LayoutTemplates_DropDownOpened(object sender, object e)
 			=> templateBeforeDropDown = (sender as ComboBox)?.SelectedItem;
 

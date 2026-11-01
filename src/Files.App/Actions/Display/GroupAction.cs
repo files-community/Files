@@ -46,19 +46,6 @@ namespace Files.App.Actions
 	}
 
 	[GeneratedRichCommand]
-	internal sealed partial class GroupByDateCreatedAction : GroupByAction
-	{
-		protected override GroupOption GroupOption
-			=> GroupOption.DateCreated;
-
-		public override string Label
-			=> Strings.DateCreated.GetLocalizedResource();
-
-		public override string Description
-			=> Strings.GroupByDateCreatedDescription.GetLocalizedResource();
-	}
-
-	[GeneratedRichCommand]
 	internal sealed partial class GroupBySizeAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
@@ -161,7 +148,7 @@ namespace Files.App.Actions
 			=> Label;
 
 		protected override bool GetIsExecutable(ContentPageTypes pageType)
-			=> pageType is ContentPageTypes.Library or ContentPageTypes.SearchResults;
+			=> pageType is ContentPageTypes.Library or ContentPageTypes.SearchResults || ContentContext.ShellPage?.InstanceViewModel.IsPageTypeSearchResults is true;
 	}
 
 	internal abstract class GroupByAction : ObservableObject, IToggleAction
@@ -269,54 +256,6 @@ namespace Files.App.Actions
 
 		public override string Description
 			=> Strings.GroupByDateModifiedDayDescription.GetLocalizedResource();
-	}
-
-	[GeneratedRichCommand]
-	internal sealed partial class GroupByDateCreatedYearAction : GroupByDateAction
-	{
-		protected override GroupOption GroupOption
-			=> GroupOption.DateCreated;
-
-		protected override GroupByDateUnit GroupByDateUnit
-			=> GroupByDateUnit.Year;
-
-		public override string Label
-			=> Strings.Year.GetLocalizedResource();
-
-		public override string Description
-			=> Strings.GroupByDateCreatedYearDescription.GetLocalizedResource();
-	}
-
-	[GeneratedRichCommand]
-	internal sealed partial class GroupByDateCreatedMonthAction : GroupByDateAction
-	{
-		protected override GroupOption GroupOption
-			=> GroupOption.DateCreated;
-
-		protected override GroupByDateUnit GroupByDateUnit
-			=> GroupByDateUnit.Month;
-
-		public override string Label
-			=> Strings.Month.GetLocalizedResource();
-
-		public override string Description
-			=> Strings.GroupByDateCreatedMonthDescription.GetLocalizedResource();
-	}
-
-	[GeneratedRichCommand]
-	internal sealed partial class GroupByDateCreatedDayAction : GroupByDateAction
-	{
-		protected override GroupOption GroupOption
-			=> GroupOption.DateCreated;
-
-		protected override GroupByDateUnit GroupByDateUnit
-			=> GroupByDateUnit.Day;
-
-		public override string Label
-			=> Strings.Day.GetLocalizedResource();
-
-		public override string Description
-			=> Strings.GroupByDateCreatedDayDescription.GetLocalizedResource();
 	}
 
 	[GeneratedRichCommand]

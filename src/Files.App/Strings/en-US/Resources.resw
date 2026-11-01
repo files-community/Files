@@ -2846,9 +2846,6 @@
   <data name="GroupByDateModifiedDescription" xml:space="preserve">
     <value>Group items by date modified</value>
   </data>
-  <data name="GroupByDateCreatedDescription" xml:space="preserve">
-    <value>Group items by date created</value>
-  </data>
   <data name="GroupBySizeDescription" xml:space="preserve">
     <value>Group items by size</value>
   </data>
@@ -3221,15 +3218,6 @@
   </data>
   <data name="GroupByDateUnit" xml:space="preserve">
     <value>Group by date unit</value>
-  </data>
-  <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
-    <value>Group items by day of date created</value>
-  </data>
-  <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date created</value>
-  </data>
-  <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
-    <value>Group items by year of date created</value>
   </data>
   <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
     <value>Group items by day of date deleted</value>
@@ -4833,6 +4821,9 @@
   <data name="CustomizeColumns" xml:space="preserve">
     <value>Customize columns</value>
   </data>
+  <data name="CustomizeColumnsDescription" xml:space="preserve">
+    <value>Choose the columns shown in the Details layout</value>
+  </data>
   <data name="OtherColumns" xml:space="preserve">
     <value>Other</value>
     <comment>Name of a group of columns in the window for choosing Details layout columns, with columns that fit no other group.</comment>
@@ -4997,6 +4988,74 @@
   </data>
   <data name="SeparateFileExtensionsWithCommas" xml:space="preserve">
     <value>Separate extensions with commas</value>
+  </data>
+  <data name="DayUpdated" xml:space="preserve">
+    <value>Day updated</value>
+    <comment>Option in the Group by menu that groups items by the day they were last modified.</comment>
+  </data>
+  <data name="MonthUpdated" xml:space="preserve">
+    <value>Month updated</value>
+    <comment>Option in the Group by menu that groups items by the month they were last modified.</comment>
+  </data>
+  <data name="YearUpdated" xml:space="preserve">
+    <value>Year updated</value>
+    <comment>Option in the Group by menu that groups items by the year they were last modified.</comment>
+  </data>
+  <data name="DayTaken" xml:space="preserve">
+    <value>Day taken</value>
+    <comment>Option in the Group by menu that groups pictures by the day they were taken.</comment>
+  </data>
+  <data name="MonthTaken" xml:space="preserve">
+    <value>Month taken</value>
+    <comment>Option in the Group by menu that groups pictures by the month they were taken.</comment>
+  </data>
+  <data name="YearTaken" xml:space="preserve">
+    <value>Year taken</value>
+    <comment>Option in the Group by menu that groups pictures by the year they were taken.</comment>
+  </data>
+  <data name="DayRecorded" xml:space="preserve">
+    <value>Day recorded</value>
+    <comment>Option in the Group by menu that groups videos by the day they were recorded.</comment>
+  </data>
+  <data name="MonthRecorded" xml:space="preserve">
+    <value>Month recorded</value>
+    <comment>Option in the Group by menu that groups videos by the month they were recorded.</comment>
+  </data>
+  <data name="YearRecorded" xml:space="preserve">
+    <value>Year recorded</value>
+    <comment>Option in the Group by menu that groups videos by the year they were recorded.</comment>
+  </data>
+  <data name="DayDeleted" xml:space="preserve">
+    <value>Day deleted</value>
+    <comment>Option in the Group by menu of the Recycle Bin that groups items by the day they were deleted.</comment>
+  </data>
+  <data name="MonthDeleted" xml:space="preserve">
+    <value>Month deleted</value>
+    <comment>Option in the Group by menu of the Recycle Bin that groups items by the month they were deleted.</comment>
+  </data>
+  <data name="YearDeleted" xml:space="preserve">
+    <value>Year deleted</value>
+    <comment>Option in the Group by menu of the Recycle Bin that groups items by the year they were deleted.</comment>
+  </data>
+  <data name="NoneInParentheses" xml:space="preserve">
+    <value>(None)</value>
+    <comment>Option in the Group by menu that turns off grouping.</comment>
+  </data>
+  <data name="MoreEllipsis" xml:space="preserve">
+    <value>More…</value>
+    <comment>Option at the end of the Sort by and Group by menus that lists every property items can be sorted or grouped by.</comment>
+  </data>
+  <data name="DayCommitted" xml:space="preserve">
+    <value>Day committed</value>
+    <comment>Option in the Group by menu of Git repositories that groups items by the day of their last commit.</comment>
+  </data>
+  <data name="MonthCommitted" xml:space="preserve">
+    <value>Month committed</value>
+    <comment>Option in the Group by menu of Git repositories that groups items by the month of their last commit.</comment>
+  </data>
+  <data name="YearCommitted" xml:space="preserve">
+    <value>Year committed</value>
+    <comment>Option in the Group by menu of Git repositories that groups items by the year of their last commit.</comment>
   </data>
   <data name="Unrated" xml:space="preserve">
     <value>Unrated</value>
