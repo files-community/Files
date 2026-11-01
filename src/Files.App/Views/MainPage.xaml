@@ -7,6 +7,7 @@
 	xmlns:controls="using:Files.App.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:tabbar="using:Files.App.UserControls.TabBar"
@@ -53,7 +54,7 @@
 			<x:Boolean x:Key="False">False</x:Boolean>
 
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
-
+			<converters:TerminalHeightConverter x:Key="TerminalHeightConverter" />
 
 			<MenuFlyout x:Key="SidebarContextMenu">
 				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowPinnedFoldersSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=Pinned}" />
@@ -179,6 +180,7 @@
 							MinHeight="100" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition x:Name="InfoPaneRowDefinition" Height="Auto" />
+						<RowDefinition x:Name="TerminalRow" Height="{x:Bind ViewModel.IsTerminalViewOpen, Converter={StaticResource TerminalHeightConverter}}" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition
@@ -259,6 +261,15 @@
 						x:Load="{x:Bind ViewModel.ShouldPreviewPaneBeActive, Mode=OneWay}"
 						Loaded="PreviewPane_Loaded"
 						Unloaded="PreviewPane_Unloaded" />
+
+					<!--  Terminal  -->
+					<uc:TerminalPane
+						x:Name="TerminalControl"
+						Grid.Row="4"
+						Grid.ColumnSpan="3"
+						Margin="0,0,0,4"
+						MainPageViewModel="{x:Bind ViewModel}"
+						Visibility="{x:Bind ViewModel.IsTerminalViewOpen, Mode=OneWay}" />
 
 					<!--  Shelf Pane  -->
 					<uc:ShelfPane

@@ -55,6 +55,14 @@ namespace Files.App.Extensions
 			return result;
 		}
 
+		/// <summary>
+		/// Compares two strings for equality, but assumes that null string is equal to an empty string.
+		/// </summary>
+		public static bool NullableEqualTo(this string original, string other,
+			StringComparison stringComparison = StringComparison.Ordinal) => string.IsNullOrEmpty(original)
+			? string.IsNullOrEmpty(other)
+			: original.Equals(other, stringComparison);
+
 		private static readonly ResourceManager resourceManager = new();
 		private static readonly ResourceMap resourcesTree = resourceManager.MainResourceMap.TryGetSubtree("Resources");
 		private static readonly Lock resourceLookupLock = new();
