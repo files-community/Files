@@ -4,6 +4,7 @@
 using Files.App.Utils.Terminal;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using WinRT;
 
 namespace Files.App.UserControls
 {
@@ -34,6 +35,7 @@ namespace Files.App.UserControls
 			MainPageViewModel?.TerminalAddCommand.Execute((ShellProfile)e.ClickedItem);
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(Button))]
 		private void TerminalListItemClose_Click(object sender, RoutedEventArgs e)
 		{
 			MainPageViewModel?.TerminalCloseCommand.Execute(((Button)sender).Tag?.ToString());

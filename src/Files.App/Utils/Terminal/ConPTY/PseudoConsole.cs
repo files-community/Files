@@ -8,7 +8,7 @@ namespace Files.App.Utils.Terminal.ConPTY
 	/// <summary>
 	/// Utility functions around the new Pseudo Console APIs
 	/// </summary>
-	internal sealed class PseudoConsole : IDisposable
+	internal sealed partial class PseudoConsole : IDisposable
 	{
 		public static readonly nint PseudoConsoleThreadAttribute = (nint)PROC_THREAD_ATTRIBUTE_PSEUDOCONSOLE;
 

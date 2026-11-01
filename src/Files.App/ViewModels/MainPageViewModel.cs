@@ -210,7 +210,7 @@ namespace Files.App.ViewModels
 			TerminalSyncUpCommand = new AsyncRelayCommand(async () =>
 			{
 				var context = Ioc.Default.GetRequiredService<IContentPageContext>();
-				if (GetTerminalFolder is not null && await GetTerminalFolder() is string terminalFolder)
+				if (GetTerminalFolder is not null && await GetTerminalFolder() is string terminalFolder && context.ShellPage != null)
 					_ = NavigationHelpers.OpenPath(terminalFolder, context.ShellPage, FilesystemItemType.Directory);
 			});
 			TerminalSyncDownCommand = new RelayCommand(() =>

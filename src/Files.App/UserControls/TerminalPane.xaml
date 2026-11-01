@@ -6,6 +6,7 @@
 	xmlns:controls="using:Files.App.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:datamodels="using:Files.App.Data.Models"
+	xmlns:models="using:Files.App.Utils.Terminal"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
@@ -99,11 +100,16 @@
 								<ListView
 									Margin="-12"
 									Padding="4"
-									DisplayMemberPath="Name"
 									IsItemClickEnabled="True"
 									ItemClick="TerminalProfile_ItemClick"
 									ItemsSource="{x:Bind MainPageViewModel.TerminalProfiles, Mode=OneWay}"
-									SelectionMode="None" />
+									SelectionMode="None">
+									<ListView.ItemTemplate>
+										<DataTemplate x:DataType="models:ShellProfile">
+											<TextBlock Text="{x:Bind Name}" />
+										</DataTemplate>
+									</ListView.ItemTemplate>
+								</ListView>
 							</Flyout>
 						</Button.Flyout>
 					</Button>
@@ -161,11 +167,16 @@
 							<ListView
 								Margin="-12"
 								Padding="4"
-								DisplayMemberPath="Name"
 								IsItemClickEnabled="True"
 								ItemClick="TerminalProfile_ItemClick"
 								ItemsSource="{x:Bind MainPageViewModel.TerminalProfiles, Mode=OneWay}"
-								SelectionMode="None" />
+								SelectionMode="None">
+								<ListView.ItemTemplate>
+									<DataTemplate x:DataType="models:ShellProfile">
+										<TextBlock Text="{x:Bind Name}" />
+									</DataTemplate>
+								</ListView.ItemTemplate>
+							</ListView>
 						</Flyout>
 					</Button.Flyout>
 				</Button>

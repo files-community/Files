@@ -12,25 +12,25 @@ namespace Files.App.Utils.Terminal.ConPTY
 	/// The UI of the terminal. It's just a normal console window, but we're managing the input/output.
 	/// In a "real" project this could be some other UI.
 	/// </summary>
-	internal sealed class Terminal : IDisposable
+	internal sealed partial class Terminal : IDisposable
 	{
-		private SafeFileHandle _consoleInputPipeWriteHandle;
-		private FileStream _consoleInputWriter;
-		private PseudoConsolePipe _inputPipe;
-		private PseudoConsolePipe _outputPipe;
-		private PseudoConsole _pseudoConsole;
-		private Process _process;
+		private SafeFileHandle? _consoleInputPipeWriteHandle;
+		private FileStream? _consoleInputWriter;
+		private PseudoConsolePipe? _inputPipe;
+		private PseudoConsolePipe? _outputPipe;
+		private PseudoConsole? _pseudoConsole;
+		private Process? _process;
 
 		/// <summary>
 		/// A stream of VT-100-enabled output from the console.
 		/// </summary>
-		public FileStream ConsoleOutStream { get; private set; }
+		public FileStream? ConsoleOutStream { get; private set; }
 
 		/// <summary>
 		/// Fired once the console has been hooked up and is ready to receive input.
 		/// </summary>
-		public event EventHandler OutputReady;
-		public event EventHandler Exited;
+		public event EventHandler? OutputReady;
+		public event EventHandler? Exited;
 
 		public Terminal()
 		{
@@ -90,7 +90,7 @@ namespace Files.App.Utils.Terminal.ConPTY
 
 			// copy all pseudoconsole output to a FileStream and expose it to the rest of the app
 			ConsoleOutStream = new FileStream(_outputPipe.ReadSide, FileAccess.Read);
-			OutputReady.Invoke(this, EventArgs.Empty);
+			OutputReady?.Invoke(this, EventArgs.Empty);
 
 			// Store input pipe handle, and a writer for later reuse
 			_consoleInputPipeWriteHandle = _inputPipe.WriteSide;
@@ -174,7 +174,7 @@ namespace Files.App.Utils.Terminal.ConPTY
 
 			if (disposeManaged)
 			{
-				ConsoleOutStream.Dispose();
+				ConsoleOutStream?.Dispose();
 				// Dispose pseudo console before _consoleInputWriter to avoid
 				// hanging on call of ClosePseudoConsole
 				_pseudoConsole?.Dispose();

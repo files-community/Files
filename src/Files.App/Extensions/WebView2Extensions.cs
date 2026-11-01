@@ -2,16 +2,40 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
+using Microsoft.Extensions.Options;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Text;
 using System.Text.Encodings.Web;
 using Windows.Foundation;
+using Windows.UI;
 
 namespace Files.App.Extensions
 {
 	using WebViewMessageReceivedHandler = TypedEventHandler<WebView2, CoreWebView2WebMessageReceivedEventArgs>;
+
+	internal struct WebMessage
+	{
+		public Guid Guid { get; set; }
+	}
+
+	internal struct MethodWebMessage
+	{
+		public long Id { get; set; }
+		public string Method { get; set; }
+		public string Args { get; set; }
+	}
+
+	[JsonSourceGenerationOptions(
+		PropertyNameCaseInsensitive = true)]
+	[JsonSerializable(typeof(WebMessage))]
+	[JsonSerializable(typeof(MethodWebMessage))]
+	[JsonSerializable(typeof(JsonElement[]))]
+	internal partial class WebMessageJsonContext : JsonSerializerContext
+	{
+	}
 
 	/// <summary>
 	/// Code modified from https://gist.github.com/mqudsi/ceb4ecee76eb4c32238a438664783480
@@ -22,24 +46,16 @@ namespace Files.App.Extensions
 		{
 			webview.Source = url;
 		}
-
-		private struct WebMessage
+		
+		private static readonly JsonSerializerOptions _unsafeRelaxedJsonEscapingOptions = new()
 		{
-			public Guid Guid { get; set; }
-		}
-
-		private struct MethodWebMessage
-		{
-			public long Id { get; set; }
-			public string Method { get; set; }
-			public string Args { get; set; }
-		}
-
-		private static readonly JsonSerializerOptions _caseInsensitiveOptions = new() { PropertyNameCaseInsensitive = true };
-		private static readonly JsonSerializerOptions _unsafeRelaxedOptions = new() { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
-
+			Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+		};
+		private static readonly WebMessageJsonContext _jsonContext = new (_unsafeRelaxedJsonEscapingOptions);
 		public static List<WebViewMessageReceivedHandler> _handlers = new();
-		public static async Task AddWebAllowedObject<T>(this WebView2 webview, string name, T @object)
+		
+		[RequiresUnreferencedCode("This method needs generics.")]
+		public static async Task AddWebAllowedObject<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] T>(this WebView2 webview, string name, T @object)
 		{
 			var sb = new StringBuilder();
 			sb.AppendLine($"window.{name} = {{ ");
@@ -69,20 +85,20 @@ namespace Files.App.Extensions
 			var handler = (WebViewMessageReceivedHandler)(async (_, e) =>
 			{
 				var rawMessage = e.TryGetWebMessageAsString();
-				var message = JsonSerializer.Deserialize<WebMessage>(rawMessage, _caseInsensitiveOptions);
+				var message = JsonSerializer.Deserialize(rawMessage, _jsonContext.WebMessage);
 				if (message.Guid != methodsGuid)
 					return;
 
-				var methodMessage = JsonSerializer.Deserialize<MethodWebMessage>(rawMessage, _caseInsensitiveOptions);
+				var methodMessage = JsonSerializer.Deserialize(rawMessage, _jsonContext.MethodWebMessage);
 				var method = methods[methodMessage.Method];
 				try
 				{
-					var args = JsonSerializer.Deserialize<JsonElement[]>(methodMessage.Args).Zip(method.GetParameters(), (val, args) => new { val, args.ParameterType }).Select(item => item.val.Deserialize(item.ParameterType));
+					var args = JsonSerializer.Deserialize(methodMessage.Args, _jsonContext.JsonElementArray)!.Zip(method.GetParameters(), (val, args) => new { val, args.ParameterType }).Select(item => item.val.Deserialize(item.ParameterType));
 					var result = method.Invoke(@object, args.ToArray());
 					if (result is object)
 					{
 						var resultType = result.GetType();
-						dynamic task = null;
+						dynamic? task = null;
 						if (resultType.Name.StartsWith("TaskToAsyncOperationAdapter")
 							|| resultType.IsInstanceOfType(typeof(IAsyncInfo)))
 						{
@@ -92,11 +108,11 @@ namespace Files.App.Extensions
 									.GetMethods(BindingFlags.Public | BindingFlags.Static)
 									.Where(method => method.GetParameters().Length == 1
 										&& method.Name == "AsTask"
-										&& method.ToString().Contains("Windows.Foundation.IAsyncOperation`1[TResult]"))
+										&& method.ToString()!.Contains("Windows.Foundation.IAsyncOperation`1[TResult]"))
 									.FirstOrDefault();
 
-								asTask = asTask.MakeGenericMethod(resultType.GenericTypeArguments[0]);
-								task = (Task)asTask.Invoke(null, new[] { result });
+								asTask = asTask!.MakeGenericMethod(resultType.GenericTypeArguments[0]);
+								task = (Task?)asTask.Invoke(null, new[] { result });
 							}
 							else
 							{
@@ -105,19 +121,19 @@ namespace Files.App.Extensions
 						}
 						else
 						{
-							var awaiter = resultType.GetMethod(nameof(Task.GetAwaiter));
+							var awaiter = resultType?.GetMethod(nameof(Task.GetAwaiter));
 							if (awaiter is object)
 								task = result;
 						}
 						if (task is object)
 							result = await task;
 					}
-					var json = JsonSerializer.Serialize(result, _unsafeRelaxedOptions);
+					var json = JsonSerializer.Serialize(result, _unsafeRelaxedJsonEscapingOptions);
 					await webview.ExecuteScriptAsync($@"{name}._callbacks.get({methodMessage.Id}).accept(JSON.parse({json})); {name}._callbacks.delete({methodMessage.Id});");
 				}
 				catch (Exception ex)
 				{
-					var json = JsonSerializer.Serialize(ex, _unsafeRelaxedOptions);
+					var json = JsonSerializer.Serialize(ex.ToString(), _jsonContext.String);
 					await webview.ExecuteScriptAsync($@"{name}._callbacks.get({methodMessage.Id}).reject(JSON.parse({json})); {name}._callbacks.delete({methodMessage.Id});");
 				}
 			});
@@ -126,17 +142,17 @@ namespace Files.App.Extensions
 			webview.WebMessageReceived += handler;
 		}
 
-		public static async Task<string> InvokeScriptAsync(this WebView2 webview, string function, params object[] args)
+		public static async Task<string?> InvokeScriptAsync(this WebView2 webview, string function, params object[] args)
 		{
-			var array = JsonSerializer.Serialize(args, _unsafeRelaxedOptions);
-			string result = null;
+			var array = JsonSerializer.Serialize(args, _unsafeRelaxedJsonEscapingOptions);
+			string? result = null;
 			await webview.DispatcherQueue.EnqueueAsync(async () =>
 			{
 				var script = $"{function}(...{array});";
 				try
 				{
 					result = await webview.ExecuteScriptAsync(script).AsTask();
-					result = JsonSerializer.Deserialize<string>(result);
+					result = JsonSerializer.Deserialize(result, _jsonContext.String);
 				}
 				catch (Exception)
 				{

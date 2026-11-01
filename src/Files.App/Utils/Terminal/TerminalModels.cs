@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 
 namespace Files.App.Utils.Terminal
 {
@@ -11,6 +12,7 @@ namespace Files.App.Utils.Terminal
 		{
 		}
 
+		[SetsRequiredMembers]
 		public KeyBinding(KeyBinding other)
 		{
 			Command = other.Command;
@@ -21,14 +23,14 @@ namespace Files.App.Utils.Terminal
 			Meta = other.Meta;
 		}
 
-		public string Command { get; set; }
+		public required string Command { get; set; }
 		public int Key { get; set; }
 		public bool Ctrl { get; set; }
 		public bool Alt { get; set; }
 		public bool Shift { get; set; }
 		public bool Meta { get; set; }
 
-		public override bool Equals(object obj)
+		public override bool Equals(object? obj)
 		{
 			if (obj is KeyBinding other)
 			{
@@ -64,12 +66,12 @@ namespace Files.App.Utils.Terminal
 		}
 
 		public Guid Id { get; set; }
-		public string Name { get; set; }
-		public string Author { get; set; }
+		public required string Name { get; set; }
+		public required string Author { get; set; }
 		public bool PreInstalled { get; set; }
-		public TerminalColors Colors { get; set; }
+		public required TerminalColors Colors { get; set; }
 
-		public override bool Equals(object obj)
+		public override bool Equals(object? obj)
 		{
 			if (obj is TerminalTheme other)
 			{
@@ -88,36 +90,37 @@ namespace Files.App.Utils.Terminal
 
 	public class TerminalColors
 	{
-		public string Foreground { get; set; }
-		public string Background { get; set; }
-		public string Cursor { get; set; }
-		public string CursorAccent { get; set; }
-		public string Selection { get; set; }
-		public string SelectionForeground { get; set; }
-		public string SelectionBackground { get; set; }
+		public required string Foreground { get; set; }
+		public required string Background { get; set; }
+		public required string Cursor { get; set; }
+		public required string CursorAccent { get; set; }
+		public required string Selection { get; set; }
+		//public required string SelectionForeground { get; set; }
+		//public required string SelectionBackground { get; set; }
 
-		public string Black { get; set; }
-		public string Red { get; set; }
-		public string Green { get; set; }
-		public string Yellow { get; set; }
-		public string Blue { get; set; }
-		public string Magenta { get; set; }
-		public string Cyan { get; set; }
-		public string White { get; set; }
+		public required string Black { get; set; }
+		public required string Red { get; set; }
+		public required string Green { get; set; }
+		public required string Yellow { get; set; }
+		public required string Blue { get; set; }
+		public required string Magenta { get; set; }
+		public required string Cyan { get; set; }
+		public required string White { get; set; }
 
-		public string BrightBlack { get; set; }
-		public string BrightRed { get; set; }
-		public string BrightGreen { get; set; }
-		public string BrightYellow { get; set; }
-		public string BrightBlue { get; set; }
-		public string BrightMagenta { get; set; }
-		public string BrightCyan { get; set; }
-		public string BrightWhite { get; set; }
+		public required string BrightBlack { get; set; }
+		public required string BrightRed { get; set; }
+		public required string BrightGreen { get; set; }
+		public required string BrightYellow { get; set; }
+		public required string BrightBlue { get; set; }
+		public required string BrightMagenta { get; set; }
+		public required string BrightCyan { get; set; }
+		public required string BrightWhite { get; set; }
 
 		public TerminalColors()
 		{
 		}
 
+		[SetsRequiredMembers]
 		public TerminalColors(TerminalColors other)
 		{
 			Foreground = other.Foreground;
@@ -145,7 +148,7 @@ namespace Files.App.Utils.Terminal
 			BrightWhite = other.BrightWhite;
 		}
 
-		public override bool Equals(object obj)
+		public override bool Equals(object? obj)
 		{
 			if (obj is TerminalColors other)
 			{
@@ -435,6 +438,7 @@ namespace Files.App.Utils.Terminal
 		{
 		}
 
+		[SetsRequiredMembers]
 		protected ShellProfile(ShellProfile other)
 		{
 			Id = other.Id;
@@ -452,10 +456,10 @@ namespace Files.App.Utils.Terminal
 
 		public Guid Id { get; set; }
 		public bool PreInstalled { get; set; }
-		public string Name { get; set; }
-		public string Arguments { get; set; }
-		public string Location { get; set; }
-		public string WorkingDirectory { get; set; }
+		public required string Name { get; set; }
+		public required string Arguments { get; set; }
+		public required string Location { get; set; }
+		public required string WorkingDirectory { get; set; }
 		public int TabThemeId { get; set; }
 		public Dictionary<string, string> EnvironmentVariables { get; set; } = new Dictionary<string, string>();
 		public bool UseConPty { get; set; }
@@ -467,7 +471,7 @@ namespace Files.App.Utils.Terminal
 		/// For attaching a data to the profile. This property doesn't get serialized nor cloned.
 		/// </summary>
 		[JsonIgnore]
-		public object Tag { get; set; }
+		public object? Tag { get; set; }
 
 		public Guid TerminalThemeId { get; set; }
 		public ICollection<KeyBinding> KeyBindings { get; set; } = new List<KeyBinding>();
@@ -502,7 +506,7 @@ namespace Files.App.Utils.Terminal
 
 	public class TerminalOptions
 	{
-		public string FontFamily { get; set; }
+		public required string FontFamily { get; set; }
 		public int FontSize { get; set; }
 
 		public int FontWeight { get; set; }
@@ -523,7 +527,7 @@ namespace Files.App.Utils.Terminal
 
 		public uint ScrollBackLimit { get; set; }
 
-		public string WordSeparator { get; set; }
+		public required string WordSeparator { get; set; }
 	}
 
 	public enum CursorStyle

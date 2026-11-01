@@ -7,12 +7,23 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.Web.WebView2.Core;
 using System.IO;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.UserControls
 {
+	[JsonSourceGenerationOptions(
+		PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
+	[JsonSerializable(typeof(TerminalOptions))]
+	[JsonSerializable(typeof(TerminalColors))]
+	[JsonSerializable(typeof(IEnumerable<KeyBinding>))]
+	[JsonSerializable(typeof(TerminalSize))]
+	internal partial class TerminalJsonContext : JsonSerializerContext
+	{
+	}
+
 	/// <summary>
 	/// Code modified from https://github.com/felixse/FluentTerminal
 	/// </summary>
@@ -30,16 +41,16 @@ namespace Files.App.UserControls
 		// Members related to resize handling
 		private static readonly TimeSpan ResizeDelay = TimeSpan.FromMilliseconds(60);
 		private readonly object _resizeLock = new object();
-		private TerminalSize _requestedSize;
-		private TerminalSize _setSize;
+		private TerminalSize? _requestedSize;
+		private TerminalSize? _setSize;
 		private DateTime _resizeScheduleTime;
-		private Task _resizeTask;
-		private MemoryStream _outputBlockedBuffer;
+		private Task? _resizeTask;
+		private MemoryStream? _outputBlockedBuffer;
 
 		// Must be called from a code locked with _resizeLock
 		private void ScheduleResize(TerminalSize size, bool scheduleIfEqual)
 		{
-			if (!scheduleIfEqual && size.EquivalentTo(_requestedSize))
+			if (!scheduleIfEqual && _requestedSize != null && size.EquivalentTo(_requestedSize))
 			{
 				return;
 			}
@@ -58,11 +69,11 @@ namespace Files.App.UserControls
 			while (true)
 			{
 				TimeSpan delay;
-				TerminalSize size = null;
+				TerminalSize? size = null;
 
 				lock (_resizeLock)
 				{
-					if (_requestedSize?.EquivalentTo(_setSize) ?? true)
+					if (_setSize != null && (_requestedSize?.EquivalentTo(_setSize) ?? true))
 					{
 						// Resize finished. Unblock output and exit.
 
@@ -93,29 +104,29 @@ namespace Files.App.UserControls
 					}
 				}
 
-				if (size == null)
+				if (size == null || _requestedSize == null)
 				{
 					await Task.Delay(delay).ConfigureAwait(false);
 				}
 				else
 				{
-					_terminal.Resize(_requestedSize.Columns, _requestedSize.Rows);
+					_terminal?.Resize(_requestedSize.Columns, _requestedSize.Rows);
 				}
 			}
 		}
 
 		#endregion Resize handling
 
-		public event EventHandler<object> OnOutput;
-		public event EventHandler<string> OnPaste;
-		public event EventHandler<string> OnSessionRestart;
+		public event EventHandler<object>? OnOutput;
+		public event EventHandler<string>? OnPaste;
+		public event EventHandler<string>? OnSessionRestart;
 
 		public WebView2 WebView => WebViewControl;
 
-		private Terminal _terminal;
-		private BufferedReader _reader;
-		private ShellProfile _profile;
-		private string _id;
+		private Terminal? _terminal;
+		private BufferedReader? _reader;
+		private ShellProfile? _profile;
+		private string? _id;
 
 		public TerminalView(ShellProfile profile, string id) : this()
 			=> (_profile, _id) = (profile, id);
@@ -127,7 +138,7 @@ namespace Files.App.UserControls
 
 		private async void WebViewControl_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
 		{
-			if (WebViewControl.Source is not null)
+			if (WebViewControl.Source is not null || _profile == null)
 				return;
 
 			var envOptions = new CoreWebView2EnvironmentOptions()
@@ -196,12 +207,12 @@ namespace Files.App.UserControls
 		{
 			var serializerSettings = new JsonSerializerOptions();
 			serializerSettings.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-			var serializedOptions = JsonSerializer.Serialize(options, serializerSettings);
-			var serializedTheme = JsonSerializer.Serialize(theme, serializerSettings);
-			var serializedKeyBindings = JsonSerializer.Serialize(keyBindings, serializerSettings);
+			var serializedOptions = JsonSerializer.Serialize(options, TerminalJsonContext.Default.TerminalOptions);
+			var serializedTheme = JsonSerializer.Serialize(theme, TerminalJsonContext.Default.TerminalOptions);
+			var serializedKeyBindings = JsonSerializer.Serialize(keyBindings, TerminalJsonContext.Default.TerminalOptions);
 			return ExecuteScriptAsync(
 					$"createTerminal('{serializedOptions}', '{serializedTheme}', '{serializedKeyBindings}')")
-				.ContinueWith(t => JsonSerializer.Deserialize<TerminalSize>(t.Result)!);
+				.ContinueWith(t => JsonSerializer.Deserialize(t.Result, TerminalJsonContext.Default.TerminalSize)!);
 		}
 
 		public Task<string> SerializeXtermStateAsync()
@@ -213,7 +224,7 @@ namespace Files.App.UserControls
 		{
 			var _terminalBridge = new TerminalBridge(this);
 			await WebViewControl.AddWebAllowedObject("terminalBridge", _terminalBridge);
-			_tcsNavigationCompleted.TrySetResult(null);
+			_tcsNavigationCompleted.TrySetResult(new());
 		}
 
 		void IxtermEventListener.OnKeyboardCommand(string command)
@@ -286,7 +297,7 @@ namespace Files.App.UserControls
 
 		void IxtermEventListener.OnInitialized()
 		{
-			_tcsConnected.TrySetResult(null);
+			_tcsConnected.TrySetResult(new());
 		}
 
 		void IxtermEventListener.OnTitleChanged(string title)
@@ -305,7 +316,7 @@ namespace Files.App.UserControls
 
 		public void OnInput(byte[] data)
 		{
-			_terminal.WriteToPseudoConsole(data);
+			_terminal?.WriteToPseudoConsole(data);
 		}
 
 		private void CopyTextToClipboard(string content)
@@ -327,9 +338,9 @@ namespace Files.App.UserControls
 				var scriptTask = DispatcherQueue.EnqueueAsync(() => WebViewControl.InvokeScriptAsync("eval", new[] { script }))
 					.ConfigureAwait(false);
 
-				return await scriptTask;
+				return await scriptTask ?? string.Empty;
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 			}
 
@@ -348,6 +359,8 @@ namespace Files.App.UserControls
 
 		public async Task<string?> GetTerminalFolder()
 		{
+			if (_profile == null)
+				return null;
 			var tcs = new TaskCompletionSource<string>();
 			EventHandler<object> getResponse = (s, e) =>
 			{
@@ -358,9 +371,9 @@ namespace Files.App.UserControls
 			};
 			OnOutput += getResponse;
 			if (_profile.Location.Contains("wsl.exe"))
-				_terminal.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"wslpath -w \"$(pwd)\"\r"));
+				_terminal?.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"wslpath -w \"$(pwd)\"\r"));
 			else
-				_terminal.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"cd .\r"));
+				_terminal?.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"cd .\r"));
 			var pwd = await tcs.Task.WithTimeoutAsync(TimeSpan.FromSeconds(1));
 			OnOutput -= getResponse;
 			return pwd;
@@ -368,10 +381,12 @@ namespace Files.App.UserControls
 
 		public void SetTerminalFolder(string folder)
 		{
+			if (_profile == null)
+				return;
 			if (_profile.Location.Contains("wsl.exe"))
-				_terminal.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"cd \"$(wslpath \"{folder}\")\"\r"));
+				_terminal?.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"cd \"$(wslpath \"{folder}\")\"\r"));
 			else
-				_terminal.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"cd \"{folder}\"\r"));
+				_terminal?.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"cd \"{folder}\"\r"));
 		}
 
 		private void StartShellProcess(TerminalSize size, ShellProfile profile)
@@ -386,7 +401,8 @@ namespace Files.App.UserControls
 			_terminal = new Terminal();
 			_terminal.OutputReady += (s, e) =>
 			{
-				_reader = new BufferedReader(_terminal.ConsoleOutStream, OutputReceivedCallback, true);
+				if (_terminal?.ConsoleOutStream != null)
+					_reader = new BufferedReader(_terminal.ConsoleOutStream, OutputReceivedCallback, true);
 			};
 			_terminal.Exited += (s, e) =>
 			{
@@ -437,7 +453,7 @@ namespace Files.App.UserControls
 
 		private async void TerminalView_ActualThemeChanged(Microsoft.UI.Xaml.FrameworkElement sender, object args)
 		{
-			if (!_tcsConnected.Task.IsCompleted)
+			if (!_tcsConnected.Task.IsCompleted || _profile == null)
 				return;
 
 			var serializerSettings = new JsonSerializerOptions();
@@ -447,7 +463,7 @@ namespace Files.App.UserControls
 			WebViewControl.CoreWebView2.Profile.PreferredColorScheme = (ActualTheme == Microsoft.UI.Xaml.ElementTheme.Dark) ? CoreWebView2PreferredColorScheme.Dark : CoreWebView2PreferredColorScheme.Light;
 			RootGrid.Background = new SolidColorBrush(ColorHelpers.FromHex(theme.Colors.Background));
 
-			var serializedTheme = JsonSerializer.Serialize(theme.Colors, serializerSettings);
+			var serializedTheme = JsonSerializer.Serialize(theme.Colors, TerminalJsonContext.Default.TerminalColors);
 			await ExecuteScriptAsync($"changeTheme('{serializedTheme}')");
 		}
 	}

@@ -11,7 +11,7 @@ namespace Files.App.Utils.Terminal
 		{
 			var keyBindings = new Dictionary<string, ICollection<KeyBinding>>();
 
-			foreach (Command command in Enum.GetValues(typeof(Command)))
+			foreach (Command command in Enum.GetValues<Command>())
 			{
 				keyBindings.Add(command.ToString(), GetDefaultKeyBindings(command));
 			}

@@ -10,7 +10,7 @@ namespace Files.App.Utils.Terminal
 	/// <summary>
 	/// Code modified from https://github.com/felixse/FluentTerminal
 	/// </summary>
-	internal sealed class BufferedReader : IDisposable
+	internal sealed partial class BufferedReader : IDisposable
 	{
 		private const int MaxTotalDelayMilliseconds = 100;
 		private const int WaitPeriodMilliseconds = 30;
@@ -27,13 +27,13 @@ namespace Files.App.Utils.Terminal
 		private bool _disposed;
 		private bool _paused;
 
-		private byte[] _buffer;
+		private byte[]? _buffer;
 		private int _bufferIndex;
 		private DateTime _lastRead;
 		private DateTime _sendingDeadline;
 		private DateTime _scheduledSend;
 		private int _nearReadingsCount;
-		private Task _sendingTask;
+		private Task? _sendingTask;
 
 		internal BufferedReader(Stream stream, Action<byte[]> callback, bool enableBuffer)
 		{
@@ -233,6 +233,8 @@ namespace Files.App.Utils.Terminal
 		// Has to be called from a locked code!
 		private void SendBuffer()
 		{
+			if (_buffer == null)
+				return;
 			if (_bufferIndex == _buffer.Length)
 			{
 				_callback(_buffer);

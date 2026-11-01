@@ -8,7 +8,7 @@ namespace Files.App.Utils.Terminal.ConPTY
 	/// <summary>
 	/// Represents an instance of a process.
 	/// </summary>
-	internal sealed class Process : IDisposable
+	internal sealed partial class Process : IDisposable
 	{
 		public Process(STARTUPINFOEXW startupInfo, PROCESS_INFORMATION processInfo)
 		{

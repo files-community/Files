@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Files.App.Data.Models
 {
-	public class TerminalModel : IDisposable
+	public partial class TerminalModel : IDisposable
 	{
-		public string Id { get; init; }
-		public string Name { get; init; }
-		public Control Control { get; init; }
+		public string Id { get; init; } = "";
+		public string Name { get; init; } = "";
+		public Control? Control { get; init; }
 
 		public void Dispose()
 		{

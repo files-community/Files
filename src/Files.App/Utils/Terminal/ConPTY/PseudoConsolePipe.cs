@@ -11,7 +11,7 @@ namespace Files.App.Utils.Terminal.ConPTY
 	/// <remarks>
 	/// We'll have two instances of this class, one for input and one for output.
 	/// </remarks>
-	internal sealed class PseudoConsolePipe : IDisposable
+	internal sealed partial class PseudoConsolePipe : IDisposable
 	{
 		public readonly SafeFileHandle ReadSide;
 		public readonly SafeFileHandle WriteSide;

@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace Files.App.Utils.Terminal
 	/// Code modified from https://github.com/felixse/FluentTerminal
 	/// </summary>
 	[AllowForWeb]
+	[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)]
 	public sealed class TerminalBridge
 	{
 		private IxtermEventListener _terminalEventListener;
@@ -23,20 +25,20 @@ namespace Files.App.Utils.Terminal
 			_terminalEventListener.OnSessionRestart += OnSessionRestart;
 		}
 
-		private async void OnPaste(object sender, string e)
+		private async void OnPaste(object? sender, string e)
 		{
 			await _terminalEventListener.WebView.InvokeScriptAsync("onPaste", new[] { e })
 				.ConfigureAwait(false);
 		}
 
-		private async void OnOutput(object sender, object e)
+		private async void OnOutput(object? sender, object e)
 		{
 			var arg = Encoding.UTF8.GetString((byte[])e);
 			await _terminalEventListener.WebView.InvokeScriptAsync("onOutput", new[] { arg })
 				.ConfigureAwait(false);
 		}
 
-		private async void OnSessionRestart(object sender, string e)
+		private async void OnSessionRestart(object? sender, string e)
 		{
 			await _terminalEventListener.WebView.InvokeScriptAsync("onSessionRestart", new[] { e })
 				.ConfigureAwait(false);
@@ -61,7 +63,6 @@ namespace Files.App.Utils.Terminal
 		{
 			_terminalEventListener.OnOutput -= OnOutput;
 			_terminalEventListener.OnPaste -= OnPaste;
-			_terminalEventListener = null;
 		}
 
 		public void NotifySizeChanged(long columns, long rows)
