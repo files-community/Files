@@ -35,12 +35,14 @@ internal static class CloudContextMenuCommands
 			if (provider is null)
 				return [];
 
+			if (provider.GetFullProviderAndUserAndAccountIdentifier(out var providerId).Failed || string.IsNullOrEmpty(providerId))
+				return [];
+			var groupId = $"provider:{providerId}";
+
 			string? name = null;
-			string? package = null;
 			if (provider is IStorageProviderAppInfo appInfo)
 			{
 				appInfo.GetAppDisplayName(out name);
-				appInfo.GetPackageFullName(out package);
 			}
 			if (string.IsNullOrWhiteSpace(name) || name.StartsWith("ms-resource:", StringComparison.OrdinalIgnoreCase))
 				provider.GetDisplayName(out name);
@@ -58,7 +60,7 @@ internal static class CloudContextMenuCommands
 			{
 				var result = new List<ExplorerCommandRegistration>((int)count);
 				for (uint index = 0; index < count; index++)
-					result.Add(new(classIds[index], classIds[index].ToString("B"), name, package ?? string.Empty, IsCloudProvider: true, GroupIcon: icon));
+					result.Add(new(classIds[index], classIds[index].ToString("B"), name, groupId, IsCloudProvider: true, GroupIcon: icon));
 				return result;
 			}
 			finally

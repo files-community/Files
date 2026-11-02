@@ -18,7 +18,7 @@ namespace Files.App.Server
 		internal static readonly TimeSpan ModernItemsTimeout = TimeSpan.FromSeconds(3);
 
 		// Apps still loading past the timeout, which later menus leave out until they're done
-		private static readonly ConcurrentDictionary<(string PackageFullName, string DisplayName), Task> stalledGroups = new();
+		private static readonly ConcurrentDictionary<string, Task> stalledGroups = new(StringComparer.Ordinal);
 
 		private readonly ContextMenuWorkerPool.Worker worker;
 		private readonly Task<ClassicContextMenuBackend?> classicMenu;
@@ -108,7 +108,7 @@ namespace Files.App.Server
 			}
 
 			ContextMenuWorkerPool.Return(worker);
-			var loads = new List<(ContextMenuWorkerPool.Worker Worker, Task<ModernContextMenuBackend?> Menu, (string, string) Key)>();
+			var loads = new List<(ContextMenuWorkerPool.Worker Worker, Task<ModernContextMenuBackend?> Menu, string GroupId)>();
 			foreach (var (groupIndex, group) in (groups.Result ?? []).Index())
 			{
 				if (stalledGroups.ContainsKey(group.Key))
@@ -122,11 +122,11 @@ namespace Files.App.Server
 
 			await Task.WhenAny(Task.WhenAll(loads.Select(load => load.Menu)), Task.Delay(ModernItemsTimeout));
 			var menus = new List<ModernMenu>();
-			foreach (var (groupWorker, menu, key) in loads)
+			foreach (var (groupWorker, menu, groupId) in loads)
 			{
 				if (menu.IsCompletedSuccessfully && menu.Result is { Items.Count: > 0 } loaded)
 				{
-					menus.Add(new(groupWorker, loaded, key));
+					menus.Add(new(groupWorker, loaded, groupId));
 				}
 				else
 				{
@@ -137,14 +137,14 @@ namespace Files.App.Server
 			return menus;
 		}
 
-		private static async Task MarkStalledAsync((string, string) key, Task task)
+		private static async Task MarkStalledAsync(string groupId, Task task)
 		{
 			if (await Task.WhenAny(task, Task.Delay(ModernItemsTimeout)) == task)
 				return;
 
-			stalledGroups.TryAdd(key, task);
+			stalledGroups.TryAdd(groupId, task);
 			await task.ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
-			stalledGroups.TryRemove(KeyValuePair.Create(key, task));
+			stalledGroups.TryRemove(KeyValuePair.Create(groupId, task));
 		}
 
 		public static async Task<ContextMenu?> GetContextMenuForFiles(ShellItem[] shellItems, uint flags, Func<string?, bool>? itemFilter = null)
@@ -217,7 +217,7 @@ namespace Files.App.Server
 						SafetyExtensions.IgnoreExceptions(modern.Menu.LoadDetails, Program.Logger);
 				});
 
-				_ = MarkStalledAsync(modern.Key, modern.Details);
+				_ = MarkStalledAsync(modern.GroupId, modern.Details);
 			}
 
 			return Task.WhenAll(modernMenus.Select(modern => modern.Details));
@@ -298,13 +298,13 @@ namespace Files.App.Server
 			Dispose(false);
 		}
 
-		private sealed class ModernMenu(ContextMenuWorkerPool.Worker worker, ModernContextMenuBackend menu, (string, string) key)
+		private sealed class ModernMenu(ContextMenuWorkerPool.Worker worker, ModernContextMenuBackend menu, string groupId)
 		{
 			public ContextMenuWorkerPool.Worker Worker { get; } = worker;
 
 			public ModernContextMenuBackend Menu { get; } = menu;
 
-			public (string, string) Key { get; } = key;
+			public string GroupId { get; } = groupId;
 
 			// Its icons and subcommands
 			public Task Details { get; set; } = Task.CompletedTask;

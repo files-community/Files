@@ -36,7 +36,7 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 	public List<Win32ContextMenuItem> Items { get; } = [];
 
 	// The commands of one app, with an ID range of their own. For the background, the selection is the folder itself
-	internal ModernContextMenuBackend(IShellItemArray selection, ShellItem[] items, bool isBackground, IGrouping<(string PackageFullName, string DisplayName), ExplorerCommandRegistration> group, int groupIndex)
+	internal ModernContextMenuBackend(IShellItemArray selection, ShellItem[] items, bool isBackground, IGrouping<string, ExplorerCommandRegistration> group, int groupIndex)
 	{
 		this.selection = selection;
 		firstCommandId = FirstCommandId + groupIndex * MaximumCommands;
@@ -59,11 +59,11 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 	}
 
 	// The commands grouped by app, cloud providers first
-	internal static List<IGrouping<(string PackageFullName, string DisplayName), ExplorerCommandRegistration>> GetGroups(ShellItem[] items, bool isBackground)
+	internal static List<IGrouping<string, ExplorerCommandRegistration>> GetGroups(ShellItem[] items, bool isBackground)
 		=> GetRegistrations(items, isBackground)
-			.GroupBy(registration => (registration.PackageFullName, registration.DisplayName))
+			.GroupBy(registration => registration.GroupId)
 			.OrderByDescending(group => group.Any(registration => registration.IsCloudProvider))
-			.ThenBy(group => group.Key.DisplayName, StringComparer.CurrentCultureIgnoreCase)
+			.ThenBy(group => group.First().DisplayName, StringComparer.CurrentCultureIgnoreCase)
 			.ToList();
 
 	public bool HasCommand(string? commandString) => !string.IsNullOrEmpty(commandString) && commandStrings.Contains(commandString);
@@ -133,7 +133,7 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 			: "Directory";
 	}
 
-	private void AddGroup(IGrouping<(string PackageFullName, string DisplayName), ExplorerCommandRegistration> group)
+	private void AddGroup(IGrouping<string, ExplorerCommandRegistration> group)
 	{
 		var groupItems = new List<Win32ContextMenuItem>();
 		foreach (var registration in group)
@@ -153,7 +153,8 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 		if (commandCount == 0)
 			return;
 
-		if (commandCount == 1 || string.IsNullOrEmpty(group.Key.DisplayName))
+		var displayName = group.First().DisplayName;
+		if (commandCount == 1 || string.IsNullOrEmpty(displayName))
 		{
 			Items.AddRange(groupItems);
 		}
@@ -162,7 +163,7 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 			var groupItem = new ContextMenuItem
 			{
 				ID = -1,
-				Label = group.Key.DisplayName,
+				Label = displayName,
 				SubItems = groupItems,
 			};
 			Items.Add(groupItem);

@@ -10,7 +10,7 @@ using IInspectable = Windows.Win32.System.WinRT.IInspectable;
 
 namespace Files.App.Server;
 
-internal readonly record struct ExplorerCommandRegistration(Guid ClassId, string Verb, string DisplayName, string PackageFullName, bool IsCloudProvider = false, string? GroupIcon = null);
+internal readonly record struct ExplorerCommandRegistration(Guid ClassId, string Verb, string DisplayName, string GroupId, bool IsCloudProvider = false, string? GroupIcon = null);
 
 internal static class FileExplorerAppExtensions
 {
@@ -68,13 +68,13 @@ internal static class FileExplorerAppExtensions
 			if (extension is IFileExplorerAppExtension2 current)
 			{
 				current.GetDisplayName(out displayName);
-				current.GetPackageFullName(out packageFullName);
+				current.GetPackageFullName(out packageFullName).ThrowOnFailure();
 				result = current.GetVerbs(WaitForStateRepository, out verbs);
 			}
 			else if (extension is IFileExplorerAppExtension original)
 			{
 				original.GetDisplayName(out displayName);
-				original.GetPackageFullName(out packageFullName);
+				original.GetPackageFullName(out packageFullName).ThrowOnFailure();
 				result = original.GetVerbs(WaitForStateRepository, out verbs);
 			}
 			else
@@ -82,9 +82,10 @@ internal static class FileExplorerAppExtensions
 				return;
 			}
 
-			if (result.Failed || verbs is null)
+			if (result.Failed || verbs is null || string.IsNullOrEmpty(packageFullName))
 				return;
 
+			var groupId = $"package:{packageFullName}";
 			verbs.First(out var iterator).ThrowOnFailure();
 			if (iterator is null)
 				return;
@@ -96,7 +97,7 @@ internal static class FileExplorerAppExtensions
 				if (valueSet is ValueSet properties && properties.TryGetValue("Verb", out var value) && value is Guid classId && classId != Guid.Empty)
 				{
 					properties.TryGetValue("Id", out var id);
-					commands.Add(new(classId, id as string ?? string.Empty, displayName ?? string.Empty, packageFullName ?? string.Empty));
+					commands.Add(new(classId, id as string ?? string.Empty, displayName ?? string.Empty, groupId));
 				}
 
 				iterator.MoveNext(out hasCurrent).ThrowOnFailure();
