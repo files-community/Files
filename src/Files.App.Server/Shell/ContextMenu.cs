@@ -213,21 +213,22 @@ namespace Files.App.Server
 					(item as IDisposable)?.Dispose();
 			}
 
-			// Release the shell objects on the workers' own STA threads. The message queues are FIFO, so cleanup
-			// completes after the menus' creation and before work posted by the next renter.
+			// Release the shell objects on the workers' own STA threads once pending work completes.
 			disposedValue = true;
-			_ = SafetyExtensions.IgnoreExceptions(() => worker.Thread.PostMethod(() =>
+			_ = ReleaseAsync(worker, () =>
 			{
 				if (classicMenu.IsCompletedSuccessfully)
 					classicMenu.Result?.Dispose();
-			}), Program.Logger);
-			ContextMenuWorkerPool.Return(worker);
+			});
 
 			if (modernWorker is not null)
-			{
-				_ = SafetyExtensions.IgnoreExceptions(() => modernWorker.Thread.PostMethod(() => modernMenu?.Dispose()), Program.Logger);
-				ContextMenuWorkerPool.Return(modernWorker);
-			}
+				_ = ReleaseAsync(modernWorker, () => modernMenu?.Dispose());
+		}
+
+		private static async Task ReleaseAsync(ContextMenuWorkerPool.Worker owner, Action release)
+		{
+			await SafetyExtensions.IgnoreExceptions(() => owner.Thread.PostMethod(release), Program.Logger);
+			ContextMenuWorkerPool.Return(owner);
 		}
 
 		public void Dispose()

@@ -357,7 +357,7 @@ namespace Files.App.Helpers
 						[new ListedItem(null) { ItemPath = path }],
 						shiftPressed: shiftPressed,
 						showOpenMenu: false,
-						token), anchor, position);
+						token), anchor, position, token);
 				if (!flyout.AttachShellMenu(shellMenu, token))
 					return;
 

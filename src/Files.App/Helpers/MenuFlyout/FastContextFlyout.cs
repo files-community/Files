@@ -145,9 +145,9 @@ namespace Files.App.Helpers.ContextFlyouts
 		}
 
 		// A stuck shell extension shouldn't keep the menu from opening; its items are added once they load
-		public async Task<ShellContextMenuResult> WaitForShellMenuAsync(Task<ShellContextMenuResult> shellMenu, FrameworkElement target, Point? position)
+		public async Task<ShellContextMenuResult> WaitForShellMenuAsync(Task<ShellContextMenuResult> shellMenu, FrameworkElement target, Point? position, CancellationToken cancellationToken)
 		{
-			if (await Task.WhenAny(shellMenu, Task.Delay(ShellMenuTimeout)) != shellMenu)
+			if (await Task.WhenAny(shellMenu, Task.Delay(ShellMenuTimeout)) != shellMenu && !cancellationToken.IsCancellationRequested)
 				Show(target, position);
 
 			return await shellMenu;

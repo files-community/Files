@@ -721,7 +721,7 @@ namespace Files.App.Views.Layouts
 						: null;
 
 					var shellMenu = await host.WaitForShellMenuAsync(ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(
-						shellViewModel.WorkingDirectory, selectedItems, shiftPressed, false, token), target, position);
+						shellViewModel.WorkingDirectory, selectedItems, shiftPressed, false, token), target, position, token);
 
 					if (!host.AttachShellMenu(shellMenu, token))
 						return;
@@ -977,7 +977,7 @@ namespace Files.App.Views.Layouts
 					// with the classic shell items never resizes the menu.
 					var (moreOptions, moreSeparator) = host.AddShowMoreOptionsIfEnabled(items);
 
-					var shellMenu = await host.WaitForShellMenuAsync(ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: shellViewModel.WorkingDirectory, selectedItems: [], shiftPressed: shiftPressed, showOpenMenu: false, token), target, position);
+					var shellMenu = await host.WaitForShellMenuAsync(ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: shellViewModel.WorkingDirectory, selectedItems: [], shiftPressed: shiftPressed, showOpenMenu: false, token), target, position, token);
 					if (!host.AttachShellMenu(shellMenu, token))
 						return;
 
