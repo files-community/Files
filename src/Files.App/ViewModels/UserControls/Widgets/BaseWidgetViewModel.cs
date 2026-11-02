@@ -80,16 +80,10 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			flyout.ConvertPlaceholderToSubMenu("SendToPlaceholder", Strings.SendTo.GetLocalizedResource(), null);
 
 			// Pre-add "Show more options" before showing so filling it with shell items never resizes the menu
-			flyout.AddShellItemsPlaceholder();
 			var (moreOptions, moreSeparator) = flyout.AddShowMoreOptionsIfEnabled();
 
-			// Show the flyout
-			var invocationPosition = e.GetPosition(widgetCardItem);
-			flyout.ResolvePlacement(widgetCardItem, invocationPosition);
-			flyout.Flyout.ShowAt(widgetCardItem, new FlyoutShowOptions() { Position = invocationPosition });
-
-			// Load the shell menu items
-			_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(_flyoutItemPath, flyout, null, moreOptions, moreSeparator, showOpenWithMenu: true, showSendToMenu: true);
+			// Load the shell menu items, then show the flyout
+			_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(_flyoutItemPath, flyout, widgetCardItem, e.GetPosition(widgetCardItem), null, moreOptions, moreSeparator, showOpenWithMenu: true, showSendToMenu: true);
 
 			e.Handled = true;
 		}

@@ -14,7 +14,7 @@ namespace Files.App.Helpers.ContextFlyouts
 	public static class ContextFlyoutModelToElementHelper
 	{
 		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSubItem))]
-		public static List<MenuFlyoutItemBase>? GetMenuFlyoutItemsFromModel(List<ContextMenuFlyoutItemViewModel>? items)
+		public static List<MenuFlyoutItemBase>? GetMenuFlyoutItemsFromModel(List<ContextMenuFlyoutItemViewModel>? items, Action<MenuFlyoutSubItem, ContextMenuFlyoutItemViewModel>? onEmptySubMenu = null)
 		{
 			if (items is null)
 				return null;
@@ -22,7 +22,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			var flyout = new List<MenuFlyoutItemBase>();
 			items.ForEach(i =>
 			{
-				var menuItem = GetMenuItem(i);
+				var menuItem = GetMenuItem(i, onEmptySubMenu);
 				flyout.Add(menuItem);
 				if (menuItem is MenuFlyoutSubItem menuFlyoutSubItem && menuFlyoutSubItem.Items.Count == 0 && i.LoadSubMenuAction is null)
 				{
@@ -42,17 +42,17 @@ namespace Files.App.Helpers.ContextFlyouts
 			return flyout;
 		}
 
-		public static MenuFlyoutItemBase GetMenuItem(ContextMenuFlyoutItemViewModel item)
+		public static MenuFlyoutItemBase GetMenuItem(ContextMenuFlyoutItemViewModel item, Action<MenuFlyoutSubItem, ContextMenuFlyoutItemViewModel>? onEmptySubMenu = null)
 		{
 			return item.ItemType switch
 			{
 				ContextMenuFlyoutItemType.Separator => new MenuFlyoutSeparator(),
-				_ => GetMenuFlyoutItem(item),
+				_ => GetMenuFlyoutItem(item, onEmptySubMenu),
 			};
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(Style))]
-		private static MenuFlyoutItemBase GetMenuFlyoutItem(ContextMenuFlyoutItemViewModel item)
+		private static MenuFlyoutItemBase GetMenuFlyoutItem(ContextMenuFlyoutItemViewModel item, Action<MenuFlyoutSubItem, ContextMenuFlyoutItemViewModel>? onEmptySubMenu)
 		{
 			if (item.Items is not null)
 			{
@@ -102,7 +102,7 @@ namespace Files.App.Helpers.ContextFlyouts
 				// Shell submenus (Send to, Open with, ...) load their children lazily. Fire the load and fill the
 				// submenu in once it completes, keeping it visible meanwhile.
 				if (item.LoadSubMenuAction is not null && flyoutSubItem.Items.Count == 0)
-					FastContextFlyout.PopulateShellSubMenu(flyoutSubItem, item, static models => models[0].Items);
+					FastContextFlyout.PopulateShellSubMenu(flyoutSubItem, item, static models => models[0].Items, onEmptySubMenu is null ? null : () => onEmptySubMenu(flyoutSubItem, item));
 
 				return flyoutSubItem;
 			}

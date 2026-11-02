@@ -27,6 +27,8 @@ namespace Files.App.Helpers.ContextFlyouts
 			"{6119575F-6918-4392-AF16-C2C627AF9416}",
 		};
 
+		private static readonly TimeSpan ShellMenuTimeout = TimeSpan.FromMilliseconds(100);
+
 		private static ControlTemplate? primaryRowTemplate;
 		private static IUserSettingsService? userSettingsService;
 
@@ -40,12 +42,9 @@ namespace Files.App.Helpers.ContextFlyouts
 		private Point? invocationPosition;
 		private CancellationTokenSource? shellLoadCancellation;
 		private ShellContextMenuResult? shellMenu;
-		private MenuFlyoutItem? modernItemsPlaceholder;
 		private MenuFlyoutItem? classicItemsPlaceholder;
-
-		// Supplies the live invocation point for framework-shown menus, whose ContextRequested can arrive after the
-		// pre-render guess; pulled in Flyout_Opened so the direction correction uses the finger, not the stale cursor.
-		public Func<(FrameworkElement Anchor, Point Position)?>? InvocationPointProvider { get; set; }
+		private bool isShowing;
+		private bool isShown;
 
 		public MenuFlyout Flyout { get; } = new()
 		{
@@ -73,12 +72,12 @@ namespace Files.App.Helpers.ContextFlyouts
 			primaryRow = null;
 			primarySeparator = null;
 			primaryModels = null;
-			modernItemsPlaceholder = null;
 			classicItemsPlaceholder = null;
 			openedUp = false;
 			placementResolved = false;
 			invocationAnchor = null;
 			invocationPosition = null;
+			isShown = false;
 		}
 
 		public CancellationToken BeginShellMenuLoad(CancellationToken cancellationToken = default)
@@ -116,20 +115,42 @@ namespace Files.App.Helpers.ContextFlyouts
 				Flyout.DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, menu.Dispose);
 		}
 
-		public void AddShellItemsPlaceholder()
+		// Returns null for the opening started by Show
+		public FrameworkElement? CancelOpening()
 		{
-			AddSeparatorIfNeeded();
-			modernItemsPlaceholder = CreateLoadingItem();
-			Flyout.Items.Add(modernItemsPlaceholder);
+			if (isShowing)
+				return null;
+
+			var target = Flyout.Target;
+			Flyout.Hide();
+			return target;
 		}
 
-		public void RemoveShellItemPlaceholders(MenuFlyoutSubItem? overflowSubMenu, MenuFlyoutSeparator? overflowSeparator)
+		public void Show(FrameworkElement target, Point? position)
 		{
-			RemoveItem(modernItemsPlaceholder);
-			modernItemsPlaceholder = null;
-			RemoveClassicItemsPlaceholder(overflowSubMenu);
-			if (overflowSubMenu is not null)
-				RemoveIfEmpty(overflowSubMenu, overflowSeparator);
+			if (isShown)
+				return;
+
+			isShown = true;
+			ResolvePlacement(target, position);
+			isShowing = true;
+			try
+			{
+				Flyout.ShowAt(target, new FlyoutShowOptions { Position = position });
+			}
+			finally
+			{
+				isShowing = false;
+			}
+		}
+
+		// A stuck shell extension shouldn't keep the menu from opening; its items are added once they load
+		public async Task<ShellContextMenuResult> WaitForShellMenuAsync(Task<ShellContextMenuResult> shellMenu, FrameworkElement target, Point? position)
+		{
+			if (await Task.WhenAny(shellMenu, Task.Delay(ShellMenuTimeout)) != shellMenu)
+				Show(target, position);
+
+			return await shellMenu;
 		}
 
 		private void RemoveClassicItemsPlaceholder(MenuFlyoutSubItem? overflowSubMenu)
@@ -302,22 +323,19 @@ namespace Files.App.Helpers.ContextFlyouts
 		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutItem))]
 		public (MenuFlyoutSubItem? SubMenu, MenuFlyoutSeparator? Separator) AddModernShellModels(List<ContextMenuFlyoutItemViewModel> models, MenuFlyoutSubItem? overflowSubMenu, MenuFlyoutSeparator? overflowSeparator)
 		{
-			RemoveItem(modernItemsPlaceholder);
-			modernItemsPlaceholder = null;
-			if (models.Count > 0)
-			{
-				if (models.Any(model => model.Tag is Win32ContextMenuItem { CommandString: { } command } && WindowsTerminalCommands.Contains(command)))
-					RemoveItem(Items.FirstOrDefault(item => item is MenuFlyoutItem { Command: IRichCommand { Code: CommandCodes.OpenTerminal or CommandCodes.OpenTerminalFromSidebar or CommandCodes.OpenTerminalFromHome } }));
+			if (models.Count == 0)
+				return (overflowSubMenu, overflowSeparator);
 
-				// The classic items then always go under "Show more options"
-				if (overflowSubMenu is null)
-					(overflowSubMenu, overflowSeparator) = AddShowMoreOptionsSubMenu();
+			if (models.Any(model => model.Tag is Win32ContextMenuItem { CommandString: { } command } && WindowsTerminalCommands.Contains(command)))
+				RemoveItem(Items.FirstOrDefault(item => item is MenuFlyoutItem { Command: IRichCommand { Code: CommandCodes.OpenTerminal or CommandCodes.OpenTerminalFromSidebar or CommandCodes.OpenTerminalFromHome } }));
 
-				var mainModels = models.ToList();
-				TrimSeparators(mainModels);
-				InsertMainModels(mainModels, overflowSubMenu, overflowSeparator);
-			}
+			// The classic items then always go under "Show more options"
+			if (overflowSubMenu is null)
+				(overflowSubMenu, overflowSeparator) = AddShowMoreOptionsSubMenu();
 
+			var mainModels = models.ToList();
+			TrimSeparators(mainModels);
+			InsertMainModels(mainModels, overflowSubMenu, overflowSeparator);
 			FinalizePrimaryRowPosition();
 			return (overflowSubMenu, overflowSeparator);
 		}
@@ -373,7 +391,7 @@ namespace Files.App.Helpers.ContextFlyouts
 		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSeparator))]
 		private void InsertMainModels(List<ContextMenuFlyoutItemViewModel> models, MenuFlyoutSubItem? overflowSubMenu, MenuFlyoutSeparator? overflowSeparator)
 		{
-			if (models.Count == 0 || ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(models) is not { Count: > 0 } elements)
+			if (models.Count == 0 || ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(models, ReplaceEmptySubMenu) is not { Count: > 0 } elements)
 				return;
 
 			var insertAt = GetOverflowInsertIndex(overflowSubMenu, overflowSeparator);
@@ -381,6 +399,17 @@ namespace Files.App.Helpers.ContextFlyouts
 				Items.Insert(insertAt++, new MenuFlyoutSeparator());
 			foreach (var element in elements)
 				Items.Insert(insertAt++, element);
+		}
+
+		private void ReplaceEmptySubMenu(MenuFlyoutSubItem subMenu, ContextMenuFlyoutItemViewModel model)
+		{
+			var index = Items.IndexOf(subMenu);
+			if (index < 0 || model.Command is null)
+				return;
+
+			model.Items = null;
+			Items.RemoveAt(index);
+			Items.Insert(index, ContextFlyoutModelToElementHelper.GetMenuItem(model));
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSeparator))]
@@ -654,14 +683,6 @@ namespace Files.App.Helpers.ContextFlyouts
 				// the menu off-screen and repositioning it.
 				if (presenter.XamlRoot.Content is FrameworkElement rootContent && rootContent.ActualHeight > 0)
 					presenter.MaxHeight = rootContent.ActualHeight - 24;
-
-				// Pull the touch/pointer point captured after the pre-render guess; the cursor is stale for touch.
-				// Direct-position callers (widget/sidebar) leave the provider null.
-				if (InvocationPointProvider?.Invoke() is { } invocation)
-				{
-					invocationAnchor = invocation.Anchor;
-					invocationPosition = invocation.Position;
-				}
 
 				// The pre-render guess can be wrong within the estimation error at the flip boundary. Decide the
 				// final position the way CommandBarFlyoutCommandBar does after its flyout is placed: from the

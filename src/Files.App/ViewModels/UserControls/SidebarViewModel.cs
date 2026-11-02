@@ -841,20 +841,16 @@ namespace Files.App.ViewModels.UserControls
 			var menuItems = GetLocationItemMenuItems(item, flyout.Flyout);
 			flyout.Build(menuItems);
 
-			// Pre-add "Show more options" before showing so filling it with shell items never resizes the menu
-			MenuFlyoutSubItem? moreOptions = null;
-			MenuFlyoutSeparator? moreSeparator = null;
 			if (menuOptions.ShowShellItems)
 			{
-				flyout.AddShellItemsPlaceholder();
-				(moreOptions, moreSeparator) = flyout.AddShowMoreOptionsIfEnabled();
+				// Pre-add "Show more options" before showing so filling it with shell items never resizes the menu
+				var (moreOptions, moreSeparator) = flyout.AddShowMoreOptionsIfEnabled();
+				await ShellContextFlyoutFactory.LoadShellMenuItemsAsync(item.GetRequiredPath(), flyout, sidebarItem, args.Position, menuOptions, moreOptions, moreSeparator);
 			}
-
-			flyout.ResolvePlacement(sidebarItem, args.Position);
-			flyout.Flyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = args.Position });
-
-			if (menuOptions.ShowShellItems)
-				await ShellContextFlyoutFactory.LoadShellMenuItemsAsync(item.GetRequiredPath(), flyout, menuOptions, moreOptions, moreSeparator);
+			else
+			{
+				flyout.Show(sidebarItem, args.Position);
+			}
 		}
 
 		public async void HandleItemInvokedAsync(object item, PointerUpdateKind pointerUpdateKind)

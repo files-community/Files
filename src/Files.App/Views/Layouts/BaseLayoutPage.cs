@@ -628,11 +628,9 @@ namespace Files.App.Views.Layouts
 			BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
 
 			// On the page so it covers item rows and the empty background; handledEventsToo so it still runs after
-			// the built-in flyout handling. The hosts pull the captured point when the menu opens.
+			// the built-in flyout handling. The menus open at the captured point once built.
 			contextRequestedHandler = OnContextRequestedForPlacement;
 			AddHandler(UIElement.ContextRequestedEvent, contextRequestedHandler, true);
-			ItemContextFlyoutHost.InvocationPointProvider = () => contextInvocationValid ? (this, contextInvocationPosition) : null;
-			BaseContextFlyoutHost.InvocationPointProvider = () => contextInvocationValid ? (this, contextInvocationPosition) : null;
 		}
 
 		private void OnContextRequestedForPlacement(UIElement sender, ContextRequestedEventArgs e)
@@ -661,11 +659,17 @@ namespace Files.App.Views.Layouts
 			return shellContextMenuItemCancellationToken.Token;
 		}
 
-		[DynamicWindowsRuntimeCast(typeof(MenuFlyout))]
-		private async void ItemContextFlyout_Opening(object? sender, object e)
+		private void ItemContextFlyout_Opening(object? sender, object e)
+		{
+			if (ItemContextFlyoutHost.CancelOpening() is { } target)
+				_ = DispatcherQueue.EnqueueDeferredAsync(() => OpenItemContextFlyoutAsync(target));
+		}
+
+		private async Task OpenItemContextFlyoutAsync(FrameworkElement target)
 		{
 			try
 			{
+				var position = GetInvocationPosition(target);
 				var parentShellPage = await EnsurePageIsCurrentAsync();
 				var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 				var commandsViewModel = CommandsViewModel
@@ -673,7 +677,7 @@ namespace Files.App.Views.Layouts
 				var instanceViewModel = parentShellPage.InstanceViewModel;
 
 				// Workaround for item sometimes not getting selected
-				if (!IsItemSelected && (sender as MenuFlyout)?.Target is SelectorItem { Content: ListedItem li })
+				if (!IsItemSelected && target is SelectorItem { Content: ListedItem li })
 					ItemManipulationModel.SetSelectedItem(li);
 
 				if (!IsItemSelected)
@@ -704,9 +708,8 @@ namespace Files.App.Views.Layouts
 				{
 					var token = host.BeginShellMenuLoad(RenewShellMenuToken());
 
-					// Pre-add a loading item and "Show more options" (with the synchronously-known built-in overflow items)
-					// BEFORE the async shell fetch so they show while the extensions load.
-					host.AddShellItemsPlaceholder();
+					// Pre-add "Show more options" (with the synchronously-known built-in overflow items) so filling it
+					// with the classic shell items never resizes the menu.
 					var (moreOptions, moreSeparator) = host.AddShowMoreOptionsIfEnabled(items);
 
 					// Open with / Send to: swap the leaf placeholders for their submenus synchronously (before the
@@ -717,16 +720,14 @@ namespace Files.App.Views.Layouts
 						? host.SwapLeafForSubMenu("SendTo", "SendToOverflow", null, null)
 						: null;
 
-					// Place the primary row BEFORE the menu renders so it does not jump on an upward open.
-					host.ResolvePlacement();
-
-					var shellMenu = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(
-						shellViewModel.WorkingDirectory, selectedItems, shiftPressed, false, token);
+					var shellMenu = await host.WaitForShellMenuAsync(ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(
+						shellViewModel.WorkingDirectory, selectedItems, shiftPressed, false, token), target, position);
 
 					if (!host.AttachShellMenu(shellMenu, token))
 						return;
 
 					(moreOptions, moreSeparator) = host.AddModernShellModels(shellMenu.ModernItems, moreOptions, moreSeparator);
+					host.Show(target, position);
 					var classicShiftPressed = shiftPressed && !shellMenu.HasModernItems;
 					await host.LoadClassicShellModelsAsync(shellMenu, moreOptions, token, shellMenuItems =>
 					{
@@ -749,7 +750,7 @@ namespace Files.App.Views.Layouts
 				}
 				else
 				{
-					host.ResolvePlacement();
+					host.Show(target, position);
 				}
 
 				host.FinalizePrimaryRowPosition();
@@ -759,6 +760,9 @@ namespace Files.App.Views.Layouts
 				Debug.WriteLine(error);
 			}
 		}
+
+		private Point? GetInvocationPosition(FrameworkElement target)
+			=> contextInvocationValid ? TransformToVisual(target).TransformPoint(contextInvocationPosition) : null;
 
 		[DynamicWindowsRuntimeCast(typeof(Style))]
 		[DynamicWindowsRuntimeCast(typeof(Geometry))]
@@ -930,8 +934,6 @@ namespace Files.App.Views.Layouts
 				RemoveHandler(UIElement.ContextRequestedEvent, contextRequestedHandler);
 				contextRequestedHandler = null;
 			}
-			ItemContextFlyoutHost.InvocationPointProvider = null;
-			BaseContextFlyoutHost.InvocationPointProvider = null;
 
 			var parameter = e.Parameter as NavigationArguments;
 			if (parameter is not null && !parameter.IsLayoutSwitch)
@@ -941,10 +943,17 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		private async void BaseContextFlyout_Opening(object? sender, object e)
+		private void BaseContextFlyout_Opening(object? sender, object e)
+		{
+			if (BaseContextFlyoutHost.CancelOpening() is { } target)
+				_ = DispatcherQueue.EnqueueDeferredAsync(() => OpenBaseContextFlyoutAsync(target));
+		}
+
+		private async Task OpenBaseContextFlyoutAsync(FrameworkElement target)
 		{
 			try
 			{
+				var position = GetInvocationPosition(target);
 				var parentShellPage = await EnsurePageIsCurrentAsync();
 				var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 				var commandsViewModel = CommandsViewModel
@@ -964,18 +973,16 @@ namespace Files.App.Views.Layouts
 				{
 					var token = host.BeginShellMenuLoad(RenewShellMenuToken());
 
-					// Pre-add a loading item and "Show more options" (with the synchronously-known built-in overflow items)
-					// BEFORE the async shell fetch so they show while the extensions load.
-					host.AddShellItemsPlaceholder();
+					// Pre-add "Show more options" (with the synchronously-known built-in overflow items) so filling it
+					// with the classic shell items never resizes the menu.
 					var (moreOptions, moreSeparator) = host.AddShowMoreOptionsIfEnabled(items);
 
-					host.ResolvePlacement();
-
-					var shellMenu = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: shellViewModel.WorkingDirectory, selectedItems: [], shiftPressed: shiftPressed, showOpenMenu: false, token);
+					var shellMenu = await host.WaitForShellMenuAsync(ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: shellViewModel.WorkingDirectory, selectedItems: [], shiftPressed: shiftPressed, showOpenMenu: false, token), target, position);
 					if (!host.AttachShellMenu(shellMenu, token))
 						return;
 
 					(moreOptions, moreSeparator) = host.AddModernShellModels(shellMenu.ModernItems, moreOptions, moreSeparator);
+					host.Show(target, position);
 					var classicShiftPressed = shiftPressed && !shellMenu.HasModernItems;
 					await host.LoadClassicShellModelsAsync(shellMenu, moreOptions, token, shellMenuItems =>
 					{
@@ -991,7 +998,7 @@ namespace Files.App.Views.Layouts
 				}
 				else
 				{
-					host.ResolvePlacement();
+					host.Show(target, position);
 				}
 
 				host.FinalizePrimaryRowPosition();

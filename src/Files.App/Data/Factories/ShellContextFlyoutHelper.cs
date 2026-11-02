@@ -116,29 +116,48 @@ namespace Files.App.Helpers
 			if (contextMenu is null)
 				return ShellContextMenuResult.Empty;
 
-			try
-			{
-				// Loads in parallel on the server
-				var classicItems = LoadClassicItemsAsync(contextMenu, cancellationToken);
-				var modernItems = new List<ContextMenuFlyoutItemViewModel>();
-				await LoadMenuFlyoutItemAsync(modernItems, contextMenu, contextMenu.Items!, cancellationToken, true);
-
-				// Without packaged app or cloud provider items, wait for the classic items
-				if (modernItems.Count == 0 && !cancellationToken.IsCancellationRequested)
-					await classicItems;
-
-				if (cancellationToken.IsCancellationRequested)
-				{
-					contextMenu.Dispose();
-					return ShellContextMenuResult.Empty;
-				}
-
-				return new(contextMenu, modernItems, classicItems);
-			}
-			catch
+			// Loads in parallel on the server
+			var classicItems = LoadClassicItemsAsync(contextMenu, cancellationToken);
+			var modernItems = new List<ContextMenuFlyoutItemViewModel>();
+			if (!await SafetyExtensions.IgnoreExceptions(() => LoadMenuFlyoutItemAsync(modernItems, contextMenu, contextMenu.Items!, cancellationToken, true), App.Logger)
+				|| cancellationToken.IsCancellationRequested)
 			{
 				contextMenu.Dispose();
-				throw;
+				return ShellContextMenuResult.Empty;
+			}
+
+			// Without visible subcommands, a command is invoked itself
+			foreach (var model in modernItems)
+			{
+				if (model.Items is not null && model.Tag is Win32ContextMenuItem { ID: >= 0 } item)
+					model.Command = new AsyncRelayCommand(() => contextMenu.InvokeItem(item.ID));
+			}
+
+			_ = SafetyExtensions.IgnoreExceptions(() => LoadModernIconsAsync(contextMenu, modernItems, cancellationToken), App.Logger);
+			return new(contextMenu, modernItems, classicItems);
+		}
+
+		private static async Task LoadModernIconsAsync(ContextMenu contextMenu, List<ContextMenuFlyoutItemViewModel> models, CancellationToken cancellationToken)
+		{
+			var images = new Dictionary<Win32ContextMenuItem, BitmapImage>();
+			foreach (var model in models)
+			{
+				if (model.ItemType is not ContextMenuFlyoutItemType.Separator && model.BitmapIcon is null && model.Tag is Win32ContextMenuItem item)
+					images[item] = model.BitmapIcon = new BitmapImage();
+			}
+
+			if (images.Count == 0)
+				return;
+
+			var icons = await contextMenu.LoadIconsAsync();
+			var items = contextMenu.Items!;
+			for (var index = 0; index < icons.Count && index < items.Count && !cancellationToken.IsCancellationRequested; index++)
+			{
+				if (icons[index] is { Length: > 0 } icon && images.TryGetValue(items[index], out var image))
+				{
+					using var stream = new MemoryStream(icon);
+					await SafetyExtensions.IgnoreExceptions(() => image.SetSourceAsync(stream.AsRandomAccessStream()).AsTask(), App.Logger);
+				}
 			}
 		}
 
@@ -319,6 +338,8 @@ namespace Files.App.Helpers
 		public static async Task LoadShellMenuItemsAsync(
 			string path,
 			FastContextFlyout flyout,
+			FrameworkElement anchor,
+			Windows.Foundation.Point position,
 			ContextMenuOptions? options = null,
 			MenuFlyoutSubItem? overflowSubMenu = null,
 			MenuFlyoutSeparator? overflowSeparator = null,
@@ -327,26 +348,23 @@ namespace Files.App.Helpers
 		{
 			try
 			{
-				if (options is not null && !options.IsLocationItem)
-				{
-					flyout.RemoveShellItemPlaceholders(overflowSubMenu, overflowSeparator);
-					return;
-				}
-
 				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 				var token = flyout.BeginShellMenuLoad();
-				var shellMenu = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(
-					workingDir: null,
-					[new ListedItem(null) { ItemPath = path }],
-					shiftPressed: shiftPressed,
-					showOpenMenu: false,
-					token);
+				var shellMenu = options is not null && !options.IsLocationItem
+					? ShellContextMenuResult.Empty
+					: await flyout.WaitForShellMenuAsync(ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(
+						workingDir: null,
+						[new ListedItem(null) { ItemPath = path }],
+						shiftPressed: shiftPressed,
+						showOpenMenu: false,
+						token), anchor, position);
 				if (!flyout.AttachShellMenu(shellMenu, token))
 					return;
 
 				(overflowSubMenu, overflowSeparator) = flyout.AddModernShellModels(shellMenu.ModernItems, overflowSubMenu, overflowSeparator);
 				var openWithSubMenu = flyout.ConvertPlaceholderToSubMenu("OpenWithPlaceholder", Strings.OpenWith.GetLocalizedResource(), "App.ThemedIcons.OpenWith");
 				var sendToSubMenu = flyout.ConvertPlaceholderToSubMenu("SendToPlaceholder", Strings.SendTo.GetLocalizedResource(), null);
+				flyout.Show(anchor, position);
 				await flyout.LoadClassicShellModelsAsync(shellMenu, overflowSubMenu, token, shellMenuItems =>
 				{
 					// Open with / Send to / BitLocker get their own main-menu entries; everything else is overflow.

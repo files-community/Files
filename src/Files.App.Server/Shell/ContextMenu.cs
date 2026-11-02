@@ -54,7 +54,7 @@ namespace Files.App.Server
 			if (itemId < 0)
 				return false;
 
-			if (modernWorker is not null && modernMenu is { } modern && modern.HasItem(itemId))
+			if (modernWorker is not null && modernMenu is { } modern && ModernContextMenuBackend.HasItem(itemId))
 				return await InvokeAsync(modernWorker, () => modern.InvokeItem(itemId));
 
 			var classic = await classicMenu;
@@ -154,10 +154,24 @@ namespace Files.App.Server
 
 		public static async Task WarmUpQueryContextMenuAsync()
 		{
-			// The first lookup of packaged app commands in a process is slow
-			var packagedCommands = Task.Run(() => SafetyExtensions.IgnoreExceptions(() => FileExplorerAppExtensions.GetCommands(["Directory"])));
+			// The first lookup of packaged app commands in a process is slow, and their servers stay loaded once started
+			var packagedCommands = Task.Run(() => SafetyExtensions.IgnoreExceptions(() => ExplorerCommandActivator.PrepareAsync(
+				FileExplorerAppExtensions.GetCommands(["Directory", @"Directory\Background", "*"]).Select(registration => registration.ClassId)), Program.Logger));
 			using var contextMenu = await GetContextMenuForFiles([Path.GetPathRoot(Environment.SystemDirectory)!], PInvoke.CMF_NORMAL);
 			await packagedCommands;
+		}
+
+		// Icons and subcommands of the packaged app and cloud provider commands
+		public Task LoadModernDetailsAsync()
+		{
+			if (modernWorker is null || modernMenu is not { } modern)
+				return Task.CompletedTask;
+
+			return modernWorker.Thread.PostMethod(() =>
+			{
+				if (!disposedValue)
+					SafetyExtensions.IgnoreExceptions(modern.LoadDetails, Program.Logger);
+			});
 		}
 
 		public async Task<List<Win32ContextMenuItem>> LoadClassicItemsAsync()
@@ -192,7 +206,8 @@ namespace Files.App.Server
 			if (disposedValue)
 				return;
 
-			if (disposing && Items is not null)
+			// Packaged app and cloud provider items are released by their backend, on its worker
+			if (disposing && modernMenu is null && Items is not null)
 			{
 				foreach (Win32ContextMenuItem item in Items)
 					(item as IDisposable)?.Dispose();

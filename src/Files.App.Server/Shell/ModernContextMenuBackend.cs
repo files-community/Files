@@ -7,7 +7,6 @@ using System.Globalization;
 using System.Runtime.InteropServices.Marshalling;
 using Windows.Win32;
 using Windows.Win32.Foundation;
-using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
 
@@ -25,6 +24,9 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 	private readonly List<IExplorerCommand> ownedCommands = [];
 	private readonly HashSet<string> commandStrings = new(StringComparer.OrdinalIgnoreCase);
 
+	// Icons and subcommands are slow, so they load after the items
+	private readonly List<(ContextMenuItem Item, IExplorerCommand? Command, string? IconLocation, int Depth)> details = [];
+
 	public List<Win32ContextMenuItem> Items { get; } = [];
 
 	// For the background, the selection is the folder, as there's no Explorer view site to get it from
@@ -41,17 +43,21 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 		}
 	}
 
-	// Safe on any thread: these only read what was listed on creation
+	// Safe on any thread, as it's listed on creation
 	public bool HasCommand(string? commandString)
 		=> !string.IsNullOrEmpty(commandString) && commandStrings.Contains(commandString);
 
-	public bool HasItem(int itemId)
-		=> itemId >= FirstCommandId && itemId - FirstCommandId < commands.Count;
+	public static bool HasItem(int itemId)
+		=> itemId >= FirstCommandId;
 
 	public HRESULT InvokeItem(int itemId)
 	{
+		var index = itemId - FirstCommandId;
+		if ((uint)index >= (uint)commands.Count)
+			return HRESULT.E_INVALIDARG;
+
 		// The command state can change while the menu is open
-		var command = commands[itemId - FirstCommandId];
+		var command = commands[index];
 		var result = command.GetState(selection, true, out var state);
 		if (result.Failed)
 			return result;
@@ -138,15 +144,36 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 			}
 			else
 			{
-				Items.Add(new ContextMenuItem
+				var groupItem = new ContextMenuItem
 				{
 					ID = -1,
 					Label = group.Key.DisplayName,
 					SubItems = groupItems,
-					Icon = LoadIcon(group.Select(registration => registration.GroupIcon).FirstOrDefault(icon => !string.IsNullOrEmpty(icon))),
-				});
+				};
+				Items.Add(groupItem);
+				details.Add((groupItem, null, group.Select(registration => registration.GroupIcon).FirstOrDefault(icon => !string.IsNullOrEmpty(icon)), 0));
 			}
 		}
+	}
+
+	public void LoadDetails()
+	{
+		// Grows with the subcommands found
+		for (var index = 0; index < details.Count; index++)
+		{
+			var (item, command, iconLocation, depth) = details[index];
+			item.Icon = command is null ? LoadIcon(iconLocation) : GetIcon(command);
+			if (command is null || item.SubItems is not { } subItems)
+				continue;
+
+			AddSubCommands(command, subItems, depth + 1);
+
+			// Without visible subcommands, the command is invoked itself
+			if (!subItems.Any(subItem => subItem.Type != MENU_ITEM_TYPE.MFT_SEPARATOR))
+				item.SubItems = null;
+		}
+
+		details.Clear();
 	}
 
 	private void AddCommand(IExplorerCommand command, string fallbackCommandString, List<Win32ContextMenuItem> target, int depth)
@@ -179,23 +206,17 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 			ID = FirstCommandId + commands.Count,
 			Label = title,
 			CommandString = commandString,
-			Icon = GetIcon(command),
 			IsEnabled = !state.HasFlag(_EXPCMDSTATE.ECS_DISABLED),
 			IsChecked = state.HasFlag(_EXPCMDSTATE.ECS_CHECKED),
 			IsToggle = (state & (_EXPCMDSTATE.ECS_CHECKBOX | _EXPCMDSTATE.ECS_RADIOCHECK)) != 0 || flags.HasFlag(_EXPCMDFLAGS.ECF_TOGGLEABLE),
+			SubItems = flags.HasFlag(_EXPCMDFLAGS.ECF_HASSUBCOMMANDS) ? [] : null,
 		};
 		commands.Add(command);
-		if (!string.IsNullOrEmpty(commandString))
-			commandStrings.Add(commandString);
+		details.Add((item, command, null, depth));
 
-		if (flags.HasFlag(_EXPCMDFLAGS.ECF_HASSUBCOMMANDS))
-		{
-			// Without visible subcommands, the command is invoked itself
-			var subItems = new List<Win32ContextMenuItem>();
-			AddSubCommands(command, subItems, depth + 1);
-			if (subItems.Any(subItem => subItem.Type != MENU_ITEM_TYPE.MFT_SEPARATOR))
-				item.SubItems = subItems;
-		}
+		// The classic menu also lists the top-level commands
+		if (depth == 0 && !string.IsNullOrEmpty(commandString))
+			commandStrings.Add(commandString);
 
 		if (flags.HasFlag(_EXPCMDFLAGS.ECF_SEPARATORBEFORE))
 			target.Add(CreateSeparator());
@@ -234,23 +255,10 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 		}
 	}
 
-	private static unsafe IExplorerCommand? CreateCommand(ExplorerCommandRegistration registration)
+	private static IExplorerCommand? CreateCommand(ExplorerCommandRegistration registration)
 	{
-		// Activate through a raw pointer so the command gets a uniquely owned wrapper
-		Guid interfaceId = typeof(IExplorerCommand).GUID;
-		MULTI_QI[] results = [new() { pIID = &interfaceId }];
-		if (PInvoke.CoCreateInstanceEx(registration.ClassId, null, CLSCTX.CLSCTX_INPROC_SERVER | CLSCTX.CLSCTX_LOCAL_SERVER, null, results).Failed || results[0].hr.Failed)
+		if (ExplorerCommandActivator.Create(registration.ClassId) is not { } command)
 			return null;
-
-		IExplorerCommand? command;
-		try
-		{
-			command = UniqueComInterfaceMarshaller<IExplorerCommand>.ConvertToManaged(results[0].pItf);
-		}
-		finally
-		{
-			UniqueComInterfaceMarshaller<IExplorerCommand>.Free(results[0].pItf);
-		}
 
 		if (command is IInitializeCommand initializer && registration.Verb.Length > 0 && initializer.Initialize(registration.Verb, null!).Failed)
 		{
@@ -308,6 +316,8 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 
 	public void Dispose()
 	{
+		foreach (var item in Items)
+			(item as IDisposable)?.Dispose();
 		foreach (var command in ownedCommands)
 			Release(command);
 		ownedCommands.Clear();

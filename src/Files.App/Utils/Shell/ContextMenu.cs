@@ -113,6 +113,10 @@ public sealed partial class ContextMenu : Win32ContextMenu, IDisposable
 	public async Task<List<Win32ContextMenuItem>> LoadClassicItemsAsync()
 		=> Convert(await ReadItemsAsync(() => session.LoadClassicItemsAsync().AsTask()), filter);
 
+	// Same order as Items
+	public async Task<List<byte[]?>> LoadIconsAsync()
+		=> [.. (await ReadItemsAsync(() => session.LoadIconsAsync().AsTask())).Select(item => item.Icon)];
+
 	public async Task<bool> LoadSubMenu(List<Win32ContextMenuItem> items)
 	{
 		if (!submenus.Remove(items, out var submenu))

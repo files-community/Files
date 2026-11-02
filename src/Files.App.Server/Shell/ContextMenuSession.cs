@@ -10,6 +10,7 @@ public sealed partial class ContextMenuSession : IDisposable
 {
 	private readonly ContextMenu menu;
 	private readonly IReadOnlyList<MenuEntryInfo> entries;
+	private readonly Task modernDetails;
 	private readonly Dictionary<int, List<Win32ContextMenuItem>> submenus = [];
 	private readonly SemaphoreSlim gate = new(1);
 	private IReadOnlyList<MenuEntryInfo>? classicEntries;
@@ -21,9 +22,17 @@ public sealed partial class ContextMenuSession : IDisposable
 	{
 		this.menu = menu;
 		entries = Convert(menu.Items ?? []);
+
+		modernDetails = menu.LoadModernDetailsAsync();
 	}
 
 	public IReadOnlyList<MenuEntryInfo> GetItems() => entries;
+
+	public IAsyncOperation<IReadOnlyList<MenuEntryInfo>> LoadIconsAsync() => ServerAsync.Run<IReadOnlyList<MenuEntryInfo>>(async token =>
+	{
+		await modernDetails.WaitAsync(token);
+		return (menu.Items ?? []).Select((item, index) => new MenuEntryInfo(item, entries[index].Submenu)).ToList().AsReadOnly();
+	});
 
 	private IReadOnlyList<MenuEntryInfo> Convert(List<Win32ContextMenuItem> items)
 	{
@@ -43,6 +52,7 @@ public sealed partial class ContextMenuSession : IDisposable
 
 	public IAsyncOperation<IReadOnlyList<MenuEntryInfo>> LoadSubmenuAsync(int id) => ServerAsync.Run(async token =>
 	{
+		await modernDetails.WaitAsync(token);
 		await gate.WaitAsync(token);
 		try
 		{

@@ -302,6 +302,8 @@ _EXPCMDFLAGS
 IInitializeCommand
 IInspectable
 CoCreateInstanceEx
+CoGetClassObject
+IClassFactory
 GetSubMenu
 GetMenuItemCount
 GetMenuItemInfo
