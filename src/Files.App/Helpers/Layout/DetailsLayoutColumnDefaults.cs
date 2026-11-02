@@ -19,7 +19,11 @@ namespace Files.App.Helpers
 				? savedColumns.Where(IsConfigurableColumn).Distinct()
 				: GetBuiltInColumns();
 
-			return (string[])[DetailsLayoutColumnIds.Name, .. columns];
+			var ids = columns.ToList();
+			if (!ids.Contains(DetailsLayoutColumnIds.Name))
+				ids.Insert(0, DetailsLayoutColumnIds.Name);
+
+			return ids.ToArray();
 		}
 
 		/// <summary>
@@ -29,7 +33,7 @@ namespace Files.App.Helpers
 		{
 			return LayoutTemplateIds.IsBuiltIn(template.Id)
 				? GetColumns(LayoutTemplateIds.CreateBuiltIn(template.Id))
-				: (string[])[DetailsLayoutColumnIds.Name, .. GetBuiltInColumns()];
+				: GetBuiltInColumns().ToArray();
 		}
 
 		public static void SetColumns(LayoutTemplate template, IEnumerable<string> columns)
@@ -95,7 +99,7 @@ namespace Files.App.Helpers
 
 		private static bool IsConfigurableColumn(string id)
 		{
-			return !DetailsLayoutColumnOrder.IsFixed(id) && !string.IsNullOrEmpty(id);
+			return !DetailsLayoutColumnOrder.IsPinned(id) && !string.IsNullOrEmpty(id);
 		}
 	}
 }

@@ -1360,7 +1360,7 @@ namespace Files.App.Views.Layouts
 
 			foreach (var id in ColumnsViewModel.OrderedColumns.Ids)
 			{
-				if (!DetailsLayoutColumnOrder.IsFixed(id) && _headerColumnIndices.TryGetValue(id, out var index) && ColumnsViewModel.GetColumn(id).Visibility == Visibility.Visible)
+				if (!DetailsLayoutColumnOrder.IsPinned(id) && _headerColumnIndices.TryGetValue(id, out var index) && ColumnsViewModel.GetColumn(id).Visibility == Visibility.Visible)
 					bounds.Add((id, offsets[index], offsets[index + 2]));
 			}
 

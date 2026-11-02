@@ -95,7 +95,7 @@ namespace Files.App.Data.Models
 						if (hasWidth)
 							column.UserLengthPixels = width;
 
-						column.UserCollapsed = !isVisible && !DetailsLayoutColumnOrder.IsFixed(id);
+						column.UserCollapsed = !isVisible && !DetailsLayoutColumnOrder.IsRequired(id);
 					}
 					else if (isVisible)
 					{
@@ -183,7 +183,7 @@ namespace Files.App.Data.Models
 
 		public void SetColumnVisibility(string id, bool isVisible, double defaultWidth = DefaultPropertyColumnWidth)
 		{
-			if (DetailsLayoutColumnOrder.IsFixed(id))
+			if (DetailsLayoutColumnOrder.IsRequired(id))
 				return;
 
 			if (DetailsLayoutColumnDefinitions.IsBuiltIn(id))
@@ -225,21 +225,18 @@ namespace Files.App.Data.Models
 
 		public void MoveColumn(string id, string targetId, bool after)
 		{
-			if (id == targetId || DetailsLayoutColumnOrder.IsFixed(id))
+			if (id == targetId || DetailsLayoutColumnOrder.IsPinned(id))
 				return;
 
-			if (DetailsLayoutColumnOrder.IsFixed(targetId))
-				(targetId, after) = (DetailsLayoutColumnIds.Name, true);
-
-			var ids = OrderedColumns.Ids.ToList();
+			var ids = OrderedColumns.Ids.Where(x => !DetailsLayoutColumnOrder.IsPinned(x)).ToList();
 			ids.Remove(id);
 
-			var targetIndex = ids.IndexOf(targetId);
+			var targetIndex = DetailsLayoutColumnOrder.IsPinned(targetId) ? 0 : ids.IndexOf(targetId);
 			if (targetIndex < 0)
 				return;
 
-			ids.Insert(after ? targetIndex + 1 : targetIndex, id);
-			ColumnOrder = [.. ids.Where(x => !DetailsLayoutColumnOrder.IsFixed(x))];
+			ids.Insert(after && !DetailsLayoutColumnOrder.IsPinned(targetId) ? targetIndex + 1 : targetIndex, id);
+			ColumnOrder = [.. ids];
 		}
 
 		/// <summary>
@@ -267,7 +264,7 @@ namespace Files.App.Data.Models
 				: catalog.Keys;
 
 			var available = DetailsLayoutColumnIds.BuiltIn
-				.Where(id => !DetailsLayoutColumnOrder.IsFixed(id) && !GetColumn(id).IsHidden)
+				.Where(id => !DetailsLayoutColumnOrder.IsRequired(id) && !GetColumn(id).IsHidden)
 				.Concat(propertyColumns.Where(id => !DetailsLayoutColumnDefinitions.IsBuiltIn(id)))
 				.Distinct()
 				.ToArray();
@@ -295,7 +292,7 @@ namespace Files.App.Data.Models
 				hasNewColumns |= isVisible;
 			}
 
-			ColumnOrder = [.. shownColumns, .. OrderedColumns.Ids.Where(id => !shownColumns.Contains(id) && !DetailsLayoutColumnOrder.IsFixed(id))];
+			ColumnOrder = [.. shownColumns, .. OrderedColumns.Ids.Where(id => !shownColumns.Contains(id) && !DetailsLayoutColumnOrder.IsPinned(id))];
 
 			return hasNewColumns;
 		}

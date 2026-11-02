@@ -55,7 +55,7 @@ namespace Files.App.ViewModels.Settings
 		/// Gets whether the user can change the item, which isn't the case for the column that is always shown.
 		/// </summary>
 		public bool IsEnabled
-			=> IsGroup ? Columns.Any(column => column.IsEnabled) : !DetailsLayoutColumnOrder.IsFixed(Id);
+			=> IsGroup ? Columns.Any(column => column.IsEnabled) : !DetailsLayoutColumnOrder.IsRequired(Id);
 
 		public List<ColumnPickerItem> Columns { get; } = [];
 
@@ -239,7 +239,7 @@ namespace Files.App.ViewModels.Settings
 		private void SetShownColumns(IEnumerable<string> columns)
 		{
 			_shownColumns.Clear();
-			_shownColumns.AddRange(columns.Where(id => !DetailsLayoutColumnOrder.IsFixed(id)).Distinct());
+			_shownColumns.AddRange(columns.Where(id => !DetailsLayoutColumnOrder.IsPinned(id)).Distinct());
 			UpdateCheckStates();
 		}
 
