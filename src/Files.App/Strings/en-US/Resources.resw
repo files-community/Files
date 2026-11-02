@@ -4755,4 +4755,10 @@
   <data name="SearchForQuery" xml:space="preserve">
     <value>Search for `{0}`</value>
   </data>
+  <data name="Command_GoToFolder_Label" xml:space="preserve">
+    <value>Go to folder...</value>
+  </data>
+  <data name="Command_GoToFolder_Description" xml:space="preserve">
+    <value>Quick jump to recent folder</value>
+  </data>
 </root>

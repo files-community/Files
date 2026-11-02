@@ -4740,4 +4740,10 @@
   <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
     <value>¿Está seguro de que desea eliminar las etiquetas de los elementos seleccionados?</value>
   </data>
+  <data name="Command_GoToFolder_Label" xml:space="preserve">
+    <value>Ir a carpeta...</value>
+  </data>
+  <data name="Command_GoToFolder_Description" xml:space="preserve">
+    <value>Salto rápido a carpetas recientes</value>
+  </data>
 </root>

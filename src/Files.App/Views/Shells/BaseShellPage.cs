@@ -703,7 +703,7 @@ namespace Files.App.Views.Shells
 			ContentChanged?.Invoke(instance, args);
 		}
 
-		protected void FilesystemViewModel_ItemLoadStatusChanged(object? sender, ItemLoadStatusChangedEventArgs e)
+		protected virtual void FilesystemViewModel_ItemLoadStatusChanged(object? sender, ItemLoadStatusChangedEventArgs e)
 		{
 			switch (e.Status)
 			{

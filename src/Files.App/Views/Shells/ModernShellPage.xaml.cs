@@ -155,6 +155,22 @@ namespace Files.App.Views.Shells
 				await UpdatePathUIToWorkingDirectoryAsync(e.Path);
 		}
 
+		protected override void FilesystemViewModel_ItemLoadStatusChanged(object? sender, ItemLoadStatusChangedEventArgs e)
+		{
+			base.FilesystemViewModel_ItemLoadStatusChanged(sender, e);
+
+			if (e.Status == ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete && !string.IsNullOrEmpty(e.Path))
+			{
+				// Track successfully navigated folder in visited folders history
+				var currentFolder = ShellViewModel?.CurrentFolder;
+				if (currentFolder is not null && !string.IsNullOrEmpty(currentFolder.ItemPath))
+				{
+					var visitedService = Ioc.Default.GetRequiredService<IVisitedFoldersService>();
+					visitedService.TrackFolder(currentFolder.ItemPath, currentFolder.Name ?? string.Empty);
+				}
+			}
+		}
+
 		private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
 		{
 			ContentPage = await GetContentOrNullAsync();

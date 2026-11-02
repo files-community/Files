@@ -104,6 +104,7 @@ namespace Files.App.Helpers
 			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 			var generalSettingsService = userSettingsService.GeneralSettingsService;
 			var jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
+			var visitedFolders = Ioc.Default.GetRequiredService<IVisitedFoldersService>();
 
 			ActiveSessionTracker.ReportPersistedTime();
 
@@ -116,7 +117,8 @@ namespace Files.App.Helpers
 					App.LibraryManager.UpdateLibrariesAsync(),
 					OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
 					OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
-					jumpListService.InitializeAsync()
+					jumpListService.InitializeAsync(),
+					visitedFolders.InitializeAsync()
 				), App.Logger);
 
 				await SafetyExtensions.IgnoreExceptions(addItemService.InitializeAsync, App.Logger);
@@ -338,6 +340,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IStorageArchiveService, StorageArchiveService>()
 					.AddSingleton<IStorageSecurityService, StorageSecurityService>()
 					.AddSingleton<IWindowsCompatibilityService, WindowsCompatibilityService>()
+					.AddSingleton<IVisitedFoldersService, VisitedFoldersService>()
 					.AddSingleton</*IVersionControlService,*/ LibGit2Service>()
 					// ViewModels
 					.AddSingleton<MainPageViewModel>()

@@ -175,6 +175,8 @@ namespace Files.App
 
 				Logger.LogInformation("Startup: initial content rendered after {Elapsed} ms", startup.ElapsedMilliseconds);
 				_ = serviceProvider.GetRequiredService<ICommandManager>();
+				var visitedFolders = Ioc.Default.GetRequiredService<IVisitedFoldersService>();
+				_ = visitedFolders.InitializeAsync();
 
 				var telemetryInitialization = AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev
 					? Task.CompletedTask
@@ -299,6 +301,7 @@ namespace Files.App
 						Clipboard.Flush();
 				}, Logger);
 
+				await SafetyExtensions.IgnoreExceptions(() => Ioc.Default.GetRequiredService<IVisitedFoldersService>().SaveChangesAsync(), Logger);
 				await Task.Run(FileOperationsHelpers.WaitForCompletion);
 			}
 			catch (Exception ex)
