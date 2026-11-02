@@ -69,12 +69,17 @@ namespace Files.App.Helpers
 				AccessKey = accessKey,
 				Tag = menuFlyoutItem,
 				BitmapIcon = image,
+				IsEnabled = menuFlyoutItem.IsEnabled,
+				IsChecked = menuFlyoutItem.IsChecked,
+				ItemType = menuFlyoutItem.IsToggle ? ContextMenuFlyoutItemType.Toggle : ContextMenuFlyoutItemType.Item,
 			};
 		}
 
-		public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string? workingDirectory, List<ListedItem>? selectedItems, CancellationToken cancellationToken)
+		public static async Task<ShellContextMenuResult> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string? workingDirectory, List<ListedItem>? selectedItems, CancellationToken cancellationToken)
 		{
-			var menuItemsList = new List<ContextMenuFlyoutItemViewModel>();
+			if (cancellationToken.IsCancellationRequested)
+				return ShellContextMenuResult.Empty;
+
 			var filePaths = selectedItems is { Count: > 0 }
 				? selectedItems.Select(x => x.IsRecycleBinItem ? ShellPath.GetRecycleBinParsingName(x.ItemPath!) : x.ItemPath!).ToArray()
 				: [workingDirectory ?? throw new ArgumentException("A working directory is required when no items are selected.", nameof(workingDirectory))];
@@ -103,16 +108,50 @@ namespace Files.App.Helpers
 				return filterMenuItemsImpl;
 			}
 
-			var contextMenu = await ContextMenu.GetContextMenuForFiles(filePaths,
-				shiftPressed ? PInvoke.CMF_EXTENDEDVERBS : PInvoke.CMF_NORMAL, FilterMenuItems(showOpenMenu));
+			var options = selectedItems is { Count: > 0 }
+				? Server.ContextMenuQueryOptions.ModernItems
+				: Server.ContextMenuQueryOptions.ModernItems | Server.ContextMenuQueryOptions.Background;
+			var contextMenu = await SafetyExtensions.IgnoreExceptions(() => ContextMenu.GetContextMenuForFiles(filePaths,
+				shiftPressed ? PInvoke.CMF_EXTENDEDVERBS : PInvoke.CMF_NORMAL, FilterMenuItems(showOpenMenu), options), App.Logger);
+			if (contextMenu is null)
+				return ShellContextMenuResult.Empty;
 
-			if (contextMenu is not null)
-				await LoadMenuFlyoutItemAsync(menuItemsList, contextMenu, contextMenu.Items!, cancellationToken, true);
+			try
+			{
+				// Loads in parallel on the server
+				var classicItems = LoadClassicItemsAsync(contextMenu, cancellationToken);
+				var modernItems = new List<ContextMenuFlyoutItemViewModel>();
+				await LoadMenuFlyoutItemAsync(modernItems, contextMenu, contextMenu.Items!, cancellationToken, true);
 
-			if (cancellationToken.IsCancellationRequested)
-				menuItemsList.Clear();
+				// Without packaged app or cloud provider items, wait for the classic items
+				if (modernItems.Count == 0 && !cancellationToken.IsCancellationRequested)
+					await classicItems;
 
-			return menuItemsList;
+				if (cancellationToken.IsCancellationRequested)
+				{
+					contextMenu.Dispose();
+					return ShellContextMenuResult.Empty;
+				}
+
+				return new(contextMenu, modernItems, classicItems);
+			}
+			catch
+			{
+				contextMenu.Dispose();
+				throw;
+			}
+		}
+
+		private static async Task<List<ContextMenuFlyoutItemViewModel>> LoadClassicItemsAsync(ContextMenu contextMenu, CancellationToken cancellationToken)
+		{
+			var classicItems = await SafetyExtensions.IgnoreExceptions(async () =>
+			{
+				var items = new List<ContextMenuFlyoutItemViewModel>();
+				await LoadMenuFlyoutItemAsync(items, contextMenu, await contextMenu.LoadClassicItemsAsync(), cancellationToken, true);
+				return items;
+			}, App.Logger);
+
+			return classicItems ?? [];
 		}
 
 		private static async Task LoadMenuFlyoutItemAsync(
@@ -251,8 +290,6 @@ namespace Files.App.Helpers
 						await contextMenu.InvokeItem(menuId);
 						break;
 				}
-
-				//contextMenu.Dispose(); // Prevents some menu items from working (TBC)
 			}
 		}
 
@@ -292,50 +329,58 @@ namespace Files.App.Helpers
 			{
 				if (options is not null && !options.IsLocationItem)
 				{
-					if (overflowSubMenu is not null)
-						flyout.RemoveIfEmpty(overflowSubMenu, overflowSeparator);
+					flyout.RemoveShellItemPlaceholders(overflowSubMenu, overflowSeparator);
 					return;
 				}
 
 				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-				var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(
+				var token = flyout.BeginShellMenuLoad();
+				var shellMenu = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(
 					workingDir: null,
 					[new ListedItem(null) { ItemPath = path }],
 					shiftPressed: shiftPressed,
 					showOpenMenu: false,
-					default);
+					token);
+				if (!flyout.AttachShellMenu(shellMenu, token))
+					return;
 
-				// Open with / Send to / BitLocker get their own main-menu entries; everything else is overflow.
-				var openWithItem = showOpenWithMenu ? shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" }) : null;
-				if (openWithItem is not null)
-					shellMenuItems.Remove(openWithItem);
-
-				var sendToItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
-				if (sendToItem is not null && (showSendToMenu || !UserSettingsService.GeneralSettingsService.ShowSendToMenu))
-					shellMenuItems.Remove(sendToItem);
-				sendToItem = showSendToMenu && UserSettingsService.GeneralSettingsService.ShowSendToMenu ? sendToItem : null;
-
-				// BitLocker: replace the placeholders with whichever entries the shell offers (drives)
-				flyout.ApplyBitLockerModels(shellMenuItems, overflowSubMenu, overflowSeparator);
-
-				// The rest fill the pre-added "Show more options", or render inline per the setting
-				flyout.AddShellModels(shellMenuItems, shiftPressed: false, overflowSubMenu, overflowSeparator, aboveExisting: false);
-
-				// Open with / Send to: the placeholders were converted to their submenu form before the menu was
-				// shown (stable heights); fill their contents now, or drop them if the shell has no such entries.
-				void FillOrRemove(MenuFlyoutSubItem? subMenu, ContextMenuFlyoutItemViewModel? item, Func<List<ContextMenuFlyoutItemViewModel>, List<ContextMenuFlyoutItemViewModel>?> getter)
+				(overflowSubMenu, overflowSeparator) = flyout.AddModernShellModels(shellMenu.ModernItems, overflowSubMenu, overflowSeparator);
+				var openWithSubMenu = flyout.ConvertPlaceholderToSubMenu("OpenWithPlaceholder", Strings.OpenWith.GetLocalizedResource(), "App.ThemedIcons.OpenWith");
+				var sendToSubMenu = flyout.ConvertPlaceholderToSubMenu("SendToPlaceholder", Strings.SendTo.GetLocalizedResource(), null);
+				await flyout.LoadClassicShellModelsAsync(shellMenu, overflowSubMenu, token, shellMenuItems =>
 				{
-					if (subMenu is null)
-						return;
+					// Open with / Send to / BitLocker get their own main-menu entries; everything else is overflow.
+					var openWithItem = showOpenWithMenu ? shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" }) : null;
+					if (openWithItem is not null)
+						shellMenuItems.Remove(openWithItem);
 
-					if (item?.LoadSubMenuAction is not null)
-						FastContextFlyout.PopulateShellSubMenu(subMenu, item, getter, () => flyout.Items.Remove(subMenu));
-					else
-						flyout.Items.Remove(subMenu);
-				}
+					var sendToItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
+					if (sendToItem is not null && (showSendToMenu || !UserSettingsService.GeneralSettingsService.ShowSendToMenu))
+						shellMenuItems.Remove(sendToItem);
+					sendToItem = showSendToMenu && UserSettingsService.GeneralSettingsService.ShowSendToMenu ? sendToItem : null;
 
-				FillOrRemove(flyout.ConvertPlaceholderToSubMenu("OpenWithPlaceholder", Strings.OpenWith.GetLocalizedResource(), "App.ThemedIcons.OpenWith"), openWithItem, GetOpenWithItems);
-				FillOrRemove(flyout.ConvertPlaceholderToSubMenu("SendToPlaceholder", Strings.SendTo.GetLocalizedResource(), null), sendToItem, GetSendToItems);
+					// BitLocker: replace the placeholders with whichever entries the shell offers (drives)
+					flyout.ApplyBitLockerModels(shellMenuItems, overflowSubMenu, overflowSeparator);
+
+					// The rest fill the pre-added "Show more options", or render inline per the setting
+					flyout.AddShellModels(shellMenuItems, shiftPressed: false, overflowSubMenu, overflowSeparator, aboveExisting: false);
+
+					// Open with / Send to: the placeholders were converted to their submenu form before the menu was
+					// shown (stable heights); fill their contents now, or drop them if the shell has no such entries.
+					void FillOrRemove(MenuFlyoutSubItem? subMenu, ContextMenuFlyoutItemViewModel? item, Func<List<ContextMenuFlyoutItemViewModel>, List<ContextMenuFlyoutItemViewModel>?> getter)
+					{
+						if (subMenu is null)
+							return;
+
+						if (item?.LoadSubMenuAction is not null)
+							FastContextFlyout.PopulateShellSubMenu(subMenu, item, getter, () => flyout.Items.Remove(subMenu));
+						else
+							flyout.Items.Remove(subMenu);
+					}
+
+					FillOrRemove(openWithSubMenu, openWithItem, GetOpenWithItems);
+					FillOrRemove(sendToSubMenu, sendToItem, GetSendToItems);
+				});
 
 				flyout.FinalizePrimaryRowPosition();
 			}

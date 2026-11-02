@@ -1,0 +1,210 @@
+// Copyright (c) Files Community
+// Licensed under the MIT License.
+
+using System.Diagnostics;
+using System.Drawing;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
+using System.Text;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.Graphics.Gdi;
+using Windows.Win32.System.Memory;
+using Windows.Win32.UI.Shell;
+using Windows.Win32.UI.WindowsAndMessaging;
+
+namespace Files.App.Server
+{
+	internal sealed partial class ClassicContextMenuBackend : IDisposable
+	{
+		private const uint CmicMaskUnicode = 0x00004000;
+		private static readonly ImageConverter IconConverter = new();
+
+		private readonly IContextMenu contextMenu;
+		private readonly HMENU menu;
+		private readonly Func<string?, bool>? itemFilter;
+		private readonly Dictionary<List<Win32ContextMenuItem>, Action> loadSubMenuActions = [];
+
+		public List<Win32ContextMenuItem> Items { get; } = [];
+
+		internal ClassicContextMenuBackend(IShellItemArray selection, uint flags, Func<string?, bool>? itemFilter)
+		{
+			this.itemFilter = itemFilter;
+			contextMenu = BindContextMenu(selection);
+			menu = PInvoke.CreatePopupMenu();
+			try
+			{
+				contextMenu.QueryContextMenu(menu, 0, 1, 0x7FFF, flags).ThrowOnFailure();
+				EnumMenuItems(menu, Items);
+			}
+			catch
+			{
+				Dispose();
+				throw;
+			}
+		}
+
+		private static unsafe IContextMenu BindContextMenu(IShellItemArray selection)
+		{
+			Guid handlerId = PInvoke.BHID_SFUIObject;
+			Guid interfaceId = typeof(IContextMenu).GUID;
+			void* contextMenuPointer = null;
+			try
+			{
+				selection.BindToHandler(null!, &handlerId, &interfaceId, out contextMenuPointer).ThrowOnFailure();
+
+				// Uniquely owned, so Dispose can release it on this STA
+				return UniqueComInterfaceMarshaller<IContextMenu>.ConvertToManaged(contextMenuPointer)
+					?? throw new InvalidOperationException("The shell did not return a context menu.");
+			}
+			finally
+			{
+				UniqueComInterfaceMarshaller<IContextMenu>.Free(contextMenuPointer);
+			}
+		}
+
+		public unsafe HRESULT InvokeVerb(string verb)
+		{
+			byte[] verbBytes = Encoding.ASCII.GetBytes(verb + '\0');
+			fixed (byte* verbPointer = verbBytes)
+			{
+				CMINVOKECOMMANDINFOEX commandInfo = default;
+				commandInfo.cbSize = (uint)sizeof(CMINVOKECOMMANDINFOEX);
+				commandInfo.lpVerb = (PCSTR)verbPointer;
+				commandInfo.nShow = (int)SHOW_WINDOW_CMD.SW_SHOWNORMAL;
+				return contextMenu.InvokeCommand((CMINVOKECOMMANDINFO*)&commandInfo);
+			}
+		}
+
+		public unsafe HRESULT InvokeItem(int itemId, string? workingDirectory)
+		{
+			fixed (char* directory = workingDirectory)
+			{
+				CMINVOKECOMMANDINFOEX commandInfo = default;
+				commandInfo.cbSize = (uint)sizeof(CMINVOKECOMMANDINFOEX);
+				commandInfo.fMask = CmicMaskUnicode;
+				commandInfo.lpVerb = (PCSTR)(byte*)(nuint)(uint)itemId;
+				commandInfo.lpVerbW = (PCWSTR)(char*)(nuint)(uint)itemId;
+				commandInfo.lpDirectoryW = directory;
+				commandInfo.nShow = (int)SHOW_WINDOW_CMD.SW_SHOWNORMAL;
+				return contextMenu.InvokeCommand((CMINVOKECOMMANDINFO*)&commandInfo);
+			}
+		}
+
+		private unsafe void EnumMenuItems(HMENU targetMenu, List<Win32ContextMenuItem> result, bool loadSubmenus = false)
+		{
+			uint itemCount = unchecked((uint)PInvoke.GetMenuItemCount(targetMenu));
+			if (itemCount is unchecked((uint)-1))
+				return;
+
+			for (uint index = 0; index < itemCount; index++)
+			{
+				const uint bufferLength = 512;
+				MENUITEMINFOW info = default;
+				info.cbSize = (uint)sizeof(MENUITEMINFOW);
+				info.fMask = MENU_ITEM_MASK.MIIM_BITMAP | MENU_ITEM_MASK.MIIM_FTYPE | MENU_ITEM_MASK.MIIM_STRING | MENU_ITEM_MASK.MIIM_ID | MENU_ITEM_MASK.MIIM_SUBMENU;
+				info.dwTypeData = (char*)NativeMemory.AllocZeroed(bufferLength, sizeof(char));
+				info.cch = bufferLength - 1;
+
+				try
+				{
+					if (!PInvoke.GetMenuItemInfo(targetMenu, index, true, &info))
+						continue;
+
+					var menuItem = new ContextMenuItem { Type = (MENU_ITEM_TYPE)info.fType, ID = (int)(info.wID - 1) };
+					if (menuItem.Type == MENU_ITEM_TYPE.MFT_STRING)
+					{
+						menuItem.Label = info.dwTypeData.ToString();
+						menuItem.CommandString = GetCommandString(contextMenu, info.wID - 1);
+						if (itemFilter is not null && (itemFilter(menuItem.CommandString) || itemFilter(menuItem.Label)))
+							continue;
+
+						if (!info.hbmpItem.IsNull && !Enum.IsDefined((HBITMAP_HMENU)((IntPtr)info.hbmpItem).ToInt64()))
+						{
+							using Bitmap? bitmap = ShellImage.GetBitmapFromHBitmap(info.hbmpItem);
+							if (bitmap is not null)
+							{
+								bitmap.MakeTransparent();
+								if (IconConverter.ConvertTo(bitmap, typeof(byte[])) is byte[] icon)
+									menuItem.Icon = icon;
+							}
+						}
+
+						if (!info.hSubMenu.IsNull)
+						{
+							var subItems = new List<Win32ContextMenuItem>();
+							HMENU subMenu = info.hSubMenu;
+							menuItem.SubItems = subItems;
+							if (loadSubmenus)
+								LoadSubMenu();
+							else
+								loadSubMenuActions.Add(subItems, LoadSubMenu);
+
+							void LoadSubMenu()
+							{
+								try
+								{
+									if (contextMenu is IContextMenu2 contextMenu2)
+										contextMenu2.HandleMenuMsg(PInvoke.WM_INITMENUPOPUP, (WPARAM)(nuint)subMenu.Value, (LPARAM)(nint)index);
+								}
+								catch (Exception ex) when (ex is InvalidCastException or ArgumentException or COMException or NotImplementedException)
+								{
+									Debug.WriteLine(ex);
+								}
+								EnumMenuItems(subMenu, subItems, true);
+							}
+						}
+					}
+
+					result.Add(menuItem);
+				}
+				finally
+				{
+					NativeMemory.Free(info.dwTypeData);
+				}
+			}
+		}
+
+		public bool LoadSubMenu(List<Win32ContextMenuItem> subItems)
+		{
+			if (!loadSubMenuActions.Remove(subItems, out Action? loadSubMenu))
+				return false;
+
+			loadSubMenu();
+			return true;
+		}
+
+		private static unsafe string? GetCommandString(IContextMenu contextMenu, uint offset)
+		{
+			// Avoid an AccessViolationException from handlers that return abnormally large command offsets,
+			// notably the "Run with graphics processor" menu item from NVIDIA.
+			if (offset > 5000)
+				return null;
+
+			const int capacity = 512;
+			char* buffer = (char*)NativeMemory.AllocZeroed((nuint)capacity, sizeof(char));
+			try
+			{
+				return contextMenu.GetCommandString(offset, PInvoke.GCS_VERBW, (PSTR)(byte*)buffer, capacity).Succeeded ? new string(buffer) : null;
+			}
+			catch (Exception ex) when (ex is InvalidCastException or ArgumentException or COMException or NotImplementedException)
+			{
+				Debug.WriteLine(ex);
+				return null;
+			}
+			finally
+			{
+				NativeMemory.Free(buffer);
+			}
+		}
+
+		public void Dispose()
+		{
+			loadSubMenuActions.Clear();
+			if (!menu.IsNull)
+				PInvoke.DestroyMenu(menu);
+			if ((object)contextMenu is ComObject comObject)
+				comObject.FinalRelease();
+		}
+	}
+}

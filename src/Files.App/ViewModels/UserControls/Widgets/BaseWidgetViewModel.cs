@@ -80,6 +80,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			flyout.ConvertPlaceholderToSubMenu("SendToPlaceholder", Strings.SendTo.GetLocalizedResource(), null);
 
 			// Pre-add "Show more options" before showing so filling it with shell items never resizes the menu
+			flyout.AddShellItemsPlaceholder();
 			var (moreOptions, moreSeparator) = flyout.AddShowMoreOptionsIfEnabled();
 
 			// Show the flyout

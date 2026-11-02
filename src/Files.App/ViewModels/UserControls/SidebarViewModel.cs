@@ -845,7 +845,10 @@ namespace Files.App.ViewModels.UserControls
 			MenuFlyoutSubItem? moreOptions = null;
 			MenuFlyoutSeparator? moreSeparator = null;
 			if (menuOptions.ShowShellItems)
+			{
+				flyout.AddShellItemsPlaceholder();
 				(moreOptions, moreSeparator) = flyout.AddShowMoreOptionsIfEnabled();
+			}
 
 			flyout.ResolvePlacement(sidebarItem, args.Position);
 			flyout.Flyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = args.Position });

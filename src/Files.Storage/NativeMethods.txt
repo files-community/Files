@@ -297,6 +297,11 @@ SHCreateShellItemArrayFromShellItem
 IDataObject
 IShellExtInit
 IContextMenu2
+_EXPCMDSTATE
+_EXPCMDFLAGS
+IInitializeCommand
+IInspectable
+CoCreateInstanceEx
 GetSubMenu
 GetMenuItemCount
 GetMenuItemInfo

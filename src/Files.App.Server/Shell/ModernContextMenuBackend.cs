@@ -1,0 +1,316 @@
+// Copyright (c) Files Community
+// Licensed under the MIT License.
+
+using Files.Storage.Interop;
+using Microsoft.Extensions.Logging;
+using System.Globalization;
+using System.Runtime.InteropServices.Marshalling;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.System.Com;
+using Windows.Win32.UI.Shell;
+using Windows.Win32.UI.WindowsAndMessaging;
+
+namespace Files.App.Server;
+
+internal sealed partial class ModernContextMenuBackend : IDisposable
+{
+	// Above the classic menu's command IDs
+	private const int FirstCommandId = 0x8000;
+	private const int MaximumDepth = 8;
+	private const int MaximumCommands = 1024;
+
+	private readonly IShellItemArray selection;
+	private readonly List<IExplorerCommand> commands = [];
+	private readonly List<IExplorerCommand> ownedCommands = [];
+	private readonly HashSet<string> commandStrings = new(StringComparer.OrdinalIgnoreCase);
+
+	public List<Win32ContextMenuItem> Items { get; } = [];
+
+	// For the background, the selection is the folder, as there's no Explorer view site to get it from
+	internal ModernContextMenuBackend(IShellItemArray selection, ShellItem[] items, bool isBackground)
+	{
+		this.selection = selection;
+		try
+		{
+			AddCommands(GetRegistrations(items, isBackground));
+		}
+		catch (Exception ex)
+		{
+			Program.Logger.LogDebug(ex, "Could not load packaged context menu commands.");
+		}
+	}
+
+	// Safe on any thread: these only read what was listed on creation
+	public bool HasCommand(string? commandString)
+		=> !string.IsNullOrEmpty(commandString) && commandStrings.Contains(commandString);
+
+	public bool HasItem(int itemId)
+		=> itemId >= FirstCommandId && itemId - FirstCommandId < commands.Count;
+
+	public HRESULT InvokeItem(int itemId)
+	{
+		// The command state can change while the menu is open
+		var command = commands[itemId - FirstCommandId];
+		var result = command.GetState(selection, true, out var state);
+		if (result.Failed)
+			return result;
+
+		return (state & (_EXPCMDSTATE.ECS_HIDDEN | _EXPCMDSTATE.ECS_DISABLED)) == 0 ? command.Invoke(selection, null) : HRESULT.E_FAIL;
+	}
+
+	private static IEnumerable<ExplorerCommandRegistration> GetRegistrations(ShellItem[] items, bool isBackground)
+	{
+		if (items.Any(item => !item.IsFileSystem) || (isBackground && (items.Length != 1 || !items[0].IsFolder || items[0].IsStream)))
+			return [];
+
+		// A command applies when it is registered for every selected item type
+		HashSet<ExplorerCommandRegistration>? registrations = null;
+		string[] itemTypes = isBackground ? [@"Directory\Background"] : [.. items.Select(GetItemType).Distinct(StringComparer.OrdinalIgnoreCase)];
+		foreach (var itemType in itemTypes)
+		{
+			var matches = FileExplorerAppExtensions.GetCommands(itemType switch
+			{
+				"Directory" or "Drive" or @"Directory\Background" => [itemType],
+				"" => ["*"],
+				_ => ["*", itemType],
+			});
+
+			if (registrations is null)
+				registrations = matches;
+			else
+				registrations.IntersectWith(matches);
+		}
+
+		registrations ??= [];
+
+		// Cloud provider commands are grouped under the provider
+		foreach (var cloudCommand in CloudContextMenuCommands.GetCommands(items.Select(item => item.FileSystemPath!)))
+		{
+			registrations.RemoveWhere(registration => registration.ClassId == cloudCommand.ClassId);
+			registrations.Add(cloudCommand);
+		}
+
+		return registrations;
+	}
+
+	private static string GetItemType(ShellItem item)
+	{
+		var path = item.FileSystemPath ?? string.Empty;
+		if (!item.IsFolder || item.IsStream)
+			return Path.GetExtension(path);
+
+		return Path.GetPathRoot(path) is { Length: 3 } root && root[1] == ':' && path.Equals(root, StringComparison.OrdinalIgnoreCase)
+			? "Drive"
+			: "Directory";
+	}
+
+	private void AddCommands(IEnumerable<ExplorerCommandRegistration> registrations)
+	{
+		var groups = registrations
+			.GroupBy(registration => (registration.PackageFullName, registration.DisplayName))
+			.OrderByDescending(group => group.Any(registration => registration.IsCloudProvider))
+			.ThenBy(group => group.Key.DisplayName, StringComparer.CurrentCultureIgnoreCase);
+
+		foreach (var group in groups)
+		{
+			var groupItems = new List<Win32ContextMenuItem>();
+			foreach (var registration in group)
+			{
+				try
+				{
+					if (CreateCommand(registration) is { } command)
+						AddCommand(command, registration.ClassId.ToString("B").ToUpperInvariant(), groupItems, 0);
+				}
+				catch (Exception ex)
+				{
+					Program.Logger.LogDebug(ex, "Could not load packaged context menu command {ClassId}.", registration.ClassId);
+				}
+			}
+
+			var commandCount = groupItems.Count(item => item.Type != MENU_ITEM_TYPE.MFT_SEPARATOR);
+			if (commandCount == 0)
+				continue;
+
+			if (commandCount == 1 || string.IsNullOrEmpty(group.Key.DisplayName))
+			{
+				Items.AddRange(groupItems);
+			}
+			else
+			{
+				Items.Add(new ContextMenuItem
+				{
+					ID = -1,
+					Label = group.Key.DisplayName,
+					SubItems = groupItems,
+					Icon = LoadIcon(group.Select(registration => registration.GroupIcon).FirstOrDefault(icon => !string.IsNullOrEmpty(icon))),
+				});
+			}
+		}
+	}
+
+	private void AddCommand(IExplorerCommand command, string fallbackCommandString, List<Win32ContextMenuItem> target, int depth)
+	{
+		ownedCommands.Add(command);
+		if (commands.Count >= MaximumCommands || depth > MaximumDepth)
+			return;
+
+		if (command.GetState(selection, true, out var state).Failed || state.HasFlag(_EXPCMDSTATE.ECS_HIDDEN))
+			return;
+
+		if (command.GetFlags(out var flags).Failed)
+			flags = _EXPCMDFLAGS.ECF_DEFAULT;
+
+		if (flags.HasFlag(_EXPCMDFLAGS.ECF_ISSEPARATOR))
+		{
+			target.Add(CreateSeparator());
+			return;
+		}
+
+		if (command.GetTitle(selection, out var title).Failed || string.IsNullOrEmpty(title))
+			return;
+
+		// The canonical name matches the verb of the same command in the classic menu
+		var commandString = command.GetCanonicalName(out var canonicalName).Succeeded && canonicalName != Guid.Empty
+			? canonicalName.ToString("B").ToUpperInvariant()
+			: fallbackCommandString;
+		var item = new ContextMenuItem
+		{
+			ID = FirstCommandId + commands.Count,
+			Label = title,
+			CommandString = commandString,
+			Icon = GetIcon(command),
+			IsEnabled = !state.HasFlag(_EXPCMDSTATE.ECS_DISABLED),
+			IsChecked = state.HasFlag(_EXPCMDSTATE.ECS_CHECKED),
+			IsToggle = (state & (_EXPCMDSTATE.ECS_CHECKBOX | _EXPCMDSTATE.ECS_RADIOCHECK)) != 0 || flags.HasFlag(_EXPCMDFLAGS.ECF_TOGGLEABLE),
+		};
+		commands.Add(command);
+		if (!string.IsNullOrEmpty(commandString))
+			commandStrings.Add(commandString);
+
+		if (flags.HasFlag(_EXPCMDFLAGS.ECF_HASSUBCOMMANDS))
+		{
+			// Without visible subcommands, the command is invoked itself
+			var subItems = new List<Win32ContextMenuItem>();
+			AddSubCommands(command, subItems, depth + 1);
+			if (subItems.Any(subItem => subItem.Type != MENU_ITEM_TYPE.MFT_SEPARATOR))
+				item.SubItems = subItems;
+		}
+
+		if (flags.HasFlag(_EXPCMDFLAGS.ECF_SEPARATORBEFORE))
+			target.Add(CreateSeparator());
+		target.Add(item);
+		if (flags.HasFlag(_EXPCMDFLAGS.ECF_SEPARATORAFTER))
+			target.Add(CreateSeparator());
+	}
+
+	private void AddSubCommands(IExplorerCommand parent, List<Win32ContextMenuItem> target, int depth)
+	{
+		if (depth > MaximumDepth || parent.EnumSubCommands(out var enumerator).Failed || enumerator is null)
+			return;
+
+		try
+		{
+			var buffer = new IExplorerCommand?[1];
+			for (var index = 0; index < MaximumCommands && commands.Count < MaximumCommands; index++)
+			{
+				if (enumerator.Next(1, buffer, out var fetched).Failed || fetched != 1 || buffer[0] is not { } command)
+					break;
+
+				buffer[0] = null;
+				try
+				{
+					AddCommand(command, string.Empty, target, depth);
+				}
+				catch (Exception ex)
+				{
+					Program.Logger.LogDebug(ex, "Could not load a packaged context menu subcommand.");
+				}
+			}
+		}
+		finally
+		{
+			Release(enumerator);
+		}
+	}
+
+	private static unsafe IExplorerCommand? CreateCommand(ExplorerCommandRegistration registration)
+	{
+		// Activate through a raw pointer so the command gets a uniquely owned wrapper
+		Guid interfaceId = typeof(IExplorerCommand).GUID;
+		MULTI_QI[] results = [new() { pIID = &interfaceId }];
+		if (PInvoke.CoCreateInstanceEx(registration.ClassId, null, CLSCTX.CLSCTX_INPROC_SERVER | CLSCTX.CLSCTX_LOCAL_SERVER, null, results).Failed || results[0].hr.Failed)
+			return null;
+
+		IExplorerCommand? command;
+		try
+		{
+			command = UniqueComInterfaceMarshaller<IExplorerCommand>.ConvertToManaged(results[0].pItf);
+		}
+		finally
+		{
+			UniqueComInterfaceMarshaller<IExplorerCommand>.Free(results[0].pItf);
+		}
+
+		if (command is IInitializeCommand initializer && registration.Verb.Length > 0 && initializer.Initialize(registration.Verb, null!).Failed)
+		{
+			Release(command);
+			return null;
+		}
+
+		return command;
+	}
+
+	private byte[]? GetIcon(IExplorerCommand command)
+	{
+		try
+		{
+			return command.GetIcon(selection, out var location).Succeeded ? LoadIcon(location) : null;
+		}
+		catch (Exception ex)
+		{
+			Program.Logger.LogDebug(ex, "Could not load a packaged context menu icon.");
+			return null;
+		}
+	}
+
+	private static byte[]? LoadIcon(string? location)
+	{
+		if (string.IsNullOrEmpty(location))
+			return null;
+
+		try
+		{
+			var index = 0;
+			var separator = location.LastIndexOf(',');
+			if (separator >= 0 && int.TryParse(location.AsSpan(separator + 1), NumberStyles.Integer, CultureInfo.InvariantCulture, out index))
+				location = location[..separator];
+			location = Environment.ExpandEnvironmentVariables(location.Trim().Trim('"'));
+
+			// ShellImage negates the index for SHDefExtractIcon
+			return ShellImage.ExtractSelectedIconsFromDLL(location, [-index], 24).FirstOrDefault()?.IconData;
+		}
+		catch (Exception ex)
+		{
+			Program.Logger.LogDebug(ex, "Could not load a packaged context menu icon.");
+			return null;
+		}
+	}
+
+	private static ContextMenuItem CreateSeparator()
+		=> new() { ID = -1, Type = MENU_ITEM_TYPE.MFT_SEPARATOR };
+
+	private static void Release(object? value)
+	{
+		if (value is ComObject comObject)
+			comObject.FinalRelease();
+	}
+
+	public void Dispose()
+	{
+		foreach (var command in ownedCommands)
+			Release(command);
+		ownedCommands.Clear();
+		commands.Clear();
+	}
+}

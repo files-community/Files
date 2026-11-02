@@ -19,6 +19,14 @@ namespace Files.App.Helpers.ContextFlyouts
 	/// </summary>
 	public sealed class FastContextFlyout
 	{
+		// Windows Terminal's Open in Terminal: Release, Preview and Canary
+		private static readonly HashSet<string> WindowsTerminalCommands = new(StringComparer.OrdinalIgnoreCase)
+		{
+			"{9F156763-7844-4DC4-B2B1-901F640F5155}",
+			"{02DB545A-3E20-46DE-83A5-1329B1E88B6B}",
+			"{6119575F-6918-4392-AF16-C2C627AF9416}",
+		};
+
 		private static ControlTemplate? primaryRowTemplate;
 		private static IUserSettingsService? userSettingsService;
 
@@ -30,6 +38,10 @@ namespace Files.App.Helpers.ContextFlyouts
 		private double estimatedWidth;
 		private FrameworkElement? invocationAnchor;
 		private Point? invocationPosition;
+		private CancellationTokenSource? shellLoadCancellation;
+		private ShellContextMenuResult? shellMenu;
+		private MenuFlyoutItem? modernItemsPlaceholder;
+		private MenuFlyoutItem? classicItemsPlaceholder;
 
 		// Supplies the live invocation point for framework-shown menus, whose ContextRequested can arrive after the
 		// pre-render guess; pulled in Flyout_Opened so the direction correction uses the finger, not the stale cursor.
@@ -56,15 +68,79 @@ namespace Files.App.Helpers.ContextFlyouts
 		/// </summary>
 		public void Reset()
 		{
+			ReleaseShellMenu();
 			Flyout.Items.Clear();
 			primaryRow = null;
 			primarySeparator = null;
 			primaryModels = null;
+			modernItemsPlaceholder = null;
+			classicItemsPlaceholder = null;
 			openedUp = false;
 			placementResolved = false;
 			invocationAnchor = null;
 			invocationPosition = null;
 		}
+
+		public CancellationToken BeginShellMenuLoad(CancellationToken cancellationToken = default)
+		{
+			ReleaseShellMenu();
+			shellLoadCancellation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+			return shellLoadCancellation.Token;
+		}
+
+		public bool AttachShellMenu(ShellContextMenuResult menu, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested)
+			{
+				QueueDispose(menu);
+				return false;
+			}
+
+			shellMenu = menu;
+			return true;
+		}
+
+		private void ReleaseShellMenu()
+		{
+			shellLoadCancellation?.Cancel();
+			shellLoadCancellation?.Dispose();
+			shellLoadCancellation = null;
+			QueueDispose(shellMenu);
+			shellMenu = null;
+		}
+
+		private void QueueDispose(ShellContextMenuResult? menu)
+		{
+			// Let a clicked command start its invocation first
+			if (menu is not null)
+				Flyout.DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, menu.Dispose);
+		}
+
+		public void AddShellItemsPlaceholder()
+		{
+			AddSeparatorIfNeeded();
+			modernItemsPlaceholder = CreateLoadingItem();
+			Flyout.Items.Add(modernItemsPlaceholder);
+		}
+
+		public void RemoveShellItemPlaceholders(MenuFlyoutSubItem? overflowSubMenu, MenuFlyoutSeparator? overflowSeparator)
+		{
+			RemoveItem(modernItemsPlaceholder);
+			modernItemsPlaceholder = null;
+			RemoveClassicItemsPlaceholder(overflowSubMenu);
+			if (overflowSubMenu is not null)
+				RemoveIfEmpty(overflowSubMenu, overflowSeparator);
+		}
+
+		private void RemoveClassicItemsPlaceholder(MenuFlyoutSubItem? overflowSubMenu)
+		{
+			if (classicItemsPlaceholder is not null)
+				overflowSubMenu?.Items.Remove(classicItemsPlaceholder);
+			classicItemsPlaceholder = null;
+		}
+
+		private static MenuFlyoutItem CreateLoadingItem()
+			=> new() { Text = Strings.Loading.GetLocalizedResource(), IsEnabled = false };
 
 		/// <summary>
 		/// Builds the given models into the menu: the primary commands as an icon-button row on top, the rest as
@@ -129,6 +205,8 @@ namespace Files.App.Helpers.ContextFlyouts
 				Icon = new FontIcon { Glyph = ((char)0xE712).ToString() },
 				Style = App.Current.Resources["MenuFlyoutSubItemWithThemedIconStyle"] as Style,
 			};
+			classicItemsPlaceholder = CreateLoadingItem();
+			subMenu.Items.Add(classicItemsPlaceholder);
 			Flyout.Items.Add(subMenu);
 
 			return (subMenu, separator);
@@ -221,6 +299,40 @@ namespace Files.App.Helpers.ContextFlyouts
 			}
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutItem))]
+		public (MenuFlyoutSubItem? SubMenu, MenuFlyoutSeparator? Separator) AddModernShellModels(List<ContextMenuFlyoutItemViewModel> models, MenuFlyoutSubItem? overflowSubMenu, MenuFlyoutSeparator? overflowSeparator)
+		{
+			RemoveItem(modernItemsPlaceholder);
+			modernItemsPlaceholder = null;
+			if (models.Count > 0)
+			{
+				if (models.Any(model => model.Tag is Win32ContextMenuItem { CommandString: { } command } && WindowsTerminalCommands.Contains(command)))
+					RemoveItem(Items.FirstOrDefault(item => item is MenuFlyoutItem { Command: IRichCommand { Code: CommandCodes.OpenTerminal or CommandCodes.OpenTerminalFromSidebar or CommandCodes.OpenTerminalFromHome } }));
+
+				// The classic items then always go under "Show more options"
+				if (overflowSubMenu is null)
+					(overflowSubMenu, overflowSeparator) = AddShowMoreOptionsSubMenu();
+
+				var mainModels = models.ToList();
+				TrimSeparators(mainModels);
+				InsertMainModels(mainModels, overflowSubMenu, overflowSeparator);
+			}
+
+			FinalizePrimaryRowPosition();
+			return (overflowSubMenu, overflowSeparator);
+		}
+
+		public async Task LoadClassicShellModelsAsync(ShellContextMenuResult shellMenu, MenuFlyoutSubItem? overflowSubMenu, CancellationToken cancellationToken, Action<List<ContextMenuFlyoutItemViewModel>> apply)
+		{
+			var models = await shellMenu.ClassicItems;
+			if (cancellationToken.IsCancellationRequested)
+				return;
+
+			RemoveClassicItemsPlaceholder(overflowSubMenu);
+			apply(models);
+			FinalizePrimaryRowPosition();
+		}
+
 		/// <summary>
 		/// Adds the (already filtered) shell models: everything inline when there is no overflow submenu, the
 		/// first 6 inline while shift is held, the rest inside "Show more options" - above its built-in commands
@@ -236,18 +348,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			TrimSeparators(mainModels);
 			TrimSeparators(overflowModels);
 
-			if (mainModels.Count > 0)
-			{
-				var mainElements = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(mainModels);
-				if (mainElements is { Count: > 0 })
-				{
-					var insertAt = GetOverflowInsertIndex(overflowSubMenu, overflowSeparator);
-					if (insertAt > 0 && Items[insertAt - 1] is not MenuFlyoutSeparator)
-						Items.Insert(insertAt++, new MenuFlyoutSeparator());
-					foreach (var element in mainElements)
-						Items.Insert(insertAt++, element);
-				}
-			}
+			InsertMainModels(mainModels, overflowSubMenu, overflowSeparator);
 
 			if (overflowSubMenu is null)
 				return;
@@ -267,6 +368,31 @@ namespace Files.App.Helpers.ContextFlyouts
 				}
 			}
 			RemoveIfEmpty(overflowSubMenu, overflowSeparator);
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSeparator))]
+		private void InsertMainModels(List<ContextMenuFlyoutItemViewModel> models, MenuFlyoutSubItem? overflowSubMenu, MenuFlyoutSeparator? overflowSeparator)
+		{
+			if (models.Count == 0 || ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(models) is not { Count: > 0 } elements)
+				return;
+
+			var insertAt = GetOverflowInsertIndex(overflowSubMenu, overflowSeparator);
+			if (insertAt > 0 && Items[insertAt - 1] is not MenuFlyoutSeparator)
+				Items.Insert(insertAt++, new MenuFlyoutSeparator());
+			foreach (var element in elements)
+				Items.Insert(insertAt++, element);
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSeparator))]
+		private void RemoveItem(MenuFlyoutItemBase? item)
+		{
+			var index = item is null ? -1 : Items.IndexOf(item);
+			if (index < 0)
+				return;
+
+			Items.RemoveAt(index);
+			if (index > 0 && Items[index - 1] is MenuFlyoutSeparator previous && (index == Items.Count || Items[index] is MenuFlyoutSeparator))
+				Items.RemoveAt(previous == primarySeparator && index < Items.Count ? index : index - 1);
 		}
 
 		public MenuFlyoutItemBase? FindByTag(string tag)
@@ -578,6 +704,7 @@ namespace Files.App.Helpers.ContextFlyouts
 		[DynamicWindowsRuntimeCast(typeof(Panel))]
 		private void Flyout_Closed(object? sender, object e)
 		{
+			ReleaseShellMenu();
 			if (primaryRow?.Tag is not Panel row)
 				return;
 

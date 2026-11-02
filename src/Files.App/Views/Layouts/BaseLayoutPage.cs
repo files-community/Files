@@ -698,14 +698,15 @@ namespace Files.App.Views.Layouts
 					host.Items.Add(BuildEditTagsSubItem(selectedItems));
 				}
 
-				// Shell extensions. Open with / Send to belong in the MAIN menu (they replace placeholders there);
-				// the rest go under a single "Show more options" submenu (Win11) or inline (Win10) per the setting.
+				// Shell extensions. Open with / Send to and packaged app commands belong in the MAIN menu; the rest go
+				// under "Show more options", or inline per the setting when there are no packaged app commands.
 				if (!instanceViewModel.IsPageTypeZipFolder && !instanceViewModel.IsPageTypeFtp)
 				{
-					var token = RenewShellMenuToken();
+					var token = host.BeginShellMenuLoad(RenewShellMenuToken());
 
-					// Pre-add "Show more options" (with the synchronously-known built-in overflow items) BEFORE the
-					// async shell fetch so its placeholder shows while the extensions load.
+					// Pre-add a loading item and "Show more options" (with the synchronously-known built-in overflow items)
+					// BEFORE the async shell fetch so they show while the extensions load.
+					host.AddShellItemsPlaceholder();
 					var (moreOptions, moreSeparator) = host.AddShowMoreOptionsIfEnabled(items);
 
 					// Open with / Send to: swap the leaf placeholders for their submenus synchronously (before the
@@ -719,27 +720,32 @@ namespace Files.App.Views.Layouts
 					// Place the primary row BEFORE the menu renders so it does not jump on an upward open.
 					host.ResolvePlacement();
 
-					var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(
+					var shellMenu = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(
 						shellViewModel.WorkingDirectory, selectedItems, shiftPressed, false, token);
 
-					if (token.IsCancellationRequested)
+					if (!host.AttachShellMenu(shellMenu, token))
 						return;
 
-					var openWithModel = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
-					var sendToModel = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
+					(moreOptions, moreSeparator) = host.AddModernShellModels(shellMenu.ModernItems, moreOptions, moreSeparator);
+					var classicShiftPressed = shiftPressed && !shellMenu.HasModernItems;
+					await host.LoadClassicShellModelsAsync(shellMenu, moreOptions, token, shellMenuItems =>
+					{
+						var openWithModel = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
+						var sendToModel = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
 
-					// BitLocker: replace the placeholders with whichever entries the shell offers (drives)
-					host.ApplyBitLockerModels(shellMenuItems, moreOptions, moreSeparator);
+						// BitLocker: replace the placeholders with whichever entries the shell offers (drives)
+						host.ApplyBitLockerModels(shellMenuItems, moreOptions, moreSeparator);
 
-					// Fill the swapped-in submenus off the open path; revert to the leaf form when the shell
-					// offers no such entry.
-					FastContextFlyout.FillOrRevert(openWithSwap, openWithModel, ShellContextFlyoutFactory.GetOpenWithItems);
-					FastContextFlyout.FillOrRevert(sendToSwap, sendToModel, ShellContextFlyoutFactory.GetSendToItems);
+						// Fill the swapped-in submenus off the open path; revert to the leaf form when the shell
+						// offers no such entry.
+						FastContextFlyout.FillOrRevert(openWithSwap, openWithModel, ShellContextFlyoutFactory.GetOpenWithItems);
+						FastContextFlyout.FillOrRevert(sendToSwap, sendToModel, ShellContextFlyoutFactory.GetSendToItems);
 
-					var shellModelsFiltered = shellMenuItems
-						.Where(x => x != openWithModel && x != sendToModel)
-						.ToList();
-					host.AddShellModels(shellModelsFiltered, shiftPressed, moreOptions, moreSeparator);
+						var shellModelsFiltered = shellMenuItems
+							.Where(x => x != openWithModel && x != sendToModel)
+							.ToList();
+						host.AddShellModels(shellModelsFiltered, classicShiftPressed, moreOptions, moreSeparator);
+					});
 				}
 				else
 				{
@@ -956,26 +962,32 @@ namespace Files.App.Views.Layouts
 
 				if (!instanceViewModel.IsPageTypeSearchResults && !instanceViewModel.IsPageTypeZipFolder && !instanceViewModel.IsPageTypeFtp)
 				{
-					var token = RenewShellMenuToken();
+					var token = host.BeginShellMenuLoad(RenewShellMenuToken());
 
-					// Pre-add "Show more options" (with the synchronously-known built-in overflow items) BEFORE the
-					// async shell fetch so its placeholder shows while the extensions load.
+					// Pre-add a loading item and "Show more options" (with the synchronously-known built-in overflow items)
+					// BEFORE the async shell fetch so they show while the extensions load.
+					host.AddShellItemsPlaceholder();
 					var (moreOptions, moreSeparator) = host.AddShowMoreOptionsIfEnabled(items);
 
 					host.ResolvePlacement();
 
-					var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: shellViewModel.WorkingDirectory, selectedItems: [], shiftPressed: shiftPressed, showOpenMenu: false, token);
-					if (token.IsCancellationRequested)
+					var shellMenu = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: shellViewModel.WorkingDirectory, selectedItems: [], shiftPressed: shiftPressed, showOpenMenu: false, token);
+					if (!host.AttachShellMenu(shellMenu, token))
 						return;
 
-					// BitLocker: replace the placeholders with whichever entries the shell offers (drives)
-					host.ApplyBitLockerModels(shellMenuItems, moreOptions, moreSeparator);
+					(moreOptions, moreSeparator) = host.AddModernShellModels(shellMenu.ModernItems, moreOptions, moreSeparator);
+					var classicShiftPressed = shiftPressed && !shellMenu.HasModernItems;
+					await host.LoadClassicShellModelsAsync(shellMenu, moreOptions, token, shellMenuItems =>
+					{
+						// BitLocker: replace the placeholders with whichever entries the shell offers (drives)
+						host.ApplyBitLockerModels(shellMenuItems, moreOptions, moreSeparator);
 
-					// The background menu has no Open with / Send to entries - drop them from the shell list
-					var shellModelsFiltered = shellMenuItems
-						.Where(x => x.Tag is not Win32ContextMenuItem { CommandString: "openas" or "sendto" })
-						.ToList();
-					host.AddShellModels(shellModelsFiltered, shiftPressed, moreOptions, moreSeparator);
+						// The background menu has no Open with / Send to entries - drop them from the shell list
+						var shellModelsFiltered = shellMenuItems
+							.Where(x => x.Tag is not Win32ContextMenuItem { CommandString: "openas" or "sendto" })
+							.ToList();
+						host.AddShellModels(shellModelsFiltered, classicShiftPressed, moreOptions, moreSeparator);
+					});
 				}
 				else
 				{

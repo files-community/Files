@@ -12,8 +12,10 @@ public sealed partial class ContextMenuSession : IDisposable
 	private readonly IReadOnlyList<MenuEntryInfo> entries;
 	private readonly Dictionary<int, List<Win32ContextMenuItem>> submenus = [];
 	private readonly SemaphoreSlim gate = new(1);
+	private IReadOnlyList<MenuEntryInfo>? classicEntries;
 	private int nextSubmenu;
 	private int disposed;
+	private bool released;
 
 	internal ContextMenuSession(ContextMenu menu)
 	{
@@ -44,7 +46,7 @@ public sealed partial class ContextMenuSession : IDisposable
 		await gate.WaitAsync(token);
 		try
 		{
-			ObjectDisposedException.ThrowIf(disposed != 0, this);
+			ObjectDisposedException.ThrowIf(released, this);
 			if (!submenus.Remove(id, out var items))
 				return new List<MenuEntryInfo>().AsReadOnly();
 			await menu.LoadSubMenu(items);
@@ -61,7 +63,7 @@ public sealed partial class ContextMenuSession : IDisposable
 		await gate.WaitAsync(token);
 		try
 		{
-			ObjectDisposedException.ThrowIf(disposed != 0, this);
+			ObjectDisposedException.ThrowIf(released, this);
 			// WinRT represents null strings as empty; the shell needs null for an omitted directory.
 			return await menu.InvokeItem(id, string.IsNullOrEmpty(workingDirectory) ? null : workingDirectory);
 		}
@@ -76,8 +78,24 @@ public sealed partial class ContextMenuSession : IDisposable
 		await gate.WaitAsync(token);
 		try
 		{
-			ObjectDisposedException.ThrowIf(disposed != 0, this);
+			ObjectDisposedException.ThrowIf(released, this);
 			return await menu.InvokeVerb(verb);
+		}
+		finally
+		{
+			gate.Release();
+		}
+	});
+
+	public IAsyncOperation<IReadOnlyList<MenuEntryInfo>> LoadClassicItemsAsync() => ServerAsync.Run(async token =>
+	{
+		// Outside the gate, so it doesn't hold up invoking the items already shown
+		var items = await menu.LoadClassicItemsAsync().WaitAsync(token);
+		await gate.WaitAsync(token);
+		try
+		{
+			ObjectDisposedException.ThrowIf(released, this);
+			return classicEntries ??= Convert(items);
 		}
 		finally
 		{
@@ -95,9 +113,11 @@ public sealed partial class ContextMenuSession : IDisposable
 
 	private async Task DisposeAsync()
 	{
+		// Operations requested before Dispose complete first
 		await gate.WaitAsync();
 		try
 		{
+			released = true;
 			menu.Dispose();
 		}
 		catch (Exception ex)

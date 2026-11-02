@@ -32,6 +32,9 @@ namespace Files.Storage
 		public string? Label { get; set; }
 		public string? CommandString { get; set; }
 		public MENU_ITEM_TYPE Type { get; set; }
+		public bool IsEnabled { get; set; } = true;
+		public bool IsChecked { get; set; }
+		public bool IsToggle { get; set; }
 		public List<Win32ContextMenuItem>? SubItems { get; set; }
 	}
 }

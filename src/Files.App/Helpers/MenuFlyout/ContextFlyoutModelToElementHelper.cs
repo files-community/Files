@@ -113,26 +113,6 @@ namespace Files.App.Helpers.ContextFlyouts
 		[DynamicWindowsRuntimeCast(typeof(FontFamily))]
 		private static MenuFlyoutItemBase GetItem(ContextMenuFlyoutItemViewModel i)
 		{
-			if (i.BitmapIcon is not null)
-			{
-				var item = new MenuFlyoutItemWithImage()
-				{
-					Text = i.Text,
-					Tag = i.Tag,
-					Command = i.Command,
-					CommandParameter = i.CommandParameter,
-					AccessKey = i.AccessKey,
-				};
-				try
-				{
-					item.BitmapIcon = i.BitmapIcon;
-				}
-				catch (Exception e)
-				{
-					Debug.WriteLine(e);
-				}
-				return item;
-			}
 			MenuFlyoutItem flyoutItem;
 
 			if (i.ItemType is ContextMenuFlyoutItemType.Toggle)
@@ -146,10 +126,34 @@ namespace Files.App.Helpers.ContextFlyouts
 					IsChecked = i.IsChecked,
 					AccessKey = i.AccessKey,
 				};
-				if (!string.IsNullOrEmpty(i.Glyph))
+				if (i.BitmapIcon is not null)
+				{
+					flyoutItem.Icon = new ImageIcon { Source = i.BitmapIcon };
+				}
+				else if (!string.IsNullOrEmpty(i.Glyph))
 				{
 					flyoutItem.Icon = new FontIcon { Glyph = i.Glyph };
 				}
+			}
+			else if (i.BitmapIcon is not null)
+			{
+				var imageItem = new MenuFlyoutItemWithImage()
+				{
+					Text = i.Text,
+					Tag = i.Tag,
+					Command = i.Command,
+					CommandParameter = i.CommandParameter,
+					AccessKey = i.AccessKey,
+				};
+				try
+				{
+					imageItem.BitmapIcon = i.BitmapIcon;
+				}
+				catch (Exception e)
+				{
+					Debug.WriteLine(e);
+				}
+				flyoutItem = imageItem;
 			}
 			else if (i.ThemedIconModel.IsValid)
 			{
