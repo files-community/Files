@@ -340,6 +340,7 @@ namespace Files.App.Helpers
 			FastContextFlyout flyout,
 			FrameworkElement anchor,
 			Windows.Foundation.Point position,
+			CancellationToken cancellationToken,
 			ContextMenuOptions? options = null,
 			MenuFlyoutSubItem? overflowSubMenu = null,
 			MenuFlyoutSeparator? overflowSeparator = null,
@@ -349,7 +350,7 @@ namespace Files.App.Helpers
 			try
 			{
 				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-				var token = flyout.BeginShellMenuLoad();
+				var token = flyout.BeginShellMenuLoad(cancellationToken);
 				var shellMenu = options is not null && !options.IsLocationItem
 					? ShellContextMenuResult.Empty
 					: await flyout.WaitForShellMenuAsync(ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(

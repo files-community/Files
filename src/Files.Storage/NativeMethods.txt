@@ -356,6 +356,8 @@ SafeArrayGetDim
 SafeArrayGetLBound
 SafeArrayGetUBound
 IObjectWithSite
+IServiceProvider
+IFolderView
 IPreviewHandlerVisuals
 IPreviewHandlerFrame
 IInitializeWithStream

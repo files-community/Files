@@ -652,6 +652,7 @@ namespace Files.App.Views.Layouts
 			return parentShellPage;
 		}
 
+		// Renewed by every request, so a menu still loading for an earlier one can't open over it
 		private CancellationToken RenewShellMenuToken()
 		{
 			shellContextMenuItemCancellationToken?.Cancel();
@@ -662,15 +663,22 @@ namespace Files.App.Views.Layouts
 		private void ItemContextFlyout_Opening(object? sender, object e)
 		{
 			if (ItemContextFlyoutHost.CancelOpening() is { } target)
-				_ = DispatcherQueue.EnqueueDeferredAsync(() => OpenItemContextFlyoutAsync(target));
+			{
+				var cancellationToken = RenewShellMenuToken();
+				_ = DispatcherQueue.EnqueueDeferredAsync(() => OpenItemContextFlyoutAsync(target, cancellationToken));
+			}
 		}
 
-		private async Task OpenItemContextFlyoutAsync(FrameworkElement target)
+		private async Task OpenItemContextFlyoutAsync(FrameworkElement target, CancellationToken cancellationToken)
 		{
 			try
 			{
 				var position = GetInvocationPosition(target);
 				var parentShellPage = await EnsurePageIsCurrentAsync();
+
+				if (cancellationToken.IsCancellationRequested)
+					return;
+
 				var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 				var commandsViewModel = CommandsViewModel
 					?? throw new InvalidOperationException("The layout commands are not initialized.");
@@ -706,7 +714,7 @@ namespace Files.App.Views.Layouts
 				// under "Show more options", or inline per the setting when there are no packaged app commands.
 				if (!instanceViewModel.IsPageTypeZipFolder && !instanceViewModel.IsPageTypeFtp)
 				{
-					var token = host.BeginShellMenuLoad(RenewShellMenuToken());
+					var token = host.BeginShellMenuLoad(cancellationToken);
 
 					// Pre-add "Show more options" (with the synchronously-known built-in overflow items) so filling it
 					// with the classic shell items never resizes the menu.
@@ -946,15 +954,22 @@ namespace Files.App.Views.Layouts
 		private void BaseContextFlyout_Opening(object? sender, object e)
 		{
 			if (BaseContextFlyoutHost.CancelOpening() is { } target)
-				_ = DispatcherQueue.EnqueueDeferredAsync(() => OpenBaseContextFlyoutAsync(target));
+			{
+				var cancellationToken = RenewShellMenuToken();
+				_ = DispatcherQueue.EnqueueDeferredAsync(() => OpenBaseContextFlyoutAsync(target, cancellationToken));
+			}
 		}
 
-		private async Task OpenBaseContextFlyoutAsync(FrameworkElement target)
+		private async Task OpenBaseContextFlyoutAsync(FrameworkElement target, CancellationToken cancellationToken)
 		{
 			try
 			{
 				var position = GetInvocationPosition(target);
 				var parentShellPage = await EnsurePageIsCurrentAsync();
+
+				if (cancellationToken.IsCancellationRequested)
+					return;
+
 				var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 				var commandsViewModel = CommandsViewModel
 					?? throw new InvalidOperationException("The layout commands are not initialized.");
@@ -971,7 +986,7 @@ namespace Files.App.Views.Layouts
 
 				if (!instanceViewModel.IsPageTypeSearchResults && !instanceViewModel.IsPageTypeZipFolder && !instanceViewModel.IsPageTypeFtp)
 				{
-					var token = host.BeginShellMenuLoad(RenewShellMenuToken());
+					var token = host.BeginShellMenuLoad(cancellationToken);
 
 					// Pre-add "Show more options" (with the synchronously-known built-in overflow items) so filling it
 					// with the classic shell items never resizes the menu.

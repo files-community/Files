@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Runtime.InteropServices.Marshalling;
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using Windows.Win32.System.Ole;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
 
@@ -20,6 +21,7 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 	private const int MaximumCommands = 1024;
 
 	private readonly IShellItemArray selection;
+	private readonly FolderViewSite? site;
 	private readonly List<IExplorerCommand> commands = [];
 	private readonly List<IExplorerCommand> ownedCommands = [];
 	private readonly HashSet<string> commandStrings = new(StringComparer.OrdinalIgnoreCase);
@@ -29,12 +31,14 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 
 	public List<Win32ContextMenuItem> Items { get; } = [];
 
-	// For the background, the selection is the folder, as there's no Explorer view site to get it from
+	// For the background, the selection is the folder itself
 	internal ModernContextMenuBackend(IShellItemArray selection, ShellItem[] items, bool isBackground)
 	{
 		this.selection = selection;
 		try
 		{
+			var folderPath = isBackground ? items[0].FileSystemPath : Path.GetDirectoryName(items[0].FileSystemPath);
+			site = folderPath is null ? null : new FolderViewSite(folderPath);
 			AddCommands(GetRegistrations(items, isBackground));
 		}
 		catch (Exception ex)
@@ -255,7 +259,7 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 		}
 	}
 
-	private static IExplorerCommand? CreateCommand(ExplorerCommandRegistration registration)
+	private IExplorerCommand? CreateCommand(ExplorerCommandRegistration registration)
 	{
 		if (ExplorerCommandActivator.Create(registration.ClassId) is not { } command)
 			return null;
@@ -265,6 +269,9 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 			Release(command);
 			return null;
 		}
+
+		if (site is not null && command is IObjectWithSite objectWithSite)
+			objectWithSite.SetSite(site);
 
 		return command;
 	}

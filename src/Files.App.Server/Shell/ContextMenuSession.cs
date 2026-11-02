@@ -11,6 +11,9 @@ public sealed partial class ContextMenuSession : IDisposable
 	private readonly ContextMenu menu;
 	private readonly IReadOnlyList<MenuEntryInfo> entries;
 	private readonly Task modernDetails;
+
+	// Ids up to this are the submenus of the initial items, which the modern details fill in
+	private readonly int initialSubmenus;
 	private readonly Dictionary<int, List<Win32ContextMenuItem>> submenus = [];
 	private readonly SemaphoreSlim gate = new(1);
 	private IReadOnlyList<MenuEntryInfo>? classicEntries;
@@ -22,6 +25,7 @@ public sealed partial class ContextMenuSession : IDisposable
 	{
 		this.menu = menu;
 		entries = Convert(menu.Items ?? []);
+		initialSubmenus = nextSubmenu;
 
 		modernDetails = menu.LoadModernDetailsAsync();
 	}
@@ -52,7 +56,8 @@ public sealed partial class ContextMenuSession : IDisposable
 
 	public IAsyncOperation<IReadOnlyList<MenuEntryInfo>> LoadSubmenuAsync(int id) => ServerAsync.Run(async token =>
 	{
-		await modernDetails.WaitAsync(token);
+		if (id <= initialSubmenus)
+			await modernDetails.WaitAsync(token);
 		await gate.WaitAsync(token);
 		try
 		{
