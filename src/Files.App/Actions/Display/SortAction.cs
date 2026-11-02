@@ -210,7 +210,7 @@ namespace Files.App.Actions
 		private readonly IDisplayPageContext context;
 
 		public string Label
-			=> Strings.Ascending.GetLocalizedResource();
+			=> Strings.SortItemsAscending.GetLocalizedResource();
 
 		public string Description
 			=> Strings.SortAscendingDescription.GetLocalizedResource();
@@ -249,7 +249,7 @@ namespace Files.App.Actions
 		private readonly IDisplayPageContext context;
 
 		public string Label
-			=> Strings.Descending.GetLocalizedResource();
+			=> Strings.SortItemsDescending.GetLocalizedResource();
 
 		public string Description
 			=> Strings.SortDescendingDescription.GetLocalizedResource();

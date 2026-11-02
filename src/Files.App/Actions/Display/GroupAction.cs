@@ -384,7 +384,7 @@ namespace Files.App.Actions
 		private readonly IDisplayPageContext context;
 
 		public string Label
-			=> Strings.Ascending.GetLocalizedResource();
+			=> Strings.OrderGroupsAscending.GetLocalizedResource();
 
 		public string Description
 			=> Strings.GroupAscendingDescription.GetLocalizedResource();
@@ -433,7 +433,7 @@ namespace Files.App.Actions
 		private readonly IDisplayPageContext context;
 
 		public string Label
-			=> Strings.Descending.GetLocalizedResource();
+			=> Strings.OrderGroupsDescending.GetLocalizedResource();
 
 		public string Description
 			=> Strings.GroupDescendingDescription.GetLocalizedResource();
@@ -482,7 +482,7 @@ namespace Files.App.Actions
 		private readonly IDisplayPageContext context;
 
 		public string Label
-			=> Strings.ToggleSortDirection.GetLocalizedResource();
+			=> Strings.GroupOrder.GetLocalizedResource();
 
 		public string Description
 			=> Strings.ToggleGroupDirectionDescription.GetLocalizedResource();

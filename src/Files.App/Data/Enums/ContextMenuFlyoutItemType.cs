@@ -24,6 +24,11 @@ namespace Files.App.Data.Enums
 		Toggle,
 
 		/// <summary>
+		/// Radio button type, of which one per <see cref="Files.App.Data.Models.ContextMenuFlyoutItemViewModel.GroupName"/> is checked.
+		/// </summary>
+		Radio,
+
+		/// <summary>
 		/// Split Button type.
 		/// </summary>
 		SplitButton

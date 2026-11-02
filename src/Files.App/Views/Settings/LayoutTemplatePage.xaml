@@ -196,11 +196,11 @@
 						</uc:ComboBoxEx.ItemTemplate>
 					</uc:ComboBoxEx>
 					<uc:ComboBoxEx
-						Width="130"
+						MinWidth="200"
 						AutomationProperties.Name="{helpers:ResourceString Name=SortDirection}"
 						SelectedIndex="{x:Bind ViewModel.SelectedSortDirectionIndex, Mode=TwoWay}">
-						<ComboBoxItem Content="{helpers:ResourceString Name=Ascending}" />
-						<ComboBoxItem Content="{helpers:ResourceString Name=Descending}" />
+						<ComboBoxItem Content="{helpers:ResourceString Name=SortItemsAscending}" />
+						<ComboBoxItem Content="{helpers:ResourceString Name=SortItemsDescending}" />
 					</uc:ComboBoxEx>
 				</StackPanel>
 			</wctcontrols:SettingsCard>
@@ -238,12 +238,12 @@
 						</uc:ComboBoxEx.ItemTemplate>
 					</uc:ComboBoxEx>
 					<uc:ComboBoxEx
-						Width="130"
+						MinWidth="200"
 						AutomationProperties.Name="{helpers:ResourceString Name=GroupDirection}"
 						IsEnabled="{x:Bind ViewModel.IsGrouped, Mode=OneWay}"
 						SelectedIndex="{x:Bind ViewModel.SelectedGroupDirectionIndex, Mode=TwoWay}">
-						<ComboBoxItem Content="{helpers:ResourceString Name=Ascending}" />
-						<ComboBoxItem Content="{helpers:ResourceString Name=Descending}" />
+						<ComboBoxItem Content="{helpers:ResourceString Name=OrderGroupsAscending}" />
+						<ComboBoxItem Content="{helpers:ResourceString Name=OrderGroupsDescending}" />
 					</uc:ComboBoxEx>
 				</StackPanel>
 			</wctcontrols:SettingsCard>

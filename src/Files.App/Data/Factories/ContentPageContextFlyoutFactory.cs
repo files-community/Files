@@ -16,6 +16,11 @@ namespace Files.App.Data.Factories
 	/// </summary>
 	public static class ContentPageContextFlyoutFactory
 	{
+		private const string SortByGroup = "ContextMenuSortBy";
+		private const string SortDirectionGroup = "ContextMenuSortDirection";
+		private const string GroupByGroup = "ContextMenuGroupBy";
+		private const string GroupDirectionGroup = "ContextMenuGroupDirection";
+
 		// Dependency injections
 
 		private static readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
@@ -157,7 +162,7 @@ namespace Files.App.Data.Factories
 					ShowInZipPage = true,
 					Items =
 					[
-						.. GetSortMenuItems(currentInstanceViewModel.FolderSettings, itemViewModel),
+						.. GetSortMenuItems(currentInstanceViewModel.FolderSettings, itemViewModel, SortByGroup),
 						new ContextMenuFlyoutItemViewModel
 						{
 							ItemType = ContextMenuFlyoutItemType.Separator,
@@ -168,12 +173,13 @@ namespace Files.App.Data.Factories
 						},
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.SortAscending)
 						{
-							IsToggle = true
+							RadioGroup = SortDirectionGroup
 						}.Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.SortDescending)
 						{
-							IsToggle = true
+							RadioGroup = SortDirectionGroup
 						}.Build(),
+						.. GetMoreMenuItems(),
 					],
 				},
 				new ContextMenuFlyoutItemViewModel()
@@ -187,7 +193,7 @@ namespace Files.App.Data.Factories
 					ShowInZipPage = true,
 					Items =
 					[
-						.. GetGroupMenuItems(currentInstanceViewModel.FolderSettings, itemViewModel),
+						.. GetGroupMenuItems(currentInstanceViewModel.FolderSettings, itemViewModel, GroupByGroup),
 						new ContextMenuFlyoutItemViewModel
 						{
 							ItemType = ContextMenuFlyoutItemType.Separator,
@@ -198,14 +204,15 @@ namespace Files.App.Data.Factories
 						},
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.GroupAscending)
 						{
-							IsToggle = true,
+							RadioGroup = GroupDirectionGroup,
 							IsVisible = true
 						}.Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.GroupDescending)
 						{
-							IsToggle = true,
+							RadioGroup = GroupDirectionGroup,
 							IsVisible = true
 						}.Build(),
+						.. GetMoreMenuItems(),
 					],
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.RefreshItems)
@@ -601,21 +608,50 @@ namespace Files.App.Data.Factories
 		/// <summary>
 		/// Gets the items of the sort menus for the specified folder, shared by the context menu and the toolbar.
 		/// </summary>
-		public static List<ContextMenuFlyoutItemViewModel> GetSortMenuItems(LayoutPreferencesManager folderSettings, ShellViewModel? shellViewModel)
-			=> GetOptionMenuItems(LayoutSortGroupOptions.GetSortOptions(folderSettings, shellViewModel), option => LayoutSortGroupOptions.SortBy(folderSettings, option.PropertyId!));
+		/// <param name="radioGroup">Must differ between menus, since radio groups are shared across menus.</param>
+		public static List<ContextMenuFlyoutItemViewModel> GetSortMenuItems(LayoutPreferencesManager folderSettings, ShellViewModel? shellViewModel, string radioGroup)
+			=> GetOptionMenuItems(LayoutSortGroupOptions.GetSortOptions(folderSettings, shellViewModel), option => LayoutSortGroupOptions.SortBy(folderSettings, option.PropertyId!), radioGroup);
 
 		/// <summary>
 		/// Gets the items of the group menus for the specified folder, shared by the context menu and the toolbar.
 		/// </summary>
-		public static List<ContextMenuFlyoutItemViewModel> GetGroupMenuItems(LayoutPreferencesManager folderSettings, ShellViewModel? shellViewModel)
-			=> GetOptionMenuItems(LayoutSortGroupOptions.GetGroupOptions(folderSettings, shellViewModel), option => LayoutSortGroupOptions.GroupBy(folderSettings, option.PropertyId!, option.DateUnit));
+		/// <param name="radioGroup">Must differ between menus, since radio groups are shared across menus.</param>
+		public static List<ContextMenuFlyoutItemViewModel> GetGroupMenuItems(LayoutPreferencesManager folderSettings, ShellViewModel? shellViewModel, string radioGroup)
+			=> GetOptionMenuItems(LayoutSortGroupOptions.GetGroupOptions(folderSettings, shellViewModel), option => LayoutSortGroupOptions.GroupBy(folderSettings, option.PropertyId!, option.DateUnit), radioGroup);
 
-		private static List<ContextMenuFlyoutItemViewModel> GetOptionMenuItems(IReadOnlyList<LayoutSortGroupOption> options, Action<LayoutSortGroupOption> selectOption)
+		/// <summary>
+		/// Gets the item that lists every property items can be sorted or grouped by, after a separator.
+		/// </summary>
+		private static ContextMenuFlyoutItemViewModel[] GetMoreMenuItems()
 		{
-			return [.. options.Select(option => CreateOptionMenuItem(option, selectOption))];
+			return
+			[
+				new()
+				{
+					ItemType = ContextMenuFlyoutItemType.Separator,
+					ShowInRecycleBin = true,
+					ShowInSearchPage = true,
+					ShowInFtpPage = true,
+					ShowInZipPage = true,
+				},
+				new()
+				{
+					Text = Strings.MoreEllipsis.GetLocalizedResource(),
+					IsEnabled = false,
+					ShowInRecycleBin = true,
+					ShowInSearchPage = true,
+					ShowInFtpPage = true,
+					ShowInZipPage = true,
+				},
+			];
 		}
 
-		private static ContextMenuFlyoutItemViewModel CreateOptionMenuItem(LayoutSortGroupOption option, Action<LayoutSortGroupOption> selectOption)
+		private static List<ContextMenuFlyoutItemViewModel> GetOptionMenuItems(IReadOnlyList<LayoutSortGroupOption> options, Action<LayoutSortGroupOption> selectOption, string radioGroup)
+		{
+			return [.. options.Select(option => CreateOptionMenuItem(option, selectOption, radioGroup))];
+		}
+
+		private static ContextMenuFlyoutItemViewModel CreateOptionMenuItem(LayoutSortGroupOption option, Action<LayoutSortGroupOption> selectOption, string radioGroup)
 		{
 			if (option.IsSeparator)
 			{
@@ -631,7 +667,7 @@ namespace Files.App.Data.Factories
 
 			if (option.BuiltInCommand is { } command)
 			{
-				var commandItem = new ContextMenuFlyoutItemViewModelBuilder(command) { IsToggle = true }.Build();
+				var commandItem = new ContextMenuFlyoutItemViewModelBuilder(command) { RadioGroup = radioGroup }.Build();
 				commandItem.Text = option.Label;
 				return commandItem;
 			}
@@ -647,11 +683,12 @@ namespace Files.App.Data.Factories
 
 			if (option.Items is { } items)
 			{
-				item.Items = GetOptionMenuItems(items, selectOption);
+				item.Items = GetOptionMenuItems(items, selectOption, radioGroup);
 			}
 			else if (option.PropertyId is not null)
 			{
-				item.ItemType = ContextMenuFlyoutItemType.Toggle;
+				item.ItemType = ContextMenuFlyoutItemType.Radio;
+				item.GroupName = radioGroup;
 				item.IsChecked = option.IsChecked;
 				item.Command = new RelayCommand(() => selectOption(option));
 			}

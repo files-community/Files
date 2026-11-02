@@ -276,9 +276,6 @@
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="Ascending" xml:space="preserve">
-    <value>Ascending</value>
-  </data>
   <data name="Paste" xml:space="preserve">
     <value>Paste</value>
   </data>
@@ -1417,9 +1414,6 @@
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Original folder</value>
-  </data>
-  <data name="Descending" xml:space="preserve">
-    <value>Descending</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
     <value>Huge</value>
@@ -2868,13 +2862,13 @@
     <value>Group items by folder path</value>
   </data>
   <data name="GroupAscendingDescription" xml:space="preserve">
-    <value>Sort groups in ascending order</value>
+    <value>Order groups in ascending order</value>
   </data>
   <data name="GroupDescendingDescription" xml:space="preserve">
-    <value>Sort groups in descending order</value>
+    <value>Order groups in descending order</value>
   </data>
   <data name="ToggleGroupDirectionDescription" xml:space="preserve">
-    <value>Toggle group sort direction</value>
+    <value>Toggle group order</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
     <value>Open a new tab</value>
@@ -5060,5 +5054,25 @@
   <data name="Unrated" xml:space="preserve">
     <value>Unrated</value>
     <comment>Name of the group for items without a rating when grouping by rating.</comment>
+  </data>
+  <data name="SortItemsAscending" xml:space="preserve">
+    <value>Sort items ascending</value>
+    <comment>Option that sorts the items in each group in ascending order, such as A to Z.</comment>
+  </data>
+  <data name="SortItemsDescending" xml:space="preserve">
+    <value>Sort items descending</value>
+    <comment>Option that sorts the items in each group in descending order, such as Z to A.</comment>
+  </data>
+  <data name="OrderGroupsAscending" xml:space="preserve">
+    <value>Order groups ascending</value>
+    <comment>Option that orders the groups in ascending order, such as oldest first.</comment>
+  </data>
+  <data name="OrderGroupsDescending" xml:space="preserve">
+    <value>Order groups descending</value>
+    <comment>Option that orders the groups in descending order, such as newest first.</comment>
+  </data>
+  <data name="GroupOrder" xml:space="preserve">
+    <value>Group order</value>
+    <comment>Name of the command that switches the groups between ascending and descending order.</comment>
   </data>
 </root>

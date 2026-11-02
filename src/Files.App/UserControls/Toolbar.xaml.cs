@@ -654,14 +654,25 @@ namespace Files.App.UserControls
 			if (ViewModel?.InstanceViewModel?.FolderSettings is not { } folderSettings)
 				return;
 
+			SetDirectionMenuItems(SortAscendingMenuItem, SortDescendingMenuItem, folderSettings.DirectorySortDirection);
+			SetDirectionMenuItems(GroupAscendingMenuItem, GroupDescendingMenuItem, folderSettings.DirectoryGroupDirection);
+
 			var shellViewModel = PageContext.ShellPage?.ShellViewModel;
-			SetOptionMenuItems(SortByMenu, ContentPageContextFlyoutFactory.GetSortMenuItems(folderSettings, shellViewModel));
-			SetOptionMenuItems(GroupByMenu, ContentPageContextFlyoutFactory.GetGroupMenuItems(folderSettings, shellViewModel));
+			SetOptionMenuItems(SortByMenu, SortDirectionSeparator, ContentPageContextFlyoutFactory.GetSortMenuItems(folderSettings, shellViewModel, "ToolbarSortBy"));
+			SetOptionMenuItems(GroupByMenu, GroupDirectionSeparator, ContentPageContextFlyoutFactory.GetGroupMenuItems(folderSettings, shellViewModel, "ToolbarGroupBy"));
 		}
 
-		private static void SetOptionMenuItems(MenuFlyoutSubItem menu, List<ContextMenuFlyoutItemViewModel> items)
+		private static void SetDirectionMenuItems(RadioMenuFlyoutItem ascending, RadioMenuFlyoutItem descending, SortDirection direction)
 		{
-			for (var index = menu.Items.IndexOf(menu.Items.OfType<MenuFlyoutSeparator>().First()) - 1; index >= 0; index--)
+			// Unchecks the other item before checking the current one
+			var isAscending = direction is SortDirection.Ascending;
+			(isAscending ? descending : ascending).IsChecked = false;
+			(isAscending ? ascending : descending).IsChecked = true;
+		}
+
+		private static void SetOptionMenuItems(MenuFlyoutSubItem menu, MenuFlyoutSeparator end, List<ContextMenuFlyoutItemViewModel> items)
+		{
+			for (var index = menu.Items.IndexOf(end) - 1; index >= 0; index--)
 				menu.Items.RemoveAt(index);
 
 			var elements = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(items) ?? [];
