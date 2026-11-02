@@ -74,7 +74,7 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Resolves "@name" or "@name\sub\path" to the aliased folder, keeping any sub path.
+		/// Resolves "@name" or "@name\sub\path" to the aliased folder, keeping any sub path and trailing separator.
 		/// </summary>
 		public static bool TryResolve(string input, IReadOnlyList<FolderAliasItem> aliases, [NotNullWhen(true)] out string? resolvedPath)
 		{
@@ -90,7 +90,13 @@ namespace Files.App.Helpers
 
 			var separatorIndex = input.IndexOfAny(Separators, Prefix.Length);
 			var subPath = separatorIndex < 0 ? string.Empty : input[(separatorIndex + 1)..].TrimStart(Separators);
-			resolvedPath = string.IsNullOrEmpty(subPath) ? alias.Path : Path.Join(alias.Path, subPath);
+			if (!string.IsNullOrEmpty(subPath))
+				resolvedPath = Path.Join(alias.Path, subPath);
+			else if (separatorIndex >= 0 && !Path.EndsInDirectorySeparator(alias.Path))
+				resolvedPath = alias.Path + Path.DirectorySeparatorChar;
+			else
+				resolvedPath = alias.Path;
+
 			return true;
 		}
 
