@@ -35,15 +35,26 @@ internal static class CloudContextMenuCommands
 			if (provider is null)
 				return [];
 
-			if (provider.GetFullProviderAndUserAndAccountIdentifier(out var providerId).Failed || string.IsNullOrEmpty(providerId))
-				return [];
-			var groupId = $"provider:{providerId}";
-
 			string? name = null;
+			string? packageFullName = null;
 			if (provider is IStorageProviderAppInfo appInfo)
 			{
 				appInfo.GetAppDisplayName(out name);
+				appInfo.GetPackageFullName(out packageFullName).ThrowOnFailure();
 			}
+
+			string groupId;
+			if (!string.IsNullOrEmpty(packageFullName))
+			{
+				groupId = $"package:{packageFullName}";
+			}
+			else
+			{
+				if (provider.GetFullProviderAndUserAndAccountIdentifier(out var providerId).Failed || string.IsNullOrEmpty(providerId))
+					return [];
+				groupId = $"provider:{providerId}";
+			}
+
 			if (string.IsNullOrWhiteSpace(name) || name.StartsWith("ms-resource:", StringComparison.OrdinalIgnoreCase))
 				provider.GetDisplayName(out name);
 			if (string.IsNullOrWhiteSpace(name))
