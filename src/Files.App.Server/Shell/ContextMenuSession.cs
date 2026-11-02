@@ -11,9 +11,6 @@ public sealed partial class ContextMenuSession : IDisposable
 	private readonly ContextMenu menu;
 	private readonly IReadOnlyList<MenuEntryInfo> entries;
 	private readonly Task modernDetails;
-
-	// Ids up to this are the submenus of the initial items, which the modern details fill in
-	private readonly int initialSubmenus;
 	private readonly Dictionary<int, List<Win32ContextMenuItem>> submenus = [];
 	private readonly SemaphoreSlim gate = new(1);
 	private IReadOnlyList<MenuEntryInfo>? classicEntries;
@@ -25,7 +22,6 @@ public sealed partial class ContextMenuSession : IDisposable
 	{
 		this.menu = menu;
 		entries = Convert(menu.Items ?? []);
-		initialSubmenus = nextSubmenu;
 
 		modernDetails = menu.LoadModernDetailsAsync();
 	}
@@ -34,7 +30,9 @@ public sealed partial class ContextMenuSession : IDisposable
 
 	public IAsyncOperation<IReadOnlyList<MenuEntryInfo>> LoadIconsAsync() => ServerAsync.Run<IReadOnlyList<MenuEntryInfo>>(async token =>
 	{
-		await modernDetails.WaitAsync(token);
+		// The apps that take longer are left without icons
+		await modernDetails.WaitAsync(ContextMenu.ModernItemsTimeout, token).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
+		token.ThrowIfCancellationRequested();
 		return (menu.Items ?? []).Select((item, index) => new MenuEntryInfo(item, entries[index].Submenu)).ToList().AsReadOnly();
 	});
 
@@ -56,15 +54,26 @@ public sealed partial class ContextMenuSession : IDisposable
 
 	public IAsyncOperation<IReadOnlyList<MenuEntryInfo>> LoadSubmenuAsync(int id) => ServerAsync.Run(async token =>
 	{
-		if (id <= initialSubmenus)
-			await modernDetails.WaitAsync(token);
+		List<Win32ContextMenuItem>? items;
 		await gate.WaitAsync(token);
 		try
 		{
 			ObjectDisposedException.ThrowIf(released, this);
-			if (!submenus.Remove(id, out var items))
-				return new List<MenuEntryInfo>().AsReadOnly();
-			await menu.LoadSubMenu(items);
+			submenus.Remove(id, out items);
+		}
+		finally
+		{
+			gate.Release();
+		}
+
+		if (items is null)
+			return new List<MenuEntryInfo>().AsReadOnly();
+
+		await menu.LoadSubMenu(items).WaitAsync(token);
+		await gate.WaitAsync(token);
+		try
+		{
+			ObjectDisposedException.ThrowIf(released, this);
 			return Convert(items);
 		}
 		finally

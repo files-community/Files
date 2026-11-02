@@ -22,6 +22,7 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 
 	private readonly IShellItemArray selection;
 	private readonly FolderViewSite? site;
+	private readonly int firstCommandId;
 	private readonly List<IExplorerCommand> commands = [];
 	private readonly List<IExplorerCommand> ownedCommands = [];
 	private readonly HashSet<string> commandStrings = new(StringComparer.OrdinalIgnoreCase);
@@ -29,34 +30,51 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 	// Icons and subcommands are slow, so they load after the items
 	private readonly List<(ContextMenuItem Item, IExplorerCommand? Command, string? IconLocation, int Depth)> details = [];
 
+	// The submenus of the items, complete once the details have loaded
+	private readonly HashSet<List<Win32ContextMenuItem>> submenus = [];
+
 	public List<Win32ContextMenuItem> Items { get; } = [];
 
-	// For the background, the selection is the folder itself
-	internal ModernContextMenuBackend(IShellItemArray selection, ShellItem[] items, bool isBackground)
+	// The commands of one app, with an ID range of their own. For the background, the selection is the folder itself
+	internal ModernContextMenuBackend(IShellItemArray selection, ShellItem[] items, bool isBackground, IGrouping<(string PackageFullName, string DisplayName), ExplorerCommandRegistration> group, int groupIndex)
 	{
 		this.selection = selection;
+		firstCommandId = FirstCommandId + groupIndex * MaximumCommands;
 		try
 		{
 			var folderPath = isBackground ? items[0].FileSystemPath : Path.GetDirectoryName(items[0].FileSystemPath);
 			site = folderPath is null ? null : new FolderViewSite(folderPath);
-			AddCommands(GetRegistrations(items, isBackground));
+			AddGroup(group);
 		}
 		catch (Exception ex)
 		{
 			Program.Logger.LogDebug(ex, "Could not load packaged context menu commands.");
 		}
+
+		foreach (var item in Items)
+		{
+			if (item.SubItems is { } subItems)
+				submenus.Add(subItems);
+		}
 	}
 
-	// Safe on any thread, as it's listed on creation
-	public bool HasCommand(string? commandString)
-		=> !string.IsNullOrEmpty(commandString) && commandStrings.Contains(commandString);
+	// The commands grouped by app, cloud providers first
+	internal static List<IGrouping<(string PackageFullName, string DisplayName), ExplorerCommandRegistration>> GetGroups(ShellItem[] items, bool isBackground)
+		=> GetRegistrations(items, isBackground)
+			.GroupBy(registration => (registration.PackageFullName, registration.DisplayName))
+			.OrderByDescending(group => group.Any(registration => registration.IsCloudProvider))
+			.ThenBy(group => group.Key.DisplayName, StringComparer.CurrentCultureIgnoreCase)
+			.ToList();
 
-	public static bool HasItem(int itemId)
-		=> itemId >= FirstCommandId;
+	public bool HasCommand(string? commandString) => !string.IsNullOrEmpty(commandString) && commandStrings.Contains(commandString);
+
+	public bool HasItem(int itemId) => (uint)(itemId - firstCommandId) < MaximumCommands;
+
+	public bool HasSubmenu(List<Win32ContextMenuItem> items) => submenus.Contains(items);
 
 	public HRESULT InvokeItem(int itemId)
 	{
-		var index = itemId - FirstCommandId;
+		var index = itemId - firstCommandId;
 		if ((uint)index >= (uint)commands.Count)
 			return HRESULT.E_INVALIDARG;
 
@@ -115,48 +133,40 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 			: "Directory";
 	}
 
-	private void AddCommands(IEnumerable<ExplorerCommandRegistration> registrations)
+	private void AddGroup(IGrouping<(string PackageFullName, string DisplayName), ExplorerCommandRegistration> group)
 	{
-		var groups = registrations
-			.GroupBy(registration => (registration.PackageFullName, registration.DisplayName))
-			.OrderByDescending(group => group.Any(registration => registration.IsCloudProvider))
-			.ThenBy(group => group.Key.DisplayName, StringComparer.CurrentCultureIgnoreCase);
-
-		foreach (var group in groups)
+		var groupItems = new List<Win32ContextMenuItem>();
+		foreach (var registration in group)
 		{
-			var groupItems = new List<Win32ContextMenuItem>();
-			foreach (var registration in group)
+			try
 			{
-				try
-				{
-					if (CreateCommand(registration) is { } command)
-						AddCommand(command, registration.ClassId.ToString("B").ToUpperInvariant(), groupItems, 0);
-				}
-				catch (Exception ex)
-				{
-					Program.Logger.LogDebug(ex, "Could not load packaged context menu command {ClassId}.", registration.ClassId);
-				}
+				if (CreateCommand(registration) is { } command)
+					AddCommand(command, registration.ClassId.ToString("B").ToUpperInvariant(), groupItems, 0);
 			}
+			catch (Exception ex)
+			{
+				Program.Logger.LogDebug(ex, "Could not load packaged context menu command {ClassId}.", registration.ClassId);
+			}
+		}
 
-			var commandCount = groupItems.Count(item => item.Type != MENU_ITEM_TYPE.MFT_SEPARATOR);
-			if (commandCount == 0)
-				continue;
+		var commandCount = groupItems.Count(item => item.Type != MENU_ITEM_TYPE.MFT_SEPARATOR);
+		if (commandCount == 0)
+			return;
 
-			if (commandCount == 1 || string.IsNullOrEmpty(group.Key.DisplayName))
+		if (commandCount == 1 || string.IsNullOrEmpty(group.Key.DisplayName))
+		{
+			Items.AddRange(groupItems);
+		}
+		else
+		{
+			var groupItem = new ContextMenuItem
 			{
-				Items.AddRange(groupItems);
-			}
-			else
-			{
-				var groupItem = new ContextMenuItem
-				{
-					ID = -1,
-					Label = group.Key.DisplayName,
-					SubItems = groupItems,
-				};
-				Items.Add(groupItem);
-				details.Add((groupItem, null, group.Select(registration => registration.GroupIcon).FirstOrDefault(icon => !string.IsNullOrEmpty(icon)), 0));
-			}
+				ID = -1,
+				Label = group.Key.DisplayName,
+				SubItems = groupItems,
+			};
+			Items.Add(groupItem);
+			details.Add((groupItem, null, group.Select(registration => registration.GroupIcon).FirstOrDefault(icon => !string.IsNullOrEmpty(icon)), 0));
 		}
 	}
 
@@ -166,6 +176,9 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 		for (var index = 0; index < details.Count; index++)
 		{
 			var (item, command, iconLocation, depth) = details[index];
+
+			// A stalled server loses only these details
+			using var timeout = new ComCallTimeout(ContextMenu.ModernItemsTimeout);
 			item.Icon = command is null ? LoadIcon(iconLocation) : GetIcon(command);
 			if (command is null || item.SubItems is not { } subItems)
 				continue;
@@ -207,7 +220,7 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 			: fallbackCommandString;
 		var item = new ContextMenuItem
 		{
-			ID = FirstCommandId + commands.Count,
+			ID = firstCommandId + commands.Count,
 			Label = title,
 			CommandString = commandString,
 			IsEnabled = !state.HasFlag(_EXPCMDSTATE.ECS_DISABLED),

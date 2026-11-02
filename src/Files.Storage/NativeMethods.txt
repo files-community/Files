@@ -303,6 +303,9 @@ IInitializeCommand
 IInspectable
 CoCreateInstanceEx
 CoGetClassObject
+CoEnableCallCancellation
+CoDisableCallCancellation
+CoCancelCall
 IClassFactory
 GetSubMenu
 GetMenuItemCount

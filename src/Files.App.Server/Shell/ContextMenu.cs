@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Windows.Win32;
@@ -13,20 +14,22 @@ namespace Files.App.Server
 	/// </summary>
 	internal sealed partial class ContextMenu : Win32ContextMenu, IDisposable
 	{
+		// Packaged app and cloud provider commands that take longer are left out of the menu, including its classic items
+		internal static readonly TimeSpan ModernItemsTimeout = TimeSpan.FromSeconds(3);
+
+		// Apps still loading past the timeout, which later menus leave out until they're done
+		private static readonly ConcurrentDictionary<(string PackageFullName, string DisplayName), Task> stalledGroups = new();
+
 		private readonly ContextMenuWorkerPool.Worker worker;
 		private readonly Task<ClassicContextMenuBackend?> classicMenu;
-
-		// A worker of their own lets the classic menu load in parallel
-		private readonly ContextMenuWorkerPool.Worker? modernWorker;
-		private readonly ModernContextMenuBackend? modernMenu;
+		private readonly List<ModernMenu> modernMenus;
 		private bool disposedValue;
 
-		private ContextMenu(ContextMenuWorkerPool.Worker worker, Task<ClassicContextMenuBackend?> classicMenu, ContextMenuWorkerPool.Worker? modernWorker = null, ModernContextMenuBackend? modernMenu = null)
+		private ContextMenu(ContextMenuWorkerPool.Worker worker, Task<ClassicContextMenuBackend?> classicMenu, List<ModernMenu>? modernMenus = null)
 		{
 			this.worker = worker;
 			this.classicMenu = classicMenu;
-			this.modernWorker = modernWorker;
-			this.modernMenu = modernMenu;
+			this.modernMenus = modernMenus ?? [];
 		}
 
 		public static async Task<bool> InvokeVerb(string verb, params string?[] filePaths)
@@ -54,8 +57,8 @@ namespace Files.App.Server
 			if (itemId < 0)
 				return false;
 
-			if (modernWorker is not null && modernMenu is { } modern && ModernContextMenuBackend.HasItem(itemId))
-				return await InvokeAsync(modernWorker, () => modern.InvokeItem(itemId));
+			if (modernMenus.FirstOrDefault(modern => modern.Menu.HasItem(itemId)) is { } owner)
+				return await InvokeAsync(owner.Worker, () => owner.Menu.InvokeItem(itemId));
 
 			var classic = await classicMenu;
 			return classic is not null && await InvokeAsync(worker, () => classic.InvokeItem(itemId, workingDirectory));
@@ -90,16 +93,58 @@ namespace Files.App.Server
 			if (!options.HasFlag(ContextMenuQueryOptions.ModernItems))
 				return await CreateClassicOnlyAsync(worker, classicMenu);
 
-			var modernWorker = ContextMenuWorkerPool.Rent();
-			var isBackground = options.HasFlag(ContextMenuQueryOptions.Background);
-			var modernMenu = await modernWorker.Thread.PostMethod(() => OpenShellItems(paths, shellItems => new ModernContextMenuBackend(ShellItemArray.Create(shellItems), shellItems, isBackground)));
-			if (modernMenu is null)
+			var modernMenus = await LoadModernMenusAsync(paths, options.HasFlag(ContextMenuQueryOptions.Background));
+			return new(worker, classicMenu, modernMenus) { Items = [.. modernMenus.SelectMany(modern => modern.Menu.Items)] };
+		}
+
+		private static async Task<List<ModernMenu>> LoadModernMenusAsync(string[] paths, bool isBackground)
+		{
+			var worker = ContextMenuWorkerPool.Rent();
+			var groups = worker.Thread.PostMethod(() => OpenShellItems(paths, shellItems => SafetyExtensions.IgnoreExceptions(() => ModernContextMenuBackend.GetGroups(shellItems, isBackground), Program.Logger)));
+			if (await Task.WhenAny(groups, Task.Delay(ModernItemsTimeout)) != groups)
 			{
-				ContextMenuWorkerPool.Return(modernWorker);
-				return new(worker, classicMenu) { Items = [] };
+				_ = groups.ContinueWith(_ => ContextMenuWorkerPool.Return(worker), TaskScheduler.Default);
+				return [];
 			}
 
-			return new(worker, classicMenu, modernWorker, modernMenu) { Items = modernMenu.Items };
+			ContextMenuWorkerPool.Return(worker);
+			var loads = new List<(ContextMenuWorkerPool.Worker Worker, Task<ModernContextMenuBackend?> Menu, (string, string) Key)>();
+			foreach (var (groupIndex, group) in (groups.Result ?? []).Index())
+			{
+				if (stalledGroups.ContainsKey(group.Key))
+					continue;
+
+				var groupWorker = ContextMenuWorkerPool.Rent();
+				var load = groupWorker.Thread.PostMethod(() => OpenShellItems(paths, shellItems => new ModernContextMenuBackend(ShellItemArray.Create(shellItems), shellItems, isBackground, group, groupIndex)));
+				_ = MarkStalledAsync(group.Key, load);
+				loads.Add((groupWorker, load, group.Key));
+			}
+
+			await Task.WhenAny(Task.WhenAll(loads.Select(load => load.Menu)), Task.Delay(ModernItemsTimeout));
+			var menus = new List<ModernMenu>();
+			foreach (var (groupWorker, menu, key) in loads)
+			{
+				if (menu.IsCompletedSuccessfully && menu.Result is { Items.Count: > 0 } loaded)
+				{
+					menus.Add(new(groupWorker, loaded, key));
+				}
+				else
+				{
+					_ = ReleaseAsync(groupWorker, () => menu.Result?.Dispose());
+				}
+			}
+
+			return menus;
+		}
+
+		private static async Task MarkStalledAsync((string, string) key, Task task)
+		{
+			if (await Task.WhenAny(task, Task.Delay(ModernItemsTimeout)) == task)
+				return;
+
+			stalledGroups.TryAdd(key, task);
+			await task.ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
+			stalledGroups.TryRemove(KeyValuePair.Create(key, task));
 		}
 
 		public static async Task<ContextMenu?> GetContextMenuForFiles(ShellItem[] shellItems, uint flags, Func<string?, bool>? itemFilter = null)
@@ -164,14 +209,18 @@ namespace Files.App.Server
 		// Icons and subcommands of the packaged app and cloud provider commands
 		public Task LoadModernDetailsAsync()
 		{
-			if (modernWorker is null || modernMenu is not { } modern)
-				return Task.CompletedTask;
-
-			return modernWorker.Thread.PostMethod(() =>
+			foreach (var modern in modernMenus)
 			{
-				if (!disposedValue)
-					SafetyExtensions.IgnoreExceptions(modern.LoadDetails, Program.Logger);
-			});
+				modern.Details = modern.Worker.Thread.PostMethod(() =>
+				{
+					if (!disposedValue)
+						SafetyExtensions.IgnoreExceptions(modern.Menu.LoadDetails, Program.Logger);
+				});
+
+				_ = MarkStalledAsync(modern.Key, modern.Details);
+			}
+
+			return Task.WhenAll(modernMenus.Select(modern => modern.Details));
 		}
 
 		public async Task<List<Win32ContextMenuItem>> LoadClassicItemsAsync()
@@ -182,13 +231,20 @@ namespace Files.App.Server
 				return [];
 
 			// Explorer also lists packaged app commands in the classic menu
-			return modernMenu is null ? classic.Items : [.. classic.Items.Where(item => !modernMenu.HasCommand(item.CommandString))];
+			return modernMenus.Count == 0 ? classic.Items : [.. classic.Items.Where(item => !modernMenus.Any(modern => modern.Menu.HasCommand(item.CommandString)))];
 		}
 
 		public async Task<bool> LoadSubMenu(List<Win32ContextMenuItem> subItems)
 		{
-			// Only classic submenus load on demand, after the classic items
-			if (!classicMenu.IsCompletedSuccessfully || await classicMenu is not { } classic)
+			// The details of the app fill in its submenus
+			if (modernMenus.FirstOrDefault(modern => modern.Menu.HasSubmenu(subItems)) is { } owner)
+			{
+				await owner.Details;
+				return true;
+			}
+
+			// Load classic submenus on demand.
+			if (!classicMenu.IsCompletedSuccessfully || await classicMenu is not { } classic || !classic.HasSubmenu(subItems))
 				return false;
 
 			try
@@ -207,7 +263,7 @@ namespace Files.App.Server
 				return;
 
 			// Packaged app and cloud provider items are released by their backend, on its worker
-			if (disposing && modernMenu is null && Items is not null)
+			if (disposing && modernMenus.Count == 0 && Items is not null)
 			{
 				foreach (Win32ContextMenuItem item in Items)
 					(item as IDisposable)?.Dispose();
@@ -221,8 +277,8 @@ namespace Files.App.Server
 					classicMenu.Result?.Dispose();
 			});
 
-			if (modernWorker is not null)
-				_ = ReleaseAsync(modernWorker, () => modernMenu?.Dispose());
+			foreach (var modern in modernMenus)
+				_ = ReleaseAsync(modern.Worker, modern.Menu.Dispose);
 		}
 
 		private static async Task ReleaseAsync(ContextMenuWorkerPool.Worker owner, Action release)
@@ -240,6 +296,18 @@ namespace Files.App.Server
 		~ContextMenu()
 		{
 			Dispose(false);
+		}
+
+		private sealed class ModernMenu(ContextMenuWorkerPool.Worker worker, ModernContextMenuBackend menu, (string, string) key)
+		{
+			public ContextMenuWorkerPool.Worker Worker { get; } = worker;
+
+			public ModernContextMenuBackend Menu { get; } = menu;
+
+			public (string, string) Key { get; } = key;
+
+			// Its icons and subcommands
+			public Task Details { get; set; } = Task.CompletedTask;
 		}
 	}
 }

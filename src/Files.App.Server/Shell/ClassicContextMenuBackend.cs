@@ -24,18 +24,22 @@ namespace Files.App.Server
 		private readonly HMENU menu;
 		private readonly Func<string?, bool>? itemFilter;
 		private readonly Dictionary<List<Win32ContextMenuItem>, Action> loadSubMenuActions = [];
+		private readonly HashSet<List<Win32ContextMenuItem>> submenus = [];
 
 		public List<Win32ContextMenuItem> Items { get; } = [];
 
 		internal ClassicContextMenuBackend(IShellItemArray selection, uint flags, Func<string?, bool>? itemFilter)
 		{
 			this.itemFilter = itemFilter;
+
+			using var timeout = new ComCallTimeout(ContextMenu.ModernItemsTimeout);
 			contextMenu = BindContextMenu(selection);
 			menu = PInvoke.CreatePopupMenu();
 			try
 			{
 				contextMenu.QueryContextMenu(menu, 0, 1, 0x7FFF, flags).ThrowOnFailure();
 				EnumMenuItems(menu, Items);
+				submenus.UnionWith(loadSubMenuActions.Keys);
 			}
 			catch
 			{
@@ -43,6 +47,8 @@ namespace Files.App.Server
 				throw;
 			}
 		}
+
+		public bool HasSubmenu(List<Win32ContextMenuItem> items) => submenus.Contains(items);
 
 		private static unsafe IContextMenu BindContextMenu(IShellItemArray selection)
 		{
@@ -170,6 +176,7 @@ namespace Files.App.Server
 			if (!loadSubMenuActions.Remove(subItems, out Action? loadSubMenu))
 				return false;
 
+			using var timeout = new ComCallTimeout(ContextMenu.ModernItemsTimeout);
 			loadSubMenu();
 			return true;
 		}
