@@ -37,12 +37,34 @@
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
+
+			<StackPanel Grid.Row="0" Spacing="8">
+
+				<!--  Permission Change Failure InfoBar  -->
+				<InfoBar
+					x:Name="PermissionChangeInfoBar"
+					IsClosable="True"
+					IsOpen="{x:Bind SecurityViewModel.IsPermissionChangeInfoBarOpen, Mode=TwoWay}"
+					Message="{x:Bind SecurityViewModel.PermissionChangeInfoBarMessage, Mode=OneWay}"
+					Severity="Error" />
+
+				<!--  No Change Access Control InfoBar  -->
+				<InfoBar
+					x:Name="UnableToChangePermissionsInfoBar"
+					Background="{ThemeResource LayerFillColorDefaultBrush}"
+					IsClosable="True"
+					IsOpen="{x:Bind SecurityViewModel.IsUnableToChangePermissionsInfoBarOpen, Mode=TwoWay}"
+					Message="{helpers:ResourceString Name=SecurityRequireChangePermissions}"
+					Severity="Informational" />
+
+			</StackPanel>
 
 			<!--  No Read Access Control InfoBar  -->
 			<InfoBar
 				x:Name="UnableToDisplayInformationInfoBar"
-				Grid.Row="0"
+				Grid.Row="1"
 				x:Load="{x:Bind SecurityViewModel.DisplayElements, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 				Background="{ThemeResource LayerFillColorDefaultBrush}"
 				IsClosable="False"
@@ -60,7 +82,7 @@
 			<!--  Access Control Entries  -->
 			<Grid
 				x:Name="PrincipalListGrid"
-				Grid.Row="0"
+				Grid.Row="1"
 				x:Load="{x:Bind SecurityViewModel.DisplayElements, Mode=OneWay}"
 				Background="{ThemeResource LayerFillColorDefaultBrush}"
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -180,7 +202,7 @@
 			<!--  Permissions of Selected ACE  -->
 			<Grid
 				x:Name="PermissionsForSelectedAccessControlEntryGrid"
-				Grid.Row="1"
+				Grid.Row="2"
 				Padding="12"
 				x:Load="{x:Bind SecurityViewModel.DisplayElements, Mode=OneWay}"
 				Background="{ThemeResource LayerFillColorDefaultBrush}"
