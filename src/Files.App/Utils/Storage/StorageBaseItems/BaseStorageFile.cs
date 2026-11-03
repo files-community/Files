@@ -115,6 +115,9 @@ namespace Files.App.Utils.Storage
 
 		public abstract IAsyncOperation<BaseStorageFile?> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option);
 
+		public virtual IAsyncOperation<BaseStorageFile?> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option, IProgress<double>? progress)
+			=> CopyAsync(destinationFolder, desiredNewName, option);
+
 		IAsyncOperation<StorageFile> IStorageFile.CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
 		{
 			return
