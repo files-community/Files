@@ -306,6 +306,8 @@ CoGetClassObject
 CoEnableCallCancellation
 CoDisableCallCancellation
 CoCancelCall
+CoRegisterActivationFilter
+IActivationFilter
 IClassFactory
 GetSubMenu
 GetMenuItemCount
