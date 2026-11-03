@@ -37,7 +37,7 @@ namespace Files.App.Data.Items
 		/// <remarks>
 		/// This has to be removed in the future.
 		/// </remarks>
-		public required IShellItem ShellItem { get; init; }
+		public required byte[] Pidl { get; init; }
 
 		/// <summary>
 		/// Loads thumbnail icon of the recent item.

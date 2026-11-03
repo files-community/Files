@@ -123,6 +123,17 @@ namespace Files.Storage
 			shellItem = item;
 		}
 
+		public ShellItem(ShellPidl pidl)
+		{
+			byte[] bytes = pidl.GetBytes();
+			fixed (byte* value = bytes)
+			{
+				HRESULT result = PInvoke.SHCreateItemFromIDList<IShellItem>(in *(ITEMIDLIST*)value, out IShellItem item);
+				result.ThrowOnFailure();
+				shellItem = item;
+			}
+		}
+
 		public ShellItem(Guid knownFolderId)
 		{
 			HRESULT result = PInvoke.SHGetKnownFolderItem(knownFolderId, KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, null, out IShellItem item);
@@ -219,16 +230,8 @@ namespace Files.Storage
 			return CreateSpecializedItem(shellItem);
 		}
 
-		public unsafe static ShellItem Open(ShellPidl pidl)
-		{
-			byte[] bytes = pidl.GetBytes();
-			fixed (byte* value = bytes)
-			{
-				HRESULT result = PInvoke.SHCreateItemFromIDList<IShellItem>(in *(ITEMIDLIST*)value, out IShellItem item);
-				result.ThrowOnFailure();
-				return Open(item);
-			}
-		}
+		public static ShellItem Open(ShellPidl pidl)
+			=> CreateSpecializedItem(new ShellItem(pidl));
 
 		public virtual void Dispose()
 		{
@@ -268,6 +271,8 @@ namespace Files.Storage
 			try
 			{
 				var link = new ShellLink(path!);
+				// Keep namespace metadata, such as the original name of a recycled shortcut.
+				link.Initialize(item.IShellItem);
 				item.Dispose();
 				return link;
 			}

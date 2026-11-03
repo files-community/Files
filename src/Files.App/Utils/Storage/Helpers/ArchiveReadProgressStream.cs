@@ -1,9 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System;
 using System.IO;
-using System.Threading;
 
 namespace Files.App.Utils.Storage
 {
@@ -33,7 +31,7 @@ namespace Files.App.Utils.Storage
 			_cancellationToken = cancellationToken;
 		}
 
-		public void StartReporting()
+		internal void StartReporting()
 		{
 			_furthestReadPosition = 0;
 			_isReporting = true;

@@ -21,8 +21,4 @@
         <PackageReference Include="Microsoft.Windows.CsWin32" PrivateAssets="all" />
     </ItemGroup>
 
-    <ItemGroup>
-        <Compile Include="..\..\src\Files.App\Utils\Storage\Helpers\ArchiveReadProgressStream.cs" Link="Source\ArchiveReadProgressStream.cs" />
-    </ItemGroup>
-
 </Project>

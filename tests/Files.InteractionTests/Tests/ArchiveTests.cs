@@ -3,10 +3,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Threading;
+using System.Threading.Tasks;
 using ICSharpCode.SharpZipLib.BZip2;
 using OpenQA.Selenium.Appium;
 using Windows.Win32.UI.Input.KeyboardAndMouse;
@@ -64,21 +66,22 @@ namespace Files.InteractionTests.Tests
 		[TestMethod]
 		public void TestExtractBZip2Archive()
 		{
-			var (archivePath, expectedHash) = CreateBZip2Fixture("ExtractBZip2");
+			var (archivePath, expectedHash) = CreateBZip2Fixture("ExtractBZip2-ação", 128 * 1024 * 1024);
 			TestHelper.NavigateToPath(Path.GetDirectoryName(archivePath));
-			InvokeItemContextMenuCommand(Path.GetFileName(archivePath), "Extract", "Extract here", positionWithinWindow: true);
+			InvokeItemContextMenuCommand(Path.GetFileName(archivePath), "Extract", "Extract here");
+			AssertOperationProgress(Path.GetFileName(archivePath), "Extracted");
 			AssertExtractedHash(Path.ChangeExtension(archivePath, null), expectedHash);
 		}
 
 		[TestMethod]
-		[DataRow(false, 64 * 1024 * 1024)]
-		[DataRow(true, 64 * 1024 * 1024)]
+		[DataRow(false, 128 * 1024 * 1024)]
+		[DataRow(true, 1024 * 1024)]
 		[DataRow(false, 0)]
 		[DataRow(true, 0)]
 		public void TestCopyFromBZip2Archive(bool copyIntoArchive, int size)
 		{
 			var (archivePath, expectedHash) = CreateBZip2Fixture($"CopyBZip2-{copyIntoArchive}-{size}", size);
-			var destinationPath = Path.Combine(Path.GetDirectoryName(archivePath), "Destination");
+			var destinationPath = Path.Combine(Path.GetDirectoryName(archivePath), $"Destination-CopyBZip2-{copyIntoArchive}-{size}");
 			if (copyIntoArchive)
 			{
 				destinationPath += ".zip";
@@ -93,6 +96,8 @@ namespace Files.InteractionTests.Tests
 			TestHelper.SendKeyCombination(VIRTUAL_KEY.VK_CONTROL, VIRTUAL_KEY.VK_C);
 			TestHelper.NavigateToPath(destinationPath);
 			TestHelper.SendKeyCombination(VIRTUAL_KEY.VK_CONTROL, VIRTUAL_KEY.VK_V);
+			if (!copyIntoArchive && size > 0)
+				AssertOperationProgress(Path.GetFileName(destinationPath), "Copied");
 			if (copyIntoArchive)
 				AssertCopiedArchiveHash(destinationPath, fileName, expectedHash);
 			else
@@ -108,21 +113,86 @@ namespace Files.InteractionTests.Tests
 		{
 			var (archivePath, expectedHash) = CreateBZip2Fixture($"SmallBZip2-{size}-ação", size);
 			TestHelper.NavigateToPath(Path.GetDirectoryName(archivePath));
-			InvokeItemContextMenuCommand(Path.GetFileName(archivePath), "Extract", "Extract here", positionWithinWindow: true);
+			InvokeItemContextMenuCommand(Path.GetFileName(archivePath), "Extract", "Extract here");
 			AssertExtractedHash(Path.ChangeExtension(archivePath, null), expectedHash);
 		}
 
-		private static (string ArchivePath, byte[] Hash) CreateBZip2Fixture(string name, int size = 64 * 1024 * 1024)
+		[TestMethod]
+		public void TestCopyOrdinaryFileIntoZipArchive()
+		{
+			var directory = Path.Combine(testFolderPath, "OrdinaryCopy");
+			Directory.CreateDirectory(directory);
+			var fileName = "ordinary.bin";
+			var data = new byte[1024 * 1024];
+			new Random(18806).NextBytes(data);
+			File.WriteAllBytes(Path.Combine(directory, fileName), data);
+			var destinationPath = Path.Combine(directory, "OrdinaryDestination.zip");
+			using (ZipFile.Open(destinationPath, ZipArchiveMode.Create)) { }
+
+			TestHelper.NavigateToPath(directory);
+			TestHelper.InvokeButtonByName(fileName);
+			TestHelper.SendKeyCombination(VIRTUAL_KEY.VK_CONTROL, VIRTUAL_KEY.VK_C);
+			TestHelper.NavigateToPath(destinationPath);
+			TestHelper.SendKeyCombination(VIRTUAL_KEY.VK_CONTROL, VIRTUAL_KEY.VK_V);
+			AssertCopiedArchiveHash(destinationPath, fileName, SHA256.HashData(data));
+		}
+
+		private static (string ArchivePath, byte[] Hash) CreateBZip2Fixture(string name, int size = 1024 * 1024)
 		{
 			var directory = Path.Combine(testFolderPath, name);
 			Directory.CreateDirectory(directory);
-			var archivePath = Path.Combine(directory, $"{name}.bin.bz2");
+			var archivePath = Path.Combine(directory, $"{name}.bin.BZ2");
 			var data = new byte[size];
 			new Random(18806).NextBytes(data);
 			using var input = new MemoryStream(data);
 			using var output = File.Create(archivePath);
-			BZip2.Compress(input, output, false, 9);
+			var preparation = Task.Run(() => BZip2.Compress(input, output, false, 9));
+			while (!preparation.Wait(TimeSpan.FromSeconds(5)))
+				_ = SessionManager.Session.WindowHandles;
+			preparation.GetAwaiter().GetResult();
 			return (archivePath, SHA256.HashData(data));
+		}
+
+		private static void AssertOperationProgress(string uniqueName, string completedPrefix)
+		{
+			if (SessionManager.Session.FindElements(MobileBy.AccessibilityId("StatusCenterItemsListView")).Count == 0)
+				TestHelper.InvokeButtonById("ShowStatusCenterButton");
+
+			double previous = 0;
+			bool sawIntermediate = false;
+			WaitForCondition(() =>
+			{
+				try
+				{
+					var cards = SessionManager.Session.FindElements(MobileBy.XPath($"//*[@AutomationId='ContentRoot' and contains(@Name, '{uniqueName}')]"));
+					foreach (var card in cards)
+					{
+						var header = card.GetAttribute("Name");
+						Assert.IsFalse(header.StartsWith("Error", StringComparison.Ordinal) || header.StartsWith("Canceled", StringComparison.Ordinal), header);
+						if (header.StartsWith(completedPrefix, StringComparison.Ordinal))
+						{
+							Assert.IsTrue(sawIntermediate, $"'{uniqueName}' completed without visible intermediate progress.");
+							return true;
+						}
+
+						foreach (var bar in card.FindElements(MobileBy.AccessibilityId("MainProgressBar")))
+						{
+							if (!bar.Displayed)
+								continue;
+							var value = double.Parse(bar.GetAttribute("RangeValue.Value"), CultureInfo.InvariantCulture);
+							Assert.IsTrue(double.IsFinite(value) && value >= previous && value < 100, $"'{uniqueName}' active progress went from {previous} to {value}.");
+							sawIntermediate |= value > 0;
+							previous = value;
+							Console.WriteLine($"{uniqueName}: {value}%");
+						}
+					}
+				}
+				catch (OpenQA.Selenium.StaleElementReferenceException)
+				{
+					// Completion replaces the active card; find the matching result next time.
+				}
+				return false;
+			}, $"successful completion with intermediate progress for '{uniqueName}'", 60);
 		}
 
 		private static void AssertExtractedHash(string path, byte[] expectedHash)
@@ -223,29 +293,11 @@ namespace Files.InteractionTests.Tests
 		/// Invokes a command from a submenu of an item's context menu, reopening the menu when
 		/// something (e.g. an async file-area refresh) dismissed it mid-interaction.
 		/// </summary>
-		private static void InvokeItemContextMenuCommand(string itemName, string subMenuName, string commandName, bool positionWithinWindow = false)
+		private static void InvokeItemContextMenuCommand(string itemName, string subMenuName, string commandName)
 		{
 			var deadline = DateTime.UtcNow + TimeSpan.FromSeconds(30);
 
-			void OpenContextMenu()
-			{
-				if (positionWithinWindow)
-				{
-					TestHelper.WaitForElementByName(itemName);
-					var item = SessionManager.Session.FindElement(MobileBy.Name(itemName));
-					var rectangle = item.Rect;
-					var windowPosition = SessionManager.Session.Manage().Window.Position;
-					// Windows click uses screen coordinates, while element rectangles are window-relative.
-					SessionManager.Session.ExecuteScript("windows: click", new Dictionary<string, object>
-					{
-						["x"] = windowPosition.X + rectangle.X + 20,
-						["y"] = windowPosition.Y + rectangle.Y + rectangle.Height / 2,
-						["button"] = "right",
-					});
-				}
-				else
-					TestHelper.ContextClickElementByName(itemName);
-			}
+			void OpenContextMenu() => TestHelper.ContextClickElementByName(itemName);
 
 			OpenContextMenu();
 
@@ -301,12 +353,11 @@ namespace Files.InteractionTests.Tests
 		}
 
 		/// <summary>
-		/// Waits until the given disk-state condition holds; archive operations run in the
-		/// background, so their completion is only observable through the file system.
+		/// Waits for a background archive operation to reach the expected state.
 		/// </summary>
-		private static void WaitForCondition(Func<bool> condition, string description)
+		private static void WaitForCondition(Func<bool> condition, string description, int timeoutSeconds = 30)
 		{
-			var deadline = DateTime.UtcNow + TimeSpan.FromSeconds(30);
+			var deadline = DateTime.UtcNow + TimeSpan.FromSeconds(timeoutSeconds);
 
 			while (DateTime.UtcNow < deadline)
 			{

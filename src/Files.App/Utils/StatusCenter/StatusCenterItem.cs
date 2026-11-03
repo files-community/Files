@@ -357,24 +357,19 @@ namespace Files.App.Utils.StatusCenter
 				return;
 			}
 
-			if (value.IsCompressedInputProgress && value.Percentage is double compressedPercentage)
-			{
-				ProgressPercentage = Math.Clamp((int)compressedPercentage, 0, 100);
-				CurrentProcessingItemName = value.FileName;
-				Message = Strings.StatusCenter_CompressedInputProgress.GetLocalizedFormatResource(ProgressPercentage);
-				IsSpeedAndProgressAvailable = false;
-				IsExpanded = false;
-				Header = $"{Header} ({ProgressPercentage}%)";
-				_viewModel.NotifyChanges();
-				return;
-			}
-
 			// Graph item point
 			Vector2 point;
 
 			// Set speed text and percentage
 			switch (value.TotalSize, value.ItemsCount)
 			{
+				// Copy/extract can supply progress when the uncompressed size is unknown.
+				case (0, _) when Operation is FileOperationType.Copy or FileOperationType.Extract && value.Percentage is double percentage:
+					ProgressPercentage = Math.Clamp((int)percentage, 0, 99);
+					Message = Strings.StatusCenter_ProcessedItems_Header.GetLocalizedFormatResource(value.ProcessedItemsCount, value.ItemsCount);
+					SpeedText = $"{value.ProcessingItemsCountSpeed:0} items/s";
+					point = new(ProgressPercentage, (float)value.ProcessingItemsCountSpeed);
+					break;
 				// In progress, displaying items count & processed size
 				case (not 0, not 0):
 					ProgressPercentage = Math.Clamp((int)(value.ProcessedSize * 100.0 / value.TotalSize), 0, 100);

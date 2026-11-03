@@ -284,7 +284,7 @@ namespace Files.App.Data.Items
 	{
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 
-		public async void RefreshSpaceUsed(object? sender, FileSystemEventArgs e)
+		public async void RefreshSpaceUsed(object? sender, EventArgs e)
 		{
 			await RefreshSpaceUsedAsync();
 		}
@@ -293,7 +293,7 @@ namespace Files.App.Data.Items
 		{
 			return MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				SpaceUsed = await Task.Run(() => StorageTrashBinService.GetSize());
+				SpaceUsed = await StorageTrashBinService.GetSizeAsync();
 			});
 		}
 
@@ -315,8 +315,7 @@ namespace Files.App.Data.Items
 
 		public RecycleBinLocationItem()
 		{
-			StorageTrashBinService.Watcher.ItemAdded += RefreshSpaceUsed;
-			StorageTrashBinService.Watcher.ItemDeleted += RefreshSpaceUsed;
+			StorageTrashBinService.StateChanged += RefreshSpaceUsed;
 
 			_ = RefreshSpaceUsedAsync();
 		}

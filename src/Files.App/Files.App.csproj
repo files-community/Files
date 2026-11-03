@@ -64,6 +64,7 @@
         <DirectPInvoke Include="api-ms-win-core-winrt-l1-1-0" />
         <DirectPInvoke Include="api-ms-win-core-winrt-robuffer-l1-1-0" />
         <DirectPInvoke Include="api-ms-win-core-winrt-string-l1-1-0" />
+        <DirectPInvoke Include="CFGMGR32" />
         <DirectPInvoke Include="CRYPT32" />
         <DirectPInvoke Include="GDI32" />
         <DirectPInvoke Include="KERNEL32.dll" />
@@ -74,6 +75,7 @@
         <DirectPInvoke Include="MPR" />
         <_WindowsAppRuntimeBootstrapLibrary Include="@(WindowsAppSdkComponentPackages->'%(FullPath)lib\native\$(Platform)\Microsoft.WindowsAppRuntime.Bootstrap.lib')" />
         <NativeLibrary Include="runtimeobject.lib" />
+        <NativeLibrary Include="cfgmgr32.lib" />
         <NativeLibrary Include="mpr.lib" />
         <NativeLibrary Include="@(_WindowsAppRuntimeBootstrapLibrary->Exists())" />
     </ItemGroup>

@@ -18,7 +18,7 @@ namespace Files.App.Services
 
 		public async Task<IEnumerable<ShellFileItem>> GetPinnedFoldersAsync()
 		{
-			var folders = await Server.AppService.GetPinnedFoldersAsync();
+			var folders = await Server.PinnedFoldersService.GetPinnedFoldersAsync();
 			return folders.Select(folder => new ShellFileItem
 			{
 				IsFolder = true,
@@ -26,7 +26,7 @@ namespace Files.App.Services
 				FilePath = folder.Path,
 				PIDL = folder.Pidl,
 				Properties = new() { ["System.Home.IsPinned"] = folder.IsPinned },
-			});
+			}).ToArray();
 		}
 
 		public Task PinToSidebarAsync(string folderPath) => PinToSidebarAsync(new[] { folderPath });
@@ -46,7 +46,7 @@ namespace Files.App.Services
 				}
 			}
 
-			Server.AppService.InvalidatePinnedFolders();
+			Server.PinnedFoldersService.InvalidatePinnedFolders();
 			await App.QuickAccessManager.Model.LoadAsync();
 			if (doUpdateQuickAccessWidget)
 				App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, true));
@@ -94,13 +94,13 @@ namespace Files.App.Services
 
 				if (result.Failed)
 				{
-					Server.AppService.InvalidatePinnedFolders();
+					Server.PinnedFoldersService.InvalidatePinnedFolders();
 					await App.QuickAccessManager.Model.LoadAsync();
 					return false;
 				}
 			}
 
-			Server.AppService.InvalidatePinnedFolders();
+			Server.PinnedFoldersService.InvalidatePinnedFolders();
 			await App.QuickAccessManager.Model.LoadAsync();
 			if (doUpdateQuickAccessWidget)
 				App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, false));
@@ -184,7 +184,7 @@ namespace Files.App.Services
 
 		private async Task<string[]> GetPinnedFolderPathsAsync()
 		{
-			Server.AppService.InvalidatePinnedFolders();
+			Server.PinnedFoldersService.InvalidatePinnedFolders();
 			return GetPinnedPaths(await GetPinnedFoldersAsync());
 		}
 
@@ -242,31 +242,40 @@ namespace Files.App.Services
 			if (desiredItems.SequenceEqual(App.QuickAccessManager.Model.PinnedFolders, StringComparer.OrdinalIgnoreCase))
 				return;
 
-			using (App.QuickAccessManager.Model.SuspendSync())
+			var pinnedFolders = (await App.ServerSession).PinnedFolders;
+			pinnedFolders.BeginUpdate();
+			try
 			{
-				var currentPinned = await GetPinnedFolderPathsAsync();
-
-				// Pinning appends, so only items outside the longest in-order prefix need the unpin/repin cycle
-				var stableCount = GetStablePrefixLength(desiredItems, currentPinned);
-				var stableSet = BuildNormalizedPathSet(desiredItems.Take(stableCount));
-				var itemsToUnpin = currentPinned
-					.Where(x => !stableSet.Contains(NormalizeQuickAccessPath(x)))
-					.ToArray();
-
-				if (itemsToUnpin.Length > 0)
+				using (App.QuickAccessManager.Model.SuspendSync())
 				{
-					await UnpinFromSidebarAsync(itemsToUnpin, false);
-					await WaitUntilAsync(async () =>
+					var currentPinned = await GetPinnedFolderPathsAsync();
+
+					// Pinning appends, so only items outside the longest in-order prefix need the unpin/repin cycle
+					var stableCount = GetStablePrefixLength(desiredItems, currentPinned);
+					var stableSet = BuildNormalizedPathSet(desiredItems.Take(stableCount));
+					var itemsToUnpin = currentPinned
+						.Where(x => !stableSet.Contains(NormalizeQuickAccessPath(x)))
+						.ToArray();
+
+					if (itemsToUnpin.Length > 0)
 					{
-						var remainingPinned = BuildNormalizedPathSet(await GetPinnedFolderPathsAsync());
-						return !itemsToUnpin.Any(x => remainingPinned.Contains(NormalizeQuickAccessPath(x)));
-					}, UnpinSettleTimeout);
+						await UnpinFromSidebarAsync(itemsToUnpin, false);
+						await WaitUntilAsync(async () =>
+						{
+							var remainingPinned = BuildNormalizedPathSet(await GetPinnedFolderPathsAsync());
+							return !itemsToUnpin.Any(x => remainingPinned.Contains(NormalizeQuickAccessPath(x)));
+						}, UnpinSettleTimeout);
+					}
+
+					await ReconcilePinsAsync(desiredItems);
 				}
 
-				await ReconcilePinsAsync(desiredItems);
+				await App.QuickAccessManager.Model.LoadAsync();
 			}
-
-			await App.QuickAccessManager.Model.LoadAsync();
+			finally
+			{
+				SafetyExtensions.IgnoreExceptions(pinnedFolders.EndUpdate, App.Logger);
+			}
 		}
 	}
 }
