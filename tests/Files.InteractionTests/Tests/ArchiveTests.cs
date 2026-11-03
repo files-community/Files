@@ -197,52 +197,51 @@ namespace Files.InteractionTests.Tests
 
 		private static void AssertExtractedHash(string path, byte[] expectedHash)
 		{
-			var deadline = DateTime.UtcNow + TimeSpan.FromSeconds(60);
-			while (true)
+			AssertContentHash(() =>
 			{
-				try
-				{
-					var actualHash = SHA256.HashData(File.ReadAllBytes(path));
-					if (System.Linq.Enumerable.SequenceEqual(expectedHash, actualHash))
-						break;
-
-					if (DateTime.UtcNow >= deadline)
-						CollectionAssert.AreEqual(expectedHash, actualHash, "Extracted content differs from the source.");
-
-					Thread.Sleep(100);
-				}
-				catch (IOException) when (DateTime.UtcNow < deadline)
-				{
-					Thread.Sleep(100);
-				}
-			}
-
+				using var stream = File.OpenRead(path);
+				return SHA256.HashData(stream);
+			}, expectedHash, $"extracted file '{path}'");
 			TestHelper.SendEscKey();
 		}
 
 		private static void AssertCopiedArchiveHash(string archivePath, string fileName, byte[] expectedHash)
 		{
-			var deadline = DateTime.UtcNow + TimeSpan.FromSeconds(60);
-			while (DateTime.UtcNow < deadline)
+			AssertContentHash(() =>
+			{
+				using var archive = ZipFile.OpenRead(archivePath);
+				var entry = archive.GetEntry(fileName);
+				if (entry is null)
+					return null;
+
+				using var stream = entry.Open();
+				return SHA256.HashData(stream);
+			}, expectedHash, $"copied entry '{fileName}' in '{archivePath}'");
+		}
+
+		private static void AssertContentHash(Func<byte[]> readHash, byte[] expectedHash, string description)
+		{
+			string lastState = "The output is not available.";
+			WaitForCondition(() =>
 			{
 				try
 				{
-					using var archive = ZipFile.OpenRead(archivePath);
-					if (archive.GetEntry(fileName) is { } entry)
+					var actualHash = readHash();
+					if (actualHash is null)
 					{
-						using var stream = entry.Open();
-						CollectionAssert.AreEqual(expectedHash, SHA256.HashData(stream));
-						return;
+						lastState = "The output is not available.";
+						return false;
 					}
+
+					lastState = $"SHA-256 was {Convert.ToHexString(actualHash)}; expected {Convert.ToHexString(expectedHash)}.";
+					return System.Linq.Enumerable.SequenceEqual(expectedHash, actualHash);
 				}
-				catch (Exception ex) when ((ex is IOException or InvalidDataException) && DateTime.UtcNow < deadline)
+				catch (Exception ex) when (ex is IOException or InvalidDataException)
 				{
+					lastState = ex.Message;
+					return false;
 				}
-
-				Thread.Sleep(100);
-			}
-
-			Assert.Fail("The destination ZIP never contained the copied file.");
+			}, description, 60, () => lastState);
 		}
 
 		private static void CompressAndExtractRoundTrip(string sourceFolderName, string extension)
@@ -355,19 +354,26 @@ namespace Files.InteractionTests.Tests
 		/// <summary>
 		/// Waits for a background archive operation to reach the expected state.
 		/// </summary>
-		private static void WaitForCondition(Func<bool> condition, string description, int timeoutSeconds = 30)
+		private static void WaitForCondition(Func<bool> condition, string description, int timeoutSeconds = 30, Func<string> getLastState = null)
 		{
 			var deadline = DateTime.UtcNow + TimeSpan.FromSeconds(timeoutSeconds);
+			var nextKeepalive = DateTime.UtcNow + TimeSpan.FromSeconds(5);
 
 			while (DateTime.UtcNow < deadline)
 			{
 				if (condition())
 					return;
 
+				if (DateTime.UtcNow >= nextKeepalive)
+				{
+					_ = SessionManager.Session.WindowHandles;
+					nextKeepalive = DateTime.UtcNow + TimeSpan.FromSeconds(5);
+				}
+
 				Thread.Sleep(300);
 			}
 
-			Assert.Fail($"Timed out waiting for {description}.");
+			Assert.Fail($"Timed out waiting for {description}. {getLastState?.Invoke()}");
 		}
 	}
 }
