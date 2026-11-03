@@ -361,6 +361,12 @@ SafeArrayGetUBound
 IObjectWithSite
 IServiceProvider
 IFolderView
+IShellBrowser
+IShellDispatch
+LoadRegTypeLib
+DispInvoke
+DispGetIDsOfNames
+DISP_E_BADINDEX
 IPreviewHandlerVisuals
 IPreviewHandlerFrame
 IInitializeWithStream
