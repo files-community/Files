@@ -300,7 +300,6 @@ IContextMenu2
 _EXPCMDSTATE
 _EXPCMDFLAGS
 IInitializeCommand
-IInspectable
 CoCreateInstanceEx
 CoGetClassObject
 CoEnableCallCancellation
@@ -308,7 +307,6 @@ CoDisableCallCancellation
 CoCancelCall
 CoRegisterActivationFilter
 IActivationFilter
-IClassFactory
 GetSubMenu
 GetMenuItemCount
 GetMenuItemInfo

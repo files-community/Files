@@ -13,7 +13,7 @@ internal static class CloudContextMenuCommands
 {
 	private static readonly Guid SyncRootManagerClass = new("F324E4F9-8496-40B2-A1FF-9617C1C9AFFE");
 
-	internal static unsafe IReadOnlyList<ExplorerCommandRegistration> GetCommands(IEnumerable<string> paths)
+	internal static IReadOnlyList<ExplorerCommandRegistration> GetCommands(IEnumerable<string> paths)
 	{
 		try
 		{
@@ -23,7 +23,7 @@ internal static class CloudContextMenuCommands
 			IStorageProviderInfo? provider = null;
 			foreach (var path in paths)
 			{
-				var hr = manager.GetStorageProviderInfoFromPath(path, out var candidate, null, null);
+				var hr = manager.GetStorageProviderInfoFromPath(path, out var candidate, out _, out _);
 				if (hr.Failed || candidate is null)
 					return [];
 				if (provider is null)
@@ -64,20 +64,10 @@ internal static class CloudContextMenuCommands
 			if (provider.GetIcon(out var iconPath, out var iconIndex).Succeeded && !string.IsNullOrEmpty(iconPath))
 				icon = FormattableString.Invariant($"{iconPath},{iconIndex}");
 
-			if (provider.GetContextMenuVerbs(out var count, out var classIds, out _).Failed || classIds is null)
+			if (provider.GetContextMenuVerbs(out _, out var classIds, out _).Failed || classIds is null)
 				return [];
 
-			try
-			{
-				var result = new List<ExplorerCommandRegistration>((int)count);
-				for (uint index = 0; index < count; index++)
-					result.Add(new(classIds[index], classIds[index].ToString("B"), name, groupId, IsCloudProvider: true, GroupIcon: icon));
-				return result;
-			}
-			finally
-			{
-				PInvoke.CoTaskMemFree(classIds);
-			}
+			return classIds.Select(classId => new ExplorerCommandRegistration(classId, classId.ToString("B"), name, groupId, IsCloudProvider: true, GroupIcon: icon)).ToList();
 		}
 		catch (Exception ex)
 		{

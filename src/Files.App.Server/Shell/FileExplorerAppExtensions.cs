@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using Windows.Foundation.Collections;
 using Windows.Win32.Foundation;
 using WinRT;
-using IInspectable = Windows.Win32.System.WinRT.IInspectable;
+using IInspectable = Files.Storage.Interop.IInspectable;
 
 namespace Files.App.Server;
 

@@ -9,18 +9,18 @@ using Windows.Win32.System.Com;
 
 namespace Files.Storage.Interop;
 
-[GeneratedComInterface(Options = ComInterfaceOptions.ManagedObjectWrapper), Guid("00020400-0000-0000-C000-000000000046")]
-public unsafe partial interface IDispatch
+[GeneratedComInterface(Options = ComInterfaceOptions.ManagedObjectWrapper | ComInterfaceOptions.ComObjectWrapper), Guid("00020400-0000-0000-C000-000000000046")]
+public partial interface IDispatch
 {
 	[PreserveSig]
-	HRESULT GetTypeInfoCount(uint* count);
+	HRESULT GetTypeInfoCount(out uint count);
 
 	[PreserveSig]
-	HRESULT GetTypeInfo(uint index, uint localeId, void** typeInfo);
+	HRESULT GetTypeInfo(uint index, uint localeId, out ITypeInfo? typeInfo);
 
 	[PreserveSig]
-	HRESULT GetIDsOfNames(Guid* interfaceId, PWSTR* names, uint count, uint localeId, int* dispatchIds);
+	HRESULT GetIDsOfNames(in Guid interfaceId, [MarshalUsing(CountElementName = nameof(count))] PWSTR[] names, uint count, uint localeId, [Out, MarshalUsing(CountElementName = nameof(count))] int[] dispatchIds);
 
 	[PreserveSig]
-	HRESULT Invoke(int dispatchId, Guid* interfaceId, uint localeId, ushort flags, DISPPARAMS* parameters, ComVariant* result, EXCEPINFO* exceptionInfo, uint* argumentError);
+	HRESULT Invoke(int dispatchId, in Guid interfaceId, uint localeId, ushort flags, ref DISPPARAMS parameters, /* VARIANT* */ nint result, /* EXCEPINFO* */ nint exceptionInfo, /* UINT* */ nint argumentError);
 }

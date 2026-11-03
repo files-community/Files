@@ -1,8 +1,10 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.Storage.Interop;
 using System.Diagnostics;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using System.Text;
@@ -50,23 +52,11 @@ namespace Files.App.Server
 
 		public bool HasSubmenu(List<Win32ContextMenuItem> items) => submenus.Contains(items);
 
-		private static unsafe IContextMenu BindContextMenu(IShellItemArray selection)
+		private static IContextMenu BindContextMenu(IShellItemArray selection)
 		{
-			Guid handlerId = PInvoke.BHID_SFUIObject;
-			Guid interfaceId = typeof(IContextMenu).GUID;
-			void* contextMenuPointer = null;
-			try
-			{
-				selection.BindToHandler(null!, &handlerId, &interfaceId, out contextMenuPointer).ThrowOnFailure();
-
-				// Uniquely owned, so Dispose can release it on this STA
-				return UniqueComInterfaceMarshaller<IContextMenu>.ConvertToManaged(contextMenuPointer)
-					?? throw new InvalidOperationException("The shell did not return a context menu.");
-			}
-			finally
-			{
-				UniqueComInterfaceMarshaller<IContextMenu>.Free(contextMenuPointer);
-			}
+			// Uniquely owned, so Dispose can release it on this STA
+			((IUniqueShellItemArray)selection).BindToHandler(null, PInvoke.BHID_SFUIObject, typeof(IContextMenu).GUID, out var handler).ThrowOnFailure();
+			return handler as IContextMenu ?? throw new InvalidOperationException("The shell did not return a context menu.");
 		}
 
 		public unsafe HRESULT InvokeVerb(string verb)
@@ -78,7 +68,7 @@ namespace Files.App.Server
 				commandInfo.cbSize = (uint)sizeof(CMINVOKECOMMANDINFOEX);
 				commandInfo.lpVerb = (PCSTR)verbPointer;
 				commandInfo.nShow = (int)SHOW_WINDOW_CMD.SW_SHOWNORMAL;
-				return contextMenu.InvokeCommand((CMINVOKECOMMANDINFO*)&commandInfo);
+				return contextMenu.InvokeCommand(in Unsafe.As<CMINVOKECOMMANDINFOEX, CMINVOKECOMMANDINFO>(ref commandInfo));
 			}
 		}
 
@@ -93,7 +83,7 @@ namespace Files.App.Server
 				commandInfo.lpVerbW = (PCWSTR)(char*)(nuint)(uint)itemId;
 				commandInfo.lpDirectoryW = directory;
 				commandInfo.nShow = (int)SHOW_WINDOW_CMD.SW_SHOWNORMAL;
-				return contextMenu.InvokeCommand((CMINVOKECOMMANDINFO*)&commandInfo);
+				return contextMenu.InvokeCommand(in Unsafe.As<CMINVOKECOMMANDINFOEX, CMINVOKECOMMANDINFO>(ref commandInfo));
 			}
 		}
 

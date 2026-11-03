@@ -59,57 +59,52 @@ internal static class ExplorerCommandActivator
 		}
 	}
 
-	private sealed class ClassObject(IClassFactory classFactory, IAgileReference reference)
+	private sealed class ClassObject(IUniqueClassFactory classFactory, IUniqueAgileReference reference)
 	{
 		// On an MTA thread
 		internal static unsafe ClassObject? Create(Guid classId)
 		{
-			Guid classFactoryId = typeof(IClassFactory).GUID;
-			if (PInvoke.CoGetClassObject(&classId, CLSCTX.CLSCTX_LOCAL_SERVER, null, &classFactoryId, out var value).Failed
-				|| value is not IClassFactory classFactory
+			if (PInvoke.CoGetClassObject(classId, CLSCTX.CLSCTX_LOCAL_SERVER, null, out IUniqueClassFactory classFactory).Failed
 				|| classFactory.LockServer(true).Failed)
 				return null;
 
-			if (PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, classFactoryId, classFactory, out var reference).Failed)
+			if (PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, typeof(IUniqueClassFactory).GUID, classFactory, out var reference).Failed)
 			{
 				classFactory.LockServer(false);
 				return null;
 			}
 
-			return new(classFactory, reference);
+			return new(classFactory, (IUniqueAgileReference)reference);
 		}
 
-		internal unsafe IExplorerCommand? CreateCommand()
+		internal IExplorerCommand? CreateCommand()
 		{
-			Guid classFactoryId = typeof(IClassFactory).GUID;
-			if (reference.Resolve(&classFactoryId, out var classFactoryPointer).Failed)
+			if (reference.Resolve(typeof(IUniqueClassFactory).GUID, out var resolved).Failed || resolved is not IUniqueClassFactory localClassFactory)
+			{
+				Release(resolved);
 				return null;
+			}
 
-			var localClassFactory = UniqueComInterfaceMarshaller<IClassFactory>.ConvertToManaged(classFactoryPointer);
-			UniqueComInterfaceMarshaller<IClassFactory>.Free(classFactoryPointer);
 			try
 			{
-				Guid commandId = typeof(IExplorerCommand).GUID;
-				if (localClassFactory is null || localClassFactory.CreateInstance(null, &commandId, out var commandPointer).Failed)
-					return null;
+				if (localClassFactory.CreateInstance(null, typeof(IExplorerCommand).GUID, out var instance).Succeeded && instance is IExplorerCommand command)
+					return command;
 
-				try
-				{
-					return UniqueComInterfaceMarshaller<IExplorerCommand>.ConvertToManaged(commandPointer);
-				}
-				finally
-				{
-					UniqueComInterfaceMarshaller<IExplorerCommand>.Free(commandPointer);
-				}
+				Release(instance);
+				return null;
 			}
 			finally
 			{
-				if ((object?)localClassFactory is ComObject comObject)
-					comObject.FinalRelease();
+				Release(localClassFactory);
 			}
 		}
 
-		internal void Unlock()
-			=> _ = Task.Run(() => classFactory.LockServer(false));
+		internal void Unlock() => _ = Task.Run(() => classFactory.LockServer(false));
+
+		private static void Release(object? value)
+		{
+			if (value is ComObject comObject)
+				comObject.FinalRelease();
+		}
 	}
 }

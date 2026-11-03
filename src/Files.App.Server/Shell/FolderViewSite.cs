@@ -38,19 +38,11 @@ internal sealed partial class FolderViewSite(string folderPath) : global::Window
 		if (result.Failed)
 			return result;
 
-		try
-		{
-			if (QueryInterface(folder, riid, out ppv).Succeeded)
-				return HRESULT.S_OK;
+		if (QueryInterface(folder, riid, out ppv).Succeeded)
+			return HRESULT.S_OK;
 
-			var handler = PInvoke.BHID_SFObject;
-			return folder.BindToHandler(null, &handler, riid, out ppv);
-		}
-		finally
-		{
-			if ((object)folder is ComObject comObject)
-				comObject.FinalRelease();
-		}
+		var handler = PInvoke.BHID_SFObject;
+		return folder.BindToHandler(null, &handler, riid, out ppv);
 	}
 
 	public HRESULT GetCurrentViewMode(out uint pViewMode)

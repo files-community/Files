@@ -30,7 +30,7 @@ public partial interface IExplorerCommand
 	HRESULT GetState(IShellItemArray? selection, BOOL okToBeSlow, out _EXPCMDSTATE state);
 
 	[PreserveSig]
-	HRESULT Invoke(IShellItemArray? selection, IBindCtx? bindContext);
+	HRESULT Invoke(IShellItemArray? selection, [MarshalAs(UnmanagedType.Interface)] IBindCtx? bindContext);
 
 	[PreserveSig]
 	HRESULT GetFlags(out _EXPCMDFLAGS flags);

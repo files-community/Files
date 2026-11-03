@@ -11,17 +11,17 @@ namespace Files.Storage.Interop;
 // Undocumented Shell contracts. Preserve the verified method order and query these IIDs before using them.
 [GeneratedComInterface(Options = ComInterfaceOptions.ComObjectWrapper, StringMarshalling = StringMarshalling.Utf16)]
 [Guid("692D40A4-EFA1-4089-88F8-15FD6F5F8B64")]
-public unsafe partial interface ISyncRootManager
+public partial interface ISyncRootManager
 {
 	[PreserveSig]
 	HRESULT GetStorageProviderInfo(string identifier, out IStorageProviderInfo? info);
 	[PreserveSig]
-	HRESULT GetStorageProviderInfoFromPath(string path, out IStorageProviderInfo? info, PWSTR* resolvedPath, uint* comparisonFlags);
+	HRESULT GetStorageProviderInfoFromPath(string path, out IStorageProviderInfo? info, out string? resolvedPath, out uint comparisonFlags);
 }
 
 [GeneratedComInterface(Options = ComInterfaceOptions.ComObjectWrapper, StringMarshalling = StringMarshalling.Utf16)]
 [Guid("CA01C124-2769-4576-BF12-8A54EE671A86")]
-public unsafe partial interface IStorageProviderInfo
+public partial interface IStorageProviderInfo
 {
 	[PreserveSig] HRESULT GetFullProviderAndUserAndAccountIdentifier(out string? identifier);
 	[PreserveSig] HRESULT SetFullProviderAndUserAndAccountIdentifier(string identifier);
@@ -43,7 +43,7 @@ public unsafe partial interface IStorageProviderInfo
 	[PreserveSig] HRESULT GetThumbnailProvider(string path, in Guid classId, out nint handler);
 	[PreserveSig] HRESULT GetFlags(out uint flags);
 	[PreserveSig] HRESULT SetFlags(uint flags, uint mask);
-	[PreserveSig] HRESULT GetCustomStateIdList(out uint* stateIds, out uint count);
+	[PreserveSig] HRESULT GetCustomStateIdList([MarshalUsing(CountElementName = nameof(count))] out uint[]? stateIds, out uint count);
 	[PreserveSig] HRESULT GetCustomStateDisplayName(uint stateId, out string? name);
 	[PreserveSig] HRESULT GetProtectionMode(out string? mode);
 	[PreserveSig] HRESULT SetProtectionMode(string mode);
@@ -51,7 +51,7 @@ public unsafe partial interface IStorageProviderInfo
 	[PreserveSig] HRESULT SetRecycleBinUrl(string url);
 	[PreserveSig] HRESULT SetExtendedPropertiesHandlerClsid(in Guid classId);
 	[PreserveSig] HRESULT GetExtendedPropertiesHandler(in Guid classId, out nint handler);
-	[PreserveSig] HRESULT GetContextMenuVerbs(out uint count, out Guid* classIds, out int reserved);
+	[PreserveSig] HRESULT GetContextMenuVerbs(out uint count, [MarshalUsing(CountElementName = nameof(count))] out Guid[]? classIds, out int reserved);
 }
 
 [GeneratedComInterface(Options = ComInterfaceOptions.ComObjectWrapper, StringMarshalling = StringMarshalling.Utf16)]
