@@ -711,14 +711,14 @@ namespace Files.App.Views.Layouts
 				}
 
 				// Shell extensions. Open with / Send to and packaged app commands belong in the MAIN menu; the rest go
-				// under "Show more options", or inline per the setting when there are no packaged app commands.
+				// under "Show more options".
 				if (!instanceViewModel.IsPageTypeZipFolder && !instanceViewModel.IsPageTypeFtp)
 				{
 					var token = host.BeginShellMenuLoad(cancellationToken);
 
 					// Pre-add "Show more options" (with the synchronously-known built-in overflow items) so filling it
 					// with the classic shell items never resizes the menu.
-					var (moreOptions, moreSeparator) = host.AddShowMoreOptionsIfEnabled(items);
+					var (moreOptions, moreSeparator) = host.AddShowMoreOptions(items);
 
 					// Open with / Send to: swap the leaf placeholders for their submenus synchronously (before the
 					// menu renders) so the main menu does not reflow when the shell sub-items load - only the submenu
@@ -734,9 +734,8 @@ namespace Files.App.Views.Layouts
 					if (!host.AttachShellMenu(shellMenu, token))
 						return;
 
-					(moreOptions, moreSeparator) = host.AddModernShellModels(shellMenu.ModernItems, moreOptions, moreSeparator);
+					host.AddModernShellModels(shellMenu.ModernItems, moreOptions, moreSeparator);
 					host.Show(target, position);
-					var classicShiftPressed = shiftPressed && !shellMenu.HasModernItems;
 					await host.LoadClassicShellModelsAsync(shellMenu, moreOptions, token, shellMenuItems =>
 					{
 						var openWithModel = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
@@ -753,7 +752,7 @@ namespace Files.App.Views.Layouts
 						var shellModelsFiltered = shellMenuItems
 							.Where(x => x != openWithModel && x != sendToModel)
 							.ToList();
-						host.AddShellModels(shellModelsFiltered, classicShiftPressed, moreOptions, moreSeparator);
+						host.AddShellModels(shellModelsFiltered, moreOptions, moreSeparator);
 					});
 				}
 				else
@@ -990,15 +989,14 @@ namespace Files.App.Views.Layouts
 
 					// Pre-add "Show more options" (with the synchronously-known built-in overflow items) so filling it
 					// with the classic shell items never resizes the menu.
-					var (moreOptions, moreSeparator) = host.AddShowMoreOptionsIfEnabled(items);
+					var (moreOptions, moreSeparator) = host.AddShowMoreOptions(items);
 
 					var shellMenu = await host.WaitForShellMenuAsync(ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: shellViewModel.WorkingDirectory, selectedItems: [], shiftPressed: shiftPressed, showOpenMenu: false, token), target, position, token);
 					if (!host.AttachShellMenu(shellMenu, token))
 						return;
 
-					(moreOptions, moreSeparator) = host.AddModernShellModels(shellMenu.ModernItems, moreOptions, moreSeparator);
+					host.AddModernShellModels(shellMenu.ModernItems, moreOptions, moreSeparator);
 					host.Show(target, position);
-					var classicShiftPressed = shiftPressed && !shellMenu.HasModernItems;
 					await host.LoadClassicShellModelsAsync(shellMenu, moreOptions, token, shellMenuItems =>
 					{
 						// BitLocker: replace the placeholders with whichever entries the shell offers (drives)
@@ -1008,7 +1006,7 @@ namespace Files.App.Views.Layouts
 						var shellModelsFiltered = shellMenuItems
 							.Where(x => x.Tag is not Win32ContextMenuItem { CommandString: "openas" or "sendto" })
 							.ToList();
-						host.AddShellModels(shellModelsFiltered, classicShiftPressed, moreOptions, moreSeparator);
+						host.AddShellModels(shellModelsFiltered, moreOptions, moreSeparator);
 					});
 				}
 				else

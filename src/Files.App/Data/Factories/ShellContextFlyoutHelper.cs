@@ -178,38 +178,12 @@ namespace Files.App.Helpers
 			ContextMenu contextMenu,
 			IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
 			CancellationToken cancellationToken,
-			bool showIcons = true,
-			int itemsBeforeOverflow = int.MaxValue)
+			bool showIcons = true)
 		{
 			if (cancellationToken.IsCancellationRequested)
 				return;
 
-			var itemsCount = 0; // Separators do not count for reaching the overflow threshold
-			var menuItems = menuFlyoutItems.TakeWhile(x => x.Type == MENU_ITEM_TYPE.MFT_SEPARATOR || ++itemsCount <= itemsBeforeOverflow).ToList();
-			var overflowItems = menuFlyoutItems.Except(menuItems).ToList();
-
-			if (overflowItems.Any(x => x.Type != MENU_ITEM_TYPE.MFT_SEPARATOR))
-			{
-				var moreItem = menuItemsListLocal.FirstOrDefault(x => x.ID == "ItemOverflow");
-				if (moreItem is null)
-				{
-					var menuLayoutSubItem = new ContextMenuFlyoutItemViewModel()
-					{
-						Text = Strings.ShowMoreOptions.GetLocalizedResource(),
-						Glyph = "\xE712",
-					};
-					await LoadMenuFlyoutItemAsync(menuLayoutSubItem.Items
-						?? throw new InvalidOperationException("The shell overflow menu has not been initialized."), contextMenu, overflowItems, cancellationToken, showIcons);
-					menuItemsListLocal.Insert(0, menuLayoutSubItem);
-				}
-				else
-				{
-					await LoadMenuFlyoutItemAsync(moreItem.Items
-						?? throw new InvalidOperationException("The shell overflow menu has not been initialized."), contextMenu, overflowItems, cancellationToken, showIcons);
-				}
-			}
-
-			foreach (var menuFlyoutItem in menuItems
+			foreach (var menuFlyoutItem in menuFlyoutItems
 				.SkipWhile(x => x.Type == MENU_ITEM_TYPE.MFT_SEPARATOR) // Remove leading separators
 				.Reverse()
 				.SkipWhile(x => x.Type == MENU_ITEM_TYPE.MFT_SEPARATOR)) // Remove trailing separators
@@ -331,9 +305,8 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Loads the shell menu items into a FastContextFlyout-based menu (sidebar, widgets): fills the
-		/// pre-added "Show more options" submenu (or appends inline per the setting) and swaps the
-		/// Open with / Send to / BitLocker placeholders.
+		/// Loads the shell menu items into a FastContextFlyout-based menu (sidebar, widgets): adds the classic items
+		/// under "Show more options" and swaps the Open with / Send to / BitLocker placeholders.
 		/// </summary>
 		public static async Task LoadShellMenuItemsAsync(
 			string path,
@@ -342,8 +315,6 @@ namespace Files.App.Helpers
 			Windows.Foundation.Point position,
 			CancellationToken cancellationToken,
 			ContextMenuOptions? options = null,
-			MenuFlyoutSubItem? overflowSubMenu = null,
-			MenuFlyoutSeparator? overflowSeparator = null,
 			bool showOpenWithMenu = false,
 			bool showSendToMenu = false)
 		{
@@ -351,6 +322,9 @@ namespace Files.App.Helpers
 			{
 				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 				var token = flyout.BeginShellMenuLoad(cancellationToken);
+
+				// "Show more options" is added before showing so filling it with the classic items never resizes the menu
+				var (overflowSubMenu, overflowSeparator) = flyout.AddShowMoreOptions();
 				var shellMenu = options is not null && !options.IsLocationItem
 					? ShellContextMenuResult.Empty
 					: await flyout.WaitForShellMenuAsync(ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(
@@ -362,7 +336,7 @@ namespace Files.App.Helpers
 				if (!flyout.AttachShellMenu(shellMenu, token))
 					return;
 
-				(overflowSubMenu, overflowSeparator) = flyout.AddModernShellModels(shellMenu.ModernItems, overflowSubMenu, overflowSeparator);
+				flyout.AddModernShellModels(shellMenu.ModernItems, overflowSubMenu, overflowSeparator);
 				var openWithSubMenu = flyout.ConvertPlaceholderToSubMenu("OpenWithPlaceholder", Strings.OpenWith.GetLocalizedResource(), "App.ThemedIcons.OpenWith");
 				var sendToSubMenu = flyout.ConvertPlaceholderToSubMenu("SendToPlaceholder", Strings.SendTo.GetLocalizedResource(), null);
 				flyout.Show(anchor, position);
@@ -381,8 +355,8 @@ namespace Files.App.Helpers
 					// BitLocker: replace the placeholders with whichever entries the shell offers (drives)
 					flyout.ApplyBitLockerModels(shellMenuItems, overflowSubMenu, overflowSeparator);
 
-					// The rest fill the pre-added "Show more options", or render inline per the setting
-					flyout.AddShellModels(shellMenuItems, shiftPressed: false, overflowSubMenu, overflowSeparator, aboveExisting: false);
+					// The rest go under "Show more options"
+					flyout.AddShellModels(shellMenuItems, overflowSubMenu, overflowSeparator, aboveExisting: false);
 
 					// Open with / Send to: the placeholders were converted to their submenu form before the menu was
 					// shown (stable heights); fill their contents now, or drop them if the shell has no such entries.

@@ -251,12 +251,6 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool MoveShellExtensionsToSubMenu
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
 		public bool ShowPinToSideBar
 		{
 			get => Get(true);

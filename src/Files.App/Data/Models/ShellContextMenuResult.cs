@@ -14,9 +14,6 @@ public sealed partial class ShellContextMenuResult : IDisposable
 
 	public Task<List<ContextMenuFlyoutItemViewModel>> ClassicItems { get; }
 
-	public bool HasModernItems
-		=> ModernItems.Count > 0;
-
 	internal ShellContextMenuResult(ContextMenu? menu, List<ContextMenuFlyoutItemViewModel> modernItems, Task<List<ContextMenuFlyoutItemViewModel>> classicItems)
 	{
 		this.menu = menu;

@@ -497,19 +497,6 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public bool MoveShellExtensionsToSubMenu
-		{
-			get => UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu;
-			set
-			{
-				if (value != UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
-				{
-					UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
 		public bool ShowPinToSideBar
 		{
 			get => UserSettingsService.GeneralSettingsService.ShowPinToSideBar;

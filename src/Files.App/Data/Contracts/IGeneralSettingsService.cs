@@ -206,11 +206,6 @@ namespace Files.App.Data.Contracts
 		bool IsFileTagsSectionExpanded { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether or not to move shell extensions into a sub menu.
-		/// </summary>
-		bool MoveShellExtensionsToSubMenu { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating whether or not to show the edit tags menu.
 		/// </summary>
 		bool ShowEditTagsMenu { get; set; }

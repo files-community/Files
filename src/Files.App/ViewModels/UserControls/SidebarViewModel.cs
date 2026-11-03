@@ -850,9 +850,7 @@ namespace Files.App.ViewModels.UserControls
 
 			if (menuOptions.ShowShellItems)
 			{
-				// Pre-add "Show more options" before showing so filling it with shell items never resizes the menu
-				var (moreOptions, moreSeparator) = flyout.AddShowMoreOptionsIfEnabled();
-				await ShellContextFlyoutFactory.LoadShellMenuItemsAsync(item.GetRequiredPath(), flyout, sidebarItem, args.Position, cancellationToken, menuOptions, moreOptions, moreSeparator);
+				await ShellContextFlyoutFactory.LoadShellMenuItemsAsync(item.GetRequiredPath(), flyout, sidebarItem, args.Position, cancellationToken, menuOptions);
 			}
 			else
 			{
