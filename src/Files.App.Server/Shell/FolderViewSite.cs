@@ -14,7 +14,7 @@ using Windows.Win32.UI.WindowsAndMessaging;
 namespace Files.App.Server;
 
 /// <summary>
-///Explorer uses the folder view as the site for commands. Some commands get the target folder from the site rather than the selection, as do all background commands.
+/// Explorer uses the folder view as the site for commands. Some commands get the target folder from the site rather than the selection, as do all background commands.
 /// </summary>
 /// <param name="folderPath"></param>
 [GeneratedComClass]
