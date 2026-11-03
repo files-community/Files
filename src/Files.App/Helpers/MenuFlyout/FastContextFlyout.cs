@@ -647,11 +647,6 @@ namespace Files.App.Helpers.ContextFlyouts
 				// focus stops) so accessibility tooling doesn't flag a focusable element without a name.
 				presenter.IsTabStop = false;
 
-				// Cap the height to the visible area so late-loading shell extensions scroll instead of growing
-				// the menu off-screen and repositioning it.
-				if (presenter.XamlRoot.Content is FrameworkElement rootContent && rootContent.ActualHeight > 0)
-					presenter.MaxHeight = rootContent.ActualHeight - 24;
-
 				// The pre-render guess can be wrong within the estimation error at the flip boundary. Decide the
 				// final position the way CommandBarFlyoutCommandBar does after its flyout is placed: from the
 				// menu's ACTUAL position. A context menu is a windowed popup positioned by moving its own popup
