@@ -25,7 +25,7 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 	private readonly int firstCommandId;
 	private readonly List<IExplorerCommand> commands = [];
 	private readonly List<IExplorerCommand> ownedCommands = [];
-	private readonly HashSet<string> commandStrings = new(StringComparer.OrdinalIgnoreCase);
+	private readonly HashSet<string> titles = new(StringComparer.Ordinal);
 
 	// Icons and subcommands are slow, so they load after the items
 	private readonly List<(ContextMenuItem Item, IExplorerCommand? Command, string? IconLocation, int Depth)> details = [];
@@ -58,15 +58,7 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 		}
 	}
 
-	// The commands grouped by app, cloud providers first
-	internal static List<IGrouping<string, ExplorerCommandRegistration>> GetGroups(ShellItem[] items, bool isBackground)
-		=> GetRegistrations(items, isBackground)
-			.GroupBy(registration => registration.GroupId)
-			.OrderByDescending(group => group.Any(registration => registration.IsCloudProvider))
-			.ThenBy(group => group.First().DisplayName, StringComparer.CurrentCultureIgnoreCase)
-			.ToList();
-
-	public bool HasCommand(string? commandString) => !string.IsNullOrEmpty(commandString) && commandStrings.Contains(commandString);
+	public bool HasTitle(string? label) => label is not null && titles.Contains(label);
 
 	public bool HasItem(int itemId) => (uint)(itemId - firstCommandId) < MaximumCommands;
 
@@ -87,52 +79,6 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 		return (state & (_EXPCMDSTATE.ECS_HIDDEN | _EXPCMDSTATE.ECS_DISABLED)) == 0 ? command.Invoke(selection, null) : HRESULT.E_FAIL;
 	}
 
-	private static IEnumerable<ExplorerCommandRegistration> GetRegistrations(ShellItem[] items, bool isBackground)
-	{
-		if (items.Any(item => !item.IsFileSystem) || (isBackground && (items.Length != 1 || !items[0].IsFolder || items[0].IsStream)))
-			return [];
-
-		// A command applies when it is registered for every selected item type
-		HashSet<ExplorerCommandRegistration>? registrations = null;
-		string[] itemTypes = isBackground ? [@"Directory\Background"] : [.. items.Select(GetItemType).Distinct(StringComparer.OrdinalIgnoreCase)];
-		foreach (var itemType in itemTypes)
-		{
-			var matches = FileExplorerAppExtensions.GetCommands(itemType switch
-			{
-				"Directory" or "Drive" or @"Directory\Background" => [itemType],
-				"" => ["*"],
-				_ => ["*", itemType],
-			});
-
-			if (registrations is null)
-				registrations = matches;
-			else
-				registrations.IntersectWith(matches);
-		}
-
-		registrations ??= [];
-
-		// Cloud provider commands are grouped under the provider
-		foreach (var cloudCommand in CloudContextMenuCommands.GetCommands(items.Select(item => item.FileSystemPath!)))
-		{
-			registrations.RemoveWhere(registration => registration.ClassId == cloudCommand.ClassId);
-			registrations.Add(cloudCommand);
-		}
-
-		return registrations;
-	}
-
-	private static string GetItemType(ShellItem item)
-	{
-		var path = item.FileSystemPath ?? string.Empty;
-		if (!item.IsFolder || item.IsStream)
-			return Path.GetExtension(path);
-
-		return Path.GetPathRoot(path) is { Length: 3 } root && root[1] == ':' && path.Equals(root, StringComparison.OrdinalIgnoreCase)
-			? "Drive"
-			: "Directory";
-	}
-
 	private void AddGroup(IGrouping<string, ExplorerCommandRegistration> group)
 	{
 		var groupItems = new List<Win32ContextMenuItem>();
@@ -140,6 +86,7 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 		{
 			try
 			{
+				// The class ID is also the verb of the command in the classic menu
 				if (CreateCommand(registration) is { } command)
 					AddCommand(command, registration.ClassId.ToString("B").ToUpperInvariant(), groupItems, 0);
 			}
@@ -194,7 +141,7 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 		details.Clear();
 	}
 
-	private void AddCommand(IExplorerCommand command, string fallbackCommandString, List<Win32ContextMenuItem> target, int depth)
+	private void AddCommand(IExplorerCommand command, string commandString, List<Win32ContextMenuItem> target, int depth)
 	{
 		ownedCommands.Add(command);
 		if (commands.Count >= MaximumCommands || depth > MaximumDepth)
@@ -215,10 +162,6 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 		if (command.GetTitle(selection, out var title).Failed || string.IsNullOrEmpty(title))
 			return;
 
-		// The canonical name matches the verb of the same command in the classic menu
-		var commandString = command.GetCanonicalName(out var canonicalName).Succeeded && canonicalName != Guid.Empty
-			? canonicalName.ToString("B").ToUpperInvariant()
-			: fallbackCommandString;
 		var item = new ContextMenuItem
 		{
 			ID = firstCommandId + commands.Count,
@@ -231,10 +174,8 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 		};
 		commands.Add(command);
 		details.Add((item, command, null, depth));
-
-		// The classic menu also lists the top-level commands
-		if (depth == 0 && !string.IsNullOrEmpty(commandString))
-			commandStrings.Add(commandString);
+		if (depth == 0)
+			titles.Add(title);
 
 		if (flags.HasFlag(_EXPCMDFLAGS.ECF_SEPARATORBEFORE))
 			target.Add(CreateSeparator());

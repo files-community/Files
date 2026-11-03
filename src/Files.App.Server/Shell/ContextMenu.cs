@@ -23,13 +23,15 @@ namespace Files.App.Server
 		private readonly ContextMenuWorkerPool.Worker worker;
 		private readonly Task<ClassicContextMenuBackend?> classicMenu;
 		private readonly List<ModernMenu> modernMenus;
+		private readonly HashSet<string> packagedVerbs;
 		private bool disposedValue;
 
-		private ContextMenu(ContextMenuWorkerPool.Worker worker, Task<ClassicContextMenuBackend?> classicMenu, List<ModernMenu>? modernMenus = null)
+		private ContextMenu(ContextMenuWorkerPool.Worker worker, Task<ClassicContextMenuBackend?> classicMenu, List<ModernMenu>? modernMenus = null, HashSet<string>? packagedVerbs = null)
 		{
 			this.worker = worker;
 			this.classicMenu = classicMenu;
 			this.modernMenus = modernMenus ?? [];
+			this.packagedVerbs = packagedVerbs ?? [];
 		}
 
 		public static async Task<bool> InvokeVerb(string verb, params string?[] filePaths)
@@ -93,23 +95,23 @@ namespace Files.App.Server
 			if (!options.HasFlag(ContextMenuQueryOptions.ModernItems))
 				return await CreateClassicOnlyAsync(worker, classicMenu);
 
-			var modernMenus = await LoadModernMenusAsync(paths, options.HasFlag(ContextMenuQueryOptions.Background));
-			return new(worker, classicMenu, modernMenus) { Items = [.. modernMenus.SelectMany(modern => modern.Menu.Items)] };
+			var (modernMenus, packagedVerbs) = await LoadModernMenusAsync(paths, options.HasFlag(ContextMenuQueryOptions.Background));
+			return new(worker, classicMenu, modernMenus, packagedVerbs) { Items = [.. modernMenus.SelectMany(modern => modern.Menu.Items)] };
 		}
 
-		private static async Task<List<ModernMenu>> LoadModernMenusAsync(string[] paths, bool isBackground)
+		private static async Task<(List<ModernMenu> Menus, HashSet<string> PackagedVerbs)> LoadModernMenusAsync(string[] paths, bool isBackground)
 		{
 			var worker = ContextMenuWorkerPool.Rent();
-			var groups = worker.Thread.PostMethod(() => OpenShellItems(paths, shellItems => SafetyExtensions.IgnoreExceptions(() => ModernContextMenuBackend.GetGroups(shellItems, isBackground), Program.Logger)));
-			if (await Task.WhenAny(groups, Task.Delay(ModernItemsTimeout)) != groups)
+			var registrations = worker.Thread.PostMethod(() => OpenShellItems(paths, shellItems => SafetyExtensions.IgnoreExceptions(() => PackagedCommandRegistrations.Get(shellItems, isBackground), Program.Logger)));
+			if (await Task.WhenAny(registrations, Task.Delay(ModernItemsTimeout)) != registrations)
 			{
-				_ = groups.ContinueWith(_ => ContextMenuWorkerPool.Return(worker), TaskScheduler.Default);
-				return [];
+				_ = registrations.ContinueWith(_ => ContextMenuWorkerPool.Return(worker), TaskScheduler.Default);
+				return ([], []);
 			}
 
 			ContextMenuWorkerPool.Return(worker);
 			var loads = new List<(ContextMenuWorkerPool.Worker Worker, Task<ModernContextMenuBackend?> Menu, string GroupId)>();
-			foreach (var (groupIndex, group) in (groups.Result ?? []).Index())
+			foreach (var (groupIndex, group) in (registrations.Result?.Groups ?? []).Index())
 			{
 				if (stalledGroups.ContainsKey(group.Key))
 					continue;
@@ -134,7 +136,7 @@ namespace Files.App.Server
 				}
 			}
 
-			return menus;
+			return (menus, registrations.Result?.ClassicVerbs ?? []);
 		}
 
 		private static async Task MarkStalledAsync(string groupId, Task task)
@@ -230,9 +232,13 @@ namespace Files.App.Server
 			if (classic is null)
 				return [];
 
-			// Explorer also lists packaged app commands in the classic menu
-			return modernMenus.Count == 0 ? classic.Items : [.. classic.Items.Where(item => !modernMenus.Any(modern => modern.Menu.HasCommand(item.CommandString)))];
+			return [.. classic.Items.Where(item => !IsPackagedCommand(item))];
 		}
+
+		// TODO: This can filter unrelated commands that have the same title but different verbs,
+		// for now this is intentional but we should figure out a better way to do deduplication.
+		private bool IsPackagedCommand(Win32ContextMenuItem item)
+			=> (item.CommandString is { } verb && packagedVerbs.Contains(verb)) || modernMenus.Any(modern => modern.Menu.HasTitle(item.Label));
 
 		public async Task<bool> LoadSubMenu(List<Win32ContextMenuItem> subItems)
 		{
