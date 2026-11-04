@@ -442,6 +442,7 @@
 				Background="Transparent"
 				BorderBrush="Transparent"
 				IsChecked="{x:Bind Commands.ToggleShelfPane.IsOn, Mode=TwoWay}"
+				ToolTipService.Placement="Bottom"
 				ToolTipService.ToolTip="{x:Bind Commands.ToggleShelfPane.LabelWithHotKey, Mode=OneWay}">
 				<controls:ThemedIcon
 					Width="16"
@@ -457,6 +458,7 @@
 				AccessKeyInvoked="Button_AccessKeyInvoked"
 				AutomationProperties.Name="{helpers:ResourceString Name=StatusCenter}"
 				Style="{StaticResource AddressToolbarButtonStyle}"
+				ToolTipService.Placement="Bottom"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=StatusCenter}"
 				Visibility="{x:Bind ViewModel.ShowStatusCenterButton, Mode=OneWay}">
 
@@ -522,6 +524,7 @@
 				Command="{x:Bind ViewModel.UpdateCommand, Mode=OneWay}"
 				IsEnabled="{x:Bind ViewModel.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 				Style="{StaticResource AddressToolbarButtonStyle}"
+				ToolTipService.Placement="Bottom"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=UpdateFiles}">
 				<Grid>
 					<!--  Icon  -->
