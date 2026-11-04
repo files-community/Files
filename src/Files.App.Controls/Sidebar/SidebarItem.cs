@@ -74,6 +74,7 @@ namespace Files.App.Controls
 		// Template-tied work needs to run *here* (not in Loaded) because Loaded can fire while the control is still not measured; template parts may not exist yet. Sub-rows realized later would otherwise keep isWiredUp=true with no handlers attached.
 		[DynamicWindowsRuntimeCast(typeof(Border))]
 		[DynamicWindowsRuntimeCast(typeof(ItemsRepeater))]
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
@@ -102,7 +103,11 @@ namespace Files.App.Controls
 					flyoutRepeater.ElementPrepared += FlyoutChildrenPresenter_ElementPrepared;
 					flyoutRepeater.ItemsSource = Item?.Children;
 				}
+				if (GetTemplateChild("ItemNameTextBlock") is TextBlock nameTextBlock)
+					nameTextBlock.IsTextTrimmedChanged += (_, _) => UpdateElementToolTip();
 			}
+
+			UpdateElementToolTip();
 
 			if (Owner is null)
 				return;
@@ -151,6 +156,21 @@ namespace Files.App.Controls
 				CanDrag = false;
 				UseReorderDrop = false;
 			}
+		}
+
+		partial void OnTextChanged(string? newValue) => UpdateElementToolTip();
+
+		partial void OnToolTipChanged(object? newValue) => UpdateElementToolTip();
+
+		[DynamicWindowsRuntimeCast(typeof(Grid))]
+		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
+		private void UpdateElementToolTip()
+		{
+			if (GetTemplateChild("ElementGrid") is not Grid grid)
+				return;
+
+			var isTextHidden = (DisplayMode == SidebarDisplayMode.Compact && !IsInFlyout) || GetTemplateChild("ItemNameTextBlock") is TextBlock { IsTextTrimmed: true };
+			ToolTipService.SetToolTip(grid, ToolTip ?? (isTextHidden ? Text : null));
 		}
 
 		private void UpdateItemPresentation()
@@ -471,6 +491,8 @@ namespace Files.App.Controls
 				VisualStateManager.GoToState(this, DisplayMode == SidebarDisplayMode.Compact ? "Compact" : "NonCompact", false);
 				ReapplyOwnerExpansionState();
 			}
+
+			UpdateElementToolTip();
 		}
 
 		private void ReapplyOwnerExpansionState()

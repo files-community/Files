@@ -34,9 +34,6 @@ namespace Files.App.Data.Items
 			set
 			{
 				text = value;
-				// Just in case path hasn't been set
-				if (ToolTip is "")
-					ToolTip = value;
 			}
 		}
 
@@ -57,7 +54,7 @@ namespace Files.App.Data.Items
 					currentPath == "Home" ||
 					currentPath == "ReleaseNotes" ||
 					currentPath == "Settings"
-					? Text
+					? null
 					: currentPath;
 			}
 		}
@@ -254,8 +251,8 @@ namespace Files.App.Data.Items
 
 		public bool IsHeader { get; set; }
 
-		private object toolTip = "";
-		public virtual object ToolTip
+		private object? toolTip;
+		public virtual object? ToolTip
 		{
 			get => toolTip;
 			set
@@ -308,7 +305,7 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public override object ToolTip
+		public override object? ToolTip
 		{
 			get => SpaceUsed.ToSizeString();
 		}
