@@ -78,7 +78,6 @@ namespace Files.App
 
 			_ = SafetyExtensions.WrapAsync(ActivateAsync, (_, ex) =>
 			{
-				Logger.LogError(ex, "Application startup failed.");
 				AppLifecycleHelper.HandleAppUnhandledException(ex, true, "App.OnLaunched");
 				return Task.CompletedTask;
 			});
