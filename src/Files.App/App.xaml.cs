@@ -76,7 +76,12 @@ namespace Files.App
 			// Constructed on the UI thread: the ctor subscribes the UI-thread-only Clipboard.ContentChanged
 			AppModel = new AppModel();
 
-			_ = ActivateAsync();
+			_ = SafetyExtensions.WrapAsync(ActivateAsync, (_, ex) =>
+			{
+				Logger.LogError(ex, "Application startup failed.");
+				AppLifecycleHelper.HandleAppUnhandledException(ex, true, "App.OnLaunched");
+				return Task.CompletedTask;
+			});
 
 			async Task ActivateAsync()
 			{
@@ -88,12 +93,14 @@ namespace Files.App
 				var appModel = AppModel;
 				var servicesTask = Task.Run(() =>
 				{
+					var provider = AppLifecycleHelper.ConfigureHost(appModel);
+
+					// Configure Ioc here so Ioc.Default-dependent constructions warm off-thread too.
+					Ioc.Default.ConfigureServices(provider);
+					Logger = provider.GetRequiredService<ILogger<App>>();
+
 					try
 					{
-						var provider = AppLifecycleHelper.ConfigureHost(appModel);
-
-						// Configure Ioc here so Ioc.Default-dependent constructions warm off-thread too
-						Ioc.Default.ConfigureServices(provider);
 						_ = provider.GetRequiredService<IFileTagsSettingsService>();
 
 						// Load the appearance settings needed for the first frame off the UI thread.
@@ -102,14 +109,13 @@ namespace Files.App
 						var appearanceSettings = provider.GetRequiredService<IAppearanceSettingsService>();
 						_ = appearanceSettings.AppThemeMode;
 						_ = appearanceSettings.AppThemeBackdropMaterial;
-
-						return provider;
 					}
-					catch (Exception)
+					catch (Exception ex)
 					{
-						// A UI-thread-only service ctor failed off-thread; rebuilt on the UI thread below
-						return null;
+						// Retry UI-thread-only constructors using the same provider on first use.
+						Logger.LogWarning(ex, "Could not warm up settings in the background.");
 					}
+					return provider;
 				});
 
 				// Native AOT opens the main page directly; JIT builds retain the splash screen.
@@ -121,13 +127,7 @@ namespace Files.App
 					_ = MainWindow.Instance;
 				}
 
-				// Configure the DI (dependency injection) container
 				var serviceProvider = await servicesTask;
-				if (serviceProvider is null)
-				{
-					serviceProvider = AppLifecycleHelper.ConfigureHost(appModel);
-					Ioc.Default.ConfigureServices(serviceProvider);
-				}
 
 				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 				var serverInitialization = SafetyExtensions.IgnoreExceptions(async () =>
@@ -154,7 +154,6 @@ namespace Files.App
 				HistoryWrapper = Ioc.Default.GetRequiredService<StorageHistoryWrapper>();
 				FileTagsManager = Ioc.Default.GetRequiredService<FileTagsManager>();
 				LibraryManager = Ioc.Default.GetRequiredService<LibraryManager>();
-				Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 				AppModel = Ioc.Default.GetRequiredService<AppModel>();
 
 				MainWindow.Instance.Closed += Window_Closed;
