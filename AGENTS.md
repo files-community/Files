@@ -48,7 +48,7 @@ Before changing a server feature, its WinRT contract, or client code that calls 
 ├── Files.Storage                Storage, implementations, and shared app Win32 interop
 ├── Files.App.BackgroundTasks    Background task project
 ├── Files.App.Server             App service/server project
-├── Files.Core.SourceGenerator   Roslyn source generators and analyzers
+├── Files.SourceGenerators       Roslyn source generators and analyzers
 └── Files.Shared                 Shared attributes, extensions, and common code
 ```
 
@@ -83,7 +83,7 @@ Do not run build commands in parallel.
 
 ```powershell
 msbuild -restore src/Files.Shared/Files.Shared.csproj -p:Configuration=Debug -p:Platform=x64 -v:quiet -clp:ErrorsOnly
-msbuild -restore src/Files.Core.SourceGenerator/Files.Core.SourceGenerator.csproj -p:Configuration=Debug -p:Platform=x64 -v:quiet -clp:ErrorsOnly
+msbuild -restore src/Files.SourceGenerators/Files.SourceGenerators.csproj -p:Configuration=Debug -p:Platform=x64 -v:quiet -clp:ErrorsOnly
 msbuild -restore src/Files.App/Files.App.csproj -p:Configuration=Debug -p:Platform=x64 -v:quiet -clp:ErrorsOnly
 ```
 
