@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.Core.SourceGenerator.Generators
+namespace Files.SourceGenerators.Generators
 {
 	[Generator(LanguageNames.CSharp)]
 	internal sealed class CommandManagerGenerator : IIncrementalGenerator
