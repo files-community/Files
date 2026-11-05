@@ -93,6 +93,19 @@ namespace Files.App.Views
 			Dispose();
 		}
 
+		private async void BlogPostWebView_Loaded(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				await BlogPostWebView.EnsureCoreWebView2Async(await WebViewEnvironment.GetAsync());
+				BlogPostWebView.Source = new Uri(ViewModel.BlogPostUrl);
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, ex.Message);
+			}
+		}
+
 		private async void BlogPostWebView_CoreWebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
 		{
 			try
