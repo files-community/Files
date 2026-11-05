@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.Core.SourceGenerator
+namespace Files.SourceGenerators
 {
 	/// <summary>
 	/// Contains various constants used within the source generator.
@@ -39,17 +39,6 @@ namespace Files.Core.SourceGenerator
 
 		}
 
-		/// <summary>
-		/// Contains constants related to DependencyProperty generation.
-		/// </summary>
-		internal class DependencyPropertyGenerator
-		{
-			/// <summary>
-			/// The name of the attribute used for DependencyProperty.
-			/// </summary>
-			internal static readonly string AttributeName = "DependencyPropertyAttribute";
-		}
-
 		internal class StringsPropertyGenerator
 		{
 			/// <summary>
@@ -57,10 +46,7 @@ namespace Files.Core.SourceGenerator
 			/// </summary>
 			internal const string StringsClassName = "Strings";
 
-			/// <summary>
-			/// The fully qualified name of the generated metadata class that contains string constants.
-			/// </summary>
-			internal const string StringsMetadataName = $"{SourceGeneratorHelper.HelperNamespace}{StringsClassName}";
+			internal const string HelperNamespace = $"{nameof(Files)}.App.Helpers";
 
 			/// <summary>
 			/// Represents a character used as a separator in constant names.
