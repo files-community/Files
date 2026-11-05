@@ -81,6 +81,7 @@
     </ItemGroup>
   
     <ItemGroup>
+        <Content Remove="Assets\Libraries\**" />
         <Manifest Include="app.manifest" />
         <Content Update="Assets\Resources\**">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -124,7 +125,6 @@
         <PackageReference Include="FluentFTP" />
         <PackageReference Include="LibGit2Sharp" />
         <PackageReference Include="MessageFormat" />
-        <PackageReference Include="Microsoft.Data.Sqlite.Core" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
         <PackageReference Include="Microsoft.Extensions.Logging" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" />
@@ -133,7 +133,6 @@
         <PackageReference Include="Sentry" />
         <PackageReference Include="SevenZipSharp" />
         <PackageReference Include="SharpZipLib" />
-        <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" />
         <PackageReference Include="System.Drawing.Common" />
         <PackageReference Include="Microsoft.WindowsAppSDK" />
         <PackageReference Include="Microsoft.Graphics.Win2D" />
