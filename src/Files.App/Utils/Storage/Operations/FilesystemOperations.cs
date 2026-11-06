@@ -16,6 +16,11 @@ namespace Files.App.Utils.Storage
 	/// </summary>
 	public sealed partial class FilesystemOperations : IFilesystemOperations
 	{
+		private sealed class InlineProgress<T>(Action<T> report) : IProgress<T>
+		{
+			public void Report(T value) => report(value);
+		}
+
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 
 		private IShellPage? _associatedInstance;
@@ -256,6 +261,18 @@ namespace Files.App.Utils.Storage
 							ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
 
 						var fsResultCopy = new FilesystemResult<BaseStorageFile>(null, FileSystemStatusCode.Generic);
+						fsProgress.FileName = file.Name;
+
+						async Task<BaseStorageFile?> CopyFileAsync(string name, NameCollisionOption option)
+						{
+							var operation = file.CopyAsync(destinationFolder, name, option, new InlineProgress<double>(percentage =>
+								fsProgress.Report(Math.Max(fsProgress.Percentage ?? 0, Math.Clamp(percentage, 0, 99)))));
+							// Managed WinRT AsTask(token) can cancel only the wait. Cancel the operation
+							// explicitly and await its cleanup before reporting completion.
+							using var registration = cancellationToken.Register(operation.Cancel);
+							return await operation;
+						}
+
 						if (string.IsNullOrEmpty(file.Path) && collision == NameCollisionOption.GenerateUniqueName)
 						{
 							// If collision is GenerateUniqueName we will manually check for existing file and generate a new name
@@ -268,13 +285,13 @@ namespace Files.App.Utils.Storage
 
 							do
 							{
-								fsResultCopy = await FilesystemTasks.WrapNullable(() => file.CopyAsync(destinationFolder, desiredNewName, NameCollisionOption.FailIfExists).AsTask());
+								fsResultCopy = await FilesystemTasks.WrapNullable(() => CopyFileAsync(desiredNewName, NameCollisionOption.FailIfExists));
 								desiredNewName = $"{nameWithoutExt} ({attempt}){extension}";
 							} while (fsResultCopy.ErrorCode == FileSystemStatusCode.AlreadyExists && ++attempt < 1024);
 						}
 						else
 						{
-							fsResultCopy = await FilesystemTasks.WrapNullable(() => file.CopyAsync(destinationFolder, Path.GetFileName(file.Name)!, collision).AsTask());
+							fsResultCopy = await FilesystemTasks.WrapNullable(() => CopyFileAsync(Path.GetFileName(file.Name)!, collision));
 						}
 
 						if (file is IPasswordProtectedItem ppiu)
@@ -933,27 +950,61 @@ namespace Files.App.Utils.Storage
 			fsProgress.Report();
 
 			var rawStorageHistory = new List<IStorageHistory?>();
+			var progressLock = new object();
+			int activeItem = -1;
+			double batchPercentage = 0;
+			bool hasPercentage = false;
 
 			for (int i = 0; i < source.Count; i++)
 			{
 				if (token.IsCancellationRequested)
-				{
 					break;
-				}
 
 				if (collisions[i] != FileNameConflictResolveOptionType.Skip)
 				{
-					rawStorageHistory.Add(await CopyAsync(
-						source[i],
-						destination[i],
-						collisions[i].Convert(),
-						null,
-						token));
+					int itemIndex = i;
+					lock (progressLock)
+						activeItem = itemIndex;
+
+					// Run inline so a completed item's queued callback cannot update a later item.
+					var itemProgress = new InlineProgress<StatusCenterItemProgressModel>(value =>
+					{
+						lock (progressLock)
+						{
+							if (activeItem != itemIndex)
+								return;
+
+							if (value.Status is { } status && status is not FileSystemStatusCode.InProgress and not FileSystemStatusCode.Success)
+								fsProgress.ReportStatus(status);
+
+							if (value.Percentage is double percentage && double.IsFinite(percentage))
+							{
+								hasPercentage = true;
+								// Each item contributes one equal share, regardless of its byte size.
+								batchPercentage = Math.Max(batchPercentage, Math.Min(99d, (itemIndex + Math.Clamp(percentage, 0, 99) / 100d) * 100d / source.Count));
+								fsProgress.FileName = value.FileName;
+								fsProgress.Report(batchPercentage);
+							}
+						}
+					});
+
+					try
+					{
+						rawStorageHistory.Add(await CopyAsync(source[i], destination[i], collisions[i].Convert(), itemProgress, token));
+					}
+					finally
+					{
+						lock (progressLock)
+							activeItem = -1;
+					}
 				}
 
-				fsProgress.AddProcessedItemsCount(1);
-				fsProgress.Report();
-
+				lock (progressLock)
+				{
+					fsProgress.AddProcessedItemsCount(1);
+					batchPercentage = Math.Max(batchPercentage, Math.Min(99d, (i + 1) * 100d / source.Count));
+					fsProgress.Report(hasPercentage ? batchPercentage : null);
+				}
 			}
 
 			if (rawStorageHistory.Count > 0 && rawStorageHistory.All(item => item is not null))
