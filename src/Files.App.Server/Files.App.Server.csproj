@@ -43,7 +43,7 @@
         <TrimmerRootAssembly Include="Files.App.Server" />
         <PackageReference Include="Microsoft.Windows.CsWinRT" />
         <PackageReference Include="Microsoft.Data.Sqlite.Core" />
-        <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" />
+        <PackageReference Include="SQLitePCLRaw.provider.winsqlite3" />
         <PackageReference Include="System.Drawing.Common" />
     </ItemGroup>
 
