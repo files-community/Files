@@ -12,19 +12,20 @@ namespace Files.App.Server;
 
 internal static class ExplorerCommandActivator
 {
-	private static readonly ConcurrentDictionary<Guid, Task<ClassObject?>> classObjects = new();
+	private static readonly ConcurrentDictionary<Guid, Lazy<Task<ClassObject?>>> classObjects = new();
 
 	// The command belongs to the calling thread's apartment
 	internal static IExplorerCommand? Create(Guid classId)
 	{
-		var classObject = classObjects.GetOrAdd(classId, LockClassObjectAsync);
+		var entry = classObjects.GetOrAdd(classId, static id => new(() => LockClassObjectAsync(id)));
+		var classObject = entry.Value;
 		if (classObject.IsCompleted)
 		{
 			if (classObject.Result?.CreateCommand() is { } command)
 				return command;
 
 			// Not a local server, or it stopped, for example for an app update
-			if (classObjects.TryRemove(KeyValuePair.Create(classId, classObject)))
+			if (classObjects.TryRemove(KeyValuePair.Create(classId, entry)))
 				classObject.Result?.Unlock();
 		}
 
@@ -34,7 +35,7 @@ internal static class ExplorerCommandActivator
 	internal static async Task PrepareAsync(IEnumerable<Guid> classIds)
 	{
 		foreach (var classId in classIds)
-			await classObjects.GetOrAdd(classId, LockClassObjectAsync);
+			await classObjects.GetOrAdd(classId, static id => new(() => LockClassObjectAsync(id))).Value;
 	}
 
 	// In the MTA, as the STA workers come and go

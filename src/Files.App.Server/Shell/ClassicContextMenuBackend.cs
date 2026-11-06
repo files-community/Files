@@ -30,12 +30,12 @@ namespace Files.App.Server
 
 		public List<Win32ContextMenuItem> Items { get; } = [];
 
-		internal ClassicContextMenuBackend(IShellItemArray selection, uint flags, Func<string?, bool>? itemFilter)
+		internal ClassicContextMenuBackend(IShellItemArray selection, uint flags, Func<string?, bool>? itemFilter, bool isBackground = false)
 		{
 			this.itemFilter = itemFilter;
 
 			using var timeout = new ComCallTimeout(ContextMenu.ModernItemsTimeout);
-			contextMenu = BindContextMenu(selection);
+			contextMenu = BindContextMenu(selection, isBackground);
 			menu = PInvoke.CreatePopupMenu();
 			try
 			{
@@ -52,10 +52,19 @@ namespace Files.App.Server
 
 		public bool HasSubmenu(List<Win32ContextMenuItem> items) => submenus.Contains(items);
 
-		private static IContextMenu BindContextMenu(IShellItemArray selection)
+		private static IContextMenu BindContextMenu(IShellItemArray selection, bool isBackground)
 		{
 			// Uniquely owned, so Dispose can release it on this STA
-			((IUniqueShellItemArray)selection).BindToHandler(null, PInvoke.BHID_SFUIObject, typeof(IContextMenu).GUID, out var handler).ThrowOnFailure();
+			object? handler;
+			if (isBackground)
+			{
+				selection.GetItemAt(0, out var folder).ThrowOnFailure();
+				((IUniqueShellItem)folder).BindToHandler(null, PInvoke.BHID_SFViewObject, typeof(IContextMenu).GUID, out handler).ThrowOnFailure();
+			}
+			else
+			{
+				((IUniqueShellItemArray)selection).BindToHandler(null, PInvoke.BHID_SFUIObject, typeof(IContextMenu).GUID, out handler).ThrowOnFailure();
+			}
 			return handler as IContextMenu ?? throw new InvalidOperationException("The shell did not return a context menu.");
 		}
 

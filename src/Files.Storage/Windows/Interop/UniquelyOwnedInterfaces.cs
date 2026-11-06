@@ -41,3 +41,13 @@ public partial interface IUniqueShellItemArray
 	[PreserveSig]
 	HRESULT BindToHandler([MarshalAs(UnmanagedType.Interface)] IBindCtx? bindContext, in Guid handlerId, in Guid interfaceId, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] out object? handler);
 }
+
+/// <summary>
+/// IShellItem, binding to uniquely owned handlers.
+/// </summary>
+[GeneratedComInterface(Options = ComInterfaceOptions.ComObjectWrapper), Guid("43826D1E-E718-42EE-BC55-A1E261C37BFE")]
+public partial interface IUniqueShellItem
+{
+	[PreserveSig]
+	HRESULT BindToHandler([MarshalAs(UnmanagedType.Interface)] IBindCtx? bindContext, in Guid handlerId, in Guid interfaceId, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] out object? handler);
+}

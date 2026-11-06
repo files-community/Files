@@ -11,21 +11,19 @@ internal sealed class PackagedCommandRegistrations(List<IGrouping<string, Explor
 	// Explorer adds the commands to the classic menu too, with their class IDs as verbs
 	public HashSet<string> ClassicVerbs { get; } = classicVerbs;
 
-	public static PackagedCommandRegistrations Get(ShellItem[] items, bool isBackground)
+	public static async Task<PackagedCommandRegistrations> GetAsync(ShellItem[] items, bool isBackground)
 	{
-		var registrations = GetRegistrations(items, isBackground);
+		var registrations = await GetRegistrationsAsync(items, isBackground);
 
-		// For the background, the classic menu is the folder's own
-		var classicRegistrations = isBackground ? GetRegistrations(items, false) : registrations;
 		return new(registrations
 				.GroupBy(registration => registration.GroupId)
 				.OrderByDescending(group => group.Any(registration => registration.IsCloudProvider))
 				.ThenBy(group => group.First().DisplayName, StringComparer.CurrentCultureIgnoreCase)
 				.ToList(),
-			new(classicRegistrations.Select(registration => registration.ClassId.ToString("B")), StringComparer.OrdinalIgnoreCase));
+			new(registrations.Select(registration => registration.ClassId.ToString("B")), StringComparer.OrdinalIgnoreCase));
 	}
 
-	private static IEnumerable<ExplorerCommandRegistration> GetRegistrations(ShellItem[] items, bool isBackground)
+	private static async Task<IEnumerable<ExplorerCommandRegistration>> GetRegistrationsAsync(ShellItem[] items, bool isBackground)
 	{
 		if (items.Any(item => !item.IsFileSystem) || (isBackground && (items.Length != 1 || !items[0].IsFolder || items[0].IsStream)))
 			return [];
@@ -33,9 +31,10 @@ internal sealed class PackagedCommandRegistrations(List<IGrouping<string, Explor
 		// A command applies when it is registered for every selected item type
 		HashSet<ExplorerCommandRegistration>? registrations = null;
 		string[] itemTypes = isBackground ? [@"Directory\Background"] : [.. items.Select(GetItemType).Distinct(StringComparer.OrdinalIgnoreCase)];
+		var cloudCommands = CloudContextMenuCommands.GetCommands(items.Select(item => item.FileSystemPath!));
 		foreach (var itemType in itemTypes)
 		{
-			var matches = FileExplorerAppExtensions.GetCommands(itemType switch
+			var matches = await FileExplorerAppExtensions.GetCommandsAsync(itemType switch
 			{
 				"Directory" or "Drive" or @"Directory\Background" => [itemType],
 				"" => ["*"],
@@ -51,7 +50,7 @@ internal sealed class PackagedCommandRegistrations(List<IGrouping<string, Explor
 		registrations ??= [];
 
 		// Cloud provider commands are grouped under the provider
-		foreach (var cloudCommand in CloudContextMenuCommands.GetCommands(items.Select(item => item.FileSystemPath!)))
+		foreach (var cloudCommand in cloudCommands)
 		{
 			registrations.RemoveWhere(registration => registration.ClassId == cloudCommand.ClassId);
 			registrations.Add(cloudCommand);

@@ -92,25 +92,21 @@ namespace Files.App.Server
 
 			var worker = ContextMenuWorkerPool.Rent();
 			var hasModernItems = options.HasFlag(ContextMenuQueryOptions.ModernItems);
-			var classicMenu = worker.Thread.PostMethod(() => OpenShellItems(paths, shellItems => CreateClassicMenu(shellItems, flags, itemFilter, hasModernItems)));
+			var isBackground = options.HasFlag(ContextMenuQueryOptions.Background);
+			var classicMenu = worker.Thread.PostMethod(() => OpenShellItems(paths, shellItems => CreateClassicMenu(shellItems, flags, itemFilter, hasModernItems, isBackground)));
 			if (!hasModernItems)
 				return await CreateClassicOnlyAsync(worker, classicMenu);
 
-			var (modernMenus, packagedVerbs) = await LoadModernMenusAsync(paths, options.HasFlag(ContextMenuQueryOptions.Background));
+			var (modernMenus, packagedVerbs) = await LoadModernMenusAsync(paths, isBackground);
 			return new(worker, classicMenu, modernMenus, packagedVerbs) { Items = [.. modernMenus.SelectMany(modern => modern.Menu.Items)] };
 		}
 
 		private static async Task<(List<ModernMenu> Menus, HashSet<string> PackagedVerbs)> LoadModernMenusAsync(string[] paths, bool isBackground)
 		{
-			var worker = ContextMenuWorkerPool.Rent();
-			var registrations = worker.Thread.PostMethod(() => OpenShellItems(paths, shellItems => SafetyExtensions.IgnoreExceptions(() => PackagedCommandRegistrations.Get(shellItems, isBackground), Program.Logger)));
+			var registrations = LoadRegistrationsAsync(paths, isBackground);
 			if (await Task.WhenAny(registrations, Task.Delay(ModernItemsTimeout)) != registrations)
-			{
-				_ = registrations.ContinueWith(_ => ContextMenuWorkerPool.Return(worker), TaskScheduler.Default);
 				return ([], []);
-			}
 
-			ContextMenuWorkerPool.Return(worker);
 			var loads = new List<(ContextMenuWorkerPool.Worker Worker, Task<ModernContextMenuBackend?> Menu, IGrouping<string, ExplorerCommandRegistration> Group)>();
 			foreach (var (groupIndex, group) in (registrations.Result?.Groups ?? []).Index())
 			{
@@ -138,6 +134,23 @@ namespace Files.App.Server
 			}
 
 			return (menus, registrations.Result?.ClassicVerbs ?? []);
+		}
+
+		private static async Task<PackagedCommandRegistrations?> LoadRegistrationsAsync(string[] paths, bool isBackground)
+		{
+			var worker = ContextMenuWorkerPool.Rent();
+			Task<PackagedCommandRegistrations?>? registrations;
+			try
+			{
+				registrations = await worker.Thread.PostMethod(() => OpenShellItems(paths, shellItems =>
+					SafetyExtensions.IgnoreExceptions(() => PackagedCommandRegistrations.GetAsync(shellItems, isBackground), Program.Logger)));
+			}
+			finally
+			{
+				ContextMenuWorkerPool.Return(worker);
+			}
+
+			return registrations is null ? null : await registrations;
 		}
 
 		private static async Task MarkStalledAsync(IGrouping<string, ExplorerCommandRegistration> group, Task task)
@@ -191,12 +204,12 @@ namespace Files.App.Server
 			}
 		}
 
-		private static ClassicContextMenuBackend? CreateClassicMenu(ShellItem[] shellItems, uint flags, Func<string?, bool>? itemFilter, bool hasModernItems = false)
+		private static ClassicContextMenuBackend? CreateClassicMenu(ShellItem[] shellItems, uint flags, Func<string?, bool>? itemFilter, bool hasModernItems = false, bool isBackground = false)
 		{
 			using var activationFilter = hasModernItems ? new ComActivationFilter(IsStalledCommand) : null;
 			try
 			{
-				return new(ShellItemArray.Create(shellItems), flags, itemFilter);
+				return new(ShellItemArray.Create(shellItems), flags, itemFilter, isBackground);
 			}
 			catch (COMException)
 			{
@@ -207,8 +220,8 @@ namespace Files.App.Server
 		public static async Task WarmUpQueryContextMenuAsync()
 		{
 			// The first lookup of packaged app commands in a process is slow, and their servers stay loaded once started
-			var packagedCommands = Task.Run(() => SafetyExtensions.IgnoreExceptions(() => ExplorerCommandActivator.PrepareAsync(
-				FileExplorerAppExtensions.GetCommands(["Directory", @"Directory\Background", "*"]).Select(registration => registration.ClassId)), Program.Logger));
+			var packagedCommands = SafetyExtensions.IgnoreExceptions(async () => await ExplorerCommandActivator.PrepareAsync(
+				(await FileExplorerAppExtensions.GetCommandsAsync(["Directory", @"Directory\Background", "*"])).Select(registration => registration.ClassId)), Program.Logger);
 			using var contextMenu = await GetContextMenuForFiles([Path.GetPathRoot(Environment.SystemDirectory)!], PInvoke.CMF_NORMAL);
 			await packagedCommands;
 		}
@@ -218,11 +231,8 @@ namespace Files.App.Server
 		{
 			foreach (var modern in modernMenus)
 			{
-				modern.Details = modern.Worker.Thread.PostMethod(() =>
-				{
-					if (!disposedValue)
-						SafetyExtensions.IgnoreExceptions(modern.Menu.LoadDetails, Program.Logger);
-				});
+				modern.Details = SafetyExtensions.IgnoreExceptions(() =>
+					modern.Menu.LoadDetailsAsync(modern.Worker.Thread, modern.DetailsCancellation.Token), Program.Logger);
 
 				_ = MarkStalledAsync(modern.Group, modern.Details);
 			}
@@ -289,7 +299,17 @@ namespace Files.App.Server
 			});
 
 			foreach (var modern in modernMenus)
-				_ = ReleaseAsync(modern.Worker, modern.Menu.Dispose);
+			{
+				modern.DetailsCancellation.Cancel();
+				_ = ReleaseModernMenuAsync(modern);
+			}
+		}
+
+		private static async Task ReleaseModernMenuAsync(ModernMenu modern)
+		{
+			await modern.Details;
+			await ReleaseAsync(modern.Worker, modern.Menu.Dispose);
+			modern.DetailsCancellation.Dispose();
 		}
 
 		private static async Task ReleaseAsync(ContextMenuWorkerPool.Worker owner, Action release)
@@ -319,6 +339,8 @@ namespace Files.App.Server
 
 			// Its icons and subcommands
 			public Task Details { get; set; } = Task.CompletedTask;
+
+			public CancellationTokenSource DetailsCancellation { get; } = new();
 		}
 	}
 }

@@ -3,6 +3,7 @@
 
 using Files.Storage.Interop;
 using Microsoft.Extensions.Logging;
+using System.Collections.Concurrent;
 using Windows.Foundation.Collections;
 using Windows.Win32.Foundation;
 using WinRT;
@@ -18,7 +19,30 @@ internal static class FileExplorerAppExtensions
 	// Flag 1's cache-wait behavior is inferred from Explorer, not a public contract.
 	private const uint WaitForStateRepository = 1;
 
-	internal static HashSet<ExplorerCommandRegistration> GetCommands(string[] itemTypes)
+	// One discovery STA serves the process, including calls still pending after a menu times out.
+	private static readonly ThreadWithMessageQueue discoveryThread = new();
+	private static readonly ConcurrentDictionary<string, Lazy<Task<HashSet<ExplorerCommandRegistration>>>> pending = new(StringComparer.OrdinalIgnoreCase);
+
+	internal static async Task<HashSet<ExplorerCommandRegistration>> GetCommandsAsync(string[] itemTypes)
+	{
+		var results = await Task.WhenAll(itemTypes.Distinct(StringComparer.OrdinalIgnoreCase).Select(GetCommandsAsync));
+		return [.. results.SelectMany(commands => commands)];
+	}
+
+	private static async Task<HashSet<ExplorerCommandRegistration>> GetCommandsAsync(string itemType)
+	{
+		var entry = pending.GetOrAdd(itemType, static type => new(() => discoveryThread.PostMethod(() => GetCommands([type]))));
+		try
+		{
+			return await entry.Value;
+		}
+		finally
+		{
+			pending.TryRemove(KeyValuePair.Create(itemType, entry));
+		}
+	}
+
+	private static HashSet<ExplorerCommandRegistration> GetCommands(string[] itemTypes)
 	{
 		var commands = new HashSet<ExplorerCommandRegistration>();
 		using var factoryReference = ActivationFactory.Get("Windows.Internal.FileExplorerAppExtension", typeof(IFileExplorerAppExtensionStatics).GUID);

@@ -124,19 +124,22 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 		}
 	}
 
-	public void LoadDetails()
+	public async Task LoadDetailsAsync(ThreadWithMessageQueue thread, CancellationToken cancellationToken)
 	{
-		for (var index = 0; index < details.Count; index++)
+		for (var index = 0; index < details.Count && !cancellationToken.IsCancellationRequested; index++)
 		{
 			var (item, command, commandSelection, iconLocation, depth) = details[index];
 
-			// A stalled server loses only these details
-			using var timeout = new ComCallTimeout(ContextMenu.ModernItemsTimeout);
-			item.Icon = command is null ? LoadIcon(iconLocation) : GetIcon(command, commandSelection);
+			// Queue each operation separately so invocation can run between detail requests on this STA.
+			await thread.PostMethod(() =>
+			{
+				using var timeout = new ComCallTimeout(ContextMenu.ModernItemsTimeout);
+				item.Icon = command is null ? LoadIcon(iconLocation) : GetIcon(command, commandSelection);
+			});
 			if (command is null || item.SubItems is not { } subItems)
 				continue;
 
-			AddSubCommands(command, commandSelection, subItems, depth + 1);
+			await AddSubCommandsAsync(thread, command, commandSelection, subItems, depth + 1, cancellationToken);
 
 			// Without visible subcommands, the command is invoked itself
 			if (!subItems.Any(subItem => subItem.Type != MENU_ITEM_TYPE.MFT_SEPARATOR))
@@ -189,33 +192,48 @@ internal sealed partial class ModernContextMenuBackend : IDisposable
 			target.Add(CreateSeparator());
 	}
 
-	private void AddSubCommands(IExplorerCommand parent, IShellItemArray? commandSelection, List<Win32ContextMenuItem> target, int depth)
+	private async Task AddSubCommandsAsync(ThreadWithMessageQueue thread, IExplorerCommand parent, IShellItemArray? commandSelection, List<Win32ContextMenuItem> target, int depth, CancellationToken cancellationToken)
 	{
-		if (depth > MaximumDepth || parent.EnumSubCommands(out var enumerator).Failed || enumerator is null)
+		if (depth > MaximumDepth || cancellationToken.IsCancellationRequested)
+			return;
+
+		var enumerator = await thread.PostMethod(() =>
+		{
+			using var timeout = new ComCallTimeout(ContextMenu.ModernItemsTimeout);
+			return parent.EnumSubCommands(out var commands).Succeeded ? commands : null;
+		});
+		if (enumerator is null)
 			return;
 
 		try
 		{
 			var buffer = new IExplorerCommand?[1];
-			for (var index = 0; index < MaximumCommands && commands.Count < MaximumCommands; index++)
+			for (var index = 0; index < MaximumCommands && commands.Count < MaximumCommands && !cancellationToken.IsCancellationRequested; index++)
 			{
-				if (enumerator.Next(1, buffer, out var fetched).Failed || fetched != 1 || buffer[0] is not { } command)
-					break;
+				var hasNext = await thread.PostMethod(() =>
+				{
+					using var timeout = new ComCallTimeout(ContextMenu.ModernItemsTimeout);
+					if (enumerator.Next(1, buffer, out var fetched).Failed || fetched != 1 || buffer[0] is not { } command)
+						return false;
 
-				buffer[0] = null;
-				try
-				{
-					AddCommand(command, commandSelection, string.Empty, target, depth);
-				}
-				catch (Exception ex)
-				{
-					Program.Logger.LogDebug(ex, "Could not load a packaged context menu subcommand.");
-				}
+					buffer[0] = null;
+					try
+					{
+						AddCommand(command, commandSelection, string.Empty, target, depth);
+					}
+					catch (Exception ex)
+					{
+						Program.Logger.LogDebug(ex, "Could not load a packaged context menu subcommand.");
+					}
+					return true;
+				});
+				if (!hasNext)
+					break;
 			}
 		}
 		finally
 		{
-			Release(enumerator);
+			await thread.PostMethod(() => Release(enumerator));
 		}
 	}
 
