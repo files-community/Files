@@ -2,182 +2,303 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml;
+using System.Globalization;
 
 namespace Files.App.Data.Models
 {
 	[WinRT.GeneratedBindableCustomProperty(
 		[
 			nameof(IconColumn),
-			nameof(GitStatusColumn),
-			nameof(GitLastCommitDateColumn),
-			nameof(GitLastCommitMessageColumn),
-			nameof(GitCommitAuthorColumn),
-			nameof(GitLastCommitShaColumn),
-			nameof(TagColumn),
 			nameof(NameColumn),
-			nameof(StatusColumn),
-			nameof(DateModifiedColumn),
-			nameof(PathColumn),
-			nameof(OriginalPathColumn),
-			nameof(ItemTypeColumn),
-			nameof(DateDeletedColumn),
-			nameof(DateCreatedColumn),
+			nameof(GitStatusColumn),
+			nameof(TagColumn),
 			nameof(SizeColumn),
+			nameof(StatusColumn),
+			nameof(OrderedColumns),
+			nameof(LayoutVersion),
 		],
 		[])]
 	public sealed partial class ColumnsViewModel : ObservableObject
 	{
-		private DetailsLayoutColumnItem iconColumn = new()
-		{
-			UserLength = new GridLength(24, GridUnitType.Pixel),
-			IsResizable = false,
-		};
+		private const double DefaultPropertyColumnWidth = 150;
 
-		[RegistryIgnore]
-		public DetailsLayoutColumnItem IconColumn
+		private readonly Dictionary<string, DetailsLayoutColumnItem> _columns = [];
+		private readonly List<string> _propertyColumnIds = [];
+
+		public ColumnsViewModel()
 		{
-			get => iconColumn;
-			set => SetProperty(ref iconColumn, value);
+			foreach (var definition in DetailsLayoutColumnDefinitions.BuiltIn)
+			{
+				_columns[definition.Id] = new()
+				{
+					UserLengthPixels = definition.DefaultWidth,
+					NormalMinLength = definition.Id == DetailsLayoutColumnIds.Icon ? 0 : definition.MinWidth,
+					NormalMaxLength = definition.MaxWidth,
+					IsResizable = definition.IsResizable,
+					UserCollapsed = !definition.IsVisibleByDefault,
+				};
+			}
 		}
 
-		private DetailsLayoutColumnItem _GitStatusColumn = new();
-		public DetailsLayoutColumnItem GitStatusColumn
+		[RegistryIgnore, JsonIgnore]
+		public DetailsLayoutColumnItem IconColumn => _columns[DetailsLayoutColumnIds.Icon];
+
+		[RegistryIgnore, JsonIgnore]
+		public DetailsLayoutColumnItem NameColumn => _columns[DetailsLayoutColumnIds.Name];
+
+		[RegistryIgnore, JsonIgnore]
+		public DetailsLayoutColumnItem GitStatusColumn => _columns[DetailsLayoutColumnIds.GitStatus];
+
+		[RegistryIgnore, JsonIgnore]
+		public DetailsLayoutColumnItem TagColumn => _columns[DetailsLayoutColumnIds.Tag];
+
+		[RegistryIgnore, JsonIgnore]
+		public DetailsLayoutColumnItem SizeColumn => _columns[DetailsLayoutColumnIds.Size];
+
+		[RegistryIgnore, JsonIgnore]
+		public DetailsLayoutColumnItem StatusColumn => _columns[DetailsLayoutColumnIds.Status];
+
+		/// <summary>
+		/// Gets or sets the column widths and visibility as "id|width|visible" entries.
+		/// </summary>
+		public string[] Columns
 		{
-			get => _GitStatusColumn;
-			set => SetProperty(ref _GitStatusColumn, value);
+			get => [.. AllColumnIds
+				.Where(id => id != DetailsLayoutColumnIds.Icon)
+				.Select(id => $"{id}|{_columns[id].UserLengthPixels.ToString(CultureInfo.InvariantCulture)}|{(_columns[id].UserCollapsed ? 0 : 1)}")];
+			set
+			{
+				value ??= [];
+				if (Columns.SequenceEqual(value))
+					return;
+
+				foreach (var id in _propertyColumnIds)
+					_columns.Remove(id);
+
+				_propertyColumnIds.Clear();
+				foreach (var entry in value)
+				{
+					var parts = entry.Split('|');
+					var id = parts[0];
+					if (string.IsNullOrEmpty(id) || id == DetailsLayoutColumnIds.Icon)
+						continue;
+
+					var isVisible = parts.Length < 3 || parts[2] != "0";
+					double width = 0;
+					var hasWidth = parts.Length > 1 && double.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out width);
+
+					if (_columns.TryGetValue(id, out var column))
+					{
+						if (_propertyColumnIds.Contains(id))
+							continue;
+
+						if (hasWidth)
+							column.UserLengthPixels = width;
+
+						column.UserCollapsed = !isVisible && !DetailsLayoutColumnOrder.IsRequired(id);
+					}
+					else if (isVisible)
+					{
+						column = CreatePropertyColumn();
+						column.UserLengthPixels = hasWidth ? width : DefaultPropertyColumnWidth;
+						_columns[id] = column;
+						_propertyColumnIds.Add(id);
+					}
+				}
+
+				OnColumnSetChanged();
+			}
 		}
 
-		private DetailsLayoutColumnItem _GitLastCommitDateColumn = new();
-		public DetailsLayoutColumnItem GitLastCommitDateColumn
+		private string[] _ColumnOrder = [];
+		public string[] ColumnOrder
 		{
-			get => _GitLastCommitDateColumn;
-			set => SetProperty(ref _GitLastCommitDateColumn, value);
+			get => _ColumnOrder;
+			set
+			{
+				value ??= [];
+				if (_ColumnOrder.SequenceEqual(value))
+					return;
+
+				_ColumnOrder = value;
+				_OrderedColumns = null;
+				OnPropertyChanged(nameof(ColumnOrder));
+				OnPropertyChanged(nameof(OrderedColumns));
+			}
 		}
 
-		private DetailsLayoutColumnItem _GitLastCommitMessageColumn = new();
-		public DetailsLayoutColumnItem GitLastCommitMessageColumn
+		private DetailsLayoutColumnOrder? _OrderedColumns;
+		[RegistryIgnore, JsonIgnore]
+		public DetailsLayoutColumnOrder OrderedColumns => _OrderedColumns ??= new(_ColumnOrder, _propertyColumnIds, this);
+
+		[RegistryIgnore, JsonIgnore]
+		public IReadOnlyList<string> PropertyColumnIds => _propertyColumnIds;
+
+		[RegistryIgnore, JsonIgnore]
+		public IEnumerable<string> AllColumnIds => DetailsLayoutColumnIds.BuiltIn.Concat(_propertyColumnIds);
+
+		/// <summary>
+		/// Gets a value that changes whenever the width or visibility of a column changes.
+		/// </summary>
+		[RegistryIgnore, JsonIgnore]
+		public int LayoutVersion { get; private set; }
+
+		public void NotifyLayoutChanged()
 		{
-			get => _GitLastCommitMessageColumn;
-			set => SetProperty(ref _GitLastCommitMessageColumn, value);
+			LayoutVersion++;
+			OnPropertyChanged(nameof(LayoutVersion));
 		}
 
-		private DetailsLayoutColumnItem _GitCommitAuthorColumn = new();
-		public DetailsLayoutColumnItem GitCommitAuthorColumn
+		public DetailsLayoutColumnItem GetColumn(string id)
 		{
-			get => _GitCommitAuthorColumn;
-			set => SetProperty(ref _GitCommitAuthorColumn, value);
+			return _columns.TryGetValue(id, out var column) ? column : throw new ArgumentOutOfRangeException(nameof(id), id, null);
 		}
 
-		private DetailsLayoutColumnItem _GitLastCommitShaColumn = new();
-		public DetailsLayoutColumnItem GitLastCommitShaColumn
+		/// <summary>
+		/// Uses the widths of the specified columns for the columns both have.
+		/// </summary>
+		public void ApplyWidths(ColumnsViewModel source)
 		{
-			get => _GitLastCommitShaColumn;
-			set => SetProperty(ref _GitLastCommitShaColumn, value);
+			foreach (var id in AllColumnIds)
+			{
+				if (source.FindColumn(id) is { } column)
+					GetColumn(id).UserLengthPixels = column.UserLengthPixels;
+			}
 		}
 
-		private DetailsLayoutColumnItem tagColumn = new();
-		public DetailsLayoutColumnItem TagColumn
+		public DetailsLayoutColumnItem? FindColumn(string id)
 		{
-			get => tagColumn;
-			set => SetProperty(ref tagColumn, value);
+			return _columns.GetValueOrDefault(id);
 		}
 
-		private DetailsLayoutColumnItem nameColumn = new()
+		public bool HasPropertyColumn(string id)
 		{
-			NormalMaxLength = 1000d
-		};
-		public DetailsLayoutColumnItem NameColumn
-		{
-			get => nameColumn;
-			set => SetProperty(ref nameColumn, value);
+			return _propertyColumnIds.Contains(id);
 		}
 
-		private DetailsLayoutColumnItem statusColumn = new()
+		public bool IsColumnVisible(string id)
 		{
-			UserLength = new GridLength(50),
-			NormalMaxLength = 80,
-		};
-		public DetailsLayoutColumnItem StatusColumn
-		{
-			get => statusColumn;
-			set => SetProperty(ref statusColumn, value);
+			return _columns.TryGetValue(id, out var column) && !column.UserCollapsed;
 		}
 
-		private DetailsLayoutColumnItem dateModifiedColumn = new();
-		public DetailsLayoutColumnItem DateModifiedColumn
+		public void SetColumnVisibility(string id, bool isVisible, double defaultWidth = DefaultPropertyColumnWidth)
 		{
-			get => dateModifiedColumn;
-			set => SetProperty(ref dateModifiedColumn, value);
+			if (DetailsLayoutColumnOrder.IsRequired(id))
+				return;
+
+			if (DetailsLayoutColumnDefinitions.IsBuiltIn(id))
+			{
+				GetColumn(id).UserCollapsed = !isVisible;
+				return;
+			}
+
+			if (isVisible == HasPropertyColumn(id))
+				return;
+
+			if (isVisible)
+			{
+				var column = CreatePropertyColumn();
+				column.UserLengthPixels = defaultWidth;
+				_columns[id] = column;
+				_propertyColumnIds.Add(id);
+			}
+			else
+			{
+				_columns.Remove(id);
+				_propertyColumnIds.Remove(id);
+			}
+
+			OnColumnSetChanged();
 		}
 
-		private DetailsLayoutColumnItem pathColumn = new()
+		private static DetailsLayoutColumnItem CreatePropertyColumn()
 		{
-			NormalMaxLength = 500,
-		};
-		public DetailsLayoutColumnItem PathColumn
-		{
-			get => pathColumn;
-			set => SetProperty(ref pathColumn, value);
+			return new() { NormalMaxLength = 1000 };
 		}
 
-		private DetailsLayoutColumnItem originalPathColumn = new()
+		private void OnColumnSetChanged()
 		{
-			NormalMaxLength = 500,
-		};
-		public DetailsLayoutColumnItem OriginalPathColumn
-		{
-			get => originalPathColumn;
-			set => SetProperty(ref originalPathColumn, value);
+			_OrderedColumns = null;
+			OnPropertyChanged(nameof(Columns));
+			OnPropertyChanged(nameof(OrderedColumns));
 		}
 
-		private DetailsLayoutColumnItem itemTypeColumn = new();
-		public DetailsLayoutColumnItem ItemTypeColumn
+		public void MoveColumn(string id, string targetId, bool after)
 		{
-			get => itemTypeColumn;
-			set => SetProperty(ref itemTypeColumn, value);
+			if (id == targetId || DetailsLayoutColumnOrder.IsPinned(id))
+				return;
+
+			var ids = OrderedColumns.Ids.Where(x => !DetailsLayoutColumnOrder.IsPinned(x)).ToList();
+			ids.Remove(id);
+
+			var targetIndex = DetailsLayoutColumnOrder.IsPinned(targetId) ? 0 : ids.IndexOf(targetId);
+			if (targetIndex < 0)
+				return;
+
+			ids.Insert(after && !DetailsLayoutColumnOrder.IsPinned(targetId) ? targetIndex + 1 : targetIndex, id);
+			ColumnOrder = [.. ids];
 		}
 
-		private DetailsLayoutColumnItem dateDeletedColumn = new();
-		public DetailsLayoutColumnItem DateDeletedColumn
+		/// <summary>
+		/// Gets the columns the user can choose from for a folder, and the ones shown now in display order.
+		/// </summary>
+		/// <summary>
+		/// Gets the columns for the column menu in display order, followed by the other columns the location offers, like File Explorer.
+		/// </summary>
+		public IEnumerable<string> GetMenuColumnIds(IEnumerable<string> locationColumnIds)
 		{
-			get => dateDeletedColumn;
-			set => SetProperty(ref dateDeletedColumn, value);
+			var columnIds = OrderedColumns.Ids.Where(id =>
+				!DetailsLayoutColumnOrder.IsRequired(id) &&
+				GetColumn(id) is { IsHidden: false } column &&
+				(DetailsLayoutColumnDefinitions.IsBuiltIn(id) || !column.UserCollapsed));
+
+			return columnIds
+				.Concat(locationColumnIds.Where(id => !DetailsLayoutColumnDefinitions.IsBuiltIn(id) && ColumnValueHelper.IsShellPropertyColumn(id)))
+				.Distinct();
 		}
 
-		private DetailsLayoutColumnItem dateCreatedColumn = new()
+		public (string[] Available, string[] Shown) GetCustomizationColumns(IReadOnlyList<ShellFolderColumn> folderColumns, IReadOnlyDictionary<string, ShellPropertyColumnInfo> catalog)
 		{
-			UserCollapsed = true
-		};
-		public DetailsLayoutColumnItem DateCreatedColumn
-		{
-			get => dateCreatedColumn;
-			set => SetProperty(ref dateCreatedColumn, value);
+			var propertyColumns = folderColumns.Count > 0
+				? folderColumns.Select(column => column.Id).Where(catalog.ContainsKey).Concat(OrderedColumns.Ids.Where(IsColumnVisible))
+				: catalog.Keys;
+
+			var available = DetailsLayoutColumnIds.BuiltIn
+				.Where(id => !DetailsLayoutColumnOrder.IsRequired(id) && !GetColumn(id).IsHidden)
+				.Concat(propertyColumns.Where(id => !DetailsLayoutColumnDefinitions.IsBuiltIn(id)))
+				.Distinct()
+				.ToArray();
+
+			var shown = OrderedColumns.Ids.Where(id => IsColumnVisible(id) && !GetColumn(id).IsHidden).ToArray();
+
+			return (available, shown);
 		}
 
-		private DetailsLayoutColumnItem sizeColumn = new();
-		public DetailsLayoutColumnItem SizeColumn
+		/// <summary>
+		/// Shows the specified columns in their order and hides the other available ones.
+		/// </summary>
+		/// <returns>Whether a column was added, whose values may need loading.</returns>
+		public bool ApplyCustomization(IReadOnlyList<string> shownColumns, IEnumerable<string> availableColumns, IReadOnlyDictionary<string, ShellPropertyColumnInfo>? catalog)
 		{
-			get => sizeColumn;
-			set => SetProperty(ref sizeColumn, value);
+			var hasNewColumns = false;
+			foreach (var id in availableColumns)
+			{
+				var isVisible = shownColumns.Contains(id);
+				if (isVisible == IsColumnVisible(id))
+					continue;
+
+				var width = catalog is not null && catalog.TryGetValue(id, out var info) ? info.DefaultWidth : DefaultPropertyColumnWidth;
+				SetColumnVisibility(id, isVisible, width);
+				hasNewColumns |= isVisible;
+			}
+
+			ColumnOrder = [.. shownColumns, .. OrderedColumns.Ids.Where(id => !shownColumns.Contains(id) && !DetailsLayoutColumnOrder.IsPinned(id))];
+
+			return hasNewColumns;
 		}
 
 		public double TotalWidth =>
-			IconColumn.Length.Value +
-			GitStatusColumn.Length.Value +
-			GitLastCommitDateColumn.Length.Value +
-			GitLastCommitMessageColumn.Length.Value +
-			GitCommitAuthorColumn.Length.Value +
-			GitLastCommitShaColumn.Length.Value +
-			TagColumn.Length.Value +
-			NameColumn.Length.Value +
-			DateModifiedColumn.Length.Value +
-			PathColumn.Length.Value +
-			OriginalPathColumn.Length.Value +
-			ItemTypeColumn.Length.Value +
-			DateDeletedColumn.Length.Value +
-			DateCreatedColumn.Length.Value +
-			SizeColumn.Length.Value +
-			StatusColumn.Length.Value;
+			AllColumnIds.Sum(id => GetColumn(id).Length.Value);
 
 		public override bool Equals(object? obj)
 		{
@@ -188,45 +309,19 @@ namespace Files.App.Data.Models
 				return true;
 
 			if (obj is ColumnsViewModel model)
-			{
-				return
-					model.DateCreatedColumn.Equals(DateCreatedColumn) &&
-					model.DateDeletedColumn.Equals(DateDeletedColumn) &&
-					model.DateModifiedColumn.Equals(DateModifiedColumn) &&
-					model.ItemTypeColumn.Equals(ItemTypeColumn) &&
-					model.NameColumn.Equals(NameColumn) &&
-					model.PathColumn.Equals(PathColumn) &&
-					model.OriginalPathColumn.Equals(OriginalPathColumn) &&
-					model.SizeColumn.Equals(SizeColumn) &&
-					model.StatusColumn.Equals(StatusColumn) &&
-					model.TagColumn.Equals(TagColumn) &&
-					model.GitStatusColumn.Equals(GitStatusColumn) &&
-					model.GitLastCommitDateColumn.Equals(GitLastCommitDateColumn) &&
-					model.GitLastCommitMessageColumn.Equals(GitLastCommitMessageColumn) &&
-					model.GitCommitAuthorColumn.Equals(GitCommitAuthorColumn) &&
-					model.GitLastCommitShaColumn.Equals(GitLastCommitShaColumn);
-			}
+				return model.Columns.SequenceEqual(Columns) && model.OrderedColumns.Ids.SequenceEqual(OrderedColumns.Ids);
 
 			return base.Equals(obj);
 		}
 
 		public override int GetHashCode()
 		{
-			var hashCode = DateCreatedColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ DateDeletedColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ DateModifiedColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ ItemTypeColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ NameColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ PathColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ OriginalPathColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ SizeColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ StatusColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ TagColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ GitStatusColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ GitLastCommitDateColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ GitLastCommitMessageColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ GitCommitAuthorColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ GitLastCommitShaColumn.GetHashCode();
+			var hashCode = 0;
+			foreach (var column in Columns)
+				hashCode = (hashCode * 397) ^ column.GetHashCode();
+
+			foreach (var id in OrderedColumns.Ids)
+				hashCode = (hashCode * 397) ^ id.GetHashCode();
 
 			return hashCode;
 		}

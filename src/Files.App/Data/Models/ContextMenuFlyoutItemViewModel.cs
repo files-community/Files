@@ -49,6 +49,11 @@ namespace Files.App.Data.Models
 
 		public bool IsChecked { get; set; }
 
+		/// <summary>
+		/// Gets or sets the group of a <see cref="ContextMenuFlyoutItemType.Radio"/> item, of which one item is checked.
+		/// </summary>
+		public string? GroupName { get; set; }
+
 		public bool IsEnabled { get; set; } = true;
 
 		public string? ID { get; set; }
