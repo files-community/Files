@@ -209,7 +209,7 @@ namespace Files.App.Server
 			using var activationFilter = hasModernItems ? new ComActivationFilter(IsStalledCommand) : null;
 			try
 			{
-				return new(ShellItemArray.Create(shellItems), flags, itemFilter, isBackground);
+				return new(ShellItemArray.Create(shellItems), flags, itemFilter, isBackground ? shellItems[0] : null);
 			}
 			catch (COMException)
 			{

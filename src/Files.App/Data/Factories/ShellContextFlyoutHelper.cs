@@ -90,7 +90,7 @@ namespace Files.App.Helpers
 				{
 					"opennew", "opencontaining", "opennewprocess",
 					"runas", "runasuser", "pintohome", "PinToStartScreen",
-					"cut", "copy", "paste", "delete", "properties", "link",
+					"cut", "copy", "paste", "delete", "properties", "link", "New",
 					"Windows.ModernShare", "setdesktopwallpaper",
 					"eject", "rename", "explore", "openinfiles", "extract",
 					"copyaspath", "undelete", "empty", "format", "rotate90", "rotate270",

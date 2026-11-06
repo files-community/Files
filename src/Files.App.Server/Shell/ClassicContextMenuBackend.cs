@@ -24,18 +24,20 @@ namespace Files.App.Server
 
 		private readonly IContextMenu contextMenu;
 		private readonly HMENU menu;
+		private readonly string? backgroundDirectory;
 		private readonly Func<string?, bool>? itemFilter;
 		private readonly Dictionary<List<Win32ContextMenuItem>, Action> loadSubMenuActions = [];
 		private readonly HashSet<List<Win32ContextMenuItem>> submenus = [];
 
 		public List<Win32ContextMenuItem> Items { get; } = [];
 
-		internal ClassicContextMenuBackend(IShellItemArray selection, uint flags, Func<string?, bool>? itemFilter, bool isBackground = false)
+		internal ClassicContextMenuBackend(IShellItemArray selection, uint flags, Func<string?, bool>? itemFilter, ShellItem? backgroundFolder = null)
 		{
 			this.itemFilter = itemFilter;
+			backgroundDirectory = backgroundFolder?.FileSystemPath;
 
 			using var timeout = new ComCallTimeout(ContextMenu.ModernItemsTimeout);
-			contextMenu = BindContextMenu(selection, isBackground);
+			contextMenu = BindContextMenu(selection, backgroundFolder);
 			menu = PInvoke.CreatePopupMenu();
 			try
 			{
@@ -52,14 +54,13 @@ namespace Files.App.Server
 
 		public bool HasSubmenu(List<Win32ContextMenuItem> items) => submenus.Contains(items);
 
-		private static IContextMenu BindContextMenu(IShellItemArray selection, bool isBackground)
+		private static IContextMenu BindContextMenu(IShellItemArray selection, ShellItem? backgroundFolder)
 		{
 			// Uniquely owned, so Dispose can release it on this STA
 			object? handler;
-			if (isBackground)
+			if (backgroundFolder is not null)
 			{
-				selection.GetItemAt(0, out var folder).ThrowOnFailure();
-				((IUniqueShellItem)folder).BindToHandler(null, PInvoke.BHID_SFViewObject, typeof(IContextMenu).GUID, out handler).ThrowOnFailure();
+				((IUniqueShellItem)backgroundFolder.IShellItem).BindToHandler(null, PInvoke.BHID_SFViewObject, typeof(IContextMenu).GUID, out handler).ThrowOnFailure();
 			}
 			else
 			{
@@ -72,10 +73,15 @@ namespace Files.App.Server
 		{
 			byte[] verbBytes = Encoding.ASCII.GetBytes(verb + '\0');
 			fixed (byte* verbPointer = verbBytes)
+			fixed (char* verbPointerW = verb)
+			fixed (char* directory = backgroundDirectory)
 			{
 				CMINVOKECOMMANDINFOEX commandInfo = default;
 				commandInfo.cbSize = (uint)sizeof(CMINVOKECOMMANDINFOEX);
+				commandInfo.fMask = CmicMaskUnicode;
 				commandInfo.lpVerb = (PCSTR)verbPointer;
+				commandInfo.lpVerbW = verbPointerW;
+				commandInfo.lpDirectoryW = directory;
 				commandInfo.nShow = (int)SHOW_WINDOW_CMD.SW_SHOWNORMAL;
 				return contextMenu.InvokeCommand(in Unsafe.As<CMINVOKECOMMANDINFOEX, CMINVOKECOMMANDINFO>(ref commandInfo));
 			}
@@ -83,7 +89,7 @@ namespace Files.App.Server
 
 		public unsafe HRESULT InvokeItem(int itemId, string? workingDirectory)
 		{
-			fixed (char* directory = workingDirectory)
+			fixed (char* directory = workingDirectory ?? backgroundDirectory)
 			{
 				CMINVOKECOMMANDINFOEX commandInfo = default;
 				commandInfo.cbSize = (uint)sizeof(CMINVOKECOMMANDINFOEX);
@@ -139,6 +145,7 @@ namespace Files.App.Server
 						{
 							var subItems = new List<Win32ContextMenuItem>();
 							HMENU subMenu = info.hSubMenu;
+							var subMenuIndex = index;
 							menuItem.SubItems = subItems;
 							if (loadSubmenus)
 								LoadSubMenu();
@@ -150,7 +157,7 @@ namespace Files.App.Server
 								try
 								{
 									if (contextMenu is IContextMenu2 contextMenu2)
-										contextMenu2.HandleMenuMsg(PInvoke.WM_INITMENUPOPUP, (WPARAM)(nuint)subMenu.Value, (LPARAM)(nint)index);
+										contextMenu2.HandleMenuMsg(PInvoke.WM_INITMENUPOPUP, (WPARAM)(nuint)subMenu.Value, (LPARAM)(nint)subMenuIndex);
 								}
 								catch (Exception ex) when (ex is InvalidCastException or ArgumentException or COMException or NotImplementedException)
 								{

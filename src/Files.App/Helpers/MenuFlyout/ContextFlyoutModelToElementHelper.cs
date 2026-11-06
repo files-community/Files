@@ -102,7 +102,11 @@ namespace Files.App.Helpers.ContextFlyouts
 				// Shell submenus (Send to, Open with, ...) load their children lazily. Fire the load and fill the
 				// submenu in once it completes, keeping it visible meanwhile.
 				if (item.LoadSubMenuAction is not null && flyoutSubItem.Items.Count == 0)
-					FastContextFlyout.PopulateShellSubMenu(flyoutSubItem, item, static models => models[0].Items, onEmptySubMenu is null ? null : () => onEmptySubMenu(flyoutSubItem, item));
+					FastContextFlyout.PopulateShellSubMenu(flyoutSubItem, item, static models => models[0].Items, () =>
+					{
+						flyoutSubItem.Visibility = Visibility.Collapsed;
+						onEmptySubMenu?.Invoke(flyoutSubItem, item);
+					});
 
 				return flyoutSubItem;
 			}
