@@ -1,10 +1,9 @@
 ﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
-<Project>
-
-    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <SatoriSdkVersion>10.0.15-satori.42242472690.1</SatoriSdkVersion>
+        <AfterMicrosoftNETSdkTargets>$(AfterMicrosoftNETSdkTargets);$(MSBuildThisFileDirectory)..\Files.SatoriGC.targets</AfterMicrosoftNETSdkTargets>
     </PropertyGroup>
 
     <Import Project="Sdk.props" Sdk="PublishWithSatoriGC" Version="$(SatoriSdkVersion)" />
@@ -65,11 +64,5 @@
         <ProjectReference Include="..\Files.Storage\Files.Storage.csproj" />
         <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
     </ItemGroup>
-
-    <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
-    <Import Project="Sdk.targets" Sdk="PublishWithSatoriGC" Version="$(SatoriSdkVersion)" />
-
-    <!-- The SDK's experimental warning has no code to exclude from warnings-as-errors. -->
-    <Target Name="_WarnSatoriGCExperimental" />
 
 </Project>

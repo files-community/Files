@@ -1,0 +1,7 @@
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<Project>
+    <Import Project="Sdk.targets" Sdk="PublishWithSatoriGC" Version="$(SatoriSdkVersion)" />
+
+    <!-- The SDK's experimental warning has no code to exclude from warnings-as-errors. -->
+    <Target Name="_WarnSatoriGCExperimental" />
+</Project>
