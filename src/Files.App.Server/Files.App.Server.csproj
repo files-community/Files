@@ -1,12 +1,7 @@
 ﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <SatoriSdkVersion>10.0.15-satori.42242472690.1</SatoriSdkVersion>
-        <AfterMicrosoftNETSdkTargets>$(AfterMicrosoftNETSdkTargets);$(MSBuildThisFileDirectory)..\Files.SatoriGC.targets</AfterMicrosoftNETSdkTargets>
-    </PropertyGroup>
-
-    <Import Project="Sdk.props" Sdk="PublishWithSatoriGC" Version="$(SatoriSdkVersion)" />
+    <Sdk Name="PublishWithSatoriGC" Version="10.0.15-satori.42242472690.2" />
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
@@ -31,6 +26,7 @@
         <PublishAot>true</PublishAot>
         <SelfContained>true</SelfContained>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <MSBuildWarningsNotAsErrors>$(MSBuildWarningsNotAsErrors);SATORI001;SATORI002</MSBuildWarningsNotAsErrors>
     </PropertyGroup>
 
     <ItemGroup>
