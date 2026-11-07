@@ -2,6 +2,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <SatoriSdkVersion>10.0.15-satori.42242472690.1</SatoriSdkVersion>
+        <AfterMicrosoftNETSdkTargets>$(AfterMicrosoftNETSdkTargets);$(MSBuildThisFileDirectory)..\Files.SatoriGC.targets</AfterMicrosoftNETSdkTargets>
+    </PropertyGroup>
+
+    <Import Project="Sdk.props" Sdk="PublishWithSatoriGC" Version="$(SatoriSdkVersion)" />
+
+    <PropertyGroup>
         <EnableMsixTooling>true</EnableMsixTooling>
         <PublishProfile>Properties\PublishProfiles\win-$(Platform).pubxml</PublishProfile>
         <TargetFramework>$(WindowsTargetFramework)</TargetFramework>
@@ -25,6 +32,7 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <Platforms>x86;x64;arm64</Platforms>
         <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+        <RuntimeIdentifier>win-$(Platform)</RuntimeIdentifier>
         <UseWinUI>true</UseWinUI>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -195,4 +203,5 @@
             <AppxPackagePayload Include="@(_FilesAppServerPackageFile)" TargetPath="Files.App.Server\%(RecursiveDir)%(Filename)%(Extension)" />
         </ItemGroup>
     </Target>
+
 </Project>
