@@ -208,8 +208,8 @@ namespace Files.App.UserControls
 			var serializerSettings = new JsonSerializerOptions();
 			serializerSettings.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 			var serializedOptions = JsonSerializer.Serialize(options, TerminalJsonContext.Default.TerminalOptions);
-			var serializedTheme = JsonSerializer.Serialize(theme, TerminalJsonContext.Default.TerminalOptions);
-			var serializedKeyBindings = JsonSerializer.Serialize(keyBindings, TerminalJsonContext.Default.TerminalOptions);
+			var serializedTheme = JsonSerializer.Serialize(theme, TerminalJsonContext.Default.TerminalColors);
+			var serializedKeyBindings = JsonSerializer.Serialize(keyBindings, TerminalJsonContext.Default.IEnumerableKeyBinding);
 			return ExecuteScriptAsync(
 					$"createTerminal('{serializedOptions}', '{serializedTheme}', '{serializedKeyBindings}')")
 				.ContinueWith(t => JsonSerializer.Deserialize(t.Result, TerminalJsonContext.Default.TerminalSize)!);

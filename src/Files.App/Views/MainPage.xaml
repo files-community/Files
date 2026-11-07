@@ -180,7 +180,7 @@
 							MinHeight="100" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition x:Name="InfoPaneRowDefinition" Height="Auto" />
-						<RowDefinition x:Name="TerminalRow" Height="{x:Bind ViewModel.IsTerminalViewOpen, Converter={StaticResource TerminalHeightConverter}}" />
+						<RowDefinition x:Name="TerminalRow" Height="{x:Bind ViewModel.IsTerminalViewOpen, Converter={StaticResource TerminalHeightConverter}, Mode=OneWay}" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition
@@ -265,7 +265,7 @@
 					<!--  Terminal  -->
 					<uc:TerminalPane
 						x:Name="TerminalControl"
-						Grid.Row="4"
+						Grid.Row="5"
 						Grid.ColumnSpan="3"
 						Margin="0,0,0,4"
 						MainPageViewModel="{x:Bind ViewModel}"

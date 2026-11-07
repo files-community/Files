@@ -33,6 +33,8 @@ namespace Files.App.Extensions
 	[JsonSerializable(typeof(WebMessage))]
 	[JsonSerializable(typeof(MethodWebMessage))]
 	[JsonSerializable(typeof(JsonElement[]))]
+	[JsonSerializable(typeof(object[]))]
+	[JsonSerializable(typeof(Boolean))]
 	internal partial class WebMessageJsonContext : JsonSerializerContext
 	{
 	}
@@ -47,7 +49,7 @@ namespace Files.App.Extensions
 			webview.Source = url;
 		}
 		
-		private static readonly JsonSerializerOptions _unsafeRelaxedJsonEscapingOptions = new()
+		private static readonly JsonSerializerOptions _unsafeRelaxedJsonEscapingOptions = new(WebMessageJsonContext.Default.Options)
 		{
 			Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
 		};
@@ -93,7 +95,7 @@ namespace Files.App.Extensions
 				var method = methods[methodMessage.Method];
 				try
 				{
-					var args = JsonSerializer.Deserialize(methodMessage.Args, _jsonContext.JsonElementArray)!.Zip(method.GetParameters(), (val, args) => new { val, args.ParameterType }).Select(item => item.val.Deserialize(item.ParameterType));
+					var args = JsonSerializer.Deserialize(methodMessage.Args, _jsonContext.JsonElementArray)!.Zip(method.GetParameters(), (val, args) => new { val, args.ParameterType }).Select(item => item.val.Deserialize(_jsonContext.GetTypeInfo(item.ParameterType)!));
 					var result = method.Invoke(@object, args.ToArray());
 					if (result is object)
 					{
@@ -128,7 +130,7 @@ namespace Files.App.Extensions
 						if (task is object)
 							result = await task;
 					}
-					var json = JsonSerializer.Serialize(result, _unsafeRelaxedJsonEscapingOptions);
+					var json = JsonSerializer.Serialize(result, _jsonContext.Object);
 					await webview.ExecuteScriptAsync($@"{name}._callbacks.get({methodMessage.Id}).accept(JSON.parse({json})); {name}._callbacks.delete({methodMessage.Id});");
 				}
 				catch (Exception ex)
@@ -144,7 +146,7 @@ namespace Files.App.Extensions
 
 		public static async Task<string?> InvokeScriptAsync(this WebView2 webview, string function, params object[] args)
 		{
-			var array = JsonSerializer.Serialize(args, _unsafeRelaxedJsonEscapingOptions);
+			var array = JsonSerializer.Serialize(args, _jsonContext.ObjectArray);
 			string? result = null;
 			await webview.DispatcherQueue.EnqueueAsync(async () =>
 			{
