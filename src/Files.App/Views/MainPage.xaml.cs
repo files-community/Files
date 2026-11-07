@@ -41,6 +41,8 @@ namespace Files.App.Views
 		private DispatcherQueueTimer _updateDateDisplayTimer;
 		private WindowMessageMonitor? _titleBarMessageMonitor;
 
+		private TitleBarDropTarget? _titleBarDropTarget;
+
 		private readonly Dictionary<TabBarItem, double> _sidebarScrollByTab = new();
 		private TabBarItem? _previousSidebarTab;
 
@@ -143,7 +145,24 @@ namespace Files.App.Views
 			var height = (int)TabControl.ActualHeight;
 			source.SetRegionRects(NonClientRegionKind.Passthrough, [getScaledRect(this, new RectInt32(0, 0, (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth), height))]);
 			AttachTitleBarMessageMonitor();
+			EnsureTitleBarDropTarget();
 			return height;
+		}
+
+		// The title bar is a non client area, so WinUI does not register a drop target for it.
+		// Registering one here keeps the native caption behavior (dragging, caption buttons)
+		// while still allowing files to be dropped on the empty part of the title bar.
+		private void EnsureTitleBarDropTarget()
+		{
+			if (TabControl is null)
+				return;
+
+			var titleBarHwnd = PInvoke.FindWindowEx(new(MainWindow.Instance.WindowHandle), HWND.Null, "InputNonClientPointerSource", null);
+			if (titleBarHwnd.IsNull)
+				return;
+
+			_titleBarDropTarget ??= new TitleBarDropTarget(TabControl);
+			_titleBarDropTarget.TryRegister(titleBarHwnd);
 		}
 
 		// Caption regions live in a dedicated child window

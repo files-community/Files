@@ -67,6 +67,9 @@
 	<!--  TODO: Use TitleBar of WinAppSdk 1.6 when available  -->
 	<Border
 		x:Name="TitlebarArea"
+		AllowDrop="True"
+		DragOver="TabBar_DragOver"
+		Drop="TabBar_Drop"
 		HorizontalAlignment="Stretch"
 		x:FieldModifier="public"
 		Background="Transparent">
@@ -77,6 +80,7 @@
 			Margin="0,10,0,0"
 			Padding="0"
 			VerticalAlignment="Stretch"
+			AllowDrop="True"
 			AllowDropTabs="True"
 			CanDragTabs="{x:Bind AllowTabsDrag, Mode=OneWay}"
 			CanReorderTabs="{x:Bind AllowTabsDrag, Mode=OneWay}"
