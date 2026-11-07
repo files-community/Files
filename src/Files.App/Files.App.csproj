@@ -1,7 +1,13 @@
 ﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
-<Project Sdk="Microsoft.NET.Sdk">
+<Project>
 
-    <Sdk Name="PublishWithSatoriGC" Version="10.0.15-satori.42242472690.1" />
+    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+
+    <PropertyGroup>
+        <SatoriSdkVersion>10.0.15-satori.42242472690.1</SatoriSdkVersion>
+    </PropertyGroup>
+
+    <Import Project="Sdk.props" Sdk="PublishWithSatoriGC" Version="$(SatoriSdkVersion)" />
 
     <PropertyGroup>
         <EnableMsixTooling>true</EnableMsixTooling>
@@ -198,4 +204,11 @@
             <AppxPackagePayload Include="@(_FilesAppServerPackageFile)" TargetPath="Files.App.Server\%(RecursiveDir)%(Filename)%(Extension)" />
         </ItemGroup>
     </Target>
+
+    <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+    <Import Project="Sdk.targets" Sdk="PublishWithSatoriGC" Version="$(SatoriSdkVersion)" />
+
+    <!-- The SDK's experimental warning has no code to exclude from warnings-as-errors. -->
+    <Target Name="_WarnSatoriGCExperimental" />
+
 </Project>
