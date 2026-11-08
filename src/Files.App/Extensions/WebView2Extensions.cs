@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
@@ -98,12 +99,13 @@ namespace Files.App.Extensions
 					var result = method.Invoke(@object, args.ToArray());
 					if (result is object)
 					{
-						var resultType = result.GetType();
+						App.Logger.LogWarning("Terminal: Task/Awaiter return type is currently not supported on AOT");
+						/*var resultType = result.GetType();
 						dynamic? task = null;
 						if (resultType.Name.StartsWith("TaskToAsyncOperationAdapter")
 							|| resultType.IsInstanceOfType(typeof(IAsyncInfo)))
 						{
-							/*if (resultType.GenericTypeArguments.Length > 0)
+							if (resultType.GenericTypeArguments.Length > 0)
 							{
 								var asTask = typeof(WindowsRuntimeSystemExtensions)
 									.GetMethods(BindingFlags.Public | BindingFlags.Static)
@@ -118,22 +120,16 @@ namespace Files.App.Extensions
 							else
 							{
 								task = WindowsRuntimeSystemExtensions.AsTask((dynamic)result);
-							}*/
-							throw new NotSupportedException("IAsyncInfo return type is currently not supported on AOT");
-						}
-						else if (result is Task)
-						{
-							task = (Task)result;
+							}
 						}
 						else
 						{
-							/*var awaiter = resultType?.GetMethod(nameof(Task.GetAwaiter));
+							var awaiter = resultType?.GetMethod(nameof(Task.GetAwaiter));
 							if (awaiter is object)
-								task = result;*/
-							throw new NotSupportedException("Generic Awaiter return type is currently not supported on AOT");
+								task = result;
 						}
 						if (task is object)
-							result = await task;
+							result = await task;*/
 					}
 					var json = JsonSerializer.Serialize(result, _jsonContext.Object);
 					await webview.ExecuteScriptAsync($@"{name}._callbacks.get({methodMessage.Id}).accept(JSON.parse({json})); {name}._callbacks.delete({methodMessage.Id});");
