@@ -56,7 +56,6 @@ namespace Files.App.Extensions
 		private static readonly WebMessageJsonContext _jsonContext = new (_unsafeRelaxedJsonEscapingOptions);
 		public static List<WebViewMessageReceivedHandler> _handlers = new();
 		
-		[RequiresUnreferencedCode("This method needs generics.")]
 		public static async Task AddWebAllowedObject<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] T>(this WebView2 webview, string name, T @object)
 		{
 			var sb = new StringBuilder();
@@ -104,7 +103,7 @@ namespace Files.App.Extensions
 						if (resultType.Name.StartsWith("TaskToAsyncOperationAdapter")
 							|| resultType.IsInstanceOfType(typeof(IAsyncInfo)))
 						{
-							if (resultType.GenericTypeArguments.Length > 0)
+							/*if (resultType.GenericTypeArguments.Length > 0)
 							{
 								var asTask = typeof(WindowsRuntimeSystemExtensions)
 									.GetMethods(BindingFlags.Public | BindingFlags.Static)
@@ -119,7 +118,8 @@ namespace Files.App.Extensions
 							else
 							{
 								task = WindowsRuntimeSystemExtensions.AsTask((dynamic)result);
-							}
+							}*/
+							throw new NotSupportedException("IAsyncInfo return type is currently not supported on AOT");
 						}
 						else
 						{
