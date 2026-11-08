@@ -119,7 +119,9 @@ namespace Files.App.UserControls
 
 		public event EventHandler<object>? OnOutput;
 		public event EventHandler<string>? OnPaste;
+#pragma warning disable CS0067
 		public event EventHandler<string>? OnSessionRestart;
+#pragma warning restore CS0067
 
 		public WebView2 WebView => WebViewControl;
 

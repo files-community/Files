@@ -113,6 +113,26 @@
 							</Flyout>
 						</Button.Flyout>
 					</Button>
+					<Button
+						x:Name="SyncFolderUp"
+						Width="36"
+						Height="36"
+						Padding="0"
+						Background="Transparent"
+						BorderBrush="Transparent"
+						Command="{x:Bind MainPageViewModel.TerminalSyncUpCommand, Mode=OneWay}">
+						<FontIcon FontSize="14" Glyph="&#xE110;" />
+					</Button>
+					<Button
+						x:Name="SyncFolderDown"
+						Width="36"
+						Height="36"
+						Padding="0"
+						Background="Transparent"
+						BorderBrush="Transparent"
+						Command="{x:Bind MainPageViewModel.TerminalSyncDownCommand, Mode=OneWay}">
+						<FontIcon FontSize="14" Glyph="&#xE74B;" />
+					</Button>
 				</StackPanel>
 
 				<!--  Right: more menu  -->
@@ -191,6 +211,8 @@
 					<FontIcon FontSize="14" Glyph="&#xE712;" />
 					<Button.Flyout>
 						<MenuFlyout Placement="Bottom">
+							<MenuFlyoutItem Command="{x:Bind MainPageViewModel.TerminalSyncUpCommand, Mode=OneWay}" Text="Sync path to tab" />
+							<MenuFlyoutItem Command="{x:Bind MainPageViewModel.TerminalSyncDownCommand, Mode=OneWay}" Text="Sync path to terminal" />
 							<MenuFlyoutItem Command="{x:Bind MainPageViewModel.TerminalToggleCommand, Mode=OneWay}" Text="{helpers:ResourceString Name=Close}" />
 						</MenuFlyout>
 					</Button.Flyout>
