@@ -19,8 +19,17 @@ namespace Files.App.Helpers.ContextFlyouts
 	/// </summary>
 	public sealed class FastContextFlyout
 	{
+		// Windows Terminal's Open in Terminal: Release, Preview and Canary
+		private static readonly HashSet<string> WindowsTerminalCommands = new(StringComparer.OrdinalIgnoreCase)
+		{
+			"{9F156763-7844-4DC4-B2B1-901F640F5155}",
+			"{02DB545A-3E20-46DE-83A5-1329B1E88B6B}",
+			"{6119575F-6918-4392-AF16-C2C627AF9416}",
+		};
+
+		private static readonly TimeSpan ShellMenuTimeout = TimeSpan.FromMilliseconds(100);
+
 		private static ControlTemplate? primaryRowTemplate;
-		private static IUserSettingsService? userSettingsService;
 
 		private MenuFlyoutItem? primaryRow;
 		private MenuFlyoutSeparator? primarySeparator;
@@ -30,10 +39,11 @@ namespace Files.App.Helpers.ContextFlyouts
 		private double estimatedWidth;
 		private FrameworkElement? invocationAnchor;
 		private Point? invocationPosition;
-
-		// Supplies the live invocation point for framework-shown menus, whose ContextRequested can arrive after the
-		// pre-render guess; pulled in Flyout_Opened so the direction correction uses the finger, not the stale cursor.
-		public Func<(FrameworkElement Anchor, Point Position)?>? InvocationPointProvider { get; set; }
+		private CancellationTokenSource? shellLoadCancellation;
+		private ShellContextMenuResult? shellMenu;
+		private MenuFlyoutItem? classicItemsPlaceholder;
+		private bool isShowing;
+		private bool isShown;
 
 		public MenuFlyout Flyout { get; } = new()
 		{
@@ -56,15 +66,101 @@ namespace Files.App.Helpers.ContextFlyouts
 		/// </summary>
 		public void Reset()
 		{
+			ReleaseShellMenu();
 			Flyout.Items.Clear();
 			primaryRow = null;
 			primarySeparator = null;
 			primaryModels = null;
+			classicItemsPlaceholder = null;
 			openedUp = false;
 			placementResolved = false;
 			invocationAnchor = null;
 			invocationPosition = null;
+			isShown = false;
 		}
+
+		public CancellationToken BeginShellMenuLoad(CancellationToken cancellationToken = default)
+		{
+			ReleaseShellMenu();
+			shellLoadCancellation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+			return shellLoadCancellation.Token;
+		}
+
+		public bool AttachShellMenu(ShellContextMenuResult menu, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested)
+			{
+				QueueDispose(menu);
+				return false;
+			}
+
+			shellMenu = menu;
+			return true;
+		}
+
+		private void ReleaseShellMenu()
+		{
+			shellLoadCancellation?.Cancel();
+			shellLoadCancellation?.Dispose();
+			shellLoadCancellation = null;
+			QueueDispose(shellMenu);
+			shellMenu = null;
+		}
+
+		private void QueueDispose(ShellContextMenuResult? menu)
+		{
+			// Let a clicked command start its invocation first
+			if (menu is not null)
+				Flyout.DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, menu.Dispose);
+		}
+
+		// Returns null for the opening started by Show
+		public FrameworkElement? CancelOpening()
+		{
+			if (isShowing)
+				return null;
+
+			var target = Flyout.Target;
+			Flyout.Hide();
+			return target;
+		}
+
+		public void Show(FrameworkElement target, Point? position)
+		{
+			if (isShown)
+				return;
+
+			isShown = true;
+			ResolvePlacement(target, position);
+			isShowing = true;
+			try
+			{
+				Flyout.ShowAt(target, new FlyoutShowOptions { Position = position });
+			}
+			finally
+			{
+				isShowing = false;
+			}
+		}
+
+		// A stuck shell extension shouldn't keep the menu from opening; its items are added once they load
+		public async Task<ShellContextMenuResult> WaitForShellMenuAsync(Task<ShellContextMenuResult> shellMenu, FrameworkElement target, Point? position, CancellationToken cancellationToken)
+		{
+			if (await Task.WhenAny(shellMenu, Task.Delay(ShellMenuTimeout)) != shellMenu && !cancellationToken.IsCancellationRequested)
+				Show(target, position);
+
+			return await shellMenu;
+		}
+
+		private void RemoveClassicItemsPlaceholder(MenuFlyoutSubItem overflowSubMenu)
+		{
+			if (classicItemsPlaceholder is not null)
+				overflowSubMenu.Items.Remove(classicItemsPlaceholder);
+			classicItemsPlaceholder = null;
+		}
+
+		private static MenuFlyoutItem CreateLoadingItem()
+			=> new() { Text = Strings.Loading.GetLocalizedResource(), IsEnabled = false };
 
 		/// <summary>
 		/// Builds the given models into the menu: the primary commands as an icon-button row on top, the rest as
@@ -115,12 +211,12 @@ namespace Files.App.Helpers.ContextFlyouts
 		}
 
 		/// <summary>
-		/// Appends a styled "Show more options" submenu (with a leading separator when needed). Add it before the
-		/// async shell fetch so filling it later never resizes the main menu; drop it via
-		/// <see cref="RemoveIfEmpty"/> when the shell turns out to have nothing to offer.
+		/// Appends a styled "Show more options" submenu (with a leading separator when needed) holding the built-in
+		/// overflow commands from the model list. Add it before the async shell fetch so filling it with the classic
+		/// shell items later never resizes the main menu; <see cref="AddShellModels"/> removes it when it ends up empty.
 		/// </summary>
 		[DynamicWindowsRuntimeCast(typeof(Style))]
-		private (MenuFlyoutSubItem SubMenu, MenuFlyoutSeparator? Separator) AddShowMoreOptionsSubMenu()
+		public (MenuFlyoutSubItem SubMenu, MenuFlyoutSeparator? Separator) AddShowMoreOptions(List<ContextMenuFlyoutItemViewModel>? items = null)
 		{
 			var separator = AddSeparatorIfNeeded();
 			var subMenu = new MenuFlyoutSubItem
@@ -129,7 +225,13 @@ namespace Files.App.Helpers.ContextFlyouts
 				Icon = new FontIcon { Glyph = ((char)0xE712).ToString() },
 				Style = App.Current.Resources["MenuFlyoutSubItemWithThemedIconStyle"] as Style,
 			};
+			classicItemsPlaceholder = CreateLoadingItem();
+			subMenu.Items.Add(classicItemsPlaceholder);
 			Flyout.Items.Add(subMenu);
+
+			var overflowModel = items?.FirstOrDefault(x => x.ID == "ItemOverflow");
+			if (overflowModel?.Items is { Count: > 0 } overflowItems)
+				ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(overflowItems)?.ForEach(subMenu.Items.Add);
 
 			return (subMenu, separator);
 		}
@@ -142,24 +244,6 @@ namespace Files.App.Helpers.ContextFlyouts
 			Flyout.Items.Remove(subMenu);
 			if (separator is not null)
 				Flyout.Items.Remove(separator);
-		}
-
-		/// <summary>
-		/// Pre-adds "Show more options" filled with the built-in overflow commands from the model list, when the
-		/// user setting routes shell extensions to a submenu. Returns nulls when extensions render inline instead.
-		/// </summary>
-		public (MenuFlyoutSubItem? SubMenu, MenuFlyoutSeparator? Separator) AddShowMoreOptionsIfEnabled(List<ContextMenuFlyoutItemViewModel>? items = null)
-		{
-			userSettingsService ??= Ioc.Default.GetRequiredService<IUserSettingsService>();
-			if (!userSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
-				return (null, null);
-
-			var (subMenu, separator) = AddShowMoreOptionsSubMenu();
-			var overflowModel = items?.FirstOrDefault(x => x.ID == "ItemOverflow");
-			if (overflowModel?.Items is { Count: > 0 } overflowItems)
-				ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(overflowItems)?.ForEach(subMenu.Items.Add);
-
-			return (subMenu, separator);
 		}
 
 		/// <summary>
@@ -182,13 +266,13 @@ namespace Files.App.Helpers.ContextFlyouts
 		/// Inserts an element into the main menu just above the overflow area ("Show more options" and its
 		/// separator), or at the end when there is none.
 		/// </summary>
-		public void InsertBeforeOverflow(MenuFlyoutItemBase element, MenuFlyoutSubItem? overflowSubMenu, MenuFlyoutSeparator? overflowSeparator)
+		public void InsertBeforeOverflow(MenuFlyoutItemBase element, MenuFlyoutSubItem overflowSubMenu, MenuFlyoutSeparator? overflowSeparator)
 			=> Items.Insert(GetOverflowInsertIndex(overflowSubMenu, overflowSeparator), element);
 
-		private int GetOverflowInsertIndex(MenuFlyoutSubItem? overflowSubMenu, MenuFlyoutSeparator? overflowSeparator)
+		private int GetOverflowInsertIndex(MenuFlyoutSubItem overflowSubMenu, MenuFlyoutSeparator? overflowSeparator)
 		{
 			var index = overflowSeparator is not null ? Items.IndexOf(overflowSeparator) : -1;
-			if (index < 0 && overflowSubMenu is not null)
+			if (index < 0)
 				index = Items.IndexOf(overflowSubMenu);
 			return index < 0 ? Items.Count : index;
 		}
@@ -198,7 +282,7 @@ namespace Files.App.Helpers.ContextFlyouts
 		/// whichever entries the shell actually offers (only one applies to a drive) above the overflow area.
 		/// The used models are removed from the given list.
 		/// </summary>
-		public void ApplyBitLockerModels(List<ContextMenuFlyoutItemViewModel> shellMenuItems, MenuFlyoutSubItem? overflowSubMenu, MenuFlyoutSeparator? overflowSeparator)
+		public void ApplyBitLockerModels(List<ContextMenuFlyoutItemViewModel> shellMenuItems, MenuFlyoutSubItem overflowSubMenu, MenuFlyoutSeparator? overflowSeparator)
 		{
 			if (FindByTag("TurnOnBitLockerPlaceholder") is { } turnOnPlaceholder)
 				turnOnPlaceholder.Visibility = Visibility.Collapsed;
@@ -221,38 +305,41 @@ namespace Files.App.Helpers.ContextFlyouts
 			}
 		}
 
-		/// <summary>
-		/// Adds the (already filtered) shell models: everything inline when there is no overflow submenu, the
-		/// first 6 inline while shift is held, the rest inside "Show more options" - above its built-in commands
-		/// when <paramref name="aboveExisting"/> is set, appended otherwise.
-		/// </summary>
-		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSeparator))]
-		public void AddShellModels(List<ContextMenuFlyoutItemViewModel> models, bool shiftPressed, MenuFlyoutSubItem? overflowSubMenu, MenuFlyoutSeparator? overflowSeparator, bool aboveExisting = true)
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutItem))]
+		public void AddModernShellModels(List<ContextMenuFlyoutItemViewModel> models, MenuFlyoutSubItem overflowSubMenu, MenuFlyoutSeparator? overflowSeparator)
 		{
-			List<ContextMenuFlyoutItemViewModel> mainModels = overflowSubMenu is null
-				? models
-				: shiftPressed ? models.Take(6).ToList() : [];
-			var overflowModels = models.Skip(mainModels.Count).ToList();
-			TrimSeparators(mainModels);
-			TrimSeparators(overflowModels);
-
-			if (mainModels.Count > 0)
-			{
-				var mainElements = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(mainModels);
-				if (mainElements is { Count: > 0 })
-				{
-					var insertAt = GetOverflowInsertIndex(overflowSubMenu, overflowSeparator);
-					if (insertAt > 0 && Items[insertAt - 1] is not MenuFlyoutSeparator)
-						Items.Insert(insertAt++, new MenuFlyoutSeparator());
-					foreach (var element in mainElements)
-						Items.Insert(insertAt++, element);
-				}
-			}
-
-			if (overflowSubMenu is null)
+			if (models.Count == 0)
 				return;
 
-			var overflowElements = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(overflowModels);
+			if (models.Any(model => model.Tag is Win32ContextMenuItem { CommandString: { } command } && WindowsTerminalCommands.Contains(command)))
+				RemoveItem(Items.FirstOrDefault(item => item is MenuFlyoutItem { Command: IRichCommand { Code: CommandCodes.OpenTerminal or CommandCodes.OpenTerminalFromSidebar or CommandCodes.OpenTerminalFromHome } }));
+
+			var mainModels = models.ToList();
+			TrimSeparators(mainModels);
+			InsertMainModels(mainModels, overflowSubMenu, overflowSeparator);
+			FinalizePrimaryRowPosition();
+		}
+
+		public async Task LoadClassicShellModelsAsync(ShellContextMenuResult shellMenu, MenuFlyoutSubItem overflowSubMenu, CancellationToken cancellationToken, Action<List<ContextMenuFlyoutItemViewModel>> apply)
+		{
+			var models = await shellMenu.ClassicItems;
+			if (cancellationToken.IsCancellationRequested)
+				return;
+
+			RemoveClassicItemsPlaceholder(overflowSubMenu);
+			apply(models);
+			FinalizePrimaryRowPosition();
+		}
+
+		/// <summary>
+		/// Adds the (already filtered) classic shell models inside "Show more options": above its built-in commands
+		/// when <paramref name="aboveExisting"/> is set, appended otherwise. Removes the submenu when it ends up empty.
+		/// </summary>
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSeparator))]
+		public void AddShellModels(List<ContextMenuFlyoutItemViewModel> models, MenuFlyoutSubItem overflowSubMenu, MenuFlyoutSeparator? overflowSeparator, bool aboveExisting = true)
+		{
+			TrimSeparators(models);
+			var overflowElements = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(models);
 			if (overflowElements is { Count: > 0 })
 			{
 				if (aboveExisting && overflowSubMenu.Items.Count > 0)
@@ -267,6 +354,42 @@ namespace Files.App.Helpers.ContextFlyouts
 				}
 			}
 			RemoveIfEmpty(overflowSubMenu, overflowSeparator);
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSeparator))]
+		private void InsertMainModels(List<ContextMenuFlyoutItemViewModel> models, MenuFlyoutSubItem overflowSubMenu, MenuFlyoutSeparator? overflowSeparator)
+		{
+			if (models.Count == 0 || ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(models, ReplaceEmptySubMenu) is not { Count: > 0 } elements)
+				return;
+
+			var insertAt = GetOverflowInsertIndex(overflowSubMenu, overflowSeparator);
+			if (insertAt > 0 && Items[insertAt - 1] is not MenuFlyoutSeparator)
+				Items.Insert(insertAt++, new MenuFlyoutSeparator());
+			foreach (var element in elements)
+				Items.Insert(insertAt++, element);
+		}
+
+		private void ReplaceEmptySubMenu(MenuFlyoutSubItem subMenu, ContextMenuFlyoutItemViewModel model)
+		{
+			var index = Items.IndexOf(subMenu);
+			if (index < 0 || model.Command is null)
+				return;
+
+			model.Items = null;
+			Items.RemoveAt(index);
+			Items.Insert(index, ContextFlyoutModelToElementHelper.GetMenuItem(model));
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSeparator))]
+		private void RemoveItem(MenuFlyoutItemBase? item)
+		{
+			var index = item is null ? -1 : Items.IndexOf(item);
+			if (index < 0)
+				return;
+
+			Items.RemoveAt(index);
+			if (index > 0 && Items[index - 1] is MenuFlyoutSeparator previous && (index == Items.Count || Items[index] is MenuFlyoutSeparator))
+				Items.RemoveAt(previous == primarySeparator && index < Items.Count ? index : index - 1);
 		}
 
 		public MenuFlyoutItemBase? FindByTag(string tag)
@@ -524,19 +647,6 @@ namespace Files.App.Helpers.ContextFlyouts
 				// focus stops) so accessibility tooling doesn't flag a focusable element without a name.
 				presenter.IsTabStop = false;
 
-				// Cap the height to the visible area so late-loading shell extensions scroll instead of growing
-				// the menu off-screen and repositioning it.
-				if (presenter.XamlRoot.Content is FrameworkElement rootContent && rootContent.ActualHeight > 0)
-					presenter.MaxHeight = rootContent.ActualHeight - 24;
-
-				// Pull the touch/pointer point captured after the pre-render guess; the cursor is stale for touch.
-				// Direct-position callers (widget/sidebar) leave the provider null.
-				if (InvocationPointProvider?.Invoke() is { } invocation)
-				{
-					invocationAnchor = invocation.Anchor;
-					invocationPosition = invocation.Position;
-				}
-
 				// The pre-render guess can be wrong within the estimation error at the flip boundary. Decide the
 				// final position the way CommandBarFlyoutCommandBar does after its flyout is placed: from the
 				// menu's ACTUAL position. A context menu is a windowed popup positioned by moving its own popup
@@ -578,6 +688,7 @@ namespace Files.App.Helpers.ContextFlyouts
 		[DynamicWindowsRuntimeCast(typeof(Panel))]
 		private void Flyout_Closed(object? sender, object e)
 		{
+			ReleaseShellMenu();
 			if (primaryRow?.Tag is not Panel row)
 				return;
 
