@@ -123,7 +123,7 @@ namespace Files.App.Data.Items
 				type = value;
 
 				if (value is DriveType.Network or DriveType.CloudDrive)
-					ToolTip = Text;
+					ToolTip = null;
 
 				OnPropertyChanged(nameof(TypeText));
 			}
@@ -189,7 +189,7 @@ namespace Files.App.Data.Items
 			=> path ?? throw new InvalidOperationException("The drive path has not been initialized.");
 		protected override BulkConcurrentObservableCollection<INavigationControlItem> EnsureChildItems() => childItems ??= [];
 
-		private object? toolTip = "";
+		private object? toolTip;
 		public object? ToolTip
 		{
 			get => toolTip;

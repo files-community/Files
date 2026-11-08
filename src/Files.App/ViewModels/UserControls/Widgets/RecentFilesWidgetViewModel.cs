@@ -52,9 +52,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			_refreshRecentFilesSemaphore = new SemaphoreSlim(1, 1);
 			_refreshRecentFilesCTS = new CancellationTokenSource();
 
-			// recent files could have changed while widget wasn't loaded
-			_ = RefreshWidgetAsync();
-
 			WindowsRecentItemsService.RecentFilesChanged += Manager_RecentFilesChanged;
 
 			RemoveRecentItemCommand = new AsyncRelayCommand<RecentItem>(ExecuteRemoveRecentItemCommand);

@@ -9,11 +9,16 @@ internal static class StartupServices
 
 	internal static async Task InitializeAsync()
 	{
+		CatalogWatchers.Initialize();
 		_ = SafetyExtensions.IgnoreExceptions(UpdateCatalog.InitializeAsync, Program.Logger);
 		_ = menuInitialization.Value;
 		await Task.WhenAll(
 			SafetyExtensions.IgnoreExceptions(InitializationCache.InitializeAsync, Program.Logger),
 			SafetyExtensions.IgnoreExceptions(TagCatalog.InitializeAsync, Program.Logger),
+			SafetyExtensions.IgnoreExceptions(LocationCatalog.RecentFiles.GetAsync, Program.Logger),
+			SafetyExtensions.IgnoreExceptions(LocationCatalog.RecentFolders.GetAsync, Program.Logger),
+			SafetyExtensions.IgnoreExceptions(LocationCatalog.NetworkShortcuts.GetAsync, Program.Logger),
+			SafetyExtensions.IgnoreExceptions(JumpListCatalog.RefreshAsync, Program.Logger),
 			WarmDrivesAsync());
 	}
 
@@ -28,6 +33,7 @@ internal static class StartupServices
 	{
 		UpdateCatalog.Stop();
 		SettingsStore.Stop();
+		CatalogWatchers.Dispose();
 		DriveCatalog.Stop();
 	}
 }

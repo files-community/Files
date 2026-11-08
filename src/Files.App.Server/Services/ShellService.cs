@@ -18,9 +18,9 @@ public sealed partial class ShellService
 		return entry is null ? null : new ShellNewEntryInfo(entry);
 	});
 
-	public static IAsyncOperation<ContextMenuSession?> GetContextMenuAsync([ReadOnlyArray] string[] paths, uint flags) => ServerAsync.Run(async token =>
+	public static IAsyncOperation<ContextMenuSession?> GetContextMenuAsync([ReadOnlyArray] string[] paths, uint flags, ContextMenuQueryOptions options) => ServerAsync.Run(async token =>
 	{
-		var menu = await ContextMenu.GetContextMenuForFiles(paths, flags);
+		var menu = await ContextMenu.GetContextMenuForFiles(paths, flags, options: options);
 		return menu is null ? null : new ContextMenuSession(menu);
 	});
 }

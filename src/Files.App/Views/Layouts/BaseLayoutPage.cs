@@ -628,11 +628,9 @@ namespace Files.App.Views.Layouts
 			BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
 
 			// On the page so it covers item rows and the empty background; handledEventsToo so it still runs after
-			// the built-in flyout handling. The hosts pull the captured point when the menu opens.
+			// the built-in flyout handling. The menus open at the captured point once built.
 			contextRequestedHandler = OnContextRequestedForPlacement;
 			AddHandler(UIElement.ContextRequestedEvent, contextRequestedHandler, true);
-			ItemContextFlyoutHost.InvocationPointProvider = () => contextInvocationValid ? (this, contextInvocationPosition) : null;
-			BaseContextFlyoutHost.InvocationPointProvider = () => contextInvocationValid ? (this, contextInvocationPosition) : null;
 		}
 
 		private void OnContextRequestedForPlacement(UIElement sender, ContextRequestedEventArgs e)
@@ -654,6 +652,7 @@ namespace Files.App.Views.Layouts
 			return parentShellPage;
 		}
 
+		// Renewed by every request, so a menu still loading for an earlier one can't open over it
 		private CancellationToken RenewShellMenuToken()
 		{
 			shellContextMenuItemCancellationToken?.Cancel();
@@ -661,19 +660,32 @@ namespace Files.App.Views.Layouts
 			return shellContextMenuItemCancellationToken.Token;
 		}
 
-		[DynamicWindowsRuntimeCast(typeof(MenuFlyout))]
-		private async void ItemContextFlyout_Opening(object? sender, object e)
+		private void ItemContextFlyout_Opening(object? sender, object e)
+		{
+			if (ItemContextFlyoutHost.CancelOpening() is { } target)
+			{
+				var cancellationToken = RenewShellMenuToken();
+				_ = DispatcherQueue.EnqueueDeferredAsync(() => OpenItemContextFlyoutAsync(target, cancellationToken));
+			}
+		}
+
+		private async Task OpenItemContextFlyoutAsync(FrameworkElement target, CancellationToken cancellationToken)
 		{
 			try
 			{
+				var position = GetInvocationPosition(target);
 				var parentShellPage = await EnsurePageIsCurrentAsync();
+
+				if (cancellationToken.IsCancellationRequested)
+					return;
+
 				var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 				var commandsViewModel = CommandsViewModel
 					?? throw new InvalidOperationException("The layout commands are not initialized.");
 				var instanceViewModel = parentShellPage.InstanceViewModel;
 
 				// Workaround for item sometimes not getting selected
-				if (!IsItemSelected && (sender as MenuFlyout)?.Target is SelectorItem { Content: ListedItem li })
+				if (!IsItemSelected && target is SelectorItem { Content: ListedItem li })
 					ItemManipulationModel.SetSelectedItem(li);
 
 				if (!IsItemSelected)
@@ -698,15 +710,15 @@ namespace Files.App.Views.Layouts
 					host.Items.Add(BuildEditTagsSubItem(selectedItems));
 				}
 
-				// Shell extensions. Open with / Send to belong in the MAIN menu (they replace placeholders there);
-				// the rest go under a single "Show more options" submenu (Win11) or inline (Win10) per the setting.
+				// Shell extensions. Open with / Send to and packaged app commands belong in the MAIN menu; the rest go
+				// under "Show more options".
 				if (!instanceViewModel.IsPageTypeZipFolder && !instanceViewModel.IsPageTypeFtp)
 				{
-					var token = RenewShellMenuToken();
+					var token = host.BeginShellMenuLoad(cancellationToken);
 
-					// Pre-add "Show more options" (with the synchronously-known built-in overflow items) BEFORE the
-					// async shell fetch so its placeholder shows while the extensions load.
-					var (moreOptions, moreSeparator) = host.AddShowMoreOptionsIfEnabled(items);
+					// Pre-add "Show more options" (with the synchronously-known built-in overflow items) so filling it
+					// with the classic shell items never resizes the menu.
+					var (moreOptions, moreSeparator) = host.AddShowMoreOptions(items);
 
 					// Open with / Send to: swap the leaf placeholders for their submenus synchronously (before the
 					// menu renders) so the main menu does not reflow when the shell sub-items load - only the submenu
@@ -716,34 +728,36 @@ namespace Files.App.Views.Layouts
 						? host.SwapLeafForSubMenu("SendTo", "SendToOverflow", null, null)
 						: null;
 
-					// Place the primary row BEFORE the menu renders so it does not jump on an upward open.
-					host.ResolvePlacement();
+					var shellMenu = await host.WaitForShellMenuAsync(ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(
+						shellViewModel.WorkingDirectory, selectedItems, shiftPressed, false, token), target, position, token);
 
-					var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(
-						shellViewModel.WorkingDirectory, selectedItems, shiftPressed, false, token);
-
-					if (token.IsCancellationRequested)
+					if (!host.AttachShellMenu(shellMenu, token))
 						return;
 
-					var openWithModel = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
-					var sendToModel = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
+					host.AddModernShellModels(shellMenu.ModernItems, moreOptions, moreSeparator);
+					host.Show(target, position);
+					await host.LoadClassicShellModelsAsync(shellMenu, moreOptions, token, shellMenuItems =>
+					{
+						var openWithModel = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
+						var sendToModel = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
 
-					// BitLocker: replace the placeholders with whichever entries the shell offers (drives)
-					host.ApplyBitLockerModels(shellMenuItems, moreOptions, moreSeparator);
+						// BitLocker: replace the placeholders with whichever entries the shell offers (drives)
+						host.ApplyBitLockerModels(shellMenuItems, moreOptions, moreSeparator);
 
-					// Fill the swapped-in submenus off the open path; revert to the leaf form when the shell
-					// offers no such entry.
-					FastContextFlyout.FillOrRevert(openWithSwap, openWithModel, ShellContextFlyoutFactory.GetOpenWithItems);
-					FastContextFlyout.FillOrRevert(sendToSwap, sendToModel, ShellContextFlyoutFactory.GetSendToItems);
+						// Fill the swapped-in submenus off the open path; revert to the leaf form when the shell
+						// offers no such entry.
+						FastContextFlyout.FillOrRevert(openWithSwap, openWithModel, ShellContextFlyoutFactory.GetOpenWithItems);
+						FastContextFlyout.FillOrRevert(sendToSwap, sendToModel, ShellContextFlyoutFactory.GetSendToItems);
 
-					var shellModelsFiltered = shellMenuItems
-						.Where(x => x != openWithModel && x != sendToModel)
-						.ToList();
-					host.AddShellModels(shellModelsFiltered, shiftPressed, moreOptions, moreSeparator);
+						var shellModelsFiltered = shellMenuItems
+							.Where(x => x != openWithModel && x != sendToModel)
+							.ToList();
+						host.AddShellModels(shellModelsFiltered, moreOptions, moreSeparator);
+					});
 				}
 				else
 				{
-					host.ResolvePlacement();
+					host.Show(target, position);
 				}
 
 				host.FinalizePrimaryRowPosition();
@@ -753,6 +767,9 @@ namespace Files.App.Views.Layouts
 				Debug.WriteLine(error);
 			}
 		}
+
+		private Point? GetInvocationPosition(FrameworkElement target)
+			=> contextInvocationValid ? TransformToVisual(target).TransformPoint(contextInvocationPosition) : null;
 
 		[DynamicWindowsRuntimeCast(typeof(Style))]
 		[DynamicWindowsRuntimeCast(typeof(Geometry))]
@@ -924,8 +941,6 @@ namespace Files.App.Views.Layouts
 				RemoveHandler(UIElement.ContextRequestedEvent, contextRequestedHandler);
 				contextRequestedHandler = null;
 			}
-			ItemContextFlyoutHost.InvocationPointProvider = null;
-			BaseContextFlyoutHost.InvocationPointProvider = null;
 
 			var parameter = e.Parameter as NavigationArguments;
 			if (parameter is not null && !parameter.IsLayoutSwitch)
@@ -935,11 +950,25 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		private async void BaseContextFlyout_Opening(object? sender, object e)
+		private void BaseContextFlyout_Opening(object? sender, object e)
+		{
+			if (BaseContextFlyoutHost.CancelOpening() is { } target)
+			{
+				var cancellationToken = RenewShellMenuToken();
+				_ = DispatcherQueue.EnqueueDeferredAsync(() => OpenBaseContextFlyoutAsync(target, cancellationToken));
+			}
+		}
+
+		private async Task OpenBaseContextFlyoutAsync(FrameworkElement target, CancellationToken cancellationToken)
 		{
 			try
 			{
+				var position = GetInvocationPosition(target);
 				var parentShellPage = await EnsurePageIsCurrentAsync();
+
+				if (cancellationToken.IsCancellationRequested)
+					return;
+
 				var shellViewModel = parentShellPage.GetRequiredShellViewModel();
 				var commandsViewModel = CommandsViewModel
 					?? throw new InvalidOperationException("The layout commands are not initialized.");
@@ -956,30 +985,33 @@ namespace Files.App.Views.Layouts
 
 				if (!instanceViewModel.IsPageTypeSearchResults && !instanceViewModel.IsPageTypeZipFolder && !instanceViewModel.IsPageTypeFtp)
 				{
-					var token = RenewShellMenuToken();
+					var token = host.BeginShellMenuLoad(cancellationToken);
 
-					// Pre-add "Show more options" (with the synchronously-known built-in overflow items) BEFORE the
-					// async shell fetch so its placeholder shows while the extensions load.
-					var (moreOptions, moreSeparator) = host.AddShowMoreOptionsIfEnabled(items);
+					// Pre-add "Show more options" (with the synchronously-known built-in overflow items) so filling it
+					// with the classic shell items never resizes the menu.
+					var (moreOptions, moreSeparator) = host.AddShowMoreOptions(items);
 
-					host.ResolvePlacement();
-
-					var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: shellViewModel.WorkingDirectory, selectedItems: [], shiftPressed: shiftPressed, showOpenMenu: false, token);
-					if (token.IsCancellationRequested)
+					var shellMenu = await host.WaitForShellMenuAsync(ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: shellViewModel.WorkingDirectory, selectedItems: [], shiftPressed: shiftPressed, showOpenMenu: false, token), target, position, token);
+					if (!host.AttachShellMenu(shellMenu, token))
 						return;
 
-					// BitLocker: replace the placeholders with whichever entries the shell offers (drives)
-					host.ApplyBitLockerModels(shellMenuItems, moreOptions, moreSeparator);
+					host.AddModernShellModels(shellMenu.ModernItems, moreOptions, moreSeparator);
+					host.Show(target, position);
+					await host.LoadClassicShellModelsAsync(shellMenu, moreOptions, token, shellMenuItems =>
+					{
+						// BitLocker: replace the placeholders with whichever entries the shell offers (drives)
+						host.ApplyBitLockerModels(shellMenuItems, moreOptions, moreSeparator);
 
-					// The background menu has no Open with / Send to entries - drop them from the shell list
-					var shellModelsFiltered = shellMenuItems
-						.Where(x => x.Tag is not Win32ContextMenuItem { CommandString: "openas" or "sendto" })
-						.ToList();
-					host.AddShellModels(shellModelsFiltered, shiftPressed, moreOptions, moreSeparator);
+						// The background menu has no Open with / Send to entries - drop them from the shell list
+						var shellModelsFiltered = shellMenuItems
+							.Where(x => x.Tag is not Win32ContextMenuItem { CommandString: "openas" or "sendto" })
+							.ToList();
+						host.AddShellModels(shellModelsFiltered, moreOptions, moreSeparator);
+					});
 				}
 				else
 				{
-					host.ResolvePlacement();
+					host.Show(target, position);
 				}
 
 				host.FinalizePrimaryRowPosition();
@@ -1039,7 +1071,9 @@ namespace Files.App.Views.Layouts
 				var sortedItems = SortingHelper.OrderFileList(itemList, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst).ToList();
 				var orderedItems = sortedItems.SkipWhile(x => x != firstItem).Concat(sortedItems.TakeWhile(x => x != firstItem)).ToList();
 
-				var shellItemList = SafetyExtensions.IgnoreExceptions(() => orderedItems.Select(item => new ShellItem(item.GetRequiredPath())).ToArray());
+				var shellItemList = SafetyExtensions.IgnoreExceptions(() => orderedItems.Select(item => new ShellItem(item.IsRecycleBinItem
+					? ShellPath.GetRecycleBinParsingName(item.GetRequiredPath())
+					: item.GetRequiredPath())).ToArray());
 				try
 				{
 					if (shellItemList?[0].FileSystemPath is not null && !instanceViewModel.IsPageTypeSearchResults)

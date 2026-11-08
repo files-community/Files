@@ -48,14 +48,14 @@ namespace Files.App.Extensions
 		{
 			webview.Source = url;
 		}
-		
+
 		private static readonly JsonSerializerOptions _unsafeRelaxedJsonEscapingOptions = new(WebMessageJsonContext.Default.Options)
 		{
 			Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
 		};
-		private static readonly WebMessageJsonContext _jsonContext = new (_unsafeRelaxedJsonEscapingOptions);
+		private static readonly WebMessageJsonContext _jsonContext = new(_unsafeRelaxedJsonEscapingOptions);
 		public static List<WebViewMessageReceivedHandler> _handlers = new();
-		
+
 		public static async Task AddWebAllowedObject<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] T>(this WebView2 webview, string name, T @object)
 		{
 			var sb = new StringBuilder();
@@ -121,11 +121,16 @@ namespace Files.App.Extensions
 							}*/
 							throw new NotSupportedException("IAsyncInfo return type is currently not supported on AOT");
 						}
+						else if (result is Task)
+						{
+							task = (Task)result;
+						}
 						else
 						{
-							var awaiter = resultType?.GetMethod(nameof(Task.GetAwaiter));
+							/*var awaiter = resultType?.GetMethod(nameof(Task.GetAwaiter));
 							if (awaiter is object)
-								task = result;
+								task = result;*/
+							throw new NotSupportedException("Generic Awaiter return type is currently not supported on AOT");
 						}
 						if (task is object)
 							result = await task;

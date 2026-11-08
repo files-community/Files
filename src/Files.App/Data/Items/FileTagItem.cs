@@ -23,7 +23,6 @@ namespace Files.App.Data.Items
 			{
 				path = value;
 				OnPropertyChanged(nameof(IconElement));
-				OnPropertyChanged(nameof(ToolTip));
 			}
 		}
 
@@ -66,7 +65,7 @@ namespace Files.App.Data.Items
 
 		FrameworkElement? ISidebarItemPresentationModel.IconElement => IconElement;
 
-		public object? ToolTip => Text;
+		public object? ToolTip => null;
 
 		FrameworkElement? ISidebarItemPresentationModel.ItemDecorator => null;
 

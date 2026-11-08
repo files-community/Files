@@ -50,6 +50,7 @@ internal static class DriveCatalog
 	private static void OnDriveChanged(object? sender, DeviceEventArgs e)
 	{
 		Changed(e.DeviceId.TrimEnd('\\') + "\\");
+		_ = Task.Run(() => SafetyExtensions.IgnoreExceptions(CatalogWatchers.RefreshRecycleBinWatcher, Program.Logger));
 	}
 
 	private static void Changed(string id)

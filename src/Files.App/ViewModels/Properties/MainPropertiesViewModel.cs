@@ -153,7 +153,7 @@ namespace Files.App.ViewModels.Properties
 		public string? Path => null;
 		[ObservableProperty] public partial bool IsExpanded { get; set; }
 
-		public object? ToolTip => Text;
+		public object? ToolTip => null;
 		public object? ItemDecorator => null;
 		FrameworkElement ISidebarItemPresentationModel.IconElement => IconElement;
 		FrameworkElement? ISidebarItemPresentationModel.ItemDecorator => null;

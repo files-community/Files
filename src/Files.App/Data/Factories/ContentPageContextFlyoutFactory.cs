@@ -31,7 +31,7 @@ namespace Files.App.Data.Factories
 			return menuItemsList;
 		}
 
-		public static Task<List<ContextMenuFlyoutItemViewModel>> GetItemContextShellCommandsAsync(string? workingDir, List<ListedItem> selectedItems, bool shiftPressed, bool showOpenMenu, CancellationToken cancellationToken)
+		public static Task<ShellContextMenuResult> GetItemContextShellCommandsAsync(string? workingDir, List<ListedItem> selectedItems, bool shiftPressed, bool showOpenMenu, CancellationToken cancellationToken)
 		{
 			return ShellContextFlyoutFactory.GetShellContextmenuAsync(shiftPressed: shiftPressed, showOpenMenu: showOpenMenu, workingDirectory: workingDir, selectedItems: selectedItems, cancellationToken: cancellationToken);
 		}
@@ -47,7 +47,7 @@ namespace Files.App.Data.Factories
 				var overflowMenuItems = overflow.Items
 					?? throw new InvalidOperationException("The overflow menu has not been initialized.");
 
-				if (!shiftPressed && UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu) // items with ShowOnShift to overflow menu
+				if (!shiftPressed) // items with ShowOnShift to overflow menu
 				{
 					var overflowItems = items.Where(x => x.ShowOnShift).ToList();
 
@@ -502,7 +502,10 @@ namespace Files.App.Data.Factories
 					IsPrimary = true,
 					IsVisible = true,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.PasteItemAsShortcut).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.PasteItemAsShortcut)
+				{
+					IsVisible = !itemsSelected && Commands.PasteItemAsShortcut.IsExecutable,
+				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.CopyItemPath)
 				{
 					IsVisible = UserSettingsService.GeneralSettingsService.ShowCopyPath

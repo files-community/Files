@@ -31,17 +31,19 @@
     <ItemGroup>
         <Manifest Include="app.manifest" />
         <DirectPInvoke Include="ADVAPI32" />
+        <DirectPInvoke Include="CFGMGR32" />
         <DirectPInvoke Include="USER32" />
         <DirectPInvoke Include="GDI32" />
         <DirectPInvoke Include="KERNEL32" />
         <DirectPInvoke Include="OLE32" />
         <DirectPInvoke Include="SHELL32" />
         <NativeLibrary Include="shell32.lib" />
+        <NativeLibrary Include="cfgmgr32.lib" />
         <NativeLibrary Include="gdi32.lib" />
         <TrimmerRootAssembly Include="Files.App.Server" />
         <PackageReference Include="Microsoft.Windows.CsWinRT" />
         <PackageReference Include="Microsoft.Data.Sqlite.Core" />
-        <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" />
+        <PackageReference Include="SQLitePCLRaw.provider.winsqlite3" />
         <PackageReference Include="System.Drawing.Common" />
     </ItemGroup>
 

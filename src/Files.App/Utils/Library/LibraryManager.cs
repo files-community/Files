@@ -18,8 +18,8 @@ namespace Files.App.Utils.Library
 	{
 		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 
-		private FileSystemWatcher? librariesWatcher;
 		private readonly List<LibraryLocationItem> libraries = [];
+		private int refreshVersion;
 		private static readonly Lazy<LibraryManager> lazy = new(() => new LibraryManager());
 
 		public static LibraryManager Default
@@ -41,36 +41,23 @@ namespace Files.App.Utils.Library
 			InitializeWatcher();
 		}
 
-		private void InitializeWatcher()
+		private void InitializeWatcher() => App.ServerChanged += OnServerChanged;
+
+		private async void OnServerChanged(object? sender, string name)
 		{
-			if (librariesWatcher is not null)
-				return;
-
-			librariesWatcher = new FileSystemWatcher
-			{
-				Path = ShellLibraryItem.LibrariesPath,
-				Filter = "*" + ShellLibraryItem.EXTENSION,
-				NotifyFilter = NotifyFilters.Attributes | NotifyFilters.LastWrite | NotifyFilters.FileName,
-				IncludeSubdirectories = false,
-			};
-
-			librariesWatcher.Created += OnLibraryChanged;
-			librariesWatcher.Changed += OnLibraryChanged;
-			librariesWatcher.Deleted += OnLibraryChanged;
-			librariesWatcher.Renamed += OnLibraryRenamed;
-
-			librariesWatcher.EnableRaisingEvents = true;
+			if (name == ServerChangeNames.Libraries)
+				await SafetyExtensions.IgnoreExceptions(UpdateLibrariesAsync, App.Logger);
 		}
 
 		/// <summary>
-		/// Get libraries of the current user with the help of the FullTrust process.
+		/// Gets the current user's libraries from the server cache.
 		/// </summary>
 		/// <returns>List of library items</returns>
 		public static async Task<List<LibraryLocationItem>> ListUserLibraries()
 		{
 			try
 			{
-				var libraries = await Server.AppService.GetLibrariesAsync();
+				var libraries = await Server.LocationService.GetLibrariesAsync();
 				return libraries.Select(library => new LibraryLocationItem(new ShellLibraryItem
 				{
 					FullPath = library.FullPath,
@@ -91,19 +78,36 @@ namespace Files.App.Utils.Library
 
 		public async Task UpdateLibrariesAsync()
 		{
+			var version = Interlocked.Increment(ref refreshVersion);
+			var items = await ListUserLibraries();
+			items.Sort();
+			var replacements = new List<NotifyCollectionChangedEventArgs>();
 			lock (libraries)
 			{
-				libraries.Clear();
-			}
-			var libs = await ListUserLibraries();
-			if (libs is not null)
-			{
-				libs.Sort();
-				lock (libraries)
+				if (version != refreshVersion)
+					return;
+				for (int index = 0; index < items.Count; index++)
 				{
-					libraries.AddRange(libs);
+					var item = items[index];
+					var previous = libraries.FirstOrDefault(library => string.Equals(library.Path, item.Path, StringComparison.OrdinalIgnoreCase));
+					if (previous is null)
+						continue;
+					if (previous.Text == item.Text && previous.IsDefaultLocation == item.IsDefaultLocation &&
+						string.Equals(previous.DefaultSaveFolder, item.DefaultSaveFolder, StringComparison.OrdinalIgnoreCase) &&
+						previous.Folders.SequenceEqual(item.Folders, StringComparer.OrdinalIgnoreCase))
+					{
+						items[index] = previous;
+					}
+					else
+					{
+						replacements.Add(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, item, previous));
+					}
 				}
+				libraries.Clear();
+				libraries.AddRange(items);
 			}
+			foreach (var replacement in replacements)
+				DataChanged?.Invoke(SectionType.Library, replacement);
 			DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}
 
@@ -368,89 +372,10 @@ namespace Files.App.Utils.Library
 			await dialog.ShowAsync();
 		}
 
-		private void OnLibraryChanged(WatcherChangeTypes changeType, string? oldPath, string? newPath)
-		{
-			if (newPath is not null && (!newPath.ToLowerInvariant().EndsWith(ShellLibraryItem.EXTENSION, StringComparison.Ordinal) || !File.Exists(newPath)))
-			{
-				System.Diagnostics.Debug.WriteLine($"Ignored library event: {changeType}, {oldPath} -> {newPath}");
-				return;
-			}
-
-			System.Diagnostics.Debug.WriteLine($"Library event: {changeType}, {oldPath} -> {newPath}");
-
-			if (!changeType.HasFlag(WatcherChangeTypes.Deleted))
-			{
-				if (newPath is null)
-				{
-					App.Logger.LogWarning($"Failed to open library after {changeType}: {LogPathHelper.RedactPath(newPath)}");
-					return;
-				}
-
-				using var libraryFile = SafetyExtensions.IgnoreExceptions(() => ShellItem.Open(newPath));
-				var library = SafetyExtensions.IgnoreExceptions(() => new ShellLibraryEx(libraryFile!.IShellItem, true));
-				if (library is null)
-				{
-					App.Logger.LogWarning($"Failed to open library after {changeType}: {LogPathHelper.RedactPath(newPath)}");
-					return;
-				}
-
-				var library1 = SafetyExtensions.IgnoreExceptions(() => ShellFolderExtensions.GetShellLibraryItem(library, newPath));
-				if (library1 is null)
-				{
-					App.Logger.LogWarning($"Failed to open library after {changeType}: {LogPathHelper.RedactPath(newPath)}");
-					return;
-				}
-
-				string? path = oldPath;
-				if (string.IsNullOrEmpty(oldPath))
-				{
-					path = library1.FullPath;
-				}
-				var changedLibrary = Libraries.FirstOrDefault(l => string.Equals(l.Path, path, StringComparison.OrdinalIgnoreCase));
-				if (changedLibrary is not null)
-				{
-					lock (libraries)
-					{
-						libraries.Remove(changedLibrary);
-					}
-					DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedLibrary));
-				}
-				// library is null in case it was deleted
-				if (!Libraries.Any(x => x.Path == library1.FullPath))
-				{
-					var libItem = new LibraryLocationItem(library1);
-					lock (libraries)
-					{
-						libraries.Add(libItem);
-					}
-					DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, libItem));
-				}
-
-				library.Dispose();
-			}
-		}
-
-		private void OnLibraryChanged(object sender, FileSystemEventArgs e)
-		{
-			switch (e.ChangeType)
-			{
-				case WatcherChangeTypes.Created:
-				case WatcherChangeTypes.Changed:
-					OnLibraryChanged(e.ChangeType, e.FullPath, e.FullPath);
-					break;
-				case WatcherChangeTypes.Deleted:
-					OnLibraryChanged(e.ChangeType, e.FullPath, null);
-					break;
-			}
-		}
-
-		private void OnLibraryRenamed(object sender, RenamedEventArgs e)
-			=> OnLibraryChanged(e.ChangeType, e.OldFullPath, e.FullPath);
-
 		public static bool IsLibraryPath(string path)
 			=> !string.IsNullOrEmpty(path) && path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase);
 
 		public void Dispose()
-			=> librariesWatcher?.Dispose();
+			=> App.ServerChanged -= OnServerChanged;
 	}
 }

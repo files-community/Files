@@ -142,6 +142,7 @@
 							BorderBrush="{TemplateBinding BorderBrush}"
 							BorderThickness="0"
 							CornerRadius="{TemplateBinding CornerRadius}"
+							ToolTipService.Placement="Bottom"
 							ToolTipService.ToolTip="{TemplateBinding ModeName}">
 							<Button.Resources>
 								<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />

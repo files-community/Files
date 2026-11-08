@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
+using Files.App.Actions;
 using Files.App.Controls;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
@@ -286,6 +287,12 @@ namespace Files.App.Views
 
 					// Execute command for hotkey
 					var command = Commands[hotKey];
+
+					// The "@" key depends on the active keyboard layout
+					if (command.Code is CommandCodes.None && !Commands.GoToFolderAlias.IsCustomHotKeys && GoToFolderAliasAction.IsAtHotKey(hotKey))
+						command = Commands.GoToFolderAlias;
+					else if (command.Code is CommandCodes.GoToFolderAlias && !command.IsCustomHotKeys && !GoToFolderAliasAction.IsAtHotKey(hotKey))
+						break;
 
 					if (command.Code is CommandCodes.OpenItem && (source?.FindAscendantOrSelf<Omnibar>() is not null || source?.FindAscendantOrSelf<AppBarButton>() is not null))
 						break;

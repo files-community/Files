@@ -99,7 +99,7 @@ internal static class InitializationCache
 						item.GetDisplayName(SIGDN.SIGDN_NORMALDISPLAY) ?? string.Empty,
 						item.PIDL.GetBytes(),
 						(bool?)SafetyExtensions.IgnoreExceptions(() => item.Properties["System.Home.IsPinned"], Program.Logger) ?? false,
-						parsingName ?? parsingPath, string.Empty));
+						parsingName ?? parsingPath));
 				}
 			}
 			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or COMException)

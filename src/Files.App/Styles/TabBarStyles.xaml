@@ -199,7 +199,8 @@
 								HighContrastAdjustment="None"
 								IsTabStop="False"
 								IsTextScaleFactorEnabled="False"
-								Style="{ThemeResource TabBarCloseButtonStyle}" />
+								Style="{ThemeResource TabBarCloseButtonStyle}"
+								ToolTipService.Placement="Bottom" />
 						</Grid>
 
 						<!--  Drop-into target highlight  -->

@@ -20,7 +20,7 @@ namespace Files.App.Data.Items
 				path = value;
 				ArgumentNullException.ThrowIfNull(value);
 				var currentPath = value;
-				ToolTip = currentPath.Contains('?', StringComparison.Ordinal) ? Text : currentPath;
+				ToolTip = currentPath.Contains('?', StringComparison.Ordinal) ? null : currentPath;
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace Files.App.Data.Items
 
 		public object? Children => null;
 
-		private object? toolTip = "";
+		private object? toolTip;
 		public object? ToolTip
 		{
 			get => toolTip;
