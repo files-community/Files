@@ -99,15 +99,14 @@ namespace Files.App.Extensions
 					var result = method.Invoke(@object, args.ToArray());
 					if (result is object)
 					{
-						App.Logger.LogWarning("Terminal: Task/Awaiter return type is currently not supported on AOT");
-						/*var resultType = result.GetType();
-						dynamic? task = null;
+						var resultType = result.GetType();
+						//dynamic? task = null;
 						if (resultType.Name.StartsWith("TaskToAsyncOperationAdapter")
 							|| resultType.IsInstanceOfType(typeof(IAsyncInfo)))
 						{
 							if (resultType.GenericTypeArguments.Length > 0)
 							{
-								var asTask = typeof(WindowsRuntimeSystemExtensions)
+								/*var asTask = typeof(WindowsRuntimeSystemExtensions)
 									.GetMethods(BindingFlags.Public | BindingFlags.Static)
 									.Where(method => method.GetParameters().Length == 1
 										&& method.Name == "AsTask"
@@ -115,20 +114,21 @@ namespace Files.App.Extensions
 									.FirstOrDefault();
 
 								asTask = asTask!.MakeGenericMethod(resultType.GenericTypeArguments[0]);
-								task = (Task?)asTask.Invoke(null, new[] { result });
+								task = (Task?)asTask.Invoke(null, new[] { result });*/
 							}
 							else
 							{
-								task = WindowsRuntimeSystemExtensions.AsTask((dynamic)result);
+								//task = WindowsRuntimeSystemExtensions.AsTask((dynamic)result);
 							}
+							App.Logger.LogWarning("Terminal: Task/Awaiter return type is currently not supported on AOT");
 						}
 						else
 						{
-							var awaiter = resultType?.GetMethod(nameof(Task.GetAwaiter));
+							/*var awaiter = resultType?.GetMethod(nameof(Task.GetAwaiter));
 							if (awaiter is object)
-								task = result;
+								task = result;*/
 						}
-						if (task is object)
+						/*if (task is object)
 							result = await task;*/
 					}
 					var json = JsonSerializer.Serialize(result, _jsonContext.Object);
