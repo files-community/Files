@@ -76,6 +76,8 @@ namespace Files.App.Helpers
 			ColumnsViewModel.PathColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.PathColumnWidth;
 			ColumnsViewModel.OriginalPathColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.OriginalPathColumnWidth;
 			ColumnsViewModel.StatusColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.SyncStatusColumnWidth;
+
+			ColumnsViewModel.ColumnOrder = [.. UserSettingsService.LayoutSettingsService.ColumnOrder ?? []];
 		}
 
 		// Overridden methods
