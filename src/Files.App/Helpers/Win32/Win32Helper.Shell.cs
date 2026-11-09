@@ -83,12 +83,9 @@ namespace Files.App.Helpers
 
 		public static unsafe string GetFolderFromKnownFolderGUID(Guid guid)
 		{
-			PWSTR pszPath;
-			PInvoke.SHGetKnownFolderPath(in guid, (KNOWN_FOLDER_FLAG)0, null, out pszPath);
-			string path = pszPath.ToString();
-			Marshal.FreeCoTaskMem((nint)pszPath.Value);
-
-			return path;
+			PInvoke.SHGetKnownFolderPath(in guid, (KNOWN_FOLDER_FLAG)0, null, out var path);
+			using (path)
+				return path.DangerousValue.ToString();
 		}
 	}
 }
