@@ -375,6 +375,7 @@
 								FontSize="{StaticResource TextBoxIconFontSize}"
 								Foreground="{ThemeResource TextControlButtonForeground}"
 								IsTabStop="False"
+								ToolTipService.Placement="Bottom"
 								Visibility="Collapsed">
 								<Button.Resources>
 									<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />

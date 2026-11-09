@@ -233,6 +233,7 @@
 			x:Name="Omnibar"
 			Grid.Column="1"
 			x:Load="{x:Bind ViewModel.LoadOmnibar, Mode=OneWay}"
+			ClearButtonToolTip="{helpers:ResourceString Name=Clear}"
 			CurrentSelectedModeName="{x:Bind ViewModel.OmnibarCurrentSelectedModeName, Mode=TwoWay}"
 			FocusRedirectRequested="Omnibar_FocusRedirectRequested"
 			IsFocusedChanged="Omnibar_IsFocusedChanged"

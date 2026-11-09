@@ -92,6 +92,7 @@ namespace Files.App.Controls
 			_textBox.LostFocus += AutoSuggestBox_LostFocus;
 			_textBox.KeyDown += AutoSuggestBox_KeyDown;
 			_textBox.TextChanged += AutoSuggestBox_TextChanged;
+			_textBox.Loaded += (_, _) => ApplyClearButtonToolTip();
 			_textBoxSuggestionsPopup.GettingFocus += AutoSuggestBoxSuggestionsPopup_GettingFocus;
 			_textBoxSuggestionsPopup.Opened += AutoSuggestBoxSuggestionsPopup_Opened;
 			_textBoxSuggestionsListView.ItemClick += AutoSuggestBoxSuggestionsListView_ItemClick;
@@ -102,6 +103,28 @@ namespace Files.App.Controls
 			_textBoxSuggestionsContainerBorder.Width = ActualWidth;
 
 			GlobalHelper.WriteDebugStringForOmnibar("The template and the events have been initialized.");
+		}
+
+		private void ApplyClearButtonToolTip()
+		{
+			if (_textBox is not null && FindDescendant(_textBox, "DeleteButton") is { } button)
+				ToolTipService.SetToolTip(button, ClearButtonToolTip);
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		private static FrameworkElement? FindDescendant(DependencyObject parent, string name)
+		{
+			for (int i = 0; i < Microsoft.UI.Xaml.Media.VisualTreeHelper.GetChildrenCount(parent); i++)
+			{
+				var child = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetChild(parent, i);
+				if (child is FrameworkElement element && element.Name == name)
+					return element;
+
+				if (FindDescendant(child, name) is { } descendant)
+					return descendant;
+			}
+
+			return null;
 		}
 
 		public void PopulateModes()
