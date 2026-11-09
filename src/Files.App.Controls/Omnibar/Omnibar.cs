@@ -170,6 +170,9 @@ namespace Files.App.Controls
 			// Set the correct AutoSuggestBox cursor position
 			AutoSuggestBoxPadding = new(leftPadding, 0, rightPadding, 0);
 
+			// The clear button of the last mode sits at the rounded end of the bar
+			VisualStateManager.GoToState(_textBox, itemIndex == itemCount - 1 ? "DeleteButtonCornersRounded" : "DeleteButtonCornersDefault", false);
+
 			_isTextTypedByUser = false;
 			_isSuggestionSelectedByUser = false;
 			_textChangeReason = OmnibarTextChangeReason.ProgrammaticChange;
