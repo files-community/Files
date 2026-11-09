@@ -20,6 +20,18 @@ namespace Files.App.Data.Contracts
 		Task SwitchPreviewAsync(string path);
 
 		/// <summary>
+		/// Whether holding the hotkey shows the preview until the key is released
+		/// </summary>
+		bool SupportsHoldToPreview
+			=> false;
+
+		/// <summary>
+		/// Closes the preview popup if it is open
+		/// </summary>
+		Task ClosePreviewAsync()
+			=> Task.CompletedTask;
+
+		/// <summary>
 		/// Detect if the provider is available
 		/// </summary>
 		/// <returns></returns>
