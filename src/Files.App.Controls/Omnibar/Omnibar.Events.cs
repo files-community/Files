@@ -19,7 +19,7 @@ namespace Files.App.Controls
 		[DynamicWindowsRuntimeCast(typeof(UIElement))]
 		private void AutoSuggestBox_GettingFocus(UIElement sender, GettingFocusEventArgs args)
 		{
-			if (args.OldFocusedElement is null)
+			if (args.OldFocusedElement is null && !_isFocusInFlyout)
 			{
 				// Window is regaining activation and restoring focus to the TextBox. TrySetNewFocusedElement can't
 				// move focus to the previously-focused item (it's often a recycled list item and gets rejected), so
@@ -57,6 +57,13 @@ namespace Files.App.Controls
 		{
 			GlobalHelper.WriteDebugStringForOmnibar("The TextBox got the focus.");
 
+			// Focus returning from the context menu keeps the text and caret as they are
+			if (_isFocusInFlyout)
+			{
+				_isFocusInFlyout = false;
+				return;
+			}
+
 			IsFocused = true;
 			IsFocusedChanged?.Invoke(this, new(IsFocused));
 
@@ -74,10 +81,61 @@ namespace Files.App.Controls
 		private void AutoSuggestBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			// TextBox still has focus if the context menu for selected text is open
-			var element = Microsoft.UI.Xaml.Input.FocusManager.GetFocusedElement(this.XamlRoot);
-			if (element is FlyoutBase or Popup)
-				return;
+			if (IsInFlyout(Microsoft.UI.Xaml.Input.FocusManager.GetFocusedElement(this.XamlRoot)))
+			{
+				_isFocusInFlyout = true;
+				foreach (var flyout in new[] { _textBox.ContextFlyout, _textBox.SelectionFlyout })
+				{
+					if (flyout is not null)
+					{
+						flyout.Closed -= TextBoxFlyout_Closed;
+						flyout.Closed += TextBoxFlyout_Closed;
+					}
+				}
 
+				return;
+			}
+
+			HandleLostFocus();
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(FlyoutBase))]
+		private void TextBoxFlyout_Closed(object? sender, object e)
+		{
+			if (sender is FlyoutBase flyout)
+				flyout.Closed -= TextBoxFlyout_Closed;
+
+			DispatcherQueue.TryEnqueue(() =>
+			{
+				if (!_isFocusInFlyout)
+					return;
+
+				var focusedElement = Microsoft.UI.Xaml.Input.FocusManager.GetFocusedElement(this.XamlRoot);
+				if (ReferenceEquals(focusedElement, _textBox))
+					return;
+
+				// After a command focus falls back to an ancestor, while dismissing the menu moves it to the clicked control
+				if ((focusedElement is null || IsAncestorOfTextBox(focusedElement)) && _textBox.Focus(FocusState.Programmatic))
+					return;
+
+				_isFocusInFlyout = false;
+				HandleLostFocus();
+			});
+		}
+
+		private bool IsAncestorOfTextBox(object element)
+		{
+			for (var parent = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetParent(_textBox); parent is not null; parent = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetParent(parent))
+			{
+				if (ReferenceEquals(parent, element))
+					return true;
+			}
+
+			return false;
+		}
+
+		private void HandleLostFocus()
+		{
 			GlobalHelper.WriteDebugStringForOmnibar("The TextBox lost the focus.");
 
 			_placeCaretAtEndOnFocus = false;
@@ -85,6 +143,23 @@ namespace Files.App.Controls
 			_isSuggestionSelectedByUser = false;
 			IsFocused = false;
 			IsFocusedChanged?.Invoke(this, new(IsFocused));
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(FlyoutBase))]
+		[DynamicWindowsRuntimeCast(typeof(Popup))]
+		[DynamicWindowsRuntimeCast(typeof(DependencyObject))]
+		private static bool IsInFlyout(object? focusedElement)
+		{
+			if (focusedElement is FlyoutBase)
+				return true;
+
+			for (var element = focusedElement as DependencyObject; element is not null; element = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetParent(element))
+			{
+				if (element is Popup)
+					return true;
+			}
+
+			return false;
 		}
 
 		private async void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)

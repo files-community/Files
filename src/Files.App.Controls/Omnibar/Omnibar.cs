@@ -31,6 +31,7 @@ namespace Files.App.Controls
 		private string _userInput = string.Empty;
 		private OmnibarTextChangeReason _textChangeReason = OmnibarTextChangeReason.None;
 		private bool _placeCaretAtEndOnFocus;
+		private bool _isFocusInFlyout;
 		private bool _isFirstSuggestionSelectionQueued;
 		private bool _isTextTypedByUser;
 		private bool _isSuggestionSelectedByUser;
