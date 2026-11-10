@@ -22,6 +22,14 @@ namespace Files.App.Controls
 		[GeneratedDependencyProperty]
 		public partial bool IsFocused { get; set; }
 
+		[GeneratedDependencyProperty]
+		public partial string? ClearButtonToolTip { get; set; }
+
+		partial void OnClearButtonToolTipChanged(string? newValue)
+		{
+			ApplyClearButtonToolTip();
+		}
+
 		partial void OnCurrentSelectedModePropertyChanged(DependencyPropertyChangedEventArgs e)
 		{
 			if (e.NewValue is not OmnibarMode newMode)
