@@ -41,8 +41,10 @@
     <PackageVersion Include="Microsoft.Graphics.Win2D" Version="1.4.0" />
     <PackageVersion Include="TagLibSharp" Version="2.3.0" />
     <PackageVersion Include="UTF.Unknown" Version="2.7.0" />
-    <PackageVersion Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
+    <PackageVersion Include="Microsoft.Windows.ImplementationLibrary" Version="1.0.260126.7" />
+    <PackageVersion Include="Microsoft.Windows.CppWinRT" Version="3.0.260818.1" />
     <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.369" />
+    <PackageVersion Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
     <PackageVersion Include="PolySharp" Version="1.17.0" />
     <PackageVersion Include="System.Drawing.Common" Version="10.0.12" />
