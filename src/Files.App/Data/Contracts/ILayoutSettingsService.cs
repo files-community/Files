@@ -21,6 +21,11 @@ namespace Files.App.Data.Contracts
 		SortOption DefaultSortOption { get; set; }
 
 		/// <summary>
+		/// Gets or sets the column used for sorting when the default sorting option is a column.
+		/// </summary>
+		string DefaultSortColumnId { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating the default sorting direction.
 		/// </summary>
 		SortDirection DefaultDirectorySortDirection { get; set; }
@@ -41,26 +46,22 @@ namespace Files.App.Data.Contracts
 		GroupOption DefaultGroupOption { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating the default grouping direction.
+		/// Gets or sets the column used for grouping when the default grouping option is a column.
 		/// </summary>
-		SortDirection DefaultDirectoryGroupDirection { get; set; }
+		string DefaultGroupColumnId { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating the unit for grouping by date.
+		/// Gets or sets the visible default columns of the details layout in display order.
 		/// </summary>
-		GroupByDateUnit DefaultGroupByDateUnit { get; set; }
+		List<string>? DetailsLayoutColumns { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether or not the date column should be visible by default.
+		/// Gets or sets the default column widths of the details layout as "id|width" entries.
 		/// </summary>
-		bool ShowDateColumn { get; set; }
+		List<string>? DetailsLayoutColumnWidths { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether or not the date created column should be visible by default.
-		/// </summary>
-		bool ShowDateCreatedColumn { get; set; }
-
-		/// <summary>
+<<<<<<< ours
 		/// Gets or sets a value indicating whether or not the type column should be visible by default.
 		/// </summary>
 		bool ShowTypeColumn { get; set; }
@@ -192,13 +193,16 @@ namespace Files.App.Data.Contracts
 
 		/// <summary>
 		/// Gets or sets a value indicating path column's default width
+=======
+		/// Gets or sets a value indicating the default grouping direction.
+>>>>>>> theirs
 		/// </summary>
-		double PathColumnWidth { get; set; }
+		SortDirection DefaultDirectoryGroupDirection { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating original path column's default width
+		/// Gets or sets a value indicating the unit for grouping by date.
 		/// </summary>
-		double OriginalPathColumnWidth { get; set; }
+		GroupByDateUnit DefaultGroupByDateUnit { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not columns in the Details layout should

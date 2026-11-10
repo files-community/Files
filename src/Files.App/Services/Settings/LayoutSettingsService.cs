@@ -29,6 +29,12 @@ namespace Files.App.Services.Settings
 			set => Set((long)value);
 		}
 
+		public string DefaultSortColumnId
+		{
+			get => Get(string.Empty) ?? string.Empty;
+			set => Set(value);
+		}
+
 		public SortDirection DefaultDirectorySortDirection
 		{
 			get => (SortDirection)Get((long)SortDirection.Ascending);
@@ -53,6 +59,7 @@ namespace Files.App.Services.Settings
 			set => Set((long)value);
 		}
 
+<<<<<<< ours
 		public SortDirection DefaultDirectoryGroupDirection
 		{
 			get => (SortDirection)Get((long)SortDirection.Ascending);
@@ -198,107 +205,36 @@ namespace Files.App.Services.Settings
 		}
 
 		public double OriginalPathColumnWidth
+=======
+		public string DefaultGroupColumnId
+>>>>>>> theirs
 		{
-			get => Get(200d);
-			set
-			{
-				if (ShowOriginalPathColumn)
-					Set(value);
-			}
-		}
-
-		public double SyncStatusColumnWidth
-		{
-			get => Get(50d);
-			set
-			{
-				if (ShowSyncStatusColumn)
-					Set(value);
-			}
-		}
-
-		public bool ShowDateColumn
-		{
-			get => Get(true);
+			get => Get(string.Empty) ?? string.Empty;
 			set => Set(value);
 		}
 
-		public bool ShowDateCreatedColumn
+		public List<string>? DetailsLayoutColumns
 		{
-			get => Get(false);
+			get => Get<List<string>>(null);
 			set => Set(value);
 		}
 
-		public bool ShowTypeColumn
+		public List<string>? DetailsLayoutColumnWidths
 		{
-			get => Get(true);
+			get => Get<List<string>>(null);
 			set => Set(value);
 		}
 
-		public bool ShowSizeColumn
+		public SortDirection DefaultDirectoryGroupDirection
 		{
-			get => Get(true);
-			set => Set(value);
+			get => (SortDirection)Get((long)SortDirection.Ascending);
+			set => Set((long)value);
 		}
 
-		public bool ShowGitStatusColumn
+		public GroupByDateUnit DefaultGroupByDateUnit
 		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool ShowGitLastCommitDateColumn
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool ShowGitLastCommitMessageColumn
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool ShowGitCommitAuthorColumn
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool ShowGitLastCommitShaColumn
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool ShowFileTagColumn
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowDateDeletedColumn
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowPathColumn
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowOriginalPathColumn
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowSyncStatusColumn
-		{
-			get => Get(true);
-			set => Set(value);
+			get => (GroupByDateUnit)Get((long)GroupByDateUnit.Year);
+			set => Set((long)value);
 		}
 
 		public bool AutoSizeColumnsInDetailsLayout

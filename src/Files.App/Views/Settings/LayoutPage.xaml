@@ -153,29 +153,13 @@
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=AutoSizeColumnsInDetailsLayout}" IsOn="{x:Bind ViewModel.AutoSizeColumnsInDetailsLayout, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
-			<!--  Columns  -->
-			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=Columns}">
-				<wctcontrols:SettingsExpander.HeaderIcon>
+			<!--  Default Columns  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=DefaultColumns}">
+				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE71D;" />
-				</wctcontrols:SettingsExpander.HeaderIcon>
-				<wctcontrols:SettingsExpander.Items>
-					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=TagColumn}">
-						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=TagColumn}" IsOn="{x:Bind ViewModel.ShowFileTagColumn, Mode=TwoWay}" />
-					</wctcontrols:SettingsCard>
-					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=SizeColumn}">
-						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SizeColumn}" IsOn="{x:Bind ViewModel.ShowSizeColumn, Mode=TwoWay}" />
-					</wctcontrols:SettingsCard>
-					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=TypeColumn}">
-						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=TypeColumn}" IsOn="{x:Bind ViewModel.ShowTypeColumn, Mode=TwoWay}" />
-					</wctcontrols:SettingsCard>
-					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=DateColumn}">
-						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=DateColumn}" IsOn="{x:Bind ViewModel.ShowDateColumn, Mode=TwoWay}" />
-					</wctcontrols:SettingsCard>
-					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=DateCreatedColumn}">
-						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=DateCreatedColumn}" IsOn="{x:Bind ViewModel.ShowDateCreatedColumn, Mode=TwoWay}" />
-					</wctcontrols:SettingsCard>
-				</wctcontrols:SettingsExpander.Items>
-			</wctcontrols:SettingsExpander>
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<Button Click="CustomizeColumns_Click" Content="{helpers:ResourceString Name=CustomizeColumnsEllipsis}" />
+			</wctcontrols:SettingsCard>
 
 		</StackPanel>
 
