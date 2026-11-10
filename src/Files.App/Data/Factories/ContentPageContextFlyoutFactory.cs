@@ -141,10 +141,6 @@ namespace Files.App.Data.Factories
 						{
 							IsToggle = true
 						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.LayoutAdaptive)
-						{
-							IsToggle = true
-						}.Build(),
 					],
 				},
 				new ContextMenuFlyoutItemViewModel()

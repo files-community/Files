@@ -9,7 +9,6 @@ namespace Files.App.Helpers
 		{
 			// Services
 			var multitaskingContext = Ioc.Default.GetRequiredService<IMultitaskingContext>();
-			var layoutSettingsService = Ioc.Default.GetRequiredService<ILayoutSettingsService>();
 
 			// Get all tab instances and active path
 			var tabs = multitaskingContext.Control?.GetAllTabInstances();
@@ -36,10 +35,9 @@ namespace Files.App.Helpers
 
 						// Check if we need to update preferences for this pane
 						if ((isNotCurrentTab || !ReferenceEquals(pane, shPage.ActivePane)) &&
-							(layoutSettingsService.SyncFolderPreferencesAcrossDirectories ||
-							 path.Equals(activePath, StringComparison.OrdinalIgnoreCase)))
-							if (pane.SlimContentPage is BaseLayoutPage page)
-								page.FolderSettings?.ReloadGroupAndSortPreferences(path);
+							path.Equals(activePath, StringComparison.OrdinalIgnoreCase))
+							if (pane.SlimContentPage is BaseLayoutPage page && pane.ShellViewModel is { } shellViewModel)
+								page.FolderSettings?.ReloadPreferences(path, () => FolderContentHelpers.GetContent(shellViewModel.FilesAndFolders.ToList()));
 					}
 				}
 			}

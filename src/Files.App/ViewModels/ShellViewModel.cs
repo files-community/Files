@@ -65,6 +65,7 @@ namespace Files.App.ViewModels
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private readonly INetworkService NetworkService = Ioc.Default.GetRequiredService<INetworkService>();
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		private readonly ILayoutTemplatesService layoutTemplatesService = Ioc.Default.GetRequiredService<ILayoutTemplatesService>();
 		private readonly IIconCacheService iconCacheService = Ioc.Default.GetRequiredService<IIconCacheService>();
 		private readonly ISizeProvider folderSizeProvider = Ioc.Default.GetRequiredService<ISizeProvider>();
 		private readonly IStorageCacheService fileListCache = Ioc.Default.GetRequiredService<IStorageCacheService>();
@@ -763,6 +764,8 @@ namespace Files.App.ViewModels
 			fileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnSettingUpdated;
 			folderSizeProvider.SizeChanged += FolderSizeProvider_SizeChanged;
 			folderSettings.LayoutModeChangeRequested += LayoutModeChangeRequested;
+			layoutTemplatesService.TemplateChanged += LayoutTemplatesService_TemplateChanged;
+			layoutTemplatesService.RulesChanged += LayoutTemplatesService_RulesChanged;
 			StorageTrashBinService.Watcher.ItemAdded += RecycleBinItemCreatedAsync;
 			StorageTrashBinService.Watcher.ItemDeleted += RecycleBinItemDeletedAsync;
 			StorageTrashBinService.Watcher.RefreshRequested += RecycleBinRefreshRequestedAsync;
@@ -771,6 +774,29 @@ namespace Files.App.ViewModels
 		private async void LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
 			await dispatcherQueue.EnqueueOrInvokeAsync(CheckForBackgroundImage, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+		}
+
+		private async void LayoutTemplatesService_TemplateChanged(object? sender, string templateId)
+		{
+			await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+			{
+				if (templateId == folderSettings.TemplateId)
+					ReloadLayoutPreferences();
+			});
+		}
+
+		private async void LayoutTemplatesService_RulesChanged(object? sender, EventArgs e)
+		{
+			await dispatcherQueue.EnqueueOrInvokeAsync(ReloadLayoutPreferences);
+		}
+
+		private void ReloadLayoutPreferences()
+		{
+			if (WorkingDirectory is "Home" or "ReleaseNotes" or "Settings")
+				return;
+
+			folderSettings.ReloadPreferences(WorkingDirectory, () => FolderContentHelpers.GetContent(filesAndFolders.ToList()));
+			UpdateSortAndGroupOptions();
 		}
 
 		private async void RecycleBinRefreshRequestedAsync(object? sender, FileSystemEventArgs e)
@@ -891,21 +917,6 @@ namespace Files.App.ViewModels
 						if (WorkingDirectory != "Home" && WorkingDirectory != "ReleaseNotes" && WorkingDirectory != "Settings")
 							RefreshItems(null);
 					});
-					break;
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultSortOption):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultGroupOption):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultSortFilesFirst):
-				case nameof(UserSettingsService.LayoutSettingsService.SyncFolderPreferencesAcrossDirectories):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultGroupByDateUnit):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultLayoutMode):
-					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
-					{
-						folderSettings.OnDefaultPreferencesChanged(WorkingDirectory, e.SettingName);
-						UpdateSortAndGroupOptions();
-					});
-					await OrderFilesAndFoldersAsync();
-					await ApplyFilesAndFoldersChangesAsync();
 					break;
 				case nameof(UserSettingsService.GeneralSettingsService.ShowFilterHeader):
 					OnPropertyChanged(nameof(ShowFilterHeader));
@@ -2292,7 +2303,7 @@ namespace Files.App.ViewModels
 				if (Interlocked.Exchange(ref desktopIniUpdateTask, null) is Task task)
 					await task;
 
-				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(folderSettings, filesAndFolders.ToList());
+				folderSettings.ApplyContentRules(path, filesAndFolders.ToList());
 			}
 			finally
 			{
@@ -2624,7 +2635,6 @@ namespace Files.App.ViewModels
 						await ApplyFilesAndFoldersChangesAsync();
 						// Not awaited here: with Low priority these don't run until the UI thread goes idle
 						// after the final list update, which would delay load completion and watcher setup.
-						// The desktop.ini task is awaited before applying the adaptive layout, which reads DesktopIni.
 						_ = dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 						desktopIniUpdateTask = UpdateDesktopIniAsync(workingDirectory, cancellationToken);
 					});
@@ -3724,6 +3734,8 @@ namespace Files.App.ViewModels
 			StorageTrashBinService.Watcher.ItemDeleted -= RecycleBinItemDeletedAsync;
 			StorageTrashBinService.Watcher.RefreshRequested -= RecycleBinRefreshRequestedAsync;
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+			layoutTemplatesService.TemplateChanged -= LayoutTemplatesService_TemplateChanged;
+			layoutTemplatesService.RulesChanged -= LayoutTemplatesService_RulesChanged;
 			fileTagsSettingsService.OnSettingImportedEvent -= FileTagsSettingsService_OnSettingUpdated;
 			fileTagsSettingsService.OnTagsUpdated -= FileTagsSettingsService_OnSettingUpdated;
 			folderSizeProvider.SizeChanged -= FolderSizeProvider_SizeChanged;

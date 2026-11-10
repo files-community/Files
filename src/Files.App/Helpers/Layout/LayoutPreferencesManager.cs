@@ -12,7 +12,7 @@ namespace Files.App.Helpers
 	{
 		// Dependency injections
 
-		private static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private static ILayoutTemplatesService LayoutTemplatesService { get; } = Ioc.Default.GetRequiredService<ILayoutTemplatesService>();
 
 		// Fields
 
@@ -21,19 +21,23 @@ namespace Files.App.Helpers
 
 		private readonly FolderLayoutModes? _rootLayoutMode;
 
+		private bool _isApplyingPreferences;
+
 		// Properties
 		public bool IsLayoutModeFixed
 			=> _rootLayoutMode is not null;
 
-		public bool IsAdaptiveLayoutEnabled
-		{
-			get => !LayoutPreferencesItem.IsAdaptiveLayoutOverridden;
-			set
-			{
-				if (SetProperty(item => item.IsAdaptiveLayoutOverridden, item => item.IsAdaptiveLayoutOverridden = !value, nameof(IsAdaptiveLayoutEnabled)))
-					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem, true));
-			}
-		}
+		/// <summary>
+		/// Gets the id of the layout template the current preferences were created from.
+		/// </summary>
+		public string TemplateId
+			=> LayoutPreferencesItem.TemplateId;
+
+		/// <summary>
+		/// Gets whether the folder has its own preferences instead of following its template.
+		/// </summary>
+		public bool IsCustomized
+			=> !LayoutPreferencesItem.FollowsTemplate;
 
 		public FolderLayoutModes LayoutMode
 		{
@@ -41,7 +45,7 @@ namespace Files.App.Helpers
 			set
 			{
 				if (SetProperty(item => item.LayoutMode, item => item.LayoutMode = value, nameof(LayoutMode)))
-					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
+					RequestSave();
 			}
 		}
 
@@ -52,7 +56,7 @@ namespace Files.App.Helpers
 			{
 				if (SetProperty(item => item.DirectorySortOption, item => item.DirectorySortOption = value, nameof(DirectorySortOption)))
 				{
-					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
+					RequestSave();
 					SortOptionPreferenceUpdated?.Invoke(this, DirectorySortOption);
 				}
 			}
@@ -70,7 +74,7 @@ namespace Files.App.Helpers
 			LayoutPreferencesItem.DirectorySortOption = SortOption.Property;
 			OnPropertyChanged(nameof(DirectorySortPropertyId));
 			OnPropertyChanged(nameof(DirectorySortOption));
-			LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
+			RequestSave();
 			SortOptionPreferenceUpdated?.Invoke(this, SortOption.Property);
 		}
 
@@ -81,7 +85,7 @@ namespace Files.App.Helpers
 			{
 				if (SetProperty(item => item.DirectoryGroupOption, item => item.DirectoryGroupOption = value, nameof(DirectoryGroupOption)))
 				{
-					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
+					RequestSave();
 					GroupOptionPreferenceUpdated?.Invoke(this, DirectoryGroupOption);
 				}
 			}
@@ -99,7 +103,7 @@ namespace Files.App.Helpers
 			LayoutPreferencesItem.DirectoryGroupOption = GroupOption.Property;
 			OnPropertyChanged(nameof(DirectoryGroupPropertyId));
 			OnPropertyChanged(nameof(DirectoryGroupOption));
-			LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
+			RequestSave();
 			GroupOptionPreferenceUpdated?.Invoke(this, GroupOption.Property);
 		}
 
@@ -110,7 +114,7 @@ namespace Files.App.Helpers
 			{
 				if (SetProperty(item => item.DirectorySortDirection, item => item.DirectorySortDirection = value, nameof(DirectorySortDirection)))
 				{
-					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
+					RequestSave();
 					SortDirectionPreferenceUpdated?.Invoke(this, DirectorySortDirection);
 				}
 			}
@@ -123,7 +127,7 @@ namespace Files.App.Helpers
 			{
 				if (SetProperty(item => item.DirectoryGroupDirection, item => item.DirectoryGroupDirection = value, nameof(DirectoryGroupDirection)))
 				{
-					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
+					RequestSave();
 					GroupDirectionPreferenceUpdated?.Invoke(this, DirectoryGroupDirection);
 				}
 			}
@@ -136,7 +140,7 @@ namespace Files.App.Helpers
 			{
 				if (SetProperty(item => item.DirectoryGroupByDateUnit, item => item.DirectoryGroupByDateUnit = value, nameof(DirectoryGroupByDateUnit)))
 				{
-					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
+					RequestSave();
 					GroupByDateUnitPreferenceUpdated?.Invoke(this, DirectoryGroupByDateUnit);
 				}
 			}
@@ -149,7 +153,7 @@ namespace Files.App.Helpers
 			{
 				if (SetProperty(item => item.SortDirectoriesAlongsideFiles, item => item.SortDirectoriesAlongsideFiles = value, nameof(SortDirectoriesAlongsideFiles)))
 				{
-					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
+					RequestSave();
 					SortDirectoriesAlongsideFilesPreferenceUpdated?.Invoke(this, SortDirectoriesAlongsideFiles);
 				}
 			}
@@ -162,7 +166,7 @@ namespace Files.App.Helpers
 			{
 				if (SetProperty(item => item.SortFilesFirst, item => item.SortFilesFirst = value, nameof(SortFilesFirst)))
 				{
-					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
+					RequestSave();
 					SortFilesFirstPreferenceUpdated?.Invoke(this, SortFilesFirst);
 				}
 			}
@@ -174,8 +178,17 @@ namespace Files.App.Helpers
 			set
 			{
 				SetProperty(item => item.ColumnsViewModel, item => item.ColumnsViewModel = value, nameof(ColumnsViewModel));
-				LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
+				RequestSave();
 			}
+		}
+
+		/// <summary>
+		/// Saves new column widths without making the folder stop following its template.
+		/// </summary>
+		public void SaveColumnWidths(ColumnsViewModel columns)
+		{
+			SetProperty(item => item.ColumnsViewModel, item => item.ColumnsViewModel = columns, nameof(ColumnsViewModel));
+			RequestSave(keepsTemplate: true);
 		}
 
 		private bool _IsLayoutModeChanging;
@@ -197,7 +210,8 @@ namespace Files.App.Helpers
 				if (SetProperty(ref _LayoutPreferencesItem, value))
 				{
 					OnPropertyChanged(nameof(LayoutMode));
-					OnPropertyChanged(nameof(IsAdaptiveLayoutEnabled));
+					OnPropertyChanged(nameof(TemplateId));
+					OnPropertyChanged(nameof(IsCustomized));
 					OnPropertyChanged(nameof(DirectoryGroupOption));
 					OnPropertyChanged(nameof(DirectorySortOption));
 					OnPropertyChanged(nameof(DirectorySortDirection));
@@ -232,33 +246,36 @@ namespace Files.App.Helpers
 		public LayoutPreferencesManager(FolderLayoutModes modeOverride) : this()
 		{
 			_rootLayoutMode = modeOverride;
-			LayoutPreferencesItem.IsAdaptiveLayoutOverridden = true;
 		}
 
 		// Methods
 
 		public Type GetLayoutType(string? path, bool changeLayoutMode = true)
 		{
-			var preferencesItem = GetLayoutPreferencesForPath(path, out var isDefaultLayout);
+			var preferencesItem = GetLayoutPreferencesForPath(path, () => FolderContentHelpers.ReadContent(path));
 			if (preferencesItem is null)
 				return typeof(DetailsLayoutPage);
-
-			// Predicting the adaptive decision at navigation time avoids a post-enumeration page switch
-			if (IsAdaptiveLayoutEnabled && !preferencesItem.IsAdaptiveLayoutOverridden &&
-				isDefaultLayout is not false &&
-				AdaptiveLayoutHelpers.TryPredictLayout(path, out var resolvedLayout) &&
-				(isDefaultLayout ?? IsPathUsingDefaultLayout(path)))
-			{
-				preferencesItem.LayoutMode = resolvedLayout;
-			}
 
 			if (changeLayoutMode)
 			{
 				IsLayoutModeChanging = LayoutPreferencesItem.LayoutMode != preferencesItem.LayoutMode;
 				LayoutPreferencesItem = preferencesItem;
+				OnPropertyChanged(nameof(TemplateId));
+				OnPropertyChanged(nameof(IsCustomized));
 			}
 
-			return (preferencesItem.LayoutMode) switch
+			return GetLayoutPageType(preferencesItem.LayoutMode);
+		}
+
+		/// <summary>
+		/// Gets the page type of the current layout, without reading the saved preferences again.
+		/// </summary>
+		public Type GetCurrentLayoutType()
+			=> GetLayoutPageType(LayoutMode);
+
+		private static Type GetLayoutPageType(FolderLayoutModes layoutMode)
+		{
+			return layoutMode switch
 			{
 				FolderLayoutModes.DetailsView => typeof(DetailsLayoutPage),
 				FolderLayoutModes.ListView => typeof(GridLayoutPage),
@@ -269,117 +286,127 @@ namespace Files.App.Helpers
 			};
 		}
 
-		public void ReloadGroupAndSortPreferences(string? path)
+		/// <summary>
+		/// Reloads the saved preferences of the specified folder.
+		/// </summary>
+		/// <param name="getContent">Gets the items of the folder for content rules.</param>
+		public void ReloadPreferences(string? path, Func<LayoutFolderContent?>? getContent = null)
 		{
 			if (string.IsNullOrWhiteSpace(path))
 				return;
 
-			var preferencesItem = GetLayoutPreferencesForPath(path, out _);
-			if (preferencesItem is null)
+			var preferencesItem = GetLayoutPreferencesForPath(path, getContent);
+			if (preferencesItem is not null && (preferencesItem.TemplateId != TemplateId || preferencesItem.FollowsTemplate != LayoutPreferencesItem.FollowsTemplate || !preferencesItem.Equals(LayoutPreferencesItem)))
+				ApplyPreferences(preferencesItem);
+		}
+
+		/// <summary>
+		/// Checks the content rules again once the items of the folder are loaded.
+		/// </summary>
+		public void ApplyContentRules(string? path, IList<ListedItem> items)
+		{
+			var trimmedPath = path.TrimPath();
+			if (IsLayoutModeFixed || !LayoutTemplatesService.HasRules || string.IsNullOrEmpty(trimmedPath) || !IsPathUsingDefaultLayout(trimmedPath))
 				return;
 
-			if (preferencesItem.DirectorySortOption == SortOption.Property)
-				SetSortProperty(preferencesItem.DirectorySortPropertyId);
-			else
-				DirectorySortOption = preferencesItem.DirectorySortOption;
-			DirectorySortDirection = preferencesItem.DirectorySortDirection;
-			if (preferencesItem.DirectoryGroupOption == GroupOption.Property)
-				SetGroupProperty(preferencesItem.DirectoryGroupPropertyId);
-			else
-				DirectoryGroupOption = preferencesItem.DirectoryGroupOption;
-			DirectoryGroupByDateUnit = preferencesItem.DirectoryGroupByDateUnit;
-			DirectoryGroupDirection = preferencesItem.DirectoryGroupDirection;
-			SortDirectoriesAlongsideFiles = preferencesItem.SortDirectoriesAlongsideFiles;
-			SortFilesFirst = preferencesItem.SortFilesFirst;
+			var template = LayoutTemplatesService.GetTemplateForPath(trimmedPath, () => FolderContentHelpers.GetContent(items));
+			if (template.Id == TemplateId)
+				return;
+
+			var preferences = LayoutPreferencesItem.FromTemplate(template);
+			preferences.ColumnsViewModel.ApplyWidths(ColumnsViewModel);
+			ApplyPreferences(preferences);
 		}
 
 		public bool IsPathUsingDefaultLayout(string? path)
 		{
-			return UserSettingsService.LayoutSettingsService.SyncFolderPreferencesAcrossDirectories ||
-				string.IsNullOrEmpty(path) ||
-				GetLayoutPreferencesFromDatabase(path, Win32Helper.GetFolderFRN(path)) is null;
+			return string.IsNullOrEmpty(path) ||
+				GetLayoutPreferencesFromDatabase(path, Win32Helper.GetFolderFRN(path)) is null or { FollowsTemplate: true, TemplateId.Length: 0 };
 		}
 
-		public void ToggleLayoutModeColumnView(bool manuallySet)
+		/// <summary>
+		/// Saves the current columns to the layout template of the folder.
+		/// </summary>
+		public void SaveColumnsToTemplate()
 		{
-			IsAdaptiveLayoutEnabled &= !manuallySet;
-
-			// Column View
-			LayoutMode = FolderLayoutModes.ColumnView;
-
-			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.ColumnView));
-		}
-
-		public void ToggleLayoutModeGridView(bool manuallySet)
-		{
-			IsAdaptiveLayoutEnabled &= !manuallySet;
-
-			// Grid View
-			LayoutMode = FolderLayoutModes.GridView;
-
-			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.GridView));
-		}
-
-		public void ToggleLayoutModeCards(bool manuallySet)
-		{
-			IsAdaptiveLayoutEnabled &= !manuallySet;
-
-			// Cards View
-			LayoutMode = FolderLayoutModes.CardsView;
-
-			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.CardsView));
-		}
-
-		public void ToggleLayoutModeList(bool manuallySet)
-		{
-			IsAdaptiveLayoutEnabled &= !manuallySet;
-
-			// List View
-			LayoutMode = FolderLayoutModes.ListView;
-
-			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.ListView));
-		}
-
-		public void ToggleLayoutModeDetailsView(bool manuallySet)
-		{
-			IsAdaptiveLayoutEnabled &= !manuallySet;
-
-			// Details View
-			LayoutMode = FolderLayoutModes.DetailsView;
-
-			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.DetailsView));
-		}
-
-		public void ToggleLayoutModeAdaptive()
-		{
-			// Adaptive
-			IsAdaptiveLayoutEnabled = true;
-
-			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.Adaptive));
-		}
-
-		public void OnDefaultPreferencesChanged(string? path, string settingsName)
-		{
-			var preferencesItem = GetLayoutPreferencesForPath(path, out _);
-			if (preferencesItem is null)
+			if (LayoutTemplatesService.GetTemplate(TemplateId)?.Clone() is not { } template)
 				return;
 
-			switch (settingsName)
+			DetailsLayoutColumnDefaults.Save(ColumnsViewModel, template);
+			LayoutTemplatesService.SaveTemplate(template);
+		}
+
+		public void ToggleLayoutModeColumnView()
+			=> ToggleLayoutMode(FolderLayoutModes.ColumnView);
+
+		public void ToggleLayoutModeGridView()
+			=> ToggleLayoutMode(FolderLayoutModes.GridView);
+
+		public void ToggleLayoutModeCards()
+			=> ToggleLayoutMode(FolderLayoutModes.CardsView);
+
+		public void ToggleLayoutModeList()
+			=> ToggleLayoutMode(FolderLayoutModes.ListView);
+
+		public void ToggleLayoutModeDetailsView()
+			=> ToggleLayoutMode(FolderLayoutModes.DetailsView);
+
+		private void ToggleLayoutMode(FolderLayoutModes layoutMode)
+		{
+			LayoutMode = layoutMode;
+
+			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(layoutMode));
+		}
+
+		/// <summary>
+		/// Applies the specified preferences without saving them.
+		/// </summary>
+		private void ApplyPreferences(LayoutPreferencesItem preferencesItem)
+		{
+			_isApplyingPreferences = true;
+			try
 			{
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
-					SortDirectoriesAlongsideFiles = preferencesItem.SortDirectoriesAlongsideFiles;
-					break;
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultSortFilesFirst):
-					SortFilesFirst = preferencesItem.SortFilesFirst;
-					break;
-				case nameof(UserSettingsService.LayoutSettingsService.SyncFolderPreferencesAcrossDirectories):
-					LayoutPreferencesItem = preferencesItem;
-					LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode));
-					break;
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultLayoutMode):
-					LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode));
-					break;
+				LayoutPreferencesItem.TemplateId = preferencesItem.TemplateId;
+				LayoutPreferencesItem.FollowsTemplate = preferencesItem.FollowsTemplate;
+				OnPropertyChanged(nameof(TemplateId));
+				OnPropertyChanged(nameof(IsCustomized));
+
+				if (preferencesItem.DirectorySortOption == SortOption.Property)
+					SetSortProperty(preferencesItem.DirectorySortPropertyId);
+				else
+					DirectorySortOption = preferencesItem.DirectorySortOption;
+				DirectorySortDirection = preferencesItem.DirectorySortDirection;
+				if (preferencesItem.DirectoryGroupOption == GroupOption.Property)
+					SetGroupProperty(preferencesItem.DirectoryGroupPropertyId);
+				else
+					DirectoryGroupOption = preferencesItem.DirectoryGroupOption;
+				DirectoryGroupByDateUnit = preferencesItem.DirectoryGroupByDateUnit;
+				DirectoryGroupDirection = preferencesItem.DirectoryGroupDirection;
+				SortDirectoriesAlongsideFiles = preferencesItem.SortDirectoriesAlongsideFiles;
+				SortFilesFirst = preferencesItem.SortFilesFirst;
+				ColumnsViewModel = preferencesItem.ColumnsViewModel;
+
+				if (!IsLayoutModeFixed && LayoutMode != preferencesItem.LayoutMode)
+					ToggleLayoutMode(preferencesItem.LayoutMode);
 			}
+			finally
+			{
+				_isApplyingPreferences = false;
+			}
+		}
+
+		private void RequestSave(bool keepsTemplate = false)
+		{
+			if (_isApplyingPreferences)
+				return;
+
+			if (!keepsTemplate && LayoutPreferencesItem.FollowsTemplate)
+			{
+				LayoutPreferencesItem.FollowsTemplate = false;
+				OnPropertyChanged(nameof(IsCustomized));
+			}
+
+			LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
 		}
 
 		// Static methods
@@ -389,6 +416,7 @@ namespace Files.App.Helpers
 			return _databaseInstance.Value;
 		}
 
+<<<<<<< ours
 		public static void SetDefaultLayoutPreferences(ColumnsViewModel columns)
 		{
 <<<<<<< ours
@@ -429,29 +457,25 @@ namespace Files.App.Helpers
 >>>>>>> theirs
 		}
 
+=======
+>>>>>>> theirs
 		public static void SetLayoutPreferencesForPath(string? path, LayoutPreferencesItem preferencesItem)
 		{
-			if (!UserSettingsService.LayoutSettingsService.SyncFolderPreferencesAcrossDirectories)
+			var folderFRN = Win32Helper.GetFolderFRN(path);
+			var trimmedFolderPath = path.TrimPath();
+			if (trimmedFolderPath is null)
+				return;
+
+			if (preferencesItem.FollowsTemplate && GetLayoutPreferencesFromDatabase(trimmedFolderPath, folderFRN) is not { TemplateId.Length: > 0 })
 			{
-				var folderFRN = Win32Helper.GetFolderFRN(path);
-				var trimmedFolderPath = path.TrimPath();
-				if (trimmedFolderPath is not null)
-					SetLayoutPreferencesToDatabase(trimmedFolderPath, folderFRN, preferencesItem);
+				var templateId = preferencesItem.TemplateId;
+				preferencesItem.TemplateId = string.Empty;
+				SetLayoutPreferencesToDatabase(trimmedFolderPath, folderFRN, preferencesItem);
+				preferencesItem.TemplateId = templateId;
+				return;
 			}
-			else
-			{
-				UserSettingsService.LayoutSettingsService.DefaultLayoutMode = preferencesItem.LayoutMode;
 
-				// Do not save options which only work in recycle bin or cloud folders or search results as global
-				if (preferencesItem.DirectorySortOption != SortOption.Path &&
-					preferencesItem.DirectorySortOption != SortOption.OriginalFolder &&
-					preferencesItem.DirectorySortOption != SortOption.DateDeleted &&
-					preferencesItem.DirectorySortOption != SortOption.SyncStatus)
-				{
-					UserSettingsService.LayoutSettingsService.DefaultSortOption = preferencesItem.DirectorySortOption;
-					UserSettingsService.LayoutSettingsService.DefaultSortColumnId = preferencesItem.DirectorySortPropertyId;
-				}
-
+<<<<<<< ours
 				if (preferencesItem.DirectoryGroupOption != GroupOption.OriginalFolder &&
 					preferencesItem.DirectoryGroupOption != GroupOption.DateDeleted &&
 					preferencesItem.DirectoryGroupOption != GroupOption.FolderPath &&
@@ -545,15 +569,18 @@ namespace Files.App.Helpers
 				DetailsLayoutColumnDefaults.Save(preferencesItem.ColumnsViewModel);
 >>>>>>> theirs
 			}
+=======
+			SetLayoutPreferencesToDatabase(trimmedFolderPath, folderFRN, preferencesItem);
+>>>>>>> theirs
 		}
 
-		private static LayoutPreferencesItem? GetLayoutPreferencesForPath(string? path, out bool? isDefaultLayout)
+		private static LayoutPreferencesItem? GetLayoutPreferencesForPath(string? path, Func<LayoutFolderContent?>? getContent)
 		{
-			isDefaultLayout = null;
-
 			// Guard against null
 			if (path is null)
 				return null;
+
+			LayoutTemplatesService.CompleteFirstRun();
 
 			//Recycle Bin does not support Column View due to navigation conflicts with hierarchical display
 			//Fall back to Details View when Column View is configured
@@ -569,49 +596,47 @@ namespace Files.App.Helpers
 						?? GetLayoutPreferencesFromAds(trimmedPath, folderFRN);
 				}, App.Logger);
 
-				if (recycleBinPreference is not null && recycleBinPreference.LayoutMode != FolderLayoutModes.ColumnView)
-					return recycleBinPreference;
+				var preferences = ResolveSavedPreferences(recycleBinPreference, path, null);
+				if (preferences.LayoutMode == FolderLayoutModes.ColumnView)
+					preferences.LayoutMode = FolderLayoutModes.DetailsView;
 
-				var defaultPref = new LayoutPreferencesItem();
-				if (defaultPref.LayoutMode == FolderLayoutModes.ColumnView)
-					defaultPref.LayoutMode = FolderLayoutModes.DetailsView;
-
-				return defaultPref;
+				return preferences;
 			}
 
-			if (!UserSettingsService.LayoutSettingsService.SyncFolderPreferencesAcrossDirectories)
+			path = path.TrimPath() ?? string.Empty;
+
+			var preferencesItem = SafetyExtensions.IgnoreExceptions(() =>
 			{
-				path = path.TrimPath() ?? string.Empty;
-				bool? usesDefaultLayout = null;
+				if (path.StartsWith("tag:", StringComparison.Ordinal))
+					return GetLayoutPreferencesFromDatabase("Home", null);
 
-				var preferencesItem = SafetyExtensions.IgnoreExceptions(() =>
-				{
-					if (path.StartsWith("tag:", StringComparison.Ordinal))
-						return GetLayoutPreferencesFromDatabase("Home", null);
+				var folderFRN = Win32Helper.GetFolderFRN(path);
 
-					var folderFRN = Win32Helper.GetFolderFRN(path);
+				return GetLayoutPreferencesFromDatabase(path, folderFRN)
+					?? GetLayoutPreferencesFromAds(path, folderFRN);
+			}, App.Logger);
 
-					var preferences = GetLayoutPreferencesFromDatabase(path, folderFRN);
-					if (preferences is not null)
-					{
-						usesDefaultLayout = false;
-						return preferences;
-					}
+			return ResolveSavedPreferences(preferencesItem, path, getContent);
+		}
 
-					// A legacy ADS migration needs the usual database check before applying a prediction.
-					preferences = GetLayoutPreferencesFromAds(path, folderFRN);
-					if (preferences is null)
-						usesDefaultLayout = true;
+		private static LayoutPreferencesItem ResolveSavedPreferences(LayoutPreferencesItem? savedPreferences, string path, Func<LayoutFolderContent?>? getContent)
+		{
+			if (savedPreferences is { FollowsTemplate: false })
+				return savedPreferences;
 
-					return preferences;
-				}, App.Logger);
+			var preferences = savedPreferences is not null && LayoutTemplatesService.GetTemplate(savedPreferences.TemplateId) is { } template
+				? LayoutPreferencesItem.FromTemplate(template)
+				: GetTemplatePreferences(path, getContent);
 
-				isDefaultLayout = usesDefaultLayout;
-				return preferencesItem ?? GetDefaultLayoutPreferences(path);
-			}
+			if (savedPreferences is not null)
+				preferences.ColumnsViewModel.ApplyWidths(savedPreferences.ColumnsViewModel);
 
-			isDefaultLayout = true;
-			return new LayoutPreferencesItem();
+			return preferences;
+		}
+
+		private static LayoutPreferencesItem GetTemplatePreferences(string path, Func<LayoutFolderContent?>? getContent)
+		{
+			return LayoutPreferencesItem.FromTemplate(LayoutTemplatesService.GetTemplateForPath(path, getContent));
 		}
 
 		private static LayoutPreferencesItem? GetLayoutPreferencesFromAds(string path, ulong? frn)
@@ -642,36 +667,6 @@ namespace Files.App.Helpers
 			return databaseManager.GetPreferences(path, frn);
 		}
 
-		private static LayoutPreferencesItem? GetDefaultLayoutPreferences(string path)
-		{
-			if (string.IsNullOrEmpty(path))
-				return new();
-
-			if (path == Constants.UserEnvironmentPaths.DownloadsPath)
-			{
-				// Default for downloads folder is to group by date created
-				return new()
-				{
-					DirectoryGroupOption = GroupOption.DateCreated,
-					DirectoryGroupDirection = SortDirection.Descending,
-					DirectoryGroupByDateUnit = GroupByDateUnit.Year
-				};
-			}
-			else if (LibraryManager.IsLibraryPath(path))
-			{
-				// Default for libraries is to group by folder path
-				return new()
-				{
-					DirectoryGroupOption = GroupOption.FolderPath
-				};
-			}
-			else
-			{
-				// Either global setting or smart guess
-				return new();
-			}
-		}
-
 		private static bool SetLayoutPreferencesToDatabase(string path, ulong? frn, LayoutPreferencesItem preferencesItem)
 		{
 			if (string.IsNullOrEmpty(path))
@@ -679,15 +674,7 @@ namespace Files.App.Helpers
 
 			return SafetyExtensions.IgnoreExceptions(() =>
 			{
-				var dbInstance = GetDatabaseManagerInstance();
-				if (dbInstance.GetPreferences(path, frn) is null &&
-					new LayoutPreferencesItem().Equals(preferencesItem))
-				{
-					// Do not create setting if it's default
-					return;
-				}
-
-				dbInstance.SetPreferences(path, frn, preferencesItem);
+				GetDatabaseManagerInstance().SetPreferences(path, frn, preferencesItem);
 			});
 		}
 

@@ -11,230 +11,38 @@ namespace Files.App.Services.Settings
 			RegisterSettingsContext(settingsSharingContext);
 		}
 
-		public bool SyncFolderPreferencesAcrossDirectories
+		public List<LayoutTemplate>? LayoutTemplates
 		{
-			get => Get(false);
+			get => Get<List<LayoutTemplate>>(null);
 			set => Set(value);
 		}
 
-		public FolderLayoutModes DefaultLayoutMode
-		{
-			get => (FolderLayoutModes)Get((long)FolderLayoutModes.Adaptive);
-			set => Set((long)value);
-		}
+		public bool HasSavedLayoutTemplates
+			=> JsonSettingsDatabase?.ExportSettings().ContainsKey(nameof(LayoutTemplates)) is true;
 
-		public SortOption DefaultSortOption
+		public List<LayoutRule>? LayoutRules
 		{
-			get => (SortOption)Get((long)SortOption.Name);
-			set => Set((long)value);
-		}
-
-		public string DefaultSortColumnId
-		{
-			get => Get(string.Empty) ?? string.Empty;
+			get => Get<List<LayoutRule>>(null);
 			set => Set(value);
 		}
 
-		public SortDirection DefaultDirectorySortDirection
+		public IReadOnlyDictionary<string, JsonElement> TakeLegacySettings(IEnumerable<string> names)
 		{
-			get => (SortDirection)Get((long)SortDirection.Ascending);
-			set => Set((long)value);
-		}
+			var settings = JsonSettingsDatabase?.ExportSettings();
+			if (settings is null)
+				return new Dictionary<string, JsonElement>();
 
-		public bool DefaultSortDirectoriesAlongsideFiles
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool DefaultSortFilesFirst
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public GroupOption DefaultGroupOption
-		{
-			get => (GroupOption)Get((long)GroupOption.None);
-			set => Set((long)value);
-		}
-
-<<<<<<< ours
-		public SortDirection DefaultDirectoryGroupDirection
-		{
-			get => (SortDirection)Get((long)SortDirection.Ascending);
-			set => Set((long)value);
-		}
-
-		public GroupByDateUnit DefaultGroupByDateUnit
-		{
-			get => (GroupByDateUnit)Get((long)GroupByDateUnit.Year);
-			set => Set((long)value);
-		}
-
-		public double GitStatusColumnWidth
-		{
-			get => Get(80d);
-			set
+			var values = new Dictionary<string, JsonElement>();
+			foreach (var name in names)
 			{
-				if (ShowGitStatusColumn)
-					Set(value);
+				if (settings.TryGetValue(name, out var value))
+				{
+					values[name] = value.Clone();
+					JsonSettingsDatabase!.RemoveKey(name);
+				}
 			}
-		}
 
-		public double GitLastCommitDateColumnWidth
-		{
-			get => Get(140d);
-			set
-			{
-				if (ShowGitLastCommitDateColumn)
-					Set(value);
-			}
-		}
-
-		public double GitLastCommitMessageColumnWidth
-		{
-			get => Get(140d);
-			set
-			{
-				if (ShowGitLastCommitMessageColumn)
-					Set(value);
-			}
-		}
-
-		public double GitCommitAuthorColumnWidth
-		{
-			get => Get(140d);
-			set
-			{
-				if (ShowGitCommitAuthorColumn)
-					Set(value);
-			}
-		}
-
-		public double GitLastCommitShaColumnWidth
-		{
-			get => Get(80d);
-			set
-			{
-				if (ShowGitLastCommitShaColumn)
-					Set(value);
-			}
-		}
-
-		public double TagColumnWidth
-		{
-			get => Get(140d);
-			set
-			{
-				if (ShowFileTagColumn)
-					Set(value);
-			}
-		}
-
-		public double NameColumnWidth
-		{
-			get => Get(240d);
-			set => Set(value);
-		}
-
-		public List<string>? ColumnOrder
-		{
-			get => Get<List<string>>(null);
-			set => Set(value);
-		}
-
-		public double DateModifiedColumnWidth
-		{
-			get => Get(200d);
-			set
-			{
-				if (ShowDateColumn)
-					Set(value);
-			}
-		}
-
-		public double TypeColumnWidth
-		{
-			get => Get(140d);
-			set
-			{
-				if (ShowTypeColumn)
-					Set(value);
-			}
-		}
-
-		public double DateCreatedColumnWidth
-		{
-			get => Get(200d);
-			set
-			{
-				if (ShowDateCreatedColumn)
-					Set(value);
-			}
-		}
-
-		public double SizeColumnWidth
-		{
-			get => Get(100d);
-			set
-			{
-				if (ShowSizeColumn)
-					Set(value);
-			}
-		}
-
-		public double DateDeletedColumnWidth
-		{
-			get => Get(200d);
-			set
-			{
-				if (ShowDateDeletedColumn)
-					Set(value);
-			}
-		}
-
-		public double PathColumnWidth
-		{
-			get => Get(200d);
-			set
-			{
-				if (ShowPathColumn)
-					Set(value);
-			}
-		}
-
-		public double OriginalPathColumnWidth
-=======
-		public string DefaultGroupColumnId
->>>>>>> theirs
-		{
-			get => Get(string.Empty) ?? string.Empty;
-			set => Set(value);
-		}
-
-		public List<string>? DetailsLayoutColumns
-		{
-			get => Get<List<string>>(null);
-			set => Set(value);
-		}
-
-		public List<string>? DetailsLayoutColumnWidths
-		{
-			get => Get<List<string>>(null);
-			set => Set(value);
-		}
-
-		public SortDirection DefaultDirectoryGroupDirection
-		{
-			get => (SortDirection)Get((long)SortDirection.Ascending);
-			set => Set((long)value);
-		}
-
-		public GroupByDateUnit DefaultGroupByDateUnit
-		{
-			get => (GroupByDateUnit)Get((long)GroupByDateUnit.Year);
-			set => Set((long)value);
+			return values;
 		}
 
 		public bool AutoSizeColumnsInDetailsLayout

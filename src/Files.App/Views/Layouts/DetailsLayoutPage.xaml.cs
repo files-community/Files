@@ -34,10 +34,17 @@ namespace Files.App.Views.Layouts
 	public sealed partial class DetailsLayoutPage : BaseGroupableLayoutPage
 	{
 <<<<<<< ours
+<<<<<<< ours
 		// Dependency injections
 
 
 =======
+>>>>>>> theirs
+=======
+		// Dependency injections
+
+		private ILayoutTemplatesService LayoutTemplatesService { get; } = Ioc.Default.GetRequiredService<ILayoutTemplatesService>();
+
 >>>>>>> theirs
 		// Constants
 
@@ -240,6 +247,7 @@ namespace Files.App.Views.Layouts
 			folderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
 			folderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
 			folderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
+			folderSettings.PropertyChanged += FolderSettings_PropertyChanged;
 			shellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 			shellViewModel.ItemLoadStatusChanged += ShellViewModel_ItemLoadStatusChanged;
 			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
@@ -262,6 +270,21 @@ namespace Files.App.Views.Layouts
 			SetItemContainerStyle();
 		}
 
+		private void FolderSettings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(LayoutPreferencesManager.ColumnsViewModel) &&
+				FolderSettings?.ColumnsViewModel is { } columns &&
+				!ReferenceEquals(columns, ColumnsViewModel))
+			{
+				ColumnsViewModel.Columns = columns.Columns;
+				ColumnsViewModel.ColumnOrder = columns.ColumnOrder;
+				ApplyHeaderColumnOrder();
+				LoadShellPropertiesForRealizedItems();
+				if (ParentShellPageInstance?.ShellViewModel is { } shellViewModel)
+					shellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
+			}
+		}
+
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
@@ -270,6 +293,7 @@ namespace Files.App.Views.Layouts
 			folderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 			folderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			folderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
+			folderSettings.PropertyChanged -= FolderSettings_PropertyChanged;
 			var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 			shellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
 			shellViewModel.ItemLoadStatusChanged -= ShellViewModel_ItemLoadStatusChanged;
@@ -286,6 +310,7 @@ namespace Files.App.Views.Layouts
 				folderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 				folderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 				folderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
+				folderSettings.PropertyChanged -= FolderSettings_PropertyChanged;
 			}
 			if (ParentShellPageInstance?.ShellViewModel is { } shellViewModel)
 			{
@@ -319,16 +344,6 @@ namespace Files.App.Views.Layouts
 				{
 					currentIconSize = newIconSize;
 					_ = ReloadItemIconsAsync();
-				}
-			}
-			else
-			{
-				var settings = sender as ILayoutSettingsService;
-				var isDefaultPath = FolderSettings?.IsPathUsingDefaultLayout(ParentShellPageInstance?.ShellViewModel?.CurrentFolder?.ItemPath);
-				if (settings is not null && (isDefaultPath ?? true) && e.PropertyName is nameof(ILayoutSettingsService.DetailsLayoutColumns))
-				{
-					DetailsLayoutColumnDefaults.Apply(ColumnsViewModel);
-					LoadShellPropertiesForRealizedItems();
 				}
 			}
 		}
@@ -791,7 +806,7 @@ namespace Files.App.Views.Layouts
 				UpdateColumnLayout();
 				var folderSettings = FolderSettings
 					?? throw new InvalidOperationException("The details layout does not have folder settings.");
-				folderSettings.ColumnsViewModel = ColumnsViewModel;
+				folderSettings.SaveColumnWidths(ColumnsViewModel);
 			}
 		}
 
@@ -819,7 +834,7 @@ namespace Files.App.Views.Layouts
 		{
 			var folderSettings = FolderSettings
 				?? throw new InvalidOperationException("The details layout does not have folder settings.");
-			folderSettings.ColumnsViewModel = ColumnsViewModel;
+			folderSettings.SaveColumnWidths(ColumnsViewModel);
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
@@ -850,12 +865,15 @@ namespace Files.App.Views.Layouts
 		}
 
 		public void AutoFitColumns()
+			=> AutoFitColumns(true);
+
+		private void AutoFitColumns(bool save)
 		{
 			if (!FileList.Items.Any())
 				return;
 
 			foreach (var columnId in ColumnsViewModel.AllColumnIds.Where(id => ColumnsViewModel.GetColumn(id).Visibility == Visibility.Visible).ToArray())
-				ResizeColumnToFit(columnId);
+				ResizeColumnToFit(columnId, save);
 		}
 
 		private void AutoFitColumnsIfEnabled()
@@ -866,7 +884,7 @@ namespace Files.App.Views.Layouts
 			// Trailing debounce so bursts of item adds and extended-property updates during a folder load collapse into one resize.
 			_autoFitColumnsTimer ??= DispatcherQueue.CreateTimer();
 			_autoFitColumnsTimer.Debounce(
-				() => _ = Commands.AutoFitColumns.ExecuteAsync(),
+				() => AutoFitColumns(false),
 				TimeSpan.FromMilliseconds(250));
 		}
 
@@ -887,7 +905,7 @@ namespace Files.App.Views.Layouts
 			AutoFitColumnsIfEnabled();
 		}
 
-		private void ResizeColumnToFit(string columnId)
+		private void ResizeColumnToFit(string columnId, bool save = true)
 		{
 			if (!FileList.Items.Any())
 				return;
@@ -922,9 +940,12 @@ namespace Files.App.Views.Layouts
 				column.UserLength = new GridLength(maxFitLength, GridUnitType.Pixel);
 			}
 
+			if (!save)
+				return;
+
 			var folderSettings = FolderSettings
 				?? throw new InvalidOperationException("The details layout does not have folder settings.");
-			folderSettings.ColumnsViewModel = ColumnsViewModel;
+			folderSettings.SaveColumnWidths(ColumnsViewModel);
 		}
 
 		private double MeasureColumnEstimate(string columnId, int measureItemsCount, int maxItemLength)
@@ -1310,7 +1331,12 @@ namespace Files.App.Views.Layouts
 				.ToArray();
 
 			var shownColumns = ColumnsViewModel.OrderedColumns.Ids.Where(id => ColumnsViewModel.IsColumnVisible(id) && !ColumnsViewModel.GetColumn(id).IsHidden);
+<<<<<<< ours
 			var defaultColumns = DetailsLayoutColumnDefaults.GetColumns().Where(availableColumns.Contains);
+>>>>>>> theirs
+=======
+			var template = LayoutTemplatesService.GetTemplate(FolderSettings?.TemplateId) ?? LayoutTemplatesService.DefaultTemplate;
+			var defaultColumns = DetailsLayoutColumnDefaults.GetColumns(template).Where(id => DetailsLayoutColumnOrder.IsRequired(id) || availableColumns.Contains(id));
 >>>>>>> theirs
 
 		/// <summary>
@@ -1588,7 +1614,7 @@ namespace Files.App.Views.Layouts
 =======
 		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
 		{
-			LayoutPreferencesManager.SetDefaultLayoutPreferences(ColumnsViewModel);
+			FolderSettings?.SaveColumnsToTemplate();
 		}
 
 >>>>>>> theirs
