@@ -283,7 +283,7 @@ namespace Files.App.Data.Items
 
 		public async void RefreshSpaceUsed(object? sender, EventArgs e)
 		{
-			await RefreshSpaceUsedAsync();
+			await SafetyExtensions.LogExceptionsAsync(RefreshSpaceUsedAsync, App.Logger, "Refreshing the Recycle Bin size failed.");
 		}
 
 		private Task RefreshSpaceUsedAsync()
@@ -314,7 +314,7 @@ namespace Files.App.Data.Items
 		{
 			StorageTrashBinService.StateChanged += RefreshSpaceUsed;
 
-			_ = RefreshSpaceUsedAsync();
+			_ = SafetyExtensions.LogExceptionsAsync(RefreshSpaceUsedAsync, App.Logger, "Refreshing the Recycle Bin size failed.");
 		}
 	}
 }

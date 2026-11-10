@@ -458,6 +458,11 @@ namespace Files.App.ViewModels
 
 		private async void LocationRestorationWatcher_Restored(object sender, FileSystemEventArgs e)
 		{
+			await SafetyExtensions.LogExceptionsAsync(RefreshRestoredLocationAsync, App.Logger, "Refreshing items after a folder was restored failed.");
+		}
+
+		private async Task RefreshRestoredLocationAsync()
+		{
 			if (Interlocked.Exchange(ref locationRestorationWatcher, null) is not FileSystemWatcher restorationWatcher)
 				return;
 
@@ -774,6 +779,11 @@ namespace Files.App.ViewModels
 
 		private async void RecycleBinRefreshRequestedAsync(object? sender, FileSystemEventArgs e)
 		{
+			await SafetyExtensions.LogExceptionsAsync(RefreshRecycleBinAsync, App.Logger, "Refreshing the Recycle Bin failed.");
+		}
+
+		private async Task RefreshRecycleBinAsync()
+		{
 			if (!Constants.UserEnvironmentPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
 
@@ -785,6 +795,11 @@ namespace Files.App.ViewModels
 
 		private async void RecycleBinItemDeletedAsync(object? sender, FileSystemEventArgs e)
 		{
+			await SafetyExtensions.LogExceptionsAsync(() => RemoveRecycleBinItemAsync(e), App.Logger, "Removing a Recycle Bin item failed.");
+		}
+
+		private async Task RemoveRecycleBinItemAsync(FileSystemEventArgs e)
+		{
 			if (!Constants.UserEnvironmentPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
 
@@ -795,6 +810,11 @@ namespace Files.App.ViewModels
 		}
 
 		private async void RecycleBinItemCreatedAsync(object? sender, FileSystemEventArgs e)
+		{
+			await SafetyExtensions.LogExceptionsAsync(() => AddRecycleBinItemAsync(e), App.Logger, "Adding a Recycle Bin item failed.");
+		}
+
+		private async Task AddRecycleBinItemAsync(FileSystemEventArgs e)
 		{
 			if (!Constants.UserEnvironmentPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
@@ -864,7 +884,12 @@ namespace Files.App.ViewModels
 
 		private async void FileTagsSettingsService_OnSettingUpdated(object? sender, EventArgs e)
 		{
-			await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+			await SafetyExtensions.LogExceptionsAsync(RefreshItemsForFileTagSettingsAsync, App.Logger, "Refreshing items after a file tag setting change failed.");
+		}
+
+		private Task RefreshItemsForFileTagSettingsAsync()
+		{
+			return dispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				if (WorkingDirectory != "Home" && WorkingDirectory != "ReleaseNotes" && WorkingDirectory != "Settings")
 					RefreshItems(null);
@@ -872,6 +897,11 @@ namespace Files.App.ViewModels
 		}
 
 		private async void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
+		{
+			await SafetyExtensions.LogExceptionsAsync(() => ApplyChangedUserSettingAsync(e), App.Logger, "Applying a changed setting failed.");
+		}
+
+		private async Task ApplyChangedUserSettingAsync(SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
 			{
@@ -2774,6 +2804,11 @@ namespace Files.App.ViewModels
 
 		private async void DirectoryWatcher_Changed(object sender, FileSystemEventArgs e)
 		{
+			await SafetyExtensions.LogExceptionsAsync(() => RefreshItemsForDirectoryChangeAsync(e), App.Logger, "Refreshing items after a directory change failed.");
+		}
+
+		private async Task RefreshItemsForDirectoryChangeAsync(FileSystemEventArgs e)
+		{
 			Debug.WriteLine($"Directory watcher event: {e.ChangeType}, {e.FullPath}");
 
 			await dispatcherQueue.EnqueueOrInvokeAsync(() =>
@@ -2783,6 +2818,11 @@ namespace Files.App.ViewModels
 		}
 
 		private async void ItemQueryResult_ContentsChanged(IStorageQueryResultBase sender, object args)
+		{
+			await SafetyExtensions.LogExceptionsAsync(() => RefreshItemsForQueryChangeAsync(sender), App.Logger, "Refreshing items after an indexed query change failed.");
+		}
+
+		private async Task RefreshItemsForQueryChangeAsync(IStorageQueryResultBase sender)
 		{
 			// Query options have to be reapplied otherwise old results are returned
 			var options = new QueryOptions()

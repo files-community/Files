@@ -96,6 +96,11 @@ namespace Files.App.ViewModels.UserControls
 
 		private async void Watcher_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
+			await SafetyExtensions.LogExceptionsAsync(() => RemoveShelfItemFromWatcherAsync(e), App.Logger, "Updating shelf items after a folder change failed.");
+		}
+
+		private async Task RemoveShelfItemFromWatcherAsync(NotifyCollectionChangedEventArgs e)
+		{
 			switch (e.Action)
 			{
 				case NotifyCollectionChangedAction.Remove when e.OldItems is not null:

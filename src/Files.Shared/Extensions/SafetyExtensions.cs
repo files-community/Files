@@ -3,6 +3,7 @@
 
 using Microsoft.Extensions.Logging;
 using System;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace Files.Shared.Extensions
@@ -110,6 +111,51 @@ namespace Files.Shared.Extensions
 			{
 				await onFailed(inputTask, ex);
 			}
+		}
+
+		/// <summary>
+		/// Awaits a background callback. Recoverable exceptions are logged; fatal exceptions propagate.
+		/// </summary>
+		public static async Task LogExceptionsAsync(Func<Task> action, ILogger? logger, string message)
+		{
+			try
+			{
+				await action();
+			}
+			catch (OperationCanceledException)
+			{
+				// Cancellation is a normal end of background work.
+			}
+			catch (Exception ex) when (IsNonFatal(ex))
+			{
+				try
+				{
+					logger?.LogError(ex, "{Message}", message);
+				}
+				catch (Exception logEx) when (IsNonFatal(logEx))
+				{
+					// Logging must not become an unhandled exception on an async void callback.
+				}
+			}
+		}
+
+		private static bool IsNonFatal(Exception ex)
+		{
+			if (ex is AggregateException aggregate)
+			{
+				foreach (var inner in aggregate.InnerExceptions)
+				{
+					if (!IsNonFatal(inner))
+						return false;
+				}
+
+				return true;
+			}
+
+			return ex is not OutOfMemoryException
+				and not AccessViolationException
+				and not SEHException
+				and not InsufficientExecutionStackException;
 		}
 	}
 }

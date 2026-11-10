@@ -377,6 +377,11 @@ namespace Files.App.ViewModels.UserControls
 
 		private async void Manager_DataChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
+			await SafetyExtensions.LogExceptionsAsync(() => SyncSidebarFromDataChangedAsync(sender, e), App.Logger, "Updating the sidebar after a data change failed.");
+		}
+
+		private async Task SyncSidebarFromDataChangedAsync(object? sender, NotifyCollectionChangedEventArgs e)
+		{
 			if (dispatcherQueue is null || sender is not SectionType sectionType)
 				return;
 

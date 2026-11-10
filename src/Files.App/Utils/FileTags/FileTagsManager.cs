@@ -32,6 +32,11 @@ namespace Files.App.Utils.FileTags
 
 		private async void TagsUpdatedAsync(object? _, EventArgs e)
 		{
+			await SafetyExtensions.LogExceptionsAsync(ReloadFileTagsAsync, logger, "Updating file tags failed.");
+		}
+
+		private async Task ReloadFileTagsAsync()
+		{
 			lock (fileTags)
 				fileTags.Clear();
 			DataChanged?.Invoke(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));

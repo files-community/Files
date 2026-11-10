@@ -464,9 +464,9 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Shows exception on the Debug Output and sends Toast Notification to the Windows Notification Center.
+		/// Logs an unhandled exception. Fatal mechanisms terminate the process; unobserved task exceptions do not.
 		/// </summary>
-		public static void HandleAppUnhandledException(Exception? ex, bool showToastNotification, string mechanism = "Application.UnhandledException", string? unhandledMessage = null)
+		public static void HandleAppUnhandledException(Exception? ex, bool showToastNotification, string mechanism = "Application.UnhandledException", string? unhandledMessage = null, bool terminateProcess = true)
 		{
 			try
 			{
@@ -482,7 +482,7 @@ namespace Files.App.Helpers
 
 				if (ex is not null)
 				{
-					ex.Data[Mechanism.HandledKey] = false;
+					ex.Data[Mechanism.HandledKey] = !terminateProcess;
 					ex.Data[Mechanism.MechanismKey] = mechanism;
 
 					SafetyExtensions.IgnoreExceptions(() =>
@@ -490,7 +490,7 @@ namespace Files.App.Helpers
 						SentrySdk.CaptureException(ex, scope =>
 						{
 							scope.User.Id = generalSettingsService?.UserId;
-							scope.Level = SentryLevel.Fatal;
+							scope.Level = terminateProcess ? SentryLevel.Fatal : SentryLevel.Error;
 							scope.SetTag("hresult", $"0x{ex.HResult:X8}");
 
 							if (!string.IsNullOrEmpty(unhandledMessage))
@@ -501,6 +501,10 @@ namespace Files.App.Helpers
 								scope.SetExtra("recent_exceptions", SafetyExtensions.IgnoreExceptions(FormatRecentExceptions));
 						});
 					});
+
+					// The file logger also forwards to Sentry. Marking the exception unhandled
+					// keeps that forwarder from sending a second event.
+					ex.Data[Mechanism.HandledKey] = false;
 
 					formattedException.AppendLine($">>>> HRESULT: {ex.HResult}");
 
@@ -541,10 +545,12 @@ namespace Files.App.Helpers
 				Debug.WriteLine(formattedException.ToString());
 
 				// Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
-				Debugger.Break();
+				if (terminateProcess)
+					Debugger.Break();
 
 				// Save the current tab list in case it was overwriten by another instance
-				SafetyExtensions.IgnoreExceptions(SaveSessionTabs);
+				if (terminateProcess)
+					SafetyExtensions.IgnoreExceptions(SaveSessionTabs);
 				SafetyExtensions.IgnoreExceptions(() => App.Logger?.LogError(ex, ex?.Message ?? "An unhandled error occurred."));
 
 				if (!showToastNotification)
@@ -588,7 +594,8 @@ namespace Files.App.Helpers
 			}
 			finally
 			{
-				Environment.Exit(ex?.HResult ?? 1);
+				if (terminateProcess)
+					Environment.Exit(ex?.HResult ?? 1);
 			}
 		}
 

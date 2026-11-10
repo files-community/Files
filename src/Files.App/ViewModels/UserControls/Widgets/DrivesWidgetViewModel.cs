@@ -249,7 +249,12 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		private async void Drives_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
-			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+			await SafetyExtensions.LogExceptionsAsync(ReloadDriveCardsAsync, App.Logger, "Updating the drives widget failed.");
+		}
+
+		private Task ReloadDriveCardsAsync()
+		{
+			return MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
 				foreach (DriveItem drive in DrivesViewModel.Drives.ToList().Cast<DriveItem>())
 				{

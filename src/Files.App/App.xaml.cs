@@ -60,7 +60,19 @@ namespace Files.App
 			AppLifecycleHelper.RecordFirstChanceExceptions();
 			UnhandledException += (sender, e) => AppLifecycleHelper.HandleAppUnhandledException(e.Exception, true, "Application.UnhandledException", e.Message);
 			AppDomain.CurrentDomain.UnhandledException += (sender, e) => AppLifecycleHelper.HandleAppUnhandledException(e.ExceptionObject as Exception, false, "AppDomain.UnhandledException");
-			TaskScheduler.UnobservedTaskException += (sender, e) => AppLifecycleHelper.HandleAppUnhandledException(e.Exception, false, "TaskScheduler.UnobservedTaskException");
+			// Raised later by the GC. Modern .NET does not terminate the process for this event;
+			// exiting here closes the app long after the original fault.
+			TaskScheduler.UnobservedTaskException += static (_, e) =>
+			{
+				try
+				{
+					AppLifecycleHelper.HandleAppUnhandledException(e.Exception, false, "TaskScheduler.UnobservedTaskException", terminateProcess: false);
+				}
+				finally
+				{
+					e.SetObserved();
+				}
+			};
 			AppDomain.CurrentDomain.ProcessExit += static (_, _) =>
 				SafetyExtensions.IgnoreExceptions(() => Ioc.Default.GetService<FileLoggerProvider>()?.TryCompleteAndFlush(TimeSpan.FromSeconds(2)));
 		}
