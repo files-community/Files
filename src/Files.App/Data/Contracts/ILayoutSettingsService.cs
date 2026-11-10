@@ -156,6 +156,11 @@ namespace Files.App.Data.Contracts
 		double NameColumnWidth { get; set; }
 
 		/// <summary>
+		/// Gets or sets the default order of the Details layout columns
+		/// </summary>
+		List<string>? ColumnOrder { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating date modified column's default width
 		/// </summary>
 		double DateModifiedColumnWidth { get; set; }
