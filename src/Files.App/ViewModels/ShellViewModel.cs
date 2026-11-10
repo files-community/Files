@@ -15,7 +15,6 @@ using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -3104,10 +3103,10 @@ namespace Files.App.ViewModels
 				uint nextEntryOffset = BinaryPrimitives.ReadUInt32LittleEndian(buffer.Slice(offset, 4));
 				uint action = BinaryPrimitives.ReadUInt32LittleEndian(buffer.Slice(offset + 4, 4));
 				uint fileNameLength = BinaryPrimitives.ReadUInt32LittleEndian(buffer.Slice(offset + 8, 4));
-				if (fileNameLength > buffer.Length - offset - 12)
+				if ((fileNameLength & 1) != 0 || fileNameLength > buffer.Length - offset - 12)
 					break;
 
-				string fileName = Encoding.Unicode.GetString(buffer.Slice(offset + 12, (int)fileNameLength));
+				string fileName = new(MemoryMarshal.Cast<byte, char>(buffer.Slice(offset + 12, (int)fileNameLength)));
 				changes.Add((action, fileName));
 
 				if (nextEntryOffset == 0 || nextEntryOffset > buffer.Length - offset)
