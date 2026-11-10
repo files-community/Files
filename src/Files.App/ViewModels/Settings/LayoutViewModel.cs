@@ -25,6 +25,57 @@ namespace Files.App.ViewModels.Settings
 			SelectedDefaultGroupByDateUnitIndex = (int)UserSettingsService.LayoutSettingsService.DefaultGroupByDateUnit;
 		}
 
+		internal void StartListening()
+		{
+			UserSettingsService.OnSettingChangedEvent -= OnSharedSettingChanged;
+			UserSettingsService.OnSettingChangedEvent += OnSharedSettingChanged;
+			RefreshSettings();
+		}
+
+		internal void StopListening() => UserSettingsService.OnSettingChangedEvent -= OnSharedSettingChanged;
+
+		private void OnSharedSettingChanged(object? sender, SettingChangedEventArgs e)
+		{
+			if (e.NewValue is JsonElement)
+				RefreshSettings(e.SettingName);
+		}
+
+		private void RefreshSettings(string? name = null)
+		{
+			var settings = UserSettingsService.LayoutSettingsService;
+			if (name is null or nameof(ILayoutSettingsService.DefaultLayoutMode))
+			{
+				SetProperty(ref selectedDefaultLayoutModeIndex, (int)settings.DefaultLayoutMode, nameof(SelectedDefaultLayoutModeIndex));
+			}
+			if (name is null or nameof(ILayoutSettingsService.DefaultSortOption))
+			{
+				SetProperty(ref selectedDefaultSortingIndex, settings.DefaultSortOption == SortOption.FileTag ? FileTagSortingIndex : (int)settings.DefaultSortOption, nameof(SelectedDefaultSortingIndex));
+			}
+			if (name is null or nameof(ILayoutSettingsService.DefaultSortDirectoriesAlongsideFiles) or nameof(ILayoutSettingsService.DefaultSortFilesFirst))
+			{
+				SetProperty(ref selectedDefaultSortPriorityIndex, settings.DefaultSortDirectoriesAlongsideFiles ? 2 : settings.DefaultSortFilesFirst ? 1 : 0, nameof(SelectedDefaultSortPriorityIndex));
+			}
+			if (name is null or nameof(ILayoutSettingsService.DefaultGroupOption))
+			{
+				SetProperty(ref selectedDefaultGroupingIndex, settings.DefaultGroupOption == GroupOption.FileTag ? FileTagGroupingIndex : (int)settings.DefaultGroupOption, nameof(SelectedDefaultGroupingIndex));
+				OnPropertyChanged(nameof(IsDefaultGrouped));
+				OnPropertyChanged(nameof(IsGroupByDate));
+			}
+			if (name is null or nameof(ILayoutSettingsService.DefaultGroupByDateUnit))
+			{
+				SetProperty(ref defaultGroupByDateUnitIndex, (int)settings.DefaultGroupByDateUnit, nameof(SelectedDefaultGroupByDateUnitIndex));
+			}
+			if (name is null or nameof(ILayoutSettingsService.DefaultDirectorySortDirection))
+			{
+				OnPropertyChanged(nameof(SortInDescendingOrder));
+			}
+			if (name is null or nameof(ILayoutSettingsService.DefaultDirectoryGroupDirection))
+			{
+				OnPropertyChanged(nameof(GroupInDescendingOrder));
+			}
+			OnPropertyChanged(name ?? string.Empty);
+		}
+
 		// Properties
 
 		public bool SyncFolderPreferencesAcrossDirectories

@@ -1,6 +1,8 @@
 ﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Project Sdk="Microsoft.NET.Sdk">
 
+    <Sdk Name="PublishWithSatoriGC" Version="10.0.15-satori.42242472690.2" />
+
     <PropertyGroup>
         <EnableMsixTooling>true</EnableMsixTooling>
         <PublishProfile>Properties\PublishProfiles\win-$(Platform).pubxml</PublishProfile>
@@ -22,9 +24,11 @@
         <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
         <Nullable>Enable</Nullable>
         <NoWarn>$(NoWarn);CS8305</NoWarn>
+        <MSBuildWarningsNotAsErrors>$(MSBuildWarningsNotAsErrors);SATORI001;SATORI002</MSBuildWarningsNotAsErrors>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <Platforms>x86;x64;arm64</Platforms>
         <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+        <RuntimeIdentifier>win-$(Platform)</RuntimeIdentifier>
         <UseWinUI>true</UseWinUI>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -54,12 +58,17 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="..\Files.App.Server\Settings\SettingsValueCodec.cs" Link="Utils\Serialization\SettingsValueCodec.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
         <DirectPInvoke Include="ADVAPI32" />
         <DirectPInvoke Include="api-ms-win-core-com-l1-1-0" />
         <DirectPInvoke Include="api-ms-win-core-com-l1-1-1" />
         <DirectPInvoke Include="api-ms-win-core-winrt-l1-1-0" />
         <DirectPInvoke Include="api-ms-win-core-winrt-robuffer-l1-1-0" />
         <DirectPInvoke Include="api-ms-win-core-winrt-string-l1-1-0" />
+        <DirectPInvoke Include="CFGMGR32" />
         <DirectPInvoke Include="CRYPT32" />
         <DirectPInvoke Include="GDI32" />
         <DirectPInvoke Include="KERNEL32.dll" />
@@ -70,11 +79,13 @@
         <DirectPInvoke Include="MPR" />
         <_WindowsAppRuntimeBootstrapLibrary Include="@(WindowsAppSdkComponentPackages->'%(FullPath)lib\native\$(Platform)\Microsoft.WindowsAppRuntime.Bootstrap.lib')" />
         <NativeLibrary Include="runtimeobject.lib" />
+        <NativeLibrary Include="cfgmgr32.lib" />
         <NativeLibrary Include="mpr.lib" />
         <NativeLibrary Include="@(_WindowsAppRuntimeBootstrapLibrary->Exists())" />
     </ItemGroup>
   
     <ItemGroup>
+        <Content Remove="Assets\Libraries\**" />
         <Manifest Include="app.manifest" />
         <Content Update="Assets\Resources\**">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -118,7 +129,6 @@
         <PackageReference Include="FluentFTP" />
         <PackageReference Include="LibGit2Sharp" />
         <PackageReference Include="MessageFormat" />
-        <PackageReference Include="Microsoft.Data.Sqlite.Core" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
         <PackageReference Include="Microsoft.Extensions.Logging" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" />
@@ -127,7 +137,6 @@
         <PackageReference Include="Sentry" />
         <PackageReference Include="SevenZipSharp" />
         <PackageReference Include="SharpZipLib" />
-        <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" />
         <PackageReference Include="System.Drawing.Common" />
         <PackageReference Include="Microsoft.WindowsAppSDK" />
         <PackageReference Include="Microsoft.Graphics.Win2D" />
@@ -164,7 +173,7 @@
         <ProjectReference Include="..\Files.App.Controls\Files.App.Controls.csproj" />
         <ProjectReference Include="..\Files.Storage\Files.Storage.csproj" />
         <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
-        <ProjectReference Include="..\Files.Core.SourceGenerator\Files.Core.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+        <ProjectReference Include="..\Files.SourceGenerators\Files.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
 
     <ItemGroup>

@@ -18,6 +18,7 @@
 
 	<CornerRadius x:Key="OmnibarDefaultCornerRadius">19</CornerRadius>
 	<CornerRadius x:Key="OmnibarModeDefaultCornerRadius">17</CornerRadius>
+	<CornerRadius x:Key="OmnibarDeleteButtonCornerRadius">4,14,14,4</CornerRadius>
 
 	<Style BasedOn="{StaticResource DefaultOmnibarStyle}" TargetType="local:Omnibar" />
 	<Style BasedOn="{StaticResource DefaultOmnibarModeStyle}" TargetType="local:OmnibarMode" />
@@ -142,6 +143,7 @@
 							BorderBrush="{TemplateBinding BorderBrush}"
 							BorderThickness="0"
 							CornerRadius="{TemplateBinding CornerRadius}"
+							ToolTipService.Placement="Bottom"
 							ToolTipService.ToolTip="{TemplateBinding ModeName}">
 							<Button.Resources>
 								<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />
@@ -373,6 +375,7 @@
 								FontSize="{StaticResource TextBoxIconFontSize}"
 								Foreground="{ThemeResource TextControlButtonForeground}"
 								IsTabStop="False"
+								ToolTipService.Placement="Bottom"
 								Visibility="Collapsed">
 								<Button.Resources>
 									<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />
@@ -429,6 +432,15 @@
 								<VisualState x:Name="ButtonVisible">
 									<VisualState.Setters>
 										<Setter Target="DeleteButton.Visibility" Value="Visible" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+							<VisualStateGroup x:Name="DeleteButtonCornerStates">
+								<VisualState x:Name="DeleteButtonCornersDefault" />
+								<VisualState x:Name="DeleteButtonCornersRounded">
+									<VisualState.Setters>
+										<Setter Target="DeleteButton.CornerRadius" Value="{StaticResource OmnibarDeleteButtonCornerRadius}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>

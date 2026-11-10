@@ -13,6 +13,8 @@ namespace Files.App.Views.Settings
 		public GeneralPage()
 		{
 			InitializeComponent();
+			Loaded += (_, _) => ViewModel.StartListening();
+			Unloaded += (_, _) => ViewModel.StopListening();
 		}
 
 		private void RemoveStartupPage(object sender, RoutedEventArgs e)

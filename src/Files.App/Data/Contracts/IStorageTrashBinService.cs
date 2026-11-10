@@ -11,7 +11,9 @@ namespace Files.App.Data.Contracts
 		/// <summary>
 		/// Gets the watcher of Recycle Bin folder.
 		/// </summary>
-		RecycleBinWatcher Watcher { get; }
+		Files.Storage.ITrashWatcher Watcher { get; }
+
+		event EventHandler? StateChanged;
 
 		/// <summary>
 		/// Gets all Recycle Bin shell folders.
@@ -24,13 +26,13 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		/// <param name="drive">The drive letter, Recycle Bin of which you want.</param>
 		/// <returns></returns>
-		(bool HasRecycleBin, long NumItems, long BinSize) QueryRecycleBin(string drive = "");
+		Task<(bool HasRecycleBin, long NumItems, long BinSize)> QueryRecycleBinAsync(string drive = "");
 
 		/// <summary>
 		/// Gets the used size of Recycle Bin.
 		/// </summary>
 		/// <returns></returns>
-		ulong GetSize();
+		Task<ulong> GetSizeAsync();
 
 		/// <summary>
 		/// Gets the value that indicates whether Recycle Bin folder has item(s).

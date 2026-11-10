@@ -417,7 +417,7 @@ namespace Files.App.Utils.Storage
 			}
 
 			var dbInstance = FileTagsHelper.GetDbInstance();
-			var matches = dbInstance.GetAllUnderPath(folder)
+			var matches = (await dbInstance.GetAllUnderPathAsync(folder))
 				.Where(x => MatchesTagExpression(x.Tags, expression));
 			if (string.IsNullOrEmpty(folder))
 				matches = matches.Where(x => !StorageTrashBinService.IsUnderTrashBin(x.FilePath));

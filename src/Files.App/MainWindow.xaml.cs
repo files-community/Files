@@ -57,7 +57,7 @@ namespace Files.App
 			if (rootFrame is null)
 				return false;
 
-			// Submit the lightweight backdrop before showing the window with its normal animation.
+			// Submit the initial content and backdrop before the window's normal show animation.
 			await CompositionTarget.GetCompositorForCurrentThread().RequestCommitAsync();
 
 			var firstFrame = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -66,7 +66,7 @@ namespace Files.App
 			try
 			{
 				Activate();
-				// Let the backdrop paint before main-page construction occupies the UI thread.
+				// Let the initial content paint before starting the remaining initialization.
 				return await firstFrame.Task;
 			}
 			finally
@@ -90,6 +90,12 @@ namespace Files.App
 			var rootFrame = EnsureWindowIsInitialized();
 
 			rootFrame?.Navigate(typeof(SplashScreenPage));
+		}
+
+		internal void ShowMainPage()
+		{
+			EnsureWindowIsInitialized()?.Navigate(typeof(MainPage),
+				new MainPageNavigationArguments { DeferInitialization = true }, new SuppressNavigationTransitionInfo());
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(OverlappedPresenter))]
@@ -254,7 +260,6 @@ namespace Files.App
 			var appWindow = AppWindow;
 			if (appWindow is not null && !appWindow.IsVisible)
 			{
-				// When resuming the cached instance
 				appWindow.Show();
 				Activate();
 
@@ -302,6 +307,7 @@ namespace Files.App
 					// Place the frame in the current Window
 					Instance.Content = rootFrame;
 					Ioc.Default.GetRequiredService<IAppThemeModeService>().SetAppThemeMode(this, callThemeModeChangedEvent: false);
+					Ioc.Default.GetRequiredService<IResourcesService>().LoadAppResources(Ioc.Default.GetRequiredService<IAppearanceSettingsService>());
 				}
 
 				if (SystemBackdrop is null)

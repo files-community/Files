@@ -23,6 +23,7 @@ namespace Files.App.Services.Settings
 	[JsonSerializable(typeof(List<string>))]
 	[JsonSerializable(typeof(Dictionary<string, bool>))]
 	[JsonSerializable(typeof(List<ActionWithParameterItem>))]
+	[JsonSerializable(typeof(List<FolderAliasItem>))]
 	[JsonSerializable(typeof(Dictionary<string, List<ToolbarItemSettingsEntry>>))]
 	[JsonSerializable(typeof(Dictionary<string, List<string>>))]
 	[JsonSerializable(typeof(DateTimeFormats))]
@@ -91,17 +92,14 @@ namespace Files.App.Services.Settings
 
 		public UserSettingsService()
 		{
-			var settingsSerializer = new DefaultSettingsSerializer();
-			SettingsSerializer = settingsSerializer;
-
-			Initialize(Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.UserSettingsFileName));
-
-			var jsonSettingsSerializer = new DefaultJsonSettingsSerializer();
-			JsonSettingsSerializer = jsonSettingsSerializer;
-			JsonSettingsDatabase = new CachingJsonSettingsDatabase(
-				settingsSerializer,
-				jsonSettingsSerializer,
-				UserSettingsJsonSerializationContext.Default);
+			JsonSettingsSerializer = new DefaultJsonSettingsSerializer();
+			var database = new ServerSettingsDatabase(Constants.LocalSettings.UserSettingsFileName, JsonSettingsSerializer, UserSettingsJsonSerializationContext.Default);
+			JsonSettingsDatabase = database;
+			IsAvailable = true;
+			database.Changed += (name, value) =>
+			{
+				RaiseOnSettingChangedEvent(this, new SettingChangedEventArgs(name, value));
+			};
 		}
 
 		public override object ExportSettings()

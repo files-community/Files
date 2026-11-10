@@ -71,6 +71,20 @@ namespace Files.App.ViewModels.Settings
 			DeleteCommand = new RelayCommand<ModifiableActionItem>(ExecuteDeleteCommand);
 		}
 
+		internal void StartListening()
+		{
+			Ioc.Default.GetRequiredService<IUserSettingsService>().OnSettingChangedEvent -= OnSharedSettingChanged;
+			Ioc.Default.GetRequiredService<IUserSettingsService>().OnSettingChangedEvent += OnSharedSettingChanged;
+		}
+
+		internal void StopListening() => Ioc.Default.GetRequiredService<IUserSettingsService>().OnSettingChangedEvent -= OnSharedSettingChanged;
+
+		private async void OnSharedSettingChanged(object? sender, SettingChangedEventArgs e)
+		{
+			if (e.NewValue is JsonElement && e.SettingName == nameof(IActionsSettingsService.ActionsV2))
+				await SafetyExtensions.IgnoreExceptions(ExecuteLoadAllActionsCommand, App.Logger);
+		}
+
 		// Command methods
 
 		private async Task ExecuteLoadAllActionsCommand()

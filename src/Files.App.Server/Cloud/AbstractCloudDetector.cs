@@ -8,7 +8,7 @@ namespace Files.App.Server.Cloud
 {
 	internal abstract class AbstractCloudDetector
 	{
-		static AbstractCloudDetector() => SQLitePCL.Batteries_V2.Init();
+		static AbstractCloudDetector() => SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_winsqlite3());
 
 		protected static SqliteConnection CreateReadOnlyConnection(string path)
 			=> new(new SqliteConnectionStringBuilder

@@ -28,20 +28,6 @@ namespace Files.App
 		private static FlyoutBase? _LastOpenedFlyout;
 		private static bool _isWindowTeardownCompleted;
 		private static bool _isWindowClosing;
-		private static readonly Task<Server.AppService> serverSession = Task.Run(() =>
-		{
-			var server = new Server.AppService(Environment.ProcessId);
-			server.Changed += (_, name) => UiDispatcher?.TryEnqueue(() =>
-			{
-				if (ServerChanged is not { } handlers)
-					return;
-				foreach (EventHandler<string> handler in handlers.GetInvocationList())
-					SafetyExtensions.IgnoreExceptions(() => handler(null, name), Logger);
-			});
-			return server;
-		});
-
-		internal static event EventHandler<string>? ServerChanged;
 		public static FlyoutBase? LastOpenedFlyout
 		{
 			set
@@ -85,28 +71,36 @@ namespace Files.App
 		protected override void OnLaunched(LaunchActivatedEventArgs e)
 		{
 			UiDispatcher = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
+			_ = ServerSession;
 
 			// Constructed on the UI thread: the ctor subscribes the UI-thread-only Clipboard.ContentChanged
 			AppModel = new AppModel();
 
-			_ = ActivateAsync();
+			_ = SafetyExtensions.WrapAsync(ActivateAsync, (_, ex) =>
+			{
+				AppLifecycleHelper.HandleAppUnhandledException(ex, true, "App.OnLaunched");
+				return Task.CompletedTask;
+			});
 
 			async Task ActivateAsync()
 			{
+				var startup = Stopwatch.StartNew();
 				var appActivationArguments = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
 				var isStartupTask = appActivationArguments.Data is Windows.ApplicationModel.Activation.IStartupTaskActivatedEventArgs;
 
 				// Build the DI container off-thread while the window initializes
 				var appModel = AppModel;
-				Task commandsWarmupTask = Task.CompletedTask;
 				var servicesTask = Task.Run(() =>
 				{
+					var provider = AppLifecycleHelper.ConfigureHost(appModel);
+
+					// Configure Ioc here so Ioc.Default-dependent constructions warm off-thread too.
+					Ioc.Default.ConfigureServices(provider);
+					Logger = provider.GetRequiredService<ILogger<App>>();
+
 					try
 					{
-						var provider = AppLifecycleHelper.ConfigureHost(appModel);
-
-						// Configure Ioc here so Ioc.Default-dependent constructions warm off-thread too
-						Ioc.Default.ConfigureServices(provider);
+						_ = provider.GetRequiredService<IFileTagsSettingsService>();
 
 						// Load the appearance settings needed for the first frame off the UI thread.
 						if (isStartupTask && provider.GetRequiredService<IGeneralSettingsService>().CloseToBackground)
@@ -114,42 +108,16 @@ namespace Files.App
 						var appearanceSettings = provider.GetRequiredService<IAppearanceSettingsService>();
 						_ = appearanceSettings.AppThemeMode;
 						_ = appearanceSettings.AppThemeBackdropMaterial;
-
-						// Commands are needed for the main page, not for the initial window and backdrop.
-						commandsWarmupTask = Task.Run(() =>
-						{
-							var previousPriority = Thread.CurrentThread.Priority;
-							Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
-							try
-							{
-								// Action and context constructors access these statics.
-								QuickAccessManager = provider.GetRequiredService<QuickAccessManager>();
-								HistoryWrapper = provider.GetRequiredService<StorageHistoryWrapper>();
-								FileTagsManager = provider.GetRequiredService<FileTagsManager>();
-								LibraryManager = provider.GetRequiredService<LibraryManager>();
-
-								_ = provider.GetRequiredService<ICommandManager>();
-							}
-							catch (Exception)
-							{
-								// UI-thread-only constructors run on first use instead.
-							}
-							finally
-							{
-								Thread.CurrentThread.Priority = previousPriority;
-							}
-						});
-
-						return provider;
 					}
-					catch (Exception)
+					catch (Exception ex)
 					{
-						// A UI-thread-only service ctor failed off-thread; rebuilt on the UI thread below
-						return null;
+						// Retry UI-thread-only constructors using the same provider on first use.
+						Logger.LogWarning(ex, "Could not warm up settings in the background.");
 					}
+					return provider;
 				});
 
-				// IsDynamicCodeSupported is false on Native AOT, where startup is fast enough to skip the splash screen
+				// Native AOT opens the main page directly; JIT builds retain the splash screen.
 				var showSplashScreen = System.Runtime.CompilerServices.RuntimeFeature.IsDynamicCodeSupported;
 
 				if (!isStartupTask)
@@ -158,57 +126,58 @@ namespace Files.App
 					_ = MainWindow.Instance;
 				}
 
-				// Configure the DI (dependency injection) container
 				var serviceProvider = await servicesTask;
-				if (serviceProvider is null)
-				{
-					serviceProvider = AppLifecycleHelper.ConfigureHost(appModel);
-					Ioc.Default.ConfigureServices(serviceProvider);
-				}
 
 				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 				var serverInitialization = SafetyExtensions.IgnoreExceptions(async () =>
 				{
-					await serverSession;
+					await ServerSession;
 					await Server.AppService.InitializeAsync();
 				}, Logger);
 				if (isStartupTask && userSettingsService.GeneralSettingsService.CloseToBackground)
 				{
 					await serverInitialization;
-					await SafetyExtensions.IgnoreExceptions(async () => (await serverSession).Dispose(), Logger);
+					StopServerSession();
 					Exit();
 					return;
 				}
 
+				// WinRT thumbnails can initialize the same Shell cache outside our icon helpers.
+				await STATask.RunPooled(WindowsStorableHelpers.InitializeShellImageList, Logger);
+
 				if (isStartupTask)
 					Program.RegisterCurrentInstance();
-
-				if (showSplashScreen)
-				{
-					SplashScreenLoadingTCS = new TaskCompletionSource();
-					MainWindow.Instance.ShowSplashScreen();
-				}
-
-				if (!await MainWindow.Instance.ActivateWithBackdropAsync())
-					return;
-
-				await commandsWarmupTask;
-
-				// Configure Sentry
-				if (AppLifecycleHelper.AppEnvironment is not AppEnvironment.Dev)
-					AppLifecycleHelper.ConfigureSentry();
 
 				// TODO: Replace with DI
 				QuickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
 				HistoryWrapper = Ioc.Default.GetRequiredService<StorageHistoryWrapper>();
 				FileTagsManager = Ioc.Default.GetRequiredService<FileTagsManager>();
 				LibraryManager = Ioc.Default.GetRequiredService<LibraryManager>();
-				Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 				AppModel = Ioc.Default.GetRequiredService<AppModel>();
 
-				// Hook events for the window
 				MainWindow.Instance.Closed += Window_Closed;
 				MainWindow.Instance.Activated += Window_Activated;
+
+				if (showSplashScreen)
+				{
+					SplashScreenLoadingTCS = new TaskCompletionSource();
+					MainWindow.Instance.ShowSplashScreen();
+				}
+				else
+				{
+					MainWindow.Instance.ShowMainPage();
+				}
+
+				if (!await MainWindow.Instance.ActivateWithBackdropAsync())
+					return;
+
+				Logger.LogInformation("Startup: initial content rendered after {Elapsed} ms", startup.ElapsedMilliseconds);
+				_ = serviceProvider.GetRequiredService<ICommandManager>();
+
+				var telemetryInitialization = AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev
+					? Task.CompletedTask
+					: Task.Run(AppLifecycleHelper.ConfigureSentry);
+
 
 				Logger.LogInformation($"App launched. Launch args type: {appActivationArguments.Data.GetType().Name}");
 
@@ -218,9 +187,14 @@ namespace Files.App
 					SplashScreenLoadingTCS = null;
 				}
 
-				_ = SafetyExtensions.IgnoreExceptions(async () => (await serverSession).SetWindowHandle(MainWindow.Instance.WindowHandle), Logger);
-				_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
+				_ = SafetyExtensions.IgnoreExceptions(() => SetServerWindowHandleAsync(MainWindow.Instance.WindowHandle), Logger);
+				_ = SafetyExtensions.IgnoreExceptions(async () =>
+				{
+					await ServerSession;
+					await MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
+				}, Logger);
 
+				await telemetryInitialization;
 				await AppLifecycleHelper.InitializeAppComponentsAsync();
 			}
 		}
@@ -276,8 +250,7 @@ namespace Files.App
 
 			_isWindowClosing = true;
 			AppModel.IsMainWindowClosed = true;
-			if (serverSession.IsCompletedSuccessfully)
-				SafetyExtensions.IgnoreExceptions(() => serverSession.Result.SetWindowHandle(0), Logger);
+			ClearServerWindowHandle();
 			Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().UnregisterKey();
 			ActiveSessionTracker.OnActivationChanged(false);
 
@@ -332,7 +305,7 @@ namespace Files.App
 			}
 			finally
 			{
-				await SafetyExtensions.IgnoreExceptions(async () => (await serverSession).Dispose(), Logger);
+				StopServerSession();
 				_isWindowTeardownCompleted = true;
 				MainWindow.Instance.Close();
 			}

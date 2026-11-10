@@ -15,13 +15,6 @@ namespace Files.App.Utils.Serialization
 
 		public bool IsAvailable { get; protected set; }
 
-		private ISettingsSerializer? _SettingsSerializer;
-		protected ISettingsSerializer? SettingsSerializer
-		{
-			get => _settingsSharingContext?.Instance?.SettingsSerializer ?? _SettingsSerializer;
-			set => _SettingsSerializer = value;
-		}
-
 		private IJsonSettingsSerializer? _JsonSettingsSerializer;
 		protected IJsonSettingsSerializer? JsonSettingsSerializer
 		{
@@ -62,6 +55,11 @@ namespace Files.App.Utils.Serialization
 				// Can register only once
 				_settingsSharingContext = settingsSharingContext;
 				IsAvailable = settingsSharingContext.Instance.IsAvailable;
+				settingsSharingContext.Instance.OnSettingChangedEvent += (_, e) =>
+				{
+					if (e.NewValue is JsonElement)
+						OnSharedSettingChanged(e.SettingName);
+				};
 				return true;
 			}
 
@@ -73,10 +71,6 @@ namespace Files.App.Utils.Serialization
 			return _settingsSharingContext ?? this;
 		}
 
-		protected virtual void Initialize(string filePath)
-		{
-			IsAvailable = SettingsSerializer?.CreateFile(filePath) ?? false;
-		}
 
 		[return: NotNullIfNotNull(nameof(defaultValue))]
 		protected virtual TValue? Get<TValue>(TValue? defaultValue, [CallerMemberName] string propertyName = "")
@@ -106,6 +100,8 @@ namespace Files.App.Utils.Serialization
 
 			return false;
 		}
+
+		protected virtual void OnSharedSettingChanged(string name) { }
 
 		protected virtual void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{

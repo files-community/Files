@@ -34,6 +34,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		protected string? _flyoutItemPath;
 
+		private static CancellationTokenSource? contextMenuCancellation;
+
 		// Commands
 
 		protected ICommand RemoveRecentItemCommand { get; set; } = null!;
@@ -70,6 +72,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			// Notify of the change on right clicked item
 			OnRightClickedItemChanged(item, flyout.Flyout);
 
+			// The actions now target this item, so a menu still loading for another mustn't open
+			contextMenuCancellation?.Cancel();
+			contextMenuCancellation = new();
+			var cancellationToken = contextMenuCancellation.Token;
+
 			// Build the widget's own items
 			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), fileTagsCardItem is not null && fileTagsCardItem.IsFolder);
 			flyout.Build(menuItems);
@@ -79,16 +86,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			flyout.ConvertPlaceholderToSubMenu("OpenWithPlaceholder", Strings.OpenWith.GetLocalizedResource(), "App.ThemedIcons.OpenWith");
 			flyout.ConvertPlaceholderToSubMenu("SendToPlaceholder", Strings.SendTo.GetLocalizedResource(), null);
 
-			// Pre-add "Show more options" before showing so filling it with shell items never resizes the menu
-			var (moreOptions, moreSeparator) = flyout.AddShowMoreOptionsIfEnabled();
-
-			// Show the flyout
-			var invocationPosition = e.GetPosition(widgetCardItem);
-			flyout.ResolvePlacement(widgetCardItem, invocationPosition);
-			flyout.Flyout.ShowAt(widgetCardItem, new FlyoutShowOptions() { Position = invocationPosition });
-
-			// Load the shell menu items
-			_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(_flyoutItemPath, flyout, null, moreOptions, moreSeparator, showOpenWithMenu: true, showSendToMenu: true);
+			// Load the shell menu items, then show the flyout
+			_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(_flyoutItemPath, flyout, widgetCardItem, e.GetPosition(widgetCardItem), cancellationToken, showOpenWithMenu: true, showSendToMenu: true);
 
 			e.Handled = true;
 		}

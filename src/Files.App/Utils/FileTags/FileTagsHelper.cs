@@ -83,48 +83,6 @@ namespace Files.App.Utils.FileTags
 			}
 		}
 
-		public static void UpdateTagsDb()
-		{
-			var dbInstance = GetDbInstance();
-			foreach (var file in dbInstance.GetAll())
-			{
-				var pathFromFrn = Win32Helper.PathFromFileId(file.Frn ?? 0, file.FilePath);
-				if (pathFromFrn is not null)
-				{
-					// Frn is valid, update file path
-					var tag = ReadFileTag(pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal));
-					if (tag is not null && tag.Any())
-					{
-						dbInstance.UpdateTag(file.Frn ?? 0, null, pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal));
-						dbInstance.SetTags(pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal), file.Frn, tag);
-					}
-					else
-					{
-						dbInstance.SetTags(pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal), file.Frn, []);
-					}
-				}
-				else
-				{
-					var tag = ReadFileTag(file.FilePath);
-					if (tag is not null && tag.Any())
-					{
-						if (!SafetyExtensions.IgnoreExceptions(() =>
-						{
-							var frn = GetFileFRN(file.FilePath);
-							dbInstance.UpdateTag(file.FilePath, frn, null);
-							dbInstance.SetTags(file.FilePath, frn, tag);
-						}, App.Logger))
-						{
-							dbInstance.SetTags(file.FilePath, null, []);
-						}
-					}
-					else
-					{
-						dbInstance.SetTags(file.FilePath, null, []);
-					}
-				}
-			}
-		}
 
 		/// <summary>
 		/// Prompts the user for confirmation, then removes all tags from the given items that have tags.

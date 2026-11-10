@@ -2,15 +2,12 @@
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
-using Windows.Storage;
 
 namespace Files.App.Server;
 
 internal sealed partial class BackgroundSettingsMonitor : IDisposable
 {
 	private readonly Lock gate = new();
-	private readonly string path = Path.Combine(ApplicationData.Current.LocalFolder.Path, "settings", "user_settings.json");
-	private readonly FileSystemWatcher watcher;
 	private readonly Timer reloadTimer;
 	private bool disposed;
 	private int readFailures;
@@ -22,23 +19,13 @@ internal sealed partial class BackgroundSettingsMonitor : IDisposable
 	internal BackgroundSettingsMonitor()
 	{
 		reloadTimer = new Timer(_ => Refresh(), null, Timeout.Infinite, Timeout.Infinite);
-		watcher = new FileSystemWatcher(ApplicationData.Current.LocalFolder.Path, "user_settings.json")
-		{
-			IncludeSubdirectories = true,
-			NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName,
-		};
-		watcher.Changed += OnChanged;
-		watcher.Created += OnChanged;
-		watcher.Deleted += OnChanged;
-		watcher.Renamed += OnChanged;
-		watcher.Error += (_, _) => ScheduleReload();
-		watcher.EnableRaisingEvents = true;
+		SettingsStore.Changed += OnChanged;
 		Refresh();
 	}
 
-	private void OnChanged(object sender, FileSystemEventArgs e)
+	private void OnChanged(string name)
 	{
-		if (string.Equals(e.FullPath, path, StringComparison.OrdinalIgnoreCase))
+		if (name == "user_settings.json")
 			ScheduleReload();
 	}
 
@@ -62,19 +49,9 @@ internal sealed partial class BackgroundSettingsMonitor : IDisposable
 				return false;
 			try
 			{
-				if (File.Exists(path))
-				{
-					var text = File.ReadAllText(path);
-					using var document = JsonDocument.Parse(string.IsNullOrWhiteSpace(text) ? "null" : text);
-					var root = document.RootElement;
-					KeepRunning = ReadBoolean(root, BackgroundSettings.CloseToBackgroundKey, BackgroundSettings.CloseToBackgroundDefault);
-					ShowTrayIcon = ReadBoolean(root, BackgroundSettings.ShowSystemTrayIconKey, BackgroundSettings.ShowSystemTrayIconDefault);
-				}
-				else
-				{
-					KeepRunning = BackgroundSettings.CloseToBackgroundDefault;
-					ShowTrayIcon = BackgroundSettings.ShowSystemTrayIconDefault;
-				}
+				var settings = SettingsStore.Get("user_settings.json");
+				KeepRunning = settings.GetBoolean(BackgroundSettings.CloseToBackgroundKey, BackgroundSettings.CloseToBackgroundDefault);
+				ShowTrayIcon = settings.GetBoolean(BackgroundSettings.ShowSystemTrayIconKey, BackgroundSettings.ShowSystemTrayIconDefault);
 				readFailures = 0;
 			}
 			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
@@ -89,16 +66,12 @@ internal sealed partial class BackgroundSettingsMonitor : IDisposable
 		return true;
 	}
 
-	private static bool ReadBoolean(JsonElement root, string key, bool defaultValue)
-		=> root.ValueKind is JsonValueKind.Object && root.TryGetProperty(key, out var value) &&
-			value.ValueKind is JsonValueKind.True or JsonValueKind.False ? value.GetBoolean() : defaultValue;
-
 	public void Dispose()
 	{
 		lock (gate)
 		{
 			disposed = true;
-			watcher.Dispose();
+			SettingsStore.Changed -= OnChanged;
 			reloadTimer.Dispose();
 		}
 	}

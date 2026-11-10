@@ -18,13 +18,26 @@ class Program
 	private static readonly FileLoggerProvider logProvider = new(Path.Combine(ApplicationData.Current.LocalFolder.Path, $"debug_server_{(Environment.IsPrivilegedProcess ? "privileged" : "unprivileged")}.log"));
 	internal static readonly ILogger Logger = logProvider.CreateLogger(nameof(Program));
 
-	static Type[] GetActivatableTypes() => [typeof(AppService)];
+	static Type[] GetActivatableTypes() =>
+	[
+		typeof(AppService),
+		typeof(DriveService),
+		typeof(FileTagsService),
+		typeof(IconService),
+		typeof(JumpListService),
+		typeof(LocationService),
+		typeof(PinnedFoldersService),
+		typeof(RecycleBinService),
+		typeof(SettingsService),
+		typeof(ShellService),
+		typeof(UpdateService),
+	];
 
 	static async Task Main()
 	{
 		AppDomain.CurrentDomain.FirstChanceException += OnFirstChanceException;
 
-		RO_REGISTRATION_COOKIE cookie = default;
+		RoRevokeActivationFactoriesSafeHandle? cookie = null;
 
 		_ = PInvoke.RoInitialize(RO_INIT_TYPE.RO_INIT_MULTITHREADED);
 		ServerHost.Initialize();
@@ -84,10 +97,7 @@ class Program
 		}
 		finally
 		{
-			if (cookie != 0)
-			{
-				PInvoke.RoRevokeActivationFactories(cookie);
-			}
+			cookie?.Dispose();
 			await ServerHost.ShutdownAsync();
 			logProvider.Dispose();
 		}

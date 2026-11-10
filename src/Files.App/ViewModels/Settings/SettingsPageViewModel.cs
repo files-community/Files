@@ -121,7 +121,7 @@ namespace Files.App.ViewModels.Settings
 		[ObservableProperty] public partial bool IsExpanded { get; set; }
 
 		// Sidebar presentation
-		public object? ToolTip => Text;
+		public object? ToolTip => null;
 		public object? ItemDecorator => null;
 		FrameworkElement ISidebarItemPresentationModel.IconElement => IconElement;
 		FrameworkElement? ISidebarItemPresentationModel.ItemDecorator => null;

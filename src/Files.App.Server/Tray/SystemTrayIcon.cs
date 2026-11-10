@@ -33,6 +33,7 @@ namespace Files.App.Server
 		private readonly ResourceLoader resources = ResourceLoader.GetForViewIndependentUse();
 
 		private readonly SystemTrayIconWindow _IconWindow;
+		internal unsafe nint WindowHandle => (nint)_IconWindow.WindowHandle.Value;
 
 		private readonly uint _taskbarRestartMessageId;
 

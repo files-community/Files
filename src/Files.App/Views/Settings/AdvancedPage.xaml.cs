@@ -11,6 +11,8 @@ namespace Files.App.Views.Settings
 		public AdvancedPage()
 		{
 			InitializeComponent();
+			Loaded += (_, _) => ViewModel.StartListening();
+			Unloaded += (_, _) => ViewModel.StopListening();
 		}
 
 		private void OpenFilesOnWindowsStartup_Toggled(object sender, RoutedEventArgs e)

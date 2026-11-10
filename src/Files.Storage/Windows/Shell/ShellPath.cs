@@ -5,6 +5,10 @@ namespace Files.Storage;
 
 public static class ShellPath
 {
+	/// <summary>Resolves a recycled backing file through the Recycle Bin namespace.</summary>
+	public static string GetRecycleBinParsingName(string path)
+		=> $@"::{{645FF040-5081-101B-9F08-00AA002F954E}}\{path}";
+
 	public static bool GetStringAsPIDL(string pathOrPIDL, out ShellPidl? pPIDL)
 	{
 		if (pathOrPIDL.StartsWith(@"\\SHELL\", StringComparison.Ordinal))

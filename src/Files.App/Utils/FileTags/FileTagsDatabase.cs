@@ -17,9 +17,25 @@ namespace Files.App.Utils.FileTags
 
 		public string[] GetTags(string? filePath, ulong? frn) => registry.GetTags(filePath, frn);
 
-		public IEnumerable<TaggedFile> GetAll() => registry.GetAll(ignoreAccessErrors: true);
+		public async Task<IEnumerable<TaggedFile>> GetAllAsync()
+		{
+			var items = await Server.FileTagsService.GetTaggedFilesAsync();
+			return items.Select(item => new TaggedFile { FilePath = item.Path, Frn = item.FileId, Tags = item.Tags }).ToArray();
+		}
 
+		// Native file-operation callbacks need current registry entries without waiting on server RPC.
 		public IEnumerable<TaggedFile> GetAllUnderPath(string folderPath) => registry.GetAllUnderPath(folderPath);
+
+		public async Task<IEnumerable<TaggedFile>> GetAllUnderPathAsync(string folderPath)
+		{
+			var items = await GetAllAsync();
+			if (string.IsNullOrEmpty(folderPath))
+				return items;
+			var folder = folderPath.Replace('/', '\\').TrimEnd('\\');
+			var prefix = folder + "\\";
+			return items.Where(item => item.FilePath.Equals(folder, StringComparison.OrdinalIgnoreCase)
+				|| item.FilePath.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
+		}
 
 		public void Import(string json)
 		{

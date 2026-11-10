@@ -23,11 +23,11 @@ namespace Files.App.Utils.Cloud
 
 		public async IAsyncEnumerable<ICloudProvider> DetectCloudProvidersProgressiveAsync()
 		{
-			var groupCount = Server.AppService.CloudProviderGroupCount;
+			var groupCount = Server.DriveService.CloudProviderGroupCount;
 			var pending = Enumerable.Range(0, groupCount)
 				.Select(group => SafetyExtensions.IgnoreExceptions(async () =>
 				{
-					var providers = await Server.AppService.GetCloudProvidersAsync(group);
+					var providers = await Server.DriveService.GetCloudProvidersAsync(group);
 					return providers.Select(provider =>
 					{
 						var icon = provider.IconData;

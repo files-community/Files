@@ -310,6 +310,8 @@ namespace Files.App.Helpers
 
 			fixed (char* pszPath = path)
 				PInvoke.SHChangeNotify(SHCNE_ID.SHCNE_UPDATEITEM, SHCNF_FLAGS.SHCNF_PATHW | SHCNF_FLAGS.SHCNF_FLUSH, pszPath, null);
+
+			Server.DriveService.InvalidateDrive(path);
 		}
 
 		/// <summary>

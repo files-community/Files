@@ -799,7 +799,7 @@ namespace Files.App.ViewModels
 			if (!Constants.UserEnvironmentPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
 
-			using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(e.FullPath));
+			using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(ShellPath.GetRecycleBinParsingName(e.FullPath)));
 			if (folderItem is null)
 				return;
 
@@ -1612,7 +1612,7 @@ namespace Files.App.ViewModels
 			=> extension is not null && _perFileIconExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
 
 		// Types whose icon is embedded in the file itself rather than shared by the extension
-		private static readonly string[] _perFileIconExtensions = [".ico", ".cur", ".ani", ".scr", ".msc", ".appref-ms"];
+		private static readonly string[] _perFileIconExtensions = [".ico", ".cur", ".ani", ".scr", ".msc", ".appref-ms", ".lnk", ".url"];
 
 		private static void SetFileTag(ListedItem item)
 		{

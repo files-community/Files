@@ -47,6 +47,21 @@ namespace Files.App.ViewModels.Settings
 			_ = UpdateCacheSizeAsync();
 		}
 
+		internal void StartListening()
+		{
+			UserSettingsService.OnSettingChangedEvent -= OnSharedSettingChanged;
+			UserSettingsService.OnSettingChangedEvent += OnSharedSettingChanged;
+			OnPropertyChanged(string.Empty);
+		}
+
+		internal void StopListening() => UserSettingsService.OnSettingChangedEvent -= OnSharedSettingChanged;
+
+		private void OnSharedSettingChanged(object? sender, SettingChangedEventArgs e)
+		{
+			if (e.NewValue is JsonElement)
+				OnPropertyChanged(e.SettingName);
+		}
+
 		private async Task SetAsDefaultExplorerAsync()
 		{
 			// Make sure IsSetAsDefaultFileManager is updated

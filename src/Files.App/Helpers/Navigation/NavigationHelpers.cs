@@ -64,10 +64,10 @@ namespace Files.App.Helpers
 
 			var tabItem = new TabBarItem()
 			{
-				Header = null,
-				IconSource = null,
-				Description = null,
-				ToolTipText = null,
+				Header = GetInitialTabHeader(path),
+				IconSource = GetInitialTabIcon(path),
+				Description = GetInitialTabHeader(path),
+				ToolTipText = path,
 				NavigationParameter = new TabBarItemParameter()
 				{
 					InitialPageType = type,
@@ -77,24 +77,24 @@ namespace Files.App.Helpers
 
 			tabItem.ContentChanged += Control_ContentChanged;
 
-			await UpdateTabInfoAsync(tabItem, path);
-
 			var index = atIndex == -1 ? MainPageViewModel.AppInstances.Count : atIndex;
 
 			MainPageViewModel.AppInstances.Insert(index, tabItem);
 
 			if (switchToNewTab)
 				App.AppModel.TabStripSelectedIndex = index;
+
+			await SafetyExtensions.IgnoreExceptions(() => UpdateTabInfoAsync(tabItem, path), App.Logger);
 		}
 
 		public static async Task AddNewTabByParamAsync(Type type, object? tabViewItemArgs, int atIndex = -1, bool switchToNewTab = true)
 		{
 			var tabItem = new Files.App.UserControls.TabBar.TabBarItem()
 			{
-				Header = null,
-				IconSource = null,
-				Description = null,
-				ToolTipText = null
+				Header = GetInitialTabHeader(tabViewItemArgs),
+				IconSource = GetInitialTabIcon(tabViewItemArgs),
+				Description = GetInitialTabHeader(tabViewItemArgs),
+				ToolTipText = tabViewItemArgs as string
 			};
 
 			tabItem.NavigationParameter = new TabBarItemParameter()
@@ -105,13 +105,55 @@ namespace Files.App.Helpers
 
 			tabItem.ContentChanged += Control_ContentChanged;
 
-			await UpdateTabInfoAsync(tabItem, tabViewItemArgs);
-
 			var index = atIndex == -1 ? MainPageViewModel.AppInstances.Count : atIndex;
 			MainPageViewModel.AppInstances.Insert(index, tabItem);
 
 			if (switchToNewTab)
 				App.AppModel.TabStripSelectedIndex = index;
+
+			await SafetyExtensions.IgnoreExceptions(() => UpdateTabInfoAsync(tabItem, tabViewItemArgs), App.Logger);
+		}
+
+		private static string GetInitialTabHeader(object? navigationArg)
+		{
+			if (navigationArg is PaneNavigationArguments panes)
+			{
+				if (!string.IsNullOrEmpty(panes.LeftPaneNavPathParam) && !string.IsNullOrEmpty(panes.RightPaneNavPathParam))
+					return $"{GetInitialTabHeader(panes.LeftPaneNavPathParam)} | {GetInitialTabHeader(panes.RightPaneNavPathParam)}";
+				return GetInitialTabHeader(panes.LeftPaneNavPathParam ?? panes.RightPaneNavPathParam);
+			}
+
+			if (navigationArg is string libraryPath && libraryPath.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase))
+			{
+				var name = Path.GetFileNameWithoutExtension(libraryPath);
+				var localizedName = name.GetLocalizedResource();
+				return string.IsNullOrEmpty(localizedName) ? name : localizedName;
+			}
+
+			return navigationArg switch
+			{
+				null or "" or "Home" => Strings.Home.GetLocalizedResource(),
+				"Settings" => Strings.Settings.GetLocalizedResource(),
+				"ReleaseNotes" => Strings.ReleaseNotes.GetLocalizedResource(),
+				string path => ShellHelpers.GetShellNameFromPath(Path.GetFileName(path.TrimEnd('\\', '/')) is { Length: > 0 } name ? name : path),
+				_ => string.Empty,
+			};
+		}
+
+		private static IconSource GetInitialTabIcon(object? navigationArg)
+		{
+			if (navigationArg is PaneNavigationArguments panes)
+				return GetInitialTabIcon(string.IsNullOrEmpty(panes.LeftPaneNavPathParam) ? panes.RightPaneNavPathParam : panes.LeftPaneNavPathParam);
+
+			return new FontIconSource
+			{
+				Glyph = navigationArg switch
+				{
+					null or "" or "Home" => "\uE80F",
+					"Settings" => "\uE713",
+					_ => "\uE8B7",
+				},
+			};
 		}
 
 		private static async Task UpdateTabInfoAsync(TabBarItem tabItem, object? navigationArg)
@@ -145,7 +187,7 @@ namespace Files.App.Helpers
 			}
 
 			// Don't update tabItem if the contents of the tab have already changed
-			if (result.Item1 is not null)
+			if (result.Item1 is not null && tabItem.ContentFrame is not null)
 			{
 				var navigationParameter = tabItem.NavigationParameter?.NavigationParameter
 					?? throw new InvalidOperationException("The tab does not have a navigation parameter.");
@@ -345,7 +387,7 @@ namespace Files.App.Helpers
 					imageIcon.ImageSource = await result.ToBitmapAsync();
 			}
 
-			return (tabLocationHeader, iconSource, toolTipText);
+			return (tabLocationHeader, iconSource is ImageIconSource { ImageSource: null } ? GetInitialTabIcon(currentPath) : iconSource, toolTipText);
 		}
 
 		public static async Task UpdateInstancePropertiesAsync(object? navigationArg)

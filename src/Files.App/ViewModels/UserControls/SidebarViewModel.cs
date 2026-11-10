@@ -46,6 +46,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private Microsoft.UI.Dispatching.DispatcherQueue? dispatcherQueue;
 		private INavigationControlItem? rightClickedItem;
+		private CancellationTokenSource? contextMenuCancellation;
 		private readonly UISettings uiSettings = new();
 
 		public object SidebarItems => sidebarItems;
@@ -807,6 +808,10 @@ namespace Files.App.ViewModels.UserControls
 			if (sender is not FrameworkElement sidebarItem)
 				return;
 
+			contextMenuCancellation?.Cancel();
+			contextMenuCancellation = new();
+			var cancellationToken = contextMenuCancellation.Token;
+
 			if (args.Item is not INavigationControlItem item)
 			{
 				// We are in the pane context requested path
@@ -819,15 +824,17 @@ namespace Files.App.ViewModels.UserControls
 			{
 				var fileTag = tagItem.FileTag
 					?? throw new InvalidOperationException("The sidebar tag item does not have a tag.");
-				var cts = new CancellationTokenSource();
 				var items = new List<(string path, bool isFolder)>();
 
-				await foreach (var taggedItem in fileTagsService.GetItemsForTagAsync(fileTag.Uid, cts.Token))
+				await foreach (var taggedItem in fileTagsService.GetItemsForTagAsync(fileTag.Uid, cancellationToken))
 				{
 					items.Add((
 						taggedItem.Storable.Id,
 						taggedItem.Storable is IFolder));
 				}
+
+				if (cancellationToken.IsCancellationRequested)
+					return;
 
 				SelectedTagChanged?.Invoke(this, new SelectedTagChangedEventArgs(items));
 			}
@@ -841,17 +848,14 @@ namespace Files.App.ViewModels.UserControls
 			var menuItems = GetLocationItemMenuItems(item, flyout.Flyout);
 			flyout.Build(menuItems);
 
-			// Pre-add "Show more options" before showing so filling it with shell items never resizes the menu
-			MenuFlyoutSubItem? moreOptions = null;
-			MenuFlyoutSeparator? moreSeparator = null;
 			if (menuOptions.ShowShellItems)
-				(moreOptions, moreSeparator) = flyout.AddShowMoreOptionsIfEnabled();
-
-			flyout.ResolvePlacement(sidebarItem, args.Position);
-			flyout.Flyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = args.Position });
-
-			if (menuOptions.ShowShellItems)
-				await ShellContextFlyoutFactory.LoadShellMenuItemsAsync(item.GetRequiredPath(), flyout, menuOptions, moreOptions, moreSeparator);
+			{
+				await ShellContextFlyoutFactory.LoadShellMenuItemsAsync(item.GetRequiredPath(), flyout, sidebarItem, args.Position, cancellationToken, menuOptions);
+			}
+			else
+			{
+				flyout.Show(sidebarItem, args.Position);
+			}
 		}
 
 		public async void HandleItemInvokedAsync(object item, PointerUpdateKind pointerUpdateKind)
