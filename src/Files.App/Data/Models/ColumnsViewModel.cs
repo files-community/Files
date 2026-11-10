@@ -297,7 +297,6 @@ namespace Files.App.Data.Models
 			ColumnOrder = [.. ids];
 		}
 
-<<<<<<< ours
 		/// <summary>
 		/// Gets the columns the user can choose from for a folder, and the ones shown now in display order.
 		/// </summary>
@@ -356,8 +355,6 @@ namespace Files.App.Data.Models
 			return hasNewColumns;
 		}
 
-=======
->>>>>>> theirs
 		public double TotalWidth =>
 			AllColumnIds.Sum(id => GetColumn(id).Length.Value);
 

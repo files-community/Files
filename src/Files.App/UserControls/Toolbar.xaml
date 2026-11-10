@@ -226,95 +226,74 @@
 				<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.Sorting}" />
 
 				<AppBarButton.Flyout>
-					<MenuFlyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
+					<MenuFlyout
+						contract8Present:ShouldConstrainToRootBounds="False"
+						Opening="SortMenu_Opening"
+						Placement="Bottom">
 						<MenuFlyoutSubItem
+							x:Name="SortByMenu"
 							AccessKey="S"
 							AccessKeyInvoked="SortGroup_AccessKeyInvoked"
 							Text="{helpers:ResourceString Name=SortBy}">
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortByName.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortByName.Label}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortByDateModified.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortByDateModified.Label}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortByDateCreated.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortByDateCreated.Label}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortBySize.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortBySize.Label}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortByType.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortByType.Label}" />
-							<ToggleMenuFlyoutItem
-								IsChecked="{x:Bind Commands.SortBySyncStatus.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.SortBySyncStatus.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.SortBySyncStatus.Label}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortByTag.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortByTag.Label}" />
-							<ToggleMenuFlyoutItem
-								IsChecked="{x:Bind Commands.SortByPath.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.SortByPath.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.SortByPath.Label}" />
-							<ToggleMenuFlyoutItem
-								IsChecked="{x:Bind Commands.SortByOriginalFolder.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.SortByOriginalFolder.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.SortByOriginalFolder.Label}" />
-							<ToggleMenuFlyoutItem
-								IsChecked="{x:Bind Commands.SortByDateDeleted.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.SortByDateDeleted.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.SortByDateDeleted.Label}" />
-							<MenuFlyoutSeparator />
-							<ToggleMenuFlyoutItem
+							<MenuFlyoutSeparator x:Name="SortDirectionSeparator" />
+							<RadioMenuFlyoutItem
+								x:Name="SortAscendingMenuItem"
 								AccessKey="A"
-								IsChecked="{x:Bind Commands.SortAscending.IsOn, Mode=TwoWay}"
+								Command="{x:Bind Commands.SortAscending}"
+								GroupName="ToolbarSortDirection"
+								IsChecked="{x:Bind Commands.SortAscending.IsOn, Mode=OneWay}"
 								Text="{x:Bind Commands.SortAscending.Label}" />
-							<ToggleMenuFlyoutItem
+							<RadioMenuFlyoutItem
+								x:Name="SortDescendingMenuItem"
 								AccessKey="D"
-								IsChecked="{x:Bind Commands.SortDescending.IsOn, Mode=TwoWay}"
+								Command="{x:Bind Commands.SortDescending}"
+								GroupName="ToolbarSortDirection"
+								IsChecked="{x:Bind Commands.SortDescending.IsOn, Mode=OneWay}"
 								Text="{x:Bind Commands.SortDescending.Label}" />
+							<MenuFlyoutSeparator />
+							<MenuFlyoutItem IsEnabled="False" Text="{helpers:ResourceString Name=MoreEllipsis}" />
 						</MenuFlyoutSubItem>
 						<MenuFlyoutSubItem
+							x:Name="GroupByMenu"
 							AccessKey="G"
 							AccessKeyInvoked="SortGroup_AccessKeyInvoked"
 							Text="{helpers:ResourceString Name=GroupBy}">
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByNone.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByNone.Label}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByName.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByName.Label}" />
-							<MenuFlyoutSubItem Text="{x:Bind Commands.GroupByDateModified.Label}">
-								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateModifiedYear.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateModifiedYear.Label}" />
-								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateModifiedMonth.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateModifiedMonth.Label}" />
-								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateModifiedDay.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateModifiedDay.Label}" />
-							</MenuFlyoutSubItem>
-							<MenuFlyoutSubItem Text="{x:Bind Commands.GroupByDateCreated.Label}">
-								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateCreatedYear.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateCreatedYear.Label}" />
-								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateCreatedMonth.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateCreatedMonth.Label}" />
-								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateCreatedDay.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateCreatedDay.Label}" />
-							</MenuFlyoutSubItem>
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupBySize.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupBySize.Label}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByType.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByType.Label}" />
-							<ToggleMenuFlyoutItem
-								IsChecked="{x:Bind Commands.GroupBySyncStatus.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.GroupBySyncStatus.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.GroupBySyncStatus.Label}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByTag.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByTag.Label}" />
-							<ToggleMenuFlyoutItem
-								IsChecked="{x:Bind Commands.GroupByOriginalFolder.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.GroupByOriginalFolder.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.GroupByOriginalFolder.Label}" />
-							<MenuFlyoutSubItem IsEnabled="{x:Bind Commands.GroupByDateDeleted.IsExecutable, Mode=OneWay}" Text="{x:Bind Commands.GroupByDateDeleted.Label}">
-								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateDeletedYear.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateDeletedYear.Label}" />
-								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateDeletedMonth.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateDeletedMonth.Label}" />
-								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateDeletedDay.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateDeletedDay.Label}" />
-							</MenuFlyoutSubItem>
-							<ToggleMenuFlyoutItem
-								IsChecked="{x:Bind Commands.GroupByFolderPath.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.GroupByFolderPath.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.GroupByFolderPath.Label}" />
-							<MenuFlyoutSeparator />
-							<ToggleMenuFlyoutItem
+							<MenuFlyoutSeparator x:Name="GroupDirectionSeparator" Visibility="{x:Bind Commands.GroupAscending.IsExecutable, Mode=OneWay}" />
+							<RadioMenuFlyoutItem
+								x:Name="GroupAscendingMenuItem"
 								AccessKey="A"
-								IsChecked="{x:Bind Commands.GroupAscending.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.GroupAscending.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.GroupAscending.Label}" />
-							<ToggleMenuFlyoutItem
+								Command="{x:Bind Commands.GroupAscending}"
+								GroupName="ToolbarGroupDirection"
+								IsChecked="{x:Bind Commands.GroupAscending.IsOn, Mode=OneWay}"
+								Text="{x:Bind Commands.GroupAscending.Label}"
+								Visibility="{x:Bind Commands.GroupAscending.IsExecutable, Mode=OneWay}" />
+							<RadioMenuFlyoutItem
+								x:Name="GroupDescendingMenuItem"
 								AccessKey="D"
-								IsChecked="{x:Bind Commands.GroupDescending.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.GroupDescending.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.GroupDescending.Label}" />
+								Command="{x:Bind Commands.GroupDescending}"
+								GroupName="ToolbarGroupDirection"
+								IsChecked="{x:Bind Commands.GroupDescending.IsOn, Mode=OneWay}"
+								Text="{x:Bind Commands.GroupDescending.Label}"
+								Visibility="{x:Bind Commands.GroupDescending.IsExecutable, Mode=OneWay}" />
+							<MenuFlyoutSeparator />
+							<MenuFlyoutItem IsEnabled="False" Text="{helpers:ResourceString Name=MoreEllipsis}" />
 						</MenuFlyoutSubItem>
 						<MenuFlyoutSeparator />
-						<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortFoldersFirst.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortFoldersFirst.Label}" />
-						<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortFilesFirst.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortFilesFirst.Label}" />
-						<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortFilesAndFoldersTogether.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortFilesAndFoldersTogether.Label}" />
+						<RadioMenuFlyoutItem
+							Command="{x:Bind Commands.SortFoldersFirst}"
+							GroupName="ToolbarSortPriority"
+							IsChecked="{x:Bind Commands.SortFoldersFirst.IsOn, Mode=OneWay}"
+							Text="{x:Bind Commands.SortFoldersFirst.Label}" />
+						<RadioMenuFlyoutItem
+							Command="{x:Bind Commands.SortFilesFirst}"
+							GroupName="ToolbarSortPriority"
+							IsChecked="{x:Bind Commands.SortFilesFirst.IsOn, Mode=OneWay}"
+							Text="{x:Bind Commands.SortFilesFirst.Label}" />
+						<RadioMenuFlyoutItem
+							Command="{x:Bind Commands.SortFilesAndFoldersTogether}"
+							GroupName="ToolbarSortPriority"
+							IsChecked="{x:Bind Commands.SortFilesAndFoldersTogether.IsOn, Mode=OneWay}"
+							Text="{x:Bind Commands.SortFilesAndFoldersTogether.Label}" />
 					</MenuFlyout>
 				</AppBarButton.Flyout>
 

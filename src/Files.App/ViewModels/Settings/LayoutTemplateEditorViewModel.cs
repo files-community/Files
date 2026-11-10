@@ -348,41 +348,63 @@ namespace Files.App.ViewModels.Settings
 		private void UpdateChoices()
 		{
 			var shellPropertyChoices = DetailsLayoutColumnDefaults.GetColumns(_template)
+				.Concat(LayoutSortGroupOptions.GetFolderTypeColumnIds())
 				.Append(_template.SortPropertyId)
 				.Append(_template.GroupPropertyId)
-				.Where(ColumnValueHelper.IsShellPropertyColumn)
+				.Where(id => ColumnValueHelper.IsShellPropertyColumn(id) &&
+					(LayoutSortGroupOptions.IsPropertyOption(id) || id == _template.SortPropertyId || id == _template.GroupPropertyId))
 				.Distinct()
 				.Select(id => new LayoutPropertyChoice(DetailsLayoutColumnDefaults.GetDisplayName(id, _catalog), null, id))
-				.OrderBy(choice => choice.DisplayName, StringComparer.CurrentCulture)
 				.ToArray();
 
-			SortChoices =
+			SortChoices = SortByName(
 			[
-				new(Strings.Name.GetLocalizedResource(), (int)SortOption.Name, string.Empty),
-				new(Strings.DateModifiedLowerCase.GetLocalizedResource(), (int)SortOption.DateModified, string.Empty),
-				new(Strings.DateCreated.GetLocalizedResource(), (int)SortOption.DateCreated, string.Empty),
-				new(Strings.Size.GetLocalizedResource(), (int)SortOption.Size, string.Empty),
-				new(Strings.Type.GetLocalizedResource(), (int)SortOption.FileType, string.Empty),
-				new(Strings.Tag.GetLocalizedResource(), (int)SortOption.FileTag, string.Empty),
+				CreateBuiltInChoice(DetailsLayoutColumnIds.Name, (int)SortOption.Name),
+				CreateBuiltInChoice(DetailsLayoutColumnIds.DateModified, (int)SortOption.DateModified),
+				CreateBuiltInChoice(DetailsLayoutColumnIds.DateCreated, (int)SortOption.DateCreated),
+				CreateBuiltInChoice(DetailsLayoutColumnIds.Size, (int)SortOption.Size),
+				CreateBuiltInChoice(DetailsLayoutColumnIds.ItemType, (int)SortOption.FileType),
+				CreateBuiltInChoice(DetailsLayoutColumnIds.Tag, (int)SortOption.FileTag),
+				CreateBuiltInChoice(DetailsLayoutColumnIds.Status, (int)SortOption.SyncStatus),
+				CreateBuiltInChoice(DetailsLayoutColumnIds.Path, (int)SortOption.Path),
+				CreateBuiltInChoice(DetailsLayoutColumnIds.OriginalPath, (int)SortOption.OriginalFolder),
+				CreateBuiltInChoice(DetailsLayoutColumnIds.DateDeleted, (int)SortOption.DateDeleted),
+				.. LayoutSortGroupOptions.GitSortColumnIds.Select(CreatePropertyChoice),
 				.. shellPropertyChoices,
-			];
+			]);
 
 			GroupChoices =
 			[
 				new(Strings.None.GetLocalizedResource(), (int)GroupOption.None, string.Empty),
-				new(Strings.Name.GetLocalizedResource(), (int)GroupOption.Name, string.Empty),
-				new(Strings.DateModifiedLowerCase.GetLocalizedResource(), (int)GroupOption.DateModified, string.Empty),
-				new(Strings.DateCreated.GetLocalizedResource(), (int)GroupOption.DateCreated, string.Empty),
-				new(Strings.Size.GetLocalizedResource(), (int)GroupOption.Size, string.Empty),
-				new(Strings.Type.GetLocalizedResource(), (int)GroupOption.FileType, string.Empty),
-				new(Strings.Tag.GetLocalizedResource(), (int)GroupOption.FileTag, string.Empty),
-				.. shellPropertyChoices,
+				.. SortByName(
+				[
+					CreateBuiltInChoice(DetailsLayoutColumnIds.Name, (int)GroupOption.Name),
+					CreateBuiltInChoice(DetailsLayoutColumnIds.DateModified, (int)GroupOption.DateModified),
+					CreateBuiltInChoice(DetailsLayoutColumnIds.Size, (int)GroupOption.Size),
+					CreateBuiltInChoice(DetailsLayoutColumnIds.ItemType, (int)GroupOption.FileType),
+					CreateBuiltInChoice(DetailsLayoutColumnIds.Tag, (int)GroupOption.FileTag),
+					CreateBuiltInChoice(DetailsLayoutColumnIds.Status, (int)GroupOption.SyncStatus),
+					CreateBuiltInChoice(DetailsLayoutColumnIds.Path, (int)GroupOption.FolderPath),
+					CreateBuiltInChoice(DetailsLayoutColumnIds.OriginalPath, (int)GroupOption.OriginalFolder),
+					CreateBuiltInChoice(DetailsLayoutColumnIds.DateDeleted, (int)GroupOption.DateDeleted),
+					.. LayoutSortGroupOptions.GitGroupColumnIds.Select(CreatePropertyChoice),
+					.. shellPropertyChoices,
+				]),
 			];
 
 			OnPropertyChanged(nameof(SortChoices));
 			OnPropertyChanged(nameof(GroupChoices));
 			OnPropertyChanged(nameof(SelectedSortChoiceIndex));
 			OnPropertyChanged(nameof(SelectedGroupChoiceIndex));
+
+			LayoutPropertyChoice CreateBuiltInChoice(string columnId, int option)
+				=> new(DetailsLayoutColumnDefinitions.GetHeader(columnId), option, string.Empty);
+
+			LayoutPropertyChoice CreatePropertyChoice(string propertyId)
+				=> new(DetailsLayoutColumnDefinitions.GetHeader(propertyId), null, propertyId);
+
+			static List<LayoutPropertyChoice> SortByName(List<LayoutPropertyChoice> choices)
+				=> [.. choices.OrderBy(choice => choice.DisplayName, StringComparer.CurrentCultureIgnoreCase)];
 		}
 
 		private static int IndexOfChoice(IReadOnlyList<LayoutPropertyChoice> choices, int? builtInOption, string? propertyId)

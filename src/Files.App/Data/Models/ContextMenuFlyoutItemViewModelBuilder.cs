@@ -26,6 +26,11 @@ namespace Files.App.Data.Models
 
 		public bool IsToggle { get; init; } = false;
 
+		/// <summary>
+		/// Gets the group that makes the item a radio button, of which one per group is checked.
+		/// </summary>
+		public string? RadioGroup { get; init; }
+
 		public string AccessKey { get; init; } = string.Empty;
 
 		public object? Tag { get; init; }
@@ -49,7 +54,7 @@ namespace Files.App.Data.Models
 			if (isVisible is null && !isExecutable)
 				return none;
 
-			ContextMenuFlyoutItemType type = IsToggle ? ContextMenuFlyoutItemType.Toggle : ContextMenuFlyoutItemType.Item;
+			ContextMenuFlyoutItemType type = RadioGroup is not null ? ContextMenuFlyoutItemType.Radio : IsToggle ? ContextMenuFlyoutItemType.Toggle : ContextMenuFlyoutItemType.Item;
 
 			var viewModel = new ContextMenuFlyoutItemViewModel
 			{
@@ -61,6 +66,7 @@ namespace Files.App.Data.Models
 				IsPrimary = IsPrimary,
 				Items = Items,
 				ItemType = type,
+				GroupName = RadioGroup,
 				ShowItem = true,
 				ShowOnShift = ShowOnShift,
 				ShowInRecycleBin = true,

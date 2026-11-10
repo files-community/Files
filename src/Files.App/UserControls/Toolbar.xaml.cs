@@ -649,6 +649,38 @@ namespace Files.App.UserControls
 				DispatcherQueue.TryEnqueue(() => button.IsChecked = ViewModel?.IsLayoutTemplateApplied is false);
 		}
 
+		private void SortMenu_Opening(object sender, object e)
+		{
+			if (ViewModel?.InstanceViewModel?.FolderSettings is not { } folderSettings)
+				return;
+
+			SetDirectionMenuItems(SortAscendingMenuItem, SortDescendingMenuItem, folderSettings.DirectorySortDirection);
+			SetDirectionMenuItems(GroupAscendingMenuItem, GroupDescendingMenuItem, folderSettings.DirectoryGroupDirection);
+
+			var shellViewModel = PageContext.ShellPage?.ShellViewModel;
+			SetOptionMenuItems(SortByMenu, SortDirectionSeparator, ContentPageContextFlyoutFactory.GetSortMenuItems(folderSettings, shellViewModel, "ToolbarSortBy"));
+			SetOptionMenuItems(GroupByMenu, GroupDirectionSeparator, ContentPageContextFlyoutFactory.GetGroupMenuItems(folderSettings, shellViewModel, "ToolbarGroupBy"));
+		}
+
+		private static void SetDirectionMenuItems(RadioMenuFlyoutItem ascending, RadioMenuFlyoutItem descending, SortDirection direction)
+		{
+			// Unchecks the other item before checking the current one
+			var isAscending = direction is SortDirection.Ascending;
+			(isAscending ? descending : ascending).IsChecked = false;
+			(isAscending ? ascending : descending).IsChecked = true;
+		}
+
+		private static void SetOptionMenuItems(MenuFlyoutSubItem menu, MenuFlyoutSeparator end, List<ContextMenuFlyoutItemViewModel> items)
+		{
+			for (var index = menu.Items.IndexOf(end) - 1; index >= 0; index--)
+				menu.Items.RemoveAt(index);
+
+			var elements = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(items) ?? [];
+			for (var index = 0; index < elements.Count; index++)
+				menu.Items.Insert(index, elements[index]);
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(ComboBox))]
 		private void LayoutTemplates_DropDownOpened(object sender, object e)
 			=> templateBeforeDropDown = (sender as ComboBox)?.SelectedItem;
 

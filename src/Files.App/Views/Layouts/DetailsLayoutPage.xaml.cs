@@ -33,19 +33,9 @@ namespace Files.App.Views.Layouts
 	[WinRT.GeneratedBindableCustomProperty([nameof(RowHeight), nameof(ColumnsViewModel), nameof(MaxWidthForRenameTextbox)], [])]
 	public sealed partial class DetailsLayoutPage : BaseGroupableLayoutPage
 	{
-<<<<<<< ours
-<<<<<<< ours
 		// Dependency injections
 
 
-=======
->>>>>>> theirs
-=======
-		// Dependency injections
-
-		private ILayoutTemplatesService LayoutTemplatesService { get; } = Ioc.Default.GetRequiredService<ILayoutTemplatesService>();
-
->>>>>>> theirs
 		// Constants
 
 		private const int TAG_TEXT_BLOCK = 1;
@@ -1320,24 +1310,8 @@ namespace Files.App.Views.Layouts
 
 		private async void MoreColumns_Click(object sender, RoutedEventArgs e)
 		{
-<<<<<<< ours
 			await CustomizeColumnsAsync();
 		}
-=======
-			var catalog = _shellPropertyCatalog ?? await ShellPropertyCatalog.GetAsync();
-			var availableColumns = DetailsLayoutColumnIds.BuiltIn
-				.Where(id => !DetailsLayoutColumnOrder.IsFixed(id) && !ColumnsViewModel.GetColumn(id).IsHidden)
-				.Concat(catalog.Keys.Where(id => !DetailsLayoutColumnDefinitions.IsBuiltIn(id)))
-				.ToArray();
-
-			var shownColumns = ColumnsViewModel.OrderedColumns.Ids.Where(id => ColumnsViewModel.IsColumnVisible(id) && !ColumnsViewModel.GetColumn(id).IsHidden);
-<<<<<<< ours
-			var defaultColumns = DetailsLayoutColumnDefaults.GetColumns().Where(availableColumns.Contains);
->>>>>>> theirs
-=======
-			var template = LayoutTemplatesService.GetTemplate(FolderSettings?.TemplateId) ?? LayoutTemplatesService.DefaultTemplate;
-			var defaultColumns = DetailsLayoutColumnDefaults.GetColumns(template).Where(id => DetailsLayoutColumnOrder.IsRequired(id) || availableColumns.Contains(id));
->>>>>>> theirs
 
 		/// <summary>
 		/// Opens the window that chooses the shown columns.
@@ -1610,17 +1584,6 @@ namespace Files.App.Views.Layouts
 				scroller.ChangeView(Math.Clamp(scroller.HorizontalOffset + offset, 0, scroller.ScrollableWidth), null, null, true);
 		}
 
-<<<<<<< ours
-<<<<<<< ours
-=======
-		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
-		{
-			FolderSettings?.SaveColumnsToTemplate();
-		}
-
->>>>>>> theirs
-=======
->>>>>>> theirs
 		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
 		{

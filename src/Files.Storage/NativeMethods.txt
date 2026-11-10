@@ -449,3 +449,8 @@ K32EmptyWorkingSet
 GetDoubleClickTime
 SHChangeNotify
 VkKeyScan
+IShellFolder2
+SHELLDETAILS
+SHCOLSTATE
+PSGetNameFromPropertyKey
+StrRetToBuf
