@@ -39,6 +39,8 @@
 
 		<Setter Property="Height" Value="{StaticResource OmnibarDefaultHeight}" />
 
+		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+
 		<Setter Property="IsTabStop" Value="False" />
 
 		<Setter Property="Template">
