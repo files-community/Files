@@ -1611,12 +1611,15 @@ namespace Files.App.Views.Layouts
 		}
 
 <<<<<<< ours
+<<<<<<< ours
 =======
 		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
 		{
 			FolderSettings?.SaveColumnsToTemplate();
 		}
 
+>>>>>>> theirs
+=======
 >>>>>>> theirs
 		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)

@@ -46,7 +46,10 @@ namespace Files.App.Data.Items
 
 		[JsonIgnore]
 		public string DisplayName
-			=> string.IsNullOrEmpty(Name) ? LayoutTemplateIds.GetBuiltInName(Id) : Name;
+			=> IsBuiltIn ? LayoutTemplateIds.GetBuiltInName(Id) : Name;
+
+		public override string ToString()
+			=> DisplayName;
 
 		public LayoutTemplate Clone()
 		{

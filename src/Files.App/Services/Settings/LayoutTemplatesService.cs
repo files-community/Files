@@ -106,7 +106,10 @@ namespace Files.App.Services.Settings
 		public LayoutTemplate AddTemplate(LayoutTemplate source, string name)
 		{
 			var template = source.Clone();
-			template.Id = Guid.NewGuid().ToString("N");
+			do
+				template.Id = Guid.NewGuid().ToString("N");
+			while (GetTemplate(template.Id) is not null);
+
 			template.Name = GetUniqueName(name);
 
 			SetTemplates([.. _templates, template]);
@@ -124,15 +127,8 @@ namespace Files.App.Services.Settings
 			TemplateChanged?.Invoke(this, id);
 		}
 
-		public void ResetTemplate(string id)
-		{
-			if (LayoutTemplateIds.IsBuiltIn(id) && GetTemplate(id) is { } template)
-			{
-				var builtIn = LayoutTemplateIds.CreateBuiltIn(id);
-				builtIn.Name = template.Name;
-				SaveTemplate(builtIn);
-			}
-		}
+		public LayoutRule? GetBuiltInRule(string templateId)
+			=> CreateBuiltInRules(true).FirstOrDefault(rule => rule.TemplateId == templateId);
 
 		public void SaveRules(IEnumerable<LayoutRule> rules)
 		{

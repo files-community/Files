@@ -5,6 +5,46 @@ namespace Files.App.Helpers
 {
 	static class LayoutHelpers
 	{
+		/// <summary>
+		/// Reloads the layout preferences of the open panes that show the specified folder.
+		/// </summary>
+		public static void ReloadPreferences(string path)
+		{
+			var tabs = Ioc.Default.GetRequiredService<IMultitaskingContext>().Control?.GetAllTabInstances();
+			if (tabs is null)
+				return;
+
+			foreach (var pane in tabs.OfType<ShellPanesPage>().SelectMany(page => page.GetPanes()))
+			{
+				if (pane.ShellViewModel is { } shellViewModel &&
+					string.Equals(shellViewModel.WorkingDirectory.TrimPath(), path.TrimPath(), StringComparison.OrdinalIgnoreCase))
+					pane.InstanceViewModel.FolderSettings.ReloadPreferences(shellViewModel.WorkingDirectory, () => FolderContentHelpers.GetContent(shellViewModel.FilesAndFolders.ToList()));
+			}
+		}
+
+		/// <summary>
+		/// Gets the template the folder follows, or null when it uses the default layout or its own.
+		/// </summary>
+		public static LayoutTemplate? GetAppliedTemplate(LayoutPreferencesManager? folderSettings)
+		{
+			return folderSettings is { IsCustomized: false, TemplateId: { } id } && id != LayoutTemplateIds.Default
+				? Ioc.Default.GetRequiredService<ILayoutTemplatesService>().GetTemplate(id)
+				: null;
+		}
+
+		/// <summary>
+		/// Changes the layout preferences of the folder shown in the specified pane and reloads the panes that show it.
+		/// </summary>
+		public static void ChangeFolderPreferences(IShellPage? shellPage, Action<string> change)
+		{
+			if (shellPage is not { ShellViewModel: { WorkingDirectory: { Length: > 0 } path } shellViewModel })
+				return;
+
+			change(path);
+			shellPage.InstanceViewModel.FolderSettings.ReloadPreferences(path, () => FolderContentHelpers.GetContent(shellViewModel.FilesAndFolders.ToList()));
+			ReloadPreferences(path);
+		}
+
 		public static void UpdateOpenTabsPreferences()
 		{
 			// Services

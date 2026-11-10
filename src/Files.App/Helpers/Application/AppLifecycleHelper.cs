@@ -313,6 +313,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IWindowsSecurityService, WindowsSecurityService>()
 					.AddSingleton<IAppThemeModeService, AppThemeModeService>()
 					.AddSingleton<IDialogService, DialogService>()
+					.AddSingleton<ILayoutTemplateDialogService, LayoutTemplateDialogService>()
 					.AddSingleton<ICommonDialogService, CommonDialogService>()
 					.AddSingleton<IImageService, ImagingService>()
 					.AddSingleton<IThreadingService, ThreadingService>()

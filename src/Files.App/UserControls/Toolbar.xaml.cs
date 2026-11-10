@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
+using Files.App.Helpers.ContextFlyouts;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Controls;
@@ -14,6 +15,9 @@ using WinRT;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using FlyoutPlacementMode = Microsoft.UI.Xaml.Controls.Primitives.FlyoutPlacementMode;
+using FlyoutShowMode = Microsoft.UI.Xaml.Controls.Primitives.FlyoutShowMode;
+using FlyoutShowOptions = Microsoft.UI.Xaml.Controls.Primitives.FlyoutShowOptions;
+using ThemedIconColorType = Files.App.Controls.ThemedIconColorType;
 
 namespace Files.App.UserControls
 {
@@ -29,6 +33,7 @@ namespace Files.App.UserControls
 		private OpenWithMenu? openWithMenu;
 		private int openWithFlyoutRequestId;
 		private readonly List<Action> toggleButtonDetachActions = new();
+		private object? templateBeforeDropDown;
 
 		[GeneratedDependencyProperty]
 		public partial NavigationToolbarViewModel? ViewModel { get; set; }
@@ -635,8 +640,41 @@ namespace Files.App.UserControls
 				args.Handled = true;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(RadioButton))]
 		private void LayoutButton_Click(object sender, RoutedEventArgs e)
-			=> LayoutFlyout?.Hide();
+		{
+			LayoutFlyout?.Hide();
+
+			if (sender is RadioButton button)
+				DispatcherQueue.TryEnqueue(() => button.IsChecked = ViewModel?.IsLayoutTemplateApplied is false);
+		}
+
+		private void LayoutTemplates_DropDownOpened(object sender, object e)
+			=> templateBeforeDropDown = (sender as ComboBox)?.SelectedItem;
+
+		[DynamicWindowsRuntimeCast(typeof(ComboBox))]
+		private void LayoutTemplates_DropDownClosed(object sender, object e)
+		{
+			if (sender is ComboBox comboBox && comboBox.SelectedItem != templateBeforeDropDown)
+				LayoutFlyout?.Hide();
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(Button))]
+		private void MoreViewOptions_PointerEntered(object sender, PointerRoutedEventArgs e)
+		{
+			if (sender is Button button && !MoreViewOptionsMenu.IsOpen)
+				MoreViewOptionsMenu.ShowAt(button, new FlyoutShowOptions() { Placement = FlyoutPlacementMode.RightEdgeAlignedTop, ShowMode = FlyoutShowMode.Transient });
+		}
+
+		private void RestoreDefaultView_PointerEntered(object sender, PointerRoutedEventArgs e)
+			=> MoreViewOptionsMenu.Hide();
+
+		private ThemedIconColorType GetLayoutIconColor(bool isFromTemplate)
+			=> isFromTemplate ? ThemedIconColorType.Accent : ThemedIconColorType.Normal;
+
+		[DynamicWindowsRuntimeCast(typeof(Style))]
+		private Style? GetLayoutLabelStyle(bool isFromTemplate)
+			=> isFromTemplate ? (Style)Resources["Local.TemplateLayoutLabelStyle"] : null;
 
 		private void CustomizeToolbar_Click(object sender, RoutedEventArgs e)
 			=> Commands.CustomizeToolbar.Execute(null);

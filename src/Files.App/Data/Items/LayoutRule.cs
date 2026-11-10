@@ -27,8 +27,20 @@ namespace Files.App.Data.Items
 		{
 			return (Extensions ?? string.Empty)
 				.Split([',', ';', ' '], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-				.Select(extension => extension.StartsWith('.') ? extension : $".{extension}")
+				.Select(NormalizeExtension)
 				.Distinct(StringComparer.OrdinalIgnoreCase);
+		}
+
+		/// <summary>
+		/// Gets whether the specified extension, as returned by <see cref="GetExtensions"/>, can match a file name.
+		/// </summary>
+		public static bool IsValidExtension(string extension)
+			=> extension.Length > 1 && extension.IndexOfAny(SystemIO.Path.GetInvalidFileNameChars()) < 0;
+
+		private static string NormalizeExtension(string extension)
+		{
+			var trimmed = extension.TrimStart('*');
+			return trimmed.StartsWith('.') ? trimmed : $".{trimmed}";
 		}
 
 		public LayoutRule Clone()
