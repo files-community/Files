@@ -237,6 +237,15 @@ These names and IIDs belong to `LibraryInfo`. **Do not reuse its IIDs for a new 
 - Windows supplies proxies for some system instantiations. Account for the exact IID and supported Windows versions instead of adding app registrations blindly for every system type.
 - If `IReadOnlyListImpl<T>.Make_IEnumerableObjRef` or CCW creation fails, fix the exposure/identity/registration layer. Do not hide it with Count/indexer copying, JSON transport, a fabricated runtime class name, or blanket exception swallowing. Normal `foreach`/LINQ enumeration must remain supported across the boundary.
 
+### HSTRING alignment in cross-process structs
+
+Windows 10's WinRT metadata marshaler can use 4-byte alignment for HSTRING fields on x64, while generated ABI structs use 8-byte alignment. For inline struct fields, this can make RPC read padding as an HSTRING handle and fault in `HSTRING_UserSize`.
+
+- Keep field offsets and array element stride consistent under both alignments. Reordering fields alone can leave a mismatch in trailing padding and total struct size.
+- Prefer pairing existing 32-bit fields before HSTRING fields so the HSTRING fields begin at an 8-byte boundary.
+- When existing fields cannot fill the alignment gap, use an explicit 32-bit reserved field. Leave it zero-initialized and preserve it as part of the ABI, even though application code does not read it.
+- Field order and reserved fields are part of the WinRT contract. Regenerate client and server bindings from matching metadata and deploy them together after layout changes; do not edit generated ABI structs directly.
+
 ### Preserve the data contract, including null and empty values
 
 | Boundary | Rule |
