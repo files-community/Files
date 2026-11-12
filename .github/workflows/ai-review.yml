@@ -1,0 +1,98 @@
+# Copyright (c) Files Community
+# Licensed under the MIT License.
+
+# Abstract:
+#   First-pass AI review for pull requests from outside contributors.
+#   Org members, collaborators and bots pass immediately. Other PRs get a
+#   strict review following the "AI PR review gate" section of AGENTS.md and
+#   only reach "ready for review" once nothing blocking is left.
+#
+#   This uses pull_request_target so fork PRs can reach the API key. It must
+#   never build or run PR code: the PR is only read as files, the reviewer
+#   gets read-only tools, and this workflow, not the model, sets the labels
+#   and the "AI review" commit status.
+
+name: AI review
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+  issue_comment:
+    types: [created]
+
+permissions: {}
+
+jobs:
+  ai-review:
+    if: >-
+      github.repository_owner == 'files-community' && (
+        (github.event_name == 'pull_request_target' &&
+          ((github.event.action != 'labeled' && github.event.action != 'unlabeled') || github.event.label.name == 'skip ai review')) ||
+        (github.event_name == 'issue_comment' && github.event.issue.pull_request && github.event.comment.user.type != 'Bot' &&
+          (startsWith(github.event.comment.body, '/ai-review') || github.event.comment.user.login == github.event.issue.user.login)))
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+      statuses: write
+
+    concurrency:
+      group: ai-review-${{ github.event.pull_request.number || github.event.issue.number }}
+      # A new push replaces the running review. A comment waits for it instead.
+      cancel-in-progress: ${{ github.event_name == 'pull_request_target' }}
+
+    steps:
+      # Checks out the base branch, never the PR head.
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Prepare review
+        id: prepare
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HAS_API_KEY: ${{ secrets.ANTHROPIC_API_KEY != '' }}
+          AI_REVIEW_MAX_LINES: ${{ vars.AI_REVIEW_MAX_LINES }}
+          AI_REVIEW_MAX_RUNS: ${{ vars.AI_REVIEW_MAX_RUNS }}
+        run: python3 .github/ai-review/ai_review.py prepare
+
+      - name: Install Claude Code
+        if: steps.prepare.outputs.mode == 'review'
+        run: npm install -g @anthropic-ai/claude-code@2.1.314
+
+      - name: Run review
+        if: steps.prepare.outputs.mode == 'review'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          MODEL: ${{ vars.AI_REVIEW_MODEL || 'claude-opus-5-5' }}
+          MAX_USD: ${{ vars.AI_REVIEW_MAX_USD || '5' }}
+        # --restricted removes command-running tools, ignores settings files and
+        # confines file tools to the base checkout and the review context.
+        run: |
+          claude -p "$(cat "$RUNNER_TEMP/ai-review/prompt.txt")" \
+            --restricted \
+            --strict-mcp-config \
+            --tools "Read,Grep,Glob" \
+            --add-dir "$RUNNER_TEMP/ai-review" \
+            --model "$MODEL" \
+            --max-budget-usd "$MAX_USD" \
+            --json-schema "$(cat .github/ai-review/schema.json)" \
+            --output-format json \
+            > "$RUNNER_TEMP/ai-review-result.json"
+
+      - name: Publish review
+        if: steps.prepare.outputs.mode == 'review'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 .github/ai-review/ai_review.py publish "$RUNNER_TEMP/ai-review-result.json"
+
+      - name: Report failure
+        if: failure() && steps.prepare.outputs.mode == 'review'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 .github/ai-review/ai_review.py error
