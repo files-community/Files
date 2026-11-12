@@ -167,8 +167,12 @@
 				<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.Sorting}" />
 
 				<AppBarButton.Flyout>
-					<MenuFlyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
+					<MenuFlyout
+						contract8Present:ShouldConstrainToRootBounds="False"
+						Opening="SortGroupFlyout_Opening"
+						Placement="Bottom">
 						<MenuFlyoutSubItem
+							x:Name="SortByMenu"
 							AccessKey="S"
 							AccessKeyInvoked="SortGroup_AccessKeyInvoked"
 							Text="{helpers:ResourceString Name=SortBy}">
@@ -194,7 +198,7 @@
 								IsChecked="{x:Bind Commands.SortByDateDeleted.IsOn, Mode=TwoWay}"
 								IsEnabled="{x:Bind Commands.SortByDateDeleted.IsExecutable, Mode=OneWay}"
 								Text="{x:Bind Commands.SortByDateDeleted.Label}" />
-							<MenuFlyoutSeparator />
+							<MenuFlyoutSeparator x:Name="SortDirectionSeparator" />
 							<ToggleMenuFlyoutItem
 								AccessKey="A"
 								IsChecked="{x:Bind Commands.SortAscending.IsOn, Mode=TwoWay}"
@@ -205,6 +209,7 @@
 								Text="{x:Bind Commands.SortDescending.Label}" />
 						</MenuFlyoutSubItem>
 						<MenuFlyoutSubItem
+							x:Name="GroupByMenu"
 							AccessKey="G"
 							AccessKeyInvoked="SortGroup_AccessKeyInvoked"
 							Text="{helpers:ResourceString Name=GroupBy}">
@@ -240,7 +245,7 @@
 								IsChecked="{x:Bind Commands.GroupByFolderPath.IsOn, Mode=TwoWay}"
 								IsEnabled="{x:Bind Commands.GroupByFolderPath.IsExecutable, Mode=OneWay}"
 								Text="{x:Bind Commands.GroupByFolderPath.Label}" />
-							<MenuFlyoutSeparator />
+							<MenuFlyoutSeparator x:Name="GroupDirectionSeparator" />
 							<ToggleMenuFlyoutItem
 								AccessKey="A"
 								IsChecked="{x:Bind Commands.GroupAscending.IsOn, Mode=TwoWay}"

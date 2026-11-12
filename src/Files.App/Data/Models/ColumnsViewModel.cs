@@ -20,8 +20,10 @@ namespace Files.App.Data.Models
 		[])]
 	public sealed partial class ColumnsViewModel : ObservableObject
 	{
+		private const double DefaultPropertyColumnWidth = 150;
 
 		private readonly Dictionary<string, DetailsLayoutColumnItem> _columns = [];
+		private readonly List<string> _propertyColumnIds = [];
 
 		public ColumnsViewModel()
 		{
@@ -158,6 +160,10 @@ namespace Files.App.Data.Models
 				if (Columns.SequenceEqual(value))
 					return;
 
+				foreach (var id in _propertyColumnIds)
+					_columns.Remove(id);
+
+				_propertyColumnIds.Clear();
 				foreach (var entry in value)
 				{
 					var parts = entry.Split('|');
@@ -169,13 +175,23 @@ namespace Files.App.Data.Models
 					double width = 0;
 					var hasWidth = parts.Length > 1 && double.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out width);
 
-					if (!_columns.TryGetValue(id, out var column))
-						continue;
+					if (_columns.TryGetValue(id, out var column))
+					{
+						if (_propertyColumnIds.Contains(id))
+							continue;
 
-					if (hasWidth)
-						column.UserLengthPixels = width;
+						if (hasWidth)
+							column.UserLengthPixels = width;
 
-					column.UserCollapsed = !isVisible && !DetailsLayoutColumnOrder.IsRequired(id);
+						column.UserCollapsed = !isVisible && !DetailsLayoutColumnOrder.IsRequired(id);
+					}
+					else if (isVisible)
+					{
+						column = CreatePropertyColumn();
+						column.UserLengthPixels = hasWidth ? width : DefaultPropertyColumnWidth;
+						_columns[id] = column;
+						_propertyColumnIds.Add(id);
+					}
 				}
 
 				OnColumnSetChanged();
@@ -201,10 +217,13 @@ namespace Files.App.Data.Models
 
 		private DetailsLayoutColumnOrder? _OrderedColumns;
 		[RegistryIgnore, JsonIgnore]
-		public DetailsLayoutColumnOrder OrderedColumns => _OrderedColumns ??= new(_ColumnOrder, this);
+		public DetailsLayoutColumnOrder OrderedColumns => _OrderedColumns ??= new(_ColumnOrder, _propertyColumnIds, this);
 
 		[RegistryIgnore, JsonIgnore]
-		public IEnumerable<string> AllColumnIds => DetailsLayoutColumnIds.BuiltIn;
+		public IReadOnlyList<string> PropertyColumnIds => _propertyColumnIds;
+
+		[RegistryIgnore, JsonIgnore]
+		public IEnumerable<string> AllColumnIds => DetailsLayoutColumnIds.BuiltIn.Concat(_propertyColumnIds);
 
 		/// <summary>
 		/// Gets a value that changes whenever the width or visibility of a column changes.
@@ -223,21 +242,14 @@ namespace Files.App.Data.Models
 			return _columns.TryGetValue(id, out var column) ? column : throw new ArgumentOutOfRangeException(nameof(id), id, null);
 		}
 
-		/// <summary>
-		/// Uses the widths of the specified columns for the columns both have.
-		/// </summary>
-		public void ApplyWidths(ColumnsViewModel source)
-		{
-			foreach (var id in AllColumnIds)
-			{
-				if (source.FindColumn(id) is { } column)
-					GetColumn(id).UserLengthPixels = column.UserLengthPixels;
-			}
-		}
-
 		public DetailsLayoutColumnItem? FindColumn(string id)
 		{
 			return _columns.GetValueOrDefault(id);
+		}
+
+		public bool HasPropertyColumn(string id)
+		{
+			return _propertyColumnIds.Contains(id);
 		}
 
 		public bool IsColumnVisible(string id)
@@ -245,10 +257,39 @@ namespace Files.App.Data.Models
 			return _columns.TryGetValue(id, out var column) && !column.UserCollapsed;
 		}
 
-		public void SetColumnVisibility(string id, bool isVisible)
+		public void SetColumnVisibility(string id, bool isVisible, double defaultWidth = DefaultPropertyColumnWidth)
 		{
-			if (!DetailsLayoutColumnOrder.IsRequired(id))
+			if (DetailsLayoutColumnOrder.IsRequired(id))
+				return;
+
+			if (DetailsLayoutColumnDefinitions.IsBuiltIn(id))
+			{
 				GetColumn(id).UserCollapsed = !isVisible;
+				return;
+			}
+
+			if (isVisible == HasPropertyColumn(id))
+				return;
+
+			if (isVisible)
+			{
+				var column = CreatePropertyColumn();
+				column.UserLengthPixels = defaultWidth;
+				_columns[id] = column;
+				_propertyColumnIds.Add(id);
+			}
+			else
+			{
+				_columns.Remove(id);
+				_propertyColumnIds.Remove(id);
+			}
+
+			OnColumnSetChanged();
+		}
+
+		private static DetailsLayoutColumnItem CreatePropertyColumn()
+		{
+			return new() { NormalMaxLength = 1000 };
 		}
 
 		private void OnColumnSetChanged()
@@ -275,14 +316,19 @@ namespace Files.App.Data.Models
 		}
 
 		/// <summary>
-		/// Gets the columns for the column menu in display order.
+		/// Gets the columns for the column menu in display order, followed by the other columns the location offers, like File Explorer.
 		/// </summary>
-		public IEnumerable<string> GetMenuColumnIds()
+		public IEnumerable<string> GetMenuColumnIds(IEnumerable<string> locationColumnIds)
 		{
-			return OrderedColumns.Ids.Where(id => !DetailsLayoutColumnOrder.IsRequired(id) && !GetColumn(id).IsHidden);
+			var columnIds = OrderedColumns.Ids.Where(id =>
+				!DetailsLayoutColumnOrder.IsRequired(id) &&
+				GetColumn(id) is { IsHidden: false } column &&
+				(DetailsLayoutColumnDefinitions.IsBuiltIn(id) || !column.UserCollapsed));
+
+			return columnIds
+				.Concat(locationColumnIds.Where(id => !DetailsLayoutColumnDefinitions.IsBuiltIn(id) && ColumnValueHelper.IsShellPropertyColumn(id)))
+				.Distinct();
 		}
-
-
 		public double TotalWidth =>
 			AllColumnIds.Sum(id => GetColumn(id).Length.Value);
 

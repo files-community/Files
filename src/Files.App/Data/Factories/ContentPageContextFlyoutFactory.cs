@@ -7,6 +7,7 @@ using Files.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
+using System.Windows.Input;
 using Windows.Storage;
 
 namespace Files.App.Data.Factories
@@ -201,6 +202,7 @@ namespace Files.App.Data.Factories
 						{
 							IsToggle = true
 						}.Build(),
+						.. GetSortByColumnItems(currentInstanceViewModel, itemViewModel),
 						new ContextMenuFlyoutItemViewModel
 						{
 							ItemType = ContextMenuFlyoutItemType.Separator,
@@ -329,6 +331,7 @@ namespace Files.App.Data.Factories
 						{
 							IsToggle = true
 						}.Build(),
+						.. GetGroupByColumnItems(currentInstanceViewModel, itemViewModel),
 						new ContextMenuFlyoutItemViewModel
 						{
 							ItemType = ContextMenuFlyoutItemType.Separator,
@@ -683,6 +686,44 @@ namespace Files.App.Data.Factories
 					IsEnabled = false
 				},
 			}.Where(x => x.ShowItem).ToList();
+		}
+
+		private static IEnumerable<ContextMenuFlyoutItemViewModel> GetSortByColumnItems(CurrentInstanceViewModel currentInstanceViewModel, ShellViewModel? itemViewModel)
+		{
+			var folderSettings = currentInstanceViewModel.FolderSettings;
+			return FolderColumnOptions.GetSortOptions(currentInstanceViewModel, itemViewModel)
+				.Select(option => CreateColumnItem(option.Label, option.IsChecked, new RelayCommand(() => FolderColumnOptions.SortBy(folderSettings, option.Id))));
+		}
+
+		private static IEnumerable<ContextMenuFlyoutItemViewModel> GetGroupByColumnItems(CurrentInstanceViewModel currentInstanceViewModel, ShellViewModel? itemViewModel)
+		{
+			var folderSettings = currentInstanceViewModel.FolderSettings;
+			return FolderColumnOptions.GetGroupOptions(currentInstanceViewModel, itemViewModel).Select(option =>
+			{
+				if (!option.IsDate)
+					return CreateColumnItem(option.Label, option.IsChecked, new RelayCommand(() => FolderColumnOptions.GroupBy(folderSettings, option.Id)));
+
+				var item = CreateColumnItem(option.Label, false, null);
+				item.Items = FolderColumnOptions.GetDateUnits()
+					.Select(date => CreateColumnItem(date.Label, option.IsChecked && folderSettings.DirectoryGroupByDateUnit == date.Unit, new RelayCommand(() => FolderColumnOptions.GroupBy(folderSettings, option.Id, date.Unit))))
+					.ToList();
+				return item;
+			});
+		}
+
+		private static ContextMenuFlyoutItemViewModel CreateColumnItem(string text, bool isChecked, ICommand? command)
+		{
+			return new()
+			{
+				Text = text,
+				ItemType = command is null ? ContextMenuFlyoutItemType.Item : ContextMenuFlyoutItemType.Toggle,
+				IsChecked = isChecked,
+				Command = command,
+				ShowInRecycleBin = true,
+				ShowInSearchPage = true,
+				ShowInFtpPage = true,
+				ShowInZipPage = true,
+			};
 		}
 
 		public static List<ContextMenuFlyoutItemViewModel> GetNewItemItems(BaseLayoutViewModel commandsViewModel, bool canCreateFileInPage)

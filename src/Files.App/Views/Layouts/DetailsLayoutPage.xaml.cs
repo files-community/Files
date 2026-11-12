@@ -4,6 +4,8 @@
 using CommunityToolkit.WinUI;
 using Files.App.Controls;
 using Files.App.UserControls.Selection;
+using Files.App.ViewModels.Settings;
+using Files.App.Views.Settings;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -67,6 +69,7 @@ namespace Files.App.Views.Layouts
 		private ColumnDefinition[] _fixedHeaderColumnDefinitions = [];
 		private Dictionary<string, int>? _headerColumnIndices;
 		private readonly Dictionary<string, ColumnHeader> _columnHeaders = [];
+		private IReadOnlyDictionary<string, ShellPropertyColumnInfo>? _shellPropertyCatalog;
 
 		private const double ColumnReorderDragThreshold = 6;
 		private const double ColumnReorderTouchDragThreshold = 16;
@@ -123,17 +126,31 @@ namespace Files.App.Views.Layouts
 			HeaderGrid.AddHandler(UIElement.PointerReleasedEvent, new PointerEventHandler(HeaderGrid_ReorderPointerReleased), true);
 			HeaderGrid.AddHandler(UIElement.PointerCaptureLostEvent, new PointerEventHandler(HeaderGrid_ReorderPointerCaptureLost), true);
 			HeaderGrid.AddHandler(UIElement.KeyDownEvent, new KeyEventHandler(HeaderGrid_ReorderKeyDown), true);
+			FileList.ContainerContentChanging += FileList_ShellPropertyContainerContentChanging;
+			_ = LoadShellPropertyCatalogAsync();
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 
 			UpdateSortOptionsCommand = new RelayCommand<string>(x =>
 			{
-				if (_suppressHeaderSort || !Enum.TryParse<SortOption>(x, out var val))
+				if (_suppressHeaderSort || string.IsNullOrEmpty(x))
 					return;
 				var folderSettings = FolderSettings
 					?? throw new InvalidOperationException("The details layout does not have folder settings.");
-				if (folderSettings.DirectorySortOption == val)
+				if (!Enum.TryParse<SortOption>(x, out var val) || val == SortOption.Property)
+				{
+					if (folderSettings.DirectorySortOption == SortOption.Property && folderSettings.DirectorySortPropertyId == x)
+					{
+						folderSettings.DirectorySortDirection = (SortDirection)(((int)folderSettings.DirectorySortDirection + 1) % 2);
+					}
+					else
+					{
+						folderSettings.SetSortProperty(x);
+						folderSettings.DirectorySortDirection = SortDirection.Ascending;
+					}
+				}
+				else if (folderSettings.DirectorySortOption == val)
 				{
 					folderSettings.DirectorySortDirection = (SortDirection)(((int)folderSettings.DirectorySortDirection + 1) % 2);
 				}
@@ -215,12 +232,12 @@ namespace Files.App.Views.Layouts
 				ApplyHeaderColumnOrder();
 			}
 
+			_ = ShellFolderColumns.GetAsync(shellViewModel.WorkingDirectory);
 			shellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
 
 			folderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
 			folderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
 			folderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
-			folderSettings.PropertyChanged += FolderSettings_PropertyChanged;
 			shellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 			shellViewModel.ItemLoadStatusChanged += ShellViewModel_ItemLoadStatusChanged;
 			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
@@ -243,20 +260,6 @@ namespace Files.App.Views.Layouts
 			SetItemContainerStyle();
 		}
 
-		private void FolderSettings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName is nameof(LayoutPreferencesManager.ColumnsViewModel) &&
-				FolderSettings?.ColumnsViewModel is { } columns &&
-				!ReferenceEquals(columns, ColumnsViewModel))
-			{
-				ColumnsViewModel.Columns = columns.Columns;
-				ColumnsViewModel.ColumnOrder = columns.ColumnOrder;
-				ApplyHeaderColumnOrder();
-				if (ParentShellPageInstance?.ShellViewModel is { } shellViewModel)
-					shellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
-			}
-		}
-
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
@@ -265,7 +268,6 @@ namespace Files.App.Views.Layouts
 			folderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 			folderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			folderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
-			folderSettings.PropertyChanged -= FolderSettings_PropertyChanged;
 			var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 			shellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
 			shellViewModel.ItemLoadStatusChanged -= ShellViewModel_ItemLoadStatusChanged;
@@ -282,7 +284,6 @@ namespace Files.App.Views.Layouts
 				folderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 				folderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 				folderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
-				folderSettings.PropertyChanged -= FolderSettings_PropertyChanged;
 			}
 			if (ParentShellPageInstance?.ShellViewModel is { } shellViewModel)
 			{
@@ -393,7 +394,9 @@ namespace Files.App.Views.Layouts
 
 			foreach (var (id, columnHeader) in _columnHeaders)
 			{
-				var isSorted = DetailsLayoutColumnDefinitions.Get(id)?.SortOption == folderSettings.DirectorySortOption;
+				var isSorted = folderSettings.DirectorySortOption == SortOption.Property
+					? folderSettings.DirectorySortPropertyId == id
+					: DetailsLayoutColumnDefinitions.Get(id)?.SortOption == folderSettings.DirectorySortOption;
 
 				columnHeader.Header.ColumnSortOption = isSorted ? folderSettings.DirectorySortDirection : null;
 			}
@@ -866,15 +869,12 @@ namespace Files.App.Views.Layouts
 		}
 
 		public void AutoFitColumns()
-			=> AutoFitColumns(true);
-
-		private void AutoFitColumns(bool save)
 		{
 			if (!FileList.Items.Any())
 				return;
 
 			foreach (var columnId in ColumnsViewModel.AllColumnIds.Where(id => ColumnsViewModel.GetColumn(id).Visibility == Visibility.Visible).ToArray())
-				ResizeColumnToFit(columnId, save);
+				ResizeColumnToFit(columnId);
 		}
 
 		private void AutoFitColumnsIfEnabled()
@@ -885,7 +885,7 @@ namespace Files.App.Views.Layouts
 			// Trailing debounce so bursts of item adds and extended-property updates during a folder load collapse into one resize.
 			_autoFitColumnsTimer ??= DispatcherQueue.CreateTimer();
 			_autoFitColumnsTimer.Debounce(
-				() => AutoFitColumns(false),
+				() => _ = Commands.AutoFitColumns.ExecuteAsync(),
 				TimeSpan.FromMilliseconds(250));
 		}
 
@@ -906,7 +906,7 @@ namespace Files.App.Views.Layouts
 			AutoFitColumnsIfEnabled();
 		}
 
-		private void ResizeColumnToFit(string columnId, bool save = true)
+		private void ResizeColumnToFit(string columnId)
 		{
 			if (!FileList.Items.Any())
 				return;
@@ -918,7 +918,7 @@ namespace Files.App.Views.Layouts
 				DetailsLayoutColumnIds.Tag => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.Sum(x => x?.Name?.Length ?? 0) ?? 0).Max(),
 				DetailsLayoutColumnIds.Size => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(),
 				DetailsLayoutColumnIds.GitStatus or DetailsLayoutColumnIds.Status => 0, // these columns only show icons
-				_ => FileList.Items.Cast<ListedItem>().Select(x => DetailsLayoutColumnDefinitions.Get(columnId)?.GetText?.Invoke(x)?.Length ?? 0).Max(),
+				_ => FileList.Items.Cast<ListedItem>().Select(x => ColumnValueHelper.GetText(x, columnId)?.Length ?? 0).Max(),
 			};
 
 			// if called programmatically, the column could be hidden
@@ -940,9 +940,6 @@ namespace Files.App.Views.Layouts
 
 				column.UserLength = new GridLength(maxFitLength, GridUnitType.Pixel);
 			}
-
-			if (!save)
-				return;
 
 			var folderSettings = FolderSettings
 				?? throw new InvalidOperationException("The details layout does not have folder settings.");
@@ -1189,9 +1186,25 @@ namespace Files.App.Views.Layouts
 			return new(new ColumnDefinition(), new ColumnDefinition { Width = GridLength.Auto }, header, splitter, ColumnsViewModel.NotifyLayoutChanged);
 		}
 
+		/// <summary>
+		/// Gets the columns the current folder offers, once they have been read.
+		/// </summary>
+		private IEnumerable<string> GetFolderColumnIds()
+		{
+			var path = ParentShellPageInstance?.ShellViewModel?.WorkingDirectory;
+			return ShellFolderColumns.GetAsync(path) is { IsCompletedSuccessfully: true } task ? task.Result.Select(column => column.Id) : [];
+		}
+
 		private string GetColumnDisplayName(string id)
 		{
-			return DetailsLayoutColumnDefinitions.GetHeader(id);
+			return DetailsLayoutColumnDefaults.GetDisplayName(id, _shellPropertyCatalog);
+		}
+
+		private async Task LoadShellPropertyCatalogAsync()
+		{
+			_shellPropertyCatalog = await ShellPropertyCatalog.GetAsync();
+			foreach (var (id, columnHeader) in _columnHeaders)
+				columnHeader.Header.Header = GetColumnDisplayName(id);
 		}
 
 		private void SetColumnVisibility(string id, bool isVisible)
@@ -1199,9 +1212,35 @@ namespace Files.App.Views.Layouts
 			if (isVisible == ColumnsViewModel.IsColumnVisible(id))
 				return;
 
-			ColumnsViewModel.SetColumnVisibility(id, isVisible);
+			var width = _shellPropertyCatalog is not null && _shellPropertyCatalog.TryGetValue(id, out var info) ? info.DefaultWidth : 150;
+			ColumnsViewModel.SetColumnVisibility(id, isVisible, width);
+			if (isVisible)
+				LoadShellPropertiesForRealizedItems();
+
 			SaveColumnVisibility();
 		}
+
+		[DynamicWindowsRuntimeCast(typeof(SelectorItem))]
+		private void LoadShellPropertiesForRealizedItems()
+		{
+			if (FileList.ItemsPanelRoot is not { } panel)
+				return;
+
+			foreach (var child in panel.Children)
+			{
+				if (child is SelectorItem container && FileList.ItemFromContainer(container) is ListedItem item)
+					_ = LoadShellPropertiesAsync(item);
+			}
+		}
+
+		private void FileList_ShellPropertyContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+		{
+			if (!args.InRecycleQueue && args.Item is ListedItem item)
+				_ = LoadShellPropertiesAsync(item);
+		}
+
+		private Task LoadShellPropertiesAsync(ListedItem item)
+			=> ShellPropertyValueLoader.LoadAsync(item, ColumnsViewModel.PropertyColumnIds);
 
 		private sealed class ColumnHeader(ColumnDefinition column, ColumnDefinition divider, DataGridHeader header, Files.App.Controls.GridSplitter splitter, Action layoutChanged)
 		{
@@ -1273,7 +1312,7 @@ namespace Files.App.Views.Layouts
 			for (var index = items.IndexOf(ColumnTogglesEndSeparator) - 1; index >= startIndex; index--)
 				items.RemoveAt(index);
 
-			foreach (var id in ColumnsViewModel.GetMenuColumnIds())
+			foreach (var id in ColumnsViewModel.GetMenuColumnIds(GetFolderColumnIds()))
 			{
 				var item = new ToggleMenuFlyoutItem
 				{
