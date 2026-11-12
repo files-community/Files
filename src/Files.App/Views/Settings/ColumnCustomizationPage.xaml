@@ -1,0 +1,436 @@
+﻿<!--  Copyright (c) Files Community. SPDX-License-Identifier: MPL-2.0  -->
+<Page
+	x:Class="Files.App.Views.Settings.ColumnCustomizationPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vm="using:Files.App.ViewModels.Settings"
+	mc:Ignorable="d">
+
+	<Page.Resources>
+		<Style
+			x:Key="HeaderTextStyle"
+			BasedOn="{StaticResource App.Theme.CaptionTextBlockStyle}"
+			TargetType="TextBlock">
+			<Setter Property="FontWeight" Value="SemiBold" />
+			<Setter Property="Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
+			<Setter Property="TextWrapping" Value="NoWrap" />
+			<Setter Property="VerticalAlignment" Value="Center" />
+		</Style>
+		<Style x:Key="SortDirectionButtonStyle" TargetType="ToggleButton">
+			<Setter Property="Width" Value="36" />
+			<Setter Property="Height" Value="28" />
+			<Setter Property="Background" Value="Transparent" />
+			<Setter Property="Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+			<Setter Property="UseSystemFocusVisuals" Value="True" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="ToggleButton">
+						<Grid
+							x:Name="RootGrid"
+							Background="{TemplateBinding Background}"
+							CornerRadius="{TemplateBinding CornerRadius}">
+							<ContentPresenter
+								x:Name="ContentPresenter"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								Content="{TemplateBinding Content}"
+								Foreground="{TemplateBinding Foreground}" />
+							<Rectangle
+								x:Name="SelectionIndicator"
+								Width="16"
+								Height="3"
+								Margin="0,0,0,2"
+								VerticalAlignment="Bottom"
+								Fill="{ThemeResource AccentFillColorDefaultBrush}"
+								RadiusX="1.5"
+								RadiusY="1.5"
+								Visibility="Collapsed" />
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="CommonStates">
+									<VisualState x:Name="Normal" />
+									<VisualState x:Name="PointerOver">
+										<VisualState.Setters>
+											<Setter Target="RootGrid.Background" Value="{ThemeResource ControlAltFillColorTertiaryBrush}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="Pressed">
+										<VisualState.Setters>
+											<Setter Target="RootGrid.Background" Value="{ThemeResource ControlAltFillColorQuarternaryBrush}" />
+											<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="Disabled">
+										<VisualState.Setters>
+											<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextFillColorDisabledBrush}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="Checked">
+										<VisualState.Setters>
+											<Setter Target="RootGrid.Background" Value="{ThemeResource ControlFillColorInputActiveBrush}" />
+											<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource AccentTextFillColorPrimaryBrush}" />
+											<Setter Target="SelectionIndicator.Visibility" Value="Visible" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="CheckedPointerOver">
+										<VisualState.Setters>
+											<Setter Target="RootGrid.Background" Value="{ThemeResource ControlFillColorInputActiveBrush}" />
+											<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource AccentTextFillColorPrimaryBrush}" />
+											<Setter Target="SelectionIndicator.Visibility" Value="Visible" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="CheckedPressed">
+										<VisualState.Setters>
+											<Setter Target="RootGrid.Background" Value="{ThemeResource ControlFillColorInputActiveBrush}" />
+											<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource AccentTextFillColorTertiaryBrush}" />
+											<Setter Target="SelectionIndicator.Visibility" Value="Visible" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="CheckedDisabled">
+										<VisualState.Setters>
+											<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextFillColorDisabledBrush}" />
+											<Setter Target="SelectionIndicator.Visibility" Value="Visible" />
+											<Setter Target="SelectionIndicator.Fill" Value="{ThemeResource AccentFillColorDisabledBrush}" />
+										</VisualState.Setters>
+									</VisualState>
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</Page.Resources>
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<!--  Title bar  -->
+		<Grid
+			x:Name="WindowTitleBar"
+			Height="36"
+			Padding="12,0,160,0"
+			Background="Transparent">
+			<TextBlock
+				VerticalAlignment="Center"
+				Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
+				Text="{x:Bind ViewModel.Title, Mode=OneWay}" />
+		</Grid>
+
+		<!--  Description  -->
+		<TextBlock
+			Grid.Row="1"
+			Padding="20,4,16,0"
+			Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+			Text="{x:Bind ViewModel.Description, Mode=OneWay}"
+			TextWrapping="WrapWholeWords"
+			Visibility="{x:Bind ViewModel.HasDescription, Mode=OneWay}" />
+
+		<!--  Search  -->
+		<TextBox
+			Grid.Row="2"
+			Margin="16,12,16,0"
+			AutomationProperties.Name="{helpers:ResourceString Name=SearchColumns}"
+			PlaceholderText="{helpers:ResourceString Name=SearchColumns}"
+			Text="{x:Bind ViewModel.SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+		<!--  Columns  -->
+		<Grid
+			Grid.Row="3"
+			Padding="16,12,16,0"
+			ColumnSpacing="12">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="280" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<!--  Available Columns  -->
+			<Border
+				Background="{ThemeResource LayerFillColorDefaultBrush}"
+				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+				BorderThickness="1"
+				CornerRadius="8">
+				<ListView
+					x:Name="ColumnsList"
+					Padding="0,4"
+					IsItemClickEnabled="True"
+					ItemClick="ColumnsList_ItemClick"
+					ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+					KeyDown="ColumnsList_KeyDown"
+					SelectionMode="None">
+					<ListView.ItemContainerStyle>
+						<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+							<Setter Property="MinHeight" Value="36" />
+							<Setter Property="Padding" Value="8,0" />
+							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+						</Style>
+					</ListView.ItemContainerStyle>
+					<ListView.ItemTemplate>
+						<DataTemplate x:DataType="vm:ColumnPickerItem">
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="28" />
+									<ColumnDefinition Width="*" />
+								</Grid.ColumnDefinitions>
+
+								<!--  Group  -->
+								<FontIcon
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									AutomationProperties.AccessibilityView="Raw"
+									FontSize="12"
+									Glyph="&#xE76C;"
+									RenderTransformOrigin="0.5,0.5"
+									Visibility="{x:Bind IsGroup}">
+									<FontIcon.RenderTransform>
+										<RotateTransform Angle="{x:Bind ExpandGlyphAngle, Mode=OneWay}" />
+									</FontIcon.RenderTransform>
+								</FontIcon>
+								<CheckBox
+									Grid.Column="1"
+									Command="{x:Bind ToggleCommand}"
+									IsChecked="{x:Bind IsChecked, Mode=OneWay}"
+									IsEnabled="{x:Bind IsEnabled}"
+									Visibility="{x:Bind IsGroup}">
+									<TextBlock
+										FontWeight="SemiBold"
+										Text="{x:Bind DisplayName}"
+										TextTrimming="CharacterEllipsis" />
+								</CheckBox>
+
+								<!--  Column  -->
+								<CheckBox
+									Grid.Column="1"
+									Margin="28,0,0,0"
+									Command="{x:Bind ToggleCommand}"
+									IsChecked="{x:Bind IsChecked, Mode=OneWay}"
+									IsEnabled="{x:Bind IsEnabled}"
+									Visibility="{x:Bind IsColumn}">
+									<TextBlock
+										Text="{x:Bind DisplayName}"
+										TextTrimming="CharacterEllipsis"
+										ToolTipService.ToolTip="{x:Bind DisplayName}" />
+								</CheckBox>
+							</Grid>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
+			</Border>
+
+			<!--  Shown Columns  -->
+			<Border
+				Grid.Column="1"
+				Background="{ThemeResource LayerFillColorDefaultBrush}"
+				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+				BorderThickness="1"
+				CornerRadius="8">
+				<ListView
+					x:Name="ShownColumnsList"
+					Padding="4"
+					AllowDrop="True"
+					CanDragItems="True"
+					CanReorderItems="True"
+					ItemsSource="{x:Bind ViewModel.ShownColumns, Mode=OneWay}"
+					KeyDown="ShownColumnsList_KeyDown"
+					ReorderMode="Enabled"
+					SelectionMode="None">
+					<ListView.Header>
+						<Border
+							Height="32"
+							Background="{ThemeResource ControlFillColorDefaultBrush}"
+							BorderBrush="{ThemeResource ControlElevationBorderBrush}"
+							BorderThickness="1"
+							CornerRadius="8">
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="48" />
+								</Grid.ColumnDefinitions>
+								<TextBlock
+									Margin="24,0,0,0"
+									Style="{StaticResource HeaderTextStyle}"
+									Text="{helpers:ResourceString Name=Column}" />
+								<Border
+									Grid.Column="1"
+									Width="96"
+									BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+									BorderThickness="1,0,0,0">
+									<TextBlock
+										HorizontalAlignment="Center"
+										Style="{StaticResource HeaderTextStyle}"
+										Text="{helpers:ResourceString Name=Sorting}" />
+								</Border>
+								<Border
+									Grid.Column="2"
+									BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+									BorderThickness="1,0,0,0" />
+							</Grid>
+						</Border>
+					</ListView.Header>
+
+					<ListView.ItemTemplate>
+						<DataTemplate x:DataType="vm:ShownColumnItem">
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="96" />
+									<ColumnDefinition Width="48" />
+								</Grid.ColumnDefinitions>
+								<PathIcon
+									Margin="4,0,0,0"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Center"
+									Data="{StaticResource App.Theme.PathIcon.DragGripper}" />
+								<TextBlock
+									Margin="24,0,8,0"
+									VerticalAlignment="Center"
+									Text="{x:Bind DisplayName}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap"
+									ToolTipService.ToolTip="{x:Bind DisplayName}" />
+
+								<!--  Sorting  -->
+								<Border
+									Grid.Column="1"
+									Padding="2"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									Background="{ThemeResource SolidBackgroundFillColorSecondaryBrush}"
+									BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+									BorderThickness="1"
+									CornerRadius="6">
+									<StackPanel Orientation="Horizontal">
+										<ToggleButton
+											AutomationProperties.Name="{helpers:ResourceString Name=SortItemsAscending}"
+											Command="{x:Bind SortAscendingCommand}"
+											CornerRadius="{ThemeResource ControlCornerRadius}"
+											IsChecked="{x:Bind IsSortedAscending, Mode=OneWay}"
+											Style="{StaticResource SortDirectionButtonStyle}"
+											ToolTipService.ToolTip="{helpers:ResourceString Name=SortItemsAscending}">
+											<FontIcon FontSize="14" Glyph="&#xE74A;" />
+										</ToggleButton>
+										<ToggleButton
+											AutomationProperties.Name="{helpers:ResourceString Name=SortItemsDescending}"
+											Command="{x:Bind SortDescendingCommand}"
+											CornerRadius="{ThemeResource ControlCornerRadius}"
+											IsChecked="{x:Bind IsSortedDescending, Mode=OneWay}"
+											Style="{StaticResource SortDirectionButtonStyle}"
+											ToolTipService.ToolTip="{helpers:ResourceString Name=SortItemsDescending}">
+											<FontIcon FontSize="14" Glyph="&#xE74B;" />
+										</ToggleButton>
+									</StackPanel>
+								</Border>
+
+								<!--  Remove  -->
+								<Button
+									Grid.Column="2"
+									Width="32"
+									Height="24"
+									Padding="0"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									AutomationProperties.Name="{helpers:ResourceString Name=Remove}"
+									Background="Transparent"
+									BorderThickness="0"
+									Command="{x:Bind RemoveCommand}"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}"
+									Visibility="{x:Bind IsRemovable}">
+									<Button.Resources>
+										<SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="{ThemeResource SystemFillColorCritical}" />
+										<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />
+									</Button.Resources>
+									<FontIcon FontSize="12" Glyph="&#xE711;" />
+								</Button>
+							</Grid>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+
+					<ListView.ItemContainerStyle>
+						<Style TargetType="ListViewItem">
+							<Setter Property="Margin" Value="0" />
+							<Setter Property="BorderBrush" Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
+							<Setter Property="BorderThickness" Value="0,0,0,1" />
+							<Setter Property="Padding" Value="0" />
+							<Setter Property="MinHeight" Value="40" />
+							<Setter Property="HorizontalAlignment" Value="Stretch" />
+							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+						</Style>
+					</ListView.ItemContainerStyle>
+				</ListView>
+			</Border>
+		</Grid>
+
+		<!--  Preview  -->
+		<Border
+			Grid.Row="4"
+			Margin="16,12,16,0"
+			Padding="12,8"
+			Background="{ThemeResource LayerFillColorDefaultBrush}"
+			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+			BorderThickness="1"
+			CornerRadius="8">
+			<ScrollViewer
+				HorizontalScrollBarVisibility="Auto"
+				HorizontalScrollMode="Enabled"
+				VerticalScrollBarVisibility="Disabled"
+				VerticalScrollMode="Disabled">
+				<ItemsRepeater HorizontalAlignment="Center" ItemsSource="{x:Bind ViewModel.ShownColumns, Mode=OneWay}">
+					<ItemsRepeater.Layout>
+						<StackLayout Orientation="Horizontal" />
+					</ItemsRepeater.Layout>
+					<ItemsRepeater.ItemTemplate>
+						<DataTemplate x:DataType="vm:ShownColumnItem">
+							<Border
+								Height="32"
+								Padding="12,0"
+								BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+								BorderThickness="0,0,1,0">
+								<TextBlock
+									VerticalAlignment="Center"
+									Style="{StaticResource HeaderTextStyle}"
+									Text="{x:Bind DisplayName}" />
+							</Border>
+						</DataTemplate>
+					</ItemsRepeater.ItemTemplate>
+				</ItemsRepeater>
+			</ScrollViewer>
+		</Border>
+
+		<!--  Actions  -->
+		<Grid
+			Grid.Row="5"
+			Padding="16,12"
+			ColumnSpacing="12">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+			<Button Command="{x:Bind ViewModel.RestoreDefaultsCommand}" Content="{helpers:ResourceString Name=ResetDefaults}" />
+			<StackPanel
+				Grid.Column="2"
+				Orientation="Horizontal"
+				Spacing="8">
+				<Button
+					MinWidth="96"
+					Command="{x:Bind ViewModel.SaveCommand}"
+					Content="{helpers:ResourceString Name=Save}"
+					Style="{StaticResource AccentButtonStyle}" />
+				<Button
+					MinWidth="96"
+					Command="{x:Bind ViewModel.CancelCommand}"
+					Content="{helpers:ResourceString Name=Cancel}" />
+			</StackPanel>
+		</Grid>
+	</Grid>
+</Page>

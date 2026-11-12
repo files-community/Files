@@ -291,8 +291,8 @@
 									<MenuFlyoutSeparator x:Name="ColumnTogglesStartSeparator" />
 									<MenuFlyoutSeparator x:Name="ColumnTogglesEndSeparator" />
 
-									<!--  Set Current Columns As Default  -->
-									<MenuFlyoutItem Click="SetDetailsColumnsAsDefault_Click" Text="{helpers:ResourceString Name=SetAsDefault}" />
+									<!--  More Columns  -->
+									<MenuFlyoutItem Click="MoreColumns_Click" Text="{helpers:ResourceString Name=MoreColumnsEllipsis}" />
 								</MenuFlyout>
 							</Grid.ContextFlyout>
 

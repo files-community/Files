@@ -180,6 +180,9 @@ FileOperation
 IFileOperation
 IShellItem2
 PSGetPropertyKeyFromName
+PSEnumeratePropertyDescriptions
+IPropertyDescriptionList
+IPropertyDescription
 ShellExecuteEx
 CoTaskMemFree
 QueryDosDevice
@@ -200,6 +203,9 @@ BHID_EnumItems
 BHID_SFViewObject
 IShellView
 FOLDERID_RecycleBinFolder
+FOLDERID_Downloads
+FOLDERID_Pictures
+FOLDERID_Videos
 CoTaskMemFree
 SHGetIDListFromObject
 SHCreateItemFromIDList
@@ -443,3 +449,8 @@ K32EmptyWorkingSet
 GetDoubleClickTime
 SHChangeNotify
 VkKeyScan
+IShellFolder2
+SHELLDETAILS
+SHCOLSTATE
+PSGetNameFromPropertyKey
+StrRetToBuf

@@ -7,6 +7,7 @@
 	xmlns:controls="using:Files.App.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -50,6 +51,64 @@
 				<Setter Target="Width" Value="76" />
 				<Setter Target="Height" Value="72" />
 				<Setter Target="MinWidth" Value="0" />
+				<Setter Target="Background" Value="Transparent" />
+				<Setter Target="BorderBrush" Value="Transparent" />
+			</Style>
+
+			<Style x:Key="Local.FlyoutRowButtonStyle" TargetType="Button">
+				<Setter Property="HorizontalAlignment" Value="Stretch" />
+				<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+				<Setter Property="VerticalContentAlignment" Value="Center" />
+				<Setter Property="Padding" Value="11,4,11,7" />
+				<Setter Property="Background" Value="Transparent" />
+				<Setter Property="Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+				<Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+				<Setter Property="UseSystemFocusVisuals" Value="True" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="Button">
+							<Grid
+								x:Name="RootGrid"
+								Padding="{TemplateBinding Padding}"
+								Background="{TemplateBinding Background}"
+								CornerRadius="{TemplateBinding CornerRadius}">
+								<ContentPresenter
+									x:Name="ContentPresenter"
+									HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+									VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+									Content="{TemplateBinding Content}"
+									ContentTemplate="{TemplateBinding ContentTemplate}"
+									Foreground="{TemplateBinding Foreground}" />
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup x:Name="CommonStates">
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="PointerOver">
+											<VisualState.Setters>
+												<Setter Target="RootGrid.Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
+											</VisualState.Setters>
+										</VisualState>
+										<VisualState x:Name="Pressed">
+											<VisualState.Setters>
+												<Setter Target="RootGrid.Background" Value="{ThemeResource SubtleFillColorTertiaryBrush}" />
+												<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+											</VisualState.Setters>
+										</VisualState>
+										<VisualState x:Name="Disabled">
+											<VisualState.Setters>
+												<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextFillColorDisabledBrush}" />
+											</VisualState.Setters>
+										</VisualState>
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Grid>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+			<Style x:Key="Local.TemplateLayoutLabelStyle" TargetType="TextBlock">
+				<Setter Property="FontWeight" Value="SemiBold" />
+				<Setter Property="Foreground" Value="{ThemeResource AccentTextFillColorPrimaryBrush}" />
 			</Style>
 		</ResourceDictionary>
 	</UserControl.Resources>
@@ -167,95 +226,74 @@
 				<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.Sorting}" />
 
 				<AppBarButton.Flyout>
-					<MenuFlyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
+					<MenuFlyout
+						contract8Present:ShouldConstrainToRootBounds="False"
+						Opening="SortMenu_Opening"
+						Placement="Bottom">
 						<MenuFlyoutSubItem
+							x:Name="SortByMenu"
 							AccessKey="S"
 							AccessKeyInvoked="SortGroup_AccessKeyInvoked"
 							Text="{helpers:ResourceString Name=SortBy}">
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortByName.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortByName.Label}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortByDateModified.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortByDateModified.Label}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortByDateCreated.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortByDateCreated.Label}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortBySize.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortBySize.Label}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortByType.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortByType.Label}" />
-							<ToggleMenuFlyoutItem
-								IsChecked="{x:Bind Commands.SortBySyncStatus.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.SortBySyncStatus.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.SortBySyncStatus.Label}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortByTag.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortByTag.Label}" />
-							<ToggleMenuFlyoutItem
-								IsChecked="{x:Bind Commands.SortByPath.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.SortByPath.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.SortByPath.Label}" />
-							<ToggleMenuFlyoutItem
-								IsChecked="{x:Bind Commands.SortByOriginalFolder.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.SortByOriginalFolder.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.SortByOriginalFolder.Label}" />
-							<ToggleMenuFlyoutItem
-								IsChecked="{x:Bind Commands.SortByDateDeleted.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.SortByDateDeleted.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.SortByDateDeleted.Label}" />
-							<MenuFlyoutSeparator />
-							<ToggleMenuFlyoutItem
+							<MenuFlyoutSeparator x:Name="SortDirectionSeparator" />
+							<RadioMenuFlyoutItem
+								x:Name="SortAscendingMenuItem"
 								AccessKey="A"
-								IsChecked="{x:Bind Commands.SortAscending.IsOn, Mode=TwoWay}"
+								Command="{x:Bind Commands.SortAscending}"
+								GroupName="ToolbarSortDirection"
+								IsChecked="{x:Bind Commands.SortAscending.IsOn, Mode=OneWay}"
 								Text="{x:Bind Commands.SortAscending.Label}" />
-							<ToggleMenuFlyoutItem
+							<RadioMenuFlyoutItem
+								x:Name="SortDescendingMenuItem"
 								AccessKey="D"
-								IsChecked="{x:Bind Commands.SortDescending.IsOn, Mode=TwoWay}"
+								Command="{x:Bind Commands.SortDescending}"
+								GroupName="ToolbarSortDirection"
+								IsChecked="{x:Bind Commands.SortDescending.IsOn, Mode=OneWay}"
 								Text="{x:Bind Commands.SortDescending.Label}" />
+							<MenuFlyoutSeparator />
+							<MenuFlyoutItem IsEnabled="False" Text="{helpers:ResourceString Name=MoreEllipsis}" />
 						</MenuFlyoutSubItem>
 						<MenuFlyoutSubItem
+							x:Name="GroupByMenu"
 							AccessKey="G"
 							AccessKeyInvoked="SortGroup_AccessKeyInvoked"
 							Text="{helpers:ResourceString Name=GroupBy}">
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByNone.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByNone.Label}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByName.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByName.Label}" />
-							<MenuFlyoutSubItem Text="{x:Bind Commands.GroupByDateModified.Label}">
-								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateModifiedYear.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateModifiedYear.Label}" />
-								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateModifiedMonth.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateModifiedMonth.Label}" />
-								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateModifiedDay.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateModifiedDay.Label}" />
-							</MenuFlyoutSubItem>
-							<MenuFlyoutSubItem Text="{x:Bind Commands.GroupByDateCreated.Label}">
-								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateCreatedYear.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateCreatedYear.Label}" />
-								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateCreatedMonth.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateCreatedMonth.Label}" />
-								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateCreatedDay.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateCreatedDay.Label}" />
-							</MenuFlyoutSubItem>
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupBySize.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupBySize.Label}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByType.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByType.Label}" />
-							<ToggleMenuFlyoutItem
-								IsChecked="{x:Bind Commands.GroupBySyncStatus.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.GroupBySyncStatus.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.GroupBySyncStatus.Label}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByTag.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByTag.Label}" />
-							<ToggleMenuFlyoutItem
-								IsChecked="{x:Bind Commands.GroupByOriginalFolder.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.GroupByOriginalFolder.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.GroupByOriginalFolder.Label}" />
-							<MenuFlyoutSubItem IsEnabled="{x:Bind Commands.GroupByDateDeleted.IsExecutable, Mode=OneWay}" Text="{x:Bind Commands.GroupByDateDeleted.Label}">
-								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateDeletedYear.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateDeletedYear.Label}" />
-								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateDeletedMonth.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateDeletedMonth.Label}" />
-								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateDeletedDay.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateDeletedDay.Label}" />
-							</MenuFlyoutSubItem>
-							<ToggleMenuFlyoutItem
-								IsChecked="{x:Bind Commands.GroupByFolderPath.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.GroupByFolderPath.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.GroupByFolderPath.Label}" />
-							<MenuFlyoutSeparator />
-							<ToggleMenuFlyoutItem
+							<MenuFlyoutSeparator x:Name="GroupDirectionSeparator" Visibility="{x:Bind Commands.GroupAscending.IsExecutable, Mode=OneWay}" />
+							<RadioMenuFlyoutItem
+								x:Name="GroupAscendingMenuItem"
 								AccessKey="A"
-								IsChecked="{x:Bind Commands.GroupAscending.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.GroupAscending.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.GroupAscending.Label}" />
-							<ToggleMenuFlyoutItem
+								Command="{x:Bind Commands.GroupAscending}"
+								GroupName="ToolbarGroupDirection"
+								IsChecked="{x:Bind Commands.GroupAscending.IsOn, Mode=OneWay}"
+								Text="{x:Bind Commands.GroupAscending.Label}"
+								Visibility="{x:Bind Commands.GroupAscending.IsExecutable, Mode=OneWay}" />
+							<RadioMenuFlyoutItem
+								x:Name="GroupDescendingMenuItem"
 								AccessKey="D"
-								IsChecked="{x:Bind Commands.GroupDescending.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.GroupDescending.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.GroupDescending.Label}" />
+								Command="{x:Bind Commands.GroupDescending}"
+								GroupName="ToolbarGroupDirection"
+								IsChecked="{x:Bind Commands.GroupDescending.IsOn, Mode=OneWay}"
+								Text="{x:Bind Commands.GroupDescending.Label}"
+								Visibility="{x:Bind Commands.GroupDescending.IsExecutable, Mode=OneWay}" />
+							<MenuFlyoutSeparator />
+							<MenuFlyoutItem IsEnabled="False" Text="{helpers:ResourceString Name=MoreEllipsis}" />
 						</MenuFlyoutSubItem>
 						<MenuFlyoutSeparator />
-						<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortFoldersFirst.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortFoldersFirst.Label}" />
-						<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortFilesFirst.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortFilesFirst.Label}" />
-						<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortFilesAndFoldersTogether.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortFilesAndFoldersTogether.Label}" />
+						<RadioMenuFlyoutItem
+							Command="{x:Bind Commands.SortFoldersFirst}"
+							GroupName="ToolbarSortPriority"
+							IsChecked="{x:Bind Commands.SortFoldersFirst.IsOn, Mode=OneWay}"
+							Text="{x:Bind Commands.SortFoldersFirst.Label}" />
+						<RadioMenuFlyoutItem
+							Command="{x:Bind Commands.SortFilesFirst}"
+							GroupName="ToolbarSortPriority"
+							IsChecked="{x:Bind Commands.SortFilesFirst.IsOn, Mode=OneWay}"
+							Text="{x:Bind Commands.SortFilesFirst.Label}" />
+						<RadioMenuFlyoutItem
+							Command="{x:Bind Commands.SortFilesAndFoldersTogether}"
+							GroupName="ToolbarSortPriority"
+							IsChecked="{x:Bind Commands.SortFilesAndFoldersTogether.IsOn, Mode=OneWay}"
+							Text="{x:Bind Commands.SortFilesAndFoldersTogether.Label}" />
 					</MenuFlyout>
 				</AppBarButton.Flyout>
 
@@ -278,13 +316,70 @@
 				<controls:ThemedIcon Style="{x:Bind ViewModel.LayoutThemedIcon, Mode=OneWay}" />
 
 				<AppBarButton.Flyout>
-					<Flyout
-						x:Name="LayoutFlyout"
-						contract8Present:ShouldConstrainToRootBounds="False"
-						Placement="Bottom">
+					<Flyout x:Name="LayoutFlyout" Placement="Bottom">
 						<StackPanel Spacing="12">
 
-							<!--  Header  -->
+							<!--  Template Header  -->
+							<TextBlock FontWeight="Medium" Text="{helpers:ResourceString Name=LayoutTemplate}" />
+
+							<!--  Templates  -->
+							<Grid ColumnSpacing="8">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+
+								<ComboBox
+									HorizontalAlignment="Stretch"
+									AllowFocusOnInteraction="True"
+									AutomationProperties.Name="{helpers:ResourceString Name=LayoutTemplate}"
+									DropDownClosed="LayoutTemplates_DropDownClosed"
+									DropDownOpened="LayoutTemplates_DropDownOpened"
+									ItemsSource="{x:Bind ViewModel.LayoutTemplates, Mode=OneWay}"
+									SelectedItem="{x:Bind ViewModel.SelectedLayoutTemplate, Mode=TwoWay}">
+									<ComboBox.ItemTemplate>
+										<DataTemplate x:DataType="dataitems:LayoutTemplate">
+											<TextBlock Text="{x:Bind DisplayName}" TextTrimming="CharacterEllipsis" />
+										</DataTemplate>
+									</ComboBox.ItemTemplate>
+								</ComboBox>
+
+								<!--  Edit Template  -->
+								<Button
+									Grid.Column="1"
+									Width="32"
+									Height="32"
+									Padding="0"
+									AutomationProperties.Name="{helpers:ResourceString Name=EditTemplate}"
+									Click="LayoutButton_Click"
+									Command="{x:Bind ViewModel.EditLayoutTemplateCommand, Mode=OneWay}"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=EditTemplate}">
+									<FontIcon FontSize="16" Glyph="&#xE70F;" />
+								</Button>
+
+								<!--  Save Layout As Template  -->
+								<Button
+									Grid.Column="2"
+									Width="32"
+									Height="32"
+									Padding="0"
+									AutomationProperties.Name="{helpers:ResourceString Name=SaveLayoutAsTemplate}"
+									Click="LayoutButton_Click"
+									Command="{x:Bind ViewModel.SaveAsNewLayoutTemplateCommand, Mode=OneWay}"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=SaveLayoutAsTemplate}">
+									<FontIcon FontSize="16" Glyph="&#xE74E;" />
+								</Button>
+							</Grid>
+
+							<!--  (Divider)  -->
+							<Border
+								Margin="-20,0"
+								HorizontalAlignment="Stretch"
+								BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+								BorderThickness=".5" />
+
+							<!--  Layout Header  -->
 							<TextBlock FontWeight="Medium" Text="{helpers:ResourceString Name=Layout}" />
 
 							<!--  Layout  -->
@@ -296,18 +391,21 @@
 									Click="LayoutButton_Click"
 									Command="{x:Bind Commands.LayoutDetails}"
 									GroupName="LayoutRadio"
-									IsChecked="{x:Bind ViewModel.IsDetailsLayout, Mode=OneWay}"
+									IsChecked="{x:Bind ViewModel.IsDetailsLayoutChecked, Mode=OneWay}"
 									Style="{StaticResource Local.RadioToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutDetails.LabelWithHotKey, Mode=OneWay}">
 									<StackPanel Spacing="4">
 										<controls:ThemedIcon
 											Width="28"
 											Height="28"
+											IconColorType="{x:Bind GetLayoutIconColor(ViewModel.IsDetailsLayoutFromTemplate), Mode=OneWay}"
+											IsFilled="{x:Bind ViewModel.IsDetailsLayoutFromTemplate, Mode=OneWay}"
 											Style="{StaticResource App.ThemedIcons.IconLayout.Details.28}" />
 
 										<TextBlock
 											HorizontalAlignment="Center"
 											FontSize="12"
+											Style="{x:Bind GetLayoutLabelStyle(ViewModel.IsDetailsLayoutFromTemplate), Mode=OneWay}"
 											Text="{x:Bind Commands.LayoutDetails.Label}"
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap" />
@@ -320,7 +418,7 @@
 									Click="LayoutButton_Click"
 									Command="{x:Bind Commands.LayoutList}"
 									GroupName="LayoutRadio"
-									IsChecked="{x:Bind ViewModel.IsListLayout, Mode=OneWay}"
+									IsChecked="{x:Bind ViewModel.IsListLayoutChecked, Mode=OneWay}"
 									Style="{StaticResource Local.RadioToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutList.LabelWithHotKey, Mode=OneWay}">
 
@@ -328,11 +426,14 @@
 										<controls:ThemedIcon
 											Width="28"
 											Height="28"
+											IconColorType="{x:Bind GetLayoutIconColor(ViewModel.IsListLayoutFromTemplate), Mode=OneWay}"
+											IsFilled="{x:Bind ViewModel.IsListLayoutFromTemplate, Mode=OneWay}"
 											Style="{StaticResource App.ThemedIcons.IconLayout.List.28}" />
 
 										<TextBlock
 											HorizontalAlignment="Center"
 											FontSize="12"
+											Style="{x:Bind GetLayoutLabelStyle(ViewModel.IsListLayoutFromTemplate), Mode=OneWay}"
 											Text="{x:Bind Commands.LayoutList.Label}"
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap" />
@@ -345,7 +446,7 @@
 									Click="LayoutButton_Click"
 									Command="{x:Bind Commands.LayoutCards}"
 									GroupName="LayoutRadio"
-									IsChecked="{x:Bind ViewModel.IsCardsLayout, Mode=OneWay}"
+									IsChecked="{x:Bind ViewModel.IsCardsLayoutChecked, Mode=OneWay}"
 									Style="{StaticResource Local.RadioToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutCards.LabelWithHotKey, Mode=OneWay}">
 
@@ -353,11 +454,14 @@
 										<controls:ThemedIcon
 											Width="28"
 											Height="28"
+											IconColorType="{x:Bind GetLayoutIconColor(ViewModel.IsCardsLayoutFromTemplate), Mode=OneWay}"
+											IsFilled="{x:Bind ViewModel.IsCardsLayoutFromTemplate, Mode=OneWay}"
 											Style="{StaticResource App.ThemedIcons.IconLayout.Tiles.28}" />
 
 										<TextBlock
 											HorizontalAlignment="Center"
 											FontSize="12"
+											Style="{x:Bind GetLayoutLabelStyle(ViewModel.IsCardsLayoutFromTemplate), Mode=OneWay}"
 											Text="{x:Bind Commands.LayoutCards.Label}"
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap" />
@@ -370,7 +474,7 @@
 									Click="LayoutButton_Click"
 									Command="{x:Bind Commands.LayoutGrid}"
 									GroupName="LayoutRadio"
-									IsChecked="{x:Bind ViewModel.IsGridLayout, Mode=OneWay}"
+									IsChecked="{x:Bind ViewModel.IsGridLayoutChecked, Mode=OneWay}"
 									Style="{StaticResource Local.RadioToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutGrid.LabelWithHotKey, Mode=OneWay}">
 
@@ -378,11 +482,14 @@
 										<controls:ThemedIcon
 											Width="28"
 											Height="28"
+											IconColorType="{x:Bind GetLayoutIconColor(ViewModel.IsGridLayoutFromTemplate), Mode=OneWay}"
+											IsFilled="{x:Bind ViewModel.IsGridLayoutFromTemplate, Mode=OneWay}"
 											Style="{StaticResource App.ThemedIcons.IconLayout.Grid.28}" />
 
 										<TextBlock
 											HorizontalAlignment="Center"
 											FontSize="12"
+											Style="{x:Bind GetLayoutLabelStyle(ViewModel.IsGridLayoutFromTemplate), Mode=OneWay}"
 											Text="{x:Bind Commands.LayoutGrid.Label}"
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap" />
@@ -395,7 +502,7 @@
 									Click="LayoutButton_Click"
 									Command="{x:Bind Commands.LayoutColumns}"
 									GroupName="LayoutRadio"
-									IsChecked="{x:Bind ViewModel.IsColumnLayout, Mode=OneWay}"
+									IsChecked="{x:Bind ViewModel.IsColumnLayoutChecked, Mode=OneWay}"
 									Style="{StaticResource Local.RadioToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutColumns.LabelWithHotKey, Mode=OneWay}">
 
@@ -403,11 +510,14 @@
 										<controls:ThemedIcon
 											Width="28"
 											Height="28"
+											IconColorType="{x:Bind GetLayoutIconColor(ViewModel.IsColumnLayoutFromTemplate), Mode=OneWay}"
+											IsFilled="{x:Bind ViewModel.IsColumnLayoutFromTemplate, Mode=OneWay}"
 											Style="{StaticResource App.ThemedIcons.IconLayout.Columns.28}" />
 
 										<TextBlock
 											HorizontalAlignment="Center"
 											FontSize="12"
+											Style="{x:Bind GetLayoutLabelStyle(ViewModel.IsColumnLayoutFromTemplate), Mode=OneWay}"
 											Text="{x:Bind Commands.LayoutColumns.Label}"
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap" />
@@ -765,75 +875,57 @@
 								BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 								BorderThickness=".5" />
 
-							<!--  Toggle Options  -->
-							<Grid RowSpacing="4">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="Auto" />
-								</Grid.ColumnDefinitions>
-								<Grid.RowDefinitions>
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-								</Grid.RowDefinitions>
+							<!--  View Options  -->
+							<StackPanel Margin="-8,0" Spacing="4">
 
-								<!--  Show Hidden Files  -->
-								<TextBlock
-									Grid.Row="0"
-									Grid.Column="0"
-									VerticalAlignment="Center"
-									Text="{x:Bind Commands.ToggleShowHiddenItems.Label}" />
+								<!--  Restore Default View  -->
+								<Button
+									Click="LayoutButton_Click"
+									Command="{x:Bind ViewModel.RestoreDefaultViewCommand, Mode=OneWay}"
+									Content="{helpers:ResourceString Name=RestoreDefaultView}"
+									PointerEntered="RestoreDefaultView_PointerEntered"
+									Style="{StaticResource Local.FlyoutRowButtonStyle}" />
 
-								<ToggleSwitch
-									Grid.Row="0"
-									Grid.Column="1"
-									MinWidth="68"
-									HorizontalAlignment="Right"
-									AccessKey="H"
-									AutomationProperties.Name="{x:Bind Commands.ToggleShowHiddenItems.AutomationName}"
-									IsOn="{x:Bind Commands.ToggleShowHiddenItems.IsOn, Mode=TwoWay}"
-									ToolTipService.ToolTip="{x:Bind Commands.ToggleShowHiddenItems.HotKeyText, Mode=OneWay}" />
+								<!--  More View Options  -->
+								<Button
+									AutomationProperties.Name="{helpers:ResourceString Name=MoreViewOptions}"
+									PointerEntered="MoreViewOptions_PointerEntered"
+									Style="{StaticResource Local.FlyoutRowButtonStyle}">
+									<Grid ColumnSpacing="8">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+										</Grid.ColumnDefinitions>
+										<TextBlock Text="{helpers:ResourceString Name=MoreViewOptions}" />
+										<FontIcon
+											Grid.Column="1"
+											AutomationProperties.AccessibilityView="Raw"
+											FontSize="12"
+											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+											Glyph="&#xE974;" />
+									</Grid>
+									<Button.Flyout>
+										<MenuFlyout
+											x:Name="MoreViewOptionsMenu"
+											contract8Present:ShouldConstrainToRootBounds="False"
+											Placement="RightEdgeAlignedTop">
+											<!--  Show Hidden Files  -->
+											<ToggleMenuFlyoutItem
+												AccessKey="H"
+												Click="LayoutButton_Click"
+												IsChecked="{x:Bind Commands.ToggleShowHiddenItems.IsOn, Mode=TwoWay}"
+												Text="{x:Bind Commands.ToggleShowHiddenItems.Label}" />
 
-								<!--  Show File Extensions  -->
-								<TextBlock
-									Grid.Row="1"
-									Grid.Column="0"
-									VerticalAlignment="Center"
-									Text="{x:Bind Commands.ToggleShowFileExtensions.Label}" />
-
-								<ToggleSwitch
-									Grid.Row="1"
-									Grid.Column="1"
-									MinWidth="68"
-									HorizontalAlignment="Right"
-									AccessKey="E"
-									AutomationProperties.Name="{x:Bind Commands.ToggleShowFileExtensions.AutomationName}"
-									IsOn="{x:Bind Commands.ToggleShowFileExtensions.IsOn, Mode=TwoWay}"
-									Rotation="1"
-									ToolTipService.ToolTip="{x:Bind Commands.ToggleShowFileExtensions.HotKeyText, Mode=OneWay}" />
-
-								<!--  Adaptive Layout  -->
-								<TextBlock
-									x:Name="AdaptiveLayoutTextBlock"
-									Grid.Row="2"
-									Grid.Column="0"
-									VerticalAlignment="Center"
-									x:Load="{x:Bind Commands.LayoutAdaptive.IsExecutable, Mode=OneWay}"
-									Text="{x:Bind Commands.LayoutAdaptive.Label}" />
-
-								<ToggleSwitch
-									x:Name="AdaptiveLayoutToggleSwitch"
-									Grid.Row="2"
-									Grid.Column="1"
-									MinWidth="68"
-									HorizontalAlignment="Right"
-									x:Load="{x:Bind Commands.LayoutAdaptive.IsExecutable, Mode=OneWay}"
-									AutomationProperties.Name="{x:Bind Commands.LayoutAdaptive.AutomationName}"
-									IsEnabled="{x:Bind Commands.LayoutAdaptive.IsExecutable, Mode=OneWay}"
-									IsOn="{x:Bind Commands.LayoutAdaptive.IsOn, Mode=TwoWay}"
-									Rotation="1"
-									ToolTipService.ToolTip="{x:Bind Commands.LayoutAdaptive.LabelWithHotKey, Mode=OneWay}" />
-							</Grid>
+											<!--  Show File Extensions  -->
+											<ToggleMenuFlyoutItem
+												AccessKey="E"
+												Click="LayoutButton_Click"
+												IsChecked="{x:Bind Commands.ToggleShowFileExtensions.IsOn, Mode=TwoWay}"
+												Text="{x:Bind Commands.ToggleShowFileExtensions.Label}" />
+										</MenuFlyout>
+									</Button.Flyout>
+								</Button>
+							</StackPanel>
 
 						</StackPanel>
 					</Flyout>

@@ -110,6 +110,13 @@
         </Content>
     </ItemGroup>
 
+    <!--  Visual Studio restores this project as x86, so the Satori packs of the 64-bit builds are requested here  -->
+    <ItemGroup Condition="'$(Platform)' == 'x86' and '$(BuildingInsideVisualStudio)' == 'true'">
+        <PackageReference Include="PublishWithSatoriGC.AotSdk.win-x64" VersionOverride="[$(SatoriPackageVersion)]" PrivateAssets="all" IncludeAssets="build" />
+        <PackageReference Include="PublishWithSatoriGC.AotSdk.win-arm64" VersionOverride="[$(SatoriPackageVersion)]" PrivateAssets="all" IncludeAssets="build" />
+        <PackageReference Include="PublishWithSatoriGC.AotTools.$(NETCoreSdkRuntimeIdentifier)" VersionOverride="[$(SatoriPackageVersion)]" PrivateAssets="all" IncludeAssets="build" />
+    </ItemGroup>
+
     <ItemGroup>
         <PackageReference Include="ByteSize" />
         <PackageReference Include="ColorCode.WinUI" />
