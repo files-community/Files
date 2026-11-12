@@ -54,7 +54,7 @@ namespace Files.App.Actions
 			=> Strings.LayoutCardsDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(themedIconStyle: "App.ThemedIcons.IconLayout.Tiles");
+			=> new(themedIconStyle: "App.ThemedIcons.IconLayout.Cards");
 
 		public override HotKey HotKey
 			=> new(Keys.Number3, KeyModifiers.CtrlShift);

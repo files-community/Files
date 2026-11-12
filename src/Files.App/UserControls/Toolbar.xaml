@@ -353,7 +353,7 @@
 										<controls:ThemedIcon
 											Width="28"
 											Height="28"
-											Style="{StaticResource App.ThemedIcons.IconLayout.Tiles.28}" />
+											Style="{StaticResource App.ThemedIcons.IconLayout.Cards.28}" />
 
 										<TextBlock
 											HorizontalAlignment="Center"
