@@ -10,7 +10,7 @@ using Windows.Win32.Foundation;
 namespace Files.Storage.Interop;
 
 // Windows.Internal.FileExplorerAppExtension is optional. Query the revision's IID before using it.
-[GeneratedComInterface(Options = ComInterfaceOptions.ComObjectWrapper), Guid("104C1AFF-F09F-5AA1-945F-78737EE0FE45")]
+[GeneratedComInterface(Options = ComInterfaceOptions.ComObjectWrapper | ComInterfaceOptions.ManagedObjectWrapper), Guid("104C1AFF-F09F-5AA1-945F-78737EE0FE45")]
 public partial interface IFileExplorerAppExtensionStatics : IInspectable
 {
 	[PreserveSig]
@@ -20,7 +20,7 @@ public partial interface IFileExplorerAppExtensionStatics : IInspectable
 	HRESULT GetAllExtensions(uint flags, out IInspectable? extensions);
 }
 
-[GeneratedComInterface(Options = ComInterfaceOptions.ComObjectWrapper), Guid("66C23D78-8E71-51EF-A184-ED7B6E6CDC90")]
+[GeneratedComInterface(Options = ComInterfaceOptions.ComObjectWrapper | ComInterfaceOptions.ManagedObjectWrapper), Guid("66C23D78-8E71-51EF-A184-ED7B6E6CDC90")]
 public partial interface IFileExplorerAppExtension : IInspectable
 {
 	[PreserveSig]
@@ -37,7 +37,7 @@ public partial interface IFileExplorerAppExtension : IInspectable
 	HRESULT GetConditions(out IInspectable? conditions);
 }
 
-[GeneratedComInterface(Options = ComInterfaceOptions.ComObjectWrapper), Guid("EB16945B-3A5D-5A8A-B666-8DFE27E5C818")]
+[GeneratedComInterface(Options = ComInterfaceOptions.ComObjectWrapper | ComInterfaceOptions.ManagedObjectWrapper), Guid("EB16945B-3A5D-5A8A-B666-8DFE27E5C818")]
 public partial interface IFileExplorerAppExtension2 : IInspectable
 {
 	[PreserveSig]
@@ -56,7 +56,7 @@ public partial interface IFileExplorerAppExtension2 : IInspectable
 	HRESULT GetConditions(out IInspectable? conditions);
 }
 
-[GeneratedComInterface(Options = ComInterfaceOptions.ComObjectWrapper), Guid("08ED2B5C-6EE2-5C20-B0E1-A1C0C739F17E")]
+[GeneratedComInterface(Options = ComInterfaceOptions.ComObjectWrapper | ComInterfaceOptions.ManagedObjectWrapper), Guid("08ED2B5C-6EE2-5C20-B0E1-A1C0C739F17E")]
 public partial interface IFileExplorerAppExtensionVectorView : IInspectable
 {
 	[PreserveSig]
@@ -69,7 +69,7 @@ public partial interface IFileExplorerAppExtensionVectorView : IInspectable
 	HRESULT GetMany(uint startIndex, uint capacity, [Out, MarshalUsing(CountElementName = nameof(capacity))] IFileExplorerAppExtension?[] extensions, out uint actual);
 }
 
-[GeneratedComInterface(Options = ComInterfaceOptions.ComObjectWrapper), Guid("0E5F24ED-9BC4-5B7B-9DDB-46150318F868")]
+[GeneratedComInterface(Options = ComInterfaceOptions.ComObjectWrapper | ComInterfaceOptions.ManagedObjectWrapper), Guid("0E5F24ED-9BC4-5B7B-9DDB-46150318F868")]
 public partial interface IFileExplorerAppExtensionVectorView2 : IInspectable
 {
 	[PreserveSig]
