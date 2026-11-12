@@ -55,7 +55,7 @@ jobs:
       with:
         fetch-depth: 2
     - name: Setup .NET
-      uses: actions/setup-dotnet@v5
+      uses: actions/setup-dotnet@v6
 
     - name: Install XamlStyler.Console
       run: 'dotnet tool install --global XamlStyler.Console'
@@ -101,7 +101,7 @@ jobs:
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v3
     - name: Setup .NET
-      uses: actions/setup-dotnet@v5
+      uses: actions/setup-dotnet@v6
       with:
         global-json-file: global.json
 
@@ -286,7 +286,7 @@ jobs:
     - name: Checkout the repository
       uses: actions/checkout@v6
     - name: Setup .NET
-      uses: actions/setup-dotnet@v5
+      uses: actions/setup-dotnet@v6
       with:
         global-json-file: global.json
 
