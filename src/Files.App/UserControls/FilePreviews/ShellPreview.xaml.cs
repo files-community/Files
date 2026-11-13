@@ -13,6 +13,8 @@ namespace Files.App.UserControls.FilePreviews
 	public sealed partial class ShellPreview : UserControl
 	{
 		private ShellPreviewViewModel ViewModel { get; set; }
+		private FrameworkElement? rootElement;
+		private CancellationTokenSource? previewCancellation;
 
 		public ShellPreview(ShellPreviewViewModel model)
 		{
@@ -22,21 +24,37 @@ namespace Files.App.UserControls.FilePreviews
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
-		private void PreviewHost_Loaded(object sender, RoutedEventArgs e)
+		private async void PreviewHost_Loaded(object sender, RoutedEventArgs e)
 		{
-			ViewModel.LoadPreview(contentPresenter);
-			ViewModel.SizeChanged(GetPreviewSize());
+			UnloadPreview();
+			previewCancellation = new CancellationTokenSource();
+			var loadToken = previewCancellation.Token;
 
-			if (XamlRoot.Content is FrameworkElement element)
+			await SafetyExtensions.IgnoreExceptions(() => DispatcherQueue.EnqueueDeferredAsync(async () =>
 			{
-				element.SizeChanged += PreviewHost_SizeChanged;
-				element.PointerEntered += PreviewHost_PointerEntered;
-			}
+				await ViewModel.LoadPreviewAsync(contentPresenter, loadToken);
+				if (loadToken.IsCancellationRequested)
+					return;
+
+				rootElement = XamlRoot.Content as FrameworkElement;
+				if (rootElement is not null)
+				{
+					rootElement.SizeChanged += PreviewHost_SizeChanged;
+					rootElement.PointerEntered += PreviewHost_PointerEntered;
+					await ViewModel.SizeChangedAsync(GetPreviewSize(), loadToken);
+				}
+			}), App.Logger);
 		}
 
-		private void PreviewHost_SizeChanged(object sender, SizeChangedEventArgs e)
+		private async void PreviewHost_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			ViewModel.SizeChanged(GetPreviewSize());
+			if (rootElement is not null && previewCancellation is not null)
+			{
+				var loadToken = previewCancellation.Token;
+				var size = GetPreviewSize();
+				await SafetyExtensions.IgnoreExceptions(
+					() => DispatcherQueue.EnqueueDeferredAsync(() => ViewModel.SizeChangedAsync(size, loadToken)), App.Logger);
+			}
 		}
 
 		private RECT GetPreviewSize()
@@ -54,25 +72,32 @@ namespace Files.App.UserControls.FilePreviews
 			return result;
 		}
 
-		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void PreviewHost_Unloaded(object sender, RoutedEventArgs e)
-		{
-			if (XamlRoot.Content is FrameworkElement element)
-			{
-				element.SizeChanged -= PreviewHost_SizeChanged;
-				element.PointerEntered -= PreviewHost_PointerEntered;
-			}
-
-			ViewModel.UnloadPreview();
-		}
+			=> UnloadPreview();
 
 		private void PreviewHost_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
 			ViewModel.PointerEntered(ReferenceEquals(sender, contentPresenter));
 		}
 
-		// Lets callers tear the preview host down right away instead of waiting on the Unloaded event
+		// Cancels pending loading and releases the native preview on its UI thread.
 		public void UnloadPreview()
-			=> ViewModel.UnloadPreview();
+		{
+			var cancellation = previewCancellation;
+			previewCancellation = null;
+			var loadToken = cancellation?.Token;
+			cancellation?.Cancel();
+			cancellation?.Dispose();
+
+			if (rootElement is not null)
+			{
+				rootElement.SizeChanged -= PreviewHost_SizeChanged;
+				rootElement.PointerEntered -= PreviewHost_PointerEntered;
+				rootElement = null;
+			}
+
+			if (loadToken is { } token)
+				_ = SafetyExtensions.IgnoreExceptions(() => ViewModel.UnloadPreviewAsync(token), App.Logger);
+		}
 	}
 }

@@ -31,6 +31,7 @@ namespace Files.App.ViewModels.Previews
 		// Fields
 
 		ContentExternalOutputLink? _contentExternalOutputLink;
+		UIElement? _presenter;
 		PreviewHandler? _previewHandler;
 		ID3D11Device? _d3d11Device;
 		ID3D11DeviceContext? _d3d11DeviceContext;
@@ -41,7 +42,9 @@ namespace Files.App.ViewModels.Previews
 		WNDPROC _windProc = null!;
 		HWND _hWnd = HWND.Null;
 		bool _isOfficePreview = false;
-		bool _unloaded;
+		bool _unloaded = true;
+		readonly SemaphoreSlim _previewSemaphore = new(1, 1);
+		CancellationToken _loadToken;
 		unsafe char* _pszClassName;
 
 		// Constructor
@@ -89,58 +92,95 @@ namespace Files.App.ViewModels.Previews
 			}
 		}
 
-		public void SizeChanged(RECT size)
+		public async Task SizeChangedAsync(RECT size, CancellationToken loadToken)
 		{
-			if (_hWnd != HWND.Null)
+			await _previewSemaphore.WaitAsync();
+			try
+			{
+				if (_unloaded || _hWnd == HWND.Null || _loadToken != loadToken || loadToken.IsCancellationRequested)
+					return;
+
 				PInvoke.SetWindowPos(_hWnd, new(0), size.left, size.top, size.Width, size.Height, SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE);
 
-			_previewHandler?.ResetBounds(new(0, 0, size.Width, size.Height));
+				_previewHandler?.ResetBounds(new(0, 0, size.Width, size.Height));
 
-			if (_contentExternalOutputLink is not null)
-				_contentExternalOutputLink.PlacementVisual.Size = new(size.Width, size.Height);
+				if (_contentExternalOutputLink is not null)
+					_contentExternalOutputLink.PlacementVisual.Size = new(size.Width, size.Height);
+			}
+			finally
+			{
+				_previewSemaphore.Release();
+			}
 		}
 
 		private unsafe LRESULT WndProc(HWND hwnd, uint msg, WPARAM wParam, LPARAM lParam)
 		{
-			if (msg is PInvoke.WM_CREATE)
+			if (msg is PInvoke.WM_DESTROY)
 			{
-				var clsid = FindPreviewHandlerFor(Item.FileExtension!, hwnd);
-
-				_isOfficePreview = new Guid?[]
+				_hWnd = HWND.Null;
+				if (!_unloaded)
 				{
-					Guid.Parse("84F66100-FF7C-4fb4-B0C0-02CD7FB668FE"), // preview handler for Word files
-					Guid.Parse("65235197-874B-4A07-BDC5-E65EA825B718"), // preview handler for PowerPoint files
-					Guid.Parse("00020827-0000-0000-C000-000000000046")  // preview handler for Excel files
-				}.Contains(clsid);
-
-				try
-				{
-					_previewHandler = new PreviewHandler(clsid!.Value, hwnd);
-					_previewHandler.InitWithFileWithEveryWay(Item.ItemPath!);
-					_previewHandler.DoPreview();
-				}
-				catch
-				{
-					UnloadPreview();
-				}
-			}
-			else if (msg is PInvoke.WM_DESTROY)
-			{
-				if (_previewHandler is not null)
-				{
-					_previewHandler.Dispose();
-					_previewHandler = null;
+					var loadToken = _loadToken;
+					_ = SafetyExtensions.IgnoreExceptions(
+						() => App.UiDispatcher.EnqueueDeferredAsync(() => UnloadPreviewAsync(loadToken)), App.Logger);
 				}
 			}
 
 			return PInvoke.DefWindowProc(hwnd, msg, wParam, lParam);
 		}
 
-		public unsafe void LoadPreview(UIElement presenter)
+		public async Task LoadPreviewAsync(UIElement presenter, CancellationToken loadToken)
 		{
-			App.Logger.LogInformation($"ShellPreview.LoadPreview: Item={LogPathHelper.RedactPath(Item?.ItemPath)}");
+			await _previewSemaphore.WaitAsync();
+			try
+			{
+				if (loadToken.IsCancellationRequested)
+					return;
 
+				UnloadPreviewCore();
+				if (loadToken.IsCancellationRequested)
+					return;
+
+				_loadToken = loadToken;
+				_unloaded = false;
+				bool loaded = false;
+				App.Logger.LogInformation($"ShellPreview.LoadPreview: Item={LogPathHelper.RedactPath(Item?.ItemPath)}");
+
+				try
+				{
+					loaded = TryLoadPreview(presenter);
+				}
+				catch (Exception ex)
+				{
+					App.Logger.LogWarning(ex, "Failed to load the shell preview.");
+				}
+				finally
+				{
+					// An unload can be requested while a Shell COM call pumps messages.
+					if (!loaded || loadToken.IsCancellationRequested)
+						UnloadPreviewCore();
+				}
+			}
+			finally
+			{
+				_previewSemaphore.Release();
+			}
+		}
+
+		private unsafe bool TryLoadPreview(UIElement presenter)
+		{
 			var parent = MainWindow.Instance.WindowHandle;
+			var clsid = FindPreviewHandlerFor(Item.FileExtension!, parent);
+			if (clsid is null)
+				return false;
+
+			_isOfficePreview = new Guid?[]
+			{
+				Guid.Parse("84F66100-FF7C-4fb4-B0C0-02CD7FB668FE"), // preview handler for Word files
+				Guid.Parse("65235197-874B-4A07-BDC5-E65EA825B718"), // preview handler for PowerPoint files
+				Guid.Parse("00020827-0000-0000-C000-000000000046")  // preview handler for Excel files
+			}.Contains(clsid);
+
 			var hInst = PInvoke.GetModuleHandle(default(PWSTR));
 			var szClassName = $"{nameof(ShellPreviewViewModel)}-{Guid.NewGuid()}";
 			var szWindowName = $"Preview";
@@ -167,7 +207,8 @@ namespace Files.App.ViewModels.Previews
 				cbWndExtra = 0,
 			};
 
-			PInvoke.RegisterClassEx(_windowClass);
+			if (PInvoke.RegisterClassEx(_windowClass) == 0)
+				return false;
 
 			fixed (char* pszWindowName = szWindowName)
 			{
@@ -182,10 +223,17 @@ namespace Files.App.ViewModels.Previews
 					hInst);
 			}
 
-			_ = ChildWindowToXaml(parent, presenter);
+			if (_hWnd == HWND.Null)
+				return false;
+
+			_previewHandler = new PreviewHandler(clsid.Value, _hWnd);
+			_previewHandler.InitWithFileWithEveryWay(Item.ItemPath!);
+			_previewHandler.DoPreview();
+
+			return !_loadToken.IsCancellationRequested && _hWnd != HWND.Null && ChildWindowToXaml(presenter);
 		}
 
-		private unsafe bool ChildWindowToXaml(nint parent, UIElement presenter)
+		private unsafe bool ChildWindowToXaml(UIElement presenter)
 		{
 			D3D_DRIVER_TYPE[] driverTypes =
 			[
@@ -240,6 +288,7 @@ namespace Files.App.ViewModels.Previews
 
 			_contentExternalOutputLink.PlacementVisual.Size = new(0, 0);
 			_contentExternalOutputLink.PlacementVisual.Scale = new(1 / (float)presenter.XamlRoot.RasterizationScale);
+			_presenter = presenter;
 			ElementCompositionPreview.SetElementChildVisual(presenter, _contentExternalOutputLink.PlacementVisual);
 
 			// Commit the all pending DComp commands
@@ -256,25 +305,49 @@ namespace Files.App.ViewModels.Previews
 				.Succeeded;
 		}
 
-		public unsafe void UnloadPreview()
+		public async Task UnloadPreviewAsync(CancellationToken loadToken)
+		{
+			await _previewSemaphore.WaitAsync();
+			try
+			{
+				if (_loadToken == loadToken)
+					UnloadPreviewCore();
+			}
+			finally
+			{
+				_previewSemaphore.Release();
+			}
+		}
+
+		private unsafe void UnloadPreviewCore()
 		{
 			// Main-window teardown and Unloaded can both request cleanup.
 			if (_unloaded)
 				return;
 			_unloaded = true;
 
-			if (_hWnd != HWND.Null)
+			if (_presenter is not null)
 			{
-				PInvoke.DestroyWindow(_hWnd);
-				App.Logger.LogInformation($"ShellPreview.UnloadPreview: HWND={((nint)_hWnd)}, Item={LogPathHelper.RedactPath(Item?.ItemPath)}");
-				_hWnd = HWND.Null;
+				ElementCompositionPreview.SetElementChildVisual(_presenter, null);
+				_presenter = null;
 			}
-			else
-				App.Logger.LogInformation($"ShellPreview.UnloadPreview: HWND=, Item={LogPathHelper.RedactPath(Item?.ItemPath)}");
-
 
 			_contentExternalOutputLink?.Dispose();
 			_contentExternalOutputLink = null;
+
+			var handler = _previewHandler;
+			_previewHandler = null;
+			handler?.Dispose();
+
+			if (_hWnd != HWND.Null)
+			{
+				var hwnd = _hWnd;
+				_hWnd = HWND.Null;
+				PInvoke.DestroyWindow(hwnd);
+				App.Logger.LogInformation($"ShellPreview.UnloadPreview: HWND={((nint)hwnd)}, Item={LogPathHelper.RedactPath(Item?.ItemPath)}");
+			}
+			else
+				App.Logger.LogInformation($"ShellPreview.UnloadPreview: HWND=, Item={LogPathHelper.RedactPath(Item?.ItemPath)}");
 
 			// Release the composition chain leaf-to-root so nothing is left for finalizer-thread teardown
 			ReleaseComObject(ref _childVisual);
@@ -283,10 +356,9 @@ namespace Files.App.ViewModels.Previews
 			ReleaseComObject(ref _d3d11DeviceContext);
 			ReleaseComObject(ref _d3d11Device);
 
-			PInvoke.UnregisterClass(_windowClass.lpszClassName, PInvoke.GetModuleHandle(default(PWSTR)));
-
 			if (_pszClassName is not null)
 			{
+				PInvoke.UnregisterClass(_pszClassName, PInvoke.GetModuleHandle(default(PWSTR)));
 				Marshal.FreeHGlobal((nint)_pszClassName);
 				_pszClassName = null;
 			}
@@ -302,6 +374,9 @@ namespace Files.App.ViewModels.Previews
 
 		public unsafe void PointerEntered(bool onPreview)
 		{
+			if (_unloaded || _loadToken.IsCancellationRequested || _hWnd == HWND.Null)
+				return;
+
 			if (onPreview)
 			{
 				var dwAttrib = Convert.ToUInt32(false);

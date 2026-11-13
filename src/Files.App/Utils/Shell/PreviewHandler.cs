@@ -57,7 +57,6 @@ namespace Files.App.Utils.Shell
 
 		public PreviewHandler(Guid clsid, nint frame)
 		{
-			disposed = true;
 			init = false;
 			shown = false;
 			comSite = new PreviewHandlerFrame(frame);
@@ -65,12 +64,10 @@ namespace Files.App.Utils.Shell
 			try
 			{
 				SetupHandler(clsid);
-				disposed = false;
 			}
 			catch
 			{
-				previewHandler = null;
-				comSite = null;
+				Dispose();
 				throw;
 			}
 		}
