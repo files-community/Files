@@ -130,60 +130,55 @@ namespace Files.App.Services
 				string.IsNullOrEmpty(destinationFolderPath))
 				return false;
 
-			using var zipFile = await GetSevenZipExtractorAsync(archiveFilePath, password);
-			if (zipFile is null)
-				return false;
-
 			// Initialize a new in-progress status card
 			var statusCard = StatusCenterHelper.AddCard_Decompress(
 				archiveFilePath.CreateEnumerable(),
 				destinationFolderPath.CreateEnumerable(),
 				ReturnResult.InProgress);
 
-			// Check if the decompress operation canceled
-			if (statusCard.CancellationToken.IsCancellationRequested)
-				return false;
-
-			StatusCenterItemProgressModel fsProgress = new(
-				statusCard.ProgressEventSource,
-				enumerationCompleted: true,
-				FileSystemStatusCode.InProgress,
-				zipFile.ArchiveFileData.Count(x => !x.IsDirectory));
-
-			fsProgress.TotalSize = zipFile.ArchiveFileData.Select(x => (long)x.Size).Sum();
+			StatusCenterItemProgressModel fsProgress = new(statusCard.ProgressEventSource, status: FileSystemStatusCode.InProgress);
 			fsProgress.Report();
-
-			zipFile.Extracting += (s, e) =>
-			{
-				if (fsProgress.TotalSize > 0)
-					fsProgress.Report(e.BytesProcessed / (double)fsProgress.TotalSize * 100);
-			};
-
-			zipFile.FileExtractionStarted += (s, e) =>
-			{
-				if (statusCard.CancellationToken.IsCancellationRequested)
-					e.Cancel = true;
-
-				if (!e.FileInfo.IsDirectory)
-				{
-					fsProgress.FileName = ArchiveEntryHelpers.GetEntryName(e.FileInfo, archiveFilePath);
-					fsProgress.Report();
-				}
-			};
-
-			zipFile.FileExtractionFinished += (s, e) =>
-			{
-				if (!e.FileInfo.IsDirectory)
-				{
-					fsProgress.AddProcessedItemsCount(1);
-					fsProgress.Report();
-				}
-			};
-
 			bool isSuccess = false;
+			string? incompleteFilePath = null;
 
 			try
 			{
+				using var zipFile = await GetSevenZipExtractorAsync(archiveFilePath, password, percentage => fsProgress.Report(percentage), statusCard.CancellationToken);
+				if (zipFile is null)
+					return false;
+
+				fsProgress.ItemsCount = zipFile.ArchiveFileData.Count(x => !x.IsDirectory);
+				fsProgress.TotalSize = zipFile.ArchiveFileData.Select(x => (long)x.Size).Sum();
+				fsProgress.EnumerationCompleted = true;
+				fsProgress.Report(fsProgress.TotalSize == 0 ? 0 : null);
+
+				zipFile.Extracting += (s, e) =>
+				{
+					if (fsProgress.TotalSize > 0)
+						fsProgress.Report(e.BytesProcessed / (double)fsProgress.TotalSize * 100);
+				};
+
+				zipFile.FileExtractionStarted += (s, e) =>
+				{
+					if (statusCard.CancellationToken.IsCancellationRequested)
+						e.Cancel = true;
+
+					if (!e.FileInfo.IsDirectory)
+					{
+						fsProgress.FileName = ArchiveEntryHelpers.GetEntryName(e.FileInfo, archiveFilePath);
+						fsProgress.Report();
+					}
+				};
+
+				zipFile.FileExtractionFinished += (s, e) =>
+				{
+					if (!e.FileInfo.IsDirectory)
+					{
+						fsProgress.AddProcessedItemsCount(1);
+						fsProgress.Report();
+					}
+				};
+
 				var files = zipFile.ArchiveFileData.Where(x => !x.IsDirectory).ToList();
 				var resolvedName = files.Count is 1 ? ArchiveEntryHelpers.GetEntryName(files[0], archiveFilePath) : null;
 
@@ -192,7 +187,11 @@ namespace Files.App.Services
 					// ExtractArchive would write the entry's "[no name]" placeholder to disk
 					var destinationPath = ValidateAndGetSafeExtractionPath(destinationFolderPath, resolvedName);
 					Directory.CreateDirectory(Path.GetDirectoryName(destinationPath)!);
+					bool destinationExisted = File.Exists(destinationPath);
 					await using var destinationStream = File.Create(destinationPath);
+					if (!destinationExisted)
+						incompleteFilePath = destinationPath;
+
 					await zipFile.ExtractFileAsync(files[0].Index, destinationStream);
 				}
 				else
@@ -214,6 +213,9 @@ namespace Files.App.Services
 			}
 			finally
 			{
+				if (!isSuccess && incompleteFilePath is not null)
+					await FilesystemTasks.Wrap(() => Task.Run(() => File.Delete(incompleteFilePath)));
+
 				// Remove the in-progress status card
 				StatusCenterViewModel.RemoveItem(statusCard);
 
@@ -484,6 +486,9 @@ namespace Files.App.Services
 
 		/// <inheritdoc/>
 		public async Task<SevenZipExtractor?> GetSevenZipExtractorAsync(string archiveFilePath, string password = "")
+			=> await GetSevenZipExtractorAsync(archiveFilePath, password, null, default);
+
+		private async Task<SevenZipExtractor?> GetSevenZipExtractorAsync(string archiveFilePath, string password, Action<double>? reportProgress, CancellationToken cancellationToken)
 		{
 			return await FilesystemTasks.WrapNullable(async () =>
 			{
@@ -491,12 +496,8 @@ namespace Files.App.Services
 				if (archive is null)
 					return null;
 
-				var extractor = string.IsNullOrEmpty(password)
-					? new SevenZipExtractor(archive.Path)
-					: new SevenZipExtractor(archive.Path, password);
-
-				// Force to load archive (1665013614u)
-				return extractor.ArchiveFileData is null ? null : extractor;
+				var stream = await archive.OpenStreamForReadAsync();
+				return ArchiveExtractorHelpers.Create(stream, archiveFilePath, password, reportProgress, cancellationToken);
 			});
 		}
 	}
