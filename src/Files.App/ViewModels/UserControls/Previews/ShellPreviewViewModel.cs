@@ -47,6 +47,7 @@ namespace Files.App.ViewModels.Previews
 		readonly SemaphoreSlim _previewSemaphore = new(1, 1);
 		readonly Guid _previewHandlerClassId;
 		CancellationToken _loadToken;
+		int _resizeVersion;
 		unsafe char* _pszClassName;
 
 		public string PreviewHandlerName { get; private set; }
@@ -108,10 +109,14 @@ namespace Files.App.ViewModels.Previews
 
 		public async Task SizeChangedAsync(RECT size, CancellationToken loadToken)
 		{
+			if (loadToken.IsCancellationRequested)
+				return;
+
+			var version = ++_resizeVersion;
 			await _previewSemaphore.WaitAsync();
 			try
 			{
-				if (_unloaded || _hWnd == HWND.Null || _loadToken != loadToken || loadToken.IsCancellationRequested)
+				if (version != _resizeVersion || _unloaded || _hWnd == HWND.Null || _loadToken != loadToken || loadToken.IsCancellationRequested)
 					return;
 
 				PInvoke.SetWindowPos(_hWnd, new(0), size.left, size.top, size.Width, size.Height, SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE);

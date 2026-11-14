@@ -15,6 +15,7 @@ namespace Files.App.UserControls.FilePreviews
 		private ShellPreviewViewModel ViewModel { get; set; }
 		private FrameworkElement? rootElement;
 		private CancellationTokenSource? previewCancellation;
+		private bool isPointerOverPreview;
 
 		public event EventHandler? PreviewFailed;
 
@@ -56,6 +57,8 @@ namespace Files.App.UserControls.FilePreviews
 			LoadingIndicator.IsActive = false;
 			if (!completed || !previewLoaded)
 				await ShowPreviewErrorAsync();
+			else
+				ViewModel.PointerEntered(isPointerOverPreview);
 		}
 
 		private async void PreviewHost_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -99,8 +102,13 @@ namespace Files.App.UserControls.FilePreviews
 
 		private void PreviewHost_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
-			ViewModel.PointerEntered(ReferenceEquals(sender, contentPresenter));
+			isPointerOverPreview = ReferenceEquals(sender, this);
+			if (!LoadingIndicator.IsActive)
+				ViewModel.PointerEntered(isPointerOverPreview);
 		}
+
+		private void PreviewHost_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+			=> isPointerOverPreview = false;
 
 		// Cancels pending loading and releases the native preview on its UI thread.
 		public void UnloadPreview()

@@ -7,6 +7,8 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.FilePreviews"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	PointerEntered="PreviewHost_PointerEntered"
+	PointerExited="PreviewHost_PointerExited"
 	Unloaded="PreviewHost_Unloaded"
 	mc:Ignorable="d">
 
@@ -15,7 +17,6 @@
 			Name="contentPresenter"
 			Background="Transparent"
 			Loaded="PreviewHost_Loaded"
-			PointerEntered="PreviewHost_PointerEntered"
 			SizeChanged="PreviewHost_SizeChanged" />
 		<StackPanel
 			x:Name="PreviewError"
