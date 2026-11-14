@@ -19,7 +19,7 @@ public partial interface ISyncRootManager
 	HRESULT GetStorageProviderInfoFromPath(string path, out IStorageProviderInfo? info, out string? resolvedPath, out uint comparisonFlags);
 }
 
-[GeneratedComInterface(Options = ComInterfaceOptions.ComObjectWrapper, StringMarshalling = StringMarshalling.Utf16)]
+[GeneratedComInterface(Options = ComInterfaceOptions.ComObjectWrapper | ComInterfaceOptions.ManagedObjectWrapper, StringMarshalling = StringMarshalling.Utf16)]
 [Guid("CA01C124-2769-4576-BF12-8A54EE671A86")]
 public partial interface IStorageProviderInfo
 {
