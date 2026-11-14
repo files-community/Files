@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using ColorCode;
+using ColorCode.Parsing;
 using Files.App.ViewModels.Properties;
 using System.Collections.Frozen;
 
@@ -25,6 +26,8 @@ namespace Files.App.ViewModels.Previews
 			private set => SetProperty(ref codeLanguage, value);
 		}
 
+		public ILanguageParser? ParsedCode { get; private set; }
+
 		public CodePreviewViewModel(ListedItem item)
 			: base(item)
 		{
@@ -42,8 +45,13 @@ namespace Files.App.ViewModels.Previews
 				var text = TextValue ?? await ReadFileAsTextAsync(PreviewFile);
 				details.Add(GetFileProperty("PropertyLineCount", text.Split('\n').Length));
 
-				CodeLanguage = extensions[Item.FileExtension!.ToLowerInvariant()];
-				TextValue = text.Left(Constants.PreviewPane.TextCharacterLimit);
+				var extension = Item.FileExtension!.ToLowerInvariant();
+				var language = extensions[extension];
+				var previewText = text.Left(Constants.PreviewPane.TextCharacterLimit);
+				CodeLanguage = language;
+				TextValue = previewText;
+				if (extension is not (".css" or ".scss"))
+					ParsedCode = new CachedCodeParser(previewText, language);
 			}
 			catch (Exception e)
 			{
@@ -51,6 +59,25 @@ namespace Files.App.ViewModels.Previews
 			}
 
 			return details;
+		}
+
+		private sealed class CachedCodeParser : CodeColorizerBase, ILanguageParser
+		{
+			private readonly List<(string Text, IList<Scope> Scopes)> fragments = [];
+
+			public CachedCodeParser(string text, ILanguage language) : base(null, null)
+			{
+				languageParser.Parse(text, language, Write);
+			}
+
+			protected override void Write(string parsedSourceCode, IList<Scope> scopes)
+				=> fragments.Add((parsedSourceCode, scopes));
+
+			void ILanguageParser.Parse(string sourceCode, ILanguage language, Action<string, IList<Scope>> parseHandler)
+			{
+				foreach (var (text, scopes) in fragments)
+					parseHandler(text, scopes);
+			}
 		}
 
 		private static FrozenDictionary<string, ILanguage> GetDictionary()

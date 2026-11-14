@@ -4,18 +4,20 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.FilePreviews"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	d:DesignHeight="300"
 	d:DesignWidth="400"
+	Loaded="TextPreviewControl_Loaded"
+	Unloaded="RichTextPreview_Unloaded"
 	mc:Ignorable="d">
 
-	<Border>
+	<Grid>
 
 		<RichEditBox
 			x:Name="TextPreviewControl"
-			IsReadOnly="True"
-			Loaded="TextPreviewControl_Loaded">
+			IsReadOnly="True">
 			<RichEditBox.Resources>
 				<ResourceDictionary>
 					<ResourceDictionary.ThemeDictionaries>
@@ -32,5 +34,17 @@
 			</RichEditBox.Resources>
 		</RichEditBox>
 
-	</Border>
+		<TextBlock
+			x:Name="PreviewError"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Center"
+			Text="{helpers:ResourceString Name=DetailsPanePreviewNotAvaliableText}"
+			TextWrapping="WrapWholeWords"
+			Visibility="Collapsed" />
+		<ProgressRing
+			x:Name="LoadingIndicator"
+			AutomationProperties.Name="{helpers:ResourceString Name=Loading}"
+			IsActive="True"
+			IsIndeterminate="True" />
+	</Grid>
 </UserControl>

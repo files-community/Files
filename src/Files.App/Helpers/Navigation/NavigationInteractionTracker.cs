@@ -156,11 +156,6 @@ namespace Files.App.Helpers
 			return resistance;
 		}
 
-		~NavigationInteractionTracker()
-		{
-			Dispose();
-		}
-
 		public void Dispose()
 		{
 			if (_disposed)
@@ -174,8 +169,6 @@ namespace Files.App.Helpers
 			_tracker.Dispose();
 			_source.Dispose();
 			_props.Dispose();
-
-			GC.SuppressFinalize(this);
 		}
 
 		private sealed partial class InteractionTrackerOwner : IInteractionTrackerOwner

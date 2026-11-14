@@ -229,6 +229,22 @@ namespace Files.App.ViewModels.UserControls
 
 			if (control is not null)
 			{
+				if (control is ShellPreview shellPreview && FileExtensionHelpers.IsRichTextFile(item.FileExtension))
+				{
+					shellPreview.PreviewFailed += async (_, _) =>
+					{
+						await SafetyExtensions.IgnoreExceptions(async () =>
+						{
+							if (token.IsCancellationRequested || !ReferenceEquals(PreviewPaneContent, shellPreview))
+								return;
+
+							var fallback = await CreateRichTextPreviewAsync(item);
+							if (!token.IsCancellationRequested && ReferenceEquals(PreviewPaneContent, shellPreview))
+								PreviewPaneContent = fallback;
+						}, App.Logger);
+					};
+				}
+
 				PreviewPaneContent = control;
 				PreviewPaneState = SelectedDriveItem is not null ? PreviewPaneStates.DriveStorageDetailsAvailable : PreviewPaneStates.PreviewAndDetailsAvailable;
 				return;
@@ -357,14 +373,6 @@ namespace Files.App.ViewModels.UserControls
 				return new HtmlPreview(model);
 			}*/
 
-			if (FileExtensionHelpers.IsRichTextFile(ext))
-			{
-				var model = new RichTextPreviewViewModel(item);
-				await model.LoadAsync();
-
-				return new RichTextPreview(model);
-			}
-
 			if (CodePreviewViewModel.IsCodeFile(ext))
 			{
 				var model = new CodePreviewViewModel(item);
@@ -373,19 +381,32 @@ namespace Files.App.ViewModels.UserControls
 				return new CodePreview(model);
 			}
 
-			if (ShellPreviewViewModel.FindPreviewHandlerFor(item.FileExtension, 0) is not null &&
-				!FileExtensionHelpers.IsFontFile(item.FileExtension) &&
+			if (!FileExtensionHelpers.IsFontFile(item.FileExtension) &&
 				!FileExtensionHelpers.IsExecutableFile(item.FileExtension))
 			{
-				var model = new ShellPreviewViewModel(item);
-				await model.LoadAsync();
+				var previewHandlerClassId = await STATask.RunPooled(() => ShellPreviewViewModel.FindPreviewHandlerFor(ext, 0), App.Logger);
+				if (previewHandlerClassId is Guid classId)
+				{
+					var model = new ShellPreviewViewModel(item, classId);
+					await model.LoadAsync();
 
-				return new ShellPreview(model);
+					return new ShellPreview(model);
+				}
 			}
+
+			if (FileExtensionHelpers.IsRichTextFile(ext))
+				return await CreateRichTextPreviewAsync(item);
 
 			var control = await TextPreviewViewModel.TryLoadAsTextAsync(item);
 
 			return control ?? null;
+		}
+
+		private static async Task<RichTextPreview> CreateRichTextPreviewAsync(ListedItem item)
+		{
+			var model = new RichTextPreviewViewModel(item);
+			await model.LoadAsync();
+			return new RichTextPreview(model);
 		}
 
 		private int previewRequestVersion;
