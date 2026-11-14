@@ -16,6 +16,8 @@ namespace Files.App.UserControls.FilePreviews
 		private FrameworkElement? rootElement;
 		private CancellationTokenSource? previewCancellation;
 
+		public event EventHandler? PreviewFailed;
+
 		public ShellPreview(ShellPreviewViewModel model)
 		{
 			ViewModel = model;
@@ -53,7 +55,7 @@ namespace Files.App.UserControls.FilePreviews
 
 			LoadingIndicator.IsActive = false;
 			if (!completed || !previewLoaded)
-				ShowPreviewError();
+				await ShowPreviewErrorAsync();
 		}
 
 		private async void PreviewHost_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -65,14 +67,16 @@ namespace Files.App.UserControls.FilePreviews
 				var resized = await SafetyExtensions.IgnoreExceptions(
 					() => DispatcherQueue.EnqueueDeferredAsync(() => ViewModel.SizeChangedAsync(size, loadToken)), App.Logger);
 				if (!resized && !loadToken.IsCancellationRequested)
-					ShowPreviewError();
+					await ShowPreviewErrorAsync();
 			}
 		}
 
-		private void ShowPreviewError()
+		private async Task ShowPreviewErrorAsync()
 		{
 			PreviewError.Visibility = Visibility.Visible;
-			UnloadPreview();
+			await UnloadPreviewCoreAsync();
+			if (previewCancellation is null && IsLoaded)
+				PreviewFailed?.Invoke(this, EventArgs.Empty);
 		}
 
 		private RECT GetPreviewSize()
@@ -100,6 +104,9 @@ namespace Files.App.UserControls.FilePreviews
 
 		// Cancels pending loading and releases the native preview on its UI thread.
 		public void UnloadPreview()
+			=> _ = UnloadPreviewCoreAsync();
+
+		private Task UnloadPreviewCoreAsync()
 		{
 			LoadingIndicator.IsActive = false;
 			var cancellation = previewCancellation;
@@ -116,7 +123,9 @@ namespace Files.App.UserControls.FilePreviews
 			}
 
 			if (loadToken is { } token)
-				_ = SafetyExtensions.IgnoreExceptions(() => ViewModel.UnloadPreviewAsync(token), App.Logger);
+				return SafetyExtensions.IgnoreExceptions(() => ViewModel.UnloadPreviewAsync(token), App.Logger);
+
+			return Task.CompletedTask;
 		}
 	}
 }

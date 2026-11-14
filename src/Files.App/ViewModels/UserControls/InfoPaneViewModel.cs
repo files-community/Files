@@ -229,6 +229,22 @@ namespace Files.App.ViewModels.UserControls
 
 			if (control is not null)
 			{
+				if (control is ShellPreview shellPreview && FileExtensionHelpers.IsRichTextFile(item.FileExtension))
+				{
+					shellPreview.PreviewFailed += async (_, _) =>
+					{
+						await SafetyExtensions.IgnoreExceptions(async () =>
+						{
+							if (token.IsCancellationRequested || !ReferenceEquals(PreviewPaneContent, shellPreview))
+								return;
+
+							var fallback = await CreateRichTextPreviewAsync(item);
+							if (!token.IsCancellationRequested && ReferenceEquals(PreviewPaneContent, shellPreview))
+								PreviewPaneContent = fallback;
+						}, App.Logger);
+					};
+				}
+
 				PreviewPaneContent = control;
 				PreviewPaneState = SelectedDriveItem is not null ? PreviewPaneStates.DriveStorageDetailsAvailable : PreviewPaneStates.PreviewAndDetailsAvailable;
 				return;
@@ -378,9 +394,19 @@ namespace Files.App.ViewModels.UserControls
 				}
 			}
 
+			if (FileExtensionHelpers.IsRichTextFile(ext))
+				return await CreateRichTextPreviewAsync(item);
+
 			var control = await TextPreviewViewModel.TryLoadAsTextAsync(item);
 
 			return control ?? null;
+		}
+
+		private static async Task<RichTextPreview> CreateRichTextPreviewAsync(ListedItem item)
+		{
+			var model = new RichTextPreviewViewModel(item);
+			await model.LoadAsync();
+			return new RichTextPreview(model);
 		}
 
 		private int previewRequestVersion;
