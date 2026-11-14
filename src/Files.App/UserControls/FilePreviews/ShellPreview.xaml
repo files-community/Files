@@ -17,6 +17,22 @@
 			Loaded="PreviewHost_Loaded"
 			PointerEntered="PreviewHost_PointerEntered"
 			SizeChanged="PreviewHost_SizeChanged" />
+		<StackPanel
+			x:Name="PreviewError"
+			Margin="12"
+			VerticalAlignment="Center"
+			Spacing="8"
+			Visibility="Collapsed">
+			<TextBlock
+				Style="{ThemeResource BodyStrongTextBlockStyle}"
+				Text="{x:Bind ViewModel.PreviewHandlerName}"
+				TextAlignment="Center"
+				TextWrapping="Wrap" />
+			<TextBlock
+				Text="{helpers:ResourceString Name=DetailsPanePreviewNotAvaliableText}"
+				TextAlignment="Center"
+				TextWrapping="WrapWholeWords" />
+		</StackPanel>
 		<ProgressRing
 			x:Name="LoadingIndicator"
 			AutomationProperties.Name="{helpers:ResourceString Name=Loading}"

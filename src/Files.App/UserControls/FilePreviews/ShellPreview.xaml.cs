@@ -27,14 +27,16 @@ namespace Files.App.UserControls.FilePreviews
 		private async void PreviewHost_Loaded(object sender, RoutedEventArgs e)
 		{
 			UnloadPreview();
+			PreviewError.Visibility = Visibility.Collapsed;
 			previewCancellation = new CancellationTokenSource();
 			var loadToken = previewCancellation.Token;
 			LoadingIndicator.IsActive = true;
+			bool previewLoaded = false;
 
-			await SafetyExtensions.IgnoreExceptions(() => DispatcherQueue.EnqueueDeferredAsync(async () =>
+			var completed = await SafetyExtensions.IgnoreExceptions(() => DispatcherQueue.EnqueueDeferredAsync(async () =>
 			{
-				await ViewModel.LoadPreviewAsync(contentPresenter, loadToken);
-				if (loadToken.IsCancellationRequested)
+				previewLoaded = await ViewModel.LoadPreviewAsync(contentPresenter, loadToken);
+				if (!previewLoaded || loadToken.IsCancellationRequested)
 					return;
 
 				rootElement = XamlRoot.Content as FrameworkElement;
@@ -46,8 +48,12 @@ namespace Files.App.UserControls.FilePreviews
 				}
 			}), App.Logger);
 
-			if (!loadToken.IsCancellationRequested)
-				LoadingIndicator.IsActive = false;
+			if (loadToken.IsCancellationRequested)
+				return;
+
+			LoadingIndicator.IsActive = false;
+			if (!completed || !previewLoaded)
+				ShowPreviewError();
 		}
 
 		private async void PreviewHost_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -56,9 +62,17 @@ namespace Files.App.UserControls.FilePreviews
 			{
 				var loadToken = previewCancellation.Token;
 				var size = GetPreviewSize();
-				await SafetyExtensions.IgnoreExceptions(
+				var resized = await SafetyExtensions.IgnoreExceptions(
 					() => DispatcherQueue.EnqueueDeferredAsync(() => ViewModel.SizeChangedAsync(size, loadToken)), App.Logger);
+				if (!resized && !loadToken.IsCancellationRequested)
+					ShowPreviewError();
 			}
+		}
+
+		private void ShowPreviewError()
+		{
+			PreviewError.Visibility = Visibility.Visible;
+			UnloadPreview();
 		}
 
 		private RECT GetPreviewSize()

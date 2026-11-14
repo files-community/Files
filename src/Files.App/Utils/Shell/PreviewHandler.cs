@@ -316,14 +316,11 @@ namespace Files.App.Utils.Shell
 		/// <summary>
 		/// Calls IPreviewHandler.SetRect.
 		/// </summary>
-		private bool ResetBounds(RECT previewerBounds)
+		private void ResetBounds(RECT previewerBounds)
 		{
 			EnsureNotDisposed();
-			//EnsureInitialized();
-			if (!init)
-				return false;
-			var hr = previewHandler.SetRect(previewerBounds);
-			return hr >= 0;
+			EnsureInitialized();
+			previewHandler!.SetRect(previewerBounds).ThrowOnFailure();
 		}
 
 		/// <summary>

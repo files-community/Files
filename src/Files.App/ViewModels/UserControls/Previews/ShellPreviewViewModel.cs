@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Content;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
+using Microsoft.Win32;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using Windows.Win32;
@@ -48,17 +49,28 @@ namespace Files.App.ViewModels.Previews
 		CancellationToken _loadToken;
 		unsafe char* _pszClassName;
 
+		public string PreviewHandlerName { get; private set; }
+
 		// Constructor
 
 		public ShellPreviewViewModel(ListedItem item, Guid previewHandlerClassId) : base(item)
 		{
 			_previewHandlerClassId = previewHandlerClassId;
+			PreviewHandlerName = previewHandlerClassId.ToString("B");
 		}
 
 		// Methods
 
 		public override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
-			=> Task.FromResult<List<FileProperty>>([]);
+		{
+			var displayName = SafetyExtensions.IgnoreExceptions(() => Registry.GetValue(
+				@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\PreviewHandlers",
+				_previewHandlerClassId.ToString("B"), null) as string, App.Logger);
+			if (!string.IsNullOrWhiteSpace(displayName))
+				PreviewHandlerName = displayName;
+
+			return Task.FromResult<List<FileProperty>>([]);
+		}
 
 		public static unsafe Guid? FindPreviewHandlerFor(string extension, nint hwnd)
 		{
@@ -132,17 +144,17 @@ namespace Files.App.ViewModels.Previews
 			return PInvoke.DefWindowProc(hwnd, msg, wParam, lParam);
 		}
 
-		public async Task LoadPreviewAsync(UIElement presenter, CancellationToken loadToken)
+		public async Task<bool> LoadPreviewAsync(UIElement presenter, CancellationToken loadToken)
 		{
 			await _previewSemaphore.WaitAsync();
 			try
 			{
 				if (loadToken.IsCancellationRequested)
-					return;
+					return false;
 
 				await UnloadPreviewCoreAsync();
 				if (loadToken.IsCancellationRequested)
-					return;
+					return false;
 
 				_loadToken = loadToken;
 				_unloaded = false;
@@ -170,6 +182,8 @@ namespace Files.App.ViewModels.Previews
 					if (!loaded || loadToken.IsCancellationRequested)
 						await UnloadPreviewCoreAsync();
 				}
+
+				return loaded && !loadToken.IsCancellationRequested;
 			}
 			finally
 			{
