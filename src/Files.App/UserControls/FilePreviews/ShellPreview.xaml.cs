@@ -29,6 +29,7 @@ namespace Files.App.UserControls.FilePreviews
 			UnloadPreview();
 			previewCancellation = new CancellationTokenSource();
 			var loadToken = previewCancellation.Token;
+			LoadingIndicator.IsActive = true;
 
 			await SafetyExtensions.IgnoreExceptions(() => DispatcherQueue.EnqueueDeferredAsync(async () =>
 			{
@@ -44,6 +45,9 @@ namespace Files.App.UserControls.FilePreviews
 					await ViewModel.SizeChangedAsync(GetPreviewSize(), loadToken);
 				}
 			}), App.Logger);
+
+			if (!loadToken.IsCancellationRequested)
+				LoadingIndicator.IsActive = false;
 		}
 
 		private async void PreviewHost_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -83,6 +87,7 @@ namespace Files.App.UserControls.FilePreviews
 		// Cancels pending loading and releases the native preview on its UI thread.
 		public void UnloadPreview()
 		{
+			LoadingIndicator.IsActive = false;
 			var cancellation = previewCancellation;
 			previewCancellation = null;
 			var loadToken = cancellation?.Token;
