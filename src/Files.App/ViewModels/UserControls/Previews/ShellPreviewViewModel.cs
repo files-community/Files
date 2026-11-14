@@ -340,6 +340,9 @@ namespace Files.App.ViewModels.Previews
 				return;
 			_unloaded = true;
 
+			if (_hWnd != HWND.Null)
+				PInvoke.ShowWindow(_hWnd, SHOW_WINDOW_CMD.SW_HIDE);
+
 			if (_presenter is not null)
 			{
 				ElementCompositionPreview.SetElementChildVisual(_presenter, null);
