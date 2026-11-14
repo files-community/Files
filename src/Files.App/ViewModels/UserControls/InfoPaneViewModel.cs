@@ -357,14 +357,6 @@ namespace Files.App.ViewModels.UserControls
 				return new HtmlPreview(model);
 			}*/
 
-			if (FileExtensionHelpers.IsRichTextFile(ext))
-			{
-				var model = new RichTextPreviewViewModel(item);
-				await model.LoadAsync();
-
-				return new RichTextPreview(model);
-			}
-
 			if (CodePreviewViewModel.IsCodeFile(ext))
 			{
 				var model = new CodePreviewViewModel(item);
@@ -373,14 +365,17 @@ namespace Files.App.ViewModels.UserControls
 				return new CodePreview(model);
 			}
 
-			if (ShellPreviewViewModel.FindPreviewHandlerFor(item.FileExtension, 0) is not null &&
-				!FileExtensionHelpers.IsFontFile(item.FileExtension) &&
+			if (!FileExtensionHelpers.IsFontFile(item.FileExtension) &&
 				!FileExtensionHelpers.IsExecutableFile(item.FileExtension))
 			{
-				var model = new ShellPreviewViewModel(item);
-				await model.LoadAsync();
+				var previewHandlerClassId = await STATask.RunPooled(() => ShellPreviewViewModel.FindPreviewHandlerFor(ext, 0), App.Logger);
+				if (previewHandlerClassId is Guid classId)
+				{
+					var model = new ShellPreviewViewModel(item, classId);
+					await model.LoadAsync();
 
-				return new ShellPreview(model);
+					return new ShellPreview(model);
+				}
 			}
 
 			var control = await TextPreviewViewModel.TryLoadAsTextAsync(item);

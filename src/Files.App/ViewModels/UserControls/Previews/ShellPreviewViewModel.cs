@@ -44,13 +44,15 @@ namespace Files.App.ViewModels.Previews
 		bool _isOfficePreview = false;
 		bool _unloaded = true;
 		readonly SemaphoreSlim _previewSemaphore = new(1, 1);
+		readonly Guid _previewHandlerClassId;
 		CancellationToken _loadToken;
 		unsafe char* _pszClassName;
 
 		// Constructor
 
-		public ShellPreviewViewModel(ListedItem item) : base(item)
+		public ShellPreviewViewModel(ListedItem item, Guid previewHandlerClassId) : base(item)
 		{
+			_previewHandlerClassId = previewHandlerClassId;
 		}
 
 		// Methods
@@ -72,7 +74,7 @@ namespace Files.App.ViewModels.Previews
 					PWSTR pwszAssoc = new(pszAssoc);
 					PWSTR pwszExtra = new(pszExtra);
 					PWSTR pwszOutput = new(pszOutput);
-					uint cchOutput = 2024;
+					uint cchOutput = 1024;
 
 					// Try to find registered preview handler associated with specified extension name
 					var res = PInvoke.AssocQueryString(
@@ -102,7 +104,8 @@ namespace Files.App.ViewModels.Previews
 
 				PInvoke.SetWindowPos(_hWnd, new(0), size.left, size.top, size.Width, size.Height, SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE);
 
-				_previewHandler?.ResetBounds(new(0, 0, size.Width, size.Height));
+				if (_previewHandler is not null)
+					await _previewHandler.ResizeAsync(new(0, 0, size.Width, size.Height));
 
 				if (_contentExternalOutputLink is not null)
 					_contentExternalOutputLink.PlacementVisual.Size = new(size.Width, size.Height);
@@ -137,7 +140,7 @@ namespace Files.App.ViewModels.Previews
 				if (loadToken.IsCancellationRequested)
 					return;
 
-				UnloadPreviewCore();
+				await UnloadPreviewCoreAsync();
 				if (loadToken.IsCancellationRequested)
 					return;
 
@@ -148,7 +151,14 @@ namespace Files.App.ViewModels.Previews
 
 				try
 				{
-					loaded = TryLoadPreview(presenter);
+					if (TryCreatePreviewWindow())
+					{
+						_previewHandler = await PreviewHandler.CreateAsync(_previewHandlerClassId, _hWnd, Item?.ItemPath!, loadToken);
+						loaded = !loadToken.IsCancellationRequested && _hWnd != HWND.Null && ChildWindowToXaml(presenter);
+					}
+				}
+				catch (OperationCanceledException) when (loadToken.IsCancellationRequested)
+				{
 				}
 				catch (Exception ex)
 				{
@@ -156,9 +166,9 @@ namespace Files.App.ViewModels.Previews
 				}
 				finally
 				{
-					// An unload can be requested while a Shell COM call pumps messages.
+					// Retain the native window until the handler finishes using it.
 					if (!loaded || loadToken.IsCancellationRequested)
-						UnloadPreviewCore();
+						await UnloadPreviewCoreAsync();
 				}
 			}
 			finally
@@ -167,19 +177,16 @@ namespace Files.App.ViewModels.Previews
 			}
 		}
 
-		private unsafe bool TryLoadPreview(UIElement presenter)
+		private unsafe bool TryCreatePreviewWindow()
 		{
 			var parent = MainWindow.Instance.WindowHandle;
-			var clsid = FindPreviewHandlerFor(Item.FileExtension!, parent);
-			if (clsid is null)
-				return false;
 
 			_isOfficePreview = new Guid?[]
 			{
 				Guid.Parse("84F66100-FF7C-4fb4-B0C0-02CD7FB668FE"), // preview handler for Word files
 				Guid.Parse("65235197-874B-4A07-BDC5-E65EA825B718"), // preview handler for PowerPoint files
 				Guid.Parse("00020827-0000-0000-C000-000000000046")  // preview handler for Excel files
-			}.Contains(clsid);
+			}.Contains(_previewHandlerClassId);
 
 			var hInst = PInvoke.GetModuleHandle(default(PWSTR));
 			var szClassName = $"{nameof(ShellPreviewViewModel)}-{Guid.NewGuid()}";
@@ -223,14 +230,7 @@ namespace Files.App.ViewModels.Previews
 					hInst);
 			}
 
-			if (_hWnd == HWND.Null)
-				return false;
-
-			_previewHandler = new PreviewHandler(clsid.Value, _hWnd);
-			_previewHandler.InitWithFileWithEveryWay(Item.ItemPath!);
-			_previewHandler.DoPreview();
-
-			return !_loadToken.IsCancellationRequested && _hWnd != HWND.Null && ChildWindowToXaml(presenter);
+			return _hWnd != HWND.Null;
 		}
 
 		private unsafe bool ChildWindowToXaml(UIElement presenter)
@@ -311,7 +311,7 @@ namespace Files.App.ViewModels.Previews
 			try
 			{
 				if (_loadToken == loadToken)
-					UnloadPreviewCore();
+					await UnloadPreviewCoreAsync();
 			}
 			finally
 			{
@@ -319,7 +319,7 @@ namespace Files.App.ViewModels.Previews
 			}
 		}
 
-		private unsafe void UnloadPreviewCore()
+		private async Task UnloadPreviewCoreAsync()
 		{
 			// Main-window teardown and Unloaded can both request cleanup.
 			if (_unloaded)
@@ -337,8 +337,26 @@ namespace Files.App.ViewModels.Previews
 
 			var handler = _previewHandler;
 			_previewHandler = null;
-			handler?.Dispose();
+			try
+			{
+				if (handler is not null)
+					await handler.DisposeAsync();
+			}
+			finally
+			{
+				// Release the composition chain before destroying its source window.
+				ReleaseComObject(ref _childVisual);
+				ReleaseComObject(ref _controlSurface);
+				ReleaseComObject(ref _dCompositionDevice);
+				ReleaseComObject(ref _d3d11DeviceContext);
+				ReleaseComObject(ref _d3d11Device);
 
+				DestroyPreviewWindow();
+			}
+		}
+
+		private unsafe void DestroyPreviewWindow()
+		{
 			if (_hWnd != HWND.Null)
 			{
 				var hwnd = _hWnd;
@@ -348,13 +366,6 @@ namespace Files.App.ViewModels.Previews
 			}
 			else
 				App.Logger.LogInformation($"ShellPreview.UnloadPreview: HWND=, Item={LogPathHelper.RedactPath(Item?.ItemPath)}");
-
-			// Release the composition chain leaf-to-root so nothing is left for finalizer-thread teardown
-			ReleaseComObject(ref _childVisual);
-			ReleaseComObject(ref _controlSurface);
-			ReleaseComObject(ref _dCompositionDevice);
-			ReleaseComObject(ref _d3d11DeviceContext);
-			ReleaseComObject(ref _d3d11Device);
 
 			if (_pszClassName is not null)
 			{
