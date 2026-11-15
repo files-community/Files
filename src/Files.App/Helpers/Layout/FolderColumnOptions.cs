@@ -31,6 +31,12 @@ namespace Files.App.Helpers
 			return GetOptions(instanceViewModel, shellViewModel, GitGroupColumnIds, column => column.CanGroup, checkedId);
 		}
 
+		/// <summary>
+		/// Gets a task that completes once the columns of the folder can be offered.
+		/// </summary>
+		public static Task WhenReadyAsync(string? path)
+			=> Task.WhenAll(ShellPropertyCatalog.GetAsync(), ShellFolderColumns.GetAsync(path));
+
 		public static IEnumerable<(GroupByDateUnit Unit, string Label)> GetDateUnits()
 		{
 			yield return (GroupByDateUnit.Year, Strings.Year.GetLocalizedResource());

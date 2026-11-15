@@ -618,7 +618,29 @@ namespace Files.App.UserControls
 			return item;
 		}
 
-		private void SortGroupFlyout_Opening(object sender, object e)
+		private async void SortGroupFlyout_Opening(object sender, object e)
+		{
+			PopulateSortGroupColumnItems();
+
+			// The columns of the folder may still be loading
+			var ready = FolderColumnOptions.WhenReadyAsync(PageContext.ShellPage?.ShellViewModel?.WorkingDirectory);
+			if (ready.IsCompleted)
+				return;
+
+			try
+			{
+				await ready;
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+				return;
+			}
+
+			PopulateSortGroupColumnItems();
+		}
+
+		private void PopulateSortGroupColumnItems()
 		{
 			if (ViewModel?.InstanceViewModel is not { } instanceViewModel)
 				return;

@@ -423,8 +423,11 @@ namespace Files.App.Helpers
 			UserSettingsService.LayoutSettingsService.SyncStatusColumnWidth = columns.StatusColumn.UserLengthPixels;
 
 			UserSettingsService.LayoutSettingsService.ColumnOrder = [.. columns.ColumnOrder];
-			UserSettingsService.LayoutSettingsService.DefaultPropertyColumns = [.. columns.PropertyColumnIds];
+			UserSettingsService.LayoutSettingsService.DefaultPropertyColumns = GetDefaultPropertyColumns(columns);
 		}
+
+		private static List<string> GetDefaultPropertyColumns(ColumnsViewModel columns)
+			=> [.. columns.PropertyColumnIds.Select(id => DetailsLayoutColumnDefaults.FormatDefaultColumn(id, columns.GetColumn(id).UserLengthPixels))];
 
 		public static void SetLayoutPreferencesForPath(string? path, LayoutPreferencesItem preferencesItem)
 		{
@@ -466,7 +469,7 @@ namespace Files.App.Helpers
 
 				UserSettingsService.LayoutSettingsService.NameColumnWidth = preferencesItem.ColumnsViewModel.NameColumn.UserLengthPixels;
 				UserSettingsService.LayoutSettingsService.ColumnOrder = [.. preferencesItem.ColumnsViewModel.ColumnOrder];
-				UserSettingsService.LayoutSettingsService.DefaultPropertyColumns = [.. preferencesItem.ColumnsViewModel.PropertyColumnIds];
+				UserSettingsService.LayoutSettingsService.DefaultPropertyColumns = GetDefaultPropertyColumns(preferencesItem.ColumnsViewModel);
 
 				if (!preferencesItem.ColumnsViewModel.DateModifiedColumn.IsHidden)
 				{

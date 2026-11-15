@@ -874,7 +874,7 @@ namespace Files.App.Views.Layouts
 				return;
 
 			foreach (var columnId in ColumnsViewModel.AllColumnIds.Where(id => ColumnsViewModel.GetColumn(id).Visibility == Visibility.Visible).ToArray())
-				ResizeColumnToFit(columnId);
+				ResizeColumnToFit(columnId, false);
 		}
 
 		private void AutoFitColumnsIfEnabled()
@@ -885,7 +885,7 @@ namespace Files.App.Views.Layouts
 			// Trailing debounce so bursts of item adds and extended-property updates during a folder load collapse into one resize.
 			_autoFitColumnsTimer ??= DispatcherQueue.CreateTimer();
 			_autoFitColumnsTimer.Debounce(
-				() => _ = Commands.AutoFitColumns.ExecuteAsync(),
+				AutoFitColumns,
 				TimeSpan.FromMilliseconds(250));
 		}
 
@@ -906,7 +906,7 @@ namespace Files.App.Views.Layouts
 			AutoFitColumnsIfEnabled();
 		}
 
-		private void ResizeColumnToFit(string columnId)
+		private void ResizeColumnToFit(string columnId, bool saveToFolderSettings = true)
 		{
 			if (!FileList.Items.Any())
 				return;
@@ -940,6 +940,9 @@ namespace Files.App.Views.Layouts
 
 				column.UserLength = new GridLength(maxFitLength, GridUnitType.Pixel);
 			}
+
+			if (!saveToFolderSettings)
+				return;
 
 			var folderSettings = FolderSettings
 				?? throw new InvalidOperationException("The details layout does not have folder settings.");

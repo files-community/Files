@@ -93,8 +93,14 @@ namespace Files.App.Helpers
 			ColumnsViewModel.StatusColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.SyncStatusColumnWidth;
 
 			ColumnsViewModel.ColumnOrder = [.. UserSettingsService.LayoutSettingsService.ColumnOrder ?? []];
-			foreach (var id in UserSettingsService.LayoutSettingsService.DefaultPropertyColumns ?? [])
-				ColumnsViewModel.SetColumnVisibility(id, true);
+			foreach (var entry in UserSettingsService.LayoutSettingsService.DefaultPropertyColumns ?? [])
+			{
+				var (id, width) = DetailsLayoutColumnDefaults.ParseDefaultColumn(entry);
+				if (width is { } columnWidth)
+					ColumnsViewModel.SetColumnVisibility(id, true, columnWidth);
+				else
+					ColumnsViewModel.SetColumnVisibility(id, true);
+			}
 		}
 
 		// Overridden methods

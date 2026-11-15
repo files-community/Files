@@ -227,7 +227,12 @@ namespace Files.App.Utils
 		public string? ItemPath
 		{
 			get => itemPath;
-			set => SetProperty(ref itemPath, value);
+			set
+			{
+				// The property values belong to the previous path
+				if (SetProperty(ref itemPath, value) && ShellPropertyValues is not null)
+					_ = ShellPropertyValueLoader.ReloadAsync(this);
+			}
 		}
 
 		private string? itemNameRaw;

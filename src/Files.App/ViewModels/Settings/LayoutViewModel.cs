@@ -293,15 +293,17 @@ namespace Files.App.ViewModels.Settings
 			=> DetailsLayoutColumnDefaults.GetDisplayName(id, _shellPropertyCatalog);
 
 		public bool IsDefaultColumn(string id)
-			=> UserSettingsService.LayoutSettingsService.DefaultPropertyColumns?.Contains(id) is true;
+			=> UserSettingsService.LayoutSettingsService.DefaultPropertyColumns?.Any(entry => DetailsLayoutColumnDefaults.ParseDefaultColumn(entry).Id == id) is true;
 
 		public void SetDefaultColumn(string id, bool isShown)
 		{
 			var columns = UserSettingsService.LayoutSettingsService.DefaultPropertyColumns ?? [];
-			if (isShown == columns.Contains(id))
+			if (isShown == IsDefaultColumn(id))
 				return;
 
-			UserSettingsService.LayoutSettingsService.DefaultPropertyColumns = isShown ? [.. columns, id] : [.. columns.Where(column => column != id)];
+			UserSettingsService.LayoutSettingsService.DefaultPropertyColumns = isShown
+				? [.. columns, id]
+				: [.. columns.Where(entry => DetailsLayoutColumnDefaults.ParseDefaultColumn(entry).Id != id)];
 		}
 
 		private int GetSortingIndex(ILayoutSettingsService settings)

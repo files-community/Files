@@ -72,11 +72,12 @@ namespace Files.App.Utils.Shell
 		{
 			try
 			{
-				var values = await ShellPropertyReader.ReadAsync(items.Select(item => item.ItemPath!).ToArray(), propertyIds, token);
+				var paths = items.Select(item => item.ItemPath!).ToArray();
+				var values = await ShellPropertyReader.ReadAsync(paths, propertyIds, token);
 				for (var i = 0; i < items.Count; i++)
 				{
 					if (values[i] is { } itemValues)
-						SetValues(items[i], itemValues);
+						SetValues(items[i], paths[i], itemValues);
 				}
 			}
 			finally
@@ -95,16 +96,22 @@ namespace Files.App.Utils.Shell
 			if (item.ShellPropertyValues is not { Count: > 0 } current || item.ItemPath is not { Length: > 0 } path)
 				return;
 
-			item.ShellPropertyValues = await ShellPropertyReader.ReadAsync(path, current.Keys.ToArray());
+			var values = await ShellPropertyReader.ReadAsync(path, current.Keys.ToArray());
+			if (IsCurrentPath(item, path))
+				item.ShellPropertyValues = values;
 		}
 
 		private static async Task ReadAsync(ListedItem item, string path, string[] propertyIds)
 		{
-			SetValues(item, await ShellPropertyReader.ReadAsync(path, propertyIds));
+			SetValues(item, path, await ShellPropertyReader.ReadAsync(path, propertyIds));
 		}
 
-		private static void SetValues(ListedItem item, Dictionary<string, ShellPropertyValue> values)
+		private static void SetValues(ListedItem item, string path, Dictionary<string, ShellPropertyValue> values)
 		{
+			// The item was renamed while its properties were being read
+			if (!IsCurrentPath(item, path))
+				return;
+
 			if (item.ShellPropertyValues is { } current)
 			{
 				foreach (var (id, value) in current)
@@ -113,5 +120,8 @@ namespace Files.App.Utils.Shell
 
 			item.ShellPropertyValues = values;
 		}
+
+		private static bool IsCurrentPath(ListedItem item, string path)
+			=> string.Equals(item.ItemPath, path, StringComparison.OrdinalIgnoreCase);
 	}
 }

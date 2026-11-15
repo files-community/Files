@@ -544,6 +544,9 @@ namespace Files.App.Views.Layouts
 				var navigationPath = args.NavPathParam;
 				var previousDir = shellViewModel.WorkingDirectory;
 				await shellViewModel.SetWorkingDirectoryAsync(navigationPath);
+
+				// Read ahead so the sort and group menus can offer the columns of the folder
+				_ = FolderColumnOptions.WhenReadyAsync(navigationPath);
 				if (isDisposed || navigationArguments != args)
 					return;
 
