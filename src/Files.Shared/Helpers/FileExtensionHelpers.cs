@@ -28,6 +28,21 @@ namespace Files.Shared.Helpers
 		}.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 
 		/// <summary>
+		/// Gets the extensions of picture files, including formats Files can't preview, for telling what a folder mostly contains.
+		/// </summary>
+		public static IReadOnlyList<string> PictureExtensions { get; } = new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tif", ".tiff", ".webp", ".heic", ".heif", ".avif", ".jxl", ".raw", ".dng" };
+
+		/// <summary>
+		/// Gets the extensions of video files, for telling what a folder mostly contains.
+		/// </summary>
+		public static IReadOnlyList<string> VideoExtensions { get; } = new[] { ".mp4", ".mkv", ".mov", ".avi", ".wmv", ".webm", ".m4v", ".mpg", ".mpeg", ".3gp" };
+
+		/// <summary>
+		/// Gets the extensions of audio files, for telling what a folder mostly contains.
+		/// </summary>
+		public static IReadOnlyList<string> AudioExtensions { get; } = new[] { ".mp3", ".flac", ".wav", ".m4a", ".aac", ".ogg", ".opus", ".wma", ".alac", ".aiff" };
+
+		/// <summary>
 		/// Check if the file extension matches one of the specified extensions.
 		/// </summary>
 		/// <param name="filePathToCheck">Path or name or extension of the file to check.</param>

@@ -1315,17 +1315,31 @@ namespace Files.App.Views.Layouts
 			for (var index = items.IndexOf(ColumnTogglesEndSeparator) - 1; index >= startIndex; index--)
 				items.RemoveAt(index);
 
-			foreach (var id in ColumnsViewModel.GetMenuColumnIds(GetFolderColumnIds()))
+			var menuColumnIds = ColumnsViewModel.GetMenuColumnIds(LayoutSortGroupOptions.GetLocationColumnIds(ParentShellPageInstance?.ShellViewModel)).ToArray();
+			foreach (var id in menuColumnIds)
+				items.Insert(startIndex++, CreateColumnMenuItem(id));
+
+			var otherColumnIds = GetFolderColumnIds().Where(id => ColumnValueHelper.IsShellPropertyColumn(id) && !menuColumnIds.Contains(id)).ToArray();
+			if (otherColumnIds.Length == 0)
+				return;
+
+			var more = new MenuFlyoutSubItem { Text = Strings.MoreColumns.GetLocalizedResource() };
+			foreach (var id in otherColumnIds)
+				more.Items.Add(CreateColumnMenuItem(id));
+
+			items.Insert(startIndex, more);
+		}
+
+		private ToggleMenuFlyoutItem CreateColumnMenuItem(string id)
+		{
+			var item = new ToggleMenuFlyoutItem
 			{
-				var item = new ToggleMenuFlyoutItem
-				{
-					Text = GetColumnDisplayName(id),
-					Tag = id,
-					IsChecked = ColumnsViewModel.IsColumnVisible(id),
-				};
-				item.Click += ColumnMenuItem_Click;
-				items.Insert(startIndex++, item);
-			}
+				Text = GetColumnDisplayName(id),
+				Tag = id,
+				IsChecked = ColumnsViewModel.IsColumnVisible(id),
+			};
+			item.Click += ColumnMenuItem_Click;
+			return item;
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(ToggleMenuFlyoutItem))]

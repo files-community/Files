@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
+using Files.App.Helpers.ContextFlyouts;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Controls;
@@ -618,72 +619,35 @@ namespace Files.App.UserControls
 			return item;
 		}
 
-		private async void SortGroupFlyout_Opening(object sender, object e)
+		private void SortMenu_Opening(object sender, object e)
 		{
-			PopulateSortGroupColumnItems();
-
-			// The columns of the folder may still be loading
-			var ready = FolderColumnOptions.WhenReadyAsync(PageContext.ShellPage?.ShellViewModel?.WorkingDirectory);
-			if (ready.IsCompleted)
+			if (ViewModel?.InstanceViewModel?.FolderSettings is not { } folderSettings)
 				return;
 
-			try
-			{
-				await ready;
-			}
-			catch (Exception ex)
-			{
-				Debug.WriteLine(ex);
-				return;
-			}
-
-			PopulateSortGroupColumnItems();
-		}
-
-		private void PopulateSortGroupColumnItems()
-		{
-			if (ViewModel?.InstanceViewModel is not { } instanceViewModel)
-				return;
+			SetDirectionMenuItems(SortAscendingMenuItem, SortDescendingMenuItem, folderSettings.DirectorySortDirection);
+			SetDirectionMenuItems(GroupAscendingMenuItem, GroupDescendingMenuItem, folderSettings.DirectoryGroupDirection);
 
 			var shellViewModel = PageContext.ShellPage?.ShellViewModel;
-			var folderSettings = instanceViewModel.FolderSettings;
-
-			PopulateColumnItems(SortByMenu, SortDirectionSeparator, FolderColumnOptions.GetSortOptions(instanceViewModel, shellViewModel),
-				option => CreateColumnToggle(option.Label, option.IsChecked, () => FolderColumnOptions.SortBy(folderSettings, option.Id)));
-
-			PopulateColumnItems(GroupByMenu, GroupDirectionSeparator, FolderColumnOptions.GetGroupOptions(instanceViewModel, shellViewModel),
-				option => option.IsDate ? CreateDateGroupItem(option, folderSettings) : CreateColumnToggle(option.Label, option.IsChecked, () => FolderColumnOptions.GroupBy(folderSettings, option.Id)));
+			SetOptionMenuItems(SortByMenu, SortDirectionSeparator, ContentPageContextFlyoutFactory.GetSortMenuItems(folderSettings, shellViewModel, "ToolbarSortBy"));
+			SetOptionMenuItems(GroupByMenu, GroupDirectionSeparator, ContentPageContextFlyoutFactory.GetGroupMenuItems(folderSettings, shellViewModel, "ToolbarGroupBy"));
 		}
 
-		private static void PopulateColumnItems(MenuFlyoutSubItem menu, MenuFlyoutSeparator separator, IReadOnlyList<FolderColumnOption> options, Func<FolderColumnOption, MenuFlyoutItemBase> createItem)
+		private static void SetDirectionMenuItems(RadioMenuFlyoutItem ascending, RadioMenuFlyoutItem descending, SortDirection direction)
 		{
-			var items = menu.Items;
-			var index = items.IndexOf(separator);
-			while (index > 0 && items[index - 1].Tag is FolderColumnOption)
-				items.RemoveAt(--index);
-
-			foreach (var option in options)
-			{
-				var item = createItem(option);
-				item.Tag = option;
-				items.Insert(index++, item);
-			}
+			// Unchecks the other item before checking the current one
+			var isAscending = direction is SortDirection.Ascending;
+			(isAscending ? descending : ascending).IsChecked = false;
+			(isAscending ? ascending : descending).IsChecked = true;
 		}
 
-		private static MenuFlyoutSubItem CreateDateGroupItem(FolderColumnOption option, LayoutPreferencesManager folderSettings)
+		private static void SetOptionMenuItems(MenuFlyoutSubItem menu, MenuFlyoutSeparator end, List<ContextMenuFlyoutItemViewModel> items)
 		{
-			var item = new MenuFlyoutSubItem { Text = option.Label };
-			foreach (var (unit, label) in FolderColumnOptions.GetDateUnits())
-				item.Items.Add(CreateColumnToggle(label, option.IsChecked && folderSettings.DirectoryGroupByDateUnit == unit, () => FolderColumnOptions.GroupBy(folderSettings, option.Id, unit)));
+			for (var index = menu.Items.IndexOf(end) - 1; index >= 0; index--)
+				menu.Items.RemoveAt(index);
 
-			return item;
-		}
-
-		private static ToggleMenuFlyoutItem CreateColumnToggle(string text, bool isChecked, Action action)
-		{
-			var item = new ToggleMenuFlyoutItem { Text = text, IsChecked = isChecked };
-			item.Click += (_, _) => action();
-			return item;
+			var elements = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(items) ?? [];
+			for (var index = 0; index < elements.Count; index++)
+				menu.Items.Insert(index, elements[index]);
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSubItem))]

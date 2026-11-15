@@ -119,7 +119,20 @@ namespace Files.App.Helpers.ContextFlyouts
 		{
 			MenuFlyoutItem flyoutItem;
 
-			if (i.ItemType is ContextMenuFlyoutItemType.Toggle)
+			if (i.ItemType is ContextMenuFlyoutItemType.Radio)
+			{
+				flyoutItem = new RadioMenuFlyoutItem()
+				{
+					Text = i.Text,
+					Tag = i.Tag,
+					Command = i.Command,
+					CommandParameter = i.CommandParameter,
+					GroupName = i.GroupName,
+					IsChecked = i.IsChecked,
+					AccessKey = i.AccessKey,
+				};
+			}
+			else if (i.ItemType is ContextMenuFlyoutItemType.Toggle)
 			{
 				flyoutItem = new ToggleMenuFlyoutItem()
 				{
