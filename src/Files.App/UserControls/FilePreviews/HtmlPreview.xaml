@@ -20,6 +20,7 @@
 			x:Name="WebViewControl"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
+			DefaultBackgroundColor="Transparent"
 			Loaded="WebViewControl_Loaded" />
 
 	</Border>

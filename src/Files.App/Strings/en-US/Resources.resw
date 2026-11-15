@@ -4422,6 +4422,12 @@
   <data name="ToggleShelfPaneDescription" xml:space="preserve">
     <value>Toggle the visibility of the shelf pane</value>
   </data>
+  <data name="ToggleTerminalPane" xml:space="preserve">
+    <value>Toggle terminal pane</value>
+  </data>
+  <data name="ToggleTerminalPaneDescription" xml:space="preserve">
+    <value>Toggle the visibility of the terminal pane</value>
+  </data>
   <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
     <value>Show shelf pane toggle in address bar</value>
   </data>
@@ -4802,5 +4808,8 @@
   </data>
   <data name="GoToFolderAliasDescription" xml:space="preserve">
     <value>Go to a folder alias in the Omnibar</value>
+  </data>
+  <data name="SettingsTerminalIntegration" xml:space="preserve">
+    <value>Enable Terminal integration</value>
   </data>
 </root>
