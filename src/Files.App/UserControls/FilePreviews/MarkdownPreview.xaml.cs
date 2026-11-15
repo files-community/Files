@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
+using CommunityToolkit.WinUI.Controls;
 using Files.App.ViewModels.Previews;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -23,10 +23,17 @@ namespace Files.App.UserControls.FilePreviews
 
 			// Workaround for https://github.com/CommunityToolkit/Labs-Windows/issues/611
 			PreviewMarkdownTextBlock.Config = MarkdownConfig.Default;
-			PreviewMarkdownTextBlock.Config.Themes.HeadingForeground = (Brush)Application.Current.Resources["TextControlForeground"];
+			var headingForeground = (Brush)Application.Current.Resources["TextControlForeground"];
+			var themes = PreviewMarkdownTextBlock.Config.Themes;
+			themes.H1Foreground = headingForeground;
+			themes.H2Foreground = headingForeground;
+			themes.H3Foreground = headingForeground;
+			themes.H4Foreground = headingForeground;
+			themes.H5Foreground = headingForeground;
+			themes.H6Foreground = headingForeground;
 		}
 
-		private async void PreviewMarkdownTextBlock_OnLinkClicked(object sender, CommunityToolkit.Labs.WinUI.MarkdownTextBlock.LinkClickedEventArgs e)
+		private async void PreviewMarkdownTextBlock_OnLinkClicked(object sender, LinkClickedEventArgs e)
 		{
 			await Launcher.LaunchUriAsync(e.Uri);
 		}

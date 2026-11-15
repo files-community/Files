@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.Core.SourceGenerator.Extensions
+namespace Files.SourceGenerators.Extensions
 {
 	/// <summary>
 	/// Provides extension methods for the <see cref="StringBuilder"/> class.

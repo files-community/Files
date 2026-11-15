@@ -15,6 +15,8 @@ public enum RecycleBinChangeKind
 public struct RecycleBinChange
 {
 	public RecycleBinChangeKind Kind;
+	// Explicit padding keeps HSTRING offsets and array stride consistent on Windows 10.
+	public int Reserved;
 	public string Directory;
 	public string Name;
 	public string OldName;

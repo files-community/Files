@@ -37,7 +37,7 @@ class Program
 	{
 		AppDomain.CurrentDomain.FirstChanceException += OnFirstChanceException;
 
-		RO_REGISTRATION_COOKIE cookie = default;
+		RoRevokeActivationFactoriesSafeHandle? cookie = null;
 
 		_ = PInvoke.RoInitialize(RO_INIT_TYPE.RO_INIT_MULTITHREADED);
 		ServerHost.Initialize();
@@ -97,10 +97,7 @@ class Program
 		}
 		finally
 		{
-			if (cookie != 0)
-			{
-				PInvoke.RoRevokeActivationFactories(cookie);
-			}
+			cookie?.Dispose();
 			await ServerHost.ShutdownAsync();
 			logProvider.Dispose();
 		}

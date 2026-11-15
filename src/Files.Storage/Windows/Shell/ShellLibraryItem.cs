@@ -12,14 +12,8 @@ namespace Files.Storage
 		private static unsafe string GetLibrariesPath()
 		{
 			Windows.Win32.PInvoke.SHGetKnownFolderPath(Windows.Win32.PInvoke.FOLDERID_Libraries, 0, null, out var path).ThrowOnFailure();
-			try
-			{
-				return path.ToString();
-			}
-			finally
-			{
-				Windows.Win32.PInvoke.CoTaskMemFree(path);
-			}
+			using (path)
+				return path.DangerousValue.ToString();
 		}
 
 		/// <summary>

@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 using System.Xml.Linq;
-using static Files.Core.SourceGenerator.Constants.StringsPropertyGenerator;
+using static Files.SourceGenerators.Constants.StringsPropertyGenerator;
 
-namespace Files.Core.SourceGenerator.Parser
+namespace Files.SourceGenerators.Parser
 {
 	/// <summary>
 	/// Provides methods to parse RESW (Resource) files and extract keys with optional comments.

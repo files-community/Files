@@ -131,6 +131,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public List<string>? ColumnOrder
+		{
+			get => Get<List<string>>(null);
+			set => Set(value);
+		}
+
 		public double DateModifiedColumnWidth
 		{
 			get => Get(200d);

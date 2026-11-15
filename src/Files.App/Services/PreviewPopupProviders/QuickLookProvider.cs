@@ -17,6 +17,7 @@ namespace Files.App.Services.PreviewPopupProviders
 		private static string pipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
 		private static string pipeMessageSwitch = "QuickLook.App.PipeMessages.Switch";
 		private static string pipeMessageToggle = "QuickLook.App.PipeMessages.Toggle";
+		private static string pipeMessageClose = "QuickLook.App.PipeMessages.Close";
 
 		public async Task TogglePreviewPopupAsync(string path)
 		{
@@ -26,6 +27,14 @@ namespace Files.App.Services.PreviewPopupProviders
 		public async Task SwitchPreviewAsync(string path)
 		{
 			await DoPreviewAsync(path, pipeMessageSwitch);
+		}
+
+		public bool SupportsHoldToPreview
+			=> true;
+
+		public async Task ClosePreviewAsync()
+		{
+			await DoPreviewAsync(string.Empty, pipeMessageClose);
 		}
 
 		private async Task DoPreviewAsync(string path, string message)

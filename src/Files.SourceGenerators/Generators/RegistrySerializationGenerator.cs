@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.Core.SourceGenerator.Generators
+namespace Files.SourceGenerators.Generators
 {
 	/// <summary>
 	/// A generator for serializing/deserializing objects to/from the Windows Registry using attributes.

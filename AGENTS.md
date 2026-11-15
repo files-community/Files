@@ -48,7 +48,7 @@ Before changing a server feature, its WinRT contract, or client code that calls 
 ├── Files.Storage                Storage, implementations, and shared app Win32 interop
 ├── Files.App.BackgroundTasks    Background task project
 ├── Files.App.Server             App service/server project
-├── Files.Core.SourceGenerator   Roslyn source generators and analyzers
+├── Files.SourceGenerators       Roslyn source generators and analyzers
 └── Files.Shared                 Shared attributes, extensions, and common code
 ```
 
@@ -83,7 +83,7 @@ Do not run build commands in parallel.
 
 ```powershell
 msbuild -restore src/Files.Shared/Files.Shared.csproj -p:Configuration=Debug -p:Platform=x64 -v:quiet -clp:ErrorsOnly
-msbuild -restore src/Files.Core.SourceGenerator/Files.Core.SourceGenerator.csproj -p:Configuration=Debug -p:Platform=x64 -v:quiet -clp:ErrorsOnly
+msbuild -restore src/Files.SourceGenerators/Files.SourceGenerators.csproj -p:Configuration=Debug -p:Platform=x64 -v:quiet -clp:ErrorsOnly
 msbuild -restore src/Files.App/Files.App.csproj -p:Configuration=Debug -p:Platform=x64 -v:quiet -clp:ErrorsOnly
 ```
 
@@ -236,6 +236,15 @@ These names and IIDs belong to `LibraryInfo`. **Do not reuse its IIDs for a new 
 - Account for interfaces reached indirectly through enumeration, `QueryInterface`, and callbacks, not just the public method signature. Apply the same rule to other custom closed generic interfaces; map iteration, for example, introduces `IKeyValuePair<K, V>` elements and their iterable/iterator instantiations.
 - Windows supplies proxies for some system instantiations. Account for the exact IID and supported Windows versions instead of adding app registrations blindly for every system type.
 - If `IReadOnlyListImpl<T>.Make_IEnumerableObjRef` or CCW creation fails, fix the exposure/identity/registration layer. Do not hide it with Count/indexer copying, JSON transport, a fabricated runtime class name, or blanket exception swallowing. Normal `foreach`/LINQ enumeration must remain supported across the boundary.
+
+### HSTRING alignment in cross-process structs
+
+Windows 10's WinRT metadata marshaler can use 4-byte alignment for HSTRING fields on x64, while generated ABI structs use 8-byte alignment. For inline struct fields, this can make RPC read padding as an HSTRING handle and fault in `HSTRING_UserSize`.
+
+- Keep field offsets and array element stride consistent under both alignments. Reordering fields alone can leave a mismatch in trailing padding and total struct size.
+- Prefer pairing existing 32-bit fields before HSTRING fields so the HSTRING fields begin at an 8-byte boundary.
+- When existing fields cannot fill the alignment gap, use an explicit 32-bit reserved field. Leave it zero-initialized and preserve it as part of the ABI, even though application code does not read it.
+- Field order and reserved fields are part of the WinRT contract. Regenerate client and server bindings from matching metadata and deploy them together after layout changes; do not edit generated ABI structs directly.
 
 ### Preserve the data contract, including null and empty values
 

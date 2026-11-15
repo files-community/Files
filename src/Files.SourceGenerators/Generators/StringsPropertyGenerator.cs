@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 
 using System.Threading;
-using static Files.Core.SourceGenerator.Constants.DiagnosticDescriptors;
-using static Files.Core.SourceGenerator.Constants.StringsPropertyGenerator;
-using static Files.Core.SourceGenerator.Utilities.SourceGeneratorHelper;
+using static Files.SourceGenerators.Constants.DiagnosticDescriptors;
+using static Files.SourceGenerators.Constants.StringsPropertyGenerator;
 
-namespace Files.Core.SourceGenerator.Generators
+namespace Files.SourceGenerators.Generators
 {
 	/// <summary>
 	/// Generates properties for strings based on resource files.
@@ -57,7 +56,7 @@ namespace Files.Core.SourceGenerator.Generators
 			var sb = new StringBuilder(8000);
 			_ = sb.AppendFullHeader(file.Path);
 			_ = sb.AppendLine();
-			_ = sb.AppendLine($"namespace {HelperNamespace.Remove(HelperNamespace.Length - 1)}");
+			_ = sb.AppendLine($"namespace {HelperNamespace}");
 			_ = sb.AppendLine("{");
 			_ = sb.AppendLine($"{tabString}/// <summary>");
 			_ = sb.AppendLine($"{tabString}/// Represents a collection of string resources used throughout the application.");
@@ -127,7 +126,6 @@ namespace Files.Core.SourceGenerator.Generators
 			return SystemIO.Path.GetExtension(file.Path) switch
 			{
 				".resw" => ReswParser.GetKeys(text),
-				".json" => JsonParser.GetKeys(text),
 				_ => []
 			};
 		}
@@ -154,5 +152,7 @@ namespace Files.Core.SourceGenerator.Generators
 
 			return resultSpan.ToString();
 		}
+
+		private static string Spacing(int n) => new(' ', n * 4);
 	}
 }

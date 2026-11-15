@@ -33,7 +33,7 @@
 				Margin="4"
 				VerticalAlignment="Center"
 				FontSize="14"
-				Style="{StaticResource BodyStrongTextBlockStyle}"
+				Style="{StaticResource App.Theme.BodyStrongTextBlockStyle}"
 				Text="{helpers:ResourceString Name=StatusCenter}" />
 
 			<!--  Remove All Cards Button  -->
@@ -136,7 +136,7 @@
 									x:Name="StatusCenterItemHeaderTextBlock"
 									x:Load="{x:Bind Header, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
 									MaxLines="2"
-									Style="{StaticResource BodyTextBlockStyle}"
+									Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 									Text="{x:Bind Header, Mode=OneWay}"
 									TextTrimming="CharacterEllipsis"
 									ToolTipService.ToolTip="{x:Bind HeaderTooltip, Mode=OneWay}" />
@@ -247,7 +247,7 @@
 										VerticalAlignment="Top"
 										FontSize="10"
 										Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-										Style="{StaticResource CaptionTextBlockStyle}"
+										Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
 										Text="{helpers:ResourceString Name=SpeedWithColon}" />
 
 									<TextBlock
@@ -255,7 +255,7 @@
 										HorizontalAlignment="Right"
 										VerticalAlignment="Top"
 										FontSize="13"
-										Style="{StaticResource BodyStrongTextBlockStyle}"
+										Style="{StaticResource App.Theme.BodyStrongTextBlockStyle}"
 										Text="{x:Bind SpeedText, Mode=OneWay}" />
 
 								</StackPanel>
@@ -275,7 +275,7 @@
 									x:Load="{x:Bind Message, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
 									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 									MaxLines="1"
-									Style="{StaticResource CaptionTextBlockStyle}"
+									Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
 									Text="{x:Bind Message, Mode=OneWay}"
 									TextTrimming="CharacterEllipsis"
 									TextWrapping="NoWrap"
@@ -288,7 +288,7 @@
 									<TextBlock
 										x:Name="StatusCenterItemCurrentProcessingItemNameTextBlock"
 										MaxLines="1"
-										Style="{StaticResource BodyTextBlockStyle}"
+										Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 										TextTrimming="CharacterEllipsis"
 										TextWrapping="NoWrap"
 										ToolTipService.ToolTip="{x:Bind CurrentProcessingItemName, Mode=OneWay}">
@@ -300,7 +300,7 @@
 										x:Name="StatusCenterItemProcessedBytesAndProgressTextBlock"
 										Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 										MaxLines="1"
-										Style="{StaticResource CaptionTextBlockStyle}"
+										Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
 										Text="{x:Bind Message, Mode=OneWay}"
 										TextTrimming="CharacterEllipsis"
 										TextWrapping="NoWrap" />

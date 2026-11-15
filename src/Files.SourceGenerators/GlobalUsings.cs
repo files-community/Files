@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 
 // Files
-global using global::Files.Core.SourceGenerator.Data;
-global using global::Files.Core.SourceGenerator.Extensions;
-global using global::Files.Core.SourceGenerator.Parser;
-global using global::Files.Core.SourceGenerator.Utilities;
+global using global::Files.SourceGenerators.Data;
+global using global::Files.SourceGenerators.Extensions;
+global using global::Files.SourceGenerators.Parser;
 
 // Microsoft
 global using global::Microsoft.CodeAnalysis;

@@ -149,16 +149,19 @@ namespace Files.App.Data.Behaviors
 				HeaderElement = listView.Header as UIElement;
 
 
-			if (HeaderElement is not FrameworkElement headerElement || headerElement.RenderSize.Height == 0)
+			if (HeaderElement is not FrameworkElement headerElement)
+				return false;
+
+			headerElement.SizeChanged -= ScrollHeader_SizeChanged;
+			headerElement.SizeChanged += ScrollHeader_SizeChanged;
+
+			if (headerElement.RenderSize.Height == 0)
 				return false;
 
 			_headerVisual ??= ElementCompositionPreview.GetElementVisual(headerElement);
 
 			if (_headerVisual is null)
 				return false;
-
-			headerElement.SizeChanged -= ScrollHeader_SizeChanged;
-			headerElement.SizeChanged += ScrollHeader_SizeChanged;
 
 			var compositor = _scrollProperties.Compositor;
 

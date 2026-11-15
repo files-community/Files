@@ -383,6 +383,8 @@ namespace Files.App.Helpers
 			UserSettingsService.LayoutSettingsService.PathColumnWidth = columns.PathColumn.UserLengthPixels;
 			UserSettingsService.LayoutSettingsService.OriginalPathColumnWidth = columns.OriginalPathColumn.UserLengthPixels;
 			UserSettingsService.LayoutSettingsService.SyncStatusColumnWidth = columns.StatusColumn.UserLengthPixels;
+
+			UserSettingsService.LayoutSettingsService.ColumnOrder = [.. columns.ColumnOrder];
 		}
 
 		public static void SetLayoutPreferencesForPath(string? path, LayoutPreferencesItem preferencesItem)
@@ -422,6 +424,7 @@ namespace Files.App.Helpers
 				UserSettingsService.LayoutSettingsService.DefaultSortFilesFirst = preferencesItem.SortFilesFirst;
 
 				UserSettingsService.LayoutSettingsService.NameColumnWidth = preferencesItem.ColumnsViewModel.NameColumn.UserLengthPixels;
+				UserSettingsService.LayoutSettingsService.ColumnOrder = [.. preferencesItem.ColumnsViewModel.ColumnOrder];
 
 				if (!preferencesItem.ColumnsViewModel.DateModifiedColumn.IsHidden)
 				{
