@@ -46,7 +46,7 @@
     <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.371" />
     <PackageVersion Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
-    <PackageVersion Include="PolySharp" Version="1.17.0" />
+    <PackageVersion Include="PolySharp" Version="1.17.1" />
     <PackageVersion Include="System.Drawing.Common" Version="10.0.15" />
     <PackageVersion Include="System.IO.Hashing" Version="11.0.0" />
     <PackageVersion Include="Appium.WebDriver" Version="9.0.0" />
