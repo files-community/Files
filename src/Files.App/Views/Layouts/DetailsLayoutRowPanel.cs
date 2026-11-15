@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using System.ComponentModel;
 using Windows.Foundation;
 using WinRT;
@@ -15,6 +16,10 @@ namespace Files.App.Views.Layouts
 	/// </summary>
 	public sealed partial class DetailsLayoutRowPanel : Panel
 	{
+		private const string RatingColumnId = "System.Rating";
+		private const char FilledStarGlyph = '\uE735';
+		private const char EmptyStarGlyph = '\uE734';
+		private const int MaxStars = 5;
 		private const double PrimaryCellIndent = 8;
 
 		private readonly Dictionary<string, TextBlock> _generatedCells = [];
@@ -111,13 +116,49 @@ namespace Files.App.Views.Layouts
 
 			foreach (var (id, cell) in _generatedCells)
 			{
-				var definition = DetailsLayoutColumnDefinitions.Get(id);
-				cell.Text = definition?.GetText?.Invoke(item) ?? string.Empty;
-				if (definition?.GetToolTip is { } getToolTip)
+				if (id == RatingColumnId)
+				{
+					SetRating(cell, item);
+					continue;
+				}
+
+				cell.Text = ColumnValueHelper.GetText(item, id) ?? string.Empty;
+				if (DetailsLayoutColumnDefinitions.Get(id)?.GetToolTip is { } getToolTip)
 					ToolTipService.SetToolTip(cell, getToolTip(item));
 				else
 					UpdateToolTip(cell);
 			}
+		}
+
+		private static void SetRating(TextBlock cell, ListedItem item)
+		{
+			var text = ColumnValueHelper.GetText(item, RatingColumnId);
+			var rating = ColumnValueHelper.GetValue(item, RatingColumnId) switch
+			{
+				uint value => value,
+				int value and > 0 => (uint)value,
+				_ => 0u,
+			};
+			var stars = rating > 0 ? GetStarCount(rating) : 0;
+
+			cell.Text = stars > 0 ? new string(FilledStarGlyph, stars) + new string(EmptyStarGlyph, MaxStars - stars) : string.Empty;
+			ToolTipService.SetToolTip(cell, stars > 0 ? text : null);
+			AutomationProperties.SetName(cell, stars > 0 ? text ?? string.Empty : string.Empty);
+		}
+
+		/// <summary>
+		/// Converts a rating from 1 to 99 to stars the way File Explorer does.
+		/// </summary>
+		private static int GetStarCount(uint rating)
+		{
+			return rating switch
+			{
+				< 13 => 1,
+				< 38 => 2,
+				< 63 => 3,
+				< 88 => 4,
+				_ => 5,
+			};
 		}
 
 		private void AttachItem()
@@ -141,6 +182,7 @@ namespace Files.App.Views.Layouts
 		private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (!string.IsNullOrEmpty(e.PropertyName) &&
+				e.PropertyName is not nameof(ListedItem.ShellPropertyValues) &&
 				!_textProperties.Contains(e.PropertyName))
 			{
 				return;
@@ -236,10 +278,11 @@ namespace Files.App.Views.Layouts
 
 		private static bool IsGeneratedColumn(ColumnsViewModel columns, string id)
 		{
-			return DetailsLayoutColumnDefinitions.Get(id) is { GetText: not null } &&
+			return DetailsLayoutColumnDefinitions.Get(id) is null or { GetText: not null } &&
 				columns.FindColumn(id)?.Visibility == Visibility.Visible;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(FontFamily))]
 		private void SyncGeneratedCells()
 		{
 			var columns = (ColumnOrder as DetailsLayoutColumnOrder)?.Columns;
@@ -258,8 +301,16 @@ namespace Files.App.Views.Layouts
 					continue;
 
 				var cell = new TextBlock { Padding = new(10, 0, 0, 0), Style = CellStyle };
-				if (DetailsLayoutColumnDefinitions.Get(id)?.GetToolTip is null)
-					cell.IsTextTrimmedChanged += (sender, _) => UpdateToolTip(sender);
+				if (id == RatingColumnId)
+				{
+					cell.FontFamily = (FontFamily)Application.Current.Resources["SymbolThemeFontFamily"];
+					cell.FontSize = 12;
+				}
+				else
+				{
+					if (DetailsLayoutColumnDefinitions.Get(id)?.GetToolTip is null)
+						cell.IsTextTrimmedChanged += (sender, _) => UpdateToolTip(sender);
+				}
 
 				DetailsLayoutColumnExtensions.SetId(cell, id);
 				_generatedCells[id] = cell;

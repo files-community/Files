@@ -21,6 +21,11 @@ namespace Files.App.Data.Contracts
 		SortOption DefaultSortOption { get; set; }
 
 		/// <summary>
+		/// Gets or sets the column that items are sorted by when the default sort option is a column
+		/// </summary>
+		string DefaultSortColumnId { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating the default sorting direction.
 		/// </summary>
 		SortDirection DefaultDirectorySortDirection { get; set; }
@@ -39,6 +44,11 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating the default grouping option.
 		/// </summary>
 		GroupOption DefaultGroupOption { get; set; }
+
+		/// <summary>
+		/// Gets or sets the column that items are grouped by when the default group option is a column
+		/// </summary>
+		string DefaultGroupColumnId { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating the default grouping direction.
@@ -159,6 +169,11 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets the default order of the Details layout columns
 		/// </summary>
 		List<string>? ColumnOrder { get; set; }
+
+		/// <summary>
+		/// Gets or sets the Windows property columns shown by default in the Details layout
+		/// </summary>
+		List<string>? DefaultPropertyColumns { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating date modified column's default width

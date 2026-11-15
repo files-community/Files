@@ -256,7 +256,7 @@ namespace Files.App.Views.Layouts
 				{
 					var folderSettings = FolderSettings
 						?? throw new InvalidOperationException("The layout does not have folder settings.");
-					var orderedItems = SortingHelper.OrderFileList(currentItems, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst).ToList();
+					var orderedItems = SortingHelper.OrderFileList(currentItems, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst, folderSettings.DirectorySortPropertyId).ToList();
 					selectedItems = orderedItems;
 					currentItems = orderedItems;
 					isSelectedItemsSorted = true;
@@ -544,6 +544,9 @@ namespace Files.App.Views.Layouts
 				var navigationPath = args.NavPathParam;
 				var previousDir = shellViewModel.WorkingDirectory;
 				await shellViewModel.SetWorkingDirectoryAsync(navigationPath);
+
+				// Read ahead so the sort and group menus can offer the columns of the folder
+				_ = FolderColumnOptions.WhenReadyAsync(navigationPath);
 				if (isDisposed || navigationArguments != args)
 					return;
 
@@ -1068,7 +1071,7 @@ namespace Files.App.Views.Layouts
 
 				var itemList = e.Items.OfType<ListedItem>().ToList();
 				var firstItem = itemList.FirstOrDefault();
-				var sortedItems = SortingHelper.OrderFileList(itemList, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst).ToList();
+				var sortedItems = SortingHelper.OrderFileList(itemList, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst, folderSettings.DirectorySortPropertyId).ToList();
 				var orderedItems = sortedItems.SkipWhile(x => x != firstItem).Concat(sortedItems.TakeWhile(x => x != firstItem)).ToList();
 
 				var shellItemList = SafetyExtensions.IgnoreExceptions(() => orderedItems.Select(item => new ShellItem(item.IsRecycleBinItem

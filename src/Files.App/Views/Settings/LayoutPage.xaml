@@ -75,7 +75,10 @@
 					<FontIcon Glyph="&#xE8CB;" />
 				</wctcontrols:SettingsExpander.HeaderIcon>
 
-				<uc:ComboBoxEx AutomationProperties.Name="{helpers:ResourceString Name=SortBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortingIndex, Mode=TwoWay}">
+				<uc:ComboBoxEx
+					x:Name="DefaultSortComboBox"
+					AutomationProperties.Name="{helpers:ResourceString Name=SortBy}"
+					SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortingIndex, Mode=TwoWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=Name}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=DateModifiedLowerCase}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=DateCreated}" />
@@ -106,7 +109,10 @@
 					<FontIcon Glyph="&#xF168;" />
 				</wctcontrols:SettingsExpander.HeaderIcon>
 
-				<uc:ComboBoxEx AutomationProperties.Name="{helpers:ResourceString Name=GroupBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupingIndex, Mode=TwoWay}">
+				<uc:ComboBoxEx
+					x:Name="DefaultGroupComboBox"
+					AutomationProperties.Name="{helpers:ResourceString Name=GroupBy}"
+					SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupingIndex, Mode=TwoWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=None}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Name}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=DateModifiedLowerCase}" />
@@ -154,7 +160,7 @@
 			</wctcontrols:SettingsCard>
 
 			<!--  Columns  -->
-			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=Columns}">
+			<wctcontrols:SettingsExpander x:Name="ColumnsExpander" Header="{helpers:ResourceString Name=Columns}">
 				<wctcontrols:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE71D;" />
 				</wctcontrols:SettingsExpander.HeaderIcon>

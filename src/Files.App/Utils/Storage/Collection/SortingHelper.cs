@@ -29,7 +29,7 @@ namespace Files.App.Utils.Storage
 		}
 
 		public static IEnumerable<ListedItem> OrderFileList(IList<ListedItem> filesAndFolders, SortOption directorySortOption, SortDirection directorySortDirection,
-			bool sortDirectoriesAlongsideFiles, bool sortFilesFirst)
+			bool sortDirectoriesAlongsideFiles, bool sortFilesFirst, string? sortPropertyId = null)
 		{
 			var orderFunc = GetSortFunc(directorySortOption);
 			var naturalStringComparer = NaturalStringComparer.GetForProcessor();
@@ -40,7 +40,21 @@ namespace Files.App.Utils.Storage
 
 			IOrderedEnumerable<ListedItem> ordered;
 
-			if (directorySortDirection == SortDirection.Ascending)
+			if (directorySortOption == SortOption.Property && !string.IsNullOrEmpty(sortPropertyId))
+			{
+				var columnComparer = new ColumnValueComparer(naturalStringComparer);
+				object? GetColumnValue(ListedItem item) => ColumnValueHelper.GetValue(item, sortPropertyId);
+				bool IsColumnValueEmpty(ListedItem item) => ColumnValueHelper.IsEmpty(GetColumnValue(item));
+
+				ordered = sortDirectoriesAlongsideFiles
+					? filesAndFolders.OrderBy(IsColumnValueEmpty)
+					: filesAndFolders.OrderBy(PrioritizeFilesOrFolders).ThenBy(IsColumnValueEmpty);
+
+				ordered = directorySortDirection == SortDirection.Ascending
+					? ordered.ThenBy(GetColumnValue, columnComparer)
+					: ordered.ThenByDescending(GetColumnValue, columnComparer);
+			}
+			else if (directorySortDirection == SortDirection.Ascending)
 			{
 				ordered = directorySortOption switch
 				{

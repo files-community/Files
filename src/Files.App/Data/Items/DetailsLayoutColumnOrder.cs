@@ -10,18 +10,18 @@ namespace Files.App.Data.Items
 	{
 		private readonly Dictionary<string, int> _indices;
 
-		public static DetailsLayoutColumnOrder Default { get; } = new([], null);
+		public static DetailsLayoutColumnOrder Default { get; } = new([], [], null);
 
 		public IReadOnlyList<string> Ids { get; }
 
 		public ColumnsViewModel? Columns { get; }
 
-		public DetailsLayoutColumnOrder(IEnumerable<string> savedOrder, ColumnsViewModel? columns)
+		public DetailsLayoutColumnOrder(IEnumerable<string> savedOrder, IReadOnlyList<string> propertyColumnIds, ColumnsViewModel? columns)
 		{
 			Columns = columns;
 
 			var ids = savedOrder
-				.Where(id => !IsPinned(id) && DetailsLayoutColumnDefinitions.IsBuiltIn(id))
+				.Where(id => !IsPinned(id) && (DetailsLayoutColumnDefinitions.IsBuiltIn(id) || propertyColumnIds.Contains(id)))
 				.Distinct()
 				.ToList();
 
@@ -30,6 +30,12 @@ namespace Files.App.Data.Items
 			{
 				if (!ids.Contains(movableIds[i]))
 					ids.Insert(Math.Min(i, ids.Count), movableIds[i]);
+			}
+
+			foreach (var id in propertyColumnIds)
+			{
+				if (!ids.Contains(id))
+					ids.Add(id);
 			}
 
 			ids.Insert(0, DetailsLayoutColumnIds.Icon);

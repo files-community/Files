@@ -35,6 +35,13 @@ namespace Files.App.Utils
 
 		public bool NeedsDelayedThumbnailLoad { get; set; }
 
+		private IReadOnlyDictionary<string, ShellPropertyValue>? _ShellPropertyValues;
+		public IReadOnlyDictionary<string, ShellPropertyValue>? ShellPropertyValues
+		{
+			get => _ShellPropertyValues;
+			set => SetProperty(ref _ShellPropertyValues, value);
+		}
+
 		private volatile int itemPropertiesInitialized = 0;
 		public bool ItemPropertiesInitialized
 		{
@@ -220,7 +227,12 @@ namespace Files.App.Utils
 		public string? ItemPath
 		{
 			get => itemPath;
-			set => SetProperty(ref itemPath, value);
+			set
+			{
+				// The property values belong to the previous path
+				if (SetProperty(ref itemPath, value) && ShellPropertyValues is not null)
+					_ = ShellPropertyValueLoader.ReloadAsync(this);
+			}
 		}
 
 		private string? itemNameRaw;
