@@ -1,0 +1,62 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "summary",
+    "summary_blocking",
+    "resolved_comment_ids",
+    "comments",
+    "questions"
+  ],
+  "properties": {
+    "summary": {
+      "type": "string"
+    },
+    "summary_blocking": {
+      "type": "boolean"
+    },
+    "resolved_comment_ids": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "comments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "line",
+          "severity",
+          "body"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "line": {
+            "type": "integer"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "blocking",
+              "nit"
+            ]
+          },
+          "body": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "questions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
