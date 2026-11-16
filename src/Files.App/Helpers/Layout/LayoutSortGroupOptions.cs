@@ -106,8 +106,6 @@ namespace Files.App.Helpers
 
 		private const int ContentThreshold = 60;
 
-		private static (WeakReference<ShellViewModel> Owner, string? Path, int Count, FolderType FolderType)? _lastFolderType;
-
 		private static ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		/// <summary>
@@ -363,18 +361,7 @@ namespace Files.App.Helpers
 					dateGroups);
 			}
 
-			return _folderTypeOptions[GetFolderType(shellViewModel)];
-		}
-
-		private static FolderType GetFolderType(ShellViewModel shellViewModel)
-		{
-			var items = shellViewModel.FilesAndFolders;
-			if (_lastFolderType is { } last && last.Owner.TryGetTarget(out var owner) && owner == shellViewModel && last.Path == shellViewModel.WorkingDirectory && last.Count == items.Count)
-				return last.FolderType;
-
-			var folderType = GetFolderType(FolderContentHelpers.GetContent(items));
-			_lastFolderType = (new(shellViewModel), shellViewModel.WorkingDirectory, items.Count, folderType);
-			return folderType;
+			return _folderTypeOptions[GetFolderType(FolderContentHelpers.GetContent(shellViewModel.FilesAndFolders))];
 		}
 
 		private static FolderType GetFolderType(LayoutFolderContent content)
