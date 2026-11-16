@@ -4885,4 +4885,13 @@
   <data name="MoreColumns" xml:space="preserve">
     <value>More</value>
   </data>
+  <data name="DayCreated" xml:space="preserve">
+    <value>Day created</value>
+  </data>
+  <data name="MonthCreated" xml:space="preserve">
+    <value>Month created</value>
+  </data>
+  <data name="YearCreated" xml:space="preserve">
+    <value>Year created</value>
+  </data>
 </root>

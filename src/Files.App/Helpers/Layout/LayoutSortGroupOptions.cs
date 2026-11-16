@@ -82,6 +82,14 @@ namespace Files.App.Helpers
 			[DetailsLayoutColumnIds.Name, DetailsLayoutColumnIds.OriginalPath, DetailsLayoutColumnIds.DateDeleted, DetailsLayoutColumnIds.Size, DetailsLayoutColumnIds.ItemType, DetailsLayoutColumnIds.DateModified, DetailsLayoutColumnIds.Tag],
 			[DetailsLayoutColumnIds.Name, DetailsLayoutColumnIds.OriginalPath, DetailsLayoutColumnIds.Size, DetailsLayoutColumnIds.ItemType, DetailsLayoutColumnIds.Tag]);
 
+		// Dates that move to the top of the group options while items are grouped by them
+		private static readonly (string PropertyId, string Day, string Month, string Year)[] SelectedDateGroups =
+		[
+			(DetailsLayoutColumnIds.DateCreated, Strings.DayCreated, Strings.MonthCreated, Strings.YearCreated),
+			(DateTakenId, Strings.DayTaken, Strings.MonthTaken, Strings.YearTaken),
+			(MediaCreatedId, Strings.DayRecorded, Strings.MonthRecorded, Strings.YearRecorded),
+		];
+
 		/// <summary>
 		/// Gets the Git columns that items can be sorted by.
 		/// </summary>
@@ -123,6 +131,10 @@ namespace Files.App.Helpers
 			if (sortPropertyId is not null)
 				AddOption(sortPropertyId);
 
+			AddMoreOptions(options, GetOtherFolderColumns(shellViewModel, options)
+				.Where(column => GetBuiltInSortCommand(column.Id) is null)
+				.Select(column => CreatePropertyOption(column.Id, false)));
+
 			return options;
 
 			void AddOption(string id)
@@ -146,7 +158,12 @@ namespace Files.App.Helpers
 		{
 			var options = new List<LayoutSortGroupOption>();
 			var commands = new HashSet<IRichCommand>();
-			var groupPropertyId = folderSettings.DirectoryGroupOption is GroupOption.Property ? folderSettings.DirectoryGroupPropertyId : null;
+			var groupPropertyId = folderSettings.DirectoryGroupOption switch
+			{
+				GroupOption.Property => folderSettings.DirectoryGroupPropertyId,
+				GroupOption.DateCreated => DetailsLayoutColumnIds.DateCreated,
+				_ => null,
+			};
 			var locationOptions = GetLocationOptions(shellViewModel);
 
 			if (ReferenceEquals(locationOptions, RecycleBinOptions))
@@ -155,7 +172,9 @@ namespace Files.App.Helpers
 				AddLabeledCommand(Commands.GroupByDateDeletedMonth, Strings.MonthDeleted);
 				AddLabeledCommand(Commands.GroupByDateDeletedYear, Strings.YearDeleted);
 			}
-			else
+
+			var showDateModified = !ReferenceEquals(locationOptions, RecycleBinOptions) || folderSettings.DirectoryGroupOption is GroupOption.DateModified;
+			if (showDateModified)
 			{
 				AddLabeledCommand(Commands.GroupByDateModifiedDay, Strings.DayUpdated);
 				AddLabeledCommand(Commands.GroupByDateModifiedMonth, Strings.MonthUpdated);
@@ -167,6 +186,13 @@ namespace Files.App.Helpers
 				AddDateUnitOption(dateId, GroupByDateUnit.Day, day);
 				AddDateUnitOption(dateId, GroupByDateUnit.Month, month);
 				AddDateUnitOption(dateId, GroupByDateUnit.Year, year);
+			}
+
+			if (SelectedDateGroups.FirstOrDefault(group => group.PropertyId == groupPropertyId) is { PropertyId: not null } selected && options.All(option => option.PropertyId != selected.PropertyId))
+			{
+				AddDateUnitOption(selected.PropertyId, GroupByDateUnit.Day, selected.Day);
+				AddDateUnitOption(selected.PropertyId, GroupByDateUnit.Month, selected.Month);
+				AddDateUnitOption(selected.PropertyId, GroupByDateUnit.Year, selected.Year);
 			}
 
 			var isGitRepository = shellViewModel?.IsValidGitDirectory is true;
@@ -195,6 +221,16 @@ namespace Files.App.Helpers
 			if (Commands.GroupByNone.IsExecutable)
 				options.Add(new(Strings.NoneInParentheses.GetLocalizedResource(), Commands.GroupByNone, IsChecked: Commands.GroupByNone.IsOn));
 
+			string[] moreIds =
+			[
+				.. options.All(option => option.PropertyId != DetailsLayoutColumnIds.DateCreated) ? new[] { DetailsLayoutColumnIds.DateCreated } : [],
+				.. GetOtherFolderColumns(shellViewModel, options)
+					.Where(column => column.CanGroup && GetBuiltInGroupCommand(column.Id) is null && column.Id is not (DetailsLayoutColumnIds.DateModified or DetailsLayoutColumnIds.DateCreated or DetailsLayoutColumnIds.DateDeleted))
+					.Select(column => column.Id),
+			];
+			LayoutSortGroupOption[] moreOptions = [.. showDateModified ? [] : new[] { CreateDateModifiedOption() }, .. moreIds.Select(CreateGroupPropertyOption)];
+			AddMoreOptions(options, moreOptions);
+
 			return options;
 
 			void AddOption(string id)
@@ -220,6 +256,18 @@ namespace Files.App.Helpers
 			{
 				var isChecked = id == groupPropertyId && folderSettings.DirectoryGroupByDateUnit == unit;
 				options.Add(new(label.GetLocalizedResource(), PropertyId: id, IsChecked: isChecked, DateUnit: unit));
+			}
+
+			LayoutSortGroupOption CreateDateModifiedOption()
+			{
+				return CreatePropertyOption(DetailsLayoutColumnIds.DateModified, false) with
+				{
+					PropertyId = null,
+					Items = new[] { (Command: Commands.GroupByDateModifiedYear, Label: Strings.Year), (Command: Commands.GroupByDateModifiedMonth, Label: Strings.Month), (Command: Commands.GroupByDateModifiedDay, Label: Strings.Day) }
+						.Where(date => date.Command.IsExecutable)
+						.Select(date => new LayoutSortGroupOption(date.Label.GetLocalizedResource(), date.Command))
+						.ToArray(),
+				};
 			}
 
 			LayoutSortGroupOption CreateGroupPropertyOption(string id)
@@ -254,7 +302,11 @@ namespace Files.App.Helpers
 			if (dateUnit is { } unit)
 				folderSettings.DirectoryGroupByDateUnit = unit;
 
-			folderSettings.SetGroupProperty(id);
+			if (id == DetailsLayoutColumnIds.DateCreated)
+				folderSettings.DirectoryGroupOption = GroupOption.DateCreated;
+			else
+				folderSettings.SetGroupProperty(id);
+
 			LayoutHelpers.UpdateOpenTabsPreferences();
 		}
 
@@ -281,7 +333,7 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static bool IsDateProperty(string id)
 		{
-			if (id == DetailsLayoutColumnIds.GitLastCommitDate)
+			if (id is DetailsLayoutColumnIds.GitLastCommitDate or DetailsLayoutColumnIds.DateCreated)
 				return true;
 
 			return ShellPropertyCatalog.GetAsync() is { IsCompletedSuccessfully: true } task && task.Result.TryGetValue(id, out var info) && info.IsDate;
@@ -346,6 +398,24 @@ namespace Files.App.Helpers
 				return images >= videos ? FolderType.Pictures : FolderType.Videos;
 
 			return audio >= threshold ? FolderType.Music : FolderType.General;
+		}
+
+		private static IEnumerable<ShellFolderColumn> GetOtherFolderColumns(ShellViewModel? shellViewModel, List<LayoutSortGroupOption> options)
+		{
+			if (ShellFolderColumns.GetAsync(shellViewModel?.WorkingDirectory) is not { IsCompletedSuccessfully: true } task)
+				return [];
+
+			return task.Result.Where(column => ColumnValueHelper.IsShellPropertyColumn(column.Id) && column.Id != ExplorerTagsId && options.All(option => option.PropertyId != column.Id));
+		}
+
+		private static void AddMoreOptions(List<LayoutSortGroupOption> options, IEnumerable<LayoutSortGroupOption> moreOptions)
+		{
+			var items = moreOptions.ToArray();
+			if (items.Length == 0)
+				return;
+
+			options.Add(new(string.Empty, IsSeparator: true));
+			options.Add(new(Strings.MoreColumns.GetLocalizedResource(), Items: items));
 		}
 
 		private static LayoutSortGroupOption CreatePropertyOption(string id, bool isChecked)
