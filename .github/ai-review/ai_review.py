@@ -122,15 +122,62 @@ def find_summary(number):
     return None, {}
 
 
+def graphql(query, **variables):
+    args = ["gh", "api", "graphql", "-f", f"query={query}"]
+    for key, value in variables.items():
+        args += ["-F" if isinstance(value, int) else "-f", f"{key}={value}"]
+    if "mutation" in query and os.environ.get("AI_REVIEW_DRY_RUN"):
+        print(f"[dry run] graphql {variables}")
+        return {}
+    result = subprocess.run(args, capture_output=True, text=True)
+    if result.returncode != 0:
+        print(f"graphql failed: {result.stderr.strip()}", file=sys.stderr)
+        return None
+    return json.loads(result.stdout).get("data")
+
+
+def review_threads(number):
+    """Maps the first comment id of each review thread to (thread id, is resolved)."""
+    owner, name = REPO.split("/")
+    query = """query($owner:String!,$name:String!,$number:Int!,$cursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){
+        reviewThreads(first:100,after:$cursor){pageInfo{hasNextPage endCursor}nodes{id isResolved comments(first:1){nodes{databaseId}}}}}}}"""
+    threads, cursor = {}, None
+    while True:
+        variables = {"owner": owner, "name": name, "number": number}
+        if cursor:
+            variables["cursor"] = cursor
+        data = graphql(query, **variables)
+        if not data:
+            return threads
+        page = data["repository"]["pullRequest"]["reviewThreads"]
+        for node in page["nodes"]:
+            if node["comments"]["nodes"]:
+                threads[node["comments"]["nodes"][0]["databaseId"]] = (node["id"], node["isResolved"])
+        if not page["pageInfo"]["hasNextPage"]:
+            return threads
+        cursor = page["pageInfo"]["endCursor"]
+
+
+def resolve_thread(thread_id):
+    graphql("mutation($threadId:ID!){resolveReviewThread(input:{threadId:$threadId}){thread{id}}}", threadId=thread_id)
+
+
 def our_review_comments(number):
+    """Returns the reviewer's comments whose threads are still open, their replies and the thread map.
+
+    Addressed comments are resolved rather than deleted so earlier reviewer output stays visible.
+    A thread a maintainer resolved by hand also counts as addressed.
+    """
     comments = gh_all(f"repos/{REPO}/pulls/{number}/comments")
-    ours = {c["id"]: c for c in comments if c["user"]["login"] == BOT_LOGIN and COMMENT_RE.search(c.get("body") or "")}
+    threads = review_threads(number)
+    ours = {c["id"]: c for c in comments if c["user"]["login"] == BOT_LOGIN and COMMENT_RE.search(c.get("body") or "")
+        and not threads.get(c["id"], (None, False))[1]}
     replies = {}
     for c in comments:
         parent = c.get("in_reply_to_id")
         if parent in ours and c["user"]["login"] != BOT_LOGIN:
             replies.setdefault(parent, []).append(c)
-    return ours, replies
+    return ours, replies, threads
 
 
 def severity_of(comment):
@@ -277,7 +324,7 @@ def write_context(pr, number, sha, summary, state):
 
     extract_head(number)
 
-    ours, replies = our_review_comments(number)
+    ours, replies, _ = our_review_comments(number)
     with open(os.path.join(CONTEXT, "previous.md"), "w", encoding="utf-8") as f:
         if ours:
             f.write("## Your earlier comments\n\n")
@@ -398,10 +445,11 @@ def publish(result_path):
     review = load_result(result_path)
     check_secrets(review)
 
-    ours, _ = our_review_comments(number)
+    ours, _, threads = our_review_comments(number)
     resolved = {i for i in review["resolved_comment_ids"] if i in ours}
     for cid in resolved:
-        gh("DELETE", f"repos/{REPO}/pulls/comments/{cid}", check=False)
+        if cid in threads:
+            resolve_thread(threads[cid][0])
     open_blocking = sum(1 for cid, c in ours.items() if cid not in resolved and severity_of(c) == "blocking")
 
     unplaced = []
