@@ -4,7 +4,7 @@
 # Abstract:
 #   First-pass AI review for pull requests from outside contributors.
 #   Org members, collaborators and bots pass immediately. Other PRs get a
-#   strict review following the "AI PR review gate" section of AGENTS.md and
+#   strict review following .github/ai-review/prompt.md and AGENTS.md and
 #   only reach "ready for review" once nothing blocking is left.
 #
 #   This uses pull_request_target so fork PRs can reach the API key. It must
