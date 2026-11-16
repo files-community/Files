@@ -13,7 +13,7 @@
 		<ResourceDictionary>
 			<Style
 				x:Key="IconTest"
-				BasedOn="{StaticResource App.ThemedIcons.SetSlideshow.16}"
+				BasedOn="{StaticResource App.ThemedIcons.IconLayout.Grid}"
 				TargetType="controls:ThemedIcon" />
 		</ResourceDictionary>
 	</Page.Resources>
