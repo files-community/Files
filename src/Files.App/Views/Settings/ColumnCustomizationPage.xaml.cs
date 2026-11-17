@@ -18,8 +18,6 @@ namespace Files.App.Views.Settings
 	{
 		public ColumnCustomizationViewModel ViewModel { get; private set; } = null!;
 
-		public FrameworkElement TitleBarElement => WindowTitleBar;
-
 		public ColumnCustomizationPage()
 		{
 			InitializeComponent();
@@ -32,6 +30,7 @@ namespace Files.App.Views.Settings
 			{
 				ViewModel = viewModel;
 				ViewModel.CloseRequested += (_, _) => window.Close();
+				window.SetTitleBar(WindowTitleBar);
 				Bindings.Update();
 			}
 		}

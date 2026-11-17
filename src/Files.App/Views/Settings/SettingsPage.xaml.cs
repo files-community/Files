@@ -82,12 +82,12 @@ namespace Files.App.Views
 				ChevronToolTip = string.Format(Strings.BreadcrumbBarChevronButtonToolTip.GetLocalizedResource(), componentLabel),
 			});
 
-			var selectedTag = navArgs?.SelectItems?.FirstOrDefault();
-			var pageKind = Enum.TryParse<SettingsPageKind>(selectedTag, out var parsedPageKind)
+			var selectedTag = navArgs?.SelectItems?.FirstOrDefault()?.Split('|', 2);
+			var pageKind = Enum.TryParse<SettingsPageKind>(selectedTag?[0], out var parsedPageKind)
 				? parsedPageKind
 				: SettingsPageKind.GeneralPage;
 
-			NavigateTo(new SettingsNavigationParams() { PageKind = pageKind });
+			NavigateTo(new SettingsNavigationParams() { PageKind = pageKind, LayoutTemplateId = selectedTag?.ElementAtOrDefault(1) });
 
 			base.OnNavigatedTo(e);
 		}
@@ -108,7 +108,7 @@ namespace Files.App.Views
 
 			SettingsSidebar.SelectedItem = item;
 			ViewModel.SetSelectedPage(navParams.PageKind);
-			NavigateToPage(navParams.PageKind);
+			NavigateToPage(navParams.PageKind, navParams.LayoutTemplateId);
 		}
 
 		private void SettingsSidebar_ItemInvoked(object sender, ItemInvokedEventArgs e)
@@ -118,7 +118,7 @@ namespace Files.App.Views
 
 			ViewModel.ClearSearch();
 
-			if (ViewModel.SelectedPage == navItem.PageKind)
+			if (ViewModel.SelectedPage == navItem.PageKind && SettingsContentFrame.SourcePageType == GetPageType(navItem.PageKind))
 				return;
 
 			ViewModel.SetSelectedPage(navItem.PageKind);
@@ -126,9 +126,14 @@ namespace Files.App.Views
 			NavigateToPage(navItem.PageKind);
 		}
 
-		private void NavigateToPage(SettingsPageKind selectedPage)
+		private void NavigateToPage(SettingsPageKind selectedPage, object? parameter = null)
 		{
-			var pageType = selectedPage switch
+			SettingsContentFrame.Navigate(GetPageType(selectedPage), parameter, new SuppressNavigationTransitionInfo());
+		}
+
+		private static Type GetPageType(SettingsPageKind page)
+		{
+			return page switch
 			{
 				SettingsPageKind.GeneralPage => typeof(GeneralPage),
 				SettingsPageKind.AppearancePage => typeof(AppearancePage),
@@ -141,8 +146,6 @@ namespace Files.App.Views
 				SettingsPageKind.AboutPage => typeof(AboutPage),
 				_ => typeof(GeneralPage),
 			};
-
-			SettingsContentFrame.Navigate(pageType, null, new SuppressNavigationTransitionInfo());
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]

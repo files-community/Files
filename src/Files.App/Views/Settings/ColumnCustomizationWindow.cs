@@ -22,14 +22,30 @@ namespace Files.App.Views.Settings
 	}
 
 	/// <summary>
-	/// Creates the window that customizes the columns of <see cref="DetailsLayoutPage"/>.
+	/// Represents the navigation parameter of <see cref="LayoutPropertyPickerPage"/>.
+	/// </summary>
+	internal sealed partial class LayoutPropertyPickerNavigationArguments(WindowEx window, LayoutPropertyPickerViewModel viewModel)
+	{
+		public WindowEx Window { get; } = window;
+
+		public LayoutPropertyPickerViewModel ViewModel { get; } = viewModel;
+	}
+
+	/// <summary>
+	/// Creates the windows that customize the columns, sorting and grouping of <see cref="DetailsLayoutPage"/>.
 	/// </summary>
 	internal static class ColumnCustomizationWindow
 	{
 		private static WindowEx? _window;
 
-		[DynamicWindowsRuntimeCast(typeof(Frame))]
 		public static void Show(ColumnCustomizationViewModel viewModel)
+			=> Show(typeof(ColumnCustomizationPage), viewModel.Title, new(640, 560), new(560, 480), window => new ColumnCustomizationNavigationArguments(window, viewModel));
+
+		public static void Show(LayoutPropertyPickerViewModel viewModel)
+			=> Show(typeof(LayoutPropertyPickerPage), viewModel.Title, new(480, 600), new(400, 400), window => new LayoutPropertyPickerNavigationArguments(window, viewModel));
+
+		[DynamicWindowsRuntimeCast(typeof(Frame))]
+		private static void Show(Type pageType, string title, SizeInt32 size, SizeInt32 minSize, Func<WindowEx, object> createParameter)
 		{
 			if (App.AppModel.IsMainWindowClosed)
 				return;
@@ -38,7 +54,7 @@ namespace Files.App.Views.Settings
 
 			var themeService = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 			var frame = new Frame { RequestedTheme = themeService.AppThemeMode };
-			var window = new WindowEx(560, 480)
+			var window = new WindowEx(minSize.Width, minSize.Height)
 			{
 				ExtendsContentIntoTitleBar = true,
 				IsMaximizable = false,
@@ -61,17 +77,15 @@ namespace Files.App.Views.Settings
 			};
 
 			var appWindow = window.AppWindow;
-			appWindow.Title = viewModel.Title;
+			appWindow.Title = title;
 			appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 			appWindow.SetIcon(AppLifecycleHelper.AppIconPath);
-			frame.Navigate(typeof(ColumnCustomizationPage), new ColumnCustomizationNavigationArguments(window, viewModel), new SuppressNavigationTransitionInfo());
-			if (frame.Content is ColumnCustomizationPage page)
-				window.SetTitleBar(page.TitleBarElement);
+			frame.Navigate(pageType, createParameter(window), new SuppressNavigationTransitionInfo());
 
 			themeService.SetAppThemeMode(window, appWindow.TitleBar, themeService.AppThemeMode, callThemeModeChangedEvent: false);
 			appWindow.Resize(new SizeInt32(
-				Math.Max(1, Convert.ToInt32(640 * App.AppModel.AppWindowDPI)),
-				Math.Max(1, Convert.ToInt32(560 * App.AppModel.AppWindowDPI))));
+				Math.Max(1, Convert.ToInt32(size.Width * App.AppModel.AppWindowDPI)),
+				Math.Max(1, Convert.ToInt32(size.Height * App.AppModel.AppWindowDPI))));
 
 			PInvoke.GetCursorPos(out var pointerPosition);
 			var displayArea = DisplayArea.GetFromPoint(new PointInt32(pointerPosition.X, pointerPosition.Y), DisplayAreaFallback.Nearest);

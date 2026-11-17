@@ -25,7 +25,10 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			var settingsPage = (parameter as SettingsNavigationParams)?.PageKind.ToString();
+			var navParams = parameter as SettingsNavigationParams;
+			var settingsPage = navParams?.LayoutTemplateId is { } templateId
+				? $"{navParams.PageKind}|{templateId}"
+				: navParams?.PageKind.ToString();
 
 			return settingsPage is not null
 				? NavigationHelpers.AddNewTabByParamAsync(

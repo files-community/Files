@@ -2240,9 +2240,6 @@
   <data name="ExtractToPath" xml:space="preserve">
     <value>Path</value>
   </data>
-  <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
-  </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>Create archive</value>
   </data>
@@ -4128,9 +4125,6 @@
   <data name="DetailsView" xml:space="preserve">
     <value>Details view</value>
   </data>
-  <data name="LayoutType" xml:space="preserve">
-    <value>Layout type</value>
-  </data>
   <data name="Actions" xml:space="preserve">
     <value>Actions</value>
   </data>
@@ -4929,14 +4923,6 @@
     <value>Delete {0}</value>
     <comment>{0} is the name of a layout template. Read by screen readers for the delete button.</comment>
   </data>
-  <data name="SortDirection" xml:space="preserve">
-    <value>Sort direction</value>
-    <comment>Accessible name of the box that chooses ascending or descending sorting in a layout template.</comment>
-  </data>
-  <data name="GroupDirection" xml:space="preserve">
-    <value>Group direction</value>
-    <comment>Accessible name of the box that chooses ascending or descending grouping in a layout template.</comment>
-  </data>
   <data name="DeleteTemplate" xml:space="preserve">
     <value>Delete template</value>
   </data>
@@ -5067,5 +5053,44 @@
   </data>
   <data name="YearCreated" xml:space="preserve">
     <value>Year created</value>
+  </data>
+  <data name="ViewLayout" xml:space="preserve">
+    <value>View layout</value>
+  </data>
+  <data name="SortItems" xml:space="preserve">
+    <value>Sort items</value>
+  </data>
+  <data name="Ascending" xml:space="preserve">
+    <value>Ascending</value>
+  </data>
+  <data name="Descending" xml:space="preserve">
+    <value>Descending</value>
+  </data>
+  <data name="Grouping" xml:space="preserve">
+    <value>Grouping</value>
+  </data>
+  <data name="OrderGroups" xml:space="preserve">
+    <value>Order groups</value>
+  </data>
+  <data name="ChooseSorting" xml:space="preserve">
+    <value>Choose sorting</value>
+  </data>
+  <data name="ChooseSortingDescription" xml:space="preserve">
+    <value>Choose a category to use for sorting</value>
+  </data>
+  <data name="SearchSortingCategories" xml:space="preserve">
+    <value>Find a sorting category</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="ChooseGrouping" xml:space="preserve">
+    <value>Choose grouping</value>
+  </data>
+  <data name="ChooseGroupingDescription" xml:space="preserve">
+    <value>Choose a category to use for grouping</value>
+  </data>
+  <data name="SearchGroupingCategories" xml:space="preserve">
+    <value>Find a grouping category</value>
   </data>
 </root>
