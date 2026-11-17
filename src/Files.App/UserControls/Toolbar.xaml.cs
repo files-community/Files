@@ -655,7 +655,8 @@ namespace Files.App.UserControls
 		private void SortGroup_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args)
 		{
 			if (sender is not MenuFlyoutSubItem menu) return;
-			var items = menu.Items.TakeWhile(i => i is not MenuFlyoutSeparator).Where(i => i.IsEnabled).ToList();
+			var directionSeparator = menu == SortByMenu ? SortDirectionSeparator : GroupDirectionSeparator;
+			var items = menu.Items.TakeWhile(i => i != directionSeparator).Where(i => i is not MenuFlyoutSeparator && i.IsEnabled).ToList();
 			var fmt = $"D{items.Count.ToString().Length}";
 			for (int i = 0; i < items.Count; i++)
 				items[i].AccessKey = (i + 1).ToString(fmt);

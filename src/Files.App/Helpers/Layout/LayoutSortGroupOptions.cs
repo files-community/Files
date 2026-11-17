@@ -120,7 +120,7 @@ namespace Files.App.Helpers
 			foreach (var id in GetLocationOptions(shellViewModel).Sort.Append(DetailsLayoutColumnIds.Status).Append(DetailsLayoutColumnIds.Path))
 				AddOption(id);
 
-			if (shellViewModel?.IsValidGitDirectory is true)
+			if (shellViewModel is { IsValidGitDirectory: true, IsSearchResults: false })
 			{
 				foreach (var id in GitSortColumnIds)
 					AddOption(id);
@@ -128,19 +128,29 @@ namespace Files.App.Helpers
 
 			if (sortPropertyId is not null)
 				AddOption(sortPropertyId);
+			else if (GetColumnId(folderSettings.DirectorySortOption) is { } sortColumnId)
+				AddOption(sortColumnId, isCurrent: true);
 
-			AddMoreOptions(options, GetOtherFolderColumns(shellViewModel, options)
-				.Where(column => GetBuiltInSortCommand(column.Id) is null)
-				.Select(column => CreatePropertyOption(column.Id, false)));
+			LayoutSortGroupOption[] moreOptions =
+			[
+				.. BuiltInSortColumnIds
+					.Select(GetBuiltInSortCommand)
+					.Where(command => command is { IsExecutable: true } && !commands.Contains(command))
+					.Select(command => new LayoutSortGroupOption(command!.Label, command)),
+				.. GetOtherFolderColumns(shellViewModel, options)
+					.Where(column => GetBuiltInSortCommand(column.Id) is null)
+					.Select(column => CreatePropertyOption(column.Id, false)),
+			];
+			AddMoreOptions(options, moreOptions);
 
 			return options;
 
-			void AddOption(string id)
+			void AddOption(string id, bool isCurrent = false)
 			{
 				if (GetBuiltInSortCommand(id) is { } command)
 				{
-					if (command.IsExecutable && commands.Add(command))
-						options.Add(new(command.Label, command, IsChecked: command.IsOn));
+					if ((command.IsExecutable || isCurrent) && commands.Add(command))
+						options.Add(new(command.Label, command, IsChecked: command.IsOn || isCurrent));
 				}
 				else if (options.All(option => option.PropertyId != id))
 				{
@@ -193,7 +203,7 @@ namespace Files.App.Helpers
 				AddDateUnitOption(selected.PropertyId, GroupByDateUnit.Year, selected.Year);
 			}
 
-			var isGitRepository = shellViewModel?.IsValidGitDirectory is true;
+			var isGitRepository = shellViewModel is { IsValidGitDirectory: true, IsSearchResults: false };
 			if (isGitRepository)
 			{
 				AddDateUnitOption(DetailsLayoutColumnIds.GitLastCommitDate, GroupByDateUnit.Day, Strings.DayCommitted);
@@ -215,6 +225,8 @@ namespace Files.App.Helpers
 
 			if (groupPropertyId is not null && options.All(option => option.PropertyId != groupPropertyId))
 				options.Add(CreateGroupPropertyOption(groupPropertyId));
+			else if (GetColumnId(folderSettings.DirectoryGroupOption) is { } groupColumnId)
+				AddOption(groupColumnId, isCurrent: true);
 
 			if (Commands.GroupByNone.IsExecutable)
 				options.Add(new(Strings.NoneInParentheses.GetLocalizedResource(), Commands.GroupByNone, IsChecked: Commands.GroupByNone.IsOn));
@@ -231,12 +243,12 @@ namespace Files.App.Helpers
 
 			return options;
 
-			void AddOption(string id)
+			void AddOption(string id, bool isCurrent = false)
 			{
 				if (GetBuiltInGroupCommand(id) is { } command)
 				{
-					if (command.IsExecutable && commands.Add(command))
-						options.Add(new(command.Label, command, IsChecked: command.IsOn));
+					if ((command.IsExecutable || isCurrent) && commands.Add(command))
+						options.Add(new(command.Label, command, IsChecked: command.IsOn || isCurrent));
 				}
 				else if (options.All(option => option.PropertyId != id))
 				{
@@ -409,6 +421,49 @@ namespace Files.App.Helpers
 		{
 			var catalog = ShellPropertyCatalog.GetAsync() is { IsCompletedSuccessfully: true } task ? task.Result : null;
 			return new(DetailsLayoutColumnDefaults.GetDisplayName(id, catalog), PropertyId: id, IsChecked: isChecked);
+		}
+
+		private static readonly string[] BuiltInSortColumnIds =
+		[
+			DetailsLayoutColumnIds.Name,
+			DetailsLayoutColumnIds.DateModified,
+			DetailsLayoutColumnIds.DateCreated,
+			DetailsLayoutColumnIds.ItemType,
+			DetailsLayoutColumnIds.Size,
+			DetailsLayoutColumnIds.Tag,
+		];
+
+		private static string? GetColumnId(SortOption option)
+		{
+			return option switch
+			{
+				SortOption.Name => DetailsLayoutColumnIds.Name,
+				SortOption.DateModified => DetailsLayoutColumnIds.DateModified,
+				SortOption.DateCreated => DetailsLayoutColumnIds.DateCreated,
+				SortOption.Size => DetailsLayoutColumnIds.Size,
+				SortOption.FileType => DetailsLayoutColumnIds.ItemType,
+				SortOption.SyncStatus => DetailsLayoutColumnIds.Status,
+				SortOption.FileTag => DetailsLayoutColumnIds.Tag,
+				SortOption.OriginalFolder => DetailsLayoutColumnIds.OriginalPath,
+				SortOption.DateDeleted => DetailsLayoutColumnIds.DateDeleted,
+				SortOption.Path => DetailsLayoutColumnIds.Path,
+				_ => null,
+			};
+		}
+
+		private static string? GetColumnId(GroupOption option)
+		{
+			return option switch
+			{
+				GroupOption.Name => DetailsLayoutColumnIds.Name,
+				GroupOption.Size => DetailsLayoutColumnIds.Size,
+				GroupOption.FileType => DetailsLayoutColumnIds.ItemType,
+				GroupOption.SyncStatus => DetailsLayoutColumnIds.Status,
+				GroupOption.FileTag => DetailsLayoutColumnIds.Tag,
+				GroupOption.OriginalFolder => DetailsLayoutColumnIds.OriginalPath,
+				GroupOption.FolderPath => DetailsLayoutColumnIds.Path,
+				_ => null,
+			};
 		}
 
 		private static IRichCommand? GetBuiltInSortCommand(string id)
