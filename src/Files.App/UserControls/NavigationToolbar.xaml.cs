@@ -535,6 +535,27 @@ namespace Files.App.UserControls
 			return Omnibar.IsFocused ? viewModel.TakePendingPathModeInput() : null;
 		}
 
+		/// <summary>
+		/// Moves the focus of the sidebar toggle button to the active pane, so that it doesn't land in the Omnibar when the button goes away.
+		/// </summary>
+		public void MoveSidebarPaneToggleButtonFocusToActivePane()
+		{
+			if (SidebarPaneToggleButton is null || SidebarPaneToggleButton.FocusState is FocusState.Unfocused)
+				return;
+
+			var paneHolder = ContentPageContext.ShellPage?.PaneHolder;
+			paneHolder?.FocusActivePane();
+			if (SidebarPaneToggleButton.FocusState is FocusState.Unfocused)
+				return;
+
+			// An empty pane only takes the focus from a text box
+			DispatcherQueue.TryEnqueue(() =>
+			{
+				Omnibar.IsFocused = false;
+				paneHolder?.FocusActivePane();
+			});
+		}
+
 		private void Omnibar_FocusRedirectRequested(Omnibar sender, EventArgs args)
 		{
 			// The omnibar TextBox regained focus on window reactivation; move focus to the active pane so we don't land in

@@ -97,6 +97,14 @@ namespace Files.App.Controls
 		public static readonly DependencyProperty CanResizePaneProperty =
 			DependencyProperty.Register(nameof(CanResizePane), typeof(bool), typeof(SidebarView), new PropertyMetadata(true, OnPropertyChanged));
 
+		public bool UseFloatingPaneStyle
+		{
+			get => (bool)GetValue(UseFloatingPaneStyleProperty);
+			set => SetValue(UseFloatingPaneStyleProperty, value);
+		}
+		public static readonly DependencyProperty UseFloatingPaneStyleProperty =
+			DependencyProperty.Register(nameof(UseFloatingPaneStyle), typeof(bool), typeof(SidebarView), new PropertyMetadata(false, OnPropertyChanged));
+
 		public ISidebarItemModel SelectedItem
 		{
 			get => (ISidebarItemModel)GetValue(SelectedItemProperty);
@@ -160,7 +168,7 @@ namespace Files.App.Controls
 			{
 				control.UpdateOpenPaneLengthColumn();
 			}
-			else if (e.Property == DisplayModeProperty)
+			else if (e.Property == DisplayModeProperty || e.Property == UseFloatingPaneStyleProperty)
 			{
 				control.UpdateDisplayMode();
 			}

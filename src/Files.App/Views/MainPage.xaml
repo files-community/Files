@@ -161,7 +161,8 @@
 			OpenPaneLength="{x:Bind UserSettingsService.AppearanceSettingsService.SidebarWidth, Mode=TwoWay}"
 			PaneBackgroundBrush="{ThemeResource App.Theme.Sidebar.BackgroundBrush}"
 			SelectedItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
-			SupportsExpansion="True">
+			SupportsExpansion="True"
+			UseFloatingPaneStyle="True">
 
 			<!--  Inner Content  -->
 			<controls:SidebarView.InnerContent>
@@ -300,9 +301,10 @@
 
 			<!--  Footer  -->
 			<controls:SidebarView.Footer>
-				<StackPanel Padding="4,2,4,2" Spacing="2">
+				<StackPanel Padding="0,2,0,2" Spacing="2">
 					<Border
 						Height="1"
+						Margin="4,0,4,0"
 						HorizontalAlignment="Stretch"
 						BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
 						BorderThickness="1" />
