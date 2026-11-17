@@ -39,8 +39,7 @@
 		<Border
 			x:Name="PaneBackground"
 			Grid.Row="1"
-			Grid.ColumnSpan="3"
-			Background="{x:Bind PaneBackgroundBrush, Mode=OneWay}" />
+			Grid.ColumnSpan="3" />
 
 		<!--  Pane Dismiss Layer  -->
 		<Grid
@@ -62,6 +61,8 @@
 			Grid.Row="1"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
+			Background="{x:Bind PaneBackgroundBrush, Mode=OneWay}"
+			BackgroundSizing="InnerBorderEdge"
 			Canvas.ZIndex="10"
 			XYFocusKeyboardNavigation="Enabled">
 			<Grid.RowDefinitions>
@@ -173,7 +174,6 @@
 				<VisualState x:Name="Expanded" />
 				<VisualState x:Name="Compact">
 					<VisualState.Setters>
-						<Setter Target="PaneColumnDefinition.Width" Value="{StaticResource SidebarCompactOpenPaneLength}" />
 						<Setter Target="MenuItemHostScrollViewer.HorizontalScrollMode" Value="Disabled" />
 						<Setter Target="MenuItemHostScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
 					</VisualState.Setters>
@@ -182,9 +182,6 @@
 					<VisualState.Setters>
 						<Setter Target="PaneColumnDefinition.Width" Value="{StaticResource SidebarOpenPaneLength}" />
 						<Setter Target="PaneColumnGrid.Background" Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
-						<Setter Target="PaneColumnGrid.BorderBrush" Value="{ThemeResource SurfaceStrokeColorDefaultBrush}" />
-						<Setter Target="PaneColumnGrid.BorderThickness" Value="0,1,1,0" />
-						<Setter Target="PaneColumnGrid.CornerRadius" Value="0,8,0,8" />
 						<Setter Target="ContentPresenter.(Grid.Column)" Value="0" />
 						<Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3" />
 						<Setter Target="SidebarResizer.Visibility" Value="Collapsed" />
@@ -198,9 +195,6 @@
 					<VisualState.Setters>
 						<Setter Target="PaneColumnDefinition.Width" Value="{StaticResource SidebarOpenPaneLength}" />
 						<Setter Target="PaneColumnGrid.Background" Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
-						<Setter Target="PaneColumnGrid.BorderBrush" Value="{ThemeResource SurfaceStrokeColorDefaultBrush}" />
-						<Setter Target="PaneColumnGrid.BorderThickness" Value="0,1,1,0" />
-						<Setter Target="PaneColumnGrid.CornerRadius" Value="0,8,0,8" />
 						<Setter Target="ContentPresenter.(Grid.Column)" Value="0" />
 						<Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3" />
 						<Setter Target="SidebarResizer.Visibility" Value="Collapsed" />
@@ -354,6 +348,28 @@
 						</Storyboard>
 					</VisualTransition>
 				</VisualStateGroup.Transitions>
+			</VisualStateGroup>
+
+			<VisualStateGroup x:Name="PaneChromeStates">
+				<VisualState x:Name="PaneChromeNone" />
+				<VisualState x:Name="PaneChromeOverlay">
+					<VisualState.Setters>
+						<Setter Target="PaneColumnGrid.BorderBrush" Value="{ThemeResource SurfaceStrokeColorDefaultBrush}" />
+						<Setter Target="PaneColumnGrid.BorderThickness" Value="0,1,1,0" />
+						<Setter Target="PaneColumnGrid.CornerRadius" Value="0,8,0,8" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="PaneChromeFloating">
+					<VisualState.Setters>
+						<Setter Target="PaneBackground.Background" Value="{ThemeResource LayerOnMicaBaseAltFillColorDefaultBrush}" />
+						<Setter Target="PaneColumnGrid.Margin" Value="8,0,2,8" />
+						<Setter Target="PaneColumnGrid.BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+						<Setter Target="PaneColumnGrid.BorderThickness" Value="1" />
+						<Setter Target="PaneColumnGrid.CornerRadius" Value="8" />
+						<Setter Target="MenuItemHostScrollViewer.Padding" Value="0,2,0,0" />
+						<Setter Target="MenuItemsHost.Margin" Value="0" />
+					</VisualState.Setters>
+				</VisualState>
 			</VisualStateGroup>
 
 			<VisualStateGroup x:Name="ResizerStates">

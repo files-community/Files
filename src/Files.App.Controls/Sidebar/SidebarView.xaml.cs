@@ -17,6 +17,8 @@ namespace Files.App.Controls
 	public sealed partial class SidebarView : UserControl
 	{
 		private const double COMPACT_MAX_WIDTH = 200;
+		private const double COMPACT_PANE_LENGTH = 56;
+		private const double FLOATING_PANE_EXTRA_LENGTH = 4;
 
 		public event EventHandler<ItemInvokedEventArgs>? ItemInvoked;
 		public event EventHandler<ItemContextInvokedArgs>? ItemContextInvoked;
@@ -106,6 +108,7 @@ namespace Files.App.Controls
 			switch (DisplayMode)
 			{
 				case SidebarDisplayMode.Compact:
+					PaneColumnDefinition.Width = new GridLength(COMPACT_PANE_LENGTH + (UseFloatingPaneStyle ? FLOATING_PANE_EXTRA_LENGTH : 0));
 					VisualStateManager.GoToState(this, "Compact", true);
 					break;
 				case SidebarDisplayMode.Expanded:
@@ -117,6 +120,9 @@ namespace Files.App.Controls
 					UpdateMinimalMode();
 					break;
 			}
+
+			var paneChromeState = UseFloatingPaneStyle ? "PaneChromeFloating" : DisplayMode is SidebarDisplayMode.Minimal ? "PaneChromeOverlay" : "PaneChromeNone";
+			VisualStateManager.GoToState(this, paneChromeState, false);
 
 			UpdateResizerAvailability();
 		}

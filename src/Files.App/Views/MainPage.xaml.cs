@@ -416,7 +416,12 @@ namespace Files.App.Views
 			// VM.SidebarDisplayMode rejects Minimal (it only tracks user preference) so the flat tree mirrors SidebarView.DisplayMode separately.
 			SidebarAdaptiveViewModel.ActualDisplayMode = SidebarControl.DisplayMode;
 			SidebarControl.RegisterPropertyChangedCallback(SidebarView.DisplayModeProperty, (_, _) =>
-				SidebarAdaptiveViewModel.ActualDisplayMode = SidebarControl.DisplayMode);
+			{
+				if (SidebarControl.DisplayMode is not SidebarDisplayMode.Minimal)
+					NavToolbar.MoveSidebarPaneToggleButtonFocusToActivePane();
+
+				SidebarAdaptiveViewModel.ActualDisplayMode = SidebarControl.DisplayMode;
+			});
 		}
 
 		private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e) => LoadPaneChanged();
