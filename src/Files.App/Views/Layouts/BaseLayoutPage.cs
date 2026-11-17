@@ -546,7 +546,7 @@ namespace Files.App.Views.Layouts
 				await shellViewModel.SetWorkingDirectoryAsync(navigationPath);
 
 				// Read ahead so the sort and group menus can offer the columns of the folder
-				_ = FolderColumnOptions.WhenReadyAsync(navigationPath);
+				_ = ShellPropertyCatalog.GetAsync();
 				if (isDisposed || navigationArguments != args)
 					return;
 

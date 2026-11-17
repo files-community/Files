@@ -4819,4 +4819,79 @@
     <value>Unrated</value>
     <comment>Name of the group for items without a rating when grouping by rating.</comment>
   </data>
+  <data name="OrderGroupsAscending" xml:space="preserve">
+    <value>Order groups ascending</value>
+  </data>
+  <data name="OrderGroupsDescending" xml:space="preserve">
+    <value>Order groups descending</value>
+  </data>
+  <data name="GroupOrder" xml:space="preserve">
+    <value>Group order</value>
+  </data>
+  <data name="SortItemsAscending" xml:space="preserve">
+    <value>Sort items ascending</value>
+  </data>
+  <data name="SortItemsDescending" xml:space="preserve">
+    <value>Sort items descending</value>
+  </data>
+  <data name="DayTaken" xml:space="preserve">
+    <value>Day taken</value>
+  </data>
+  <data name="MonthTaken" xml:space="preserve">
+    <value>Month taken</value>
+  </data>
+  <data name="YearTaken" xml:space="preserve">
+    <value>Year taken</value>
+  </data>
+  <data name="DayRecorded" xml:space="preserve">
+    <value>Day recorded</value>
+  </data>
+  <data name="MonthRecorded" xml:space="preserve">
+    <value>Month recorded</value>
+  </data>
+  <data name="YearRecorded" xml:space="preserve">
+    <value>Year recorded</value>
+  </data>
+  <data name="DayDeleted" xml:space="preserve">
+    <value>Day deleted</value>
+  </data>
+  <data name="MonthDeleted" xml:space="preserve">
+    <value>Month deleted</value>
+  </data>
+  <data name="YearDeleted" xml:space="preserve">
+    <value>Year deleted</value>
+  </data>
+  <data name="DayUpdated" xml:space="preserve">
+    <value>Day updated</value>
+  </data>
+  <data name="MonthUpdated" xml:space="preserve">
+    <value>Month updated</value>
+  </data>
+  <data name="YearUpdated" xml:space="preserve">
+    <value>Year updated</value>
+  </data>
+  <data name="DayCommitted" xml:space="preserve">
+    <value>Day committed</value>
+  </data>
+  <data name="MonthCommitted" xml:space="preserve">
+    <value>Month committed</value>
+  </data>
+  <data name="YearCommitted" xml:space="preserve">
+    <value>Year committed</value>
+  </data>
+  <data name="NoneInParentheses" xml:space="preserve">
+    <value>(None)</value>
+  </data>
+  <data name="MoreColumns" xml:space="preserve">
+    <value>More</value>
+  </data>
+  <data name="DayCreated" xml:space="preserve">
+    <value>Day created</value>
+  </data>
+  <data name="MonthCreated" xml:space="preserve">
+    <value>Month created</value>
+  </data>
+  <data name="YearCreated" xml:space="preserve">
+    <value>Year created</value>
+  </data>
 </root>

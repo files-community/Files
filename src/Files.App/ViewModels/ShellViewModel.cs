@@ -243,6 +243,7 @@ namespace Files.App.ViewModels
 			}
 
 			WorkingDirectoryModified?.Invoke(this, new WorkingDirectoryModifiedEventArgs { Path = value, IsLibrary = isLibrary, Name = name });
+			_ = ShellFolderColumns.GetAsync(value);
 
 			if (isLibrary || !Path.IsPathRooted(value))
 				workingRoot = currentStorageFolder = null;

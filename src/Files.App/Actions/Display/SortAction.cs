@@ -113,7 +113,7 @@ namespace Files.App.Actions
 			=> Label;
 
 		protected override bool GetIsExecutable(ContentPageTypes pageType)
-			=> pageType is ContentPageTypes.SearchResults;
+			=> pageType is ContentPageTypes.SearchResults || ContentContext.ShellPage?.InstanceViewModel.IsPageTypeSearchResults is true;
 	}
 
 	[GeneratedRichCommand]
@@ -150,7 +150,7 @@ namespace Files.App.Actions
 
 	internal abstract class SortByAction : ObservableObject, IToggleAction
 	{
-		private readonly IContentPageContext contentContext;
+		protected readonly IContentPageContext ContentContext;
 
 		private readonly IDisplayPageContext displayContext;
 
@@ -170,14 +170,14 @@ namespace Files.App.Actions
 			=> displayContext.SortOption == SortOption;
 
 		public bool IsExecutable
-			=> GetIsExecutable(contentContext.PageType);
+			=> GetIsExecutable(ContentContext.PageType);
 
 		public SortByAction()
 		{
-			contentContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+			ContentContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 			displayContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
-			contentContext.PropertyChanged += ContentContext_PropertyChanged;
+			ContentContext.PropertyChanged += ContentContext_PropertyChanged;
 			displayContext.PropertyChanged += DisplayContext_PropertyChanged;
 		}
 
@@ -210,7 +210,7 @@ namespace Files.App.Actions
 		private readonly IDisplayPageContext context;
 
 		public string Label
-			=> Strings.Ascending.GetLocalizedResource();
+			=> Strings.SortItemsAscending.GetLocalizedResource();
 
 		public string Description
 			=> Strings.SortAscendingDescription.GetLocalizedResource();
@@ -249,7 +249,7 @@ namespace Files.App.Actions
 		private readonly IDisplayPageContext context;
 
 		public string Label
-			=> Strings.Descending.GetLocalizedResource();
+			=> Strings.SortItemsDescending.GetLocalizedResource();
 
 		public string Description
 			=> Strings.SortDescendingDescription.GetLocalizedResource();
