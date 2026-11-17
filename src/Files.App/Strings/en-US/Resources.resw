@@ -4941,8 +4941,14 @@
   <data name="SaveLayoutAsTemplate" xml:space="preserve">
     <value>Save layout as template</value>
   </data>
+  <data name="SaveLayoutAsTemplateDescription" xml:space="preserve">
+    <value>Save the layout of the current folder as a new template</value>
+  </data>
   <data name="RestoreDefaultView" xml:space="preserve">
     <value>Restore default view</value>
+  </data>
+  <data name="RestoreDefaultViewDescription" xml:space="preserve">
+    <value>Restore the default view of the current folder</value>
   </data>
   <data name="MoreViewOptions" xml:space="preserve">
     <value>More view options</value>
@@ -4960,6 +4966,13 @@
   <data name="DefaultLayoutSettings" xml:space="preserve">
     <value>Default layout settings</value>
   </data>
+  <data name="DeleteTemplateConfirmation" xml:space="preserve">
+    <value>Folders that use the {0} template will switch to the {1} template.</value>
+    <comment>{0} is the name of the template being deleted. {1} is the name of the template those folders switch to.</comment>
+  </data>
+  <data name="TemplateName" xml:space="preserve">
+    <value>Template name</value>
+  </data>
   <data name="EditNamed" xml:space="preserve">
     <value>Edit {0}</value>
     <comment>{0} is the name of a layout template. Read by screen readers for the edit button.</comment>
@@ -4967,5 +4980,57 @@
   <data name="DeleteNamed" xml:space="preserve">
     <value>Delete {0}</value>
     <comment>{0} is the name of a layout template. Read by screen readers for the delete button.</comment>
+  </data>
+  <data name="DeleteTemplate" xml:space="preserve">
+    <value>Delete template</value>
+  </data>
+  <data name="RenameTemplate" xml:space="preserve">
+    <value>Rename template</value>
+  </data>
+  <data name="RenameNamed" xml:space="preserve">
+    <value>Rename {0}</value>
+    <comment>{0} is the name of a layout template. Read by screen readers for the rename button.</comment>
+  </data>
+  <data name="DeleteTemplateConfirmationTitle" xml:space="preserve">
+    <value>Delete template?</value>
+  </data>
+  <data name="UseForFileTypes" xml:space="preserve">
+    <value>Automatically use this template for folders with certain file types</value>
+  </data>
+  <data name="EditFileExtensions" xml:space="preserve">
+    <value>Edit file extensions</value>
+  </data>
+  <data name="FileTypesThreshold" xml:space="preserve">
+    <value>Use when at least this percentage of files match</value>
+    <comment>Label of the percentage of a folder's files that must have the template's file types for the template to be used.</comment>
+  </data>
+  <data name="FileTypeAlreadyUsed" xml:space="preserve">
+    <value>{0} is already used by the {1} template.</value>
+    <comment>{0} is a file extension, such as .jpg. {1} is the name of the layout template that already uses it.</comment>
+  </data>
+  <data name="InvalidFileExtension" xml:space="preserve">
+    <value>{0} isn't a valid file extension.</value>
+    <comment>{0} is the file extension the user typed, such as .jpg.</comment>
+  </data>
+  <data name="ManageColumns" xml:space="preserve">
+    <value>Manage columns</value>
+  </data>
+  <data name="FileExtensions" xml:space="preserve">
+    <value>File extensions</value>
+  </data>
+  <data name="SeparateFileExtensionsWithCommas" xml:space="preserve">
+    <value>Separate extensions with commas</value>
+  </data>
+  <data name="ViewLayout" xml:space="preserve">
+    <value>View layout</value>
+  </data>
+  <data name="SortItems" xml:space="preserve">
+    <value>Sort items</value>
+  </data>
+  <data name="Grouping" xml:space="preserve">
+    <value>Grouping</value>
+  </data>
+  <data name="OrderGroups" xml:space="preserve">
+    <value>Order groups</value>
   </data>
 </root>
