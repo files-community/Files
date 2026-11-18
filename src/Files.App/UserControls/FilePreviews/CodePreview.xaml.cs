@@ -2,6 +2,7 @@ using ColorCode;
 using Files.App.ViewModels.Previews;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Documents;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -23,7 +24,7 @@ namespace Files.App.UserControls.FilePreviews
 			{
 				codeView.Blocks?.Clear();
 
-				if (ViewModel.Item.FileExtension is ".css" or ".scss")
+				if (ViewModel.Item.FileExtension?.ToLowerInvariant() is ".css" or ".scss")
 				{
 					// Some complex CSS files can make ColorCode parsing very slow and freeze the preview pane.
 					// Use our lightweight renderer for CSS/SCSS to keep preview responsive while preserving highlighting.
@@ -31,7 +32,13 @@ namespace Files.App.UserControls.FilePreviews
 					return;
 				}
 
-				var formatter = new RichTextBlockFormatter(ActualTheme);
+				if (ViewModel.ParsedCode is not { } parsedCode)
+				{
+					codeView.Blocks?.Add(new Paragraph { Inlines = { new Run { Text = ViewModel.TextValue ?? string.Empty } } });
+					return;
+				}
+
+				var formatter = new RichTextBlockFormatter(ActualTheme, parsedCode);
 				formatter.FormatRichTextBlock(ViewModel.TextValue!, ViewModel.CodeLanguage!, codeView);
 			}
 		}

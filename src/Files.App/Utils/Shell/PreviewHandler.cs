@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
+using Windows.System;
 using Windows.UI;
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -15,7 +16,7 @@ namespace Files.App.Utils.Shell
 	/// <summary>
 	/// Credits: https://github.com/GeeLaw/PreviewHost/
 	/// </summary>
-	public sealed partial class PreviewHandler : IDisposable
+	public sealed partial class PreviewHandler : IAsyncDisposable
 	{
 		[GeneratedComClass]
 		public sealed partial class PreviewHandlerFrame : IPreviewHandlerFrame
@@ -48,6 +49,7 @@ namespace Files.App.Utils.Shell
 		}
 
 		bool disposed;
+		readonly DispatcherQueueController controller;
 		bool init;
 		bool shown;
 		PreviewHandlerFrame? comSite;
@@ -55,9 +57,9 @@ namespace Files.App.Utils.Shell
 		IPreviewHandler? previewHandler;
 		IPreviewHandlerVisuals? visuals;
 
-		public PreviewHandler(Guid clsid, nint frame)
+		private PreviewHandler(DispatcherQueueController controller, Guid clsid, nint frame)
 		{
-			disposed = true;
+			this.controller = controller;
 			init = false;
 			shown = false;
 			comSite = new PreviewHandlerFrame(frame);
@@ -65,34 +67,91 @@ namespace Files.App.Utils.Shell
 			try
 			{
 				SetupHandler(clsid);
-				disposed = false;
 			}
 			catch
 			{
-				previewHandler = null;
-				comSite = null;
+				Dispose();
 				throw;
 			}
 		}
 
-		void SetupHandler(Guid clsid)
+		public static async Task<PreviewHandler> CreateAsync(Guid clsid, nint frame, string path, CancellationToken cancellationToken)
+		{
+			var controller = DispatcherQueueController.CreateOnDedicatedThread();
+			PreviewHandler? handler = null;
+			try
+			{
+				await InvokeAsync(controller.DispatcherQueue, () =>
+				{
+					cancellationToken.ThrowIfCancellationRequested();
+					handler = new PreviewHandler(controller, clsid, frame);
+					cancellationToken.ThrowIfCancellationRequested();
+					handler.InitWithFileWithEveryWay(path);
+					cancellationToken.ThrowIfCancellationRequested();
+					handler.DoPreview();
+				});
+				return handler!;
+			}
+			catch
+			{
+				try
+				{
+					if (handler is not null)
+						await InvokeAsync(controller.DispatcherQueue, handler.Dispose);
+				}
+				finally
+				{
+					await controller.ShutdownQueueAsync();
+				}
+				throw;
+			}
+		}
+
+		public Task ResizeAsync(RECT bounds)
+			=> InvokeAsync(controller.DispatcherQueue, () => ResetBounds(bounds));
+
+		private static Task InvokeAsync(DispatcherQueue dispatcher, Action action)
+		{
+			var completion = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+			if (!dispatcher.TryEnqueue(() =>
+			{
+				try
+				{
+					action();
+					completion.SetResult();
+				}
+				catch (Exception ex)
+				{
+					completion.SetException(ex);
+				}
+			}))
+				completion.SetException(new InvalidOperationException("The preview dispatcher is shutting down."));
+			return completion.Task;
+		}
+
+		unsafe void SetupHandler(Guid clsid)
 		{
 			var cannotCreate = "Cannot create class " + clsid.ToString() + " as IPreviewHandler.";
 			var cannotCast = "Cannot cast class " + clsid.ToString() + " as IObjectWithSite.";
 			var cannotSetSite = "Cannot set site to the preview handler object.";
 
-			HRESULT hr = PInvoke.CoCreateInstance(clsid, null, CLSCTX.CLSCTX_LOCAL_SERVER, out previewHandler);
+			// A unique wrapper can release its COM references before the owning STA shuts down.
+			Guid interfaceId = typeof(IPreviewHandler).GUID;
+			MULTI_QI[] results = [new() { pIID = &interfaceId }];
+			HRESULT hr = PInvoke.CoCreateInstanceEx(clsid, null, CLSCTX.CLSCTX_LOCAL_SERVER, null, results);
+			try
+			{
+				if (hr.Failed)
+					throw new COMException(cannotCreate, hr.Value);
+				if (results[0].hr.Failed)
+					throw new COMException(cannotCreate, results[0].hr.Value);
 
-			// See https://blogs.msdn.microsoft.com/adioltean/2005/06/24/when-cocreateinstance-returns-0x80080005-co_e_server_exec_failure/
-			// CO_E_SERVER_EXEC_FAILURE also tends to happen when debugging in Visual Studio.
-			// Moreover, to create the instance in a server at low integrity level, we need
-			// to use another thread with low mandatory label. We keep it simple by creating
-			// a same-integrity object.
-			//if (hr.Value == E_SERVER_EXEC_FAILURE)
-			//	hr = PInvoke.CoCreateInstance(clsid, null, CLSCTX.CLSCTX_LOCAL_SERVER, out previewHandlerObject);
-
-			if (hr.Failed)
-				throw new COMException(cannotCreate, hr.Value);
+				previewHandler = UniqueComInterfaceMarshaller<IPreviewHandler>.ConvertToManaged(results[0].pItf);
+			}
+			finally
+			{
+				UniqueComInterfaceMarshaller<IPreviewHandler>.Free(results[0].pItf);
+			}
 
 			if (previewHandler is not IObjectWithSite objectWithSite)
 				throw new COMException(cannotCast, HRESULT.E_NOINTERFACE.Value);
@@ -112,7 +171,7 @@ namespace Files.App.Utils.Shell
 		/// <param name="stream">The IStream interface used to initialize the preview handler.</param>
 		/// <param name="mode">The storage mode, must be Read or ReadWrite.</param>
 		/// <returns>If the handler supports initialization with IStream, true; otherwise, false.</returns>
-		public bool InitWithStream(IStream stream, STGM mode)
+		private bool InitWithStream(IStream stream, STGM mode)
 		{
 			if (mode != STGM.STGM_READ && mode != STGM.STGM_READWRITE)
 				throw new ArgumentOutOfRangeException("mode", mode, "The argument mode must be Read or ReadWrite.");
@@ -139,7 +198,7 @@ namespace Files.App.Utils.Shell
 		/// <param name="psi">The IShellItem interface used to initialize the preview handler.</param>
 		/// <param name="mode">The storage mode.</param>
 		/// <returns>True or false, see InitWithStream(IStream, STGM).</returns>
-		public bool InitWithItem(IShellItem psi, STGM mode)
+		private bool InitWithItem(IShellItem psi, STGM mode)
 		{
 			EnsureNotDisposed();
 			EnsureNotInitialized();
@@ -169,7 +228,7 @@ namespace Files.App.Utils.Shell
 		/// <param name="path">The path to the file.</param>
 		/// <param name="mode">The storage mode.</param>
 		/// <returns>True or false, see InitWithStream(IStream, STGM).</returns>
-		public bool InitWithFile(string path, STGM mode)
+		private bool InitWithFile(string path, STGM mode)
 		{
 			EnsureNotDisposed();
 			EnsureNotInitialized();
@@ -196,7 +255,7 @@ namespace Files.App.Utils.Shell
 		/// </summary>
 		/// <param name="path">The file name.</param>
 		/// <returns>If initialization was successful, true; otherwise, an exception is thrown.</returns>
-		public bool InitWithFileWithEveryWay(string path)
+		private bool InitWithFileWithEveryWay(string path)
 		{
 			var exceptions = new List<Exception>();
 			// Why should we try IStream first?
@@ -245,27 +304,23 @@ namespace Files.App.Utils.Shell
 		/// <summary>
 		/// Calls IPreviewHandler.SetWindow.
 		/// </summary>
-		public bool ResetWindow()
+		private HRESULT ResetWindow()
 		{
 			EnsureNotDisposed();
 			//EnsureInitialized();
 			if (!init)
-				return false;
-			var hr = previewHandler.SetWindow(hwnd, new RECT());
-			return hr >= 0;
+				return HRESULT.E_FAIL;
+			return previewHandler!.SetWindow(hwnd, new RECT());
 		}
 
 		/// <summary>
 		/// Calls IPreviewHandler.SetRect.
 		/// </summary>
-		public bool ResetBounds(RECT previewerBounds)
+		private void ResetBounds(RECT previewerBounds)
 		{
 			EnsureNotDisposed();
-			//EnsureInitialized();
-			if (!init)
-				return false;
-			var hr = previewHandler.SetRect(previewerBounds);
-			return hr >= 0;
+			EnsureInitialized();
+			previewHandler!.SetRect(previewerBounds).ThrowOnFailure();
 		}
 
 		/// <summary>
@@ -273,7 +328,7 @@ namespace Files.App.Utils.Shell
 		/// </summary>
 		/// <param name="color">The background color.</param>
 		/// <returns>Whether the call succeeds.</returns>
-		public bool SetBackground(Color color)
+		private bool SetBackground(Color color)
 		{
 			var hr = visuals?.SetBackgroundColor(ColorRefFromColor(color));
 			return hr.HasValue && hr.Value >= 0;
@@ -284,7 +339,7 @@ namespace Files.App.Utils.Shell
 		/// </summary>
 		/// <param name="color">The text color.</param>
 		/// <returns>Whether the call succeeds.</returns>
-		public bool SetForeground(Color color)
+		private bool SetForeground(Color color)
 		{
 			var hr = visuals?.SetTextColor(ColorRefFromColor(color));
 			return hr.HasValue && hr.Value >= 0;
@@ -295,7 +350,7 @@ namespace Files.App.Utils.Shell
 		/// </summary>
 		/// <param name="font">The LogFontW reference.</param>
 		/// <returns>Whether the call succeeds.</returns>
-		public unsafe bool SetFont(nint font)
+		private unsafe bool SetFont(nint font)
 		{
 			var hr = visuals?.SetFont(*(LOGFONTW*)font);
 			return hr.HasValue && hr.Value >= 0;
@@ -304,22 +359,22 @@ namespace Files.App.Utils.Shell
 		/// <summary>
 		/// Shows the preview if the object has been successfully initialized.
 		/// </summary>
-		public void DoPreview()
+		private void DoPreview()
 		{
 			EnsureNotDisposed();
 			//EnsureInitialized();
 			if (!init)
 				return;
 			EnsureNotShown();
-			ResetWindow();
-			previewHandler?.DoPreview();
+			ResetWindow().ThrowOnFailure();
+			previewHandler!.DoPreview().ThrowOnFailure();
 			shown = true;
 		}
 
 		/// <summary>
 		/// Tells the preview handler to set focus to itself.
 		/// </summary>
-		public void Focus()
+		private void Focus()
 		{
 			EnsureNotDisposed();
 			//EnsureInitialized();
@@ -333,7 +388,7 @@ namespace Files.App.Utils.Shell
 		/// Tells the preview handler to query focus.
 		/// </summary>
 		/// <returns>The focused window.</returns>
-		public nint QueryFocus()
+		private nint QueryFocus()
 		{
 			EnsureNotDisposed();
 			//EnsureInitialized();
@@ -378,18 +433,30 @@ namespace Files.App.Utils.Shell
 				throw new InvalidOperationException("The preview handler must not be shown to call this method.");
 		}
 
-		#region IDisposable pattern
+		#region Disposal
 
-		public void Dispose()
+		public async ValueTask DisposeAsync()
+		{
+			try
+			{
+				await InvokeAsync(controller.DispatcherQueue, Dispose);
+			}
+			finally
+			{
+				await controller.ShutdownQueueAsync();
+			}
+		}
+
+		private void Dispose()
 		{
 			if (disposed)
 				return;
 			disposed = true;
-			init = false;
 
 			try
 			{
-				previewHandler?.Unload();
+				if (init)
+					previewHandler?.Unload();
 
 				// Break the site connection so the handler releases the PreviewHandlerFrame wrapper deterministically
 				if (previewHandler is IObjectWithSite objectWithSite)
@@ -406,6 +473,7 @@ namespace Files.App.Utils.Shell
 			previewHandler = null;
 			visuals = null;
 			comSite = null;
+			init = false;
 		}
 
 		#endregion
