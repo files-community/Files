@@ -21,6 +21,7 @@ namespace Files.App.ViewModels.UserControls
 		private DrivesViewModel drivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		private CancellationTokenSource? loadCancellationTokenSource;
+		private int selectionChangeVersion;
 		private Files.App.UserControls.Menus.FileTagsContextMenu? cachedTagsContextMenu;
 
 		/// <summary>
@@ -175,17 +176,19 @@ namespace Files.App.ViewModels.UserControls
 				case nameof(IContentPageContext.Folder):
 				case nameof(IContentPageContext.SelectedItem):
 
-					ListedItem? tempSelectedItem = null;
-					if (contentPageContext.SelectedItems.Count == 1)
-						tempSelectedItem = contentPageContext.SelectedItems.First();
-
 					// Don't update preview pane when the selected item changes too frequently
+					var version = ++selectionChangeVersion;
 					const int delayBeforeUpdatingPreviewPane = 100;
 					await Task.Delay(delayBeforeUpdatingPreviewPane);
-					if (tempSelectedItem is not null && !tempSelectedItem.Equals(contentPageContext.SelectedItem))
+
+					// A newer change came in while we were waiting, let it handle the update
+					if (version != selectionChangeVersion)
 						return;
 
-					SelectedItem = tempSelectedItem;
+					// Read the selection after the delay. Right-click selects by clearing and then adding the item,
+					// so a value read before the delay can be the empty in-between state and leave the pane with no item.
+					var currentItems = contentPageContext.SelectedItems;
+					SelectedItem = currentItems.Count == 1 ? currentItems[0] : null;
 
 					try
 					{
