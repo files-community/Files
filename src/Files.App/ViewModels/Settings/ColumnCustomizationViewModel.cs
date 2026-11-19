@@ -219,10 +219,10 @@ namespace Files.App.ViewModels.Settings
 			var columnIds = new[] { DetailsLayoutColumnIds.Name }.Concat(availableColumns.Where(id => !id.StartsWith("System.VersionControl.", StringComparison.Ordinal))).Concat(shownColumns).Where(id => !DetailsLayoutColumnOrder.IsPinned(id)).Distinct().ToArray();
 			_groups = columnIds
 				.GroupBy(DetailsLayoutColumnGroups.GetGroup)
-				.OrderBy(group => group.Key)
+				.OrderBy(group => DetailsLayoutColumnGroups.GetOrder(group.Key))
 				.Select(group =>
 				{
-					var groupItem = new ColumnPickerItem(group.Key.ToString(), DetailsLayoutColumnGroups.GetDisplayName(group.Key), this);
+					var groupItem = new ColumnPickerItem(group.Key, DetailsLayoutColumnGroups.GetDisplayName(group.Key), this);
 					groupItem.Columns.AddRange(group
 						.Select(id => new ColumnPickerItem(id, getDisplayName(id), this, groupItem))
 						.OrderBy(column => column.IsEnabled)

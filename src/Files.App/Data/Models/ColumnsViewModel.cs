@@ -335,7 +335,7 @@ namespace Files.App.Data.Models
 		public (string[] Available, string[] Shown) GetCustomizationColumns(IReadOnlyList<ShellFolderColumn> folderColumns, IReadOnlyDictionary<string, ShellPropertyColumnInfo> catalog)
 		{
 			var propertyColumns = folderColumns.Count > 0
-				? folderColumns.Select(column => column.Id).Where(catalog.ContainsKey).Concat(OrderedColumns.Ids.Where(IsColumnVisible))
+				? folderColumns.Select(column => column.Id).Concat(DetailsLayoutColumnGroups.ShownPropertyIds).Where(catalog.ContainsKey).Concat(OrderedColumns.Ids.Where(IsColumnVisible))
 				: catalog.Keys;
 
 			var available = DetailsLayoutColumnIds.BuiltIn

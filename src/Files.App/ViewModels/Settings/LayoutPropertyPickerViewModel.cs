@@ -98,7 +98,7 @@ namespace Files.App.ViewModels.Settings
 
 			_groups = choices
 				.GroupBy(choice => DetailsLayoutColumnGroups.GetGroup(choice.ColumnId ?? choice.PropertyId))
-				.OrderBy(group => group.Key)
+				.OrderBy(group => DetailsLayoutColumnGroups.GetOrder(group.Key))
 				.Select(group =>
 				{
 					var groupItem = new LayoutPropertyPickerItem(DetailsLayoutColumnGroups.GetDisplayName(group.Key));
