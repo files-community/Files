@@ -3,6 +3,8 @@
 
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels.Layouts;
+using Files.App.ViewModels.Settings;
+using Files.App.Views.Settings;
 using Files.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -616,21 +618,76 @@ namespace Files.App.Data.Factories
 		/// </summary>
 		/// <param name="radioGroup">Must differ between menus, since radio groups are shared across menus.</param>
 		public static List<ContextMenuFlyoutItemViewModel> GetSortMenuItems(LayoutPreferencesManager folderSettings, ShellViewModel? shellViewModel, string radioGroup)
-			=> GetOptionMenuItems(LayoutSortGroupOptions.GetSortOptions(folderSettings, shellViewModel), option => LayoutSortGroupOptions.SortBy(folderSettings, option.PropertyId!), radioGroup);
+			=> GetOptionMenuItems(LayoutSortGroupOptions.GetSortOptions(folderSettings, shellViewModel), option => LayoutSortGroupOptions.SortBy(folderSettings, option.PropertyId!), radioGroup, isGroup: false);
 
 		/// <summary>
 		/// Gets the items of the group menus for the specified folder, shared by the context menu and the toolbar.
 		/// </summary>
 		/// <param name="radioGroup">Must differ between menus, since radio groups are shared across menus.</param>
 		public static List<ContextMenuFlyoutItemViewModel> GetGroupMenuItems(LayoutPreferencesManager folderSettings, ShellViewModel? shellViewModel, string radioGroup)
-			=> GetOptionMenuItems(LayoutSortGroupOptions.GetGroupOptions(folderSettings, shellViewModel), option => LayoutSortGroupOptions.GroupBy(folderSettings, option.PropertyId!, option.DateUnit), radioGroup);
+			=> GetOptionMenuItems(LayoutSortGroupOptions.GetGroupOptions(folderSettings, shellViewModel), option => LayoutSortGroupOptions.GroupBy(folderSettings, option.PropertyId!, option.DateUnit), radioGroup, isGroup: true);
 
-		private static List<ContextMenuFlyoutItemViewModel> GetOptionMenuItems(IReadOnlyList<LayoutSortGroupOption> options, Action<LayoutSortGroupOption> selectOption, string radioGroup)
+		private static List<ContextMenuFlyoutItemViewModel> GetOptionMenuItems(IReadOnlyList<LayoutSortGroupOption> options, Action<LayoutSortGroupOption> selectOption, string radioGroup, bool isGroup)
 		{
-			return [.. options.Select(option => CreateOptionMenuItem(option, selectOption, radioGroup))];
+			return [.. options.Select(option => CreateOptionMenuItem(option, selectOption, radioGroup, () => ShowOptionPicker(options, selectOption, isGroup)))];
 		}
 
-		private static ContextMenuFlyoutItemViewModel CreateOptionMenuItem(LayoutSortGroupOption option, Action<LayoutSortGroupOption> selectOption, string radioGroup)
+		/// <summary>
+		/// Opens the window that chooses from all options, including the ones the menu leaves out.
+		/// </summary>
+		private static void ShowOptionPicker(IReadOnlyList<LayoutSortGroupOption> options, Action<LayoutSortGroupOption> selectOption, bool isGroup)
+		{
+			var choices = new List<(LayoutPropertyChoice Choice, LayoutSortGroupOption Option)>();
+			foreach (var option in options.SelectMany(option => option.Items ?? new[] { option }).Where(option => !option.IsSeparator))
+			{
+				if (option.Items is not { } dateUnits)
+				{
+					AddChoice(option, option.BuiltInCommand?.Code is CommandCodes.GroupByNone ? Strings.None.GetLocalizedResource() : option.Label);
+					continue;
+				}
+
+				foreach (var dateUnit in dateUnits)
+				{
+					var labels = dateUnit.PropertyId is { } id ? LayoutSortGroupOptions.GetDateUnitLabels(id) : null;
+					var label = dateUnit.DateUnit switch
+					{
+						GroupByDateUnit.Day => labels?.Day,
+						GroupByDateUnit.Month => labels?.Month,
+						GroupByDateUnit.Year => labels?.Year,
+						_ => null,
+					};
+					AddChoice(dateUnit, label?.GetLocalizedResource() ?? $"{option.Label} ({dateUnit.Label})");
+				}
+			}
+
+			var (title, description, searchPlaceholder) = isGroup
+				? (Strings.ChooseGrouping, Strings.ChooseGroupingDescription, Strings.SearchGroupingCategories)
+				: (Strings.ChooseSorting, Strings.ChooseSortingDescription, Strings.SearchSortingCategories);
+			var noneChoice = choices.FirstOrDefault(choice => choice.Option.BuiltInCommand?.Code is CommandCodes.GroupByNone).Choice;
+			var picker = new LayoutPropertyPickerViewModel(
+				title.GetLocalizedResource(),
+				description.GetLocalizedResource(),
+				searchPlaceholder.GetLocalizedResource(),
+				choices.Select(choice => choice.Choice).Where(choice => !ReferenceEquals(choice, noneChoice)),
+				choices.FirstOrDefault(choice => choice.Option.IsChecked).Choice,
+				noneChoice);
+
+			picker.Selected += (_, selectedChoice) =>
+			{
+				var option = choices.First(choice => ReferenceEquals(choice.Choice, selectedChoice)).Option;
+				if (option.BuiltInCommand is { } command)
+					command.Execute(null);
+				else
+					selectOption(option);
+			};
+
+			ColumnCustomizationWindow.Show(picker);
+
+			void AddChoice(LayoutSortGroupOption option, string label)
+				=> choices.Add((new(label, null, option.PropertyId ?? string.Empty, option.DateUnit) { ColumnId = option.PropertyId ?? DetailsLayoutColumnIds.Name }, option));
+		}
+
+		private static ContextMenuFlyoutItemViewModel CreateOptionMenuItem(LayoutSortGroupOption option, Action<LayoutSortGroupOption> selectOption, string radioGroup, Action showOptionPicker)
 		{
 			if (option.IsSeparator)
 			{
@@ -660,9 +717,9 @@ namespace Files.App.Data.Factories
 				ShowInZipPage = true,
 			};
 
-			if (option.Items is { } items)
+			if (option.Items is not null)
 			{
-				item.Items = GetOptionMenuItems(items, selectOption, radioGroup);
+				item.Command = new RelayCommand(showOptionPicker);
 			}
 			else if (option.PropertyId is not null)
 			{

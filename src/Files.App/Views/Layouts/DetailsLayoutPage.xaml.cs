@@ -1189,15 +1189,6 @@ namespace Files.App.Views.Layouts
 			return new(new ColumnDefinition(), new ColumnDefinition { Width = GridLength.Auto }, header, splitter, ColumnsViewModel.NotifyLayoutChanged);
 		}
 
-		/// <summary>
-		/// Gets the columns the current folder offers, once they have been read.
-		/// </summary>
-		private IEnumerable<string> GetFolderColumnIds()
-		{
-			var path = ParentShellPageInstance?.ShellViewModel?.WorkingDirectory;
-			return ShellFolderColumns.GetAsync(path) is { IsCompletedSuccessfully: true } task ? task.Result.Select(column => column.Id) : [];
-		}
-
 		private string GetColumnDisplayName(string id)
 		{
 			return DetailsLayoutColumnDefaults.GetDisplayName(id, _shellPropertyCatalog);
@@ -1315,19 +1306,8 @@ namespace Files.App.Views.Layouts
 			for (var index = items.IndexOf(ColumnTogglesEndSeparator) - 1; index >= startIndex; index--)
 				items.RemoveAt(index);
 
-			var menuColumnIds = ColumnsViewModel.GetMenuColumnIds(LayoutSortGroupOptions.GetLocationColumnIds(ParentShellPageInstance?.ShellViewModel)).ToArray();
-			foreach (var id in menuColumnIds)
+			foreach (var id in ColumnsViewModel.GetMenuColumnIds(LayoutSortGroupOptions.GetLocationColumnIds(ParentShellPageInstance?.ShellViewModel)))
 				items.Insert(startIndex++, CreateColumnMenuItem(id));
-
-			var otherColumnIds = GetFolderColumnIds().Where(id => ColumnValueHelper.IsShellPropertyColumn(id) && !menuColumnIds.Contains(id)).ToArray();
-			if (otherColumnIds.Length == 0)
-				return;
-
-			var more = new MenuFlyoutSubItem { Text = Strings.MoreColumns.GetLocalizedResource() };
-			foreach (var id in otherColumnIds)
-				more.Items.Add(CreateColumnMenuItem(id));
-
-			items.Insert(startIndex, more);
 		}
 
 		private ToggleMenuFlyoutItem CreateColumnMenuItem(string id)
@@ -1340,6 +1320,33 @@ namespace Files.App.Views.Layouts
 			};
 			item.Click += ColumnMenuItem_Click;
 			return item;
+		}
+
+		private async void MoreColumns_Click(object sender, RoutedEventArgs e)
+		{
+			await CustomizeColumnsAsync();
+		}
+
+		/// <summary>
+		/// Opens the window that chooses the shown columns.
+		/// </summary>
+		public async Task CustomizeColumnsAsync()
+		{
+			var folderSettings = FolderSettings
+				?? throw new InvalidOperationException("The details layout does not have folder settings.");
+			var viewModel = await ColumnCustomizationViewModel.CreateForFolderAsync(ColumnsViewModel, folderSettings, ParentShellPageInstance.GetRequiredShellViewModel().WorkingDirectory, GetColumnDisplayName);
+			viewModel.Saved += (_, result) =>
+			{
+				if (!IsLoaded)
+					return;
+
+				if (viewModel.ApplyToFolder(result))
+					LoadShellPropertiesForRealizedItems();
+
+				SaveColumnVisibility();
+			};
+
+			ColumnCustomizationWindow.Show(viewModel);
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(ToggleMenuFlyoutItem))]
