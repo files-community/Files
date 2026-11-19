@@ -702,19 +702,16 @@ namespace Files.App.Views.Layouts
 				case FolderLayoutModes.ColumnView:
 					break;
 				case FolderLayoutModes.DetailsView:
-					parent.FolderSettings.ToggleLayoutModeDetailsView(true);
+					parent.FolderSettings.ToggleLayoutModeDetailsView();
 					break;
 				case FolderLayoutModes.ListView:
-					parent.FolderSettings.ToggleLayoutModeList(true);
+					parent.FolderSettings.ToggleLayoutModeList();
 					break;
 				case FolderLayoutModes.CardsView:
-					parent.FolderSettings.ToggleLayoutModeCards(true);
+					parent.FolderSettings.ToggleLayoutModeCards();
 					break;
 				case FolderLayoutModes.GridView:
-					parent.FolderSettings.ToggleLayoutModeGridView(true);
-					break;
-				case FolderLayoutModes.Adaptive:
-					parent.FolderSettings.ToggleLayoutModeAdaptive();
+					parent.FolderSettings.ToggleLayoutModeGridView();
 					break;
 			}
 		}

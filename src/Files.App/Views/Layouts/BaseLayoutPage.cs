@@ -459,7 +459,7 @@ namespace Files.App.Views.Layouts
 				var folderSettings = parentShellPage.InstanceViewModel.FolderSettings;
 				var workingDirectory = shellViewModel.WorkingDirectory
 					?? throw new InvalidOperationException("The shell page does not have a working directory.");
-				var layoutType = folderSettings.GetLayoutType(workingDirectory);
+				var layoutType = folderSettings.GetCurrentLayoutType();
 
 				if (layoutType != parentShellPage.CurrentPageType)
 				{

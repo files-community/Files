@@ -58,36 +58,6 @@ namespace Files.App.Data.Models
 		[RegistryIgnore, JsonIgnore]
 		public DetailsLayoutColumnItem StatusColumn => _columns[DetailsLayoutColumnIds.Status];
 
-		[RegistryIgnore, JsonIgnore]
-		public DetailsLayoutColumnItem GitLastCommitDateColumn => _columns[DetailsLayoutColumnIds.GitLastCommitDate];
-
-		[RegistryIgnore, JsonIgnore]
-		public DetailsLayoutColumnItem GitLastCommitMessageColumn => _columns[DetailsLayoutColumnIds.GitLastCommitMessage];
-
-		[RegistryIgnore, JsonIgnore]
-		public DetailsLayoutColumnItem GitCommitAuthorColumn => _columns[DetailsLayoutColumnIds.GitCommitAuthor];
-
-		[RegistryIgnore, JsonIgnore]
-		public DetailsLayoutColumnItem GitLastCommitShaColumn => _columns[DetailsLayoutColumnIds.GitLastCommitSha];
-
-		[RegistryIgnore, JsonIgnore]
-		public DetailsLayoutColumnItem PathColumn => _columns[DetailsLayoutColumnIds.Path];
-
-		[RegistryIgnore, JsonIgnore]
-		public DetailsLayoutColumnItem OriginalPathColumn => _columns[DetailsLayoutColumnIds.OriginalPath];
-
-		[RegistryIgnore, JsonIgnore]
-		public DetailsLayoutColumnItem DateDeletedColumn => _columns[DetailsLayoutColumnIds.DateDeleted];
-
-		[RegistryIgnore, JsonIgnore]
-		public DetailsLayoutColumnItem DateModifiedColumn => _columns[DetailsLayoutColumnIds.DateModified];
-
-		[RegistryIgnore, JsonIgnore]
-		public DetailsLayoutColumnItem DateCreatedColumn => _columns[DetailsLayoutColumnIds.DateCreated];
-
-		[RegistryIgnore, JsonIgnore]
-		public DetailsLayoutColumnItem ItemTypeColumn => _columns[DetailsLayoutColumnIds.ItemType];
-
 		/// <summary>
 		/// Reads a column saved before the <see cref="Columns"/> format.
 		/// </summary>
@@ -242,6 +212,18 @@ namespace Files.App.Data.Models
 			return _columns.TryGetValue(id, out var column) ? column : throw new ArgumentOutOfRangeException(nameof(id), id, null);
 		}
 
+		/// <summary>
+		/// Uses the widths of the specified columns for the columns both have.
+		/// </summary>
+		public void ApplyWidths(ColumnsViewModel source)
+		{
+			foreach (var id in AllColumnIds)
+			{
+				if (source.FindColumn(id) is { } column)
+					GetColumn(id).UserLengthPixels = column.UserLengthPixels;
+			}
+		}
+
 		public DetailsLayoutColumnItem? FindColumn(string id)
 		{
 			return _columns.GetValueOrDefault(id);
@@ -316,6 +298,9 @@ namespace Files.App.Data.Models
 		}
 
 		/// <summary>
+		/// Gets the columns the user can choose from for a folder, and the ones shown now in display order.
+		/// </summary>
+		/// <summary>
 		/// Gets the columns for the column menu in display order, followed by the other columns the location offers, like File Explorer.
 		/// </summary>
 		public IEnumerable<string> GetMenuColumnIds(IEnumerable<string> locationColumnIds)
@@ -329,6 +314,47 @@ namespace Files.App.Data.Models
 				.Concat(locationColumnIds.Where(id => !DetailsLayoutColumnDefinitions.IsBuiltIn(id) && ColumnValueHelper.IsShellPropertyColumn(id)))
 				.Distinct();
 		}
+
+		public (string[] Available, string[] Shown) GetCustomizationColumns(IReadOnlyList<ShellFolderColumn> folderColumns, IReadOnlyDictionary<string, ShellPropertyColumnInfo> catalog)
+		{
+			var propertyColumns = folderColumns.Count > 0
+				? folderColumns.Select(column => column.Id).Where(catalog.ContainsKey).Concat(OrderedColumns.Ids.Where(IsColumnVisible))
+				: catalog.Keys;
+
+			var available = DetailsLayoutColumnIds.BuiltIn
+				.Where(id => !DetailsLayoutColumnOrder.IsRequired(id) && !GetColumn(id).IsHidden)
+				.Concat(propertyColumns.Where(id => !DetailsLayoutColumnDefinitions.IsBuiltIn(id)))
+				.Distinct()
+				.ToArray();
+
+			var shown = OrderedColumns.Ids.Where(id => IsColumnVisible(id) && !GetColumn(id).IsHidden).ToArray();
+
+			return (available, shown);
+		}
+
+		/// <summary>
+		/// Shows the specified columns in their order and hides the other available ones.
+		/// </summary>
+		/// <returns>Whether a column was added, whose values may need loading.</returns>
+		public bool ApplyCustomization(IReadOnlyList<string> shownColumns, IEnumerable<string> availableColumns, IReadOnlyDictionary<string, ShellPropertyColumnInfo>? catalog)
+		{
+			var hasNewColumns = false;
+			foreach (var id in availableColumns)
+			{
+				var isVisible = shownColumns.Contains(id);
+				if (isVisible == IsColumnVisible(id))
+					continue;
+
+				var width = catalog is not null && catalog.TryGetValue(id, out var info) ? info.DefaultWidth : DefaultPropertyColumnWidth;
+				SetColumnVisibility(id, isVisible, width);
+				hasNewColumns |= isVisible;
+			}
+
+			ColumnOrder = [.. shownColumns, .. OrderedColumns.Ids.Where(id => !shownColumns.Contains(id) && !DetailsLayoutColumnOrder.IsPinned(id))];
+
+			return hasNewColumns;
+		}
+
 		public double TotalWidth =>
 			AllColumnIds.Sum(id => GetColumn(id).Length.Value);
 
