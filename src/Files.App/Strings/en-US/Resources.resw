@@ -4900,54 +4900,6 @@
   <data name="CustomizeColumnsDescription" xml:space="preserve">
     <value>Choose columns to add to the view</value>
   </data>
-  <data name="Dates" xml:space="preserve">
-    <value>Dates</value>
-  </data>
-  <data name="LocationColumns" xml:space="preserve">
-    <value>Location</value>
-  </data>
-  <data name="Origin" xml:space="preserve">
-    <value>Origin</value>
-  </data>
-  <data name="Sharing" xml:space="preserve">
-    <value>Sharing</value>
-  </data>
-  <data name="Camera" xml:space="preserve">
-    <value>Camera</value>
-  </data>
-  <data name="Media" xml:space="preserve">
-    <value>Media</value>
-  </data>
-  <data name="RecordedTV" xml:space="preserve">
-    <value>Recorded TV</value>
-  </data>
-  <data name="Email" xml:space="preserve">
-    <value>Email</value>
-  </data>
-  <data name="Calendar" xml:space="preserve">
-    <value>Calendar</value>
-  </data>
-  <data name="Tasks" xml:space="preserve">
-    <value>Tasks</value>
-  </data>
-  <data name="Contacts" xml:space="preserve">
-    <value>Contacts</value>
-  </data>
-  <data name="PhoneAndEmail" xml:space="preserve">
-    <value>Phone and email</value>
-  </data>
-  <data name="Addresses" xml:space="preserve">
-    <value>Addresses</value>
-  </data>
-  <data name="Business" xml:space="preserve">
-    <value>Business</value>
-  </data>
-  <data name="DevicesAndDrives" xml:space="preserve">
-    <value>Devices and drives</value>
-  </data>
-  <data name="OtherColumns" xml:space="preserve">
-    <value>Other</value>
-  </data>
   <data name="SearchColumns" xml:space="preserve">
     <value>Find a column</value>
   </data>
@@ -4986,5 +4938,11 @@
   </data>
   <data name="MoreGroupsEllipsis" xml:space="preserve">
     <value>More groups…</value>
+  </data>
+  <data name="Storage" xml:space="preserve">
+    <value>Storage</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Other</value>
   </data>
 </root>

@@ -1,265 +1,457 @@
 ﻿[
 	{
-		"NameResource": "Address",
-		"SectionResource": "PropertySectionGPS",
-		"Property": null,
-		"IsReadOnly": true,
-		"ID": "address"
-	},
-	{
-		"NameResource": "PropertyBitDepth",
-		"SectionResource": "PropertySectionImage",
-		"Property": "System.Image.BitDepth",
+		"NameResource": "PropertyItemName",
+		"SectionResource": "General",
+		"Property": "System.ItemNameDisplay",
 		"IsReadOnly": true,
 		"ID": null
 	},
 	{
-		"NameResource": "PropertyDimensions",
-		"SectionResource": "PropertySectionImage",
-		"Property": "System.Image.Dimensions",
-		"IsReadOnly": true,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyHorizontalSize",
-		"SectionResource": "PropertySectionImage",
-		"Property": "System.Image.HorizontalSize",
-		"IsReadOnly": true,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyVerticalSize",
-		"SectionResource": "PropertySectionImage",
-		"Property": "System.Image.VerticalSize",
-		"IsReadOnly": true,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyHorizontalResolution",
-		"SectionResource": "PropertySectionImage",
-		"Property": "System.Image.HorizontalResolution",
+		"NameResource": "PropertyParsingPath",
+		"SectionResource": "General",
+		"Property": "System.ParsingPath",
 		"IsReadOnly": true,
 		"ID": null,
-		"DisplayFunctionName": "RoundDouble"
-	},
-	{
-		"NameResource": "PropertyVerticalResolution",
-		"SectionResource": "PropertySectionImage",
-		"Property": "System.Image.VerticalResolution",
-		"IsReadOnly": true,
-		"DisplayFunctionName": "RoundDouble",
-		"ID": null
-	},
-	{
-		"NameResource": "Compression",
-		"SectionResource": "PropertySectionImage",
-		"Property": "System.Image.CompressionText",
-		"IsReadOnly": true,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyColorSpace",
-		"SectionResource": "PropertySectionImage",
-		"Property": "System.Image.ColorSpace",
-		"IsReadOnly": true,
-		"ID": null,
-		"EnumeratedList": {
-			"1": "PropertyColorSpace_Value0",
-			"65535": "PropertyColorSpace_Value65535"
+		"PreviewPane": {
+			"Index": 51
 		}
 	},
 	{
-		"NameResource": "PropertyLongitudeDecimal",
-		"SectionResource": "PropertySectionGPS",
-		"Property": "System.GPS.LongitudeDecimal",
+		"NameResource": "PropertyItemTypeText",
+		"SectionResource": "General",
+		"Property": "System.ItemTypeText",
 		"IsReadOnly": true,
 		"ID": null
 	},
 	{
-		"NameResource": "PropertyLatitudeDecimal",
-		"SectionResource": "PropertySectionGPS",
-		"Property": "System.GPS.LatitudeDecimal",
-		"IsReadOnly": true,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyAltitude",
-		"SectionResource": "PropertySectionGPS",
-		"Property": "System.GPS.Altitude",
-		"IsReadOnly": true,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyDateTaken",
-		"SectionResource": "PropertySectionPhoto",
-		"Property": "System.Photo.DateTaken",
-		"IsReadOnly": true,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyCameraManufacturer",
-		"SectionResource": "PropertySectionPhoto",
-		"Property": "System.Photo.CameraManufacturer",
-		"IsReadOnly": false,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyCameraModel",
-		"SectionResource": "PropertySectionPhoto",
-		"Property": "System.Photo.CameraModel",
-		"IsReadOnly": false,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyExposureTime",
-		"SectionResource": "PropertySectionPhoto",
-		"Property": "System.Photo.ExposureTime",
-		"IsReadOnly": true,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyFocalLength",
-		"SectionResource": "PropertySectionPhoto",
-		"Property": "System.Photo.FocalLength",
-		"IsReadOnly": true,
-		"DisplayFunctionName": "UnitMM",
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyAperture",
-		"SectionResource": "PropertySectionPhoto",
-		"Property": "System.Photo.FNumber",
+		"NameResource": "PropertyDateCreated",
+		"SectionResource": "General",
+		"Property": "System.DateCreated",
 		"IsReadOnly": true,
 		"ID": null,
-		"DisplayFunctionName": "AddF"
+		"PreviewPane": {
+			"Index": 56
+		}
 	},
 	{
-		"NameResource": "PropertyISO",
-		"SectionResource": "PropertySectionPhoto",
-		"Property": "System.Photo.ISOSpeed",
+		"NameResource": "PropertyDateModified",
+		"SectionResource": "General",
+		"Property": "System.DateModified",
 		"IsReadOnly": true,
 		"ID": null,
-		"DisplayFunctionName": "AddISO"
+		"PreviewPane": {
+			"Index": 58
+		}
 	},
 	{
-		"NameResource": "PropertyPeopleNames",
-		"SectionResource": "PropertySectionPhoto",
-		"Property": "System.Photo.PeopleNames",
+		"NameResource": "PropertyFileOwner",
+		"SectionResource": "General",
+		"Property": "System.FileOwner",
 		"IsReadOnly": true,
 		"ID": null
 	},
 	{
-		"NameResource": "PropertyChannelCount",
-		"SectionResource": "PropertySectionAudio",
-		"Property": "System.Audio.ChannelCount",
+		"NameResource": "GitOriginRepositoryName",
+		"SectionResource": "General",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"ShowInDetailsPage": false,
+		"PreviewPane": {
+			"Index": 65
+		}
 	},
 	{
-		"NameResource": "PropertyEncodingBitrate",
-		"SectionResource": "PropertySectionAudio",
-		"Property": "System.Audio.EncodingBitrate",
+		"NameResource": "GitCurrentBranch",
+		"SectionResource": "General",
 		"IsReadOnly": true,
-		"DisplayFunctionName": "FormatEncodingBitrate",
-		"ID": null
+		"ID": null,
+		"ShowInDetailsPage": false,
+		"PreviewPane": {
+			"Index": 66
+		}
 	},
 	{
-		"NameResource": "Compression",
-		"SectionResource": "PropertySectionAudio",
-		"Property": "System.Audio.Compression",
+		"NameResource": "FileTags",
+		"SectionResource": "General",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": "filetag",
+		"ShowInDetailsPage": false,
+		"PreviewPane": {
+			"Index": 67
+		}
 	},
 	{
-		"NameResource": "PropertyFormat",
-		"SectionResource": "PropertySectionAudio",
-		"Property": "System.Audio.Format",
+		"SectionResource": "General",
+		"Property": "Files.Tags",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.ContentType",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.FileAttributes",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.FileExtension",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.FileName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.IsEncrypted",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.ItemPathDisplay",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.ItemType",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.Kind",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.PerceivedType",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.Recycle.DateDeleted",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.Recycle.DeletedFrom",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.Size",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.TotalFileSize",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.DateAccessed",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.DateAcquired",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.DateArchived",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.DateCompleted",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.DueDate",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.EndDate",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.ItemDate",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.StartDate",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.ComputerName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.ItemFolderNameDisplay",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.ItemFolderPathDisplay",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.ItemFolderPathDisplayNarrow",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.ItemFolderPathDisplayNarrowNamespaceRelative",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.ItemSearchLocation",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "Files.Git.CommitAuthor",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "Files.Git.LastCommitDate",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "Files.Git.LastCommitMessage",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "Files.Git.LastCommitSha",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "Files.Git.Status",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.VersionControl.LastChangeAuthorEmail",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.VersionControl.LastChangeAuthorName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.VersionControl.LastChangeDate",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.VersionControl.LastChangeID",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.VersionControl.LastChangeMessage",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "General",
+		"Property": "System.VersionControl.Status",
+		"ShowInDetailsPage": false
+	},
+	{
+		"NameResource": "PropertyRatingText",
+		"SectionResource": "Description",
+		"Property": "System.RatingText",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 50
+		}
 	},
 	{
-		"NameResource": "PropertySampleRate",
-		"SectionResource": "PropertySectionAudio",
-		"Property": "System.Audio.SampleRate",
+		"NameResource": "PropertyTitle",
+		"SectionResource": "Description",
+		"Property": "System.Title",
+		"IsReadOnly": false,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 52
+		}
+	},
+	{
+		"NameResource": "PropertySubject",
+		"SectionResource": "Description",
+		"Property": "System.Subject",
+		"IsReadOnly": false,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 53
+		}
+	},
+	{
+		"NameResource": "PropertyComment",
+		"SectionResource": "Description",
+		"Property": "System.Comment",
+		"IsReadOnly": false,
+		"IsMultiLine": true,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 55
+		}
+	},
+	{
+		"NameResource": "PropertyCopyright",
+		"SectionResource": "Description",
+		"Property": "System.Copyright",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 60
+		}
 	},
 	{
-		"NameResource": "Artist",
-		"SectionResource": "PropertySectionMusic",
-		"Property": "System.Music.DisplayArtist",
+		"NameResource": "PropertyTrademarks",
+		"SectionResource": "Description",
+		"Property": "System.Trademarks",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 61
+		}
 	},
 	{
-		"NameResource": "PropertyAlbumArtist",
-		"SectionResource": "PropertySectionMusic",
-		"Property": "System.Music.AlbumArtist",
-		"IsReadOnly": false,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyAlbumTitle",
-		"SectionResource": "PropertySectionMusic",
-		"Property": "System.Music.AlbumTitle",
-		"IsReadOnly": false,
-		"ID": null
-	},
-	{
-		"NameResource": "ContributingArtist",
-		"SectionResource": "PropertySectionMusic",
-		"Property": "System.Music.Artist",
-		"IsReadOnly": false,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyBeatsPerMinute",
-		"SectionResource": "PropertySectionMusic",
-		"Property": "System.Music.BeatsPerMinute",
+		"NameResource": "PropertyLanguage",
+		"SectionResource": "Description",
+		"Property": "System.Language",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 62
+		}
 	},
 	{
-		"NameResource": "PropertyComposer",
-		"SectionResource": "PropertySectionMusic",
-		"Property": "System.Music.Composer",
-		"IsReadOnly": false,
-		"ID": null
+		"NameResource": "PropertyFileVersion",
+		"SectionResource": "Description",
+		"Property": "System.FileVersion",
+		"IsReadOnly": true,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 63
+		}
 	},
 	{
-		"NameResource": "Conductor",
-		"SectionResource": "PropertySectionMusic",
-		"Property": "System.Music.Conductor",
+		"NameResource": "PropertyFileDescription",
+		"SectionResource": "Description",
+		"Property": "System.FileDescription",
 		"IsReadOnly": false,
-		"ID": null
+		"ID": null,
+		"ShowInDetailsPage": false,
+		"PreviewPane": {
+			"Index": 54
+		}
 	},
 	{
-		"NameResource": "PropertyDiscNumber",
-		"SectionResource": "PropertySectionMusic",
-		"Property": "System.Music.DiscNumber",
-		"IsReadOnly": false,
-		"ID": null
+		"NameResource": "PropertyCompany",
+		"SectionResource": "Description",
+		"Property": "System.Company",
+		"IsReadOnly": true,
+		"ID": null,
+		"ShowInDetailsPage": false,
+		"PreviewPane": {
+			"Index": 59
+		}
 	},
 	{
-		"NameResource": "PropertyPartOfSet",
-		"SectionResource": "PropertySectionMusic",
-		"Property": "System.Music.PartOfSet",
-		"IsReadOnly": false,
-		"ID": null
+		"SectionResource": "Description",
+		"Property": "System.Category",
+		"ShowInDetailsPage": false
 	},
 	{
-		"NameResource": "PropertyGenre",
-		"SectionResource": "PropertySectionMusic",
-		"Property": "System.Music.Genre",
-		"IsReadOnly": false,
-		"ID": null
+		"SectionResource": "Description",
+		"Property": "System.ContentStatus",
+		"ShowInDetailsPage": false
 	},
 	{
-		"NameResource": "PropertyTrackNumber",
-		"SectionResource": "PropertySectionMusic",
-		"Property": "System.Music.TrackNumber",
-		"IsReadOnly": false,
-		"ID": null
+		"SectionResource": "Description",
+		"Property": "System.Keywords",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Description",
+		"Property": "System.ParentalRating",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Description",
+		"Property": "System.ParentalRatingReason",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Description",
+		"Property": "System.Rating",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Description",
+		"Property": "System.TitleSortOverride",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Description",
+		"Property": "System.ApplicationName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Description",
+		"Property": "System.Author",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Description",
+		"Property": "System.ItemAuthors",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Description",
+		"Property": "System.Project",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Description",
+		"Property": "System.Software.ProductName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Description",
+		"Property": "System.Software.ProductVersion",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Description",
+		"Property": "System.Software.SupportUrl",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Description",
+		"Property": "System.SourceItem",
+		"ShowInDetailsPage": false
 	},
 	{
 		"NameResource": "PropertyDuration",
@@ -267,7 +459,10 @@
 		"Property": "System.Media.Duration",
 		"IsReadOnly": true,
 		"DisplayFunctionName": "FormatDuration",
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 27
+		}
 	},
 	{
 		"NameResource": "PropertyFrameCount",
@@ -281,77 +476,110 @@
 		"SectionResource": "PropertySectionMedia",
 		"Property": "System.Media.ProtectionType",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 30
+		}
 	},
 	{
 		"NameResource": "PropertyAuthorUrl",
 		"SectionResource": "PropertySectionMedia",
 		"Property": "System.Media.AuthorUrl",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 31
+		}
 	},
 	{
 		"NameResource": "PropertyContentDistributor",
 		"SectionResource": "PropertySectionMedia",
 		"Property": "System.Media.ContentDistributor",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 32
+		}
 	},
 	{
 		"NameResource": "PropertyDateReleased",
 		"SectionResource": "PropertySectionMedia",
 		"Property": "System.Media.DateReleased",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 33
+		}
 	},
 	{
 		"NameResource": "PropertySeriesName",
 		"SectionResource": "PropertySectionMedia",
 		"Property": "System.Media.SeriesName",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 34
+		}
 	},
 	{
 		"NameResource": "PropertySeasonNumber",
 		"SectionResource": "PropertySectionMedia",
 		"Property": "System.Media.SeasonNumber",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 35
+		}
 	},
 	{
 		"NameResource": "PropertyEpisodeNumber",
 		"SectionResource": "PropertySectionMedia",
 		"Property": "System.Media.EpisodeNumber",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 36
+		}
 	},
 	{
 		"NameResource": "PropertyProducer",
 		"SectionResource": "PropertySectionMedia",
 		"Property": "System.Media.Producer",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 37
+		}
 	},
 	{
 		"NameResource": "PropertyPromotionUrl",
 		"SectionResource": "PropertySectionMedia",
 		"Property": "System.Media.PromotionUrl",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 38
+		}
 	},
 	{
 		"NameResource": "PropertyProviderStyle",
 		"SectionResource": "PropertySectionMedia",
 		"Property": "System.Media.ProviderStyle",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 39
+		}
 	},
 	{
 		"NameResource": "PropertyPublisher",
 		"SectionResource": "PropertySectionMedia",
 		"Property": "System.Media.Publisher",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 40
+		}
 	},
 	{
 		"NameResource": "PropertyThumbnailLargePath",
@@ -386,42 +614,683 @@
 		"SectionResource": "PropertySectionMedia",
 		"Property": "System.Media.UserWebUrl",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 41
+		}
 	},
 	{
 		"NameResource": "PropertyWriter",
 		"SectionResource": "PropertySectionMedia",
 		"Property": "System.Media.Writer",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 42
+		}
 	},
 	{
 		"NameResource": "PropertyYear",
 		"SectionResource": "PropertySectionMedia",
 		"Property": "System.Media.Year",
 		"IsReadOnly": true,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 43
+		}
+	},
+	{
+		"SectionResource": "PropertySectionMedia",
+		"Property": "System.DRM.IsProtected",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionMedia",
+		"Property": "System.Media.DateEncoded",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionMedia",
+		"Property": "System.Media.EncodedBy",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionMedia",
+		"Property": "System.Media.SubTitle",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionMedia",
+		"Property": "System.RecordedTV.ChannelNumber",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionMedia",
+		"Property": "System.RecordedTV.EpisodeName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionMedia",
+		"Property": "System.RecordedTV.IsClosedCaptioningAvailable",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionMedia",
+		"Property": "System.RecordedTV.IsRepeatBroadcast",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionMedia",
+		"Property": "System.RecordedTV.IsSAP",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionMedia",
+		"Property": "System.RecordedTV.OriginalBroadcastDate",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionMedia",
+		"Property": "System.RecordedTV.ProgramDescription",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionMedia",
+		"Property": "System.RecordedTV.RecordingTime",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionMedia",
+		"Property": "System.RecordedTV.StationCallSign",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionMedia",
+		"Property": "System.RecordedTV.StationName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"NameResource": "PropertyChannelCount",
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Audio.ChannelCount",
+		"IsReadOnly": true,
 		"ID": null
+	},
+	{
+		"NameResource": "PropertyEncodingBitrate",
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Audio.EncodingBitrate",
+		"IsReadOnly": true,
+		"DisplayFunctionName": "FormatEncodingBitrate",
+		"ID": null,
+		"PreviewPane": {
+			"Index": 25,
+			"NameResource": "PropertyPreviewAudioEncodingBitrate"
+		}
+	},
+	{
+		"NameResource": "Compression",
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Audio.Compression",
+		"IsReadOnly": true,
+		"ID": null
+	},
+	{
+		"NameResource": "PropertyFormat",
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Audio.Format",
+		"IsReadOnly": true,
+		"ID": null
+	},
+	{
+		"NameResource": "PropertySampleRate",
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Audio.SampleRate",
+		"IsReadOnly": true,
+		"ID": null
+	},
+	{
+		"NameResource": "Artist",
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Music.DisplayArtist",
+		"IsReadOnly": true,
+		"ID": null
+	},
+	{
+		"NameResource": "PropertyAlbumArtist",
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Music.AlbumArtist",
+		"IsReadOnly": false,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 16
+		}
+	},
+	{
+		"NameResource": "PropertyAlbumTitle",
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Music.AlbumTitle",
+		"IsReadOnly": false,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 17
+		}
+	},
+	{
+		"NameResource": "ContributingArtist",
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Music.Artist",
+		"IsReadOnly": false,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 18
+		}
+	},
+	{
+		"NameResource": "PropertyBeatsPerMinute",
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Music.BeatsPerMinute",
+		"IsReadOnly": true,
+		"ID": null
+	},
+	{
+		"NameResource": "PropertyComposer",
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Music.Composer",
+		"IsReadOnly": false,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 19
+		}
+	},
+	{
+		"NameResource": "Conductor",
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Music.Conductor",
+		"IsReadOnly": false,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 20
+		}
+	},
+	{
+		"NameResource": "PropertyDiscNumber",
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Music.DiscNumber",
+		"IsReadOnly": false,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 21
+		}
+	},
+	{
+		"NameResource": "PropertyPartOfSet",
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Music.PartOfSet",
+		"IsReadOnly": false,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 22
+		}
+	},
+	{
+		"NameResource": "PropertyGenre",
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Music.Genre",
+		"IsReadOnly": false,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 23
+		}
+	},
+	{
+		"NameResource": "PropertyTrackNumber",
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Music.TrackNumber",
+		"IsReadOnly": false,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 24
+		}
+	},
+	{
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Music.AlbumArtistSortOverride",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Music.AlbumID",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Music.AlbumTitleSortOverride",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Music.ArtistSortOverride",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Music.ComposerSortOverride",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Music.InitialKey",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Music.IsCompilation",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Music.Mood",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Music.Period",
+		"ShowInDetailsPage": false
+	},
+	{
+		"NameResource": "Address",
+		"SectionResource": "PropertySectionImage",
+		"Property": null,
+		"IsReadOnly": true,
+		"ID": "address",
+		"PreviewPane": {
+			"Index": 0
+		}
+	},
+	{
+		"NameResource": "PropertyBitDepth",
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Image.BitDepth",
+		"IsReadOnly": true,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 1
+		}
+	},
+	{
+		"NameResource": "PropertyDimensions",
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Image.Dimensions",
+		"IsReadOnly": true,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 2
+		}
+	},
+	{
+		"NameResource": "PropertyHorizontalSize",
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Image.HorizontalSize",
+		"IsReadOnly": true,
+		"ID": null
+	},
+	{
+		"NameResource": "PropertyVerticalSize",
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Image.VerticalSize",
+		"IsReadOnly": true,
+		"ID": null
+	},
+	{
+		"NameResource": "PropertyHorizontalResolution",
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Image.HorizontalResolution",
+		"IsReadOnly": true,
+		"ID": null,
+		"DisplayFunctionName": "RoundDouble",
+		"PreviewPane": {
+			"Index": 3
+		}
+	},
+	{
+		"NameResource": "PropertyVerticalResolution",
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Image.VerticalResolution",
+		"IsReadOnly": true,
+		"DisplayFunctionName": "RoundDouble",
+		"ID": null,
+		"PreviewPane": {
+			"Index": 4
+		}
+	},
+	{
+		"NameResource": "Compression",
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Image.CompressionText",
+		"IsReadOnly": true,
+		"ID": null
+	},
+	{
+		"NameResource": "PropertyColorSpace",
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Image.ColorSpace",
+		"IsReadOnly": true,
+		"ID": null,
+		"EnumeratedList": {
+			"1": "PropertyColorSpace_Value0",
+			"65535": "PropertyColorSpace_Value65535"
+		},
+		"PreviewPane": {
+			"Index": 5
+		}
+	},
+	{
+		"NameResource": "PropertyLongitudeDecimal",
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.GPS.LongitudeDecimal",
+		"IsReadOnly": true,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 6
+		}
+	},
+	{
+		"NameResource": "PropertyLatitudeDecimal",
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.GPS.LatitudeDecimal",
+		"IsReadOnly": true,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 7
+		}
+	},
+	{
+		"NameResource": "PropertyAltitude",
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.GPS.Altitude",
+		"IsReadOnly": true,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 8
+		}
+	},
+	{
+		"NameResource": "PropertyDateTaken",
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.DateTaken",
+		"IsReadOnly": true,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 57
+		}
+	},
+	{
+		"NameResource": "PropertyCameraManufacturer",
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.CameraManufacturer",
+		"IsReadOnly": false,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 9
+		}
+	},
+	{
+		"NameResource": "PropertyCameraModel",
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.CameraModel",
+		"IsReadOnly": false,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 10
+		}
+	},
+	{
+		"NameResource": "PropertyExposureTime",
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.ExposureTime",
+		"IsReadOnly": true,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 11,
+			"DisplayFunctionName": "Fraction"
+		}
+	},
+	{
+		"NameResource": "PropertyFocalLength",
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.FocalLength",
+		"IsReadOnly": true,
+		"DisplayFunctionName": "UnitMM",
+		"ID": null,
+		"PreviewPane": {
+			"Index": 12
+		}
+	},
+	{
+		"NameResource": "PropertyAperture",
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.FNumber",
+		"IsReadOnly": true,
+		"ID": null,
+		"DisplayFunctionName": "AddF",
+		"PreviewPane": {
+			"Index": 13
+		}
+	},
+	{
+		"NameResource": "PropertyISO",
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.ISOSpeed",
+		"IsReadOnly": true,
+		"ID": null,
+		"DisplayFunctionName": "AddISO",
+		"PreviewPane": {
+			"Index": 14
+		}
+	},
+	{
+		"NameResource": "PropertyPeopleNames",
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.PeopleNames",
+		"IsReadOnly": true,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 15
+		}
+	},
+	{
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.Event",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.EXIFVersion",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.ExposureBias",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.ExposureProgram",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.Flash",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.FocalLengthInFilm",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.LensManufacturer",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.LensModel",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.LightSource",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.MaxAperture",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.MeteringMode",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.Orientation",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.ProgramMode",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.Saturation",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.SubjectDistance",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionImage",
+		"Property": "System.Photo.WhiteBalance",
+		"ShowInDetailsPage": false
+	},
+	{
+		"NameResource": "PropertyFrameRate",
+		"SectionResource": "PropertySectionVideo",
+		"Property": "System.Video.FrameRate",
+		"IsReadOnly": true,
+		"ID": null,
+		"DisplayFunctionName": "DivideBy1000",
+		"PreviewPane": {
+			"Index": 49
+		}
+	},
+	{
+		"NameResource": "PropertyEncodingBitrate",
+		"SectionResource": "PropertySectionVideo",
+		"Property": "System.Video.EncodingBitrate",
+		"IsReadOnly": true,
+		"DisplayFunctionName": "FormatEncodingBitrate",
+		"ID": null,
+		"PreviewPane": {
+			"Index": 26,
+			"NameResource": "PropertyPreviewVideoEncodingBitrate"
+		}
+	},
+	{
+		"NameResource": "Compression",
+		"SectionResource": "PropertySectionVideo",
+		"Property": "System.Video.Compression",
+		"IsReadOnly": true,
+		"ID": null
+	},
+	{
+		"NameResource": "PropertyFrameWidth",
+		"SectionResource": "PropertySectionVideo",
+		"Property": "System.Video.FrameWidth",
+		"IsReadOnly": true,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 28,
+			"NameResource": "Width",
+			"SectionResource": "PropertySectionMedia",
+			"DisplayFunctionName": "FrameWidth"
+		}
+	},
+	{
+		"NameResource": "PropertyFrameHeight",
+		"SectionResource": "PropertySectionVideo",
+		"Property": "System.Video.FrameHeight",
+		"IsReadOnly": true,
+		"ID": null,
+		"PreviewPane": {
+			"Index": 29,
+			"NameResource": "Height",
+			"SectionResource": "PropertySectionMedia",
+			"DisplayFunctionName": "FrameHeight"
+		}
+	},
+	{
+		"NameResource": "PropertyOrientation",
+		"SectionResource": "PropertySectionVideo",
+		"Property": "System.Video.Orientation",
+		"IsReadOnly": false,
+		"ID": null
+	},
+	{
+		"SectionResource": "PropertySectionVideo",
+		"Property": "System.Video.Director",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionVideo",
+		"Property": "System.Video.IsSpherical",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionVideo",
+		"Property": "System.Video.IsStereo",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "PropertySectionVideo",
+		"Property": "System.Video.TotalBitrate",
+		"ShowInDetailsPage": false
 	},
 	{
 		"NameResource": "PropertyContributor",
 		"SectionResource": "Document",
 		"Property": "System.Document.Contributor",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 44
+		}
 	},
 	{
 		"NameResource": "PropertyLastAuthor",
 		"SectionResource": "Document",
 		"Property": "System.Document.LastAuthor",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 45
+		}
 	},
 	{
 		"NameResource": "PropertyRevisionNumber",
 		"SectionResource": "Document",
 		"Property": "System.Document.RevisionNumber",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 46
+		}
 	},
 	{
 		"NameResource": "PropertyVersion",
@@ -436,14 +1305,20 @@
 		"Property": "System.Document.TotalEditingTime",
 		"IsReadOnly": true,
 		"DisplayFunctionName": "FormatDuration",
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 47
+		}
 	},
 	{
 		"NameResource": "PropertyTemplate",
 		"SectionResource": "Document",
 		"Property": "System.Document.Template",
 		"IsReadOnly": true,
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 48
+		}
 	},
 	{
 		"NameResource": "PropertyWordCount",
@@ -488,130 +1363,38 @@
 		"ID": null
 	},
 	{
-		"NameResource": "PropertyFrameRate",
-		"SectionResource": "PropertySectionVideo",
-		"Property": "System.Video.FrameRate",
-		"IsReadOnly": true,
-		"ID": null,
-		"DisplayFunctionName": "DivideBy1000"
+		"SectionResource": "Document",
+		"Property": "System.Document.ClientID",
+		"ShowInDetailsPage": false
 	},
 	{
-		"NameResource": "PropertyEncodingBitrate",
-		"SectionResource": "PropertySectionVideo",
-		"Property": "System.Video.EncodingBitrate",
-		"IsReadOnly": true,
-		"DisplayFunctionName": "FormatEncodingBitrate",
-		"ID": null
+		"SectionResource": "Document",
+		"Property": "System.Document.DateCreated",
+		"ShowInDetailsPage": false
 	},
 	{
-		"NameResource": "Compression",
-		"SectionResource": "PropertySectionVideo",
-		"Property": "System.Video.Compression",
-		"IsReadOnly": true,
-		"ID": null
+		"SectionResource": "Document",
+		"Property": "System.Document.DatePrinted",
+		"ShowInDetailsPage": false
 	},
 	{
-		"NameResource": "PropertyFrameWidth",
-		"SectionResource": "PropertySectionVideo",
-		"Property": "System.Video.FrameWidth",
-		"IsReadOnly": true,
-		"ID": null
+		"SectionResource": "Document",
+		"Property": "System.Document.DateSaved",
+		"ShowInDetailsPage": false
 	},
 	{
-		"NameResource": "PropertyFrameHeight",
-		"SectionResource": "PropertySectionVideo",
-		"Property": "System.Video.FrameHeight",
-		"IsReadOnly": true,
-		"ID": null
+		"SectionResource": "Document",
+		"Property": "System.Document.Division",
+		"ShowInDetailsPage": false
 	},
 	{
-		"NameResource": "PropertyOrientation",
-		"SectionResource": "PropertySectionVideo",
-		"Property": "System.Video.Orientation",
-		"IsReadOnly": false,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyItemName",
-		"SectionResource": "PropertySectionCore",
-		"Property": "System.ItemNameDisplay",
-		"IsReadOnly": true,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyRatingText",
-		"SectionResource": "PropertySectionCore",
-		"Property": "System.RatingText",
-		"IsReadOnly": true,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyParsingPath",
-		"SectionResource": "PropertySectionCore",
-		"Property": "System.ParsingPath",
-		"IsReadOnly": true,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyItemTypeText",
-		"SectionResource": "PropertySectionCore",
-		"Property": "System.ItemTypeText",
-		"IsReadOnly": true,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyTitle",
-		"SectionResource": "PropertySectionCore",
-		"Property": "System.Title",
-		"IsReadOnly": false,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertySubject",
-		"SectionResource": "PropertySectionCore",
-		"Property": "System.Subject",
-		"IsReadOnly": false,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyComment",
-		"SectionResource": "PropertySectionCore",
-		"Property": "System.Comment",
-		"IsReadOnly": false,
-		"IsMultiLine": true,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyCopyright",
-		"SectionResource": "PropertySectionCore",
-		"Property": "System.Copyright",
-		"IsReadOnly": true,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyTrademarks",
-		"SectionResource": "PropertySectionCore",
-		"Property": "System.Trademarks",
-		"IsReadOnly": true,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyLanguage",
-		"SectionResource": "PropertySectionCore",
-		"Property": "System.Language",
-		"IsReadOnly": true,
-		"ID": null
-	},
-	{
-		"NameResource": "PropertyFileVersion",
-		"SectionResource": "PropertySectionCore",
-		"Property": "System.FileVersion",
-		"IsReadOnly": true,
-		"ID": null
+		"SectionResource": "Document",
+		"Property": "System.Document.DocumentID",
+		"ShowInDetailsPage": false
 	},
 	{
 		"NameResource": "SyncStatus",
-		"SectionResource": "PropertySectionCore",
+		"SectionResource": "Storage",
 		"Property": "System.FilePlaceholderStatus",
 		"IsReadOnly": true,
 		"EnumeratedList": {
@@ -626,27 +1409,844 @@
 			"14": "CloudDriveSyncStatus_Offline",
 			"15": "CloudDriveSyncStatus_Offline"
 		},
-		"ID": null
+		"ID": null,
+		"PreviewPane": {
+			"Index": 64
+		}
 	},
 	{
-		"NameResource": "PropertyDateCreated",
-		"SectionResource": "PropertySectionCore",
-		"Property": "System.DateCreated",
-		"IsReadOnly": true,
-		"ID": null
+		"SectionResource": "Storage",
+		"Property": "System.StorageProviderUIStatus",
+		"ShowInDetailsPage": false
 	},
 	{
-		"NameResource": "PropertyDateModified",
-		"SectionResource": "PropertySectionCore",
-		"Property": "System.DateModified",
-		"IsReadOnly": true,
-		"ID": null
+		"SectionResource": "Storage",
+		"Property": "System.Home.Grouping",
+		"ShowInDetailsPage": false
 	},
 	{
-		"NameResource": "PropertyFileOwner",
-		"SectionResource": "PropertySectionCore",
-		"Property": "System.FileOwner",
-		"IsReadOnly": true,
-		"ID": null
+		"SectionResource": "Storage",
+		"Property": "System.HomeGroupSharingStatus",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Storage",
+		"Property": "System.IsShared",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Storage",
+		"Property": "System.OfflineAvailability",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Storage",
+		"Property": "System.OfflineStatus",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Storage",
+		"Property": "System.SharedWith",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Storage",
+		"Property": "System.SharingStatus",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Storage",
+		"Property": "System.StorageProviderSharingStatus",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Storage",
+		"Property": "System.StorageProviderState",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Storage",
+		"Property": "System.Capacity",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Storage",
+		"Property": "System.FreeSpace",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Storage",
+		"Property": "System.PercentFull",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Communication.AccountName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.IsAttachment",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.IsRead",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.ItemParticipants",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Message.AttachmentNames",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Message.BccAddress",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Message.BccName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Message.CcAddress",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Message.CcName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Message.ConversationID",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Message.DateReceived",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Message.DateSent",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Message.FromAddress",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Message.FromName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Message.HasAttachments",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Message.SenderAddress",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Message.SenderName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Message.Store",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Message.ToAddress",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Message.ToDoTitle",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Message.ToName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Calendar.Duration",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Calendar.IsOnline",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Calendar.IsRecurring",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Calendar.Location",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Calendar.OptionalAttendeeAddresses",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Calendar.OptionalAttendeeNames",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Calendar.OrganizerAddress",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Calendar.OrganizerName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Calendar.ReminderTime",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Calendar.RequiredAttendeeAddresses",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Calendar.RequiredAttendeeNames",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Calendar.Resources",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Calendar.ResponseStatus",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Calendar.ShowTimeAs",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Journal.Contacts",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Journal.EntryType",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Communication.TaskStatus",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.FlagColor",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.FlagStatus",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Importance",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.IsFlagged",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.IsFlaggedComplete",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.IsIncomplete",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Priority",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Sensitivity",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Task.BillingInformation",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Task.CompletionStatus",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Task.Owner",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.Anniversary",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.Birthday",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.Children",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.FileAsName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.FirstName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.FullName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.Gender",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.GivenName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.Hobbies",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.Initials",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.Label",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.LastName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.MiddleName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.NickName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.PersonalTitle",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.SpouseName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.Suffix",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.CallbackTelephone",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.CarTelephone",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.EmailAddress",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.EmailAddress2",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.EmailAddress3",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.EmailAddresses",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.EmailName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.HomeFaxNumber",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.HomeTelephone",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.IMAddress",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.MobileTelephone",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.PagerTelephone",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.PrimaryEmailAddress",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.PrimaryTelephone",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.TelexNumber",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.TTYTDDTelephone",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.WebPage",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.HomeAddress",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.HomeAddressCity",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.HomeAddressCountry",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.HomeAddressPostalCode",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.HomeAddressPostOfficeBox",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.HomeAddressState",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.HomeAddressStreet",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.MailingAddress",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.OtherAddress",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.OtherAddressCity",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.OtherAddressCountry",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.OtherAddressPostalCode",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.OtherAddressPostOfficeBox",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.OtherAddressState",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.OtherAddressStreet",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.PrimaryAddressCity",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.PrimaryAddressCountry",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.PrimaryAddressPostalCode",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.PrimaryAddressPostOfficeBox",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.PrimaryAddressState",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.PrimaryAddressStreet",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.AssistantName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.AssistantTelephone",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.BusinessAddress",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.BusinessAddressCity",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.BusinessAddressCountry",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.BusinessAddressPostalCode",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.BusinessAddressPostOfficeBox",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.BusinessAddressState",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.BusinessAddressStreet",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.BusinessFaxNumber",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.BusinessHomePage",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.BusinessTelephone",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.CompanyMainTelephone",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.Department",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.JobTitle",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.OfficeLocation",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Contact.Profession",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Devices.CategoryGroup",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Devices.Connected",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Devices.DiscoveryMethod",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Devices.FriendlyName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Devices.LocalMachine",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Devices.Manufacturer",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Devices.ModelName",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Devices.Paired",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Devices.PrimaryCategory",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Devices.Status",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Devices.Status1",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "Microsoft.Visio.MastersDetails",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "Microsoft.Visio.MastersKeywords",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.FileCount",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.FileOperation.Action",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.FileOperation.Order",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.FileOperation.PlannedLocation",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.FileOperation.Target",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.FileOperation.Title",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.IsDeleted",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Link.DateVisited",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Link.Description",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Link.Status",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Link.TargetParsingPath",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Link.TargetUrl",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.MileageInformation",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Note.Color",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Search.AutoSummary",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Search.MatchTags",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Search.QueryFocusedSummary",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Search.QueryFocusedSummaryWithFallback",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Search.Rank",
+		"ShowInDetailsPage": false
+	},
+	{
+		"SectionResource": "Other",
+		"Property": "System.Security.EncryptionOwnersDisplay",
+		"ShowInDetailsPage": false
 	}
 ]

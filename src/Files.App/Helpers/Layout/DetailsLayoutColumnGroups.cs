@@ -1,186 +1,70 @@
 // Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
+using Windows.ApplicationModel;
+
 namespace Files.App.Helpers
 {
 	/// <summary>
-	/// Sorts the columns of <see cref="DetailsLayoutPage"/> into the groups they are chosen from.
+	/// Provides the groups that properties are chosen from, which the property list shared with the properties window and the preview pane defines.
 	/// </summary>
 	internal static class DetailsLayoutColumnGroups
 	{
-		public enum ColumnGroup
-		{
-			General,
-			Dates,
-			Location,
-			Description,
-			Origin,
-			Sharing,
-			Documents,
-			Pictures,
-			Camera,
-			Music,
-			Videos,
-			Media,
-			RecordedTV,
-			Email,
-			Calendar,
-			Tasks,
-			Contacts,
-			PhoneAndEmail,
-			Addresses,
-			Business,
-			Devices,
-			Git,
-			Other,
-		}
-
-		private static readonly Dictionary<string, ColumnGroup> SystemColumnGroups = new()
-		{
-			["DateAccessed"] = ColumnGroup.Dates,
-			["DateAcquired"] = ColumnGroup.Dates,
-			["DateArchived"] = ColumnGroup.Dates,
-			["DateCompleted"] = ColumnGroup.Dates,
-			["DueDate"] = ColumnGroup.Dates,
-			["StartDate"] = ColumnGroup.Dates,
-			["EndDate"] = ColumnGroup.Dates,
-			["ItemDate"] = ColumnGroup.Dates,
-			["ItemFolderNameDisplay"] = ColumnGroup.Location,
-			["ItemFolderPathDisplay"] = ColumnGroup.Location,
-			["ItemFolderPathDisplayNarrow"] = ColumnGroup.Location,
-			["ItemFolderPathDisplayNarrowNamespaceRelative"] = ColumnGroup.Location,
-			["ItemSearchLocation"] = ColumnGroup.Location,
-			["ComputerName"] = ColumnGroup.Location,
-			["Title"] = ColumnGroup.Description,
-			["Subject"] = ColumnGroup.Description,
-			["Rating"] = ColumnGroup.Description,
-			["Keywords"] = ColumnGroup.Description,
-			["Category"] = ColumnGroup.Description,
-			["Comment"] = ColumnGroup.Description,
-			["Language"] = ColumnGroup.Description,
-			["ParentalRating"] = ColumnGroup.Description,
-			["ParentalRatingReason"] = ColumnGroup.Description,
-			["TitleSortOverride"] = ColumnGroup.Description,
-			["ContentStatus"] = ColumnGroup.Description,
-			["Author"] = ColumnGroup.Origin,
-			["ItemAuthors"] = ColumnGroup.Origin,
-			["Company"] = ColumnGroup.Origin,
-			["Copyright"] = ColumnGroup.Origin,
-			["Trademarks"] = ColumnGroup.Origin,
-			["Project"] = ColumnGroup.Origin,
-			["ApplicationName"] = ColumnGroup.Origin,
-			["FileDescription"] = ColumnGroup.Origin,
-			["FileVersion"] = ColumnGroup.Origin,
-			["SourceItem"] = ColumnGroup.Origin,
-			["OfflineAvailability"] = ColumnGroup.Sharing,
-			["OfflineStatus"] = ColumnGroup.Sharing,
-			["IsShared"] = ColumnGroup.Sharing,
-			["SharedWith"] = ColumnGroup.Sharing,
-			["SharingStatus"] = ColumnGroup.Sharing,
-			["HomeGroupSharingStatus"] = ColumnGroup.Sharing,
-			["StorageProviderSharingStatus"] = ColumnGroup.Sharing,
-			["StorageProviderState"] = ColumnGroup.Sharing,
-			["IsAttachment"] = ColumnGroup.Email,
-			["IsRead"] = ColumnGroup.Email,
-			["ItemParticipants"] = ColumnGroup.Email,
-			["FlagColor"] = ColumnGroup.Tasks,
-			["FlagStatus"] = ColumnGroup.Tasks,
-			["IsFlagged"] = ColumnGroup.Tasks,
-			["IsFlaggedComplete"] = ColumnGroup.Tasks,
-			["IsIncomplete"] = ColumnGroup.Tasks,
-			["Priority"] = ColumnGroup.Tasks,
-			["Importance"] = ColumnGroup.Tasks,
-			["Sensitivity"] = ColumnGroup.Tasks,
-			["Capacity"] = ColumnGroup.Devices,
-			["FreeSpace"] = ColumnGroup.Devices,
-			["PercentFull"] = ColumnGroup.Devices,
-			["IsDeleted"] = ColumnGroup.Other,
-			["FileCount"] = ColumnGroup.Other,
-			["MileageInformation"] = ColumnGroup.Other,
-		};
-
-		private static readonly HashSet<string> PictureColumns = ["DateTaken", "Event", "PeopleNames", "Orientation"];
-
-		private static readonly HashSet<string> BusinessContactColumns = ["AssistantName", "AssistantTelephone", "CompanyMainTelephone", "Department", "JobTitle", "OfficeLocation", "Profession"];
+		private static readonly Lazy<(Dictionary<string, string> Groups, string[] GroupOrder, string[] ShownPropertyIds)> PropertyList = new(LoadPropertyList);
 
 		/// <summary>
-		/// Gets the group of the specified column.
+		/// Gets the properties the properties window or the preview pane show, which are offered as columns too.
 		/// </summary>
-		public static ColumnGroup GetGroup(string id)
+		public static IReadOnlyCollection<string> ShownPropertyIds
+			=> PropertyList.Value.ShownPropertyIds;
+
+		/// <summary>
+		/// Gets the group of the specified property, which is the last group for a property the list doesn't have.
+		/// </summary>
+		public static string GetGroup(string id)
+			=> PropertyList.Value.Groups.GetValueOrDefault(id, Strings.Other);
+
+		/// <summary>
+		/// Gets the position of the specified group among the groups, which is the order the list has them in.
+		/// </summary>
+		public static int GetOrder(string group)
 		{
-			if (DetailsLayoutColumnDefinitions.Get(id) is { } definition)
-				return definition.IsGitColumn ? ColumnGroup.Git : ColumnGroup.General;
-
-			var parts = id.Split('.');
-			if (parts is not ["System", ..])
-				return ColumnGroup.Other;
-
-			if (parts.Length == 2)
-				return SystemColumnGroups.GetValueOrDefault(parts[1], ColumnGroup.General);
-
-			return parts[1] switch
-			{
-				"Document" or "Visio" or "Presentation" => ColumnGroup.Documents,
-				"Image" => ColumnGroup.Pictures,
-				"GPS" => ColumnGroup.Location,
-				"Photo" => PictureColumns.Contains(parts[2]) ? ColumnGroup.Pictures : ColumnGroup.Camera,
-				"Music" or "Audio" => ColumnGroup.Music,
-				"Video" => ColumnGroup.Videos,
-				"Media" or "DRM" => ColumnGroup.Media,
-				"RecordedTV" => ColumnGroup.RecordedTV,
-				"Message" => ColumnGroup.Email,
-				"Communication" => parts[2] is "TaskStatus" ? ColumnGroup.Tasks : ColumnGroup.Email,
-				"Calendar" or "Journal" => ColumnGroup.Calendar,
-				"Task" => ColumnGroup.Tasks,
-				"Contact" => GetContactGroup(parts[2]),
-				"Software" => ColumnGroup.Origin,
-				"Sharing" or "Sync" or "Home" => ColumnGroup.Sharing,
-				"Devices" or "Volume" or "Computer" => ColumnGroup.Devices,
-				"VersionControl" => ColumnGroup.Git,
-				_ => ColumnGroup.Other,
-			};
+			var index = Array.IndexOf(PropertyList.Value.GroupOrder, group);
+			return index < 0 ? int.MaxValue : index;
 		}
 
-		private static ColumnGroup GetContactGroup(string name)
+		public static string GetDisplayName(string group)
+			=> group.GetLocalizedResource();
+
+		private static (Dictionary<string, string> Groups, string[] GroupOrder, string[] ShownPropertyIds) LoadPropertyList()
 		{
-			if (name.StartsWith("Business", StringComparison.Ordinal) || BusinessContactColumns.Contains(name))
-				return ColumnGroup.Business;
-
-			if (name.Contains("Email", StringComparison.Ordinal) || name.Contains("Telephone", StringComparison.Ordinal) ||
-				name.EndsWith("Number", StringComparison.Ordinal) || name is "IMAddress" or "WebPage")
-				return ColumnGroup.PhoneAndEmail;
-
-			return name.Contains("Address", StringComparison.Ordinal) ? ColumnGroup.Addresses : ColumnGroup.Contacts;
-		}
-
-		public static string GetDisplayName(ColumnGroup group)
-		{
-			return (group switch
+			var groups = new Dictionary<string, string>();
+			var groupOrder = new List<string>();
+			var shownPropertyIds = new List<string>();
+			try
 			{
-				ColumnGroup.General => Strings.General,
-				ColumnGroup.Dates => Strings.Dates,
-				ColumnGroup.Location => Strings.LocationColumns,
-				ColumnGroup.Description => Strings.Description,
-				ColumnGroup.Origin => Strings.Origin,
-				ColumnGroup.Sharing => Strings.Sharing,
-				ColumnGroup.Documents => Strings.Documents,
-				ColumnGroup.Pictures => Strings.Pictures,
-				ColumnGroup.Camera => Strings.Camera,
-				ColumnGroup.Music => Strings.Music,
-				ColumnGroup.Videos => Strings.Videos,
-				ColumnGroup.Media => Strings.Media,
-				ColumnGroup.RecordedTV => Strings.RecordedTV,
-				ColumnGroup.Email => Strings.Email,
-				ColumnGroup.Calendar => Strings.Calendar,
-				ColumnGroup.Tasks => Strings.Tasks,
-				ColumnGroup.Contacts => Strings.Contacts,
-				ColumnGroup.PhoneAndEmail => Strings.PhoneAndEmail,
-				ColumnGroup.Addresses => Strings.Addresses,
-				ColumnGroup.Business => Strings.Business,
-				ColumnGroup.Devices => Strings.DevicesAndDrives,
-				ColumnGroup.Git => Strings.Git,
-				_ => Strings.OtherColumns,
-			}).GetLocalizedResource();
+				var path = SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, "Assets", "Resources", "PropertiesInformation.json");
+				using var document = JsonDocument.Parse(SystemIO.File.ReadAllText(path));
+				foreach (var property in document.RootElement.EnumerateArray())
+				{
+					if (!property.TryGetProperty("SectionResource", out var section) || section.GetString() is not { Length: > 0 } group)
+						continue;
+
+					if (!groupOrder.Contains(group))
+						groupOrder.Add(group);
+
+					if (!property.TryGetProperty("Property", out var id) || id.GetString() is not { Length: > 0 } propertyId || !groups.TryAdd(propertyId, group))
+						continue;
+
+					if (!property.TryGetProperty("ShowInDetailsPage", out var showInDetailsPage) || showInDetailsPage.ValueKind is not JsonValueKind.False || property.TryGetProperty("PreviewPane", out _))
+						shownPropertyIds.Add(propertyId);
+				}
+			}
+			catch (Exception ex) when (ex is SystemIO.IOException or JsonException or InvalidOperationException or UnauthorizedAccessException)
+			{
+			}
+
+			return (groups, [.. groupOrder], [.. shownPropertyIds]);
 		}
 	}
 }

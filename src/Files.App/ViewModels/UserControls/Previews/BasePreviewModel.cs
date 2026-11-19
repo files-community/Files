@@ -118,8 +118,7 @@ namespace Files.App.ViewModels.Previews
 			if (Item.ItemFile is null)
 				throw new InvalidOperationException("The preview item could not be opened as a file.");
 
-			var list = await FileProperty.RetrieveAndInitializePropertiesAsync(Item.ItemFile,
-				Constants.ResourceFilePaths.PreviewPaneDetailsPropertiesJsonPath);
+			var list = await FileProperty.RetrieveAndInitializePropertiesAsync(Item.ItemFile, forPreviewPane: true);
 
 			var address = list.Find(x => x.ID is "address")
 				?? throw new InvalidDataException("The preview property definition is missing the address field.");
