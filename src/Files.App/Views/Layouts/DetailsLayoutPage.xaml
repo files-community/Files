@@ -291,6 +291,8 @@
 									<MenuFlyoutSeparator x:Name="ColumnTogglesStartSeparator" />
 									<MenuFlyoutSeparator x:Name="ColumnTogglesEndSeparator" />
 
+									<!--  More Columns  -->
+									<MenuFlyoutItem Click="MoreColumns_Click" Text="{helpers:ResourceString Name=MoreColumnsEllipsis}" />
 
 									<!--  Set Current Columns As Default  -->
 									<MenuFlyoutItem

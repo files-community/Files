@@ -12,7 +12,7 @@ namespace Files.App.Helpers
 	/// </summary>
 	/// <param name="BuiltInCommand">The built-in sort or group command, when the option is one.</param>
 	/// <param name="PropertyId">The Shell property or Git column the option uses, when it isn't built in.</param>
-	/// <param name="Items">The options of a submenu, such as the date units of a date.</param>
+	/// <param name="Items">The options chosen from a window instead of the menu, or the date units of one of them.</param>
 	/// <param name="DateUnit">The date unit to group by, for the date units of a date property.</param>
 	/// <param name="IsSeparator">Whether the option is a separator between groups of options.</param>
 	internal sealed record LayoutSortGroupOption(
@@ -141,7 +141,7 @@ namespace Files.App.Helpers
 					.Where(column => GetBuiltInSortCommand(column.Id) is null)
 					.Select(column => CreatePropertyOption(column.Id, false)),
 			];
-			AddMoreOptions(options, moreOptions);
+			AddMoreOptions(options, moreOptions, Strings.MoreSortOptionsEllipsis);
 
 			return options;
 
@@ -239,7 +239,7 @@ namespace Files.App.Helpers
 					.Select(column => column.Id),
 			];
 			LayoutSortGroupOption[] moreOptions = [.. showDateModified ? [] : new[] { CreateDateModifiedOption() }, .. moreIds.Select(CreateGroupPropertyOption)];
-			AddMoreOptions(options, moreOptions);
+			AddMoreOptions(options, moreOptions, Strings.MoreGroupsEllipsis);
 
 			return options;
 
@@ -339,6 +339,23 @@ namespace Files.App.Helpers
 			=> GetBuiltInSortCommand(id) is null && id != ExplorerTagsId;
 
 		/// <summary>
+		/// Gets the labels of the day, month and year group options of the specified date, when it has its own.
+		/// </summary>
+		public static (string Day, string Month, string Year)? GetDateUnitLabels(string id)
+		{
+			return id switch
+			{
+				DetailsLayoutColumnIds.DateModified => (Strings.DayUpdated, Strings.MonthUpdated, Strings.YearUpdated),
+				DetailsLayoutColumnIds.DateCreated => (Strings.DayCreated, Strings.MonthCreated, Strings.YearCreated),
+				DetailsLayoutColumnIds.DateDeleted => (Strings.DayDeleted, Strings.MonthDeleted, Strings.YearDeleted),
+				DetailsLayoutColumnIds.GitLastCommitDate => (Strings.DayCommitted, Strings.MonthCommitted, Strings.YearCommitted),
+				DateTakenId => (Strings.DayTaken, Strings.MonthTaken, Strings.YearTaken),
+				MediaCreatedId => (Strings.DayRecorded, Strings.MonthRecorded, Strings.YearRecorded),
+				_ => null,
+			};
+		}
+
+		/// <summary>
 		/// Gets whether the values of the specified property are dates, which can be grouped by year, month or day.
 		/// </summary>
 		public static bool IsDateProperty(string id)
@@ -407,14 +424,14 @@ namespace Files.App.Helpers
 			return task.Result.Where(column => ColumnValueHelper.IsShellPropertyColumn(column.Id) && column.Id != ExplorerTagsId && options.All(option => option.PropertyId != column.Id));
 		}
 
-		private static void AddMoreOptions(List<LayoutSortGroupOption> options, IEnumerable<LayoutSortGroupOption> moreOptions)
+		private static void AddMoreOptions(List<LayoutSortGroupOption> options, IEnumerable<LayoutSortGroupOption> moreOptions, string label)
 		{
 			var items = moreOptions.ToArray();
 			if (items.Length == 0)
 				return;
 
 			options.Add(new(string.Empty, IsSeparator: true));
-			options.Add(new(Strings.MoreColumns.GetLocalizedResource(), Items: items));
+			options.Add(new(label.GetLocalizedResource(), Items: items));
 		}
 
 		private static LayoutSortGroupOption CreatePropertyOption(string id, bool isChecked)
