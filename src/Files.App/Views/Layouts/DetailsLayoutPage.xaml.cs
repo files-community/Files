@@ -106,6 +106,8 @@ namespace Files.App.Views.Layouts
 		/// <summary>
 		/// Row height for items in the Details View
 		/// </summary>
+		private const double DefaultGroupHeaderPitch = 48;
+
 		public int RowHeight
 		{
 			get => LayoutSizeKindHelper.GetDetailsViewRowHeight((DetailsViewSizeKind)UserSettingsService.LayoutSettingsService.DetailsViewSize);
@@ -170,7 +172,56 @@ namespace Files.App.Views.Layouts
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
 			FileList.ScrollIntoView(e);
-			ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * RowHeight, null, true); // Scroll to index * item height
+			ContentScroller?.ChangeView(null, GetItemOffset(e), null, true);
+		}
+
+		/// <summary>
+		/// Gets the scroll position that shows the specified item right below the header.
+		/// </summary>
+		private double GetItemOffset(ListedItem item)
+		{
+			if (!CollectionViewSource.IsSourceGrouped || CollectionViewSource.Source is not BulkConcurrentObservableCollection<GroupedCollection<ListedItem>> groups)
+				return FileList.Items.IndexOf(item) * GetRowPitch();
+
+			// Each group starts with a header, including the group of the item
+			var rowCount = 0;
+			var groupHeaderCount = 0;
+			foreach (var group in groups.ToList())
+			{
+				groupHeaderCount++;
+
+				var index = group.IndexOf(item);
+				if (index >= 0)
+				{
+					rowCount += index;
+					break;
+				}
+
+				rowCount += group.Count;
+			}
+
+			return rowCount * GetRowPitch() + groupHeaderCount * GetGroupHeaderPitch();
+		}
+
+		private double GetGroupHeaderPitch()
+		{
+			if (FileList.FindDescendant<ListViewHeaderItem>() is { ActualHeight: > 0 } groupHeader)
+				return groupHeader.ActualHeight + groupHeader.Margin.Top + groupHeader.Margin.Bottom;
+
+			return DefaultGroupHeaderPitch;
+		}
+
+		/// <summary>
+		/// Gets the distance from one row to the next, which is less than <see cref="RowHeight"/> when the rows have a negative margin.
+		/// </summary>
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
+		private double GetRowPitch()
+		{
+			var firstVisibleIndex = GetVisibleIndexRange().First;
+			if (firstVisibleIndex >= 0 && FileList.ContainerFromIndex(firstVisibleIndex) is ListViewItem { ActualHeight: > 0 } row)
+				return row.ActualHeight + row.Margin.Top + row.Margin.Bottom;
+
+			return RowHeight;
 		}
 
 		protected override void ItemManipulationModel_ScrollToTopInvoked(object? sender, EventArgs e)
@@ -184,7 +235,7 @@ namespace Files.App.Views.Layouts
 			if (SelectedItems?.Any() ?? false)
 			{
 				FileList.ScrollIntoView(SelectedItems.Last());
-				ContentScroller?.ChangeView(null, FileList.Items.IndexOf(SelectedItems.Last()) * RowHeight, null, false);
+				ContentScroller?.ChangeView(null, GetItemOffset(SelectedItems.Last()), null, false);
 				(FileList.ContainerFromItem(SelectedItems.Last()) as ListViewItem)?.Focus(FocusState.Keyboard);
 			}
 		}
