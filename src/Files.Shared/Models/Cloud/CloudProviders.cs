@@ -53,6 +53,8 @@ namespace Files.Shared.Cloud
 
 		MagentaCloud,
 
-		OXDrive
+		OXDrive,
+
+		OpenCloud
 	}
 }

@@ -93,6 +93,7 @@ namespace Files.App.Server.Cloud
 						"Lucid" => CloudProviders.LucidLink,
 						"SyncCom" => CloudProviders.SyncDrive,
 						"MagentaCLOUD" => CloudProviders.MagentaCloud,
+						"OpenCloud" => CloudProviders.OpenCloud,
 						_ => null,
 					};
 
@@ -121,6 +122,7 @@ namespace Files.App.Server.Cloud
 							CloudProviders.LucidLink => !string.IsNullOrEmpty(clsidDefaultValue) ? clsidDefaultValue : "lucidLink",
 							CloudProviders.SyncDrive => !string.IsNullOrEmpty(clsidDefaultValue) ? clsidDefaultValue : "Sync",
 							CloudProviders.MagentaCloud => !string.IsNullOrEmpty(clsidDefaultValue) ? clsidDefaultValue : "MagentaCLOUD",
+							CloudProviders.OpenCloud => !string.IsNullOrEmpty(clsidDefaultValue) ? clsidDefaultValue : "OpenCloud",
 							_ => null
 						},
 						SyncFolder = syncedFolder,
@@ -353,6 +355,8 @@ namespace Files.App.Server.Cloud
 				return "iCloudPhotos";
 			if (driveIdentifier.StartsWith("ownCloud"))
 				return "ownCloud";
+			if (driveIdentifier.StartsWith("OpenCloud!"))
+				return "OpenCloud";
 			if (driveIdentifier.StartsWith("ProtonDrive"))
 				return "ProtonDrive";
 			if (driveIdentifier.StartsWith("SyncCom"))
