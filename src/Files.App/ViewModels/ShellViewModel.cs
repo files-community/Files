@@ -1247,10 +1247,19 @@ namespace Files.App.ViewModels
 			var propertyIds = columnIds.Where(ColumnValueHelper.IsShellPropertyColumn).Distinct().Cast<string>().ToArray();
 			var gitProperties = columnIds.Where(ColumnValueHelper.IsGitColumn)
 				.Aggregate(GitProperties.None, (properties, id) => properties | (id == DetailsLayoutColumnIds.GitStatus ? GitProperties.Status : GitProperties.Commit));
-			if (propertyIds.Length == 0 && gitProperties is GitProperties.None)
+			if (isDisposed || (propertyIds.Length == 0 && gitProperties is GitProperties.None))
 				return;
 
-			var token = loadPropsCTS.Token;
+			CancellationToken token;
+			try
+			{
+				token = loadPropsCTS.Token;
+			}
+			catch (ObjectDisposedException)
+			{
+				return;
+			}
+
 			var items = filesAndFolders.ToList();
 			await Task.WhenAll(
 				ShellPropertyValueLoader.LoadAsync(items, propertyIds, token),

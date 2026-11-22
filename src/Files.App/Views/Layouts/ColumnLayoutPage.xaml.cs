@@ -113,10 +113,53 @@ namespace Files.App.Views.Layouts
 		private void OnItemLoadStatusChanged(object? sender, ItemLoadStatusChangedEventArgs args)
 		{
 			if (args.Status is ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete)
+				FitColumnWidth();
+		}
+
+		private const int LongestNamesToMeasure = 10;
+
+		private void FitColumnWidth()
+		{
+			// The width is measured from the rows, which exist once the list is laid out
+			FileList.UpdateLayout();
+
+			var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams?.Column ?? 0 : 0;
+			this.FindAscendant<ColumnsLayoutPage>()?.SetWidth(currentBladeIndex, MeasureLongestNameWidth());
+		}
+
+		/// <summary>
+		/// Measures the longest item names, since rows only exist for the items on screen.
+		/// </summary>
+		private double MeasureLongestNameWidth()
+		{
+			var names = ParentShellPageInstance?.ShellViewModel?.FilesAndFolders
+				.Select(item => item.Name ?? string.Empty)
+				.OrderByDescending(name => name.Length)
+				.Take(LongestNamesToMeasure)
+				.Where(name => name.Length > 0)
+				.ToArray();
+
+			if (names is null || names.Length == 0)
+				return 0;
+
+			var measuringBlock = new TextBlock();
+			if (FileList.FindDescendant<TextBlock>(textBlock => textBlock.Name == "ItemName") is { } nameBlock)
 			{
-				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams?.Column ?? 0 : 0;
-				this.FindAscendant<ColumnsLayoutPage>()?.SetWidth(currentBladeIndex);
+				measuringBlock.FontSize = nameBlock.FontSize;
+				measuringBlock.FontFamily = nameBlock.FontFamily;
+				measuringBlock.FontWeight = nameBlock.FontWeight;
+				measuringBlock.FontStyle = nameBlock.FontStyle;
 			}
+
+			double width = 0;
+			foreach (var name in names)
+			{
+				measuringBlock.Text = name;
+				measuringBlock.Measure(new Windows.Foundation.Size(double.PositiveInfinity, double.PositiveInfinity));
+				width = Math.Max(width, measuringBlock.DesiredSize.Width);
+			}
+
+			return width;
 		}
 
 
@@ -125,6 +168,10 @@ namespace Files.App.Views.Layouts
 			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
 			var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 			shellViewModel.ItemLoadStatusChanged += OnItemLoadStatusChanged;
+
+			// The items can finish loading before the list does
+			if (!shellViewModel.IsLoadingItems && shellViewModel.FilesAndFolders.Count > 0)
+				FitColumnWidth();
 		}
 
 		private void ColumnViewBase_GotFocus(object sender, RoutedEventArgs e)
