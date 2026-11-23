@@ -17,6 +17,16 @@ namespace Files.App.ViewModels.Properties
 	public sealed partial class FileProperty : ObservableObject
 	{
 		/// <summary>
+		/// Whether the details page of the properties window shows the property
+		/// </summary>
+		public bool ShowInDetailsPage { get; set; } = true;
+
+		/// <summary>
+		/// How the preview pane shows the property, or null when it doesn't
+		/// </summary>
+		public FilePropertyPreviewPaneInfo? PreviewPane { get; set; }
+
+		/// <summary>
 		/// The name to display
 		/// </summary>
 		public string Name => LocalizedName ?? (NameResource
@@ -300,10 +310,12 @@ namespace Files.App.ViewModels.Properties
 		/// <a href="https://learn.microsoft.com/windows/win32/properties/props"/>.
 		/// </summary>
 		/// <param name="file">The file whose properties you wish to obtain</param>
-		/// <param name="path">The path to the json file of properties to be loaded</param>
+		/// <param name="forPreviewPane">Whether to get the properties of the preview pane instead of the details page</param>
 		/// <returns>A list if FileProperties containing their values</returns>
-		public async static Task<List<FileProperty>> RetrieveAndInitializePropertiesAsync(BaseStorageFile file, string path = Constants.ResourceFilePaths.DetailsPagePropertiesJsonPath)
+		public async static Task<List<FileProperty>> RetrieveAndInitializePropertiesAsync(BaseStorageFile file, bool forPreviewPane = false)
 		{
+			const string path = Constants.ResourceFilePaths.DetailsPagePropertiesJsonPath;
+
 			// cache the contents of the file to avoid repeatedly reading the file
 			if (!cachedPropertiesListFiles.TryGetValue(path, out var text))
 			{
@@ -314,6 +326,21 @@ namespace Files.App.ViewModels.Properties
 
 			var list = JsonSerializer.Deserialize(text, AppJsonSerializerContext.Default.ListFileProperty)
 				?? throw new InvalidDataException($"The property definition file '{path}' does not contain a property list.");
+
+			if (forPreviewPane)
+			{
+				list = [.. list.Where(prop => prop.PreviewPane is not null).OrderBy(prop => prop.PreviewPane!.Index)];
+				foreach (var prop in list)
+				{
+					prop.NameResource = prop.PreviewPane!.NameResource ?? prop.NameResource;
+					prop.SectionResource = prop.PreviewPane.SectionResource ?? prop.SectionResource;
+					prop.DisplayFunctionName = prop.PreviewPane.DisplayFunctionName ?? prop.DisplayFunctionName;
+				}
+			}
+			else
+			{
+				list = [.. list.Where(prop => prop.ShowInDetailsPage)];
+			}
 
 			var propsToGet = new List<string>();
 
@@ -371,8 +398,8 @@ namespace Files.App.ViewModels.Properties
 		{
 			return sectionResource switch
 			{
-				"PropertySectionMusic" => FileExtensionHelpers.IsAudioFile(fileExtension),
-				"PropertySectionPhoto" => FileExtensionHelpers.IsImageFile(fileExtension),
+				"PropertySectionAudio" => FileExtensionHelpers.IsAudioFile(fileExtension),
+				"PropertySectionImage" => FileExtensionHelpers.IsImageFile(fileExtension),
 				"PropertySectionVideo" => FileExtensionHelpers.IsVideoFile(fileExtension),
 				_ => false,
 			};
@@ -407,5 +434,22 @@ namespace Files.App.ViewModels.Properties
 			var readableSpeed = (uint)input / Math.Pow(1000, order);
 			return $"{readableSpeed:0.##} {sizes[order]}";
 		}
+	}
+
+	/// <summary>
+	/// Describes how the preview pane shows a <see cref="FileProperty"/>, where that differs from the details page
+	/// </summary>
+	public sealed class FilePropertyPreviewPaneInfo
+	{
+		/// <summary>
+		/// The position of the property in the preview pane
+		/// </summary>
+		public int Index { get; set; }
+
+		public string? NameResource { get; set; }
+
+		public string? SectionResource { get; set; }
+
+		public string? DisplayFunctionName { get; set; }
 	}
 }

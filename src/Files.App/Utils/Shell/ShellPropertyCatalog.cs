@@ -15,7 +15,7 @@ namespace Files.App.Utils.Shell
 	public sealed record ShellPropertyColumnInfo(string Name, string DisplayName, double DefaultWidth, bool IsDate);
 
 	/// <summary>
-	/// Provides the shell properties Windows allows to be shown as columns.
+	/// Provides the shell properties that can be shown as columns: the ones Windows allows, and the ones the properties window or the preview pane show.
 	/// </summary>
 	public static class ShellPropertyCatalog
 	{
@@ -33,12 +33,24 @@ namespace Files.App.Utils.Shell
 		private static unsafe IReadOnlyDictionary<string, ShellPropertyColumnInfo> Enumerate()
 		{
 			var properties = new Dictionary<string, ShellPropertyColumnInfo>();
+			AddProperties(properties, PROPDESC_ENUMFILTER.PDEF_VIEWABLE, null);
+
+			var shownPropertyIds = DetailsLayoutColumnGroups.ShownPropertyIds.Where(id => !properties.ContainsKey(id)).ToHashSet();
+			if (shownPropertyIds.Count > 0)
+				AddProperties(properties, PROPDESC_ENUMFILTER.PDEF_ALL, shownPropertyIds);
+
+			return properties;
+		}
+
+		/// <param name="names">The properties to add, or null to add all that match the filter.</param>
+		private static unsafe void AddProperties(Dictionary<string, ShellPropertyColumnInfo> properties, PROPDESC_ENUMFILTER filter, HashSet<string>? names)
+		{
 			var listId = typeof(IPropertyDescriptionList).GUID;
-			if (PInvoke.PSEnumeratePropertyDescriptions(PROPDESC_ENUMFILTER.PDEF_VIEWABLE, &listId, out var listObject).Failed)
-				return properties;
+			if (PInvoke.PSEnumeratePropertyDescriptions(filter, &listId, out var listObject).Failed)
+				return;
 
 			if (listObject is not IPropertyDescriptionList list || list.GetCount(out uint count).Failed)
-				return properties;
+				return;
 
 			var descriptionId = typeof(IPropertyDescription).GUID;
 			for (uint i = 0; i < count; i++)
@@ -49,7 +61,8 @@ namespace Files.App.Utils.Shell
 				try
 				{
 					if (ComInterfaceMarshaller<IPropertyDescription>.ConvertToManaged(descriptionPointer) is { } description &&
-						CreateInfo(description) is { } info)
+						CreateInfo(description) is { } info &&
+						names?.Contains(info.Name) is not false)
 					{
 						properties.TryAdd(info.Name, info);
 					}
@@ -59,8 +72,6 @@ namespace Files.App.Utils.Shell
 					ComInterfaceMarshaller<IPropertyDescription>.Free(descriptionPointer);
 				}
 			}
-
-			return properties;
 		}
 
 		private static unsafe ShellPropertyColumnInfo? CreateInfo(IPropertyDescription description)
