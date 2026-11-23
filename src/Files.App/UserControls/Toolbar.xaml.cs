@@ -15,6 +15,9 @@ using WinRT;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using FlyoutPlacementMode = Microsoft.UI.Xaml.Controls.Primitives.FlyoutPlacementMode;
+using FlyoutShowMode = Microsoft.UI.Xaml.Controls.Primitives.FlyoutShowMode;
+using FlyoutShowOptions = Microsoft.UI.Xaml.Controls.Primitives.FlyoutShowOptions;
+using ThemedIconColorType = Files.App.Controls.ThemedIconColorType;
 
 namespace Files.App.UserControls
 {
@@ -30,6 +33,7 @@ namespace Files.App.UserControls
 		private OpenWithMenu? openWithMenu;
 		private int openWithFlyoutRequestId;
 		private readonly List<Action> toggleButtonDetachActions = new();
+		private object? templateBeforeDropDown;
 
 		[GeneratedDependencyProperty]
 		public partial NavigationToolbarViewModel? ViewModel { get; set; }
@@ -619,6 +623,33 @@ namespace Files.App.UserControls
 			return item;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSubItem))]
+		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSeparator))]
+		private void SortGroup_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args)
+		{
+			if (sender is not MenuFlyoutSubItem menu) return;
+			var directionSeparator = menu == SortByMenu ? SortDirectionSeparator : GroupDirectionSeparator;
+			var items = menu.Items.TakeWhile(i => i != directionSeparator).Where(i => i is not MenuFlyoutSeparator && i.IsEnabled).ToList();
+			var fmt = $"D{items.Count.ToString().Length}";
+			for (int i = 0; i < items.Count; i++)
+				items[i].AccessKey = (i + 1).ToString(fmt);
+		}
+
+		private void AppBarButton_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args)
+		{
+			if (VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot).Any())
+				args.Handled = true;
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(RadioButton))]
+		private void LayoutButton_Click(object sender, RoutedEventArgs e)
+		{
+			LayoutFlyout?.Hide();
+
+			if (sender is RadioButton button)
+				DispatcherQueue.TryEnqueue(() => button.IsChecked = ViewModel?.IsLayoutTemplateApplied is false);
+		}
+
 		private void SortMenu_Opening(object sender, object e)
 		{
 			if (ViewModel?.InstanceViewModel?.FolderSettings is not { } folderSettings)
@@ -650,26 +681,33 @@ namespace Files.App.UserControls
 				menu.Items.Insert(index, elements[index]);
 		}
 
-		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSubItem))]
-		[DynamicWindowsRuntimeCast(typeof(MenuFlyoutSeparator))]
-		private void SortGroup_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args)
+		[DynamicWindowsRuntimeCast(typeof(ComboBox))]
+		private void LayoutTemplates_DropDownOpened(object sender, object e)
+			=> templateBeforeDropDown = (sender as ComboBox)?.SelectedItem;
+
+		[DynamicWindowsRuntimeCast(typeof(ComboBox))]
+		private void LayoutTemplates_DropDownClosed(object sender, object e)
 		{
-			if (sender is not MenuFlyoutSubItem menu) return;
-			var directionSeparator = menu == SortByMenu ? SortDirectionSeparator : GroupDirectionSeparator;
-			var items = menu.Items.TakeWhile(i => i != directionSeparator).Where(i => i is not MenuFlyoutSeparator && i.IsEnabled).ToList();
-			var fmt = $"D{items.Count.ToString().Length}";
-			for (int i = 0; i < items.Count; i++)
-				items[i].AccessKey = (i + 1).ToString(fmt);
+			if (sender is ComboBox comboBox && comboBox.SelectedItem != templateBeforeDropDown)
+				LayoutFlyout?.Hide();
 		}
 
-		private void AppBarButton_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args)
+		[DynamicWindowsRuntimeCast(typeof(Button))]
+		private void MoreViewOptions_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
-			if (VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot).Any())
-				args.Handled = true;
+			if (sender is Button button && !MoreViewOptionsMenu.IsOpen)
+				MoreViewOptionsMenu.ShowAt(button, new FlyoutShowOptions() { Placement = FlyoutPlacementMode.RightEdgeAlignedTop, ShowMode = FlyoutShowMode.Transient });
 		}
 
-		private void LayoutButton_Click(object sender, RoutedEventArgs e)
-			=> LayoutFlyout?.Hide();
+		private void RestoreDefaultView_PointerEntered(object sender, PointerRoutedEventArgs e)
+			=> MoreViewOptionsMenu.Hide();
+
+		private ThemedIconColorType GetLayoutIconColor(bool isFromTemplate)
+			=> isFromTemplate ? ThemedIconColorType.Accent : ThemedIconColorType.Normal;
+
+		[DynamicWindowsRuntimeCast(typeof(Style))]
+		private Style? GetLayoutLabelStyle(bool isFromTemplate)
+			=> isFromTemplate ? (Style)Resources["Local.TemplateLayoutLabelStyle"] : null;
 
 		private void CustomizeToolbar_Click(object sender, RoutedEventArgs e)
 			=> Commands.CustomizeToolbar.Execute(null);

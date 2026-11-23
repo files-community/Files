@@ -206,6 +206,8 @@ namespace Files.App.ViewModels.Settings
 				string importPrefsDB = await layoutPrefsDB.ReadTextAsync();
 				var layoutDbInstance = LayoutPreferencesManager.GetDatabaseManagerInstance();
 				layoutDbInstance.Import(importPrefsDB);
+
+				Ioc.Default.GetRequiredService<ILayoutTemplatesService>().MigrateImportedSettings();
 			}
 			catch (Exception ex)
 			{

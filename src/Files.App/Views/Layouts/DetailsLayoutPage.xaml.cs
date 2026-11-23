@@ -232,12 +232,12 @@ namespace Files.App.Views.Layouts
 				ApplyHeaderColumnOrder();
 			}
 
-			_ = ShellFolderColumns.GetAsync(shellViewModel.WorkingDirectory);
 			shellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
 
 			folderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
 			folderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
 			folderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
+			folderSettings.PropertyChanged += FolderSettings_PropertyChanged;
 			shellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 			shellViewModel.ItemLoadStatusChanged += ShellViewModel_ItemLoadStatusChanged;
 			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
@@ -260,6 +260,21 @@ namespace Files.App.Views.Layouts
 			SetItemContainerStyle();
 		}
 
+		private void FolderSettings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(LayoutPreferencesManager.ColumnsViewModel) &&
+				FolderSettings?.ColumnsViewModel is { } columns &&
+				!ReferenceEquals(columns, ColumnsViewModel))
+			{
+				ColumnsViewModel.Columns = columns.Columns;
+				ColumnsViewModel.ColumnOrder = columns.ColumnOrder;
+				ApplyHeaderColumnOrder();
+				LoadShellPropertiesForRealizedItems();
+				if (ParentShellPageInstance?.ShellViewModel is { } shellViewModel)
+					shellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
+			}
+		}
+
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
@@ -268,6 +283,7 @@ namespace Files.App.Views.Layouts
 			folderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 			folderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			folderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
+			folderSettings.PropertyChanged -= FolderSettings_PropertyChanged;
 			var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
 			shellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
 			shellViewModel.ItemLoadStatusChanged -= ShellViewModel_ItemLoadStatusChanged;
@@ -284,6 +300,7 @@ namespace Files.App.Views.Layouts
 				folderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 				folderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 				folderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
+				folderSettings.PropertyChanged -= FolderSettings_PropertyChanged;
 			}
 			if (ParentShellPageInstance?.ShellViewModel is { } shellViewModel)
 			{
@@ -317,32 +334,6 @@ namespace Files.App.Views.Layouts
 				{
 					currentIconSize = newIconSize;
 					_ = ReloadItemIconsAsync();
-				}
-			}
-			else
-			{
-				var settings = sender as ILayoutSettingsService;
-				var isDefaultPath = FolderSettings?.IsPathUsingDefaultLayout(ParentShellPageInstance?.ShellViewModel?.CurrentFolder?.ItemPath);
-				if (settings is not null && (isDefaultPath ?? true))
-				{
-					switch (e.PropertyName)
-					{
-						case nameof(ILayoutSettingsService.ShowFileTagColumn):
-							ColumnsViewModel.GetColumn(DetailsLayoutColumnIds.Tag).UserCollapsed = !settings.ShowFileTagColumn;
-							break;
-						case nameof(ILayoutSettingsService.ShowSizeColumn):
-							ColumnsViewModel.GetColumn(DetailsLayoutColumnIds.Size).UserCollapsed = !settings.ShowSizeColumn;
-							break;
-						case nameof(ILayoutSettingsService.ShowTypeColumn):
-							ColumnsViewModel.GetColumn(DetailsLayoutColumnIds.ItemType).UserCollapsed = !settings.ShowTypeColumn;
-							break;
-						case nameof(ILayoutSettingsService.ShowDateCreatedColumn):
-							ColumnsViewModel.GetColumn(DetailsLayoutColumnIds.DateCreated).UserCollapsed = !settings.ShowDateCreatedColumn;
-							break;
-						case nameof(ILayoutSettingsService.ShowDateColumn):
-							ColumnsViewModel.GetColumn(DetailsLayoutColumnIds.DateModified).UserCollapsed = !settings.ShowDateColumn;
-							break;
-					}
 				}
 			}
 		}
@@ -807,7 +798,7 @@ namespace Files.App.Views.Layouts
 				UpdateColumnLayout();
 				var folderSettings = FolderSettings
 					?? throw new InvalidOperationException("The details layout does not have folder settings.");
-				folderSettings.ColumnsViewModel = ColumnsViewModel;
+				folderSettings.SaveColumnWidths(ColumnsViewModel);
 			}
 		}
 
@@ -835,7 +826,7 @@ namespace Files.App.Views.Layouts
 		{
 			var folderSettings = FolderSettings
 				?? throw new InvalidOperationException("The details layout does not have folder settings.");
-			folderSettings.ColumnsViewModel = ColumnsViewModel;
+			folderSettings.SaveColumnWidths(ColumnsViewModel);
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
@@ -843,11 +834,6 @@ namespace Files.App.Views.Layouts
 		private void GridSplitter_Loaded(object sender, RoutedEventArgs e)
 		{
 			(sender as UIElement)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
-		}
-
-		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
-		{
-			LayoutPreferencesManager.SetDefaultLayoutPreferences(ColumnsViewModel);
 		}
 
 		private void SaveColumnVisibility()
@@ -871,12 +857,15 @@ namespace Files.App.Views.Layouts
 		}
 
 		public void AutoFitColumns()
+			=> AutoFitColumns(true);
+
+		private void AutoFitColumns(bool save)
 		{
 			if (!FileList.Items.Any())
 				return;
 
 			foreach (var columnId in ColumnsViewModel.AllColumnIds.Where(id => ColumnsViewModel.GetColumn(id).Visibility == Visibility.Visible).ToArray())
-				ResizeColumnToFit(columnId, false);
+				ResizeColumnToFit(columnId, save);
 		}
 
 		private void AutoFitColumnsIfEnabled()
@@ -887,7 +876,7 @@ namespace Files.App.Views.Layouts
 			// Trailing debounce so bursts of item adds and extended-property updates during a folder load collapse into one resize.
 			_autoFitColumnsTimer ??= DispatcherQueue.CreateTimer();
 			_autoFitColumnsTimer.Debounce(
-				AutoFitColumns,
+				() => AutoFitColumns(false),
 				TimeSpan.FromMilliseconds(250));
 		}
 
@@ -908,7 +897,7 @@ namespace Files.App.Views.Layouts
 			AutoFitColumnsIfEnabled();
 		}
 
-		private void ResizeColumnToFit(string columnId, bool saveToFolderSettings = true)
+		private void ResizeColumnToFit(string columnId, bool save = true)
 		{
 			if (!FileList.Items.Any())
 				return;
@@ -943,12 +932,12 @@ namespace Files.App.Views.Layouts
 				column.UserLength = new GridLength(maxFitLength, GridUnitType.Pixel);
 			}
 
-			if (!saveToFolderSettings)
+			if (!save)
 				return;
 
 			var folderSettings = FolderSettings
 				?? throw new InvalidOperationException("The details layout does not have folder settings.");
-			folderSettings.ColumnsViewModel = ColumnsViewModel;
+			folderSettings.SaveColumnWidths(ColumnsViewModel);
 		}
 
 		private double MeasureColumnEstimate(string columnId, int measureItemsCount, int maxItemLength)

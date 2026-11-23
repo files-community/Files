@@ -9,7 +9,6 @@ using Files.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
-using System.Windows.Input;
 using Windows.Storage;
 
 namespace Files.App.Data.Factories
@@ -146,10 +145,6 @@ namespace Files.App.Data.Factories
 							IsToggle = true
 						}.Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.LayoutColumns)
-						{
-							IsToggle = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.LayoutAdaptive)
 						{
 							IsToggle = true
 						}.Build(),

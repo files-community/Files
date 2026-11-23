@@ -785,8 +785,6 @@ namespace Files.App.Views.Shells
 				return;
 
 			LayoutPreferencesManager.SetLayoutPreferencesForPath(ShellViewModel.WorkingDirectory, e.LayoutPreference);
-			if (e.IsAdaptiveLayoutUpdateRequired)
-				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(InstanceViewModel.FolderSettings, ShellViewModel.FilesAndFolders.ToList());
 		}
 
 		protected virtual void ViewModel_WorkingDirectoryModified(object? sender, WorkingDirectoryModifiedEventArgs e)
