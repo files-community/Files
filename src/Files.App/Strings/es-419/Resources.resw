@@ -716,9 +716,6 @@
   <data name="Language" xml:space="preserve">
     <value>Idioma</value>
   </data>
-  <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Mover las extensiones del shell a un submenú</value>
-  </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>Mostrar diálogo de confirmación al eliminar elementos</value>
   </data>
@@ -2089,6 +2086,10 @@
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>Ajustar el tamaño de todas las columnas</value>
+  </data>
+  <data name="FileExplorerTags" xml:space="preserve">
+    <value>Etiquetas (Explorador de archivos)</value>
+    <comment>Header of the Windows Tags column, named this way to tell it apart from the Files Tags column.</comment>
   </data>
   <data name="AutoFitColumns" xml:space="preserve">
     <value>Ajustar columnas automáticamente</value>
@@ -3530,6 +3531,9 @@
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
     <value>Debido a una limitación con Windows y WinAppSdk, arrastrar y soltar no está disponible cuando se ejecuta Archivos como administrador. Si desea usar arrastrar y soltar, puede solucionar esta limitación abriendo UAC (Control de cuentas de usuario) desde el Menú Inicio y seleccionando el tercer nivel, y reiniciando Windows. De lo contrario, puede seguir usando Archivos sin arrastrar y soltar.</value>
   </data>
+  <data name="SettingsNaturalLanguageSearch" xml:space="preserve">
+    <value>Realizar búsquedas en lenguaje natural</value>
+  </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Permitir que la aplicación se ejecute en segundo plano al cerrar la ventana</value>
   </data>
@@ -4608,6 +4612,15 @@
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Mostrar barra de estado</value>
   </data>
+  <data name="ItemCountFormat" xml:space="preserve">
+    <value>Formato del número de elementos</value>
+  </data>
+  <data name="TotalCount" xml:space="preserve">
+    <value>Número total</value>
+  </data>
+  <data name="SeparateFileAndFolderCounts" xml:space="preserve">
+    <value>Número de archivos y carpetas por separado</value>
+  </data>
   <data name="OnlyForTouch" xml:space="preserve">
     <value>Al utilizar la entrada táctil</value>
   </data>
@@ -4739,5 +4752,197 @@
   </data>
   <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
     <value>¿Está seguro de que desea eliminar las etiquetas de los elementos seleccionados?</value>
+  </data>
+  <data name="SearchForQuery" xml:space="preserve">
+    <value>Buscar `{0}`</value>
+  </data>
+  <data name="FolderAliases" xml:space="preserve">
+    <value>Alias de carpetas</value>
+  </data>
+  <data name="AddAlias" xml:space="preserve">
+    <value>Agregar alias</value>
+  </data>
+  <data name="FolderAliasNameInvalid" xml:space="preserve">
+    <value>El nombre no puede contener \ ni /.</value>
+  </data>
+  <data name="FolderAliasesEmptyState" xml:space="preserve">
+    <value>No hay alias de carpetas. Agregue uno y, luego, escriba @ seguido del nombre del alias en la Omnibar para ir a la carpeta.</value>
+  </data>
+  <data name="NoFolderAliasesDialogContent" xml:space="preserve">
+    <value>No hay alias de carpetas. ¿Desea abrir Configuración para agregar uno?</value>
+  </data>
+  <data name="FolderAliasPathNotFound" xml:space="preserve">
+    <value>Esta carpeta no existe.</value>
+  </data>
+  <data name="NoFolderAliasesSuggestion" xml:space="preserve">
+    <value>No hay alias de carpetas. Abrir Configuración para agregar uno.</value>
+  </data>
+  <data name="NoMatchingFolderAliasesSuggestion" xml:space="preserve">
+    <value>No hay alias de carpeta coincidente</value>
+  </data>
+  <data name="FolderAliasNotFoundDialogTitle" xml:space="preserve">
+    <value>No se ha encontrado el alias de carpeta</value>
+  </data>
+  <data name="FolderAliasNotFoundDialogContent" xml:space="preserve">
+    <value>No hay ningún alias de carpeta llamado "{0}".</value>
+  </data>
+  <data name="FolderAliasNameRequiredDialogContent" xml:space="preserve">
+    <value>Escriba un nombre de alias de carpeta después de @.</value>
+  </data>
+  <data name="RestoreDefaultFolderAliasesConfirmation" xml:space="preserve">
+    <value>¿Está seguro de que desea restaurar los alias predeterminados? Esta acción no puede deshacerse.</value>
+  </data>
+  <data name="DeleteFolderAliasConfirmation" xml:space="preserve">
+    <value>¿Está seguro de que desea eliminar este alias?</value>
+  </data>
+  <data name="FolderAliasNameInUse" xml:space="preserve">
+    <value>Ya existe un alias con este nombre.</value>
+  </data>
+  <data name="EnterFolderPath" xml:space="preserve">
+    <value>Introduzca una ruta de carpeta</value>
+  </data>
+  <data name="GoToFolderAlias" xml:space="preserve">
+    <value>Ir al alias de la carpeta</value>
+  </data>
+  <data name="GoToFolderAliasDescription" xml:space="preserve">
+    <value>Ir a un alias de carpeta en la Omnibar</value>
+  </data>
+  <data name="Unspecified" xml:space="preserve">
+    <value>Sin especificar</value>
+    <comment>Name of the group for items that have no value when grouping by a property, such as music files without an artist.</comment>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Descripción</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, such as title, rating and comments.</comment>
+  </data>
+  <data name="Unrated" xml:space="preserve">
+    <value>Sin calificar</value>
+    <comment>Name of the group for items without a rating when grouping by rating.</comment>
+  </data>
+  <data name="OrderGroupsAscending" xml:space="preserve">
+    <value>Ordenar grupos en sentido ascendente</value>
+  </data>
+  <data name="OrderGroupsDescending" xml:space="preserve">
+    <value>Ordenar grupos en sentido descendente</value>
+  </data>
+  <data name="GroupOrder" xml:space="preserve">
+    <value>Orden de los grupos</value>
+  </data>
+  <data name="SortItemsAscending" xml:space="preserve">
+    <value>Ordenar elementos en sentido ascendente</value>
+  </data>
+  <data name="SortItemsDescending" xml:space="preserve">
+    <value>Ordenar elementos en sentido descendente</value>
+  </data>
+  <data name="DayTaken" xml:space="preserve">
+    <value>Día de captura</value>
+  </data>
+  <data name="MonthTaken" xml:space="preserve">
+    <value>Mes de captura</value>
+  </data>
+  <data name="YearTaken" xml:space="preserve">
+    <value>Año de captura</value>
+  </data>
+  <data name="DayRecorded" xml:space="preserve">
+    <value>Día de registro</value>
+  </data>
+  <data name="MonthRecorded" xml:space="preserve">
+    <value>Mes de registro</value>
+  </data>
+  <data name="YearRecorded" xml:space="preserve">
+    <value>Año de registro</value>
+  </data>
+  <data name="DayDeleted" xml:space="preserve">
+    <value>Día de eliminación</value>
+  </data>
+  <data name="MonthDeleted" xml:space="preserve">
+    <value>Mes de eliminación</value>
+  </data>
+  <data name="YearDeleted" xml:space="preserve">
+    <value>Año de eliminación</value>
+  </data>
+  <data name="DayUpdated" xml:space="preserve">
+    <value>Día de actualización</value>
+  </data>
+  <data name="MonthUpdated" xml:space="preserve">
+    <value>Mes de actualización</value>
+  </data>
+  <data name="YearUpdated" xml:space="preserve">
+    <value>Año de actualización</value>
+  </data>
+  <data name="DayCommitted" xml:space="preserve">
+    <value>Día de compromiso</value>
+  </data>
+  <data name="MonthCommitted" xml:space="preserve">
+    <value>Mes de compromiso</value>
+  </data>
+  <data name="YearCommitted" xml:space="preserve">
+    <value>Año de compromiso</value>
+  </data>
+  <data name="NoneInParentheses" xml:space="preserve">
+    <value>(Ninguna)</value>
+  </data>
+  <data name="MoreColumns" xml:space="preserve">
+    <value>Más</value>
+  </data>
+  <data name="DayCreated" xml:space="preserve">
+    <value>Día de creación</value>
+  </data>
+  <data name="MonthCreated" xml:space="preserve">
+    <value>Mes de creación</value>
+  </data>
+  <data name="YearCreated" xml:space="preserve">
+    <value>Año de creación</value>
+  </data>
+  <data name="CustomizeColumns" xml:space="preserve">
+    <value>Choose columns</value>
+  </data>
+  <data name="CustomizeColumnsDescription" xml:space="preserve">
+    <value>Choose columns to add to the view</value>
+  </data>
+  <data name="SearchColumns" xml:space="preserve">
+    <value>Find a column</value>
+  </data>
+  <data name="Column" xml:space="preserve">
+    <value>Column</value>
+  </data>
+  <data name="Sorting" xml:space="preserve">
+    <value>Sorting</value>
+  </data>
+  <data name="MoreColumnsEllipsis" xml:space="preserve">
+    <value>More columns…</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Selección</value>
+  </data>
+  <data name="ChooseGrouping" xml:space="preserve">
+    <value>Choose grouping</value>
+  </data>
+  <data name="ChooseGroupingDescription" xml:space="preserve">
+    <value>Choose a category to use for grouping</value>
+  </data>
+  <data name="SearchGroupingCategories" xml:space="preserve">
+    <value>Find a grouping category</value>
+  </data>
+  <data name="ChooseSorting" xml:space="preserve">
+    <value>Choose sorting</value>
+  </data>
+  <data name="ChooseSortingDescription" xml:space="preserve">
+    <value>Choose a category to use for sorting</value>
+  </data>
+  <data name="SearchSortingCategories" xml:space="preserve">
+    <value>Find a sorting category</value>
+  </data>
+  <data name="MoreSortOptionsEllipsis" xml:space="preserve">
+    <value>More sort options…</value>
+  </data>
+  <data name="MoreGroupsEllipsis" xml:space="preserve">
+    <value>More groups…</value>
+  </data>
+  <data name="Storage" xml:space="preserve">
+    <value>Storage</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Other</value>
   </data>
 </root>
