@@ -702,14 +702,14 @@ namespace Files.App.Utils.Storage
 					return false;
 				}
 				using var stream = new FileStream(hFile, FileAccess.Read);
-				return CheckAccess(stream);
+				return CheckAccess(stream, path);
 			});
 		}
-		private static bool CheckAccess(Stream stream)
+		private static bool CheckAccess(Stream stream, string archivePath)
 		{
 			try
 			{
-				using (SevenZipExtractor zipFile = new SevenZipExtractor(stream))
+				using (SevenZipExtractor zipFile = ArchiveExtractorHelpers.Create(stream, archivePath))
 				{
 					//zipFile.IsStreamOwner = false;
 					return zipFile.ArchiveFileData is not null;
@@ -730,7 +730,7 @@ namespace Files.App.Utils.Storage
 			{
 				using var stream = await file.OpenReadAsync()
 					?? throw new IOException("The archive could not be opened for reading.");
-				return CheckAccess(stream.AsStream());
+				return CheckAccess(stream.AsStream(), file.Name);
 			});
 		}
 
@@ -788,7 +788,7 @@ namespace Files.App.Utils.Storage
 			return AsyncInfo.Run<SevenZipExtractor?>(async (cancellationToken) =>
 			{
 				var zipFile = await OpenZipFileAsync(FileAccessMode.Read);
-				return zipFile is not null ? new SevenZipExtractor(zipFile, Password) : null;
+				return zipFile is not null ? ArchiveExtractorHelpers.Create(zipFile, containerPath, Password) : null;
 			});
 		}
 
