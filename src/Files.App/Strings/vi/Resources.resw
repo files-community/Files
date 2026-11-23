@@ -430,7 +430,7 @@
     <value>Ứng dụng này không chạy được trên PC của bạn</value>
   </data>
   <data name="CannotRunFileDialogText" xml:space="preserve">
-    <value>Để tìm phiên bản dành cho PC của bạn, hãy thử kiểm tra bên xuất bản phần mềm.</value>
+    <value>Để tìm phiên bản dành cho PC của bạn, hãy kiểm tra từ nhà phát hành phần mềm.</value>
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Bố cục</value>
@@ -715,9 +715,6 @@
   </data>
   <data name="Language" xml:space="preserve">
     <value>Ngôn ngữ</value>
-  </data>
-  <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Chuyển các tùy chọn mở rộng vào menu phụ</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>Hiện hộp thoại xác nhận khi xóa khoản mục</value>
@@ -2089,6 +2086,10 @@
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>Căn chỉnh lại chiều rộng cột</value>
+  </data>
+  <data name="FileExplorerTags" xml:space="preserve">
+    <value>Nhãn (File Explorer)</value>
+    <comment>Header of the Windows Tags column, named this way to tell it apart from the Files Tags column.</comment>
   </data>
   <data name="AutoFitColumns" xml:space="preserve">
     <value>Tự động căn chỉnh cột</value>
@@ -3530,6 +3531,9 @@
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
     <value>Do giới hạn của Windows và WinAppSdk, tính năng kéo thả sẽ không khả dụng khi chạy Files với quyền quản trị viên. Để khắc phục, hãy mở cài đặt UAC (User Account Control) từ menu Bắt đầu, chọn mức thứ ba rồi khởi động lại máy. Lưu ý rằng bạn vẫn có thể tiếp tục sử dụng Files mà không cần tính năng này.</value>
   </data>
+  <data name="SettingsNaturalLanguageSearch" xml:space="preserve">
+    <value>Dùng tìm kiếm bằng ngôn ngữ tự nhiên</value>
+  </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Chạy ứng dụng trong nền khi đóng cửa sổ</value>
   </data>
@@ -4608,6 +4612,15 @@
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Hiện thanh trạng thái</value>
   </data>
+  <data name="ItemCountFormat" xml:space="preserve">
+    <value>Định dạng số lượng khoản mục</value>
+  </data>
+  <data name="TotalCount" xml:space="preserve">
+    <value>Tổng số</value>
+  </data>
+  <data name="SeparateFileAndFolderCounts" xml:space="preserve">
+    <value>Phân tách số lượng tệp và thư mục</value>
+  </data>
   <data name="OnlyForTouch" xml:space="preserve">
     <value>Khi dùng cảm ứng</value>
   </data>
@@ -4739,5 +4752,197 @@
   </data>
   <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
     <value>Bạn có chắc chắn muốn gỡ bỏ nhãn khỏi khoản mục đã chọn không?</value>
+  </data>
+  <data name="SearchForQuery" xml:space="preserve">
+    <value>Tìm kiếm `{0}`</value>
+  </data>
+  <data name="FolderAliases" xml:space="preserve">
+    <value>Bí danh thư mục</value>
+  </data>
+  <data name="AddAlias" xml:space="preserve">
+    <value>Thêm bí danh</value>
+  </data>
+  <data name="FolderAliasNameInvalid" xml:space="preserve">
+    <value>Tên không thể chứa ký tự \ hay /.</value>
+  </data>
+  <data name="FolderAliasesEmptyState" xml:space="preserve">
+    <value>Không có bí danh thư mục nào. Thêm một bí danh, sau đó gõ @ kèm theo tên bí danh trong thanh kết hợp để đi đến thư mục.</value>
+  </data>
+  <data name="NoFolderAliasesDialogContent" xml:space="preserve">
+    <value>Không có bí danh thư mục nào. Bạn có muốn mở cài đặt để thêm mới không?</value>
+  </data>
+  <data name="FolderAliasPathNotFound" xml:space="preserve">
+    <value>Thư mục này không tồn tại.</value>
+  </data>
+  <data name="NoFolderAliasesSuggestion" xml:space="preserve">
+    <value>Không có bí danh thư mục nào. Mở cài đặt để thêm mới.</value>
+  </data>
+  <data name="NoMatchingFolderAliasesSuggestion" xml:space="preserve">
+    <value>Không có bí danh thư mục nào khớp</value>
+  </data>
+  <data name="FolderAliasNotFoundDialogTitle" xml:space="preserve">
+    <value>Không tìm thấy bí danh thư mục</value>
+  </data>
+  <data name="FolderAliasNotFoundDialogContent" xml:space="preserve">
+    <value>Không có bí danh thư mục nào với tên "{0}".</value>
+  </data>
+  <data name="FolderAliasNameRequiredDialogContent" xml:space="preserve">
+    <value>Nhập tên bí danh thư mục ngay sau ký tự @.</value>
+  </data>
+  <data name="RestoreDefaultFolderAliasesConfirmation" xml:space="preserve">
+    <value>Bạn có chắc chắn muốn khôi phục bí danh mặc định không? Bạn sẽ không thể hoàn tác sau khi tiếp tục.</value>
+  </data>
+  <data name="DeleteFolderAliasConfirmation" xml:space="preserve">
+    <value>Bạn có chắc chắn muốn xóa bí danh này không?</value>
+  </data>
+  <data name="FolderAliasNameInUse" xml:space="preserve">
+    <value>Một bí danh có cùng tên đã tồn tại.</value>
+  </data>
+  <data name="EnterFolderPath" xml:space="preserve">
+    <value>Nhập đường dẫn thư mục</value>
+  </data>
+  <data name="GoToFolderAlias" xml:space="preserve">
+    <value>Đi đến bí danh thư mục</value>
+  </data>
+  <data name="GoToFolderAliasDescription" xml:space="preserve">
+    <value>Đi đến bí danh thư mục trong thanh kết hợp</value>
+  </data>
+  <data name="Unspecified" xml:space="preserve">
+    <value>Không xác định</value>
+    <comment>Name of the group for items that have no value when grouping by a property, such as music files without an artist.</comment>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Mô tả</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, such as title, rating and comments.</comment>
+  </data>
+  <data name="Unrated" xml:space="preserve">
+    <value>Chưa đánh giá</value>
+    <comment>Name of the group for items without a rating when grouping by rating.</comment>
+  </data>
+  <data name="OrderGroupsAscending" xml:space="preserve">
+    <value>Order groups ascending</value>
+  </data>
+  <data name="OrderGroupsDescending" xml:space="preserve">
+    <value>Order groups descending</value>
+  </data>
+  <data name="GroupOrder" xml:space="preserve">
+    <value>Group order</value>
+  </data>
+  <data name="SortItemsAscending" xml:space="preserve">
+    <value>Sắp xếp khoản mục theo thứ tự tăng dần</value>
+  </data>
+  <data name="SortItemsDescending" xml:space="preserve">
+    <value>Sort items descending</value>
+  </data>
+  <data name="DayTaken" xml:space="preserve">
+    <value>Day taken</value>
+  </data>
+  <data name="MonthTaken" xml:space="preserve">
+    <value>Month taken</value>
+  </data>
+  <data name="YearTaken" xml:space="preserve">
+    <value>Year taken</value>
+  </data>
+  <data name="DayRecorded" xml:space="preserve">
+    <value>Day recorded</value>
+  </data>
+  <data name="MonthRecorded" xml:space="preserve">
+    <value>Month recorded</value>
+  </data>
+  <data name="YearRecorded" xml:space="preserve">
+    <value>Year recorded</value>
+  </data>
+  <data name="DayDeleted" xml:space="preserve">
+    <value>Day deleted</value>
+  </data>
+  <data name="MonthDeleted" xml:space="preserve">
+    <value>Month deleted</value>
+  </data>
+  <data name="YearDeleted" xml:space="preserve">
+    <value>Year deleted</value>
+  </data>
+  <data name="DayUpdated" xml:space="preserve">
+    <value>Day updated</value>
+  </data>
+  <data name="MonthUpdated" xml:space="preserve">
+    <value>Month updated</value>
+  </data>
+  <data name="YearUpdated" xml:space="preserve">
+    <value>Year updated</value>
+  </data>
+  <data name="DayCommitted" xml:space="preserve">
+    <value>Day committed</value>
+  </data>
+  <data name="MonthCommitted" xml:space="preserve">
+    <value>Month committed</value>
+  </data>
+  <data name="YearCommitted" xml:space="preserve">
+    <value>Year committed</value>
+  </data>
+  <data name="NoneInParentheses" xml:space="preserve">
+    <value>(None)</value>
+  </data>
+  <data name="MoreColumns" xml:space="preserve">
+    <value>More</value>
+  </data>
+  <data name="DayCreated" xml:space="preserve">
+    <value>Day created</value>
+  </data>
+  <data name="MonthCreated" xml:space="preserve">
+    <value>Month created</value>
+  </data>
+  <data name="YearCreated" xml:space="preserve">
+    <value>Year created</value>
+  </data>
+  <data name="CustomizeColumns" xml:space="preserve">
+    <value>Choose columns</value>
+  </data>
+  <data name="CustomizeColumnsDescription" xml:space="preserve">
+    <value>Choose columns to add to the view</value>
+  </data>
+  <data name="SearchColumns" xml:space="preserve">
+    <value>Find a column</value>
+  </data>
+  <data name="Column" xml:space="preserve">
+    <value>Column</value>
+  </data>
+  <data name="Sorting" xml:space="preserve">
+    <value>Sorting</value>
+  </data>
+  <data name="MoreColumnsEllipsis" xml:space="preserve">
+    <value>More columns…</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Chọn</value>
+  </data>
+  <data name="ChooseGrouping" xml:space="preserve">
+    <value>Choose grouping</value>
+  </data>
+  <data name="ChooseGroupingDescription" xml:space="preserve">
+    <value>Choose a category to use for grouping</value>
+  </data>
+  <data name="SearchGroupingCategories" xml:space="preserve">
+    <value>Find a grouping category</value>
+  </data>
+  <data name="ChooseSorting" xml:space="preserve">
+    <value>Choose sorting</value>
+  </data>
+  <data name="ChooseSortingDescription" xml:space="preserve">
+    <value>Choose a category to use for sorting</value>
+  </data>
+  <data name="SearchSortingCategories" xml:space="preserve">
+    <value>Find a sorting category</value>
+  </data>
+  <data name="MoreSortOptionsEllipsis" xml:space="preserve">
+    <value>More sort options…</value>
+  </data>
+  <data name="MoreGroupsEllipsis" xml:space="preserve">
+    <value>More groups…</value>
+  </data>
+  <data name="Storage" xml:space="preserve">
+    <value>Storage</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Other</value>
   </data>
 </root>
