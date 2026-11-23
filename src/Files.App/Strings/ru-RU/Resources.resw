@@ -340,10 +340,10 @@
     <value>Системная тема</value>
   </data>
   <data name="LightThemeLabel" xml:space="preserve">
-    <value>Light Theme</value>
+    <value>Светлая тема</value>
   </data>
   <data name="DarkThemeLabel" xml:space="preserve">
-    <value>Dark Theme</value>
+    <value>Тёмная Тема</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Как в системе</value>
@@ -715,9 +715,6 @@
   </data>
   <data name="Language" xml:space="preserve">
     <value>Язык</value>
-  </data>
-  <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Переместить расширения оболочки в подменю</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>Показывать диалоговое окно подтверждения при удалении</value>
@@ -1812,7 +1809,7 @@
     <value>Столбцы</value>
   </data>
   <data name="Cards" xml:space="preserve">
-    <value>Карточки</value>
+    <value>Карты</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Открывать папки в новой вкладке</value>
@@ -2090,11 +2087,15 @@
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>Столбцы по размеру содержимого</value>
   </data>
+  <data name="FileExplorerTags" xml:space="preserve">
+    <value>Tags (File Explorer)</value>
+    <comment>Header of the Windows Tags column, named this way to tell it apart from the Files Tags column.</comment>
+  </data>
   <data name="AutoFitColumns" xml:space="preserve">
-    <value>Auto-fit columns</value>
+    <value>Автоподбор столбцов</value>
   </data>
   <data name="AutoFitColumnsDescription" xml:space="preserve">
-    <value>Resize columns to fit their content</value>
+    <value>Изменить размер столбцов по их содержимому</value>
   </data>
   <data name="AutoSizeColumnsInDetailsLayout" xml:space="preserve">
     <value>Автоматически подстраивать столбцы под содержимое</value>
@@ -2163,13 +2164,13 @@
     <value>Открывать папки одним кликом</value>
   </data>
   <data name="OpenFolderWithOneClickInColumnsView" xml:space="preserve">
-    <value>Open folders with a single click in Columns View</value>
+    <value>Открывать папки одним кликом в виде столбцов</value>
   </data>
   <data name="SingleClickToOpen" xml:space="preserve">
     <value>Открывать элементы одним нажатием</value>
   </data>
   <data name="SingleClickFoldersInColumnsViewHeader" xml:space="preserve">
-    <value>Folders in Columns View</value>
+    <value>Папки в виде столбцов</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Открытие объектов</value>
@@ -2241,10 +2242,10 @@
     <value>Создать архив</value>
   </data>
   <data name="CompressSkippedItemsDialogTitle" xml:space="preserve">
-    <value>Some items can't be compressed</value>
+    <value>Некоторые предметы не могут быть сжаты</value>
   </data>
   <data name="CompressSkippedItemsDialogText" xml:space="preserve">
-    <value>The following {0, plural, one {item} other {items}} can''t be compressed. Would you like to skip {0, plural, one {this item} other {these items}}?</value>
+    <value>Следующий {0, plural, one {} few {} many {} other {}} не может быть сжат. Хочешь пропустить {0, plural, one {этот предмет} few {Эти предметы} many {Эти предметы} other {Эти предметы}}</value>
   </data>
   <data name="CompressIntoZip" xml:space="preserve">
     <value>Создать zip-архив</value>
@@ -2556,7 +2557,7 @@
     <value>Включить компактный режим</value>
   </data>
   <data name="ToggleTheme" xml:space="preserve">
-    <value>Toggle Theme</value>
+    <value>Переключить тему</value>
   </data>
   <data name="ToggleThemeDescription" xml:space="preserve">
     <value>Переключить тему приложения</value>
@@ -2769,7 +2770,7 @@
     <value>Переключить на подробный вид</value>
   </data>
   <data name="LayoutCardsDescription" xml:space="preserve">
-    <value>Переключиться на просмотр в виде карточек</value>
+    <value>Переключиться на вид карточек</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>Переключиться на вид списка</value>
@@ -3349,7 +3350,7 @@
     <value>ошибка git pull из-за времени ожидания</value>
   </data>
   <data name="PullUncommittedChangesError" xml:space="preserve">
-    <value>Can't pull because your uncommitted changes would be overwritten. Commit, stash, or discard your changes, then try again.</value>
+    <value>Не удаётся принять, потому что ваши неподтвержденные изменения будут перезаписаны. Коммит, склад или отмените изменения, затем попробуйте еще раз.</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(несколько значений)</value>
@@ -3467,10 +3468,10 @@
     <value>Открыть выбранную папку в новом pane</value>
   </data>
   <data name="OpenDirectoryInOtherPaneDescription" xml:space="preserve">
-    <value>Open selected directory in the other pane</value>
+    <value>Открыть выбранную директорию в другой панели</value>
   </data>
   <data name="OpenCurrentFolderInOtherPaneDescription" xml:space="preserve">
-    <value>Open the current folder in the other pane</value>
+    <value>Открыть текущую папку в другой панели</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Открыть выбранную папку в новой вкладке</value>
@@ -3529,6 +3530,9 @@
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
     <value>Из-за ограничений в Windows и WinAppSdk, перетаскивание и перетаскивание не доступно при запуске файлов как администратора. Если вы хотите использовать перетаскивание, Вы можете обойти это ограничение, открыв контроль учетной записи пользователя из меню Пуск и выбрав третий уровень и перезапустив Windows. В противном случае вы можете продолжать использовать файлы без перетаскивания.</value>
+  </data>
+  <data name="SettingsNaturalLanguageSearch" xml:space="preserve">
+    <value>Использовать естественный поиск языка</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Оставить приложение в фоновом режиме при закрытии окна</value>
@@ -3705,35 +3709,35 @@
     <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCheckoutCanceled_Header" xml:space="preserve">
-    <value>Canceled switching to "{0}" in "{1}"</value>
+    <value>Отменено переключение на "{0}" в "{1}"</value>
     <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitCheckoutComplete_Header" xml:space="preserve">
-    <value>Switched to "{0}" in "{1}"</value>
+    <value>Переключено на "{0}" в "{1}"</value>
     <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitCheckoutFailed_Header" xml:space="preserve">
-    <value>Failed to switch to "{0}" in "{1}"</value>
+    <value>Не удалось переключиться на "{0}" в "{1}"</value>
     <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitCheckoutInProgress_Header" xml:space="preserve">
-    <value>Switching to "{0}" in "{1}"</value>
+    <value>Переключение на "{0}" в "{1}"</value>
     <comment>Shown in Status Center for Git checkout. {0} is the branch and {1} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitFetchCanceled_Header" xml:space="preserve">
-    <value>Canceled fetching remote changes for "{0}"</value>
+    <value>Загрузка удаленных изменений для "{0}" отменена</value>
     <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitFetchComplete_Header" xml:space="preserve">
-    <value>Fetched remote changes for "{0}"</value>
+    <value>Получены удаленные изменения для "{0}"</value>
     <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitFetchFailed_Header" xml:space="preserve">
-    <value>Failed to fetch remote changes for "{0}"</value>
+    <value>Не удалось получить удаленные изменения для "{0}"</value>
     <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitFetchInProgress_Header" xml:space="preserve">
-    <value>Fetching remote changes for "{0}"</value>
+    <value>Получение удаленных изменений для "{0}"</value>
     <comment>Shown in Status Center for Git fetch. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitOperationProgress" xml:space="preserve">
@@ -3741,51 +3745,51 @@
     <comment>Shown in Status Center during a Git operation. {0} is the percentage from 0 to 100.</comment>
   </data>
   <data name="StatusCenter_GitPullCanceled_Header" xml:space="preserve">
-    <value>Canceled pulling remote changes into "{0}"</value>
+    <value>Отменено получение удаленных изменений в "{0}"</value>
     <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitPullComplete_Header" xml:space="preserve">
-    <value>Pulled remote changes into "{0}"</value>
+    <value>Удалённые изменения были вызваны на "{0}"</value>
     <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitPullFailed_Header" xml:space="preserve">
-    <value>Failed to pull remote changes into "{0}"</value>
+    <value>Не удалось получить удаленные изменения в "{0}"</value>
     <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitPullInProgress_Header" xml:space="preserve">
-    <value>Pulling remote changes into "{0}"</value>
+    <value>Взять удаленные изменения в "{0}"</value>
     <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitPushCanceled_Header" xml:space="preserve">
-    <value>Canceled pushing local commits from "{0}"</value>
+    <value>Отмена отправки локальных коммитов из "{0}"</value>
     <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitPushComplete_Header" xml:space="preserve">
-    <value>Pushed local commits from "{0}"</value>
+    <value>Отправлено локальных коммитов из "{0}"</value>
     <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitPushFailed_Header" xml:space="preserve">
-    <value>Failed to push local commits from "{0}"</value>
+    <value>Не удалось отправить локальные коммиты из "{0}"</value>
     <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitPushInProgress_Header" xml:space="preserve">
-    <value>Pushing local commits from "{0}"</value>
+    <value>Отправка локальных коммитов из "{0}"</value>
     <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitSyncCanceled_Header" xml:space="preserve">
-    <value>Canceled syncing local and remote commits for "{0}"</value>
+    <value>Синхронизация локальных и удаленных коммитов для "{0}" отменена</value>
     <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitSyncComplete_Header" xml:space="preserve">
-    <value>Synced local and remote commits for "{0}"</value>
+    <value>Синхронизированные локальные и удаленные коммиты для "{0}"</value>
     <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitSyncFailed_Header" xml:space="preserve">
-    <value>Failed to sync local and remote commits for "{0}"</value>
+    <value>Не удалось синхронизировать локальные и удаленные коммиты для "{0}"</value>
     <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitSyncInProgress_Header" xml:space="preserve">
-    <value>Syncing local and remote commits for "{0}"</value>
+    <value>Синхронизация локальных и удаленных коммитов для "{0}"</value>
     <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
@@ -4165,10 +4169,10 @@
     <value>Выбранная вами комбинация клавиш не может быть использована, пожалуйста, попробуйте другую комбинацию.</value>
   </data>
   <data name="KeyboardShortcuts" xml:space="preserve">
-    <value>Keyboard shortcuts</value>
+    <value>Быстрые клавиши</value>
   </data>
   <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
-    <value>Are you sure you want to remove this key binding?</value>
+    <value>Вы уверены, что хотите удалить привязку клавиши?</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Настроенный</value>
@@ -4269,7 +4273,7 @@
     <value>Все поддерживаемые файлы</value>
   </data>
   <data name="ConvertToIconRequiredMessage" xml:space="preserve">
-    <value>This image needs to be converted into an icon file before it can be used. Choose a location to save the converted icon file.</value>
+    <value>Изображение должно быть преобразовано в файл значка, прежде чем его можно использовать. Выберите место для сохранения преобразованного файла значка.</value>
   </data>
   <data name="ConvertToIconError" xml:space="preserve">
     <value>Не удалось преобразовать изображение в файл иконки</value>
@@ -4408,13 +4412,13 @@
     <value>Всегда переключать фокус на только что созданную вкладку</value>
   </data>
   <data name="ReverseTabScrollDirection" xml:space="preserve">
-    <value>Reverse tab scroll direction</value>
+    <value>Обратное направление прокрутки вкладки</value>
   </data>
   <data name="DownMotionScrollsLeft" xml:space="preserve">
-    <value>Down motion scrolls left</value>
+    <value>Прокрутка движения вниз влево</value>
   </data>
   <data name="DownMotionScrollsRight" xml:space="preserve">
-    <value>Down motion scrolls right</value>
+    <value>Прокрутка движения вниз вправо</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>Переключить отображение полки</value>
@@ -4433,7 +4437,7 @@
     <value>Очистить элементы</value>
   </data>
   <data name="BatchAction" xml:space="preserve">
-    <value>Batch action</value>
+    <value>Пакетное действие</value>
   </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>Убрать из полки</value>
@@ -4473,13 +4477,13 @@
     <value>Открыть настройки</value>
   </data>
   <data name="NetworkDiscoveryTurnedOffInfoBarMessage" xml:space="preserve">
-    <value>Network discovery is turned off. Network computers and devices are not visible.</value>
+    <value>Обнаружение сети отключено. Сетевые компьютеры и устройства не видны.</value>
   </data>
   <data name="FileSharingTurnedOffInfoBarMessage" xml:space="preserve">
-    <value>File sharing is turned off. Some network computers and devices might not be visible.</value>
+    <value>Обмен файлами отключен. Некоторые сетевые компьютеры и устройства могут не быть видны.</value>
   </data>
   <data name="NetworkDiscoveryAndFileSharingTurnedOffInfoBarMessage" xml:space="preserve">
-    <value>Network discovery and file sharing are turned off. Network computers and devices are not visible.</value>
+    <value>Обнаружение сети и обмен файлами выключены. Сетевые компьютеры и устройства не видны.</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
@@ -4608,11 +4612,20 @@
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Показать строку состояния</value>
   </data>
+  <data name="ItemCountFormat" xml:space="preserve">
+    <value>Формат количества предметов</value>
+  </data>
+  <data name="TotalCount" xml:space="preserve">
+    <value>Общее количество</value>
+  </data>
+  <data name="SeparateFileAndFolderCounts" xml:space="preserve">
+    <value>Количество отдельных файлов и папок</value>
+  </data>
   <data name="OnlyForTouch" xml:space="preserve">
-    <value>When using touch</value>
+    <value>При касании</value>
   </data>
   <data name="OnlyForMouse" xml:space="preserve">
-    <value>When using mouse</value>
+    <value>При использовании мыши</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>Новый {0}</value>
@@ -4630,114 +4643,306 @@
     <value>Показывать параметр закрепления в меню «Пуск»</value>
   </data>
   <data name="Toolbar" xml:space="preserve">
-    <value>Toolbar</value>
+    <value>Панель инструментов</value>
   </data>
   <data name="CustomizeToolbar" xml:space="preserve">
-    <value>Customize toolbar</value>
+    <value>Настроить панель инструментов</value>
   </data>
   <data name="CustomizeToolbarDescription" xml:space="preserve">
-    <value>Customize toolbar buttons</value>
+    <value>Настроить кнопки панели инструментов</value>
   </data>
   <data name="ChooseToolbarModeToCustomize" xml:space="preserve">
-    <value>Choose toolbar mode to customize</value>
+    <value>Выбрать режим панели инструментов для настройки</value>
   </data>
   <data name="AlwaysVisible" xml:space="preserve">
-    <value>Always visible</value>
+    <value>Всегда показывать</value>
   </data>
   <data name="ArchiveFiles" xml:space="preserve">
-    <value>Archive files</value>
+    <value>Архивные файлы</value>
   </data>
   <data name="BatchFiles" xml:space="preserve">
     <value>Бат Файлы</value>
   </data>
   <data name="PowerShellFiles" xml:space="preserve">
-    <value>PowerShell files</value>
+    <value>PowerShell файлы</value>
   </data>
   <data name="MediaFiles" xml:space="preserve">
-    <value>Media files</value>
+    <value>Медиа файлы</value>
   </data>
   <data name="FontFiles" xml:space="preserve">
-    <value>Font files</value>
+    <value>Файл шрифта</value>
   </data>
   <data name="DriverFiles" xml:space="preserve">
-    <value>Driver files</value>
+    <value>Файлы драйвера</value>
   </data>
   <data name="CertificateFiles" xml:space="preserve">
-    <value>Certificate files</value>
+    <value>Файлы сертификата</value>
   </data>
   <data name="OtherContexts" xml:space="preserve">
-    <value>Other contexts</value>
+    <value>Другие контексты</value>
   </data>
   <data name="Archive" xml:space="preserve">
-    <value>Archive</value>
+    <value>Архив</value>
   </data>
   <data name="Run" xml:space="preserve">
-    <value>Run</value>
+    <value>Запустить</value>
   </data>
   <data name="Start" xml:space="preserve">
-    <value>Start</value>
+    <value>Начать</value>
   </data>
   <data name="Selection" xml:space="preserve">
-    <value>Selection</value>
+    <value>Выбранное</value>
   </data>
   <data name="Show" xml:space="preserve">
-    <value>Show</value>
+    <value>Показать</value>
   </data>
   <data name="Navigation" xml:space="preserve">
-    <value>Navigation</value>
+    <value>Навигация</value>
   </data>
   <data name="FileSystem" xml:space="preserve">
-    <value>File system</value>
+    <value>Файловая система</value>
   </data>
   <data name="Window" xml:space="preserve">
-    <value>Window</value>
+    <value>Окно</value>
   </data>
   <data name="DualPaneCategory" xml:space="preserve">
-    <value>Dual Pane</value>
+    <value>Двойная панель</value>
   </data>
   <data name="ResetDefaults" xml:space="preserve">
-    <value>Reset defaults</value>
+    <value>Сбросить по умолчанию</value>
   </data>
   <data name="Separator" xml:space="preserve">
-    <value>Separator</value>
+    <value>Разделитель</value>
   </data>
   <data name="Icon" xml:space="preserve">
-    <value>Icon</value>
+    <value>Иконка</value>
   </data>
   <data name="Label" xml:space="preserve">
-    <value>Label</value>
+    <value>Метка</value>
   </data>
   <data name="ShowToolbarLabels" xml:space="preserve">
-    <value>Show label</value>
+    <value>Показать метку</value>
   </data>
   <data name="ShowToolbarIconOnly" xml:space="preserve">
-    <value>Show icon</value>
+    <value>Показывать значок</value>
   </data>
   <data name="AvailableToolbarItems" xml:space="preserve">
-    <value>Available items</value>
+    <value>Доступные элементы</value>
   </data>
   <data name="AddedToolbarItems" xml:space="preserve">
-    <value>Added items</value>
+    <value>Добавленные элементы</value>
   </data>
   <data name="ExtractGroupDescription" xml:space="preserve">
-    <value>Extract compressed archives</value>
+    <value>Извлечь сжатые архивы</value>
   </data>
   <data name="SetAsGroupDescription" xml:space="preserve">
-    <value>Set image as wallpaper or background</value>
+    <value>Установить изображение как обои или фон</value>
   </data>
   <data name="NewItemGroupDescription" xml:space="preserve">
     <value>Создать новые Файлы или Папки</value>
   </data>
   <data name="EditTagsGroupDescription" xml:space="preserve">
-    <value>Add or remove file tags</value>
+    <value>Добавить или удалить теги файлов</value>
   </data>
   <data name="RemoveTags" xml:space="preserve">
-    <value>Remove tags</value>
+    <value>Удалить теги</value>
   </data>
   <data name="RemoveTagsDescription" xml:space="preserve">
-    <value>Remove tags from the selected items</value>
+    <value>Удалить теги из выбранных элементов</value>
   </data>
   <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
-    <value>Are you sure you want to remove tags from the selected items?</value>
+    <value>Вы уверены, что хотите удалить теги из выбранных элементов?</value>
+  </data>
+  <data name="SearchForQuery" xml:space="preserve">
+    <value>Искать для `{0}`</value>
+  </data>
+  <data name="FolderAliases" xml:space="preserve">
+    <value>Псевдонимы папок</value>
+  </data>
+  <data name="AddAlias" xml:space="preserve">
+    <value>Добавить псевдоним</value>
+  </data>
+  <data name="FolderAliasNameInvalid" xml:space="preserve">
+    <value>Имя не может содержать \ или /.</value>
+  </data>
+  <data name="FolderAliasesEmptyState" xml:space="preserve">
+    <value>Нет псевдонимов папок. Добавьте один, затем введите @ и его имя в Omnibar для перехода в папку.</value>
+  </data>
+  <data name="NoFolderAliasesDialogContent" xml:space="preserve">
+    <value>Нет псевдонимов папок. Открыть Настройки, чтобы добавить их?</value>
+  </data>
+  <data name="FolderAliasPathNotFound" xml:space="preserve">
+    <value>Эта папка не существует.</value>
+  </data>
+  <data name="NoFolderAliasesSuggestion" xml:space="preserve">
+    <value>Нет псевдонимов папок. Откройте Настройки, чтобы добавить их.</value>
+  </data>
+  <data name="NoMatchingFolderAliasesSuggestion" xml:space="preserve">
+    <value>Нет псевдонимов папки</value>
+  </data>
+  <data name="FolderAliasNotFoundDialogTitle" xml:space="preserve">
+    <value>Псевдоним папки не найден</value>
+  </data>
+  <data name="FolderAliasNotFoundDialogContent" xml:space="preserve">
+    <value>Псевдоним папки с именем "{0}".</value>
+  </data>
+  <data name="FolderAliasNameRequiredDialogContent" xml:space="preserve">
+    <value>Введите имя псевдонима папки после @.</value>
+  </data>
+  <data name="RestoreDefaultFolderAliasesConfirmation" xml:space="preserve">
+    <value>Вы уверены, что хотите восстановить псевдонимы по умолчанию? Это действие нельзя отменить.</value>
+  </data>
+  <data name="DeleteFolderAliasConfirmation" xml:space="preserve">
+    <value>Вы действительно хотите удалить псевдоним?</value>
+  </data>
+  <data name="FolderAliasNameInUse" xml:space="preserve">
+    <value>Псевдоним с таким именем уже существует.</value>
+  </data>
+  <data name="EnterFolderPath" xml:space="preserve">
+    <value>Введите путь к папке</value>
+  </data>
+  <data name="GoToFolderAlias" xml:space="preserve">
+    <value>Перейти к псевдониму папок</value>
+  </data>
+  <data name="GoToFolderAliasDescription" xml:space="preserve">
+    <value>Перейти к псевдониму папки в Omnibar</value>
+  </data>
+  <data name="Unspecified" xml:space="preserve">
+    <value>Не указано</value>
+    <comment>Name of the group for items that have no value when grouping by a property, such as music files without an artist.</comment>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, such as title, rating and comments.</comment>
+  </data>
+  <data name="Unrated" xml:space="preserve">
+    <value>Unrated</value>
+    <comment>Name of the group for items without a rating when grouping by rating.</comment>
+  </data>
+  <data name="OrderGroupsAscending" xml:space="preserve">
+    <value>Order groups ascending</value>
+  </data>
+  <data name="OrderGroupsDescending" xml:space="preserve">
+    <value>Order groups descending</value>
+  </data>
+  <data name="GroupOrder" xml:space="preserve">
+    <value>Group order</value>
+  </data>
+  <data name="SortItemsAscending" xml:space="preserve">
+    <value>Sort items ascending</value>
+  </data>
+  <data name="SortItemsDescending" xml:space="preserve">
+    <value>Sort items descending</value>
+  </data>
+  <data name="DayTaken" xml:space="preserve">
+    <value>Day taken</value>
+  </data>
+  <data name="MonthTaken" xml:space="preserve">
+    <value>Month taken</value>
+  </data>
+  <data name="YearTaken" xml:space="preserve">
+    <value>Year taken</value>
+  </data>
+  <data name="DayRecorded" xml:space="preserve">
+    <value>Day recorded</value>
+  </data>
+  <data name="MonthRecorded" xml:space="preserve">
+    <value>Month recorded</value>
+  </data>
+  <data name="YearRecorded" xml:space="preserve">
+    <value>Year recorded</value>
+  </data>
+  <data name="DayDeleted" xml:space="preserve">
+    <value>Day deleted</value>
+  </data>
+  <data name="MonthDeleted" xml:space="preserve">
+    <value>Month deleted</value>
+  </data>
+  <data name="YearDeleted" xml:space="preserve">
+    <value>Year deleted</value>
+  </data>
+  <data name="DayUpdated" xml:space="preserve">
+    <value>Day updated</value>
+  </data>
+  <data name="MonthUpdated" xml:space="preserve">
+    <value>Month updated</value>
+  </data>
+  <data name="YearUpdated" xml:space="preserve">
+    <value>Year updated</value>
+  </data>
+  <data name="DayCommitted" xml:space="preserve">
+    <value>Day committed</value>
+  </data>
+  <data name="MonthCommitted" xml:space="preserve">
+    <value>Month committed</value>
+  </data>
+  <data name="YearCommitted" xml:space="preserve">
+    <value>Year committed</value>
+  </data>
+  <data name="NoneInParentheses" xml:space="preserve">
+    <value>(None)</value>
+  </data>
+  <data name="MoreColumns" xml:space="preserve">
+    <value>More</value>
+  </data>
+  <data name="DayCreated" xml:space="preserve">
+    <value>Day created</value>
+  </data>
+  <data name="MonthCreated" xml:space="preserve">
+    <value>Month created</value>
+  </data>
+  <data name="YearCreated" xml:space="preserve">
+    <value>Year created</value>
+  </data>
+  <data name="CustomizeColumns" xml:space="preserve">
+    <value>Choose columns</value>
+  </data>
+  <data name="CustomizeColumnsDescription" xml:space="preserve">
+    <value>Choose columns to add to the view</value>
+  </data>
+  <data name="SearchColumns" xml:space="preserve">
+    <value>Find a column</value>
+  </data>
+  <data name="Column" xml:space="preserve">
+    <value>Column</value>
+  </data>
+  <data name="Sorting" xml:space="preserve">
+    <value>Sorting</value>
+  </data>
+  <data name="MoreColumnsEllipsis" xml:space="preserve">
+    <value>More columns…</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Выделение</value>
+  </data>
+  <data name="ChooseGrouping" xml:space="preserve">
+    <value>Choose grouping</value>
+  </data>
+  <data name="ChooseGroupingDescription" xml:space="preserve">
+    <value>Choose a category to use for grouping</value>
+  </data>
+  <data name="SearchGroupingCategories" xml:space="preserve">
+    <value>Find a grouping category</value>
+  </data>
+  <data name="ChooseSorting" xml:space="preserve">
+    <value>Choose sorting</value>
+  </data>
+  <data name="ChooseSortingDescription" xml:space="preserve">
+    <value>Choose a category to use for sorting</value>
+  </data>
+  <data name="SearchSortingCategories" xml:space="preserve">
+    <value>Find a sorting category</value>
+  </data>
+  <data name="MoreSortOptionsEllipsis" xml:space="preserve">
+    <value>More sort options…</value>
+  </data>
+  <data name="MoreGroupsEllipsis" xml:space="preserve">
+    <value>More groups…</value>
+  </data>
+  <data name="Storage" xml:space="preserve">
+    <value>Storage</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Other</value>
   </data>
 </root>

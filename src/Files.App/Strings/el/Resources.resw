@@ -124,7 +124,7 @@
     <value>Αντιγραφή διαδρομής</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>Αντιγραφή διαδρομής</value>
+    <value>Αντιγραφή διαδρομής στοιχείου</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Αντιγραφή διαδρομής με εισαγωγικά</value>
@@ -133,7 +133,7 @@
     <value>Αντιγραφή διαδρομής επιλεγμένου στοιχείου με εισαγωγικά</value>
   </data>
   <data name="Browse" xml:space="preserve">
-    <value>Περιήγηση</value>
+    <value>Αναζήτηση</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>Μέγεθος</value>
@@ -148,7 +148,7 @@
     <value>Μέγεθος:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Μέγεθος στο δίσκο:</value>
+    <value>Μέγεθος στον δίσκο:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Μη συμπιεσμένο μέγεθος:</value>
@@ -169,7 +169,7 @@
     <value>Επιλογή όλων</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Αναστροφή επιλογής</value>
+    <value>Αντιστροφή επιλογής</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
     <value>Εκκαθάριση επιλογής</value>
@@ -181,7 +181,7 @@
     <value>Προσπελάστηκε:</value>
   </data>
   <data name="RecentItemClearAllText" xml:space="preserve">
-    <value>Clear all items</value>
+    <value> Εκκαθάριση όλων των στοιχείων</value>
   </data>
   <data name="NavigationToolbarVisiblePathPlaceholderText" xml:space="preserve">
     <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
@@ -190,7 +190,7 @@
     <value>Αναζήτηση</value>
   </data>
   <data name="SearchSettings" xml:space="preserve">
-    <value>Search settings...</value>
+    <value>Αναζήτηση ρυθμίσεων...</value>
   </data>
   <data name="NoSearchResults" xml:space="preserve">
     <value>No settings match your search.</value>
@@ -199,7 +199,7 @@
     <value>Τα αρχεία τα οποία προσπελάσατε στο παρελθόν θα εμφανιστούν εδώ</value>
   </data>
   <data name="RecentItemRemoveText" xml:space="preserve">
-    <value>Remove this item</value>
+    <value>Αφαίρεση αυτού του στοιχείου</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>Αποθετήριο GitHub</value>
@@ -244,7 +244,7 @@
     <value>Maximum disk space to use for thumbnail cache (100-5000 MiB).</value>
   </data>
   <data name="CacheSizeLimit" xml:space="preserve">
-    <value>Cache size limit</value>
+    <value>Όριο μεγέθους προσωρινής μνήμης</value>
   </data>
   <data name="ClearCachedThumbnails" xml:space="preserve">
     <value>Clear cached thumbnails to free up space</value>
@@ -253,7 +253,7 @@
     <value>Current cache size: </value>
   </data>
   <data name="ClearCache" xml:space="preserve">
-    <value>Clear cache</value>
+    <value>Εκκαθάριση προσωρινής μνήμης</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Συνέχεια από εκεί που σταματήσατε</value>
@@ -313,7 +313,7 @@
     <value>Καρφίτσωμα στην Πλαϊνή μπάρα</value>
   </data>
   <data name="WelcomeDialogTitle" xml:space="preserve">
-    <value>Welcome to Files!</value>
+    <value>Καλώς ορίσατε στο Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Χορήγηση άδειας</value>
@@ -331,22 +331,22 @@
     <value>Δημιουργία νέου {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>Ανοιχτό</value>
+    <value>Φωτεινό</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>Σκούρο</value>
+    <value>Σκοτεινό</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>Θέμα συστήματος</value>
   </data>
   <data name="LightThemeLabel" xml:space="preserve">
-    <value>Light Theme</value>
+    <value>Φωτεινό θέμα</value>
   </data>
   <data name="DarkThemeLabel" xml:space="preserve">
-    <value>Dark Theme</value>
+    <value>Σκοτεινό θέμα</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
-    <value>Χρήση της ρύθμισης συστήματος</value>
+    <value>Χρήση ρύθμισης συστήματος</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Εφαρμογή</value>
@@ -409,13 +409,13 @@
     <value>Το αρχείο που προσπαθείτε να προσπελάσετε ενδέχεται να έχει μετακινηθεί ή διαγραφεί.</value>
   </data>
   <data name="FileNotFoundDialogTitle" xml:space="preserve">
-    <value>File Not Found</value>
+    <value>Το αρχείο δεν βρέθηκε</value>
   </data>
   <data name="FolderNotFoundDialogText" xml:space="preserve">
     <value>The folder you are attempting to access may have been moved or deleted.</value>
   </data>
   <data name="FolderNotFoundDialogTitle" xml:space="preserve">
-    <value>Did you delete this folder?</value>
+    <value>Διαγράψετε αυτόν τον φάκελο;</value>
   </data>
   <data name="FileInUseByDialogText" xml:space="preserve">
     <value>The file you are attempting to access is currently being used by {0}</value>
@@ -537,7 +537,7 @@
     <value>{0, number} {0, plural, one {αρχείο} other {αρχεία}}, {1, number} {1, plural, one {φάκελος} other {φάκελοι}} από {2, number} {2, plural, one {τοποθεσία} other {τοποθεσίες}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUserText" xml:space="preserve">
-    <value>Run as another user</value>
+    <value>Εκτέλεση ως άλλος χρήστης</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
     <value>Όλοι οι τύποι {0}</value>
@@ -546,7 +546,7 @@
     <value>Διαφορετικοί τύποι</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>Όλα σε {0}</value>
+    <value>Όλα στο {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Δεσμευμένος χώρος:</value>
@@ -582,7 +582,7 @@
     <value>Αντιγραφή στο {0}</value>
   </data>
   <data name="CloneToFolderCaptionText" xml:space="preserve">
-    <value>Κλωνοποίηση σε {0}</value>
+    <value>Κλωνοποίηση στο {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
     <value>Δημιουργία συντόμευσης</value>
@@ -633,7 +633,7 @@
     <value>Έκδοση:</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
-    <value>Δεν υπάρχει τίποτα για κοινή χρήση αυτή τη στιγμή...</value>
+    <value>Δεν υπάρχει τίποτα για κοινή χρήση αυτήν τη στιγμή...</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
     <value>Τα στοιχεία που έχετε επιλέξει θα κοινοποιηθούν</value>
@@ -642,22 +642,22 @@
     <value>Το επιλεγμένο στοιχείο θα κοινοποιηθεί</value>
   </data>
   <data name="ShareDialogTitle" xml:space="preserve">
-    <value>Κοινή χρήση {0}</value>
+    <value>Κοινή χρήση του {0}</value>
   </data>
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
-    <value>Κοινή χρήση {0} {1}</value>
+    <value>Κοινή χρήση των {0} {1}</value>
   </data>
   <data name="RenameErrorItemDeletedText" xml:space="preserve">
     <value>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</value>
   </data>
   <data name="RenameErrorItemDeletedTitle" xml:space="preserve">
-    <value>Item no longer exists</value>
+    <value>Το στοιχείο δεν υπάρχει πλέον</value>
   </data>
   <data name="RenameErrorNameInvalidText" xml:space="preserve">
     <value>The name specified was invalid. Please check the desired item name and try again.</value>
   </data>
   <data name="RenameErrorNameInvalidTitle" xml:space="preserve">
-    <value>Invalid item name</value>
+    <value>Μη έγκυρο όνομα στοιχείου</value>
   </data>
   <data name="RenameErrorTooLongText" xml:space="preserve">
     <value>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</value>
@@ -681,7 +681,7 @@
     <value>Δεν επιτρέπεται η πρόσβαση</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsText" xml:space="preserve">
-    <value>Set as</value>
+    <value>Ορισμός ως</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Ακύρωση</value>
@@ -696,7 +696,7 @@
     <value>Αρχείο</value>
   </data>
   <data name="Files" xml:space="preserve">
-    <value>Files</value>
+    <value>Αρχεία</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Δημιουργεί ένα κενό αρχείο</value>
@@ -705,7 +705,7 @@
     <value>Φάκελος</value>
   </data>
   <data name="Folders" xml:space="preserve">
-    <value>Folders</value>
+    <value>Φάκελοι</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Δημιουργεί έναν κενό φάκελο</value>
@@ -716,9 +716,6 @@
   <data name="Language" xml:space="preserve">
     <value>Γλώσσα</value>
   </data>
-  <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Μετακίνηση επεκτάσεων κελύφους σε κάποιο υπομενού</value>
-  </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>Εμφάνιση παραθύρου διαλόγου επιβεβαίωσης κατά τη διαγραφή στοιχείων</value>
   </data>
@@ -726,7 +723,7 @@
     <value>There was an issue saving some properties.</value>
   </data>
   <data name="PropertySaveErrorDialogTitle" xml:space="preserve">
-    <value>Error</value>
+    <value>Σφάλμα</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Κλείσιμο ούτως ή άλλως</value>
@@ -1293,10 +1290,10 @@
     <value>Στήλες (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStartText" xml:space="preserve">
-    <value>Pin to the Start Menu</value>
+    <value>Καρφίτσωμα στο μενού Έναρξη</value>
   </data>
   <data name="UnpinItemFromStartText" xml:space="preserve">
-    <value>Unpin from the Start Menu</value>
+    <value>Ξεκαρφίτσωμα από το μενού Έναρξη</value>
   </data>
   <data name="Library" xml:space="preserve">
     <value>Βιβλιοθήκη</value>
@@ -1395,7 +1392,7 @@
     <value>Άνοιγμα με</value>
   </data>
   <data name="ChooseAnotherApp" xml:space="preserve">
-    <value>Choose another app</value>
+    <value>Επιλογή άλλης εφαρμογής</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Εικονίδιο αρχείου</value>
@@ -1560,10 +1557,10 @@
     <value>Εξαγωγή σε {0}\</value>
   </data>
   <data name="SideBarCreateNewLibraryText" xml:space="preserve">
-    <value>Create new library</value>
+    <value>Δημιουργία νέας βιβλιοθήκης</value>
   </data>
   <data name="SideBarRestoreLibrariesText" xml:space="preserve">
-    <value>Restore default libraries</value>
+    <value>Επαναφορά προεπιλεγμένων βιβλιοθηκών</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
     <value>Σίγουρα θέλετε να επαναφέρετε τις προεπιλεγμένες βιβλιοθήκες; Όλα τα αρχεία σας θα παραμείνουν στον αποθηκευτικό σας χώρο.</value>
@@ -1632,16 +1629,16 @@
     <value>Change permission</value>
   </data>
   <data name="SecurityCreateDirectoriesLabelText" xml:space="preserve">
-    <value>Create folders</value>
+    <value>Δημιουργία φακέλων</value>
   </data>
   <data name="SecurityCreateFilesLabelText" xml:space="preserve">
-    <value>Create files</value>
+    <value>Δημιουργία αρχείων</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabelText" xml:space="preserve">
-    <value>Delete subdirectories and files</value>
+    <value>Διαγραφή υποκαταλόγων και αρχείων</value>
   </data>
   <data name="SecurityExecuteFileLabelText" xml:space="preserve">
-    <value>Execute files</value>
+    <value>Εκτέλεση αρχείων</value>
   </data>
   <data name="SecurityReadAttributesLabelText" xml:space="preserve">
     <value>Read attributes</value>
@@ -1755,7 +1752,7 @@
     <value>Η εξαγωγή ολοκληρώθηκε!</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolderText" xml:space="preserve">
-    <value>Open parent folder</value>
+    <value>Άνοιγμα γονικού φακέλου</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>Άγνωστο</value>
@@ -1770,10 +1767,10 @@
     <value>Άνοιγμα μονάδας δίσκου</value>
   </data>
   <data name="InsertDiscDialogText" xml:space="preserve">
-    <value>Please insert a disc into drive {0}</value>
+    <value>Παρακαλώ τοποθετήστε έναν δίσκο στη μονάδα {0}</value>
   </data>
   <data name="InsertDiscDialogTitle" xml:space="preserve">
-    <value>Insert a disc</value>
+    <value>Τοποθετήστε έναν δίσκο</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>ΟΚ</value>
@@ -1788,10 +1785,10 @@
     <value>Δώστε τα διαπιστευτήριά σας:</value>
   </data>
   <data name="CredentialDialogIncorrectPassword" xml:space="preserve">
-    <value>The password is incorrect. Try again.</value>
+    <value>Ο κωδικός πρόσβασης είναι λανθασμένος. Προσπαθήστε ξανά.</value>
   </data>
   <data name="PasswordRequired" xml:space="preserve">
-    <value>Password required</value>
+    <value>Απαιτείται κωδικός πρόσβασης</value>
   </data>
   <data name="PasswordRequiredMessage" xml:space="preserve">
     <value>This location is password protected. Refresh to enter the password.</value>
@@ -2090,14 +2087,18 @@
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>Μέγεθος όλων των στηλών για προσαρμογή</value>
   </data>
+  <data name="FileExplorerTags" xml:space="preserve">
+    <value>Tags (File Explorer)</value>
+    <comment>Header of the Windows Tags column, named this way to tell it apart from the Files Tags column.</comment>
+  </data>
   <data name="AutoFitColumns" xml:space="preserve">
-    <value>Auto-fit columns</value>
+    <value>Αυτόματη προσαρμογή στηλών</value>
   </data>
   <data name="AutoFitColumnsDescription" xml:space="preserve">
     <value>Resize columns to fit their content</value>
   </data>
   <data name="AutoSizeColumnsInDetailsLayout" xml:space="preserve">
-    <value>Automatically fit columns to content</value>
+    <value>Αυτόματη προσαρμογή στηλών στο περιεχόμενο</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Προσαρμοστική διάταξη</value>
@@ -2298,10 +2299,10 @@
     <value>Word size</value>
   </data>
   <data name="EstimatedMemoryUsage" xml:space="preserve">
-    <value>Estimated memory usage: {0}</value>
+    <value>Εκτιμώμενη χρήση μνήμης: {0}</value>
   </data>
   <data name="AvailableMemory" xml:space="preserve">
-    <value>Available memory: {0}</value>
+    <value>Διαθέσιμη μνήμη: {0}</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2445,7 +2446,7 @@
     <value>Επιλογές μενού περιβάλλοντος</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>File extensions</value>
+    <value>Επεκτάσεις αρχείων</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
     <value>Μορφή</value>
@@ -2454,16 +2455,16 @@
     <value>Βοήθεια</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Full screen</value>
+    <value>Πλήρης οθόνη</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
     <value>Σίγουρα θέλετε να διαγράψετε αυτήν την ετικέτα;</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Play All</value>
+    <value>Αναπαραγωγή όλων</value>
   </data>
   <data name="Play" xml:space="preserve">
-    <value>Play</value>
+    <value>Αναπαραγωγή</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>Ύψος</value>
@@ -2571,7 +2572,7 @@
     <value>Switch to System Theme</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Start search in the OmniBar</value>
+    <value>Έναρξη αναζήτησης στην OmniBar</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Εναλλαγή ορατότητας των κρυφών στοιχείων</value>
@@ -2598,22 +2599,22 @@
     <value>Αντιγραφή διαδρομής των επιλεγμένων στοιχείων</value>
   </data>
   <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of selected items with quotes</value>
+    <value>Αντιγραφή διαδρομής επιλεγμένων στοιχείων με εισαγωγικά</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of the current directory with quotes</value>
+    <value>Αντιγραφή διαδρομής του τρέχοντος καταλόγου με εισαγωγικά</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Cut selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste items to the current folder</value>
+    <value>Επικόλληση στοιχείων στον τρέχοντα φάκελο</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste items to the current folder as shortcuts</value>
+    <value>Επικόλληση στοιχείων στον τρέχοντα φάκελο ως συντομεύσεις</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste items to the selected folder</value>
+    <value>Επικόλληση στοιχείων στον επιλεγμένο φάκελο</value>
   </data>
   <data name="PasteToSelectedFolder" xml:space="preserve">
     <value>Επικόλληση στον επιλεγμένο φάκελο</value>
@@ -2643,7 +2644,7 @@
     <value>Επαναφορά όλων των στοιχείων από τον κάδο ανακύκλωσης</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Open {0, plural, one {item} other {items}}</value>
+    <value>Άνοιγμα {0, plural, one {στοιχείου} other {στοιχείων}}</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
     <value>Άνοιγμα {0, plural, one {στοιχείου} other {στοιχείων}} με την επιλεγμένη εφαρμογή</value>
@@ -2661,10 +2662,10 @@
     <value>Επιλογή όλων των στοιχείων</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>Invert selected items</value>
+    <value>Αντιστροφή επιλεγμένων στοιχείων</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>Clear selected items</value>
+    <value>Εκκαθάριση επιλεγμένων στοιχείων</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
     <value>Εναλλαγή επιλογής στοιχείου</value>
@@ -2673,10 +2674,10 @@
     <value>Share selected {0, plural, one {file} other {files}} with others</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Pin {0, plural, one {item} other {items}} to the Start Menu</value>
+    <value>Καρφίτσωμα {0, plural, one {στοιχείου} other {στοιχείων}} στο μενού Έναρξη</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Unpin {0, plural, one {item} other {items}} from the Start Menu</value>
+    <value>Ξεκαρφίτσωμα {0, plural, one {στοιχείου} other {στοιχείων}} από το μενού Έναρξη</value>
   </data>
   <data name="PinFolderToSidebarDescription" xml:space="preserve">
     <value>Pin {0, plural, one {folder} other {folders}} to Sidebar</value>
@@ -2697,13 +2698,13 @@
     <value>Ορισμός επιλεγμένης εικόνας ως φόντου της εφαρμογής</value>
   </data>
   <data name="InstallFont" xml:space="preserve">
-    <value>Install font</value>
+    <value>Εγκατάσταση γραμματοσειράς</value>
   </data>
   <data name="InstallDriver" xml:space="preserve">
-    <value>Install driver</value>
+    <value>Εγκατάσταση προγράμματος οδήγησης</value>
   </data>
   <data name="InstallCertificate" xml:space="preserve">
-    <value>Install certificate</value>
+    <value>Εγκατάσταση πιστοποιητικού</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Install selected {0, plural, one {font} other {fonts}}</value>
@@ -3121,13 +3122,13 @@
     <value>Χωρίς ετικέτα</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Previous tab</value>
+    <value>Προηγούμενη καρτέλα</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Next tab</value>
+    <value>Επόμενη καρτέλα</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Close tab</value>
+    <value>Κλείσιμο καρτέλας</value>
   </data>
   <data name="EditPath" xml:space="preserve">
     <value>Επεξεργασία διαδρομής</value>
@@ -3157,7 +3158,7 @@
     <value>Εμφάνιση κουτιών ελέγχου κατά την επιλογή στοιχείων</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Edit path in the OmniBar</value>
+    <value>Επεξεργασία διαδρομής στην OmniBar</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Δημιουργία νέου στοιχείου</value>
@@ -3473,10 +3474,10 @@
     <value>Open the current folder in the other pane</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>Open selected directory in a new tab</value>
+    <value>Άνοιγμα επιλεγμένου καταλόγου σε νέα καρτέλα</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Open selected directory in a new window</value>
+    <value>Άνοιγμα επιλεγμένου καταλόγου σε νέο παράθυρο</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
     <value>Άνοιγμα όλων</value>
@@ -3529,6 +3530,9 @@
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
     <value>Λόγω ενός περιορισμού με τα Windows και WinAppSdk, το drag and drop δεν είναι διαθέσιμο κατά την εκτέλεση αρχείων ως διαχειριστή. Αν θέλετε να χρησιμοποιήσετε drag and drop, μπορείτε να εργαστείτε γύρω από αυτόν τον περιορισμό ανοίγοντας το UAC (Έλεγχος Λογαριασμού Χρήστη) από το μενού Έναρξη και επιλέγοντας το τρίτο επίπεδο, και επανεκκινώντας τα Windows. Διαφορετικά, μπορείτε να συνεχίσετε να χρησιμοποιείτε τα Αρχεία χωρίς drag &amp; drop.</value>
+  </data>
+  <data name="SettingsNaturalLanguageSearch" xml:space="preserve">
+    <value>Use natural language search</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Αφήστε την εφαρμογή να εκτελείται στο παρασκήνιο όταν το παράθυρο είναι κλειστό</value>
@@ -3649,59 +3653,59 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
-    <value>Compressed {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Έγινε συμπίεση {0, plural, one {# στοιχείου} other {# στοιχείων}} στο "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
-    <value>Compressed {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Έγινε συμπίεση {0, plural, one {# στοιχείου} other {# στοιχείων}} από το "{1}" στο "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>Error compressing {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Σφάλμα συμπίεσης {0, plural, one {# στοιχείου} other {# στοιχείων}} στο "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
-    <value>Failed to compress {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Απέτυχε η συμπίεση {0, plural, one {# στοιχείου} other {# στοιχείων}} από το "{1}" στο "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
-    <value>Compressing {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Συμπίεση {0, plural, one {# στοιχείου} other {# στοιχείων}} στο "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
-    <value>Compressing {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Συμπίεση {0, plural, one {# στοιχείου} other {# στοιχείων}} από το "{1}" στο "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
-    <value>Canceled cloning {0} to "{1}"</value>
+    <value>Ακυρώθηκε η κλωνοποίηση του {0} στο "{1}"</value>
     <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled cloning {0} from "{1}" to "{2}"</value>
+    <value>Ακυρώθηκε η κλωνοποίηση του {0} από το "{1}" στο "{2}"</value>
     <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
-    <value>Cloned "{0}" to "{1}"</value>
+    <value>Έγινε κλωνοποίηση του "{0}" στο "{1}"</value>
     <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
-    <value>Cloned {0} from "{1}" to "{2}"</value>
+    <value>Έγινε κλωνοποίηση του {0} από το "{1}" στο "{2}"</value>
     <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
-    <value>Error cloning "{0}" to "{1}"</value>
+    <value>Σφάλμα κλωνοποίησης "{0}" στο "{1}"</value>
     <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
-    <value>Failed to clone {0} from "{1}" to "{2}"</value>
+    <value>Απέτυχε η κλωνοποίηση {0} από το "{1}" στο "{2}"</value>
     <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
-    <value>Cloning "{0}" to "{1}"</value>
+    <value>Κλωνοποίηση "{0}" στο "{1}"</value>
     <comment>Shown in Status Center for Git clone. {0} is the repository and {1} is the destination folder.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
-    <value>Cloning {0} from "{1}" to "{2}"</value>
+    <value>Κλωνοποίηση {0} από το "{1}" στο "{2}"</value>
     <comment>Shown in Status Center for Git clone. {0} is the Git object count, {1} is the repository, and {2} is the destination path.</comment>
   </data>
   <data name="StatusCenter_GitCheckoutCanceled_Header" xml:space="preserve">
@@ -3789,67 +3793,67 @@
     <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
-    <value>Canceled installing {0} fonts</value>
+    <value>Ακυρώθηκε η εγκατάσταση {0} γραμματοσειρών</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled installing {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>Ακυρώθηκε η εγκατάσταση {0, plural, one {# γραμματοσειράς} other {# γραμματοσειρών}} από το "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
-    <value>Installed {0, plural, one {# font} other {# fonts}}</value>
+    <value>Έγινε εγκατάσταση {0, plural, one {# γραμματοσειράς} other {# γραμματοσειρών}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
-    <value>Installed {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>Έγινε εγκατάσταση {0, plural, one {# γραμματοσειράς} other {# γραμματοσειρών}} από το "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
-    <value>Error installing {0, plural, one {# font} other {# fonts}}</value>
+    <value>Σφάλμα εγκατάστασης {0, plural, one {# γραμματοσειράς} other {# γραμματοσειρών}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
-    <value>Failed to install {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>Απέτυχε η εγκατάσταση {0, plural, one {# γραμματοσειράς} other {# γραμματοσειρών}} από το "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
-    <value>Installing {0, plural, one {# font} other {# fonts}}</value>
+    <value>Εγκατάσταση {0, plural, one {# γραμματοσειράς} other {# γραμματοσειρών}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
-    <value>Installing {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>Εγκατάσταση {0, plural, one {# γραμματοσειράς} other {# γραμματοσειρών}} από το "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>Canceled copying {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Ακυρώθηκε η αντιγραφή {0, plural, one {# στοιχείου} other {# στοιχείων}} στο "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled copying {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Ακυρώθηκε η αντιγραφή {0, plural, one {# στοιχείου} other {# στοιχείων}} από το "{1}" στο "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>Copied {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Έγινε αντιγραφή {0, plural, one {# στοιχείου} other {# στοιχείων}} στο "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
-    <value>Copied {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Έγινε αντιγραφή {0, plural, one {# στοιχείου} other {# στοιχείων}} από το "{1}" στο "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>Error copying {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Σφάλμα αντιγραφής {0, plural, one {# στοιχείου} other {# στοιχείων}} στο "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
-    <value>Failed to copy {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Απέτυχε η αντιγραφή {0, plural, one {# στοιχείου} other {# στοιχείων}} από το "{1}" στο "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
-    <value>Copying {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Αντιγραφή {0, plural, one {# στοιχείου} other {# στοιχείων}} στο "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
-    <value>Copying {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Αντιγραφή {0, plural, one {# στοιχείου} other {# στοιχείων}} από το "{1}" στο "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
@@ -3889,55 +3893,55 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Canceled deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>Ακυρώθηκε η διαγραφή {0, plural, one {# στοιχείου} other {# στοιχείων}} από το "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Deleted {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>Έγινε διαγραφή {0, plural, one {# στοιχείου} other {# στοιχείων}} από το "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Error deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>Σφάλμα διαγραφής {0, plural, one {# στοιχείου} other {# στοιχείων}} από το "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Failed to delete {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>Απέτυχε η διαγραφή {0, plural, one {# στοιχείου} other {# στοιχείων}} από το "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>Διαγραφή {0, plural, one {# στοιχείου} other {# στοιχείων}} από το "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
-    <value>Canceled moving {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Ακυρώθηκε η μετακίνηση {0, plural, one {# στοιχείου} other {# στοιχείων}} στο "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled moving {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Ακυρώθηκε η μετακίνηση {0, plural, one {# στοιχείου} other {# στοιχείων}} από το "{1}" στο "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
-    <value>Moved {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Έγινε μετακίνηση {0, plural, one {# στοιχείου} other {# στοιχείων}} στο "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
-    <value>Moved {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Έγινε μετακίνηση {0, plural, one {# στοιχείου} other {# στοιχείων}} από το "{1}" στο "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
-    <value>Moving {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Μετακίνηση {0, plural, one {# στοιχείου} other {# στοιχείων}} στο "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
-    <value>Moving {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Μετακίνηση {0, plural, one {# στοιχείου} other {# στοιχείων}} από το "{1}" στο "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
-    <value>Error moving {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Σφάλμα μετακίνησης {0, plural, one {# στοιχείου} other {# στοιχείων}} στο "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
-    <value>Failed to move {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Απέτυχε η μετακίνηση {0, plural, one {# στοιχείου} other {# στοιχείων}} από το "{1}" στο "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
@@ -3965,7 +3969,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1, plural, one {# item} other {# items}} processed</value>
+    <value>Έγινε επεξεργασία {0}/{1, plural, one {# στοιχείου} other {# στοιχείων}}</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -3984,7 +3988,7 @@
     <value>Αποτυχία ορισμού ταπετσαρίας φόντου</value>
   </data>
   <data name="FailedToOpenSettingsFile" xml:space="preserve">
-    <value>Failed to open the settings file</value>
+    <value>Απέτυχε το άνοιγμα του αρχείου ρυθμίσεων</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
     <value>Διαγραφή διακλάδωσης Git</value>
@@ -4020,7 +4024,7 @@
     <value>Ταξινόμηση αρχείων και φακέλων μαζί</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
-    <value>Sort files and folders in the same list</value>
+    <value>Ταξινόμηση αρχείων και φακέλων στην ίδια λίστα</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
     <value>Ταξινόμηση αρχείων πρώτα</value>
@@ -4141,7 +4145,7 @@
     <value>Ενέργειες</value>
   </data>
   <data name="Action" xml:space="preserve">
-    <value>Action</value>
+    <value>Ενέργεια</value>
   </data>
   <data name="Commands" xml:space="preserve">
     <value>Εντολές</value>
@@ -4165,7 +4169,7 @@
     <value>Ο συνδυασμός πλήκτρων που επιλέγετε δεν μπορεί να χρησιμοποιηθεί, δοκιμάστε ξανά χρησιμοποιώντας διαφορετικό συνδυασμό πλήκτρων.</value>
   </data>
   <data name="KeyboardShortcuts" xml:space="preserve">
-    <value>Keyboard shortcuts</value>
+    <value>Συντομεύσεις πληκτρολογίου</value>
   </data>
   <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
     <value>Are you sure you want to remove this key binding?</value>
@@ -4266,13 +4270,13 @@
     <comment>This is the friendly name for image files.</comment>
   </data>
   <data name="AllSupportedFiles" xml:space="preserve">
-    <value>All supported files</value>
+    <value>Όλα τα υποστηριζόμενα αρχεία</value>
   </data>
   <data name="ConvertToIconRequiredMessage" xml:space="preserve">
     <value>This image needs to be converted into an icon file before it can be used. Choose a location to save the converted icon file.</value>
   </data>
   <data name="ConvertToIconError" xml:space="preserve">
-    <value>Couldn't convert the image to an icon file</value>
+    <value>Δεν ήταν δυνατή η μετατροπή της εικόνας σε αρχείου εικονιδίου</value>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Num</value>
@@ -4360,7 +4364,7 @@
     <value>Μετάβαση στην αρχική σελίδα</value>
   </data>
   <data name="AddressBar" xml:space="preserve">
-    <value>Address bar</value>
+    <value>Γραμμή διευθύνσεων</value>
   </data>
   <data name="UserID" xml:space="preserve">
     <value>ID χρήστη</value>
@@ -4430,7 +4434,7 @@
     <comment>'Shelf' refers to the Shelf Pane feature, where users can conveniently drag and drop files for quick access and perform bulk actions with ease.</comment>
   </data>
   <data name="ClearItems" xml:space="preserve">
-    <value>Clear items</value>
+    <value>Εκκαθάριση στοιχείων</value>
   </data>
   <data name="BatchAction" xml:space="preserve">
     <value>Batch action</value>
@@ -4455,10 +4459,10 @@
     <comment>Appears when two compared hashes don't match</comment>
   </data>
   <data name="PathOrAlias" xml:space="preserve">
-    <value>Path or alias</value>
+    <value>Διαδρομή ή ψευδώνυμο</value>
   </data>
   <data name="InvalidPath" xml:space="preserve">
-    <value>Invalid path</value>
+    <value>Μη έγκυρη διαδρομή</value>
   </data>
   <data name="TestIntegration" xml:space="preserve">
     <value>Test integration</value>
@@ -4470,16 +4474,16 @@
     <value>The configured IDE could not be located</value>
   </data>
   <data name="OpenSettings" xml:space="preserve">
-    <value>Open settings</value>
+    <value>Άνοιγμα ρυθμίσεων</value>
   </data>
   <data name="NetworkDiscoveryTurnedOffInfoBarMessage" xml:space="preserve">
-    <value>Network discovery is turned off. Network computers and devices are not visible.</value>
+    <value>Ο εντοπισμός δικτύου είναι απενεργοποιημένος. Οι υπολογιστές και οι συσκευές δικτύου δεν είναι ορατά.</value>
   </data>
   <data name="FileSharingTurnedOffInfoBarMessage" xml:space="preserve">
-    <value>File sharing is turned off. Some network computers and devices might not be visible.</value>
+    <value>Η κοινή χρήση αρχείων είναι απενεργοποιημένη. Ορισμένοι υπολογιστές και συσκευές δικτύου ενδέχεται να μην είναι ορατά.</value>
   </data>
   <data name="NetworkDiscoveryAndFileSharingTurnedOffInfoBarMessage" xml:space="preserve">
-    <value>Network discovery and file sharing are turned off. Network computers and devices are not visible.</value>
+    <value>Ο εντοπισμός δικτύου και η κοινή χρήση αρχείων είναι απενεργοποιημένα. Οι υπολογιστές και οι συσκευές δικτύου δεν είναι ορατά.</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
@@ -4488,14 +4492,14 @@
     <value>Enter a path or launch alias</value>
   </data>
   <data name="InvalidIDENameError" xml:space="preserve">
-    <value>Please enter a name for the IDE</value>
+    <value>Παρακαλώ εισαγάγετε ένα όνομα για το IDE</value>
   </data>
   <data name="CloneRepo" xml:space="preserve">
     <value>Clone repo</value>
     <comment>Clone repo dialog title</comment>
   </data>
   <data name="Clone" xml:space="preserve">
-    <value>Clone</value>
+    <value>Κλωνοποίηση</value>
     <comment>Primary action button in the clone repo dialog</comment>
   </data>
   <data name="RepositoryURL" xml:space="preserve">
@@ -4507,7 +4511,7 @@
     <comment>Cannot clone repo dialog title</comment>
   </data>
   <data name="CompareFile" xml:space="preserve">
-    <value>Compare a file</value>
+    <value>Σύγκριση αρχείου</value>
     <comment>Button that appears in file hash properties that allows the user to compare two files</comment>
   </data>
   <data name="SizeFormat" xml:space="preserve">
@@ -4532,7 +4536,7 @@
     <value>Βρείτε χαρακτηριστικά και εντολές...</value>
   </data>
   <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
-    <value>Search for files and folders...</value>
+    <value>Αναζήτηση για αρχεία και φακέλους...</value>
   </data>
   <data name="DuringOngoingFileOperations" xml:space="preserve">
     <value>During file operations</value>
@@ -4552,10 +4556,10 @@
     <value>Show collapsed path breadcrumbs</value>
   </data>
   <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
-    <value>Show folders in {0}</value>
+    <value>Εμφάνιση φακέλων στο {0}</value>
   </data>
   <data name="BreadcrumbBarRootChevronButtonToolTip" xml:space="preserve">
-    <value>Show folders in Home</value>
+    <value>Εμφάνιση φακέλων στην Αρχική</value>
   </data>
   <data name="NoCommandsFound" xml:space="preserve">
     <value>There are no commands containing {0}</value>
@@ -4570,10 +4574,10 @@
     <value>Όνομα Αρχείου</value>
   </data>
   <data name="Signatures" xml:space="preserve">
-    <value>Signatures</value>
+    <value>Υπογραφές</value>
   </data>
   <data name="SignatureList" xml:space="preserve">
-    <value>Signature list</value>
+    <value>Λίστα υπογραφών</value>
   </data>
   <data name="IssuedBy" xml:space="preserve">
     <value>Issued by:</value>
@@ -4582,19 +4586,19 @@
     <value>Issued to:</value>
   </data>
   <data name="ValidFrom" xml:space="preserve">
-    <value>Valid from:</value>
+    <value>Ισχύει από:</value>
   </data>
   <data name="ValidTo" xml:space="preserve">
-    <value>Valid to:</value>
+    <value>Ισχύει έως:</value>
   </data>
   <data name="NoSignatureFound" xml:space="preserve">
-    <value>No signature was found.</value>
+    <value>Δεν βρέθηκε υπογραφή.</value>
   </data>
   <data name="ShowOpenTerminal" xml:space="preserve">
     <value>Show option to open folders in Windows Terminal</value>
   </data>
   <data name="OpenLogFile" xml:space="preserve">
-    <value>Open log file</value>
+    <value>Άνοιγμα αρχείου καταγραφής</value>
   </data>
   <data name="OpenLogFileDescription" xml:space="preserve">
     <value>Open log file in your default editor</value>
@@ -4603,10 +4607,19 @@
     <value>Open log file location in your default file manager</value>
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
-    <value>Unable to open the log file</value>
+    <value>Δεν είναι δυνατό το άνοιγμα του αρχείου καταγραφής</value>
   </data>
   <data name="ShowStatusBar" xml:space="preserve">
-    <value>Show status bar</value>
+    <value>Εμφάνιση γραμμής κατάστασης</value>
+  </data>
+  <data name="ItemCountFormat" xml:space="preserve">
+    <value>Item count format</value>
+  </data>
+  <data name="TotalCount" xml:space="preserve">
+    <value>Total count</value>
+  </data>
+  <data name="SeparateFileAndFolderCounts" xml:space="preserve">
+    <value>Separate file and folder counts</value>
   </data>
   <data name="OnlyForTouch" xml:space="preserve">
     <value>When using touch</value>
@@ -4615,28 +4628,28 @@
     <value>When using mouse</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
-    <value>New {0}</value>
+    <value>Νέο {0}</value>
   </data>
   <data name="EnableSmoothScrolling" xml:space="preserve">
-    <value>Enable smooth scrolling</value>
+    <value>Ενεργοποίηση ομαλής κύλισης</value>
   </data>
   <data name="Scrolling" xml:space="preserve">
-    <value>Scrolling</value>
+    <value>Κύλιση</value>
   </data>
   <data name="ShowPinToSideBar" xml:space="preserve">
     <value>Show option to Pin to Sidebar</value>
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
-    <value>Show option to Pin to the Start Menu</value>
+    <value>Εμφάνιση επιλογής για καρφίτσωμα στο μενού Έναρξη</value>
   </data>
   <data name="Toolbar" xml:space="preserve">
-    <value>Toolbar</value>
+    <value>Γραμμή εργαλείων</value>
   </data>
   <data name="CustomizeToolbar" xml:space="preserve">
-    <value>Customize toolbar</value>
+    <value>Προσαρμογή γραμμής εργαλείων</value>
   </data>
   <data name="CustomizeToolbarDescription" xml:space="preserve">
-    <value>Customize toolbar buttons</value>
+    <value>Προσαρμογή κουμπιών γραμμής εργαλείων</value>
   </data>
   <data name="ChooseToolbarModeToCustomize" xml:space="preserve">
     <value>Choose toolbar mode to customize</value>
@@ -4672,49 +4685,49 @@
     <value>Archive</value>
   </data>
   <data name="Run" xml:space="preserve">
-    <value>Run</value>
+    <value>Εκτέλεση</value>
   </data>
   <data name="Start" xml:space="preserve">
     <value>Start</value>
   </data>
   <data name="Selection" xml:space="preserve">
-    <value>Selection</value>
+    <value>Επιλογή</value>
   </data>
   <data name="Show" xml:space="preserve">
-    <value>Show</value>
+    <value>Εμφάνιση</value>
   </data>
   <data name="Navigation" xml:space="preserve">
-    <value>Navigation</value>
+    <value>Πλοήγηση</value>
   </data>
   <data name="FileSystem" xml:space="preserve">
-    <value>File system</value>
+    <value>Σύστημα αρχείων</value>
   </data>
   <data name="Window" xml:space="preserve">
-    <value>Window</value>
+    <value>Παράθυρο</value>
   </data>
   <data name="DualPaneCategory" xml:space="preserve">
     <value>Dual Pane</value>
   </data>
   <data name="ResetDefaults" xml:space="preserve">
-    <value>Reset defaults</value>
+    <value>Επαναφορά προεπιλογών</value>
   </data>
   <data name="Separator" xml:space="preserve">
-    <value>Separator</value>
+    <value>Διαχωριστικό</value>
   </data>
   <data name="Icon" xml:space="preserve">
-    <value>Icon</value>
+    <value>Εικονίδιο</value>
   </data>
   <data name="Label" xml:space="preserve">
-    <value>Label</value>
+    <value>Ετικέτα</value>
   </data>
   <data name="ShowToolbarLabels" xml:space="preserve">
-    <value>Show label</value>
+    <value>Εμφάνιση ετικέτας</value>
   </data>
   <data name="ShowToolbarIconOnly" xml:space="preserve">
-    <value>Show icon</value>
+    <value>Εμφάνιση εικονιδίου</value>
   </data>
   <data name="AvailableToolbarItems" xml:space="preserve">
-    <value>Available items</value>
+    <value>Διαθέσιμα στοιχεία</value>
   </data>
   <data name="AddedToolbarItems" xml:space="preserve">
     <value>Added items</value>
@@ -4723,21 +4736,213 @@
     <value>Extract compressed archives</value>
   </data>
   <data name="SetAsGroupDescription" xml:space="preserve">
-    <value>Set image as wallpaper or background</value>
+    <value>Ορισμός εικόνας ως ταπετσαρία ή φόντο</value>
   </data>
   <data name="NewItemGroupDescription" xml:space="preserve">
-    <value>Create new files and folders</value>
+    <value>Δημιουργία νέων αρχείων και φακέλων</value>
   </data>
   <data name="EditTagsGroupDescription" xml:space="preserve">
     <value>Add or remove file tags</value>
   </data>
   <data name="RemoveTags" xml:space="preserve">
-    <value>Remove tags</value>
+    <value>Αφαίρεση ετικετών</value>
   </data>
   <data name="RemoveTagsDescription" xml:space="preserve">
-    <value>Remove tags from the selected items</value>
+    <value>Αφαίρεση ετικετών από τα επιλεγμένα στοιχεία</value>
   </data>
   <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
-    <value>Are you sure you want to remove tags from the selected items?</value>
+    <value>Είστε βέβαιοι ότι θέλετε να αφαιρέσετε ετικέτες από τα επιλεγμένα στοιχεία;</value>
+  </data>
+  <data name="SearchForQuery" xml:space="preserve">
+    <value>Αναζήτηση για `{0}`</value>
+  </data>
+  <data name="FolderAliases" xml:space="preserve">
+    <value>Folder aliases</value>
+  </data>
+  <data name="AddAlias" xml:space="preserve">
+    <value>Add alias</value>
+  </data>
+  <data name="FolderAliasNameInvalid" xml:space="preserve">
+    <value>Name can't contain \ or /.</value>
+  </data>
+  <data name="FolderAliasesEmptyState" xml:space="preserve">
+    <value>There are no folder aliases. Add one, then type @ followed by its name in the Omnibar to go to the folder.</value>
+  </data>
+  <data name="NoFolderAliasesDialogContent" xml:space="preserve">
+    <value>There are no folder aliases. Do you want to open Settings to add one?</value>
+  </data>
+  <data name="FolderAliasPathNotFound" xml:space="preserve">
+    <value>This folder doesn't exist.</value>
+  </data>
+  <data name="NoFolderAliasesSuggestion" xml:space="preserve">
+    <value>There are no folder aliases. Open Settings to add one.</value>
+  </data>
+  <data name="NoMatchingFolderAliasesSuggestion" xml:space="preserve">
+    <value>No matching folder aliases</value>
+  </data>
+  <data name="FolderAliasNotFoundDialogTitle" xml:space="preserve">
+    <value>Folder alias not found</value>
+  </data>
+  <data name="FolderAliasNotFoundDialogContent" xml:space="preserve">
+    <value>There's no folder alias named "{0}".</value>
+  </data>
+  <data name="FolderAliasNameRequiredDialogContent" xml:space="preserve">
+    <value>Type a folder alias name after @.</value>
+  </data>
+  <data name="RestoreDefaultFolderAliasesConfirmation" xml:space="preserve">
+    <value>Are you sure you want to restore the default aliases? This action cannot be undone.</value>
+  </data>
+  <data name="DeleteFolderAliasConfirmation" xml:space="preserve">
+    <value>Are you sure you want to delete this alias?</value>
+  </data>
+  <data name="FolderAliasNameInUse" xml:space="preserve">
+    <value>An alias with this name already exists.</value>
+  </data>
+  <data name="EnterFolderPath" xml:space="preserve">
+    <value>Enter a folder path</value>
+  </data>
+  <data name="GoToFolderAlias" xml:space="preserve">
+    <value>Go to folder alias</value>
+  </data>
+  <data name="GoToFolderAliasDescription" xml:space="preserve">
+    <value>Go to a folder alias in the Omnibar</value>
+  </data>
+  <data name="Unspecified" xml:space="preserve">
+    <value>Μη καθορισμένος</value>
+    <comment>Name of the group for items that have no value when grouping by a property, such as music files without an artist.</comment>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, such as title, rating and comments.</comment>
+  </data>
+  <data name="Unrated" xml:space="preserve">
+    <value>Unrated</value>
+    <comment>Name of the group for items without a rating when grouping by rating.</comment>
+  </data>
+  <data name="OrderGroupsAscending" xml:space="preserve">
+    <value>Order groups ascending</value>
+  </data>
+  <data name="OrderGroupsDescending" xml:space="preserve">
+    <value>Order groups descending</value>
+  </data>
+  <data name="GroupOrder" xml:space="preserve">
+    <value>Group order</value>
+  </data>
+  <data name="SortItemsAscending" xml:space="preserve">
+    <value>Sort items ascending</value>
+  </data>
+  <data name="SortItemsDescending" xml:space="preserve">
+    <value>Sort items descending</value>
+  </data>
+  <data name="DayTaken" xml:space="preserve">
+    <value>Day taken</value>
+  </data>
+  <data name="MonthTaken" xml:space="preserve">
+    <value>Month taken</value>
+  </data>
+  <data name="YearTaken" xml:space="preserve">
+    <value>Year taken</value>
+  </data>
+  <data name="DayRecorded" xml:space="preserve">
+    <value>Day recorded</value>
+  </data>
+  <data name="MonthRecorded" xml:space="preserve">
+    <value>Month recorded</value>
+  </data>
+  <data name="YearRecorded" xml:space="preserve">
+    <value>Year recorded</value>
+  </data>
+  <data name="DayDeleted" xml:space="preserve">
+    <value>Day deleted</value>
+  </data>
+  <data name="MonthDeleted" xml:space="preserve">
+    <value>Month deleted</value>
+  </data>
+  <data name="YearDeleted" xml:space="preserve">
+    <value>Year deleted</value>
+  </data>
+  <data name="DayUpdated" xml:space="preserve">
+    <value>Day updated</value>
+  </data>
+  <data name="MonthUpdated" xml:space="preserve">
+    <value>Month updated</value>
+  </data>
+  <data name="YearUpdated" xml:space="preserve">
+    <value>Year updated</value>
+  </data>
+  <data name="DayCommitted" xml:space="preserve">
+    <value>Day committed</value>
+  </data>
+  <data name="MonthCommitted" xml:space="preserve">
+    <value>Month committed</value>
+  </data>
+  <data name="YearCommitted" xml:space="preserve">
+    <value>Year committed</value>
+  </data>
+  <data name="NoneInParentheses" xml:space="preserve">
+    <value>(None)</value>
+  </data>
+  <data name="MoreColumns" xml:space="preserve">
+    <value>More</value>
+  </data>
+  <data name="DayCreated" xml:space="preserve">
+    <value>Day created</value>
+  </data>
+  <data name="MonthCreated" xml:space="preserve">
+    <value>Month created</value>
+  </data>
+  <data name="YearCreated" xml:space="preserve">
+    <value>Year created</value>
+  </data>
+  <data name="CustomizeColumns" xml:space="preserve">
+    <value>Choose columns</value>
+  </data>
+  <data name="CustomizeColumnsDescription" xml:space="preserve">
+    <value>Choose columns to add to the view</value>
+  </data>
+  <data name="SearchColumns" xml:space="preserve">
+    <value>Find a column</value>
+  </data>
+  <data name="Column" xml:space="preserve">
+    <value>Column</value>
+  </data>
+  <data name="Sorting" xml:space="preserve">
+    <value>Sorting</value>
+  </data>
+  <data name="MoreColumnsEllipsis" xml:space="preserve">
+    <value>More columns…</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Επιλογή</value>
+  </data>
+  <data name="ChooseGrouping" xml:space="preserve">
+    <value>Choose grouping</value>
+  </data>
+  <data name="ChooseGroupingDescription" xml:space="preserve">
+    <value>Choose a category to use for grouping</value>
+  </data>
+  <data name="SearchGroupingCategories" xml:space="preserve">
+    <value>Find a grouping category</value>
+  </data>
+  <data name="ChooseSorting" xml:space="preserve">
+    <value>Choose sorting</value>
+  </data>
+  <data name="ChooseSortingDescription" xml:space="preserve">
+    <value>Choose a category to use for sorting</value>
+  </data>
+  <data name="SearchSortingCategories" xml:space="preserve">
+    <value>Find a sorting category</value>
+  </data>
+  <data name="MoreSortOptionsEllipsis" xml:space="preserve">
+    <value>More sort options…</value>
+  </data>
+  <data name="MoreGroupsEllipsis" xml:space="preserve">
+    <value>More groups…</value>
+  </data>
+  <data name="Storage" xml:space="preserve">
+    <value>Storage</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Other</value>
   </data>
 </root>

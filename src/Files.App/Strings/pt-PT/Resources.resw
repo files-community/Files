@@ -717,9 +717,6 @@
   <data name="Language" xml:space="preserve">
     <value>Idioma</value>
   </data>
-  <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Mover extensões de consola para um sub-menu</value>
-  </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>Mostrar diálogo de confirmação antes de eliminar itens</value>
   </data>
@@ -2091,6 +2088,10 @@
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>Ajustar todas as colunas para caber</value>
   </data>
+  <data name="FileExplorerTags" xml:space="preserve">
+    <value>Etiquetas (Explorador de ficheiros)</value>
+    <comment>Header of the Windows Tags column, named this way to tell it apart from the Files Tags column.</comment>
+  </data>
   <data name="AutoFitColumns" xml:space="preserve">
     <value>Auto ajuste de colunas</value>
   </data>
@@ -2197,7 +2198,7 @@
     <value>Selecionar ficheiros e pastas ao passar com o rato por cima</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Tem a certeza de que deseja restaurar todos os itens da Reciclagem?</value>
+    <value>Tem a certeza de que pretende restaurar todos os itens da Reciclagem?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
     <value>Restaurar todos os itens</value>
@@ -2458,7 +2459,7 @@
     <value>Ecrã completo</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
-    <value>Tem a certeza de que deseja eliminar esta etiqueta?</value>
+    <value>Tem a certeza de que pretende eliminar esta etiqueta?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
     <value>Reproduzir tudo</value>
@@ -3143,7 +3144,7 @@
     <value>Caminho inválido</value>
   </data>
   <data name="CopyFileWithoutProperties" xml:space="preserve">
-    <value>Tem a certeza de que deseja copiar os ficheiros sem as suas propriedades?</value>
+    <value>Tem a certeza de que pretende copiar os ficheiros sem as propriedades?</value>
   </data>
   <data name="FilePropertiesCannotBeCopied" xml:space="preserve">
     <value>Estes ficheiros têm propriedades que não podem ser copiadas para a nova localização</value>
@@ -3152,7 +3153,7 @@
     <value>Estes ficheiros têm propriedades que não podem ser movidas para a nova localização</value>
   </data>
   <data name="MoveFileWithoutProperties" xml:space="preserve">
-    <value>Tem a certeza de que deseja mover os ficheiros sem as suas propriedades?</value>
+    <value>Tem a certeza de que pretende mover os ficheiros sem as propriedades?</value>
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Mostrar caixas de seleção ao selecionar itens</value>
@@ -3531,6 +3532,9 @@
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
     <value>Devido a uma limitação com o Windows e o WinAppSdk, a funcionalidade arrastar e largar não está disponível quando o Files é executado como administrador. Se pretender utilizar o arrastar e largar, pode contornar esta limitação abrindo o UAC (Controlo de Conta do Utilizador) a partir do Menu Iniciar e selecionando o terceiro nível, e reiniciando o Windows. Caso contrário, pode continuar a utilizar o Files sem a funcionalidade arrastar e soltar.</value>
   </data>
+  <data name="SettingsNaturalLanguageSearch" xml:space="preserve">
+    <value>Utilizar linguagem natural de pesquisa</value>
+  </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Manter aplicação em segundo plano ao fechar a janela</value>
   </data>
@@ -3742,51 +3746,51 @@
     <comment>Shown in Status Center during a Git operation. {0} is the percentage from 0 to 100.</comment>
   </data>
   <data name="StatusCenter_GitPullCanceled_Header" xml:space="preserve">
-    <value>Canceled pulling remote changes into "{0}"</value>
+    <value>Cancelou a obtenção de alterações remotas de "{0}"</value>
     <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitPullComplete_Header" xml:space="preserve">
-    <value>Pulled remote changes into "{0}"</value>
+    <value>Obtidas as alterações remotas de "{0}"</value>
     <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitPullFailed_Header" xml:space="preserve">
-    <value>Failed to pull remote changes into "{0}"</value>
+    <value>Falha ao obter as alterações remotas de "{0}"</value>
     <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitPullInProgress_Header" xml:space="preserve">
-    <value>Pulling remote changes into "{0}"</value>
+    <value>Puxando alterações remotas para "{0}"</value>
     <comment>Shown in Status Center for Git pull. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitPushCanceled_Header" xml:space="preserve">
-    <value>Canceled pushing local commits from "{0}"</value>
+    <value>Cancelado o envio de comités locais de "{0}"</value>
     <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitPushComplete_Header" xml:space="preserve">
-    <value>Pushed local commits from "{0}"</value>
+    <value>Empurrando comités locais de "{0}"</value>
     <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitPushFailed_Header" xml:space="preserve">
-    <value>Failed to push local commits from "{0}"</value>
+    <value>Falha ao enviar comités locais de "{0}"</value>
     <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitPushInProgress_Header" xml:space="preserve">
-    <value>Pushing local commits from "{0}"</value>
+    <value>Enviando comités locais de "{0}"</value>
     <comment>Shown in Status Center for Git push. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitSyncCanceled_Header" xml:space="preserve">
-    <value>Canceled syncing local and remote commits for "{0}"</value>
+    <value>Cancelada a sincronização local e remota comités para "{0}"</value>
     <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitSyncComplete_Header" xml:space="preserve">
-    <value>Synced local and remote commits for "{0}"</value>
+    <value>Sincronizado comités locais e remotos para "{0}"</value>
     <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitSyncFailed_Header" xml:space="preserve">
-    <value>Failed to sync local and remote commits for "{0}"</value>
+    <value>Falha ao sincronizar comités locais e remotos para "{0}"</value>
     <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_GitSyncInProgress_Header" xml:space="preserve">
-    <value>Syncing local and remote commits for "{0}"</value>
+    <value>Sincronizando comités locais e remotos para "{0}"</value>
     <comment>Shown in Status Center for Git sync. {0} is the repository.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
@@ -3991,7 +3995,7 @@
     <value>Eliminar Git 'branch'</value>
   </data>
   <data name="GitDeleteBranchSubtitle" xml:space="preserve">
-    <value>Tem certeza de que deseja eliminar permanentemente "{0}"?</value>
+    <value>Tem certeza de que pretende eliminar permanentemente "{0}"?</value>
   </data>
   <data name="ConnectedToGitHub" xml:space="preserve">
     <value>Conectado a Github</value>
@@ -4157,7 +4161,7 @@
     <value>Escolha uma ação</value>
   </data>
   <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
-    <value>Tem a certeza de que pretende repor as combinações de teclas predefinidas? Esta ação não pode ser anulada.</value>
+    <value>Tem a certeza de que pretende restaurar as combinações de teclas predefinidas? Esta ação não pode ser anulada.</value>
   </data>
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
     <value>Esta combinação de teclas já está a ser utilizada. Escolha uma combinação de teclas diferente para continuar.</value>
@@ -4169,7 +4173,7 @@
     <value>Teclas de atalho</value>
   </data>
   <data name="DeleteKeyBindingConfirmation" xml:space="preserve">
-    <value>Tem a certeza de que deseja eliminar esta associação de teclas?</value>
+    <value>Tem a certeza de que pretende eliminar esta associação de teclas?</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Personalizado</value>
@@ -4609,6 +4613,15 @@
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Mostrar barra de estado</value>
   </data>
+  <data name="ItemCountFormat" xml:space="preserve">
+    <value>Formato para contagem de itens</value>
+  </data>
+  <data name="TotalCount" xml:space="preserve">
+    <value>Número total</value>
+  </data>
+  <data name="SeparateFileAndFolderCounts" xml:space="preserve">
+    <value>Distinguir contagem de ficheiros e pastas</value>
+  </data>
   <data name="OnlyForTouch" xml:space="preserve">
     <value>Ao utilizar o toque</value>
   </data>
@@ -4739,6 +4752,198 @@
     <value>Remover etiquetas dos itens selecionados</value>
   </data>
   <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
-    <value>Tem a certeza de que deseja remover as etiquetas dos itens selecionados?</value>
+    <value>Tem a certeza de que pretende remover as etiquetas dos itens selecionados?</value>
+  </data>
+  <data name="SearchForQuery" xml:space="preserve">
+    <value>Pesquisar por `{0}`</value>
+  </data>
+  <data name="FolderAliases" xml:space="preserve">
+    <value>'Aliases' de pastas</value>
+  </data>
+  <data name="AddAlias" xml:space="preserve">
+    <value>Adicionar 'alias'</value>
+  </data>
+  <data name="FolderAliasNameInvalid" xml:space="preserve">
+    <value>O nome não pode conter \ nem /.</value>
+  </data>
+  <data name="FolderAliasesEmptyState" xml:space="preserve">
+    <value>Não existem 'aliases' de pastas. Adicione um, escreve @ seguido do nome na barra para aceder à pasta.</value>
+  </data>
+  <data name="NoFolderAliasesDialogContent" xml:space="preserve">
+    <value>Não existem 'aliases' de pastas. Deseja aceder às definições para adicionar um?</value>
+  </data>
+  <data name="FolderAliasPathNotFound" xml:space="preserve">
+    <value>Esta pasta não existe.</value>
+  </data>
+  <data name="NoFolderAliasesSuggestion" xml:space="preserve">
+    <value>Não existem 'aliases' de pastas. Aceda às definições para adicionar um.</value>
+  </data>
+  <data name="NoMatchingFolderAliasesSuggestion" xml:space="preserve">
+    <value>Não existem 'aliases' concidentes.</value>
+  </data>
+  <data name="FolderAliasNotFoundDialogTitle" xml:space="preserve">
+    <value>'Alias' de pasta não encontrado</value>
+  </data>
+  <data name="FolderAliasNotFoundDialogContent" xml:space="preserve">
+    <value>Não existe qualquer 'alias' de pasta com o nome "{0}".</value>
+  </data>
+  <data name="FolderAliasNameRequiredDialogContent" xml:space="preserve">
+    <value>Escreve o nome 'alias' após o carácter @.</value>
+  </data>
+  <data name="RestoreDefaultFolderAliasesConfirmation" xml:space="preserve">
+    <value>Tem a certeza de que pretende restaurar os 'aliases' padrão? Esta ação não pode ser revertida.</value>
+  </data>
+  <data name="DeleteFolderAliasConfirmation" xml:space="preserve">
+    <value>Tem a certeza de que pretende eliminar este 'alias'?</value>
+  </data>
+  <data name="FolderAliasNameInUse" xml:space="preserve">
+    <value>Já existe um 'alias' com este nome.</value>
+  </data>
+  <data name="EnterFolderPath" xml:space="preserve">
+    <value>Introduza o caminho da pasta</value>
+  </data>
+  <data name="GoToFolderAlias" xml:space="preserve">
+    <value>Ir para o 'alias' da pasta</value>
+  </data>
+  <data name="GoToFolderAliasDescription" xml:space="preserve">
+    <value>Aceda ao 'alias' de uma pasta na barra</value>
+  </data>
+  <data name="Unspecified" xml:space="preserve">
+    <value>Não especificado</value>
+    <comment>Name of the group for items that have no value when grouping by a property, such as music files without an artist.</comment>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Descrição</value>
+    <comment>Name of a group of columns in the window for choosing Details layout columns, such as title, rating and comments.</comment>
+  </data>
+  <data name="Unrated" xml:space="preserve">
+    <value>Sem avaliação</value>
+    <comment>Name of the group for items without a rating when grouping by rating.</comment>
+  </data>
+  <data name="OrderGroupsAscending" xml:space="preserve">
+    <value>Organizar grupos por ordem ascendente</value>
+  </data>
+  <data name="OrderGroupsDescending" xml:space="preserve">
+    <value>Organizar grupos por ordem descendente</value>
+  </data>
+  <data name="GroupOrder" xml:space="preserve">
+    <value>Ordem dos grupos</value>
+  </data>
+  <data name="SortItemsAscending" xml:space="preserve">
+    <value>Organizar por ordem ascendente</value>
+  </data>
+  <data name="SortItemsDescending" xml:space="preserve">
+    <value>Organizar por ordem descendente</value>
+  </data>
+  <data name="DayTaken" xml:space="preserve">
+    <value>Dia de obtenção</value>
+  </data>
+  <data name="MonthTaken" xml:space="preserve">
+    <value>Mês de obtenção</value>
+  </data>
+  <data name="YearTaken" xml:space="preserve">
+    <value>Ano de obtenção</value>
+  </data>
+  <data name="DayRecorded" xml:space="preserve">
+    <value>Dia de gravação</value>
+  </data>
+  <data name="MonthRecorded" xml:space="preserve">
+    <value>Mês de gravação</value>
+  </data>
+  <data name="YearRecorded" xml:space="preserve">
+    <value>Ano de gravação</value>
+  </data>
+  <data name="DayDeleted" xml:space="preserve">
+    <value>Dia de eliminação</value>
+  </data>
+  <data name="MonthDeleted" xml:space="preserve">
+    <value>Mês de eliminação</value>
+  </data>
+  <data name="YearDeleted" xml:space="preserve">
+    <value>Ano de eliminação</value>
+  </data>
+  <data name="DayUpdated" xml:space="preserve">
+    <value>Dia de atualização</value>
+  </data>
+  <data name="MonthUpdated" xml:space="preserve">
+    <value>Mês de atualização</value>
+  </data>
+  <data name="YearUpdated" xml:space="preserve">
+    <value>Ano de atualização</value>
+  </data>
+  <data name="DayCommitted" xml:space="preserve">
+    <value>Dia de submissão</value>
+  </data>
+  <data name="MonthCommitted" xml:space="preserve">
+    <value>Mês de submissão</value>
+  </data>
+  <data name="YearCommitted" xml:space="preserve">
+    <value>Ano de submissão</value>
+  </data>
+  <data name="NoneInParentheses" xml:space="preserve">
+    <value>(Nada)</value>
+  </data>
+  <data name="MoreColumns" xml:space="preserve">
+    <value>Mais</value>
+  </data>
+  <data name="DayCreated" xml:space="preserve">
+    <value>Dia de criação</value>
+  </data>
+  <data name="MonthCreated" xml:space="preserve">
+    <value>Mês de criação</value>
+  </data>
+  <data name="YearCreated" xml:space="preserve">
+    <value>Ano de criação</value>
+  </data>
+  <data name="CustomizeColumns" xml:space="preserve">
+    <value>Choose columns</value>
+  </data>
+  <data name="CustomizeColumnsDescription" xml:space="preserve">
+    <value>Choose columns to add to the view</value>
+  </data>
+  <data name="SearchColumns" xml:space="preserve">
+    <value>Find a column</value>
+  </data>
+  <data name="Column" xml:space="preserve">
+    <value>Column</value>
+  </data>
+  <data name="Sorting" xml:space="preserve">
+    <value>Sorting</value>
+  </data>
+  <data name="MoreColumnsEllipsis" xml:space="preserve">
+    <value>More columns…</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Selecionar</value>
+  </data>
+  <data name="ChooseGrouping" xml:space="preserve">
+    <value>Choose grouping</value>
+  </data>
+  <data name="ChooseGroupingDescription" xml:space="preserve">
+    <value>Choose a category to use for grouping</value>
+  </data>
+  <data name="SearchGroupingCategories" xml:space="preserve">
+    <value>Find a grouping category</value>
+  </data>
+  <data name="ChooseSorting" xml:space="preserve">
+    <value>Choose sorting</value>
+  </data>
+  <data name="ChooseSortingDescription" xml:space="preserve">
+    <value>Choose a category to use for sorting</value>
+  </data>
+  <data name="SearchSortingCategories" xml:space="preserve">
+    <value>Find a sorting category</value>
+  </data>
+  <data name="MoreSortOptionsEllipsis" xml:space="preserve">
+    <value>More sort options…</value>
+  </data>
+  <data name="MoreGroupsEllipsis" xml:space="preserve">
+    <value>More groups…</value>
+  </data>
+  <data name="Storage" xml:space="preserve">
+    <value>Storage</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Other</value>
   </data>
 </root>
