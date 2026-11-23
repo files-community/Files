@@ -127,6 +127,12 @@ jobs:
         $platforms = "$env:APPX_BUNDLE_PLATFORMS" -split '\|'
         foreach ($plat in $platforms) {
           Write-Host "Building for $plat..."
+          msbuild $env:SOLUTION_NAME `
+            -t:Restore `
+            -p:Platform=$plat `
+            -p:Configuration=$env:CONFIGURATION `
+            -p:PublishReadyToRun=true `
+            -v:quiet
           msbuild "$env:APP_PROJECT_PATH" `
             -t:Build `
             -p:Platform=$plat `
