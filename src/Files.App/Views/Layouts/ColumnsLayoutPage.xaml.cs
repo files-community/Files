@@ -88,14 +88,15 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		public void SetWidth(int index)
+		/// <param name="minimumTextWidth">The width of the widest item name in the column.</param>
+		public void SetWidth(int index, double minimumTextWidth = 0)
 		{
 			var activeBlades = ColumnHost.ActiveBlades;
 			if (index < 0 || activeBlades is null || index >= activeBlades.Count)
 				return;
 
 			var blade = activeBlades[index];
-			blade?.SetWidth();
+			blade?.SetWidth(minimumTextWidth);
 
 			ColumnHost.ScrollToEnd();
 		}

@@ -121,9 +121,10 @@ namespace Files.App.Controls
 			e.Handled = true;
 		}
 
-		public void SetWidth()
+		/// <param name="minimumTextWidth">The width of the widest text of the items that aren't on screen, which can't be measured from the rows.</param>
+		public void SetWidth(double minimumTextWidth = 0)
 		{
-			var optimalWidth = CalculateOptimalWidth();
+			var optimalWidth = CalculateOptimalWidth(minimumTextWidth);
 			if (optimalWidth > 0)
 			{
 				Width = Math.Max(optimalWidth, MINIMUM_WIDTH);
@@ -135,7 +136,7 @@ namespace Files.App.Controls
 			}
 		}
 
-		private double CalculateOptimalWidth()
+		private double CalculateOptimalWidth(double minimumTextWidth)
 		{
 			try
 			{
@@ -145,7 +146,9 @@ namespace Files.App.Controls
 					return 0;
 
 				// Calculate the maximum width needed by measuring text content
-				var maxTextWidth = MeasureContentWidth(listView);
+				var maxTextWidth = Math.Max(MeasureContentWidth(listView), minimumTextWidth);
+				if (maxTextWidth <= 0)
+					return 0;
 
 				// Add padding for icon, margins, and other UI elements
 				// Icon width (32) + margins (24) + padding (24) + chevron/tags (40) = 120
@@ -188,18 +191,6 @@ namespace Files.App.Controls
 
 						measuringBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
 						maxWidth = Math.Max(maxWidth, measuringBlock.DesiredSize.Width);
-					}
-				}
-				else
-				{
-					// Fallback: estimate based on item count and average text width
-					var itemCount = listView.Items.Count;
-					if (itemCount > 0)
-					{
-						// Estimate average filename length and multiply by character width
-						var estimatedCharWidth = 8; // Approximate pixel width per character
-						var estimatedMaxLength = Math.Min(50, Math.Max(20, itemCount * 2)); // Heuristic
-						maxWidth = estimatedCharWidth * estimatedMaxLength;
 					}
 				}
 
