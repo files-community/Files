@@ -63,6 +63,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			_updateCTS?.Cancel();
 			_updateCTS = new CancellationTokenSource();
 
+			foreach (var stale in Containers.ExceptBy(FileTagsSettingsService.FileTagList.Select(t => t.Uid), c => c.Uid).ToList())
+				Containers.Remove(stale);
+
 			var grouped = await FileTagsService.GetAllItemsGroupedByTagAsync(_updateCTS.Token);
 			await foreach (var item in FileTagsService.GetTagsAsync(_updateCTS.Token))
 			{
