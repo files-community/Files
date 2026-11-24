@@ -1956,8 +1956,21 @@ namespace Files.App.ViewModels
 			finally
 			{
 				itemLoadQueue.TryRemove(item.GetRequiredPath(), out _);
-				await RefreshTagGroups();
+				await RefreshOutdatedTagGroupsAsync();
 			}
+		}
+
+		// Regrouping recycles the rows and reloads their properties, so only regroup when an item is in the wrong group
+		private Task RefreshOutdatedTagGroupsAsync()
+		{
+			if (!itemLoadQueue.IsEmpty() ||
+				folderSettings.DirectoryGroupOption is not GroupOption.FileTag ||
+				FilesAndFolders.ItemGroupKeySelector is not { } getGroupKey)
+				return Task.CompletedTask;
+
+			return FilesAndFolders.ToList().Any(x => x.Key != getGroupKey(x))
+				? RefreshTagGroups()
+				: Task.CompletedTask;
 		}
 
 		public async Task RefreshTagGroups()
