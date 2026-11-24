@@ -3255,8 +3255,10 @@ namespace Files.App.ViewModels
 										// in place and stay at its current position instead of jumping to a new
 										// sorted slot after a rename (issue #4214). Leaving anyEdits false skips
 										// OrderFilesAndFoldersAsync; PropertyChanged keeps the visible name in sync.
+										// A file whose extension changed is removed and added again so its type, icon and size are reloaded.
 										if (operationQueue.TryPeek(out var nextOp) && nextOp.Action == FILE_ACTION_RENAMED_NEW_NAME &&
-											filesAndFolders.ToList().FirstOrDefault(x => x.GetRequiredPath().Equals(operation.FileName, StringComparison.OrdinalIgnoreCase)) is { } renamed)
+											filesAndFolders.ToList().FirstOrDefault(x => x.GetRequiredPath().Equals(operation.FileName, StringComparison.OrdinalIgnoreCase)) is { } renamed &&
+											((renamed.IsFolder && !renamed.IsArchive) || Path.GetExtension(nextOp.FileName).Equals(Path.GetExtension(operation.FileName), StringComparison.OrdinalIgnoreCase)))
 										{
 											operationQueue.TryDequeue(out _);
 											var newPath = nextOp.FileName;
