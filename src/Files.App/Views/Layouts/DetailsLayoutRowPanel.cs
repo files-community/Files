@@ -28,6 +28,7 @@ namespace Files.App.Views.Layouts
 		private double[] _childWidths = [];
 		private int[] _orderedIndices = [];
 		private int[] _orderKeys = [];
+		private int _primaryCellChildCount = -1;
 
 		public static readonly DependencyProperty ColumnOrderProperty =
 			DependencyProperty.Register(
@@ -211,7 +212,9 @@ namespace Files.App.Views.Layouts
 		private void UpdatePrimaryCell()
 		{
 			var primaryId = (ColumnOrder as DetailsLayoutColumnOrder)?.GetPrimaryId();
-			foreach (var child in Children)
+			var children = Children;
+			_primaryCellChildCount = children.Count;
+			foreach (var child in children)
 			{
 				if (child is not FrameworkElement cell || DetailsLayoutColumnExtensions.GetId(cell) is not { } id || id == DetailsLayoutColumnIds.Icon)
 					continue;
@@ -339,6 +342,10 @@ namespace Files.App.Views.Layouts
 			var columns = (ColumnOrder as DetailsLayoutColumnOrder)?.Columns;
 			var children = Children;
 			var count = children.Count;
+
+			// Cells from the row template and deferred cells are added after the column order is set
+			if (count != _primaryCellChildCount)
+				UpdatePrimaryCell();
 
 			if (_childWidths.Length < count)
 			{
