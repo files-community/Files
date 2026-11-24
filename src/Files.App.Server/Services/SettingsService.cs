@@ -13,6 +13,8 @@ public sealed partial class SettingsService
 
 	public static bool SetSetting(string fileName, string key, [ReadOnlyArray] SettingsValue[] value) => SettingsStore.Get(fileName).Set(key, value, false);
 
+	public static bool AddDefaultSettings(string fileName, [ReadOnlyArray] SettingsValue[] values) => SettingsStore.Get(fileName).AddDefaults(values);
+
 	public static bool RemoveSetting(string fileName, string key) => SettingsStore.Get(fileName).Set(key, [], true);
 
 	public static bool FlushSettings(string fileName) => SettingsStore.Get(fileName).Flush();
