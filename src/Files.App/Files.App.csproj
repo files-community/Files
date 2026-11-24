@@ -199,4 +199,12 @@
             <AppxPackagePayload Include="@(_FilesAppServerPackageFile)" TargetPath="Files.App.Server\%(RecursiveDir)%(Filename)%(Extension)" />
         </ItemGroup>
     </Target>
+
+    <!-- Appx computes duplicate payloads before its later default PDB exclusion. -->
+    <Target Name="RemoveAppxDebugSymbolsBeforePayloadDeduplication" BeforeTargets="_ComputeAppxPackagePayload" Condition="'$(AppxPackage)' == 'true' and '$(AppxPackageIncludePrivateSymbols)' != 'true'">
+        <ItemGroup>
+            <PackagingOutputs Remove="@(PackagingOutputs)" Condition="'%(Extension)' == '.pdb'" />
+            <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(Extension)' == '.pdb'" />
+        </ItemGroup>
+    </Target>
 </Project>
