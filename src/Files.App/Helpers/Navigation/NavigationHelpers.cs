@@ -489,7 +489,7 @@ namespace Files.App.Helpers
 
 			foreach (ListedItem item in selectedItems)
 			{
-				var type = item.PrimaryItemAttribute == StorageItemTypes.Folder
+				var type = item.PrimaryItemAttribute == StorageItemTypes.Folder && !(openViaApplicationPicker && item.IsArchive)
 					? FilesystemItemType.Directory
 					: FilesystemItemType.File;
 
