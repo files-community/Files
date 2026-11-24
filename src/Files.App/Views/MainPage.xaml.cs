@@ -70,6 +70,8 @@ namespace Files.App.Views
 			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
 			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
 
+			DragModifierKeysHelper.Attach(this);
+
 			ApplySidebarWidthState();
 
 			// Realize the navigation controls before the first measure pass.

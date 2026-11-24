@@ -45,6 +45,7 @@ DeleteFileFromApp
 RemoveDirectoryFromApp
 GetKeyState
 GetAsyncKeyState
+SendInput
 CreateDirectoryFromApp
 WNetCancelConnection2
 NETRESOURCEW
