@@ -600,13 +600,13 @@ namespace Files.App.Views.Layouts
 						break;
 					default:
 						if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
-							await Commands.NavigateUp.ExecuteAsync();
+							ParentShellPageInstance?.Up_Click();
 						break;
 				}
 			}
 			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
-				await Commands.NavigateUp.ExecuteAsync();
+				ParentShellPageInstance?.Up_Click();
 			}
 
 			ResetRenameDoubleClick();

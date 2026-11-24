@@ -800,7 +800,7 @@ namespace Files.App.Views.Layouts
 				 (item.PrimaryItemAttribute == StorageItemTypes.Folder && !UserSettingsService.FoldersSettingsService.OpenFoldersWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))))
 				await Commands.OpenItem.ExecuteAsync();
 			else if (item is null && UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
-				await Commands.NavigateUp.ExecuteAsync();
+				ParentShellPageInstance?.Up_Click();
 
 			ResetRenameDoubleClick();
 		}
