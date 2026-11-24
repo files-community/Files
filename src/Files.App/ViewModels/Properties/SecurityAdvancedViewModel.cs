@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Windows.Storage;
 using Windows.Win32.Foundation;
 
@@ -215,13 +216,25 @@ namespace Files.App.ViewModels.Properties
 			if (string.IsNullOrEmpty(sid))
 				return;
 
-			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
 				// Set owner
-				StorageSecurityService.SetOwner(_path, sid);
+				var succeeded = StorageSecurityService.SetOwner(_path, sid);
 
 				// Reload
 				LoadAccessControlEntry();
+
+				if (succeeded)
+					return;
+
+				var dialog = new ContentDialog()
+				{
+					Title = Strings.AccessDenied.GetLocalizedResource(),
+					CloseButtonText = Strings.Close.GetLocalizedResource(),
+					XamlRoot = _window.Content.XamlRoot,
+				};
+
+				await dialog.ShowAsync();
 			});
 		}
 
