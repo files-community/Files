@@ -680,6 +680,9 @@ namespace Files.App.Utils.Storage
 			{
 				fsProgress.ReportStatus(FileSystemStatusCode.Success);
 
+				if (RegexHelpers.AlternateStream().IsMatch(source.Path))
+					await ShellViewModel.RefreshAlternateStreamsAsync(source.Path);
+
 				var renamedDestination = renameResult.Items
 					.SingleOrDefault(x => x is { Succeeded: true, Destination: not null } &&
 						x.Source == source.Path &&

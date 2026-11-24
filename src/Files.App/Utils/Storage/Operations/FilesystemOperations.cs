@@ -681,6 +681,10 @@ namespace Files.App.Utils.Storage
 				{
 					fsProgress.ReportStatus(FileSystemStatusCode.Success);
 
+					// Deleting an empty stream sends no notification
+					if (renamedItem is NativeStorageFile { IsAlternateStream: true })
+						await ShellViewModel.RefreshAlternateStreamsAsync(source.Path);
+
 					return new StorageHistory(FileOperationType.Rename, source, renamedItem.FromStorageItem());
 				}
 				else if (renamed == FileSystemStatusCode.Unauthorized)
