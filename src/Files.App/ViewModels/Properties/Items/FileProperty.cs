@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using System.Collections.Concurrent;
 using System.IO;
+using System.Text;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.Properties
@@ -380,6 +381,21 @@ namespace Files.App.ViewModels.Properties
 			}
 #endif
 
+			// The system reads the info tags of wav files with the ANSI code page
+			if (FileExtensionHelpers.HasExtension(file.Path, ".wav"))
+			{
+				foreach (var (property, text) in await Task.Run(() => ReadWavInfoTagsAsync(file)))
+				{
+					if (!keyValuePairs.TryGetValue(property, out var systemValue))
+						continue;
+
+					if (systemValue is string)
+						keyValuePairs[property] = text;
+					else if (systemValue is string[])
+						keyValuePairs[property] = text.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+				}
+			}
+
 			foreach (var prop in list)
 			{
 				if (!string.IsNullOrEmpty(prop.Property))
@@ -392,6 +408,85 @@ namespace Files.App.ViewModels.Properties
 			}
 
 			return list;
+		}
+
+		private static readonly Dictionary<string, string> WavInfoTags = new()
+		{
+			{ "INAM", "System.Title" },
+			{ "IART", "System.Music.Artist" },
+			{ "IPRD", "System.Music.AlbumTitle" },
+			{ "IGNR", "System.Music.Genre" },
+			{ "ICMT", "System.Comment" },
+			{ "ICOP", "System.Copyright" },
+		};
+
+		/// <summary>
+		/// Reads the info tags of a wav file that hold non-ASCII text encoded as UTF-8
+		/// </summary>
+		/// <returns>The tag values, keyed by the system property they map to</returns>
+		private static async Task<Dictionary<string, string>> ReadWavInfoTagsAsync(BaseStorageFile file)
+		{
+			var tags = new Dictionary<string, string>();
+
+			try
+			{
+				await using var stream = await file.OpenStreamForReadAsync();
+				using var reader = new BinaryReader(stream);
+				var utf8 = new UTF8Encoding(false, true);
+
+				if (stream.Length < 12 || ReadId() != "RIFF")
+					return tags;
+
+				reader.ReadUInt32();
+				if (ReadId() != "WAVE")
+					return tags;
+
+				while (stream.Position + 8 <= stream.Length)
+				{
+					var chunkId = ReadId();
+					var chunkSize = reader.ReadUInt32();
+					var nextChunk = stream.Position + chunkSize + (chunkSize & 1);
+
+					if (chunkId != "LIST" || chunkSize < 4 || stream.Position + 4 > stream.Length || ReadId() != "INFO")
+					{
+						stream.Seek(nextChunk, SeekOrigin.Begin);
+						continue;
+					}
+
+					var listEnd = Math.Min(nextChunk, stream.Length);
+					while (stream.Position + 8 <= listEnd)
+					{
+						var tagId = ReadId();
+						var tagSize = reader.ReadUInt32();
+						if (tagSize > listEnd - stream.Position)
+							break;
+
+						var bytes = reader.ReadBytes((int)tagSize);
+						stream.Seek(tagSize & 1, SeekOrigin.Current);
+
+						if (!WavInfoTags.TryGetValue(tagId, out var property) || !bytes.Any(b => b >= 0x80))
+							continue;
+
+						try
+						{
+							tags[property] = utf8.GetString(bytes).TrimEnd('\0');
+						}
+						catch (DecoderFallbackException)
+						{
+						}
+					}
+
+					break;
+				}
+
+				string ReadId()
+					=> Encoding.ASCII.GetString(reader.ReadBytes(4));
+			}
+			catch (Exception)
+			{
+			}
+
+			return tags;
 		}
 
 		public static bool IsSectionApplicableForEmpty(string? sectionResource, string? fileExtension)
