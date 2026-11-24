@@ -46,7 +46,7 @@ namespace Files.App.Helpers
 		private const string ProtectedId = "System.DRM.IsProtected";
 		private const string YearId = "System.Media.Year";
 
-		// File Explorer's Tags property, which the options leave out
+		// File Explorer's Tags property, which the main options replace with the Files tags
 		private const string ExplorerTagsId = "System.Keywords";
 
 		private enum FolderType
@@ -333,12 +333,6 @@ namespace Files.App.Helpers
 			=> _folderTypeOptions.Values.SelectMany(options => options.Sort).Distinct();
 
 		/// <summary>
-		/// Gets whether the specified column is offered as a property option, instead of a built-in option such as path.
-		/// </summary>
-		public static bool IsPropertyOption(string id)
-			=> GetBuiltInSortCommand(id) is null && id != ExplorerTagsId;
-
-		/// <summary>
 		/// Gets the labels of the day, month and year group options of the specified date, when it has its own.
 		/// </summary>
 		public static (string Day, string Month, string Year)? GetDateUnitLabels(string id)
@@ -421,7 +415,7 @@ namespace Files.App.Helpers
 			if (ShellFolderColumns.GetAsync(shellViewModel?.WorkingDirectory) is not { IsCompletedSuccessfully: true } task)
 				return [];
 
-			return task.Result.Where(column => ColumnValueHelper.IsShellPropertyColumn(column.Id) && column.Id != ExplorerTagsId && options.All(option => option.PropertyId != column.Id));
+			return task.Result.Where(column => ColumnValueHelper.IsShellPropertyColumn(column.Id) && options.All(option => option.PropertyId != column.Id));
 		}
 
 		private static void AddMoreOptions(List<LayoutSortGroupOption> options, IEnumerable<LayoutSortGroupOption> moreOptions, string label)
