@@ -120,7 +120,8 @@ namespace Files.App.Views.Properties
 
 		private void AppWindow_Changed(AppWindow sender, AppWindowChangedEventArgs e)
 		{
-			Window.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
+			if (e.DidSizeChange || e.DidPresenterChange || e.DidVisibilityChange)
+				Window.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
 		}
 
 		public override async Task<bool> SaveChangesAsync()

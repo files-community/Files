@@ -341,7 +341,11 @@ namespace Files.App.Views
 		{
 			ViewModel.OnPageLoaded();
 
-			MainWindow.Instance.AppWindow.Changed += (_, _) => MainWindow.Instance.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
+			MainWindow.Instance.AppWindow.Changed += (_, args) =>
+			{
+				if (args.DidSizeChange || args.DidPresenterChange || args.DidVisibilityChange)
+					MainWindow.Instance.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
+			};
 
 			MainWindow.Instance.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
 
