@@ -33,14 +33,16 @@ namespace Files.App.Controls
 			var accumulatedSize = new Size(0, 0);
 			_availableSize = availableSize;
 
+			// Go through all items and measure them
+			for (int index = 0; index < context.Children.Count; index++)
+				context.Children[index].Measure(availableSize);
+
 			var indexAfterEllipsis = GetFirstIndexToRender(context);
 
-			// Go through all items and measure them
 			for (int index = 0; index < context.Children.Count; index++)
 			{
 				if (context.Children[index] is BreadcrumbBarItem breadcrumbItem)
 				{
-					breadcrumbItem.Measure(availableSize);
 					accumulatedSize.Width += index < indexAfterEllipsis ? 0 : breadcrumbItem.DesiredSize.Width;
 					accumulatedSize.Height = Math.Max(accumulatedSize.Height, breadcrumbItem.DesiredSize.Height);
 				}
