@@ -732,7 +732,7 @@ namespace Files.App.Utils.StatusCenter
 								: card.HeaderStringResource.GetLocalizedFormatResource(operationTarget, repositoryName);
 						card.SubHeader = isClone && !string.IsNullOrWhiteSpace(card.SubHeaderStringResource)
 							? card.SubHeaderStringResource.GetLocalizedFormatResource(card.TotalItemsCount, operationTarget ?? string.Empty, displayPath)
-							: repositoryPath;
+							: string.Empty;
 						break;
 					}
 				case FileOperationType.InstallFont:

@@ -164,7 +164,7 @@ namespace Files.App.Utils.StatusCenter
 			=> _operationCancellationToken?.Token ?? default;
 
 		public string? HeaderTooltip
-			=> string.IsNullOrWhiteSpace(SubHeader) ? SubHeader : Header;
+			=> string.IsNullOrWhiteSpace(SubHeader) ? Header : SubHeader;
 
 		public readonly Progress<StatusCenterItemProgressModel> ProgressEventSource;
 
