@@ -659,6 +659,7 @@ namespace Files.App.Views.Layouts
 		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		[DynamicWindowsRuntimeCast(typeof(Rectangle))]
+		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
 		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
 		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
 		{
@@ -693,7 +694,8 @@ namespace Files.App.Views.Layouts
 			(
 				ctrlPressed ||
 				shiftPressed ||
-				clickedItem is Microsoft.UI.Xaml.Shapes.Rectangle
+				clickedItem is Microsoft.UI.Xaml.Shapes.Rectangle ||
+				clickedItem?.FindAscendantOrSelf<CheckBox>() is not null
 			)
 			{
 				e.Handled = true;

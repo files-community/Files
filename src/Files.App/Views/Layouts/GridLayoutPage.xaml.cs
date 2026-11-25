@@ -708,6 +708,7 @@ namespace Files.App.Views.Layouts
 
 		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		[DynamicWindowsRuntimeCast(typeof(Rectangle))]
+		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
 		[DynamicWindowsRuntimeCast(typeof(TextBlock))]
 		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
 		[DynamicWindowsRuntimeCast(typeof(Popup))]
@@ -732,7 +733,8 @@ namespace Files.App.Views.Layouts
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
 			if (ctrlPressed ||
 				shiftPressed ||
-				clickedItem is Microsoft.UI.Xaml.Shapes.Rectangle)
+				clickedItem is Microsoft.UI.Xaml.Shapes.Rectangle ||
+				clickedItem?.FindAscendantOrSelf<CheckBox>() is not null)
 			{
 				e.Handled = true;
 				return;
