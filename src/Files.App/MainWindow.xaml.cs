@@ -141,7 +141,7 @@ namespace Files.App
 					break;
 
 				case IProtocolActivatedEventArgs eventArgs:
-					if (eventArgs.Uri.AbsoluteUri == "files-dev:")
+					if (eventArgs.Uri.AbsoluteUri == "files-dev:" || !eventArgs.Uri.Query.Contains('='))
 					{
 						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 
