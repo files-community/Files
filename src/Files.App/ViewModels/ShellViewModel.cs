@@ -2959,6 +2959,9 @@ namespace Files.App.ViewModels
 				if (hasSyncStatus)
 					notifyFilters |= FILE_NOTIFY_CHANGE_ATTRIBUTES;
 
+				if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
+					notifyFilters |= FILE_NOTIFY_CHANGE_STREAM_NAME | FILE_NOTIFY_CHANGE_STREAM_SIZE | FILE_NOTIFY_CHANGE_STREAM_WRITE;
+
 				var overlapped = new NativeOverlapped();
 				using var eventHandle = PInvoke.CreateEvent(null, false, false, null);
 				overlapped.EventHandle = eventHandle.DangerousGetHandle();
@@ -3182,6 +3185,12 @@ namespace Files.App.ViewModels
 			const uint FILE_ACTION_MODIFIED = 0x00000003;
 			const uint FILE_ACTION_RENAMED_OLD_NAME = 0x00000004;
 			const uint FILE_ACTION_RENAMED_NEW_NAME = 0x00000005;
+			const uint FILE_ACTION_ADDED_STREAM = 0x00000006;
+			const uint FILE_ACTION_REMOVED_STREAM = 0x00000007;
+			const uint FILE_ACTION_MODIFIED_STREAM = 0x00000008;
+
+			// Not a system action, requeued by the stream cases below
+			const uint FILE_ACTION_RECHECK_STREAM = 0xFFFFFFFF;
 
 			const int UPDATE_BATCH_SIZE = 32;
 			var sampler = new IntervalSampler(200);
@@ -3251,12 +3260,16 @@ namespace Files.App.ViewModels
 										{
 											operationQueue.TryDequeue(out _);
 											var newPath = nextOp.FileName;
+											var oldPath = operation.FileName;
 											await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 											{
 												renamed.ItemPath = newPath;
 												renamed.ItemNameRaw = Path.GetFileName(newPath);
 												if (renamed.PrimaryItemAttribute == StorageItemTypes.File)
 													renamed.FileExtension = Path.GetExtension(newPath);
+
+												foreach (var adsItem in filesAndFolders.OfType<AlternateStreamItem>().Where(x => x.MainStreamPath.Equals(oldPath, StringComparison.OrdinalIgnoreCase)))
+													adsItem.ItemPath = $"{newPath}:{adsItem.ItemNameRaw}";
 											});
 										}
 										else
@@ -3266,6 +3279,29 @@ namespace Files.App.ViewModels
 												anyEdits = true;
 										}
 										break;
+
+									case FILE_ACTION_ADDED_STREAM:
+									case FILE_ACTION_REMOVED_STREAM:
+									case FILE_ACTION_MODIFIED_STREAM:
+									case FILE_ACTION_RECHECK_STREAM:
+										{
+											if (await SyncAlternateStreamsAsync(operation.FileName))
+											{
+												anyEdits = true;
+											}
+											else if (operation.Action != FILE_ACTION_RECHECK_STREAM)
+											{
+												// The notification can arrive before the change is visible on disk
+												var streamPath = operation.FileName;
+												_ = Task.Delay(500, cancellationToken).ContinueWith(_ =>
+												{
+													operationQueue.Enqueue((FILE_ACTION_RECHECK_STREAM, streamPath));
+													operationEvent.Set();
+												}, TaskContinuationOptions.OnlyOnRanToCompletion);
+											}
+
+											break;
+										}
 								}
 							}
 							catch (Exception ex)
@@ -3563,7 +3599,7 @@ namespace Files.App.ViewModels
 					if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
 					{
 						// Main file is removed, remove connected ADS
-						foreach (var adsItem in filesAndFolders.ToList().Where(x => x is AlternateStreamItem ads && ads.MainStreamPath == matchingItem.ItemPath))
+						foreach (var adsItem in filesAndFolders.ToArray().Where(x => x is AlternateStreamItem ads && ads.MainStreamPath.Equals(matchingItem.ItemPath, StringComparison.OrdinalIgnoreCase)))
 							filesAndFolders.Remove(adsItem);
 					}
 
@@ -3576,6 +3612,93 @@ namespace Files.App.ViewModels
 			}
 
 			return null;
+		}
+
+		public async Task RefreshAlternateStreamsAsync(string streamPath)
+		{
+			if (await SyncAlternateStreamsAsync(streamPath))
+			{
+				await OrderFilesAndFoldersAsync();
+				await ApplyFilesAndFoldersChangesAsync();
+			}
+		}
+
+		private Task<bool> SyncAlternateStreamsAsync(string streamPath)
+		{
+			// Streams are named "<file>:<stream>", a colon before the last separator is the drive colon
+			var separatorIndex = streamPath.LastIndexOf(':');
+			if (separatorIndex <= streamPath.LastIndexOf('\\'))
+				return Task.FromResult(false);
+
+			return SyncAlternateStreamsForFileAsync(streamPath.Substring(0, separatorIndex));
+		}
+
+		private async Task<bool> SyncAlternateStreamsForFileAsync(string mainStreamPath)
+		{
+			if (!UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
+				return false;
+
+			try
+			{
+				await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
+			}
+			catch (OperationCanceledException)
+			{
+				return false;
+			}
+
+			try
+			{
+				var items = filesAndFolders.ToArray();
+				var mainItem = items.FirstOrDefault(x => x is not AlternateStreamItem && x.GetRequiredPath().Equals(mainStreamPath, StringComparison.OrdinalIgnoreCase));
+				if (mainItem is null)
+					return false;
+
+				// Opening a stream raises more stream notifications, so only enumerate them
+				var onDisk = Win32Helper.GetAlternateStreams(mainStreamPath)
+					.Select(ads => Win32StorageEnumerator.GetAlternateStream(ads, mainItem))
+					.ToDictionary(x => x.GetRequiredPath(), StringComparer.OrdinalIgnoreCase);
+
+				var anyChanges = false;
+				var resizedItems = new List<(ListedItem Item, ListedItem Current)>();
+
+				foreach (var adsItem in items.OfType<AlternateStreamItem>().Where(x => x.MainStreamPath.Equals(mainStreamPath, StringComparison.OrdinalIgnoreCase)))
+				{
+					if (!onDisk.Remove(adsItem.GetRequiredPath(), out var current))
+					{
+						filesAndFolders.Remove(adsItem);
+						anyChanges = true;
+					}
+					else if (current.FileSizeBytes != adsItem.FileSizeBytes)
+					{
+						resizedItems.Add((adsItem, current));
+					}
+				}
+
+				foreach (var adsItem in onDisk.Values)
+				{
+					filesAndFolders.Add(adsItem);
+					anyChanges = true;
+				}
+
+				if (resizedItems.Count > 0)
+				{
+					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+					{
+						foreach (var (item, current) in resizedItems)
+						{
+							item.FileSizeBytes = current.FileSizeBytes;
+							item.FileSize = current.FileSize;
+						}
+					});
+				}
+
+				return anyChanges;
+			}
+			finally
+			{
+				enumFolderSemaphore.Release();
+			}
 		}
 
 		public async Task AddSearchResultsToCollectionAsync(ObservableCollection<ListedItem> searchItems, string currentSearchPath)

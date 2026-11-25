@@ -229,8 +229,13 @@ namespace Files.App.Utils
 			get => itemPath;
 			set
 			{
+				if (!SetProperty(ref itemPath, value))
+					return;
+
+				OnPropertyChanged(nameof(Name));
+
 				// The property values belong to the previous path
-				if (SetProperty(ref itemPath, value) && ShellPropertyValues is not null)
+				if (ShellPropertyValues is not null)
 					_ = ShellPropertyValueLoader.ReloadAsync(this);
 			}
 		}
