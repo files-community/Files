@@ -184,7 +184,7 @@ namespace Files.App.ViewModels.UserControls
 					if (tempSelectedItem != contentPageContext.SelectedItem)
 						return;
 
-					SelectedItem = contentPageContext.SelectedItems.Count == 1 ? contentPageContext.SelectedItem : null;
+					SelectedItem = tempSelectedItem;
 
 					try
 					{
