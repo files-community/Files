@@ -438,7 +438,7 @@ namespace Files.App.Utils.Storage
 							try
 							{
 								var files = Directory.EnumerateFiles(failedPath, "*", SearchOption.AllDirectories);
-								filesToCheck.AddRange(files);
+								await Task.Run(() => filesToCheck.AddRange(files));
 							}
 							catch { }
 						}
@@ -449,7 +449,7 @@ namespace Files.App.Utils.Storage
 					}
 
 					var filePath = filesToCheck.Any() ? filesToCheck : failedSources.Select(x => x.Source).WhereNotNull();
-					var lockingProcess = WhoIsLocking(filePath);
+					var lockingProcess = await Task.Run(() => WhoIsLocking(filePath));
 
 					switch (await GetFileInUseDialog(filePath, lockingProcess))
 					{
