@@ -324,7 +324,7 @@ namespace Files.App.Server.Cloud
 					?? throw new InvalidOperationException("The ProgramFiles environment variable is not set."), "Autodesk", "Desktop Connector", "DesktopConnector.Applications.Tray.exe");
 				var iconFile = ServerIconHelper.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }).FirstOrDefault();
 				var mainFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "DC");
-				var autodeskFolders = Directory.GetDirectories(mainFolder, "", SearchOption.AllDirectories);
+				var autodeskFolders = Directory.GetDirectories(mainFolder, "", SearchOption.TopDirectoryOnly);
 
 				foreach (var autodeskFolder in autodeskFolders)
 				{
