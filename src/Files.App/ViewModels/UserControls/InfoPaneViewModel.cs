@@ -175,14 +175,13 @@ namespace Files.App.ViewModels.UserControls
 				case nameof(IContentPageContext.Folder):
 				case nameof(IContentPageContext.SelectedItem):
 
-					ListedItem? tempSelectedItem = null;
-					if (contentPageContext.SelectedItems.Count == 1)
-						tempSelectedItem = contentPageContext.SelectedItems.First();
-
 					// Don't update preview pane when the selected item changes too frequently
+					var tempSelectedItem = contentPageContext.SelectedItem;
 					const int delayBeforeUpdatingPreviewPane = 100;
 					await Task.Delay(delayBeforeUpdatingPreviewPane);
-					if (tempSelectedItem is not null && !tempSelectedItem.Equals(contentPageContext.SelectedItem))
+
+					// Skip if the selection changed while waiting (e.g. right-click clears then adds the item)
+					if (tempSelectedItem != contentPageContext.SelectedItem)
 						return;
 
 					SelectedItem = tempSelectedItem;
