@@ -772,7 +772,7 @@ namespace Files.App.Views.Layouts
 			else if (item != null && item.PrimaryItemAttribute == StorageItemTypes.Folder && !UserSettingsService.FoldersSettingsService.OpenFoldersWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))
 				await OpenItem(item);
 			else if (item == null && UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
-				await Commands.NavigateUp.ExecuteAsync();
+				ParentShellPageInstance?.Up_Click();
 
 			ResetRenameDoubleClick();
 		}
