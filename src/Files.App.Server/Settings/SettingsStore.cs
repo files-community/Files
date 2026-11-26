@@ -27,7 +27,7 @@ internal sealed class SettingsStore
 	private long writeFailures;
 
 	// Null Data removes a key; a JSON null remains a stored value.
-	private readonly record struct SettingChange(long Version, JsonElement? Data);
+	private readonly record struct SettingChange(long Version, JsonElement? Data, bool IfMissing = false);
 
 	private SettingsStore(string fileName)
 	{
@@ -155,6 +155,25 @@ internal sealed class SettingsStore
 		return changed;
 	}
 
+	internal bool AddDefaults(SettingsValue[] properties)
+	{
+		var defaults = SettingsValueCodec.DecodeObject(properties);
+		lock (gate)
+		{
+			var data = Read();
+			var added = false;
+			foreach (var pair in defaults)
+			{
+				if (!data.TryAdd(pair.Key, pair.Value))
+					continue;
+				pendingWrites[pair.Key] = new(++version, pair.Value, true);
+				added = true;
+			}
+			StartWriter();
+			return added;
+		}
+	}
+
 	internal bool Import(SettingsValue[] properties)
 	{
 		var replacement = SettingsValueCodec.DecodeObject(properties);
@@ -178,6 +197,8 @@ internal sealed class SettingsStore
 			data.Clear();
 		foreach (var change in changes)
 		{
+			if (change.Value.IfMissing && data.ContainsKey(change.Key))
+				continue;
 			if (change.Value.Data is { } value)
 				data[change.Key] = value;
 			else

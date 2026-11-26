@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Windows.UI;
 
 namespace Files.App.Services
@@ -77,7 +78,7 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public void SetAppThemeSidebarBackgroundColor(Color appThemeSidebarBackgroundColor)
 		{
-			Application.Current.Resources["App.Theme.Sidebar.BackgroundBrush"] = appThemeSidebarBackgroundColor;
+			Application.Current.Resources["App.Theme.Sidebar.BackgroundBrush"] = new SolidColorBrush(appThemeSidebarBackgroundColor);
 		}
 
 		/// <inheritdoc/>

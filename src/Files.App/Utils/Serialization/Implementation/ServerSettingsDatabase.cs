@@ -11,7 +11,10 @@ internal sealed class ServerSettingsDatabase : IJsonSettingsDatabase
 	private readonly string fileName;
 	private readonly IJsonSettingsSerializer serializer;
 	private readonly JsonSerializerContext context;
+	private static readonly TimeSpan defaultsFlushDelay = TimeSpan.FromSeconds(2);
 	private readonly Dictionary<string, JsonElement> defaults = [];
+	private readonly Dictionary<string, JsonElement> pendingDefaults = [];
+	private bool defaultsFlushScheduled;
 	private readonly Lock gate = new();
 	private Dictionary<string, JsonElement> cache;
 	private int cacheVersion;
@@ -36,9 +39,34 @@ internal sealed class ServerSettingsDatabase : IJsonSettingsDatabase
 				return GetValueFromElement<TValue>(value) ?? defaultValue;
 			if (defaults.TryGetValue(key, out var fallback))
 				return GetValueFromElement<TValue>(fallback) ?? defaultValue;
-			defaults[key] = GetElementFromValue(defaultValue);
+			var element = GetElementFromValue(defaultValue);
+			defaults[key] = element;
+			pendingDefaults[key] = element;
+			if (!defaultsFlushScheduled)
+			{
+				defaultsFlushScheduled = true;
+				_ = FlushDefaultsAsync();
+			}
 			return defaultValue;
 		}
+	}
+
+	private async Task FlushDefaultsAsync()
+	{
+		await Task.Delay(defaultsFlushDelay).ConfigureAwait(false);
+		SafetyExtensions.IgnoreExceptions(FlushDefaults, App.Logger);
+	}
+
+	private void FlushDefaults()
+	{
+		Dictionary<string, JsonElement> batch;
+		lock (gate)
+		{
+			batch = new(pendingDefaults);
+			pendingDefaults.Clear();
+			defaultsFlushScheduled = false;
+		}
+		Server.SettingsService.AddDefaultSettings(fileName, SettingsValueCodec.EncodeObject(batch));
 	}
 
 	public bool SetValue<TValue>(string key, TValue? value)
@@ -51,6 +79,7 @@ internal sealed class ServerSettingsDatabase : IJsonSettingsDatabase
 			cache[key] = element;
 			cacheVersion++;
 			defaults.Remove(key);
+			pendingDefaults.Remove(key);
 			return changed || localChanged;
 		}
 	}
@@ -129,7 +158,7 @@ internal sealed class ServerSettingsDatabase : IJsonSettingsDatabase
 						var previous = cache;
 						cache = fresh;
 						cacheVersion++;
-						var changes = fresh.Where(pair => !previous.TryGetValue(pair.Key, out var old) || !JsonElement.DeepEquals(old, pair.Value)).ToList();
+						var changes = fresh.Where(pair => !(previous.TryGetValue(pair.Key, out var old) || defaults.TryGetValue(pair.Key, out old)) || !JsonElement.DeepEquals(old, pair.Value)).ToList();
 						changes.AddRange(previous.Keys.Except(fresh.Keys).Select(key => new KeyValuePair<string, JsonElement>(key, default)));
 						return changes.ToArray();
 					}
