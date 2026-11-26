@@ -23,6 +23,8 @@ namespace Files.App.Views.Properties
 
 		private MainPropertiesViewModel MainPropertiesViewModel { get; set; } = null!;
 
+		private double _lastRasterizationScale;
+
 		public MainPropertiesPage()
 		{
 			InitializeComponent();
@@ -72,6 +74,12 @@ namespace Files.App.Views.Properties
 			PropertiesSidebar.SelectedItem = MainPropertiesViewModel.SelectedNavigationItem;
 			Window.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
 			Window.AppWindow.Changed += AppWindow_Changed;
+
+			if (XamlRoot is not null)
+			{
+				_lastRasterizationScale = XamlRoot.RasterizationScale;
+				XamlRoot.Changed += XamlRoot_Changed;
+			}
 		}
 
 		private int SetTitleBarDragRegion(InputNonClientPointerSource source, SizeInt32 size, double scaleFactor, Func<UIElement, RectInt32?, RectInt32> getScaledRect)
@@ -111,6 +119,9 @@ namespace Files.App.Views.Properties
 			Window.Closed -= Window_Closed;
 			Window.AppWindow.Changed -= AppWindow_Changed;
 
+			if (XamlRoot is not null)
+				XamlRoot.Changed -= XamlRoot_Changed;
+
 			if (MainPropertiesViewModel.ChangedPropertiesCancellationTokenSource is not null &&
 				!MainPropertiesViewModel.ChangedPropertiesCancellationTokenSource.IsCancellationRequested)
 			{
@@ -122,6 +133,15 @@ namespace Files.App.Views.Properties
 		{
 			if (e.DidSizeChange || e.DidPresenterChange || e.DidVisibilityChange)
 				Window.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
+		}
+
+		private void XamlRoot_Changed(XamlRoot sender, XamlRootChangedEventArgs args)
+		{
+			if (sender.RasterizationScale != _lastRasterizationScale)
+			{
+				_lastRasterizationScale = sender.RasterizationScale;
+				Window.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
+			}
 		}
 
 		public override async Task<bool> SaveChangesAsync()
