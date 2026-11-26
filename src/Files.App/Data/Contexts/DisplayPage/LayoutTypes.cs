@@ -11,6 +11,5 @@ namespace Files.App.Data.Contexts
 		Cards,
 		Grid,
 		Columns,
-		Adaptive,
 	}
 }

@@ -248,8 +248,9 @@ namespace Files.App.ViewModels.Settings
 			var catalog = await ShellPropertyCatalog.GetAsync();
 			var folderColumns = await ShellFolderColumns.GetAsync(path);
 			var (availableColumns, shownColumns) = columns.GetCustomizationColumns(folderColumns, catalog);
-			var defaults = new LayoutPreferencesItem().ColumnsViewModel;
-			var defaultColumns = defaults.OrderedColumns.Ids.Where(id => defaults.IsColumnVisible(id) && (DetailsLayoutColumnOrder.IsRequired(id) || availableColumns.Contains(id)));
+			var templatesService = Ioc.Default.GetRequiredService<ILayoutTemplatesService>();
+			var template = templatesService.GetTemplate(folderSettings.TemplateId) ?? templatesService.DefaultTemplate;
+			var defaultColumns = DetailsLayoutColumnDefaults.GetColumns(template).Where(id => DetailsLayoutColumnOrder.IsRequired(id) || availableColumns.Contains(id));
 			var sortColumnId = GetSortColumnId(folderSettings.DirectorySortOption, folderSettings.DirectorySortPropertyId);
 
 			return new(shownColumns, availableColumns, defaultColumns, getDisplayName, sortColumnId, folderSettings.DirectorySortDirection, Strings.CustomizeColumns.GetLocalizedResource(), Strings.CustomizeColumnsDescription.GetLocalizedResource())

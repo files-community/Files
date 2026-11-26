@@ -1067,9 +1067,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Show protected system files</value>
   </data>
-  <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Sync layout and sorting preferences across directories</value>
-  </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Customize the right click context menu</value>
   </data>
@@ -2100,9 +2097,6 @@
   <data name="AutoSizeColumnsInDetailsLayout" xml:space="preserve">
     <value>Automatically fit columns to content</value>
   </data>
-  <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive layout</value>
-  </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Adaptive layout (Ctrl+Shift+7)</value>
   </data>
@@ -2138,9 +2132,6 @@
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Set as desktop background</value>
-  </data>
-  <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
     <value>Date column</value>
@@ -2234,9 +2225,6 @@
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>Path</value>
-  </data>
-  <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>Create archive</value>
@@ -2787,9 +2775,6 @@
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>Switch to columns view</value>
   </data>
-  <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Switch views adaptively</value>
-  </data>
   <data name="SortByNameDescription" xml:space="preserve">
     <value>Sort items by name</value>
   </data>
@@ -2834,9 +2819,6 @@
   </data>
   <data name="GroupByDateModifiedDescription" xml:space="preserve">
     <value>Group items by date modified</value>
-  </data>
-  <data name="GroupByDateCreatedDescription" xml:space="preserve">
-    <value>Group items by date created</value>
   </data>
   <data name="GroupBySizeDescription" xml:space="preserve">
     <value>Group items by size</value>
@@ -3210,15 +3192,6 @@
   </data>
   <data name="GroupByDateUnit" xml:space="preserve">
     <value>Group by date unit</value>
-  </data>
-  <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
-    <value>Group items by day of date created</value>
-  </data>
-  <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date created</value>
-  </data>
-  <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
-    <value>Group items by year of date created</value>
   </data>
   <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
     <value>Group items by day of date deleted</value>
@@ -4138,9 +4111,6 @@
   <data name="DetailsView" xml:space="preserve">
     <value>Details view</value>
   </data>
-  <data name="LayoutType" xml:space="preserve">
-    <value>Layout type</value>
-  </data>
   <data name="Actions" xml:space="preserve">
     <value>Actions</value>
   </data>
@@ -4176,9 +4146,6 @@
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Customized</value>
-  </data>
-  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
-    <value>Adaptive layout is not available when preferences are synced, the default layout has been changed to Details.</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
     <value>Background image</value>
@@ -4944,5 +4911,126 @@
   </data>
   <data name="Other" xml:space="preserve">
     <value>Other</value>
+  </data>
+  <data name="FilesByDate" xml:space="preserve">
+    <value>Files by date</value>
+    <comment>Name of a built-in layout template that groups items by date. Downloads uses it by default.</comment>
+  </data>
+  <data name="ImagesAndVideos" xml:space="preserve">
+    <value>Images and videos</value>
+    <comment>Name of a built-in layout template for folders that mostly contain pictures and videos.</comment>
+  </data>
+  <data name="AudioFiles" xml:space="preserve">
+    <value>Audio files</value>
+    <comment>Name of a built-in layout template for folders that mostly contain music and other audio files.</comment>
+  </data>
+  <data name="DeletedFiles" xml:space="preserve">
+    <value>Deleted files</value>
+    <comment>Name of the built-in layout template the Recycle Bin uses.</comment>
+  </data>
+  <data name="GitRepository" xml:space="preserve">
+    <value>Git repository</value>
+    <comment>Name of a built-in layout template for Git repositories.</comment>
+  </data>
+  <data name="LayoutTemplate" xml:space="preserve">
+    <value>Layout template</value>
+  </data>
+  <data name="EditTemplate" xml:space="preserve">
+    <value>Edit template</value>
+  </data>
+  <data name="SaveLayoutAsTemplate" xml:space="preserve">
+    <value>Save layout as template</value>
+  </data>
+  <data name="SaveLayoutAsTemplateDescription" xml:space="preserve">
+    <value>Save the layout of the current folder as a new template</value>
+  </data>
+  <data name="RestoreDefaultView" xml:space="preserve">
+    <value>Restore default view</value>
+  </data>
+  <data name="RestoreDefaultViewDescription" xml:space="preserve">
+    <value>Restore the default view of the current folder</value>
+  </data>
+  <data name="MoreViewOptions" xml:space="preserve">
+    <value>More view options</value>
+  </data>
+  <data name="NewTemplate" xml:space="preserve">
+    <value>New template</value>
+    <comment>Default name of a layout template the user creates.</comment>
+  </data>
+  <data name="AddTemplate" xml:space="preserve">
+    <value>Add template</value>
+  </data>
+  <data name="LayoutTemplates" xml:space="preserve">
+    <value>Layout templates</value>
+  </data>
+  <data name="DefaultLayoutSettings" xml:space="preserve">
+    <value>Default layout settings</value>
+  </data>
+  <data name="DeleteTemplateConfirmation" xml:space="preserve">
+    <value>Folders that use the {0} template will switch to the {1} template.</value>
+    <comment>{0} is the name of the template being deleted. {1} is the name of the template those folders switch to.</comment>
+  </data>
+  <data name="TemplateName" xml:space="preserve">
+    <value>Template name</value>
+  </data>
+  <data name="EditNamed" xml:space="preserve">
+    <value>Edit {0}</value>
+    <comment>{0} is the name of a layout template. Read by screen readers for the edit button.</comment>
+  </data>
+  <data name="DeleteNamed" xml:space="preserve">
+    <value>Delete {0}</value>
+    <comment>{0} is the name of a layout template. Read by screen readers for the delete button.</comment>
+  </data>
+  <data name="DeleteTemplate" xml:space="preserve">
+    <value>Delete template</value>
+  </data>
+  <data name="RenameTemplate" xml:space="preserve">
+    <value>Rename template</value>
+  </data>
+  <data name="RenameNamed" xml:space="preserve">
+    <value>Rename {0}</value>
+    <comment>{0} is the name of a layout template. Read by screen readers for the rename button.</comment>
+  </data>
+  <data name="DeleteTemplateConfirmationTitle" xml:space="preserve">
+    <value>Delete template?</value>
+  </data>
+  <data name="UseForFileTypes" xml:space="preserve">
+    <value>Automatically use this template for folders with certain file types</value>
+  </data>
+  <data name="EditFileExtensions" xml:space="preserve">
+    <value>Edit file extensions</value>
+  </data>
+  <data name="FileTypesThreshold" xml:space="preserve">
+    <value>Use when at least this percentage of files match</value>
+    <comment>Label of the percentage of a folder's files that must have the template's file types for the template to be used.</comment>
+  </data>
+  <data name="FileTypeAlreadyUsed" xml:space="preserve">
+    <value>{0} is already used by the {1} template.</value>
+    <comment>{0} is a file extension, such as .jpg. {1} is the name of the layout template that already uses it.</comment>
+  </data>
+  <data name="InvalidFileExtension" xml:space="preserve">
+    <value>{0} isn't a valid file extension.</value>
+    <comment>{0} is the file extension the user typed, such as .jpg.</comment>
+  </data>
+  <data name="ManageColumns" xml:space="preserve">
+    <value>Manage columns</value>
+  </data>
+  <data name="FileExtensions" xml:space="preserve">
+    <value>File extensions</value>
+  </data>
+  <data name="SeparateFileExtensionsWithCommas" xml:space="preserve">
+    <value>Separate extensions with commas</value>
+  </data>
+  <data name="ViewLayout" xml:space="preserve">
+    <value>View layout</value>
+  </data>
+  <data name="SortItems" xml:space="preserve">
+    <value>Sort items</value>
+  </data>
+  <data name="Grouping" xml:space="preserve">
+    <value>Grouping</value>
+  </data>
+  <data name="OrderGroups" xml:space="preserve">
+    <value>Order groups</value>
   </data>
 </root>
