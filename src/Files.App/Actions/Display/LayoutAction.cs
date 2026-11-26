@@ -266,12 +266,12 @@ namespace Files.App.Actions
 				case FolderLayoutModes.GridView when settings.GridViewSize > GridViewSizeKind.Small:
 					settings.GridViewSize -= 1;
 					return Task.CompletedTask;
-				case FolderLayoutModes.ColumnView when settings.ColumnsViewSize > ColumnsViewSizeKind.Compact:
+				case FolderLayoutModes.ColumnView when !instanceViewModel.IsPageTypeSearchResults && settings.ColumnsViewSize > ColumnsViewSizeKind.Compact:
 					settings.ColumnsViewSize -= 1;
 					return Task.CompletedTask;
 			}
 
-			LayoutCycler.Cycle(folderSettings, instanceViewModel.IsPageTypeRecycleBin, forward: false);
+			LayoutCycler.Cycle(folderSettings, instanceViewModel.IsPageTypeRecycleBin || instanceViewModel.IsPageTypeSearchResults, forward: false);
 			return Task.CompletedTask;
 		}
 	}
@@ -333,12 +333,12 @@ namespace Files.App.Actions
 				case FolderLayoutModes.GridView when settings.GridViewSize < GridViewSizeKind.ExtraLarge:
 					settings.GridViewSize += 1;
 					return Task.CompletedTask;
-				case FolderLayoutModes.ColumnView when settings.ColumnsViewSize < ColumnsViewSizeKind.ExtraLarge:
+				case FolderLayoutModes.ColumnView when !instanceViewModel.IsPageTypeSearchResults && settings.ColumnsViewSize < ColumnsViewSizeKind.ExtraLarge:
 					settings.ColumnsViewSize += 1;
 					return Task.CompletedTask;
 			}
 
-			LayoutCycler.Cycle(folderSettings, instanceViewModel.IsPageTypeRecycleBin, forward: true);
+			LayoutCycler.Cycle(folderSettings, instanceViewModel.IsPageTypeRecycleBin || instanceViewModel.IsPageTypeSearchResults, forward: true);
 			return Task.CompletedTask;
 		}
 	}
@@ -354,7 +354,7 @@ namespace Files.App.Actions
 			FolderLayoutModes.ColumnView,
 		];
 
-		public static void Cycle(LayoutPreferencesManager folderSettings, bool isRecycleBin, bool forward)
+		public static void Cycle(LayoutPreferencesManager folderSettings, bool skipColumns, bool forward)
 		{
 			int currentIndex = Array.IndexOf(Order, folderSettings.LayoutMode);
 			if (currentIndex < 0)
@@ -367,8 +367,8 @@ namespace Files.App.Actions
 			{
 				var next = Order[((currentIndex + step * i) % count + count) % count];
 
-				// Columns view is not supported inside the Recycle Bin.
-				if (next is FolderLayoutModes.ColumnView && isRecycleBin)
+				// Columns view is not supported inside the Recycle Bin or search results.
+				if (next is FolderLayoutModes.ColumnView && skipColumns)
 					continue;
 
 				// Reset the new layout's size so the next keystroke keeps growing / shrinking.

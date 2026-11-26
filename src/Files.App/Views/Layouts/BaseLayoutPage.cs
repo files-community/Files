@@ -461,6 +461,10 @@ namespace Files.App.Views.Layouts
 					?? throw new InvalidOperationException("The shell page does not have a working directory.");
 				var layoutType = folderSettings.GetLayoutType(workingDirectory);
 
+				// Columns layout is not supported for search results
+				if (navigationArguments?.IsSearchResultPage is true && layoutType == typeof(ColumnsLayoutPage))
+					layoutType = typeof(DetailsLayoutPage);
+
 				if (layoutType != parentShellPage.CurrentPageType)
 				{
 					var args = navigationArguments
@@ -604,10 +608,11 @@ namespace Files.App.Views.Layouts
 				parentShellPage.InstanceViewModel.IsPageTypeReleaseNotes = false;
 				parentShellPage.InstanceViewModel.IsPageTypeSettings = false;
 
+				var displayName = App.LibraryManager.TryGetLibrary(searchPath, out var lib) ? lib.Text : searchPath;
+				await parentShellPage.UpdatePathUIToWorkingDirectoryAsync(null, string.Format(Strings.SearchPagePathBoxOverrideText.GetLocalizedResource(), args.SearchQuery, displayName));
+
 				if (!args.IsLayoutSwitch)
 				{
-					var displayName = App.LibraryManager.TryGetLibrary(searchPath, out var lib) ? lib.Text : searchPath;
-					await parentShellPage.UpdatePathUIToWorkingDirectoryAsync(null, string.Format(Strings.SearchPagePathBoxOverrideText.GetLocalizedResource(), args.SearchQuery, displayName));
 					var searchInstance = new Utils.Storage.FolderSearch
 					{
 						Query = args.SearchQuery,
