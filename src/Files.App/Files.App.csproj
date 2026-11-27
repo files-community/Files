@@ -1,7 +1,7 @@
 ﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <Sdk Name="PublishWithSatoriGC" Version="10.0.15-satori.42242472690.2" />
+    <Sdk Name="PublishWithSatoriGC" Version="11.0.1-satori.44643583273.1" />
 
     <PropertyGroup>
         <EnableMsixTooling>true</EnableMsixTooling>
@@ -197,6 +197,14 @@
         <ItemGroup>
             <_FilesAppServerPackageFile Include="$(FilesAppServerPublishDir)**\*" Exclude="$(FilesAppServerPublishDir)**\*.winmd;$(FilesAppServerPublishDir)**\*.pdb" />
             <AppxPackagePayload Include="@(_FilesAppServerPackageFile)" TargetPath="Files.App.Server\%(RecursiveDir)%(Filename)%(Extension)" />
+        </ItemGroup>
+    </Target>
+
+    <!-- Appx computes duplicate payloads before its later default PDB exclusion. -->
+    <Target Name="RemoveAppxDebugSymbolsBeforePayloadDeduplication" BeforeTargets="_ComputeAppxPackagePayload" Condition="'$(AppxPackage)' == 'true' and '$(AppxPackageIncludePrivateSymbols)' != 'true'">
+        <ItemGroup>
+            <PackagingOutputs Remove="@(PackagingOutputs)" Condition="'%(Extension)' == '.pdb'" />
+            <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(Extension)' == '.pdb'" />
         </ItemGroup>
     </Target>
 </Project>
